@@ -17,6 +17,7 @@ class WindowHelper : public QObject
     QML_ELEMENT
     QML_SINGLETON
 
+    // --- platform / chrome capabilities ---
     Q_PROPERTY(QString platformName READ platformName CONSTANT)
     Q_PROPERTY(bool windows READ isWindows CONSTANT)
     Q_PROPERTY(bool linux READ isLinux CONSTANT)
@@ -24,6 +25,7 @@ class WindowHelper : public QObject
     Q_PROPERTY(bool nativeChrome READ nativeChrome CONSTANT)
     Q_PROPERTY(bool supportsBackdrop READ supportsBackdrop CONSTANT)
     Q_PROPERTY(int recommendedFlags READ recommendedFlags CONSTANT)
+    // --- tints / backdrop ---
     Q_PROPERTY(QColor windowColor READ windowColor NOTIFY windowColorChanged)
     Q_PROPERTY(QColor contentTint READ contentTint NOTIFY contentTintChanged)
     Q_PROPERTY(QColor titleBarTint READ titleBarTint NOTIFY contentTintChanged)
@@ -31,6 +33,7 @@ class WindowHelper : public QObject
     Q_PROPERTY(int cornerPreference READ cornerPreference WRITE setCornerPreference NOTIFY cornerPreferenceChanged)
     Q_PROPERTY(bool borderVisible READ borderVisible WRITE setBorderVisible NOTIFY borderVisibleChanged)
     Q_PROPERTY(bool windowActive READ windowActive NOTIFY windowActiveChanged)
+    // Caption button hover/press driven by native NC hit-test (or QML)
     Q_PROPERTY(int captionHover READ captionHover NOTIFY captionHoverChanged)
     Q_PROPERTY(int captionPressed READ captionPressed NOTIFY captionPressedChanged)
     // Qt-side frosted glass (works even when DWM materials don't composite through RHI)
@@ -39,6 +42,7 @@ class WindowHelper : public QObject
     Q_PROPERTY(qreal frostSaturation READ frostSaturation NOTIFY backdropChanged)
     Q_PROPERTY(QUrl desktopWallpaperUrl READ desktopWallpaperUrl NOTIFY wallpaperChanged)
     Q_PROPERTY(QRect virtualDesktopGeometry READ virtualDesktopGeometry NOTIFY wallpaperChanged)
+    // OS accessibility (Windows SPI); Theme.followSystemAccessibility can mirror these
     Q_PROPERTY(bool systemReducedMotion READ systemReducedMotion NOTIFY accessibilityChanged)
     Q_PROPERTY(bool systemHighContrast READ systemHighContrast NOTIFY accessibilityChanged)
 
@@ -140,6 +144,7 @@ public:
     Q_INVOKABLE void refreshWallpaper();
     Q_INVOKABLE void refreshAccessibility();
 
+    // WinUI AppWindowPresenterKind
     Q_INVOKABLE void setPresenter(QObject *windowObject, int kind);
     Q_INVOKABLE int presenterKind(QObject *windowObject) const;
     Q_INVOKABLE QString presenterName(int kind) const;
@@ -148,6 +153,8 @@ public:
     Q_INVOKABLE int titleBarHeightForOption(int option) const;
     Q_INVOKABLE QString titleBarHeightName(int option) const;
 
+    // NC hit-test: titleBar + caption buttons are screen-logical rects (mapToGlobal);
+    // clientRects are non-draggable client areas inside the title bar.
     Q_INVOKABLE void updateHitTestLayout(QObject *windowObject,
                                          const QRect &titleBar,
                                          const QRect &minimizeButton,
