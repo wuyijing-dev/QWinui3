@@ -20,7 +20,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("AnnotatedScrollBar")
-                subtitle: qsTr("A scrollable region whose scrollbar shows a label while you drag or hover the thumb.")
+                subtitle: qsTr("Scrollbar thumb label bubble using ElevatedChrome (no corner flicker).")
             }
             ControlExample {
                 Layout.fillWidth: true

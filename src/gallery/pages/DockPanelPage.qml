@@ -20,7 +20,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("DockPanel")
-                subtitle: qsTr("Arranges children along edges; lastChildFill fills the remaining region.")
+                subtitle: qsTr("Edge docking with lastChildFill and childCount.")
             }
             ControlExample {
                 Layout.fillWidth: true

@@ -131,10 +131,10 @@ T.Control {
 
     readonly property string _glyph: {
         switch (severity) {
-        case success: return "\uE73E"
-        case warning: return "\uE7BA"
-        case error: return "\uE783"
-        default: return "\uE946"
+        case success: return FluentIcons.Accept
+        case warning: return FluentIcons.Warning
+        case error: return FluentIcons.Error
+        default: return FluentIcons.Info
         }
     }
 
@@ -223,18 +223,32 @@ T.Control {
             }
         }
 
-        Button {
+        HyperlinkButton {
             visible: control.actionText.length > 0
-            flat: true
             text: control.actionText
             onClicked: control.actionClicked()
         }
 
-        ToolButton {
-            text: "\uE711"
-            font.family: Theme.fontFamilyIcon
-            font.pixelSize: 10
+        T.AbstractButton {
+            id: toastClose
+            implicitWidth: 28
+            implicitHeight: 28
+            hoverEnabled: true
+            Accessible.name: qsTr("Close")
             onClicked: control.hide()
+            contentItem: Text {
+                text: FluentIcons.ChromeClose
+                font.family: Theme.fontFamilyIcon
+                font.pixelSize: 10
+                color: toastClose.hovered ? Theme.textPrimary : Theme.textSecondary
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+            }
+            background: Rectangle {
+                radius: Theme.cornerControl
+                color: toastClose.down ? Theme.fillSubtleTertiary
+                     : (toastClose.hovered ? Theme.fillSubtle : "transparent")
+            }
         }
     }
 }

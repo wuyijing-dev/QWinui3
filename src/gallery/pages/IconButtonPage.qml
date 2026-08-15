@@ -20,47 +20,47 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("IconButton")
-                subtitle: qsTr("A compact icon-only button with tooltip and optional badge.")
+                subtitle: qsTr("Icon-only button with Fluent symbol, badge, and Accessible name from toolTip.")
             }
             ControlExample {
                 Layout.fillWidth: true
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Icons")
-                qmlSource: "IconButton {\n    iconGlyph: \"\\uE8C8\"\n    toolTipText: \"Copy\"\n    badgeValue: 3\n}"
+                qmlSource: "IconButton {\n    symbol: FluentIcons.Copy\n    badgeValue: 3\n}"
                 ColumnLayout {
                     spacing: Theme.spacing
                     RowLayout {
                         spacing: Theme.spacing
                         IconButton {
-                            iconGlyph: "\uE8C8"
+                            symbol: FluentIcons.Copy
                             toolTipText: qsTr("Copy")
                             onClicked: status.text = qsTr("Copy")
                         }
                         IconButton {
-                            iconGlyph: "\uE77F"
+                            symbol: FluentIcons.Cut
                             toolTipText: qsTr("Cut")
                             onClicked: status.text = qsTr("Cut")
                         }
                         IconButton {
-                            iconGlyph: "\uE74D"
+                            symbol: FluentIcons.Delete
                             highlighted: true
                             toolTipText: qsTr("Delete")
                             onClicked: status.text = qsTr("Delete")
                         }
                         IconButton {
-                            iconGlyph: "\uE72C"
+                            symbol: FluentIcons.Refresh
                             flat: false
                             toolTipText: qsTr("Refresh")
                             onClicked: status.text = qsTr("Refresh")
                         }
                         IconButton {
-                            iconGlyph: "\uE715"
+                            symbol: FluentIcons.Mail
                             toolTipText: qsTr("Notifications")
                             badgeValue: 3
                             onClicked: status.text = qsTr("Notifications")
                         }
-                        IconButton { iconGlyph: "\uE711"; enabled: false }
+                        IconButton { symbol: FluentIcons.ChromeClose; enabled: false }
                     }
                     Label {
                         id: status

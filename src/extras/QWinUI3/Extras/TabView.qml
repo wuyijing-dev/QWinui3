@@ -10,20 +10,23 @@ T.Control {
     // model items: { title, content, icon? } or string title with empty content
     property var model: []
     property int currentIndex: 0
+    property alias selectedIndex: control.currentIndex
     property bool closable: true
+    property alias isClosable: control.closable
     property bool tabsReorderable: true
-    // WinUI TabWidthMode: "equal" | "sizeToContent" | "compact"
+    property alias canReorderTabs: control.tabsReorderable
     property string tabWidthMode: "sizeToContent"
-    // WinUI IsAddTabButtonVisible
     property bool isAddTabButtonVisible: true
     signal tabCloseRequested(int index)
     signal currentIndexChangedByUser(int index)
+    signal selectionChanged(int index)
     signal tabMoved(int from, int to)
     signal addTabButtonClicked()
 
     property int _dragFrom: -1
     property int _dropIndex: -1
     readonly property bool _reordering: _dragFrom >= 0
+    readonly property int tabCount: model ? model.length : 0
     readonly property real _equalTabWidth: {
         var n = Math.max(1, model.length)
         var addW = isAddTabButtonVisible ? 36 : 0
@@ -34,6 +37,11 @@ T.Control {
     implicitWidth: 480
     implicitHeight: 280
     padding: 0
+    Accessible.role: Accessible.PageTabList
+    Accessible.name: qsTr("Tabs")
+    Accessible.description: qsTr("Tab %1 of %2").arg(currentIndex + 1).arg(tabCount)
+
+    onCurrentIndexChanged: selectionChanged(currentIndex)
 
     function addTab(item) {
         var next = model.slice()
@@ -162,8 +170,12 @@ T.Control {
                             required property int index
                             property int tabIndex: index
                             property bool dragActive: control._dragFrom === tabIndex
-                            readonly property string _icon: typeof modelData === "object"
-                                                           ? (modelData.icon || "") : ""
+                            readonly property string _icon: {
+                                if (typeof modelData !== "object" || !modelData)
+                                    return ""
+                                return IconSource.resolve(modelData.symbol || "",
+                                                          modelData.icon || modelData.glyph || "")
+                            }
 
                             height: tabRow.height
                             width: {
@@ -241,9 +253,15 @@ T.Control {
                                     Layout.preferredWidth: 28
                                     Layout.preferredHeight: 28
                                     Layout.rightMargin: 4
-                                    text: "\uE711"
+                                    text: FluentIcons.ChromeClose
                                     font.family: Theme.fontFamilyIcon
                                     font.pixelSize: 10
+                                    Accessible.name: qsTr("Close tab")
+                                    scale: down && !Theme.reducedMotion ? 0.9 : 1
+                                    Behavior on scale {
+                                        enabled: !Theme.reducedMotion
+                                        NumberAnimation { duration: Theme.duration(Theme.motionFast) }
+                                    }
                                     onClicked: control.closeTab(tabBtn.index)
                                 }
                             }
@@ -364,10 +382,15 @@ T.Control {
                         width: 32
                         height: Math.min(32, parent.height - 4)
                         anchors.verticalCenter: parent.verticalCenter
-                        text: "\uE710"
+                        text: FluentIcons.Add
                         font.family: Theme.fontFamilyIcon
                         font.pixelSize: 12
                         Accessible.name: qsTr("Add tab")
+                        scale: down && !Theme.reducedMotion ? 0.92 : 1
+                        Behavior on scale {
+                            enabled: !Theme.reducedMotion
+                            NumberAnimation { duration: Theme.duration(Theme.motionFast) }
+                        }
                         onClicked: control.addTab()
                     }
                 } // tabStripRow

@@ -3,13 +3,14 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Corner toast queue host. Call show() to enqueue notifications.
+// Corner toast queue host. Call show() / success() / error() to enqueue.
 T.Control {
     id: root
 
     property int maxVisible: 3
     property int durationMs: 3200
-    property int spacing: Theme.spacing
+    // spacing is FINAL on Control — assign, do not redeclare
+    spacing: Theme.spacing
     property bool newestOnTop: true
 
     signal toastClosed(string message)
@@ -18,6 +19,8 @@ T.Control {
     implicitWidth: 360
     implicitHeight: column.implicitHeight
     z: 2000
+    Accessible.role: Accessible.AlertMessage
+    Accessible.name: qsTr("Notifications")
 
     readonly property int informational: 0
     readonly property int success: 1
@@ -47,6 +50,19 @@ T.Control {
             queue.insert(0, entry)
         else
             queue.append(entry)
+    }
+
+    function info(message, title, actionText) {
+        show(message, informational, title || qsTr("Information"), actionText)
+    }
+    function successToast(message, title, actionText) {
+        show(message, success, title || qsTr("Success"), actionText)
+    }
+    function warningToast(message, title, actionText) {
+        show(message, warning, title || qsTr("Warning"), actionText)
+    }
+    function errorToast(message, title, actionText) {
+        show(message, error, title || qsTr("Error"), actionText)
     }
 
     function clear() {

@@ -23,6 +23,17 @@ T.Control {
     spacing: 0
     implicitWidth: 240
     implicitHeight: 180
+    Accessible.role: Accessible.Grouping
+    Accessible.name: qsTr("Dock panel")
+
+    readonly property int childCount: {
+        var n = 0
+        for (var i = 0; i < host.children.length; ++i) {
+            if (host.children[i] && host.children[i].visible)
+                ++n
+        }
+        return n
+    }
 
     contentItem: Item {
         id: host

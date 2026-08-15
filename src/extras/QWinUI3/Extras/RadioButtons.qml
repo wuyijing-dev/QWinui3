@@ -18,11 +18,27 @@ T.Control {
 
     onCurrentIndexChanged: selectionChanged(currentIndex)
 
+    function select(index) {
+        if (index < 0 || index >= (model ? model.length : 0))
+            return
+        currentIndex = index
+        selected(index, model[index])
+    }
+
     implicitWidth: contentItem.implicitWidth + leftPadding + rightPadding
     implicitHeight: contentItem.implicitHeight + topPadding + bottomPadding
     padding: 0
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
+    focusPolicy: Qt.StrongFocus
+    activeFocusOnTab: true
+    Accessible.role: Accessible.RadioButton
+    Accessible.name: header.length ? header : qsTr("Options")
+    Accessible.description: description
+    Keys.onUpPressed: select(Math.max(0, currentIndex - 1))
+    Keys.onDownPressed: select(Math.min((model ? model.length : 1) - 1, currentIndex + 1))
+    Keys.onLeftPressed: if (horizontal) select(Math.max(0, currentIndex - 1))
+    Keys.onRightPressed: if (horizontal) select(Math.min((model ? model.length : 1) - 1, currentIndex + 1))
 
     contentItem: ColumnLayout {
         spacing: Theme.spacing
@@ -77,6 +93,8 @@ T.Control {
                         background: Rectangle {
                             radius: Theme.cornerControl
                             color: radio.hovered || radio.checked ? Theme.fillSubtleSecondary : "transparent"
+                            border.width: radio.visualFocus ? 1 : 0
+                            border.color: Theme.focusOuter
                             Behavior on color {
                                 enabled: !Theme.reducedMotion
                                 ColorAnimation { duration: Theme.duration(Theme.motionFast) }

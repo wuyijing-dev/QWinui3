@@ -23,6 +23,10 @@ T.Control {
 
     property date selectedDate: new Date(year, month - 1, day)
 
+    Accessible.role: Accessible.ComboBox
+    Accessible.name: header.length ? header : qsTr("Date")
+    Accessible.description: displayText
+
     property bool _syncingDate: false
 
     onYearChanged: syncSelectedDateFromParts()
@@ -125,7 +129,7 @@ T.Control {
             anchors.right: parent.right
             anchors.rightMargin: 10
             anchors.verticalCenter: parent.verticalCenter
-            text: "\uE787"
+            text: FluentIcons.Calendar
             font.family: Theme.fontFamilyIcon
             font.pixelSize: 14
             color: control.pickerOpen ? Theme.accent : Theme.textSecondary

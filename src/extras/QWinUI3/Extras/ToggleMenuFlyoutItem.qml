@@ -7,8 +7,12 @@ import QWinUI3.Theme
 MenuItem {
     id: control
 
+    property var symbol: ""
     property string iconGlyph: ""
     property string keyboardAcceleratorText: ""
+    property bool keyVisualAccelerator: false
+
+    readonly property string effectiveIconGlyph: IconSource.resolve(symbol, iconGlyph)
 
     checkable: true
     implicitWidth: Math.max(200, contentRow.implicitWidth + leftPadding + rightPadding)
@@ -19,6 +23,14 @@ MenuItem {
     contentItem: RowLayout {
         id: contentRow
         spacing: control.spacing
+        scale: control.down && !Theme.reducedMotion ? 0.98 : 1
+        Behavior on scale {
+            enabled: !Theme.reducedMotion
+            NumberAnimation {
+                duration: Theme.duration(Theme.motionFast)
+                easing.type: Theme.easingStandard
+            }
+        }
 
         Item {
             Layout.preferredWidth: 20
@@ -27,9 +39,9 @@ MenuItem {
 
             FontIcon {
                 anchors.centerIn: parent
-                glyph: control.checked ? "\uE73E" : control.iconGlyph
+                glyph: control.checked ? FluentIcons.Accept : control.effectiveIconGlyph
                 fontSize: 12
-                visible: control.checked || control.iconGlyph.length > 0
+                visible: control.checked || control.effectiveIconGlyph.length > 0
                 iconColor: control.checked ? Theme.accent
                                            : (control.enabled ? Theme.textPrimary : Theme.textDisabled)
                 scale: control.checked ? 1 : 0.85
@@ -55,11 +67,17 @@ MenuItem {
         }
 
         Text {
-            visible: control.keyboardAcceleratorText.length > 0
+            visible: control.keyboardAcceleratorText.length > 0 && !control.keyVisualAccelerator
             text: control.keyboardAcceleratorText
             font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             color: Theme.textSecondary
+        }
+
+        KeyChordVisual {
+            visible: control.keyboardAcceleratorText.length > 0 && control.keyVisualAccelerator
+            shortcut: control.keyboardAcceleratorText
+            size: "small"
         }
     }
 }

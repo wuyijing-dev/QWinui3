@@ -8,15 +8,22 @@ T.Control {
 
     property string header: ""
     property string description: ""
+    property var symbol: ""
+    property string iconGlyph: ""
     property Component headerComponent: null
     // top | left
     property string headerPlacement: "top"
     default property alias contentData: body.data
 
+    readonly property string effectiveIconGlyph: IconSource.resolve(symbol, iconGlyph)
+
     padding: 12
     spacing: 8
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
+    Accessible.role: Accessible.Grouping
+    Accessible.name: header
+    Accessible.description: description
 
     implicitWidth: Math.max(160, contentItem.implicitWidth + leftPadding + rightPadding)
     implicitHeight: contentItem.implicitHeight + topPadding + bottomPadding
@@ -37,12 +44,14 @@ T.Control {
             Layout.alignment: root._headerLeft ? Qt.AlignTop : Qt.AlignLeft
             Layout.preferredWidth: root._headerLeft ? 120 : -1
             spacing: 4
-            visible: root.headerComponent !== null || root.header.length > 0 || root.description.length > 0
+            visible: root.headerComponent !== null || root.header.length > 0
+                     || root.description.length > 0 || root.effectiveIconGlyph.length > 0
 
             Loader {
                 id: headerLoader
                 Layout.fillWidth: true
                 active: root.headerComponent !== null || root.header.length > 0
+                        || root.effectiveIconGlyph.length > 0
                 sourceComponent: root.headerComponent !== null ? root.headerComponent : defaultHeader
             }
             Text {
@@ -76,15 +85,26 @@ T.Control {
 
     Component {
         id: defaultHeader
-        Text {
-            text: root.header
-            font.family: Theme.fontFamily
-            font.pixelSize: root._headerLeft ? Theme.fontBody : Theme.fontCaption
-            font.weight: Theme.fontWeightSemiBold
-            color: root._headerLeft ? Theme.textPrimary : Theme.textSecondary
-            elide: Text.ElideRight
+        RowLayout {
+            spacing: 8
             width: headerLoader.width
-            wrapMode: Text.Wrap
+            FontIcon {
+                visible: root.effectiveIconGlyph.length > 0
+                glyph: root.effectiveIconGlyph
+                fontSize: 16
+                iconColor: Theme.accent
+                Layout.alignment: Qt.AlignVCenter
+            }
+            Text {
+                Layout.fillWidth: true
+                text: root.header
+                font.family: Theme.fontFamily
+                font.pixelSize: root._headerLeft ? Theme.fontBody : Theme.fontCaption
+                font.weight: Theme.fontWeightSemiBold
+                color: root._headerLeft ? Theme.textPrimary : Theme.textSecondary
+                elide: Text.ElideRight
+                wrapMode: Text.Wrap
+            }
         }
     }
 

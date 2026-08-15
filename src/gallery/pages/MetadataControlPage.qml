@@ -20,7 +20,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("MetadataControl")
-                subtitle: qsTr("Label/value pairs with optional section header.")
+                subtitle: qsTr("Label/value pairs with symbol: FluentIcons.* on MetadataItem.")
             }
             ControlExample {
                 Layout.fillWidth: true
@@ -38,23 +38,23 @@ Page {
                         MetadataItem {
                             label: qsTr("Author")
                             value: qsTr("Ada Lovelace")
-                            iconGlyph: "\uE77B"
+                            symbol: FluentIcons.Contact
                         }
                         MetadataItem {
                             label: qsTr("Created")
                             value: "2026-08-09"
-                            iconGlyph: "\uE787"
+                            symbol: FluentIcons.Calendar
                         }
                         MetadataItem {
                             label: qsTr("Type")
                             value: qsTr("PNG image")
-                            iconGlyph: "\uE8B9"
+                            symbol: FluentIcons.Photo
                         }
                         MetadataItem {
                             label: qsTr("Size")
                             value: "1.24 MB"
                             secondary: qsTr("Compressed")
-                            iconGlyph: "\uE8A5"
+                            symbol: FluentIcons.Document
                             valueColor: Theme.accent
                         }
                     }

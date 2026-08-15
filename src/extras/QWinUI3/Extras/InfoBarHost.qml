@@ -7,8 +7,9 @@ import QWinUI3.Theme
 T.Control {
     id: root
 
-    default property alias contentData: stack.data
-    property int spacing: Theme.spacing
+    // contentData / spacing are FINAL on Control — do not redeclare.
+    // Children land in contentItem (stack) via Control's default contentData.
+    spacing: Theme.spacing
     property int maxVisible: 0 // 0 = unlimited
 
     readonly property int count: {
@@ -33,6 +34,9 @@ T.Control {
     implicitWidth: 480
     implicitHeight: stack.implicitHeight
     visible: openCount > 0 || stack.children.length > 0
+    Accessible.role: Accessible.AlertMessage
+    Accessible.name: qsTr("Info bars")
+    Accessible.description: qsTr("%1 open").arg(openCount)
 
     function closeAll() {
         for (var i = 0; i < stack.children.length; ++i) {
@@ -43,6 +47,14 @@ T.Control {
     }
 
     function clearAll() { closeAll() }
+
+    function openAll() {
+        for (var i = 0; i < stack.children.length; ++i) {
+            var c = stack.children[i]
+            if (c && c.isOpen !== undefined)
+                c.isOpen = true
+        }
+    }
 
     contentItem: ColumnLayout {
         id: stack

@@ -20,14 +20,14 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("SearchBox")
-                subtitle: qsTr("Search field with header, suggestions, clear, and QuerySubmitted.")
+                subtitle: qsTr("Fluent Search/ChromeClose, ElevatedChrome suggestions, and Accessible.")
             }
             ControlExample {
                 Layout.fillWidth: true
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Search + suggestions")
-                qmlSource: "SearchBox {\n    header: \"Find\"\n    model: […]\n}"
+                qmlSource: "SearchBox {\n    symbol: FluentIcons.Search\n    model: […]\n}"
                 ColumnLayout {
                     Layout.fillWidth: true
                     Layout.maximumWidth: 360
@@ -38,7 +38,7 @@ Page {
                         header: qsTr("Find files")
                         description: qsTr("Type to filter suggestions, Enter to submit.")
                         placeholderText: qsTr("Search files")
-                        queryIcon: "\uE721"
+                        symbol: FluentIcons.Search
                         model: [
                             qsTr("Documents"),
                             qsTr("Downloads"),

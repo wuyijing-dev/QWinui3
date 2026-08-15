@@ -11,6 +11,7 @@ T.AbstractButton {
     property bool indeterminate: false
     property alias isIndeterminate: control.indeterminate
     property bool showProgress: true
+    property bool showPercentage: false
     // idle | progressing | completed | error
     property string progressState: "idle"
     property string progressingText: ""
@@ -19,6 +20,7 @@ T.AbstractButton {
     signal progressCompleted()
     signal progressFailed()
 
+    readonly property real percentage: Math.round(Math.max(0, Math.min(1, progress)) * 100)
     readonly property string displayText: {
         if (progressState === "completed" && completedText.length)
             return completedText
@@ -26,6 +28,8 @@ T.AbstractButton {
             return errorText
         if ((progressState === "progressing" || indeterminate) && progressingText.length)
             return progressingText
+        if (showPercentage && progressState === "progressing" && !indeterminate)
+            return text.length ? (text + " " + percentage + "%") : (percentage + "%")
         return text
     }
 
@@ -51,6 +55,17 @@ T.AbstractButton {
         } else if (progress > 0 && progressState === "idle") {
             progressState = "progressing"
         }
+    }
+
+    function setProgress(value) {
+        indeterminate = false
+        progress = Math.max(0, Math.min(1, value))
+        if (progress >= 0.999)
+            return
+        if (progress > 0 && progressState !== "error")
+            progressState = "progressing"
+        else if (progress <= 0)
+            progressState = "idle"
     }
 
     function reset() {
@@ -91,8 +106,31 @@ T.AbstractButton {
     topPadding: Theme.paddingControlV
     bottomPadding: Theme.paddingControlV
     hoverEnabled: true
+    focusPolicy: Qt.StrongFocus
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
+    Accessible.role: Accessible.Button
+    Accessible.name: displayText
+    Accessible.description: {
+        if (indeterminate)
+            return qsTr("In progress")
+        if (progressState === "completed")
+            return qsTr("Completed")
+        if (progressState === "error")
+            return qsTr("Failed")
+        if (progress > 0)
+            return qsTr("%1 percent").arg(percentage)
+        return ""
+    }
+
+    scale: down && !Theme.reducedMotion ? 0.98 : 1
+    Behavior on scale {
+        enabled: !Theme.reducedMotion
+        NumberAnimation {
+            duration: Theme.duration(Theme.motionFast)
+            easing.type: Theme.easingStandard
+        }
+    }
 
     contentItem: Item {
         implicitWidth: row.implicitWidth
@@ -104,10 +142,18 @@ T.AbstractButton {
             Text {
                 anchors.verticalCenter: parent.verticalCenter
                 visible: control.progressState === "completed" || control.progressState === "error"
-                text: control.progressState === "completed" ? "\uE73E" : "\uE783"
+                text: control.progressState === "completed" ? FluentIcons.Accept : FluentIcons.Error
                 font.family: Theme.fontFamilyIcon
                 font.pixelSize: 14
                 color: control.progressState === "completed" ? Theme.systemSuccess : Theme.systemCritical
+                scale: visible && !Theme.reducedMotion ? 1 : 0.7
+                Behavior on scale {
+                    enabled: !Theme.reducedMotion
+                    NumberAnimation {
+                        duration: Theme.duration(Theme.motionFast)
+                        easing.type: Theme.easingEnter
+                    }
+                }
             }
             Text {
                 anchors.verticalCenter: parent.verticalCenter

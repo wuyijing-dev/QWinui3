@@ -9,11 +9,10 @@ T.AbstractButton {
 
     // Display label for the key (e.g. "Ctrl", "P", "Esc").
     property string keyText: ""
-    // Optional Segoe Fluent glyph instead of / beside keyText.
+    property var symbol: ""
     property string iconGlyph: ""
     // "small" | "medium" | "large"
     property string size: "medium"
-    // Filled accent chrome for primary shortcuts.
     property bool emphasized: false
     property string toolTipText: ""
     property real minWidth: {
@@ -24,6 +23,7 @@ T.AbstractButton {
         }
     }
 
+    readonly property string effectiveIconGlyph: IconSource.resolve(symbol, iconGlyph)
     readonly property int _padH: size === "small" ? 6 : (size === "large" ? 10 : 8)
     readonly property int _padV: size === "small" ? 2 : (size === "large" ? 6 : 4)
     readonly property int _fontPx: size === "small" ? 10 : (size === "large" ? Theme.fontBody : Theme.fontCaption)
@@ -35,7 +35,8 @@ T.AbstractButton {
     ToolTip.visible: hovered && toolTipText.length > 0
     ToolTip.text: toolTipText
     ToolTip.delay: 400
-    Accessible.name: toolTipText.length ? toolTipText : (keyText.length ? keyText : iconGlyph)
+    Accessible.name: toolTipText.length ? toolTipText
+                   : (keyText.length ? keyText : effectiveIconGlyph)
     implicitWidth: Math.max(minWidth, contentRow.implicitWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(size === "small" ? 22 : (size === "large" ? 34 : 28),
                              contentRow.implicitHeight + topPadding + bottomPadding)
@@ -63,8 +64,8 @@ T.AbstractButton {
             anchors.centerIn: parent
             spacing: 4
             Text {
-                visible: root.iconGlyph.length > 0
-                text: root.iconGlyph
+                visible: root.effectiveIconGlyph.length > 0
+                text: root.effectiveIconGlyph
                 font.family: Theme.fontFamilyIcon
                 font.pixelSize: root._iconPx
                 color: label.color
@@ -118,7 +119,6 @@ T.AbstractButton {
             }
         }
 
-        // Soft “key bed” shadow
         Rectangle {
             anchors.left: parent.left
             anchors.right: parent.right

@@ -22,6 +22,9 @@ T.Control {
     spacing: 0
     focusPolicy: Qt.StrongFocus
     activeFocusOnTab: true
+    Accessible.role: Accessible.PageTabList
+    Accessible.name: qsTr("Pivot")
+    Accessible.description: qsTr("Tab %1 of %2").arg(currentIndex + 1).arg(model ? model.length : 0)
 
     onCurrentIndexChanged: selectionChanged(currentIndex)
 
@@ -82,8 +85,12 @@ T.Control {
                         checked: index === control.currentIndex
                         onClicked: control.selectIndex(index)
 
-                        readonly property string _icon: typeof modelData === "string"
-                                                       ? "" : (modelData.icon || "")
+                        readonly property string _icon: {
+                            if (typeof modelData === "string" || !modelData)
+                                return ""
+                            return IconSource.resolve(modelData.symbol || "",
+                                                      modelData.icon || modelData.glyph || "")
+                        }
                         readonly property string _title: typeof modelData === "string"
                                                         ? modelData : (modelData.title || "")
 

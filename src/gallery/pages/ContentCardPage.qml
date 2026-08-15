@@ -20,7 +20,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("ContentCard")
-                subtitle: qsTr("Elevated card with title, body, optional footer, and isClickable.")
+                subtitle: qsTr("Elevated card with symbol, footer, isClickable, focus, and keyboard activate.")
             }
             ControlExample {
                 Layout.fillWidth: true
@@ -41,7 +41,7 @@ Page {
                         Layout.maximumWidth: 360
                         title: qsTr("QWinUI3")
                         subtitle: qsTr("Fluent-style Qt Quick Controls")
-                        headerIcon: "\uE8A5"
+                        symbol: FluentIcons.Document
                         isClickable: true
                         onClicked: cardMsg.text = qsTr("Card clicked")
                         Label {

@@ -21,7 +21,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("SpinBox")
-                subtitle: qsTr("A control for selecting a numeric value within a range.")
+                subtitle: qsTr("Numeric stepper with Fluent chevron glyphs.")
             }
 
             ControlExample {

@@ -19,10 +19,16 @@ T.Dialog {
     property bool isPrimaryButtonEnabled: true
     property bool isSecondaryButtonEnabled: true
     property bool isCloseButtonEnabled: true
+    property alias isOpen: root.visible
+    property bool __queueWired: false
 
     signal primaryClicked()
     signal secondaryClicked()
     signal closeClicked()
+
+    function show() { ContentDialogQueue.enqueue(root) }
+    function hide() { close() }
+    function openQueued() { ContentDialogQueue.enqueue(root) }
 
     readonly property string _defaultButton: {
         if (defaultButton.length)
@@ -40,6 +46,36 @@ T.Dialog {
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     title: ""
+    transformOrigin: Item.Center
+
+    enter: Transition {
+        NumberAnimation {
+            property: "opacity"
+            from: 0; to: 1
+            duration: Theme.duration(Theme.motionNormal)
+            easing.type: Theme.easingEnter
+        }
+        NumberAnimation {
+            property: "scale"
+            from: 0.96; to: 1
+            duration: Theme.duration(Theme.motionNormal)
+            easing.type: Theme.easingEnter
+        }
+    }
+    exit: Transition {
+        NumberAnimation {
+            property: "opacity"
+            from: 1; to: 0
+            duration: Theme.duration(Theme.motionFast)
+            easing.type: Theme.easingExit
+        }
+        NumberAnimation {
+            property: "scale"
+            from: 1; to: 0.98
+            duration: Theme.duration(Theme.motionFast)
+            easing.type: Theme.easingExit
+        }
+    }
 
     // Lock geometry to the column — never let Popup stretch the middle.
     width: Math.max(320, Math.min(440, column.implicitWidth))
@@ -194,6 +230,7 @@ T.Dialog {
     T.Overlay.modal: Rectangle {
         color: Theme.bgSmoke
         Behavior on opacity {
+            enabled: !Theme.reducedMotion
             NumberAnimation { duration: Theme.duration(Theme.motionFast) }
         }
     }

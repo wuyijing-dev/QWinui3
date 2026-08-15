@@ -18,9 +18,19 @@ T.Control {
 
     padding: paddingEdges
     spacing: Theme.spacing
-    // Prefer intrinsic content size; never feed host.width back into implicitWidth.
     implicitWidth: Math.max(40, _contentW + leftPadding + rightPadding)
     implicitHeight: Math.max(Theme.controlHeight, _contentH + topPadding + bottomPadding)
+    Accessible.role: Accessible.Grouping
+    Accessible.name: qsTr("Stack panel")
+
+    readonly property int childCount: {
+        var n = 0
+        for (var i = 0; i < host.children.length; ++i) {
+            if (host.children[i] && host.children[i].visible)
+                ++n
+        }
+        return n
+    }
 
     property real _contentW: 40
     property real _contentH: Theme.controlHeight

@@ -5,6 +5,9 @@ qt_add_library(qwinui3_extras STATIC)
 set_source_files_properties(ChartUtils.qml PROPERTIES
     QT_QML_SINGLETON_TYPE TRUE
 )
+set_source_files_properties(ContentDialogQueue.qml PROPERTIES
+    QT_QML_SINGLETON_TYPE TRUE
+)
 
 qt_add_qml_module(qwinui3_extras
     URI QWinUI3.Extras
@@ -31,6 +34,7 @@ qt_add_qml_module(qwinui3_extras
         CommandBarFlyout.qml
         ContentCard.qml
         ContentDialog.qml
+        ContentDialogQueue.qml
         CopyButton.qml
         DatePicker.qml
         DockPanel.qml
@@ -85,6 +89,10 @@ qt_add_qml_module(qwinui3_extras
         ProgressButton.qml
         ProgressRing.qml
         RadialGauge.qml
+        LinearGauge.qml
+        ArcGauge.qml
+        SegmentedGauge.qml
+        ZoneGauge.qml
         RadioButtons.qml
         RadioMenuFlyoutItem.qml
         RatingControl.qml
@@ -118,6 +126,16 @@ qt_add_qml_module(qwinui3_extras
         ToggleSplitButton.qml
         TwoPaneView.qml
         UniformGrid.qml
+        WindowChrome.qml
+        ShellWindowSupport.qml
+        ShellWindow.qml
+        BlankWindow.qml
+        NavigationWindow.qml
+        MenuStatusWindow.qml
+        DialogShellWindow.qml
+        ToolShellWindow.qml
+        CompactOverlayShellWindow.qml
+        StatusBar.qml
         WrapPanel.qml
         ActionCard.qml
     IMPORTS

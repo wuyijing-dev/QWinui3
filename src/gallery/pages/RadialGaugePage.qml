@@ -20,14 +20,14 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("RadialGauge")
-                subtitle: qsTr("Animated arc with title, caption, needle, and setValue().")
+                subtitle: qsTr("Drag when isInteractive; invertThresholds, stepSize, valueEdited.")
             }
             ControlExample {
                 Layout.fillWidth: true
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Interactive")
-                qmlSource: "RadialGauge {\n    title: \"CPU\"\n    value: 72\n    unit: \"%\"\n}"
+                qmlSource: "RadialGauge {\n    isInteractive: true\n    cautionThreshold: 0.7\n}"
                 ColumnLayout {
                     spacing: Theme.spacingLoose
                     RowLayout {
@@ -36,33 +36,36 @@ Page {
                             id: gauge
                             width: 168
                             height: 168
-                            value: slider.value
+                            value: 72
                             unit: "%"
                             title: qsTr("CPU")
                             tickCount: 9
                             showNeedle: true
+                            isInteractive: true
+                            stepSize: 1
+                            cautionThreshold: 0.7
+                            criticalThreshold: 0.9
                         }
                         RadialGauge {
                             width: 128
                             height: 128
-                            value: 36.5
-                            maximum: 50
-                            valuePrecision: 1
+                            value: 22
+                            maximum: 100
                             fillColor: Theme.systemSuccess
                             showValue: true
                             showNeedle: false
-                            unit: "°C"
-                            caption: qsTr("Ambient")
+                            unit: "%"
+                            title: qsTr("Battery")
+                            caption: qsTr("Remaining")
+                            isInteractive: true
+                            invertThresholds: true
+                            cautionThreshold: 0.55
+                            criticalThreshold: 0.8
                         }
                     }
-                    Slider {
-                        id: slider
-                        from: 0
-                        to: 100
-                        value: 72
-                        Layout.fillWidth: true
-                        Layout.maximumWidth: 360
-                        onMoved: gauge.setValue(value)
+                    Label {
+                        text: qsTr("%1% — drag the dial").arg(Math.round(gauge.percentage))
+                        color: Theme.textSecondary
                     }
                 }
             }

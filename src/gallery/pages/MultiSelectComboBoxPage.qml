@@ -20,7 +20,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("MultiSelectComboBox")
-                subtitle: qsTr("Multi-check combo with select-all, clear, and selectionChanged.")
+                subtitle: qsTr("Multi-check combo with Fluent Accept checks, ChevronDown, and Accessible.")
             }
             ControlExample {
                 Layout.fillWidth: true

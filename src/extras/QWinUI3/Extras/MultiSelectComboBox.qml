@@ -25,6 +25,9 @@ T.AbstractButton {
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     hoverEnabled: true
+    Accessible.role: Accessible.ComboBox
+    Accessible.name: header.length ? header : qsTr("Multi-select")
+    Accessible.description: displayText
 
     readonly property bool menuOpen: popup.visible
     property alias isOpen: popup.visible
@@ -131,7 +134,7 @@ T.AbstractButton {
             }
         }
         Text {
-            text: "\uE70D"
+            text: FluentIcons.ChevronDown
             font.family: Theme.fontFamilyIcon
             font.pixelSize: 10
             color: Theme.textSecondary
@@ -330,7 +333,7 @@ T.AbstractButton {
 
                         Text {
                             anchors.centerIn: parent
-                            text: "\uE73E"
+                            text: FluentIcons.Accept
                             font.family: Theme.fontFamilyIcon
                             font.pixelSize: 11
                             color: Theme.textOnAccent

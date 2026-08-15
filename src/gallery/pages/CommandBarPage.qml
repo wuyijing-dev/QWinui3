@@ -20,14 +20,14 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("CommandBar")
-                subtitle: qsTr("Toolbar with DefaultLabelPosition, ClosedDisplayMode, secondaryCommands, and open/close signals.")
+                subtitle: qsTr("Fluent More/Chevron, toggle(), secondaryCommands, and open/close signals.")
             }
             ControlExample {
                 Layout.fillWidth: true
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Primary commands")
-                qmlSource: "AppBarButton { icon: FluentIcons.Copy; text: \"Copy\" }"
+                qmlSource: "AppBarButton { symbol: FluentIcons.Copy; text: \"Copy\" }"
                 ColumnLayout {
                     Layout.fillWidth: true
                     spacing: Theme.spacing
@@ -67,18 +67,18 @@ Page {
                         onOpened: status.text = qsTr("Command bar opened")
                         onClosed: status.text = qsTr("Command bar closed")
                         AppBarButton {
-                            icon: FluentIcons.Copy
+                            symbol: FluentIcons.Copy
                             text: qsTr("Copy")
                             onClicked: status.text = qsTr("Copy")
                         }
                         AppBarButton {
-                            icon: FluentIcons.Cut
+                            symbol: FluentIcons.Cut
                             text: qsTr("Cut")
                             onClicked: status.text = qsTr("Cut")
                         }
                         AppBarSeparator {}
                         AppBarButton {
-                            icon: FluentIcons.Delete
+                            symbol: FluentIcons.Delete
                             text: qsTr("Delete")
                             onClicked: status.text = qsTr("Delete")
                         }

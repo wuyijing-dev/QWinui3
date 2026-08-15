@@ -20,7 +20,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("SettingsExpander")
-                subtitle: qsTr("Expandable settings group with header action, expanding/collapsing, and keyboard focus.")
+                subtitle: qsTr("Expandable settings group with symbol header and Fluent ChevronDown.")
             }
             ControlExample {
                 Layout.fillWidth: true
@@ -40,7 +40,7 @@ Page {
                         Layout.fillWidth: true
                         title: qsTr("Privacy")
                         description: qsTr("Control how your data is used.")
-                        headerIcon: FluentIcons.Lock
+                        symbol: FluentIcons.Lock
                         expanded: true
                         action: Switch {
                             checked: true

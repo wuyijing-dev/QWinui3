@@ -25,10 +25,16 @@ Item {
         return h
     }
     implicitWidth: orientation === Qt.Horizontal ? parent ? parent.width : 200 : 140
+    Accessible.role: Accessible.List
+    Accessible.name: header.length ? header : qsTr("Legend")
 
     function select(index) {
         selectedIndex = index
         itemClicked(index)
+    }
+
+    function clearSelection() {
+        selectedIndex = -1
     }
 
     Column {

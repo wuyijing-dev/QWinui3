@@ -20,7 +20,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("KeyVisual")
-                subtitle: qsTr("Fluent key chrome with toolTipText. Project-owned — not Qt Virtual Keyboard.")
+                subtitle: qsTr("Key chrome and KeyChordVisual with chordText parsing — not Qt Virtual Keyboard.")
             }
             ControlExample {
                 Layout.fillWidth: true
@@ -50,7 +50,16 @@ Page {
                 qmlSource: "KeyChordVisual { shortcut: \"Ctrl+Shift+P\" }"
                 ColumnLayout {
                     spacing: 12
-                    KeyChordVisual { shortcut: "Ctrl+Shift+P"; toolTipText: qsTr("Command palette") }
+                    KeyChordVisual {
+                        id: paletteChord
+                        shortcut: "Ctrl+Shift+P"
+                        toolTipText: qsTr("Command palette")
+                    }
+                    Label {
+                        text: qsTr("chordText: %1").arg(paletteChord.chordText)
+                        color: Theme.textSecondary
+                        font.pixelSize: Theme.fontCaption
+                    }
                     KeyChordVisual { shortcut: "Ctrl+K, Ctrl+S"; toolTipText: qsTr("Keyboard shortcuts") }
                     KeyChordVisual { shortcut: "Alt+F4"; size: "large" }
                     KeyChordVisual {
@@ -73,8 +82,8 @@ Page {
                     KeyVisual { keyText: "A"; size: "large" }
                     KeyVisual { keyText: "Go"; size: "medium"; emphasized: true; minWidth: 40 }
                     KeyVisual { keyText: "Esc"; enabled: false }
-                    KeyVisual { iconGlyph: "\uE76B"; keyText: ""; minWidth: 32 }
-                    KeyVisual { iconGlyph: "\uE76C"; keyText: ""; minWidth: 32 }
+                    KeyVisual { symbol: FluentIcons.ChevronLeft; keyText: ""; minWidth: 32 }
+                    KeyVisual { symbol: FluentIcons.ChevronRight; keyText: ""; minWidth: 32 }
                 }
             }
             ControlExample {

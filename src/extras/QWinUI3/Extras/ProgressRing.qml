@@ -15,10 +15,16 @@ T.Control {
     property color trackColor: Theme.strokeDivider
     property bool showValue: false
     property string valueLabel: ""
+    property real size: 32
 
-    implicitWidth: 32
-    implicitHeight: 32
+    implicitWidth: size
+    implicitHeight: size
     padding: 0
+    Accessible.role: Accessible.ProgressBar
+    Accessible.name: qsTr("Progress")
+    Accessible.description: indeterminate
+                             ? (isActive ? qsTr("Indeterminate") : qsTr("Paused"))
+                             : formattedValue
 
     readonly property bool spinning: indeterminate && isActive && visible && !Theme.reducedMotion
     readonly property real progressSweep: {

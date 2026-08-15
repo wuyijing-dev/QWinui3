@@ -21,7 +21,7 @@ T.Control {
     property bool showIcon: true
     property alias isIconVisible: root.showIcon
     property string iconGlyph: ""
-    property var icon: ""
+    property var symbol: ""
     property string actionText: ""
     property alias action: actionSlot.data
     property int durationMs: 0 // >0 auto-dismisses after open
@@ -140,7 +140,7 @@ T.Control {
     }
 
     readonly property string _severityGlyph: {
-        var custom = IconSource.resolve(icon, iconGlyph)
+        var custom = IconSource.resolve(symbol, iconGlyph)
         if (custom.length)
             return custom
         switch (severity) {
@@ -230,13 +230,14 @@ T.Control {
             implicitWidth: 32
             implicitHeight: 32
             hoverEnabled: true
+            Accessible.name: qsTr("Close")
             onClicked: {
                 root.isOpen = false
                 root.closeClicked()
             }
 
             contentItem: Text {
-                text: "\uE711"
+                text: FluentIcons.ChromeClose
                 font.family: Theme.fontFamilyIcon
                 font.pixelSize: 10
                 color: Theme.textSecondary

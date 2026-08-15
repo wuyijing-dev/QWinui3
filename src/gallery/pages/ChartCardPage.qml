@@ -38,7 +38,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("ChartCard")
-                subtitle: qsTr("Dashboard chrome with elevated/footer options and entrance motion.")
+                subtitle: qsTr("Dashboard chrome with ElevatedChrome, symbol, footer, and entrance motion.")
             }
 
             ControlExample {
@@ -58,6 +58,7 @@ Page {
                         Layout.preferredHeight: 260
                         title: qsTr("Throughput")
                         subtitle: qsTr("Requests / min")
+                        symbol: FluentIcons.Play
                         footer: qsTr("Updated just now")
                         elevated: true
                         ColumnLayout {

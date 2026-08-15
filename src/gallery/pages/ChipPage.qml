@@ -20,7 +20,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("Chip")
-                subtitle: qsTr("Selectable or closable tag with filled/outline appearance and avatar.")
+                subtitle: qsTr("Selectable or closable tag with Fluent ChromeClose and Accessible.")
             }
             ControlExample {
                 Layout.fillWidth: true
@@ -34,8 +34,8 @@ Page {
                     Flow {
                         Layout.fillWidth: true
                         spacing: Theme.spacing
-                        Chip { text: qsTr("Design"); iconGlyph: "\uE790"; checked: true }
-                        Chip { text: qsTr("Engineering"); iconGlyph: "\uE943" }
+                        Chip { text: qsTr("Design"); symbol: FluentIcons.Color; checked: true }
+                        Chip { text: qsTr("Engineering"); symbol: FluentIcons.Code }
                         Chip { text: qsTr("Alex"); avatarText: "A"; checked: true }
                         Chip { text: qsTr("Disabled"); enabled: false }
                     }
@@ -44,7 +44,7 @@ Page {
                         Layout.fillWidth: true
                         spacing: Theme.spacing
                         Chip { text: qsTr("Outline"); appearance: "outline"; checked: true }
-                        Chip { text: qsTr("Tag"); appearance: "outline"; iconGlyph: "\uE8EC" }
+                        Chip { text: qsTr("Tag"); appearance: "outline"; symbol: FluentIcons.Tag }
                         Chip { text: qsTr("B"); appearance: "outline"; avatarText: "B"; chipSize: "small" }
                     }
                 }

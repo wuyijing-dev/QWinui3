@@ -26,6 +26,9 @@ T.Control {
     implicitHeight: header.length ? (Theme.fontBody + 8 + Theme.controlHeight) : Theme.controlHeight
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
+    Accessible.role: Accessible.ComboBox
+    Accessible.name: header.length ? header : qsTr("Time")
+    Accessible.description: displayText
 
     readonly property var minuteModel: {
         var step = Math.max(1, Math.min(30, minuteIncrement))
@@ -107,7 +110,7 @@ T.Control {
             anchors.right: parent.right
             anchors.rightMargin: 10
             anchors.verticalCenter: parent.verticalCenter
-            text: "\uE823"
+            text: FluentIcons.Clock
             font.family: Theme.fontFamilyIcon
             font.pixelSize: 14
             color: control.pickerOpen ? Theme.accent : Theme.textSecondary

@@ -20,7 +20,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("MenuFlyout")
-                subtitle: qsTr("Elevated command menu with isOpen, preferredPlacement, and enter/exit motion.")
+                subtitle: qsTr("Elevated menu with title, isOpen, preferredPlacement, and motion.")
             }
             ControlExample {
                 Layout.fillWidth: true
@@ -36,22 +36,23 @@ Page {
                 MenuFlyout {
                     id: demoFlyout
                     preferredPlacement: Qt.AlignBottom
+                    title: qsTr("Actions")
                     MenuFlyoutItem {
                         text: qsTr("Copy")
-                        icon: FluentIcons.Copy
+                        symbol: FluentIcons.Copy
                         keyboardAcceleratorText: "Ctrl+C"
                         onTriggered: lastAction.text = text
                     }
                     MenuFlyoutItem {
                         text: qsTr("Paste")
-                        icon: FluentIcons.Paste
+                        symbol: FluentIcons.Paste
                         keyboardAcceleratorText: "Ctrl+V"
                         onTriggered: lastAction.text = text
                     }
                     MenuFlyoutSeparator {}
                     MenuFlyoutItem {
                         text: qsTr("Delete")
-                        icon: FluentIcons.Delete
+                        symbol: FluentIcons.Delete
                         iconColor: Theme.systemCritical
                         onTriggered: lastAction.text = text
                     }

@@ -25,20 +25,20 @@ Page {
             action: "button"
         },
         {
+            title: qsTr("Window shells"),
+            description: qsTr("Blank, left-nav, and menu + status application hosts."),
+            icon: "\uE8A7",
+            tint: "#005FB8",
+            tintBg: Theme.dark ? "#272727" : "#F3F9FD",
+            action: "shells"
+        },
+        {
             title: qsTr("Design"),
             description: qsTr("Switch light/dark theme and motion preferences."),
             icon: "\uE790",
-            tint: "#005FB8",
-            tintBg: Theme.dark ? "#272727" : "#F3F9FD",
-            action: "settings"
-        },
-        {
-            title: qsTr("New controls"),
-            description: qsTr("Browse recently added WinUI-aligned extras."),
-            icon: "\uE8AB",
             tint: "#8764B8",
             tintBg: Theme.dark ? "#3A2F4A" : "#F2EDF9",
-            action: "new"
+            action: "settings"
         }
     ]
 
@@ -55,6 +55,12 @@ Page {
     function activateFeatured(action) {
         if (action === "settings") {
             page.openSettings()
+            return
+        }
+        if (action === "shells") {
+            var shells = ControlCatalog.findByComponent("WindowParadigmPage")
+            if (shells)
+                page.openControl(shells)
             return
         }
         if (action === "new") {
@@ -170,7 +176,7 @@ Page {
                     spacing: 4
 
                     Text {
-                        text: qsTr("Qt 6.8 · Fluent")
+                        text: qsTr("Qt 6.8 · Fluent · App shells")
                         font.family: Theme.fontFamily
                         font.pixelSize: Theme.fontBody
                         color: Theme.textSecondary

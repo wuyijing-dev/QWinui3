@@ -27,6 +27,14 @@ T.Control {
     implicitHeight: Math.max(Theme.navItemHeight + 8, contentSlot.implicitHeight + 16)
     padding: 0
     clip: true
+    focusPolicy: Qt.StrongFocus
+    activeFocusOnTab: true
+    Accessible.role: Accessible.ListItem
+    Accessible.name: qsTr("Swipe item")
+    Accessible.description: isOpen ? qsTr("Actions revealed") : qsTr("Swipe for actions")
+    Keys.onEscapePressed: close()
+    Keys.onLeftPressed: openRight()
+    Keys.onRightPressed: openLeft()
 
     readonly property real maxLeftReveal: Math.max(0, leftRow.children.length * actionWidth)
     readonly property real maxRightReveal: Math.max(0, rightRow.children.length * actionWidth)
@@ -93,13 +101,15 @@ T.Control {
                 }
             }
 
-            Rectangle {
+            ElevatedChrome {
                 anchors.fill: parent
                 color: Theme.bgCard
-                border.width: 1
-                border.color: Theme.strokeCard
+                borderWidth: root.activeFocus ? 2 : 1
+                borderColor: root.activeFocus ? Theme.focusOuter : Theme.strokeCard
                 radius: Theme.cornerControl
-                scale: drag.active ? 0.995 : 1
+                elevation: drag.active ? 4 : 2
+                shadowOpacity: Theme.dark ? 0.2 : 0.1
+                scale: drag.active && !Theme.reducedMotion ? 0.995 : 1
                 Behavior on scale {
                     enabled: !Theme.reducedMotion
                     NumberAnimation { duration: Theme.duration(Theme.motionFast) }
@@ -111,6 +121,7 @@ T.Control {
                 anchors.fill: parent
                 anchors.margins: 12
                 implicitHeight: childrenRect.height
+                z: 1
             }
 
             DragHandler {

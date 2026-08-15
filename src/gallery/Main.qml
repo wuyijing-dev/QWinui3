@@ -14,10 +14,44 @@ StandardWindow {
     title: qsTr("QWinUI3 Gallery")
     backdrop: WindowHelper.BackdropSolid
 
-    // Eager init — NavigationView.onCompleted runs before Main.onCompleted,
-    // so deferring buildNavModel() left Home with an empty stack.
     property var navModel: buildNavModel()
     property var searchResults: []
+    property var paneSearchModel: buildPaneSearchModel()
+
+    function syncAccessibility() {
+        if (!Theme.followSystemAccessibility)
+            return
+        WindowHelper.refreshAccessibility()
+        Theme.reducedMotion = WindowHelper.systemReducedMotion
+        Theme.highContrast = WindowHelper.systemHighContrast
+    }
+
+    function buildPaneSearchModel() {
+        var out = []
+        var m = navModel || []
+        for (var i = 0; i < m.length; ++i) {
+            var it = m[i]
+            if (!it)
+                continue
+            if (it.type === "group" && it.children) {
+                for (var j = 0; j < it.children.length; ++j) {
+                    var ch = it.children[j]
+                    out.push({
+                        key: (it.key || "") + "/" + j,
+                        title: ch.title || "",
+                        component: ch.component || ""
+                    })
+                }
+            } else if (it.type !== "header") {
+                out.push({
+                    key: it.key || ("item_" + i),
+                    title: it.title || "",
+                    component: it.component || ""
+                })
+            }
+        }
+        return out
+    }
 
     function buildNavModel() {
         var items = []
@@ -44,13 +78,17 @@ StandardWindow {
                     component: ctrl.component
                 })
             }
-            items.push({
+            var entry = {
                 type: "group",
                 key: cat.key,
                 title: cat.title,
                 icon: cat.icon || "\uE8F4",
                 children: children
-            })
+            }
+            // Badge count on Charts as a Gallery demo of InfoBadge in the rail.
+            if (cat.key === "charts")
+                entry.badgeValue = children.length
+            items.push(entry)
         }
         return items
     }
@@ -70,6 +108,8 @@ StandardWindow {
         showCaptionButtons: window.showCaptionButtons
         showMinimize: window.showMinimize
         showMaximize: window.showMaximize
+        showClose: window.showClose
+        preferredHeightOption: window.preferredHeightOption
 
         TitleBar {
             id: titleBar
@@ -79,7 +119,11 @@ StandardWindow {
             useSystemMove: true
             trailingReserve: 0
             title: qsTr("QWinUI3 Gallery")
+            subtitle: qsTr("Fluent / WinUI 3 controls")
+            symbol: FluentIcons.Home
+            isPaneToggleButtonVisible: true
             searchModel: window.searchResults
+            onPaneToggleRequested: nav.paneOpen = !nav.paneOpen
             onSearchTextEdited: function (text) {
                 window.searchResults = ControlCatalog.search(text)
             }
@@ -92,7 +136,19 @@ StandardWindow {
     }
 
     Component.onCompleted: {
+        window.syncAccessibility()
         Qt.callLater(function () { platformTitle.reportHitTest() })
+    }
+
+    Connections {
+        target: WindowHelper
+        function onAccessibilityChanged() { window.syncAccessibility() }
+    }
+
+    // Re-check when the window is activated (user may have changed OS a11y settings).
+    onActiveChanged: {
+        if (active)
+            window.syncAccessibility()
     }
 
     NavigationView {
@@ -105,5 +161,18 @@ StandardWindow {
         footerComponent: "SettingsPage"
         pageModule: "QWinUI3.Gallery"
         currentKey: "home"
+        paneDisplayMode: "auto"
+        isPaneSearchEnabled: true
+        paneSearchModel: window.paneSearchModel
+        isReorderable: true
+        onModelReordered: function (m) {
+            window.navModel = m
+            window.paneSearchModel = window.buildPaneSearchModel()
+        }
+        onPaneSearchActivated: function (text) {
+            // SearchBox suggestion path already selects keys when present.
+            if (text)
+                titleBar.searchText = text
+        }
     }
 }

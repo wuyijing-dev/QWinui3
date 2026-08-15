@@ -20,14 +20,14 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("ListTile")
-                subtitle: qsTr("List row with glyph or leading content, title, description, selection, and trailing.")
+                subtitle: qsTr("List row with symbol / leading, title, subtitle, selection indicator, and trailing.")
             }
             ControlExample {
                 Layout.fillWidth: true
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Rows")
-                qmlSource: "ListTile {\n    title: \"Mail\"\n    isSelected: true\n    showChevron: true\n}"
+                qmlSource: "ListTile {\n    title: \"Mail\"\n    symbol: FluentIcons.Mail\n    isSelected: true\n}"
                 ColumnLayout {
                     Layout.fillWidth: true
                     spacing: 4
@@ -35,7 +35,7 @@ Page {
                         Layout.fillWidth: true
                         title: qsTr("Mail")
                         description: qsTr("2 unread messages")
-                        glyph: "\uE715"
+                        symbol: FluentIcons.Mail
                         showChevron: true
                         isSelected: true
                     }
@@ -43,7 +43,7 @@ Page {
                         Layout.fillWidth: true
                         title: qsTr("Alex Rivera")
                         description: qsTr("Available")
-                        PersonPicture {
+                        leading: PersonPicture {
                             displayName: "Alex Rivera"
                             size: 36
                             badgeVisible: true
@@ -55,7 +55,7 @@ Page {
                         Layout.fillWidth: true
                         title: qsTr("Storage")
                         description: qsTr("12 GB free of 128 GB")
-                        glyph: "\uEDA2"
+                        symbol: FluentIcons.Folder
                         InfoBadge { value: 3 }
                     }
                 }

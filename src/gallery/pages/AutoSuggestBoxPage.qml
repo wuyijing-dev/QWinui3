@@ -20,14 +20,14 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("AutoSuggestBox")
-                subtitle: qsTr("Suggests matches as you type. QuerySubmitted on Enter; SuggestionChosen when picking an item.")
+                subtitle: qsTr("Fluent Search icon, ElevatedChrome list, and isSuggestionListOpen.")
             }
             ControlExample {
                 Layout.fillWidth: true
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Suggestions")
-                qmlSource: "AutoSuggestBox {\n    onQuerySubmitted: …\n    onSuggestionChosen: …\n}"
+                qmlSource: "AutoSuggestBox {\n    symbol: FluentIcons.Search\n}"
                 ColumnLayout {
                     Layout.fillWidth: true
                     Layout.maximumWidth: 360
@@ -41,7 +41,7 @@ Page {
                         id: box
                         Layout.fillWidth: true
                         placeholderText: qsTr("Fruit")
-                        queryIcon: "\uE721"
+                        symbol: FluentIcons.Search
                         updateTextOnSelect: updateOnSelect.checked
                         model: ["Apple", "Apricot", "Banana", "Blueberry", "Cherry", "Grape", "Orange", "Peach", "Pear"]
                         onSuggestionChosen: function (item) {

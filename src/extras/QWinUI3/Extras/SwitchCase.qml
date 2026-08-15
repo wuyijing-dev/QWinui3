@@ -16,6 +16,7 @@ Item {
     visible: false
     opacity: 0
     clip: true
+    Accessible.ignored: !active
 
     Behavior on opacity {
         enabled: !Theme.reducedMotion

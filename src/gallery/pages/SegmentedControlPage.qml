@@ -20,7 +20,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("SegmentedControl")
-                subtitle: qsTr("Sliding selection indicator, keyboard arrows, and Accessible page tabs.")
+                subtitle: qsTr("Sliding indicator, Fluent symbols, keyboard arrows, Accessible tabs.")
             }
             ControlExample {
                 Layout.fillWidth: true
@@ -48,12 +48,12 @@ Page {
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("With icons")
-                qmlSource: "SegmentedControl {\n    model: [{ text: \"List\", icon: \"\\uE8FD\" }, …]\n}"
+                qmlSource: "SegmentedControl {\n    model: [{ text, symbol: FluentIcons.List }]\n}"
                 SegmentedControl {
                     model: [
-                        { text: qsTr("List"), icon: "\uE8FD" },
-                        { text: qsTr("Grid"), icon: "\uE8A5" },
-                        { text: qsTr("Map"), icon: "\uE707", enabled: false }
+                        { text: qsTr("List"), symbol: FluentIcons.List },
+                        { text: qsTr("Grid"), symbol: FluentIcons.GridView },
+                        { text: qsTr("Map"), symbol: FluentIcons.Map, enabled: false }
                     ]
                 }
             }

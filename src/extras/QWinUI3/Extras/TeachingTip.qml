@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Templates as T
-import QtQuick.Effects
 import QWinUI3.Theme
 
 T.Popup {
@@ -12,18 +11,18 @@ T.Popup {
     property string title: ""
     property string subtitle: ""
     property string actionText: ""
+    property var symbol: ""
     property string iconGlyph: ""
     property bool isOpen: false
-    // WinUI IsLightDismissEnabled
     property bool isLightDismissEnabled: true
-    // WinUI CloseButtonVisibility — true shows the X
     property bool isCloseButtonVisible: true
-    // Top / Bottom / Left / Right / Auto (prefer top, flip if needed)
     property int preferredPlacement: Qt.AlignTop
     property int effectivePlacement: Qt.AlignTop
-    // WinUI HeroContent slot
     default property alias heroContent: heroSlot.data
     signal actionClicked()
+    signal closedByUser()
+
+    readonly property string effectiveIconGlyph: IconSource.resolve(symbol, iconGlyph)
 
     padding: 12
     modal: false
@@ -32,6 +31,8 @@ T.Popup {
                  : T.Popup.CloseOnEscape
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
+    Accessible.role: Accessible.Dialog
+    Accessible.name: title
 
     width: 320
     implicitHeight: contentItem.implicitHeight + topPadding + bottomPadding
@@ -83,7 +84,7 @@ T.Popup {
             x = p.x + target.width + gap
             y = p.y + (target.height - implicitHeight) / 2
             break
-        default: // Top
+        default:
             transformOrigin = Item.Bottom
             x = p.x + (target.width - width) / 2
             y = p.y - implicitHeight - gap
@@ -111,8 +112,8 @@ T.Popup {
             Layout.fillWidth: true
             spacing: 8
             Text {
-                visible: root.iconGlyph.length > 0
-                text: root.iconGlyph
+                visible: root.effectiveIconGlyph.length > 0
+                text: root.effectiveIconGlyph
                 font.family: Theme.fontFamilyIcon
                 font.pixelSize: 18
                 color: Theme.accent
@@ -134,7 +135,10 @@ T.Popup {
                 hoverEnabled: true
                 focusPolicy: Qt.StrongFocus
                 Accessible.name: qsTr("Close")
-                onClicked: root.close()
+                onClicked: {
+                    root.closedByUser()
+                    root.close()
+                }
                 scale: down && !Theme.reducedMotion ? 0.92 : 1
                 Behavior on scale {
                     enabled: !Theme.reducedMotion
@@ -144,7 +148,7 @@ T.Popup {
                     }
                 }
                 contentItem: Text {
-                    text: "\uE711"
+                    text: FluentIcons.ChromeClose
                     font.family: Theme.fontFamilyIcon
                     font.pixelSize: 10
                     color: closeBtn.down ? Theme.textPrimary : Theme.textSecondary
@@ -152,9 +156,7 @@ T.Popup {
                     verticalAlignment: Text.AlignVCenter
                     Behavior on color {
                         enabled: !Theme.reducedMotion
-                        ColorAnimation {
-                            duration: Theme.duration(Theme.motionFast)
-                        }
+                        ColorAnimation { duration: Theme.duration(Theme.motionFast) }
                     }
                 }
                 background: Rectangle {
@@ -170,9 +172,7 @@ T.Popup {
                     border.color: Theme.accent
                     Behavior on color {
                         enabled: !Theme.reducedMotion
-                        ColorAnimation {
-                            duration: Theme.duration(Theme.motionFast)
-                        }
+                        ColorAnimation { duration: Theme.duration(Theme.motionFast) }
                     }
                 }
             }
@@ -186,11 +186,10 @@ T.Popup {
             Layout.fillWidth: true
         }
 
-        Button {
+        AccentButton {
             visible: root.actionText.length > 0
             Layout.alignment: Qt.AlignRight
             text: root.actionText
-            highlighted: true
             onClicked: {
                 root.actionClicked()
                 root.close()
@@ -199,24 +198,15 @@ T.Popup {
     }
 
     background: Item {
-        MultiEffect {
-            anchors.fill: parent
-            anchors.margins: -8
-            source: tipPanel
-            shadowEnabled: true
-            shadowOpacity: Theme.dark ? 0.28 : 0.16
-            shadowColor: "#000000"
-            shadowVerticalOffset: 6
-            blurMax: 28
-            autoPaddingEnabled: true
-        }
-        Rectangle {
+        ElevatedChrome {
             id: tipPanel
             anchors.fill: parent
             radius: Theme.cornerOverlay
             color: Theme.bgCard
-            border.width: 1
-            border.color: Theme.strokeCard
+            borderColor: Theme.strokeCard
+            borderWidth: 1
+            elevation: 6
+            shadowOpacity: Theme.dark ? 0.28 : 0.16
 
             Rectangle {
                 anchors.left: parent.left
@@ -227,6 +217,7 @@ T.Popup {
                 radius: 1.5
                 color: Theme.accent
                 opacity: 0.85
+                z: 1
             }
         }
         Rectangle {

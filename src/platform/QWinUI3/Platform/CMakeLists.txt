@@ -26,6 +26,7 @@ qt_add_qml_module(qwinui3_platform
         StandardWindow.qml
         DialogWindow.qml
         ToolWindow.qml
+        CompactOverlayWindow.qml
     IMPORTS
         TARGET qwinui3_theme
 )

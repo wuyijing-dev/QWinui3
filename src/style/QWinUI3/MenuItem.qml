@@ -65,7 +65,7 @@ T.MenuItem {
 
         Text {
             anchors.centerIn: parent
-            text: "\uE73E"
+            text: FluentIcons.Accept
             font.family: Theme.fontFamilyIcon
             font.pixelSize: 12
             color: Theme.accent
@@ -76,7 +76,7 @@ T.MenuItem {
         x: control.mirrored ? control.leftPadding : control.width - width - control.rightPadding
         y: control.topPadding + (control.availableHeight - height) / 2
         visible: control.subMenu
-        text: control.mirrored ? "\uE76B" : "\uE76C"
+        text: control.mirrored ? FluentIcons.ChevronLeft : FluentIcons.ChevronRight
         font.family: Theme.fontFamilyIcon
         font.pixelSize: 10
         color: Theme.textSecondary

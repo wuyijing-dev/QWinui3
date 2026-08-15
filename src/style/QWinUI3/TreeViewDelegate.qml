@@ -44,7 +44,7 @@ T.TreeViewDelegate {
 
         Text {
             anchors.centerIn: parent
-            text: "\uE76C"
+            text: FluentIcons.ChevronRight
             font.family: Theme.fontFamilyIcon
             font.pixelSize: 10
             color: Theme.textSecondary

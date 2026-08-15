@@ -20,7 +20,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("WrapPanel")
-                subtitle: qsTr("A panel that arranges child elements in wrapping rows or columns, with RTL support.")
+                subtitle: qsTr("Wrapping rows/columns with RTL and childCount.")
             }
             ControlExample {
                 Layout.fillWidth: true

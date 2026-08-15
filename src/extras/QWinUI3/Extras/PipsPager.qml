@@ -9,14 +9,26 @@ T.Control {
 
     property int count: 0
     property int currentIndex: 0
+    property alias selectedIndex: control.currentIndex
     property int orientation: Qt.Horizontal
     property bool wrap: false
     // WinUI ButtonVisibility: "visible" | "visibleOnPointerOver" | "collapsed"
     property string previousButtonVisibility: "visible"
     property string nextButtonVisibility: "visible"
     signal currentIndexEdited(int index)
+    signal selectionChanged(int index)
 
     hoverEnabled: true
+    focusPolicy: Qt.StrongFocus
+    activeFocusOnTab: true
+    Accessible.role: Accessible.PageTabList
+    Accessible.name: qsTr("Page indicators")
+    Keys.onLeftPressed: goPrevious()
+    Keys.onRightPressed: goNext()
+    Keys.onUpPressed: goPrevious()
+    Keys.onDownPressed: goNext()
+
+    onCurrentIndexChanged: selectionChanged(currentIndex)
 
     function goNext() {
         if (count <= 0)
@@ -46,12 +58,53 @@ T.Control {
         currentIndexEdited(currentIndex)
     }
 
+    function select(index) {
+        if (index < 0 || index >= count)
+            return
+        if (currentIndex === index)
+            return
+        currentIndex = index
+        currentIndexEdited(currentIndex)
+    }
+
     function _btnVisible(mode) {
         if (mode === "collapsed")
             return false
         if (mode === "visibleOnPointerOver")
-            return control.hovered || control.visualFocus
+            return control.hovered || control.visualFocus || control.activeFocus
         return true
+    }
+
+    component NavButton: AbstractButton {
+        id: nav
+        property string glyph: ""
+        hoverEnabled: true
+        focusPolicy: Qt.NoFocus
+        contentItem: Text {
+            text: nav.glyph
+            font.family: Theme.fontFamilyIcon
+            font.pixelSize: 10
+            color: nav.enabled ? (nav.hovered ? Theme.textPrimary : Theme.textSecondary)
+                               : Theme.textDisabled
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+        }
+        background: Rectangle {
+            radius: Theme.cornerControl
+            color: {
+                if (!nav.enabled)
+                    return "transparent"
+                if (nav.down)
+                    return Theme.fillSubtleTertiary
+                if (nav.hovered)
+                    return Theme.fillSubtle
+                return "transparent"
+            }
+            Behavior on color {
+                enabled: !Theme.reducedMotion
+                ColorAnimation { duration: Theme.duration(Theme.motionFast) }
+            }
+        }
     }
 
     implicitWidth: row.implicitWidth + leftPadding + rightPadding
@@ -63,14 +116,12 @@ T.Control {
         id: row
         spacing: 4
 
-        ToolButton {
+        NavButton {
             visible: control.orientation === Qt.Horizontal
                      && control._btnVisible(control.previousButtonVisibility)
             Layout.preferredWidth: 28
             Layout.preferredHeight: 28
-            text: "\uE76B"
-            font.family: Theme.fontFamilyIcon
-            font.pixelSize: 10
+            glyph: FluentIcons.ChevronLeft
             enabled: control.wrap || control.currentIndex > 0
             Accessible.name: qsTr("Previous")
             onClicked: control.goPrevious()
@@ -95,10 +146,12 @@ T.Control {
                     hoverEnabled: true
                     checkable: true
                     checked: index === control.currentIndex
-                    onClicked: {
-                        control.currentIndex = index
-                        control.currentIndexEdited(index)
-                    }
+                    focusPolicy: Qt.NoFocus
+                    Accessible.role: Accessible.PageTab
+                    Accessible.name: qsTr("Page %1").arg(index + 1)
+                    Accessible.checkable: true
+                    Accessible.checked: checked
+                    onClicked: control.select(index)
                     background: Rectangle {
                         radius: Math.min(width, height) / 2
                         color: pip.checked ? Theme.accent
@@ -120,17 +173,22 @@ T.Control {
             }
         }
 
-        ToolButton {
+        NavButton {
             visible: control.orientation === Qt.Horizontal
                      && control._btnVisible(control.nextButtonVisibility)
             Layout.preferredWidth: 28
             Layout.preferredHeight: 28
-            text: "\uE76C"
-            font.family: Theme.fontFamilyIcon
-            font.pixelSize: 10
+            glyph: FluentIcons.ChevronRight
             enabled: control.wrap || control.currentIndex < control.count - 1
             Accessible.name: qsTr("Next")
             onClicked: control.goNext()
         }
+    }
+
+    background: Rectangle {
+        radius: Theme.cornerControl
+        color: "transparent"
+        border.width: control.activeFocus ? 1 : 0
+        border.color: Theme.accent
     }
 }

@@ -6,6 +6,10 @@ QtObject {
 
     property bool dark: false
     property bool reducedMotion: false
+    // When true, strengthen borders/focus for high-contrast / accessibility themes.
+    property bool highContrast: false
+    // When true, Gallery/apps should copy WindowHelper system a11y into the flags above.
+    property bool followSystemAccessibility: true
 
     // Fluent / WinUI 3 system accent (matches FluentWinUI3 defaults)
     readonly property color accent: dark ? "#60CDFF" : "#005FB8"

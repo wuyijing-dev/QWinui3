@@ -20,14 +20,14 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("CopyButton")
-                subtitle: qsTr("Copies a string to the clipboard and shows brief success feedback.")
+                subtitle: qsTr("Clipboard copy with FluentIcons.Copy feedback, focus ring, and press scale.")
             }
             ControlExample {
                 Layout.fillWidth: true
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("API key sample")
-                qmlSource: "CopyButton {\n    textToCopy: secret\n    onCopyCompleted: …\n}"
+                qmlSource: "CopyButton {\n    symbol: FluentIcons.Copy\n    textToCopy: secret\n}"
                 ColumnLayout {
                     Layout.fillWidth: true
                     spacing: Theme.spacing
@@ -60,7 +60,7 @@ Page {
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Icon only")
-                qmlSource: "CopyButton { iconOnly: true; textToCopy: \"Hello\" }"
+                qmlSource: "CopyButton { iconOnly: true; symbol: FluentIcons.Copy }"
                 CopyButton {
                     iconOnly: true
                     textToCopy: qsTr("Hello from QWinUI3")

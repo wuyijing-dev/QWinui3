@@ -20,14 +20,14 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("TabView")
-                subtitle: qsTr("WinUI TabView: closable, reorderable tabs, add button, and TabWidthMode.")
+                subtitle: qsTr("Fluent Add/Close icons, symbol tabs, selectedIndex, and TabWidthMode.")
             }
             ControlExample {
                 Layout.fillWidth: true
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Add tab + equal width")
-                qmlSource: "TabView {\n    isAddTabButtonVisible: true\n    tabWidthMode: \"equal\"\n}"
+                qmlSource: "TabView {\n    model: [{ title, symbol: FluentIcons.Home }]\n}"
                 ColumnLayout {
                     Layout.fillWidth: true
                     spacing: Theme.spacing
@@ -45,9 +45,9 @@ Page {
                         isAddTabButtonVisible: true
                         tabWidthMode: "equal"
                         model: [
-                            { title: qsTr("Home"), icon: "\uE80F", content: qsTr("Home document content") },
-                            { title: qsTr("Reports"), icon: "\uE9D2", content: qsTr("Reports document content") },
-                            { title: qsTr("Settings"), icon: "\uE713", content: qsTr("Settings document content") }
+                            { title: qsTr("Home"), symbol: FluentIcons.Home, content: qsTr("Home document content") },
+                            { title: qsTr("Reports"), symbol: FluentIcons.Library, content: qsTr("Reports document content") },
+                            { title: qsTr("Settings"), symbol: FluentIcons.Settings, content: qsTr("Settings document content") }
                         ]
                         onAddTabButtonClicked: { /* addTab() already appended */ }
                     }

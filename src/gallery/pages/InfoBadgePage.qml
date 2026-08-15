@@ -22,7 +22,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("InfoBadge")
-                subtitle: qsTr("A small badge for counts, status dots, or Fluent glyphs.")
+                subtitle: qsTr("Counts, status dots, or Fluent symbols with severityName and bump animation.")
             }
 
             ControlExample {
@@ -30,7 +30,7 @@ Page {
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Values and overlay")
-                qmlSource: "InfoBadge { value: 3 }\nInfoBadge { value: 120 }\nInfoBadge { iconGlyph: \"\\uE735\" }"
+                qmlSource: "InfoBadge { value: 3 }\nInfoBadge { symbol: FluentIcons.FavoriteStarFill }"
 
                 ColumnLayout {
                     Layout.fillWidth: true
@@ -42,7 +42,7 @@ Page {
                         InfoBadge { value: 99 }
                         InfoBadge { value: 120 }
                         InfoBadge { }
-                        InfoBadge { iconGlyph: "\uE735"; severity: 0 }
+                        InfoBadge { symbol: FluentIcons.FavoriteStarFill; severity: 0 }
                     }
 
                     Row {
@@ -67,8 +67,20 @@ Page {
                             text: qsTr("Toggle empty badge")
                             onClicked: emptyBadge.value = emptyBadge.value > 0 ? 0 : 7
                         }
+                        Button {
+                            text: qsTr("Cycle severity")
+                            onClicked: {
+                                var names = ["error", "success", "warning", "informational", "attention", "neutral"]
+                                var i = names.indexOf(emptyBadge.severityName)
+                                emptyBadge.setSeverityName(names[(i + 1) % names.length])
+                                if (emptyBadge.value <= 0)
+                                    emptyBadge.value = 7
+                            }
+                        }
                         Label {
-                            text: emptyBadge.isOpen ? qsTr("Badge open") : qsTr("Badge hidden (hideWhenEmpty)")
+                            text: emptyBadge.isOpen
+                                  ? qsTr("Badge open · %1").arg(emptyBadge.severityName)
+                                  : qsTr("Badge hidden (hideWhenEmpty)")
                             color: Theme.textSecondary
                         }
                     }

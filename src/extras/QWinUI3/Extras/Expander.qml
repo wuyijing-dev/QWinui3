@@ -11,6 +11,8 @@ T.Control {
     property string subtitle: ""
     property bool expanded: false
     property alias isExpanded: root.expanded
+    property var symbol: ""
+    property string iconGlyph: ""
     property var headerIcon: ""
     // WinUI ExpandDirection: down | up
     property string expandDirection: "down"
@@ -19,7 +21,11 @@ T.Control {
     signal expanding()
     signal collapsing()
 
-    readonly property string effectiveHeaderIcon: IconSource.resolve(headerIcon, "")
+    readonly property string effectiveHeaderIcon: {
+        var primary = (symbol !== undefined && symbol !== null && String(symbol).length)
+                      ? symbol : headerIcon
+        return IconSource.resolve(primary, iconGlyph)
+    }
     readonly property bool _expandUp: expandDirection === "up"
 
     onExpandedChanged: {
@@ -127,7 +133,7 @@ T.Control {
                 }
 
                 Text {
-                    text: "\uE70D"
+                    text: FluentIcons.ChevronDown
                     font.family: Theme.fontFamilyIcon
                     font.pixelSize: 10
                     color: root.enabled ? Theme.textSecondary : Theme.textDisabled

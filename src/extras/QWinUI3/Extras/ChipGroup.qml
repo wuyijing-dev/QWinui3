@@ -9,8 +9,9 @@ T.Control {
 
     property alias model: repeater.model
     property int currentIndex: -1
+    property alias selectedIndex: root.currentIndex
     property bool exclusive: true
-    // single | multiple | none  (overrides exclusive when set non-empty via selectionMode)
+    // single | multiple | none
     property string selectionMode: ""
     property var selectedIndexes: []
     property int maxSelected: 0 // 0 = unlimited (multiple mode)
@@ -32,6 +33,8 @@ T.Control {
     implicitHeight: Math.max(Theme.controlHeight - 4, row.implicitHeight)
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontCaption
+    Accessible.role: Accessible.List
+    Accessible.name: qsTr("Chip group")
 
     function isSelected(index) {
         if (!_selectable)
@@ -39,6 +42,25 @@ T.Control {
         if (_exclusive)
             return index === currentIndex
         return selectedIndexes.indexOf(index) >= 0
+    }
+
+    function clearSelection() {
+        currentIndex = -1
+        selectedIndexes = []
+        selectionChanged()
+    }
+
+    function select(index) {
+        if (!_selectable || index < 0)
+            return
+        if (_exclusive) {
+            currentIndex = index
+        } else if (selectedIndexes.indexOf(index) < 0) {
+            if (maxSelected > 0 && selectedIndexes.length >= maxSelected)
+                return
+            selectedIndexes = selectedIndexes.concat([index])
+        }
+        selectionChanged()
     }
 
     function toggleIndex(index) {
@@ -75,7 +97,10 @@ T.Control {
                 required property int index
                 text: typeof modelData === "string" ? modelData
                       : (modelData.title || modelData.text || String(modelData))
-                iconGlyph: (typeof modelData === "object" && modelData.icon) ? modelData.icon : ""
+                symbol: (typeof modelData === "object" && modelData)
+                        ? (modelData.symbol || "") : ""
+                iconGlyph: (typeof modelData === "object" && modelData)
+                           ? (modelData.icon || modelData.glyph || "") : ""
                 chipSize: root.chipSize
                 checkable: root._selectable
                 checked: root.isSelected(index)

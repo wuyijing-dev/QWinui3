@@ -20,7 +20,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("SwitchPresenter")
-                subtitle: qsTr("Shows one child case; currentIndex, select(), and caseChanged.")
+                subtitle: qsTr("Shows one child case; selectedIndex, select(), and caseChanged.")
             }
             ControlExample {
                 Layout.fillWidth: true

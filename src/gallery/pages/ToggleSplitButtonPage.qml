@@ -20,20 +20,20 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("ToggleSplitButton")
-                subtitle: qsTr("Checkable primary action with flyout. Supports iconGlyph, isOpen, and flyoutPlacement.")
+                subtitle: qsTr("Checkable primary + Fluent ChevronDown flyout; isOpen and Accessible.")
             }
             ControlExample {
                 Layout.fillWidth: true
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("List style")
-                qmlSource: "ToggleSplitButton {\n    text: \"List\"\n    icon: FluentIcons.List\n    checked: true\n}"
+                qmlSource: "ToggleSplitButton {\n    text: \"List\"\n    symbol: FluentIcons.List\n    checked: true\n}"
                 ColumnLayout {
                     spacing: Theme.spacing
                     ToggleSplitButton {
                         id: listToggle
                         text: qsTr("List")
-                        icon: FluentIcons.List
+                        symbol: FluentIcons.List
                         checked: true
                         onPrimaryClicked: status.text = checked ? qsTr("List on") : qsTr("List off")
                         MenuItem {

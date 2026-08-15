@@ -44,6 +44,15 @@ T.Control {
     spacing: Theme.spacing
     implicitWidth: 640
     implicitHeight: 360
+    Accessible.role: Accessible.Pane
+    Accessible.name: qsTr("Two pane view")
+    Accessible.description: modeName
+
+    function showPane1() { singlePaneIndex = 0 }
+    function showPane2() { singlePaneIndex = 1 }
+    function toggleSinglePane() {
+        singlePaneIndex = singlePaneIndex === 0 ? 1 : 0
+    }
 
     function swapPanes() {
         var a = pane1

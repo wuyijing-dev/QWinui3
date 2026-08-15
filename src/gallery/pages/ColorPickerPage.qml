@@ -20,7 +20,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("ColorPicker")
-                subtitle: qsTr("A selectable color spectrum.")
+                subtitle: qsTr("Spectrum, RGB/HSV/HEX, CopyButton for hex, and WinUI visibility toggles.")
             }
             ControlExample {
                 Layout.fillWidth: true

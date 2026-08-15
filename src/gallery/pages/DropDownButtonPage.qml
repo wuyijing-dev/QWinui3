@@ -22,7 +22,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("DropDownButton")
-                subtitle: qsTr("Opens a menu. Supports isOpen, iconGlyph, highlighted, and flyoutPlacement.")
+                subtitle: qsTr("Fluent ChevronDown, symbol icons, isOpen, and Accessible menu state.")
             }
 
             ControlExample {
@@ -30,13 +30,13 @@ Page {
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("With MenuItem children")
-                qmlSource: "DropDownButton {\n    iconGlyph: \"\\uE713\"\n    text: \"Options\"\n}"
+                qmlSource: "DropDownButton {\n    symbol: FluentIcons.Settings\n    text: \"Options\"\n}"
 
                 RowLayout {
                     spacing: Theme.spacingLoose
                     DropDownButton {
                         text: qsTr("Options")
-                        iconGlyph: "\uE713"
+                        symbol: FluentIcons.Settings
                         MenuItem { text: qsTr("Copy") }
                         MenuItem { text: qsTr("Paste") }
                         MenuItem { text: qsTr("Delete") }
@@ -44,7 +44,7 @@ Page {
                     DropDownButton {
                         text: qsTr("Accent")
                         highlighted: true
-                        iconGlyph: "\uE8BD"
+                        symbol: FluentIcons.OtherUser
                         MenuItem { text: qsTr("New") }
                         MenuItem { text: qsTr("Open") }
                     }

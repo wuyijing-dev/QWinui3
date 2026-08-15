@@ -7,10 +7,14 @@ AbstractButton {
 
     property string glyph: ""
     property bool destructive: false
-    // When native chrome owns hit-testing, drive visuals from WindowHelper.
     property bool forceHovered: false
     property bool forcePressed: false
     property bool interactive: true
+
+    property color backgroundColor: "transparent"
+    property color hoverColor: Theme.fillSubtle
+    property color pressedColor: Theme.fillSubtleTertiary
+    property color foregroundColor: Theme.textPrimary
 
     readonly property bool visualHovered: forceHovered || (interactive && hovered)
     readonly property bool visualPressed: forcePressed || (interactive && down)
@@ -19,8 +23,6 @@ AbstractButton {
     implicitHeight: 32
     hoverEnabled: interactive
     focusPolicy: Qt.NoFocus
-    // When interactive is false, native WM_NCHITTEST owns input;
-    // keep the control enabled so chrome colors stay active.
 
     contentItem: Text {
         text: control.glyph
@@ -31,10 +33,11 @@ AbstractButton {
                 return Theme.textDisabled
             if (control.destructive && control.visualHovered)
                 return "#FFFFFF"
-            return Theme.textPrimary
+            return control.foregroundColor
         }
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
+        opacity: Theme.highContrast && !control.enabled ? 0.5 : 1
     }
 
     background: Rectangle {
@@ -42,15 +45,17 @@ AbstractButton {
             if (!control.enabled)
                 return "transparent"
             if (control.destructive && control.visualPressed)
-                return "#C50F1F"
+                return control.pressedColor
             if (control.destructive && control.visualHovered)
-                return "#E81123"
+                return control.hoverColor
             if (control.visualPressed)
-                return Theme.fillSubtleTertiary
+                return control.pressedColor
             if (control.visualHovered)
-                return Theme.fillSubtle
-            return "transparent"
+                return control.hoverColor
+            return control.backgroundColor
         }
+        border.width: Theme.highContrast ? 1 : 0
+        border.color: Theme.highContrast ? Theme.strokeControlStrong : "transparent"
         Behavior on color {
             enabled: !Theme.reducedMotion
             ColorAnimation {

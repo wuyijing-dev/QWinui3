@@ -9,6 +9,8 @@ T.Pane {
 
     property string title: ""
     property string description: ""
+    property var symbol: ""
+    property string iconGlyph: ""
     property var headerIcon: ""
     property alias action: actionSlot.data
     property alias content: contentSlot.data
@@ -16,7 +18,11 @@ T.Pane {
     property bool showChevron: interactive
     signal clicked()
 
-    readonly property string effectiveHeaderIcon: IconSource.resolve(headerIcon, "")
+    readonly property string effectiveHeaderIcon: {
+        var primary = (symbol !== undefined && symbol !== null && String(symbol).length)
+                      ? symbol : headerIcon
+        return IconSource.resolve(primary, iconGlyph)
+    }
 
     padding: 16
     implicitWidth: 420
@@ -110,7 +116,7 @@ T.Pane {
         Text {
             visible: root.showChevron
             Layout.alignment: Qt.AlignVCenter
-            text: "\uE76C"
+            text: FluentIcons.ChevronRight
             font.family: Theme.fontFamilyIcon
             font.pixelSize: 12
             color: Theme.textSecondary

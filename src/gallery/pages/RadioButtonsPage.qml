@@ -20,7 +20,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("RadioButtons")
-                subtitle: qsTr("Mutually exclusive options with header, description, and per-item details.")
+                subtitle: qsTr("Mutually exclusive options with selectedIndex, select(), and keyboard navigation.")
             }
             ControlExample {
                 Layout.fillWidth: true

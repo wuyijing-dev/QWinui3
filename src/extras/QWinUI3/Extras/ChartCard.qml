@@ -10,17 +10,24 @@ T.Control {
     property string title: ""
     property string subtitle: ""
     property string footer: ""
+    property var symbol: ""
+    property string iconGlyph: ""
     property bool animated: true
     property bool elevated: false
     property bool bordered: true
     property alias headerActions: actionsRow.data
     default property alias content: body.data
 
+    readonly property string effectiveIconGlyph: IconSource.resolve(symbol, iconGlyph)
+
     implicitWidth: 320
     implicitHeight: 240
     padding: 12
     opacity: animated && !Theme.reducedMotion ? 0 : 1
     scale: animated && !Theme.reducedMotion ? 0.97 : 1
+    Accessible.role: Accessible.Grouping
+    Accessible.name: title
+    Accessible.description: subtitle
 
     Component.onCompleted: {
         opacity = 1
@@ -48,7 +55,16 @@ T.Control {
         RowLayout {
             Layout.fillWidth: true
             spacing: 8
-            visible: root.title.length > 0 || root.subtitle.length > 0 || actionsRow.children.length > 0
+            visible: root.title.length > 0 || root.subtitle.length > 0
+                     || root.effectiveIconGlyph.length > 0 || actionsRow.children.length > 0
+
+            FontIcon {
+                visible: root.effectiveIconGlyph.length > 0
+                Layout.alignment: Qt.AlignTop
+                glyph: root.effectiveIconGlyph
+                fontSize: 18
+                iconColor: Theme.accent
+            }
 
             ColumnLayout {
                 Layout.fillWidth: true
@@ -98,10 +114,13 @@ T.Control {
         }
     }
 
-    background: Rectangle {
-        radius: Theme.cornerCard
+    background: ElevatedChrome {
         color: root.elevated ? Theme.bgCardElevated : Theme.bgCard
-        border.width: root.bordered ? 1 : 0
-        border.color: Theme.strokeCard
+        radius: Theme.cornerCard
+        borderWidth: root.bordered ? 1 : 0
+        borderColor: Theme.strokeCard
+        elevation: root.elevated ? 5 : 2
+        shadowOpacity: Theme.dark ? 0.22 : 0.1
+        elevated: true
     }
 }

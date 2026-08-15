@@ -10,15 +10,33 @@ T.Dial {
     startAngle: -140
     endAngle: 140
 
+    property string title: ""
+    property string unit: ""
+    property bool showValue: true
+    property int valuePrecision: 0
+    property int tickCount: 11
+    property bool showTicks: true
+
     implicitWidth: 120
-    implicitHeight: 120
+    implicitHeight: title.length || showValue ? 148 : 120
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     hoverEnabled: true
+    Accessible.role: Accessible.Slider
+    Accessible.name: title.length ? title : qsTr("Dial")
+    Accessible.description: formattedValue
+
+    readonly property string formattedValue: {
+        var n = Number(value)
+        var t = valuePrecision > 0 ? n.toFixed(valuePrecision) : String(Math.round(n))
+        return t + (unit.length ? unit : "")
+    }
 
     // PathAngleArc uses 0° at 3 o'clock — convert from Dial angles.
     readonly property real _arcStart: startAngle - 90
     readonly property real _arcSweep: endAngle - startAngle
+    readonly property real _norm: from === to ? 0
+            : Math.max(0, Math.min(1, (value - from) / (to - from)))
 
     background: Item {
         width: control.width
@@ -80,6 +98,48 @@ T.Dial {
                     startAngle: control._arcStart
                     sweepAngle: control._arcSweep * control.position
                 }
+            }
+        }
+
+        Repeater {
+            model: control.showTicks ? control.tickCount : 0
+            Rectangle {
+                required property int index
+                width: 2
+                height: 5
+                radius: 1
+                color: Theme.textSecondary
+                opacity: 0.4
+                readonly property real t: index / Math.max(1, control.tickCount - 1)
+                readonly property real angDeg: control.startAngle + t * (control.endAngle - control.startAngle)
+                readonly property real ang: (angDeg - 90) * Math.PI / 180
+                readonly property real rr: dialShape.r + 6
+                x: dialShape.width / 2 + Math.cos(ang) * rr - width / 2
+                y: dialShape.height / 2 + Math.sin(ang) * rr - height / 2
+                rotation: angDeg
+            }
+        }
+
+        Column {
+            anchors.centerIn: parent
+            anchors.verticalCenterOffset: 10
+            spacing: 2
+            Text {
+                anchors.horizontalCenter: parent.horizontalCenter
+                visible: control.title.length > 0
+                text: control.title
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontCaption
+                color: Theme.textSecondary
+            }
+            Text {
+                anchors.horizontalCenter: parent.horizontalCenter
+                visible: control.showValue
+                text: control.formattedValue
+                font.family: Theme.fontFamilyDisplay
+                font.pixelSize: Theme.fontBody
+                font.weight: Theme.fontWeightSemiBold
+                color: Theme.textPrimary
             }
         }
     }

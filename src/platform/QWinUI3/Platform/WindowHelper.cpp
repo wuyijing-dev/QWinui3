@@ -11,6 +11,36 @@
 #  include <Windows.h>
 #endif
 
+namespace {
+
+void setWindowFlagsSafe(QWindow *window, Qt::WindowFlags want)
+{
+    if (!window || window->flags() == want)
+        return;
+    // If the HWND already exists, recreating via setFlags is what triggers
+    // CreateWindowEx failure loops on Windows. Prefer skipping when visible.
+    if (window->handle() && window->isVisible()) {
+        // Allow Stay-on-top toggles without a full flag replace when possible.
+        const Qt::WindowFlags cur = window->flags();
+        const Qt::WindowFlags curated = (cur & ~Qt::WindowStaysOnTopHint)
+                | (want & Qt::WindowStaysOnTopHint);
+        if (curated == want) {
+            window->setFlag(Qt::WindowStaysOnTopHint, want.testFlag(Qt::WindowStaysOnTopHint));
+            return;
+        }
+        qWarning("WindowHelper: refusing setFlags on visible window (hwnd live); want=0x%llx have=0x%llx",
+                 static_cast<unsigned long long>(int(want)),
+                 static_cast<unsigned long long>(int(cur)));
+        return;
+    }
+    const bool wasVisible = window->isVisible();
+    window->setFlags(want);
+    if (wasVisible)
+        window->setVisible(true);
+}
+
+} // namespace
+
 WindowHelper *WindowHelper::create(QQmlEngine *, QJSEngine *)
 {
     return new WindowHelper;
@@ -27,6 +57,7 @@ WindowHelper::WindowHelper(QObject *parent)
 #endif
     refreshTint();
     refreshWallpaper();
+    refreshAccessibility();
 }
 
 QString WindowHelper::platformName() const
@@ -180,6 +211,27 @@ void WindowHelper::refreshWallpaper()
     emit wallpaperChanged();
 }
 
+void WindowHelper::refreshAccessibility()
+{
+    bool reduced = false;
+    bool highContrast = false;
+#if defined(Q_OS_WIN)
+    BOOL anim = TRUE;
+    if (SystemParametersInfoW(SPI_GETCLIENTAREAANIMATION, 0, &anim, 0))
+        reduced = anim == FALSE;
+
+    HIGHCONTRASTW hc = {};
+    hc.cbSize = sizeof(hc);
+    if (SystemParametersInfoW(SPI_GETHIGHCONTRAST, sizeof(hc), &hc, 0))
+        highContrast = (hc.dwFlags & HCF_HIGHCONTRASTON) != 0;
+#endif
+    if (reduced == m_systemReducedMotion && highContrast == m_systemHighContrast)
+        return;
+    m_systemReducedMotion = reduced;
+    m_systemHighContrast = highContrast;
+    emit accessibilityChanged();
+}
+
 void WindowHelper::refreshTint()
 {
     QColor content;
@@ -322,7 +374,9 @@ void WindowHelper::install(QObject *windowObject, bool dark, int backdrop)
     refreshTint();
 
 #if defined(Q_OS_WIN)
-    window->setFlag(Qt::FramelessWindowHint, true);
+    // Only touch Frameless when missing — avoids redundant HWND recreation.
+    if (!window->flags().testFlag(Qt::FramelessWindowHint))
+        setWindowFlagsSafe(window, window->flags() | Qt::FramelessWindowHint);
     if (auto *quick = qobject_cast<QQuickWindow *>(window)) {
         // Frosted hosts must clear with zero alpha or DWM materials stay hidden.
         const bool frosted = m_backdrop != BackdropSolid && m_backdrop != BackdropNone;
@@ -350,28 +404,38 @@ void WindowHelper::install(QObject *windowObject, bool dark, int backdrop)
 
 int WindowHelper::flagsForParadigm(int paradigm) const
 {
+    return flagsForConfig(paradigm, PresenterOverlapped, false);
+}
+
+int WindowHelper::flagsForConfig(int paradigm, int presenter, bool alwaysOnTop) const
+{
+    int base = 0;
 #if defined(Q_OS_WIN)
     const int frameless = int(Qt::FramelessWindowHint);
-    switch (paradigm) {
-    case ParadigmDialog:
-        return int(Qt::Dialog) | frameless;
-    case ParadigmTool:
-        return int(Qt::Tool) | frameless;
-    case ParadigmStandard:
-    default:
-        return int(Qt::Window) | frameless;
-    }
 #else
+    const int frameless = 0;
+#endif
+
+    if (presenter == PresenterCompactOverlay)
+        paradigm = ParadigmTool;
+
     switch (paradigm) {
     case ParadigmDialog:
-        return int(Qt::Dialog);
+        base = int(Qt::Dialog) | frameless;
+        break;
     case ParadigmTool:
-        return int(Qt::Tool);
+        base = int(Qt::Tool) | frameless;
+        break;
     case ParadigmStandard:
     default:
-        return int(Qt::Window);
+        base = int(Qt::Window) | frameless;
+        break;
     }
-#endif
+
+    if (alwaysOnTop || presenter == PresenterCompactOverlay)
+        base |= int(Qt::WindowStaysOnTopHint);
+
+    return base;
 }
 
 QString WindowHelper::paradigmName(int paradigm) const
@@ -405,13 +469,21 @@ void WindowHelper::centerOnScreen(QObject *windowObject)
 
 void WindowHelper::installParadigm(QObject *windowObject, int paradigm, bool dark, int backdrop)
 {
+    installParadigmEx(windowObject, paradigm, dark, backdrop, PresenterOverlapped, false);
+}
+
+void WindowHelper::installParadigmEx(QObject *windowObject, int paradigm, bool dark, int backdrop,
+                                     int presenter, bool alwaysOnTop)
+{
     QWindow *window = resolveWindow(windowObject);
     if (!window)
         return;
 
-    const Qt::WindowFlags want = Qt::WindowFlags(flagsForParadigm(paradigm));
-    if (window->flags() != want)
-        window->setFlags(want);
+    if (presenter == PresenterCompactOverlay)
+        paradigm = ParadigmTool;
+
+    const Qt::WindowFlags want = Qt::WindowFlags(flagsForConfig(paradigm, presenter, alwaysOnTop));
+    setWindowFlagsSafe(window, want);
 
     switch (paradigm) {
     case ParadigmDialog:
@@ -426,13 +498,16 @@ void WindowHelper::installParadigm(QObject *windowObject, int paradigm, bool dar
         break;
     case ParadigmStandard:
     default:
-        window->setMinimumSize(QSize(640, 480));
+        // Don't force a large minimum on compact/fullscreen hosts.
+        if (presenter == PresenterOverlapped)
+            window->setMinimumSize(QSize(480, 320));
         break;
     }
 
     install(windowObject, dark, backdrop);
 
-    if (paradigm == ParadigmDialog || paradigm == ParadigmTool)
+    if (paradigm == ParadigmDialog || paradigm == ParadigmTool
+        || presenter == PresenterCompactOverlay)
         centerOnScreen(windowObject);
 }
 
@@ -529,16 +604,120 @@ QString WindowHelper::backdropName(int backdrop) const
     }
 }
 
+void WindowHelper::setAlwaysOnTop(QObject *windowObject, bool on)
+{
+    QWindow *window = resolveWindow(windowObject);
+    if (!window)
+        return;
+    Qt::WindowFlags flags = window->flags();
+    if (on)
+        flags |= Qt::WindowStaysOnTopHint;
+    else
+        flags &= ~Qt::WindowStaysOnTopHint;
+    setWindowFlagsSafe(window, flags);
+}
+
+bool WindowHelper::isAlwaysOnTop(QObject *windowObject) const
+{
+    QWindow *window = resolveWindow(windowObject);
+    if (!window)
+        return false;
+    return window->flags().testFlag(Qt::WindowStaysOnTopHint);
+}
+
+int WindowHelper::titleBarHeightForOption(int option) const
+{
+    return option == TitleBarHeightStandard ? 32 : 48;
+}
+
+QString WindowHelper::titleBarHeightName(int option) const
+{
+    return option == TitleBarHeightStandard ? QStringLiteral("standard")
+                                            : QStringLiteral("tall");
+}
+
+QString WindowHelper::presenterName(int kind) const
+{
+    switch (kind) {
+    case PresenterFullScreen:
+        return QStringLiteral("fullScreen");
+    case PresenterCompactOverlay:
+        return QStringLiteral("compactOverlay");
+    case PresenterOverlapped:
+    default:
+        return QStringLiteral("overlapped");
+    }
+}
+
+int WindowHelper::presenterKind(QObject *windowObject) const
+{
+    QWindow *window = resolveWindow(windowObject);
+    if (!window)
+        return PresenterOverlapped;
+    if (window->visibility() == QWindow::FullScreen)
+        return PresenterFullScreen;
+    if (window->flags().testFlag(Qt::WindowStaysOnTopHint)
+        && window->flags().testFlag(Qt::Tool))
+        return PresenterCompactOverlay;
+    return PresenterOverlapped;
+}
+
+void WindowHelper::setPresenter(QObject *windowObject, int kind)
+{
+    QWindow *window = resolveWindow(windowObject);
+    if (!window)
+        return;
+
+    switch (kind) {
+    case PresenterFullScreen: {
+        // Ensure a real HWND exists before fullscreen (avoids CreateWindowEx loops).
+        if (!window->handle()) {
+            window->setVisible(true);
+            window->requestActivate();
+        }
+        Qt::WindowFlags flags = window->flags();
+        flags &= ~Qt::WindowStaysOnTopHint;
+        setWindowFlagsSafe(window, flags);
+        window->showFullScreen();
+        break;
+    }
+    case PresenterCompactOverlay: {
+        if (window->visibility() == QWindow::FullScreen)
+            window->showNormal();
+        const Qt::WindowFlags want =
+                Qt::WindowFlags(flagsForConfig(ParadigmTool, PresenterCompactOverlay, true));
+        setWindowFlagsSafe(window, want);
+        if (window->width() > 420 || window->height() > 320)
+            window->resize(360, 240);
+        window->setMinimumSize(QSize(240, 160));
+        window->setVisible(true);
+        window->raise();
+        centerOnScreen(windowObject);
+        break;
+    }
+    case PresenterOverlapped:
+    default: {
+        if (window->visibility() == QWindow::FullScreen)
+            window->showNormal();
+        Qt::WindowFlags flags = window->flags();
+        flags &= ~Qt::WindowStaysOnTopHint;
+        setWindowFlagsSafe(window, flags);
+        window->setVisible(true);
+        break;
+    }
+    }
+}
+
 #if !defined(Q_OS_WIN)
 void WindowHelper::updateHitTestLayout(QObject *windowObject,
-                                       int titleBarHeight,
+                                       const QRect &titleBar,
                                        const QRect &minimizeButton,
                                        const QRect &maximizeButton,
                                        const QRect &closeButton,
                                        const QVariantList &clientRects)
 {
     Q_UNUSED(windowObject);
-    Q_UNUSED(titleBarHeight);
+    Q_UNUSED(titleBar);
     Q_UNUSED(minimizeButton);
     Q_UNUSED(maximizeButton);
     Q_UNUSED(closeButton);

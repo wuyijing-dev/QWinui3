@@ -20,11 +20,13 @@ T.Control {
     property string description: ""
     property string errorMessage: ""
     readonly property bool hasError: errorMessage.length > 0
+    readonly property int tokenCount: tokens ? tokens.length : 0
 
     signal tokenAdded(string token)
     signal tokenRemoved(string token, int index)
     signal accepted(string token)
     signal querySubmitted(string token)
+    signal cleared()
 
     padding: 6
     leftPadding: 8
@@ -32,9 +34,25 @@ T.Control {
     hoverEnabled: true
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
+    Accessible.role: Accessible.EditableText
+    Accessible.name: header.length ? header : qsTr("Tokens")
+    Accessible.description: hasError ? errorMessage
+                           : (description.length ? description
+                                                 : qsTr("%1 tokens").arg(tokenCount))
 
     implicitWidth: 280
     implicitHeight: column.implicitHeight
+
+    function focusField() { input.forceActiveFocus() }
+
+    function clear() {
+        if (!tokens || tokens.length === 0)
+            return
+        tokens = []
+        input.text = ""
+        suggestionsOpen = false
+        cleared()
+    }
 
     function addToken(value) {
         var t = ("" + value).trim()
@@ -182,6 +200,32 @@ T.Control {
                     padding: 4
                     visible: root.suggestionsOpen && root.filteredSuggestions.length > 0
                     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
+                    opacity: 0
+                    scale: 0.96
+                    transformOrigin: Item.Top
+
+                    enter: Transition {
+                        NumberAnimation {
+                            property: "opacity"
+                            from: 0; to: 1
+                            duration: Theme.duration(Theme.motionNormal)
+                            easing.type: Theme.easingEnter
+                        }
+                        NumberAnimation {
+                            property: "scale"
+                            from: 0.96; to: 1
+                            duration: Theme.duration(Theme.motionNormal)
+                            easing.type: Theme.easingEnter
+                        }
+                    }
+                    exit: Transition {
+                        NumberAnimation {
+                            property: "opacity"
+                            from: 1; to: 0
+                            duration: Theme.duration(Theme.motionFast)
+                            easing.type: Theme.easingExit
+                        }
+                    }
 
                     background: ElevatedChrome {
                         color: Theme.bgCardElevated
@@ -197,13 +241,17 @@ T.Control {
                         clip: true
                         implicitHeight: Math.min(contentHeight, 180)
                         model: root.filteredSuggestions
+                        keyNavigationEnabled: true
+                        highlightMoveDuration: Theme.duration(Theme.motionFast)
                         delegate: ItemDelegate {
                             required property int index
                             required property var modelData
                             width: ListView.view.width
                             height: Theme.controlHeight
                             text: "" + modelData
+                            highlighted: ListView.isCurrentItem
                             onClicked: root.addToken(modelData)
+                            Keys.onReturnPressed: clicked()
                         }
                     }
                 }

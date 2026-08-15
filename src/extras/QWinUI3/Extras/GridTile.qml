@@ -3,13 +3,14 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// WinUI GridView item: glyph or image, title, subtitle; optional checkable selection.
+// WinUI GridView item: symbol / image, title, subtitle; optional checkable selection.
 T.AbstractButton {
     id: control
 
     property string title: text
     property string subtitle: ""
-    property string glyph: "\uE8B7"
+    property var symbol: ""
+    property string glyph: ""
     property url source: ""
     property real tileWidth: 160
     property real tileHeight: 148
@@ -17,13 +18,30 @@ T.AbstractButton {
     property string badgeText: ""
     property bool badgeVisible: badgeText.length > 0
 
+    readonly property string effectiveGlyph: {
+        var g = IconSource.resolve(symbol, glyph)
+        return g.length ? g : FluentIcons.Folder
+    }
+
     checkable: true
     hoverEnabled: true
+    focusPolicy: Qt.StrongFocus
     implicitWidth: tileWidth
     implicitHeight: tileHeight
     padding: 12
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
+    Accessible.name: title
+    Accessible.description: subtitle
+
+    scale: down && !Theme.reducedMotion ? 0.98 : 1
+    Behavior on scale {
+        enabled: !Theme.reducedMotion
+        NumberAnimation {
+            duration: Theme.duration(Theme.motionFast)
+            easing.type: Theme.easingStandard
+        }
+    }
 
     contentItem: ColumnLayout {
         spacing: Theme.spacing
@@ -51,7 +69,7 @@ T.AbstractButton {
                 Text {
                     anchors.centerIn: parent
                     visible: control.source.toString().length === 0
-                    text: control.glyph
+                    text: control.effectiveGlyph
                     font.family: Theme.fontFamilyIcon
                     font.pixelSize: 28
                     color: control.enabled ? Theme.accent : Theme.textDisabled
@@ -88,10 +106,18 @@ T.AbstractButton {
                 height: 22
                 radius: 11
                 color: Theme.accent
+                scale: control.checked && !Theme.reducedMotion ? 1 : 0.6
+                Behavior on scale {
+                    enabled: !Theme.reducedMotion
+                    NumberAnimation {
+                        duration: Theme.duration(Theme.motionFast)
+                        easing.type: Theme.easingEnter
+                    }
+                }
 
                 Text {
                     anchors.centerIn: parent
-                    text: "\uE73E"
+                    text: FluentIcons.Accept
                     font.family: Theme.fontFamilyIcon
                     font.pixelSize: 12
                     color: Theme.textOnAccent
@@ -135,7 +161,7 @@ T.AbstractButton {
         borderWidth: control.visualFocus ? 2 : 1
         borderColor: control.visualFocus ? Theme.focusOuter
                      : (control.checked ? Theme.accent : Theme.strokeCard)
-        elevation: 2
+        elevation: control.hovered || control.checked ? 4 : 2
         shadowOpacity: Theme.dark ? 0.18 : 0.08
 
         Behavior on color {
@@ -150,6 +176,10 @@ T.AbstractButton {
             ColorAnimation {
                 duration: Theme.duration(Theme.motionFast)
             }
+        }
+        Behavior on elevation {
+            enabled: !Theme.reducedMotion
+            NumberAnimation { duration: Theme.duration(Theme.motionFast) }
         }
     }
 }

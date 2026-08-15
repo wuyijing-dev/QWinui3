@@ -20,7 +20,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("HeaderedContentControl")
-                subtitle: qsTr("Content with header above or beside the body (headerPlacement).")
+                subtitle: qsTr("Content with symbol header and top/left headerPlacement.")
             }
             ControlExample {
                 Layout.fillWidth: true
@@ -33,6 +33,7 @@ Page {
                     Layout.maximumWidth: 420
                     header: qsTr("Account")
                     description: qsTr("Signed-in identity and security options")
+                    symbol: FluentIcons.Contact
                     Label {
                         text: qsTr("Signed in as alex@contoso.com")
                         color: Theme.textPrimary

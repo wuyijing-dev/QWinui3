@@ -20,14 +20,14 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("SwipeControl")
-                subtitle: qsTr("Drag content to reveal actions; openMode / opened / closed track state.")
+                subtitle: qsTr("Reveal actions with ElevatedChrome panel, keyboard arrows / Esc, and isOpen.")
             }
             ControlExample {
                 Layout.fillWidth: true
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Mail item")
-                qmlSource: "SwipeControl {\n    onOpened: …\n    leftActions: ToolButton { ... }\n}"
+                qmlSource: "SwipeControl {\n    leftActions: SwipeAction { symbol: FluentIcons.Flag }\n}"
                 ColumnLayout {
                     Layout.fillWidth: true
                     spacing: Theme.spacing
@@ -41,31 +41,31 @@ Page {
                         Layout.fillWidth: true
                         Layout.maximumWidth: 420
                         leftActions: [
-                            ToolButton {
+                            SwipeAction {
                                 width: 72
                                 height: parent.height
-                                text: "\uE8F5"
-                                font.family: Theme.fontFamilyIcon
-                                ToolTip.text: qsTr("Flag")
-                                background: Rectangle { color: Theme.systemCautionBg }
+                                leading: true
+                                text: qsTr("Flag")
+                                symbol: FluentIcons.Flag
+                                color: Theme.systemCaution
+                                onClicked: swipe.close()
                             }
                         ]
                         rightActions: [
-                            ToolButton {
+                            SwipeAction {
                                 width: 72
                                 height: parent.height
-                                text: "\uE74D"
-                                font.family: Theme.fontFamilyIcon
-                                ToolTip.text: qsTr("Delete")
-                                background: Rectangle { color: Theme.systemCriticalBg }
+                                text: qsTr("Delete")
+                                symbol: FluentIcons.Delete
+                                onClicked: swipe.close()
                             },
-                            ToolButton {
+                            SwipeAction {
                                 width: 72
                                 height: parent.height
-                                text: "\uE8C8"
-                                font.family: Theme.fontFamilyIcon
-                                ToolTip.text: qsTr("Archive")
-                                background: Rectangle { color: Theme.systemAttentionBg }
+                                text: qsTr("Copy")
+                                symbol: FluentIcons.Copy
+                                color: Theme.systemAttention
+                                onClicked: swipe.close()
                             }
                         ]
                         content: [
@@ -77,7 +77,7 @@ Page {
                                     font.weight: Theme.fontWeightSemiBold
                                 }
                                 Label {
-                                    text: qsTr("Swipe left or right to reveal actions")
+                                    text: qsTr("Swipe or use ← → / Esc")
                                     color: Theme.textSecondary
                                 }
                             }

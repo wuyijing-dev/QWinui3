@@ -10,10 +10,13 @@ Menu {
     property alias preferredPlacement: root.placement
     property bool isLightDismissEnabled: true
     property bool isOpen: false
+    property string title: ""
 
     padding: 4
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
+    Accessible.role: Accessible.PopupMenu
+    Accessible.name: title.length ? title : qsTr("Menu")
 
     closePolicy: isLightDismissEnabled
                  ? (Popup.CloseOnEscape | Popup.CloseOnPressOutside)
@@ -27,6 +30,9 @@ Menu {
     }
     onOpened: isOpen = true
     onClosed: isOpen = false
+
+    function openMenu() { isOpen = true }
+    function closeMenu() { isOpen = false }
 
     transformOrigin: {
         switch (placement) {
@@ -77,8 +83,10 @@ Menu {
         radius: Theme.cornerOverlay
         borderColor: Theme.strokeCard
         borderWidth: 1
-        elevation: 6
-        shadowOpacity: Theme.dark ? 0.28 : 0.14
+        elevation: 8
+        shadowOpacity: Theme.dark ? 0.34 : 0.18
+        shadowBlur: 1.0
+        blurMax: 32
     }
 
     enter: Transition {

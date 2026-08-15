@@ -120,7 +120,7 @@ T.Control {
                         // Outline star
                         Text {
                             anchors.centerIn: parent
-                            text: "\uE734"
+                            text: FluentIcons.OutlineStar
                             font.family: Theme.fontFamilyIcon
                             font.pixelSize: root.font.pixelSize
                             color: Theme.textSecondary
@@ -138,7 +138,7 @@ T.Control {
                                 height: star.height
                                 horizontalAlignment: Text.AlignHCenter
                                 verticalAlignment: Text.AlignVCenter
-                                text: "\uE735"
+                                text: FluentIcons.FavoriteStarFill
                                 font.family: Theme.fontFamilyIcon
                                 font.pixelSize: root.font.pixelSize
                                 color: star.isPlaceholder ? Theme.textSecondary : Theme.systemCaution

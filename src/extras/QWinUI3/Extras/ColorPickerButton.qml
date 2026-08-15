@@ -41,6 +41,15 @@ T.AbstractButton {
     Accessible.name: text + " " + hexText
     Accessible.description: qsTr("Selected color %1").arg(hexText)
 
+    scale: down && !Theme.reducedMotion ? 0.98 : 1
+    Behavior on scale {
+        enabled: !Theme.reducedMotion
+        NumberAnimation {
+            duration: Theme.duration(Theme.motionFast)
+            easing.type: Theme.easingStandard
+        }
+    }
+
     function open() { pickerOpen = true }
     function close() { pickerOpen = false }
 
@@ -55,6 +64,10 @@ T.AbstractButton {
             color: control.selectedColor
             border.width: 1
             border.color: Theme.strokeControl
+            Behavior on color {
+                enabled: !Theme.reducedMotion
+                ColorAnimation { duration: Theme.duration(Theme.motionNormal) }
+            }
         }
         Text {
             text: control.text
@@ -71,7 +84,7 @@ T.AbstractButton {
             verticalAlignment: Text.AlignVCenter
         }
         Text {
-            text: "\uE70D"
+            text: FluentIcons.ChevronDown
             font.family: Theme.fontFamilyIcon
             font.pixelSize: 10
             color: Theme.textSecondary
@@ -83,22 +96,36 @@ T.AbstractButton {
         }
     }
 
-    background: Rectangle {
-        radius: Theme.cornerControl
-        color: {
-            if (!control.enabled)
-                return Theme.fillControlDisabled
-            if (control.down || control.pickerOpen)
-                return Theme.fillControlTertiary
-            if (control.hovered)
-                return Theme.fillControlSecondary
-            return Theme.dark ? "#0FFFFFFF" : "#FFFFFF"
+    background: Item {
+        implicitWidth: Math.max(120, control.contentItem.implicitWidth + 20)
+        implicitHeight: Theme.controlHeight
+        Rectangle {
+            anchors.fill: parent
+            radius: Theme.cornerControl
+            color: {
+                if (!control.enabled)
+                    return Theme.fillControlDisabled
+                if (control.down || control.pickerOpen)
+                    return Theme.fillControlTertiary
+                if (control.hovered)
+                    return Theme.fillControlSecondary
+                return Theme.dark ? "#0FFFFFFF" : "#FFFFFF"
+            }
+            border.width: 1
+            border.color: Theme.strokeControl
+            Behavior on color {
+                enabled: !Theme.reducedMotion
+                ColorAnimation { duration: Theme.duration(Theme.motionFast) }
+            }
         }
-        border.width: 1
-        border.color: Theme.strokeControl
-        Behavior on color {
-            enabled: !Theme.reducedMotion
-            ColorAnimation { duration: Theme.duration(Theme.motionFast) }
+        Rectangle {
+            anchors.fill: parent
+            anchors.margins: -2
+            radius: Theme.cornerControl + 2
+            color: "transparent"
+            border.width: control.visualFocus ? 2 : 0
+            border.color: Theme.focusOuter
+            visible: control.visualFocus
         }
     }
 

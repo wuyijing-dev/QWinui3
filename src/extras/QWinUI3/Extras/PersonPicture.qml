@@ -11,26 +11,40 @@ T.Control {
     property color profileColor: Theme.accent
     property bool badgeVisible: false
     property color badgeColor: Theme.systemSuccess
+    property var badgeSymbol: ""
     property string badgeGlyph: ""
     property int badgeSeverity: -1 // -1 custom; else InfoBadge-like 0..3
     // WinUI-style count / text overlay (takes precedence over glyph when set)
     property int badgeValue: 0
     property string badgeText: ""
     property int badgeMaxValue: 99
+    property bool selected: false
 
     implicitWidth: size
     implicitHeight: size
     padding: 0
     opacity: enabled ? 1 : 0.5
+    focusPolicy: Qt.StrongFocus
+    activeFocusOnTab: true
+    Accessible.role: Accessible.Graphic
+    Accessible.name: displayName.length ? displayName : qsTr("Person")
+
+    Behavior on opacity {
+        enabled: !Theme.reducedMotion
+        NumberAnimation { duration: Theme.duration(Theme.motionFast) }
+    }
 
     readonly property string initials: {
         var parts = String(displayName).trim().split(/\s+/).filter(function (p) { return p.length })
         if (!parts.length)
-            return "?"
+            return ""
         if (parts.length === 1)
             return parts[0].charAt(0).toUpperCase()
         return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase()
     }
+
+    readonly property string _emptyGlyph: FluentIcons.Contact
+    readonly property string _badgeIcon: IconSource.resolve(badgeSymbol, badgeGlyph)
 
     readonly property color _badgeColor: {
         switch (badgeSeverity) {
@@ -50,11 +64,25 @@ T.Control {
         return badgeValue > badgeMaxValue ? (badgeMaxValue + "+") : String(badgeValue)
     }
 
-    readonly property bool _badgeHasLabel: _badgeLabel.length > 0 || badgeGlyph.length > 0
+    readonly property bool _badgeHasLabel: _badgeLabel.length > 0 || _badgeIcon.length > 0
 
     background: Item {
         width: root.size
         height: root.size
+
+        Rectangle {
+            id: focusRing
+            anchors.fill: parent
+            anchors.margins: -3
+            radius: width / 2
+            color: "transparent"
+            border.width: (root.activeFocus || root.selected) ? 2 : 0
+            border.color: Theme.accent
+            Behavior on border.width {
+                enabled: !Theme.reducedMotion
+                NumberAnimation { duration: Theme.duration(Theme.motionFast) }
+            }
+        }
 
         Rectangle {
             id: avatar
@@ -64,6 +92,14 @@ T.Control {
             border.width: 1
             border.color: Theme.strokeCard
             clip: true
+            scale: root.activeFocus && !Theme.reducedMotion ? 1.04 : 1
+            Behavior on scale {
+                enabled: !Theme.reducedMotion
+                NumberAnimation {
+                    duration: Theme.duration(Theme.motionFast)
+                    easing.type: Theme.easingStandard
+                }
+            }
 
             Image {
                 anchors.fill: parent
@@ -77,12 +113,22 @@ T.Control {
 
             Text {
                 anchors.centerIn: parent
-                visible: root.imageSource.toString().length === 0
+                visible: root.imageSource.toString().length === 0 && root.initials.length > 0
                 text: root.initials
                 font.family: Theme.fontFamily
                 font.pixelSize: Math.max(10, root.size * 0.36)
                 font.weight: Theme.fontWeightSemiBold
                 color: Theme.textOnAccent
+            }
+
+            Text {
+                anchors.centerIn: parent
+                visible: root.imageSource.toString().length === 0 && root.initials.length === 0
+                text: root._emptyGlyph
+                font.family: Theme.fontFamilyIcon
+                font.pixelSize: Math.max(12, root.size * 0.42)
+                color: Theme.textOnAccent
+                opacity: 0.92
             }
         }
 
@@ -108,7 +154,7 @@ T.Control {
                 id: badgeLabel
                 anchors.centerIn: parent
                 visible: root._badgeHasLabel
-                text: root._badgeLabel.length > 0 ? root._badgeLabel : root.badgeGlyph
+                text: root._badgeLabel.length > 0 ? root._badgeLabel : root._badgeIcon
                 font.family: root._badgeLabel.length > 0 ? Theme.fontFamily : Theme.fontFamilyIcon
                 font.pixelSize: Math.max(8, parent.height * 0.55)
                 font.weight: Theme.fontWeightSemiBold

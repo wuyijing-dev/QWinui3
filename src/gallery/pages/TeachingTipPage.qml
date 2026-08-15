@@ -22,7 +22,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("TeachingTip")
-                subtitle: qsTr("Provides contextual information that points to a specific UI element.")
+                subtitle: qsTr("Contextual tip with symbol, ElevatedChrome, and AccentButton action.")
             }
 
             ControlExample {
@@ -30,7 +30,7 @@ Page {
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("A simple TeachingTip")
-                qmlSource: "TeachingTip {\n    target: tipTarget\n    title: \"Quick tip\"\n    subtitle: \"TeachingTip anchors above the target control.\"\n}"
+                qmlSource: "TeachingTip {\n    symbol: FluentIcons.Info\n    target: tipTarget\n}"
 
                 ColumnLayout {
                     Layout.fillWidth: true
@@ -47,7 +47,7 @@ Page {
                         parent: tipTarget.parent
                         target: tipTarget
                         preferredPlacement: Qt.AlignTop
-                        iconGlyph: "\uE946"
+                        symbol: FluentIcons.Info
                         title: qsTr("Quick tip")
                         subtitle: qsTr("TeachingTip can place above, below, left, or right of the target.")
                         actionText: qsTr("Got it")

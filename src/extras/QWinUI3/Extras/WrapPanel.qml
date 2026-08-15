@@ -16,6 +16,17 @@ T.Control {
     spacing: Theme.spacing
     implicitWidth: Math.max(100, flow.implicitWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(Theme.controlHeight, flow.implicitHeight + topPadding + bottomPadding)
+    Accessible.role: Accessible.Grouping
+    Accessible.name: qsTr("Wrap panel")
+
+    readonly property int childCount: {
+        var n = 0
+        for (var i = 0; i < flow.children.length; ++i) {
+            if (flow.children[i] && flow.children[i].visible)
+                ++n
+        }
+        return n
+    }
 
     contentItem: Flow {
         id: flow

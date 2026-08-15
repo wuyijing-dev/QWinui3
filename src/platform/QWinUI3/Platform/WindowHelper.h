@@ -39,6 +39,8 @@ class WindowHelper : public QObject
     Q_PROPERTY(qreal frostSaturation READ frostSaturation NOTIFY backdropChanged)
     Q_PROPERTY(QUrl desktopWallpaperUrl READ desktopWallpaperUrl NOTIFY wallpaperChanged)
     Q_PROPERTY(QRect virtualDesktopGeometry READ virtualDesktopGeometry NOTIFY wallpaperChanged)
+    Q_PROPERTY(bool systemReducedMotion READ systemReducedMotion NOTIFY accessibilityChanged)
+    Q_PROPERTY(bool systemHighContrast READ systemHighContrast NOTIFY accessibilityChanged)
 
 public:
     enum Backdrop {
@@ -76,6 +78,21 @@ public:
     };
     Q_ENUM(WindowParadigm)
 
+    // WinUI AppWindowPresenterKind
+    enum PresenterKind {
+        PresenterOverlapped = 0,
+        PresenterFullScreen = 1,
+        PresenterCompactOverlay = 2
+    };
+    Q_ENUM(PresenterKind)
+
+    // WinUI TitleBar.PreferredHeightOption / AppWindowTitleBar height
+    enum TitleBarHeightOption {
+        TitleBarHeightStandard = 0, // 32px
+        TitleBarHeightTall = 1      // 48px
+    };
+    Q_ENUM(TitleBarHeightOption)
+
     explicit WindowHelper(QObject *parent = nullptr);
 
     QString platformName() const;
@@ -99,6 +116,8 @@ public:
     qreal frostSaturation() const;
     QUrl desktopWallpaperUrl() const;
     QRect virtualDesktopGeometry() const;
+    bool systemReducedMotion() const { return m_systemReducedMotion; }
+    bool systemHighContrast() const { return m_systemHighContrast; }
 
     void setBackdropMode(int backdrop);
     void setCornerPreference(int corner);
@@ -107,7 +126,10 @@ public:
     Q_INVOKABLE void install(QObject *windowObject, bool dark = false, int backdrop = BackdropSolid);
     Q_INVOKABLE void installParadigm(QObject *windowObject, int paradigm,
                                      bool dark = false, int backdrop = BackdropSolid);
+    Q_INVOKABLE void installParadigmEx(QObject *windowObject, int paradigm,
+                                       bool dark, int backdrop, int presenter, bool alwaysOnTop);
     Q_INVOKABLE int flagsForParadigm(int paradigm) const;
+    Q_INVOKABLE int flagsForConfig(int paradigm, int presenter, bool alwaysOnTop) const;
     Q_INVOKABLE QString paradigmName(int paradigm) const;
     Q_INVOKABLE void centerOnScreen(QObject *windowObject);
     Q_INVOKABLE void setDarkMode(QObject *windowObject, bool dark);
@@ -116,9 +138,18 @@ public:
     Q_INVOKABLE void reapply(QObject *windowObject = nullptr);
     Q_INVOKABLE QString backdropName(int backdrop) const;
     Q_INVOKABLE void refreshWallpaper();
+    Q_INVOKABLE void refreshAccessibility();
+
+    Q_INVOKABLE void setPresenter(QObject *windowObject, int kind);
+    Q_INVOKABLE int presenterKind(QObject *windowObject) const;
+    Q_INVOKABLE QString presenterName(int kind) const;
+    Q_INVOKABLE void setAlwaysOnTop(QObject *windowObject, bool on);
+    Q_INVOKABLE bool isAlwaysOnTop(QObject *windowObject) const;
+    Q_INVOKABLE int titleBarHeightForOption(int option) const;
+    Q_INVOKABLE QString titleBarHeightName(int option) const;
 
     Q_INVOKABLE void updateHitTestLayout(QObject *windowObject,
-                                         int titleBarHeight,
+                                         const QRect &titleBar,
                                          const QRect &minimizeButton,
                                          const QRect &maximizeButton,
                                          const QRect &closeButton,
@@ -140,6 +171,7 @@ signals:
     void captionHoverChanged();
     void captionPressedChanged();
     void wallpaperChanged();
+    void accessibilityChanged();
 
 private:
     void applyNative(QWindow *window, bool dark, int backdrop);
@@ -159,4 +191,6 @@ private:
     int m_captionPressed = CaptionNone;
     QWindow *m_window = nullptr;
     QUrl m_wallpaperUrl;
+    bool m_systemReducedMotion = false;
+    bool m_systemHighContrast = false;
 };

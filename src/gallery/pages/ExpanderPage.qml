@@ -22,7 +22,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("Expander")
-                subtitle: qsTr("A collapsible container. ExpandDirection can open content below or above the header.")
+                subtitle: qsTr("Collapsible card with symbol header and Fluent ChevronDown animation.")
             }
 
             ControlExample {
@@ -30,7 +30,7 @@ Page {
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Basic Expander")
-                qmlSource: "Expander {\n    title: \"More options\"\n    expandDirection: \"down\"\n}"
+                qmlSource: "Expander {\n    symbol: FluentIcons.Settings\n    title: \"More options\"\n}"
 
                 ColumnLayout {
                     Layout.fillWidth: true
@@ -49,7 +49,7 @@ Page {
                         Layout.fillWidth: true
                         title: qsTr("More options")
                         subtitle: qsTr("Advanced preferences for this feature")
-                        headerIcon: "\uE713"
+                        symbol: FluentIcons.Settings
                         expanded: true
                         expandDirection: dirBox.currentText
 

@@ -10,7 +10,6 @@ T.Control {
     property real target: 0
     property real maximum: 100
     property real minimum: 0
-    // Qualitative bands as fractions of maximum, e.g. [0.5, 0.75, 1]
     property var ranges: [0.5, 0.75, 1.0]
     property var rangeColors: []
     property string label: ""
@@ -18,14 +17,20 @@ T.Control {
     property int valuePrecision: -1 // -1 = auto
     property bool showValueText: true
     property bool showTarget: true
+    property bool showTargetDelta: false
 
     implicitWidth: 240
     implicitHeight: label.length || showValueText ? 40 : 18
     padding: 0
+    Accessible.role: Accessible.ProgressBar
+    Accessible.name: label.length ? label : qsTr("Bullet chart")
+    Accessible.description: qsTr("%1 of %2").arg(Math.round(value)).arg(Math.round(maximum))
 
     readonly property real _span: Math.max(1e-6, maximum - minimum)
     readonly property real _norm: Math.max(0, Math.min(1, (value - minimum) / _span))
     readonly property real _targetNorm: Math.max(0, Math.min(1, (target - minimum) / _span))
+    readonly property bool targetMet: value >= target
+    readonly property real targetDelta: value - target
 
     readonly property string formattedValue: {
         var n = Number(value)
@@ -33,6 +38,13 @@ T.Control {
         if (prec < 0)
             prec = (n % 1 === 0) ? 0 : 1
         return n.toFixed(prec) + (unit.length ? unit : "")
+    }
+
+    readonly property string formattedDelta: {
+        var d = targetDelta
+        var prec = valuePrecision < 0 ? 0 : valuePrecision
+        var s = (d >= 0 ? "+" : "") + d.toFixed(prec)
+        return s + (unit.length ? unit : "")
     }
 
     function setValue(v) {
@@ -57,12 +69,22 @@ T.Control {
             visible: root.label.length > 0 || root.showValueText
             width: parent.width
             Text {
-                width: parent.width - valueLabel.width
+                width: parent.width - valueLabel.width - (deltaLabel.visible ? deltaLabel.width + 8 : 0)
                 text: root.label
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textSecondary
                 elide: Text.ElideRight
+            }
+            Text {
+                id: deltaLabel
+                visible: root.showTargetDelta
+                text: root.formattedDelta
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontCaption
+                font.weight: Theme.fontWeightSemiBold
+                color: root.targetMet ? Theme.systemSuccess : Theme.systemCritical
+                rightPadding: 8
             }
             Text {
                 id: valueLabel
@@ -80,7 +102,6 @@ T.Control {
             width: parent.width
             height: 14
 
-            // Qualitative ranges
             Row {
                 anchors.fill: parent
                 spacing: 0
@@ -99,13 +120,12 @@ T.Control {
                 }
             }
 
-            // Performance bar
             Rectangle {
                 anchors.verticalCenter: parent.verticalCenter
                 height: 6
                 radius: 2
                 width: Math.max(2, root._norm * parent.width)
-                color: Theme.accent
+                color: root.targetMet ? Theme.systemSuccess : Theme.accent
                 Behavior on width {
                     enabled: !Theme.reducedMotion
                     NumberAnimation {
@@ -113,9 +133,12 @@ T.Control {
                         easing.type: Theme.easingStandard
                     }
                 }
+                Behavior on color {
+                    enabled: !Theme.reducedMotion
+                    ColorAnimation { duration: Theme.duration(Theme.motionNormal) }
+                }
             }
 
-            // Target marker
             Rectangle {
                 visible: root.showTarget && root.target !== undefined && root.target !== null
                 anchors.verticalCenter: parent.verticalCenter

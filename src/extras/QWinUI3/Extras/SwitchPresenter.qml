@@ -9,6 +9,7 @@ T.Control {
     property var value
     property bool animated: true
     property int currentIndex: -1
+    property alias selectedIndex: root.currentIndex
     default property alias cases: host.data
 
     signal caseChanged(var value, int index)
@@ -16,6 +17,9 @@ T.Control {
     implicitWidth: 280
     implicitHeight: Math.max(Theme.controlHeight, host.implicitHeight)
     padding: 0
+    Accessible.role: Accessible.Grouping
+    Accessible.name: qsTr("Switch presenter")
+    Accessible.description: qsTr("Case %1").arg(currentIndex)
 
     contentItem: Item {
         id: host

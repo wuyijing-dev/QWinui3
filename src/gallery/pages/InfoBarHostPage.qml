@@ -20,7 +20,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("InfoBarHost")
-                subtitle: qsTr("Stacks InfoBars with maxVisible, openCount, and clearAll().")
+                subtitle: qsTr("Stacks InfoBars with maxVisible, openAll()/clearAll(), and openCount.")
             }
             ControlExample {
                 Layout.fillWidth: true
@@ -36,6 +36,10 @@ Page {
                         Button {
                             text: qsTr("Close all (%1 open)").arg(host.openCount)
                             onClicked: host.clearAll()
+                        }
+                        Button {
+                            text: qsTr("Open all")
+                            onClicked: host.openAll()
                         }
                         Label {
                             text: qsTr("%1 bars").arg(host.count)

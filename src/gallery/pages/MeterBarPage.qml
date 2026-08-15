@@ -20,7 +20,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("MeterBar")
-                subtitle: qsTr("Multi-segment meter with header, remaining space, and segment tooltips.")
+                subtitle: qsTr("Multi-segment meter with showTotal, remaining space, and segment tooltips.")
             }
             ControlExample {
                 Layout.fillWidth: true
@@ -42,6 +42,7 @@ Page {
                         maximum: 100
                         showLegend: true
                         showRemaining: true
+                        showTotal: true
                         remainingLabel: qsTr("Free")
                         segments: [
                             { value: 42, color: Theme.accent, label: qsTr("Apps") },

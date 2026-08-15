@@ -28,7 +28,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("Toast")
-                subtitle: qsTr("Transient notification with progress countdown and pause-on-hover.")
+                subtitle: qsTr("Transient notification with Fluent severity icons, HyperlinkButton action, and progress.")
             }
             ControlExample {
                 Layout.fillWidth: true

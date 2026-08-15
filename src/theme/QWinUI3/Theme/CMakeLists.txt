@@ -24,3 +24,9 @@ target_link_libraries(qwinui3_theme
         Qt6::Quick
         Qt6::Qml
 )
+
+# ElevatedChrome uses QtQuick.Effects (MultiEffect)
+find_package(Qt6 QUIET COMPONENTS QuickEffects)
+if (TARGET Qt6::QuickEffects)
+    target_link_libraries(qwinui3_theme PUBLIC Qt6::QuickEffects)
+endif()

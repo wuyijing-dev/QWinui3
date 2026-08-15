@@ -4,11 +4,12 @@ import QtQuick.Controls
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Empty / zero-data state with glyph, title, message and optional actions.
+// Empty / zero-data state with symbol, title, message and optional actions.
 T.Control {
     id: root
 
-    property string glyph: "\uE7BA"
+    property var symbol: ""
+    property string glyph: ""
     property string title: qsTr("Nothing here yet")
     property string message: qsTr("When there is content, it will show up in this area.")
     property string actionText: ""
@@ -20,11 +21,19 @@ T.Control {
     signal actionClicked()
     signal secondaryActionClicked()
 
+    readonly property string effectiveGlyph: {
+        var g = IconSource.resolve(symbol, glyph)
+        return g.length ? g : FluentIcons.Warning
+    }
+
     implicitWidth: 320
     implicitHeight: column.implicitHeight + topPadding + bottomPadding
     padding: compact ? 16 : 24
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
+    Accessible.role: Accessible.Grouping
+    Accessible.name: title
+    Accessible.description: message
 
     background: Rectangle {
         radius: Theme.cornerCard
@@ -44,7 +53,19 @@ T.Control {
             height: width
             radius: width / 2
             color: Theme.fillSubtle
-            scale: root.visible ? 1 : 0.85
+            opacity: 0
+            scale: 0.88
+            Component.onCompleted: {
+                opacity = 1
+                scale = 1
+            }
+            Behavior on opacity {
+                enabled: !Theme.reducedMotion
+                NumberAnimation {
+                    duration: Theme.duration(Theme.motionNormal)
+                    easing.type: Theme.easingEnter
+                }
+            }
             Behavior on scale {
                 enabled: !Theme.reducedMotion
                 NumberAnimation {
@@ -54,7 +75,7 @@ T.Control {
             }
             Text {
                 anchors.centerIn: parent
-                text: root.glyph
+                text: root.effectiveGlyph
                 font.family: Theme.fontFamilyIcon
                 font.pixelSize: root.compact ? 18 : 24
                 color: root.glyphColor
@@ -71,6 +92,15 @@ T.Control {
             color: Theme.textPrimary
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.Wrap
+            opacity: 0
+            Component.onCompleted: opacity = 1
+            Behavior on opacity {
+                enabled: !Theme.reducedMotion
+                NumberAnimation {
+                    duration: Theme.duration(Theme.motionNormal)
+                    easing.type: Theme.easingEnter
+                }
+            }
         }
 
         Text {
@@ -97,10 +127,9 @@ T.Control {
                 flat: true
                 onClicked: root.secondaryActionClicked()
             }
-            Button {
+            AccentButton {
                 visible: root.actionText.length > 0
                 text: root.actionText
-                highlighted: true
                 onClicked: root.actionClicked()
             }
         }

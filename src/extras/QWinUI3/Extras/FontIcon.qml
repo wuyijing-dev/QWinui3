@@ -3,13 +3,13 @@ import QtQuick.Controls
 import QWinUI3.Theme
 
 // Segoe Fluent Icons glyph with Theme-aware sizing and color.
-// Prefer: icon: FluentIcons.Home  or  icon: "Home"
+// Prefer: symbol: FluentIcons.Home  or  symbol: "Home"  (also accepts icon / glyph)
 Item {
     id: root
 
+    property var symbol: ""
     property var icon: ""
     property string glyph: ""
-    property alias symbol: root.glyph
     property real fontSize: 16
     property color iconColor: Theme.textPrimary
     property bool mirrorGlyph: false
@@ -18,6 +18,9 @@ Item {
     property string accessibleName: ""
 
     readonly property string effectiveGlyph: {
+        var fromSymbol = IconSource.resolve(root.symbol, "")
+        if (fromSymbol.length)
+            return fromSymbol
         var fromIcon = IconSource.resolve(root.icon, "")
         if (fromIcon.length)
             return fromIcon

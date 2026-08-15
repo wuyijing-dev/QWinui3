@@ -1,8 +1,8 @@
 import QtQuick
+import QtQuick.Effects
 
-// Rounded surface with soft shadow — no layer/MultiEffect.
-// layer+MultiEffect on a radius Rectangle regenerates the FBO on size/color/border
-// changes and briefly paints square corners; this chrome stays stable.
+// Rounded surface with soft MultiEffect shadow on a sibling (not on the face).
+// Face never uses layer — avoids square-corner flicker; shadow can regenerate safely.
 Item {
     id: root
 
@@ -12,32 +12,31 @@ Item {
     property int borderWidth: 1
     property bool elevated: true
     property real elevation: 2
-    property real shadowOpacity: 0.12
+    property real shadowOpacity: 0.14
+    property real shadowBlur: 0.9
+    property int blurMax: 28
     property alias antialiasing: face.antialiasing
 
-    // Ambient contact shadow (offset copy)
+    // Soft shadow caster: nearly invisible fill, MultiEffect paints the blur behind the face.
     Rectangle {
-        visible: root.elevated && root.elevation > 0
-        z: -1
-        x: 0
-        y: root.elevation
-        width: parent.width
-        height: parent.height
+        id: shadowCaster
+        anchors.fill: parent
         radius: root.radius
-        color: Qt.rgba(0, 0, 0, root.shadowOpacity * 0.65)
-        antialiasing: true
-    }
-    // Softer wider halo
-    Rectangle {
+        color: "#01000000"
         visible: root.elevated && root.elevation > 0
         z: -1
-        x: -1
-        y: Math.max(1, root.elevation * 0.45)
-        width: parent.width + 2
-        height: parent.height + 1
-        radius: root.radius + 1
-        color: Qt.rgba(0, 0, 0, root.shadowOpacity * 0.35)
-        antialiasing: true
+        layer.enabled: visible
+        layer.smooth: true
+        layer.effect: MultiEffect {
+            shadowEnabled: true
+            shadowBlur: root.shadowBlur
+            shadowOpacity: root.shadowOpacity
+            shadowColor: "#000000"
+            shadowHorizontalOffset: 0
+            shadowVerticalOffset: Math.max(1, root.elevation)
+            blurMax: root.blurMax
+            autoPaddingEnabled: true
+        }
     }
 
     Rectangle {

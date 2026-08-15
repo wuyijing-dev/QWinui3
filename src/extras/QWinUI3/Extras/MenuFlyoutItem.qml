@@ -7,14 +7,14 @@ import QWinUI3.Theme
 MenuItem {
     id: control
 
+    property var symbol: ""
     property string iconGlyph: ""
-    property var icon: ""
     property string keyboardAcceleratorText: ""
     // When true, render accelerator as KeyChordVisual chrome instead of plain text.
     property bool keyVisualAccelerator: false
     property color iconColor: Theme.textPrimary
 
-    readonly property string effectiveIconGlyph: IconSource.resolve(icon, iconGlyph)
+    readonly property string effectiveIconGlyph: IconSource.resolve(symbol, iconGlyph)
 
     implicitWidth: Math.max(200, contentRow.implicitWidth + leftPadding + rightPadding)
     leftPadding: 12

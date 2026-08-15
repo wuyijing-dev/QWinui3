@@ -28,7 +28,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("ToastHost")
-                subtitle: qsTr("Queues multiple toasts; newestOnTop, actionText, and clear().")
+                subtitle: qsTr("Queues toasts; info()/successToast()/errorToast() helpers, newestOnTop, clear().")
             }
             ControlExample {
                 Layout.fillWidth: true
@@ -41,19 +41,19 @@ Page {
                     spacing: Theme.spacingLoose
                     AccentButton {
                         text: qsTr("Info")
-                        onClicked: host.show(qsTr("Something happened."), host.informational, qsTr("Information"))
+                        onClicked: host.info(qsTr("Something happened."))
                     }
                     Button {
                         text: qsTr("Success")
-                        onClicked: host.show(qsTr("Your changes were saved."), host.success, qsTr("Success"))
+                        onClicked: host.successToast(qsTr("Your changes were saved."))
                     }
                     Button {
                         text: qsTr("Warning")
-                        onClicked: host.show(qsTr("Check your connection."), host.warning, qsTr("Warning"))
+                        onClicked: host.warningToast(qsTr("Check your connection."))
                     }
                     Button {
                         text: qsTr("Error + action")
-                        onClicked: host.show(qsTr("Unable to complete the request."), host.error, qsTr("Error"), qsTr("Retry"))
+                        onClicked: host.errorToast(qsTr("Unable to complete the request."), qsTr("Error"), qsTr("Retry"))
                     }
                     Button {
                         text: qsTr("Clear (%1)").arg(host.count)

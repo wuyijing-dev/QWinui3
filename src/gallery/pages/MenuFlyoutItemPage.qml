@@ -20,14 +20,14 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("MenuFlyoutItem")
-                subtitle: qsTr("Flyout menu rows with glyphs, toggles, radios, and headers.")
+                subtitle: qsTr("Flyout rows with symbol: FluentIcons.*, toggles, radios, and headers.")
             }
             ControlExample {
                 Layout.fillWidth: true
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Rich menu")
-                qmlSource: "MenuFlyout {\n    MenuFlyoutItem { text: \"Copy\"; iconGlyph: \"\\uE8C8\" }\n}"
+                qmlSource: "MenuFlyout {\n    MenuFlyoutItem { text: \"Copy\"; symbol: FluentIcons.Copy }\n}"
                 ColumnLayout {
                     spacing: Theme.spacing
                     Button {
@@ -42,17 +42,20 @@ Page {
                     QtObject { id: lastAction; property string text: "" }
                     MenuFlyout {
                         id: richFlyout
-                        MenuFlyoutHeader { text: qsTr("Clipboard") }
+                        MenuFlyoutHeader {
+                            text: qsTr("Clipboard")
+                            symbol: FluentIcons.Copy
+                        }
                         MenuFlyoutItem {
                             text: qsTr("Copy")
-                            iconGlyph: "\uE8C8"
+                            symbol: FluentIcons.Copy
                             keyboardAcceleratorText: "Ctrl+C"
                             keyVisualAccelerator: true
                             onTriggered: lastAction.text = text
                         }
                         MenuFlyoutItem {
                             text: qsTr("Paste")
-                            iconGlyph: "\uE77F"
+                            symbol: FluentIcons.Paste
                             keyboardAcceleratorText: "Ctrl+V"
                             keyVisualAccelerator: true
                             onTriggered: lastAction.text = text
@@ -61,6 +64,7 @@ Page {
                         MenuFlyoutHeader { text: qsTr("Options") }
                         ToggleMenuFlyoutItem {
                             text: qsTr("Show grid")
+                            symbol: FluentIcons.View
                             checked: true
                             onTriggered: lastAction.text = text + (checked ? qsTr(" on") : qsTr(" off"))
                         }
@@ -72,22 +76,12 @@ Page {
                         MenuFlyoutHeader { text: qsTr("View") }
                         RadioMenuFlyoutItem {
                             text: qsTr("Compact")
+                            symbol: FluentIcons.List
                             checked: true
                             onTriggered: lastAction.text = text
                         }
                         RadioMenuFlyoutItem {
                             text: qsTr("Comfortable")
-                            onTriggered: lastAction.text = text
-                        }
-                        RadioMenuFlyoutItem {
-                            text: qsTr("Spacious")
-                            onTriggered: lastAction.text = text
-                        }
-                        MenuFlyoutSeparator {}
-                        MenuFlyoutItem {
-                            text: qsTr("Delete")
-                            iconGlyph: "\uE74D"
-                            iconColor: Theme.systemCritical
                             onTriggered: lastAction.text = text
                         }
                     }

@@ -20,7 +20,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("RefreshContainer")
-                subtitle: qsTr("Pull to refresh. Toggle pullToRefreshEnabled to disable the gesture.")
+                subtitle: qsTr("Pull to refresh with Fluent Refresh spin, isRefreshing, and ProgressRing fallback.")
             }
             ControlExample {
                 Layout.fillWidth: true

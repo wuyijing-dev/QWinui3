@@ -360,17 +360,17 @@ QtObject {
             title: qsTr("TitleBar"),
             category: "navigation",
             icon: "\uE737",
-            description: qsTr("Application title bar with optional search."),
+            description: qsTr("WinUI TitleBar with Back, PaneToggle, Subtitle, Content, and RightHeader."),
             component: "TitleBarPage",
             source: "pages/TitleBarPage.qml"
         },
         {
-            title: qsTr("StandardWindow"),
+            title: qsTr("Window shells"),
             category: "navigation",
-            icon: "\uE8A5",
-            description: qsTr("Showcase: open Standard, Dialog, Tool, and material windows."),
-            component: "StandardWindowPage",
-            source: "pages/StandardWindowPage.qml"
+            icon: "\uE8A7",
+            description: qsTr("Library shells: BlankWindow, NavigationWindow, MenuStatusWindow."),
+            component: "WindowParadigmPage",
+            source: "pages/WindowParadigmPage.qml"
         },
         {
             title: qsTr("TableView"),
@@ -675,6 +675,38 @@ QtObject {
             description: qsTr("A circular gauge that displays a value on a ring."),
             component: "RadialGaugePage",
             source: "pages/RadialGaugePage.qml"
+        },
+        {
+            title: qsTr("LinearGauge"),
+            category: "status",
+            icon: "\uE9D9",
+            description: qsTr("A horizontal or vertical linear gauge with thumb and thresholds."),
+            component: "LinearGaugePage",
+            source: "pages/LinearGaugePage.qml"
+        },
+        {
+            title: qsTr("ArcGauge"),
+            category: "status",
+            icon: "\uE9E9",
+            description: qsTr("A semicircle dashboard gauge with a large center value."),
+            component: "ArcGaugePage",
+            source: "pages/ArcGaugePage.qml"
+        },
+        {
+            title: qsTr("SegmentedGauge"),
+            category: "status",
+            icon: "\uE895",
+            description: qsTr("A ring divided into discrete segments for steps or quota."),
+            component: "SegmentedGaugePage",
+            source: "pages/SegmentedGaugePage.qml"
+        },
+        {
+            title: qsTr("ZoneGauge"),
+            category: "status",
+            icon: "\uE9E9",
+            description: qsTr("A needle gauge with colored zone bands (Toolkit-style)."),
+            component: "ZoneGaugePage",
+            source: "pages/ZoneGaugePage.qml"
         },
         {
             title: qsTr("BusyIndicator"),

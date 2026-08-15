@@ -11,7 +11,7 @@ T.AbstractButton {
     property alias isCloseButtonVisible: control.closable
     property bool highlighted: false
     property bool flat: false
-    property var icon: ""
+    property var symbol: ""
     property string iconGlyph: ""
     property string avatarText: ""
     // filled | outline
@@ -20,7 +20,7 @@ T.AbstractButton {
     property string chipSize: "medium"
     signal closeClicked()
 
-    readonly property string effectiveIconGlyph: IconSource.resolve(icon, iconGlyph)
+    readonly property string effectiveIconGlyph: IconSource.resolve(symbol, iconGlyph)
 
     checkable: true
     hoverEnabled: true
@@ -33,6 +33,10 @@ T.AbstractButton {
     bottomPadding: topPadding
     font.family: Theme.fontFamily
     font.pixelSize: chipSize === "small" ? 11 : Theme.fontCaption
+    Accessible.role: Accessible.Button
+    Accessible.name: control.text
+    Accessible.checkable: true
+    Accessible.checked: control.checked
 
     readonly property bool _outline: appearance === "outline"
     readonly property bool _selected: checked || highlighted
@@ -95,14 +99,31 @@ T.AbstractButton {
             }
             verticalAlignment: Text.AlignVCenter
         }
-        ToolButton {
+        AbstractButton {
             visible: control.closable
             Layout.preferredWidth: 24
             Layout.preferredHeight: 24
-            text: "\uE711"
-            font.family: Theme.fontFamilyIcon
-            font.pixelSize: 9
+            Accessible.name: qsTr("Remove")
             onClicked: control.closeClicked()
+            contentItem: Text {
+                text: FluentIcons.ChromeClose
+                font.family: Theme.fontFamilyIcon
+                font.pixelSize: 9
+                color: {
+                    if (!control.enabled)
+                        return Theme.textDisabled
+                    if (control._selected && !control._outline)
+                        return Theme.textOnAccent
+                    return Theme.textSecondary
+                }
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+            }
+            background: Rectangle {
+                radius: width / 2
+                color: parent.down ? Theme.fillSubtleTertiary
+                     : (parent.hovered ? Theme.fillSubtle : "transparent")
+            }
         }
     }
 

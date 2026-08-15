@@ -20,7 +20,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("DatePicker")
-                subtitle: qsTr("Pick a date with tumblers. Supports header, dateFormat, and selectedDate.")
+                subtitle: qsTr("Fluent Calendar icon, dateFormat, selectedDate, and Accessible.")
             }
             ControlExample {
                 Layout.fillWidth: true

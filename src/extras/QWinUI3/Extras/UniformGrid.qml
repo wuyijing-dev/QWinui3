@@ -13,12 +13,22 @@ T.Control {
     property real cellWidth: -1   // <0 → equal share of width
     property real cellHeight: -1  // <0 → equal share of height / implicit
     property int layoutDirection: Qt.LeftToRight
-    // Convenience: sets rowSpacing and columnSpacing together
     property real cellSpacing: -1
 
     padding: 0
     implicitWidth: 200
     implicitHeight: 200
+    Accessible.role: Accessible.Grouping
+    Accessible.name: qsTr("Uniform grid")
+
+    readonly property int childCount: {
+        var n = 0
+        for (var i = 0; i < grid.children.length; ++i) {
+            if (grid.children[i] && grid.children[i].visible)
+                ++n
+        }
+        return n
+    }
 
     onCellSpacingChanged: {
         if (cellSpacing >= 0) {

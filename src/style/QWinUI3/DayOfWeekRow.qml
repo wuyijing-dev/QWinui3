@@ -13,18 +13,22 @@ T.AbstractDayOfWeekRow {
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontCaption
 
-    delegate: Text {
+    delegate: Item {
         required property string shortName
         implicitWidth: 36
         implicitHeight: 28
-        text: shortName
-        font.family: control.font.family
-        font.pixelSize: control.font.pixelSize
-        font.weight: Theme.fontWeightSemiBold
-        color: Theme.textSecondary
-        horizontalAlignment: Text.AlignHCenter
-        verticalAlignment: Text.AlignVCenter
-        opacity: 0.9
+
+        Text {
+            anchors.fill: parent
+            text: shortName
+            font.family: control.font.family
+            font.pixelSize: control.font.pixelSize
+            font.weight: Theme.fontWeightSemiBold
+            color: Theme.textSecondary
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            opacity: 0.9
+        }
     }
 
     contentItem: Row {

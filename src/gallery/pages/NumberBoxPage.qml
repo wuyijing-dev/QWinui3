@@ -20,7 +20,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("NumberBox")
-                subtitle: qsTr("Header/description/error, wheel, validationMode, and spin placement.")
+                subtitle: qsTr("Fluent spin chevrons, wheel, validationMode, and focusField().")
             }
             ControlExample {
                 Layout.fillWidth: true

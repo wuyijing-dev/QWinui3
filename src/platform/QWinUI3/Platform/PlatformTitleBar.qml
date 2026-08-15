@@ -5,6 +5,7 @@ import QtQuick.Window
 import QWinUI3.Theme
 import QWinUI3.Platform
 
+// WinUI AppWindowTitleBar — caption buttons, drag region, hosts TitleBar content.
 Item {
     id: root
 
@@ -12,15 +13,29 @@ Item {
     property bool showCaptionButtons: WindowHelper.customFrame
     property bool showMinimize: true
     property bool showMaximize: true
+    property bool showClose: true
+    property int preferredHeightOption: WindowHelper.TitleBarHeightTall
     readonly property bool useNativeChrome: WindowHelper.nativeChrome && showCaptionButtons
+    readonly property real resolvedCaptionHeight: WindowHelper.titleBarHeightForOption(preferredHeightOption)
     default property alias titleContent: contentHost.data
 
-    property real captionHeight: 32
-    implicitHeight: Math.max(contentHost.implicitHeight, showCaptionButtons ? 48 : contentHost.implicitHeight)
+    property real captionHeight: resolvedCaptionHeight
+    implicitHeight: Math.max(contentHost.implicitHeight,
+                             showCaptionButtons ? captionHeight : contentHost.implicitHeight)
     height: implicitHeight
 
     property bool _ready: false
     property bool _hitTestPending: false
+
+    // AppWindowTitleBar theming (WinUI caption button / chrome colors).
+    property color chromeBackground: Theme.bgAcrylic
+    property bool chromeInactive: false
+    property color buttonBackground: "transparent"
+    property color buttonHover: Theme.fillSubtle
+    property color buttonPressed: Theme.fillSubtleTertiary
+    property color buttonForeground: Theme.textPrimary
+    property color closeHover: "#E81123"
+    property color closePressed: "#C50F1F"
 
     function reportHitTest() {
         if (!root._ready || !root.useNativeChrome || !root.targetWindow)
@@ -38,39 +53,38 @@ Item {
         if (!root._ready || !root.useNativeChrome || !root.targetWindow)
             return
 
-        var win = root.targetWindow
-        var winX = win.x
-        var winY = win.y
-
-        function buttonRect(btn) {
-            if (!btn || !btn.visible || btn.width <= 0 || btn.height <= 0)
+        // Screen-logical rects (mapToGlobal). Native NCHITTEST compares against
+        // the same space — critical for maximize/fullscreen where win.x/y drift
+        // from GetWindowRect.
+        function screenRect(item) {
+            if (!item || !item.visible || item.width <= 0 || item.height <= 0)
                 return Qt.rect(0, 0, 0, 0)
-            var g = btn.mapToGlobal(0, 0)
-            return Qt.rect(g.x - winX, g.y - winY, btn.width, btn.height)
+            var g = item.mapToGlobal(0, 0)
+            return Qt.rect(Math.floor(g.x), Math.floor(g.y),
+                           Math.ceil(item.width), Math.ceil(item.height))
         }
-
-        var topGlobal = root.mapToGlobal(0, 0)
-        var titleBottom = Math.ceil((topGlobal.y - winY) + root.height)
 
         var clients = []
         if (contentHost.children.length > 0 && contentHost.children[0].clientExcludeRectsFor)
-            clients = contentHost.children[0].clientExcludeRectsFor(win)
+            clients = contentHost.children[0].clientExcludeRectsFor(root.targetWindow)
 
         WindowHelper.updateHitTestLayout(
-                    win,
-                    titleBottom,
-                    buttonRect(minBtn),
-                    buttonRect(maxBtn),
-                    buttonRect(closeBtn),
+                    root.targetWindow,
+                    screenRect(root),
+                    screenRect(minBtn),
+                    screenRect(maxBtn),
+                    screenRect(closeBtn),
                     clients)
     }
 
     Rectangle {
         anchors.fill: parent
-        color: Theme.bgAcrylic
+        color: root.chromeInactive
+               ? Qt.rgba(root.chromeBackground.r, root.chromeBackground.g,
+                         root.chromeBackground.b, 0.72)
+               : root.chromeBackground
     }
 
-    // Fallback drag — also used when native hit-test is not ready yet (titleH==0).
     MouseArea {
         id: dragArea
         anchors.fill: parent
@@ -86,7 +100,8 @@ Item {
         onDoubleClicked: {
             if (!root.targetWindow || !root.showMaximize)
                 return
-            if (root.targetWindow.visibility === Window.Maximized)
+            if (root.targetWindow.visibility === Window.Maximized
+                    || root.targetWindow.visibility === Window.FullScreen)
                 root.targetWindow.showNormal()
             else
                 root.targetWindow.showMaximized()
@@ -114,16 +129,20 @@ Item {
             CaptionButton {
                 id: minBtn
                 visible: root.showMinimize
-                glyph: "\uE921"
+                glyph: FluentIcons.ChromeMinimize
                 height: root.captionHeight
-                // Always Qt-interactive: native HTMIN/MAX/CLOSE paints a white
-                // system button plate on translucent DWM materials.
                 interactive: true
+                backgroundColor: root.buttonBackground
+                hoverColor: root.buttonHover
+                pressedColor: root.buttonPressed
+                foregroundColor: root.buttonForeground
+                forceHovered: WindowHelper.captionHover === WindowHelper.CaptionMinimize
+                forcePressed: WindowHelper.captionPressed === WindowHelper.CaptionMinimize
                 onClicked: {
                     if (root.targetWindow)
                         root.targetWindow.showMinimized()
                 }
-                ToolTip.visible: hovered
+                ToolTip.visible: hovered || forceHovered
                 ToolTip.text: qsTr("Minimize")
                 ToolTip.delay: 600
                 onWidthChanged: root.reportHitTest()
@@ -134,20 +153,31 @@ Item {
             CaptionButton {
                 id: maxBtn
                 visible: root.showMaximize
-                glyph: root.targetWindow && root.targetWindow.visibility === Window.Maximized
-                       ? "\uE923" : "\uE922"
+                glyph: root.targetWindow
+                       && (root.targetWindow.visibility === Window.Maximized
+                           || root.targetWindow.visibility === Window.FullScreen)
+                       ? FluentIcons.ChromeRestore : FluentIcons.ChromeMaximize
                 height: root.captionHeight
                 interactive: true
+                backgroundColor: root.buttonBackground
+                hoverColor: root.buttonHover
+                pressedColor: root.buttonPressed
+                foregroundColor: root.buttonForeground
+                forceHovered: WindowHelper.captionHover === WindowHelper.CaptionMaximize
+                forcePressed: WindowHelper.captionPressed === WindowHelper.CaptionMaximize
                 onClicked: {
                     if (!root.targetWindow)
                         return
-                    if (root.targetWindow.visibility === Window.Maximized)
+                    if (root.targetWindow.visibility === Window.Maximized
+                            || root.targetWindow.visibility === Window.FullScreen)
                         root.targetWindow.showNormal()
                     else
                         root.targetWindow.showMaximized()
                 }
-                ToolTip.visible: hovered
-                ToolTip.text: root.targetWindow && root.targetWindow.visibility === Window.Maximized
+                ToolTip.visible: hovered || forceHovered
+                ToolTip.text: root.targetWindow
+                              && (root.targetWindow.visibility === Window.Maximized
+                                  || root.targetWindow.visibility === Window.FullScreen)
                               ? qsTr("Restore") : qsTr("Maximize")
                 ToolTip.delay: 600
                 onWidthChanged: root.reportHitTest()
@@ -157,15 +187,22 @@ Item {
             }
             CaptionButton {
                 id: closeBtn
-                glyph: "\uE8BB"
+                visible: root.showClose
+                glyph: FluentIcons.ChromeCloseAlt
                 destructive: true
                 height: root.captionHeight
                 interactive: true
+                backgroundColor: root.buttonBackground
+                hoverColor: root.closeHover
+                pressedColor: root.closePressed
+                foregroundColor: root.buttonForeground
+                forceHovered: WindowHelper.captionHover === WindowHelper.CaptionClose
+                forcePressed: WindowHelper.captionPressed === WindowHelper.CaptionClose
                 onClicked: {
                     if (root.targetWindow)
                         root.targetWindow.close()
                 }
-                ToolTip.visible: hovered
+                ToolTip.visible: hovered || forceHovered
                 ToolTip.text: qsTr("Close")
                 ToolTip.delay: 600
                 onWidthChanged: root.reportHitTest()
@@ -179,6 +216,7 @@ Item {
     onWidthChanged: if (_ready) reportHitTest()
     onHeightChanged: if (_ready) reportHitTest()
     onTargetWindowChanged: if (_ready) reportHitTest()
+    onPreferredHeightOptionChanged: if (_ready) reportHitTest()
     Component.onCompleted: {
         _ready = true
         Qt.callLater(reportHitTest)
@@ -190,5 +228,11 @@ Item {
         function onWidthChanged() { root.reportHitTest() }
         function onHeightChanged() { root.reportHitTest() }
         function onVisibilityChanged() { root.reportHitTest() }
+    }
+
+    Connections {
+        target: WindowHelper
+        function onCaptionHoverChanged() { }
+        function onCaptionPressedChanged() { }
     }
 }

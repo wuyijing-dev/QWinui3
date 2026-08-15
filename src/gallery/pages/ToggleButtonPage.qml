@@ -20,20 +20,28 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("ToggleButton")
-                subtitle: qsTr("A button that toggles between on and off states.")
+                subtitle: qsTr("Checkable accent toggle with optional symbol: FluentIcons.*.")
             }
             ControlExample {
                 Layout.fillWidth: true
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Toggle")
-                qmlSource: "ToggleButton {\n    text: \"Bold\"\n    checked: true\n}"
+                qmlSource: "ToggleButton {\n    text: \"Bold\"\n    symbol: FluentIcons.Edit\n    checked: true\n}"
                 Flow {
                     Layout.fillWidth: true
                     spacing: Theme.spacingLoose
                     ToggleButton { text: qsTr("Bold"); checked: true }
                     ToggleButton { text: qsTr("Italic") }
-                    ToggleButton { text: qsTr("Underline") }
+                    ToggleButton {
+                        text: qsTr("Mail")
+                        symbol: FluentIcons.Mail
+                        checked: true
+                    }
+                    ToggleButton {
+                        symbol: FluentIcons.Flag
+                        ToolTip.text: qsTr("Flag")
+                    }
                     ToggleButton { text: qsTr("Disabled"); enabled: false; checked: true }
                 }
             }

@@ -20,14 +20,14 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("PipsPager")
-                subtitle: qsTr("Clickable page indicator dots with WinUI previous/next button visibility.")
+                subtitle: qsTr("Page indicators with selectedIndex, keyboard nav, and WinUI previous/next visibility.")
             }
             ControlExample {
                 Layout.fillWidth: true
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("With FlipView")
-                qmlSource: "PipsPager {\n    count: 3\n    currentIndex: flip.currentIndex\n}"
+                qmlSource: "PipsPager {\n    count: flip.count\n    selectedIndex: flip.currentIndex\n}"
                 ColumnLayout {
                     Layout.fillWidth: true
                     spacing: Theme.spacingLoose
@@ -56,7 +56,7 @@ Page {
                     PipsPager {
                         Layout.alignment: Qt.AlignHCenter
                         count: flip.count
-                        currentIndex: flip.currentIndex
+                        selectedIndex: flip.currentIndex
                         wrap: true
                         previousButtonVisibility: "visible"
                         nextButtonVisibility: "visible"
@@ -75,7 +75,7 @@ Page {
                 PipsPager {
                     Layout.alignment: Qt.AlignHCenter
                     count: 5
-                    currentIndex: 2
+                    selectedIndex: 2
                     previousButtonVisibility: "visibleOnPointerOver"
                     nextButtonVisibility: "visibleOnPointerOver"
                 }

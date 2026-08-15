@@ -20,7 +20,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("HeaderedTextBox")
-                subtitle: qsTr("Header, description, errorMessage, and optional clear button.")
+                subtitle: qsTr("Header, description, error icon, clear button, and optional characterLimit.")
             }
             ControlExample {
                 Layout.fillWidth: true
@@ -35,6 +35,7 @@ Page {
                     description: qsTr("Displayed on your profile.")
                     placeholderText: qsTr("Enter a name")
                     clearButtonVisible: true
+                    characterLimit: 32
                 }
             }
             ControlExample {

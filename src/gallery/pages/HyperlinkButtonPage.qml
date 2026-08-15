@@ -22,7 +22,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("HyperlinkButton")
-                subtitle: qsTr("Text link with icon, visited state, NavigateUri, and navigateMode.")
+                subtitle: qsTr("Fluent link with symbol, showExternalGlyph, visited, and navigateMode.")
             }
 
             ControlExample {
@@ -30,7 +30,7 @@ Page {
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Underline styles")
-                qmlSource: "HyperlinkButton {\n    iconGlyph: \"\\uE8A7\"\n    navigateUri: \"https://doc.qt.io\"\n}"
+                qmlSource: "HyperlinkButton {\n    symbol: FluentIcons.OpenInNewWindow\n    showExternalGlyph: true\n}"
 
                 ColumnLayout {
                     spacing: Theme.spacing
@@ -48,7 +48,8 @@ Page {
                         spacing: Theme.spacingLoose
                         HyperlinkButton {
                             text: qsTr("Go to docs")
-                            iconGlyph: "\uE8A7"
+                            symbol: FluentIcons.Document
+                            showExternalGlyph: true
                             navigateUri: "https://doc.qt.io"
                             underlineStyle: underBox.currentText
                         }

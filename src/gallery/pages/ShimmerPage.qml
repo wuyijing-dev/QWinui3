@@ -20,7 +20,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("Shimmer")
-                subtitle: qsTr("Skeleton placeholders with isActive, durationMs, and custom colors.")
+                subtitle: qsTr("Skeleton placeholders with direction (Horizontal/Vertical), isActive, and shapes.")
             }
             ControlExample {
                 Layout.fillWidth: true
@@ -47,6 +47,7 @@ Page {
                             implicitHeight: 64
                             cornerRadius: Theme.cornerCard
                             durationMs: 1000
+                            direction: Qt.Vertical
                             baseColor: Theme.fillSubtleSecondary
                         }
                     }

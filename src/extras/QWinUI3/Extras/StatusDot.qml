@@ -45,6 +45,8 @@ T.Control {
     ToolTip.visible: hovered && label.length === 0
     ToolTip.text: statusName
     hoverEnabled: true
+    Accessible.role: Accessible.StatusBar
+    Accessible.name: label.length ? label : statusName
 
     contentItem: Row {
         id: row

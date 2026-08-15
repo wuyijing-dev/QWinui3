@@ -12,10 +12,10 @@ T.AbstractButton {
     property bool highlighted: false
     property int flyoutPlacement: Qt.AlignBottom
     property string iconGlyph: ""
-    property var icon: ""
+    property var symbol: ""
     property alias isOpen: popupMenu.visible
 
-    readonly property string effectiveIconGlyph: IconSource.resolve(icon, iconGlyph)
+    readonly property string effectiveIconGlyph: IconSource.resolve(symbol, iconGlyph)
 
     implicitWidth: Math.max(Theme.controlMinWidth,
                             contentItem.implicitWidth + leftPadding + rightPadding + 8)
@@ -28,6 +28,9 @@ T.AbstractButton {
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     hoverEnabled: true
+    Accessible.role: Accessible.Button
+    Accessible.name: control.text.length ? control.text : qsTr("Drop down")
+    Accessible.description: control.menuOpen ? qsTr("Menu open") : qsTr("Menu closed")
 
     readonly property bool lightScheme: !Theme.dark
     readonly property bool menuOpen: popupMenu.visible
@@ -118,7 +121,7 @@ T.AbstractButton {
         }
         Text {
             id: chevron
-            text: "\uE70D"
+            text: FluentIcons.ChevronDown
             font.family: Theme.fontFamilyIcon
             font.pixelSize: 10
             color: control.highlighted

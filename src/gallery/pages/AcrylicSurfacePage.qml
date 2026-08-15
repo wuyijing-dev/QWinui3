@@ -20,7 +20,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("AcrylicSurface")
-                subtitle: qsTr("Frosted surface with tintColor, cornerRadius, and luminant edge.")
+                subtitle: qsTr("Frosted ElevatedChrome surface with tint, cornerRadius, and Accessible pane.")
             }
             ControlExample {
                 Layout.fillWidth: true

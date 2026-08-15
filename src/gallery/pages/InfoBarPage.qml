@@ -22,7 +22,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("InfoBar")
-                subtitle: qsTr("Inline message with severity, open()/close(), opened/closed, and Accessible alerts.")
+                subtitle: qsTr("Severity alerts with Fluent ChromeClose, open()/close(), and Accessible.")
             }
 
             ControlExample {

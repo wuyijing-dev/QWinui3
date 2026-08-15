@@ -20,7 +20,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("UniformGrid")
-                subtitle: qsTr("A grid that sizes all cells equally, with cellSpacing and RTL.")
+                subtitle: qsTr("Equal cells with cellSpacing, RTL, and childCount.")
             }
             ControlExample {
                 Layout.fillWidth: true

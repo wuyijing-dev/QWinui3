@@ -20,7 +20,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("FlipView")
-                subtitle: qsTr("Swipeable pages with PipsPager, selectedIndex, and wrap.")
+                subtitle: qsTr("Swipeable pages with Fluent chevrons, PipsPager, and Accessible page index.")
             }
             ControlExample {
                 Layout.fillWidth: true

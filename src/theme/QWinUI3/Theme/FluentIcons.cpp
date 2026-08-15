@@ -38,8 +38,12 @@ void FluentIcons::populate()
         insert(QString::fromLatin1(key), g(cp));
     };
 
-    // Chrome / navigation
+    // Chrome / navigation (incl. AppWindowTitleBar caption glyphs)
     put("ChromeClose", 0xE711);
+    put("ChromeCloseAlt", 0xE8BB); // caption close plate
+    put("ChromeMinimize", 0xE921);
+    put("ChromeMaximize", 0xE922);
+    put("ChromeRestore", 0xE923);
     put("Cancel", 0xE711);
     put("Clear", 0xE894);
     put("Back", 0xE72B);

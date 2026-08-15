@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Templates as T
-import QtQuick.Effects
 import QWinUI3.Theme
 
 // Scroll view with a vertical scrollbar that shows a value label while dragging / hovering the handle.
@@ -53,16 +52,17 @@ T.Control {
             }
         }
 
-        // Annotation bubble beside the handle
-        Rectangle {
+        ElevatedChrome {
             id: bubble
             z: 2
             width: labelText.implicitWidth + 16
             height: 28
             radius: Theme.cornerControl
             color: Theme.bgCardElevated
-            border.width: 1
-            border.color: Theme.strokeCard
+            borderWidth: 1
+            borderColor: Theme.strokeCard
+            elevation: 4
+            shadowOpacity: Theme.dark ? 0.28 : 0.14
             opacity: (root.alwaysShowLabel || vbar.pressed || vbar.hovered) && vbar.size < 1.0 ? 1 : 0
             visible: opacity > 0.01
             scale: opacity > 0.5 ? 1 : 0.94
@@ -96,17 +96,6 @@ T.Control {
                 }
             }
 
-            layer.enabled: true
-            layer.effect: MultiEffect {
-                shadowEnabled: true
-                shadowOpacity: Theme.dark ? 0.28 : 0.14
-                shadowColor: "#000000"
-                shadowHorizontalOffset: 0
-                shadowVerticalOffset: 4
-                blurMax: 16
-                autoPaddingEnabled: true
-            }
-
             Text {
                 id: labelText
                 anchors.centerIn: parent
@@ -115,6 +104,7 @@ T.Control {
                 font.pixelSize: Theme.fontCaption
                 font.weight: Theme.fontWeightSemiBold
                 color: Theme.textPrimary
+                z: 1
             }
         }
     }

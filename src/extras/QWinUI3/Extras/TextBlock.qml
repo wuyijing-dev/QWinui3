@@ -24,6 +24,32 @@ T.Control {
 
     property color color: style === caption ? Theme.textSecondary : Theme.textPrimary
 
+    readonly property string styleName: {
+        switch (style) {
+        case caption: return "caption"
+        case bodyStrong: return "bodyStrong"
+        case subtitle: return "subtitle"
+        case title: return "title"
+        case titleLarge: return "titleLarge"
+        case display: return "display"
+        default: return "body"
+        }
+    }
+
+    function setStyleName(name) {
+        switch (String(name).toLowerCase()) {
+        case "caption": style = caption; break
+        case "bodystrong":
+        case "body-strong": style = bodyStrong; break
+        case "subtitle": style = subtitle; break
+        case "title": style = title; break
+        case "titlelarge":
+        case "title-large": style = titleLarge; break
+        case "display": style = display; break
+        default: style = body; break
+        }
+    }
+
     font.family: {
         switch (style) {
         case display:
@@ -65,6 +91,8 @@ T.Control {
     implicitHeight: contentItem.implicitHeight
     background: Item {}
     padding: 0
+    Accessible.role: Accessible.Paragraph
+    Accessible.name: text
 
     contentItem: Loader {
         id: loader
@@ -100,9 +128,7 @@ T.Control {
             readOnly: true
             selectByMouse: true
             wrapMode: root._wrapMode === Text.Wrap ? TextEdit.Wrap : TextEdit.NoWrap
-            // TextEdit has no elide/maxLines — keep selection path for body copy use-cases
-            background: null
-            padding: 0
+            // TextEdit (QtQuick) has no background/padding — unlike Controls TextField
             activeFocusOnPress: true
         }
     }

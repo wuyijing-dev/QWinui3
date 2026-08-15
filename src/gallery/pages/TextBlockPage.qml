@@ -20,7 +20,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("TextBlock")
-                subtitle: qsTr("WinUI type ramp, optional text selection, and textTrimming.")
+                subtitle: qsTr("WinUI type ramp, styleName / setStyleName(), selection, and trimming.")
             }
             ControlExample {
                 Layout.fillWidth: true

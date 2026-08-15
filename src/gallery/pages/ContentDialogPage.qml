@@ -54,7 +54,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("ContentDialog")
-                subtitle: qsTr("Modal dialog with primary, secondary, and close actions. Supports defaultButton.")
+                subtitle: qsTr("Modal dialog with isOpen, enter/exit motion, and primary / secondary / close actions.")
             }
 
             ControlExample {
@@ -62,12 +62,43 @@ Page {
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Primary and close")
-                qmlSource: "ContentDialog {\n    defaultButton: \"primary\"\n    primaryButtonText: \"Confirm\"\n}"
+                qmlSource: "ContentDialog {\n    isOpen: true\n    defaultButton: \"primary\"\n}"
 
                 Button {
                     text: qsTr("Show ContentDialog")
                     highlighted: true
                     onClicked: contentDialog.open()
+                }
+            }
+
+            ControlExample {
+                Layout.fillWidth: true
+                Layout.leftMargin: Theme.spacingSection
+                Layout.rightMargin: Theme.spacingSection
+                headerText: qsTr("Queue: show / cancel / replaceCurrent")
+                qmlSource: "ContentDialogQueue.show(a)\nContentDialogQueue.replaceCurrent(b)"
+
+                RowLayout {
+                    spacing: Theme.spacing
+                    Button {
+                        text: qsTr("Enqueue both")
+                        onClicked: {
+                            contentDialog.show()
+                            threeBtnDialog.show()
+                        }
+                    }
+                    Button {
+                        text: qsTr("Cancel second")
+                        onClicked: ContentDialogQueue.cancel(threeBtnDialog)
+                    }
+                    Button {
+                        text: qsTr("Replace with three-btn")
+                        onClicked: ContentDialogQueue.replaceCurrent(threeBtnDialog)
+                    }
+                    Button {
+                        text: qsTr("Clear queue")
+                        onClicked: ContentDialogQueue.clearQueue()
+                    }
                 }
             }
 
@@ -92,7 +123,7 @@ Page {
                     }
                     Button {
                         text: qsTr("Show three-button dialog")
-                        onClicked: threeBtnDialog.open()
+                        onClicked: threeBtnDialog.isOpen = true
                     }
                 }
             }

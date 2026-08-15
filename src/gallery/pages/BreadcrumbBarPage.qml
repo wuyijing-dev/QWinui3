@@ -20,14 +20,14 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("BreadcrumbBar")
-                subtitle: qsTr("Path trail with overflow ellipsis. Current crumb is non-clickable by default (lastItemClickable).")
+                subtitle: qsTr("Fluent separators, symbol crumbs, overflow ellipsis, and Accessible path.")
             }
             ControlExample {
                 Layout.fillWidth: true
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Path")
-                qmlSource: "BreadcrumbBar {\n    lastItemClickable: false\n    maxVisibleItems: 4\n}"
+                qmlSource: "BreadcrumbBar {\n    model: [{ title, symbol: FluentIcons.Home }]\n}"
                 ColumnLayout {
                     Layout.fillWidth: true
                     spacing: Theme.spacing
@@ -41,8 +41,8 @@ Page {
                         maxVisibleItems: 4
                         lastItemClickable: lastClickable.checked
                         model: [
-                            { title: qsTr("Home"), icon: "\uE80F" },
-                            { title: qsTr("Library"), icon: "\uE8B7" },
+                            { title: qsTr("Home"), symbol: FluentIcons.Home },
+                            { title: qsTr("Library"), symbol: FluentIcons.Folder },
                             qsTr("Documents"),
                             qsTr("Projects"),
                             qsTr("2026"),

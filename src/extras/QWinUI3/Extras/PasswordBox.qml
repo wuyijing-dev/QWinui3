@@ -19,6 +19,7 @@ T.Control {
     property bool revealPassword: false
     property bool revealButtonVisible: passwordRevealMode !== "hidden" && passwordRevealMode !== "visible"
     property alias echoMode: field.echoMode
+    property alias field: field
     readonly property bool hasError: errorMessage.length > 0
     signal accepted()
     signal cleared()
@@ -29,10 +30,18 @@ T.Control {
     rightPadding: 0
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
+    Accessible.role: Accessible.EditableText
+    Accessible.name: header.length ? header : qsTr("Password")
+    Accessible.description: hasError ? errorMessage : description
+    Accessible.passwordEdit: !revealPassword
 
     function clear() {
         field.clear()
         cleared()
+    }
+
+    function focusField() {
+        field.forceActiveFocus()
     }
 
     onPasswordRevealModeChanged: {
@@ -80,21 +89,44 @@ T.Control {
                 onAccepted: root.accepted()
             }
 
-            ToolButton {
+            Rectangle {
+                anchors.left: field.left
+                anchors.right: field.right
+                anchors.bottom: field.bottom
+                height: 2
+                radius: 1
+                visible: root.hasError
+                color: Theme.systemCritical
+                opacity: 0.9
+            }
+
+            AbstractButton {
                 id: clearBtn
                 visible: root.clearButtonVisible && field.text.length > 0
                 anchors.right: revealBtn.visible ? revealBtn.left : parent.right
                 anchors.verticalCenter: parent.verticalCenter
                 width: 32
                 height: 32
-                text: "\uE711"
-                font.family: Theme.fontFamilyIcon
-                font.pixelSize: 10
+                hoverEnabled: true
+                Accessible.name: qsTr("Clear")
                 opacity: visible ? 1 : 0
                 onClicked: root.clear()
+                scale: down && !Theme.reducedMotion ? 0.92 : 1
                 Behavior on opacity {
                     enabled: !Theme.reducedMotion
                     NumberAnimation { duration: Theme.duration(Theme.motionFast) }
+                }
+                Behavior on scale {
+                    enabled: !Theme.reducedMotion
+                    NumberAnimation { duration: Theme.duration(Theme.motionFast) }
+                }
+                contentItem: Text {
+                    text: FluentIcons.ChromeClose
+                    font.family: Theme.fontFamilyIcon
+                    font.pixelSize: 10
+                    color: clearBtn.hovered ? Theme.textPrimary : Theme.textSecondary
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
                 }
                 background: Rectangle {
                     radius: Theme.cornerControl
@@ -103,16 +135,15 @@ T.Control {
                 }
             }
 
-            ToolButton {
+            AbstractButton {
                 id: revealBtn
                 visible: root.revealButtonVisible
                 anchors.right: parent.right
                 anchors.verticalCenter: parent.verticalCenter
                 width: 32
                 height: 32
-                text: root.revealPassword ? "\uED1A" : "\uE890"
-                font.family: Theme.fontFamilyIcon
-                font.pixelSize: 14
+                hoverEnabled: true
+                Accessible.name: root.revealPassword ? qsTr("Hide password") : qsTr("Show password")
                 scale: down && !Theme.reducedMotion ? 0.92 : 1
                 ToolTip.visible: hovered
                 ToolTip.text: root.passwordRevealMode === "peek"
@@ -140,6 +171,18 @@ T.Control {
                         root.revealPassword = !root.revealPassword
                 }
 
+                contentItem: Text {
+                    text: root.revealPassword ? FluentIcons.Hide : FluentIcons.View
+                    font.family: Theme.fontFamilyIcon
+                    font.pixelSize: 14
+                    color: revealBtn.hovered || root.revealPassword ? Theme.accent : Theme.textSecondary
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    Behavior on color {
+                        enabled: !Theme.reducedMotion
+                        ColorAnimation { duration: Theme.duration(Theme.motionFast) }
+                    }
+                }
                 background: Rectangle {
                     radius: Theme.cornerControl
                     color: revealBtn.down ? Theme.fillSubtleTertiary
@@ -155,14 +198,24 @@ T.Control {
             }
         }
 
-        Text {
-            visible: root.hasError
+        RowLayout {
             Layout.fillWidth: true
-            text: root.errorMessage
-            font.family: root.font.family
-            font.pixelSize: Theme.fontCaption
-            color: Theme.systemCritical
-            wrapMode: Text.Wrap
+            spacing: 4
+            visible: root.hasError
+            Text {
+                text: FluentIcons.Error
+                font.family: Theme.fontFamilyIcon
+                font.pixelSize: 12
+                color: Theme.systemCritical
+            }
+            Text {
+                Layout.fillWidth: true
+                text: root.errorMessage
+                font.family: root.font.family
+                font.pixelSize: Theme.fontCaption
+                color: Theme.systemCritical
+                wrapMode: Text.Wrap
+            }
         }
     }
 

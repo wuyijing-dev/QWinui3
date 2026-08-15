@@ -20,7 +20,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("TokenizingTextBox")
-                subtitle: qsTr("Token field with header, validation error, maxTokens, and delimiters.")
+                subtitle: qsTr("Tokens with ElevatedChrome suggestions, clear(), and Accessible.")
             }
             ControlExample {
                 Layout.fillWidth: true
@@ -35,6 +35,17 @@ Page {
                     CheckBox {
                         id: errBox
                         text: qsTr("Show error")
+                    }
+                    RowLayout {
+                        Button {
+                            text: qsTr("Clear tokens")
+                            flat: true
+                            onClicked: box.clear()
+                        }
+                        Label {
+                            text: qsTr("%1 tokens").arg(box.tokenCount)
+                            color: Theme.textSecondary
+                        }
                     }
                     TokenizingTextBox {
                         id: box
@@ -54,6 +65,7 @@ Page {
                             status.text = qsTr("Added: %1 (%2/%3)")
                                 .arg(t).arg(box.tokens.length).arg(box.maxTokens)
                         }
+                        onCleared: status.text = qsTr("Cleared")
                     }
                     Label {
                         id: status

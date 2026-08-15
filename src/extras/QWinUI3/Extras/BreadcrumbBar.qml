@@ -14,10 +14,13 @@ T.Control {
     property int maxVisibleItems: 0
     // WinUI: current/last crumb is usually non-interactive
     property bool lastItemClickable: false
-    property string separatorGlyph: "\uE76C"
+    property var separatorSymbol: FluentIcons.ChevronRight
+    property string separatorGlyph: ""
     signal itemClicked(int index)
     // WinUI ItemInvoked
     signal itemInvoked(int index)
+
+    readonly property string effectiveSeparatorGlyph: IconSource.resolve(separatorSymbol, separatorGlyph)
 
     implicitWidth: row.implicitWidth
     implicitHeight: Theme.controlHeight
@@ -26,6 +29,13 @@ T.Control {
     font.pixelSize: Theme.fontBody
     Accessible.role: Accessible.List
     Accessible.name: qsTr("Breadcrumb")
+    Accessible.description: {
+        var m = root.model || []
+        var parts = []
+        for (var i = 0; i < m.length; ++i)
+            parts.push(root.crumbTitle(m[i]))
+        return parts.join(" › ")
+    }
 
     readonly property var visibleModel: {
         var m = root.model || []
@@ -62,6 +72,12 @@ T.Control {
         return (data && data.title) ? data.title : ""
     }
 
+    function crumbIcon(data) {
+        if (typeof data !== "object" || !data)
+            return ""
+        return IconSource.resolve(data.symbol || "", data.icon || data.glyph || "")
+    }
+
     function isCurrent(index) {
         return !isNaN(index) && index >= 0 && index === root.currentIndex
     }
@@ -88,7 +104,7 @@ T.Control {
 
                 Text {
                     visible: index > 0
-                    text: root.separatorGlyph
+                    text: root.effectiveSeparatorGlyph
                     font.family: Theme.fontFamilyIcon
                     font.pixelSize: 10
                     color: Theme.textSecondary
@@ -129,10 +145,9 @@ T.Control {
                     contentItem: RowLayout {
                         spacing: 6
                         Text {
-                            visible: typeof modelData.data === "object" && modelData.data
-                                     && modelData.data.icon
-                            text: (typeof modelData.data === "object" && modelData.data)
-                                  ? (modelData.data.icon || "") : ""
+                            readonly property string _glyph: root.crumbIcon(modelData.data)
+                            visible: _glyph.length > 0
+                            text: _glyph
                             font.family: Theme.fontFamilyIcon
                             font.pixelSize: 12
                             color: (!modelData.ellipsis && modelData.index === root.currentIndex)

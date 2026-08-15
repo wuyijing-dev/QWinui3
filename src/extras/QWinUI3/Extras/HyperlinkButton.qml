@@ -10,14 +10,15 @@ T.AbstractButton {
     property alias navigateUri: control.url
     // always | onHover | never
     property string underlineStyle: "onHover"
-    property var icon: ""
+    property var symbol: ""
     property string iconGlyph: ""
     property bool visited: false
+    property bool showExternalGlyph: false
     // "external" opens the URL; "signal" only emits clicked / navigateRequested
     property string navigateMode: "external"
     signal navigateRequested(url target)
 
-    readonly property string effectiveIconGlyph: IconSource.resolve(icon, iconGlyph)
+    readonly property string effectiveIconGlyph: IconSource.resolve(symbol, iconGlyph)
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding)
@@ -30,6 +31,17 @@ T.AbstractButton {
     font.pixelSize: Theme.fontBody
     hoverEnabled: true
     Accessible.role: Accessible.Link
+    Accessible.name: control.text.length ? control.text : qsTr("Hyperlink")
+    Accessible.description: url.toString()
+
+    scale: down && !Theme.reducedMotion ? 0.98 : 1
+    Behavior on scale {
+        enabled: !Theme.reducedMotion
+        NumberAnimation {
+            duration: Theme.duration(Theme.motionFast)
+            easing.type: Theme.easingStandard
+        }
+    }
 
     contentItem: RowLayout {
         spacing: control.spacing
@@ -73,6 +85,16 @@ T.AbstractButton {
                 enabled: !Theme.reducedMotion
                 ColorAnimation { duration: Theme.duration(Theme.motionFast) }
             }
+        }
+
+        Text {
+            visible: control.showExternalGlyph && control.url.toString().length > 0
+            text: FluentIcons.OpenInNewWindow
+            font.family: Theme.fontFamilyIcon
+            font.pixelSize: 12
+            color: label.color
+            opacity: 0.85
+            Layout.alignment: Qt.AlignVCenter
         }
     }
 

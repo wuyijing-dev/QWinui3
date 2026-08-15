@@ -12,15 +12,16 @@ T.Control {
     property var model: []
     property var suggestionModel: []
     property bool clearButtonVisible: true
-    // WinUI QueryIcon — Segoe Fluent glyph
-    property string queryIcon: "\uE721"
-    // When true, selecting a suggestion replaces the field text
+    property var symbol: FluentIcons.Search
+    property string queryIcon: ""
     property bool updateTextOnSelect: true
-    // Optional object-model field (falls back to title / text)
     property string textMemberPath: ""
+    property bool isSuggestionListOpen: false
+    property string header: ""
+
+    readonly property string effectiveQueryIcon: IconSource.resolve(symbol, queryIcon)
 
     signal suggestionChosen(var item)
-    // WinUI QuerySubmitted — Enter or commit without picking a suggestion
     signal querySubmitted(string query)
     signal accepted(string text)
     signal cleared()
@@ -29,6 +30,10 @@ T.Control {
     implicitHeight: Theme.searchBoxHeight
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
+    Accessible.role: Accessible.ComboBox
+    Accessible.name: header.length ? header : qsTr("Suggestions")
+
+    function focusField() { field.forceActiveFocus() }
 
     function displayTextFor(item) {
         if (item === undefined || item === null)
@@ -88,7 +93,7 @@ T.Control {
             anchors.left: parent.left
             anchors.leftMargin: 10
             anchors.verticalCenter: parent.verticalCenter
-            text: control.queryIcon
+            text: control.effectiveQueryIcon
             font.family: Theme.fontFamilyIcon
             font.pixelSize: 14
             color: field.activeFocus ? Theme.accent : Theme.textSecondary
@@ -110,7 +115,7 @@ T.Control {
             }
         }
 
-        ToolButton {
+        AbstractButton {
             id: clearBtn
             visible: control.clearButtonVisible && field.text.length > 0
             anchors.right: parent.right
@@ -120,10 +125,16 @@ T.Control {
             z: 1
             opacity: visible ? 1 : 0
             scale: down && !Theme.reducedMotion ? 0.9 : 1
-            text: "\uE711"
-            font.family: Theme.fontFamilyIcon
-            font.pixelSize: 10
+            Accessible.name: qsTr("Clear")
             onClicked: control.clear()
+            contentItem: Text {
+                text: FluentIcons.ChromeClose
+                font.family: Theme.fontFamilyIcon
+                font.pixelSize: 10
+                color: Theme.textSecondary
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+            }
             Behavior on opacity {
                 enabled: !Theme.reducedMotion
                 NumberAnimation {
@@ -158,6 +169,8 @@ T.Control {
             opacity: 0
             scale: 0.96
             transformOrigin: Item.Top
+            onOpened: control.isSuggestionListOpen = true
+            onClosed: control.isSuggestionListOpen = false
 
             enter: Transition {
                 NumberAnimation {

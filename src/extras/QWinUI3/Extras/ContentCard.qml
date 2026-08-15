@@ -9,11 +9,14 @@ T.Control {
 
     property string title: ""
     property string subtitle: ""
+    property var symbol: ""
     property string headerIcon: ""
     property alias footer: footerSlot.data
     property bool isClickable: false
     default property alias contentData: body.data
     signal clicked()
+
+    readonly property string effectiveHeaderIcon: IconSource.resolve(symbol, headerIcon)
 
     padding: 16
     implicitWidth: 320
@@ -21,27 +24,48 @@ T.Control {
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     hoverEnabled: isClickable
+    focusPolicy: isClickable ? Qt.StrongFocus : Qt.NoFocus
+    Accessible.role: isClickable ? Accessible.Button : Accessible.Grouping
+    Accessible.name: title
+    Accessible.description: subtitle
 
     background: ElevatedChrome {
         color: {
+            if (control.isClickable && control._pressed)
+                return Theme.fillSubtleTertiary
             if (control.isClickable && control.hovered)
                 return Theme.fillSubtle
             return Theme.bgCardElevated
         }
         radius: Theme.cornerCard
-        borderColor: Theme.strokeCard
-        borderWidth: 1
-        elevation: 4
+        borderColor: control.activeFocus && control.isClickable ? Theme.focusOuter : Theme.strokeCard
+        borderWidth: control.activeFocus && control.isClickable ? 2 : 1
+        elevation: control.isClickable && control.hovered ? 6 : 4
         shadowOpacity: Theme.dark ? 0.28 : 0.12
-        scale: control.isClickable && control._pressed ? 0.99 : 1
+        scale: control.isClickable && control._pressed && !Theme.reducedMotion ? 0.99 : 1
 
         Behavior on color {
             enabled: !Theme.reducedMotion
             ColorAnimation { duration: Theme.duration(Theme.motionFast) }
         }
+        Behavior on scale {
+            enabled: !Theme.reducedMotion
+            NumberAnimation {
+                duration: Theme.duration(Theme.motionFast)
+                easing.type: Theme.easingStandard
+            }
+        }
+        Behavior on elevation {
+            enabled: !Theme.reducedMotion
+            NumberAnimation { duration: Theme.duration(Theme.motionFast) }
+        }
     }
 
     property bool _pressed: false
+
+    Keys.onReturnPressed: if (isClickable) clicked()
+    Keys.onEnterPressed: if (isClickable) clicked()
+    Keys.onSpacePressed: if (isClickable) clicked()
 
     TapHandler {
         enabled: control.isClickable
@@ -53,13 +77,13 @@ T.Control {
         spacing: Theme.spacing
 
         RowLayout {
-            visible: control.title.length > 0 || control.headerIcon.length > 0
+            visible: control.title.length > 0 || control.effectiveHeaderIcon.length > 0
             Layout.fillWidth: true
             spacing: Theme.spacing
 
             Text {
-                visible: control.headerIcon.length > 0
-                text: control.headerIcon
+                visible: control.effectiveHeaderIcon.length > 0
+                text: control.effectiveHeaderIcon
                 font.family: Theme.fontFamilyIcon
                 font.pixelSize: 20
                 color: Theme.accent
@@ -91,29 +115,25 @@ T.Control {
         }
 
         Rectangle {
-            visible: control.title.length > 0 || control.headerIcon.length > 0
+            visible: control.title.length > 0 || control.effectiveHeaderIcon.length > 0
             Layout.fillWidth: true
             height: 1
             color: Theme.strokeDivider
         }
 
-        Item {
+        ColumnLayout {
             id: body
             Layout.fillWidth: true
-            implicitHeight: childrenRect.height
-            implicitWidth: width > 0 ? width : childrenRect.width
+            spacing: 0
 
-            onWidthChanged: Qt.callLater(fitChildren)
             onChildrenChanged: Qt.callLater(fitChildren)
+            Component.onCompleted: Qt.callLater(fitChildren)
 
             function fitChildren() {
                 for (var i = 0; i < children.length; ++i) {
                     var ch = children[i]
-                    if (!ch)
-                        continue
-                    if (ch.anchors && (ch.anchors.fill || ch.anchors.left || ch.anchors.right))
-                        continue
-                    ch.width = width
+                    if (ch)
+                        ch.Layout.fillWidth = true
                 }
             }
         }
@@ -125,12 +145,22 @@ T.Control {
             color: Theme.strokeDivider
         }
 
-        Item {
+        ColumnLayout {
             id: footerSlot
             visible: children.length > 0
             Layout.fillWidth: true
-            implicitHeight: childrenRect.height
-            implicitWidth: width > 0 ? width : childrenRect.width
+            spacing: 0
+
+            onChildrenChanged: Qt.callLater(fitFooter)
+            Component.onCompleted: Qt.callLater(fitFooter)
+
+            function fitFooter() {
+                for (var i = 0; i < children.length; ++i) {
+                    var ch = children[i]
+                    if (ch)
+                        ch.Layout.fillWidth = true
+                }
+            }
         }
     }
 }

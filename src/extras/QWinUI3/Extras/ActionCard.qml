@@ -3,13 +3,14 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// WinUI-style actionable surface card with glyph, title, description, and chevron.
+// WinUI-style actionable surface card with symbol, title, description, and chevron.
 T.AbstractButton {
     id: control
 
     property string title: text
     property string description: ""
-    property string glyph: "\uE8A5"
+    property var symbol: ""
+    property string glyph: ""
     property color glyphColor: Theme.accent
     property color glyphBackground: Theme.fillSubtle
     property bool showChevron: true
@@ -18,13 +19,20 @@ T.AbstractButton {
     property string badgeText: ""
     property int badgeSeverity: 0
 
+    readonly property string effectiveGlyph: {
+        var g = IconSource.resolve(symbol, glyph)
+        return g.length ? g : FluentIcons.Document
+    }
+
     hoverEnabled: true
+    focusPolicy: Qt.StrongFocus
     implicitWidth: 280
     implicitHeight: Math.max(88, contentItem.implicitHeight + topPadding + bottomPadding)
     padding: 16
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     Accessible.name: title
+    Accessible.description: description
 
     contentItem: RowLayout {
         spacing: Theme.spacingLoose
@@ -38,10 +46,18 @@ T.AbstractButton {
                 anchors.fill: parent
                 radius: Theme.cornerControl
                 color: control.glyphBackground
+                scale: control.hovered && !Theme.reducedMotion ? 1.04 : 1
+                Behavior on scale {
+                    enabled: !Theme.reducedMotion
+                    NumberAnimation {
+                        duration: Theme.duration(Theme.motionFast)
+                        easing.type: Theme.easingStandard
+                    }
+                }
 
                 Text {
                     anchors.centerIn: parent
-                    text: control.glyph
+                    text: control.effectiveGlyph
                     font.family: Theme.fontFamilyIcon
                     font.pixelSize: 22
                     color: control.enabled ? control.glyphColor : Theme.textDisabled
@@ -87,11 +103,23 @@ T.AbstractButton {
         Text {
             visible: control.showChevron
             Layout.alignment: Qt.AlignVCenter
-            text: "\uE76C"
+            text: FluentIcons.ChevronRight
             font.family: Theme.fontFamilyIcon
             font.pixelSize: 12
             color: Theme.textSecondary
-            opacity: control.enabled ? 0.85 : 0.4
+            opacity: control.enabled ? (control.hovered ? 1 : 0.85) : 0.4
+            x: control.hovered && !Theme.reducedMotion ? 2 : 0
+            Behavior on x {
+                enabled: !Theme.reducedMotion
+                NumberAnimation {
+                    duration: Theme.duration(Theme.motionFast)
+                    easing.type: Theme.easingStandard
+                }
+            }
+            Behavior on opacity {
+                enabled: !Theme.reducedMotion
+                NumberAnimation { duration: Theme.duration(Theme.motionFast) }
+            }
         }
     }
 
@@ -125,6 +153,10 @@ T.AbstractButton {
                 duration: Theme.duration(Theme.motionFast)
                 easing.type: Theme.easingStandard
             }
+        }
+        Behavior on elevation {
+            enabled: !Theme.reducedMotion
+            NumberAnimation { duration: Theme.duration(Theme.motionFast) }
         }
     }
 }

@@ -20,7 +20,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("ProgressButton")
-                subtitle: qsTr("Inline progress with start()/complete()/fail() and state labels.")
+                subtitle: qsTr("Inline progress with percentage, Fluent state icons, and start()/setProgress()/complete()/fail().")
             }
             ControlExample {
                 Layout.fillWidth: true
@@ -53,6 +53,15 @@ Page {
                         Button {
                             text: qsTr("Start")
                             onClicked: { slider.value = 0.1; uploadBtn.start() }
+                        }
+                        Button {
+                            text: qsTr("+10%")
+                            onClicked: {
+                                if (uploadBtn.progressState === "completed" || uploadBtn.progressState === "error")
+                                    uploadBtn.reset()
+                                uploadBtn.setProgress(Math.min(1, uploadBtn.progress + 0.1))
+                                slider.value = uploadBtn.progress
+                            }
                         }
                         Button {
                             text: qsTr("Complete")

@@ -4,18 +4,21 @@ import QtQuick.Controls
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// WinUI ListViewItem-style row: glyph / leading, title, subtitle, and trailing slot.
+// WinUI ListViewItem-style row: symbol / leading, title, subtitle, and trailing slot.
 T.ItemDelegate {
     id: control
 
     property string title: text
     property string subtitle: ""
     property alias description: control.subtitle
+    property var symbol: ""
     property string glyph: ""
-    property alias trailing: trailingSlot.data
     property alias leading: leadingSlot.data
+    default property alias trailing: trailingSlot.data
     property bool showChevron: false
     property bool isSelected: false
+
+    readonly property string effectiveGlyph: IconSource.resolve(symbol, glyph)
 
     hoverEnabled: true
     padding: 12
@@ -27,6 +30,17 @@ T.ItemDelegate {
                              contentItem.implicitHeight + topPadding + bottomPadding)
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
+    Accessible.name: title
+    Accessible.description: subtitle
+
+    scale: down && !Theme.reducedMotion ? 0.995 : 1
+    Behavior on scale {
+        enabled: !Theme.reducedMotion
+        NumberAnimation {
+            duration: Theme.duration(Theme.motionFast)
+            easing.type: Theme.easingStandard
+        }
+    }
 
     contentItem: RowLayout {
         spacing: control.spacing
@@ -40,7 +54,7 @@ T.ItemDelegate {
         }
 
         Rectangle {
-            visible: control.glyph.length > 0 && leadingSlot.children.length === 0
+            visible: control.effectiveGlyph.length > 0 && leadingSlot.children.length === 0
             Layout.preferredWidth: 40
             Layout.preferredHeight: 40
             Layout.alignment: Qt.AlignVCenter
@@ -49,7 +63,7 @@ T.ItemDelegate {
 
             Text {
                 anchors.centerIn: parent
-                text: control.glyph
+                text: control.effectiveGlyph
                 font.family: Theme.fontFamilyIcon
                 font.pixelSize: 16
                 color: control.enabled ? Theme.accent : Theme.textDisabled
@@ -91,7 +105,7 @@ T.ItemDelegate {
         Text {
             visible: control.showChevron
             Layout.alignment: Qt.AlignVCenter
-            text: "\uE76C"
+            text: FluentIcons.ChevronRight
             font.family: Theme.fontFamilyIcon
             font.pixelSize: 12
             color: Theme.textSecondary

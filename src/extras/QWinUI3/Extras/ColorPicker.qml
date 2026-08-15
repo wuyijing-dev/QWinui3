@@ -15,6 +15,9 @@ T.Control {
     property bool showAlpha: false
     property real alpha: 1
     property int colorModel: 0 // 0 RGB, 1 HSV, 2 HEX
+    property bool isColorSpectrumVisible: true
+    property bool isColorPreviewVisible: true
+    property bool isColorChannelTextInputVisible: true
 
     signal colorChosen(color color)
 
@@ -25,6 +28,25 @@ T.Control {
     padding: 12
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
+    Accessible.role: Accessible.Dial
+    Accessible.name: qsTr("Color picker")
+    Accessible.description: hexString(selectedColor)
+
+    function copyHex() {
+        var t = hexString(selectedColor)
+        hexHelper.text = t
+        hexHelper.selectAll()
+        hexHelper.copy()
+        return t
+    }
+
+    TextEdit {
+        id: hexHelper
+        visible: false
+        width: 1
+        height: 1
+        readOnly: true
+    }
 
     function clamp01(x) { return Math.max(0, Math.min(1, x)) }
 
@@ -184,6 +206,7 @@ T.Control {
 
             Item {
                 id: spectrumHost
+                visible: control.isColorSpectrumVisible
                 Layout.fillWidth: true
                 Layout.preferredHeight: 180
 
@@ -266,12 +289,20 @@ T.Control {
 
             // Selected color preview strip (WinUI ColorPreviewer)
             Rectangle {
+                visible: control.isColorPreviewVisible
                 Layout.preferredWidth: 28
                 Layout.fillHeight: true
                 radius: Theme.cornerControl
                 color: control.selectedColor
                 border.width: 1
                 border.color: Theme.strokeControl
+                Behavior on color {
+                    enabled: !Theme.reducedMotion
+                    ColorAnimation {
+                        duration: Theme.duration(Theme.motionNormal)
+                        easing.type: Theme.easingStandard
+                    }
+                }
             }
         }
 
@@ -377,13 +408,18 @@ T.Control {
                         text = control.hexString(control.selectedColor)
                 }
             }
+            CopyButton {
+                iconOnly: true
+                textToCopy: control.hexString(control.selectedColor)
+                Accessible.name: qsTr("Copy hex")
+            }
         }
 
         // Channel inputs
         ColumnLayout {
             Layout.fillWidth: true
             spacing: 8
-            visible: control.colorModel === 0
+            visible: control.isColorChannelTextInputVisible && control.colorModel === 0
 
             RowLayout {
                 Layout.fillWidth: true
@@ -438,7 +474,7 @@ T.Control {
         ColumnLayout {
             Layout.fillWidth: true
             spacing: 8
-            visible: control.colorModel === 1
+            visible: control.isColorChannelTextInputVisible && control.colorModel === 1
 
             RowLayout {
                 Layout.fillWidth: true

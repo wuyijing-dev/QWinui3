@@ -23,9 +23,15 @@ T.Control {
             return [keys]
         return root._parseShortcut(shortcut)
     }
+    readonly property string chordText: {
+        if (keys && keys.length > 0)
+            return keys.join(separator)
+        return shortcut
+    }
 
+    Accessible.role: Accessible.StaticText
     Accessible.name: toolTipText.length ? toolTipText
-                   : (shortcut.length ? shortcut : qsTr("Keyboard shortcut"))
+                   : (chordText.length ? chordText : qsTr("Keyboard shortcut"))
     ToolTip.visible: hover.hovered && toolTipText.length > 0
     ToolTip.text: toolTipText
     ToolTip.delay: 400

@@ -20,7 +20,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("SettingsCard")
-                subtitle: qsTr("Header, description, content slot, trailing action. Interactive cards support focus and clicked.")
+                subtitle: qsTr("Settings row with symbol, Fluent ChevronRight when interactive.")
             }
             ControlExample {
                 Layout.fillWidth: true
@@ -40,14 +40,14 @@ Page {
                         Layout.fillWidth: true
                         title: qsTr("Notifications")
                         description: qsTr("Show toast notifications for updates.")
-                        headerIcon: FluentIcons.Notification
+                        symbol: FluentIcons.Notification
                         action: Switch { checked: true }
                     }
                     SettingsCard {
                         Layout.fillWidth: true
                         title: qsTr("Quiet hours")
                         description: qsTr("Mute alerts during scheduled times.")
-                        headerIcon: FluentIcons.QuietHours
+                        symbol: FluentIcons.QuietHours
                         content: Label {
                             text: qsTr("Weekdays 10:00 PM – 7:00 AM")
                             color: Theme.textSecondary
@@ -69,7 +69,7 @@ Page {
                         interactive: true
                         title: qsTr("About")
                         description: qsTr("Version 1.0.0 — tap or press Enter for details")
-                        headerIcon: FluentIcons.Info
+                        symbol: FluentIcons.Info
                         onClicked: cardStatus.text = qsTr("About clicked")
                     }
                 }

@@ -71,6 +71,8 @@ T.Control {
         invalidTimer.restart()
     }
 
+    function focusField() { field.forceActiveFocus() }
+
     function commitText() {
         var raw = field.text.replace(root.prefix, "").replace(root.suffix, "").trim()
         if (raw.length === 0 && root.placeholderText.length > 0) {
@@ -283,9 +285,10 @@ T.Control {
                     ToolButton {
                         Layout.fillWidth: true
                         Layout.fillHeight: true
-                        text: "\uE70E"
+                        text: FluentIcons.ChevronUp
                         font.family: Theme.fontFamilyIcon
                         font.pixelSize: 8
+                        Accessible.name: qsTr("Increase")
                         onClicked: root.bump(root.stepSize)
                     }
                     Rectangle {
@@ -296,9 +299,10 @@ T.Control {
                     ToolButton {
                         Layout.fillWidth: true
                         Layout.fillHeight: true
-                        text: "\uE70D"
+                        text: FluentIcons.ChevronDown
                         font.family: Theme.fontFamilyIcon
                         font.pixelSize: 8
+                        Accessible.name: qsTr("Decrease")
                         onClicked: root.bump(-root.stepSize)
                     }
                 }

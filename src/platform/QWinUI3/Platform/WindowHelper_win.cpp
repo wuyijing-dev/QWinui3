@@ -65,6 +65,10 @@ HWND hwndOf(QWindow *window)
 {
     if (!window)
         return nullptr;
+    // Never call winId() before the platform window exists — that forces CreateWindowEx
+    // and races with later setFlags(), causing "CreateWindowEx failed" loops.
+    if (!window->handle())
+        return nullptr;
     return reinterpret_cast<HWND>(window->winId());
 }
 
@@ -302,11 +306,13 @@ void applyNativeDwmBackdrop(HWND hwnd, bool /*dark*/, int backdrop)
 
 struct ChromeState {
     QPointer<QWindow> window;
-    int titleBarHeight = 48; // logical px
-    QRect minimizeButton;    // logical, window-local
+    // Hit-test regions in screen-logical coordinates (same space as Item.mapToGlobal).
+    // Avoids maximize/fullscreen mismatch between QWindow::x/y and GetWindowRect.
+    QRect titleBar;
+    QRect minimizeButton;
     QRect maximizeButton;
     QRect closeButton;
-    QVector<QRect> clientRects; // interactive exclusions
+    QVector<QRect> clientRects;
     bool dark = false;
     int backdrop = WindowHelper::BackdropSolid;
     int corner = WindowHelper::CornerRound;
@@ -492,7 +498,7 @@ public:
     }
 
     void updateHitTest(QWindow *window,
-                       int titleBarHeight,
+                       const QRect &titleBar,
                        const QRect &minimizeButton,
                        const QRect &maximizeButton,
                        const QRect &closeButton,
@@ -510,7 +516,7 @@ public:
         if (!m_states.contains(window))
             return;
         ChromeState &state = m_states[window];
-        state.titleBarHeight = qMax(0, titleBarHeight);
+        state.titleBar = titleBar;
         state.minimizeButton = minimizeButton;
         state.maximizeButton = maximizeButton;
         state.closeButton = closeButton;
@@ -661,6 +667,9 @@ public:
             return true;
         }
         case WM_NCHITTEST: {
+            // lParam is screen physical pixels — compare against screen-logical
+            // rects from QML (mapToGlobal) scaled by DPR. Do not use QWindow::x/y;
+            // maximize/fullscreen often disagree with GetWindowRect.
             POINT pt{ GET_X_LPARAM(msg->lParam), GET_Y_LPARAM(msg->lParam) };
             RECT wr{};
             GetWindowRect(msg->hwnd, &wr);
@@ -669,19 +678,20 @@ public:
             const int w = wr.right - wr.left;
             const int h = wr.bottom - wr.top;
             const bool maximized = IsZoomed(msg->hwnd);
-            const int border = maximized ? 0 : frameBorderThickness(msg->hwnd);
+            const bool fullscreen = window->visibility() == QWindow::FullScreen;
+            const int border = (maximized || fullscreen) ? 0 : frameBorderThickness(msg->hwnd);
 
-            auto containsLogical = [&](const QRect &r) {
+            auto containsScreen = [&](const QRect &r) {
                 if (!r.isValid() || r.isEmpty())
                     return false;
                 const int l = qRound(r.x() * dpr);
                 const int t = qRound(r.y() * dpr);
                 const int rw = qRound(r.width() * dpr);
                 const int rh = qRound(r.height() * dpr);
-                return x >= l && y >= t && x < l + rw && y < t + rh;
+                return pt.x >= l && pt.y >= t && pt.x < l + rw && pt.y < t + rh;
             };
 
-            if (!maximized) {
+            if (!maximized && !fullscreen) {
                 const bool left = x < border;
                 const bool right = x >= w - border;
                 const bool top = y < border;
@@ -725,9 +735,9 @@ public:
             // button chrome — on translucent Mica/Acrylic that shows as an opaque
             // white rectangle over the custom glyph (especially on press/hover).
             // Trade-off: Snap Layouts flyout on maximize hover is unavailable.
-            if (containsLogical(state.closeButton)
-                || containsLogical(state.maximizeButton)
-                || containsLogical(state.minimizeButton)) {
+            if (containsScreen(state.closeButton)
+                || containsScreen(state.maximizeButton)
+                || containsScreen(state.minimizeButton)) {
                 if (m_helper)
                     m_helper->setCaptionHover(WindowHelper::CaptionNone);
                 *result = HTCLIENT;
@@ -735,7 +745,7 @@ public:
             }
 
             for (const QRect &clientRect : state.clientRects) {
-                if (containsLogical(clientRect)) {
+                if (containsScreen(clientRect)) {
                     if (m_helper)
                         m_helper->setCaptionHover(WindowHelper::CaptionNone);
                     *result = HTCLIENT;
@@ -743,8 +753,7 @@ public:
                 }
             }
 
-            const int titleH = qRound(state.titleBarHeight * dpr);
-            if (y >= (maximized ? 0 : border) && y < titleH) {
+            if (containsScreen(state.titleBar)) {
                 if (m_helper)
                     m_helper->setCaptionHover(WindowHelper::CaptionNone);
                 ensureNcTracking(msg->hwnd, state);
@@ -911,7 +920,7 @@ void WindowHelper::applyNative(QWindow *window, bool dark, int backdrop)
 }
 
 void WindowHelper::updateHitTestLayout(QObject *windowObject,
-                                       int titleBarHeight,
+                                       const QRect &titleBar,
                                        const QRect &minimizeButton,
                                        const QRect &maximizeButton,
                                        const QRect &closeButton,
@@ -930,11 +939,11 @@ void WindowHelper::updateHitTestLayout(QObject *windowObject,
             rects.push_back(value.toRectF().toRect());
     }
     WinChromeFilter::instance()->attach(window, this);
-    WinChromeFilter::instance()->updateHitTest(window, titleBarHeight, minimizeButton,
+    WinChromeFilter::instance()->updateHitTest(window, titleBar, minimizeButton,
                                                maximizeButton, closeButton, rects);
 #else
     Q_UNUSED(windowObject);
-    Q_UNUSED(titleBarHeight);
+    Q_UNUSED(titleBar);
     Q_UNUSED(minimizeButton);
     Q_UNUSED(maximizeButton);
     Q_UNUSED(closeButton);

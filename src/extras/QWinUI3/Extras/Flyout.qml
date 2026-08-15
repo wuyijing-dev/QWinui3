@@ -11,6 +11,7 @@ T.Popup {
     property Item target: null
     property bool isLightDismissEnabled: true
     property bool isOpen: false
+    property string title: ""
     default property alias contentData: body.data
 
     padding: 12
@@ -21,6 +22,8 @@ T.Popup {
                  : T.Popup.CloseOnEscape
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
+    Accessible.role: Accessible.PopupMenu
+    Accessible.name: title.length ? title : qsTr("Flyout")
 
     implicitWidth: Math.max(180, contentItem.implicitWidth + leftPadding + rightPadding)
     implicitHeight: contentItem.implicitHeight + topPadding + bottomPadding
@@ -31,7 +34,10 @@ T.Popup {
         else if (visible)
             close()
     }
-    onOpened: isOpen = true
+    onOpened: {
+        isOpen = true
+        reposition()
+    }
     onClosed: isOpen = false
 
     transformOrigin: {
@@ -46,39 +52,63 @@ T.Popup {
     function showAt(item, place) {
         if (item) {
             root.target = item
-            root.parent = item
+            // Prefer window overlay so we can clamp to the full window, not just the target.
+            var win = item.Window.window
+            root.parent = (win && win.Overlay && win.Overlay.overlay) ? win.Overlay.overlay : item
         }
         if (place !== undefined && place !== null)
             root.placement = place
         root.isOpen = true
+        Qt.callLater(root.reposition)
     }
 
-    function show() { isOpen = true }
+    function show() { isOpen = true; Qt.callLater(reposition) }
     function hide() { isOpen = false }
 
-    x: {
-        if (!parent)
-            return 0
+    function reposition() {
+        if (!target || !parent)
+            return
+        var p = target.mapToItem(parent, 0, 0)
+        var gap = 8
+        var w = implicitWidth
+        var h = implicitHeight
         switch (placement) {
-        case Qt.AlignRight: return parent.width + 8
-        case Qt.AlignLeft: return -implicitWidth - 8
-        default: return Math.max(0, (parent.width - implicitWidth) / 2)
-        }
-    }
-    y: {
-        if (!parent)
-            return 0
-        switch (placement) {
-        case Qt.AlignTop: return -implicitHeight - 8
         case Qt.AlignRight:
-        case Qt.AlignLeft: return Math.max(0, (parent.height - implicitHeight) / 2)
-        default: return parent.height + 8
+            x = p.x + target.width + gap
+            y = p.y + (target.height - h) / 2
+            break
+        case Qt.AlignLeft:
+            x = p.x - w - gap
+            y = p.y + (target.height - h) / 2
+            break
+        case Qt.AlignTop:
+            x = p.x + (target.width - w) / 2
+            y = p.y - h - gap
+            break
+        default:
+            x = p.x + (target.width - w) / 2
+            y = p.y + target.height + gap
+            break
         }
+        var margin = 8
+        x = Math.max(margin, Math.min(x, parent.width - w - margin))
+        y = Math.max(margin, Math.min(y, parent.height - h - margin))
     }
 
     contentItem: ColumnLayout {
         id: body
         spacing: Theme.spacing
+
+        Text {
+            visible: root.title.length > 0
+            Layout.fillWidth: true
+            text: root.title
+            font.family: Theme.fontFamily
+            font.pixelSize: Theme.fontBody
+            font.weight: Theme.fontWeightSemiBold
+            color: Theme.textPrimary
+            wrapMode: Text.Wrap
+        }
     }
 
     background: ElevatedChrome {

@@ -1,15 +1,27 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Layouts
 import QWinUI3.Theme
 
-// WinUI-style toggle button: stays accented while checked.
+// WinUI-style toggle button: stays accented while checked; optional Fluent symbol.
 Button {
     id: control
-    checkable: true
-    implicitHeight: Theme.controlHeight
 
+    property var symbol: ""
+    property string iconGlyph: ""
+    property real iconSize: 14
+
+    readonly property string effectiveIconGlyph: IconSource.resolve(symbol, iconGlyph)
     readonly property bool lightScheme: !Theme.dark
     readonly property bool accented: control.checked || control.highlighted
+
+    checkable: true
+    implicitHeight: Theme.controlHeight
+    leftPadding: Theme.paddingControlH
+    rightPadding: Theme.paddingControlH
+    hoverEnabled: true
+    font.family: Theme.fontFamily
+    font.pixelSize: Theme.fontBody
 
     background: Item {
         implicitWidth: Math.max(Theme.controlMinWidth, control.contentItem.implicitWidth + 24)
@@ -78,26 +90,40 @@ Button {
         }
     }
 
-    contentItem: Text {
-        text: control.text
-        font: control.font
-        color: {
-            if (control.accented)
-                return Theme.textOnAccent
-            if (!control.enabled)
-                return Theme.textDisabled
-            if (control.down)
-                return Theme.dark ? Qt.rgba(1, 1, 1, 0.7725) : Qt.rgba(0, 0, 0, 0.62)
-            return Theme.textPrimary
+    contentItem: RowLayout {
+        spacing: 8
+        Text {
+            visible: control.effectiveIconGlyph.length > 0
+            text: control.effectiveIconGlyph
+            font.family: Theme.fontFamilyIcon
+            font.pixelSize: control.iconSize
+            color: label.color
+            Layout.alignment: Qt.AlignVCenter
         }
-        horizontalAlignment: Text.AlignHCenter
-        verticalAlignment: Text.AlignVCenter
-        elide: Text.ElideRight
-        Behavior on color {
-            enabled: !Theme.reducedMotion
-            ColorAnimation {
-                duration: Theme.duration(Theme.motionNormal)
-                easing.type: Theme.easingStandard
+        Text {
+            id: label
+            visible: control.text.length > 0
+            text: control.text
+            font: control.font
+            color: {
+                if (control.accented)
+                    return Theme.textOnAccent
+                if (!control.enabled)
+                    return Theme.textDisabled
+                if (control.down)
+                    return Theme.dark ? Qt.rgba(1, 1, 1, 0.7725) : Qt.rgba(0, 0, 0, 0.62)
+                return Theme.textPrimary
+            }
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            elide: Text.ElideRight
+            Layout.alignment: Qt.AlignVCenter
+            Behavior on color {
+                enabled: !Theme.reducedMotion
+                ColorAnimation {
+                    duration: Theme.duration(Theme.motionNormal)
+                    easing.type: Theme.easingStandard
+                }
             }
         }
     }

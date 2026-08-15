@@ -18,6 +18,8 @@ T.Control {
     implicitHeight: (header.length ? headerLabel.implicitHeight + 8 : 0)
                     + host.implicitHeight + topPadding + bottomPadding
     clip: false
+    Accessible.role: Accessible.Grouping
+    Accessible.name: header.length ? header : qsTr("Metadata")
 
     contentItem: Column {
         spacing: 8

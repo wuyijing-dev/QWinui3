@@ -16,18 +16,20 @@ T.Control {
     property alias secondaryCommands: root.overflowItems
     property real barSpacing: 2
     property bool isOpen: true
-    // WinUI DefaultLabelPosition: bottom | right | collapsed
     property string defaultLabelPosition: "bottom"
-    // WinUI ClosedDisplayMode: compact | minimal | hidden
     property string closedDisplayMode: "compact"
+    property bool isMoreButtonVisible: true
+    property bool isToggleButtonVisible: true
 
     signal opening()
     signal closing()
     signal opened()
     signal closed()
+    signal moreButtonClicked()
 
     function open() { isOpen = true }
     function close() { isOpen = false }
+    function toggle() { isOpen = !isOpen }
 
     onIsOpenChanged: {
         if (isOpen) {
@@ -133,16 +135,19 @@ T.Control {
 
             ToolButton {
                 id: moreBtn
-                visible: (root.overflowItems && root.overflowItems.length > 0)
+                visible: root.isMoreButtonVisible
+                         && (root.overflowItems && root.overflowItems.length > 0)
                          && (root.isOpen || root.closedDisplayMode === "minimal"
                              || root.closedDisplayMode === "compact")
                 Layout.preferredWidth: 36
                 Layout.preferredHeight: Theme.controlHeight
-                text: "\uE712"
+                text: FluentIcons.More
                 font.family: Theme.fontFamilyIcon
                 font.pixelSize: 14
+                Accessible.name: root.isOpen ? qsTr("See more") : qsTr("Open command bar")
                 scale: down && !Theme.reducedMotion ? 0.94 : 1
                 onClicked: {
+                    root.moreButtonClicked()
                     if (!root.isOpen && root.closedDisplayMode === "minimal")
                         root.isOpen = true
                     else
@@ -173,19 +178,27 @@ T.Control {
 
             ToolButton {
                 id: toggleBtn
-                visible: root.closedDisplayMode !== "hidden"
+                visible: root.isToggleButtonVisible && root.closedDisplayMode !== "hidden"
                 Layout.preferredWidth: 36
                 Layout.preferredHeight: Theme.controlHeight
-                text: root.isOpen ? "\uE70E" : "\uE70D"
+                text: root.isOpen ? FluentIcons.ChevronUp : FluentIcons.ChevronDown
                 font.family: Theme.fontFamilyIcon
                 font.pixelSize: 12
-                onClicked: root.isOpen = !root.isOpen
+                Accessible.name: root.isOpen ? qsTr("Collapse") : qsTr("Expand")
+                scale: down && !Theme.reducedMotion ? 0.94 : 1
+                Behavior on scale {
+                    enabled: !Theme.reducedMotion
+                    NumberAnimation { duration: Theme.duration(Theme.motionFast) }
+                }
+                onClicked: root.toggle()
                 ToolTip.visible: hovered
                 ToolTip.text: root.isOpen ? qsTr("Collapse") : qsTr("Expand")
                 background: Rectangle {
                     radius: Theme.cornerControl
                     color: toggleBtn.down ? Theme.fillSubtleTertiary
-                         : (toggleBtn.hovered ? Theme.fillSubtle : "transparent")
+                         : (toggleBtn.hovered || toggleBtn.visualFocus ? Theme.fillSubtle : "transparent")
+                    border.width: toggleBtn.visualFocus ? 1 : 0
+                    border.color: Theme.accent
                 }
             }
         }

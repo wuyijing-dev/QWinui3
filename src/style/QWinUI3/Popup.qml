@@ -20,8 +20,10 @@ T.Popup {
         color: Theme.bgCardElevated
         borderColor: Theme.strokeCard
         borderWidth: 1
-        elevation: 6
-        shadowOpacity: Theme.dark ? 0.32 : 0.16
+        elevation: 8
+        shadowOpacity: Theme.dark ? 0.34 : 0.18
+        shadowBlur: 1.0
+        blurMax: 32
     }
 
     enter: Transition {

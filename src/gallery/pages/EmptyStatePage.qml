@@ -20,17 +20,17 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("EmptyState")
-                subtitle: qsTr("Empty collection messaging with bordered, glyphColor, and actions.")
+                subtitle: qsTr("Empty collection messaging with symbol, AccentButton CTA, and enter motion.")
             }
             ControlExample {
                 Layout.fillWidth: true
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Default")
-                qmlSource: "EmptyState {\n    actionText: \"Clear filters\"\n    glyphColor: Theme.accent\n}"
+                qmlSource: "EmptyState {\n    symbol: FluentIcons.Search\n    actionText: \"Clear filters\"\n}"
                 EmptyState {
                     Layout.fillWidth: true
-                    glyph: "\uE721"
+                    symbol: FluentIcons.Search
                     glyphColor: Theme.accent
                     title: qsTr("No results")
                     message: qsTr("Try adjusting your search or filters to find what you need.")
@@ -43,12 +43,12 @@ Page {
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Compact / borderless")
-                qmlSource: "EmptyState { compact: true; bordered: false }"
+                qmlSource: "EmptyState {\n    compact: true\n    bordered: false\n    symbol: FluentIcons.Mail\n}"
                 EmptyState {
                     Layout.fillWidth: true
                     compact: true
                     bordered: false
-                    glyph: "\uE715"
+                    symbol: FluentIcons.Mail
                     glyphColor: Theme.systemSuccess
                     title: qsTr("Inbox zero")
                     message: qsTr("You're all caught up.")

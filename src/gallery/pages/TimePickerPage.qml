@@ -20,7 +20,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("TimePicker")
-                subtitle: qsTr("Hour and minute tumblers with minuteIncrement and 12/24-hour clocks.")
+                subtitle: qsTr("Fluent Clock icon, minuteIncrement, and Accessible time value.")
             }
             ControlExample {
                 Layout.fillWidth: true

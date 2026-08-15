@@ -209,17 +209,25 @@ T.Control {
 
                     contentItem: RowLayout {
                         spacing: 6
+                        readonly property string _glyph: typeof modelData === "string"
+                            ? ""
+                            : IconSource.resolve(modelData.symbol || "",
+                                                 modelData.icon || modelData.glyph || "")
                         Text {
-                            visible: typeof modelData !== "string" && !!(modelData.icon || modelData.glyph)
-                            text: typeof modelData === "string" ? "" : (modelData.icon || modelData.glyph || "")
+                            visible: parent._glyph.length > 0
+                            text: parent._glyph
                             font.family: Theme.fontFamilyIcon
                             font.pixelSize: 14
                             color: seg.checked ? Theme.textPrimary : Theme.textSecondary
                             Layout.leftMargin: 8
+                            Behavior on color {
+                                enabled: !Theme.reducedMotion
+                                ColorAnimation { duration: Theme.duration(Theme.motionFast) }
+                            }
                         }
                         Text {
                             Layout.fillWidth: control.stretch
-                            Layout.leftMargin: (typeof modelData !== "string" && (modelData.icon || modelData.glyph)) ? 0 : 10
+                            Layout.leftMargin: parent._glyph.length ? 0 : 10
                             Layout.rightMargin: 10
                             text: typeof modelData === "string" ? modelData : (modelData.text || modelData.title || "")
                             font.family: control.font.family
@@ -231,6 +239,10 @@ T.Control {
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
                             elide: Text.ElideRight
+                            Behavior on color {
+                                enabled: !Theme.reducedMotion
+                                ColorAnimation { duration: Theme.duration(Theme.motionFast) }
+                            }
                         }
                     }
 

@@ -20,7 +20,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("StackPanel")
-                subtitle: qsTr("Stacks children horizontally or vertically with spacing, alignment, and RTL.")
+                subtitle: qsTr("Horizontal/vertical stack with spacing, alignment, RTL, and childCount.")
             }
             ControlExample {
                 Layout.fillWidth: true

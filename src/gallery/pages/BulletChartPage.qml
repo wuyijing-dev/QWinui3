@@ -38,7 +38,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("BulletChart")
-                subtitle: qsTr("KPI bullets with unit, setValue(), and target marker.")
+                subtitle: qsTr("KPI bullets with targetMet, showTargetDelta, unit, and setValue().")
             }
 
             ControlExample {
@@ -57,6 +57,7 @@ Page {
                         target: 80
                         maximum: 100
                         unit: "%"
+                        showTargetDelta: true
                         ranges: [0.5, 0.75, 1]
                     }
                     BulletChart {

@@ -22,7 +22,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("ProgressRing")
-                subtitle: qsTr("Circular progress with fillColor, showValue, and Active/Paused indeterminate.")
+                subtitle: qsTr("Circular progress with size, showValue, Accessible, and Active/Paused indeterminate.")
             }
 
             ControlExample {
@@ -36,15 +36,13 @@ Page {
                     Layout.fillWidth: true
                     spacing: Theme.spacingLoose
                     ProgressRing {
-                        width: 64
-                        height: 64
+                        size: 64
                         value: 0.65
                         showValue: true
                         fillColor: Theme.accent
                     }
                     ProgressRing {
-                        width: 48
-                        height: 48
+                        size: 48
                         value: 0.4
                         fillColor: Theme.systemSuccess
                     }

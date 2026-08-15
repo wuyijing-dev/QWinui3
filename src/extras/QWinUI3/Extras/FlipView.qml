@@ -25,6 +25,9 @@ T.Control {
     implicitHeight: 200
     padding: 0
     hoverEnabled: true
+    Accessible.role: Accessible.Pane
+    Accessible.name: qsTr("Flip view")
+    Accessible.description: qsTr("Page %1 of %2").arg(swipe.currentIndex + 1).arg(swipe.count)
 
     readonly property bool _showButtons: buttonsVisible && buttonVisibility !== "hidden"
     readonly property bool _buttonsAlways: buttonVisibility === "always"
@@ -85,8 +88,9 @@ T.Control {
                 return 0
             }
             enabled: control.wrap || swipe.currentIndex > 0
-            text: "\uE76B"
+            text: FluentIcons.ChevronLeft
             font.family: Theme.fontFamilyIcon
+            Accessible.name: qsTr("Previous")
             onClicked: control.goPrevious()
             Behavior on opacity {
                 enabled: !Theme.reducedMotion
@@ -111,8 +115,9 @@ T.Control {
                 return 0
             }
             enabled: control.wrap || swipe.currentIndex < swipe.count - 1
-            text: "\uE76C"
+            text: FluentIcons.ChevronRight
             font.family: Theme.fontFamilyIcon
+            Accessible.name: qsTr("Next")
             onClicked: control.goNext()
             Behavior on opacity {
                 enabled: !Theme.reducedMotion

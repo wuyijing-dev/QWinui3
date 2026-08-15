@@ -21,7 +21,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("ComboBox")
-                subtitle: qsTr("A drop-down list of selectable items.")
+                subtitle: qsTr("Fluent chevron indicator with popup-open rotation.")
             }
 
             ControlExample {

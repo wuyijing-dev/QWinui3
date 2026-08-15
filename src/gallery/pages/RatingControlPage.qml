@@ -26,7 +26,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("RatingControl")
-                subtitle: qsTr("Click or drag anywhere on the stars to pick whole, half, or fine-grained ratings.")
+                subtitle: qsTr("Fluent OutlineStar / FavoriteStarFill; drag to pick whole, half, or fine ratings.")
             }
 
             ControlExample {

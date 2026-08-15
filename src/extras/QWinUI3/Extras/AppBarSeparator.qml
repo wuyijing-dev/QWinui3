@@ -13,6 +13,7 @@ T.Control {
     implicitWidth: orientation === Qt.Vertical ? (thickness + margin * 2) : 24
     implicitHeight: orientation === Qt.Vertical ? Theme.controlHeight + 12 : (thickness + margin * 2)
     padding: 0
+    Accessible.ignored: true
 
     contentItem: Item {
         Rectangle {

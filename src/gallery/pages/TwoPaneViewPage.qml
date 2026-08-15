@@ -20,7 +20,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("TwoPaneView")
-                subtitle: qsTr("Adaptive dual-pane layout with modeName, panePriority, and swapPanes().")
+                subtitle: qsTr("Adaptive dual-pane with showPane1()/showPane2()/toggleSinglePane() and swapPanes().")
             }
             ControlExample {
                 Layout.fillWidth: true
@@ -78,6 +78,13 @@ Page {
                     Button {
                         text: qsTr("Swap panes")
                         onClicked: twoPane.swapPanes()
+                    }
+                    Button {
+                        text: qsTr("Toggle single pane")
+                        onClicked: {
+                            twoPane.minWideWidth = 10000
+                            twoPane.toggleSinglePane()
+                        }
                     }
                     Button {
                         text: qsTr("Priority pane 2")

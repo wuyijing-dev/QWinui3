@@ -11,6 +11,7 @@ T.Control {
     property real value: 0
     property real minimum: 0
     property real maximum: 100
+    property real stepSize: 0
     property real strokeWidth: 10
     property bool showValue: true
     property string unit: ""
@@ -23,10 +24,37 @@ T.Control {
     property bool showNeedle: true
     property real startAngle: -210
     property real sweepTotal: 240
+    property real cautionThreshold: -1
+    property real criticalThreshold: -1
+    property bool invertThresholds: false
+    property bool isInteractive: false
+    property alias interactive: root.isInteractive
+
+    signal valueEdited(real value)
 
     implicitWidth: 148
     implicitHeight: title.length ? 176 : 148
     padding: 8
+    focusPolicy: isInteractive ? Qt.StrongFocus : Qt.NoFocus
+    Accessible.role: Accessible.Slider
+    Accessible.name: title.length ? title : qsTr("Gauge")
+    Accessible.description: {
+        var parts = []
+        if (caption.length)
+            parts.push(caption)
+        parts.push(formattedValue)
+        return parts.join(" — ")
+    }
+
+    readonly property real percentage: animatedNorm * 100
+    readonly property color effectiveFillColor: {
+        var n = invertThresholds ? (1 - animatedNorm) : animatedNorm
+        if (criticalThreshold >= 0 && n >= criticalThreshold)
+            return Theme.systemCritical
+        if (cautionThreshold >= 0 && n >= cautionThreshold)
+            return Theme.systemCaution
+        return fillColor
+    }
 
     readonly property real normalized: {
         var span = maximum - minimum
@@ -44,7 +72,37 @@ T.Control {
     function setValue(v) {
         var lo = Math.min(minimum, maximum)
         var hi = Math.max(minimum, maximum)
-        value = Math.max(lo, Math.min(hi, Number(v) || 0))
+        var x = Math.max(lo, Math.min(hi, Number(v) || 0))
+        if (stepSize > 0) {
+            var steps = Math.round((x - lo) / stepSize)
+            x = Math.max(lo, Math.min(hi, lo + steps * stepSize))
+        }
+        value = x
+    }
+
+    function setValueFromNorm(n) {
+        setValue(minimum + Math.max(0, Math.min(1, n)) * (maximum - minimum))
+    }
+
+    function normFromPoint(px, py) {
+        var cx = gaugeFace.width / 2
+        var cy = gaugeFace.height / 2
+        var deg = Math.atan2(py - cy, px - cx) * 180 / Math.PI
+        var a = deg
+        while (a < root.startAngle)
+            a += 360
+        while (a > root.startAngle + root.sweepTotal + 180)
+            a -= 360
+        return Math.max(0, Math.min(1, (a - root.startAngle) / Math.max(1e-6, root.sweepTotal)))
+    }
+
+    Keys.onLeftPressed: if (isInteractive) {
+        setValue(value - (stepSize > 0 ? stepSize : (maximum - minimum) * 0.05))
+        valueEdited(value)
+    }
+    Keys.onRightPressed: if (isInteractive) {
+        setValue(value + (stepSize > 0 ? stepSize : (maximum - minimum) * 0.05))
+        valueEdited(value)
     }
 
     property real animatedValue: value
@@ -75,7 +133,7 @@ T.Control {
             width: gaugeFace.radius * 1.15
             height: width
             radius: width / 2
-            color: ChartUtils.withAlpha(root.fillColor, Theme.dark ? 0.12 : 0.08)
+            color: ChartUtils.withAlpha(root.effectiveFillColor, Theme.dark ? 0.12 : 0.08)
             scale: 0.85 + root.animatedNorm * 0.15
             Behavior on scale {
                 enabled: !Theme.reducedMotion
@@ -114,7 +172,7 @@ T.Control {
             property real sweep: root.animatedNorm * root.sweepTotal
             ShapePath {
                 strokeWidth: root.strokeWidth
-                strokeColor: root.enabled ? root.fillColor : Theme.textDisabled
+                strokeColor: root.enabled ? root.effectiveFillColor : Theme.textDisabled
                 fillColor: "transparent"
                 capStyle: ShapePath.RoundCap
                 startX: gaugeFace.width / 2 + Math.cos(root.startAngle * Math.PI / 180) * gaugeFace.radius
@@ -173,7 +231,7 @@ T.Control {
                 radius: 5
                 color: Theme.bgCard
                 border.width: 2
-                border.color: root.fillColor
+                border.color: root.effectiveFillColor
             }
         }
 
@@ -213,6 +271,21 @@ T.Control {
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textSecondary
+            }
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            enabled: root.isInteractive && root.enabled
+            cursorShape: Qt.PointingHandCursor
+            function apply(mx, my) {
+                root.setValueFromNorm(root.normFromPoint(mx, my))
+                root.valueEdited(root.value)
+            }
+            onPressed: function (mouse) { apply(mouse.x, mouse.y) }
+            onPositionChanged: function (mouse) {
+                if (pressed)
+                    apply(mouse.x, mouse.y)
             }
         }
     }

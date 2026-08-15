@@ -17,12 +17,14 @@ T.Control {
     property real maximum: NaN
     property real revealProgress: 1
     property string caption: ""
+    property bool showDelta: false
 
     implicitWidth: 120
-    implicitHeight: caption.length ? 44 : 28
+    implicitHeight: caption.length || showDelta ? 44 : 28
     padding: 0
     Accessible.role: Accessible.Pane
     Accessible.name: caption.length ? caption : qsTr("Sparkline")
+    Accessible.description: isFinite(delta) ? qsTr("Change %1").arg(delta) : ""
 
     readonly property real lastValue: {
         var pts = ChartUtils.flattenValues(values)
@@ -76,21 +78,26 @@ T.Control {
     contentItem: Item {
         Text {
             id: captionLabel
-            visible: root.caption.length > 0
+            visible: root.caption.length > 0 || (root.showDelta && isFinite(root.delta))
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: parent.top
             text: {
                 var t = root.caption
-                if (isFinite(root.lastValue))
+                if (isFinite(root.lastValue) && root.caption.length > 0)
                     t += "  " + ChartUtils.formatNumber(root.lastValue)
-                if (isFinite(root.delta))
+                if (isFinite(root.delta) && (root.showDelta || root.caption.length > 0))
                     t += (root.deltaPositive ? "  +" : "  ") + ChartUtils.formatNumber(root.delta)
                 return t
             }
             font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
-            color: Theme.textSecondary
+            font.weight: root.showDelta ? Theme.fontWeightSemiBold : Theme.fontWeightRegular
+            color: {
+                if (root.showDelta && isFinite(root.delta))
+                    return root.deltaPositive ? Theme.systemSuccess : Theme.systemCritical
+                return Theme.textSecondary
+            }
             elide: Text.ElideRight
         }
 

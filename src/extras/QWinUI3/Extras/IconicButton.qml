@@ -4,13 +4,12 @@ import QtQuick.Templates as T
 import QWinUI3.Theme
 
 // Shared parent for icon buttons — accept FluentIcons / names / raw glyphs.
-// Subclasses override contentItem / background; use effectiveIconGlyph for painting.
+// NOTE: do NOT declare `icon` — AbstractButton.icon is FINAL (QQuickIcon).
+// Prefer: symbol: FluentIcons.Save  or  symbol: "Save"  or  iconGlyph: FluentIcons.Save
 T.AbstractButton {
     id: control
 
-    // Preferred: icon: FluentIcons.Save  or  icon: "Save"
-    property var icon: ""
-    // Legacy / explicit glyph escape still supported
+    property var symbol: ""
     property string iconGlyph: ""
     property real iconSize: 16
     property string toolTipText: ""
@@ -22,9 +21,9 @@ T.AbstractButton {
     property bool flat: true
 
     readonly property string effectiveIconGlyph: {
-        var fromIcon = IconSource.resolve(control.icon, "")
-        if (fromIcon.length)
-            return fromIcon
+        var fromSymbol = IconSource.resolve(control.symbol, "")
+        if (fromSymbol.length)
+            return fromSymbol
         var fromGlyph = IconSource.resolve(control.iconGlyph, "")
         if (fromGlyph.length)
             return fromGlyph
@@ -47,4 +46,13 @@ T.AbstractButton {
     ToolTip.visible: hovered && toolTipText.length > 0
     ToolTip.text: toolTipText
     Accessible.role: Accessible.Button
+    Accessible.name: {
+        if (toolTipText.length)
+            return toolTipText
+        if (control.text && control.text.length)
+            return control.text
+        return qsTr("Icon button")
+    }
+    Accessible.checkable: checkable
+    Accessible.checked: checked
 }

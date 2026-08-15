@@ -23,6 +23,9 @@ T.Control {
 
     implicitWidth: 200
     implicitHeight: header.length ? (Theme.fontBody + 8 + Theme.controlHeight) : Theme.controlHeight
+    Accessible.role: Accessible.ComboBox
+    Accessible.name: header.length ? header : qsTr("Calendar date")
+    Accessible.description: Qt.formatDate(selectedDate, dateFormat)
 
     function isDateAllowed(d) {
         var day = new Date(d.getFullYear(), d.getMonth(), d.getDate())
@@ -70,7 +73,7 @@ T.Control {
                 anchors.right: parent.right
                 anchors.rightMargin: 10
                 anchors.verticalCenter: parent.verticalCenter
-                text: "\uE787"
+                text: FluentIcons.Calendar
                 font.family: Theme.fontFamilyIcon
                 font.pixelSize: 14
                 color: root.calendarOpen ? Theme.accent : Theme.textSecondary
@@ -133,8 +136,9 @@ T.Control {
                     RowLayout {
                         Layout.fillWidth: true
                         ToolButton {
-                            text: "\uE76B"
+                            text: FluentIcons.ChevronLeft
                             font.family: Theme.fontFamilyIcon
+                            Accessible.name: qsTr("Previous month")
                             onClicked: {
                                 var d = new Date(grid.year, grid.month - 1, 1)
                                 grid.month = d.getMonth()
@@ -149,8 +153,9 @@ T.Control {
                             color: Theme.textPrimary
                         }
                         ToolButton {
-                            text: "\uE76C"
+                            text: FluentIcons.ChevronRight
                             font.family: Theme.fontFamilyIcon
+                            Accessible.name: qsTr("Next month")
                             onClicked: {
                                 var d = new Date(grid.year, grid.month + 1, 1)
                                 grid.month = d.getMonth()

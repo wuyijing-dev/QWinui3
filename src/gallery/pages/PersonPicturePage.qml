@@ -20,7 +20,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("PersonPicture")
-                subtitle: qsTr("Avatar, initials, status badge, or a count / text badge.")
+                subtitle: qsTr("Avatar, initials, Contact glyph when empty, focus ring, and status / count badges.")
             }
             ControlExample {
                 Layout.fillWidth: true
@@ -45,7 +45,7 @@ Page {
                         size: 72
                         badgeVisible: true
                         badgeColor: Theme.systemCaution
-                        badgeGlyph: "\uE7BA"
+                        badgeSymbol: FluentIcons.Important
                     }
                     PersonPicture {
                         displayName: "Casey Ng"
@@ -68,6 +68,11 @@ Page {
                         badgeVisible: true
                         badgeText: "NEW"
                         badgeSeverity: 2
+                    }
+                    PersonPicture {
+                        displayName: ""
+                        size: 48
+                        selected: true
                     }
                     PersonPicture {
                         displayName: ""

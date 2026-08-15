@@ -18,6 +18,14 @@ T.Control {
     padding: 2
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
+    focusPolicy: Qt.StrongFocus
+    activeFocusOnTab: true
+    Accessible.role: Accessible.PageTabList
+    Accessible.name: qsTr("Selector")
+    Keys.onLeftPressed: select(Math.max(0, currentIndex - 1))
+    Keys.onRightPressed: select(Math.min((model ? model.length : 1) - 1, currentIndex + 1))
+    Keys.onHomePressed: select(0)
+    Keys.onEndPressed: select((model ? model.length : 1) - 1)
 
     property bool _indicatorReady: false
 
@@ -234,8 +242,12 @@ T.Control {
 
                     readonly property string _title: typeof modelData === "string"
                             ? modelData : (modelData.title || modelData.text || "")
-                    readonly property string _icon: (typeof modelData === "object" && modelData)
-                            ? (modelData.icon || "") : ""
+                    readonly property string _icon: {
+                        if (typeof modelData !== "object" || !modelData)
+                            return ""
+                        return IconSource.resolve(modelData.symbol || "",
+                                                  modelData.icon || modelData.glyph || "")
+                    }
 
                     contentItem: Item {
                         // Fill the button hit area; center the label row inside.
@@ -300,6 +312,8 @@ T.Control {
                                 return Theme.fillSubtle
                             return "transparent"
                         }
+                        border.width: itemBtn.visualFocus ? 1 : 0
+                        border.color: Theme.focusOuter
                         Behavior on color {
                             enabled: !Theme.reducedMotion
                             ColorAnimation { duration: Theme.duration(Theme.motionFast) }

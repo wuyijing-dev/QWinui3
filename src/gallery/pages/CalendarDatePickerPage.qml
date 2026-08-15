@@ -20,7 +20,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("CalendarDatePicker")
-                subtitle: qsTr("Pick a date from a calendar flyout with optional header and range.")
+                subtitle: qsTr("Calendar flyout with Fluent Calendar/chevrons and Accessible date.")
             }
             ControlExample {
                 Layout.fillWidth: true

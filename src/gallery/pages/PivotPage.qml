@@ -53,14 +53,14 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("Pivot")
-                subtitle: qsTr("Headered multi-view with icons, keyboard arrows, and Component pages.")
+                subtitle: qsTr("Headered multi-view with Fluent symbols, keyboard arrows, and Component pages.")
             }
             ControlExample {
                 Layout.fillWidth: true
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Pages + keyboard")
-                qmlSource: "Pivot {\n    model: [{ title, icon, page: Component {…} }]\n}"
+                qmlSource: "Pivot {\n    model: [{ title, symbol: FluentIcons.Home, page }]\n}"
                 ColumnLayout {
                     Layout.fillWidth: true
                     spacing: Theme.spacing
@@ -70,9 +70,9 @@ Page {
                         Layout.preferredHeight: 260
                         focus: true
                         model: [
-                            { title: qsTr("Home"), icon: "\uE80F", page: homePage },
-                            { title: qsTr("Recent"), icon: "\uE81C", page: recentPage },
-                            { title: qsTr("Shared"), icon: "\uE72D", content: qsTr("Items shared with you.") }
+                            { title: qsTr("Home"), symbol: FluentIcons.Home, page: homePage },
+                            { title: qsTr("Recent"), symbol: FluentIcons.History, page: recentPage },
+                            { title: qsTr("Shared"), symbol: FluentIcons.Share, content: qsTr("Items shared with you.") }
                         ]
                         onSelectionChanged: function (index) {
                             status.text = qsTr("Selected index %1").arg(index)

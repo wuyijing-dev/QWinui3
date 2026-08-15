@@ -16,6 +16,7 @@ T.Control {
     property int severity: error
     property int value: 0
     property string text: ""
+    property var symbol: ""
     property string iconGlyph: ""
     property int maxValue: 99
     property color badgeColor: {
@@ -35,12 +36,35 @@ T.Control {
             return Theme.textOnAccent
         return Theme.textOnAccent
     }
-    property bool dot: displayText.length === 0 && iconGlyph.length === 0
-    // Hide when there is no count/text/icon (status dots remain visible)
+
+    readonly property string severityName: {
+        switch (severity) {
+        case success: return "success"
+        case warning: return "warning"
+        case informational: return "informational"
+        case attention: return "attention"
+        case neutral: return "neutral"
+        default: return "error"
+        }
+    }
+
+    function setSeverityName(name) {
+        switch (String(name).toLowerCase()) {
+        case "success": severity = success; break
+        case "warning": severity = warning; break
+        case "informational": severity = informational; break
+        case "attention": severity = attention; break
+        case "neutral": severity = neutral; break
+        default: severity = error; break
+        }
+    }
+
+    readonly property string effectiveIconGlyph: IconSource.resolve(symbol, iconGlyph)
+    property bool dot: displayText.length === 0 && effectiveIconGlyph.length === 0
     property bool hideWhenEmpty: false
 
     readonly property string displayText: {
-        if (iconGlyph.length > 0)
+        if (effectiveIconGlyph.length > 0)
             return ""
         if (text.length > 0)
             return text
@@ -49,7 +73,7 @@ T.Control {
         return value > maxValue ? (maxValue + "+") : String(value)
     }
 
-    readonly property bool isEmpty: value <= 0 && text.length === 0 && iconGlyph.length === 0
+    readonly property bool isEmpty: value <= 0 && text.length === 0 && effectiveIconGlyph.length === 0
     readonly property bool isOpen: opacity > 0.01
 
     opacity: (hideWhenEmpty && isEmpty) ? 0 : 1
@@ -60,7 +84,9 @@ T.Control {
     padding: 0
     scale: 1
     Accessible.role: Accessible.StatusBar
-    Accessible.name: displayText.length ? displayText : (iconGlyph.length ? iconGlyph : qsTr("Badge"))
+    Accessible.name: displayText.length ? displayText
+                   : (effectiveIconGlyph.length ? qsTr("Badge") : qsTr("Status"))
+    Accessible.description: severityName
 
     background: Rectangle {
         radius: height / 2
@@ -82,12 +108,23 @@ T.Control {
             id: label
             anchors.centerIn: parent
             visible: !root.dot
-            text: root.iconGlyph.length > 0 ? root.iconGlyph : root.displayText
-            font.family: root.iconGlyph.length > 0 ? Theme.fontFamilyIcon : Theme.fontFamily
+            text: root.effectiveIconGlyph.length > 0 ? root.effectiveIconGlyph : root.displayText
+            font.family: root.effectiveIconGlyph.length > 0 ? Theme.fontFamilyIcon : Theme.fontFamily
             font.pixelSize: 10
             font.weight: Theme.fontWeightSemiBold
             color: root.textColor
         }
+    }
+
+    onValueChanged: bump()
+    onTextChanged: bump()
+    onSymbolChanged: bump()
+
+    function bump() {
+        if (Theme.reducedMotion || !isOpen)
+            return
+        scale = 0.82
+        scale = 1
     }
 
     Component.onCompleted: {

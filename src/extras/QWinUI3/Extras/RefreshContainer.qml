@@ -5,7 +5,6 @@ import QtQuick.Templates as T
 import QWinUI3.Theme
 
 // WinUI RefreshContainer: pull the scroll content to request a refresh.
-// While refreshing, topMargin keeps the list shifted down so the indicator sits above it.
 T.Control {
     id: root
 
@@ -16,6 +15,7 @@ T.Control {
     property alias contentY: flick.contentY
     property alias flickable: flick
     property bool refreshing: false
+    property alias isRefreshing: root.refreshing
     property bool pullToRefreshEnabled: true
     property alias isEnabled: root.pullToRefreshEnabled
     property real pullThreshold: 72
@@ -27,11 +27,15 @@ T.Control {
     implicitWidth: 320
     implicitHeight: 240
     clip: true
+    Accessible.role: Accessible.ScrollBar
+    Accessible.name: refreshing ? refreshingText : pullText
+    Accessible.description: refreshing ? qsTr("Busy") : qsTr("Idle")
 
     readonly property real _pullDistance: Math.max(0, -flick.contentY - flick.originY)
     readonly property bool _armed: pullToRefreshEnabled && !refreshing && _pullDistance >= pullThreshold
     readonly property real _headerHeight: refreshing ? pullThreshold
             : (pullToRefreshEnabled ? Math.min(pullThreshold + 16, _pullDistance) : 0)
+    readonly property real _pullProgress: Math.min(1, _pullDistance / Math.max(1, pullThreshold))
 
     function endRefresh() {
         refreshing = false
@@ -49,7 +53,6 @@ T.Control {
             id: flick
             anchors.fill: parent
             clip: true
-            // Reserve header space while refreshing so content stays shifted down.
             topMargin: root.refreshing ? root.pullThreshold : 0
             boundsBehavior: (!root.pullToRefreshEnabled || root.refreshing)
                             ? Flickable.StopAtBounds
@@ -70,7 +73,6 @@ T.Control {
             }
         }
 
-        // Viewport-fixed header: sits in the margin / overscroll gap above the content.
         Item {
             id: indicator
             z: 2
@@ -87,10 +89,39 @@ T.Control {
                 anchors.centerIn: parent
                 spacing: Theme.spacing
 
-                BusyIndicator {
+                Item {
                     Layout.preferredWidth: 22
                     Layout.preferredHeight: 22
-                    running: root.refreshing || root._pullDistance > 12
+
+                    property real spinAngle: 0
+                    NumberAnimation on spinAngle {
+                        from: 0
+                        to: 360
+                        duration: 900
+                        loops: Animation.Infinite
+                        running: root.refreshing && !Theme.reducedMotion
+                        easing.type: Easing.Linear
+                    }
+
+                    Text {
+                        anchors.centerIn: parent
+                        text: FluentIcons.Refresh
+                        font.family: Theme.fontFamilyIcon
+                        font.pixelSize: 16
+                        color: root._armed || root.refreshing ? Theme.accent : Theme.textSecondary
+                        rotation: root.refreshing ? parent.spinAngle : (root._pullProgress * 180)
+                        Behavior on color {
+                            enabled: !Theme.reducedMotion
+                            ColorAnimation { duration: Theme.duration(Theme.motionFast) }
+                        }
+                    }
+                }
+
+                ProgressRing {
+                    visible: root.refreshing && Theme.reducedMotion
+                    Layout.preferredWidth: 20
+                    Layout.preferredHeight: 20
+                    indeterminate: true
                 }
 
                 Text {
@@ -98,7 +129,11 @@ T.Control {
                          : (root._armed ? root.refreshText : root.pullText)
                     font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontCaption
-                    color: Theme.textSecondary
+                    color: root._armed || root.refreshing ? Theme.textPrimary : Theme.textSecondary
+                    Behavior on color {
+                        enabled: !Theme.reducedMotion
+                        ColorAnimation { duration: Theme.duration(Theme.motionFast) }
+                    }
                 }
             }
 
@@ -121,7 +156,6 @@ T.Control {
 
     onRefreshingChanged: {
         if (refreshing) {
-            // Pin content under the header (valid once topMargin is applied).
             Qt.callLater(function () {
                 flick.contentY = -flick.topMargin
             })

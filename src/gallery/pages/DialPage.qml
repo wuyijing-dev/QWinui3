@@ -21,7 +21,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("Dial")
-                subtitle: qsTr("A circular control that lets the user select a value from a continuous range.")
+                subtitle: qsTr("Fluent dial with ticks, title, showValue, and Accessible.")
             }
 
             ControlExample {
@@ -29,13 +29,26 @@ Page {
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Standard")
-                qmlSource: "Dial { }\nDial { enabled: false }"
+                qmlSource: "Dial {\n    title: \"Volume\"\n    unit: \"%\"\n    showTicks: true\n}"
 
                 Flow {
                     Layout.fillWidth: true
                     spacing: Theme.spacingLoose
-                    Dial { }
-                    Dial { enabled: false }
+                    Dial {
+                        title: qsTr("Volume")
+                        from: 0
+                        to: 100
+                        value: 40
+                        unit: "%"
+                        showValue: true
+                        showTicks: true
+                    }
+                    Dial {
+                        title: qsTr("Disabled")
+                        enabled: false
+                        value: 25
+                        showValue: true
+                    }
                 }
             }
 

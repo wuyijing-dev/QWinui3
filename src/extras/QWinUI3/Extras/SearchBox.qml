@@ -11,7 +11,8 @@ T.Control {
     property alias text: field.text
     property alias placeholderText: field.placeholderText
     property bool clearButtonVisible: true
-    property string queryIcon: "\uE721"
+    property var symbol: FluentIcons.Search
+    property string queryIcon: ""
     property string header: ""
     property string description: ""
     property var model: []
@@ -19,6 +20,8 @@ T.Control {
     property bool updateTextOnSelect: true
     property string textMemberPath: ""
     property bool isSuggestionListOpen: false
+
+    readonly property string effectiveQueryIcon: IconSource.resolve(symbol, queryIcon)
 
     signal accepted(string text)
     signal querySubmitted(string query)
@@ -29,6 +32,11 @@ T.Control {
     implicitHeight: column.implicitHeight
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
+    Accessible.role: Accessible.EditableText
+    Accessible.name: header.length ? header : qsTr("Search")
+    Accessible.description: description
+
+    function focusField() { field.forceActiveFocus() }
 
     function displayTextFor(item) {
         if (item === undefined || item === null)
@@ -121,7 +129,7 @@ T.Control {
                 anchors.left: parent.left
                 anchors.leftMargin: 10
                 anchors.verticalCenter: parent.verticalCenter
-                text: control.queryIcon
+                text: control.effectiveQueryIcon
                 font.family: Theme.fontFamilyIcon
                 font.pixelSize: 14
                 color: field.activeFocus ? Theme.accent : Theme.textSecondary
@@ -135,7 +143,7 @@ T.Control {
                 }
             }
 
-            ToolButton {
+            AbstractButton {
                 id: clearBtn
                 visible: control.clearButtonVisible && field.text.length > 0
                 anchors.right: parent.right
@@ -145,10 +153,16 @@ T.Control {
                 z: 1
                 opacity: visible ? 1 : 0
                 scale: down && !Theme.reducedMotion ? 0.9 : 1
-                text: "\uE711"
-                font.family: Theme.fontFamilyIcon
-                font.pixelSize: 10
+                Accessible.name: qsTr("Clear")
                 onClicked: control.clear()
+                contentItem: Text {
+                    text: FluentIcons.ChromeClose
+                    font.family: Theme.fontFamilyIcon
+                    font.pixelSize: 10
+                    color: Theme.textSecondary
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                }
                 Behavior on opacity {
                     enabled: !Theme.reducedMotion
                     NumberAnimation { duration: Theme.duration(Theme.motionFast) }

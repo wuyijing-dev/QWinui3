@@ -19,13 +19,15 @@ T.Control {
     property int durationMs: 1400
     property color baseColor: Theme.fillSubtle
     property color sheenColor: Theme.dark ? "#28FFFFFF" : "#66FFFFFF"
+    // Qt.Horizontal | Qt.Vertical
+    property int direction: Qt.Horizontal
 
     implicitWidth: shape === Shimmer.Circle ? 40 : 160
     implicitHeight: shape === Shimmer.TextLine ? 12 : (shape === Shimmer.Circle ? 40 : 16)
     padding: 0
     Accessible.role: Accessible.StatusBar
     Accessible.name: qsTr("Loading")
-    Accessible.busy: active
+    Accessible.description: active ? qsTr("Busy") : qsTr("Idle")
 
     contentItem: Item {
         clip: true
@@ -38,13 +40,13 @@ T.Control {
 
             Rectangle {
                 id: sheen
-                width: parent.width * 0.45
-                height: parent.height * 2
-                rotation: 20
+                width: root.direction === Qt.Vertical ? parent.width * 2 : parent.width * 0.45
+                height: root.direction === Qt.Vertical ? parent.height * 0.45 : parent.height * 2
+                rotation: root.direction === Qt.Vertical ? 0 : 20
                 opacity: 0.55
                 visible: root.active && !Theme.reducedMotion
                 gradient: Gradient {
-                    orientation: Gradient.Horizontal
+                    orientation: root.direction === Qt.Vertical ? Gradient.Vertical : Gradient.Horizontal
                     GradientStop { position: 0; color: "transparent" }
                     GradientStop {
                         position: 0.5
@@ -56,9 +58,22 @@ T.Control {
                 SequentialAnimation on x {
                     loops: Animation.Infinite
                     running: root.active && root.visible && !Theme.reducedMotion
+                             && root.direction === Qt.Horizontal
                     NumberAnimation {
                         from: -sheen.width
                         to: root.width + sheen.width
+                        duration: root.durationMs
+                        easing.type: Easing.InOutSine
+                    }
+                    PauseAnimation { duration: Math.max(200, root.durationMs * 0.28) }
+                }
+                SequentialAnimation on y {
+                    loops: Animation.Infinite
+                    running: root.active && root.visible && !Theme.reducedMotion
+                             && root.direction === Qt.Vertical
+                    NumberAnimation {
+                        from: -sheen.height
+                        to: root.height + sheen.height
                         duration: root.durationMs
                         easing.type: Easing.InOutSine
                     }

@@ -108,6 +108,10 @@ qt_add_qml_module(qwinui3_gallery
         pages/ProgressButtonPage.qml
         pages/ProgressRingPage.qml
         pages/RadialGaugePage.qml
+        pages/LinearGaugePage.qml
+        pages/ArcGaugePage.qml
+        pages/SegmentedGaugePage.qml
+        pages/ZoneGaugePage.qml
         pages/RadioButtonPage.qml
         pages/RadioButtonsPage.qml
         pages/RangeSliderPage.qml
@@ -144,7 +148,7 @@ qt_add_qml_module(qwinui3_gallery
         pages/TimelinePage.qml
         pages/TimePickerPage.qml
         pages/TitleBarPage.qml
-        pages/StandardWindowPage.qml
+        pages/WindowParadigmPage.qml
         pages/ToastHostPage.qml
         pages/ToastPage.qml
         pages/TokenizingTextBoxPage.qml

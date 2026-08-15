@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
@@ -18,19 +19,23 @@ T.Control {
     property bool showRemaining: false
     property string remainingLabel: qsTr("Free")
     property color remainingColor: Theme.dark ? "#15FFFFFF" : "#0F000000"
+    property bool showTotal: false
 
     signal segmentClicked(int index, real value)
 
     implicitWidth: 240
     implicitHeight: {
         var h = trackHeight
-        if (header.length)
+        if (header.length || showTotal)
             h += Theme.fontBody + 8
         if (showLegend)
             h += 28
         return h
     }
     padding: 0
+    Accessible.role: Accessible.ProgressBar
+    Accessible.name: header.length ? header : qsTr("Meter")
+    Accessible.description: qsTr("%1 of %2").arg(Math.round(total)).arg(Math.round(maximum))
 
     readonly property real total: {
         var s = 0
@@ -45,14 +50,30 @@ T.Control {
     contentItem: Column {
         spacing: 8
 
-        Text {
-            visible: root.header.length > 0
+        Row {
+            visible: root.header.length > 0 || root.showTotal
             width: parent.width
-            text: root.header
-            font.family: Theme.fontFamily
-            font.pixelSize: Theme.fontBody
-            font.weight: Theme.fontWeightSemiBold
-            color: root.enabled ? Theme.textPrimary : Theme.textDisabled
+            spacing: 8
+            Text {
+                visible: root.header.length > 0
+                text: root.header
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                font.weight: Theme.fontWeightSemiBold
+                color: root.enabled ? Theme.textPrimary : Theme.textDisabled
+                width: parent.width - (root.showTotal ? totalLabel.implicitWidth + 8 : 0)
+                elide: Text.ElideRight
+            }
+            Item { width: 1; height: 1; visible: root.header.length === 0 }
+            Text {
+                id: totalLabel
+                visible: root.showTotal
+                anchors.verticalCenter: parent.verticalCenter
+                text: qsTr("%1 / %2").arg(Math.round(root.total)).arg(Math.round(root.maximum))
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontCaption
+                color: Theme.textSecondary
+            }
         }
 
         Item {
@@ -127,65 +148,86 @@ T.Control {
             spacing: 12
             Repeater {
                 model: root.segments
-                Row {
+                Item {
+                    id: legendItem
                     required property var modelData
                     required property int index
-                    spacing: 6
+                    implicitWidth: legendRow.implicitWidth
+                    implicitHeight: legendRow.implicitHeight
                     opacity: root.hoverIndex < 0 || root.hoverIndex === index ? 1 : 0.5
                     Behavior on opacity {
                         enabled: !Theme.reducedMotion
                         NumberAnimation { duration: Theme.duration(Theme.motionFast) }
                     }
-                    Rectangle {
-                        width: 8
-                        height: 8
-                        radius: 2
-                        anchors.verticalCenter: parent.verticalCenter
-                        color: modelData.color || Theme.accent
-                        scale: root.hoverIndex === index ? 1.2 : 1
-                        Behavior on scale {
-                            enabled: !Theme.reducedMotion
-                            NumberAnimation { duration: Theme.duration(Theme.motionFast) }
+
+                    RowLayout {
+                        id: legendRow
+                        spacing: 6
+                        Rectangle {
+                            Layout.preferredWidth: 8
+                            Layout.preferredHeight: 8
+                            Layout.alignment: Qt.AlignVCenter
+                            radius: 2
+                            color: legendItem.modelData.color || Theme.accent
+                            scale: root.hoverIndex === legendItem.index ? 1.2 : 1
+                            Behavior on scale {
+                                enabled: !Theme.reducedMotion
+                                NumberAnimation { duration: Theme.duration(Theme.motionFast) }
+                            }
+                        }
+                        Text {
+                            Layout.alignment: Qt.AlignVCenter
+                            text: (legendItem.modelData.label || "")
+                                  + (legendItem.modelData.label ? " · " : "")
+                                  + (Number(legendItem.modelData.value) || 0)
+                            font.family: Theme.fontFamily
+                            font.pixelSize: Theme.fontCaption
+                            font.weight: root.hoverIndex === legendItem.index
+                                         ? Theme.fontWeightSemiBold : Theme.fontWeightRegular
+                            color: root.hoverIndex === legendItem.index
+                                   ? Theme.textPrimary : Theme.textSecondary
                         }
                     }
-                    Text {
-                        text: (modelData.label || "") + (modelData.label ? " · " : "")
-                              + (Number(modelData.value) || 0)
-                        font.family: Theme.fontFamily
-                        font.pixelSize: Theme.fontCaption
-                        font.weight: root.hoverIndex === index ? Theme.fontWeightSemiBold
-                                                              : Theme.fontWeightRegular
-                        color: root.hoverIndex === index ? Theme.textPrimary : Theme.textSecondary
-                        anchors.verticalCenter: parent.verticalCenter
-                    }
-                    MouseArea {
-                        anchors.fill: parent
-                        hoverEnabled: root.interactive
+
+                    HoverHandler {
                         enabled: root.interactive
-                        onEntered: root.hoverIndex = index
-                        onExited: if (root.hoverIndex === index) root.hoverIndex = -1
-                        onClicked: root.segmentClicked(index, Number(modelData.value) || 0)
+                        onHoveredChanged: {
+                            if (hovered)
+                                root.hoverIndex = legendItem.index
+                            else if (root.hoverIndex === legendItem.index)
+                                root.hoverIndex = -1
+                        }
+                    }
+                    TapHandler {
+                        enabled: root.interactive
+                        onTapped: root.segmentClicked(legendItem.index,
+                                                      Number(legendItem.modelData.value) || 0)
                     }
                 }
             }
-            Row {
+            Item {
                 visible: root.showRemaining && root.remaining > 0
-                spacing: 6
-                Rectangle {
-                    width: 8
-                    height: 8
-                    radius: 2
-                    anchors.verticalCenter: parent.verticalCenter
-                    color: root.remainingColor
-                    border.width: 1
-                    border.color: Theme.strokeControl
-                }
-                Text {
-                    text: root.remainingLabel + " · " + Math.round(root.remaining)
-                    font.family: Theme.fontFamily
-                    font.pixelSize: Theme.fontCaption
-                    color: Theme.textSecondary
-                    anchors.verticalCenter: parent.verticalCenter
+                implicitWidth: remainRow.implicitWidth
+                implicitHeight: remainRow.implicitHeight
+                RowLayout {
+                    id: remainRow
+                    spacing: 6
+                    Rectangle {
+                        Layout.preferredWidth: 8
+                        Layout.preferredHeight: 8
+                        Layout.alignment: Qt.AlignVCenter
+                        radius: 2
+                        color: root.remainingColor
+                        border.width: 1
+                        border.color: Theme.strokeControl
+                    }
+                    Text {
+                        Layout.alignment: Qt.AlignVCenter
+                        text: root.remainingLabel + " · " + Math.round(root.remaining)
+                        font.family: Theme.fontFamily
+                        font.pixelSize: Theme.fontCaption
+                        color: Theme.textSecondary
+                    }
                 }
             }
         }

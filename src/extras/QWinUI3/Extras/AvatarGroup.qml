@@ -12,7 +12,6 @@ T.Control {
     property real overlap: 12
     property int maxVisible: 4
     property bool showOverflowCount: true
-    // Qt.LeftToRight stacks left→right; RightToLeft reverses
     property int layoutDirection: Qt.LeftToRight
     signal personClicked(int index, var item)
     signal overflowClicked()
@@ -20,6 +19,8 @@ T.Control {
     implicitWidth: row.implicitWidth
     implicitHeight: size
     padding: 0
+    Accessible.role: Accessible.List
+    Accessible.name: qsTr("%1 people").arg(model ? model.length : 0)
 
     readonly property int overflowCount: Math.max(0, (model ? model.length : 0) - maxVisible)
 

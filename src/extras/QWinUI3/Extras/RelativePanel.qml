@@ -14,6 +14,8 @@ Item {
     implicitWidth: 320
     implicitHeight: 240
     clip: true
+    Accessible.role: Accessible.Grouping
+    Accessible.name: qsTr("Relative panel")
 
     // Effective layout rect inset by paddingEdges
     readonly property real _x0: paddingEdges

@@ -20,14 +20,14 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("SelectorBar")
-                subtitle: qsTr("Segmented options with selectedIndex alias and select().")
+                subtitle: qsTr("Segmented options with keyboard nav and symbol: FluentIcons.* in the model.")
             }
             ControlExample {
                 Layout.fillWidth: true
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("View mode")
-                qmlSource: "SelectorBar {\n    selectedIndex: 1\n    onSelected: …\n}"
+                qmlSource: "SelectorBar {\n    selectedIndex: 1\n    model: [{ title: \"Day\", symbol: FluentIcons.Calendar }]\n}"
                 ColumnLayout {
                     spacing: Theme.spacing
                     Layout.alignment: Qt.AlignHCenter
@@ -37,9 +37,9 @@ Page {
                         id: bar
                         Layout.alignment: Qt.AlignHCenter
                         model: [
-                            { title: qsTr("Day"), icon: "\uE787" },
-                            { title: qsTr("Week"), icon: "\uE8BF" },
-                            { title: qsTr("Month"), icon: "\uE787" }
+                            { title: qsTr("Day"), symbol: FluentIcons.Calendar },
+                            { title: qsTr("Week"), symbol: FluentIcons.Calendar },
+                            { title: qsTr("Month"), symbol: FluentIcons.Calendar }
                         ]
                         selectedIndex: 1
                         onSelected: function (index, item) {

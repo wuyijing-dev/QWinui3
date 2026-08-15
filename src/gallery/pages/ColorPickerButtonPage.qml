@@ -20,7 +20,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("ColorPickerButton")
-                subtitle: qsTr("Swatch, hex label, flyoutPlacement, showAlpha, and isOpen.")
+                subtitle: qsTr("Swatch, Fluent chevron, focus ring, flyoutPlacement, showAlpha, and isOpen.")
             }
             ControlExample {
                 Layout.fillWidth: true

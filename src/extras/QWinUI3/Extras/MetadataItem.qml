@@ -9,11 +9,13 @@ T.Control {
     property string label: ""
     property string value: ""
     property string secondary: ""
+    property var symbol: ""
     property string iconGlyph: ""
     property int orientation: Qt.Vertical
     property color valueColor: Theme.textPrimary
 
-    readonly property real _iconSlot: iconGlyph.length > 0 ? 14 + Theme.spacing : 0
+    readonly property string effectiveIconGlyph: IconSource.resolve(symbol, iconGlyph)
+    readonly property real _iconSlot: effectiveIconGlyph.length > 0 ? 14 + Theme.spacing : 0
 
     implicitWidth: orientation === Qt.Horizontal
             ? (_iconSlot + hLabel.implicitWidth + Theme.spacing + hValue.implicitWidth
@@ -25,9 +27,10 @@ T.Control {
                        vLabel.implicitHeight + 2 + vValue.implicitHeight
                        + (secondary.length ? 2 + vSec.implicitHeight : 0))
 
-    // Width is assigned by MetadataControl.syncChildren (full row vs hug content).
     height: implicitHeight
     padding: 0
+    Accessible.name: label
+    Accessible.description: value
 
     contentItem: Item {
         implicitWidth: root.implicitWidth
@@ -35,10 +38,11 @@ T.Control {
 
         FontIcon {
             id: icon
-            visible: root.iconGlyph.length > 0
+            visible: root.effectiveIconGlyph.length > 0
             anchors.left: parent.left
             anchors.top: parent.top
             anchors.topMargin: root.orientation === Qt.Vertical ? 2 : 1
+            symbol: root.symbol
             glyph: root.iconGlyph
             fontSize: 14
             iconColor: Theme.textSecondary

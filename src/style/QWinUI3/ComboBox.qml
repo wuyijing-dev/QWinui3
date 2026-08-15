@@ -103,13 +103,13 @@ T.ComboBox {
              + (control.pressed ? 1 : 0)
         width: implicitWidth
         height: implicitHeight
-        text: "\uE70D"
+        text: FluentIcons.ChevronDown
         font.family: Theme.fontFamilyIcon
         font.pixelSize: 10
         color: control.enabled ? Theme.textSecondary : Theme.textDisabled
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        rotation: control.down ? 180 : 0
+        rotation: control.down || control.popup.visible ? 180 : 0
 
         Behavior on y {
             enabled: !Theme.reducedMotion

@@ -121,13 +121,60 @@ Page {
                 Layout.fillWidth: true
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
+                title: qsTr("Follow system accessibility")
+                description: qsTr("Copy Windows reduce-motion / high-contrast into Theme when the window is active.")
+                headerIcon: "\uE7F4"
+                action: Switch {
+                    text: Theme.followSystemAccessibility ? qsTr("On") : qsTr("Off")
+                    checked: Theme.followSystemAccessibility
+                    onToggled: {
+                        Theme.followSystemAccessibility = checked
+                        if (checked) {
+                            WindowHelper.refreshAccessibility()
+                            Theme.reducedMotion = WindowHelper.systemReducedMotion
+                            Theme.highContrast = WindowHelper.systemHighContrast
+                        }
+                    }
+                }
+            }
+
+            SettingsCard {
+                Layout.fillWidth: true
+                Layout.leftMargin: Theme.spacingSection
+                Layout.rightMargin: Theme.spacingSection
                 title: qsTr("Motion")
-                description: qsTr("When enabled, Theme.duration() collapses animations for accessibility.")
+                description: Theme.followSystemAccessibility
+                             ? qsTr("Driven by system (SPI client-area animation). Turn off “Follow system” to override.")
+                             : qsTr("When enabled, Theme.duration() collapses animations for accessibility.")
                 headerIcon: "\uE945"
                 action: Switch {
                     text: qsTr("Reduce motion")
+                    enabled: !Theme.followSystemAccessibility
                     checked: Theme.reducedMotion
-                    onToggled: Theme.reducedMotion = checked
+                    onToggled: {
+                        if (!Theme.followSystemAccessibility)
+                            Theme.reducedMotion = checked
+                    }
+                }
+            }
+
+            SettingsCard {
+                Layout.fillWidth: true
+                Layout.leftMargin: Theme.spacingSection
+                Layout.rightMargin: Theme.spacingSection
+                title: qsTr("High contrast")
+                description: Theme.followSystemAccessibility
+                             ? qsTr("Driven by system high-contrast. Turn off “Follow system” to override.")
+                             : qsTr("Strengthens borders and caption focus cues (Theme.highContrast).")
+                headerIcon: "\uE7C7"
+                action: Switch {
+                    text: qsTr("High contrast")
+                    enabled: !Theme.followSystemAccessibility
+                    checked: Theme.highContrast
+                    onToggled: {
+                        if (!Theme.followSystemAccessibility)
+                            Theme.highContrast = checked
+                    }
                 }
             }
 

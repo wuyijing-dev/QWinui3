@@ -32,6 +32,8 @@ T.Pane {
     padding: Theme.spacingLoose
     implicitWidth: 280
     implicitHeight: 160
+    Accessible.role: Accessible.Pane
+    Accessible.name: qsTr("Acrylic surface")
 
     background: ElevatedChrome {
         color: Qt.rgba(root.tintColor.r, root.tintColor.g, root.tintColor.b, root.frostOpacity)

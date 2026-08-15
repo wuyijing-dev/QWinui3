@@ -12,13 +12,13 @@ T.AbstractButton {
     property bool flat: false
     property int flyoutPlacement: Qt.AlignBottom
     property string iconGlyph: ""
-    property var icon: ""
+    property var symbol: ""
     property alias isOpen: popupMenu.visible
     signal primaryClicked()
 
     checkable: true
     checked: false
-    readonly property string effectiveIconGlyph: IconSource.resolve(icon, iconGlyph)
+    readonly property string effectiveIconGlyph: IconSource.resolve(symbol, iconGlyph)
 
     implicitWidth: Math.max(Theme.controlMinWidth,
                             primaryRow.implicitWidth + 32 + Theme.paddingControlH * 2 + 8)
@@ -28,6 +28,11 @@ T.AbstractButton {
     font.pixelSize: Theme.fontBody
     padding: 0
     spacing: 0
+    Accessible.role: Accessible.CheckBox
+    Accessible.name: control.text.length ? control.text : qsTr("Toggle split button")
+    Accessible.checkable: true
+    Accessible.checked: control.checked
+    Accessible.description: popupMenu.visible ? qsTr("Menu open") : qsTr("Menu closed")
 
     function showMenu() {
         var ox = 0
@@ -105,6 +110,8 @@ T.AbstractButton {
                 width: parent.width - 33
                 height: parent.height
                 hoverEnabled: true
+                leftPadding: Theme.paddingControlH
+                rightPadding: 8
                 onClicked: {
                     control.checked = !control.checked
                     control.primaryClicked()
@@ -113,25 +120,29 @@ T.AbstractButton {
                 contentItem: Row {
                     id: primaryRow
                     spacing: 8
-                    anchors.centerIn: parent
+                    width: primaryBtn.availableWidth
+                    height: primaryBtn.availableHeight
+
                     Text {
                         visible: control.effectiveIconGlyph.length > 0
+                        width: visible ? 16 : 0
+                        height: parent.height
                         text: control.effectiveIconGlyph
                         font.family: Theme.fontFamilyIcon
                         font.pixelSize: 14
                         color: control.__text
+                        horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
-                        anchors.verticalCenter: parent.verticalCenter
                     }
                     Text {
                         id: primaryLabel
+                        height: parent.height
                         text: control.text
                         font.family: control.font.family
                         font.pixelSize: control.font.pixelSize
                         color: control.__text
-                        horizontalAlignment: Text.AlignHCenter
+                        horizontalAlignment: Text.AlignLeft
                         verticalAlignment: Text.AlignVCenter
-                        anchors.verticalCenter: parent.verticalCenter
 
                         Behavior on color {
                             enabled: !Theme.reducedMotion
@@ -178,7 +189,7 @@ T.AbstractButton {
                 onClicked: popupMenu.visible ? popupMenu.close() : control.showMenu()
 
                 contentItem: Text {
-                    text: "\uE70D"
+                    text: FluentIcons.ChevronDown
                     font.family: Theme.fontFamilyIcon
                     font.pixelSize: 10
                     color: control.accented ? control.__text : Theme.textSecondary

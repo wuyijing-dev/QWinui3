@@ -9,12 +9,32 @@ T.Control {
 
     property var model: []
     property int currentIndex: 0
+    property alias selectedIndex: control.currentIndex
     // horizontal | vertical
     property string orientation: "horizontal"
     property bool isInteractive: true
     signal stepActivated(int index)
 
     readonly property bool _vertical: orientation === "vertical"
+
+    function next() {
+        if (currentIndex < (model ? model.length : 0) - 1) {
+            currentIndex++
+            stepActivated(currentIndex)
+        }
+    }
+    function previous() {
+        if (currentIndex > 0) {
+            currentIndex--
+            stepActivated(currentIndex)
+        }
+    }
+    function goTo(index) {
+        if (index < 0 || index >= (model ? model.length : 0))
+            return
+        currentIndex = index
+        stepActivated(index)
+    }
 
     implicitWidth: _vertical
                    ? Math.max(160, contentItem.implicitWidth + leftPadding + rightPadding)
@@ -24,6 +44,9 @@ T.Control {
     padding: 4
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontCaption
+    Accessible.role: Accessible.PageTabList
+    Accessible.name: qsTr("Steps")
+    Accessible.description: qsTr("Step %1 of %2").arg(currentIndex + 1).arg(model ? model.length : 0)
 
     contentItem: Loader {
         sourceComponent: control._vertical ? verticalComp : horizontalComp
@@ -86,7 +109,7 @@ T.Control {
                                     }
                                     Text {
                                         anchors.centerIn: parent
-                                        text: index < control.currentIndex ? "\uE73E" : String(index + 1)
+                                        text: index < control.currentIndex ? FluentIcons.Accept : String(index + 1)
                                         font.family: index < control.currentIndex ? Theme.fontFamilyIcon : Theme.fontFamily
                                         font.pixelSize: index < control.currentIndex ? 10 : Theme.fontCaption
                                         font.weight: Theme.fontWeightSemiBold
@@ -186,7 +209,7 @@ T.Control {
                                 Layout.alignment: Qt.AlignTop
                                 Text {
                                     anchors.centerIn: parent
-                                    text: index < control.currentIndex ? "\uE73E" : String(index + 1)
+                                    text: index < control.currentIndex ? FluentIcons.Accept : String(index + 1)
                                     font.family: index < control.currentIndex ? Theme.fontFamilyIcon : Theme.fontFamily
                                     font.pixelSize: index < control.currentIndex ? 10 : Theme.fontCaption
                                     font.weight: Theme.fontWeightSemiBold

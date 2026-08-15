@@ -20,7 +20,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("PasswordBox")
-                subtitle: qsTr("Password field with reveal modes, validation error, and clear.")
+                subtitle: qsTr("Reveal modes with Fluent View/Hide, error icon, clear, and Accessible.")
             }
             ControlExample {
                 Layout.fillWidth: true

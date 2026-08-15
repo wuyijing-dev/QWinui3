@@ -20,7 +20,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("StepBar")
-                subtitle: qsTr("Step indicator for wizards. Supports horizontal/vertical orientation.")
+                subtitle: qsTr("Wizard steps with selectedIndex, next()/previous()/goTo(), and Fluent Accept marks.")
             }
             ControlExample {
                 Layout.fillWidth: true
@@ -50,7 +50,7 @@ Page {
                         Layout.fillWidth: true
                         orientation: orient.currentText
                         isInteractive: interactive.checked
-                        currentIndex: 1
+                        selectedIndex: 1
                         model: [
                             { title: qsTr("Account"), description: qsTr("Sign in") },
                             { title: qsTr("Profile"), description: qsTr("Details") },
@@ -62,16 +62,16 @@ Page {
                         spacing: Theme.spacing
                         Button {
                             text: qsTr("Back")
-                            enabled: steps.currentIndex > 0
-                            onClicked: steps.currentIndex--
+                            enabled: steps.selectedIndex > 0
+                            onClicked: steps.previous()
                         }
                         AccentButton {
                             text: qsTr("Next")
-                            enabled: steps.currentIndex < steps.model.length - 1
-                            onClicked: steps.currentIndex++
+                            enabled: steps.selectedIndex < steps.model.length - 1
+                            onClicked: steps.next()
                         }
                         Label {
-                            text: qsTr("Step %1 of %2").arg(steps.currentIndex + 1).arg(steps.model.length)
+                            text: qsTr("Step %1 of %2").arg(steps.selectedIndex + 1).arg(steps.model.length)
                             color: Theme.textSecondary
                         }
                     }

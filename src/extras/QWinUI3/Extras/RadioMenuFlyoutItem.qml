@@ -7,8 +7,12 @@ import QWinUI3.Theme
 MenuItem {
     id: control
 
+    property var symbol: ""
     property string iconGlyph: ""
     property string keyboardAcceleratorText: ""
+    property bool keyVisualAccelerator: false
+
+    readonly property string effectiveIconGlyph: IconSource.resolve(symbol, iconGlyph)
 
     checkable: true
     autoExclusive: true
@@ -20,12 +24,21 @@ MenuItem {
     contentItem: RowLayout {
         id: contentRow
         spacing: control.spacing
+        scale: control.down && !Theme.reducedMotion ? 0.98 : 1
+        Behavior on scale {
+            enabled: !Theme.reducedMotion
+            NumberAnimation {
+                duration: Theme.duration(Theme.motionFast)
+                easing.type: Theme.easingStandard
+            }
+        }
 
         Item {
             Layout.preferredWidth: 20
             Layout.preferredHeight: 20
             Layout.alignment: Qt.AlignVCenter
 
+            // Prefer radio indicator; optional trailing symbol is shown next to text when unchecked glyph wanted
             Rectangle {
                 anchors.centerIn: parent
                 width: 16
@@ -39,6 +52,10 @@ MenuItem {
                     if (control.checked)
                         return Theme.accent
                     return Theme.strokeControlStrong
+                }
+                Behavior on border.color {
+                    enabled: !Theme.reducedMotion
+                    ColorAnimation { duration: Theme.duration(Theme.motionFast) }
                 }
 
                 Rectangle {
@@ -60,22 +77,37 @@ MenuItem {
             }
         }
 
+        FontIcon {
+            visible: control.effectiveIconGlyph.length > 0
+            Layout.alignment: Qt.AlignVCenter
+            glyph: control.effectiveIconGlyph
+            fontSize: 14
+            iconColor: control.enabled ? Theme.textPrimary : Theme.textDisabled
+        }
+
         Text {
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignVCenter
             text: control.text
             font.family: Theme.fontFamily
             font.pixelSize: Theme.fontBody
+            font.weight: control.checked ? Theme.fontWeightSemiBold : Theme.fontWeightRegular
             elide: Text.ElideRight
             color: control.enabled ? Theme.textPrimary : Theme.textDisabled
         }
 
         Text {
-            visible: control.keyboardAcceleratorText.length > 0
+            visible: control.keyboardAcceleratorText.length > 0 && !control.keyVisualAccelerator
             text: control.keyboardAcceleratorText
             font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             color: Theme.textSecondary
+        }
+
+        KeyChordVisual {
+            visible: control.keyboardAcceleratorText.length > 0 && control.keyVisualAccelerator
+            shortcut: control.keyboardAcceleratorText
+            size: "small"
         }
     }
 }

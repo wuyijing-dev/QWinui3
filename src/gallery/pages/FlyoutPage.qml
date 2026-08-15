@@ -22,7 +22,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("Flyout")
-                subtitle: qsTr("Lightweight contextual UI. Use isOpen / showAt() and isLightDismissEnabled.")
+                subtitle: qsTr("Lightweight contextual UI with title, isOpen / showAt(), and isLightDismissEnabled.")
             }
 
             ControlExample {
@@ -66,6 +66,7 @@ Page {
                         Flyout {
                             id: flyout
                             parent: flyoutBtn
+                            title: qsTr("Quick tip")
                             isLightDismissEnabled: lightDismiss.checked
                             Text {
                                 text: qsTr("Flyout content")

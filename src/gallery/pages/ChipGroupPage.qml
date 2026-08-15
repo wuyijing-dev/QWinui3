@@ -20,7 +20,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("ChipGroup")
-                subtitle: qsTr("selectionMode: single / multiple / none. Optional maxSelected for multi.")
+                subtitle: qsTr("selectionMode + selectedIndex; model.symbol: FluentIcons.*. select()/clearSelection().")
             }
             ControlExample {
                 Layout.fillWidth: true
@@ -56,10 +56,10 @@ Page {
                     maxSelected: 2
                     chipSize: "small"
                     model: [
-                        { title: qsTr("Open"), icon: "\uE8A5" },
-                        { title: qsTr("In progress"), icon: "\uE823" },
-                        { title: qsTr("Done"), icon: "\uE73E" },
-                        { title: qsTr("Blocked"), icon: "\uE783" }
+                        { title: qsTr("Open"), symbol: FluentIcons.Document },
+                        { title: qsTr("In progress"), symbol: FluentIcons.Refresh },
+                        { title: qsTr("Done"), symbol: FluentIcons.Accept },
+                        { title: qsTr("Blocked"), symbol: FluentIcons.Error }
                     ]
                 }
             }
