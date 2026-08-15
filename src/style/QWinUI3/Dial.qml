@@ -3,13 +3,15 @@ import QtQuick.Shapes
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Dial — Fluent styled Dial.
+// Dial — Fluent Dial with WinUI arc track and accent thumb.
 //
 //   Dial {
 //       id: dial
 //       from: 0; to: 100; value: 35
 //       onMoved: apply(dial.value)
 //   }
+//   // --- API ---
+//   // dial.from / to / value / moved() / wrapped
 
 T.Dial {
     id: control

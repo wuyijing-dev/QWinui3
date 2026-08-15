@@ -151,13 +151,13 @@ Public components: **179**. Shell overview: [`docs/window-shells.md`](window-she
 
 - [ApplicationWindow](components/ApplicationWindow.md) — Fluent ApplicationWindow chrome defaults.
 - [BusyIndicator](components/BusyIndicator.md) — Fluent styled BusyIndicator.
-- [Button](components/Button.md) — Fluent styled Button.
+- [Button](components/Button.md) — Fluent Button with WinUI stroke / fill / focus chrome.
 - [CheckBox](components/CheckBox.md) — Fluent styled CheckBox.
 - [CheckDelegate](components/CheckDelegate.md) — Fluent styled CheckDelegate.
-- [ComboBox](components/ComboBox.md) — Fluent styled ComboBox.
+- [ComboBox](components/ComboBox.md) — Fluent ComboBox with rotating chevron indicator.
 - [DayOfWeekRow](components/DayOfWeekRow.md) — Fluent styled DayOfWeekRow.
 - [DelayButton](components/DelayButton.md) — Fluent styled DelayButton.
-- [Dial](components/Dial.md) — Fluent styled Dial.
+- [Dial](components/Dial.md) — Fluent Dial with WinUI arc track and accent thumb.
 - [Dialog](components/Dialog.md) — Fluent styled Dialog.
 - [DialogButtonBox](components/DialogButtonBox.md) — Fluent styled DialogButtonBox.
 - [Drawer](components/Drawer.md) — Fluent styled Drawer.
@@ -171,7 +171,7 @@ Public components: **179**. Shell overview: [`docs/window-shells.md`](window-she
 - [MenuBarItem](components/MenuBarItem.md) — Fluent styled MenuBarItem.
 - [MenuItem](components/MenuItem.md) — Fluent styled MenuItem.
 - [MenuSeparator](components/MenuSeparator.md) — Fluent styled MenuSeparator.
-- [MonthGrid](components/MonthGrid.md) — Fluent styled MonthGrid.
+- [MonthGrid](components/MonthGrid.md) — Fluent calendar month grid for DatePicker / CalendarDatePicker.
 - [Page](components/Page.md) — Fluent styled Page.
 - [PageIndicator](components/PageIndicator.md) — Fluent styled PageIndicator.
 - [Pane](components/Pane.md) — Fluent styled Pane.
@@ -200,7 +200,7 @@ Public components: **179**. Shell overview: [`docs/window-shells.md`](window-she
 - [ToolButton](components/ToolButton.md) — Fluent styled ToolButton.
 - [ToolSeparator](components/ToolSeparator.md) — Fluent styled ToolSeparator.
 - [ToolTip](components/ToolTip.md) — Fluent styled ToolTip.
-- [TreeViewDelegate](components/TreeViewDelegate.md) — Fluent styled TreeViewDelegate.
+- [TreeViewDelegate](components/TreeViewDelegate.md) — Fluent TreeView row with chevron expand / indent.
 - [Tumbler](components/Tumbler.md) — Fluent styled Tumbler.
 - [VerticalHeaderView](components/VerticalHeaderView.md) — Fluent styled VerticalHeaderView.
 

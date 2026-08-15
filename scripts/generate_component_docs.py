@@ -17,13 +17,17 @@ Comment convention (after imports / pragma):
   //   Name {
   //       prop: value
   //   }
+  //
+  // @notes
+  //   Optional free-form notes (## Notes in the markdown page).
 
 Optional tagged form (also recognized):
 
   // @brief one-line summary
   // @usage
   //   Name { … }
-
+  // @notes
+  //   …
 Also extracts top-level `property` / `signal` / `function` via regex for a short API list.
 
 Usage:
@@ -101,6 +105,7 @@ class Component:
     module: str
     summary: str = ""
     usage: str = ""
+    notes: str = ""
     properties: list[tuple[str, str, str]] = field(default_factory=list)  # name, type, doc
     signals: list[tuple[str, str]] = field(default_factory=list)  # sig, doc
     functions: list[tuple[str, str]] = field(default_factory=list)  # sig, doc
@@ -259,12 +264,12 @@ def _unindent_usage(lines: list[str]) -> str:
     return "\n".join(bodies).rstrip()
 
 
-def parse_header_comments(text: str, name: str) -> tuple[str, str, list[str]]:
-    """Return (summary, usage, lint_errors) from the leading // block after imports."""
+def parse_header_comments(text: str, name: str) -> tuple[str, str, str, list[str]]:
+    """Return (summary, usage, notes, lint_errors) from the leading // block after imports."""
     errors: list[str] = []
     m = RE_HEADER_BLOCK.match(text)
     if not m:
-        return "", "", [f"{name}: missing leading // doc comment after imports"]
+        return "", "", "", [f"{name}: missing leading // doc comment after imports"]
 
     header = m.group("header")
     comment_lines = RE_COMMENT_LINE.findall(header)
@@ -273,24 +278,35 @@ def parse_header_comments(text: str, name: str) -> tuple[str, str, list[str]]:
     if brief_m:
         summary = brief_m.group("brief").strip()
         usage_lines: list[str] = []
-        seen_usage = False
+        notes_lines: list[str] = []
+        phase = "pre"
         for body in comment_lines:
-            if re.match(r"\s*@usage\s*$", body):
-                seen_usage = True
-                continue
             if re.match(r"\s*@brief\b", body):
                 continue
-            if seen_usage:
+            if re.match(r"\s*@usage\s*$", body):
+                phase = "usage"
+                continue
+            if re.match(r"\s*@notes\s*$", body):
+                phase = "notes"
+                continue
+            if phase == "usage":
                 usage_lines.append(body)
+            elif phase == "notes":
+                notes_lines.append(body)
         usage = _unindent_usage(usage_lines)
+        notes = _unindent_usage(notes_lines)
         if not usage:
             errors.append(f"{name}: @usage block empty or missing")
-        return summary, usage, errors
+        return summary, usage, notes, errors
 
     summary = ""
-    usage_lines = []
-    phase = "summary"  # summary | blank | usage
+    usage_lines: list[str] = []
+    notes_lines: list[str] = []
+    phase = "summary"  # summary | after_summary | usage | notes
     for body in comment_lines:
+        if re.match(r"\s*@notes\s*$", body):
+            phase = "notes"
+            continue
         if phase == "summary":
             em = re.match(r"\s*([\w.]+)\s*[—–\-:]\s*(.+)\s*$", body)
             if em:
@@ -307,17 +323,20 @@ def parse_header_comments(text: str, name: str) -> tuple[str, str, list[str]]:
                 continue
             summary = (summary + " " + body.strip()).strip()
             continue
+        if phase == "notes":
+            notes_lines.append(body)
+            continue
         usage_lines.append(body)
 
     usage = _unindent_usage(usage_lines)
+    notes = _unindent_usage(notes_lines)
     if not summary:
         errors.append(f"{name}: missing summary line (`// Name — …`)")
     if not usage:
         errors.append(f"{name}: missing indented usage example under the summary")
     elif "{" not in usage and "=" not in usage and "(" not in usage:
         errors.append(f"{name}: usage block does not look like QML/API sample")
-    return summary, usage, errors
-
+    return summary, usage, notes, errors
 
 def _root_member_indent(lines: list[str]) -> int | None:
     """Indent of root-level members (direct children of the top-level type)."""
@@ -403,7 +422,7 @@ def extract_api(
 def parse_component(path: Path) -> Component:
     text = path.read_text(encoding="utf-8")
     name = path.stem
-    summary, usage, lint = parse_header_comments(text, name)
+    summary, usage, notes, lint = parse_header_comments(text, name)
     props, signals, funcs = extract_api(text)
     return Component(
         name=name,
@@ -411,6 +430,7 @@ def parse_component(path: Path) -> Component:
         module=module_for(path),
         summary=summary or f"{name} (undocumented)",
         usage=usage,
+        notes=notes,
         properties=props,
         signals=signals,
         functions=funcs,
@@ -466,6 +486,12 @@ def render_component_page(c: Component) -> str:
         out.append("```qml")
         out.append(c.usage)
         out.append("```")
+        out.append("")
+
+    if c.notes:
+        out.append("## Notes")
+        out.append("")
+        out.append(c.notes)
         out.append("")
 
     style_only = (

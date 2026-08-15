@@ -4,7 +4,7 @@ import QtQuick.Controls.impl
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// TreeViewDelegate — Fluent styled TreeViewDelegate.
+// TreeViewDelegate — Fluent TreeView row with chevron expand / indent.
 //
 //   TreeView {
 //       id: tree
@@ -13,6 +13,8 @@ import QWinUI3.Theme
 //           // indentation / expansion affordance from style
 //       }
 //   }
+//   // --- API ---
+//   // inherits TreeViewDelegate: treeView, expanded, depth, indentation
 //   // --- API ---
 //   // inherits TreeViewDelegate: treeView, expanded, depth, indentation
 

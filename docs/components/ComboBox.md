@@ -1,6 +1,6 @@
 # ComboBox
 
-Fluent styled ComboBox.
+Fluent ComboBox with rotating chevron indicator.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/ComboBox.qml`](../../src/style/QWinUI3/ComboBox.qml)
 
@@ -14,6 +14,8 @@ ComboBox {
     model: ["Red", "Green", "Blue"]
     onActivated: (index) => apply(index)
 }
+// --- API ---
+// combo.model / currentIndex / currentText / activated() / accepted()
 ```
 
 ## API

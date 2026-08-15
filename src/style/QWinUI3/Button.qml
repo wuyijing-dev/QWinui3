@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Button — Fluent styled Button.
+// Button — Fluent Button with WinUI stroke / fill / focus chrome.
 //
 //   Button {
 //       id: btn
@@ -11,6 +11,7 @@ import QWinUI3.Theme
 //   }
 //   // --- API ---
 //   // style-only Fluent chrome; API is Qt Quick Controls Button
+//   // btn.text / enabled / highlighted / clicked()
 
 T.Button {
     id: control

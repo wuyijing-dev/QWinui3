@@ -1,6 +1,6 @@
 # Button
 
-Fluent styled Button.
+Fluent Button with WinUI stroke / fill / focus chrome.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/Button.qml`](../../src/style/QWinUI3/Button.qml)
 
@@ -16,6 +16,7 @@ Button {
 }
 // --- API ---
 // style-only Fluent chrome; API is Qt Quick Controls Button
+// btn.text / enabled / highlighted / clicked()
 ```
 
 ## API

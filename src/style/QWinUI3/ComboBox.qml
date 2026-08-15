@@ -2,13 +2,15 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// ComboBox — Fluent styled ComboBox.
+// ComboBox — Fluent ComboBox with rotating chevron indicator.
 //
 //   ComboBox {
 //       id: combo
 //       model: ["Red", "Green", "Blue"]
 //       onActivated: (index) => apply(index)
 //   }
+//   // --- API ---
+//   // combo.model / currentIndex / currentText / activated() / accepted()
 
 T.ComboBox {
     id: control

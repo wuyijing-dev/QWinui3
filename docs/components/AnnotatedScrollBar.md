@@ -14,7 +14,8 @@ Scroll area with a value label on the vertical scrollbar.
 AnnotatedScrollBar {
     id: scroll
     anchors.fill: parent
-    labels: ["Intro", "Body", "End"]   // optional; empty → percentage via labelFormat
+    // labels: sampled by scrollPosition (0..1). Empty → labelFormat with percent.
+    labels: ["Intro", "Body", "End"]
     labelFormat: "%1%"
     alwaysShowLabel: false
     Column {
@@ -25,12 +26,21 @@ AnnotatedScrollBar {
         }
     }
 }
+
 // --- API ---
-// scroll.scrollPosition   // 0..1
-// scroll.currentLabel
-// scroll.contentY / contentHeight / flickable
-// inherits Control (padding, font, contentItem)
+// read:  scroll.scrollPosition (0..1), scroll.currentLabel
+// write: scroll.contentY = …  or  scroll.flickable.contentY = …
+// size:  scroll.contentWidth / contentHeight / flickable
+// inherits Control: padding, font, contentItem
 ```
+
+## Notes
+
+Place tall content as children (default property → Flickable).
+Vertical ScrollBar shows a floating label (ElevatedChrome) while scrolling
+unless alwaysShowLabel is true.
+labels is a string[]; index = round(scrollPosition * (length-1)).
+When labels is empty, currentLabel = labelFormat.arg(percent).
 
 ## API
 
@@ -38,17 +48,17 @@ AnnotatedScrollBar {
 
 | Name | Type | Description |
 | --- | --- | --- |
-| `contentData` | `alias` | Default children / content slot |
+| `contentData` | `alias` | Default children / content slot (hosted in the inner Flickable) |
 | `contentWidth` | `alias` | Flickable content width |
 | `contentHeight` | `alias` | Flickable content height |
 | `contentX` | `alias` | Flickable content X |
-| `contentY` | `alias` | Flickable content Y |
-| `flickable` | `alias` | Inner Flickable |
-| `labels` | `var` | Optional map from scroll position (0..1) → label. Empty → percentage. |
-| `labelFormat` | `string` | Format string / function for scrollbar label |
-| `alwaysShowLabel` | `bool` | Keep scrollbar label visible |
-| `scrollPosition` | `real` | Normalized scroll position |
-| `currentLabel` | `string` | Label for the current value |
+| `contentY` | `alias` | Flickable content Y — set this (or flickable.contentY) to scroll programmatically |
+| `flickable` | `alias` | Inner Flickable (bounds, contentItem, ScrollBar.vertical, …) |
+| `labels` | `var` | Optional string[] sampled by scrollPosition; empty → percentage via labelFormat |
+| `labelFormat` | `string` | Percent format when labels is empty (Qt arg: "%1%") |
+| `alwaysShowLabel` | `bool` | Keep the floating scrollbar label visible even when idle |
+| `scrollPosition` | `real` | Normalized vertical scroll position 0..1 |
+| `currentLabel` | `string` | Label for the current scroll position (from labels[] or labelFormat) |
 
 ### Signals
 

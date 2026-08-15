@@ -1,6 +1,6 @@
 # MonthGrid
 
-Fluent styled MonthGrid.
+Fluent calendar month grid for DatePicker / CalendarDatePicker.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/MonthGrid.qml`](../../src/style/QWinUI3/MonthGrid.qml)
 
@@ -17,6 +17,8 @@ MonthGrid {
     year: (new Date()).getFullYear()
     onClicked: (date) => pick(date)
 }
+// --- API ---
+// grid.month / year / locale / title / clicked(date)
 ```
 
 ## API

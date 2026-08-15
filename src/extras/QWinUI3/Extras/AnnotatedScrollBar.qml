@@ -8,7 +8,8 @@ import QWinUI3.Theme
 //   AnnotatedScrollBar {
 //       id: scroll
 //       anchors.fill: parent
-//       labels: ["Intro", "Body", "End"]   // optional; empty → percentage via labelFormat
+//       // labels: sampled by scrollPosition (0..1). Empty → labelFormat with percent.
+//       labels: ["Intro", "Body", "End"]
 //       labelFormat: "%1%"
 //       alwaysShowLabel: false
 //       Column {
@@ -19,16 +20,24 @@ import QWinUI3.Theme
 //           }
 //       }
 //   }
+//
 //   // --- API ---
-//   // scroll.scrollPosition   // 0..1
-//   // scroll.currentLabel
-//   // scroll.contentY / contentHeight / flickable
-//   // inherits Control (padding, font, contentItem)
+//   // read:  scroll.scrollPosition (0..1), scroll.currentLabel
+//   // write: scroll.contentY = …  or  scroll.flickable.contentY = …
+//   // size:  scroll.contentWidth / contentHeight / flickable
+//   // inherits Control: padding, font, contentItem
+//
+// @notes
+//   Place tall content as children (default property → Flickable).
+//   Vertical ScrollBar shows a floating label (ElevatedChrome) while scrolling
+//   unless alwaysShowLabel is true.
+//   labels is a string[]; index = round(scrollPosition * (length-1)).
+//   When labels is empty, currentLabel = labelFormat.arg(percent).
 
 T.Control {
     id: root
 
-    // Default children / content slot
+    // Default children / content slot (hosted in the inner Flickable)
     default property alias contentData: flick.data
     // Flickable content width
     property alias contentWidth: flick.contentWidth
@@ -36,30 +45,30 @@ T.Control {
     property alias contentHeight: flick.contentHeight
     // Flickable content X
     property alias contentX: flick.contentX
-    // Flickable content Y
+    // Flickable content Y — set this (or flickable.contentY) to scroll programmatically
     property alias contentY: flick.contentY
-    // Inner Flickable
+    // Inner Flickable (bounds, contentItem, ScrollBar.vertical, …)
     property alias flickable: flick
 
-    // Optional map from scroll position (0..1) → label. Empty → percentage.
+    // Optional string[] sampled by scrollPosition; empty → percentage via labelFormat
     property var labels: []
-    // Format string / function for scrollbar label
+    // Percent format when labels is empty (Qt arg: "%1%")
     property string labelFormat: "%1%"
-    // Keep scrollbar label visible
+    // Keep the floating scrollbar label visible even when idle
     property bool alwaysShowLabel: false
 
     implicitWidth: 200
     implicitHeight: 200
     clip: true
 
-    // Normalized scroll position
+    // Normalized vertical scroll position 0..1
     readonly property real scrollPosition: {
         if (flick.contentHeight <= flick.height)
             return 0
         return flick.contentY / Math.max(1, flick.contentHeight - flick.height)
     }
 
-    // Label for the current value
+    // Label for the current scroll position (from labels[] or labelFormat)
     readonly property string currentLabel: {
         if (labels && labels.length > 0) {
             var idx = Math.min(labels.length - 1,

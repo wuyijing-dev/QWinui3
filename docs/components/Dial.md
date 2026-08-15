@@ -1,6 +1,6 @@
 # Dial
 
-Fluent styled Dial.
+Fluent Dial with WinUI arc track and accent thumb.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/Dial.qml`](../../src/style/QWinUI3/Dial.qml)
 
@@ -14,6 +14,8 @@ Dial {
     from: 0; to: 100; value: 35
     onMoved: apply(dial.value)
 }
+// --- API ---
+// dial.from / to / value / moved() / wrapped
 ```
 
 ## API

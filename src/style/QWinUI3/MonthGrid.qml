@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// MonthGrid — Fluent styled MonthGrid.
+// MonthGrid — Fluent calendar month grid for DatePicker / CalendarDatePicker.
 //
 //   MonthGrid {
 //       id: grid
@@ -10,6 +10,8 @@ import QWinUI3.Theme
 //       year: (new Date()).getFullYear()
 //       onClicked: (date) => pick(date)
 //   }
+//   // --- API ---
+//   // grid.month / year / locale / title / clicked(date)
 
 T.AbstractMonthGrid {
     id: control

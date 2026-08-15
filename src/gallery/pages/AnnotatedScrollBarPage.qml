@@ -31,7 +31,7 @@ Page {
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Percentage labels")
-                qmlSource: "AnnotatedScrollBar {\n    /* content */\n}"
+                qmlSource: "AnnotatedScrollBar {\n    id: scroll\n    anchors.fill: parent\n    labelFormat: \"%1%\"\n    Column {\n        width: scroll.flickable.width\n        Repeater {\n            model: 40\n            Label { text: \"Row \" + (index + 1); height: 36 }\n        }\n    }\n}\n// scroll.scrollPosition / currentLabel / contentY"
                 AnnotatedScrollBar {
                     Layout.fillWidth: true
                     Layout.preferredHeight: 220
