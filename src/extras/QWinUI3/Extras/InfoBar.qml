@@ -21,6 +21,7 @@ T.Control {
     property bool showIcon: true
     property alias isIconVisible: root.showIcon
     property string iconGlyph: ""
+    property var icon: ""
     property string actionText: ""
     property alias action: actionSlot.data
     property int durationMs: 0 // >0 auto-dismisses after open
@@ -139,13 +140,14 @@ T.Control {
     }
 
     readonly property string _severityGlyph: {
-        if (iconGlyph.length)
-            return iconGlyph
+        var custom = IconSource.resolve(icon, iconGlyph)
+        if (custom.length)
+            return custom
         switch (severity) {
-        case success: return "\uE73E"
-        case warning: return "\uE7BA"
-        case error: return "\uE783"
-        default: return "\uE946"
+        case success: return FluentIcons.Accept
+        case warning: return FluentIcons.Warning
+        case error: return FluentIcons.Error
+        default: return FluentIcons.Info
         }
     }
 

@@ -40,14 +40,14 @@ Page {
                         Layout.fillWidth: true
                         title: qsTr("Notifications")
                         description: qsTr("Show toast notifications for updates.")
-                        headerIcon: "\uEA8F"
+                        headerIcon: FluentIcons.Notification
                         action: Switch { checked: true }
                     }
                     SettingsCard {
                         Layout.fillWidth: true
                         title: qsTr("Quiet hours")
                         description: qsTr("Mute alerts during scheduled times.")
-                        headerIcon: "\uE708"
+                        headerIcon: FluentIcons.QuietHours
                         content: Label {
                             text: qsTr("Weekdays 10:00 PM – 7:00 AM")
                             color: Theme.textSecondary
@@ -69,7 +69,7 @@ Page {
                         interactive: true
                         title: qsTr("About")
                         description: qsTr("Version 1.0.0 — tap or press Enter for details")
-                        headerIcon: "\uE946"
+                        headerIcon: FluentIcons.Info
                         onClicked: cardStatus.text = qsTr("About clicked")
                     }
                 }

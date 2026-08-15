@@ -11,6 +11,7 @@ T.AbstractButton {
     property alias isCloseButtonVisible: control.closable
     property bool highlighted: false
     property bool flat: false
+    property var icon: ""
     property string iconGlyph: ""
     property string avatarText: ""
     // filled | outline
@@ -18,6 +19,8 @@ T.AbstractButton {
     // small | medium
     property string chipSize: "medium"
     signal closeClicked()
+
+    readonly property string effectiveIconGlyph: IconSource.resolve(icon, iconGlyph)
 
     checkable: true
     hoverEnabled: true
@@ -62,8 +65,8 @@ T.AbstractButton {
             }
         }
         FontIcon {
-            visible: control.iconGlyph.length > 0 && control.avatarText.length === 0
-            glyph: control.iconGlyph
+            visible: control.effectiveIconGlyph.length > 0 && control.avatarText.length === 0
+            glyph: control.effectiveIconGlyph
             fontSize: 12
             iconColor: {
                 if (!control.enabled)

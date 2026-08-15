@@ -12,7 +12,10 @@ T.AbstractButton {
     property bool highlighted: false
     property int flyoutPlacement: Qt.AlignBottom
     property string iconGlyph: ""
+    property var icon: ""
     property alias isOpen: popupMenu.visible
+
+    readonly property string effectiveIconGlyph: IconSource.resolve(icon, iconGlyph)
 
     implicitWidth: Math.max(Theme.controlMinWidth,
                             contentItem.implicitWidth + leftPadding + rightPadding + 8)
@@ -76,8 +79,8 @@ T.AbstractButton {
     contentItem: RowLayout {
         spacing: 8
         Text {
-            visible: control.iconGlyph.length > 0
-            text: control.iconGlyph
+            visible: control.effectiveIconGlyph.length > 0
+            text: control.effectiveIconGlyph
             font.family: Theme.fontFamilyIcon
             font.pixelSize: 14
             color: {

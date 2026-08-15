@@ -12,11 +12,14 @@ T.AbstractButton {
     property bool flat: false
     property int flyoutPlacement: Qt.AlignBottom
     property string iconGlyph: ""
+    property var icon: ""
     property alias isOpen: popupMenu.visible
     signal primaryClicked()
 
     checkable: true
     checked: false
+    readonly property string effectiveIconGlyph: IconSource.resolve(icon, iconGlyph)
+
     implicitWidth: Math.max(Theme.controlMinWidth,
                             primaryRow.implicitWidth + 32 + Theme.paddingControlH * 2 + 8)
     implicitHeight: Theme.controlHeight
@@ -112,8 +115,8 @@ T.AbstractButton {
                     spacing: 8
                     anchors.centerIn: parent
                     Text {
-                        visible: control.iconGlyph.length > 0
-                        text: control.iconGlyph
+                        visible: control.effectiveIconGlyph.length > 0
+                        text: control.effectiveIconGlyph
                         font.family: Theme.fontFamilyIcon
                         font.pixelSize: 14
                         color: control.__text

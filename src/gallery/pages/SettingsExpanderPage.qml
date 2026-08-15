@@ -40,7 +40,7 @@ Page {
                         Layout.fillWidth: true
                         title: qsTr("Privacy")
                         description: qsTr("Control how your data is used.")
-                        headerIcon: "\uE72E"
+                        headerIcon: FluentIcons.Lock
                         expanded: true
                         action: Switch {
                             checked: true

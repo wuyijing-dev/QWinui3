@@ -1,32 +1,13 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import QtQuick.Templates as T
 import QWinUI3.Theme
 
-T.AbstractButton {
+IconicButton {
     id: control
 
-    property string iconGlyph: "\uE8A7"
-    property bool highlighted: false
-    property bool flat: true
     // Override CommandBar.defaultLabelPosition when set (bottom | right | collapsed)
     property string labelPosition: ""
-    property string toolTipText: ""
-    property bool badgeVisible: false
-    property int badgeValue: 0
-    property string badgeText: ""
-    property int badgeMaxValue: 99
-
-    readonly property string _badgeLabel: {
-        if (badgeText.length)
-            return badgeText
-        if (badgeValue <= 0)
-            return ""
-        if (badgeValue > badgeMaxValue)
-            return badgeMaxValue + "+"
-        return String(badgeValue)
-    }
 
     readonly property string effectiveLabelPosition: {
         if (control.labelPosition.length)
@@ -61,12 +42,10 @@ T.AbstractButton {
     rightPadding: leftPadding
     topPadding: _showLabel && !_labelRight ? 6 : 4
     bottomPadding: topPadding
-    hoverEnabled: true
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontCaption
     checkable: false
-    ToolTip.visible: hovered && toolTipText.length > 0
-    ToolTip.text: toolTipText
+    iconSize: 18
 
     contentItem: GridLayout {
         columns: control._labelRight ? 2 : 1
@@ -77,9 +56,9 @@ T.AbstractButton {
 
         Text {
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-            text: control.iconGlyph
+            text: control.effectiveIconGlyph
             font.family: Theme.fontFamilyIcon
-            font.pixelSize: 18
+            font.pixelSize: control.iconSize
             color: {
                 if (!control.enabled)
                     return Theme.textDisabled

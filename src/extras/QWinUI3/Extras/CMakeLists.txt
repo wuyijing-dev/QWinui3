@@ -45,6 +45,7 @@ qt_add_qml_module(qwinui3_extras
         HeaderedTextBox.qml
         HyperlinkButton.qml
         IconButton.qml
+        IconicButton.qml
         InfoBadge.qml
         InfoBar.qml
         InfoBarHost.qml

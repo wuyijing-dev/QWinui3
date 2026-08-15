@@ -27,31 +27,31 @@ Page {
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Commands")
-                qmlSource: "AppBarButton {\n    iconGlyph: \"\\uE715\"\n    badgeValue: 3\n}"
+                qmlSource: "AppBarButton {\n    icon: FluentIcons.Mail\n    badgeValue: 3\n}"
                 ColumnLayout {
                     spacing: Theme.spacing
                     RowLayout {
                         spacing: Theme.spacingLoose
                         AppBarButton {
-                            iconGlyph: "\uE8C8"
+                            icon: FluentIcons.Copy
                             text: qsTr("Copy")
                             toolTipText: qsTr("Copy selection")
                             onClicked: status.text = qsTr("Copy")
                         }
                         AppBarButton {
-                            iconGlyph: "\uE715"
+                            icon: FluentIcons.Mail
                             text: qsTr("Mail")
                             badgeValue: 3
                             toolTipText: qsTr("3 unread")
                             onClicked: status.text = qsTr("Mail")
                         }
                         AppBarButton {
-                            iconGlyph: "\uE74D"
+                            icon: FluentIcons.Delete
                             text: qsTr("Delete")
                             onClicked: status.text = qsTr("Delete")
                         }
                         AppBarButton {
-                            iconGlyph: "\uE713"
+                            icon: FluentIcons.Save
                             text: qsTr("Save")
                             highlighted: true
                             onClicked: status.text = qsTr("Save")

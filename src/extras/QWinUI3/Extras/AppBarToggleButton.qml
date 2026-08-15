@@ -1,15 +1,11 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import QtQuick.Templates as T
 import QWinUI3.Theme
 
-T.AbstractButton {
+IconicButton {
     id: control
 
-    property string iconGlyph: "\uE8A7"
-    property bool highlighted: false
-    property bool flat: true
     property string labelPosition: ""
 
     readonly property string effectiveLabelPosition: {
@@ -45,10 +41,10 @@ T.AbstractButton {
     rightPadding: leftPadding
     topPadding: _showLabel && !_labelRight ? 6 : 4
     bottomPadding: topPadding
-    hoverEnabled: true
     checkable: true
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontCaption
+    iconSize: 18
 
     contentItem: GridLayout {
         columns: control._labelRight ? 2 : 1
@@ -59,9 +55,9 @@ T.AbstractButton {
 
         Text {
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-            text: control.iconGlyph
+            text: control.effectiveIconGlyph
             font.family: Theme.fontFamilyIcon
-            font.pixelSize: 18
+            font.pixelSize: control.iconSize
             color: {
                 if (!control.enabled)
                     return Theme.textDisabled

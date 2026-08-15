@@ -9,12 +9,14 @@ T.Pane {
 
     property string title: ""
     property string description: ""
-    property string headerIcon: ""
+    property var headerIcon: ""
     property alias action: actionSlot.data
     property alias content: contentSlot.data
     property bool interactive: false
     property bool showChevron: interactive
     signal clicked()
+
+    readonly property string effectiveHeaderIcon: IconSource.resolve(headerIcon, "")
 
     padding: 16
     implicitWidth: 420
@@ -58,8 +60,8 @@ T.Pane {
         spacing: Theme.spacingLoose
 
         Text {
-            visible: root.headerIcon.length > 0
-            text: root.headerIcon
+            visible: root.effectiveHeaderIcon.length > 0
+            text: root.effectiveHeaderIcon
             font.family: Theme.fontFamilyIcon
             font.pixelSize: 20
             color: Theme.accent

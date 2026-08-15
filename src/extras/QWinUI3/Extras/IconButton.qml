@@ -1,40 +1,14 @@
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Templates as T
 import QWinUI3.Theme
 
-T.AbstractButton {
+IconicButton {
     id: control
-
-    property string iconGlyph: "\uE8A7"
-    property bool highlighted: false
-    property bool flat: true
-    property real iconSize: 16
-    property string toolTipText: ""
-    property bool badgeVisible: false
-    property int badgeValue: 0
-    property string badgeText: ""
-    property int badgeMaxValue: 99
 
     implicitWidth: Theme.controlHeight
     implicitHeight: Theme.controlHeight
-    hoverEnabled: true
     padding: 0
-    font.family: Theme.fontFamilyIcon
-    font.pixelSize: iconSize
     scale: down && !Theme.reducedMotion ? 0.94 : 1
-    ToolTip.visible: hovered && toolTipText.length > 0
-    ToolTip.text: toolTipText
-
-    readonly property string _badgeLabel: {
-        if (badgeText.length)
-            return badgeText
-        if (badgeValue <= 0)
-            return ""
-        if (badgeValue > badgeMaxValue)
-            return badgeMaxValue + "+"
-        return String(badgeValue)
-    }
 
     Behavior on scale {
         enabled: !Theme.reducedMotion
@@ -45,7 +19,7 @@ T.AbstractButton {
     }
 
     contentItem: Text {
-        text: control.iconGlyph
+        text: control.effectiveIconGlyph
         font.family: Theme.fontFamilyIcon
         font.pixelSize: control.iconSize
         color: {

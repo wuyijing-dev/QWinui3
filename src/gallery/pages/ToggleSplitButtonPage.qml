@@ -27,13 +27,13 @@ Page {
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("List style")
-                qmlSource: "ToggleSplitButton {\n    text: \"List\"\n    iconGlyph: \"\\uE8FD\"\n    checked: true\n}"
+                qmlSource: "ToggleSplitButton {\n    text: \"List\"\n    icon: FluentIcons.List\n    checked: true\n}"
                 ColumnLayout {
                     spacing: Theme.spacing
                     ToggleSplitButton {
                         id: listToggle
                         text: qsTr("List")
-                        iconGlyph: "\uE8FD"
+                        icon: FluentIcons.List
                         checked: true
                         onPrimaryClicked: status.text = checked ? qsTr("List on") : qsTr("List off")
                         MenuItem {

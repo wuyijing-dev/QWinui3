@@ -10,11 +10,14 @@ T.AbstractButton {
     property alias navigateUri: control.url
     // always | onHover | never
     property string underlineStyle: "onHover"
+    property var icon: ""
     property string iconGlyph: ""
     property bool visited: false
     // "external" opens the URL; "signal" only emits clicked / navigateRequested
     property string navigateMode: "external"
     signal navigateRequested(url target)
+
+    readonly property string effectiveIconGlyph: IconSource.resolve(icon, iconGlyph)
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding)
@@ -32,8 +35,8 @@ T.AbstractButton {
         spacing: control.spacing
 
         Text {
-            visible: control.iconGlyph.length > 0
-            text: control.iconGlyph
+            visible: control.effectiveIconGlyph.length > 0
+            text: control.effectiveIconGlyph
             font.family: Theme.fontFamilyIcon
             font.pixelSize: 14
             color: label.color

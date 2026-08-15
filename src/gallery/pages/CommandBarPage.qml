@@ -27,7 +27,7 @@ Page {
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Primary commands")
-                qmlSource: "CommandBar {\n    secondaryCommands: [ … ]\n    onOpened: …\n}"
+                qmlSource: "AppBarButton { icon: FluentIcons.Copy; text: \"Copy\" }"
                 ColumnLayout {
                     Layout.fillWidth: true
                     spacing: Theme.spacing
@@ -67,18 +67,18 @@ Page {
                         onOpened: status.text = qsTr("Command bar opened")
                         onClosed: status.text = qsTr("Command bar closed")
                         AppBarButton {
-                            iconGlyph: "\uE8C8"
+                            icon: FluentIcons.Copy
                             text: qsTr("Copy")
                             onClicked: status.text = qsTr("Copy")
                         }
                         AppBarButton {
-                            iconGlyph: "\uE77F"
+                            icon: FluentIcons.Cut
                             text: qsTr("Cut")
                             onClicked: status.text = qsTr("Cut")
                         }
                         AppBarSeparator {}
                         AppBarButton {
-                            iconGlyph: "\uE74D"
+                            icon: FluentIcons.Delete
                             text: qsTr("Delete")
                             onClicked: status.text = qsTr("Delete")
                         }

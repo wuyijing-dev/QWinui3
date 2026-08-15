@@ -3,11 +3,12 @@ import QtQuick.Controls
 import QWinUI3.Theme
 
 // Segoe Fluent Icons glyph with Theme-aware sizing and color.
-// Use Item (not Control): Control/Item.mirrored is FINAL and must not be redeclared.
+// Prefer: icon: FluentIcons.Home  or  icon: "Home"
 Item {
     id: root
 
-    property string glyph: "\uE8A7"
+    property var icon: ""
+    property string glyph: ""
     property alias symbol: root.glyph
     property real fontSize: 16
     property color iconColor: Theme.textPrimary
@@ -16,12 +17,19 @@ Item {
     property string toolTipText: ""
     property string accessibleName: ""
 
+    readonly property string effectiveGlyph: {
+        var fromIcon = IconSource.resolve(root.icon, "")
+        if (fromIcon.length)
+            return fromIcon
+        return IconSource.resolve(root.glyph, FluentIcons.Placeholder)
+    }
+
     implicitWidth: Math.ceil(fontSize * 1.25)
     implicitHeight: Math.ceil(fontSize * 1.25)
     width: implicitWidth
     height: implicitHeight
     Accessible.role: Accessible.Graphic
-    Accessible.name: accessibleName.length ? accessibleName : glyph
+    Accessible.name: accessibleName.length ? accessibleName : effectiveGlyph
 
     HoverHandler {
         id: hover
@@ -34,7 +42,7 @@ Item {
     Text {
         id: glyphText
         anchors.centerIn: parent
-        text: root.glyph
+        text: root.effectiveGlyph
         font.family: Theme.fontFamilyIcon
         font.pixelSize: root.fontSize
         font.weight: root.fontWeight

@@ -20,14 +20,14 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("SplitButton")
-                subtitle: qsTr("Primary action plus flyout. Supports iconGlyph, isOpen, and flyoutPlacement.")
+                subtitle: qsTr("Primary action plus flyout. Supports icon: FluentIcons.Save, isOpen, and flyoutPlacement.")
             }
             ControlExample {
                 Layout.fillWidth: true
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Save options")
-                qmlSource: "SplitButton {\n    text: \"Save\"\n    iconGlyph: \"\\uE74E\"\n}"
+                qmlSource: "SplitButton {\n    text: \"Save\"\n    icon: FluentIcons.Save\n}"
                 ColumnLayout {
                     spacing: Theme.spacing
                     RowLayout {
@@ -35,7 +35,7 @@ Page {
                         SplitButton {
                             id: saveBtn
                             text: qsTr("Save")
-                            iconGlyph: "\uE74E"
+                            icon: FluentIcons.Save
                             onPrimaryClicked: status.text = qsTr("Saved")
                             MenuItem {
                                 text: qsTr("Save")
@@ -52,7 +52,7 @@ Page {
                         }
                         SplitButton {
                             text: qsTr("Publish")
-                            iconGlyph: "\uE74A"
+                            icon: FluentIcons.Publish
                             highlighted: true
                             onPrimaryClicked: status.text = qsTr("Published")
                             MenuItem { text: qsTr("Publish now"); onTriggered: status.text = qsTr("Published") }

@@ -38,20 +38,20 @@ Page {
                     preferredPlacement: Qt.AlignBottom
                     MenuFlyoutItem {
                         text: qsTr("Copy")
-                        iconGlyph: "\uE8C8"
+                        icon: FluentIcons.Copy
                         keyboardAcceleratorText: "Ctrl+C"
                         onTriggered: lastAction.text = text
                     }
                     MenuFlyoutItem {
                         text: qsTr("Paste")
-                        iconGlyph: "\uE77F"
+                        icon: FluentIcons.Paste
                         keyboardAcceleratorText: "Ctrl+V"
                         onTriggered: lastAction.text = text
                     }
                     MenuFlyoutSeparator {}
                     MenuFlyoutItem {
                         text: qsTr("Delete")
-                        iconGlyph: "\uE74D"
+                        icon: FluentIcons.Delete
                         iconColor: Theme.systemCritical
                         onTriggered: lastAction.text = text
                     }

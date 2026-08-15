@@ -9,7 +9,7 @@ T.Control {
 
     property string title: ""
     property string description: ""
-    property string headerIcon: ""
+    property var headerIcon: ""
     property bool expanded: false
     property alias isExpanded: control.expanded
     // WinUI ExpandDirection: down | up
@@ -20,6 +20,7 @@ T.Control {
     signal expanding()
     signal collapsing()
 
+    readonly property string effectiveHeaderIcon: IconSource.resolve(headerIcon, "")
     readonly property bool _expandUp: expandDirection === "up"
 
     onExpandedChanged: {
@@ -92,8 +93,8 @@ T.Control {
                 spacing: Theme.spacingLoose
 
                 Text {
-                    visible: control.headerIcon.length > 0
-                    text: control.headerIcon
+                    visible: control.effectiveHeaderIcon.length > 0
+                    text: control.effectiveHeaderIcon
                     font.family: Theme.fontFamilyIcon
                     font.pixelSize: 20
                     color: Theme.accent
