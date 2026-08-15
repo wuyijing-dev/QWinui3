@@ -9,9 +9,13 @@ Fluent styled Dialog.
 ## Example
 
 ```qml
-Dialog { title: qsTr("Hi"); standardButtons: Dialog.Ok }
-
-// --- API ---
+Dialog {
+    id: dlg
+    title: qsTr("Notice")
+    standardButtons: Dialog.Ok
+    onAccepted: close()
+}
+dlg.open()
 ```
 
 ## API

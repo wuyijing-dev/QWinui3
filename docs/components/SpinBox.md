@@ -9,7 +9,10 @@ Fluent styled SpinBox.
 ## Example
 
 ```qml
-SpinBox { from: 0; to: 99; value: 1 }
+SpinBox {
+    id: spin
+    from: 0; to: 10; value: 3
+}
 ```
 
 ## API

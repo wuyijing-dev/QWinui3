@@ -11,7 +11,13 @@ ShellWindow with tool paradigm.
 ## Example
 
 ```qml
-ToolShellWindow { title: qsTr("Inspector"); width: 320; height: 480 }
+ToolShellWindow {
+    id: tool
+    title: qsTr("Inspector")
+    width: 360; height: 480
+}
+// --- API ---
+// WindowHelper.ParadigmTool flags
 ```
 
 ## API

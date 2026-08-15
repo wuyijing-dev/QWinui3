@@ -9,7 +9,12 @@ Fluent styled SwipeView.
 ## Example
 
 ```qml
-SwipeView { // pages }
+SwipeView {
+    id: pages
+    anchors.fill: parent
+    Item { Label { text: "1" } }
+    Item { Label { text: "2" } }
+}
 ```
 
 ## API

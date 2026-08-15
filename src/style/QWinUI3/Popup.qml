@@ -4,9 +4,12 @@ import QWinUI3.Theme
 
 // Popup — Fluent styled Popup chrome.
 //
-//   Popup { modal: true; // content }
-//
-//   // --- API ---
+//   Popup {
+//       id: pop
+//       modal: true
+//       contentItem: Label { text: qsTr("Hi") }
+//   }
+//   pop.open()
 
 T.Popup {
     id: control

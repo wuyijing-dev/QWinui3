@@ -9,7 +9,13 @@ Fluent styled RadioDelegate.
 ## Example
 
 ```qml
-RadioDelegate { text: qsTr("Option") }
+ListView {
+    model: 3
+    delegate: RadioDelegate {
+        text: "Choice " + index
+        width: ListView.view.width
+    }
+}
 ```
 
 ## API

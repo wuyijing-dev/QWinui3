@@ -4,7 +4,11 @@ import QWinUI3.Theme
 
 // DialogButtonBox — Fluent styled DialogButtonBox.
 //
-//   DialogButtonBox { standardButtons: Dialog.Ok | Dialog.Cancel }
+//   Dialog {
+//       footer: DialogButtonBox {
+//           standardButtons: DialogButtonBox.Ok | DialogButtonBox.Cancel
+//       }
+//   }
 
 T.DialogButtonBox {
     id: control

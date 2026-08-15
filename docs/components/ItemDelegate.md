@@ -9,7 +9,14 @@ Fluent styled ItemDelegate.
 ## Example
 
 ```qml
-ItemDelegate { text: qsTr("Row") }
+ListView {
+    model: 5
+    delegate: ItemDelegate {
+        text: "Item " + index
+        width: ListView.view.width
+        onClicked: select(index)
+    }
+}
 ```
 
 ## API

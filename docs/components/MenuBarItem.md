@@ -9,7 +9,12 @@ Fluent styled MenuBarItem.
 ## Example
 
 ```qml
-MenuBarItem { text: qsTr("File") }
+MenuBar {
+    MenuBarItem {
+        text: qsTr("Edit")
+        menu: Menu { MenuItem { text: qsTr("Undo") } }
+    }
+}
 ```
 
 ## API

@@ -9,7 +9,14 @@ Fluent styled MenuBar.
 ## Example
 
 ```qml
-MenuBar { Menu { title: qsTr("File") } }
+ApplicationWindow {
+    menuBar: MenuBar {
+        Menu {
+            title: qsTr("File")
+            MenuItem { text: qsTr("Exit") }
+        }
+    }
+}
 ```
 
 ## API

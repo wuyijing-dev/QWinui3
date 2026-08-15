@@ -12,18 +12,13 @@ Token chips + text input.
 
 ```qml
 TokenizingTextBox {
-    id: tokenizingTextBox
-    model: tokens
-    placeholderText: qsTr("Add…")
+    id: tokens
+    placeholderText: qsTr("Add people")
+    onTokenAdded: (text) => { /* … */ }
+    onTokenRemoved: (text) => { /* … */ }
 }
-
 // --- API ---
-// signals: onTokenAdded, onTokenRemoved, onAccepted, onQuerySubmitted, onCleared
-// methods: focusField(), clear(), addToken(value), removeToken(index)
-// tokenizingTextBox.focusField()
-// tokenizingTextBox.clear()
-// tokenizingTextBox.addToken(value)
-// tokenizingTextBox.removeToken(index)
+// tokens.addToken(text) / removeToken(text) / clear()
 ```
 
 ## API

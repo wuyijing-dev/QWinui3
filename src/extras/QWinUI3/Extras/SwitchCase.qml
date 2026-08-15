@@ -3,7 +3,11 @@ import QWinUI3.Theme
 
 // SwitchCase — Case child for SwitchPresenter.
 //
-//   SwitchCase { value: "a"; Label { text: "A" } }
+//   SwitchPresenter {
+//       currentCase: "a"
+//       SwitchCase { value: "a"; Label { text: "A" } }
+//       SwitchCase { value: "b"; Label { text: "B" } }
+//   }
 
 Item {
     id: root

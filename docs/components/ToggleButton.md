@@ -11,10 +11,14 @@ Checkable button with Fluent chrome.
 ## Example
 
 ```qml
-ToggleButton { text: qsTr("Bold"); checkable: true }
-
+ToggleButton {
+    id: toggle
+    text: qsTr("Bold")
+    checkable: true
+    onToggled: apply()
+}
 // --- API ---
-// inherits Button (+ Qt Quick Controls base API)
+// toggle.checked / onToggled
 ```
 
 ## API

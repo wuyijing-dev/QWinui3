@@ -11,7 +11,11 @@ Thin separator for CommandBar / AppBar rows.
 ## Example
 
 ```qml
-AppBarSeparator { }
+CommandBar {
+    AppBarButton { text: qsTr("Add"); symbol: FluentIcons.Add }
+    AppBarSeparator { }
+    AppBarButton { text: qsTr("Share"); symbol: FluentIcons.Share }
+}
 ```
 
 ## API

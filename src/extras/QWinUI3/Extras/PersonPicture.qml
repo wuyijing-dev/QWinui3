@@ -4,7 +4,13 @@ import QWinUI3.Theme
 
 // PersonPicture — Avatar from image or initials.
 //
-//   PersonPicture { displayName: "Ada"; size: 48 }
+//   PersonPicture {
+//       id: avatar
+//       displayName: "Ada Lovelace"
+//       // source: "file:///…"
+//   }
+//   // --- API ---
+//   // avatar.initials / displayName / source
 
 T.Control {
     id: root

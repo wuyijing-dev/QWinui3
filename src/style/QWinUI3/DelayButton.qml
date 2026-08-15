@@ -4,7 +4,12 @@ import QWinUI3.Theme
 
 // DelayButton — Fluent styled DelayButton.
 //
-//   DelayButton { text: qsTr("Hold") }
+//   DelayButton {
+//       id: hold
+//       text: qsTr("Hold to confirm")
+//       delay: 1000
+//       onActivated: confirm()
+//   }
 
 T.DelayButton {
     id: control

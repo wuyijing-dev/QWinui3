@@ -6,7 +6,11 @@ import QWinUI3.Platform
 
 // CompactOverlayWindow — StandardWindow compact overlay presenter.
 //
-//   CompactOverlayWindow { title: qsTr("Overlay") }
+//   CompactOverlayWindow {
+//       id: pip
+//       title: qsTr("PiP")
+//       width: 320; height: 180
+//   }
 
 StandardWindow {
     id: root

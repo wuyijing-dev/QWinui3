@@ -4,7 +4,13 @@ import QWinUI3.Theme
 
 // Shimmer — Skeleton shimmer placeholder.
 //
-//   Shimmer { width: 200; height: 12 }
+//   Shimmer {
+//       id: shim
+//       width: 200; height: 16
+//       active: true
+//   }
+//   // --- API ---
+//   // shim.active
 
 T.Control {
     id: root

@@ -9,7 +9,10 @@ Fluent styled Pane.
 ## Example
 
 ```qml
-Pane { // children }
+Pane {
+    padding: Theme.paddingControlH
+    Label { text: qsTr("Pane body") }
+}
 ```
 
 ## API

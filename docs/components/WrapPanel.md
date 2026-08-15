@@ -12,8 +12,16 @@ Flow / wrap layout.
 
 ```qml
 WrapPanel {
-    Repeater { model: 8; Chip { text: modelData } }
+    id: wrap
+    width: parent.width
+    itemSpacing: 8
+    Repeater {
+        model: 12
+        Chip { text: "Tag " + index }
+    }
 }
+// --- API ---
+// wrap.itemSpacing / orientation
 ```
 
 ## API

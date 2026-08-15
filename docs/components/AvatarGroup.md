@@ -11,10 +11,19 @@ Overlapping PersonPicture stack with overflow count.
 ## Example
 
 ```qml
-AvatarGroup { model: [{ displayName: "A" }, { displayName: "B" }] }
-
+AvatarGroup {
+    id: avatars
+    model: [
+        { displayName: "Ada" },
+        { displayName: "Bob" },
+        { displayName: "Cara" }
+    ]
+    maxVisible: 2
+    onPersonClicked: (index) => { /* … */ }
+    onOverflowClicked: { /* … */ }
+}
 // --- API ---
-// signals: onPersonClicked, onOverflowClicked
+// avatars.overflowCount
 ```
 
 ## API

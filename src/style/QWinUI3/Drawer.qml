@@ -8,7 +8,12 @@ import QWinUI3.Theme
 
 // Drawer — Fluent styled Drawer.
 //
-//   Drawer { // content }
+//   Drawer {
+//       id: drawer
+//       edge: Qt.LeftEdge
+//       Label { anchors.centerIn: parent; text: qsTr("Menu") }
+//   }
+//   drawer.open()
 
 T.Drawer {
 

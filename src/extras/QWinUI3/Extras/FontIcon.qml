@@ -4,7 +4,13 @@ import QWinUI3.Theme
 
 // FontIcon — FluentIcons glyph as Text.
 //
-//   FontIcon { symbol: FluentIcons.Home; font.pixelSize: 16 }
+//   FontIcon {
+//       id: icon
+//       symbol: FluentIcons.Home
+//       fontSize: 20
+//   }
+//   // --- API ---
+//   // icon.symbol / iconGlyph / fontSize
 
 Item {
     id: root

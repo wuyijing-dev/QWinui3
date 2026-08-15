@@ -11,16 +11,15 @@ Hosts stacked Toasts.
 ## Example
 
 ```qml
-ToastHost { id: toasts }
-// toasts.show({ title: "Done", message: "OK" })
-
+ToastHost {
+    id: toasts
+    anchors.bottom: parent.bottom
+    anchors.horizontalCenter: parent.horizontalCenter
+}
+toasts.info(qsTr("Hello"))
+toasts.success(qsTr("Done"))
 // --- API ---
-// signals: onToastClosed, onToastActionClicked
-// methods: show(message, severity, title, actionText), info(message, title, actionText), successToast(message, title, actionText), warningToast(message, title, actionText), errorToast(message, title, actionText), clear()
-// toastHost.show(message, severity, title, actionText)
-// toastHost.info(message, title, actionText)
-// toastHost.successToast(message, title, actionText)
-// toastHost.warningToast(message, title, actionText)
+// methods: info/success/warning/error, enqueue
 ```
 
 ## API

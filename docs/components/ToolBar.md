@@ -9,7 +9,13 @@ Fluent styled ToolBar.
 ## Example
 
 ```qml
-ToolBar { ToolButton { text: qsTr("A") } }
+ToolBar {
+    Row {
+        ToolButton { text: qsTr("Back") }
+        ToolSeparator { }
+        ToolButton { text: qsTr("Forward") }
+    }
+}
 ```
 
 ## API

@@ -11,7 +11,13 @@ FluentIcons glyph as Text.
 ## Example
 
 ```qml
-FontIcon { symbol: FluentIcons.Home; font.pixelSize: 16 }
+FontIcon {
+    id: icon
+    symbol: FluentIcons.Home
+    fontSize: 20
+}
+// --- API ---
+// icon.symbol / iconGlyph / fontSize
 ```
 
 ## API

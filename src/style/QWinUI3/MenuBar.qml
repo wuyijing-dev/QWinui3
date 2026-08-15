@@ -4,7 +4,14 @@ import QWinUI3.Theme
 
 // MenuBar — Fluent styled MenuBar.
 //
-//   MenuBar { Menu { title: qsTr("File") } }
+//   ApplicationWindow {
+//       menuBar: MenuBar {
+//           Menu {
+//               title: qsTr("File")
+//               MenuItem { text: qsTr("Exit") }
+//           }
+//       }
+//   }
 
 T.MenuBar {
     id: control

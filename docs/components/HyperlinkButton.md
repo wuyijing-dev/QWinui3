@@ -11,11 +11,14 @@ Link-styled button.
 ## Example
 
 ```qml
-HyperlinkButton { text: qsTr("Learn more"); onClicked: Qt.openUrlExternally(url) }
-
+HyperlinkButton {
+    id: link
+    text: qsTr("Learn more")
+    navigateUri: "https://example.com"
+    onClicked: Qt.openUrlExternally(navigateUri)
+}
 // --- API ---
-// signals: onNavigateRequested
-// inherits AbstractButton (+ Qt Quick Controls base API)
+// link.navigateUri / showExternalGlyph
 ```
 
 ## API

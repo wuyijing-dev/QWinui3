@@ -11,7 +11,11 @@ StandardWindow tool paradigm.
 ## Example
 
 ```qml
-ToolWindow { title: qsTr("Tool") }
+ToolWindow {
+    id: tool
+    title: qsTr("Tools")
+    width: 320; height: 480
+}
 ```
 
 ## API

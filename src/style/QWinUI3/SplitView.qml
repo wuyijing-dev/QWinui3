@@ -4,7 +4,11 @@ import QWinUI3.Theme
 
 // SplitView — Fluent styled SplitView.
 //
-//   SplitView { orientation: Qt.Horizontal }
+//   SplitView {
+//       orientation: Qt.Horizontal
+//       Rectangle { SplitView.preferredWidth: 200; color: Theme.bgCard }
+//       Rectangle { SplitView.fillWidth: true; color: Theme.bgLayer }
+//   }
 
 T.SplitView {
     id: control

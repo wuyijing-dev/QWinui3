@@ -4,7 +4,11 @@ import QWinUI3.Theme
 
 // TextArea — Fluent styled TextArea.
 //
-//   TextArea { placeholderText: qsTr("Notes") }
+//   TextArea {
+//       id: area
+//       placeholderText: qsTr("Notes")
+//       wrapMode: TextEdit.Wrap
+//   }
 
 T.TextArea {
     id: control

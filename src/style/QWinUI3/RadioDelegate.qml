@@ -5,7 +5,13 @@ import QWinUI3.Theme
 
 // RadioDelegate — Fluent styled RadioDelegate.
 //
-//   RadioDelegate { text: qsTr("Option") }
+//   ListView {
+//       model: 3
+//       delegate: RadioDelegate {
+//           text: "Choice " + index
+//           width: ListView.view.width
+//       }
+//   }
 
 T.RadioDelegate {
     id: control

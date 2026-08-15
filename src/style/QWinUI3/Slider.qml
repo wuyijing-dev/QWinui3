@@ -4,7 +4,11 @@ import QWinUI3.Theme
 
 // Slider — Fluent styled Slider.
 //
-//   Slider { from: 0; to: 100; value: 40 }
+//   Slider {
+//       id: slider
+//       from: 0; to: 100; value: 40
+//       onMoved: apply(slider.value)
+//   }
 
 T.Slider {
     id: control

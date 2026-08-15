@@ -9,9 +9,12 @@ Fluent styled CheckBox.
 ## Example
 
 ```qml
-CheckBox { text: qsTr("Remember"); checked: true }
-
-// --- API ---
+CheckBox {
+    id: box
+    text: qsTr("Remember me")
+    checked: true
+    onToggled: save()
+}
 ```
 
 ## API

@@ -9,7 +9,13 @@ Fluent styled GroupBox.
 ## Example
 
 ```qml
-GroupBox { title: qsTr("Options") }
+GroupBox {
+    title: qsTr("Options")
+    Column {
+        CheckBox { text: qsTr("A") }
+        CheckBox { text: qsTr("B") }
+    }
+}
 ```
 
 ## API

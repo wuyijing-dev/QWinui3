@@ -4,7 +4,11 @@ import QWinUI3.Theme
 
 // ScrollView — Fluent styled ScrollView.
 //
-//   ScrollView { Label { text: longText } }
+//   ScrollView {
+//       id: scroller
+//       anchors.fill: parent
+//       Column { /* tall content */ }
+//   }
 
 T.ScrollView {
     id: control

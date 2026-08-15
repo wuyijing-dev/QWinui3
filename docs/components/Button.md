@@ -9,9 +9,13 @@ Fluent styled Button.
 ## Example
 
 ```qml
-Button { text: qsTr("OK"); onClicked: accept() }
-
+Button {
+    id: btn
+    text: qsTr("OK")
+    onClicked: accept()
+}
 // --- API ---
+// style-only Fluent chrome; API is Qt Quick Controls Button
 ```
 
 ## API

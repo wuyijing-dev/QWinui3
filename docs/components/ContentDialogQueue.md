@@ -11,16 +11,13 @@ Singleton queue so ContentDialogs open one at a time.
 ## Example
 
 ```qml
-ContentDialogQueue.show(dialog)
-ContentDialogQueue.cancel(dialog)
-ContentDialogQueue.replaceCurrent(other)
-
+// Show dialogs one-at-a-time through the singleton queue:
+ContentDialogQueue.show(confirmDialog)
+ContentDialogQueue.replaceCurrent(otherDialog)
+ContentDialogQueue.cancel(confirmDialog)
+ContentDialogQueue.clearQueue()
 // --- API ---
-// methods: enqueue(dialog), show(dialog), cancel(dialog), clearQueue(), replaceCurrent(dialog)
-// contentDialogQueue.enqueue(dialog)
-// contentDialogQueue.show(dialog)
-// contentDialogQueue.cancel(dialog)
-// contentDialogQueue.clearQueue()
+// properties: pendingCount, busy
 ```
 
 ## API

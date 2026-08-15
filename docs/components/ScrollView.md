@@ -9,7 +9,11 @@ Fluent styled ScrollView.
 ## Example
 
 ```qml
-ScrollView { Label { text: longText } }
+ScrollView {
+    id: scroller
+    anchors.fill: parent
+    Column { /* tall content */ }
+}
 ```
 
 ## API

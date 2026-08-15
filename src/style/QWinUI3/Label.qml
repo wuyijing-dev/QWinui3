@@ -4,7 +4,10 @@ import QWinUI3.Theme
 
 // Label — Fluent styled Label.
 //
-//   Label { text: qsTr("Hello") }
+//   Label {
+//       text: qsTr("Caption")
+//       font.pixelSize: Theme.fontBody
+//   }
 
 T.Label {
     id: control

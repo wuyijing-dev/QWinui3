@@ -5,7 +5,12 @@ import QWinUI3.Theme
 
 // KeyChordVisual — Renders Ctrl+K style shortcuts as KeyVisuals.
 //
-//   KeyChordVisual { shortcut: "Ctrl+Shift+P" }
+//   KeyChordVisual {
+//       id: chord
+//       keys: ["Ctrl", "K"]
+//   }
+//   // --- API ---
+//   // chord.keys / chordText
 
 T.Control {
     id: root

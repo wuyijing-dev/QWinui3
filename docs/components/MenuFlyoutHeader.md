@@ -11,7 +11,10 @@ Non-interactive MenuFlyout section header.
 ## Example
 
 ```qml
-MenuFlyoutHeader { text: qsTr("Recent") }
+MenuFlyout {
+    MenuFlyoutHeader { text: qsTr("Actions") }
+    MenuFlyoutItem { text: qsTr("Edit") }
+}
 ```
 
 ## API

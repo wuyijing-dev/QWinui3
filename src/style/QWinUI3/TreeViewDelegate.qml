@@ -6,7 +6,9 @@ import QWinUI3.Theme
 
 // TreeViewDelegate — Fluent styled TreeViewDelegate.
 //
-//   TreeViewDelegate { }
+//   TreeView {
+//       delegate: TreeViewDelegate { }
+//   }
 
 T.TreeViewDelegate {
     id: control

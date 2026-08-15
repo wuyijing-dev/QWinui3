@@ -4,7 +4,16 @@ import QWinUI3.Theme
 
 // Menu — Fluent styled Menu.
 //
-//   Menu { MenuItem { text: qsTr("Copy") } }
+//   Button {
+//       text: qsTr("Open")
+//       onClicked: menu.open()
+//       Menu {
+//           id: menu
+//           MenuItem { text: qsTr("New"); onTriggered: create() }
+//           MenuSeparator { }
+//           MenuItem { text: qsTr("Quit"); onTriggered: Qt.quit() }
+//       }
+//   }
 
 T.Menu {
     id: control

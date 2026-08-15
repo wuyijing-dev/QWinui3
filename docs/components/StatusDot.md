@@ -11,7 +11,12 @@ Colored status indicator dot.
 ## Example
 
 ```qml
-StatusDot { severity: success }
+StatusDot {
+    id: dot
+    status: "available"   // available | busy | away | offline
+}
+// --- API ---
+// dot.status / statusColor
 ```
 
 ## API

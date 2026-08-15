@@ -5,7 +5,13 @@ import QWinUI3.Theme
 
 // SwipeDelegate — Fluent styled SwipeDelegate.
 //
-//   SwipeDelegate { text: qsTr("Row") }
+//   ListView {
+//       model: 3
+//       delegate: SwipeDelegate {
+//           text: "Row " + index
+//           swipe.right: Label { text: qsTr("Delete"); padding: 12 }
+//       }
+//   }
 
 T.SwipeDelegate {
     id: control

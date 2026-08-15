@@ -4,7 +4,12 @@ import QWinUI3.Theme
 
 // ApplicationWindow — Fluent ApplicationWindow chrome defaults.
 //
-//   ApplicationWindow { title: qsTr("App") }
+//   ApplicationWindow {
+//       id: win
+//       width: 1024; height: 720
+//       title: qsTr("App")
+//       visible: true
+//   }
 
 T.ApplicationWindow {
     id: window

@@ -9,7 +9,11 @@ Fluent styled Slider.
 ## Example
 
 ```qml
-Slider { from: 0; to: 100; value: 40 }
+Slider {
+    id: slider
+    from: 0; to: 100; value: 40
+    onMoved: apply(slider.value)
+}
 ```
 
 ## API

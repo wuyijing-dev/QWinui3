@@ -9,7 +9,11 @@ Fluent styled ToolSeparator.
 ## Example
 
 ```qml
-ToolSeparator { }
+ToolBar {
+    ToolButton { text: qsTr("A") }
+    ToolSeparator { }
+    ToolButton { text: qsTr("B") }
+}
 ```
 
 ## API

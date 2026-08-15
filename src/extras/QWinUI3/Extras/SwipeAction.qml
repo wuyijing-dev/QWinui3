@@ -3,10 +3,14 @@ import QWinUI3.Theme
 
 // SwipeAction — Action revealed by SwipeControl.
 //
-//   SwipeAction { text: qsTr("Delete"); onTriggered: remove() }
-//
-//   // --- API ---
-//   // signals: onClicked
+//   SwipeControl {
+//       SwipeAction {
+//           text: qsTr("Delete")
+//           symbol: FluentIcons.Delete
+//           onTriggered: remove()
+//       }
+//       Label { text: qsTr("Row") }
+//   }
 
 Item {
     id: root

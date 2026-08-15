@@ -9,7 +9,12 @@ Fluent styled StackView.
 ## Example
 
 ```qml
-StackView { initialItem: homePage }
+StackView {
+    id: stack
+    anchors.fill: parent
+    initialItem: page1
+}
+stack.push(page2)
 ```
 
 ## API

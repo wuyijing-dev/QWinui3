@@ -4,9 +4,13 @@ import QWinUI3.Theme
 
 // Dialog — Fluent styled Dialog.
 //
-//   Dialog { title: qsTr("Hi"); standardButtons: Dialog.Ok }
-//
-//   // --- API ---
+//   Dialog {
+//       id: dlg
+//       title: qsTr("Notice")
+//       standardButtons: Dialog.Ok
+//       onAccepted: close()
+//   }
+//   dlg.open()
 
 T.Dialog {
     id: control

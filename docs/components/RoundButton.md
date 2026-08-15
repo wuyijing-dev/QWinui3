@@ -9,7 +9,7 @@ Fluent styled RoundButton.
 ## Example
 
 ```qml
-RoundButton { text: "+" }
+RoundButton { id: round; text: "+"; onClicked: add() }
 ```
 
 ## API

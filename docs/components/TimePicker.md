@@ -12,15 +12,13 @@ Hour / minute (and period) selectors.
 
 ```qml
 TimePicker {
-    id: timePicker
-   
+    id: time
+    selectedTime: new Date()
+    clockFormat: "12"
+    onAccepted: apply(time.selectedTime)
 }
-
 // --- API ---
-// signals: onTimeChosen
-// methods: snapMinute(m), applyFromTumblers()
-// timePicker.snapMinute(m)
-// timePicker.applyFromTumblers()
+// time.hour / minute / selectedTime
 ```
 
 ## API

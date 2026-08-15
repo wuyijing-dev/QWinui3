@@ -11,7 +11,11 @@ Case child for SwitchPresenter.
 ## Example
 
 ```qml
-SwitchCase { value: "a"; Label { text: "A" } }
+SwitchPresenter {
+    currentCase: "a"
+    SwitchCase { value: "a"; Label { text: "A" } }
+    SwitchCase { value: "b"; Label { text: "B" } }
+}
 ```
 
 ## API

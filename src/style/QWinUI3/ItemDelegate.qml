@@ -5,7 +5,14 @@ import QWinUI3.Theme
 
 // ItemDelegate — Fluent styled ItemDelegate.
 //
-//   ItemDelegate { text: qsTr("Row") }
+//   ListView {
+//       model: 5
+//       delegate: ItemDelegate {
+//           text: "Item " + index
+//           width: ListView.view.width
+//           onClicked: select(index)
+//       }
+//   }
 
 T.ItemDelegate {
     id: control

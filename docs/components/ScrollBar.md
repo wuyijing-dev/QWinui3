@@ -9,7 +9,9 @@ Fluent styled ScrollBar.
 ## Example
 
 ```qml
-ScrollBar { }
+Flickable {
+    ScrollBar.vertical: ScrollBar { }
+}
 ```
 
 ## API

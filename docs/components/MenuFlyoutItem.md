@@ -11,7 +11,13 @@ Menu row with glyph and accelerator text.
 ## Example
 
 ```qml
-MenuFlyoutItem { text: qsTr("Paste"); keyboardAcceleratorText: "Ctrl+V" }
+MenuFlyout {
+    MenuFlyoutItem {
+        text: qsTr("Copy")
+        symbol: FluentIcons.Copy
+        onClicked: copy()
+    }
+}
 ```
 
 ## API

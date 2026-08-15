@@ -9,7 +9,13 @@ Fluent styled SwipeDelegate.
 ## Example
 
 ```qml
-SwipeDelegate { text: qsTr("Row") }
+ListView {
+    model: 3
+    delegate: SwipeDelegate {
+        text: "Row " + index
+        swipe.right: Label { text: qsTr("Delete"); padding: 12 }
+    }
+}
 ```
 
 ## API

@@ -9,7 +9,13 @@ Fluent styled SwitchDelegate.
 ## Example
 
 ```qml
-SwitchDelegate { text: qsTr("Option") }
+ListView {
+    model: 3
+    delegate: SwitchDelegate {
+        text: "Flag " + index
+        width: ListView.view.width
+    }
+}
 ```
 
 ## API

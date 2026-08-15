@@ -9,7 +9,11 @@ Fluent styled ProgressBar.
 ## Example
 
 ```qml
-ProgressBar { value: 0.4; from: 0; to: 1 }
+ProgressBar {
+    id: bar
+    indeterminate: false
+    value: 0.6
+}
 ```
 
 ## API

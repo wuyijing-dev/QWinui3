@@ -11,7 +11,11 @@ MenuFlyout divider.
 ## Example
 
 ```qml
-MenuFlyoutSeparator { }
+MenuFlyout {
+    MenuFlyoutItem { text: qsTr("Cut") }
+    MenuFlyoutSeparator { }
+    MenuFlyoutItem { text: qsTr("Delete") }
+}
 ```
 
 ## API

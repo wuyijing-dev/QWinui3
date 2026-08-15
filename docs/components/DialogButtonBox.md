@@ -9,7 +9,11 @@ Fluent styled DialogButtonBox.
 ## Example
 
 ```qml
-DialogButtonBox { standardButtons: Dialog.Ok | Dialog.Cancel }
+Dialog {
+    footer: DialogButtonBox {
+        standardButtons: DialogButtonBox.Ok | DialogButtonBox.Cancel
+    }
+}
 ```
 
 ## API

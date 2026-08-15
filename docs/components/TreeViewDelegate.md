@@ -9,7 +9,9 @@ Fluent styled TreeViewDelegate.
 ## Example
 
 ```qml
-TreeViewDelegate { }
+TreeView {
+    delegate: TreeViewDelegate { }
+}
 ```
 
 ## API

@@ -9,7 +9,10 @@ Fluent styled TabBar.
 ## Example
 
 ```qml
-TabBar { TabButton { text: qsTr("One") } }
+TabBar {
+    TabButton { text: qsTr("Home") }
+    TabButton { text: qsTr("Settings") }
+}
 ```
 
 ## API

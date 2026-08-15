@@ -42,7 +42,7 @@ SEEDS: dict[str, tuple[str, str]] = {
     ),
     "AnnotatedScrollBar": (
         "Scroll area with a value label on the vertical scrollbar.",
-        "AnnotatedScrollBar {\n    // flickable children…\n}",
+        'AnnotatedScrollBar {\n    id: scroll\n    anchors.fill: parent\n    labels: ["Intro", "Body", "End"]\n    Column {\n        width: scroll.flickable.width\n        Repeater { model: 40; Label { text: "Row " + (index + 1); height: 36 } }\n    }\n}',
     ),
     "AppBarButton": (
         "CommandBar icon button with label position overrides.",

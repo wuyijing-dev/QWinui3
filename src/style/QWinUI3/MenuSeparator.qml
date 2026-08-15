@@ -4,7 +4,11 @@ import QWinUI3.Theme
 
 // MenuSeparator — Fluent styled MenuSeparator.
 //
-//   MenuSeparator { }
+//   Menu {
+//       MenuItem { text: qsTr("A") }
+//       MenuSeparator { }
+//       MenuItem { text: qsTr("B") }
+//   }
 
 T.MenuSeparator {
     id: control

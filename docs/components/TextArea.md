@@ -9,7 +9,11 @@ Fluent styled TextArea.
 ## Example
 
 ```qml
-TextArea { placeholderText: qsTr("Notes") }
+TextArea {
+    id: area
+    placeholderText: qsTr("Notes")
+    wrapMode: TextEdit.Wrap
+}
 ```
 
 ## API

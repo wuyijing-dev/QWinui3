@@ -9,9 +9,11 @@ Fluent styled Switch.
 ## Example
 
 ```qml
-Switch { checked: Theme.dark; onToggled: Theme.dark = checked }
-
-// --- API ---
+Switch {
+    id: sw
+    text: qsTr("Dark mode")
+    onToggled: Theme.dark = sw.checked
+}
 ```
 
 ## API

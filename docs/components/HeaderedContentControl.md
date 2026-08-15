@@ -11,7 +11,13 @@ Labeled content host.
 ## Example
 
 ```qml
-HeaderedContentControl { header: qsTr("Section"); Label { text: "…" } }
+HeaderedContentControl {
+    id: block
+    header: qsTr("Account")
+    Label { text: qsTr("Body content") }
+}
+// --- API ---
+// block.header / content
 ```
 
 ## API

@@ -9,7 +9,9 @@ Fluent styled ScrollIndicator.
 ## Example
 
 ```qml
-ScrollIndicator { }
+Flickable {
+    ScrollIndicator.vertical: ScrollIndicator { }
+}
 ```
 
 ## API

@@ -6,9 +6,15 @@ import QWinUI3.Platform
 // AcrylicSurface — Frosted pane; keep translucent under system Mica/Acrylic.
 //
 //   AcrylicSurface {
+//       id: pane
+//       anchors.fill: parent
 //       elevated: true
-//       // children…
+//       tintOpacity: 0.8
+//       Label { anchors.centerIn: parent; text: qsTr("Frosted") }
 //   }
+//   // --- API ---
+//   // pane.elevated / tintOpacity
+//   // children fill the acrylic surface
 
 T.Pane {
     id: root

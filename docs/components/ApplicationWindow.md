@@ -9,7 +9,12 @@ Fluent ApplicationWindow chrome defaults.
 ## Example
 
 ```qml
-ApplicationWindow { title: qsTr("App") }
+ApplicationWindow {
+    id: win
+    width: 1024; height: 720
+    title: qsTr("App")
+    visible: true
+}
 ```
 
 ## API

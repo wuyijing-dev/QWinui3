@@ -4,7 +4,10 @@ import QWinUI3.Theme
 
 // Page — Fluent styled Page.
 //
-//   Page { title: qsTr("Home") }
+//   Page {
+//       header: Label { text: qsTr("Title"); leftPadding: 16; topPadding: 12 }
+//       Label { anchors.centerIn: parent; text: qsTr("Content") }
+//   }
 
 T.Page {
     id: control

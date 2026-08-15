@@ -9,7 +9,9 @@ Fluent styled MenuItem.
 ## Example
 
 ```qml
-MenuItem { text: qsTr("Paste") }
+Menu {
+    MenuItem { text: qsTr("Copy"); onTriggered: copy() }
+}
 ```
 
 ## API

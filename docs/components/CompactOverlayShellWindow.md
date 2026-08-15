@@ -11,7 +11,13 @@ Always-on-top compact overlay shell.
 ## Example
 
 ```qml
-CompactOverlayShellWindow { title: qsTr("Now playing") }
+CompactOverlayShellWindow {
+    id: pip
+    title: qsTr("Now playing")
+    width: 320; height: 180
+}
+// --- API ---
+// always-on-top compact overlay presenter
 ```
 
 ## API

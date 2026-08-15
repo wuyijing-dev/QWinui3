@@ -4,7 +4,11 @@ import QWinUI3.Theme
 
 // ToolTip — Fluent styled ToolTip.
 //
-//   ToolTip { text: qsTr("Hint") }
+//   Button {
+//       text: qsTr("Hover")
+//       ToolTip.visible: hovered
+//       ToolTip.text: qsTr("Help")
+//   }
 
 T.ToolTip {
     id: control

@@ -4,7 +4,11 @@ import QWinUI3.Theme
 
 // ToolSeparator — Fluent styled ToolSeparator.
 //
-//   ToolSeparator { }
+//   ToolBar {
+//       ToolButton { text: qsTr("A") }
+//       ToolSeparator { }
+//       ToolButton { text: qsTr("B") }
+//   }
 
 T.ToolSeparator {
     id: control

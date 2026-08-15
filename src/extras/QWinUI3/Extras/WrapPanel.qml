@@ -5,8 +5,16 @@ import QWinUI3.Theme
 // WrapPanel — Flow / wrap layout.
 //
 //   WrapPanel {
-//       Repeater { model: 8; Chip { text: modelData } }
+//       id: wrap
+//       width: parent.width
+//       itemSpacing: 8
+//       Repeater {
+//           model: 12
+//           Chip { text: "Tag " + index }
+//       }
 //   }
+//   // --- API ---
+//   // wrap.itemSpacing / orientation
 
 T.Control {
     id: root

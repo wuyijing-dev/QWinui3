@@ -11,7 +11,9 @@ Checkable MenuFlyout item.
 ## Example
 
 ```qml
-ToggleMenuFlyoutItem { text: qsTr("Wrap") }
+MenuFlyout {
+    ToggleMenuFlyoutItem { text: qsTr("Word wrap"); checked: true }
+}
 ```
 
 ## API

@@ -4,7 +4,7 @@ import QWinUI3.Theme
 
 // VerticalHeaderView — Fluent styled VerticalHeaderView.
 //
-//   VerticalHeaderView { }
+//   VerticalHeaderView { syncView: table; clip: true }
 
 T.VerticalHeaderView {
     id: control

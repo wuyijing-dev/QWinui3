@@ -4,7 +4,9 @@ import QWinUI3.Theme
 
 // ScrollBar — Fluent styled ScrollBar.
 //
-//   ScrollBar { }
+//   Flickable {
+//       ScrollBar.vertical: ScrollBar { }
+//   }
 
 T.ScrollBar {
     id: control

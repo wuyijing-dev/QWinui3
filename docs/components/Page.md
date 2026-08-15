@@ -9,7 +9,10 @@ Fluent styled Page.
 ## Example
 
 ```qml
-Page { title: qsTr("Home") }
+Page {
+    header: Label { text: qsTr("Title"); leftPadding: 16; topPadding: 12 }
+    Label { anchors.centerIn: parent; text: qsTr("Content") }
+}
 ```
 
 ## API

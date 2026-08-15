@@ -9,7 +9,7 @@ Fluent styled VerticalHeaderView.
 ## Example
 
 ```qml
-VerticalHeaderView { }
+VerticalHeaderView { syncView: table; clip: true }
 ```
 
 ## API

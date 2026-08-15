@@ -9,9 +9,12 @@ Fluent styled Popup chrome.
 ## Example
 
 ```qml
-Popup { modal: true; // content }
-
-// --- API ---
+Popup {
+    id: pop
+    modal: true
+    contentItem: Label { text: qsTr("Hi") }
+}
+pop.open()
 ```
 
 ## API

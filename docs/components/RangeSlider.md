@@ -9,7 +9,12 @@ Fluent styled RangeSlider.
 ## Example
 
 ```qml
-RangeSlider { from: 0; to: 100; first.value: 20; second.value: 80 }
+RangeSlider {
+    id: range
+    from: 0; to: 100
+    first.value: 20
+    second.value: 80
+}
 ```
 
 ## API

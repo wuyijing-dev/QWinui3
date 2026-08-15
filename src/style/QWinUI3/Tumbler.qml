@@ -5,7 +5,7 @@ import QWinUI3.Theme
 
 // Tumbler — Fluent styled Tumbler.
 //
-//   Tumbler { model: 12 }
+//   Tumbler { id: tumbler; model: 24; currentIndex: 8 }
 
 T.Tumbler {
     id: control

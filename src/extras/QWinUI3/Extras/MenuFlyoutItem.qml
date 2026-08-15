@@ -5,7 +5,13 @@ import QWinUI3.Theme
 
 // MenuFlyoutItem — Menu row with glyph and accelerator text.
 //
-//   MenuFlyoutItem { text: qsTr("Paste"); keyboardAcceleratorText: "Ctrl+V" }
+//   MenuFlyout {
+//       MenuFlyoutItem {
+//           text: qsTr("Copy")
+//           symbol: FluentIcons.Copy
+//           onClicked: copy()
+//       }
+//   }
 
 MenuItem {
     id: control

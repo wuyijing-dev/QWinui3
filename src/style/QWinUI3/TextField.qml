@@ -4,9 +4,11 @@ import QWinUI3.Theme
 
 // TextField — Fluent styled TextField.
 //
-//   TextField { placeholderText: qsTr("Name") }
-//
-//   // --- API ---
+//   TextField {
+//       id: field
+//       placeholderText: qsTr("Name")
+//       onAccepted: submit(field.text)
+//   }
 
 T.TextField {
     id: control

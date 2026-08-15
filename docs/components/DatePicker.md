@@ -12,17 +12,12 @@ Date selectors (year / month / day).
 
 ```qml
 DatePicker {
-    id: datePicker
-   
+    id: date
+    selectedDate: new Date()
+    onAccepted: apply(date.selectedDate)
 }
-
 // --- API ---
-// signals: onDateChosen
-// methods: syncSelectedDateFromParts(), clampDay(), applyFromTumblers(), syncTumblers()
-// datePicker.syncSelectedDateFromParts()
-// datePicker.clampDay()
-// datePicker.applyFromTumblers()
-// datePicker.syncTumblers()
+// date.year / month / day / selectedDate
 ```
 
 ## API

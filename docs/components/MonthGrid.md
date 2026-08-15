@@ -12,14 +12,11 @@ Fluent styled MonthGrid.
 
 ```qml
 MonthGrid {
-    id: monthGrid
-   
+    id: grid
+    month: (new Date()).getMonth()
+    year: (new Date()).getFullYear()
+    onClicked: (date) => pick(date)
 }
-
-// --- API ---
-// methods: sameDay(a, b)
-// monthGrid.sameDay(a, b)
-// inherits AbstractMonthGrid (+ Qt Quick Controls base API)
 ```
 
 ## API

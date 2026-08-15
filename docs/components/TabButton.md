@@ -9,7 +9,10 @@ Fluent styled TabButton.
 ## Example
 
 ```qml
-TabButton { text: qsTr("Tab") }
+TabBar {
+    TabButton { text: qsTr("One") }
+    TabButton { text: qsTr("Two") }
+}
 ```
 
 ## API

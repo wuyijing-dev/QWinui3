@@ -4,7 +4,7 @@ import QWinUI3.Theme
 
 // PageIndicator — Fluent styled PageIndicator.
 //
-//   PageIndicator { count: 3; currentIndex: 0 }
+//   PageIndicator { id: dots; count: 5; currentIndex: 2 }
 
 T.PageIndicator {
     id: control

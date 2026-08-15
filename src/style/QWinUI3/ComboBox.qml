@@ -4,9 +4,11 @@ import QWinUI3.Theme
 
 // ComboBox — Fluent styled ComboBox.
 //
-//   ComboBox { model: ["A", "B"] }
-//
-//   // --- API ---
+//   ComboBox {
+//       id: combo
+//       model: ["Red", "Green", "Blue"]
+//       onActivated: (index) => apply(index)
+//   }
 
 T.ComboBox {
     id: control

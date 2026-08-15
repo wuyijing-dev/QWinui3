@@ -4,9 +4,11 @@ import QWinUI3.Theme
 
 // RadioButton — Fluent styled RadioButton.
 //
-//   RadioButton { text: qsTr("Option"); checked: true }
-//
-//   // --- API ---
+//   RadioButton {
+//       id: radio
+//       text: qsTr("Option A")
+//       checked: true
+//   }
 
 T.RadioButton {
     id: control

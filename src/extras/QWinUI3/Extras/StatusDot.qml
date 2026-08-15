@@ -5,7 +5,12 @@ import QWinUI3.Theme
 
 // StatusDot — Colored status indicator dot.
 //
-//   StatusDot { severity: success }
+//   StatusDot {
+//       id: dot
+//       status: "available"   // available | busy | away | offline
+//   }
+//   // --- API ---
+//   // dot.status / statusColor
 
 T.Control {
     id: root

@@ -4,7 +4,12 @@ import QWinUI3.Theme
 
 // MenuBarItem — Fluent styled MenuBarItem.
 //
-//   MenuBarItem { text: qsTr("File") }
+//   MenuBar {
+//       MenuBarItem {
+//           text: qsTr("Edit")
+//           menu: Menu { MenuItem { text: qsTr("Undo") } }
+//       }
+//   }
 
 T.MenuBarItem {
     id: control

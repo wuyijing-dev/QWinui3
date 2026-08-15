@@ -5,7 +5,13 @@ import QWinUI3.Theme
 
 // SwitchDelegate — Fluent styled SwitchDelegate.
 //
-//   SwitchDelegate { text: qsTr("Option") }
+//   ListView {
+//       model: 3
+//       delegate: SwitchDelegate {
+//           text: "Flag " + index
+//           width: ListView.view.width
+//       }
+//   }
 
 T.SwitchDelegate {
     id: control

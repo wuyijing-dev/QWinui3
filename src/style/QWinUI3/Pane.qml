@@ -4,7 +4,10 @@ import QWinUI3.Theme
 
 // Pane — Fluent styled Pane.
 //
-//   Pane { // children }
+//   Pane {
+//       padding: Theme.paddingControlH
+//       Label { text: qsTr("Pane body") }
+//   }
 
 T.Pane {
     id: control

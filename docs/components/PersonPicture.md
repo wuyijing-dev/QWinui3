@@ -11,7 +11,13 @@ Avatar from image or initials.
 ## Example
 
 ```qml
-PersonPicture { displayName: "Ada"; size: 48 }
+PersonPicture {
+    id: avatar
+    displayName: "Ada Lovelace"
+    // source: "file:///…"
+}
+// --- API ---
+// avatar.initials / displayName / source
 ```
 
 ## API

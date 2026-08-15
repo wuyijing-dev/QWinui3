@@ -4,7 +4,10 @@ import QWinUI3.Theme
 
 // TabBar — Fluent styled TabBar.
 //
-//   TabBar { TabButton { text: qsTr("One") } }
+//   TabBar {
+//       TabButton { text: qsTr("Home") }
+//       TabButton { text: qsTr("Settings") }
+//   }
 
 T.TabBar {
     id: control

@@ -5,7 +5,9 @@ import QWinUI3.Theme
 
 // ToggleMenuFlyoutItem — Checkable MenuFlyout item.
 //
-//   ToggleMenuFlyoutItem { text: qsTr("Wrap") }
+//   MenuFlyout {
+//       ToggleMenuFlyoutItem { text: qsTr("Word wrap"); checked: true }
+//   }
 
 MenuItem {
     id: control

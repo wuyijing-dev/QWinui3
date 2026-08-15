@@ -9,7 +9,7 @@ Fluent styled Tumbler.
 ## Example
 
 ```qml
-Tumbler { model: 12 }
+Tumbler { id: tumbler; model: 24; currentIndex: 8 }
 ```
 
 ## API

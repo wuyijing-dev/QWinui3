@@ -9,7 +9,9 @@ Fluent styled Frame.
 ## Example
 
 ```qml
-Frame { // children }
+Frame {
+    Label { text: qsTr("Framed content") }
+}
 ```
 
 ## API

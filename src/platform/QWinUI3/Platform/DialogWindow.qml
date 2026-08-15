@@ -6,7 +6,11 @@ import QWinUI3.Platform
 
 // DialogWindow — StandardWindow dialog paradigm.
 //
-//   DialogWindow { title: qsTr("Dialog") }
+//   DialogWindow {
+//       id: dlg
+//       title: qsTr("Prompt")
+//       width: 420; height: 280
+//   }
 
 StandardWindow {
     id: root

@@ -4,7 +4,10 @@ import QWinUI3.Theme
 
 // MetadataItem — One label/value pair for MetadataControl.
 //
-//   MetadataItem { label: qsTr("Size"); value: "12 KB" }
+//   MetadataControl {
+//       MetadataItem { label: qsTr("Author"); value: "Ada" }
+//       MetadataItem { label: qsTr("Size"); value: "12 KB" }
+//   }
 
 T.Control {
     id: root

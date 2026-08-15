@@ -9,7 +9,11 @@ Fluent styled SplitView.
 ## Example
 
 ```qml
-SplitView { orientation: Qt.Horizontal }
+SplitView {
+    orientation: Qt.Horizontal
+    Rectangle { SplitView.preferredWidth: 200; color: Theme.bgCard }
+    Rectangle { SplitView.fillWidth: true; color: Theme.bgLayer }
+}
 ```
 
 ## API

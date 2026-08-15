@@ -9,7 +9,11 @@ Fluent styled ToolTip.
 ## Example
 
 ```qml
-ToolTip { text: qsTr("Hint") }
+Button {
+    text: qsTr("Hover")
+    ToolTip.visible: hovered
+    ToolTip.text: qsTr("Help")
+}
 ```
 
 ## API

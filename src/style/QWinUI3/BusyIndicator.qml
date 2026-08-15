@@ -5,7 +5,7 @@ import QWinUI3.Theme
 
 // BusyIndicator — Fluent styled BusyIndicator.
 //
-//   BusyIndicator { running: true }
+//   BusyIndicator { id: busy; running: true }
 
 T.BusyIndicator {
     id: control

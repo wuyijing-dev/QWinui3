@@ -11,7 +11,13 @@ Circular progress / busy ring.
 ## Example
 
 ```qml
-ProgressRing { indeterminate: true }
+ProgressRing {
+    id: ring
+    indeterminate: true
+    // value: 0.4 when determinate
+}
+// --- API ---
+// ring.value / indeterminate
 ```
 
 ## API

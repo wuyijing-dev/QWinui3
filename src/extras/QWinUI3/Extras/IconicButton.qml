@@ -5,10 +5,12 @@ import QWinUI3.Theme
 
 // IconicButton — Base icon + label button used by AppBar*.
 //
-//   IconicButton { text: qsTr("Action"); symbol: FluentIcons.Add }
-//
-//   // --- API ---
-//   // inherits AbstractButton (+ Qt Quick Controls base API)
+//   IconicButton {
+//       id: btn
+//       text: qsTr("Open")
+//       symbol: FluentIcons.Open
+//       onClicked: open()
+//   }
 
 T.AbstractButton {
     id: control

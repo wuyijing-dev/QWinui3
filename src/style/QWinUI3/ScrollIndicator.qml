@@ -4,7 +4,9 @@ import QWinUI3.Theme
 
 // ScrollIndicator — Fluent styled ScrollIndicator.
 //
-//   ScrollIndicator { }
+//   Flickable {
+//       ScrollIndicator.vertical: ScrollIndicator { }
+//   }
 
 T.ScrollIndicator {
     id: control

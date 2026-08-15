@@ -5,7 +5,10 @@ import QWinUI3.Theme
 
 // RadioMenuFlyoutItem — Exclusive radio MenuFlyout item.
 //
-//   RadioMenuFlyoutItem { text: qsTr("Option") }
+//   MenuFlyout {
+//       RadioMenuFlyoutItem { text: qsTr("Left"); checked: true }
+//       RadioMenuFlyoutItem { text: qsTr("Right") }
+//   }
 
 MenuItem {
     id: control

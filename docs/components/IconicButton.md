@@ -11,10 +11,12 @@ Base icon + label button used by AppBar*.
 ## Example
 
 ```qml
-IconicButton { text: qsTr("Action"); symbol: FluentIcons.Add }
-
-// --- API ---
-// inherits AbstractButton (+ Qt Quick Controls base API)
+IconicButton {
+    id: btn
+    text: qsTr("Open")
+    symbol: FluentIcons.Open
+    onClicked: open()
+}
 ```
 
 ## API

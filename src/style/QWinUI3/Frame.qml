@@ -4,7 +4,9 @@ import QWinUI3.Theme
 
 // Frame — Fluent styled Frame.
 //
-//   Frame { // children }
+//   Frame {
+//       Label { text: qsTr("Framed content") }
+//   }
 
 T.Frame {
     id: control

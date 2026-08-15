@@ -9,9 +9,11 @@ Fluent styled RadioButton.
 ## Example
 
 ```qml
-RadioButton { text: qsTr("Option"); checked: true }
-
-// --- API ---
+RadioButton {
+    id: radio
+    text: qsTr("Option A")
+    checked: true
+}
 ```
 
 ## API

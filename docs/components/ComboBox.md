@@ -9,9 +9,11 @@ Fluent styled ComboBox.
 ## Example
 
 ```qml
-ComboBox { model: ["A", "B"] }
-
-// --- API ---
+ComboBox {
+    id: combo
+    model: ["Red", "Green", "Blue"]
+    onActivated: (index) => apply(index)
+}
 ```
 
 ## API

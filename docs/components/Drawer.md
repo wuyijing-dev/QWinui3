@@ -9,7 +9,12 @@ Fluent styled Drawer.
 ## Example
 
 ```qml
-Drawer { // content }
+Drawer {
+    id: drawer
+    edge: Qt.LeftEdge
+    Label { anchors.centerIn: parent; text: qsTr("Menu") }
+}
+drawer.open()
 ```
 
 ## API

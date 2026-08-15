@@ -11,7 +11,12 @@ Renders Ctrl+K style shortcuts as KeyVisuals.
 ## Example
 
 ```qml
-KeyChordVisual { shortcut: "Ctrl+Shift+P" }
+KeyChordVisual {
+    id: chord
+    keys: ["Ctrl", "K"]
+}
+// --- API ---
+// chord.keys / chordText
 ```
 
 ## API

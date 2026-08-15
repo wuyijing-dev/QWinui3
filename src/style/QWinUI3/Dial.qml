@@ -5,7 +5,11 @@ import QWinUI3.Theme
 
 // Dial — Fluent styled Dial.
 //
-//   Dial { from: 0; to: 100; value: 30 }
+//   Dial {
+//       id: dial
+//       from: 0; to: 100; value: 35
+//       onMoved: apply(dial.value)
+//   }
 
 T.Dial {
     id: control

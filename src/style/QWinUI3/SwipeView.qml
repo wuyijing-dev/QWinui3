@@ -4,7 +4,12 @@ import QWinUI3.Theme
 
 // SwipeView — Fluent styled SwipeView.
 //
-//   SwipeView { // pages }
+//   SwipeView {
+//       id: pages
+//       anchors.fill: parent
+//       Item { Label { text: "1" } }
+//       Item { Label { text: "2" } }
+//   }
 
 T.SwipeView {
     id: control

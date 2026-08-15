@@ -5,7 +5,13 @@ import QWinUI3.Theme
 
 // ProgressRing — Circular progress / busy ring.
 //
-//   ProgressRing { indeterminate: true }
+//   ProgressRing {
+//       id: ring
+//       indeterminate: true
+//       // value: 0.4 when determinate
+//   }
+//   // --- API ---
+//   // ring.value / indeterminate
 
 T.Control {
     id: root

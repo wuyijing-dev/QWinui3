@@ -4,7 +4,13 @@ import QWinUI3.Theme
 
 // ToolBar — Fluent styled ToolBar.
 //
-//   ToolBar { ToolButton { text: qsTr("A") } }
+//   ToolBar {
+//       Row {
+//           ToolButton { text: qsTr("Back") }
+//           ToolSeparator { }
+//           ToolButton { text: qsTr("Forward") }
+//       }
+//   }
 
 T.ToolBar {
     id: control

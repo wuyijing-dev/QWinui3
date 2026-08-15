@@ -4,7 +4,7 @@ import QWinUI3.Theme
 
 // RoundButton — Fluent styled RoundButton.
 //
-//   RoundButton { text: "+" }
+//   RoundButton { id: round; text: "+"; onClicked: add() }
 
 T.RoundButton {
     id: control

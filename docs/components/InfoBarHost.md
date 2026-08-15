@@ -11,14 +11,16 @@ Stacks InfoBars in a host region.
 ## Example
 
 ```qml
-InfoBarHost { id: bars }
-// bars.enqueue({ title: "Hi", severity: InfoBar.Informational })
-
+InfoBarHost {
+    id: host
+    anchors.top: parent.top
+    anchors.horizontalCenter: parent.horizontalCenter
+}
+// later:
+host.info(qsTr("Saved"))
+host.error(qsTr("Failed"), qsTr("Retry"))
 // --- API ---
-// methods: closeAll(), clearAll(), openAll()
-// infoBarHost.closeAll()
-// infoBarHost.clearAll()
-// infoBarHost.openAll()
+// methods: info/success/warning/error, enqueue, clear
 ```
 
 ## API

@@ -6,7 +6,11 @@ import QWinUI3.Platform
 
 // ToolWindow — StandardWindow tool paradigm.
 //
-//   ToolWindow { title: qsTr("Tool") }
+//   ToolWindow {
+//       id: tool
+//       title: qsTr("Tools")
+//       width: 320; height: 480
+//   }
 
 StandardWindow {
     id: root

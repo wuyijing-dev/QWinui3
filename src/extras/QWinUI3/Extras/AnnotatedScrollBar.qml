@@ -6,8 +6,24 @@ import QWinUI3.Theme
 // AnnotatedScrollBar — Scroll area with a value label on the vertical scrollbar.
 //
 //   AnnotatedScrollBar {
-//       // flickable children…
+//       id: scroll
+//       anchors.fill: parent
+//       labels: ["Intro", "Body", "End"]   // optional; empty → percentage via labelFormat
+//       labelFormat: "%1%"
+//       alwaysShowLabel: false
+//       Column {
+//           width: scroll.flickable.width
+//           Repeater {
+//               model: 40
+//               Label { text: "Row " + (index + 1); height: 36 }
+//           }
+//       }
 //   }
+//   // --- API ---
+//   // scroll.scrollPosition   // 0..1
+//   // scroll.currentLabel
+//   // scroll.contentY / contentHeight / flickable
+//   // inherits Control (padding, font, contentItem)
 
 T.Control {
     id: root

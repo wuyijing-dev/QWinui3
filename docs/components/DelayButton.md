@@ -9,7 +9,12 @@ Fluent styled DelayButton.
 ## Example
 
 ```qml
-DelayButton { text: qsTr("Hold") }
+DelayButton {
+    id: hold
+    text: qsTr("Hold to confirm")
+    delay: 1000
+    onActivated: confirm()
+}
 ```
 
 ## API

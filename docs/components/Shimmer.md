@@ -11,7 +11,13 @@ Skeleton shimmer placeholder.
 ## Example
 
 ```qml
-Shimmer { width: 200; height: 12 }
+Shimmer {
+    id: shim
+    width: 200; height: 16
+    active: true
+}
+// --- API ---
+// shim.active
 ```
 
 ## API

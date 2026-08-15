@@ -11,7 +11,7 @@ Fluent styled DayOfWeekRow.
 ## Example
 
 ```qml
-DayOfWeekRow { }
+DayOfWeekRow { locale: Qt.locale() }
 ```
 
 ## API

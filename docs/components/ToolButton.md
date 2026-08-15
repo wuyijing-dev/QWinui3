@@ -9,7 +9,7 @@ Fluent styled ToolButton.
 ## Example
 
 ```qml
-ToolButton { text: qsTr("Edit") }
+ToolButton { id: tool; text: qsTr("Edit"); onClicked: edit() }
 ```
 
 ## API

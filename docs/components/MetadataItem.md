@@ -11,7 +11,10 @@ One label/value pair for MetadataControl.
 ## Example
 
 ```qml
-MetadataItem { label: qsTr("Size"); value: "12 KB" }
+MetadataControl {
+    MetadataItem { label: qsTr("Author"); value: "Ada" }
+    MetadataItem { label: qsTr("Size"); value: "12 KB" }
+}
 ```
 
 ## API

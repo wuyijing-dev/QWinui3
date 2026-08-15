@@ -9,7 +9,13 @@ Fluent styled CheckDelegate.
 ## Example
 
 ```qml
-CheckDelegate { text: qsTr("Option") }
+ListView {
+    model: 3
+    delegate: CheckDelegate {
+        text: "Option " + index
+        width: ListView.view.width
+    }
+}
 ```
 
 ## API

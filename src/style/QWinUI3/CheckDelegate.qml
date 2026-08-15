@@ -6,7 +6,13 @@ import QWinUI3.Theme
 
 // CheckDelegate — Fluent styled CheckDelegate.
 //
-//   CheckDelegate { text: qsTr("Option") }
+//   ListView {
+//       model: 3
+//       delegate: CheckDelegate {
+//           text: "Option " + index
+//           width: ListView.view.width
+//       }
+//   }
 
 T.CheckDelegate {
     id: control

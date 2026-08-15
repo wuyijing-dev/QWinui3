@@ -4,7 +4,13 @@ import QWinUI3.Theme
 
 // IconButton — Icon-only button helper.
 //
-//   IconButton { symbol: FluentIcons.Add }
+//   IconButton {
+//       id: btn
+//       symbol: FluentIcons.Settings
+//       onClicked: openSettings()
+//   }
+//   // --- API ---
+//   // inherits Button: enabled, clicked()
 
 IconicButton {
     id: control

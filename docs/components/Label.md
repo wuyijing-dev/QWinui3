@@ -9,7 +9,10 @@ Fluent styled Label.
 ## Example
 
 ```qml
-Label { text: qsTr("Hello") }
+Label {
+    text: qsTr("Caption")
+    font.pixelSize: Theme.fontBody
+}
 ```
 
 ## API

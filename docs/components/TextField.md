@@ -9,9 +9,11 @@ Fluent styled TextField.
 ## Example
 
 ```qml
-TextField { placeholderText: qsTr("Name") }
-
-// --- API ---
+TextField {
+    id: field
+    placeholderText: qsTr("Name")
+    onAccepted: submit(field.text)
+}
 ```
 
 ## API

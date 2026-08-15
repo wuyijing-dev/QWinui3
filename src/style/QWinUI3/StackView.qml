@@ -4,7 +4,12 @@ import QWinUI3.Theme
 
 // StackView — Fluent styled StackView.
 //
-//   StackView { initialItem: homePage }
+//   StackView {
+//       id: stack
+//       anchors.fill: parent
+//       initialItem: page1
+//   }
+//   stack.push(page2)
 
 T.StackView {
     id: control

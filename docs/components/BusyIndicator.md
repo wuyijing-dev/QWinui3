@@ -9,7 +9,7 @@ Fluent styled BusyIndicator.
 ## Example
 
 ```qml
-BusyIndicator { running: true }
+BusyIndicator { id: busy; running: true }
 ```
 
 ## API

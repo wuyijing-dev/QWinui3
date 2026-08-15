@@ -11,7 +11,10 @@ Exclusive radio MenuFlyout item.
 ## Example
 
 ```qml
-RadioMenuFlyoutItem { text: qsTr("Option") }
+MenuFlyout {
+    RadioMenuFlyoutItem { text: qsTr("Left"); checked: true }
+    RadioMenuFlyoutItem { text: qsTr("Right") }
+}
 ```
 
 ## API

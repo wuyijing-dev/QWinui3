@@ -11,10 +11,12 @@ Single keyboard key chrome.
 ## Example
 
 ```qml
-KeyVisual { keyText: "Ctrl" }
-
+KeyVisual {
+    id: key
+    text: "Ctrl"
+}
 // --- API ---
-// inherits AbstractButton (+ Qt Quick Controls base API)
+// key.text / keySize
 ```
 
 ## API

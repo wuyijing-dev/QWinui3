@@ -11,7 +11,13 @@ Icon-only button helper.
 ## Example
 
 ```qml
-IconButton { symbol: FluentIcons.Add }
+IconButton {
+    id: btn
+    symbol: FluentIcons.Settings
+    onClicked: openSettings()
+}
+// --- API ---
+// inherits Button: enabled, clicked()
 ```
 
 ## API

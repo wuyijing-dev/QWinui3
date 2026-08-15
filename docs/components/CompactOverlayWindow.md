@@ -11,7 +11,11 @@ StandardWindow compact overlay presenter.
 ## Example
 
 ```qml
-CompactOverlayWindow { title: qsTr("Overlay") }
+CompactOverlayWindow {
+    id: pip
+    title: qsTr("PiP")
+    width: 320; height: 180
+}
 ```
 
 ## API

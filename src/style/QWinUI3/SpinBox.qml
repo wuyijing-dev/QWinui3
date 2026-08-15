@@ -4,7 +4,10 @@ import QWinUI3.Theme
 
 // SpinBox — Fluent styled SpinBox.
 //
-//   SpinBox { from: 0; to: 99; value: 1 }
+//   SpinBox {
+//       id: spin
+//       from: 0; to: 10; value: 3
+//   }
 
 T.SpinBox {
     id: control

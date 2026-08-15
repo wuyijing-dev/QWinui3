@@ -3,7 +3,11 @@ import QWinUI3.Theme
 
 // MenuFlyoutSeparator — MenuFlyout divider.
 //
-//   MenuFlyoutSeparator { }
+//   MenuFlyout {
+//       MenuFlyoutItem { text: qsTr("Cut") }
+//       MenuFlyoutSeparator { }
+//       MenuFlyoutItem { text: qsTr("Delete") }
+//   }
 
 MenuSeparator {
     id: control

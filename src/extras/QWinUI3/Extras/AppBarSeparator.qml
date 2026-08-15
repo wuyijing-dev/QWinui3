@@ -4,7 +4,11 @@ import QWinUI3.Theme
 
 // AppBarSeparator — Thin separator for CommandBar / AppBar rows.
 //
-//   AppBarSeparator { }
+//   CommandBar {
+//       AppBarButton { text: qsTr("Add"); symbol: FluentIcons.Add }
+//       AppBarSeparator { }
+//       AppBarButton { text: qsTr("Share"); symbol: FluentIcons.Share }
+//   }
 
 T.Control {
     id: root

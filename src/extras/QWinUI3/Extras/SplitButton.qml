@@ -6,17 +6,16 @@ import QWinUI3.Theme
 // SplitButton — Primary action + chevron menu.
 //
 //   SplitButton {
-//       id: splitButton
-//       text: qsTr("Open")
-//       MenuFlyoutItem { text: qsTr("Open with…") }
+//       id: split
+//       text: qsTr("Save")
+//       onClicked: save()
+//       MenuFlyout {
+//           MenuFlyoutItem { text: qsTr("Save as…"); onClicked: saveAs() }
+//       }
 //   }
-//
 //   // --- API ---
-//   // signals: onPrimaryClicked
-//   // methods: showMenu(), closeMenu()
-//   // splitButton.showMenu()
-//   // splitButton.closeMenu()
-//   // inherits AbstractButton (+ Qt Quick Controls base API)
+//   // split.open() / close() flyout half
+//   // signals: onClicked (primary)
 
 T.AbstractButton {
     id: control

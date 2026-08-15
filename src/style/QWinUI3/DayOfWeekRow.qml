@@ -4,7 +4,7 @@ import QWinUI3.Theme
 
 // DayOfWeekRow — Fluent styled DayOfWeekRow.
 //
-//   DayOfWeekRow { }
+//   DayOfWeekRow { locale: Qt.locale() }
 
 T.AbstractDayOfWeekRow {
     id: control

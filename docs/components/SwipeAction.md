@@ -11,10 +11,14 @@ Action revealed by SwipeControl.
 ## Example
 
 ```qml
-SwipeAction { text: qsTr("Delete"); onTriggered: remove() }
-
-// --- API ---
-// signals: onClicked
+SwipeControl {
+    SwipeAction {
+        text: qsTr("Delete")
+        symbol: FluentIcons.Delete
+        onTriggered: remove()
+    }
+    Label { text: qsTr("Row") }
+}
 ```
 
 ## API

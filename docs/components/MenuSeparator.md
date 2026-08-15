@@ -9,7 +9,11 @@ Fluent styled MenuSeparator.
 ## Example
 
 ```qml
-MenuSeparator { }
+Menu {
+    MenuItem { text: qsTr("A") }
+    MenuSeparator { }
+    MenuItem { text: qsTr("B") }
+}
 ```
 
 ## API

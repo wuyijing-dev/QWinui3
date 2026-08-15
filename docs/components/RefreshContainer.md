@@ -12,16 +12,16 @@ Pull-to-refresh host for flickable content.
 
 ```qml
 RefreshContainer {
-    id: refreshContainer
-    onRefreshRequested: reload()
-    ListView { /* … */ }
+    id: refresh
+    onRefreshRequested: {
+        load()
+        refresh.endRefresh()
+    }
+    ListView { model: items; /* … */ }
 }
-
 // --- API ---
+// refresh.beginRefresh() / endRefresh()
 // signals: onRefreshRequested
-// methods: endRefresh(), beginRefresh()
-// refreshContainer.endRefresh()
-// refreshContainer.beginRefresh()
 ```
 
 ## API

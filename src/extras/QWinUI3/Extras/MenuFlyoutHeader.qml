@@ -5,7 +5,10 @@ import QWinUI3.Theme
 
 // MenuFlyoutHeader — Non-interactive MenuFlyout section header.
 //
-//   MenuFlyoutHeader { text: qsTr("Recent") }
+//   MenuFlyout {
+//       MenuFlyoutHeader { text: qsTr("Actions") }
+//       MenuFlyoutItem { text: qsTr("Edit") }
+//   }
 
 MenuItem {
     id: control

@@ -9,7 +9,7 @@ Fluent styled PageIndicator.
 ## Example
 
 ```qml
-PageIndicator { count: 3; currentIndex: 0 }
+PageIndicator { id: dots; count: 5; currentIndex: 2 }
 ```
 
 ## API
