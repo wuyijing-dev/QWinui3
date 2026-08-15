@@ -26,6 +26,13 @@ import QWinUI3.Theme
 //   // reorder:  nav.moveNavItem(from, to)   // requires isReorderable
 //   // signals:  onItemClicked, onPageOpened, onFooterClicked, onBackRequested,
 //   //           onPaneSearchActivated, onPaneSearchTextEdited, onModelReordered
+//
+// @notes
+//   model entries: type "item"|"group"|"header"; groups use children[].
+//   pageModule + component names load StackView pages (unless hostContent).
+//   paneDisplayMode auto switches left / leftCompact by width.
+//   leftMinimal overlays content with a light-dismiss scrim.
+//   Prefer selectKey / openPage over mutating currentIndex alone.
 
 Item {
     id: root

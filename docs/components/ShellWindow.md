@@ -21,6 +21,14 @@ ShellWindow {
 // inherits ApplicationWindow (+ Qt Quick Controls base API)
 ```
 
+## Notes
+
+ApplicationWindow + WindowChrome; does not subclass StandardWindow.
+Use BlankWindow / NavigationWindow / MenuStatusWindow / DialogShellWindow /
+ToolShellWindow / CompactOverlayShellWindow for common layouts.
+Title-bar slots: leftHeader, titleBarContent, rightHeader, menusInTitleBar.
+Backdrop / paradigm via WindowHelper (see docs/window-helper.md).
+
 ## API
 
 ### Properties

@@ -26,6 +26,13 @@ TabView {
 // tabView.tabIndexAtContentX(x)
 ```
 
+## Notes
+
+model items: { title, content, icon? } or a string title.
+closable tabs emit closeRequested / tabCloseRequested — remove from model yourself.
+tabsReorderable enables drag reorder (tabMoved).
+addTab / closeTab / moveTab mutate the model helpers.
+
 ## API
 
 ### Properties

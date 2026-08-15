@@ -20,6 +20,11 @@ ContentDialogQueue.clearQueue()
 // properties: pendingCount, busy
 ```
 
+## Notes
+
+Singleton queue for ContentDialog.show().
+show / enqueue, cancel, clearQueue, replaceCurrent; pendingCount / busy.
+
 ## API
 
 ### Properties

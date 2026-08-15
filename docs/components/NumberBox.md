@@ -25,6 +25,12 @@ NumberBox {
 // numberBox.flashInvalid()
 ```
 
+## Notes
+
+Numeric TextField with spin buttons / wheel / validation.
+Bind value; spinButtonPlacement and validationMode control UX.
+valueChanged / validationError for feedback.
+
 ## API
 
 ### Properties

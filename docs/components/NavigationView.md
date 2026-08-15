@@ -33,6 +33,14 @@ NavigationView {
 //           onPaneSearchActivated, onPaneSearchTextEdited, onModelReordered
 ```
 
+## Notes
+
+model entries: type "item"|"group"|"header"; groups use children[].
+pageModule + component names load StackView pages (unless hostContent).
+paneDisplayMode auto switches left / leftCompact by width.
+leftMinimal overlays content with a light-dismiss scrim.
+Prefer selectKey / openPage over mutating currentIndex alone.
+
 ## API
 
 ### Properties

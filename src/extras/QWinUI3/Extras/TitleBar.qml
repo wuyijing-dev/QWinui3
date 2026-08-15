@@ -17,6 +17,12 @@ import QWinUI3.Theme
 //   // signals: onSearchActivated, onSearchTextEdited, onBackRequested, onPaneToggleRequested
 //   // methods: clientExcludeRectsFor(window)
 //   // titleBar.clientExcludeRectsFor(window)
+//
+// @notes
+//   WinUI-style title bar for ShellWindow / WindowChrome.
+//   preferredHeightOption: standard (32) or tall (48) via WindowHelper.
+//   Caption hit-test uses screen-logical rects (mapToGlobal) so maximize/fullscreen
+//   caption buttons stay clickable.
 
 Item {
     id: root

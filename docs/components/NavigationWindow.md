@@ -29,6 +29,11 @@ NavigationWindow {
 // inherits ShellWindow (+ Qt Quick Controls base API)
 ```
 
+## Notes
+
+ShellWindow hosting NavigationView with hostContent.
+Wire navModel / paneDisplayMode; content goes in the NavigationView content slot.
+
 ## API
 
 ### Properties

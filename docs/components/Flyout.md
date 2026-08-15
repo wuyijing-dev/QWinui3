@@ -26,6 +26,12 @@ Flyout {
 // inherits Popup (+ Qt Quick Controls base API)
 ```
 
+## Notes
+
+Light-dismiss Popup anchored to target (preferredPlacement / placement).
+Call show() / showAt(item, place) / hide(); reposition() after layout changes.
+Put body as children; optional title / subtitle chrome.
+
 ## API
 
 ### Properties

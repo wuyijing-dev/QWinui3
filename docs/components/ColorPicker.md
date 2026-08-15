@@ -25,6 +25,12 @@ ColorPicker {
 // colorPicker.rgbToHsv(r, g, b)
 ```
 
+## Notes
+
+Edits selectedColor via spectrum + RGB/HSV/hex fields.
+copyHex() writes #RRGGBB to the clipboard.
+Bind selectedColor; channel props (hue/saturation/value/alpha) stay in sync.
+
 ## API
 
 ### Properties

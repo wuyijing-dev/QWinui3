@@ -18,6 +18,11 @@ import QWinUI3.Theme
 //   // flyout.hide()
 //   // flyout.reposition()
 //   // inherits Popup (+ Qt Quick Controls base API)
+//
+// @notes
+//   Light-dismiss Popup anchored to target (preferredPlacement / placement).
+//   Call show() / showAt(item, place) / hide(); reposition() after layout changes.
+//   Put body as children; optional title / subtitle chrome.
 
 T.Popup {
     id: root

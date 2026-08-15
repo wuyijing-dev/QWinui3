@@ -18,6 +18,11 @@ import QWinUI3.Theme
 //   // numberBox.format(v)
 //   // numberBox.bump(delta)
 //   // numberBox.flashInvalid()
+//
+// @notes
+//   Numeric TextField with spin buttons / wheel / validation.
+//   Bind value; spinButtonPlacement and validationMode control UX.
+//   valueChanged / validationError for feedback.
 
 T.Control {
     id: root

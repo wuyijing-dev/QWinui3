@@ -14,6 +14,13 @@ import QWinUI3.Platform
 //   // --- API ---
 //   // signals: onPaneToggleRequested, onBackRequested, onSearchActivated, onSearchTextEdited
 //   // inherits ApplicationWindow (+ Qt Quick Controls base API)
+//
+// @notes
+//   ApplicationWindow + WindowChrome; does not subclass StandardWindow.
+//   Use BlankWindow / NavigationWindow / MenuStatusWindow / DialogShellWindow /
+//   ToolShellWindow / CompactOverlayShellWindow for common layouts.
+//   Title-bar slots: leftHeader, titleBarContent, rightHeader, menusInTitleBar.
+//   Backdrop / paradigm via WindowHelper (see docs/window-helper.md).
 
 ApplicationWindow {
     id: root

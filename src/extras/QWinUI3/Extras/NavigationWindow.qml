@@ -20,6 +20,10 @@ import QWinUI3.Theme
 //   // navigationWindow.addNavGroup(group)
 //   // navigationWindow.selectNavKey(key)
 //   // inherits ShellWindow (+ Qt Quick Controls base API)
+//
+// @notes
+//   ShellWindow hosting NavigationView with hostContent.
+//   Wire navModel / paneDisplayMode; content goes in the NavigationView content slot.
 
 ShellWindow {
     id: root
@@ -81,7 +85,7 @@ ShellWindow {
     onPaneDisplayModeChanged: _syncPaneToggle()
     Component.onCompleted: _syncPaneToggle()
 
-    // TitleBar back (ShellWindow) + NavigationView pane back → backRequested
+    // TitleBar back (ShellWindow) + NavigationView pane back -> backRequested
     Connections {
         target: nav
         // Forward NavigationView back request

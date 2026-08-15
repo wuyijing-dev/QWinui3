@@ -10,6 +10,10 @@ import QtQuick
 //   ContentDialogQueue.clearQueue()
 //   // --- API ---
 //   // properties: pendingCount, busy
+//
+// @notes
+//   Singleton queue for ContentDialog.show().
+//   show / enqueue, cancel, clearQueue, replaceCurrent; pendingCount / busy.
 
 QtObject {
     id: root

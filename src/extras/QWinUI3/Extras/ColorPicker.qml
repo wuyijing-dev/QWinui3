@@ -18,6 +18,11 @@ import QWinUI3.Theme
 //   // colorPicker.clamp01(x)
 //   // colorPicker.hsvToRgb(h, s, v)
 //   // colorPicker.rgbToHsv(r, g, b)
+//
+// @notes
+//   Edits selectedColor via spectrum + RGB/HSV/hex fields.
+//   copyHex() writes #RRGGBB to the clipboard.
+//   Bind selectedColor; channel props (hue/saturation/value/alpha) stay in sync.
 
 T.Control {
     id: control
@@ -344,7 +349,7 @@ T.Control {
             }
         }
 
-        // Value (brightness) slider — black → full color at current H/S
+        // Value (brightness) slider — black -> full color at current H/S
         Item {
             Layout.fillWidth: true
             Layout.preferredHeight: 28

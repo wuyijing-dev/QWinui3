@@ -18,6 +18,10 @@ import QWinUI3.Theme
 //   // menuStatusWindow.addMenu(menu)
 //   // menuStatusWindow.clearMenus()
 //   // inherits ShellWindow (+ Qt Quick Controls base API)
+//
+// @notes
+//   ShellWindow with menusInTitleBar + multi-segment StatusBar.
+//   Put Menu items in menus; status via StatusBar segments / statusText.
 
 ShellWindow {
     id: root

@@ -20,6 +20,10 @@ import QWinUI3.Theme
 //   // autoSuggestBox.displayTextFor(item)
 //   // autoSuggestBox.refreshSuggestions()
 //   // autoSuggestBox.clear()
+//
+// @notes
+//   Text field + filtered suggestion popup (model / text / suggestionChosen).
+//   Call focusField() / clear(); refreshSuggestions() after model changes.
 
 T.Control {
     id: control

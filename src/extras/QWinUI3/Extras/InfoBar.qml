@@ -19,6 +19,11 @@ import QWinUI3.Theme
 //   // infoBar.open()
 //   // infoBar.close()
 //   // infoBar.setSeverityName(name)
+//
+// @notes
+//   Inline severity banner: informational | success | warning | error.
+//   open()/close() or bind isOpen; optional actionText -> actionClicked.
+//   Prefer InfoBarHost.info/success/warning/error for stacked toasts-like banners.
 
 T.Control {
     id: root

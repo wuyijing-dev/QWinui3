@@ -600,8 +600,9 @@ def render_index(comps: list[Component], outdir: Path) -> str:
         "python scripts/generate_component_docs.py --lint",
         "```",
         "",
-        f"Public components: **{len(public)}**. Shell overview: [`docs/window-shells.md`](window-shells.md). "
-        f"Platform chrome: [`docs/window-helper.md`](window-helper.md).",
+        f"Public components: **{len(public)}**. Hub: [`docs/README.md`](README.md). "
+        f"Shells: [`window-shells.md`](window-shells.md). "
+        f"Platform chrome: [`window-helper.md`](window-helper.md).",
         "",
         "## Index",
         "",

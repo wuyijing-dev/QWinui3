@@ -30,6 +30,13 @@ ContentDialog {
 // inherits Dialog: open(), close(), title, accepted(), rejected()
 ```
 
+## Notes
+
+Prefer show() -> ContentDialogQueue so dialogs open one-at-a-time.
+Empty primary/secondary/closeButtonText hides that button.
+defaultButton: primary | secondary | close | none (or isPrimaryDefault).
+Body: put content as children (moved into the dialog body slot).
+
 ## API
 
 ### Properties

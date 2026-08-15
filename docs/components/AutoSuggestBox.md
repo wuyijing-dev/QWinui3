@@ -27,6 +27,11 @@ AutoSuggestBox {
 // autoSuggestBox.clear()
 ```
 
+## Notes
+
+Text field + filtered suggestion popup (model / text / suggestionChosen).
+Call focusField() / clear(); refreshSuggestions() after model changes.
+
 ## API
 
 ### Properties

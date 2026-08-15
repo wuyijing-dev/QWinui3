@@ -26,6 +26,11 @@ MenuStatusWindow {
 // inherits ShellWindow (+ Qt Quick Controls base API)
 ```
 
+## Notes
+
+ShellWindow with menusInTitleBar + multi-segment StatusBar.
+Put Menu items in menus; status via StatusBar segments / statusText.
+
 ## API
 
 ### Properties

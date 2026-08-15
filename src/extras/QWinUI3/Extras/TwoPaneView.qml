@@ -17,6 +17,11 @@ import QWinUI3.Theme
 //   // twoPaneView.showPane2()
 //   // twoPaneView.toggleSinglePane()
 //   // twoPaneView.swapPanes()
+//
+// @notes
+//   Dual-pane layout with wide / tall / single modes.
+//   panePriority + minWideWidth control collapse; swapPanes / toggleSinglePane.
+//   Put Pane1 / Pane2 content via pane1 / pane2 aliases (or children APIs).
 
 T.Control {
     id: root

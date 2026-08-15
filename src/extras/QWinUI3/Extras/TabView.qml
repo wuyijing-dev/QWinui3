@@ -19,6 +19,12 @@ import QWinUI3.Theme
 //   // tabView.closeTab(index)
 //   // tabView.moveTab(from, to)
 //   // tabView.tabIndexAtContentX(x)
+//
+// @notes
+//   model items: { title, content, icon? } or a string title.
+//   closable tabs emit closeRequested / tabCloseRequested — remove from model yourself.
+//   tabsReorderable enables drag reorder (tabMoved).
+//   addTab / closeTab / moveTab mutate the model helpers.
 
 T.Control {
     id: control

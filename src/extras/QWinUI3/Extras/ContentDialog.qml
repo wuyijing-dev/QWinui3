@@ -23,6 +23,12 @@ import QWinUI3.Theme
 //   // dlg.activateDefault()
 //   // signals: onPrimaryClicked, onSecondaryClicked, onCloseClicked
 //   // inherits Dialog: open(), close(), title, accepted(), rejected()
+//
+// @notes
+//   Prefer show() -> ContentDialogQueue so dialogs open one-at-a-time.
+//   Empty primary/secondary/closeButtonText hides that button.
+//   defaultButton: primary | secondary | close | none (or isPrimaryDefault).
+//   Body: put content as children (moved into the dialog body slot).
 
 T.Dialog {
     id: root

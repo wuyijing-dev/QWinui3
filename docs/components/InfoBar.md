@@ -26,6 +26,12 @@ InfoBar {
 // infoBar.setSeverityName(name)
 ```
 
+## Notes
+
+Inline severity banner: informational | success | warning | error.
+open()/close() or bind isOpen; optional actionText -> actionClicked.
+Prefer InfoBarHost.info/success/warning/error for stacked toasts-like banners.
+
 ## API
 
 ### Properties
