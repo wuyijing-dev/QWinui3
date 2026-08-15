@@ -13,17 +13,26 @@ T.Control {
 
     // Currently selected color
     property color selectedColor: "#005FB8"
+    // Hue 0..360
     property real hue: 210
+    // Saturation 0..1
     property real saturation: 0.85
     // Current value
     property real value: 0.72
+    // Show alpha channel editor
     property bool showAlpha: false
+    // Alpha 0..1
     property real alpha: 1
+    // rgb | hsv | hex editor mode
     property int colorModel: 0 // 0 RGB, 1 HSV, 2 HEX
+    // Show color spectrum
     property bool isColorSpectrumVisible: true
+    // Show color preview swatch
     property bool isColorPreviewVisible: true
+    // Show channel text inputs
     property bool isColorChannelTextInputVisible: true
 
+    // Emitted when a color is chosen
     signal colorChosen(color color)
 
     property bool _updating: false

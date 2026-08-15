@@ -16,6 +16,7 @@ IconicButton {
     // Override CommandBar.defaultLabelPosition when set (bottom | right | collapsed)
     property string labelPosition: ""
 
+    // Resolved label position
     readonly property string effectiveLabelPosition: {
         if (control.labelPosition.length)
             return control.labelPosition

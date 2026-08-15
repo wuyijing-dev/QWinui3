@@ -11,8 +11,11 @@ T.Control {
 
     // Qt.Horizontal or Qt.Vertical
     property int orientation: Qt.Vertical
+    // Donut ring thickness
     property real thickness: 1
+    // Separator color
     property color separatorColor: Theme.strokeDivider
+    // Outer margin
     property real margin: orientation === Qt.Vertical ? 4 : 4
 
     implicitWidth: orientation === Qt.Vertical ? (thickness + margin * 2) : 24

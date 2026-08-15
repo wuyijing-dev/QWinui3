@@ -13,14 +13,22 @@ Item {
     property var symbol: ""
     // Icon glyph or source
     property var icon: ""
+    // Fluent glyph drawn in the button
     property string glyph: ""
+    // Font size in px
     property real fontSize: 16
+    // Icon color
     property color iconColor: Theme.textPrimary
+    // Mirror glyph for RTL
     property bool mirrorGlyph: false
+    // Font weight
     property int fontWeight: Theme.fontWeightRegular
+    // Tooltip text
     property string toolTipText: ""
+    // Accessible name override
     property string accessibleName: ""
 
+    // Resolved glyph string
     readonly property string effectiveGlyph: {
         var fromSymbol = IconSource.resolve(root.symbol, "")
         if (fromSymbol.length)

@@ -9,7 +9,9 @@ import QtQuick
 QtObject {
     id: root
 
+    // Dark color scheme when true
     property bool dark: false
+    // Collapse Theme.duration() animations when true
     property bool reducedMotion: false
     // When true, strengthen borders/focus for high-contrast / accessibility themes.
     property bool highContrast: false
@@ -18,105 +20,183 @@ QtObject {
 
     // Fluent / WinUI 3 system accent (matches FluentWinUI3 defaults)
     readonly property color accent: dark ? "#60CDFF" : "#005FB8"
+    // Lighter accent step
     readonly property color accentLight1: dark ? "#6CD0FF" : "#1A6FB8"
+    // Darker accent step
     readonly property color accentDark1: dark ? "#4AB4E8" : "#004E99"
 
+    // Primary text brush
     readonly property color textPrimary: dark ? "#FFFFFF" : "#E4000000"
+    // Secondary text brush
     readonly property color textSecondary: dark ? "#C5FFFFFF" : "#9E000000"
+    // Disabled text brush
     readonly property color textDisabled: dark ? "#5DFFFFFF" : "#5C000000"
+    // Text on accent fill
     readonly property color textOnAccent: dark ? "#000000" : "#FFFFFF"
+    // Secondary text on accent fill
     readonly property color textOnAccentSecondary: dark ? "#80000000" : "#B3FFFFFF"
 
     // Control fills — WinUI ControlFillColor*
     readonly property color fillControl: dark ? "#0FFFFFFF" : "#B3FFFFFF"
+    // Control fill (hover)
     readonly property color fillControlSecondary: dark ? "#15FFFFFF" : "#80F9F9F9"
+    // Control fill (pressed)
     readonly property color fillControlTertiary: dark ? "#08FFFFFF" : "#4DF9F9F9"
+    // Control fill (disabled)
     readonly property color fillControlDisabled: dark ? "#0BFFFFFF" : "#4DF9F9F9"
+    // Accent fill
     readonly property color fillAccent: accent
+    // Accent fill (hover)
     readonly property color fillAccentSecondary: dark ? Qt.rgba(accent.r, accent.g, accent.b, 0.9)
                                                       : Qt.rgba(accent.r, accent.g, accent.b, 0.9)
+    // Accent fill (pressed)
     readonly property color fillAccentTertiary: dark ? Qt.rgba(accent.r, accent.g, accent.b, 0.8)
                                                      : Qt.rgba(accent.r, accent.g, accent.b, 0.8)
+    // Subtle hover/press wash
     readonly property color fillSubtle: dark ? "#0FFFFFFF" : "#0A000000"
+    // Subtle secondary wash
     readonly property color fillSubtleSecondary: dark ? "#0BFFFFFF" : "#06000000"
+    // Subtle tertiary wash
     readonly property color fillSubtleTertiary: dark ? "#08FFFFFF" : "#05000000"
 
     // Strokes — ControlStrokeColor*
     readonly property color strokeControl: dark ? "#12FFFFFF" : "#0F000000"
+    // Strong control border
     readonly property color strokeControlStrong: dark ? "#8BFFFFFF" : "#9C000000"
+    // Stroke Control On Accent
     readonly property color strokeControlOnAccent: dark ? "#14FFFFFF" : "#14FFFFFF"
+    // Focus ring outer color
     readonly property color focusOuter: dark ? "#FFFFFF" : "#000000"
+    // Focus ring inner color
     readonly property color focusInner: dark ? "#000000" : "#FFFFFF"
+    // Card border stroke
     readonly property color strokeCard: dark ? "#15FFFFFF" : "#0F000000"
+    // Divider stroke
     readonly property color strokeDivider: dark ? "#15FFFFFF" : "#0F000000"
 
     // Layer / solid backgrounds — LayerFill / SolidBackground
     readonly property color bgLayer: dark ? "#202020" : "#F3F3F3"
+    // Bg Layer Alt
     readonly property color bgLayerAlt: dark ? "#282828" : "#EEEEEE"
+    // Bg Solid
     readonly property color bgSolid: dark ? "#202020" : "#F3F3F3"
+    // Card surface background
     readonly property color bgCard: dark ? "#2C2C2C" : "#FFFFFF"
+    // Bg Card Elevated
     readonly property color bgCardElevated: dark ? "#323232" : "#FFFFFF"
+    // Modal smoke / light-dismiss scrim
     readonly property color bgSmoke: dark ? "#4D000000" : "#4D000000"
+    // Acrylic / chrome background
     readonly property color bgAcrylic: dark ? "#2C2C2C" : "#F9F9F9"
+    // Bg Mica
     readonly property color bgMica: dark ? "#202020" : "#F3F3F3"
 
+    // Attention / info color
     readonly property color systemAttention: accent
+    // Success status color
     readonly property color systemSuccess: dark ? "#6CCB5F" : "#0F7B0F"
+    // Warning / caution color
     readonly property color systemCaution: dark ? "#FCE100" : "#9D5D00"
+    // Error / critical color
     readonly property color systemCritical: dark ? "#FF99A4" : "#C42B1C"
+    // System Attention Bg
     readonly property color systemAttentionBg: dark ? "#FF272727" : "#FFF3F9FD"
+    // System Success Bg
     readonly property color systemSuccessBg: dark ? "#FF393D1B" : "#FFDFF6DD"
+    // System Caution Bg
     readonly property color systemCautionBg: dark ? "#FF433519" : "#FFFFF4CE"
+    // System Critical Bg
     readonly property color systemCriticalBg: dark ? "#FF442726" : "#FFFDE7E9"
 
     // Typography — Segoe UI Variable / WinUI type ramp
     readonly property string fontFamily: "Segoe UI Variable"
+    // Font Family Text
     readonly property string fontFamilyText: "Segoe UI Variable Text"
+    // Font Family Display
     readonly property string fontFamilyDisplay: "Segoe UI Variable Display"
+    // Fluent Icons font family
     readonly property string fontFamilyIcon: "Segoe Fluent Icons"
+    // Caption font size
     readonly property int fontCaption: 12
+    // Body font size
     readonly property int fontBody: 14
+    // Font Body Large
     readonly property int fontBodyLarge: 18
+    // Font Subtitle
     readonly property int fontSubtitle: 20
+    // Font Title
     readonly property int fontTitle: 28
+    // Font Title Large
     readonly property int fontTitleLarge: 40
+    // Font Weight Regular
     readonly property int fontWeightRegular: Font.Normal
+    // Semi-bold weight
     readonly property int fontWeightSemiBold: Font.DemiBold
 
     // Motion — Windows UI 3 Animation Values
     readonly property int motionFast: 83
+    // Normal motion duration token
     readonly property int motionNormal: 167
+    // Slow motion duration token
     readonly property int motionSlow: 250
+    // Motion Flyout
     readonly property int motionFlyout: 250
+    // Enter easing curve
     readonly property int easingEnter: Easing.OutCubic
+    // Exit easing curve
     readonly property int easingExit: Easing.InCubic
+    // Standard easing curve
     readonly property int easingStandard: Easing.OutCubic
+    // Easing Emphasized
     readonly property int easingEmphasized: Easing.OutBack
 
     // Control metrics (FluentWinUI3 Config)
     readonly property real cornerControl: 4
+    // Overlay / flyout corner radius
     readonly property real cornerOverlay: 8
+    // Stroke Thin
     readonly property real strokeThin: 1
+    // Focus ring outer width
     readonly property real strokeFocusOuter: 2
+    // Focus ring inner width
     readonly property real strokeFocusInner: 1
+    // Default control height
     readonly property real controlHeight: 36
+    // Minimum control width
     readonly property real controlMinWidth: 96
+    // SearchBox height
     readonly property real searchBoxHeight: 36
+    // Navigation item row height
     readonly property real navItemHeight: 40
+    // Expanded NavigationView pane width
     readonly property real navPaneWidth: 280
+    // Compact NavigationView pane width
     readonly property real navPaneCompactWidth: 48
+    // Horizontal control padding
     readonly property real paddingControlH: 12
+    // Vertical control padding
     readonly property real paddingControlV: 7
+    // Child spacing
     readonly property real spacing: 8
+    // Loose spacing
     readonly property real spacingLoose: 12
+    // Section spacing
     readonly property real spacingSection: 24
+    // Card corner radius
     readonly property real cornerCard: 8
+    // Switch Width
     readonly property real switchWidth: 44
+    // Switch Height
     readonly property real switchHeight: 22
+    // Switch Thumb
     readonly property real switchThumb: 16
+    // Check Size
     readonly property real checkSize: 22
+    // Radio Size
     readonly property real radioSize: 22
+    // Slider Thickness
     readonly property real sliderThickness: 5
+    // Slider Thumb
     readonly property real sliderThumb: 22
 
     function duration(ms) {

@@ -16,9 +16,13 @@ T.Control {
     property var keys: []
     // Diameter or box size in px
     property string size: "medium"
+    // Emphasized chrome
     property bool emphasized: false
+    // Separator
     property string separator: "+"
+    // Key Spacing
     property real keySpacing: 4
+    // Tooltip text
     property string toolTipText: ""
 
     readonly property var _strokes: {
@@ -26,6 +30,7 @@ T.Control {
             return [keys]
         return root._parseShortcut(shortcut)
     }
+    // Chord Text
     readonly property string chordText: {
         if (keys && keys.length > 0)
             return keys.join(separator)

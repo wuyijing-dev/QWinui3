@@ -21,8 +21,11 @@ T.Control {
     property int currentIndex: 0
     // Selected index alias
     property alias selectedIndex: control.currentIndex
+    // Horizontal orientation when true
     property bool horizontal: false
+    // Selected state
     signal selected(int index, var item)
+    // Selection changed
     signal selectionChanged(int index)
 
     onCurrentIndexChanged: selectionChanged(currentIndex)

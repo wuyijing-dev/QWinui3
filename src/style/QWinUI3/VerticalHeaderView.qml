@@ -16,6 +16,7 @@ T.VerticalHeaderView {
 
     delegate: Rectangle {
         id: cell
+        // Data model
         required property var model
         implicitWidth: Math.max(48, textItem.implicitWidth + 24)
         implicitHeight: Theme.navItemHeight

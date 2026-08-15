@@ -18,8 +18,11 @@ T.AbstractButton {
     property string iconGlyph: ""
     // "small" | "medium" | "large"
     property string size: "medium"
+    // Emphasized chrome
     property bool emphasized: false
+    // Tooltip text
     property string toolTipText: ""
+    // Min Width
     property real minWidth: {
         switch (size) {
         case "small": return 22
@@ -28,6 +31,7 @@ T.AbstractButton {
         }
     }
 
+    // Resolved glyph string
     readonly property string effectiveIconGlyph: IconSource.resolve(symbol, iconGlyph)
     readonly property int _padH: size === "small" ? 6 : (size === "large" ? 10 : 8)
     readonly property int _padV: size === "small" ? 2 : (size === "large" ? 6 : 4)

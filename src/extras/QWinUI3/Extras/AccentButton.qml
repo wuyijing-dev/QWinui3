@@ -18,9 +18,12 @@ Button {
     property var symbol: ""
     // Raw Fluent glyph string fallback
     property string iconGlyph: ""
+    // Icon size in px
     property real iconSize: 14
 
+    // Resolved glyph string
     readonly property string effectiveIconGlyph: IconSource.resolve(symbol, iconGlyph)
+    // True in light theme
     readonly property bool lightScheme: !Theme.dark
 
     highlighted: true

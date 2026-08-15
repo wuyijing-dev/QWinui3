@@ -9,6 +9,7 @@ import QWinUI3.Theme
 T.AbstractMonthGrid {
     id: control
 
+    // Selected date
     property date selectedDate: new Date(NaN)
 
     implicitWidth: 280
@@ -31,12 +32,16 @@ T.AbstractMonthGrid {
 
     delegate: Item {
         id: cell
+        // Data model
         required property var model
         implicitWidth: 36
         implicitHeight: 36
 
+        // In Month
         readonly property bool inMonth: model.month === control.month
+        // Is Today
         readonly property bool isToday: !!model.today
+        // Selected state
         readonly property bool isSelected: control.sameDay(model.date, control.selectedDate)
 
         HoverHandler { id: cellHover }

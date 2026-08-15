@@ -18,11 +18,14 @@ T.Control {
     property var symbol: ""
     // Raw Fluent glyph string fallback
     property string iconGlyph: ""
+    // Header Component
     property Component headerComponent: null
     // top | left
     property string headerPlacement: "top"
+    // Default children / content slot
     default property alias contentData: body.data
 
+    // Resolved glyph string
     readonly property string effectiveIconGlyph: IconSource.resolve(symbol, iconGlyph)
 
     padding: 12

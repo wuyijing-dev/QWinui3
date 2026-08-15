@@ -17,8 +17,11 @@ T.Control {
     property int currentIndex: 0
     // Selected index alias
     property alias selectedIndex: control.currentIndex
+    // Keyboard Navigation Enabled
     property bool keyboardNavigationEnabled: true
+    // Selection changed by user
     signal currentIndexChangedByUser(int index)
+    // Selection changed
     signal selectionChanged(int index)
 
     implicitWidth: 480
@@ -178,6 +181,7 @@ T.Control {
                     required property var modelData
                     required property int index
 
+                    // Has Page
                     readonly property bool hasPage: typeof modelData === "object"
                                                    && modelData !== null
                                                    && modelData.page !== undefined

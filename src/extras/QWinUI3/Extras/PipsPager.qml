@@ -19,11 +19,15 @@ T.Control {
     property alias selectedIndex: control.currentIndex
     // Qt.Horizontal or Qt.Vertical
     property int orientation: Qt.Horizontal
+    // Wrap children to next line
     property bool wrap: false
     // WinUI ButtonVisibility: "visible" | "visibleOnPointerOver" | "collapsed"
     property string previousButtonVisibility: "visible"
+    // Next Button Visibility
     property string nextButtonVisibility: "visible"
+    // Current Index Edited
     signal currentIndexEdited(int index)
+    // Selection changed
     signal selectionChanged(int index)
 
     hoverEnabled: true
@@ -85,6 +89,7 @@ T.Control {
 
     component NavButton: AbstractButton {
         id: nav
+        // Fluent glyph drawn in the button
         property string glyph: ""
         hoverEnabled: true
         focusPolicy: Qt.NoFocus

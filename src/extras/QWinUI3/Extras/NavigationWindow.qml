@@ -18,6 +18,7 @@ ShellWindow {
     property alias paneOpen: nav.paneOpen
     // Expanded pane width
     property alias paneWidth: nav.paneWidth
+    // NavigationWindow pane header text
     property alias paneHeaderText: nav.headerText
     // left | leftCompact | leftMinimal | top | auto
     property alias paneDisplayMode: nav.paneDisplayMode
@@ -29,21 +30,32 @@ ShellWindow {
     property alias navModel: nav.model
     // Enable back button
     property alias isBackEnabled: nav.isBackEnabled
+    // Show back in the pane
     property alias isPaneBackButtonVisible: nav.isBackButtonVisible
     // Show pane SearchBox
     property alias isPaneSearchEnabled: nav.isPaneSearchEnabled
+    // Pane SearchBox text
     property alias paneSearchText: nav.paneSearchText
     // Pane search suggestion model
     property alias paneSearchModel: nav.paneSearchModel
+    // Custom pane header slot
     property alias paneHeader: nav.paneHeader
+    // Custom pane footer slot
     property alias paneFooter: nav.paneFooter
+    // Footer row label
     property alias footerText: nav.footerText
+    // Footer FluentIcons symbol
     property alias footerSymbol: nav.footerSymbol
+    // Footer glyph string fallback
     property alias footerIcon: nav.footerIcon
+    // Footer page component
     property alias footerComponent: nav.footerComponent
 
+    // Nav Activated
     signal navActivated(var item)
+    // Footer row clicked
     signal footerClicked()
+    // Pane search accepted
     signal paneSearchActivated(string text)
 
     width: 960

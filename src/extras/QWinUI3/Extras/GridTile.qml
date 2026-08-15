@@ -16,15 +16,22 @@ T.AbstractButton {
     property string subtitle: ""
     // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
+    // Fluent glyph drawn in the button
     property string glyph: ""
+    // Image / media source
     property url source: ""
+    // Tile width
     property real tileWidth: 160
+    // Tile height
     property real tileHeight: 148
+    // Selected state
     property alias isSelected: control.checked
+    // Badge caption
     property string badgeText: ""
     // Show avatar badge
     property bool badgeVisible: badgeText.length > 0
 
+    // Resolved glyph string
     readonly property string effectiveGlyph: {
         var g = IconSource.resolve(symbol, glyph)
         return g.length ? g : FluentIcons.Folder

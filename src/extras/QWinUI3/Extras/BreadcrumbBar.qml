@@ -23,12 +23,16 @@ T.Control {
     property int maxVisibleItems: 0
     // WinUI: current/last crumb is usually non-interactive
     property bool lastItemClickable: false
+    // Breadcrumb separator FluentIcons symbol
     property var separatorSymbol: FluentIcons.ChevronRight
+    // Breadcrumb separator glyph string
     property string separatorGlyph: ""
+    // Emitted when an item is clicked
     signal itemClicked(int index)
     // WinUI ItemInvoked
     signal itemInvoked(int index)
 
+    // Resolved separator glyph
     readonly property string effectiveSeparatorGlyph: IconSource.resolve(separatorSymbol, separatorGlyph)
 
     implicitWidth: row.implicitWidth
@@ -46,6 +50,7 @@ T.Control {
         return parts.join(" › ")
     }
 
+    // Visible (non-overflow) crumbs
     readonly property var visibleModel: {
         var m = root.model || []
         var maxV = root.maxVisibleItems
@@ -61,6 +66,7 @@ T.Control {
         return out
     }
 
+    // Overflow crumb items
     readonly property var overflowModel: {
         var m = root.model || []
         var maxV = root.maxVisibleItems

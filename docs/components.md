@@ -225,9 +225,9 @@ AccentButton {
 
 - `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
 - `iconGlyph: string` — Raw Fluent glyph string fallback
-- `iconSize: real`
-- `effectiveIconGlyph: string`
-- `lightScheme: bool`
+- `iconSize: real` — Icon size in px
+- `effectiveIconGlyph: string` — Resolved glyph string
+- `lightScheme: bool` — True in light theme
 
 </details>
 
@@ -248,10 +248,10 @@ AcrylicSurface {
 
 - `elevated: bool` — Stronger elevation / card tint
 - `bordered: bool` — Draw a border when true
-- `showLuminantEdge: bool`
-- `cornerRadius: real`
-- `tintColor: color`
-- `frostOpacity: real`
+- `showLuminantEdge: bool` — Show luminant edge highlight
+- `cornerRadius: real` — Corner radius
+- `tintColor: color` — Tint overlay color
+- `frostOpacity: real` — Frost overlay opacity
 
 </details>
 
@@ -274,15 +274,15 @@ ActionCard {
 - `title: string` — Primary title text
 - `description: string` — Supporting description text
 - `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
-- `glyph: string`
-- `glyphColor: color`
-- `glyphBackground: color`
-- `showChevron: bool`
+- `glyph: string` — Fluent glyph drawn in the button
+- `glyphColor: color` — Glyph color
+- `glyphBackground: color` — Glyph plate background
+- `showChevron: bool` — Show trailing chevron
 - `badgeVisible: bool` — Show avatar badge
-- `badgeValue: int`
-- `badgeText: string`
-- `badgeSeverity: int`
-- `effectiveGlyph: string`
+- `badgeValue: int` — Numeric badge value (-1 hides count)
+- `badgeText: string` — Badge caption
+- `badgeSeverity: int` — Badge severity
+- `effectiveGlyph: string` — Resolved glyph string
 
 </details>
 
@@ -300,17 +300,17 @@ AnnotatedScrollBar {
 
 <details><summary>Properties</summary>
 
-- `contentData: alias`
-- `contentWidth: alias`
-- `contentHeight: alias`
-- `contentX: alias`
-- `contentY: alias`
-- `flickable: alias`
+- `contentData: alias` — Default children / content slot
+- `contentWidth: alias` — Flickable content width
+- `contentHeight: alias` — Flickable content height
+- `contentX: alias` — Flickable content X
+- `contentY: alias` — Flickable content Y
+- `flickable: alias` — Inner Flickable
 - `labels: var` — Optional map from scroll position (0..1) → label. Empty → percentage.
-- `labelFormat: string`
-- `alwaysShowLabel: bool`
-- `scrollPosition: real`
-- `currentLabel: string`
+- `labelFormat: string` — Format string / function for scrollbar label
+- `alwaysShowLabel: bool` — Keep scrollbar label visible
+- `scrollPosition: real` — Normalized scroll position
+- `currentLabel: string` — Label for the current value
 
 </details>
 
@@ -330,7 +330,7 @@ AppBarButton {
 <details><summary>Properties</summary>
 
 - `labelPosition: string` — Override CommandBar.defaultLabelPosition when set (bottom | right | collapsed)
-- `effectiveLabelPosition: string`
+- `effectiveLabelPosition: string` — Resolved label position
 
 </details>
 
@@ -347,9 +347,9 @@ AppBarSeparator { }
 <details><summary>Properties</summary>
 
 - `orientation: int` — Qt.Horizontal or Qt.Vertical
-- `thickness: real`
-- `separatorColor: color`
-- `margin: real`
+- `thickness: real` — Donut ring thickness
+- `separatorColor: color` — Separator color
+- `margin: real` — Outer margin
 
 </details>
 
@@ -369,7 +369,7 @@ AppBarToggleButton {
 <details><summary>Properties</summary>
 
 - `labelPosition: string` — bottom | right | collapsed
-- `effectiveLabelPosition: string`
+- `effectiveLabelPosition: string` — Resolved label position
 
 </details>
 
@@ -390,29 +390,29 @@ ArcGauge { value: 64; minimum: 0; maximum: 100 }
 - `maximum: real` — Maximum value
 - `stepSize: real` — Value step (e.g. 0.5 for half stars)
 - `title: string` — Primary title text
-- `unit: string`
-- `caption: string`
-- `valuePrecision: int`
-- `strokeWidth: real`
-- `fillColor: color`
-- `trackColor: color`
-- `startAngle: real`
-- `sweepTotal: real`
-- `cautionThreshold: real`
-- `criticalThreshold: real`
-- `invertThresholds: bool`
-- `showValue: bool`
-- `showMinMax: bool`
-- `isInteractive: bool`
-- `interactive: alias`
-- `percentage: real`
-- `effectiveFillColor: color`
-- `formattedValue: string`
-- `animatedValue: real`
-- `animatedNorm: real`
-- `cx: real`
-- `cy: real`
-- `radius: real`
+- `unit: string` — Value unit label (%, rpm, …)
+- `caption: string` — Caption under / beside the value
+- `valuePrecision: int` — Digits after decimal for value text
+- `strokeWidth: real` — Stroke thickness in px
+- `fillColor: color` — Primary fill / progress color
+- `trackColor: color` — Track / remaining color
+- `startAngle: real` — Arc start angle in degrees
+- `sweepTotal: real` — Total sweep angle in degrees
+- `cautionThreshold: real` — Value where caution zone starts
+- `criticalThreshold: real` — Value where critical zone starts
+- `invertThresholds: bool` — Invert caution/critical threshold logic
+- `showValue: bool` — Show numeric value label
+- `showMinMax: bool` — Show min/max labels
+- `isInteractive: bool` — Alias of interactive
+- `interactive: alias` — Enable hover / click interaction
+- `percentage: real` — Value as 0..100 percentage
+- `effectiveFillColor: color` — Resolved fill color
+- `formattedValue: string` — Formatted value string
+- `animatedValue: real` — Animated display value
+- `animatedNorm: real` — Animated 0..1 normalized value
+- `cx: real` — Center X
+- `cy: real` — Center Y
+- `radius: real` — Corner radius
 
 </details>
 
@@ -447,30 +447,30 @@ AreaChart { values: [1, 3, 2, 5] }
 - `values: var` — Numeric values array
 - `minimum: real` — Minimum value
 - `maximum: real` — Maximum value
-- `showGrid: bool`
-- `stacked: bool`
+- `showGrid: bool` — Show chart grid
+- `stacked: bool` — Stack series instead of overlay
 - `showLegend: bool` — Show chart legend
-- `interactive: bool`
-- `animated: bool`
-- `maxPoints: int`
-- `lodFactor: real`
-- `autoLod: bool`
-- `gridColor: color`
-- `revealProgress: real`
+- `interactive: bool` — Enable hover / click interaction
+- `animated: bool` — Play enter / reveal animation
+- `maxPoints: int` — Max points before LOD kicks in
+- `lodFactor: real` — Level-of-detail downsample factor
+- `autoLod: bool` — Auto-enable LOD for large series
+- `gridColor: color` — Grid line color
+- `revealProgress: real` — 0..1 reveal animation progress
 - `hoverIndex: int` — Hovered item index
-- `hoverLineX: real`
-- `hoverMarkers: var`
-- `hoverText: string`
+- `hoverLineX: real` — Hover crosshair X
+- `hoverMarkers: var` — Hover marker descriptors
+- `hoverText: string` — Tooltip / hover readout text
 - `title: string` — Primary title text
-- `emptyText: string`
-- `sourcePointCount: int`
-- `drawnPointCount: int`
-- `isEmpty: bool`
-- `plotL: real`
-- `plotT: real`
-- `plotW: real`
-- `plotH: real`
-- `lo: real`
+- `emptyText: string` — Placeholder when there is no data
+- `sourcePointCount: int` — Raw point count before LOD
+- `drawnPointCount: int` — Points drawn after LOD
+- `isEmpty: bool` — True when there is no data
+- `plotL: real` — Plot left inset
+- `plotT: real` — Plot top inset
+- `plotW: real` — Plot width
+- `plotH: real` — Plot height
+- `lo: real` — Computed axis minimum
 
 </details>
 
@@ -512,10 +512,8 @@ AutoSuggestBox {
 - `textMemberPath: string` — Object field used as display text
 - `isSuggestionListOpen: bool` — Suggestion popup open state
 - `header: string` — Header label above the control
-- `effectiveQueryIcon: string`
-- `host: var`
-- `modelData: var`
-- `index: int`
+- `effectiveQueryIcon: string` — Resolved search glyph
+- `host: var` — Host item for popup anchoring
 
 </details>
 
@@ -553,9 +551,9 @@ AvatarGroup { model: [{ displayName: "A" }, { displayName: "B" }] }
 - `size: real` — Diameter or box size in px
 - `overlap: real` — Avatar stack overlap in px
 - `maxVisible: int` — Max visible items before overflow
-- `showOverflowCount: bool`
-- `layoutDirection: int`
-- `overflowCount: int`
+- `showOverflowCount: bool` — Show +N overflow chip
+- `layoutDirection: int` — Qt layout direction
+- `overflowCount: int` — Hidden avatar count
 - `modelData: var`
 - `index: int`
 
@@ -584,22 +582,22 @@ BarChart { values: [4, 2, 7, 3] }
 - `bars: var` — Bar descriptors
 - `minimum: real` — Minimum value
 - `maximum: real` — Maximum value
-- `barRadius: real`
-- `barGap: real`
-- `showBaseline: bool`
-- `showValueLabels: bool`
-- `interactive: bool`
-- `animated: bool`
-- `revealProgress: real`
+- `barRadius: real` — Bar corner radius
+- `barGap: real` — Gap between bars
+- `showBaseline: bool` — Show zero baseline
+- `showValueLabels: bool` — Show value labels on bars
+- `interactive: bool` — Enable hover / click interaction
+- `animated: bool` — Play enter / reveal animation
+- `revealProgress: real` — 0..1 reveal animation progress
 - `hoverIndex: int` — Hovered item index
 - `selectedIndex: alias` — Selected index alias
 - `title: string` — Primary title text
-- `emptyText: string`
-- `valueUnit: string`
-- `isEmpty: bool`
-- `slot: real`
-- `gap: real`
-- `padL: real`
+- `emptyText: string` — Placeholder when there is no data
+- `valueUnit: string` — Unit appended to value text
+- `isEmpty: bool` — True when there is no data
+- `slot: real` — Named content slot
+- `gap: real` — Gap between items
+- `padL: real` — Left padding
 
 </details>
 
@@ -648,11 +646,11 @@ BreadcrumbBar {
 - `currentIndex: int` — Selected index
 - `maxVisibleItems: int` — Collapse middle crumbs when count exceeds this (0 = show all)
 - `lastItemClickable: bool` — WinUI: current/last crumb is usually non-interactive
-- `separatorSymbol: var`
-- `separatorGlyph: string`
-- `effectiveSeparatorGlyph: string`
-- `visibleModel: var`
-- `overflowModel: var`
+- `separatorSymbol: var` — Breadcrumb separator FluentIcons symbol
+- `separatorGlyph: string` — Breadcrumb separator glyph string
+- `effectiveSeparatorGlyph: string` — Resolved separator glyph
+- `visibleModel: var` — Visible (non-overflow) crumbs
+- `overflowModel: var` — Overflow crumb items
 - `modelData: var`
 - `index: int`
 
@@ -690,22 +688,22 @@ BulletChart { value: 70; target: 80; maximum: 100 }
 - `target: real` — Anchor item for placement
 - `maximum: real` — Maximum value
 - `minimum: real` — Minimum value
-- `ranges: var`
-- `rangeColors: var`
+- `ranges: var` — Bullet qualitative ranges
+- `rangeColors: var` — Colors for bullet ranges
 - `label: string` — Field label
-- `unit: string`
-- `valuePrecision: int`
-- `showValueText: bool`
-- `showTarget: bool`
-- `showTargetDelta: bool`
-- `targetMet: bool`
-- `targetDelta: real`
-- `formattedValue: string`
-- `formattedDelta: string`
+- `unit: string` — Value unit label (%, rpm, …)
+- `valuePrecision: int` — Digits after decimal for value text
+- `showValueText: bool` — Show value as text
+- `showTarget: bool` — Show target marker
+- `showTargetDelta: bool` — Show delta vs target
+- `targetMet: bool` — True when value meets target
+- `targetDelta: real` — Value minus target
+- `formattedValue: string` — Formatted value string
+- `formattedDelta: string` — Formatted target delta text
 - `index: int`
 - `modelData: var`
-- `prev: real`
-- `cur: real`
+- `prev: real` — Previous animated value
+- `cur: real` — Current animated value
 
 </details>
 
@@ -731,14 +729,14 @@ CalendarDatePicker { selectedDate: new Date() }
 - `selectedDate: date` — Currently selected date
 - `calendarOpen: bool` — Calendar flyout open
 - `isOpen: alias` — Open / visible state
-- `dateFormat: string`
-- `showTodayButton: bool`
+- `dateFormat: string` — Display date format
+- `showTodayButton: bool` — Show Today button in calendar
 - `header: string` — Header label above the control
 - `placeholderText: string` — Placeholder when empty
-- `minDate: date`
-- `maxDate: date`
-- `hasMinDate: bool`
-- `hasMaxDate: bool`
+- `minDate: date` — Minimum selectable date
+- `maxDate: date` — Maximum selectable date
+- `hasMinDate: bool` — True when minDate is set
+- `hasMaxDate: bool` — True when maxDate is set
 
 </details>
 
@@ -774,12 +772,12 @@ ChartCard {
 - `footer: string` — Footer text
 - `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
 - `iconGlyph: string` — Raw Fluent glyph string fallback
-- `animated: bool`
+- `animated: bool` — Play enter / reveal animation
 - `elevated: bool` — Stronger elevation / card tint
 - `bordered: bool` — Draw a border when true
-- `headerActions: alias`
+- `headerActions: alias` — Trailing header actions slot
 - `content: alias` — Content slot / children host
-- `effectiveIconGlyph: string`
+- `effectiveIconGlyph: string` — Resolved glyph string
 
 </details>
 
@@ -795,12 +793,12 @@ ChartLegend { items: [{ label: "A", color: Theme.accent }] }
 
 <details><summary>Properties</summary>
 
-- `items: var`
+- `items: var` — Item list / children model
 - `hoverIndex: int` — Hovered item index
 - `selectedIndex: int` — Selected index alias
-- `interactive: bool`
+- `interactive: bool` — Enable hover / click interaction
 - `orientation: int` — Qt.Horizontal or Qt.Vertical
-- `showValue: bool`
+- `showValue: bool` — Show numeric value label
 - `header: string` — Header label above the control
 - `modelData: var`
 - `index: int`
@@ -838,7 +836,7 @@ Chip {
 <details><summary>Properties</summary>
 
 - `closable: bool` — Shows a trailing close affordance
-- `isCloseButtonVisible: alias`
+- `isCloseButtonVisible: alias` — Alias of closable
 - `highlighted: bool` — Emphasized / selected chrome
 - `flat: bool` — Flat chrome without fill
 - `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
@@ -846,7 +844,7 @@ Chip {
 - `avatarText: string` — Initials / short avatar text instead of an icon
 - `appearance: string` — filled | outline
 - `chipSize: string` — small | medium
-- `effectiveIconGlyph: string`
+- `effectiveIconGlyph: string` — Resolved glyph string
 
 </details>
 
@@ -871,11 +869,11 @@ ChipGroup { model: ["All", "Open"]; currentIndex: 0 }
 - `model: alias` — Data model / item list for this control
 - `currentIndex: int` — Selected index
 - `selectedIndex: alias` — Selected index alias
-- `exclusive: bool`
+- `exclusive: bool` — Single-select when true
 - `selectionMode: string` — single | multiple | none
 - `selectedIndexes: var` — Multi-select indexes
-- `maxSelected: int`
-- `chipSpacing: real`
+- `maxSelected: int` — Max selected chips when not exclusive
+- `chipSpacing: real` — Spacing between chips
 - `chipSize: string` — small | medium
 - `modelData: var`
 - `index: int`
@@ -911,15 +909,15 @@ ColorPicker { selectedColor: "#005FB8" }
 <details><summary>Properties</summary>
 
 - `selectedColor: color` — Currently selected color
-- `hue: real`
-- `saturation: real`
+- `hue: real` — Hue 0..360
+- `saturation: real` — Saturation 0..1
 - `value: real` — Current value
-- `showAlpha: bool`
-- `alpha: real`
-- `colorModel: int`
-- `isColorSpectrumVisible: bool`
-- `isColorPreviewVisible: bool`
-- `isColorChannelTextInputVisible: bool`
+- `showAlpha: bool` — Show alpha channel editor
+- `alpha: real` — Alpha 0..1
+- `colorModel: int` — rgb | hsv | hex editor mode
+- `isColorSpectrumVisible: bool` — Show color spectrum
+- `isColorPreviewVisible: bool` — Show color preview swatch
+- `isColorChannelTextInputVisible: bool` — Show channel text inputs
 
 </details>
 
@@ -962,10 +960,10 @@ ColorPickerButton { selectedColor: Theme.accent }
 - `selectedColor: color` — Currently selected color
 - `pickerOpen: bool` — Picker flyout open
 - `isOpen: alias` — Open / visible state
-- `showAlpha: bool`
-- `showHexLabel: bool`
-- `flyoutPlacement: int`
-- `hexText: string`
+- `showAlpha: bool` — Show alpha channel editor
+- `showHexLabel: bool` — Show hex text on the button
+- `flyoutPlacement: int` — MenuFlyout placement
+- `hexText: string` — Formatted hex color text
 
 </details>
 
@@ -997,18 +995,18 @@ CommandBar {
 
 <details><summary>Properties</summary>
 
-- `contentData: alias`
-- `primaryCommands: alias`
-- `overflowMenu: alias`
+- `contentData: alias` — Default children / content slot
+- `primaryCommands: alias` — Primary command host
+- `overflowMenu: alias` — Overflow Menu for secondary commands
 - `overflowItems: var` — [{ text: string, triggered: function() }] — MenuItem cannot parent to Menu in Qt 6
-- `secondaryCommands: alias`
-- `barSpacing: real`
+- `secondaryCommands: alias` — Secondary command host
+- `barSpacing: real` — Spacing between commands
 - `isOpen: bool` — Open / visible state
-- `defaultLabelPosition: string`
-- `closedDisplayMode: string`
-- `isMoreButtonVisible: bool`
-- `isToggleButtonVisible: bool`
-- `effectiveLabelPosition: string`
+- `defaultLabelPosition: string` — Default AppBar label position
+- `closedDisplayMode: string` — How labels show when closed
+- `isMoreButtonVisible: bool` — Show overflow (…) button
+- `isToggleButtonVisible: bool` — Show toggle / more button
+- `effectiveLabelPosition: string` — Resolved label position
 - `modelData: var`
 
 </details>
@@ -1045,16 +1043,16 @@ CommandBarFlyout {
 
 <details><summary>Properties</summary>
 
-- `primaryCommands: alias`
-- `secondaryCommands: alias`
-- `primaryData: alias`
-- `secondaryData: alias`
+- `primaryCommands: alias` — Primary command host
+- `secondaryCommands: alias` — Secondary command host
+- `primaryData: alias` — Primary commands slot
+- `secondaryData: alias` — Secondary commands slot
 - `isOpen: bool` — Open / visible state
-- `isLightDismissEnabled: bool`
+- `isLightDismissEnabled: bool` — Close on outside click / Esc
 - `target: Item` — Anchor item for placement
 - `placement: int` — Popup / flyout placement
-- `preferredPlacement: alias`
-- `showSecondary: bool`
+- `preferredPlacement: alias` — Preferred flyout placement
+- `showSecondary: bool` — Show secondary command list
 
 </details>
 
@@ -1096,11 +1094,11 @@ ContentCard {
 - `title: string` — Primary title text
 - `subtitle: string` — Secondary subtitle text
 - `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
-- `headerIcon: string`
+- `headerIcon: string` — Header icon glyph
 - `footer: alias` — Footer text
-- `isClickable: bool`
-- `contentData: alias`
-- `effectiveHeaderIcon: string`
+- `isClickable: bool` — Emit clicked when activated
+- `contentData: alias` — Default children / content slot
+- `effectiveHeaderIcon: string` — Resolved header icon
 
 </details>
 
@@ -1139,9 +1137,9 @@ ContentDialog {
 - `closeButtonText: string` — Dismiss / cancel label; empty hides
 - `isPrimaryDefault: bool` — Prefer defaultButton; isPrimaryDefault kept for compatibility
 - `defaultButton: string` — WinUI DefaultButton: primary | secondary | close | none
-- `isPrimaryButtonEnabled: bool`
-- `isSecondaryButtonEnabled: bool`
-- `isCloseButtonEnabled: bool`
+- `isPrimaryButtonEnabled: bool` — Enable primary button
+- `isSecondaryButtonEnabled: bool` — Enable secondary button
+- `isCloseButtonEnabled: bool` — Enable close button
 - `isOpen: alias` — Bindable open state (alias of visible)
 
 </details>
@@ -1178,8 +1176,8 @@ ContentDialogQueue.replaceCurrent(other)
 
 <details><summary>Properties</summary>
 
-- `pendingCount: int`
-- `busy: bool`
+- `pendingCount: int` — Dialogs waiting in the queue
+- `busy: bool` — Busy status constant
 
 </details>
 
@@ -1205,13 +1203,13 @@ CopyButton { textToCopy: code }
 
 <details><summary>Properties</summary>
 
-- `textToCopy: string`
+- `textToCopy: string` — Clipboard payload to copy
 - `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
-- `idleGlyph: string`
-- `doneGlyph: string`
-- `feedbackMs: int`
-- `copied: bool`
-- `iconOnly: bool`
+- `idleGlyph: string` — Glyph before copy succeeds
+- `doneGlyph: string` — Glyph shown after copy
+- `feedbackMs: int` — Success feedback duration in ms
+- `copied: bool` — Emitted after a successful copy
+- `iconOnly: bool` — Hide text; show glyph only
 
 </details>
 
@@ -1240,19 +1238,19 @@ DatePicker { }
 
 <details><summary>Properties</summary>
 
-- `year: int`
-- `month: int`
-- `day: int`
-- `minYear: int`
-- `maxYear: int`
+- `year: int` — Selected year
+- `month: int` — Selected month 1..12
+- `day: int` — Selected day of month
+- `minYear: int` — Minimum selectable year
+- `maxYear: int` — Maximum selectable year
 - `pickerOpen: bool` — Picker flyout open
 - `isOpen: alias` — Open / visible state
 - `header: string` — Header label above the control
 - `placeholderText: string` — Placeholder when empty
 - `dateFormat: string` — yyyy-MM-dd | MM/dd/yyyy | dd/MM/yyyy
 - `selectedDate: date` — Currently selected date
-- `displayText: string`
-- `daysInMonth: int`
+- `displayText: string` — Text shown to the user
+- `daysInMonth: int` — Days in the selected month
 
 </details>
 
@@ -1299,10 +1297,10 @@ DockPanel {
 
 <details><summary>Properties</summary>
 
-- `contentData: alias`
+- `contentData: alias` — Default children / content slot
 - `lastChildFill: bool` — WinUI LastChildFill: last non-edge child fills the remaining region
-- `paddingEdges: int`
-- `childCount: int`
+- `paddingEdges: int` — Edge paddings
+- `childCount: int` — Number of children
 
 </details>
 
@@ -1326,26 +1324,26 @@ DonutChart { slices: [{ value: 3, label: "A" }] }
 <details><summary>Properties</summary>
 
 - `slices: var` — Pie/donut slice descriptors
-- `thickness: real`
-- `showCenterLabel: bool`
-- `centerText: string`
-- `centerSubText: string`
+- `thickness: real` — Donut ring thickness
+- `showCenterLabel: bool` — Show center label in donut
+- `centerText: string` — Donut center primary text
+- `centerSubText: string` — Donut center secondary text
 - `showLegend: bool` — Show chart legend
-- `interactive: bool`
-- `animated: bool`
-- `startAngle: real`
-- `revealProgress: real`
+- `interactive: bool` — Enable hover / click interaction
+- `animated: bool` — Play enter / reveal animation
+- `startAngle: real` — Arc start angle in degrees
+- `revealProgress: real` — 0..1 reveal animation progress
 - `hoverIndex: int` — Hovered item index
 - `selectedIndex: alias` — Selected index alias
 - `title: string` — Primary title text
-- `emptyText: string`
-- `isEmpty: bool`
-- `total: real`
-- `cx: real`
-- `cy: real`
-- `outer: real`
-- `inner: real`
-- `arcs: var`
+- `emptyText: string` — Placeholder when there is no data
+- `isEmpty: bool` — True when there is no data
+- `total: real` — Sum of segment values
+- `cx: real` — Center X
+- `cy: real` — Center Y
+- `outer: real` — Donut outer radius
+- `inner: real` — Donut inner radius
+- `arcs: var` — Arc path descriptors
 
 </details>
 
@@ -1377,21 +1375,21 @@ DropDownButton {
 
 <details><summary>Properties</summary>
 
-- `menu: alias`
-- `menuData: alias`
+- `menu: alias` — Attached / owned Menu
+- `menuData: alias` — Menu children slot
 - `highlighted: bool` — Emphasized / selected chrome
-- `flyoutPlacement: int`
+- `flyoutPlacement: int` — MenuFlyout placement
 - `iconGlyph: string` — Raw Fluent glyph string fallback
 - `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
 - `isOpen: alias` — Open / visible state
-- `effectiveIconGlyph: string`
-- `lightScheme: bool`
-- `menuOpen: bool`
-- `hasSolidStroke: bool`
-- `hasGradientStroke: bool`
-- `topStroke: color`
-- `bottomStroke: color`
-- `inset: bool`
+- `effectiveIconGlyph: string` — Resolved glyph string
+- `lightScheme: bool` — True in light theme
+- `menuOpen: bool` — Menu currently open
+- `hasSolidStroke: bool` — Draw solid stroke chrome
+- `hasGradientStroke: bool` — Draw gradient stroke chrome
+- `topStroke: color` — Top edge stroke width
+- `bottomStroke: color` — Bottom edge stroke width
+- `inset: bool` — Content inset
 
 </details>
 
@@ -1419,16 +1417,16 @@ EmptyState {
 <details><summary>Properties</summary>
 
 - `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
-- `glyph: string`
+- `glyph: string` — Fluent glyph drawn in the button
 - `title: string` — Primary title text
 - `message: string` — Body / message text
 - `actionText: string` — Optional action button label
-- `secondaryActionText: string`
-- `compact: bool`
+- `secondaryActionText: string` — Secondary action button label
+- `compact: bool` — Compact layout density
 - `bordered: bool` — Draw a border when true
-- `glyphColor: color`
-- `showGlyph: bool`
-- `effectiveGlyph: string`
+- `glyphColor: color` — Glyph color
+- `showGlyph: bool` — Show leading glyph
+- `effectiveGlyph: string` — Resolved glyph string
 
 </details>
 
@@ -1456,14 +1454,14 @@ Expander {
 
 - `title: string` — Primary title text
 - `subtitle: string` — Secondary subtitle text
-- `expanded: bool`
-- `isExpanded: alias`
+- `expanded: bool` — Expanded state
+- `isExpanded: alias` — Alias of expanded
 - `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
 - `iconGlyph: string` — Raw Fluent glyph string fallback
-- `headerIcon: var`
+- `headerIcon: var` — Header icon glyph
 - `expandDirection: string` — WinUI ExpandDirection: down | up
-- `contentData: alias`
-- `effectiveHeaderIcon: string`
+- `contentData: alias` — Default children / content slot
+- `effectiveHeaderIcon: string` — Resolved header icon
 
 </details>
 
@@ -1489,13 +1487,13 @@ FlipView { model: pages }
 - `currentIndex: alias` — Selected index
 - `selectedIndex: alias` — Selected index alias
 - `count: alias` — Item count
-- `interactive: alias`
-- `buttonsVisible: bool`
-- `isButtonsVisible: alias`
+- `interactive: alias` — Enable hover / click interaction
+- `buttonsVisible: bool` — Show next/prev buttons
+- `isButtonsVisible: alias` — Alias of buttonsVisible
 - `buttonVisibility: string` — always | onHover | hidden
-- `isIndicatorVisible: bool`
-- `wrap: bool`
-- `contentData: alias`
+- `isIndicatorVisible: bool` — Show page indicator
+- `wrap: bool` — Wrap children to next line
+- `contentData: alias` — Default children / content slot
 
 </details>
 
@@ -1530,12 +1528,12 @@ Flyout {
 <details><summary>Properties</summary>
 
 - `placement: int` — Popup / flyout placement
-- `preferredPlacement: alias`
+- `preferredPlacement: alias` — Preferred flyout placement
 - `target: Item` — Anchor item for placement
-- `isLightDismissEnabled: bool`
+- `isLightDismissEnabled: bool` — Close on outside click / Esc
 - `isOpen: bool` — Open / visible state
 - `title: string` — Primary title text
-- `contentData: alias`
+- `contentData: alias` — Default children / content slot
 
 </details>
 
@@ -1562,14 +1560,14 @@ FontIcon { symbol: FluentIcons.Home; font.pixelSize: 16 }
 
 - `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
 - `icon: var` — Icon glyph or source
-- `glyph: string`
-- `fontSize: real`
-- `iconColor: color`
-- `mirrorGlyph: bool`
-- `fontWeight: int`
-- `toolTipText: string`
-- `accessibleName: string`
-- `effectiveGlyph: string`
+- `glyph: string` — Fluent glyph drawn in the button
+- `fontSize: real` — Font size in px
+- `iconColor: color` — Icon color
+- `mirrorGlyph: bool` — Mirror glyph for RTL
+- `fontWeight: int` — Font weight
+- `toolTipText: string` — Tooltip text
+- `accessibleName: string` — Accessible name override
+- `effectiveGlyph: string` — Resolved glyph string
 
 </details>
 
@@ -1588,14 +1586,14 @@ GridTile { title: qsTr("Photos"); symbol: FluentIcons.Photo }
 - `title: string` — Primary title text
 - `subtitle: string` — Secondary subtitle text
 - `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
-- `glyph: string`
-- `source: url`
-- `tileWidth: real`
-- `tileHeight: real`
-- `isSelected: alias`
-- `badgeText: string`
+- `glyph: string` — Fluent glyph drawn in the button
+- `source: url` — Image / media source
+- `tileWidth: real` — Tile width
+- `tileHeight: real` — Tile height
+- `isSelected: alias` — Selected state
+- `badgeText: string` — Badge caption
 - `badgeVisible: bool` — Show avatar badge
-- `effectiveGlyph: string`
+- `effectiveGlyph: string` — Resolved glyph string
 
 </details>
 
@@ -1615,10 +1613,10 @@ HeaderedContentControl { header: qsTr("Section"); Label { text: "…" } }
 - `description: string` — Supporting description text
 - `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
 - `iconGlyph: string` — Raw Fluent glyph string fallback
-- `headerComponent: Component`
+- `headerComponent: Component` — Header Component
 - `headerPlacement: string` — top | left
-- `contentData: alias`
-- `effectiveIconGlyph: string`
+- `contentData: alias` — Default children / content slot
+- `effectiveIconGlyph: string` — Resolved glyph string
 
 </details>
 
@@ -1636,22 +1634,22 @@ HeaderedTextBox { header: qsTr("Name"); placeholderText: qsTr("Required") }
 
 - `header: string` — Header label above the control
 - `description: string` — Supporting description text
-- `errorMessage: string`
+- `errorMessage: string` — Validation error text
 - `clearButtonVisible: bool` — Show clear affordance
-- `characterLimit: int`
+- `characterLimit: int` — Soft character counter limit
 - `text: alias` — Display / input text
 - `placeholderText: alias` — Placeholder when empty
-- `echoMode: alias`
-- `readOnly: alias`
-- `isReadOnly: alias`
-- `maximumLength: alias`
-- `validator: alias`
-- `inputMethodHints: alias`
-- `acceptableInput: alias`
-- `field: alias`
-- `hasError: bool`
-- `characterCount: int`
-- `overLimit: bool`
+- `echoMode: alias` — TextField echo mode
+- `readOnly: alias` — Read-only when true
+- `isReadOnly: alias` — Alias of readOnly
+- `maximumLength: alias` — Hard maximum text length
+- `validator: alias` — Optional input validator
+- `inputMethodHints: alias` — Qt input method hints
+- `acceptableInput: alias` — Acceptable Input
+- `field: alias` — Inner text field
+- `hasError: bool` — True when validation failed
+- `characterCount: int` — Character Count
+- `overLimit: bool` — Over Limit
 
 </details>
 
@@ -1684,28 +1682,28 @@ HeatmapChart { values: matrix }
 <details><summary>Properties</summary>
 
 - `values: var` — Numeric values array
-- `rowLabels: var`
-- `columnLabels: var`
+- `rowLabels: var` — Heatmap row labels
+- `columnLabels: var` — Heatmap column labels
 - `minimum: real` — Minimum value
 - `maximum: real` — Maximum value
-- `cellGap: real`
-- `cellRadius: real`
-- `animated: bool`
-- `interactive: bool`
-- `revealProgress: real`
-- `hoverRow: int`
-- `hoverCol: int`
-- `lowColor: color`
-- `highColor: color`
+- `cellGap: real` — Gap between heatmap cells
+- `cellRadius: real` — Heatmap cell corner radius
+- `animated: bool` — Play enter / reveal animation
+- `interactive: bool` — Enable hover / click interaction
+- `revealProgress: real` — 0..1 reveal animation progress
+- `hoverRow: int` — Hovered heatmap row index
+- `hoverCol: int` — Hover Col
+- `lowColor: color` — Low Color
+- `highColor: color` — High Color
 - `title: string` — Primary title text
-- `emptyText: string`
-- `isEmpty: bool`
-- `labelW: real`
-- `labelH: real`
-- `cellW: real`
-- `cellH: real`
+- `emptyText: string` — Placeholder when there is no data
+- `isEmpty: bool` — True when there is no data
+- `labelW: real` — Label column width
+- `labelH: real` — Label H
+- `cellW: real` — Cell W
+- `cellH: real` — Cell H
 - `rows: int` — Grid row count
-- `cols: int`
+- `cols: int` — Cols
 
 </details>
 
@@ -1740,23 +1738,23 @@ HorizontalBarChart { values: [3, 5, 2] }
 - `bars: var` — Bar descriptors
 - `minimum: real` — Minimum value
 - `maximum: real` — Maximum value
-- `barRadius: real`
-- `barGap: real`
-- `showBaseline: bool`
-- `showLabels: bool`
-- `showValueLabels: bool`
-- `interactive: bool`
-- `animated: bool`
-- `revealProgress: real`
+- `barRadius: real` — Bar corner radius
+- `barGap: real` — Gap between bars
+- `showBaseline: bool` — Show zero baseline
+- `showLabels: bool` — Show item labels
+- `showValueLabels: bool` — Show value labels on bars
+- `interactive: bool` — Enable hover / click interaction
+- `animated: bool` — Play enter / reveal animation
+- `revealProgress: real` — 0..1 reveal animation progress
 - `hoverIndex: int` — Hovered item index
 - `selectedIndex: alias` — Selected index alias
 - `title: string` — Primary title text
-- `emptyText: string`
-- `valueUnit: string`
-- `isEmpty: bool`
-- `slot: real`
-- `padT: real`
-- `labelW: real`
+- `emptyText: string` — Placeholder when there is no data
+- `valueUnit: string` — Unit appended to value text
+- `isEmpty: bool` — True when there is no data
+- `slot: real` — Named content slot
+- `padT: real` — Top padding
+- `labelW: real` — Label column width
 
 </details>
 
@@ -1785,15 +1783,15 @@ HyperlinkButton { text: qsTr("Learn more"); onClicked: Qt.openUrlExternally(url)
 
 <details><summary>Properties</summary>
 
-- `url: url`
-- `navigateUri: alias`
+- `url: url` — Url
+- `navigateUri: alias` — Navigate Uri
 - `underlineStyle: string` — always | onHover | never
 - `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
 - `iconGlyph: string` — Raw Fluent glyph string fallback
-- `visited: bool`
-- `showExternalGlyph: bool`
+- `visited: bool` — Visited
+- `showExternalGlyph: bool` — Show External Glyph
 - `navigateMode: string` — "external" opens the URL; "signal" only emits clicked / navigateRequested
-- `effectiveIconGlyph: string`
+- `effectiveIconGlyph: string` — Resolved glyph string
 
 </details>
 
@@ -1827,15 +1825,15 @@ IconicButton { text: qsTr("Action"); symbol: FluentIcons.Add }
 
 - `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
 - `iconGlyph: string` — Raw Fluent glyph string fallback
-- `iconSize: real`
-- `toolTipText: string`
+- `iconSize: real` — Icon size in px
+- `toolTipText: string` — Tooltip text
 - `badgeVisible: bool` — Show avatar badge
-- `badgeValue: int`
-- `badgeText: string`
-- `badgeMaxValue: int`
+- `badgeValue: int` — Numeric badge value (-1 hides count)
+- `badgeText: string` — Badge caption
+- `badgeMaxValue: int` — Badge max before +
 - `highlighted: bool` — Emphasized / selected chrome
 - `flat: bool` — Flat chrome without fill
-- `effectiveIconGlyph: string`
+- `effectiveIconGlyph: string` — Resolved glyph string
 
 </details>
 
@@ -1851,26 +1849,26 @@ InfoBadge { value: 3; severity: informational }
 
 <details><summary>Properties</summary>
 
-- `informational: int`
-- `success: int`
-- `warning: int`
-- `error: int`
-- `attention: int`
-- `neutral: int`
+- `informational: int` — Informational severity constant
+- `success: int` — Success severity constant
+- `warning: int` — Warning severity constant
+- `error: int` — Error severity constant
+- `attention: int` — Attention severity constant
+- `neutral: int` — Neutral severity constant
 - `severity: int` — informational | success | warning | error | attention | neutral
 - `value: int` — Numeric count; shown when text/symbol are empty (clamped by maxValue)
 - `text: string` — Explicit badge label (wins over value)
 - `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
 - `iconGlyph: string` — Raw Fluent glyph string fallback
-- `maxValue: int`
-- `badgeColor: color`
-- `textColor: color`
-- `severityName: string`
-- `effectiveIconGlyph: string`
-- `dot: bool`
+- `maxValue: int` — Clamp / overflow threshold for counts
+- `badgeColor: color` — Badge fill color
+- `textColor: color` — Badge / content text color
+- `severityName: string` — Severity as string name
+- `effectiveIconGlyph: string` — Resolved glyph string
+- `dot: bool` — Dot
 - `hideWhenEmpty: bool` — Hide when value/text empty
-- `displayText: string`
-- `isEmpty: bool`
+- `displayText: string` — Text shown to the user
+- `isEmpty: bool` — True when there is no data
 - `isOpen: bool` — Open / visible state
 
 </details>
@@ -1898,10 +1896,10 @@ InfoBar {
 
 <details><summary>Properties</summary>
 
-- `informational: int`
-- `success: int`
-- `warning: int`
-- `error: int`
+- `informational: int` — Informational severity constant
+- `success: int` — Success severity constant
+- `warning: int` — Warning severity constant
+- `error: int` — Error severity constant
 - `severity: int` — Status severity enum
 - `title: string` — Primary title text
 - `message: string` — Body / message text
@@ -1913,7 +1911,7 @@ InfoBar {
 - `iconGlyph: string` — Raw Fluent glyph string fallback
 - `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
 - `actionText: string` — Optional action button label
-- `action: alias`
+- `action: alias` — Custom action slot
 - `durationMs: int` — Auto-dismiss duration; 0 keeps open
 - `severityName: string` — Convenience string: "informational" | "success" | "warning" | "error"
 
@@ -1951,7 +1949,7 @@ InfoBarHost { id: bars }
 
 - `maxVisible: int` — Max visible items before overflow
 - `count: int` — Item count
-- `openCount: int`
+- `openCount: int` — Open Count
 
 </details>
 
@@ -1978,11 +1976,11 @@ KeyChordVisual { shortcut: "Ctrl+Shift+P" }
 - `shortcut: string` — Raw accelerator string: "Ctrl+Shift+P" or multi-stroke "Ctrl+K, Ctrl+S"
 - `keys: var` — Explicit key labels; when set, overrides shortcut parsing.
 - `size: string` — Diameter or box size in px
-- `emphasized: bool`
-- `separator: string`
-- `keySpacing: real`
-- `toolTipText: string`
-- `chordText: string`
+- `emphasized: bool` — Emphasized chrome
+- `separator: string` — Separator
+- `keySpacing: real` — Key Spacing
+- `toolTipText: string` — Tooltip text
+- `chordText: string` — Chord Text
 - `modelData: var`
 - `index: int`
 
@@ -2004,10 +2002,10 @@ KeyVisual { keyText: "Ctrl" }
 - `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
 - `iconGlyph: string` — Raw Fluent glyph string fallback
 - `size: string` — "small" | "medium" | "large"
-- `emphasized: bool`
-- `toolTipText: string`
-- `minWidth: real`
-- `effectiveIconGlyph: string`
+- `emphasized: bool` — Emphasized chrome
+- `toolTipText: string` — Tooltip text
+- `minWidth: real` — Min Width
+- `effectiveIconGlyph: string` — Resolved glyph string
 
 </details>
 
@@ -2028,29 +2026,29 @@ LinearGauge { value: 42; minimum: 0; maximum: 100 }
 - `maximum: real` — Maximum value
 - `stepSize: real` — Value step (e.g. 0.5 for half stars)
 - `title: string` — Primary title text
-- `unit: string`
-- `caption: string`
-- `valuePrecision: int`
+- `unit: string` — Value unit label (%, rpm, …)
+- `caption: string` — Caption under / beside the value
+- `valuePrecision: int` — Digits after decimal for value text
 - `orientation: int` — Qt.Horizontal or Qt.Vertical
-- `trackThickness: real`
-- `showValue: bool`
-- `showTicks: bool`
-- `showMinMax: bool`
+- `trackThickness: real` — Track thickness in px
+- `showValue: bool` — Show numeric value label
+- `showTicks: bool` — Show tick marks
+- `showMinMax: bool` — Show min/max labels
 - `tickCount: int` — Major tick count
-- `showThumb: bool`
-- `isInteractive: bool`
-- `interactive: alias`
-- `fillColor: color`
-- `trackColor: color`
-- `cautionThreshold: real`
-- `criticalThreshold: real`
+- `showThumb: bool` — Show draggable thumb
+- `isInteractive: bool` — Alias of interactive
+- `interactive: alias` — Enable hover / click interaction
+- `fillColor: color` — Primary fill / progress color
+- `trackColor: color` — Track / remaining color
+- `cautionThreshold: real` — Value where caution zone starts
+- `criticalThreshold: real` — Value where critical zone starts
 - `invertThresholds: bool` — When true, low values map to caution/critical (battery-style).
-- `horizontal: bool`
-- `percentage: real`
-- `effectiveFillColor: color`
-- `formattedValue: string`
-- `animatedValue: real`
-- `animatedNorm: real`
+- `horizontal: bool` — Horizontal orientation when true
+- `percentage: real` — Value as 0..100 percentage
+- `effectiveFillColor: color` — Resolved fill color
+- `formattedValue: string` — Formatted value string
+- `animatedValue: real` — Animated display value
+- `animatedNorm: real` — Animated 0..1 normalized value
 
 </details>
 
@@ -2084,30 +2082,30 @@ LineChart { values: [1, 4, 2, 6] }
 - `values: var` — Numeric values array
 - `minimum: real` — Minimum value
 - `maximum: real` — Maximum value
-- `showGrid: bool`
-- `showArea: bool`
+- `showGrid: bool` — Show chart grid
+- `showArea: bool` — Fill area under the line
 - `showLegend: bool` — Show chart legend
-- `interactive: bool`
-- `animated: bool`
-- `maxPoints: int`
-- `lodFactor: real`
-- `autoLod: bool`
-- `strokeWidth: real`
-- `gridColor: color`
-- `revealProgress: real`
+- `interactive: bool` — Enable hover / click interaction
+- `animated: bool` — Play enter / reveal animation
+- `maxPoints: int` — Max points before LOD kicks in
+- `lodFactor: real` — Level-of-detail downsample factor
+- `autoLod: bool` — Auto-enable LOD for large series
+- `strokeWidth: real` — Stroke thickness in px
+- `gridColor: color` — Grid line color
+- `revealProgress: real` — 0..1 reveal animation progress
 - `hoverIndex: int` — Hovered item index
-- `hoverX: real`
-- `hoverY: real`
-- `hoverLineX: real`
-- `hoverMarkers: var`
-- `hoverText: string`
+- `hoverX: real` — Hover X
+- `hoverY: real` — Hover Y
+- `hoverLineX: real` — Hover crosshair X
+- `hoverMarkers: var` — Hover marker descriptors
+- `hoverText: string` — Tooltip / hover readout text
 - `title: string` — Primary title text
-- `emptyText: string`
+- `emptyText: string` — Placeholder when there is no data
 - `sourcePointCount: int` — LOD diagnostics
-- `drawnPointCount: int`
-- `isEmpty: bool`
+- `drawnPointCount: int` — Points drawn after LOD
+- `isEmpty: bool` — True when there is no data
 - `plotL: real` — Cache last paint metrics for hover hit-testing
-- `plotT: real`
+- `plotT: real` — Plot top inset
 
 </details>
 
@@ -2143,12 +2141,12 @@ ListTile {
 - `subtitle: string` — Secondary subtitle text
 - `description: alias` — Supporting description text
 - `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
-- `glyph: string`
-- `leading: alias`
-- `trailing: alias`
-- `showChevron: bool`
-- `isSelected: bool`
-- `effectiveGlyph: string`
+- `glyph: string` — Fluent glyph drawn in the button
+- `leading: alias` — Leading content slot
+- `trailing: alias` — Trailing slot
+- `showChevron: bool` — Show trailing chevron
+- `isSelected: bool` — Selected state
+- `effectiveGlyph: string` — Resolved glyph string
 
 </details>
 
@@ -2167,8 +2165,8 @@ MenuFlyout {
 <details><summary>Properties</summary>
 
 - `placement: int` — Popup / flyout placement
-- `preferredPlacement: alias`
-- `isLightDismissEnabled: bool`
+- `preferredPlacement: alias` — Preferred flyout placement
+- `isLightDismissEnabled: bool` — Close on outside click / Esc
 - `isOpen: bool` — Open / visible state
 - `title: string` — Primary title text
 
@@ -2197,7 +2195,7 @@ MenuFlyoutHeader { text: qsTr("Recent") }
 
 - `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
 - `iconGlyph: string` — Raw Fluent glyph string fallback
-- `effectiveIconGlyph: string`
+- `effectiveIconGlyph: string` — Resolved glyph string
 
 </details>
 
@@ -2217,8 +2215,8 @@ MenuFlyoutItem { text: qsTr("Paste"); keyboardAcceleratorText: "Ctrl+V" }
 - `iconGlyph: string` — Raw Fluent glyph string fallback
 - `keyboardAcceleratorText: string` — Accelerator caption (Ctrl+C)
 - `keyVisualAccelerator: bool` — When true, render accelerator as KeyChordVisual chrome instead of plain text.
-- `iconColor: color`
-- `effectiveIconGlyph: string`
+- `iconColor: color` — Icon color
+- `effectiveIconGlyph: string` — Resolved glyph string
 
 </details>
 
@@ -2251,13 +2249,13 @@ MenuStatusWindow {
 
 - `menus: alias` — Declare Menu { } children here
 - `statusText: alias` — StatusBar left text
-- `statusBar: alias`
-- `shellMenuBar: alias`
+- `statusBar: alias` — StatusBar instance
+- `shellMenuBar: alias` — Shell MenuBar instance
 - `content: alias` — Main client area
-- `statusProgress: alias`
-- `statusProgressIndeterminate: alias`
-- `statusCenter: alias`
-- `statusRight: alias`
+- `statusProgress: alias` — StatusBar progress 0..1
+- `statusProgressIndeterminate: alias` — StatusBar indeterminate progress
+- `statusCenter: alias` — StatusBar center slot
+- `statusRight: alias` — StatusBar right slot
 - `menusInTitleBar: bool` — Embed MenuBar in the title chrome instead of a strip below it
 
 </details>
@@ -2285,11 +2283,11 @@ MetadataControl {
 
 <details><summary>Properties</summary>
 
-- `items: alias`
+- `items: alias` — Item list / children model
 - `orientation: int` — Qt.Horizontal or Qt.Vertical
-- `itemSpacing: real`
+- `itemSpacing: real` — Item Spacing
 - `header: string` — Header label above the control
-- `paddingEdges: int`
+- `paddingEdges: int` — Edge paddings
 
 </details>
 
@@ -2317,8 +2315,8 @@ MetadataItem { label: qsTr("Size"); value: "12 KB" }
 - `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
 - `iconGlyph: string` — Raw Fluent glyph string fallback
 - `orientation: int` — Qt.Horizontal or Qt.Vertical
-- `valueColor: color`
-- `effectiveIconGlyph: string`
+- `valueColor: color` — Value Color
+- `effectiveIconGlyph: string` — Resolved glyph string
 
 </details>
 
@@ -2336,17 +2334,17 @@ MeterBar { segments: [{ value: 40, color: Theme.accent }] }
 
 - `segments: var` — Meter / stacked segment descriptors
 - `maximum: real` — Maximum value
-- `trackHeight: real`
+- `trackHeight: real` — Meter track height
 - `showLegend: bool` — Show chart legend
-- `interactive: bool`
+- `interactive: bool` — Enable hover / click interaction
 - `hoverIndex: int` — Hovered item index
 - `header: string` — Header label above the control
-- `showRemaining: bool`
-- `remainingLabel: string`
-- `remainingColor: color`
-- `showTotal: bool`
-- `total: real`
-- `remaining: real`
+- `showRemaining: bool` — Show remaining segment
+- `remainingLabel: string` — Label for remaining segment
+- `remainingColor: color` — Color for remaining segment
+- `showTotal: bool` — Show total column
+- `total: real` — Sum of segment values
+- `remaining: real` — Remaining
 - `modelData: var`
 - `index: int`
 
@@ -2373,10 +2371,10 @@ MultiSelectComboBox { model: items; selectedIndexes: [0, 2] }
 - `model: var` — Data model / item list for this control
 - `placeholderText: string` — Placeholder when empty
 - `header: string` — Header label above the control
-- `menuOpen: bool`
+- `menuOpen: bool` — Menu currently open
 - `isOpen: alias` — Open / visible state
-- `selectedItems: var`
-- `displayText: string`
+- `selectedItems: var` — Selected Items
+- `displayText: string` — Text shown to the user
 
 </details>
 
@@ -2418,27 +2416,27 @@ NavigationView {
 - `paneOpen: bool` — Expanded pane when true (left / leftMinimal); compact modes force false
 - `paneWidth: real` — Expanded pane width
 - `paneCompactWidth: real` — Compact pane width
-- `headerText: string`
-- `footerText: string`
-- `footerSymbol: var`
-- `footerIcon: string`
+- `headerText: string` — Pane header title text
+- `footerText: string` — Footer row label
+- `footerSymbol: var` — Footer FluentIcons symbol
+- `footerIcon: string` — Footer glyph string fallback
 - `footerComponent: string` — Page component name loaded for the footer row (e.g. "SettingsPage")
 - `pageModule: string` — QML import URI used to resolve page components
-- `footerSelected: bool`
+- `footerSelected: bool` — True when footer row is selected
 - `paneDisplayMode: string` — WinUI PaneDisplayMode: left | leftCompact | leftMinimal | top | auto
 - `autoCompactThreshold: real` — Width below which auto mode uses leftCompact
 - `isBackButtonVisible: bool` — Show back button
 - `isBackEnabled: bool` — Enable back button
 - `isPaneSearchEnabled: bool` — Shows SearchBox at the top of the pane when open
-- `paneSearchText: string`
+- `paneSearchText: string` — Pane SearchBox text
 - `paneSearchModel: var` — Suggestion model for pane SearchBox: [{ title, key?, component? }]
-- `paneHeader: alias`
-- `paneFooter: alias`
+- `paneHeader: alias` — Custom pane header slot
+- `paneFooter: alias` — Custom pane footer slot
 - `isReorderable: bool` — Drag rows to reorder top-level model entries
 - `hostContent: bool` — Shell host: show `content:` instead of StackView page loading (NavigationWindow).
 - `content: alias` — Content slot / children host
-- `effectiveFooterIcon: string`
-- `resolvedPaneMode: string`
+- `effectiveFooterIcon: string` — Resolved footer icon
+- `resolvedPaneMode: string` — Effective pane mode after auto
 - `expandedMap: var` — groupKey -> bool; missing means expanded
 - `currentKey: string` — Selected nav key (supports "group/0" child paths)
 
@@ -2463,7 +2461,6 @@ NavigationView {
 - `rebuildNavModel()`
 - `setGroupExpanded(key, expanded)`
 - `selectionAnchorItem()`
-- `toggleGroup(key)`
 
 </details>
 
@@ -2486,22 +2483,22 @@ NavigationWindow {
 
 - `paneOpen: alias` — Navigation pane expanded
 - `paneWidth: alias` — Expanded pane width
-- `paneHeaderText: alias`
+- `paneHeaderText: alias` — NavigationWindow pane header text
 - `paneDisplayMode: alias` — left | leftCompact | leftMinimal | top | auto
 - `currentKey: alias` — Selected navigation key
 - `content: alias` — Content slot / children host
 - `navModel: alias` — NavigationView model
 - `isBackEnabled: alias` — Enable back button
-- `isPaneBackButtonVisible: alias`
+- `isPaneBackButtonVisible: alias` — Show back in the pane
 - `isPaneSearchEnabled: alias` — Show pane SearchBox
-- `paneSearchText: alias`
+- `paneSearchText: alias` — Pane SearchBox text
 - `paneSearchModel: alias` — Pane search suggestion model
-- `paneHeader: alias`
-- `paneFooter: alias`
-- `footerText: alias`
-- `footerSymbol: alias`
-- `footerIcon: alias`
-- `footerComponent: alias`
+- `paneHeader: alias` — Custom pane header slot
+- `paneFooter: alias` — Custom pane footer slot
+- `footerText: alias` — Footer row label
+- `footerSymbol: alias` — Footer FluentIcons symbol
+- `footerIcon: alias` — Footer glyph string fallback
+- `footerComponent: alias` — Footer page component
 
 </details>
 
@@ -2542,18 +2539,18 @@ NumberBox { value: 10; minimum: 0; maximum: 100 }
 - `maximum: real` — Maximum value
 - `stepSize: real` — Value step (e.g. 0.5 for half stars)
 - `largeChange: real` — WinUI LargeChange — used with PageUp/PageDown / wheel+Ctrl
-- `decimals: int`
-- `prefix: string`
-- `suffix: string`
+- `decimals: int` — Decimals
+- `prefix: string` — Prefix
+- `suffix: string` — Suffix
 - `header: string` — Header label above the control
 - `description: string` — Supporting description text
-- `errorMessage: string`
+- `errorMessage: string` — Validation error text
 - `placeholderText: string` — Placeholder when empty
-- `inputInvalid: bool`
+- `inputInvalid: bool` — Input Invalid
 - `spinButtonPlacementMode: string` — WinUI SpinButtonPlacementMode: "inline" | "compact" | "hidden"
 - `validationMode: string` — WinUI ValidationMode: "invalidInputOverValue" | "disabled"
-- `acceptWheel: bool`
-- `hasError: bool`
+- `acceptWheel: bool` — Accept Wheel
+- `hasError: bool` — True when validation failed
 
 </details>
 
@@ -2588,17 +2585,17 @@ PasswordBox { placeholderText: qsTr("Password") }
 
 - `text: alias` — Display / input text
 - `placeholderText: alias` — Placeholder when empty
-- `maximumLength: alias`
+- `maximumLength: alias` — Hard maximum text length
 - `header: string` — Header label above the control
 - `description: string` — Supporting description text
-- `errorMessage: string`
+- `errorMessage: string` — Validation error text
 - `clearButtonVisible: bool` — Show clear affordance
 - `passwordRevealMode: string` — WinUI PasswordRevealMode: peek | hidden | visible
-- `revealPassword: bool`
-- `revealButtonVisible: bool`
-- `echoMode: alias`
-- `field: alias`
-- `hasError: bool`
+- `revealPassword: bool` — Reveal Password
+- `revealButtonVisible: bool` — Reveal Button Visible
+- `echoMode: alias` — TextField echo mode
+- `field: alias` — Inner text field
+- `hasError: bool` — True when validation failed
 
 </details>
 
@@ -2633,15 +2630,15 @@ PersonPicture { displayName: "Ada"; size: 48 }
 - `size: real` — Diameter or box size in px
 - `profileColor: color` — Fallback avatar fill
 - `badgeVisible: bool` — Show avatar badge
-- `badgeColor: color`
-- `badgeSymbol: var`
-- `badgeGlyph: string`
-- `badgeSeverity: int`
+- `badgeColor: color` — Badge fill color
+- `badgeSymbol: var` — Badge Symbol
+- `badgeGlyph: string` — Badge Glyph
+- `badgeSeverity: int` — Badge severity
 - `badgeValue: int` — WinUI-style count / text overlay (takes precedence over glyph when set)
-- `badgeText: string`
-- `badgeMaxValue: int`
-- `selected: bool`
-- `initials: string`
+- `badgeText: string` — Badge caption
+- `badgeMaxValue: int` — Badge max before +
+- `selected: bool` — Selected state
+- `initials: string` — Initials
 
 </details>
 
@@ -2659,21 +2656,21 @@ PieChart { slices: [{ value: 1, label: "A" }] }
 
 - `slices: var` — Pie/donut slice descriptors
 - `showLegend: bool` — Show chart legend
-- `interactive: bool`
-- `animated: bool`
-- `startAngle: real`
-- `padAngle: real`
-- `revealProgress: real`
+- `interactive: bool` — Enable hover / click interaction
+- `animated: bool` — Play enter / reveal animation
+- `startAngle: real` — Arc start angle in degrees
+- `padAngle: real` — Padding angle between pie slices
+- `revealProgress: real` — 0..1 reveal animation progress
 - `hoverIndex: int` — Hovered item index
 - `selectedIndex: alias` — Selected index alias
 - `title: string` — Primary title text
-- `emptyText: string`
-- `isEmpty: bool`
-- `total: real`
-- `cx: real`
-- `cy: real`
-- `radius: real`
-- `arcs: var`
+- `emptyText: string` — Placeholder when there is no data
+- `isEmpty: bool` — True when there is no data
+- `total: real` — Sum of segment values
+- `cx: real` — Center X
+- `cy: real` — Center Y
+- `radius: real` — Corner radius
+- `arcs: var` — Arc path descriptors
 
 </details>
 
@@ -2706,10 +2703,10 @@ PipsPager { count: 5; currentIndex: 2 }
 - `currentIndex: int` — Selected index
 - `selectedIndex: alias` — Selected index alias
 - `orientation: int` — Qt.Horizontal or Qt.Vertical
-- `wrap: bool`
+- `wrap: bool` — Wrap children to next line
 - `previousButtonVisibility: string` — WinUI ButtonVisibility: "visible" | "visibleOnPointerOver" | "collapsed"
-- `nextButtonVisibility: string`
-- `glyph: string`
+- `nextButtonVisibility: string` — Next Button Visibility
+- `glyph: string` — Fluent glyph drawn in the button
 - `index: int`
 
 </details>
@@ -2744,10 +2741,10 @@ Pivot { model: ["Overview", "Details"] }
 - `model: var` — Data model / item list for this control
 - `currentIndex: int` — Selected index
 - `selectedIndex: alias` — Selected index alias
-- `keyboardNavigationEnabled: bool`
+- `keyboardNavigationEnabled: bool` — Keyboard Navigation Enabled
 - `modelData: var`
 - `index: int`
-- `hasPage: bool`
+- `hasPage: bool` — Has Page
 
 </details>
 
@@ -2779,16 +2776,16 @@ ProgressButton { text: qsTr("Upload"); progress: 0.4 }
 - `progress: real` — 0..1 progress (determinate)
 - `indeterminate: bool` — Show indeterminate animation when true
 - `isIndeterminate: alias` — Alias of indeterminate
-- `showProgress: bool`
-- `showPercentage: bool`
+- `showProgress: bool` — Show progress indicator
+- `showPercentage: bool` — Show Percentage
 - `progressState: string` — idle | progressing | completed | error
-- `progressingText: string`
-- `completedText: string`
-- `errorText: string`
-- `percentage: real`
-- `displayText: string`
-- `innerRadius: real`
-- `innerWidth: real`
+- `progressingText: string` — Progressing Text
+- `completedText: string` — Completed Text
+- `errorText: string` — Error Text
+- `percentage: real` — Value as 0..100 percentage
+- `displayText: string` — Text shown to the user
+- `innerRadius: real` — Inner Radius
+- `innerWidth: real` — Inner Width
 
 </details>
 
@@ -2824,18 +2821,18 @@ ProgressRing { indeterminate: true }
 - `value: real` — Current value
 - `indeterminate: bool` — Show indeterminate animation when true
 - `isActive: bool` — WinUI-style: Active sweeps; Paused holds a partial arc without spinning
-- `strokeWidth: real`
-- `fillColor: color`
-- `trackColor: color`
-- `showValue: bool`
-- `valueLabel: string`
+- `strokeWidth: real` — Stroke thickness in px
+- `fillColor: color` — Primary fill / progress color
+- `trackColor: color` — Track / remaining color
+- `showValue: bool` — Show numeric value label
+- `valueLabel: string` — Optional value caption
 - `size: real` — Diameter or box size in px
-- `spinning: bool`
-- `progressSweep: real`
-- `formattedValue: string`
-- `radius: real`
-- `spinAngle: real`
-- `animatedSweep: real`
+- `spinning: bool` — True while indeterminate ring spins
+- `progressSweep: real` — Determinate arc sweep degrees
+- `formattedValue: string` — Formatted value string
+- `radius: real` — Corner radius
+- `spinAngle: real` — Indeterminate spin angle
+- `animatedSweep: real` — Animated Sweep
 
 </details>
 
@@ -2856,17 +2853,17 @@ RadarChart { values: [3, 5, 2, 4]; axes: ["A","B","C","D"] }
 - `axes: var` — Axis labels
 - `minimum: real` — Minimum value
 - `maximum: real` — Maximum value
-- `levels: int`
+- `levels: int` — Levels
 - `filled: bool` — Fill under line / area
-- `showLabels: bool`
-- `animated: bool`
-- `interactive: bool`
-- `revealProgress: real`
-- `hoverSeries: int`
+- `showLabels: bool` — Show item labels
+- `animated: bool` — Play enter / reveal animation
+- `interactive: bool` — Enable hover / click interaction
+- `revealProgress: real` — 0..1 reveal animation progress
+- `hoverSeries: int` — Hovered series index
 - `selectedIndex: alias` — Selected index alias
 - `title: string` — Primary title text
-- `emptyText: string`
-- `isEmpty: bool`
+- `emptyText: string` — Placeholder when there is no data
+- `isEmpty: bool` — True when there is no data
 
 </details>
 
@@ -2895,30 +2892,30 @@ RadialGauge { value: 72; minimum: 0; maximum: 100 }
 - `minimum: real` — Minimum value
 - `maximum: real` — Maximum value
 - `stepSize: real` — Value step (e.g. 0.5 for half stars)
-- `strokeWidth: real`
-- `showValue: bool`
-- `unit: string`
+- `strokeWidth: real` — Stroke thickness in px
+- `showValue: bool` — Show numeric value label
+- `unit: string` — Value unit label (%, rpm, …)
 - `title: string` — Primary title text
-- `caption: string`
-- `valuePrecision: int`
+- `caption: string` — Caption under / beside the value
+- `valuePrecision: int` — Digits after decimal for value text
 - `tickCount: int` — Major tick count
-- `trackColor: color`
-- `fillColor: color`
-- `showNeedle: bool`
-- `startAngle: real`
-- `sweepTotal: real`
-- `cautionThreshold: real`
-- `criticalThreshold: real`
-- `invertThresholds: bool`
-- `isInteractive: bool`
-- `interactive: alias`
-- `percentage: real`
-- `effectiveFillColor: color`
-- `normalized: real`
-- `formattedValue: string`
-- `animatedValue: real`
-- `animatedNorm: real`
-- `radius: real`
+- `trackColor: color` — Track / remaining color
+- `fillColor: color` — Primary fill / progress color
+- `showNeedle: bool` — Show needle indicator
+- `startAngle: real` — Arc start angle in degrees
+- `sweepTotal: real` — Total sweep angle in degrees
+- `cautionThreshold: real` — Value where caution zone starts
+- `criticalThreshold: real` — Value where critical zone starts
+- `invertThresholds: bool` — Invert caution/critical threshold logic
+- `isInteractive: bool` — Alias of interactive
+- `interactive: alias` — Enable hover / click interaction
+- `percentage: real` — Value as 0..100 percentage
+- `effectiveFillColor: color` — Resolved fill color
+- `normalized: real` — Normalized
+- `formattedValue: string` — Formatted value string
+- `animatedValue: real` — Animated display value
+- `animatedNorm: real` — Animated 0..1 normalized value
+- `radius: real` — Corner radius
 
 </details>
 
@@ -2953,7 +2950,7 @@ RadioButtons { header: qsTr("Choice"); model: ["A", "B"] }
 - `model: var` — Data model / item list for this control
 - `currentIndex: int` — Selected index
 - `selectedIndex: alias` — Selected index alias
-- `horizontal: bool`
+- `horizontal: bool` — Horizontal orientation when true
 - `modelData: var`
 - `index: int`
 
@@ -2987,8 +2984,8 @@ RadioMenuFlyoutItem { text: qsTr("Option") }
 - `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
 - `iconGlyph: string` — Raw Fluent glyph string fallback
 - `keyboardAcceleratorText: string` — Accelerator caption (Ctrl+C)
-- `keyVisualAccelerator: bool`
-- `effectiveIconGlyph: string`
+- `keyVisualAccelerator: bool` — Show KeyVisual for accelerator
+- `effectiveIconGlyph: string` — Resolved glyph string
 
 </details>
 
@@ -3005,20 +3002,20 @@ RatingControl { value: 3.5; stepSize: 0.5 }
 <details><summary>Properties</summary>
 
 - `value: real` — Current value
-- `placeholderValue: real`
+- `placeholderValue: real` — Shown when value unset
 - `maxRating: int` — Maximum star count
-- `readOnly: bool`
-- `isReadOnly: alias`
-- `isClearEnabled: bool`
+- `readOnly: bool` — Read-only when true
+- `isReadOnly: alias` — Alias of readOnly
+- `isClearEnabled: bool` — Allow clearing the rating
 - `stepSize: real` — 1 = whole, 0.5 = half, 0.1 / 0.25 = fine-grained mouse pick
-- `previewEnabled: bool`
-- `previewValue: real`
-- `caption: string`
+- `previewEnabled: bool` — Preview value on hover
+- `previewValue: real` — Hovered preview value
+- `caption: string` — Caption under / beside the value
 - `index: int`
-- `fill: real`
-- `isPlaceholder: bool`
-- `didDrag: bool`
-- `pressValue: real`
+- `fill: real` — Fill
+- `isPlaceholder: bool` — Is Placeholder
+- `didDrag: bool` — Did Drag
+- `pressValue: real` — Press Value
 
 </details>
 
@@ -3051,21 +3048,21 @@ RefreshContainer {
 
 <details><summary>Properties</summary>
 
-- `contentData: alias`
-- `contentWidth: alias`
-- `contentHeight: alias`
-- `contentX: alias`
-- `contentY: alias`
-- `flickable: alias`
+- `contentData: alias` — Default children / content slot
+- `contentWidth: alias` — Flickable content width
+- `contentHeight: alias` — Flickable content height
+- `contentX: alias` — Flickable content X
+- `contentY: alias` — Flickable content Y
+- `flickable: alias` — Inner Flickable
 - `refreshing: bool` — True while a refresh is in progress
-- `isRefreshing: alias`
-- `pullToRefreshEnabled: bool`
-- `isEnabled: alias`
+- `isRefreshing: alias` — True while refreshing
+- `pullToRefreshEnabled: bool` — Enable pull-to-refresh gesture
+- `isEnabled: alias` — Is Enabled
 - `pullThreshold: real` — Pull distance before refresh fires
-- `refreshText: string`
-- `refreshingText: string`
-- `pullText: string`
-- `spinAngle: real`
+- `refreshText: string` — Text shown while pulling
+- `refreshingText: string` — Text shown while refreshing
+- `pullText: string` — Pull Text
+- `spinAngle: real` — Indeterminate spin angle
 
 </details>
 
@@ -3096,8 +3093,8 @@ RelativePanel {
 
 <details><summary>Properties</summary>
 
-- `panelSpacing: real`
-- `paddingEdges: int`
+- `panelSpacing: real` — Panel Spacing
+- `paddingEdges: int` — Edge paddings
 
 </details>
 
@@ -3131,32 +3128,32 @@ ScatterChart { points: [{ x: 1, y: 2 }] }
 
 - `points: var` — Scatter points
 - `values: var` — Numeric values array
-- `minimumX: real`
-- `maximumX: real`
-- `minimumY: real`
-- `maximumY: real`
-- `pointRadius: real`
-- `showGrid: bool`
-- `showTrendLine: bool`
-- `interactive: bool`
-- `animated: bool`
-- `maxPoints: int`
-- `autoLod: bool`
-- `lodFactor: real`
-- `gridColor: color`
-- `pointColor: color`
-- `trendColor: color`
-- `revealProgress: real`
+- `minimumX: real` — X-axis minimum
+- `maximumX: real` — X-axis maximum
+- `minimumY: real` — Y-axis minimum
+- `maximumY: real` — Y-axis maximum
+- `pointRadius: real` — Scatter point radius
+- `showGrid: bool` — Show chart grid
+- `showTrendLine: bool` — Show trend line
+- `interactive: bool` — Enable hover / click interaction
+- `animated: bool` — Play enter / reveal animation
+- `maxPoints: int` — Max points before LOD kicks in
+- `autoLod: bool` — Auto-enable LOD for large series
+- `lodFactor: real` — Level-of-detail downsample factor
+- `gridColor: color` — Grid line color
+- `pointColor: color` — Point Color
+- `trendColor: color` — Trend Color
+- `revealProgress: real` — 0..1 reveal animation progress
 - `hoverIndex: int` — Hovered item index
 - `selectedIndex: alias` — Selected index alias
-- `hoverText: string`
+- `hoverText: string` — Tooltip / hover readout text
 - `title: string` — Primary title text
-- `emptyText: string`
-- `sourcePointCount: int`
-- `drawnPointCount: int`
-- `isEmpty: bool`
-- `screenPts: var`
-- `padL: real`
+- `emptyText: string` — Placeholder when there is no data
+- `sourcePointCount: int` — Raw point count before LOD
+- `drawnPointCount: int` — Points drawn after LOD
+- `isEmpty: bool` — True when there is no data
+- `screenPts: var` — Screen Pts
+- `padL: real` — Pad L
 
 </details>
 
@@ -3205,7 +3202,7 @@ SearchBox {
 - `updateTextOnSelect: bool` — When true, choosing a suggestion writes display text into the field
 - `textMemberPath: string` — Object field used as display text (fallback: title | text | name)
 - `isSuggestionListOpen: bool` — Suggestion popup open state
-- `effectiveQueryIcon: string`
+- `effectiveQueryIcon: string` — Resolved search glyph
 
 </details>
 
@@ -3246,11 +3243,11 @@ SegmentedControl {
 - `model: var` — Data model / item list for this control
 - `currentIndex: int` — Selected index
 - `selectedIndex: alias` — Selected index alias
-- `stretch: bool`
-- `equalWidth: bool`
+- `stretch: bool` — Stretch factor / stretch pip
+- `equalWidth: bool` — Equal Width
 - `modelData: var`
 - `index: int`
-- `segmentIndex: int`
+- `segmentIndex: int` — Active segment index
 
 </details>
 
@@ -3287,30 +3284,30 @@ SegmentedGauge { value: 3; maximum: 5 }
 - `minimum: real` — Minimum value
 - `maximum: real` — Maximum value
 - `stepSize: real` — Value step (e.g. 0.5 for half stars)
-- `segmentCount: int`
-- `gapDegrees: real`
-- `strokeWidth: real`
+- `segmentCount: int` — Number of gauge segments
+- `gapDegrees: real` — Gap between segments in degrees
+- `strokeWidth: real` — Stroke thickness in px
 - `title: string` — Primary title text
-- `unit: string`
-- `caption: string`
-- `valuePrecision: int`
-- `showValue: bool`
-- `fillColor: color`
-- `trackColor: color`
-- `cautionThreshold: real`
-- `criticalThreshold: real`
-- `invertThresholds: bool`
-- `startAngle: real`
+- `unit: string` — Value unit label (%, rpm, …)
+- `caption: string` — Caption under / beside the value
+- `valuePrecision: int` — Digits after decimal for value text
+- `showValue: bool` — Show numeric value label
+- `fillColor: color` — Primary fill / progress color
+- `trackColor: color` — Track / remaining color
+- `cautionThreshold: real` — Value where caution zone starts
+- `criticalThreshold: real` — Value where critical zone starts
+- `invertThresholds: bool` — Invert caution/critical threshold logic
+- `startAngle: real` — Arc start angle in degrees
 - `fillMode: string` — discrete | partial — partial fills the leading segment proportionally
-- `isInteractive: bool`
-- `interactive: alias`
-- `percentage: real`
-- `effectiveFillColor: color`
-- `formattedValue: string`
-- `animatedValue: real`
-- `animatedNorm: real`
-- `filledExact: real`
-- `filledSegments: int`
+- `isInteractive: bool` — Alias of interactive
+- `interactive: alias` — Enable hover / click interaction
+- `percentage: real` — Value as 0..100 percentage
+- `effectiveFillColor: color` — Resolved fill color
+- `formattedValue: string` — Formatted value string
+- `animatedValue: real` — Animated display value
+- `animatedNorm: real` — Animated 0..1 normalized value
+- `filledExact: real` — Filled Exact
+- `filledSegments: int` — Filled Segments
 
 </details>
 
@@ -3347,8 +3344,8 @@ SelectorBar { model: ["All", "Unread"]; currentIndex: 0 }
 - `selectionStyle: string` — "pill" (filled accent) or "underline"
 - `modelData: var`
 - `index: int`
-- `segmentIndex: int`
-- `contentRow: alias`
+- `segmentIndex: int` — Active segment index
+- `contentRow: alias` — Content Row
 
 </details>
 
@@ -3387,12 +3384,12 @@ SettingsCard {
 - `description: string` — Supporting description text
 - `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
 - `iconGlyph: string` — Raw Fluent glyph string fallback
-- `headerIcon: var`
-- `action: alias`
+- `headerIcon: var` — Header icon glyph
+- `action: alias` — Custom action slot
 - `content: alias` — Content slot / children host
-- `interactive: bool`
-- `showChevron: bool`
-- `effectiveHeaderIcon: string`
+- `interactive: bool` — Enable hover / click interaction
+- `showChevron: bool` — Show trailing chevron
+- `effectiveHeaderIcon: string` — Resolved header icon
 
 </details>
 
@@ -3421,13 +3418,13 @@ SettingsExpander {
 - `description: string` — Supporting description text
 - `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
 - `iconGlyph: string` — Raw Fluent glyph string fallback
-- `headerIcon: var`
-- `expanded: bool`
-- `isExpanded: alias`
+- `headerIcon: var` — Header icon glyph
+- `expanded: bool` — Expanded state
+- `isExpanded: alias` — Alias of expanded
 - `expandDirection: string` — WinUI ExpandDirection: down | up
-- `action: alias`
-- `contentData: alias`
-- `effectiveHeaderIcon: string`
+- `action: alias` — Custom action slot
+- `contentData: alias` — Default children / content slot
+- `effectiveHeaderIcon: string` — Resolved header icon
 
 </details>
 
@@ -3455,7 +3452,7 @@ ShellWindow {
 
 - `subtitle: alias` — Secondary subtitle text
 - `symbol: alias` — FluentIcons symbol (preferred over iconGlyph)
-- `chrome: alias`
+- `chrome: alias` — WindowChrome / PlatformTitleBar host
 - `showPaneToggle: bool` — Show navigation pane toggle
 - `searchEnabled: alias` — Enable title-bar search
 - `isBackButtonVisible: alias` — Show back button
@@ -3476,11 +3473,11 @@ ShellWindow {
 - `showMaximize: bool` — Show maximize caption button
 - `showClose: bool` — Show close caption button
 - `captionButtonBackground: color` — AppWindowTitleBar-style caption colors (empty = Theme defaults).
-- `captionButtonHover: color`
-- `captionButtonPressed: color`
-- `captionButtonForeground: color`
-- `captionCloseHover: color`
-- `captionClosePressed: color`
+- `captionButtonHover: color` — Caption button hover fill
+- `captionButtonPressed: color` — Caption button pressed fill
+- `captionButtonForeground: color` — Caption button glyph color
+- `captionCloseHover: color` — Close button hover fill
+- `captionClosePressed: color` — Close button pressed fill
 
 </details>
 
@@ -3505,13 +3502,13 @@ Shimmer { width: 200; height: 12 }
 
 <details><summary>Properties</summary>
 
-- `cornerRadius: real`
-- `active: bool`
+- `cornerRadius: real` — Corner radius
+- `active: bool` — Active state
 - `isActive: alias` — Active / animating state
-- `shape: int`
+- `shape: int` — Shape
 - `durationMs: int` — Auto-dismiss duration; 0 keeps open
-- `baseColor: color`
-- `sheenColor: color`
+- `baseColor: color` — Base Color
+- `sheenColor: color` — Sheen Color
 - `direction: int` — Qt.Horizontal | Qt.Vertical
 
 </details>
@@ -3529,21 +3526,21 @@ Sparkline { values: [1, 3, 2, 5, 4] }
 <details><summary>Properties</summary>
 
 - `values: var` — Numeric values array
-- `strokeColor: color`
-- `fillColor: color`
-- `strokeWidth: real`
+- `strokeColor: color` — Stroke color
+- `fillColor: color` — Primary fill / progress color
+- `strokeWidth: real` — Stroke thickness in px
 - `filled: bool` — Fill under line / area
-- `showEndMarker: bool`
-- `animated: bool`
+- `showEndMarker: bool` — Show end-point marker
+- `animated: bool` — Play enter / reveal animation
 - `minimum: real` — Minimum value
 - `maximum: real` — Maximum value
-- `revealProgress: real`
-- `caption: string`
-- `showDelta: bool`
-- `lastValue: real`
-- `firstValue: real`
-- `delta: real`
-- `deltaPositive: bool`
+- `revealProgress: real` — 0..1 reveal animation progress
+- `caption: string` — Caption under / beside the value
+- `showDelta: bool` — Show delta vs first point
+- `lastValue: real` — Last Value
+- `firstValue: real` — First Value
+- `delta: real` — Delta
+- `deltaPositive: bool` — Delta Positive
 
 </details>
 
@@ -3570,19 +3567,19 @@ SplitButton {
 
 <details><summary>Properties</summary>
 
-- `menu: alias`
-- `menuData: alias`
+- `menu: alias` — Attached / owned Menu
+- `menuData: alias` — Menu children slot
 - `highlighted: bool` — Emphasized / selected chrome
 - `flat: bool` — Flat chrome without fill
-- `flyoutPlacement: int`
+- `flyoutPlacement: int` — MenuFlyout placement
 - `iconGlyph: string` — Raw Fluent glyph string fallback
 - `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
 - `isOpen: alias` — Open / visible state
-- `effectiveIconGlyph: string`
-- `lightScheme: bool`
-- `accented: bool`
-- `anyHovered: bool`
-- `anyDown: bool`
+- `effectiveIconGlyph: string` — Resolved glyph string
+- `lightScheme: bool` — True in light theme
+- `accented: bool` — Use accent chrome
+- `anyHovered: bool` — True if any child is hovered
+- `anyDown: bool` — True if any child is pressed
 
 </details>
 
@@ -3612,27 +3609,27 @@ StackedBarChart { series: [{ values: [1, 2] }] }
 <details><summary>Properties</summary>
 
 - `series: var` — Chart series array
-- `categories: var`
+- `categories: var` — Category labels for bars
 - `minimum: real` — Minimum value
 - `maximum: real` — Maximum value
-- `barRadius: real`
-- `barGap: real`
-- `showBaseline: bool`
+- `barRadius: real` — Bar corner radius
+- `barGap: real` — Gap between bars
+- `showBaseline: bool` — Show zero baseline
 - `showLegend: bool` — Show chart legend
-- `showCategoryLabels: bool`
-- `interactive: bool`
-- `animated: bool`
-- `revealProgress: real`
-- `hoverCategory: int`
-- `hoverSeries: int`
-- `hoverText: string`
+- `showCategoryLabels: bool` — Show category axis labels
+- `interactive: bool` — Enable hover / click interaction
+- `animated: bool` — Play enter / reveal animation
+- `revealProgress: real` — 0..1 reveal animation progress
+- `hoverCategory: int` — Hover Category
+- `hoverSeries: int` — Hovered series index
+- `hoverText: string` — Tooltip / hover readout text
 - `title: string` — Primary title text
-- `emptyText: string`
-- `isEmpty: bool`
-- `slot: real`
-- `padL: real`
-- `padB: real`
-- `catCount: int`
+- `emptyText: string` — Placeholder when there is no data
+- `isEmpty: bool` — True when there is no data
+- `slot: real` — Named content slot
+- `padL: real` — Left padding
+- `padB: real` — Bottom padding
+- `catCount: int` — Cat Count
 
 </details>
 
@@ -3661,13 +3658,13 @@ StackPanel { orientation: Qt.Vertical }
 
 <details><summary>Properties</summary>
 
-- `contentData: alias`
+- `contentData: alias` — Default children / content slot
 - `orientation: int` — Qt.Horizontal or Qt.Vertical
-- `paddingEdges: int`
+- `paddingEdges: int` — Edge paddings
 - `alignment: int` — Cross-axis alignment: Horizontal → vertical align; Vertical → horizontal align
-- `layoutDirection: int`
+- `layoutDirection: int` — Qt layout direction
 - `stretchChildren: bool` — When true (default for Vertical), stretch children along the cross axis to host size
-- `childCount: int`
+- `childCount: int` — Number of children
 
 </details>
 
@@ -3695,12 +3692,12 @@ StatusBar {
 <details><summary>Properties</summary>
 
 - `text: string` — Display / input text
-- `leftContent: alias`
-- `centerContent: alias`
+- `leftContent: alias` — Left Content
+- `centerContent: alias` — Center Content
 - `content: alias` — Content slot / children host
-- `rightContent: alias`
+- `rightContent: alias` — Right Content
 - `progress: real` — 0..1 shows determinate bar; <0 hides; NaN-safe. Set indeterminate for busy.
-- `progressIndeterminate: bool`
+- `progressIndeterminate: bool` — Progress Indeterminate
 
 </details>
 
@@ -3716,18 +3713,18 @@ StatusDot { severity: success }
 
 <details><summary>Properties</summary>
 
-- `offline: int`
-- `available: int`
-- `away: int`
-- `busy: int`
-- `unknown: int`
-- `status: int`
-- `pulse: bool`
+- `offline: int` — Offline status constant
+- `available: int` — Available status constant
+- `away: int` — Away status constant
+- `busy: int` — Busy status constant
+- `unknown: int` — Unknown status constant
+- `status: int` — Current status enum
+- `pulse: bool` — Animate a pulse when true
 - `size: real` — Diameter or box size in px
 - `label: string` — Field label
-- `showLabel: bool`
-- `statusName: string`
-- `statusColor: color`
+- `showLabel: bool` — Show text label beside the dot
+- `statusName: string` — Status Name
+- `statusColor: color` — Status Color
 
 </details>
 
@@ -3747,7 +3744,7 @@ StepBar { model: ["Cart", "Ship", "Pay"]; currentIndex: 1 }
 - `currentIndex: int` — Selected index
 - `selectedIndex: alias` — Selected index alias
 - `orientation: string` — horizontal | vertical
-- `isInteractive: bool`
+- `isInteractive: bool` — Alias of interactive
 - `modelData: var`
 - `index: int`
 
@@ -3782,10 +3779,10 @@ SwipeAction { text: qsTr("Delete"); onTriggered: remove() }
 - `text: string` — Display / input text
 - `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
 - `iconGlyph: string` — Raw Fluent glyph string fallback
-- `color: color`
-- `textColor: color`
-- `leading: bool`
-- `effectiveGlyph: string`
+- `color: color` — Color
+- `textColor: color` — Badge / content text color
+- `leading: bool` — Leading content slot
+- `effectiveGlyph: string` — Resolved glyph string
 
 </details>
 
@@ -3810,18 +3807,18 @@ SwipeControl {
 
 <details><summary>Properties</summary>
 
-- `closed: int`
-- `leftOpen: int`
-- `rightOpen: int`
+- `closed: int` — Swipe content closed
+- `leftOpen: int` — Left actions revealed
+- `rightOpen: int` — Right actions revealed
 - `content: alias` — Content slot / children host
-- `leftActions: alias`
-- `rightActions: alias`
-- `actionWidth: real`
-- `revealThreshold: real`
+- `leftActions: alias` — Actions on the left
+- `rightActions: alias` — Actions on the right
+- `actionWidth: real` — Width of each swipe action
+- `revealThreshold: real` — Drag distance to snap open
 - `isOpen: bool` — Open / visible state
-- `openMode: int`
-- `maxLeftReveal: real`
-- `maxRightReveal: real`
+- `openMode: int` — single | multiple reveal mode
+- `maxLeftReveal: real` — Max Left Reveal
+- `maxRightReveal: real` — Max Right Reveal
 
 </details>
 
@@ -3853,8 +3850,8 @@ SwitchCase { value: "a"; Label { text: "A" } }
 <details><summary>Properties</summary>
 
 - `value: var` — Current value
-- `active: bool`
-- `contentData: alias`
+- `active: bool` — Active state
+- `contentData: alias` — Default children / content slot
 
 </details>
 
@@ -3874,10 +3871,10 @@ SwitchPresenter {
 <details><summary>Properties</summary>
 
 - `value: var` — Current value
-- `animated: bool`
+- `animated: bool` — Play enter / reveal animation
 - `currentIndex: int` — Selected index
 - `selectedIndex: alias` — Selected index alias
-- `cases: alias`
+- `cases: alias` — Cases
 
 </details>
 
@@ -3917,15 +3914,15 @@ TabView {
 - `selectedIndex: alias` — Selected index alias
 - `closable: bool` — Shows a close affordance when true
 - `isClosable: alias` — Alias of closable
-- `tabsReorderable: bool`
-- `canReorderTabs: alias`
-- `tabWidthMode: string`
-- `isAddTabButtonVisible: bool`
-- `tabCount: int`
+- `tabsReorderable: bool` — Allow dragging tabs to reorder
+- `canReorderTabs: alias` — Alias of tabsReorderable
+- `tabWidthMode: string` — Tab width mode
+- `isAddTabButtonVisible: bool` — Show add-tab button
+- `tabCount: int` — Tab Count
 - `modelData: var`
 - `index: int`
-- `tabIndex: int`
-- `dragActive: bool`
+- `tabIndex: int` — Tab Index
+- `dragActive: bool` — Drag Active
 
 </details>
 
@@ -3968,12 +3965,12 @@ TeachingTip { target: btn; title: qsTr("Tip"); subtitle: qsTr("Hint") }
 - `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
 - `iconGlyph: string` — Raw Fluent glyph string fallback
 - `isOpen: bool` — Open / visible state
-- `isLightDismissEnabled: bool`
-- `isCloseButtonVisible: bool`
-- `preferredPlacement: int`
-- `effectivePlacement: int`
-- `heroContent: alias`
-- `effectiveIconGlyph: string`
+- `isLightDismissEnabled: bool` — Close on outside click / Esc
+- `isCloseButtonVisible: bool` — Alias of closable
+- `preferredPlacement: int` — Preferred flyout placement
+- `effectivePlacement: int` — Effective Placement
+- `heroContent: alias` — Hero Content
+- `effectiveIconGlyph: string` — Resolved glyph string
 
 </details>
 
@@ -4002,20 +3999,20 @@ TextBlock { text: qsTr("Title"); style: title }
 
 <details><summary>Properties</summary>
 
-- `caption: int`
-- `body: int`
-- `bodyStrong: int`
+- `caption: int` — Caption under / beside the value
+- `body: int` — Body style
+- `bodyStrong: int` — Body strong style
 - `subtitle: int` — Secondary subtitle text
 - `title: int` — Primary title text
-- `titleLarge: int`
-- `display: int`
+- `titleLarge: int` — Title large style
+- `display: int` — Display typography style
 - `text: string` — Display / input text
-- `style: int`
+- `style: int` — Typography style token
 - `isTextSelectionEnabled: bool` — WinUI IsTextSelectionEnabled — uses TextEdit when true (Label has no selectByMouse)
 - `textTrimming: string` — none | characterEllipsis | wordEllipsis
-- `maxLines: int`
-- `color: color`
-- `styleName: string`
+- `maxLines: int` — Max Lines
+- `color: color` — Color
+- `styleName: string` — Style Name
 
 </details>
 
@@ -4040,14 +4037,14 @@ Timeline { model: events }
 - `model: var` — Data model / item list for this control
 - `currentIndex: int` — Selected index
 - `selectedIndex: alias` — Selected index alias
-- `railWidth: real`
-- `nodeSize: real`
-- `isInteractive: bool`
+- `railWidth: real` — Rail Width
+- `nodeSize: real` — Node Size
+- `isInteractive: bool` — Alias of interactive
 - `modelData: var`
 - `index: int`
-- `isLast: bool`
+- `isLast: bool` — Is Last
 - `isActive: bool` — Active / animating state
-- `nodeColor: color`
+- `nodeColor: color` — Node Color
 
 </details>
 
@@ -4078,18 +4075,18 @@ TimePicker { }
 
 <details><summary>Properties</summary>
 
-- `hour: int`
-- `minute: int`
-- `isAm: bool`
-- `use24Hour: bool`
+- `hour: int` — Hour
+- `minute: int` — Minute
+- `isAm: bool` — Is Am
+- `use24Hour: bool` — Use24 Hour
 - `pickerOpen: bool` — Picker flyout open
 - `isOpen: alias` — Open / visible state
 - `header: string` — Header label above the control
 - `minuteIncrement: int` — WinUI MinuteIncrement — e.g. 1, 5, 15
 - `clockIdentifier: string` — WinUI ClockIdentifier (read-only mirror of use24Hour)
-- `minuteModel: var`
-- `displayHour: int`
-- `displayText: string`
+- `minuteModel: var` — Minute Model
+- `displayHour: int` — Display Hour
+- `displayText: string` — Text shown to the user
 
 </details>
 
@@ -4138,14 +4135,14 @@ TitleBar {
 - `trailingReserve: real` — Extra right inset when caption buttons are drawn outside this item
 - `dragWindow: var` — Window used for system move
 - `preferredHeight: real` — WinUI TitleBarHeightOption — Standard 32 / Tall 48 (from PlatformTitleBar).
-- `effectiveIconGlyph: string`
-- `hasContentChildren: bool`
-- `showBuiltInSearch: bool`
+- `effectiveIconGlyph: string` — Resolved glyph string
+- `hasContentChildren: bool` — Content slot has children
+- `showBuiltInSearch: bool` — Show built-in search field
 - `leftHeader: alias` — WinUI LeftHeader slot
 - `content: alias` — WinUI Content slot (replaces built-in search when set)
 - `rightHeader: alias` — WinUI RightHeader — also the default children slot for trailing actions.
-- `trailing: alias`
-- `glyph: string`
+- `trailing: alias` — Trailing slot
+- `glyph: string` — Fluent glyph drawn in the button
 
 </details>
 
@@ -4185,13 +4182,13 @@ Toast { title: qsTr("Saved"); message: qsTr("OK") }
 - `durationMs: int` — Auto-dismiss duration; 0 keeps open
 - `isOpen: bool` — Open / visible state
 - `actionText: string` — Optional action button label
-- `showProgress: bool`
-- `pauseOnHover: bool`
-- `informational: int`
-- `success: int`
-- `warning: int`
-- `error: int`
-- `severityName: string`
+- `showProgress: bool` — Show progress indicator
+- `pauseOnHover: bool` — Pause On Hover
+- `informational: int` — Informational severity constant
+- `success: int` — Success severity constant
+- `warning: int` — Warning severity constant
+- `error: int` — Error severity constant
+- `severityName: string` — Severity as string name
 
 </details>
 
@@ -4226,11 +4223,11 @@ ToastHost { id: toasts }
 
 - `maxVisible: int` — Max visible items before overflow
 - `durationMs: int` — Auto-dismiss duration; 0 keeps open
-- `newestOnTop: bool`
-- `informational: int`
-- `success: int`
-- `warning: int`
-- `error: int`
+- `newestOnTop: bool` — Newest On Top
+- `informational: int` — Informational severity constant
+- `success: int` — Success severity constant
+- `warning: int` — Warning severity constant
+- `error: int` — Error severity constant
 - `count: int` — Item count
 - `index: int`
 - `key: string`
@@ -4273,10 +4270,10 @@ ToggleButton { text: qsTr("Bold"); checkable: true }
 
 - `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
 - `iconGlyph: string` — Raw Fluent glyph string fallback
-- `iconSize: real`
-- `effectiveIconGlyph: string`
-- `lightScheme: bool`
-- `accented: bool`
+- `iconSize: real` — Icon size in px
+- `effectiveIconGlyph: string` — Resolved glyph string
+- `lightScheme: bool` — True in light theme
+- `accented: bool` — Use accent chrome
 
 </details>
 
@@ -4295,8 +4292,8 @@ ToggleMenuFlyoutItem { text: qsTr("Wrap") }
 - `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
 - `iconGlyph: string` — Raw Fluent glyph string fallback
 - `keyboardAcceleratorText: string` — Accelerator caption (Ctrl+C)
-- `keyVisualAccelerator: bool`
-- `effectiveIconGlyph: string`
+- `keyVisualAccelerator: bool` — Show KeyVisual for accelerator
+- `effectiveIconGlyph: string` — Resolved glyph string
 
 </details>
 
@@ -4312,19 +4309,19 @@ ToggleSplitButton { text: qsTr("Format") }
 
 <details><summary>Properties</summary>
 
-- `menu: alias`
-- `menuData: alias`
+- `menu: alias` — Attached / owned Menu
+- `menuData: alias` — Menu children slot
 - `highlighted: bool` — Emphasized / selected chrome
 - `flat: bool` — Flat chrome without fill
-- `flyoutPlacement: int`
+- `flyoutPlacement: int` — MenuFlyout placement
 - `iconGlyph: string` — Raw Fluent glyph string fallback
 - `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
 - `isOpen: alias` — Open / visible state
-- `effectiveIconGlyph: string`
-- `lightScheme: bool`
-- `accented: bool`
-- `anyHovered: bool`
-- `anyDown: bool`
+- `effectiveIconGlyph: string` — Resolved glyph string
+- `lightScheme: bool` — True in light theme
+- `accented: bool` — Use accent chrome
+- `anyHovered: bool` — True if any child is hovered
+- `anyDown: bool` — True if any child is pressed
 
 </details>
 
@@ -4357,20 +4354,20 @@ TokenizingTextBox {
 <details><summary>Properties</summary>
 
 - `text: alias` — Display / input text
-- `tokens: var`
+- `tokens: var` — Current token list
 - `suggestionModel: var` — Filtered suggestion rows
 - `placeholderText: string` — Placeholder when empty
-- `suggestionsOpen: bool`
+- `suggestionsOpen: bool` — Suggestion popup open
 - `isOpen: alias` — Open / visible state
-- `maxTokens: int`
-- `allowDuplicates: bool`
-- `tokenDelimiters: string`
+- `maxTokens: int` — Maximum number of tokens
+- `allowDuplicates: bool` — Allow duplicate tokens
+- `tokenDelimiters: string` — Characters that commit a token
 - `header: string` — Header label above the control
 - `description: string` — Supporting description text
-- `errorMessage: string`
-- `hasError: bool`
-- `tokenCount: int`
-- `filteredSuggestions: var`
+- `errorMessage: string` — Validation error text
+- `hasError: bool` — True when validation failed
+- `tokenCount: int` — Number of tokens
+- `filteredSuggestions: var` — Filtered Suggestions
 - `index: int`
 - `modelData: var`
 
@@ -4422,14 +4419,14 @@ TwoPaneView {
 
 - `pane1: Item` — First pane content
 - `pane2: Item` — Second pane content
-- `panePriorityWidth: real`
-- `pane1Length: alias`
-- `minWideWidth: real`
-- `preferredMode: int`
-- `panePriority: int`
-- `mode: int`
-- `singlePaneIndex: int`
-- `modeName: string`
+- `panePriorityWidth: real` — Pane Priority Width
+- `pane1Length: alias` — Pane1 Length
+- `minWideWidth: real` — Min Wide Width
+- `preferredMode: int` — Preferred Mode
+- `panePriority: int` — Pane Priority
+- `mode: int` — Mode
+- `singlePaneIndex: int` — Single Pane Index
+- `modeName: string` — Mode Name
 
 </details>
 
@@ -4456,16 +4453,16 @@ UniformGrid { columns: 3 }
 
 <details><summary>Properties</summary>
 
-- `contentData: alias`
+- `contentData: alias` — Default children / content slot
 - `rows: int` — Grid row count
 - `columns: int` — Grid column count
-- `rowSpacing: real`
-- `columnSpacing: real`
-- `cellWidth: real`
-- `cellHeight: real`
-- `layoutDirection: int`
-- `cellSpacing: real`
-- `childCount: int`
+- `rowSpacing: real` — Row Spacing
+- `columnSpacing: real` — Column Spacing
+- `cellWidth: real` — Cell Width
+- `cellHeight: real` — Cell Height
+- `layoutDirection: int` — Qt layout direction
+- `cellSpacing: real` — Cell Spacing
+- `childCount: int` — Number of children
 
 </details>
 
@@ -4488,23 +4485,23 @@ WaterfallChart { values: [10, -3, 5] }
 
 <details><summary>Properties</summary>
 
-- `steps: var`
+- `steps: var` — Waterfall step descriptors
 - `values: var` — Numeric values array
-- `showConnector: bool`
-- `showLabels: bool`
-- `interactive: bool`
-- `animated: bool`
-- `revealProgress: real`
+- `showConnector: bool` — Show connectors between steps
+- `showLabels: bool` — Show item labels
+- `interactive: bool` — Enable hover / click interaction
+- `animated: bool` — Play enter / reveal animation
+- `revealProgress: real` — 0..1 reveal animation progress
 - `hoverIndex: int` — Hovered item index
 - `selectedIndex: alias` — Selected index alias
-- `totalColor: color`
-- `showTotal: bool`
+- `totalColor: color` — Waterfall total bar color
+- `showTotal: bool` — Show total column
 - `title: string` — Primary title text
-- `emptyText: string`
-- `valueUnit: string`
-- `isEmpty: bool`
-- `slot: real`
-- `padL: real`
+- `emptyText: string` — Placeholder when there is no data
+- `valueUnit: string` — Unit appended to value text
+- `isEmpty: bool` — True when there is no data
+- `slot: real` — Named content slot
+- `padL: real` — Left padding
 - `count: int` — Item count
 
 </details>
@@ -4538,13 +4535,13 @@ WrapPanel {
 
 <details><summary>Properties</summary>
 
-- `contentData: alias`
+- `contentData: alias` — Default children / content slot
 - `orientation: int` — Qt.Horizontal or Qt.Vertical
-- `itemWidth: real`
-- `itemHeight: real`
-- `paddingEdges: int`
-- `layoutDirection: int`
-- `childCount: int`
+- `itemWidth: real` — Item Width
+- `itemHeight: real` — Item Height
+- `paddingEdges: int` — Edge paddings
+- `layoutDirection: int` — Qt layout direction
+- `childCount: int` — Number of children
 
 </details>
 
@@ -4565,27 +4562,27 @@ ZoneGauge { value: 55; minimum: 0; maximum: 100 }
 - `maximum: real` — Maximum value
 - `stepSize: real` — Value step (e.g. 0.5 for half stars)
 - `title: string` — Primary title text
-- `unit: string`
-- `caption: string`
-- `valuePrecision: int`
-- `strokeWidth: real`
-- `showNeedle: bool`
-- `showValue: bool`
-- `showTicks: bool`
+- `unit: string` — Value unit label (%, rpm, …)
+- `caption: string` — Caption under / beside the value
+- `valuePrecision: int` — Digits after decimal for value text
+- `strokeWidth: real` — Stroke thickness in px
+- `showNeedle: bool` — Show needle indicator
+- `showValue: bool` — Show numeric value label
+- `showTicks: bool` — Show tick marks
 - `tickCount: int` — Major tick count
-- `startAngle: real`
-- `sweepTotal: real`
-- `isInteractive: bool`
-- `interactive: alias`
+- `startAngle: real` — Arc start angle in degrees
+- `sweepTotal: real` — Total sweep angle in degrees
+- `isInteractive: bool` — Alias of interactive
+- `interactive: alias` — Enable hover / click interaction
 - `zones: var` — Colored gauge zones
-- `percentage: real`
-- `activeZoneIndex: int`
-- `activeZoneLabel: string`
-- `activeZoneColor: color`
-- `formattedValue: string`
-- `animatedValue: real`
-- `animatedNorm: real`
-- `radius: real`
+- `percentage: real` — Value as 0..100 percentage
+- `activeZoneIndex: int` — Active Zone Index
+- `activeZoneLabel: string` — Active Zone Label
+- `activeZoneColor: color` — Active Zone Color
+- `formattedValue: string` — Formatted value string
+- `animatedValue: real` — Animated display value
+- `animatedNorm: real` — Animated 0..1 normalized value
+- `radius: real` — Corner radius
 - `modelData: var`
 - `index: int`
 
@@ -4644,24 +4641,24 @@ PlatformTitleBar {
 
 <details><summary>Properties</summary>
 
-- `targetWindow: var`
-- `showCaptionButtons: bool`
-- `showMinimize: bool`
-- `showMaximize: bool`
-- `showClose: bool`
-- `preferredHeightOption: int`
-- `useNativeChrome: bool`
-- `resolvedCaptionHeight: real`
-- `titleContent: alias`
-- `captionHeight: real`
+- `targetWindow: var` — Window this chrome is attached to
+- `showCaptionButtons: bool` — Show caption buttons
+- `showMinimize: bool` — Show minimize
+- `showMaximize: bool` — Show maximize
+- `showClose: bool` — Show close
+- `preferredHeightOption: int` — Title bar height option
+- `useNativeChrome: bool` — Use native NC hit-testing
+- `resolvedCaptionHeight: real` — Resolved caption button height
+- `titleContent: alias` — Title content slot
+- `captionHeight: real` — Caption button row height
 - `chromeBackground: color` — AppWindowTitleBar theming (WinUI caption button / chrome colors).
-- `chromeInactive: bool`
-- `buttonBackground: color`
-- `buttonHover: color`
-- `buttonPressed: color`
-- `buttonForeground: color`
-- `closeHover: color`
-- `closePressed: color`
+- `chromeInactive: bool` — Inactive chrome styling
+- `buttonBackground: color` — Caption button rest fill
+- `buttonHover: color` — Caption button hover fill
+- `buttonPressed: color` — Caption button pressed fill
+- `buttonForeground: color` — Caption button foreground
+- `closeHover: color` — Close hover fill
+- `closePressed: color` — Close pressed fill
 
 </details>
 
@@ -4669,9 +4666,6 @@ PlatformTitleBar {
 
 - `reportHitTest()`
 - `screenRect(item)`
-- `onWidthChanged()`
-- `onHeightChanged()`
-- `onVisibilityChanged()`
 
 </details>
 
@@ -4690,18 +4684,18 @@ StandardWindow {
 
 <details><summary>Properties</summary>
 
-- `paradigm: int`
-- `backdrop: int`
-- `presenter: int`
-- `preferredHeightOption: int`
-- `autoInstall: bool`
-- `showCaptionButtons: bool`
-- `showMinimize: bool`
-- `showMaximize: bool`
-- `showClose: bool`
-- `isAlwaysOnTop: bool`
+- `paradigm: int` — Window paradigm
+- `backdrop: int` — Backdrop kind
+- `presenter: int` — Presenter kind
+- `preferredHeightOption: int` — Title bar height option
+- `autoInstall: bool` — Auto-apply WindowHelper chrome on complete
+- `showCaptionButtons: bool` — Show caption buttons
+- `showMinimize: bool` — Show minimize
+- `showMaximize: bool` — Show maximize
+- `showClose: bool` — Show close
+- `isAlwaysOnTop: bool` — Always on top
 - `extendsContentIntoTitleBar: bool` — Documents frameless / custom chrome (WinUI ExtendsContentIntoTitleBar).
-- `chrome: alias`
+- `chrome: alias` — WindowChrome / PlatformTitleBar host
 
 </details>
 
@@ -4739,34 +4733,34 @@ Theme.followSystemAccessibility = true
 
 <details><summary>Properties</summary>
 
-- `dark: bool`
-- `reducedMotion: bool`
+- `dark: bool` — Dark color scheme when true
+- `reducedMotion: bool` — Collapse Theme.duration() animations when true
 - `highContrast: bool` — When true, strengthen borders/focus for high-contrast / accessibility themes.
 - `followSystemAccessibility: bool` — When true, Gallery/apps should copy WindowHelper system a11y into the flags above.
 - `accent: color` — Fluent / WinUI 3 system accent (matches FluentWinUI3 defaults)
-- `accentLight1: color`
-- `accentDark1: color`
-- `textPrimary: color`
-- `textSecondary: color`
-- `textDisabled: color`
-- `textOnAccent: color`
-- `textOnAccentSecondary: color`
+- `accentLight1: color` — Lighter accent step
+- `accentDark1: color` — Darker accent step
+- `textPrimary: color` — Primary text brush
+- `textSecondary: color` — Secondary text brush
+- `textDisabled: color` — Disabled text brush
+- `textOnAccent: color` — Text on accent fill
+- `textOnAccentSecondary: color` — Secondary text on accent fill
 - `fillControl: color` — Control fills — WinUI ControlFillColor*
-- `fillControlSecondary: color`
-- `fillControlTertiary: color`
-- `fillControlDisabled: color`
-- `fillAccent: color`
-- `fillAccentSecondary: color`
-- `fillAccentTertiary: color`
-- `fillSubtle: color`
-- `fillSubtleSecondary: color`
-- `fillSubtleTertiary: color`
+- `fillControlSecondary: color` — Control fill (hover)
+- `fillControlTertiary: color` — Control fill (pressed)
+- `fillControlDisabled: color` — Control fill (disabled)
+- `fillAccent: color` — Accent fill
+- `fillAccentSecondary: color` — Accent fill (hover)
+- `fillAccentTertiary: color` — Accent fill (pressed)
+- `fillSubtle: color` — Subtle hover/press wash
+- `fillSubtleSecondary: color` — Subtle secondary wash
+- `fillSubtleTertiary: color` — Subtle tertiary wash
 - `strokeControl: color` — Strokes — ControlStrokeColor*
-- `strokeControlStrong: color`
-- `strokeControlOnAccent: color`
-- `focusOuter: color`
-- `focusInner: color`
-- `strokeCard: color`
+- `strokeControlStrong: color` — Strong control border
+- `strokeControlOnAccent: color` — Stroke Control On Accent
+- `focusOuter: color` — Focus ring outer color
+- `focusInner: color` — Focus ring inner color
+- `strokeCard: color` — Card border stroke
 
 </details>
 
@@ -4802,10 +4796,10 @@ BusyIndicator { running: true }
 
 <details><summary>Properties</summary>
 
-- `stroke: real`
-- `radius: real`
-- `spinAngle: real`
-- `pulseOpacity: real`
+- `stroke: real` — Stroke width for dial arc
+- `radius: real` — Corner radius
+- `spinAngle: real` — Indeterminate spin angle
+- `pulseOpacity: real` — Pulse Opacity
 
 </details>
 
@@ -4821,13 +4815,13 @@ Button { text: qsTr("OK"); onClicked: accept() }
 
 <details><summary>Properties</summary>
 
-- `accented: bool`
-- `lightScheme: bool`
-- `hasSolidStroke: bool`
-- `hasGradientStroke: bool`
+- `accented: bool` — Use accent chrome
+- `lightScheme: bool` — True in light theme
+- `hasSolidStroke: bool` — Draw solid stroke chrome
+- `hasGradientStroke: bool` — Draw gradient stroke chrome
 - `topStroke: color` — WinUI ControlStrokeDefault / Secondary — keep soft, not StrongStroke
-- `bottomStroke: color`
-- `inset: bool`
+- `bottomStroke: color` — Bottom edge stroke width
+- `inset: bool` — Content inset
 
 </details>
 
@@ -4863,15 +4857,15 @@ ComboBox { model: ["A", "B"] }
 
 <details><summary>Properties</summary>
 
-- `lightScheme: bool`
+- `lightScheme: bool` — True in light theme
 - `modelData: var`
 - `index: int`
-- `selected: bool`
-- `hasSolidStroke: bool`
-- `hasGradientStroke: bool`
-- `topStroke: color`
-- `bottomStroke: color`
-- `inset: bool`
+- `selected: bool` — Selected state
+- `hasSolidStroke: bool` — Draw solid stroke chrome
+- `hasGradientStroke: bool` — Draw gradient stroke chrome
+- `topStroke: color` — Top edge stroke width
+- `bottomStroke: color` — Bottom edge stroke width
+- `inset: bool` — Content inset
 
 </details>
 
@@ -4913,20 +4907,20 @@ Dial { from: 0; to: 100; value: 30 }
 
 <details><summary>Properties</summary>
 
-- `title: string`
-- `unit: string`
-- `showValue: bool`
-- `valuePrecision: int`
-- `tickCount: int`
-- `showTicks: bool`
-- `formattedValue: string`
-- `stroke: real`
-- `r: real`
+- `title: string` — Title text
+- `unit: string` — Value unit label (%, rpm, …)
+- `showValue: bool` — Show numeric value label
+- `valuePrecision: int` — Digits after decimal for value text
+- `tickCount: int` — Number of ticks
+- `showTicks: bool` — Show tick marks
+- `formattedValue: string` — Formatted value string
+- `stroke: real` — Stroke width for dial arc
+- `r: real` — R
 - `index: int`
-- `t: real`
-- `angDeg: real`
-- `ang: real`
-- `rr: real`
+- `t: real` — Normalized 0..1 parameter
+- `angDeg: real` — Angle in degrees
+- `ang: real` — Angle in degrees
+- `rr: real` — Resolved radius
 
 </details>
 
@@ -4992,7 +4986,7 @@ HorizontalHeaderView { }
 
 <details><summary>Properties</summary>
 
-- `model: var`
+- `model: var` — Data model
 
 </details>
 
@@ -5078,11 +5072,11 @@ MonthGrid { }
 
 <details><summary>Properties</summary>
 
-- `selectedDate: date`
-- `model: var`
-- `inMonth: bool`
-- `isToday: bool`
-- `isSelected: bool`
+- `selectedDate: date` — Selected date
+- `model: var` — Data model
+- `inMonth: bool` — In Month
+- `isToday: bool` — Is Today
+- `isSelected: bool` — Selected state
 
 </details>
 
@@ -5115,7 +5109,7 @@ PageIndicator { count: 3; currentIndex: 0 }
 <details><summary>Properties</summary>
 
 - `index: int`
-- `active: bool`
+- `active: bool` — Active state
 
 </details>
 
@@ -5181,7 +5175,7 @@ RangeSlider { from: 0; to: 100; first.value: 20; second.value: 80 }
 
 <details><summary>Properties</summary>
 
-- `diameter: real`
+- `diameter: real` — Diameter in px
 
 </details>
 
@@ -5237,7 +5231,7 @@ Slider { from: 0; to: 100; value: 40 }
 
 <details><summary>Properties</summary>
 
-- `diameter: real`
+- `diameter: real` — Diameter in px
 
 </details>
 
@@ -5404,7 +5398,7 @@ TreeViewDelegate { }
 <details><summary>Properties</summary>
 
 - `row: int`
-- `model: var`
+- `model: var` — Data model
 
 </details>
 
@@ -5437,7 +5431,7 @@ VerticalHeaderView { }
 
 <details><summary>Properties</summary>
 
-- `model: var`
+- `model: var` — Data model
 
 </details>
 

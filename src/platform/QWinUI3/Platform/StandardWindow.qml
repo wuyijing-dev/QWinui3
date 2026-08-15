@@ -14,18 +14,29 @@ import QWinUI3.Platform
 ApplicationWindow {
     id: root
 
+    // Window paradigm
     property int paradigm: WindowHelper.ParadigmStandard
+    // Backdrop kind
     property int backdrop: WindowHelper.BackdropSolid
+    // Presenter kind
     property int presenter: WindowHelper.PresenterOverlapped
+    // Title bar height option
     property int preferredHeightOption: WindowHelper.TitleBarHeightTall
+    // Auto-apply WindowHelper chrome on complete
     property bool autoInstall: true
+    // Show caption buttons
     property bool showCaptionButtons: WindowHelper.customFrame
+    // Show minimize
     property bool showMinimize: true
+    // Show maximize
     property bool showMaximize: true
+    // Show close
     property bool showClose: true
+    // Always on top
     property bool isAlwaysOnTop: false
     // Documents frameless / custom chrome (WinUI ExtendsContentIntoTitleBar).
     property bool extendsContentIntoTitleBar: WindowHelper.customFrame
+    // WindowChrome / PlatformTitleBar host
     property alias chrome: platformTitle
     property bool _chromeReady: false
 

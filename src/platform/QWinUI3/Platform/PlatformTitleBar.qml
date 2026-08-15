@@ -15,16 +15,26 @@ import QWinUI3.Platform
 Item {
     id: root
 
+    // Window this chrome is attached to
     property var targetWindow: null
+    // Show caption buttons
     property bool showCaptionButtons: WindowHelper.customFrame
+    // Show minimize
     property bool showMinimize: true
+    // Show maximize
     property bool showMaximize: true
+    // Show close
     property bool showClose: true
+    // Title bar height option
     property int preferredHeightOption: WindowHelper.TitleBarHeightTall
+    // Use native NC hit-testing
     readonly property bool useNativeChrome: WindowHelper.nativeChrome && showCaptionButtons
+    // Resolved caption button height
     readonly property real resolvedCaptionHeight: WindowHelper.titleBarHeightForOption(preferredHeightOption)
+    // Title content slot
     default property alias titleContent: contentHost.data
 
+    // Caption button row height
     property real captionHeight: resolvedCaptionHeight
     implicitHeight: Math.max(contentHost.implicitHeight,
                              showCaptionButtons ? captionHeight : contentHost.implicitHeight)
@@ -35,12 +45,19 @@ Item {
 
     // AppWindowTitleBar theming (WinUI caption button / chrome colors).
     property color chromeBackground: Theme.bgAcrylic
+    // Inactive chrome styling
     property bool chromeInactive: false
+    // Caption button rest fill
     property color buttonBackground: "transparent"
+    // Caption button hover fill
     property color buttonHover: Theme.fillSubtle
+    // Caption button pressed fill
     property color buttonPressed: Theme.fillSubtleTertiary
+    // Caption button foreground
     property color buttonForeground: Theme.textPrimary
+    // Close hover fill
     property color closeHover: "#E81123"
+    // Close pressed fill
     property color closePressed: "#C50F1F"
 
     function reportHitTest() {

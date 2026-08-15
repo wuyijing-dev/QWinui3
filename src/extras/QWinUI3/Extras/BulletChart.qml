@@ -17,14 +17,21 @@ T.Control {
     property real maximum: 100
     // Minimum value
     property real minimum: 0
+    // Bullet qualitative ranges
     property var ranges: [0.5, 0.75, 1.0]
+    // Colors for bullet ranges
     property var rangeColors: []
     // Field label
     property string label: ""
+    // Value unit label (%, rpm, …)
     property string unit: ""
+    // Digits after decimal for value text
     property int valuePrecision: -1 // -1 = auto
+    // Show value as text
     property bool showValueText: true
+    // Show target marker
     property bool showTarget: true
+    // Show delta vs target
     property bool showTargetDelta: false
 
     implicitWidth: 240
@@ -37,9 +44,12 @@ T.Control {
     readonly property real _span: Math.max(1e-6, maximum - minimum)
     readonly property real _norm: Math.max(0, Math.min(1, (value - minimum) / _span))
     readonly property real _targetNorm: Math.max(0, Math.min(1, (target - minimum) / _span))
+    // True when value meets target
     readonly property bool targetMet: value >= target
+    // Value minus target
     readonly property real targetDelta: value - target
 
+    // Formatted value string
     readonly property string formattedValue: {
         var n = Number(value)
         var prec = valuePrecision
@@ -48,6 +58,7 @@ T.Control {
         return n.toFixed(prec) + (unit.length ? unit : "")
     }
 
+    // Formatted target delta text
     readonly property string formattedDelta: {
         var d = targetDelta
         var prec = valuePrecision < 0 ? 0 : valuePrecision
@@ -118,7 +129,9 @@ T.Control {
                     Rectangle {
                         required property int index
                         required property var modelData
+                        // Previous animated value
                         property real prev: index === 0 ? 0 : Number(root.ranges[index - 1])
+                        // Current animated value
                         property real cur: Number(modelData)
                         width: Math.max(0, (cur - prev) * track.width)
                         height: parent.height

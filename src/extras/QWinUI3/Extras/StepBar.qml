@@ -19,7 +19,9 @@ T.Control {
     property alias selectedIndex: control.currentIndex
     // horizontal | vertical
     property string orientation: "horizontal"
+    // Alias of interactive
     property bool isInteractive: true
+    // Step Activated
     signal stepActivated(int index)
 
     readonly property bool _vertical: orientation === "vertical"

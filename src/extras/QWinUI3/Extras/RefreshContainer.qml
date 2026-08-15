@@ -14,22 +14,35 @@ import QWinUI3.Theme
 T.Control {
     id: root
 
+    // Default children / content slot
     default property alias contentData: flick.data
+    // Flickable content width
     property alias contentWidth: flick.contentWidth
+    // Flickable content height
     property alias contentHeight: flick.contentHeight
+    // Flickable content X
     property alias contentX: flick.contentX
+    // Flickable content Y
     property alias contentY: flick.contentY
+    // Inner Flickable
     property alias flickable: flick
     // True while a refresh is in progress
     property bool refreshing: false
+    // True while refreshing
     property alias isRefreshing: root.refreshing
+    // Enable pull-to-refresh gesture
     property bool pullToRefreshEnabled: true
+    // Is Enabled
     property alias isEnabled: root.pullToRefreshEnabled
     // Pull distance before refresh fires
     property real pullThreshold: 72
+    // Text shown while pulling
     property string refreshText: qsTr("Release to refresh")
+    // Text shown while refreshing
     property string refreshingText: qsTr("Refreshing…")
+    // Pull Text
     property string pullText: qsTr("Pull to refresh")
+    // Pull-to-refresh requested
     signal refreshRequested()
 
     implicitWidth: 320
@@ -101,6 +114,7 @@ T.Control {
                     Layout.preferredWidth: 22
                     Layout.preferredHeight: 22
 
+                    // Indeterminate spin angle
                     property real spinAngle: 0
                     NumberAnimation on spinAngle {
                         from: 0

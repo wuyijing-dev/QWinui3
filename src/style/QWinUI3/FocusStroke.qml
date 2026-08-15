@@ -7,9 +7,13 @@ import QWinUI3.Theme
 
 Item {
     id: root
+    // Show
     property bool show: false
+    // Frame Radius
     property real frameRadius: Theme.cornerControl
+    // Outer Size
     property real outerSize: 2
+    // Inner Size
     property real innerSize: 1
     visible: opacity > 0.01
     opacity: show ? 1 : 0

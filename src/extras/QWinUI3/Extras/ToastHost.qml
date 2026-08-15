@@ -17,9 +17,12 @@ T.Control {
     property int durationMs: 3200
     // spacing is FINAL on Control — assign, do not redeclare
     spacing: Theme.spacing
+    // Newest On Top
     property bool newestOnTop: true
 
+    // Toast Closed
     signal toastClosed(string message)
+    // Toast Action Clicked
     signal toastActionClicked(string message)
 
     implicitWidth: 360
@@ -28,9 +31,13 @@ T.Control {
     Accessible.role: Accessible.AlertMessage
     Accessible.name: qsTr("Notifications")
 
+    // Informational severity constant
     readonly property int informational: 0
+    // Success severity constant
     readonly property int success: 1
+    // Warning severity constant
     readonly property int warning: 2
+    // Error severity constant
     readonly property int error: 3
 
     // Item count

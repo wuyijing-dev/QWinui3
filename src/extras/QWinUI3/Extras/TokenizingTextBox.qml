@@ -16,29 +16,42 @@ T.Control {
 
     // Display / input text
     property alias text: input.text
+    // Current token list
     property var tokens: []
     // Filtered suggestion rows
     property var suggestionModel: []
     // Placeholder when empty
     property string placeholderText: qsTr("Type and press Enter")
+    // Suggestion popup open
     property bool suggestionsOpen: false
     // Open / visible state
     property alias isOpen: root.suggestionsOpen
+    // Maximum number of tokens
     property int maxTokens: 0 // 0 = unlimited
+    // Allow duplicate tokens
     property bool allowDuplicates: false
+    // Characters that commit a token
     property string tokenDelimiters: ",;"
     // Header label above the control
     property string header: ""
     // Supporting description text
     property string description: ""
+    // Validation error text
     property string errorMessage: ""
+    // True when validation failed
     readonly property bool hasError: errorMessage.length > 0
+    // Number of tokens
     readonly property int tokenCount: tokens ? tokens.length : 0
 
+    // Token added
     signal tokenAdded(string token)
+    // Token removed
     signal tokenRemoved(string token, int index)
+    // Emitted on accept / submit
     signal accepted(string token)
+    // Emitted when a query is submitted
     signal querySubmitted(string token)
+    // Emitted when content is cleared
     signal cleared()
 
     padding: 6
@@ -99,6 +112,7 @@ T.Control {
         tokenRemoved(removed, index)
     }
 
+    // Filtered Suggestions
     readonly property var filteredSuggestions: {
         var q = input.text.trim().toLowerCase()
         var out = []

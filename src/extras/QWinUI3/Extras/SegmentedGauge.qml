@@ -19,27 +19,44 @@ T.Control {
     property real maximum: 100
     // Value step (e.g. 0.5 for half stars)
     property real stepSize: 0
+    // Number of gauge segments
     property int segmentCount: 12
+    // Gap between segments in degrees
     property real gapDegrees: 6
+    // Stroke thickness in px
     property real strokeWidth: 10
     // Primary title text
     property string title: ""
+    // Value unit label (%, rpm, …)
     property string unit: ""
+    // Caption under / beside the value
     property string caption: ""
+    // Digits after decimal for value text
     property int valuePrecision: 0
+    // Show numeric value label
     property bool showValue: true
+    // Primary fill / progress color
     property color fillColor: Theme.accent
+    // Track / remaining color
     property color trackColor: Theme.strokeDivider
+    // Value where caution zone starts
     property real cautionThreshold: -1
+    // Value where critical zone starts
     property real criticalThreshold: -1
+    // Invert caution/critical threshold logic
     property bool invertThresholds: false
+    // Arc start angle in degrees
     property real startAngle: -90
     // discrete | partial — partial fills the leading segment proportionally
     property string fillMode: "discrete"
+    // Alias of interactive
     property bool isInteractive: false
+    // Enable hover / click interaction
     property alias interactive: root.isInteractive
 
+    // Emitted when user commits a value
     signal valueEdited(real value)
+    // Emitted when a segment is clicked
     signal segmentClicked(int index)
 
     implicitWidth: 140
@@ -50,7 +67,9 @@ T.Control {
     Accessible.name: title.length ? title : qsTr("Segmented gauge")
     Accessible.description: formattedValue
 
+    // Value as 0..100 percentage
     readonly property real percentage: animatedNorm * 100
+    // Resolved fill color
     readonly property color effectiveFillColor: {
         var n = invertThresholds ? (1 - animatedNorm) : animatedNorm
         if (criticalThreshold >= 0 && n >= criticalThreshold)
@@ -60,12 +79,14 @@ T.Control {
         return fillColor
     }
 
+    // Formatted value string
     readonly property string formattedValue: {
         var n = Number(animatedValue)
         var t = valuePrecision > 0 ? n.toFixed(valuePrecision) : String(Math.round(n))
         return t + (unit.length ? unit : "")
     }
 
+    // Animated display value
     property real animatedValue: value
     Behavior on animatedValue {
         enabled: !Theme.reducedMotion
@@ -77,6 +98,7 @@ T.Control {
     onValueChanged: animatedValue = value
     Component.onCompleted: animatedValue = value
 
+    // Animated 0..1 normalized value
     readonly property real animatedNorm: {
         var span = maximum - minimum
         if (span <= 0)
@@ -84,8 +106,11 @@ T.Control {
         return Math.max(0, Math.min(1, (animatedValue - minimum) / span))
     }
 
+    // Filled Exact
     readonly property real filledExact: animatedNorm * Math.max(1, segmentCount)
+    // Filled Segments
     readonly property int filledSegments: Math.floor(filledExact + (fillMode === "partial" ? 0 : 0.5))
+    // Partial Amount
     readonly property real partialAmount: {
         if (fillMode !== "partial")
             return 0
@@ -124,7 +149,9 @@ T.Control {
 
     contentItem: Item {
         id: face
+        // Corner radius
         readonly property real radius: Math.min(width, height) / 2 - root.strokeWidth - 2
+        // Seg Sweep
         readonly property real segSweep: {
             var n = Math.max(1, root.segmentCount)
             var totalGap = root.gapDegrees * n
@@ -138,16 +165,20 @@ T.Control {
                 required property int index
                 anchors.fill: parent
                 preferredRendererType: Shape.CurveRenderer
+                // Fully Filled
                 readonly property bool fullyFilled: {
                     if (root.fillMode === "partial")
                         return index < Math.floor(root.filledExact)
                     return index < root.filledSegments
                 }
+                // Is Partial
                 readonly property bool isPartial: root.fillMode === "partial"
                         && index === Math.floor(root.filledExact)
                         && root.partialAmount > 0.01
+                // Segment start value
                 readonly property real segStart: root.startAngle
                         + index * (face.segSweep + root.gapDegrees)
+                // Draw Sweep
                 readonly property real drawSweep: isPartial
                         ? face.segSweep * root.partialAmount
                         : face.segSweep
@@ -188,6 +219,7 @@ T.Control {
                 anchors.fill: parent
                 preferredRendererType: Shape.CurveRenderer
                 z: -1
+                // Segment start value
                 readonly property real segStart: root.startAngle
                         + index * (face.segSweep + root.gapDegrees)
                 ShapePath {

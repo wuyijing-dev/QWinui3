@@ -14,21 +14,31 @@ import QWinUI3.Theme
 T.Control {
     id: root
 
+    // Swipe content closed
     readonly property int closed: 0
+    // Left actions revealed
     readonly property int leftOpen: 1
+    // Right actions revealed
     readonly property int rightOpen: 2
 
     // Content slot / children host
     property alias content: contentSlot.data
+    // Actions on the left
     property alias leftActions: leftRow.data
+    // Actions on the right
     property alias rightActions: rightRow.data
+    // Width of each swipe action
     property real actionWidth: 72
+    // Drag distance to snap open
     property real revealThreshold: 36
     // Open / visible state
     readonly property bool isOpen: openMode !== closed
+    // single | multiple reveal mode
     property int openMode: closed
 
+    // Emitted when opened
     signal opened(int mode)
+    // Swipe content closed
     signal closed()
 
     implicitWidth: 320
@@ -44,7 +54,9 @@ T.Control {
     Keys.onLeftPressed: openRight()
     Keys.onRightPressed: openLeft()
 
+    // Max Left Reveal
     readonly property real maxLeftReveal: Math.max(0, leftRow.children.length * actionWidth)
+    // Max Right Reveal
     readonly property real maxRightReveal: Math.max(0, rightRow.children.length * actionWidth)
 
     function close() {

@@ -11,12 +11,17 @@ import QWinUI3.Theme
 T.Control {
     id: root
 
+    // Default children / content slot
     default property alias contentData: flow.data
     // Qt.Horizontal or Qt.Vertical
     property int orientation: Qt.Horizontal
+    // Item Width
     property real itemWidth: -1
+    // Item Height
     property real itemHeight: -1
+    // Edge paddings
     property int paddingEdges: 0
+    // Qt layout direction
     property int layoutDirection: Qt.LeftToRight
 
     padding: paddingEdges
@@ -26,6 +31,7 @@ T.Control {
     Accessible.role: Accessible.Grouping
     Accessible.name: qsTr("Wrap panel")
 
+    // Number of children
     readonly property int childCount: {
         var n = 0
         for (var i = 0; i < flow.children.length; ++i) {

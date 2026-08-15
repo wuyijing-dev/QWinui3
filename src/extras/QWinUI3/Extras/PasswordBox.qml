@@ -15,22 +15,31 @@ T.Control {
     property alias text: field.text
     // Placeholder when empty
     property alias placeholderText: field.placeholderText
+    // Hard maximum text length
     property alias maximumLength: field.maximumLength
     // Header label above the control
     property string header: ""
     // Supporting description text
     property string description: ""
+    // Validation error text
     property string errorMessage: ""
     // Show clear affordance
     property bool clearButtonVisible: false
     // WinUI PasswordRevealMode: peek | hidden | visible
     property string passwordRevealMode: "peek"
+    // Reveal Password
     property bool revealPassword: false
+    // Reveal Button Visible
     property bool revealButtonVisible: passwordRevealMode !== "hidden" && passwordRevealMode !== "visible"
+    // TextField echo mode
     property alias echoMode: field.echoMode
+    // Inner text field
     property alias field: field
+    // True when validation failed
     readonly property bool hasError: errorMessage.length > 0
+    // Emitted on accept / submit
     signal accepted()
+    // Emitted when content is cleared
     signal cleared()
 
     implicitWidth: Math.max(200, field.implicitWidth + leftPadding + rightPadding)

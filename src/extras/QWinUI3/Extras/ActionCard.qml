@@ -20,16 +20,24 @@ T.AbstractButton {
     property string description: ""
     // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
+    // Fluent glyph drawn in the button
     property string glyph: ""
+    // Glyph color
     property color glyphColor: Theme.accent
+    // Glyph plate background
     property color glyphBackground: Theme.fillSubtle
+    // Show trailing chevron
     property bool showChevron: true
     // Show avatar badge
     property bool badgeVisible: false
+    // Numeric badge value (-1 hides count)
     property int badgeValue: 0
+    // Badge caption
     property string badgeText: ""
+    // Badge severity
     property int badgeSeverity: 0
 
+    // Resolved glyph string
     readonly property string effectiveGlyph: {
         var g = IconSource.resolve(symbol, glyph)
         return g.length ? g : FluentIcons.Document

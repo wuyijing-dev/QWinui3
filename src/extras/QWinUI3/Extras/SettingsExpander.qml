@@ -22,17 +22,25 @@ T.Control {
     property var symbol: ""
     // Raw Fluent glyph string fallback
     property string iconGlyph: ""
+    // Header icon glyph
     property var headerIcon: ""
+    // Expanded state
     property bool expanded: false
+    // Alias of expanded
     property alias isExpanded: control.expanded
     // WinUI ExpandDirection: down | up
     property string expandDirection: "down"
+    // Custom action slot
     property alias action: actionSlot.data
+    // Default children / content slot
     default property alias contentData: contentHost.data
 
+    // True while expanding
     signal expanding()
+    // True while collapsing
     signal collapsing()
 
+    // Resolved header icon
     readonly property string effectiveHeaderIcon: {
         var primary = (symbol !== undefined && symbol !== null && String(symbol).length)
                       ? symbol : headerIcon

@@ -23,16 +23,25 @@ T.Control {
     property bool isOpen: false
     // Optional action button label
     property string actionText: ""
+    // Show progress indicator
     property bool showProgress: true
+    // Pause On Hover
     property bool pauseOnHover: true
+    // Emitted when action is clicked
     signal actionClicked()
+    // Swipe content closed
     signal closed()
 
+    // Informational severity constant
     readonly property int informational: 0
+    // Success severity constant
     readonly property int success: 1
+    // Warning severity constant
     readonly property int warning: 2
+    // Error severity constant
     readonly property int error: 3
 
+    // Severity as string name
     readonly property string severityName: {
         switch (severity) {
         case success: return qsTr("Success")

@@ -11,10 +11,15 @@ import QWinUI3.Theme
 T.Control {
     id: control
 
+    // Selected year
     property int year: new Date().getFullYear()
+    // Selected month 1..12
     property int month: new Date().getMonth() + 1 // 1-12
+    // Selected day of month
     property int day: new Date().getDate()
+    // Minimum selectable year
     property int minYear: 1970
+    // Maximum selectable year
     property int maxYear: 2100
     // Picker flyout open
     property bool pickerOpen: false
@@ -27,6 +32,7 @@ T.Control {
     // yyyy-MM-dd | MM/dd/yyyy | dd/MM/yyyy
     property string dateFormat: "yyyy-MM-dd"
 
+    // Emitted when a date is chosen
     signal dateChosen(int year, int month, int day)
 
     // Currently selected date
@@ -65,6 +71,7 @@ T.Control {
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
 
+    // Text shown to the user
     readonly property string displayText: {
         var y = String(year)
         var m = String(month).padStart(2, "0")
@@ -76,6 +83,7 @@ T.Control {
         }
     }
 
+    // Days in the selected month
     readonly property int daysInMonth: {
         return new Date(year, month, 0).getDate()
     }

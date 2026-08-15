@@ -14,18 +14,24 @@ T.AbstractButton {
     property var symbol: ""
     // Raw Fluent glyph string fallback
     property string iconGlyph: ""
+    // Icon size in px
     property real iconSize: 16
+    // Tooltip text
     property string toolTipText: ""
     // Show avatar badge
     property bool badgeVisible: false
+    // Numeric badge value (-1 hides count)
     property int badgeValue: 0
+    // Badge caption
     property string badgeText: ""
+    // Badge max before +
     property int badgeMaxValue: 99
     // Emphasized / selected chrome
     property bool highlighted: false
     // Flat chrome without fill
     property bool flat: true
 
+    // Resolved glyph string
     readonly property string effectiveIconGlyph: {
         var fromSymbol = IconSource.resolve(control.symbol, "")
         if (fromSymbol.length)

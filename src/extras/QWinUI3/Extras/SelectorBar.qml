@@ -18,6 +18,7 @@ T.Control {
     property alias selectedIndex: control.currentIndex
     // "pill" (filled accent) or "underline"
     property string selectionStyle: "pill"
+    // Selected state
     signal selected(int index, var item)
 
     implicitHeight: Theme.controlHeight
@@ -220,7 +221,9 @@ T.Control {
                     id: itemBtn
                     required property var modelData
                     required property int index
+                    // Active segment index
                     property int segmentIndex: index
+                    // Content Row
                     property alias contentRow: contentRow
                     property real _labelWidth: contentRow.implicitWidth
 

@@ -48,8 +48,11 @@ Item {
     // WinUI TitleBarHeightOption — Standard 32 / Tall 48 (from PlatformTitleBar).
     property real preferredHeight: 48
 
+    // Resolved glyph string
     readonly property string effectiveIconGlyph: IconSource.resolve(symbol, iconGlyph)
+    // Content slot has children
     readonly property bool hasContentChildren: customContentHost.children.length > 0
+    // Show built-in search field
     readonly property bool showBuiltInSearch: searchEnabled && !hasContentChildren
     readonly property real _verticalPad: preferredHeight <= 32 ? 8 : 16
 
@@ -59,11 +62,16 @@ Item {
     property alias content: customContentHost.data
     // WinUI RightHeader — also the default children slot for trailing actions.
     default property alias rightHeader: trailingRow.data
+    // Trailing slot
     property alias trailing: trailingRow.data
 
+    // Emitted when a search result is activated
     signal searchActivated(var item)
+    // Emitted when search text changes
     signal searchTextEdited(string text)
+    // Emitted when back is requested
     signal backRequested()
+    // Emitted when pane toggle is clicked
     signal paneToggleRequested()
 
     height: Math.max(preferredHeight, titleCol.implicitHeight + _verticalPad)
@@ -137,6 +145,7 @@ Item {
 
     component TitleChromeButton: AbstractButton {
         id: tbtn
+        // Fluent glyph drawn in the button
         property string glyph: ""
         implicitWidth: 40
         implicitHeight: 36

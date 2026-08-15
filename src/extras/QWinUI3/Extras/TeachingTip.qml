@@ -25,14 +25,22 @@ T.Popup {
     property string iconGlyph: ""
     // Open / visible state
     property bool isOpen: false
+    // Close on outside click / Esc
     property bool isLightDismissEnabled: true
+    // Alias of closable
     property bool isCloseButtonVisible: true
+    // Preferred flyout placement
     property int preferredPlacement: Qt.AlignTop
+    // Effective Placement
     property int effectivePlacement: Qt.AlignTop
+    // Hero Content
     default property alias heroContent: heroSlot.data
+    // Emitted when action is clicked
     signal actionClicked()
+    // Closed By User
     signal closedByUser()
 
+    // Resolved glyph string
     readonly property string effectiveIconGlyph: IconSource.resolve(symbol, iconGlyph)
 
     padding: 12

@@ -10,12 +10,15 @@ import QWinUI3.Theme
 T.AbstractButton {
     id: control
 
+    // Attached / owned Menu
     property alias menu: popupMenu
+    // Menu children slot
     default property alias menuData: popupMenu.contentData
     // Emphasized / selected chrome
     property bool highlighted: false
     // Flat chrome without fill
     property bool flat: false
+    // MenuFlyout placement
     property int flyoutPlacement: Qt.AlignBottom
     // Raw Fluent glyph string fallback
     property string iconGlyph: ""
@@ -23,10 +26,12 @@ T.AbstractButton {
     property var symbol: ""
     // Open / visible state
     property alias isOpen: popupMenu.visible
+    // Primary button clicked
     signal primaryClicked()
 
     checkable: true
     checked: false
+    // Resolved glyph string
     readonly property string effectiveIconGlyph: IconSource.resolve(symbol, iconGlyph)
 
     implicitWidth: Math.max(Theme.controlMinWidth,
@@ -64,9 +69,13 @@ T.AbstractButton {
 
     function closeMenu() { popupMenu.close() }
 
+    // True in light theme
     readonly property bool lightScheme: !Theme.dark
+    // Use accent chrome
     readonly property bool accented: highlighted || checked
+    // True if any child is hovered
     readonly property bool anyHovered: primaryBtn.hovered || chevronBtn.hovered || popupMenu.visible
+    // True if any child is pressed
     readonly property bool anyDown: primaryBtn.down || chevronBtn.down
 
     readonly property color __fill: {
@@ -255,10 +264,14 @@ T.AbstractButton {
             radius: Theme.cornerControl
             visible: !control.flat || control.anyDown || control.anyHovered || control.accented
 
+            // Has Solid Stroke
             readonly property bool hasSolidStroke: !control.flat
                 && (control.anyDown || (!control.enabled && !control.accented) || (Theme.dark && !control.accented))
+            // Has Gradient Stroke
             readonly property bool hasGradientStroke: !hasSolidStroke && !control.flat && control.enabled && !control.accented
+            // Top Stroke
             readonly property color topStroke: Theme.dark ? "#12FFFFFF" : "#0F000000"
+            // Bottom Stroke
             readonly property color bottomStroke: Theme.dark ? "#18FFFFFF" : "#29000000"
 
             gradient: Gradient {

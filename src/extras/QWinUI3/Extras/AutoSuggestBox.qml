@@ -38,11 +38,16 @@ T.Control {
     // Header label above the control
     property string header: ""
 
+    // Resolved search glyph
     readonly property string effectiveQueryIcon: IconSource.resolve(symbol, queryIcon)
 
+    // Emitted when a suggestion is chosen
     signal suggestionChosen(var item)
+    // Emitted when a query is submitted
     signal querySubmitted(string query)
+    // Emitted on accept / submit
     signal accepted(string text)
+    // Emitted when content is cleared
     signal cleared()
 
     implicitWidth: 280
@@ -228,6 +233,7 @@ T.Control {
                 clip: true
                 implicitHeight: Math.min(contentHeight, 240)
                 model: control.suggestionModel
+                // Host item for popup anchoring
                 property var host: control
                 keyNavigationEnabled: true
                 highlightMoveDuration: Theme.duration(Theme.motionFast)

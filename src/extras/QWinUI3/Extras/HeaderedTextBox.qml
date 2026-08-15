@@ -15,29 +15,46 @@ T.Control {
     property string header: ""
     // Supporting description text
     property string description: ""
+    // Validation error text
     property string errorMessage: ""
     // Show clear affordance
     property bool clearButtonVisible: false
+    // Soft character counter limit
     property int characterLimit: 0 // 0 = unlimited; shows counter when > 0
     // Display / input text
     property alias text: field.text
     // Placeholder when empty
     property alias placeholderText: field.placeholderText
+    // TextField echo mode
     property alias echoMode: field.echoMode
+    // Read-only when true
     property alias readOnly: field.readOnly
+    // Alias of readOnly
     property alias isReadOnly: field.readOnly
+    // Hard maximum text length
     property alias maximumLength: field.maximumLength
+    // Optional input validator
     property alias validator: field.validator
+    // Qt input method hints
     property alias inputMethodHints: field.inputMethodHints
+    // Acceptable Input
     property alias acceptableInput: field.acceptableInput
+    // Inner text field
     property alias field: field
+    // Emitted on accept / submit
     signal accepted()
+    // Editing Finished
     signal editingFinished()
+    // Text Edited
     signal textEdited()
+    // Emitted when content is cleared
     signal cleared()
 
+    // True when validation failed
     readonly property bool hasError: errorMessage.length > 0
+    // Character Count
     readonly property int characterCount: field.text.length
+    // Over Limit
     readonly property bool overLimit: characterLimit > 0 && characterCount > characterLimit
 
     implicitWidth: 280

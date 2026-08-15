@@ -20,26 +20,42 @@ T.Control {
     property real maximum: 100
     // Value step (e.g. 0.5 for half stars)
     property real stepSize: 0
+    // Stroke thickness in px
     property real strokeWidth: 10
+    // Show numeric value label
     property bool showValue: true
+    // Value unit label (%, rpm, …)
     property string unit: ""
     // Primary title text
     property string title: ""
+    // Caption under / beside the value
     property string caption: ""
+    // Digits after decimal for value text
     property int valuePrecision: 0
     // Major tick count
     property int tickCount: 8
+    // Track / remaining color
     property color trackColor: Theme.strokeDivider
+    // Primary fill / progress color
     property color fillColor: Theme.accent
+    // Show needle indicator
     property bool showNeedle: true
+    // Arc start angle in degrees
     property real startAngle: -210
+    // Total sweep angle in degrees
     property real sweepTotal: 240
+    // Value where caution zone starts
     property real cautionThreshold: -1
+    // Value where critical zone starts
     property real criticalThreshold: -1
+    // Invert caution/critical threshold logic
     property bool invertThresholds: false
+    // Alias of interactive
     property bool isInteractive: false
+    // Enable hover / click interaction
     property alias interactive: root.isInteractive
 
+    // Emitted when user commits a value
     signal valueEdited(real value)
 
     implicitWidth: 148
@@ -56,7 +72,9 @@ T.Control {
         return parts.join(" — ")
     }
 
+    // Value as 0..100 percentage
     readonly property real percentage: animatedNorm * 100
+    // Resolved fill color
     readonly property color effectiveFillColor: {
         var n = invertThresholds ? (1 - animatedNorm) : animatedNorm
         if (criticalThreshold >= 0 && n >= criticalThreshold)
@@ -66,6 +84,7 @@ T.Control {
         return fillColor
     }
 
+    // Normalized
     readonly property real normalized: {
         var span = maximum - minimum
         if (span <= 0)
@@ -73,6 +92,7 @@ T.Control {
         return Math.max(0, Math.min(1, (value - minimum) / span))
     }
 
+    // Formatted value string
     readonly property string formattedValue: {
         var n = Number(animatedValue)
         var t = valuePrecision > 0 ? n.toFixed(valuePrecision) : String(Math.round(n))
@@ -115,6 +135,7 @@ T.Control {
         valueEdited(value)
     }
 
+    // Animated display value
     property real animatedValue: value
     Behavior on animatedValue {
         enabled: !Theme.reducedMotion
@@ -126,6 +147,7 @@ T.Control {
     onValueChanged: animatedValue = value
     Component.onCompleted: animatedValue = value
 
+    // Animated 0..1 normalized value
     readonly property real animatedNorm: {
         var span = maximum - minimum
         if (span <= 0)
@@ -135,6 +157,7 @@ T.Control {
 
     contentItem: Item {
         id: gaugeFace
+        // Corner radius
         readonly property real radius: Math.min(width, height) / 2 - root.strokeWidth - 2
 
         // Soft glow under progress
@@ -179,6 +202,7 @@ T.Control {
             id: fillArc
             anchors.fill: parent
             preferredRendererType: Shape.CurveRenderer
+            // Sweep angle in degrees
             property real sweep: root.animatedNorm * root.sweepTotal
             ShapePath {
                 strokeWidth: root.strokeWidth
@@ -207,8 +231,11 @@ T.Control {
                 radius: 1
                 color: Theme.textSecondary
                 opacity: 0.45
+                // Angle in degrees
                 property real angDeg: root.startAngle + (index / Math.max(1, root.tickCount - 1)) * root.sweepTotal
+                // Angle in degrees
                 property real ang: angDeg * Math.PI / 180
+                // Resolved radius
                 property real rr: gaugeFace.radius
                 x: gaugeFace.width / 2 + Math.cos(ang) * rr - width / 2
                 y: gaugeFace.height / 2 + Math.sin(ang) * rr - height / 2

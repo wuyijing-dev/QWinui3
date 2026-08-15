@@ -14,31 +14,51 @@ T.Control {
     property var points: []
     // Numeric values array
     property var values: []
+    // X-axis minimum
     property real minimumX: NaN
+    // X-axis maximum
     property real maximumX: NaN
+    // Y-axis minimum
     property real minimumY: NaN
+    // Y-axis maximum
     property real maximumY: NaN
+    // Scatter point radius
     property real pointRadius: 3.5
+    // Show chart grid
     property bool showGrid: true
+    // Show trend line
     property bool showTrendLine: false
+    // Enable hover / click interaction
     property bool interactive: true
+    // Play enter / reveal animation
     property bool animated: true
+    // Max points before LOD kicks in
     property int maxPoints: 0
+    // Auto-enable LOD for large series
     property bool autoLod: true
+    // Level-of-detail downsample factor
     property real lodFactor: 1
+    // Grid line color
     property color gridColor: Theme.strokeDivider
+    // Point Color
     property color pointColor: Theme.accent
+    // Trend Color
     property color trendColor: Theme.systemCaution
+    // 0..1 reveal animation progress
     property real revealProgress: 1
     // Hovered item index
     property int hoverIndex: -1
     // Selected index alias
     property alias selectedIndex: root.hoverIndex
+    // Tooltip / hover readout text
     property string hoverText: ""
     // Primary title text
     property string title: ""
+    // Placeholder when there is no data
     property string emptyText: qsTr("No data")
+    // Raw point count before LOD
     property int sourcePointCount: 0
+    // Points drawn after LOD
     property int drawnPointCount: 0
     property string _lodKey: ""
     property var _lodPoints: []
@@ -47,6 +67,7 @@ T.Control {
     property real _loY: 0
     property real _hiY: 1
 
+    // Point Clicked
     signal pointClicked(int index, real x, real y)
 
     implicitWidth: 320
@@ -55,6 +76,7 @@ T.Control {
 
     // Prefer points[]; values[] / ChartSeries uses index as x without expanding to objects.
     readonly property var _raw: (points && ChartUtils.valueCount(points) > 0) ? points : values
+    // True when there is no data
     readonly property bool isEmpty: ChartUtils.valueCount(_raw) === 0
 
     Behavior on revealProgress {
@@ -205,10 +227,15 @@ T.Control {
             visible: !root.isEmpty
             antialiasing: true
             renderStrategy: Canvas.Cooperative
+            // Screen Pts
             property var screenPts: []
+            // Pad L
             property real padL: 6
+            // Pad T
             property real padT: 6
+            // Plot width
             property real plotW: 1
+            // Plot height
             property real plotH: 1
 
             onPaint: {

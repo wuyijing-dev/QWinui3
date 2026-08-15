@@ -10,23 +10,32 @@ import QWinUI3.Theme
 T.Control {
     id: root
 
+    // Offline status constant
     readonly property int offline: 0
+    // Available status constant
     readonly property int available: 1
+    // Away status constant
     readonly property int away: 2
+    // Busy status constant
     readonly property int busy: 3
+    // Unknown status constant
     readonly property int unknown: 4
 
+    // Current status enum
     property int status: available
+    // Animate a pulse when true
     property bool pulse: status === available
     // Diameter or box size in px
     property real size: 10
     // Field label
     property string label: ""
+    // Show text label beside the dot
     property bool showLabel: label.length > 0
 
     implicitWidth: showLabel ? row.implicitWidth : size
     implicitHeight: showLabel ? Math.max(size, row.implicitHeight) : size
 
+    // Status Name
     readonly property string statusName: {
         switch (status) {
         case available: return qsTr("Available")
@@ -37,6 +46,7 @@ T.Control {
         }
     }
 
+    // Status Color
     readonly property color statusColor: {
         switch (status) {
         case available: return Theme.systemSuccess

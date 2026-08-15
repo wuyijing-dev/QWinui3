@@ -27,6 +27,7 @@ T.Control {
         return n
     }
 
+    // Open Count
     readonly property int openCount: {
         var n = 0
         for (var i = 0; i < stack.children.length; ++i) {

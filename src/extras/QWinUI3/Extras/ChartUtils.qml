@@ -6,6 +6,7 @@ import QtQuick
 //   ChartUtils.downsample(values, maxPoints)
 
 QtObject {
+    // Point count that triggers LOD
     readonly property int largeSeriesThreshold: 50000
 
     function asNumber(v, fallback) {

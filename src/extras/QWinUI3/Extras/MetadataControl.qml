@@ -11,13 +11,16 @@ import QWinUI3.Theme
 T.Control {
     id: root
 
+    // Item list / children model
     default property alias items: host.data
     // Qt.Horizontal or Qt.Vertical
     property int orientation: Qt.Vertical
+    // Item Spacing
     property real itemSpacing: orientation === Qt.Horizontal
             ? Theme.spacingSection : Theme.spacingLoose
     // Header label above the control
     property string header: ""
+    // Edge paddings
     property int paddingEdges: 0
 
     padding: paddingEdges

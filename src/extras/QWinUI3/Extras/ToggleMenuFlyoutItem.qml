@@ -16,8 +16,10 @@ MenuItem {
     property string iconGlyph: ""
     // Accelerator caption (Ctrl+C)
     property string keyboardAcceleratorText: ""
+    // Show KeyVisual for accelerator
     property bool keyVisualAccelerator: false
 
+    // Resolved glyph string
     readonly property string effectiveIconGlyph: IconSource.resolve(symbol, iconGlyph)
 
     checkable: true

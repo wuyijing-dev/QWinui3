@@ -17,6 +17,7 @@ T.AbstractButton {
 
     // Shows a trailing close affordance
     property bool closable: false
+    // Alias of closable
     property alias isCloseButtonVisible: control.closable
     // Emphasized / selected chrome
     property bool highlighted: false
@@ -35,6 +36,7 @@ T.AbstractButton {
     // Fired when the close glyph is clicked (does not uncheck)
     signal closeClicked()
 
+    // Resolved glyph string
     readonly property string effectiveIconGlyph: IconSource.resolve(symbol, iconGlyph)
 
     checkable: true

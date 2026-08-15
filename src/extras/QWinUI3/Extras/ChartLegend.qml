@@ -9,19 +9,24 @@ import QWinUI3.Theme
 Item {
     id: root
 
+    // Item list / children model
     property var items: []
     // Hovered item index
     property int hoverIndex: -1
     // Selected index alias
     property int selectedIndex: -1
+    // Enable hover / click interaction
     property bool interactive: true
     // Qt.Horizontal or Qt.Vertical
     property int orientation: Qt.Horizontal // or Qt.Vertical
+    // Show numeric value label
     property bool showValue: true
     // Header label above the control
     property string header: ""
 
+    // Emitted when an item is clicked
     signal itemClicked(int index)
+    // Emitted when a legend item is hovered
     signal itemHovered(int index)
 
     implicitHeight: {

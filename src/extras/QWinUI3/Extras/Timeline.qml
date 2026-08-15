@@ -16,10 +16,15 @@ T.Control {
     property int currentIndex: -1
     // Selected index alias
     property alias selectedIndex: root.currentIndex
+    // Rail Width
     property real railWidth: 2
+    // Node Size
     property real nodeSize: 12
+    // Alias of interactive
     property bool isInteractive: true
+    // Emitted when an item is clicked
     signal itemClicked(int index)
+    // Selection changed
     signal selectionChanged(int index)
 
     onCurrentIndexChanged: selectionChanged(currentIndex)
@@ -67,11 +72,13 @@ T.Control {
                 width: list.width
                 height: Math.max(40, contentCol.implicitHeight + 16)
 
+                // Is Last
                 readonly property bool isLast: index === (root.model.length - 1)
                 // Active / animating state
                 readonly property bool isActive: modelData.active === true
                                                 || index === root.currentIndex
                                                 || (root.currentIndex < 0 && index === 0)
+                // Node Color
                 readonly property color nodeColor: modelData.color || Theme.accent
                 readonly property string _glyph: IconSource.resolve(
                         (typeof modelData === "object" && modelData) ? (modelData.symbol || "") : "",

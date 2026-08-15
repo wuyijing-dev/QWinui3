@@ -27,14 +27,19 @@ Item {
     property real paneWidth: Theme.navPaneWidth
     // Compact pane width
     property real paneCompactWidth: Theme.navPaneCompactWidth
+    // Pane header title text
     property string headerText: qsTr("QWinUI3")
+    // Footer row label
     property string footerText: qsTr("Settings")
+    // Footer FluentIcons symbol
     property var footerSymbol: FluentIcons.Settings
+    // Footer glyph string fallback
     property string footerIcon: ""
     // Page component name loaded for the footer row (e.g. "SettingsPage")
     property string footerComponent: ""
     // QML import URI used to resolve page components
     property string pageModule: "QWinUI3.Gallery"
+    // True when footer row is selected
     property bool footerSelected: false
     // WinUI PaneDisplayMode: left | leftCompact | leftMinimal | top | auto
     property string paneDisplayMode: "left"
@@ -46,10 +51,13 @@ Item {
     property bool isBackEnabled: true
     // Shows SearchBox at the top of the pane when open
     property bool isPaneSearchEnabled: false
+    // Pane SearchBox text
     property string paneSearchText: ""
     // Suggestion model for pane SearchBox: [{ title, key?, component? }]
     property var paneSearchModel: []
+    // Custom pane header slot
     property alias paneHeader: paneHeaderHost.data
+    // Custom pane footer slot
     property alias paneFooter: paneFooterHost.data
     // Drag rows to reorder top-level model entries
     property bool isReorderable: false
@@ -58,7 +66,9 @@ Item {
     // Content slot / children host
     property alias content: contentHost.data
 
+    // Resolved footer icon
     readonly property string effectiveFooterIcon: IconSource.resolve(footerSymbol, footerIcon)
+    // Effective pane mode after auto
     readonly property string resolvedPaneMode: {
         if (paneDisplayMode === "auto")
             return root.width < autoCompactThreshold ? "leftCompact" : "left"
@@ -78,11 +88,17 @@ Item {
     property string _typeAhead: ""
     property int _dragFromIndex: -1
 
+    // Footer row clicked
     signal footerClicked()
+    // Emitted when an item is clicked
     signal itemClicked(int index)
+    // Page was opened
     signal pageOpened(string name)
+    // Emitted when back is requested
     signal backRequested()
+    // Pane search accepted
     signal paneSearchActivated(string text)
+    // Pane search text changed
     signal paneSearchTextEdited(string text)
     // Emitted after a successful drag-reorder with the new model array
     signal modelReordered(var model)
@@ -98,6 +114,7 @@ Item {
     }
     // leftMinimal overlays content — layout width stays 0 so the page does not shrink.
     readonly property real _paneLayoutWidth: resolvedPaneMode === "leftMinimal" ? 0 : _paneWidth
+    // Current page item
     readonly property alias pageItem: pageStack.currentItem
     readonly property bool _paneShowsLabels: paneOpen && resolvedPaneMode !== "leftCompact"
     readonly property bool _minimalOverlay: resolvedPaneMode === "leftMinimal" && paneOpen
@@ -135,6 +152,7 @@ Item {
         id: navModel
     }
 
+    // Current page component name
     readonly property string currentComponent: {
         if (root.footerSelected)
             return root.footerComponent
@@ -236,9 +254,13 @@ Item {
         compactFlyout.close()
     }
 
+    // Flyout Group Key
     property string flyoutGroupKey: ""
+    // Pending Flyout Key
     property string pendingFlyoutKey: ""
+    // Pending Flyout Anchor
     property var pendingFlyoutAnchor: null
+    // Flyout Hovered
     property bool flyoutHovered: false
 
     ListModel { id: flyoutModel }

@@ -21,8 +21,10 @@ T.Control {
     property string iconGlyph: ""
     // Qt.Horizontal or Qt.Vertical
     property int orientation: Qt.Vertical
+    // Value Color
     property color valueColor: Theme.textPrimary
 
+    // Resolved glyph string
     readonly property string effectiveIconGlyph: IconSource.resolve(symbol, iconGlyph)
     readonly property real _iconSlot: effectiveIconGlyph.length > 0 ? 14 + Theme.spacing : 0
 

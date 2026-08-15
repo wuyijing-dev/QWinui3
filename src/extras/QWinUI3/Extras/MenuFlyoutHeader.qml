@@ -15,6 +15,7 @@ MenuItem {
     // Raw Fluent glyph string fallback
     property string iconGlyph: ""
 
+    // Resolved glyph string
     readonly property string effectiveIconGlyph: IconSource.resolve(symbol, iconGlyph)
 
     enabled: false

@@ -14,11 +14,17 @@ T.Dial {
     startAngle: -140
     endAngle: 140
 
+    // Title text
     property string title: ""
+    // Value unit label (%, rpm, …)
     property string unit: ""
+    // Show numeric value label
     property bool showValue: true
+    // Digits after decimal for value text
     property int valuePrecision: 0
+    // Number of ticks
     property int tickCount: 11
+    // Show tick marks
     property bool showTicks: true
 
     implicitWidth: 120
@@ -30,6 +36,7 @@ T.Dial {
     Accessible.name: title.length ? title : qsTr("Dial")
     Accessible.description: formattedValue
 
+    // Formatted value string
     readonly property string formattedValue: {
         var n = Number(value)
         var t = valuePrecision > 0 ? n.toFixed(valuePrecision) : String(Math.round(n))
@@ -65,7 +72,9 @@ T.Dial {
             id: dialShape
             anchors.fill: parent
             preferredRendererType: Shape.CurveRenderer
+            // Stroke width for dial arc
             readonly property real stroke: 4
+            // R
             readonly property real r: Math.max(0, Math.min(width, height) / 2 - 12)
 
             // Track (horseshoe — gap at bottom)
@@ -114,9 +123,13 @@ T.Dial {
                 radius: 1
                 color: Theme.textSecondary
                 opacity: 0.4
+                // Normalized 0..1 parameter
                 readonly property real t: index / Math.max(1, control.tickCount - 1)
+                // Angle in degrees
                 readonly property real angDeg: control.startAngle + t * (control.endAngle - control.startAngle)
+                // Angle in degrees
                 readonly property real ang: (angDeg - 90) * Math.PI / 180
+                // Resolved radius
                 readonly property real rr: dialShape.r + 6
                 x: dialShape.width / 2 + Math.cos(ang) * rr - width / 2
                 y: dialShape.height / 2 + Math.sin(ang) * rr - height / 2

@@ -21,18 +21,29 @@ T.Control {
     property real stepSize: 0
     // Primary title text
     property string title: ""
+    // Value unit label (%, rpm, …)
     property string unit: ""
+    // Caption under / beside the value
     property string caption: ""
+    // Digits after decimal for value text
     property int valuePrecision: 0
+    // Stroke thickness in px
     property real strokeWidth: 14
+    // Show needle indicator
     property bool showNeedle: true
+    // Show numeric value label
     property bool showValue: true
+    // Show tick marks
     property bool showTicks: true
     // Major tick count
     property int tickCount: 9
+    // Arc start angle in degrees
     property real startAngle: -210
+    // Total sweep angle in degrees
     property real sweepTotal: 240
+    // Alias of interactive
     property bool isInteractive: false
+    // Enable hover / click interaction
     property alias interactive: root.isInteractive
     // Colored gauge zones
     property var zones: [
@@ -41,6 +52,7 @@ T.Control {
         { from: 0.8, to: 1.0, color: "" }
     ]
 
+    // Emitted when user commits a value
     signal valueEdited(real value)
 
     implicitWidth: 156
@@ -54,7 +66,9 @@ T.Control {
         return z.length ? (formattedValue + " — " + z) : formattedValue
     }
 
+    // Value as 0..100 percentage
     readonly property real percentage: animatedNorm * 100
+    // Active Zone Index
     readonly property int activeZoneIndex: {
         var n = animatedNorm
         var zs = zones || []
@@ -66,6 +80,7 @@ T.Control {
         }
         return Math.max(0, zs.length - 1)
     }
+    // Active Zone Label
     readonly property string activeZoneLabel: {
         var zs = zones || []
         var i = activeZoneIndex
@@ -73,16 +88,19 @@ T.Control {
             return ""
         return zs[i].label || ""
     }
+    // Active Zone Color
     readonly property color activeZoneColor: zoneColor(
         (zones && zones[activeZoneIndex]) ? zones[activeZoneIndex] : null,
         activeZoneIndex)
 
+    // Formatted value string
     readonly property string formattedValue: {
         var n = Number(animatedValue)
         var t = valuePrecision > 0 ? n.toFixed(valuePrecision) : String(Math.round(n))
         return t + (unit.length ? unit : "")
     }
 
+    // Animated display value
     property real animatedValue: value
     Behavior on animatedValue {
         enabled: !Theme.reducedMotion
@@ -94,6 +112,7 @@ T.Control {
     onValueChanged: animatedValue = value
     Component.onCompleted: animatedValue = value
 
+    // Animated 0..1 normalized value
     readonly property real animatedNorm: {
         var span = maximum - minimum
         if (span <= 0)
@@ -151,6 +170,7 @@ T.Control {
 
     contentItem: Item {
         id: face
+        // Corner radius
         readonly property real radius: Math.min(width, height) / 2 - root.strokeWidth - 2
 
         Shape {
@@ -182,9 +202,13 @@ T.Control {
                 required property int index
                 anchors.fill: parent
                 preferredRendererType: Shape.CurveRenderer
+                // Z From
                 readonly property real zFrom: Math.max(0, Math.min(1, Number(modelData.from) || 0))
+                // Z To
                 readonly property real zTo: Math.max(zFrom, Math.min(1, Number(modelData.to) || 1))
+                // Z Start
                 readonly property real zStart: root.startAngle + zFrom * root.sweepTotal
+                // Z Sweep
                 readonly property real zSweep: (zTo - zFrom) * root.sweepTotal
                 opacity: root.activeZoneIndex === index ? 1 : 0.72
                 Behavior on opacity {
@@ -219,7 +243,9 @@ T.Control {
                 radius: 1
                 color: Theme.textSecondary
                 opacity: 0.5
+                // Angle in degrees
                 property real angDeg: root.startAngle + (index / Math.max(1, root.tickCount - 1)) * root.sweepTotal
+                // Angle in degrees
                 property real ang: angDeg * Math.PI / 180
                 x: face.width / 2 + Math.cos(ang) * face.radius - width / 2
                 y: face.height / 2 + Math.sin(ang) * face.radius - height / 2

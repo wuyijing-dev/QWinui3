@@ -9,18 +9,29 @@ import QWinUI3.Theme
 AbstractButton {
     id: control
 
+    // Fluent glyph drawn in the button
     property string glyph: ""
+    // Use destructive (close) colors
     property bool destructive: false
+    // Drive hover visuals from outside
     property bool forceHovered: false
+    // Drive pressed visuals from outside
     property bool forcePressed: false
+    // Enable hover / click interaction
     property bool interactive: true
 
+    // Rest background
     property color backgroundColor: "transparent"
+    // Hover background
     property color hoverColor: Theme.fillSubtle
+    // Pressed background
     property color pressedColor: Theme.fillSubtleTertiary
+    // Glyph / content color
     property color foregroundColor: Theme.textPrimary
 
+    // Effective hovered visual
     readonly property bool visualHovered: forceHovered || (interactive && hovered)
+    // Effective pressed visual
     readonly property bool visualPressed: forcePressed || (interactive && down)
 
     implicitWidth: 46

@@ -14,13 +14,16 @@ T.Control {
 
     // Current value
     property var value
+    // Play enter / reveal animation
     property bool animated: true
     // Selected index
     property int currentIndex: -1
     // Selected index alias
     property alias selectedIndex: root.currentIndex
+    // Cases
     default property alias cases: host.data
 
+    // Case Changed
     signal caseChanged(var value, int index)
 
     implicitWidth: 280

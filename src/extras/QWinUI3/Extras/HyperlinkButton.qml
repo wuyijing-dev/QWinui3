@@ -10,7 +10,9 @@ import QWinUI3.Theme
 T.AbstractButton {
     id: control
 
+    // Url
     property url url: ""
+    // Navigate Uri
     property alias navigateUri: control.url
     // always | onHover | never
     property string underlineStyle: "onHover"
@@ -18,12 +20,16 @@ T.AbstractButton {
     property var symbol: ""
     // Raw Fluent glyph string fallback
     property string iconGlyph: ""
+    // Visited
     property bool visited: false
+    // Show External Glyph
     property bool showExternalGlyph: false
     // "external" opens the URL; "signal" only emits clicked / navigateRequested
     property string navigateMode: "external"
+    // Navigate Requested
     signal navigateRequested(url target)
 
+    // Resolved glyph string
     readonly property string effectiveIconGlyph: IconSource.resolve(symbol, iconGlyph)
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,

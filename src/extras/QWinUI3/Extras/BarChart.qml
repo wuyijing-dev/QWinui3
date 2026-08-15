@@ -18,12 +18,19 @@ T.Control {
     property real minimum: 0
     // Maximum value
     property real maximum: NaN
+    // Bar corner radius
     property real barRadius: 4
+    // Gap between bars
     property real barGap: 0.28
+    // Show zero baseline
     property bool showBaseline: true
+    // Show value labels on bars
     property bool showValueLabels: false
+    // Enable hover / click interaction
     property bool interactive: true
+    // Play enter / reveal animation
     property bool animated: true
+    // 0..1 reveal animation progress
     property real revealProgress: 1
     // Hovered item index
     property int hoverIndex: -1
@@ -31,15 +38,19 @@ T.Control {
     property alias selectedIndex: root.hoverIndex
     // Primary title text
     property string title: ""
+    // Placeholder when there is no data
     property string emptyText: qsTr("No data")
+    // Unit appended to value text
     property string valueUnit: ""
 
+    // Emitted when a bar is clicked
     signal barClicked(int index, real value)
 
     implicitWidth: 320
     implicitHeight: title.length ? 200 : 180
     padding: 8
 
+    // True when there is no data
     readonly property bool isEmpty: _bars.length === 0
 
     readonly property var _bars: {
@@ -116,8 +127,11 @@ T.Control {
                 visible: !root.isEmpty
                 antialiasing: true
                 renderStrategy: Canvas.Cooperative
+                // Named content slot
                 property real slot: 1
+                // Gap between items
                 property real gap: 0
+                // Left padding
                 property real padL: 2
 
                 onPaint: {

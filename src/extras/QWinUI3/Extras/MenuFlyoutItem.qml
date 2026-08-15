@@ -18,8 +18,10 @@ MenuItem {
     property string keyboardAcceleratorText: ""
     // When true, render accelerator as KeyChordVisual chrome instead of plain text.
     property bool keyVisualAccelerator: false
+    // Icon color
     property color iconColor: Theme.textPrimary
 
+    // Resolved glyph string
     readonly property string effectiveIconGlyph: IconSource.resolve(symbol, iconGlyph)
 
     implicitWidth: Math.max(200, contentRow.implicitWidth + leftPadding + rightPadding)

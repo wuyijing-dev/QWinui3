@@ -9,11 +9,17 @@ import QWinUI3.Theme
 T.Control {
     id: root
 
+    // Informational severity constant
     readonly property int informational: 0
+    // Success severity constant
     readonly property int success: 1
+    // Warning severity constant
     readonly property int warning: 2
+    // Error severity constant
     readonly property int error: 3
+    // Attention severity constant
     readonly property int attention: 4
+    // Neutral severity constant
     readonly property int neutral: 5
 
     // informational | success | warning | error | attention | neutral
@@ -26,7 +32,9 @@ T.Control {
     property var symbol: ""
     // Raw Fluent glyph string fallback
     property string iconGlyph: ""
+    // Clamp / overflow threshold for counts
     property int maxValue: 99
+    // Badge fill color
     property color badgeColor: {
         switch (severity) {
         case success: return Theme.systemSuccess
@@ -37,6 +45,7 @@ T.Control {
         default: return Theme.systemCritical
         }
     }
+    // Badge / content text color
     property color textColor: {
         if (severity === warning)
             return Theme.dark ? "#000000" : "#000000"
@@ -45,6 +54,7 @@ T.Control {
         return Theme.textOnAccent
     }
 
+    // Severity as string name
     readonly property string severityName: {
         switch (severity) {
         case success: return "success"
@@ -67,11 +77,14 @@ T.Control {
         }
     }
 
+    // Resolved glyph string
     readonly property string effectiveIconGlyph: IconSource.resolve(symbol, iconGlyph)
+    // Dot
     property bool dot: displayText.length === 0 && effectiveIconGlyph.length === 0
     // Hide when value/text empty
     property bool hideWhenEmpty: false
 
+    // Text shown to the user
     readonly property string displayText: {
         if (effectiveIconGlyph.length > 0)
             return ""
@@ -82,6 +95,7 @@ T.Control {
         return value > maxValue ? (maxValue + "+") : String(value)
     }
 
+    // True when there is no data
     readonly property bool isEmpty: value <= 0 && text.length === 0 && effectiveIconGlyph.length === 0
     // Open / visible state
     readonly property bool isOpen: opacity > 0.01

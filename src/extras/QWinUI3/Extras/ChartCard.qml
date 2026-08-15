@@ -23,15 +23,18 @@ T.Control {
     property var symbol: ""
     // Raw Fluent glyph string fallback
     property string iconGlyph: ""
+    // Play enter / reveal animation
     property bool animated: true
     // Stronger elevation / card tint
     property bool elevated: false
     // Draw a border when true
     property bool bordered: true
+    // Trailing header actions slot
     property alias headerActions: actionsRow.data
     // Content slot / children host
     default property alias content: body.data
 
+    // Resolved glyph string
     readonly property string effectiveIconGlyph: IconSource.resolve(symbol, iconGlyph)
 
     implicitWidth: 320

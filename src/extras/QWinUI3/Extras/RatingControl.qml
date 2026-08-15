@@ -11,18 +11,26 @@ T.Control {
 
     // Current value
     property real value: 0
+    // Shown when value unset
     property real placeholderValue: -1
     // Maximum star count
     property int maxRating: 5
+    // Read-only when true
     property bool readOnly: false
+    // Alias of readOnly
     property alias isReadOnly: root.readOnly
+    // Allow clearing the rating
     property bool isClearEnabled: true
     // 1 = whole, 0.5 = half, 0.1 / 0.25 = fine-grained mouse pick
     property real stepSize: 0.5
+    // Preview value on hover
     property bool previewEnabled: true
+    // Hovered preview value
     property real previewValue: -1
+    // Caption under / beside the value
     property string caption: ""
 
+    // Emitted when user commits a value
     signal valueEdited(real value)
 
     implicitWidth: Math.max(28 * maxRating + 2 * Math.max(0, maxRating - 1), 28)
@@ -108,6 +116,7 @@ T.Control {
                         width: 28
                         height: 28
 
+                        // Fill
                         readonly property real fill: {
                             var v = root._displayValue
                             var i = index + 1
@@ -117,6 +126,7 @@ T.Control {
                                 return 0
                             return v - (i - 1)
                         }
+                        // Is Placeholder
                         readonly property bool isPlaceholder: root.value <= 0
                                                              && root.placeholderValue > 0
                                                              && root.previewValue < 0
@@ -174,7 +184,9 @@ T.Control {
                 preventStealing: true
                 cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
 
+                // Did Drag
                 property bool didDrag: false
+                // Press Value
                 property real pressValue: -1
 
                 onPositionChanged: (mouse) => {

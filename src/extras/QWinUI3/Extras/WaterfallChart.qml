@@ -10,31 +10,43 @@ import QWinUI3.Theme
 T.Control {
     id: root
 
+    // Waterfall step descriptors
     property var steps: []
     // Numeric values array
     property var values: [] // convenience deltas
+    // Show connectors between steps
     property bool showConnector: true
+    // Show item labels
     property bool showLabels: true
+    // Enable hover / click interaction
     property bool interactive: true
+    // Play enter / reveal animation
     property bool animated: true
+    // 0..1 reveal animation progress
     property real revealProgress: 1
     // Hovered item index
     property int hoverIndex: -1
     // Selected index alias
     property alias selectedIndex: root.hoverIndex
+    // Waterfall total bar color
     property color totalColor: Theme.accentDark1
+    // Show total column
     property bool showTotal: true
     // Primary title text
     property string title: ""
+    // Placeholder when there is no data
     property string emptyText: qsTr("No data")
+    // Unit appended to value text
     property string valueUnit: ""
 
+    // Step Clicked
     signal stepClicked(int index, real value)
 
     implicitWidth: 320
     implicitHeight: title.length ? 220 : 200
     padding: 8
 
+    // True when there is no data
     readonly property bool isEmpty: _steps.length === 0
 
     readonly property var _steps: {
@@ -114,7 +126,9 @@ T.Control {
             visible: !root.isEmpty
             antialiasing: true
             renderStrategy: Canvas.Cooperative
+            // Named content slot
             property real slot: 1
+            // Left padding
             property real padL: 4
             // Item count
             property int count: 0

@@ -16,10 +16,15 @@ T.Control {
     property bool indeterminate: false
     // WinUI-style: Active sweeps; Paused holds a partial arc without spinning
     property bool isActive: true
+    // Stroke thickness in px
     property real strokeWidth: 3
+    // Primary fill / progress color
     property color fillColor: Theme.accent
+    // Track / remaining color
     property color trackColor: Theme.strokeDivider
+    // Show numeric value label
     property bool showValue: false
+    // Optional value caption
     property string valueLabel: ""
     // Diameter or box size in px
     property real size: 32
@@ -33,12 +38,15 @@ T.Control {
                              ? (isActive ? qsTr("Indeterminate") : qsTr("Paused"))
                              : formattedValue
 
+    // True while indeterminate ring spins
     readonly property bool spinning: indeterminate && isActive && visible && !Theme.reducedMotion
+    // Determinate arc sweep degrees
     readonly property real progressSweep: {
         if (indeterminate)
             return isActive ? 100 : 60
         return Math.max(0, Math.min(360, value * 360))
     }
+    // Formatted value string
     readonly property string formattedValue: {
         if (valueLabel.length)
             return valueLabel
@@ -47,6 +55,7 @@ T.Control {
 
     contentItem: Item {
         id: ring
+        // Corner radius
         readonly property real radius: Math.max(0, Math.min(width, height) / 2 - root.strokeWidth)
 
         Shape {
@@ -79,7 +88,9 @@ T.Control {
             rotation: root.spinning ? progress.spinAngle : 0
             scale: root.visible ? 1 : 0.85
 
+            // Indeterminate spin angle
             property real spinAngle: 0
+            // Animated Sweep
             property real animatedSweep: root.progressSweep
 
             Behavior on animatedSweep {

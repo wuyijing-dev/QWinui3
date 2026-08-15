@@ -24,19 +24,29 @@ T.Control {
     property bool closable: true
     // Alias of closable
     property alias isClosable: control.closable
+    // Allow dragging tabs to reorder
     property bool tabsReorderable: true
+    // Alias of tabsReorderable
     property alias canReorderTabs: control.tabsReorderable
+    // Tab width mode
     property string tabWidthMode: "sizeToContent"
+    // Show add-tab button
     property bool isAddTabButtonVisible: true
+    // User asked to close a tab
     signal tabCloseRequested(int index)
+    // Selection changed by user
     signal currentIndexChangedByUser(int index)
+    // Selection changed
     signal selectionChanged(int index)
+    // Tab reordered
     signal tabMoved(int from, int to)
+    // Add Tab Button Clicked
     signal addTabButtonClicked()
 
     property int _dragFrom: -1
     property int _dropIndex: -1
     readonly property bool _reordering: _dragFrom >= 0
+    // Tab Count
     readonly property int tabCount: model ? model.length : 0
     readonly property real _equalTabWidth: {
         var n = Math.max(1, model.length)
@@ -179,7 +189,9 @@ T.Control {
                             id: tabBtn
                             required property var modelData
                             required property int index
+                            // Tab Index
                             property int tabIndex: index
+                            // Drag Active
                             property bool dragActive: control._dragFrom === tabIndex
                             readonly property string _icon: {
                                 if (typeof modelData !== "object" || !modelData)

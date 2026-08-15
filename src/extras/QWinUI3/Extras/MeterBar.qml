@@ -15,19 +15,26 @@ T.Control {
     property var segments: []
     // Maximum value
     property real maximum: 100
+    // Meter track height
     property real trackHeight: 8
     // Show chart legend
     property bool showLegend: false
+    // Enable hover / click interaction
     property bool interactive: true
     // Hovered item index
     property int hoverIndex: -1
     // Header label above the control
     property string header: ""
+    // Show remaining segment
     property bool showRemaining: false
+    // Label for remaining segment
     property string remainingLabel: qsTr("Free")
+    // Color for remaining segment
     property color remainingColor: Theme.dark ? "#15FFFFFF" : "#0F000000"
+    // Show total column
     property bool showTotal: false
 
+    // Emitted when a segment is clicked
     signal segmentClicked(int index, real value)
 
     implicitWidth: 240
@@ -44,6 +51,7 @@ T.Control {
     Accessible.name: header.length ? header : qsTr("Meter")
     Accessible.description: qsTr("%1 of %2").arg(Math.round(total)).arg(Math.round(maximum))
 
+    // Sum of segment values
     readonly property real total: {
         var s = 0
         var segs = segments || []
@@ -52,6 +60,7 @@ T.Control {
         return s
     }
 
+    // Remaining
     readonly property real remaining: Math.max(0, maximum - total)
 
     contentItem: Column {

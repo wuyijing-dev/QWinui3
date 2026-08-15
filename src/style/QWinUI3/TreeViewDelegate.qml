@@ -27,6 +27,7 @@ T.TreeViewDelegate {
                && control.row === control.treeView.currentRow)
 
     required property int row
+    // Data model
     required property var model
     readonly property real __contentIndent: !isTreeNode ? 0
         : (depth * indentation) + (indicator ? indicator.width + spacing : 0)

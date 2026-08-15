@@ -12,7 +12,9 @@ QtObject {
 
     property var _queue: []
     property var _active: null
+    // Dialogs waiting in the queue
     readonly property int pendingCount: _queue.length
+    // Busy status constant
     readonly property bool busy: _active !== null
 
     function enqueue(dialog) {

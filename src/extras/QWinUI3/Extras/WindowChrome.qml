@@ -36,18 +36,30 @@ PlatformTitleBar {
     // Title-bar search suggestions
     property alias searchModel: titleBar.searchModel
 
+    // Caption button rest fill
     property color captionButtonBackground: "transparent"
+    // Caption button hover fill
     property color captionButtonHover: Theme.fillSubtle
+    // Caption button pressed fill
     property color captionButtonPressed: Theme.fillSubtleTertiary
+    // Caption button glyph color
     property color captionButtonForeground: Theme.textPrimary
+    // Close button hover fill
     property color captionCloseHover: "#E81123"
+    // Close button pressed fill
     property color captionClosePressed: "#C50F1F"
+    // Title bar background color
     property color titleBarBackground: Theme.bgAcrylic
+    // Dim title bar when inactive
     property bool titleBarInactive: false
 
+    // Emitted when pane toggle is clicked
     signal paneToggleRequested()
+    // Emitted when back is requested
     signal backRequested()
+    // Emitted when a search result is activated
     signal searchActivated(var item)
+    // Emitted when search text changes
     signal searchTextEdited(string text)
 
     showMinimize: true

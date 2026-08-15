@@ -18,32 +18,49 @@ T.Control {
     property real minimum: NaN
     // Maximum value
     property real maximum: NaN
+    // Show chart grid
     property bool showGrid: true
+    // Fill area under the line
     property bool showArea: true
     // Show chart legend
     property bool showLegend: true
+    // Enable hover / click interaction
     property bool interactive: true
+    // Play enter / reveal animation
     property bool animated: true
+    // Max points before LOD kicks in
     property int maxPoints: 0
+    // Level-of-detail downsample factor
     property real lodFactor: 2
+    // Auto-enable LOD for large series
     property bool autoLod: true
+    // Stroke thickness in px
     property real strokeWidth: 2
+    // Grid line color
     property color gridColor: Theme.strokeDivider
 
+    // 0..1 reveal animation progress
     property real revealProgress: 1
     // Hovered item index
     property int hoverIndex: -1
+    // Hover X
     property real hoverX: 0
+    // Hover Y
     property real hoverY: 0
+    // Hover crosshair X
     property real hoverLineX: 0
+    // Hover marker descriptors
     property var hoverMarkers: [] // [{ y, color }]
+    // Tooltip / hover readout text
     property string hoverText: ""
     // Primary title text
     property string title: ""
+    // Placeholder when there is no data
     property string emptyText: qsTr("No data")
 
     // LOD diagnostics
     property int sourcePointCount: 0
+    // Points drawn after LOD
     property int drawnPointCount: 0
     property string _lodKey: ""
     property var _lodPacks: []
@@ -59,6 +76,7 @@ T.Control {
     }
     padding: 8
 
+    // True when there is no data
     readonly property bool isEmpty: _seriesList.length === 0
             || ChartUtils.valueCount(_seriesList[0] ? _seriesList[0].values : []) === 0
 
@@ -216,11 +234,17 @@ T.Control {
 
                 // Cache last paint metrics for hover hit-testing
                 property real plotL: 4
+                // Plot top inset
                 property real plotT: 6
+                // Plot width
                 property real plotW: 1
+                // Plot height
                 property real plotH: 1
+                // Downsampled series values
                 property var sampled: []
+                // Computed axis minimum
                 property real lo: 0
+                // Computed axis maximum
                 property real hi: 1
 
                 onPaint: {

@@ -21,27 +21,42 @@ T.Control {
     property real stepSize: 0
     // Primary title text
     property string title: ""
+    // Value unit label (%, rpm, …)
     property string unit: ""
+    // Caption under / beside the value
     property string caption: ""
+    // Digits after decimal for value text
     property int valuePrecision: 0
     // Qt.Horizontal or Qt.Vertical
     property int orientation: Qt.Horizontal
+    // Track thickness in px
     property real trackThickness: 8
+    // Show numeric value label
     property bool showValue: true
+    // Show tick marks
     property bool showTicks: true
+    // Show min/max labels
     property bool showMinMax: false
     // Major tick count
     property int tickCount: 5
+    // Show draggable thumb
     property bool showThumb: true
+    // Alias of interactive
     property bool isInteractive: false
+    // Enable hover / click interaction
     property alias interactive: root.isInteractive
+    // Primary fill / progress color
     property color fillColor: Theme.accent
+    // Track / remaining color
     property color trackColor: Theme.strokeDivider
+    // Value where caution zone starts
     property real cautionThreshold: -1
+    // Value where critical zone starts
     property real criticalThreshold: -1
     // When true, low values map to caution/critical (battery-style).
     property bool invertThresholds: false
 
+    // Emitted when user commits a value
     signal valueEdited(real value)
 
     implicitWidth: orientation === Qt.Horizontal ? 240 : 56
@@ -59,8 +74,11 @@ T.Control {
     Accessible.name: title.length ? title : qsTr("Linear gauge")
     Accessible.description: formattedValue
 
+    // Horizontal orientation when true
     readonly property bool horizontal: orientation === Qt.Horizontal
+    // Value as 0..100 percentage
     readonly property real percentage: animatedNorm * 100
+    // Resolved fill color
     readonly property color effectiveFillColor: {
         var n = invertThresholds ? (1 - animatedNorm) : animatedNorm
         if (criticalThreshold >= 0 && n >= criticalThreshold)
@@ -70,12 +88,14 @@ T.Control {
         return fillColor
     }
 
+    // Formatted value string
     readonly property string formattedValue: {
         var n = Number(animatedValue)
         var t = valuePrecision > 0 ? n.toFixed(valuePrecision) : String(Math.round(n))
         return t + (unit.length ? unit : "")
     }
 
+    // Animated display value
     property real animatedValue: value
     Behavior on animatedValue {
         enabled: !Theme.reducedMotion
@@ -87,6 +107,7 @@ T.Control {
     onValueChanged: animatedValue = value
     Component.onCompleted: animatedValue = value
 
+    // Animated 0..1 normalized value
     readonly property real animatedNorm: {
         var span = maximum - minimum
         if (span <= 0)
@@ -215,6 +236,7 @@ T.Control {
                     radius: 1
                     color: Theme.textSecondary
                     opacity: 0.45
+                    // Normalized 0..1 parameter
                     readonly property real t: index / Math.max(1, root.tickCount - 1)
                     x: root.horizontal
                        ? track.x + t * track.width - width / 2

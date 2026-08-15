@@ -40,13 +40,16 @@ T.Control {
     // Suggestion popup open state
     property bool isSuggestionListOpen: false
 
+    // Resolved search glyph
     readonly property string effectiveQueryIcon: IconSource.resolve(symbol, queryIcon)
 
     // Enter / submit with current text
     signal accepted(string text)
+    // Emitted when a query is submitted
     signal querySubmitted(string query)
     // User picked a suggestion row
     signal suggestionChosen(var item)
+    // Emitted when content is cleared
     signal cleared()
 
     implicitWidth: 280

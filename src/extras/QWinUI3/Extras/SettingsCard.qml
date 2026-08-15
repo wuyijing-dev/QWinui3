@@ -22,14 +22,20 @@ T.Pane {
     property var symbol: ""
     // Raw Fluent glyph string fallback
     property string iconGlyph: ""
+    // Header icon glyph
     property var headerIcon: ""
+    // Custom action slot
     property alias action: actionSlot.data
     // Content slot / children host
     property alias content: contentSlot.data
+    // Enable hover / click interaction
     property bool interactive: false
+    // Show trailing chevron
     property bool showChevron: interactive
+    // Emitted when clicked
     signal clicked()
 
+    // Resolved header icon
     readonly property string effectiveHeaderIcon: {
         var primary = (symbol !== undefined && symbol !== null && String(symbol).length)
                       ? symbol : headerIcon

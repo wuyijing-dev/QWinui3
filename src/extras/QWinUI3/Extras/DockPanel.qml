@@ -21,9 +21,11 @@ T.Control {
         Fill
     }
 
+    // Default children / content slot
     default property alias contentData: host.data
     // WinUI LastChildFill: last non-edge child fills the remaining region
     property bool lastChildFill: true
+    // Edge paddings
     property int paddingEdges: 0
 
     padding: paddingEdges
@@ -33,6 +35,7 @@ T.Control {
     Accessible.role: Accessible.Grouping
     Accessible.name: qsTr("Dock panel")
 
+    // Number of children
     readonly property int childCount: {
         var n = 0
         for (var i = 0; i < host.children.length; ++i) {

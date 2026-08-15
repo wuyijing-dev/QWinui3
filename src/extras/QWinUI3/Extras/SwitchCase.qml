@@ -10,7 +10,9 @@ Item {
 
     // Current value
     property var value
+    // Active state
     property bool active: false
+    // Default children / content slot
     default property alias contentData: host.data
 
     width: parent ? parent.width : implicitWidth

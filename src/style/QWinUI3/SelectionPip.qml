@@ -8,10 +8,15 @@ import QWinUI3.Theme
 Item {
     id: root
 
+    // ListView this pip tracks
     property var listView: null
+    // Index the pip should track
     property int targetIndex: -1
+    // Pip rest height
     property real baseHeight: 16
+    // Pip left inset
     property real leftMargin: 4
+    // Skip motion when true
     property bool instant: false
 
     anchors.fill: parent
@@ -27,21 +32,31 @@ Item {
         color: Theme.accent
         x: root.leftMargin
 
+        // Scroll animation start
         property real contentFromY: 0
+        // Scroll animation end
         property real contentToY: 0
+        // 0..1 animation / progress
         property real progress: 1
+        // Ready
         property bool ready: false
 
+        // Eased
         readonly property real eased: {
             var t = progress
             return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
         }
+        // Travel
         readonly property real travel: Math.abs(contentToY - contentFromY)
+        // Stretch factor / stretch pip
         readonly property real stretch: Math.min(36, Math.max(10, travel * 0.45))
+        // Content Center Y
         readonly property real contentCenterY: contentFromY
                                               + (contentToY - contentFromY) * eased
                                               + baseHeight * 0.5
+        // Visual Height
         readonly property real visualHeight: baseHeight + stretch * Math.sin(Math.PI * progress)
+        // Flickable content Y
         readonly property real contentY: listView ? listView.contentY : 0
 
         height: visualHeight

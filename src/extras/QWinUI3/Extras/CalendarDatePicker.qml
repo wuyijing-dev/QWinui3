@@ -17,17 +17,24 @@ T.Control {
     property bool calendarOpen: false
     // Open / visible state
     property alias isOpen: root.calendarOpen
+    // Display date format
     property string dateFormat: Locale.ShortFormat
+    // Show Today button in calendar
     property bool showTodayButton: true
     // Header label above the control
     property string header: ""
     // Placeholder when empty
     property string placeholderText: ""
+    // Minimum selectable date
     property date minDate
+    // Maximum selectable date
     property date maxDate
+    // True when minDate is set
     property bool hasMinDate: false
+    // True when maxDate is set
     property bool hasMaxDate: false
 
+    // Emitted when a date is chosen
     signal dateChosen(date date)
 
     implicitWidth: 200

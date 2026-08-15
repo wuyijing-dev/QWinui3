@@ -18,6 +18,7 @@ ApplicationWindow {
     property alias subtitle: chrome.subtitle
     // FluentIcons symbol (preferred over iconGlyph)
     property alias symbol: chrome.symbol
+    // WindowChrome / PlatformTitleBar host
     property alias chrome: chrome
     // Show navigation pane toggle
     property bool showPaneToggle: false
@@ -61,22 +62,35 @@ ApplicationWindow {
 
     // AppWindowTitleBar-style caption colors (empty = Theme defaults).
     property color captionButtonBackground: "transparent"
+    // Caption button hover fill
     property color captionButtonHover: Theme.fillSubtle
+    // Caption button pressed fill
     property color captionButtonPressed: Theme.fillSubtleTertiary
+    // Caption button glyph color
     property color captionButtonForeground: Theme.textPrimary
+    // Close button hover fill
     property color captionCloseHover: "#E81123"
+    // Close button pressed fill
     property color captionClosePressed: "#C50F1F"
+    // Title bar background color
     property color titleBarBackground: Theme.bgAcrylic
+    // Dim title bar when inactive
     property bool titleBarInactive: false
 
+    // Emitted when pane toggle is clicked
     signal paneToggleRequested()
+    // Emitted when back is requested
     signal backRequested()
+    // Emitted when a search result is activated
     signal searchActivated(var item)
+    // Emitted when search text changes
     signal searchTextEdited(string text)
 
     // Compat aliases — prefer title / subtitle / symbol.
     property alias windowTitle: chrome.title
+    // Window subtitle alias
     property alias windowSubtitle: chrome.subtitle
+    // Window symbol alias
     property alias windowSymbol: chrome.symbol
 
     flags: WindowHelper.recommendedFlags

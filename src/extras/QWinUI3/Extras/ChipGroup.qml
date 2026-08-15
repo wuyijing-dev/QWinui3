@@ -16,16 +16,21 @@ T.Control {
     property int currentIndex: -1
     // Selected index alias
     property alias selectedIndex: root.currentIndex
+    // Single-select when true
     property bool exclusive: true
     // single | multiple | none
     property string selectionMode: ""
     // Multi-select indexes
     property var selectedIndexes: []
+    // Max selected chips when not exclusive
     property int maxSelected: 0 // 0 = unlimited (multiple mode)
+    // Spacing between chips
     property real chipSpacing: Theme.spacing
     // small | medium
     property string chipSize: "medium"
+    // Selection changed
     signal selectionChanged()
+    // Emitted when an item is clicked
     signal itemClicked(int index)
 
     readonly property bool _exclusive: {

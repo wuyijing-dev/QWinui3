@@ -12,15 +12,23 @@ T.Control {
 
     // Pie/donut slice descriptors
     property var slices: []
+    // Donut ring thickness
     property real thickness: 14
+    // Show center label in donut
     property bool showCenterLabel: true
+    // Donut center primary text
     property string centerText: ""
+    // Donut center secondary text
     property string centerSubText: ""
     // Show chart legend
     property bool showLegend: true
+    // Enable hover / click interaction
     property bool interactive: true
+    // Play enter / reveal animation
     property bool animated: true
+    // Arc start angle in degrees
     property real startAngle: -Math.PI / 2
+    // 0..1 reveal animation progress
     property real revealProgress: 1
     // Hovered item index
     property int hoverIndex: -1
@@ -28,16 +36,20 @@ T.Control {
     property alias selectedIndex: root.hoverIndex
     // Primary title text
     property string title: ""
+    // Placeholder when there is no data
     property string emptyText: qsTr("No data")
 
+    // Emitted when a slice is clicked
     signal sliceClicked(int index, real value)
 
     implicitWidth: showLegend ? 300 : 168
     implicitHeight: title.length ? 188 : 168
     padding: 8
 
+    // True when there is no data
     readonly property bool isEmpty: !slices || slices.length === 0 || total <= 0
 
+    // Sum of segment values
     readonly property real total: {
         var s = 0
         var list = slices || []
@@ -117,10 +129,15 @@ T.Control {
                 anchors.fill: parent
                 antialiasing: true
                 renderStrategy: Canvas.Cooperative
+                // Center X
                 property real cx: 0
+                // Center Y
                 property real cy: 0
+                // Donut outer radius
                 property real outer: 0
+                // Donut inner radius
                 property real inner: 0
+                // Arc path descriptors
                 property var arcs: []
 
                 onPaint: {

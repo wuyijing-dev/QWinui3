@@ -17,7 +17,9 @@ T.BusyIndicator {
         id: ring
         implicitWidth: 32
         implicitHeight: 32
+        // Stroke width for dial arc
         readonly property real stroke: 3
+        // Corner radius
         readonly property real radius: Math.min(width, height) / 2 - stroke
         readonly property bool _running: control.running && control.visible
 
@@ -51,7 +53,9 @@ T.BusyIndicator {
             rotation: Theme.reducedMotion ? 0 : spinAngle
             opacity: Theme.reducedMotion && ring._running
                      ? pulseOpacity : 1
+            // Indeterminate spin angle
             property real spinAngle: 0
+            // Pulse Opacity
             property real pulseOpacity: 1
 
             ShapePath {

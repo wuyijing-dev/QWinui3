@@ -15,14 +15,19 @@ T.Control {
         TextLine
     }
 
+    // Corner radius
     property real cornerRadius: Theme.cornerControl
+    // Active state
     property bool active: true
     // Active / animating state
     property alias isActive: root.active
+    // Shape
     property int shape: Shimmer.Rectangle
     // Auto-dismiss duration; 0 keeps open
     property int durationMs: 1400
+    // Base Color
     property color baseColor: Theme.fillSubtle
+    // Sheen Color
     property color sheenColor: Theme.dark ? "#28FFFFFF" : "#66FFFFFF"
     // Qt.Horizontal | Qt.Vertical
     property int direction: Qt.Horizontal

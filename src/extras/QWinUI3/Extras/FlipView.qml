@@ -17,15 +17,23 @@ T.Control {
     property alias selectedIndex: swipe.currentIndex
     // Item count
     property alias count: swipe.count
+    // Enable hover / click interaction
     property alias interactive: swipe.interactive
+    // Show next/prev buttons
     property bool buttonsVisible: true
+    // Alias of buttonsVisible
     property alias isButtonsVisible: control.buttonsVisible
     // always | onHover | hidden
     property string buttonVisibility: "onHover"
+    // Show page indicator
     property bool isIndicatorVisible: true
+    // Wrap children to next line
     property bool wrap: false
+    // Default children / content slot
     default property alias contentData: swipe.contentData
+    // Selection changed
     signal selectionChanged(int index)
+    // Selection changed by user
     signal currentIndexChangedByUser(int index)
 
     implicitWidth: 360

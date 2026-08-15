@@ -28,18 +28,26 @@ T.Control {
     property Item pane1: null
     // Second pane content
     property Item pane2: null
+    // Pane Priority Width
     property real panePriorityWidth: 320
+    // Pane1 Length
     property alias pane1Length: root.panePriorityWidth
+    // Min Wide Width
     property real minWideWidth: 720
+    // Preferred Mode
     property int preferredMode: TwoPaneView.Wide
+    // Pane Priority
     property int panePriority: TwoPaneView.Pane1
+    // Mode
     property int mode: {
         if (width < minWideWidth)
             return preferredMode === TwoPaneView.Tall ? TwoPaneView.Tall : TwoPaneView.SinglePane
         return preferredMode === TwoPaneView.Tall ? TwoPaneView.Tall : TwoPaneView.Wide
     }
+    // Single Pane Index
     property int singlePaneIndex: 0
 
+    // Mode Name
     readonly property string modeName: {
         switch (mode) {
         case TwoPaneView.Wide: return qsTr("Wide")

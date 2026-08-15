@@ -17,11 +17,16 @@ T.AbstractButton {
     property bool pickerOpen: false
     // Open / visible state
     property alias isOpen: control.pickerOpen
+    // Show alpha channel editor
     property bool showAlpha: false
+    // Show hex text on the button
     property bool showHexLabel: true
+    // MenuFlyout placement
     property int flyoutPlacement: Qt.AlignBottom
+    // Emitted when a color is chosen
     signal colorChosen(color color)
 
+    // Formatted hex color text
     readonly property string hexText: {
         function hex2(n) {
             var v = Math.max(0, Math.min(255, Math.round(n * 255)))

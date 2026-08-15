@@ -11,9 +11,13 @@ import QWinUI3.Theme
 T.Control {
     id: control
 
+    // Hour
     property int hour: 12
+    // Minute
     property int minute: 0
+    // Is Am
     property bool isAm: true
+    // Use24 Hour
     property bool use24Hour: false
     // Picker flyout open
     property bool pickerOpen: false
@@ -27,6 +31,7 @@ T.Control {
     // WinUI ClockIdentifier (read-only mirror of use24Hour)
     readonly property string clockIdentifier: use24Hour ? "24HourClock" : "12HourClock"
 
+    // Time Chosen
     signal timeChosen(int hour, int minute)
 
     implicitWidth: 160
@@ -37,6 +42,7 @@ T.Control {
     Accessible.name: header.length ? header : qsTr("Time")
     Accessible.description: displayText
 
+    // Minute Model
     readonly property var minuteModel: {
         var step = Math.max(1, Math.min(30, minuteIncrement))
         var list = []
@@ -53,6 +59,7 @@ T.Control {
         return Math.max(0, snapped)
     }
 
+    // Display Hour
     readonly property int displayHour: {
         if (use24Hour)
             return ((hour % 24) + 24) % 24
@@ -60,6 +67,7 @@ T.Control {
         return h === 0 ? 12 : h
     }
 
+    // Text shown to the user
     readonly property string displayText: {
         var hh = String(displayHour).padStart(2, "0")
         var mm = String(((minute % 60) + 60) % 60).padStart(2, "0")

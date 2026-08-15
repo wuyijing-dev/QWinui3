@@ -26,15 +26,21 @@ T.Dialog {
     property bool isPrimaryDefault: true
     // WinUI DefaultButton: primary | secondary | close | none
     property string defaultButton: ""
+    // Enable primary button
     property bool isPrimaryButtonEnabled: true
+    // Enable secondary button
     property bool isSecondaryButtonEnabled: true
+    // Enable close button
     property bool isCloseButtonEnabled: true
     // Bindable open state (alias of visible)
     property alias isOpen: root.visible
     property bool __queueWired: false
 
+    // Primary button clicked
     signal primaryClicked()
+    // Secondary button clicked
     signal secondaryClicked()
+    // Close button clicked
     signal closeClicked()
 
     // Enqueue via ContentDialogQueue (preferred over open())

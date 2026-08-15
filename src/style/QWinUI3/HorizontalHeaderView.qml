@@ -13,6 +13,7 @@ T.HorizontalHeaderView {
 
     delegate: Rectangle {
         id: cell
+        // Data model
         required property var model
         implicitWidth: 120
         implicitHeight: Theme.navItemHeight

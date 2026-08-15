@@ -19,13 +19,19 @@ ShellWindow {
     default property alias menus: menus.contentData
     // StatusBar left text
     property alias statusText: statusBar.text
+    // StatusBar instance
     property alias statusBar: statusBar
+    // Shell MenuBar instance
     property alias shellMenuBar: menus
     // Main client area
     property alias content: body.data
+    // StatusBar progress 0..1
     property alias statusProgress: statusBar.progress
+    // StatusBar indeterminate progress
     property alias statusProgressIndeterminate: statusBar.progressIndeterminate
+    // StatusBar center slot
     property alias statusCenter: statusBar.centerContent
+    // StatusBar right slot
     property alias statusRight: statusBar.content
     // Embed MenuBar in the title chrome instead of a strip below it
     property bool menusInTitleBar: false

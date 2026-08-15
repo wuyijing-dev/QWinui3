@@ -15,9 +15,13 @@ import QWinUI3.Theme
 T.Control {
     id: root
 
+    // Informational severity constant
     readonly property int informational: 0
+    // Success severity constant
     readonly property int success: 1
+    // Warning severity constant
     readonly property int warning: 2
+    // Error severity constant
     readonly property int error: 3
 
     // Status severity enum
@@ -42,6 +46,7 @@ T.Control {
     property var symbol: ""
     // Optional action button label
     property string actionText: ""
+    // Custom action slot
     property alias action: actionSlot.data
     // Auto-dismiss duration; 0 keeps open
     property int durationMs: 0 // >0 auto-dismisses after open
@@ -55,9 +60,13 @@ T.Control {
         }
     }
 
+    // Close button clicked
     signal closeClicked()
+    // Emitted when action is clicked
     signal actionClicked()
+    // Swipe content closed
     signal closed()
+    // Emitted when opened
     signal opened()
 
     function open() { isOpen = true }

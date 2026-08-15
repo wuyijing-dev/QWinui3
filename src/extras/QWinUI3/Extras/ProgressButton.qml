@@ -16,17 +16,26 @@ T.AbstractButton {
     property bool indeterminate: false
     // Alias of indeterminate
     property alias isIndeterminate: control.indeterminate
+    // Show progress indicator
     property bool showProgress: true
+    // Show Percentage
     property bool showPercentage: false
     // idle | progressing | completed | error
     property string progressState: "idle"
+    // Progressing Text
     property string progressingText: ""
+    // Completed Text
     property string completedText: ""
+    // Error Text
     property string errorText: ""
+    // Progress Completed
     signal progressCompleted()
+    // Progress Failed
     signal progressFailed()
 
+    // Value as 0..100 percentage
     readonly property real percentage: Math.round(Math.max(0, Math.min(1, progress)) * 100)
+    // Text shown to the user
     readonly property string displayText: {
         if (progressState === "completed" && completedText.length)
             return completedText
@@ -208,7 +217,9 @@ T.AbstractButton {
             }
         }
 
+        // Inner Radius
         readonly property real innerRadius: Math.max(0, radius - 1)
+        // Inner Width
         readonly property real innerWidth: Math.max(0, width - 2)
 
         Rectangle {

@@ -18,9 +18,13 @@ T.Control {
     property real overlap: 12
     // Max visible items before overflow
     property int maxVisible: 4
+    // Show +N overflow chip
     property bool showOverflowCount: true
+    // Qt layout direction
     property int layoutDirection: Qt.LeftToRight
+    // Avatar clicked
     signal personClicked(int index, var item)
+    // Overflow chip clicked
     signal overflowClicked()
 
     implicitWidth: row.implicitWidth
@@ -29,6 +33,7 @@ T.Control {
     Accessible.role: Accessible.List
     Accessible.name: qsTr("%1 people").arg(model ? model.length : 0)
 
+    // Hidden avatar count
     readonly property int overflowCount: Math.max(0, (model ? model.length : 0) - maxVisible)
 
     contentItem: Row {

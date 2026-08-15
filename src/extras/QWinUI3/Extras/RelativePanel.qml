@@ -10,7 +10,9 @@ import QWinUI3.Theme
 Item {
     id: root
 
+    // Panel Spacing
     property real panelSpacing: 0
+    // Edge paddings
     property int paddingEdges: 0
 
     implicitWidth: 320

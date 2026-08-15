@@ -20,24 +20,32 @@ T.Control {
     property real minimum: 0
     // Maximum value
     property real maximum: NaN
+    // Levels
     property int levels: 4
     // Fill under line / area
     property bool filled: true
+    // Show item labels
     property bool showLabels: true
+    // Play enter / reveal animation
     property bool animated: true
+    // Enable hover / click interaction
     property bool interactive: true
+    // 0..1 reveal animation progress
     property real revealProgress: 1
+    // Hovered series index
     property int hoverSeries: -1
     // Selected index alias
     property alias selectedIndex: root.hoverSeries
     // Primary title text
     property string title: ""
+    // Placeholder when there is no data
     property string emptyText: qsTr("No data")
 
     implicitWidth: 260
     implicitHeight: title.length ? 260 : 240
     padding: 12
 
+    // True when there is no data
     readonly property bool isEmpty: _seriesList.length === 0 || _axisCount < 3
 
     readonly property var _seriesList: {

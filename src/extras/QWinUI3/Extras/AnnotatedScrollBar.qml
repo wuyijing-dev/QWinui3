@@ -12,28 +12,38 @@ import QWinUI3.Theme
 T.Control {
     id: root
 
+    // Default children / content slot
     default property alias contentData: flick.data
+    // Flickable content width
     property alias contentWidth: flick.contentWidth
+    // Flickable content height
     property alias contentHeight: flick.contentHeight
+    // Flickable content X
     property alias contentX: flick.contentX
+    // Flickable content Y
     property alias contentY: flick.contentY
+    // Inner Flickable
     property alias flickable: flick
 
     // Optional map from scroll position (0..1) → label. Empty → percentage.
     property var labels: []
+    // Format string / function for scrollbar label
     property string labelFormat: "%1%"
+    // Keep scrollbar label visible
     property bool alwaysShowLabel: false
 
     implicitWidth: 200
     implicitHeight: 200
     clip: true
 
+    // Normalized scroll position
     readonly property real scrollPosition: {
         if (flick.contentHeight <= flick.height)
             return 0
         return flick.contentY / Math.max(1, flick.contentHeight - flick.height)
     }
 
+    // Label for the current value
     readonly property string currentLabel: {
         if (labels && labels.length > 0) {
             var idx = Math.min(labels.length - 1,

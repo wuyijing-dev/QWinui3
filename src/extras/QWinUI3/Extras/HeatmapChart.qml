@@ -12,31 +12,45 @@ T.Control {
 
     // Numeric values array
     property var values: []
+    // Heatmap row labels
     property var rowLabels: []
+    // Heatmap column labels
     property var columnLabels: []
     // Minimum value
     property real minimum: NaN
     // Maximum value
     property real maximum: NaN
+    // Gap between heatmap cells
     property real cellGap: 2
+    // Heatmap cell corner radius
     property real cellRadius: 3
+    // Play enter / reveal animation
     property bool animated: true
+    // Enable hover / click interaction
     property bool interactive: true
+    // 0..1 reveal animation progress
     property real revealProgress: 1
+    // Hovered heatmap row index
     property int hoverRow: -1
+    // Hover Col
     property int hoverCol: -1
+    // Low Color
     property color lowColor: Theme.dark ? "#1B3A4B" : "#D6EBFA"
+    // High Color
     property color highColor: Theme.accent
     // Primary title text
     property string title: ""
+    // Placeholder when there is no data
     property string emptyText: qsTr("No data")
 
+    // Cell Clicked
     signal cellClicked(int row, int col, real value)
 
     implicitWidth: 320
     implicitHeight: title.length ? 220 : 200
     padding: 8
 
+    // True when there is no data
     readonly property bool isEmpty: {
         var g = _grid
         if (!g.length)
@@ -142,12 +156,17 @@ T.Control {
             visible: !root.isEmpty
             antialiasing: true
             renderStrategy: Canvas.Cooperative
+            // Label column width
             property real labelW: 0
+            // Label H
             property real labelH: 0
+            // Cell W
             property real cellW: 1
+            // Cell H
             property real cellH: 1
             // Grid row count
             property int rows: 0
+            // Cols
             property int cols: 0
 
             onPaint: {

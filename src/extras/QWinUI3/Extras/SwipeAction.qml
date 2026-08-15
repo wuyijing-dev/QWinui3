@@ -14,12 +14,17 @@ Item {
     property var symbol: ""
     // Raw Fluent glyph string fallback
     property string iconGlyph: ""
+    // Color
     property color color: Theme.dark ? "#C42B1C" : Theme.systemCritical
+    // Badge / content text color
     property color textColor: "#FFFFFF"
+    // Leading content slot
     property bool leading: false
 
+    // Resolved glyph string
     readonly property string effectiveGlyph: IconSource.resolve(symbol, iconGlyph)
 
+    // Emitted when clicked
     signal clicked()
 
     width: Math.max(88, contentCol.implicitWidth + 28)

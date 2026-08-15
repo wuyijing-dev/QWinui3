@@ -14,24 +14,38 @@ import QWinUI3.Theme
 T.Control {
     id: root
 
+    // Default children / content slot
     default property alias contentData: primaryRow.data
+    // Primary command host
     property alias primaryCommands: primaryRow
+    // Overflow Menu for secondary commands
     property alias overflowMenu: overflowMenu
     // [{ text: string, triggered: function() }] — MenuItem cannot parent to Menu in Qt 6
     property var overflowItems: []
+    // Secondary command host
     property alias secondaryCommands: root.overflowItems
+    // Spacing between commands
     property real barSpacing: 2
     // Open / visible state
     property bool isOpen: true
+    // Default AppBar label position
     property string defaultLabelPosition: "bottom"
+    // How labels show when closed
     property string closedDisplayMode: "compact"
+    // Show overflow (…) button
     property bool isMoreButtonVisible: true
+    // Show toggle / more button
     property bool isToggleButtonVisible: true
 
+    // True while opening
     signal opening()
+    // True while closing
     signal closing()
+    // Emitted when opened
     signal opened()
+    // Swipe content closed
     signal closed()
+    // Overflow more button clicked
     signal moreButtonClicked()
 
     function open() { isOpen = true }
@@ -51,6 +65,7 @@ T.Control {
     Accessible.role: Accessible.ToolBar
     Accessible.name: qsTr("Command bar")
 
+    // Resolved label position
     readonly property string effectiveLabelPosition: {
         if (!root.isOpen && root.closedDisplayMode === "compact")
             return "collapsed"

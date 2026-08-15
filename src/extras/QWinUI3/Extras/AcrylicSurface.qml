@@ -17,9 +17,13 @@ T.Pane {
     property bool elevated: false
     // Draw a border when true
     property bool bordered: true
+    // Show luminant edge highlight
     property bool showLuminantEdge: true
+    // Corner radius
     property real cornerRadius: Theme.cornerCard
+    // Tint overlay color
     property color tintColor: elevated ? Theme.bgCardElevated : Theme.bgAcrylic
+    // Frost overlay opacity
     property real frostOpacity: {
         if (!WindowHelper.customFrame)
             return 1

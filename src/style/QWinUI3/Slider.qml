@@ -44,6 +44,7 @@ T.Slider {
 
             Rectangle {
                 anchors.centerIn: parent
+                // Diameter in px
                 readonly property real diameter: !control.enabled ? 10
                     : control.pressed ? 8
                     : control.hovered ? 14 : 10

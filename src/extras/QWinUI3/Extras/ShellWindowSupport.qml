@@ -10,6 +10,7 @@ import QWinUI3.Platform
 Item {
     id: root
 
+    // Window this chrome is attached to
     property var targetWindow: null
     // WindowHelper.Paradigm* kind
     property int paradigm: WindowHelper.ParadigmStandard
@@ -19,6 +20,7 @@ Item {
     property int presenter: WindowHelper.PresenterOverlapped
     // Keep window above others
     property bool isAlwaysOnTop: false
+    // Auto-apply WindowHelper chrome on complete
     property bool autoInstall: true
     // Custom frame / extend content
     property bool extendsContentIntoTitleBar: WindowHelper.customFrame

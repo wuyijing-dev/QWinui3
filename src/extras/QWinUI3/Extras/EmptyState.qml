@@ -16,6 +16,7 @@ T.Control {
 
     // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
+    // Fluent glyph drawn in the button
     property string glyph: ""
     // Primary title text
     property string title: qsTr("Nothing here yet")
@@ -23,15 +24,22 @@ T.Control {
     property string message: qsTr("When there is content, it will show up in this area.")
     // Optional action button label
     property string actionText: ""
+    // Secondary action button label
     property string secondaryActionText: ""
+    // Compact layout density
     property bool compact: false
     // Draw a border when true
     property bool bordered: true
+    // Glyph color
     property color glyphColor: Theme.accent
+    // Show leading glyph
     property bool showGlyph: true
+    // Emitted when action is clicked
     signal actionClicked()
+    // Secondary action clicked
     signal secondaryActionClicked()
 
+    // Resolved glyph string
     readonly property string effectiveGlyph: {
         var g = IconSource.resolve(symbol, glyph)
         return g.length ? g : FluentIcons.Warning

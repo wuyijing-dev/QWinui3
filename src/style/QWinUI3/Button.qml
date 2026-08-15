@@ -23,7 +23,9 @@ T.Button {
     font.pixelSize: Theme.fontBody
     hoverEnabled: true
 
+    // Use accent chrome
     readonly property bool accented: control.highlighted || control.checked
+    // True in light theme
     readonly property bool lightScheme: !Theme.dark
 
     readonly property color __buttonText: {
@@ -118,11 +120,14 @@ T.Button {
             radius: Theme.cornerControl
             visible: !control.flat || control.down || control.hovered || control.accented
 
+            // Draw solid stroke chrome
             readonly property bool hasSolidStroke: !control.flat
                 && (control.down || (!control.enabled && !control.accented) || (Theme.dark && !control.accented))
+            // Draw gradient stroke chrome
             readonly property bool hasGradientStroke: !hasSolidStroke && !control.flat && control.enabled && !control.accented
             // WinUI ControlStrokeDefault / Secondary — keep soft, not StrongStroke
             readonly property color topStroke: Theme.dark ? "#12FFFFFF" : "#0F000000"
+            // Bottom edge stroke width
             readonly property color bottomStroke: Theme.dark ? "#18FFFFFF" : "#29000000"
 
             gradient: Gradient {
@@ -141,6 +146,7 @@ T.Button {
             }
 
             Rectangle {
+                // Content inset
                 readonly property bool inset: strokeShell.hasGradientStroke
                 x: inset ? 1 : 0
                 y: inset ? 1 : 0

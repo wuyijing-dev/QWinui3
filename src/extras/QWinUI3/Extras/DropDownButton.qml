@@ -14,10 +14,13 @@ import QWinUI3.Theme
 T.AbstractButton {
     id: control
 
+    // Attached / owned Menu
     property alias menu: popupMenu
+    // Menu children slot
     default property alias menuData: popupMenu.contentData
     // Emphasized / selected chrome
     property bool highlighted: false
+    // MenuFlyout placement
     property int flyoutPlacement: Qt.AlignBottom
     // Raw Fluent glyph string fallback
     property string iconGlyph: ""
@@ -26,6 +29,7 @@ T.AbstractButton {
     // Open / visible state
     property alias isOpen: popupMenu.visible
 
+    // Resolved glyph string
     readonly property string effectiveIconGlyph: IconSource.resolve(symbol, iconGlyph)
 
     implicitWidth: Math.max(Theme.controlMinWidth,
@@ -43,7 +47,9 @@ T.AbstractButton {
     Accessible.name: control.text.length ? control.text : qsTr("Drop down")
     Accessible.description: control.menuOpen ? qsTr("Menu open") : qsTr("Menu closed")
 
+    // True in light theme
     readonly property bool lightScheme: !Theme.dark
+    // Menu currently open
     readonly property bool menuOpen: popupMenu.visible
     readonly property color __fill: {
         if (control.highlighted) {
@@ -168,9 +174,13 @@ T.AbstractButton {
             anchors.fill: parent
             radius: Theme.cornerControl
 
+            // Draw solid stroke chrome
             readonly property bool hasSolidStroke: control.down || control.menuOpen || !control.enabled || Theme.dark
+            // Draw gradient stroke chrome
             readonly property bool hasGradientStroke: !hasSolidStroke && control.enabled
+            // Top edge stroke width
             readonly property color topStroke: Theme.dark ? "#12FFFFFF" : "#0F000000"
+            // Bottom edge stroke width
             readonly property color bottomStroke: Theme.dark ? "#18FFFFFF" : "#29000000"
 
             gradient: Gradient {
@@ -189,6 +199,7 @@ T.AbstractButton {
             }
 
             Rectangle {
+                // Content inset
                 readonly property bool inset: strokeShell.hasGradientStroke
                 x: inset ? 1 : 0
                 y: inset ? 1 : 0

@@ -9,16 +9,23 @@ import QWinUI3.Theme
 T.Control {
     id: root
 
+    // Default children / content slot
     default property alias contentData: grid.data
     // Grid row count
     property int rows: 0          // 0 = auto from children + columns
     // Grid column count
     property int columns: 2
+    // Row Spacing
     property real rowSpacing: Theme.spacing
+    // Column Spacing
     property real columnSpacing: Theme.spacing
+    // Cell Width
     property real cellWidth: -1   // <0 → equal share of width
+    // Cell Height
     property real cellHeight: -1  // <0 → equal share of height / implicit
+    // Qt layout direction
     property int layoutDirection: Qt.LeftToRight
+    // Cell Spacing
     property real cellSpacing: -1
 
     padding: 0
@@ -27,6 +34,7 @@ T.Control {
     Accessible.role: Accessible.Grouping
     Accessible.name: qsTr("Uniform grid")
 
+    // Number of children
     readonly property int childCount: {
         var n = 0
         for (var i = 0; i < grid.children.length; ++i) {

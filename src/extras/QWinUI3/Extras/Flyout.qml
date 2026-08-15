@@ -15,14 +15,17 @@ T.Popup {
 
     // Popup / flyout placement
     property int placement: Qt.AlignBottom
+    // Preferred flyout placement
     property alias preferredPlacement: root.placement
     // Anchor item for placement
     property Item target: null
+    // Close on outside click / Esc
     property bool isLightDismissEnabled: true
     // Open / visible state
     property bool isOpen: false
     // Primary title text
     property string title: ""
+    // Default children / content slot
     default property alias contentData: body.data
 
     padding: 12

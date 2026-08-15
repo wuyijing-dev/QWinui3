@@ -12,27 +12,40 @@ T.Control {
 
     // Chart series array
     property var series: []
+    // Category labels for bars
     property var categories: []
     // Minimum value
     property real minimum: 0
     // Maximum value
     property real maximum: NaN
+    // Bar corner radius
     property real barRadius: 4
+    // Gap between bars
     property real barGap: 0.32
+    // Show zero baseline
     property bool showBaseline: true
     // Show chart legend
     property bool showLegend: true
+    // Show category axis labels
     property bool showCategoryLabels: true
+    // Enable hover / click interaction
     property bool interactive: true
+    // Play enter / reveal animation
     property bool animated: true
+    // 0..1 reveal animation progress
     property real revealProgress: 1
+    // Hover Category
     property int hoverCategory: -1
+    // Hovered series index
     property int hoverSeries: -1
+    // Tooltip / hover readout text
     property string hoverText: ""
     // Primary title text
     property string title: ""
+    // Placeholder when there is no data
     property string emptyText: qsTr("No data")
 
+    // Category Clicked
     signal categoryClicked(int categoryIndex)
 
     implicitWidth: 320
@@ -44,6 +57,7 @@ T.Control {
     }
     padding: 8
 
+    // True when there is no data
     readonly property bool isEmpty: !series || series.length === 0
 
     readonly property var _legendItems: {
@@ -120,9 +134,13 @@ T.Control {
                 visible: !root.isEmpty
                 antialiasing: true
                 renderStrategy: Canvas.Cooperative
+                // Named content slot
                 property real slot: 1
+                // Left padding
                 property real padL: 2
+                // Bottom padding
                 property real padB: 4
+                // Cat Count
                 property int catCount: 0
 
                 onPaint: {

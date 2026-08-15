@@ -22,6 +22,7 @@ T.ComboBox {
     font.pixelSize: Theme.fontBody
     hoverEnabled: true
 
+    // True in light theme
     readonly property bool lightScheme: !Theme.dark
     readonly property color __fill: {
         if (!control.enabled)
@@ -48,6 +49,7 @@ T.ComboBox {
         }
         hoverEnabled: true
 
+        // Selected state
         readonly property bool selected: index === control.currentIndex
 
         contentItem: Text {
@@ -171,9 +173,13 @@ T.ComboBox {
             anchors.fill: parent
             radius: Theme.cornerControl
 
+            // Draw solid stroke chrome
             readonly property bool hasSolidStroke: control.down || !control.enabled || Theme.dark
+            // Draw gradient stroke chrome
             readonly property bool hasGradientStroke: !hasSolidStroke && control.enabled
+            // Top edge stroke width
             readonly property color topStroke: Theme.dark ? "#12FFFFFF" : "#0F000000"
+            // Bottom edge stroke width
             readonly property color bottomStroke: Theme.dark ? "#18FFFFFF" : "#29000000"
 
             gradient: Gradient {
@@ -192,6 +198,7 @@ T.ComboBox {
             }
 
             Rectangle {
+                // Content inset
                 readonly property bool inset: strokeShell.hasGradientStroke
                 x: inset ? 1 : 0
                 y: inset ? 1 : 0

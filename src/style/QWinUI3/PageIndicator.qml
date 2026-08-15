@@ -19,6 +19,7 @@ T.PageIndicator {
 
     delegate: Rectangle {
         required property int index
+        // Active state
         readonly property bool active: index === control.currentIndex
         implicitWidth: active ? 18 : 8
         implicitHeight: 8

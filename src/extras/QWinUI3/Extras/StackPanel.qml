@@ -9,12 +9,15 @@ import QWinUI3.Theme
 T.Control {
     id: root
 
+    // Default children / content slot
     default property alias contentData: host.data
     // Qt.Horizontal or Qt.Vertical
     property int orientation: Qt.Vertical
+    // Edge paddings
     property int paddingEdges: 0
     // Cross-axis alignment: Horizontal → vertical align; Vertical → horizontal align
     property int alignment: Qt.AlignLeft | Qt.AlignTop
+    // Qt layout direction
     property int layoutDirection: Qt.LeftToRight
     // When true (default for Vertical), stretch children along the cross axis to host size
     property bool stretchChildren: orientation === Qt.Vertical
@@ -26,6 +29,7 @@ T.Control {
     Accessible.role: Accessible.Grouping
     Accessible.name: qsTr("Stack panel")
 
+    // Number of children
     readonly property int childCount: {
         var n = 0
         for (var i = 0; i < host.children.length; ++i) {

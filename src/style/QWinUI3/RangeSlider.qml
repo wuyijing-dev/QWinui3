@@ -38,6 +38,7 @@ T.RangeSlider {
 
             Rectangle {
                 anchors.centerIn: parent
+                // Diameter in px
                 readonly property real diameter: !control.enabled ? 10
                     : control.first.pressed ? 8
                     : control.first.hovered ? 14 : 10
@@ -92,6 +93,7 @@ T.RangeSlider {
 
             Rectangle {
                 anchors.centerIn: parent
+                // Diameter in px
                 readonly property real diameter: !control.enabled ? 10
                     : control.second.pressed ? 8
                     : control.second.hovered ? 14 : 10

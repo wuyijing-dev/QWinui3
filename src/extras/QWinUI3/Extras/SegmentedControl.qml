@@ -20,9 +20,13 @@ T.Control {
     property int currentIndex: 0
     // Selected index alias
     property alias selectedIndex: control.currentIndex
+    // Stretch factor / stretch pip
     property bool stretch: false
+    // Equal Width
     property bool equalWidth: stretch
+    // Selected state
     signal selected(int index, var item)
+    // Selection changed
     signal selectionChanged(int index)
 
     property bool _indicatorReady: false
@@ -194,6 +198,7 @@ T.Control {
                     id: seg
                     required property var modelData
                     required property int index
+                    // Active segment index
                     readonly property int segmentIndex: index
                     enabled: typeof modelData === "string" ? true
                              : (modelData.enabled === undefined ? true : !!modelData.enabled)

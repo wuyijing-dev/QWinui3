@@ -13,20 +13,27 @@ import QWinUI3.Theme
 T.Popup {
     id: root
 
+    // Primary command host
     readonly property alias primaryCommands: primaryRow
+    // Secondary command host
     readonly property alias secondaryCommands: secondaryCol
+    // Primary commands slot
     default property alias primaryData: primaryRow.data
+    // Secondary commands slot
     property alias secondaryData: secondaryCol.data
 
     // Open / visible state
     property bool isOpen: false
+    // Close on outside click / Esc
     property bool isLightDismissEnabled: true
     // Anchor item for placement
     property Item target: null
     // Popup / flyout placement
     property int placement: Qt.AlignBottom
+    // Preferred flyout placement
     property alias preferredPlacement: root.placement
 
+    // Show secondary command list
     readonly property bool showSecondary: secondaryCol.children.length > 0
 
     function showAt(item, preferredPlacement) {

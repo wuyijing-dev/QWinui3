@@ -19,14 +19,21 @@ T.Control {
     property color profileColor: Theme.accent
     // Show avatar badge
     property bool badgeVisible: false
+    // Badge fill color
     property color badgeColor: Theme.systemSuccess
+    // Badge Symbol
     property var badgeSymbol: ""
+    // Badge Glyph
     property string badgeGlyph: ""
+    // Badge severity
     property int badgeSeverity: -1 // -1 custom; else InfoBadge-like 0..3
     // WinUI-style count / text overlay (takes precedence over glyph when set)
     property int badgeValue: 0
+    // Badge caption
     property string badgeText: ""
+    // Badge max before +
     property int badgeMaxValue: 99
+    // Selected state
     property bool selected: false
 
     implicitWidth: size
@@ -43,6 +50,7 @@ T.Control {
         NumberAnimation { duration: Theme.duration(Theme.motionFast) }
     }
 
+    // Initials
     readonly property string initials: {
         var parts = String(displayName).trim().split(/\s+/).filter(function (p) { return p.length })
         if (!parts.length)

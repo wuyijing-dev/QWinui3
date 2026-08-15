@@ -20,13 +20,18 @@ T.Control {
     property string subtitle: ""
     // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
+    // Header icon glyph
     property string headerIcon: ""
     // Footer text
     property alias footer: footerSlot.data
+    // Emit clicked when activated
     property bool isClickable: false
+    // Default children / content slot
     default property alias contentData: body.data
+    // Emitted when clicked
     signal clicked()
 
+    // Resolved header icon
     readonly property string effectiveHeaderIcon: IconSource.resolve(symbol, headerIcon)
 
     padding: 16

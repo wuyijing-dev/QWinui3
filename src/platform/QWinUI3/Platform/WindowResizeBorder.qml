@@ -8,7 +8,9 @@ import QtQuick.Window
 Item {
     id: root
     anchors.fill: parent
+    // Window this chrome is attached to
     property var targetWindow: null
+    // Donut ring thickness
     property real thickness: 6
     visible: targetWindow !== null
     enabled: visible

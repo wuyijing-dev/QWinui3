@@ -10,15 +10,23 @@ import QWinUI3.Theme
 T.AbstractButton {
     id: control
 
+    // Clipboard payload to copy
     property string textToCopy: ""
     // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
+    // Glyph before copy succeeds
     property string idleGlyph: ""
+    // Glyph shown after copy
     property string doneGlyph: ""
+    // Success feedback duration in ms
     property int feedbackMs: 1600
+    // Emitted after a successful copy
     property bool copied: false
+    // Hide text; show glyph only
     property bool iconOnly: text.length === 0
+    // Copy Completed
     signal copyCompleted(string text)
+    // Copy Failed
     signal copyFailed()
 
     readonly property string _idleGlyph: {

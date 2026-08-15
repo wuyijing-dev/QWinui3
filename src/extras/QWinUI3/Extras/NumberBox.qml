@@ -21,24 +21,32 @@ T.Control {
     property real stepSize: 1
     // WinUI LargeChange — used with PageUp/PageDown / wheel+Ctrl
     property real largeChange: 10
+    // Decimals
     property int decimals: 0
+    // Prefix
     property string prefix: ""
+    // Suffix
     property string suffix: ""
     // Header label above the control
     property string header: ""
     // Supporting description text
     property string description: ""
+    // Validation error text
     property string errorMessage: ""
     // Placeholder when empty
     property string placeholderText: ""
+    // Input Invalid
     property bool inputInvalid: false
     // WinUI SpinButtonPlacementMode: "inline" | "compact" | "hidden"
     property string spinButtonPlacementMode: "inline"
     // WinUI ValidationMode: "invalidInputOverValue" | "disabled"
     property string validationMode: "invalidInputOverValue"
+    // Accept Wheel
     property bool acceptWheel: true
 
+    // True when validation failed
     readonly property bool hasError: errorMessage.length > 0 || inputInvalid
+    // Value Modified
     signal valueModified()
 
     implicitWidth: 180

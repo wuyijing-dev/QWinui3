@@ -9,27 +9,36 @@ import QWinUI3.Theme
 T.Control {
     id: root
 
+    // Caption under / beside the value
     readonly property int caption: 0
+    // Body style
     readonly property int body: 1
+    // Body strong style
     readonly property int bodyStrong: 2
     // Secondary subtitle text
     readonly property int subtitle: 3
     // Primary title text
     readonly property int title: 4
+    // Title large style
     readonly property int titleLarge: 5
+    // Display typography style
     readonly property int display: 6
 
     // Display / input text
     property string text: ""
+    // Typography style token
     property int style: body
     // WinUI IsTextSelectionEnabled — uses TextEdit when true (Label has no selectByMouse)
     property bool isTextSelectionEnabled: false
     // none | characterEllipsis | wordEllipsis
     property string textTrimming: "none"
+    // Max Lines
     property int maxLines: 0 // 0 = unlimited
 
+    // Color
     property color color: style === caption ? Theme.textSecondary : Theme.textPrimary
 
+    // Style Name
     readonly property string styleName: {
         switch (style) {
         case caption: return "caption"

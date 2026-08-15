@@ -13,7 +13,9 @@ Menu {
 
     // Popup / flyout placement
     property int placement: Qt.AlignBottom
+    // Preferred flyout placement
     property alias preferredPlacement: root.placement
+    // Close on outside click / Esc
     property bool isLightDismissEnabled: true
     // Open / visible state
     property bool isOpen: false

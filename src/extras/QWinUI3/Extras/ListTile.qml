@@ -23,12 +23,18 @@ T.ItemDelegate {
     property alias description: control.subtitle
     // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
+    // Fluent glyph drawn in the button
     property string glyph: ""
+    // Leading content slot
     property alias leading: leadingSlot.data
+    // Trailing slot
     default property alias trailing: trailingSlot.data
+    // Show trailing chevron
     property bool showChevron: false
+    // Selected state
     property bool isSelected: false
 
+    // Resolved glyph string
     readonly property string effectiveGlyph: IconSource.resolve(symbol, glyph)
 
     hoverEnabled: true

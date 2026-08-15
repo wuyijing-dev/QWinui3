@@ -17,6 +17,7 @@ T.AbstractButton {
     property string placeholderText: qsTr("Select items")
     // Header label above the control
     property string header: ""
+    // Selection changed
     signal selectionChanged(var selected)
 
     implicitWidth: 220
@@ -33,10 +34,12 @@ T.AbstractButton {
     Accessible.name: header.length ? header : qsTr("Multi-select")
     Accessible.description: displayText
 
+    // Menu currently open
     readonly property bool menuOpen: popup.visible
     // Open / visible state
     property alias isOpen: popup.visible
 
+    // Selected Items
     readonly property var selectedItems: {
         var out = []
         var m = model || []
@@ -50,6 +53,7 @@ T.AbstractButton {
         return out
     }
 
+    // Text shown to the user
     readonly property string displayText: {
         var names = []
         var m = model || []

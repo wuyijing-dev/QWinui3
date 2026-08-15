@@ -11,19 +11,27 @@ T.Control {
 
     // Numeric values array
     property var values: []
+    // Stroke color
     property color strokeColor: Theme.accent
+    // Primary fill / progress color
     property color fillColor: ChartUtils.withAlpha(Theme.accent, Theme.dark ? 0.28 : 0.16)
+    // Stroke thickness in px
     property real strokeWidth: 1.5
     // Fill under line / area
     property bool filled: true
+    // Show end-point marker
     property bool showEndMarker: true
+    // Play enter / reveal animation
     property bool animated: true
     // Minimum value
     property real minimum: NaN
     // Maximum value
     property real maximum: NaN
+    // 0..1 reveal animation progress
     property real revealProgress: 1
+    // Caption under / beside the value
     property string caption: ""
+    // Show delta vs first point
     property bool showDelta: false
 
     implicitWidth: 120
@@ -33,23 +41,27 @@ T.Control {
     Accessible.name: caption.length ? caption : qsTr("Sparkline")
     Accessible.description: isFinite(delta) ? qsTr("Change %1").arg(delta) : ""
 
+    // Last Value
     readonly property real lastValue: {
         var pts = ChartUtils.flattenValues(values)
         if (!pts.length)
             return NaN
         return Number(pts[pts.length - 1])
     }
+    // First Value
     readonly property real firstValue: {
         var pts = ChartUtils.flattenValues(values)
         if (!pts.length)
             return NaN
         return Number(pts[0])
     }
+    // Delta
     readonly property real delta: {
         if (!isFinite(lastValue) || !isFinite(firstValue))
             return NaN
         return lastValue - firstValue
     }
+    // Delta Positive
     readonly property bool deltaPositive: isFinite(delta) && delta >= 0
 
     Behavior on revealProgress {
