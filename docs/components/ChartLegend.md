@@ -6,31 +6,58 @@ Fluent legend for series/slices.
 
 [← Component index](../components.md)
 
-## Usage
+**Extends** `Item`.
+
+## Example
 
 ```qml
-ChartLegend { items: [{ label: "A", color: Theme.accent }] }
+ChartLegend {
+    id: chartLegend
+   items: [{ label: "A", color: Theme.accent
+}] }
+
+// --- API ---
+// signals: onItemClicked, onItemHovered
+// methods: select(index), clearSelection()
+// chartLegend.select(index)
+// chartLegend.clearSelection()
 ```
 
-## Properties
+## API
 
-- `items: var` — Item list / children model
-- `hoverIndex: int` — Hovered item index
-- `selectedIndex: int` — Selected index alias
-- `interactive: bool` — Enable hover / click interaction
-- `orientation: int` — Qt.Horizontal or Qt.Vertical
-- `showValue: bool` — Show numeric value label
-- `header: string` — Header label above the control
+### Properties
 
-## Signals
+| Name | Type | Description |
+| --- | --- | --- |
+| `items` | `var` | Item list / children model |
+| `hoverIndex` | `int` | Hovered item index |
+| `selectedIndex` | `int` | Selected index alias |
+| `interactive` | `bool` | Enable hover / click interaction |
+| `orientation` | `int` | Qt.Horizontal or Qt.Vertical |
+| `showValue` | `bool` | Show numeric value label |
+| `header` | `string` | Header label above the control |
 
-- `itemClicked(int index)` — Emitted when an item is clicked
-- `itemHovered(int index)` — Emitted when a legend item is hovered
+### Signals
 
-## Methods
+| Signature | Description |
+| --- | --- |
+| `itemClicked(int index)` | Emitted when an item is clicked |
+| `itemHovered(int index)` | Emitted when a legend item is hovered |
 
-- `select(index)` — Select item by index
-- `clearSelection()` — Clear the current selection
+### Methods
+
+| Signature | Description |
+| --- | --- |
+| `select(index)` | Select item by index |
+| `clearSelection()` | Clear the current selection |
+
+### Inherited from `Item`
+
+Also available (base type / Qt Quick Controls):
+
+- `width` / `height`
+- `visible`
+- `anchors` / `x` / `y`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

@@ -4,8 +4,16 @@ import QWinUI3.Theme
 // RelativePanel — Constraint-based relative layout.
 //
 //   RelativePanel {
+//       id: relativePanel
 //       // children with RelativePanel.* attached props
 //   }
+//
+//   // --- API ---
+//   // methods: isPanel(ref), leftEdge(ref), rightEdge(ref), topEdge(ref), bottomEdge(ref), centerX(ref), centerY(ref), preferredWidth(item), preferredHeight(item), has(item, name)
+//   // relativePanel.isPanel(ref)
+//   // relativePanel.leftEdge(ref)
+//   // relativePanel.rightEdge(ref)
+//   // relativePanel.topEdge(ref)
 
 Item {
     id: root

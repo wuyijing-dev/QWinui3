@@ -6,9 +6,18 @@ import QWinUI3.Theme
 // Flyout — Light-dismiss popup anchored to a target.
 //
 //   Flyout {
+//       id: flyout
 //       target: button
 //       Label { text: qsTr("Details") }
 //   }
+//
+//   // --- API ---
+//   // methods: showAt(item, place), show(), hide(), reposition()
+//   // flyout.showAt(item, place)
+//   // flyout.show()
+//   // flyout.hide()
+//   // flyout.reposition()
+//   // inherits Popup (+ Qt Quick Controls base API)
 
 T.Popup {
     id: root

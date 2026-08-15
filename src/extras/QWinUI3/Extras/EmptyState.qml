@@ -10,6 +10,9 @@ import QWinUI3.Theme
 //       title: qsTr("Nothing here")
 //       description: qsTr("Try another filter.")
 //   }
+//
+//   // --- API ---
+//   // signals: onActionClicked, onSecondaryActionClicked
 
 T.Control {
     id: root

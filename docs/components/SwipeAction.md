@@ -6,25 +6,48 @@ Action revealed by SwipeControl.
 
 [← Component index](../components.md)
 
-## Usage
+**Extends** `Item`.
+
+## Example
 
 ```qml
 SwipeAction { text: qsTr("Delete"); onTriggered: remove() }
+
+// --- API ---
+// signals: onClicked
 ```
 
-## Properties
+## API
 
-- `text: string` — Display / input text
-- `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
-- `iconGlyph: string` — Raw Fluent glyph string fallback
-- `color: color` — Primary color
-- `textColor: color` — Badge / content text color
-- `leading: bool` — Leading content slot
-- `effectiveGlyph: string` — Resolved glyph string
+### Properties
 
-## Signals
+| Name | Type | Description |
+| --- | --- | --- |
+| `text` | `string` | Display / input text |
+| `symbol` | `var` | FluentIcons symbol (preferred over iconGlyph) |
+| `iconGlyph` | `string` | Raw Fluent glyph string fallback |
+| `color` | `color` | Primary color |
+| `textColor` | `color` | Badge / content text color |
+| `leading` | `bool` | Leading content slot |
+| `effectiveGlyph` | `string` | Resolved glyph string |
 
-- `clicked()` — Emitted when clicked
+### Signals
+
+| Signature | Description |
+| --- | --- |
+| `clicked()` | Emitted when clicked |
+
+### Methods
+
+_No custom methods_ (use inherited methods from the base type).
+
+### Inherited from `Item`
+
+Also available (base type / Qt Quick Controls):
+
+- `width` / `height`
+- `visible`
+- `anchors` / `x` / `y`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

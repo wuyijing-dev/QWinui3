@@ -5,7 +5,19 @@ import QWinUI3.Theme
 
 // CopyButton — Copies textToCopy and flashes a success glyph.
 //
-//   CopyButton { textToCopy: code }
+//   CopyButton {
+//       id: copyButton
+//       textToCopy: code
+//       onCopyCompleted: (text) => { /* … */ }
+//       onCopyFailed: { /* … */ }
+//   }
+//
+//   // --- API ---
+//   // signals: onCopyCompleted, onCopyFailed
+//   // methods: copy(optionalText)
+//   // copyButton.copy()
+//   // copyButton.copy("override text")
+//   // inherits AbstractButton (+ text, enabled, clicked, …)
 
 T.AbstractButton {
     id: control

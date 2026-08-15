@@ -6,7 +6,16 @@ import QWinUI3.Theme
 
 // PasswordBox — Password field with reveal toggle.
 //
-//   PasswordBox { placeholderText: qsTr("Password") }
+//   PasswordBox {
+//       id: passwordBox
+//      placeholderText: qsTr("Password")
+//   }
+//
+//   // --- API ---
+//   // signals: onAccepted, onCleared
+//   // methods: clear(), focusField()
+//   // passwordBox.clear()
+//   // passwordBox.focusField()
 
 T.Control {
     id: root

@@ -5,7 +5,17 @@ import QWinUI3.Theme
 
 // LineChart — Multi-series line/area chart.
 //
-//   LineChart { values: [1, 4, 2, 6] }
+//   LineChart {
+//       id: lineChart
+//      values: [1, 4, 2, 6]
+//   }
+//
+//   // --- API ---
+//   // methods: playReveal(), sourcePointCountEstimate(), invalidateLod(), ensureLod(budget), requestRedraw(), clearHover()
+//   // lineChart.playReveal()
+//   // lineChart.sourcePointCountEstimate()
+//   // lineChart.invalidateLod()
+//   // lineChart.ensureLod(budget)
 
 T.Control {
     id: root

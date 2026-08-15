@@ -6,7 +6,18 @@ import QWinUI3.Theme
 
 // DatePicker — Date selectors (year / month / day).
 //
-//   DatePicker { }
+//   DatePicker {
+//       id: datePicker
+//      
+//   }
+//
+//   // --- API ---
+//   // signals: onDateChosen
+//   // methods: syncSelectedDateFromParts(), clampDay(), applyFromTumblers(), syncTumblers()
+//   // datePicker.syncSelectedDateFromParts()
+//   // datePicker.clampDay()
+//   // datePicker.applyFromTumblers()
+//   // datePicker.syncTumblers()
 
 T.Control {
     id: control

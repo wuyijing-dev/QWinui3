@@ -7,11 +7,22 @@ import QWinUI3.Theme
 // ContentDialog — Modal dialog with primary / secondary / close actions.
 //
 //   ContentDialog {
+//       id: dlg
 //       title: qsTr("Confirm")
 //       primaryButtonText: qsTr("OK")
+//       secondaryButtonText: qsTr("More")
 //       closeButtonText: qsTr("Cancel")
+//       onPrimaryClicked: { /* … */ }
+//       onSecondaryClicked: { /* … */ }
+//       onCloseClicked: { /* … */ }
 //   }
-//   // prefer dialog.show() → ContentDialogQueue
+//
+//   // --- API ---
+//   // dlg.show()          // enqueue via ContentDialogQueue (preferred)
+//   // dlg.hide()          // close
+//   // dlg.activateDefault()
+//   // signals: onPrimaryClicked, onSecondaryClicked, onCloseClicked
+//   // inherits Dialog: open(), close(), title, accepted(), rejected()
 
 T.Dialog {
     id: root

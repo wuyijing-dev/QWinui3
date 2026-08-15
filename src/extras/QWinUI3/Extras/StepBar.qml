@@ -6,7 +6,17 @@ import QWinUI3.Theme
 
 // StepBar — Horizontal step / wizard progress.
 //
-//   StepBar { model: ["Cart", "Ship", "Pay"]; currentIndex: 1 }
+//   StepBar {
+//       id: stepBar
+//      model: ["Cart", "Ship", "Pay"]; currentIndex: 1
+//   }
+//
+//   // --- API ---
+//   // signals: onStepActivated
+//   // methods: next(), previous(), goTo(index)
+//   // stepBar.next()
+//   // stepBar.previous()
+//   // stepBar.goTo(index)
 
 T.Control {
     id: control

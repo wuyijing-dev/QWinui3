@@ -4,7 +4,15 @@ import QWinUI3.Theme
 
 // BulletChart — Compact KPI bullet (ranges + performance + target).
 //
-//   BulletChart { value: 70; target: 80; maximum: 100 }
+//   BulletChart {
+//       id: bulletChart
+//      value: 70; target: 80; maximum: 100
+//   }
+//
+//   // --- API ---
+//   // methods: setValue(v), bandColor(index)
+//   // bulletChart.setValue(v)
+//   // bulletChart.bandColor(index)
 
 T.Control {
     id: root

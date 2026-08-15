@@ -7,10 +7,18 @@ import QWinUI3.Theme
 // InfoBar — Inline severity banner with optional action.
 //
 //   InfoBar {
+//       id: infoBar
 //       title: qsTr("Saved")
 //       message: qsTr("All changes stored.")
 //       severity: InfoBar.Success
 //   }
+//
+//   // --- API ---
+//   // signals: onCloseClicked, onActionClicked, onClosed, onOpened
+//   // methods: open(), close(), setSeverityName(name)
+//   // infoBar.open()
+//   // infoBar.close()
+//   // infoBar.setSeverityName(name)
 
 T.Control {
     id: root

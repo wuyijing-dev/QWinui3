@@ -6,37 +6,64 @@ Password field with reveal toggle.
 
 [← Component index](../components.md)
 
-## Usage
+**Extends** `Control`.
+
+## Example
 
 ```qml
-PasswordBox { placeholderText: qsTr("Password") }
+PasswordBox {
+    id: passwordBox
+   placeholderText: qsTr("Password")
+}
+
+// --- API ---
+// signals: onAccepted, onCleared
+// methods: clear(), focusField()
+// passwordBox.clear()
+// passwordBox.focusField()
 ```
 
-## Properties
+## API
 
-- `text: alias` — Display / input text
-- `placeholderText: alias` — Placeholder when empty
-- `maximumLength: alias` — Hard maximum text length
-- `header: string` — Header label above the control
-- `description: string` — Supporting description text
-- `errorMessage: string` — Validation error text
-- `clearButtonVisible: bool` — Show clear affordance
-- `passwordRevealMode: string` — WinUI PasswordRevealMode: peek | hidden | visible
-- `revealPassword: bool` — True while password is revealed
-- `revealButtonVisible: bool` — Show password reveal button
-- `echoMode: alias` — TextField echo mode
-- `field: alias` — Inner text field
-- `hasError: bool` — True when validation failed
+### Properties
 
-## Signals
+| Name | Type | Description |
+| --- | --- | --- |
+| `text` | `alias` | Display / input text |
+| `placeholderText` | `alias` | Placeholder when empty |
+| `maximumLength` | `alias` | Hard maximum text length |
+| `header` | `string` | Header label above the control |
+| `description` | `string` | Supporting description text |
+| `errorMessage` | `string` | Validation error text |
+| `clearButtonVisible` | `bool` | Show clear affordance |
+| `passwordRevealMode` | `string` | WinUI PasswordRevealMode: peek \| hidden \| visible |
+| `revealPassword` | `bool` | True while password is revealed |
+| `revealButtonVisible` | `bool` | Show password reveal button |
+| `echoMode` | `alias` | TextField echo mode |
+| `field` | `alias` | Inner text field |
+| `hasError` | `bool` | True when validation failed |
 
-- `accepted()` — Emitted on accept / submit
-- `cleared()` — Emitted when content is cleared
+### Signals
 
-## Methods
+| Signature | Description |
+| --- | --- |
+| `accepted()` | Emitted on accept / submit |
+| `cleared()` | Emitted when content is cleared |
 
-- `clear()` — Clear text or selection
-- `focusField()` — Move keyboard focus to the text field
+### Methods
+
+| Signature | Description |
+| --- | --- |
+| `clear()` | Clear text or selection |
+| `focusField()` | Move keyboard focus to the text field |
+
+### Inherited from `Control`
+
+Also available (base type / Qt Quick Controls):
+
+- `padding`
+- `font`
+- `background` / `contentItem`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

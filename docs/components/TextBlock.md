@@ -6,32 +6,59 @@ Fluent typography styles (title, body, caption…).
 
 [← Component index](../components.md)
 
-## Usage
+**Extends** `Control`.
+
+## Example
 
 ```qml
-TextBlock { text: qsTr("Title"); style: title }
+TextBlock {
+    id: textBlock
+   text: qsTr("Title"); style: title
+}
+
+// --- API ---
+// methods: setStyleName(name)
+// textBlock.setStyleName(name)
 ```
 
-## Properties
+## API
 
-- `caption: int` — Caption under / beside the value
-- `body: int` — Body style
-- `bodyStrong: int` — Body strong style
-- `subtitle: int` — Secondary subtitle text
-- `title: int` — Primary title text
-- `titleLarge: int` — Title large style
-- `display: int` — Display typography style
-- `text: string` — Display / input text
-- `style: int` — Typography style token
-- `isTextSelectionEnabled: bool` — WinUI IsTextSelectionEnabled — uses TextEdit when true (Label has no selectByMouse)
-- `textTrimming: string` — none | characterEllipsis | wordEllipsis
-- `maxLines: int` — Maximum wrapped line count
-- `color: color` — Primary color
-- `styleName: string` — Current style name
+### Properties
 
-## Methods
+| Name | Type | Description |
+| --- | --- | --- |
+| `caption` | `int` | Caption under / beside the value |
+| `body` | `int` | Body style |
+| `bodyStrong` | `int` | Body strong style |
+| `subtitle` | `int` | Secondary subtitle text |
+| `title` | `int` | Primary title text |
+| `titleLarge` | `int` | Title large style |
+| `display` | `int` | Display typography style |
+| `text` | `string` | Display / input text |
+| `style` | `int` | Typography style token |
+| `isTextSelectionEnabled` | `bool` | WinUI IsTextSelectionEnabled — uses TextEdit when true (Label has no selectByMouse) |
+| `textTrimming` | `string` | none \| characterEllipsis \| wordEllipsis |
+| `maxLines` | `int` | Maximum wrapped line count |
+| `color` | `color` | Primary color |
+| `styleName` | `string` | Current style name |
 
-- `setStyleName(name)` — Set style by name
+### Signals
+
+_No custom signals_ (use inherited signals from the base type).
+
+### Methods
+
+| Signature | Description |
+| --- | --- |
+| `setStyleName(name)` | Set style by name |
+
+### Inherited from `Control`
+
+Also available (base type / Qt Quick Controls):
+
+- `padding`
+- `font`
+- `background` / `contentItem`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

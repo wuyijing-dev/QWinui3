@@ -6,23 +6,54 @@ Always-accent primary CTA with optional Fluent symbol.
 
 [← Component index](../components.md)
 
-## Usage
+**Extends** `Button`.
+
+## Example
 
 ```qml
 AccentButton {
+    id: saveBtn
     text: qsTr("Save")
     symbol: FluentIcons.Save
+    enabled: true
     onClicked: save()
 }
+
+// --- API ---
+// properties: symbol, iconGlyph, iconSize, effectiveIconGlyph
+// inherits Button: text, enabled, highlighted, clicked(), pressAndHold()
+// saveBtn.clicked → onClicked; no custom methods
 ```
 
-## Properties
+## API
 
-- `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
-- `iconGlyph: string` — Raw Fluent glyph string fallback
-- `iconSize: real` — Icon size in px
-- `effectiveIconGlyph: string` — Resolved glyph string
-- `lightScheme: bool` — True in light theme
+### Properties
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `symbol` | `var` | FluentIcons symbol (preferred over iconGlyph) |
+| `iconGlyph` | `string` | Raw Fluent glyph string fallback |
+| `iconSize` | `real` | Icon size in px |
+| `effectiveIconGlyph` | `string` | Resolved glyph string |
+| `lightScheme` | `bool` | True in light theme |
+
+### Signals
+
+_No custom signals_ (use inherited signals from the base type).
+
+### Methods
+
+_No custom methods_ (use inherited methods from the base type).
+
+### Inherited from `Button`
+
+Also available (base type / Qt Quick Controls):
+
+- `text`
+- `enabled`
+- `flat` / `highlighted`
+- `clicked()`
+- `pressAndHold()`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

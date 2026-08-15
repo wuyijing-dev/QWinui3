@@ -6,6 +6,8 @@ import QWinUI3.Theme
 // CheckBox — Fluent styled CheckBox.
 //
 //   CheckBox { text: qsTr("Remember"); checked: true }
+//
+//   // --- API ---
 
 T.CheckBox {
     id: control

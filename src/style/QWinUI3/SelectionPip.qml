@@ -3,7 +3,15 @@ import QWinUI3.Theme
 
 // SelectionPip — Navigation selection pip indicator.
 //
-//   SelectionPip { }
+//   SelectionPip {
+//       id: selectionPip
+//      
+//   }
+//
+//   // --- API ---
+//   // methods: snapTo(index), animateTo(index)
+//   // selectionPip.snapTo(index)
+//   // selectionPip.animateTo(index)
 
 Item {
     id: root

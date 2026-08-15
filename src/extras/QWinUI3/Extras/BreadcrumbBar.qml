@@ -8,9 +8,18 @@ import QWinUI3.Theme
 // BreadcrumbBar — Path trail; model items raise itemClicked.
 //
 //   BreadcrumbBar {
+//       id: breadcrumbBar
 //       model: [{ title: "Home" }, { title: "Docs" }]
 //       onItemClicked: (index) => navigate(index)
 //   }
+//
+//   // --- API ---
+//   // signals: onItemClicked, onItemInvoked
+//   // methods: crumbTitle(data), crumbIcon(data), isCurrent(index), isClickable(entry)
+//   // breadcrumbBar.crumbTitle(data)
+//   // breadcrumbBar.crumbIcon(data)
+//   // breadcrumbBar.isCurrent(index)
+//   // breadcrumbBar.isClickable(entry)
 
 T.Control {
     id: root

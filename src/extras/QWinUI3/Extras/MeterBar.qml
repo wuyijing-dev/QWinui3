@@ -7,6 +7,9 @@ import QWinUI3.Theme
 // MeterBar — Multi-segment stacked meter (e.g. disk usage).
 //
 //   MeterBar { segments: [{ value: 40, color: Theme.accent }] }
+//
+//   // --- API ---
+//   // signals: onSegmentClicked
 
 T.Control {
     id: root

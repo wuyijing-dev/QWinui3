@@ -4,7 +4,15 @@ import QWinUI3.Theme
 
 // InfoBadge — Count / status / glyph badge.
 //
-//   InfoBadge { value: 3; severity: informational }
+//   InfoBadge {
+//       id: infoBadge
+//      value: 3; severity: informational
+//   }
+//
+//   // --- API ---
+//   // methods: setSeverityName(name), bump()
+//   // infoBadge.setSeverityName(name)
+//   // infoBadge.bump()
 
 T.Control {
     id: root

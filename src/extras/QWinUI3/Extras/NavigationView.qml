@@ -7,12 +7,25 @@ import QWinUI3.Theme
 // NavigationView — WinUI NavigationView with pane modes and page stack.
 //
 //   NavigationView {
+//       id: nav
 //       anchors.fill: parent
 //       paneDisplayMode: "auto"
 //       model: navModel
 //       isPaneSearchEnabled: true
 //       pageModule: "MyApp"
+//       onItemClicked: (index) => { /* … */ }
+//       onPageOpened: (name) => { /* … */ }
+//       onBackRequested: { /* … */ }
 //   }
+//
+//   // --- API ---
+//   // navigate: nav.selectKey("home"), nav.selectFooter(), nav.openPage("HomePage")
+//   //           nav.openSlide("HomePage"), nav.openFromCenter("HomePage")
+//   //           nav.navigateToTitle("Home"), nav.reloadPage()
+//   // groups:   nav.toggleGroup(key), nav.setGroupExpanded(key, true)
+//   // reorder:  nav.moveNavItem(from, to)   // requires isReorderable
+//   // signals:  onItemClicked, onPageOpened, onFooterClicked, onBackRequested,
+//   //           onPaneSearchActivated, onPaneSearchTextEdited, onModelReordered
 
 Item {
     id: root

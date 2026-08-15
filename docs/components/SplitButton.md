@@ -6,39 +6,67 @@ Primary action + chevron menu.
 
 [← Component index](../components.md)
 
-## Usage
+**Extends** `AbstractButton`.
+
+## Example
 
 ```qml
 SplitButton {
+    id: splitButton
     text: qsTr("Open")
     MenuFlyoutItem { text: qsTr("Open with…") }
 }
+
+// --- API ---
+// signals: onPrimaryClicked
+// methods: showMenu(), closeMenu()
+// splitButton.showMenu()
+// splitButton.closeMenu()
+// inherits AbstractButton (+ Qt Quick Controls base API)
 ```
 
-## Properties
+## API
 
-- `menu: alias` — Attached / owned Menu
-- `menuData: alias` — Menu children slot
-- `highlighted: bool` — Emphasized / selected chrome
-- `flat: bool` — Flat chrome without fill
-- `flyoutPlacement: int` — MenuFlyout placement
-- `iconGlyph: string` — Raw Fluent glyph string fallback
-- `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
-- `isOpen: alias` — Open / visible state
-- `effectiveIconGlyph: string` — Resolved glyph string
-- `lightScheme: bool` — True in light theme
-- `accented: bool` — Use accent chrome
-- `anyHovered: bool` — True if any child is hovered
-- `anyDown: bool` — True if any child is pressed
+### Properties
 
-## Signals
+| Name | Type | Description |
+| --- | --- | --- |
+| `menu` | `alias` | Attached / owned Menu |
+| `menuData` | `alias` | Menu children slot |
+| `highlighted` | `bool` | Emphasized / selected chrome |
+| `flat` | `bool` | Flat chrome without fill |
+| `flyoutPlacement` | `int` | MenuFlyout placement |
+| `iconGlyph` | `string` | Raw Fluent glyph string fallback |
+| `symbol` | `var` | FluentIcons symbol (preferred over iconGlyph) |
+| `isOpen` | `alias` | Open / visible state |
+| `effectiveIconGlyph` | `string` | Resolved glyph string |
+| `lightScheme` | `bool` | True in light theme |
+| `accented` | `bool` | Use accent chrome |
+| `anyHovered` | `bool` | True if any child is hovered |
+| `anyDown` | `bool` | True if any child is pressed |
 
-- `primaryClicked()` — Primary button clicked
+### Signals
 
-## Methods
+| Signature | Description |
+| --- | --- |
+| `primaryClicked()` | Primary button clicked |
 
-- `showMenu()` — Open the associated menu
-- `closeMenu()` — Dismiss the menu
+### Methods
+
+| Signature | Description |
+| --- | --- |
+| `showMenu()` | Open the associated menu |
+| `closeMenu()` | Dismiss the menu |
+
+### Inherited from `AbstractButton`
+
+Also available (base type / Qt Quick Controls):
+
+- `text`
+- `enabled`
+- `down` / `pressed` / `hovered`
+- `clicked()`
+- `pressAndHold()`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

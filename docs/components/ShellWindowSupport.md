@@ -8,25 +8,52 @@ Shared install/presenter glue for ShellWindow.
 
 > Internal / support type — not part of the public Gallery surface.
 
-## Usage
+**Extends** `Item`.
+
+## Example
 
 ```qml
-ShellWindowSupport { targetWindow: root; autoInstall: true }
+ShellWindowSupport {
+    id: shellWindowSupport
+   targetWindow: root; autoInstall: true
+}
+
+// --- API ---
+// methods: applyChrome()
+// shellWindowSupport.applyChrome()
 ```
 
-## Properties
+## API
 
-- `targetWindow: var` — Window this chrome is attached to
-- `paradigm: int` — WindowHelper.Paradigm* kind
-- `backdrop: int` — WindowHelper.Backdrop* material
-- `presenter: int` — WindowHelper.Presenter* kind
-- `isAlwaysOnTop: bool` — Keep window above others
-- `autoInstall: bool` — Auto-apply WindowHelper chrome on complete
-- `extendsContentIntoTitleBar: bool` — Custom frame / extend content
+### Properties
 
-## Methods
+| Name | Type | Description |
+| --- | --- | --- |
+| `targetWindow` | `var` | Window this chrome is attached to |
+| `paradigm` | `int` | WindowHelper.Paradigm* kind |
+| `backdrop` | `int` | WindowHelper.Backdrop* material |
+| `presenter` | `int` | WindowHelper.Presenter* kind |
+| `isAlwaysOnTop` | `bool` | Keep window above others |
+| `autoInstall` | `bool` | Auto-apply WindowHelper chrome on complete |
+| `extendsContentIntoTitleBar` | `bool` | Custom frame / extend content |
 
-- `applyChrome()` — Apply window chrome / backdrop
+### Signals
+
+_No custom signals_ (use inherited signals from the base type).
+
+### Methods
+
+| Signature | Description |
+| --- | --- |
+| `applyChrome()` | Apply window chrome / backdrop |
+
+### Inherited from `Item`
+
+Also available (base type / Qt Quick Controls):
+
+- `width` / `height`
+- `visible`
+- `anchors` / `x` / `y`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

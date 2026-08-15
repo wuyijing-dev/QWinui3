@@ -6,40 +6,65 @@ Pull-to-refresh host for flickable content.
 
 [← Component index](../components.md)
 
-## Usage
+**Extends** `Control`.
+
+## Example
 
 ```qml
 RefreshContainer {
+    id: refreshContainer
     onRefreshRequested: reload()
     ListView { /* … */ }
 }
+
+// --- API ---
+// signals: onRefreshRequested
+// methods: endRefresh(), beginRefresh()
+// refreshContainer.endRefresh()
+// refreshContainer.beginRefresh()
 ```
 
-## Properties
+## API
 
-- `contentData: alias` — Default children / content slot
-- `contentWidth: alias` — Flickable content width
-- `contentHeight: alias` — Flickable content height
-- `contentX: alias` — Flickable content X
-- `contentY: alias` — Flickable content Y
-- `flickable: alias` — Inner Flickable
-- `refreshing: bool` — True while a refresh is in progress
-- `isRefreshing: alias` — True while refreshing
-- `pullToRefreshEnabled: bool` — Enable pull-to-refresh gesture
-- `isEnabled: alias` — Enabled state alias
-- `pullThreshold: real` — Pull distance before refresh fires
-- `refreshText: string` — Text shown while pulling
-- `refreshingText: string` — Text shown while refreshing
-- `pullText: string` — Pull-to-refresh prompt text
+### Properties
 
-## Signals
+| Name | Type | Description |
+| --- | --- | --- |
+| `contentData` | `alias` | Default children / content slot |
+| `contentWidth` | `alias` | Flickable content width |
+| `contentHeight` | `alias` | Flickable content height |
+| `contentX` | `alias` | Flickable content X |
+| `contentY` | `alias` | Flickable content Y |
+| `flickable` | `alias` | Inner Flickable |
+| `refreshing` | `bool` | True while a refresh is in progress |
+| `isRefreshing` | `alias` | True while refreshing |
+| `pullToRefreshEnabled` | `bool` | Enable pull-to-refresh gesture |
+| `isEnabled` | `alias` | Enabled state alias |
+| `pullThreshold` | `real` | Pull distance before refresh fires |
+| `refreshText` | `string` | Text shown while pulling |
+| `refreshingText` | `string` | Text shown while refreshing |
+| `pullText` | `string` | Pull-to-refresh prompt text |
 
-- `refreshRequested()` — Pull-to-refresh requested
+### Signals
 
-## Methods
+| Signature | Description |
+| --- | --- |
+| `refreshRequested()` | Pull-to-refresh requested |
 
-- `endRefresh()` — End a pull-to-refresh cycle
-- `beginRefresh()` — Start a pull-to-refresh cycle
+### Methods
+
+| Signature | Description |
+| --- | --- |
+| `endRefresh()` | End a pull-to-refresh cycle |
+| `beginRefresh()` | Start a pull-to-refresh cycle |
+
+### Inherited from `Control`
+
+Also available (base type / Qt Quick Controls):
+
+- `padding`
+- `font`
+- `background` / `contentItem`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

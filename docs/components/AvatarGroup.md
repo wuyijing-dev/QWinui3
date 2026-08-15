@@ -6,26 +6,49 @@ Overlapping PersonPicture stack with overflow count.
 
 [← Component index](../components.md)
 
-## Usage
+**Extends** `Control`.
+
+## Example
 
 ```qml
 AvatarGroup { model: [{ displayName: "A" }, { displayName: "B" }] }
+
+// --- API ---
+// signals: onPersonClicked, onOverflowClicked
 ```
 
-## Properties
+## API
 
-- `model: var` — Data model / item list for this control
-- `size: real` — Diameter or box size in px
-- `overlap: real` — Avatar stack overlap in px
-- `maxVisible: int` — Max visible items before overflow
-- `showOverflowCount: bool` — Show +N overflow chip
-- `layoutDirection: int` — Qt layout direction
-- `overflowCount: int` — Hidden avatar count
+### Properties
 
-## Signals
+| Name | Type | Description |
+| --- | --- | --- |
+| `model` | `var` | Data model / item list for this control |
+| `size` | `real` | Diameter or box size in px |
+| `overlap` | `real` | Avatar stack overlap in px |
+| `maxVisible` | `int` | Max visible items before overflow |
+| `showOverflowCount` | `bool` | Show +N overflow chip |
+| `layoutDirection` | `int` | Qt layout direction |
+| `overflowCount` | `int` | Hidden avatar count |
 
-- `personClicked(int index, var item)` — Avatar clicked
-- `overflowClicked()` — Overflow chip clicked
+### Signals
+
+| Signature | Description |
+| --- | --- |
+| `personClicked(int index, var item)` | Avatar clicked |
+| `overflowClicked()` | Overflow chip clicked |
+
+### Methods
+
+_No custom methods_ (use inherited methods from the base type).
+
+### Inherited from `Control`
+
+Also available (base type / Qt Quick Controls):
+
+- `padding`
+- `font`
+- `background` / `contentItem`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

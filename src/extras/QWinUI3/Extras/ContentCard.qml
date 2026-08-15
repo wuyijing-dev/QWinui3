@@ -10,6 +10,9 @@ import QWinUI3.Theme
 //       title: qsTr("Card")
 //       Label { text: qsTr("Body") }
 //   }
+//
+//   // --- API ---
+//   // signals: onClicked
 
 T.Control {
     id: control

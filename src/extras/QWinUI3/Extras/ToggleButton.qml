@@ -6,6 +6,9 @@ import QWinUI3.Theme
 // ToggleButton — Checkable button with Fluent chrome.
 //
 //   ToggleButton { text: qsTr("Bold"); checkable: true }
+//
+//   // --- API ---
+//   // inherits Button (+ Qt Quick Controls base API)
 
 Button {
     id: control

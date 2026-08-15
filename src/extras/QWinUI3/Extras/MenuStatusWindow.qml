@@ -6,11 +6,18 @@ import QWinUI3.Theme
 // MenuStatusWindow — TitleBar + MenuBar + content + StatusBar shell.
 //
 //   MenuStatusWindow {
+//       id: menuStatusWindow
 //       menusInTitleBar: true
 //       Menu { title: qsTr("File") }
 //       content: Label { text: "Body" }
 //       statusText: qsTr("Ready")
 //   }
+//
+//   // --- API ---
+//   // methods: addMenu(menu), clearMenus()
+//   // menuStatusWindow.addMenu(menu)
+//   // menuStatusWindow.clearMenus()
+//   // inherits ShellWindow (+ Qt Quick Controls base API)
 
 ShellWindow {
     id: root

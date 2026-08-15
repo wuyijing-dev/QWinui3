@@ -4,7 +4,14 @@ import QWinUI3.Theme
 
 // TextBlock — Fluent typography styles (title, body, caption…).
 //
-//   TextBlock { text: qsTr("Title"); style: title }
+//   TextBlock {
+//       id: textBlock
+//      text: qsTr("Title"); style: title
+//   }
+//
+//   // --- API ---
+//   // methods: setStyleName(name)
+//   // textBlock.setStyleName(name)
 
 T.Control {
     id: root

@@ -6,16 +6,28 @@ Fluent styled PageIndicator.
 
 [← Component index](../components.md)
 
-## Usage
+## Example
 
 ```qml
 PageIndicator { count: 3; currentIndex: 0 }
 ```
 
-## Properties
+## API
 
-- `index: int`
-- `active: bool` — Active state
+### Properties
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `index` | `int` | — |
+| `active` | `bool` | Active state |
+
+### Signals
+
+_No custom signals_ (use inherited signals from the base type).
+
+### Methods
+
+_No custom methods_ (use inherited methods from the base type).
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

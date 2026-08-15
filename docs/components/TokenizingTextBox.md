@@ -6,47 +6,74 @@ Token chips + text input.
 
 [← Component index](../components.md)
 
-## Usage
+**Extends** `Control`.
+
+## Example
 
 ```qml
 TokenizingTextBox {
+    id: tokenizingTextBox
     model: tokens
     placeholderText: qsTr("Add…")
 }
+
+// --- API ---
+// signals: onTokenAdded, onTokenRemoved, onAccepted, onQuerySubmitted, onCleared
+// methods: focusField(), clear(), addToken(value), removeToken(index)
+// tokenizingTextBox.focusField()
+// tokenizingTextBox.clear()
+// tokenizingTextBox.addToken(value)
+// tokenizingTextBox.removeToken(index)
 ```
 
-## Properties
+## API
 
-- `text: alias` — Display / input text
-- `tokens: var` — Current token list
-- `suggestionModel: var` — Filtered suggestion rows
-- `placeholderText: string` — Placeholder when empty
-- `suggestionsOpen: bool` — Suggestion popup open
-- `isOpen: alias` — Open / visible state
-- `maxTokens: int` — Maximum number of tokens
-- `allowDuplicates: bool` — Allow duplicate tokens
-- `tokenDelimiters: string` — Characters that commit a token
-- `header: string` — Header label above the control
-- `description: string` — Supporting description text
-- `errorMessage: string` — Validation error text
-- `hasError: bool` — True when validation failed
-- `tokenCount: int` — Number of tokens
-- `filteredSuggestions: var` — Suggestions matching the query
+### Properties
 
-## Signals
+| Name | Type | Description |
+| --- | --- | --- |
+| `text` | `alias` | Display / input text |
+| `tokens` | `var` | Current token list |
+| `suggestionModel` | `var` | Filtered suggestion rows |
+| `placeholderText` | `string` | Placeholder when empty |
+| `suggestionsOpen` | `bool` | Suggestion popup open |
+| `isOpen` | `alias` | Open / visible state |
+| `maxTokens` | `int` | Maximum number of tokens |
+| `allowDuplicates` | `bool` | Allow duplicate tokens |
+| `tokenDelimiters` | `string` | Characters that commit a token |
+| `header` | `string` | Header label above the control |
+| `description` | `string` | Supporting description text |
+| `errorMessage` | `string` | Validation error text |
+| `hasError` | `bool` | True when validation failed |
+| `tokenCount` | `int` | Number of tokens |
+| `filteredSuggestions` | `var` | Suggestions matching the query |
 
-- `tokenAdded(string token)` — Token added
-- `tokenRemoved(string token, int index)` — Token removed
-- `accepted(string token)` — Emitted on accept / submit
-- `querySubmitted(string token)` — Emitted when a query is submitted
-- `cleared()` — Emitted when content is cleared
+### Signals
 
-## Methods
+| Signature | Description |
+| --- | --- |
+| `tokenAdded(string token)` | Token added |
+| `tokenRemoved(string token, int index)` | Token removed |
+| `accepted(string token)` | Emitted on accept / submit |
+| `querySubmitted(string token)` | Emitted when a query is submitted |
+| `cleared()` | Emitted when content is cleared |
 
-- `focusField()` — Move keyboard focus to the text field
-- `clear()` — Clear text or selection
-- `addToken(value)` — Insert a token from text
-- `removeToken(index)` — Remove a token
+### Methods
+
+| Signature | Description |
+| --- | --- |
+| `focusField()` | Move keyboard focus to the text field |
+| `clear()` | Clear text or selection |
+| `addToken(value)` | Insert a token from text |
+| `removeToken(index)` | Remove a token |
+
+### Inherited from `Control`
+
+Also available (base type / Qt Quick Controls):
+
+- `padding`
+- `font`
+- `background` / `contentItem`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

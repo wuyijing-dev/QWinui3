@@ -5,7 +5,17 @@ import QWinUI3.Theme
 
 // WaterfallChart — Waterfall chart.
 //
-//   WaterfallChart { values: [10, -3, 5] }
+//   WaterfallChart {
+//       id: waterfallChart
+//      values: [10, -3, 5]
+//   }
+//
+//   // --- API ---
+//   // signals: onStepClicked
+//   // methods: playReveal(), requestRedraw(), clearHover()
+//   // waterfallChart.playReveal()
+//   // waterfallChart.requestRedraw()
+//   // waterfallChart.clearHover()
 
 T.Control {
     id: root

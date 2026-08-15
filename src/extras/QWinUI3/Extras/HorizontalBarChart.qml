@@ -5,7 +5,16 @@ import QWinUI3.Theme
 
 // HorizontalBarChart — Horizontal bar chart.
 //
-//   HorizontalBarChart { values: [3, 5, 2] }
+//   HorizontalBarChart {
+//       id: horizontalBarChart
+//      values: [3, 5, 2]
+//   }
+//
+//   // --- API ---
+//   // signals: onBarClicked
+//   // methods: playReveal(), requestRedraw()
+//   // horizontalBarChart.playReveal()
+//   // horizontalBarChart.requestRedraw()
 
 T.Control {
     id: root

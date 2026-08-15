@@ -6,46 +6,73 @@ Search field with suggestion list.
 
 [← Component index](../components.md)
 
-## Usage
+**Extends** `Control`.
+
+## Example
 
 ```qml
 SearchBox {
+    id: searchBox
     placeholderText: qsTr("Search")
     model: suggestions
     onSuggestionChosen: (item) => open(item)
 }
+
+// --- API ---
+// signals: onAccepted, onQuerySubmitted, onSuggestionChosen, onCleared
+// methods: focusField(), displayTextFor(item), refreshSuggestions(), clear(), submitQuery()
+// searchBox.focusField()
+// searchBox.displayTextFor(item)
+// searchBox.refreshSuggestions()
+// searchBox.clear()
 ```
 
-## Properties
+## API
 
-- `text: alias` — Display / input text
-- `placeholderText: alias` — Placeholder when empty
-- `clearButtonVisible: bool` — Show clear affordance
-- `symbol: var` — FluentIcons symbol or leave empty to use queryIcon glyph
-- `queryIcon: string` — Search glyph fallback string
-- `header: string` — Header label above the control
-- `description: string` — Supporting description text
-- `model: var` — Full suggestion catalog; filtered into suggestionModel while typing
-- `suggestionModel: var` — Filtered suggestion rows
-- `updateTextOnSelect: bool` — When true, choosing a suggestion writes display text into the field
-- `textMemberPath: string` — Object field used as display text (fallback: title | text | name)
-- `isSuggestionListOpen: bool` — Suggestion popup open state
-- `effectiveQueryIcon: string` — Resolved search glyph
+### Properties
 
-## Signals
+| Name | Type | Description |
+| --- | --- | --- |
+| `text` | `alias` | Display / input text |
+| `placeholderText` | `alias` | Placeholder when empty |
+| `clearButtonVisible` | `bool` | Show clear affordance |
+| `symbol` | `var` | FluentIcons symbol or leave empty to use queryIcon glyph |
+| `queryIcon` | `string` | Search glyph fallback string |
+| `header` | `string` | Header label above the control |
+| `description` | `string` | Supporting description text |
+| `model` | `var` | Full suggestion catalog; filtered into suggestionModel while typing |
+| `suggestionModel` | `var` | Filtered suggestion rows |
+| `updateTextOnSelect` | `bool` | When true, choosing a suggestion writes display text into the field |
+| `textMemberPath` | `string` | Object field used as display text (fallback: title \| text \| name) |
+| `isSuggestionListOpen` | `bool` | Suggestion popup open state |
+| `effectiveQueryIcon` | `string` | Resolved search glyph |
 
-- `accepted(string text)` — Enter / submit with current text
-- `querySubmitted(string query)` — Emitted when a query is submitted
-- `suggestionChosen(var item)` — User picked a suggestion row
-- `cleared()` — Emitted when content is cleared
+### Signals
 
-## Methods
+| Signature | Description |
+| --- | --- |
+| `accepted(string text)` | Enter / submit with current text |
+| `querySubmitted(string query)` | Emitted when a query is submitted |
+| `suggestionChosen(var item)` | User picked a suggestion row |
+| `cleared()` | Emitted when content is cleared |
 
-- `focusField()` — Move keyboard focus to the text field
-- `displayTextFor(item)` — Display text for a model item
-- `refreshSuggestions()` — Rebuild suggestion list from text
-- `clear()` — Clear text or selection
-- `submitQuery()` — Submit the search query
+### Methods
+
+| Signature | Description |
+| --- | --- |
+| `focusField()` | Move keyboard focus to the text field |
+| `displayTextFor(item)` | Display text for a model item |
+| `refreshSuggestions()` | Rebuild suggestion list from text |
+| `clear()` | Clear text or selection |
+| `submitQuery()` | Submit the search query |
+
+### Inherited from `Control`
+
+Also available (base type / Qt Quick Controls):
+
+- `padding`
+- `font`
+- `background` / `contentItem`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

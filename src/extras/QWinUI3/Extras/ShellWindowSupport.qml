@@ -5,7 +5,14 @@ import QWinUI3.Platform
 
 // ShellWindowSupport — Shared install/presenter glue for ShellWindow.
 //
-//   ShellWindowSupport { targetWindow: root; autoInstall: true }
+//   ShellWindowSupport {
+//       id: shellWindowSupport
+//      targetWindow: root; autoInstall: true
+//   }
+//
+//   // --- API ---
+//   // methods: applyChrome()
+//   // shellWindowSupport.applyChrome()
 
 Item {
     id: root

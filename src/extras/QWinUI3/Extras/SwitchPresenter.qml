@@ -5,9 +5,18 @@ import QWinUI3.Theme
 // SwitchPresenter — Shows the SwitchCase matching value.
 //
 //   SwitchPresenter {
+//       id: switchPresenter
 //       value: mode
 //       SwitchCase { value: "a"; Label { text: "A" } }
 //   }
+//
+//   // --- API ---
+//   // signals: onCaseChanged
+//   // methods: valuesEqual(a, b), select(index), applyValue(), setCaseActive(ch, on), syncWidths()
+//   // switchPresenter.valuesEqual(a, b)
+//   // switchPresenter.select(index)
+//   // switchPresenter.applyValue()
+//   // switchPresenter.setCaseActive(ch, on)
 
 T.Control {
     id: root

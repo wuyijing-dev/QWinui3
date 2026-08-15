@@ -7,9 +7,16 @@ import QWinUI3.Theme
 // RefreshContainer — Pull-to-refresh host for flickable content.
 //
 //   RefreshContainer {
+//       id: refreshContainer
 //       onRefreshRequested: reload()
 //       ListView { /* … */ }
 //   }
+//
+//   // --- API ---
+//   // signals: onRefreshRequested
+//   // methods: endRefresh(), beginRefresh()
+//   // refreshContainer.endRefresh()
+//   // refreshContainer.beginRefresh()
 
 T.Control {
     id: root

@@ -6,6 +6,9 @@ import QWinUI3.Theme
 // GridTile — Icon + title tile for launchers / galleries.
 //
 //   GridTile { title: qsTr("Photos"); symbol: FluentIcons.Photo }
+//
+//   // --- API ---
+//   // inherits AbstractButton (+ Qt Quick Controls base API)
 
 T.AbstractButton {
     id: control

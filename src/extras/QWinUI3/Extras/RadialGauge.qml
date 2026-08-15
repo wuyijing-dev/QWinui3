@@ -7,7 +7,17 @@ import QWinUI3.Theme
 
 // RadialGauge — Circular gauge with needle and zones.
 //
-//   RadialGauge { value: 72; minimum: 0; maximum: 100 }
+//   RadialGauge {
+//       id: radialGauge
+//      value: 72; minimum: 0; maximum: 100
+//   }
+//
+//   // --- API ---
+//   // signals: onValueEdited
+//   // methods: setValue(v), setValueFromNorm(n), normFromPoint(px, py)
+//   // radialGauge.setValue(v)
+//   // radialGauge.setValueFromNorm(n)
+//   // radialGauge.normFromPoint(px, py)
 
 T.Control {
     id: root

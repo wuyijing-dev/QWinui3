@@ -5,7 +5,16 @@ import QWinUI3.Theme
 
 // DonutChart — Donut chart with hover and legend.
 //
-//   DonutChart { slices: [{ value: 3, label: "A" }] }
+//   DonutChart {
+//       id: donutChart
+//      slices: [{ value: 3, label: "A"
+//   }] }
+//
+//   // --- API ---
+//   // signals: onSliceClicked
+//   // methods: playReveal(), requestRedraw()
+//   // donutChart.playReveal()
+//   // donutChart.requestRedraw()
 
 T.Control {
     id: root

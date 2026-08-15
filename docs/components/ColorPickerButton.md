@@ -6,30 +6,60 @@ Color swatch button that opens ColorPicker.
 
 [← Component index](../components.md)
 
-## Usage
+**Extends** `AbstractButton`.
+
+## Example
 
 ```qml
-ColorPickerButton { selectedColor: Theme.accent }
+ColorPickerButton {
+    id: colorPickerButton
+   selectedColor: Theme.accent
+}
+
+// --- API ---
+// signals: onColorChosen
+// methods: open(), close()
+// colorPickerButton.open()
+// colorPickerButton.close()
+// inherits AbstractButton (+ Qt Quick Controls base API)
 ```
 
-## Properties
+## API
 
-- `selectedColor: color` — Currently selected color
-- `pickerOpen: bool` — Picker flyout open
-- `isOpen: alias` — Open / visible state
-- `showAlpha: bool` — Show alpha channel editor
-- `showHexLabel: bool` — Show hex text on the button
-- `flyoutPlacement: int` — MenuFlyout placement
-- `hexText: string` — Formatted hex color text
+### Properties
 
-## Signals
+| Name | Type | Description |
+| --- | --- | --- |
+| `selectedColor` | `color` | Currently selected color |
+| `pickerOpen` | `bool` | Picker flyout open |
+| `isOpen` | `alias` | Open / visible state |
+| `showAlpha` | `bool` | Show alpha channel editor |
+| `showHexLabel` | `bool` | Show hex text on the button |
+| `flyoutPlacement` | `int` | MenuFlyout placement |
+| `hexText` | `string` | Formatted hex color text |
 
-- `colorChosen(color color)` — Emitted when a color is chosen
+### Signals
 
-## Methods
+| Signature | Description |
+| --- | --- |
+| `colorChosen(color color)` | Emitted when a color is chosen |
 
-- `open()` — Open / show
-- `close()` — Close / dismiss
+### Methods
+
+| Signature | Description |
+| --- | --- |
+| `open()` | Open / show |
+| `close()` | Close / dismiss |
+
+### Inherited from `AbstractButton`
+
+Also available (base type / Qt Quick Controls):
+
+- `text`
+- `enabled`
+- `down` / `pressed` / `hovered`
+- `clicked()`
+- `pressAndHold()`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

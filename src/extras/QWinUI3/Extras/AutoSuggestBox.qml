@@ -7,10 +7,19 @@ import QWinUI3.Theme
 // AutoSuggestBox — Text field with filtered suggestion popup.
 //
 //   AutoSuggestBox {
+//       id: autoSuggestBox
 //       placeholderText: qsTr("Suggest")
 //       model: items
 //       onSuggestionChosen: (item) => apply(item)
 //   }
+//
+//   // --- API ---
+//   // signals: onSuggestionChosen, onQuerySubmitted, onAccepted, onCleared
+//   // methods: focusField(), displayTextFor(item), refreshSuggestions(), clear()
+//   // autoSuggestBox.focusField()
+//   // autoSuggestBox.displayTextFor(item)
+//   // autoSuggestBox.refreshSuggestions()
+//   // autoSuggestBox.clear()
 
 T.Control {
     id: control

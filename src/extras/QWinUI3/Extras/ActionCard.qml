@@ -10,6 +10,9 @@ import QWinUI3.Theme
 //       description: qsTr("Manage profiles")
 //       onClicked: open()
 //   }
+//
+//   // --- API ---
+//   // inherits AbstractButton (+ Qt Quick Controls base API)
 
 T.AbstractButton {
     id: control

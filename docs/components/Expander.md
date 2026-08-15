@@ -6,32 +6,55 @@ Collapsible header with expandable content.
 
 [← Component index](../components.md)
 
-## Usage
+**Extends** `Control`.
+
+## Example
 
 ```qml
 Expander {
     header: qsTr("Details")
     Label { text: qsTr("Body") }
 }
+
+// --- API ---
+// signals: onExpanding, onCollapsing
 ```
 
-## Properties
+## API
 
-- `title: string` — Primary title text
-- `subtitle: string` — Secondary subtitle text
-- `expanded: bool` — Expanded state
-- `isExpanded: alias` — Alias of expanded
-- `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
-- `iconGlyph: string` — Raw Fluent glyph string fallback
-- `headerIcon: var` — Header icon glyph
-- `expandDirection: string` — WinUI ExpandDirection: down | up
-- `contentData: alias` — Default children / content slot
-- `effectiveHeaderIcon: string` — Resolved header icon
+### Properties
 
-## Signals
+| Name | Type | Description |
+| --- | --- | --- |
+| `title` | `string` | Primary title text |
+| `subtitle` | `string` | Secondary subtitle text |
+| `expanded` | `bool` | Expanded state |
+| `isExpanded` | `alias` | Alias of expanded |
+| `symbol` | `var` | FluentIcons symbol (preferred over iconGlyph) |
+| `iconGlyph` | `string` | Raw Fluent glyph string fallback |
+| `headerIcon` | `var` | Header icon glyph |
+| `expandDirection` | `string` | WinUI ExpandDirection: down \| up |
+| `contentData` | `alias` | Default children / content slot |
+| `effectiveHeaderIcon` | `string` | Resolved header icon |
 
-- `expanding()` — True while expanding
-- `collapsing()` — True while collapsing
+### Signals
+
+| Signature | Description |
+| --- | --- |
+| `expanding()` | True while expanding |
+| `collapsing()` | True while collapsing |
+
+### Methods
+
+_No custom methods_ (use inherited methods from the base type).
+
+### Inherited from `Control`
+
+Also available (base type / Qt Quick Controls):
+
+- `padding`
+- `font`
+- `background` / `contentItem`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

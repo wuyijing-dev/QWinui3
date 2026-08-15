@@ -6,31 +6,59 @@ Vertical event timeline.
 
 [← Component index](../components.md)
 
-## Usage
+**Extends** `Control`.
+
+## Example
 
 ```qml
-Timeline { model: events }
+Timeline {
+    id: timeline
+   model: events
+}
+
+// --- API ---
+// signals: onItemClicked, onSelectionChanged
+// methods: select(index), next(), previous()
+// timeline.select(index)
+// timeline.next()
+// timeline.previous()
 ```
 
-## Properties
+## API
 
-- `model: var` — Data model / item list for this control
-- `currentIndex: int` — Selected index
-- `selectedIndex: alias` — Selected index alias
-- `railWidth: real` — Track / rail width
-- `nodeSize: real` — Node / marker size
-- `isInteractive: bool` — Alias of interactive
+### Properties
 
-## Signals
+| Name | Type | Description |
+| --- | --- | --- |
+| `model` | `var` | Data model / item list for this control |
+| `currentIndex` | `int` | Selected index |
+| `selectedIndex` | `alias` | Selected index alias |
+| `railWidth` | `real` | Track / rail width |
+| `nodeSize` | `real` | Node / marker size |
+| `isInteractive` | `bool` | Alias of interactive |
 
-- `itemClicked(int index)` — Emitted when an item is clicked
-- `selectionChanged(int index)` — Selection changed
+### Signals
 
-## Methods
+| Signature | Description |
+| --- | --- |
+| `itemClicked(int index)` | Emitted when an item is clicked |
+| `selectionChanged(int index)` | Selection changed |
 
-- `select(index)` — Select item by index
-- `next()` — Advance to next
-- `previous()` — Go to previous
+### Methods
+
+| Signature | Description |
+| --- | --- |
+| `select(index)` | Select item by index |
+| `next()` | Advance to next |
+| `previous()` | Go to previous |
+
+### Inherited from `Control`
+
+Also available (base type / Qt Quick Controls):
+
+- `padding`
+- `font`
+- `background` / `contentItem`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

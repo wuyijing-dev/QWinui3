@@ -5,7 +5,19 @@ import QWinUI3.Theme
 
 // ProgressButton — Button with inline determinate/indeterminate fill.
 //
-//   ProgressButton { text: qsTr("Upload"); progress: 0.4 }
+//   ProgressButton {
+//       id: progressButton
+//      text: qsTr("Upload"); progress: 0.4
+//   }
+//
+//   // --- API ---
+//   // signals: onProgressCompleted, onProgressFailed
+//   // methods: setProgress(value), reset(), start(indeterminateMode), complete(), fail()
+//   // progressButton.setProgress(value)
+//   // progressButton.reset()
+//   // progressButton.start(indeterminateMode)
+//   // progressButton.complete()
+//   // inherits AbstractButton (+ Qt Quick Controls base API)
 
 T.AbstractButton {
     id: control

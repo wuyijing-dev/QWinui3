@@ -3,7 +3,14 @@ import QtQuick.Window
 
 // WindowResizeBorder — Non-native resize hit edges.
 //
-//   WindowResizeBorder { targetWindow: root }
+//   WindowResizeBorder {
+//       id: windowResizeBorder
+//      targetWindow: root
+//   }
+//
+//   // --- API ---
+//   // methods: edgeResize(edges)
+//   // windowResizeBorder.edgeResize(edges)
 
 Item {
     id: root

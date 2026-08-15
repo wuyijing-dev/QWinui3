@@ -10,6 +10,9 @@ import QWinUI3.Theme
 //       title: qsTr("Advanced")
 //       SettingsCard { title: qsTr("Option") }
 //   }
+//
+//   // --- API ---
+//   // signals: onExpanding, onCollapsing
 
 T.Control {
     id: control

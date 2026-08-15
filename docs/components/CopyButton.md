@@ -6,30 +6,62 @@ Copies textToCopy and flashes a success glyph.
 
 [← Component index](../components.md)
 
-## Usage
+**Extends** `AbstractButton`.
+
+## Example
 
 ```qml
-CopyButton { textToCopy: code }
+CopyButton {
+    id: copyButton
+    textToCopy: code
+    onCopyCompleted: (text) => { /* … */ }
+    onCopyFailed: { /* … */ }
+}
+
+// --- API ---
+// signals: onCopyCompleted, onCopyFailed
+// methods: copy(optionalText)
+// copyButton.copy()
+// copyButton.copy("override text")
+// inherits AbstractButton (+ text, enabled, clicked, …)
 ```
 
-## Properties
+## API
 
-- `textToCopy: string` — Clipboard payload to copy
-- `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
-- `idleGlyph: string` — Glyph before copy succeeds
-- `doneGlyph: string` — Glyph shown after copy
-- `feedbackMs: int` — Success feedback duration in ms
-- `copied: bool` — Emitted after a successful copy
-- `iconOnly: bool` — Hide text; show glyph only
+### Properties
 
-## Signals
+| Name | Type | Description |
+| --- | --- | --- |
+| `textToCopy` | `string` | Clipboard payload to copy |
+| `symbol` | `var` | FluentIcons symbol (preferred over iconGlyph) |
+| `idleGlyph` | `string` | Glyph before copy succeeds |
+| `doneGlyph` | `string` | Glyph shown after copy |
+| `feedbackMs` | `int` | Success feedback duration in ms |
+| `copied` | `bool` | Emitted after a successful copy |
+| `iconOnly` | `bool` | Hide text; show glyph only |
 
-- `copyCompleted(string text)` — Emitted after a successful copy
-- `copyFailed()` — Emitted when copy fails
+### Signals
 
-## Methods
+| Signature | Description |
+| --- | --- |
+| `copyCompleted(string text)` | Emitted after a successful copy |
+| `copyFailed()` | Emitted when copy fails |
 
-- `copy(optionalText)` — Copy to clipboard
+### Methods
+
+| Signature | Description |
+| --- | --- |
+| `copy(optionalText)` | Copy to clipboard |
+
+### Inherited from `AbstractButton`
+
+Also available (base type / Qt Quick Controls):
+
+- `text`
+- `enabled`
+- `down` / `pressed` / `hovered`
+- `clicked()`
+- `pressAndHold()`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

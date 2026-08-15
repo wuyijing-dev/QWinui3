@@ -6,41 +6,68 @@ Stacked bar chart.
 
 [← Component index](../components.md)
 
-## Usage
+**Extends** `Control`.
+
+## Example
 
 ```qml
-StackedBarChart { series: [{ values: [1, 2] }] }
+StackedBarChart {
+    id: stackedBarChart
+   series: [{ values: [1, 2]
+}] }
+
+// --- API ---
+// signals: onCategoryClicked
+// methods: playReveal(), requestRedraw()
+// stackedBarChart.playReveal()
+// stackedBarChart.requestRedraw()
 ```
 
-## Properties
+## API
 
-- `series: var` — Chart series array
-- `categories: var` — Category labels for bars
-- `minimum: real` — Minimum value
-- `maximum: real` — Maximum value
-- `barRadius: real` — Bar corner radius
-- `barGap: real` — Gap between bars
-- `showBaseline: bool` — Show zero baseline
-- `showLegend: bool` — Show chart legend
-- `showCategoryLabels: bool` — Show category axis labels
-- `interactive: bool` — Enable hover / click interaction
-- `animated: bool` — Play enter / reveal animation
-- `revealProgress: real` — 0..1 reveal animation progress
-- `hoverCategory: int` — Hovered category index
-- `hoverSeries: int` — Hovered series index
-- `hoverText: string` — Tooltip / hover readout text
-- `title: string` — Primary title text
-- `emptyText: string` — Placeholder when there is no data
-- `isEmpty: bool` — True when there is no data
+### Properties
 
-## Signals
+| Name | Type | Description |
+| --- | --- | --- |
+| `series` | `var` | Chart series array |
+| `categories` | `var` | Category labels for bars |
+| `minimum` | `real` | Minimum value |
+| `maximum` | `real` | Maximum value |
+| `barRadius` | `real` | Bar corner radius |
+| `barGap` | `real` | Gap between bars |
+| `showBaseline` | `bool` | Show zero baseline |
+| `showLegend` | `bool` | Show chart legend |
+| `showCategoryLabels` | `bool` | Show category axis labels |
+| `interactive` | `bool` | Enable hover / click interaction |
+| `animated` | `bool` | Play enter / reveal animation |
+| `revealProgress` | `real` | 0..1 reveal animation progress |
+| `hoverCategory` | `int` | Hovered category index |
+| `hoverSeries` | `int` | Hovered series index |
+| `hoverText` | `string` | Tooltip / hover readout text |
+| `title` | `string` | Primary title text |
+| `emptyText` | `string` | Placeholder when there is no data |
+| `isEmpty` | `bool` | True when there is no data |
 
-- `categoryClicked(int categoryIndex)` — Emitted when a category is clicked
+### Signals
 
-## Methods
+| Signature | Description |
+| --- | --- |
+| `categoryClicked(int categoryIndex)` | Emitted when a category is clicked |
 
-- `playReveal()` — Play entrance reveal animation
-- `requestRedraw()` — Request chart / canvas redraw
+### Methods
+
+| Signature | Description |
+| --- | --- |
+| `playReveal()` | Play entrance reveal animation |
+| `requestRedraw()` | Request chart / canvas redraw |
+
+### Inherited from `Control`
+
+Also available (base type / Qt Quick Controls):
+
+- `padding`
+- `font`
+- `background` / `contentItem`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

@@ -7,9 +7,18 @@ import QWinUI3.Theme
 // SegmentedControl — Mutually exclusive segment buttons.
 //
 //   SegmentedControl {
+//       id: segmentedControl
 //       model: ["Day", "Week", "Month"]
 //       currentIndex: 0
 //   }
+//
+//   // --- API ---
+//   // signals: onSelected, onSelectionChanged
+//   // methods: select(index), itemAt(index), moveIndicator(instant), syncIndicatorIfIdle(), nextEnabled(from, delta)
+//   // segmentedControl.select(index)
+//   // segmentedControl.itemAt(index)
+//   // segmentedControl.moveIndicator(instant)
+//   // segmentedControl.syncIndicatorIfIdle()
 
 T.Control {
     id: control

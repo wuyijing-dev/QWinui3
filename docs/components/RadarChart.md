@@ -6,36 +6,65 @@ Radar / spider chart.
 
 [← Component index](../components.md)
 
-## Usage
+**Extends** `Control`.
+
+## Example
 
 ```qml
-RadarChart { values: [3, 5, 2, 4]; axes: ["A","B","C","D"] }
+RadarChart {
+    id: radarChart
+   values: [3, 5, 2, 4]; axes: ["A","B","C","D"]
+}
+
+// --- API ---
+// methods: playReveal(), requestRedraw(), clearHover()
+// radarChart.playReveal()
+// radarChart.requestRedraw()
+// radarChart.clearHover()
 ```
 
-## Properties
+## API
 
-- `series: var` — Chart series array
-- `values: var` — Numeric values array
-- `axes: var` — Axis labels
-- `minimum: real` — Minimum value
-- `maximum: real` — Maximum value
-- `levels: int` — Discrete level descriptors
-- `filled: bool` — Fill under line / area
-- `showLabels: bool` — Show item labels
-- `animated: bool` — Play enter / reveal animation
-- `interactive: bool` — Enable hover / click interaction
-- `revealProgress: real` — 0..1 reveal animation progress
-- `hoverSeries: int` — Hovered series index
-- `selectedIndex: alias` — Selected index alias
-- `title: string` — Primary title text
-- `emptyText: string` — Placeholder when there is no data
-- `isEmpty: bool` — True when there is no data
+### Properties
 
-## Methods
+| Name | Type | Description |
+| --- | --- | --- |
+| `series` | `var` | Chart series array |
+| `values` | `var` | Numeric values array |
+| `axes` | `var` | Axis labels |
+| `minimum` | `real` | Minimum value |
+| `maximum` | `real` | Maximum value |
+| `levels` | `int` | Discrete level descriptors |
+| `filled` | `bool` | Fill under line / area |
+| `showLabels` | `bool` | Show item labels |
+| `animated` | `bool` | Play enter / reveal animation |
+| `interactive` | `bool` | Enable hover / click interaction |
+| `revealProgress` | `real` | 0..1 reveal animation progress |
+| `hoverSeries` | `int` | Hovered series index |
+| `selectedIndex` | `alias` | Selected index alias |
+| `title` | `string` | Primary title text |
+| `emptyText` | `string` | Placeholder when there is no data |
+| `isEmpty` | `bool` | True when there is no data |
 
-- `playReveal()` — Play entrance reveal animation
-- `requestRedraw()` — Request chart / canvas redraw
-- `clearHover()` — Clear hovered item state
+### Signals
+
+_No custom signals_ (use inherited signals from the base type).
+
+### Methods
+
+| Signature | Description |
+| --- | --- |
+| `playReveal()` | Play entrance reveal animation |
+| `requestRedraw()` | Request chart / canvas redraw |
+| `clearHover()` | Clear hovered item state |
+
+### Inherited from `Control`
+
+Also available (base type / Qt Quick Controls):
+
+- `padding`
+- `font`
+- `background` / `contentItem`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

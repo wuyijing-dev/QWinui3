@@ -6,15 +6,29 @@ Fluent styled ComboBox.
 
 [← Component index](../components.md)
 
-## Usage
+## Example
 
 ```qml
 ComboBox { model: ["A", "B"] }
+
+// --- API ---
 ```
 
-## Properties
+## API
 
-- `lightScheme: bool` — True in light theme
+### Properties
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `lightScheme` | `bool` | True in light theme |
+
+### Signals
+
+_No custom signals_ (use inherited signals from the base type).
+
+### Methods
+
+_No custom methods_ (use inherited methods from the base type).
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

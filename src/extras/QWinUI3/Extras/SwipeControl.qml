@@ -7,9 +7,17 @@ import QWinUI3.Theme
 // SwipeControl — Swipe-to-reveal actions on content.
 //
 //   SwipeControl {
+//       id: swipeControl
 //       SwipeAction { text: qsTr("Delete") }
 //       ListTile { title: qsTr("Row") }
 //   }
+//
+//   // --- API ---
+//   // signals: onOpened, onClosed
+//   // methods: close(), openLeft(), openRight()
+//   // swipeControl.close()
+//   // swipeControl.openLeft()
+//   // swipeControl.openRight()
 
 T.Control {
     id: root

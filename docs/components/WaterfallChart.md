@@ -6,39 +6,67 @@ Waterfall chart.
 
 [← Component index](../components.md)
 
-## Usage
+**Extends** `Control`.
+
+## Example
 
 ```qml
-WaterfallChart { values: [10, -3, 5] }
+WaterfallChart {
+    id: waterfallChart
+   values: [10, -3, 5]
+}
+
+// --- API ---
+// signals: onStepClicked
+// methods: playReveal(), requestRedraw(), clearHover()
+// waterfallChart.playReveal()
+// waterfallChart.requestRedraw()
+// waterfallChart.clearHover()
 ```
 
-## Properties
+## API
 
-- `steps: var` — Waterfall step descriptors
-- `values: var` — Numeric values array
-- `showConnector: bool` — Show connectors between steps
-- `showLabels: bool` — Show item labels
-- `interactive: bool` — Enable hover / click interaction
-- `animated: bool` — Play enter / reveal animation
-- `revealProgress: real` — 0..1 reveal animation progress
-- `hoverIndex: int` — Hovered item index
-- `selectedIndex: alias` — Selected index alias
-- `totalColor: color` — Waterfall total bar color
-- `showTotal: bool` — Show total column
-- `title: string` — Primary title text
-- `emptyText: string` — Placeholder when there is no data
-- `valueUnit: string` — Unit appended to value text
-- `isEmpty: bool` — True when there is no data
+### Properties
 
-## Signals
+| Name | Type | Description |
+| --- | --- | --- |
+| `steps` | `var` | Waterfall step descriptors |
+| `values` | `var` | Numeric values array |
+| `showConnector` | `bool` | Show connectors between steps |
+| `showLabels` | `bool` | Show item labels |
+| `interactive` | `bool` | Enable hover / click interaction |
+| `animated` | `bool` | Play enter / reveal animation |
+| `revealProgress` | `real` | 0..1 reveal animation progress |
+| `hoverIndex` | `int` | Hovered item index |
+| `selectedIndex` | `alias` | Selected index alias |
+| `totalColor` | `color` | Waterfall total bar color |
+| `showTotal` | `bool` | Show total column |
+| `title` | `string` | Primary title text |
+| `emptyText` | `string` | Placeholder when there is no data |
+| `valueUnit` | `string` | Unit appended to value text |
+| `isEmpty` | `bool` | True when there is no data |
 
-- `stepClicked(int index, real value)` — Emitted when a step is clicked
+### Signals
 
-## Methods
+| Signature | Description |
+| --- | --- |
+| `stepClicked(int index, real value)` | Emitted when a step is clicked |
 
-- `playReveal()` — Play entrance reveal animation
-- `requestRedraw()` — Request chart / canvas redraw
-- `clearHover()` — Clear hovered item state
+### Methods
+
+| Signature | Description |
+| --- | --- |
+| `playReveal()` | Play entrance reveal animation |
+| `requestRedraw()` | Request chart / canvas redraw |
+| `clearHover()` | Clear hovered item state |
+
+### Inherited from `Control`
+
+Also available (base type / Qt Quick Controls):
+
+- `padding`
+- `font`
+- `background` / `contentItem`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

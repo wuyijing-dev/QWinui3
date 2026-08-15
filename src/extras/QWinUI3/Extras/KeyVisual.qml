@@ -6,6 +6,9 @@ import QWinUI3.Theme
 // KeyVisual — Single keyboard key chrome.
 //
 //   KeyVisual { keyText: "Ctrl" }
+//
+//   // --- API ---
+//   // inherits AbstractButton (+ Qt Quick Controls base API)
 
 T.AbstractButton {
     id: root

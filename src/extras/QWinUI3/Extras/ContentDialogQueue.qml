@@ -6,6 +6,13 @@ import QtQuick
 //   ContentDialogQueue.show(dialog)
 //   ContentDialogQueue.cancel(dialog)
 //   ContentDialogQueue.replaceCurrent(other)
+//
+//   // --- API ---
+//   // methods: enqueue(dialog), show(dialog), cancel(dialog), clearQueue(), replaceCurrent(dialog)
+//   // contentDialogQueue.enqueue(dialog)
+//   // contentDialogQueue.show(dialog)
+//   // contentDialogQueue.cancel(dialog)
+//   // contentDialogQueue.clearQueue()
 
 QtObject {
     id: root

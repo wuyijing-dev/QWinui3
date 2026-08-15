@@ -6,7 +6,17 @@ import QWinUI3.Theme
 
 // LinearGauge — Horizontal/vertical track gauge with thresholds.
 //
-//   LinearGauge { value: 42; minimum: 0; maximum: 100 }
+//   LinearGauge {
+//       id: linearGauge
+//      value: 42; minimum: 0; maximum: 100
+//   }
+//
+//   // --- API ---
+//   // signals: onValueEdited
+//   // methods: clampSnap(v), setValue(v), setValueFromNorm(n)
+//   // linearGauge.clampSnap(v)
+//   // linearGauge.setValue(v)
+//   // linearGauge.setValueFromNorm(n)
 
 T.Control {
     id: root

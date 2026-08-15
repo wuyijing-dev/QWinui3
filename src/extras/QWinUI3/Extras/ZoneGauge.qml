@@ -6,7 +6,18 @@ import QWinUI3.Theme
 
 // ZoneGauge — Gauge with colored zones.
 //
-//   ZoneGauge { value: 55; minimum: 0; maximum: 100 }
+//   ZoneGauge {
+//       id: zoneGauge
+//      value: 55; minimum: 0; maximum: 100
+//   }
+//
+//   // --- API ---
+//   // signals: onValueEdited
+//   // methods: zoneColor(z, index), clampSnap(v), setValue(v), setValueFromNorm(n), normFromPoint(px, py)
+//   // zoneGauge.zoneColor(z, index)
+//   // zoneGauge.clampSnap(v)
+//   // zoneGauge.setValue(v)
+//   // zoneGauge.setValueFromNorm(n)
 
 T.Control {
     id: root

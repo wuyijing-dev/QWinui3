@@ -6,38 +6,65 @@ Path trail; model items raise itemClicked.
 
 [← Component index](../components.md)
 
-## Usage
+**Extends** `Control`.
+
+## Example
 
 ```qml
 BreadcrumbBar {
+    id: breadcrumbBar
     model: [{ title: "Home" }, { title: "Docs" }]
     onItemClicked: (index) => navigate(index)
 }
+
+// --- API ---
+// signals: onItemClicked, onItemInvoked
+// methods: crumbTitle(data), crumbIcon(data), isCurrent(index), isClickable(entry)
+// breadcrumbBar.crumbTitle(data)
+// breadcrumbBar.crumbIcon(data)
+// breadcrumbBar.isCurrent(index)
+// breadcrumbBar.isClickable(entry)
 ```
 
-## Properties
+## API
 
-- `model: var` — Data model / item list for this control
-- `currentIndex: int` — Selected index
-- `maxVisibleItems: int` — Collapse middle crumbs when count exceeds this (0 = show all)
-- `lastItemClickable: bool` — WinUI: current/last crumb is usually non-interactive
-- `separatorSymbol: var` — Breadcrumb separator FluentIcons symbol
-- `separatorGlyph: string` — Breadcrumb separator glyph string
-- `effectiveSeparatorGlyph: string` — Resolved separator glyph
-- `visibleModel: var` — Visible (non-overflow) crumbs
-- `overflowModel: var` — Overflow crumb items
+### Properties
 
-## Signals
+| Name | Type | Description |
+| --- | --- | --- |
+| `model` | `var` | Data model / item list for this control |
+| `currentIndex` | `int` | Selected index |
+| `maxVisibleItems` | `int` | Collapse middle crumbs when count exceeds this (0 = show all) |
+| `lastItemClickable` | `bool` | WinUI: current/last crumb is usually non-interactive |
+| `separatorSymbol` | `var` | Breadcrumb separator FluentIcons symbol |
+| `separatorGlyph` | `string` | Breadcrumb separator glyph string |
+| `effectiveSeparatorGlyph` | `string` | Resolved separator glyph |
+| `visibleModel` | `var` | Visible (non-overflow) crumbs |
+| `overflowModel` | `var` | Overflow crumb items |
 
-- `itemClicked(int index)` — Emitted when an item is clicked
-- `itemInvoked(int index)` — WinUI ItemInvoked
+### Signals
 
-## Methods
+| Signature | Description |
+| --- | --- |
+| `itemClicked(int index)` | Emitted when an item is clicked |
+| `itemInvoked(int index)` | WinUI ItemInvoked |
 
-- `crumbTitle(data)` — Title text for a breadcrumb item
-- `crumbIcon(data)` — Icon for a breadcrumb item
-- `isCurrent(index)` — True when this crumb is the current page
-- `isClickable(entry)` — Emit clicked when activated
+### Methods
+
+| Signature | Description |
+| --- | --- |
+| `crumbTitle(data)` | Title text for a breadcrumb item |
+| `crumbIcon(data)` | Icon for a breadcrumb item |
+| `isCurrent(index)` | True when this crumb is the current page |
+| `isClickable(entry)` | Emit clicked when activated |
+
+### Inherited from `Control`
+
+Also available (base type / Qt Quick Controls):
+
+- `padding`
+- `font`
+- `background` / `contentItem`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

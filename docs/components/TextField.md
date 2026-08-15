@@ -6,15 +6,24 @@ Fluent styled TextField.
 
 [← Component index](../components.md)
 
-## Usage
+## Example
 
 ```qml
 TextField { placeholderText: qsTr("Name") }
+
+// --- API ---
 ```
 
-## Notes
+## API
 
-Style-only control: inherits the Qt Quick Controls API. This QML file supplies Fluent visuals / metrics only.
+Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `TextField` API (this file only supplies Fluent visuals / metrics).
+
+### Inherited from `TextField`
+
+- `text`
+- `placeholderText`
+- `accepted()`
+- `editingFinished()`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

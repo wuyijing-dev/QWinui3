@@ -6,41 +6,68 @@ Horizontal bar chart.
 
 [← Component index](../components.md)
 
-## Usage
+**Extends** `Control`.
+
+## Example
 
 ```qml
-HorizontalBarChart { values: [3, 5, 2] }
+HorizontalBarChart {
+    id: horizontalBarChart
+   values: [3, 5, 2]
+}
+
+// --- API ---
+// signals: onBarClicked
+// methods: playReveal(), requestRedraw()
+// horizontalBarChart.playReveal()
+// horizontalBarChart.requestRedraw()
 ```
 
-## Properties
+## API
 
-- `values: var` — Numeric values array
-- `bars: var` — Bar descriptors
-- `minimum: real` — Minimum value
-- `maximum: real` — Maximum value
-- `barRadius: real` — Bar corner radius
-- `barGap: real` — Gap between bars
-- `showBaseline: bool` — Show zero baseline
-- `showLabels: bool` — Show item labels
-- `showValueLabels: bool` — Show value labels on bars
-- `interactive: bool` — Enable hover / click interaction
-- `animated: bool` — Play enter / reveal animation
-- `revealProgress: real` — 0..1 reveal animation progress
-- `hoverIndex: int` — Hovered item index
-- `selectedIndex: alias` — Selected index alias
-- `title: string` — Primary title text
-- `emptyText: string` — Placeholder when there is no data
-- `valueUnit: string` — Unit appended to value text
-- `isEmpty: bool` — True when there is no data
+### Properties
 
-## Signals
+| Name | Type | Description |
+| --- | --- | --- |
+| `values` | `var` | Numeric values array |
+| `bars` | `var` | Bar descriptors |
+| `minimum` | `real` | Minimum value |
+| `maximum` | `real` | Maximum value |
+| `barRadius` | `real` | Bar corner radius |
+| `barGap` | `real` | Gap between bars |
+| `showBaseline` | `bool` | Show zero baseline |
+| `showLabels` | `bool` | Show item labels |
+| `showValueLabels` | `bool` | Show value labels on bars |
+| `interactive` | `bool` | Enable hover / click interaction |
+| `animated` | `bool` | Play enter / reveal animation |
+| `revealProgress` | `real` | 0..1 reveal animation progress |
+| `hoverIndex` | `int` | Hovered item index |
+| `selectedIndex` | `alias` | Selected index alias |
+| `title` | `string` | Primary title text |
+| `emptyText` | `string` | Placeholder when there is no data |
+| `valueUnit` | `string` | Unit appended to value text |
+| `isEmpty` | `bool` | True when there is no data |
 
-- `barClicked(int index, real value)` — Emitted when a bar is clicked
+### Signals
 
-## Methods
+| Signature | Description |
+| --- | --- |
+| `barClicked(int index, real value)` | Emitted when a bar is clicked |
 
-- `playReveal()` — Play entrance reveal animation
-- `requestRedraw()` — Request chart / canvas redraw
+### Methods
+
+| Signature | Description |
+| --- | --- |
+| `playReveal()` | Play entrance reveal animation |
+| `requestRedraw()` | Request chart / canvas redraw |
+
+### Inherited from `Control`
+
+Also available (base type / Qt Quick Controls):
+
+- `padding`
+- `font`
+- `background` / `contentItem`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

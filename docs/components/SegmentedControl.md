@@ -6,35 +6,62 @@ Mutually exclusive segment buttons.
 
 [← Component index](../components.md)
 
-## Usage
+**Extends** `Control`.
+
+## Example
 
 ```qml
 SegmentedControl {
+    id: segmentedControl
     model: ["Day", "Week", "Month"]
     currentIndex: 0
 }
+
+// --- API ---
+// signals: onSelected, onSelectionChanged
+// methods: select(index), itemAt(index), moveIndicator(instant), syncIndicatorIfIdle(), nextEnabled(from, delta)
+// segmentedControl.select(index)
+// segmentedControl.itemAt(index)
+// segmentedControl.moveIndicator(instant)
+// segmentedControl.syncIndicatorIfIdle()
 ```
 
-## Properties
+## API
 
-- `model: var` — Data model / item list for this control
-- `currentIndex: int` — Selected index
-- `selectedIndex: alias` — Selected index alias
-- `stretch: bool` — Stretch factor / stretch pip
-- `equalWidth: bool` — Force equal-width segments
+### Properties
 
-## Signals
+| Name | Type | Description |
+| --- | --- | --- |
+| `model` | `var` | Data model / item list for this control |
+| `currentIndex` | `int` | Selected index |
+| `selectedIndex` | `alias` | Selected index alias |
+| `stretch` | `bool` | Stretch factor / stretch pip |
+| `equalWidth` | `bool` | Force equal-width segments |
 
-- `selected(int index, var item)` — Selected state
-- `selectionChanged(int index)` — Selection changed
+### Signals
 
-## Methods
+| Signature | Description |
+| --- | --- |
+| `selected(int index, var item)` | Selected state |
+| `selectionChanged(int index)` | Selection changed |
 
-- `select(index)` — Select item by index
-- `itemAt(index)` — Item at the given index
-- `moveIndicator(instant)` — Move selection indicator to index
-- `syncIndicatorIfIdle()` — Sync selection indicator when idle
-- `nextEnabled(from, delta)` — True when next is available
+### Methods
+
+| Signature | Description |
+| --- | --- |
+| `select(index)` | Select item by index |
+| `itemAt(index)` | Item at the given index |
+| `moveIndicator(instant)` | Move selection indicator to index |
+| `syncIndicatorIfIdle()` | Sync selection indicator when idle |
+| `nextEnabled(from, delta)` | True when next is available |
+
+### Inherited from `Control`
+
+Also available (base type / Qt Quick Controls):
+
+- `padding`
+- `font`
+- `background` / `contentItem`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

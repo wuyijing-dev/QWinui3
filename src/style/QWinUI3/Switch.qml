@@ -5,6 +5,8 @@ import QWinUI3.Theme
 // Switch — Fluent styled Switch.
 //
 //   Switch { checked: Theme.dark; onToggled: Theme.dark = checked }
+//
+//   // --- API ---
 
 T.Switch {
     id: control

@@ -6,7 +6,18 @@ import QWinUI3.Theme
 
 // ArcGauge — Open-arc dashboard gauge with center value and thresholds.
 //
-//   ArcGauge { value: 64; minimum: 0; maximum: 100 }
+//   ArcGauge {
+//       id: arcGauge
+//      value: 64; minimum: 0; maximum: 100
+//   }
+//
+//   // --- API ---
+//   // signals: onValueEdited
+//   // methods: clampSnap(v), setValue(v), setValueFromNorm(n), normFromPoint(px, py, cx, cy)
+//   // arcGauge.clampSnap(v)
+//   // arcGauge.setValue(v)
+//   // arcGauge.setValueFromNorm(n)
+//   // arcGauge.normFromPoint(px, py, cx, cy)
 
 T.Control {
     id: root

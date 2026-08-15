@@ -6,34 +6,61 @@ Page carousel with optional navigation buttons.
 
 [← Component index](../components.md)
 
-## Usage
+**Extends** `Control`.
+
+## Example
 
 ```qml
-FlipView { model: pages }
+FlipView {
+    id: flipView
+   model: pages
+}
+
+// --- API ---
+// signals: onSelectionChanged, onCurrentIndexChangedByUser
+// methods: goNext(), goPrevious()
+// flipView.goNext()
+// flipView.goPrevious()
 ```
 
-## Properties
+## API
 
-- `currentIndex: alias` — Selected index
-- `selectedIndex: alias` — Selected index alias
-- `count: alias` — Item count
-- `interactive: alias` — Enable hover / click interaction
-- `buttonsVisible: bool` — Show next/prev buttons
-- `isButtonsVisible: alias` — Alias of buttonsVisible
-- `buttonVisibility: string` — always | onHover | hidden
-- `isIndicatorVisible: bool` — Show page indicator
-- `wrap: bool` — Wrap children to next line
-- `contentData: alias` — Default children / content slot
+### Properties
 
-## Signals
+| Name | Type | Description |
+| --- | --- | --- |
+| `currentIndex` | `alias` | Selected index |
+| `selectedIndex` | `alias` | Selected index alias |
+| `count` | `alias` | Item count |
+| `interactive` | `alias` | Enable hover / click interaction |
+| `buttonsVisible` | `bool` | Show next/prev buttons |
+| `isButtonsVisible` | `alias` | Alias of buttonsVisible |
+| `buttonVisibility` | `string` | always \| onHover \| hidden |
+| `isIndicatorVisible` | `bool` | Show page indicator |
+| `wrap` | `bool` | Wrap children to next line |
+| `contentData` | `alias` | Default children / content slot |
 
-- `selectionChanged(int index)` — Selection changed
-- `currentIndexChangedByUser(int index)` — Selection changed by user
+### Signals
 
-## Methods
+| Signature | Description |
+| --- | --- |
+| `selectionChanged(int index)` | Selection changed |
+| `currentIndexChangedByUser(int index)` | Selection changed by user |
 
-- `goNext()` — Navigate to the next page / item
-- `goPrevious()` — Navigate to the previous page / item
+### Methods
+
+| Signature | Description |
+| --- | --- |
+| `goNext()` | Navigate to the next page / item |
+| `goPrevious()` | Navigate to the previous page / item |
+
+### Inherited from `Control`
+
+Also available (base type / Qt Quick Controls):
+
+- `padding`
+- `font`
+- `background` / `contentItem`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

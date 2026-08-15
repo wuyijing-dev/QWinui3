@@ -5,7 +5,16 @@ import QWinUI3.Theme
 
 // StackedBarChart — Stacked bar chart.
 //
-//   StackedBarChart { series: [{ values: [1, 2] }] }
+//   StackedBarChart {
+//       id: stackedBarChart
+//      series: [{ values: [1, 2]
+//   }] }
+//
+//   // --- API ---
+//   // signals: onCategoryClicked
+//   // methods: playReveal(), requestRedraw()
+//   // stackedBarChart.playReveal()
+//   // stackedBarChart.requestRedraw()
 
 T.Control {
     id: root

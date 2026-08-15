@@ -6,7 +6,17 @@ import QWinUI3.Theme
 
 // ColorPickerButton — Color swatch button that opens ColorPicker.
 //
-//   ColorPickerButton { selectedColor: Theme.accent }
+//   ColorPickerButton {
+//       id: colorPickerButton
+//      selectedColor: Theme.accent
+//   }
+//
+//   // --- API ---
+//   // signals: onColorChosen
+//   // methods: open(), close()
+//   // colorPickerButton.open()
+//   // colorPickerButton.close()
+//   // inherits AbstractButton (+ Qt Quick Controls base API)
 
 T.AbstractButton {
     id: control

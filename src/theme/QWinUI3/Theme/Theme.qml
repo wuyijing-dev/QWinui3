@@ -5,6 +5,12 @@ import QtQuick
 //
 //   Theme.dark = true
 //   Theme.followSystemAccessibility = true
+//
+//   // --- API ---
+//   // methods: duration(ms), controlFill(hovered, pressed, disabled), accentFill(hovered, pressed, disabled)
+//   // theme.duration(ms)
+//   // theme.controlFill(hovered, pressed, disabled)
+//   // theme.accentFill(hovered, pressed, disabled)
 
 QtObject {
     id: root

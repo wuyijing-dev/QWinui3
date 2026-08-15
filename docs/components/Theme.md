@@ -6,110 +6,128 @@ Fluent color / type / motion token singleton.
 
 [← Component index](../components.md)
 
-## Usage
+**Extends** `QtObject`.
+
+## Example
 
 ```qml
 Theme.dark = true
 Theme.followSystemAccessibility = true
+
+// --- API ---
+// methods: duration(ms), controlFill(hovered, pressed, disabled), accentFill(hovered, pressed, disabled)
+// theme.duration(ms)
+// theme.controlFill(hovered, pressed, disabled)
+// theme.accentFill(hovered, pressed, disabled)
 ```
 
-## Properties
+## API
 
-- `dark: bool` — Dark color scheme when true
-- `reducedMotion: bool` — Collapse Theme.duration() animations when true
-- `highContrast: bool` — When true, strengthen borders/focus for high-contrast / accessibility themes.
-- `followSystemAccessibility: bool` — When true, Gallery/apps should copy WindowHelper system a11y into the flags above.
-- `accent: color` — Fluent / WinUI 3 system accent (matches FluentWinUI3 defaults)
-- `accentLight1: color` — Lighter accent step
-- `accentDark1: color` — Darker accent step
-- `textPrimary: color` — Primary text brush
-- `textSecondary: color` — Secondary text brush
-- `textDisabled: color` — Disabled text brush
-- `textOnAccent: color` — Text on accent fill
-- `textOnAccentSecondary: color` — Secondary text on accent fill
-- `fillControl: color` — Control fills — WinUI ControlFillColor*
-- `fillControlSecondary: color` — Control fill (hover)
-- `fillControlTertiary: color` — Control fill (pressed)
-- `fillControlDisabled: color` — Control fill (disabled)
-- `fillAccent: color` — Accent fill (rest) — same as accent brush
-- `fillAccentSecondary: color` — Accent fill (hover)
-- `fillAccentTertiary: color` — Accent fill (pressed)
-- `fillSubtle: color` — Subtle hover/press wash
-- `fillSubtleSecondary: color` — Subtle secondary wash
-- `fillSubtleTertiary: color` — Subtle tertiary wash
-- `strokeControl: color` — Strokes — ControlStrokeColor*
-- `strokeControlStrong: color` — Strong control border
-- `strokeControlOnAccent: color` — Stroke on accent-filled controls
-- `focusOuter: color` — Focus ring outer color
-- `focusInner: color` — Focus ring inner color
-- `strokeCard: color` — Card border stroke
-- `strokeDivider: color` — Divider stroke
-- `bgLayer: color` — Layer / solid backgrounds — LayerFill / SolidBackground
-- `bgLayerAlt: color` — Alternate layer (zebra / secondary surface)
-- `bgSolid: color` — Opaque solid window fill (no acrylic/mica)
-- `bgCard: color` — Card surface background
-- `bgCardElevated: color` — Elevated card (dialog / flyout surface)
-- `bgSmoke: color` — Modal smoke / light-dismiss scrim
-- `bgAcrylic: color` — Acrylic / chrome background
-- `bgMica: color` — Mica base fill under system backdrop
-- `systemAttention: color` — Attention / info color
-- `systemSuccess: color` — Success status color
-- `systemCaution: color` — Warning / caution color
-- `systemCritical: color` — Error / critical color
-- `systemAttentionBg: color` — Attention banner background
-- `systemSuccessBg: color` — Success banner background
-- `systemCautionBg: color` — Caution banner background
-- `systemCriticalBg: color` — Critical banner background
-- `fontFamily: string` — Typography — Segoe UI Variable / WinUI type ramp
-- `fontFamilyText: string` — Segoe UI Variable Text face
-- `fontFamilyDisplay: string` — Segoe UI Variable Display face (large titles)
-- `fontFamilyIcon: string` — Fluent Icons font family
-- `fontCaption: int` — Caption font size (12)
-- `fontBody: int` — Body font size (14)
-- `fontBodyLarge: int` — Body Large font size (18)
-- `fontSubtitle: int` — Subtitle font size (20)
-- `fontTitle: int` — Title font size (28)
-- `fontTitleLarge: int` — Title Large font size (40)
-- `fontWeightRegular: int` — Regular / normal font weight
-- `fontWeightSemiBold: int` — Semi-bold weight
-- `motionFast: int` — Fast motion duration (ms)
-- `motionNormal: int` — Normal motion duration (ms)
-- `motionSlow: int` — Slow motion duration (ms)
-- `motionFlyout: int` — Flyout / popup enter duration (ms)
-- `easingEnter: int` — Enter easing curve
-- `easingExit: int` — Exit easing curve
-- `easingStandard: int` — Standard easing curve
-- `easingEmphasized: int` — Emphasized easing (slight overshoot)
-- `cornerControl: real` — Control metrics (FluentWinUI3 Config)
-- `cornerOverlay: real` — Overlay / flyout corner radius
-- `strokeThin: real` — Default 1px hairline stroke
-- `strokeFocusOuter: real` — Focus ring outer width
-- `strokeFocusInner: real` — Focus ring inner width
-- `controlHeight: real` — Default control height
-- `controlMinWidth: real` — Minimum control width
-- `searchBoxHeight: real` — SearchBox height
-- `navItemHeight: real` — Navigation item row height
-- `navPaneWidth: real` — Expanded NavigationView pane width
-- `navPaneCompactWidth: real` — Compact NavigationView pane width
-- `paddingControlH: real` — Horizontal control padding
-- `paddingControlV: real` — Vertical control padding
-- `spacing: real` — Child spacing
-- `spacingLoose: real` — Loose spacing
-- `spacingSection: real` — Section spacing
-- `cornerCard: real` — Card corner radius
-- `switchWidth: real` — Switch track width
-- `switchHeight: real` — Switch track height
-- `switchThumb: real` — Switch thumb diameter
-- `checkSize: real` — CheckBox box size
-- `radioSize: real` — RadioButton outer size
-- `sliderThickness: real` — Slider track thickness
-- `sliderThumb: real` — Slider thumb diameter
+### Properties
 
-## Methods
+| Name | Type | Description |
+| --- | --- | --- |
+| `dark` | `bool` | Dark color scheme when true |
+| `reducedMotion` | `bool` | Collapse Theme.duration() animations when true |
+| `highContrast` | `bool` | When true, strengthen borders/focus for high-contrast / accessibility themes. |
+| `followSystemAccessibility` | `bool` | When true, Gallery/apps should copy WindowHelper system a11y into the flags above. |
+| `accent` | `color` | Fluent / WinUI 3 system accent (matches FluentWinUI3 defaults) |
+| `accentLight1` | `color` | Lighter accent step |
+| `accentDark1` | `color` | Darker accent step |
+| `textPrimary` | `color` | Primary text brush |
+| `textSecondary` | `color` | Secondary text brush |
+| `textDisabled` | `color` | Disabled text brush |
+| `textOnAccent` | `color` | Text on accent fill |
+| `textOnAccentSecondary` | `color` | Secondary text on accent fill |
+| `fillControl` | `color` | Control fills — WinUI ControlFillColor* |
+| `fillControlSecondary` | `color` | Control fill (hover) |
+| `fillControlTertiary` | `color` | Control fill (pressed) |
+| `fillControlDisabled` | `color` | Control fill (disabled) |
+| `fillAccent` | `color` | Accent fill (rest) — same as accent brush |
+| `fillAccentSecondary` | `color` | Accent fill (hover) |
+| `fillAccentTertiary` | `color` | Accent fill (pressed) |
+| `fillSubtle` | `color` | Subtle hover/press wash |
+| `fillSubtleSecondary` | `color` | Subtle secondary wash |
+| `fillSubtleTertiary` | `color` | Subtle tertiary wash |
+| `strokeControl` | `color` | Strokes — ControlStrokeColor* |
+| `strokeControlStrong` | `color` | Strong control border |
+| `strokeControlOnAccent` | `color` | Stroke on accent-filled controls |
+| `focusOuter` | `color` | Focus ring outer color |
+| `focusInner` | `color` | Focus ring inner color |
+| `strokeCard` | `color` | Card border stroke |
+| `strokeDivider` | `color` | Divider stroke |
+| `bgLayer` | `color` | Layer / solid backgrounds — LayerFill / SolidBackground |
+| `bgLayerAlt` | `color` | Alternate layer (zebra / secondary surface) |
+| `bgSolid` | `color` | Opaque solid window fill (no acrylic/mica) |
+| `bgCard` | `color` | Card surface background |
+| `bgCardElevated` | `color` | Elevated card (dialog / flyout surface) |
+| `bgSmoke` | `color` | Modal smoke / light-dismiss scrim |
+| `bgAcrylic` | `color` | Acrylic / chrome background |
+| `bgMica` | `color` | Mica base fill under system backdrop |
+| `systemAttention` | `color` | Attention / info color |
+| `systemSuccess` | `color` | Success status color |
+| `systemCaution` | `color` | Warning / caution color |
+| `systemCritical` | `color` | Error / critical color |
+| `systemAttentionBg` | `color` | Attention banner background |
+| `systemSuccessBg` | `color` | Success banner background |
+| `systemCautionBg` | `color` | Caution banner background |
+| `systemCriticalBg` | `color` | Critical banner background |
+| `fontFamily` | `string` | Typography — Segoe UI Variable / WinUI type ramp |
+| `fontFamilyText` | `string` | Segoe UI Variable Text face |
+| `fontFamilyDisplay` | `string` | Segoe UI Variable Display face (large titles) |
+| `fontFamilyIcon` | `string` | Fluent Icons font family |
+| `fontCaption` | `int` | Caption font size (12) |
+| `fontBody` | `int` | Body font size (14) |
+| `fontBodyLarge` | `int` | Body Large font size (18) |
+| `fontSubtitle` | `int` | Subtitle font size (20) |
+| `fontTitle` | `int` | Title font size (28) |
+| `fontTitleLarge` | `int` | Title Large font size (40) |
+| `fontWeightRegular` | `int` | Regular / normal font weight |
+| `fontWeightSemiBold` | `int` | Semi-bold weight |
+| `motionFast` | `int` | Fast motion duration (ms) |
+| `motionNormal` | `int` | Normal motion duration (ms) |
+| `motionSlow` | `int` | Slow motion duration (ms) |
+| `motionFlyout` | `int` | Flyout / popup enter duration (ms) |
+| `easingEnter` | `int` | Enter easing curve |
+| `easingExit` | `int` | Exit easing curve |
+| `easingStandard` | `int` | Standard easing curve |
+| `easingEmphasized` | `int` | Emphasized easing (slight overshoot) |
+| `cornerControl` | `real` | Control metrics (FluentWinUI3 Config) |
+| `cornerOverlay` | `real` | Overlay / flyout corner radius |
+| `strokeThin` | `real` | Default 1px hairline stroke |
+| `strokeFocusOuter` | `real` | Focus ring outer width |
+| `strokeFocusInner` | `real` | Focus ring inner width |
+| `controlHeight` | `real` | Default control height |
+| `controlMinWidth` | `real` | Minimum control width |
+| `searchBoxHeight` | `real` | SearchBox height |
+| `navItemHeight` | `real` | Navigation item row height |
+| `navPaneWidth` | `real` | Expanded NavigationView pane width |
+| `navPaneCompactWidth` | `real` | Compact NavigationView pane width |
+| `paddingControlH` | `real` | Horizontal control padding |
+| `paddingControlV` | `real` | Vertical control padding |
+| `spacing` | `real` | Child spacing |
+| `spacingLoose` | `real` | Loose spacing |
+| `spacingSection` | `real` | Section spacing |
+| `cornerCard` | `real` | Card corner radius |
+| `switchWidth` | `real` | Switch track width |
+| `switchHeight` | `real` | Switch track height |
+| `switchThumb` | `real` | Switch thumb diameter |
+| `checkSize` | `real` | CheckBox box size |
+| `radioSize` | `real` | RadioButton outer size |
+| `sliderThickness` | `real` | Slider track thickness |
+| `sliderThumb` | `real` | Slider thumb diameter |
 
-- `duration(ms)` — Returns ms, or 1 when reducedMotion is on
-- `controlFill(hovered, pressed, disabled)` — Rest/hover/pressed/disabled control fill helper
-- `accentFill(hovered, pressed, disabled)` — Rest/hover/pressed/disabled accent fill helper
+### Signals
+
+_No custom signals_ (use inherited signals from the base type).
+
+### Methods
+
+| Signature | Description |
+| --- | --- |
+| `duration(ms)` | Returns ms, or 1 when reducedMotion is on |
+| `controlFill(hovered, pressed, disabled)` | Rest/hover/pressed/disabled control fill helper |
+| `accentFill(hovered, pressed, disabled)` | Rest/hover/pressed/disabled accent fill helper |
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

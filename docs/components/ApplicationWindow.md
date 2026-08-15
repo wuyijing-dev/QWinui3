@@ -6,15 +6,22 @@ Fluent ApplicationWindow chrome defaults.
 
 [← Component index](../components.md)
 
-## Usage
+## Example
 
 ```qml
 ApplicationWindow { title: qsTr("App") }
 ```
 
-## Notes
+## API
 
-Style-only control: inherits the Qt Quick Controls API. This QML file supplies Fluent visuals / metrics only.
+Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `ApplicationWindow` API (this file only supplies Fluent visuals / metrics).
+
+### Inherited from `ApplicationWindow`
+
+- `title`
+- `menuBar`
+- `header` / `footer`
+- `contentItem`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

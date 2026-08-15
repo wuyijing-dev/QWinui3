@@ -7,9 +7,18 @@ import QWinUI3.Theme
 // TabView — Closeable / reorderable tabs.
 //
 //   TabView {
+//       id: tabView
 //       model: tabs
 //       onCloseRequested: (index) => remove(index)
 //   }
+//
+//   // --- API ---
+//   // signals: onTabCloseRequested, onCurrentIndexChangedByUser, onSelectionChanged, onTabMoved, onAddTabButtonClicked
+//   // methods: addTab(item), closeTab(index), moveTab(from, to), tabIndexAtContentX(x), tabItemAt(index)
+//   // tabView.addTab(item)
+//   // tabView.closeTab(index)
+//   // tabView.moveTab(from, to)
+//   // tabView.tabIndexAtContentX(x)
 
 T.Control {
     id: control

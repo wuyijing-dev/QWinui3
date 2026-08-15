@@ -4,7 +4,14 @@ import QWinUI3.Theme
 
 // Sparkline — Inline mini line chart.
 //
-//   Sparkline { values: [1, 3, 2, 5, 4] }
+//   Sparkline {
+//       id: sparkline
+//      values: [1, 3, 2, 5, 4]
+//   }
+//
+//   // --- API ---
+//   // methods: playReveal()
+//   // sparkline.playReveal()
 
 T.Control {
     id: root

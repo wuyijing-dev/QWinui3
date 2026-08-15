@@ -6,7 +6,18 @@ import QWinUI3.Theme
 
 // NumberBox — Numeric spin/edit with validation.
 //
-//   NumberBox { value: 10; minimum: 0; maximum: 100 }
+//   NumberBox {
+//       id: numberBox
+//      value: 10; minimum: 0; maximum: 100
+//   }
+//
+//   // --- API ---
+//   // signals: onValueModified
+//   // methods: clamp(v), format(v), bump(delta), flashInvalid(), focusField(), commitText()
+//   // numberBox.clamp(v)
+//   // numberBox.format(v)
+//   // numberBox.bump(delta)
+//   // numberBox.flashInvalid()
 
 T.Control {
     id: root

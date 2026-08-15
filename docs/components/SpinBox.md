@@ -6,15 +6,15 @@ Fluent styled SpinBox.
 
 [← Component index](../components.md)
 
-## Usage
+## Example
 
 ```qml
 SpinBox { from: 0; to: 99; value: 1 }
 ```
 
-## Notes
+## API
 
-Style-only control: inherits the Qt Quick Controls API. This QML file supplies Fluent visuals / metrics only.
+Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `SpinBox` API (this file only supplies Fluent visuals / metrics).
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

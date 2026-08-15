@@ -5,7 +5,16 @@ import QWinUI3.Theme
 
 // PieChart — Pie chart with legend.
 //
-//   PieChart { slices: [{ value: 1, label: "A" }] }
+//   PieChart {
+//       id: pieChart
+//      slices: [{ value: 1, label: "A"
+//   }] }
+//
+//   // --- API ---
+//   // signals: onSliceClicked
+//   // methods: playReveal(), requestRedraw()
+//   // pieChart.playReveal()
+//   // pieChart.requestRedraw()
 
 T.Control {
     id: root

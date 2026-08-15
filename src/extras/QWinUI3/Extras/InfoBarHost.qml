@@ -7,6 +7,12 @@ import QWinUI3.Theme
 //
 //   InfoBarHost { id: bars }
 //   // bars.enqueue({ title: "Hi", severity: InfoBar.Informational })
+//
+//   // --- API ---
+//   // methods: closeAll(), clearAll(), openAll()
+//   // infoBarHost.closeAll()
+//   // infoBarHost.clearAll()
+//   // infoBarHost.openAll()
 
 T.Control {
     id: root

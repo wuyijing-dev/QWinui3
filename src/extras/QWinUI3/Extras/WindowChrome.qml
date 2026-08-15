@@ -7,6 +7,10 @@ import QWinUI3.Platform
 // WindowChrome — PlatformTitleBar + TitleBar bundle for shells.
 //
 //   WindowChrome { targetWindow: root; title: qsTr("App") }
+//
+//   // --- API ---
+//   // signals: onPaneToggleRequested, onBackRequested, onSearchActivated, onSearchTextEdited
+//   // inherits PlatformTitleBar (+ Qt Quick Controls base API)
 
 PlatformTitleBar {
     id: root

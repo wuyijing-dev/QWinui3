@@ -5,6 +5,8 @@ import QWinUI3.Theme
 // TextField — Fluent styled TextField.
 //
 //   TextField { placeholderText: qsTr("Name") }
+//
+//   // --- API ---
 
 T.TextField {
     id: control

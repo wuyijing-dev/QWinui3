@@ -6,7 +6,16 @@ import QWinUI3.Theme
 
 // FlipView — Page carousel with optional navigation buttons.
 //
-//   FlipView { model: pages }
+//   FlipView {
+//       id: flipView
+//      model: pages
+//   }
+//
+//   // --- API ---
+//   // signals: onSelectionChanged, onCurrentIndexChangedByUser
+//   // methods: goNext(), goPrevious()
+//   // flipView.goNext()
+//   // flipView.goPrevious()
 
 T.Control {
     id: control

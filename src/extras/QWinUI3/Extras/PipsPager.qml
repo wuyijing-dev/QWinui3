@@ -6,7 +6,17 @@ import QWinUI3.Theme
 
 // PipsPager — Dot pager for carousels.
 //
-//   PipsPager { count: 5; currentIndex: 2 }
+//   PipsPager {
+//       id: pipsPager
+//      count: 5; currentIndex: 2
+//   }
+//
+//   // --- API ---
+//   // signals: onCurrentIndexEdited, onSelectionChanged
+//   // methods: goNext(), goPrevious(), select(index)
+//   // pipsPager.goNext()
+//   // pipsPager.goPrevious()
+//   // pipsPager.select(index)
 
 T.Control {
     id: control

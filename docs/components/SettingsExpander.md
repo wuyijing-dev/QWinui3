@@ -6,33 +6,56 @@ Expandable settings group.
 
 [← Component index](../components.md)
 
-## Usage
+**Extends** `Control`.
+
+## Example
 
 ```qml
 SettingsExpander {
     title: qsTr("Advanced")
     SettingsCard { title: qsTr("Option") }
 }
+
+// --- API ---
+// signals: onExpanding, onCollapsing
 ```
 
-## Properties
+## API
 
-- `title: string` — Primary title text
-- `description: string` — Supporting description text
-- `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
-- `iconGlyph: string` — Raw Fluent glyph string fallback
-- `headerIcon: var` — Header icon glyph
-- `expanded: bool` — Expanded state
-- `isExpanded: alias` — Alias of expanded
-- `expandDirection: string` — WinUI ExpandDirection: down | up
-- `action: alias` — Custom action slot
-- `contentData: alias` — Default children / content slot
-- `effectiveHeaderIcon: string` — Resolved header icon
+### Properties
 
-## Signals
+| Name | Type | Description |
+| --- | --- | --- |
+| `title` | `string` | Primary title text |
+| `description` | `string` | Supporting description text |
+| `symbol` | `var` | FluentIcons symbol (preferred over iconGlyph) |
+| `iconGlyph` | `string` | Raw Fluent glyph string fallback |
+| `headerIcon` | `var` | Header icon glyph |
+| `expanded` | `bool` | Expanded state |
+| `isExpanded` | `alias` | Alias of expanded |
+| `expandDirection` | `string` | WinUI ExpandDirection: down \| up |
+| `action` | `alias` | Custom action slot |
+| `contentData` | `alias` | Default children / content slot |
+| `effectiveHeaderIcon` | `string` | Resolved header icon |
 
-- `expanding()` — True while expanding
-- `collapsing()` — True while collapsing
+### Signals
+
+| Signature | Description |
+| --- | --- |
+| `expanding()` | True while expanding |
+| `collapsing()` | True while collapsing |
+
+### Methods
+
+_No custom methods_ (use inherited methods from the base type).
+
+### Inherited from `Control`
+
+Also available (base type / Qt Quick Controls):
+
+- `padding`
+- `font`
+- `background` / `contentItem`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

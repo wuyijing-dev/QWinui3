@@ -6,7 +6,18 @@ import QWinUI3.Theme
 
 // ColorPicker — Spectrum + RGB/Hex color editor.
 //
-//   ColorPicker { selectedColor: "#005FB8" }
+//   ColorPicker {
+//       id: colorPicker
+//      selectedColor: "#005FB8"
+//   }
+//
+//   // --- API ---
+//   // signals: onColorChosen
+//   // methods: copyHex(), clamp01(x), hsvToRgb(h, s, v), rgbToHsv(r, g, b), hsvToColor(h, s, v, a), hexString(c), parseHex(text), applyHsv(emitSignal), syncFromColor(c, emitSignal), syncInputsFromColor()
+//   // colorPicker.copyHex()
+//   // colorPicker.clamp01(x)
+//   // colorPicker.hsvToRgb(h, s, v)
+//   // colorPicker.rgbToHsv(r, g, b)
 
 T.Control {
     id: control

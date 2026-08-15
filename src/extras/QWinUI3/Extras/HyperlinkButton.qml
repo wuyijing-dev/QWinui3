@@ -6,6 +6,10 @@ import QWinUI3.Theme
 // HyperlinkButton — Link-styled button.
 //
 //   HyperlinkButton { text: qsTr("Learn more"); onClicked: Qt.openUrlExternally(url) }
+//
+//   // --- API ---
+//   // signals: onNavigateRequested
+//   // inherits AbstractButton (+ Qt Quick Controls base API)
 
 T.AbstractButton {
     id: control

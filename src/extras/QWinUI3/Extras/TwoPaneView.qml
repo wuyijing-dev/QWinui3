@@ -6,9 +6,17 @@ import QWinUI3.Theme
 // TwoPaneView — Responsive dual-pane layout.
 //
 //   TwoPaneView {
+//       id: twoPaneView
 //       pane1: Rectangle { }
 //       pane2: Rectangle { }
 //   }
+//
+//   // --- API ---
+//   // methods: showPane1(), showPane2(), toggleSinglePane(), swapPanes()
+//   // twoPaneView.showPane1()
+//   // twoPaneView.showPane2()
+//   // twoPaneView.toggleSinglePane()
+//   // twoPaneView.swapPanes()
 
 T.Control {
     id: root

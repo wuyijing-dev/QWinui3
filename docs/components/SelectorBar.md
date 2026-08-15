@@ -6,30 +6,59 @@ Compact horizontal item selector.
 
 [← Component index](../components.md)
 
-## Usage
+**Extends** `Control`.
+
+## Example
 
 ```qml
-SelectorBar { model: ["All", "Unread"]; currentIndex: 0 }
+SelectorBar {
+    id: selectorBar
+   model: ["All", "Unread"]; currentIndex: 0
+}
+
+// --- API ---
+// signals: onSelected
+// methods: select(index), itemAt(index), targetGeometry(index), moveIndicator(instant), syncIndicatorIfIdle()
+// selectorBar.select(index)
+// selectorBar.itemAt(index)
+// selectorBar.targetGeometry(index)
+// selectorBar.moveIndicator(instant)
 ```
 
-## Properties
+## API
 
-- `model: var` — Data model / item list for this control
-- `currentIndex: int` — Selected index
-- `selectedIndex: alias` — Selected index alias
-- `selectionStyle: string` — "pill" (filled accent) or "underline"
+### Properties
 
-## Signals
+| Name | Type | Description |
+| --- | --- | --- |
+| `model` | `var` | Data model / item list for this control |
+| `currentIndex` | `int` | Selected index |
+| `selectedIndex` | `alias` | Selected index alias |
+| `selectionStyle` | `string` | "pill" (filled accent) or "underline" |
 
-- `selected(int index, var item)` — Selected state
+### Signals
 
-## Methods
+| Signature | Description |
+| --- | --- |
+| `selected(int index, var item)` | Selected state |
 
-- `select(index)` — Select item by index
-- `itemAt(index)` — Item at the given index
-- `targetGeometry(index)` — Target geometry for placement
-- `moveIndicator(instant)` — Move selection indicator to index
-- `syncIndicatorIfIdle()` — Sync selection indicator when idle
+### Methods
+
+| Signature | Description |
+| --- | --- |
+| `select(index)` | Select item by index |
+| `itemAt(index)` | Item at the given index |
+| `targetGeometry(index)` | Target geometry for placement |
+| `moveIndicator(instant)` | Move selection indicator to index |
+| `syncIndicatorIfIdle()` | Sync selection indicator when idle |
+
+### Inherited from `Control`
+
+Also available (base type / Qt Quick Controls):
+
+- `padding`
+- `font`
+- `background` / `contentItem`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

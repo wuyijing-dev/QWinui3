@@ -5,7 +5,16 @@ import QWinUI3.Theme
 
 // BarChart — Vertical bar chart with reveal animation.
 //
-//   BarChart { values: [4, 2, 7, 3] }
+//   BarChart {
+//       id: barChart
+//      values: [4, 2, 7, 3]
+//   }
+//
+//   // --- API ---
+//   // signals: onBarClicked
+//   // methods: playReveal(), requestRedraw()
+//   // barChart.playReveal()
+//   // barChart.requestRedraw()
 
 T.Control {
     id: root

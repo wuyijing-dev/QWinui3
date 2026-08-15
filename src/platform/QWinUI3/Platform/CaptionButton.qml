@@ -4,6 +4,9 @@ import QWinUI3.Theme
 // CaptionButton — Native-chrome caption min/max/close button.
 //
 //   CaptionButton { glyph: FluentIcons.ChromeClose }
+//
+//   // --- API ---
+//   // inherits AbstractButton (+ Qt Quick Controls base API)
 
 
 AbstractButton {

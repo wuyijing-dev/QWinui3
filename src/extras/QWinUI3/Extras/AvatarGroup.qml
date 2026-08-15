@@ -6,6 +6,9 @@ import QWinUI3.Theme
 // AvatarGroup — Overlapping PersonPicture stack with overflow count.
 //
 //   AvatarGroup { model: [{ displayName: "A" }, { displayName: "B" }] }
+//
+//   // --- API ---
+//   // signals: onPersonClicked, onOverflowClicked
 
 T.Control {
     id: root

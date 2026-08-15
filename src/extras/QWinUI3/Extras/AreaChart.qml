@@ -5,7 +5,17 @@ import QWinUI3.Theme
 
 // AreaChart — Filled area chart with legend and hover crosshair.
 //
-//   AreaChart { values: [1, 3, 2, 5] }
+//   AreaChart {
+//       id: areaChart
+//      values: [1, 3, 2, 5]
+//   }
+//
+//   // --- API ---
+//   // methods: invalidateLod(), sourcePointCountEstimate(), ensureLod(budget), playReveal(), requestRedraw()
+//   // areaChart.invalidateLod()
+//   // areaChart.sourcePointCountEstimate()
+//   // areaChart.ensureLod(budget)
+//   // areaChart.playReveal()
 
 T.Control {
     id: root

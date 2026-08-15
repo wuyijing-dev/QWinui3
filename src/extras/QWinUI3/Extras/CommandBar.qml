@@ -8,8 +8,16 @@ import QWinUI3.Theme
 // CommandBar — Primary/secondary command row (AppBar host).
 //
 //   CommandBar {
+//       id: commandBar
 //       AppBarButton { text: qsTr("Add"); symbol: FluentIcons.Add }
 //   }
+//
+//   // --- API ---
+//   // signals: onOpening, onClosing, onOpened, onClosed, onMoreButtonClicked
+//   // methods: open(), close(), toggle()
+//   // commandBar.open()
+//   // commandBar.close()
+//   // commandBar.toggle()
 
 T.Control {
     id: root

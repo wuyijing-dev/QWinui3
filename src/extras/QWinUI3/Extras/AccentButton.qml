@@ -6,10 +6,17 @@ import QWinUI3.Theme
 // AccentButton — Always-accent primary CTA with optional Fluent symbol.
 //
 //   AccentButton {
+//       id: saveBtn
 //       text: qsTr("Save")
 //       symbol: FluentIcons.Save
+//       enabled: true
 //       onClicked: save()
 //   }
+//
+//   // --- API ---
+//   // properties: symbol, iconGlyph, iconSize, effectiveIconGlyph
+//   // inherits Button: text, enabled, highlighted, clicked(), pressAndHold()
+//   // saveBtn.clicked → onClicked; no custom methods
 
 Button {
     id: control

@@ -5,8 +5,13 @@ import QWinUI3.Theme
 // MetadataControl — Stacked or flowed label/value metadata block.
 //
 //   MetadataControl {
+//       id: metadataControl
 //       MetadataItem { label: qsTr("Author"); value: "Ada" }
 //   }
+//
+//   // --- API ---
+//   // methods: syncChildren()
+//   // metadataControl.syncChildren()
 
 T.Control {
     id: root

@@ -5,9 +5,15 @@ import QWinUI3.Theme
 // DockPanel — Dock children Top/Bottom/Left/Right/Fill.
 //
 //   DockPanel {
+//       id: dockPanel
 //       Rectangle { DockPanel.dock: DockPanel.Top; height: 40 }
 //       Rectangle { DockPanel.dock: DockPanel.Fill }
 //   }
+//
+//   // --- API ---
+//   // methods: dockOf(item), relayout()
+//   // dockPanel.dockOf(item)
+//   // dockPanel.relayout()
 
 T.Control {
     id: root

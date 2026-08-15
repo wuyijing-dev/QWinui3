@@ -4,7 +4,16 @@ import QWinUI3.Theme
 
 // ChartLegend — Fluent legend for series/slices.
 //
-//   ChartLegend { items: [{ label: "A", color: Theme.accent }] }
+//   ChartLegend {
+//       id: chartLegend
+//      items: [{ label: "A", color: Theme.accent
+//   }] }
+//
+//   // --- API ---
+//   // signals: onItemClicked, onItemHovered
+//   // methods: select(index), clearSelection()
+//   // chartLegend.select(index)
+//   // chartLegend.clearSelection()
 
 Item {
     id: root

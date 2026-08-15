@@ -6,7 +6,19 @@ import QWinUI3.Theme
 
 // MultiSelectComboBox — Combo that keeps the popup open for multi-select.
 //
-//   MultiSelectComboBox { model: items; selectedIndexes: [0, 2] }
+//   MultiSelectComboBox {
+//       id: multiSelectComboBox
+//      model: items; selectedIndexes: [0, 2]
+//   }
+//
+//   // --- API ---
+//   // signals: onSelectionChanged
+//   // methods: toggleAt(index), ensureObjectModel(), selectAll(), clearSelection()
+//   // multiSelectComboBox.toggleAt(index)
+//   // multiSelectComboBox.ensureObjectModel()
+//   // multiSelectComboBox.selectAll()
+//   // multiSelectComboBox.clearSelection()
+//   // inherits AbstractButton (+ Qt Quick Controls base API)
 
 T.AbstractButton {
     id: control

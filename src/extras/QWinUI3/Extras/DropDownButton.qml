@@ -7,9 +7,17 @@ import QWinUI3.Theme
 // DropDownButton — Button that opens a MenuFlyout of actions.
 //
 //   DropDownButton {
+//       id: dropDownButton
 //       text: qsTr("Options")
 //       MenuFlyoutItem { text: qsTr("A") }
 //   }
+//
+//   // --- API ---
+//   // methods: open(), close(), showMenu()
+//   // dropDownButton.open()
+//   // dropDownButton.close()
+//   // dropDownButton.showMenu()
+//   // inherits AbstractButton (+ Qt Quick Controls base API)
 
 T.AbstractButton {
     id: control

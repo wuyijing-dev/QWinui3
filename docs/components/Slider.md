@@ -6,15 +6,27 @@ Fluent styled Slider.
 
 [← Component index](../components.md)
 
-## Usage
+## Example
 
 ```qml
 Slider { from: 0; to: 100; value: 40 }
 ```
 
-## Properties
+## API
 
-- `diameter: real` — Diameter in px
+### Properties
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `diameter` | `real` | Diameter in px |
+
+### Signals
+
+_No custom signals_ (use inherited signals from the base type).
+
+### Methods
+
+_No custom methods_ (use inherited methods from the base type).
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

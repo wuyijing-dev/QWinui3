@@ -6,7 +6,17 @@ import QWinUI3.Theme
 
 // SegmentedGauge — Segmented progress / capacity gauge.
 //
-//   SegmentedGauge { value: 3; maximum: 5 }
+//   SegmentedGauge {
+//       id: segmentedGauge
+//      value: 3; maximum: 5
+//   }
+//
+//   // --- API ---
+//   // signals: onValueEdited, onSegmentClicked
+//   // methods: clampSnap(v), setValue(v), setSegment(index)
+//   // segmentedGauge.clampSnap(v)
+//   // segmentedGauge.setValue(v)
+//   // segmentedGauge.setSegment(index)
 
 T.Control {
     id: root

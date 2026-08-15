@@ -4,7 +4,15 @@ import QWinUI3.Theme
 
 // MonthGrid — Fluent styled MonthGrid.
 //
-//   MonthGrid { }
+//   MonthGrid {
+//       id: monthGrid
+//      
+//   }
+//
+//   // --- API ---
+//   // methods: sameDay(a, b)
+//   // monthGrid.sameDay(a, b)
+//   // inherits AbstractMonthGrid (+ Qt Quick Controls base API)
 
 T.AbstractMonthGrid {
     id: control

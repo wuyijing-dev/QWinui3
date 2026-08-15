@@ -6,25 +6,50 @@ Stacked or flowed label/value metadata block.
 
 [← Component index](../components.md)
 
-## Usage
+**Extends** `Control`.
+
+## Example
 
 ```qml
 MetadataControl {
+    id: metadataControl
     MetadataItem { label: qsTr("Author"); value: "Ada" }
 }
+
+// --- API ---
+// methods: syncChildren()
+// metadataControl.syncChildren()
 ```
 
-## Properties
+## API
 
-- `items: alias` — Item list / children model
-- `orientation: int` — Qt.Horizontal or Qt.Vertical
-- `itemSpacing: real` — Spacing between items
-- `header: string` — Header label above the control
-- `paddingEdges: int` — Edge paddings
+### Properties
 
-## Methods
+| Name | Type | Description |
+| --- | --- | --- |
+| `items` | `alias` | Item list / children model |
+| `orientation` | `int` | Qt.Horizontal or Qt.Vertical |
+| `itemSpacing` | `real` | Spacing between items |
+| `header` | `string` | Header label above the control |
+| `paddingEdges` | `int` | Edge paddings |
 
-- `syncChildren()` — Synchronize child item state
+### Signals
+
+_No custom signals_ (use inherited signals from the base type).
+
+### Methods
+
+| Signature | Description |
+| --- | --- |
+| `syncChildren()` | Synchronize child item state |
+
+### Inherited from `Control`
+
+Also available (base type / Qt Quick Controls):
+
+- `padding`
+- `font`
+- `background` / `contentItem`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

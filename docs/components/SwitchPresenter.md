@@ -6,34 +6,61 @@ Shows the SwitchCase matching value.
 
 [← Component index](../components.md)
 
-## Usage
+**Extends** `Control`.
+
+## Example
 
 ```qml
 SwitchPresenter {
+    id: switchPresenter
     value: mode
     SwitchCase { value: "a"; Label { text: "A" } }
 }
+
+// --- API ---
+// signals: onCaseChanged
+// methods: valuesEqual(a, b), select(index), applyValue(), setCaseActive(ch, on), syncWidths()
+// switchPresenter.valuesEqual(a, b)
+// switchPresenter.select(index)
+// switchPresenter.applyValue()
+// switchPresenter.setCaseActive(ch, on)
 ```
 
-## Properties
+## API
 
-- `value: var` — Current value
-- `animated: bool` — Play enter / reveal animation
-- `currentIndex: int` — Selected index
-- `selectedIndex: alias` — Selected index alias
-- `cases: alias` — Named case content map
+### Properties
 
-## Signals
+| Name | Type | Description |
+| --- | --- | --- |
+| `value` | `var` | Current value |
+| `animated` | `bool` | Play enter / reveal animation |
+| `currentIndex` | `int` | Selected index |
+| `selectedIndex` | `alias` | Selected index alias |
+| `cases` | `alias` | Named case content map |
 
-- `caseChanged(var value, int index)` — Emitted when the active SwitchPresenter case changes
+### Signals
 
-## Methods
+| Signature | Description |
+| --- | --- |
+| `caseChanged(var value, int index)` | Emitted when the active SwitchPresenter case changes |
 
-- `valuesEqual(a, b)` — True when two values compare equal
-- `select(index)` — Select item by index
-- `applyValue()` — Commit the pending value
-- `setCaseActive(ch, on)` — Activate a SwitchPresenter case by name
-- `syncWidths()` — Sync SwitchPresenter case widths
+### Methods
+
+| Signature | Description |
+| --- | --- |
+| `valuesEqual(a, b)` | True when two values compare equal |
+| `select(index)` | Select item by index |
+| `applyValue()` | Commit the pending value |
+| `setCaseActive(ch, on)` | Activate a SwitchPresenter case by name |
+| `syncWidths()` | Sync SwitchPresenter case widths |
+
+### Inherited from `Control`
+
+Also available (base type / Qt Quick Controls):
+
+- `padding`
+- `font`
+- `background` / `contentItem`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

@@ -7,10 +7,16 @@ import QWinUI3.Theme
 // TitleBar — WinUI TitleBar content chrome (not caption buttons).
 //
 //   TitleBar {
+//       id: titleBar
 //       title: qsTr("App")
 //       subtitle: qsTr("Optional")
 //       symbol: FluentIcons.Home
 //   }
+//
+//   // --- API ---
+//   // signals: onSearchActivated, onSearchTextEdited, onBackRequested, onPaneToggleRequested
+//   // methods: clientExcludeRectsFor(window)
+//   // titleBar.clientExcludeRectsFor(window)
 
 Item {
     id: root

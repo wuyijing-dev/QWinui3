@@ -4,6 +4,13 @@ import QtQuick
 // ChartUtils — LOD helpers for large chart series.
 //
 //   ChartUtils.downsample(values, maxPoints)
+//
+//   // --- API ---
+//   // methods: asNumber(v, fallback), valueCount(input), valueAt(input, index, fallback), pointX(input, index), pointY(input, index), pointColor(input, index), flattenValues(input), extents(values), extentsXY(points), lodBudget(plotWidth, maxPoints, factor)
+//   // chartUtils.asNumber(v, fallback)
+//   // chartUtils.valueCount(input)
+//   // chartUtils.valueAt(input, index, fallback)
+//   // chartUtils.pointX(input, index)
 
 QtObject {
     // Point count that triggers LOD

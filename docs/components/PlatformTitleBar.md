@@ -6,39 +6,64 @@ Caption buttons + drag region + TitleBar host.
 
 [← Component index](../components.md)
 
-## Usage
+**Extends** `Item`.
+
+## Example
 
 ```qml
 PlatformTitleBar {
+    id: platformTitleBar
     targetWindow: window
     TitleBar { embedded: true; title: qsTr("App") }
 }
+
+// --- API ---
+// methods: reportHitTest()
+// platformTitleBar.reportHitTest()
 ```
 
-## Properties
+## API
 
-- `targetWindow: var` — Window this chrome is attached to
-- `showCaptionButtons: bool` — Show caption buttons
-- `showMinimize: bool` — Show minimize
-- `showMaximize: bool` — Show maximize
-- `showClose: bool` — Show close
-- `preferredHeightOption: int` — Title bar height option
-- `useNativeChrome: bool` — Use native NC hit-testing
-- `resolvedCaptionHeight: real` — Resolved caption button height
-- `titleContent: alias` — Title content slot
-- `captionHeight: real` — Caption button row height
-- `chromeBackground: color` — AppWindowTitleBar theming (WinUI caption button / chrome colors).
-- `chromeInactive: bool` — Inactive chrome styling
-- `buttonBackground: color` — Caption button rest fill
-- `buttonHover: color` — Caption button hover fill
-- `buttonPressed: color` — Caption button pressed fill
-- `buttonForeground: color` — Caption button foreground
-- `closeHover: color` — Close hover fill
-- `closePressed: color` — Close pressed fill
+### Properties
 
-## Methods
+| Name | Type | Description |
+| --- | --- | --- |
+| `targetWindow` | `var` | Window this chrome is attached to |
+| `showCaptionButtons` | `bool` | Show caption buttons |
+| `showMinimize` | `bool` | Show minimize |
+| `showMaximize` | `bool` | Show maximize |
+| `showClose` | `bool` | Show close |
+| `preferredHeightOption` | `int` | Title bar height option |
+| `useNativeChrome` | `bool` | Use native NC hit-testing |
+| `resolvedCaptionHeight` | `real` | Resolved caption button height |
+| `titleContent` | `alias` | Title content slot |
+| `captionHeight` | `real` | Caption button row height |
+| `chromeBackground` | `color` | AppWindowTitleBar theming (WinUI caption button / chrome colors). |
+| `chromeInactive` | `bool` | Inactive chrome styling |
+| `buttonBackground` | `color` | Caption button rest fill |
+| `buttonHover` | `color` | Caption button hover fill |
+| `buttonPressed` | `color` | Caption button pressed fill |
+| `buttonForeground` | `color` | Caption button foreground |
+| `closeHover` | `color` | Close hover fill |
+| `closePressed` | `color` | Close pressed fill |
 
-- `reportHitTest()` — Report title-bar hit-test layout to WindowHelper
+### Signals
+
+_No custom signals_ (use inherited signals from the base type).
+
+### Methods
+
+| Signature | Description |
+| --- | --- |
+| `reportHitTest()` | Report title-bar hit-test layout to WindowHelper |
+
+### Inherited from `Item`
+
+Also available (base type / Qt Quick Controls):
+
+- `width` / `height`
+- `visible`
+- `anchors` / `x` / `y`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

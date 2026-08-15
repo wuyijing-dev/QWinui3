@@ -6,39 +6,68 @@ Transient toast item.
 
 [← Component index](../components.md)
 
-## Usage
+**Extends** `Control`.
+
+## Example
 
 ```qml
-Toast { title: qsTr("Saved"); message: qsTr("OK") }
+Toast {
+    id: toast
+   title: qsTr("Saved"); message: qsTr("OK")
+}
+
+// --- API ---
+// signals: onActionClicked, onClosed
+// methods: show(msg, sev), open(), close(), hide()
+// toast.show(msg, sev)
+// toast.open()
+// toast.close()
+// toast.hide()
 ```
 
-## Properties
+## API
 
-- `title: string` — Primary title text
-- `message: string` — Body / message text
-- `severity: int` — Status severity enum
-- `durationMs: int` — Auto-dismiss duration; 0 keeps open
-- `isOpen: bool` — Open / visible state
-- `actionText: string` — Optional action button label
-- `showProgress: bool` — Show progress indicator
-- `pauseOnHover: bool` — Pause auto-advance while hovered
-- `informational: int` — Informational severity constant
-- `success: int` — Success severity constant
-- `warning: int` — Warning severity constant
-- `error: int` — Error severity constant
-- `severityName: string` — Severity as string name
+### Properties
 
-## Signals
+| Name | Type | Description |
+| --- | --- | --- |
+| `title` | `string` | Primary title text |
+| `message` | `string` | Body / message text |
+| `severity` | `int` | Status severity enum |
+| `durationMs` | `int` | Auto-dismiss duration; 0 keeps open |
+| `isOpen` | `bool` | Open / visible state |
+| `actionText` | `string` | Optional action button label |
+| `showProgress` | `bool` | Show progress indicator |
+| `pauseOnHover` | `bool` | Pause auto-advance while hovered |
+| `informational` | `int` | Informational severity constant |
+| `success` | `int` | Success severity constant |
+| `warning` | `int` | Warning severity constant |
+| `error` | `int` | Error severity constant |
+| `severityName` | `string` | Severity as string name |
 
-- `actionClicked()` — Emitted when action is clicked
-- `closed()` — Swipe content closed
+### Signals
 
-## Methods
+| Signature | Description |
+| --- | --- |
+| `actionClicked()` | Emitted when action is clicked |
+| `closed()` | Swipe content closed |
 
-- `show(msg, sev)` — Show the control
-- `open()` — Open / show
-- `close()` — Close / dismiss
-- `hide()` — Hide the control
+### Methods
+
+| Signature | Description |
+| --- | --- |
+| `show(msg, sev)` | Show the control |
+| `open()` | Open / show |
+| `close()` | Close / dismiss |
+| `hide()` | Hide the control |
+
+### Inherited from `Control`
+
+Also available (base type / Qt Quick Controls):
+
+- `padding`
+- `font`
+- `background` / `contentItem`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

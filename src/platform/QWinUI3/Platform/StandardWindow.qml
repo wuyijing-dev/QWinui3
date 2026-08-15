@@ -7,9 +7,16 @@ import QWinUI3.Platform
 // StandardWindow — Platform ApplicationWindow + PlatformTitleBar host.
 //
 //   StandardWindow {
+//       id: standardWindow
 //       title: qsTr("Gallery")
 //       backdrop: WindowHelper.BackdropSolid
 //   }
+//
+//   // --- API ---
+//   // methods: applyChrome(), setPresenterKind(kind)
+//   // standardWindow.applyChrome()
+//   // standardWindow.setPresenterKind(kind)
+//   // inherits ApplicationWindow (+ Qt Quick Controls base API)
 
 ApplicationWindow {
     id: root

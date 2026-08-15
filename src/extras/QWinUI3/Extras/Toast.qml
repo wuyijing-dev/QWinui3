@@ -6,7 +6,18 @@ import QWinUI3.Theme
 
 // Toast — Transient toast item.
 //
-//   Toast { title: qsTr("Saved"); message: qsTr("OK") }
+//   Toast {
+//       id: toast
+//      title: qsTr("Saved"); message: qsTr("OK")
+//   }
+//
+//   // --- API ---
+//   // signals: onActionClicked, onClosed
+//   // methods: show(msg, sev), open(), close(), hide()
+//   // toast.show(msg, sev)
+//   // toast.open()
+//   // toast.close()
+//   // toast.hide()
 
 T.Control {
     id: control

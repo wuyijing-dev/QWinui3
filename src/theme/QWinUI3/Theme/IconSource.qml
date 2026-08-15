@@ -4,6 +4,13 @@ import QtQuick
 // IconSource — Resolve FluentIcons symbol or glyph string.
 //
 //   IconSource.resolve(symbol, iconGlyph)
+//
+//   // --- API ---
+//   // methods: isRawGlyph(value), toPascalCase(name), lookupName(name), resolve(value, fallback), has(value)
+//   // iconSource.isRawGlyph(value)
+//   // iconSource.toPascalCase(name)
+//   // iconSource.lookupName(name)
+//   // iconSource.resolve(value, fallback)
 
 QtObject {
     id: root

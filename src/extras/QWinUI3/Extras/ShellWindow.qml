@@ -10,6 +10,10 @@ import QWinUI3.Platform
 //       title: qsTr("App")
 //       symbol: FluentIcons.Home
 //   }
+//
+//   // --- API ---
+//   // signals: onPaneToggleRequested, onBackRequested, onSearchActivated, onSearchTextEdited
+//   // inherits ApplicationWindow (+ Qt Quick Controls base API)
 
 ApplicationWindow {
     id: root

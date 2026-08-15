@@ -5,11 +5,21 @@ import QWinUI3.Theme
 // NavigationWindow — ShellWindow hosting NavigationView + content.
 //
 //   NavigationWindow {
+//       id: navigationWindow
 //       title: qsTr("App")
 //       paneDisplayMode: "left"
 //       navModel: [{ key: "home", title: "Home", symbol: FluentIcons.Home }]
 //       content: Label { text: "Hello" }
 //   }
+//
+//   // --- API ---
+//   // signals: onNavActivated, onFooterClicked, onPaneSearchActivated
+//   // methods: clearNav(), addNavItem(item), addNavGroup(group), selectNavKey(key)
+//   // navigationWindow.clearNav()
+//   // navigationWindow.addNavItem(item)
+//   // navigationWindow.addNavGroup(group)
+//   // navigationWindow.selectNavKey(key)
+//   // inherits ShellWindow (+ Qt Quick Controls base API)
 
 ShellWindow {
     id: root

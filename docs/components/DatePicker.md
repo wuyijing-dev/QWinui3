@@ -6,38 +6,67 @@ Date selectors (year / month / day).
 
 [← Component index](../components.md)
 
-## Usage
+**Extends** `Control`.
+
+## Example
 
 ```qml
-DatePicker { }
+DatePicker {
+    id: datePicker
+   
+}
+
+// --- API ---
+// signals: onDateChosen
+// methods: syncSelectedDateFromParts(), clampDay(), applyFromTumblers(), syncTumblers()
+// datePicker.syncSelectedDateFromParts()
+// datePicker.clampDay()
+// datePicker.applyFromTumblers()
+// datePicker.syncTumblers()
 ```
 
-## Properties
+## API
 
-- `year: int` — Selected year
-- `month: int` — Selected month 1..12
-- `day: int` — Selected day of month
-- `minYear: int` — Minimum selectable year
-- `maxYear: int` — Maximum selectable year
-- `pickerOpen: bool` — Picker flyout open
-- `isOpen: alias` — Open / visible state
-- `header: string` — Header label above the control
-- `placeholderText: string` — Placeholder when empty
-- `dateFormat: string` — yyyy-MM-dd | MM/dd/yyyy | dd/MM/yyyy
-- `selectedDate: date` — Currently selected date
-- `displayText: string` — Text shown to the user
-- `daysInMonth: int` — Days in the selected month
+### Properties
 
-## Signals
+| Name | Type | Description |
+| --- | --- | --- |
+| `year` | `int` | Selected year |
+| `month` | `int` | Selected month 1..12 |
+| `day` | `int` | Selected day of month |
+| `minYear` | `int` | Minimum selectable year |
+| `maxYear` | `int` | Maximum selectable year |
+| `pickerOpen` | `bool` | Picker flyout open |
+| `isOpen` | `alias` | Open / visible state |
+| `header` | `string` | Header label above the control |
+| `placeholderText` | `string` | Placeholder when empty |
+| `dateFormat` | `string` | yyyy-MM-dd \| MM/dd/yyyy \| dd/MM/yyyy |
+| `selectedDate` | `date` | Currently selected date |
+| `displayText` | `string` | Text shown to the user |
+| `daysInMonth` | `int` | Days in the selected month |
 
-- `dateChosen(int year, int month, int day)` — Emitted when a date is chosen
+### Signals
 
-## Methods
+| Signature | Description |
+| --- | --- |
+| `dateChosen(int year, int month, int day)` | Emitted when a date is chosen |
 
-- `syncSelectedDateFromParts()` — Rebuild selected date from Y/M/D parts
-- `clampDay()` — Clamp day into the current month
-- `applyFromTumblers()` — Commit tumbler selection into the value
-- `syncTumblers()` — Sync tumbler positions to the value
+### Methods
+
+| Signature | Description |
+| --- | --- |
+| `syncSelectedDateFromParts()` | Rebuild selected date from Y/M/D parts |
+| `clampDay()` | Clamp day into the current month |
+| `applyFromTumblers()` | Commit tumbler selection into the value |
+| `syncTumblers()` | Sync tumbler positions to the value |
+
+### Inherited from `Control`
+
+Also available (base type / Qt Quick Controls):
+
+- `padding`
+- `font`
+- `background` / `contentItem`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

@@ -5,6 +5,8 @@ import QWinUI3.Theme
 // ComboBox — Fluent styled ComboBox.
 //
 //   ComboBox { model: ["A", "B"] }
+//
+//   // --- API ---
 
 T.ComboBox {
     id: control

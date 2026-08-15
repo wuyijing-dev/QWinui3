@@ -6,32 +6,60 @@ Dot pager for carousels.
 
 [← Component index](../components.md)
 
-## Usage
+**Extends** `Control`.
+
+## Example
 
 ```qml
-PipsPager { count: 5; currentIndex: 2 }
+PipsPager {
+    id: pipsPager
+   count: 5; currentIndex: 2
+}
+
+// --- API ---
+// signals: onCurrentIndexEdited, onSelectionChanged
+// methods: goNext(), goPrevious(), select(index)
+// pipsPager.goNext()
+// pipsPager.goPrevious()
+// pipsPager.select(index)
 ```
 
-## Properties
+## API
 
-- `count: int` — Item count
-- `currentIndex: int` — Selected index
-- `selectedIndex: alias` — Selected index alias
-- `orientation: int` — Qt.Horizontal or Qt.Vertical
-- `wrap: bool` — Wrap children to next line
-- `previousButtonVisibility: string` — WinUI ButtonVisibility: "visible" | "visibleOnPointerOver" | "collapsed"
-- `nextButtonVisibility: string` — Visibility of the next button
+### Properties
 
-## Signals
+| Name | Type | Description |
+| --- | --- | --- |
+| `count` | `int` | Item count |
+| `currentIndex` | `int` | Selected index |
+| `selectedIndex` | `alias` | Selected index alias |
+| `orientation` | `int` | Qt.Horizontal or Qt.Vertical |
+| `wrap` | `bool` | Wrap children to next line |
+| `previousButtonVisibility` | `string` | WinUI ButtonVisibility: "visible" \| "visibleOnPointerOver" \| "collapsed" |
+| `nextButtonVisibility` | `string` | Visibility of the next button |
 
-- `currentIndexEdited(int index)` — Emitted when currentIndex changes via user edit
-- `selectionChanged(int index)` — Selection changed
+### Signals
 
-## Methods
+| Signature | Description |
+| --- | --- |
+| `currentIndexEdited(int index)` | Emitted when currentIndex changes via user edit |
+| `selectionChanged(int index)` | Selection changed |
 
-- `goNext()` — Navigate to the next page / item
-- `goPrevious()` — Navigate to the previous page / item
-- `select(index)` — Select item by index
+### Methods
+
+| Signature | Description |
+| --- | --- |
+| `goNext()` | Navigate to the next page / item |
+| `goPrevious()` | Navigate to the previous page / item |
+| `select(index)` | Select item by index |
+
+### Inherited from `Control`
+
+Also available (base type / Qt Quick Controls):
+
+- `padding`
+- `font`
+- `background` / `contentItem`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

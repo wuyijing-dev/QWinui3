@@ -6,33 +6,59 @@ Date field with calendar flyout.
 
 [← Component index](../components.md)
 
-## Usage
+**Extends** `Control`.
+
+## Example
 
 ```qml
-CalendarDatePicker { selectedDate: new Date() }
+CalendarDatePicker {
+    id: calendarDatePicker
+   selectedDate: new Date()
+}
+
+// --- API ---
+// signals: onDateChosen
+// methods: isDateAllowed(d)
+// calendarDatePicker.isDateAllowed(d)
 ```
 
-## Properties
+## API
 
-- `selectedDate: date` — Currently selected date
-- `calendarOpen: bool` — Calendar flyout open
-- `isOpen: alias` — Open / visible state
-- `dateFormat: string` — Display date format
-- `showTodayButton: bool` — Show Today button in calendar
-- `header: string` — Header label above the control
-- `placeholderText: string` — Placeholder when empty
-- `minDate: date` — Minimum selectable date
-- `maxDate: date` — Maximum selectable date
-- `hasMinDate: bool` — True when minDate is set
-- `hasMaxDate: bool` — True when maxDate is set
+### Properties
 
-## Signals
+| Name | Type | Description |
+| --- | --- | --- |
+| `selectedDate` | `date` | Currently selected date |
+| `calendarOpen` | `bool` | Calendar flyout open |
+| `isOpen` | `alias` | Open / visible state |
+| `dateFormat` | `string` | Display date format |
+| `showTodayButton` | `bool` | Show Today button in calendar |
+| `header` | `string` | Header label above the control |
+| `placeholderText` | `string` | Placeholder when empty |
+| `minDate` | `date` | Minimum selectable date |
+| `maxDate` | `date` | Maximum selectable date |
+| `hasMinDate` | `bool` | True when minDate is set |
+| `hasMaxDate` | `bool` | True when maxDate is set |
 
-- `dateChosen(date date)` — Emitted when a date is chosen
+### Signals
 
-## Methods
+| Signature | Description |
+| --- | --- |
+| `dateChosen(date date)` | Emitted when a date is chosen |
 
-- `isDateAllowed(d)` — True when the date is within selectable bounds
+### Methods
+
+| Signature | Description |
+| --- | --- |
+| `isDateAllowed(d)` | True when the date is within selectable bounds |
+
+### Inherited from `Control`
+
+Also available (base type / Qt Quick Controls):
+
+- `padding`
+- `font`
+- `background` / `contentItem`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

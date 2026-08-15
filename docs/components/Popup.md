@@ -6,15 +6,23 @@ Fluent styled Popup chrome.
 
 [← Component index](../components.md)
 
-## Usage
+## Example
 
 ```qml
 Popup { modal: true; // content }
+
+// --- API ---
 ```
 
-## Notes
+## API
 
-Style-only control: inherits the Qt Quick Controls API. This QML file supplies Fluent visuals / metrics only.
+Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `Popup` API (this file only supplies Fluent visuals / metrics).
+
+### Inherited from `Popup`
+
+- `open()` / `close()`
+- `opened()` / `closed()`
+- `modal` / `focus`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

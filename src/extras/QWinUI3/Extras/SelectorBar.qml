@@ -5,7 +5,18 @@ import QWinUI3.Theme
 
 // SelectorBar — Compact horizontal item selector.
 //
-//   SelectorBar { model: ["All", "Unread"]; currentIndex: 0 }
+//   SelectorBar {
+//       id: selectorBar
+//      model: ["All", "Unread"]; currentIndex: 0
+//   }
+//
+//   // --- API ---
+//   // signals: onSelected
+//   // methods: select(index), itemAt(index), targetGeometry(index), moveIndicator(instant), syncIndicatorIfIdle()
+//   // selectorBar.select(index)
+//   // selectorBar.itemAt(index)
+//   // selectorBar.targetGeometry(index)
+//   // selectorBar.moveIndicator(instant)
 
 T.Control {
     id: control

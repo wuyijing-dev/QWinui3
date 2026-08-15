@@ -6,7 +6,15 @@ import QWinUI3.Theme
 
 // CalendarDatePicker — Date field with calendar flyout.
 //
-//   CalendarDatePicker { selectedDate: new Date() }
+//   CalendarDatePicker {
+//       id: calendarDatePicker
+//      selectedDate: new Date()
+//   }
+//
+//   // --- API ---
+//   // signals: onDateChosen
+//   // methods: isDateAllowed(d)
+//   // calendarDatePicker.isDateAllowed(d)
 
 T.Control {
     id: root

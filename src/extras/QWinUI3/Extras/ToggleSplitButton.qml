@@ -5,7 +5,17 @@ import QWinUI3.Theme
 
 // ToggleSplitButton — Toggle primary + menu SplitButton.
 //
-//   ToggleSplitButton { text: qsTr("Format") }
+//   ToggleSplitButton {
+//       id: toggleSplitButton
+//      text: qsTr("Format")
+//   }
+//
+//   // --- API ---
+//   // signals: onPrimaryClicked
+//   // methods: showMenu(), closeMenu()
+//   // toggleSplitButton.showMenu()
+//   // toggleSplitButton.closeMenu()
+//   // inherits AbstractButton (+ Qt Quick Controls base API)
 
 T.AbstractButton {
     id: control

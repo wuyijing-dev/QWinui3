@@ -8,20 +8,47 @@ Non-native resize hit edges.
 
 > Internal / support type — not part of the public Gallery surface.
 
-## Usage
+**Extends** `Item`.
+
+## Example
 
 ```qml
-WindowResizeBorder { targetWindow: root }
+WindowResizeBorder {
+    id: windowResizeBorder
+   targetWindow: root
+}
+
+// --- API ---
+// methods: edgeResize(edges)
+// windowResizeBorder.edgeResize(edges)
 ```
 
-## Properties
+## API
 
-- `targetWindow: var` — Window this chrome is attached to
-- `thickness: real` — Donut ring thickness
+### Properties
 
-## Methods
+| Name | Type | Description |
+| --- | --- | --- |
+| `targetWindow` | `var` | Window this chrome is attached to |
+| `thickness` | `real` | Donut ring thickness |
 
-- `edgeResize(edges)` — Enable edge resize grips
+### Signals
+
+_No custom signals_ (use inherited signals from the base type).
+
+### Methods
+
+| Signature | Description |
+| --- | --- |
+| `edgeResize(edges)` | Enable edge resize grips |
+
+### Inherited from `Item`
+
+Also available (base type / Qt Quick Controls):
+
+- `width` / `height`
+- `visible`
+- `anchors` / `x` / `y`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

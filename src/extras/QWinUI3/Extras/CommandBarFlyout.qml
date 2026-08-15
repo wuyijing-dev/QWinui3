@@ -7,8 +7,17 @@ import QWinUI3.Theme
 // CommandBarFlyout — Popup CommandBar with primary + secondary commands.
 //
 //   CommandBarFlyout {
+//       id: commandBarFlyout
 //       AppBarButton { text: qsTr("Share") }
 //   }
+//
+//   // --- API ---
+//   // methods: showAt(item, preferredPlacement), show(), hide(), openFlyout(), closeFlyout()
+//   // commandBarFlyout.showAt(item, preferredPlacement)
+//   // commandBarFlyout.show()
+//   // commandBarFlyout.hide()
+//   // commandBarFlyout.openFlyout()
+//   // inherits Popup (+ Qt Quick Controls base API)
 
 T.Popup {
     id: root

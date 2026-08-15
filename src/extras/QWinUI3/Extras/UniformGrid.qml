@@ -4,7 +4,15 @@ import QWinUI3.Theme
 
 // UniformGrid — Even cell grid.
 //
-//   UniformGrid { columns: 3 }
+//   UniformGrid {
+//       id: uniformGrid
+//      columns: 3
+//   }
+//
+//   // --- API ---
+//   // methods: visibleChildren(), relayout()
+//   // uniformGrid.visibleChildren()
+//   // uniformGrid.relayout()
 
 T.Control {
     id: root

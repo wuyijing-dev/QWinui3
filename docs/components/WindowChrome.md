@@ -8,41 +8,57 @@ PlatformTitleBar + TitleBar bundle for shells.
 
 > Internal / support type — not part of the public Gallery surface.
 
-## Usage
+**Extends** `PlatformTitleBar`.
+
+## Example
 
 ```qml
 WindowChrome { targetWindow: root; title: qsTr("App") }
+
+// --- API ---
+// signals: onPaneToggleRequested, onBackRequested, onSearchActivated, onSearchTextEdited
+// inherits PlatformTitleBar (+ Qt Quick Controls base API)
 ```
 
-## Properties
+## API
 
-- `title: string` — Primary title text
-- `subtitle: string` — Secondary subtitle text
-- `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
-- `showPaneToggle: bool` — Show navigation pane toggle
-- `searchEnabled: bool` — Enable title-bar search
-- `isBackButtonVisible: alias` — Show back button
-- `isBackButtonEnabled: alias` — Enable back button
-- `leftHeader: alias` — WinUI LeftHeader slot
-- `titleBarContent: alias` — Title-bar middle content slot
-- `rightHeader: alias` — WinUI RightHeader slot
-- `searchText: alias` — Title-bar search field text
-- `searchModel: alias` — Title-bar search suggestions
-- `captionButtonBackground: color` — Caption button rest fill
-- `captionButtonHover: color` — Caption button hover fill
-- `captionButtonPressed: color` — Caption button pressed fill
-- `captionButtonForeground: color` — Caption button glyph color
-- `captionCloseHover: color` — Close button hover fill
-- `captionClosePressed: color` — Close button pressed fill
-- `titleBarBackground: color` — Title bar background color
-- `titleBarInactive: bool` — Dim title bar when inactive
+### Properties
 
-## Signals
+| Name | Type | Description |
+| --- | --- | --- |
+| `title` | `string` | Primary title text |
+| `subtitle` | `string` | Secondary subtitle text |
+| `symbol` | `var` | FluentIcons symbol (preferred over iconGlyph) |
+| `showPaneToggle` | `bool` | Show navigation pane toggle |
+| `searchEnabled` | `bool` | Enable title-bar search |
+| `isBackButtonVisible` | `alias` | Show back button |
+| `isBackButtonEnabled` | `alias` | Enable back button |
+| `leftHeader` | `alias` | WinUI LeftHeader slot |
+| `titleBarContent` | `alias` | Title-bar middle content slot |
+| `rightHeader` | `alias` | WinUI RightHeader slot |
+| `searchText` | `alias` | Title-bar search field text |
+| `searchModel` | `alias` | Title-bar search suggestions |
+| `captionButtonBackground` | `color` | Caption button rest fill |
+| `captionButtonHover` | `color` | Caption button hover fill |
+| `captionButtonPressed` | `color` | Caption button pressed fill |
+| `captionButtonForeground` | `color` | Caption button glyph color |
+| `captionCloseHover` | `color` | Close button hover fill |
+| `captionClosePressed` | `color` | Close button pressed fill |
+| `titleBarBackground` | `color` | Title bar background color |
+| `titleBarInactive` | `bool` | Dim title bar when inactive |
 
-- `paneToggleRequested()` — Emitted when pane toggle is clicked
-- `backRequested()` — Emitted when back is requested
-- `searchActivated(var item)` — Emitted when a search result is activated
-- `searchTextEdited(string text)` — Emitted when search text changes
+### Signals
+
+| Signature | Description |
+| --- | --- |
+| `paneToggleRequested()` | Emitted when pane toggle is clicked |
+| `backRequested()` | Emitted when back is requested |
+| `searchActivated(var item)` | Emitted when a search result is activated |
+| `searchTextEdited(string text)` | Emitted when search text changes |
+
+### Methods
+
+_No custom methods_ (use inherited methods from the base type).
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

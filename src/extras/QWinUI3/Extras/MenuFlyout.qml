@@ -5,8 +5,17 @@ import QWinUI3.Theme
 // MenuFlyout — Elevated Menu with showAt / isOpen helpers.
 //
 //   MenuFlyout {
+//       id: menuFlyout
 //       MenuFlyoutItem { text: qsTr("Copy"); symbol: FluentIcons.Copy }
 //   }
+//
+//   // --- API ---
+//   // methods: openMenu(), closeMenu(), showAt(targetItem, offsetX, offsetY), hide()
+//   // menuFlyout.openMenu()
+//   // menuFlyout.closeMenu()
+//   // menuFlyout.showAt(targetItem, offsetX, offsetY)
+//   // menuFlyout.hide()
+//   // inherits Menu (+ Qt Quick Controls base API)
 
 Menu {
     id: root

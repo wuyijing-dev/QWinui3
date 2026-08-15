@@ -6,27 +6,53 @@ Header tabs with sliding underline and pages.
 
 [← Component index](../components.md)
 
-## Usage
+**Extends** `Control`.
+
+## Example
 
 ```qml
-Pivot { model: ["Overview", "Details"] }
+Pivot {
+    id: pivot
+   model: ["Overview", "Details"]
+}
+
+// --- API ---
+// signals: onCurrentIndexChangedByUser, onSelectionChanged
+// methods: selectIndex(index)
+// pivot.selectIndex(index)
 ```
 
-## Properties
+## API
 
-- `model: var` — Data model / item list for this control
-- `currentIndex: int` — Selected index
-- `selectedIndex: alias` — Selected index alias
-- `keyboardNavigationEnabled: bool` — Allow arrow-key navigation
+### Properties
 
-## Signals
+| Name | Type | Description |
+| --- | --- | --- |
+| `model` | `var` | Data model / item list for this control |
+| `currentIndex` | `int` | Selected index |
+| `selectedIndex` | `alias` | Selected index alias |
+| `keyboardNavigationEnabled` | `bool` | Allow arrow-key navigation |
 
-- `currentIndexChangedByUser(int index)` — Selection changed by user
-- `selectionChanged(int index)` — Selection changed
+### Signals
 
-## Methods
+| Signature | Description |
+| --- | --- |
+| `currentIndexChangedByUser(int index)` | Selection changed by user |
+| `selectionChanged(int index)` | Selection changed |
 
-- `selectIndex(index)` — Select by index
+### Methods
+
+| Signature | Description |
+| --- | --- |
+| `selectIndex(index)` | Select by index |
+
+### Inherited from `Control`
+
+Also available (base type / Qt Quick Controls):
+
+- `padding`
+- `font`
+- `background` / `contentItem`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

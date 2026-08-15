@@ -6,29 +6,55 @@ Grouped RadioButton list from a model.
 
 [← Component index](../components.md)
 
-## Usage
+**Extends** `Control`.
+
+## Example
 
 ```qml
-RadioButtons { header: qsTr("Choice"); model: ["A", "B"] }
+RadioButtons {
+    id: radioButtons
+   header: qsTr("Choice"); model: ["A", "B"]
+}
+
+// --- API ---
+// signals: onSelected, onSelectionChanged
+// methods: select(index)
+// radioButtons.select(index)
 ```
 
-## Properties
+## API
 
-- `header: string` — Header label above the control
-- `description: string` — Supporting description text
-- `model: var` — Data model / item list for this control
-- `currentIndex: int` — Selected index
-- `selectedIndex: alias` — Selected index alias
-- `horizontal: bool` — Horizontal orientation when true
+### Properties
 
-## Signals
+| Name | Type | Description |
+| --- | --- | --- |
+| `header` | `string` | Header label above the control |
+| `description` | `string` | Supporting description text |
+| `model` | `var` | Data model / item list for this control |
+| `currentIndex` | `int` | Selected index |
+| `selectedIndex` | `alias` | Selected index alias |
+| `horizontal` | `bool` | Horizontal orientation when true |
 
-- `selected(int index, var item)` — Selected state
-- `selectionChanged(int index)` — Selection changed
+### Signals
 
-## Methods
+| Signature | Description |
+| --- | --- |
+| `selected(int index, var item)` | Selected state |
+| `selectionChanged(int index)` | Selection changed |
 
-- `select(index)` — Select item by index
+### Methods
+
+| Signature | Description |
+| --- | --- |
+| `select(index)` | Select item by index |
+
+### Inherited from `Control`
+
+Also available (base type / Qt Quick Controls):
+
+- `padding`
+- `font`
+- `background` / `contentItem`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

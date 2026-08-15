@@ -6,31 +6,55 @@ Settings row: icon, title, description, action.
 
 [← Component index](../components.md)
 
-## Usage
+**Extends** `Pane`.
+
+## Example
 
 ```qml
 SettingsCard {
     title: qsTr("Dark mode")
     action: Switch { checked: Theme.dark; onToggled: Theme.dark = checked }
 }
+
+// --- API ---
+// signals: onClicked
+// inherits Pane (+ Qt Quick Controls base API)
 ```
 
-## Properties
+## API
 
-- `title: string` — Primary title text
-- `description: string` — Supporting description text
-- `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
-- `iconGlyph: string` — Raw Fluent glyph string fallback
-- `headerIcon: var` — Header icon glyph
-- `action: alias` — Custom action slot
-- `content: alias` — Content slot / children host
-- `interactive: bool` — Enable hover / click interaction
-- `showChevron: bool` — Show trailing chevron
-- `effectiveHeaderIcon: string` — Resolved header icon
+### Properties
 
-## Signals
+| Name | Type | Description |
+| --- | --- | --- |
+| `title` | `string` | Primary title text |
+| `description` | `string` | Supporting description text |
+| `symbol` | `var` | FluentIcons symbol (preferred over iconGlyph) |
+| `iconGlyph` | `string` | Raw Fluent glyph string fallback |
+| `headerIcon` | `var` | Header icon glyph |
+| `action` | `alias` | Custom action slot |
+| `content` | `alias` | Content slot / children host |
+| `interactive` | `bool` | Enable hover / click interaction |
+| `showChevron` | `bool` | Show trailing chevron |
+| `effectiveHeaderIcon` | `string` | Resolved header icon |
 
-- `clicked()` — Emitted when clicked
+### Signals
+
+| Signature | Description |
+| --- | --- |
+| `clicked()` | Emitted when clicked |
+
+### Methods
+
+_No custom methods_ (use inherited methods from the base type).
+
+### Inherited from `Pane`
+
+Also available (base type / Qt Quick Controls):
+
+- `padding`
+- `background`
+- `contentItem`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

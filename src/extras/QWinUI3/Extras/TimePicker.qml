@@ -6,7 +6,16 @@ import QWinUI3.Theme
 
 // TimePicker — Hour / minute (and period) selectors.
 //
-//   TimePicker { }
+//   TimePicker {
+//       id: timePicker
+//      
+//   }
+//
+//   // --- API ---
+//   // signals: onTimeChosen
+//   // methods: snapMinute(m), applyFromTumblers()
+//   // timePicker.snapMinute(m)
+//   // timePicker.applyFromTumblers()
 
 T.Control {
     id: control

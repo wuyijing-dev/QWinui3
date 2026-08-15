@@ -6,32 +6,64 @@ Combo that keeps the popup open for multi-select.
 
 [← Component index](../components.md)
 
-## Usage
+**Extends** `AbstractButton`.
+
+## Example
 
 ```qml
-MultiSelectComboBox { model: items; selectedIndexes: [0, 2] }
+MultiSelectComboBox {
+    id: multiSelectComboBox
+   model: items; selectedIndexes: [0, 2]
+}
+
+// --- API ---
+// signals: onSelectionChanged
+// methods: toggleAt(index), ensureObjectModel(), selectAll(), clearSelection()
+// multiSelectComboBox.toggleAt(index)
+// multiSelectComboBox.ensureObjectModel()
+// multiSelectComboBox.selectAll()
+// multiSelectComboBox.clearSelection()
+// inherits AbstractButton (+ Qt Quick Controls base API)
 ```
 
-## Properties
+## API
 
-- `model: var` — Data model / item list for this control
-- `placeholderText: string` — Placeholder when empty
-- `header: string` — Header label above the control
-- `menuOpen: bool` — Menu currently open
-- `isOpen: alias` — Open / visible state
-- `selectedItems: var` — Currently selected items
-- `displayText: string` — Text shown to the user
+### Properties
 
-## Signals
+| Name | Type | Description |
+| --- | --- | --- |
+| `model` | `var` | Data model / item list for this control |
+| `placeholderText` | `string` | Placeholder when empty |
+| `header` | `string` | Header label above the control |
+| `menuOpen` | `bool` | Menu currently open |
+| `isOpen` | `alias` | Open / visible state |
+| `selectedItems` | `var` | Currently selected items |
+| `displayText` | `string` | Text shown to the user |
 
-- `selectionChanged(var selected)` — Selection changed
+### Signals
 
-## Methods
+| Signature | Description |
+| --- | --- |
+| `selectionChanged(var selected)` | Selection changed |
 
-- `toggleAt(index)` — Toggle item at index
-- `ensureObjectModel()` — Ensure model is an ObjectModel
-- `selectAll()` — Select all items
-- `clearSelection()` — Clear the current selection
+### Methods
+
+| Signature | Description |
+| --- | --- |
+| `toggleAt(index)` | Toggle item at index |
+| `ensureObjectModel()` | Ensure model is an ObjectModel |
+| `selectAll()` | Select all items |
+| `clearSelection()` | Clear the current selection |
+
+### Inherited from `AbstractButton`
+
+Also available (base type / Qt Quick Controls):
+
+- `text`
+- `enabled`
+- `down` / `pressed` / `hovered`
+- `clicked()`
+- `pressAndHold()`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

@@ -6,7 +6,16 @@ import QWinUI3.Theme
 
 // HeaderedTextBox — TextBox with header and description.
 //
-//   HeaderedTextBox { header: qsTr("Name"); placeholderText: qsTr("Required") }
+//   HeaderedTextBox {
+//       id: headeredTextBox
+//      header: qsTr("Name"); placeholderText: qsTr("Required")
+//   }
+//
+//   // --- API ---
+//   // signals: onAccepted, onEditingFinished, onTextEdited, onCleared
+//   // methods: clear(), focusField()
+//   // headeredTextBox.clear()
+//   // headeredTextBox.focusField()
 
 T.Control {
     id: root

@@ -7,6 +7,14 @@ import QWinUI3.Theme
 //
 //   ToastHost { id: toasts }
 //   // toasts.show({ title: "Done", message: "OK" })
+//
+//   // --- API ---
+//   // signals: onToastClosed, onToastActionClicked
+//   // methods: show(message, severity, title, actionText), info(message, title, actionText), successToast(message, title, actionText), warningToast(message, title, actionText), errorToast(message, title, actionText), clear()
+//   // toastHost.show(message, severity, title, actionText)
+//   // toastHost.info(message, title, actionText)
+//   // toastHost.successToast(message, title, actionText)
+//   // toastHost.warningToast(message, title, actionText)
 
 T.Control {
     id: root

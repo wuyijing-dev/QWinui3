@@ -6,43 +6,70 @@ Closeable / reorderable tabs.
 
 [← Component index](../components.md)
 
-## Usage
+**Extends** `Control`.
+
+## Example
 
 ```qml
 TabView {
+    id: tabView
     model: tabs
     onCloseRequested: (index) => remove(index)
 }
+
+// --- API ---
+// signals: onTabCloseRequested, onCurrentIndexChangedByUser, onSelectionChanged, onTabMoved, onAddTabButtonClicked
+// methods: addTab(item), closeTab(index), moveTab(from, to), tabIndexAtContentX(x), tabItemAt(index)
+// tabView.addTab(item)
+// tabView.closeTab(index)
+// tabView.moveTab(from, to)
+// tabView.tabIndexAtContentX(x)
 ```
 
-## Properties
+## API
 
-- `model: var` — model items: { title, content, icon? } or string title with empty content
-- `currentIndex: int` — Selected index
-- `selectedIndex: alias` — Selected index alias
-- `closable: bool` — Shows a close affordance when true
-- `isClosable: alias` — Alias of closable
-- `tabsReorderable: bool` — Allow dragging tabs to reorder
-- `canReorderTabs: alias` — Alias of tabsReorderable
-- `tabWidthMode: string` — Tab width mode
-- `isAddTabButtonVisible: bool` — Show add-tab button
-- `tabCount: int` — Number of tabs
+### Properties
 
-## Signals
+| Name | Type | Description |
+| --- | --- | --- |
+| `model` | `var` | model items: { title, content, icon? } or string title with empty content |
+| `currentIndex` | `int` | Selected index |
+| `selectedIndex` | `alias` | Selected index alias |
+| `closable` | `bool` | Shows a close affordance when true |
+| `isClosable` | `alias` | Alias of closable |
+| `tabsReorderable` | `bool` | Allow dragging tabs to reorder |
+| `canReorderTabs` | `alias` | Alias of tabsReorderable |
+| `tabWidthMode` | `string` | Tab width mode |
+| `isAddTabButtonVisible` | `bool` | Show add-tab button |
+| `tabCount` | `int` | Number of tabs |
 
-- `tabCloseRequested(int index)` — User asked to close a tab
-- `currentIndexChangedByUser(int index)` — Selection changed by user
-- `selectionChanged(int index)` — Selection changed
-- `tabMoved(int from, int to)` — Tab reordered
-- `addTabButtonClicked()` — Emitted when the add-tab button is clicked
+### Signals
 
-## Methods
+| Signature | Description |
+| --- | --- |
+| `tabCloseRequested(int index)` | User asked to close a tab |
+| `currentIndexChangedByUser(int index)` | Selection changed by user |
+| `selectionChanged(int index)` | Selection changed |
+| `tabMoved(int from, int to)` | Tab reordered |
+| `addTabButtonClicked()` | Emitted when the add-tab button is clicked |
 
-- `addTab(item)` — Append a tab
-- `closeTab(index)` — Close tab at index
-- `moveTab(from, to)` — Move a tab from/to index
-- `tabIndexAtContentX(x)` — Tab index under a contentX
-- `tabItemAt(index)` — Tab item at the given index
+### Methods
+
+| Signature | Description |
+| --- | --- |
+| `addTab(item)` | Append a tab |
+| `closeTab(index)` | Close tab at index |
+| `moveTab(from, to)` | Move a tab from/to index |
+| `tabIndexAtContentX(x)` | Tab index under a contentX |
+| `tabItemAt(index)` | Tab item at the given index |
+
+### Inherited from `Control`
+
+Also available (base type / Qt Quick Controls):
+
+- `padding`
+- `font`
+- `background` / `contentItem`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

@@ -6,22 +6,44 @@ One label/value pair for MetadataControl.
 
 [← Component index](../components.md)
 
-## Usage
+**Extends** `Control`.
+
+## Example
 
 ```qml
 MetadataItem { label: qsTr("Size"); value: "12 KB" }
 ```
 
-## Properties
+## API
 
-- `label: string` — Field label
-- `value: string` — Current value
-- `secondary: string` — Secondary value line
-- `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
-- `iconGlyph: string` — Raw Fluent glyph string fallback
-- `orientation: int` — Qt.Horizontal or Qt.Vertical
-- `valueColor: color` — Value / series color
-- `effectiveIconGlyph: string` — Resolved glyph string
+### Properties
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `label` | `string` | Field label |
+| `value` | `string` | Current value |
+| `secondary` | `string` | Secondary value line |
+| `symbol` | `var` | FluentIcons symbol (preferred over iconGlyph) |
+| `iconGlyph` | `string` | Raw Fluent glyph string fallback |
+| `orientation` | `int` | Qt.Horizontal or Qt.Vertical |
+| `valueColor` | `color` | Value / series color |
+| `effectiveIconGlyph` | `string` | Resolved glyph string |
+
+### Signals
+
+_No custom signals_ (use inherited signals from the base type).
+
+### Methods
+
+_No custom methods_ (use inherited methods from the base type).
+
+### Inherited from `Control`
+
+Also available (base type / Qt Quick Controls):
+
+- `padding`
+- `font`
+- `background` / `contentItem`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

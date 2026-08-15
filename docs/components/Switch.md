@@ -6,15 +6,24 @@ Fluent styled Switch.
 
 [← Component index](../components.md)
 
-## Usage
+## Example
 
 ```qml
 Switch { checked: Theme.dark; onToggled: Theme.dark = checked }
+
+// --- API ---
 ```
 
-## Notes
+## API
 
-Style-only control: inherits the Qt Quick Controls API. This QML file supplies Fluent visuals / metrics only.
+Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `Switch` API (this file only supplies Fluent visuals / metrics).
+
+### Inherited from `Switch`
+
+- `text`
+- `checked`
+- `toggled()`
+- `clicked()`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

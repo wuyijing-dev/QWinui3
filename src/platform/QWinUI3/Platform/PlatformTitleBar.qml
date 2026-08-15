@@ -8,9 +8,14 @@ import QWinUI3.Platform
 // PlatformTitleBar — Caption buttons + drag region + TitleBar host.
 //
 //   PlatformTitleBar {
+//       id: platformTitleBar
 //       targetWindow: window
 //       TitleBar { embedded: true; title: qsTr("App") }
 //   }
+//
+//   // --- API ---
+//   // methods: reportHitTest()
+//   // platformTitleBar.reportHitTest()
 
 Item {
     id: root

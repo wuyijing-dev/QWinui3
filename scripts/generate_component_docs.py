@@ -104,12 +104,59 @@ class Component:
     properties: list[tuple[str, str, str]] = field(default_factory=list)  # name, type, doc
     signals: list[tuple[str, str]] = field(default_factory=list)  # sig, doc
     functions: list[tuple[str, str]] = field(default_factory=list)  # sig, doc
+    base_type: str = ""
     internal: bool = False
     lint_errors: list[str] = field(default_factory=list)
 
     @property
     def doc_filename(self) -> str:
         return f"{self.name}.md"
+
+
+# Common inherited members documented for styled / extended bases.
+INHERITED_API: dict[str, list[str]] = {
+    "AbstractButton": [
+        "`text`",
+        "`enabled`",
+        "`down` / `pressed` / `hovered`",
+        "`clicked()`",
+        "`pressAndHold()`",
+    ],
+    "Button": [
+        "`text`",
+        "`enabled`",
+        "`flat` / `highlighted`",
+        "`clicked()`",
+        "`pressAndHold()`",
+    ],
+    "CheckBox": ["`text`", "`checked` / `checkState`", "`toggled()`", "`clicked()`"],
+    "RadioButton": ["`text`", "`checked`", "`toggled()`", "`clicked()`"],
+    "Switch": ["`text`", "`checked`", "`toggled()`", "`clicked()`"],
+    "Dialog": [
+        "`title`",
+        "`open()` / `close()`",
+        "`accepted()` / `rejected()`",
+        "`standardButtons`",
+    ],
+    "Popup": ["`open()` / `close()`", "`opened()` / `closed()`", "`modal` / `focus`"],
+    "ComboBox": ["`model`", "`currentIndex` / `currentText`", "`activated()`", "`accepted()`"],
+    "TextField": ["`text`", "`placeholderText`", "`accepted()`", "`editingFinished()`"],
+    "Control": ["`padding`", "`font`", "`background` / `contentItem`"],
+    "Page": ["`header` / `footer`", "`title`", "`contentItem`"],
+    "Pane": ["`padding`", "`background`", "`contentItem`"],
+    "Item": ["`width` / `height`", "`visible`", "`anchors` / `x` / `y`"],
+    "Window": ["`title`", "`visible`", "`width` / `height`", "`closing()`"],
+    "ApplicationWindow": ["`title`", "`menuBar`", "`header` / `footer`", "`contentItem`"],
+}
+
+
+def detect_base_type(text: str) -> str:
+    m = re.search(
+        r"(?m)^(?:pragma[^\n]*\n|import[^\n]*\n|\s*\n|//[^\n]*\n)*"
+        r"(?:T\.)?(\w+)\s*\{",
+        text,
+    )
+    return m.group(1) if m else ""
 
 
 def module_for(path: Path) -> str:
@@ -292,6 +339,7 @@ def parse_component(path: Path) -> Component:
         properties=props,
         signals=signals,
         functions=funcs,
+        base_type=detect_base_type(text),
         internal=path.name in INTERNAL_NAMES or path.name.startswith("_"),
         lint_errors=lint,
     )
@@ -307,8 +355,18 @@ def collect() -> list[Component]:
     return comps
 
 
+def _md_table(headers: list[str], rows: list[list[str]]) -> list[str]:
+    out = [
+        "| " + " | ".join(headers) + " |",
+        "| " + " | ".join("---" for _ in headers) + " |",
+    ]
+    for row in rows:
+        out.append("| " + " | ".join(row) + " |")
+    return out
+
+
 def render_component_page(c: Component) -> str:
-    """One standalone markdown page for a single component."""
+    """One standalone markdown page: Example + full API reference."""
     out: list[str] = [
         f"# {c.name}",
         "",
@@ -322,48 +380,95 @@ def render_component_page(c: Component) -> str:
     if c.internal:
         out.append("> Internal / support type — not part of the public Gallery surface.")
         out.append("")
+
+    if c.base_type and c.base_type != c.name:
+        out.append(f"**Extends** `{c.base_type}`.")
+        out.append("")
+
     if c.usage:
-        out.append("## Usage")
+        out.append("## Example")
         out.append("")
         out.append("```qml")
         out.append(c.usage)
         out.append("```")
         out.append("")
+
     style_only = (
         "/style/" in c.path.as_posix()
         and not c.properties
         and not c.signals
         and not c.functions
     )
+
+    out.append("## API")
+    out.append("")
+
     if style_only:
-        out.append("## Notes")
-        out.append("")
         out.append(
-            "Style-only control: inherits the Qt Quick Controls API. "
-            "This QML file supplies Fluent visuals / metrics only."
+            "Style-only control: no extra QWinUI3 properties. "
+            f"Use the Qt Quick Controls `{c.base_type or c.name}` API "
+            "(this file only supplies Fluent visuals / metrics)."
         )
         out.append("")
-    if c.properties:
-        out.append("## Properties")
+        inherited = INHERITED_API.get(c.base_type or c.name, [])
+        if inherited:
+            out.append(f"### Inherited from `{c.base_type or c.name}`")
+            out.append("")
+            for item in inherited:
+                out.append(f"- {item}")
+            out.append("")
+    else:
+        # Properties
+        if c.properties:
+            out.append("### Properties")
+            out.append("")
+            rows = []
+            for n, t, doc in c.properties:
+                rows.append([f"`{n}`", f"`{t}`", doc.replace("|", "\\|") if doc else "—"])
+            out.extend(_md_table(["Name", "Type", "Description"], rows))
+            out.append("")
+        else:
+            out.append("### Properties")
+            out.append("")
+            out.append("_No additional properties beyond the base type._")
+            out.append("")
+
+        # Signals
+        out.append("### Signals")
         out.append("")
-        for n, t, doc in c.properties:
-            extra = f" — {doc}" if doc else ""
-            out.append(f"- `{n}: {t}`{extra}")
+        if c.signals:
+            rows = []
+            for s, doc in c.signals:
+                rows.append([f"`{s}`", doc.replace("|", "\\|") if doc else "—"])
+            out.extend(_md_table(["Signature", "Description"], rows))
+            out.append("")
+        else:
+            out.append("_No custom signals_ (use inherited signals from the base type).")
+            out.append("")
+
+        # Methods
+        out.append("### Methods")
         out.append("")
-    if c.signals:
-        out.append("## Signals")
-        out.append("")
-        for s, doc in c.signals:
-            extra = f" — {doc}" if doc else ""
-            out.append(f"- `{s}`{extra}")
-        out.append("")
-    if c.functions:
-        out.append("## Methods")
-        out.append("")
-        for f, doc in c.functions:
-            extra = f" — {doc}" if doc else ""
-            out.append(f"- `{f}`{extra}")
-        out.append("")
+        if c.functions:
+            rows = []
+            for f, doc in c.functions:
+                rows.append([f"`{f}`", doc.replace("|", "\\|") if doc else "—"])
+            out.extend(_md_table(["Signature", "Description"], rows))
+            out.append("")
+        else:
+            out.append("_No custom methods_ (use inherited methods from the base type).")
+            out.append("")
+
+        inherited = INHERITED_API.get(c.base_type, [])
+        if inherited and c.base_type and c.base_type != c.name:
+            out.append(f"### Inherited from `{c.base_type}`")
+            out.append("")
+            out.append("Also available (base type / Qt Quick Controls):")
+            out.append("")
+            for item in inherited:
+                out.append(f"- {item}")
+            out.append("")
+
     out.append("---")
     out.append(
         "*Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*"

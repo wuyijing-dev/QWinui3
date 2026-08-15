@@ -5,7 +5,18 @@ import QWinUI3.Theme
 
 // ScatterChart — Scatter / bubble chart.
 //
-//   ScatterChart { points: [{ x: 1, y: 2 }] }
+//   ScatterChart {
+//       id: scatterChart
+//      points: [{ x: 1, y: 2
+//   }] }
+//
+//   // --- API ---
+//   // signals: onPointClicked
+//   // methods: invalidateLod(), ensureLod(binsX, binsY), playReveal(), requestRedraw(), clearHover()
+//   // scatterChart.invalidateLod()
+//   // scatterChart.ensureLod(binsX, binsY)
+//   // scatterChart.playReveal()
+//   // scatterChart.requestRedraw()
 
 T.Control {
     id: root

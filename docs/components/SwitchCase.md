@@ -6,17 +6,39 @@ Case child for SwitchPresenter.
 
 [← Component index](../components.md)
 
-## Usage
+**Extends** `Item`.
+
+## Example
 
 ```qml
 SwitchCase { value: "a"; Label { text: "A" } }
 ```
 
-## Properties
+## API
 
-- `value: var` — Current value
-- `active: bool` — Active state
-- `contentData: alias` — Default children / content slot
+### Properties
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `value` | `var` | Current value |
+| `active` | `bool` | Active state |
+| `contentData` | `alias` | Default children / content slot |
+
+### Signals
+
+_No custom signals_ (use inherited signals from the base type).
+
+### Methods
+
+_No custom methods_ (use inherited methods from the base type).
+
+### Inherited from `Item`
+
+Also available (base type / Qt Quick Controls):
+
+- `width` / `height`
+- `visible`
+- `anchors` / `x` / `y`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

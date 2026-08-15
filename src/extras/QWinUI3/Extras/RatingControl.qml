@@ -4,7 +4,17 @@ import QWinUI3.Theme
 
 // RatingControl — Star rating; stepSize supports halves.
 //
-//   RatingControl { value: 3.5; stepSize: 0.5 }
+//   RatingControl {
+//       id: ratingControl
+//      value: 3.5; stepSize: 0.5
+//   }
+//
+//   // --- API ---
+//   // signals: onValueEdited
+//   // methods: clampValue(v), valueFromPos(x), commitValue(next)
+//   // ratingControl.clampValue(v)
+//   // ratingControl.valueFromPos(x)
+//   // ratingControl.commitValue(next)
 
 T.Control {
     id: root

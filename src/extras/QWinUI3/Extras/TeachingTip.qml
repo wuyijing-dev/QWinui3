@@ -6,7 +6,16 @@ import QWinUI3.Theme
 
 // TeachingTip — Anchored tip with title, subtitle, and actions.
 //
-//   TeachingTip { target: btn; title: qsTr("Tip"); subtitle: qsTr("Hint") }
+//   TeachingTip {
+//       id: teachingTip
+//      target: btn; title: qsTr("Tip"); subtitle: qsTr("Hint")
+//   }
+//
+//   // --- API ---
+//   // signals: onActionClicked, onClosedByUser
+//   // methods: reanchor()
+//   // teachingTip.reanchor()
+//   // inherits Popup (+ Qt Quick Controls base API)
 
 T.Popup {
     id: root

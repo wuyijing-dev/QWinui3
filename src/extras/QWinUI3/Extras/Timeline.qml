@@ -5,7 +5,17 @@ import QWinUI3.Theme
 
 // Timeline — Vertical event timeline.
 //
-//   Timeline { model: events }
+//   Timeline {
+//       id: timeline
+//      model: events
+//   }
+//
+//   // --- API ---
+//   // signals: onItemClicked, onSelectionChanged
+//   // methods: select(index), next(), previous()
+//   // timeline.select(index)
+//   // timeline.next()
+//   // timeline.previous()
 
 T.Control {
     id: root

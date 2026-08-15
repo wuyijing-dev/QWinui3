@@ -6,7 +6,15 @@ import QWinUI3.Theme
 
 // Pivot — Header tabs with sliding underline and pages.
 //
-//   Pivot { model: ["Overview", "Details"] }
+//   Pivot {
+//       id: pivot
+//      model: ["Overview", "Details"]
+//   }
+//
+//   // --- API ---
+//   // signals: onCurrentIndexChangedByUser, onSelectionChanged
+//   // methods: selectIndex(index)
+//   // pivot.selectIndex(index)
 
 T.Control {
     id: control

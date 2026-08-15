@@ -10,6 +10,9 @@ import QWinUI3.Theme
 //       header: qsTr("Details")
 //       Label { text: qsTr("Body") }
 //   }
+//
+//   // --- API ---
+//   // signals: onExpanding, onCollapsing
 
 T.Control {
     id: root

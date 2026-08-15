@@ -5,7 +5,18 @@ import QWinUI3.Theme
 
 // HeatmapChart — Heatmap matrix chart.
 //
-//   HeatmapChart { values: matrix }
+//   HeatmapChart {
+//       id: heatmapChart
+//      values: matrix
+//   }
+//
+//   // --- API ---
+//   // signals: onCellClicked
+//   // methods: playReveal(), requestRedraw(), clearHover(), lerpColor(a, b, t)
+//   // heatmapChart.playReveal()
+//   // heatmapChart.requestRedraw()
+//   // heatmapChart.clearHover()
+//   // heatmapChart.lerpColor(a, b, t)
 
 T.Control {
     id: root

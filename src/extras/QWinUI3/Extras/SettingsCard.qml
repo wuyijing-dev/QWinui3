@@ -10,6 +10,10 @@ import QWinUI3.Theme
 //       title: qsTr("Dark mode")
 //       action: Switch { checked: Theme.dark; onToggled: Theme.dark = checked }
 //   }
+//
+//   // --- API ---
+//   // signals: onClicked
+//   // inherits Pane (+ Qt Quick Controls base API)
 
 T.Pane {
     id: root

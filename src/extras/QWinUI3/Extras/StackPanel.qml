@@ -4,7 +4,16 @@ import QWinUI3.Theme
 
 // StackPanel — Simple stack layout (orientation + spacing).
 //
-//   StackPanel { orientation: Qt.Vertical }
+//   StackPanel {
+//       id: stackPanel
+//      orientation: Qt.Vertical
+//   }
+//
+//   // --- API ---
+//   // methods: childWidth(c), childHeight(c), relayout()
+//   // stackPanel.childWidth(c)
+//   // stackPanel.childHeight(c)
+//   // stackPanel.relayout()
 
 T.Control {
     id: root

@@ -5,7 +5,16 @@ import QWinUI3.Theme
 
 // RadarChart — Radar / spider chart.
 //
-//   RadarChart { values: [3, 5, 2, 4]; axes: ["A","B","C","D"] }
+//   RadarChart {
+//       id: radarChart
+//      values: [3, 5, 2, 4]; axes: ["A","B","C","D"]
+//   }
+//
+//   // --- API ---
+//   // methods: playReveal(), requestRedraw(), clearHover()
+//   // radarChart.playReveal()
+//   // radarChart.requestRedraw()
+//   // radarChart.clearHover()
 
 T.Control {
     id: root

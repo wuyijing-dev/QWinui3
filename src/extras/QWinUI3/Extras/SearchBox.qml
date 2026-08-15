@@ -7,10 +7,19 @@ import QWinUI3.Theme
 // SearchBox — Search field with suggestion list.
 //
 //   SearchBox {
+//       id: searchBox
 //       placeholderText: qsTr("Search")
 //       model: suggestions
 //       onSuggestionChosen: (item) => open(item)
 //   }
+//
+//   // --- API ---
+//   // signals: onAccepted, onQuerySubmitted, onSuggestionChosen, onCleared
+//   // methods: focusField(), displayTextFor(item), refreshSuggestions(), clear(), submitQuery()
+//   // searchBox.focusField()
+//   // searchBox.displayTextFor(item)
+//   // searchBox.refreshSuggestions()
+//   // searchBox.clear()
 
 T.Control {
     id: control

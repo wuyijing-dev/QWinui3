@@ -6,29 +6,57 @@ Horizontal step / wizard progress.
 
 [← Component index](../components.md)
 
-## Usage
+**Extends** `Control`.
+
+## Example
 
 ```qml
-StepBar { model: ["Cart", "Ship", "Pay"]; currentIndex: 1 }
+StepBar {
+    id: stepBar
+   model: ["Cart", "Ship", "Pay"]; currentIndex: 1
+}
+
+// --- API ---
+// signals: onStepActivated
+// methods: next(), previous(), goTo(index)
+// stepBar.next()
+// stepBar.previous()
+// stepBar.goTo(index)
 ```
 
-## Properties
+## API
 
-- `model: var` — Data model / item list for this control
-- `currentIndex: int` — Selected index
-- `selectedIndex: alias` — Selected index alias
-- `orientation: string` — horizontal | vertical
-- `isInteractive: bool` — Alias of interactive
+### Properties
 
-## Signals
+| Name | Type | Description |
+| --- | --- | --- |
+| `model` | `var` | Data model / item list for this control |
+| `currentIndex` | `int` | Selected index |
+| `selectedIndex` | `alias` | Selected index alias |
+| `orientation` | `string` | horizontal \| vertical |
+| `isInteractive` | `bool` | Alias of interactive |
 
-- `stepActivated(int index)` — Emitted when a step is activated
+### Signals
 
-## Methods
+| Signature | Description |
+| --- | --- |
+| `stepActivated(int index)` | Emitted when a step is activated |
 
-- `next()` — Advance to next
-- `previous()` — Go to previous
-- `goTo(index)` — Navigate to the given index
+### Methods
+
+| Signature | Description |
+| --- | --- |
+| `next()` | Advance to next |
+| `previous()` | Go to previous |
+| `goTo(index)` | Navigate to the given index |
+
+### Inherited from `Control`
+
+Also available (base type / Qt Quick Controls):
+
+- `padding`
+- `font`
+- `background` / `contentItem`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

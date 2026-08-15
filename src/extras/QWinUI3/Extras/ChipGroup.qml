@@ -5,7 +5,18 @@ import QWinUI3.Theme
 
 // ChipGroup — Horizontal chip group for filters / single select.
 //
-//   ChipGroup { model: ["All", "Open"]; currentIndex: 0 }
+//   ChipGroup {
+//       id: chipGroup
+//      model: ["All", "Open"]; currentIndex: 0
+//   }
+//
+//   // --- API ---
+//   // signals: onSelectionChanged, onItemClicked
+//   // methods: isSelected(index), clearSelection(), select(index), toggleIndex(index)
+//   // chipGroup.isSelected(index)
+//   // chipGroup.clearSelection()
+//   // chipGroup.select(index)
+//   // chipGroup.toggleIndex(index)
 
 T.Control {
     id: root
