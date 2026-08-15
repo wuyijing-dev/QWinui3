@@ -13,7 +13,7 @@ Vertical event timeline.
 ```qml
 Timeline {
     id: timeline
-   model: events
+    model: events
 }
 
 // --- API ---
@@ -23,6 +23,10 @@ Timeline {
 // timeline.next()
 // timeline.previous()
 ```
+
+## Notes
+
+Vertical timeline of events; model items with title/time/description.
 
 ## API
 

@@ -7,7 +7,7 @@ import QWinUI3.Theme
 //
 //   DonutChart {
 //       id: donutChart
-//      slices: [{ value: 3, label: "A"
+//       slices: [{ value: 3, label: "A"
 //   }] }
 //
 //   // --- API ---
@@ -15,6 +15,9 @@ import QWinUI3.Theme
 //   // methods: playReveal(), requestRedraw()
 //   // donutChart.playReveal()
 //   // donutChart.requestRedraw()
+//
+// @notes
+//   PieChart with a hollow center (inner/outer radius); center label optional.
 
 T.Control {
     id: root

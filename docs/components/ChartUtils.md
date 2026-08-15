@@ -23,6 +23,10 @@ ChartUtils.downsample(values, maxPoints)
 // chartUtils.pointX(input, index)
 ```
 
+## Notes
+
+Internal helpers: downsample, extents, palette, formatNumber (used by chart controls).
+
 ## API
 
 ### Properties

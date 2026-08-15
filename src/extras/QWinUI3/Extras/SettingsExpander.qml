@@ -13,6 +13,9 @@ import QWinUI3.Theme
 //
 //   // --- API ---
 //   // signals: onExpanding, onCollapsing
+//
+// @notes
+//   Expander styled as a settings group; header + nested SettingsCard children.
 
 T.Control {
     id: control

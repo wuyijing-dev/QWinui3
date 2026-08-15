@@ -13,7 +13,7 @@ Scatter / bubble chart.
 ```qml
 ScatterChart {
     id: scatterChart
-   points: [{ x: 1, y: 2
+    points: [{ x: 1, y: 2
 }] }
 
 // --- API ---
@@ -24,6 +24,11 @@ ScatterChart {
 // scatterChart.playReveal()
 // scatterChart.requestRedraw()
 ```
+
+## Notes
+
+points: [{ x, y, color? }] or separate xValues/yValues.
+LOD helpers for large point counts; requestRedraw after updates.
 
 ## API
 

@@ -21,6 +21,11 @@ TokenizingTextBox {
 // tokens.addToken(text) / removeToken(text) / clear()
 ```
 
+## Notes
+
+Token chips + trailing TextField; tokens: string[].
+addToken / removeToken / clear; suggestionModel for popup picks.
+
 ## API
 
 ### Properties

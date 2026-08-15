@@ -14,6 +14,9 @@ import QWinUI3.Theme
 //   // methods: dockOf(item), relayout()
 //   // dockPanel.dockOf(item)
 //   // dockPanel.relayout()
+//
+// @notes
+//   Dock children to edges (DockPanel.dock attached); last child fills.
 
 T.Control {
     id: root

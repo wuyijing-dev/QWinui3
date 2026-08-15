@@ -15,7 +15,7 @@ Shared install/presenter glue for ShellWindow.
 ```qml
 ShellWindowSupport {
     id: shellWindowSupport
-   targetWindow: root; autoInstall: true
+    targetWindow: root; autoInstall: true
 }
 
 // --- API ---

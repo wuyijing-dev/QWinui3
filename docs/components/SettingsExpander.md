@@ -20,6 +20,10 @@ SettingsExpander {
 // signals: onExpanding, onCollapsing
 ```
 
+## Notes
+
+Expander styled as a settings group; header + nested SettingsCard children.
+
 ## API
 
 ### Properties

@@ -19,6 +19,10 @@ StatusDot {
 // dot.status / statusColor
 ```
 
+## Notes
+
+Presence dot; status available|busy|away|offline (or custom color).
+
 ## API
 
 ### Properties

@@ -13,7 +13,7 @@ Circular gauge with needle and zones.
 ```qml
 RadialGauge {
     id: radialGauge
-   value: 72; minimum: 0; maximum: 100
+    value: 72; minimum: 0; maximum: 100
 }
 
 // --- API ---
@@ -23,6 +23,10 @@ RadialGauge {
 // radialGauge.setValueFromNorm(n)
 // radialGauge.normFromPoint(px, py)
 ```
+
+## Notes
+
+Full/partial radial needle gauge; zones via zoneModel; dragEnabled for input.
 
 ## API
 

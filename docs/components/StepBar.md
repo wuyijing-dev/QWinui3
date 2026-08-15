@@ -13,7 +13,7 @@ Horizontal step / wizard progress.
 ```qml
 StepBar {
     id: stepBar
-   model: ["Cart", "Ship", "Pay"]; currentIndex: 1
+    model: ["Cart", "Ship", "Pay"]; currentIndex: 1
 }
 
 // --- API ---
@@ -23,6 +23,10 @@ StepBar {
 // stepBar.previous()
 // stepBar.goTo(index)
 ```
+
+## Notes
+
+Step indicator; model of steps, currentIndex; stepClicked when interactive.
 
 ## API
 

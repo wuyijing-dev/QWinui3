@@ -6,7 +6,7 @@ import QWinUI3.Theme
 //
 //   RatingControl {
 //       id: ratingControl
-//      value: 3.5; stepSize: 0.5
+//       value: 3.5; stepSize: 0.5
 //   }
 //
 //   // --- API ---
@@ -15,6 +15,9 @@ import QWinUI3.Theme
 //   // ratingControl.clampValue(v)
 //   // ratingControl.valueFromPos(x)
 //   // ratingControl.commitValue(next)
+//
+// @notes
+//   Star rating; value / maxRating; isReadOnly disables input.
 
 T.Control {
     id: root

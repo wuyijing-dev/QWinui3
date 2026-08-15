@@ -21,6 +21,10 @@ TimePicker {
 // time.hour / minute / selectedTime
 ```
 
+## Notes
+
+Tumbler time picker; selectedTime + clockFormat 12|24; minuteIncrement.
+
 ## API
 
 ### Properties

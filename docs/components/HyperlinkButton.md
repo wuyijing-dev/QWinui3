@@ -21,6 +21,10 @@ HyperlinkButton {
 // link.navigateUri / showExternalGlyph
 ```
 
+## Notes
+
+Link-styled button; navigateUri + optional external glyph.
+
 ## API
 
 ### Properties

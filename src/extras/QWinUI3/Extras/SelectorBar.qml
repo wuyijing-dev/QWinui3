@@ -7,7 +7,7 @@ import QWinUI3.Theme
 //
 //   SelectorBar {
 //       id: selectorBar
-//      model: ["All", "Unread"]; currentIndex: 0
+//       model: ["All", "Unread"]; currentIndex: 0
 //   }
 //
 //   // --- API ---
@@ -17,6 +17,9 @@ import QWinUI3.Theme
 //   // selectorBar.itemAt(index)
 //   // selectorBar.targetGeometry(index)
 //   // selectorBar.moveIndicator(instant)
+//
+// @notes
+//   Horizontal selector tabs; model + currentIndex (nav-style underlines).
 
 T.Control {
     id: control

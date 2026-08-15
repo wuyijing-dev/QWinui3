@@ -6,7 +6,7 @@ import QWinUI3.Theme
 //
 //   StackPanel {
 //       id: stackPanel
-//      orientation: Qt.Vertical
+//       orientation: Qt.Vertical
 //   }
 //
 //   // --- API ---
@@ -14,6 +14,9 @@ import QWinUI3.Theme
 //   // stackPanel.childWidth(c)
 //   // stackPanel.childHeight(c)
 //   // stackPanel.relayout()
+//
+// @notes
+//   Simple stack/flow panel with orientation + spacing.
 
 T.Control {
     id: root

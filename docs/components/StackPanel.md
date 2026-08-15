@@ -13,7 +13,7 @@ Simple stack layout (orientation + spacing).
 ```qml
 StackPanel {
     id: stackPanel
-   orientation: Qt.Vertical
+    orientation: Qt.Vertical
 }
 
 // --- API ---
@@ -22,6 +22,10 @@ StackPanel {
 // stackPanel.childHeight(c)
 // stackPanel.relayout()
 ```
+
+## Notes
+
+Simple stack/flow panel with orientation + spacing.
 
 ## API
 

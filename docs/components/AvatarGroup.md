@@ -26,6 +26,10 @@ AvatarGroup {
 // avatars.overflowCount
 ```
 
+## Notes
+
+Overlapping PersonPicture stack; maxVisible + overflowCount chip.
+
 ## API
 
 ### Properties

@@ -25,6 +25,10 @@ MenuFlyout {
 // inherits Menu (+ Qt Quick Controls base API)
 ```
 
+## Notes
+
+Menu-styled Flyout; host MenuFlyoutItem / Separator / Header children.
+
 ## API
 
 ### Properties

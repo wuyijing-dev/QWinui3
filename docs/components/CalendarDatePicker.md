@@ -13,7 +13,7 @@ Date field with calendar flyout.
 ```qml
 CalendarDatePicker {
     id: calendarDatePicker
-   selectedDate: new Date()
+    selectedDate: new Date()
 }
 
 // --- API ---
@@ -21,6 +21,10 @@ CalendarDatePicker {
 // methods: isDateAllowed(d)
 // calendarDatePicker.isDateAllowed(d)
 ```
+
+## Notes
+
+Text field + calendar flyout (MonthGrid); selectedDate with min/max bounds.
 
 ## API
 

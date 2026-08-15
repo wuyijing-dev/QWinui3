@@ -13,7 +13,7 @@ Compact horizontal item selector.
 ```qml
 SelectorBar {
     id: selectorBar
-   model: ["All", "Unread"]; currentIndex: 0
+    model: ["All", "Unread"]; currentIndex: 0
 }
 
 // --- API ---
@@ -24,6 +24,10 @@ SelectorBar {
 // selectorBar.targetGeometry(index)
 // selectorBar.moveIndicator(instant)
 ```
+
+## Notes
+
+Horizontal selector tabs; model + currentIndex (nav-style underlines).
 
 ## API
 

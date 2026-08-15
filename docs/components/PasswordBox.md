@@ -13,7 +13,7 @@ Password field with reveal toggle.
 ```qml
 PasswordBox {
     id: passwordBox
-   placeholderText: qsTr("Password")
+    placeholderText: qsTr("Password")
 }
 
 // --- API ---
@@ -22,6 +22,10 @@ PasswordBox {
 // passwordBox.clear()
 // passwordBox.focusField()
 ```
+
+## Notes
+
+Password TextField with reveal glyph; revealPassword / revealButtonVisible.
 
 ## API
 

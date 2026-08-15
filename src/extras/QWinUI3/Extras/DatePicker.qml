@@ -13,6 +13,10 @@ import QWinUI3.Theme
 //   }
 //   // --- API ---
 //   // date.year / month / day / selectedDate
+//
+// @notes
+//   Tumbler date picker; selectedDate or year/month/day parts.
+//   Accept commits; minDate/maxDate bound the range.
 
 T.Control {
     id: control

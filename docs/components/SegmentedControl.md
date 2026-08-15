@@ -26,6 +26,10 @@ SegmentedControl {
 // segmentedControl.syncIndicatorIfIdle()
 ```
 
+## Notes
+
+Exclusive segment buttons from model; currentIndex selection.
+
 ## API
 
 ### Properties

@@ -21,6 +21,10 @@ ActionCard {
 // inherits AbstractButton (+ Qt Quick Controls base API)
 ```
 
+## Notes
+
+Clickable settings-style card with chevron; onClicked for navigation.
+
 ## API
 
 ### Properties

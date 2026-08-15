@@ -8,13 +8,16 @@ import QWinUI3.Theme
 //
 //   Pivot {
 //       id: pivot
-//      model: ["Overview", "Details"]
+//       model: ["Overview", "Details"]
 //   }
 //
 //   // --- API ---
 //   // signals: onCurrentIndexChangedByUser, onSelectionChanged
 //   // methods: selectIndex(index)
 //   // pivot.selectIndex(index)
+//
+// @notes
+//   Tab-like pivot headers + content; model or PivotItem children.
 
 T.Control {
     id: control

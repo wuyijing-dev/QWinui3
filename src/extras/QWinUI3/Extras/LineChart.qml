@@ -7,7 +7,7 @@ import QWinUI3.Theme
 //
 //   LineChart {
 //       id: lineChart
-//      values: [1, 4, 2, 6]
+//       values: [1, 4, 2, 6]
 //   }
 //
 //   // --- API ---
@@ -16,6 +16,11 @@ import QWinUI3.Theme
 //   // lineChart.sourcePointCountEstimate()
 //   // lineChart.invalidateLod()
 //   // lineChart.ensureLod(budget)
+//
+// @notes
+//   Prefer series: [{ name, values, color? }] or a flat values: number[].
+//   Large series use LOD (invalidateLod / ensureLod); call requestRedraw after data changes.
+//   playReveal() replays the enter animation; clearHover() resets crosshair.
 
 T.Control {
     id: root

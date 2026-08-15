@@ -13,7 +13,7 @@ Page carousel with optional navigation buttons.
 ```qml
 FlipView {
     id: flipView
-   model: pages
+    model: pages
 }
 
 // --- API ---
@@ -22,6 +22,10 @@ FlipView {
 // flipView.goNext()
 // flipView.goPrevious()
 ```
+
+## Notes
+
+Paged swipe view; currentIndex + buttonsVisible / isIndicatorVisible.
 
 ## API
 

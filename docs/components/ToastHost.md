@@ -22,6 +22,10 @@ toasts.success(qsTr("Done"))
 // methods: info/success/warning/error, enqueue
 ```
 
+## Notes
+
+Stack host for Toast; info/success/warning/error enqueue helpers.
+
 ## API
 
 ### Properties

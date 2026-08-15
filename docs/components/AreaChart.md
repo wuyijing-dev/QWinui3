@@ -13,7 +13,7 @@ Filled area chart with legend and hover crosshair.
 ```qml
 AreaChart {
     id: areaChart
-   values: [1, 3, 2, 5]
+    values: [1, 3, 2, 5]
 }
 
 // --- API ---
@@ -23,6 +23,11 @@ AreaChart {
 // areaChart.ensureLod(budget)
 // areaChart.playReveal()
 ```
+
+## Notes
+
+Filled area under the line; same series/values + LOD APIs as LineChart.
+interactive enables hover crosshair; showLegend toggles ChartLegend.
 
 ## API
 

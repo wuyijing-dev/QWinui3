@@ -7,7 +7,7 @@ import QWinUI3.Theme
 //
 //   ToggleSplitButton {
 //       id: toggleSplitButton
-//      text: qsTr("Format")
+//       text: qsTr("Format")
 //   }
 //
 //   // --- API ---
@@ -16,6 +16,9 @@ import QWinUI3.Theme
 //   // toggleSplitButton.showMenu()
 //   // toggleSplitButton.closeMenu()
 //   // inherits AbstractButton (+ Qt Quick Controls base API)
+//
+// @notes
+//   Checkable SplitButton; checked toggles the primary half.
 
 T.AbstractButton {
     id: control

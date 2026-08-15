@@ -6,13 +6,17 @@ import QWinUI3.Theme
 //
 //   BulletChart {
 //       id: bulletChart
-//      value: 70; target: 80; maximum: 100
+//       value: 70; target: 80; maximum: 100
 //   }
 //
 //   // --- API ---
 //   // methods: setValue(v), bandColor(index)
 //   // bulletChart.setValue(v)
 //   // bulletChart.bandColor(index)
+//
+// @notes
+//   KPI bullet: qualitative bands + performance value + target marker.
+//   setValue(v) clamps into range; bandColor(index) for band fills.
 
 T.Control {
     id: root

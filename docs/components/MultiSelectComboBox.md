@@ -13,7 +13,7 @@ Combo that keeps the popup open for multi-select.
 ```qml
 MultiSelectComboBox {
     id: multiSelectComboBox
-   model: items; selectedIndexes: [0, 2]
+    model: items; selectedIndexes: [0, 2]
 }
 
 // --- API ---
@@ -25,6 +25,11 @@ MultiSelectComboBox {
 // multiSelectComboBox.clearSelection()
 // inherits AbstractButton (+ Qt Quick Controls base API)
 ```
+
+## Notes
+
+ComboBox with multi-check selection; selectedIndexes / selectedItems.
+exclusive mode behaves like a normal combo.
 
 ## API
 

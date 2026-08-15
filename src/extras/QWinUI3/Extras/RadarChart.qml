@@ -7,7 +7,7 @@ import QWinUI3.Theme
 //
 //   RadarChart {
 //       id: radarChart
-//      values: [3, 5, 2, 4]; axes: ["A","B","C","D"]
+//       values: [3, 5, 2, 4]; axes: ["A","B","C","D"]
 //   }
 //
 //   // --- API ---
@@ -15,6 +15,9 @@ import QWinUI3.Theme
 //   // radarChart.playReveal()
 //   // radarChart.requestRedraw()
 //   // radarChart.clearHover()
+//
+// @notes
+//   Polar axes from categories + series values (one value per spoke).
 
 T.Control {
     id: root

@@ -13,7 +13,7 @@ Segmented progress / capacity gauge.
 ```qml
 SegmentedGauge {
     id: segmentedGauge
-   value: 3; maximum: 5
+    value: 3; maximum: 5
 }
 
 // --- API ---
@@ -23,6 +23,10 @@ SegmentedGauge {
 // segmentedGauge.setValue(v)
 // segmentedGauge.setSegment(index)
 ```
+
+## Notes
+
+Discrete segment fill (progress pills); value vs maximum segment count.
 
 ## API
 

@@ -11,6 +11,9 @@ import QWinUI3.Platform
 //   // --- API ---
 //   // signals: onPaneToggleRequested, onBackRequested, onSearchActivated, onSearchTextEdited
 //   // inherits PlatformTitleBar (+ Qt Quick Controls base API)
+//
+// @notes
+//   Internal title-bar chrome for ShellWindow (caption + header slots).
 
 PlatformTitleBar {
     id: root

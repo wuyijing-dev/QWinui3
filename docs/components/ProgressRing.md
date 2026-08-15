@@ -20,6 +20,10 @@ ProgressRing {
 // ring.value / indeterminate
 ```
 
+## Notes
+
+Circular progress; indeterminate or value 0..1.
+
 ## API
 
 ### Properties

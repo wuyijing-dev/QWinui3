@@ -7,7 +7,7 @@ import QWinUI3.Theme
 //
 //   Timeline {
 //       id: timeline
-//      model: events
+//       model: events
 //   }
 //
 //   // --- API ---
@@ -16,6 +16,9 @@ import QWinUI3.Theme
 //   // timeline.select(index)
 //   // timeline.next()
 //   // timeline.previous()
+//
+// @notes
+//   Vertical timeline of events; model items with title/time/description.
 
 T.Control {
     id: root

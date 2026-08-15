@@ -13,7 +13,7 @@ Compact KPI bullet (ranges + performance + target).
 ```qml
 BulletChart {
     id: bulletChart
-   value: 70; target: 80; maximum: 100
+    value: 70; target: 80; maximum: 100
 }
 
 // --- API ---
@@ -21,6 +21,11 @@ BulletChart {
 // bulletChart.setValue(v)
 // bulletChart.bandColor(index)
 ```
+
+## Notes
+
+KPI bullet: qualitative bands + performance value + target marker.
+setValue(v) clamps into range; bandColor(index) for band fills.
 
 ## API
 

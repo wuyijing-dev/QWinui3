@@ -20,6 +20,10 @@ ContentCard {
 // signals: onClicked
 ```
 
+## Notes
+
+Surface card with title/subtitle/symbol and body slot.
+
 ## API
 
 ### Properties

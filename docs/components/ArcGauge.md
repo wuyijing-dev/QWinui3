@@ -13,7 +13,7 @@ Open-arc dashboard gauge with center value and thresholds.
 ```qml
 ArcGauge {
     id: arcGauge
-   value: 64; minimum: 0; maximum: 100
+    value: 64; minimum: 0; maximum: 100
 }
 
 // --- API ---
@@ -24,6 +24,11 @@ ArcGauge {
 // arcGauge.setValueFromNorm(n)
 // arcGauge.normFromPoint(px, py, cx, cy)
 ```
+
+## Notes
+
+Open-arc gauge; bind value/minimum/maximum; setValue clamps+snaps.
+thresholds / zones for colored ranges; readout via formatValue.
 
 ## API
 

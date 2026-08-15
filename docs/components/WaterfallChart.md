@@ -13,7 +13,7 @@ Waterfall chart.
 ```qml
 WaterfallChart {
     id: waterfallChart
-   values: [10, -3, 5]
+    values: [10, -3, 5]
 }
 
 // --- API ---
@@ -23,6 +23,10 @@ WaterfallChart {
 // waterfallChart.requestRedraw()
 // waterfallChart.clearHover()
 ```
+
+## Notes
+
+values are signed deltas; total/connector styling via chart props.
 
 ## API
 

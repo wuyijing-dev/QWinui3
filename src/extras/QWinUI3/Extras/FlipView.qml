@@ -8,7 +8,7 @@ import QWinUI3.Theme
 //
 //   FlipView {
 //       id: flipView
-//      model: pages
+//       model: pages
 //   }
 //
 //   // --- API ---
@@ -16,6 +16,9 @@ import QWinUI3.Theme
 //   // methods: goNext(), goPrevious()
 //   // flipView.goNext()
 //   // flipView.goPrevious()
+//
+// @notes
+//   Paged swipe view; currentIndex + buttonsVisible / isIndicatorVisible.
 
 T.Control {
     id: control

@@ -13,7 +13,7 @@ Transient toast item.
 ```qml
 Toast {
     id: toast
-   title: qsTr("Saved"); message: qsTr("OK")
+    title: qsTr("Saved"); message: qsTr("OK")
 }
 
 // --- API ---
@@ -24,6 +24,10 @@ Toast {
 // toast.close()
 // toast.hide()
 ```
+
+## Notes
+
+Transient toast content; prefer ToastHost.info/success/warning/error helpers.
 
 ## API
 

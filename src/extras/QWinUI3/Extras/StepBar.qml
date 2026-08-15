@@ -8,7 +8,7 @@ import QWinUI3.Theme
 //
 //   StepBar {
 //       id: stepBar
-//      model: ["Cart", "Ship", "Pay"]; currentIndex: 1
+//       model: ["Cart", "Ship", "Pay"]; currentIndex: 1
 //   }
 //
 //   // --- API ---
@@ -17,6 +17,9 @@ import QWinUI3.Theme
 //   // stepBar.next()
 //   // stepBar.previous()
 //   // stepBar.goTo(index)
+//
+// @notes
+//   Step indicator; model of steps, currentIndex; stepClicked when interactive.
 
 T.Control {
     id: control

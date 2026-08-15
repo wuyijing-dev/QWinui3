@@ -20,6 +20,10 @@ FontIcon {
 // icon.symbol / iconGlyph / fontSize
 ```
 
+## Notes
+
+FluentIcons symbol / glyph text; fontSize for px size.
+
 ## API
 
 ### Properties

@@ -15,6 +15,9 @@ import QWinUI3.Theme
 //   // --- API ---
 //   // signals: onCloseClicked
 //   // inherits AbstractButton (+ Qt Quick Controls base API)
+//
+// @notes
+//   Compact tag; closable emits closeClicked; appearance filled|outline.
 
 T.AbstractButton {
     id: control

@@ -13,7 +13,7 @@ Spectrum + RGB/Hex color editor.
 ```qml
 ColorPicker {
     id: colorPicker
-   selectedColor: "#005FB8"
+    selectedColor: "#005FB8"
 }
 
 // --- API ---

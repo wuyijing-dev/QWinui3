@@ -18,6 +18,9 @@ import QWinUI3.Theme
 //   }
 //   // --- API ---
 //   // avatars.overflowCount
+//
+// @notes
+//   Overlapping PersonPicture stack; maxVisible + overflowCount chip.
 
 T.Control {
     id: root

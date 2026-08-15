@@ -8,7 +8,7 @@ import QWinUI3.Theme
 //
 //   PipsPager {
 //       id: pipsPager
-//      count: 5; currentIndex: 2
+//       count: 5; currentIndex: 2
 //   }
 //
 //   // --- API ---
@@ -17,6 +17,9 @@ import QWinUI3.Theme
 //   // pipsPager.goNext()
 //   // pipsPager.goPrevious()
 //   // pipsPager.select(index)
+//
+// @notes
+//   Dot pager synced to a FlipView / SwipeView currentIndex.
 
 T.Control {
     id: control

@@ -11,6 +11,9 @@ import QWinUI3.Theme
 //   }
 //   // --- API ---
 //   // avatar.initials / displayName / source
+//
+// @notes
+//   Avatar from source image or displayName initials.
 
 T.Control {
     id: root

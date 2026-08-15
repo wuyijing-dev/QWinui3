@@ -13,7 +13,7 @@ Heatmap matrix chart.
 ```qml
 HeatmapChart {
     id: heatmapChart
-   values: matrix
+    values: matrix
 }
 
 // --- API ---
@@ -24,6 +24,11 @@ HeatmapChart {
 // heatmapChart.clearHover()
 // heatmapChart.lerpColor(a, b, t)
 ```
+
+## Notes
+
+2D matrix / cells model; cellClicked for selection.
+colorScale maps value -> color; show axes labels as needed.
 
 ## API
 

@@ -7,7 +7,7 @@ import QWinUI3.Theme
 //
 //   HeatmapChart {
 //       id: heatmapChart
-//      values: matrix
+//       values: matrix
 //   }
 //
 //   // --- API ---
@@ -17,6 +17,10 @@ import QWinUI3.Theme
 //   // heatmapChart.requestRedraw()
 //   // heatmapChart.clearHover()
 //   // heatmapChart.lerpColor(a, b, t)
+//
+// @notes
+//   2D matrix / cells model; cellClicked for selection.
+//   colorScale maps value -> color; show axes labels as needed.
 
 T.Control {
     id: root

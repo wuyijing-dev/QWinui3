@@ -16,6 +16,9 @@ import QWinUI3.Theme
 //   // menuFlyout.showAt(targetItem, offsetX, offsetY)
 //   // menuFlyout.hide()
 //   // inherits Menu (+ Qt Quick Controls base API)
+//
+// @notes
+//   Menu-styled Flyout; host MenuFlyoutItem / Separator / Header children.
 
 Menu {
     id: root

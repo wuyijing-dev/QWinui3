@@ -18,6 +18,9 @@ import QWinUI3.Theme
 //   // commandBar.open()
 //   // commandBar.close()
 //   // commandBar.toggle()
+//
+// @notes
+//   Primary + secondary AppBar command row; overflow via secondary commands.
 
 T.Control {
     id: root

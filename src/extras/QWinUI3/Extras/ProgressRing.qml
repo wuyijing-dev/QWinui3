@@ -12,6 +12,9 @@ import QWinUI3.Theme
 //   }
 //   // --- API ---
 //   // ring.value / indeterminate
+//
+// @notes
+//   Circular progress; indeterminate or value 0..1.
 
 T.Control {
     id: root

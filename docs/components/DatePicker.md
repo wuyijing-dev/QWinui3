@@ -20,6 +20,11 @@ DatePicker {
 // date.year / month / day / selectedDate
 ```
 
+## Notes
+
+Tumbler date picker; selectedDate or year/month/day parts.
+Accept commits; minDate/maxDate bound the range.
+
 ## API
 
 ### Properties

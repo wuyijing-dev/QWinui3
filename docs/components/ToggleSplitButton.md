@@ -13,7 +13,7 @@ Toggle primary + menu SplitButton.
 ```qml
 ToggleSplitButton {
     id: toggleSplitButton
-   text: qsTr("Format")
+    text: qsTr("Format")
 }
 
 // --- API ---
@@ -23,6 +23,10 @@ ToggleSplitButton {
 // toggleSplitButton.closeMenu()
 // inherits AbstractButton (+ Qt Quick Controls base API)
 ```
+
+## Notes
+
+Checkable SplitButton; checked toggles the primary half.
 
 ## API
 

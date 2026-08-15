@@ -13,6 +13,9 @@ import QWinUI3.Theme
 //
 //   // --- API ---
 //   // signals: onClicked
+//
+// @notes
+//   Surface card with title/subtitle/symbol and body slot.
 
 T.Control {
     id: control

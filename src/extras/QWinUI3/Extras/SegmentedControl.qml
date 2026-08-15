@@ -19,6 +19,9 @@ import QWinUI3.Theme
 //   // segmentedControl.itemAt(index)
 //   // segmentedControl.moveIndicator(instant)
 //   // segmentedControl.syncIndicatorIfIdle()
+//
+// @notes
+//   Exclusive segment buttons from model; currentIndex selection.
 
 T.Control {
     id: control

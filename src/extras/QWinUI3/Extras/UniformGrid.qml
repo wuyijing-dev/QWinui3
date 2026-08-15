@@ -6,13 +6,16 @@ import QWinUI3.Theme
 //
 //   UniformGrid {
 //       id: uniformGrid
-//      columns: 3
+//       columns: 3
 //   }
 //
 //   // --- API ---
 //   // methods: visibleChildren(), relayout()
 //   // uniformGrid.visibleChildren()
 //   // uniformGrid.relayout()
+//
+// @notes
+//   Even cell grid; columns / rows + cellSpacing.
 
 T.Control {
     id: root

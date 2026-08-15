@@ -6,12 +6,15 @@ import QWinUI3.Theme
 //
 //   TextBlock {
 //       id: textBlock
-//      text: qsTr("Title"); style: title
+//       text: qsTr("Title"); style: title
 //   }
 //
 //   // --- API ---
 //   // methods: setStyleName(name)
 //   // textBlock.setStyleName(name)
+//
+// @notes
+//   Themed text helper (style/weight tokens); prefer for Fluent type ramps.
 
 T.Control {
     id: root

@@ -13,6 +13,9 @@ import QWinUI3.Theme
 //
 //   // --- API ---
 //   // signals: onExpanding, onCollapsing
+//
+// @notes
+//   Header + expandable content; expanded / expand/collapse.
 
 T.Control {
     id: root

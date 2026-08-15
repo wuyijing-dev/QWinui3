@@ -11,6 +11,9 @@ import QWinUI3.Theme
 //   }
 //   // --- API ---
 //   // dot.status / statusColor
+//
+// @notes
+//   Presence dot; status available|busy|away|offline (or custom color).
 
 T.Control {
     id: root

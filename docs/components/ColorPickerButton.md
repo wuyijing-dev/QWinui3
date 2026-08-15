@@ -13,7 +13,7 @@ Color swatch button that opens ColorPicker.
 ```qml
 ColorPickerButton {
     id: colorPickerButton
-   selectedColor: Theme.accent
+    selectedColor: Theme.accent
 }
 
 // --- API ---
@@ -23,6 +23,10 @@ ColorPickerButton {
 // colorPickerButton.close()
 // inherits AbstractButton (+ Qt Quick Controls base API)
 ```
+
+## Notes
+
+Swatch button that opens ColorPicker; bind selectedColor.
 
 ## API
 

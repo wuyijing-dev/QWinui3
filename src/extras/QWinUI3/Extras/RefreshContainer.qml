@@ -17,6 +17,9 @@ import QWinUI3.Theme
 //   // --- API ---
 //   // refresh.beginRefresh() / endRefresh()
 //   // signals: onRefreshRequested
+//
+// @notes
+//   Pull-to-refresh wrapper; onRefreshRequested then endRefresh() when done.
 
 T.Control {
     id: root

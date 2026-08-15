@@ -25,6 +25,10 @@ SwipeControl {
 // swipeControl.openRight()
 ```
 
+## Notes
+
+Content + left/right SwipeAction reveal; openLeft/openRight/close.
+
 ## API
 
 ### Properties

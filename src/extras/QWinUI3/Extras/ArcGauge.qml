@@ -8,7 +8,7 @@ import QWinUI3.Theme
 //
 //   ArcGauge {
 //       id: arcGauge
-//      value: 64; minimum: 0; maximum: 100
+//       value: 64; minimum: 0; maximum: 100
 //   }
 //
 //   // --- API ---
@@ -18,6 +18,10 @@ import QWinUI3.Theme
 //   // arcGauge.setValue(v)
 //   // arcGauge.setValueFromNorm(n)
 //   // arcGauge.normFromPoint(px, py, cx, cy)
+//
+// @notes
+//   Open-arc gauge; bind value/minimum/maximum; setValue clamps+snaps.
+//   thresholds / zones for colored ranges; readout via formatValue.
 
 T.Control {
     id: root

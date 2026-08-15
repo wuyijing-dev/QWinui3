@@ -13,7 +13,7 @@ Pie chart with legend.
 ```qml
 PieChart {
     id: pieChart
-   slices: [{ value: 1, label: "A"
+    slices: [{ value: 1, label: "A"
 }] }
 
 // --- API ---
@@ -22,6 +22,11 @@ PieChart {
 // pieChart.playReveal()
 // pieChart.requestRedraw()
 ```
+
+## Notes
+
+Slices from values or { label, value, color? } items; donut via innerRadius.
+interactive emits slice hover/click; showLegend for ChartLegend.
 
 ## API
 

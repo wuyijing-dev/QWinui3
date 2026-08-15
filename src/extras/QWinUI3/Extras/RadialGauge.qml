@@ -9,7 +9,7 @@ import QWinUI3.Theme
 //
 //   RadialGauge {
 //       id: radialGauge
-//      value: 72; minimum: 0; maximum: 100
+//       value: 72; minimum: 0; maximum: 100
 //   }
 //
 //   // --- API ---
@@ -18,6 +18,9 @@ import QWinUI3.Theme
 //   // radialGauge.setValue(v)
 //   // radialGauge.setValueFromNorm(n)
 //   // radialGauge.normFromPoint(px, py)
+//
+// @notes
+//   Full/partial radial needle gauge; zones via zoneModel; dragEnabled for input.
 
 T.Control {
     id: root

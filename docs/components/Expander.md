@@ -20,6 +20,10 @@ Expander {
 // signals: onExpanding, onCollapsing
 ```
 
+## Notes
+
+Header + expandable content; expanded / expand/collapse.
+
 ## API
 
 ### Properties

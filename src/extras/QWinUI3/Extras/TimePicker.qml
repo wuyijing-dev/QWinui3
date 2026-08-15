@@ -14,6 +14,9 @@ import QWinUI3.Theme
 //   }
 //   // --- API ---
 //   // time.hour / minute / selectedTime
+//
+// @notes
+//   Tumbler time picker; selectedTime + clockFormat 12|24; minuteIncrement.
 
 T.Control {
     id: control

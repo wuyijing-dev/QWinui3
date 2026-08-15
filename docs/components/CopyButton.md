@@ -26,6 +26,10 @@ CopyButton {
 // inherits AbstractButton (+ text, enabled, clicked, …)
 ```
 
+## Notes
+
+Copies textToCopy (or copy(text)); flashes doneGlyph; copyCompleted/copyFailed.
+
 ## API
 
 ### Properties

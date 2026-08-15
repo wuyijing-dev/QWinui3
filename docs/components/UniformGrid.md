@@ -13,7 +13,7 @@ Even cell grid.
 ```qml
 UniformGrid {
     id: uniformGrid
-   columns: 3
+    columns: 3
 }
 
 // --- API ---
@@ -21,6 +21,10 @@ UniformGrid {
 // uniformGrid.visibleChildren()
 // uniformGrid.relayout()
 ```
+
+## Notes
+
+Even cell grid; columns / rows + cellSpacing.
 
 ## API
 

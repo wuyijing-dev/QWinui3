@@ -8,7 +8,7 @@ import QWinUI3.Theme
 //
 //   Toast {
 //       id: toast
-//      title: qsTr("Saved"); message: qsTr("OK")
+//       title: qsTr("Saved"); message: qsTr("OK")
 //   }
 //
 //   // --- API ---
@@ -18,6 +18,9 @@ import QWinUI3.Theme
 //   // toast.open()
 //   // toast.close()
 //   // toast.hide()
+//
+// @notes
+//   Transient toast content; prefer ToastHost.info/success/warning/error helpers.
 
 T.Control {
     id: control

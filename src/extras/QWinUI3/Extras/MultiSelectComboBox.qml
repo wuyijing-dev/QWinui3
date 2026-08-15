@@ -8,7 +8,7 @@ import QWinUI3.Theme
 //
 //   MultiSelectComboBox {
 //       id: multiSelectComboBox
-//      model: items; selectedIndexes: [0, 2]
+//       model: items; selectedIndexes: [0, 2]
 //   }
 //
 //   // --- API ---
@@ -19,6 +19,10 @@ import QWinUI3.Theme
 //   // multiSelectComboBox.selectAll()
 //   // multiSelectComboBox.clearSelection()
 //   // inherits AbstractButton (+ Qt Quick Controls base API)
+//
+// @notes
+//   ComboBox with multi-check selection; selectedIndexes / selectedItems.
+//   exclusive mode behaves like a normal combo.
 
 T.AbstractButton {
     id: control

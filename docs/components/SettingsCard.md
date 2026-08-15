@@ -21,6 +21,10 @@ SettingsCard {
 // inherits Pane (+ Qt Quick Controls base API)
 ```
 
+## Notes
+
+Settings row card with symbol, title, description, and trailing content slot.
+
 ## API
 
 ### Properties

@@ -24,6 +24,10 @@ CommandBar {
 // commandBar.toggle()
 ```
 
+## Notes
+
+Primary + secondary AppBar command row; overflow via secondary commands.
+
 ## API
 
 ### Properties

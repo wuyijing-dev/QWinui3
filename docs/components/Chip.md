@@ -22,6 +22,10 @@ Chip {
 // inherits AbstractButton (+ Qt Quick Controls base API)
 ```
 
+## Notes
+
+Compact tag; closable emits closeClicked; appearance filled|outline.
+
 ## API
 
 ### Properties

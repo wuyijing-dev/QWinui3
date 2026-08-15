@@ -7,7 +7,7 @@ import QWinUI3.Theme
 //
 //   StackedBarChart {
 //       id: stackedBarChart
-//      series: [{ values: [1, 2]
+//       series: [{ values: [1, 2]
 //   }] }
 //
 //   // --- API ---
@@ -15,6 +15,9 @@ import QWinUI3.Theme
 //   // methods: playReveal(), requestRedraw()
 //   // stackedBarChart.playReveal()
 //   // stackedBarChart.requestRedraw()
+//
+// @notes
+//   Stacked series segments per category; series items supply stacked values.
 
 T.Control {
     id: root

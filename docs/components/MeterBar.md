@@ -21,6 +21,10 @@ MeterBar {
 // meter.value / levels
 ```
 
+## Notes
+
+Segmented meter / progress levels; value within minimum..maximum.
+
 ## API
 
 ### Properties

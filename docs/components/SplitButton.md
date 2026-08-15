@@ -24,6 +24,10 @@ SplitButton {
 // signals: onClicked (primary)
 ```
 
+## Notes
+
+Primary click + chevron MenuFlyout; put MenuFlyoutItem children for the menu half.
+
 ## API
 
 ### Properties

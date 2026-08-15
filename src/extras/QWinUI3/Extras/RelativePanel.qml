@@ -17,6 +17,9 @@ import QWinUI3.Theme
 //           RelativePanel.alignTopWith: a
 //       }
 //   }
+//
+// @notes
+//   Constraint layout via RelativePanel.* attached properties on children.
 
 Item {
     id: root

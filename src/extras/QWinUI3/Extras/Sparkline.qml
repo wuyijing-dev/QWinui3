@@ -6,12 +6,15 @@ import QWinUI3.Theme
 //
 //   Sparkline {
 //       id: sparkline
-//      values: [1, 3, 2, 5, 4]
+//       values: [1, 3, 2, 5, 4]
 //   }
 //
 //   // --- API ---
 //   // methods: playReveal()
 //   // sparkline.playReveal()
+//
+// @notes
+//   Compact inline sparkline; values: number[]; minimal chrome, no axes by default.
 
 T.Control {
     id: root

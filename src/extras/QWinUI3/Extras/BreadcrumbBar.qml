@@ -20,6 +20,9 @@ import QWinUI3.Theme
 //   // breadcrumbBar.crumbIcon(data)
 //   // breadcrumbBar.isCurrent(index)
 //   // breadcrumbBar.isClickable(entry)
+//
+// @notes
+//   Path trail from model [{ title, icon? }]; itemClicked(index); overflow collapses.
 
 T.Control {
     id: root

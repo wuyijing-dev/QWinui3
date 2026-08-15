@@ -13,7 +13,7 @@ TextBox with header and description.
 ```qml
 HeaderedTextBox {
     id: headeredTextBox
-   header: qsTr("Name"); placeholderText: qsTr("Required")
+    header: qsTr("Name"); placeholderText: qsTr("Required")
 }
 
 // --- API ---
@@ -22,6 +22,10 @@ HeaderedTextBox {
 // headeredTextBox.clear()
 // headeredTextBox.focusField()
 ```
+
+## Notes
+
+Label + TextField pair; header/headerPlacement and text/placeholderText aliases.
 
 ## API
 

@@ -18,6 +18,10 @@ ListTile {
 }
 ```
 
+## Notes
+
+List row tile with leading symbol and trailing slot.
+
 ## API
 
 ### Properties

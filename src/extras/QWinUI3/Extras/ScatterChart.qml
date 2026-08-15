@@ -7,7 +7,7 @@ import QWinUI3.Theme
 //
 //   ScatterChart {
 //       id: scatterChart
-//      points: [{ x: 1, y: 2
+//       points: [{ x: 1, y: 2
 //   }] }
 //
 //   // --- API ---
@@ -17,6 +17,10 @@ import QWinUI3.Theme
 //   // scatterChart.ensureLod(binsX, binsY)
 //   // scatterChart.playReveal()
 //   // scatterChart.requestRedraw()
+//
+// @notes
+//   points: [{ x, y, color? }] or separate xValues/yValues.
+//   LOD helpers for large point counts; requestRedraw after updates.
 
 T.Control {
     id: root

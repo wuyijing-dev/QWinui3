@@ -24,6 +24,10 @@ RefreshContainer {
 // signals: onRefreshRequested
 ```
 
+## Notes
+
+Pull-to-refresh wrapper; onRefreshRequested then endRefresh() when done.
+
 ## API
 
 ### Properties

@@ -20,6 +20,10 @@ import QWinUI3.Theme
 //   // searchBox.displayTextFor(item)
 //   // searchBox.refreshSuggestions()
 //   // searchBox.clear()
+//
+// @notes
+//   Search field + suggestion popup (model / text).
+//   Signals: querySubmitted, suggestionChosen, cleared; helpers: focusField, clear, submitQuery.
 
 T.Control {
     id: control

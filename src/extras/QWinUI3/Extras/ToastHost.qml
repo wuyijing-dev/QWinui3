@@ -14,6 +14,9 @@ import QWinUI3.Theme
 //   toasts.success(qsTr("Done"))
 //   // --- API ---
 //   // methods: info/success/warning/error, enqueue
+//
+// @notes
+//   Stack host for Toast; info/success/warning/error enqueue helpers.
 
 T.Control {
     id: root

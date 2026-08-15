@@ -27,6 +27,11 @@ SearchBox {
 // searchBox.clear()
 ```
 
+## Notes
+
+Search field + suggestion popup (model / text).
+Signals: querySubmitted, suggestionChosen, cleared; helpers: focusField, clear, submitQuery.
+
 ## API
 
 ### Properties

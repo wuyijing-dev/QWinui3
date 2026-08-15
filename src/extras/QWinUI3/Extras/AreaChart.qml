@@ -7,7 +7,7 @@ import QWinUI3.Theme
 //
 //   AreaChart {
 //       id: areaChart
-//      values: [1, 3, 2, 5]
+//       values: [1, 3, 2, 5]
 //   }
 //
 //   // --- API ---
@@ -16,6 +16,10 @@ import QWinUI3.Theme
 //   // areaChart.sourcePointCountEstimate()
 //   // areaChart.ensureLod(budget)
 //   // areaChart.playReveal()
+//
+// @notes
+//   Filled area under the line; same series/values + LOD APIs as LineChart.
+//   interactive enables hover crosshair; showLegend toggles ChartLegend.
 
 T.Control {
     id: root

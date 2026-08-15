@@ -16,6 +16,9 @@ import QWinUI3.Theme
 //   // --- API ---
 //   // split.open() / close() flyout half
 //   // signals: onClicked (primary)
+//
+// @notes
+//   Primary click + chevron MenuFlyout; put MenuFlyoutItem children for the menu half.
 
 T.AbstractButton {
     id: control

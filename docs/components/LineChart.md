@@ -13,7 +13,7 @@ Multi-series line/area chart.
 ```qml
 LineChart {
     id: lineChart
-   values: [1, 4, 2, 6]
+    values: [1, 4, 2, 6]
 }
 
 // --- API ---
@@ -23,6 +23,12 @@ LineChart {
 // lineChart.invalidateLod()
 // lineChart.ensureLod(budget)
 ```
+
+## Notes
+
+Prefer series: [{ name, values, color? }] or a flat values: number[].
+Large series use LOD (invalidateLod / ensureLod); call requestRedraw after data changes.
+playReveal() replays the enter animation; clearHover() resets crosshair.
 
 ## API
 

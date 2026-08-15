@@ -8,7 +8,7 @@ import QWinUI3.Theme
 //
 //   ColorPickerButton {
 //       id: colorPickerButton
-//      selectedColor: Theme.accent
+//       selectedColor: Theme.accent
 //   }
 //
 //   // --- API ---
@@ -17,6 +17,9 @@ import QWinUI3.Theme
 //   // colorPickerButton.open()
 //   // colorPickerButton.close()
 //   // inherits AbstractButton (+ Qt Quick Controls base API)
+//
+// @notes
+//   Swatch button that opens ColorPicker; bind selectedColor.
 
 T.AbstractButton {
     id: control

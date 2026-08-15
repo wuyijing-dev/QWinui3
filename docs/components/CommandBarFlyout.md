@@ -25,6 +25,10 @@ CommandBarFlyout {
 // inherits Popup (+ Qt Quick Controls base API)
 ```
 
+## Notes
+
+Popup CommandBar; open at a target like Flyout.
+
 ## API
 
 ### Properties

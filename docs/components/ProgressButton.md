@@ -13,7 +13,7 @@ Button with inline determinate/indeterminate fill.
 ```qml
 ProgressButton {
     id: progressButton
-   text: qsTr("Upload"); progress: 0.4
+    text: qsTr("Upload"); progress: 0.4
 }
 
 // --- API ---
@@ -25,6 +25,11 @@ ProgressButton {
 // progressButton.complete()
 // inherits AbstractButton (+ Qt Quick Controls base API)
 ```
+
+## Notes
+
+Button that shows determinate/indeterminate progress while busy.
+setProgress / progressCompleted / progressFailed.
 
 ## API
 

@@ -24,6 +24,10 @@ WrapPanel {
 // wrap.itemSpacing / orientation
 ```
 
+## Notes
+
+Wrapping flow of children; itemSpacing / orientation.
+
 ## API
 
 ### Properties

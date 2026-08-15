@@ -13,7 +13,7 @@ Fluent legend for series/slices.
 ```qml
 ChartLegend {
     id: chartLegend
-   items: [{ label: "A", color: Theme.accent
+    items: [{ label: "A", color: Theme.accent
 }] }
 
 // --- API ---
@@ -22,6 +22,10 @@ ChartLegend {
 // chartLegend.select(index)
 // chartLegend.clearSelection()
 ```
+
+## Notes
+
+items: [{ label, color, selected? }]; select(index) / itemHovered for interaction.
 
 ## API
 

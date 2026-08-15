@@ -20,6 +20,10 @@ PersonPicture {
 // avatar.initials / displayName / source
 ```
 
+## Notes
+
+Avatar from source image or displayName initials.
+
 ## API
 
 ### Properties

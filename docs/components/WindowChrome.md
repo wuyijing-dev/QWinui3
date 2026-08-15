@@ -20,6 +20,10 @@ WindowChrome { targetWindow: root; title: qsTr("App") }
 // inherits PlatformTitleBar (+ Qt Quick Controls base API)
 ```
 
+## Notes
+
+Internal title-bar chrome for ShellWindow (caption + header slots).
+
 ## API
 
 ### Properties

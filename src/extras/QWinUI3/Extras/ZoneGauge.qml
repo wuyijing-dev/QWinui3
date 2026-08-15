@@ -8,7 +8,7 @@ import QWinUI3.Theme
 //
 //   ZoneGauge {
 //       id: zoneGauge
-//      value: 55; minimum: 0; maximum: 100
+//       value: 55; minimum: 0; maximum: 100
 //   }
 //
 //   // --- API ---
@@ -18,6 +18,9 @@ import QWinUI3.Theme
 //   // zoneGauge.clampSnap(v)
 //   // zoneGauge.setValue(v)
 //   // zoneGauge.setValueFromNorm(n)
+//
+// @notes
+//   Gauge with explicit colored zones; activeZoneIndex/Color/Label track the needle.
 
 T.Control {
     id: root

@@ -23,6 +23,10 @@ DockPanel {
 // dockPanel.relayout()
 ```
 
+## Notes
+
+Dock children to edges (DockPanel.dock attached); last child fills.
+
 ## API
 
 ### Properties

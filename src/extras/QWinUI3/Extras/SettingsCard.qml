@@ -14,6 +14,9 @@ import QWinUI3.Theme
 //   // --- API ---
 //   // signals: onClicked
 //   // inherits Pane (+ Qt Quick Controls base API)
+//
+// @notes
+//   Settings row card with symbol, title, description, and trailing content slot.
 
 T.Pane {
     id: root

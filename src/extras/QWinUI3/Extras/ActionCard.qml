@@ -13,6 +13,9 @@ import QWinUI3.Theme
 //
 //   // --- API ---
 //   // inherits AbstractButton (+ Qt Quick Controls base API)
+//
+// @notes
+//   Clickable settings-style card with chevron; onClicked for navigation.
 
 T.AbstractButton {
     id: control

@@ -6,13 +6,16 @@ import QWinUI3.Theme
 //
 //   InfoBadge {
 //       id: infoBadge
-//      value: 3; severity: informational
+//       value: 3; severity: informational
 //   }
 //
 //   // --- API ---
 //   // methods: setSeverityName(name), bump()
 //   // infoBadge.setSeverityName(name)
 //   // infoBadge.bump()
+//
+// @notes
+//   Dot / value / glyph badge; severity styles the fill; value < 0 may hide digits.
 
 T.Control {
     id: root

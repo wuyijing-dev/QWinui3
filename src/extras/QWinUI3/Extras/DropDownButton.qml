@@ -18,6 +18,9 @@ import QWinUI3.Theme
 //   // dropDownButton.close()
 //   // dropDownButton.showMenu()
 //   // inherits AbstractButton (+ Qt Quick Controls base API)
+//
+// @notes
+//   Button that opens a MenuFlyout of children items.
 
 T.AbstractButton {
     id: control

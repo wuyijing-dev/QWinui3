@@ -22,6 +22,10 @@ GridTile {
 // inherits AbstractButton: text/enabled/clicked
 ```
 
+## Notes
+
+Icon + title tile for grids; onClicked.
+
 ## API
 
 ### Properties

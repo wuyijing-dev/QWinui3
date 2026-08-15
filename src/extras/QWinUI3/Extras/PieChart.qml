@@ -7,7 +7,7 @@ import QWinUI3.Theme
 //
 //   PieChart {
 //       id: pieChart
-//      slices: [{ value: 1, label: "A"
+//       slices: [{ value: 1, label: "A"
 //   }] }
 //
 //   // --- API ---
@@ -15,6 +15,10 @@ import QWinUI3.Theme
 //   // methods: playReveal(), requestRedraw()
 //   // pieChart.playReveal()
 //   // pieChart.requestRedraw()
+//
+// @notes
+//   Slices from values or { label, value, color? } items; donut via innerRadius.
+//   interactive emits slice hover/click; showLegend for ChartLegend.
 
 T.Control {
     id: root

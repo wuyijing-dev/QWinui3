@@ -6,7 +6,7 @@ import QWinUI3.Theme
 //
 //   ChartLegend {
 //       id: chartLegend
-//      items: [{ label: "A", color: Theme.accent
+//       items: [{ label: "A", color: Theme.accent
 //   }] }
 //
 //   // --- API ---
@@ -14,6 +14,9 @@ import QWinUI3.Theme
 //   // methods: select(index), clearSelection()
 //   // chartLegend.select(index)
 //   // chartLegend.clearSelection()
+//
+// @notes
+//   items: [{ label, color, selected? }]; select(index) / itemHovered for interaction.
 
 Item {
     id: root

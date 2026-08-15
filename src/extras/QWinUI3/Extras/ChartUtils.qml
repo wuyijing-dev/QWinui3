@@ -11,6 +11,9 @@ import QtQuick
 //   // chartUtils.valueCount(input)
 //   // chartUtils.valueAt(input, index, fallback)
 //   // chartUtils.pointX(input, index)
+//
+// @notes
+//   Internal helpers: downsample, extents, palette, formatNumber (used by chart controls).
 
 QtObject {
     // Point count that triggers LOD

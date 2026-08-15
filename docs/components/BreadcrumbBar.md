@@ -26,6 +26,10 @@ BreadcrumbBar {
 // breadcrumbBar.isClickable(entry)
 ```
 
+## Notes
+
+Path trail from model [{ title, icon? }]; itemClicked(index); overflow collapses.
+
 ## API
 
 ### Properties

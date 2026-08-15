@@ -14,6 +14,9 @@ import QWinUI3.Theme
 //   }
 //   // --- API ---
 //   // meter.value / levels
+//
+// @notes
+//   Segmented meter / progress levels; value within minimum..maximum.
 
 T.Control {
     id: root

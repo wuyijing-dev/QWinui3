@@ -18,6 +18,9 @@ import QWinUI3.Theme
 //   // swipeControl.close()
 //   // swipeControl.openLeft()
 //   // swipeControl.openRight()
+//
+// @notes
+//   Content + left/right SwipeAction reveal; openLeft/openRight/close.
 
 T.Control {
     id: root

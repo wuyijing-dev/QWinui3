@@ -11,6 +11,9 @@ import QWinUI3.Theme
 //       subtitle: qsTr("Detail")
 //       symbol: FluentIcons.Document
 //   }
+//
+// @notes
+//   List row tile with leading symbol and trailing slot.
 
 T.ItemDelegate {
     id: control

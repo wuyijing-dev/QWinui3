@@ -13,7 +13,7 @@ Horizontal bar chart.
 ```qml
 HorizontalBarChart {
     id: horizontalBarChart
-   values: [3, 5, 2]
+    values: [3, 5, 2]
 }
 
 // --- API ---
@@ -22,6 +22,10 @@ HorizontalBarChart {
 // horizontalBarChart.playReveal()
 // horizontalBarChart.requestRedraw()
 ```
+
+## Notes
+
+Horizontal bars; same data shape as BarChart (values / series / categories).
 
 ## API
 

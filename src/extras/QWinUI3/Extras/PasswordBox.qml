@@ -8,7 +8,7 @@ import QWinUI3.Theme
 //
 //   PasswordBox {
 //       id: passwordBox
-//      placeholderText: qsTr("Password")
+//       placeholderText: qsTr("Password")
 //   }
 //
 //   // --- API ---
@@ -16,6 +16,9 @@ import QWinUI3.Theme
 //   // methods: clear(), focusField()
 //   // passwordBox.clear()
 //   // passwordBox.focusField()
+//
+// @notes
+//   Password TextField with reveal glyph; revealPassword / revealButtonVisible.
 
 T.Control {
     id: root

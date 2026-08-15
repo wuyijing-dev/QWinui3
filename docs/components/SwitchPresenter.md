@@ -26,6 +26,10 @@ SwitchPresenter {
 // switchPresenter.setCaseActive(ch, on)
 ```
 
+## Notes
+
+Shows one SwitchCase child by currentCase / setCaseActive(name).
+
 ## API
 
 ### Properties

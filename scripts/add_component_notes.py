@@ -103,6 +103,336 @@ NOTES: dict[str, str] = {
   ShellWindow hosting NavigationView with hostContent.
   Wire navModel / paneDisplayMode; content goes in the NavigationView content slot.
 """,
+    # --- charts ---
+    "LineChart": """\
+@notes
+  Prefer series: [{ name, values, color? }] or a flat values: number[].
+  Large series use LOD (invalidateLod / ensureLod); call requestRedraw after data changes.
+  playReveal() replays the enter animation; clearHover() resets crosshair.
+""",
+    "AreaChart": """\
+@notes
+  Filled area under the line; same series/values + LOD APIs as LineChart.
+  interactive enables hover crosshair; showLegend toggles ChartLegend.
+""",
+    "BarChart": """\
+@notes
+  Vertical bars from values or series; playReveal() for enter animation.
+  category labels via categories / labels; interactive for hover/click.
+""",
+    "HorizontalBarChart": """\
+@notes
+  Horizontal bars; same data shape as BarChart (values / series / categories).
+""",
+    "StackedBarChart": """\
+@notes
+  Stacked series segments per category; series items supply stacked values.
+""",
+    "PieChart": """\
+@notes
+  Slices from values or { label, value, color? } items; donut via innerRadius.
+  interactive emits slice hover/click; showLegend for ChartLegend.
+""",
+    "DonutChart": """\
+@notes
+  PieChart with a hollow center (inner/outer radius); center label optional.
+""",
+    "ScatterChart": """\
+@notes
+  points: [{ x, y, color? }] or separate xValues/yValues.
+  LOD helpers for large point counts; requestRedraw after updates.
+""",
+    "RadarChart": """\
+@notes
+  Polar axes from categories + series values (one value per spoke).
+""",
+    "HeatmapChart": """\
+@notes
+  2D matrix / cells model; cellClicked for selection.
+  colorScale maps value -> color; show axes labels as needed.
+""",
+    "WaterfallChart": """\
+@notes
+  values are signed deltas; total/connector styling via chart props.
+""",
+    "Sparkline": """\
+@notes
+  Compact inline sparkline; values: number[]; minimal chrome, no axes by default.
+""",
+    "BulletChart": """\
+@notes
+  KPI bullet: qualitative bands + performance value + target marker.
+  setValue(v) clamps into range; bandColor(index) for band fills.
+""",
+    "ChartLegend": """\
+@notes
+  items: [{ label, color, selected? }]; select(index) / itemHovered for interaction.
+""",
+    "ChartCard": """\
+@notes
+  Title/subtitle chrome around a chart child; put the chart as content.
+""",
+    "ChartUtils": """\
+@notes
+  Internal helpers: downsample, extents, palette, formatNumber (used by chart controls).
+""",
+    # --- gauges ---
+    "ArcGauge": """\
+@notes
+  Open-arc gauge; bind value/minimum/maximum; setValue clamps+snaps.
+  thresholds / zones for colored ranges; readout via formatValue.
+""",
+    "RadialGauge": """\
+@notes
+  Full/partial radial needle gauge; zones via zoneModel; dragEnabled for input.
+""",
+    "LinearGauge": """\
+@notes
+  Horizontal/vertical bar gauge; same value/min/max + zone patterns as radial.
+""",
+    "ZoneGauge": """\
+@notes
+  Gauge with explicit colored zones; activeZoneIndex/Color/Label track the needle.
+""",
+    "SegmentedGauge": """\
+@notes
+  Discrete segment fill (progress pills); value vs maximum segment count.
+""",
+    # --- forms / input ---
+    "SearchBox": """\
+@notes
+  Search field + suggestion popup (model / text).
+  Signals: querySubmitted, suggestionChosen, cleared; helpers: focusField, clear, submitQuery.
+""",
+    "TokenizingTextBox": """\
+@notes
+  Token chips + trailing TextField; tokens: string[].
+  addToken / removeToken / clear; suggestionModel for popup picks.
+""",
+    "HeaderedTextBox": """\
+@notes
+  Label + TextField pair; header/headerPlacement and text/placeholderText aliases.
+""",
+    "PasswordBox": """\
+@notes
+  Password TextField with reveal glyph; revealPassword / revealButtonVisible.
+""",
+    "DatePicker": """\
+@notes
+  Tumbler date picker; selectedDate or year/month/day parts.
+  Accept commits; minDate/maxDate bound the range.
+""",
+    "TimePicker": """\
+@notes
+  Tumbler time picker; selectedTime + clockFormat 12|24; minuteIncrement.
+""",
+    "CalendarDatePicker": """\
+@notes
+  Text field + calendar flyout (MonthGrid); selectedDate with min/max bounds.
+""",
+    "MultiSelectComboBox": """\
+@notes
+  ComboBox with multi-check selection; selectedIndexes / selectedItems.
+  exclusive mode behaves like a normal combo.
+""",
+    "Chip": """\
+@notes
+  Compact tag; closable emits closeClicked; appearance filled|outline.
+""",
+    "ChipGroup": """\
+@notes
+  Chip row from model; exclusive or multi (maxSelected); select(index).
+""",
+    "RatingControl": """\
+@notes
+  Star rating; value / maxRating; isReadOnly disables input.
+""",
+    "ProgressButton": """\
+@notes
+  Button that shows determinate/indeterminate progress while busy.
+  setProgress / progressCompleted / progressFailed.
+""",
+    # --- command / overlay ---
+    "CommandBar": """\
+@notes
+  Primary + secondary AppBar command row; overflow via secondary commands.
+""",
+    "CommandBarFlyout": """\
+@notes
+  Popup CommandBar; open at a target like Flyout.
+""",
+    "SplitButton": """\
+@notes
+  Primary click + chevron MenuFlyout; put MenuFlyoutItem children for the menu half.
+""",
+    "ToggleSplitButton": """\
+@notes
+  Checkable SplitButton; checked toggles the primary half.
+""",
+    "DropDownButton": """\
+@notes
+  Button that opens a MenuFlyout of children items.
+""",
+    "BreadcrumbBar": """\
+@notes
+  Path trail from model [{ title, icon? }]; itemClicked(index); overflow collapses.
+""",
+    "InfoBadge": """\
+@notes
+  Dot / value / glyph badge; severity styles the fill; value < 0 may hide digits.
+""",
+    "Toast": """\
+@notes
+  Transient toast content; prefer ToastHost.info/success/warning/error helpers.
+""",
+    "ToastHost": """\
+@notes
+  Stack host for Toast; info/success/warning/error enqueue helpers.
+""",
+    "SwipeControl": """\
+@notes
+  Content + left/right SwipeAction reveal; openLeft/openRight/close.
+""",
+    "RefreshContainer": """\
+@notes
+  Pull-to-refresh wrapper; onRefreshRequested then endRefresh() when done.
+""",
+    "FlipView": """\
+@notes
+  Paged swipe view; currentIndex + buttonsVisible / isIndicatorVisible.
+""",
+    "PipsPager": """\
+@notes
+  Dot pager synced to a FlipView / SwipeView currentIndex.
+""",
+    "Pivot": """\
+@notes
+  Tab-like pivot headers + content; model or PivotItem children.
+""",
+    "SegmentedControl": """\
+@notes
+  Exclusive segment buttons from model; currentIndex selection.
+""",
+    "SelectorBar": """\
+@notes
+  Horizontal selector tabs; model + currentIndex (nav-style underlines).
+""",
+    "StepBar": """\
+@notes
+  Step indicator; model of steps, currentIndex; stepClicked when interactive.
+""",
+    "Timeline": """\
+@notes
+  Vertical timeline of events; model items with title/time/description.
+""",
+    "Expander": """\
+@notes
+  Header + expandable content; expanded / expand/collapse.
+""",
+    "SettingsCard": """\
+@notes
+  Settings row card with symbol, title, description, and trailing content slot.
+""",
+    "SettingsExpander": """\
+@notes
+  Expander styled as a settings group; header + nested SettingsCard children.
+""",
+    "EmptyState": """\
+@notes
+  Placeholder for empty lists; title/message + optional action.
+""",
+    "MenuFlyout": """\
+@notes
+  Menu-styled Flyout; host MenuFlyoutItem / Separator / Header children.
+""",
+    "WindowChrome": """\
+@notes
+  Internal title-bar chrome for ShellWindow (caption + header slots).
+""",
+    "CopyButton": """\
+@notes
+  Copies textToCopy (or copy(text)); flashes doneGlyph; copyCompleted/copyFailed.
+""",
+    "ColorPickerButton": """\
+@notes
+  Swatch button that opens ColorPicker; bind selectedColor.
+""",
+    "PersonPicture": """\
+@notes
+  Avatar from source image or displayName initials.
+""",
+    "AvatarGroup": """\
+@notes
+  Overlapping PersonPicture stack; maxVisible + overflowCount chip.
+""",
+    "RadioButtons": """\
+@notes
+  Grouped RadioButton column from model; selectedIndex.
+""",
+    "SwitchPresenter": """\
+@notes
+  Shows one SwitchCase child by currentCase / setCaseActive(name).
+""",
+    "MeterBar": """\
+@notes
+  Segmented meter / progress levels; value within minimum..maximum.
+""",
+    "ProgressRing": """\
+@notes
+  Circular progress; indeterminate or value 0..1.
+""",
+    "StatusDot": """\
+@notes
+  Presence dot; status available|busy|away|offline (or custom color).
+""",
+    "TextBlock": """\
+@notes
+  Themed text helper (style/weight tokens); prefer for Fluent type ramps.
+""",
+    "FontIcon": """\
+@notes
+  FluentIcons symbol / glyph text; fontSize for px size.
+""",
+    "HyperlinkButton": """\
+@notes
+  Link-styled button; navigateUri + optional external glyph.
+""",
+    "ActionCard": """\
+@notes
+  Clickable settings-style card with chevron; onClicked for navigation.
+""",
+    "ContentCard": """\
+@notes
+  Surface card with title/subtitle/symbol and body slot.
+""",
+    "GridTile": """\
+@notes
+  Icon + title tile for grids; onClicked.
+""",
+    "ListTile": """\
+@notes
+  List row tile with leading symbol and trailing slot.
+""",
+    "RelativePanel": """\
+@notes
+  Constraint layout via RelativePanel.* attached properties on children.
+""",
+    "StackPanel": """\
+@notes
+  Simple stack/flow panel with orientation + spacing.
+""",
+    "UniformGrid": """\
+@notes
+  Even cell grid; columns / rows + cellSpacing.
+""",
+    "DockPanel": """\
+@notes
+  Dock children to edges (DockPanel.dock attached); last child fills.
+""",
+    "WrapPanel": """\
+@notes
+  Wrapping flow of children; itemSpacing / orientation.
+""",
 }
 
 

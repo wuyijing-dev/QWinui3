@@ -18,6 +18,9 @@ import QWinUI3.Theme
 //   // commandBarFlyout.hide()
 //   // commandBarFlyout.openFlyout()
 //   // inherits Popup (+ Qt Quick Controls base API)
+//
+// @notes
+//   Popup CommandBar; open at a target like Flyout.
 
 T.Popup {
     id: root

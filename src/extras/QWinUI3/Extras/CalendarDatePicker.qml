@@ -8,13 +8,16 @@ import QWinUI3.Theme
 //
 //   CalendarDatePicker {
 //       id: calendarDatePicker
-//      selectedDate: new Date()
+//       selectedDate: new Date()
 //   }
 //
 //   // --- API ---
 //   // signals: onDateChosen
 //   // methods: isDateAllowed(d)
 //   // calendarDatePicker.isDateAllowed(d)
+//
+// @notes
+//   Text field + calendar flyout (MonthGrid); selectedDate with min/max bounds.
 
 T.Control {
     id: root

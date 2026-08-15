@@ -13,7 +13,7 @@ Stacked bar chart.
 ```qml
 StackedBarChart {
     id: stackedBarChart
-   series: [{ values: [1, 2]
+    series: [{ values: [1, 2]
 }] }
 
 // --- API ---
@@ -22,6 +22,10 @@ StackedBarChart {
 // stackedBarChart.playReveal()
 // stackedBarChart.requestRedraw()
 ```
+
+## Notes
+
+Stacked series segments per category; series items supply stacked values.
 
 ## API
 

@@ -7,7 +7,7 @@ import QWinUI3.Theme
 //
 //   BarChart {
 //       id: barChart
-//      values: [4, 2, 7, 3]
+//       values: [4, 2, 7, 3]
 //   }
 //
 //   // --- API ---
@@ -15,6 +15,10 @@ import QWinUI3.Theme
 //   // methods: playReveal(), requestRedraw()
 //   // barChart.playReveal()
 //   // barChart.requestRedraw()
+//
+// @notes
+//   Vertical bars from values or series; playReveal() for enter animation.
+//   category labels via categories / labels; interactive for hover/click.
 
 T.Control {
     id: root

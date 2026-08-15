@@ -7,7 +7,7 @@ import QWinUI3.Theme
 //
 //   ChipGroup {
 //       id: chipGroup
-//      model: ["All", "Open"]; currentIndex: 0
+//       model: ["All", "Open"]; currentIndex: 0
 //   }
 //
 //   // --- API ---
@@ -17,6 +17,9 @@ import QWinUI3.Theme
 //   // chipGroup.clearSelection()
 //   // chipGroup.select(index)
 //   // chipGroup.toggleIndex(index)
+//
+// @notes
+//   Chip row from model; exclusive or multi (maxSelected); select(index).
 
 T.Control {
     id: root

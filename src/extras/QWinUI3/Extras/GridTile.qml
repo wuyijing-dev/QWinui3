@@ -14,6 +14,9 @@ import QWinUI3.Theme
 //   }
 //   // --- API ---
 //   // inherits AbstractButton: text/enabled/clicked
+//
+// @notes
+//   Icon + title tile for grids; onClicked.
 
 T.AbstractButton {
     id: control

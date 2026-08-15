@@ -27,6 +27,10 @@ RelativePanel {
 }
 ```
 
+## Notes
+
+Constraint layout via RelativePanel.* attached properties on children.
+
 ## API
 
 ### Properties

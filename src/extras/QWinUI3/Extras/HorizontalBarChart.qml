@@ -7,7 +7,7 @@ import QWinUI3.Theme
 //
 //   HorizontalBarChart {
 //       id: horizontalBarChart
-//      values: [3, 5, 2]
+//       values: [3, 5, 2]
 //   }
 //
 //   // --- API ---
@@ -15,6 +15,9 @@ import QWinUI3.Theme
 //   // methods: playReveal(), requestRedraw()
 //   // horizontalBarChart.playReveal()
 //   // horizontalBarChart.requestRedraw()
+//
+// @notes
+//   Horizontal bars; same data shape as BarChart (values / series / categories).
 
 T.Control {
     id: root

@@ -13,6 +13,9 @@ import QWinUI3.Theme
 //
 //   // --- API ---
 //   // signals: onActionClicked, onSecondaryActionClicked
+//
+// @notes
+//   Placeholder for empty lists; title/message + optional action.
 
 T.Control {
     id: root

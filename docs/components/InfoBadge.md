@@ -13,7 +13,7 @@ Count / status / glyph badge.
 ```qml
 InfoBadge {
     id: infoBadge
-   value: 3; severity: informational
+    value: 3; severity: informational
 }
 
 // --- API ---
@@ -21,6 +21,10 @@ InfoBadge {
 // infoBadge.setSeverityName(name)
 // infoBadge.bump()
 ```
+
+## Notes
+
+Dot / value / glyph badge; severity styles the fill; value < 0 may hide digits.
 
 ## API
 

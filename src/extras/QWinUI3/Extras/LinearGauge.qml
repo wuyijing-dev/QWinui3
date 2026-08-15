@@ -8,7 +8,7 @@ import QWinUI3.Theme
 //
 //   LinearGauge {
 //       id: linearGauge
-//      value: 42; minimum: 0; maximum: 100
+//       value: 42; minimum: 0; maximum: 100
 //   }
 //
 //   // --- API ---
@@ -17,6 +17,9 @@ import QWinUI3.Theme
 //   // linearGauge.clampSnap(v)
 //   // linearGauge.setValue(v)
 //   // linearGauge.setValueFromNorm(n)
+//
+// @notes
+//   Horizontal/vertical bar gauge; same value/min/max + zone patterns as radial.
 
 T.Control {
     id: root

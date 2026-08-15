@@ -8,7 +8,7 @@ import QWinUI3.Theme
 //
 //   HeaderedTextBox {
 //       id: headeredTextBox
-//      header: qsTr("Name"); placeholderText: qsTr("Required")
+//       header: qsTr("Name"); placeholderText: qsTr("Required")
 //   }
 //
 //   // --- API ---
@@ -16,6 +16,9 @@ import QWinUI3.Theme
 //   // methods: clear(), focusField()
 //   // headeredTextBox.clear()
 //   // headeredTextBox.focusField()
+//
+// @notes
+//   Label + TextField pair; header/headerPlacement and text/placeholderText aliases.
 
 T.Control {
     id: root

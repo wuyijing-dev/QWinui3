@@ -7,7 +7,7 @@ import QWinUI3.Platform
 //
 //   ShellWindowSupport {
 //       id: shellWindowSupport
-//      targetWindow: root; autoInstall: true
+//       targetWindow: root; autoInstall: true
 //   }
 //
 //   // --- API ---

@@ -17,6 +17,10 @@ ChartCard {
 }
 ```
 
+## Notes
+
+Title/subtitle chrome around a chart child; put the chart as content.
+
 ## API
 
 ### Properties

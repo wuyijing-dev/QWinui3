@@ -25,6 +25,10 @@ DropDownButton {
 // inherits AbstractButton (+ Qt Quick Controls base API)
 ```
 
+## Notes
+
+Button that opens a MenuFlyout of children items.
+
 ## API
 
 ### Properties

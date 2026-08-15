@@ -18,6 +18,9 @@ import QWinUI3.Theme
 //   // copyButton.copy()
 //   // copyButton.copy("override text")
 //   // inherits AbstractButton (+ text, enabled, clicked, …)
+//
+// @notes
+//   Copies textToCopy (or copy(text)); flashes doneGlyph; copyCompleted/copyFailed.
 
 T.AbstractButton {
     id: control

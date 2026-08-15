@@ -13,7 +13,7 @@ Grouped RadioButton list from a model.
 ```qml
 RadioButtons {
     id: radioButtons
-   header: qsTr("Choice"); model: ["A", "B"]
+    header: qsTr("Choice"); model: ["A", "B"]
 }
 
 // --- API ---
@@ -21,6 +21,10 @@ RadioButtons {
 // methods: select(index)
 // radioButtons.select(index)
 ```
+
+## Notes
+
+Grouped RadioButton column from model; selectedIndex.
 
 ## API
 

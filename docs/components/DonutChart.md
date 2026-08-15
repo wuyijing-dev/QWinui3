@@ -13,7 +13,7 @@ Donut chart with hover and legend.
 ```qml
 DonutChart {
     id: donutChart
-   slices: [{ value: 3, label: "A"
+    slices: [{ value: 3, label: "A"
 }] }
 
 // --- API ---
@@ -22,6 +22,10 @@ DonutChart {
 // donutChart.playReveal()
 // donutChart.requestRedraw()
 ```
+
+## Notes
+
+PieChart with a hollow center (inner/outer radius); center label optional.
 
 ## API
 

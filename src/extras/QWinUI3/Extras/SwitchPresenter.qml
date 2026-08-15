@@ -17,6 +17,9 @@ import QWinUI3.Theme
 //   // switchPresenter.select(index)
 //   // switchPresenter.applyValue()
 //   // switchPresenter.setCaseActive(ch, on)
+//
+// @notes
+//   Shows one SwitchCase child by currentCase / setCaseActive(name).
 
 T.Control {
     id: root

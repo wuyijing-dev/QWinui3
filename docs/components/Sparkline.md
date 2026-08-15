@@ -13,13 +13,17 @@ Inline mini line chart.
 ```qml
 Sparkline {
     id: sparkline
-   values: [1, 3, 2, 5, 4]
+    values: [1, 3, 2, 5, 4]
 }
 
 // --- API ---
 // methods: playReveal()
 // sparkline.playReveal()
 ```
+
+## Notes
+
+Compact inline sparkline; values: number[]; minimal chrome, no axes by default.
 
 ## API
 

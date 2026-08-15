@@ -13,7 +13,7 @@ Star rating; stepSize supports halves.
 ```qml
 RatingControl {
     id: ratingControl
-   value: 3.5; stepSize: 0.5
+    value: 3.5; stepSize: 0.5
 }
 
 // --- API ---
@@ -23,6 +23,10 @@ RatingControl {
 // ratingControl.valueFromPos(x)
 // ratingControl.commitValue(next)
 ```
+
+## Notes
+
+Star rating; value / maxRating; isReadOnly disables input.
 
 ## API
 

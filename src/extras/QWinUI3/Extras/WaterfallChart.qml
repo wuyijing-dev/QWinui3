@@ -7,7 +7,7 @@ import QWinUI3.Theme
 //
 //   WaterfallChart {
 //       id: waterfallChart
-//      values: [10, -3, 5]
+//       values: [10, -3, 5]
 //   }
 //
 //   // --- API ---
@@ -16,6 +16,9 @@ import QWinUI3.Theme
 //   // waterfallChart.playReveal()
 //   // waterfallChart.requestRedraw()
 //   // waterfallChart.clearHover()
+//
+// @notes
+//   values are signed deltas; total/connector styling via chart props.
 
 T.Control {
     id: root

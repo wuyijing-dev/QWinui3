@@ -8,7 +8,7 @@ import QWinUI3.Theme
 //
 //   SegmentedGauge {
 //       id: segmentedGauge
-//      value: 3; maximum: 5
+//       value: 3; maximum: 5
 //   }
 //
 //   // --- API ---
@@ -17,6 +17,9 @@ import QWinUI3.Theme
 //   // segmentedGauge.clampSnap(v)
 //   // segmentedGauge.setValue(v)
 //   // segmentedGauge.setSegment(index)
+//
+// @notes
+//   Discrete segment fill (progress pills); value vs maximum segment count.
 
 T.Control {
     id: root

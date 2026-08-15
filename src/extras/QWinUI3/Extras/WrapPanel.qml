@@ -15,6 +15,9 @@ import QWinUI3.Theme
 //   }
 //   // --- API ---
 //   // wrap.itemSpacing / orientation
+//
+// @notes
+//   Wrapping flow of children; itemSpacing / orientation.
 
 T.Control {
     id: root

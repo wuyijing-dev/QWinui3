@@ -13,7 +13,7 @@ Horizontal chip group for filters / single select.
 ```qml
 ChipGroup {
     id: chipGroup
-   model: ["All", "Open"]; currentIndex: 0
+    model: ["All", "Open"]; currentIndex: 0
 }
 
 // --- API ---
@@ -24,6 +24,10 @@ ChipGroup {
 // chipGroup.select(index)
 // chipGroup.toggleIndex(index)
 ```
+
+## Notes
+
+Chip row from model; exclusive or multi (maxSelected); select(index).
 
 ## API
 

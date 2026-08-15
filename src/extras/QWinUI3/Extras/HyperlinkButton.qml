@@ -13,6 +13,9 @@ import QWinUI3.Theme
 //   }
 //   // --- API ---
 //   // link.navigateUri / showExternalGlyph
+//
+// @notes
+//   Link-styled button; navigateUri + optional external glyph.
 
 T.AbstractButton {
     id: control

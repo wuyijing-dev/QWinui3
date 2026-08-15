@@ -9,6 +9,9 @@ import QWinUI3.Theme
 //       title: qsTr("Revenue")
 //       LineChart { values: series }
 //   }
+//
+// @notes
+//   Title/subtitle chrome around a chart child; put the chart as content.
 
 T.Control {
     id: root

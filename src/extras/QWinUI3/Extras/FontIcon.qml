@@ -11,6 +11,9 @@ import QWinUI3.Theme
 //   }
 //   // --- API ---
 //   // icon.symbol / iconGlyph / fontSize
+//
+// @notes
+//   FluentIcons symbol / glyph text; fontSize for px size.
 
 Item {
     id: root

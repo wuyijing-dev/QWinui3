@@ -8,7 +8,7 @@ import QWinUI3.Theme
 //
 //   NumberBox {
 //       id: numberBox
-//      value: 10; minimum: 0; maximum: 100
+//       value: 10; minimum: 0; maximum: 100
 //   }
 //
 //   // --- API ---

@@ -13,13 +13,17 @@ Fluent typography styles (title, body, caption…).
 ```qml
 TextBlock {
     id: textBlock
-   text: qsTr("Title"); style: title
+    text: qsTr("Title"); style: title
 }
 
 // --- API ---
 // methods: setStyleName(name)
 // textBlock.setStyleName(name)
 ```
+
+## Notes
+
+Themed text helper (style/weight tokens); prefer for Fluent type ramps.
 
 ## API
 

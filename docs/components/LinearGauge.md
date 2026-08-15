@@ -13,7 +13,7 @@ Horizontal/vertical track gauge with thresholds.
 ```qml
 LinearGauge {
     id: linearGauge
-   value: 42; minimum: 0; maximum: 100
+    value: 42; minimum: 0; maximum: 100
 }
 
 // --- API ---
@@ -23,6 +23,10 @@ LinearGauge {
 // linearGauge.setValue(v)
 // linearGauge.setValueFromNorm(n)
 ```
+
+## Notes
+
+Horizontal/vertical bar gauge; same value/min/max + zone patterns as radial.
 
 ## API
 

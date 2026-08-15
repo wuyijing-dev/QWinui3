@@ -20,6 +20,10 @@ EmptyState {
 // signals: onActionClicked, onSecondaryActionClicked
 ```
 
+## Notes
+
+Placeholder for empty lists; title/message + optional action.
+
 ## API
 
 ### Properties

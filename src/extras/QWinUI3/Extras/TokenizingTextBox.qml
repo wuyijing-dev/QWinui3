@@ -14,6 +14,10 @@ import QWinUI3.Theme
 //   }
 //   // --- API ---
 //   // tokens.addToken(text) / removeToken(text) / clear()
+//
+// @notes
+//   Token chips + trailing TextField; tokens: string[].
+//   addToken / removeToken / clear; suggestionModel for popup picks.
 
 T.Control {
     id: root

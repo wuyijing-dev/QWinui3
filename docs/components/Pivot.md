@@ -13,7 +13,7 @@ Header tabs with sliding underline and pages.
 ```qml
 Pivot {
     id: pivot
-   model: ["Overview", "Details"]
+    model: ["Overview", "Details"]
 }
 
 // --- API ---
@@ -21,6 +21,10 @@ Pivot {
 // methods: selectIndex(index)
 // pivot.selectIndex(index)
 ```
+
+## Notes
+
+Tab-like pivot headers + content; model or PivotItem children.
 
 ## API
 

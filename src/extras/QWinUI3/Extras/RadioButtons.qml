@@ -8,13 +8,16 @@ import QWinUI3.Theme
 //
 //   RadioButtons {
 //       id: radioButtons
-//      header: qsTr("Choice"); model: ["A", "B"]
+//       header: qsTr("Choice"); model: ["A", "B"]
 //   }
 //
 //   // --- API ---
 //   // signals: onSelected, onSelectionChanged
 //   // methods: select(index)
 //   // radioButtons.select(index)
+//
+// @notes
+//   Grouped RadioButton column from model; selectedIndex.
 
 T.Control {
     id: control

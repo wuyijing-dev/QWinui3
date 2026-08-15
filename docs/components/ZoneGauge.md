@@ -13,7 +13,7 @@ Gauge with colored zones.
 ```qml
 ZoneGauge {
     id: zoneGauge
-   value: 55; minimum: 0; maximum: 100
+    value: 55; minimum: 0; maximum: 100
 }
 
 // --- API ---
@@ -24,6 +24,10 @@ ZoneGauge {
 // zoneGauge.setValue(v)
 // zoneGauge.setValueFromNorm(n)
 ```
+
+## Notes
+
+Gauge with explicit colored zones; activeZoneIndex/Color/Label track the needle.
 
 ## API
 

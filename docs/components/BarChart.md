@@ -13,7 +13,7 @@ Vertical bar chart with reveal animation.
 ```qml
 BarChart {
     id: barChart
-   values: [4, 2, 7, 3]
+    values: [4, 2, 7, 3]
 }
 
 // --- API ---
@@ -22,6 +22,11 @@ BarChart {
 // barChart.playReveal()
 // barChart.requestRedraw()
 ```
+
+## Notes
+
+Vertical bars from values or series; playReveal() for enter animation.
+category labels via categories / labels; interactive for hover/click.
 
 ## API
 
