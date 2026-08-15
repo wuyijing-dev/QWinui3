@@ -1,0 +1,16 @@
+# TabButton
+
+Fluent styled TabButton.
+
+`import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/TabButton.qml`](../../src/style/QWinUI3/TabButton.qml)
+
+[← Component index](../components.md)
+
+## Usage
+
+```qml
+TabButton { text: qsTr("Tab") }
+```
+
+---
+*Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

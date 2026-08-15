@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """One-shot: write // summary + usage comments INTO QML sources.
 
-The doc generator (`generate_component_docs.py`) only regex-reads those comments.
+The doc generator (`generate_component_docs.py`) only regex-reads those comments
+and writes one markdown file per component under `docs/components/`.
 Run this when adding a new control or refreshing stub headers:
 
   python scripts/seed_qml_doc_comments.py

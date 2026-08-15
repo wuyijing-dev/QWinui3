@@ -1,0 +1,25 @@
+# ToggleButton
+
+Checkable button with Fluent chrome.
+
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ToggleButton.qml`](../../src/extras/QWinUI3/Extras/ToggleButton.qml)
+
+[← Component index](../components.md)
+
+## Usage
+
+```qml
+ToggleButton { text: qsTr("Bold"); checkable: true }
+```
+
+## Properties
+
+- `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
+- `iconGlyph: string` — Raw Fluent glyph string fallback
+- `iconSize: real` — Icon size in px
+- `effectiveIconGlyph: string` — Resolved glyph string
+- `lightScheme: bool` — True in light theme
+- `accented: bool` — Use accent chrome
+
+---
+*Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

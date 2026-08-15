@@ -3,6 +3,13 @@
 
 Source of truth = comments in each .qml file. This script does not invent API text.
 
+Output layout (one markdown file per component):
+
+  docs/components.md              # index
+  docs/components/AccentButton.md
+  docs/components/NavigationView.md
+  …
+
 Comment convention (after imports / pragma):
 
   // Name — one-line summary.
@@ -22,7 +29,7 @@ Also extracts top-level `property` / `signal` / `function` via regex for a short
 Usage:
   python scripts/generate_component_docs.py
   python scripts/generate_component_docs.py --lint
-  python scripts/generate_component_docs.py -o docs/components.md
+  python scripts/generate_component_docs.py -o docs/components.md --outdir docs/components
 """
 
 from __future__ import annotations
@@ -79,6 +86,12 @@ RE_PROP_DOC = re.compile(
     r"(?m)^\s*//\s*(?P<doc>.+)\n\s*(?:readonly\s+|default\s+|required\s+)*property\s+"
     r"(?:alias\s+)?[\w.<>,\s]+?\s+(?P<name>\w+)"
 )
+RE_SIG_DOC = re.compile(
+    r"(?m)^\s*//\s*(?P<doc>.+)\n\s*signal\s+(?P<name>\w+)"
+)
+RE_FUNC_DOC = re.compile(
+    r"(?m)^\s*//\s*(?P<doc>.+)\n\s*function\s+(?P<name>\w+)"
+)
 
 
 @dataclass
@@ -89,10 +102,14 @@ class Component:
     summary: str = ""
     usage: str = ""
     properties: list[tuple[str, str, str]] = field(default_factory=list)  # name, type, doc
-    signals: list[str] = field(default_factory=list)
-    functions: list[str] = field(default_factory=list)
+    signals: list[tuple[str, str]] = field(default_factory=list)  # sig, doc
+    functions: list[tuple[str, str]] = field(default_factory=list)  # sig, doc
     internal: bool = False
     lint_errors: list[str] = field(default_factory=list)
+
+    @property
+    def doc_filename(self) -> str:
+        return f"{self.name}.md"
 
 
 def module_for(path: Path) -> str:
@@ -133,9 +150,7 @@ def parse_header_comments(text: str, name: str) -> tuple[str, str, list[str]]:
 
     header = m.group("header")
     comment_lines = RE_COMMENT_LINE.findall(header)
-    # comment_lines are bodies after //
 
-    # Tagged @brief / @usage
     brief_m = RE_BRIEF_TAG.search(header)
     if brief_m:
         summary = brief_m.group("brief").strip()
@@ -154,7 +169,6 @@ def parse_header_comments(text: str, name: str) -> tuple[str, str, list[str]]:
             errors.append(f"{name}: @usage block empty or missing")
         return summary, usage, errors
 
-    # Em-dash form: // Name — summary
     summary = ""
     usage_lines = []
     phase = "summary"  # summary | blank | usage
@@ -165,7 +179,6 @@ def parse_header_comments(text: str, name: str) -> tuple[str, str, list[str]]:
                 summary = em.group(2).strip()
                 phase = "after_summary"
                 continue
-            # plain first line as summary
             if body.strip():
                 summary = body.strip()
                 phase = "after_summary"
@@ -174,10 +187,8 @@ def parse_header_comments(text: str, name: str) -> tuple[str, str, list[str]]:
             if not body.strip():
                 phase = "usage"
                 continue
-            # more summary lines
             summary = (summary + " " + body.strip()).strip()
             continue
-        # usage
         usage_lines.append(body)
 
     usage = _unindent_usage(usage_lines)
@@ -190,9 +201,13 @@ def parse_header_comments(text: str, name: str) -> tuple[str, str, list[str]]:
     return summary, usage, errors
 
 
-def extract_api(text: str) -> tuple[list[tuple[str, str, str]], list[str], list[str]]:
+def extract_api(
+    text: str,
+) -> tuple[list[tuple[str, str, str]], list[tuple[str, str]], list[tuple[str, str]]]:
     head = "\n".join(text.splitlines()[:240])
     prop_docs = {m.group("name"): m.group("doc").strip() for m in RE_PROP_DOC.finditer(head)}
+    sig_docs = {m.group("name"): m.group("doc").strip() for m in RE_SIG_DOC.finditer(head)}
+    func_docs = {m.group("name"): m.group("doc").strip() for m in RE_FUNC_DOC.finditer(head)}
 
     props: list[tuple[str, str, str]] = []
     seen = set()
@@ -203,29 +218,27 @@ def extract_api(text: str) -> tuple[list[tuple[str, str, str]], list[str], list[
         seen.add(n)
         props.append((n, m.group("type").strip(), prop_docs.get(n, "")))
 
-    signals: list[str] = []
+    signals: list[tuple[str, str]] = []
+    seen_s: set[str] = set()
     for m in RE_SIGNAL.finditer(head):
         n = m.group("name")
-        if n.startswith("_"):
+        if n.startswith("_") or n in seen_s:
             continue
-        signals.append(n + (m.group("args") or "()"))
+        seen_s.add(n)
+        sig = n + (m.group("args") or "()")
+        signals.append((sig, sig_docs.get(n, "")))
 
-    funcs: list[str] = []
+    funcs: list[tuple[str, str]] = []
+    seen_f: set[str] = set()
     for m in RE_FUNCTION.finditer(head):
         n = m.group("name")
-        if n.startswith("_"):
+        if n.startswith("_") or n in seen_f:
             continue
-        funcs.append(n + (m.group("args") or "()"))
+        seen_f.add(n)
+        sig = n + (m.group("args") or "()")
+        funcs.append((sig, func_docs.get(n, "")))
 
-    def uniq(xs: list[str]) -> list[str]:
-        out, s = [], set()
-        for x in xs:
-            if x not in s:
-                s.add(x)
-                out.append(x)
-        return out
-
-    return props[:28], uniq(signals)[:16], uniq(funcs)[:16]
+    return props[:40], signals[:24], funcs[:24]
 
 
 def parse_component(path: Path) -> Component:
@@ -257,17 +270,72 @@ def collect() -> list[Component]:
     return comps
 
 
-def render_markdown(comps: list[Component]) -> str:
+def render_component_page(c: Component) -> str:
+    """One standalone markdown page for a single component."""
+    out: list[str] = [
+        f"# {c.name}",
+        "",
+        c.summary,
+        "",
+        f"`import {c.module}` · [`{c.path.relative_to(ROOT).as_posix()}`](../../{c.path.relative_to(ROOT).as_posix()})",
+        "",
+        "[← Component index](../components.md)",
+        "",
+    ]
+    if c.internal:
+        out.append("> Internal / support type — not part of the public Gallery surface.")
+        out.append("")
+    if c.usage:
+        out.append("## Usage")
+        out.append("")
+        out.append("```qml")
+        out.append(c.usage)
+        out.append("```")
+        out.append("")
+    if c.properties:
+        out.append("## Properties")
+        out.append("")
+        for n, t, doc in c.properties:
+            extra = f" — {doc}" if doc else ""
+            out.append(f"- `{n}: {t}`{extra}")
+        out.append("")
+    if c.signals:
+        out.append("## Signals")
+        out.append("")
+        for s, doc in c.signals:
+            extra = f" — {doc}" if doc else ""
+            out.append(f"- `{s}`{extra}")
+        out.append("")
+    if c.functions:
+        out.append("## Methods")
+        out.append("")
+        for f, doc in c.functions:
+            extra = f" — {doc}" if doc else ""
+            out.append(f"- `{f}`{extra}")
+        out.append("")
+    out.append("---")
+    out.append(
+        "*Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*"
+    )
+    out.append("")
+    return "\n".join(out)
+
+
+def render_index(comps: list[Component], outdir: Path) -> str:
     public = [c for c in comps if not c.internal]
     internal = [c for c in comps if c.internal]
     by_mod: dict[str, list[Component]] = {}
     for c in public:
         by_mod.setdefault(c.module, []).append(c)
 
+    rel_dir = outdir.relative_to(ROOT).as_posix()
+
     out: list[str] = [
         "# QWinUI3 component API",
         "",
         "Generated from **QML source comments** by regex (`scripts/generate_component_docs.py`).",
+        "Each control has its **own** markdown under "
+        f"[`{rel_dir}/`]({outdir.name}/).",
         "Edit the `// Name — …` + indented usage block in each `.qml` file, then re-run the script.",
         "",
         "```bash",
@@ -275,7 +343,7 @@ def render_markdown(comps: list[Component]) -> str:
         "python scripts/generate_component_docs.py --lint",
         "```",
         "",
-        f"Public components: **{len(public)}**. Shell overview: `docs/window-shells.md`.",
+        f"Public components: **{len(public)}**. Shell overview: [`docs/window-shells.md`](window-shells.md).",
         "",
         "## Index",
         "",
@@ -284,63 +352,41 @@ def render_markdown(comps: list[Component]) -> str:
         out.append(f"### `{mod}`")
         out.append("")
         for c in by_mod[mod]:
-            out.append(f"- [{c.name}](#{c.name.lower()}) — {c.summary}")
+            link = f"{outdir.name}/{c.doc_filename}"
+            out.append(f"- [{c.name}]({link}) — {c.summary}")
         out.append("")
-
-    out.append("## Components")
-    out.append("")
-    for mod in sorted(by_mod):
-        out.append(f"### Module `{mod}`")
-        out.append("")
-        for c in by_mod[mod]:
-            out.append(f"#### {c.name}")
-            out.append("")
-            out.append(c.summary)
-            out.append("")
-            out.append(f"`import {c.module}` · `{c.path.relative_to(ROOT).as_posix()}`")
-            out.append("")
-            if c.usage:
-                out.append("```qml")
-                out.append(c.usage)
-                out.append("```")
-                out.append("")
-            if c.properties:
-                out.append("<details><summary>Properties</summary>")
-                out.append("")
-                for n, t, doc in c.properties:
-                    extra = f" — {doc}" if doc else ""
-                    out.append(f"- `{n}: {t}`{extra}")
-                out.append("")
-                out.append("</details>")
-                out.append("")
-            if c.signals:
-                out.append("<details><summary>Signals</summary>")
-                out.append("")
-                for s in c.signals:
-                    out.append(f"- `{s}`")
-                out.append("")
-                out.append("</details>")
-                out.append("")
-            if c.functions:
-                out.append("<details><summary>Methods</summary>")
-                out.append("")
-                for f in c.functions:
-                    out.append(f"- `{f}`")
-                out.append("")
-                out.append("</details>")
-                out.append("")
 
     if internal:
         out.append("## Internal / support")
         out.append("")
         for c in internal:
-            out.append(f"- `{c.name}` (`{c.module}`) — {c.summary}")
+            link = f"{outdir.name}/{c.doc_filename}"
+            out.append(f"- [{c.name}]({link}) (`{c.module}`) — {c.summary}")
         out.append("")
 
     out.append("---")
-    out.append("*Generated by `scripts/generate_component_docs.py` — do not edit by hand.*")
+    out.append(
+        "*Generated by `scripts/generate_component_docs.py` — do not edit by hand.*"
+    )
     out.append("")
     return "\n".join(out)
+
+
+def write_docs(comps: list[Component], index_path: Path, outdir: Path) -> None:
+    outdir.mkdir(parents=True, exist_ok=True)
+    wanted = {c.doc_filename for c in comps}
+
+    for c in comps:
+        page = render_component_page(c)
+        (outdir / c.doc_filename).write_text(page, encoding="utf-8", newline="\n")
+
+    # Drop stale pages from previous runs
+    for old in outdir.glob("*.md"):
+        if old.name not in wanted:
+            old.unlink()
+
+    index_path.parent.mkdir(parents=True, exist_ok=True)
+    index_path.write_text(render_index(comps, outdir), encoding="utf-8", newline="\n")
 
 
 def main() -> int:
@@ -350,6 +396,13 @@ def main() -> int:
         "--output",
         type=Path,
         default=ROOT / "docs" / "components.md",
+        help="Index markdown path",
+    )
+    ap.add_argument(
+        "--outdir",
+        type=Path,
+        default=ROOT / "docs" / "components",
+        help="Directory for per-component markdown files",
     )
     ap.add_argument(
         "--lint",
@@ -359,10 +412,11 @@ def main() -> int:
     args = ap.parse_args()
 
     comps = collect()
-    md = render_markdown(comps)
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(md, encoding="utf-8", newline="\n")
-    print(f"Wrote {args.output.relative_to(ROOT)} ({len(comps)} components)")
+    write_docs(comps, args.output, args.outdir)
+    print(
+        f"Wrote {args.output.relative_to(ROOT)} + "
+        f"{len(comps)} pages under {args.outdir.relative_to(ROOT)}"
+    )
 
     if args.lint:
         bad = [c for c in comps if not c.internal and c.lint_errors]

@@ -1,0 +1,62 @@
+# ScatterChart
+
+Scatter / bubble chart.
+
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ScatterChart.qml`](../../src/extras/QWinUI3/Extras/ScatterChart.qml)
+
+[← Component index](../components.md)
+
+## Usage
+
+```qml
+ScatterChart { points: [{ x: 1, y: 2 }] }
+```
+
+## Properties
+
+- `points: var` — Scatter points
+- `values: var` — Numeric values array
+- `minimumX: real` — X-axis minimum
+- `maximumX: real` — X-axis maximum
+- `minimumY: real` — Y-axis minimum
+- `maximumY: real` — Y-axis maximum
+- `pointRadius: real` — Scatter point radius
+- `showGrid: bool` — Show chart grid
+- `showTrendLine: bool` — Show trend line
+- `interactive: bool` — Enable hover / click interaction
+- `animated: bool` — Play enter / reveal animation
+- `maxPoints: int` — Max points before LOD kicks in
+- `autoLod: bool` — Auto-enable LOD for large series
+- `lodFactor: real` — Level-of-detail downsample factor
+- `gridColor: color` — Grid line color
+- `pointColor: color` — Point Color
+- `trendColor: color` — Trend Color
+- `revealProgress: real` — 0..1 reveal animation progress
+- `hoverIndex: int` — Hovered item index
+- `selectedIndex: alias` — Selected index alias
+- `hoverText: string` — Tooltip / hover readout text
+- `title: string` — Primary title text
+- `emptyText: string` — Placeholder when there is no data
+- `sourcePointCount: int` — Raw point count before LOD
+- `drawnPointCount: int` — Points drawn after LOD
+- `isEmpty: bool` — True when there is no data
+- `screenPts: var` — Screen Pts
+- `padL: real` — Pad L
+- `padT: real` — Pad T
+- `plotW: real` — Plot width
+
+## Signals
+
+- `pointClicked(int index, real x, real y)` — Point Clicked
+
+## Methods
+
+- `invalidateLod()` — Invalidate Lod
+- `ensureLod(binsX, binsY)` — Ensure Lod
+- `playReveal()`
+- `requestRedraw()`
+- `clearHover()`
+- `onDataChanged()`
+
+---
+*Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

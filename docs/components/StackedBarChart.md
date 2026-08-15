@@ -1,0 +1,50 @@
+# StackedBarChart
+
+Stacked bar chart.
+
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/StackedBarChart.qml`](../../src/extras/QWinUI3/Extras/StackedBarChart.qml)
+
+[← Component index](../components.md)
+
+## Usage
+
+```qml
+StackedBarChart { series: [{ values: [1, 2] }] }
+```
+
+## Properties
+
+- `series: var` — Chart series array
+- `categories: var` — Category labels for bars
+- `minimum: real` — Minimum value
+- `maximum: real` — Maximum value
+- `barRadius: real` — Bar corner radius
+- `barGap: real` — Gap between bars
+- `showBaseline: bool` — Show zero baseline
+- `showLegend: bool` — Show chart legend
+- `showCategoryLabels: bool` — Show category axis labels
+- `interactive: bool` — Enable hover / click interaction
+- `animated: bool` — Play enter / reveal animation
+- `revealProgress: real` — 0..1 reveal animation progress
+- `hoverCategory: int` — Hover Category
+- `hoverSeries: int` — Hovered series index
+- `hoverText: string` — Tooltip / hover readout text
+- `title: string` — Primary title text
+- `emptyText: string` — Placeholder when there is no data
+- `isEmpty: bool` — True when there is no data
+- `slot: real` — Named content slot
+- `padL: real` — Left padding
+- `padB: real` — Bottom padding
+- `catCount: int` — Cat Count
+
+## Signals
+
+- `categoryClicked(int categoryIndex)` — Category Clicked
+
+## Methods
+
+- `playReveal()` — Play Reveal
+- `requestRedraw()` — Request Redraw
+
+---
+*Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*
