@@ -1,6 +1,5 @@
 import QtQuick
 import QtQuick.Templates as T
-import QtQuick.Effects
 import QWinUI3.Theme
 
 T.Dialog {
@@ -48,22 +47,13 @@ T.Dialog {
         }
     }
 
-    background: Rectangle {
+    background: ElevatedChrome {
         radius: Theme.cornerOverlay
         color: Theme.bgCard
-        border.width: 1
-        border.color: Theme.strokeCard
-
-        layer.enabled: true
-        layer.effect: MultiEffect {
-            shadowEnabled: true
-            shadowOpacity: 0.22
-            shadowColor: "#000000"
-            shadowHorizontalOffset: 0
-            shadowVerticalOffset: 8
-            shadowBlur: 1.0
-            blurMax: 32
-        }
+        borderColor: Theme.strokeCard
+        borderWidth: 1
+        elevation: 8
+        shadowOpacity: Theme.dark ? 0.36 : 0.2
     }
 
     header: T.Label {

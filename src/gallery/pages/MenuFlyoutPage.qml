@@ -20,14 +20,14 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("MenuFlyout")
-                subtitle: qsTr("A command flyout menu anchored to a control.")
+                subtitle: qsTr("Elevated command menu with isOpen, preferredPlacement, and enter/exit motion.")
             }
             ControlExample {
                 Layout.fillWidth: true
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Show at button")
-                qmlSource: "MenuFlyout {\n    MenuItem { text: \"Copy\" }\n}\nflyout.showAt(button)"
+                qmlSource: "MenuFlyout {\n    preferredPlacement: Qt.AlignBottom\n    isOpen: …\n}"
                 Button {
                     id: flyoutButton
                     text: qsTr("Open menu")
@@ -35,6 +35,7 @@ Page {
                 }
                 MenuFlyout {
                     id: demoFlyout
+                    preferredPlacement: Qt.AlignBottom
                     MenuFlyoutItem {
                         text: qsTr("Copy")
                         iconGlyph: "\uE8C8"
@@ -56,7 +57,9 @@ Page {
                     }
                 }
                 Label {
-                    text: qsTr("Last action: %1").arg(lastAction.text.length ? lastAction.text : qsTr("(none)"))
+                    text: qsTr("Open: %1 — Last: %2")
+                        .arg(demoFlyout.isOpen ? qsTr("yes") : qsTr("no"))
+                        .arg(lastAction.text.length ? lastAction.text : qsTr("(none)"))
                     color: Theme.textSecondary
                 }
                 QtObject { id: lastAction; property string text: "" }

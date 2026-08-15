@@ -5,3 +5,5 @@
 *.autosave
 .vs/
 out/
+
+.cursor/

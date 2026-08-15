@@ -20,7 +20,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("FlipView")
-                subtitle: qsTr("Swipeable pages with configurable button visibility and page indicator.")
+                subtitle: qsTr("Swipeable pages with PipsPager, selectedIndex, and wrap.")
             }
             ControlExample {
                 Layout.fillWidth: true
@@ -56,6 +56,9 @@ Page {
                         buttonVisibility: btnVis.currentText
                         wrap: wrapBox.checked
                         isIndicatorVisible: indBox.checked
+                        onSelectionChanged: function (index) {
+                            // keep label binding live
+                        }
                         Rectangle {
                             color: Theme.systemAttentionBg
                             Label {
@@ -82,7 +85,7 @@ Page {
                         }
                     }
                     Label {
-                        text: qsTr("Index: %1 / %2").arg(flip.currentIndex + 1).arg(flip.count)
+                        text: qsTr("selectedIndex: %1 / %2").arg(flip.selectedIndex + 1).arg(flip.count)
                         color: Theme.textSecondary
                     }
                 }

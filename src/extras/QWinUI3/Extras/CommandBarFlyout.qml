@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Templates as T
-import QtQuick.Effects
 import QWinUI3.Theme
 
 T.Popup {
@@ -10,21 +9,40 @@ T.Popup {
 
     readonly property alias primaryCommands: primaryRow
     readonly property alias secondaryCommands: secondaryCol
-    // Default children land in the primary command strip
     default property alias primaryData: primaryRow.data
+
+    property bool isOpen: false
+    property bool isLightDismissEnabled: true
+    property Item target: null
 
     readonly property bool showSecondary: secondaryCol.children.length > 0
 
     function showAt(item) {
-        if (item)
+        if (item) {
+            root.target = item
             root.parent = item
-        root.open()
+        }
+        root.isOpen = true
     }
+
+    function show() { isOpen = true }
+    function hide() { isOpen = false }
+
+    onIsOpenChanged: {
+        if (isOpen)
+            open()
+        else if (visible)
+            close()
+    }
+    onOpened: isOpen = true
+    onClosed: isOpen = false
 
     padding: 6
     modal: false
     dim: false
-    closePolicy: T.Popup.CloseOnEscape | T.Popup.CloseOnPressOutside
+    closePolicy: isLightDismissEnabled
+                 ? (T.Popup.CloseOnEscape | T.Popup.CloseOnPressOutside)
+                 : T.Popup.CloseOnEscape
     transformOrigin: Item.Top
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
@@ -64,22 +82,13 @@ T.Popup {
         }
     }
 
-    background: Rectangle {
-        radius: Theme.cornerOverlay
+    background: ElevatedChrome {
         color: Theme.bgCardElevated
-        border.width: 1
-        border.color: Theme.strokeCard
-
-        layer.enabled: true
-        layer.effect: MultiEffect {
-            shadowEnabled: true
-            shadowOpacity: Theme.dark ? 0.32 : 0.18
-            shadowColor: "#000000"
-            shadowHorizontalOffset: 0
-            shadowVerticalOffset: 8
-            blurMax: 28
-            autoPaddingEnabled: true
-        }
+        radius: Theme.cornerOverlay
+        borderColor: Theme.strokeCard
+        borderWidth: 1
+        elevation: 6
+        shadowOpacity: Theme.dark ? 0.32 : 0.18
     }
 
     enter: Transition {
@@ -104,7 +113,4 @@ T.Popup {
             easing.type: Theme.easingExit
         }
     }
-
-    function show() { open() }
-    function hide() { close() }
 }

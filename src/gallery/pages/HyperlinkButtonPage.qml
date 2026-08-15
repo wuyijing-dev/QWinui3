@@ -22,7 +22,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("HyperlinkButton")
-                subtitle: qsTr("Text link with NavigateUri and underlineStyle (always / onHover / never).")
+                subtitle: qsTr("Text link with icon, visited state, NavigateUri, and navigateMode.")
             }
 
             ControlExample {
@@ -30,7 +30,7 @@ Page {
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Underline styles")
-                qmlSource: "HyperlinkButton {\n    navigateUri: \"https://doc.qt.io\"\n    underlineStyle: \"onHover\"\n}"
+                qmlSource: "HyperlinkButton {\n    iconGlyph: \"\\uE8A7\"\n    navigateUri: \"https://doc.qt.io\"\n}"
 
                 ColumnLayout {
                     spacing: Theme.spacing
@@ -48,14 +48,29 @@ Page {
                         spacing: Theme.spacingLoose
                         HyperlinkButton {
                             text: qsTr("Go to docs")
+                            iconGlyph: "\uE8A7"
                             navigateUri: "https://doc.qt.io"
                             underlineStyle: underBox.currentText
+                        }
+                        HyperlinkButton {
+                            text: qsTr("Signal only")
+                            navigateMode: "signal"
+                            navigateUri: "app://settings"
+                            underlineStyle: underBox.currentText
+                            onNavigateRequested: function (target) {
+                                status.text = qsTr("navigateRequested: %1").arg(target)
+                            }
                         }
                         HyperlinkButton {
                             text: qsTr("Disabled")
                             enabled: false
                             underlineStyle: underBox.currentText
                         }
+                    }
+                    Label {
+                        id: status
+                        text: qsTr("Click a link — visited styling applies after open.")
+                        color: Theme.textSecondary
                     }
                 }
             }

@@ -20,14 +20,14 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("SearchBox")
-                subtitle: qsTr("Search field with clear button and QuerySubmitted. No suggestion popup.")
+                subtitle: qsTr("Search field with header, suggestions, clear, and QuerySubmitted.")
             }
             ControlExample {
                 Layout.fillWidth: true
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
-                headerText: qsTr("Search")
-                qmlSource: "SearchBox {\n    onQuerySubmitted: …\n}"
+                headerText: qsTr("Search + suggestions")
+                qmlSource: "SearchBox {\n    header: \"Find\"\n    model: […]\n}"
                 ColumnLayout {
                     Layout.fillWidth: true
                     Layout.maximumWidth: 360
@@ -35,16 +35,29 @@ Page {
                     SearchBox {
                         id: box
                         Layout.fillWidth: true
+                        header: qsTr("Find files")
+                        description: qsTr("Type to filter suggestions, Enter to submit.")
                         placeholderText: qsTr("Search files")
                         queryIcon: "\uE721"
+                        model: [
+                            qsTr("Documents"),
+                            qsTr("Downloads"),
+                            qsTr("Desktop"),
+                            qsTr("Pictures"),
+                            qsTr("Music"),
+                            qsTr("Videos")
+                        ]
                         onQuerySubmitted: function (query) {
                             status.text = qsTr("QuerySubmitted: %1").arg(query)
+                        }
+                        onSuggestionChosen: function (item) {
+                            status.text = qsTr("Suggestion: %1").arg(item)
                         }
                         onCleared: status.text = qsTr("Cleared")
                     }
                     Label {
                         id: status
-                        text: qsTr("Type and press Enter, or clear with the X.")
+                        text: qsTr("Type a letter to open suggestions.")
                         color: Theme.textSecondary
                     }
                 }

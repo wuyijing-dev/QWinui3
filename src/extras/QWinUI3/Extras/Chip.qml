@@ -12,6 +12,9 @@ T.AbstractButton {
     property bool highlighted: false
     property bool flat: false
     property string iconGlyph: ""
+    property string avatarText: ""
+    // filled | outline
+    property string appearance: "filled"
     // small | medium
     property string chipSize: "medium"
     signal closeClicked()
@@ -28,6 +31,9 @@ T.AbstractButton {
     font.family: Theme.fontFamily
     font.pixelSize: chipSize === "small" ? 11 : Theme.fontCaption
 
+    readonly property bool _outline: appearance === "outline"
+    readonly property bool _selected: checked || highlighted
+
     scale: down && !Theme.reducedMotion ? 0.97 : 1
     Behavior on scale {
         enabled: !Theme.reducedMotion
@@ -39,15 +45,33 @@ T.AbstractButton {
 
     contentItem: RowLayout {
         spacing: 4
+        Rectangle {
+            visible: control.avatarText.length > 0
+            Layout.preferredWidth: control.chipSize === "small" ? 18 : 22
+            Layout.preferredHeight: Layout.preferredWidth
+            Layout.alignment: Qt.AlignVCenter
+            radius: width / 2
+            color: control._selected && !control._outline ? Theme.textOnAccent : Theme.accent
+            Text {
+                anchors.centerIn: parent
+                text: control.avatarText.charAt(0).toUpperCase()
+                font.family: Theme.fontFamily
+                font.pixelSize: control.chipSize === "small" ? 9 : 11
+                font.weight: Theme.fontWeightSemiBold
+                color: control._selected && !control._outline ? Theme.accent : Theme.textOnAccent
+            }
+        }
         FontIcon {
-            visible: control.iconGlyph.length > 0
+            visible: control.iconGlyph.length > 0 && control.avatarText.length === 0
             glyph: control.iconGlyph
             fontSize: 12
             iconColor: {
                 if (!control.enabled)
                     return Theme.textDisabled
-                if (control.checked || control.highlighted)
+                if (control._selected && !control._outline)
                     return Theme.textOnAccent
+                if (control._outline && control._selected)
+                    return Theme.accent
                 return Theme.textSecondary
             }
             Layout.alignment: Qt.AlignVCenter
@@ -60,8 +84,10 @@ T.AbstractButton {
             color: {
                 if (!control.enabled)
                     return Theme.textDisabled
-                if (control.checked || control.highlighted)
+                if (control._selected && !control._outline)
                     return Theme.textOnAccent
+                if (control._outline && control._selected)
+                    return Theme.accent
                 return Theme.textPrimary
             }
             verticalAlignment: Text.AlignVCenter
@@ -80,7 +106,14 @@ T.AbstractButton {
     background: Rectangle {
         radius: height / 2
         color: {
-            if (control.checked || control.highlighted)
+            if (control._outline) {
+                if (control.down)
+                    return Theme.fillSubtle
+                if (control.hovered)
+                    return Theme.fillSubtle
+                return "transparent"
+            }
+            if (control._selected)
                 return Theme.accent
             if (!control.enabled)
                 return Theme.fillControlDisabled
@@ -90,14 +123,18 @@ T.AbstractButton {
                 return Theme.fillControlSecondary
             return Theme.fillControl
         }
-        border.width: (control.checked || control.highlighted) ? 0 : 1
-        border.color: Theme.strokeControl
+        border.width: control._outline ? (control._selected ? 2 : 1) : ((control._selected) ? 0 : 1)
+        border.color: control._outline && control._selected ? Theme.accent : Theme.strokeControl
         Behavior on color {
             enabled: !Theme.reducedMotion
             ColorAnimation {
                 duration: Theme.duration(Theme.motionFast)
                 easing.type: Theme.easingStandard
             }
+        }
+        Behavior on border.color {
+            enabled: !Theme.reducedMotion
+            ColorAnimation { duration: Theme.duration(Theme.motionFast) }
         }
 
         Rectangle {

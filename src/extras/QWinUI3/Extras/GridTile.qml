@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Templates as T
-import QtQuick.Effects
 import QWinUI3.Theme
 
 // WinUI GridView item: glyph or image, title, subtitle; optional checkable selection.
@@ -120,8 +119,7 @@ T.AbstractButton {
         }
     }
 
-    background: Rectangle {
-        radius: Theme.cornerCard
+    background: ElevatedChrome {
         color: {
             if (control.checked)
                 return Theme.fillSubtle
@@ -133,20 +131,12 @@ T.AbstractButton {
                 return Theme.fillSubtleSecondary
             return Theme.bgCard
         }
-        border.width: control.visualFocus ? 2 : 1
-        border.color: control.visualFocus ? Theme.focusOuter
+        radius: Theme.cornerCard
+        borderWidth: control.visualFocus ? 2 : 1
+        borderColor: control.visualFocus ? Theme.focusOuter
                      : (control.checked ? Theme.accent : Theme.strokeCard)
-
-        layer.enabled: true
-        layer.effect: MultiEffect {
-            shadowEnabled: true
-            shadowOpacity: Theme.dark ? 0.18 : 0.08
-            shadowColor: "#000000"
-            shadowHorizontalOffset: 0
-            shadowVerticalOffset: 2
-            blurMax: 12
-            autoPaddingEnabled: true
-        }
+        elevation: 2
+        shadowOpacity: Theme.dark ? 0.18 : 0.08
 
         Behavior on color {
             enabled: !Theme.reducedMotion
@@ -155,7 +145,7 @@ T.AbstractButton {
                 easing.type: Theme.easingStandard
             }
         }
-        Behavior on border.color {
+        Behavior on borderColor {
             enabled: !Theme.reducedMotion
             ColorAnimation {
                 duration: Theme.duration(Theme.motionFast)

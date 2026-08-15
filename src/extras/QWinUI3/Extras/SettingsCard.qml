@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Templates as T
-import QtQuick.Effects
 import QWinUI3.Theme
 
 T.Pane {
@@ -12,6 +11,7 @@ T.Pane {
     property string description: ""
     property string headerIcon: ""
     property alias action: actionSlot.data
+    property alias content: contentSlot.data
     property bool interactive: false
     property bool showChevron: interactive
     signal clicked()
@@ -20,18 +20,26 @@ T.Pane {
     implicitWidth: 420
     implicitHeight: Math.max(64, contentItem.implicitHeight + topPadding + bottomPadding)
     hoverEnabled: interactive
+    focusPolicy: interactive ? Qt.StrongFocus : Qt.NoFocus
+    activeFocusOnTab: interactive
     Accessible.role: interactive ? Accessible.Button : Accessible.Grouping
     Accessible.name: title
+    Accessible.description: description
+    Keys.onReturnPressed: if (interactive) clicked()
+    Keys.onEnterPressed: if (interactive) clicked()
+    Keys.onSpacePressed: if (interactive) clicked()
 
-    background: Rectangle {
-        radius: Theme.cornerCard
+    background: ElevatedChrome {
         color: {
             if (root.interactive && root.hovered)
                 return Theme.fillSubtle
             return Theme.bgCard
         }
-        border.width: 1
-        border.color: Theme.strokeCard
+        radius: Theme.cornerCard
+        borderWidth: root.interactive && root.activeFocus ? 2 : 1
+        borderColor: root.interactive && root.activeFocus ? Theme.accent : Theme.strokeCard
+        elevation: 2
+        shadowOpacity: Theme.dark ? 0.22 : 0.08
 
         Behavior on color {
             enabled: !Theme.reducedMotion
@@ -40,16 +48,9 @@ T.Pane {
                 easing.type: Theme.easingStandard
             }
         }
-
-        layer.enabled: true
-        layer.effect: MultiEffect {
-            shadowEnabled: true
-            shadowOpacity: Theme.dark ? 0.22 : 0.08
-            shadowColor: "#000000"
-            shadowHorizontalOffset: 0
-            shadowVerticalOffset: 2
-            blurMax: 12
-            autoPaddingEnabled: true
+        Behavior on borderColor {
+            enabled: !Theme.reducedMotion
+            ColorAnimation { duration: Theme.duration(Theme.motionFast) }
         }
     }
 
@@ -86,6 +87,14 @@ T.Pane {
                 color: Theme.textSecondary
                 wrapMode: Text.Wrap
                 Layout.fillWidth: true
+            }
+            Item {
+                id: contentSlot
+                visible: children.length > 0
+                Layout.fillWidth: true
+                Layout.topMargin: 6
+                implicitWidth: childrenRect.width
+                implicitHeight: childrenRect.height
             }
         }
 

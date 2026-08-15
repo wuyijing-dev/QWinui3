@@ -1,6 +1,5 @@
 import QtQuick
 import QtQuick.Templates as T
-import QtQuick.Effects
 import QWinUI3.Theme
 
 T.ToolTip {
@@ -15,10 +14,6 @@ T.ToolTip {
                              contentHeight + topPadding + bottomPadding)
 
     padding: 8
-    topInset: -6
-    bottomInset: -6
-    leftInset: -6
-    rightInset: -6
     delay: 400
     timeout: 5000
     closePolicy: T.Popup.CloseOnEscape | T.Popup.CloseOnPressOutsideParent
@@ -33,29 +28,14 @@ T.ToolTip {
         color: Theme.textPrimary
     }
 
-    background: Item {
+    background: ElevatedChrome {
         implicitHeight: 30
-
-        MultiEffect {
-            x: -control.leftInset
-            y: -control.topInset
-            width: source.width
-            height: source.height
-            source: Rectangle {
-                width: control.background.width + control.leftInset + control.rightInset
-                height: control.background.height + control.topInset + control.bottomInset
-                color: Theme.bgCard
-                border.width: 1
-                border.color: Theme.strokeCard
-                radius: Theme.cornerControl
-            }
-            shadowEnabled: true
-            shadowOpacity: Theme.dark ? 0.26 : 0.14
-            shadowColor: "#000000"
-            shadowHorizontalOffset: 0
-            shadowVerticalOffset: 4
-            blurMax: 24
-        }
+        color: Theme.bgCard
+        borderColor: Theme.strokeCard
+        borderWidth: 1
+        radius: Theme.cornerControl
+        elevation: 4
+        shadowOpacity: Theme.dark ? 0.26 : 0.14
     }
 
     enter: Transition {

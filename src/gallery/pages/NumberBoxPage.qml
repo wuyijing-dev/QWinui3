@@ -20,22 +20,25 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("NumberBox")
-                subtitle: qsTr("WinUI NumberBox: spin placement, LargeChange, and validation flash.")
+                subtitle: qsTr("Header/description/error, wheel, validationMode, and spin placement.")
             }
             ControlExample {
                 Layout.fillWidth: true
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
-                headerText: qsTr("Inline spins")
-                qmlSource: "NumberBox {\n    spinButtonPlacementMode: \"inline\"\n}"
+                headerText: qsTr("Header + wheel")
+                qmlSource: "NumberBox {\n    header: \"Quantity\"\n    acceptWheel: true\n}"
                 NumberBox {
-                    Layout.preferredWidth: 180
+                    Layout.preferredWidth: 220
+                    header: qsTr("Quantity")
+                    description: qsTr("Scroll or use ↑/↓. Ctrl+wheel uses largeChange.")
                     value: 5
                     minimum: 0
                     maximum: 100
                     stepSize: 1
                     largeChange: 10
                     spinButtonPlacementMode: "inline"
+                    acceptWheel: true
                 }
             }
             ControlExample {
@@ -45,12 +48,14 @@ Page {
                 headerText: qsTr("Compact (hover to reveal)")
                 qmlSource: "NumberBox {\n    spinButtonPlacementMode: \"compact\"\n}"
                 NumberBox {
-                    Layout.preferredWidth: 180
+                    Layout.preferredWidth: 220
+                    header: qsTr("Opacity")
                     value: 1.5
                     minimum: 0
                     maximum: 10
                     stepSize: 0.5
                     decimals: 1
+                    suffix: "×"
                     spinButtonPlacementMode: "compact"
                 }
             }
@@ -58,20 +63,23 @@ Page {
                 Layout.fillWidth: true
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
-                headerText: qsTr("Hidden spins + keyboard")
-                qmlSource: "NumberBox {\n    spinButtonPlacementMode: \"hidden\"\n}"
+                headerText: qsTr("Validation")
+                qmlSource: "NumberBox {\n    validationMode: \"invalidInputOverValue\"\n}"
                 ColumnLayout {
                     spacing: Theme.spacing
                     NumberBox {
-                        Layout.preferredWidth: 180
+                        Layout.preferredWidth: 220
+                        header: qsTr("Score")
                         value: 3
                         minimum: 0
                         maximum: 10
                         largeChange: 2
                         spinButtonPlacementMode: "hidden"
+                        validationMode: "invalidInputOverValue"
+                        errorMessage: ""
                     }
                     Label {
-                        text: qsTr("↑/↓ step, PageUp/PageDown largeChange. Out-of-range Enter flashes critical border.")
+                        text: qsTr("Out-of-range Enter flashes critical border. Wheel and PageUp/PageDown supported.")
                         color: Theme.textSecondary
                         wrapMode: Text.Wrap
                         Layout.fillWidth: true

@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Templates as T
-import QtQuick.Effects
 import QWinUI3.Theme
 
 // Button that previews a color and opens an embedded ColorPicker flyout.
@@ -13,7 +12,22 @@ T.AbstractButton {
     property bool pickerOpen: false
     property alias isOpen: control.pickerOpen
     property bool showAlpha: false
+    property bool showHexLabel: true
+    property int flyoutPlacement: Qt.AlignBottom
     signal colorChosen(color color)
+
+    readonly property string hexText: {
+        function hex2(n) {
+            var v = Math.max(0, Math.min(255, Math.round(n * 255)))
+            var s = v.toString(16).toUpperCase()
+            return s.length < 2 ? ("0" + s) : s
+        }
+        var c = selectedColor
+        var base = "#" + hex2(c.r) + hex2(c.g) + hex2(c.b)
+        if (showAlpha && c.a < 0.999)
+            return base + hex2(c.a)
+        return base
+    }
 
     implicitWidth: Math.max(120, contentItem.implicitWidth + leftPadding + rightPadding)
     implicitHeight: Theme.controlHeight
@@ -23,6 +37,9 @@ T.AbstractButton {
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     text: qsTr("Color")
+    Accessible.role: Accessible.Button
+    Accessible.name: text + " " + hexText
+    Accessible.description: qsTr("Selected color %1").arg(hexText)
 
     function open() { pickerOpen = true }
     function close() { pickerOpen = false }
@@ -43,6 +60,14 @@ T.AbstractButton {
             text: control.text
             font: control.font
             color: control.enabled ? Theme.textPrimary : Theme.textDisabled
+            verticalAlignment: Text.AlignVCenter
+        }
+        Text {
+            visible: control.showHexLabel
+            text: control.hexText
+            font.family: Theme.fontFamily
+            font.pixelSize: Theme.fontCaption
+            color: Theme.textSecondary
             verticalAlignment: Text.AlignVCenter
         }
         Text {
@@ -79,27 +104,41 @@ T.AbstractButton {
 
     Popup {
         id: popup
-        y: control.height + 4
+        x: {
+            switch (control.flyoutPlacement) {
+            case Qt.AlignRight: return control.width + 4
+            case Qt.AlignLeft: return -implicitWidth - 4
+            default: return 0
+            }
+        }
+        y: {
+            switch (control.flyoutPlacement) {
+            case Qt.AlignTop: return -implicitHeight - 4
+            case Qt.AlignRight:
+            case Qt.AlignLeft: return 0
+            default: return control.height + 4
+            }
+        }
         padding: 0
         visible: control.pickerOpen
         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
         onClosed: control.pickerOpen = false
-        transformOrigin: Item.Top
+        transformOrigin: {
+            switch (control.flyoutPlacement) {
+            case Qt.AlignTop: return Item.Bottom
+            case Qt.AlignLeft: return Item.Right
+            case Qt.AlignRight: return Item.Left
+            default: return Item.Top
+            }
+        }
 
-        background: Rectangle {
+        background: ElevatedChrome {
             color: Theme.bgCardElevated
             radius: Theme.cornerOverlay
-            border.width: 1
-            border.color: Theme.strokeCard
-            layer.enabled: true
-            layer.effect: MultiEffect {
-                shadowEnabled: true
-                shadowOpacity: Theme.dark ? 0.28 : 0.14
-                shadowColor: "#000000"
-                shadowVerticalOffset: 8
-                blurMax: 28
-                autoPaddingEnabled: true
-            }
+            borderColor: Theme.strokeCard
+            borderWidth: 1
+            elevation: 6
+            shadowOpacity: Theme.dark ? 0.28 : 0.14
         }
 
         contentItem: ColorPicker {
@@ -108,6 +147,29 @@ T.AbstractButton {
             onColorChosen: function (c) {
                 control.selectedColor = c
                 control.colorChosen(c)
+            }
+        }
+
+        enter: Transition {
+            NumberAnimation {
+                property: "opacity"
+                from: 0; to: 1
+                duration: Theme.duration(Theme.motionNormal)
+                easing.type: Theme.easingEnter
+            }
+            NumberAnimation {
+                property: "scale"
+                from: 0.96; to: 1
+                duration: Theme.duration(Theme.motionNormal)
+                easing.type: Theme.easingEnter
+            }
+        }
+        exit: Transition {
+            NumberAnimation {
+                property: "opacity"
+                from: 1; to: 0
+                duration: Theme.duration(Theme.motionFast)
+                easing.type: Theme.easingExit
             }
         }
     }

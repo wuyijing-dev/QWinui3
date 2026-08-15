@@ -1,6 +1,5 @@
 import QtQuick
 import QtQuick.Templates as T
-import QtQuick.Effects
 import QWinUI3.Theme
 import QWinUI3.Platform
 
@@ -34,11 +33,14 @@ T.Pane {
     implicitWidth: 280
     implicitHeight: 160
 
-    background: Rectangle {
-        radius: root.cornerRadius
+    background: ElevatedChrome {
         color: Qt.rgba(root.tintColor.r, root.tintColor.g, root.tintColor.b, root.frostOpacity)
-        border.width: root.bordered ? 1 : 0
-        border.color: Theme.strokeCard
+        radius: root.cornerRadius
+        borderWidth: root.bordered ? 1 : 0
+        borderColor: Theme.strokeCard
+        elevated: root.elevated
+        elevation: 4
+        shadowOpacity: Theme.dark ? 0.28 : 0.10
 
         Rectangle {
             visible: root.showLuminantEdge
@@ -50,17 +52,6 @@ T.Pane {
             radius: 1
             color: Theme.dark ? "#18FFFFFF" : "#22FFFFFF"
             opacity: 0.8
-        }
-
-        layer.enabled: root.elevated
-        layer.effect: MultiEffect {
-            shadowEnabled: true
-            shadowOpacity: Theme.dark ? 0.28 : 0.10
-            shadowColor: "#000000"
-            shadowHorizontalOffset: 0
-            shadowVerticalOffset: 4
-            blurMax: 18
-            autoPaddingEnabled: true
         }
     }
 }

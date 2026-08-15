@@ -29,8 +29,7 @@ T.Control {
     font.pixelSize: 18
     Accessible.role: Accessible.Slider
     Accessible.name: caption.length ? caption : qsTr("Rating")
-    Accessible.value: Math.round(value * 10) / 10
-    Accessible.valueText: qsTr("%1 of %2").arg(value).arg(maxRating)
+    Accessible.description: qsTr("%1 of %2").arg(Math.round(value * 10) / 10).arg(maxRating)
 
     readonly property real _displayValue: {
         if (!readOnly && previewEnabled && previewValue >= 0)

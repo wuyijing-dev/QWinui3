@@ -20,24 +20,31 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("TokenizingTextBox")
-                subtitle: qsTr("Turns entries into tokens. Supports maxTokens and delimiter characters (, ;).")
+                subtitle: qsTr("Token field with header, validation error, maxTokens, and delimiters.")
             }
             ControlExample {
                 Layout.fillWidth: true
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Tags with suggestions")
-                qmlSource: "TokenizingTextBox {\n    maxTokens: 6\n    tokenDelimiters: \",;\"\n}"
+                qmlSource: "TokenizingTextBox {\n    header: \"Labels\"\n    maxTokens: 6\n}"
                 ColumnLayout {
                     Layout.fillWidth: true
                     Layout.maximumWidth: 480
                     spacing: Theme.spacing
+                    CheckBox {
+                        id: errBox
+                        text: qsTr("Show error")
+                    }
                     TokenizingTextBox {
                         id: box
                         Layout.fillWidth: true
+                        header: qsTr("Labels")
+                        description: qsTr("Press Enter or type , / ; to commit.")
                         tokens: [qsTr("Work")]
                         maxTokens: 6
                         tokenDelimiters: ",;"
+                        errorMessage: errBox.checked ? qsTr("Choose at least one label.") : ""
                         suggestionModel: [
                             qsTr("Design"), qsTr("Engineering"), qsTr("Research"),
                             qsTr("Personal"), qsTr("Urgent"), qsTr("Later")
@@ -50,7 +57,7 @@ Page {
                     }
                     Label {
                         id: status
-                        text: qsTr("Press Enter or type , / ; to commit. Max 6 tokens.")
+                        text: qsTr("Max 6 tokens.")
                         color: Theme.textSecondary
                     }
                 }

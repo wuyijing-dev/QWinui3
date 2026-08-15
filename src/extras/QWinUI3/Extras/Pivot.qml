@@ -5,13 +5,14 @@ import QtQuick.Templates as T
 import QWinUI3.Theme
 
 // WinUI Pivot: header tabs with sliding underline and stacked pages.
-// model: [{ title, icon?, content }] or string titles with empty pages
+// model: string | { title, icon?, content?, page?: Component }
 T.Control {
     id: control
 
     property var model: []
     property int currentIndex: 0
     property alias selectedIndex: control.currentIndex
+    property bool keyboardNavigationEnabled: true
     signal currentIndexChangedByUser(int index)
     signal selectionChanged(int index)
 
@@ -19,8 +20,36 @@ T.Control {
     implicitHeight: 280
     padding: 0
     spacing: 0
+    focusPolicy: Qt.StrongFocus
+    activeFocusOnTab: true
 
     onCurrentIndexChanged: selectionChanged(currentIndex)
+
+    Keys.onLeftPressed: {
+        if (!keyboardNavigationEnabled || model.length === 0)
+            return
+        var next = Math.max(0, currentIndex - 1)
+        if (next !== currentIndex) {
+            currentIndex = next
+            currentIndexChangedByUser(next)
+        }
+    }
+    Keys.onRightPressed: {
+        if (!keyboardNavigationEnabled || model.length === 0)
+            return
+        var next = Math.min(model.length - 1, currentIndex + 1)
+        if (next !== currentIndex) {
+            currentIndex = next
+            currentIndexChangedByUser(next)
+        }
+    }
+
+    function selectIndex(index) {
+        if (index < 0 || index >= model.length)
+            return
+        currentIndex = index
+        currentIndexChangedByUser(index)
+    }
 
     contentItem: ColumnLayout {
         spacing: 0
@@ -51,10 +80,7 @@ T.Control {
                         hoverEnabled: true
                         checkable: true
                         checked: index === control.currentIndex
-                        onClicked: {
-                            control.currentIndex = index
-                            control.currentIndexChangedByUser(index)
-                        }
+                        onClicked: control.selectIndex(index)
 
                         readonly property string _icon: typeof modelData === "string"
                                                        ? "" : (modelData.icon || "")
@@ -78,7 +104,6 @@ T.Control {
                                 }
                             }
                             Text {
-                                id: label
                                 anchors.verticalCenter: parent.verticalCenter
                                 text: tab._title
                                 font.family: Theme.fontFamily
@@ -129,6 +154,7 @@ T.Control {
         }
 
         StackLayout {
+            id: stack
             Layout.fillWidth: true
             Layout.fillHeight: true
             currentIndex: control.currentIndex
@@ -136,16 +162,49 @@ T.Control {
             Repeater {
                 model: control.model
                 Item {
+                    id: pageHost
                     required property var modelData
+                    required property int index
+
+                    readonly property bool hasPage: typeof modelData === "object"
+                                                   && modelData !== null
+                                                   && modelData.page !== undefined
+                                                   && modelData.page !== null
+
+                    Loader {
+                        id: pageLoader
+                        anchors.fill: parent
+                        anchors.margins: 12
+                        active: pageHost.hasPage
+                        sourceComponent: pageHost.hasPage ? modelData.page : null
+                        opacity: control.currentIndex === pageHost.index ? 1 : 0
+                        Behavior on opacity {
+                            enabled: !Theme.reducedMotion
+                            NumberAnimation {
+                                duration: Theme.duration(Theme.motionNormal)
+                                easing.type: Theme.easingStandard
+                            }
+                        }
+                    }
+
                     Label {
                         anchors.centerIn: parent
                         width: parent.width - 48
+                        visible: !pageHost.hasPage || pageLoader.status !== Loader.Ready
                         wrapMode: Text.Wrap
                         horizontalAlignment: Text.AlignHCenter
                         color: Theme.textSecondary
+                        opacity: control.currentIndex === pageHost.index ? 1 : 0
                         text: typeof modelData === "string"
                               ? modelData
                               : (modelData.content || modelData.title || "")
+                        Behavior on opacity {
+                            enabled: !Theme.reducedMotion
+                            NumberAnimation {
+                                duration: Theme.duration(Theme.motionNormal)
+                                easing.type: Theme.easingStandard
+                            }
+                        }
                     }
                 }
             }

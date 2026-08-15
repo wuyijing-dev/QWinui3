@@ -12,6 +12,21 @@ T.AbstractButton {
     property bool flat: true
     // Override CommandBar.defaultLabelPosition when set (bottom | right | collapsed)
     property string labelPosition: ""
+    property string toolTipText: ""
+    property bool badgeVisible: false
+    property int badgeValue: 0
+    property string badgeText: ""
+    property int badgeMaxValue: 99
+
+    readonly property string _badgeLabel: {
+        if (badgeText.length)
+            return badgeText
+        if (badgeValue <= 0)
+            return ""
+        if (badgeValue > badgeMaxValue)
+            return badgeMaxValue + "+"
+        return String(badgeValue)
+    }
 
     readonly property string effectiveLabelPosition: {
         if (control.labelPosition.length)
@@ -50,6 +65,8 @@ T.AbstractButton {
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontCaption
     checkable: false
+    ToolTip.visible: hovered && toolTipText.length > 0
+    ToolTip.text: toolTipText
 
     contentItem: GridLayout {
         columns: control._labelRight ? 2 : 1
@@ -120,6 +137,28 @@ T.AbstractButton {
             ColorAnimation {
                 duration: Theme.duration(Theme.motionFast)
                 easing.type: Theme.easingStandard
+            }
+        }
+
+        Rectangle {
+            visible: control.badgeVisible || control._badgeLabel.length > 0
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.margins: -2
+            width: Math.max(16, badgeLabel.implicitWidth + 8)
+            height: 16
+            radius: 8
+            color: Theme.systemCritical
+            z: 2
+            Text {
+                id: badgeLabel
+                anchors.centerIn: parent
+                text: control._badgeLabel.length ? control._badgeLabel : ""
+                font.family: Theme.fontFamily
+                font.pixelSize: 10
+                font.weight: Theme.fontWeightSemiBold
+                color: Theme.textOnAccent
+                visible: text.length > 0
             }
         }
     }

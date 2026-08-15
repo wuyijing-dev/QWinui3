@@ -9,6 +9,7 @@ qt_add_qml_module(qwinui3_theme
     VERSION 1.0
     QML_FILES
         Theme.qml
+        ElevatedChrome.qml
 )
 
 target_link_libraries(qwinui3_theme

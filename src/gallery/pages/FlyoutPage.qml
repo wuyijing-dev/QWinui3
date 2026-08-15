@@ -22,7 +22,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("Flyout")
-                subtitle: qsTr("Lightweight contextual UI. Use showAt() and isLightDismissEnabled.")
+                subtitle: qsTr("Lightweight contextual UI. Use isOpen / showAt() and isLightDismissEnabled.")
             }
 
             ControlExample {
@@ -30,7 +30,7 @@ Page {
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("A simple Flyout")
-                qmlSource: "flyout.showAt(btn, Qt.AlignBottom)"
+                qmlSource: "flyout.isOpen = true  // or showAt(btn)"
 
                 ColumnLayout {
                     spacing: Theme.spacing
@@ -53,6 +53,10 @@ Page {
                             text: qsTr("Light dismiss")
                             checked: true
                         }
+                        Label {
+                            text: flyout.isOpen ? qsTr("isOpen: true") : qsTr("isOpen: false")
+                            color: Theme.textSecondary
+                        }
                     }
                     Button {
                         id: flyoutBtn
@@ -68,9 +72,9 @@ Page {
                                 color: Theme.textPrimary
                             }
                             Button {
-                                text: qsTr("Action")
+                                text: qsTr("Hide")
                                 highlighted: true
-                                onClicked: flyout.close()
+                                onClicked: flyout.hide()
                             }
                         }
                     }

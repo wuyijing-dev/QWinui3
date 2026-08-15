@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Templates as T
-import QtQuick.Effects
 import QWinUI3.Theme
 
 // WinUI ContentDialog: single compact column (title → body → actions).
@@ -69,22 +68,13 @@ T.Dialog {
         }
     }
 
-    background: Rectangle {
-        radius: Theme.cornerOverlay
+    background: ElevatedChrome {
         color: Theme.bgCard
-        border.width: 1
-        border.color: Theme.strokeCard
-
-        layer.enabled: true
-        layer.effect: MultiEffect {
-            shadowEnabled: true
-            shadowOpacity: 0.22
-            shadowColor: "#000000"
-            shadowHorizontalOffset: 0
-            shadowVerticalOffset: 8
-            shadowBlur: 1.0
-            blurMax: 32
-        }
+        radius: Theme.cornerOverlay
+        borderColor: Theme.strokeCard
+        borderWidth: 1
+        elevation: 8
+        shadowOpacity: 0.22
     }
 
     contentItem: ColumnLayout {

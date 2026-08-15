@@ -20,32 +20,32 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("Chip")
-                subtitle: qsTr("Compact selectable or closable tag. Supports chipSize small/medium.")
+                subtitle: qsTr("Selectable or closable tag with filled/outline appearance and avatar.")
             }
             ControlExample {
                 Layout.fillWidth: true
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Selectable")
-                qmlSource: "Chip { text: \"Design\"; chipSize: \"medium\" }"
+                qmlSource: "Chip {\n    appearance: \"outline\"\n    avatarText: \"A\"\n}"
                 ColumnLayout {
                     spacing: Theme.spacing
-                    Label { text: qsTr("Medium"); color: Theme.textSecondary }
+                    Label { text: qsTr("Filled"); color: Theme.textSecondary }
                     Flow {
                         Layout.fillWidth: true
                         spacing: Theme.spacing
                         Chip { text: qsTr("Design"); iconGlyph: "\uE790"; checked: true }
                         Chip { text: qsTr("Engineering"); iconGlyph: "\uE943" }
-                        Chip { text: qsTr("Research"); iconGlyph: "\uE721" }
+                        Chip { text: qsTr("Alex"); avatarText: "A"; checked: true }
                         Chip { text: qsTr("Disabled"); enabled: false }
                     }
-                    Label { text: qsTr("Small"); color: Theme.textSecondary }
+                    Label { text: qsTr("Outline"); color: Theme.textSecondary }
                     Flow {
                         Layout.fillWidth: true
                         spacing: Theme.spacing
-                        Chip { text: qsTr("A"); chipSize: "small"; checked: true }
-                        Chip { text: qsTr("B"); chipSize: "small" }
-                        Chip { text: qsTr("C"); chipSize: "small"; closable: true; checkable: false }
+                        Chip { text: qsTr("Outline"); appearance: "outline"; checked: true }
+                        Chip { text: qsTr("Tag"); appearance: "outline"; iconGlyph: "\uE8EC" }
+                        Chip { text: qsTr("B"); appearance: "outline"; avatarText: "B"; chipSize: "small" }
                     }
                 }
             }

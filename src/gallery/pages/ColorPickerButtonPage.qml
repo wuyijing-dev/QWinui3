@@ -20,19 +20,24 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("ColorPickerButton")
-                subtitle: qsTr("Preview swatch with ColorPicker flyout. Supports showAlpha and isOpen.")
+                subtitle: qsTr("Swatch, hex label, flyoutPlacement, showAlpha, and isOpen.")
             }
             ControlExample {
                 Layout.fillWidth: true
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Accent")
-                qmlSource: "ColorPickerButton {\n    showAlpha: true\n}"
+                qmlSource: "ColorPickerButton {\n    showHexLabel: true\n    flyoutPlacement: Qt.AlignBottom\n}"
                 ColumnLayout {
                     spacing: Theme.spacing
                     CheckBox {
                         id: alphaBox
                         text: qsTr("Show alpha")
+                    }
+                    CheckBox {
+                        id: hexBox
+                        text: qsTr("Show hex on button")
+                        checked: true
                     }
                     RowLayout {
                         spacing: Theme.spacingLoose
@@ -40,9 +45,11 @@ Page {
                             id: colorBtn
                             selectedColor: Theme.accent
                             showAlpha: alphaBox.checked
+                            showHexLabel: hexBox.checked
+                            flyoutPlacement: Qt.AlignBottom
                         }
                         Label {
-                            text: String(colorBtn.selectedColor).toUpperCase()
+                            text: qsTr("Open: %1").arg(colorBtn.isOpen ? qsTr("yes") : qsTr("no"))
                             color: Theme.textSecondary
                         }
                     }

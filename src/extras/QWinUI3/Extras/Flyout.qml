@@ -1,16 +1,16 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Templates as T
-import QtQuick.Effects
 import QWinUI3.Theme
 
 T.Popup {
     id: root
 
     property int placement: Qt.AlignBottom
+    property alias preferredPlacement: root.placement
     property Item target: null
-    // WinUI IsLightDismissEnabled
     property bool isLightDismissEnabled: true
+    property bool isOpen: false
     default property alias contentData: body.data
 
     padding: 12
@@ -24,6 +24,15 @@ T.Popup {
 
     implicitWidth: Math.max(180, contentItem.implicitWidth + leftPadding + rightPadding)
     implicitHeight: contentItem.implicitHeight + topPadding + bottomPadding
+
+    onIsOpenChanged: {
+        if (isOpen)
+            open()
+        else if (visible)
+            close()
+    }
+    onOpened: isOpen = true
+    onClosed: isOpen = false
 
     transformOrigin: {
         switch (placement) {
@@ -41,8 +50,11 @@ T.Popup {
         }
         if (place !== undefined && place !== null)
             root.placement = place
-        root.open()
+        root.isOpen = true
     }
+
+    function show() { isOpen = true }
+    function hide() { isOpen = false }
 
     x: {
         if (!parent)
@@ -69,22 +81,13 @@ T.Popup {
         spacing: Theme.spacing
     }
 
-    background: Rectangle {
-        radius: Theme.cornerOverlay
+    background: ElevatedChrome {
         color: Theme.bgCard
-        border.width: 1
-        border.color: Theme.strokeCard
-
-        layer.enabled: true
-        layer.effect: MultiEffect {
-            shadowEnabled: true
-            shadowOpacity: Theme.dark ? 0.28 : 0.16
-            shadowColor: "#000000"
-            shadowHorizontalOffset: 0
-            shadowVerticalOffset: 8
-            blurMax: 28
-            autoPaddingEnabled: true
-        }
+        radius: Theme.cornerOverlay
+        borderColor: Theme.strokeCard
+        borderWidth: 1
+        elevation: 6
+        shadowOpacity: Theme.dark ? 0.28 : 0.16
     }
 
     enter: Transition {

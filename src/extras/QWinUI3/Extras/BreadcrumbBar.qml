@@ -9,9 +9,12 @@ T.Control {
     id: root
 
     property var model: []
-    property int currentIndex: Math.max(0, model.length - 1)
+    property int currentIndex: Math.max(0, (model ? model.length : 1) - 1)
     // Collapse middle crumbs when count exceeds this (0 = show all)
     property int maxVisibleItems: 0
+    // WinUI: current/last crumb is usually non-interactive
+    property bool lastItemClickable: false
+    property string separatorGlyph: "\uE76C"
     signal itemClicked(int index)
     // WinUI ItemInvoked
     signal itemInvoked(int index)
@@ -21,6 +24,8 @@ T.Control {
     padding: 0
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
+    Accessible.role: Accessible.List
+    Accessible.name: qsTr("Breadcrumb")
 
     readonly property var visibleModel: {
         var m = root.model || []
@@ -57,6 +62,18 @@ T.Control {
         return (data && data.title) ? data.title : ""
     }
 
+    function isCurrent(index) {
+        return !isNaN(index) && index >= 0 && index === root.currentIndex
+    }
+
+    function isClickable(entry) {
+        if (!entry || entry.ellipsis)
+            return true
+        if (isCurrent(entry.index) && !root.lastItemClickable)
+            return false
+        return true
+    }
+
     contentItem: RowLayout {
         id: row
         spacing: 4
@@ -71,7 +88,7 @@ T.Control {
 
                 Text {
                     visible: index > 0
-                    text: "\uE76C"
+                    text: root.separatorGlyph
                     font.family: Theme.fontFamilyIcon
                     font.pixelSize: 10
                     color: Theme.textSecondary
@@ -79,9 +96,19 @@ T.Control {
 
                 AbstractButton {
                     id: crumb
-                    hoverEnabled: true
-                    focusPolicy: Qt.StrongFocus
+                    hoverEnabled: root.isClickable(modelData)
+                    enabled: true
+                    focusPolicy: root.isClickable(modelData) ? Qt.StrongFocus : Qt.NoFocus
+                    Accessible.role: Accessible.ListItem
+                    Accessible.name: modelData.ellipsis
+                                     ? qsTr("More breadcrumbs")
+                                     : root.crumbTitle(modelData.data)
+                    Accessible.description: root.isCurrent(modelData.index)
+                                            ? qsTr("Current location")
+                                            : ""
                     onClicked: {
+                        if (!root.isClickable(modelData) && !modelData.ellipsis)
+                            return
                         if (modelData.ellipsis) {
                             overflowMenu.popup(crumb, 0, crumb.height + 4)
                             return
@@ -90,7 +117,7 @@ T.Control {
                         root.itemClicked(modelData.index)
                         root.itemInvoked(modelData.index)
                     }
-                    scale: down && !Theme.reducedMotion ? 0.96 : 1
+                    scale: down && !Theme.reducedMotion && root.isClickable(modelData) ? 0.96 : 1
                     Behavior on scale {
                         enabled: !Theme.reducedMotion
                         NumberAnimation {
@@ -143,6 +170,8 @@ T.Control {
                     background: Rectangle {
                         radius: Theme.cornerControl
                         color: {
+                            if (!root.isClickable(modelData) && !modelData.ellipsis)
+                                return "transparent"
                             if (crumb.down)
                                 return Theme.fillSubtleTertiary
                             if (crumb.hovered || crumb.visualFocus)

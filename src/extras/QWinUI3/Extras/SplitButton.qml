@@ -12,10 +12,12 @@ T.AbstractButton {
     property bool highlighted: false
     property bool flat: false
     property int flyoutPlacement: Qt.AlignBottom
+    property string iconGlyph: ""
+    property alias isOpen: popupMenu.visible
     signal primaryClicked()
 
     implicitWidth: Math.max(Theme.controlMinWidth,
-                            primaryLabel.implicitWidth + 32 + Theme.paddingControlH * 2 + 8)
+                            primaryRow.implicitWidth + 32 + Theme.paddingControlH * 2 + 8)
     implicitHeight: Theme.controlHeight
     hoverEnabled: true
     font.family: Theme.fontFamily
@@ -101,20 +103,35 @@ T.AbstractButton {
                 hoverEnabled: true
                 onClicked: control.primaryClicked()
 
-                contentItem: Text {
-                    id: primaryLabel
-                    text: control.text
-                    font.family: control.font.family
-                    font.pixelSize: control.font.pixelSize
-                    color: control.__text
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
+                contentItem: Row {
+                    id: primaryRow
+                    spacing: 8
+                    anchors.centerIn: parent
+                    Text {
+                        visible: control.iconGlyph.length > 0
+                        text: control.iconGlyph
+                        font.family: Theme.fontFamilyIcon
+                        font.pixelSize: 14
+                        color: control.__text
+                        verticalAlignment: Text.AlignVCenter
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
+                    Text {
+                        id: primaryLabel
+                        text: control.text
+                        font.family: control.font.family
+                        font.pixelSize: control.font.pixelSize
+                        color: control.__text
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        anchors.verticalCenter: parent.verticalCenter
 
-                    Behavior on color {
-                        enabled: !Theme.reducedMotion
-                        ColorAnimation {
-                            duration: Theme.duration(Theme.motionNormal)
-                            easing.type: Theme.easingStandard
+                        Behavior on color {
+                            enabled: !Theme.reducedMotion
+                            ColorAnimation {
+                                duration: Theme.duration(Theme.motionNormal)
+                                easing.type: Theme.easingStandard
+                            }
                         }
                     }
                 }

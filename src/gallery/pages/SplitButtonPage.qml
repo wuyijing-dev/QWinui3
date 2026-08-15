@@ -20,20 +20,22 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("SplitButton")
-                subtitle: qsTr("Primary action plus flyout. Supports showMenu() and flyoutPlacement.")
+                subtitle: qsTr("Primary action plus flyout. Supports iconGlyph, isOpen, and flyoutPlacement.")
             }
             ControlExample {
                 Layout.fillWidth: true
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Save options")
-                qmlSource: "SplitButton {\n    text: \"Save\"\n    highlighted: true\n}"
+                qmlSource: "SplitButton {\n    text: \"Save\"\n    iconGlyph: \"\\uE74E\"\n}"
                 ColumnLayout {
                     spacing: Theme.spacing
                     RowLayout {
                         spacing: Theme.spacingLoose
                         SplitButton {
+                            id: saveBtn
                             text: qsTr("Save")
+                            iconGlyph: "\uE74E"
                             onPrimaryClicked: status.text = qsTr("Saved")
                             MenuItem {
                                 text: qsTr("Save")
@@ -50,6 +52,7 @@ Page {
                         }
                         SplitButton {
                             text: qsTr("Publish")
+                            iconGlyph: "\uE74A"
                             highlighted: true
                             onPrimaryClicked: status.text = qsTr("Published")
                             MenuItem { text: qsTr("Publish now"); onTriggered: status.text = qsTr("Published") }
@@ -58,7 +61,7 @@ Page {
                     }
                     Label {
                         id: status
-                        text: qsTr("Ready")
+                        text: qsTr("Ready — menu open: %1").arg(saveBtn.isOpen ? qsTr("yes") : qsTr("no"))
                         color: Theme.textSecondary
                     }
                 }

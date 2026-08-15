@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Templates as T
-import QtQuick.Effects
 import QWinUI3.Theme
 
 T.Control {
@@ -23,33 +22,23 @@ T.Control {
     font.pixelSize: Theme.fontBody
     hoverEnabled: isClickable
 
-    background: Rectangle {
-        radius: Theme.cornerCard
+    background: ElevatedChrome {
         color: {
             if (control.isClickable && control.hovered)
                 return Theme.fillSubtle
             return Theme.bgCardElevated
         }
-        border.width: 1
-        border.color: Theme.strokeCard
+        radius: Theme.cornerCard
+        borderColor: Theme.strokeCard
+        borderWidth: 1
+        elevation: 4
+        shadowOpacity: Theme.dark ? 0.28 : 0.12
+        scale: control.isClickable && control._pressed ? 0.99 : 1
 
         Behavior on color {
             enabled: !Theme.reducedMotion
             ColorAnimation { duration: Theme.duration(Theme.motionFast) }
         }
-
-        layer.enabled: true
-        layer.effect: MultiEffect {
-            shadowEnabled: true
-            shadowOpacity: Theme.dark ? 0.28 : 0.12
-            shadowColor: "#000000"
-            shadowHorizontalOffset: 0
-            shadowVerticalOffset: 4
-            blurMax: 18
-            autoPaddingEnabled: true
-        }
-
-        scale: control.isClickable && control._pressed ? 0.99 : 1
     }
 
     property bool _pressed: false

@@ -12,12 +12,16 @@ T.Control {
     property alias maximumLength: field.maximumLength
     property string header: ""
     property string description: ""
+    property string errorMessage: ""
+    property bool clearButtonVisible: false
     // WinUI PasswordRevealMode: peek | hidden | visible
     property string passwordRevealMode: "peek"
     property bool revealPassword: false
     property bool revealButtonVisible: passwordRevealMode !== "hidden" && passwordRevealMode !== "visible"
     property alias echoMode: field.echoMode
+    readonly property bool hasError: errorMessage.length > 0
     signal accepted()
+    signal cleared()
 
     implicitWidth: Math.max(200, field.implicitWidth + leftPadding + rightPadding)
     implicitHeight: column.implicitHeight
@@ -25,6 +29,11 @@ T.Control {
     rightPadding: 0
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
+
+    function clear() {
+        field.clear()
+        cleared()
+    }
 
     onPasswordRevealModeChanged: {
         if (passwordRevealMode === "visible")
@@ -47,7 +56,7 @@ T.Control {
             color: root.enabled ? Theme.textPrimary : Theme.textDisabled
         }
         Text {
-            visible: root.description.length > 0
+            visible: root.description.length > 0 && !root.hasError
             Layout.fillWidth: true
             text: root.description
             font.family: root.font.family
@@ -65,8 +74,33 @@ T.Control {
                 anchors.fill: parent
                 echoMode: root.revealPassword ? TextInput.Normal : TextInput.Password
                 passwordCharacter: "\u25CF"
-                rightPadding: root.revealButtonVisible ? 36 : Theme.paddingControlH
+                rightPadding: (root.revealButtonVisible ? 36 : 0)
+                            + (clearBtn.visible ? 32 : 0)
+                            + (root.revealButtonVisible || clearBtn.visible ? 0 : Theme.paddingControlH)
                 onAccepted: root.accepted()
+            }
+
+            ToolButton {
+                id: clearBtn
+                visible: root.clearButtonVisible && field.text.length > 0
+                anchors.right: revealBtn.visible ? revealBtn.left : parent.right
+                anchors.verticalCenter: parent.verticalCenter
+                width: 32
+                height: 32
+                text: "\uE711"
+                font.family: Theme.fontFamilyIcon
+                font.pixelSize: 10
+                opacity: visible ? 1 : 0
+                onClicked: root.clear()
+                Behavior on opacity {
+                    enabled: !Theme.reducedMotion
+                    NumberAnimation { duration: Theme.duration(Theme.motionFast) }
+                }
+                background: Rectangle {
+                    radius: Theme.cornerControl
+                    color: clearBtn.down ? Theme.fillSubtleTertiary
+                         : (clearBtn.hovered ? Theme.fillSubtle : "transparent")
+                }
             }
 
             ToolButton {
@@ -79,12 +113,16 @@ T.Control {
                 text: root.revealPassword ? "\uED1A" : "\uE890"
                 font.family: Theme.fontFamilyIcon
                 font.pixelSize: 14
+                scale: down && !Theme.reducedMotion ? 0.92 : 1
                 ToolTip.visible: hovered
                 ToolTip.text: root.passwordRevealMode === "peek"
                               ? qsTr("Hold to show password")
                               : (root.revealPassword ? qsTr("Hide password") : qsTr("Show password"))
+                Behavior on scale {
+                    enabled: !Theme.reducedMotion
+                    NumberAnimation { duration: Theme.duration(Theme.motionFast) }
+                }
 
-                // Peek: press to show, release to hide. Otherwise toggle.
                 onPressed: {
                     if (root.passwordRevealMode === "peek")
                         root.revealPassword = true
@@ -115,6 +153,16 @@ T.Control {
                     }
                 }
             }
+        }
+
+        Text {
+            visible: root.hasError
+            Layout.fillWidth: true
+            text: root.errorMessage
+            font.family: root.font.family
+            font.pixelSize: Theme.fontCaption
+            color: Theme.systemCritical
+            wrapMode: Text.Wrap
         }
     }
 

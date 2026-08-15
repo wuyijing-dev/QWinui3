@@ -11,6 +11,8 @@ T.AbstractButton {
     default property alias menuData: popupMenu.contentData
     property bool highlighted: false
     property int flyoutPlacement: Qt.AlignBottom
+    property string iconGlyph: ""
+    property alias isOpen: popupMenu.visible
 
     implicitWidth: Math.max(Theme.controlMinWidth,
                             contentItem.implicitWidth + leftPadding + rightPadding + 8)
@@ -73,6 +75,20 @@ T.AbstractButton {
 
     contentItem: RowLayout {
         spacing: 8
+        Text {
+            visible: control.iconGlyph.length > 0
+            text: control.iconGlyph
+            font.family: Theme.fontFamilyIcon
+            font.pixelSize: 14
+            color: {
+                if (!control.enabled)
+                    return Theme.textDisabled
+                if (control.highlighted)
+                    return Theme.textOnAccent
+                return Theme.textPrimary
+            }
+            Layout.alignment: Qt.AlignVCenter
+        }
         Text {
             text: control.text
             font: control.font

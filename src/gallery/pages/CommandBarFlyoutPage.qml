@@ -20,18 +20,18 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("CommandBarFlyout")
-                subtitle: qsTr("A flyout that hosts a compact command bar, with optional secondary actions.")
+                subtitle: qsTr("Compact command bar flyout with isOpen and light dismiss.")
             }
             ControlExample {
                 Layout.fillWidth: true
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Primary commands")
-                qmlSource: "CommandBarFlyout {\n    AppBarButton { text: \"Share\" }\n}"
+                qmlSource: "CommandBarFlyout {\n    isOpen: true\n    AppBarButton { … }\n}"
                 Button {
                     id: hostBtn
                     text: qsTr("Show CommandBarFlyout")
-                    onClicked: flyout.open()
+                    onClicked: flyout.isOpen = true
 
                     CommandBarFlyout {
                         id: flyout
@@ -39,12 +39,12 @@ Page {
                         AppBarButton {
                             iconGlyph: "\uE72D"
                             text: qsTr("Share")
-                            onClicked: flyout.close()
+                            onClicked: flyout.hide()
                         }
                         AppBarButton {
                             iconGlyph: "\uE8C8"
                             text: qsTr("Copy")
-                            onClicked: flyout.close()
+                            onClicked: flyout.hide()
                         }
                         AppBarSeparator {}
                         AppBarToggleButton {

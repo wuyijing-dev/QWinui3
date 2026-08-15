@@ -20,14 +20,14 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("SettingsCard")
-                subtitle: qsTr("Settings row with header, description, trailing action. Interactive cards emit clicked.")
+                subtitle: qsTr("Header, description, content slot, trailing action. Interactive cards support focus and clicked.")
             }
             ControlExample {
                 Layout.fillWidth: true
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Toggle settings")
-                qmlSource: "SettingsCard {\n    interactive: true\n    onClicked: …\n}"
+                qmlSource: "SettingsCard {\n    content: …\n    action: Switch { }\n}"
                 ColumnLayout {
                     Layout.fillWidth: true
                     spacing: Theme.spacing
@@ -45,6 +45,18 @@ Page {
                     }
                     SettingsCard {
                         Layout.fillWidth: true
+                        title: qsTr("Quiet hours")
+                        description: qsTr("Mute alerts during scheduled times.")
+                        headerIcon: "\uE708"
+                        content: Label {
+                            text: qsTr("Weekdays 10:00 PM – 7:00 AM")
+                            color: Theme.textSecondary
+                            font.pixelSize: Theme.fontCaption
+                        }
+                        action: Switch {}
+                    }
+                    SettingsCard {
+                        Layout.fillWidth: true
                         title: qsTr("Theme")
                         description: qsTr("Choose light or dark appearance.")
                         action: ComboBox {
@@ -56,7 +68,7 @@ Page {
                         Layout.fillWidth: true
                         interactive: true
                         title: qsTr("About")
-                        description: qsTr("Version 1.0.0 — tap for details")
+                        description: qsTr("Version 1.0.0 — tap or press Enter for details")
                         headerIcon: "\uE946"
                         onClicked: cardStatus.text = qsTr("About clicked")
                     }

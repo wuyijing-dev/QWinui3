@@ -22,7 +22,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("InfoBar")
-                subtitle: qsTr("An inline message to inform users about app-wide or page-level events.")
+                subtitle: qsTr("Inline message with severity, open()/close(), opened/closed, and Accessible alerts.")
             }
 
             ControlExample {
@@ -30,7 +30,7 @@ Page {
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Severity levels")
-                qmlSource: "InfoBar {\n    severity: informational\n    title: \"Information\"\n    message: \"…\"\n}"
+                qmlSource: "InfoBar {\n    severity: informational\n    // severityName → \"informational\"\n}"
 
                 ColumnLayout {
                     Layout.fillWidth: true
@@ -41,7 +41,7 @@ Page {
                         Layout.fillWidth: true
                         severity: infoSample.informational
                         title: qsTr("Information")
-                        message: qsTr("This is an informational message.")
+                        message: qsTr("This is an informational message. (%1)").arg(infoSample.severityName)
                     }
                     InfoBar {
                         id: successSample
@@ -89,21 +89,28 @@ Page {
                 Layout.fillWidth: true
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
-                headerText: qsTr("Close collapses height")
-                qmlSource: "InfoBar {\n    isOpen: true\n    // closes to zero height\n}"
+                headerText: qsTr("open() / close()")
+                qmlSource: "InfoBar {\n    onOpened: …\n    onClosed: …\n}"
                 ColumnLayout {
                     Layout.fillWidth: true
                     spacing: Theme.spacing
+                    Label {
+                        id: lifeStatus
+                        text: qsTr("Ready")
+                        color: Theme.textSecondary
+                    }
                     InfoBar {
                         id: collapseBar
                         Layout.fillWidth: true
                         severity: collapseBar.informational
                         title: qsTr("Dismiss me")
                         message: qsTr("Closing this bar collapses layout space (WinUI IsOpen).")
+                        onOpened: lifeStatus.text = qsTr("Opened")
+                        onClosed: lifeStatus.text = qsTr("Closed")
                     }
                     Button {
                         text: collapseBar.isOpen ? qsTr("Close InfoBar") : qsTr("Reopen InfoBar")
-                        onClicked: collapseBar.isOpen = !collapseBar.isOpen
+                        onClicked: collapseBar.isOpen ? collapseBar.close() : collapseBar.open()
                     }
                 }
             }

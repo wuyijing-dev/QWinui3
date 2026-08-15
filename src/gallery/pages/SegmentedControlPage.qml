@@ -20,18 +20,27 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("SegmentedControl")
-                subtitle: qsTr("Exclusive segmented options. Supports equalWidth/stretch and disabled items.")
+                subtitle: qsTr("Sliding selection indicator, keyboard arrows, and Accessible page tabs.")
             }
             ControlExample {
                 Layout.fillWidth: true
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Basic")
-                qmlSource: "SegmentedControl {\n    equalWidth: true\n    model: [\"Day\", \"Week\", \"Month\"]\n}"
-                SegmentedControl {
+                qmlSource: "SegmentedControl {\n    stretch: true\n    selectedIndex: 0\n}"
+                ColumnLayout {
                     Layout.fillWidth: true
-                    stretch: true
-                    model: [qsTr("Day"), qsTr("Week"), qsTr("Month")]
+                    spacing: Theme.spacing
+                    SegmentedControl {
+                        id: daySeg
+                        Layout.fillWidth: true
+                        stretch: true
+                        model: [qsTr("Day"), qsTr("Week"), qsTr("Month")]
+                    }
+                    Label {
+                        text: qsTr("Selected: %1").arg(daySeg.selectedIndex)
+                        color: Theme.textSecondary
+                    }
                 }
             }
             ControlExample {
@@ -39,7 +48,7 @@ Page {
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("With icons")
-                qmlSource: "SegmentedControl {\n    model: [{ text: \"List\", icon: \"\\uE8FD\" }, ...]\n}"
+                qmlSource: "SegmentedControl {\n    model: [{ text: \"List\", icon: \"\\uE8FD\" }, …]\n}"
                 SegmentedControl {
                     model: [
                         { text: qsTr("List"), icon: "\uE8FD" },

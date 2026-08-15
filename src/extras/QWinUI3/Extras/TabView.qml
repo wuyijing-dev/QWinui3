@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Templates as T
-import QtQuick.Effects
 import QWinUI3.Theme
 
 T.Control {
@@ -104,22 +103,13 @@ T.Control {
         return null
     }
 
-    background: Rectangle {
+    background: ElevatedChrome {
         color: Theme.bgCard
-        border.width: 1
-        border.color: Theme.strokeCard
+        borderColor: Theme.strokeCard
+        borderWidth: 1
         radius: Theme.cornerCard
-
-        layer.enabled: true
-        layer.effect: MultiEffect {
-            shadowEnabled: true
-            shadowOpacity: Theme.dark ? 0.18 : 0.08
-            shadowColor: "#000000"
-            shadowHorizontalOffset: 0
-            shadowVerticalOffset: 2
-            blurMax: 14
-            autoPaddingEnabled: true
-        }
+        elevation: 2
+        shadowOpacity: Theme.dark ? 0.18 : 0.08
     }
 
     contentItem: ColumnLayout {
@@ -383,25 +373,18 @@ T.Control {
                 } // tabStripRow
 
                 // Floating drag preview
-                Rectangle {
+                ElevatedChrome {
                     id: ghost
                     property string title: ""
                     visible: false
                     z: 100
                     radius: Theme.cornerControl
                     color: Theme.bgCard
-                    border.width: 1
-                    border.color: Theme.strokeCard
+                    borderWidth: 1
+                    borderColor: Theme.strokeCard
                     opacity: 0.95
-                    layer.enabled: visible
-                    layer.effect: MultiEffect {
-                        shadowEnabled: true
-                        shadowOpacity: 0.22
-                        shadowColor: "#000000"
-                        shadowVerticalOffset: 4
-                        blurMax: 16
-                        autoPaddingEnabled: true
-                    }
+                    elevation: 4
+                    shadowOpacity: 0.22
 
                     Text {
                         anchors.fill: parent

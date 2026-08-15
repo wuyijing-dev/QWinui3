@@ -8,16 +8,18 @@ T.Control {
     id: control
 
     property alias currentIndex: swipe.currentIndex
+    property alias selectedIndex: swipe.currentIndex
     property alias count: swipe.count
     property alias interactive: swipe.interactive
     property bool buttonsVisible: true
-    // WinUI-style alias
     property alias isButtonsVisible: control.buttonsVisible
     // always | onHover | hidden
     property string buttonVisibility: "onHover"
     property bool isIndicatorVisible: true
     property bool wrap: false
     default property alias contentData: swipe.contentData
+    signal selectionChanged(int index)
+    signal currentIndexChangedByUser(int index)
 
     implicitWidth: 360
     implicitHeight: 200
@@ -30,19 +32,30 @@ T.Control {
     function goNext() {
         if (swipe.count <= 0)
             return
+        var prev = swipe.currentIndex
         if (swipe.currentIndex < swipe.count - 1)
             swipe.incrementCurrentIndex()
         else if (wrap)
             swipe.currentIndex = 0
+        if (swipe.currentIndex !== prev)
+            currentIndexChangedByUser(swipe.currentIndex)
     }
 
     function goPrevious() {
         if (swipe.count <= 0)
             return
+        var prev = swipe.currentIndex
         if (swipe.currentIndex > 0)
             swipe.decrementCurrentIndex()
         else if (wrap)
             swipe.currentIndex = swipe.count - 1
+        if (swipe.currentIndex !== prev)
+            currentIndexChangedByUser(swipe.currentIndex)
+    }
+
+    Connections {
+        target: swipe
+        function onCurrentIndexChanged() { control.selectionChanged(swipe.currentIndex) }
     }
 
     contentItem: Item {
@@ -51,6 +64,7 @@ T.Control {
             anchors.fill: parent
             anchors.leftMargin: control._showButtons ? 40 : 0
             anchors.rightMargin: control._showButtons ? 40 : 0
+            anchors.bottomMargin: control.isIndicatorVisible && swipe.count > 1 ? 28 : 0
             clip: true
         }
 
@@ -106,14 +120,20 @@ T.Control {
             }
         }
 
-        PageIndicator {
+        PipsPager {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.bottom: parent.bottom
-            anchors.bottomMargin: 8
+            anchors.bottomMargin: 4
             count: swipe.count
             currentIndex: swipe.currentIndex
+            wrap: control.wrap
+            previousButtonVisibility: "collapsed"
+            nextButtonVisibility: "collapsed"
             visible: control.isIndicatorVisible && swipe.count > 1
-            opacity: 0.9
+            onCurrentIndexEdited: function (index) {
+                swipe.currentIndex = index
+                control.currentIndexChangedByUser(index)
+            }
         }
     }
 

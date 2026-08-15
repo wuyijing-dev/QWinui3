@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Templates as T
-import QtQuick.Effects
 import QWinUI3.Theme
 
 // WinUI-style actionable surface card with glyph, title, description, and chevron.
@@ -96,8 +95,7 @@ T.AbstractButton {
         }
     }
 
-    background: Rectangle {
-        radius: Theme.cornerCard
+    background: ElevatedChrome {
         color: {
             if (!control.enabled)
                 return Theme.bgCard
@@ -107,19 +105,12 @@ T.AbstractButton {
                 return Theme.bgCardElevated
             return Theme.bgCard
         }
-        border.width: control.visualFocus ? 2 : 1
-        border.color: control.visualFocus ? Theme.focusOuter : Theme.strokeCard
+        radius: Theme.cornerCard
+        borderWidth: control.visualFocus ? 2 : 1
+        borderColor: control.visualFocus ? Theme.focusOuter : Theme.strokeCard
+        elevation: control.hovered ? 5 : 2
+        shadowOpacity: control.hovered ? (Theme.dark ? 0.26 : 0.12) : (Theme.dark ? 0.16 : 0.07)
         scale: control.down && !Theme.reducedMotion ? 0.985 : 1
-
-        layer.enabled: true
-        layer.effect: MultiEffect {
-            shadowEnabled: true
-            shadowOpacity: control.hovered ? (Theme.dark ? 0.26 : 0.12) : (Theme.dark ? 0.16 : 0.07)
-            shadowColor: "#000000"
-            shadowVerticalOffset: control.hovered ? 5 : 2
-            blurMax: 16
-            autoPaddingEnabled: true
-        }
 
         Behavior on color {
             enabled: !Theme.reducedMotion

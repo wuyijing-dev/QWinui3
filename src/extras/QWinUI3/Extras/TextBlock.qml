@@ -3,7 +3,7 @@ import QtQuick.Templates as T
 import QWinUI3.Theme
 
 // WinUI TextBlock with type-ramp styles mapped to Theme tokens.
-T.Label {
+T.Control {
     id: root
 
     readonly property int caption: 0
@@ -14,12 +14,15 @@ T.Label {
     readonly property int titleLarge: 5
     readonly property int display: 6
 
+    property string text: ""
     property int style: body
-    // WinUI IsTextSelectionEnabled
+    // WinUI IsTextSelectionEnabled — uses TextEdit when true (Label has no selectByMouse)
     property bool isTextSelectionEnabled: false
     // none | characterEllipsis | wordEllipsis
     property string textTrimming: "none"
     property int maxLines: 0 // 0 = unlimited
+
+    property color color: style === caption ? Theme.textSecondary : Theme.textPrimary
 
     font.family: {
         switch (style) {
@@ -47,16 +50,60 @@ T.Label {
                   || style === titleLarge || style === display)
                  ? Theme.fontWeightSemiBold
                  : Theme.fontWeightRegular
-    color: style === caption ? Theme.textSecondary : Theme.textPrimary
-    wrapMode: textTrimming === "none" ? Text.Wrap : Text.NoWrap
-    elide: {
+
+    readonly property int _wrapMode: textTrimming === "none" ? Text.Wrap : Text.NoWrap
+    readonly property int _elide: {
         switch (textTrimming) {
         case "characterEllipsis": return Text.ElideRight
         case "wordEllipsis": return Text.ElideRight
         default: return Text.ElideNone
         }
     }
-    maximumLineCount: maxLines > 0 ? maxLines : 0
-    selectByMouse: isTextSelectionEnabled
-    // Label may not support selection on all styles — use TextInput-like when needed
+    readonly property int _maxLines: maxLines > 0 ? maxLines : 0
+
+    implicitWidth: contentItem.implicitWidth
+    implicitHeight: contentItem.implicitHeight
+    background: Item {}
+    padding: 0
+
+    contentItem: Loader {
+        id: loader
+        width: root.width > 0 ? root.width : item ? item.implicitWidth : 0
+        sourceComponent: root.isTextSelectionEnabled ? selectableComp : plainComp
+
+        Binding {
+            target: loader.item
+            property: "width"
+            value: loader.width
+            when: loader.item && loader.width > 0
+        }
+    }
+
+    Component {
+        id: plainComp
+        Text {
+            text: root.text
+            font: root.font
+            color: root.color
+            wrapMode: root._wrapMode
+            elide: root._elide
+            maximumLineCount: root._maxLines
+        }
+    }
+
+    Component {
+        id: selectableComp
+        TextEdit {
+            text: root.text
+            font: root.font
+            color: root.color
+            readOnly: true
+            selectByMouse: true
+            wrapMode: root._wrapMode === Text.Wrap ? TextEdit.Wrap : TextEdit.NoWrap
+            // TextEdit has no elide/maxLines — keep selection path for body copy use-cases
+            background: null
+            padding: 0
+            activeFocusOnPress: true
+        }
+    }
 }

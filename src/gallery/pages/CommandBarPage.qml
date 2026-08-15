@@ -20,14 +20,14 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("CommandBar")
-                subtitle: qsTr("A compact toolbar for frequent commands. Supports DefaultLabelPosition and ClosedDisplayMode.")
+                subtitle: qsTr("Toolbar with DefaultLabelPosition, ClosedDisplayMode, secondaryCommands, and open/close signals.")
             }
             ControlExample {
                 Layout.fillWidth: true
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Primary commands")
-                qmlSource: "CommandBar {\n    defaultLabelPosition: \"bottom\"\n    AppBarButton { … }\n}"
+                qmlSource: "CommandBar {\n    secondaryCommands: [ … ]\n    onOpened: …\n}"
                 ColumnLayout {
                     Layout.fillWidth: true
                     spacing: Theme.spacing
@@ -54,7 +54,7 @@ Page {
                         Layout.fillWidth: true
                         defaultLabelPosition: labelPos.currentText
                         closedDisplayMode: closedMode.currentText
-                        overflowItems: [
+                        secondaryCommands: [
                             {
                                 text: qsTr("Select all"),
                                 triggered: function () { status.text = qsTr("Select all") }
@@ -64,6 +64,8 @@ Page {
                                 triggered: function () { status.text = qsTr("Find") }
                             }
                         ]
+                        onOpened: status.text = qsTr("Command bar opened")
+                        onClosed: status.text = qsTr("Command bar closed")
                         AppBarButton {
                             iconGlyph: "\uE8C8"
                             text: qsTr("Copy")

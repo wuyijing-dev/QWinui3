@@ -20,21 +20,26 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("BreadcrumbBar")
-                subtitle: qsTr("Shows the current path. Use itemInvoked to navigate ancestors; long paths collapse with ….")
+                subtitle: qsTr("Path trail with overflow ellipsis. Current crumb is non-clickable by default (lastItemClickable).")
             }
             ControlExample {
                 Layout.fillWidth: true
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Path")
-                qmlSource: "BreadcrumbBar {\n    model: [\"Home\", \"Library\", \"Docs\"]\n}"
+                qmlSource: "BreadcrumbBar {\n    lastItemClickable: false\n    maxVisibleItems: 4\n}"
                 ColumnLayout {
                     Layout.fillWidth: true
                     spacing: Theme.spacing
+                    CheckBox {
+                        id: lastClickable
+                        text: qsTr("Last item clickable")
+                    }
                     BreadcrumbBar {
                         id: crumbs
                         Layout.fillWidth: true
                         maxVisibleItems: 4
+                        lastItemClickable: lastClickable.checked
                         model: [
                             { title: qsTr("Home"), icon: "\uE80F" },
                             { title: qsTr("Library"), icon: "\uE8B7" },
@@ -48,7 +53,7 @@ Page {
                         }
                     }
                     Label {
-                        text: qsTr("Long paths collapse with an ellipsis; icons are optional.")
+                        text: qsTr("Index %1 — long paths collapse with …").arg(crumbs.currentIndex)
                         color: Theme.textSecondary
                         font.pixelSize: Theme.fontCaption
                     }

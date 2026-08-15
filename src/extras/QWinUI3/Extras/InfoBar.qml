@@ -24,10 +24,36 @@ T.Control {
     property string actionText: ""
     property alias action: actionSlot.data
     property int durationMs: 0 // >0 auto-dismisses after open
+    // Convenience string: "informational" | "success" | "warning" | "error"
+    readonly property string severityName: {
+        switch (severity) {
+        case success: return "success"
+        case warning: return "warning"
+        case error: return "error"
+        default: return "informational"
+        }
+    }
 
     signal closeClicked()
     signal actionClicked()
     signal closed()
+    signal opened()
+
+    function open() { isOpen = true }
+    function close() { isOpen = false }
+
+    function setSeverityName(name) {
+        switch (String(name).toLowerCase()) {
+        case "success": severity = success; break
+        case "warning": severity = warning; break
+        case "error": severity = error; break
+        default: severity = informational; break
+        }
+    }
+
+    Accessible.role: Accessible.AlertMessage
+    Accessible.name: title.length ? title : qsTr("Info bar")
+    Accessible.description: message
 
     padding: isOpen ? 12 : 0
     leftPadding: isOpen ? 16 : 0
@@ -53,7 +79,9 @@ T.Control {
             autoClose.restart()
         else
             autoClose.stop()
-        if (!isOpen)
+        if (isOpen)
+            root.opened()
+        else
             root.closed()
     }
 

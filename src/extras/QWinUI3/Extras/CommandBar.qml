@@ -13,12 +13,34 @@ T.Control {
     property alias overflowMenu: overflowMenu
     // [{ text: string, triggered: function() }] — MenuItem cannot parent to Menu in Qt 6
     property var overflowItems: []
+    property alias secondaryCommands: root.overflowItems
     property real barSpacing: 2
     property bool isOpen: true
     // WinUI DefaultLabelPosition: bottom | right | collapsed
     property string defaultLabelPosition: "bottom"
     // WinUI ClosedDisplayMode: compact | minimal | hidden
     property string closedDisplayMode: "compact"
+
+    signal opening()
+    signal closing()
+    signal opened()
+    signal closed()
+
+    function open() { isOpen = true }
+    function close() { isOpen = false }
+
+    onIsOpenChanged: {
+        if (isOpen) {
+            opening()
+            opened()
+        } else {
+            closing()
+            closed()
+        }
+    }
+
+    Accessible.role: Accessible.ToolBar
+    Accessible.name: qsTr("Command bar")
 
     readonly property string effectiveLabelPosition: {
         if (!root.isOpen && root.closedDisplayMode === "compact")

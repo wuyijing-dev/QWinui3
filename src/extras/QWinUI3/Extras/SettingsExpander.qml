@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Templates as T
-import QtQuick.Effects
 import QWinUI3.Theme
 
 T.Control {
@@ -15,9 +14,20 @@ T.Control {
     property alias isExpanded: control.expanded
     // WinUI ExpandDirection: down | up
     property string expandDirection: "down"
+    property alias action: actionSlot.data
     default property alias contentData: contentHost.data
 
+    signal expanding()
+    signal collapsing()
+
     readonly property bool _expandUp: expandDirection === "up"
+
+    onExpandedChanged: {
+        if (expanded)
+            expanding()
+        else
+            collapsing()
+    }
 
     implicitWidth: Math.max(420, headerRow.implicitWidth + leftPadding + rightPadding)
     implicitHeight: topPadding + bottomPadding + headerItem.implicitHeight
@@ -27,7 +37,17 @@ T.Control {
     rightPadding: 16
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
-    clip: true
+    clip: false
+    focusPolicy: Qt.StrongFocus
+    activeFocusOnTab: true
+    Accessible.role: Accessible.Button
+    Accessible.name: title
+    Accessible.description: description
+    Accessible.checkable: true
+    Accessible.checked: expanded
+    Keys.onReturnPressed: expanded = !expanded
+    Keys.onEnterPressed: expanded = !expanded
+    Keys.onSpacePressed: expanded = !expanded
 
     Behavior on implicitHeight {
         enabled: !Theme.reducedMotion
@@ -37,21 +57,17 @@ T.Control {
         }
     }
 
-    background: Rectangle {
-        radius: Theme.cornerCard
+    background: ElevatedChrome {
         color: Theme.bgCard
-        border.width: 1
-        border.color: Theme.strokeCard
+        radius: Theme.cornerCard
+        borderWidth: control.activeFocus ? 2 : 1
+        borderColor: control.activeFocus ? Theme.accent : Theme.strokeCard
+        elevation: 2
+        shadowOpacity: Theme.dark ? 0.16 : 0.07
 
-        layer.enabled: true
-        layer.effect: MultiEffect {
-            shadowEnabled: true
-            shadowOpacity: Theme.dark ? 0.16 : 0.07
-            shadowColor: "#000000"
-            shadowHorizontalOffset: 0
-            shadowVerticalOffset: 2
-            blurMax: 12
-            autoPaddingEnabled: true
+        Behavior on borderColor {
+            enabled: !Theme.reducedMotion
+            ColorAnimation { duration: Theme.duration(Theme.motionFast) }
         }
     }
 
@@ -106,6 +122,13 @@ T.Control {
                         wrapMode: Text.Wrap
                         Layout.fillWidth: true
                     }
+                }
+
+                Item {
+                    id: actionSlot
+                    Layout.alignment: Qt.AlignVCenter
+                    implicitWidth: childrenRect.width
+                    implicitHeight: childrenRect.height
                 }
 
                 Text {
@@ -163,6 +186,7 @@ T.Control {
         Item {
             id: contentHost
             visible: control.expanded
+            clip: true
             Layout.row: control._expandUp ? 0 : 2
             Layout.column: 0
             Layout.fillWidth: true

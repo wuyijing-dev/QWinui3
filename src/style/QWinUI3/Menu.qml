@@ -1,6 +1,5 @@
 import QtQuick
 import QtQuick.Templates as T
-import QtQuick.Effects
 import QWinUI3.Theme
 
 T.Menu {
@@ -67,24 +66,15 @@ T.Menu {
         }
     }
 
-    background: Rectangle {
+    background: ElevatedChrome {
         implicitWidth: 160
         implicitHeight: 40
         radius: Theme.cornerOverlay
         color: Theme.bgCardElevated
-        border.width: 1
-        border.color: Theme.strokeCard
-
-        layer.enabled: true
-        layer.effect: MultiEffect {
-            shadowEnabled: true
-            shadowOpacity: Theme.dark ? 0.28 : 0.14
-            shadowColor: "#000000"
-            shadowHorizontalOffset: 0
-            shadowVerticalOffset: 8
-            blurMax: 28
-            autoPaddingEnabled: true
-        }
+        borderColor: Theme.strokeCard
+        borderWidth: 1
+        elevation: 6
+        shadowOpacity: Theme.dark ? 0.32 : 0.16
     }
 
     enter: Transition {

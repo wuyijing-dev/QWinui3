@@ -20,7 +20,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("PasswordBox")
-                subtitle: qsTr("Password field with PasswordRevealMode: Peek, Hidden, or Visible.")
+                subtitle: qsTr("Password field with reveal modes, validation error, and clear.")
             }
             ControlExample {
                 Layout.fillWidth: true
@@ -40,6 +40,10 @@ Page {
                             currentIndex: 0
                             Layout.preferredWidth: 140
                         }
+                        CheckBox {
+                            id: errBox
+                            text: qsTr("Show error")
+                        }
                     }
                     PasswordBox {
                         Layout.fillWidth: true
@@ -47,6 +51,8 @@ Page {
                         description: qsTr("Peek: hold the eye to show. Visible: always clear text.")
                         placeholderText: qsTr("Password")
                         passwordRevealMode: modeBox.currentText
+                        clearButtonVisible: true
+                        errorMessage: errBox.checked ? qsTr("Password must be at least 8 characters.") : ""
                     }
                 }
             }

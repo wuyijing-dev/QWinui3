@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Templates as T
-import QtQuick.Effects
 import QWinUI3.Theme
 
 T.Control {
@@ -30,7 +29,7 @@ T.Control {
     }
 
     implicitWidth: Math.max(280, headerBtn.implicitWidth + leftPadding + rightPadding)
-    // Include control padding when collapsed — otherwise the header is clipped by clip:true.
+    // Include control padding when collapsed so the header is not cut off.
     implicitHeight: topPadding + bottomPadding + headerBtn.implicitHeight
                     + (expanded ? contentHost.implicitHeight + 8 : 0)
     padding: 12
@@ -38,7 +37,7 @@ T.Control {
     rightPadding: 16
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
-    clip: true
+    clip: false
     Accessible.role: Accessible.Button
     Accessible.name: title
     Accessible.checkable: true
@@ -52,21 +51,13 @@ T.Control {
         }
     }
 
-    background: Rectangle {
-        radius: Theme.cornerCard
+    background: ElevatedChrome {
         color: Theme.bgCard
-        border.width: 1
-        border.color: Theme.strokeCard
-
-        layer.enabled: true
-        layer.effect: MultiEffect {
-            shadowEnabled: true
-            shadowOpacity: Theme.dark ? 0.16 : 0.07
-            shadowColor: "#000000"
-            shadowVerticalOffset: 2
-            blurMax: 12
-            autoPaddingEnabled: true
-        }
+        radius: Theme.cornerCard
+        borderColor: Theme.strokeCard
+        borderWidth: 1
+        elevation: 2
+        shadowOpacity: Theme.dark ? 0.16 : 0.07
     }
 
     contentItem: GridLayout {
@@ -195,6 +186,7 @@ T.Control {
             Layout.row: root._expandUp ? 0 : 1
             Layout.column: 0
             Layout.fillWidth: true
+            clip: true
             visible: root.expanded || opacity > 0.01
             opacity: root.expanded ? 1 : 0
             Layout.topMargin: root._expandUp ? (root.expanded ? 4 : 0) : 4

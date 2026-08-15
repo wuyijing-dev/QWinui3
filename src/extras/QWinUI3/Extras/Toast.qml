@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Templates as T
-import QtQuick.Effects
 import QWinUI3.Theme
 
 T.Control {
@@ -139,23 +138,13 @@ T.Control {
         }
     }
 
-    background: Rectangle {
-        radius: Theme.cornerOverlay
+    background: ElevatedChrome {
         color: control._bg
-        border.width: 1
-        border.color: Theme.strokeCard
-        clip: true
-
-        layer.enabled: true
-        layer.effect: MultiEffect {
-            shadowEnabled: true
-            shadowOpacity: Theme.dark ? 0.32 : 0.16
-            shadowColor: "#000000"
-            shadowHorizontalOffset: 0
-            shadowVerticalOffset: 6
-            blurMax: 24
-            autoPaddingEnabled: true
-        }
+        radius: Theme.cornerOverlay
+        borderColor: Theme.strokeCard
+        borderWidth: 1
+        elevation: 6
+        shadowOpacity: Theme.dark ? 0.32 : 0.16
 
         Rectangle {
             anchors.left: parent.left

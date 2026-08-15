@@ -1,6 +1,5 @@
 import QtQuick
 import QtQuick.Templates as T
-import QtQuick.Effects
 import QWinUI3.Theme
 
 T.Pane {
@@ -15,21 +14,12 @@ T.Pane {
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
 
-    background: Rectangle {
+    background: ElevatedChrome {
         color: Theme.bgCard
         radius: Theme.cornerCard
-        border.width: 1
-        border.color: Theme.strokeCard
-
-        layer.enabled: true
-        layer.effect: MultiEffect {
-            shadowEnabled: true
-            shadowOpacity: Theme.dark ? 0.2 : 0.08
-            shadowColor: "#000000"
-            shadowHorizontalOffset: 0
-            shadowVerticalOffset: 2
-            blurMax: 12
-            autoPaddingEnabled: true
-        }
+        borderColor: Theme.strokeCard
+        borderWidth: 1
+        elevation: 2
+        shadowOpacity: Theme.dark ? 0.22 : 0.08
     }
 }
