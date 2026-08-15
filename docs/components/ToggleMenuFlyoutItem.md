@@ -12,8 +12,15 @@ Checkable MenuFlyout item.
 
 ```qml
 MenuFlyout {
-    ToggleMenuFlyoutItem { text: qsTr("Word wrap"); checked: true }
+    ToggleMenuFlyoutItem {
+        id: wrap
+        text: qsTr("Word wrap")
+        checked: true
+        onToggled: applyWrap(wrap.checked)
+    }
 }
+// --- API ---
+// wrap.checked / onToggled / text
 ```
 
 ## API
@@ -35,6 +42,15 @@ _No custom signals_ (use inherited signals from the base type).
 ### Methods
 
 _No custom methods_ (use inherited methods from the base type).
+
+### Inherited from `MenuItem`
+
+Also available (base type / Qt Quick Controls):
+
+- `text`
+- `enabled`
+- `triggered()`
+- `checkable` / `checked`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

@@ -79,8 +79,8 @@ _No custom methods_ (use inherited methods from the base type).
 Also available (base type / Qt Quick Controls):
 
 - `title`
-- `menuBar`
-- `header` / `footer`
+- `visible`
+- `menuBar` / `header` / `footer`
 - `contentItem`
 
 ---

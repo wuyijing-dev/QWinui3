@@ -5,8 +5,16 @@ import QWinUI3.Theme
 // MenuItem — Fluent styled MenuItem.
 //
 //   Menu {
-//       MenuItem { text: qsTr("Copy"); onTriggered: copy() }
+//       id: menu
+//       MenuItem {
+//           id: item
+//           text: qsTr("Copy")
+//           enabled: true
+//           onTriggered: copy()
+//       }
 //   }
+//   // --- API ---
+//   // item.text / enabled / checkable / triggered()
 
 T.MenuItem {
     id: control

@@ -10,13 +10,24 @@ Fluent styled ScrollIndicator.
 
 ```qml
 Flickable {
-    ScrollIndicator.vertical: ScrollIndicator { }
+    id: flick
+    contentHeight: 2000
+    ScrollIndicator.vertical: ScrollIndicator {
+        id: indicator
+    }
 }
+// --- API ---
+// indicator.active / size / position
 ```
 
 ## API
 
 Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `ScrollIndicator` API (this file only supplies Fluent visuals / metrics).
+
+### Inherited from `ScrollIndicator`
+
+- `active`
+- `size` / `position`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

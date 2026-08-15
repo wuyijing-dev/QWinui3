@@ -10,8 +10,14 @@ Fluent styled TreeViewDelegate.
 
 ```qml
 TreeView {
-    delegate: TreeViewDelegate { }
+    id: tree
+    model: treeModel
+    delegate: TreeViewDelegate {
+        // indentation / expansion affordance from style
+    }
 }
+// --- API ---
+// inherits TreeViewDelegate: treeView, expanded, depth, indentation
 ```
 
 ## API

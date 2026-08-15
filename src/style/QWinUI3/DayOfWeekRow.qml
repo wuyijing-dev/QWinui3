@@ -4,7 +4,13 @@ import QWinUI3.Theme
 
 // DayOfWeekRow — Fluent styled DayOfWeekRow.
 //
-//   DayOfWeekRow { locale: Qt.locale() }
+//   DayOfWeekRow {
+//       id: dow
+//       locale: Qt.locale()
+//       // typically placed above MonthGrid
+//   }
+//   // --- API ---
+//   // inherits DayOfWeekRow: locale, delegate
 
 T.AbstractDayOfWeekRow {
     id: control

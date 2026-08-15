@@ -10,13 +10,27 @@ Fluent styled ScrollBar.
 
 ```qml
 Flickable {
-    ScrollBar.vertical: ScrollBar { }
+    id: flick
+    contentHeight: 2000
+    ScrollBar.vertical: ScrollBar {
+        id: vbar
+        policy: ScrollBar.AsNeeded
+    }
 }
+// --- API ---
+// vbar.policy / size / position / increase() / decrease()
 ```
 
 ## API
 
 Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `ScrollBar` API (this file only supplies Fluent visuals / metrics).
+
+### Inherited from `ScrollBar`
+
+- `policy`
+- `size` / `position`
+- `active`
+- `increase()` / `decrease()`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

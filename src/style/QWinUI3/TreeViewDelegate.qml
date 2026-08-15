@@ -7,8 +7,14 @@ import QWinUI3.Theme
 // TreeViewDelegate — Fluent styled TreeViewDelegate.
 //
 //   TreeView {
-//       delegate: TreeViewDelegate { }
+//       id: tree
+//       model: treeModel
+//       delegate: TreeViewDelegate {
+//           // indentation / expansion affordance from style
+//       }
 //   }
+//   // --- API ---
+//   // inherits TreeViewDelegate: treeView, expanded, depth, indentation
 
 T.TreeViewDelegate {
     id: control

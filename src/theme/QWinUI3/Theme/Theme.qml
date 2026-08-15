@@ -3,14 +3,24 @@ import QtQuick
 
 // Theme — Fluent color / type / motion token singleton.
 //
-//   Theme.dark = true
-//   Theme.followSystemAccessibility = true
+//   import QWinUI3.Theme
 //
+//   Theme.dark = true
+//   Theme.reducedMotion = false
+//   Theme.followSystemAccessibility = true
+//   Theme.accent = "#005FB8"
+//
+//   Rectangle {
+//       color: Theme.bgCard
+//       radius: Theme.cornerControl
+//       Behavior on color {
+//           ColorAnimation { duration: Theme.duration(Theme.motionNormal) }
+//       }
+//   }
 //   // --- API ---
-//   // methods: duration(ms), controlFill(hovered, pressed, disabled), accentFill(hovered, pressed, disabled)
-//   // theme.duration(ms)
-//   // theme.controlFill(hovered, pressed, disabled)
-//   // theme.accentFill(hovered, pressed, disabled)
+//   Theme.duration(ms)
+//   Theme.controlFill(hovered, pressed, disabled)
+//   Theme.accentFill(hovered, pressed, disabled)
 
 QtObject {
     id: root

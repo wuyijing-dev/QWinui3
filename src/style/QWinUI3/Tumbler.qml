@@ -5,7 +5,15 @@ import QWinUI3.Theme
 
 // Tumbler — Fluent styled Tumbler.
 //
-//   Tumbler { id: tumbler; model: 24; currentIndex: 8 }
+//   Tumbler {
+//       id: hours
+//       model: 24
+//       currentIndex: 8
+//       visibleItemCount: 5
+//       onCurrentIndexChanged: applyHour(hours.currentIndex)
+//   }
+//   // --- API ---
+//   // hours.model / currentIndex / visibleItemCount
 
 T.Tumbler {
     id: control

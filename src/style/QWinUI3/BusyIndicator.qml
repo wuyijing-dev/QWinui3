@@ -5,7 +5,14 @@ import QWinUI3.Theme
 
 // BusyIndicator — Fluent styled BusyIndicator.
 //
-//   BusyIndicator { id: busy; running: true }
+//   BusyIndicator {
+//       id: busy
+//       running: true
+//       // stop with: busy.running = false
+//   }
+//   // --- API ---
+//   // inherits BusyIndicator: running
+//   // Fluent ring visuals only — no extra public properties
 
 T.BusyIndicator {
     id: control

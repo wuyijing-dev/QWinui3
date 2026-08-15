@@ -59,8 +59,8 @@ _No custom signals_ (use inherited signals from the base type).
 Also available (base type / Qt Quick Controls):
 
 - `title`
-- `menuBar`
-- `header` / `footer`
+- `visible`
+- `menuBar` / `header` / `footer`
 - `contentItem`
 
 ---

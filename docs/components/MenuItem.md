@@ -10,13 +10,28 @@ Fluent styled MenuItem.
 
 ```qml
 Menu {
-    MenuItem { text: qsTr("Copy"); onTriggered: copy() }
+    id: menu
+    MenuItem {
+        id: item
+        text: qsTr("Copy")
+        enabled: true
+        onTriggered: copy()
+    }
 }
+// --- API ---
+// item.text / enabled / checkable / triggered()
 ```
 
 ## API
 
 Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `MenuItem` API (this file only supplies Fluent visuals / metrics).
+
+### Inherited from `MenuItem`
+
+- `text`
+- `enabled`
+- `triggered()`
+- `checkable` / `checked`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

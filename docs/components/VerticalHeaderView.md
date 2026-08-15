@@ -9,24 +9,27 @@ Fluent styled VerticalHeaderView.
 ## Example
 
 ```qml
-VerticalHeaderView { syncView: table; clip: true }
+TableView {
+    id: table
+}
+VerticalHeaderView {
+    id: vheader
+    syncView: table
+    clip: true
+}
+// --- API ---
+// vheader.syncView / model / clip
 ```
 
 ## API
 
-### Properties
+Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `VerticalHeaderView` API (this file only supplies Fluent visuals / metrics).
 
-| Name | Type | Description |
-| --- | --- | --- |
-| `model` | `var` | Data model |
+### Inherited from `VerticalHeaderView`
 
-### Signals
-
-_No custom signals_ (use inherited signals from the base type).
-
-### Methods
-
-_No custom methods_ (use inherited methods from the base type).
+- `syncView`
+- `model`
+- `clip`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

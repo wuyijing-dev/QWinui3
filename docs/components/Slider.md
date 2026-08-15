@@ -18,19 +18,7 @@ Slider {
 
 ## API
 
-### Properties
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `diameter` | `real` | Diameter in px |
-
-### Signals
-
-_No custom signals_ (use inherited signals from the base type).
-
-### Methods
-
-_No custom methods_ (use inherited methods from the base type).
+Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `Slider` API (this file only supplies Fluent visuals / metrics).
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

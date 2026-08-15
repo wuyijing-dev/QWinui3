@@ -9,24 +9,28 @@ Fluent styled HorizontalHeaderView.
 ## Example
 
 ```qml
-HorizontalHeaderView { syncView: table; clip: true }
+TableView {
+    id: table
+    // …
+}
+HorizontalHeaderView {
+    id: header
+    syncView: table
+    clip: true
+}
+// --- API ---
+// header.syncView / model / clip
 ```
 
 ## API
 
-### Properties
+Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `HorizontalHeaderView` API (this file only supplies Fluent visuals / metrics).
 
-| Name | Type | Description |
-| --- | --- | --- |
-| `model` | `var` | Data model |
+### Inherited from `HorizontalHeaderView`
 
-### Signals
-
-_No custom signals_ (use inherited signals from the base type).
-
-### Methods
-
-_No custom methods_ (use inherited methods from the base type).
+- `syncView`
+- `model`
+- `clip`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

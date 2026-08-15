@@ -9,25 +9,32 @@ Fluent styled PageIndicator.
 ## Example
 
 ```qml
-PageIndicator { id: dots; count: 5; currentIndex: 2 }
+SwipeView {
+    id: pages
+    Item {}
+    Item {}
+    Item {}
+}
+PageIndicator {
+    id: dots
+    count: pages.count
+    currentIndex: pages.currentIndex
+    interactive: true
+    anchors.horizontalCenter: parent.horizontalCenter
+}
+// --- API ---
+// dots.count / currentIndex / interactive
 ```
 
 ## API
 
-### Properties
+Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `PageIndicator` API (this file only supplies Fluent visuals / metrics).
 
-| Name | Type | Description |
-| --- | --- | --- |
-| `index` | `int` | — |
-| `active` | `bool` | Active state |
+### Inherited from `PageIndicator`
 
-### Signals
-
-_No custom signals_ (use inherited signals from the base type).
-
-### Methods
-
-_No custom methods_ (use inherited methods from the base type).
+- `count`
+- `currentIndex`
+- `interactive`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

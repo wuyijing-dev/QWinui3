@@ -9,12 +9,26 @@ Fluent styled Tumbler.
 ## Example
 
 ```qml
-Tumbler { id: tumbler; model: 24; currentIndex: 8 }
+Tumbler {
+    id: hours
+    model: 24
+    currentIndex: 8
+    visibleItemCount: 5
+    onCurrentIndexChanged: applyHour(hours.currentIndex)
+}
+// --- API ---
+// hours.model / currentIndex / visibleItemCount
 ```
 
 ## API
 
 Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `Tumbler` API (this file only supplies Fluent visuals / metrics).
+
+### Inherited from `Tumbler`
+
+- `model`
+- `currentIndex`
+- `visibleItemCount`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

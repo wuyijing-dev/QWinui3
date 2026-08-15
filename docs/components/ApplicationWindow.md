@@ -24,8 +24,8 @@ Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `Appl
 ### Inherited from `ApplicationWindow`
 
 - `title`
-- `menuBar`
-- `header` / `footer`
+- `visible`
+- `menuBar` / `header` / `footer`
 - `contentItem`
 
 ---

@@ -9,25 +9,24 @@ Fluent styled BusyIndicator.
 ## Example
 
 ```qml
-BusyIndicator { id: busy; running: true }
+BusyIndicator {
+    id: busy
+    running: true
+    // stop with: busy.running = false
+}
+// --- API ---
+// inherits BusyIndicator: running
+// Fluent ring visuals only — no extra public properties
 ```
 
 ## API
 
-### Properties
+Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `BusyIndicator` API (this file only supplies Fluent visuals / metrics).
 
-| Name | Type | Description |
-| --- | --- | --- |
-| `stroke` | `real` | Stroke width for dial arc |
-| `radius` | `real` | Corner radius |
+### Inherited from `BusyIndicator`
 
-### Signals
-
-_No custom signals_ (use inherited signals from the base type).
-
-### Methods
-
-_No custom methods_ (use inherited methods from the base type).
+- `running`
+- `palette`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

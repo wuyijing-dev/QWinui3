@@ -10,13 +10,23 @@ Fluent styled Frame.
 
 ```qml
 Frame {
+    id: frame
+    padding: Theme.paddingControlH
     Label { text: qsTr("Framed content") }
 }
+// --- API ---
+// inherits Frame/Pane: padding, background, contentItem
 ```
 
 ## API
 
 Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `Frame` API (this file only supplies Fluent visuals / metrics).
+
+### Inherited from `Frame`
+
+- `padding`
+- `background`
+- `contentItem`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

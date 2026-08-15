@@ -146,7 +146,78 @@ INHERITED_API: dict[str, list[str]] = {
     "Pane": ["`padding`", "`background`", "`contentItem`"],
     "Item": ["`width` / `height`", "`visible`", "`anchors` / `x` / `y`"],
     "Window": ["`title`", "`visible`", "`width` / `height`", "`closing()`"],
-    "ApplicationWindow": ["`title`", "`menuBar`", "`header` / `footer`", "`contentItem`"],
+    "ApplicationWindow": [
+        "`title`",
+        "`visible`",
+        "`menuBar` / `header` / `footer`",
+        "`contentItem`",
+    ],
+    "BusyIndicator": [
+        "`running`",
+        "`palette`",
+    ],
+    "PageIndicator": [
+        "`count`",
+        "`currentIndex`",
+        "`interactive`",
+    ],
+    "Tumbler": [
+        "`model`",
+        "`currentIndex`",
+        "`visibleItemCount`",
+    ],
+    "RoundButton": [
+        "`text`",
+        "`enabled`",
+        "`clicked()`",
+    ],
+    "ToolButton": [
+        "`text`",
+        "`enabled`",
+        "`checkable` / `checked`",
+        "`clicked()`",
+    ],
+    "ScrollBar": [
+        "`policy`",
+        "`size` / `position`",
+        "`active`",
+        "`increase()` / `decrease()`",
+    ],
+    "ScrollIndicator": [
+        "`active`",
+        "`size` / `position`",
+    ],
+    "MenuItem": [
+        "`text`",
+        "`enabled`",
+        "`triggered()`",
+        "`checkable` / `checked`",
+    ],
+    "Frame": [
+        "`padding`",
+        "`background`",
+        "`contentItem`",
+    ],
+    "DayOfWeekRow": [
+        "`locale`",
+        "`delegate`",
+    ],
+    "HorizontalHeaderView": [
+        "`syncView`",
+        "`model`",
+        "`clip`",
+    ],
+    "VerticalHeaderView": [
+        "`syncView`",
+        "`model`",
+        "`clip`",
+    ],
+    "TreeViewDelegate": [
+        "`treeView`",
+        "`expanded`",
+        "`depth`",
+        "`indentation`",
+    ],
 }
 
 
@@ -249,7 +320,11 @@ def parse_header_comments(text: str, name: str) -> tuple[str, str, list[str]]:
 
 
 def _root_member_indent(lines: list[str]) -> int | None:
-    """Indent of the first root-level property/signal/function after the type opens."""
+    """Indent of root-level members (direct children of the top-level type)."""
+    for line in lines:
+        # Top-level type opens at column 0: Button { / T.BusyIndicator {
+        if re.match(r"^(?:T\.)?[A-Za-z_]\w*\s*\{", line):
+            return 4
     for line in lines:
         m = re.match(
             r"^(\s+)(?:(?:readonly|default|required)\s+)*property\s+",

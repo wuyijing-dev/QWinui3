@@ -5,8 +5,12 @@ import QWinUI3.Theme
 // Frame — Fluent styled Frame.
 //
 //   Frame {
+//       id: frame
+//       padding: Theme.paddingControlH
 //       Label { text: qsTr("Framed content") }
 //   }
+//   // --- API ---
+//   // inherits Frame/Pane: padding, background, contentItem
 
 T.Frame {
     id: control

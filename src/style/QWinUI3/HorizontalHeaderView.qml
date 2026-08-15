@@ -4,7 +4,17 @@ import QWinUI3.Theme
 
 // HorizontalHeaderView — Fluent styled HorizontalHeaderView.
 //
-//   HorizontalHeaderView { syncView: table; clip: true }
+//   TableView {
+//       id: table
+//       // …
+//   }
+//   HorizontalHeaderView {
+//       id: header
+//       syncView: table
+//       clip: true
+//   }
+//   // --- API ---
+//   // header.syncView / model / clip
 
 T.HorizontalHeaderView {
     id: control

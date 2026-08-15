@@ -4,7 +4,16 @@ import QWinUI3.Theme
 
 // ToolButton — Fluent styled ToolButton.
 //
-//   ToolButton { id: tool; text: qsTr("Edit"); onClicked: edit() }
+//   ToolBar {
+//       ToolButton {
+//           id: edit
+//           text: qsTr("Edit")
+//           checkable: false
+//           onClicked: startEdit()
+//       }
+//   }
+//   // --- API ---
+//   // edit.text / enabled / checkable / clicked()
 
 T.ToolButton {
     id: control

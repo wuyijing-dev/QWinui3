@@ -4,7 +4,21 @@ import QWinUI3.Theme
 
 // PageIndicator — Fluent styled PageIndicator.
 //
-//   PageIndicator { id: dots; count: 5; currentIndex: 2 }
+//   SwipeView {
+//       id: pages
+//       Item {}
+//       Item {}
+//       Item {}
+//   }
+//   PageIndicator {
+//       id: dots
+//       count: pages.count
+//       currentIndex: pages.currentIndex
+//       interactive: true
+//       anchors.horizontalCenter: parent.horizontalCenter
+//   }
+//   // --- API ---
+//   // dots.count / currentIndex / interactive
 
 T.PageIndicator {
     id: control

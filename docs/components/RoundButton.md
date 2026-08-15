@@ -9,12 +9,25 @@ Fluent styled RoundButton.
 ## Example
 
 ```qml
-RoundButton { id: round; text: "+"; onClicked: add() }
+RoundButton {
+    id: round
+    text: "+"
+    enabled: true
+    onClicked: add()
+}
+// --- API ---
+// inherits AbstractButton: text, enabled, clicked()
 ```
 
 ## API
 
 Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `RoundButton` API (this file only supplies Fluent visuals / metrics).
+
+### Inherited from `RoundButton`
+
+- `text`
+- `enabled`
+- `clicked()`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*
