@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — ProgressButton.
+//
+// Inline progress with percentage, Fluent state icons, and start()/setProgress()/complete()/fail(). API: docs/components/ProgressButton.md
+
 Page {
     padding: 0
     ScrollView {

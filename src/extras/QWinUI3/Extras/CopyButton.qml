@@ -24,9 +24,9 @@ T.AbstractButton {
     property bool copied: false
     // Hide text; show glyph only
     property bool iconOnly: text.length === 0
-    // Copy Completed
+    // Emitted after a successful copy
     signal copyCompleted(string text)
-    // Copy Failed
+    // Emitted when copy fails
     signal copyFailed()
 
     readonly property string _idleGlyph: {
@@ -56,7 +56,7 @@ T.AbstractButton {
         }
     }
 
-    // Copy
+    // Copy to clipboard
     function copy(optionalText) {
         var value = optionalText !== undefined ? String(optionalText) : textToCopy
         if (!value.length) {

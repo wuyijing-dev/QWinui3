@@ -51,9 +51,9 @@ ArcGauge { value: 64; minimum: 0; maximum: 100 }
 
 ## Methods
 
-- `clampSnap(v)` — Clamp Snap
-- `setValue(v)` — Set Value
-- `setValueFromNorm(n)` — Set Value From Norm
+- `clampSnap(v)` — Clamp and snap a value to the valid range
+- `setValue(v)` — Set value (clamped / snapped)
+- `setValueFromNorm(n)` — Set value from a normalized 0..1 input
 - `normFromPoint(px, py, cx, cy)`
 
 ---

@@ -3,6 +3,10 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 
+// Gallery — MenuBar.
+//
+// A horizontal bar of cascading menus for an application window. API: docs/components/MenuBar.md
+
 Page {
     padding: 0
     ScrollView {

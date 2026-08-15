@@ -15,17 +15,17 @@ T.Control {
     property int rows: 0          // 0 = auto from children + columns
     // Grid column count
     property int columns: 2
-    // Row Spacing
+    // Vertical spacing between rows
     property real rowSpacing: Theme.spacing
-    // Column Spacing
+    // Horizontal spacing between columns
     property real columnSpacing: Theme.spacing
-    // Cell Width
+    // Cell width
     property real cellWidth: -1   // <0 → equal share of width
-    // Cell Height
+    // Cell height
     property real cellHeight: -1  // <0 → equal share of height / implicit
     // Qt layout direction
     property int layoutDirection: Qt.LeftToRight
-    // Cell Spacing
+    // Spacing between cells
     property real cellSpacing: -1
 
     padding: 0
@@ -68,7 +68,7 @@ T.Control {
     onWidthChanged: relayout()
     onHeightChanged: relayout()
 
-    // Visible Children
+    // Currently visible child items
     function visibleChildren() {
         var list = []
         for (var i = 0; i < grid.children.length; ++i) {
@@ -79,7 +79,7 @@ T.Control {
         return list
     }
 
-    // Relayout
+    // Recompute layout
     function relayout() {
         var kids = visibleChildren()
         var cols = Math.max(1, columns)

@@ -3,6 +3,10 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 
+// Gallery — Menu.
+//
+// Displays a list of commands or options in a MenuBar or as a context menu. API: docs/components/Menu.md
+
 Page {
     padding: 0
     ScrollView {

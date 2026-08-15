@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — SelectorBar.
+//
+// Segmented options with keyboard nav and symbol: FluentIcons.* in the model. API: docs/components/SelectorBar.md
+
 Page {
     padding: 0
     ScrollView {

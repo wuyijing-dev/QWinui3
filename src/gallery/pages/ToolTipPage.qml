@@ -3,6 +3,10 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 
+// Gallery — ToolTip.
+//
+// Displays informational text when the user hovers over an element. API: docs/components/ToolTip.md
+
 Page {
     padding: 0
     ScrollView {

@@ -20,20 +20,20 @@ PipsPager { count: 5; currentIndex: 2 }
 - `orientation: int` — Qt.Horizontal or Qt.Vertical
 - `wrap: bool` — Wrap children to next line
 - `previousButtonVisibility: string` — WinUI ButtonVisibility: "visible" | "visibleOnPointerOver" | "collapsed"
-- `nextButtonVisibility: string` — Next Button Visibility
+- `nextButtonVisibility: string` — Visibility of the next button
 - `glyph: string` — Fluent glyph drawn in the button
 - `index: int`
 
 ## Signals
 
-- `currentIndexEdited(int index)` — Current Index Edited
+- `currentIndexEdited(int index)` — Emitted when currentIndex changes via user edit
 - `selectionChanged(int index)` — Selection changed
 
 ## Methods
 
-- `goNext()` — Go Next
-- `goPrevious()` — Go Previous
-- `select(index)` — Select
+- `goNext()` — Navigate to the next page / item
+- `goPrevious()` — Navigate to the previous page / item
+- `select(index)` — Select item by index
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

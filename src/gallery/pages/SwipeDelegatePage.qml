@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — SwipeDelegate.
+//
+// A list delegate that reveals actions when swiped. API: docs/components/SwipeDelegate.md
+
 Page {
     padding: 0
     ScrollView {

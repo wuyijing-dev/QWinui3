@@ -8,7 +8,7 @@ import QtQuick
 QtObject {
     id: root
 
-    // Is Raw Glyph
+    // True when iconGlyph is a raw glyph (not a symbol name)
     function isRawGlyph(value) {
         if (typeof value !== "string" || value.length === 0)
             return false
@@ -23,7 +23,7 @@ QtObject {
         return false
     }
 
-    // To Pascal Case
+    // Convert an identifier to PascalCase
     function toPascalCase(name) {
         if (!name || typeof name !== "string")
             return ""
@@ -43,7 +43,7 @@ QtObject {
         return out
     }
 
-    // Lookup Name
+    // Resolve a Fluent icon name
     function lookupName(name) {
         if (!name || typeof name !== "string")
             return ""
@@ -97,7 +97,7 @@ QtObject {
         return typeof fb === "string" ? fb : ""
     }
 
-    // Has
+    // True when the named case / key exists
     function has(value) {
         return resolve(value, "").length > 0
     }

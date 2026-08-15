@@ -14,27 +14,27 @@ TimePicker { }
 
 ## Properties
 
-- `hour: int` — Hour
-- `minute: int` — Minute
-- `isAm: bool` — Is Am
-- `use24Hour: bool` — Use24 Hour
+- `hour: int` — Selected hour
+- `minute: int` — Selected minute
+- `isAm: bool` — True in AM for 12-hour clock
+- `use24Hour: bool` — Use 24-hour clock
 - `pickerOpen: bool` — Picker flyout open
 - `isOpen: alias` — Open / visible state
 - `header: string` — Header label above the control
 - `minuteIncrement: int` — WinUI MinuteIncrement — e.g. 1, 5, 15
 - `clockIdentifier: string` — WinUI ClockIdentifier (read-only mirror of use24Hour)
-- `minuteModel: var` — Minute Model
-- `displayHour: int` — Display Hour
+- `minuteModel: var` — Minute tumbler model
+- `displayHour: int` — Hour shown in the current clock format
 - `displayText: string` — Text shown to the user
 
 ## Signals
 
-- `timeChosen(int hour, int minute)` — Time Chosen
+- `timeChosen(int hour, int minute)` — Emitted when a time is chosen
 
 ## Methods
 
-- `snapMinute(m)` — Snap Minute
-- `applyFromTumblers()` — Apply From Tumblers
+- `snapMinute(m)` — Snap minutes to the increment
+- `applyFromTumblers()` — Commit tumbler selection into the value
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

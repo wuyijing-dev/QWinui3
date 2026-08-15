@@ -20,15 +20,15 @@ ChartUtils.downsample(values, maxPoints)
 
 ## Methods
 
-- `asNumber(v, fallback)` — As Number
-- `valueCount(input)` — Value Count
+- `asNumber(v, fallback)` — Coerce input to number with fallback
+- `valueCount(input)` — Number of values in the series input
 - `valueAt(input, index, fallback)` — Read one numeric sample without allocating a flattened copy.
-- `pointX(input, index)` — Point X
-- `pointY(input, index)` — Point Y
-- `pointColor(input, index)` — Point Color
+- `pointX(input, index)` — X coordinate for a series point
+- `pointY(input, index)` — Y coordinate for a series point
+- `pointColor(input, index)` — Color for a series point
 - `flattenValues(input)` — Prefer valueAt/valueCount for large series. Dense number arrays are returned as-is.
-- `extents(values)` — Extents
-- `extentsXY(points)` — Extents XY
+- `extents(values)` — Min/max extents of a value series
+- `extentsXY(points)` — X/Y extents of a point series
 - `lodBudget(plotWidth, maxPoints, factor)` — Pixel-aware draw budget. Default keeps ~2 samples per horizontal pixel.
 - `buildLod(values, maxPoints)` — Prefers ChartSeries.lod (C++) when available.
 

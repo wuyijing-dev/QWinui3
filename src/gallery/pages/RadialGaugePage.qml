@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — RadialGauge.
+//
+// Drag when isInteractive; invertThresholds, stepSize, valueEdited. API: docs/components/RadialGauge.md
+
 Page {
     padding: 0
     ScrollView {

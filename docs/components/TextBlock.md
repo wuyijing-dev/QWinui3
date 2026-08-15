@@ -25,13 +25,13 @@ TextBlock { text: qsTr("Title"); style: title }
 - `style: int` — Typography style token
 - `isTextSelectionEnabled: bool` — WinUI IsTextSelectionEnabled — uses TextEdit when true (Label has no selectByMouse)
 - `textTrimming: string` — none | characterEllipsis | wordEllipsis
-- `maxLines: int` — Max Lines
-- `color: color` — Color
-- `styleName: string` — Style Name
+- `maxLines: int` — Maximum wrapped line count
+- `color: color` — Primary color
+- `styleName: string` — Current style name
 
 ## Methods
 
-- `setStyleName(name)` — Set Style Name
+- `setStyleName(name)` — Set style by name
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

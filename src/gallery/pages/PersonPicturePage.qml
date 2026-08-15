@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — PersonPicture.
+//
+// Avatar, initials, Contact glyph when empty, focus ring, and status / count badges. API: docs/components/PersonPicture.md
+
 Page {
     padding: 0
     ScrollView {

@@ -43,9 +43,9 @@ T.Control {
     property real revealProgress: 1
     // Hovered item index
     property int hoverIndex: -1
-    // Hover X
+    // Pointer X while hovered
     property real hoverX: 0
-    // Hover Y
+    // Pointer Y while hovered
     property real hoverY: 0
     // Hover crosshair X
     property real hoverLineX: 0
@@ -96,7 +96,7 @@ T.Control {
         }
     }
 
-    // Play Reveal
+    // Play entrance reveal animation
     function playReveal() {
         invalidateLod()
         var huge = root.sourcePointCountEstimate() >= ChartUtils.largeSeriesThreshold
@@ -110,7 +110,7 @@ T.Control {
         revealProgress = 1
     }
 
-    // Source Point Count Estimate
+    // Estimated source point count before LOD
     function sourcePointCountEstimate() {
         var list = root._seriesList
         var n = 0
@@ -119,7 +119,7 @@ T.Control {
         return n
     }
 
-    // Invalidate Lod
+    // Invalidate level-of-detail cache
     function invalidateLod() {
         _lodKey = ""
         _lodPacks = []

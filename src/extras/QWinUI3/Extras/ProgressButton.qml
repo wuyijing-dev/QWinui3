@@ -18,19 +18,19 @@ T.AbstractButton {
     property alias isIndeterminate: control.indeterminate
     // Show progress indicator
     property bool showProgress: true
-    // Show Percentage
+    // Show percentage readout
     property bool showPercentage: false
     // idle | progressing | completed | error
     property string progressState: "idle"
-    // Progressing Text
+    // Text while progress is running
     property string progressingText: ""
-    // Completed Text
+    // Text shown when complete
     property string completedText: ""
-    // Error Text
+    // Error message text
     property string errorText: ""
-    // Progress Completed
+    // Emitted when progress reaches completion
     signal progressCompleted()
-    // Progress Failed
+    // Emitted when progress fails
     signal progressFailed()
 
     // Value as 0..100 percentage
@@ -72,7 +72,7 @@ T.AbstractButton {
         }
     }
 
-    // Set Progress
+    // Set progress 0..1
     function setProgress(value) {
         indeterminate = false
         progress = Math.max(0, Math.min(1, value))
@@ -84,14 +84,14 @@ T.AbstractButton {
             progressState = "idle"
     }
 
-    // Reset
+    // Reset to defaults
     function reset() {
         progress = 0
         indeterminate = false
         progressState = "idle"
     }
 
-    // Start
+    // Start animation / operation
     function start(indeterminateMode) {
         progressState = "progressing"
         if (indeterminateMode === true) {
@@ -104,7 +104,7 @@ T.AbstractButton {
         }
     }
 
-    // Complete
+    // Mark the step / task complete
     function complete() {
         indeterminate = false
         progress = 1
@@ -112,7 +112,7 @@ T.AbstractButton {
         progressCompleted()
     }
 
-    // Fail
+    // Mark the operation failed
     function fail() {
         progressState = "error"
         progressFailed()
@@ -222,9 +222,9 @@ T.AbstractButton {
             }
         }
 
-        // Inner Radius
+        // Inner radius
         readonly property real innerRadius: Math.max(0, radius - 1)
-        // Inner Width
+        // Inner width
         readonly property real innerWidth: Math.max(0, width - 2)
 
         Rectangle {

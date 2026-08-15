@@ -21,9 +21,9 @@ T.Control {
     property bool badgeVisible: false
     // Badge fill color
     property color badgeColor: Theme.systemSuccess
-    // Badge Symbol
+    // Badge FluentIcons symbol
     property var badgeSymbol: ""
-    // Badge Glyph
+    // Badge Fluent glyph string
     property string badgeGlyph: ""
     // Badge severity
     property int badgeSeverity: -1 // -1 custom; else InfoBadge-like 0..3
@@ -50,7 +50,7 @@ T.Control {
         NumberAnimation { duration: Theme.duration(Theme.motionFast) }
     }
 
-    // Initials
+    // Initials shown when no image
     readonly property string initials: {
         var parts = String(displayName).trim().split(/\s+/).filter(function (p) { return p.length })
         if (!parts.length)

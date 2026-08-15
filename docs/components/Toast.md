@@ -21,7 +21,7 @@ Toast { title: qsTr("Saved"); message: qsTr("OK") }
 - `isOpen: bool` — Open / visible state
 - `actionText: string` — Optional action button label
 - `showProgress: bool` — Show progress indicator
-- `pauseOnHover: bool` — Pause On Hover
+- `pauseOnHover: bool` — Pause auto-advance while hovered
 - `informational: int` — Informational severity constant
 - `success: int` — Success severity constant
 - `warning: int` — Warning severity constant
@@ -35,10 +35,10 @@ Toast { title: qsTr("Saved"); message: qsTr("OK") }
 
 ## Methods
 
-- `show(msg, sev)` — Show
-- `open()` — Open
-- `close()` — Close
-- `hide()` — Hide
+- `show(msg, sev)` — Show the control
+- `open()` — Open / show
+- `close()` — Close / dismiss
+- `hide()` — Hide the control
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

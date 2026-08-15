@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — FontIcon.
+//
+// Gallery demo for FontIcon. API: docs/components/FontIcon.md
+
 Page {
     padding: 0
     ScrollView {

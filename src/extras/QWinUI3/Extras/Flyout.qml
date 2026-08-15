@@ -63,7 +63,7 @@ T.Popup {
         }
     }
 
-    // Show At
+    // Show anchored at the given point or item
     function showAt(item, place) {
         if (item) {
             root.target = item
@@ -77,12 +77,12 @@ T.Popup {
         Qt.callLater(root.reposition)
     }
 
-    // Show
+    // Show the control
     function show() { isOpen = true; Qt.callLater(reposition) }
-    // Hide
+    // Hide the control
     function hide() { isOpen = false }
 
-    // Reposition
+    // Reposition the popup / flyout
     function reposition() {
         if (!target || !parent)
             return

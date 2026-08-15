@@ -16,11 +16,11 @@ IconSource.resolve(symbol, iconGlyph)
 
 ## Methods
 
-- `isRawGlyph(value)` — Is Raw Glyph
-- `toPascalCase(name)` — To Pascal Case
-- `lookupName(name)` — Lookup Name
+- `isRawGlyph(value)` — True when iconGlyph is a raw glyph (not a symbol name)
+- `toPascalCase(name)` — Convert an identifier to PascalCase
+- `lookupName(name)` — Resolve a Fluent icon name
 - `resolve(value, fallback)` — value: FluentIcons.X | "Save" | "\uE74E" | codepoint | { glyph|symbol|icon|name }
-- `has(value)` — Has
+- `has(value)` — True when the named case / key exists
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

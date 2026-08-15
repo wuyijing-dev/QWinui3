@@ -100,13 +100,13 @@ T.Control {
         }
     }
 
-    // Invalidate Lod
+    // Invalidate level-of-detail cache
     function invalidateLod() {
         _lodKey = ""
         _lodPacks = []
     }
 
-    // Source Point Count Estimate
+    // Estimated source point count before LOD
     function sourcePointCountEstimate() {
         var list = root._seriesList
         var n = 0
@@ -115,7 +115,7 @@ T.Control {
         return n
     }
 
-    // Ensure Lod
+    // Build LOD samples for the given budget
     function ensureLod(budget) {
         var list = root._seriesList
         var key = String(budget)

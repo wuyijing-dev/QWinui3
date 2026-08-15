@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — HeaderedTextBox.
+//
+// Header, description, error icon, clear button, and optional characterLimit. API: docs/components/HeaderedTextBox.md
+
 Page {
     padding: 0
     ScrollView {

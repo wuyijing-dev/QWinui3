@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — MenuFlyout.
+//
+// Elevated menu with title, isOpen, preferredPlacement, and motion. API: docs/components/MenuFlyout.md
+
 Page {
     padding: 0
     ScrollView {

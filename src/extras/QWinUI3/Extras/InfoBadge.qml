@@ -66,7 +66,7 @@ T.Control {
         }
     }
 
-    // Set Severity Name
+    // Set severity from a string name
     function setSeverityName(name) {
         switch (String(name).toLowerCase()) {
         case "success": severity = success; break
@@ -80,7 +80,7 @@ T.Control {
 
     // Resolved glyph string
     readonly property string effectiveIconGlyph: IconSource.resolve(symbol, iconGlyph)
-    // Dot
+    // Dot / pip indicator
     property bool dot: displayText.length === 0 && effectiveIconGlyph.length === 0
     // Hide when value/text empty
     property bool hideWhenEmpty: false

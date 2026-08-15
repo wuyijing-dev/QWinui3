@@ -21,7 +21,7 @@ SelectorBar { model: ["All", "Unread"]; currentIndex: 0 }
 - `modelData: var`
 - `index: int`
 - `segmentIndex: int` — Active segment index
-- `contentRow: alias` — Content Row
+- `contentRow: alias` — Content row container
 
 ## Signals
 
@@ -29,10 +29,10 @@ SelectorBar { model: ["All", "Unread"]; currentIndex: 0 }
 
 ## Methods
 
-- `select(index)` — Select
-- `itemAt(index)` — Item At
-- `targetGeometry(index)` — Target Geometry
-- `moveIndicator(instant)` — Move Indicator
+- `select(index)` — Select item by index
+- `itemAt(index)` — Item at the given index
+- `targetGeometry(index)` — Target geometry for placement
+- `moveIndicator(instant)` — Move selection indicator to index
 - `syncIndicatorIfIdle()`
 
 ---

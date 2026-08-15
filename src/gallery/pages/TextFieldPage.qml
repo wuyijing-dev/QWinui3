@@ -3,6 +3,10 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 
+// Gallery — TextField.
+//
+// A single-line text input control. API: docs/components/TextField.md
+
 Page {
     padding: 0
     ScrollView {

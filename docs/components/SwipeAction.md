@@ -17,7 +17,7 @@ SwipeAction { text: qsTr("Delete"); onTriggered: remove() }
 - `text: string` — Display / input text
 - `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
 - `iconGlyph: string` — Raw Fluent glyph string fallback
-- `color: color` — Color
+- `color: color` — Primary color
 - `textColor: color` — Badge / content text color
 - `leading: bool` — Leading content slot
 - `effectiveGlyph: string` — Resolved glyph string

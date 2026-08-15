@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — AutoSuggestBox.
+//
+// Fluent Search icon, ElevatedChrome list, and isSuggestionListOpen. API: docs/components/AutoSuggestBox.md
+
 Page {
     padding: 0
     ScrollView {

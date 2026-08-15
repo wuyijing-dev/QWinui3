@@ -28,9 +28,9 @@ ColorPickerButton { selectedColor: Theme.accent }
 
 ## Methods
 
-- `hex2(n)` — Hex2
-- `open()` — Open
-- `close()` — Close
+- `hex2(n)` — Two-digit hex for a channel
+- `open()` — Open / show
+- `close()` — Close / dismiss
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

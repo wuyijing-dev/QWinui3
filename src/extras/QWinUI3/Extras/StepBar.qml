@@ -21,26 +21,26 @@ T.Control {
     property string orientation: "horizontal"
     // Alias of interactive
     property bool isInteractive: true
-    // Step Activated
+    // Emitted when a step is activated
     signal stepActivated(int index)
 
     readonly property bool _vertical: orientation === "vertical"
 
-    // Next
+    // Advance to next
     function next() {
         if (currentIndex < (model ? model.length : 0) - 1) {
             currentIndex++
             stepActivated(currentIndex)
         }
     }
-    // Previous
+    // Go to previous
     function previous() {
         if (currentIndex > 0) {
             currentIndex--
             stepActivated(currentIndex)
         }
     }
-    // Go To
+    // Navigate to the given index
     function goTo(index) {
         if (index < 0 || index >= (model ? model.length : 0))
             return

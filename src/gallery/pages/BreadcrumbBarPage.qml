@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — BreadcrumbBar.
+//
+// Fluent separators, symbol crumbs, overflow ellipsis, and Accessible path. API: docs/components/BreadcrumbBar.md
+
 Page {
     padding: 0
     ScrollView {

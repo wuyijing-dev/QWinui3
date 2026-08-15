@@ -15,7 +15,7 @@ T.Control {
     default property alias items: host.data
     // Qt.Horizontal or Qt.Vertical
     property int orientation: Qt.Vertical
-    // Item Spacing
+    // Spacing between items
     property real itemSpacing: orientation === Qt.Horizontal
             ? Theme.spacingSection : Theme.spacingLoose
     // Header label above the control
@@ -62,7 +62,7 @@ T.Control {
     onOrientationChanged: Qt.callLater(syncChildren)
     Component.onCompleted: Qt.callLater(syncChildren)
 
-    // Sync Children
+    // Synchronize child item state
     function syncChildren() {
         var full = root.orientation === Qt.Vertical
         for (var i = 0; i < host.children.length; ++i) {

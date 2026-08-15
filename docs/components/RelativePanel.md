@@ -16,22 +16,22 @@ RelativePanel {
 
 ## Properties
 
-- `panelSpacing: real` — Panel Spacing
+- `panelSpacing: real` — Spacing between panels
 - `paddingEdges: int` — Edge paddings
 
 ## Methods
 
-- `isPanel(ref)` — Is Panel
-- `leftEdge(ref)` — Left Edge
-- `rightEdge(ref)` — Right Edge
-- `topEdge(ref)` — Top Edge
-- `bottomEdge(ref)` — Bottom Edge
-- `centerX(ref)` — Center X
-- `centerY(ref)` — Center Y
-- `preferredWidth(item)` — Preferred Width
-- `preferredHeight(item)` — Preferred Height
-- `has(item, name)` — Has
-- `relayout()` — Relayout
+- `isPanel(ref)` — True when rendered as a panel
+- `leftEdge(ref)` — Left edge anchor
+- `rightEdge(ref)` — Right edge anchor
+- `topEdge(ref)` — Top edge anchor
+- `bottomEdge(ref)` — Bottom edge anchor
+- `centerX(ref)` — Center X in local coords
+- `centerY(ref)` — Center Y in local coords
+- `preferredWidth(item)` — Preferred width hint
+- `preferredHeight(item)` — Preferred height hint
+- `has(item, name)` — True when the named case / key exists
+- `relayout()` — Recompute layout
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

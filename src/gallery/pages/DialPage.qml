@@ -3,6 +3,10 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 
+// Gallery — Dial.
+//
+// Fluent dial with ticks, title, showValue, and Accessible. API: docs/components/Dial.md
+
 Page {
     padding: 0
     ScrollView {

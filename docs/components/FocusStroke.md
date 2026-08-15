@@ -16,10 +16,10 @@ FocusStroke { anchors.fill: parent; visible: control.visualFocus }
 
 ## Properties
 
-- `show: bool` — Show
-- `frameRadius: real` — Frame Radius
-- `outerSize: real` — Outer Size
-- `innerSize: real` — Inner Size
+- `show: bool` — Show the control
+- `frameRadius: real` — Frame corner radius
+- `outerSize: real` — Outer size
+- `innerSize: real` — Inner size
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

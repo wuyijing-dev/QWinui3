@@ -3,6 +3,10 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 
+// Gallery — Pane.
+//
+// A padded surface that groups related content. API: docs/components/Pane.md
+
 Page {
     padding: 0
     ScrollView {

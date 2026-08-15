@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — DatePicker.
+//
+// Fluent Calendar icon, dateFormat, selectedDate, and Accessible. API: docs/components/DatePicker.md
+
 Page {
     padding: 0
     ScrollView {

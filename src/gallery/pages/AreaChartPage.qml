@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — AreaChart.
+//
+// Filled areas with legend, hover crosshair, and stacked mode. API: docs/components/AreaChart.md
+
 Page {
     id: page
     padding: 0

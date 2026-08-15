@@ -22,7 +22,7 @@ T.AbstractButton {
     property bool emphasized: false
     // Tooltip text
     property string toolTipText: ""
-    // Min Width
+    // Minimum width
     property real minWidth: {
         switch (size) {
         case "small": return 22

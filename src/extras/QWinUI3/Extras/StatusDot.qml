@@ -35,7 +35,7 @@ T.Control {
     implicitWidth: showLabel ? row.implicitWidth : size
     implicitHeight: showLabel ? Math.max(size, row.implicitHeight) : size
 
-    // Status Name
+    // Status name string
     readonly property string statusName: {
         switch (status) {
         case available: return qsTr("Available")
@@ -46,7 +46,7 @@ T.Control {
         }
     }
 
-    // Status Color
+    // Status indicator color
     readonly property color statusColor: {
         switch (status) {
         case available: return Theme.systemSuccess

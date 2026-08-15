@@ -6,6 +6,10 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 import QWinUI3.Platform
 
+// Gallery — Blank shell.
+//
+// Empty client — add your content as children
+
 Page {
     id: root
     padding: 0

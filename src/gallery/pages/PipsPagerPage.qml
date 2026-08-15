@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — PipsPager.
+//
+// Page indicators with selectedIndex, keyboard nav, and WinUI previous/next visibility. API: docs/components/PipsPager.md
+
 Page {
     padding: 0
     ScrollView {

@@ -19,23 +19,23 @@ TwoPaneView {
 
 - `pane1: Item` — First pane content
 - `pane2: Item` — Second pane content
-- `panePriorityWidth: real` — Pane Priority Width
-- `pane1Length: alias` — Pane1 Length
-- `minWideWidth: real` — Min Wide Width
-- `preferredMode: int` — Preferred Mode
-- `panePriority: int` — Pane Priority
-- `mode: int` — Mode
-- `singlePaneIndex: int` — Single Pane Index
-- `modeName: string` — Mode Name
+- `panePriorityWidth: real` — Width threshold for pane priority
+- `pane1Length: alias` — Primary pane length
+- `minWideWidth: real` — Minimum width for wide layout
+- `preferredMode: int` — Preferred display mode
+- `panePriority: int` — Which pane takes priority when collapsing
+- `mode: int` — Display / interaction mode
+- `singlePaneIndex: int` — Which pane is shown in single-pane mode
+- `modeName: string` — Human-readable mode name
 
 ## Methods
 
-- `showPane1()` — Show Pane1
-- `showPane2()` — Show Pane2
-- `toggleSinglePane()` — Toggle Single Pane
-- `swapPanes()` — Swap Panes
-- `reparentPanes()` — Reparent Panes
-- `layoutPanes()` — Layout Panes
+- `showPane1()` — Show primary pane
+- `showPane2()` — Show secondary pane
+- `toggleSinglePane()` — Toggle single-pane mode
+- `swapPanes()` — Swap primary / secondary panes
+- `reparentPanes()` — Reparent TwoPaneView panes for mode
+- `layoutPanes()` — Recompute TwoPaneView pane layout
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

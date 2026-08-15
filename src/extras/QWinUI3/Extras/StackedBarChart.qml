@@ -34,7 +34,7 @@ T.Control {
     property bool animated: true
     // 0..1 reveal animation progress
     property real revealProgress: 1
-    // Hover Category
+    // Hovered category index
     property int hoverCategory: -1
     // Hovered series index
     property int hoverSeries: -1
@@ -45,7 +45,7 @@ T.Control {
     // Placeholder when there is no data
     property string emptyText: qsTr("No data")
 
-    // Category Clicked
+    // Emitted when a category is clicked
     signal categoryClicked(int categoryIndex)
 
     implicitWidth: 320
@@ -80,7 +80,7 @@ T.Control {
         }
     }
 
-    // Play Reveal
+    // Play entrance reveal animation
     function playReveal() {
         if (!root.animated || Theme.reducedMotion) {
             revealProgress = 1
@@ -91,7 +91,7 @@ T.Control {
         revealProgress = 1
     }
 
-    // Request Redraw
+    // Request chart / canvas redraw
     function requestRedraw() { canvas.requestPaint() }
     onSeriesChanged: Qt.callLater(playReveal)
     onCategoriesChanged: requestRedraw()
@@ -142,7 +142,7 @@ T.Control {
                 property real padL: 2
                 // Bottom padding
                 property real padB: 4
-                // Cat Count
+                // Category count
                 property int catCount: 0
 
                 onPaint: {

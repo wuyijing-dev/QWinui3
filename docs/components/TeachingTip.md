@@ -24,18 +24,18 @@ TeachingTip { target: btn; title: qsTr("Tip"); subtitle: qsTr("Hint") }
 - `isLightDismissEnabled: bool` — Close on outside click / Esc
 - `isCloseButtonVisible: bool` — Alias of closable
 - `preferredPlacement: int` — Preferred flyout placement
-- `effectivePlacement: int` — Effective Placement
-- `heroContent: alias` — Hero Content
+- `effectivePlacement: int` — Resolved flyout placement
+- `heroContent: alias` — Hero content slot
 - `effectiveIconGlyph: string` — Resolved glyph string
 
 ## Signals
 
 - `actionClicked()` — Emitted when action is clicked
-- `closedByUser()` — Closed By User
+- `closedByUser()` — True when the user dismissed the dialog
 
 ## Methods
 
-- `reanchor()` — Reanchor
+- `reanchor()` — Recompute popup anchor
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

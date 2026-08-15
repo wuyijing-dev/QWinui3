@@ -3,6 +3,10 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 
+// Gallery — Switch.
+//
+// Use a Switch to present users with two mutually exclusive options. API: docs/components/Switch.md
+
 Page {
     padding: 0
     ScrollView {

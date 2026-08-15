@@ -21,7 +21,7 @@ WindowResizeBorder { targetWindow: root }
 
 ## Methods
 
-- `edgeResize(edges)` — Edge Resize
+- `edgeResize(edges)` — Enable edge resize grips
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

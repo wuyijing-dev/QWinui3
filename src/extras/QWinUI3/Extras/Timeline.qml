@@ -16,9 +16,9 @@ T.Control {
     property int currentIndex: -1
     // Selected index alias
     property alias selectedIndex: root.currentIndex
-    // Rail Width
+    // Track / rail width
     property real railWidth: 2
-    // Node Size
+    // Node / marker size
     property real nodeSize: 12
     // Alias of interactive
     property bool isInteractive: true
@@ -29,7 +29,7 @@ T.Control {
 
     onCurrentIndexChanged: selectionChanged(currentIndex)
 
-    // Select
+    // Select item by index
     function select(index) {
         if (index < 0 || index >= (model ? model.length : 0))
             return
@@ -37,12 +37,12 @@ T.Control {
         itemClicked(index)
     }
 
-    // Next
+    // Advance to next
     function next() {
         if (currentIndex < (model ? model.length : 0) - 1)
             select(currentIndex + 1)
     }
-    // Previous
+    // Go to previous
     function previous() {
         if (currentIndex > 0)
             select(currentIndex - 1)
@@ -75,13 +75,13 @@ T.Control {
                 width: list.width
                 height: Math.max(40, contentCol.implicitHeight + 16)
 
-                // Is Last
+                // True for the last item
                 readonly property bool isLast: index === (root.model.length - 1)
                 // Active / animating state
                 readonly property bool isActive: modelData.active === true
                                                 || index === root.currentIndex
                                                 || (root.currentIndex < 0 && index === 0)
-                // Node Color
+                // Node / marker color
                 readonly property color nodeColor: modelData.color || Theme.accent
                 readonly property string _glyph: IconSource.resolve(
                         (typeof modelData === "object" && modelData) ? (modelData.symbol || "") : "",

@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — InfoBadge.
+//
+// Counts, status dots, or Fluent symbols with severityName and bump animation. API: docs/components/InfoBadge.md
+
 Page {
     padding: 0
     ScrollView {

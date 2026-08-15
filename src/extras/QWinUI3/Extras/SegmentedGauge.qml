@@ -106,18 +106,18 @@ T.Control {
         return Math.max(0, Math.min(1, (animatedValue - minimum) / span))
     }
 
-    // Filled Exact
+    // Exactly filled segment count
     readonly property real filledExact: animatedNorm * Math.max(1, segmentCount)
-    // Filled Segments
+    // Filled segment count
     readonly property int filledSegments: Math.floor(filledExact + (fillMode === "partial" ? 0 : 0.5))
-    // Partial Amount
+    // Partial fill amount 0..1
     readonly property real partialAmount: {
         if (fillMode !== "partial")
             return 0
         return filledExact - Math.floor(filledExact)
     }
 
-    // Clamp Snap
+    // Clamp and snap a value to the valid range
     function clampSnap(v) {
         var lo = Math.min(minimum, maximum)
         var hi = Math.max(minimum, maximum)
@@ -152,7 +152,7 @@ T.Control {
         id: face
         // Corner radius
         readonly property real radius: Math.min(width, height) / 2 - root.strokeWidth - 2
-        // Seg Sweep
+        // Segment sweep angle
         readonly property real segSweep: {
             var n = Math.max(1, root.segmentCount)
             var totalGap = root.gapDegrees * n
@@ -166,20 +166,20 @@ T.Control {
                 required property int index
                 anchors.fill: parent
                 preferredRendererType: Shape.CurveRenderer
-                // Fully Filled
+                // True when all segments are filled
                 readonly property bool fullyFilled: {
                     if (root.fillMode === "partial")
                         return index < Math.floor(root.filledExact)
                     return index < root.filledSegments
                 }
-                // Is Partial
+                // True for a partially filled segment
                 readonly property bool isPartial: root.fillMode === "partial"
                         && index === Math.floor(root.filledExact)
                         && root.partialAmount > 0.01
                 // Segment start value
                 readonly property real segStart: root.startAngle
                         + index * (face.segSweep + root.gapDegrees)
-                // Draw Sweep
+                // Draw the gauge sweep arc
                 readonly property real drawSweep: isPartial
                         ? face.segSweep * root.partialAmount
                         : face.segSweep

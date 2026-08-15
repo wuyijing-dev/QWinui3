@@ -20,7 +20,7 @@ MetadataItem { label: qsTr("Size"); value: "12 KB" }
 - `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
 - `iconGlyph: string` — Raw Fluent glyph string fallback
 - `orientation: int` — Qt.Horizontal or Qt.Vertical
-- `valueColor: color` — Value Color
+- `valueColor: color` — Value / series color
 - `effectiveIconGlyph: string` — Resolved glyph string
 
 ---

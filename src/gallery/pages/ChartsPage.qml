@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — Charts.
+//
+// WinUI-style Canvas charts. Open each control in the Charts category for focused demos.
+
 Page {
     id: page
     padding: 0

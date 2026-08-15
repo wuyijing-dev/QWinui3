@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — Chip.
+//
+// Selectable or closable tag with Fluent ChromeClose and Accessible. API: docs/components/Chip.md
+
 Page {
     padding: 0
     ScrollView {

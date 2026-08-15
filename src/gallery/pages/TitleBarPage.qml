@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — TitleBar.
+//
+// WinUI TitleBar: Back, PaneToggle, Icon, Title/Subtitle, Content, RightHeader. API: docs/components/TitleBar.md
+
 Page {
     padding: 0
     ScrollView {

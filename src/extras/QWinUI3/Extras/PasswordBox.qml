@@ -27,9 +27,9 @@ T.Control {
     property bool clearButtonVisible: false
     // WinUI PasswordRevealMode: peek | hidden | visible
     property string passwordRevealMode: "peek"
-    // Reveal Password
+    // True while password is revealed
     property bool revealPassword: false
-    // Reveal Button Visible
+    // Show password reveal button
     property bool revealButtonVisible: passwordRevealMode !== "hidden" && passwordRevealMode !== "visible"
     // TextField echo mode
     property alias echoMode: field.echoMode
@@ -53,13 +53,13 @@ T.Control {
     Accessible.description: hasError ? errorMessage : description
     Accessible.passwordEdit: !revealPassword
 
-    // Clear
+    // Clear text or selection
     function clear() {
         field.clear()
         cleared()
     }
 
-    // Focus Field
+    // Move keyboard focus to the text field
     function focusField() {
         field.forceActiveFocus()
     }

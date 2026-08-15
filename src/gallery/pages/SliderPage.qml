@@ -3,6 +3,10 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 
+// Gallery — Slider.
+//
+// A control that lets the user select from a range of values by moving a thumb. API: docs/components/Slider.md
+
 Page {
     padding: 0
     ScrollView {

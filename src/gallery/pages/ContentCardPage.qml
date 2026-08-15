@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — ContentCard.
+//
+// Elevated card with symbol, footer, isClickable, focus, and keyboard activate. API: docs/components/ContentCard.md
+
 Page {
     padding: 0
     ScrollView {

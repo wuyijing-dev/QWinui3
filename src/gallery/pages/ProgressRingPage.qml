@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — ProgressRing.
+//
+// Circular progress with size, showValue, Accessible, and Active/Paused indeterminate. API: docs/components/ProgressRing.md
+
 Page {
     padding: 0
     ScrollView {

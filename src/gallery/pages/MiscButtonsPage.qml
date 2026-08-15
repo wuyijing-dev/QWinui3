@@ -3,6 +3,10 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 
+// Gallery — Tool / Round / Delay.
+//
+// Additional button variants for toolbars, compact actions, and hold-to-confirm.
+
 Page {
     padding: 0
     ScrollView {

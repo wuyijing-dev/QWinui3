@@ -33,10 +33,10 @@ ChipGroup { model: ["All", "Open"]; currentIndex: 0 }
 
 ## Methods
 
-- `isSelected(index)` — Is Selected
-- `clearSelection()` — Clear Selection
-- `select(index)` — Select
-- `toggleIndex(index)` — Toggle Index
+- `isSelected(index)` — True when this item is selected
+- `clearSelection()` — Clear the current selection
+- `select(index)` — Select item by index
+- `toggleIndex(index)` — Toggle selection at index
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

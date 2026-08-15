@@ -20,14 +20,14 @@ PersonPicture { displayName: "Ada"; size: 48 }
 - `profileColor: color` — Fallback avatar fill
 - `badgeVisible: bool` — Show avatar badge
 - `badgeColor: color` — Badge fill color
-- `badgeSymbol: var` — Badge Symbol
-- `badgeGlyph: string` — Badge Glyph
+- `badgeSymbol: var` — Badge FluentIcons symbol
+- `badgeGlyph: string` — Badge Fluent glyph string
 - `badgeSeverity: int` — Badge severity
 - `badgeValue: int` — WinUI-style count / text overlay (takes precedence over glyph when set)
 - `badgeText: string` — Badge caption
 - `badgeMaxValue: int` — Badge max before +
 - `selected: bool` — Selected state
-- `initials: string` — Initials
+- `initials: string` — Initials shown when no image
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — AccentButton.
+//
+// Always-accent primary CTA. Prefer symbol: FluentIcons.* for icons. API: docs/components/AccentButton.md
+
 Page {
     padding: 0
     ScrollView {

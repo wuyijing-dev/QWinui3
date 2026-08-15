@@ -28,7 +28,7 @@ ProgressRing { indeterminate: true }
 - `formattedValue: string` — Formatted value string
 - `radius: real` — Corner radius
 - `spinAngle: real` — Indeterminate spin angle
-- `animatedSweep: real` — Animated Sweep
+- `animatedSweep: real` — Animated sweep angle for gauges
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

@@ -30,7 +30,7 @@ RadioButtons { header: qsTr("Choice"); model: ["A", "B"] }
 
 ## Methods
 
-- `select(index)` — Select
+- `select(index)` — Select item by index
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

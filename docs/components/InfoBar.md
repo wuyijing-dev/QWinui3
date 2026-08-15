@@ -46,9 +46,9 @@ InfoBar {
 
 ## Methods
 
-- `open()` — Open
-- `close()` — Close
-- `setSeverityName(name)` — Set Severity Name
+- `open()` — Open / show
+- `close()` — Close / dismiss
+- `setSeverityName(name)` — Set severity from a string name
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

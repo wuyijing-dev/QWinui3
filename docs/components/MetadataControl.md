@@ -18,13 +18,13 @@ MetadataControl {
 
 - `items: alias` — Item list / children model
 - `orientation: int` — Qt.Horizontal or Qt.Vertical
-- `itemSpacing: real` — Item Spacing
+- `itemSpacing: real` — Spacing between items
 - `header: string` — Header label above the control
 - `paddingEdges: int` — Edge paddings
 
 ## Methods
 
-- `syncChildren()` — Sync Children
+- `syncChildren()` — Synchronize child item state
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

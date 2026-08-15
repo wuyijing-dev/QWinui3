@@ -20,7 +20,7 @@ T.Control {
     property real minimum: 0
     // Maximum value
     property real maximum: NaN
-    // Levels
+    // Discrete level descriptors
     property int levels: 4
     // Fill under line / area
     property bool filled: true
@@ -74,7 +74,7 @@ T.Control {
         }
     }
 
-    // Play Reveal
+    // Play entrance reveal animation
     function playReveal() {
         if (!root.animated || Theme.reducedMotion) {
             revealProgress = 1
@@ -85,10 +85,10 @@ T.Control {
         revealProgress = 1
     }
 
-    // Request Redraw
+    // Request chart / canvas redraw
     function requestRedraw() { canvas.requestPaint() }
 
-    // Clear Hover
+    // Clear hovered item state
     function clearHover() {
         hoverSeries = -1
         requestRedraw()

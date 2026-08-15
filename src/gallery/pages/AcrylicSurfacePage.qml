@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — AcrylicSurface.
+//
+// Frosted ElevatedChrome surface with tint, cornerRadius, and Accessible pane. API: docs/components/AcrylicSurface.md
+
 Page {
     padding: 0
     ScrollView {

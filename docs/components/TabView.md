@@ -26,11 +26,11 @@ TabView {
 - `canReorderTabs: alias` — Alias of tabsReorderable
 - `tabWidthMode: string` — Tab width mode
 - `isAddTabButtonVisible: bool` — Show add-tab button
-- `tabCount: int` — Tab Count
+- `tabCount: int` — Number of tabs
 - `modelData: var`
 - `index: int`
-- `tabIndex: int` — Tab Index
-- `dragActive: bool` — Drag Active
+- `tabIndex: int` — Tab index in the model
+- `dragActive: bool` — True while a drag is in progress
 
 ## Signals
 
@@ -38,14 +38,14 @@ TabView {
 - `currentIndexChangedByUser(int index)` — Selection changed by user
 - `selectionChanged(int index)` — Selection changed
 - `tabMoved(int from, int to)` — Tab reordered
-- `addTabButtonClicked()` — Add Tab Button Clicked
+- `addTabButtonClicked()` — Emitted when the add-tab button is clicked
 
 ## Methods
 
-- `addTab(item)` — Add Tab
-- `closeTab(index)` — Close Tab
-- `moveTab(from, to)` — Move Tab
-- `tabIndexAtContentX(x)` — Tab Index At Content X
+- `addTab(item)` — Append a tab
+- `closeTab(index)` — Close tab at index
+- `moveTab(from, to)` — Move a tab from/to index
+- `tabIndexAtContentX(x)` — Tab index under a contentX
 - `tabItemAt(index)`
 
 ---

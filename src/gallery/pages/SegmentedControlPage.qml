@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — SegmentedControl.
+//
+// Sliding indicator, Fluent symbols, keyboard arrows, Accessible tabs. API: docs/components/SegmentedControl.md
+
 Page {
     padding: 0
     ScrollView {

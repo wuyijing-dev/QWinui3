@@ -3,6 +3,10 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 
+// Gallery — ToolBar.
+//
+// A container for command buttons and related controls. API: docs/components/ToolBar.md
+
 Page {
     padding: 0
     ScrollView {

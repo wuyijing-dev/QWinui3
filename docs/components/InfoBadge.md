@@ -30,7 +30,7 @@ InfoBadge { value: 3; severity: informational }
 - `textColor: color` — Badge / content text color
 - `severityName: string` — Severity as string name
 - `effectiveIconGlyph: string` — Resolved glyph string
-- `dot: bool` — Dot
+- `dot: bool` — Dot / pip indicator
 - `hideWhenEmpty: bool` — Hide when value/text empty
 - `displayText: string` — Text shown to the user
 - `isEmpty: bool` — True when there is no data
@@ -38,7 +38,7 @@ InfoBadge { value: 3; severity: informational }
 
 ## Methods
 
-- `setSeverityName(name)` — Set Severity Name
+- `setSeverityName(name)` — Set severity from a string name
 - `bump()`
 
 ---

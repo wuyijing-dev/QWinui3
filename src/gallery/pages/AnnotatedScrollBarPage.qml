@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — AnnotatedScrollBar.
+//
+// Scrollbar thumb label bubble using ElevatedChrome (no corner flicker). API: docs/components/AnnotatedScrollBar.md
+
 Page {
     padding: 0
     ScrollView {

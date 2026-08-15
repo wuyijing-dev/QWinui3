@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — RadarChart.
+//
+// Spider chart with title, empty state, and legend emphasis. API: docs/components/RadarChart.md
+
 Page {
     id: page
     padding: 0

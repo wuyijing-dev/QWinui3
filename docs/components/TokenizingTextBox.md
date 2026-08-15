@@ -31,7 +31,7 @@ TokenizingTextBox {
 - `errorMessage: string` — Validation error text
 - `hasError: bool` — True when validation failed
 - `tokenCount: int` — Number of tokens
-- `filteredSuggestions: var` — Filtered Suggestions
+- `filteredSuggestions: var` — Suggestions matching the query
 - `index: int`
 - `modelData: var`
 
@@ -45,10 +45,10 @@ TokenizingTextBox {
 
 ## Methods
 
-- `focusField()` — Focus Field
-- `clear()` — Clear
-- `addToken(value)` — Add Token
-- `removeToken(index)` — Remove Token
+- `focusField()` — Move keyboard focus to the text field
+- `clear()` — Clear text or selection
+- `addToken(value)` — Insert a token from text
+- `removeToken(index)` — Remove a token
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

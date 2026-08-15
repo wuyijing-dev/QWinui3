@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — BarChart.
+//
+// Gradient columns with title, valueUnit, and empty state. API: docs/components/BarChart.md
+
 Page {
     id: page
     padding: 0

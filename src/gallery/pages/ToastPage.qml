@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — Toast.
+//
+// Transient notification with Fluent severity icons, HyperlinkButton action, and progress. API: docs/components/Toast.md
+
 Page {
     padding: 0
     Toast {

@@ -57,10 +57,10 @@ T.Control {
     Accessible.role: Accessible.ComboBox
     Accessible.name: header.length ? header : qsTr("Suggestions")
 
-    // Focus Field
+    // Move keyboard focus to the text field
     function focusField() { field.forceActiveFocus() }
 
-    // Display Text For
+    // Display text for a model item
     function displayTextFor(item) {
         if (item === undefined || item === null)
             return ""
@@ -71,7 +71,7 @@ T.Control {
         return String(item.title || item.text || "")
     }
 
-    // Refresh Suggestions
+    // Rebuild suggestion list from text
     function refreshSuggestions() {
         var q = (field.text || "").trim().toLowerCase()
         if (!q.length) {
@@ -89,7 +89,7 @@ T.Control {
             popup.close()
     }
 
-    // Clear
+    // Clear text or selection
     function clear() {
         field.text = ""
         suggestionModel = []

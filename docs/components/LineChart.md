@@ -30,8 +30,8 @@ LineChart { values: [1, 4, 2, 6] }
 - `gridColor: color` — Grid line color
 - `revealProgress: real` — 0..1 reveal animation progress
 - `hoverIndex: int` — Hovered item index
-- `hoverX: real` — Hover X
-- `hoverY: real` — Hover Y
+- `hoverX: real` — Pointer X while hovered
+- `hoverY: real` — Pointer Y while hovered
 - `hoverLineX: real` — Hover crosshair X
 - `hoverMarkers: var` — Hover marker descriptors
 - `hoverText: string` — Tooltip / hover readout text
@@ -44,9 +44,9 @@ LineChart { values: [1, 4, 2, 6] }
 
 ## Methods
 
-- `playReveal()` — Play Reveal
-- `sourcePointCountEstimate()` — Source Point Count Estimate
-- `invalidateLod()` — Invalidate Lod
+- `playReveal()` — Play entrance reveal animation
+- `sourcePointCountEstimate()` — Estimated source point count before LOD
+- `invalidateLod()` — Invalidate level-of-detail cache
 - `ensureLod(budget)`
 - `requestRedraw()`
 - `onDataChanged()`

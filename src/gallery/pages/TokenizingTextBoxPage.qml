@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — TokenizingTextBox.
+//
+// Tokens with ElevatedChrome suggestions, clear(), and Accessible. API: docs/components/TokenizingTextBox.md
+
 Page {
     padding: 0
     ScrollView {

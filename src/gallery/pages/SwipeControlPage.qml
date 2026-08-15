@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — SwipeControl.
+//
+// Reveal actions with ElevatedChrome panel, keyboard arrows / Esc, and isOpen. API: docs/components/SwipeControl.md
+
 Page {
     padding: 0
     ScrollView {

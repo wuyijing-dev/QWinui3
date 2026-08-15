@@ -44,9 +44,9 @@ AreaChart { values: [1, 3, 2, 5] }
 
 ## Methods
 
-- `invalidateLod()` — Invalidate Lod
-- `sourcePointCountEstimate()` — Source Point Count Estimate
-- `ensureLod(budget)` — Ensure Lod
+- `invalidateLod()` — Invalidate level-of-detail cache
+- `sourcePointCountEstimate()` — Estimated source point count before LOD
+- `ensureLod(budget)` — Build LOD samples for the given budget
 - `playReveal()`
 - `requestRedraw()`
 - `onDataChanged()`

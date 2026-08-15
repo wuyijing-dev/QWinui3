@@ -4,6 +4,10 @@ import QtQuick.Controls
 import Qt.labs.qmlmodels
 import QWinUI3.Theme
 
+// Gallery — TableView.
+//
+// Tabular data with styled horizontal and vertical headers.
+
 Page {
     padding: 0
     ScrollView {

@@ -21,18 +21,18 @@ SwitchPresenter {
 - `animated: bool` — Play enter / reveal animation
 - `currentIndex: int` — Selected index
 - `selectedIndex: alias` — Selected index alias
-- `cases: alias` — Cases
+- `cases: alias` — Named case content map
 
 ## Signals
 
-- `caseChanged(var value, int index)` — Case Changed
+- `caseChanged(var value, int index)` — Emitted when the active SwitchPresenter case changes
 
 ## Methods
 
-- `valuesEqual(a, b)` — Values Equal
-- `select(index)` — Select
-- `applyValue()` — Apply Value
-- `setCaseActive(ch, on)` — Set Case Active
+- `valuesEqual(a, b)` — True when two values compare equal
+- `select(index)` — Select item by index
+- `applyValue()` — Commit the pending value
+- `setCaseActive(ch, on)` — Activate a SwitchPresenter case by name
 - `syncWidths()`
 
 ---

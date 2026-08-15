@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — FlipView.
+//
+// Swipeable pages with Fluent chevrons, PipsPager, and Accessible page index. API: docs/components/FlipView.md
+
 Page {
     padding: 0
     ScrollView {

@@ -3,6 +3,10 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 
+// Gallery — PageIndicator.
+//
+// Indicates the current page in a multi-page view such as a SwipeView. API: docs/components/PageIndicator.md
+
 Page {
     padding: 0
     ScrollView {

@@ -18,12 +18,12 @@ StatusBar {
 ## Properties
 
 - `text: string` — Display / input text
-- `leftContent: alias` — Left Content
-- `centerContent: alias` — Center Content
+- `leftContent: alias` — Leading content slot
+- `centerContent: alias` — Center content slot
 - `content: alias` — Content slot / children host
-- `rightContent: alias` — Right Content
+- `rightContent: alias` — Trailing content slot
 - `progress: real` — 0..1 shows determinate bar; <0 hides; NaN-safe. Set indeterminate for busy.
-- `progressIndeterminate: bool` — Progress Indeterminate
+- `progressIndeterminate: bool` — Show indeterminate progress
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

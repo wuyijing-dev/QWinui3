@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — StackedBarChart.
+//
+// Composition columns with legend emphasis, category labels, and hover tips. API: docs/components/StackedBarChart.md
+
 Page {
     id: page
     padding: 0

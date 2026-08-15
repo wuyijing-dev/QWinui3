@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — ScatterChart.
+//
+// Density LOD for million-point clouds, trend line, and tooltips. API: docs/components/ScatterChart.md
+
 Page {
     id: page
     padding: 0

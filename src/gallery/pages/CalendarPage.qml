@@ -3,6 +3,10 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 
+// Gallery — Calendar.
+//
+// MonthGrid and DayOfWeekRow for building calendar views.
+
 Page {
     padding: 0
     ScrollView {

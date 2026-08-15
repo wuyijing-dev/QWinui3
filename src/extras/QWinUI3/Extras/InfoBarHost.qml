@@ -27,7 +27,7 @@ T.Control {
         return n
     }
 
-    // Open Count
+    // Number of open items
     readonly property int openCount: {
         var n = 0
         for (var i = 0; i < stack.children.length; ++i) {
@@ -45,7 +45,7 @@ T.Control {
     Accessible.name: qsTr("Info bars")
     Accessible.description: qsTr("%1 open").arg(openCount)
 
-    // Close All
+    // Close all open items
     function closeAll() {
         for (var i = 0; i < stack.children.length; ++i) {
             var c = stack.children[i]
@@ -54,10 +54,10 @@ T.Control {
         }
     }
 
-    // Clear All
+    // Clear all items
     function clearAll() { closeAll() }
 
-    // Open All
+    // Expand / open all items
     function openAll() {
         for (var i = 0; i < stack.children.length; ++i) {
             var c = stack.children[i]

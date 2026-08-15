@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — BulletChart.
+//
+// KPI bullets with targetMet, showTargetDelta, unit, and setValue(). API: docs/components/BulletChart.md
+
 Page {
     id: page
     padding: 0

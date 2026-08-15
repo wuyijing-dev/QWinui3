@@ -21,13 +21,13 @@ T.Control {
     property bool active: true
     // Active / animating state
     property alias isActive: root.active
-    // Shape
+    // Shape variant
     property int shape: Shimmer.Rectangle
     // Auto-dismiss duration; 0 keeps open
     property int durationMs: 1400
-    // Base Color
+    // Base / track color
     property color baseColor: Theme.fillSubtle
-    // Sheen Color
+    // Sheen / highlight color
     property color sheenColor: Theme.dark ? "#28FFFFFF" : "#66FFFFFF"
     // Qt.Horizontal | Qt.Vertical
     property int direction: Qt.Horizontal

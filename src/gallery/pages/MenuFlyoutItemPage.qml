@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — MenuFlyoutItem.
+//
+// Flyout rows with symbol: FluentIcons.*, toggles, radios, and headers. API: docs/components/MenuFlyoutItem.md
+
 Page {
     padding: 0
     ScrollView {

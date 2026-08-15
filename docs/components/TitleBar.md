@@ -53,9 +53,9 @@ TitleBar {
 ## Methods
 
 - `clientExcludeRectsFor(window)` — whole fill-width slot (caption drag vs menu clicks).
-- `pushRect(gx, gy, w, h)` — Push Rect
-- `pushItem(item)` — Push Item
-- `pushHostContent(host)` — Push Host Content
+- `pushRect(gx, gy, w, h)` — Push a rectangle into hit-test clientRects
+- `pushItem(item)` — Push an item onto the stack
+- `pushHostContent(host)` — Push content into the host
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

@@ -33,19 +33,19 @@ ZoneGauge { value: 55; minimum: 0; maximum: 100 }
 - `interactive: alias` — Enable hover / click interaction
 - `zones: var` — Colored gauge zones
 - `percentage: real` — Value as 0..100 percentage
-- `activeZoneIndex: int` — Active Zone Index
-- `activeZoneLabel: string` — Active Zone Label
-- `activeZoneColor: color` — Active Zone Color
+- `activeZoneIndex: int` — Index of the active gauge zone
+- `activeZoneLabel: string` — Label of the active gauge zone
+- `activeZoneColor: color` — Color of the active gauge zone
 - `formattedValue: string` — Formatted value string
 - `animatedValue: real` — Animated display value
 - `animatedNorm: real` — Animated 0..1 normalized value
 - `radius: real` — Corner radius
 - `modelData: var`
 - `index: int`
-- `zFrom: real` — Z From
-- `zTo: real` — Z To
-- `zStart: real` — Z Start
-- `zSweep: real` — Z Sweep
+- `zFrom: real` — Zone / arc start Z
+- `zTo: real` — Zone / arc end Z
+- `zStart: real` — Zone / arc start angle
+- `zSweep: real` — Zone / arc sweep angle
 
 ## Signals
 

@@ -18,8 +18,8 @@ WrapPanel {
 
 - `contentData: alias` — Default children / content slot
 - `orientation: int` — Qt.Horizontal or Qt.Vertical
-- `itemWidth: real` — Item Width
-- `itemHeight: real` — Item Height
+- `itemWidth: real` — Item width
+- `itemHeight: real` — Item height
 - `paddingEdges: int` — Edge paddings
 - `layoutDirection: int` — Qt layout direction
 - `childCount: int` — Number of children

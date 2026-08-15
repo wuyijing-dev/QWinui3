@@ -74,7 +74,7 @@ T.Dial {
             preferredRendererType: Shape.CurveRenderer
             // Stroke width for dial arc
             readonly property real stroke: 4
-            // R
+            // Radius
             readonly property real r: Math.max(0, Math.min(width, height) / 2 - 12)
 
             // Track (horseshoe — gap at bottom)

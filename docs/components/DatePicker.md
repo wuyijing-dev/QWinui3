@@ -34,10 +34,10 @@ DatePicker { }
 
 ## Methods
 
-- `syncSelectedDateFromParts()` — Sync Selected Date From Parts
-- `clampDay()` — Clamp Day
-- `applyFromTumblers()` — Apply From Tumblers
-- `syncTumblers()` — Sync Tumblers
+- `syncSelectedDateFromParts()` — Rebuild selected date from Y/M/D parts
+- `clampDay()` — Clamp day into the current month
+- `applyFromTumblers()` — Commit tumbler selection into the value
+- `syncTumblers()` — Sync tumbler positions to the value
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

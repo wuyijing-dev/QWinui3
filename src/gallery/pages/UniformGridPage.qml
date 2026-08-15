@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — UniformGrid.
+//
+// Equal cells with cellSpacing, RTL, and childCount. API: docs/components/UniformGrid.md
+
 Page {
     padding: 0
     ScrollView {

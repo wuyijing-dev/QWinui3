@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — RelativePanel.
+//
+// Sibling/panel constraints with panelSpacing and paddingEdges. API: docs/components/RelativePanel.md
+
 Page {
     padding: 0
     ScrollView {

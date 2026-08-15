@@ -3,6 +3,10 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 
+// Gallery — Label.
+//
+// A text label for captions and descriptions. API: docs/components/Label.md
+
 Page {
     padding: 0
     ScrollView {

@@ -40,16 +40,16 @@ SegmentedGauge { value: 3; maximum: 5 }
 - `formattedValue: string` — Formatted value string
 - `animatedValue: real` — Animated display value
 - `animatedNorm: real` — Animated 0..1 normalized value
-- `filledExact: real` — Filled Exact
-- `filledSegments: int` — Filled Segments
-- `partialAmount: real` — Partial Amount
+- `filledExact: real` — Exactly filled segment count
+- `filledSegments: int` — Filled segment count
+- `partialAmount: real` — Partial fill amount 0..1
 - `radius: real` — Corner radius
-- `segSweep: real` — Seg Sweep
+- `segSweep: real` — Segment sweep angle
 - `index: int`
-- `fullyFilled: bool` — Fully Filled
-- `isPartial: bool` — Is Partial
+- `fullyFilled: bool` — True when all segments are filled
+- `isPartial: bool` — True for a partially filled segment
 - `segStart: real` — Segment start value
-- `drawSweep: real` — Draw Sweep
+- `drawSweep: real` — Draw the gauge sweep arc
 
 ## Signals
 
@@ -58,7 +58,7 @@ SegmentedGauge { value: 3; maximum: 5 }
 
 ## Methods
 
-- `clampSnap(v)` — Clamp Snap
+- `clampSnap(v)` — Clamp and snap a value to the valid range
 - `setValue(v)`
 - `setSegment(index)`
 

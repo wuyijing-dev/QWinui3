@@ -39,7 +39,7 @@ T.AbstractButton {
     // Open / visible state
     property alias isOpen: popup.visible
 
-    // Selected Items
+    // Currently selected items
     readonly property var selectedItems: {
         var out = []
         var m = model || []
@@ -71,7 +71,7 @@ T.AbstractButton {
         return qsTr("%1 selected").arg(names.length)
     }
 
-    // Toggle At
+    // Toggle item at index
     function toggleAt(index) {
         var next = (model || []).slice()
         var it = next[index]
@@ -86,7 +86,7 @@ T.AbstractButton {
         selectionChanged(selectedItems)
     }
 
-    // Ensure Object Model
+    // Ensure model is an ObjectModel
     function ensureObjectModel() {
         var m = model || []
         var next = []
@@ -103,7 +103,7 @@ T.AbstractButton {
             model = next
     }
 
-    // Select All
+    // Select all items
     function selectAll() {
         ensureObjectModel()
         var next = (model || []).slice()
@@ -116,7 +116,7 @@ T.AbstractButton {
         selectionChanged(selectedItems)
     }
 
-    // Clear Selection
+    // Clear the current selection
     function clearSelection() {
         ensureObjectModel()
         var next = (model || []).slice()

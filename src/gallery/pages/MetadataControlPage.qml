@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — MetadataControl.
+//
+// Label/value pairs with symbol: FluentIcons.* on MetadataItem. API: docs/components/MetadataControl.md
+
 Page {
     padding: 0
     ScrollView {

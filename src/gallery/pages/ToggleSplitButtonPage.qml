@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — ToggleSplitButton.
+//
+// Checkable primary + Fluent ChevronDown flyout; isOpen and Accessible. API: docs/components/ToggleSplitButton.md
+
 Page {
     padding: 0
     ScrollView {

@@ -25,7 +25,7 @@ T.Control {
     property string actionText: ""
     // Show progress indicator
     property bool showProgress: true
-    // Pause On Hover
+    // Pause auto-advance while hovered
     property bool pauseOnHover: true
     // Emitted when action is clicked
     signal actionClicked()
@@ -86,7 +86,7 @@ T.Control {
         }
     }
 
-    // Show
+    // Show the control
     function show(msg, sev) {
         if (msg !== undefined)
             message = msg
@@ -102,12 +102,12 @@ T.Control {
         hideTimer.restart()
     }
 
-    // Open
+    // Open / show
     function open() { show() }
-    // Close
+    // Close / dismiss
     function close() { hide() }
 
-    // Hide
+    // Hide the control
     function hide() {
         isOpen = false
         hideTimer.stop()

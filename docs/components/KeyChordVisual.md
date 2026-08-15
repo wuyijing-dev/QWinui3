@@ -18,10 +18,10 @@ KeyChordVisual { shortcut: "Ctrl+Shift+P" }
 - `keys: var` — Explicit key labels; when set, overrides shortcut parsing.
 - `size: string` — Diameter or box size in px
 - `emphasized: bool` — Emphasized chrome
-- `separator: string` — Separator
-- `keySpacing: real` — Key Spacing
+- `separator: string` — Separator item / glyph
+- `keySpacing: real` — Spacing between keys
 - `toolTipText: string` — Tooltip text
-- `chordText: string` — Chord Text
+- `chordText: string` — Keyboard chord display text
 - `modelData: var`
 - `index: int`
 

@@ -19,7 +19,7 @@ MultiSelectComboBox { model: items; selectedIndexes: [0, 2] }
 - `header: string` — Header label above the control
 - `menuOpen: bool` — Menu currently open
 - `isOpen: alias` — Open / visible state
-- `selectedItems: var` — Selected Items
+- `selectedItems: var` — Currently selected items
 - `displayText: string` — Text shown to the user
 
 ## Signals
@@ -28,10 +28,10 @@ MultiSelectComboBox { model: items; selectedIndexes: [0, 2] }
 
 ## Methods
 
-- `toggleAt(index)` — Toggle At
-- `ensureObjectModel()` — Ensure Object Model
-- `selectAll()` — Select All
-- `clearSelection()` — Clear Selection
+- `toggleAt(index)` — Toggle item at index
+- `ensureObjectModel()` — Ensure model is an ObjectModel
+- `selectAll()` — Select all items
+- `clearSelection()` — Clear the current selection
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

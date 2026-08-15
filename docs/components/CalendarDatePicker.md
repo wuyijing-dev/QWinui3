@@ -32,7 +32,7 @@ CalendarDatePicker { selectedDate: new Date() }
 
 ## Methods
 
-- `isDateAllowed(d)` — Is Date Allowed
+- `isDateAllowed(d)` — True when the date is within selectable bounds
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

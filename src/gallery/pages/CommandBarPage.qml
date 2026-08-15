@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — CommandBar.
+//
+// Fluent More/Chevron, toggle(), secondaryCommands, and open/close signals. API: docs/components/CommandBar.md
+
 Page {
     padding: 0
     ScrollView {

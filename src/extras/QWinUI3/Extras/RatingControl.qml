@@ -51,7 +51,7 @@ T.Control {
         return value
     }
 
-    // Clamp Value
+    // Clamp value into min..max
     function clampValue(v) {
         var max = Math.max(1, maxRating)
         var x = Math.max(0, Math.min(max, Number(v)))
@@ -66,7 +66,7 @@ T.Control {
         return Math.round(snapped * 1000) / 1000
     }
 
-    // Value From Pos
+    // Map a pointer position to a value
     function valueFromPos(x) {
         var w = Math.max(1, starsRow.width)
         // Map pointer into [0, maxRating]; tiny left margin clears when clear enabled
@@ -76,7 +76,7 @@ T.Control {
         return clampValue(ratio * maxRating)
     }
 
-    // Commit Value
+    // Commit the edited value
     function commitValue(next) {
         var v = clampValue(next)
         if (isClearEnabled && value > 0
@@ -119,7 +119,7 @@ T.Control {
                         width: 28
                         height: 28
 
-                        // Fill
+                        // Fill color / fill factor
                         readonly property real fill: {
                             var v = root._displayValue
                             var i = index + 1
@@ -129,7 +129,7 @@ T.Control {
                                 return 0
                             return v - (i - 1)
                         }
-                        // Is Placeholder
+                        // True when showing placeholder
                         readonly property bool isPlaceholder: root.value <= 0
                                                              && root.placeholderValue > 0
                                                              && root.previewValue < 0
@@ -187,9 +187,9 @@ T.Control {
                 preventStealing: true
                 cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
 
-                // Did Drag
+                // True after a drag gesture
                 property bool didDrag: false
-                // Press Value
+                // Value captured on press
                 property real pressValue: -1
 
                 onPositionChanged: (mouse) => {

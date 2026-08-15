@@ -21,10 +21,10 @@ ContentDialogQueue.replaceCurrent(other)
 
 ## Methods
 
-- `enqueue(dialog)` — Enqueue
-- `show(dialog)` — Show
+- `enqueue(dialog)` — Enqueue a dialog / toast
+- `show(dialog)` — Show the control
 - `cancel(dialog)` — Remove a dialog from the pending queue (no-op if already active).
-- `clearQueue()` — Clear Queue
+- `clearQueue()` — Drop queued dialogs without dismissing the current one
 - `replaceCurrent(dialog)` — Pending queue is preserved and resumes after `dialog` closes.
 
 ---

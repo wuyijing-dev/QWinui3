@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — ChipGroup.
+//
+// selectionMode + selectedIndex; model.symbol: FluentIcons.*. select()/clearSelection(). API: docs/components/ChipGroup.md
+
 Page {
     padding: 0
     ScrollView {

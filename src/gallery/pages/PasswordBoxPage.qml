@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — PasswordBox.
+//
+// Reveal modes with Fluent View/Hide, error icon, clear, and Accessible. API: docs/components/PasswordBox.md
+
 Page {
     padding: 0
     ScrollView {

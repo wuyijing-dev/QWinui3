@@ -40,18 +40,18 @@ NavigationWindow {
 
 ## Signals
 
-- `navActivated(var item)` — Nav Activated
+- `navActivated(var item)` — Emitted when a nav item is activated
 - `footerClicked()` — Footer row clicked
 - `paneSearchActivated(string text)` — Pane search accepted
 
 ## Methods
 
-- `onBackRequested()` — On Back Requested
-- `onFooterClicked()` — On Footer Clicked
-- `onPaneSearchActivated(text)` — On Pane Search Activated
-- `clearNav()` — Clear Nav
-- `addNavItem(item)` — Add Nav Item
-- `addNavGroup(group)` — Add Nav Group
+- `onBackRequested()` — Forward NavigationView back request
+- `onFooterClicked()` — Forward footer click
+- `onPaneSearchActivated(text)` — Forward pane search activation
+- `clearNav()` — Clear navigation model
+- `addNavItem(item)` — Append a navigation item
+- `addNavGroup(group)` — Append a navigation group
 - `selectNavKey(key)`
 
 ---

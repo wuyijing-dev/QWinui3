@@ -37,24 +37,24 @@ T.Control {
     property alias validator: field.validator
     // Qt input method hints
     property alias inputMethodHints: field.inputMethodHints
-    // Acceptable Input
+    // True when typed input is valid
     property alias acceptableInput: field.acceptableInput
     // Inner text field
     property alias field: field
     // Emitted on accept / submit
     signal accepted()
-    // Editing Finished
+    // Emitted when editing finishes
     signal editingFinished()
-    // Text Edited
+    // Emitted while text is being edited
     signal textEdited()
     // Emitted when content is cleared
     signal cleared()
 
     // True when validation failed
     readonly property bool hasError: errorMessage.length > 0
-    // Character Count
+    // Character count of the text
     readonly property int characterCount: field.text.length
-    // Over Limit
+    // True when over the max limit
     readonly property bool overLimit: characterLimit > 0 && characterCount > characterLimit
 
     implicitWidth: 280
@@ -64,13 +64,13 @@ T.Control {
     Accessible.name: header
     Accessible.description: hasError ? errorMessage : description
 
-    // Clear
+    // Clear text or selection
     function clear() {
         field.clear()
         cleared()
     }
 
-    // Focus Field
+    // Move keyboard focus to the text field
     function focusField() {
         field.forceActiveFocus()
     }

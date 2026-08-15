@@ -3,6 +3,10 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 
+// Gallery — StackView.
+//
+// A stack-based navigation container with animated transitions. API: docs/components/StackView.md
+
 Page {
     padding: 0
     Component {

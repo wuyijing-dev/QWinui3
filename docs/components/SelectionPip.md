@@ -24,19 +24,19 @@ SelectionPip { }
 - `contentFromY: real` — Scroll animation start
 - `contentToY: real` — Scroll animation end
 - `progress: real` — 0..1 animation / progress
-- `ready: bool` — Ready
-- `eased: real` — Eased
-- `travel: real` — Travel
+- `ready: bool` — True when the control is ready
+- `eased: real` — Eased 0..1 animation progress
+- `travel: real` — Absolute travel distance for the pip
 - `stretch: real` — Stretch factor / stretch pip
-- `contentCenterY: real` — Content Center Y
-- `visualHeight: real` — Visual Height
+- `contentCenterY: real` — Animated content center Y
+- `visualHeight: real` — Current visual height (stretch / animation)
 - `contentY: real` — Flickable content Y
 
 ## Methods
 
-- `contentYForIndex(index)` — Content YFor Index
-- `currentContentY()` — Current Content Y
-- `moveTo(index, forceInstant, retries)` — Move To
+- `contentYForIndex(index)` — contentY that scrolls index into view
+- `currentContentY()` — Current Flickable contentY
+- `moveTo(index, forceInstant, retries)` — Move to the given index / position
 - `onContentYChanged()`
 - `onHeightChanged()`
 - `onCountChanged()`

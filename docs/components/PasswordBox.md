@@ -22,8 +22,8 @@ PasswordBox { placeholderText: qsTr("Password") }
 - `errorMessage: string` — Validation error text
 - `clearButtonVisible: bool` — Show clear affordance
 - `passwordRevealMode: string` — WinUI PasswordRevealMode: peek | hidden | visible
-- `revealPassword: bool` — Reveal Password
-- `revealButtonVisible: bool` — Reveal Button Visible
+- `revealPassword: bool` — True while password is revealed
+- `revealButtonVisible: bool` — Show password reveal button
 - `echoMode: alias` — TextField echo mode
 - `field: alias` — Inner text field
 - `hasError: bool` — True when validation failed
@@ -35,8 +35,8 @@ PasswordBox { placeholderText: qsTr("Password") }
 
 ## Methods
 
-- `clear()` — Clear
-- `focusField()` — Focus Field
+- `clear()` — Clear text or selection
+- `focusField()` — Move keyboard focus to the text field
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

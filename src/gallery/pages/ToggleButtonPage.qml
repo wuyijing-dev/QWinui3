@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — ToggleButton.
+//
+// Checkable accent toggle with optional symbol: FluentIcons.*. API: docs/components/ToggleButton.md
+
 Page {
     padding: 0
     ScrollView {

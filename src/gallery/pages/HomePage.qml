@@ -5,6 +5,10 @@ import QtQuick.Effects
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — Getting started.
+//
+// Gallery demo for Getting started.
+
 Page {
     id: page
     padding: 0

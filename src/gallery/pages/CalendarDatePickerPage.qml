@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — CalendarDatePicker.
+//
+// Calendar flyout with Fluent Calendar/chevrons and Accessible date. API: docs/components/CalendarDatePicker.md
+
 Page {
     padding: 0
     ScrollView {

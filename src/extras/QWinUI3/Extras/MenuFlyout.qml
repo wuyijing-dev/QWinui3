@@ -41,9 +41,9 @@ Menu {
     onOpened: isOpen = true
     onClosed: isOpen = false
 
-    // Open Menu
+    // Open the menu
     function openMenu() { isOpen = true }
-    // Close Menu
+    // Dismiss the menu
     function closeMenu() { isOpen = false }
 
     transformOrigin: {
@@ -55,7 +55,7 @@ Menu {
         }
     }
 
-    // Show At
+    // Show anchored at the given point or item
     function showAt(targetItem, offsetX, offsetY) {
         if (!targetItem) {
             isOpen = true
@@ -85,7 +85,7 @@ Menu {
         isOpen = true
     }
 
-    // Hide
+    // Hide the control
     function hide() {
         isOpen = false
     }

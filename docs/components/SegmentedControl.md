@@ -21,7 +21,7 @@ SegmentedControl {
 - `currentIndex: int` — Selected index
 - `selectedIndex: alias` — Selected index alias
 - `stretch: bool` — Stretch factor / stretch pip
-- `equalWidth: bool` — Equal Width
+- `equalWidth: bool` — Force equal-width segments
 - `modelData: var`
 - `index: int`
 - `segmentIndex: int` — Active segment index
@@ -33,11 +33,11 @@ SegmentedControl {
 
 ## Methods
 
-- `select(index)` — Select
-- `itemAt(index)` — Item At
-- `moveIndicator(instant)` — Move Indicator
-- `syncIndicatorIfIdle()` — Sync Indicator If Idle
-- `nextEnabled(from, delta)` — Next Enabled
+- `select(index)` — Select item by index
+- `itemAt(index)` — Item at the given index
+- `moveIndicator(instant)` — Move selection indicator to index
+- `syncIndicatorIfIdle()` — Sync selection indicator when idle
+- `nextEnabled(from, delta)` — True when next is available
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

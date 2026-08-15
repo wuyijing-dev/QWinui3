@@ -24,9 +24,9 @@ StackPanel { orientation: Qt.Vertical }
 
 ## Methods
 
-- `childWidth(c)` — Child Width
-- `childHeight(c)` — Child Height
-- `relayout()` — Relayout
+- `childWidth(c)` — Child item width
+- `childHeight(c)` — Child item height
+- `relayout()` — Recompute layout
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

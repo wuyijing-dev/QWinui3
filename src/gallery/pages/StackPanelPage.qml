@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — StackPanel.
+//
+// Horizontal/vertical stack with spacing, alignment, RTL, and childCount. API: docs/components/StackPanel.md
+
 Page {
     padding: 0
     ScrollView {

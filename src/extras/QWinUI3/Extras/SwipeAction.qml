@@ -14,7 +14,7 @@ Item {
     property var symbol: ""
     // Raw Fluent glyph string fallback
     property string iconGlyph: ""
-    // Color
+    // Primary color
     property color color: Theme.dark ? "#C42B1C" : Theme.systemCritical
     // Badge / content text color
     property color textColor: "#FFFFFF"

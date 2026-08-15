@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — HorizontalBarChart.
+//
+// Ranked bars with reveal, hover row highlight, and value labels. API: docs/components/HorizontalBarChart.md
+
 Page {
     id: page
     padding: 0

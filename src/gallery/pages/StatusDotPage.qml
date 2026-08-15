@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — StatusDot.
+//
+// Presence and health indicators with optional pulse and tooltip. API: docs/components/StatusDot.md
+
 Page {
     padding: 0
     ScrollView {

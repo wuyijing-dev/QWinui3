@@ -254,13 +254,13 @@ Item {
         compactFlyout.close()
     }
 
-    // Flyout Group Key
+    // Group key for exclusive flyouts
     property string flyoutGroupKey: ""
-    // Pending Flyout Key
+    // Key for a pending flyout
     property string pendingFlyoutKey: ""
-    // Pending Flyout Anchor
+    // Anchor item for a pending flyout
     property var pendingFlyoutAnchor: null
-    // Flyout Hovered
+    // True while the flyout is hovered
     property bool flyoutHovered: false
 
     ListModel { id: flyoutModel }
@@ -1463,9 +1463,9 @@ Item {
                         property real contentToY: 0
                         // 0..1 animation / progress value
                         property real progress: 1
-                        // Ready
+                        // True when the control is ready
                         property bool ready: false
-                        // Move Retries
+                        // Retry count when moving a window
                         property int moveRetries: 0
 
                         // Eased 0..1 animation progress
@@ -1721,7 +1721,7 @@ Item {
         // Cap to the NavigationView height so long groups (e.g. Charts) scroll.
         readonly property real maxBodyHeight: Math.max(120, root.height - 16
                                                        - topPadding - bottomPadding)
-        // Body Height
+        // Body content height
         readonly property real bodyHeight: Math.min(
             flyoutHeader.implicitHeight + flyoutList.contentHeight + (flyoutHeader.visible ? 4 : 0),
             maxBodyHeight)

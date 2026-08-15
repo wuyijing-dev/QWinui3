@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — SettingsExpander.
+//
+// Expandable settings group with symbol header and Fluent ChevronDown. API: docs/components/SettingsExpander.md
+
 Page {
     padding: 0
     ScrollView {

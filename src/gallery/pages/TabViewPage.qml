@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — TabView.
+//
+// Fluent Add/Close icons, symbol tabs, selectedIndex, and TabWidthMode. API: docs/components/TabView.md
+
 Page {
     padding: 0
     ScrollView {

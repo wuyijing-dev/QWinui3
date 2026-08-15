@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — RefreshContainer.
+//
+// Pull to refresh with Fluent Refresh spin, isRefreshing, and ProgressRing fallback. API: docs/components/RefreshContainer.md
+
 Page {
     padding: 0
     ScrollView {

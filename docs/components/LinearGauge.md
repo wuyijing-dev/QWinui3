@@ -50,7 +50,7 @@ LinearGauge { value: 42; minimum: 0; maximum: 100 }
 
 ## Methods
 
-- `clampSnap(v)` — Clamp Snap
+- `clampSnap(v)` — Clamp and snap a value to the valid range
 - `setValue(v)`
 - `setValueFromNorm(n)`
 

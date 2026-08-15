@@ -36,7 +36,7 @@ T.Popup {
     // Show secondary command list
     readonly property bool showSecondary: secondaryCol.children.length > 0
 
-    // Show At
+    // Show anchored at the given point or item
     function showAt(item, preferredPlacement) {
         if (preferredPlacement !== undefined && preferredPlacement !== null)
             root.placement = preferredPlacement
@@ -66,13 +66,13 @@ T.Popup {
         root.isOpen = true
     }
 
-    // Show
+    // Show the control
     function show() { isOpen = true }
-    // Hide
+    // Hide the control
     function hide() { isOpen = false }
-    // Open Flyout
+    // Open the flyout
     function openFlyout() { show() }
-    // Close Flyout
+    // Dismiss the flyout
     function closeFlyout() { hide() }
 
     onIsOpenChanged: {

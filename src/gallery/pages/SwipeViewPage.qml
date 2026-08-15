@@ -3,6 +3,10 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 
+// Gallery — SwipeView.
+//
+// Enables the user to navigate through pages by swiping sideways. API: docs/components/SwipeView.md
+
 Page {
     padding: 0
     ScrollView {

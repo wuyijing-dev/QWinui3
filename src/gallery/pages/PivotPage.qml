@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — Pivot.
+//
+// Headered multi-view with Fluent symbols, keyboard arrows, and Component pages. API: docs/components/Pivot.md
+
 Page {
     padding: 0
 

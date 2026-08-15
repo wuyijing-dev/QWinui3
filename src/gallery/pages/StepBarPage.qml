@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — StepBar.
+//
+// Wizard steps with selectedIndex, next()/previous()/goTo(), and Fluent Accept marks. API: docs/components/StepBar.md
+
 Page {
     padding: 0
     ScrollView {

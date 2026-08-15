@@ -39,7 +39,7 @@ T.Control {
     // Unit appended to value text
     property string valueUnit: ""
 
-    // Step Clicked
+    // Emitted when a step is clicked
     signal stepClicked(int index, real value)
 
     implicitWidth: 320
@@ -67,7 +67,7 @@ T.Control {
         }
     }
 
-    // Play Reveal
+    // Play entrance reveal animation
     function playReveal() {
         if (!root.animated || Theme.reducedMotion) {
             revealProgress = 1
@@ -78,10 +78,10 @@ T.Control {
         revealProgress = 1
     }
 
-    // Request Redraw
+    // Request chart / canvas redraw
     function requestRedraw() { canvas.requestPaint() }
 
-    // Clear Hover
+    // Clear hovered item state
     function clearHover() {
         hoverIndex = -1
         requestRedraw()

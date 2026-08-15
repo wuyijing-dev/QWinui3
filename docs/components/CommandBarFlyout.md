@@ -29,11 +29,11 @@ CommandBarFlyout {
 
 ## Methods
 
-- `showAt(item, preferredPlacement)` — Show At
-- `show()` — Show
-- `hide()` — Hide
-- `openFlyout()` — Open Flyout
-- `closeFlyout()` — Close Flyout
+- `showAt(item, preferredPlacement)` — Show anchored at the given point or item
+- `show()` — Show the control
+- `hide()` — Hide the control
+- `openFlyout()` — Open the flyout
+- `closeFlyout()` — Dismiss the flyout
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

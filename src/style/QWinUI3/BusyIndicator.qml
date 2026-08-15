@@ -55,7 +55,7 @@ T.BusyIndicator {
                      ? pulseOpacity : 1
             // Indeterminate spin angle
             property real spinAngle: 0
-            // Pulse Opacity
+            // Pulse animation opacity
             property real pulseOpacity: 1
 
             ShapePath {

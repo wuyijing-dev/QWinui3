@@ -90,7 +90,7 @@ T.Control {
 
             // Indeterminate spin angle
             property real spinAngle: 0
-            // Animated Sweep
+            // Animated sweep angle for gauges
             property real animatedSweep: root.progressSweep
 
             Behavior on animatedSweep {

@@ -69,10 +69,10 @@ T.Control {
     implicitWidth: 280
     implicitHeight: column.implicitHeight
 
-    // Focus Field
+    // Move keyboard focus to the text field
     function focusField() { input.forceActiveFocus() }
 
-    // Clear
+    // Clear text or selection
     function clear() {
         if (!tokens || tokens.length === 0)
             return
@@ -82,7 +82,7 @@ T.Control {
         cleared()
     }
 
-    // Add Token
+    // Insert a token from text
     function addToken(value) {
         var t = ("" + value).trim()
         if (!t.length)
@@ -105,7 +105,7 @@ T.Control {
         suggestionsOpen = false
     }
 
-    // Remove Token
+    // Remove a token
     function removeToken(index) {
         if (index < 0 || index >= tokens.length)
             return
@@ -116,7 +116,7 @@ T.Control {
         tokenRemoved(removed, index)
     }
 
-    // Filtered Suggestions
+    // Suggestions matching the query
     readonly property var filteredSuggestions: {
         var q = input.text.trim().toLowerCase()
         var out = []

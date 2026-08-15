@@ -31,8 +31,8 @@ ChartLegend { items: [{ label: "A", color: Theme.accent }] }
 
 ## Methods
 
-- `select(index)` — Select
-- `clearSelection()` — Clear Selection
+- `select(index)` — Select item by index
+- `clearSelection()` — Clear the current selection
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

@@ -3,6 +3,10 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 
+// Gallery — Delegates.
+//
+// List item delegates with check, switch, and radio affordances.
+
 Page {
     padding: 0
     ScrollView {

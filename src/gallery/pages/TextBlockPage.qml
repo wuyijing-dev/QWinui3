@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — TextBlock.
+//
+// WinUI type ramp, styleName / setStyleName(), selection, and trimming. API: docs/components/TextBlock.md
+
 Page {
     padding: 0
     ScrollView {

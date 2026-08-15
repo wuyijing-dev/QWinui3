@@ -42,8 +42,8 @@ DonutChart { slices: [{ value: 3, label: "A" }] }
 
 ## Methods
 
-- `playReveal()` — Play Reveal
-- `requestRedraw()` — Request Redraw
+- `playReveal()` — Play entrance reveal animation
+- `requestRedraw()` — Request chart / canvas redraw
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

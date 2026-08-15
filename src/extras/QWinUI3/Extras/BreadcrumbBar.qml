@@ -81,26 +81,26 @@ T.Control {
         return out
     }
 
-    // Crumb Title
+    // Title text for a breadcrumb item
     function crumbTitle(data) {
         if (typeof data === "string")
             return data
         return (data && data.title) ? data.title : ""
     }
 
-    // Crumb Icon
+    // Icon for a breadcrumb item
     function crumbIcon(data) {
         if (typeof data !== "object" || !data)
             return ""
         return IconSource.resolve(data.symbol || "", data.icon || data.glyph || "")
     }
 
-    // Is Current
+    // True when this crumb is the current page
     function isCurrent(index) {
         return !isNaN(index) && index >= 0 && index === root.currentIndex
     }
 
-    // Is Clickable
+    // Emit clicked when activated
     function isClickable(entry) {
         if (!entry || entry.ellipsis)
             return true

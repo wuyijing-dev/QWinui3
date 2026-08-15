@@ -11,13 +11,13 @@ import QWinUI3.Theme
 T.Control {
     id: control
 
-    // Hour
+    // Selected hour
     property int hour: 12
-    // Minute
+    // Selected minute
     property int minute: 0
-    // Is Am
+    // True in AM for 12-hour clock
     property bool isAm: true
-    // Use24 Hour
+    // Use 24-hour clock
     property bool use24Hour: false
     // Picker flyout open
     property bool pickerOpen: false
@@ -31,7 +31,7 @@ T.Control {
     // WinUI ClockIdentifier (read-only mirror of use24Hour)
     readonly property string clockIdentifier: use24Hour ? "24HourClock" : "12HourClock"
 
-    // Time Chosen
+    // Emitted when a time is chosen
     signal timeChosen(int hour, int minute)
 
     implicitWidth: 160
@@ -42,7 +42,7 @@ T.Control {
     Accessible.name: header.length ? header : qsTr("Time")
     Accessible.description: displayText
 
-    // Minute Model
+    // Minute tumbler model
     readonly property var minuteModel: {
         var step = Math.max(1, Math.min(30, minuteIncrement))
         var list = []
@@ -51,7 +51,7 @@ T.Control {
         return list
     }
 
-    // Snap Minute
+    // Snap minutes to the increment
     function snapMinute(m) {
         var step = Math.max(1, Math.min(30, minuteIncrement))
         var snapped = Math.round(m / step) * step
@@ -60,7 +60,7 @@ T.Control {
         return Math.max(0, snapped)
     }
 
-    // Display Hour
+    // Hour shown in the current clock format
     readonly property int displayHour: {
         if (use24Hour)
             return ((hour % 24) + 24) % 24
@@ -77,7 +77,7 @@ T.Control {
         return hh + ":" + mm + (isAm ? " AM" : " PM")
     }
 
-    // Apply From Tumblers
+    // Commit tumbler selection into the value
     function applyFromTumblers() {
         var h = hourTumbler.currentIndex
         var m = parseInt(control.minuteModel[minuteTumbler.currentIndex], 10)

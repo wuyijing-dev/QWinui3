@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — AppBarToggleButton.
+//
+// A checkable app-bar button that stays on until toggled off. API: docs/components/AppBarToggleButton.md
+
 Page {
     padding: 0
     ScrollView {

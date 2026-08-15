@@ -17,10 +17,10 @@ Pivot { model: ["Overview", "Details"] }
 - `model: var` — Data model / item list for this control
 - `currentIndex: int` — Selected index
 - `selectedIndex: alias` — Selected index alias
-- `keyboardNavigationEnabled: bool` — Keyboard Navigation Enabled
+- `keyboardNavigationEnabled: bool` — Allow arrow-key navigation
 - `modelData: var`
 - `index: int`
-- `hasPage: bool` — Has Page
+- `hasPage: bool` — True when page is present / set
 
 ## Signals
 
@@ -29,7 +29,7 @@ Pivot { model: ["Overview", "Details"] }
 
 ## Methods
 
-- `selectIndex(index)` — Select Index
+- `selectIndex(index)` — Select by index
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

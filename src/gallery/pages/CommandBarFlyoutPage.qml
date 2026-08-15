@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — CommandBarFlyout.
+//
+// Command flyout with placement, showAt(), and Accessible menu role. API: docs/components/CommandBarFlyout.md
+
 Page {
     padding: 0
     ScrollView {

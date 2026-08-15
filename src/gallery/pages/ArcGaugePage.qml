@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — ArcGauge.
+//
+// Drag the arc; invertThresholds for battery-style low=critical. API: docs/components/ArcGauge.md
+
 Page {
     padding: 0
     ScrollView {

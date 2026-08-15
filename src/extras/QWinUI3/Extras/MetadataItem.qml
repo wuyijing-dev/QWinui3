@@ -21,7 +21,7 @@ T.Control {
     property string iconGlyph: ""
     // Qt.Horizontal or Qt.Vertical
     property int orientation: Qt.Vertical
-    // Value Color
+    // Value / series color
     property color valueColor: Theme.textPrimary
 
     // Resolved glyph string

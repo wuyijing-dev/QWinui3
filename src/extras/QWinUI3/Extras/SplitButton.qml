@@ -47,7 +47,7 @@ T.AbstractButton {
     Accessible.name: control.text.length ? control.text : qsTr("Split button")
     Accessible.description: popupMenu.visible ? qsTr("Menu open") : qsTr("Menu closed")
 
-    // Show Menu
+    // Open the associated menu
     function showMenu() {
         var ox = 0
         var oy = control.height + 4
@@ -67,7 +67,7 @@ T.AbstractButton {
         popupMenu.popup(control, ox, oy)
     }
 
-    // Close Menu
+    // Dismiss the menu
     function closeMenu() { popupMenu.close() }
 
     // True in light theme
@@ -263,14 +263,14 @@ T.AbstractButton {
             radius: Theme.cornerControl
             visible: !control.flat || control.anyDown || control.anyHovered || control.accented
 
-            // Has Solid Stroke
+            // True when a solid stroke is configured
             readonly property bool hasSolidStroke: !control.flat
                 && (control.anyDown || (!control.enabled && !control.accented) || (Theme.dark && !control.accented))
-            // Has Gradient Stroke
+            // True when a gradient stroke is configured
             readonly property bool hasGradientStroke: !hasSolidStroke && !control.flat && control.enabled && !control.accented
-            // Top Stroke
+            // Top edge stroke color
             readonly property color topStroke: Theme.dark ? "#12FFFFFF" : "#0F000000"
-            // Bottom Stroke
+            // Bottom edge stroke color
             readonly property color bottomStroke: Theme.dark ? "#18FFFFFF" : "#29000000"
 
             gradient: Gradient {

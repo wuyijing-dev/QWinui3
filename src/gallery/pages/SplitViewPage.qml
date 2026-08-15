@@ -3,6 +3,10 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 
+// Gallery — SplitView.
+//
+// A layout that divides available space between resizable panes. API: docs/components/SplitView.md
+
 Page {
     padding: 0
     ScrollView {

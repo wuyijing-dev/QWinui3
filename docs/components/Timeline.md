@@ -17,14 +17,14 @@ Timeline { model: events }
 - `model: var` — Data model / item list for this control
 - `currentIndex: int` — Selected index
 - `selectedIndex: alias` — Selected index alias
-- `railWidth: real` — Rail Width
-- `nodeSize: real` — Node Size
+- `railWidth: real` — Track / rail width
+- `nodeSize: real` — Node / marker size
 - `isInteractive: bool` — Alias of interactive
 - `modelData: var`
 - `index: int`
-- `isLast: bool` — Is Last
+- `isLast: bool` — True for the last item
 - `isActive: bool` — Active / animating state
-- `nodeColor: color` — Node Color
+- `nodeColor: color` — Node / marker color
 
 ## Signals
 
@@ -33,9 +33,9 @@ Timeline { model: events }
 
 ## Methods
 
-- `select(index)` — Select
-- `next()` — Next
-- `previous()` — Previous
+- `select(index)` — Select item by index
+- `next()` — Advance to next
+- `previous()` — Go to previous
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

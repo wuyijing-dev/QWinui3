@@ -17,13 +17,13 @@ InfoBarHost { id: bars }
 
 - `maxVisible: int` — Max visible items before overflow
 - `count: int` — Item count
-- `openCount: int` — Open Count
+- `openCount: int` — Number of open items
 
 ## Methods
 
-- `closeAll()` — Close All
-- `clearAll()` — Clear All
-- `openAll()` — Open All
+- `closeAll()` — Close all open items
+- `clearAll()` — Clear all items
+- `openAll()` — Expand / open all items
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

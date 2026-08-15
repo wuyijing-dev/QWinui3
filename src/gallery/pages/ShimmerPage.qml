@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — Shimmer.
+//
+// Skeleton placeholders with direction (Horizontal/Vertical), isActive, and shapes. API: docs/components/Shimmer.md
+
 Page {
     padding: 0
     ScrollView {

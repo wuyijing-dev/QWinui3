@@ -20,10 +20,10 @@ T.Control {
     property int currentIndex: -1
     // Selected index alias
     property alias selectedIndex: root.currentIndex
-    // Cases
+    // Named case content map
     default property alias cases: host.data
 
-    // Case Changed
+    // Emitted when the active SwitchPresenter case changes
     signal caseChanged(var value, int index)
 
     implicitWidth: 280
@@ -51,7 +51,7 @@ T.Control {
     onValueChanged: applyValue()
     Component.onCompleted: Qt.callLater(applyValue)
 
-    // Values Equal
+    // True when two values compare equal
     function valuesEqual(a, b) {
         if (a === b)
             return true
@@ -60,7 +60,7 @@ T.Control {
         return String(a) === String(b)
     }
 
-    // Select
+    // Select item by index
     function select(index) {
         var cases = []
         for (var i = 0; i < host.children.length; ++i) {
@@ -73,7 +73,7 @@ T.Control {
         value = cases[index].value
     }
 
-    // Apply Value
+    // Commit the pending value
     function applyValue() {
         var matched = false
         var fallback = null
@@ -108,7 +108,7 @@ T.Control {
         syncWidths()
     }
 
-    // Set Case Active
+    // Activate a SwitchPresenter case by name
     function setCaseActive(ch, on) {
         if (!ch)
             return

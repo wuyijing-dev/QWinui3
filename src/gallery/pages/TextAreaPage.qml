@@ -3,6 +3,10 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 
+// Gallery — TextArea.
+//
+// A multi-line text input control. API: docs/components/TextArea.md
+
 Page {
     padding: 0
     ScrollView {

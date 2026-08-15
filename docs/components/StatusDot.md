@@ -24,8 +24,8 @@ StatusDot { severity: success }
 - `size: real` — Diameter or box size in px
 - `label: string` — Field label
 - `showLabel: bool` — Show text label beside the dot
-- `statusName: string` — Status Name
-- `statusColor: color` — Status Color
+- `statusName: string` — Status name string
+- `statusColor: color` — Status indicator color
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

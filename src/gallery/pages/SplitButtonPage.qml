@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — SplitButton.
+//
+// Primary action plus Fluent ChevronDown flyout; symbol and Accessible. API: docs/components/SplitButton.md
+
 Page {
     padding: 0
     ScrollView {

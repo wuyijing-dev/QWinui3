@@ -35,9 +35,9 @@ DropDownButton {
 
 ## Methods
 
-- `open()` — Open
-- `close()` — Close
-- `showMenu()` — Show Menu
+- `open()` — Open / show
+- `close()` — Close / dismiss
+- `showMenu()` — Open the associated menu
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

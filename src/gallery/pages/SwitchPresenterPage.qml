@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — SwitchPresenter.
+//
+// Shows one child case; selectedIndex, select(), and caseChanged. API: docs/components/SwitchPresenter.md
+
 Page {
     padding: 0
     ScrollView {

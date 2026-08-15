@@ -29,8 +29,8 @@ ScatterChart { points: [{ x: 1, y: 2 }] }
 - `autoLod: bool` — Auto-enable LOD for large series
 - `lodFactor: real` — Level-of-detail downsample factor
 - `gridColor: color` — Grid line color
-- `pointColor: color` — Point Color
-- `trendColor: color` — Trend Color
+- `pointColor: color` — Color for a series point
+- `trendColor: color` — Trend / delta color
 - `revealProgress: real` — 0..1 reveal animation progress
 - `hoverIndex: int` — Hovered item index
 - `selectedIndex: alias` — Selected index alias
@@ -40,19 +40,19 @@ ScatterChart { points: [{ x: 1, y: 2 }] }
 - `sourcePointCount: int` — Raw point count before LOD
 - `drawnPointCount: int` — Points drawn after LOD
 - `isEmpty: bool` — True when there is no data
-- `screenPts: var` — Screen Pts
-- `padL: real` — Pad L
-- `padT: real` — Pad T
+- `screenPts: var` — Points in screen coordinates
+- `padL: real` — Left padding / plot inset
+- `padT: real` — Top padding / plot inset
 - `plotW: real` — Plot width
 
 ## Signals
 
-- `pointClicked(int index, real x, real y)` — Point Clicked
+- `pointClicked(int index, real x, real y)` — Emitted when a chart point is clicked
 
 ## Methods
 
-- `invalidateLod()` — Invalidate Lod
-- `ensureLod(binsX, binsY)` — Ensure Lod
+- `invalidateLod()` — Invalidate level-of-detail cache
+- `ensureLod(binsX, binsY)` — Build LOD samples for the given budget
 - `playReveal()`
 - `requestRedraw()`
 - `clearHover()`

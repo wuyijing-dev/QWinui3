@@ -40,9 +40,9 @@ CommandBar {
 
 ## Methods
 
-- `open()` — Open
-- `close()` — Close
-- `toggle()` — Toggle
+- `open()` — Open / show
+- `close()` — Close / dismiss
+- `toggle()` — Toggle checked / expanded state
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

@@ -16,13 +16,13 @@ MonthGrid { }
 
 - `selectedDate: date` — Selected date
 - `model: var` — Data model
-- `inMonth: bool` — In Month
-- `isToday: bool` — Is Today
+- `inMonth: bool` — True when the day is in the displayed month
+- `isToday: bool` — True when the day is today
 - `isSelected: bool` — Selected state
 
 ## Methods
 
-- `sameDay(a, b)` — Same Day
+- `sameDay(a, b)` — True when two dates are the same calendar day
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

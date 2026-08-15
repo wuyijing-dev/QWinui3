@@ -15,9 +15,9 @@ T.Control {
     default property alias contentData: flow.data
     // Qt.Horizontal or Qt.Vertical
     property int orientation: Qt.Horizontal
-    // Item Width
+    // Item width
     property real itemWidth: -1
-    // Item Height
+    // Item height
     property real itemHeight: -1
     // Edge paddings
     property int paddingEdges: 0

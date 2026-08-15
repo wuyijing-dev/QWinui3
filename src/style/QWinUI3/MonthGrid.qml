@@ -22,7 +22,7 @@ T.AbstractMonthGrid {
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
 
-    // Same Day
+    // True when two dates are the same calendar day
     function sameDay(a, b) {
         if (isNaN(a.getTime()) || isNaN(b.getTime()))
             return false
@@ -38,9 +38,9 @@ T.AbstractMonthGrid {
         implicitWidth: 36
         implicitHeight: 36
 
-        // In Month
+        // True when the day is in the displayed month
         readonly property bool inMonth: model.month === control.month
-        // Is Today
+        // True when the day is today
         readonly property bool isToday: !!model.today
         // Selected state
         readonly property bool isSelected: control.sameDay(model.date, control.selectedDate)

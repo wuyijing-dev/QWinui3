@@ -3,6 +3,10 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 
+// Gallery — Drawer.
+//
+// A slide-out panel that presents navigation or contextual content from an edge. API: docs/components/Drawer.md
+
 Page {
     padding: 0
     Drawer {

@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — ChartCard.
+//
+// Dashboard chrome with ElevatedChrome, symbol, footer, and entrance motion. API: docs/components/ChartCard.md
+
 Page {
     id: page
     padding: 0

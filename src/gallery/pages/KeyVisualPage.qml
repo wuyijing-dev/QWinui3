@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — KeyVisual.
+//
+// Key chrome and KeyChordVisual with chordText parsing — not Qt Virtual Keyboard. API: docs/components/KeyVisual.md
+
 Page {
     padding: 0
     ScrollView {

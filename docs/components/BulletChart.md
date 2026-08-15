@@ -37,8 +37,8 @@ BulletChart { value: 70; target: 80; maximum: 100 }
 
 ## Methods
 
-- `setValue(v)` — Set Value
-- `bandColor(index)` — Band Color
+- `setValue(v)` — Set value (clamped / snapped)
+- `bandColor(index)` — Color for a qualitative band
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

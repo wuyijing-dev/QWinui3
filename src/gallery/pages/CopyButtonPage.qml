@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — CopyButton.
+//
+// Clipboard copy with FluentIcons.Copy feedback, focus ring, and press scale. API: docs/components/CopyButton.md
+
 Page {
     padding: 0
     ScrollView {

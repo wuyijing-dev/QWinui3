@@ -35,13 +35,13 @@ WaterfallChart { values: [10, -3, 5] }
 
 ## Signals
 
-- `stepClicked(int index, real value)` — Step Clicked
+- `stepClicked(int index, real value)` — Emitted when a step is clicked
 
 ## Methods
 
-- `playReveal()` — Play Reveal
-- `requestRedraw()` — Request Redraw
-- `clearHover()` — Clear Hover
+- `playReveal()` — Play entrance reveal animation
+- `requestRedraw()` — Request chart / canvas redraw
+- `clearHover()` — Clear hovered item state
 - `Y(v)`
 
 ---

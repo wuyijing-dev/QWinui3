@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — ColorPickerButton.
+//
+// Swatch, Fluent chevron, focus ring, flyoutPlacement, showAlpha, and isOpen. API: docs/components/ColorPickerButton.md
+
 Page {
     padding: 0
     ScrollView {

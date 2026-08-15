@@ -26,14 +26,14 @@ Sparkline { values: [1, 3, 2, 5, 4] }
 - `revealProgress: real` — 0..1 reveal animation progress
 - `caption: string` — Caption under / beside the value
 - `showDelta: bool` — Show delta vs first point
-- `lastValue: real` — Last Value
-- `firstValue: real` — First Value
-- `delta: real` — Delta
-- `deltaPositive: bool` — Delta Positive
+- `lastValue: real` — Last series value
+- `firstValue: real` — First series value
+- `delta: real` — Delta from target / previous
+- `deltaPositive: bool` — True when delta is positive
 
 ## Methods
 
-- `playReveal()` — Play Reveal
+- `playReveal()` — Play entrance reveal animation
 - `X(i)`
 - `Y(v)`
 

@@ -40,13 +40,13 @@ T.Control {
     signal selectionChanged(int index)
     // Tab reordered
     signal tabMoved(int from, int to)
-    // Add Tab Button Clicked
+    // Emitted when the add-tab button is clicked
     signal addTabButtonClicked()
 
     property int _dragFrom: -1
     property int _dropIndex: -1
     readonly property bool _reordering: _dragFrom >= 0
-    // Tab Count
+    // Number of tabs
     readonly property int tabCount: model ? model.length : 0
     readonly property real _equalTabWidth: {
         var n = Math.max(1, model.length)
@@ -64,7 +64,7 @@ T.Control {
 
     onCurrentIndexChanged: selectionChanged(currentIndex)
 
-    // Add Tab
+    // Append a tab
     function addTab(item) {
         var next = model.slice()
         next.push(item || { title: qsTr("New tab"), content: "" })
@@ -73,7 +73,7 @@ T.Control {
         addTabButtonClicked()
     }
 
-    // Close Tab
+    // Close tab at index
     function closeTab(index) {
         if (index < 0 || index >= model.length)
             return
@@ -87,7 +87,7 @@ T.Control {
             currentIndex = currentIndex - 1
     }
 
-    // Move Tab
+    // Move a tab from/to index
     function moveTab(from, to) {
         if (from === to || from < 0 || to < 0)
             return
@@ -110,7 +110,7 @@ T.Control {
         tabMoved(from, to)
     }
 
-    // Tab Index At Content X
+    // Tab index under a contentX
     function tabIndexAtContentX(x) {
         var best = model.length - 1
         for (var i = 0; i < tabRow.children.length; ++i) {
@@ -193,9 +193,9 @@ T.Control {
                             id: tabBtn
                             required property var modelData
                             required property int index
-                            // Tab Index
+                            // Tab index in the model
                             property int tabIndex: index
-                            // Drag Active
+                            // True while a drag is in progress
                             property bool dragActive: control._dragFrom === tabIndex
                             readonly property string _icon: {
                                 if (typeof modelData !== "object" || !modelData)

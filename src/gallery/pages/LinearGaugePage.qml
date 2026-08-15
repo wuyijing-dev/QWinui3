@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — LinearGauge.
+//
+// Drag when isInteractive; stepSize, invertThresholds, showMinMax, valueEdited. API: docs/components/LinearGauge.md
+
 Page {
     padding: 0
     ScrollView {

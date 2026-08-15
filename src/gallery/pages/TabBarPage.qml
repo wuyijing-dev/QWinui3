@@ -3,6 +3,10 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 
+// Gallery — TabBar.
+//
+// Presents a set of tabs that can be used to navigate between views. API: docs/components/TabBar.md
+
 Page {
     padding: 0
     ScrollView {

@@ -3,6 +3,10 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 
+// Gallery — TreeView.
+//
+// TreeViewDelegate styles hierarchical TreeView rows (use with a tree model).
+
 Page {
     padding: 0
     ScrollView {

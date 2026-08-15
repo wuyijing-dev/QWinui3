@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — AppBarSeparator.
+//
+// Thin divider with thickness and separatorColor. API: docs/components/AppBarSeparator.md
+
 Page {
     padding: 0
     ScrollView {

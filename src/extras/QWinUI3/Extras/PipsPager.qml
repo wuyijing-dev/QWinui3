@@ -23,9 +23,9 @@ T.Control {
     property bool wrap: false
     // WinUI ButtonVisibility: "visible" | "visibleOnPointerOver" | "collapsed"
     property string previousButtonVisibility: "visible"
-    // Next Button Visibility
+    // Visibility of the next button
     property string nextButtonVisibility: "visible"
-    // Current Index Edited
+    // Emitted when currentIndex changes via user edit
     signal currentIndexEdited(int index)
     // Selection changed
     signal selectionChanged(int index)
@@ -42,7 +42,7 @@ T.Control {
 
     onCurrentIndexChanged: selectionChanged(currentIndex)
 
-    // Go Next
+    // Navigate to the next page / item
     function goNext() {
         if (count <= 0)
             return
@@ -57,7 +57,7 @@ T.Control {
         currentIndexEdited(currentIndex)
     }
 
-    // Go Previous
+    // Navigate to the previous page / item
     function goPrevious() {
         if (count <= 0)
             return
@@ -72,7 +72,7 @@ T.Control {
         currentIndexEdited(currentIndex)
     }
 
-    // Select
+    // Select item by index
     function select(index) {
         if (index < 0 || index >= count)
             return

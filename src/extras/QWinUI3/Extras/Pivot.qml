@@ -17,7 +17,7 @@ T.Control {
     property int currentIndex: 0
     // Selected index alias
     property alias selectedIndex: control.currentIndex
-    // Keyboard Navigation Enabled
+    // Allow arrow-key navigation
     property bool keyboardNavigationEnabled: true
     // Selection changed by user
     signal currentIndexChangedByUser(int index)
@@ -55,7 +55,7 @@ T.Control {
         }
     }
 
-    // Select Index
+    // Select by index
     function selectIndex(index) {
         if (index < 0 || index >= model.length)
             return
@@ -182,7 +182,7 @@ T.Control {
                     required property var modelData
                     required property int index
 
-                    // Has Page
+                    // True when page is present / set
                     readonly property bool hasPage: typeof modelData === "object"
                                                    && modelData !== null
                                                    && modelData.page !== undefined

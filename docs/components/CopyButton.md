@@ -24,12 +24,12 @@ CopyButton { textToCopy: code }
 
 ## Signals
 
-- `copyCompleted(string text)` — Copy Completed
-- `copyFailed()` — Copy Failed
+- `copyCompleted(string text)` — Emitted after a successful copy
+- `copyFailed()` — Emitted when copy fails
 
 ## Methods
 
-- `copy(optionalText)` — Copy
+- `copy(optionalText)` — Copy to clipboard
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

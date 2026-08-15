@@ -41,27 +41,27 @@ T.Control {
     Accessible.name: caption.length ? caption : qsTr("Sparkline")
     Accessible.description: isFinite(delta) ? qsTr("Change %1").arg(delta) : ""
 
-    // Last Value
+    // Last series value
     readonly property real lastValue: {
         var pts = ChartUtils.flattenValues(values)
         if (!pts.length)
             return NaN
         return Number(pts[pts.length - 1])
     }
-    // First Value
+    // First series value
     readonly property real firstValue: {
         var pts = ChartUtils.flattenValues(values)
         if (!pts.length)
             return NaN
         return Number(pts[0])
     }
-    // Delta
+    // Delta from target / previous
     readonly property real delta: {
         if (!isFinite(lastValue) || !isFinite(firstValue))
             return NaN
         return lastValue - firstValue
     }
-    // Delta Positive
+    // True when delta is positive
     readonly property bool deltaPositive: isFinite(delta) && delta >= 0
 
     Behavior on revealProgress {
@@ -72,7 +72,7 @@ T.Control {
         }
     }
 
-    // Play Reveal
+    // Play entrance reveal animation
     function playReveal() {
         if (!root.animated || Theme.reducedMotion) {
             revealProgress = 1

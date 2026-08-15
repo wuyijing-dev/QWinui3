@@ -37,7 +37,7 @@ RadialGauge { value: 72; minimum: 0; maximum: 100 }
 - `interactive: alias` — Enable hover / click interaction
 - `percentage: real` — Value as 0..100 percentage
 - `effectiveFillColor: color` — Resolved fill color
-- `normalized: real` — Normalized
+- `normalized: real` — Normalized 0..1 value
 - `formattedValue: string` — Formatted value string
 - `animatedValue: real` — Animated display value
 - `animatedNorm: real` — Animated 0..1 normalized value
@@ -53,9 +53,9 @@ RadialGauge { value: 72; minimum: 0; maximum: 100 }
 
 ## Methods
 
-- `setValue(v)` — Set Value
-- `setValueFromNorm(n)` — Set Value From Norm
-- `normFromPoint(px, py)` — Norm From Point
+- `setValue(v)` — Set value (clamped / snapped)
+- `setValueFromNorm(n)` — Set value from a normalized 0..1 input
+- `normFromPoint(px, py)` — Normalize a pointer position to 0..1
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

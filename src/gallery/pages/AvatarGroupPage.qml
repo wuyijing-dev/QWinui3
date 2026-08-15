@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — AvatarGroup.
+//
+// Overlapping person pictures with overflow count and click signals. API: docs/components/AvatarGroup.md
+
 Page {
     padding: 0
     ScrollView {

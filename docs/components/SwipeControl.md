@@ -27,8 +27,8 @@ SwipeControl {
 - `revealThreshold: real` — Drag distance to snap open
 - `isOpen: bool` — Open / visible state
 - `openMode: int` — single | multiple reveal mode
-- `maxLeftReveal: real` — Max Left Reveal
-- `maxRightReveal: real` — Max Right Reveal
+- `maxLeftReveal: real` — Max left swipe reveal width
+- `maxRightReveal: real` — Max right swipe reveal width
 
 ## Signals
 
@@ -37,9 +37,9 @@ SwipeControl {
 
 ## Methods
 
-- `close()` — Close
-- `openLeft()` — Open Left
-- `openRight()` — Open Right
+- `close()` — Close / dismiss
+- `openLeft()` — Reveal left swipe actions
+- `openRight()` — Reveal right swipe actions
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

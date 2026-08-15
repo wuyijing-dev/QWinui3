@@ -32,13 +32,13 @@ T.Control {
     property bool isTextSelectionEnabled: false
     // none | characterEllipsis | wordEllipsis
     property string textTrimming: "none"
-    // Max Lines
+    // Maximum wrapped line count
     property int maxLines: 0 // 0 = unlimited
 
-    // Color
+    // Primary color
     property color color: style === caption ? Theme.textSecondary : Theme.textPrimary
 
-    // Style Name
+    // Current style name
     readonly property string styleName: {
         switch (style) {
         case caption: return "caption"
@@ -51,7 +51,7 @@ T.Control {
         }
     }
 
-    // Set Style Name
+    // Set style by name
     function setStyleName(name) {
         switch (String(name).toLowerCase()) {
         case "caption": style = caption; break

@@ -40,9 +40,9 @@ T.Control {
     property real lodFactor: 1
     // Grid line color
     property color gridColor: Theme.strokeDivider
-    // Point Color
+    // Color for a series point
     property color pointColor: Theme.accent
-    // Trend Color
+    // Trend / delta color
     property color trendColor: Theme.systemCaution
     // 0..1 reveal animation progress
     property real revealProgress: 1
@@ -67,7 +67,7 @@ T.Control {
     property real _loY: 0
     property real _hiY: 1
 
-    // Point Clicked
+    // Emitted when a chart point is clicked
     signal pointClicked(int index, real x, real y)
 
     implicitWidth: 320
@@ -87,13 +87,13 @@ T.Control {
         }
     }
 
-    // Invalidate Lod
+    // Invalidate level-of-detail cache
     function invalidateLod() {
         _lodKey = ""
         _lodPoints = []
     }
 
-    // Ensure Lod
+    // Build LOD samples for the given budget
     function ensureLod(binsX, binsY) {
         var raw = root._raw
         var n = ChartUtils.valueCount(raw)
@@ -229,11 +229,11 @@ T.Control {
             visible: !root.isEmpty
             antialiasing: true
             renderStrategy: Canvas.Cooperative
-            // Screen Pts
+            // Points in screen coordinates
             property var screenPts: []
-            // Pad L
+            // Left padding / plot inset
             property real padL: 6
-            // Pad T
+            // Top padding / plot inset
             property real padT: 6
             // Plot width
             property real plotW: 1

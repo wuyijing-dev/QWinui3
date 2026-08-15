@@ -21,11 +21,11 @@ T.Control {
     property real stepSize: 1
     // WinUI LargeChange — used with PageUp/PageDown / wheel+Ctrl
     property real largeChange: 10
-    // Decimals
+    // Decimal places for formatting
     property int decimals: 0
-    // Prefix
+    // Leading text prefix
     property string prefix: ""
-    // Suffix
+    // Trailing text suffix
     property string suffix: ""
     // Header label above the control
     property string header: ""
@@ -35,18 +35,18 @@ T.Control {
     property string errorMessage: ""
     // Placeholder when empty
     property string placeholderText: ""
-    // Input Invalid
+    // True when input fails validation
     property bool inputInvalid: false
     // WinUI SpinButtonPlacementMode: "inline" | "compact" | "hidden"
     property string spinButtonPlacementMode: "inline"
     // WinUI ValidationMode: "invalidInputOverValue" | "disabled"
     property string validationMode: "invalidInputOverValue"
-    // Accept Wheel
+    // Handle mouse-wheel value changes
     property bool acceptWheel: true
 
     // True when validation failed
     readonly property bool hasError: errorMessage.length > 0 || inputInvalid
-    // Value Modified
+    // Emitted when the value is modified by the user
     signal valueModified()
 
     implicitWidth: 180
@@ -68,17 +68,17 @@ T.Control {
         return true
     }
 
-    // Clamp
+    // Clamp to the valid range
     function clamp(v) {
         return Math.min(root.maximum, Math.max(root.minimum, v))
     }
 
-    // Format
+    // Format / formatter callback
     function format(v) {
         return root.prefix + Number(v).toFixed(root.decimals) + root.suffix
     }
 
-    // Bump
+    // Nudge value by one step
     function bump(delta) {
         root.inputInvalid = false
         root.value = root.clamp(root.value + delta)
@@ -86,7 +86,7 @@ T.Control {
         root.valueModified()
     }
 
-    // Flash Invalid
+    // Flash invalid-input feedback
     function flashInvalid() {
         if (root.validationMode === "disabled")
             return
@@ -94,10 +94,10 @@ T.Control {
         invalidTimer.restart()
     }
 
-    // Focus Field
+    // Move keyboard focus to the text field
     function focusField() { field.forceActiveFocus() }
 
-    // Commit Text
+    // Commit edited text
     function commitText() {
         var raw = field.text.replace(root.prefix, "").replace(root.suffix, "").trim()
         if (raw.length === 0 && root.placeholderText.length > 0) {

@@ -3,6 +3,10 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 
+// Gallery — RangeSlider.
+//
+// A control for selecting a continuous range between two values. API: docs/components/RangeSlider.md
+
 Page {
     padding: 0
     ScrollView {

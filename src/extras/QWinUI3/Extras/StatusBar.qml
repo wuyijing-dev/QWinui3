@@ -16,17 +16,17 @@ T.Control {
 
     // Display / input text
     property string text: ""
-    // Left Content
+    // Leading content slot
     property alias leftContent: leftSlot.data
-    // Center Content
+    // Center content slot
     property alias centerContent: centerSlot.data
     // Content slot / children host
     property alias content: trailing.data
-    // Right Content
+    // Trailing content slot
     property alias rightContent: trailing.data
     // 0..1 shows determinate bar; <0 hides; NaN-safe. Set indeterminate for busy.
     property real progress: -1
-    // Progress Indeterminate
+    // Show indeterminate progress
     property bool progressIndeterminate: false
 
     readonly property bool _showProgress: progressIndeterminate || progress >= 0

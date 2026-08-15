@@ -69,12 +69,12 @@ T.Control {
     // Emitted when opened
     signal opened()
 
-    // Open
+    // Open / show
     function open() { isOpen = true }
-    // Close
+    // Close / dismiss
     function close() { isOpen = false }
 
-    // Set Severity Name
+    // Set severity from a string name
     function setSeverityName(name) {
         switch (String(name).toLowerCase()) {
         case "success": severity = success; break

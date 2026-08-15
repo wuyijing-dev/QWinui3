@@ -18,7 +18,7 @@ HeaderedContentControl { header: qsTr("Section"); Label { text: "…" } }
 - `description: string` — Supporting description text
 - `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
 - `iconGlyph: string` — Raw Fluent glyph string fallback
-- `headerComponent: Component` — Header Component
+- `headerComponent: Component` — Optional header component
 - `headerPlacement: string` — top | left
 - `contentData: alias` — Default children / content slot
 - `effectiveIconGlyph: string` — Resolved glyph string

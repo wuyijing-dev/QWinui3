@@ -25,29 +25,29 @@ HeatmapChart { values: matrix }
 - `interactive: bool` — Enable hover / click interaction
 - `revealProgress: real` — 0..1 reveal animation progress
 - `hoverRow: int` — Hovered heatmap row index
-- `hoverCol: int` — Hover Col
-- `lowColor: color` — Low Color
-- `highColor: color` — High Color
+- `hoverCol: int` — Hovered column index
+- `lowColor: color` — Low-zone color
+- `highColor: color` — High-zone color
 - `title: string` — Primary title text
 - `emptyText: string` — Placeholder when there is no data
 - `isEmpty: bool` — True when there is no data
 - `labelW: real` — Label column width
-- `labelH: real` — Label H
-- `cellW: real` — Cell W
-- `cellH: real` — Cell H
+- `labelH: real` — Label area height
+- `cellW: real` — Cell width
+- `cellH: real` — Cell height
 - `rows: int` — Grid row count
-- `cols: int` — Cols
+- `cols: int` — Column count
 
 ## Signals
 
-- `cellClicked(int row, int col, real value)` — Cell Clicked
+- `cellClicked(int row, int col, real value)` — Emitted when a cell is clicked
 
 ## Methods
 
-- `playReveal()` — Play Reveal
-- `requestRedraw()` — Request Redraw
-- `clearHover()` — Clear Hover
-- `lerpColor(a, b, t)` — Lerp Color
+- `playReveal()` — Play entrance reveal animation
+- `requestRedraw()` — Request chart / canvas redraw
+- `clearHover()` — Clear hovered item state
+- `lerpColor(a, b, t)` — Linearly interpolate two colors
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

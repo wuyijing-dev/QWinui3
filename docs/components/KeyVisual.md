@@ -20,7 +20,7 @@ KeyVisual { keyText: "Ctrl" }
 - `size: string` — "small" | "medium" | "large"
 - `emphasized: bool` — Emphasized chrome
 - `toolTipText: string` — Tooltip text
-- `minWidth: real` — Min Width
+- `minWidth: real` — Minimum width
 - `effectiveIconGlyph: string` — Resolved glyph string
 
 ---

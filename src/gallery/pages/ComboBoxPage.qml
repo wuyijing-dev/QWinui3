@@ -3,6 +3,10 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 
+// Gallery — ComboBox.
+//
+// Fluent chevron indicator with popup-open rotation. API: docs/components/ComboBox.md
+
 Page {
     padding: 0
     ScrollView {

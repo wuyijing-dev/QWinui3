@@ -18,7 +18,7 @@ T.Control {
     property var symbol: ""
     // Raw Fluent glyph string fallback
     property string iconGlyph: ""
-    // Header Component
+    // Optional header component
     property Component headerComponent: null
     // top | left
     property string headerPlacement: "top"

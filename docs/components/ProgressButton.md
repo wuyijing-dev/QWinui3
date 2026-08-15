@@ -18,28 +18,28 @@ ProgressButton { text: qsTr("Upload"); progress: 0.4 }
 - `indeterminate: bool` — Show indeterminate animation when true
 - `isIndeterminate: alias` — Alias of indeterminate
 - `showProgress: bool` — Show progress indicator
-- `showPercentage: bool` — Show Percentage
+- `showPercentage: bool` — Show percentage readout
 - `progressState: string` — idle | progressing | completed | error
-- `progressingText: string` — Progressing Text
-- `completedText: string` — Completed Text
-- `errorText: string` — Error Text
+- `progressingText: string` — Text while progress is running
+- `completedText: string` — Text shown when complete
+- `errorText: string` — Error message text
 - `percentage: real` — Value as 0..100 percentage
 - `displayText: string` — Text shown to the user
-- `innerRadius: real` — Inner Radius
-- `innerWidth: real` — Inner Width
+- `innerRadius: real` — Inner radius
+- `innerWidth: real` — Inner width
 
 ## Signals
 
-- `progressCompleted()` — Progress Completed
-- `progressFailed()` — Progress Failed
+- `progressCompleted()` — Emitted when progress reaches completion
+- `progressFailed()` — Emitted when progress fails
 
 ## Methods
 
-- `setProgress(value)` — Set Progress
-- `reset()` — Reset
-- `start(indeterminateMode)` — Start
-- `complete()` — Complete
-- `fail()` — Fail
+- `setProgress(value)` — Set progress 0..1
+- `reset()` — Reset to defaults
+- `start(indeterminateMode)` — Start animation / operation
+- `complete()` — Mark the step / task complete
+- `fail()` — Mark the operation failed
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

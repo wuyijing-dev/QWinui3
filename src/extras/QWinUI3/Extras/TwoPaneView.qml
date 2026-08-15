@@ -28,26 +28,26 @@ T.Control {
     property Item pane1: null
     // Second pane content
     property Item pane2: null
-    // Pane Priority Width
+    // Width threshold for pane priority
     property real panePriorityWidth: 320
-    // Pane1 Length
+    // Primary pane length
     property alias pane1Length: root.panePriorityWidth
-    // Min Wide Width
+    // Minimum width for wide layout
     property real minWideWidth: 720
-    // Preferred Mode
+    // Preferred display mode
     property int preferredMode: TwoPaneView.Wide
-    // Pane Priority
+    // Which pane takes priority when collapsing
     property int panePriority: TwoPaneView.Pane1
-    // Mode
+    // Display / interaction mode
     property int mode: {
         if (width < minWideWidth)
             return preferredMode === TwoPaneView.Tall ? TwoPaneView.Tall : TwoPaneView.SinglePane
         return preferredMode === TwoPaneView.Tall ? TwoPaneView.Tall : TwoPaneView.Wide
     }
-    // Single Pane Index
+    // Which pane is shown in single-pane mode
     property int singlePaneIndex: 0
 
-    // Mode Name
+    // Human-readable mode name
     readonly property string modeName: {
         switch (mode) {
         case TwoPaneView.Wide: return qsTr("Wide")
@@ -64,16 +64,16 @@ T.Control {
     Accessible.name: qsTr("Two pane view")
     Accessible.description: modeName
 
-    // Show Pane1
+    // Show primary pane
     function showPane1() { singlePaneIndex = 0 }
-    // Show Pane2
+    // Show secondary pane
     function showPane2() { singlePaneIndex = 1 }
-    // Toggle Single Pane
+    // Toggle single-pane mode
     function toggleSinglePane() {
         singlePaneIndex = singlePaneIndex === 0 ? 1 : 0
     }
 
-    // Swap Panes
+    // Swap primary / secondary panes
     function swapPanes() {
         var a = pane1
         pane1 = pane2
@@ -93,7 +93,7 @@ T.Control {
     contentItem: Item {
         id: host
 
-        // Reparent Panes
+        // Reparent TwoPaneView panes for mode
         function reparentPanes() {
             if (root.pane1 && root.pane1.parent !== host)
                 root.pane1.parent = host
@@ -102,7 +102,7 @@ T.Control {
             layoutPanes()
         }
 
-        // Layout Panes
+        // Recompute TwoPaneView pane layout
         function layoutPanes() {
             var gap = root.spacing
             var w = width

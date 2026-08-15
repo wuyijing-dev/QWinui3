@@ -38,7 +38,7 @@ PlatformTitleBar {
 
 ## Methods
 
-- `reportHitTest()` — Report Hit Test
+- `reportHitTest()` — Report title-bar hit-test layout to WindowHelper
 - `screenRect(item)` — from GetWindowRect.
 
 ---

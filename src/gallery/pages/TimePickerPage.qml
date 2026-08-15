@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — TimePicker.
+//
+// Fluent Clock icon, minuteIncrement, and Accessible time value. API: docs/components/TimePicker.md
+
 Page {
     padding: 0
     ScrollView {

@@ -22,7 +22,7 @@ Dial { from: 0; to: 100; value: 30 }
 - `showTicks: bool` — Show tick marks
 - `formattedValue: string` — Formatted value string
 - `stroke: real` — Stroke width for dial arc
-- `r: real` — R
+- `r: real` — Radius
 - `index: int`
 - `t: real` — Normalized 0..1 parameter
 - `angDeg: real` — Angle in degrees

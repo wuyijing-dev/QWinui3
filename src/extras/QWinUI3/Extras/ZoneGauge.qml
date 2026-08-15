@@ -68,7 +68,7 @@ T.Control {
 
     // Value as 0..100 percentage
     readonly property real percentage: animatedNorm * 100
-    // Active Zone Index
+    // Index of the active gauge zone
     readonly property int activeZoneIndex: {
         var n = animatedNorm
         var zs = zones || []
@@ -80,7 +80,7 @@ T.Control {
         }
         return Math.max(0, zs.length - 1)
     }
-    // Active Zone Label
+    // Label of the active gauge zone
     readonly property string activeZoneLabel: {
         var zs = zones || []
         var i = activeZoneIndex
@@ -88,7 +88,7 @@ T.Control {
             return ""
         return zs[i].label || ""
     }
-    // Active Zone Color
+    // Color of the active gauge zone
     readonly property color activeZoneColor: zoneColor(
         (zones && zones[activeZoneIndex]) ? zones[activeZoneIndex] : null,
         activeZoneIndex)
@@ -202,13 +202,13 @@ T.Control {
                 required property int index
                 anchors.fill: parent
                 preferredRendererType: Shape.CurveRenderer
-                // Z From
+                // Zone / arc start Z
                 readonly property real zFrom: Math.max(0, Math.min(1, Number(modelData.from) || 0))
-                // Z To
+                // Zone / arc end Z
                 readonly property real zTo: Math.max(zFrom, Math.min(1, Number(modelData.to) || 1))
-                // Z Start
+                // Zone / arc start angle
                 readonly property real zStart: root.startAngle + zFrom * root.sweepTotal
-                // Z Sweep
+                // Zone / arc sweep angle
                 readonly property real zSweep: (zTo - zFrom) * root.sweepTotal
                 opacity: root.activeZoneIndex === index ? 1 : 0.72
                 Behavior on opacity {

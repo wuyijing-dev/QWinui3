@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — Timeline.
+//
+// Chronological events with selectedIndex, symbol nodes, and keyboard nav. API: docs/components/Timeline.md
+
 Page {
     padding: 0
     ScrollView {

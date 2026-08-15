@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — MultiSelectComboBox.
+//
+// Multi-check combo with Fluent Accept checks, ChevronDown, and Accessible. API: docs/components/MultiSelectComboBox.md
+
 Page {
     padding: 0
     ScrollView {

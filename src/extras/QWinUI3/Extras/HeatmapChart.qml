@@ -32,18 +32,18 @@ T.Control {
     property real revealProgress: 1
     // Hovered heatmap row index
     property int hoverRow: -1
-    // Hover Col
+    // Hovered column index
     property int hoverCol: -1
-    // Low Color
+    // Low-zone color
     property color lowColor: Theme.dark ? "#1B3A4B" : "#D6EBFA"
-    // High Color
+    // High-zone color
     property color highColor: Theme.accent
     // Primary title text
     property string title: ""
     // Placeholder when there is no data
     property string emptyText: qsTr("No data")
 
-    // Cell Clicked
+    // Emitted when a cell is clicked
     signal cellClicked(int row, int col, real value)
 
     implicitWidth: 320
@@ -91,7 +91,7 @@ T.Control {
         }
     }
 
-    // Play Reveal
+    // Play entrance reveal animation
     function playReveal() {
         if (!root.animated || Theme.reducedMotion) {
             revealProgress = 1
@@ -102,15 +102,15 @@ T.Control {
         revealProgress = 1
     }
 
-    // Request Redraw
+    // Request chart / canvas redraw
     function requestRedraw() { canvas.requestPaint() }
-    // Clear Hover
+    // Clear hovered item state
     function clearHover() {
         hoverRow = -1
         hoverCol = -1
         requestRedraw()
     }
-    // Lerp Color
+    // Linearly interpolate two colors
     function lerpColor(a, b, t) {
         t = Math.max(0, Math.min(1, t))
         return Qt.rgba(a.r + (b.r - a.r) * t,
@@ -162,15 +162,15 @@ T.Control {
             renderStrategy: Canvas.Cooperative
             // Label column width
             property real labelW: 0
-            // Label H
+            // Label area height
             property real labelH: 0
-            // Cell W
+            // Cell width
             property real cellW: 1
-            // Cell H
+            // Cell height
             property real cellH: 1
             // Grid row count
             property int rows: 0
-            // Cols
+            // Column count
             property int cols: 0
 
             onPaint: {

@@ -3,6 +3,10 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 
+// Gallery — BusyIndicator.
+//
+// Shows that an operation is underway when progress is not known. API: docs/components/BusyIndicator.md
+
 Page {
     padding: 0
     ScrollView {

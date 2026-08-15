@@ -3,6 +3,10 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 
+// Gallery — SpinBox.
+//
+// Numeric stepper with Fluent chevron glyphs. API: docs/components/SpinBox.md
+
 Page {
     padding: 0
     ScrollView {

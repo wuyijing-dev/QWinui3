@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — DropDownButton.
+//
+// Fluent ChevronDown, symbol icons, isOpen, and Accessible menu state. API: docs/components/DropDownButton.md
+
 Page {
     padding: 0
     ScrollView {

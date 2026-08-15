@@ -32,8 +32,8 @@ StandardWindow {
 
 ## Methods
 
-- `applyChrome()` — Apply Chrome
-- `setPresenterKind(kind)` — Set Presenter Kind
+- `applyChrome()` — Apply window chrome / backdrop
+- `setPresenterKind(kind)` — Set AppWindow presenter kind
 - `onDarkChanged()`
 - `onCornerPreferenceChanged()`
 

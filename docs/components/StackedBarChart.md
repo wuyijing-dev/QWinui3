@@ -26,7 +26,7 @@ StackedBarChart { series: [{ values: [1, 2] }] }
 - `interactive: bool` — Enable hover / click interaction
 - `animated: bool` — Play enter / reveal animation
 - `revealProgress: real` — 0..1 reveal animation progress
-- `hoverCategory: int` — Hover Category
+- `hoverCategory: int` — Hovered category index
 - `hoverSeries: int` — Hovered series index
 - `hoverText: string` — Tooltip / hover readout text
 - `title: string` — Primary title text
@@ -35,16 +35,16 @@ StackedBarChart { series: [{ values: [1, 2] }] }
 - `slot: real` — Named content slot
 - `padL: real` — Left padding
 - `padB: real` — Bottom padding
-- `catCount: int` — Cat Count
+- `catCount: int` — Category count
 
 ## Signals
 
-- `categoryClicked(int categoryIndex)` — Category Clicked
+- `categoryClicked(int categoryIndex)` — Emitted when a category is clicked
 
 ## Methods
 
-- `playReveal()` — Play Reveal
-- `requestRedraw()` — Request Redraw
+- `playReveal()` — Play entrance reveal animation
+- `requestRedraw()` — Request chart / canvas redraw
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

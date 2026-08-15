@@ -36,10 +36,10 @@ BreadcrumbBar {
 
 ## Methods
 
-- `crumbTitle(data)` — Crumb Title
-- `crumbIcon(data)` — Crumb Icon
-- `isCurrent(index)` — Is Current
-- `isClickable(entry)` — Is Clickable
+- `crumbTitle(data)` — Title text for a breadcrumb item
+- `crumbIcon(data)` — Icon for a breadcrumb item
+- `isCurrent(index)` — True when this crumb is the current page
+- `isClickable(entry)` — Emit clicked when activated
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

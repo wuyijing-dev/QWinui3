@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — WrapPanel.
+//
+// Wrapping rows/columns with RTL and childCount. API: docs/components/WrapPanel.md
+
 Page {
     padding: 0
     ScrollView {

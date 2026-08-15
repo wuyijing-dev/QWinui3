@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — MeterBar.
+//
+// Multi-segment meter with showTotal, remaining space, and segment tooltips. API: docs/components/MeterBar.md
+
 Page {
     padding: 0
     ScrollView {

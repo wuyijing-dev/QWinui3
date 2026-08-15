@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — SearchBox.
+//
+// Fluent Search/ChromeClose, ElevatedChrome suggestions, and Accessible. API: docs/components/SearchBox.md
+
 Page {
     padding: 0
     ScrollView {

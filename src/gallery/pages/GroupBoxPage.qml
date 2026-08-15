@@ -3,6 +3,10 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 
+// Gallery — GroupBox.
+//
+// Groups related controls under a common labeled frame. API: docs/components/GroupBox.md
+
 Page {
     padding: 0
     ScrollView {

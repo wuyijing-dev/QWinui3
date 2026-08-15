@@ -84,7 +84,7 @@ T.Control {
         return fillColor
     }
 
-    // Normalized
+    // Normalized 0..1 value
     readonly property real normalized: {
         var span = maximum - minimum
         if (span <= 0)
@@ -99,7 +99,7 @@ T.Control {
         return t + (unit.length ? unit : "")
     }
 
-    // Set Value
+    // Set value (clamped / snapped)
     function setValue(v) {
         var lo = Math.min(minimum, maximum)
         var hi = Math.max(minimum, maximum)
@@ -111,12 +111,12 @@ T.Control {
         value = x
     }
 
-    // Set Value From Norm
+    // Set value from a normalized 0..1 input
     function setValueFromNorm(n) {
         setValue(minimum + Math.max(0, Math.min(1, n)) * (maximum - minimum))
     }
 
-    // Norm From Point
+    // Normalize a pointer position to 0..1
     function normFromPoint(px, py) {
         var cx = gaugeFace.width / 2
         var cy = gaugeFace.height / 2

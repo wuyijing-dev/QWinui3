@@ -63,14 +63,14 @@ ShellWindow {
         text: qsTr("Ready")
     }
 
-    // Add Menu
+    // Append a menu to the title-bar menus
     function addMenu(menu) {
         if (!menu)
             return
         menus.addMenu(menu)
     }
 
-    // Clear Menus
+    // Dismiss open menus
     function clearMenus() {
         while (menus.count > 0)
             menus.takeMenu(0)
@@ -100,12 +100,12 @@ ShellWindow {
 
     Connections {
         target: menus
-        // On Implicit Width Changed
+        // React to implicitWidth changes
         function onImplicitWidthChanged() {
             if (root.menusInTitleBar)
                 root.chrome.reportHitTest()
         }
-        // On Count Changed
+        // React to count changes
         function onCountChanged() {
             if (root.menusInTitleBar)
                 Qt.callLater(function () { root.chrome.reportHitTest() })

@@ -24,13 +24,13 @@ StepBar { model: ["Cart", "Ship", "Pay"]; currentIndex: 1 }
 
 ## Signals
 
-- `stepActivated(int index)` — Step Activated
+- `stepActivated(int index)` — Emitted when a step is activated
 
 ## Methods
 
-- `next()` — Next
-- `previous()` — Previous
-- `goTo(index)` — Go To
+- `next()` — Advance to next
+- `previous()` — Go to previous
+- `goTo(index)` — Navigate to the given index
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

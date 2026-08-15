@@ -3,6 +3,10 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 
+// Gallery — Tumbler.
+//
+// A spinning wheel for selecting values from a list. API: docs/components/Tumbler.md
+
 Page {
     padding: 0
     ScrollView {

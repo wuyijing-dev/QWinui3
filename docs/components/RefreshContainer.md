@@ -26,11 +26,11 @@ RefreshContainer {
 - `refreshing: bool` — True while a refresh is in progress
 - `isRefreshing: alias` — True while refreshing
 - `pullToRefreshEnabled: bool` — Enable pull-to-refresh gesture
-- `isEnabled: alias` — Is Enabled
+- `isEnabled: alias` — Enabled state alias
 - `pullThreshold: real` — Pull distance before refresh fires
 - `refreshText: string` — Text shown while pulling
 - `refreshingText: string` — Text shown while refreshing
-- `pullText: string` — Pull Text
+- `pullText: string` — Pull-to-refresh prompt text
 - `spinAngle: real` — Indeterminate spin angle
 
 ## Signals
@@ -39,8 +39,8 @@ RefreshContainer {
 
 ## Methods
 
-- `endRefresh()` — End Refresh
-- `beginRefresh()` — Begin Refresh
+- `endRefresh()` — End a pull-to-refresh cycle
+- `beginRefresh()` — Start a pull-to-refresh cycle
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

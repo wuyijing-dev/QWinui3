@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — ActionCard.
+//
+// Clickable card with symbol, badge, and animated chevron. API: docs/components/ActionCard.md
+
 Page {
     padding: 0
     ScrollView {

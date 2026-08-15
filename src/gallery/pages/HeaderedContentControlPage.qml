@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — HeaderedContentControl.
+//
+// Content with symbol header and top/left headerPlacement. API: docs/components/HeaderedContentControl.md
+
 Page {
     padding: 0
     ScrollView {

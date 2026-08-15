@@ -48,11 +48,11 @@ T.Control {
     // Overflow more button clicked
     signal moreButtonClicked()
 
-    // Open
+    // Open / show
     function open() { isOpen = true }
-    // Close
+    // Close / dismiss
     function close() { isOpen = false }
-    // Toggle
+    // Toggle checked / expanded state
     function toggle() { isOpen = !isOpen }
 
     onIsOpenChanged: {

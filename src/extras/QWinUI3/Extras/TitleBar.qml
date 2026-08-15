@@ -82,7 +82,7 @@ Item {
     // whole fill-width slot (caption drag vs menu clicks).
     function clientExcludeRectsFor(window) {
         var list = []
-        // Push Rect
+        // Push a rectangle into hit-test clientRects
         function pushRect(gx, gy, w, h) {
             if (w <= 0 || h <= 0)
                 return
@@ -91,14 +91,14 @@ Item {
                               Math.ceil(w) + 4,
                               Math.ceil(h) + 4))
         }
-        // Push Item
+        // Push an item onto the stack
         function pushItem(item) {
             if (!item || !item.visible || item.width <= 0 || item.height <= 0)
                 return
             var g = item.mapToGlobal(0, 0)
             pushRect(g.x, g.y, item.width, item.height)
         }
-        // Push Host Content
+        // Push content into the host
         function pushHostContent(host) {
             if (!host || !host.visible || host.children.length === 0)
                 return

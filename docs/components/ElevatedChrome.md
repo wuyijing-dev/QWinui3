@@ -16,16 +16,16 @@ ElevatedChrome { anchors.fill: parent }
 
 ## Properties
 
-- `color: color` — Color
+- `color: color` — Primary color
 - `radius: real` — Corner radius
-- `borderColor: color` — Border Color
-- `borderWidth: int` — Border Width
-- `elevated: bool` — Elevated
-- `elevation: real` — Elevation
-- `shadowOpacity: real` — Shadow Opacity
-- `shadowBlur: real` — Shadow Blur
-- `blurMax: int` — Blur Max
-- `antialiasing: alias` — Antialiasing
+- `borderColor: color` — Border color
+- `borderWidth: int` — Border width in px
+- `elevated: bool` — Use elevated chrome
+- `elevation: real` — Elevation level
+- `shadowOpacity: real` — Shadow opacity
+- `shadowBlur: real` — Shadow blur radius
+- `blurMax: int` — Maximum blur radius
+- `antialiasing: alias` — Enable antialiased drawing
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

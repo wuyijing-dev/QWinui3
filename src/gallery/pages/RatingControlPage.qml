@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — RatingControl.
+//
+// Fluent OutlineStar / FavoriteStarFill; drag to pick whole, half, or fine ratings. API: docs/components/RatingControl.md
+
 Page {
     id: page
     padding: 0

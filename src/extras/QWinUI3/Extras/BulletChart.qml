@@ -66,12 +66,12 @@ T.Control {
         return s + (unit.length ? unit : "")
     }
 
-    // Set Value
+    // Set value (clamped / snapped)
     function setValue(v) {
         value = Math.max(minimum, Math.min(maximum, Number(v) || 0))
     }
 
-    // Band Color
+    // Color for a qualitative band
     function bandColor(index) {
         if (rangeColors && rangeColors.length > index)
             return rangeColors[index]

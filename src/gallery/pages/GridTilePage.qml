@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — GridTile.
+//
+// Selectable grid card with symbol, badge, check mark, and press scale. API: docs/components/GridTile.md
+
 Page {
     padding: 0
     ScrollView {

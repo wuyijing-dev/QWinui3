@@ -31,13 +31,13 @@ T.Popup {
     property bool isCloseButtonVisible: true
     // Preferred flyout placement
     property int preferredPlacement: Qt.AlignTop
-    // Effective Placement
+    // Resolved flyout placement
     property int effectivePlacement: Qt.AlignTop
-    // Hero Content
+    // Hero content slot
     default property alias heroContent: heroSlot.data
     // Emitted when action is clicked
     signal actionClicked()
-    // Closed By User
+    // True when the user dismissed the dialog
     signal closedByUser()
 
     // Resolved glyph string
@@ -70,7 +70,7 @@ T.Popup {
     }
     onClosed: isOpen = false
 
-    // Reanchor
+    // Recompute popup anchor
     function reanchor() {
         if (!target || !parent)
             return

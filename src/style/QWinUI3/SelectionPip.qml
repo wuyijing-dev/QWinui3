@@ -38,23 +38,23 @@ Item {
         property real contentToY: 0
         // 0..1 animation / progress
         property real progress: 1
-        // Ready
+        // True when the control is ready
         property bool ready: false
 
-        // Eased
+        // Eased 0..1 animation progress
         readonly property real eased: {
             var t = progress
             return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
         }
-        // Travel
+        // Absolute travel distance for the pip
         readonly property real travel: Math.abs(contentToY - contentFromY)
         // Stretch factor / stretch pip
         readonly property real stretch: Math.min(36, Math.max(10, travel * 0.45))
-        // Content Center Y
+        // Animated content center Y
         readonly property real contentCenterY: contentFromY
                                               + (contentToY - contentFromY) * eased
                                               + baseHeight * 0.5
-        // Visual Height
+        // Current visual height (stretch / animation)
         readonly property real visualHeight: baseHeight + stretch * Math.sin(Math.PI * progress)
         // Flickable content Y
         readonly property real contentY: listView ? listView.contentY : 0
@@ -71,7 +71,7 @@ Item {
             running: false
         }
 
-        // Content YFor Index
+        // contentY that scrolls index into view
         function contentYForIndex(index) {
             if (!listView || index < 0)
                 return -1
@@ -81,14 +81,14 @@ Item {
             return item.y + (item.height - baseHeight) * 0.5
         }
 
-        // Current Content Y
+        // Current Flickable contentY
         function currentContentY() {
             if (progress >= 1)
                 return contentToY
             return contentFromY + (contentToY - contentFromY) * eased
         }
 
-        // Move To
+        // Move to the given index / position
         function moveTo(index, forceInstant, retries) {
             if (retries === undefined)
                 retries = 0

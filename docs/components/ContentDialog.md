@@ -38,9 +38,9 @@ ContentDialog {
 ## Methods
 
 - `show()` — Enqueue via ContentDialogQueue (preferred over open())
-- `hide()` — Hide
-- `openQueued()` — Open Queued
-- `activateDefault()` — Activate Default
+- `hide()` — Hide the control
+- `openQueued()` — Open the next queued dialog
+- `activateDefault()` — Activate the default button / action
 - `syncBody()` — Instance children land on contentItem; move them into the body slot.
 
 ---

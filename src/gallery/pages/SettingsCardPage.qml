@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — SettingsCard.
+//
+// Settings row with symbol, Fluent ChevronRight when interactive. API: docs/components/SettingsCard.md
+
 Page {
     padding: 0
     ScrollView {

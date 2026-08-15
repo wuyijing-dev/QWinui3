@@ -3,6 +3,10 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 
+// Gallery — Frame.
+//
+// A simple styled container with padding and a surface fill. API: docs/components/Frame.md
+
 Page {
     padding: 0
     ScrollView {

@@ -18,9 +18,9 @@ T.Control {
     property string size: "medium"
     // Emphasized chrome
     property bool emphasized: false
-    // Separator
+    // Separator item / glyph
     property string separator: "+"
-    // Key Spacing
+    // Spacing between keys
     property real keySpacing: 4
     // Tooltip text
     property string toolTipText: ""
@@ -30,7 +30,7 @@ T.Control {
             return [keys]
         return root._parseShortcut(shortcut)
     }
-    // Chord Text
+    // Keyboard chord display text
     readonly property string chordText: {
         if (keys && keys.length > 0)
             return keys.join(separator)

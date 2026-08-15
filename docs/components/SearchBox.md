@@ -41,11 +41,11 @@ SearchBox {
 
 ## Methods
 
-- `focusField()` — Focus Field
-- `displayTextFor(item)` — Display Text For
-- `refreshSuggestions()` — Refresh Suggestions
-- `clear()` — Clear
-- `submitQuery()` — Submit Query
+- `focusField()` — Move keyboard focus to the text field
+- `displayTextFor(item)` — Display text for a model item
+- `refreshSuggestions()` — Rebuild suggestion list from text
+- `clear()` — Clear text or selection
+- `submitQuery()` — Submit the search query
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

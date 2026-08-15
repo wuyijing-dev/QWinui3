@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — PieChart.
+//
+// Interactive pie with title, selectedIndex, and synchronized legend. API: docs/components/PieChart.md
+
 Page {
     id: page
     padding: 0

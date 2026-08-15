@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — RadioButtons.
+//
+// Mutually exclusive options with selectedIndex, select(), and keyboard navigation. API: docs/components/RadioButtons.md
+
 Page {
     padding: 0
     ScrollView {

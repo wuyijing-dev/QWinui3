@@ -17,12 +17,12 @@ T.Control {
     property int durationMs: 3200
     // spacing is FINAL on Control — assign, do not redeclare
     spacing: Theme.spacing
-    // Newest On Top
+    // Stack newest items on top
     property bool newestOnTop: true
 
-    // Toast Closed
+    // Emitted when a toast is closed
     signal toastClosed(string message)
-    // Toast Action Clicked
+    // Emitted when a toast action is clicked
     signal toastActionClicked(string message)
 
     implicitWidth: 360
@@ -45,7 +45,7 @@ T.Control {
 
     ListModel { id: queue }
 
-    // Show
+    // Show the control
     function show(message, severity, title, actionText) {
         while (queue.count >= root.maxVisible) {
             if (newestOnTop)
@@ -67,24 +67,24 @@ T.Control {
             queue.append(entry)
     }
 
-    // Info
+    // Show an informational toast / tip
     function info(message, title, actionText) {
         show(message, informational, title || qsTr("Information"), actionText)
     }
-    // Success Toast
+    // Show a success toast
     function successToast(message, title, actionText) {
         show(message, success, title || qsTr("Success"), actionText)
     }
-    // Warning Toast
+    // Show a warning toast
     function warningToast(message, title, actionText) {
         show(message, warning, title || qsTr("Warning"), actionText)
     }
-    // Error Toast
+    // Show an error toast
     function errorToast(message, title, actionText) {
         show(message, error, title || qsTr("Error"), actionText)
     }
 
-    // Clear
+    // Clear text or selection
     function clear() {
         queue.clear()
     }

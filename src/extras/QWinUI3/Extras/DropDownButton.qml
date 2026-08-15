@@ -74,12 +74,12 @@ T.AbstractButton {
         return control.lightScheme ? "#FFFFFF" : "#0FFFFFFF"
     }
 
-    // Open
+    // Open / show
     function open() { showMenu() }
-    // Close
+    // Close / dismiss
     function close() { popupMenu.close() }
 
-    // Show Menu
+    // Open the associated menu
     function showMenu() {
         var ox = 0
         var oy = control.height + 4

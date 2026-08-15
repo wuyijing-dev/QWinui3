@@ -3,6 +3,10 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 
+// Gallery — ProgressBar.
+//
+// Shows the progress of an operation that has a known duration. API: docs/components/ProgressBar.md
+
 Page {
     padding: 0
     ScrollView {

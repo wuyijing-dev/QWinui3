@@ -27,23 +27,23 @@ HeaderedTextBox { header: qsTr("Name"); placeholderText: qsTr("Required") }
 - `maximumLength: alias` — Hard maximum text length
 - `validator: alias` — Optional input validator
 - `inputMethodHints: alias` — Qt input method hints
-- `acceptableInput: alias` — Acceptable Input
+- `acceptableInput: alias` — True when typed input is valid
 - `field: alias` — Inner text field
 - `hasError: bool` — True when validation failed
-- `characterCount: int` — Character Count
-- `overLimit: bool` — Over Limit
+- `characterCount: int` — Character count of the text
+- `overLimit: bool` — True when over the max limit
 
 ## Signals
 
 - `accepted()` — Emitted on accept / submit
-- `editingFinished()` — Editing Finished
-- `textEdited()` — Text Edited
+- `editingFinished()` — Emitted when editing finishes
+- `textEdited()` — Emitted while text is being edited
 - `cleared()` — Emitted when content is cleared
 
 ## Methods
 
-- `clear()` — Clear
-- `focusField()` — Focus Field
+- `clear()` — Clear text or selection
+- `focusField()` — Move keyboard focus to the text field
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

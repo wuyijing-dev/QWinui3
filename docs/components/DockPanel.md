@@ -24,8 +24,8 @@ DockPanel {
 
 ## Methods
 
-- `dockOf(item)` — Dock Of
-- `relayout()` — Relayout
+- `dockOf(item)` — Dock edge for a child
+- `relayout()` — Recompute layout
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

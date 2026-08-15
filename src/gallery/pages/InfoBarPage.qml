@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — InfoBar.
+//
+// Severity alerts with Fluent ChromeClose, open()/close(), and Accessible. API: docs/components/InfoBar.md
+
 Page {
     padding: 0
     ScrollView {

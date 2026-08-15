@@ -8,25 +8,25 @@ import QtQuick.Effects
 Item {
     id: root
 
-    // Color
+    // Primary color
     property color color: "#FFFFFF"
     // Corner radius
     property real radius: 8
-    // Border Color
+    // Border color
     property color borderColor: "#0F000000"
-    // Border Width
+    // Border width in px
     property int borderWidth: 1
-    // Elevated
+    // Use elevated chrome
     property bool elevated: true
-    // Elevation
+    // Elevation level
     property real elevation: 2
-    // Shadow Opacity
+    // Shadow opacity
     property real shadowOpacity: 0.14
-    // Shadow Blur
+    // Shadow blur radius
     property real shadowBlur: 0.9
-    // Blur Max
+    // Maximum blur radius
     property int blurMax: 28
-    // Antialiasing
+    // Enable antialiased drawing
     property alias antialiasing: face.antialiasing
 
     // Soft shadow caster: nearly invisible fill, MultiEffect paints the blur behind the face.

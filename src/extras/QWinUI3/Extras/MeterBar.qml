@@ -60,7 +60,7 @@ T.Control {
         return s
     }
 
-    // Remaining
+    // Remaining count / time
     readonly property real remaining: Math.max(0, maximum - total)
 
     contentItem: Column {

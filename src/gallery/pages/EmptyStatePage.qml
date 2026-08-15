@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — EmptyState.
+//
+// Empty collection messaging with symbol, AccentButton CTA, and enter motion. API: docs/components/EmptyState.md
+
 Page {
     padding: 0
     ScrollView {

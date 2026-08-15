@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — TeachingTip.
+//
+// Contextual tip with symbol, ElevatedChrome, and AccentButton action. API: docs/components/TeachingTip.md
+
 Page {
     padding: 0
     ScrollView {

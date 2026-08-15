@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — Flyout.
+//
+// Lightweight contextual UI with title, isOpen / showAt(), and isLightDismissEnabled. API: docs/components/Flyout.md
+
 Page {
     padding: 0
     ScrollView {

@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — InfoBarHost.
+//
+// Stacks InfoBars with maxVisible, openAll()/clearAll(), and openCount. API: docs/components/InfoBarHost.md
+
 Page {
     padding: 0
     ScrollView {

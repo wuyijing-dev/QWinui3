@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — DonutChart.
+//
+// Animated reveal, hover emphasis, and synchronized legend. API: docs/components/DonutChart.md
+
 Page {
     id: page
     padding: 0

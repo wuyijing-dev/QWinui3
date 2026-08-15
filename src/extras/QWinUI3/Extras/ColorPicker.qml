@@ -46,7 +46,7 @@ T.Control {
     Accessible.name: qsTr("Color picker")
     Accessible.description: hexString(selectedColor)
 
-    // Copy Hex
+    // Copy the current color hex to the clipboard
     function copyHex() {
         var t = hexString(selectedColor)
         hexHelper.text = t
@@ -63,10 +63,10 @@ T.Control {
         readOnly: true
     }
 
-    // Clamp01
+    // Clamp to 0..1
     function clamp01(x) { return Math.max(0, Math.min(1, x)) }
 
-    // Hsv To Rgb
+    // Convert HSV to RGB components
     function hsvToRgb(h, s, v) {
         h = ((h % 360) + 360) % 360
         var c = v * s
@@ -82,7 +82,7 @@ T.Control {
         return { r: r + m, g: g + m, b: b + m }
     }
 
-    // Rgb To Hsv
+    // Convert RGB to HSV components
     function rgbToHsv(r, g, b) {
         var max = Math.max(r, g, b)
         var min = Math.min(r, g, b)
@@ -102,15 +102,15 @@ T.Control {
         return { h: h, s: s, v: max }
     }
 
-    // Hsv To Color
+    // Convert HSV to a QColor
     function hsvToColor(h, s, v, a) {
         var rgb = hsvToRgb(h, s, v)
         return Qt.rgba(rgb.r, rgb.g, rgb.b, a === undefined ? 1 : a)
     }
 
-    // Hex String
+    // Format color as #RRGGBB[AA]
     function hexString(c) {
-        // Byte Hex
+        // Format a 0..255 channel as two hex digits
         function byteHex(n) {
             var v = Math.round(clamp01(n) * 255)
             var s = v.toString(16).toUpperCase()
@@ -119,7 +119,7 @@ T.Control {
         return "#" + byteHex(c.r) + byteHex(c.g) + byteHex(c.b)
     }
 
-    // Parse Hex
+    // Parse a hex color string
     function parseHex(text) {
         var t = (text || "").trim()
         if (t.charAt(0) === "#")

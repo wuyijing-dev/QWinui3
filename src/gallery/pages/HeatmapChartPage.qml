@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — HeatmapChart.
+//
+// Density grid with title, empty state, and hover readout. API: docs/components/HeatmapChart.md
+
 Page {
     id: page
     padding: 0

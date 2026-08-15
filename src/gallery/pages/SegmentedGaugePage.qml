@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — SegmentedGauge.
+//
+// fillMode discrete|partial; tap segments when isInteractive. API: docs/components/SegmentedGauge.md
+
 Page {
     padding: 0
     ScrollView {

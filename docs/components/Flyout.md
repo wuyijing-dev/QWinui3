@@ -27,10 +27,10 @@ Flyout {
 
 ## Methods
 
-- `showAt(item, place)` — Show At
-- `show()` — Show
-- `hide()` — Hide
-- `reposition()` — Reposition
+- `showAt(item, place)` — Show anchored at the given point or item
+- `show()` — Show the control
+- `hide()` — Hide the control
+- `reposition()` — Reposition the popup / flyout
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

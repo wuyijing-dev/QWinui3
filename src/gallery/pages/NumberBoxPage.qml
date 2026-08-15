@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — NumberBox.
+//
+// Fluent spin chevrons, wheel, validationMode, and focusField(). API: docs/components/NumberBox.md
+
 Page {
     padding: 0
     ScrollView {

@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — ListTile.
+//
+// List row with symbol / leading, title, subtitle, selection indicator, and trailing. API: docs/components/ListTile.md
+
 Page {
     padding: 0
     ScrollView {

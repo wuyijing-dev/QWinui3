@@ -3,6 +3,10 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 
+// Gallery — RadioButton.
+//
+// Use RadioButtons to let users select one option from two or more choices. API: docs/components/RadioButton.md
+
 Page {
     padding: 0
     ScrollView {

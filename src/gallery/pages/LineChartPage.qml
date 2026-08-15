@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — LineChart.
+//
+// Pixel LOD for million-point series, hover crosshair, and empty state. API: docs/components/LineChart.md
+
 Page {
     id: page
     padding: 0

@@ -32,7 +32,7 @@ T.Control {
     property alias isRefreshing: root.refreshing
     // Enable pull-to-refresh gesture
     property bool pullToRefreshEnabled: true
-    // Is Enabled
+    // Enabled state alias
     property alias isEnabled: root.pullToRefreshEnabled
     // Pull distance before refresh fires
     property real pullThreshold: 72
@@ -40,7 +40,7 @@ T.Control {
     property string refreshText: qsTr("Release to refresh")
     // Text shown while refreshing
     property string refreshingText: qsTr("Refreshing…")
-    // Pull Text
+    // Pull-to-refresh prompt text
     property string pullText: qsTr("Pull to refresh")
     // Pull-to-refresh requested
     signal refreshRequested()
@@ -58,12 +58,12 @@ T.Control {
             : (pullToRefreshEnabled ? Math.min(pullThreshold + 16, _pullDistance) : 0)
     readonly property real _pullProgress: Math.min(1, _pullDistance / Math.max(1, pullThreshold))
 
-    // End Refresh
+    // End a pull-to-refresh cycle
     function endRefresh() {
         refreshing = false
     }
 
-    // Begin Refresh
+    // Start a pull-to-refresh cycle
     function beginRefresh() {
         if (refreshing)
             return

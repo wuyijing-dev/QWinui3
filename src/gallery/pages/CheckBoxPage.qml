@@ -3,6 +3,10 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 
+// Gallery — CheckBox.
+//
+// A control that a user can select or clear. API: docs/components/CheckBox.md
+
 Page {
     padding: 0
     ScrollView {

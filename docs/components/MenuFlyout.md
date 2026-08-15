@@ -24,10 +24,10 @@ MenuFlyout {
 
 ## Methods
 
-- `openMenu()` — Open Menu
-- `closeMenu()` — Close Menu
-- `showAt(targetItem, offsetX, offsetY)` — Show At
-- `hide()` — Hide
+- `openMenu()` — Open the menu
+- `closeMenu()` — Dismiss the menu
+- `showAt(targetItem, offsetX, offsetY)` — Show anchored at the given point or item
+- `hide()` — Hide the control
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

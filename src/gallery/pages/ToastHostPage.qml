@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — ToastHost.
+//
+// Queues toasts; info()/successToast()/errorToast() helpers, newestOnTop, clear(). API: docs/components/ToastHost.md
+
 Page {
     padding: 0
     ToastHost {

@@ -3,6 +3,10 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 
+// Gallery — Button.
+//
+// A control that responds to user input and raises a Click event. API: docs/components/Button.md
+
 Page {
     padding: 0
     ScrollView {

@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — Sparkline.
+//
+// Reveal wipe, showDelta, end marker, caption, and live streams. API: docs/components/Sparkline.md
+
 Page {
     id: page
     padding: 0

@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — TwoPaneView.
+//
+// Adaptive dual-pane with showPane1()/showPane2()/toggleSinglePane() and swapPanes(). API: docs/components/TwoPaneView.md
+
 Page {
     padding: 0
     ScrollView {

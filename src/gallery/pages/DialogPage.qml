@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — Confirm action.
+//
+// A modal dialog for confirming actions or collecting input. API: docs/components/Dialog.md
+
 Page {
     id: page
     padding: 0

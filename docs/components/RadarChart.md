@@ -19,7 +19,7 @@ RadarChart { values: [3, 5, 2, 4]; axes: ["A","B","C","D"] }
 - `axes: var` — Axis labels
 - `minimum: real` — Minimum value
 - `maximum: real` — Maximum value
-- `levels: int` — Levels
+- `levels: int` — Discrete level descriptors
 - `filled: bool` — Fill under line / area
 - `showLabels: bool` — Show item labels
 - `animated: bool` — Play enter / reveal animation
@@ -33,9 +33,9 @@ RadarChart { values: [3, 5, 2, 4]; axes: ["A","B","C","D"] }
 
 ## Methods
 
-- `playReveal()` — Play Reveal
-- `requestRedraw()` — Request Redraw
-- `clearHover()` — Clear Hover
+- `playReveal()` — Play entrance reveal animation
+- `requestRedraw()` — Request chart / canvas redraw
+- `clearHover()` — Clear hovered item state
 - `point(i, norm)`
 
 ---

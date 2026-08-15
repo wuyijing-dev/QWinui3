@@ -3,6 +3,10 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 
+// Gallery — ScrollBar.
+//
+// A control that lets the user scroll content that is larger than its viewport. API: docs/components/ScrollBar.md
+
 Page {
     padding: 0
     ScrollView {

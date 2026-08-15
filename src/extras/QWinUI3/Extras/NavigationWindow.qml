@@ -51,7 +51,7 @@ ShellWindow {
     // Footer page component
     property alias footerComponent: nav.footerComponent
 
-    // Nav Activated
+    // Emitted when a nav item is activated
     signal navActivated(var item)
     // Footer row clicked
     signal footerClicked()
@@ -74,11 +74,11 @@ ShellWindow {
     // TitleBar back (ShellWindow) + NavigationView pane back → backRequested
     Connections {
         target: nav
-        // On Back Requested
+        // Forward NavigationView back request
         function onBackRequested() { root.backRequested() }
-        // On Footer Clicked
+        // Forward footer click
         function onFooterClicked() { root.footerClicked() }
-        // On Pane Search Activated
+        // Forward pane search activation
         function onPaneSearchActivated(text) { root.paneSearchActivated(text) }
     }
 
@@ -86,13 +86,13 @@ ShellWindow {
         showPaneToggle = paneDisplayMode !== "top"
     }
 
-    // Clear Nav
+    // Clear navigation model
     function clearNav() {
         navModel = []
         nav.currentKey = ""
     }
 
-    // Add Nav Item
+    // Append a navigation item
     function addNavItem(item) {
         if (!item)
             return ""
@@ -113,7 +113,7 @@ ShellWindow {
         return entry.key
     }
 
-    // Add Nav Group
+    // Append a navigation group
     function addNavGroup(group) {
         if (!group)
             return ""

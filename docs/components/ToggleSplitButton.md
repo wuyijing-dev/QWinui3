@@ -34,8 +34,8 @@ ToggleSplitButton { text: qsTr("Format") }
 
 ## Methods
 
-- `showMenu()` — Show Menu
-- `closeMenu()` — Close Menu
+- `showMenu()` — Open the associated menu
+- `closeMenu()` — Dismiss the menu
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

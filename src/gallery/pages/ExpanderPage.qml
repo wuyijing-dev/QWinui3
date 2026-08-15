@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — Expander.
+//
+// Collapsible card with symbol header and Fluent ChevronDown animation. API: docs/components/Expander.md
+
 Page {
     padding: 0
     ScrollView {

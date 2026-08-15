@@ -31,14 +31,14 @@ ColorPicker { selectedColor: "#005FB8" }
 
 ## Methods
 
-- `copyHex()` — Copy Hex
-- `clamp01(x)` — Clamp01
-- `hsvToRgb(h, s, v)` — Hsv To Rgb
-- `rgbToHsv(r, g, b)` — Rgb To Hsv
-- `hsvToColor(h, s, v, a)` — Hsv To Color
-- `hexString(c)` — Hex String
-- `byteHex(n)` — Byte Hex
-- `parseHex(text)` — Parse Hex
+- `copyHex()` — Copy the current color hex to the clipboard
+- `clamp01(x)` — Clamp to 0..1
+- `hsvToRgb(h, s, v)` — Convert HSV to RGB components
+- `rgbToHsv(r, g, b)` — Convert RGB to HSV components
+- `hsvToColor(h, s, v, a)` — Convert HSV to a QColor
+- `hexString(c)` — Format color as #RRGGBB[AA]
+- `byteHex(n)` — Format a 0..255 channel as two hex digits
+- `parseHex(text)` — Parse a hex color string
 - `applyHsv(emitSignal)`
 - `syncFromColor(c, emitSignal)`
 - `syncInputsFromColor()`

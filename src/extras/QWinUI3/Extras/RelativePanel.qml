@@ -10,7 +10,7 @@ import QWinUI3.Theme
 Item {
     id: root
 
-    // Panel Spacing
+    // Spacing between panels
     property real panelSpacing: 0
     // Edge paddings
     property int paddingEdges: 0
@@ -36,37 +36,37 @@ Item {
     onPaddingEdgesChanged: relayout()
     Component.onCompleted: Qt.callLater(relayout)
 
-    // Is Panel
+    // True when rendered as a panel
     function isPanel(ref) {
         return !ref || ref === root
     }
 
-    // Left Edge
+    // Left edge anchor
     function leftEdge(ref) {
         return isPanel(ref) ? _x0 : ref.x
     }
-    // Right Edge
+    // Right edge anchor
     function rightEdge(ref) {
         return isPanel(ref) ? _x1 : (ref.x + ref.width)
     }
-    // Top Edge
+    // Top edge anchor
     function topEdge(ref) {
         return isPanel(ref) ? _y0 : ref.y
     }
-    // Bottom Edge
+    // Bottom edge anchor
     function bottomEdge(ref) {
         return isPanel(ref) ? _y1 : (ref.y + ref.height)
     }
-    // Center X
+    // Center X in local coords
     function centerX(ref) {
         return isPanel(ref) ? (_x0 + _innerW / 2) : (ref.x + ref.width / 2)
     }
-    // Center Y
+    // Center Y in local coords
     function centerY(ref) {
         return isPanel(ref) ? (_y0 + _innerH / 2) : (ref.y + ref.height / 2)
     }
 
-    // Preferred Width
+    // Preferred width hint
     function preferredWidth(item) {
         if (item.implicitWidth > 0)
             return item.implicitWidth
@@ -75,7 +75,7 @@ Item {
         return 80
     }
 
-    // Preferred Height
+    // Preferred height hint
     function preferredHeight(item) {
         if (item.implicitHeight > 0)
             return item.implicitHeight
@@ -84,12 +84,12 @@ Item {
         return Theme.controlHeight
     }
 
-    // Has
+    // True when the named case / key exists
     function has(item, name) {
         return item[name] !== undefined && item[name] !== null
     }
 
-    // Relayout
+    // Recompute layout
     function relayout() {
         var gap = root.panelSpacing
         var list = []

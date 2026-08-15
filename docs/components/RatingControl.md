@@ -25,10 +25,10 @@ RatingControl { value: 3.5; stepSize: 0.5 }
 - `previewValue: real` — Hovered preview value
 - `caption: string` — Caption under / beside the value
 - `index: int`
-- `fill: real` — Fill
-- `isPlaceholder: bool` — Is Placeholder
-- `didDrag: bool` — Did Drag
-- `pressValue: real` — Press Value
+- `fill: real` — Fill color / fill factor
+- `isPlaceholder: bool` — True when showing placeholder
+- `didDrag: bool` — True after a drag gesture
+- `pressValue: real` — Value captured on press
 
 ## Signals
 
@@ -36,9 +36,9 @@ RatingControl { value: 3.5; stepSize: 0.5 }
 
 ## Methods
 
-- `clampValue(v)` — Clamp Value
-- `valueFromPos(x)` — Value From Pos
-- `commitValue(next)` — Commit Value
+- `clampValue(v)` — Clamp value into min..max
+- `valueFromPos(x)` — Map a pointer position to a value
+- `commitValue(next)` — Commit the edited value
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

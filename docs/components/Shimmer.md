@@ -17,10 +17,10 @@ Shimmer { width: 200; height: 12 }
 - `cornerRadius: real` — Corner radius
 - `active: bool` — Active state
 - `isActive: alias` — Active / animating state
-- `shape: int` — Shape
+- `shape: int` — Shape variant
 - `durationMs: int` — Auto-dismiss duration; 0 keeps open
-- `baseColor: color` — Base Color
-- `sheenColor: color` — Sheen Color
+- `baseColor: color` — Base / track color
+- `sheenColor: color` — Sheen / highlight color
 - `direction: int` — Qt.Horizontal | Qt.Vertical
 
 ---

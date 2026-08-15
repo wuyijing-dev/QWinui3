@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — Confirm action.
+//
+// Modal dialog with isOpen, enter/exit motion, and primary / secondary / close actions. API: docs/components/ContentDialog.md
+
 Page {
     id: page
     padding: 0

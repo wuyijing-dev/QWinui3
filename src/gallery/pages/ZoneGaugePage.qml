@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — ZoneGauge.
+//
+// Drag needle; activeZoneIndex / label; zone colors and ticks. API: docs/components/ZoneGauge.md
+
 Page {
     padding: 0
     ScrollView {

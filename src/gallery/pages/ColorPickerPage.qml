@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — ColorPicker.
+//
+// Spectrum, RGB/HSV/HEX, CopyButton for hex, and WinUI visibility toggles. API: docs/components/ColorPicker.md
+
 Page {
     padding: 0
     ScrollView {

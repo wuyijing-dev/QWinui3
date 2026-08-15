@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — DockPanel.
+//
+// Edge docking with lastChildFill and childCount. API: docs/components/DockPanel.md
+
 Page {
     padding: 0
     ScrollView {

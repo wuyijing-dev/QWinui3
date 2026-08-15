@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — AppBarButton.
+//
+// Icon-and-label command button with badge and tool tip. API: docs/components/AppBarButton.md
+
 Page {
     padding: 0
     ScrollView {

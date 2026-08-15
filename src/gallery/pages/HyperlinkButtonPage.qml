@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — HyperlinkButton.
+//
+// Fluent link with symbol, showExternalGlyph, visited, and navigateMode. API: docs/components/HyperlinkButton.md
+
 Page {
     padding: 0
     ScrollView {

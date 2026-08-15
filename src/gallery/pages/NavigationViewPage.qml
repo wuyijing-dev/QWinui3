@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — NavigationView.
+//
+// Top-level navigation with PaneDisplayMode (Left / LeftCompact / Top) and an optional Back button. API: docs/components/NavigationView.md
+
 Page {
     padding: 0
     ScrollView {

@@ -54,12 +54,12 @@ T.Control {
     Keys.onLeftPressed: openRight()
     Keys.onRightPressed: openLeft()
 
-    // Max Left Reveal
+    // Max left swipe reveal width
     readonly property real maxLeftReveal: Math.max(0, leftRow.children.length * actionWidth)
-    // Max Right Reveal
+    // Max right swipe reveal width
     readonly property real maxRightReveal: Math.max(0, rightRow.children.length * actionWidth)
 
-    // Close
+    // Close / dismiss
     function close() {
         panel.x = 0
         if (openMode !== closed) {
@@ -67,7 +67,7 @@ T.Control {
             closed()
         }
     }
-    // Open Left
+    // Reveal left swipe actions
     function openLeft() {
         if (maxLeftReveal <= 0) {
             close()
@@ -79,7 +79,7 @@ T.Control {
             opened(leftOpen)
         }
     }
-    // Open Right
+    // Reveal right swipe actions
     function openRight() {
         if (maxRightReveal <= 0) {
             close()

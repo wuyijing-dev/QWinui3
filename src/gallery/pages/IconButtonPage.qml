@@ -4,6 +4,10 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
+// Gallery — IconButton.
+//
+// Icon-only button with Fluent symbol, badge, and Accessible name from toolTip. API: docs/components/IconButton.md
+
 Page {
     padding: 0
     ScrollView {
