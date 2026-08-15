@@ -1,0 +1,138 @@
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtQuick.Templates as T
+import QWinUI3.Theme
+
+// Content with revealable leading/trailing action strips (WinUI SwipeControl-like).
+T.Control {
+    id: root
+
+    readonly property int closed: 0
+    readonly property int leftOpen: 1
+    readonly property int rightOpen: 2
+
+    property alias content: contentSlot.data
+    property alias leftActions: leftRow.data
+    property alias rightActions: rightRow.data
+    property real actionWidth: 72
+    property real revealThreshold: 36
+    readonly property bool isOpen: openMode !== closed
+    property int openMode: closed
+
+    signal opened(int mode)
+    signal closed()
+
+    implicitWidth: 320
+    implicitHeight: Math.max(Theme.navItemHeight + 8, contentSlot.implicitHeight + 16)
+    padding: 0
+    clip: true
+
+    readonly property real maxLeftReveal: Math.max(0, leftRow.children.length * actionWidth)
+    readonly property real maxRightReveal: Math.max(0, rightRow.children.length * actionWidth)
+
+    function close() {
+        panel.x = 0
+        if (openMode !== closed) {
+            openMode = closed
+            closed()
+        }
+    }
+    function openLeft() {
+        if (maxLeftReveal <= 0) {
+            close()
+            return
+        }
+        panel.x = maxLeftReveal
+        if (openMode !== leftOpen) {
+            openMode = leftOpen
+            opened(leftOpen)
+        }
+    }
+    function openRight() {
+        if (maxRightReveal <= 0) {
+            close()
+            return
+        }
+        panel.x = -maxRightReveal
+        if (openMode !== rightOpen) {
+            openMode = rightOpen
+            opened(rightOpen)
+        }
+    }
+
+    contentItem: Item {
+        Row {
+            id: leftRow
+            anchors.left: parent.left
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            z: 0
+        }
+
+        Row {
+            id: rightRow
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            layoutDirection: Qt.RightToLeft
+            z: 0
+        }
+
+        Item {
+            id: panel
+            width: parent.width
+            height: parent.height
+            z: 1
+
+            Behavior on x {
+                enabled: !drag.active && !Theme.reducedMotion
+                NumberAnimation {
+                    duration: Theme.duration(Theme.motionNormal)
+                    easing.type: Theme.easingStandard
+                }
+            }
+
+            Rectangle {
+                anchors.fill: parent
+                color: Theme.bgCard
+                border.width: 1
+                border.color: Theme.strokeCard
+                radius: Theme.cornerControl
+                scale: drag.active ? 0.995 : 1
+                Behavior on scale {
+                    enabled: !Theme.reducedMotion
+                    NumberAnimation { duration: Theme.duration(Theme.motionFast) }
+                }
+            }
+
+            Item {
+                id: contentSlot
+                anchors.fill: parent
+                anchors.margins: 12
+                implicitHeight: childrenRect.height
+            }
+
+            DragHandler {
+                id: drag
+                target: panel
+                xAxis.enabled: true
+                yAxis.enabled: false
+                xAxis.minimum: -root.maxRightReveal
+                xAxis.maximum: root.maxLeftReveal
+                onActiveChanged: {
+                    if (active)
+                        return
+                    if (panel.x > root.revealThreshold)
+                        root.openLeft()
+                    else if (panel.x < -root.revealThreshold)
+                        root.openRight()
+                    else
+                        root.close()
+                }
+            }
+        }
+    }
+
+    background: Item {}
+}

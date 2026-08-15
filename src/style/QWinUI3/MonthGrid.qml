@@ -1,0 +1,111 @@
+import QtQuick
+import QtQuick.Templates as T
+import QWinUI3.Theme
+
+T.AbstractMonthGrid {
+    id: control
+
+    property date selectedDate: new Date(NaN)
+
+    implicitWidth: 280
+    implicitHeight: 240
+    spacing: 2
+    leftPadding: 8
+    rightPadding: 8
+    topPadding: 4
+    bottomPadding: 8
+    font.family: Theme.fontFamily
+    font.pixelSize: Theme.fontBody
+
+    function sameDay(a, b) {
+        if (isNaN(a.getTime()) || isNaN(b.getTime()))
+            return false
+        return a.getFullYear() === b.getFullYear()
+            && a.getMonth() === b.getMonth()
+            && a.getDate() === b.getDate()
+    }
+
+    delegate: Item {
+        id: cell
+        required property var model
+        implicitWidth: 36
+        implicitHeight: 36
+
+        readonly property bool inMonth: model.month === control.month
+        readonly property bool isToday: !!model.today
+        readonly property bool isSelected: control.sameDay(model.date, control.selectedDate)
+
+        HoverHandler { id: cellHover }
+
+        Rectangle {
+            anchors.centerIn: parent
+            width: 32
+            height: 32
+            radius: width / 2
+            color: {
+                if (cell.isSelected)
+                    return Theme.accent
+                if (cellHover.hovered && cell.inMonth)
+                    return Theme.fillSubtle
+                return "transparent"
+            }
+            border.width: cell.isToday && !cell.isSelected ? 1 : 0
+            border.color: Theme.accent
+            scale: cellHover.hovered && !cell.isSelected ? 1.04 : 1
+            Behavior on color {
+                enabled: !Theme.reducedMotion
+                ColorAnimation {
+                    duration: Theme.duration(Theme.motionFast)
+                    easing.type: Theme.easingStandard
+                }
+            }
+            Behavior on scale {
+                enabled: !Theme.reducedMotion
+                NumberAnimation {
+                    duration: Theme.duration(Theme.motionFast)
+                    easing.type: Theme.easingStandard
+                }
+            }
+        }
+
+        Text {
+            anchors.centerIn: parent
+            opacity: cell.inMonth ? 1 : 0.35
+            text: model.day
+            font.family: control.font.family
+            font.pixelSize: control.font.pixelSize
+            font.weight: (cell.isToday || cell.isSelected)
+                         ? Theme.fontWeightSemiBold : Theme.fontWeightRegular
+            color: {
+                if (cell.isSelected)
+                    return Theme.textOnAccent
+                if (cell.isToday)
+                    return Theme.accent
+                return Theme.textPrimary
+            }
+        }
+
+        TapHandler {
+            onTapped: control.clicked(model.date)
+        }
+    }
+
+    contentItem: Grid {
+        rows: 6
+        columns: 7
+        rowSpacing: control.spacing
+        columnSpacing: control.spacing
+
+        Repeater {
+            model: control.source
+            delegate: control.delegate
+        }
+    }
+
+    background: Rectangle {
+        color: Theme.bgCard
+        radius: Theme.cornerCard
+        border.width: 1
+        border.color: Theme.strokeCard
+    }
+}

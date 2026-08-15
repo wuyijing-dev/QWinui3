@@ -1,0 +1,38 @@
+import QtQuick
+import QtQuick.Templates as T
+import QWinUI3.Theme
+
+T.SwipeView {
+    id: control
+
+    implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
+                            contentWidth + leftPadding + rightPadding)
+    implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
+                             contentHeight + topPadding + bottomPadding)
+
+    spacing: 0
+    padding: 0
+
+    contentItem: ListView {
+        model: control.contentModel
+        implicitWidth: control.contentWidth
+        implicitHeight: control.contentHeight
+        currentIndex: control.currentIndex
+        orientation: control.orientation
+        spacing: control.spacing
+        snapMode: ListView.SnapOneItem
+        boundsBehavior: Flickable.StopAtBounds
+        highlightRangeMode: ListView.StrictlyEnforceRange
+        preferredHighlightBegin: 0
+        preferredHighlightEnd: 0
+        highlightMoveDuration: Theme.reducedMotion ? 0 : Theme.duration(Theme.motionSlow)
+        clip: true
+    }
+
+    background: Rectangle {
+        color: Theme.bgCard
+        radius: Theme.cornerCard
+        border.width: 1
+        border.color: Theme.strokeCard
+    }
+}

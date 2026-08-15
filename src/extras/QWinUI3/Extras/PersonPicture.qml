@@ -1,0 +1,121 @@
+import QtQuick
+import QtQuick.Templates as T
+import QWinUI3.Theme
+
+T.Control {
+    id: root
+
+    property string displayName: ""
+    property url imageSource: ""
+    property real size: 48
+    property color profileColor: Theme.accent
+    property bool badgeVisible: false
+    property color badgeColor: Theme.systemSuccess
+    property string badgeGlyph: ""
+    property int badgeSeverity: -1 // -1 custom; else InfoBadge-like 0..3
+    // WinUI-style count / text overlay (takes precedence over glyph when set)
+    property int badgeValue: 0
+    property string badgeText: ""
+    property int badgeMaxValue: 99
+
+    implicitWidth: size
+    implicitHeight: size
+    padding: 0
+    opacity: enabled ? 1 : 0.5
+
+    readonly property string initials: {
+        var parts = String(displayName).trim().split(/\s+/).filter(function (p) { return p.length })
+        if (!parts.length)
+            return "?"
+        if (parts.length === 1)
+            return parts[0].charAt(0).toUpperCase()
+        return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase()
+    }
+
+    readonly property color _badgeColor: {
+        switch (badgeSeverity) {
+        case 1: return Theme.systemSuccess
+        case 2: return Theme.systemCaution
+        case 3: return Theme.systemCritical
+        case 0: return Theme.systemAttention
+        default: return root.badgeColor
+        }
+    }
+
+    readonly property string _badgeLabel: {
+        if (badgeText.length > 0)
+            return badgeText
+        if (badgeValue <= 0)
+            return ""
+        return badgeValue > badgeMaxValue ? (badgeMaxValue + "+") : String(badgeValue)
+    }
+
+    readonly property bool _badgeHasLabel: _badgeLabel.length > 0 || badgeGlyph.length > 0
+
+    background: Item {
+        width: root.size
+        height: root.size
+
+        Rectangle {
+            id: avatar
+            anchors.fill: parent
+            radius: width / 2
+            color: root.imageSource.toString().length ? "transparent" : root.profileColor
+            border.width: 1
+            border.color: Theme.strokeCard
+            clip: true
+
+            Image {
+                anchors.fill: parent
+                visible: root.imageSource.toString().length > 0
+                source: root.imageSource
+                fillMode: Image.PreserveAspectCrop
+                asynchronous: true
+                sourceSize.width: root.size
+                sourceSize.height: root.size
+            }
+
+            Text {
+                anchors.centerIn: parent
+                visible: root.imageSource.toString().length === 0
+                text: root.initials
+                font.family: Theme.fontFamily
+                font.pixelSize: Math.max(10, root.size * 0.36)
+                font.weight: Theme.fontWeightSemiBold
+                color: Theme.textOnAccent
+            }
+        }
+
+        Rectangle {
+            id: badge
+            visible: root.badgeVisible
+            width: {
+                if (root._badgeLabel.length > 0)
+                    return Math.max(Math.max(12, root.size * 0.32), badgeLabel.implicitWidth + 8)
+                return Math.max(12, root.size * 0.32)
+            }
+            height: Math.max(12, root.size * 0.32)
+            radius: height / 2
+            color: root._badgeColor
+            border.width: 2
+            border.color: Theme.bgLayer
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            anchors.rightMargin: root._badgeLabel.length > 1 ? -4 : -1
+            anchors.bottomMargin: -1
+
+            Text {
+                id: badgeLabel
+                anchors.centerIn: parent
+                visible: root._badgeHasLabel
+                text: root._badgeLabel.length > 0 ? root._badgeLabel : root.badgeGlyph
+                font.family: root._badgeLabel.length > 0 ? Theme.fontFamily : Theme.fontFamilyIcon
+                font.pixelSize: Math.max(8, parent.height * 0.55)
+                font.weight: Theme.fontWeightSemiBold
+                color: Theme.textOnAccent
+            }
+        }
+    }
+
+    contentItem: Item {}
+}

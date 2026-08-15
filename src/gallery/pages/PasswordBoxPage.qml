@@ -1,0 +1,56 @@
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
+import QWinUI3.Theme
+import QWinUI3.Extras
+
+Page {
+    padding: 0
+    ScrollView {
+        id: scroll
+        anchors.fill: parent
+        contentWidth: availableWidth
+        clip: true
+        ColumnLayout {
+            width: scroll.availableWidth
+            spacing: Theme.spacingSection
+            PageHeader {
+                Layout.fillWidth: true
+                Layout.leftMargin: Theme.spacingSection
+                Layout.rightMargin: Theme.spacingSection
+                Layout.topMargin: Theme.spacingSection
+                title: qsTr("PasswordBox")
+                subtitle: qsTr("Password field with PasswordRevealMode: Peek, Hidden, or Visible.")
+            }
+            ControlExample {
+                Layout.fillWidth: true
+                Layout.leftMargin: Theme.spacingSection
+                Layout.rightMargin: Theme.spacingSection
+                headerText: qsTr("Reveal modes")
+                qmlSource: "PasswordBox {\n    passwordRevealMode: \"peek\"\n    header: \"Password\"\n}"
+                ColumnLayout {
+                    Layout.fillWidth: true
+                    Layout.maximumWidth: 360
+                    spacing: Theme.spacing
+                    RowLayout {
+                        Label { text: qsTr("Mode"); color: Theme.textSecondary }
+                        ComboBox {
+                            id: modeBox
+                            model: ["peek", "hidden", "visible"]
+                            currentIndex: 0
+                            Layout.preferredWidth: 140
+                        }
+                    }
+                    PasswordBox {
+                        Layout.fillWidth: true
+                        header: qsTr("Account password")
+                        description: qsTr("Peek: hold the eye to show. Visible: always clear text.")
+                        placeholderText: qsTr("Password")
+                        passwordRevealMode: modeBox.currentText
+                    }
+                }
+            }
+            Item { Layout.preferredHeight: Theme.spacingSection; Layout.fillWidth: true }
+        }
+    }
+}

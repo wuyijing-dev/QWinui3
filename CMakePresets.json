@@ -1,0 +1,21 @@
+{
+  "version": 6,
+  "configurePresets": [
+    {
+      "name": "qt68-msvc",
+      "displayName": "Qt 6.8 MSVC 2022",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build",
+      "cacheVariables": {
+        "CMAKE_PREFIX_PATH": "D:/Qt/6.8.0/msvc2022_64",
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "qt68-msvc",
+      "configurePreset": "qt68-msvc"
+    }
+  ]
+}

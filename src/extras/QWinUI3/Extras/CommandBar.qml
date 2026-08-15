@@ -1,0 +1,192 @@
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
+import QtQuick.Templates as T
+import QtQml
+import QWinUI3.Theme
+
+T.Control {
+    id: root
+
+    default property alias contentData: primaryRow.data
+    property alias primaryCommands: primaryRow
+    property alias overflowMenu: overflowMenu
+    // [{ text: string, triggered: function() }] — MenuItem cannot parent to Menu in Qt 6
+    property var overflowItems: []
+    property real barSpacing: 2
+    property bool isOpen: true
+    // WinUI DefaultLabelPosition: bottom | right | collapsed
+    property string defaultLabelPosition: "bottom"
+    // WinUI ClosedDisplayMode: compact | minimal | hidden
+    property string closedDisplayMode: "compact"
+
+    readonly property string effectiveLabelPosition: {
+        if (!root.isOpen && root.closedDisplayMode === "compact")
+            return "collapsed"
+        return root.defaultLabelPosition
+    }
+    readonly property bool _barVisible: root.isOpen || root.closedDisplayMode !== "hidden"
+    readonly property bool _showPrimary: root.isOpen
+                                         || root.closedDisplayMode === "compact"
+    readonly property bool _showMoreOnly: !root.isOpen && root.closedDisplayMode === "minimal"
+
+    padding: 4
+    implicitWidth: Math.max(120, barRow.implicitWidth + leftPadding + rightPadding)
+    implicitHeight: {
+        if (!_barVisible)
+            return 0
+        if (!isOpen) {
+            if (closedDisplayMode === "minimal")
+                return Math.max(Theme.controlHeight, padding * 2 + 32)
+            return Theme.controlHeight + padding * 2
+        }
+        if (defaultLabelPosition === "bottom")
+            return Theme.controlHeight + 22 + padding * 2
+        return Theme.controlHeight + padding * 2
+    }
+
+    Behavior on implicitHeight {
+        enabled: !Theme.reducedMotion
+        NumberAnimation {
+            duration: Theme.duration(Theme.motionNormal)
+            easing.type: Theme.easingStandard
+        }
+    }
+
+    background: Rectangle {
+        color: Theme.bgAcrylic
+        border.width: root._barVisible ? 1 : 0
+        border.color: Theme.strokeDivider
+        radius: Theme.cornerControl
+        opacity: root.isOpen ? 1 : 0.85
+        visible: root._barVisible
+        Behavior on opacity {
+            enabled: !Theme.reducedMotion
+            NumberAnimation {
+                duration: Theme.duration(Theme.motionFast)
+            }
+        }
+
+        Rectangle {
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.margins: 1
+            height: 1
+            color: Theme.dark ? "#12FFFFFF" : "#0F000000"
+            opacity: 0.5
+            radius: 1
+            visible: root.isOpen
+        }
+    }
+
+    contentItem: Item {
+        implicitWidth: barRow.implicitWidth
+        implicitHeight: barRow.implicitHeight
+        clip: true
+        visible: root._barVisible
+
+        RowLayout {
+            id: barRow
+            anchors.fill: parent
+            spacing: root.barSpacing
+
+            RowLayout {
+                id: primaryRow
+                spacing: root.barSpacing
+                Layout.fillWidth: true
+                clip: true
+                visible: root._showPrimary
+                opacity: visible ? 1 : 0
+                Behavior on opacity {
+                    enabled: !Theme.reducedMotion
+                    NumberAnimation {
+                        duration: Theme.duration(Theme.motionNormal)
+                        easing.type: Theme.easingStandard
+                    }
+                }
+            }
+
+            Item { Layout.fillWidth: true; visible: root._showMoreOnly }
+
+            ToolButton {
+                id: moreBtn
+                visible: (root.overflowItems && root.overflowItems.length > 0)
+                         && (root.isOpen || root.closedDisplayMode === "minimal"
+                             || root.closedDisplayMode === "compact")
+                Layout.preferredWidth: 36
+                Layout.preferredHeight: Theme.controlHeight
+                text: "\uE712"
+                font.family: Theme.fontFamilyIcon
+                font.pixelSize: 14
+                scale: down && !Theme.reducedMotion ? 0.94 : 1
+                onClicked: {
+                    if (!root.isOpen && root.closedDisplayMode === "minimal")
+                        root.isOpen = true
+                    else
+                        overflowMenu.popup(moreBtn, 0, moreBtn.height + 4)
+                }
+                ToolTip.visible: hovered
+                ToolTip.text: root.isOpen ? qsTr("See more") : qsTr("Open command bar")
+                Behavior on scale {
+                    enabled: !Theme.reducedMotion
+                    NumberAnimation {
+                        duration: Theme.duration(Theme.motionFast)
+                    }
+                }
+                background: Rectangle {
+                    radius: Theme.cornerControl
+                    color: moreBtn.down ? Theme.fillSubtleTertiary
+                         : (moreBtn.hovered || moreBtn.visualFocus ? Theme.fillSubtle : "transparent")
+                    border.width: moreBtn.visualFocus ? 1 : 0
+                    border.color: Theme.accent
+                    Behavior on color {
+                        enabled: !Theme.reducedMotion
+                        ColorAnimation {
+                            duration: Theme.duration(Theme.motionFast)
+                        }
+                    }
+                }
+            }
+
+            ToolButton {
+                id: toggleBtn
+                visible: root.closedDisplayMode !== "hidden"
+                Layout.preferredWidth: 36
+                Layout.preferredHeight: Theme.controlHeight
+                text: root.isOpen ? "\uE70E" : "\uE70D"
+                font.family: Theme.fontFamilyIcon
+                font.pixelSize: 12
+                onClicked: root.isOpen = !root.isOpen
+                ToolTip.visible: hovered
+                ToolTip.text: root.isOpen ? qsTr("Collapse") : qsTr("Expand")
+                background: Rectangle {
+                    radius: Theme.cornerControl
+                    color: toggleBtn.down ? Theme.fillSubtleTertiary
+                         : (toggleBtn.hovered ? Theme.fillSubtle : "transparent")
+                }
+            }
+        }
+
+        Menu {
+            id: overflowMenu
+            Instantiator {
+                model: root.overflowItems
+                delegate: MenuItem {
+                    required property var modelData
+                    text: modelData && modelData.text ? modelData.text : ""
+                    onTriggered: {
+                        if (modelData && typeof modelData.triggered === "function")
+                            modelData.triggered()
+                    }
+                }
+                onObjectAdded: function (index, object) {
+                    overflowMenu.insertItem(index, object)
+                }
+                onObjectRemoved: function (index, object) {
+                    overflowMenu.removeItem(object)
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,7 @@
+/build/
+/.qtcreator/
+/CMakeLists.txt.user
+*.user
+*.autosave
+.vs/
+out/

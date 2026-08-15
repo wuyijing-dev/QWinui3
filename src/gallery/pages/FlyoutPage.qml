@@ -1,0 +1,83 @@
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
+import QWinUI3.Theme
+import QWinUI3.Extras
+
+Page {
+    padding: 0
+    ScrollView {
+        id: scroll
+        anchors.fill: parent
+        contentWidth: availableWidth
+        clip: true
+
+        ColumnLayout {
+            width: scroll.availableWidth
+            spacing: Theme.spacingSection
+
+            PageHeader {
+                Layout.fillWidth: true
+                Layout.leftMargin: Theme.spacingSection
+                Layout.rightMargin: Theme.spacingSection
+                Layout.topMargin: Theme.spacingSection
+                title: qsTr("Flyout")
+                subtitle: qsTr("Lightweight contextual UI. Use showAt() and isLightDismissEnabled.")
+            }
+
+            ControlExample {
+                Layout.fillWidth: true
+                Layout.leftMargin: Theme.spacingSection
+                Layout.rightMargin: Theme.spacingSection
+                headerText: qsTr("A simple Flyout")
+                qmlSource: "flyout.showAt(btn, Qt.AlignBottom)"
+
+                ColumnLayout {
+                    spacing: Theme.spacing
+                    RowLayout {
+                        Label { text: qsTr("Placement"); color: Theme.textSecondary }
+                        ComboBox {
+                            id: placeBox
+                            model: [
+                                { t: qsTr("Bottom"), v: Qt.AlignBottom },
+                                { t: qsTr("Top"), v: Qt.AlignTop },
+                                { t: qsTr("Left"), v: Qt.AlignLeft },
+                                { t: qsTr("Right"), v: Qt.AlignRight }
+                            ]
+                            textRole: "t"
+                            currentIndex: 0
+                            Layout.preferredWidth: 140
+                        }
+                        CheckBox {
+                            id: lightDismiss
+                            text: qsTr("Light dismiss")
+                            checked: true
+                        }
+                    }
+                    Button {
+                        id: flyoutBtn
+                        text: qsTr("Open flyout")
+                        onClicked: flyout.showAt(flyoutBtn, placeBox.model[placeBox.currentIndex].v)
+
+                        Flyout {
+                            id: flyout
+                            parent: flyoutBtn
+                            isLightDismissEnabled: lightDismiss.checked
+                            Text {
+                                text: qsTr("Flyout content")
+                                color: Theme.textPrimary
+                            }
+                            Button {
+                                text: qsTr("Action")
+                                highlighted: true
+                                onClicked: flyout.close()
+                            }
+                        }
+                    }
+                }
+            }
+
+            Item { Layout.preferredHeight: Theme.spacingSection; Layout.fillWidth: true }
+        }
+    }
+}

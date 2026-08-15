@@ -1,0 +1,134 @@
+qt_add_library(qwinui3_extras STATIC)
+
+# ChartUtils must be a QML singleton — .js in QML_FILES triggers a Qt 6.8
+# double-registration bug ("QWinUI3.Extras is ambiguous").
+set_source_files_properties(ChartUtils.qml PROPERTIES
+    QT_QML_SINGLETON_TYPE TRUE
+)
+
+qt_add_qml_module(qwinui3_extras
+    URI QWinUI3.Extras
+    VERSION 1.0
+    SOURCES
+        ChartSeries.h
+        ChartSeries.cpp
+    QML_FILES
+        AccentButton.qml
+        AcrylicSurface.qml
+        AppBarButton.qml
+        AppBarSeparator.qml
+        AppBarToggleButton.qml
+        AnnotatedScrollBar.qml
+        AvatarGroup.qml
+        AutoSuggestBox.qml
+        BreadcrumbBar.qml
+        CalendarDatePicker.qml
+        Chip.qml
+        ChipGroup.qml
+        ColorPicker.qml
+        ColorPickerButton.qml
+        CommandBar.qml
+        CommandBarFlyout.qml
+        ContentCard.qml
+        ContentDialog.qml
+        CopyButton.qml
+        DatePicker.qml
+        DockPanel.qml
+        DropDownButton.qml
+        EmptyState.qml
+        Expander.qml
+        FlipView.qml
+        Flyout.qml
+        FontIcon.qml
+        GridTile.qml
+        HeaderedContentControl.qml
+        HeaderedTextBox.qml
+        HyperlinkButton.qml
+        IconButton.qml
+        InfoBadge.qml
+        InfoBar.qml
+        InfoBarHost.qml
+        KeyVisual.qml
+        KeyChordVisual.qml
+        ListTile.qml
+        MenuFlyout.qml
+        MenuFlyoutHeader.qml
+        MenuFlyoutItem.qml
+        MenuFlyoutSeparator.qml
+        MetadataControl.qml
+        MetadataItem.qml
+        MeterBar.qml
+        Sparkline.qml
+        LineChart.qml
+        AreaChart.qml
+        BarChart.qml
+        HorizontalBarChart.qml
+        StackedBarChart.qml
+        DonutChart.qml
+        PieChart.qml
+        ScatterChart.qml
+        HeatmapChart.qml
+        RadarChart.qml
+        WaterfallChart.qml
+        BulletChart.qml
+        ChartCard.qml
+        ChartLegend.qml
+        ChartUtils.qml
+        MultiSelectComboBox.qml
+        NavigationView.qml
+        NumberBox.qml
+        PasswordBox.qml
+        PersonPicture.qml
+        PipsPager.qml
+        Pivot.qml
+        ProgressButton.qml
+        ProgressRing.qml
+        RadialGauge.qml
+        RadioButtons.qml
+        RadioMenuFlyoutItem.qml
+        RatingControl.qml
+        RefreshContainer.qml
+        RelativePanel.qml
+        SearchBox.qml
+        SegmentedControl.qml
+        SelectorBar.qml
+        SettingsCard.qml
+        SettingsExpander.qml
+        SwipeAction.qml
+        Shimmer.qml
+        SplitButton.qml
+        StackPanel.qml
+        StatusDot.qml
+        StepBar.qml
+        SwipeControl.qml
+        SwitchCase.qml
+        SwitchPresenter.qml
+        TabView.qml
+        TeachingTip.qml
+        TextBlock.qml
+        Timeline.qml
+        TimePicker.qml
+        TitleBar.qml
+        Toast.qml
+        ToastHost.qml
+        TokenizingTextBox.qml
+        ToggleButton.qml
+        ToggleMenuFlyoutItem.qml
+        ToggleSplitButton.qml
+        TwoPaneView.qml
+        UniformGrid.qml
+        WrapPanel.qml
+        ActionCard.qml
+    IMPORTS
+        TARGET qwinui3_theme
+        TARGET qwinui3_platform
+)
+
+target_link_libraries(qwinui3_extras
+    PUBLIC
+        Qt6::Quick
+        Qt6::QuickControls2
+        qwinui3_theme
+        qwinui3_style
+        qwinui3_platform
+)
