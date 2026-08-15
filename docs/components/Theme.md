@@ -31,6 +31,12 @@ Theme.controlFill(hovered, pressed, disabled)
 Theme.accentFill(hovered, pressed, disabled)
 ```
 
+## Notes
+
+Singleton tokens: colors, type, spacing, motion, corners.
+Theme.dark / reducedMotion / highContrast; followSystemAccessibility mirrors WindowHelper SPI.
+Use Theme.duration(ms) and controlFill/accentFill helpers for states.
+
 ## API
 
 ### Properties

@@ -15,6 +15,10 @@ import QWinUI3.Platform
 //   // --- API ---
 //   // pane.elevated / tintOpacity
 //   // children fill the acrylic surface
+//
+// @notes
+//   Frosted pane for content; keep translucent under system Mica/Acrylic backdrops.
+//   elevated / tintOpacity tune the material; children fill the surface.
 
 T.Pane {
     id: root

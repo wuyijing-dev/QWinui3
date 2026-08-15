@@ -13,6 +13,10 @@ import QWinUI3.Theme
 //   }
 //   // --- API ---
 //   // indicator.active / size / position
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls ScrollIndicator.
+//   Public API is the Qt Quick Controls ScrollIndicator type; this file supplies visuals/metrics only.
 
 T.ScrollIndicator {
     id: control

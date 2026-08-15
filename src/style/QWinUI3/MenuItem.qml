@@ -15,6 +15,10 @@ import QWinUI3.Theme
 //   }
 //   // --- API ---
 //   // item.text / enabled / checkable / triggered()
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls MenuItem.
+//   Public API is the Qt Quick Controls MenuItem type; this file supplies visuals/metrics only.
 
 T.MenuItem {
     id: control

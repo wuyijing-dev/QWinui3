@@ -20,6 +20,11 @@ DayOfWeekRow {
 // inherits DayOfWeekRow: locale, delegate
 ```
 
+## Notes
+
+Style-only Fluent chrome for Qt Quick Controls DayOfWeekRow.
+Public API is the Qt Quick Controls DayOfWeekRow type; this file supplies visuals/metrics only.
+
 ## API
 
 Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `AbstractDayOfWeekRow` API (this file only supplies Fluent visuals / metrics).

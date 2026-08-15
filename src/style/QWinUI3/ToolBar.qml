@@ -11,6 +11,10 @@ import QWinUI3.Theme
 //           ToolButton { text: qsTr("Forward") }
 //       }
 //   }
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls ToolBar.
+//   Public API is the Qt Quick Controls ToolBar type; this file supplies visuals/metrics only.
 
 T.ToolBar {
     id: control

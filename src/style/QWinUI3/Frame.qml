@@ -11,6 +11,10 @@ import QWinUI3.Theme
 //   }
 //   // --- API ---
 //   // inherits Frame/Pane: padding, background, contentItem
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls Frame.
+//   Public API is the Qt Quick Controls Frame type; this file supplies visuals/metrics only.
 
 T.Frame {
     id: control

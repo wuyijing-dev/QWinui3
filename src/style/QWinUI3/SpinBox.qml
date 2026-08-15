@@ -8,6 +8,10 @@ import QWinUI3.Theme
 //       id: spin
 //       from: 0; to: 10; value: 3
 //   }
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls SpinBox.
+//   Public API is the Qt Quick Controls SpinBox type; this file supplies visuals/metrics only.
 
 T.SpinBox {
     id: control

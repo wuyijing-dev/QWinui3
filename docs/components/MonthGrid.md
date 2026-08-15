@@ -21,6 +21,11 @@ MonthGrid {
 // grid.month / year / locale / title / clicked(date)
 ```
 
+## Notes
+
+Style-only Fluent chrome for Qt Quick Controls MonthGrid.
+Public API is the Qt Quick Controls MonthGrid type; this file supplies visuals/metrics only.
+
 ## API
 
 ### Properties

@@ -9,6 +9,10 @@ import QWinUI3.Theme
 //       placeholderText: qsTr("Notes")
 //       wrapMode: TextEdit.Wrap
 //   }
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls TextArea.
+//   Public API is the Qt Quick Controls TextArea type; this file supplies visuals/metrics only.
 
 T.TextArea {
     id: control

@@ -24,6 +24,12 @@ StandardWindow {
 // inherits ApplicationWindow (+ Qt Quick Controls base API)
 ```
 
+## Notes
+
+Low-level AppWindow host (PlatformTitleBar + WindowHelper).
+Prefer ShellWindow family for product UI; use this for presenter/backdrop experiments.
+See docs/window-appwindow.md and docs/window-helper.md.
+
 ## API
 
 ### Properties

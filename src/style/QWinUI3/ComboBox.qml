@@ -11,6 +11,10 @@ import QWinUI3.Theme
 //   }
 //   // --- API ---
 //   // combo.model / currentIndex / currentText / activated() / accepted()
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls ComboBox.
+//   Public API is the Qt Quick Controls ComboBox type; this file supplies visuals/metrics only.
 
 T.ComboBox {
     id: control

@@ -11,6 +11,10 @@ import QWinUI3.Theme
 //       onAccepted: close()
 //   }
 //   dlg.open()
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls Dialog.
+//   Public API is the Qt Quick Controls Dialog type; this file supplies visuals/metrics only.
 
 T.Dialog {
     id: control

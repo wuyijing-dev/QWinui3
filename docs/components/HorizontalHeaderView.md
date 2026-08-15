@@ -22,6 +22,11 @@ HorizontalHeaderView {
 // header.syncView / model / clip
 ```
 
+## Notes
+
+Style-only Fluent chrome for Qt Quick Controls HorizontalHeaderView.
+Public API is the Qt Quick Controls HorizontalHeaderView type; this file supplies visuals/metrics only.
+
 ## API
 
 Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `HorizontalHeaderView` API (this file only supplies Fluent visuals / metrics).

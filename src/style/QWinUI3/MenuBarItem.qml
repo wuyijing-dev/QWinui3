@@ -10,6 +10,10 @@ import QWinUI3.Theme
 //           menu: Menu { MenuItem { text: qsTr("Undo") } }
 //       }
 //   }
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls MenuBarItem.
+//   Public API is the Qt Quick Controls MenuBarItem type; this file supplies visuals/metrics only.
 
 T.MenuBarItem {
     id: control

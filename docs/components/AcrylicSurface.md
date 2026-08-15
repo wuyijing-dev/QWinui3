@@ -23,6 +23,11 @@ AcrylicSurface {
 // children fill the acrylic surface
 ```
 
+## Notes
+
+Frosted pane for content; keep translucent under system Mica/Acrylic backdrops.
+elevated / tintOpacity tune the material; children fill the surface.
+
 ## API
 
 ### Properties

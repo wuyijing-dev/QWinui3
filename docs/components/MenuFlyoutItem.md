@@ -20,6 +20,10 @@ MenuFlyout {
 }
 ```
 
+## Notes
+
+MenuFlyout row; text + optional symbol; onClicked / triggered.
+
 ## API
 
 ### Properties

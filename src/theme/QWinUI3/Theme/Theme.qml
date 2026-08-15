@@ -21,6 +21,11 @@ import QtQuick
 //   Theme.duration(ms)
 //   Theme.controlFill(hovered, pressed, disabled)
 //   Theme.accentFill(hovered, pressed, disabled)
+//
+// @notes
+//   Singleton tokens: colors, type, spacing, motion, corners.
+//   Theme.dark / reducedMotion / highContrast; followSystemAccessibility mirrors WindowHelper SPI.
+//   Use Theme.duration(ms) and controlFill/accentFill helpers for states.
 
 QtObject {
     id: root

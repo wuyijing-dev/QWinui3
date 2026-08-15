@@ -11,6 +11,9 @@ import QWinUI3.Platform
 //       title: qsTr("Prompt")
 //       width: 420; height: 280
 //   }
+//
+// @notes
+//   StandardWindow with ParadigmDialog flags.
 
 StandardWindow {
     id: root

@@ -11,6 +11,9 @@ import QWinUI3.Platform
 //       title: qsTr("PiP")
 //       width: 320; height: 180
 //   }
+//
+// @notes
+//   StandardWindow compact-overlay presenter (always-on-top PiP).
 
 StandardWindow {
     id: root

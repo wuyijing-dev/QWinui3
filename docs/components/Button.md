@@ -19,6 +19,11 @@ Button {
 // btn.text / enabled / highlighted / clicked()
 ```
 
+## Notes
+
+Style-only Fluent chrome for Qt Quick Controls Button.
+Public API is the Qt Quick Controls Button type; this file supplies visuals/metrics only.
+
 ## API
 
 ### Properties

@@ -19,6 +19,10 @@ IconicButton {
 }
 ```
 
+## Notes
+
+Button with leading Fluent symbol + text.
+
 ## API
 
 ### Properties

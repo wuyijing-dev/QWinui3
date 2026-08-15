@@ -22,6 +22,11 @@ PlatformTitleBar {
 // platformTitleBar.reportHitTest()
 ```
 
+## Notes
+
+Caption host for StandardWindow; reports hit-test layout to WindowHelper.
+Caption buttons use screen-logical rects (mapToGlobal).
+
 ## API
 
 ### Properties

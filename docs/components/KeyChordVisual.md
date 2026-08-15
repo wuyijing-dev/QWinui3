@@ -19,6 +19,10 @@ KeyChordVisual {
 // chord.keys / chordText
 ```
 
+## Notes
+
+Chord of KeyVisuals from keys: string[]; chordText for a11y.
+
 ## API
 
 ### Properties

@@ -8,6 +8,10 @@ import QWinUI3.Theme
 //       text: qsTr("Caption")
 //       font.pixelSize: Theme.fontBody
 //   }
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls Label.
+//   Public API is the Qt Quick Controls Label type; this file supplies visuals/metrics only.
 
 T.Label {
     id: control

@@ -8,6 +8,10 @@ import QWinUI3.Theme
 //       TabButton { text: qsTr("Home") }
 //       TabButton { text: qsTr("Settings") }
 //   }
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls TabBar.
+//   Public API is the Qt Quick Controls TabBar type; this file supplies visuals/metrics only.
 
 T.TabBar {
     id: control

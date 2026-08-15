@@ -16,6 +16,10 @@ import QWinUI3.Platform
 //   // --- API ---
 //   // methods: reportHitTest()
 //   // platformTitleBar.reportHitTest()
+//
+// @notes
+//   Caption host for StandardWindow; reports hit-test layout to WindowHelper.
+//   Caption buttons use screen-logical rects (mapToGlobal).
 
 Item {
     id: root

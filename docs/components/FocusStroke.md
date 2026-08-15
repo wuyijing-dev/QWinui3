@@ -16,6 +16,11 @@ Focus ring helper.
 FocusStroke { anchors.fill: parent; visible: control.visualFocus }
 ```
 
+## Notes
+
+Style-only Fluent chrome for Qt Quick Controls FocusStroke.
+Public API is the Qt Quick Controls FocusStroke type; this file supplies visuals/metrics only.
+
 ## API
 
 ### Properties

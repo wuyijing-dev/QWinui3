@@ -19,6 +19,10 @@ import QWinUI3.Theme
 //   }
 //   // --- API ---
 //   // dots.count / currentIndex / interactive
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls PageIndicator.
+//   Public API is the Qt Quick Controls PageIndicator type; this file supplies visuals/metrics only.
 
 T.PageIndicator {
     id: control

@@ -21,6 +21,10 @@ SwipeControl {
 }
 ```
 
+## Notes
+
+Action revealed by SwipeControl; text/symbol + onTriggered.
+
 ## API
 
 ### Properties

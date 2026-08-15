@@ -14,6 +14,10 @@ import QWinUI3.Theme
 //       Label { anchors.centerIn: parent; text: qsTr("Menu") }
 //   }
 //   drawer.open()
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls Drawer.
+//   Public API is the Qt Quick Controls Drawer type; this file supplies visuals/metrics only.
 
 T.Drawer {
 

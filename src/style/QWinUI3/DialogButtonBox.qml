@@ -9,6 +9,10 @@ import QWinUI3.Theme
 //           standardButtons: DialogButtonBox.Ok | DialogButtonBox.Cancel
 //       }
 //   }
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls DialogButtonBox.
+//   Public API is the Qt Quick Controls DialogButtonBox type; this file supplies visuals/metrics only.
 
 T.DialogButtonBox {
     id: control

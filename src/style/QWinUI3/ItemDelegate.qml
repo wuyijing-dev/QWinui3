@@ -13,6 +13,10 @@ import QWinUI3.Theme
 //           onClicked: select(index)
 //       }
 //   }
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls ItemDelegate.
+//   Public API is the Qt Quick Controls ItemDelegate type; this file supplies visuals/metrics only.
 
 T.ItemDelegate {
     id: control

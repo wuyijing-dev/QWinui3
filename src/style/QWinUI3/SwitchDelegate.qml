@@ -12,6 +12,10 @@ import QWinUI3.Theme
 //           width: ListView.view.width
 //       }
 //   }
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls SwitchDelegate.
+//   Public API is the Qt Quick Controls SwitchDelegate type; this file supplies visuals/metrics only.
 
 T.SwitchDelegate {
     id: control

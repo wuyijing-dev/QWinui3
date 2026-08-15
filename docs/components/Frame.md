@@ -18,6 +18,11 @@ Frame {
 // inherits Frame/Pane: padding, background, contentItem
 ```
 
+## Notes
+
+Style-only Fluent chrome for Qt Quick Controls Frame.
+Public API is the Qt Quick Controls Frame type; this file supplies visuals/metrics only.
+
 ## API
 
 Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `Frame` API (this file only supplies Fluent visuals / metrics).

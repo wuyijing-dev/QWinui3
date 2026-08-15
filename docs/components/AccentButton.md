@@ -25,6 +25,11 @@ AccentButton {
 // saveBtn.clicked → onClicked; no custom methods
 ```
 
+## Notes
+
+Always-accent primary Button; prefer symbol: FluentIcons.* over iconGlyph.
+Inherits Button: text, enabled, clicked().
+
 ## API
 
 ### Properties

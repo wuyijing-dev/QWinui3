@@ -17,6 +17,10 @@ MenuFlyout {
 }
 ```
 
+## Notes
+
+Exclusive checkable MenuFlyoutItem (radio group via Menu).
+
 ## API
 
 ### Properties

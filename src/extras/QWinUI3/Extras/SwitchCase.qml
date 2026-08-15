@@ -8,6 +8,9 @@ import QWinUI3.Theme
 //       SwitchCase { value: "a"; Label { text: "A" } }
 //       SwitchCase { value: "b"; Label { text: "B" } }
 //   }
+//
+// @notes
+//   Named case content for SwitchPresenter (value matches currentCase).
 
 Item {
     id: root

@@ -18,6 +18,11 @@ Dialog {
 dlg.open()
 ```
 
+## Notes
+
+Style-only Fluent chrome for Qt Quick Controls Dialog.
+Public API is the Qt Quick Controls Dialog type; this file supplies visuals/metrics only.
+
 ## API
 
 Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `Dialog` API (this file only supplies Fluent visuals / metrics).

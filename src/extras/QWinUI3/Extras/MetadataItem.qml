@@ -8,6 +8,9 @@ import QWinUI3.Theme
 //       MetadataItem { label: qsTr("Author"); value: "Ada" }
 //       MetadataItem { label: qsTr("Size"); value: "12 KB" }
 //   }
+//
+// @notes
+//   Single label/value row inside MetadataControl.
 
 T.Control {
     id: root

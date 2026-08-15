@@ -18,6 +18,10 @@ CompactOverlayWindow {
 }
 ```
 
+## Notes
+
+StandardWindow compact-overlay presenter (always-on-top PiP).
+
 ## API
 
 ### Properties

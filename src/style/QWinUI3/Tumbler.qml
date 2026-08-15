@@ -14,6 +14,10 @@ import QWinUI3.Theme
 //   }
 //   // --- API ---
 //   // hours.model / currentIndex / visibleItemCount
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls Tumbler.
+//   Public API is the Qt Quick Controls Tumbler type; this file supplies visuals/metrics only.
 
 T.Tumbler {
     id: control

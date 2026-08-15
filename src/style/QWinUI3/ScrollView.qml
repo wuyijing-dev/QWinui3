@@ -9,6 +9,10 @@ import QWinUI3.Theme
 //       anchors.fill: parent
 //       Column { /* tall content */ }
 //   }
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls ScrollView.
+//   Public API is the Qt Quick Controls ScrollView type; this file supplies visuals/metrics only.
 
 T.ScrollView {
     id: control

@@ -9,6 +9,9 @@ import QWinUI3.Theme
 //       text: qsTr("Add")
 //       symbol: FluentIcons.Add
 //   }
+//
+// @notes
+//   CommandBar icon+label button; symbol / labelPosition for layout.
 
 IconicButton {
     id: control

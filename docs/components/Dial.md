@@ -18,6 +18,11 @@ Dial {
 // dial.from / to / value / moved() / wrapped
 ```
 
+## Notes
+
+Style-only Fluent chrome for Qt Quick Controls Dial.
+Public API is the Qt Quick Controls Dial type; this file supplies visuals/metrics only.
+
 ## API
 
 ### Properties

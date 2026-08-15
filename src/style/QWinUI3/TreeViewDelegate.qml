@@ -17,6 +17,10 @@ import QWinUI3.Theme
 //   // inherits TreeViewDelegate: treeView, expanded, depth, indentation
 //   // --- API ---
 //   // inherits TreeViewDelegate: treeView, expanded, depth, indentation
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls TreeViewDelegate.
+//   Public API is the Qt Quick Controls TreeViewDelegate type; this file supplies visuals/metrics only.
 
 T.TreeViewDelegate {
     id: control

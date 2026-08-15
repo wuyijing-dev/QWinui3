@@ -13,6 +13,10 @@ import QWinUI3.Theme
 //   // --- API ---
 //   // inherits BusyIndicator: running
 //   // Fluent ring visuals only — no extra public properties
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls BusyIndicator.
+//   Public API is the Qt Quick Controls BusyIndicator type; this file supplies visuals/metrics only.
 
 T.BusyIndicator {
     id: control

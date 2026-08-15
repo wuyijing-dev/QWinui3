@@ -12,6 +12,9 @@ import QWinUI3.Theme
 //   // --- API ---
 //   // methods: syncChildren()
 //   // metadataControl.syncChildren()
+//
+// @notes
+//   Host for MetadataItem rows (label/value pairs).
 
 T.Control {
     id: root

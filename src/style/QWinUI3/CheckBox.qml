@@ -11,6 +11,10 @@ import QWinUI3.Theme
 //       checked: true
 //       onToggled: save()
 //   }
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls CheckBox.
+//   Public API is the Qt Quick Controls CheckBox type; this file supplies visuals/metrics only.
 
 T.CheckBox {
     id: control

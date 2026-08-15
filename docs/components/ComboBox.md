@@ -18,6 +18,11 @@ ComboBox {
 // combo.model / currentIndex / currentText / activated() / accepted()
 ```
 
+## Notes
+
+Style-only Fluent chrome for Qt Quick Controls ComboBox.
+Public API is the Qt Quick Controls ComboBox type; this file supplies visuals/metrics only.
+
 ## API
 
 ### Properties

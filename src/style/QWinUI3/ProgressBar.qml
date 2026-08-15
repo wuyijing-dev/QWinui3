@@ -9,6 +9,10 @@ import QWinUI3.Theme
 //       indeterminate: false
 //       value: 0.6
 //   }
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls ProgressBar.
+//   Public API is the Qt Quick Controls ProgressBar type; this file supplies visuals/metrics only.
 
 T.ProgressBar {
     id: control

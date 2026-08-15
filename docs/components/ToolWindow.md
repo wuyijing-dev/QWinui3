@@ -18,6 +18,10 @@ ToolWindow {
 }
 ```
 
+## Notes
+
+StandardWindow with ParadigmTool flags.
+
 ## API
 
 ### Properties

@@ -9,6 +9,10 @@ import QWinUI3.Theme
 //       placeholderText: qsTr("Name")
 //       onAccepted: submit(field.text)
 //   }
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls TextField.
+//   Public API is the Qt Quick Controls TextField type; this file supplies visuals/metrics only.
 
 T.TextField {
     id: control

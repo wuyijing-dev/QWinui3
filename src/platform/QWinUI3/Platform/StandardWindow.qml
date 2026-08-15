@@ -17,6 +17,11 @@ import QWinUI3.Platform
 //   // standardWindow.applyChrome()
 //   // standardWindow.setPresenterKind(kind)
 //   // inherits ApplicationWindow (+ Qt Quick Controls base API)
+//
+// @notes
+//   Low-level AppWindow host (PlatformTitleBar + WindowHelper).
+//   Prefer ShellWindow family for product UI; use this for presenter/backdrop experiments.
+//   See docs/window-appwindow.md and docs/window-helper.md.
 
 ApplicationWindow {
     id: root

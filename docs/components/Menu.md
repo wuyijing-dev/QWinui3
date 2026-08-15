@@ -21,6 +21,11 @@ Button {
 }
 ```
 
+## Notes
+
+Style-only Fluent chrome for Qt Quick Controls Menu.
+Public API is the Qt Quick Controls Menu type; this file supplies visuals/metrics only.
+
 ## API
 
 Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `Menu` API (this file only supplies Fluent visuals / metrics).

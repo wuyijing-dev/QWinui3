@@ -9,6 +9,10 @@ import QWinUI3.Theme
 //       ToolTip.visible: hovered
 //       ToolTip.text: qsTr("Help")
 //   }
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls ToolTip.
+//   Public API is the Qt Quick Controls ToolTip type; this file supplies visuals/metrics only.
 
 T.ToolTip {
     id: control

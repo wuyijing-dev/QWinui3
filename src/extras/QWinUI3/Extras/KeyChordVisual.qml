@@ -11,6 +11,9 @@ import QWinUI3.Theme
 //   }
 //   // --- API ---
 //   // chord.keys / chordText
+//
+// @notes
+//   Chord of KeyVisuals from keys: string[]; chordText for a11y.
 
 T.Control {
     id: root

@@ -9,6 +9,9 @@ import QWinUI3.Theme
 //       RadioMenuFlyoutItem { text: qsTr("Left"); checked: true }
 //       RadioMenuFlyoutItem { text: qsTr("Right") }
 //   }
+//
+// @notes
+//   Exclusive checkable MenuFlyoutItem (radio group via Menu).
 
 MenuItem {
     id: control

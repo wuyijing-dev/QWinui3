@@ -16,6 +16,11 @@ ToolBar {
 }
 ```
 
+## Notes
+
+Style-only Fluent chrome for Qt Quick Controls ToolSeparator.
+Public API is the Qt Quick Controls ToolSeparator type; this file supplies visuals/metrics only.
+
 ## API
 
 Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `ToolSeparator` API (this file only supplies Fluent visuals / metrics).

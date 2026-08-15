@@ -13,6 +13,10 @@ import QWinUI3.Theme
 //           width: ListView.view.width
 //       }
 //   }
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls CheckDelegate.
+//   Public API is the Qt Quick Controls CheckDelegate type; this file supplies visuals/metrics only.
 
 T.CheckDelegate {
     id: control

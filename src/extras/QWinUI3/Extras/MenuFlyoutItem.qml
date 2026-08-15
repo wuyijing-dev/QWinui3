@@ -12,6 +12,9 @@ import QWinUI3.Theme
 //           onClicked: copy()
 //       }
 //   }
+//
+// @notes
+//   MenuFlyout row; text + optional symbol; onClicked / triggered.
 
 MenuItem {
     id: control

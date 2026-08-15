@@ -14,6 +14,10 @@ import QWinUI3.Theme
 //   }
 //   // --- API ---
 //   // vbar.policy / size / position / increase() / decrease()
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls ScrollBar.
+//   Public API is the Qt Quick Controls ScrollBar type; this file supplies visuals/metrics only.
 
 T.ScrollBar {
     id: control

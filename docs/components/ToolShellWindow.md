@@ -20,6 +20,10 @@ ToolShellWindow {
 // WindowHelper.ParadigmTool flags
 ```
 
+## Notes
+
+ShellWindow with WindowHelper.ParadigmTool flags (palette / inspector).
+
 ## API
 
 ### Properties

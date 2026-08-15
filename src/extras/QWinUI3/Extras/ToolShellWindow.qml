@@ -11,6 +11,9 @@ import QWinUI3.Platform
 //   }
 //   // --- API ---
 //   // WindowHelper.ParadigmTool flags
+//
+// @notes
+//   ShellWindow with WindowHelper.ParadigmTool flags (palette / inspector).
 
 ShellWindow {
     id: root

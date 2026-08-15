@@ -18,6 +18,10 @@ MenuFlyout {
 }
 ```
 
+## Notes
+
+Divider line between MenuFlyoutItem rows.
+
 ## API
 
 ### Properties

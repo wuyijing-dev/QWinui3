@@ -20,6 +20,10 @@ IconButton {
 // inherits Button: enabled, clicked()
 ```
 
+## Notes
+
+Icon-only Button helper; set symbol / iconGlyph; inherits clicked().
+
 ## API
 
 ### Properties

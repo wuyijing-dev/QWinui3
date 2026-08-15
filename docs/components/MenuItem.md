@@ -22,6 +22,11 @@ Menu {
 // item.text / enabled / checkable / triggered()
 ```
 
+## Notes
+
+Style-only Fluent chrome for Qt Quick Controls MenuItem.
+Public API is the Qt Quick Controls MenuItem type; this file supplies visuals/metrics only.
+
 ## API
 
 Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `MenuItem` API (this file only supplies Fluent visuals / metrics).

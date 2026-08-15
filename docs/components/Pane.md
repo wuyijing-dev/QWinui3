@@ -15,6 +15,11 @@ Pane {
 }
 ```
 
+## Notes
+
+Style-only Fluent chrome for Qt Quick Controls Pane.
+Public API is the Qt Quick Controls Pane type; this file supplies visuals/metrics only.
+
 ## API
 
 Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `Pane` API (this file only supplies Fluent visuals / metrics).

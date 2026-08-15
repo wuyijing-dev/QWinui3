@@ -9,6 +9,10 @@ import QWinUI3.Theme
 //       text: qsTr("Option A")
 //       checked: true
 //   }
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls RadioButton.
+//   Public API is the Qt Quick Controls RadioButton type; this file supplies visuals/metrics only.
 
 T.RadioButton {
     id: control

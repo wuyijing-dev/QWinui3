@@ -14,6 +14,10 @@ import QWinUI3.Theme
 //           MenuItem { text: qsTr("Quit"); onTriggered: Qt.quit() }
 //       }
 //   }
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls Menu.
+//   Public API is the Qt Quick Controls Menu type; this file supplies visuals/metrics only.
 
 T.Menu {
     id: control

@@ -20,6 +20,10 @@ HeaderedContentControl {
 // block.header / content
 ```
 
+## Notes
+
+Header label + content slot; headerPlacement controls layout.
+
 ## API
 
 ### Properties

@@ -20,6 +20,10 @@ CompactOverlayShellWindow {
 // always-on-top compact overlay presenter
 ```
 
+## Notes
+
+Always-on-top compact overlay shell (PiP-style presenter).
+
 ## API
 
 ### Properties

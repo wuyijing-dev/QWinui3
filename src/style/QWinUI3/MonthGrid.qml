@@ -12,6 +12,10 @@ import QWinUI3.Theme
 //   }
 //   // --- API ---
 //   // grid.month / year / locale / title / clicked(date)
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls MonthGrid.
+//   Public API is the Qt Quick Controls MonthGrid type; this file supplies visuals/metrics only.
 
 T.AbstractMonthGrid {
     id: control

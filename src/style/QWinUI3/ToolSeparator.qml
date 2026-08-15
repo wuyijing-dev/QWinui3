@@ -9,6 +9,10 @@ import QWinUI3.Theme
 //       ToolSeparator { }
 //       ToolButton { text: qsTr("B") }
 //   }
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls ToolSeparator.
+//   Public API is the Qt Quick Controls ToolSeparator type; this file supplies visuals/metrics only.
 
 T.ToolSeparator {
     id: control

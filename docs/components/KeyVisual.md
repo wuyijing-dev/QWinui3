@@ -19,6 +19,10 @@ KeyVisual {
 // key.text / keySize
 ```
 
+## Notes
+
+Single keyboard key glyph (e.g. Ctrl); text is the caption.
+
 ## API
 
 ### Properties

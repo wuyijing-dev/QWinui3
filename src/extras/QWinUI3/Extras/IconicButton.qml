@@ -11,6 +11,9 @@ import QWinUI3.Theme
 //       symbol: FluentIcons.Open
 //       onClicked: open()
 //   }
+//
+// @notes
+//   Button with leading Fluent symbol + text.
 
 T.AbstractButton {
     id: control

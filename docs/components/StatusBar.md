@@ -17,6 +17,10 @@ StatusBar {
 }
 ```
 
+## Notes
+
+Multi-segment status strip for MenuStatusWindow / shells.
+
 ## API
 
 ### Properties

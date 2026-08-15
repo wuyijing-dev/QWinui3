@@ -9,6 +9,10 @@ import QWinUI3.Theme
 //       Rectangle { SplitView.preferredWidth: 200; color: Theme.bgCard }
 //       Rectangle { SplitView.fillWidth: true; color: Theme.bgLayer }
 //   }
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls SplitView.
+//   Public API is the Qt Quick Controls SplitView type; this file supplies visuals/metrics only.
 
 T.SplitView {
     id: control

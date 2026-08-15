@@ -18,6 +18,10 @@ DialogWindow {
 }
 ```
 
+## Notes
+
+StandardWindow with ParadigmDialog flags.
+
 ## API
 
 ### Properties

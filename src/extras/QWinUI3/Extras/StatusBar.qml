@@ -10,6 +10,9 @@ import QWinUI3.Theme
 //       text: qsTr("Ready")
 //       progress: 0.4
 //   }
+//
+// @notes
+//   Multi-segment status strip for MenuStatusWindow / shells.
 
 T.Control {
     id: root

@@ -11,6 +11,9 @@ import QWinUI3.Theme
 //   }
 //   // --- API ---
 //   // inherits Button: enabled, clicked()
+//
+// @notes
+//   Icon-only Button helper; set symbol / iconGlyph; inherits clicked().
 
 IconicButton {
     id: control

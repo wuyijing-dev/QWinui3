@@ -8,6 +8,9 @@ import QWinUI3.Platform
 //       title: qsTr("Confirm")
 //       width: 440; height: 280
 //   }
+//
+// @notes
+//   ShellWindow with WindowHelper.ParadigmDialog flags.
 
 ShellWindow {
     id: root

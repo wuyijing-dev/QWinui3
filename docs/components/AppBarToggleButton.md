@@ -17,6 +17,10 @@ AppBarToggleButton {
 }
 ```
 
+## Notes
+
+Checkable AppBarButton for CommandBar toggles.
+
 ## API
 
 ### Properties

@@ -11,6 +11,10 @@ import QWinUI3.Theme
 //   }
 //   // --- API ---
 //   // inherits DayOfWeekRow: locale, delegate
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls DayOfWeekRow.
+//   Public API is the Qt Quick Controls DayOfWeekRow type; this file supplies visuals/metrics only.
 
 T.AbstractDayOfWeekRow {
     id: control

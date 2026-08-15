@@ -23,6 +23,10 @@ host.error(qsTr("Failed"), qsTr("Retry"))
 // methods: info/success/warning/error, enqueue, clear
 ```
 
+## Notes
+
+Stack host for InfoBar; prefer info/success/warning/error helpers.
+
 ## API
 
 ### Properties

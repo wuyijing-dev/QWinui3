@@ -9,6 +9,10 @@ import QWinUI3.Theme
 //       MenuSeparator { }
 //       MenuItem { text: qsTr("B") }
 //   }
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls MenuSeparator.
+//   Public API is the Qt Quick Controls MenuSeparator type; this file supplies visuals/metrics only.
 
 T.MenuSeparator {
     id: control

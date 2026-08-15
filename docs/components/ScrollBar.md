@@ -21,6 +21,11 @@ Flickable {
 // vbar.policy / size / position / increase() / decrease()
 ```
 
+## Notes
+
+Style-only Fluent chrome for Qt Quick Controls ScrollBar.
+Public API is the Qt Quick Controls ScrollBar type; this file supplies visuals/metrics only.
+
 ## API
 
 Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `ScrollBar` API (this file only supplies Fluent visuals / metrics).

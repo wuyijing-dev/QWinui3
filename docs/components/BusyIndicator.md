@@ -19,6 +19,11 @@ BusyIndicator {
 // Fluent ring visuals only — no extra public properties
 ```
 
+## Notes
+
+Style-only Fluent chrome for Qt Quick Controls BusyIndicator.
+Public API is the Qt Quick Controls BusyIndicator type; this file supplies visuals/metrics only.
+
 ## API
 
 Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `BusyIndicator` API (this file only supplies Fluent visuals / metrics).

@@ -16,6 +16,11 @@ ProgressBar {
 }
 ```
 
+## Notes
+
+Style-only Fluent chrome for Qt Quick Controls ProgressBar.
+Public API is the Qt Quick Controls ProgressBar type; this file supplies visuals/metrics only.
+
 ## API
 
 Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `ProgressBar` API (this file only supplies Fluent visuals / metrics).

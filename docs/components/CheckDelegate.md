@@ -18,6 +18,11 @@ ListView {
 }
 ```
 
+## Notes
+
+Style-only Fluent chrome for Qt Quick Controls CheckDelegate.
+Public API is the Qt Quick Controls CheckDelegate type; this file supplies visuals/metrics only.
+
 ## API
 
 Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `CheckDelegate` API (this file only supplies Fluent visuals / metrics).

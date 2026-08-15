@@ -10,6 +10,10 @@ import QWinUI3.Theme
 //       delay: 1000
 //       onActivated: confirm()
 //   }
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls DelayButton.
+//   Public API is the Qt Quick Controls DelayButton type; this file supplies visuals/metrics only.
 
 T.DelayButton {
     id: control

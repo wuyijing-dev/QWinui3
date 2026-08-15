@@ -433,6 +433,149 @@ NOTES: dict[str, str] = {
 @notes
   Wrapping flow of children; itemSpacing / orientation.
 """,
+    # --- remaining Extras ---
+    "AccentButton": """\
+@notes
+  Always-accent primary Button; prefer symbol: FluentIcons.* over iconGlyph.
+  Inherits Button: text, enabled, clicked().
+""",
+    "AcrylicSurface": """\
+@notes
+  Frosted pane for content; keep translucent under system Mica/Acrylic backdrops.
+  elevated / tintOpacity tune the material; children fill the surface.
+""",
+    "AppBarButton": """\
+@notes
+  CommandBar icon+label button; symbol / labelPosition for layout.
+""",
+    "AppBarToggleButton": """\
+@notes
+  Checkable AppBarButton for CommandBar toggles.
+""",
+    "AppBarSeparator": """\
+@notes
+  Thin vertical/horizontal separator between AppBarButton items.
+""",
+    "BlankWindow": """\
+@notes
+  Empty ShellWindow client; declare UI as children.
+  See ShellWindow / docs/window-shells.md for chrome slots.
+""",
+    "DialogShellWindow": """\
+@notes
+  ShellWindow with WindowHelper.ParadigmDialog flags.
+""",
+    "ToolShellWindow": """\
+@notes
+  ShellWindow with WindowHelper.ParadigmTool flags (palette / inspector).
+""",
+    "CompactOverlayShellWindow": """\
+@notes
+  Always-on-top compact overlay shell (PiP-style presenter).
+""",
+    "IconButton": """\
+@notes
+  Icon-only Button helper; set symbol / iconGlyph; inherits clicked().
+""",
+    "IconicButton": """\
+@notes
+  Button with leading Fluent symbol + text.
+""",
+    "InfoBarHost": """\
+@notes
+  Stack host for InfoBar; prefer info/success/warning/error helpers.
+""",
+    "KeyVisual": """\
+@notes
+  Single keyboard key glyph (e.g. Ctrl); text is the caption.
+""",
+    "KeyChordVisual": """\
+@notes
+  Chord of KeyVisuals from keys: string[]; chordText for a11y.
+""",
+    "HeaderedContentControl": """\
+@notes
+  Header label + content slot; headerPlacement controls layout.
+""",
+    "MenuFlyoutItem": """\
+@notes
+  MenuFlyout row; text + optional symbol; onClicked / triggered.
+""",
+    "MenuFlyoutHeader": """\
+@notes
+  Non-interactive section header inside MenuFlyout.
+""",
+    "MenuFlyoutSeparator": """\
+@notes
+  Divider line between MenuFlyoutItem rows.
+""",
+    "RadioMenuFlyoutItem": """\
+@notes
+  Exclusive checkable MenuFlyoutItem (radio group via Menu).
+""",
+    "ToggleMenuFlyoutItem": """\
+@notes
+  Checkable MenuFlyoutItem; bind checked / onToggled.
+""",
+    "MetadataControl": """\
+@notes
+  Host for MetadataItem rows (label/value pairs).
+""",
+    "MetadataItem": """\
+@notes
+  Single label/value row inside MetadataControl.
+""",
+    "Shimmer": """\
+@notes
+  Loading placeholder shimmer; active enables the animation.
+""",
+    "StatusBar": """\
+@notes
+  Multi-segment status strip for MenuStatusWindow / shells.
+""",
+    "SwipeAction": """\
+@notes
+  Action revealed by SwipeControl; text/symbol + onTriggered.
+""",
+    "SwitchCase": """\
+@notes
+  Named case content for SwitchPresenter (value matches currentCase).
+""",
+    "ToggleButton": """\
+@notes
+  Checkable accent-capable toggle; checked / onToggled.
+""",
+    # --- Platform ---
+    "StandardWindow": """\
+@notes
+  Low-level AppWindow host (PlatformTitleBar + WindowHelper).
+  Prefer ShellWindow family for product UI; use this for presenter/backdrop experiments.
+  See docs/window-appwindow.md and docs/window-helper.md.
+""",
+    "PlatformTitleBar": """\
+@notes
+  Caption host for StandardWindow; reports hit-test layout to WindowHelper.
+  Caption buttons use screen-logical rects (mapToGlobal).
+""",
+    "DialogWindow": """\
+@notes
+  StandardWindow with ParadigmDialog flags.
+""",
+    "ToolWindow": """\
+@notes
+  StandardWindow with ParadigmTool flags.
+""",
+    "CompactOverlayWindow": """\
+@notes
+  StandardWindow compact-overlay presenter (always-on-top PiP).
+""",
+    # --- Theme ---
+    "Theme": """\
+@notes
+  Singleton tokens: colors, type, spacing, motion, corners.
+  Theme.dark / reducedMotion / highContrast; followSystemAccessibility mirrors WindowHelper SPI.
+  Use Theme.duration(ms) and controlFill/accentFill helpers for states.
+""",
 }
 
 
@@ -449,28 +592,39 @@ def commentize_notes(block: str) -> str:
     return "\n".join(lines)
 
 
+def style_fallback_notes(name: str) -> str:
+    return f"""\
+@notes
+  Style-only Fluent chrome for Qt Quick Controls {name}.
+  Public API is the Qt Quick Controls {name} type; this file supplies visuals/metrics only.
+"""
+
+
 def main() -> None:
     dirs = [
         ROOT / "src/extras/QWinUI3/Extras",
         ROOT / "src/platform/QWinUI3/Platform",
+        ROOT / "src/theme/QWinUI3/Theme",
+        ROOT / "src/style/QWinUI3",
     ]
     n = 0
     for d in dirs:
         for path in sorted(d.glob("*.qml")):
-            if path.stem not in NOTES:
-                continue
             text = path.read_text(encoding="utf-8")
-            if "@notes" in text.split("\n", 80)[0:80] or "\n// @notes\n" in text[:2500]:
-                # already has notes near header
-                if "// @notes" in text[:3000]:
-                    print(f"SKIP {path.relative_to(ROOT)}")
-                    continue
+            if "// @notes" in text[:4000]:
+                print(f"SKIP {path.relative_to(ROOT)}")
+                continue
+            notes_src = NOTES.get(path.stem)
+            if not notes_src and "/style/" in path.as_posix().replace("\\", "/"):
+                notes_src = style_fallback_notes(path.stem)
+            if not notes_src:
+                continue
             m = RE_HEADER_BLOCK.match(text)
             if not m:
                 print(f"NOHDR {path.relative_to(ROOT)}")
                 continue
             header = m.group("header").rstrip("\n")
-            notes = commentize_notes(NOTES[path.stem])
+            notes = commentize_notes(notes_src)
             new_header = header + "\n//\n" + notes + "\n"
             new_text = text[: m.start("header")] + new_header + text[m.end("header") :]
             path.write_text(new_text, encoding="utf-8", newline="\n")

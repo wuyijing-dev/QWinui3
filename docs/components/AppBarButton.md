@@ -17,6 +17,10 @@ AppBarButton {
 }
 ```
 
+## Notes
+
+CommandBar icon+label button; symbol / labelPosition for layout.
+
 ## API
 
 ### Properties

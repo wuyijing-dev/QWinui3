@@ -11,6 +11,9 @@ import QWinUI3.Theme
 //   }
 //   // --- API ---
 //   // shim.active
+//
+// @notes
+//   Loading placeholder shimmer; active enables the animation.
 
 T.Control {
     id: root

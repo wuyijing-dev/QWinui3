@@ -11,6 +11,9 @@ import QWinUI3.Platform
 //   }
 //   // --- API ---
 //   // always-on-top compact overlay presenter
+//
+// @notes
+//   Always-on-top compact overlay shell (PiP-style presenter).
 
 ShellWindow {
     id: root

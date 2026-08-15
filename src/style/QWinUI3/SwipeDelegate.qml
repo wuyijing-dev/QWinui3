@@ -12,6 +12,10 @@ import QWinUI3.Theme
 //           swipe.right: Label { text: qsTr("Delete"); padding: 12 }
 //       }
 //   }
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls SwipeDelegate.
+//   Public API is the Qt Quick Controls SwipeDelegate type; this file supplies visuals/metrics only.
 
 T.SwipeDelegate {
     id: control

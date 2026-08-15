@@ -10,6 +10,10 @@ import QWinUI3.Theme
 //       Item { Label { text: "1" } }
 //       Item { Label { text: "2" } }
 //   }
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls SwipeView.
+//   Public API is the Qt Quick Controls SwipeView type; this file supplies visuals/metrics only.
 
 T.SwipeView {
     id: control

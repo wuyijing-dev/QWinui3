@@ -17,6 +17,10 @@ DialogShellWindow {
 }
 ```
 
+## Notes
+
+ShellWindow with WindowHelper.ParadigmDialog flags.
+
 ## API
 
 ### Properties

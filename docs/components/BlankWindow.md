@@ -21,6 +21,11 @@ BlankWindow {
 // inherits ShellWindow chrome API (title, backdrop, …)
 ```
 
+## Notes
+
+Empty ShellWindow client; declare UI as children.
+See ShellWindow / docs/window-shells.md for chrome slots.
+
 ## API
 
 ### Properties

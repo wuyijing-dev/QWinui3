@@ -18,6 +18,10 @@ SwitchPresenter {
 }
 ```
 
+## Notes
+
+Named case content for SwitchPresenter (value matches currentCase).
+
 ## API
 
 ### Properties

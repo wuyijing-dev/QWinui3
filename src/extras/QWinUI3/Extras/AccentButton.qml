@@ -17,6 +17,10 @@ import QWinUI3.Theme
 //   // properties: symbol, iconGlyph, iconSize, effectiveIconGlyph
 //   // inherits Button: text, enabled, highlighted, clicked(), pressAndHold()
 //   // saveBtn.clicked → onClicked; no custom methods
+//
+// @notes
+//   Always-accent primary Button; prefer symbol: FluentIcons.* over iconGlyph.
+//   Inherits Button: text, enabled, clicked().
 
 Button {
     id: control

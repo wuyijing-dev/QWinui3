@@ -15,6 +15,9 @@ import QWinUI3.Theme
 //   }
 //   // --- API ---
 //   // wrap.checked / onToggled / text
+//
+// @notes
+//   Checkable MenuFlyoutItem; bind checked / onToggled.
 
 MenuItem {
     id: control

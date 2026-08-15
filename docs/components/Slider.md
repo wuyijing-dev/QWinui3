@@ -16,6 +16,11 @@ Slider {
 }
 ```
 
+## Notes
+
+Style-only Fluent chrome for Qt Quick Controls Slider.
+Public API is the Qt Quick Controls Slider type; this file supplies visuals/metrics only.
+
 ## API
 
 Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `Slider` API (this file only supplies Fluent visuals / metrics).

@@ -17,6 +17,10 @@ MetadataControl {
 }
 ```
 
+## Notes
+
+Single label/value row inside MetadataControl.
+
 ## API
 
 ### Properties

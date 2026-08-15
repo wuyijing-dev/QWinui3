@@ -9,6 +9,10 @@ import QWinUI3.Theme
 //       from: 0; to: 100; value: 40
 //       onMoved: apply(slider.value)
 //   }
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls Slider.
+//   Public API is the Qt Quick Controls Slider type; this file supplies visuals/metrics only.
 
 T.Slider {
     id: control

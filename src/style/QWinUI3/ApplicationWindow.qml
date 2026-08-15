@@ -10,6 +10,10 @@ import QWinUI3.Theme
 //       title: qsTr("App")
 //       visible: true
 //   }
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls ApplicationWindow.
+//   Public API is the Qt Quick Controls ApplicationWindow type; this file supplies visuals/metrics only.
 
 T.ApplicationWindow {
     id: window

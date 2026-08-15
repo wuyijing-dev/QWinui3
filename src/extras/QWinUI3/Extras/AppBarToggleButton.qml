@@ -9,6 +9,9 @@ import QWinUI3.Theme
 //       text: qsTr("Pin")
 //       checkable: true
 //   }
+//
+// @notes
+//   Checkable AppBarButton for CommandBar toggles.
 
 IconicButton {
     id: control

@@ -11,6 +11,9 @@ import QWinUI3.Theme
 //       }
 //       Label { text: qsTr("Row") }
 //   }
+//
+// @notes
+//   Action revealed by SwipeControl; text/symbol + onTriggered.
 
 Item {
     id: root

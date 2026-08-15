@@ -9,6 +9,10 @@ import QWinUI3.Theme
 //       text: qsTr("Dark mode")
 //       onToggled: Theme.dark = sw.checked
 //   }
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls Switch.
+//   Public API is the Qt Quick Controls Switch type; this file supplies visuals/metrics only.
 
 T.Switch {
     id: control

@@ -18,6 +18,10 @@ CommandBar {
 }
 ```
 
+## Notes
+
+Thin vertical/horizontal separator between AppBarButton items.
+
 ## API
 
 ### Properties

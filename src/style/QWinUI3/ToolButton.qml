@@ -14,6 +14,10 @@ import QWinUI3.Theme
 //   }
 //   // --- API ---
 //   // edit.text / enabled / checkable / clicked()
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls ToolButton.
+//   Public API is the Qt Quick Controls ToolButton type; this file supplies visuals/metrics only.
 
 T.ToolButton {
     id: control

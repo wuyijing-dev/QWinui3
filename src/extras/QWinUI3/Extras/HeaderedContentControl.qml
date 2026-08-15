@@ -12,6 +12,9 @@ import QWinUI3.Theme
 //   }
 //   // --- API ---
 //   // block.header / content
+//
+// @notes
+//   Header label + content slot; headerPlacement controls layout.
 
 T.Control {
     id: root

@@ -21,6 +21,10 @@ ToggleButton {
 // toggle.checked / onToggled
 ```
 
+## Notes
+
+Checkable accent-capable toggle; checked / onToggled.
+
 ## API
 
 ### Properties

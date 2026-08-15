@@ -10,6 +10,10 @@ import QWinUI3.Theme
 //       contentItem: Label { text: qsTr("Hi") }
 //   }
 //   pop.open()
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls Popup.
+//   Public API is the Qt Quick Controls Popup type; this file supplies visuals/metrics only.
 
 T.Popup {
     id: control

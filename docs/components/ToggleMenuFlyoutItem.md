@@ -23,6 +23,10 @@ MenuFlyout {
 // wrap.checked / onToggled / text
 ```
 
+## Notes
+
+Checkable MenuFlyoutItem; bind checked / onToggled.
+
 ## API
 
 ### Properties

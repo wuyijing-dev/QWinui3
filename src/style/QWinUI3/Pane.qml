@@ -8,6 +8,10 @@ import QWinUI3.Theme
 //       padding: Theme.paddingControlH
 //       Label { text: qsTr("Pane body") }
 //   }
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls Pane.
+//   Public API is the Qt Quick Controls Pane type; this file supplies visuals/metrics only.
 
 T.Pane {
     id: control

@@ -24,6 +24,11 @@ SelectionPip {
 // selectionPip.animateTo(index)
 ```
 
+## Notes
+
+Style-only Fluent chrome for Qt Quick Controls SelectionPip.
+Public API is the Qt Quick Controls SelectionPip type; this file supplies visuals/metrics only.
+
 ## API
 
 ### Properties

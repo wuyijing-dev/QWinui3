@@ -16,6 +16,11 @@ Switch {
 }
 ```
 
+## Notes
+
+Style-only Fluent chrome for Qt Quick Controls Switch.
+Public API is the Qt Quick Controls Switch type; this file supplies visuals/metrics only.
+
 ## API
 
 Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `Switch` API (this file only supplies Fluent visuals / metrics).

@@ -17,6 +17,10 @@ MenuFlyout {
 }
 ```
 
+## Notes
+
+Non-interactive section header inside MenuFlyout.
+
 ## API
 
 ### Properties

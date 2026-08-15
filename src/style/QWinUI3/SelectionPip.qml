@@ -12,6 +12,10 @@ import QWinUI3.Theme
 //   // methods: snapTo(index), animateTo(index)
 //   // selectionPip.snapTo(index)
 //   // selectionPip.animateTo(index)
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls SelectionPip.
+//   Public API is the Qt Quick Controls SelectionPip type; this file supplies visuals/metrics only.
 
 Item {
     id: root

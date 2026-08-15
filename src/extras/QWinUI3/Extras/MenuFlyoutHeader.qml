@@ -9,6 +9,9 @@ import QWinUI3.Theme
 //       MenuFlyoutHeader { text: qsTr("Actions") }
 //       MenuFlyoutItem { text: qsTr("Edit") }
 //   }
+//
+// @notes
+//   Non-interactive section header inside MenuFlyout.
 
 MenuItem {
     id: control

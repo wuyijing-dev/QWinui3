@@ -8,6 +8,9 @@ import QWinUI3.Theme
 //       MenuFlyoutSeparator { }
 //       MenuFlyoutItem { text: qsTr("Delete") }
 //   }
+//
+// @notes
+//   Divider line between MenuFlyoutItem rows.
 
 MenuSeparator {
     id: control

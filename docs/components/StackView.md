@@ -17,6 +17,11 @@ StackView {
 stack.push(page2)
 ```
 
+## Notes
+
+Style-only Fluent chrome for Qt Quick Controls StackView.
+Public API is the Qt Quick Controls StackView type; this file supplies visuals/metrics only.
+
 ## API
 
 Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `StackView` API (this file only supplies Fluent visuals / metrics).

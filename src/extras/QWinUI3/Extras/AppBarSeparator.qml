@@ -9,6 +9,9 @@ import QWinUI3.Theme
 //       AppBarSeparator { }
 //       AppBarButton { text: qsTr("Share"); symbol: FluentIcons.Share }
 //   }
+//
+// @notes
+//   Thin vertical/horizontal separator between AppBarButton items.
 
 T.Control {
     id: root

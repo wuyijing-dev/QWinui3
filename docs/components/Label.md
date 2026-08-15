@@ -15,6 +15,11 @@ Label {
 }
 ```
 
+## Notes
+
+Style-only Fluent chrome for Qt Quick Controls Label.
+Public API is the Qt Quick Controls Label type; this file supplies visuals/metrics only.
+
 ## API
 
 Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `Label` API (this file only supplies Fluent visuals / metrics).

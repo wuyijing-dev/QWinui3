@@ -12,6 +12,10 @@ import QWinUI3.Theme
 //   }
 //   // --- API ---
 //   // inherits AbstractButton: text, enabled, clicked()
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls RoundButton.
+//   Public API is the Qt Quick Controls RoundButton type; this file supplies visuals/metrics only.
 
 T.RoundButton {
     id: control

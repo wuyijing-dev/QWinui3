@@ -21,6 +21,10 @@ MetadataControl {
 // metadataControl.syncChildren()
 ```
 
+## Notes
+
+Host for MetadataItem rows (label/value pairs).
+
 ## API
 
 ### Properties

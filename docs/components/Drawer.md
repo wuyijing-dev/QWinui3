@@ -17,6 +17,11 @@ Drawer {
 drawer.open()
 ```
 
+## Notes
+
+Style-only Fluent chrome for Qt Quick Controls Drawer.
+Public API is the Qt Quick Controls Drawer type; this file supplies visuals/metrics only.
+
 ## API
 
 Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `Drawer` API (this file only supplies Fluent visuals / metrics).

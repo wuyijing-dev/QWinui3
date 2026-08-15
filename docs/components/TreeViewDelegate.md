@@ -22,6 +22,11 @@ TreeView {
 // inherits TreeViewDelegate: treeView, expanded, depth, indentation
 ```
 
+## Notes
+
+Style-only Fluent chrome for Qt Quick Controls TreeViewDelegate.
+Public API is the Qt Quick Controls TreeViewDelegate type; this file supplies visuals/metrics only.
+
 ## API
 
 ### Properties

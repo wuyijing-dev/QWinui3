@@ -12,6 +12,10 @@ import QWinUI3.Theme
 //           }
 //       }
 //   }
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls MenuBar.
+//   Public API is the Qt Quick Controls MenuBar type; this file supplies visuals/metrics only.
 
 T.MenuBar {
     id: control

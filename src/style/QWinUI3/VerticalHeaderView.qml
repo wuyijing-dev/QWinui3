@@ -14,6 +14,10 @@ import QWinUI3.Theme
 //   }
 //   // --- API ---
 //   // vheader.syncView / model / clip
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls VerticalHeaderView.
+//   Public API is the Qt Quick Controls VerticalHeaderView type; this file supplies visuals/metrics only.
 
 T.VerticalHeaderView {
     id: control

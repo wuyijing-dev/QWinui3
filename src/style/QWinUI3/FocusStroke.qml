@@ -3,6 +3,10 @@ import QWinUI3.Theme
 // FocusStroke — Focus ring helper.
 //
 //   FocusStroke { anchors.fill: parent; visible: control.visualFocus }
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls FocusStroke.
+//   Public API is the Qt Quick Controls FocusStroke type; this file supplies visuals/metrics only.
 
 
 Item {

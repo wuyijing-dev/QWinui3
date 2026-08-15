@@ -11,6 +11,10 @@ import QWinUI3.Theme
 //           CheckBox { text: qsTr("B") }
 //       }
 //   }
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls GroupBox.
+//   Public API is the Qt Quick Controls GroupBox type; this file supplies visuals/metrics only.
 
 T.GroupBox {
     id: control

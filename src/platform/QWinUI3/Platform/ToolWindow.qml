@@ -11,6 +11,9 @@ import QWinUI3.Platform
 //       title: qsTr("Tools")
 //       width: 320; height: 480
 //   }
+//
+// @notes
+//   StandardWindow with ParadigmTool flags.
 
 StandardWindow {
     id: root

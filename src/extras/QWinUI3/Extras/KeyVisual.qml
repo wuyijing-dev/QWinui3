@@ -11,6 +11,9 @@ import QWinUI3.Theme
 //   }
 //   // --- API ---
 //   // key.text / keySize
+//
+// @notes
+//   Single keyboard key glyph (e.g. Ctrl); text is the caption.
 
 T.AbstractButton {
     id: root

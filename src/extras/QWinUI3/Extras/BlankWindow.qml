@@ -12,6 +12,10 @@ import QWinUI3.Theme
 //   }
 //   // --- API ---
 //   // inherits ShellWindow chrome API (title, backdrop, …)
+//
+// @notes
+//   Empty ShellWindow client; declare UI as children.
+//   See ShellWindow / docs/window-shells.md for chrome slots.
 
 ShellWindow {
     id: root

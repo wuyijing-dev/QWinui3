@@ -20,6 +20,10 @@ Shimmer {
 // shim.active
 ```
 
+## Notes
+
+Loading placeholder shimmer; active enables the animation.
+
 ## API
 
 ### Properties

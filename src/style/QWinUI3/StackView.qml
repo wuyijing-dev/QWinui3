@@ -10,6 +10,10 @@ import QWinUI3.Theme
 //       initialItem: page1
 //   }
 //   stack.push(page2)
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls StackView.
+//   Public API is the Qt Quick Controls StackView type; this file supplies visuals/metrics only.
 
 T.StackView {
     id: control

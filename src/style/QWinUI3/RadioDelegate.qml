@@ -12,6 +12,10 @@ import QWinUI3.Theme
 //           width: ListView.view.width
 //       }
 //   }
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls RadioDelegate.
+//   Public API is the Qt Quick Controls RadioDelegate type; this file supplies visuals/metrics only.
 
 T.RadioDelegate {
     id: control

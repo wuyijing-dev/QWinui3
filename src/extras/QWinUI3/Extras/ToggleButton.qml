@@ -13,6 +13,9 @@ import QWinUI3.Theme
 //   }
 //   // --- API ---
 //   // toggle.checked / onToggled
+//
+// @notes
+//   Checkable accent-capable toggle; checked / onToggled.
 
 Button {
     id: control

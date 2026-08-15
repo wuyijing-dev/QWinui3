@@ -15,6 +15,9 @@ import QWinUI3.Theme
 //   host.error(qsTr("Failed"), qsTr("Retry"))
 //   // --- API ---
 //   // methods: info/success/warning/error, enqueue, clear
+//
+// @notes
+//   Stack host for InfoBar; prefer info/success/warning/error helpers.
 
 T.Control {
     id: root

@@ -10,6 +10,10 @@ import QWinUI3.Theme
 //       first.value: 20
 //       second.value: 80
 //   }
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls RangeSlider.
+//   Public API is the Qt Quick Controls RangeSlider type; this file supplies visuals/metrics only.
 
 T.RangeSlider {
     id: control

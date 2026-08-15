@@ -12,6 +12,10 @@ import QWinUI3.Theme
 //   // --- API ---
 //   // style-only Fluent chrome; API is Qt Quick Controls Button
 //   // btn.text / enabled / highlighted / clicked()
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls Button.
+//   Public API is the Qt Quick Controls Button type; this file supplies visuals/metrics only.
 
 T.Button {
     id: control

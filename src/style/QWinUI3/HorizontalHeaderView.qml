@@ -15,6 +15,10 @@ import QWinUI3.Theme
 //   }
 //   // --- API ---
 //   // header.syncView / model / clip
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls HorizontalHeaderView.
+//   Public API is the Qt Quick Controls HorizontalHeaderView type; this file supplies visuals/metrics only.
 
 T.HorizontalHeaderView {
     id: control

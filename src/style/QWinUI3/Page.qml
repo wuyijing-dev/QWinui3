@@ -8,6 +8,10 @@ import QWinUI3.Theme
 //       header: Label { text: qsTr("Title"); leftPadding: 16; topPadding: 12 }
 //       Label { anchors.centerIn: parent; text: qsTr("Content") }
 //   }
+//
+// @notes
+//   Style-only Fluent chrome for Qt Quick Controls Page.
+//   Public API is the Qt Quick Controls Page type; this file supplies visuals/metrics only.
 
 T.Page {
     id: control
