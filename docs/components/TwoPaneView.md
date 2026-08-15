@@ -34,8 +34,6 @@ TwoPaneView {
 - `showPane2()` — Show secondary pane
 - `toggleSinglePane()` — Toggle single-pane mode
 - `swapPanes()` — Swap primary / secondary panes
-- `reparentPanes()` — Reparent TwoPaneView panes for mode
-- `layoutPanes()` — Recompute TwoPaneView pane layout
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

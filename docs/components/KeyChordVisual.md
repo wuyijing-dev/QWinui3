@@ -22,8 +22,6 @@ KeyChordVisual { shortcut: "Ctrl+Shift+P" }
 - `keySpacing: real` — Spacing between keys
 - `toolTipText: string` — Tooltip text
 - `chordText: string` — Keyboard chord display text
-- `modelData: var`
-- `index: int`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

@@ -12,10 +12,9 @@ Fluent styled Tumbler.
 Tumbler { model: 12 }
 ```
 
-## Properties
+## Notes
 
-- `modelData: var`
-- `index: int`
+Style-only control: inherits the Qt Quick Controls API. This QML file supplies Fluent visuals / metrics only.
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

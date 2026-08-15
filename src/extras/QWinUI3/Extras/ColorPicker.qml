@@ -137,6 +137,7 @@ T.Control {
                        (n & 255) / 255, control.alpha)
     }
 
+    // Apply HSV channels to selectedColor
     function applyHsv(emitSignal) {
         control._updating = true
         selectedColor = hsvToColor(hue, saturation, value, showAlpha ? alpha : 1)
@@ -148,6 +149,7 @@ T.Control {
         syncInputsFromColor()
     }
 
+    // Sync From color
     function syncFromColor(c, emitSignal) {
         if (!c)
             return
@@ -167,6 +169,7 @@ T.Control {
         syncInputsFromColor()
     }
 
+    // Sync Inputs From color
     function syncInputsFromColor() {
         if (hexField && !hexField.activeFocus)
             hexField.text = hexString(selectedColor)
@@ -184,6 +187,7 @@ T.Control {
             vField.text = String(Math.round(value * 100))
     }
 
+    // Commit RGB text fields into selectedColor
     function commitRgbFields() {
         var r = clamp01(parseInt(rField.text, 10) / 255)
         var g = clamp01(parseInt(gField.text, 10) / 255)
@@ -193,6 +197,7 @@ T.Control {
         syncFromColor(Qt.rgba(r, g, b, showAlpha ? alpha : 1), true)
     }
 
+    // Commit HSV text fields into selectedColor
     function commitHsvFields() {
         var h = parseFloat(hField.text)
         var s = parseFloat(sField.text) / 100

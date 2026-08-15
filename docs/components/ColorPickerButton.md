@@ -28,7 +28,6 @@ ColorPickerButton { selectedColor: Theme.accent }
 
 ## Methods
 
-- `hex2(n)` — Two-digit hex for a channel
 - `open()` — Open / show
 - `close()` — Close / dismiss
 

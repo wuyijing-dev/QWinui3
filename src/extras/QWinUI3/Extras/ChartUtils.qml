@@ -323,6 +323,7 @@ QtObject {
         return a
     }
 
+    // Build a soft cloud brush / fill path
     function makeCloud(count, seed) {
         var n = Math.max(0, Math.floor(count || 0))
         var a = new Array(n)
@@ -337,6 +338,7 @@ QtObject {
         return a
     }
 
+    // Resolve a chart palette color by index
     function palette(theme, index) {
         var colors = [
             theme.accent,
@@ -349,20 +351,24 @@ QtObject {
         return colors[index % colors.length]
     }
 
+    // Return color with overridden alpha
     function withAlpha(color, alpha) {
         return Qt.rgba(color.r, color.g, color.b, alpha)
     }
 
+    // Format a number for axis / tooltip text
     function formatNumber(v, digits) {
         var n = asNumber(v)
         var d = digits !== undefined ? digits : (Math.abs(n - Math.round(n)) < 1e-6 ? 0 : 1)
         return Number(n).toFixed(d)
     }
 
+    // Linear interpolate between two numbers
     function lerp(a, b, t) {
         return a + (b - a) * Math.max(0, Math.min(1, t))
     }
 
+    // Format count
     function formatCount(n) {
         n = Math.floor(asNumber(n))
         if (n >= 1000000)

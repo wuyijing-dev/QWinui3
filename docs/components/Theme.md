@@ -55,6 +55,55 @@ Theme.followSystemAccessibility = true
 - `systemAttention: color` — Attention / info color
 - `systemSuccess: color` — Success status color
 - `systemCaution: color` — Warning / caution color
+- `systemCritical: color` — Error / critical color
+- `systemAttentionBg: color` — Attention banner background
+- `systemSuccessBg: color` — Success banner background
+- `systemCautionBg: color` — Caution banner background
+- `systemCriticalBg: color` — Critical banner background
+- `fontFamily: string` — Typography — Segoe UI Variable / WinUI type ramp
+- `fontFamilyText: string` — Segoe UI Variable Text face
+- `fontFamilyDisplay: string` — Segoe UI Variable Display face (large titles)
+- `fontFamilyIcon: string` — Fluent Icons font family
+- `fontCaption: int` — Caption font size (12)
+- `fontBody: int` — Body font size (14)
+- `fontBodyLarge: int` — Body Large font size (18)
+- `fontSubtitle: int` — Subtitle font size (20)
+- `fontTitle: int` — Title font size (28)
+- `fontTitleLarge: int` — Title Large font size (40)
+- `fontWeightRegular: int` — Regular / normal font weight
+- `fontWeightSemiBold: int` — Semi-bold weight
+- `motionFast: int` — Fast motion duration (ms)
+- `motionNormal: int` — Normal motion duration (ms)
+- `motionSlow: int` — Slow motion duration (ms)
+- `motionFlyout: int` — Flyout / popup enter duration (ms)
+- `easingEnter: int` — Enter easing curve
+- `easingExit: int` — Exit easing curve
+- `easingStandard: int` — Standard easing curve
+- `easingEmphasized: int` — Emphasized easing (slight overshoot)
+- `cornerControl: real` — Control metrics (FluentWinUI3 Config)
+- `cornerOverlay: real` — Overlay / flyout corner radius
+- `strokeThin: real` — Default 1px hairline stroke
+- `strokeFocusOuter: real` — Focus ring outer width
+- `strokeFocusInner: real` — Focus ring inner width
+- `controlHeight: real` — Default control height
+- `controlMinWidth: real` — Minimum control width
+- `searchBoxHeight: real` — SearchBox height
+- `navItemHeight: real` — Navigation item row height
+- `navPaneWidth: real` — Expanded NavigationView pane width
+- `navPaneCompactWidth: real` — Compact NavigationView pane width
+- `paddingControlH: real` — Horizontal control padding
+- `paddingControlV: real` — Vertical control padding
+- `spacing: real` — Child spacing
+- `spacingLoose: real` — Loose spacing
+- `spacingSection: real` — Section spacing
+- `cornerCard: real` — Card corner radius
+- `switchWidth: real` — Switch track width
+- `switchHeight: real` — Switch track height
+- `switchThumb: real` — Switch thumb diameter
+- `checkSize: real` — CheckBox box size
+- `radioSize: real` — RadioButton outer size
+- `sliderThickness: real` — Slider track thickness
+- `sliderThumb: real` — Slider thumb diameter
 
 ## Methods
 

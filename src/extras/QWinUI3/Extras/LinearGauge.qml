@@ -128,10 +128,12 @@ T.Control {
         return x
     }
 
+    // Set value
     function setValue(v) {
         value = clampSnap(v)
     }
 
+    // Set value from norm
     function setValueFromNorm(n) {
         var span = maximum - minimum
         setValue(minimum + Math.max(0, Math.min(1, n)) * span)

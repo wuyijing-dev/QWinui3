@@ -20,11 +20,6 @@ Timeline { model: events }
 - `railWidth: real` — Track / rail width
 - `nodeSize: real` — Node / marker size
 - `isInteractive: bool` — Alias of interactive
-- `modelData: var`
-- `index: int`
-- `isLast: bool` — True for the last item
-- `isActive: bool` — Active / animating state
-- `nodeColor: color` — Node / marker color
 
 ## Signals
 

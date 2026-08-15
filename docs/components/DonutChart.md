@@ -30,11 +30,6 @@ DonutChart { slices: [{ value: 3, label: "A" }] }
 - `emptyText: string` — Placeholder when there is no data
 - `isEmpty: bool` — True when there is no data
 - `total: real` — Sum of segment values
-- `cx: real` — Center X
-- `cy: real` — Center Y
-- `outer: real` — Donut outer radius
-- `inner: real` — Donut inner radius
-- `arcs: var` — Arc path descriptors
 
 ## Signals
 

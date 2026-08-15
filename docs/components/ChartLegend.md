@@ -21,8 +21,6 @@ ChartLegend { items: [{ label: "A", color: Theme.accent }] }
 - `orientation: int` — Qt.Horizontal or Qt.Vertical
 - `showValue: bool` — Show numeric value label
 - `header: string` — Header label above the control
-- `modelData: var`
-- `index: int`
 
 ## Signals
 

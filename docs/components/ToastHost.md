@@ -23,12 +23,6 @@ ToastHost { id: toasts }
 - `warning: int` — Warning severity constant
 - `error: int` — Error severity constant
 - `count: int` — Item count
-- `index: int`
-- `key: string`
-- `message: string` — Body / message text
-- `severity: int` — Status severity enum
-- `title: string` — Primary title text
-- `actionText: string` — Optional action button label
 
 ## Signals
 

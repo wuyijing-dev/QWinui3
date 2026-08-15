@@ -32,9 +32,6 @@ HorizontalBarChart { values: [3, 5, 2] }
 - `emptyText: string` — Placeholder when there is no data
 - `valueUnit: string` — Unit appended to value text
 - `isEmpty: bool` — True when there is no data
-- `slot: real` — Named content slot
-- `padT: real` — Top padding
-- `labelW: real` — Label column width
 
 ## Signals
 

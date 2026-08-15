@@ -201,44 +201,81 @@ def parse_header_comments(text: str, name: str) -> tuple[str, str, list[str]]:
     return summary, usage, errors
 
 
+def _root_member_indent(lines: list[str]) -> int | None:
+    """Indent of the first root-level property/signal/function after the type opens."""
+    for line in lines:
+        m = re.match(
+            r"^(\s+)(?:(?:readonly|default|required)\s+)*property\s+",
+            line,
+        ) or re.match(r"^(\s+)signal\s+", line) or re.match(
+            r"^(\s+)function\s+", line
+        )
+        if m:
+            return len(m.group(1))
+    return None
+
+
 def extract_api(
     text: str,
 ) -> tuple[list[tuple[str, str, str]], list[tuple[str, str]], list[tuple[str, str]]]:
-    head = "\n".join(text.splitlines()[:240])
-    prop_docs = {m.group("name"): m.group("doc").strip() for m in RE_PROP_DOC.finditer(head)}
-    sig_docs = {m.group("name"): m.group("doc").strip() for m in RE_SIG_DOC.finditer(head)}
-    func_docs = {m.group("name"): m.group("doc").strip() for m in RE_FUNC_DOC.finditer(head)}
+    """Extract root-level APIs from the whole file (skip nested delegates)."""
+    lines = text.splitlines()
+    indent = _root_member_indent(lines)
+    if indent is None:
+        return [], [], []
+
+    prefix = "^" + (" " * indent)
+    prop_re = re.compile(
+        prefix
+        + r"(?:(?:readonly|default|required)\s+)*property\s+"
+        + r"(?:alias\s+)?(?P<type>[\w.<>,\s]+?)\s+(?P<name>\w+)\b"
+    )
+    sig_re = re.compile(
+        prefix + r"signal\s+(?P<name>\w+)\s*(?P<args>\([^)]*\))?"
+    )
+    func_re = re.compile(
+        prefix + r"function\s+(?P<name>\w+)\s*(?P<args>\([^)]*\))"
+    )
+    doc_re = re.compile(prefix + r"//\s*(?P<doc>.+)\s*$")
 
     props: list[tuple[str, str, str]] = []
-    seen = set()
-    for m in RE_PROPERTY.finditer(head):
-        n = m.group("name")
-        if n.startswith("_") or n in seen:
-            continue
-        seen.add(n)
-        props.append((n, m.group("type").strip(), prop_docs.get(n, "")))
-
     signals: list[tuple[str, str]] = []
-    seen_s: set[str] = set()
-    for m in RE_SIGNAL.finditer(head):
-        n = m.group("name")
-        if n.startswith("_") or n in seen_s:
-            continue
-        seen_s.add(n)
-        sig = n + (m.group("args") or "()")
-        signals.append((sig, sig_docs.get(n, "")))
-
     funcs: list[tuple[str, str]] = []
+    seen_p: set[str] = set()
+    seen_s: set[str] = set()
     seen_f: set[str] = set()
-    for m in RE_FUNCTION.finditer(head):
-        n = m.group("name")
-        if n.startswith("_") or n in seen_f:
-            continue
-        seen_f.add(n)
-        sig = n + (m.group("args") or "()")
-        funcs.append((sig, func_docs.get(n, "")))
 
-    return props[:40], signals[:24], funcs[:24]
+    for i, line in enumerate(lines):
+        prev = lines[i - 1] if i else ""
+        doc = ""
+        dm = doc_re.match(prev)
+        if dm:
+            doc = dm.group("doc").strip()
+
+        pm = prop_re.match(line)
+        if pm:
+            n = pm.group("name")
+            if not n.startswith("_") and n not in seen_p:
+                seen_p.add(n)
+                props.append((n, pm.group("type").strip(), doc))
+            continue
+
+        sm = sig_re.match(line)
+        if sm:
+            n = sm.group("name")
+            if not n.startswith("_") and n not in seen_s:
+                seen_s.add(n)
+                signals.append((n + (sm.group("args") or "()"), doc))
+            continue
+
+        fm = func_re.match(line)
+        if fm:
+            n = fm.group("name")
+            if not n.startswith("_") and n not in seen_f:
+                seen_f.add(n)
+                funcs.append((n + (fm.group("args") or "()"), doc))
+
+    return props, signals, funcs
 
 
 def parse_component(path: Path) -> Component:
@@ -292,6 +329,20 @@ def render_component_page(c: Component) -> str:
         out.append(c.usage)
         out.append("```")
         out.append("")
+    style_only = (
+        "/style/" in c.path.as_posix()
+        and not c.properties
+        and not c.signals
+        and not c.functions
+    )
+    if style_only:
+        out.append("## Notes")
+        out.append("")
+        out.append(
+            "Style-only control: inherits the Qt Quick Controls API. "
+            "This QML file supplies Fluent visuals / metrics only."
+        )
+        out.append("")
     if c.properties:
         out.append("## Properties")
         out.append("")
@@ -343,7 +394,8 @@ def render_index(comps: list[Component], outdir: Path) -> str:
         "python scripts/generate_component_docs.py --lint",
         "```",
         "",
-        f"Public components: **{len(public)}**. Shell overview: [`docs/window-shells.md`](window-shells.md).",
+        f"Public components: **{len(public)}**. Shell overview: [`docs/window-shells.md`](window-shells.md). "
+        f"Platform chrome: [`docs/window-helper.md`](window-helper.md).",
         "",
         "## Index",
         "",

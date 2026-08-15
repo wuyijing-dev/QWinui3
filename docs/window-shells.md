@@ -14,6 +14,8 @@ Independent top-level hosts in `QWinUI3.Extras` share **`ShellWindow`**
 
 Prefer **ShellWindow** family for applications. Keep **StandardWindow** when you need Platform presenters without Extras.
 
+Platform chrome singleton: [`WindowHelper`](window-helper.md).
+
 ## Shared chrome API
 
 ```qml

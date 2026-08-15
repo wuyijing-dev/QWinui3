@@ -19,8 +19,6 @@ StepBar { model: ["Cart", "Ship", "Pay"]; currentIndex: 1 }
 - `selectedIndex: alias` — Selected index alias
 - `orientation: string` — horizontal | vertical
 - `isInteractive: bool` — Alias of interactive
-- `modelData: var`
-- `index: int`
 
 ## Signals
 

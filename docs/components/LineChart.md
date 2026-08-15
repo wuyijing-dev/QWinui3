@@ -40,17 +40,15 @@ LineChart { values: [1, 4, 2, 6] }
 - `sourcePointCount: int` — LOD diagnostics
 - `drawnPointCount: int` — Points drawn after LOD
 - `isEmpty: bool` — True when there is no data
-- `plotL: real` — Cache last paint metrics for hover hit-testing
 
 ## Methods
 
 - `playReveal()` — Play entrance reveal animation
 - `sourcePointCountEstimate()` — Estimated source point count before LOD
 - `invalidateLod()` — Invalidate level-of-detail cache
-- `ensureLod(budget)`
-- `requestRedraw()`
-- `onDataChanged()`
-- `clearHover()`
+- `ensureLod(budget)` — Build LOD samples for the given budget
+- `requestRedraw()` — Request chart / canvas redraw
+- `clearHover()` — Clear hovered item state
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

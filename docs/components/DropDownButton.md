@@ -27,11 +27,6 @@ DropDownButton {
 - `effectiveIconGlyph: string` — Resolved glyph string
 - `lightScheme: bool` — True in light theme
 - `menuOpen: bool` — Menu currently open
-- `hasSolidStroke: bool` — Draw solid stroke chrome
-- `hasGradientStroke: bool` — Draw gradient stroke chrome
-- `topStroke: color` — Top edge stroke width
-- `bottomStroke: color` — Bottom edge stroke width
-- `inset: bool` — Content inset
 
 ## Methods
 

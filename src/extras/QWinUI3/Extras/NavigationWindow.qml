@@ -145,6 +145,7 @@ ShellWindow {
         return entry.key
     }
 
+    // Forward selection to the hosted NavigationView
     function selectNavKey(key) {
         if (!key)
             return

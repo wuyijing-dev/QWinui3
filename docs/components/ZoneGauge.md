@@ -39,13 +39,6 @@ ZoneGauge { value: 55; minimum: 0; maximum: 100 }
 - `formattedValue: string` — Formatted value string
 - `animatedValue: real` — Animated display value
 - `animatedNorm: real` — Animated 0..1 normalized value
-- `radius: real` — Corner radius
-- `modelData: var`
-- `index: int`
-- `zFrom: real` — Zone / arc start Z
-- `zTo: real` — Zone / arc end Z
-- `zStart: real` — Zone / arc start angle
-- `zSweep: real` — Zone / arc sweep angle
 
 ## Signals
 
@@ -53,11 +46,11 @@ ZoneGauge { value: 55; minimum: 0; maximum: 100 }
 
 ## Methods
 
-- `zoneColor(z, index)`
-- `clampSnap(v)`
-- `setValue(v)`
-- `setValueFromNorm(n)`
-- `normFromPoint(px, py)`
+- `zoneColor(z, index)` — Zone color
+- `clampSnap(v)` — Clamp and snap a value to the valid range
+- `setValue(v)` — Set value
+- `setValueFromNorm(n)` — Set value from norm
+- `normFromPoint(px, py)` — Normalize a pointer position to 0..1
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

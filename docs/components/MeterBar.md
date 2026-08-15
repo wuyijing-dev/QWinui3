@@ -27,8 +27,6 @@ MeterBar { segments: [{ value: 40, color: Theme.accent }] }
 - `showTotal: bool` — Show total column
 - `total: real` — Sum of segment values
 - `remaining: real` — Remaining count / time
-- `modelData: var`
-- `index: int`
 
 ## Signals
 

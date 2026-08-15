@@ -152,11 +152,13 @@ Item {
             pip.moveTo(root.targetIndex, true)
     })
 
+    // Snap the selection pip instantly
     function snapTo(index) {
         if (pip)
             pip.moveTo(index, true)
     }
 
+    // Animate the selection pip to the target
     function animateTo(index) {
         if (pip)
             pip.moveTo(index, false)

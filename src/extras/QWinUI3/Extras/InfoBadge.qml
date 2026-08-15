@@ -145,6 +145,7 @@ T.Control {
     onTextChanged: bump()
     onSymbolChanged: bump()
 
+    // Nudge value by one step
     function bump() {
         if (Theme.reducedMotion || !isOpen)
             return

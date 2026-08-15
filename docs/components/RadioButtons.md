@@ -20,8 +20,6 @@ RadioButtons { header: qsTr("Choice"); model: ["A", "B"] }
 - `currentIndex: int` — Selected index
 - `selectedIndex: alias` — Selected index alias
 - `horizontal: bool` — Horizontal orientation when true
-- `modelData: var`
-- `index: int`
 
 ## Signals
 

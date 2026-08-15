@@ -18,10 +18,6 @@ SelectorBar { model: ["All", "Unread"]; currentIndex: 0 }
 - `currentIndex: int` — Selected index
 - `selectedIndex: alias` — Selected index alias
 - `selectionStyle: string` — "pill" (filled accent) or "underline"
-- `modelData: var`
-- `index: int`
-- `segmentIndex: int` — Active segment index
-- `contentRow: alias` — Content row container
 
 ## Signals
 
@@ -33,7 +29,7 @@ SelectorBar { model: ["All", "Unread"]; currentIndex: 0 }
 - `itemAt(index)` — Item at the given index
 - `targetGeometry(index)` — Target geometry for placement
 - `moveIndicator(instant)` — Move selection indicator to index
-- `syncIndicatorIfIdle()`
+- `syncIndicatorIfIdle()` — Sync selection indicator when idle
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

@@ -122,6 +122,7 @@ T.Control {
         setValue(minimum + Math.max(0, Math.min(1, n)) * (maximum - minimum))
     }
 
+    // Normalize a pointer position to 0..1
     function normFromPoint(px, py, cx, cy) {
         var dx = px - cx
         var dy = py - cy

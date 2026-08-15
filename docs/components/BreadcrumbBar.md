@@ -26,8 +26,6 @@ BreadcrumbBar {
 - `effectiveSeparatorGlyph: string` — Resolved separator glyph
 - `visibleModel: var` — Visible (non-overflow) crumbs
 - `overflowModel: var` — Overflow crumb items
-- `modelData: var`
-- `index: int`
 
 ## Signals
 

@@ -39,11 +39,6 @@ ArcGauge { value: 64; minimum: 0; maximum: 100 }
 - `formattedValue: string` — Formatted value string
 - `animatedValue: real` — Animated display value
 - `animatedNorm: real` — Animated 0..1 normalized value
-- `cx: real` — Center X
-- `cy: real` — Center Y
-- `radius: real` — Corner radius
-- `sweep: real` — Sweep angle in degrees
-- `ang: real` — Angle in degrees
 
 ## Signals
 
@@ -54,7 +49,7 @@ ArcGauge { value: 64; minimum: 0; maximum: 100 }
 - `clampSnap(v)` — Clamp and snap a value to the valid range
 - `setValue(v)` — Set value (clamped / snapped)
 - `setValueFromNorm(n)` — Set value from a normalized 0..1 input
-- `normFromPoint(px, py, cx, cy)`
+- `normFromPoint(px, py, cx, cy)` — Normalize a pointer position to 0..1
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

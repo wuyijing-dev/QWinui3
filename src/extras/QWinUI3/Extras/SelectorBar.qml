@@ -126,6 +126,7 @@ T.Control {
         slideAnim.start()
     }
 
+    // Sync selection indicator when idle
     function syncIndicatorIfIdle() {
         if (slideAnim.running)
             return

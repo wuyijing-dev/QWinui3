@@ -25,8 +25,6 @@ ProgressButton { text: qsTr("Upload"); progress: 0.4 }
 - `errorText: string` — Error message text
 - `percentage: real` — Value as 0..100 percentage
 - `displayText: string` — Text shown to the user
-- `innerRadius: real` — Inner radius
-- `innerWidth: real` — Inner width
 
 ## Signals
 

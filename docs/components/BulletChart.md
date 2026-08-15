@@ -30,10 +30,6 @@ BulletChart { value: 70; target: 80; maximum: 100 }
 - `targetDelta: real` — Value minus target
 - `formattedValue: string` — Formatted value string
 - `formattedDelta: string` — Formatted target delta text
-- `index: int`
-- `modelData: var`
-- `prev: real` — Previous animated value
-- `cur: real` — Current animated value
 
 ## Methods
 

@@ -39,7 +39,6 @@ PlatformTitleBar {
 ## Methods
 
 - `reportHitTest()` — Report title-bar hit-test layout to WindowHelper
-- `screenRect(item)` — from GetWindowRect.
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

@@ -129,8 +129,10 @@ T.Control {
         return x
     }
 
+    // Set value
     function setValue(v) { value = clampSnap(v) }
 
+    // Set segment
     function setSegment(index) {
         var n = Math.max(1, segmentCount)
         var i = Math.max(0, Math.min(n, Number(index) || 0))

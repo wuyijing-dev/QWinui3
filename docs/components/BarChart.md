@@ -31,9 +31,6 @@ BarChart { values: [4, 2, 7, 3] }
 - `emptyText: string` — Placeholder when there is no data
 - `valueUnit: string` — Unit appended to value text
 - `isEmpty: bool` — True when there is no data
-- `slot: real` — Named content slot
-- `gap: real` — Gap between items
-- `padL: real` — Left padding
 
 ## Signals
 

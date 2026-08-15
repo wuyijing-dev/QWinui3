@@ -46,13 +46,10 @@ NavigationWindow {
 
 ## Methods
 
-- `onBackRequested()` — Forward NavigationView back request
-- `onFooterClicked()` — Forward footer click
-- `onPaneSearchActivated(text)` — Forward pane search activation
 - `clearNav()` — Clear navigation model
 - `addNavItem(item)` — Append a navigation item
 - `addNavGroup(group)` — Append a navigation group
-- `selectNavKey(key)`
+- `selectNavKey(key)` — Forward selection to the hosted NavigationView
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

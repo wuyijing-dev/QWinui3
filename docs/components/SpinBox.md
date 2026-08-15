@@ -12,5 +12,9 @@ Fluent styled SpinBox.
 SpinBox { from: 0; to: 99; value: 1 }
 ```
 
+## Notes
+
+Style-only control: inherits the Qt Quick Controls API. This QML file supplies Fluent visuals / metrics only.
+
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

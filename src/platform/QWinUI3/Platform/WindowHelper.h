@@ -127,22 +127,22 @@ public:
     void setCornerPreference(int corner);
     void setBorderVisible(bool visible);
 
-    Q_INVOKABLE void install(QObject *windowObject, bool dark = false, int backdrop = BackdropSolid);
+    Q_INVOKABLE void install(QObject *windowObject, bool dark = false, int backdrop = BackdropSolid); // attach chrome
     Q_INVOKABLE void installParadigm(QObject *windowObject, int paradigm,
-                                     bool dark = false, int backdrop = BackdropSolid);
+                                     bool dark = false, int backdrop = BackdropSolid); // Standard/Dialog/Tool
     Q_INVOKABLE void installParadigmEx(QObject *windowObject, int paradigm,
                                        bool dark, int backdrop, int presenter, bool alwaysOnTop);
-    Q_INVOKABLE int flagsForParadigm(int paradigm) const;
+    Q_INVOKABLE int flagsForParadigm(int paradigm) const; // recommended Qt::WindowFlags
     Q_INVOKABLE int flagsForConfig(int paradigm, int presenter, bool alwaysOnTop) const;
     Q_INVOKABLE QString paradigmName(int paradigm) const;
     Q_INVOKABLE void centerOnScreen(QObject *windowObject);
     Q_INVOKABLE void setDarkMode(QObject *windowObject, bool dark);
     Q_INVOKABLE void setBackdrop(QObject *windowObject, int backdrop);
     Q_INVOKABLE void setCornerStyle(QObject *windowObject, int corner);
-    Q_INVOKABLE void reapply(QObject *windowObject = nullptr);
+    Q_INVOKABLE void reapply(QObject *windowObject = nullptr); // re-apply tracked/given window
     Q_INVOKABLE QString backdropName(int backdrop) const;
-    Q_INVOKABLE void refreshWallpaper();
-    Q_INVOKABLE void refreshAccessibility();
+    Q_INVOKABLE void refreshWallpaper(); // reload desktop wallpaper URL
+    Q_INVOKABLE void refreshAccessibility(); // poll SPI reduced-motion / high-contrast
 
     // WinUI AppWindowPresenterKind
     Q_INVOKABLE void setPresenter(QObject *windowObject, int kind);

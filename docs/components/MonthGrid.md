@@ -15,10 +15,6 @@ MonthGrid { }
 ## Properties
 
 - `selectedDate: date` — Selected date
-- `model: var` — Data model
-- `inMonth: bool` — True when the day is in the displayed month
-- `isToday: bool` — True when the day is today
-- `isSelected: bool` — Selected state
 
 ## Methods
 

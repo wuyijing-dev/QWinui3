@@ -18,9 +18,6 @@ Pivot { model: ["Overview", "Details"] }
 - `currentIndex: int` — Selected index
 - `selectedIndex: alias` — Selected index alias
 - `keyboardNavigationEnabled: bool` — Allow arrow-key navigation
-- `modelData: var`
-- `index: int`
-- `hasPage: bool` — True when page is present / set
 
 ## Signals
 

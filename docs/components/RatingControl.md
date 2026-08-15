@@ -24,11 +24,6 @@ RatingControl { value: 3.5; stepSize: 0.5 }
 - `previewEnabled: bool` — Preview value on hover
 - `previewValue: real` — Hovered preview value
 - `caption: string` — Caption under / beside the value
-- `index: int`
-- `fill: real` — Fill color / fill factor
-- `isPlaceholder: bool` — True when showing placeholder
-- `didDrag: bool` — True after a drag gesture
-- `pressValue: real` — Value captured on press
 
 ## Signals
 

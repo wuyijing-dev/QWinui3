@@ -127,6 +127,7 @@ T.Control {
         return Math.max(0, best)
     }
 
+    // Tab item at the given index
     function tabItemAt(index) {
         for (var i = 0; i < tabRow.children.length; ++i) {
             var ch = tabRow.children[i]

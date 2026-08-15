@@ -125,6 +125,7 @@ T.Control {
         _lodPacks = []
     }
 
+    // Build LOD samples for the given budget
     function ensureLod(budget) {
         var list = root._seriesList
         var key = String(budget)
@@ -169,6 +170,7 @@ T.Control {
         return packs
     }
 
+    // Request chart / canvas redraw
     function requestRedraw() { canvas.requestPaint() }
 
     onSeriesChanged: { hoverIndex = -1; invalidateLod(); Qt.callLater(playReveal) }
@@ -195,6 +197,7 @@ T.Control {
         }
     }
 
+    // Clear hovered item state
     function clearHover() {
         hoverIndex = -1
         hoverText = ""

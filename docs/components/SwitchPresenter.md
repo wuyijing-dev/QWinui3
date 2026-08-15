@@ -33,7 +33,7 @@ SwitchPresenter {
 - `select(index)` — Select item by index
 - `applyValue()` — Commit the pending value
 - `setCaseActive(ch, on)` — Activate a SwitchPresenter case by name
-- `syncWidths()`
+- `syncWidths()` — Sync SwitchPresenter case widths
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

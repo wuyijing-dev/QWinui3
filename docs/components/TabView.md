@@ -27,10 +27,6 @@ TabView {
 - `tabWidthMode: string` — Tab width mode
 - `isAddTabButtonVisible: bool` — Show add-tab button
 - `tabCount: int` — Number of tabs
-- `modelData: var`
-- `index: int`
-- `tabIndex: int` — Tab index in the model
-- `dragActive: bool` — True while a drag is in progress
 
 ## Signals
 
@@ -46,7 +42,7 @@ TabView {
 - `closeTab(index)` — Close tab at index
 - `moveTab(from, to)` — Move a tab from/to index
 - `tabIndexAtContentX(x)` — Tab index under a contentX
-- `tabItemAt(index)`
+- `tabItemAt(index)` — Tab item at the given index
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

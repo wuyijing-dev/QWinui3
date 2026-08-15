@@ -120,6 +120,7 @@ T.Control {
         return Math.max(0, Math.min(1, (animatedValue - minimum) / span))
     }
 
+    // Zone color
     function zoneColor(z, index) {
         if (z && z.color !== undefined && String(z.color).length)
             return z.color
@@ -130,6 +131,7 @@ T.Control {
         }
     }
 
+    // Clamp and snap a value to the valid range
     function clampSnap(v) {
         var lo = Math.min(minimum, maximum)
         var hi = Math.max(minimum, maximum)
@@ -141,12 +143,15 @@ T.Control {
         return x
     }
 
+    // Set value
     function setValue(v) { value = clampSnap(v) }
 
+    // Set value from norm
     function setValueFromNorm(n) {
         setValue(minimum + Math.max(0, Math.min(1, n)) * (maximum - minimum))
     }
 
+    // Normalize a pointer position to 0..1
     function normFromPoint(px, py) {
         var cx = face.width / 2
         var cy = face.height / 2

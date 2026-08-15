@@ -23,8 +23,6 @@ ChipGroup { model: ["All", "Open"]; currentIndex: 0 }
 - `maxSelected: int` — Max selected chips when not exclusive
 - `chipSpacing: real` — Spacing between chips
 - `chipSize: string` — small | medium
-- `modelData: var`
-- `index: int`
 
 ## Signals
 

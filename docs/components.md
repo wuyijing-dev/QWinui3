@@ -9,7 +9,7 @@ python scripts/generate_component_docs.py
 python scripts/generate_component_docs.py --lint
 ```
 
-Public components: **179**. Shell overview: [`docs/window-shells.md`](window-shells.md).
+Public components: **179**. Shell overview: [`docs/window-shells.md`](window-shells.md). Platform chrome: [`docs/window-helper.md`](window-helper.md).
 
 ## Index
 

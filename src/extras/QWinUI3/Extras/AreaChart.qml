@@ -159,6 +159,7 @@ T.Control {
         return packs
     }
 
+    // Play entrance reveal animation
     function playReveal() {
         invalidateLod()
         var huge = root.sourcePointCountEstimate() >= ChartUtils.largeSeriesThreshold
@@ -171,6 +172,7 @@ T.Control {
         revealProgress = 1
     }
 
+    // Request chart / canvas redraw
     function requestRedraw() { canvas.requestPaint() }
     onSeriesChanged: { invalidateLod(); Qt.callLater(playReveal) }
     onValuesChanged: { invalidateLod(); Qt.callLater(playReveal) }

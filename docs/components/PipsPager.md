@@ -21,8 +21,6 @@ PipsPager { count: 5; currentIndex: 2 }
 - `wrap: bool` — Wrap children to next line
 - `previousButtonVisibility: string` — WinUI ButtonVisibility: "visible" | "visibleOnPointerOver" | "collapsed"
 - `nextButtonVisibility: string` — Visibility of the next button
-- `glyph: string` — Fluent glyph drawn in the button
-- `index: int`
 
 ## Signals
 

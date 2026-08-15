@@ -30,10 +30,5 @@ ContentCard {
 
 - `clicked()` — Emitted when clicked
 
-## Methods
-
-- `fitChildren()`
-- `fitFooter()`
-
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

@@ -34,8 +34,6 @@ StandardWindow {
 
 - `applyChrome()` — Apply window chrome / backdrop
 - `setPresenterKind(kind)` — Set AppWindow presenter kind
-- `onDarkChanged()`
-- `onCornerPreferenceChanged()`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

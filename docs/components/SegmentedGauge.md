@@ -43,13 +43,6 @@ SegmentedGauge { value: 3; maximum: 5 }
 - `filledExact: real` — Exactly filled segment count
 - `filledSegments: int` — Filled segment count
 - `partialAmount: real` — Partial fill amount 0..1
-- `radius: real` — Corner radius
-- `segSweep: real` — Segment sweep angle
-- `index: int`
-- `fullyFilled: bool` — True when all segments are filled
-- `isPartial: bool` — True for a partially filled segment
-- `segStart: real` — Segment start value
-- `drawSweep: real` — Draw the gauge sweep arc
 
 ## Signals
 
@@ -59,8 +52,8 @@ SegmentedGauge { value: 3; maximum: 5 }
 ## Methods
 
 - `clampSnap(v)` — Clamp and snap a value to the valid range
-- `setValue(v)`
-- `setSegment(index)`
+- `setValue(v)` — Set value
+- `setSegment(index)` — Set segment
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

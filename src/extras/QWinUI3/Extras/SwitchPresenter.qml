@@ -127,6 +127,7 @@ T.Control {
         }
     }
 
+    // Sync SwitchPresenter case widths
     function syncWidths() {
         for (var i = 0; i < host.children.length; ++i) {
             var ch = host.children[i]

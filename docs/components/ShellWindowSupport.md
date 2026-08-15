@@ -27,8 +27,6 @@ ShellWindowSupport { targetWindow: root; autoInstall: true }
 ## Methods
 
 - `applyChrome()` — Apply window chrome / backdrop
-- `onDarkChanged()` — React to Theme.dark changes
-- `onCornerPreferenceChanged()` — React to corner preference changes
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

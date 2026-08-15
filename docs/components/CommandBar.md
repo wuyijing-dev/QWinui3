@@ -28,7 +28,6 @@ CommandBar {
 - `isMoreButtonVisible: bool` — Show overflow (…) button
 - `isToggleButtonVisible: bool` — Show toggle / more button
 - `effectiveLabelPosition: string` — Resolved label position
-- `modelData: var`
 
 ## Signals
 

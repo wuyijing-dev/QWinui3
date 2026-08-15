@@ -32,10 +32,6 @@ StackedBarChart { series: [{ values: [1, 2] }] }
 - `title: string` — Primary title text
 - `emptyText: string` — Placeholder when there is no data
 - `isEmpty: bool` — True when there is no data
-- `slot: real` — Named content slot
-- `padL: real` — Left padding
-- `padB: real` — Bottom padding
-- `catCount: int` — Category count
 
 ## Signals
 

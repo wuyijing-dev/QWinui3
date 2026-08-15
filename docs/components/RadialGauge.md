@@ -41,11 +41,6 @@ RadialGauge { value: 72; minimum: 0; maximum: 100 }
 - `formattedValue: string` — Formatted value string
 - `animatedValue: real` — Animated display value
 - `animatedNorm: real` — Animated 0..1 normalized value
-- `radius: real` — Corner radius
-- `sweep: real` — Sweep angle in degrees
-- `index: int`
-- `angDeg: real` — Angle in degrees
-- `ang: real` — Angle in degrees
 
 ## Signals
 

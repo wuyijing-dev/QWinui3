@@ -39,7 +39,7 @@ InfoBadge { value: 3; severity: informational }
 ## Methods
 
 - `setSeverityName(name)` — Set severity from a string name
-- `bump()`
+- `bump()` — Nudge value by one step
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

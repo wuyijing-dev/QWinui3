@@ -34,8 +34,6 @@ MenuStatusWindow {
 
 - `addMenu(menu)` — Append a menu to the title-bar menus
 - `clearMenus()` — Dismiss open menus
-- `onImplicitWidthChanged()` — React to implicitWidth changes
-- `onCountChanged()` — React to count changes
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

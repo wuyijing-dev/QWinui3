@@ -34,8 +34,6 @@ Sparkline { values: [1, 3, 2, 5, 4] }
 ## Methods
 
 - `playReveal()` — Play entrance reveal animation
-- `X(i)`
-- `Y(v)`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

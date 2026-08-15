@@ -29,9 +29,6 @@ WaterfallChart { values: [10, -3, 5] }
 - `emptyText: string` — Placeholder when there is no data
 - `valueUnit: string` — Unit appended to value text
 - `isEmpty: bool` — True when there is no data
-- `slot: real` — Named content slot
-- `padL: real` — Left padding
-- `count: int` — Item count
 
 ## Signals
 
@@ -42,7 +39,6 @@ WaterfallChart { values: [10, -3, 5] }
 - `playReveal()` — Play entrance reveal animation
 - `requestRedraw()` — Request chart / canvas redraw
 - `clearHover()` — Clear hovered item state
-- `Y(v)`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

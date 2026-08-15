@@ -22,9 +22,6 @@ SegmentedControl {
 - `selectedIndex: alias` — Selected index alias
 - `stretch: bool` — Stretch factor / stretch pip
 - `equalWidth: bool` — Force equal-width segments
-- `modelData: var`
-- `index: int`
-- `segmentIndex: int` — Active segment index
 
 ## Signals
 

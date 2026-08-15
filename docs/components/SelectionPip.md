@@ -21,27 +21,11 @@ SelectionPip { }
 - `baseHeight: real` — Pip rest height
 - `leftMargin: real` — Pip left inset
 - `instant: bool` — Skip motion when true
-- `contentFromY: real` — Scroll animation start
-- `contentToY: real` — Scroll animation end
-- `progress: real` — 0..1 animation / progress
-- `ready: bool` — True when the control is ready
-- `eased: real` — Eased 0..1 animation progress
-- `travel: real` — Absolute travel distance for the pip
-- `stretch: real` — Stretch factor / stretch pip
-- `contentCenterY: real` — Animated content center Y
-- `visualHeight: real` — Current visual height (stretch / animation)
-- `contentY: real` — Flickable content Y
 
 ## Methods
 
-- `contentYForIndex(index)` — contentY that scrolls index into view
-- `currentContentY()` — Current Flickable contentY
-- `moveTo(index, forceInstant, retries)` — Move to the given index / position
-- `onContentYChanged()`
-- `onHeightChanged()`
-- `onCountChanged()`
-- `snapTo(index)`
-- `animateTo(index)`
+- `snapTo(index)` — Snap the selection pip instantly
+- `animateTo(index)` — Animate the selection pip to the target
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

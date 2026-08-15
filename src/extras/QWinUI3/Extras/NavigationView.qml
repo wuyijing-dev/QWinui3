@@ -135,6 +135,7 @@ Item {
         // leftMinimal: keep current paneOpen (hamburger-driven)
     }
 
+    // Reorder a top-level nav model entry (requires isReorderable)
     function moveNavItem(fromIndex, toIndex) {
         if (!root.isReorderable)
             return
@@ -159,12 +160,14 @@ Item {
         return root.componentForKey(root.currentKey)
     }
 
+    // True when the nav group is expanded
     function isGroupExpanded(key) {
         if (root.expandedMap.hasOwnProperty(key))
             return !!root.expandedMap[key]
         return true
     }
 
+    // Rebuild the flattened ListModel from model
     function rebuildNavModel() {
         navModel.clear()
         var m = root.model || []
@@ -210,6 +213,7 @@ Item {
         }
     }
 
+    // Expand or collapse a nav group by key
     function setGroupExpanded(key, expanded) {
         if (!!root.isGroupExpanded(key) === !!expanded)
             return
@@ -227,6 +231,7 @@ Item {
         Qt.callLater(function () { selectionPip.moveToCurrent(false) })
     }
 
+    // Visual anchor item for the selection pip
     function selectionAnchorItem() {
         var idx = navList.currentIndex
         if (idx < 0)
@@ -239,6 +244,7 @@ Item {
         return row
     }
 
+    // Toggle a nav group expanded state
     function toggleGroup(key) {
         setGroupExpanded(key, !isGroupExpanded(key))
     }
@@ -265,6 +271,7 @@ Item {
 
     ListModel { id: flyoutModel }
 
+    // Title text for a nav group key
     function groupTitle(key) {
         var m = root.model || []
         for (var i = 0; i < m.length; ++i) {
@@ -275,6 +282,7 @@ Item {
         return ""
     }
 
+    // Populate the compact-mode group flyout model
     function fillFlyoutModel(key) {
         flyoutModel.clear()
         var m = root.model || []
@@ -298,6 +306,7 @@ Item {
         }
     }
 
+    // Open the compact pane group flyout
     function openCompactFlyout(groupKey, anchorItem) {
         if (root.paneOpen || !groupKey || !anchorItem)
             return
@@ -320,6 +329,7 @@ Item {
         })
     }
 
+    // Schedule opening the compact flyout (hover delay)
     function requestCompactFlyout(groupKey, anchorItem) {
         pendingFlyoutKey = groupKey
         pendingFlyoutAnchor = anchorItem
@@ -329,6 +339,7 @@ Item {
         flyoutOpenTimer.restart()
     }
 
+    // Schedule closing the compact flyout
     function requestCloseCompactFlyout() {
         flyoutOpenTimer.stop()
         flyoutCloseTimer.restart()
@@ -351,6 +362,7 @@ Item {
         }
     }
 
+    // Resolve page component name for a nav key
     function componentForKey(key) {
         var m = root.model || []
         for (var i = 0; i < m.length; ++i) {
@@ -372,6 +384,7 @@ Item {
         return ""
     }
 
+    // Flat list index for a nav key
     function flatIndexForKey(key) {
         for (var i = 0; i < navModel.count; ++i) {
             var row = navModel.get(i)
@@ -383,6 +396,7 @@ Item {
         return -1
     }
 
+    // Scroll so the current selection is on-screen
     function ensureSelectionVisible() {
         if (!navList || root.footerSelected)
             return -1
@@ -395,6 +409,7 @@ Item {
         return idx
     }
 
+    // Select a top-level model index (legacy)
     function selectIndex(index) {
         // Legacy: index into root.model (top-level only)
         if (index < 0 || index >= root.model.length)
@@ -406,6 +421,7 @@ Item {
         itemClicked(index)
     }
 
+    // Select by nav key and open the page
     function selectKey(key, mode) {
         if (!key)
             return
@@ -437,6 +453,7 @@ Item {
         })
     }
 
+    // Select the footer row and open footerComponent
     function selectFooter(mode) {
         footerSelected = true
         footerClicked()
@@ -446,6 +463,7 @@ Item {
 
     property var _compCache: ({})
 
+    // Load / cache a page Component from pageModule
     function ensureComponent(name) {
         if (!name || !root.pageModule)
             return null
@@ -464,6 +482,7 @@ Item {
         return comp
     }
 
+    // Replace the page stack with the named component
     function openPage(name, mode) {
         var useMode = mode || "slide"
         root.pendingMode = useMode
@@ -532,6 +551,7 @@ Item {
         openPage(name, "center")
     }
 
+    // Select the first nav item matching a title
     function navigateToTitle(title, mode) {
         if (!title)
             return
@@ -553,6 +573,7 @@ Item {
         }
     }
 
+    // Reload the current page component
     function reloadPage() {
         openPage(root.currentComponent, root.pendingMode || "slide")
     }

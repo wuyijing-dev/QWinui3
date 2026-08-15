@@ -34,7 +34,6 @@ FlipView { model: pages }
 
 - `goNext()` — Navigate to the next page / item
 - `goPrevious()` — Navigate to the previous page / item
-- `onCurrentIndexChanged()` — React to currentIndex changes
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

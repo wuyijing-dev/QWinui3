@@ -27,10 +27,6 @@ PieChart { slices: [{ value: 1, label: "A" }] }
 - `emptyText: string` — Placeholder when there is no data
 - `isEmpty: bool` — True when there is no data
 - `total: real` — Sum of segment values
-- `cx: real` — Center X
-- `cy: real` — Center Y
-- `radius: real` — Corner radius
-- `arcs: var` — Arc path descriptors
 
 ## Signals
 

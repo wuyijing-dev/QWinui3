@@ -21,8 +21,6 @@ AvatarGroup { model: [{ displayName: "A" }, { displayName: "B" }] }
 - `showOverflowCount: bool` — Show +N overflow chip
 - `layoutDirection: int` — Qt layout direction
 - `overflowCount: int` — Hidden avatar count
-- `modelData: var`
-- `index: int`
 
 ## Signals
 

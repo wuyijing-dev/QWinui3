@@ -36,7 +36,6 @@ RadarChart { values: [3, 5, 2, 4]; axes: ["A","B","C","D"] }
 - `playReveal()` — Play entrance reveal animation
 - `requestRedraw()` — Request chart / canvas redraw
 - `clearHover()` — Clear hovered item state
-- `point(i, norm)`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

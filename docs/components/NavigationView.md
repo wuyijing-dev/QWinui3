@@ -51,6 +51,10 @@ NavigationView {
 - `pendingMode: string` — Pending page transition: "slide" | "center"
 - `pageItem: alias` — Current page item
 - `currentComponent: string` — Current page component name
+- `flyoutGroupKey: string` — Group key for exclusive flyouts
+- `pendingFlyoutKey: string` — Key for a pending flyout
+- `pendingFlyoutAnchor: var` — Anchor item for a pending flyout
+- `flyoutHovered: bool` — True while the flyout is hovered
 
 ## Signals
 
@@ -64,11 +68,29 @@ NavigationView {
 
 ## Methods
 
-- `moveNavItem(fromIndex, toIndex)`
-- `isGroupExpanded(key)`
-- `rebuildNavModel()`
-- `setGroupExpanded(key, expanded)`
-- `selectionAnchorItem()`
+- `moveNavItem(fromIndex, toIndex)` — Reorder a top-level nav model entry (requires isReorderable)
+- `isGroupExpanded(key)` — True when the nav group is expanded
+- `rebuildNavModel()` — Rebuild the flattened ListModel from model
+- `setGroupExpanded(key, expanded)` — Expand or collapse a nav group by key
+- `selectionAnchorItem()` — Visual anchor item for the selection pip
+- `toggleGroup(key)` — Toggle a nav group expanded state
+- `groupTitle(key)` — Title text for a nav group key
+- `fillFlyoutModel(key)` — Populate the compact-mode group flyout model
+- `openCompactFlyout(groupKey, anchorItem)` — Open the compact pane group flyout
+- `requestCompactFlyout(groupKey, anchorItem)` — Schedule opening the compact flyout (hover delay)
+- `requestCloseCompactFlyout()` — Schedule closing the compact flyout
+- `componentForKey(key)` — Resolve page component name for a nav key
+- `flatIndexForKey(key)` — Flat list index for a nav key
+- `ensureSelectionVisible()` — Scroll so the current selection is on-screen
+- `selectIndex(index)` — Select a top-level model index (legacy)
+- `selectKey(key, mode)` — Select by nav key and open the page
+- `selectFooter(mode)` — Select the footer row and open footerComponent
+- `ensureComponent(name)` — Load / cache a page Component from pageModule
+- `openPage(name, mode)` — Replace the page stack with the named component
+- `openSlide(name)` — Left-nav style: content slides in from the left
+- `openFromCenter(name)` — Keep center-open API (scale + fade from middle)
+- `navigateToTitle(title, mode)` — Select the first nav item matching a title
+- `reloadPage()` — Reload the current page component
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

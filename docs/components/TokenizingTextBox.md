@@ -32,8 +32,6 @@ TokenizingTextBox {
 - `hasError: bool` — True when validation failed
 - `tokenCount: int` — Number of tokens
 - `filteredSuggestions: var` — Suggestions matching the query
-- `index: int`
-- `modelData: var`
 
 ## Signals
 

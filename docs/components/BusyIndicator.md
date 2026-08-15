@@ -16,8 +16,6 @@ BusyIndicator { running: true }
 
 - `stroke: real` — Stroke width for dial arc
 - `radius: real` — Corner radius
-- `spinAngle: real` — Indeterminate spin angle
-- `pulseOpacity: real` — Pulse animation opacity
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

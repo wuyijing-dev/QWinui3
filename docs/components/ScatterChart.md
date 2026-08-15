@@ -40,10 +40,6 @@ ScatterChart { points: [{ x: 1, y: 2 }] }
 - `sourcePointCount: int` — Raw point count before LOD
 - `drawnPointCount: int` — Points drawn after LOD
 - `isEmpty: bool` — True when there is no data
-- `screenPts: var` — Points in screen coordinates
-- `padL: real` — Left padding / plot inset
-- `padT: real` — Top padding / plot inset
-- `plotW: real` — Plot width
 
 ## Signals
 
@@ -53,10 +49,9 @@ ScatterChart { points: [{ x: 1, y: 2 }] }
 
 - `invalidateLod()` — Invalidate level-of-detail cache
 - `ensureLod(binsX, binsY)` — Build LOD samples for the given budget
-- `playReveal()`
-- `requestRedraw()`
-- `clearHover()`
-- `onDataChanged()`
+- `playReveal()` — Play entrance reveal animation
+- `requestRedraw()` — Request chart / canvas redraw
+- `clearHover()` — Clear hovered item state
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

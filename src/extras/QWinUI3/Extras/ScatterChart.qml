@@ -153,6 +153,7 @@ T.Control {
         return sampled
     }
 
+    // Play entrance reveal animation
     function playReveal() {
         invalidateLod()
         var huge = ChartUtils.valueCount(root._raw) >= ChartUtils.largeSeriesThreshold
@@ -165,8 +166,10 @@ T.Control {
         revealProgress = 1
     }
 
+    // Request chart / canvas redraw
     function requestRedraw() { canvas.requestPaint() }
 
+    // Clear hovered item state
     function clearHover() {
         hoverIndex = -1
         hoverText = ""

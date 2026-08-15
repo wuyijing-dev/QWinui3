@@ -21,13 +21,6 @@ Dial { from: 0; to: 100; value: 30 }
 - `tickCount: int` — Number of ticks
 - `showTicks: bool` — Show tick marks
 - `formattedValue: string` — Formatted value string
-- `stroke: real` — Stroke width for dial arc
-- `r: real` — Radius
-- `index: int`
-- `t: real` — Normalized 0..1 parameter
-- `angDeg: real` — Angle in degrees
-- `ang: real` — Angle in degrees
-- `rr: real` — Resolved radius
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

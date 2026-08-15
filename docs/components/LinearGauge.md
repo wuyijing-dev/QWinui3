@@ -42,7 +42,6 @@ LinearGauge { value: 42; minimum: 0; maximum: 100 }
 - `formattedValue: string` — Formatted value string
 - `animatedValue: real` — Animated display value
 - `animatedNorm: real` — Animated 0..1 normalized value
-- `index: int`
 
 ## Signals
 
@@ -51,8 +50,8 @@ LinearGauge { value: 42; minimum: 0; maximum: 100 }
 ## Methods
 
 - `clampSnap(v)` — Clamp and snap a value to the valid range
-- `setValue(v)`
-- `setValueFromNorm(n)`
+- `setValue(v)` — Set value
+- `setValueFromNorm(n)` — Set value from norm
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

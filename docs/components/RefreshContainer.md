@@ -31,7 +31,6 @@ RefreshContainer {
 - `refreshText: string` — Text shown while pulling
 - `refreshingText: string` — Text shown while refreshing
 - `pullText: string` — Pull-to-refresh prompt text
-- `spinAngle: real` — Indeterminate spin angle
 
 ## Signals
 

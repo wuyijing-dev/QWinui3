@@ -376,6 +376,19 @@ HINTS: dict[str, str] = {
     "activeZoneColor": "Color of the active gauge zone",
     "activeZoneIndex": "Index of the active gauge zone",
     "activeZoneLabel": "Label of the active gauge zone",
+    "makeCloud": "Build a soft cloud brush / fill path",
+    "palette": "Resolve a chart palette color by index",
+    "withAlpha": "Return color with overridden alpha",
+    "formatNumber": "Format a number for axis / tooltip text",
+    "lerp": "Linear interpolate between two numbers",
+    "applyHsv": "Apply HSV channels to selectedColor",
+    "commitRgbFields": "Commit RGB text fields into selectedColor",
+    "commitHsvFields": "Commit HSV text fields into selectedColor",
+    "selectNavKey": "Forward selection to the hosted NavigationView",
+    "syncWidths": "Sync SwitchPresenter case widths",
+    "tabItemAt": "Tab item at the given index",
+    "snapTo": "Snap the selection pip instantly",
+    "animateTo": "Animate the selection pip to the target",
 }
 
 PROP = re.compile(

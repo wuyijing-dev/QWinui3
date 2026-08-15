@@ -37,13 +37,12 @@ ColorPicker { selectedColor: "#005FB8" }
 - `rgbToHsv(r, g, b)` — Convert RGB to HSV components
 - `hsvToColor(h, s, v, a)` — Convert HSV to a QColor
 - `hexString(c)` — Format color as #RRGGBB[AA]
-- `byteHex(n)` — Format a 0..255 channel as two hex digits
 - `parseHex(text)` — Parse a hex color string
-- `applyHsv(emitSignal)`
-- `syncFromColor(c, emitSignal)`
-- `syncInputsFromColor()`
-- `commitRgbFields()`
-- `commitHsvFields()`
+- `applyHsv(emitSignal)` — Apply HSV channels to selectedColor
+- `syncFromColor(c, emitSignal)` — Sync From color
+- `syncInputsFromColor()` — Sync Inputs From color
+- `commitRgbFields()` — Commit RGB text fields into selectedColor
+- `commitHsvFields()` — Commit HSV text fields into selectedColor
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

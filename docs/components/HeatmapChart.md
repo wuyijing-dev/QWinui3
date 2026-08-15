@@ -31,12 +31,6 @@ HeatmapChart { values: matrix }
 - `title: string` — Primary title text
 - `emptyText: string` — Placeholder when there is no data
 - `isEmpty: bool` — True when there is no data
-- `labelW: real` — Label column width
-- `labelH: real` — Label area height
-- `cellW: real` — Cell width
-- `cellH: real` — Cell height
-- `rows: int` — Grid row count
-- `cols: int` — Column count
 
 ## Signals
 

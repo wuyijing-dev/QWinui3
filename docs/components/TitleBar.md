@@ -41,7 +41,6 @@ TitleBar {
 - `content: alias` — WinUI Content slot (replaces built-in search when set)
 - `rightHeader: alias` — WinUI RightHeader — also the default children slot for trailing actions.
 - `trailing: alias` — Trailing slot
-- `glyph: string` — Fluent glyph drawn in the button
 
 ## Signals
 
@@ -53,9 +52,6 @@ TitleBar {
 ## Methods
 
 - `clientExcludeRectsFor(window)` — whole fill-width slot (caption drag vs menu clicks).
-- `pushRect(gx, gy, w, h)` — Push a rectangle into hit-test clientRects
-- `pushItem(item)` — Push an item onto the stack
-- `pushHostContent(host)` — Push content into the host
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*
