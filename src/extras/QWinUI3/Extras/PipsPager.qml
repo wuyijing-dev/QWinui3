@@ -4,12 +4,20 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// PipsPager — Dot pager for carousels.
+//
+//   PipsPager { count: 5; currentIndex: 2 }
+
 T.Control {
     id: control
 
+    // Item count
     property int count: 0
+    // Selected index
     property int currentIndex: 0
+    // Selected index alias
     property alias selectedIndex: control.currentIndex
+    // Qt.Horizontal or Qt.Vertical
     property int orientation: Qt.Horizontal
     property bool wrap: false
     // WinUI ButtonVisibility: "visible" | "visibleOnPointerOver" | "collapsed"

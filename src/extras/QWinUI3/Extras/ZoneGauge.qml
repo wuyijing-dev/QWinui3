@@ -4,15 +4,22 @@ import QtQuick.Templates as T
 import QtQuick.Shapes
 import QWinUI3.Theme
 
-// Zone / band gauge — colored ranges + needle; interactive drag; activeZone.
-// zones: [{ from: 0, to: 0.4, color, label? }, ...] normalized 0..1
+// ZoneGauge — Gauge with colored zones.
+//
+//   ZoneGauge { value: 55; minimum: 0; maximum: 100 }
+
 T.Control {
     id: root
 
+    // Current value
     property real value: 0
+    // Minimum value
     property real minimum: 0
+    // Maximum value
     property real maximum: 100
+    // Value step (e.g. 0.5 for half stars)
     property real stepSize: 0
+    // Primary title text
     property string title: ""
     property string unit: ""
     property string caption: ""
@@ -21,11 +28,13 @@ T.Control {
     property bool showNeedle: true
     property bool showValue: true
     property bool showTicks: true
+    // Major tick count
     property int tickCount: 9
     property real startAngle: -210
     property real sweepTotal: 240
     property bool isInteractive: false
     property alias interactive: root.isInteractive
+    // Colored gauge zones
     property var zones: [
         { from: 0, to: 0.55, color: "" },
         { from: 0.55, to: 0.8, color: "" },

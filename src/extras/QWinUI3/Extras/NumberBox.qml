@@ -4,21 +4,32 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// NumberBox — Numeric spin/edit with validation.
+//
+//   NumberBox { value: 10; minimum: 0; maximum: 100 }
+
 T.Control {
     id: root
 
+    // Current value
     property real value: 0
+    // Minimum value
     property real minimum: Number.NEGATIVE_INFINITY
+    // Maximum value
     property real maximum: Number.POSITIVE_INFINITY
+    // Value step (e.g. 0.5 for half stars)
     property real stepSize: 1
     // WinUI LargeChange — used with PageUp/PageDown / wheel+Ctrl
     property real largeChange: 10
     property int decimals: 0
     property string prefix: ""
     property string suffix: ""
+    // Header label above the control
     property string header: ""
+    // Supporting description text
     property string description: ""
     property string errorMessage: ""
+    // Placeholder when empty
     property string placeholderText: ""
     property bool inputInvalid: false
     // WinUI SpinButtonPlacementMode: "inline" | "compact" | "hidden"

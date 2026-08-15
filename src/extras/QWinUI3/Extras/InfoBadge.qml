@@ -2,7 +2,10 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Compact badge for counts, status, or a Fluent glyph.
+// InfoBadge — Count / status / glyph badge.
+//
+//   InfoBadge { value: 3; severity: informational }
+
 T.Control {
     id: root
 
@@ -13,10 +16,15 @@ T.Control {
     readonly property int attention: 4
     readonly property int neutral: 5
 
+    // informational | success | warning | error | attention | neutral
     property int severity: error
+    // Numeric count; shown when text/symbol are empty (clamped by maxValue)
     property int value: 0
+    // Explicit badge label (wins over value)
     property string text: ""
+    // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
+    // Raw Fluent glyph string fallback
     property string iconGlyph: ""
     property int maxValue: 99
     property color badgeColor: {
@@ -61,6 +69,7 @@ T.Control {
 
     readonly property string effectiveIconGlyph: IconSource.resolve(symbol, iconGlyph)
     property bool dot: displayText.length === 0 && effectiveIconGlyph.length === 0
+    // Hide when value/text empty
     property bool hideWhenEmpty: false
 
     readonly property string displayText: {
@@ -74,6 +83,7 @@ T.Control {
     }
 
     readonly property bool isEmpty: value <= 0 && text.length === 0 && effectiveIconGlyph.length === 0
+    // Open / visible state
     readonly property bool isOpen: opacity > 0.01
 
     opacity: (hideWhenEmpty && isEmpty) ? 0 : 1

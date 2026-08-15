@@ -2,13 +2,22 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Shows the SwitchCase whose value equals the presenter value.
+// SwitchPresenter — Shows the SwitchCase matching value.
+//
+//   SwitchPresenter {
+//       value: mode
+//       SwitchCase { value: "a"; Label { text: "A" } }
+//   }
+
 T.Control {
     id: root
 
+    // Current value
     property var value
     property bool animated: true
+    // Selected index
     property int currentIndex: -1
+    // Selected index alias
     property alias selectedIndex: root.currentIndex
     default property alias cases: host.data
 

@@ -3,17 +3,28 @@ import QtQuick.Controls
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// WinUI SplitButton: one ControlStroke shell, primary + chevron, thin divider
+// SplitButton — Primary action + chevron menu.
+//
+//   SplitButton {
+//       text: qsTr("Open")
+//       MenuFlyoutItem { text: qsTr("Open with…") }
+//   }
+
 T.AbstractButton {
     id: control
 
     property alias menu: popupMenu
     default property alias menuData: popupMenu.contentData
+    // Emphasized / selected chrome
     property bool highlighted: false
+    // Flat chrome without fill
     property bool flat: false
     property int flyoutPlacement: Qt.AlignBottom
+    // Raw Fluent glyph string fallback
     property string iconGlyph: ""
+    // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
+    // Open / visible state
     property alias isOpen: popupMenu.visible
     signal primaryClicked()
 

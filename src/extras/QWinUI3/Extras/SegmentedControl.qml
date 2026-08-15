@@ -4,12 +4,21 @@ import QtQuick.Controls
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// WinUI-style segmented picker: exclusive selection among string / {text,icon} items.
+// SegmentedControl — Mutually exclusive segment buttons.
+//
+//   SegmentedControl {
+//       model: ["Day", "Week", "Month"]
+//       currentIndex: 0
+//   }
+
 T.Control {
     id: control
 
+    // Data model / item list for this control
     property var model: []
+    // Selected index
     property int currentIndex: 0
+    // Selected index alias
     property alias selectedIndex: control.currentIndex
     property bool stretch: false
     property bool equalWidth: stretch

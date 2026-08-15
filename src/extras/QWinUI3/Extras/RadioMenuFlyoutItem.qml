@@ -3,12 +3,18 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 
-// Exclusive radio-style MenuFlyout item.
+// RadioMenuFlyoutItem — Exclusive radio MenuFlyout item.
+//
+//   RadioMenuFlyoutItem { text: qsTr("Option") }
+
 MenuItem {
     id: control
 
+    // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
+    // Raw Fluent glyph string fallback
     property string iconGlyph: ""
+    // Accelerator caption (Ctrl+C)
     property string keyboardAcceleratorText: ""
     property bool keyVisualAccelerator: false
 

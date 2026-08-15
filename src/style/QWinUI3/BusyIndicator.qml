@@ -3,6 +3,10 @@ import QtQuick.Shapes
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// BusyIndicator — Fluent styled BusyIndicator.
+//
+//   BusyIndicator { running: true }
+
 T.BusyIndicator {
     id: control
 

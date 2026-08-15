@@ -3,16 +3,24 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Area chart with legend and hover crosshair (Fluent dashboard style).
+// AreaChart — Filled area chart with legend and hover crosshair.
+//
+//   AreaChart { values: [1, 3, 2, 5] }
+
 T.Control {
     id: root
 
+    // Chart series array
     property var series: []
+    // Numeric values array
     property var values: []
+    // Minimum value
     property real minimum: NaN
+    // Maximum value
     property real maximum: NaN
     property bool showGrid: true
     property bool stacked: false
+    // Show chart legend
     property bool showLegend: true
     property bool interactive: true
     property bool animated: true
@@ -21,10 +29,12 @@ T.Control {
     property bool autoLod: true
     property color gridColor: Theme.strokeDivider
     property real revealProgress: 1
+    // Hovered item index
     property int hoverIndex: -1
     property real hoverLineX: 0
     property var hoverMarkers: []
     property string hoverText: ""
+    // Primary title text
     property string title: ""
     property string emptyText: qsTr("No data")
     property int sourcePointCount: 0

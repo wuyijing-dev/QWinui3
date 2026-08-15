@@ -1,7 +1,12 @@
 pragma Singleton
 import QtQuick
 
-// Serializes ContentDialog.open() so multiple dialogs queue instead of stacking.
+// ContentDialogQueue — Singleton queue so ContentDialogs open one at a time.
+//
+//   ContentDialogQueue.show(dialog)
+//   ContentDialogQueue.cancel(dialog)
+//   ContentDialogQueue.replaceCurrent(other)
+
 QtObject {
     id: root
 

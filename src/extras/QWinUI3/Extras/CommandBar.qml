@@ -5,6 +5,12 @@ import QtQuick.Templates as T
 import QtQml
 import QWinUI3.Theme
 
+// CommandBar — Primary/secondary command row (AppBar host).
+//
+//   CommandBar {
+//       AppBarButton { text: qsTr("Add"); symbol: FluentIcons.Add }
+//   }
+
 T.Control {
     id: root
 
@@ -15,6 +21,7 @@ T.Control {
     property var overflowItems: []
     property alias secondaryCommands: root.overflowItems
     property real barSpacing: 2
+    // Open / visible state
     property bool isOpen: true
     property string defaultLabelPosition: "bottom"
     property string closedDisplayMode: "compact"

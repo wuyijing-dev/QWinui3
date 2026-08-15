@@ -1,7 +1,10 @@
 import QtQuick
 import QWinUI3.Theme
 
-// Shared WinUI-style accent pip: ease-in-out travel with mid-path stretch
+// SelectionPip — Navigation selection pip indicator.
+//
+//   SelectionPip { }
+
 Item {
     id: root
 

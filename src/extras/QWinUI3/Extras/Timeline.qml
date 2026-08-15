@@ -3,12 +3,18 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Vertical timeline. model: [{ title, subtitle?, time?, symbol?, glyph?, color?, active? }]
+// Timeline — Vertical event timeline.
+//
+//   Timeline { model: events }
+
 T.Control {
     id: root
 
+    // Data model / item list for this control
     property var model: []
+    // Selected index
     property int currentIndex: -1
+    // Selected index alias
     property alias selectedIndex: root.currentIndex
     property real railWidth: 2
     property real nodeSize: 12
@@ -62,6 +68,7 @@ T.Control {
                 height: Math.max(40, contentCol.implicitHeight + 16)
 
                 readonly property bool isLast: index === (root.model.length - 1)
+                // Active / animating state
                 readonly property bool isActive: modelData.active === true
                                                 || index === root.currentIndex
                                                 || (root.currentIndex < 0 && index === 0)

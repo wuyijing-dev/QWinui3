@@ -3,11 +3,16 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 
-// Non-interactive section header inside a MenuFlyout.
+// MenuFlyoutHeader — Non-interactive MenuFlyout section header.
+//
+//   MenuFlyoutHeader { text: qsTr("Recent") }
+
 MenuItem {
     id: control
 
+    // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
+    // Raw Fluent glyph string fallback
     property string iconGlyph: ""
 
     readonly property string effectiveIconGlyph: IconSource.resolve(symbol, iconGlyph)

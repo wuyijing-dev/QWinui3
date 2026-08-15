@@ -4,12 +4,18 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Button that previews a color and opens an embedded ColorPicker flyout.
+// ColorPickerButton — Color swatch button that opens ColorPicker.
+//
+//   ColorPickerButton { selectedColor: Theme.accent }
+
 T.AbstractButton {
     id: control
 
+    // Currently selected color
     property color selectedColor: Theme.accent
+    // Picker flyout open
     property bool pickerOpen: false
+    // Open / visible state
     property alias isOpen: control.pickerOpen
     property bool showAlpha: false
     property bool showHexLabel: true

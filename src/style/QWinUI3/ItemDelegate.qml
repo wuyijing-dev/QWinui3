@@ -3,6 +3,10 @@ import QtQuick.Templates as T
 import QtQuick.Controls.impl
 import QWinUI3.Theme
 
+// ItemDelegate — Fluent styled ItemDelegate.
+//
+//   ItemDelegate { text: qsTr("Row") }
+
 T.ItemDelegate {
     id: control
 

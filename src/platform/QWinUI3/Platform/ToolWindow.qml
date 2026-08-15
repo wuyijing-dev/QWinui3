@@ -4,7 +4,10 @@ import QtQuick.Window
 import QWinUI3.Theme
 import QWinUI3.Platform
 
-// Tool / palette window paradigm — Qt.Tool, compact chrome.
+// ToolWindow — StandardWindow tool paradigm.
+//
+//   ToolWindow { title: qsTr("Tool") }
+
 StandardWindow {
     id: root
 

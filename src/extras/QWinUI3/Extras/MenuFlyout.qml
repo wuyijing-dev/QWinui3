@@ -2,14 +2,22 @@ import QtQuick
 import QtQuick.Controls
 import QWinUI3.Theme
 
-// WinUI MenuFlyout: elevated Menu with showAt placement helper and isOpen.
+// MenuFlyout — Elevated Menu with showAt / isOpen helpers.
+//
+//   MenuFlyout {
+//       MenuFlyoutItem { text: qsTr("Copy"); symbol: FluentIcons.Copy }
+//   }
+
 Menu {
     id: root
 
+    // Popup / flyout placement
     property int placement: Qt.AlignBottom
     property alias preferredPlacement: root.placement
     property bool isLightDismissEnabled: true
+    // Open / visible state
     property bool isOpen: false
+    // Primary title text
     property string title: ""
 
     padding: 4

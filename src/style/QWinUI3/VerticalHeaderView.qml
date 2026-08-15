@@ -2,6 +2,10 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// VerticalHeaderView — Fluent styled VerticalHeaderView.
+//
+//   VerticalHeaderView { }
+
 T.VerticalHeaderView {
     id: control
     clip: true

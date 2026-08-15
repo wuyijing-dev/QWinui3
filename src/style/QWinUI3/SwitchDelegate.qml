@@ -3,6 +3,10 @@ import QtQuick.Templates as T
 import QtQuick.Controls.impl
 import QWinUI3.Theme
 
+// SwitchDelegate — Fluent styled SwitchDelegate.
+//
+//   SwitchDelegate { text: qsTr("Option") }
+
 T.SwitchDelegate {
     id: control
 

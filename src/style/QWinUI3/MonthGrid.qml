@@ -2,6 +2,10 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// MonthGrid — Fluent styled MonthGrid.
+//
+//   MonthGrid { }
+
 T.AbstractMonthGrid {
     id: control
 

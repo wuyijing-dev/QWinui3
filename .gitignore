@@ -7,3 +7,7 @@
 out/
 
 .cursor/
+
+__pycache__/
+*.pyc
+

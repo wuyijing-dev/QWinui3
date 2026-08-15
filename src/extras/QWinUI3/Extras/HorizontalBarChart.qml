@@ -3,14 +3,20 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Horizontal bar chart — Fluent list/rank visualizations.
-// values: number[]  OR  bars: [{ value, color?, label? }]
+// HorizontalBarChart — Horizontal bar chart.
+//
+//   HorizontalBarChart { values: [3, 5, 2] }
+
 T.Control {
     id: root
 
+    // Numeric values array
     property var values: []
+    // Bar descriptors
     property var bars: []
+    // Minimum value
     property real minimum: 0
+    // Maximum value
     property real maximum: NaN
     property real barRadius: 4
     property real barGap: 0.28
@@ -20,8 +26,11 @@ T.Control {
     property bool interactive: true
     property bool animated: true
     property real revealProgress: 1
+    // Hovered item index
     property int hoverIndex: -1
+    // Selected index alias
     property alias selectedIndex: root.hoverIndex
+    // Primary title text
     property string title: ""
     property string emptyText: qsTr("No data")
     property string valueUnit: ""

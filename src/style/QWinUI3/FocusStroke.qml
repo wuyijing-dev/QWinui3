@@ -1,5 +1,9 @@
 import QtQuick
 import QWinUI3.Theme
+// FocusStroke — Focus ring helper.
+//
+//   FocusStroke { anchors.fill: parent; visible: control.visualFocus }
+
 
 Item {
     id: root

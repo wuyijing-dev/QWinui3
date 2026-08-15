@@ -4,9 +4,13 @@ import QtQuick.Window
 import QWinUI3.Theme
 import QWinUI3.Platform
 
-// Fluent primary application window — WinUI Window + AppWindow host.
-// Body content uses ApplicationWindow's default content area; put chrome in `header`
-// (or assign children to `chrome` via parent:) — do not steal the default property.
+// StandardWindow — Platform ApplicationWindow + PlatformTitleBar host.
+//
+//   StandardWindow {
+//       title: qsTr("Gallery")
+//       backdrop: WindowHelper.BackdropSolid
+//   }
+
 ApplicationWindow {
     id: root
 

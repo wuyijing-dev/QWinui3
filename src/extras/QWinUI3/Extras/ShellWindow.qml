@@ -4,41 +4,59 @@ import QtQuick.Window
 import QWinUI3.Theme
 import QWinUI3.Platform
 
-// Shared independent shell host (not StandardWindow).
-// BlankWindow / NavigationWindow / MenuStatusWindow specialize layout only.
+// ShellWindow — Independent ApplicationWindow + WindowChrome host.
 //
 //   ShellWindow {
 //       title: qsTr("App")
-//       subtitle: qsTr("Optional")
 //       symbol: FluentIcons.Home
-//       isBackButtonVisible: true
-//       rightHeader: Button { text: qsTr("Account") }
 //   }
+
 ApplicationWindow {
     id: root
 
+    // Secondary subtitle text
     property alias subtitle: chrome.subtitle
+    // FluentIcons symbol (preferred over iconGlyph)
     property alias symbol: chrome.symbol
     property alias chrome: chrome
+    // Show navigation pane toggle
     property bool showPaneToggle: false
+    // Enable title-bar search
     property alias searchEnabled: chrome.searchEnabled
+    // Show back button
     property alias isBackButtonVisible: chrome.isBackButtonVisible
+    // Enable back button
     property alias isBackButtonEnabled: chrome.isBackButtonEnabled
+    // WinUI LeftHeader slot
     property alias leftHeader: chrome.leftHeader
+    // Extra title-bar middle content (e.g. MenuBar when menusInTitleBar)
     property alias titleBarContent: chrome.titleBarContent
+    // WinUI RightHeader slot
     property alias rightHeader: chrome.rightHeader
+    // Title-bar search field text
     property alias searchText: chrome.searchText
+    // Title-bar search suggestions
     property alias searchModel: chrome.searchModel
 
+    // WindowHelper.Backdrop*
     property int backdrop: WindowHelper.BackdropSolid
+    // WindowHelper.TitleBarHeightStandard | TitleBarHeightTall
     property int preferredHeightOption: WindowHelper.TitleBarHeightTall
+    // WindowHelper.Presenter*
     property int presenter: WindowHelper.PresenterOverlapped
+    // WindowHelper.Paradigm*
     property int paradigm: WindowHelper.ParadigmStandard
+    // Keep window above others
     property bool isAlwaysOnTop: false
+    // Custom frame / extend content
     property bool extendsContentIntoTitleBar: WindowHelper.customFrame
+    // Show min/max/close
     property bool showCaptionButtons: WindowHelper.customFrame
+    // Show minimize caption button
     property bool showMinimize: true
+    // Show maximize caption button
     property bool showMaximize: true
+    // Show close caption button
     property bool showClose: true
 
     // AppWindowTitleBar-style caption colors (empty = Theme defaults).

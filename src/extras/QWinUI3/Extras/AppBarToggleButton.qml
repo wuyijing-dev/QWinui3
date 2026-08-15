@@ -3,9 +3,17 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QWinUI3.Theme
 
+// AppBarToggleButton — Checkable AppBarButton for CommandBar.
+//
+//   AppBarToggleButton {
+//       text: qsTr("Pin")
+//       checkable: true
+//   }
+
 IconicButton {
     id: control
 
+    // bottom | right | collapsed
     property string labelPosition: ""
 
     readonly property string effectiveLabelPosition: {

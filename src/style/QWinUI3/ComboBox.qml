@@ -2,6 +2,10 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// ComboBox — Fluent styled ComboBox.
+//
+//   ComboBox { model: ["A", "B"] }
+
 T.ComboBox {
     id: control
 

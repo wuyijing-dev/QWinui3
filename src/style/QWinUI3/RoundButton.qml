@@ -2,6 +2,10 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// RoundButton — Fluent styled RoundButton.
+//
+//   RoundButton { text: "+" }
+
 T.RoundButton {
     id: control
 

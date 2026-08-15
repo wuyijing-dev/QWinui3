@@ -3,20 +3,31 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QWinUI3.Theme
 
-// TitleBar → MenuBar → content → StatusBar.
-// Set menusInTitleBar: true to embed MenuBar in the title chrome (WinUI-style).
+// MenuStatusWindow — TitleBar + MenuBar + content + StatusBar shell.
+//
+//   MenuStatusWindow {
+//       menusInTitleBar: true
+//       Menu { title: qsTr("File") }
+//       content: Label { text: "Body" }
+//       statusText: qsTr("Ready")
+//   }
+
 ShellWindow {
     id: root
 
+    // Declare Menu { } children here
     default property alias menus: menus.contentData
+    // StatusBar left text
     property alias statusText: statusBar.text
     property alias statusBar: statusBar
     property alias shellMenuBar: menus
+    // Main client area
     property alias content: body.data
     property alias statusProgress: statusBar.progress
     property alias statusProgressIndeterminate: statusBar.progressIndeterminate
     property alias statusCenter: statusBar.centerContent
     property alias statusRight: statusBar.content
+    // Embed MenuBar in the title chrome instead of a strip below it
     property bool menusInTitleBar: false
 
     width: 880

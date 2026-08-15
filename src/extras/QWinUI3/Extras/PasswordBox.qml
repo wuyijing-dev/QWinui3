@@ -4,15 +4,24 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// PasswordBox — Password field with reveal toggle.
+//
+//   PasswordBox { placeholderText: qsTr("Password") }
+
 T.Control {
     id: root
 
+    // Display / input text
     property alias text: field.text
+    // Placeholder when empty
     property alias placeholderText: field.placeholderText
     property alias maximumLength: field.maximumLength
+    // Header label above the control
     property string header: ""
+    // Supporting description text
     property string description: ""
     property string errorMessage: ""
+    // Show clear affordance
     property bool clearButtonVisible: false
     // WinUI PasswordRevealMode: peek | hidden | visible
     property string passwordRevealMode: "peek"

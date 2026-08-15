@@ -4,21 +4,36 @@ import QtQuick.Window
 import QWinUI3.Theme
 import QWinUI3.Platform
 
-// Shared AppWindow title chrome for shell windows (PlatformTitleBar + TitleBar).
+// WindowChrome — PlatformTitleBar + TitleBar bundle for shells.
+//
+//   WindowChrome { targetWindow: root; title: qsTr("App") }
+
 PlatformTitleBar {
     id: root
 
+    // Primary title text
     property string title: qsTr("Application")
+    // Secondary subtitle text
     property string subtitle: ""
+    // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
+    // Show navigation pane toggle
     property bool showPaneToggle: false
+    // Enable title-bar search
     property bool searchEnabled: false
+    // Show back button
     property alias isBackButtonVisible: titleBar.isBackButtonVisible
+    // Enable back button
     property alias isBackButtonEnabled: titleBar.isBackButtonEnabled
+    // WinUI LeftHeader slot
     property alias leftHeader: titleBar.leftHeader
+    // Title-bar middle content slot
     property alias titleBarContent: titleBar.content
+    // WinUI RightHeader slot
     property alias rightHeader: titleBar.rightHeader
+    // Title-bar search field text
     property alias searchText: titleBar.searchText
+    // Title-bar search suggestions
     property alias searchModel: titleBar.searchModel
 
     property color captionButtonBackground: "transparent"

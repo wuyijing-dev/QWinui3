@@ -3,19 +3,33 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Dashboard chrome around a chart: title, subtitle, trailing actions, soft entrance.
+// ChartCard — Title/subtitle chrome around a chart child.
+//
+//   ChartCard {
+//       title: qsTr("Revenue")
+//       LineChart { values: series }
+//   }
+
 T.Control {
     id: root
 
+    // Primary title text
     property string title: ""
+    // Secondary subtitle text
     property string subtitle: ""
+    // Footer text
     property string footer: ""
+    // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
+    // Raw Fluent glyph string fallback
     property string iconGlyph: ""
     property bool animated: true
+    // Stronger elevation / card tint
     property bool elevated: false
+    // Draw a border when true
     property bool bordered: true
     property alias headerActions: actionsRow.data
+    // Content slot / children host
     default property alias content: body.data
 
     readonly property string effectiveIconGlyph: IconSource.resolve(symbol, iconGlyph)

@@ -2,16 +2,24 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Compact KPI bullet chart (qualitative ranges + performance + target).
+// BulletChart — Compact KPI bullet (ranges + performance + target).
+//
+//   BulletChart { value: 70; target: 80; maximum: 100 }
+
 T.Control {
     id: root
 
+    // Current value
     property real value: 0
+    // Anchor item for placement
     property real target: 0
+    // Maximum value
     property real maximum: 100
+    // Minimum value
     property real minimum: 0
     property var ranges: [0.5, 0.75, 1.0]
     property var rangeColors: []
+    // Field label
     property string label: ""
     property string unit: ""
     property int valuePrecision: -1 // -1 = auto

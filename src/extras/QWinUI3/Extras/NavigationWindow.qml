@@ -2,35 +2,38 @@ import QtQuick
 import QtQuick.Controls
 import QWinUI3.Theme
 
-// Left NavigationView + content. Prefer declarative navModel:
+// NavigationWindow — ShellWindow hosting NavigationView + content.
 //
 //   NavigationWindow {
 //       title: qsTr("App")
-//       paneDisplayMode: "left"   // left | leftCompact | top
-//       isBackButtonVisible: true
-//       footerText: qsTr("Settings")
-//       navModel: [
-//           { key: "home", title: qsTr("Home"), symbol: FluentIcons.Home }
-//       ]
-//       content: Label { anchors.centerIn: parent; text: "Content" }
-//       onNavActivated: (item) => { }
-//       onBackRequested: { }
-//       onFooterClicked: { }
+//       paneDisplayMode: "left"
+//       navModel: [{ key: "home", title: "Home", symbol: FluentIcons.Home }]
+//       content: Label { text: "Hello" }
 //   }
+
 ShellWindow {
     id: root
 
+    // Navigation pane expanded
     property alias paneOpen: nav.paneOpen
+    // Expanded pane width
     property alias paneWidth: nav.paneWidth
     property alias paneHeaderText: nav.headerText
+    // left | leftCompact | leftMinimal | top | auto
     property alias paneDisplayMode: nav.paneDisplayMode
+    // Selected navigation key
     property alias currentKey: nav.currentKey
+    // Content slot / children host
     property alias content: nav.content
+    // NavigationView model
     property alias navModel: nav.model
+    // Enable back button
     property alias isBackEnabled: nav.isBackEnabled
     property alias isPaneBackButtonVisible: nav.isBackButtonVisible
+    // Show pane SearchBox
     property alias isPaneSearchEnabled: nav.isPaneSearchEnabled
     property alias paneSearchText: nav.paneSearchText
+    // Pane search suggestion model
     property alias paneSearchModel: nav.paneSearchModel
     property alias paneHeader: nav.paneHeader
     property alias paneFooter: nav.paneFooter

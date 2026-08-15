@@ -3,14 +3,25 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// Flyout — Light-dismiss popup anchored to a target.
+//
+//   Flyout {
+//       target: button
+//       Label { text: qsTr("Details") }
+//   }
+
 T.Popup {
     id: root
 
+    // Popup / flyout placement
     property int placement: Qt.AlignBottom
     property alias preferredPlacement: root.placement
+    // Anchor item for placement
     property Item target: null
     property bool isLightDismissEnabled: true
+    // Open / visible state
     property bool isOpen: false
+    // Primary title text
     property string title: ""
     default property alias contentData: body.data
 

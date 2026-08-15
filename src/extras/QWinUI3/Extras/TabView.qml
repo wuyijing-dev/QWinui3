@@ -4,14 +4,25 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// TabView — Closeable / reorderable tabs.
+//
+//   TabView {
+//       model: tabs
+//       onCloseRequested: (index) => remove(index)
+//   }
+
 T.Control {
     id: control
 
     // model items: { title, content, icon? } or string title with empty content
     property var model: []
+    // Selected index
     property int currentIndex: 0
+    // Selected index alias
     property alias selectedIndex: control.currentIndex
+    // Shows a close affordance when true
     property bool closable: true
+    // Alias of closable
     property alias isClosable: control.closable
     property bool tabsReorderable: true
     property alias canReorderTabs: control.tabsReorderable

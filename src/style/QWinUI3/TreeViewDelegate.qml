@@ -4,6 +4,10 @@ import QtQuick.Controls.impl
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// TreeViewDelegate — Fluent styled TreeViewDelegate.
+//
+//   TreeViewDelegate { }
+
 T.TreeViewDelegate {
     id: control
 

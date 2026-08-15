@@ -4,13 +4,24 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// ContentCard — Surface card with title, subtitle, symbol, and body slot.
+//
+//   ContentCard {
+//       title: qsTr("Card")
+//       Label { text: qsTr("Body") }
+//   }
+
 T.Control {
     id: control
 
+    // Primary title text
     property string title: ""
+    // Secondary subtitle text
     property string subtitle: ""
+    // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
     property string headerIcon: ""
+    // Footer text
     property alias footer: footerSlot.data
     property bool isClickable: false
     default property alias contentData: body.data

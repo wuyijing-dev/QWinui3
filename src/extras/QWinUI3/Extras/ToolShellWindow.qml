@@ -2,7 +2,10 @@ import QtQuick
 import QWinUI3.Theme
 import QWinUI3.Platform
 
-// Tool shell — floating tool window paradigm with ShellWindow chrome API.
+// ToolShellWindow — ShellWindow with tool paradigm.
+//
+//   ToolShellWindow { title: qsTr("Inspector"); width: 320; height: 480 }
+
 ShellWindow {
     id: root
     paradigm: WindowHelper.ParadigmTool

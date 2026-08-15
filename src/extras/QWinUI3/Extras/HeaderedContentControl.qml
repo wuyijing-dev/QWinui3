@@ -3,12 +3,20 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// HeaderedContentControl — Labeled content host.
+//
+//   HeaderedContentControl { header: qsTr("Section"); Label { text: "…" } }
+
 T.Control {
     id: root
 
+    // Header label above the control
     property string header: ""
+    // Supporting description text
     property string description: ""
+    // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
+    // Raw Fluent glyph string fallback
     property string iconGlyph: ""
     property Component headerComponent: null
     // top | left

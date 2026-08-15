@@ -1,10 +1,12 @@
 import QtQuick
 import QWinUI3.Theme
 
-// WinUI RelativePanel: position children with sibling/panel alignment constraints.
-// Child optional props: alignLeftWith, alignRightWith, alignTopWith, alignBottomWith,
-// alignHorizontalCenterWith, alignVerticalCenterWith, leftOf, rightOf, above, below.
-// Uses Item (not Control) so layout gap is not confused with Control.spacing (FINAL).
+// RelativePanel — Constraint-based relative layout.
+//
+//   RelativePanel {
+//       // children with RelativePanel.* attached props
+//   }
+
 Item {
     id: root
 

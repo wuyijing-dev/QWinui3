@@ -1,6 +1,10 @@
 import QtQuick.Controls
 import QWinUI3.Theme
 
+// MenuFlyoutSeparator — MenuFlyout divider.
+//
+//   MenuFlyoutSeparator { }
+
 MenuSeparator {
     id: control
     topPadding: 4

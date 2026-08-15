@@ -3,12 +3,18 @@ import QtQuick.Controls
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Button that shows an inline determinate / indeterminate progress fill.
+// ProgressButton — Button with inline determinate/indeterminate fill.
+//
+//   ProgressButton { text: qsTr("Upload"); progress: 0.4 }
+
 T.AbstractButton {
     id: control
 
+    // 0..1 progress (determinate)
     property real progress: 0 // 0..1 when determinate
+    // Show indeterminate animation when true
     property bool indeterminate: false
+    // Alias of indeterminate
     property alias isIndeterminate: control.indeterminate
     property bool showProgress: true
     property bool showPercentage: false

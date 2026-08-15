@@ -2,6 +2,10 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// Dialog — Fluent styled Dialog.
+//
+//   Dialog { title: qsTr("Hi"); standardButtons: Dialog.Ok }
+
 T.Dialog {
     id: control
 

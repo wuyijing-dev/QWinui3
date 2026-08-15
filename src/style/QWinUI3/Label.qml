@@ -2,6 +2,10 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// Label — Fluent styled Label.
+//
+//   Label { text: qsTr("Hello") }
+
 T.Label {
     id: control
     color: control.enabled ? Theme.textPrimary : Theme.textDisabled

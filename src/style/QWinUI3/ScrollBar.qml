@@ -2,6 +2,10 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// ScrollBar — Fluent styled ScrollBar.
+//
+//   ScrollBar { }
+
 T.ScrollBar {
     id: control
 

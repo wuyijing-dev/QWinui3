@@ -2,6 +2,10 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// StackView — Fluent styled StackView.
+//
+//   StackView { initialItem: homePage }
+
 T.StackView {
     id: control
 

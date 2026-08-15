@@ -3,7 +3,10 @@ import QtQuick.Controls
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Compact status indicator with optional pulse for live states.
+// StatusDot — Colored status indicator dot.
+//
+//   StatusDot { severity: success }
+
 T.Control {
     id: root
 
@@ -15,7 +18,9 @@ T.Control {
 
     property int status: available
     property bool pulse: status === available
+    // Diameter or box size in px
     property real size: 10
+    // Field label
     property string label: ""
     property bool showLabel: label.length > 0
 

@@ -4,7 +4,13 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// WinUI RefreshContainer: pull the scroll content to request a refresh.
+// RefreshContainer — Pull-to-refresh host for flickable content.
+//
+//   RefreshContainer {
+//       onRefreshRequested: reload()
+//       ListView { /* … */ }
+//   }
+
 T.Control {
     id: root
 
@@ -14,10 +20,12 @@ T.Control {
     property alias contentX: flick.contentX
     property alias contentY: flick.contentY
     property alias flickable: flick
+    // True while a refresh is in progress
     property bool refreshing: false
     property alias isRefreshing: root.refreshing
     property bool pullToRefreshEnabled: true
     property alias isEnabled: root.pullToRefreshEnabled
+    // Pull distance before refresh fires
     property real pullThreshold: 72
     property string refreshText: qsTr("Release to refresh")
     property string refreshingText: qsTr("Refreshing…")

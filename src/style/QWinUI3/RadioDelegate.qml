@@ -3,6 +3,10 @@ import QtQuick.Templates as T
 import QtQuick.Controls.impl
 import QWinUI3.Theme
 
+// RadioDelegate — Fluent styled RadioDelegate.
+//
+//   RadioDelegate { text: qsTr("Option") }
+
 T.RadioDelegate {
     id: control
 

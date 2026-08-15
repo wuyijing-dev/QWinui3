@@ -4,13 +4,18 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// WinUI 3–aligned ColorPicker: spectrum + preview + value + RGB/Hex inputs.
+// ColorPicker — Spectrum + RGB/Hex color editor.
+//
+//   ColorPicker { selectedColor: "#005FB8" }
+
 T.Control {
     id: control
 
+    // Currently selected color
     property color selectedColor: "#005FB8"
     property real hue: 210
     property real saturation: 0.85
+    // Current value
     property real value: 0.72
     property bool showAlpha: false
     property real alpha: 1

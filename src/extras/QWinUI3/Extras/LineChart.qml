@@ -3,17 +3,24 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Multi-series line / area chart with reveal animation, legend, and hover readout.
-// series: [{ name?, color?, values: number[], filled?: bool }]
+// LineChart — Multi-series line/area chart.
+//
+//   LineChart { values: [1, 4, 2, 6] }
+
 T.Control {
     id: root
 
+    // Chart series array
     property var series: []
+    // Numeric values array
     property var values: []
+    // Minimum value
     property real minimum: NaN
+    // Maximum value
     property real maximum: NaN
     property bool showGrid: true
     property bool showArea: true
+    // Show chart legend
     property bool showLegend: true
     property bool interactive: true
     property bool animated: true
@@ -24,12 +31,14 @@ T.Control {
     property color gridColor: Theme.strokeDivider
 
     property real revealProgress: 1
+    // Hovered item index
     property int hoverIndex: -1
     property real hoverX: 0
     property real hoverY: 0
     property real hoverLineX: 0
     property var hoverMarkers: [] // [{ y, color }]
     property string hoverText: ""
+    // Primary title text
     property string title: ""
     property string emptyText: qsTr("No data")
 

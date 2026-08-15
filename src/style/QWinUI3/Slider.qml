@@ -2,6 +2,10 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// Slider — Fluent styled Slider.
+//
+//   Slider { from: 0; to: 100; value: 40 }
+
 T.Slider {
     id: control
 

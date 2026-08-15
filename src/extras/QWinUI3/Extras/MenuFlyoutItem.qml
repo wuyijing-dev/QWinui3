@@ -3,12 +3,18 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 
-// WinUI MenuFlyoutItem: menu row with optional glyph and accelerator text.
+// MenuFlyoutItem — Menu row with glyph and accelerator text.
+//
+//   MenuFlyoutItem { text: qsTr("Paste"); keyboardAcceleratorText: "Ctrl+V" }
+
 MenuItem {
     id: control
 
+    // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
+    // Raw Fluent glyph string fallback
     property string iconGlyph: ""
+    // Accelerator caption (Ctrl+C)
     property string keyboardAcceleratorText: ""
     // When true, render accelerator as KeyChordVisual chrome instead of plain text.
     property bool keyVisualAccelerator: false

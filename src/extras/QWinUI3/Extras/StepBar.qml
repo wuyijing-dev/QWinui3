@@ -4,11 +4,18 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// StepBar — Horizontal step / wizard progress.
+//
+//   StepBar { model: ["Cart", "Ship", "Pay"]; currentIndex: 1 }
+
 T.Control {
     id: control
 
+    // Data model / item list for this control
     property var model: []
+    // Selected index
     property int currentIndex: 0
+    // Selected index alias
     property alias selectedIndex: control.currentIndex
     // horizontal | vertical
     property string orientation: "horizontal"

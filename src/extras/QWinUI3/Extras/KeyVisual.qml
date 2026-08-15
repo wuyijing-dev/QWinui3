@@ -3,13 +3,18 @@ import QtQuick.Controls
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// WinUI-style keyboard key chrome (accelerator hint). Not Qt Virtual Keyboard.
+// KeyVisual — Single keyboard key chrome.
+//
+//   KeyVisual { keyText: "Ctrl" }
+
 T.AbstractButton {
     id: root
 
     // Display label for the key (e.g. "Ctrl", "P", "Esc").
     property string keyText: ""
+    // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
+    // Raw Fluent glyph string fallback
     property string iconGlyph: ""
     // "small" | "medium" | "large"
     property string size: "medium"

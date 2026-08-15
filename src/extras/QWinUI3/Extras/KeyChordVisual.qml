@@ -3,8 +3,10 @@ import QtQuick.Controls
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Renders a shortcut chord (e.g. Ctrl+Shift+P) as a row of KeyVisuals.
-// Parses "Ctrl+Shift+P", "Ctrl-K, Ctrl-S", or a keys[] list. No Qt Virtual Keyboard.
+// KeyChordVisual — Renders Ctrl+K style shortcuts as KeyVisuals.
+//
+//   KeyChordVisual { shortcut: "Ctrl+Shift+P" }
+
 T.Control {
     id: root
 
@@ -12,6 +14,7 @@ T.Control {
     property string shortcut: ""
     // Explicit key labels; when set, overrides shortcut parsing.
     property var keys: []
+    // Diameter or box size in px
     property string size: "medium"
     property bool emphasized: false
     property string separator: "+"

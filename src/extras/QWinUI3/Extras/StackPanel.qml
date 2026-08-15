@@ -2,12 +2,15 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Lightweight StackPanel: orientation + spacing for child items.
-// Uses Control.spacing (do not redeclare — it is FINAL).
+// StackPanel — Simple stack layout (orientation + spacing).
+//
+//   StackPanel { orientation: Qt.Vertical }
+
 T.Control {
     id: root
 
     default property alias contentData: host.data
+    // Qt.Horizontal or Qt.Vertical
     property int orientation: Qt.Vertical
     property int paddingEdges: 0
     // Cross-axis alignment: Horizontal → vertical align; Vertical → horizontal align

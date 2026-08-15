@@ -1,8 +1,10 @@
 import QtQuick
 import QtQuick.Effects
 
-// Rounded surface with soft MultiEffect shadow on a sibling (not on the face).
-// Face never uses layer — avoids square-corner flicker; shadow can regenerate safely.
+// ElevatedChrome — Shared elevated shadow/border chrome.
+//
+//   ElevatedChrome { anchors.fill: parent }
+
 Item {
     id: root
 

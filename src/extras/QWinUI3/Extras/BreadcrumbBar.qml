@@ -5,10 +5,19 @@ import QtQuick.Templates as T
 import QtQml
 import QWinUI3.Theme
 
+// BreadcrumbBar — Path trail; model items raise itemClicked.
+//
+//   BreadcrumbBar {
+//       model: [{ title: "Home" }, { title: "Docs" }]
+//       onItemClicked: (index) => navigate(index)
+//   }
+
 T.Control {
     id: root
 
+    // Data model / item list for this control
     property var model: []
+    // Selected index
     property int currentIndex: Math.max(0, (model ? model.length : 1) - 1)
     // Collapse middle crumbs when count exceeds this (0 = show all)
     property int maxVisibleItems: 0

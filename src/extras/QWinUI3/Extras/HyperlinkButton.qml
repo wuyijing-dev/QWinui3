@@ -3,6 +3,10 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// HyperlinkButton — Link-styled button.
+//
+//   HyperlinkButton { text: qsTr("Learn more"); onClicked: Qt.openUrlExternally(url) }
+
 T.AbstractButton {
     id: control
 
@@ -10,7 +14,9 @@ T.AbstractButton {
     property alias navigateUri: control.url
     // always | onHover | never
     property string underlineStyle: "onHover"
+    // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
+    // Raw Fluent glyph string fallback
     property string iconGlyph: ""
     property bool visited: false
     property bool showExternalGlyph: false

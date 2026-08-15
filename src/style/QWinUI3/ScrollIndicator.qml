@@ -2,6 +2,10 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// ScrollIndicator — Fluent styled ScrollIndicator.
+//
+//   ScrollIndicator { }
+
 T.ScrollIndicator {
     id: control
 

@@ -1,7 +1,10 @@
 pragma Singleton
 import QtQuick
 
-// Shared helpers for high-performance chart rendering (million-point LOD).
+// ChartUtils — LOD helpers for large chart series.
+//
+//   ChartUtils.downsample(values, maxPoints)
+
 QtObject {
     readonly property int largeSeriesThreshold: 50000
 

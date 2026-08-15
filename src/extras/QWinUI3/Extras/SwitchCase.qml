@@ -1,10 +1,14 @@
 import QtQuick
 import QWinUI3.Theme
 
-// One case inside SwitchPresenter. Content is shown when value matches.
+// SwitchCase — Case child for SwitchPresenter.
+//
+//   SwitchCase { value: "a"; Label { text: "A" } }
+
 Item {
     id: root
 
+    // Current value
     property var value
     property bool active: false
     default property alias contentData: host.data

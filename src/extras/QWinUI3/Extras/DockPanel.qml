@@ -2,6 +2,13 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// DockPanel — Dock children Top/Bottom/Left/Right/Fill.
+//
+//   DockPanel {
+//       Rectangle { DockPanel.dock: DockPanel.Top; height: 40 }
+//       Rectangle { DockPanel.dock: DockPanel.Fill }
+//   }
+
 T.Control {
     id: root
 

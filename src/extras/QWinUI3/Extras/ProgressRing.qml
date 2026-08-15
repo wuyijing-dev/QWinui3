@@ -3,10 +3,16 @@ import QtQuick.Shapes
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// ProgressRing — Circular progress / busy ring.
+//
+//   ProgressRing { indeterminate: true }
+
 T.Control {
     id: root
 
+    // Current value
     property real value: 0
+    // Show indeterminate animation when true
     property bool indeterminate: false
     // WinUI-style: Active sweeps; Paused holds a partial arc without spinning
     property bool isActive: true
@@ -15,6 +21,7 @@ T.Control {
     property color trackColor: Theme.strokeDivider
     property bool showValue: false
     property string valueLabel: ""
+    // Diameter or box size in px
     property real size: 32
 
     implicitWidth: size

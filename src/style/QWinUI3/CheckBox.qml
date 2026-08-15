@@ -3,6 +3,10 @@ import QtQuick.Templates as T
 import QtQuick.Shapes
 import QWinUI3.Theme
 
+// CheckBox — Fluent styled CheckBox.
+//
+//   CheckBox { text: qsTr("Remember"); checked: true }
+
 T.CheckBox {
     id: control
 

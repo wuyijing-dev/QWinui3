@@ -3,21 +3,27 @@ import QtQuick.Controls
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Shared parent for icon buttons — accept FluentIcons / names / raw glyphs.
-// NOTE: do NOT declare `icon` — AbstractButton.icon is FINAL (QQuickIcon).
-// Prefer: symbol: FluentIcons.Save  or  symbol: "Save"  or  iconGlyph: FluentIcons.Save
+// IconicButton — Base icon + label button used by AppBar*.
+//
+//   IconicButton { text: qsTr("Action"); symbol: FluentIcons.Add }
+
 T.AbstractButton {
     id: control
 
+    // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
+    // Raw Fluent glyph string fallback
     property string iconGlyph: ""
     property real iconSize: 16
     property string toolTipText: ""
+    // Show avatar badge
     property bool badgeVisible: false
     property int badgeValue: 0
     property string badgeText: ""
     property int badgeMaxValue: 99
+    // Emphasized / selected chrome
     property bool highlighted: false
+    // Flat chrome without fill
     property bool flat: true
 
     readonly property string effectiveIconGlyph: {

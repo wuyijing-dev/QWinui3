@@ -3,6 +3,10 @@ import QtQuick.Controls.impl
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// Tumbler — Fluent styled Tumbler.
+//
+//   Tumbler { model: 12 }
+
 T.Tumbler {
     id: control
 

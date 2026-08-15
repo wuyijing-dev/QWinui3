@@ -2,6 +2,10 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// TabButton — Fluent styled TabButton.
+//
+//   TabButton { text: qsTr("Tab") }
+
 T.TabButton {
     id: control
 

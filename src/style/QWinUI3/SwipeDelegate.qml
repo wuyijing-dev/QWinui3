@@ -3,6 +3,10 @@ import QtQuick.Controls.impl
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// SwipeDelegate — Fluent styled SwipeDelegate.
+//
+//   SwipeDelegate { text: qsTr("Row") }
+
 T.SwipeDelegate {
     id: control
 

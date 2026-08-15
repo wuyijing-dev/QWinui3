@@ -3,24 +3,34 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Radar / spider chart. series: [{ name?, color?, values: number[] }]
-// axes: string[] labels matching value count
+// RadarChart — Radar / spider chart.
+//
+//   RadarChart { values: [3, 5, 2, 4]; axes: ["A","B","C","D"] }
+
 T.Control {
     id: root
 
+    // Chart series array
     property var series: []
+    // Numeric values array
     property var values: []
+    // Axis labels
     property var axes: []
+    // Minimum value
     property real minimum: 0
+    // Maximum value
     property real maximum: NaN
     property int levels: 4
+    // Fill under line / area
     property bool filled: true
     property bool showLabels: true
     property bool animated: true
     property bool interactive: true
     property real revealProgress: 1
     property int hoverSeries: -1
+    // Selected index alias
     property alias selectedIndex: root.hoverSeries
+    // Primary title text
     property string title: ""
     property string emptyText: qsTr("No data")
 

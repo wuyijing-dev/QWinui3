@@ -4,23 +4,33 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// WinUI-style linear gauge — horizontal or vertical track with fill, ticks, thresholds, drag.
+// LinearGauge — Horizontal/vertical track gauge with thresholds.
+//
+//   LinearGauge { value: 42; minimum: 0; maximum: 100 }
+
 T.Control {
     id: root
 
+    // Current value
     property real value: 0
+    // Minimum value
     property real minimum: 0
+    // Maximum value
     property real maximum: 100
+    // Value step (e.g. 0.5 for half stars)
     property real stepSize: 0
+    // Primary title text
     property string title: ""
     property string unit: ""
     property string caption: ""
     property int valuePrecision: 0
+    // Qt.Horizontal or Qt.Vertical
     property int orientation: Qt.Horizontal
     property real trackThickness: 8
     property bool showValue: true
     property bool showTicks: true
     property bool showMinMax: false
+    // Major tick count
     property int tickCount: 5
     property bool showThumb: true
     property bool isInteractive: false

@@ -1,6 +1,11 @@
 pragma Singleton
 import QtQuick
 
+// Theme — Fluent color / type / motion token singleton.
+//
+//   Theme.dark = true
+//   Theme.followSystemAccessibility = true
+
 QtObject {
     id: root
 

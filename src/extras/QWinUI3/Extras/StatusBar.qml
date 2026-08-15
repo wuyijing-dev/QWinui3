@@ -4,20 +4,21 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Application status bar — left / center / right + optional progress.
+// StatusBar — Window status strip with progress and slots.
 //
 //   StatusBar {
 //       text: qsTr("Ready")
 //       progress: 0.4
-//       centerContent: Label { text: qsTr("Ln 12") }
-//       content: Label { text: qsTr("UTF-8") }
 //   }
+
 T.Control {
     id: root
 
+    // Display / input text
     property string text: ""
     property alias leftContent: leftSlot.data
     property alias centerContent: centerSlot.data
+    // Content slot / children host
     property alias content: trailing.data
     property alias rightContent: trailing.data
     // 0..1 shows determinate bar; <0 hides; NaN-safe. Set indeterminate for busy.

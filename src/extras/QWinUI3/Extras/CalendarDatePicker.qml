@@ -4,15 +4,24 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// CalendarDatePicker — Date field with calendar flyout.
+//
+//   CalendarDatePicker { selectedDate: new Date() }
+
 T.Control {
     id: root
 
+    // Currently selected date
     property date selectedDate: new Date()
+    // Calendar flyout open
     property bool calendarOpen: false
+    // Open / visible state
     property alias isOpen: root.calendarOpen
     property string dateFormat: Locale.ShortFormat
     property bool showTodayButton: true
+    // Header label above the control
     property string header: ""
+    // Placeholder when empty
     property string placeholderText: ""
     property date minDate
     property date maxDate

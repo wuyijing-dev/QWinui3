@@ -2,6 +2,10 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// Button — Fluent styled Button.
+//
+//   Button { text: qsTr("OK"); onClicked: accept() }
+
 T.Button {
     id: control
 

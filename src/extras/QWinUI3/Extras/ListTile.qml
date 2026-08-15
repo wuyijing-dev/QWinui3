@@ -4,13 +4,24 @@ import QtQuick.Controls
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// WinUI ListViewItem-style row: symbol / leading, title, subtitle, and trailing slot.
+// ListTile — List row: leading, title, subtitle, trailing.
+//
+//   ListTile {
+//       title: qsTr("Item")
+//       subtitle: qsTr("Detail")
+//       symbol: FluentIcons.Document
+//   }
+
 T.ItemDelegate {
     id: control
 
+    // Primary title text
     property string title: text
+    // Secondary subtitle text
     property string subtitle: ""
+    // Supporting description text
     property alias description: control.subtitle
+    // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
     property string glyph: ""
     property alias leading: leadingSlot.data

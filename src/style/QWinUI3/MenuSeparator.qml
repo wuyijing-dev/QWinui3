@@ -2,6 +2,10 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// MenuSeparator — Fluent styled MenuSeparator.
+//
+//   MenuSeparator { }
+
 T.MenuSeparator {
     id: control
     implicitWidth: 180

@@ -4,17 +4,24 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Multi-segment meter / stacked progress (e.g. disk usage).
-// segments: [{ value: number, color: color, label?: string }]
+// MeterBar — Multi-segment stacked meter (e.g. disk usage).
+//
+//   MeterBar { segments: [{ value: 40, color: Theme.accent }] }
+
 T.Control {
     id: root
 
+    // Meter / stacked segment descriptors
     property var segments: []
+    // Maximum value
     property real maximum: 100
     property real trackHeight: 8
+    // Show chart legend
     property bool showLegend: false
     property bool interactive: true
+    // Hovered item index
     property int hoverIndex: -1
+    // Header label above the control
     property string header: ""
     property bool showRemaining: false
     property string remainingLabel: qsTr("Free")

@@ -4,14 +4,22 @@ import QtQuick.Templates as T
 import QtQuick.Shapes
 import QWinUI3.Theme
 
-// WinUI dashboard arc gauge — open semicircle with large center value, drag, thresholds.
+// ArcGauge — Open-arc dashboard gauge with center value and thresholds.
+//
+//   ArcGauge { value: 64; minimum: 0; maximum: 100 }
+
 T.Control {
     id: root
 
+    // Current value
     property real value: 0
+    // Minimum value
     property real minimum: 0
+    // Maximum value
     property real maximum: 100
+    // Value step (e.g. 0.5 for half stars)
     property real stepSize: 0
+    // Primary title text
     property string title: ""
     property string unit: ""
     property string caption: ""

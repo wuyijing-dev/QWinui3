@@ -4,7 +4,13 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Content with revealable leading/trailing action strips (WinUI SwipeControl-like).
+// SwipeControl — Swipe-to-reveal actions on content.
+//
+//   SwipeControl {
+//       SwipeAction { text: qsTr("Delete") }
+//       ListTile { title: qsTr("Row") }
+//   }
+
 T.Control {
     id: root
 
@@ -12,11 +18,13 @@ T.Control {
     readonly property int leftOpen: 1
     readonly property int rightOpen: 2
 
+    // Content slot / children host
     property alias content: contentSlot.data
     property alias leftActions: leftRow.data
     property alias rightActions: rightRow.data
     property real actionWidth: 72
     property real revealThreshold: 36
+    // Open / visible state
     readonly property bool isOpen: openMode !== closed
     property int openMode: closed
 

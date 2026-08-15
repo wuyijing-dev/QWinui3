@@ -2,6 +2,10 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// ToolTip — Fluent styled ToolTip.
+//
+//   ToolTip { text: qsTr("Hint") }
+
 T.ToolTip {
     id: control
 

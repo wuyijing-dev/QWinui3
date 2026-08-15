@@ -4,17 +4,25 @@ import QtQuick.Templates as T
 import QtQuick.Shapes
 import QWinUI3.Theme
 
-// WinUI-style segmented ring — discrete or partial fill; tap a segment when interactive.
+// SegmentedGauge — Segmented progress / capacity gauge.
+//
+//   SegmentedGauge { value: 3; maximum: 5 }
+
 T.Control {
     id: root
 
+    // Current value
     property real value: 0
+    // Minimum value
     property real minimum: 0
+    // Maximum value
     property real maximum: 100
+    // Value step (e.g. 0.5 for half stars)
     property real stepSize: 0
     property int segmentCount: 12
     property real gapDegrees: 6
     property real strokeWidth: 10
+    // Primary title text
     property string title: ""
     property string unit: ""
     property string caption: ""

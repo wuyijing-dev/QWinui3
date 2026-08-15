@@ -2,13 +2,17 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Fluent RatingControl — mouse can pick any value along the star row.
-// stepSize: 1 = whole stars, 0.5 = half stars, smaller = continuous.
+// RatingControl — Star rating; stepSize supports halves.
+//
+//   RatingControl { value: 3.5; stepSize: 0.5 }
+
 T.Control {
     id: root
 
+    // Current value
     property real value: 0
     property real placeholderValue: -1
+    // Maximum star count
     property int maxRating: 5
     property bool readOnly: false
     property alias isReadOnly: root.readOnly

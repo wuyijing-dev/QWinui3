@@ -4,13 +4,23 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// WinUI ContentDialog: single compact column (title → body → actions).
-// Avoids Dialog's header/content/footer stretch, which left a tall empty gap.
+// ContentDialog — Modal dialog with primary / secondary / close actions.
+//
+//   ContentDialog {
+//       title: qsTr("Confirm")
+//       primaryButtonText: qsTr("OK")
+//       closeButtonText: qsTr("Cancel")
+//   }
+//   // prefer dialog.show() → ContentDialogQueue
+
 T.Dialog {
     id: root
 
+    // Primary action label (accent); empty hides the button
     property string primaryButtonText: qsTr("OK")
+    // Optional middle action; empty hides
     property string secondaryButtonText: ""
+    // Dismiss / cancel label; empty hides
     property string closeButtonText: qsTr("Cancel")
     // Prefer defaultButton; isPrimaryDefault kept for compatibility
     property bool isPrimaryDefault: true
@@ -19,6 +29,7 @@ T.Dialog {
     property bool isPrimaryButtonEnabled: true
     property bool isSecondaryButtonEnabled: true
     property bool isCloseButtonEnabled: true
+    // Bindable open state (alias of visible)
     property alias isOpen: root.visible
     property bool __queueWired: false
 
@@ -26,6 +37,7 @@ T.Dialog {
     signal secondaryClicked()
     signal closeClicked()
 
+    // Enqueue via ContentDialogQueue (preferred over open())
     function show() { ContentDialogQueue.enqueue(root) }
     function hide() { close() }
     function openQueued() { ContentDialogQueue.enqueue(root) }

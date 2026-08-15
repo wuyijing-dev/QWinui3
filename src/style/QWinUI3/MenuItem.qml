@@ -2,6 +2,10 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// MenuItem — Fluent styled MenuItem.
+//
+//   MenuItem { text: qsTr("Paste") }
+
 T.MenuItem {
     id: control
 

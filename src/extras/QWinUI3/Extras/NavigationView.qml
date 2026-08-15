@@ -4,34 +4,58 @@ import QtQuick.Controls
 import QtQuick.Effects
 import QWinUI3.Theme
 
+// NavigationView — WinUI NavigationView with pane modes and page stack.
+//
+//   NavigationView {
+//       anchors.fill: parent
+//       paneDisplayMode: "auto"
+//       model: navModel
+//       isPaneSearchEnabled: true
+//       pageModule: "MyApp"
+//   }
+
 Item {
     id: root
 
+    // Navigation items: [{ type, key, title, icon|symbol, children?, badge?, badgeValue? }]
     property var model: []
+    // Selected index
     property int currentIndex: 0
+    // Expanded pane when true (left / leftMinimal); compact modes force false
     property bool paneOpen: true
+    // Expanded pane width
     property real paneWidth: Theme.navPaneWidth
+    // Compact pane width
     property real paneCompactWidth: Theme.navPaneCompactWidth
     property string headerText: qsTr("QWinUI3")
     property string footerText: qsTr("Settings")
     property var footerSymbol: FluentIcons.Settings
     property string footerIcon: ""
+    // Page component name loaded for the footer row (e.g. "SettingsPage")
     property string footerComponent: ""
+    // QML import URI used to resolve page components
     property string pageModule: "QWinUI3.Gallery"
     property bool footerSelected: false
     // WinUI PaneDisplayMode: left | leftCompact | leftMinimal | top | auto
     property string paneDisplayMode: "left"
+    // Width below which auto mode uses leftCompact
     property real autoCompactThreshold: 1008
+    // Show back button
     property bool isBackButtonVisible: false
+    // Enable back button
     property bool isBackEnabled: true
+    // Shows SearchBox at the top of the pane when open
     property bool isPaneSearchEnabled: false
     property string paneSearchText: ""
+    // Suggestion model for pane SearchBox: [{ title, key?, component? }]
     property var paneSearchModel: []
     property alias paneHeader: paneHeaderHost.data
     property alias paneFooter: paneFooterHost.data
+    // Drag rows to reorder top-level model entries
     property bool isReorderable: false
     // Shell host: show `content:` instead of StackView page loading (NavigationWindow).
     property bool hostContent: false
+    // Content slot / children host
     property alias content: contentHost.data
 
     readonly property string effectiveFooterIcon: IconSource.resolve(footerSymbol, footerIcon)
@@ -43,8 +67,10 @@ Item {
 
     // groupKey -> bool; missing means expanded
     property var expandedMap: ({})
+    // Selected nav key (supports "group/0" child paths)
     property string currentKey: "home"
-    property string pendingMode: "slide" // "slide" | "center"
+    // Pending page transition: "slide" | "center"
+    property string pendingMode: "slide"
     property real _enterX: 0
     property real _exitX: 0
     property real _enterScale: 1
@@ -58,6 +84,7 @@ Item {
     signal backRequested()
     signal paneSearchActivated(string text)
     signal paneSearchTextEdited(string text)
+    // Emitted after a successful drag-reorder with the new model array
     signal modelReordered(var model)
 
     readonly property real _paneWidth: {

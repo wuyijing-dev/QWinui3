@@ -4,7 +4,10 @@ import QtQuick.Window
 import QWinUI3.Theme
 import QWinUI3.Platform
 
-// WinUI CompactOverlay presenter — small always-on-top tool window (PiP-style).
+// CompactOverlayWindow — StandardWindow compact overlay presenter.
+//
+//   CompactOverlayWindow { title: qsTr("Overlay") }
+
 StandardWindow {
     id: root
 

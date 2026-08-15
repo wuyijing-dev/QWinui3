@@ -4,15 +4,27 @@ import QtQuick.Controls
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// SettingsCard — Settings row: icon, title, description, action.
+//
+//   SettingsCard {
+//       title: qsTr("Dark mode")
+//       action: Switch { checked: Theme.dark; onToggled: Theme.dark = checked }
+//   }
+
 T.Pane {
     id: root
 
+    // Primary title text
     property string title: ""
+    // Supporting description text
     property string description: ""
+    // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
+    // Raw Fluent glyph string fallback
     property string iconGlyph: ""
     property var headerIcon: ""
     property alias action: actionSlot.data
+    // Content slot / children host
     property alias content: contentSlot.data
     property bool interactive: false
     property bool showChevron: interactive

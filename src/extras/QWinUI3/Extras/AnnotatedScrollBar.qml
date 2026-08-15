@@ -3,7 +3,12 @@ import QtQuick.Controls
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Scroll view with a vertical scrollbar that shows a value label while dragging / hovering the handle.
+// AnnotatedScrollBar — Scroll area with a value label on the vertical scrollbar.
+//
+//   AnnotatedScrollBar {
+//       // flickable children…
+//   }
+
 T.Control {
     id: root
 

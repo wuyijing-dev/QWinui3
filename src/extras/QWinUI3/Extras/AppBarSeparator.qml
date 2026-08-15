@@ -2,9 +2,14 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// AppBarSeparator — Thin separator for CommandBar / AppBar rows.
+//
+//   AppBarSeparator { }
+
 T.Control {
     id: root
 
+    // Qt.Horizontal or Qt.Vertical
     property int orientation: Qt.Vertical
     property real thickness: 1
     property color separatorColor: Theme.strokeDivider

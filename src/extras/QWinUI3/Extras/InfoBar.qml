@@ -4,6 +4,14 @@ import QtQuick.Controls
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// InfoBar — Inline severity banner with optional action.
+//
+//   InfoBar {
+//       title: qsTr("Saved")
+//       message: qsTr("All changes stored.")
+//       severity: InfoBar.Success
+//   }
+
 T.Control {
     id: root
 
@@ -12,18 +20,30 @@ T.Control {
     readonly property int warning: 2
     readonly property int error: 3
 
+    // Status severity enum
     property int severity: informational
+    // Primary title text
     property string title: ""
+    // Body / message text
     property string message: ""
+    // Open / visible state
     property bool isOpen: true
+    // Shows a close affordance when true
     property bool closable: true
+    // Alias of closable
     property alias isClosable: root.closable
+    // Show leading status icon
     property bool showIcon: true
+    // Show leading status icon
     property alias isIconVisible: root.showIcon
+    // Raw Fluent glyph string fallback
     property string iconGlyph: ""
+    // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
+    // Optional action button label
     property string actionText: ""
     property alias action: actionSlot.data
+    // Auto-dismiss duration; 0 keeps open
     property int durationMs: 0 // >0 auto-dismisses after open
     // Convenience string: "informational" | "success" | "warning" | "error"
     readonly property string severityName: {

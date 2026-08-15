@@ -3,18 +3,24 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Stacked column chart with legend, category labels, and hover readout.
-// series: [{ name?, color?, values: number[] }]
+// StackedBarChart — Stacked bar chart.
+//
+//   StackedBarChart { series: [{ values: [1, 2] }] }
+
 T.Control {
     id: root
 
+    // Chart series array
     property var series: []
     property var categories: []
+    // Minimum value
     property real minimum: 0
+    // Maximum value
     property real maximum: NaN
     property real barRadius: 4
     property real barGap: 0.32
     property bool showBaseline: true
+    // Show chart legend
     property bool showLegend: true
     property bool showCategoryLabels: true
     property bool interactive: true
@@ -23,6 +29,7 @@ T.Control {
     property int hoverCategory: -1
     property int hoverSeries: -1
     property string hoverText: ""
+    // Primary title text
     property string title: ""
     property string emptyText: qsTr("No data")
 

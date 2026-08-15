@@ -2,6 +2,10 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// PageIndicator — Fluent styled PageIndicator.
+//
+//   PageIndicator { count: 3; currentIndex: 0 }
+
 T.PageIndicator {
     id: control
 

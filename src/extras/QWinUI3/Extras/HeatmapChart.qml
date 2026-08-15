@@ -3,14 +3,20 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Fluent heatmap. values: number[][]  OR  cells: [{ row, col, value }]
+// HeatmapChart — Heatmap matrix chart.
+//
+//   HeatmapChart { values: matrix }
+
 T.Control {
     id: root
 
+    // Numeric values array
     property var values: []
     property var rowLabels: []
     property var columnLabels: []
+    // Minimum value
     property real minimum: NaN
+    // Maximum value
     property real maximum: NaN
     property real cellGap: 2
     property real cellRadius: 3
@@ -21,6 +27,7 @@ T.Control {
     property int hoverCol: -1
     property color lowColor: Theme.dark ? "#1B3A4B" : "#D6EBFA"
     property color highColor: Theme.accent
+    // Primary title text
     property string title: ""
     property string emptyText: qsTr("No data")
 
@@ -139,6 +146,7 @@ T.Control {
             property real labelH: 0
             property real cellW: 1
             property real cellH: 1
+            // Grid row count
             property int rows: 0
             property int cols: 0
 

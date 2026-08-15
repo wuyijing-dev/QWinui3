@@ -2,6 +2,10 @@ import QtQuick
 import QtQuick.Controls
 import QWinUI3.Theme
 
+// IconButton — Icon-only button helper.
+//
+//   IconButton { symbol: FluentIcons.Add }
+
 IconicButton {
     id: control
 

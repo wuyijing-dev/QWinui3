@@ -2,18 +2,25 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Compact high-perf trend glyph with reveal wipe and end-point marker.
+// Sparkline — Inline mini line chart.
+//
+//   Sparkline { values: [1, 3, 2, 5, 4] }
+
 T.Control {
     id: root
 
+    // Numeric values array
     property var values: []
     property color strokeColor: Theme.accent
     property color fillColor: ChartUtils.withAlpha(Theme.accent, Theme.dark ? 0.28 : 0.16)
     property real strokeWidth: 1.5
+    // Fill under line / area
     property bool filled: true
     property bool showEndMarker: true
     property bool animated: true
+    // Minimum value
     property real minimum: NaN
+    // Maximum value
     property real maximum: NaN
     property real revealProgress: 1
     property string caption: ""

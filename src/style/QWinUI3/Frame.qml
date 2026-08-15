@@ -2,6 +2,10 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// Frame — Fluent styled Frame.
+//
+//   Frame { // children }
+
 T.Frame {
     id: control
     padding: Theme.spacing

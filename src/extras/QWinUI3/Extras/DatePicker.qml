@@ -4,6 +4,10 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// DatePicker — Date selectors (year / month / day).
+//
+//   DatePicker { }
+
 T.Control {
     id: control
 
@@ -12,15 +16,20 @@ T.Control {
     property int day: new Date().getDate()
     property int minYear: 1970
     property int maxYear: 2100
+    // Picker flyout open
     property bool pickerOpen: false
+    // Open / visible state
     property alias isOpen: control.pickerOpen
+    // Header label above the control
     property string header: ""
+    // Placeholder when empty
     property string placeholderText: ""
     // yyyy-MM-dd | MM/dd/yyyy | dd/MM/yyyy
     property string dateFormat: "yyyy-MM-dd"
 
     signal dateChosen(int year, int month, int day)
 
+    // Currently selected date
     property date selectedDate: new Date(year, month - 1, day)
 
     Accessible.role: Accessible.ComboBox

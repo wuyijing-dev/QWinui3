@@ -4,14 +4,24 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// Toast — Transient toast item.
+//
+//   Toast { title: qsTr("Saved"); message: qsTr("OK") }
+
 T.Control {
     id: control
 
+    // Primary title text
     property string title: ""
+    // Body / message text
     property string message: ""
+    // Status severity enum
     property int severity: informational
+    // Auto-dismiss duration; 0 keeps open
     property int durationMs: 3200
+    // Open / visible state
     property bool isOpen: false
+    // Optional action button label
     property string actionText: ""
     property bool showProgress: true
     property bool pauseOnHover: true

@@ -2,6 +2,10 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// DialogButtonBox — Fluent styled DialogButtonBox.
+//
+//   DialogButtonBox { standardButtons: Dialog.Ok | Dialog.Cancel }
+
 T.DialogButtonBox {
     id: control
 

@@ -4,15 +4,26 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// TeachingTip — Anchored tip with title, subtitle, and actions.
+//
+//   TeachingTip { target: btn; title: qsTr("Tip"); subtitle: qsTr("Hint") }
+
 T.Popup {
     id: root
 
+    // Anchor item for placement
     property Item target: null
+    // Primary title text
     property string title: ""
+    // Secondary subtitle text
     property string subtitle: ""
+    // Optional action button label
     property string actionText: ""
+    // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
+    // Raw Fluent glyph string fallback
     property string iconGlyph: ""
+    // Open / visible state
     property bool isOpen: false
     property bool isLightDismissEnabled: true
     property bool isCloseButtonVisible: true

@@ -3,22 +3,28 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Waterfall chart for cumulative step changes.
-// steps: [{ value, label?, color? }]  — positive/negative deltas
+// WaterfallChart — Waterfall chart.
+//
+//   WaterfallChart { values: [10, -3, 5] }
+
 T.Control {
     id: root
 
     property var steps: []
+    // Numeric values array
     property var values: [] // convenience deltas
     property bool showConnector: true
     property bool showLabels: true
     property bool interactive: true
     property bool animated: true
     property real revealProgress: 1
+    // Hovered item index
     property int hoverIndex: -1
+    // Selected index alias
     property alias selectedIndex: root.hoverIndex
     property color totalColor: Theme.accentDark1
     property bool showTotal: true
+    // Primary title text
     property string title: ""
     property string emptyText: qsTr("No data")
     property string valueUnit: ""
@@ -110,6 +116,7 @@ T.Control {
             renderStrategy: Canvas.Cooperative
             property real slot: 1
             property real padL: 4
+            // Item count
             property int count: 0
 
             onPaint: {

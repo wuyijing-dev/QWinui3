@@ -2,14 +2,21 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// WinUI-style metadata block: stacked or flowed label/value pairs.
+// MetadataControl — Stacked or flowed label/value metadata block.
+//
+//   MetadataControl {
+//       MetadataItem { label: qsTr("Author"); value: "Ada" }
+//   }
+
 T.Control {
     id: root
 
     default property alias items: host.data
+    // Qt.Horizontal or Qt.Vertical
     property int orientation: Qt.Vertical
     property real itemSpacing: orientation === Qt.Horizontal
             ? Theme.spacingSection : Theme.spacingLoose
+    // Header label above the control
     property string header: ""
     property int paddingEdges: 0
 

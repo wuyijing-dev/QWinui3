@@ -4,27 +4,46 @@ import QtQuick.Controls
 import QtQuick.Window
 import QWinUI3.Theme
 
-// WinUI 3 TitleBar control — content chrome for AppWindow.
-// Caption buttons live in PlatformTitleBar (AppWindowTitleBar).
-// Layout: [Back][PaneToggle][LeftHeader][Icon][Title/Subtitle][Content|Search][flex][RightHeader]
+// TitleBar — WinUI TitleBar content chrome (not caption buttons).
+//
+//   TitleBar {
+//       title: qsTr("App")
+//       subtitle: qsTr("Optional")
+//       symbol: FluentIcons.Home
+//   }
+
 Item {
     id: root
 
+    // Primary title text
     property string title: qsTr("Application")
+    // Secondary subtitle text
     property string subtitle: ""
+    // Image icon when symbol / iconGlyph are empty
     property url iconSource: ""
+    // FluentIcons value (preferred over iconGlyph)
     property var symbol: ""
+    // Raw Fluent glyph string fallback
     property string iconGlyph: ""
+    // Title-bar search field text
     property alias searchText: searchField.text
+    // Suggestion rows for the built-in search field
     property var searchModel: []
     // When true and content slot is empty, show built-in catalog search (Gallery default).
     property bool searchEnabled: true
+    // Show back button
     property bool isBackButtonVisible: false
+    // Enable back button
     property bool isBackButtonEnabled: true
+    // Show navigation pane toggle
     property bool isPaneToggleButtonVisible: false
+    // Hosted inside PlatformTitleBar / WindowChrome (hides local acrylic plate)
     property bool embedded: false
+    // Use Window.startSystemMove for caption drag
     property bool useSystemMove: true
+    // Extra right inset when caption buttons are drawn outside this item
     property real trailingReserve: 0
+    // Window used for system move
     property var dragWindow: null
     // WinUI TitleBarHeightOption — Standard 32 / Tall 48 (from PlatformTitleBar).
     property real preferredHeight: 48
@@ -34,7 +53,9 @@ Item {
     readonly property bool showBuiltInSearch: searchEnabled && !hasContentChildren
     readonly property real _verticalPad: preferredHeight <= 32 ? 8 : 16
 
+    // WinUI LeftHeader slot
     property alias leftHeader: leftHeaderSlot.data
+    // WinUI Content slot (replaces built-in search when set)
     property alias content: customContentHost.data
     // WinUI RightHeader — also the default children slot for trailing actions.
     default property alias rightHeader: trailingRow.data

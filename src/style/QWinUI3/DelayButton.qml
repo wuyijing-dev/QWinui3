@@ -2,6 +2,10 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// DelayButton — Fluent styled DelayButton.
+//
+//   DelayButton { text: qsTr("Hold") }
+
 T.DelayButton {
     id: control
 

@@ -3,11 +3,18 @@ import QtQuick.Controls
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// SelectorBar — Compact horizontal item selector.
+//
+//   SelectorBar { model: ["All", "Unread"]; currentIndex: 0 }
+
 T.Control {
     id: control
 
+    // Data model / item list for this control
     property var model: []
+    // Selected index
     property int currentIndex: 0
+    // Selected index alias
     property alias selectedIndex: control.currentIndex
     // "pill" (filled accent) or "underline"
     property string selectionStyle: "pill"

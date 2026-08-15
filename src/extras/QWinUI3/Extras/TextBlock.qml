@@ -2,18 +2,24 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// WinUI TextBlock with type-ramp styles mapped to Theme tokens.
+// TextBlock — Fluent typography styles (title, body, caption…).
+//
+//   TextBlock { text: qsTr("Title"); style: title }
+
 T.Control {
     id: root
 
     readonly property int caption: 0
     readonly property int body: 1
     readonly property int bodyStrong: 2
+    // Secondary subtitle text
     readonly property int subtitle: 3
+    // Primary title text
     readonly property int title: 4
     readonly property int titleLarge: 5
     readonly property int display: 6
 
+    // Display / input text
     property string text: ""
     property int style: body
     // WinUI IsTextSelectionEnabled — uses TextEdit when true (Label has no selectByMouse)

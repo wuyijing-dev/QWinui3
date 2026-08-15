@@ -2,12 +2,16 @@ import QtQuick
 import QtQuick.Controls
 import QWinUI3.Theme
 
-// Segoe Fluent Icons glyph with Theme-aware sizing and color.
-// Prefer: symbol: FluentIcons.Home  or  symbol: "Home"  (also accepts icon / glyph)
+// FontIcon — FluentIcons glyph as Text.
+//
+//   FontIcon { symbol: FluentIcons.Home; font.pixelSize: 16 }
+
 Item {
     id: root
 
+    // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
+    // Icon glyph or source
     property var icon: ""
     property string glyph: ""
     property real fontSize: 16

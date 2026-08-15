@@ -2,7 +2,10 @@ import QtQuick
 import QWinUI3.Theme
 import QWinUI3.Platform
 
-// Compact overlay shell — always-on-top tool presenter with ShellWindow API.
+// CompactOverlayShellWindow — Always-on-top compact overlay shell.
+//
+//   CompactOverlayShellWindow { title: qsTr("Now playing") }
+
 ShellWindow {
     id: root
     paradigm: WindowHelper.ParadigmTool

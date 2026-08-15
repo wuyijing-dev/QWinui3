@@ -4,19 +4,32 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// TokenizingTextBox — Token chips + text input.
+//
+//   TokenizingTextBox {
+//       model: tokens
+//       placeholderText: qsTr("Add…")
+//   }
+
 T.Control {
     id: root
 
+    // Display / input text
     property alias text: input.text
     property var tokens: []
+    // Filtered suggestion rows
     property var suggestionModel: []
+    // Placeholder when empty
     property string placeholderText: qsTr("Type and press Enter")
     property bool suggestionsOpen: false
+    // Open / visible state
     property alias isOpen: root.suggestionsOpen
     property int maxTokens: 0 // 0 = unlimited
     property bool allowDuplicates: false
     property string tokenDelimiters: ",;"
+    // Header label above the control
     property string header: ""
+    // Supporting description text
     property string description: ""
     property string errorMessage: ""
     readonly property bool hasError: errorMessage.length > 0

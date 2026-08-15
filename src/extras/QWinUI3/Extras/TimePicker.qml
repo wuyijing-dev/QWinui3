@@ -4,6 +4,10 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// TimePicker — Hour / minute (and period) selectors.
+//
+//   TimePicker { }
+
 T.Control {
     id: control
 
@@ -11,8 +15,11 @@ T.Control {
     property int minute: 0
     property bool isAm: true
     property bool use24Hour: false
+    // Picker flyout open
     property bool pickerOpen: false
+    // Open / visible state
     property alias isOpen: control.pickerOpen
+    // Header label above the control
     property string header: ""
     // WinUI MinuteIncrement — e.g. 1, 5, 15
     property int minuteIncrement: 1

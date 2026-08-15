@@ -2,6 +2,10 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// MenuBar — Fluent styled MenuBar.
+//
+//   MenuBar { Menu { title: qsTr("File") } }
+
 T.MenuBar {
     id: control
 

@@ -4,13 +4,18 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// WinUI Pivot: header tabs with sliding underline and stacked pages.
-// model: string | { title, icon?, content?, page?: Component }
+// Pivot — Header tabs with sliding underline and pages.
+//
+//   Pivot { model: ["Overview", "Details"] }
+
 T.Control {
     id: control
 
+    // Data model / item list for this control
     property var model: []
+    // Selected index
     property int currentIndex: 0
+    // Selected index alias
     property alias selectedIndex: control.currentIndex
     property bool keyboardNavigationEnabled: true
     signal currentIndexChangedByUser(int index)

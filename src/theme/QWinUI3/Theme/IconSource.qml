@@ -1,7 +1,10 @@
 pragma Singleton
 import QtQuick
 
-// Resolves icon inputs so callers can pass FluentIcons.Save, "Save", or "\uE74E".
+// IconSource — Resolve FluentIcons symbol or glyph string.
+//
+//   IconSource.resolve(symbol, iconGlyph)
+
 QtObject {
     id: root
 

@@ -4,11 +4,18 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// FlipView — Page carousel with optional navigation buttons.
+//
+//   FlipView { model: pages }
+
 T.Control {
     id: control
 
+    // Selected index
     property alias currentIndex: swipe.currentIndex
+    // Selected index alias
     property alias selectedIndex: swipe.currentIndex
+    // Item count
     property alias count: swipe.count
     property alias interactive: swipe.interactive
     property bool buttonsVisible: true

@@ -2,6 +2,10 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// SpinBox — Fluent styled SpinBox.
+//
+//   SpinBox { from: 0; to: 99; value: 1 }
+
 T.SpinBox {
     id: control
 

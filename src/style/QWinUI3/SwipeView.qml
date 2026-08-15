@@ -2,6 +2,10 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// SwipeView — Fluent styled SwipeView.
+//
+//   SwipeView { // pages }
+
 T.SwipeView {
     id: control
 

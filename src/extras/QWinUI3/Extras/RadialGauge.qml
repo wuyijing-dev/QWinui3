@@ -5,19 +5,29 @@ import QtQuick.Templates as T
 import QtQuick.Shapes
 import QWinUI3.Theme
 
+// RadialGauge — Circular gauge with needle and zones.
+//
+//   RadialGauge { value: 72; minimum: 0; maximum: 100 }
+
 T.Control {
     id: root
 
+    // Current value
     property real value: 0
+    // Minimum value
     property real minimum: 0
+    // Maximum value
     property real maximum: 100
+    // Value step (e.g. 0.5 for half stars)
     property real stepSize: 0
     property real strokeWidth: 10
     property bool showValue: true
     property string unit: ""
+    // Primary title text
     property string title: ""
     property string caption: ""
     property int valuePrecision: 0
+    // Major tick count
     property int tickCount: 8
     property color trackColor: Theme.strokeDivider
     property color fillColor: Theme.accent

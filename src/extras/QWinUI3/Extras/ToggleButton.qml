@@ -3,11 +3,16 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QWinUI3.Theme
 
-// WinUI-style toggle button: stays accented while checked; optional Fluent symbol.
+// ToggleButton — Checkable button with Fluent chrome.
+//
+//   ToggleButton { text: qsTr("Bold"); checkable: true }
+
 Button {
     id: control
 
+    // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
+    // Raw Fluent glyph string fallback
     property string iconGlyph: ""
     property real iconSize: 14
 

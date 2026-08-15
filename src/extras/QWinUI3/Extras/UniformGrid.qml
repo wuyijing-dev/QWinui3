@@ -2,11 +2,17 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// UniformGrid — Even cell grid.
+//
+//   UniformGrid { columns: 3 }
+
 T.Control {
     id: root
 
     default property alias contentData: grid.data
+    // Grid row count
     property int rows: 0          // 0 = auto from children + columns
+    // Grid column count
     property int columns: 2
     property real rowSpacing: Theme.spacing
     property real columnSpacing: Theme.spacing

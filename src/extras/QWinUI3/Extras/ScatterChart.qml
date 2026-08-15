@@ -3,12 +3,16 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Scatter chart with hover highlight, optional trend line, and tooltip.
-// points: [{ x, y, color? }] or values (y) with index as x.
+// ScatterChart — Scatter / bubble chart.
+//
+//   ScatterChart { points: [{ x: 1, y: 2 }] }
+
 T.Control {
     id: root
 
+    // Scatter points
     property var points: []
+    // Numeric values array
     property var values: []
     property real minimumX: NaN
     property real maximumX: NaN
@@ -26,9 +30,12 @@ T.Control {
     property color pointColor: Theme.accent
     property color trendColor: Theme.systemCaution
     property real revealProgress: 1
+    // Hovered item index
     property int hoverIndex: -1
+    // Selected index alias
     property alias selectedIndex: root.hoverIndex
     property string hoverText: ""
+    // Primary title text
     property string title: ""
     property string emptyText: qsTr("No data")
     property int sourcePointCount: 0

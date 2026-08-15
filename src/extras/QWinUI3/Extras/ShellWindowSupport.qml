@@ -3,17 +3,24 @@ import QtQuick.Window
 import QWinUI3.Theme
 import QWinUI3.Platform
 
-// Shared WindowHelper install + resize border for independent shell ApplicationWindows.
-// Not a window type — compose into BlankWindow / NavigationWindow / MenuStatusWindow.
+// ShellWindowSupport — Shared install/presenter glue for ShellWindow.
+//
+//   ShellWindowSupport { targetWindow: root; autoInstall: true }
+
 Item {
     id: root
 
     property var targetWindow: null
+    // WindowHelper.Paradigm* kind
     property int paradigm: WindowHelper.ParadigmStandard
+    // WindowHelper.Backdrop* material
     property int backdrop: WindowHelper.BackdropSolid
+    // WindowHelper.Presenter* kind
     property int presenter: WindowHelper.PresenterOverlapped
+    // Keep window above others
     property bool isAlwaysOnTop: false
     property bool autoInstall: true
+    // Custom frame / extend content
     property bool extendsContentIntoTitleBar: WindowHelper.customFrame
 
     property bool _ready: false

@@ -3,19 +3,27 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Horizontal chip group for filter / selection patterns.
+// ChipGroup — Horizontal chip group for filters / single select.
+//
+//   ChipGroup { model: ["All", "Open"]; currentIndex: 0 }
+
 T.Control {
     id: root
 
+    // Data model / item list for this control
     property alias model: repeater.model
+    // Selected index
     property int currentIndex: -1
+    // Selected index alias
     property alias selectedIndex: root.currentIndex
     property bool exclusive: true
     // single | multiple | none
     property string selectionMode: ""
+    // Multi-select indexes
     property var selectedIndexes: []
     property int maxSelected: 0 // 0 = unlimited (multiple mode)
     property real chipSpacing: Theme.spacing
+    // small | medium
     property string chipSize: "medium"
     signal selectionChanged()
     signal itemClicked(int index)

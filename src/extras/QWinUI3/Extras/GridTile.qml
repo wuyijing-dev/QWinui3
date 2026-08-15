@@ -3,12 +3,18 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// WinUI GridView item: symbol / image, title, subtitle; optional checkable selection.
+// GridTile — Icon + title tile for launchers / galleries.
+//
+//   GridTile { title: qsTr("Photos"); symbol: FluentIcons.Photo }
+
 T.AbstractButton {
     id: control
 
+    // Primary title text
     property string title: text
+    // Secondary subtitle text
     property string subtitle: ""
+    // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
     property string glyph: ""
     property url source: ""
@@ -16,6 +22,7 @@ T.AbstractButton {
     property real tileHeight: 148
     property alias isSelected: control.checked
     property string badgeText: ""
+    // Show avatar badge
     property bool badgeVisible: badgeText.length > 0
 
     readonly property string effectiveGlyph: {

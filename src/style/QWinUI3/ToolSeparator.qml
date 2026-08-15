@@ -2,6 +2,10 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// ToolSeparator — Fluent styled ToolSeparator.
+//
+//   ToolSeparator { }
+
 T.ToolSeparator {
     id: control
 

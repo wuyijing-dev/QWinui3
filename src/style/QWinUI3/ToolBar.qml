@@ -2,6 +2,10 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// ToolBar — Fluent styled ToolBar.
+//
+//   ToolBar { ToolButton { text: qsTr("A") } }
+
 T.ToolBar {
     id: control
     implicitHeight: 48

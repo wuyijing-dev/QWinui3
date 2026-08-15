@@ -3,11 +3,17 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Corner toast queue host. Call show() / success() / error() to enqueue.
+// ToastHost — Hosts stacked Toasts.
+//
+//   ToastHost { id: toasts }
+//   // toasts.show({ title: "Done", message: "OK" })
+
 T.Control {
     id: root
 
+    // Max visible items before overflow
     property int maxVisible: 3
+    // Auto-dismiss duration; 0 keeps open
     property int durationMs: 3200
     // spacing is FINAL on Control — assign, do not redeclare
     spacing: Theme.spacing
@@ -27,6 +33,7 @@ T.Control {
     readonly property int warning: 2
     readonly property int error: 3
 
+    // Item count
     readonly property int count: queue.count
 
     ListModel { id: queue }
@@ -82,10 +89,15 @@ T.Control {
                 id: wrap
                 required property int index
                 required property string key
+                // Body / message text
                 required property string message
+                // Status severity enum
                 required property int severity
+                // Primary title text
                 required property string title
+                // Optional action button label
                 required property string actionText
+                // Auto-dismiss duration; 0 keeps open
                 required property int durationMs
 
                 Layout.fillWidth: true

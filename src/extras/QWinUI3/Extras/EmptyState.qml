@@ -4,17 +4,28 @@ import QtQuick.Controls
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Empty / zero-data state with symbol, title, message and optional actions.
+// EmptyState — Placeholder illustration + title + optional action.
+//
+//   EmptyState {
+//       title: qsTr("Nothing here")
+//       description: qsTr("Try another filter.")
+//   }
+
 T.Control {
     id: root
 
+    // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
     property string glyph: ""
+    // Primary title text
     property string title: qsTr("Nothing here yet")
+    // Body / message text
     property string message: qsTr("When there is content, it will show up in this area.")
+    // Optional action button label
     property string actionText: ""
     property string secondaryActionText: ""
     property bool compact: false
+    // Draw a border when true
     property bool bordered: true
     property color glyphColor: Theme.accent
     property bool showGlyph: true

@@ -4,14 +4,25 @@ import QtQuick.Controls
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// Expander — Collapsible header with expandable content.
+//
+//   Expander {
+//       header: qsTr("Details")
+//       Label { text: qsTr("Body") }
+//   }
+
 T.Control {
     id: root
 
+    // Primary title text
     property string title: ""
+    // Secondary subtitle text
     property string subtitle: ""
     property bool expanded: false
     property alias isExpanded: root.expanded
+    // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
+    // Raw Fluent glyph string fallback
     property string iconGlyph: ""
     property var headerIcon: ""
     // WinUI ExpandDirection: down | up

@@ -3,12 +3,19 @@ import QtQuick.Templates as T
 import QWinUI3.Theme
 import QWinUI3.Platform
 
-// Frosted panel. On Windows with window acrylic/mica, keep fill translucent so
-// the real desktop blur shows through. Elevated mode adds a stronger card tint.
+// AcrylicSurface — Frosted pane; keep translucent under system Mica/Acrylic.
+//
+//   AcrylicSurface {
+//       elevated: true
+//       // children…
+//   }
+
 T.Pane {
     id: root
 
+    // Stronger elevation / card tint
     property bool elevated: false
+    // Draw a border when true
     property bool bordered: true
     property bool showLuminantEdge: true
     property real cornerRadius: Theme.cornerCard

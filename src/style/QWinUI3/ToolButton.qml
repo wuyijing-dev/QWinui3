@@ -2,6 +2,10 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// ToolButton — Fluent styled ToolButton.
+//
+//   ToolButton { text: qsTr("Edit") }
+
 T.ToolButton {
     id: control
 

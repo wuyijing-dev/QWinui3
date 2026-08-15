@@ -3,7 +3,13 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// WinUI TwoPaneView: side-by-side or stacked panes with a min-width breakpoint.
+// TwoPaneView — Responsive dual-pane layout.
+//
+//   TwoPaneView {
+//       pane1: Rectangle { }
+//       pane2: Rectangle { }
+//   }
+
 T.Control {
     id: root
 
@@ -18,7 +24,9 @@ T.Control {
         Pane2
     }
 
+    // First pane content
     property Item pane1: null
+    // Second pane content
     property Item pane2: null
     property real panePriorityWidth: 320
     property alias pane1Length: root.panePriorityWidth

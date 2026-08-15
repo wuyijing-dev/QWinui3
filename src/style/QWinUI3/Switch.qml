@@ -2,6 +2,10 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// Switch — Fluent styled Switch.
+//
+//   Switch { checked: Theme.dark; onToggled: Theme.dark = checked }
+
 T.Switch {
     id: control
 

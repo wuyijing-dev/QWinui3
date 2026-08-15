@@ -4,12 +4,23 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// SettingsExpander — Expandable settings group.
+//
+//   SettingsExpander {
+//       title: qsTr("Advanced")
+//       SettingsCard { title: qsTr("Option") }
+//   }
+
 T.Control {
     id: control
 
+    // Primary title text
     property string title: ""
+    // Supporting description text
     property string description: ""
+    // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
+    // Raw Fluent glyph string fallback
     property string iconGlyph: ""
     property var headerIcon: ""
     property bool expanded: false

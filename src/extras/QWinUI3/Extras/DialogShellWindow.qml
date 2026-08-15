@@ -2,7 +2,13 @@ import QtQuick
 import QWinUI3.Theme
 import QWinUI3.Platform
 
-// Dialog shell — same ShellWindow API, dialog paradigm (no maximize, centered host).
+// DialogShellWindow — ShellWindow with dialog paradigm flags.
+//
+//   DialogShellWindow {
+//       title: qsTr("Confirm")
+//       width: 440; height: 280
+//   }
+
 ShellWindow {
     id: root
     paradigm: WindowHelper.ParadigmDialog

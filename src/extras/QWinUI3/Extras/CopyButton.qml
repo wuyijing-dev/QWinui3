@@ -3,11 +3,15 @@ import QtQuick.Controls
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Copies textToCopy to the clipboard and briefly shows a success glyph.
+// CopyButton — Copies textToCopy and flashes a success glyph.
+//
+//   CopyButton { textToCopy: code }
+
 T.AbstractButton {
     id: control
 
     property string textToCopy: ""
+    // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
     property string idleGlyph: ""
     property string doneGlyph: ""

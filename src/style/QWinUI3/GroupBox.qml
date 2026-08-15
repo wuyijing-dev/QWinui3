@@ -2,6 +2,10 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// GroupBox — Fluent styled GroupBox.
+//
+//   GroupBox { title: qsTr("Options") }
+
 T.GroupBox {
     id: control
 

@@ -3,13 +3,20 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Overlapping PersonPicture stack. model: [{ displayName, imageSource?, profileColor? }]
+// AvatarGroup — Overlapping PersonPicture stack with overflow count.
+//
+//   AvatarGroup { model: [{ displayName: "A" }, { displayName: "B" }] }
+
 T.Control {
     id: root
 
+    // Data model / item list for this control
     property var model: []
+    // Diameter or box size in px
     property real size: 36
+    // Avatar stack overlap in px
     property real overlap: 12
+    // Max visible items before overflow
     property int maxVisible: 4
     property bool showOverflowCount: true
     property int layoutDirection: Qt.LeftToRight

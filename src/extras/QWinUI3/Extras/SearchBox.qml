@@ -4,27 +4,48 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// WinUI SearchBox — query field with optional suggestions, header, and clear.
+// SearchBox — Search field with suggestion list.
+//
+//   SearchBox {
+//       placeholderText: qsTr("Search")
+//       model: suggestions
+//       onSuggestionChosen: (item) => open(item)
+//   }
+
 T.Control {
     id: control
 
+    // Display / input text
     property alias text: field.text
+    // Placeholder when empty
     property alias placeholderText: field.placeholderText
+    // Show clear affordance
     property bool clearButtonVisible: true
+    // FluentIcons symbol or leave empty to use queryIcon glyph
     property var symbol: FluentIcons.Search
+    // Search glyph fallback string
     property string queryIcon: ""
+    // Header label above the control
     property string header: ""
+    // Supporting description text
     property string description: ""
+    // Full suggestion catalog; filtered into suggestionModel while typing
     property var model: []
+    // Filtered suggestion rows
     property var suggestionModel: []
+    // When true, choosing a suggestion writes display text into the field
     property bool updateTextOnSelect: true
+    // Object field used as display text (fallback: title | text | name)
     property string textMemberPath: ""
+    // Suggestion popup open state
     property bool isSuggestionListOpen: false
 
     readonly property string effectiveQueryIcon: IconSource.resolve(symbol, queryIcon)
 
+    // Enter / submit with current text
     signal accepted(string text)
     signal querySubmitted(string query)
+    // User picked a suggestion row
     signal suggestionChosen(var item)
     signal cleared()
 

@@ -4,7 +4,10 @@ import QtQuick.Window
 import QWinUI3.Theme
 import QWinUI3.Platform
 
-// Secondary dialog window paradigm — compact, centered, no maximize.
+// DialogWindow — StandardWindow dialog paradigm.
+//
+//   DialogWindow { title: qsTr("Dialog") }
+
 StandardWindow {
     id: root
 

@@ -2,6 +2,10 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// TextField — Fluent styled TextField.
+//
+//   TextField { placeholderText: qsTr("Name") }
+
 T.TextField {
     id: control
 

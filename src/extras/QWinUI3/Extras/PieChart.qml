@@ -3,20 +3,27 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Solid pie chart with hover emphasis and synchronized legend.
-// slices: [{ value, color?, label? }]
+// PieChart — Pie chart with legend.
+//
+//   PieChart { slices: [{ value: 1, label: "A" }] }
+
 T.Control {
     id: root
 
+    // Pie/donut slice descriptors
     property var slices: []
+    // Show chart legend
     property bool showLegend: true
     property bool interactive: true
     property bool animated: true
     property real startAngle: -Math.PI / 2
     property real padAngle: 0.02
     property real revealProgress: 1
+    // Hovered item index
     property int hoverIndex: -1
+    // Selected index alias
     property alias selectedIndex: root.hoverIndex
+    // Primary title text
     property string title: ""
     property string emptyText: qsTr("No data")
 

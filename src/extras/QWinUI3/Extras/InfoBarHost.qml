@@ -3,15 +3,21 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Host that stacks InfoBar children with spacing and optional max visible count.
+// InfoBarHost — Stacks InfoBars in a host region.
+//
+//   InfoBarHost { id: bars }
+//   // bars.enqueue({ title: "Hi", severity: InfoBar.Informational })
+
 T.Control {
     id: root
 
     // contentData / spacing are FINAL on Control — do not redeclare.
     // Children land in contentItem (stack) via Control's default contentData.
     spacing: Theme.spacing
+    // Max visible items before overflow
     property int maxVisible: 0 // 0 = unlimited
 
+    // Item count
     readonly property int count: {
         var n = 0
         for (var i = 0; i < stack.children.length; ++i) {

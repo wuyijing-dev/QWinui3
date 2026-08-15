@@ -2,7 +2,10 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Skeleton / shimmer loading placeholder.
+// Shimmer — Skeleton shimmer placeholder.
+//
+//   Shimmer { width: 200; height: 12 }
+
 T.Control {
     id: root
 
@@ -14,8 +17,10 @@ T.Control {
 
     property real cornerRadius: Theme.cornerControl
     property bool active: true
+    // Active / animating state
     property alias isActive: root.active
     property int shape: Shimmer.Rectangle
+    // Auto-dismiss duration; 0 keeps open
     property int durationMs: 1400
     property color baseColor: Theme.fillSubtle
     property color sheenColor: Theme.dark ? "#28FFFFFF" : "#66FFFFFF"

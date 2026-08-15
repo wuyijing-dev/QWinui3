@@ -2,17 +2,23 @@ import QtQuick
 import QtQuick.Layouts
 import QWinUI3.Theme
 
-// Shared Fluent legend for chart series / slices.
-// items: [{ label, color?, value?, secondary? }]
+// ChartLegend — Fluent legend for series/slices.
+//
+//   ChartLegend { items: [{ label: "A", color: Theme.accent }] }
+
 Item {
     id: root
 
     property var items: []
+    // Hovered item index
     property int hoverIndex: -1
+    // Selected index alias
     property int selectedIndex: -1
     property bool interactive: true
+    // Qt.Horizontal or Qt.Vertical
     property int orientation: Qt.Horizontal // or Qt.Vertical
     property bool showValue: true
+    // Header label above the control
     property string header: ""
 
     signal itemClicked(int index)

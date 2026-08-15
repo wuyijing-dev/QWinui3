@@ -4,19 +4,38 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// AutoSuggestBox — Text field with filtered suggestion popup.
+//
+//   AutoSuggestBox {
+//       placeholderText: qsTr("Suggest")
+//       model: items
+//       onSuggestionChosen: (item) => apply(item)
+//   }
+
 T.Control {
     id: control
 
+    // Display / input text
     property alias text: field.text
+    // Placeholder when empty
     property alias placeholderText: field.placeholderText
+    // Data model / item list for this control
     property var model: []
+    // Filtered suggestion rows
     property var suggestionModel: []
+    // Show clear affordance
     property bool clearButtonVisible: true
+    // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: FluentIcons.Search
+    // Search glyph fallback string
     property string queryIcon: ""
+    // Write selection into the text field
     property bool updateTextOnSelect: true
+    // Object field used as display text
     property string textMemberPath: ""
+    // Suggestion popup open state
     property bool isSuggestionListOpen: false
+    // Header label above the control
     property string header: ""
 
     readonly property string effectiveQueryIcon: IconSource.resolve(symbol, queryIcon)

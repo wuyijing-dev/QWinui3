@@ -1,0 +1,5457 @@
+# QWinUI3 component API
+
+Generated from **QML source comments** by regex (`scripts/generate_component_docs.py`).
+Edit the `// Name — …` + indented usage block in each `.qml` file, then re-run the script.
+
+```bash
+python scripts/generate_component_docs.py
+python scripts/generate_component_docs.py --lint
+```
+
+Public components: **179**. Shell overview: `docs/window-shells.md`.
+
+## Index
+
+### `QWinUI3.Extras`
+
+- [AccentButton](#accentbutton) — Always-accent primary CTA with optional Fluent symbol.
+- [AcrylicSurface](#acrylicsurface) — Frosted pane; keep translucent under system Mica/Acrylic.
+- [ActionCard](#actioncard) — Clickable card with symbol, title, description, and chevron.
+- [AnnotatedScrollBar](#annotatedscrollbar) — Scroll area with a value label on the vertical scrollbar.
+- [AppBarButton](#appbarbutton) — CommandBar icon button with label position overrides.
+- [AppBarSeparator](#appbarseparator) — Thin separator for CommandBar / AppBar rows.
+- [AppBarToggleButton](#appbartogglebutton) — Checkable AppBarButton for CommandBar.
+- [ArcGauge](#arcgauge) — Open-arc dashboard gauge with center value and thresholds.
+- [AreaChart](#areachart) — Filled area chart with legend and hover crosshair.
+- [AutoSuggestBox](#autosuggestbox) — Text field with filtered suggestion popup.
+- [AvatarGroup](#avatargroup) — Overlapping PersonPicture stack with overflow count.
+- [BarChart](#barchart) — Vertical bar chart with reveal animation.
+- [BlankWindow](#blankwindow) — Empty ShellWindow client — declare UI as children.
+- [BreadcrumbBar](#breadcrumbbar) — Path trail; model items raise itemClicked.
+- [BulletChart](#bulletchart) — Compact KPI bullet (ranges + performance + target).
+- [CalendarDatePicker](#calendardatepicker) — Date field with calendar flyout.
+- [ChartCard](#chartcard) — Title/subtitle chrome around a chart child.
+- [ChartLegend](#chartlegend) — Fluent legend for series/slices.
+- [Chip](#chip) — Compact selectable tag; optional close affordance.
+- [ChipGroup](#chipgroup) — Horizontal chip group for filters / single select.
+- [ColorPicker](#colorpicker) — Spectrum + RGB/Hex color editor.
+- [ColorPickerButton](#colorpickerbutton) — Color swatch button that opens ColorPicker.
+- [CommandBar](#commandbar) — Primary/secondary command row (AppBar host).
+- [CommandBarFlyout](#commandbarflyout) — Popup CommandBar with primary + secondary commands.
+- [CompactOverlayShellWindow](#compactoverlayshellwindow) — Always-on-top compact overlay shell.
+- [ContentCard](#contentcard) — Surface card with title, subtitle, symbol, and body slot.
+- [ContentDialog](#contentdialog) — Modal dialog with primary / secondary / close actions.
+- [ContentDialogQueue](#contentdialogqueue) — Singleton queue so ContentDialogs open one at a time.
+- [CopyButton](#copybutton) — Copies textToCopy and flashes a success glyph.
+- [DatePicker](#datepicker) — Date selectors (year / month / day).
+- [DialogShellWindow](#dialogshellwindow) — ShellWindow with dialog paradigm flags.
+- [DockPanel](#dockpanel) — Dock children Top/Bottom/Left/Right/Fill.
+- [DonutChart](#donutchart) — Donut chart with hover and legend.
+- [DropDownButton](#dropdownbutton) — Button that opens a MenuFlyout of actions.
+- [EmptyState](#emptystate) — Placeholder illustration + title + optional action.
+- [Expander](#expander) — Collapsible header with expandable content.
+- [FlipView](#flipview) — Page carousel with optional navigation buttons.
+- [Flyout](#flyout) — Light-dismiss popup anchored to a target.
+- [FontIcon](#fonticon) — FluentIcons glyph as Text.
+- [GridTile](#gridtile) — Icon + title tile for launchers / galleries.
+- [HeaderedContentControl](#headeredcontentcontrol) — Labeled content host.
+- [HeaderedTextBox](#headeredtextbox) — TextBox with header and description.
+- [HeatmapChart](#heatmapchart) — Heatmap matrix chart.
+- [HorizontalBarChart](#horizontalbarchart) — Horizontal bar chart.
+- [HyperlinkButton](#hyperlinkbutton) — Link-styled button.
+- [IconButton](#iconbutton) — Icon-only button helper.
+- [IconicButton](#iconicbutton) — Base icon + label button used by AppBar*.
+- [InfoBadge](#infobadge) — Count / status / glyph badge.
+- [InfoBar](#infobar) — Inline severity banner with optional action.
+- [InfoBarHost](#infobarhost) — Stacks InfoBars in a host region.
+- [KeyChordVisual](#keychordvisual) — Renders Ctrl+K style shortcuts as KeyVisuals.
+- [KeyVisual](#keyvisual) — Single keyboard key chrome.
+- [LinearGauge](#lineargauge) — Horizontal/vertical track gauge with thresholds.
+- [LineChart](#linechart) — Multi-series line/area chart.
+- [ListTile](#listtile) — List row: leading, title, subtitle, trailing.
+- [MenuFlyout](#menuflyout) — Elevated Menu with showAt / isOpen helpers.
+- [MenuFlyoutHeader](#menuflyoutheader) — Non-interactive MenuFlyout section header.
+- [MenuFlyoutItem](#menuflyoutitem) — Menu row with glyph and accelerator text.
+- [MenuFlyoutSeparator](#menuflyoutseparator) — MenuFlyout divider.
+- [MenuStatusWindow](#menustatuswindow) — TitleBar + MenuBar + content + StatusBar shell.
+- [MetadataControl](#metadatacontrol) — Stacked or flowed label/value metadata block.
+- [MetadataItem](#metadataitem) — One label/value pair for MetadataControl.
+- [MeterBar](#meterbar) — Multi-segment stacked meter (e.g. disk usage).
+- [MultiSelectComboBox](#multiselectcombobox) — Combo that keeps the popup open for multi-select.
+- [NavigationView](#navigationview) — WinUI NavigationView with pane modes and page stack.
+- [NavigationWindow](#navigationwindow) — ShellWindow hosting NavigationView + content.
+- [NumberBox](#numberbox) — Numeric spin/edit with validation.
+- [PasswordBox](#passwordbox) — Password field with reveal toggle.
+- [PersonPicture](#personpicture) — Avatar from image or initials.
+- [PieChart](#piechart) — Pie chart with legend.
+- [PipsPager](#pipspager) — Dot pager for carousels.
+- [Pivot](#pivot) — Header tabs with sliding underline and pages.
+- [ProgressButton](#progressbutton) — Button with inline determinate/indeterminate fill.
+- [ProgressRing](#progressring) — Circular progress / busy ring.
+- [RadarChart](#radarchart) — Radar / spider chart.
+- [RadialGauge](#radialgauge) — Circular gauge with needle and zones.
+- [RadioButtons](#radiobuttons) — Grouped RadioButton list from a model.
+- [RadioMenuFlyoutItem](#radiomenuflyoutitem) — Exclusive radio MenuFlyout item.
+- [RatingControl](#ratingcontrol) — Star rating; stepSize supports halves.
+- [RefreshContainer](#refreshcontainer) — Pull-to-refresh host for flickable content.
+- [RelativePanel](#relativepanel) — Constraint-based relative layout.
+- [ScatterChart](#scatterchart) — Scatter / bubble chart.
+- [SearchBox](#searchbox) — Search field with suggestion list.
+- [SegmentedControl](#segmentedcontrol) — Mutually exclusive segment buttons.
+- [SegmentedGauge](#segmentedgauge) — Segmented progress / capacity gauge.
+- [SelectorBar](#selectorbar) — Compact horizontal item selector.
+- [SettingsCard](#settingscard) — Settings row: icon, title, description, action.
+- [SettingsExpander](#settingsexpander) — Expandable settings group.
+- [ShellWindow](#shellwindow) — Independent ApplicationWindow + WindowChrome host.
+- [Shimmer](#shimmer) — Skeleton shimmer placeholder.
+- [Sparkline](#sparkline) — Inline mini line chart.
+- [SplitButton](#splitbutton) — Primary action + chevron menu.
+- [StackedBarChart](#stackedbarchart) — Stacked bar chart.
+- [StackPanel](#stackpanel) — Simple stack layout (orientation + spacing).
+- [StatusBar](#statusbar) — Window status strip with progress and slots.
+- [StatusDot](#statusdot) — Colored status indicator dot.
+- [StepBar](#stepbar) — Horizontal step / wizard progress.
+- [SwipeAction](#swipeaction) — Action revealed by SwipeControl.
+- [SwipeControl](#swipecontrol) — Swipe-to-reveal actions on content.
+- [SwitchCase](#switchcase) — Case child for SwitchPresenter.
+- [SwitchPresenter](#switchpresenter) — Shows the SwitchCase matching value.
+- [TabView](#tabview) — Closeable / reorderable tabs.
+- [TeachingTip](#teachingtip) — Anchored tip with title, subtitle, and actions.
+- [TextBlock](#textblock) — Fluent typography styles (title, body, caption…).
+- [Timeline](#timeline) — Vertical event timeline.
+- [TimePicker](#timepicker) — Hour / minute (and period) selectors.
+- [TitleBar](#titlebar) — WinUI TitleBar content chrome (not caption buttons).
+- [Toast](#toast) — Transient toast item.
+- [ToastHost](#toasthost) — Hosts stacked Toasts.
+- [ToggleButton](#togglebutton) — Checkable button with Fluent chrome.
+- [ToggleMenuFlyoutItem](#togglemenuflyoutitem) — Checkable MenuFlyout item.
+- [ToggleSplitButton](#togglesplitbutton) — Toggle primary + menu SplitButton.
+- [TokenizingTextBox](#tokenizingtextbox) — Token chips + text input.
+- [ToolShellWindow](#toolshellwindow) — ShellWindow with tool paradigm.
+- [TwoPaneView](#twopaneview) — Responsive dual-pane layout.
+- [UniformGrid](#uniformgrid) — Even cell grid.
+- [WaterfallChart](#waterfallchart) — Waterfall chart.
+- [WrapPanel](#wrappanel) — Flow / wrap layout.
+- [ZoneGauge](#zonegauge) — Gauge with colored zones.
+
+### `QWinUI3.Platform`
+
+- [CompactOverlayWindow](#compactoverlaywindow) — StandardWindow compact overlay presenter.
+- [DialogWindow](#dialogwindow) — StandardWindow dialog paradigm.
+- [PlatformTitleBar](#platformtitlebar) — Caption buttons + drag region + TitleBar host.
+- [StandardWindow](#standardwindow) — Platform ApplicationWindow + PlatformTitleBar host.
+- [ToolWindow](#toolwindow) — StandardWindow tool paradigm.
+
+### `QWinUI3.Theme`
+
+- [Theme](#theme) — Fluent color / type / motion token singleton.
+
+### `QtQuick.Controls.QWinUI3`
+
+- [ApplicationWindow](#applicationwindow) — Fluent ApplicationWindow chrome defaults.
+- [BusyIndicator](#busyindicator) — Fluent styled BusyIndicator.
+- [Button](#button) — Fluent styled Button.
+- [CheckBox](#checkbox) — Fluent styled CheckBox.
+- [CheckDelegate](#checkdelegate) — Fluent styled CheckDelegate.
+- [ComboBox](#combobox) — Fluent styled ComboBox.
+- [DayOfWeekRow](#dayofweekrow) — Fluent styled DayOfWeekRow.
+- [DelayButton](#delaybutton) — Fluent styled DelayButton.
+- [Dial](#dial) — Fluent styled Dial.
+- [Dialog](#dialog) — Fluent styled Dialog.
+- [DialogButtonBox](#dialogbuttonbox) — Fluent styled DialogButtonBox.
+- [Drawer](#drawer) — Fluent styled Drawer.
+- [Frame](#frame) — Fluent styled Frame.
+- [GroupBox](#groupbox) — Fluent styled GroupBox.
+- [HorizontalHeaderView](#horizontalheaderview) — Fluent styled HorizontalHeaderView.
+- [ItemDelegate](#itemdelegate) — Fluent styled ItemDelegate.
+- [Label](#label) — Fluent styled Label.
+- [Menu](#menu) — Fluent styled Menu.
+- [MenuBar](#menubar) — Fluent styled MenuBar.
+- [MenuBarItem](#menubaritem) — Fluent styled MenuBarItem.
+- [MenuItem](#menuitem) — Fluent styled MenuItem.
+- [MenuSeparator](#menuseparator) — Fluent styled MenuSeparator.
+- [MonthGrid](#monthgrid) — Fluent styled MonthGrid.
+- [Page](#page) — Fluent styled Page.
+- [PageIndicator](#pageindicator) — Fluent styled PageIndicator.
+- [Pane](#pane) — Fluent styled Pane.
+- [Popup](#popup) — Fluent styled Popup chrome.
+- [ProgressBar](#progressbar) — Fluent styled ProgressBar.
+- [RadioButton](#radiobutton) — Fluent styled RadioButton.
+- [RadioDelegate](#radiodelegate) — Fluent styled RadioDelegate.
+- [RangeSlider](#rangeslider) — Fluent styled RangeSlider.
+- [RoundButton](#roundbutton) — Fluent styled RoundButton.
+- [ScrollBar](#scrollbar) — Fluent styled ScrollBar.
+- [ScrollIndicator](#scrollindicator) — Fluent styled ScrollIndicator.
+- [ScrollView](#scrollview) — Fluent styled ScrollView.
+- [Slider](#slider) — Fluent styled Slider.
+- [SpinBox](#spinbox) — Fluent styled SpinBox.
+- [SplitView](#splitview) — Fluent styled SplitView.
+- [StackView](#stackview) — Fluent styled StackView.
+- [SwipeDelegate](#swipedelegate) — Fluent styled SwipeDelegate.
+- [SwipeView](#swipeview) — Fluent styled SwipeView.
+- [Switch](#switch) — Fluent styled Switch.
+- [SwitchDelegate](#switchdelegate) — Fluent styled SwitchDelegate.
+- [TabBar](#tabbar) — Fluent styled TabBar.
+- [TabButton](#tabbutton) — Fluent styled TabButton.
+- [TextArea](#textarea) — Fluent styled TextArea.
+- [TextField](#textfield) — Fluent styled TextField.
+- [ToolBar](#toolbar) — Fluent styled ToolBar.
+- [ToolButton](#toolbutton) — Fluent styled ToolButton.
+- [ToolSeparator](#toolseparator) — Fluent styled ToolSeparator.
+- [ToolTip](#tooltip) — Fluent styled ToolTip.
+- [TreeViewDelegate](#treeviewdelegate) — Fluent styled TreeViewDelegate.
+- [Tumbler](#tumbler) — Fluent styled Tumbler.
+- [VerticalHeaderView](#verticalheaderview) — Fluent styled VerticalHeaderView.
+
+## Components
+
+### Module `QWinUI3.Extras`
+
+#### AccentButton
+
+Always-accent primary CTA with optional Fluent symbol.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/AccentButton.qml`
+
+```qml
+AccentButton {
+    text: qsTr("Save")
+    symbol: FluentIcons.Save
+    onClicked: save()
+}
+```
+
+<details><summary>Properties</summary>
+
+- `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
+- `iconGlyph: string` — Raw Fluent glyph string fallback
+- `iconSize: real`
+- `effectiveIconGlyph: string`
+- `lightScheme: bool`
+
+</details>
+
+#### AcrylicSurface
+
+Frosted pane; keep translucent under system Mica/Acrylic.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/AcrylicSurface.qml`
+
+```qml
+AcrylicSurface {
+    elevated: true
+    // children…
+}
+```
+
+<details><summary>Properties</summary>
+
+- `elevated: bool` — Stronger elevation / card tint
+- `bordered: bool` — Draw a border when true
+- `showLuminantEdge: bool`
+- `cornerRadius: real`
+- `tintColor: color`
+- `frostOpacity: real`
+
+</details>
+
+#### ActionCard
+
+Clickable card with symbol, title, description, and chevron.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/ActionCard.qml`
+
+```qml
+ActionCard {
+    title: qsTr("Accounts")
+    description: qsTr("Manage profiles")
+    onClicked: open()
+}
+```
+
+<details><summary>Properties</summary>
+
+- `title: string` — Primary title text
+- `description: string` — Supporting description text
+- `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
+- `glyph: string`
+- `glyphColor: color`
+- `glyphBackground: color`
+- `showChevron: bool`
+- `badgeVisible: bool` — Show avatar badge
+- `badgeValue: int`
+- `badgeText: string`
+- `badgeSeverity: int`
+- `effectiveGlyph: string`
+
+</details>
+
+#### AnnotatedScrollBar
+
+Scroll area with a value label on the vertical scrollbar.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/AnnotatedScrollBar.qml`
+
+```qml
+AnnotatedScrollBar {
+    // flickable children…
+}
+```
+
+<details><summary>Properties</summary>
+
+- `contentData: alias`
+- `contentWidth: alias`
+- `contentHeight: alias`
+- `contentX: alias`
+- `contentY: alias`
+- `flickable: alias`
+- `labels: var` — Optional map from scroll position (0..1) → label. Empty → percentage.
+- `labelFormat: string`
+- `alwaysShowLabel: bool`
+- `scrollPosition: real`
+- `currentLabel: string`
+
+</details>
+
+#### AppBarButton
+
+CommandBar icon button with label position overrides.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/AppBarButton.qml`
+
+```qml
+AppBarButton {
+    text: qsTr("Add")
+    symbol: FluentIcons.Add
+}
+```
+
+<details><summary>Properties</summary>
+
+- `labelPosition: string` — Override CommandBar.defaultLabelPosition when set (bottom | right | collapsed)
+- `effectiveLabelPosition: string`
+
+</details>
+
+#### AppBarSeparator
+
+Thin separator for CommandBar / AppBar rows.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/AppBarSeparator.qml`
+
+```qml
+AppBarSeparator { }
+```
+
+<details><summary>Properties</summary>
+
+- `orientation: int` — Qt.Horizontal or Qt.Vertical
+- `thickness: real`
+- `separatorColor: color`
+- `margin: real`
+
+</details>
+
+#### AppBarToggleButton
+
+Checkable AppBarButton for CommandBar.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/AppBarToggleButton.qml`
+
+```qml
+AppBarToggleButton {
+    text: qsTr("Pin")
+    checkable: true
+}
+```
+
+<details><summary>Properties</summary>
+
+- `labelPosition: string` — bottom | right | collapsed
+- `effectiveLabelPosition: string`
+
+</details>
+
+#### ArcGauge
+
+Open-arc dashboard gauge with center value and thresholds.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/ArcGauge.qml`
+
+```qml
+ArcGauge { value: 64; minimum: 0; maximum: 100 }
+```
+
+<details><summary>Properties</summary>
+
+- `value: real` — Current value
+- `minimum: real` — Minimum value
+- `maximum: real` — Maximum value
+- `stepSize: real` — Value step (e.g. 0.5 for half stars)
+- `title: string` — Primary title text
+- `unit: string`
+- `caption: string`
+- `valuePrecision: int`
+- `strokeWidth: real`
+- `fillColor: color`
+- `trackColor: color`
+- `startAngle: real`
+- `sweepTotal: real`
+- `cautionThreshold: real`
+- `criticalThreshold: real`
+- `invertThresholds: bool`
+- `showValue: bool`
+- `showMinMax: bool`
+- `isInteractive: bool`
+- `interactive: alias`
+- `percentage: real`
+- `effectiveFillColor: color`
+- `formattedValue: string`
+- `animatedValue: real`
+- `animatedNorm: real`
+- `cx: real`
+- `cy: real`
+- `radius: real`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `valueEdited(real value)`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `clampSnap(v)`
+- `setValue(v)`
+- `setValueFromNorm(n)`
+- `normFromPoint(px, py, cx, cy)`
+
+</details>
+
+#### AreaChart
+
+Filled area chart with legend and hover crosshair.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/AreaChart.qml`
+
+```qml
+AreaChart { values: [1, 3, 2, 5] }
+```
+
+<details><summary>Properties</summary>
+
+- `series: var` — Chart series array
+- `values: var` — Numeric values array
+- `minimum: real` — Minimum value
+- `maximum: real` — Maximum value
+- `showGrid: bool`
+- `stacked: bool`
+- `showLegend: bool` — Show chart legend
+- `interactive: bool`
+- `animated: bool`
+- `maxPoints: int`
+- `lodFactor: real`
+- `autoLod: bool`
+- `gridColor: color`
+- `revealProgress: real`
+- `hoverIndex: int` — Hovered item index
+- `hoverLineX: real`
+- `hoverMarkers: var`
+- `hoverText: string`
+- `title: string` — Primary title text
+- `emptyText: string`
+- `sourcePointCount: int`
+- `drawnPointCount: int`
+- `isEmpty: bool`
+- `plotL: real`
+- `plotT: real`
+- `plotW: real`
+- `plotH: real`
+- `lo: real`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `invalidateLod()`
+- `sourcePointCountEstimate()`
+- `ensureLod(budget)`
+- `playReveal()`
+- `requestRedraw()`
+- `onDataChanged()`
+
+</details>
+
+#### AutoSuggestBox
+
+Text field with filtered suggestion popup.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/AutoSuggestBox.qml`
+
+```qml
+AutoSuggestBox {
+    placeholderText: qsTr("Suggest")
+    model: items
+    onSuggestionChosen: (item) => apply(item)
+}
+```
+
+<details><summary>Properties</summary>
+
+- `text: alias` — Display / input text
+- `placeholderText: alias` — Placeholder when empty
+- `model: var` — Data model / item list for this control
+- `suggestionModel: var` — Filtered suggestion rows
+- `clearButtonVisible: bool` — Show clear affordance
+- `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
+- `queryIcon: string` — Search glyph fallback string
+- `updateTextOnSelect: bool` — Write selection into the text field
+- `textMemberPath: string` — Object field used as display text
+- `isSuggestionListOpen: bool` — Suggestion popup open state
+- `header: string` — Header label above the control
+- `effectiveQueryIcon: string`
+- `host: var`
+- `modelData: var`
+- `index: int`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `suggestionChosen(var item)`
+- `querySubmitted(string query)`
+- `accepted(string text)`
+- `cleared()`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `focusField()`
+- `displayTextFor(item)`
+- `refreshSuggestions()`
+- `clear()`
+
+</details>
+
+#### AvatarGroup
+
+Overlapping PersonPicture stack with overflow count.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/AvatarGroup.qml`
+
+```qml
+AvatarGroup { model: [{ displayName: "A" }, { displayName: "B" }] }
+```
+
+<details><summary>Properties</summary>
+
+- `model: var` — Data model / item list for this control
+- `size: real` — Diameter or box size in px
+- `overlap: real` — Avatar stack overlap in px
+- `maxVisible: int` — Max visible items before overflow
+- `showOverflowCount: bool`
+- `layoutDirection: int`
+- `overflowCount: int`
+- `modelData: var`
+- `index: int`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `personClicked(int index, var item)`
+- `overflowClicked()`
+
+</details>
+
+#### BarChart
+
+Vertical bar chart with reveal animation.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/BarChart.qml`
+
+```qml
+BarChart { values: [4, 2, 7, 3] }
+```
+
+<details><summary>Properties</summary>
+
+- `values: var` — Numeric values array
+- `bars: var` — Bar descriptors
+- `minimum: real` — Minimum value
+- `maximum: real` — Maximum value
+- `barRadius: real`
+- `barGap: real`
+- `showBaseline: bool`
+- `showValueLabels: bool`
+- `interactive: bool`
+- `animated: bool`
+- `revealProgress: real`
+- `hoverIndex: int` — Hovered item index
+- `selectedIndex: alias` — Selected index alias
+- `title: string` — Primary title text
+- `emptyText: string`
+- `valueUnit: string`
+- `isEmpty: bool`
+- `slot: real`
+- `gap: real`
+- `padL: real`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `barClicked(int index, real value)`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `playReveal()`
+- `requestRedraw()`
+
+</details>
+
+#### BlankWindow
+
+Empty ShellWindow client — declare UI as children.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/BlankWindow.qml`
+
+```qml
+BlankWindow {
+    title: qsTr("App")
+    Label { anchors.centerIn: parent; text: "Hello" }
+}
+```
+
+#### BreadcrumbBar
+
+Path trail; model items raise itemClicked.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/BreadcrumbBar.qml`
+
+```qml
+BreadcrumbBar {
+    model: [{ title: "Home" }, { title: "Docs" }]
+    onItemClicked: (index) => navigate(index)
+}
+```
+
+<details><summary>Properties</summary>
+
+- `model: var` — Data model / item list for this control
+- `currentIndex: int` — Selected index
+- `maxVisibleItems: int` — Collapse middle crumbs when count exceeds this (0 = show all)
+- `lastItemClickable: bool` — WinUI: current/last crumb is usually non-interactive
+- `separatorSymbol: var`
+- `separatorGlyph: string`
+- `effectiveSeparatorGlyph: string`
+- `visibleModel: var`
+- `overflowModel: var`
+- `modelData: var`
+- `index: int`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `itemClicked(int index)`
+- `itemInvoked(int index)`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `crumbTitle(data)`
+- `crumbIcon(data)`
+- `isCurrent(index)`
+- `isClickable(entry)`
+
+</details>
+
+#### BulletChart
+
+Compact KPI bullet (ranges + performance + target).
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/BulletChart.qml`
+
+```qml
+BulletChart { value: 70; target: 80; maximum: 100 }
+```
+
+<details><summary>Properties</summary>
+
+- `value: real` — Current value
+- `target: real` — Anchor item for placement
+- `maximum: real` — Maximum value
+- `minimum: real` — Minimum value
+- `ranges: var`
+- `rangeColors: var`
+- `label: string` — Field label
+- `unit: string`
+- `valuePrecision: int`
+- `showValueText: bool`
+- `showTarget: bool`
+- `showTargetDelta: bool`
+- `targetMet: bool`
+- `targetDelta: real`
+- `formattedValue: string`
+- `formattedDelta: string`
+- `index: int`
+- `modelData: var`
+- `prev: real`
+- `cur: real`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `setValue(v)`
+- `bandColor(index)`
+
+</details>
+
+#### CalendarDatePicker
+
+Date field with calendar flyout.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/CalendarDatePicker.qml`
+
+```qml
+CalendarDatePicker { selectedDate: new Date() }
+```
+
+<details><summary>Properties</summary>
+
+- `selectedDate: date` — Currently selected date
+- `calendarOpen: bool` — Calendar flyout open
+- `isOpen: alias` — Open / visible state
+- `dateFormat: string`
+- `showTodayButton: bool`
+- `header: string` — Header label above the control
+- `placeholderText: string` — Placeholder when empty
+- `minDate: date`
+- `maxDate: date`
+- `hasMinDate: bool`
+- `hasMaxDate: bool`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `dateChosen(date date)`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `isDateAllowed(d)`
+
+</details>
+
+#### ChartCard
+
+Title/subtitle chrome around a chart child.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/ChartCard.qml`
+
+```qml
+ChartCard {
+    title: qsTr("Revenue")
+    LineChart { values: series }
+}
+```
+
+<details><summary>Properties</summary>
+
+- `title: string` — Primary title text
+- `subtitle: string` — Secondary subtitle text
+- `footer: string` — Footer text
+- `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
+- `iconGlyph: string` — Raw Fluent glyph string fallback
+- `animated: bool`
+- `elevated: bool` — Stronger elevation / card tint
+- `bordered: bool` — Draw a border when true
+- `headerActions: alias`
+- `content: alias` — Content slot / children host
+- `effectiveIconGlyph: string`
+
+</details>
+
+#### ChartLegend
+
+Fluent legend for series/slices.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/ChartLegend.qml`
+
+```qml
+ChartLegend { items: [{ label: "A", color: Theme.accent }] }
+```
+
+<details><summary>Properties</summary>
+
+- `items: var`
+- `hoverIndex: int` — Hovered item index
+- `selectedIndex: int` — Selected index alias
+- `interactive: bool`
+- `orientation: int` — Qt.Horizontal or Qt.Vertical
+- `showValue: bool`
+- `header: string` — Header label above the control
+- `modelData: var`
+- `index: int`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `itemClicked(int index)`
+- `itemHovered(int index)`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `select(index)`
+- `clearSelection()`
+
+</details>
+
+#### Chip
+
+Compact selectable tag; optional close affordance.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/Chip.qml`
+
+```qml
+Chip {
+    text: qsTr("Tag")
+    closable: true
+    onCloseClicked: remove()
+}
+```
+
+<details><summary>Properties</summary>
+
+- `closable: bool` — Shows a trailing close affordance
+- `isCloseButtonVisible: alias`
+- `highlighted: bool` — Emphasized / selected chrome
+- `flat: bool` — Flat chrome without fill
+- `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
+- `iconGlyph: string` — Raw Fluent glyph string fallback
+- `avatarText: string` — Initials / short avatar text instead of an icon
+- `appearance: string` — filled | outline
+- `chipSize: string` — small | medium
+- `effectiveIconGlyph: string`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `closeClicked()`
+
+</details>
+
+#### ChipGroup
+
+Horizontal chip group for filters / single select.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/ChipGroup.qml`
+
+```qml
+ChipGroup { model: ["All", "Open"]; currentIndex: 0 }
+```
+
+<details><summary>Properties</summary>
+
+- `model: alias` — Data model / item list for this control
+- `currentIndex: int` — Selected index
+- `selectedIndex: alias` — Selected index alias
+- `exclusive: bool`
+- `selectionMode: string` — single | multiple | none
+- `selectedIndexes: var` — Multi-select indexes
+- `maxSelected: int`
+- `chipSpacing: real`
+- `chipSize: string` — small | medium
+- `modelData: var`
+- `index: int`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `selectionChanged()`
+- `itemClicked(int index)`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `isSelected(index)`
+- `clearSelection()`
+- `select(index)`
+- `toggleIndex(index)`
+
+</details>
+
+#### ColorPicker
+
+Spectrum + RGB/Hex color editor.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/ColorPicker.qml`
+
+```qml
+ColorPicker { selectedColor: "#005FB8" }
+```
+
+<details><summary>Properties</summary>
+
+- `selectedColor: color` — Currently selected color
+- `hue: real`
+- `saturation: real`
+- `value: real` — Current value
+- `showAlpha: bool`
+- `alpha: real`
+- `colorModel: int`
+- `isColorSpectrumVisible: bool`
+- `isColorPreviewVisible: bool`
+- `isColorChannelTextInputVisible: bool`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `colorChosen(color color)`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `copyHex()`
+- `clamp01(x)`
+- `hsvToRgb(h, s, v)`
+- `rgbToHsv(r, g, b)`
+- `hsvToColor(h, s, v, a)`
+- `hexString(c)`
+- `byteHex(n)`
+- `parseHex(text)`
+- `applyHsv(emitSignal)`
+- `syncFromColor(c, emitSignal)`
+- `syncInputsFromColor()`
+- `commitRgbFields()`
+- `commitHsvFields()`
+
+</details>
+
+#### ColorPickerButton
+
+Color swatch button that opens ColorPicker.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/ColorPickerButton.qml`
+
+```qml
+ColorPickerButton { selectedColor: Theme.accent }
+```
+
+<details><summary>Properties</summary>
+
+- `selectedColor: color` — Currently selected color
+- `pickerOpen: bool` — Picker flyout open
+- `isOpen: alias` — Open / visible state
+- `showAlpha: bool`
+- `showHexLabel: bool`
+- `flyoutPlacement: int`
+- `hexText: string`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `colorChosen(color color)`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `hex2(n)`
+- `open()`
+- `close()`
+
+</details>
+
+#### CommandBar
+
+Primary/secondary command row (AppBar host).
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/CommandBar.qml`
+
+```qml
+CommandBar {
+    AppBarButton { text: qsTr("Add"); symbol: FluentIcons.Add }
+}
+```
+
+<details><summary>Properties</summary>
+
+- `contentData: alias`
+- `primaryCommands: alias`
+- `overflowMenu: alias`
+- `overflowItems: var` — [{ text: string, triggered: function() }] — MenuItem cannot parent to Menu in Qt 6
+- `secondaryCommands: alias`
+- `barSpacing: real`
+- `isOpen: bool` — Open / visible state
+- `defaultLabelPosition: string`
+- `closedDisplayMode: string`
+- `isMoreButtonVisible: bool`
+- `isToggleButtonVisible: bool`
+- `effectiveLabelPosition: string`
+- `modelData: var`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `opening()`
+- `closing()`
+- `opened()`
+- `closed()`
+- `moreButtonClicked()`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `open()`
+- `close()`
+- `toggle()`
+
+</details>
+
+#### CommandBarFlyout
+
+Popup CommandBar with primary + secondary commands.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/CommandBarFlyout.qml`
+
+```qml
+CommandBarFlyout {
+    AppBarButton { text: qsTr("Share") }
+}
+```
+
+<details><summary>Properties</summary>
+
+- `primaryCommands: alias`
+- `secondaryCommands: alias`
+- `primaryData: alias`
+- `secondaryData: alias`
+- `isOpen: bool` — Open / visible state
+- `isLightDismissEnabled: bool`
+- `target: Item` — Anchor item for placement
+- `placement: int` — Popup / flyout placement
+- `preferredPlacement: alias`
+- `showSecondary: bool`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `showAt(item, preferredPlacement)`
+- `show()`
+- `hide()`
+- `openFlyout()`
+- `closeFlyout()`
+
+</details>
+
+#### CompactOverlayShellWindow
+
+Always-on-top compact overlay shell.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/CompactOverlayShellWindow.qml`
+
+```qml
+CompactOverlayShellWindow { title: qsTr("Now playing") }
+```
+
+#### ContentCard
+
+Surface card with title, subtitle, symbol, and body slot.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/ContentCard.qml`
+
+```qml
+ContentCard {
+    title: qsTr("Card")
+    Label { text: qsTr("Body") }
+}
+```
+
+<details><summary>Properties</summary>
+
+- `title: string` — Primary title text
+- `subtitle: string` — Secondary subtitle text
+- `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
+- `headerIcon: string`
+- `footer: alias` — Footer text
+- `isClickable: bool`
+- `contentData: alias`
+- `effectiveHeaderIcon: string`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `clicked()`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `fitChildren()`
+- `fitFooter()`
+
+</details>
+
+#### ContentDialog
+
+Modal dialog with primary / secondary / close actions.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/ContentDialog.qml`
+
+```qml
+ContentDialog {
+    title: qsTr("Confirm")
+    primaryButtonText: qsTr("OK")
+    closeButtonText: qsTr("Cancel")
+}
+// prefer dialog.show() → ContentDialogQueue
+```
+
+<details><summary>Properties</summary>
+
+- `primaryButtonText: string` — Primary action label (accent); empty hides the button
+- `secondaryButtonText: string` — Optional middle action; empty hides
+- `closeButtonText: string` — Dismiss / cancel label; empty hides
+- `isPrimaryDefault: bool` — Prefer defaultButton; isPrimaryDefault kept for compatibility
+- `defaultButton: string` — WinUI DefaultButton: primary | secondary | close | none
+- `isPrimaryButtonEnabled: bool`
+- `isSecondaryButtonEnabled: bool`
+- `isCloseButtonEnabled: bool`
+- `isOpen: alias` — Bindable open state (alias of visible)
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `primaryClicked()`
+- `secondaryClicked()`
+- `closeClicked()`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `show()`
+- `hide()`
+- `openQueued()`
+- `activateDefault()`
+- `syncBody()`
+
+</details>
+
+#### ContentDialogQueue
+
+Singleton queue so ContentDialogs open one at a time.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/ContentDialogQueue.qml`
+
+```qml
+ContentDialogQueue.show(dialog)
+ContentDialogQueue.cancel(dialog)
+ContentDialogQueue.replaceCurrent(other)
+```
+
+<details><summary>Properties</summary>
+
+- `pendingCount: int`
+- `busy: bool`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `enqueue(dialog)`
+- `show(dialog)`
+- `cancel(dialog)`
+- `clearQueue()`
+- `replaceCurrent(dialog)`
+
+</details>
+
+#### CopyButton
+
+Copies textToCopy and flashes a success glyph.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/CopyButton.qml`
+
+```qml
+CopyButton { textToCopy: code }
+```
+
+<details><summary>Properties</summary>
+
+- `textToCopy: string`
+- `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
+- `idleGlyph: string`
+- `doneGlyph: string`
+- `feedbackMs: int`
+- `copied: bool`
+- `iconOnly: bool`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `copyCompleted(string text)`
+- `copyFailed()`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `copy(optionalText)`
+
+</details>
+
+#### DatePicker
+
+Date selectors (year / month / day).
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/DatePicker.qml`
+
+```qml
+DatePicker { }
+```
+
+<details><summary>Properties</summary>
+
+- `year: int`
+- `month: int`
+- `day: int`
+- `minYear: int`
+- `maxYear: int`
+- `pickerOpen: bool` — Picker flyout open
+- `isOpen: alias` — Open / visible state
+- `header: string` — Header label above the control
+- `placeholderText: string` — Placeholder when empty
+- `dateFormat: string` — yyyy-MM-dd | MM/dd/yyyy | dd/MM/yyyy
+- `selectedDate: date` — Currently selected date
+- `displayText: string`
+- `daysInMonth: int`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `dateChosen(int year, int month, int day)`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `syncSelectedDateFromParts()`
+- `clampDay()`
+- `applyFromTumblers()`
+- `syncTumblers()`
+
+</details>
+
+#### DialogShellWindow
+
+ShellWindow with dialog paradigm flags.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/DialogShellWindow.qml`
+
+```qml
+DialogShellWindow {
+    title: qsTr("Confirm")
+    width: 440; height: 280
+}
+```
+
+#### DockPanel
+
+Dock children Top/Bottom/Left/Right/Fill.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/DockPanel.qml`
+
+```qml
+DockPanel {
+    Rectangle { DockPanel.dock: DockPanel.Top; height: 40 }
+    Rectangle { DockPanel.dock: DockPanel.Fill }
+}
+```
+
+<details><summary>Properties</summary>
+
+- `contentData: alias`
+- `lastChildFill: bool` — WinUI LastChildFill: last non-edge child fills the remaining region
+- `paddingEdges: int`
+- `childCount: int`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `dockOf(item)`
+- `relayout()`
+
+</details>
+
+#### DonutChart
+
+Donut chart with hover and legend.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/DonutChart.qml`
+
+```qml
+DonutChart { slices: [{ value: 3, label: "A" }] }
+```
+
+<details><summary>Properties</summary>
+
+- `slices: var` — Pie/donut slice descriptors
+- `thickness: real`
+- `showCenterLabel: bool`
+- `centerText: string`
+- `centerSubText: string`
+- `showLegend: bool` — Show chart legend
+- `interactive: bool`
+- `animated: bool`
+- `startAngle: real`
+- `revealProgress: real`
+- `hoverIndex: int` — Hovered item index
+- `selectedIndex: alias` — Selected index alias
+- `title: string` — Primary title text
+- `emptyText: string`
+- `isEmpty: bool`
+- `total: real`
+- `cx: real`
+- `cy: real`
+- `outer: real`
+- `inner: real`
+- `arcs: var`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `sliceClicked(int index, real value)`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `playReveal()`
+- `requestRedraw()`
+
+</details>
+
+#### DropDownButton
+
+Button that opens a MenuFlyout of actions.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/DropDownButton.qml`
+
+```qml
+DropDownButton {
+    text: qsTr("Options")
+    MenuFlyoutItem { text: qsTr("A") }
+}
+```
+
+<details><summary>Properties</summary>
+
+- `menu: alias`
+- `menuData: alias`
+- `highlighted: bool` — Emphasized / selected chrome
+- `flyoutPlacement: int`
+- `iconGlyph: string` — Raw Fluent glyph string fallback
+- `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
+- `isOpen: alias` — Open / visible state
+- `effectiveIconGlyph: string`
+- `lightScheme: bool`
+- `menuOpen: bool`
+- `hasSolidStroke: bool`
+- `hasGradientStroke: bool`
+- `topStroke: color`
+- `bottomStroke: color`
+- `inset: bool`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `open()`
+- `close()`
+- `showMenu()`
+
+</details>
+
+#### EmptyState
+
+Placeholder illustration + title + optional action.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/EmptyState.qml`
+
+```qml
+EmptyState {
+    title: qsTr("Nothing here")
+    description: qsTr("Try another filter.")
+}
+```
+
+<details><summary>Properties</summary>
+
+- `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
+- `glyph: string`
+- `title: string` — Primary title text
+- `message: string` — Body / message text
+- `actionText: string` — Optional action button label
+- `secondaryActionText: string`
+- `compact: bool`
+- `bordered: bool` — Draw a border when true
+- `glyphColor: color`
+- `showGlyph: bool`
+- `effectiveGlyph: string`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `actionClicked()`
+- `secondaryActionClicked()`
+
+</details>
+
+#### Expander
+
+Collapsible header with expandable content.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/Expander.qml`
+
+```qml
+Expander {
+    header: qsTr("Details")
+    Label { text: qsTr("Body") }
+}
+```
+
+<details><summary>Properties</summary>
+
+- `title: string` — Primary title text
+- `subtitle: string` — Secondary subtitle text
+- `expanded: bool`
+- `isExpanded: alias`
+- `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
+- `iconGlyph: string` — Raw Fluent glyph string fallback
+- `headerIcon: var`
+- `expandDirection: string` — WinUI ExpandDirection: down | up
+- `contentData: alias`
+- `effectiveHeaderIcon: string`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `expanding()`
+- `collapsing()`
+
+</details>
+
+#### FlipView
+
+Page carousel with optional navigation buttons.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/FlipView.qml`
+
+```qml
+FlipView { model: pages }
+```
+
+<details><summary>Properties</summary>
+
+- `currentIndex: alias` — Selected index
+- `selectedIndex: alias` — Selected index alias
+- `count: alias` — Item count
+- `interactive: alias`
+- `buttonsVisible: bool`
+- `isButtonsVisible: alias`
+- `buttonVisibility: string` — always | onHover | hidden
+- `isIndicatorVisible: bool`
+- `wrap: bool`
+- `contentData: alias`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `selectionChanged(int index)`
+- `currentIndexChangedByUser(int index)`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `goNext()`
+- `goPrevious()`
+- `onCurrentIndexChanged()`
+
+</details>
+
+#### Flyout
+
+Light-dismiss popup anchored to a target.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/Flyout.qml`
+
+```qml
+Flyout {
+    target: button
+    Label { text: qsTr("Details") }
+}
+```
+
+<details><summary>Properties</summary>
+
+- `placement: int` — Popup / flyout placement
+- `preferredPlacement: alias`
+- `target: Item` — Anchor item for placement
+- `isLightDismissEnabled: bool`
+- `isOpen: bool` — Open / visible state
+- `title: string` — Primary title text
+- `contentData: alias`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `showAt(item, place)`
+- `show()`
+- `hide()`
+- `reposition()`
+
+</details>
+
+#### FontIcon
+
+FluentIcons glyph as Text.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/FontIcon.qml`
+
+```qml
+FontIcon { symbol: FluentIcons.Home; font.pixelSize: 16 }
+```
+
+<details><summary>Properties</summary>
+
+- `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
+- `icon: var` — Icon glyph or source
+- `glyph: string`
+- `fontSize: real`
+- `iconColor: color`
+- `mirrorGlyph: bool`
+- `fontWeight: int`
+- `toolTipText: string`
+- `accessibleName: string`
+- `effectiveGlyph: string`
+
+</details>
+
+#### GridTile
+
+Icon + title tile for launchers / galleries.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/GridTile.qml`
+
+```qml
+GridTile { title: qsTr("Photos"); symbol: FluentIcons.Photo }
+```
+
+<details><summary>Properties</summary>
+
+- `title: string` — Primary title text
+- `subtitle: string` — Secondary subtitle text
+- `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
+- `glyph: string`
+- `source: url`
+- `tileWidth: real`
+- `tileHeight: real`
+- `isSelected: alias`
+- `badgeText: string`
+- `badgeVisible: bool` — Show avatar badge
+- `effectiveGlyph: string`
+
+</details>
+
+#### HeaderedContentControl
+
+Labeled content host.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/HeaderedContentControl.qml`
+
+```qml
+HeaderedContentControl { header: qsTr("Section"); Label { text: "…" } }
+```
+
+<details><summary>Properties</summary>
+
+- `header: string` — Header label above the control
+- `description: string` — Supporting description text
+- `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
+- `iconGlyph: string` — Raw Fluent glyph string fallback
+- `headerComponent: Component`
+- `headerPlacement: string` — top | left
+- `contentData: alias`
+- `effectiveIconGlyph: string`
+
+</details>
+
+#### HeaderedTextBox
+
+TextBox with header and description.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/HeaderedTextBox.qml`
+
+```qml
+HeaderedTextBox { header: qsTr("Name"); placeholderText: qsTr("Required") }
+```
+
+<details><summary>Properties</summary>
+
+- `header: string` — Header label above the control
+- `description: string` — Supporting description text
+- `errorMessage: string`
+- `clearButtonVisible: bool` — Show clear affordance
+- `characterLimit: int`
+- `text: alias` — Display / input text
+- `placeholderText: alias` — Placeholder when empty
+- `echoMode: alias`
+- `readOnly: alias`
+- `isReadOnly: alias`
+- `maximumLength: alias`
+- `validator: alias`
+- `inputMethodHints: alias`
+- `acceptableInput: alias`
+- `field: alias`
+- `hasError: bool`
+- `characterCount: int`
+- `overLimit: bool`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `accepted()`
+- `editingFinished()`
+- `textEdited()`
+- `cleared()`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `clear()`
+- `focusField()`
+
+</details>
+
+#### HeatmapChart
+
+Heatmap matrix chart.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/HeatmapChart.qml`
+
+```qml
+HeatmapChart { values: matrix }
+```
+
+<details><summary>Properties</summary>
+
+- `values: var` — Numeric values array
+- `rowLabels: var`
+- `columnLabels: var`
+- `minimum: real` — Minimum value
+- `maximum: real` — Maximum value
+- `cellGap: real`
+- `cellRadius: real`
+- `animated: bool`
+- `interactive: bool`
+- `revealProgress: real`
+- `hoverRow: int`
+- `hoverCol: int`
+- `lowColor: color`
+- `highColor: color`
+- `title: string` — Primary title text
+- `emptyText: string`
+- `isEmpty: bool`
+- `labelW: real`
+- `labelH: real`
+- `cellW: real`
+- `cellH: real`
+- `rows: int` — Grid row count
+- `cols: int`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `cellClicked(int row, int col, real value)`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `playReveal()`
+- `requestRedraw()`
+- `clearHover()`
+- `lerpColor(a, b, t)`
+
+</details>
+
+#### HorizontalBarChart
+
+Horizontal bar chart.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/HorizontalBarChart.qml`
+
+```qml
+HorizontalBarChart { values: [3, 5, 2] }
+```
+
+<details><summary>Properties</summary>
+
+- `values: var` — Numeric values array
+- `bars: var` — Bar descriptors
+- `minimum: real` — Minimum value
+- `maximum: real` — Maximum value
+- `barRadius: real`
+- `barGap: real`
+- `showBaseline: bool`
+- `showLabels: bool`
+- `showValueLabels: bool`
+- `interactive: bool`
+- `animated: bool`
+- `revealProgress: real`
+- `hoverIndex: int` — Hovered item index
+- `selectedIndex: alias` — Selected index alias
+- `title: string` — Primary title text
+- `emptyText: string`
+- `valueUnit: string`
+- `isEmpty: bool`
+- `slot: real`
+- `padT: real`
+- `labelW: real`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `barClicked(int index, real value)`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `playReveal()`
+- `requestRedraw()`
+
+</details>
+
+#### HyperlinkButton
+
+Link-styled button.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/HyperlinkButton.qml`
+
+```qml
+HyperlinkButton { text: qsTr("Learn more"); onClicked: Qt.openUrlExternally(url) }
+```
+
+<details><summary>Properties</summary>
+
+- `url: url`
+- `navigateUri: alias`
+- `underlineStyle: string` — always | onHover | never
+- `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
+- `iconGlyph: string` — Raw Fluent glyph string fallback
+- `visited: bool`
+- `showExternalGlyph: bool`
+- `navigateMode: string` — "external" opens the URL; "signal" only emits clicked / navigateRequested
+- `effectiveIconGlyph: string`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `navigateRequested(url target)`
+
+</details>
+
+#### IconButton
+
+Icon-only button helper.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/IconButton.qml`
+
+```qml
+IconButton { symbol: FluentIcons.Add }
+```
+
+#### IconicButton
+
+Base icon + label button used by AppBar*.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/IconicButton.qml`
+
+```qml
+IconicButton { text: qsTr("Action"); symbol: FluentIcons.Add }
+```
+
+<details><summary>Properties</summary>
+
+- `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
+- `iconGlyph: string` — Raw Fluent glyph string fallback
+- `iconSize: real`
+- `toolTipText: string`
+- `badgeVisible: bool` — Show avatar badge
+- `badgeValue: int`
+- `badgeText: string`
+- `badgeMaxValue: int`
+- `highlighted: bool` — Emphasized / selected chrome
+- `flat: bool` — Flat chrome without fill
+- `effectiveIconGlyph: string`
+
+</details>
+
+#### InfoBadge
+
+Count / status / glyph badge.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/InfoBadge.qml`
+
+```qml
+InfoBadge { value: 3; severity: informational }
+```
+
+<details><summary>Properties</summary>
+
+- `informational: int`
+- `success: int`
+- `warning: int`
+- `error: int`
+- `attention: int`
+- `neutral: int`
+- `severity: int` — informational | success | warning | error | attention | neutral
+- `value: int` — Numeric count; shown when text/symbol are empty (clamped by maxValue)
+- `text: string` — Explicit badge label (wins over value)
+- `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
+- `iconGlyph: string` — Raw Fluent glyph string fallback
+- `maxValue: int`
+- `badgeColor: color`
+- `textColor: color`
+- `severityName: string`
+- `effectiveIconGlyph: string`
+- `dot: bool`
+- `hideWhenEmpty: bool` — Hide when value/text empty
+- `displayText: string`
+- `isEmpty: bool`
+- `isOpen: bool` — Open / visible state
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `setSeverityName(name)`
+- `bump()`
+
+</details>
+
+#### InfoBar
+
+Inline severity banner with optional action.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/InfoBar.qml`
+
+```qml
+InfoBar {
+    title: qsTr("Saved")
+    message: qsTr("All changes stored.")
+    severity: InfoBar.Success
+}
+```
+
+<details><summary>Properties</summary>
+
+- `informational: int`
+- `success: int`
+- `warning: int`
+- `error: int`
+- `severity: int` — Status severity enum
+- `title: string` — Primary title text
+- `message: string` — Body / message text
+- `isOpen: bool` — Open / visible state
+- `closable: bool` — Shows a close affordance when true
+- `isClosable: alias` — Alias of closable
+- `showIcon: bool` — Show leading status icon
+- `isIconVisible: alias` — Show leading status icon
+- `iconGlyph: string` — Raw Fluent glyph string fallback
+- `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
+- `actionText: string` — Optional action button label
+- `action: alias`
+- `durationMs: int` — Auto-dismiss duration; 0 keeps open
+- `severityName: string` — Convenience string: "informational" | "success" | "warning" | "error"
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `closeClicked()`
+- `actionClicked()`
+- `closed()`
+- `opened()`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `open()`
+- `close()`
+- `setSeverityName(name)`
+
+</details>
+
+#### InfoBarHost
+
+Stacks InfoBars in a host region.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/InfoBarHost.qml`
+
+```qml
+InfoBarHost { id: bars }
+// bars.enqueue({ title: "Hi", severity: InfoBar.Informational })
+```
+
+<details><summary>Properties</summary>
+
+- `maxVisible: int` — Max visible items before overflow
+- `count: int` — Item count
+- `openCount: int`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `closeAll()`
+- `clearAll()`
+- `openAll()`
+
+</details>
+
+#### KeyChordVisual
+
+Renders Ctrl+K style shortcuts as KeyVisuals.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/KeyChordVisual.qml`
+
+```qml
+KeyChordVisual { shortcut: "Ctrl+Shift+P" }
+```
+
+<details><summary>Properties</summary>
+
+- `shortcut: string` — Raw accelerator string: "Ctrl+Shift+P" or multi-stroke "Ctrl+K, Ctrl+S"
+- `keys: var` — Explicit key labels; when set, overrides shortcut parsing.
+- `size: string` — Diameter or box size in px
+- `emphasized: bool`
+- `separator: string`
+- `keySpacing: real`
+- `toolTipText: string`
+- `chordText: string`
+- `modelData: var`
+- `index: int`
+
+</details>
+
+#### KeyVisual
+
+Single keyboard key chrome.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/KeyVisual.qml`
+
+```qml
+KeyVisual { keyText: "Ctrl" }
+```
+
+<details><summary>Properties</summary>
+
+- `keyText: string` — Display label for the key (e.g. "Ctrl", "P", "Esc").
+- `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
+- `iconGlyph: string` — Raw Fluent glyph string fallback
+- `size: string` — "small" | "medium" | "large"
+- `emphasized: bool`
+- `toolTipText: string`
+- `minWidth: real`
+- `effectiveIconGlyph: string`
+
+</details>
+
+#### LinearGauge
+
+Horizontal/vertical track gauge with thresholds.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/LinearGauge.qml`
+
+```qml
+LinearGauge { value: 42; minimum: 0; maximum: 100 }
+```
+
+<details><summary>Properties</summary>
+
+- `value: real` — Current value
+- `minimum: real` — Minimum value
+- `maximum: real` — Maximum value
+- `stepSize: real` — Value step (e.g. 0.5 for half stars)
+- `title: string` — Primary title text
+- `unit: string`
+- `caption: string`
+- `valuePrecision: int`
+- `orientation: int` — Qt.Horizontal or Qt.Vertical
+- `trackThickness: real`
+- `showValue: bool`
+- `showTicks: bool`
+- `showMinMax: bool`
+- `tickCount: int` — Major tick count
+- `showThumb: bool`
+- `isInteractive: bool`
+- `interactive: alias`
+- `fillColor: color`
+- `trackColor: color`
+- `cautionThreshold: real`
+- `criticalThreshold: real`
+- `invertThresholds: bool` — When true, low values map to caution/critical (battery-style).
+- `horizontal: bool`
+- `percentage: real`
+- `effectiveFillColor: color`
+- `formattedValue: string`
+- `animatedValue: real`
+- `animatedNorm: real`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `valueEdited(real value)`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `clampSnap(v)`
+- `setValue(v)`
+- `setValueFromNorm(n)`
+
+</details>
+
+#### LineChart
+
+Multi-series line/area chart.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/LineChart.qml`
+
+```qml
+LineChart { values: [1, 4, 2, 6] }
+```
+
+<details><summary>Properties</summary>
+
+- `series: var` — Chart series array
+- `values: var` — Numeric values array
+- `minimum: real` — Minimum value
+- `maximum: real` — Maximum value
+- `showGrid: bool`
+- `showArea: bool`
+- `showLegend: bool` — Show chart legend
+- `interactive: bool`
+- `animated: bool`
+- `maxPoints: int`
+- `lodFactor: real`
+- `autoLod: bool`
+- `strokeWidth: real`
+- `gridColor: color`
+- `revealProgress: real`
+- `hoverIndex: int` — Hovered item index
+- `hoverX: real`
+- `hoverY: real`
+- `hoverLineX: real`
+- `hoverMarkers: var`
+- `hoverText: string`
+- `title: string` — Primary title text
+- `emptyText: string`
+- `sourcePointCount: int` — LOD diagnostics
+- `drawnPointCount: int`
+- `isEmpty: bool`
+- `plotL: real` — Cache last paint metrics for hover hit-testing
+- `plotT: real`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `playReveal()`
+- `sourcePointCountEstimate()`
+- `invalidateLod()`
+- `ensureLod(budget)`
+- `requestRedraw()`
+- `onDataChanged()`
+- `clearHover()`
+
+</details>
+
+#### ListTile
+
+List row: leading, title, subtitle, trailing.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/ListTile.qml`
+
+```qml
+ListTile {
+    title: qsTr("Item")
+    subtitle: qsTr("Detail")
+    symbol: FluentIcons.Document
+}
+```
+
+<details><summary>Properties</summary>
+
+- `title: string` — Primary title text
+- `subtitle: string` — Secondary subtitle text
+- `description: alias` — Supporting description text
+- `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
+- `glyph: string`
+- `leading: alias`
+- `trailing: alias`
+- `showChevron: bool`
+- `isSelected: bool`
+- `effectiveGlyph: string`
+
+</details>
+
+#### MenuFlyout
+
+Elevated Menu with showAt / isOpen helpers.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/MenuFlyout.qml`
+
+```qml
+MenuFlyout {
+    MenuFlyoutItem { text: qsTr("Copy"); symbol: FluentIcons.Copy }
+}
+```
+
+<details><summary>Properties</summary>
+
+- `placement: int` — Popup / flyout placement
+- `preferredPlacement: alias`
+- `isLightDismissEnabled: bool`
+- `isOpen: bool` — Open / visible state
+- `title: string` — Primary title text
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `openMenu()`
+- `closeMenu()`
+- `showAt(targetItem, offsetX, offsetY)`
+- `hide()`
+
+</details>
+
+#### MenuFlyoutHeader
+
+Non-interactive MenuFlyout section header.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/MenuFlyoutHeader.qml`
+
+```qml
+MenuFlyoutHeader { text: qsTr("Recent") }
+```
+
+<details><summary>Properties</summary>
+
+- `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
+- `iconGlyph: string` — Raw Fluent glyph string fallback
+- `effectiveIconGlyph: string`
+
+</details>
+
+#### MenuFlyoutItem
+
+Menu row with glyph and accelerator text.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/MenuFlyoutItem.qml`
+
+```qml
+MenuFlyoutItem { text: qsTr("Paste"); keyboardAcceleratorText: "Ctrl+V" }
+```
+
+<details><summary>Properties</summary>
+
+- `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
+- `iconGlyph: string` — Raw Fluent glyph string fallback
+- `keyboardAcceleratorText: string` — Accelerator caption (Ctrl+C)
+- `keyVisualAccelerator: bool` — When true, render accelerator as KeyChordVisual chrome instead of plain text.
+- `iconColor: color`
+- `effectiveIconGlyph: string`
+
+</details>
+
+#### MenuFlyoutSeparator
+
+MenuFlyout divider.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/MenuFlyoutSeparator.qml`
+
+```qml
+MenuFlyoutSeparator { }
+```
+
+#### MenuStatusWindow
+
+TitleBar + MenuBar + content + StatusBar shell.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/MenuStatusWindow.qml`
+
+```qml
+MenuStatusWindow {
+    menusInTitleBar: true
+    Menu { title: qsTr("File") }
+    content: Label { text: "Body" }
+    statusText: qsTr("Ready")
+}
+```
+
+<details><summary>Properties</summary>
+
+- `menus: alias` — Declare Menu { } children here
+- `statusText: alias` — StatusBar left text
+- `statusBar: alias`
+- `shellMenuBar: alias`
+- `content: alias` — Main client area
+- `statusProgress: alias`
+- `statusProgressIndeterminate: alias`
+- `statusCenter: alias`
+- `statusRight: alias`
+- `menusInTitleBar: bool` — Embed MenuBar in the title chrome instead of a strip below it
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `addMenu(menu)`
+- `clearMenus()`
+- `onImplicitWidthChanged()`
+- `onCountChanged()`
+
+</details>
+
+#### MetadataControl
+
+Stacked or flowed label/value metadata block.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/MetadataControl.qml`
+
+```qml
+MetadataControl {
+    MetadataItem { label: qsTr("Author"); value: "Ada" }
+}
+```
+
+<details><summary>Properties</summary>
+
+- `items: alias`
+- `orientation: int` — Qt.Horizontal or Qt.Vertical
+- `itemSpacing: real`
+- `header: string` — Header label above the control
+- `paddingEdges: int`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `syncChildren()`
+
+</details>
+
+#### MetadataItem
+
+One label/value pair for MetadataControl.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/MetadataItem.qml`
+
+```qml
+MetadataItem { label: qsTr("Size"); value: "12 KB" }
+```
+
+<details><summary>Properties</summary>
+
+- `label: string` — Field label
+- `value: string` — Current value
+- `secondary: string` — Secondary value line
+- `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
+- `iconGlyph: string` — Raw Fluent glyph string fallback
+- `orientation: int` — Qt.Horizontal or Qt.Vertical
+- `valueColor: color`
+- `effectiveIconGlyph: string`
+
+</details>
+
+#### MeterBar
+
+Multi-segment stacked meter (e.g. disk usage).
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/MeterBar.qml`
+
+```qml
+MeterBar { segments: [{ value: 40, color: Theme.accent }] }
+```
+
+<details><summary>Properties</summary>
+
+- `segments: var` — Meter / stacked segment descriptors
+- `maximum: real` — Maximum value
+- `trackHeight: real`
+- `showLegend: bool` — Show chart legend
+- `interactive: bool`
+- `hoverIndex: int` — Hovered item index
+- `header: string` — Header label above the control
+- `showRemaining: bool`
+- `remainingLabel: string`
+- `remainingColor: color`
+- `showTotal: bool`
+- `total: real`
+- `remaining: real`
+- `modelData: var`
+- `index: int`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `segmentClicked(int index, real value)`
+
+</details>
+
+#### MultiSelectComboBox
+
+Combo that keeps the popup open for multi-select.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/MultiSelectComboBox.qml`
+
+```qml
+MultiSelectComboBox { model: items; selectedIndexes: [0, 2] }
+```
+
+<details><summary>Properties</summary>
+
+- `model: var` — Data model / item list for this control
+- `placeholderText: string` — Placeholder when empty
+- `header: string` — Header label above the control
+- `menuOpen: bool`
+- `isOpen: alias` — Open / visible state
+- `selectedItems: var`
+- `displayText: string`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `selectionChanged(var selected)`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `toggleAt(index)`
+- `ensureObjectModel()`
+- `selectAll()`
+- `clearSelection()`
+
+</details>
+
+#### NavigationView
+
+WinUI NavigationView with pane modes and page stack.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/NavigationView.qml`
+
+```qml
+NavigationView {
+    anchors.fill: parent
+    paneDisplayMode: "auto"
+    model: navModel
+    isPaneSearchEnabled: true
+    pageModule: "MyApp"
+}
+```
+
+<details><summary>Properties</summary>
+
+- `model: var` — Navigation items: [{ type, key, title, icon|symbol, children?, badge?, badgeValue? }]
+- `currentIndex: int` — Selected index
+- `paneOpen: bool` — Expanded pane when true (left / leftMinimal); compact modes force false
+- `paneWidth: real` — Expanded pane width
+- `paneCompactWidth: real` — Compact pane width
+- `headerText: string`
+- `footerText: string`
+- `footerSymbol: var`
+- `footerIcon: string`
+- `footerComponent: string` — Page component name loaded for the footer row (e.g. "SettingsPage")
+- `pageModule: string` — QML import URI used to resolve page components
+- `footerSelected: bool`
+- `paneDisplayMode: string` — WinUI PaneDisplayMode: left | leftCompact | leftMinimal | top | auto
+- `autoCompactThreshold: real` — Width below which auto mode uses leftCompact
+- `isBackButtonVisible: bool` — Show back button
+- `isBackEnabled: bool` — Enable back button
+- `isPaneSearchEnabled: bool` — Shows SearchBox at the top of the pane when open
+- `paneSearchText: string`
+- `paneSearchModel: var` — Suggestion model for pane SearchBox: [{ title, key?, component? }]
+- `paneHeader: alias`
+- `paneFooter: alias`
+- `isReorderable: bool` — Drag rows to reorder top-level model entries
+- `hostContent: bool` — Shell host: show `content:` instead of StackView page loading (NavigationWindow).
+- `content: alias` — Content slot / children host
+- `effectiveFooterIcon: string`
+- `resolvedPaneMode: string`
+- `expandedMap: var` — groupKey -> bool; missing means expanded
+- `currentKey: string` — Selected nav key (supports "group/0" child paths)
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `footerClicked()`
+- `itemClicked(int index)`
+- `pageOpened(string name)`
+- `backRequested()`
+- `paneSearchActivated(string text)`
+- `paneSearchTextEdited(string text)`
+- `modelReordered(var model)`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `moveNavItem(fromIndex, toIndex)`
+- `isGroupExpanded(key)`
+- `rebuildNavModel()`
+- `setGroupExpanded(key, expanded)`
+- `selectionAnchorItem()`
+- `toggleGroup(key)`
+
+</details>
+
+#### NavigationWindow
+
+ShellWindow hosting NavigationView + content.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/NavigationWindow.qml`
+
+```qml
+NavigationWindow {
+    title: qsTr("App")
+    paneDisplayMode: "left"
+    navModel: [{ key: "home", title: "Home", symbol: FluentIcons.Home }]
+    content: Label { text: "Hello" }
+}
+```
+
+<details><summary>Properties</summary>
+
+- `paneOpen: alias` — Navigation pane expanded
+- `paneWidth: alias` — Expanded pane width
+- `paneHeaderText: alias`
+- `paneDisplayMode: alias` — left | leftCompact | leftMinimal | top | auto
+- `currentKey: alias` — Selected navigation key
+- `content: alias` — Content slot / children host
+- `navModel: alias` — NavigationView model
+- `isBackEnabled: alias` — Enable back button
+- `isPaneBackButtonVisible: alias`
+- `isPaneSearchEnabled: alias` — Show pane SearchBox
+- `paneSearchText: alias`
+- `paneSearchModel: alias` — Pane search suggestion model
+- `paneHeader: alias`
+- `paneFooter: alias`
+- `footerText: alias`
+- `footerSymbol: alias`
+- `footerIcon: alias`
+- `footerComponent: alias`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `navActivated(var item)`
+- `footerClicked()`
+- `paneSearchActivated(string text)`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `onBackRequested()`
+- `onFooterClicked()`
+- `onPaneSearchActivated(text)`
+- `clearNav()`
+- `addNavItem(item)`
+- `addNavGroup(group)`
+- `selectNavKey(key)`
+
+</details>
+
+#### NumberBox
+
+Numeric spin/edit with validation.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/NumberBox.qml`
+
+```qml
+NumberBox { value: 10; minimum: 0; maximum: 100 }
+```
+
+<details><summary>Properties</summary>
+
+- `value: real` — Current value
+- `minimum: real` — Minimum value
+- `maximum: real` — Maximum value
+- `stepSize: real` — Value step (e.g. 0.5 for half stars)
+- `largeChange: real` — WinUI LargeChange — used with PageUp/PageDown / wheel+Ctrl
+- `decimals: int`
+- `prefix: string`
+- `suffix: string`
+- `header: string` — Header label above the control
+- `description: string` — Supporting description text
+- `errorMessage: string`
+- `placeholderText: string` — Placeholder when empty
+- `inputInvalid: bool`
+- `spinButtonPlacementMode: string` — WinUI SpinButtonPlacementMode: "inline" | "compact" | "hidden"
+- `validationMode: string` — WinUI ValidationMode: "invalidInputOverValue" | "disabled"
+- `acceptWheel: bool`
+- `hasError: bool`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `valueModified()`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `clamp(v)`
+- `format(v)`
+- `bump(delta)`
+- `flashInvalid()`
+- `focusField()`
+- `commitText()`
+
+</details>
+
+#### PasswordBox
+
+Password field with reveal toggle.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/PasswordBox.qml`
+
+```qml
+PasswordBox { placeholderText: qsTr("Password") }
+```
+
+<details><summary>Properties</summary>
+
+- `text: alias` — Display / input text
+- `placeholderText: alias` — Placeholder when empty
+- `maximumLength: alias`
+- `header: string` — Header label above the control
+- `description: string` — Supporting description text
+- `errorMessage: string`
+- `clearButtonVisible: bool` — Show clear affordance
+- `passwordRevealMode: string` — WinUI PasswordRevealMode: peek | hidden | visible
+- `revealPassword: bool`
+- `revealButtonVisible: bool`
+- `echoMode: alias`
+- `field: alias`
+- `hasError: bool`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `accepted()`
+- `cleared()`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `clear()`
+- `focusField()`
+
+</details>
+
+#### PersonPicture
+
+Avatar from image or initials.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/PersonPicture.qml`
+
+```qml
+PersonPicture { displayName: "Ada"; size: 48 }
+```
+
+<details><summary>Properties</summary>
+
+- `displayName: string` — Person / avatar display name
+- `imageSource: url` — Image URL
+- `size: real` — Diameter or box size in px
+- `profileColor: color` — Fallback avatar fill
+- `badgeVisible: bool` — Show avatar badge
+- `badgeColor: color`
+- `badgeSymbol: var`
+- `badgeGlyph: string`
+- `badgeSeverity: int`
+- `badgeValue: int` — WinUI-style count / text overlay (takes precedence over glyph when set)
+- `badgeText: string`
+- `badgeMaxValue: int`
+- `selected: bool`
+- `initials: string`
+
+</details>
+
+#### PieChart
+
+Pie chart with legend.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/PieChart.qml`
+
+```qml
+PieChart { slices: [{ value: 1, label: "A" }] }
+```
+
+<details><summary>Properties</summary>
+
+- `slices: var` — Pie/donut slice descriptors
+- `showLegend: bool` — Show chart legend
+- `interactive: bool`
+- `animated: bool`
+- `startAngle: real`
+- `padAngle: real`
+- `revealProgress: real`
+- `hoverIndex: int` — Hovered item index
+- `selectedIndex: alias` — Selected index alias
+- `title: string` — Primary title text
+- `emptyText: string`
+- `isEmpty: bool`
+- `total: real`
+- `cx: real`
+- `cy: real`
+- `radius: real`
+- `arcs: var`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `sliceClicked(int index, real value)`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `playReveal()`
+- `requestRedraw()`
+
+</details>
+
+#### PipsPager
+
+Dot pager for carousels.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/PipsPager.qml`
+
+```qml
+PipsPager { count: 5; currentIndex: 2 }
+```
+
+<details><summary>Properties</summary>
+
+- `count: int` — Item count
+- `currentIndex: int` — Selected index
+- `selectedIndex: alias` — Selected index alias
+- `orientation: int` — Qt.Horizontal or Qt.Vertical
+- `wrap: bool`
+- `previousButtonVisibility: string` — WinUI ButtonVisibility: "visible" | "visibleOnPointerOver" | "collapsed"
+- `nextButtonVisibility: string`
+- `glyph: string`
+- `index: int`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `currentIndexEdited(int index)`
+- `selectionChanged(int index)`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `goNext()`
+- `goPrevious()`
+- `select(index)`
+
+</details>
+
+#### Pivot
+
+Header tabs with sliding underline and pages.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/Pivot.qml`
+
+```qml
+Pivot { model: ["Overview", "Details"] }
+```
+
+<details><summary>Properties</summary>
+
+- `model: var` — Data model / item list for this control
+- `currentIndex: int` — Selected index
+- `selectedIndex: alias` — Selected index alias
+- `keyboardNavigationEnabled: bool`
+- `modelData: var`
+- `index: int`
+- `hasPage: bool`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `currentIndexChangedByUser(int index)`
+- `selectionChanged(int index)`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `selectIndex(index)`
+
+</details>
+
+#### ProgressButton
+
+Button with inline determinate/indeterminate fill.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/ProgressButton.qml`
+
+```qml
+ProgressButton { text: qsTr("Upload"); progress: 0.4 }
+```
+
+<details><summary>Properties</summary>
+
+- `progress: real` — 0..1 progress (determinate)
+- `indeterminate: bool` — Show indeterminate animation when true
+- `isIndeterminate: alias` — Alias of indeterminate
+- `showProgress: bool`
+- `showPercentage: bool`
+- `progressState: string` — idle | progressing | completed | error
+- `progressingText: string`
+- `completedText: string`
+- `errorText: string`
+- `percentage: real`
+- `displayText: string`
+- `innerRadius: real`
+- `innerWidth: real`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `progressCompleted()`
+- `progressFailed()`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `setProgress(value)`
+- `reset()`
+- `start(indeterminateMode)`
+- `complete()`
+- `fail()`
+
+</details>
+
+#### ProgressRing
+
+Circular progress / busy ring.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/ProgressRing.qml`
+
+```qml
+ProgressRing { indeterminate: true }
+```
+
+<details><summary>Properties</summary>
+
+- `value: real` — Current value
+- `indeterminate: bool` — Show indeterminate animation when true
+- `isActive: bool` — WinUI-style: Active sweeps; Paused holds a partial arc without spinning
+- `strokeWidth: real`
+- `fillColor: color`
+- `trackColor: color`
+- `showValue: bool`
+- `valueLabel: string`
+- `size: real` — Diameter or box size in px
+- `spinning: bool`
+- `progressSweep: real`
+- `formattedValue: string`
+- `radius: real`
+- `spinAngle: real`
+- `animatedSweep: real`
+
+</details>
+
+#### RadarChart
+
+Radar / spider chart.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/RadarChart.qml`
+
+```qml
+RadarChart { values: [3, 5, 2, 4]; axes: ["A","B","C","D"] }
+```
+
+<details><summary>Properties</summary>
+
+- `series: var` — Chart series array
+- `values: var` — Numeric values array
+- `axes: var` — Axis labels
+- `minimum: real` — Minimum value
+- `maximum: real` — Maximum value
+- `levels: int`
+- `filled: bool` — Fill under line / area
+- `showLabels: bool`
+- `animated: bool`
+- `interactive: bool`
+- `revealProgress: real`
+- `hoverSeries: int`
+- `selectedIndex: alias` — Selected index alias
+- `title: string` — Primary title text
+- `emptyText: string`
+- `isEmpty: bool`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `playReveal()`
+- `requestRedraw()`
+- `clearHover()`
+- `point(i, norm)`
+
+</details>
+
+#### RadialGauge
+
+Circular gauge with needle and zones.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/RadialGauge.qml`
+
+```qml
+RadialGauge { value: 72; minimum: 0; maximum: 100 }
+```
+
+<details><summary>Properties</summary>
+
+- `value: real` — Current value
+- `minimum: real` — Minimum value
+- `maximum: real` — Maximum value
+- `stepSize: real` — Value step (e.g. 0.5 for half stars)
+- `strokeWidth: real`
+- `showValue: bool`
+- `unit: string`
+- `title: string` — Primary title text
+- `caption: string`
+- `valuePrecision: int`
+- `tickCount: int` — Major tick count
+- `trackColor: color`
+- `fillColor: color`
+- `showNeedle: bool`
+- `startAngle: real`
+- `sweepTotal: real`
+- `cautionThreshold: real`
+- `criticalThreshold: real`
+- `invertThresholds: bool`
+- `isInteractive: bool`
+- `interactive: alias`
+- `percentage: real`
+- `effectiveFillColor: color`
+- `normalized: real`
+- `formattedValue: string`
+- `animatedValue: real`
+- `animatedNorm: real`
+- `radius: real`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `valueEdited(real value)`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `setValue(v)`
+- `setValueFromNorm(n)`
+- `normFromPoint(px, py)`
+
+</details>
+
+#### RadioButtons
+
+Grouped RadioButton list from a model.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/RadioButtons.qml`
+
+```qml
+RadioButtons { header: qsTr("Choice"); model: ["A", "B"] }
+```
+
+<details><summary>Properties</summary>
+
+- `header: string` — Header label above the control
+- `description: string` — Supporting description text
+- `model: var` — Data model / item list for this control
+- `currentIndex: int` — Selected index
+- `selectedIndex: alias` — Selected index alias
+- `horizontal: bool`
+- `modelData: var`
+- `index: int`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `selected(int index, var item)`
+- `selectionChanged(int index)`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `select(index)`
+
+</details>
+
+#### RadioMenuFlyoutItem
+
+Exclusive radio MenuFlyout item.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/RadioMenuFlyoutItem.qml`
+
+```qml
+RadioMenuFlyoutItem { text: qsTr("Option") }
+```
+
+<details><summary>Properties</summary>
+
+- `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
+- `iconGlyph: string` — Raw Fluent glyph string fallback
+- `keyboardAcceleratorText: string` — Accelerator caption (Ctrl+C)
+- `keyVisualAccelerator: bool`
+- `effectiveIconGlyph: string`
+
+</details>
+
+#### RatingControl
+
+Star rating; stepSize supports halves.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/RatingControl.qml`
+
+```qml
+RatingControl { value: 3.5; stepSize: 0.5 }
+```
+
+<details><summary>Properties</summary>
+
+- `value: real` — Current value
+- `placeholderValue: real`
+- `maxRating: int` — Maximum star count
+- `readOnly: bool`
+- `isReadOnly: alias`
+- `isClearEnabled: bool`
+- `stepSize: real` — 1 = whole, 0.5 = half, 0.1 / 0.25 = fine-grained mouse pick
+- `previewEnabled: bool`
+- `previewValue: real`
+- `caption: string`
+- `index: int`
+- `fill: real`
+- `isPlaceholder: bool`
+- `didDrag: bool`
+- `pressValue: real`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `valueEdited(real value)`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `clampValue(v)`
+- `valueFromPos(x)`
+- `commitValue(next)`
+
+</details>
+
+#### RefreshContainer
+
+Pull-to-refresh host for flickable content.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/RefreshContainer.qml`
+
+```qml
+RefreshContainer {
+    onRefreshRequested: reload()
+    ListView { /* … */ }
+}
+```
+
+<details><summary>Properties</summary>
+
+- `contentData: alias`
+- `contentWidth: alias`
+- `contentHeight: alias`
+- `contentX: alias`
+- `contentY: alias`
+- `flickable: alias`
+- `refreshing: bool` — True while a refresh is in progress
+- `isRefreshing: alias`
+- `pullToRefreshEnabled: bool`
+- `isEnabled: alias`
+- `pullThreshold: real` — Pull distance before refresh fires
+- `refreshText: string`
+- `refreshingText: string`
+- `pullText: string`
+- `spinAngle: real`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `refreshRequested()`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `endRefresh()`
+- `beginRefresh()`
+
+</details>
+
+#### RelativePanel
+
+Constraint-based relative layout.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/RelativePanel.qml`
+
+```qml
+RelativePanel {
+    // children with RelativePanel.* attached props
+}
+```
+
+<details><summary>Properties</summary>
+
+- `panelSpacing: real`
+- `paddingEdges: int`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `isPanel(ref)`
+- `leftEdge(ref)`
+- `rightEdge(ref)`
+- `topEdge(ref)`
+- `bottomEdge(ref)`
+- `centerX(ref)`
+- `centerY(ref)`
+- `preferredWidth(item)`
+- `preferredHeight(item)`
+- `has(item, name)`
+- `relayout()`
+
+</details>
+
+#### ScatterChart
+
+Scatter / bubble chart.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/ScatterChart.qml`
+
+```qml
+ScatterChart { points: [{ x: 1, y: 2 }] }
+```
+
+<details><summary>Properties</summary>
+
+- `points: var` — Scatter points
+- `values: var` — Numeric values array
+- `minimumX: real`
+- `maximumX: real`
+- `minimumY: real`
+- `maximumY: real`
+- `pointRadius: real`
+- `showGrid: bool`
+- `showTrendLine: bool`
+- `interactive: bool`
+- `animated: bool`
+- `maxPoints: int`
+- `autoLod: bool`
+- `lodFactor: real`
+- `gridColor: color`
+- `pointColor: color`
+- `trendColor: color`
+- `revealProgress: real`
+- `hoverIndex: int` — Hovered item index
+- `selectedIndex: alias` — Selected index alias
+- `hoverText: string`
+- `title: string` — Primary title text
+- `emptyText: string`
+- `sourcePointCount: int`
+- `drawnPointCount: int`
+- `isEmpty: bool`
+- `screenPts: var`
+- `padL: real`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `pointClicked(int index, real x, real y)`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `invalidateLod()`
+- `ensureLod(binsX, binsY)`
+- `playReveal()`
+- `requestRedraw()`
+- `clearHover()`
+- `onDataChanged()`
+
+</details>
+
+#### SearchBox
+
+Search field with suggestion list.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/SearchBox.qml`
+
+```qml
+SearchBox {
+    placeholderText: qsTr("Search")
+    model: suggestions
+    onSuggestionChosen: (item) => open(item)
+}
+```
+
+<details><summary>Properties</summary>
+
+- `text: alias` — Display / input text
+- `placeholderText: alias` — Placeholder when empty
+- `clearButtonVisible: bool` — Show clear affordance
+- `symbol: var` — FluentIcons symbol or leave empty to use queryIcon glyph
+- `queryIcon: string` — Search glyph fallback string
+- `header: string` — Header label above the control
+- `description: string` — Supporting description text
+- `model: var` — Full suggestion catalog; filtered into suggestionModel while typing
+- `suggestionModel: var` — Filtered suggestion rows
+- `updateTextOnSelect: bool` — When true, choosing a suggestion writes display text into the field
+- `textMemberPath: string` — Object field used as display text (fallback: title | text | name)
+- `isSuggestionListOpen: bool` — Suggestion popup open state
+- `effectiveQueryIcon: string`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `accepted(string text)`
+- `querySubmitted(string query)`
+- `suggestionChosen(var item)`
+- `cleared()`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `focusField()`
+- `displayTextFor(item)`
+- `refreshSuggestions()`
+- `clear()`
+- `submitQuery()`
+
+</details>
+
+#### SegmentedControl
+
+Mutually exclusive segment buttons.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/SegmentedControl.qml`
+
+```qml
+SegmentedControl {
+    model: ["Day", "Week", "Month"]
+    currentIndex: 0
+}
+```
+
+<details><summary>Properties</summary>
+
+- `model: var` — Data model / item list for this control
+- `currentIndex: int` — Selected index
+- `selectedIndex: alias` — Selected index alias
+- `stretch: bool`
+- `equalWidth: bool`
+- `modelData: var`
+- `index: int`
+- `segmentIndex: int`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `selected(int index, var item)`
+- `selectionChanged(int index)`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `select(index)`
+- `itemAt(index)`
+- `moveIndicator(instant)`
+- `syncIndicatorIfIdle()`
+- `nextEnabled(from, delta)`
+
+</details>
+
+#### SegmentedGauge
+
+Segmented progress / capacity gauge.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/SegmentedGauge.qml`
+
+```qml
+SegmentedGauge { value: 3; maximum: 5 }
+```
+
+<details><summary>Properties</summary>
+
+- `value: real` — Current value
+- `minimum: real` — Minimum value
+- `maximum: real` — Maximum value
+- `stepSize: real` — Value step (e.g. 0.5 for half stars)
+- `segmentCount: int`
+- `gapDegrees: real`
+- `strokeWidth: real`
+- `title: string` — Primary title text
+- `unit: string`
+- `caption: string`
+- `valuePrecision: int`
+- `showValue: bool`
+- `fillColor: color`
+- `trackColor: color`
+- `cautionThreshold: real`
+- `criticalThreshold: real`
+- `invertThresholds: bool`
+- `startAngle: real`
+- `fillMode: string` — discrete | partial — partial fills the leading segment proportionally
+- `isInteractive: bool`
+- `interactive: alias`
+- `percentage: real`
+- `effectiveFillColor: color`
+- `formattedValue: string`
+- `animatedValue: real`
+- `animatedNorm: real`
+- `filledExact: real`
+- `filledSegments: int`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `valueEdited(real value)`
+- `segmentClicked(int index)`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `clampSnap(v)`
+- `setValue(v)`
+- `setSegment(index)`
+
+</details>
+
+#### SelectorBar
+
+Compact horizontal item selector.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/SelectorBar.qml`
+
+```qml
+SelectorBar { model: ["All", "Unread"]; currentIndex: 0 }
+```
+
+<details><summary>Properties</summary>
+
+- `model: var` — Data model / item list for this control
+- `currentIndex: int` — Selected index
+- `selectedIndex: alias` — Selected index alias
+- `selectionStyle: string` — "pill" (filled accent) or "underline"
+- `modelData: var`
+- `index: int`
+- `segmentIndex: int`
+- `contentRow: alias`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `selected(int index, var item)`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `select(index)`
+- `itemAt(index)`
+- `targetGeometry(index)`
+- `moveIndicator(instant)`
+- `syncIndicatorIfIdle()`
+
+</details>
+
+#### SettingsCard
+
+Settings row: icon, title, description, action.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/SettingsCard.qml`
+
+```qml
+SettingsCard {
+    title: qsTr("Dark mode")
+    action: Switch { checked: Theme.dark; onToggled: Theme.dark = checked }
+}
+```
+
+<details><summary>Properties</summary>
+
+- `title: string` — Primary title text
+- `description: string` — Supporting description text
+- `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
+- `iconGlyph: string` — Raw Fluent glyph string fallback
+- `headerIcon: var`
+- `action: alias`
+- `content: alias` — Content slot / children host
+- `interactive: bool`
+- `showChevron: bool`
+- `effectiveHeaderIcon: string`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `clicked()`
+
+</details>
+
+#### SettingsExpander
+
+Expandable settings group.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/SettingsExpander.qml`
+
+```qml
+SettingsExpander {
+    title: qsTr("Advanced")
+    SettingsCard { title: qsTr("Option") }
+}
+```
+
+<details><summary>Properties</summary>
+
+- `title: string` — Primary title text
+- `description: string` — Supporting description text
+- `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
+- `iconGlyph: string` — Raw Fluent glyph string fallback
+- `headerIcon: var`
+- `expanded: bool`
+- `isExpanded: alias`
+- `expandDirection: string` — WinUI ExpandDirection: down | up
+- `action: alias`
+- `contentData: alias`
+- `effectiveHeaderIcon: string`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `expanding()`
+- `collapsing()`
+
+</details>
+
+#### ShellWindow
+
+Independent ApplicationWindow + WindowChrome host.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/ShellWindow.qml`
+
+```qml
+ShellWindow {
+    title: qsTr("App")
+    symbol: FluentIcons.Home
+}
+```
+
+<details><summary>Properties</summary>
+
+- `subtitle: alias` — Secondary subtitle text
+- `symbol: alias` — FluentIcons symbol (preferred over iconGlyph)
+- `chrome: alias`
+- `showPaneToggle: bool` — Show navigation pane toggle
+- `searchEnabled: alias` — Enable title-bar search
+- `isBackButtonVisible: alias` — Show back button
+- `isBackButtonEnabled: alias` — Enable back button
+- `leftHeader: alias` — WinUI LeftHeader slot
+- `titleBarContent: alias` — Extra title-bar middle content (e.g. MenuBar when menusInTitleBar)
+- `rightHeader: alias` — WinUI RightHeader slot
+- `searchText: alias` — Title-bar search field text
+- `searchModel: alias` — Title-bar search suggestions
+- `backdrop: int` — WindowHelper.Backdrop*
+- `preferredHeightOption: int` — WindowHelper.TitleBarHeightStandard | TitleBarHeightTall
+- `presenter: int` — WindowHelper.Presenter*
+- `paradigm: int` — WindowHelper.Paradigm*
+- `isAlwaysOnTop: bool` — Keep window above others
+- `extendsContentIntoTitleBar: bool` — Custom frame / extend content
+- `showCaptionButtons: bool` — Show min/max/close
+- `showMinimize: bool` — Show minimize caption button
+- `showMaximize: bool` — Show maximize caption button
+- `showClose: bool` — Show close caption button
+- `captionButtonBackground: color` — AppWindowTitleBar-style caption colors (empty = Theme defaults).
+- `captionButtonHover: color`
+- `captionButtonPressed: color`
+- `captionButtonForeground: color`
+- `captionCloseHover: color`
+- `captionClosePressed: color`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `paneToggleRequested()`
+- `backRequested()`
+- `searchActivated(var item)`
+- `searchTextEdited(string text)`
+
+</details>
+
+#### Shimmer
+
+Skeleton shimmer placeholder.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/Shimmer.qml`
+
+```qml
+Shimmer { width: 200; height: 12 }
+```
+
+<details><summary>Properties</summary>
+
+- `cornerRadius: real`
+- `active: bool`
+- `isActive: alias` — Active / animating state
+- `shape: int`
+- `durationMs: int` — Auto-dismiss duration; 0 keeps open
+- `baseColor: color`
+- `sheenColor: color`
+- `direction: int` — Qt.Horizontal | Qt.Vertical
+
+</details>
+
+#### Sparkline
+
+Inline mini line chart.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/Sparkline.qml`
+
+```qml
+Sparkline { values: [1, 3, 2, 5, 4] }
+```
+
+<details><summary>Properties</summary>
+
+- `values: var` — Numeric values array
+- `strokeColor: color`
+- `fillColor: color`
+- `strokeWidth: real`
+- `filled: bool` — Fill under line / area
+- `showEndMarker: bool`
+- `animated: bool`
+- `minimum: real` — Minimum value
+- `maximum: real` — Maximum value
+- `revealProgress: real`
+- `caption: string`
+- `showDelta: bool`
+- `lastValue: real`
+- `firstValue: real`
+- `delta: real`
+- `deltaPositive: bool`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `playReveal()`
+- `X(i)`
+- `Y(v)`
+
+</details>
+
+#### SplitButton
+
+Primary action + chevron menu.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/SplitButton.qml`
+
+```qml
+SplitButton {
+    text: qsTr("Open")
+    MenuFlyoutItem { text: qsTr("Open with…") }
+}
+```
+
+<details><summary>Properties</summary>
+
+- `menu: alias`
+- `menuData: alias`
+- `highlighted: bool` — Emphasized / selected chrome
+- `flat: bool` — Flat chrome without fill
+- `flyoutPlacement: int`
+- `iconGlyph: string` — Raw Fluent glyph string fallback
+- `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
+- `isOpen: alias` — Open / visible state
+- `effectiveIconGlyph: string`
+- `lightScheme: bool`
+- `accented: bool`
+- `anyHovered: bool`
+- `anyDown: bool`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `primaryClicked()`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `showMenu()`
+- `closeMenu()`
+
+</details>
+
+#### StackedBarChart
+
+Stacked bar chart.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/StackedBarChart.qml`
+
+```qml
+StackedBarChart { series: [{ values: [1, 2] }] }
+```
+
+<details><summary>Properties</summary>
+
+- `series: var` — Chart series array
+- `categories: var`
+- `minimum: real` — Minimum value
+- `maximum: real` — Maximum value
+- `barRadius: real`
+- `barGap: real`
+- `showBaseline: bool`
+- `showLegend: bool` — Show chart legend
+- `showCategoryLabels: bool`
+- `interactive: bool`
+- `animated: bool`
+- `revealProgress: real`
+- `hoverCategory: int`
+- `hoverSeries: int`
+- `hoverText: string`
+- `title: string` — Primary title text
+- `emptyText: string`
+- `isEmpty: bool`
+- `slot: real`
+- `padL: real`
+- `padB: real`
+- `catCount: int`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `categoryClicked(int categoryIndex)`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `playReveal()`
+- `requestRedraw()`
+
+</details>
+
+#### StackPanel
+
+Simple stack layout (orientation + spacing).
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/StackPanel.qml`
+
+```qml
+StackPanel { orientation: Qt.Vertical }
+```
+
+<details><summary>Properties</summary>
+
+- `contentData: alias`
+- `orientation: int` — Qt.Horizontal or Qt.Vertical
+- `paddingEdges: int`
+- `alignment: int` — Cross-axis alignment: Horizontal → vertical align; Vertical → horizontal align
+- `layoutDirection: int`
+- `stretchChildren: bool` — When true (default for Vertical), stretch children along the cross axis to host size
+- `childCount: int`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `childWidth(c)`
+- `childHeight(c)`
+- `relayout()`
+
+</details>
+
+#### StatusBar
+
+Window status strip with progress and slots.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/StatusBar.qml`
+
+```qml
+StatusBar {
+    text: qsTr("Ready")
+    progress: 0.4
+}
+```
+
+<details><summary>Properties</summary>
+
+- `text: string` — Display / input text
+- `leftContent: alias`
+- `centerContent: alias`
+- `content: alias` — Content slot / children host
+- `rightContent: alias`
+- `progress: real` — 0..1 shows determinate bar; <0 hides; NaN-safe. Set indeterminate for busy.
+- `progressIndeterminate: bool`
+
+</details>
+
+#### StatusDot
+
+Colored status indicator dot.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/StatusDot.qml`
+
+```qml
+StatusDot { severity: success }
+```
+
+<details><summary>Properties</summary>
+
+- `offline: int`
+- `available: int`
+- `away: int`
+- `busy: int`
+- `unknown: int`
+- `status: int`
+- `pulse: bool`
+- `size: real` — Diameter or box size in px
+- `label: string` — Field label
+- `showLabel: bool`
+- `statusName: string`
+- `statusColor: color`
+
+</details>
+
+#### StepBar
+
+Horizontal step / wizard progress.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/StepBar.qml`
+
+```qml
+StepBar { model: ["Cart", "Ship", "Pay"]; currentIndex: 1 }
+```
+
+<details><summary>Properties</summary>
+
+- `model: var` — Data model / item list for this control
+- `currentIndex: int` — Selected index
+- `selectedIndex: alias` — Selected index alias
+- `orientation: string` — horizontal | vertical
+- `isInteractive: bool`
+- `modelData: var`
+- `index: int`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `stepActivated(int index)`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `next()`
+- `previous()`
+- `goTo(index)`
+
+</details>
+
+#### SwipeAction
+
+Action revealed by SwipeControl.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/SwipeAction.qml`
+
+```qml
+SwipeAction { text: qsTr("Delete"); onTriggered: remove() }
+```
+
+<details><summary>Properties</summary>
+
+- `text: string` — Display / input text
+- `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
+- `iconGlyph: string` — Raw Fluent glyph string fallback
+- `color: color`
+- `textColor: color`
+- `leading: bool`
+- `effectiveGlyph: string`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `clicked()`
+
+</details>
+
+#### SwipeControl
+
+Swipe-to-reveal actions on content.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/SwipeControl.qml`
+
+```qml
+SwipeControl {
+    SwipeAction { text: qsTr("Delete") }
+    ListTile { title: qsTr("Row") }
+}
+```
+
+<details><summary>Properties</summary>
+
+- `closed: int`
+- `leftOpen: int`
+- `rightOpen: int`
+- `content: alias` — Content slot / children host
+- `leftActions: alias`
+- `rightActions: alias`
+- `actionWidth: real`
+- `revealThreshold: real`
+- `isOpen: bool` — Open / visible state
+- `openMode: int`
+- `maxLeftReveal: real`
+- `maxRightReveal: real`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `opened(int mode)`
+- `closed()`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `close()`
+- `openLeft()`
+- `openRight()`
+
+</details>
+
+#### SwitchCase
+
+Case child for SwitchPresenter.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/SwitchCase.qml`
+
+```qml
+SwitchCase { value: "a"; Label { text: "A" } }
+```
+
+<details><summary>Properties</summary>
+
+- `value: var` — Current value
+- `active: bool`
+- `contentData: alias`
+
+</details>
+
+#### SwitchPresenter
+
+Shows the SwitchCase matching value.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/SwitchPresenter.qml`
+
+```qml
+SwitchPresenter {
+    value: mode
+    SwitchCase { value: "a"; Label { text: "A" } }
+}
+```
+
+<details><summary>Properties</summary>
+
+- `value: var` — Current value
+- `animated: bool`
+- `currentIndex: int` — Selected index
+- `selectedIndex: alias` — Selected index alias
+- `cases: alias`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `caseChanged(var value, int index)`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `valuesEqual(a, b)`
+- `select(index)`
+- `applyValue()`
+- `setCaseActive(ch, on)`
+- `syncWidths()`
+
+</details>
+
+#### TabView
+
+Closeable / reorderable tabs.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/TabView.qml`
+
+```qml
+TabView {
+    model: tabs
+    onCloseRequested: (index) => remove(index)
+}
+```
+
+<details><summary>Properties</summary>
+
+- `model: var` — model items: { title, content, icon? } or string title with empty content
+- `currentIndex: int` — Selected index
+- `selectedIndex: alias` — Selected index alias
+- `closable: bool` — Shows a close affordance when true
+- `isClosable: alias` — Alias of closable
+- `tabsReorderable: bool`
+- `canReorderTabs: alias`
+- `tabWidthMode: string`
+- `isAddTabButtonVisible: bool`
+- `tabCount: int`
+- `modelData: var`
+- `index: int`
+- `tabIndex: int`
+- `dragActive: bool`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `tabCloseRequested(int index)`
+- `currentIndexChangedByUser(int index)`
+- `selectionChanged(int index)`
+- `tabMoved(int from, int to)`
+- `addTabButtonClicked()`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `addTab(item)`
+- `closeTab(index)`
+- `moveTab(from, to)`
+- `tabIndexAtContentX(x)`
+- `tabItemAt(index)`
+
+</details>
+
+#### TeachingTip
+
+Anchored tip with title, subtitle, and actions.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/TeachingTip.qml`
+
+```qml
+TeachingTip { target: btn; title: qsTr("Tip"); subtitle: qsTr("Hint") }
+```
+
+<details><summary>Properties</summary>
+
+- `target: Item` — Anchor item for placement
+- `title: string` — Primary title text
+- `subtitle: string` — Secondary subtitle text
+- `actionText: string` — Optional action button label
+- `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
+- `iconGlyph: string` — Raw Fluent glyph string fallback
+- `isOpen: bool` — Open / visible state
+- `isLightDismissEnabled: bool`
+- `isCloseButtonVisible: bool`
+- `preferredPlacement: int`
+- `effectivePlacement: int`
+- `heroContent: alias`
+- `effectiveIconGlyph: string`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `actionClicked()`
+- `closedByUser()`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `reanchor()`
+
+</details>
+
+#### TextBlock
+
+Fluent typography styles (title, body, caption…).
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/TextBlock.qml`
+
+```qml
+TextBlock { text: qsTr("Title"); style: title }
+```
+
+<details><summary>Properties</summary>
+
+- `caption: int`
+- `body: int`
+- `bodyStrong: int`
+- `subtitle: int` — Secondary subtitle text
+- `title: int` — Primary title text
+- `titleLarge: int`
+- `display: int`
+- `text: string` — Display / input text
+- `style: int`
+- `isTextSelectionEnabled: bool` — WinUI IsTextSelectionEnabled — uses TextEdit when true (Label has no selectByMouse)
+- `textTrimming: string` — none | characterEllipsis | wordEllipsis
+- `maxLines: int`
+- `color: color`
+- `styleName: string`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `setStyleName(name)`
+
+</details>
+
+#### Timeline
+
+Vertical event timeline.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/Timeline.qml`
+
+```qml
+Timeline { model: events }
+```
+
+<details><summary>Properties</summary>
+
+- `model: var` — Data model / item list for this control
+- `currentIndex: int` — Selected index
+- `selectedIndex: alias` — Selected index alias
+- `railWidth: real`
+- `nodeSize: real`
+- `isInteractive: bool`
+- `modelData: var`
+- `index: int`
+- `isLast: bool`
+- `isActive: bool` — Active / animating state
+- `nodeColor: color`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `itemClicked(int index)`
+- `selectionChanged(int index)`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `select(index)`
+- `next()`
+- `previous()`
+
+</details>
+
+#### TimePicker
+
+Hour / minute (and period) selectors.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/TimePicker.qml`
+
+```qml
+TimePicker { }
+```
+
+<details><summary>Properties</summary>
+
+- `hour: int`
+- `minute: int`
+- `isAm: bool`
+- `use24Hour: bool`
+- `pickerOpen: bool` — Picker flyout open
+- `isOpen: alias` — Open / visible state
+- `header: string` — Header label above the control
+- `minuteIncrement: int` — WinUI MinuteIncrement — e.g. 1, 5, 15
+- `clockIdentifier: string` — WinUI ClockIdentifier (read-only mirror of use24Hour)
+- `minuteModel: var`
+- `displayHour: int`
+- `displayText: string`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `timeChosen(int hour, int minute)`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `snapMinute(m)`
+- `applyFromTumblers()`
+
+</details>
+
+#### TitleBar
+
+WinUI TitleBar content chrome (not caption buttons).
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/TitleBar.qml`
+
+```qml
+TitleBar {
+    title: qsTr("App")
+    subtitle: qsTr("Optional")
+    symbol: FluentIcons.Home
+}
+```
+
+<details><summary>Properties</summary>
+
+- `title: string` — Primary title text
+- `subtitle: string` — Secondary subtitle text
+- `iconSource: url` — Image icon when symbol / iconGlyph are empty
+- `symbol: var` — FluentIcons value (preferred over iconGlyph)
+- `iconGlyph: string` — Raw Fluent glyph string fallback
+- `searchText: alias` — Title-bar search field text
+- `searchModel: var` — Suggestion rows for the built-in search field
+- `searchEnabled: bool` — When true and content slot is empty, show built-in catalog search (Gallery default).
+- `isBackButtonVisible: bool` — Show back button
+- `isBackButtonEnabled: bool` — Enable back button
+- `isPaneToggleButtonVisible: bool` — Show navigation pane toggle
+- `embedded: bool` — Hosted inside PlatformTitleBar / WindowChrome (hides local acrylic plate)
+- `useSystemMove: bool` — Use Window.startSystemMove for caption drag
+- `trailingReserve: real` — Extra right inset when caption buttons are drawn outside this item
+- `dragWindow: var` — Window used for system move
+- `preferredHeight: real` — WinUI TitleBarHeightOption — Standard 32 / Tall 48 (from PlatformTitleBar).
+- `effectiveIconGlyph: string`
+- `hasContentChildren: bool`
+- `showBuiltInSearch: bool`
+- `leftHeader: alias` — WinUI LeftHeader slot
+- `content: alias` — WinUI Content slot (replaces built-in search when set)
+- `rightHeader: alias` — WinUI RightHeader — also the default children slot for trailing actions.
+- `trailing: alias`
+- `glyph: string`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `searchActivated(var item)`
+- `searchTextEdited(string text)`
+- `backRequested()`
+- `paneToggleRequested()`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `clientExcludeRectsFor(window)`
+- `pushRect(gx, gy, w, h)`
+- `pushItem(item)`
+- `pushHostContent(host)`
+
+</details>
+
+#### Toast
+
+Transient toast item.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/Toast.qml`
+
+```qml
+Toast { title: qsTr("Saved"); message: qsTr("OK") }
+```
+
+<details><summary>Properties</summary>
+
+- `title: string` — Primary title text
+- `message: string` — Body / message text
+- `severity: int` — Status severity enum
+- `durationMs: int` — Auto-dismiss duration; 0 keeps open
+- `isOpen: bool` — Open / visible state
+- `actionText: string` — Optional action button label
+- `showProgress: bool`
+- `pauseOnHover: bool`
+- `informational: int`
+- `success: int`
+- `warning: int`
+- `error: int`
+- `severityName: string`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `actionClicked()`
+- `closed()`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `show(msg, sev)`
+- `open()`
+- `close()`
+- `hide()`
+
+</details>
+
+#### ToastHost
+
+Hosts stacked Toasts.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/ToastHost.qml`
+
+```qml
+ToastHost { id: toasts }
+// toasts.show({ title: "Done", message: "OK" })
+```
+
+<details><summary>Properties</summary>
+
+- `maxVisible: int` — Max visible items before overflow
+- `durationMs: int` — Auto-dismiss duration; 0 keeps open
+- `newestOnTop: bool`
+- `informational: int`
+- `success: int`
+- `warning: int`
+- `error: int`
+- `count: int` — Item count
+- `index: int`
+- `key: string`
+- `message: string` — Body / message text
+- `severity: int` — Status severity enum
+- `title: string` — Primary title text
+- `actionText: string` — Optional action button label
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `toastClosed(string message)`
+- `toastActionClicked(string message)`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `show(message, severity, title, actionText)`
+- `info(message, title, actionText)`
+- `successToast(message, title, actionText)`
+- `warningToast(message, title, actionText)`
+- `errorToast(message, title, actionText)`
+- `clear()`
+
+</details>
+
+#### ToggleButton
+
+Checkable button with Fluent chrome.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/ToggleButton.qml`
+
+```qml
+ToggleButton { text: qsTr("Bold"); checkable: true }
+```
+
+<details><summary>Properties</summary>
+
+- `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
+- `iconGlyph: string` — Raw Fluent glyph string fallback
+- `iconSize: real`
+- `effectiveIconGlyph: string`
+- `lightScheme: bool`
+- `accented: bool`
+
+</details>
+
+#### ToggleMenuFlyoutItem
+
+Checkable MenuFlyout item.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/ToggleMenuFlyoutItem.qml`
+
+```qml
+ToggleMenuFlyoutItem { text: qsTr("Wrap") }
+```
+
+<details><summary>Properties</summary>
+
+- `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
+- `iconGlyph: string` — Raw Fluent glyph string fallback
+- `keyboardAcceleratorText: string` — Accelerator caption (Ctrl+C)
+- `keyVisualAccelerator: bool`
+- `effectiveIconGlyph: string`
+
+</details>
+
+#### ToggleSplitButton
+
+Toggle primary + menu SplitButton.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/ToggleSplitButton.qml`
+
+```qml
+ToggleSplitButton { text: qsTr("Format") }
+```
+
+<details><summary>Properties</summary>
+
+- `menu: alias`
+- `menuData: alias`
+- `highlighted: bool` — Emphasized / selected chrome
+- `flat: bool` — Flat chrome without fill
+- `flyoutPlacement: int`
+- `iconGlyph: string` — Raw Fluent glyph string fallback
+- `symbol: var` — FluentIcons symbol (preferred over iconGlyph)
+- `isOpen: alias` — Open / visible state
+- `effectiveIconGlyph: string`
+- `lightScheme: bool`
+- `accented: bool`
+- `anyHovered: bool`
+- `anyDown: bool`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `primaryClicked()`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `showMenu()`
+- `closeMenu()`
+
+</details>
+
+#### TokenizingTextBox
+
+Token chips + text input.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/TokenizingTextBox.qml`
+
+```qml
+TokenizingTextBox {
+    model: tokens
+    placeholderText: qsTr("Add…")
+}
+```
+
+<details><summary>Properties</summary>
+
+- `text: alias` — Display / input text
+- `tokens: var`
+- `suggestionModel: var` — Filtered suggestion rows
+- `placeholderText: string` — Placeholder when empty
+- `suggestionsOpen: bool`
+- `isOpen: alias` — Open / visible state
+- `maxTokens: int`
+- `allowDuplicates: bool`
+- `tokenDelimiters: string`
+- `header: string` — Header label above the control
+- `description: string` — Supporting description text
+- `errorMessage: string`
+- `hasError: bool`
+- `tokenCount: int`
+- `filteredSuggestions: var`
+- `index: int`
+- `modelData: var`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `tokenAdded(string token)`
+- `tokenRemoved(string token, int index)`
+- `accepted(string token)`
+- `querySubmitted(string token)`
+- `cleared()`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `focusField()`
+- `clear()`
+- `addToken(value)`
+- `removeToken(index)`
+
+</details>
+
+#### ToolShellWindow
+
+ShellWindow with tool paradigm.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/ToolShellWindow.qml`
+
+```qml
+ToolShellWindow { title: qsTr("Inspector"); width: 320; height: 480 }
+```
+
+#### TwoPaneView
+
+Responsive dual-pane layout.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/TwoPaneView.qml`
+
+```qml
+TwoPaneView {
+    pane1: Rectangle { }
+    pane2: Rectangle { }
+}
+```
+
+<details><summary>Properties</summary>
+
+- `pane1: Item` — First pane content
+- `pane2: Item` — Second pane content
+- `panePriorityWidth: real`
+- `pane1Length: alias`
+- `minWideWidth: real`
+- `preferredMode: int`
+- `panePriority: int`
+- `mode: int`
+- `singlePaneIndex: int`
+- `modeName: string`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `showPane1()`
+- `showPane2()`
+- `toggleSinglePane()`
+- `swapPanes()`
+- `reparentPanes()`
+- `layoutPanes()`
+
+</details>
+
+#### UniformGrid
+
+Even cell grid.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/UniformGrid.qml`
+
+```qml
+UniformGrid { columns: 3 }
+```
+
+<details><summary>Properties</summary>
+
+- `contentData: alias`
+- `rows: int` — Grid row count
+- `columns: int` — Grid column count
+- `rowSpacing: real`
+- `columnSpacing: real`
+- `cellWidth: real`
+- `cellHeight: real`
+- `layoutDirection: int`
+- `cellSpacing: real`
+- `childCount: int`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `visibleChildren()`
+- `relayout()`
+
+</details>
+
+#### WaterfallChart
+
+Waterfall chart.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/WaterfallChart.qml`
+
+```qml
+WaterfallChart { values: [10, -3, 5] }
+```
+
+<details><summary>Properties</summary>
+
+- `steps: var`
+- `values: var` — Numeric values array
+- `showConnector: bool`
+- `showLabels: bool`
+- `interactive: bool`
+- `animated: bool`
+- `revealProgress: real`
+- `hoverIndex: int` — Hovered item index
+- `selectedIndex: alias` — Selected index alias
+- `totalColor: color`
+- `showTotal: bool`
+- `title: string` — Primary title text
+- `emptyText: string`
+- `valueUnit: string`
+- `isEmpty: bool`
+- `slot: real`
+- `padL: real`
+- `count: int` — Item count
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `stepClicked(int index, real value)`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `playReveal()`
+- `requestRedraw()`
+- `clearHover()`
+- `Y(v)`
+
+</details>
+
+#### WrapPanel
+
+Flow / wrap layout.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/WrapPanel.qml`
+
+```qml
+WrapPanel {
+    Repeater { model: 8; Chip { text: modelData } }
+}
+```
+
+<details><summary>Properties</summary>
+
+- `contentData: alias`
+- `orientation: int` — Qt.Horizontal or Qt.Vertical
+- `itemWidth: real`
+- `itemHeight: real`
+- `paddingEdges: int`
+- `layoutDirection: int`
+- `childCount: int`
+
+</details>
+
+#### ZoneGauge
+
+Gauge with colored zones.
+
+`import QWinUI3.Extras` · `src/extras/QWinUI3/Extras/ZoneGauge.qml`
+
+```qml
+ZoneGauge { value: 55; minimum: 0; maximum: 100 }
+```
+
+<details><summary>Properties</summary>
+
+- `value: real` — Current value
+- `minimum: real` — Minimum value
+- `maximum: real` — Maximum value
+- `stepSize: real` — Value step (e.g. 0.5 for half stars)
+- `title: string` — Primary title text
+- `unit: string`
+- `caption: string`
+- `valuePrecision: int`
+- `strokeWidth: real`
+- `showNeedle: bool`
+- `showValue: bool`
+- `showTicks: bool`
+- `tickCount: int` — Major tick count
+- `startAngle: real`
+- `sweepTotal: real`
+- `isInteractive: bool`
+- `interactive: alias`
+- `zones: var` — Colored gauge zones
+- `percentage: real`
+- `activeZoneIndex: int`
+- `activeZoneLabel: string`
+- `activeZoneColor: color`
+- `formattedValue: string`
+- `animatedValue: real`
+- `animatedNorm: real`
+- `radius: real`
+- `modelData: var`
+- `index: int`
+
+</details>
+
+<details><summary>Signals</summary>
+
+- `valueEdited(real value)`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `zoneColor(z, index)`
+- `clampSnap(v)`
+- `setValue(v)`
+- `setValueFromNorm(n)`
+- `normFromPoint(px, py)`
+
+</details>
+
+### Module `QWinUI3.Platform`
+
+#### CompactOverlayWindow
+
+StandardWindow compact overlay presenter.
+
+`import QWinUI3.Platform` · `src/platform/QWinUI3/Platform/CompactOverlayWindow.qml`
+
+```qml
+CompactOverlayWindow { title: qsTr("Overlay") }
+```
+
+#### DialogWindow
+
+StandardWindow dialog paradigm.
+
+`import QWinUI3.Platform` · `src/platform/QWinUI3/Platform/DialogWindow.qml`
+
+```qml
+DialogWindow { title: qsTr("Dialog") }
+```
+
+#### PlatformTitleBar
+
+Caption buttons + drag region + TitleBar host.
+
+`import QWinUI3.Platform` · `src/platform/QWinUI3/Platform/PlatformTitleBar.qml`
+
+```qml
+PlatformTitleBar {
+    targetWindow: window
+    TitleBar { embedded: true; title: qsTr("App") }
+}
+```
+
+<details><summary>Properties</summary>
+
+- `targetWindow: var`
+- `showCaptionButtons: bool`
+- `showMinimize: bool`
+- `showMaximize: bool`
+- `showClose: bool`
+- `preferredHeightOption: int`
+- `useNativeChrome: bool`
+- `resolvedCaptionHeight: real`
+- `titleContent: alias`
+- `captionHeight: real`
+- `chromeBackground: color` — AppWindowTitleBar theming (WinUI caption button / chrome colors).
+- `chromeInactive: bool`
+- `buttonBackground: color`
+- `buttonHover: color`
+- `buttonPressed: color`
+- `buttonForeground: color`
+- `closeHover: color`
+- `closePressed: color`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `reportHitTest()`
+- `screenRect(item)`
+- `onWidthChanged()`
+- `onHeightChanged()`
+- `onVisibilityChanged()`
+
+</details>
+
+#### StandardWindow
+
+Platform ApplicationWindow + PlatformTitleBar host.
+
+`import QWinUI3.Platform` · `src/platform/QWinUI3/Platform/StandardWindow.qml`
+
+```qml
+StandardWindow {
+    title: qsTr("Gallery")
+    backdrop: WindowHelper.BackdropSolid
+}
+```
+
+<details><summary>Properties</summary>
+
+- `paradigm: int`
+- `backdrop: int`
+- `presenter: int`
+- `preferredHeightOption: int`
+- `autoInstall: bool`
+- `showCaptionButtons: bool`
+- `showMinimize: bool`
+- `showMaximize: bool`
+- `showClose: bool`
+- `isAlwaysOnTop: bool`
+- `extendsContentIntoTitleBar: bool` — Documents frameless / custom chrome (WinUI ExtendsContentIntoTitleBar).
+- `chrome: alias`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `applyChrome()`
+- `setPresenterKind(kind)`
+- `onDarkChanged()`
+- `onCornerPreferenceChanged()`
+
+</details>
+
+#### ToolWindow
+
+StandardWindow tool paradigm.
+
+`import QWinUI3.Platform` · `src/platform/QWinUI3/Platform/ToolWindow.qml`
+
+```qml
+ToolWindow { title: qsTr("Tool") }
+```
+
+### Module `QWinUI3.Theme`
+
+#### Theme
+
+Fluent color / type / motion token singleton.
+
+`import QWinUI3.Theme` · `src/theme/QWinUI3/Theme/Theme.qml`
+
+```qml
+Theme.dark = true
+Theme.followSystemAccessibility = true
+```
+
+<details><summary>Properties</summary>
+
+- `dark: bool`
+- `reducedMotion: bool`
+- `highContrast: bool` — When true, strengthen borders/focus for high-contrast / accessibility themes.
+- `followSystemAccessibility: bool` — When true, Gallery/apps should copy WindowHelper system a11y into the flags above.
+- `accent: color` — Fluent / WinUI 3 system accent (matches FluentWinUI3 defaults)
+- `accentLight1: color`
+- `accentDark1: color`
+- `textPrimary: color`
+- `textSecondary: color`
+- `textDisabled: color`
+- `textOnAccent: color`
+- `textOnAccentSecondary: color`
+- `fillControl: color` — Control fills — WinUI ControlFillColor*
+- `fillControlSecondary: color`
+- `fillControlTertiary: color`
+- `fillControlDisabled: color`
+- `fillAccent: color`
+- `fillAccentSecondary: color`
+- `fillAccentTertiary: color`
+- `fillSubtle: color`
+- `fillSubtleSecondary: color`
+- `fillSubtleTertiary: color`
+- `strokeControl: color` — Strokes — ControlStrokeColor*
+- `strokeControlStrong: color`
+- `strokeControlOnAccent: color`
+- `focusOuter: color`
+- `focusInner: color`
+- `strokeCard: color`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `duration(ms)`
+- `controlFill(hovered, pressed, disabled)`
+- `accentFill(hovered, pressed, disabled)`
+
+</details>
+
+### Module `QtQuick.Controls.QWinUI3`
+
+#### ApplicationWindow
+
+Fluent ApplicationWindow chrome defaults.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/ApplicationWindow.qml`
+
+```qml
+ApplicationWindow { title: qsTr("App") }
+```
+
+#### BusyIndicator
+
+Fluent styled BusyIndicator.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/BusyIndicator.qml`
+
+```qml
+BusyIndicator { running: true }
+```
+
+<details><summary>Properties</summary>
+
+- `stroke: real`
+- `radius: real`
+- `spinAngle: real`
+- `pulseOpacity: real`
+
+</details>
+
+#### Button
+
+Fluent styled Button.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/Button.qml`
+
+```qml
+Button { text: qsTr("OK"); onClicked: accept() }
+```
+
+<details><summary>Properties</summary>
+
+- `accented: bool`
+- `lightScheme: bool`
+- `hasSolidStroke: bool`
+- `hasGradientStroke: bool`
+- `topStroke: color` — WinUI ControlStrokeDefault / Secondary — keep soft, not StrongStroke
+- `bottomStroke: color`
+- `inset: bool`
+
+</details>
+
+#### CheckBox
+
+Fluent styled CheckBox.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/CheckBox.qml`
+
+```qml
+CheckBox { text: qsTr("Remember"); checked: true }
+```
+
+#### CheckDelegate
+
+Fluent styled CheckDelegate.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/CheckDelegate.qml`
+
+```qml
+CheckDelegate { text: qsTr("Option") }
+```
+
+#### ComboBox
+
+Fluent styled ComboBox.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/ComboBox.qml`
+
+```qml
+ComboBox { model: ["A", "B"] }
+```
+
+<details><summary>Properties</summary>
+
+- `lightScheme: bool`
+- `modelData: var`
+- `index: int`
+- `selected: bool`
+- `hasSolidStroke: bool`
+- `hasGradientStroke: bool`
+- `topStroke: color`
+- `bottomStroke: color`
+- `inset: bool`
+
+</details>
+
+#### DayOfWeekRow
+
+Fluent styled DayOfWeekRow.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/DayOfWeekRow.qml`
+
+```qml
+DayOfWeekRow { }
+```
+
+<details><summary>Properties</summary>
+
+- `shortName: string`
+
+</details>
+
+#### DelayButton
+
+Fluent styled DelayButton.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/DelayButton.qml`
+
+```qml
+DelayButton { text: qsTr("Hold") }
+```
+
+#### Dial
+
+Fluent styled Dial.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/Dial.qml`
+
+```qml
+Dial { from: 0; to: 100; value: 30 }
+```
+
+<details><summary>Properties</summary>
+
+- `title: string`
+- `unit: string`
+- `showValue: bool`
+- `valuePrecision: int`
+- `tickCount: int`
+- `showTicks: bool`
+- `formattedValue: string`
+- `stroke: real`
+- `r: real`
+- `index: int`
+- `t: real`
+- `angDeg: real`
+- `ang: real`
+- `rr: real`
+
+</details>
+
+#### Dialog
+
+Fluent styled Dialog.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/Dialog.qml`
+
+```qml
+Dialog { title: qsTr("Hi"); standardButtons: Dialog.Ok }
+```
+
+#### DialogButtonBox
+
+Fluent styled DialogButtonBox.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/DialogButtonBox.qml`
+
+```qml
+DialogButtonBox { standardButtons: Dialog.Ok | Dialog.Cancel }
+```
+
+#### Drawer
+
+Fluent styled Drawer.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/Drawer.qml`
+
+```qml
+Drawer { // content }
+```
+
+#### Frame
+
+Fluent styled Frame.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/Frame.qml`
+
+```qml
+Frame { // children }
+```
+
+#### GroupBox
+
+Fluent styled GroupBox.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/GroupBox.qml`
+
+```qml
+GroupBox { title: qsTr("Options") }
+```
+
+#### HorizontalHeaderView
+
+Fluent styled HorizontalHeaderView.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/HorizontalHeaderView.qml`
+
+```qml
+HorizontalHeaderView { }
+```
+
+<details><summary>Properties</summary>
+
+- `model: var`
+
+</details>
+
+#### ItemDelegate
+
+Fluent styled ItemDelegate.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/ItemDelegate.qml`
+
+```qml
+ItemDelegate { text: qsTr("Row") }
+```
+
+#### Label
+
+Fluent styled Label.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/Label.qml`
+
+```qml
+Label { text: qsTr("Hello") }
+```
+
+#### Menu
+
+Fluent styled Menu.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/Menu.qml`
+
+```qml
+Menu { MenuItem { text: qsTr("Copy") } }
+```
+
+#### MenuBar
+
+Fluent styled MenuBar.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/MenuBar.qml`
+
+```qml
+MenuBar { Menu { title: qsTr("File") } }
+```
+
+#### MenuBarItem
+
+Fluent styled MenuBarItem.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/MenuBarItem.qml`
+
+```qml
+MenuBarItem { text: qsTr("File") }
+```
+
+#### MenuItem
+
+Fluent styled MenuItem.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/MenuItem.qml`
+
+```qml
+MenuItem { text: qsTr("Paste") }
+```
+
+#### MenuSeparator
+
+Fluent styled MenuSeparator.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/MenuSeparator.qml`
+
+```qml
+MenuSeparator { }
+```
+
+#### MonthGrid
+
+Fluent styled MonthGrid.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/MonthGrid.qml`
+
+```qml
+MonthGrid { }
+```
+
+<details><summary>Properties</summary>
+
+- `selectedDate: date`
+- `model: var`
+- `inMonth: bool`
+- `isToday: bool`
+- `isSelected: bool`
+
+</details>
+
+<details><summary>Methods</summary>
+
+- `sameDay(a, b)`
+
+</details>
+
+#### Page
+
+Fluent styled Page.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/Page.qml`
+
+```qml
+Page { title: qsTr("Home") }
+```
+
+#### PageIndicator
+
+Fluent styled PageIndicator.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/PageIndicator.qml`
+
+```qml
+PageIndicator { count: 3; currentIndex: 0 }
+```
+
+<details><summary>Properties</summary>
+
+- `index: int`
+- `active: bool`
+
+</details>
+
+#### Pane
+
+Fluent styled Pane.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/Pane.qml`
+
+```qml
+Pane { // children }
+```
+
+#### Popup
+
+Fluent styled Popup chrome.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/Popup.qml`
+
+```qml
+Popup { modal: true; // content }
+```
+
+#### ProgressBar
+
+Fluent styled ProgressBar.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/ProgressBar.qml`
+
+```qml
+ProgressBar { value: 0.4; from: 0; to: 1 }
+```
+
+#### RadioButton
+
+Fluent styled RadioButton.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/RadioButton.qml`
+
+```qml
+RadioButton { text: qsTr("Option"); checked: true }
+```
+
+#### RadioDelegate
+
+Fluent styled RadioDelegate.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/RadioDelegate.qml`
+
+```qml
+RadioDelegate { text: qsTr("Option") }
+```
+
+#### RangeSlider
+
+Fluent styled RangeSlider.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/RangeSlider.qml`
+
+```qml
+RangeSlider { from: 0; to: 100; first.value: 20; second.value: 80 }
+```
+
+<details><summary>Properties</summary>
+
+- `diameter: real`
+
+</details>
+
+#### RoundButton
+
+Fluent styled RoundButton.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/RoundButton.qml`
+
+```qml
+RoundButton { text: "+" }
+```
+
+#### ScrollBar
+
+Fluent styled ScrollBar.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/ScrollBar.qml`
+
+```qml
+ScrollBar { }
+```
+
+#### ScrollIndicator
+
+Fluent styled ScrollIndicator.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/ScrollIndicator.qml`
+
+```qml
+ScrollIndicator { }
+```
+
+#### ScrollView
+
+Fluent styled ScrollView.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/ScrollView.qml`
+
+```qml
+ScrollView { Label { text: longText } }
+```
+
+#### Slider
+
+Fluent styled Slider.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/Slider.qml`
+
+```qml
+Slider { from: 0; to: 100; value: 40 }
+```
+
+<details><summary>Properties</summary>
+
+- `diameter: real`
+
+</details>
+
+#### SpinBox
+
+Fluent styled SpinBox.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/SpinBox.qml`
+
+```qml
+SpinBox { from: 0; to: 99; value: 1 }
+```
+
+#### SplitView
+
+Fluent styled SplitView.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/SplitView.qml`
+
+```qml
+SplitView { orientation: Qt.Horizontal }
+```
+
+#### StackView
+
+Fluent styled StackView.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/StackView.qml`
+
+```qml
+StackView { initialItem: homePage }
+```
+
+#### SwipeDelegate
+
+Fluent styled SwipeDelegate.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/SwipeDelegate.qml`
+
+```qml
+SwipeDelegate { text: qsTr("Row") }
+```
+
+#### SwipeView
+
+Fluent styled SwipeView.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/SwipeView.qml`
+
+```qml
+SwipeView { // pages }
+```
+
+#### Switch
+
+Fluent styled Switch.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/Switch.qml`
+
+```qml
+Switch { checked: Theme.dark; onToggled: Theme.dark = checked }
+```
+
+#### SwitchDelegate
+
+Fluent styled SwitchDelegate.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/SwitchDelegate.qml`
+
+```qml
+SwitchDelegate { text: qsTr("Option") }
+```
+
+#### TabBar
+
+Fluent styled TabBar.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/TabBar.qml`
+
+```qml
+TabBar { TabButton { text: qsTr("One") } }
+```
+
+#### TabButton
+
+Fluent styled TabButton.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/TabButton.qml`
+
+```qml
+TabButton { text: qsTr("Tab") }
+```
+
+#### TextArea
+
+Fluent styled TextArea.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/TextArea.qml`
+
+```qml
+TextArea { placeholderText: qsTr("Notes") }
+```
+
+#### TextField
+
+Fluent styled TextField.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/TextField.qml`
+
+```qml
+TextField { placeholderText: qsTr("Name") }
+```
+
+#### ToolBar
+
+Fluent styled ToolBar.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/ToolBar.qml`
+
+```qml
+ToolBar { ToolButton { text: qsTr("A") } }
+```
+
+#### ToolButton
+
+Fluent styled ToolButton.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/ToolButton.qml`
+
+```qml
+ToolButton { text: qsTr("Edit") }
+```
+
+#### ToolSeparator
+
+Fluent styled ToolSeparator.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/ToolSeparator.qml`
+
+```qml
+ToolSeparator { }
+```
+
+#### ToolTip
+
+Fluent styled ToolTip.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/ToolTip.qml`
+
+```qml
+ToolTip { text: qsTr("Hint") }
+```
+
+#### TreeViewDelegate
+
+Fluent styled TreeViewDelegate.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/TreeViewDelegate.qml`
+
+```qml
+TreeViewDelegate { }
+```
+
+<details><summary>Properties</summary>
+
+- `row: int`
+- `model: var`
+
+</details>
+
+#### Tumbler
+
+Fluent styled Tumbler.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/Tumbler.qml`
+
+```qml
+Tumbler { model: 12 }
+```
+
+<details><summary>Properties</summary>
+
+- `modelData: var`
+- `index: int`
+
+</details>
+
+#### VerticalHeaderView
+
+Fluent styled VerticalHeaderView.
+
+`import QtQuick.Controls.QWinUI3` · `src/style/QWinUI3/VerticalHeaderView.qml`
+
+```qml
+VerticalHeaderView { }
+```
+
+<details><summary>Properties</summary>
+
+- `model: var`
+
+</details>
+
+## Internal / support
+
+- `ChartUtils` (`QWinUI3.Extras`) — LOD helpers for large chart series.
+- `ShellWindowSupport` (`QWinUI3.Extras`) — Shared install/presenter glue for ShellWindow.
+- `WindowChrome` (`QWinUI3.Extras`) — PlatformTitleBar + TitleBar bundle for shells.
+- `FocusStroke` (`QtQuick.Controls.QWinUI3`) — Focus ring helper.
+- `SelectionPip` (`QtQuick.Controls.QWinUI3`) — Navigation selection pip indicator.
+- `CaptionButton` (`QWinUI3.Platform`) — Native-chrome caption min/max/close button.
+- `WindowResizeBorder` (`QWinUI3.Platform`) — Non-native resize hit edges.
+- `ElevatedChrome` (`QWinUI3.Theme`) — Shared elevated shadow/border chrome.
+- `IconSource` (`QWinUI3.Theme`) — Resolve FluentIcons symbol or glyph string.
+
+---
+*Generated by `scripts/generate_component_docs.py` — do not edit by hand.*

@@ -4,13 +4,22 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// RadioButtons — Grouped RadioButton list from a model.
+//
+//   RadioButtons { header: qsTr("Choice"); model: ["A", "B"] }
+
 T.Control {
     id: control
 
+    // Header label above the control
     property string header: ""
+    // Supporting description text
     property string description: ""
+    // Data model / item list for this control
     property var model: []
+    // Selected index
     property int currentIndex: 0
+    // Selected index alias
     property alias selectedIndex: control.currentIndex
     property bool horizontal: false
     signal selected(int index, var item)

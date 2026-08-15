@@ -3,11 +3,20 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 
-// WinUI AccentButton — always-accent primary CTA with optional Fluent symbol.
+// AccentButton — Always-accent primary CTA with optional Fluent symbol.
+//
+//   AccentButton {
+//       text: qsTr("Save")
+//       symbol: FluentIcons.Save
+//       onClicked: save()
+//   }
+
 Button {
     id: control
 
+    // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
+    // Raw Fluent glyph string fallback
     property string iconGlyph: ""
     property real iconSize: 14
 

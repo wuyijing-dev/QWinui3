@@ -4,16 +4,24 @@ import QtQuick.Controls
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// WinUI TextBox pattern: header, optional description, and a single-line field.
+// HeaderedTextBox — TextBox with header and description.
+//
+//   HeaderedTextBox { header: qsTr("Name"); placeholderText: qsTr("Required") }
+
 T.Control {
     id: root
 
+    // Header label above the control
     property string header: ""
+    // Supporting description text
     property string description: ""
     property string errorMessage: ""
+    // Show clear affordance
     property bool clearButtonVisible: false
     property int characterLimit: 0 // 0 = unlimited; shows counter when > 0
+    // Display / input text
     property alias text: field.text
+    // Placeholder when empty
     property alias placeholderText: field.placeholderText
     property alias echoMode: field.echoMode
     property alias readOnly: field.readOnly

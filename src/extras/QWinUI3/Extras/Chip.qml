@@ -4,20 +4,35 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// Chip — Compact selectable tag; optional close affordance.
+//
+//   Chip {
+//       text: qsTr("Tag")
+//       closable: true
+//       onCloseClicked: remove()
+//   }
+
 T.AbstractButton {
     id: control
 
+    // Shows a trailing close affordance
     property bool closable: false
     property alias isCloseButtonVisible: control.closable
+    // Emphasized / selected chrome
     property bool highlighted: false
+    // Flat chrome without fill
     property bool flat: false
+    // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
+    // Raw Fluent glyph string fallback
     property string iconGlyph: ""
+    // Initials / short avatar text instead of an icon
     property string avatarText: ""
     // filled | outline
     property string appearance: "filled"
     // small | medium
     property string chipSize: "medium"
+    // Fired when the close glyph is clicked (does not uncheck)
     signal closeClicked()
 
     readonly property string effectiveIconGlyph: IconSource.resolve(symbol, iconGlyph)

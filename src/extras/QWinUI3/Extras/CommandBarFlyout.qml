@@ -4,6 +4,12 @@ import QtQuick.Controls
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// CommandBarFlyout — Popup CommandBar with primary + secondary commands.
+//
+//   CommandBarFlyout {
+//       AppBarButton { text: qsTr("Share") }
+//   }
+
 T.Popup {
     id: root
 
@@ -12,9 +18,12 @@ T.Popup {
     default property alias primaryData: primaryRow.data
     property alias secondaryData: secondaryCol.data
 
+    // Open / visible state
     property bool isOpen: false
     property bool isLightDismissEnabled: true
+    // Anchor item for placement
     property Item target: null
+    // Popup / flyout placement
     property int placement: Qt.AlignBottom
     property alias preferredPlacement: root.placement
 

@@ -2,6 +2,10 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// Pane — Fluent styled Pane.
+//
+//   Pane { // children }
+
 T.Pane {
     id: control
 

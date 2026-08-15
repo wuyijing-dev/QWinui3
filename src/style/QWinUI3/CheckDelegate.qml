@@ -4,6 +4,10 @@ import QtQuick.Controls.impl
 import QtQuick.Shapes
 import QWinUI3.Theme
 
+// CheckDelegate — Fluent styled CheckDelegate.
+//
+//   CheckDelegate { text: qsTr("Option") }
+
 T.CheckDelegate {
     id: control
 

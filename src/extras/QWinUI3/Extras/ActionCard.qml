@@ -3,17 +3,28 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// WinUI-style actionable surface card with symbol, title, description, and chevron.
+// ActionCard — Clickable card with symbol, title, description, and chevron.
+//
+//   ActionCard {
+//       title: qsTr("Accounts")
+//       description: qsTr("Manage profiles")
+//       onClicked: open()
+//   }
+
 T.AbstractButton {
     id: control
 
+    // Primary title text
     property string title: text
+    // Supporting description text
     property string description: ""
+    // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
     property string glyph: ""
     property color glyphColor: Theme.accent
     property color glyphBackground: Theme.fillSubtle
     property bool showChevron: true
+    // Show avatar badge
     property bool badgeVisible: false
     property int badgeValue: 0
     property string badgeText: ""

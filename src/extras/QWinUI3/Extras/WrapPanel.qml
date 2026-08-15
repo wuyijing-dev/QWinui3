@@ -2,10 +2,17 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// WrapPanel — Flow / wrap layout.
+//
+//   WrapPanel {
+//       Repeater { model: 8; Chip { text: modelData } }
+//   }
+
 T.Control {
     id: root
 
     default property alias contentData: flow.data
+    // Qt.Horizontal or Qt.Vertical
     property int orientation: Qt.Horizontal
     property real itemWidth: -1
     property real itemHeight: -1

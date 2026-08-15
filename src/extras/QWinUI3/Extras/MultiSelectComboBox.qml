@@ -4,14 +4,18 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Multi-select combo: Button + animated Popup (Menu-equivalent chrome).
-// Avoids MenuItem createObject ("not placed in the graphics scene") and
-// Menu's auto-dismiss, which is wrong for multi-select.
+// MultiSelectComboBox — Combo that keeps the popup open for multi-select.
+//
+//   MultiSelectComboBox { model: items; selectedIndexes: [0, 2] }
+
 T.AbstractButton {
     id: control
 
+    // Data model / item list for this control
     property var model: []
+    // Placeholder when empty
     property string placeholderText: qsTr("Select items")
+    // Header label above the control
     property string header: ""
     signal selectionChanged(var selected)
 
@@ -30,6 +34,7 @@ T.AbstractButton {
     Accessible.description: displayText
 
     readonly property bool menuOpen: popup.visible
+    // Open / visible state
     property alias isOpen: popup.visible
 
     readonly property var selectedItems: {

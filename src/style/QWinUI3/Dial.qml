@@ -3,6 +3,10 @@ import QtQuick.Shapes
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// Dial — Fluent styled Dial.
+//
+//   Dial { from: 0; to: 100; value: 30 }
+
 T.Dial {
     id: control
 

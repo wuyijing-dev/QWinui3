@@ -1,7 +1,10 @@
 import QtQuick
 import QtQuick.Window
 
-// Thin invisible edges for frameless Windows resize via startSystemResize
+// WindowResizeBorder — Non-native resize hit edges.
+//
+//   WindowResizeBorder { targetWindow: root }
+
 Item {
     id: root
     anchors.fill: parent

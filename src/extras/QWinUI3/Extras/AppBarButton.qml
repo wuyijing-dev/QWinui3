@@ -3,6 +3,13 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QWinUI3.Theme
 
+// AppBarButton — CommandBar icon button with label position overrides.
+//
+//   AppBarButton {
+//       text: qsTr("Add")
+//       symbol: FluentIcons.Add
+//   }
+
 IconicButton {
     id: control
 

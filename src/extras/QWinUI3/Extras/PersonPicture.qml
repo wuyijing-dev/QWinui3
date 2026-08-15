@@ -2,13 +2,22 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// PersonPicture — Avatar from image or initials.
+//
+//   PersonPicture { displayName: "Ada"; size: 48 }
+
 T.Control {
     id: root
 
+    // Person / avatar display name
     property string displayName: ""
+    // Image URL
     property url imageSource: ""
+    // Diameter or box size in px
     property real size: 48
+    // Fallback avatar fill
     property color profileColor: Theme.accent
+    // Show avatar badge
     property bool badgeVisible: false
     property color badgeColor: Theme.systemSuccess
     property var badgeSymbol: ""

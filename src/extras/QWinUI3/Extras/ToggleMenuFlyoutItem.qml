@@ -3,12 +3,18 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 
-// Checkable MenuFlyout item with Fluent check glyph.
+// ToggleMenuFlyoutItem — Checkable MenuFlyout item.
+//
+//   ToggleMenuFlyoutItem { text: qsTr("Wrap") }
+
 MenuItem {
     id: control
 
+    // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
+    // Raw Fluent glyph string fallback
     property string iconGlyph: ""
+    // Accelerator caption (Ctrl+C)
     property string keyboardAcceleratorText: ""
     property bool keyVisualAccelerator: false
 

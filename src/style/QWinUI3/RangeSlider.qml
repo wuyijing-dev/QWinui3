@@ -2,6 +2,10 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// RangeSlider — Fluent styled RangeSlider.
+//
+//   RangeSlider { from: 0; to: 100; first.value: 20; second.value: 80 }
+
 T.RangeSlider {
     id: control
 

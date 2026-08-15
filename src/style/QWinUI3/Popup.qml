@@ -2,6 +2,10 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// Popup — Fluent styled Popup chrome.
+//
+//   Popup { modal: true; // content }
+
 T.Popup {
     id: control
 

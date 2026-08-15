@@ -5,7 +5,13 @@ import QtQuick.Window
 import QWinUI3.Theme
 import QWinUI3.Platform
 
-// WinUI AppWindowTitleBar — caption buttons, drag region, hosts TitleBar content.
+// PlatformTitleBar — Caption buttons + drag region + TitleBar host.
+//
+//   PlatformTitleBar {
+//       targetWindow: window
+//       TitleBar { embedded: true; title: qsTr("App") }
+//   }
+
 Item {
     id: root
 

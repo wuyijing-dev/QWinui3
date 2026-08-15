@@ -1,12 +1,18 @@
 import QtQuick
 import QWinUI3.Theme
 
-// Action panel for SwipeDelegate — use as swipe.left / swipe.right.
+// SwipeAction — Action revealed by SwipeControl.
+//
+//   SwipeAction { text: qsTr("Delete"); onTriggered: remove() }
+
 Item {
     id: root
 
+    // Display / input text
     property string text: qsTr("Delete")
+    // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
+    // Raw Fluent glyph string fallback
     property string iconGlyph: ""
     property color color: Theme.dark ? "#C42B1C" : Theme.systemCritical
     property color textColor: "#FFFFFF"

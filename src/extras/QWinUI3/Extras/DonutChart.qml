@@ -3,23 +3,30 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Donut chart with reveal animation, hover emphasis, and legend.
-// slices: [{ value, color?, label? }]
+// DonutChart — Donut chart with hover and legend.
+//
+//   DonutChart { slices: [{ value: 3, label: "A" }] }
+
 T.Control {
     id: root
 
+    // Pie/donut slice descriptors
     property var slices: []
     property real thickness: 14
     property bool showCenterLabel: true
     property string centerText: ""
     property string centerSubText: ""
+    // Show chart legend
     property bool showLegend: true
     property bool interactive: true
     property bool animated: true
     property real startAngle: -Math.PI / 2
     property real revealProgress: 1
+    // Hovered item index
     property int hoverIndex: -1
+    // Selected index alias
     property alias selectedIndex: root.hoverIndex
+    // Primary title text
     property string title: ""
     property string emptyText: qsTr("No data")
 

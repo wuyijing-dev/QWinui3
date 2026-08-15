@@ -2,6 +2,10 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// ProgressBar — Fluent styled ProgressBar.
+//
+//   ProgressBar { value: 0.4; from: 0; to: 1 }
+
 T.ProgressBar {
     id: control
 

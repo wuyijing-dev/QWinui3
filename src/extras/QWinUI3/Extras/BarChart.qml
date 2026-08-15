@@ -3,14 +3,20 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Vertical bar chart with reveal animation and hover highlight.
-// values: number[]  OR  bars: [{ value, color?, label? }]
+// BarChart — Vertical bar chart with reveal animation.
+//
+//   BarChart { values: [4, 2, 7, 3] }
+
 T.Control {
     id: root
 
+    // Numeric values array
     property var values: []
+    // Bar descriptors
     property var bars: []
+    // Minimum value
     property real minimum: 0
+    // Maximum value
     property real maximum: NaN
     property real barRadius: 4
     property real barGap: 0.28
@@ -19,8 +25,11 @@ T.Control {
     property bool interactive: true
     property bool animated: true
     property real revealProgress: 1
+    // Hovered item index
     property int hoverIndex: -1
+    // Selected index alias
     property alias selectedIndex: root.hoverIndex
+    // Primary title text
     property string title: ""
     property string emptyText: qsTr("No data")
     property string valueUnit: ""

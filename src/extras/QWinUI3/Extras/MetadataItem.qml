@@ -2,15 +2,24 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// One label/value pair used inside MetadataControl.
+// MetadataItem — One label/value pair for MetadataControl.
+//
+//   MetadataItem { label: qsTr("Size"); value: "12 KB" }
+
 T.Control {
     id: root
 
+    // Field label
     property string label: ""
+    // Current value
     property string value: ""
+    // Secondary value line
     property string secondary: ""
+    // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
+    // Raw Fluent glyph string fallback
     property string iconGlyph: ""
+    // Qt.Horizontal or Qt.Vertical
     property int orientation: Qt.Vertical
     property color valueColor: Theme.textPrimary
 
