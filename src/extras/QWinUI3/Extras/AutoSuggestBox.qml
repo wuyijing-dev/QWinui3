@@ -57,8 +57,10 @@ T.Control {
     Accessible.role: Accessible.ComboBox
     Accessible.name: header.length ? header : qsTr("Suggestions")
 
+    // Focus Field
     function focusField() { field.forceActiveFocus() }
 
+    // Display Text For
     function displayTextFor(item) {
         if (item === undefined || item === null)
             return ""
@@ -69,6 +71,7 @@ T.Control {
         return String(item.title || item.text || "")
     }
 
+    // Refresh Suggestions
     function refreshSuggestions() {
         var q = (field.text || "").trim().toLowerCase()
         if (!q.length) {
@@ -86,6 +89,7 @@ T.Control {
             popup.close()
     }
 
+    // Clear
     function clear() {
         field.text = ""
         suggestionModel = []

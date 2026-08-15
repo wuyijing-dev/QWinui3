@@ -56,6 +56,7 @@ T.Control {
     onStretchChildrenChanged: Qt.callLater(relayout)
     Component.onCompleted: Qt.callLater(relayout)
 
+    // Child Width
     function childWidth(c) {
         if (c.implicitWidth > 0)
             return c.implicitWidth
@@ -64,6 +65,7 @@ T.Control {
         return 80
     }
 
+    // Child Height
     function childHeight(c) {
         if (c.implicitHeight > 0)
             return c.implicitHeight
@@ -72,6 +74,7 @@ T.Control {
         return Theme.controlHeight
     }
 
+    // Relayout
     function relayout() {
         var kids = []
         for (var i = 0; i < host.children.length; ++i) {

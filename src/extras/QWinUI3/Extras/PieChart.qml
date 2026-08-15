@@ -75,6 +75,7 @@ T.Control {
         }
     }
 
+    // Play Reveal
     function playReveal() {
         if (!root.animated || Theme.reducedMotion) {
             revealProgress = 1
@@ -85,6 +86,7 @@ T.Control {
         revealProgress = 1
     }
 
+    // Request Redraw
     function requestRedraw() { canvas.requestPaint() }
     onSlicesChanged: { hoverIndex = -1; Qt.callLater(playReveal) }
     onPadAngleChanged: requestRedraw()

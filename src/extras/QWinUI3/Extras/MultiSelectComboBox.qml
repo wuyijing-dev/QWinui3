@@ -71,6 +71,7 @@ T.AbstractButton {
         return qsTr("%1 selected").arg(names.length)
     }
 
+    // Toggle At
     function toggleAt(index) {
         var next = (model || []).slice()
         var it = next[index]
@@ -85,6 +86,7 @@ T.AbstractButton {
         selectionChanged(selectedItems)
     }
 
+    // Ensure Object Model
     function ensureObjectModel() {
         var m = model || []
         var next = []
@@ -101,6 +103,7 @@ T.AbstractButton {
             model = next
     }
 
+    // Select All
     function selectAll() {
         ensureObjectModel()
         var next = (model || []).slice()
@@ -113,6 +116,7 @@ T.AbstractButton {
         selectionChanged(selectedItems)
     }
 
+    // Clear Selection
     function clearSelection() {
         ensureObjectModel()
         var next = (model || []).slice()
@@ -317,8 +321,10 @@ T.AbstractButton {
                 leftPadding: 12
                 rightPadding: 12
 
+                // True when this option is selected
                 readonly property bool itemChecked: typeof modelData === "string"
                         ? false : !!modelData.checked
+                // Display text for this option
                 readonly property string itemText: typeof modelData === "string"
                         ? modelData : (modelData.text || modelData.title || "")
 

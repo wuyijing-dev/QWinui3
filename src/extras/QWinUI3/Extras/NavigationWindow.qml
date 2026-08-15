@@ -74,8 +74,11 @@ ShellWindow {
     // TitleBar back (ShellWindow) + NavigationView pane back → backRequested
     Connections {
         target: nav
+        // On Back Requested
         function onBackRequested() { root.backRequested() }
+        // On Footer Clicked
         function onFooterClicked() { root.footerClicked() }
+        // On Pane Search Activated
         function onPaneSearchActivated(text) { root.paneSearchActivated(text) }
     }
 
@@ -83,11 +86,13 @@ ShellWindow {
         showPaneToggle = paneDisplayMode !== "top"
     }
 
+    // Clear Nav
     function clearNav() {
         navModel = []
         nav.currentKey = ""
     }
 
+    // Add Nav Item
     function addNavItem(item) {
         if (!item)
             return ""
@@ -108,6 +113,7 @@ ShellWindow {
         return entry.key
     }
 
+    // Add Nav Group
     function addNavGroup(group) {
         if (!group)
             return ""

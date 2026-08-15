@@ -17,6 +17,7 @@ QtObject {
     // Busy status constant
     readonly property bool busy: _active !== null
 
+    // Enqueue
     function enqueue(dialog) {
         if (!dialog)
             return
@@ -35,6 +36,7 @@ QtObject {
         _queue = _queue.concat([dialog])
     }
 
+    // Show
     function show(dialog) {
         enqueue(dialog)
     }
@@ -51,6 +53,7 @@ QtObject {
         _queue = next
     }
 
+    // Clear Queue
     function clearQueue() {
         _queue = []
     }

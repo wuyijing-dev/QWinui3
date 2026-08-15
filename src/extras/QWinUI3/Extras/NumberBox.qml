@@ -68,14 +68,17 @@ T.Control {
         return true
     }
 
+    // Clamp
     function clamp(v) {
         return Math.min(root.maximum, Math.max(root.minimum, v))
     }
 
+    // Format
     function format(v) {
         return root.prefix + Number(v).toFixed(root.decimals) + root.suffix
     }
 
+    // Bump
     function bump(delta) {
         root.inputInvalid = false
         root.value = root.clamp(root.value + delta)
@@ -83,6 +86,7 @@ T.Control {
         root.valueModified()
     }
 
+    // Flash Invalid
     function flashInvalid() {
         if (root.validationMode === "disabled")
             return
@@ -90,8 +94,10 @@ T.Control {
         invalidTimer.restart()
     }
 
+    // Focus Field
     function focusField() { field.forceActiveFocus() }
 
+    // Commit Text
     function commitText() {
         var raw = field.text.replace(root.prefix, "").replace(root.suffix, "").trim()
         if (raw.length === 0 && root.placeholderText.length > 0) {

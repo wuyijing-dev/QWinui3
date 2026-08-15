@@ -63,12 +63,14 @@ ShellWindow {
         text: qsTr("Ready")
     }
 
+    // Add Menu
     function addMenu(menu) {
         if (!menu)
             return
         menus.addMenu(menu)
     }
 
+    // Clear Menus
     function clearMenus() {
         while (menus.count > 0)
             menus.takeMenu(0)
@@ -98,10 +100,12 @@ ShellWindow {
 
     Connections {
         target: menus
+        // On Implicit Width Changed
         function onImplicitWidthChanged() {
             if (root.menusInTitleBar)
                 root.chrome.reportHitTest()
         }
+        // On Count Changed
         function onCountChanged() {
             if (root.menusInTitleBar)
                 Qt.callLater(function () { root.chrome.reportHitTest() })

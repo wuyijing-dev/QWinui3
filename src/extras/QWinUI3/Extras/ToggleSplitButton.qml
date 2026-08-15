@@ -48,6 +48,7 @@ T.AbstractButton {
     Accessible.checked: control.checked
     Accessible.description: popupMenu.visible ? qsTr("Menu open") : qsTr("Menu closed")
 
+    // Show Menu
     function showMenu() {
         var ox = 0
         var oy = control.height + 4
@@ -67,6 +68,7 @@ T.AbstractButton {
         popupMenu.popup(control, ox, oy)
     }
 
+    // Close Menu
     function closeMenu() { popupMenu.close() }
 
     // True in light theme
@@ -290,6 +292,7 @@ T.AbstractButton {
             }
 
             Rectangle {
+                // Use inset stroke chrome
                 readonly property bool inset: strokeShell.hasGradientStroke
                 x: inset ? 1 : 0
                 y: inset ? 1 : 0

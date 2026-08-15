@@ -51,6 +51,7 @@ T.Control {
         }
     }
 
+    // Set Style Name
     function setStyleName(name) {
         switch (String(name).toLowerCase()) {
         case "caption": style = caption; break

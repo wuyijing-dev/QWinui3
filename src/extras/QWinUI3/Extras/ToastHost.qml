@@ -45,6 +45,7 @@ T.Control {
 
     ListModel { id: queue }
 
+    // Show
     function show(message, severity, title, actionText) {
         while (queue.count >= root.maxVisible) {
             if (newestOnTop)
@@ -66,19 +67,24 @@ T.Control {
             queue.append(entry)
     }
 
+    // Info
     function info(message, title, actionText) {
         show(message, informational, title || qsTr("Information"), actionText)
     }
+    // Success Toast
     function successToast(message, title, actionText) {
         show(message, success, title || qsTr("Success"), actionText)
     }
+    // Warning Toast
     function warningToast(message, title, actionText) {
         show(message, warning, title || qsTr("Warning"), actionText)
     }
+    // Error Toast
     function errorToast(message, title, actionText) {
         show(message, error, title || qsTr("Error"), actionText)
     }
 
+    // Clear
     function clear() {
         queue.clear()
     }

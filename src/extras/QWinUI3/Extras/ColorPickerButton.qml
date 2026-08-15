@@ -28,6 +28,7 @@ T.AbstractButton {
 
     // Formatted hex color text
     readonly property string hexText: {
+        // Hex2
         function hex2(n) {
             var v = Math.max(0, Math.min(255, Math.round(n * 255)))
             var s = v.toString(16).toUpperCase()
@@ -61,7 +62,9 @@ T.AbstractButton {
         }
     }
 
+    // Open
     function open() { pickerOpen = true }
+    // Close
     function close() { pickerOpen = false }
 
     onClicked: pickerOpen = !pickerOpen

@@ -66,10 +66,12 @@ T.Control {
         return s + (unit.length ? unit : "")
     }
 
+    // Set Value
     function setValue(v) {
         value = Math.max(minimum, Math.min(maximum, Number(v) || 0))
     }
 
+    // Band Color
     function bandColor(index) {
         if (rangeColors && rangeColors.length > index)
             return rangeColors[index]

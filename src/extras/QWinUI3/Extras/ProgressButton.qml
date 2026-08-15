@@ -72,6 +72,7 @@ T.AbstractButton {
         }
     }
 
+    // Set Progress
     function setProgress(value) {
         indeterminate = false
         progress = Math.max(0, Math.min(1, value))
@@ -83,12 +84,14 @@ T.AbstractButton {
             progressState = "idle"
     }
 
+    // Reset
     function reset() {
         progress = 0
         indeterminate = false
         progressState = "idle"
     }
 
+    // Start
     function start(indeterminateMode) {
         progressState = "progressing"
         if (indeterminateMode === true) {
@@ -101,6 +104,7 @@ T.AbstractButton {
         }
     }
 
+    // Complete
     function complete() {
         indeterminate = false
         progress = 1
@@ -108,6 +112,7 @@ T.AbstractButton {
         progressCompleted()
     }
 
+    // Fail
     function fail() {
         progressState = "error"
         progressFailed()

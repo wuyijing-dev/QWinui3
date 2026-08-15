@@ -42,6 +42,7 @@ T.Control {
 
     onCurrentIndexChanged: selectionChanged(currentIndex)
 
+    // Go Next
     function goNext() {
         if (count <= 0)
             return
@@ -56,6 +57,7 @@ T.Control {
         currentIndexEdited(currentIndex)
     }
 
+    // Go Previous
     function goPrevious() {
         if (count <= 0)
             return
@@ -70,6 +72,7 @@ T.Control {
         currentIndexEdited(currentIndex)
     }
 
+    // Select
     function select(index) {
         if (index < 0 || index >= count)
             return

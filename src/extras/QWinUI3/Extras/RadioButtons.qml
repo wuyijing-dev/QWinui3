@@ -30,6 +30,7 @@ T.Control {
 
     onCurrentIndexChanged: selectionChanged(currentIndex)
 
+    // Select
     function select(index) {
         if (index < 0 || index >= (model ? model.length : 0))
             return

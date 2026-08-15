@@ -56,6 +56,7 @@ T.AbstractButton {
         }
     }
 
+    // Copy
     function copy(optionalText) {
         var value = optionalText !== undefined ? String(optionalText) : textToCopy
         if (!value.length) {

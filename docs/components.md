@@ -470,7 +470,6 @@ AreaChart { values: [1, 3, 2, 5] }
 - `plotT: real` — Plot top inset
 - `plotW: real` — Plot width
 - `plotH: real` — Plot height
-- `lo: real` — Computed axis minimum
 
 </details>
 
@@ -513,7 +512,6 @@ AutoSuggestBox {
 - `isSuggestionListOpen: bool` — Suggestion popup open state
 - `header: string` — Header label above the control
 - `effectiveQueryIcon: string` — Resolved search glyph
-- `host: var` — Host item for popup anchoring
 
 </details>
 
@@ -2105,7 +2103,6 @@ LineChart { values: [1, 4, 2, 6] }
 - `drawnPointCount: int` — Points drawn after LOD
 - `isEmpty: bool` — True when there is no data
 - `plotL: real` — Cache last paint metrics for hover hit-testing
-- `plotT: real` — Plot top inset
 
 </details>
 
@@ -4749,7 +4746,7 @@ Theme.followSystemAccessibility = true
 - `fillControlSecondary: color` — Control fill (hover)
 - `fillControlTertiary: color` — Control fill (pressed)
 - `fillControlDisabled: color` — Control fill (disabled)
-- `fillAccent: color` — Accent fill
+- `fillAccent: color` — Accent fill (rest) — same as accent brush
 - `fillAccentSecondary: color` — Accent fill (hover)
 - `fillAccentTertiary: color` — Accent fill (pressed)
 - `fillSubtle: color` — Subtle hover/press wash
@@ -4757,7 +4754,7 @@ Theme.followSystemAccessibility = true
 - `fillSubtleTertiary: color` — Subtle tertiary wash
 - `strokeControl: color` — Strokes — ControlStrokeColor*
 - `strokeControlStrong: color` — Strong control border
-- `strokeControlOnAccent: color` — Stroke Control On Accent
+- `strokeControlOnAccent: color` — Stroke on accent-filled controls
 - `focusOuter: color` — Focus ring outer color
 - `focusInner: color` — Focus ring inner color
 - `strokeCard: color` — Card border stroke

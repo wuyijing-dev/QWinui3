@@ -81,22 +81,26 @@ T.Control {
         return out
     }
 
+    // Crumb Title
     function crumbTitle(data) {
         if (typeof data === "string")
             return data
         return (data && data.title) ? data.title : ""
     }
 
+    // Crumb Icon
     function crumbIcon(data) {
         if (typeof data !== "object" || !data)
             return ""
         return IconSource.resolve(data.symbol || "", data.icon || data.glyph || "")
     }
 
+    // Is Current
     function isCurrent(index) {
         return !isNaN(index) && index >= 0 && index === root.currentIndex
     }
 
+    // Is Clickable
     function isClickable(entry) {
         if (!entry || entry.ellipsis)
             return true

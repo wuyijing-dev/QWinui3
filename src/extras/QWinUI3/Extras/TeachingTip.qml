@@ -70,6 +70,7 @@ T.Popup {
     }
     onClosed: isOpen = false
 
+    // Reanchor
     function reanchor() {
         if (!target || !parent)
             return

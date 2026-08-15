@@ -86,6 +86,7 @@ T.Control {
         }
     }
 
+    // Show
     function show(msg, sev) {
         if (msg !== undefined)
             message = msg
@@ -101,9 +102,12 @@ T.Control {
         hideTimer.restart()
     }
 
+    // Open
     function open() { show() }
+    // Close
     function close() { hide() }
 
+    // Hide
     function hide() {
         isOpen = false
         hideTimer.stop()

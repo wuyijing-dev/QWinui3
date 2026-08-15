@@ -22,6 +22,7 @@ T.AbstractMonthGrid {
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
 
+    // Same Day
     function sameDay(a, b) {
         if (isNaN(a.getTime()) || isNaN(b.getTime()))
             return false

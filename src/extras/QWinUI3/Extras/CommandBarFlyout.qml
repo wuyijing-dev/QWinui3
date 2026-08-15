@@ -36,6 +36,7 @@ T.Popup {
     // Show secondary command list
     readonly property bool showSecondary: secondaryCol.children.length > 0
 
+    // Show At
     function showAt(item, preferredPlacement) {
         if (preferredPlacement !== undefined && preferredPlacement !== null)
             root.placement = preferredPlacement
@@ -65,9 +66,13 @@ T.Popup {
         root.isOpen = true
     }
 
+    // Show
     function show() { isOpen = true }
+    // Hide
     function hide() { isOpen = false }
+    // Open Flyout
     function openFlyout() { show() }
+    // Close Flyout
     function closeFlyout() { hide() }
 
     onIsOpenChanged: {

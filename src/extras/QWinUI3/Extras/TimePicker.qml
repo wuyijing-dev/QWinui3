@@ -51,6 +51,7 @@ T.Control {
         return list
     }
 
+    // Snap Minute
     function snapMinute(m) {
         var step = Math.max(1, Math.min(30, minuteIncrement))
         var snapped = Math.round(m / step) * step
@@ -76,6 +77,7 @@ T.Control {
         return hh + ":" + mm + (isAm ? " AM" : " PM")
     }
 
+    // Apply From Tumblers
     function applyFromTumblers() {
         var h = hourTumbler.currentIndex
         var m = parseInt(control.minuteModel[minuteTumbler.currentIndex], 10)

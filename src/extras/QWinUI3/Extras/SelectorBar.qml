@@ -37,6 +37,7 @@ T.Control {
 
     property bool _indicatorReady: false
 
+    // Select
     function select(index) {
         if (index < 0 || index >= (model ? model.length : 0))
             return
@@ -54,6 +55,7 @@ T.Control {
     }
     Component.onCompleted: Qt.callLater(function () { moveIndicator(true) })
 
+    // Item At
     function itemAt(index) {
         for (var i = 0; i < row.children.length; ++i) {
             var ch = row.children[i]
@@ -63,6 +65,7 @@ T.Control {
         return null
     }
 
+    // Target Geometry
     function targetGeometry(index) {
         var btn = itemAt(index)
         if (!btn)
@@ -88,6 +91,7 @@ T.Control {
         return g
     }
 
+    // Move Indicator
     function moveIndicator(instant) {
         var g = targetGeometry(control.currentIndex)
         if (!g || host.height <= 0) {

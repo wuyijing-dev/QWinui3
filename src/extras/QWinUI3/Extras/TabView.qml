@@ -64,6 +64,7 @@ T.Control {
 
     onCurrentIndexChanged: selectionChanged(currentIndex)
 
+    // Add Tab
     function addTab(item) {
         var next = model.slice()
         next.push(item || { title: qsTr("New tab"), content: "" })
@@ -72,6 +73,7 @@ T.Control {
         addTabButtonClicked()
     }
 
+    // Close Tab
     function closeTab(index) {
         if (index < 0 || index >= model.length)
             return
@@ -85,6 +87,7 @@ T.Control {
             currentIndex = currentIndex - 1
     }
 
+    // Move Tab
     function moveTab(from, to) {
         if (from === to || from < 0 || to < 0)
             return
@@ -107,6 +110,7 @@ T.Control {
         tabMoved(from, to)
     }
 
+    // Tab Index At Content X
     function tabIndexAtContentX(x) {
         var best = model.length - 1
         for (var i = 0; i < tabRow.children.length; ++i) {
@@ -348,6 +352,7 @@ T.Control {
                                 grabPermissions: PointerHandler.CanTakeOverFromItems
                                                  | PointerHandler.ApprovesTakeOverByAnything
 
+                                // True after a swipe/slide reveal
                                 property bool slid: false
 
                                 onActiveChanged: {
@@ -421,6 +426,7 @@ T.Control {
                 // Floating drag preview
                 ElevatedChrome {
                     id: ghost
+                    // Title text
                     property string title: ""
                     visible: false
                     z: 100

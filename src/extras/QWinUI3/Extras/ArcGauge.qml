@@ -102,6 +102,7 @@ T.Control {
         return Math.max(0, Math.min(1, (animatedValue - minimum) / span))
     }
 
+    // Clamp Snap
     function clampSnap(v) {
         var lo = Math.min(minimum, maximum)
         var hi = Math.max(minimum, maximum)
@@ -113,8 +114,10 @@ T.Control {
         return x
     }
 
+    // Set Value
     function setValue(v) { value = clampSnap(v) }
 
+    // Set Value From Norm
     function setValueFromNorm(n) {
         setValue(minimum + Math.max(0, Math.min(1, n)) * (maximum - minimum))
     }

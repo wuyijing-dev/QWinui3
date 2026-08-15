@@ -41,6 +41,7 @@ T.Control {
     }
     Component.onCompleted: Qt.callLater(function () { moveIndicator(true) })
 
+    // Select
     function select(index) {
         if (index < 0 || index >= (model ? model.length : 0))
             return
@@ -53,6 +54,7 @@ T.Control {
         selected(index, item)
     }
 
+    // Item At
     function itemAt(index) {
         for (var i = 0; i < row.children.length; ++i) {
             var ch = row.children[i]
@@ -62,6 +64,7 @@ T.Control {
         return null
     }
 
+    // Move Indicator
     function moveIndicator(instant) {
         var btn = itemAt(control.currentIndex)
         if (!btn || host.height <= 0) {
@@ -92,12 +95,14 @@ T.Control {
         slideAnim.start()
     }
 
+    // Sync Indicator If Idle
     function syncIndicatorIfIdle() {
         if (slideAnim.running)
             return
         moveIndicator(true)
     }
 
+    // Next Enabled
     function nextEnabled(from, delta) {
         var n = model ? model.length : 0
         if (n <= 0)

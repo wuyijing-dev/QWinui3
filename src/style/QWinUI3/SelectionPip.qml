@@ -71,6 +71,7 @@ Item {
             running: false
         }
 
+        // Content YFor Index
         function contentYForIndex(index) {
             if (!listView || index < 0)
                 return -1
@@ -80,12 +81,14 @@ Item {
             return item.y + (item.height - baseHeight) * 0.5
         }
 
+        // Current Content Y
         function currentContentY() {
             if (progress >= 1)
                 return contentToY
             return contentFromY + (contentToY - contentFromY) * eased
         }
 
+        // Move To
         function moveTo(index, forceInstant, retries) {
             if (retries === undefined)
                 retries = 0

@@ -68,6 +68,7 @@ T.Control {
     onWidthChanged: relayout()
     onHeightChanged: relayout()
 
+    // Visible Children
     function visibleChildren() {
         var list = []
         for (var i = 0; i < grid.children.length; ++i) {
@@ -78,6 +79,7 @@ T.Control {
         return list
     }
 
+    // Relayout
     function relayout() {
         var kids = visibleChildren()
         var cols = Math.max(1, columns)

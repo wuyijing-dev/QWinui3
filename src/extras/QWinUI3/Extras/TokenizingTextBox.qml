@@ -69,8 +69,10 @@ T.Control {
     implicitWidth: 280
     implicitHeight: column.implicitHeight
 
+    // Focus Field
     function focusField() { input.forceActiveFocus() }
 
+    // Clear
     function clear() {
         if (!tokens || tokens.length === 0)
             return
@@ -80,6 +82,7 @@ T.Control {
         cleared()
     }
 
+    // Add Token
     function addToken(value) {
         var t = ("" + value).trim()
         if (!t.length)
@@ -102,6 +105,7 @@ T.Control {
         suggestionsOpen = false
     }
 
+    // Remove Token
     function removeToken(index) {
         if (index < 0 || index >= tokens.length)
             return

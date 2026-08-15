@@ -43,6 +43,7 @@ T.Control {
     Accessible.name: header.length ? header : qsTr("Calendar date")
     Accessible.description: Qt.formatDate(selectedDate, dateFormat)
 
+    // Is Date Allowed
     function isDateAllowed(d) {
         var day = new Date(d.getFullYear(), d.getMonth(), d.getDate())
         if (hasMinDate) {

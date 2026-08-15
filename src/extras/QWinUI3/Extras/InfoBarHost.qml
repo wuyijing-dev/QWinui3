@@ -45,6 +45,7 @@ T.Control {
     Accessible.name: qsTr("Info bars")
     Accessible.description: qsTr("%1 open").arg(openCount)
 
+    // Close All
     function closeAll() {
         for (var i = 0; i < stack.children.length; ++i) {
             var c = stack.children[i]
@@ -53,8 +54,10 @@ T.Control {
         }
     }
 
+    // Clear All
     function clearAll() { closeAll() }
 
+    // Open All
     function openAll() {
         for (var i = 0; i < stack.children.length; ++i) {
             var c = stack.children[i]

@@ -60,6 +60,7 @@ Item {
     // Close pressed fill
     property color closePressed: "#C50F1F"
 
+    // Report Hit Test
     function reportHitTest() {
         if (!root._ready || !root.useNativeChrome || !root.targetWindow)
             return

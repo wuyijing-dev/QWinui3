@@ -87,11 +87,13 @@ T.Control {
         }
     }
 
+    // Invalidate Lod
     function invalidateLod() {
         _lodKey = ""
         _lodPoints = []
     }
 
+    // Ensure Lod
     function ensureLod(binsX, binsY) {
         var raw = root._raw
         var n = ChartUtils.valueCount(raw)

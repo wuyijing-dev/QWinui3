@@ -67,6 +67,7 @@ T.Control {
         }
     }
 
+    // Play Reveal
     function playReveal() {
         if (!root.animated || Theme.reducedMotion) {
             revealProgress = 1
@@ -77,8 +78,10 @@ T.Control {
         revealProgress = 1
     }
 
+    // Request Redraw
     function requestRedraw() { canvas.requestPaint() }
 
+    // Clear Hover
     function clearHover() {
         hoverIndex = -1
         requestRedraw()

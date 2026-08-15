@@ -39,11 +39,13 @@ Item {
     Accessible.role: Accessible.List
     Accessible.name: header.length ? header : qsTr("Legend")
 
+    // Select
     function select(index) {
         selectedIndex = index
         itemClicked(index)
     }
 
+    // Clear Selection
     function clearSelection() {
         selectedIndex = -1
     }

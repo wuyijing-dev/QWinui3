@@ -117,6 +117,7 @@ T.Control {
         return filledExact - Math.floor(filledExact)
     }
 
+    // Clamp Snap
     function clampSnap(v) {
         var lo = Math.min(minimum, maximum)
         var hi = Math.max(minimum, maximum)

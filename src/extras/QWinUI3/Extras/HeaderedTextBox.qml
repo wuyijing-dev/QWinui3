@@ -64,11 +64,13 @@ T.Control {
     Accessible.name: header
     Accessible.description: hasError ? errorMessage : description
 
+    // Clear
     function clear() {
         field.clear()
         cleared()
     }
 
+    // Focus Field
     function focusField() {
         field.forceActiveFocus()
     }

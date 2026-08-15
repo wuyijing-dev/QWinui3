@@ -9,11 +9,13 @@ QtObject {
     // Point count that triggers LOD
     readonly property int largeSeriesThreshold: 50000
 
+    // As Number
     function asNumber(v, fallback) {
         var n = Number(v)
         return isFinite(n) ? n : (fallback !== undefined ? fallback : 0)
     }
 
+    // Value Count
     function valueCount(input) {
         if (!input)
             return 0
@@ -44,6 +46,7 @@ QtObject {
         return asNumber(it, fallback)
     }
 
+    // Point X
     function pointX(input, index) {
         if (!input || index < 0)
             return index
@@ -57,12 +60,14 @@ QtObject {
         return index
     }
 
+    // Point Y
     function pointY(input, index) {
         if (input && typeof input.yAt === "function")
             return asNumber(input.yAt(index))
         return valueAt(input, index)
     }
 
+    // Point Color
     function pointColor(input, index) {
         if (!input || index < 0 || index >= input.length)
             return undefined
@@ -85,6 +90,7 @@ QtObject {
         return out
     }
 
+    // Extents
     function extents(values) {
         var n = valueCount(values)
         if (!n)
@@ -105,6 +111,7 @@ QtObject {
         return { min: lo, max: hi }
     }
 
+    // Extents XY
     function extentsXY(points) {
         var n = valueCount(points)
         if (!n)

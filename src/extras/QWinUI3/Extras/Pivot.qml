@@ -55,6 +55,7 @@ T.Control {
         }
     }
 
+    // Select Index
     function selectIndex(index) {
         if (index < 0 || index >= model.length)
             return

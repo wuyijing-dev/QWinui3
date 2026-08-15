@@ -656,6 +656,7 @@ Item {
                     boundsBehavior: Flickable.StopAtBounds
                     ScrollBar.horizontal: ScrollBar { policy: ScrollBar.AlwaysOff }
 
+                    // True when content overflows the visible area
                     readonly property bool hasOverflow: contentWidth > width + 1
 
                     delegate: ItemDelegate {
@@ -1129,6 +1130,7 @@ Item {
                             width: ListView.view.width
                             spacing: 0
 
+                            // Expanded child rows for a nav group
                             readonly property var childItems: {
                                 var m = root.model || []
                                 var it = m[del.modelIndex]
@@ -1453,13 +1455,20 @@ Item {
                             return 1
                         }
 
+                        // Selection pip rest height
                         property real baseHeight: 16
+                        // Pip animation start contentY
                         property real contentFromY: 0
+                        // Pip animation end contentY
                         property real contentToY: 0
+                        // 0..1 animation / progress value
                         property real progress: 1
+                        // Ready
                         property bool ready: false
+                        // Move Retries
                         property int moveRetries: 0
 
+                        // Eased 0..1 animation progress
                         readonly property real eased: {
                             var t = progress
                             // Cubic ease-in-out: accelerate then decelerate into settle
@@ -1467,12 +1476,15 @@ Item {
                                    ? 4 * t * t * t
                                    : 1 - Math.pow(-2 * t + 2, 3) / 2
                         }
+                        // Absolute pip travel distance
                         readonly property real travel: Math.abs(contentToY - contentFromY)
                         // Stretch peaks in the middle of the path
                         readonly property real stretch: Math.min(36, Math.max(10, travel * 0.45))
+                        // Animated pip center Y in content coords
                         readonly property real contentCenterY: contentFromY
                                                               + (contentToY - contentFromY) * eased
                                                               + baseHeight * 0.5
+                        // Current pip visual height (stretch)
                         readonly property real visualHeight: baseHeight
                                                             + stretch * Math.sin(Math.PI * progress)
 
@@ -1709,6 +1721,7 @@ Item {
         // Cap to the NavigationView height so long groups (e.g. Charts) scroll.
         readonly property real maxBodyHeight: Math.max(120, root.height - 16
                                                        - topPadding - bottomPadding)
+        // Body Height
         readonly property real bodyHeight: Math.min(
             flyoutHeader.implicitHeight + flyoutList.contentHeight + (flyoutHeader.visible ? 4 : 0),
             maxBodyHeight)

@@ -58,12 +58,14 @@ T.Control {
     onWidthChanged: relayout()
     onHeightChanged: relayout()
 
+    // Dock Of
     function dockOf(item) {
         if (item.dock === undefined || item.dock === null)
             return lastChildFill ? -1 : DockPanel.Fill
         return item.dock
     }
 
+    // Relayout
     function relayout() {
         var lefts = [], tops = [], rights = [], bottoms = [], fills = [], undocked = []
         for (var i = 0; i < host.children.length; ++i) {

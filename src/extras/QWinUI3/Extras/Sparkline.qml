@@ -72,6 +72,7 @@ T.Control {
         }
     }
 
+    // Play Reveal
     function playReveal() {
         if (!root.animated || Theme.reducedMotion) {
             revealProgress = 1

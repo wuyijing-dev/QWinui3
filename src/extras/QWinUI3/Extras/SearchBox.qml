@@ -60,8 +60,10 @@ T.Control {
     Accessible.name: header.length ? header : qsTr("Search")
     Accessible.description: description
 
+    // Focus Field
     function focusField() { field.forceActiveFocus() }
 
+    // Display Text For
     function displayTextFor(item) {
         if (item === undefined || item === null)
             return ""
@@ -72,6 +74,7 @@ T.Control {
         return String(item.title || item.text || item.name || "")
     }
 
+    // Refresh Suggestions
     function refreshSuggestions() {
         if (!control.model || !control.model.length) {
             control.suggestionModel = []
@@ -93,6 +96,7 @@ T.Control {
             popup.close()
     }
 
+    // Clear
     function clear() {
         field.text = ""
         suggestionModel = []
@@ -100,6 +104,7 @@ T.Control {
         cleared()
     }
 
+    // Submit Query
     function submitQuery() {
         accepted(field.text)
         querySubmitted(field.text)

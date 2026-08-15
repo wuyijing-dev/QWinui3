@@ -66,6 +66,7 @@ T.Control {
         }
     }
 
+    // Set Severity Name
     function setSeverityName(name) {
         switch (String(name).toLowerCase()) {
         case "success": severity = success; break

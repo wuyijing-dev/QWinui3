@@ -51,6 +51,7 @@ T.Control {
         return value
     }
 
+    // Clamp Value
     function clampValue(v) {
         var max = Math.max(1, maxRating)
         var x = Math.max(0, Math.min(max, Number(v)))
@@ -65,6 +66,7 @@ T.Control {
         return Math.round(snapped * 1000) / 1000
     }
 
+    // Value From Pos
     function valueFromPos(x) {
         var w = Math.max(1, starsRow.width)
         // Map pointer into [0, maxRating]; tiny left margin clears when clear enabled
@@ -74,6 +76,7 @@ T.Control {
         return clampValue(ratio * maxRating)
     }
 
+    // Commit Value
     function commitValue(next) {
         var v = clampValue(next)
         if (isClearEnabled && value > 0

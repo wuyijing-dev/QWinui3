@@ -96,6 +96,7 @@ T.Control {
         }
     }
 
+    // Play Reveal
     function playReveal() {
         invalidateLod()
         var huge = root.sourcePointCountEstimate() >= ChartUtils.largeSeriesThreshold
@@ -109,6 +110,7 @@ T.Control {
         revealProgress = 1
     }
 
+    // Source Point Count Estimate
     function sourcePointCountEstimate() {
         var list = root._seriesList
         var n = 0
@@ -117,6 +119,7 @@ T.Control {
         return n
     }
 
+    // Invalidate Lod
     function invalidateLod() {
         _lodKey = ""
         _lodPacks = []

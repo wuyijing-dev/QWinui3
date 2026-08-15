@@ -62,6 +62,7 @@ T.Control {
     onOrientationChanged: Qt.callLater(syncChildren)
     Component.onCompleted: Qt.callLater(syncChildren)
 
+    // Sync Children
     function syncChildren() {
         var full = root.orientation === Qt.Vertical
         for (var i = 0; i < host.children.length; ++i) {

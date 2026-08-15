@@ -64,12 +64,16 @@ T.Control {
     Accessible.name: qsTr("Two pane view")
     Accessible.description: modeName
 
+    // Show Pane1
     function showPane1() { singlePaneIndex = 0 }
+    // Show Pane2
     function showPane2() { singlePaneIndex = 1 }
+    // Toggle Single Pane
     function toggleSinglePane() {
         singlePaneIndex = singlePaneIndex === 0 ? 1 : 0
     }
 
+    // Swap Panes
     function swapPanes() {
         var a = pane1
         pane1 = pane2
@@ -89,6 +93,7 @@ T.Control {
     contentItem: Item {
         id: host
 
+        // Reparent Panes
         function reparentPanes() {
             if (root.pane1 && root.pane1.parent !== host)
                 root.pane1.parent = host
@@ -97,6 +102,7 @@ T.Control {
             layoutPanes()
         }
 
+        // Layout Panes
         function layoutPanes() {
             var gap = root.spacing
             var w = width

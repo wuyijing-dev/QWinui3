@@ -58,10 +58,12 @@ T.Control {
             : (pullToRefreshEnabled ? Math.min(pullThreshold + 16, _pullDistance) : 0)
     readonly property real _pullProgress: Math.min(1, _pullDistance / Math.max(1, pullThreshold))
 
+    // End Refresh
     function endRefresh() {
         refreshing = false
     }
 
+    // Begin Refresh
     function beginRefresh() {
         if (refreshing)
             return

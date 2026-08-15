@@ -47,6 +47,7 @@ T.Control {
     readonly property bool _showButtons: buttonsVisible && buttonVisibility !== "hidden"
     readonly property bool _buttonsAlways: buttonVisibility === "always"
 
+    // Go Next
     function goNext() {
         if (swipe.count <= 0)
             return
@@ -59,6 +60,7 @@ T.Control {
             currentIndexChangedByUser(swipe.currentIndex)
     }
 
+    // Go Previous
     function goPrevious() {
         if (swipe.count <= 0)
             return
@@ -73,6 +75,7 @@ T.Control {
 
     Connections {
         target: swipe
+        // On Current Index Changed
         function onCurrentIndexChanged() { control.selectionChanged(swipe.currentIndex) }
     }
 

@@ -51,6 +51,7 @@ T.Control {
     onValueChanged: applyValue()
     Component.onCompleted: Qt.callLater(applyValue)
 
+    // Values Equal
     function valuesEqual(a, b) {
         if (a === b)
             return true
@@ -59,6 +60,7 @@ T.Control {
         return String(a) === String(b)
     }
 
+    // Select
     function select(index) {
         var cases = []
         for (var i = 0; i < host.children.length; ++i) {
@@ -71,6 +73,7 @@ T.Control {
         value = cases[index].value
     }
 
+    // Apply Value
     function applyValue() {
         var matched = false
         var fallback = null
@@ -105,6 +108,7 @@ T.Control {
         syncWidths()
     }
 
+    // Set Case Active
     function setCaseActive(ch, on) {
         if (!ch)
             return

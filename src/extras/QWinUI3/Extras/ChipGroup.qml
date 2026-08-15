@@ -49,6 +49,7 @@ T.Control {
     Accessible.role: Accessible.List
     Accessible.name: qsTr("Chip group")
 
+    // Is Selected
     function isSelected(index) {
         if (!_selectable)
             return false
@@ -57,12 +58,14 @@ T.Control {
         return selectedIndexes.indexOf(index) >= 0
     }
 
+    // Clear Selection
     function clearSelection() {
         currentIndex = -1
         selectedIndexes = []
         selectionChanged()
     }
 
+    // Select
     function select(index) {
         if (!_selectable || index < 0)
             return
@@ -76,6 +79,7 @@ T.Control {
         selectionChanged()
     }
 
+    // Toggle Index
     function toggleIndex(index) {
         if (!_selectable)
             return

@@ -45,7 +45,9 @@ T.Dialog {
 
     // Enqueue via ContentDialogQueue (preferred over open())
     function show() { ContentDialogQueue.enqueue(root) }
+    // Hide
     function hide() { close() }
+    // Open Queued
     function openQueued() { ContentDialogQueue.enqueue(root) }
 
     readonly property string _defaultButton: {
@@ -105,6 +107,7 @@ T.Dialog {
     Keys.onReturnPressed: event => { activateDefault(); event.accepted = true }
     Keys.onEnterPressed: event => { activateDefault(); event.accepted = true }
 
+    // Activate Default
     function activateDefault() {
         switch (root._defaultButton) {
         case "primary":

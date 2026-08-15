@@ -26,18 +26,21 @@ T.Control {
 
     readonly property bool _vertical: orientation === "vertical"
 
+    // Next
     function next() {
         if (currentIndex < (model ? model.length : 0) - 1) {
             currentIndex++
             stepActivated(currentIndex)
         }
     }
+    // Previous
     function previous() {
         if (currentIndex > 0) {
             currentIndex--
             stepActivated(currentIndex)
         }
     }
+    // Go To
     function goTo(index) {
         if (index < 0 || index >= (model ? model.length : 0))
             return

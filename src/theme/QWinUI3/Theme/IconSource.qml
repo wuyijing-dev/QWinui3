@@ -8,6 +8,7 @@ import QtQuick
 QtObject {
     id: root
 
+    // Is Raw Glyph
     function isRawGlyph(value) {
         if (typeof value !== "string" || value.length === 0)
             return false
@@ -22,6 +23,7 @@ QtObject {
         return false
     }
 
+    // To Pascal Case
     function toPascalCase(name) {
         if (!name || typeof name !== "string")
             return ""
@@ -41,6 +43,7 @@ QtObject {
         return out
     }
 
+    // Lookup Name
     function lookupName(name) {
         if (!name || typeof name !== "string")
             return ""
@@ -94,6 +97,7 @@ QtObject {
         return typeof fb === "string" ? fb : ""
     }
 
+    // Has
     function has(value) {
         return resolve(value, "").length > 0
     }

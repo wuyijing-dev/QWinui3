@@ -59,6 +59,7 @@ T.Control {
     // Max Right Reveal
     readonly property real maxRightReveal: Math.max(0, rightRow.children.length * actionWidth)
 
+    // Close
     function close() {
         panel.x = 0
         if (openMode !== closed) {
@@ -66,6 +67,7 @@ T.Control {
             closed()
         }
     }
+    // Open Left
     function openLeft() {
         if (maxLeftReveal <= 0) {
             close()
@@ -77,6 +79,7 @@ T.Control {
             opened(leftOpen)
         }
     }
+    // Open Right
     function openRight() {
         if (maxRightReveal <= 0) {
             close()

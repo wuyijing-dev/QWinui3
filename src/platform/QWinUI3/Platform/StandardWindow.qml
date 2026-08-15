@@ -76,6 +76,7 @@ ApplicationWindow {
         z: 10000
     }
 
+    // Apply Chrome
     function applyChrome() {
         WindowHelper.installParadigmEx(root, paradigm, Theme.dark, backdrop,
                                        presenter === WindowHelper.PresenterFullScreen
@@ -84,6 +85,7 @@ ApplicationWindow {
                                        isAlwaysOnTop)
     }
 
+    // Set Presenter Kind
     function setPresenterKind(kind) {
         presenter = kind
         if (_chromeReady)

@@ -91,6 +91,7 @@ T.Control {
         }
     }
 
+    // Play Reveal
     function playReveal() {
         if (!root.animated || Theme.reducedMotion) {
             revealProgress = 1
@@ -101,12 +102,15 @@ T.Control {
         revealProgress = 1
     }
 
+    // Request Redraw
     function requestRedraw() { canvas.requestPaint() }
+    // Clear Hover
     function clearHover() {
         hoverRow = -1
         hoverCol = -1
         requestRedraw()
     }
+    // Lerp Color
     function lerpColor(a, b, t) {
         t = Math.max(0, Math.min(1, t))
         return Qt.rgba(a.r + (b.r - a.r) * t,

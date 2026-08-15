@@ -44,7 +44,7 @@ QtObject {
     readonly property color fillControlTertiary: dark ? "#08FFFFFF" : "#4DF9F9F9"
     // Control fill (disabled)
     readonly property color fillControlDisabled: dark ? "#0BFFFFFF" : "#4DF9F9F9"
-    // Accent fill
+    // Accent fill (rest) — same as accent brush
     readonly property color fillAccent: accent
     // Accent fill (hover)
     readonly property color fillAccentSecondary: dark ? Qt.rgba(accent.r, accent.g, accent.b, 0.9)
@@ -63,7 +63,7 @@ QtObject {
     readonly property color strokeControl: dark ? "#12FFFFFF" : "#0F000000"
     // Strong control border
     readonly property color strokeControlStrong: dark ? "#8BFFFFFF" : "#9C000000"
-    // Stroke Control On Accent
+    // Stroke on accent-filled controls
     readonly property color strokeControlOnAccent: dark ? "#14FFFFFF" : "#14FFFFFF"
     // Focus ring outer color
     readonly property color focusOuter: dark ? "#FFFFFF" : "#000000"
@@ -76,19 +76,19 @@ QtObject {
 
     // Layer / solid backgrounds — LayerFill / SolidBackground
     readonly property color bgLayer: dark ? "#202020" : "#F3F3F3"
-    // Bg Layer Alt
+    // Alternate layer (zebra / secondary surface)
     readonly property color bgLayerAlt: dark ? "#282828" : "#EEEEEE"
-    // Bg Solid
+    // Opaque solid window fill (no acrylic/mica)
     readonly property color bgSolid: dark ? "#202020" : "#F3F3F3"
     // Card surface background
     readonly property color bgCard: dark ? "#2C2C2C" : "#FFFFFF"
-    // Bg Card Elevated
+    // Elevated card (dialog / flyout surface)
     readonly property color bgCardElevated: dark ? "#323232" : "#FFFFFF"
     // Modal smoke / light-dismiss scrim
     readonly property color bgSmoke: dark ? "#4D000000" : "#4D000000"
     // Acrylic / chrome background
     readonly property color bgAcrylic: dark ? "#2C2C2C" : "#F9F9F9"
-    // Bg Mica
+    // Mica base fill under system backdrop
     readonly property color bgMica: dark ? "#202020" : "#F3F3F3"
 
     // Attention / info color
@@ -99,47 +99,48 @@ QtObject {
     readonly property color systemCaution: dark ? "#FCE100" : "#9D5D00"
     // Error / critical color
     readonly property color systemCritical: dark ? "#FF99A4" : "#C42B1C"
-    // System Attention Bg
+    // Attention banner background
     readonly property color systemAttentionBg: dark ? "#FF272727" : "#FFF3F9FD"
-    // System Success Bg
+    // Success banner background
     readonly property color systemSuccessBg: dark ? "#FF393D1B" : "#FFDFF6DD"
-    // System Caution Bg
+    // Caution banner background
     readonly property color systemCautionBg: dark ? "#FF433519" : "#FFFFF4CE"
-    // System Critical Bg
+    // Critical banner background
     readonly property color systemCriticalBg: dark ? "#FF442726" : "#FFFDE7E9"
 
     // Typography — Segoe UI Variable / WinUI type ramp
     readonly property string fontFamily: "Segoe UI Variable"
-    // Font Family Text
+    // Segoe UI Variable Text face
     readonly property string fontFamilyText: "Segoe UI Variable Text"
-    // Font Family Display
+    // Segoe UI Variable Display face (large titles)
     readonly property string fontFamilyDisplay: "Segoe UI Variable Display"
     // Fluent Icons font family
     readonly property string fontFamilyIcon: "Segoe Fluent Icons"
-    // Caption font size
+    // Caption font size (12)
     readonly property int fontCaption: 12
-    // Body font size
+    // Body font size (14)
     readonly property int fontBody: 14
-    // Font Body Large
+    // Body Large font size (18)
     readonly property int fontBodyLarge: 18
-    // Font Subtitle
+    // Subtitle font size (20)
     readonly property int fontSubtitle: 20
-    // Font Title
+    // Title font size (28)
     readonly property int fontTitle: 28
-    // Font Title Large
+    // Title Large font size (40)
     readonly property int fontTitleLarge: 40
-    // Font Weight Regular
+    // Regular / normal font weight
     readonly property int fontWeightRegular: Font.Normal
     // Semi-bold weight
     readonly property int fontWeightSemiBold: Font.DemiBold
 
     // Motion — Windows UI 3 Animation Values
+    // Fast motion duration (ms)
     readonly property int motionFast: 83
-    // Normal motion duration token
+    // Normal motion duration (ms)
     readonly property int motionNormal: 167
-    // Slow motion duration token
+    // Slow motion duration (ms)
     readonly property int motionSlow: 250
-    // Motion Flyout
+    // Flyout / popup enter duration (ms)
     readonly property int motionFlyout: 250
     // Enter easing curve
     readonly property int easingEnter: Easing.OutCubic
@@ -147,14 +148,14 @@ QtObject {
     readonly property int easingExit: Easing.InCubic
     // Standard easing curve
     readonly property int easingStandard: Easing.OutCubic
-    // Easing Emphasized
+    // Emphasized easing (slight overshoot)
     readonly property int easingEmphasized: Easing.OutBack
 
     // Control metrics (FluentWinUI3 Config)
     readonly property real cornerControl: 4
     // Overlay / flyout corner radius
     readonly property real cornerOverlay: 8
-    // Stroke Thin
+    // Default 1px hairline stroke
     readonly property real strokeThin: 1
     // Focus ring outer width
     readonly property real strokeFocusOuter: 2
@@ -184,25 +185,27 @@ QtObject {
     readonly property real spacingSection: 24
     // Card corner radius
     readonly property real cornerCard: 8
-    // Switch Width
+    // Switch track width
     readonly property real switchWidth: 44
-    // Switch Height
+    // Switch track height
     readonly property real switchHeight: 22
-    // Switch Thumb
+    // Switch thumb diameter
     readonly property real switchThumb: 16
-    // Check Size
+    // CheckBox box size
     readonly property real checkSize: 22
-    // Radio Size
+    // RadioButton outer size
     readonly property real radioSize: 22
-    // Slider Thickness
+    // Slider track thickness
     readonly property real sliderThickness: 5
-    // Slider Thumb
+    // Slider thumb diameter
     readonly property real sliderThumb: 22
 
+    // Returns ms, or 1 when reducedMotion is on
     function duration(ms) {
         return reducedMotion ? 1 : ms
     }
 
+    // Rest/hover/pressed/disabled control fill helper
     function controlFill(hovered, pressed, disabled) {
         if (disabled)
             return fillControlDisabled
@@ -213,6 +216,7 @@ QtObject {
         return fillControl
     }
 
+    // Rest/hover/pressed/disabled accent fill helper
     function accentFill(hovered, pressed, disabled) {
         if (disabled)
             return fillControlDisabled

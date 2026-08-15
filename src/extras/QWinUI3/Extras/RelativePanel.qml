@@ -36,29 +36,37 @@ Item {
     onPaddingEdgesChanged: relayout()
     Component.onCompleted: Qt.callLater(relayout)
 
+    // Is Panel
     function isPanel(ref) {
         return !ref || ref === root
     }
 
+    // Left Edge
     function leftEdge(ref) {
         return isPanel(ref) ? _x0 : ref.x
     }
+    // Right Edge
     function rightEdge(ref) {
         return isPanel(ref) ? _x1 : (ref.x + ref.width)
     }
+    // Top Edge
     function topEdge(ref) {
         return isPanel(ref) ? _y0 : ref.y
     }
+    // Bottom Edge
     function bottomEdge(ref) {
         return isPanel(ref) ? _y1 : (ref.y + ref.height)
     }
+    // Center X
     function centerX(ref) {
         return isPanel(ref) ? (_x0 + _innerW / 2) : (ref.x + ref.width / 2)
     }
+    // Center Y
     function centerY(ref) {
         return isPanel(ref) ? (_y0 + _innerH / 2) : (ref.y + ref.height / 2)
     }
 
+    // Preferred Width
     function preferredWidth(item) {
         if (item.implicitWidth > 0)
             return item.implicitWidth
@@ -67,6 +75,7 @@ Item {
         return 80
     }
 
+    // Preferred Height
     function preferredHeight(item) {
         if (item.implicitHeight > 0)
             return item.implicitHeight
@@ -75,10 +84,12 @@ Item {
         return Theme.controlHeight
     }
 
+    // Has
     function has(item, name) {
         return item[name] !== undefined && item[name] !== null
     }
 
+    // Relayout
     function relayout() {
         var gap = root.panelSpacing
         var list = []

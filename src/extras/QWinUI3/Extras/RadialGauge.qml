@@ -99,6 +99,7 @@ T.Control {
         return t + (unit.length ? unit : "")
     }
 
+    // Set Value
     function setValue(v) {
         var lo = Math.min(minimum, maximum)
         var hi = Math.max(minimum, maximum)
@@ -110,10 +111,12 @@ T.Control {
         value = x
     }
 
+    // Set Value From Norm
     function setValueFromNorm(n) {
         setValue(minimum + Math.max(0, Math.min(1, n)) * (maximum - minimum))
     }
 
+    // Norm From Point
     function normFromPoint(px, py) {
         var cx = gaugeFace.width / 2
         var cy = gaugeFace.height / 2

@@ -40,6 +40,7 @@ Item {
         enabled: visible
     }
 
+    // Apply Chrome
     function applyChrome() {
         if (!targetWindow)
             return
@@ -79,6 +80,7 @@ Item {
 
     Connections {
         target: Theme
+        // On Dark Changed
         function onDarkChanged() {
             if (root.targetWindow)
                 WindowHelper.setDarkMode(root.targetWindow, Theme.dark)
@@ -87,6 +89,7 @@ Item {
 
     Connections {
         target: WindowHelper
+        // On Corner Preference Changed
         function onCornerPreferenceChanged() {
             if (root.targetWindow)
                 WindowHelper.reapply(root.targetWindow)

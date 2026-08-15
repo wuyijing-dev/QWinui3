@@ -48,8 +48,11 @@ T.Control {
     // Overflow more button clicked
     signal moreButtonClicked()
 
+    // Open
     function open() { isOpen = true }
+    // Close
     function close() { isOpen = false }
+    // Toggle
     function toggle() { isOpen = !isOpen }
 
     onIsOpenChanged: {

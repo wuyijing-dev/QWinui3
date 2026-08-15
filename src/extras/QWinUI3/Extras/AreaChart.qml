@@ -100,11 +100,13 @@ T.Control {
         }
     }
 
+    // Invalidate Lod
     function invalidateLod() {
         _lodKey = ""
         _lodPacks = []
     }
 
+    // Source Point Count Estimate
     function sourcePointCountEstimate() {
         var list = root._seriesList
         var n = 0
@@ -113,6 +115,7 @@ T.Control {
         return n
     }
 
+    // Ensure Lod
     function ensureLod(budget) {
         var list = root._seriesList
         var key = String(budget)

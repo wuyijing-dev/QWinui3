@@ -41,7 +41,9 @@ Menu {
     onOpened: isOpen = true
     onClosed: isOpen = false
 
+    // Open Menu
     function openMenu() { isOpen = true }
+    // Close Menu
     function closeMenu() { isOpen = false }
 
     transformOrigin: {
@@ -53,6 +55,7 @@ Menu {
         }
     }
 
+    // Show At
     function showAt(targetItem, offsetX, offsetY) {
         if (!targetItem) {
             isOpen = true
@@ -82,6 +85,7 @@ Menu {
         isOpen = true
     }
 
+    // Hide
     function hide() {
         isOpen = false
     }

@@ -63,6 +63,7 @@ T.Popup {
         }
     }
 
+    // Show At
     function showAt(item, place) {
         if (item) {
             root.target = item
@@ -76,9 +77,12 @@ T.Popup {
         Qt.callLater(root.reposition)
     }
 
+    // Show
     function show() { isOpen = true; Qt.callLater(reposition) }
+    // Hide
     function hide() { isOpen = false }
 
+    // Reposition
     function reposition() {
         if (!target || !parent)
             return

@@ -53,11 +53,13 @@ T.Control {
     Accessible.description: hasError ? errorMessage : description
     Accessible.passwordEdit: !revealPassword
 
+    // Clear
     function clear() {
         field.clear()
         cleared()
     }
 
+    // Focus Field
     function focusField() {
         field.forceActiveFocus()
     }

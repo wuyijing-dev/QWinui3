@@ -57,6 +57,7 @@ T.Control {
         _syncingDate = false
     }
 
+    // Sync Selected Date From Parts
     function syncSelectedDateFromParts() {
         if (_syncingDate)
             return
@@ -88,10 +89,12 @@ T.Control {
         return new Date(year, month, 0).getDate()
     }
 
+    // Clamp Day
     function clampDay() {
         day = Math.max(1, Math.min(daysInMonth, day))
     }
 
+    // Apply From Tumblers
     function applyFromTumblers() {
         year = minYear + yearTumbler.currentIndex
         month = monthTumbler.currentIndex + 1
@@ -104,6 +107,7 @@ T.Control {
         syncSelectedDateFromParts()
     }
 
+    // Sync Tumblers
     function syncTumblers() {
         yearTumbler.currentIndex = Math.max(0, Math.min(maxYear - minYear, year - minYear))
         monthTumbler.currentIndex = Math.max(0, Math.min(11, month - 1))

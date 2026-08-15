@@ -16,6 +16,7 @@ Item {
     enabled: visible
     z: 1000
 
+    // Edge Resize
     function edgeResize(edges) {
         if (root.targetWindow && root.targetWindow.startSystemResize)
             root.targetWindow.startSystemResize(edges)
