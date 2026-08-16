@@ -13,8 +13,12 @@ CatalogPage {
     ControlExample {
         headerText: qsTr("Initials, status, and counts")
         qmlSource: "PersonPicture {\n    displayName: \"Alex Rivera\"\n    badgeVisible: true\n    badgeValue: 3\n}"
-        RowLayout {
+
+        // Flow wraps so avatars stay inside the example card on narrow widths.
+        Flow {
+            Layout.fillWidth: true
             spacing: Theme.spacingLoose
+
             PersonPicture {
                 displayName: "Alex Rivera"
                 size: 32
