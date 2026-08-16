@@ -1238,10 +1238,10 @@ QtObject {
             source: "pages/StatusDotPage.qml"
         },
         {
-            title: qsTr("FontIcon"),
+            title: qsTr("Iconography"),
             category: "basic",
             icon: FluentIcons.OpenInNewWindow,
-            description: qsTr("A Fluent Icons glyph with theme-aware color and size."),
+            description: qsTr("Browse FluentIcons: searchable grid with glyph codes and copy snippets."),
             component: "FontIconPage",
             source: "pages/FontIconPage.qml"
         },
