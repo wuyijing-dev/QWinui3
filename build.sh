@@ -109,8 +109,41 @@ cmake -S "${ROOT}" -B "${BUILD_DIR}" \
   -DQWINUI3_BUILD_EXAMPLES=ON
 
 cmake --build "${BUILD_DIR}" --parallel
+# Ensure gallery is linked even if the default target set is incomplete.
+cmake --build "${BUILD_DIR}" --parallel --target qwinui3_gallery
 
 QML_IMPORTS="${BUILD_DIR}/src/platform/QWinUI3:${BUILD_DIR}/src/extras/QWinUI3:${BUILD_DIR}/src/theme/QWinUI3:${BUILD_DIR}/src/style"
+
+find_gallery() {
+  local candidates=(
+    "${BUILD_DIR}/qwinui3_gallery"
+    "${BUILD_DIR}/bin/qwinui3_gallery"
+    "${BUILD_DIR}/src/gallery/qwinui3_gallery"
+  )
+  local p
+  for p in "${candidates[@]}"; do
+    if [[ -x "${p}" ]]; then
+      echo "${p}"
+      return 0
+    fi
+  done
+  # Last resort: search under build/
+  p="$(find "${BUILD_DIR}" -maxdepth 4 -type f -name qwinui3_gallery -perm -111 2>/dev/null | head -n 1 || true)"
+  if [[ -n "${p}" ]]; then
+    echo "${p}"
+    return 0
+  fi
+  return 1
+}
+
+if ! GALLERY_ABS="$(find_gallery)"; then
+  echo "Build finished but qwinui3_gallery was not found under ${BUILD_DIR}." >&2
+  echo "Try: ./build.sh --clean" >&2
+  exit 1
+fi
+
+# Path relative to BUILD_DIR for run-gallery.sh
+GALLERY_REL="${GALLERY_ABS#"${BUILD_DIR}/"}"
 
 cat > "${BUILD_DIR}/qt.conf" <<EOF
 [Paths]
@@ -120,11 +153,6 @@ Binaries = .
 Plugins = plugins
 QmlImports = ${BUILD_DIR}/src/platform/QWinUI3,${BUILD_DIR}/src/extras/QWinUI3,${BUILD_DIR}/src/theme/QWinUI3,qml
 EOF
-
-GALLERY_REL="qwinui3_gallery"
-if [[ -x "${BUILD_DIR}/bin/qwinui3_gallery" && ! -x "${BUILD_DIR}/qwinui3_gallery" ]]; then
-  GALLERY_REL="bin/qwinui3_gallery"
-fi
 
 cat > "${BUILD_DIR}/run-gallery.sh" <<EOF
 #!/usr/bin/env bash
@@ -140,5 +168,5 @@ EOF
 chmod +x "${BUILD_DIR}/run-gallery.sh"
 
 echo
-echo "Done: ${BUILD_DIR}/${GALLERY_REL} (${CONFIG})"
+echo "Done: ${GALLERY_ABS} (${CONFIG})"
 echo "Run:  ${BUILD_DIR}/run-gallery.sh"

@@ -204,3 +204,8 @@ target_link_libraries(qwinui3_gallery
 # Drop GPL/Commercial Qt add-ons (e.g. Virtual Keyboard) if windeployqt copied them.
 include(${CMAKE_SOURCE_DIR}/cmake/StripRestrictedQtModules.cmake)
 qwinui3_strip_restricted_qt_modules(qwinui3_gallery)
+
+# Match examples: put the launcher next to build/ (not build/src/gallery/).
+set_target_properties(qwinui3_gallery PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
+)
