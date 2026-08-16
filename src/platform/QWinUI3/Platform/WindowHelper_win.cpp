@@ -885,8 +885,10 @@ public:
             return true;
         }
         case WM_DPICHANGED: {
-            // Let Qt handle resize; refresh border metrics via style change.
+            // Let Qt handle resize; refresh border metrics and QML DPR bindings.
             applyWindowStyle(window);
+            if (m_helper)
+                m_helper->notifyDisplayMetricsChanged();
             return false;
         }
         case WM_DWMCOMPOSITIONCHANGED:

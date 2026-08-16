@@ -7,7 +7,7 @@ import QWinUI3.Theme
 //   Drawer {
 //       id: drawer
 //       edge: Qt.LeftEdge
-//       width: 320
+//       width: Theme.dp(320)
 //       Label { text: qsTr("Menu") }
 //   }
 //   drawer.open()
@@ -19,6 +19,7 @@ import QWinUI3.Theme
 //   Enter/exit must use SmoothedAnimation on `position` (not x/y/opacity).
 //   Parent must stay on the window Overlay: page-local overlay slots (e.g. Gallery
 //   CatalogPage) reparent children and would otherwise clip the drawer to the pane.
+//   Overlay size / DPI changes re-assert full-edge span.
 
 T.Drawer {
     id: control
@@ -73,6 +74,13 @@ T.Drawer {
     onAboutToShow: control._ensureWindowOverlayParent()
     on_WindowOverlayChanged: control._ensureWindowOverlayParent()
 
+    Connections {
+        target: control._windowOverlay
+        enabled: control._windowOverlay !== null
+        function onWidthChanged() { control._ensureWindowOverlayParent() }
+        function onHeightChanged() { control._ensureWindowOverlayParent() }
+    }
+
     enter: Transition {
         SmoothedAnimation {
             velocity: 5
@@ -86,18 +94,18 @@ T.Drawer {
 
     background: Rectangle {
         color: Theme.bgCard
-        implicitWidth: 320
-        implicitHeight: 480
+        implicitWidth: Theme.dp(320)
+        implicitHeight: Theme.dp(480)
         radius: 0
 
         Rectangle {
             readonly property bool horizontal: control.edge === Qt.LeftEdge
                                               || control.edge === Qt.RightEdge
-            width: horizontal ? 1 : parent.width
-            height: horizontal ? parent.height : 1
+            width: horizontal ? Theme.strokeHairline : parent.width
+            height: horizontal ? parent.height : Theme.strokeHairline
             color: Theme.strokeDivider
-            x: control.edge === Qt.LeftEdge ? parent.width - 1 : 0
-            y: control.edge === Qt.TopEdge ? parent.height - 1 : 0
+            x: control.edge === Qt.LeftEdge ? parent.width - width : 0
+            y: control.edge === Qt.TopEdge ? parent.height - height : 0
         }
     }
 

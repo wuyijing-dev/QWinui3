@@ -154,10 +154,15 @@ public:
     bool systemPrefersDark() const { return m_systemPrefersDark; }
     bool portalAvailable() const;
     qreal devicePixelRatio() const;
+    // Per-window / per-monitor DPR (falls back to primary screen).
+    Q_INVOKABLE qreal devicePixelRatioForWindow(QObject *windowObject) const;
+    // Native DPI / scale changes (e.g. WM_DPICHANGED) — refreshes devicePixelRatio bindings.
+    Q_INVOKABLE void notifyDisplayMetricsChanged();
     bool snapLayoutsEnabled() const { return m_snapLayoutsEnabled; }
     void setSnapLayoutsEnabled(bool enabled);
 
     // Call before QGuiApplication on Linux: Wayland-first QPA + SSD + fractional scale.
+    // Also sets QT_SCALE_FACTOR_ROUNDING_POLICY=PassThrough on all platforms (125%/150% DPI).
     // Call before QGuiApplication. Pass argv[0] on Linux so a broken
     // build/qt.conf (Plugins=plugins) can be removed before Qt reads it.
     static void configurePlatformEnvironment(const char *argv0 = nullptr);

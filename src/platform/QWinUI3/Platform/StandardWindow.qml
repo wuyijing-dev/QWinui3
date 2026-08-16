@@ -104,7 +104,14 @@ ApplicationWindow {
             WindowHelper.setPresenter(root, kind)
     }
 
+    function _syncThemeDpi() {
+        Theme.devicePixelRatio = WindowHelper.devicePixelRatioForWindow(root)
+    }
+
+    onScreenChanged: root._syncThemeDpi()
+
     Component.onCompleted: {
+        root._syncThemeDpi()
         if (autoInstall)
             applyChrome()
         _chromeReady = true
@@ -143,6 +150,9 @@ ApplicationWindow {
         target: WindowHelper
         function onCornerPreferenceChanged() {
             WindowHelper.reapply(root)
+        }
+        function onScreensChanged() {
+            root._syncThemeDpi()
         }
     }
 }

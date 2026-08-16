@@ -9,18 +9,22 @@ import QtQuick
 //   Theme.reducedMotion = false
 //   Theme.followSystemAccessibility = true
 //   Theme.density = "compact"
+//   Theme.uiScale = 1.0
+//   Theme.devicePixelRatio = Screen.devicePixelRatio
 //   Theme.accentPack = "purple"
 //   Theme.customAccent = "#C239B3"
 //
 //   Rectangle {
 //       color: Theme.bgCard
 //       radius: Theme.cornerControl
+//       border.width: Theme.strokeHairline
 //       Behavior on color {
 //           ColorAnimation { duration: Theme.duration(Theme.motionNormal) }
 //       }
 //   }
 //   // --- API ---
 //   Theme.duration(ms)
+//   Theme.dp(value) / Theme.hairline(dpr)
 //   Theme.controlFill(hovered, pressed, disabled)
 //   Theme.accentFill(hovered, pressed, disabled)
 //   Theme.setAccentPack(name)
@@ -29,6 +33,7 @@ import QtQuick
 //   Singleton tokens: colors, type, spacing, motion, corners, density, accent packs.
 //   Theme.dark / reducedMotion / highContrast; followSystemAccessibility mirrors WindowHelper SPI.
 //   density "standard"|"compact" scales controlHeight / padding / spacing.
+//   devicePixelRatio + uiScale: hairline strokes and optional extra UI scale (ShellWindow syncs DPR).
 //   accentPack "blue"|"purple"|"green"|"orange"; customAccent (alpha>0) overrides pack.
 //   Use Theme.duration(ms) and controlFill/accentFill helpers for states.
 
@@ -47,6 +52,10 @@ QtObject {
     property bool followSystemColorScheme: false
     // Control density: "standard" | "compact"
     property string density: "standard"
+    // Extra UI scale on top of system DPR (1.0 = follow OS only). Qt layout is already in DIPs.
+    property real uiScale: 1.0
+    // Last synced window/screen devicePixelRatio (ShellWindow / StandardWindow update this).
+    property real devicePixelRatio: 1.0
     // Named accent pack: "blue" | "purple" | "green" | "orange"
     property string accentPack: "blue"
     // When alpha > 0, overrides accentPack colors
@@ -208,13 +217,15 @@ QtObject {
     // Emphasized easing (slight overshoot)
     readonly property int easingEmphasized: Easing.OutBack
 
-    // Control metrics (FluentWinUI3 Config) — scaled by density
-    readonly property real _densityScale: density === "compact" ? 0.85 : 1.0
+    // Control metrics (FluentWinUI3 Config) — scaled by density (+ optional uiScale)
+    readonly property real _densityScale: (density === "compact" ? 0.85 : 1.0) * Math.max(0.5, uiScale)
     readonly property real cornerControl: 4
     // Overlay / flyout corner radius
     readonly property real cornerOverlay: 8
-    // Default 1px hairline stroke
+    // Default 1px design stroke (scales with Qt DIP)
     readonly property real strokeThin: 1
+    // True 1-device-pixel hairline (set Theme.devicePixelRatio from the window screen)
+    readonly property real strokeHairline: 1.0 / Math.max(devicePixelRatio, 0.01)
     // Focus ring outer width
     readonly property real strokeFocusOuter: highContrast ? 3 : 2
     // Focus ring inner width
@@ -261,6 +272,17 @@ QtObject {
     // Returns ms, or 1 when reducedMotion is on
     function duration(ms) {
         return reducedMotion ? 1 : ms
+    }
+
+    // Density-aware design pixels (Qt layout units are already DPI-independent).
+    function dp(value) {
+        return Math.round(Number(value) * _densityScale)
+    }
+
+    // 1 physical pixel in logical units for the given DPR (defaults to Theme.devicePixelRatio).
+    function hairline(dpr) {
+        var r = (dpr === undefined || dpr === null || dpr <= 0) ? devicePixelRatio : Number(dpr)
+        return 1.0 / Math.max(r, 0.01)
     }
 
     // Apply a named accent pack and clear customAccent

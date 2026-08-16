@@ -98,7 +98,15 @@ Item {
             WindowHelper.centerOnScreen(targetWindow)
     }
 
+    // Push this window's screen DPR into Theme (hairlines / diagnostics).
+    function syncThemeDpi() {
+        if (!targetWindow)
+            return
+        Theme.devicePixelRatio = WindowHelper.devicePixelRatioForWindow(targetWindow)
+    }
+
     Component.onCompleted: {
+        syncThemeDpi()
         if (autoInstall)
             applyChrome()
         _ready = true
@@ -128,6 +136,13 @@ Item {
             return
         applyAlwaysOnTop()
     }
+    onTargetWindowChanged: syncThemeDpi()
+
+    Connections {
+        target: root.targetWindow
+        enabled: root.targetWindow !== null
+        function onScreenChanged() { root.syncThemeDpi() }
+    }
 
     Connections {
         target: Theme
@@ -144,6 +159,9 @@ Item {
         function onCornerPreferenceChanged() {
             if (root.targetWindow)
                 WindowHelper.reapply(root.targetWindow)
+        }
+        function onScreensChanged() {
+            root.syncThemeDpi()
         }
     }
 }

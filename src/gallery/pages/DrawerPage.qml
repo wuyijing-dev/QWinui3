@@ -17,7 +17,7 @@ CatalogPage {
         parent: Overlay.overlay
         edge: Qt.LeftEdge
         // Width is the panel size; height is bound to Overlay by the Drawer style.
-        width: Math.min(320, (Overlay.overlay ? Overlay.overlay.width : 1280) * 0.85)
+        width: Math.min(Theme.dp(320), (Overlay.overlay ? Overlay.overlay.width : 1280) * 0.85)
 
         ColumnLayout {
             anchors.fill: parent

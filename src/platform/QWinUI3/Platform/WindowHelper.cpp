@@ -82,7 +82,23 @@ WindowHelper::WindowHelper(QObject *parent)
     refreshOnlineStatus();
 
     if (qGuiApp) {
-        QObject::connect(qGuiApp, &QGuiApplication::screenAdded, this, &WindowHelper::screensChanged);
+        auto bindScreen = [this](QScreen *screen) {
+            if (!screen)
+                return;
+            QObject::connect(screen, &QScreen::physicalDotsPerInchChanged,
+                             this, &WindowHelper::screensChanged, Qt::UniqueConnection);
+            QObject::connect(screen, &QScreen::logicalDotsPerInchChanged,
+                             this, &WindowHelper::screensChanged, Qt::UniqueConnection);
+            QObject::connect(screen, &QScreen::geometryChanged,
+                             this, &WindowHelper::screensChanged, Qt::UniqueConnection);
+        };
+        for (QScreen *screen : QGuiApplication::screens())
+            bindScreen(screen);
+        QObject::connect(qGuiApp, &QGuiApplication::screenAdded, this,
+                         [this, bindScreen](QScreen *screen) {
+                             bindScreen(screen);
+                             emit screensChanged();
+                         });
         QObject::connect(qGuiApp, &QGuiApplication::screenRemoved, this, &WindowHelper::screensChanged);
         QObject::connect(qGuiApp, &QGuiApplication::primaryScreenChanged, this, &WindowHelper::screensChanged);
     }
@@ -182,6 +198,21 @@ qreal WindowHelper::devicePixelRatio() const
     if (auto *screen = QGuiApplication::primaryScreen())
         return screen->devicePixelRatio();
     return 1.0;
+}
+
+qreal WindowHelper::devicePixelRatioForWindow(QObject *windowObject) const
+{
+    if (QWindow *window = resolveWindow(windowObject)) {
+        if (QScreen *screen = window->screen())
+            return screen->devicePixelRatio();
+        return window->devicePixelRatio();
+    }
+    return devicePixelRatio();
+}
+
+void WindowHelper::notifyDisplayMetricsChanged()
+{
+    emit screensChanged();
 }
 
 void WindowHelper::configurePlatformEnvironment(const char *argv0)
@@ -286,12 +317,13 @@ void WindowHelper::configurePlatformEnvironment(const char *argv0)
 
     if (qEnvironmentVariableIsEmpty("QT_WAYLAND_DISABLE_WINDOWDECORATION"))
         qputenv("QT_WAYLAND_DISABLE_WINDOWDECORATION", "1");
-
-    if (qEnvironmentVariableIsEmpty("QT_SCALE_FACTOR_ROUNDING_POLICY"))
-        qputenv("QT_SCALE_FACTOR_ROUNDING_POLICY", "PassThrough");
 #else
     Q_UNUSED(argv0);
 #endif
+
+    // Fractional display scale (Windows 125%/150%, Wayland) — before QGuiApplication.
+    if (qEnvironmentVariableIsEmpty("QT_SCALE_FACTOR_ROUNDING_POLICY"))
+        qputenv("QT_SCALE_FACTOR_ROUNDING_POLICY", "PassThrough");
 }
 
 void WindowHelper::setDesktopFileName(const QString &desktopFileName)

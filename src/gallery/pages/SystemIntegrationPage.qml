@@ -41,13 +41,14 @@ CatalogPage {
             Label {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("OS: %1 · DE: %2 · displayServer: %3 · Wayland: %4 · portal: %5 · DPR: %6 · prefersDark: %7")
+                text: qsTr("OS: %1 · DE: %2 · displayServer: %3 · Wayland: %4 · portal: %5 · DPR: %6 · Theme DPR: %7 · prefersDark: %8")
                     .arg(WindowHelper.platformName)
                     .arg(WindowHelper.desktopEnvironment)
                     .arg(WindowHelper.displayServer)
                     .arg(WindowHelper.wayland)
                     .arg(WindowHelper.portalAvailable)
                     .arg(WindowHelper.devicePixelRatio.toFixed(2))
+                    .arg(Theme.devicePixelRatio.toFixed(2))
                     .arg(WindowHelper.systemPrefersDark)
             }
             Label {
