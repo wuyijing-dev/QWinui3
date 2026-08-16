@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Templates as T
+import QtQuick.Window
 import QWinUI3.Theme
 
 // CommandBarFlyout — Popup CommandBar with primary + secondary commands.
@@ -12,7 +13,7 @@ import QWinUI3.Theme
 //   }
 //
 //   // --- API ---
-//   // methods: showAt(item, preferredPlacement), show(), hide(), openFlyout(), closeFlyout()
+//   // methods: showAt(item, preferredPlacement), show(), hide(), openFlyout(), closeFlyout(), reposition()
 //   // commandBarFlyout.showAt(item, preferredPlacement)
 //   // commandBarFlyout.show()
 //   // commandBarFlyout.hide()
@@ -21,6 +22,8 @@ import QWinUI3.Theme
 //
 // @notes
 //   Popup CommandBar; open at a target like Flyout.
+//   showAt() opens then repositions after layout — first open must not use 0×0 size
+//   (that clamped ShouldConstrainToRootBounds to the top-left).
 
 T.Popup {
     id: root
@@ -59,37 +62,17 @@ T.Popup {
             var win = item.Window.window
             var host = (win && win.Overlay && win.Overlay.overlay) ? win.Overlay.overlay : item
             root.parent = host
-            var p = (host === item) ? Qt.point(0, 0) : item.mapToItem(host, 0, 0)
-            var w = root.implicitWidth
-            var h = root.implicitHeight
-            switch (root.placement) {
-            case Qt.AlignTop:
-                root.x = p.x + Math.max(0, (item.width - w) / 2)
-                root.y = p.y - h - 8
-                break
-            case Qt.AlignRight:
-                root.x = p.x + item.width + 8
-                root.y = p.y
-                break
-            case Qt.AlignLeft:
-                root.x = p.x - w - 8
-                root.y = p.y
-                break
-            default:
-                root.x = p.x + Math.max(0, (item.width - w) / 2)
-                root.y = p.y + item.height + 8
-                break
-            }
-            if (root.shouldConstrainToRootBounds && host) {
-                root.x = Math.max(8, Math.min(root.x, host.width - w - 8))
-                root.y = Math.max(8, Math.min(root.y, host.height - h - 8))
-            }
         }
         root.isOpen = true
+        // Layout (and real width/height) exists only after open — reposition then.
+        Qt.callLater(root.reposition)
     }
 
     // Show the control
-    function show() { isOpen = true }
+    function show() {
+        isOpen = true
+        Qt.callLater(reposition)
+    }
     // Hide the control
     function hide() { isOpen = false }
     // Open the flyout
@@ -97,13 +80,60 @@ T.Popup {
     // Dismiss the flyout
     function closeFlyout() { hide() }
 
+    // Reposition against target using current laid-out size
+    function reposition() {
+        if (!target || !parent)
+            return
+        var host = parent
+        var p = target.mapToItem(host, 0, 0)
+        var gap = 8
+        var w = Math.max(root.width, root.implicitWidth, 200)
+        var h = Math.max(root.height, root.implicitHeight, 40)
+        // Guard: unlaid-out popups report 0 — clamping with w/h=0 pins to (8,8).
+        if (!(w > 1) || !(h > 1))
+            return
+
+        switch (root.placement) {
+        case Qt.AlignTop:
+            root.x = p.x + Math.max(0, (target.width - w) / 2)
+            root.y = p.y - h - gap
+            break
+        case Qt.AlignRight:
+            root.x = p.x + target.width + gap
+            root.y = p.y
+            break
+        case Qt.AlignLeft:
+            root.x = p.x - w - gap
+            root.y = p.y
+            break
+        default:
+            root.x = p.x + Math.max(0, (target.width - w) / 2)
+            root.y = p.y + target.height + gap
+            break
+        }
+
+        if (root.shouldConstrainToRootBounds && host.width > 0 && host.height > 0) {
+            var margin = 8
+            var maxX = host.width - w - margin
+            var maxY = host.height - h - margin
+            if (maxX >= margin)
+                root.x = Math.max(margin, Math.min(root.x, maxX))
+            if (maxY >= margin)
+                root.y = Math.max(margin, Math.min(root.y, maxY))
+        }
+    }
+
     onIsOpenChanged: {
         if (isOpen)
             open()
         else if (visible)
             close()
     }
-    onOpened: isOpen = true
+    onOpened: {
+        isOpen = true
+        reposition()
+        Qt.callLater(reposition)
+    }
     onClosed: isOpen = false
 
     padding: 6
