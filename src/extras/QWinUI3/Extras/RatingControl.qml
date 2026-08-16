@@ -91,6 +91,17 @@ T.Control {
         }
     }
 
+    WheelHandler {
+        enabled: !root.readOnly && root.enabled
+        onWheel: function (event) {
+            var dir = event.angleDelta.y !== 0 ? event.angleDelta.y : event.angleDelta.x
+            if (dir === 0)
+                return
+            root.nudge(dir > 0 ? 1 : -1)
+            event.accepted = true
+        }
+    }
+
     function nudge(dir) {
         if (readOnly || !enabled)
             return

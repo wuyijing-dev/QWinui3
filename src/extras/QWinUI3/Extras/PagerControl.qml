@@ -56,6 +56,20 @@ T.Control {
         }
     }
 
+    WheelHandler {
+        enabled: root.enabled
+        onWheel: function (event) {
+            var dir = event.angleDelta.y !== 0 ? event.angleDelta.y : event.angleDelta.x
+            if (dir === 0)
+                return
+            if (dir > 0)
+                root.goPrevious()
+            else
+                root.goNext()
+            event.accepted = true
+        }
+    }
+
     function select(index) {
         if (numberOfPages <= 0)
             return

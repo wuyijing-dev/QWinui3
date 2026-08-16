@@ -58,6 +58,20 @@ T.Control {
     Keys.onUpPressed: goPrevious()
     Keys.onDownPressed: goNext()
 
+    WheelHandler {
+        enabled: control.enabled && control.count > 0
+        onWheel: function (event) {
+            var dir = event.angleDelta.y !== 0 ? event.angleDelta.y : event.angleDelta.x
+            if (dir === 0)
+                return
+            if (dir > 0)
+                control.goPrevious()
+            else
+                control.goNext()
+            event.accepted = true
+        }
+    }
+
     onCurrentIndexChanged: selectionChanged(currentIndex)
 
     readonly property int _windowSize: {

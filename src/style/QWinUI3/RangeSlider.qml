@@ -27,6 +27,7 @@ T.RangeSlider {
 
     padding: 8
     hoverEnabled: true
+    wheelEnabled: true
 
     first.handle: Item {
         x: control.leftPadding + control.first.visualPosition * (control.availableWidth - width)

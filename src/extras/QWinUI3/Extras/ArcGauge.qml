@@ -163,6 +163,22 @@ T.Control {
         valueEdited(value)
     }
 
+    function _stepAmount() {
+        return stepSize > 0 ? stepSize : (maximum - minimum) * 0.05
+    }
+
+    WheelHandler {
+        enabled: root.isInteractive && root.enabled
+        onWheel: function (event) {
+            var dir = event.angleDelta.y !== 0 ? event.angleDelta.y : event.angleDelta.x
+            if (dir === 0)
+                return
+            root.setValue(root.value + (dir > 0 ? root._stepAmount() : -root._stepAmount()))
+            root.valueEdited(root.value)
+            event.accepted = true
+        }
+    }
+
     contentItem: Item {
         id: face
         // Center X

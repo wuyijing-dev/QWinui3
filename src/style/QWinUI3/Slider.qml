@@ -27,6 +27,7 @@ T.Slider {
     padding: 8
     hoverEnabled: true
     live: true
+    wheelEnabled: true
 
     handle: Item {
         x: control.leftPadding + (control.horizontal

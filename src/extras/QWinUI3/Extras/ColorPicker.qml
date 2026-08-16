@@ -412,6 +412,19 @@ T.Control {
                             pick(mouse.x, mouse.y)
                     }
                 }
+
+                WheelHandler {
+                    enabled: control.enabled
+                    onWheel: function (event) {
+                        var dir = event.angleDelta.y !== 0 ? event.angleDelta.y : event.angleDelta.x
+                        if (dir === 0)
+                            return
+                        var step = (event.modifiers & Qt.ControlModifier) ? 12 : 4
+                        control.hue = ((control.hue + (dir > 0 ? step : -step)) % 360 + 360) % 360
+                        control.applyHsv(true)
+                        event.accepted = true
+                    }
+                }
             }
 
             // WinUI ColorPreviewer: fixed-width strip (previous on top, current below)
@@ -547,6 +560,19 @@ T.Control {
                 onPositionChanged: function (mouse) {
                     if (pressed)
                         pick(mouse.x)
+                }
+            }
+
+            WheelHandler {
+                enabled: control.enabled
+                onWheel: function (event) {
+                    var dir = event.angleDelta.y !== 0 ? event.angleDelta.y : event.angleDelta.x
+                    if (dir === 0)
+                        return
+                    var step = (event.modifiers & Qt.ControlModifier) ? 0.05 : 0.02
+                    control.value = control.clamp01(control.value + (dir > 0 ? step : -step))
+                    control.applyHsv(true)
+                    event.accepted = true
                 }
             }
         }

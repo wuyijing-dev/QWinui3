@@ -42,6 +42,7 @@ T.Dial {
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     hoverEnabled: true
+    wheelEnabled: true
 
     Accessible.role: Accessible.Dial
     Accessible.name: title.length ? title : qsTr("Dial")

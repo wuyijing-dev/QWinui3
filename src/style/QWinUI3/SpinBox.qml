@@ -30,6 +30,7 @@ T.SpinBox {
     font.pixelSize: Theme.fontBody
     editable: true
     hoverEnabled: true
+    wheelEnabled: true
 
     validator: IntValidator {
         bottom: Math.min(control.from, control.to)
