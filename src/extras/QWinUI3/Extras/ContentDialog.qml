@@ -117,10 +117,13 @@ T.Dialog {
     title: ""
     transformOrigin: Item.Center
 
-    // Size to chrome content — do not let Dialog stretch a hollow middle.
+    // Size to chrome content — grow for the command bar; do not let Dialog stretch a hollow middle.
+    readonly property real _buttonBarNeededWidth: buttonRow.implicitWidth + 48
+    readonly property real _maxDialogWidth: Overlay.overlay ? Math.max(320, Overlay.overlay.width - 48) : 640
     implicitWidth: fullSizeDesired && Overlay.overlay
                    ? Math.max(320, Overlay.overlay.width - 48)
-                   : Math.max(320, Math.min(440, column.implicitWidth))
+                   : Math.max(320, Math.min(_maxDialogWidth,
+                                            Math.max(320, column.implicitWidth, _buttonBarNeededWidth)))
     implicitHeight: fullSizeDesired && Overlay.overlay
                     ? Math.max(column.implicitHeight, Overlay.overlay.height - 48)
                     : column.implicitHeight
@@ -270,16 +273,22 @@ T.Dialog {
             Item {
                 id: buttonBar
                 width: parent.width
+                implicitWidth: buttonRow.implicitWidth + 48
                 // Top 16 + button + bottom 24 — keeps actions inside rounded chrome
                 height: Math.max(Theme.controlHeight, buttonRow.implicitHeight) + 40
 
-                Row {
+                RowLayout {
                     id: buttonRow
+                    anchors.left: parent.left
                     anchors.right: parent.right
+                    anchors.leftMargin: 24
                     anchors.rightMargin: 24
                     anchors.bottom: parent.bottom
                     anchors.bottomMargin: 24
                     spacing: Theme.spacing
+
+                    // Pack actions on the trailing edge without overflowing the chrome.
+                    Item { Layout.fillWidth: true }
 
                     Button {
                         id: primaryBtn
@@ -287,6 +296,7 @@ T.Dialog {
                         visible: !_hasPrimaryCustom && root.primaryButtonText.length > 0
                         enabled: root.isPrimaryButtonEnabled
                         highlighted: root._defaultButton === "primary"
+                        Layout.fillWidth: false
                         onClicked: {
                             root.primaryClicked()
                             root.requestClose("primary")
@@ -295,8 +305,10 @@ T.Dialog {
                     Item {
                         id: primarySlot
                         visible: root._hasPrimaryCustom
-                        width: visible ? Math.max(childrenRect.width, 1) : 0
-                        height: visible ? Math.max(childrenRect.height, Theme.controlHeight) : 0
+                        Layout.preferredWidth: visible ? Math.max(childrenRect.width, 1) : 0
+                        Layout.preferredHeight: visible ? Math.max(childrenRect.height, Theme.controlHeight) : 0
+                        width: Layout.preferredWidth
+                        height: Layout.preferredHeight
                     }
                     Button {
                         id: secondaryBtn
@@ -304,6 +316,7 @@ T.Dialog {
                         visible: !_hasSecondaryCustom && root.secondaryButtonText.length > 0
                         enabled: root.isSecondaryButtonEnabled
                         highlighted: root._defaultButton === "secondary"
+                        Layout.fillWidth: false
                         onClicked: {
                             root.secondaryClicked()
                             root.requestClose("secondary")
@@ -312,8 +325,10 @@ T.Dialog {
                     Item {
                         id: secondarySlot
                         visible: root._hasSecondaryCustom
-                        width: visible ? Math.max(childrenRect.width, 1) : 0
-                        height: visible ? Math.max(childrenRect.height, Theme.controlHeight) : 0
+                        Layout.preferredWidth: visible ? Math.max(childrenRect.width, 1) : 0
+                        Layout.preferredHeight: visible ? Math.max(childrenRect.height, Theme.controlHeight) : 0
+                        width: Layout.preferredWidth
+                        height: Layout.preferredHeight
                     }
                     Button {
                         id: closeBtn
@@ -321,6 +336,7 @@ T.Dialog {
                         visible: !_hasCloseCustom && root.closeButtonText.length > 0
                         enabled: root.isCloseButtonEnabled
                         highlighted: root._defaultButton === "close"
+                        Layout.fillWidth: false
                         onClicked: {
                             root.closeClicked()
                             root.requestClose("close")
@@ -329,8 +345,10 @@ T.Dialog {
                     Item {
                         id: closeSlot
                         visible: root._hasCloseCustom
-                        width: visible ? Math.max(childrenRect.width, 1) : 0
-                        height: visible ? Math.max(childrenRect.height, Theme.controlHeight) : 0
+                        Layout.preferredWidth: visible ? Math.max(childrenRect.width, 1) : 0
+                        Layout.preferredHeight: visible ? Math.max(childrenRect.height, Theme.controlHeight) : 0
+                        width: Layout.preferredWidth
+                        height: Layout.preferredHeight
                     }
                 }
             }
