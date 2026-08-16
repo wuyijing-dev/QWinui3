@@ -63,6 +63,10 @@ T.AbstractButton {
     Accessible.description: description
     Accessible.onPressAction: if (enabled) clicked()
 
+    // Hover chrome without pressed — avoids hover↔pressed fighting on click release
+    readonly property bool _hovering: enabled && hovered && !down
+    readonly property bool _pressing: enabled && down
+
     contentItem: RowLayout {
         spacing: Theme.spacingLoose
 
@@ -75,9 +79,9 @@ T.AbstractButton {
                 anchors.fill: parent
                 radius: Theme.cornerControl
                 color: control.glyphBackground
-                scale: control.hovered && !Theme.reducedMotion ? 1.04 : 1
+                scale: control._hovering && !Theme.reducedMotion ? 1.04 : 1
                 Behavior on scale {
-                    enabled: !Theme.reducedMotion
+                    enabled: !Theme.reducedMotion && !control._pressing
                     NumberAnimation {
                         duration: Theme.duration(Theme.motionFast)
                         easing.type: Theme.easingStandard
@@ -138,56 +142,50 @@ T.AbstractButton {
             font.family: Theme.fontFamilyIcon
             font.pixelSize: 12
             color: Theme.textSecondary
-            opacity: control.enabled ? (control.hovered ? 1 : 0.85) : 0.4
-            x: control.hovered && !Theme.reducedMotion ? 2 : 0
+            opacity: control.enabled ? (control._hovering ? 1 : 0.85) : 0.4
+            // Avoid translating during press — reduces perceived flicker with color change
+            x: control._hovering && !Theme.reducedMotion ? 2 : 0
             Behavior on x {
-                enabled: !Theme.reducedMotion
+                enabled: !Theme.reducedMotion && !control._pressing
                 NumberAnimation {
                     duration: Theme.duration(Theme.motionFast)
                     easing.type: Theme.easingStandard
                 }
             }
             Behavior on opacity {
-                enabled: !Theme.reducedMotion
+                enabled: !Theme.reducedMotion && !control._pressing
                 NumberAnimation { duration: Theme.duration(Theme.motionFast) }
             }
         }
     }
 
     background: ElevatedChrome {
+        // Pressed: immediate fill. Hover: elevated card. Idle: base card.
         color: {
             if (!control.enabled)
                 return Theme.bgCard
-            if (control.down)
+            if (control._pressing)
                 return Theme.fillSubtle
-            if (control.hovered)
+            if (control._hovering)
                 return Theme.bgCardElevated
             return Theme.bgCard
         }
         radius: Theme.cornerCard
         borderWidth: control.visualFocus ? 2 : 1
         borderColor: control.visualFocus ? Theme.focusOuter : Theme.strokeCard
-        elevation: control.hovered ? 5 : 2
-        shadowOpacity: control.hovered ? (Theme.dark ? 0.26 : 0.12) : (Theme.dark ? 0.16 : 0.07)
-        scale: control.down && !Theme.reducedMotion ? 0.985 : 1
+        // Keep elevation stable while pressing so MultiEffect doesn't rebuild mid-click
+        elevation: control._hovering ? 4 : 2
+        shadowOpacity: control._hovering ? (Theme.dark ? 0.24 : 0.11) : (Theme.dark ? 0.16 : 0.07)
+        // No press scale — color+scale together reads as flicker on click
+        scale: 1
 
         Behavior on color {
-            enabled: !Theme.reducedMotion
+            // Skip animation while pressed so release lands on hover without a flash through idle
+            enabled: !Theme.reducedMotion && !control._pressing
             ColorAnimation {
                 duration: Theme.duration(Theme.motionFast)
                 easing.type: Theme.easingStandard
             }
-        }
-        Behavior on scale {
-            enabled: !Theme.reducedMotion
-            NumberAnimation {
-                duration: Theme.duration(Theme.motionFast)
-                easing.type: Theme.easingStandard
-            }
-        }
-        Behavior on elevation {
-            enabled: !Theme.reducedMotion
-            NumberAnimation { duration: Theme.duration(Theme.motionFast) }
         }
     }
 }

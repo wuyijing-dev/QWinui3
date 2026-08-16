@@ -37,6 +37,8 @@ CatalogPage {
             }
             Label {
                 id: resultLabel
+                Layout.fillWidth: true
+                Layout.preferredHeight: implicitHeight
                 text: qsTr("Tap a card")
                 color: Theme.textSecondary
             }
