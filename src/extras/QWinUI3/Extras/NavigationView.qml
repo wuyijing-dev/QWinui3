@@ -1289,6 +1289,9 @@ Item {
                         highlightFollowsCurrentItem: false
                         keyNavigationEnabled: true
                         focus: true
+                        // Keep selected rows instantiated longer so the pip can
+                        // re-sync after expand/collapse without waiting on recycle.
+                        cacheBuffer: Math.max(240, Math.round(height * 1.5))
                         ScrollBar.vertical: ScrollBar {
                             policy: navList.contentHeight > navList.height
                                     ? ScrollBar.AsNeeded : ScrollBar.AlwaysOff
@@ -1402,14 +1405,16 @@ Item {
                                     return topRow
                                 var prefix = del.key + "/"
                                 if (root.currentKey.indexOf(prefix) !== 0)
-                                    return null
+                                    return topRow
                                 // Collapsed: keep pip on the group header (child is clipped away)
                                 if (!del.expanded)
                                     return topRow
                                 var ci = Number(root.currentKey.slice(prefix.length))
                                 if (isNaN(ci) || ci < 0)
-                                    return null
-                                return childRepeater.itemAt(ci)
+                                    return topRow
+                                // Child may not exist yet during expand / recycle — fall back to header
+                                var child = childRepeater.itemAt(ci)
+                                return child ? child : topRow
                             }
 
                             ItemDelegate {
@@ -1692,7 +1697,9 @@ Item {
                         }
                     }
 
-                    // WinUI selection indicator: accelerate, stretch mid-travel, settle
+                    // WinUI selection indicator: accelerate, stretch mid-travel, settle.
+                    // Keep last contentY when the selected delegate is recycled off-screen;
+                    // do not drive opacity from itemAtIndex (that made the pip vanish while scrolling).
                     Rectangle {
                         id: selectionPip
                         width: 3
@@ -1702,10 +1709,7 @@ Item {
                         z: 2
                         visible: opacity > 0.01
                         opacity: {
-                            if (root.footerSelected || navList.currentIndex < 0)
-                                return 0
-                            var item = root.selectionAnchorItem()
-                            if (!item || item.height < 8)
+                            if (root.footerSelected || navList.currentIndex < 0 || !ready)
                                 return 0
                             return 1
                         }
@@ -1718,7 +1722,7 @@ Item {
                         property real contentToY: 0
                         // 0..1 animation / progress value
                         property real progress: 1
-                        // True when the control is ready
+                        // True after the first successful position sync
                         property bool ready: false
                         // Retry count when moving a window
                         property int moveRetries: 0
@@ -1778,7 +1782,20 @@ Item {
                         }
 
                         function syncViewport() {
-                            // y binding already depends on contentY
+                            // Viewport scroll is handled by the y binding (- contentY).
+                            // Refresh absolute content coords when the delegate is alive
+                            // (expand/collapse / recycle can shift rows without a selection change).
+                            if (root.footerSelected || navList.currentIndex < 0 || !ready)
+                                return
+                            if (pipAnim.running)
+                                return
+                            var target = contentYForSelection()
+                            if (target < 0)
+                                return
+                            if (Math.abs(target - contentToY) < 0.5)
+                                return
+                            contentFromY = target
+                            contentToY = target
                         }
 
                         // Follow layout shifts (expand/collapse of other rows) without
@@ -1799,14 +1816,14 @@ Item {
 
                         function moveToCurrent(instant) {
                             if (navList.currentIndex < 0 || root.footerSelected) {
-                                ready = true
+                                ready = false
                                 moveRetries = 0
                                 return
                             }
                             root.ensureSelectionVisible()
                             var target = contentYForSelection()
                             if (target < 0) {
-                                if (moveRetries++ < 8)
+                                if (moveRetries++ < 12)
                                     Qt.callLater(function () { moveToCurrent(instant) })
                                 else
                                     moveRetries = 0
