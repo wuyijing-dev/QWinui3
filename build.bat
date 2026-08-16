@@ -75,7 +75,7 @@ for %%F in (
   echo Libraries = .
   echo Binaries = .
   echo Plugins = plugins
-  echo QmlImports = D:/QWinui3/build/src/platform/QWinUI3,D:/QWinui3/build/src/extras/QWinUI3,D:/QWinui3/build/src/theme/QWinUI3,qml
+  echo QmlImports = D:/QWinui3/build/src/gallery,D:/QWinui3/build/src/platform/QWinUI3,D:/QWinui3/build/src/extras/QWinUI3,D:/QWinui3/build/src/theme/QWinUI3,qml
 )
 
 > "D:\QWinui3\build\run-gallery.cmd" (

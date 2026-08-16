@@ -1,8 +1,11 @@
 #include <QCoreApplication>
+#include <QDir>
+#include <QEventLoop>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlComponent>
 #include <QQuickStyle>
+#include <QTimer>
 #include <QDebug>
 #include <cstring>
 
@@ -18,6 +21,25 @@ static bool hasArg(int argc, char *argv[], const char *flag)
             return true;
     }
     return false;
+}
+
+// Published build/qwinui3_gallery.exe sits one level above src/*/QWinUI3 modules.
+// qt.conf may omit Gallery — always add the known build-tree import roots.
+static void addBuildTreeImportPaths(QQmlEngine &engine)
+{
+    const QString root = QCoreApplication::applicationDirPath();
+    const QStringList candidates = {
+        root,
+        root + QStringLiteral("/src/gallery"),
+        root + QStringLiteral("/src/platform"),
+        root + QStringLiteral("/src/extras"),
+        root + QStringLiteral("/src/theme"),
+        root + QStringLiteral("/src/style"),
+    };
+    for (const QString &path : candidates) {
+        if (QDir(path).exists())
+            engine.addImportPath(path);
+    }
 }
 
 int main(int argc, char *argv[])
@@ -50,6 +72,7 @@ int main(int argc, char *argv[])
     GraphicsBackend::syncAfterApp();
 
     QQmlApplicationEngine engine;
+    addBuildTreeImportPaths(engine);
     QObject::connect(&engine, &QQmlApplicationEngine::warnings,
                      [](const QList<QQmlError> &warnings) {
                          for (const QQmlError &e : warnings)
@@ -64,6 +87,7 @@ int main(int argc, char *argv[])
     if (engine.rootObjects().isEmpty()) {
         qWarning() << "Failed to load QWinUI3.Gallery/Main";
         qWarning() << "Style:" << QQuickStyle::name();
+        qWarning() << "Import paths:" << engine.importPathList();
         return -1;
     }
 
@@ -88,13 +112,21 @@ int main(int argc, char *argv[])
         };
         int pagesOk = 0;
         for (int i = 0; kCriticalPages[i]; ++i) {
-            const QByteArray typeName(kCriticalPages[i]);
-            QQmlComponent typed(&engine);
-            typed.setData(QByteArrayLiteral("import QWinUI3.Gallery\n") + typeName
-                              + QByteArrayLiteral(" {}\n"),
-                          QUrl(QStringLiteral("qwinui3-smoke://%1").arg(QString::fromUtf8(typeName))));
-            if (typed.isError()) {
-                qWarning() << "smoke page compile failed:" << kCriticalPages[i] << typed.errors();
+            const QString typeName = QString::fromUtf8(kCriticalPages[i]);
+            // Load the page document directly (same path NavigationView uses via module).
+            // Avoid "import Module; Type {}" which can leave QQmlComponent Loading.
+            QQmlComponent typed(
+                &engine,
+                QUrl(QStringLiteral("qrc:/qt/qml/QWinUI3/Gallery/pages/%1.qml").arg(typeName)));
+            if (typed.isLoading()) {
+                QEventLoop loop;
+                QObject::connect(&typed, &QQmlComponent::statusChanged, &loop, &QEventLoop::quit);
+                QTimer::singleShot(8000, &loop, &QEventLoop::quit);
+                loop.exec();
+            }
+            if (typed.isError() || typed.status() != QQmlComponent::Ready) {
+                qWarning() << "smoke page compile failed:" << kCriticalPages[i]
+                           << "status=" << int(typed.status()) << typed.errors();
                 return 2;
             }
             QObject *obj = typed.create();

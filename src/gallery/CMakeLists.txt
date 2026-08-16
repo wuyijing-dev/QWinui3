@@ -235,6 +235,19 @@ endif()
 include(${CMAKE_SOURCE_DIR}/cmake/StripRestrictedQtModules.cmake)
 qwinui3_strip_restricted_qt_modules(qwinui3_gallery)
 
+# Dev layout: published exe lives in ${CMAKE_BINARY_DIR} while QML modules stay under
+# src/*/QWinUI3. Keep Gallery on QmlImports so loadFromModule works from the build root.
+if(WIN32)
+    file(WRITE "${CMAKE_BINARY_DIR}/qt.conf"
+"[Paths]
+Prefix = .
+Libraries = .
+Binaries = .
+Plugins = plugins
+QmlImports = ${CMAKE_BINARY_DIR}/src/gallery,${CMAKE_BINARY_DIR}/src/platform/QWinUI3,${CMAKE_BINARY_DIR}/src/extras/QWinUI3,${CMAKE_BINARY_DIR}/src/theme/QWinUI3,qml
+")
+endif()
+
 # Qt qml finalizers often leave the binary under build/src/gallery/. Always
 # publish to the build root on every build (ALL), not only when re-linked —
 # otherwise incremental Ninja skips POST_BUILD and build/qwinui3_gallery vanishes.

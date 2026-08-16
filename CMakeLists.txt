@@ -101,6 +101,13 @@ message(STATUS "QWinUI3: HAVE_QUICK_EFFECTS=${QWINUI3_HAVE_QUICK_EFFECTS} "
 
 qt_standard_project_setup(REQUIRES 6.5)
 
+# IMPORTS TARGET <cmake-target> must resolve to that target's QML URI (not the
+# literal string "TARGET"). OLD broke Gallery qmldir → "No module named QWinUI3.Gallery".
+qt_policy(SET QTP0005 NEW)
+# gallery/pages/*.qml need subdirectory qmldir with prefer → module root so
+# CatalogPage / ControlExample resolve without an explicit (circular) module import.
+qt_policy(SET QTP0004 NEW)
+
 option(QWINUI3_BUILD_EXAMPLES "Build copy-ready example apps" ON)
 option(QWINUI3_BUILD_SHARED "Build QWinUI3 libraries as shared (DLL/.so) for redistribution" OFF)
 if(QWINUI3_BUILD_SHARED)

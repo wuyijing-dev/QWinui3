@@ -25,11 +25,23 @@ void sanitizeWindowsQpa()
 #endif
 }
 
+void applyHighDpiPolicyEarly()
+{
+    // Must run before QGuiApplication. Prefer the API over the env var: during
+    // QGuiApplication construction instance() is already non-null, so re-applying
+    // QT_SCALE_FACTOR_ROUNDING_POLICY from the environment warns.
+    if (QCoreApplication::instance())
+        return;
+    QGuiApplication::setHighDpiScaleFactorRoundingPolicy(
+            Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
+}
+
 } // namespace
 
 void configureEnvironment(const char *argv0)
 {
     sanitizeWindowsQpa();
+    applyHighDpiPolicyEarly();
     WindowHelper::configurePlatformEnvironment(argv0);
     // Prefer system IME over Qt Virtual Keyboard (GPL/Commercial).
     qunsetenv("QT_IM_MODULE");

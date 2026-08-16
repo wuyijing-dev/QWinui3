@@ -332,9 +332,10 @@ void WindowHelper::configurePlatformEnvironment(const char *argv0)
     Q_UNUSED(argv0);
 #endif
 
-    // Fractional display scale (Windows 125%/150%, Wayland) — before QGuiApplication.
-    if (qEnvironmentVariableIsEmpty("QT_SCALE_FACTOR_ROUNDING_POLICY"))
-        qputenv("QT_SCALE_FACTOR_ROUNDING_POLICY", "PassThrough");
+    // Fractional DPI is applied in QWinUI3::configureEnvironment via
+    // QGuiApplication::setHighDpiScaleFactorRoundingPolicy (before the app).
+    // Do not set QT_SCALE_FACTOR_ROUNDING_POLICY here — QGuiApplication re-reads
+    // that env during init and warns once instance() is already non-null.
 }
 
 void WindowHelper::setDesktopFileName(const QString &desktopFileName)

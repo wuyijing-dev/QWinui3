@@ -161,8 +161,8 @@ public:
     bool snapLayoutsEnabled() const { return m_snapLayoutsEnabled; }
     void setSnapLayoutsEnabled(bool enabled);
 
-    // Call before QGuiApplication on Linux: Wayland-first QPA + SSD + fractional scale.
-    // Also sets QT_SCALE_FACTOR_ROUNDING_POLICY=PassThrough on all platforms (125%/150% DPI).
+    // Call before QGuiApplication on Linux: Wayland-first QPA + SSD.
+    // High-DPI PassThrough is applied by QWinUI3::configureEnvironment (API).
     // Call before QGuiApplication. Pass argv[0] on Linux so a broken
     // build/qt.conf (Plugins=plugins) can be removed before Qt reads it.
     static void configurePlatformEnvironment(const char *argv0 = nullptr);
