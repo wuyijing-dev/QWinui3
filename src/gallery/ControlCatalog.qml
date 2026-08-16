@@ -1089,7 +1089,7 @@ QtObject {
             title: qsTr("Theme overrides"),
             category: "status",
             icon: FluentIcons.Color,
-            description: qsTr("Brand via customAccent / density / dark — no Style fork (1.09)."),
+            description: qsTr("Brand + density metrics / uiScale - docs/density.md (1.30)."),
             component: "ThemeOverridesPage",
             source: "pages/ThemeOverridesPage.qml"
         },

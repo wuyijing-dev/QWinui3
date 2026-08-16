@@ -7,8 +7,8 @@ Fluent / [WinUI 3](https://learn.microsoft.com/windows/apps/winui/winui3/)-inspi
 [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-2ea44f)](https://wuyijing-dev.github.io/QWinui3/)
 [![Qt](https://img.shields.io/badge/Qt-6.5%2B-41CD52?logo=qt&logoColor=white)](https://www.qt.io/)
 
-**v1.29** · **200+** public controls · Gallery demos for most of them
-[Documentation](https://wuyijing-dev.github.io/QWinui3/) · [Stable API](docs/stable-api.md) · [Icons](docs/icons.md) · [Pickers](docs/pickers.md) · [Navigation](docs/navigation.md) · [Performance](docs/performance.md) · [System integration](docs/system-integration.md) · [Theme overrides](docs/theme-overrides.md) · [Forms](docs/forms.md) · [Data collections](docs/data-collections.md) · [CI smoke](docs/ci-smoke.md) · [WebView2](docs/webview2.md) · [Component API](https://wuyijing-dev.github.io/QWinui3/components/) · [Releases](https://github.com/wuyijing-dev/QWinui3/releases) · [Roadmap](ROADMAP.md)
+**v1.30** · **200+** public controls · Gallery demos for most of them
+[Documentation](https://wuyijing-dev.github.io/QWinui3/) · [Stable API](docs/stable-api.md) · [Density](docs/density.md) · [Icons](docs/icons.md) · [Pickers](docs/pickers.md) · [Navigation](docs/navigation.md) · [Performance](docs/performance.md) · [System integration](docs/system-integration.md) · [Theme overrides](docs/theme-overrides.md) · [Forms](docs/forms.md) · [Data collections](docs/data-collections.md) · [CI smoke](docs/ci-smoke.md) · [WebView2](docs/webview2.md) · [Component API](https://wuyijing-dev.github.io/QWinui3/components/) · [Releases](https://github.com/wuyijing-dev/QWinui3/releases) · [Roadmap](ROADMAP.md)
 
 ---
 
@@ -231,8 +231,8 @@ scripts/         Docs generator, shared/gallery packaging, WebView2 fetch
 Push a version tag (or run **Actions → Release → Run workflow**):
 
 ```bash
-git tag v1.29
-git push origin v1.29
+git tag v1.30
+git push origin v1.30
 ```
 
 **PR / master smoke** (build Gallery + `--smoke`, no packages): [`.github/workflows/smoke.yml`](.github/workflows/smoke.yml) — see [`docs/ci-smoke.md`](docs/ci-smoke.md).
@@ -261,6 +261,7 @@ Product versions use **`X.YY`** (see [`ROADMAP.md`](ROADMAP.md)); set `QWINUI3_V
 | [`docs/navigation.md`](docs/navigation.md) | NavigationView / TabView recipes (1.27) |
 | [`docs/pickers.md`](docs/pickers.md) | Number / date / time / color pickers (1.28) |
 | [`docs/icons.md`](docs/icons.md) | FluentIcons size / color / a11y (1.29) |
+| [`docs/density.md`](docs/density.md) | Compact metrics + narrow shells (1.30) |
 | [`docs/forms.md`](docs/forms.md) | FormLayout validation + settings recipes |
 | [`docs/theme-overrides.md`](docs/theme-overrides.md) | Accent / density / branding knobs |
 | [`docs/system-integration.md`](docs/system-integration.md) | FilePicker / TrayIcon / NotificationBridge |

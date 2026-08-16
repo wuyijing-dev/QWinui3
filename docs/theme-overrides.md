@@ -6,7 +6,7 @@ Supported path for app branding: set **writable Theme knobs**. Stock Style and E
 |------|--------|--------|
 | `Theme.dark` | `true` / `false` | Light/dark color ramps |
 | `Theme.followSystemColorScheme` | bool | Mirror OS light/dark into `Theme.dark` |
-| `Theme.density` | `"standard"` \| `"compact"` | Scales heights / padding / spacing |
+| `Theme.density` | `"standard"` \| `"compact"` | Scales heights / padding / spacing (**not** fonts) — [density.md](density.md) (1.30) |
 | `Theme.uiScale` | `real` (default `1.0`) | Extra multiplier on density scale |
 | `Theme.accentPack` | `blue` \| `purple` \| `green` \| `orange` | Named accent |
 | `Theme.customAccent` | `color` with alpha > 0 | Overrides pack for `accent` / fills |
@@ -49,9 +49,11 @@ App-local chrome (logo strip, splash) should also read `Theme.accent` / `Theme.b
 
 ## Gallery
 
-**Theme overrides** page — apply Contoso-style presets, pick a custom accent, toggle density, watch stock controls update; leaving the page restores prior Theme knobs.
+**Theme overrides** page — apply Contoso-style presets, pick a custom accent, toggle density / uiScale, watch live metrics and stock controls; leaving the page restores prior Theme knobs.
 
-Settings → **Accent pack** / **Custom accent** for global Gallery preference.
+Settings → **Accent pack** / **Custom accent** / **Density** for global Gallery preference.
+
+Metrics, type scale, and narrow shells: **[density.md](density.md) (1.30)**.
 
 ---
 

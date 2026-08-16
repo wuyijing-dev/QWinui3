@@ -95,7 +95,7 @@ Page {
 
         SettingsCard {
             title: qsTr("Density")
-            description: qsTr("Theme.density scales controlHeight, padding, and spacing.")
+            description: qsTr("Theme.density scales controlHeight / padding / spacing (not fonts). docs/density.md")
             symbol: FluentIcons.Document
             action: ComboBox {
                 model: [qsTr("Standard"), qsTr("Compact")]

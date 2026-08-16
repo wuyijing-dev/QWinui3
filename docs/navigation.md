@@ -46,7 +46,7 @@ NavigationView {
 
 | Tip | Detail |
 |-----|--------|
-| Linux / small laptops | Prefer `auto` so the rail collapses without custom breakpoints |
+| Linux / small laptops | Prefer `auto` so the rail collapses without custom breakpoints — [density.md](density.md) (1.30) |
 | Hide rail | `isPaneVisible: false` |
 | Compact + title | `alwaysShowHeader: true` shows hamburger + `paneTitle` in leftCompact |
 

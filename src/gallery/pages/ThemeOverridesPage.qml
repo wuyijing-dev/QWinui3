@@ -4,14 +4,15 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — Theme overrides / branding (1.09).
+// Gallery — Theme overrides / branding (1.09) + density metrics (1.30).
 //
 // Writable knobs only — no Style fork. Restores Theme when leaving the page.
+// Density / type / narrow shells: docs/density.md
 
 CatalogPage {
     id: page
     title: qsTr("Theme overrides")
-    subtitle: qsTr("Brand via Theme.customAccent / density / dark — Style already follows.")
+    subtitle: qsTr("Brand + density. Live metrics: docs/density.md (1.30). Style already follows Theme.")
 
     property var _saved: null
 
@@ -39,6 +40,78 @@ CatalogPage {
 
     Component.onCompleted: _saved = _snapshotTheme()
     Component.onDestruction: _restoreTheme()
+
+    ControlExample {
+        headerText: qsTr("Density metrics (1.30)")
+        qmlSource: "Theme.density = \"compact\"\nTheme.uiScale = 1.0\n// fonts do not scale"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Compact uses 0.85x on controlHeight / padding / spacing. Type scale (fontCaption…fontTitle) stays fixed. Narrow shells: NavigationView paneDisplayMode auto (threshold 1008) or ListDetailsView minWideWidth - docs/density.md.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            RowLayout {
+                Layout.fillWidth: true
+                spacing: Theme.spacingLoose
+                ComboBox {
+                    model: [qsTr("Standard density"), qsTr("Compact")]
+                    currentIndex: Theme.density === "compact" ? 1 : 0
+                    Accessible.name: qsTr("Density")
+                    onActivated: function (index) {
+                        Theme.density = index === 1 ? "compact" : "standard"
+                    }
+                }
+                Label {
+                    text: qsTr("uiScale")
+                    color: Theme.textSecondary
+                }
+                Slider {
+                    id: scaleSlider
+                    from: 0.85
+                    to: 1.25
+                    stepSize: 0.05
+                    value: Theme.uiScale
+                    Layout.preferredWidth: 160
+                    Accessible.name: qsTr("UI scale")
+                    onMoved: Theme.uiScale = value
+                }
+                Label {
+                    text: Theme.uiScale.toFixed(2)
+                    color: Theme.textPrimary
+                    font.family: Theme.fontFamily
+                    font.pixelSize: Theme.fontCaption
+                }
+            }
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.Wrap
+                color: Theme.textPrimary
+                text: qsTr("controlHeight=%1 · spacing=%2 · navItemHeight=%3 · fontBody=%4 (fixed)")
+                         .arg(Theme.controlHeight)
+                         .arg(Theme.spacing)
+                         .arg(Theme.navItemHeight)
+                         .arg(Theme.fontBody)
+            }
+            RowLayout {
+                spacing: Theme.spacing
+                Button {
+                    text: qsTr("Sample")
+                    implicitHeight: Theme.controlHeight
+                }
+                Button {
+                    text: qsTr("Highlighted")
+                    highlighted: true
+                    implicitHeight: Theme.controlHeight
+                }
+                Switch { text: qsTr("Notify"); checked: true }
+            }
+        }
+    }
 
     ControlExample {
         headerText: qsTr("Brand presets")
@@ -111,13 +184,6 @@ CatalogPage {
                     onColorChosen: function (c) {
                         if (c.a > 0.001)
                             Theme.customAccent = c
-                    }
-                }
-                ComboBox {
-                    model: [qsTr("Standard density"), qsTr("Compact")]
-                    currentIndex: Theme.density === "compact" ? 1 : 0
-                    onActivated: function (index) {
-                        Theme.density = index === 1 ? "compact" : "standard"
                     }
                 }
                 Switch {
@@ -193,8 +259,9 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.Wrap
                 color: Theme.textSecondary
-                text: qsTr("density=%1 · accentPack=%2 · custom=%3")
+                text: qsTr("density=%1 · uiScale=%2 · accentPack=%3 · custom=%4")
                          .arg(Theme.density)
+                         .arg(Theme.uiScale.toFixed(2))
                          .arg(Theme.accentPack)
                          .arg(Theme.customAccent.a > 0.001 ? String(Theme.customAccent) : qsTr("(none)"))
             }

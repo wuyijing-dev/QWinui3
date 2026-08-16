@@ -155,3 +155,4 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.27** | Navigation & TabView recipes — [navigation.md](navigation.md); nav-settings Back/`auto` |
 | **1.28** | Input & pickers consistency — [pickers.md](pickers.md); date/time `errorMessage` |
 | **1.29** | Icons & FluentIcons cookbook — [icons.md](icons.md); FontIcon / CaptionButton a11y |
+| **1.30** | Density & responsive shells — [density.md](density.md); Theme overrides metrics |

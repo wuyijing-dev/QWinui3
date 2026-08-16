@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.29**
-**Next up:** **1.30** (Density, typography & responsive shells)
+**Current:** **1.30**
+**Next up:** **1.31** (Graphics & backend notes)
 **Planned through:** **1.50** (1.xx maturity checkpoint)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](qt-version-compat.md)
 
@@ -60,7 +60,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.29`
+## Shipped — `1.01` … `1.30`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -178,28 +178,9 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** [icons.md](icons.md) — FluentIcons API, size ramp, Theme colors, a11y; `FontIcon` no longer names with raw PUA glyph; `CaptionButton` defaults for Chrome* glyphs; Gallery Iconography callout + tile names; product version `1.29`.
 
----
+### 1.30 — Density, typography & responsive shells (shipped)
 
-## Mid path — planned `1.30`
-
-Same rules: one theme per `YY`, still **not** `2.00`.
-
-### 1.30 — Density, typography & responsive shells
-
-**Why:** Theme density exists (1.09 branding); LoB apps need compact vs comfortable + narrow-window recipes.
-
-**In scope**
-
-- Document density tokens, type scale, and shell behavior at narrow widths.
-- Gallery Theme / Settings density demos tightened; extend [theme-overrides.md](theme-overrides.md) or `docs/density.md`.
-
-**Out of scope**
-
-- Full Fluent 2 visual redesign; mobile-first phone shells.
-
-**Exit criteria**
-
-- Recipe covers density + one responsive shell pattern; no LTR regressions.
+**Shipped:** [density.md](density.md) — density/uiScale token table, fixed type scale, NavigationView `auto` / ListDetailsView narrow recipe; Theme overrides Gallery live metrics + uiScale; Settings density note; theme-overrides + navigation cross-links; product version `1.30`.
 
 ---
 
