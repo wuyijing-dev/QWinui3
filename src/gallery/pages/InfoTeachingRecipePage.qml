@@ -48,7 +48,7 @@ CatalogPage {
             HeaderedTextBox {
                 id: nameField
                 Layout.fillWidth: true
-                title: qsTr("Display name")
+                header: qsTr("Display name")
                 placeholderText: qsTr("Alex")
             }
 
