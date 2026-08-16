@@ -1,0 +1,26 @@
+---
+description: Always configure, build, and run this project as Release — never Debug.
+alwaysApply: true
+---
+
+# Release builds only
+
+For this repository, **always use Release**. Do not use Debug (or Debug-like defaults) unless the user explicitly asks for Debug.
+
+## Required
+
+- CMake configure: `-DCMAKE_BUILD_TYPE=Release`
+- Multi-config generators (Visual Studio): `--config Release` on build/install/test
+- Prefer existing `build/` (or project docs) Release trees; do not create a separate Debug tree by default
+- Run Gallery / tests / tools from the **Release** output (e.g. `build/qwinui3_gallery.exe` after a Release build)
+
+## Forbidden by default
+
+- `-DCMAKE_BUILD_TYPE=Debug`
+- `--config Debug`
+- Switching the active build to Debug “for easier debugging” without the user asking
+
+## Exceptions
+
+- User explicitly requests Debug or RelWithDebInfo
+- A specialized skill (e.g. QML profiler) that documents a different type for that task only — still prefer RelWithDebInfo over Debug when the skill allows
