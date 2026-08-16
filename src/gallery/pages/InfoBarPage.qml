@@ -8,138 +8,99 @@ import QWinUI3.Extras
 //
 // Severity alerts with Fluent ChromeClose, open()/close(), and Accessible. API: docs/components/InfoBar.md
 
-Page {
-    padding: 0
-    ScrollView {
-        id: scroll
-        anchors.fill: parent
-        contentWidth: availableWidth
-        clip: true
+CatalogPage {
+    title: qsTr("InfoBar")
+    subtitle: qsTr("Severity alerts with Fluent ChromeClose, open()/close(), and Accessible.")
+
+    ControlExample {
+        headerText: qsTr("Severity levels")
+        qmlSource: "InfoBar {\n    severity: informational\n    // severityName → \"informational\"\n}"
 
         ColumnLayout {
-            width: scroll.availableWidth
-            spacing: Theme.spacingSection
+            Layout.fillWidth: true
+            spacing: Theme.spacingLoose
 
-            PageHeader {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                Layout.topMargin: Theme.spacingSection
-                title: qsTr("InfoBar")
-                subtitle: qsTr("Severity alerts with Fluent ChromeClose, open()/close(), and Accessible.")
+            InfoBar {
+                id: infoSample
+                severity: infoSample.informational
+                title: qsTr("Information")
+                message: qsTr("This is an informational message. (%1)").arg(infoSample.severityName)
             }
-
-            ControlExample {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                headerText: qsTr("Severity levels")
-                qmlSource: "InfoBar {\n    severity: informational\n    // severityName → \"informational\"\n}"
-
-                ColumnLayout {
-                    Layout.fillWidth: true
-                    spacing: Theme.spacingLoose
-
-                    InfoBar {
-                        id: infoSample
-                        Layout.fillWidth: true
-                        severity: infoSample.informational
-                        title: qsTr("Information")
-                        message: qsTr("This is an informational message. (%1)").arg(infoSample.severityName)
-                    }
-                    InfoBar {
-                        id: successSample
-                        Layout.fillWidth: true
-                        severity: successSample.success
-                        title: qsTr("Success")
-                        message: qsTr("The operation completed successfully.")
-                    }
-                    InfoBar {
-                        id: warningSample
-                        Layout.fillWidth: true
-                        severity: warningSample.warning
-                        title: qsTr("Warning")
-                        message: qsTr("Please review this setting before continuing.")
-                    }
-                    InfoBar {
-                        id: errorSample
-                        Layout.fillWidth: true
-                        severity: errorSample.error
-                        title: qsTr("Error")
-                        message: qsTr("Something went wrong. Try again.")
-                    }
-                }
+            InfoBar {
+                id: successSample
+                severity: successSample.success
+                title: qsTr("Success")
+                message: qsTr("The operation completed successfully.")
             }
-
-            ControlExample {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                headerText: qsTr("With action")
-                qmlSource: "InfoBar {\n    actionText: \"Fix now\"\n    onActionClicked: { … }\n}"
-
-                InfoBar {
-                    id: actionBar
-                    Layout.fillWidth: true
-                    severity: actionBar.warning
-                    title: qsTr("Update available")
-                    message: qsTr("A new version is ready to install.")
-                    actionText: qsTr("Install")
-                    onActionClicked: actionBar.message = qsTr("Installing…")
-                }
+            InfoBar {
+                id: warningSample
+                severity: warningSample.warning
+                title: qsTr("Warning")
+                message: qsTr("Please review this setting before continuing.")
             }
-
-            ControlExample {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                headerText: qsTr("Content slot")
-                qmlSource: "InfoBar {\n    title: …\n    HyperlinkButton { text: \"Learn more\" }\n}"
-
-                InfoBar {
-                    id: contentBar
-                    Layout.fillWidth: true
-                    severity: contentBar.informational
-                    title: qsTr("Privacy")
-                    message: qsTr("Review how your data is used.")
-                    Button {
-                        flat: true
-                        text: qsTr("Learn more")
-                    }
-                }
+            InfoBar {
+                id: errorSample
+                severity: errorSample.error
+                title: qsTr("Error")
+                message: qsTr("Something went wrong. Try again.")
             }
+        }
+    }
 
-            ControlExample {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                headerText: qsTr("open() / close()")
-                qmlSource: "InfoBar {\n    onOpened: …\n    onClosed: …\n}"
-                ColumnLayout {
-                    Layout.fillWidth: true
-                    spacing: Theme.spacing
-                    Label {
-                        id: lifeStatus
-                        text: qsTr("Ready")
-                        color: Theme.textSecondary
-                    }
-                    InfoBar {
-                        id: collapseBar
-                        Layout.fillWidth: true
-                        severity: collapseBar.informational
-                        title: qsTr("Dismiss me")
-                        message: qsTr("Closing this bar collapses layout space (WinUI IsOpen).")
-                        onOpened: lifeStatus.text = qsTr("Opened")
-                        onClosed: lifeStatus.text = qsTr("Closed")
-                    }
-                    Button {
-                        text: collapseBar.isOpen ? qsTr("Close InfoBar") : qsTr("Reopen InfoBar")
-                        onClicked: collapseBar.isOpen ? collapseBar.close() : collapseBar.open()
-                    }
-                }
+    ControlExample {
+        headerText: qsTr("With action")
+        qmlSource: "InfoBar {\n    actionText: \"Fix now\"\n    onActionClicked: { … }\n}"
+
+        InfoBar {
+            id: actionBar
+            severity: actionBar.warning
+            title: qsTr("Update available")
+            message: qsTr("A new version is ready to install.")
+            actionText: qsTr("Install")
+            onActionClicked: actionBar.message = qsTr("Installing…")
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Content slot")
+        qmlSource: "InfoBar {\n    title: …\n    HyperlinkButton { text: \"Learn more\" }\n}"
+
+        InfoBar {
+            id: contentBar
+            severity: contentBar.informational
+            title: qsTr("Privacy")
+            message: qsTr("Review how your data is used.")
+            Button {
+                flat: true
+                text: qsTr("Learn more")
             }
+        }
+    }
 
-            Item { Layout.preferredHeight: Theme.spacingSection; Layout.fillWidth: true }
+    ControlExample {
+        headerText: qsTr("open() / close()")
+        qmlSource: "InfoBar {\n    onOpened: …\n    onClosed: …\n}"
+
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Label {
+                id: lifeStatus
+                text: qsTr("Ready")
+                color: Theme.textSecondary
+            }
+            InfoBar {
+                id: collapseBar
+                severity: collapseBar.informational
+                title: qsTr("Dismiss me")
+                message: qsTr("Closing this bar collapses layout space (WinUI IsOpen).")
+                onOpened: lifeStatus.text = qsTr("Opened")
+                onClosed: lifeStatus.text = qsTr("Closed")
+            }
+            Button {
+                text: collapseBar.isOpen ? qsTr("Close InfoBar") : qsTr("Reopen InfoBar")
+                onClicked: collapseBar.isOpen ? collapseBar.close() : collapseBar.open()
+            }
         }
     }
 }

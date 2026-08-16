@@ -8,46 +8,27 @@ import QWinUI3.Extras
 //
 // Always-accent primary CTA. Prefer symbol: FluentIcons.* for icons. API: docs/components/AccentButton.md
 
-Page {
-    padding: 0
-    ScrollView {
-        id: scroll
-        anchors.fill: parent
-        contentWidth: availableWidth
-        clip: true
-        ColumnLayout {
-            width: scroll.availableWidth
-            spacing: Theme.spacingSection
-            PageHeader {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                Layout.topMargin: Theme.spacingSection
-                title: qsTr("AccentButton")
-                subtitle: qsTr("Always-accent primary CTA. Prefer symbol: FluentIcons.* for icons.")
+CatalogPage {
+    title: qsTr("AccentButton")
+    subtitle: qsTr("Always-accent primary CTA. Prefer symbol: FluentIcons.* for icons.")
+
+    ControlExample {
+        headerText: qsTr("Accent vs standard")
+        qmlSource: "AccentButton {\n    text: \"Save\"\n    symbol: FluentIcons.Save\n}"
+
+        Flow {
+            Layout.fillWidth: true
+            spacing: Theme.spacingLoose
+            AccentButton {
+                text: qsTr("Save")
+                symbol: FluentIcons.Save
             }
-            ControlExample {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                headerText: qsTr("Accent vs standard")
-                qmlSource: "AccentButton {\n    text: \"Save\"\n    symbol: FluentIcons.Save\n}"
-                Flow {
-                    Layout.fillWidth: true
-                    spacing: Theme.spacingLoose
-                    AccentButton {
-                        text: qsTr("Save")
-                        symbol: FluentIcons.Save
-                    }
-                    Button { text: qsTr("Cancel") }
-                    AccentButton {
-                        text: qsTr("Share")
-                        symbol: FluentIcons.Share
-                    }
-                    AccentButton { text: qsTr("Disabled"); enabled: false }
-                }
+            Button { text: qsTr("Cancel") }
+            AccentButton {
+                text: qsTr("Share")
+                symbol: FluentIcons.Share
             }
-            Item { Layout.preferredHeight: Theme.spacingSection; Layout.fillWidth: true }
+            AccentButton { text: qsTr("Disabled"); enabled: false }
         }
     }
 }
