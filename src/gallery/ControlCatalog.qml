@@ -512,7 +512,7 @@ QtObject {
             title: qsTr("SettingsGroup"),
             category: "layout",
             icon: "\uE8FD",
-            description: qsTr("A section header that groups SettingsCard rows."),
+            description: qsTr("SettingsView + SettingsGroup + SettingsToggleCard (less layout glue)."),
             component: "SettingsGroupPage",
             source: "pages/SettingsGroupPage.qml"
         },
