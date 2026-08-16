@@ -34,7 +34,8 @@ Use inside SettingsGroup, ContentCard, or FormLayout footnotes.
 | `symbol` | `var` | Optional Fluent symbol |
 | `iconGlyph` | `string` | — |
 | `trailing` | `alias` | Custom trailing content |
-| `labelWidth` | `real` | Preferred label column width |
+| `labelWidth` | `real` | Preferred label column width (FormLayout may push labelWidth) |
+| `formBound` | `bool` | When true, FormLayout may push labelWidth |
 | `effectiveSymbol` | `string` | — |
 
 ### Signals

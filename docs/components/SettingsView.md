@@ -1,7 +1,14 @@
 # SettingsView
 
-Scrollable settings page host: title, subtitle, page padding. Children that declare
-`Layout.fillWidth` (SettingsCard, SettingsGroup, DetailRow, …) stretch automatically.
+Scrollable settings host (title + padded column).
+
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/SettingsView.qml`](../../src/extras/QWinUI3/Extras/SettingsView.qml)
+
+[← Component index](../components.md)
+
+**Extends** `Control`.
+
+## Example
 
 ```qml
 SettingsView {
@@ -17,3 +24,39 @@ SettingsView {
     }
 }
 ```
+
+## Notes
+
+Owns ScrollView, page title, and horizontal padding. Put SettingsGroup /
+SettingsCard / DetailRow as children — no Layout margins / fillWidth needed.
+
+## API
+
+### Properties
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `title` | `string` | Page title (hidden when empty) |
+| `subtitle` | `string` | Optional subtitle under the title |
+| `pagePadding` | `real` | Horizontal / vertical padding for the content column |
+| `sectionSpacing` | `real` | Vertical spacing between groups |
+| `contentData` | `alias` | Default children (settings groups / cards) |
+
+### Signals
+
+_No custom signals_ (use inherited signals from the base type).
+
+### Methods
+
+_No custom methods_ (use inherited methods from the base type).
+
+### Inherited from `Control`
+
+Also available (base type / Qt Quick Controls):
+
+- `padding`
+- `font`
+- `background` / `contentItem`
+
+---
+*Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

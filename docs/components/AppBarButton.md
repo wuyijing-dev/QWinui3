@@ -28,7 +28,8 @@ isCompact collapses the label (WinUI IsCompact); keyboardAcceleratorText shows a
 
 | Name | Type | Description |
 | --- | --- | --- |
-| `labelPosition` | `string` | Override CommandBar.defaultLabelPosition when set (bottom \| right \| collapsed) |
+| `labelPosition` | `string` | Override CommandBar label position when set (bottom \| right \| collapsed) |
+| `barLabelPosition` | `string` | Injected by CommandBar (do not parent-walk) |
 | `isCompact` | `bool` | WinUI IsCompact — hide label, icon-only |
 | `keyboardAcceleratorText` | `string` | Shortcut hint shown under/beside the label (WinUI KeyboardAcceleratorText) |
 | `effectiveLabelPosition` | `string` | Resolved label position |

@@ -77,15 +77,18 @@ qt_add_qml_module(qwinui3_gallery
         pages/GroupBoxPage.qml
         pages/HeaderedContentControlPage.qml
         pages/HeaderedTextBoxPage.qml
+        pages/HeaderedComboBoxPage.qml
         pages/HyperlinkButtonPage.qml
         pages/IconButtonPage.qml
         pages/InfoBadgePage.qml
         pages/InfoBarHostPage.qml
         pages/InfoBarPage.qml
+        pages/InfoButtonPage.qml
         pages/ItemsViewPage.qml
         pages/KeyVisualPage.qml
         pages/LabelPage.qml
         pages/ListTilePage.qml
+        pages/ListDetailsViewPage.qml
         pages/MenuBarPage.qml
         pages/MenuFlyoutPage.qml
         pages/MenuFlyoutItemPage.qml
@@ -117,6 +120,7 @@ qt_add_qml_module(qwinui3_gallery
         pages/PasswordBoxPage.qml
         pages/PersonPicturePage.qml
         pages/PipsPagerPage.qml
+        pages/PagerControlPage.qml
         pages/PivotPage.qml
         pages/ProgressBarPage.qml
         pages/ProgressButtonPage.qml
@@ -142,6 +146,7 @@ qt_add_qml_module(qwinui3_gallery
         pages/SegmentedControlPage.qml
         pages/SelectorBarPage.qml
         pages/SettingsCardPage.qml
+        pages/SettingsComboSliderPage.qml
         pages/SettingsExpanderPage.qml
         pages/ShimmerPage.qml
         pages/SliderPage.qml
@@ -157,6 +162,7 @@ qt_add_qml_module(qwinui3_gallery
         pages/SwipeControlPage.qml
         pages/SwipeDelegatePage.qml
         pages/SwipeViewPage.qml
+        pages/FileDropZonePage.qml
         pages/SystemIntegrationPage.qml
         pages/TabBarPage.qml
         pages/TableViewPage.qml

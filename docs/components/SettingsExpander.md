@@ -25,8 +25,7 @@ SettingsExpander {
 ## Notes
 
 Expander styled as a settings group; header + nested SettingsCard children.
-Set `toggle: true` for a built-in Switch (same API as SettingsCard).
-`Layout.fillWidth` defaults to true inside layouts.
+Set toggle: true for a built-in Switch (same API as SettingsCard).
 
 ## API
 
@@ -43,9 +42,9 @@ Set `toggle: true` for a built-in Switch (same API as SettingsCard).
 | `isExpanded` | `alias` | Alias of expanded |
 | `expandDirection` | `string` | WinUI ExpandDirection: down \| up |
 | `action` | `alias` | Custom action slot; ignored when toggle is true |
-| `toggle` | `bool` | Built-in Switch action |
+| `toggle` | `bool` | Built-in Switch action (mutually exclusive with action:) |
 | `checked` | `alias` | Switch checked state (when toggle is true) |
-| `toggleEnabled` | `alias` | Switch enabled |
+| `toggleEnabled` | `alias` | Switch enabled (when toggle is true) |
 | `toggleText` | `alias` | Optional Switch text |
 | `contentData` | `alias` | Default children / content slot |
 | `effectiveHeaderIcon` | `string` | Resolved header icon |

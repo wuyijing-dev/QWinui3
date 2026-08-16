@@ -63,15 +63,18 @@ qt_add_qml_module(qwinui3_extras
         GridTile.qml
         HeaderedContentControl.qml
         HeaderedTextBox.qml
+        HeaderedComboBox.qml
         HyperlinkButton.qml
         IconButton.qml
         IconicButton.qml
         InfoBadge.qml
         InfoBar.qml
         InfoBarHost.qml
+        InfoButton.qml
         KeyVisual.qml
         KeyChordVisual.qml
         ListTile.qml
+        ListDetailsView.qml
         MenuFlyout.qml
         MenuFlyoutHeader.qml
         MenuFlyoutItem.qml
@@ -101,6 +104,7 @@ qt_add_qml_module(qwinui3_extras
         PasswordBox.qml
         PersonPicture.qml
         PipsPager.qml
+        PagerControl.qml
         Pivot.qml
         ProgressButton.qml
         ProgressRing.qml
@@ -125,6 +129,8 @@ qt_add_qml_module(qwinui3_extras
         SettingsExpander.qml
         SettingsGroup.qml
         SettingsToggleCard.qml
+        SettingsComboCard.qml
+        SettingsSliderCard.qml
         SettingsView.qml
         DetailRow.qml
         SwipeAction.qml
@@ -162,6 +168,7 @@ qt_add_qml_module(qwinui3_extras
         StatusBar.qml
         WrapPanel.qml
         ActionCard.qml
+        FileDropZone.qml
         ${QWINUI3_EXTRAS_MEDIA_QML}
     IMPORTS
         TARGET qwinui3_theme

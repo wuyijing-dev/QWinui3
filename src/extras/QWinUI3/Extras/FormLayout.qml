@@ -25,7 +25,7 @@ import QWinUI3.Theme
 //   // methods: validate(), clearErrors(), collectErrors(), applyDefaults(), applyLabelWidth()
 //
 // @notes
-//   ColumnLayout host for HeaderedTextBox / NumberBox / PasswordBox / DetailRow.
+//   ColumnLayout host for HeaderedTextBox / HeaderedComboBox / NumberBox / PasswordBox / DetailRow.
 //   Pushes labelWidth (+ optional fieldHeaderPlacement) onto children — fields do not
 //   walk parents. Set formBound: false on a field to opt out.
 //   validate() gathers non-empty errorMessage (and hasError) from descendants.

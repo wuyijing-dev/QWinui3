@@ -41,6 +41,7 @@ behaviorOnInvoked: auto | close | remainOpen (WinUI SwipeBehaviorOnInvoked).
 | `leading` | `bool` | Leading content slot |
 | `behaviorOnInvoked` | `string` | WinUI BehaviorOnInvoked: auto \| close \| remainOpen |
 | `effectiveGlyph` | `string` | Resolved glyph string |
+| `swipeControl` | `var` | Host SwipeControl (wired by SwipeControl — no parent walk) |
 
 ### Signals
 

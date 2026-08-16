@@ -34,8 +34,8 @@ SettingsCard {
 Toolkit SettingsCard: Header/Description/HeaderIcon, Content + Action slots,
 ContentAlignment (right|left|vertical), IsClickEnabled, ActionIcon chevron,
 cornerRadius for ElevatedChrome.
-Set `toggle: true` for a built-in Switch (`checked` / `onToggled`) instead of `action: Switch {…}`.
-`Layout.fillWidth` defaults to true inside layouts.
+Set toggle: true for a built-in Switch (checked / onToggled) — no action glue.
+Layout.fillWidth defaults to true inside Column/Row/Grid layouts.
 
 ## API
 

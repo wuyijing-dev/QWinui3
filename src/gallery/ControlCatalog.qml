@@ -357,6 +357,14 @@ QtObject {
             source: "pages/ItemsViewPage.qml"
         },
         {
+            title: qsTr("ListDetailsView"),
+            category: "collections",
+            icon: "\uE8A9",
+            description: qsTr("Master–detail recipe on TwoPaneView with list selection."),
+            component: "ListDetailsViewPage",
+            source: "pages/ListDetailsViewPage.qml"
+        },
+        {
             title: qsTr("BreadcrumbBar"),
             category: "navigation",
             icon: "\uE76C",
@@ -419,6 +427,14 @@ QtObject {
             description: qsTr("Clickable page indicator dots for multi-page views."),
             component: "PipsPagerPage",
             source: "pages/PipsPagerPage.qml"
+        },
+        {
+            title: qsTr("PagerControl"),
+            category: "navigation",
+            icon: "\uE76C",
+            description: qsTr("Numbered page navigation with previous and next."),
+            component: "PagerControlPage",
+            source: "pages/PagerControlPage.qml"
         },
         {
             title: qsTr("StepBar"),
@@ -507,6 +523,14 @@ QtObject {
             description: qsTr("Settings row; toggle: true for a built-in Switch."),
             component: "SettingsCardPage",
             source: "pages/SettingsCardPage.qml"
+        },
+        {
+            title: qsTr("Settings combo & slider"),
+            category: "layout",
+            icon: "\uE70D",
+            description: qsTr("SettingsComboCard and SettingsSliderCard conveniences."),
+            component: "SettingsComboSliderPage",
+            source: "pages/SettingsComboSliderPage.qml"
         },
         {
             title: qsTr("SettingsGroup"),
@@ -659,6 +683,14 @@ QtObject {
             description: qsTr("A tip that teaches users about a new or important feature."),
             component: "TeachingTipPage",
             source: "pages/TeachingTipPage.qml"
+        },
+        {
+            title: qsTr("InfoButton"),
+            category: "dialogs",
+            icon: "\uE946",
+            description: qsTr("Info glyph that opens a TeachingTip."),
+            component: "InfoButtonPage",
+            source: "pages/InfoButtonPage.qml"
         },
         {
             title: qsTr("ToolTip"),
@@ -1117,12 +1149,28 @@ QtObject {
             source: "pages/HeaderedTextBoxPage.qml"
         },
         {
+            title: qsTr("HeaderedComboBox"),
+            category: "text",
+            icon: "\uE70D",
+            description: qsTr("Labeled ComboBox with FormLayout header placement."),
+            component: "HeaderedComboBoxPage",
+            source: "pages/HeaderedComboBoxPage.qml"
+        },
+        {
             title: qsTr("Form validation"),
             category: "text",
             icon: "\uE73E",
             description: qsTr("FormLayout labelWidth, left headers, ValidationSummary, RadioButtons."),
             component: "FormValidationPage",
             source: "pages/FormValidationPage.qml"
+        },
+        {
+            title: qsTr("FileDropZone"),
+            category: "layout",
+            icon: "\uE8E5",
+            description: qsTr("Drag-and-drop target with optional extension filter."),
+            component: "FileDropZonePage",
+            source: "pages/FileDropZonePage.qml"
         },
         {
             title: qsTr("MenuFlyout"),

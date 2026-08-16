@@ -11,26 +11,20 @@ Hosts stacked Toasts.
 ## Example
 
 ```qml
-// Gallery: put ToastHost in CatalogPage.overlay (not scrolled)
-CatalogPage {
-    overlay: ToastHost {
-        id: toasts
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 24
-        width: 360
-    }
-    // …
+ToastHost {
+    id: toasts
+    anchors.bottom: parent.bottom
+    anchors.horizontalCenter: parent.horizontalCenter
 }
 toasts.info(qsTr("Hello"))
 toasts.success(qsTr("Done"))
+// --- API ---
+// methods: info/success/warning/error, enqueue
 ```
 
 ## Notes
 
 Stack host for Toast; info/success/warning/error enqueue helpers.
-In Gallery, declare under `CatalogPage.overlay` so toasts float above the scroll
-host. See [`gallery-catalog-page.md`](../gallery-catalog-page.md).
 
 ## API
 

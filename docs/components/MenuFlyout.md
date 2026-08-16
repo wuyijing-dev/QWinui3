@@ -30,6 +30,7 @@ MenuFlyout {
 Menu-styled Flyout; host MenuFlyoutItem / Separator / Header children.
 contentMaxHeight (WinUI MenuFlyoutPresenter.MaxHeight) enables scroll when content is taller.
 shouldConstrainToRootBounds clamps into the window overlay (default true).
+title comes from Menu (FINAL) — set title: for Accessible.name.
 
 ## API
 
@@ -41,8 +42,7 @@ shouldConstrainToRootBounds clamps into the window overlay (default true).
 | `preferredPlacement` | `alias` | Preferred flyout placement |
 | `isLightDismissEnabled` | `bool` | Close on outside click / Esc |
 | `isOpen` | `bool` | Open / visible state |
-| `title` | `string` | Inherited from `Menu` (FINAL) — Accessible name |
-| `contentMaxHeight` | `real` | WinUI MaxHeight clamp (not Popup.maxHeight) |
+| `contentMaxHeight` | `real` | (cannot redeclare Popup.maxHeight which is FINAL) |
 | `shouldConstrainToRootBounds` | `bool` | WinUI ShouldConstrainToRootBounds — clamp popup into window overlay |
 
 ### Signals

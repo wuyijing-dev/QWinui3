@@ -39,8 +39,9 @@ Password TextField with reveal glyph; revealPassword / revealButtonVisible.
 | `header` | `string` | Header label above the control |
 | `description` | `string` | Supporting description text |
 | `errorMessage` | `string` | Validation error text |
-| `headerPlacement` | `string` | WinUI HeaderPlacement: top \| left |
-| `labelWidth` | `real` | Label column width when headerPlacement is left |
+| `headerPlacement` | `string` | WinUI HeaderPlacement: top \| left (FormLayout may push fieldHeaderPlacement) |
+| `labelWidth` | `real` | Label column width when headerPlacement is left (FormLayout may push labelWidth) |
+| `formBound` | `bool` | When true, FormLayout may push labelWidth / fieldHeaderPlacement |
 | `clearButtonVisible` | `bool` | Show clear affordance |
 | `passwordRevealMode` | `string` | WinUI PasswordRevealMode: peek \| hidden \| visible |
 | `revealPassword` | `bool` | True while password is revealed |

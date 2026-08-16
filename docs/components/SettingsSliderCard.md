@@ -1,0 +1,50 @@
+# SettingsSliderCard
+
+SettingsCard with a built-in value Slider action.
+
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/SettingsSliderCard.qml`](../../src/extras/QWinUI3/Extras/SettingsSliderCard.qml)
+
+[← Component index](../components.md)
+
+**Extends** `SettingsCard`.
+
+## Example
+
+```qml
+SettingsSliderCard {
+    title: qsTr("Volume")
+    from: 0; to: 100; value: 40
+    onMoved: { … }
+}
+```
+
+## Notes
+
+Convenience over SettingsCard { action: Slider {…} }. Shows a live value label.
+
+## API
+
+### Properties
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `from` | `alias` | — |
+| `to` | `alias` | — |
+| `value` | `alias` | — |
+| `stepSize` | `alias` | — |
+| `slider` | `alias` | — |
+| `valuePrecision` | `int` | — |
+
+### Signals
+
+| Signature | Description |
+| --- | --- |
+| `moved()` | — |
+| `valueEdited(real value)` | — |
+
+### Methods
+
+_No custom methods_ (use inherited methods from the base type).
+
+---
+*Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

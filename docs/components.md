@@ -9,7 +9,7 @@ python scripts/generate_component_docs.py
 python scripts/generate_component_docs.py --lint
 ```
 
-Public components: **189**. Hub: [`docs/README.md`](README.md). Shells: [`window-shells.md`](window-shells.md). Platform chrome: [`window-helper.md`](window-helper.md).
+Public components: **198**. Hub: [`docs/README.md`](README.md). Shells: [`window-shells.md`](window-shells.md). Platform chrome: [`window-helper.md`](window-helper.md).
 
 ## Index
 
@@ -52,11 +52,13 @@ Public components: **189**. Hub: [`docs/README.md`](README.md). Shells: [`window
 - [DropDownButton](components/DropDownButton.md) — Button that opens a MenuFlyout of actions.
 - [EmptyState](components/EmptyState.md) — Placeholder illustration + title + optional action.
 - [Expander](components/Expander.md) — Collapsible header with expandable content.
+- [FileDropZone](components/FileDropZone.md) — Drag-and-drop target with Fluent empty chrome.
 - [FlipView](components/FlipView.md) — Page carousel with optional navigation buttons.
 - [Flyout](components/Flyout.md) — Light-dismiss popup anchored to a target.
 - [FontIcon](components/FontIcon.md) — FluentIcons glyph as Text.
 - [FormLayout](components/FormLayout.md) — Vertical form stack that collects field errorMessage values.
 - [GridTile](components/GridTile.md) — Icon + title tile for launchers / galleries.
+- [HeaderedComboBox](components/HeaderedComboBox.md) — ComboBox with header, description, and FormLayout binding.
 - [HeaderedContentControl](components/HeaderedContentControl.md) — Labeled content host.
 - [HeaderedTextBox](components/HeaderedTextBox.md) — TextBox with header and description.
 - [HeatmapChart](components/HeatmapChart.md) — Heatmap matrix chart.
@@ -67,12 +69,14 @@ Public components: **189**. Hub: [`docs/README.md`](README.md). Shells: [`window
 - [InfoBadge](components/InfoBadge.md) — Count / status / glyph badge.
 - [InfoBar](components/InfoBar.md) — Inline severity banner with optional action and Content slot.
 - [InfoBarHost](components/InfoBarHost.md) — Stacks InfoBars in a host region.
+- [InfoButton](components/InfoButton.md) — Icon button that opens a TeachingTip.
 - [ItemsView](components/ItemsView.md) — ListView recipe: sections, selection, context MenuFlyout, EmptyState.
 - [KeyChordVisual](components/KeyChordVisual.md) — Renders Ctrl+K style shortcuts as KeyVisuals.
 - [KeyVisual](components/KeyVisual.md) — Single keyboard key chrome.
 - [KpiTile](components/KpiTile.md) — Compact dashboard KPI tile with optional delta and spark trend.
 - [LinearGauge](components/LinearGauge.md) — Horizontal/vertical track gauge with thresholds.
 - [LineChart](components/LineChart.md) — Multi-series line/area chart.
+- [ListDetailsView](components/ListDetailsView.md) — Master–detail recipe on TwoPaneView.
 - [ListTile](components/ListTile.md) — List row: leading, title, subtitle, trailing.
 - [MediaPlayerElement](components/MediaPlayerElement.md) — Fluent shell around Qt Multimedia MediaPlayer / VideoOutput.
 - [MenuFlyout](components/MenuFlyout.md) — Elevated Menu with showAt / isOpen helpers.
@@ -87,6 +91,7 @@ Public components: **189**. Hub: [`docs/README.md`](README.md). Shells: [`window
 - [NavigationView](components/NavigationView.md) — WinUI NavigationView with pane modes and page stack.
 - [NavigationWindow](components/NavigationWindow.md) — ShellWindow hosting NavigationView + content.
 - [NumberBox](components/NumberBox.md) — Numeric spin/edit with validation (WinUI AcceptsExpression / IsWrapEnabled).
+- [PagerControl](components/PagerControl.md) — Numbered page navigation (prev / numbers / next).
 - [PasswordBox](components/PasswordBox.md) — Password field with reveal toggle.
 - [PersonPicture](components/PersonPicture.md) — Avatar from image or initials (WinUI IsGroup / BadgeImageSource).
 - [PieChart](components/PieChart.md) — Pie chart with legend.
@@ -108,8 +113,12 @@ Public components: **189**. Hub: [`docs/README.md`](README.md). Shells: [`window
 - [SegmentedGauge](components/SegmentedGauge.md) — Segmented progress / capacity gauge.
 - [SelectorBar](components/SelectorBar.md) — Compact horizontal item selector.
 - [SettingsCard](components/SettingsCard.md) — Settings row: icon, title, description, action (Toolkit ContentAlignment).
+- [SettingsComboCard](components/SettingsComboCard.md) — SettingsCard with a built-in ComboBox action.
 - [SettingsExpander](components/SettingsExpander.md) — Expandable settings group.
 - [SettingsGroup](components/SettingsGroup.md) — Section header + card stack for settings pages.
+- [SettingsSliderCard](components/SettingsSliderCard.md) — SettingsCard with a built-in value Slider action.
+- [SettingsToggleCard](components/SettingsToggleCard.md) — Convenience alias for SettingsCard { toggle: true }.
+- [SettingsView](components/SettingsView.md) — Scrollable settings host (title + padded column).
 - [ShellWindow](components/ShellWindow.md) — Independent ApplicationWindow + WindowChrome host.
 - [Shimmer](components/Shimmer.md) — Skeleton shimmer placeholder.
 - [Sparkline](components/Sparkline.md) — Inline mini line chart.

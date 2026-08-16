@@ -29,6 +29,7 @@ isCompact + keyboardAcceleratorText mirror AppBarButton.
 | Name | Type | Description |
 | --- | --- | --- |
 | `labelPosition` | `string` | bottom \| right \| collapsed |
+| `barLabelPosition` | `string` | Injected by CommandBar (do not parent-walk) |
 | `isCompact` | `bool` | WinUI IsCompact — hide label, icon-only |
 | `keyboardAcceleratorText` | `string` | Shortcut hint (WinUI KeyboardAcceleratorText) |
 | `effectiveLabelPosition` | `string` | Resolved label position |
