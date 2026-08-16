@@ -22,6 +22,8 @@ Item {
     visible: running
     z: 5000
 
+    Accessible.ignored: true
+
     property Item from: null
     property Item to: null
     property int duration: Theme.duration(Theme.motionSlow)

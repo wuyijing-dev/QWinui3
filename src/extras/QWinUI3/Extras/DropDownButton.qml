@@ -56,9 +56,14 @@ T.AbstractButton {
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     hoverEnabled: true
+    focusPolicy: Qt.StrongFocus
     Accessible.role: Accessible.Button
     Accessible.name: control.text.length ? control.text : qsTr("Drop down")
     Accessible.description: control.menuOpen ? qsTr("Menu open") : qsTr("Menu closed")
+    Accessible.onPressAction: clicked()
+
+    Keys.onDownPressed: if (!menuOpen) showMenu()
+    Keys.onEscapePressed: if (menuOpen) close()
 
     // True in light theme
     readonly property bool lightScheme: !Theme.dark

@@ -28,6 +28,9 @@ import QWinUI3.Theme
 ShellWindow {
     id: root
 
+    Accessible.role: Accessible.Window
+    Accessible.name: root.title
+
     // Navigation pane expanded
     property alias paneOpen: nav.paneOpen
     // Expanded pane width

@@ -12,6 +12,9 @@ import QWinUI3.Theme
 AbstractButton {
     id: control
 
+    Accessible.role: Accessible.Button
+    Accessible.name: control.text.length ? control.text : qsTr("Caption button")
+
     // Fluent glyph drawn in the button
     property string glyph: ""
     // Use destructive (close) colors

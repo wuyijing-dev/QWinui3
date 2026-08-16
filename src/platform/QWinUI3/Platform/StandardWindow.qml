@@ -26,6 +26,9 @@ import QWinUI3.Platform
 ApplicationWindow {
     id: root
 
+    Accessible.role: Accessible.Window
+    Accessible.name: root.title.length ? root.title : qsTr("Window")
+
     // Window paradigm
     property int paradigm: WindowHelper.ParadigmStandard
     // Backdrop kind

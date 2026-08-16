@@ -22,6 +22,8 @@ import QWinUI3.Theme
 Item {
     id: root
 
+    Accessible.ignored: true
+
     default property alias content: host.data
 
     // Animate when this item's x/y change (e.g. Flow / Grid reflow)

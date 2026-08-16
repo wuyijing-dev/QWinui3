@@ -44,6 +44,7 @@ CatalogPage {
                     text: qsTr("Delete")
                     isCompact: compactBox.checked
                     keyboardAcceleratorText: "Del"
+                    toolTipText: qsTr("Delete")
                     onClicked: status.text = qsTr("Delete")
                 }
                 AppBarButton {
@@ -52,6 +53,7 @@ CatalogPage {
                     highlighted: true
                     isCompact: compactBox.checked
                     keyboardAcceleratorText: "Ctrl+S"
+                    toolTipText: qsTr("Save")
                     onClicked: status.text = qsTr("Save")
                 }
             }

@@ -17,6 +17,10 @@ import QWinUI3.Platform
 
 ShellWindow {
     id: root
+
+    Accessible.role: Accessible.Window
+    Accessible.name: root.title
+
     paradigm: WindowHelper.ParadigmTool
     presenter: WindowHelper.PresenterCompactOverlay
     isAlwaysOnTop: true

@@ -45,7 +45,7 @@ CatalogPage {
                     badgeValue: 3
                     onClicked: status.text = qsTr("Notifications")
                 }
-                IconButton { symbol: FluentIcons.ChromeClose; enabled: false }
+                IconButton { symbol: FluentIcons.ChromeClose; enabled: false; toolTipText: qsTr("Close") }
             }
             Label {
                 id: status

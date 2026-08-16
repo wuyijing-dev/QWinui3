@@ -46,9 +46,20 @@ T.AbstractButton {
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     hoverEnabled: true
+    focusPolicy: Qt.StrongFocus
     Accessible.role: Accessible.ComboBox
     Accessible.name: header.length ? header : qsTr("Multi-select")
     Accessible.description: displayText
+    Accessible.onPressAction: clicked()
+
+    Keys.onDownPressed: {
+        if (!popup.visible)
+            popup.open()
+    }
+    Keys.onEscapePressed: {
+        if (popup.visible)
+            popup.close()
+    }
 
     // Menu currently open
     readonly property bool menuOpen: popup.visible

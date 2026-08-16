@@ -49,6 +49,7 @@ T.AbstractButton {
                             primaryRow.implicitWidth + 32 + Theme.paddingControlH * 2 + 8)
     implicitHeight: Theme.controlHeight
     hoverEnabled: true
+    focusPolicy: Qt.StrongFocus
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     padding: 0
@@ -56,6 +57,9 @@ T.AbstractButton {
     Accessible.role: Accessible.Button
     Accessible.name: control.text.length ? control.text : qsTr("Split button")
     Accessible.description: popupMenu.visible ? qsTr("Menu open") : qsTr("Menu closed")
+
+    Keys.onDownPressed: if (!popupMenu.visible) showMenu()
+    Keys.onEscapePressed: if (popupMenu.visible) closeMenu()
 
     // Open the associated menu
     function showMenu() {
@@ -221,7 +225,11 @@ T.AbstractButton {
                 width: 32
                 height: parent.height
                 hoverEnabled: true
+                focusPolicy: Qt.StrongFocus
+                Accessible.role: Accessible.Button
+                Accessible.name: qsTr("More options")
                 onClicked: popupMenu.visible ? popupMenu.close() : control.showMenu()
+                Keys.onDownPressed: if (!popupMenu.visible) control.showMenu()
                 Keys.onEscapePressed: {
                     if (popupMenu.visible) {
                         popupMenu.close()

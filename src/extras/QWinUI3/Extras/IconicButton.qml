@@ -63,6 +63,7 @@ T.AbstractButton {
     }
 
     hoverEnabled: true
+    focusPolicy: Qt.StrongFocus
     implicitWidth: Math.max(Theme.controlMinWidth,
                             contentItem.implicitWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(Theme.controlHeight,
@@ -85,6 +86,7 @@ T.AbstractButton {
     }
     Accessible.checkable: checkable
     Accessible.checked: checked
+    Accessible.onPressAction: if (enabled) clicked()
 
     contentItem: RowLayout {
         spacing: Theme.spacing

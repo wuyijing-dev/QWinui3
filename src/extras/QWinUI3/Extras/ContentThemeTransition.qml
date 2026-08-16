@@ -20,6 +20,8 @@ import QWinUI3.Theme
 Item {
     id: root
 
+    Accessible.ignored: true
+
     default property alias content: host.data
 
     // Change this when content identity changes to re-run the transition

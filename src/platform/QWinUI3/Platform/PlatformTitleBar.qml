@@ -24,6 +24,9 @@ import QWinUI3.Platform
 Item {
     id: root
 
+    Accessible.role: Accessible.TitleBar
+    Accessible.name: qsTr("Title bar")
+
     // Window this chrome is attached to
     property var targetWindow: null
     // Show caption buttons
@@ -165,6 +168,7 @@ Item {
                 glyph: FluentIcons.ChromeMinimize
                 height: root.captionHeight
                 interactive: true
+                Accessible.name: qsTr("Minimize")
                 backgroundColor: root.buttonBackground
                 hoverColor: root.buttonHover
                 pressedColor: root.buttonPressed
@@ -192,6 +196,10 @@ Item {
                        ? FluentIcons.ChromeRestore : FluentIcons.ChromeMaximize
                 height: root.captionHeight
                 interactive: true
+                Accessible.name: root.targetWindow
+                                 && (root.targetWindow.visibility === Window.Maximized
+                                     || root.targetWindow.visibility === Window.FullScreen)
+                                 ? qsTr("Restore") : qsTr("Maximize")
                 backgroundColor: root.buttonBackground
                 hoverColor: root.buttonHover
                 pressedColor: root.buttonPressed
@@ -225,6 +233,7 @@ Item {
                 destructive: true
                 height: root.captionHeight
                 interactive: true
+                Accessible.name: qsTr("Close")
                 backgroundColor: root.buttonBackground
                 hoverColor: root.closeHover
                 pressedColor: root.closePressed

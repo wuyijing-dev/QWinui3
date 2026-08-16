@@ -88,6 +88,22 @@ T.Control {
 
     Accessible.role: Accessible.ToolBar
     Accessible.name: qsTr("Command bar")
+    Accessible.description: root.isOpen ? qsTr("Expanded") : qsTr("Collapsed")
+    focusPolicy: Qt.StrongFocus
+    activeFocusOnTab: true
+
+    Keys.onPressed: function (event) {
+        if (event.key === Qt.Key_F10
+                || (event.key === Qt.Key_Down && (event.modifiers & Qt.AltModifier))) {
+            if (moreBtn.visible && moreBtn.enabled) {
+                moreBtn.clicked()
+                event.accepted = true
+            }
+        } else if (event.key === Qt.Key_Escape && overflowMenu.visible) {
+            overflowMenu.close()
+            event.accepted = true
+        }
+    }
 
     // Resolved label position
     readonly property string effectiveLabelPosition: {
@@ -280,6 +296,8 @@ T.Control {
                 text: FluentIcons.More
                 font.family: Theme.fontFamilyIcon
                 font.pixelSize: 14
+                focusPolicy: Qt.StrongFocus
+                Accessible.role: Accessible.Button
                 Accessible.name: root.isOpen ? qsTr("See more") : qsTr("Open command bar")
                 scale: down && !Theme.reducedMotion ? 0.94 : 1
                 onClicked: {
@@ -289,6 +307,9 @@ T.Control {
                     else
                         overflowMenu.popup(moreBtn, 0, moreBtn.height + 4)
                 }
+                Keys.onReturnPressed: moreBtn.clicked()
+                Keys.onEnterPressed: moreBtn.clicked()
+                Keys.onSpacePressed: moreBtn.clicked()
                 ToolTip.visible: hovered
                 ToolTip.text: root.isOpen ? qsTr("See more") : qsTr("Open command bar")
                 Behavior on scale {
@@ -326,6 +347,8 @@ T.Control {
                 text: root.isOpen ? FluentIcons.ChevronUp : FluentIcons.ChevronDown
                 font.family: Theme.fontFamilyIcon
                 font.pixelSize: 12
+                focusPolicy: Qt.StrongFocus
+                Accessible.role: Accessible.Button
                 Accessible.name: root.isOpen ? qsTr("Collapse") : qsTr("Expand")
                 scale: down && !Theme.reducedMotion ? 0.94 : 1
                 Behavior on scale {
@@ -333,6 +356,9 @@ T.Control {
                     NumberAnimation { duration: Theme.duration(Theme.motionFast) }
                 }
                 onClicked: root.toggle()
+                Keys.onReturnPressed: toggleBtn.clicked()
+                Keys.onEnterPressed: toggleBtn.clicked()
+                Keys.onSpacePressed: toggleBtn.clicked()
                 ToolTip.visible: hovered
                 ToolTip.text: root.isOpen ? qsTr("Collapse") : qsTr("Expand")
                 background: Item {

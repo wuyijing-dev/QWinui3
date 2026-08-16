@@ -20,6 +20,9 @@ import QWinUI3.Theme
 ShellWindow {
     id: root
 
+    Accessible.role: Accessible.Window
+    Accessible.name: root.title
+
     width: 720
     height: 480
     title: qsTr("Blank window")

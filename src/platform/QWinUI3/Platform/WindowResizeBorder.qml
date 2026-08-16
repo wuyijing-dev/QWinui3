@@ -15,6 +15,9 @@ import QtQuick.Window
 Item {
     id: root
     anchors.fill: parent
+
+    Accessible.ignored: true
+
     // Window this chrome is attached to
     property var targetWindow: null
     // Donut ring thickness

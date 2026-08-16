@@ -21,6 +21,8 @@ import QWinUI3.Platform
 Item {
     id: root
 
+    Accessible.ignored: true
+
     // Window this chrome is attached to
     property var targetWindow: null
     // WindowHelper.Paradigm* kind

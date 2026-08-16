@@ -18,6 +18,8 @@ import QWinUI3.Theme
 Item {
     id: root
 
+    Accessible.ignored: true
+
     default property alias content: host.data
 
     // Vertical offset at start (px)
