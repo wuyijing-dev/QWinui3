@@ -60,6 +60,7 @@ target_link_libraries(qwinui3_platform
         Qt6::Quick
         Qt6::QuickControls2
         qwinui3_theme
+        qwinui3_qtcompat
     PRIVATE
         ${QWINUI3_PLATFORM_LIBS}
 )

@@ -213,6 +213,7 @@ target_link_libraries(qwinui3_gallery
         Qt6::Quick
         Qt6::QuickControls2
         Qt6::LabsQmlModels
+        qwinui3_qtcompat
         qwinui3_theme
         qwinui3_style
         qwinui3_extras

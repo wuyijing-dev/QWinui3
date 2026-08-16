@@ -1,6 +1,6 @@
 # QWinUI3
 
-Fluent / WinUI 3–inspired controls for **Qt 6.8+** Quick.
+Fluent / WinUI 3–inspired controls for **Qt 6.5+** Quick (recommended **6.8 LTS**; forward **6.10+**).
 
 This site is generated from QML source comments and shipped via GitHub Pages.
 
@@ -13,6 +13,7 @@ This site is generated from QML source comments and shipped via GitHub Pages.
 | [Window shells](window-shells.md) | ShellWindow family vs StandardWindow |
 | [WindowHelper](window-helper.md) | Platform chrome singleton |
 | [Qt Creator](qt-creator.md) | Open / build the CMake project |
+| [Qt version compat](qt-version-compat.md) | C++ shims for Qt 6.5 / 6.8 / 6.10+ |
 
 ## Install / build
 

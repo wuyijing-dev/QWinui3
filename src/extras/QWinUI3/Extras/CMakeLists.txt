@@ -195,6 +195,7 @@ target_link_libraries(qwinui3_extras
         qwinui3_theme
         qwinui3_style
         qwinui3_platform
+        qwinui3_qtcompat
 )
 
 if(QWINUI3_HAS_MEDIA)

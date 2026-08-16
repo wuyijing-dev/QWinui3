@@ -5,8 +5,9 @@ import QtQuick.Effects
 //
 //   ElevatedChrome { anchors.fill: parent }
 //
-// Requires QtQuick.Effects (MultiEffect). On Debian/Ubuntu:
-//   sudo apt install qml6-module-qtquick-effects libqt6quickeffects6
+// Requires QtQuick.Effects (MultiEffect) when QWINUI3_HAVE_QUICK_EFFECTS is on.
+// Without Effects, CMake substitutes ElevatedChrome_Simple.qml (same API, no blur).
+// Debian/Ubuntu: sudo apt install qml6-module-qtquick-effects libqt6quickeffects6
 
 Item {
     id: root

@@ -70,4 +70,5 @@ target_link_libraries(qwinui3_style
         Qt6::QuickControls2
         qwinui3_theme
         qwinui3_platform
+        qwinui3_qtcompat
 )

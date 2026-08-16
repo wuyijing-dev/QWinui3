@@ -17,7 +17,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 project(QWinUI3
     VERSION 1.0.0
-    DESCRIPTION "Fluent / WinUI 3 controls for Qt 6.8+ (LGPL-3.0)"
+    DESCRIPTION "Fluent / WinUI 3 controls for Qt 6.5+ (LGPL-3.0); recommended 6.8+"
     HOMEPAGE_URL "https://github.com/wuyijing-dev/QWinui3"
     LANGUAGES CXX
 )
@@ -51,15 +51,37 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 
-find_package(Qt6 6.8 REQUIRED COMPONENTS Quick QuickControls2 LabsQmlModels)
+# Floor: 6.5. Recommended: 6.8 LTS. Forward: 6.10+.
+find_package(Qt6 6.5 REQUIRED COMPONENTS Quick QuickControls2 LabsQmlModels Gui)
 find_package(Qt6 COMPONENTS Multimedia QUIET)
-# Must be at top-level so example/gallery finalizers see Qt6::QuickEffects
-# (theme's ElevatedChrome imports QtQuick.Effects).
+# Public target is rare; many kits only ship Qt6QuickEffectsPrivate + QML plugin.
 find_package(Qt6 COMPONENTS QuickEffects QUIET)
+find_package(Qt6 COMPONENTS QuickEffectsPrivate QUIET)
 
 message(STATUS "QWinUI3: Qt ${Qt6_VERSION} (${Qt6_DIR})")
+message(STATUS "QWinUI3: support range = Qt 6.5+ (recommended 6.8 LTS; forward 6.10+)")
 
-qt_standard_project_setup(REQUIRES 6.8)
+# Capability probes (consumed by qwinui3_qtcompat + theme QML selection).
+get_filename_component(_qwinui3_qt_prefix "${Qt6_DIR}/../../.." ABSOLUTE)
+set(QWINUI3_HAVE_QUICK_EFFECTS OFF)
+if(TARGET Qt6::QuickEffects OR TARGET Qt6::QuickEffectsPrivate)
+    set(QWINUI3_HAVE_QUICK_EFFECTS ON)
+elseif(EXISTS "${_qwinui3_qt_prefix}/qml/QtQuick/Effects/qmldir")
+    set(QWINUI3_HAVE_QUICK_EFFECTS ON)
+endif()
+unset(_qwinui3_qt_prefix)
+
+# Direct3D 12 RHI since Qt 6.6.
+if(Qt6_VERSION VERSION_GREATER_EQUAL "6.6.0")
+    set(QWINUI3_HAVE_RHI_D3D12 ON)
+else()
+    set(QWINUI3_HAVE_RHI_D3D12 OFF)
+endif()
+
+message(STATUS "QWinUI3: HAVE_QUICK_EFFECTS=${QWINUI3_HAVE_QUICK_EFFECTS} "
+               "HAVE_RHI_D3D12=${QWINUI3_HAVE_RHI_D3D12}")
+
+qt_standard_project_setup(REQUIRES 6.5)
 
 option(QWINUI3_BUILD_EXAMPLES "Build copy-ready example apps" ON)
 option(QWINUI3_BUILD_SHARED "Build QWinUI3 libraries as shared (DLL/.so) for redistribution" OFF)
@@ -83,6 +105,7 @@ else()
     option(QWINUI3_BUILD_WEBVIEW2 "Build WebView2Host (requires Edge WebView2 Runtime + SDK)" OFF)
 endif()
 
+add_subdirectory(src/compat/QWinUI3/Compat)
 add_subdirectory(src/theme/QWinUI3/Theme)
 add_subdirectory(src/platform/QWinUI3/Platform)
 add_subdirectory(src/style/QWinUI3)

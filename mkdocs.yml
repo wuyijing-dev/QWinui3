@@ -1,5 +1,5 @@
 site_name: QWinUI3
-site_description: Fluent / WinUI 3 controls for Qt 6.8+
+site_description: Fluent / WinUI 3 controls for Qt 6.5+ (recommended 6.8+)
 site_url: https://wuyijing-dev.github.io/QWinui3/
 repo_url: https://github.com/wuyijing-dev/QWinui3
 repo_name: wuyijing-dev/QWinui3
@@ -71,3 +71,4 @@ nav:
   - AppWindow: window-appwindow.md
   - Transparency / DWM: window-transparency-dwm.md
   - Qt Creator: qt-creator.md
+  - Qt version compat: qt-version-compat.md

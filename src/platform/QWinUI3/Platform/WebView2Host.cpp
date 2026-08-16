@@ -1,5 +1,7 @@
 #include "WebView2Host.h"
 
+#include <QWinUI3/Compat/QtCompatVersion.h>
+
 #include <QGuiApplication>
 #include <QQuickWindow>
 #include <algorithm>

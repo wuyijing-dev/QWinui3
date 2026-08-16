@@ -1,11 +1,11 @@
 # QWinUI3
 
-Fluent / [WinUI 3](https://learn.microsoft.com/windows/apps/winui/winui3/)-inspired controls for **Qt 6 Quick** — theme tokens, a full Quick Controls style, window shells, and a large Extras catalog you can drop into desktop apps.
+Fluent / [WinUI 3](https://learn.microsoft.com/windows/apps/winui/winui3/)-inspired controls for **Qt 6 Quick** — theme tokens, a full Quick Controls style, window shells, and a large Extras catalog you can drop into desktop apps. Supports **Qt 6.5+** (recommended **6.8 LTS**; forward **6.10+**) via a C++ compatibility layer.
 
 [![Release](https://img.shields.io/github/v/release/wuyijing-dev/QWinui3?label=release)](https://github.com/wuyijing-dev/QWinui3/releases/latest)
 [![License: LGPL-3.0](https://img.shields.io/badge/license-LGPL--3.0-blue.svg)](LICENSE)
 [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-2ea44f)](https://wuyijing-dev.github.io/QWinui3/)
-[![Qt](https://img.shields.io/badge/Qt-6.8%2B-41CD52?logo=qt&logoColor=white)](https://www.qt.io/)
+[![Qt](https://img.shields.io/badge/Qt-6.5%2B-41CD52?logo=qt&logoColor=white)](https://www.qt.io/)
 
 **v1.0.0** · **200+** public controls · Gallery demos for most of them  
 [Documentation](https://wuyijing-dev.github.io/QWinui3/) · [Component API](https://wuyijing-dev.github.io/QWinui3/components/) · [Releases](https://github.com/wuyijing-dev/QWinui3/releases)
@@ -95,9 +95,9 @@ From [GitHub Releases](https://github.com/wuyijing-dev/QWinui3/releases/latest) 
 | Asset | Platform | Use |
 |-------|----------|-----|
 | **`qwinui3-gallery-*-windows-x64.zip`** | Windows x64 | Gallery + Qt runtime (`windeployqt`) — run `qwinui3_gallery.exe` |
-| **`qwinui3-*-windows-x64-shared.zip`** | Windows x64 | Shared DLLs + QML (needs Qt **6.8+** MSVC) |
+| **`qwinui3-*-windows-x64-shared.zip`** | Windows x64 | Shared DLLs + QML (needs Qt **6.5+** MSVC; CI builds with 6.8) |
 | **`qwinui3-gallery-*-linux-x64.tar.gz`** | Linux x64 | Gallery AppDir + Qt runtime — run `./run-gallery.sh` |
-| **`qwinui3-*-linux-x64-shared.tar.gz`** | Linux x64 | Shared `.so` + QML (needs Qt **6.8+** gcc_64) |
+| **`qwinui3-*-linux-x64-shared.tar.gz`** | Linux x64 | Shared `.so` + QML (needs Qt **6.5+** gcc_64; CI builds with 6.8) |
 
 Release packages are produced by [`.github/workflows/release.yml`](.github/workflows/release.yml) on `v*` tags (or manual **Release** workflow dispatch).
 
@@ -107,7 +107,7 @@ Release packages are produced by [`.github/workflows/release.yml`](.github/workf
 
 | | |
 |--|--|
-| **Qt** | **6.8+** — Quick, QuickControls2, LabsQmlModels (QuickEffects recommended) |
+| **Qt** | **6.5+** (recommended **6.8+**) — Quick, QuickControls2, LabsQmlModels (QuickEffects recommended) |
 | **CMake** | ≥ 3.21 for presets; ≥ 3.16 minimum in tree |
 | **Compiler** | C++17 — **MSVC 2022** recommended on Windows |
 | **Generator** | Ninja (presets) or Visual Studio / Qt Creator kit |
@@ -130,9 +130,9 @@ build\qwinui3_gallery.exe
 Point CMake at your Qt install if needed:
 
 1. Copy `CMakeUserPresets.json.example` → `CMakeUserPresets.json`
-2. Set `CMAKE_PREFIX_PATH` to your Qt 6.8+ prefix (e.g. `D:/Qt/6.8.0/msvc2022_64`)
+2. Set `CMAKE_PREFIX_PATH` to your Qt 6.5+ prefix (e.g. `D:/Qt/6.8.0/msvc2022_64`)
 
-Or open the **repo root** `CMakeLists.txt` in [Qt Creator](docs/qt-creator.md) with a Qt 6.8+ kit and build `qwinui3_gallery`.
+Or open the **repo root** `CMakeLists.txt` in [Qt Creator](docs/qt-creator.md) with a Qt 6.5+ kit (6.8+ recommended) and build `qwinui3_gallery`.
 
 ### CMake options
 
@@ -188,6 +188,7 @@ cmake --build --preset release --target qwinui3_example_nav qwinui3_example_sett
 ## Repository layout
 
 ```
+src/compat/      Qt 6.5 / 6.8 / 6.10+ C++ compatibility (qwinui3_qtcompat)
 src/theme/       QWinUI3.Theme
 src/style/       Qt Quick Controls style (QWinUI3)
 src/platform/    QWinUI3.Platform
@@ -221,6 +222,7 @@ GitHub Actions builds Linux + Windows shared libraries and Gallery packages, the
 | [`docs/conventions.md`](docs/conventions.md) | Radius, accessibility, import rules |
 | [`docs/window-shells.md`](docs/window-shells.md) | ShellWindow family vs StandardWindow |
 | [`docs/qt-creator.md`](docs/qt-creator.md) | Opening the project in Qt Creator |
+| [`docs/qt-version-compat.md`](docs/qt-version-compat.md) | C++ shims for Qt 6.5 / 6.8 / 6.10+ |
 
 Regenerate API pages from QML comments:
 

@@ -1,10 +1,14 @@
 #include "WindowHelper.h"
 #include "LinuxPortal.h"
 
+#include <QWinUI3/Compat/QtCompatQml.h>
+#include <QWinUI3/Compat/QtCompatVersion.h>
+
 #include <cstdio>
 
 #include <QClipboard>
 #include <QCoreApplication>
+#include <QDebug>
 #include <QDesktopServices>
 #include <QDir>
 #include <QFile>
@@ -217,6 +221,12 @@ void WindowHelper::notifyDisplayMetricsChanged()
 
 void WindowHelper::configurePlatformEnvironment(const char *argv0)
 {
+    qInfo().noquote() << "QWinUI3:" << QWinUI3::Compat::Qml::supportRangeString()
+                      << QStringLiteral("(built with Qt %1.%2.%3)")
+                             .arg(QWinUI3::Compat::qtVersionMajor())
+                             .arg(QWinUI3::Compat::qtVersionMinor())
+                             .arg(QWinUI3::Compat::qtVersionPatch());
+
 #if defined(Q_OS_LINUX)
     // Stale Windows-style qt.conf next to the binary forces Plugins=./plugins
     // (empty) and breaks every QPA plugin. Strip it before QGuiApplication.

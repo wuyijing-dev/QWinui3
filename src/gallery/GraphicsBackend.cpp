@@ -1,33 +1,19 @@
 #include "GraphicsBackend.h"
 
+#include <QWinUI3/Compat/QtCompatQml.h>
+#include <QWinUI3/Compat/QtCompatRhi.h>
+#include <QWinUI3/Compat/QtCompatVersion.h>
+
 #include <QCoreApplication>
 #include <QGuiApplication>
 #include <QProcess>
 #include <QQmlEngine>
-#include <QQuickWindow>
 #include <QSettings>
-#include <QSGRendererInterface>
-#include <QSurfaceFormat>
 #include <QDebug>
 
 namespace {
 GraphicsBackend *g_instance = nullptr;
 QString g_earlyBackend;
-
-QSGRendererInterface::GraphicsApi apiFor(const QString &backend)
-{
-    if (backend == QLatin1String("opengl"))
-        return QSGRendererInterface::OpenGL;
-    if (backend == QLatin1String("vulkan"))
-        return QSGRendererInterface::Vulkan;
-    if (backend == QLatin1String("d3d11"))
-        return QSGRendererInterface::Direct3D11;
-    if (backend == QLatin1String("d3d12"))
-        return QSGRendererInterface::Direct3D12;
-    if (backend == QLatin1String("metal"))
-        return QSGRendererInterface::Metal;
-    return QSGRendererInterface::Unknown;
-}
 } // namespace
 
 GraphicsBackend::GraphicsBackend(QObject *parent)
@@ -36,7 +22,7 @@ GraphicsBackend::GraphicsBackend(QObject *parent)
     m_preferred = readStoredPreferred();
     if (m_preferred.isEmpty())
         m_preferred = defaultBackend();
-    m_active = QString::fromUtf8(qgetenv("QSG_RHI_BACKEND"));
+    m_active = QWinUI3::Compat::Rhi::normalize(QString::fromUtf8(qgetenv("QSG_RHI_BACKEND")));
     if (m_active.isEmpty())
         m_active = m_preferred;
 }
@@ -57,21 +43,7 @@ GraphicsBackend *GraphicsBackend::instance()
 
 QString GraphicsBackend::normalize(const QString &name)
 {
-    const QString key = name.trimmed().toLower();
-    if (key == QLatin1String("gl") || key == QLatin1String("opengl")
-        || key == QLatin1String("open gl"))
-        return QStringLiteral("opengl");
-    if (key == QLatin1String("vk") || key == QLatin1String("vulkan"))
-        return QStringLiteral("vulkan");
-    if (key == QLatin1String("d3d") || key == QLatin1String("dx11")
-        || key == QLatin1String("d3d11") || key == QLatin1String("direct3d11"))
-        return QStringLiteral("d3d11");
-    if (key == QLatin1String("dx12") || key == QLatin1String("d3d12")
-        || key == QLatin1String("direct3d12"))
-        return QStringLiteral("d3d12");
-    if (key == QLatin1String("metal"))
-        return QStringLiteral("metal");
-    return {};
+    return QWinUI3::Compat::Rhi::normalize(name);
 }
 
 QString GraphicsBackend::defaultBackend()
@@ -86,14 +58,7 @@ QString GraphicsBackend::defaultBackend()
 
 QStringList GraphicsBackend::platformBackends()
 {
-    QStringList list;
-    list << QStringLiteral("opengl") << QStringLiteral("vulkan");
-#if defined(Q_OS_WIN)
-    list << QStringLiteral("d3d11") << QStringLiteral("d3d12");
-#elif defined(Q_OS_MACOS)
-    list << QStringLiteral("metal");
-#endif
-    return list;
+    return QWinUI3::Compat::Rhi::platformBackends();
 }
 
 QString GraphicsBackend::readStoredPreferred()
@@ -134,22 +99,7 @@ QString GraphicsBackend::parseCli(int &argc, char **argv)
 
 void GraphicsBackend::apply(const QString &backend)
 {
-    qputenv("QSG_RHI_BACKEND", backend.toUtf8());
-    const auto api = apiFor(backend);
-    if (api != QSGRendererInterface::Unknown)
-        QQuickWindow::setGraphicsApi(api);
-
-#if defined(Q_OS_WIN)
-    qunsetenv("QT_QPA_DISABLE_REDIRECTION_SURFACE");
-#endif
-
-    QSurfaceFormat format = QSurfaceFormat::defaultFormat();
-    // Opaque Gallery host — no window alpha buffer required.
-    format.setAlphaBufferSize(0);
-    if (backend == QLatin1String("opengl"))
-        format.setRenderableType(QSurfaceFormat::OpenGL);
-    QSurfaceFormat::setDefaultFormat(format);
-    QQuickWindow::setDefaultAlphaBuffer(false);
+    QWinUI3::Compat::Rhi::apply(backend);
 }
 
 QString GraphicsBackend::applyEarly(int &argc, char **argv)
@@ -166,14 +116,14 @@ QString GraphicsBackend::applyEarly(int &argc, char **argv)
     else
         backend = defaultBackend();
 
-    if (!platformBackends().contains(backend))
-        backend = defaultBackend();
+    backend = QWinUI3::Compat::Rhi::coerceAvailable(backend, defaultBackend());
 
     apply(backend);
     g_earlyBackend = backend;
 
     qInfo().nospace() << "QWinUI3 Gallery RHI backend: " << backend
-                      << " (change in Settings or pass --rhi opengl|vulkan|d3d11|d3d12)";
+                      << " (" << QWinUI3::Compat::Qml::supportRangeString()
+                      << "; change in Settings or pass --rhi opengl|vulkan|d3d11|d3d12)";
     return backend;
 }
 
@@ -233,8 +183,13 @@ QString GraphicsBackend::hint() const
         return QStringLiteral("Vulkan — alpha OK on many GPUs; border workarounds are limited.");
     if (m_active == QLatin1String("d3d11"))
         return QStringLiteral("Direct3D 11 — frost works; may show a thin white edge ring.");
-    if (m_active == QLatin1String("d3d12"))
+    if (m_active == QLatin1String("d3d12")) {
+#if QWINUI3_HAVE_RHI_D3D12
         return QStringLiteral("Direct3D 12 — frost works; may show a thin white edge ring.");
+#else
+        return QStringLiteral("Direct3D 12 — requires Qt 6.6+ (unavailable in this build).");
+#endif
+    }
     if (m_active == QLatin1String("metal"))
         return QStringLiteral("Metal — macOS default path.");
     return {};
