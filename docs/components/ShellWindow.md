@@ -63,6 +63,8 @@ Backdrop / paradigm via WindowHelper (see docs/window-helper.md).
 | `paradigm` | `int` | WindowHelper.Paradigm* |
 | `isAlwaysOnTop` | `bool` | Keep window above others |
 | `extendsContentIntoTitleBar` | `bool` | Custom frame / extend content |
+| `geometryPersistenceKey` | `alias` | Non-empty → persist frame geometry (see ShellWindowSupport / WindowHelper). |
+| `geometryPersistenceEnabled` | `bool` | — |
 | `showCaptionButtons` | `bool` | Show min/max/close |
 | `showMinimize` | `bool` | Show minimize caption button |
 | `showMaximize` | `bool` | Show maximize caption button |
@@ -102,6 +104,9 @@ Backdrop / paradigm via WindowHelper (see docs/window-helper.md).
 | `setWindowParadigm(kind)` | Switch Standard / Dialog / Tool paradigm at runtime |
 | `setAlwaysOnTopEnabled(on)` | Toggle stay-on-top |
 | `centerOnScreen()` | Center on the current screen |
+| `saveGeometry()` | — |
+| `restoreGeometry()` | — |
+| `clearSavedGeometry()` | — |
 
 ### Inherited from `ApplicationWindow`
 

@@ -14,6 +14,8 @@ Independent top-level hosts in `QWinUI3.Extras` share **`ShellWindow`**
 
 Prefer **ShellWindow** family for applications. Keep **StandardWindow** when you need Platform presenters without Extras.
 
+Set `geometryPersistenceKey` on either host to remember size, position, and maximized state across launches (`WindowHelper` + `QSettings`). See [window-helper.md](window-helper.md#window-geometry-persistence).
+
 Chrome reliability (DPI, backdrop, dialog owners): [`window-chrome.md`](window-chrome.md).
 
 Platform chrome singleton: [`WindowHelper`](window-helper.md).

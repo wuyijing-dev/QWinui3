@@ -13,6 +13,7 @@ StandardWindow {
     visible: true
     title: qsTr("QWinUI3 Gallery")
     backdrop: WindowHelper.BackdropSolid
+    geometryPersistenceKey: "GalleryMain"
 
     // 1.13 — mirror high-traffic chrome when app layoutDirection is RTL
     LayoutMirroring.enabled: Qt.application.layoutDirection === Qt.RightToLeft

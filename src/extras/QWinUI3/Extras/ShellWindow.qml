@@ -72,6 +72,9 @@ ApplicationWindow {
     property bool isAlwaysOnTop: false
     // Custom frame / extend content
     property bool extendsContentIntoTitleBar: WindowHelper.customFrame
+    // Non-empty → persist frame geometry (see ShellWindowSupport / WindowHelper).
+    property alias geometryPersistenceKey: shellSupport.geometryPersistenceKey
+    readonly property bool geometryPersistenceEnabled: shellSupport.geometryPersistenceEnabled
     // Show min/max/close
     property bool showCaptionButtons: WindowHelper.customFrame
     // Show minimize caption button
@@ -152,6 +155,10 @@ ApplicationWindow {
     function centerOnScreen() {
         shellSupport.centerOnScreen()
     }
+
+    function saveGeometry() { shellSupport.saveGeometry() }
+    function restoreGeometry() { return shellSupport.restoreGeometry() }
+    function clearSavedGeometry() { shellSupport.clearSavedGeometry() }
 
     flags: WindowHelper.recommendedFlags
     color: Theme.bgLayer

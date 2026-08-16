@@ -246,6 +246,11 @@ public:
     Q_INVOKABLE void refreshOnlineStatus();
     Q_INVOKABLE QVariantList screensInfo() const; // [{name,geometry,availableGeometry,dpr,primary}]
 
+    // Window geometry persistence (QSettings under org/app → WindowGeometry/<key>)
+    Q_INVOKABLE void saveWindowGeometry(QObject *windowObject, const QString &key = QStringLiteral("MainWindow"));
+    Q_INVOKABLE bool restoreWindowGeometry(QObject *windowObject, const QString &key = QStringLiteral("MainWindow"));
+    Q_INVOKABLE void clearWindowGeometry(const QString &key = QStringLiteral("MainWindow"));
+
     // NC hit-test: titleBar + caption buttons are screen-logical rects (mapToGlobal);
     // clientRects are non-draggable client areas inside the title bar.
     Q_INVOKABLE void updateHitTestLayout(QObject *windowObject,

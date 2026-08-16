@@ -20,7 +20,8 @@ StandardWindow {
 }
 
 // --- API ---
-// methods: applyChrome(), setPresenterKind(kind)
+// methods: applyChrome(), setPresenterKind(kind),
+//          saveGeometry(), restoreGeometry(), clearSavedGeometry()
 // standardWindow.applyChrome()
 // standardWindow.setPresenterKind(kind)
 // inherits ApplicationWindow (+ Qt Quick Controls base API)
@@ -30,6 +31,7 @@ StandardWindow {
 
 Low-level AppWindow host (PlatformTitleBar + WindowHelper).
 Prefer ShellWindow family for product UI; use this for presenter/backdrop experiments.
+geometryPersistenceKey → persist size/pos/maximized (see docs/window-helper.md).
 effectiveBackdrop / WindowHelper.resolveBackdrop keep Linux shells opaque when Mica is requested.
 Runtime: backdrop/paradigm changes, first-show reapply, DPI → Theme + hit-test (see docs/window-chrome.md).
 See docs/window-appwindow.md and docs/window-helper.md.
@@ -53,6 +55,8 @@ See docs/window-appwindow.md and docs/window-helper.md.
 | `extendsContentIntoTitleBar` | `bool` | Documents frameless / custom chrome (WinUI ExtendsContentIntoTitleBar). |
 | `chrome` | `alias` | WindowChrome / PlatformTitleBar host |
 | `effectiveBackdrop` | `int` | Platform-safe backdrop (Linux coerces Mica/Acrylic → Solid so the window is not hollow). |
+| `geometryPersistenceKey` | `string` | Non-empty → save/restore frame geometry via WindowHelper (QSettings WindowGeometry/<key>). |
+| `geometryPersistenceEnabled` | `bool` | — |
 
 ### Signals
 
@@ -64,6 +68,9 @@ _No custom signals_ (use inherited signals from the base type).
 | --- | --- |
 | `applyChrome()` | Apply window chrome / backdrop |
 | `setPresenterKind(kind)` | Set AppWindow presenter kind |
+| `saveGeometry()` | — |
+| `restoreGeometry()` | — |
+| `clearSavedGeometry()` | — |
 
 ### Inherited from `ApplicationWindow`
 

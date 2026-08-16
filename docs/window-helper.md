@@ -42,6 +42,9 @@ ShellWindow {
 | `flagsForParadigm(paradigm)` / `flagsForConfig(...)` | Recommended `Qt.WindowFlags` |
 | `paradigmName(paradigm)` | `"standard"` / `"dialog"` / `"tool"` |
 | `centerOnScreen(window)` | Center on the current screen |
+| `saveWindowGeometry(window, key?)` | Persist normal geometry + maximized state (`QSettings` → `WindowGeometry/<key>`) |
+| `restoreWindowGeometry(window, key?)` | Restore if stored; clamps to available screens; returns `bool` |
+| `clearWindowGeometry(key?)` | Remove stored geometry for `key` (default `"MainWindow"`) |
 | `setDarkMode(window, dark)` | Toggle dark title-bar / DWM attributes |
 | `setBackdrop(window, backdrop)` | Change backdrop mode |
 | `setCornerStyle(window, corner)` | Rounded corner preference |
@@ -164,6 +167,29 @@ WindowHelper.screensInfo()  // [{name, geometry, dpr, primary, …}]
 WindowHelper.addToRecentDocuments(path)
 WindowHelper.clearRecentDocuments() // Windows
 ```
+
+## Window geometry persistence
+
+Stores **normal** frame geometry (and maximized vs windowed) under the application `QSettings` path as `WindowGeometry/<key>`. Missing or off-screen values are ignored / clamped.
+
+```qml
+import QWinUI3.Platform
+
+// Low-level API
+WindowHelper.restoreWindowGeometry(window, "MainWindow")
+WindowHelper.saveWindowGeometry(window, "MainWindow")
+WindowHelper.clearWindowGeometry("MainWindow")
+
+// Built into StandardWindow / ShellWindow (empty key = off)
+StandardWindow {
+    geometryPersistenceKey: "MainWindow"
+}
+ShellWindow {
+    geometryPersistenceKey: "MainWindow"
+}
+```
+
+Shells debounce-save on resize/move and always save on close. Call `clearSavedGeometry()` to forget the stored frame.
 
 See also [Linux / Wayland](platform-linux-wayland.md).
 

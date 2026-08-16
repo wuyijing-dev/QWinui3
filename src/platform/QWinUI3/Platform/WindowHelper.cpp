@@ -19,6 +19,7 @@
 #include <QQmlEngine>
 #include <QQuickWindow>
 #include <QScreen>
+#include <QSettings>
 #include <QStyleHints>
 #include <QUrl>
 #include <QVariantMap>
@@ -547,6 +548,169 @@ QVariantList WindowHelper::screensInfo() const
         out.push_back(m);
     }
     return out;
+}
+
+namespace {
+
+QString geometrySettingsGroup(const QString &key)
+{
+    return QStringLiteral("WindowGeometry/%1").arg(key);
+}
+
+QRect clampGeometryToScreens(QRect geo, const QString &preferredScreenName)
+{
+    if (!geo.isValid() || geo.width() < 160 || geo.height() < 120)
+        return {};
+
+    QScreen *preferred = nullptr;
+    if (!preferredScreenName.isEmpty()) {
+        const auto screens = QGuiApplication::screens();
+        for (QScreen *screen : screens) {
+            if (screen && screen->name() == preferredScreenName) {
+                preferred = screen;
+                break;
+            }
+        }
+    }
+
+    auto fitToAvailable = [](QRect g, QScreen *screen) -> QRect {
+        if (!screen)
+            return {};
+        const QRect avail = screen->availableGeometry();
+        if (avail.isEmpty())
+            return {};
+        g.setWidth(qMin(g.width(), avail.width()));
+        g.setHeight(qMin(g.height(), avail.height()));
+        g.moveLeft(qBound(avail.left(), g.x(), avail.right() - g.width() + 1));
+        g.moveTop(qBound(avail.top(), g.y(), avail.bottom() - g.height() + 1));
+        return g;
+    };
+
+    if (preferred) {
+        const QRect fitted = fitToAvailable(geo, preferred);
+        if (fitted.isValid())
+            return fitted;
+    }
+
+    const auto screens = QGuiApplication::screens();
+    for (QScreen *screen : screens) {
+        if (!screen)
+            continue;
+        if (!screen->availableGeometry().intersects(geo))
+            continue;
+        const QRect fitted = fitToAvailable(geo, screen);
+        if (fitted.isValid())
+            return fitted;
+    }
+
+    QScreen *primary = QGuiApplication::primaryScreen();
+    if (!primary)
+        return {};
+    const QRect avail = primary->availableGeometry();
+    QRect centered(0, 0, qMin(geo.width(), avail.width()), qMin(geo.height(), avail.height()));
+    centered.moveCenter(avail.center());
+    return fitToAvailable(centered, primary);
+}
+
+} // namespace
+
+void WindowHelper::saveWindowGeometry(QObject *windowObject, const QString &key)
+{
+    QWindow *window = resolveWindow(windowObject);
+    if (!window || key.isEmpty())
+        return;
+
+    static const char kNormalGeoProp[] = "_qwinui3_normalGeometry";
+    const QWindow::Visibility vis = window->visibility();
+
+    QRect normal;
+    if (vis == QWindow::Windowed || vis == QWindow::AutomaticVisibility) {
+        normal = window->geometry();
+        if (normal.isValid() && normal.width() > 0 && normal.height() > 0)
+            window->setProperty(kNormalGeoProp, normal);
+    } else {
+        const QVariant cached = window->property(kNormalGeoProp);
+        if (cached.canConvert<QRect>())
+            normal = cached.toRect();
+    }
+
+    QSettings settings;
+    settings.beginGroup(geometrySettingsGroup(key));
+
+    if (normal.isValid() && normal.width() >= 1 && normal.height() >= 1) {
+        settings.setValue(QStringLiteral("x"), normal.x());
+        settings.setValue(QStringLiteral("y"), normal.y());
+        settings.setValue(QStringLiteral("width"), normal.width());
+        settings.setValue(QStringLiteral("height"), normal.height());
+    } else if (!settings.contains(QStringLiteral("width"))) {
+        // First save while maximized/fullscreen: keep a usable restored size.
+        QScreen *screen = window->screen() ? window->screen() : QGuiApplication::primaryScreen();
+        if (!screen) {
+            settings.endGroup();
+            return;
+        }
+        const QRect avail = screen->availableGeometry();
+        const QRect fallback(avail.x() + avail.width() / 10,
+                             avail.y() + avail.height() / 10,
+                             qMax(640, avail.width() * 4 / 5),
+                             qMax(480, avail.height() * 4 / 5));
+        settings.setValue(QStringLiteral("x"), fallback.x());
+        settings.setValue(QStringLiteral("y"), fallback.y());
+        settings.setValue(QStringLiteral("width"), fallback.width());
+        settings.setValue(QStringLiteral("height"), fallback.height());
+    }
+
+    int visibilityOut = int(QWindow::Windowed);
+    if (vis == QWindow::Maximized)
+        visibilityOut = int(QWindow::Maximized);
+    settings.setValue(QStringLiteral("visibility"), visibilityOut);
+
+    if (window->screen())
+        settings.setValue(QStringLiteral("screen"), window->screen()->name());
+    else
+        settings.remove(QStringLiteral("screen"));
+    settings.endGroup();
+}
+
+bool WindowHelper::restoreWindowGeometry(QObject *windowObject, const QString &key)
+{
+    QWindow *window = resolveWindow(windowObject);
+    if (!window || key.isEmpty())
+        return false;
+
+    QSettings settings;
+    settings.beginGroup(geometrySettingsGroup(key));
+    if (!settings.contains(QStringLiteral("width")) || !settings.contains(QStringLiteral("height"))) {
+        settings.endGroup();
+        return false;
+    }
+
+    const QRect raw(settings.value(QStringLiteral("x")).toInt(),
+                    settings.value(QStringLiteral("y")).toInt(),
+                    settings.value(QStringLiteral("width")).toInt(),
+                    settings.value(QStringLiteral("height")).toInt());
+    const QString screenName = settings.value(QStringLiteral("screen")).toString();
+    const int visibility = settings.value(QStringLiteral("visibility"), int(QWindow::Windowed)).toInt();
+    settings.endGroup();
+
+    const QRect clamped = clampGeometryToScreens(raw, screenName);
+    if (!clamped.isValid())
+        return false;
+
+    window->setGeometry(clamped);
+    if (visibility == int(QWindow::Maximized))
+        window->setVisibility(QWindow::Maximized);
+    else
+        window->setVisibility(QWindow::Windowed);
+    return true;
+}
+
+void WindowHelper::clearWindowGeometry(const QString &key)
+{
+    if (key.isEmpty())
+        return;
+    QSettings settings;
+    settings.remove(geometrySettingsGroup(key));
 }
 
 void WindowHelper::refreshPowerStatus()

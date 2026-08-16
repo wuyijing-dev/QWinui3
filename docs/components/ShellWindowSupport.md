@@ -21,7 +21,8 @@ ShellWindowSupport {
 }
 
 // --- API ---
-// methods: applyChrome(), applyPresenter(), applyAlwaysOnTop(), centerOnScreen()
+// methods: applyChrome(), applyPresenter(), applyAlwaysOnTop(), centerOnScreen(),
+//          saveGeometry(), restoreGeometry(), clearSavedGeometry()
 // Reacts to paradigm / backdrop / presenter / isAlwaysOnTop changes.
 ```
 
@@ -29,6 +30,7 @@ ShellWindowSupport {
 
 installParadigmEx for Standard/Dialog/Tool + presenter + always-on-top.
 FullScreen presenter is applied after install so the HWND exists first.
+geometryPersistenceKey → QSettings WindowGeometry/<key> via WindowHelper.
 
 ## API
 
@@ -43,6 +45,8 @@ FullScreen presenter is applied after install so the HWND exists first.
 | `isAlwaysOnTop` | `bool` | Keep window above others |
 | `autoInstall` | `bool` | Auto-apply WindowHelper chrome on complete |
 | `extendsContentIntoTitleBar` | `bool` | Custom frame / extend content |
+| `geometryPersistenceKey` | `string` | Non-empty → save/restore target window geometry (QSettings WindowGeometry/<key>). |
+| `geometryPersistenceEnabled` | `bool` | — |
 
 ### Signals
 
@@ -57,6 +61,9 @@ _No custom signals_ (use inherited signals from the base type).
 | `applyAlwaysOnTop()` | Apply always-on-top flag |
 | `centerOnScreen()` | Center the target window on the current screen |
 | `syncThemeDpi()` | Push this window's screen DPR into Theme (hairlines / diagnostics). |
+| `saveGeometry()` | — |
+| `restoreGeometry()` | — |
+| `clearSavedGeometry()` | — |
 
 ### Inherited from `Item`
 

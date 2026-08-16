@@ -11,12 +11,14 @@ import QWinUI3.Platform
 //   }
 //
 //   // --- API ---
-//   // methods: applyChrome(), applyPresenter(), applyAlwaysOnTop(), centerOnScreen()
+//   // methods: applyChrome(), applyPresenter(), applyAlwaysOnTop(), centerOnScreen(),
+//   //          saveGeometry(), restoreGeometry(), clearSavedGeometry()
 //   // Reacts to paradigm / backdrop / presenter / isAlwaysOnTop changes.
 //
 // @notes
 //   installParadigmEx for Standard/Dialog/Tool + presenter + always-on-top.
 //   FullScreen presenter is applied after install so the HWND exists first.
+//   geometryPersistenceKey → QSettings WindowGeometry/<key> via WindowHelper.
 
 Item {
     id: root
@@ -37,6 +39,9 @@ Item {
     property bool autoInstall: true
     // Custom frame / extend content
     property bool extendsContentIntoTitleBar: WindowHelper.customFrame
+    // Non-empty → save/restore target window geometry (QSettings WindowGeometry/<key>).
+    property string geometryPersistenceKey: ""
+    readonly property bool geometryPersistenceEnabled: geometryPersistenceKey.length > 0
 
     property bool _ready: false
     property bool _applying: false
@@ -106,11 +111,49 @@ Item {
         Theme.devicePixelRatio = WindowHelper.devicePixelRatioForWindow(targetWindow)
     }
 
+    function saveGeometry() {
+        if (geometryPersistenceEnabled && targetWindow)
+            WindowHelper.saveWindowGeometry(targetWindow, geometryPersistenceKey)
+    }
+
+    function restoreGeometry() {
+        if (geometryPersistenceEnabled && targetWindow)
+            return WindowHelper.restoreWindowGeometry(targetWindow, geometryPersistenceKey)
+        return false
+    }
+
+    function clearSavedGeometry() {
+        if (geometryPersistenceEnabled)
+            WindowHelper.clearWindowGeometry(geometryPersistenceKey)
+    }
+
+    Timer {
+        id: geometrySaveTimer
+        interval: 400
+        repeat: false
+        onTriggered: root.saveGeometry()
+    }
+
+    function _scheduleGeometrySave() {
+        if (!_ready || !geometryPersistenceEnabled || !targetWindow)
+            return
+        const vis = targetWindow.visibility
+        if (vis === Window.FullScreen || vis === Window.Minimized)
+            return
+        geometrySaveTimer.restart()
+    }
+
     Component.onCompleted: {
         syncThemeDpi()
         if (autoInstall)
             applyChrome()
         _ready = true
+        if (geometryPersistenceEnabled) {
+            Qt.callLater(function () {
+                if (root.targetWindow)
+                    root.restoreGeometry()
+            })
+        }
         if (autoInstall && presenter === WindowHelper.PresenterFullScreen) {
             Qt.callLater(function () {
                 if (root.targetWindow)
@@ -143,6 +186,12 @@ Item {
         target: root.targetWindow
         enabled: root.targetWindow !== null
         function onScreenChanged() { root.syncThemeDpi() }
+        function onXChanged() { root._scheduleGeometrySave() }
+        function onYChanged() { root._scheduleGeometrySave() }
+        function onWidthChanged() { root._scheduleGeometrySave() }
+        function onHeightChanged() { root._scheduleGeometrySave() }
+        function onVisibilityChanged() { root._scheduleGeometrySave() }
+        function onClosing() { root.saveGeometry() }
         function onVisibleChanged() {
             if (!root._ready || !root.autoInstall || !root.targetWindow || !root.targetWindow.visible)
                 return

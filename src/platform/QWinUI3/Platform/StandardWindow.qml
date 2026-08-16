@@ -13,7 +13,8 @@ import QWinUI3.Platform
 //   }
 //
 //   // --- API ---
-//   // methods: applyChrome(), setPresenterKind(kind)
+//   // methods: applyChrome(), setPresenterKind(kind),
+//   //          saveGeometry(), restoreGeometry(), clearSavedGeometry()
 //   // standardWindow.applyChrome()
 //   // standardWindow.setPresenterKind(kind)
 //   // inherits ApplicationWindow (+ Qt Quick Controls base API)
@@ -21,6 +22,7 @@ import QWinUI3.Platform
 // @notes
 //   Low-level AppWindow host (PlatformTitleBar + WindowHelper).
 //   Prefer ShellWindow family for product UI; use this for presenter/backdrop experiments.
+//   geometryPersistenceKey → persist size/pos/maximized (see docs/window-helper.md).
 //   effectiveBackdrop / WindowHelper.resolveBackdrop keep Linux shells opaque when Mica is requested.
 //   Runtime: backdrop/paradigm changes, first-show reapply, DPI → Theme + hit-test (see docs/window-chrome.md).
 //   See docs/window-appwindow.md and docs/window-helper.md.
@@ -55,6 +57,10 @@ ApplicationWindow {
     property bool _chromeReady: false
     // Platform-safe backdrop (Linux coerces Mica/Acrylic → Solid so the window is not hollow).
     readonly property int effectiveBackdrop: WindowHelper.resolveBackdrop(backdrop)
+
+    // Non-empty → save/restore frame geometry via WindowHelper (QSettings WindowGeometry/<key>).
+    property string geometryPersistenceKey: ""
+    readonly property bool geometryPersistenceEnabled: geometryPersistenceKey.length > 0
 
     // CONSTANT flags only (recommendedFlags has no notify). Never bind flags to
     // paradigm/presenter/isAlwaysOnTop — that fights WindowHelper.setFlags() and
@@ -112,13 +118,58 @@ ApplicationWindow {
         Theme.devicePixelRatio = WindowHelper.devicePixelRatioForWindow(root)
     }
 
+    function saveGeometry() {
+        if (geometryPersistenceEnabled)
+            WindowHelper.saveWindowGeometry(root, geometryPersistenceKey)
+    }
+
+    function restoreGeometry() {
+        if (geometryPersistenceEnabled)
+            return WindowHelper.restoreWindowGeometry(root, geometryPersistenceKey)
+        return false
+    }
+
+    function clearSavedGeometry() {
+        if (geometryPersistenceEnabled)
+            WindowHelper.clearWindowGeometry(geometryPersistenceKey)
+    }
+
+    Timer {
+        id: geometrySaveTimer
+        interval: 400
+        repeat: false
+        onTriggered: root.saveGeometry()
+    }
+
+    function _scheduleGeometrySave() {
+        if (!_chromeReady || !geometryPersistenceEnabled)
+            return
+        if (visibility === Window.FullScreen || visibility === Window.Minimized)
+            return
+        geometrySaveTimer.restart()
+    }
+
     onScreenChanged: root._syncThemeDpi()
+    onXChanged: root._scheduleGeometrySave()
+    onYChanged: root._scheduleGeometrySave()
+    onWidthChanged: root._scheduleGeometrySave()
+    onHeightChanged: root._scheduleGeometrySave()
+    onVisibilityChanged: root._scheduleGeometrySave()
+
+    onClosing: root.saveGeometry()
 
     Component.onCompleted: {
         root._syncThemeDpi()
         if (autoInstall)
             applyChrome()
         _chromeReady = true
+
+        if (geometryPersistenceEnabled) {
+            Qt.callLater(function () {
+                if (root)
+                    root.restoreGeometry()
+            })
+        }
 
         if (autoInstall && presenter === WindowHelper.PresenterFullScreen) {
             Qt.callLater(function () {
