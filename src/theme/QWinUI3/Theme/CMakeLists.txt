@@ -13,6 +13,7 @@ qt_add_qml_module(qwinui3_theme
     SOURCES
         FluentIcons.h
         FluentIcons.cpp
+        FluentIconsCatalog.h
         ThemeFonts.h
         ThemeFonts.cpp
     QML_FILES

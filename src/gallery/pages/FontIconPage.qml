@@ -13,10 +13,13 @@ CatalogPage {
 
     property int selectedIndex: 0
 
-    readonly property var allEntries: FluentIcons.entries()
+    readonly property var catalog: FluentIcons.catalog
+    readonly property var allEntries: catalog ? catalog.entries : []
     readonly property var filteredEntries: {
         var q = filterBox.text.trim().toLowerCase()
         var src = allEntries
+        if (!src || !src.length)
+            return []
         if (!q.length)
             return src
         var out = []
@@ -34,13 +37,13 @@ CatalogPage {
 
     readonly property var selectedEntry: {
         var list = filteredEntries
-        if (!list.length || selectedIndex < 0 || selectedIndex >= list.length)
+        if (!list || !list.length || selectedIndex < 0 || selectedIndex >= list.length)
             return null
         return list[selectedIndex]
     }
 
     readonly property string selectedName: selectedEntry ? String(selectedEntry.name) : ""
-    readonly property string selectedSymbol: selectedEntry && selectedEntry.symbol
+    readonly property string selectedSymbol: (selectedEntry && selectedEntry.symbol)
                                             ? String(selectedEntry.symbol) : ""
     readonly property string selectedHex: selectedEntry ? String(selectedEntry.codeHex) : ""
     readonly property string selectedGlyph: selectedEntry ? String(selectedEntry.glyph) : ""
@@ -62,7 +65,7 @@ CatalogPage {
 
     function ensureSelection() {
         var list = filteredEntries
-        if (!list.length) {
+        if (!list || !list.length) {
             selectedIndex = -1
             return
         }
@@ -91,9 +94,9 @@ CatalogPage {
 
             Label {
                 text: qsTr("%1 icons · showing %2 · %3 named FluentIcons")
-                      .arg(page.allEntries.length)
-                      .arg(page.filteredEntries.length)
-                      .arg(FluentIcons.names().length)
+                      .arg(page.allEntries ? page.allEntries.length : 0)
+                      .arg(page.filteredEntries ? page.filteredEntries.length : 0)
+                      .arg(page.catalog ? page.catalog.namedCount : 0)
                 color: Theme.textSecondary
                 font.pixelSize: Theme.fontCaption
             }
@@ -180,7 +183,7 @@ CatalogPage {
 
                     EmptyState {
                         anchors.centerIn: parent
-                        visible: page.filteredEntries.length === 0
+                        visible: !page.filteredEntries || page.filteredEntries.length === 0
                         title: qsTr("No icons found")
                         description: qsTr("Try another name or codepoint.")
                         symbol: FluentIcons.Search

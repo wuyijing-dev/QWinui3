@@ -10,9 +10,11 @@
 
 FluentIcons::FluentIcons(QObject *parent)
     : QQmlPropertyMap(parent)
+    , m_catalog(new FluentIconsCatalog(this))
 {
     ThemeFonts::ensureLoaded();
     populate();
+    buildCatalog();
 }
 
 FluentIcons *FluentIcons::create(QQmlEngine *, QJSEngine *)
@@ -33,11 +35,6 @@ bool FluentIcons::has(const QString &name) const
     return value(name).isValid();
 }
 
-QStringList FluentIcons::names() const
-{
-    return m_names;
-}
-
 QString FluentIcons::codeHex(const QString &name) const
 {
     const QString g = of(name);
@@ -46,10 +43,10 @@ QString FluentIcons::codeHex(const QString &name) const
     return QString::number(ushort(g.at(0).unicode()), 16).toUpper();
 }
 
-QVariantList FluentIcons::entries() const
+void FluentIcons::buildCatalog()
 {
-    QVariantList out;
-    out.reserve(kFluentIconCodepointCount);
+    QVariantList entries;
+    entries.reserve(kFluentIconCodepointCount);
     for (int i = 0; i < kFluentIconCodepointCount; ++i) {
         const ushort cp = kFluentIconCodepoints[i];
         QVariantMap row;
@@ -59,11 +56,12 @@ QVariantList FluentIcons::entries() const
         row.insert(QStringLiteral("codeHex"), hex);
         row.insert(QStringLiteral("glyph"), glyph);
         row.insert(QStringLiteral("named"), !primary.isEmpty());
-        row.insert(QStringLiteral("name"), primary.isEmpty() ? (QStringLiteral("U+") + hex) : primary);
+        row.insert(QStringLiteral("name"),
+                   primary.isEmpty() ? (QStringLiteral("U+") + hex) : primary);
         row.insert(QStringLiteral("symbol"), primary);
-        out.append(row);
+        entries.append(row);
     }
-    return out;
+    m_catalog->setData(m_names, entries);
 }
 
 static QString g(char32_t cp)
