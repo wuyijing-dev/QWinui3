@@ -6,17 +6,18 @@ import QWinUI3.Theme
 // CatalogPage — Gallery scroll host (PageHeader + padded column).
 //
 //   CatalogPage {
-//       title: qsTr("Button")   // inherited Page.title (FINAL — do not redeclare)
+//       title: qsTr("Button")
 //       subtitle: qsTr("…")
 //       ControlExample { headerText: qsTr("Basic"); … }
 //   }
 //
-// Drops per-child Layout.leftMargin / ScrollView boilerplate.
+// Root is Item (not Page): Qt 6.8 Page.title / Page.footer / Pane.contentData are FINAL
+// and cannot be redeclared or aliased.
 
-Page {
+Item {
     id: root
 
-    // title comes from Page (FINAL) — set title: for the PageHeader
+    property string title: ""
     property alias subtitle: header.subtitle
     property real pagePadding: Theme.spacingSection
     property real sectionSpacing: Theme.spacingSection
@@ -25,8 +26,6 @@ Page {
     // Floating overlays (ToastHost, dialogs) — not scrolled
     property alias overlay: overlaySlot.data
     default property alias contentData: stack.data
-
-    padding: 0
 
     ColumnLayout {
         anchors.fill: parent
