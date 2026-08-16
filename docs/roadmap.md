@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.43**
-**Next up:** **1.44** (Keyboard-first app cookbook)
+**Current:** **1.44**
+**Next up:** **1.45** (Localization packs deepen)
 **Planned through:** **1.50** (1.xx maturity checkpoint)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](qt-version-compat.md)
 
@@ -60,7 +60,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.43`
+## Shipped — `1.01` … `1.44`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -234,30 +234,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** [color-contrast.md](color-contrast.md) AA guidance; `Theme.relativeLuminance` / `contrastRatio` / `contrastPassesAA` / `accentContrastRatio`; Gallery Theme overrides live AA table; Accessibility / theme-overrides cross-links; product version `1.43`.
 
+### 1.44 — Keyboard-first app cookbook (shipped)
+
+**Shipped:** [keyboard.md](keyboard.md) end-to-end chords → CommandPalette → dialogs → lists → focus; Gallery Accessibility keyboard tour + CommandPalette pointers; commands / accessibility / recipes / MkDocs links; product version `1.44`.
+
 ---
 
-## Horizon — planned `1.44` … `1.50`
+## Horizon — planned `1.45` … `1.50`
 
 Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per `YY`.
-
-### 1.44 — Keyboard-first app cookbook
-
-**Why:** Shortcuts, CommandPalette (1.15), and focus rings need one end-to-end keyboard app story.
-
-**In scope**
-
-- Cookbook: global shortcuts, palette, dialog Esc/Enter, list roving tabindex notes.
-- Gallery keyboard tour page or Settings + Commands cross-links.
-
-**Out of scope**
-
-- Custom shortcut editor control as a product.
-
-**Exit criteria**
-
-- Cookbook published; critical Gallery flows keyboard-completable per checklist.
-
----
 
 ### 1.45 — Localization packs deepen
 

@@ -4,12 +4,51 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — Accessibility checklist (1.02 high-traffic + 1.19 wave 2).
-// Recipe: docs/accessibility.md
+// Gallery — Accessibility checklist (1.02 / 1.19) + keyboard tour (1.44).
+// Recipe: docs/accessibility.md · docs/keyboard.md
 
 CatalogPage {
     title: qsTr("Accessibility")
-    subtitle: qsTr("1.02 path + wave 2 (DataTable / lists / forms / commands / dialogs). docs/accessibility.md")
+    subtitle: qsTr("A11y checklist + keyboard-first tour — docs/keyboard.md (1.44).")
+
+    ControlExample {
+        headerText: qsTr("Keyboard-first tour (1.44)")
+        qmlSource: "// Ctrl+K → CommandPalette\n// Esc/Enter dialogs · arrows lists\n// docs/keyboard.md"
+        ColumnLayout {
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("End-to-end cookbook: docs/keyboard.md. Surface details: docs/commands.md · docs/dialogs-flyouts.md · docs/data-collections.md. Complete the critical Gallery flows below without a mouse.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                color: Theme.textPrimary
+                text: qsTr("• Ctrl+K → CommandPalette (type, ↑↓, Enter, Esc).\n"
+                           + "• ContentDialog: Esc closes; Enter activates default.\n"
+                           + "• DataTable / ListDetailsView: arrows · Enter · Esc/Back as documented.\n"
+                           + "• Settings toggle cards: Tab + Space/Enter.\n"
+                           + "• Icon-only buttons: toolTipText / Accessible.name.\n"
+                           + "• CommandBar: Tab into strip; F10 / Alt+↓ overflow.")
+            }
+            RowLayout {
+                spacing: Theme.spacing
+                KeyChordVisual { shortcut: "Ctrl+K" }
+                KeyChordVisual { shortcut: "Esc" }
+                KeyChordVisual { shortcut: "Enter" }
+                Label {
+                    text: qsTr("Open CommandPalette page to try Ctrl+K live.")
+                    color: Theme.textSecondary
+                    wrapMode: Text.Wrap
+                    Layout.fillWidth: true
+                }
+            }
+        }
+    }
 
     ControlExample {
         headerText: qsTr("1.02 high-traffic checklist")

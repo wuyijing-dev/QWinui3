@@ -59,6 +59,7 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 | [Feedback surfaces](feedback.md) | InfoBar / Toast / TeachingTip / Progress |
 | [Dialogs & flyouts](dialogs-flyouts.md) | ContentDialog vs Flyout / Drawer |
 | [Commands & menus](commands.md) | CommandPalette / CommandBar / MenuFlyout |
+| [Keyboard-first](keyboard.md) | Global chords → palette → dialogs → lists (1.44) |
 | [Accessibility](accessibility.md) | Focus / names checklist |
 
 ---

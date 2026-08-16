@@ -6,11 +6,12 @@ import QWinUI3.Extras
 
 // Gallery — CommandPalette.
 //
-// Ctrl+K launcher (also available on ShellWindow). Stable 1.37 — docs/commands.md / stable-api.md.
+// Ctrl+K launcher (also available on ShellWindow). Stable 1.37.
+// Recipe: docs/commands.md · docs/keyboard.md (1.44)
 
 CatalogPage {
     title: qsTr("CommandPalette")
-    subtitle: qsTr("Stable (1.37). Ctrl+K launcher — docs/commands.md · docs/stable-api.md.")
+    subtitle: qsTr("Ctrl+K hub — docs/keyboard.md (1.44) · docs/commands.md.")
 
     overlay: CommandPalette {
         id: palette
@@ -64,7 +65,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Open with Ctrl+K (or the button). Type to filter. Arrow keys move the highlight; Enter runs the command; Esc closes. List rows announce title + shortcut.")
+                text: qsTr("Open with Ctrl+K (or the button). Type to filter. Arrow keys move the highlight; Enter runs the command; Esc closes. End-to-end app story: docs/keyboard.md (1.44). List rows announce title + shortcut.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary

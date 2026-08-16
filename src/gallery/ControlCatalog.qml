@@ -521,7 +521,7 @@ QtObject {
             title: qsTr("CommandPalette"),
             category: "menus",
             icon: FluentIcons.Search,
-            description: qsTr("Ctrl+K launcher (stable 1.37) — docs/commands.md."),
+            description: qsTr("Ctrl+K launcher — docs/keyboard.md (1.44) · docs/commands.md."),
             component: "CommandPalettePage",
             source: "pages/CommandPalettePage.qml"
         },
@@ -1217,7 +1217,7 @@ QtObject {
             title: qsTr("Accessibility"),
             category: "layout",
             icon: FluentIcons.EaseOfAccess,
-            description: qsTr("1.02 + wave 2 checklist (lists, forms, commands, dialogs)."),
+            description: qsTr("A11y + keyboard-first tour — docs/keyboard.md (1.44)."),
             component: "AccessibilityPage",
             source: "pages/AccessibilityPage.qml"
         },
@@ -1425,8 +1425,9 @@ QtObject {
     // Curated “recently shipped” recipe pages (1.20) — not catalog array order.
     function recentlyShipped(count) {
         var ids = [
+            "AccessibilityPage",      // 1.44 keyboard tour
+            "CommandPalettePage",     // 1.44 / 1.37
             "ThemeOverridesPage",     // 1.43 contrast AA
-            "AccessibilityPage",      // 1.43 high-contrast cross-link
             "TwoPaneViewPage",        // 1.42 adaptive layout
             "ListDetailsViewPage",    // 1.42 breakpoints
             "FileDropZonePage",       // 1.41 drag-drop recipe
@@ -1436,7 +1437,6 @@ QtObject {
             "HomePage",               // 1.39 deferred card effects
             "SystemIntegrationPage",  // 1.38 Wayland matrix
             "DialogsFlyoutsPage",     // 1.37 promote
-            "CommandPalettePage",     // 1.37 promote
             "TabViewPage",            // 1.37 promote
             "WindowParadigmPage",     // 1.37 ShellWindow family
             "ChartsPage",             // 1.23

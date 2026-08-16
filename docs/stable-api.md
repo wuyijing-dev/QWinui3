@@ -221,3 +221,4 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.41** | Drag-drop & clipboard — [drag-drop.md](drag-drop.md); FileDropZone / CopyButton / WindowHelper |
 | **1.42** | Adaptive layout — [adaptive-layout.md](adaptive-layout.md); TwoPaneView / ListDetailsView breakpoints |
 | **1.43** | Color & contrast diagnostics — [color-contrast.md](color-contrast.md); `Theme.contrastRatio` / AA helpers |
+| **1.44** | Keyboard-first cookbook — [keyboard.md](keyboard.md); Gallery Accessibility tour |

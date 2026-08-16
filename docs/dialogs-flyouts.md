@@ -2,6 +2,8 @@
 
 When to use **modal** vs **light-dismiss** surfaces. Prefer types already on [stable-api.md](stable-api.md) for blocking decisions.
 
+**Keyboard Esc / Enter end-to-end:** [keyboard.md](keyboard.md) (**1.44**).
+
 | Surface | Modal? | Use when | Gallery |
 |---------|--------|----------|---------|
 | [`ContentDialog`](components/ContentDialog.md) + [`ContentDialogQueue`](components/ContentDialogQueue.md) | Yes | Confirm / save / destructive choice | ContentDialog |

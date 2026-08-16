@@ -47,6 +47,20 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.43 → 1.44
+
+**Product version:** 1.44  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- Follow [keyboard.md](keyboard.md) for Ctrl+K / dialog Esc-Enter / list arrows end-to-end.
+- Gallery Accessibility page hosts the keyboard tour checklist.
+
+#### No action (compatible)
+
+- Docs + Gallery callouts; existing CommandPalette / dialog APIs unchanged.
+
 ### Upgrade 1.42 → 1.43
 
 **Product version:** 1.43  

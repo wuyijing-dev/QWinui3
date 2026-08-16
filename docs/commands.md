@@ -2,6 +2,8 @@
 
 Keyboard / focus recipes for **command launchers**, **command bars**, and **menus**. Prefer these over inventing a parallel ribbon. Surfaces below are **stable as of 1.37** — [stable-api.md](stable-api.md).
 
+**End-to-end keyboard app story (1.44):** [keyboard.md](keyboard.md) — global shortcuts → palette → dialogs → lists.
+
 | Surface | Use when | Gallery |
 |---------|----------|---------|
 | [`CommandPalette`](components/CommandPalette.md) | Global “type to run” (Ctrl+K) | CommandPalette |
