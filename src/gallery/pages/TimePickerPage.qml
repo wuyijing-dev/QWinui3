@@ -8,83 +8,60 @@ import QWinUI3.Extras
 //
 // Fluent Clock icon, minuteIncrement, and Accessible time value. API: docs/components/TimePicker.md
 
-Page {
-    padding: 0
-    ScrollView {
-        id: scroll
-        anchors.fill: parent
-        contentWidth: availableWidth
-        clip: true
+CatalogPage {
+    title: qsTr("TimePicker")
+    subtitle: qsTr("Fluent Clock icon, minuteIncrement, and Accessible time value.")
+
+    ControlExample {
+        headerText: qsTr("12-hour")
+        qmlSource: "TimePicker {\n    header: \"Arrival\"\n    minuteIncrement: 5\n}"
         ColumnLayout {
-            width: scroll.availableWidth
-            spacing: Theme.spacingSection
-            PageHeader {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                Layout.topMargin: Theme.spacingSection
-                title: qsTr("TimePicker")
-                subtitle: qsTr("Fluent Clock icon, minuteIncrement, and Accessible time value.")
-            }
-            ControlExample {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                headerText: qsTr("12-hour")
-                qmlSource: "TimePicker {\n    header: \"Arrival\"\n    minuteIncrement: 5\n}"
-                ColumnLayout {
-                    spacing: Theme.spacing
-                    RowLayout {
-                        Label { text: qsTr("Minute step"); color: Theme.textSecondary }
-                        ComboBox {
-                            id: stepBox
-                            model: [1, 5, 15]
-                            currentIndex: 1
-                            Layout.preferredWidth: 80
-                        }
-                    }
-                    TimePicker {
-                        id: picker12
-                        header: qsTr("Arrival")
-                        hour: 9
-                        minute: 30
-                        isAm: true
-                        minuteIncrement: Number(stepBox.currentText)
-                    }
-                    RowLayout {
-                        Label { text: qsTr("ClockIdentifier"); color: Theme.textSecondary }
-                        ComboBox {
-                            id: clockBox
-                            model: ["12HourClock", "24HourClock"]
-                            currentIndex: 0
-                            Layout.preferredWidth: 160
-                            onActivated: picker12.clockIdentifier = currentText
-                        }
-                    }
-                    Label {
-                        text: qsTr("Chosen: %1 · time %2 · %3")
-                              .arg(picker12.displayText)
-                              .arg(Qt.formatTime(picker12.time, "hh:mm"))
-                              .arg(picker12.clockIdentifier)
-                        color: Theme.textSecondary
-                    }
+            spacing: Theme.spacing
+            RowLayout {
+                Label { text: qsTr("Minute step"); color: Theme.textSecondary }
+                ComboBox {
+                    id: stepBox
+                    model: [1, 5, 15]
+                    currentIndex: 1
+                    Layout.preferredWidth: 80
                 }
             }
-            ControlExample {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                headerText: qsTr("24-hour")
-                qmlSource: "TimePicker { use24Hour: true }"
-                TimePicker {
-                    header: qsTr("Departure")
-                    hour: 14
-                    minute: 5
-                    use24Hour: true
-                    minuteIncrement: 5
+            TimePicker {
+                id: picker12
+                header: qsTr("Arrival")
+                hour: 9
+                minute: 30
+                isAm: true
+                minuteIncrement: Number(stepBox.currentText)
+            }
+            RowLayout {
+                Label { text: qsTr("ClockIdentifier"); color: Theme.textSecondary }
+                ComboBox {
+                    id: clockBox
+                    model: ["12HourClock", "24HourClock"]
+                    currentIndex: 0
+                    Layout.preferredWidth: 160
+                    onActivated: picker12.clockIdentifier = currentText
                 }
             }
-            Item { Layout.preferredHeight: Theme.spacingSection; Layout.fillWidth: true }
+            Label {
+                text: qsTr("Chosen: %1 · time %2 · %3")
+                      .arg(picker12.displayText)
+                      .arg(Qt.formatTime(picker12.time, "hh:mm"))
+                      .arg(picker12.clockIdentifier)
+                color: Theme.textSecondary
+            }
+        }
+    }
+    ControlExample {
+        headerText: qsTr("24-hour")
+        qmlSource: "TimePicker { use24Hour: true }"
+        TimePicker {
+            header: qsTr("Departure")
+            hour: 14
+            minute: 5
+            use24Hour: true
+            minuteIncrement: 5
         }
     }
 }

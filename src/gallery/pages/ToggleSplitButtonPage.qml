@@ -5,62 +5,40 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 
 // Gallery — ToggleSplitButton.
-//
-// Checkable primary + Fluent ChevronDown flyout; isOpen and Accessible. API: docs/components/ToggleSplitButton.md
 
-Page {
-    padding: 0
-    ScrollView {
-        id: scroll
-        anchors.fill: parent
-        contentWidth: availableWidth
-        clip: true
+CatalogPage {
+    title: qsTr("ToggleSplitButton")
+    subtitle: qsTr("Checkable primary + Fluent ChevronDown flyout; isOpen and Accessible.")
+
+    ControlExample {
+        headerText: qsTr("List style")
+        qmlSource: "ToggleSplitButton {\n    text: \"List\"\n    symbol: FluentIcons.List\n    checked: true\n}"
         ColumnLayout {
-            width: scroll.availableWidth
-            spacing: Theme.spacingSection
-            PageHeader {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                Layout.topMargin: Theme.spacingSection
-                title: qsTr("ToggleSplitButton")
-                subtitle: qsTr("Checkable primary + Fluent ChevronDown flyout; isOpen and Accessible.")
-            }
-            ControlExample {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                headerText: qsTr("List style")
-                qmlSource: "ToggleSplitButton {\n    text: \"List\"\n    symbol: FluentIcons.List\n    checked: true\n}"
-                ColumnLayout {
-                    spacing: Theme.spacing
-                    ToggleSplitButton {
-                        id: listToggle
-                        text: qsTr("List")
-                        symbol: FluentIcons.List
-                        checked: true
-                        onPrimaryClicked: status.text = checked ? qsTr("List on") : qsTr("List off")
-                        MenuItem {
-                            text: qsTr("List")
-                            onTriggered: status.text = qsTr("List mode")
-                        }
-                        MenuItem {
-                            text: qsTr("Grid")
-                            onTriggered: status.text = qsTr("Grid mode")
-                        }
-                        MenuItem {
-                            text: qsTr("Tiles")
-                            onTriggered: status.text = qsTr("Tiles mode")
-                        }
-                    }
-                    Label {
-                        id: status
-                        text: qsTr("Ready — menu open: %1").arg(listToggle.isOpen ? qsTr("yes") : qsTr("no"))
-                        color: Theme.textSecondary
-                    }
+            spacing: Theme.spacing
+            ToggleSplitButton {
+                id: listToggle
+                text: qsTr("List")
+                symbol: FluentIcons.List
+                checked: true
+                onPrimaryClicked: status.text = checked ? qsTr("List on") : qsTr("List off")
+                MenuItem {
+                    text: qsTr("List")
+                    onTriggered: status.text = qsTr("List mode")
+                }
+                MenuItem {
+                    text: qsTr("Grid")
+                    onTriggered: status.text = qsTr("Grid mode")
+                }
+                MenuItem {
+                    text: qsTr("Tiles")
+                    onTriggered: status.text = qsTr("Tiles mode")
                 }
             }
-            Item { Layout.preferredHeight: Theme.spacingSection; Layout.fillWidth: true }
+            Label {
+                id: status
+                text: qsTr("Ready — menu open: %1").arg(listToggle.isOpen ? qsTr("yes") : qsTr("no"))
+                color: Theme.textSecondary
+            }
         }
     }
 }

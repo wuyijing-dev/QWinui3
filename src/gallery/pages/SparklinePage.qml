@@ -8,9 +8,10 @@ import QWinUI3.Extras
 //
 // Reveal wipe, showDelta, end marker, caption, and live streams. API: docs/components/Sparkline.md
 
-Page {
+CatalogPage {
     id: page
-    padding: 0
+    title: qsTr("Sparkline")
+    subtitle: qsTr("Reveal wipe, showDelta, end marker, caption, and live streams.")
 
     property var liveSpark: []
     property int tick: 0
@@ -49,79 +50,51 @@ Page {
         return a
     }
 
-    ScrollView {
-        id: scroll
-        anchors.fill: parent
-        contentWidth: availableWidth
-        clip: true
-        ColumnLayout {
-            width: scroll.availableWidth
-            spacing: Theme.spacingSection
-
-            PageHeader {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                Layout.topMargin: Theme.spacingSection
-                title: qsTr("Sparkline")
-                subtitle: qsTr("Reveal wipe, showDelta, end marker, caption, and live streams.")
+    ControlExample {
+        headerText: qsTr("Status row")
+        qmlSource: "Sparkline { caption: \"CPU\"; showEndMarker: true }"
+        RowLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacingLoose
+            Sparkline {
+                id: sparkCpu
+                Layout.preferredWidth: 160
+                Layout.preferredHeight: 44
+                caption: qsTr("CPU")
+                values: page.sparkData
             }
-
-            ControlExample {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                headerText: qsTr("Status row")
-                qmlSource: "Sparkline { caption: \"CPU\"; showEndMarker: true }"
-                RowLayout {
-                    Layout.fillWidth: true
-                    spacing: Theme.spacingLoose
-                    Sparkline {
-                        id: sparkCpu
-                        Layout.preferredWidth: 160
-                        Layout.preferredHeight: 44
-                        caption: qsTr("CPU")
-                        values: page.sparkData
-                    }
-                    Sparkline {
-                        Layout.preferredWidth: 160
-                        Layout.preferredHeight: 44
-                        caption: qsTr("Latency")
-                        values: page.sparkDown
-                        strokeColor: Theme.systemSuccess
-                        fillColor: ChartUtils.withAlpha(Theme.systemSuccess, 0.18)
-                    }
-                    Sparkline {
-                        Layout.preferredWidth: 140
-                        Layout.preferredHeight: 44
-                        showDelta: true
-                        values: [2, 1, 4, 3, 8, 5, 2, 1, 0, 1, 3, 2]
-                        strokeColor: Theme.systemCritical
-                        fillColor: ChartUtils.withAlpha(Theme.systemCritical, 0.16)
-                    }
-                    Button {
-                        text: qsTr("Replay")
-                        onClicked: sparkCpu.playReveal()
-                    }
-                }
+            Sparkline {
+                Layout.preferredWidth: 160
+                Layout.preferredHeight: 44
+                caption: qsTr("Latency")
+                values: page.sparkDown
+                strokeColor: Theme.systemSuccess
+                fillColor: ChartUtils.withAlpha(Theme.systemSuccess, 0.18)
             }
-
-            ControlExample {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                headerText: qsTr("Live")
-                qmlSource: "Sparkline { animated: false; values: stream }"
-                Sparkline {
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: 40
-                    animated: false
-                    strokeWidth: 2
-                    values: page.liveSpark
-                }
+            Sparkline {
+                Layout.preferredWidth: 140
+                Layout.preferredHeight: 44
+                showDelta: true
+                values: [2, 1, 4, 3, 8, 5, 2, 1, 0, 1, 3, 2]
+                strokeColor: Theme.systemCritical
+                fillColor: ChartUtils.withAlpha(Theme.systemCritical, 0.16)
             }
+            Button {
+                text: qsTr("Replay")
+                onClicked: sparkCpu.playReveal()
+            }
+        }
+    }
 
-            Item { Layout.preferredHeight: Theme.spacingSection; Layout.fillWidth: true }
+    ControlExample {
+        headerText: qsTr("Live")
+        qmlSource: "Sparkline { animated: false; values: stream }"
+        Sparkline {
+            Layout.fillWidth: true
+            Layout.preferredHeight: 40
+            animated: false
+            strokeWidth: 2
+            values: page.liveSpark
         }
     }
 }
