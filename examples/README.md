@@ -10,9 +10,14 @@ Three small apps you can copy as a starting point:
 
 ## Build
 
-From the repo root (same toolchain as Gallery):
+From the repo root (same toolchain as Gallery), **Release**:
 
 ```bat
+cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DQWINUI3_BUILD_EXAMPLES=ON
+cmake --build build --parallel --target qwinui3_example_nav qwinui3_example_settings qwinui3_example_dashboard
+```
+
+```bash
 cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DQWINUI3_BUILD_EXAMPLES=ON
 cmake --build build --parallel --target qwinui3_example_nav qwinui3_example_settings qwinui3_example_dashboard
 ```
@@ -20,6 +25,8 @@ cmake --build build --parallel --target qwinui3_example_nav qwinui3_example_sett
 Binaries land under `build/examples/...` (or `build/` depending on generator layout).
 
 Disable with `-DQWINUI3_BUILD_EXAMPLES=OFF`.
+
+On Linux, leave `QT_QPA_PLATFORM` unset so examples pick Wayland first. Prefer `BackdropSolid` (all examples do). See [`docs/platform-linux-wayland.md`](../docs/platform-linux-wayland.md).
 
 ## Copy into your app
 

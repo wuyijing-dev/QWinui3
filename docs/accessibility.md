@@ -25,7 +25,7 @@ Authoring rules: [`conventions.md`](conventions.md). Live checklist: Gallery **A
 |------|----------|-------|
 | Charts / gauges Accessible completeness | Low | Deferred; use Graphic + label when shipping dashboards |
 | Full keyboard audit of every Extra | Medium | Track per control as pages are touched |
-| Linux AT backends (Orca) | Medium | Follows Qt; validate after 1.03 Linux shells |
+| Linux AT backends (Orca) | Medium | Follows Qt; validate on Wayland after packaging smoke |
 | Live region announcements for toast stacks | Low | Host roles are AlertMessage; OS polish later |
 
 ---

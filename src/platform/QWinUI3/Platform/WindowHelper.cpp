@@ -655,6 +655,18 @@ bool WindowHelper::supportsBackdrop() const
 #endif
 }
 
+int WindowHelper::resolveBackdrop(int backdrop) const
+{
+    if (backdrop < BackdropAuto || backdrop > BackdropSolid)
+        return BackdropSolid;
+    if (supportsBackdrop())
+        return backdrop;
+    // No DWM materials: frosted modes would clear the window to transparent with nothing behind.
+    if (backdrop != BackdropSolid && backdrop != BackdropNone)
+        return BackdropSolid;
+    return backdrop;
+}
+
 int WindowHelper::recommendedFlags() const
 {
 #if defined(Q_OS_WIN) || defined(Q_OS_LINUX)
@@ -946,6 +958,7 @@ void WindowHelper::setBackdropMode(int backdrop)
 {
     if (backdrop < BackdropAuto || backdrop > BackdropSolid)
         backdrop = BackdropSolid;
+    backdrop = resolveBackdrop(backdrop);
     const bool changed = (m_backdrop != backdrop);
     m_backdrop = backdrop;
     refreshTint();
@@ -1025,6 +1038,17 @@ void WindowHelper::install(QObject *windowObject, bool dark, int backdrop)
     m_dark = dark;
     if (backdrop < BackdropAuto || backdrop > BackdropSolid)
         backdrop = BackdropSolid;
+    const int requested = backdrop;
+    backdrop = resolveBackdrop(backdrop);
+    if (requested != backdrop) {
+        static bool warned = false;
+        if (!warned) {
+            warned = true;
+            qInfo("QWinUI3: system backdrop materials are unsupported here; using BackdropSolid "
+                  "(requested %s).",
+                  qPrintable(backdropName(requested)));
+        }
+    }
     if (m_backdrop != backdrop) {
         m_backdrop = backdrop;
         emit backdropChanged();
@@ -1199,6 +1223,7 @@ void WindowHelper::setBackdrop(QObject *windowObject, int backdrop)
         window = m_window;
     if (backdrop < BackdropAuto || backdrop > BackdropSolid)
         backdrop = BackdropSolid;
+    backdrop = resolveBackdrop(backdrop);
     const bool changed = (m_backdrop != backdrop);
     m_backdrop = backdrop;
     if (changed)
@@ -1207,10 +1232,11 @@ void WindowHelper::setBackdrop(QObject *windowObject, int backdrop)
     if (!window)
         return;
     m_window = window;
-#if defined(Q_OS_WIN)
+#if defined(Q_OS_WIN) || defined(Q_OS_LINUX)
     if (auto *quick = qobject_cast<QQuickWindow *>(window)) {
         const bool frosted = m_backdrop != BackdropSolid && m_backdrop != BackdropNone;
-        quick->setColor(frosted ? QColor(0, 0, 0, 0) : m_windowColor);
+        quick->setColor(frosted ? QColor(0, 0, 0, 0)
+                                : (m_windowColor.isValid() ? m_windowColor : QColor(Qt::white)));
     }
 #endif
     applyNative(window, m_dark, m_backdrop);

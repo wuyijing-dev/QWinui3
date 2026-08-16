@@ -15,6 +15,7 @@ This site is generated from QML source comments and shipped via GitHub Pages.
 | [Roadmap](roadmap.md) | Version themes — small `1.xx` slices |
 | [Stable API](stable-api.md) | What to rely on in 1.xx apps |
 | [Accessibility](accessibility.md) | 1.02 high-traffic checklist + tracked gaps |
+| [Linux / Wayland](platform-linux-wayland.md) | Title bar & backdrop matrix for shells |
 | [Qt Creator](qt-creator.md) | Open / build the CMake project |
 | [Qt version compat](qt-version-compat.md) | C++ shims for Qt 6.5 / 6.8 / 6.10+ |
 

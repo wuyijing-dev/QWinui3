@@ -60,6 +60,8 @@ ApplicationWindow {
 
     // WindowHelper.Backdrop*
     property int backdrop: WindowHelper.BackdropSolid
+    // Platform-safe backdrop (Linux coerces Mica/Acrylic → Solid).
+    readonly property int effectiveBackdrop: WindowHelper.resolveBackdrop(backdrop)
     // WindowHelper.TitleBarHeightStandard | TitleBarHeightTall
     property int preferredHeightOption: WindowHelper.TitleBarHeightTall
     // WindowHelper.Presenter*
@@ -192,8 +194,8 @@ ApplicationWindow {
     }
 
     background: Rectangle {
-        color: root.backdrop === WindowHelper.BackdropSolid
-               || root.backdrop === WindowHelper.BackdropNone
+        color: root.effectiveBackdrop === WindowHelper.BackdropSolid
+               || root.effectiveBackdrop === WindowHelper.BackdropNone
                ? Theme.bgLayer : "transparent"
     }
 
@@ -201,7 +203,7 @@ ApplicationWindow {
         id: shellSupport
         targetWindow: root
         paradigm: root.paradigm
-        backdrop: root.backdrop
+        backdrop: root.effectiveBackdrop
         presenter: root.presenter
         isAlwaysOnTop: root.isAlwaysOnTop
         extendsContentIntoTitleBar: root.extendsContentIntoTitleBar

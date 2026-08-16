@@ -4,7 +4,7 @@ Fluent styled HorizontalHeaderView.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/HorizontalHeaderView.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/HorizontalHeaderView.qml)
 
-**Category:** Styled controls · **Library:** v1.02
+**Category:** Styled controls · **Library:** v1.03
 
 [← Component index](../components.md)
 

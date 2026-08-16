@@ -117,13 +117,14 @@ Accessibility: `Theme.followSystemAccessibility` (default true) copies
 
 ## Non-Windows notes
 
-`WindowHelper` native chrome / DWM backdrop / hit-test are Windows-first.
+`WindowHelper` native DWM backdrop / NC hit-test / Snap Layouts are Windows-first.
 
 | | Windows | Linux | macOS |
 |--|--|--|--|
-| `supportsBackdrop` | yes (DWM Mica/Acrylic) | no (use `AcrylicSurface` / frost) | no |
+| `supportsBackdrop` | yes (DWM Mica/Acrylic) | no — `resolveBackdrop` → Solid | no |
+| Fluent CSD title bar | yes | yes (Wayland/X11) | limited |
 | `updateHitTestLayout` | NC hit-test | stub — QML title bar handles input | stub |
 | `customFrame` | yes | yes (frameless) | false |
 
-On Linux/macOS, shells still run; prefer in-client acrylic for depth. See
-`window-appwindow.md` and `window-transparency-dwm.md`.
+On Linux, prefer `BackdropSolid` for nav/settings shells (examples already do). See
+[platform-linux-wayland.md](platform-linux-wayland.md) for the works/limited/unsupported matrix.

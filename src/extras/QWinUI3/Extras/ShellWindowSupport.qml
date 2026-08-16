@@ -59,7 +59,8 @@ Item {
         if (!targetWindow || _applying)
             return
         _applying = true
-        WindowHelper.installParadigmEx(targetWindow, paradigm, Theme.dark, backdrop,
+        const bd = WindowHelper.resolveBackdrop(backdrop)
+        WindowHelper.installParadigmEx(targetWindow, paradigm, Theme.dark, bd,
                                        presenter === WindowHelper.PresenterFullScreen
                                        ? WindowHelper.PresenterOverlapped
                                        : presenter,
@@ -124,7 +125,7 @@ Item {
     }
     onBackdropChanged: {
         if (_ready && autoInstall && targetWindow)
-            WindowHelper.setBackdrop(targetWindow, backdrop)
+            WindowHelper.setBackdrop(targetWindow, WindowHelper.resolveBackdrop(backdrop))
     }
     onPresenterChanged: {
         if (!_ready || !autoInstall || !targetWindow)

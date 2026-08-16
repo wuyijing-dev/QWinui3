@@ -1,6 +1,6 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.02**  
+**Current:** **1.03**  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
 
 This plan starts from **what 1.00 already was**, then walks **small `1.xx` minors**. Stay on **1.xx for a long time**. **2.00 is not next**—only when we truly need breaking changes.
@@ -71,15 +71,9 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-### 1.03 — Linux shells (practical)
+### 1.03 — Linux shells (practical) (shipped)
 
-**Why:** Gallery/CI already build Linux; chrome gaps still trip people.
-
-- Document X11 / Wayland: works / limited / unsupported for title bar & backdrop.
-- Fix the worst blockers for nav + settings style apps on Linux.
-- Keep `run-gallery` / packaging notes accurate.
-
-**Not in 1.03:** macOS; full Mica/frost parity with Windows.
+**Shipped:** [platform-linux-wayland.md](docs/platform-linux-wayland.md) works/limited/unsupported matrix for title bar & backdrop; `WindowHelper.resolveBackdrop` coerces Mica/Acrylic → Solid on Linux; shells paint `effectiveBackdrop`; Gallery `run-gallery.sh` no longer forces `xcb`; nav-settings / packaging notes; product version `1.03`.
 
 ---
 

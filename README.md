@@ -7,8 +7,8 @@ Fluent / [WinUI 3](https://learn.microsoft.com/windows/apps/winui/winui3/)-inspi
 [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-2ea44f)](https://wuyijing-dev.github.io/QWinui3/)
 [![Qt](https://img.shields.io/badge/Qt-6.5%2B-41CD52?logo=qt&logoColor=white)](https://www.qt.io/)
 
-**v1.02** · **200+** public controls · Gallery demos for most of them  
-[Documentation](https://wuyijing-dev.github.io/QWinui3/) · [Stable API](docs/stable-api.md) · [Accessibility](docs/accessibility.md) · [Component API](https://wuyijing-dev.github.io/QWinui3/components/) · [Releases](https://github.com/wuyijing-dev/QWinui3/releases) · [Roadmap](ROADMAP.md)
+**v1.03** · **200+** public controls · Gallery demos for most of them  
+[Documentation](https://wuyijing-dev.github.io/QWinui3/) · [Stable API](docs/stable-api.md) · [Accessibility](docs/accessibility.md) · [Linux / Wayland](docs/platform-linux-wayland.md) · [Component API](https://wuyijing-dev.github.io/QWinui3/components/) · [Releases](https://github.com/wuyijing-dev/QWinui3/releases) · [Roadmap](ROADMAP.md)
 
 ---
 
@@ -96,7 +96,7 @@ From [GitHub Releases](https://github.com/wuyijing-dev/QWinui3/releases/latest) 
 |-------|----------|-----|
 | **`qwinui3-gallery-*-windows-x64.zip`** | Windows x64 | Gallery + Qt runtime (`windeployqt`) — run `qwinui3_gallery.exe` |
 | **`qwinui3-*-windows-x64-shared.zip`** | Windows x64 | Shared DLLs + QML (needs Qt **6.5+** MSVC; CI builds with 6.8) |
-| **`qwinui3-gallery-*-linux-x64.tar.gz`** | Linux x64 | Gallery AppDir + Qt runtime — run `./run-gallery.sh` |
+| **`qwinui3-gallery-*-linux-x64.tar.gz`** | Linux x64 | Gallery AppDir + Qt runtime — run `./run-gallery.sh` (Wayland-first; do not force `xcb`) |
 | **`qwinui3-*-linux-x64-shared.tar.gz`** | Linux x64 | Shared `.so` + QML (needs Qt **6.5+** gcc_64; CI builds with 6.8) |
 
 Release packages are produced by [`.github/workflows/release.yml`](.github/workflows/release.yml) on `v*` tags (or manual **Release** workflow dispatch).
@@ -226,6 +226,7 @@ Product versions use **`X.YY`** (see [`ROADMAP.md`](ROADMAP.md)); set `QWINUI3_V
 | [`docs/conventions.md`](docs/conventions.md) | Radius, accessibility, import rules |
 | [`docs/accessibility.md`](docs/accessibility.md) | High-traffic a11y checklist + tracked gaps |
 | [`docs/window-shells.md`](docs/window-shells.md) | ShellWindow family vs StandardWindow |
+| [`docs/platform-linux-wayland.md`](docs/platform-linux-wayland.md) | Linux title bar / backdrop matrix |
 | [`ROADMAP.md`](ROADMAP.md) | Version themes — small `X.YY` slices |
 | [`docs/stable-api.md`](docs/stable-api.md) | Stable vs experimental types for 1.xx |
 | [`docs/qt-creator.md`](docs/qt-creator.md) | Opening the project in Qt Creator |

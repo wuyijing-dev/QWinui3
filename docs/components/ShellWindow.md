@@ -4,7 +4,7 @@ Independent ApplicationWindow + WindowChrome host.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ShellWindow.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ShellWindow.qml)
 
-**Category:** Shells & windows · **Library:** v1.02
+**Category:** Shells & windows · **Library:** v1.03
 
 [← Component index](../components.md)
 
@@ -57,6 +57,7 @@ Backdrop / paradigm via WindowHelper (see docs/window-helper.md).
 | `searchText` | `alias` | Title-bar search field text |
 | `searchModel` | `alias` | Title-bar search suggestions |
 | `backdrop` | `int` | WindowHelper.Backdrop* |
+| `effectiveBackdrop` | `int` | Platform-safe backdrop (Linux coerces Mica/Acrylic → Solid). |
 | `preferredHeightOption` | `int` | WindowHelper.TitleBarHeightStandard \| TitleBarHeightTall |
 | `presenter` | `int` | WindowHelper.Presenter* |
 | `paradigm` | `int` | WindowHelper.Paradigm* |

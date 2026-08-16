@@ -193,6 +193,8 @@ public:
     Q_INVOKABLE void centerOnScreen(QObject *windowObject);
     Q_INVOKABLE void setDarkMode(QObject *windowObject, bool dark);
     Q_INVOKABLE void setBackdrop(QObject *windowObject, int backdrop);
+    // Map requested backdrop to what this platform can actually composite (Linux → Solid).
+    Q_INVOKABLE int resolveBackdrop(int backdrop) const;
     Q_INVOKABLE void setCornerStyle(QObject *windowObject, int corner);
     Q_INVOKABLE void reapply(QObject *windowObject = nullptr); // re-apply tracked/given window
     Q_INVOKABLE QString backdropName(int backdrop) const;

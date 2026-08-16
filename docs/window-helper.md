@@ -38,6 +38,7 @@ ShellWindow {
 | `install(window, dark, backdrop)` | Attach native chrome + backdrop to a `Window` |
 | `installParadigm(window, paradigm, dark, backdrop)` | Install with Standard / Dialog / Tool flags |
 | `installParadigmEx(...)` | Paradigm + presenter + always-on-top |
+| `resolveBackdrop(backdrop)` | Coerce unsupported materials (Linux → Solid) |
 | `flagsForParadigm(paradigm)` / `flagsForConfig(...)` | Recommended `Qt.WindowFlags` |
 | `paradigmName(paradigm)` | `"standard"` / `"dialog"` / `"tool"` |
 | `centerOnScreen(window)` | Center on the current screen |

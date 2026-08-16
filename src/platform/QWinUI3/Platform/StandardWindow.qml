@@ -21,6 +21,7 @@ import QWinUI3.Platform
 // @notes
 //   Low-level AppWindow host (PlatformTitleBar + WindowHelper).
 //   Prefer ShellWindow family for product UI; use this for presenter/backdrop experiments.
+//   effectiveBackdrop / WindowHelper.resolveBackdrop keep Linux shells opaque when Mica is requested.
 //   See docs/window-appwindow.md and docs/window-helper.md.
 
 ApplicationWindow {
@@ -51,6 +52,8 @@ ApplicationWindow {
     // WindowChrome / PlatformTitleBar host
     property alias chrome: platformTitle
     property bool _chromeReady: false
+    // Platform-safe backdrop (Linux coerces Mica/Acrylic → Solid so the window is not hollow).
+    readonly property int effectiveBackdrop: WindowHelper.resolveBackdrop(backdrop)
 
     // CONSTANT flags only (recommendedFlags has no notify). Never bind flags to
     // paradigm/presenter/isAlwaysOnTop — that fights WindowHelper.setFlags() and
@@ -72,8 +75,8 @@ ApplicationWindow {
     }
 
     background: Rectangle {
-        color: (root.backdrop === WindowHelper.BackdropSolid
-                || root.backdrop === WindowHelper.BackdropNone)
+        color: (root.effectiveBackdrop === WindowHelper.BackdropSolid
+                || root.effectiveBackdrop === WindowHelper.BackdropNone)
                ? Theme.bgLayer
                : "transparent"
     }
@@ -90,7 +93,7 @@ ApplicationWindow {
 
     // Apply window chrome / backdrop
     function applyChrome() {
-        WindowHelper.installParadigmEx(root, paradigm, Theme.dark, backdrop,
+        WindowHelper.installParadigmEx(root, paradigm, Theme.dark, root.effectiveBackdrop,
                                        presenter === WindowHelper.PresenterFullScreen
                                        ? WindowHelper.PresenterOverlapped
                                        : presenter,
