@@ -80,6 +80,58 @@ detect_qt_prefix() {
   return 1
 }
 
+# Real linked binary (not the published build/ copy). Prefer src/gallery.
+find_linked_gallery() {
+  local p
+  for p in \
+    "${BUILD_DIR}/src/gallery/qwinui3_gallery" \
+    "${BUILD_DIR}/bin/qwinui3_gallery" \
+    "${BUILD_DIR}/qwinui3_gallery"
+  do
+    # Must be a regular file (directories can be +x and fool -x checks).
+    if [[ -f "${p}" ]]; then
+      echo "${p}"
+      return 0
+    fi
+  done
+  p="$(find "${BUILD_DIR}" -maxdepth 6 -type f -name qwinui3_gallery 2>/dev/null | head -n 1 || true)"
+  if [[ -n "${p}" && -f "${p}" ]]; then
+    echo "${p}"
+    return 0
+  fi
+  return 1
+}
+
+publish_gallery_to_root() {
+  local src="$1"
+  local dest="${BUILD_DIR}/qwinui3_gallery"
+  chmod +x "${src}" 2>/dev/null || true
+  if [[ "${src}" != "${dest}" ]]; then
+    cp -f "${src}" "${dest}"
+  fi
+  chmod +x "${dest}"
+  if [[ ! -f "${dest}" ]]; then
+    echo "Failed to publish ${dest}" >&2
+    return 1
+  fi
+  echo "${dest}"
+}
+
+force_relink_gallery() {
+  echo "Gallery binary missing or stale — forcing relink of qwinui3_gallery ..."
+  # Ninja skips link if it still thinks the output exists. Drop outputs + restat.
+  rm -f \
+    "${BUILD_DIR}/qwinui3_gallery" \
+    "${BUILD_DIR}/bin/qwinui3_gallery" \
+    "${BUILD_DIR}/src/gallery/qwinui3_gallery"
+  if command -v ninja >/dev/null 2>&1 && [[ -f "${BUILD_DIR}/build.ninja" ]]; then
+    ninja -C "${BUILD_DIR}" -t restat >/dev/null 2>&1 || true
+  fi
+  # Touch main so the target is definitely out of date even if restat is a no-op.
+  touch "${ROOT}/src/gallery/main.cpp"
+  cmake --build "${BUILD_DIR}" --parallel --target qwinui3_gallery
+}
+
 if ! QT_PREFIX="$(detect_qt_prefix)"; then
   echo "Could not find Qt 6.8+. Set CMAKE_PREFIX_PATH or QTDIR to your kit (e.g. ~/Qt/6.8.0/gcc_64)." >&2
   exit 1
@@ -109,57 +161,30 @@ cmake -S "${ROOT}" -B "${BUILD_DIR}" \
   -DQWINUI3_BUILD_EXAMPLES=ON
 
 cmake --build "${BUILD_DIR}" --parallel
-# Ensure gallery is linked even if the default target set is incomplete.
 cmake --build "${BUILD_DIR}" --parallel --target qwinui3_gallery
 
-QML_IMPORTS="${BUILD_DIR}/src/platform/QWinUI3:${BUILD_DIR}/src/extras/QWinUI3:${BUILD_DIR}/src/theme/QWinUI3:${BUILD_DIR}/src/style"
+LINKED=""
+if ! LINKED="$(find_linked_gallery)"; then
+  force_relink_gallery
+  if ! LINKED="$(find_linked_gallery)"; then
+    echo "ERROR: qwinui3_gallery was not produced." >&2
+    echo "Searched under ${BUILD_DIR} (maxdepth 6)." >&2
+    echo "Debug: find ${BUILD_DIR} -name 'qwinui3_gallery*' -type f" >&2
+    find "${BUILD_DIR}" -name 'qwinui3_gallery*' 2>/dev/null || true
+    exit 1
+  fi
+fi
 
-# Prefer the real linked binary (Qt often leaves it under src/gallery/), then
-# publish a stable path at build/qwinui3_gallery for run-gallery.sh.
-publish_gallery() {
-  local src=""
-  local candidates=(
-    "${BUILD_DIR}/src/gallery/qwinui3_gallery"
-    "${BUILD_DIR}/bin/qwinui3_gallery"
-    "${BUILD_DIR}/qwinui3_gallery"
-  )
-  local p
-  for p in "${candidates[@]}"; do
-    if [[ -f "${p}" && -x "${p}" ]]; then
-      src="${p}"
-      break
-    fi
-  done
-  if [[ -z "${src}" ]]; then
-    src="$(find "${BUILD_DIR}" -maxdepth 5 -type f -name qwinui3_gallery 2>/dev/null | head -n 1 || true)"
-  fi
-  if [[ -z "${src}" || ! -f "${src}" ]]; then
-    return 1
-  fi
-  if [[ ! -x "${src}" ]]; then
-    chmod +x "${src}" || true
-  fi
+echo "Linked:  ${LINKED}"
+GALLERY_ABS="$(publish_gallery_to_root "${LINKED}")"
 
-  local dest="${BUILD_DIR}/qwinui3_gallery"
-  if [[ "${src}" != "${dest}" ]]; then
-    cp -f "${src}" "${dest}"
-    chmod +x "${dest}"
-  fi
-  # Verify the stable path exists before claiming success.
-  [[ -f "${dest}" && -x "${dest}" ]] || return 1
-  echo "${dest}"
-  return 0
-}
-
-if ! GALLERY_ABS="$(publish_gallery)"; then
-  echo "Build finished but qwinui3_gallery was not found under ${BUILD_DIR}." >&2
-  echo "Looked in: build/src/gallery, build/bin, build/" >&2
-  echo "Try: find build -name qwinui3_gallery -type f" >&2
-  echo "Then: ./build.sh --clean" >&2
+# Hard gate — never print Done unless the launcher path is a real file.
+if [[ ! -f "${BUILD_DIR}/qwinui3_gallery" ]]; then
+  echo "ERROR: ${BUILD_DIR}/qwinui3_gallery is missing after publish." >&2
   exit 1
 fi
 
-GALLERY_REL="qwinui3_gallery"
+QML_IMPORTS="${BUILD_DIR}/src/platform/QWinUI3:${BUILD_DIR}/src/extras/QWinUI3:${BUILD_DIR}/src/theme/QWinUI3:${BUILD_DIR}/src/style"
 
 cat > "${BUILD_DIR}/qt.conf" <<EOF
 [Paths]
@@ -174,19 +199,25 @@ cat > "${BUILD_DIR}/run-gallery.sh" <<EOF
 #!/usr/bin/env bash
 set -euo pipefail
 HERE="\$(cd "\$(dirname "\${BASH_SOURCE[0]}")" && pwd)"
+BIN="\${HERE}/qwinui3_gallery"
+# Fallback if only the Qt-default path exists (older builds).
+if [[ ! -f "\${BIN}" && -f "\${HERE}/src/gallery/qwinui3_gallery" ]]; then
+  BIN="\${HERE}/src/gallery/qwinui3_gallery"
+fi
+if [[ ! -f "\${BIN}" ]]; then
+  echo "Missing gallery binary. Run: ./build.sh" >&2
+  echo "If incremental skipped the link: ./build.sh  (script will force-relink)" >&2
+  exit 1
+fi
 export QT_PLUGIN_PATH="\${QT_PLUGIN_PATH:-${QT_PREFIX}/plugins}"
 export QML_IMPORT_PATH="${QML_IMPORTS}\${QML_IMPORT_PATH:+:\$QML_IMPORT_PATH}"
 export QML2_IMPORT_PATH="\${QML_IMPORT_PATH}"
 export LD_LIBRARY_PATH="${QT_PREFIX}/lib\${LD_LIBRARY_PATH:+:\$LD_LIBRARY_PATH}"
 cd "\${HERE}"
-if [[ ! -x "\${HERE}/qwinui3_gallery" ]]; then
-  echo "Missing \${HERE}/qwinui3_gallery — rebuild with ./build.sh" >&2
-  exit 1
-fi
-exec "\${HERE}/qwinui3_gallery" "\$@"
+exec "\${BIN}" "\$@"
 EOF
 chmod +x "${BUILD_DIR}/run-gallery.sh"
 
 echo
-echo "Done: ${GALLERY_ABS} (${CONFIG})"
+echo "Done: ${GALLERY_ABS} (${CONFIG})  [$(wc -c < "${GALLERY_ABS}") bytes]"
 echo "Run:  ${BUILD_DIR}/run-gallery.sh"
