@@ -23,7 +23,7 @@ See Gallery **Pitfalls** for side-by-side demos (`DelayButton` / `ProgressButton
 - Title bars / caption buttons set `Accessible` on Item chrome (`PlatformTitleBar`, `CaptionButton`), not on `ApplicationWindow`.
 - Pure transitions, glue (`ShellWindowSupport`, `WindowResizeBorder`), and decorative chrome use `Accessible.ignored`.
 - QtObject singletons (`ChartUtils`, `ContentDialogQueue`) are non-visual and omit Accessible.
-- Icon-only buttons must set `Accessible.name` (prefer `toolTipText`, then `text`; glyph alone is not enough). Gallery icon demos should set `toolTipText`.
+- Icon-only buttons must set `Accessible.name` (prefer `toolTipText`, then `text`; glyph alone is not enough). Gallery icon demos should set `toolTipText`. Cookbook: [icons.md](icons.md) (1.29).
 - Respect `Theme.reducedMotion` / `Theme.highContrast` (and Gallery “Follow system accessibility” / **Accessibility** catalog page).
 - High-traffic path (NavigationView, settings cards, ContentDialog, InfoBar/Toast): see [`accessibility.md`](accessibility.md) for what 1.02 fixed and what remains severity-tracked.
 - Keyboard: `focusPolicy: Qt.StrongFocus` + `activeFocusOnTab` for custom interactive Extras; handle arrows / Home / End / Esc where the control owns navigation. Date/time pickers open with Space / Enter / F4 / Alt+Down.

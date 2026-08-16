@@ -135,7 +135,7 @@ Recipe doc: [`media.md`](media.md).
 ## App author checklist
 
 1. Prefer types in [`stable-api.md`](stable-api.md).
-2. Icon-only controls: set `toolTipText` or `Accessible.name`.
+2. Icon-only controls: set `toolTipText` or `Accessible.name`. See [icons.md](icons.md) (1.29).
 3. Override `accessibleName` on DataTable / ItemsView / ListDetailsView / FormLayout when multiple instances share a page.
 4. Wire Gallery/Settings “Follow system accessibility” or copy `WindowHelper` SPI into `Theme.*`.
 5. Do not attach `Accessible` to `Window` / `Popup` / `Dialog` hosts — name chrome items instead.

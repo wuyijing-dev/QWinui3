@@ -1361,7 +1361,7 @@ QtObject {
             title: qsTr("Iconography"),
             category: "basic",
             icon: FluentIcons.OpenInNewWindow,
-            description: qsTr("Browse FluentIcons: searchable grid with glyph codes and copy snippets."),
+            description: qsTr("FluentIcons browser - size/color/a11y - docs/icons.md (1.29)."),
             component: "FontIconPage",
             source: "pages/FontIconPage.qml"
         },

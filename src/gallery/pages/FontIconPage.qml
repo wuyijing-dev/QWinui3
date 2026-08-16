@@ -5,11 +5,13 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 
 // Gallery — Iconography (full WinSymbols / FluentIcons catalog).
+//
+// Cookbook: docs/icons.md (1.29). Prefer FluentIcons.Name — not raw \uE… escapes.
 
 CatalogPage {
     id: page
     title: qsTr("Iconography")
-    subtitle: qsTr("All glyphs from the icon font. Prefer FluentIcons.Name in components — not raw \\uE… escapes.")
+    subtitle: qsTr("FluentIcons browser. Size / color / a11y: docs/icons.md (1.29).")
 
     property int selectedIndex: 0
 
@@ -106,10 +108,20 @@ CatalogPage {
             anchors.fill: parent
             spacing: Theme.spacing
 
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Prefer FluentIcons.Name + FontIcon / control symbol:. Sizes: caption 10, chrome 14, body 16, AppBar 18. Colors: Theme.textPrimary / textSecondary / accent. Icon-only: toolTipText or accessibleName — never the raw glyph. Full recipe: docs/icons.md.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+
             SearchBox {
                 id: filterBox
                 Layout.fillWidth: true
                 placeholderText: qsTr("Search icons by name, code, or tags")
+                Accessible.name: qsTr("Search icons")
             }
 
             Label {
@@ -161,6 +173,8 @@ CatalogPage {
                                 anchors.fill: parent
                                 anchors.margins: 4
                                 radius: Theme.cornerControl
+                                Accessible.role: Accessible.Button
+                                Accessible.name: String(cell.modelData.name || qsTr("Icon"))
                                 color: {
                                     if (cell.selected)
                                         return Theme.fillSubtleSecondary

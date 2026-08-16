@@ -14,6 +14,7 @@ import QWinUI3.Theme
 //
 // @notes
 //   FluentIcons symbol / glyph text; fontSize for px size.
+//   Accessible: set accessibleName or toolTipText — never use the raw PUA glyph (1.29).
 
 Item {
     id: root
@@ -53,7 +54,14 @@ Item {
     width: implicitWidth
     height: implicitHeight
     Accessible.role: Accessible.Graphic
-    Accessible.name: accessibleName.length ? accessibleName : effectiveGlyph
+    Accessible.name: {
+        if (root.accessibleName.length)
+            return root.accessibleName
+        if (root.toolTipText.length)
+            return root.toolTipText
+        return ""
+    }
+    Accessible.ignored: root.accessibleName.length === 0 && root.toolTipText.length === 0
 
     HoverHandler {
         id: hover

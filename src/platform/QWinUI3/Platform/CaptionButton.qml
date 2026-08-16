@@ -13,7 +13,7 @@ AbstractButton {
     id: control
 
     Accessible.role: Accessible.Button
-    Accessible.name: control.text.length ? control.text : qsTr("Caption button")
+    Accessible.name: control.text.length ? control.text : control._defaultAccessibleName
 
     // Fluent glyph drawn in the button
     property string glyph: ""
@@ -25,6 +25,19 @@ AbstractButton {
     property bool forcePressed: false
     // Enable hover / click interaction
     property bool interactive: true
+
+    // Sensible defaults for known chrome glyphs when text is empty (1.29).
+    readonly property string _defaultAccessibleName: {
+        if (glyph === FluentIcons.ChromeMinimize)
+            return qsTr("Minimize")
+        if (glyph === FluentIcons.ChromeMaximize)
+            return qsTr("Maximize")
+        if (glyph === FluentIcons.ChromeRestore)
+            return qsTr("Restore")
+        if (glyph === FluentIcons.ChromeClose || glyph === FluentIcons.ChromeCloseAlt)
+            return qsTr("Close")
+        return qsTr("Caption button")
+    }
 
     // Rest background
     property color backgroundColor: "transparent"

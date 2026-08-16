@@ -73,6 +73,7 @@ nav:
   - Performance: performance.md
   - Navigation & TabView: navigation.md
   - Input & pickers: pickers.md
+  - Icons & FluentIcons: icons.md
   - Forms & settings: forms.md
   - Theme overrides: theme-overrides.md
   - System integration: system-integration.md

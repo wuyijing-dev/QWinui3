@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.28**
-**Next up:** **1.29** (Icons & FluentIcons cookbook)
+**Current:** **1.29**
+**Next up:** **1.30** (Density, typography & responsive shells)
 **Planned through:** **1.50** (1.xx maturity checkpoint)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](qt-version-compat.md)
 
@@ -60,7 +60,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.28`
+## Shipped — `1.01` … `1.29`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -174,30 +174,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** [pickers.md](pickers.md) inventory; DatePicker / CalendarDatePicker / TimePicker gain `description` / `errorMessage` / `hasError` for FormLayout; forms.md pairing notes; Gallery Form validation + picker page cross-links; product version `1.28`.
 
+### 1.29 — Icons & FluentIcons cookbook (shipped)
+
+**Shipped:** [icons.md](icons.md) — FluentIcons API, size ramp, Theme colors, a11y; `FontIcon` no longer names with raw PUA glyph; `CaptionButton` defaults for Chrome* glyphs; Gallery Iconography callout + tile names; product version `1.29`.
+
 ---
 
-## Mid path — planned `1.29` … `1.30`
+## Mid path — planned `1.30`
 
 Same rules: one theme per `YY`, still **not** `2.00`.
-
-### 1.29 — Icons & FluentIcons cookbook
-
-**Why:** Apps need a reliable symbol story (FluentIcons + Theme) without inventing asset pipelines.
-
-**In scope**
-
-- Document FluentIcons API, sizing, Theme color, Gallery icon browser tips.
-- `docs/icons.md`; fix obvious missing names on high-traffic chrome.
-
-**Out of scope**
-
-- Figma token pipeline (parking lot); shipping a second icon font.
-
-**Exit criteria**
-
-- Cookbook + Gallery Icon page matches documented usage.
-
----
 
 ### 1.30 — Density, typography & responsive shells
 

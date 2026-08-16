@@ -63,7 +63,7 @@ Style module (`QT_QUICK_CONTROLS_STYLE=QWinUI3`): treating **standard** `QtQuick
 | Type | Module | Notes |
 |------|--------|--------|
 | `Theme` singleton | Theme | Tokens, density, dark/light, accent — [theme-overrides.md](theme-overrides.md) (1.09) |
-| `FluentIcons` | Theme | Symbol font API |
+| `FluentIcons` | Theme | Symbol font API — [icons.md](icons.md) (1.29) |
 | Style `QWinUI3` | Style | Drop-in Fluent chrome for Controls |
 
 ### Platform helpers (common)
@@ -154,3 +154,4 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.26** | Example templates — master-detail + form-settings — [examples/README.md](../examples/README.md) |
 | **1.27** | Navigation & TabView recipes — [navigation.md](navigation.md); nav-settings Back/`auto` |
 | **1.28** | Input & pickers consistency — [pickers.md](pickers.md); date/time `errorMessage` |
+| **1.29** | Icons & FluentIcons cookbook — [icons.md](icons.md); FontIcon / CaptionButton a11y |
