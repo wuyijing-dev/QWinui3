@@ -25,10 +25,6 @@ import QWinUI3.Theme
 
 ShellWindow {
     id: root
-
-    Accessible.role: Accessible.Window
-    Accessible.name: root.title
-
     // Declare Menu { } children here
     default property alias menus: menus.contentData
     // StatusBar left text

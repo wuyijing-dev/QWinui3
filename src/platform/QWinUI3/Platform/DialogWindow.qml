@@ -17,10 +17,6 @@ import QWinUI3.Platform
 
 StandardWindow {
     id: root
-
-    Accessible.role: Accessible.Window
-    Accessible.name: root.title
-
     paradigm: WindowHelper.ParadigmDialog
     showMaximize: false
     width: 480

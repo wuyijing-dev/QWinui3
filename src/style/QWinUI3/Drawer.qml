@@ -21,9 +21,6 @@ import QWinUI3.Theme
 T.Drawer {
     id: control
 
-
-    Accessible.role: Accessible.Pane
-    Accessible.name: qsTr("Drawer")
     parent: T.Overlay.overlay
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
@@ -72,6 +69,8 @@ T.Drawer {
     }
 
     background: Rectangle {
+        Accessible.role: Accessible.Pane
+        Accessible.name: qsTr("Drawer")
         color: Theme.bgCard
         implicitWidth: 320
         implicitHeight: 480

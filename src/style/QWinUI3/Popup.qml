@@ -18,9 +18,6 @@ import QWinUI3.Theme
 T.Popup {
     id: control
 
-    Accessible.role: Accessible.Dialog
-    Accessible.name: qsTr("Popup")
-
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             contentWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
@@ -32,6 +29,8 @@ T.Popup {
     background: ElevatedChrome {
         implicitWidth: 200
         implicitHeight: 40
+        Accessible.role: Accessible.Dialog
+        Accessible.name: qsTr("Popup")
         radius: Theme.cornerOverlay
         color: Theme.bgCardElevated
         borderColor: Theme.strokeCard

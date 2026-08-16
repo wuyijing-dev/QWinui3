@@ -10,11 +10,6 @@ import QWinUI3.Theme
 
 BlankWindow {
     id: tearWin
-
-    Accessible.role: Accessible.Window
-    Accessible.name: tearWin.title
-    Accessible.description: qsTr("Torn-out tab")
-
     property var tabData: ({})
 
     width: 560
