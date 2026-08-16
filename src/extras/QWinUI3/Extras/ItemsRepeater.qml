@@ -12,7 +12,7 @@ import QWinUI3.Theme
 //   }
 //
 //   // --- API ---
-//   // properties: model, delegate, orientation, spacing, cacheBuffer
+//   // properties: model, delegate, orientation, itemSpacing, cacheBuffer
 //   // aliases: contentX/Y, count, currentIndex
 //
 // @notes
@@ -27,8 +27,8 @@ T.Control {
     property alias delegate: list.delegate
     // Qt.Vertical or Qt.Horizontal
     property alias orientation: list.orientation
-    // Spacing between items
-    property alias spacing: list.spacing
+    // Spacing between items (Control.spacing is FINAL — do not alias it)
+    property alias itemSpacing: list.spacing
     // Extra cache outside the viewport
     property alias cacheBuffer: list.cacheBuffer
     // Current index

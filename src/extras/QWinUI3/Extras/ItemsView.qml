@@ -9,7 +9,7 @@ import QWinUI3.Theme
 //   ItemsView {
 //       model: myModel
 //       sectionRole: "group"
-//       selectionMode: ItemsView.selectionMultiple
+//       selectionMode: selectionMultiple
 //       titleRole: "title"
 //       subtitleRole: "subtitle"
 //       emptyTitle: qsTr("No items")
@@ -36,14 +36,22 @@ T.Control {
 
     Layout.fillWidth: true
 
-    readonly property int selectionNone: 0
-    readonly property int selectionSingle: 1
-    readonly property int selectionMultiple: 2
+    // Prefer ItemsView.SelectionMode.* from outside; instance aliases below
+    // keep existing gallery / docs call sites working.
+    enum SelectionMode {
+        SelectionNone = 0,
+        SelectionSingle = 1,
+        SelectionMultiple = 2
+    }
+
+    readonly property int selectionNone: SelectionMode.SelectionNone
+    readonly property int selectionSingle: SelectionMode.SelectionSingle
+    readonly property int selectionMultiple: SelectionMode.SelectionMultiple
 
     // List model (array or ListModel / QAbstractListModel)
     property var model: []
     // selectionNone | selectionSingle | selectionMultiple
-    property int selectionMode: selectionSingle
+    property int selectionMode: SelectionMode.SelectionSingle
     // Selected row indexes (array of int)
     property var selectedIndexes: []
     // Model role / property name for title
