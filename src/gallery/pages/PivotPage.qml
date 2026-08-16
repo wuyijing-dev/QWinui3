@@ -53,7 +53,7 @@ CatalogPage {
             Pivot {
                 id: pivot
                 Layout.fillWidth: true
-                Layout.preferredHeight: 260
+                Layout.preferredHeight: 200
                 focus: true
                 model: [
                     { title: qsTr("Home"), symbol: FluentIcons.Home, page: homePage },

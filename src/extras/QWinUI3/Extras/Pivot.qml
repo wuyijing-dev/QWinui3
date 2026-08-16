@@ -55,7 +55,7 @@ T.Control {
     signal selectionChanged(int index)
 
     implicitWidth: 480
-    implicitHeight: 280
+    implicitHeight: 200
     padding: 0
     spacing: 0
     focusPolicy: Qt.StrongFocus
@@ -101,26 +101,45 @@ T.Control {
         currentIndexChangedByUser(index)
     }
 
-    contentItem: ColumnLayout {
-        spacing: 0
+    contentItem: Item {
+        readonly property real _headerHeight: Theme.controlHeight + 8
 
-        RowLayout {
-            Layout.fillWidth: true
-            Layout.preferredHeight: 44
-            spacing: Theme.spacing
+        Item {
+            id: headerBar
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top: parent.top
+            height: parent._headerHeight
 
             Item {
                 id: leftHeaderSlot
-                Layout.fillHeight: true
-                Layout.preferredWidth: children.length ? childrenRect.width : 0
+                anchors.left: parent.left
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.leftMargin: 4
+                width: children.length ? Math.max(childrenRect.width, 1) : 0
+                visible: children.length > 0
+            }
+
+            Item {
+                id: rightHeaderSlot
+                anchors.right: parent.right
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.rightMargin: 4
+                width: children.length ? Math.max(childrenRect.width, 1) : 0
                 visible: children.length > 0
             }
 
             Flickable {
                 id: headerFlick
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                contentWidth: headerRow.implicitWidth
+                anchors.left: leftHeaderSlot.visible ? leftHeaderSlot.right : parent.left
+                anchors.leftMargin: leftHeaderSlot.visible ? 4 : 0
+                anchors.right: rightHeaderSlot.visible ? rightHeaderSlot.left : parent.right
+                anchors.rightMargin: rightHeaderSlot.visible ? 4 : 0
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                contentWidth: Math.max(width, headerRow.implicitWidth)
                 contentHeight: height
                 clip: true
                 flickableDirection: Flickable.HorizontalFlick
@@ -142,6 +161,7 @@ T.Control {
                             hoverEnabled: true
                             checkable: true
                             checked: index === control.currentIndex
+                            focusPolicy: Qt.NoFocus
                             onClicked: control.selectIndex(index)
 
                             readonly property string _icon: {
@@ -212,25 +232,24 @@ T.Control {
                     }
                 }
             }
-
-            Item {
-                id: rightHeaderSlot
-                Layout.fillHeight: true
-                Layout.preferredWidth: children.length ? childrenRect.width : 0
-                visible: children.length > 0
-            }
         }
 
         Rectangle {
-            Layout.fillWidth: true
-            Layout.preferredHeight: 1
+            id: headerDivider
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top: headerBar.bottom
+            height: 1
             color: Theme.strokeDivider
         }
 
         StackLayout {
             id: stack
-            Layout.fillWidth: true
-            Layout.fillHeight: true
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top: headerDivider.bottom
+            anchors.bottom: parent.bottom
+            clip: true
             currentIndex: control.currentIndex
 
             Repeater {
