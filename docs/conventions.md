@@ -16,7 +16,7 @@ See Gallery **Pitfalls** for side-by-side demos (`DelayButton` / `ProgressButton
 
 - Attach `Accessible.*` to an `Item` / `Action` / `Control`, never to a bare `Popup` / `Menu` root (prefer the chrome `Item` / `contentItem` / `MenuItem`).
 - Prefer `FocusStroke` with `frameRadius` matching the control corner.
-- Interactive Style controls expose `Accessible.role` / `name` / value or checked state where applicable (`Button`, `CheckBox`, `Switch`, `Slider`, `ProgressBar`, `ScrollBar`, `MenuBar`, …).
+- Interactive Style controls expose `Accessible.role` / `name` / checked state / description where applicable. Do **not** set `Accessible.value` / `valueMinimum` / `valueMaximum` — those attached properties were removed in Qt 6.8; put numeric state in `Accessible.description` (controls with a real `value` property are still exposed via Qt’s value interface).
 - Charts / gauges use `Accessible.Graphic` (or ProgressBar for meters) with `title` / label as `Accessible.name`.
 - Composite Extras (`HeaderedTextBox`, `ChipGroup`, `StepBar`, `CommandBar`, split/drop-down buttons) expose role + keyboard arrows / Esc / F10 where the control owns navigation.
 - Selection composites (`RadioButtons`, `SelectorBar`, `PagerControl`, `ChipGroup`, `ItemsView`) use roving tabindex: one host `StrongFocus`, children `NoFocus`, so arrows reach the group.

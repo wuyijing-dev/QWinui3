@@ -25,9 +25,6 @@ T.ProgressBar {
 
     Accessible.role: Accessible.ProgressBar
     Accessible.name: qsTr("Progress")
-    Accessible.value: control.indeterminate ? 0 : control.position
-    Accessible.valueMinimum: 0
-    Accessible.valueMaximum: 1
     Accessible.description: {
         if (control.indeterminate)
             return qsTr("In progress")

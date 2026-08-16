@@ -20,9 +20,7 @@ T.Slider {
 
     Accessible.role: Accessible.Slider
     Accessible.name: qsTr("Slider")
-    Accessible.value: control.value
-    Accessible.valueMinimum: control.from
-    Accessible.valueMaximum: control.to
+    Accessible.description: qsTr("%1 of %2").arg(control.value).arg(control.to)
     implicitWidth: Math.max(200, implicitHandleWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(Theme.sliderThumb, implicitHandleHeight + topPadding + bottomPadding)
 

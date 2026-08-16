@@ -86,7 +86,6 @@ T.Control {
     Accessible.name: header.length ? header
                  : (placeholderText.length ? placeholderText : qsTr("Text box"))
     Accessible.description: hasError ? errorMessage : description
-    Accessible.value: text
     Accessible.readOnly: readOnly
     Accessible.multiLine: false
 

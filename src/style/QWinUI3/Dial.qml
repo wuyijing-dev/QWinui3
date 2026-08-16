@@ -45,9 +45,6 @@ T.Dial {
 
     Accessible.role: Accessible.Dial
     Accessible.name: title.length ? title : qsTr("Dial")
-    Accessible.value: control.value
-    Accessible.valueMinimum: control.from
-    Accessible.valueMaximum: control.to
     Accessible.description: formattedValue
 
     // Formatted value string

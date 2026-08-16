@@ -25,9 +25,7 @@ T.ScrollBar {
     Accessible.role: Accessible.ScrollBar
     Accessible.name: control.orientation === Qt.Vertical ? qsTr("Vertical scroll bar")
                                                        : qsTr("Horizontal scroll bar")
-    Accessible.value: control.position
-    Accessible.valueMinimum: 0
-    Accessible.valueMaximum: 1
+    Accessible.description: qsTr("Position %1%").arg(Math.round(control.position * 100))
 
     implicitWidth: control.interactive
                    ? (hovered || pressed || active ? 12 : 8)

@@ -30,9 +30,7 @@ T.PageIndicator {
 
     Accessible.role: Accessible.PageTabList
     Accessible.name: qsTr("Page indicator")
-    Accessible.value: control.currentIndex
-    Accessible.valueMinimum: 0
-    Accessible.valueMaximum: Math.max(0, control.count - 1)
+    Accessible.description: qsTr("Page %1 of %2").arg(control.currentIndex + 1).arg(Math.max(1, control.count))
     implicitWidth: contentItem.implicitWidth + leftPadding + rightPadding
     implicitHeight: contentItem.implicitHeight + topPadding + bottomPadding
 

@@ -43,10 +43,13 @@ T.Control {
 
     Accessible.role: Accessible.ScrollBar
     Accessible.name: root.currentLabel.length ? root.currentLabel : qsTr("Annotated scroll bar")
-    Accessible.description: root.detailLabel
-    Accessible.value: root.scrollPosition
-    Accessible.valueMinimum: 0
-    Accessible.valueMaximum: 1
+    Accessible.description: {
+        var parts = []
+        if (root.detailLabel.length)
+            parts.push(root.detailLabel)
+        parts.push(qsTr("Position %1%").arg(Math.round(root.scrollPosition * 100)))
+        return parts.join(". ")
+    }
 
     // Default children / content slot (hosted in the inner Flickable)
     default property alias contentData: flick.data
