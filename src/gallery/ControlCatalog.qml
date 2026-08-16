@@ -105,7 +105,7 @@ QtObject {
             title: qsTr("NumberBox"),
             category: "basic",
             icon: FluentIcons.Calculator,
-            description: qsTr("Numeric spin + FormLayout validation - docs/pickers.md (1.28)."),
+            description: qsTr("Numeric spin + FormLayout (stable 1.37) — docs/pickers.md."),
             component: "NumberBoxPage",
             source: "pages/NumberBoxPage.qml"
         },
@@ -369,7 +369,7 @@ QtObject {
             title: qsTr("ItemsRepeater"),
             category: "collections",
             icon: FluentIcons.List,
-            description: qsTr("Virtualizing ListView wrapper for large models."),
+            description: qsTr("Virtualizing ListView wrapper (stable 1.37) — docs/performance.md."),
             component: "ItemsRepeaterPage",
             source: "pages/ItemsRepeaterPage.qml"
         },
@@ -409,7 +409,7 @@ QtObject {
             title: qsTr("Window shells"),
             category: "navigation",
             icon: FluentIcons.OpenInNewWindow,
-            description: qsTr("Solid + geometryPersistenceKey recipe; paradigm/presenter; Blank/Nav/MenuStatus shells (1.32)."),
+            description: qsTr("ShellWindow / Blank / Nav / MenuStatus (stable 1.37) — docs/window-shells.md."),
             component: "WindowParadigmPage",
             source: "pages/WindowParadigmPage.qml"
         },
@@ -433,7 +433,7 @@ QtObject {
             title: qsTr("TabView"),
             category: "collections",
             icon: FluentIcons.Comment,
-            description: qsTr("Document tabs vs NavigationView — docs/navigation.md (1.27). Tear-out experimental."),
+            description: qsTr("Document tabs (stable 1.37). Tear-out remains experimental — docs/navigation.md."),
             component: "TabViewPage",
             source: "pages/TabViewPage.qml"
         },
@@ -489,7 +489,7 @@ QtObject {
             title: qsTr("Drawer"),
             category: "layout",
             icon: FluentIcons.GlobalNavButton,
-            description: qsTr("A slide-out panel anchored to a window edge."),
+            description: qsTr("Edge panel (stable 1.37) — docs/dialogs-flyouts.md."),
             component: "DrawerPage",
             source: "pages/DrawerPage.qml"
         },
@@ -505,7 +505,7 @@ QtObject {
             title: qsTr("CommandBar"),
             category: "menus",
             icon: FluentIcons.More,
-            description: qsTr("A compact toolbar for frequent commands."),
+            description: qsTr("Page tool strip (stable 1.37) — docs/commands.md."),
             component: "CommandBarPage",
             source: "pages/CommandBarPage.qml"
         },
@@ -521,7 +521,7 @@ QtObject {
             title: qsTr("CommandPalette"),
             category: "menus",
             icon: FluentIcons.Search,
-            description: qsTr("Ctrl+K command launcher with fuzzy filter; wired on ShellWindow."),
+            description: qsTr("Ctrl+K launcher (stable 1.37) — docs/commands.md."),
             component: "CommandPalettePage",
             source: "pages/CommandPalettePage.qml"
         },
@@ -545,7 +545,7 @@ QtObject {
             title: qsTr("MenuBar"),
             category: "menus",
             icon: FluentIcons.GlobalNavButton,
-            description: qsTr("A horizontal bar of cascading menus for an application window."),
+            description: qsTr("Classic window menu bar (stable 1.37) — docs/commands.md."),
             component: "MenuBarPage",
             source: "pages/MenuBarPage.qml"
         },
@@ -705,7 +705,7 @@ QtObject {
             title: qsTr("Dialogs & flyouts"),
             category: "dialogs",
             icon: FluentIcons.Comment,
-            description: qsTr("Chooser: ContentDialog vs Flyout vs TeachingTip vs Drawer."),
+            description: qsTr("Chooser: ContentDialog / Flyout / TeachingTip / Drawer (stable surfaces 1.37)."),
             component: "DialogsFlyoutsPage",
             source: "pages/DialogsFlyoutsPage.qml"
         },
@@ -713,7 +713,7 @@ QtObject {
             title: qsTr("Flyout"),
             category: "dialogs",
             icon: FluentIcons.Lightbulb,
-            description: qsTr("A lightweight dismissible popup anchored to a control."),
+            description: qsTr("Light-dismiss popup (stable 1.37) — docs/dialogs-flyouts.md."),
             component: "FlyoutPage",
             source: "pages/FlyoutPage.qml"
         },
@@ -769,7 +769,7 @@ QtObject {
             title: qsTr("ProgressRing"),
             category: "status",
             icon: FluentIcons.Sync,
-            description: qsTr("A circular determinate or indeterminate progress indicator."),
+            description: qsTr("In-place progress ring (stable 1.37) — docs/feedback.md."),
             component: "ProgressRingPage",
             source: "pages/ProgressRingPage.qml"
         },
@@ -873,7 +873,7 @@ QtObject {
             title: qsTr("InfoBadge"),
             category: "status",
             icon: FluentIcons.ProgressRingCommon,
-            description: qsTr("A small badge for counts or status dots."),
+            description: qsTr("Counts / status dots (stable 1.37)."),
             component: "InfoBadgePage",
             source: "pages/InfoBadgePage.qml"
         },
@@ -1121,7 +1121,7 @@ QtObject {
             title: qsTr("ProgressButton"),
             category: "buttons",
             icon: FluentIcons.AreaChartMirrored,
-            description: qsTr("A button with embedded determinate or indeterminate progress."),
+            description: qsTr("Button with embedded progress (stable 1.37) — docs/feedback.md."),
             component: "ProgressButtonPage",
             source: "pages/ProgressButtonPage.qml"
         },
@@ -1273,7 +1273,7 @@ QtObject {
             title: qsTr("MenuFlyout"),
             category: "menus",
             icon: FluentIcons.GlobalNavButton,
-            description: qsTr("A command flyout menu anchored to a control."),
+            description: qsTr("Context / overflow menu (stable 1.37) — docs/commands.md."),
             component: "MenuFlyoutPage",
             source: "pages/MenuFlyoutPage.qml"
         },
@@ -1361,7 +1361,7 @@ QtObject {
             title: qsTr("Iconography"),
             category: "basic",
             icon: FluentIcons.OpenInNewWindow,
-            description: qsTr("FluentIcons browser - size/color/a11y - docs/icons.md (1.29)."),
+            description: qsTr("FluentIcons + FontIcon (stable 1.37) — docs/icons.md."),
             component: "FontIconPage",
             source: "pages/FontIconPage.qml"
         },
@@ -1425,19 +1425,21 @@ QtObject {
     // Curated “recently shipped” recipe pages (1.20) — not catalog array order.
     function recentlyShipped(count) {
         var ids = [
+            "DialogsFlyoutsPage",     // 1.37 promote
+            "CommandPalettePage",     // 1.37 promote
+            "TabViewPage",            // 1.37 promote
+            "WindowParadigmPage",     // 1.37 ShellWindow family
             "ChartsPage",             // 1.23
-            "AnimationsPage",         // 1.22
-            "MediaPlayerElementPage", // 1.21
+            "AnimationsPage",         // 1.22 experimental
+            "MediaPlayerElementPage", // 1.21 experimental
             "AccessibilityPage",      // 1.19
             "WebView2Page",           // 1.18
             "SystemIntegrationPage",  // 1.17 / 1.10
-            "DialogsFlyoutsPage",     // 1.16
-            "CommandPalettePage",     // 1.15
             "I18nRtlPage",            // 1.13
             "FormValidationPage",     // 1.08
             "DataTablePage",          // 1.07
-            "ContentDialogPage",      // 1.16 / 1.02
-            "HomePage"                // gallery home
+            "ContentDialogPage",
+            "HomePage"
         ]
         var n = Math.max(1, count || 9)
         var out = []

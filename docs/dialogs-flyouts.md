@@ -5,9 +5,9 @@ When to use **modal** vs **light-dismiss** surfaces. Prefer types already on [st
 | Surface | Modal? | Use when | Gallery |
 |---------|--------|----------|---------|
 | [`ContentDialog`](components/ContentDialog.md) + [`ContentDialogQueue`](components/ContentDialogQueue.md) | Yes | Confirm / save / destructive choice | ContentDialog |
-| [`Flyout`](components/Flyout.md) | No (default) | Short contextual UI next to a control | Flyout |
+| [`Flyout`](components/Flyout.md) | No (default) | Short contextual UI next to a control | Flyout (**stable 1.37**) |
 | [`TeachingTip`](components/TeachingTip.md) | No | Coach mark / first-run tip with optional action | TeachingTip · InfoBar + TeachingTip recipe |
-| Style [`Drawer`](components/Drawer.md) | Yes (dim) | Edge panel for nav / secondary tools | Drawer |
+| Style [`Drawer`](components/Drawer.md) | Yes (dim) | Edge panel for nav / secondary tools | Drawer (**stable 1.37**) |
 | [`MenuFlyout`](components/MenuFlyout.md) | Light-dismiss menu | Actions list (see [commands.md](commands.md)) | MenuFlyout |
 
 ---

@@ -2,7 +2,7 @@
 
 Copy-ready motion for **list → detail**, **page enter**, and **content swap**. All helpers honor `Theme.reducedMotion` (and `Theme.duration()` collapses to ~1 ms when reduced motion is on).
 
-**Status:** **experimental** — APIs are usable; keep them behind reduced-motion checks in production. Promote later only after soak (see [stable-api.md](stable-api.md)).
+**Status:** **experimental** — APIs are usable; keep them behind reduced-motion checks in production. Explicitly **deferred in 1.37** — [stable-api.md](stable-api.md).
 
 Gallery: **Animations** (hub) · ConnectedAnimation · EntranceThemeTransition · Theme transitions.
 

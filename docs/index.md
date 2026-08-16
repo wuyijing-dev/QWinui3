@@ -9,7 +9,7 @@ This site is generated from QML source comments and shipped via GitHub Pages.
 | | |
 |--|--|
 | **[Recipes hub](recipes.md)** | All LoB how-tos in one place (1.36) |
-| [Stable API](stable-api.md) | What to rely on in 1.xx apps |
+| [Stable API](stable-api.md) | What to rely on in 1.xx apps (promote/defer **1.37**) |
 | [Component API](components.md) | Full public + internal control index |
 | [Qt Creator](qt-creator.md) | Open Gallery / examples (CMake only) |
 | [Consumer packaging](packaging-consumer.md) | Shared zip / CMake / runtime |

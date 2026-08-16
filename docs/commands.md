@@ -1,6 +1,6 @@
 # Commands & menus (1.15)
 
-Keyboard / focus recipes for **command launchers**, **command bars**, and **menus**. Prefer these over inventing a parallel ribbon.
+Keyboard / focus recipes for **command launchers**, **command bars**, and **menus**. Prefer these over inventing a parallel ribbon. Surfaces below are **stable as of 1.37** — [stable-api.md](stable-api.md).
 
 | Surface | Use when | Gallery |
 |---------|----------|---------|

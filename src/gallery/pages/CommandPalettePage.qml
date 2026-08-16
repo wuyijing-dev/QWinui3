@@ -6,11 +6,11 @@ import QWinUI3.Extras
 
 // Gallery — CommandPalette.
 //
-// Ctrl+K launcher (also available on ShellWindow). Keyboard recipe: docs/commands.md (1.15).
+// Ctrl+K launcher (also available on ShellWindow). Stable 1.37 — docs/commands.md / stable-api.md.
 
 CatalogPage {
     title: qsTr("CommandPalette")
-    subtitle: qsTr("Ctrl+K launcher — filter, ↑↓, Enter, Esc. Recipe: docs/commands.md.")
+    subtitle: qsTr("Stable (1.37). Ctrl+K launcher — docs/commands.md · docs/stable-api.md.")
 
     overlay: CommandPalette {
         id: palette

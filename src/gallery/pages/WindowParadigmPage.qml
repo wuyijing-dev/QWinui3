@@ -15,7 +15,7 @@ CatalogPage {
     id: root
 
     title: qsTr("Window shells")
-    subtitle: qsTr("Solid default · geometryPersistenceKey · paradigm / presenter. Recipe: docs/window-shells.md (1.32).")
+    subtitle: qsTr("Solid default · ShellWindow family stable (1.37). Recipe: docs/window-shells.md · docs/stable-api.md.")
 
     property var _openWindows: []
     property var liveWindow: null

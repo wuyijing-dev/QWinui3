@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.36**
-**Next up:** **1.37** (Experimental promote sweep)
+**Current:** **1.37**
+**Next up:** **1.38** (Linux Wayland edge cases)
 **Planned through:** **1.50** (1.xx maturity checkpoint)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
 
@@ -60,7 +60,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.36`
+## Shipped — `1.01` … `1.37`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -206,30 +206,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** [recipes.md](docs/recipes.md) hub; MkDocs nav regrouped under Recipes (Getting started / shells / data / feedback / platform / quality); slim docs home + README Documentation table (≤2 clicks to recipes); `webview2-future.md` kept as legacy redirect; stable-api cross-link; product version `1.36`.
 
+### 1.37 — Experimental promote sweep (shipped)
+
+**Shipped:** Explicit promote batch (commands, Flyout/Drawer, TabView, ShellWindow/Blank/MenuStatus, pickers, progress, FontIcon/InfoBadge, ItemsRepeater) + defer/won’t-promote list in [stable-api.md](docs/stable-api.md); Gallery catalog + chooser/page badges; recipes hub pointer; product version `1.37`.
+
 ---
 
-## Late path — planned `1.37` … `1.40`
+## Late path — planned `1.38` … `1.40`
 
 Still **1.xx**. Schedule after mid path is mostly done; order can flex.
-
-### 1.37 — Experimental promote sweep
-
-**Why:** Long-soaked experimental types accumulate; stable-api should reflect reality.
-
-**In scope**
-
-- Batch promote candidates with soak evidence; prune or document “won’t promote” items.
-- Update [stable-api.md](docs/stable-api.md) + Gallery badges.
-
-**Out of scope**
-
-- Promoting everything; breaking renames (that’s 2.00 territory).
-
-**Exit criteria**
-
-- Explicit promote/defer list shipped; no silent status flips.
-
----
 
 ### 1.38 — Linux Wayland edge cases
 

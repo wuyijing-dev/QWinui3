@@ -5,7 +5,7 @@ QWinUI3 ships **~200** public types. Not all of them carry the same compatibilit
 This page is the **1.xx stable surface** for apps that copy from examples / Gallery. Types **not** listed as stable may still work and stay documented—they are simply **not** covered by the “no silent renames” promise until promoted here.
 
 **Product version:** see `QWINUI3_VERSION` in root `CMakeLists.txt` (`X.YY`).  
-**How-to recipes:** [recipes.md](recipes.md) (1.36).
+**How-to recipes:** [recipes.md](recipes.md).
 
 ---
 
@@ -15,9 +15,39 @@ This page is the **1.xx stable surface** for apps that copy from examples / Gall
 |-------|---------|
 | **Stable** | Prefer these in product apps. In 1.xx we avoid removing or silently renaming public properties/signals without a roadmap note and docs update. |
 | **Experimental** | Usable, Gallery-backed when marked, but APIs may change in a later `1.xx` with docs callouts. |
+| **Won’t promote (for now)** | Explicitly deferred — see [1.37 defer list](#137-defer--wont-promote-for-now). Still usable; do not assume 1.xx rename freeze. |
 | **Internal / support** | Not for app import (see generated [components.md](components.md) “Internal” section). |
 
 Style module (`QT_QUICK_CONTROLS_STYLE=QWinUI3`): treating **standard** `QtQuick.Controls` types with this style is **stable**. Custom Extras that wrap them follow the tables below.
+
+---
+
+## 1.37 promote batch
+
+Promoted this slice (Gallery + recipe soak). Status flips are **named here** — not silent.
+
+| Promote | Evidence |
+|---------|----------|
+| `CommandPalette`, `CommandBar`, `AppBarButton`, `CommandBarFlyout`, `MenuFlyout`, `MenuFlyoutItem`, style `MenuBar` | [commands.md](commands.md) (1.15) |
+| `Flyout`, style `Drawer` | [dialogs-flyouts.md](dialogs-flyouts.md) (1.16); `ContentDialog` / `TeachingTip` already stable |
+| `TabView` (**not** tear-out) | [navigation.md](navigation.md) (1.27) |
+| `ShellWindow`, `BlankWindow`, `MenuStatusWindow` | [window-shells.md](window-shells.md) (1.32); `NavigationWindow` already stable |
+| `NumberBox`, `DatePicker`, `CalendarDatePicker`, `TimePicker`, `ColorPicker` | [pickers.md](pickers.md) (1.28) |
+| Style `ProgressBar`, `ProgressRing`, `ProgressButton` | [feedback.md](feedback.md) (1.34) |
+| `FontIcon`, `InfoBadge` | [icons.md](icons.md) (1.29); nav badges |
+| `ItemsRepeater` | [performance.md](performance.md) (1.25) |
+
+### 1.37 defer / won’t promote (for now)
+
+| Keep experimental | Why |
+|-------------------|-----|
+| `MediaPlayerElement` | Optional Multimedia; backends vary — [media.md](media.md) |
+| `ConnectedAnimation*`, entrance / theme transition helpers | Motion APIs still settling — [animations.md](animations.md) |
+| `TabView` tear-out (`canTearOutTabs`, tear-out windows) | Niche; may change — [navigation.md](navigation.md) |
+| Niche charts / gauges (`AreaChart`, `PieChart`, `ArcGauge`, `RadarChart`, …) | Stable six already named — [charts.md](charts.md) |
+| WebView2 custom Environment / multi-profile | Base host stable (1.18); advanced options not |
+| Snap Layouts / battery / online / screens / recent-docs helpers | Gallery demos only — [shell-extras.md](shell-extras.md) |
+| Compact overlay / dialog-tool exotic shell variants beyond Blank/Nav/MenuStatus | Prefer `ShellWindow` / `NavigationWindow` for LoB |
 
 ---
 
@@ -28,8 +58,10 @@ Style module (`QT_QUICK_CONTROLS_STYLE=QWinUI3`): treating **standard** `QtQuick
 | Type | Module | Notes |
 |------|--------|--------|
 | `StandardWindow` | Platform | Primary app window for examples |
+| `ShellWindow` / `BlankWindow` / `MenuStatusWindow` | Extras | Product shells — [window-shells.md](window-shells.md) (**1.37**) |
 | `NavigationView` | Extras | Pane + page stack; used by `examples/nav-settings` — [navigation.md](navigation.md) (1.27) |
 | `NavigationWindow` | Extras | Shell + NavigationView host |
+| `TabView` | Extras | Document tabs (tear-out remains experimental) — [navigation.md](navigation.md) (**1.37**) |
 | `PlatformTitleBar` / caption chrome | Platform | Via shells; prefer shell APIs over reinventing |
 
 ### Settings & forms
@@ -42,6 +74,7 @@ Style module (`QT_QUICK_CONTROLS_STYLE=QWinUI3`): treating **standard** `QtQuick
 | `SettingsToggleCard` / `SettingsComboCard` / `SettingsSliderCard` | Extras | Common settings rows |
 | `FormLayout` | Extras | Form stack + field errors — [forms.md](forms.md) (1.08) |
 | `HeaderedTextBox` / `HeaderedComboBox` / `ValidationSummary` | Extras | `errorMessage` → `validate()` — [forms.md](forms.md) |
+| `NumberBox` / `DatePicker` / `CalendarDatePicker` / `TimePicker` / `ColorPicker` | Extras | Form-friendly pickers — [pickers.md](pickers.md) (**1.37**) |
 
 ### Dialogs & feedback
 
@@ -49,9 +82,20 @@ Style module (`QT_QUICK_CONTROLS_STYLE=QWinUI3`): treating **standard** `QtQuick
 |------|--------|--------|
 | `ContentDialog` | Extras | Modal primary/secondary/close — [dialogs-flyouts.md](dialogs-flyouts.md) (1.16 Esc/default) |
 | `ContentDialogQueue` | Extras | Serialize dialogs — [dialogs-flyouts.md](dialogs-flyouts.md) |
+| `Flyout` / style `Drawer` | Extras / Style | Light-dismiss / edge panel — [dialogs-flyouts.md](dialogs-flyouts.md) (**1.37**) |
 | `InfoBar` / `InfoBarHost` | Extras | Inline severity banners — [feedback.md](feedback.md) (1.34) |
 | `Toast` / `ToastHost` | Extras | Transient toasts + pending queue — [feedback.md](feedback.md) |
 | `TeachingTip` | Extras | Coach marks; focus returns to target — [feedback.md](feedback.md) (1.34) |
+| Style `ProgressBar` / `ProgressRing` / `ProgressButton` | Style / Extras | In-place progress — [feedback.md](feedback.md) (**1.37**) |
+
+### Commands & menus
+
+| Type | Module | Notes |
+|------|--------|--------|
+| `CommandPalette` | Extras | Ctrl+K launcher — [commands.md](commands.md) (**1.37**) |
+| `CommandBar` / `AppBarButton` / `CommandBarFlyout` | Extras | Page tool strip — [commands.md](commands.md) (**1.37**) |
+| `MenuFlyout` / `MenuFlyoutItem` | Extras | Context / overflow — [commands.md](commands.md) (**1.37**) |
+| Style `MenuBar` | Style | Classic menu bar — [commands.md](commands.md) (**1.37**) |
 
 ### Data (basics)
 
@@ -59,6 +103,7 @@ Style module (`QT_QUICK_CONTROLS_STYLE=QWinUI3`): treating **standard** `QtQuick
 |------|--------|--------|
 | `DataTable` | Extras | Sort/filter/resize + stable selection / keyboard — [data-collections.md](data-collections.md) (1.07); scale tips [performance.md](performance.md) (1.25) |
 | `ListDetailsView` / `ItemsView` / `ListTile` | Extras | Master–detail / list recipes — [data-collections.md](data-collections.md) |
+| `ItemsRepeater` | Extras | Virtualizing list wrapper — [performance.md](performance.md) (**1.37**) |
 | `TreeView` + Fluent `TreeViewDelegate` | Style / QQC | Hierarchy LoB — [tree-data.md](tree-data.md) (1.33) |
 
 ### Theme & style
@@ -66,7 +111,8 @@ Style module (`QT_QUICK_CONTROLS_STYLE=QWinUI3`): treating **standard** `QtQuick
 | Type | Module | Notes |
 |------|--------|--------|
 | `Theme` singleton | Theme | Tokens, density, dark/light, accent — [theme-overrides.md](theme-overrides.md) (1.09) |
-| `FluentIcons` | Theme | Symbol font API — [icons.md](icons.md) (1.29) |
+| `FluentIcons` / `FontIcon` | Theme / Extras | Symbol font + glyph control — [icons.md](icons.md) (**1.37** FontIcon) |
+| `InfoBadge` | Extras | Counts / status dots on nav — (**1.37**) |
 | Style `QWinUI3` | Style | Drop-in Fluent chrome for Controls |
 
 ### Platform helpers (common)
@@ -87,18 +133,16 @@ Style module (`QT_QUICK_CONTROLS_STYLE=QWinUI3`): treating **standard** `QtQuick
 
 ## Experimental — fine to try, expect change
 
-Promote to stable only after a named `1.xx` slice hardens them.
+Promote to stable only after a named `1.xx` slice hardens them. See also [1.37 defer](#137-defer--wont-promote-for-now).
 
 | Area | Examples | Why experimental |
 |------|----------|------------------|
-| **WebView2 advanced** | Custom Environment / multi-profile | Base `WebView2Host` is **stable (1.18)** — [webview2.md](webview2.md); advanced env options still experimental |
+| **WebView2 advanced** | Custom Environment / multi-profile | Base `WebView2Host` is **stable (1.18)** — [webview2.md](webview2.md) |
 | **Charts & gauges (remaining)** | `AreaChart`, `PieChart`, `ArcGauge`, `RadarChart`, … | Niche / siblings — [charts.md](charts.md); **stable subset** Line/Bar/Donut + RingGauge + KpiTile + ChartCard (**1.23**) |
-| **Advanced chrome** | Snap layouts edge cases, frost/Mica failure modes | Documented gaps; polish in **1.03** / **1.04** |
-| **Animations** | `ConnectedAnimation*`, theme transitions | Experimental; recipe [animations.md](animations.md) (1.22) — remain experimental until soak |
-| **Tear-out / exotic shells** | `TabViewTearOutWindow`, compact overlay variants | Niche |
-| **Media** | `MediaPlayerElement` | Optional Qt Multimedia; recipe [media.md](media.md) (1.21) — remain experimental |
-| **Shell extras (remaining)** | Snap Layouts, battery/online/screens, recent-docs | Gallery demos; taskbar/attention/reveal/idle promoted in **1.17** — [shell-extras.md](shell-extras.md) |
-| **Commands & menus** | `CommandPalette`, `CommandBar`, `MenuFlyout`, … | Keyboard recipe in [commands.md](commands.md) (1.15); promote later if soaked |
+| **Animations** | `ConnectedAnimation*`, theme transitions | Recipe [animations.md](animations.md) (1.22) — deferred in **1.37** |
+| **Tear-out / exotic shells** | `canTearOutTabs`, compact-overlay / dialog-tool shell variants | Niche — deferred in **1.37** |
+| **Media** | `MediaPlayerElement` | Optional Qt Multimedia — [media.md](media.md) (1.21) — deferred in **1.37** |
+| **Shell extras (remaining)** | Snap Layouts, battery/online/screens, recent-docs | Gallery demos; taskbar/attention/reveal/idle already stable (**1.17**) |
 
 If a type is public in [components.md](components.md) but listed in neither table, treat it as **experimental** until added here.
 
@@ -165,3 +209,4 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.34** | Feedback surfaces — [feedback.md](feedback.md); TeachingTip focus return |
 | **1.35** | Qt Creator kit polish — [qt-creator.md](qt-creator.md); example build presets |
 | **1.36** | Docs site IA — [recipes.md](recipes.md) hub; MkDocs Recipes sections |
+| **1.37** | Promote sweep — commands / Flyout / TabView / ShellWindow / pickers / progress / FontIcon / ItemsRepeater; explicit defer list |

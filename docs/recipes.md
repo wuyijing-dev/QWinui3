@@ -2,7 +2,7 @@
 
 LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stack. Generated **control** pages live under [Component API](components.md).
 
-**Stable types:** [stable-api.md](stable-api.md) · **Open the monorepo:** [qt-creator.md](qt-creator.md) · **Roadmap:** [roadmap.md](roadmap.md)
+**Stable API:** prefer types on [stable-api.md](stable-api.md). **1.37** promote / defer tables live there.
 
 ---
 

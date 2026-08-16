@@ -6,12 +6,12 @@ import QWinUI3.Extras
 
 // Gallery — TabView.
 //
-// Documents frame vs NavigationView destinations. Recipe: docs/navigation.md (1.27).
-// Tear-out stays experimental.
+// Documents frame vs NavigationView destinations. Stable 1.37 (tear-out still experimental).
+// Recipe: docs/navigation.md · docs/stable-api.md
 
 CatalogPage {
     title: qsTr("TabView")
-    subtitle: qsTr("Add / close / reorder documents. Prefer NavigationView for app destinations — docs/navigation.md (1.27).")
+    subtitle: qsTr("Stable (1.37). Documents vs NavigationView destinations — docs/navigation.md. Tear-out experimental.")
 
     ControlExample {
         headerText: qsTr("When to use (1.27)")

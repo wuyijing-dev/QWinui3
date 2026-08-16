@@ -4,16 +4,16 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — Dialogs & flyouts chooser (1.16).
+// Gallery — Dialogs & flyouts chooser (1.16 / 1.37).
 //
-// Recipe: docs/dialogs-flyouts.md
+// Recipe: docs/dialogs-flyouts.md · stable-api.md (Flyout / Drawer promoted 1.37)
 
 CatalogPage {
     title: qsTr("Dialogs & flyouts")
-    subtitle: qsTr("Modal vs light-dismiss. Recipe: docs/dialogs-flyouts.md — open each control page for demos.")
+    subtitle: qsTr("ContentDialog / Flyout / TeachingTip / Drawer — stable surfaces (1.37). Recipe: docs/dialogs-flyouts.md.")
 
     ControlExample {
-        headerText: qsTr("When to use which (1.16)")
+        headerText: qsTr("When to use which (1.16 / 1.37)")
         qmlSource: "// ContentDialog — blocking\n// Flyout / TeachingTip — light-dismiss\n// Drawer — edge panel"
         ColumnLayout {
             Layout.fillWidth: true
@@ -21,7 +21,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("ContentDialog (+ queue) for confirms and save/discard. Flyout for short contextual UI. TeachingTip for coach marks. Drawer for edge navigation. MenuFlyout for action lists (see Commands).")
+                text: qsTr("ContentDialog (+ queue) for confirms and save/discard. Flyout for short contextual UI. TeachingTip for coach marks. Drawer for edge navigation. MenuFlyout for action lists (see Commands). Promote map: docs/stable-api.md (1.37).")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary

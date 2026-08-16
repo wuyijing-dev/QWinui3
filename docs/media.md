@@ -73,7 +73,7 @@ if (media.available === false) {
 
 ## Stable-api decision (1.21)
 
-Remain **experimental** on [stable-api.md](stable-api.md). Promote later only after soak across Win/Linux kits and a fixed deploy story.
+Remain **experimental** on [stable-api.md](stable-api.md) — explicitly **deferred in 1.37** (won’t promote until Multimedia deploy story soaks).
 
 Out of scope for 1.21: playlists, custom pipelines, non-Qt backends.
 

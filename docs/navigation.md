@@ -21,7 +21,7 @@ Related: [window-shells.md](window-shells.md) · [window-chrome.md](window-chrom
 
 **Do not** nest a full NavigationView inside every TabView page as a second app rail — pick one primary frame.
 
-Tear-out (`canTearOutTabs`) stays **experimental** (may change; see TabView notes).
+Tear-out (`canTearOutTabs`) stays **experimental** (may change; see TabView notes). Core `TabView` is **stable (1.37)** — [stable-api.md](stable-api.md).
 
 ---
 
