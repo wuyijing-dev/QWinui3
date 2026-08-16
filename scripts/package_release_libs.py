@@ -66,11 +66,21 @@ def _configure(build_dir: Path, shared: bool, qt_prefix: str | None) -> None:
     _run(cmd)
 
 
-def _build(build_dir: Path) -> None:
+def _build(build_dir: Path, shared: bool) -> None:
     cmd = ["cmake", "--build", str(build_dir), "--config", "Release"]
-    # Parallel
     jobs = os.cpu_count() or 4
     cmd.extend(["--parallel", str(jobs)])
+    # Shared packaging must not link Gallery (it still expects static QML plugins).
+    if shared:
+        cmd.extend(
+            [
+                "--target",
+                "qwinui3_theme",
+                "qwinui3_style",
+                "qwinui3_platform",
+                "qwinui3_extras",
+            ]
+        )
     _run(cmd)
 
 
@@ -206,7 +216,7 @@ def main() -> int:
 
     if not args.no_build:
         _configure(build_dir, args.shared, qt_prefix)
-        _build(build_dir)
+        _build(build_dir, args.shared)
 
     if out_dir.exists():
         shutil.rmtree(out_dir)

@@ -1,37 +1,123 @@
 # QWinUI3
 
-**v1.0.0** — Fluent / [WinUI 3](https://learn.microsoft.com/windows/apps/winui/winui3/)-inspired controls for **Qt 6.8+** Quick.
+Fluent / [WinUI 3](https://learn.microsoft.com/windows/apps/winui/winui3/)-inspired controls for **Qt 6 Quick** — theme tokens, a full Quick Controls style, window shells, and a large Extras catalog you can drop into desktop apps.
 
-LGPL-3.0 · [Documentation](https://wuyijing-dev.github.io/QWinui3/) · [Component API](https://wuyijing-dev.github.io/QWinui3/components/)
+[![Release](https://img.shields.io/github/v/release/wuyijing-dev/QWinui3?label=release)](https://github.com/wuyijing-dev/QWinui3/releases/latest)
+[![License: LGPL-3.0](https://img.shields.io/badge/license-LGPL--3.0-blue.svg)](LICENSE)
+[![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-2ea44f)](https://wuyijing-dev.github.io/QWinui3/)
+[![Qt](https://img.shields.io/badge/Qt-6.8%2B-41CD52?logo=qt&logoColor=white)](https://www.qt.io/)
 
-## What’s included
+**v1.0.0** · **200+** public controls · Gallery demos for most of them  
+[Documentation](https://wuyijing-dev.github.io/QWinui3/) · [Component API](https://wuyijing-dev.github.io/QWinui3/components/) · [Releases](https://github.com/wuyijing-dev/QWinui3/releases)
 
-| Module | Import | Role |
-|--------|--------|------|
-| Style | `QtQuick.Controls` + style `QWinUI3` | Fluent chrome for standard Quick Controls |
-| Theme | `QWinUI3.Theme` | Tokens, FluentIcons, density / dark / accent |
-| Platform | `QWinUI3.Platform` | Title bar, shells, WindowHelper, optional WebView2 |
-| Extras | `QWinUI3.Extras` | NavigationView, InfoBar, gauges, charts, settings cards, … |
+---
 
-Apps set:
+## Why QWinUI3
 
-```bat
-set QT_QUICK_CONTROLS_STYLE=QWinUI3
+Qt ships excellent primitives; shipping a **Fluent-looking product** still means restyling chrome, inventing navigation shells, and reinventing InfoBars, settings cards, gauges, and charts. QWinUI3 packages that layer as QML modules:
+
+- **Drop-in style** — set `QT_QUICK_CONTROLS_STYLE=QWinUI3` and standard `QtQuick.Controls` pick up Fluent chrome.
+- **Design tokens** — density, dark/light, accent, and FluentIcons via `QWinUI3.Theme`.
+- **App shells** — title bar, Mica/backdrop helpers, NavigationView windows, optional WebView2.
+- **Extras catalog** — NavigationView, DataTable, ContentDialog, charts/gauges, settings cards, CommandPalette, TeachingTip, and more — with Gallery pages to try them.
+
+Primary target: **Windows desktop** (MSVC). Linux builds are supported for many controls; WebView2 is Windows-only.
+
+---
+
+## Modules
+
+| Module | QML import | What you get |
+|--------|------------|--------------|
+| **Style** | `QtQuick.Controls` + style `QWinUI3` | Fluent look for Button, TextField, ComboBox, Slider, … |
+| **Theme** | `QWinUI3.Theme` | Color / typography / spacing tokens, `FluentIcons`, theme switching |
+| **Platform** | `QWinUI3.Platform` | `StandardWindow` / shell family, `WindowHelper`, TitleBar, optional `WebView2Host` |
+| **Extras** | `QWinUI3.Extras` | WinUI-style composites: nav, dialogs, data, charts, feedback, … |
+
+Enable the style in C++ (examples and Gallery already do this):
+
+```cpp
+qputenv("QT_QUICK_CONTROLS_STYLE", "QWinUI3");
+QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 ```
+
+Minimal shell:
+
+```qml
+import QtQuick
+import QtQuick.Controls
+import QWinUI3.Theme
+import QWinUI3.Extras
+import QWinUI3.Platform
+
+StandardWindow {
+    width: 1100
+    height: 720
+    visible: true
+    title: qsTr("My app")
+    backdrop: WindowHelper.BackdropSolid
+
+    NavigationView {
+        anchors.fill: parent
+        headerText: qsTr("My app")
+        currentKey: "home"
+        model: [
+            { type: "item", key: "home", title: qsTr("Home"),
+              symbol: FluentIcons.Home, component: "HomePage" }
+        ]
+    }
+}
+```
+
+---
+
+## Feature highlights
+
+| Area | Examples |
+|------|----------|
+| **Navigation & shells** | `NavigationView`, `NavigationWindow`, `TwoPaneView`, TitleBar shells |
+| **Commands** | `CommandBar`, `CommandPalette`, AppBar buttons, `SplitButton`, `DropDownButton` |
+| **Forms & input** | `NumberBox`, `AutoSuggestBox`, headered fields, `ColorPicker`, `PasswordBox` |
+| **Dialogs & tips** | `ContentDialog`, `Flyout`, `MenuFlyout`, `TeachingTip`, `InfoButton` |
+| **Feedback** | `InfoBar` / `InfoBarHost`, `Toast` / `ToastHost`, `ProgressRing`, badges |
+| **Data & layout** | `DataTable`, `ItemsView`, `ListDetailsView`, settings cards / expanders |
+| **Charts & gauges** | Line / bar / donut / heatmap / sparkline, arc / radial / tank gauges, `KpiTile` |
+| **Platform extras** | Acrylic surfaces, notification bridge, optional media player & WebView2 |
+
+Full index (with Gallery flags): [docs/components.md](docs/components.md) · [online API](https://wuyijing-dev.github.io/QWinui3/components/).
+
+---
+
+## Try it without building
+
+From [GitHub Releases](https://github.com/wuyijing-dev/QWinui3/releases/tag/v1.0.0) (Windows x64):
+
+| Asset | Use |
+|-------|-----|
+| **`qwinui3-gallery-1.0.0-windows-x64.zip`** | Self-contained Gallery (Qt runtime bundled via windeployqt) |
+| **`qwinui3-1.0.0-windows-x64-shared.zip`** | Shared DLLs + QML modules for your own apps (needs Qt **6.8+** MSVC) |
+
+Unpack the Gallery zip and run `qwinui3_gallery.exe`.
+
+---
 
 ## Requirements
 
-- Qt **6.8+** (Quick, QuickControls2, LabsQmlModels; QuickEffects recommended)
-- CMake **≥ 3.21** (presets) / **≥ 3.16** (minimum in tree)
-- C++17 compiler (MSVC 2022 recommended on Windows)
-- Ninja (or another CMake generator)
+| | |
+|--|--|
+| **Qt** | **6.8+** — Quick, QuickControls2, LabsQmlModels (QuickEffects recommended) |
+| **CMake** | ≥ 3.21 for presets; ≥ 3.16 minimum in tree |
+| **Compiler** | C++17 — **MSVC 2022** recommended on Windows |
+| **Generator** | Ninja (presets) or Visual Studio / Qt Creator kit |
 
-Optional:
+**Optional**
 
 - Qt Multimedia → `MediaPlayerElement` (`QWINUI3_BUILD_MEDIA`)
-- Edge WebView2 SDK → `WebView2Host` (`scripts/fetch_webview2.ps1`, `QWINUI3_BUILD_WEBVIEW2`)
+- Edge WebView2 SDK + Runtime → `WebView2Host` (`scripts/fetch_webview2.ps1`, `QWINUI3_BUILD_WEBVIEW2`)
 
-## Quick start
+---
+
+## Build from source
 
 ```bat
 cmake --preset release
@@ -39,56 +125,86 @@ cmake --build --preset release --target qwinui3_gallery
 build\qwinui3_gallery.exe
 ```
 
+Point CMake at your Qt install if needed:
+
+1. Copy `CMakeUserPresets.json.example` → `CMakeUserPresets.json`
+2. Set `CMAKE_PREFIX_PATH` to your Qt 6.8+ prefix (e.g. `D:/Qt/6.8.0/msvc2022_64`)
+
 Or open the **repo root** `CMakeLists.txt` in [Qt Creator](docs/qt-creator.md) with a Qt 6.8+ kit and build `qwinui3_gallery`.
 
-Local Qt path (optional): copy `CMakeUserPresets.json.example` → `CMakeUserPresets.json` and edit `CMAKE_PREFIX_PATH`.
+### CMake options
 
-### Shared libraries
+| Option | Default | Meaning |
+|--------|---------|---------|
+| `QWINUI3_BUILD_EXAMPLES` | `ON` | Small starter apps under `examples/` |
+| `QWINUI3_BUILD_SHARED` | `OFF` | Shared libraries (DLL / `.so`) instead of static |
+| `QWINUI3_BUILD_MEDIA` | auto | Media player control when Qt Multimedia is present |
+| `QWINUI3_BUILD_WEBVIEW2` | `ON` (Win) | WebView2 host control |
 
-Default in-tree builds are **STATIC**. For redistributable DLLs / `.so`:
+### Shared / redistributable package
+
+In-tree defaults are **STATIC** (convenient for Gallery). For redistributable shared libs:
 
 ```bat
 python scripts/package_release_libs.py --shared
 ```
 
-## Repository layout
+Output lands under `dist/` (gitignored).
 
-```
-src/theme/      QWinUI3.Theme
-src/style/      Qt Quick Controls style
-src/platform/  QWinUI3.Platform
-src/extras/    QWinUI3.Extras
-src/gallery/   Control catalog app
-examples/      Small starter apps
-docs/          Markdown + MkDocs site source
-scripts/       generate_component_docs.py, package_release_libs.py
-```
+---
 
 ## Examples
 
-See [`examples/README.md`](examples/README.md):
+Copy-ready starters — see [`examples/README.md`](examples/README.md):
 
-- `qwinui3_example_nav` — NavigationView shell
-- `qwinui3_example_settings` — Settings cards
-- `qwinui3_example_dashboard` — KPI / charts layout
+| Target | Demonstrates |
+|--------|----------------|
+| `qwinui3_example_nav` | `StandardWindow` + `NavigationView` + Settings footer |
+| `qwinui3_example_settings` | `SettingsCard` / `SettingsExpander` settings page |
+| `qwinui3_example_dashboard` | `KpiTile` + charts / gauges layout |
+
+```bat
+cmake --build --preset release --target qwinui3_example_nav qwinui3_example_settings qwinui3_example_dashboard
+```
+
+---
+
+## Repository layout
+
+```
+src/theme/       QWinUI3.Theme
+src/style/       Qt Quick Controls style (QWinUI3)
+src/platform/    QWinUI3.Platform
+src/extras/      QWinUI3.Extras
+src/gallery/     Control catalog application
+examples/        Small starter apps
+docs/            Markdown + MkDocs site source
+scripts/         Docs generator, shared packaging, WebView2 fetch
+```
+
+---
 
 ## Documentation
 
-| Link | Description |
-|------|-------------|
-| [Docs site](https://wuyijing-dev.github.io/QWinui3/) | MkDocs Material |
+| Resource | Description |
+|----------|-------------|
+| [Docs site](https://wuyijing-dev.github.io/QWinui3/) | MkDocs Material (GitHub Pages) |
 | [`docs/components.md`](docs/components.md) | Full control index |
-| [`docs/conventions.md`](docs/conventions.md) | Radius, a11y, import rules |
-| [`docs/window-shells.md`](docs/window-shells.md) | ShellWindow family |
+| [`docs/conventions.md`](docs/conventions.md) | Radius, accessibility, import rules |
+| [`docs/window-shells.md`](docs/window-shells.md) | ShellWindow family vs StandardWindow |
+| [`docs/qt-creator.md`](docs/qt-creator.md) | Opening the project in Qt Creator |
 
 Regenerate API pages from QML comments:
 
 ```bat
 python scripts/generate_component_docs.py
+python scripts/generate_component_docs.py --lint
 ```
+
+---
 
 ## License
 
-[LGPL-3.0](LICENSE) (see also [COPYING](COPYING) for GPL-3.0 terms incorporated by LGPL-3.0).
+[LGPL-3.0](LICENSE) (see also [COPYING](COPYING) for the GPL-3.0 terms incorporated by LGPL-3.0).
 
-Third-party notes: Fluent icon font licensing under `src/theme/QWinUI3/Theme/fonts/`.
+Fluent icon font licensing notes live under `src/theme/QWinUI3/Theme/fonts/`.
