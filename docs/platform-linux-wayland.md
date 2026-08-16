@@ -1,6 +1,6 @@
 # Linux / Wayland notes for QWinUI3
 
-QWinUI3 keeps **server-side decorations (SSD)** on Linux/Wayland. Custom frameless chrome is Windows-only (`WindowHelper.customFrame` / `serverSideDecorations`).
+QWinUI3 uses **client-side Fluent chrome** on Linux/Wayland (`WindowHelper.customFrame`, `FramelessWindowHint`, in-app `PlatformTitleBar`). The compositor system title bar is disabled by default.
 
 ## Required app startup (before `QGuiApplication`)
 
@@ -9,30 +9,42 @@ QWinUI3 keeps **server-side decorations (SSD)** on Linux/Wayland. Custom framele
 
 int main(int argc, char *argv[])
 {
-    WindowHelper::configurePlatformEnvironment(); // Wayland-first + SSD + fractional scale
+    WindowHelper::configurePlatformEnvironment(); // Wayland-first + CSD + icon font
     QGuiApplication app(argc, argv);
     QGuiApplication::setDesktopFileName(QStringLiteral("org.example.myapp"));
     // …
 }
 ```
 
-`configurePlatformEnvironment()` (no-op on Windows):
+`configurePlatformEnvironment()`:
 
 | Action | Effect |
 |--------|--------|
 | `QT_QPA_PLATFORM=wayland;xcb` when session is Wayland | Prefer native Wayland, fall back to X11 |
-| `QT_WAYLAND_DECORATION=material` if unset | Prefer compositor SSD |
+| `QT_WAYLAND_DISABLE_WINDOWDECORATION=1` if unset | Hide compositor title bar (use Fluent caption) |
 | `QT_SCALE_FACTOR_ROUNDING_POLICY=PassThrough` | Fractional Wayland scaling |
-| Does **not** set `QT_WAYLAND_DISABLE_WINDOWDECORATION` | Client undecorated chrome stays off |
+| `ThemeFonts::ensureLoaded()` | Register embedded Fluent icon font (`WinSymbols3.ttf`) |
+
+To force compositor SSD again: `export QT_WAYLAND_DISABLE_WINDOWDECORATION=0` before launch (and rebuild is not required; env is read at startup). Note: `customFrame` still expects Frameless — prefer the default CSD path.
 
 Gallery and examples already call this.
+
+## Icons (embedded font)
+
+Linux has no “Segoe Fluent Icons”. The theme packs **WinSymbols3.ttf** (MIT, [SymbolIconManager](https://github.com/robloo/SymbolIconManager)) under `src/theme/QWinUI3/Theme/fonts/` and registers it via `ThemeFonts`.
+
+```qml
+Theme.fontFamilyIcon   // "Symbols" on Linux; Segoe Fluent Icons on Win11 when installed
+ThemeFonts.iconFamily
+ThemeFonts.iconFontLoaded
+```
 
 ## Display server / desktop
 
 ```qml
 WindowHelper.displayServer
 WindowHelper.wayland / x11
-WindowHelper.serverSideDecorations
+WindowHelper.serverSideDecorations   // false when customFrame (default)
 WindowHelper.desktopEnvironment       // XDG_CURRENT_DESKTOP
 WindowHelper.waylandDisplay           // WAYLAND_DISPLAY
 WindowHelper.portalAvailable
@@ -53,11 +65,14 @@ QT_QPA_PLATFORM=wayland ./qwinui3_gallery
 QT_QPA_PLATFORM=xcb ./qwinui3_gallery
 ```
 
+Drag / resize use Qt APIs already wired in QML (`startSystemMove` / `startSystemResize`).
+
 ## Idle inhibit
 
 Linux uses `org.freedesktop.ScreenSaver.Inhibit` (cookie) with portal Inhibit as fallback. Windows uses `SetThreadExecutionState`.
 
 Color scheme watches portal `SettingChanged` when DBus is available.
+
 ## FilePicker (portal → zenity/kdialog)
 
 When Qt DBus is available (`QWINUI3_HAS_DBUS`), FilePicker tries **xdg-desktop-portal FileChooser** first.
@@ -107,7 +122,8 @@ Ship a `.desktop` whose id matches `setDesktopFileName` (e.g. `org.qwinui3.galle
 
 | Feature | Windows | Linux / Wayland |
 |---------|---------|-----------------|
-| Window chrome | Client-side Fluent | Compositor SSD |
+| Window chrome | Client-side Fluent | Client-side Fluent (CSD) |
+| Icon font | Segoe Fluent Icons (or embedded) | Embedded WinSymbols3 (`Symbols`) |
 | File dialogs | `IFileDialog` | portal (+ parent_window on X11) → zenity/kdialog |
 | Open URL | `QDesktopServices` | OpenURI portal → `QDesktopServices` |
 | Notifications | `Shell_NotifyIcon` | Notifications portal → notify-send |

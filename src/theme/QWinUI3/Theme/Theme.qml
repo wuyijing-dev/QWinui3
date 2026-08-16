@@ -169,8 +169,10 @@ QtObject {
     readonly property string fontFamilyText: "Segoe UI Variable Text"
     // Segoe UI Variable Display face (large titles)
     readonly property string fontFamilyDisplay: "Segoe UI Variable Display"
-    // Fluent Icons font family
-    readonly property string fontFamilyIcon: "Segoe Fluent Icons"
+    // Fluent Icons — system Segoe on Windows when present, else embedded WinSymbols3 ("Symbols")
+    readonly property string fontFamilyIcon: ThemeFonts.iconFamily
+    // Alias used by a few tiles
+    readonly property string iconFontFamily: fontFamilyIcon
     // Caption font size (12)
     readonly property int fontCaption: 12
     // Body font size (14)

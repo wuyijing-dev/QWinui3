@@ -13,16 +13,25 @@ qt_add_qml_module(qwinui3_theme
     SOURCES
         FluentIcons.h
         FluentIcons.cpp
+        ThemeFonts.h
+        ThemeFonts.cpp
     QML_FILES
         Theme.qml
         ElevatedChrome.qml
         IconSource.qml
+    RESOURCES
+        fonts/WinSymbols3.ttf
 )
 
 target_link_libraries(qwinui3_theme
     PUBLIC
         Qt6::Quick
         Qt6::Qml
+)
+
+target_include_directories(qwinui3_theme
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 # ElevatedChrome uses QtQuick.Effects (MultiEffect)

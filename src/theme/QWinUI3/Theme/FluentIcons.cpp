@@ -1,10 +1,12 @@
 #include "FluentIcons.h"
+#include "ThemeFonts.h"
 
 #include <QChar>
 
 FluentIcons::FluentIcons(QObject *parent)
     : QQmlPropertyMap(parent)
 {
+    ThemeFonts::ensureLoaded();
     populate();
 }
 

@@ -15,7 +15,7 @@ Q_IMPORT_QML_PLUGIN(QWinUI3_PlatformPlugin)
 
 int main(int argc, char *argv[])
 {
-    // Linux: Wayland-first QPA + SSD hints (must run before QGuiApplication).
+    // Linux: Wayland-first QPA + client-side chrome (must run before QGuiApplication).
     WindowHelper::configurePlatformEnvironment();
     GraphicsBackend::applyEarly(argc, argv);
 

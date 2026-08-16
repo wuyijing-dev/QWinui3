@@ -49,7 +49,7 @@ class WindowHelper : public QObject
     Q_PROPERTY(QString displayServer READ displayServer CONSTANT)
     Q_PROPERTY(bool wayland READ isWayland CONSTANT)
     Q_PROPERTY(bool x11 READ isX11 CONSTANT)
-    // Linux / Wayland: compositor draws chrome (SSD); opposite of customFrame
+    // Linux / Wayland: false when using client-side Fluent chrome (customFrame).
     Q_PROPERTY(bool serverSideDecorations READ serverSideDecorations CONSTANT)
     Q_PROPERTY(QString desktopEnvironment READ desktopEnvironment CONSTANT)
     Q_PROPERTY(QString waylandDisplay READ waylandDisplay CONSTANT)

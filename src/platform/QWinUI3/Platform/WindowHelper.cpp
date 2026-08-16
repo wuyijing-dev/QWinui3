@@ -1,5 +1,6 @@
 #include "WindowHelper.h"
 #include "LinuxPortal.h"
+#include "ThemeFonts.h"
 
 #include <cstdio>
 
@@ -143,7 +144,7 @@ bool WindowHelper::isX11() const
 
 bool WindowHelper::serverSideDecorations() const
 {
-    // Windows uses client-side Fluent chrome; Linux/Wayland keep compositor SSD.
+    // Windows and Linux both use client-side Fluent chrome when customFrame is on.
     return !customFrame();
 }
 
@@ -201,9 +202,10 @@ void WindowHelper::configurePlatformEnvironment()
             qputenv("QT_QPA_PLATFORM", "wayland;xcb");
     }
 
-    // Keep server-side decorations; never set QT_WAYLAND_DISABLE_WINDOWDECORATION here.
-    if (qEnvironmentVariableIsEmpty("QT_WAYLAND_DECORATION"))
-        qputenv("QT_WAYLAND_DECORATION", "material");
+    // Client-side decorations: hide compositor title bar; use Fluent caption.
+    // Respect an explicit override if the user/packager set one.
+    if (qEnvironmentVariableIsEmpty("QT_WAYLAND_DISABLE_WINDOWDECORATION"))
+        qputenv("QT_WAYLAND_DISABLE_WINDOWDECORATION", "1");
 
     // Fractional Wayland scaling — avoid forced integer rounding when unset.
     if (qEnvironmentVariableIsEmpty("QT_SCALE_FACTOR_ROUNDING_POLICY"))
@@ -211,6 +213,8 @@ void WindowHelper::configurePlatformEnvironment()
 #else
     // Windows / other: no-op (DWM chrome is handled after QGuiApplication).
 #endif
+    // Embed Fluent-compatible icon font early (Linux has no Segoe Fluent Icons).
+    ThemeFonts::ensureLoaded();
 }
 
 void WindowHelper::setDesktopFileName(const QString &desktopFileName)
@@ -507,7 +511,7 @@ void WindowHelper::setSnapLayoutsEnabled(bool enabled)
 
 bool WindowHelper::customFrame() const
 {
-#if defined(Q_OS_WIN)
+#if defined(Q_OS_WIN) || defined(Q_OS_LINUX)
     return true;
 #else
     return false;
@@ -534,7 +538,7 @@ bool WindowHelper::supportsBackdrop() const
 
 int WindowHelper::recommendedFlags() const
 {
-#if defined(Q_OS_WIN)
+#if defined(Q_OS_WIN) || defined(Q_OS_LINUX)
     return int(Qt::Window | Qt::FramelessWindowHint);
 #else
     return int(Qt::Window);
@@ -908,20 +912,17 @@ void WindowHelper::install(QObject *windowObject, bool dark, int backdrop)
     }
     refreshTint();
 
-#if defined(Q_OS_WIN)
-    // Only touch Frameless when missing — avoids redundant HWND recreation.
+#if defined(Q_OS_WIN) || defined(Q_OS_LINUX)
+    // Frameless + in-app Fluent caption (Windows DWM / Wayland CSD).
     if (!window->flags().testFlag(Qt::FramelessWindowHint))
         setWindowFlagsSafe(window, window->flags() | Qt::FramelessWindowHint);
     if (auto *quick = qobject_cast<QQuickWindow *>(window)) {
-        // Frosted hosts must clear with zero alpha or DWM materials stay hidden.
+        // Frosted hosts must clear with zero alpha or materials stay hidden.
         const bool frosted = m_backdrop != BackdropSolid && m_backdrop != BackdropNone;
-        quick->setColor(frosted ? QColor(0, 0, 0, 0) : m_windowColor);
+        quick->setColor(frosted ? QColor(0, 0, 0, 0)
+                                : (m_windowColor.isValid() ? m_windowColor : QColor(Qt::white)));
     }
 #else
-    // Linux / Wayland: keep SSD (no Frameless). Alpha clear when frosted so
-    // compositor blur / translucent shells can show through.
-    if (window->flags().testFlag(Qt::FramelessWindowHint))
-        window->setFlag(Qt::FramelessWindowHint, false);
     if (auto *quick = qobject_cast<QQuickWindow *>(window)) {
         const bool frosted = m_backdrop != BackdropSolid && m_backdrop != BackdropNone;
         quick->setColor(frosted ? QColor(0, 0, 0, 0)
@@ -952,7 +953,7 @@ int WindowHelper::flagsForParadigm(int paradigm) const
 int WindowHelper::flagsForConfig(int paradigm, int presenter, bool alwaysOnTop) const
 {
     int base = 0;
-#if defined(Q_OS_WIN)
+#if defined(Q_OS_WIN) || defined(Q_OS_LINUX)
     const int frameless = int(Qt::FramelessWindowHint);
 #else
     const int frameless = 0;

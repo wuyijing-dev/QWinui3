@@ -6,17 +6,16 @@
 #include <QSurfaceFormat>
 #include <QWindow>
 
-// Linux / Wayland: prefer server-side decorations; map backdrop to translucent
-// surfaces when the compositor allows. Detection: WindowHelper.displayServer /
-// wayland / x11 (set QT_QPA_PLATFORM via configurePlatformEnvironment()).
+// Linux / Wayland: client-side Fluent chrome (Frameless + PlatformTitleBar).
+// Detection: WindowHelper.displayServer / wayland / x11.
 void WindowHelper::applyNative(QWindow *window, bool dark, int backdrop)
 {
     if (!window)
         return;
 
-    // Never keep Frameless on Linux — it disables SSD and breaks Wayland chrome.
-    if (window->flags().testFlag(Qt::FramelessWindowHint))
-        window->setFlag(Qt::FramelessWindowHint, false);
+    // Keep Frameless so the compositor does not draw an extra title bar.
+    if (!window->flags().testFlag(Qt::FramelessWindowHint))
+        window->setFlag(Qt::FramelessWindowHint, true);
 
     const bool wantAlpha = backdrop != BackdropSolid && backdrop != BackdropNone;
     if (wantAlpha) {

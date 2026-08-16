@@ -88,7 +88,7 @@ WindowHelper.updateHitTestLayout(
 | `desktopWallpaperUrl` / `virtualDesktopGeometry` | Wallpaper sampling |
 | `systemReducedMotion` / `systemHighContrast` | OS a11y (`refreshAccessibility()`) |
 | `displayServer` / `wayland` / `x11` | QPA name (`wayland`, `xcb`, …) |
-| `serverSideDecorations` | Linux SSD (`!customFrame`) |
+| `serverSideDecorations` | `!customFrame` (false on Win/Linux with Fluent CSD) |
 | `desktopEnvironment` / `waylandDisplay` | `XDG_CURRENT_DESKTOP` / `WAYLAND_DISPLAY` |
 | `portalAvailable` | xdg-desktop-portal session bus reachable |
 | `devicePixelRatio` | Primary screen DPR (fractional scale) |

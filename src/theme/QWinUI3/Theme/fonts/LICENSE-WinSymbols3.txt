@@ -1,0 +1,15 @@
+WinSymbols3.ttf
+================
+
+Drop-in Segoe Fluent Icons–compatible symbol font from:
+
+  https://github.com/robloo/SymbolIconManager
+
+Font family name (as registered by Qt): "Symbols"
+
+Glyphs are remapped primarily from Microsoft Fluent UI System Icons (MIT)
+onto Segoe Fluent Icons / MDL2 Unicode points for cross-platform apps.
+Segoe Fluent Icons itself is proprietary and is NOT redistributed here.
+
+See the upstream ReadMe for mapping details and third-party credits.
+A copy of the upstream project overview is in NOTICE-WinSymbols3.md.
