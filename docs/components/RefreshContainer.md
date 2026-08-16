@@ -4,7 +4,7 @@ Pull-to-refresh host for flickable content.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/RefreshContainer.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/RefreshContainer.qml)
 
-**Category:** Other · **Library:** v0.1.0
+**Category:** Other · **Library:** v1.0.0
 
 [← Component index](../components.md)
 

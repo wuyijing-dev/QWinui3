@@ -1,6 +1,6 @@
 {
   "name": "QWinUI3",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "generatedBy": "scripts/generate_component_docs.py",
   "publicCount": 208,
   "components": [
