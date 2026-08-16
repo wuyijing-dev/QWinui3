@@ -21,6 +21,10 @@ import QWinUI3.Theme
 T.ScrollIndicator {
     id: control
 
+    Accessible.role: Accessible.Indicator
+    Accessible.name: control.orientation === Qt.Vertical ? qsTr("Vertical scroll indicator")
+                                                         : qsTr("Horizontal scroll indicator")
+
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,

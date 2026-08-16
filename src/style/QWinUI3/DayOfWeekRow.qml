@@ -19,6 +19,9 @@ import QWinUI3.Theme
 T.AbstractDayOfWeekRow {
     id: control
 
+    Accessible.role: Accessible.StaticText
+    Accessible.name: qsTr("Days of week")
+
     implicitWidth: 280
     implicitHeight: 32
     spacing: 2

@@ -20,6 +20,9 @@ import QWinUI3.Theme
 T.MenuBar {
     id: control
 
+    Accessible.role: Accessible.MenuBar
+    Accessible.name: qsTr("Menu bar")
+
     implicitWidth: contentWidth + leftPadding + rightPadding
     implicitHeight: contentHeight + topPadding + bottomPadding
 

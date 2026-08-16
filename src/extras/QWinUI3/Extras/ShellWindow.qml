@@ -31,6 +31,10 @@ import QWinUI3.Platform
 ApplicationWindow {
     id: root
 
+    Accessible.role: Accessible.Window
+    Accessible.name: root.title.length ? root.title : qsTr("Shell window")
+    Accessible.description: root.subtitle
+
     // Secondary subtitle text
     property alias subtitle: chrome.subtitle
     // FluentIcons symbol (preferred over iconGlyph)

@@ -22,6 +22,9 @@ import QWinUI3.Theme
 T.Control {
     id: root
 
+    Accessible.role: Accessible.Graphic
+    Accessible.name: root.title.length ? root.title : qsTr("Radar chart")
+
     // Chart series array
     property var series: []
     // Numeric values array

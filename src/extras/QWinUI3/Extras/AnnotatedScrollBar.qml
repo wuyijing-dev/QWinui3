@@ -41,6 +41,13 @@ import QWinUI3.Theme
 T.Control {
     id: root
 
+    Accessible.role: Accessible.ScrollBar
+    Accessible.name: root.currentLabel.length ? root.currentLabel : qsTr("Annotated scroll bar")
+    Accessible.description: root.detailLabel
+    Accessible.value: root.scrollPosition
+    Accessible.valueMinimum: 0
+    Accessible.valueMaximum: 1
+
     // Default children / content slot (hosted in the inner Flickable)
     default property alias contentData: flick.data
     // Flickable content width

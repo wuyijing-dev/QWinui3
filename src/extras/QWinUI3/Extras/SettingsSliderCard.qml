@@ -17,6 +17,14 @@ import QWinUI3.Theme
 SettingsCard {
     id: root
 
+    Accessible.description: {
+        var parts = []
+        if (description.length)
+            parts.push(description)
+        parts.push(qsTr("Value %1").arg(Number(slider.value).toFixed(root.valuePrecision)))
+        return parts.join(". ")
+    }
+
     property alias from: slider.from
     property alias to: slider.to
     property alias value: slider.value

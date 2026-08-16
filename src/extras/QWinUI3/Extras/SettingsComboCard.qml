@@ -18,6 +18,15 @@ import QWinUI3.Theme
 SettingsCard {
     id: root
 
+    Accessible.description: {
+        var parts = []
+        if (description.length)
+            parts.push(description)
+        if (combo.currentText.length)
+            parts.push(combo.currentText)
+        return parts.join(". ")
+    }
+
     property alias model: combo.model
     property alias currentIndex: combo.currentIndex
     property alias currentText: combo.currentText

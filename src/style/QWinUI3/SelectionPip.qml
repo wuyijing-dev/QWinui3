@@ -20,6 +20,8 @@ import QWinUI3.Theme
 Item {
     id: root
 
+    Accessible.ignored: true
+
     // ListView this pip tracks
     property var listView: null
     // Index the pip should track

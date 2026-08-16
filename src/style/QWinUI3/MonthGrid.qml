@@ -20,6 +20,9 @@ import QWinUI3.Theme
 T.AbstractMonthGrid {
     id: control
 
+    Accessible.role: Accessible.Table
+    Accessible.name: control.title.length ? control.title : qsTr("Calendar month")
+
     // Selected date
     property date selectedDate: new Date(NaN)
 

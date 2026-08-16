@@ -22,6 +22,9 @@ import QWinUI3.Theme
 T.Menu {
     id: control
 
+    Accessible.role: Accessible.PopupMenu
+    Accessible.name: control.title.length ? control.title : qsTr("Menu")
+
     implicitWidth: Math.max(160, contentItem.implicitWidth + leftPadding + rightPadding)
     implicitHeight: contentItem.implicitHeight + topPadding + bottomPadding
 

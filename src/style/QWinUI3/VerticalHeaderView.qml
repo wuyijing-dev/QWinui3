@@ -21,6 +21,10 @@ import QWinUI3.Theme
 
 T.VerticalHeaderView {
     id: control
+
+    Accessible.role: Accessible.RowHeader
+    Accessible.name: qsTr("Row header")
+
     clip: true
     boundsBehavior: Flickable.StopAtBounds
 

@@ -25,6 +25,9 @@ import QWinUI3.Theme
 T.Control {
     id: root
 
+    Accessible.role: Accessible.Graphic
+    Accessible.name: root.title.length ? root.title : qsTr("Scatter chart")
+
     // Scatter points
     property var points: []
     // Numeric values array

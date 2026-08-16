@@ -16,6 +16,9 @@ import QWinUI3.Theme
 MenuItem {
     id: control
 
+    Accessible.role: Accessible.StaticText
+    Accessible.name: control.text
+
     // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
     // Raw Fluent glyph string fallback

@@ -11,5 +11,10 @@ import QtQuick
 // Prefer SettingsCard { toggle: true } in new code.
 
 SettingsCard {
+    id: root
     toggle: true
+
+    Accessible.role: Accessible.CheckBox
+    Accessible.checkable: true
+    Accessible.checked: root.checked
 }

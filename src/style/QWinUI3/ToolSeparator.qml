@@ -17,6 +17,9 @@ import QWinUI3.Theme
 T.ToolSeparator {
     id: control
 
+    Accessible.role: Accessible.Separator
+    Accessible.name: qsTr("Separator")
+
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,

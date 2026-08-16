@@ -17,6 +17,9 @@ import QWinUI3.Theme
 T.DialogButtonBox {
     id: control
 
+    Accessible.role: Accessible.Grouping
+    Accessible.name: qsTr("Dialog buttons")
+
     implicitWidth: contentItem.implicitWidth + leftPadding + rightPadding
     implicitHeight: Math.max(Theme.controlHeight + topPadding + bottomPadding,
                              contentItem.implicitHeight + topPadding + bottomPadding)

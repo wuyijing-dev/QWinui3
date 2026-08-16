@@ -23,6 +23,9 @@ import QWinUI3.Theme
 T.Control {
     id: root
 
+    Accessible.role: Accessible.Graphic
+    Accessible.name: root.title.length ? root.title : qsTr("Waterfall chart")
+
     // Waterfall step descriptors
     property var steps: []
     // Numeric values array

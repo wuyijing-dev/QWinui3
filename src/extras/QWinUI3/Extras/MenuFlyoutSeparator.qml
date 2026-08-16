@@ -15,6 +15,10 @@ import QWinUI3.Theme
 
 MenuSeparator {
     id: control
+
+    Accessible.role: Accessible.Separator
+    Accessible.name: qsTr("Separator")
+
     topPadding: 4
     bottomPadding: 4
     contentItem: Rectangle {

@@ -17,6 +17,10 @@ import QWinUI3.Theme
 
 T.ApplicationWindow {
     id: window
+
+    Accessible.role: Accessible.Window
+    Accessible.name: window.title.length ? window.title : qsTr("Application")
+
     color: Theme.bgLayer
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody

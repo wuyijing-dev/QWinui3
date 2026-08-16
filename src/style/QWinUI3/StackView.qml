@@ -18,6 +18,10 @@ import QWinUI3.Theme
 T.StackView {
     id: control
 
+    Accessible.role: Accessible.Pane
+    Accessible.name: qsTr("Stack view")
+    Accessible.description: control.depth > 0 ? qsTr("Depth %1").arg(control.depth) : ""
+
     readonly property int __dur: Theme.reducedMotion ? 0 : Theme.duration(Theme.motionNormal)
     readonly property int __durFast: Theme.reducedMotion ? 0 : Theme.duration(Theme.motionFast)
 

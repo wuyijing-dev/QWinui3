@@ -22,6 +22,9 @@ import QWinUI3.Theme
 T.Control {
     id: root
 
+    Accessible.role: Accessible.Graphic
+    Accessible.name: root.title.length ? root.title : qsTr("Donut chart")
+
     // Pie/donut slice descriptors
     property var slices: []
     // Donut ring thickness

@@ -16,7 +16,9 @@ See Gallery **Pitfalls** for side-by-side demos (`DelayButton` / `ProgressButton
 
 - Attach `Accessible.*` to an `Item` / `Action` / `Control`, never to a bare `Popup` / `Menu` root (prefer the chrome `Item` / `contentItem` / `MenuItem`).
 - Prefer `FocusStroke` with `frameRadius` matching the control corner.
-- Interactive Style controls expose `Accessible.role` / `name` / value or checked state where applicable (`Button`, `CheckBox`, `Switch`, `Slider`, `ProgressBar`, …).
+- Interactive Style controls expose `Accessible.role` / `name` / value or checked state where applicable (`Button`, `CheckBox`, `Switch`, `Slider`, `ProgressBar`, `ScrollBar`, `MenuBar`, …).
+- Charts / gauges use `Accessible.Graphic` (or ProgressBar for meters) with `title` / label as `Accessible.name`.
+- Pure transitions, utils, and decorative chrome may omit Accessible or set `Accessible.ignored`.
 - Icon-only buttons must set `Accessible.name` (glyph alone is not enough for screen readers).
 - Respect `Theme.reducedMotion` / `Theme.highContrast` (and Gallery “Follow system accessibility”).
 - Keyboard: `focusPolicy: Qt.StrongFocus` + `activeFocusOnTab` for custom interactive Extras; handle arrows / Home / End / Esc where the control owns navigation.

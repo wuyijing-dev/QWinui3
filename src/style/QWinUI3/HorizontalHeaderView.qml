@@ -22,6 +22,10 @@ import QWinUI3.Theme
 
 T.HorizontalHeaderView {
     id: control
+
+    Accessible.role: Accessible.ColumnHeader
+    Accessible.name: qsTr("Column header")
+
     clip: true
     boundsBehavior: Flickable.StopAtBounds
 

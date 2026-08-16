@@ -18,6 +18,10 @@ import QWinUI3.Theme
 T.SwipeView {
     id: control
 
+    Accessible.role: Accessible.PageTabList
+    Accessible.name: qsTr("Swipe view")
+    Accessible.description: qsTr("Page %1 of %2").arg(control.currentIndex + 1).arg(control.count)
+
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             contentWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,

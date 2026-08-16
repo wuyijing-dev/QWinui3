@@ -25,6 +25,9 @@ import QWinUI3.Theme
 T.Control {
     id: root
 
+    Accessible.role: Accessible.Graphic
+    Accessible.name: root.title.length ? root.title : qsTr("Heatmap chart")
+
     // Numeric values array
     property var values: []
     // Heatmap row labels

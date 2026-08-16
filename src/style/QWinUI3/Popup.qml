@@ -18,6 +18,9 @@ import QWinUI3.Theme
 T.Popup {
     id: control
 
+    Accessible.role: Accessible.Dialog
+    Accessible.name: qsTr("Popup")
+
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             contentWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
