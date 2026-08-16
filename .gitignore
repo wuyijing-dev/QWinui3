@@ -3,7 +3,9 @@
 /build-debug/
 /build-relwithdebinfo/
 /build-shared-release/
+/build-gallery-release/
 /dist/
+/.cache/
 /.qtcreator/
 /CMakeLists.txt.user
 /CMakeUserPresets.json

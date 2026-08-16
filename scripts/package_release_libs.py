@@ -18,14 +18,26 @@ from __future__ import annotations
 
 import argparse
 import os
+import platform
+import re
 import shutil
 import subprocess
 import sys
+import tarfile
+import zipfile
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUT = ROOT / "dist" / "qwinui3"
+
+
+def _project_version() -> str:
+    text = (ROOT / "CMakeLists.txt").read_text(encoding="utf-8")
+    m = re.search(r"project\s*\(\s*QWinUI3\s+VERSION\s+([0-9]+\.[0-9]+\.[0-9]+)", text)
+    if not m:
+        raise RuntimeError("Could not parse VERSION from CMakeLists.txt")
+    return m.group(1)
 
 
 def _run(cmd: list[str], cwd: Path | None = None) -> None:
@@ -86,7 +98,14 @@ def _build(build_dir: Path, shared: bool) -> None:
 
 def _is_lib(path: Path) -> bool:
     name = path.name.lower()
-    return name.endswith((".dll", ".so", ".dylib", ".lib", ".a")) and "qwinui3" in name
+    if "qwinui3" not in name:
+        return False
+    if name.endswith((".dll", ".dylib", ".lib", ".a")):
+        return True
+    # Linux: libqwinui3_theme.so, .so.1, .so.1.0.0
+    if ".so" in name and (name.endswith(".so") or ".so." in name):
+        return True
+    return False
 
 
 def _collect_files(build_dir: Path, out_dir: Path) -> list[Path]:
@@ -98,21 +117,34 @@ def _collect_files(build_dir: Path, out_dir: Path) -> list[Path]:
     bin_dir.mkdir(parents=True, exist_ok=True)
 
     copied: list[Path] = []
+    seen: set[str] = set()
 
-    # Shared / import libraries
-    for pattern in ("**/*qwinui3*", "**/QWinUI3/**"):
+    # Shared / import libraries (include versioned .so* and symlinks)
+    for pattern in ("**/*qwinui3*", "**/libqwinui3*", "**/QWinUI3/**"):
         for path in build_dir.glob(pattern):
-            if not path.is_file():
+            if not path.is_file() and not path.is_symlink():
                 continue
-            if _is_lib(path):
-                dest = lib_dir / path.name
+            if not _is_lib(path):
+                continue
+            key = path.name
+            if key in seen:
+                continue
+            seen.add(key)
+            dest = lib_dir / path.name
+            if path.is_symlink():
+                # Preserve relative symlink when possible
+                try:
+                    dest.symlink_to(os.readlink(path))
+                except OSError:
+                    shutil.copy2(path, dest, follow_symlinks=True)
+            else:
                 shutil.copy2(path, dest)
-                copied.append(dest)
-                # Also put runtime DLLs in bin/
-                if path.suffix.lower() == ".dll":
-                    bdest = bin_dir / path.name
-                    shutil.copy2(path, bdest)
-                    copied.append(bdest)
+            copied.append(dest)
+            # Also put runtime DLLs in bin/
+            if path.suffix.lower() == ".dll":
+                bdest = bin_dir / path.name
+                shutil.copy2(path, bdest)
+                copied.append(bdest)
 
     # QML module trees (qmldir + qmltypes + qml)
     for module_rel in (
@@ -143,24 +175,27 @@ def _collect_files(build_dir: Path, out_dir: Path) -> list[Path]:
 
 
 def _write_readme(out_dir: Path, shared: bool) -> None:
+    host = platform.system()
     text = f"""# QWinUI3 Release package
 
 Build type: Release
+Host: {host}
 Library type: {"SHARED (DLL/.so)" if shared else "STATIC (.lib/.a)"}
 
 ## Layout
 
 - `bin/` — runtime DLLs (Windows shared builds)
-- `lib/` — import / static libraries and plugins
+- `lib/` — import / static / shared libraries and plugins
 - `qml/` — QML modules (`QWinUI3`, `QWinUI3.Theme`, `QWinUI3.Extras`, `QWinUI3.Platform`)
 
 ## Consumer notes
 
 1. Add `qml/` to `QML_IMPORT_PATH` (or copy beside your app and set `QML2_IMPORT_PATH`).
 2. Link against the `qwinui3_*` libraries (and `*plugin` when STATIC).
-3. Qt 6.8+ required: Quick, QuickControls2, LabsQmlModels.
-4. License: **LGPL-3.0** (see `LICENSE` and `COPYING` in this package).
-5. Prefer SHARED packaging for redistributable SDKs:
+3. On Linux shared builds, add `lib/` to `LD_LIBRARY_PATH` (or set `rpath`).
+4. Qt 6.8+ required: Quick, QuickControls2, LabsQmlModels.
+5. License: **LGPL-3.0** (see `LICENSE` and `COPYING` in this package).
+6. Prefer SHARED packaging for redistributable SDKs:
 
 ```bash
 python scripts/package_release_libs.py --shared
@@ -173,6 +208,20 @@ Default in-tree builds stay STATIC for simpler Gallery linking.
         src = ROOT / name
         if src.is_file():
             shutil.copy2(src, out_dir / name)
+
+
+def _archive(out_dir: Path, archive: Path) -> None:
+    if archive.exists():
+        archive.unlink()
+    archive.parent.mkdir(parents=True, exist_ok=True)
+    if archive.name.endswith(".tar.gz"):
+        with tarfile.open(archive, "w:gz") as tf:
+            tf.add(out_dir, arcname=out_dir.name)
+    else:
+        with zipfile.ZipFile(archive, "w", compression=zipfile.ZIP_DEFLATED) as zf:
+            for path in out_dir.rglob("*"):
+                if path.is_file():
+                    zf.write(path, arcname=str(Path(out_dir.name) / path.relative_to(out_dir)))
 
 
 def main() -> int:
@@ -204,13 +253,34 @@ def main() -> int:
         default=None,
         help="CMAKE_PREFIX_PATH for Qt (default: env CMAKE_PREFIX_PATH/Qt6_DIR/QTDIR)",
     )
+    parser.add_argument(
+        "--version",
+        default=None,
+        help="Version string for archive name (default: CMake project VERSION)",
+    )
+    parser.add_argument(
+        "--archive",
+        action="store_true",
+        help="Also create a zip (Windows) or tar.gz (elsewhere) under dist/",
+    )
     args = parser.parse_args()
 
+    version = args.version or _project_version()
     build_dir = args.build_dir
     if build_dir is None:
         build_dir = ROOT / ("build-shared-release" if args.shared else "build")
     build_dir = build_dir.resolve()
+
+    host = platform.system().lower()
+    plat = "windows" if host.startswith("win") else "linux"
+    arch = "x64"
+    kind = "shared" if args.shared else "static"
+    default_name = f"qwinui3-{version}-{plat}-{arch}-{kind}"
+
     out_dir = args.out.resolve()
+    # If caller left the generic default, use platform-versioned folder name.
+    if args.out == DEFAULT_OUT:
+        out_dir = (ROOT / "dist" / default_name).resolve()
 
     qt_prefix = args.qt_prefix or _detect_qt_prefix()
 
@@ -226,8 +296,9 @@ def main() -> int:
     _write_readme(out_dir, args.shared)
 
     print(f"\nPackaged {len(copied)} items → {out_dir}")
-    if args.shared and not any(p.suffix.lower() == ".dll" for p in out_dir.joinpath("bin").glob("*") if p.is_file()):
-        # Non-Windows or empty — still OK if .so present
+    if args.shared and not any(
+        p.suffix.lower() == ".dll" for p in out_dir.joinpath("bin").glob("*") if p.is_file()
+    ):
         sos = list(out_dir.joinpath("lib").glob("*.so*"))
         if not sos:
             print(
@@ -235,6 +306,14 @@ def main() -> int:
                 "inspect lib/ and qml/.",
                 file=sys.stderr,
             )
+
+    if args.archive:
+        if plat == "windows":
+            archive = ROOT / "dist" / f"{default_name}.zip"
+        else:
+            archive = ROOT / "dist" / f"{default_name}.tar.gz"
+        _archive(out_dir, archive)
+        print(f"Archive → {archive}")
     return 0
 
 

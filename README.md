@@ -90,14 +90,16 @@ Full index (with Gallery flags): [docs/components.md](docs/components.md) · [on
 
 ## Try it without building
 
-From [GitHub Releases](https://github.com/wuyijing-dev/QWinui3/releases/tag/v1.0.0) (Windows x64):
+From [GitHub Releases](https://github.com/wuyijing-dev/QWinui3/releases/latest) (built by CI):
 
-| Asset | Use |
-|-------|-----|
-| **`qwinui3-gallery-1.0.0-windows-x64.zip`** | Self-contained Gallery (Qt runtime bundled via windeployqt) |
-| **`qwinui3-1.0.0-windows-x64-shared.zip`** | Shared DLLs + QML modules for your own apps (needs Qt **6.8+** MSVC) |
+| Asset | Platform | Use |
+|-------|----------|-----|
+| **`qwinui3-gallery-*-windows-x64.zip`** | Windows x64 | Gallery + Qt runtime (`windeployqt`) — run `qwinui3_gallery.exe` |
+| **`qwinui3-*-windows-x64-shared.zip`** | Windows x64 | Shared DLLs + QML (needs Qt **6.8+** MSVC) |
+| **`qwinui3-gallery-*-linux-x64.tar.gz`** | Linux x64 | Gallery AppDir + Qt runtime — run `./run-gallery.sh` |
+| **`qwinui3-*-linux-x64-shared.tar.gz`** | Linux x64 | Shared `.so` + QML (needs Qt **6.8+** gcc_64) |
 
-Unpack the Gallery zip and run `qwinui3_gallery.exe`.
+Release packages are produced by [`.github/workflows/release.yml`](.github/workflows/release.yml) on `v*` tags (or manual **Release** workflow dispatch).
 
 ---
 
@@ -143,13 +145,14 @@ Or open the **repo root** `CMakeLists.txt` in [Qt Creator](docs/qt-creator.md) w
 
 ### Shared / redistributable package
 
-In-tree defaults are **STATIC** (convenient for Gallery). For redistributable shared libs:
+In-tree defaults are **STATIC** (convenient for Gallery). For redistributable shared libs + archive:
 
 ```bat
-python scripts/package_release_libs.py --shared
+python scripts/package_release_libs.py --shared --archive
+python scripts/package_release_gallery.py
 ```
 
-Output lands under `dist/` (gitignored).
+Output lands under `dist/` (gitignored). CI publishes the same artifacts for Linux and Windows on each `v*` tag.
 
 ---
 
@@ -179,8 +182,20 @@ src/extras/      QWinUI3.Extras
 src/gallery/     Control catalog application
 examples/        Small starter apps
 docs/            Markdown + MkDocs site source
-scripts/         Docs generator, shared packaging, WebView2 fetch
+scripts/         Docs generator, shared/gallery packaging, WebView2 fetch
+.github/         Docs Pages + Release CI
 ```
+
+### CI releases
+
+Push a version tag (or run **Actions → Release → Run workflow**):
+
+```bash
+git tag v1.0.1
+git push origin v1.0.1
+```
+
+GitHub Actions builds Linux + Windows shared libraries and Gallery packages, then attaches them to the GitHub Release. Manual dispatch can re-upload assets for an existing tag (e.g. add Linux packages to `v1.0.0`).
 
 ---
 
