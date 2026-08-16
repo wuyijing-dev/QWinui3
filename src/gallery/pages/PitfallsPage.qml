@@ -90,7 +90,15 @@ CatalogPage {
 
     ControlExample {
         headerText: qsTr("clip: true does not round")
-        qmlSource: "// clip: true is axis-aligned only\n// Keep animated bars inside bounds instead of rectangular clip"
+        qmlSource: "// clip: true is axis-aligned only — reveals a square edge at the track head\n"
+                   + "// Grow width with matching radius so the pill emerges from the tip"
+
+        Label {
+            Layout.fillWidth: true
+            wrapMode: Text.Wrap
+            color: Theme.textSecondary
+            text: qsTr("Qt/QML clip is a rectangle. A bar sliding in from outside is always cut by a flat line at the track’s left tip — it never “grows out” of the round. Keep the fill inside and animate its width (or x) with the same radius.")
+        }
 
         GridLayout {
             Layout.fillWidth: true
@@ -100,9 +108,16 @@ CatalogPage {
 
             ColumnLayout {
                 Label {
-                    text: qsTr("Wrong — clip squares the ends")
+                    text: qsTr("Wrong — clip squares the head")
                     color: Theme.systemCritical
                     font.weight: Theme.fontWeightSemiBold
+                }
+                Label {
+                    Layout.fillWidth: true
+                    wrapMode: Text.Wrap
+                    color: Theme.textSecondary
+                    font.pixelSize: Theme.fontCaption
+                    text: qsTr("Slides in under clip:true → left edge is always a vertical cut.")
                 }
                 Rectangle {
                     Layout.fillWidth: true
@@ -133,9 +148,16 @@ CatalogPage {
 
             ColumnLayout {
                 Label {
-                    text: qsTr("Right — stay inside, keep radius")
+                    text: qsTr("Right — grow from the tip")
                     color: Theme.systemSuccess
                     font.weight: Theme.fontWeightSemiBold
+                }
+                Label {
+                    Layout.fillWidth: true
+                    wrapMode: Text.Wrap
+                    color: Theme.textSecondary
+                    font.pixelSize: Theme.fontCaption
+                    text: qsTr("Same radius as the track; animate width from 0 so the pill emerges little by little.")
                 }
                 Rectangle {
                     id: goodTrack
@@ -145,19 +167,30 @@ CatalogPage {
                     color: Theme.dark ? "#15FFFFFF" : "#0F000000"
                     Rectangle {
                         id: goodBar
-                        width: Math.max(40, parent.width * 0.35)
-                        height: parent.height
+                        anchors.left: parent.left
+                        anchors.top: parent.top
+                        anchors.bottom: parent.bottom
+                        // Keep ends round even when short (circle → capsule → full).
+                        width: 0
                         radius: height / 2
                         color: Theme.accent
-                        SequentialAnimation on x {
+                        SequentialAnimation on width {
                             loops: Animation.Infinite
                             running: page.visible
                             NumberAnimation {
                                 from: 0
-                                to: Math.max(0, goodTrack.width - goodBar.width)
-                                duration: 1200
+                                to: goodTrack.width
+                                duration: 1400
                                 easing.type: Easing.InOutCubic
                             }
+                            PauseAnimation { duration: 350 }
+                            NumberAnimation {
+                                from: goodTrack.width
+                                to: 0
+                                duration: 700
+                                easing.type: Easing.InOutCubic
+                            }
+                            PauseAnimation { duration: 250 }
                         }
                     }
                 }
