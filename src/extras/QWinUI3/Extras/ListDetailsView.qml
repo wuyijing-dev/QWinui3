@@ -13,11 +13,15 @@ import QWinUI3.Theme
 //   }
 //
 //   // --- API ---
-//   // selectedIndex / selectedItem, select(index), listPane / details pane slots
+//   // selectedIndex / selectedItem, select(index), showList(), showDetails()
+//   // listHeader / details slots; connectedAnimationEnabled (+ key)
 //
 // @notes
 //   ListView master + details host. Collapses via TwoPaneView on narrow widths.
 //   model items may be strings or objects (titleRole / subtitleRole).
+//   Keyboard: arrows / Home / End / Enter on the list; Esc (or Back) returns to the
+//   list in SinglePane mode. Pair with ItemsView for multi-select masters — see
+//   docs/data-collections.md.
 
 T.Control {
     id: root
@@ -42,11 +46,15 @@ T.Control {
             return null
         return model[selectedIndex]
     }
+    readonly property bool singlePaneDetailsOpen: panes.mode === TwoPaneView.SinglePane
+                                                  && panes.singlePaneIndex === 1
 
     signal selectionChanged(int index, var item)
 
     implicitWidth: 720
     implicitHeight: 400
+    focusPolicy: Qt.StrongFocus
+    activeFocusOnTab: true
     Accessible.role: Accessible.Pane
     Accessible.name: qsTr("List details")
 
@@ -76,6 +84,16 @@ T.Control {
         }
     }
 
+    function showList() {
+        panes.showPane1()
+        forceActiveFocus()
+    }
+
+    function showDetails() {
+        if (selectedIndex >= 0)
+            panes.showPane2()
+    }
+
     function _titleOf(item) {
         if (item === undefined || item === null)
             return ""
@@ -92,6 +110,43 @@ T.Control {
         if (item[subtitleRole] !== undefined)
             return item[subtitleRole]
         return ""
+    }
+
+    function _moveSelection(delta) {
+        if (!model || model.length === 0)
+            return
+        var next = selectedIndex < 0 ? 0 : selectedIndex + delta
+        next = Math.max(0, Math.min(model.length - 1, next))
+        select(next)
+    }
+
+    Keys.onPressed: function (event) {
+        if (event.key === Qt.Key_Escape && singlePaneDetailsOpen) {
+            showList()
+            event.accepted = true
+            return
+        }
+        if (singlePaneDetailsOpen)
+            return
+        if (event.key === Qt.Key_Down) {
+            _moveSelection(1)
+            event.accepted = true
+        } else if (event.key === Qt.Key_Up) {
+            _moveSelection(-1)
+            event.accepted = true
+        } else if (event.key === Qt.Key_Home) {
+            if (model && model.length)
+                select(0)
+            event.accepted = true
+        } else if (event.key === Qt.Key_End) {
+            if (model && model.length)
+                select(model.length - 1)
+            event.accepted = true
+        } else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
+            if (selectedIndex >= 0 && panes.mode === TwoPaneView.SinglePane)
+                panes.showPane2()
+            event.accepted = true
+        }
     }
 
     contentItem: TwoPaneView {
@@ -125,14 +180,21 @@ T.Control {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                     clip: true
+                    reuseItems: true
                     model: root.model
                     currentIndex: root.selectedIndex
+                    Accessible.role: Accessible.List
+                    Accessible.name: qsTr("Items")
                     delegate: ItemDelegate {
                         required property var modelData
                         required property int index
                         width: ListView.view.width
+                        focusPolicy: Qt.NoFocus
                         highlighted: index === root.selectedIndex
-                        onClicked: root.select(index)
+                        onClicked: {
+                            root.forceActiveFocus()
+                            root.select(index)
+                        }
 
                         contentItem: ColumnLayout {
                             spacing: 2
@@ -171,10 +233,25 @@ T.Control {
             radius: Theme.cornerCard
             clip: true
 
-            Item {
-                id: detailsSlot
+            ColumnLayout {
                 anchors.fill: parent
                 anchors.margins: Theme.spacingSection
+                spacing: Theme.spacing
+
+                Button {
+                    flat: true
+                    text: qsTr("Back")
+                    visible: root.singlePaneDetailsOpen
+                    Layout.alignment: Qt.AlignLeft
+                    Accessible.name: qsTr("Back to list")
+                    onClicked: root.showList()
+                }
+
+                Item {
+                    id: detailsSlot
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                }
             }
 
             EmptyState {

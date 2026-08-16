@@ -19,6 +19,18 @@ Authoring rules: [`conventions.md`](conventions.md). Live checklist: Gallery **A
 
 ---
 
+## Data collections (1.07)
+
+| Surface | Behavior |
+|---------|----------|
+| `DataTable` | Table role; filter Accessible name; column headers expose sort state + press action; Tab / Down from filter into rows |
+| `ListDetailsView` | List Accessible name; SinglePane **Back** named; Esc returns to list |
+| `ItemsView` | Existing roving focus; PageUp/Down parity with DataTable |
+
+Recipe doc: [`data-collections.md`](data-collections.md).
+
+---
+
 ## Severity-tracked (not 1.02)
 
 | Item | Severity | Notes |

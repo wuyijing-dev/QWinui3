@@ -4,7 +4,7 @@ Scrollable settings host (title + padded column).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/SettingsView.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/SettingsView.qml)
 
-**Category:** Layout · **Library:** v1.06
+**Category:** Layout · **Library:** v1.07
 
 [← Component index](../components.md)
 

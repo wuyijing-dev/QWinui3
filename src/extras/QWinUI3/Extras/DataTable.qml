@@ -22,8 +22,12 @@ import QWinUI3.Theme
 //   // signals: rowActivated(int, var), selectionChanged(int, var), sortChanged(int, int)
 //
 // @notes
-//   ListView virtualizes rows. Filter + sort rebuild the view model.
-//   Column resize via header drag handles; arrows / Home / End / Enter navigate.
+//   ListView virtualizes rows (`reuseItems`). Filter + sort rebuild `_viewRows` in JS —
+//   fine for hundreds of plain objects; prefer a C++ model + custom view for thousands+.
+//   Selection tracks the row **object** across sort/filter (clears if the row is filtered out).
+//   Tab into the table or press Down from the filter; arrows / Home / End / Page / Enter /
+//   Esc navigate. Horizontal scroll via the bottom scrollbar (list flick is vertical).
+//   See docs/data-collections.md for DataTable vs ItemsView vs ListDetailsView.
 
 T.Control {
     id: root
@@ -54,10 +58,13 @@ T.Control {
 
     property var _viewRows: []
     property var _columnWidths: []
+    // Object identity of the selected row (survives sort/filter when still visible).
+    property var _selectedRowRef: null
 
     implicitWidth: 640
     implicitHeight: 360
     focusPolicy: Qt.StrongFocus
+    activeFocusOnTab: true
     Accessible.role: Accessible.Table
     Accessible.name: qsTr("Data table")
     Accessible.description: qsTr("%1 rows, %2 columns").arg(rowCount).arg(columnCount)
@@ -87,6 +94,7 @@ T.Control {
         if (index < -1 || index >= _viewRows.length)
             return
         selectedIndex = index
+        _selectedRowRef = index >= 0 ? _viewRows[index] : null
         selectionChanged(index, selectedRow)
         if (index >= 0)
             list.positionViewAtIndex(index, ListView.Contain)
@@ -138,9 +146,32 @@ T.Control {
                 return 0
             })
         }
+
+        var prev = _selectedRowRef
         _viewRows = filtered
-        if (selectedIndex >= _viewRows.length)
+
+        if (prev !== null && prev !== undefined) {
+            var found = -1
+            for (var j = 0; j < _viewRows.length; ++j) {
+                if (_viewRows[j] === prev) {
+                    found = j
+                    break
+                }
+            }
+            if (found >= 0) {
+                if (selectedIndex !== found) {
+                    selectedIndex = found
+                    selectionChanged(found, prev)
+                }
+                list.positionViewAtIndex(found, ListView.Contain)
+            } else {
+                selectedIndex = -1
+                _selectedRowRef = null
+                selectionChanged(-1, null)
+            }
+        } else if (selectedIndex >= _viewRows.length) {
             select(_viewRows.length ? _viewRows.length - 1 : -1)
+        }
     }
 
     function toggleSort(column) {
@@ -227,6 +258,16 @@ T.Control {
             text: root.filterText
             onTextChanged: root.filterText = text
             Accessible.name: qsTr("Filter table")
+            Keys.onPressed: function (event) {
+                if (event.key === Qt.Key_Down
+                        || event.key === Qt.Key_Return
+                        || event.key === Qt.Key_Enter) {
+                    root.forceActiveFocus()
+                    if (root.selectedIndex < 0 && root.rowCount > 0)
+                        root.select(0)
+                    event.accepted = true
+                }
+            }
         }
 
         Rectangle {
@@ -270,6 +311,18 @@ T.Control {
                                 Rectangle {
                                     anchors.fill: parent
                                     color: Theme.bgAcrylic
+                                    Accessible.role: Accessible.ColumnHeader
+                                    Accessible.name: {
+                                        var t = headerCell.modelData.title
+                                                || headerCell.modelData.role || ""
+                                        if (root.sortColumn === headerCell.index) {
+                                            t += root.sortOrder === Qt.AscendingOrder
+                                                 ? qsTr(", sorted ascending")
+                                                 : qsTr(", sorted descending")
+                                        }
+                                        return t
+                                    }
+                                    Accessible.onPressAction: root.toggleSort(headerCell.index)
 
                                     Rectangle {
                                         anchors.bottom: parent.bottom

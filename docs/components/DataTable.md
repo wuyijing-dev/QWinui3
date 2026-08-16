@@ -4,7 +4,7 @@ Fluent virtualizing table with sort, filter, resize, and keyboard.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/DataTable.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/DataTable.qml)
 
-**Category:** Collections & data · **Library:** v1.06
+**Category:** Collections & data · **Library:** v1.07
 
 [← Component index](../components.md)
 
@@ -33,8 +33,12 @@ DataTable {
 
 ## Notes
 
-ListView virtualizes rows. Filter + sort rebuild the view model.
-Column resize via header drag handles; arrows / Home / End / Enter navigate.
+ListView virtualizes rows (`reuseItems`). Filter + sort rebuild `_viewRows` in JS —
+fine for hundreds of plain objects; prefer a C++ model + custom view for thousands+.
+Selection tracks the row **object** across sort/filter (clears if the row is filtered out).
+Tab into the table or press Down from the filter; arrows / Home / End / Page / Enter /
+Esc navigate. Horizontal scroll via the bottom scrollbar (list flick is vertical).
+See docs/data-collections.md for DataTable vs ItemsView vs ListDetailsView.
 
 ## API
 

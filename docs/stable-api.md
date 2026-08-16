@@ -55,8 +55,8 @@ Style module (`QT_QUICK_CONTROLS_STYLE=QWinUI3`): treating **standard** `QtQuick
 
 | Type | Module | Notes |
 |------|--------|--------|
-| `DataTable` | Extras | Sort/filter/resize exist; deep hardening is roadmap **1.07** |
-| `ListDetailsView` / `ItemsView` / `ListTile` | Extras | Master–detail / list recipes |
+| `DataTable` | Extras | Sort/filter/resize + stable selection / keyboard — [data-collections.md](data-collections.md) (1.07) |
+| `ListDetailsView` / `ItemsView` / `ListTile` | Extras | Master–detail / list recipes — [data-collections.md](data-collections.md) |
 
 ### Theme & style
 

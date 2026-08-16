@@ -4,7 +4,7 @@ Caption buttons + drag region + TitleBar host.
 
 `import QWinUI3.Platform` · [`src/platform/QWinUI3/Platform/PlatformTitleBar.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/platform/QWinUI3/Platform/PlatformTitleBar.qml)
 
-**Category:** Platform · **Library:** v1.06
+**Category:** Platform · **Library:** v1.07
 
 [← Component index](../components.md)
 

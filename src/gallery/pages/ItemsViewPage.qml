@@ -9,7 +9,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("ItemsView")
-    subtitle: qsTr("List recipe: sections, multi-select, context menu, empty state.")
+    subtitle: qsTr("List recipe: sections, multi-select, keyboard, filter-above, empty state.")
 
     property var sampleModel: [
         { title: qsTr("Design doc"), subtitle: qsTr("Updated yesterday"), group: qsTr("Documents"), symbol: FluentIcons.Document },
@@ -18,7 +18,24 @@ CatalogPage {
         { title: qsTr("Crash reports"), subtitle: qsTr("3 open"), group: qsTr("Engineering"), symbol: FluentIcons.Error },
         { title: qsTr("Office lease"), subtitle: qsTr("Renewal"), group: qsTr("Admin"), symbol: FluentIcons.Home }
     ]
+    property string filterQuery: ""
     property bool showEmpty: false
+
+    readonly property var filteredModel: {
+        if (page.showEmpty)
+            return []
+        var q = (page.filterQuery || "").trim().toLowerCase()
+        if (!q.length)
+            return page.sampleModel
+        var out = []
+        for (var i = 0; i < page.sampleModel.length; ++i) {
+            var it = page.sampleModel[i]
+            var hay = (it.title + " " + it.subtitle + " " + it.group).toLowerCase()
+            if (hay.indexOf(q) >= 0)
+                out.push(it)
+        }
+        return out
+    }
 
     overlay: ToastHost {
         id: toasts
@@ -33,6 +50,13 @@ CatalogPage {
         ColumnLayout {
             Layout.fillWidth: true
             spacing: Theme.spacing
+
+            TextField {
+                Layout.fillWidth: true
+                placeholderText: qsTr("Filter titles (app-side — ItemsView has no built-in filter)")
+                text: page.filterQuery
+                onTextChanged: page.filterQuery = text
+            }
 
             RowLayout {
                 Button {
@@ -59,14 +83,23 @@ CatalogPage {
                 id: items
                 Layout.fillWidth: true
                 Layout.preferredHeight: 360
-                model: page.showEmpty ? [] : page.sampleModel
+                model: page.filteredModel
                 sectionRole: "group"
                 selectionMode: ItemsView.SelectionMultiple
                 emptyTitle: qsTr("No files")
-                emptyMessage: qsTr("Add documents or restore the sample list.")
+                emptyMessage: qsTr("Add documents, clear the filter, or restore the sample list.")
                 emptyActionText: qsTr("Restore")
                 contextMenu: ctx
-                onEmptyActionClicked: page.showEmpty = false
+                onEmptyActionClicked: {
+                    page.showEmpty = false
+                    page.filterQuery = ""
+                }
+            }
+
+            Label {
+                Layout.fillWidth: true
+                color: Theme.textSecondary
+                text: qsTr("Tab into the list · arrows / Page / Space / Ctrl+A / Esc")
             }
 
             MenuFlyout {

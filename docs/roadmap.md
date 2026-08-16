@@ -1,6 +1,6 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.06**  
+**Current:** **1.07**  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
 
 This plan starts from **what 1.00 already was**, then walks **small `1.xx` minors**. Stay on **1.xx for a long time**. **2.00 is not next**—only when we truly need breaking changes.
@@ -95,14 +95,9 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-### 1.07 — DataTable / master–detail (deepen, don’t expand)
+### 1.07 — DataTable / master–detail (deepen, don’t expand) (shipped)
 
-**Why:** Controls exist; LoB apps need predictable behavior.
-
-- Harden sort / filter / keyboard / docs for `DataTable` + `ListDetailsView` / `ItemsView` recipes.
-- Performance notes; Gallery recipes only—no new table product.
-
-**Not in 1.07:** New chart engines; virtualization rewrite unless required to fix bugs.
+**Shipped:** DataTable stable selection across sort/filter + filter→table keyboard; ListDetailsView arrows/Enter + SinglePane Back/Esc (`showList`); ItemsView PageUp/Down + `reuseItems` + filter-above Gallery recipe; [data-collections.md](docs/data-collections.md); product version `1.07`.
 
 ---
 

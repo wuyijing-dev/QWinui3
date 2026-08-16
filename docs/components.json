@@ -1,6 +1,6 @@
 {
   "name": "QWinUI3",
-  "version": "1.06",
+  "version": "1.07",
   "generatedBy": "scripts/generate_component_docs.py",
   "publicCount": 208,
   "components": [
@@ -1050,9 +1050,9 @@
       "galleryPage": "pages/ListDetailsViewPage.qml",
       "galleryTitle": "ListDetailsView",
       "doc": "components/ListDetailsView.md",
-      "propertyCount": 11,
+      "propertyCount": 12,
       "signalCount": 1,
-      "methodCount": 1
+      "methodCount": 3
     },
     {
       "name": "ListTile",

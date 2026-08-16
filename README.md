@@ -7,8 +7,8 @@ Fluent / [WinUI 3](https://learn.microsoft.com/windows/apps/winui/winui3/)-inspi
 [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-2ea44f)](https://wuyijing-dev.github.io/QWinui3/)
 [![Qt](https://img.shields.io/badge/Qt-6.5%2B-41CD52?logo=qt&logoColor=white)](https://www.qt.io/)
 
-**v1.06** · **200+** public controls · Gallery demos for most of them  
-[Documentation](https://wuyijing-dev.github.io/QWinui3/) · [Stable API](docs/stable-api.md) · [CI smoke](docs/ci-smoke.md) · [WebView2](docs/webview2.md) · [Component API](https://wuyijing-dev.github.io/QWinui3/components/) · [Releases](https://github.com/wuyijing-dev/QWinui3/releases) · [Roadmap](ROADMAP.md)
+**v1.07** · **200+** public controls · Gallery demos for most of them  
+[Documentation](https://wuyijing-dev.github.io/QWinui3/) · [Stable API](docs/stable-api.md) · [Data collections](docs/data-collections.md) · [CI smoke](docs/ci-smoke.md) · [WebView2](docs/webview2.md) · [Component API](https://wuyijing-dev.github.io/QWinui3/components/) · [Releases](https://github.com/wuyijing-dev/QWinui3/releases) · [Roadmap](ROADMAP.md)
 
 ---
 
@@ -207,8 +207,8 @@ scripts/         Docs generator, shared/gallery packaging, WebView2 fetch
 Push a version tag (or run **Actions → Release → Run workflow**):
 
 ```bash
-git tag v1.06
-git push origin v1.06
+git tag v1.07
+git push origin v1.07
 ```
 
 **PR / master smoke** (build Gallery + `--smoke`, no packages): [`.github/workflows/smoke.yml`](.github/workflows/smoke.yml) — see [`docs/ci-smoke.md`](docs/ci-smoke.md).
@@ -232,6 +232,7 @@ Product versions use **`X.YY`** (see [`ROADMAP.md`](ROADMAP.md)); set `QWINUI3_V
 | [`docs/window-chrome.md`](docs/window-chrome.md) | DPI / backdrop / dialog failure modes |
 | [`docs/webview2.md`](docs/webview2.md) | Windows WebView2Host integration recipe |
 | [`docs/ci-smoke.md`](docs/ci-smoke.md) | Lightweight Gallery smoke CI |
+| [`docs/data-collections.md`](docs/data-collections.md) | DataTable / ItemsView / ListDetailsView recipes |
 | [`ROADMAP.md`](ROADMAP.md) | Version themes — small `X.YY` slices |
 | [`docs/stable-api.md`](docs/stable-api.md) | Stable vs experimental types for 1.xx |
 | [`docs/qt-creator.md`](docs/qt-creator.md) | Opening the project in Qt Creator |

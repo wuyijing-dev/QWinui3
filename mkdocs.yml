@@ -69,6 +69,7 @@ nav:
   - Graphics backend: graphics-backend.md
   - WebView2: webview2.md
   - CI smoke: ci-smoke.md
+  - Data collections: data-collections.md
   - WebView2 (legacy link): webview2-future.md
   - Linux / Wayland: platform-linux-wayland.md
   - Window shells: window-shells.md

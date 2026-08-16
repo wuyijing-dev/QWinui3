@@ -25,11 +25,13 @@ import QWinUI3.Theme
 //   // itemsView.selectAll()
 //
 // @notes
-//   Fluent list recipe over QQC ListView (not a separate virtualization engine).
+//   Fluent list recipe over QQC ListView (`reuseItems`; not a separate virtualization engine).
 //   selectionMode: selectionNone | selectionSingle | selectionMultiple.
+//   Keyboard: arrows / Home / End / Page / Enter; Space toggles multi-select; Ctrl+A; Esc clears.
 //   Right-click / long-press opens contextMenu.
 //   Empty list shows EmptyState via emptyTitle / emptyMessage / emptyActionText.
-//   Large models: use a QAbstractListModel; this shell does not add extra pooling.
+//   Large models: prefer QAbstractListModel. Filter is app-side (SearchBox above the list).
+//   See docs/data-collections.md for pairing with ListDetailsView.
 
 T.Control {
     id: root
@@ -225,6 +227,12 @@ T.Control {
         } else if (event.key === Qt.Key_Escape) {
             clearSelection()
             event.accepted = true
+        } else if (event.key === Qt.Key_PageDown) {
+            _moveCurrent(8)
+            event.accepted = true
+        } else if (event.key === Qt.Key_PageUp) {
+            _moveCurrent(-8)
+            event.accepted = true
         }
     }
 
@@ -233,6 +241,7 @@ T.Control {
             id: listView
             anchors.fill: parent
             clip: true
+            reuseItems: true
             model: root.model
             currentIndex: -1
             visible: !root.isEmpty

@@ -7,10 +7,11 @@ import QWinUI3.Extras
 // Gallery — DataTable.
 //
 // Fluent virtualizing table: sort, filter, column resize, keyboard.
+// Selection tracks the same row object across sort/filter.
 
 CatalogPage {
     title: qsTr("DataTable")
-    subtitle: qsTr("Sort, filter, column resize, keyboard navigation, and row virtualization.")
+    subtitle: qsTr("Sort, filter, stable selection, keyboard, and row virtualization.")
 
     ControlExample {
         headerText: qsTr("Employees")
@@ -20,7 +21,7 @@ CatalogPage {
             id: table
             Layout.fillWidth: true
             Layout.preferredHeight: 420
-            filterPlaceholder: qsTr("Filter name, role, or status")
+            filterPlaceholder: qsTr("Filter name, role, or status · Down focuses rows")
             columns: [
                 { title: qsTr("Name"), role: "name", width: 160, sortable: true },
                 { title: qsTr("Role"), role: "role", width: 150, sortable: true },
@@ -45,16 +46,32 @@ CatalogPage {
                 }
                 return out
             }
+            onSelectionChanged: function (index, row) {
+                if (index < 0 || !row) {
+                    selectionHint.text = qsTr("No selection")
+                    return
+                }
+                selectionHint.text = qsTr("Selected %1 · index %2 (survives sort/filter)")
+                                         .arg(row.name).arg(index + 1)
+            }
             onRowActivated: function (index, row) {
                 activatedLabel.text = qsTr("Activated: %1 (%2)").arg(row.name).arg(row.role)
             }
+            Component.onCompleted: select(3)
+        }
+
+        Label {
+            id: selectionHint
+            Layout.fillWidth: true
+            color: Theme.textSecondary
+            text: qsTr("Select a row, then sort a column — selection stays on the same person.")
         }
 
         Label {
             id: activatedLabel
             Layout.fillWidth: true
             color: Theme.textSecondary
-            text: qsTr("Click a header to sort · drag edges to resize · arrows / Enter")
+            text: qsTr("Filter → Down / Tab into table · arrows / Page / Enter · click headers to sort")
         }
     }
 }

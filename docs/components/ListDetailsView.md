@@ -4,7 +4,7 @@ Master–detail recipe on TwoPaneView.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ListDetailsView.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ListDetailsView.qml)
 
-**Category:** Collections & data · **Library:** v1.06
+**Category:** Collections & data · **Library:** v1.07
 
 [← Component index](../components.md)
 
@@ -22,13 +22,17 @@ ListDetailsView {
 }
 
 // --- API ---
-// selectedIndex / selectedItem, select(index), listPane / details pane slots
+// selectedIndex / selectedItem, select(index), showList(), showDetails()
+// listHeader / details slots; connectedAnimationEnabled (+ key)
 ```
 
 ## Notes
 
 ListView master + details host. Collapses via TwoPaneView on narrow widths.
 model items may be strings or objects (titleRole / subtitleRole).
+Keyboard: arrows / Home / End / Enter on the list; Esc (or Back) returns to the
+list in SinglePane mode. Pair with ItemsView for multi-select masters — see
+docs/data-collections.md.
 
 ## API
 
@@ -47,6 +51,7 @@ model items may be strings or objects (titleRole / subtitleRole).
 | `connectedAnimationEnabled` | `bool` | Morph list row → details pane via ConnectedAnimationService |
 | `connectedAnimationKey` | `string` | — |
 | `selectedItem` | `var` | — |
+| `singlePaneDetailsOpen` | `bool` | — |
 
 ### Signals
 
@@ -59,6 +64,8 @@ model items may be strings or objects (titleRole / subtitleRole).
 | Signature | Description |
 | --- | --- |
 | `select(index)` | — |
+| `showList()` | — |
+| `showDetails()` | — |
 
 ### Inherited from `Control`
 
