@@ -77,6 +77,8 @@ Style module (`QT_QUICK_CONTROLS_STYLE=QWinUI3`): treating **standard** `QtQuick
 | `FilePicker` / `TrayIcon` | Platform | Open/save/folder + tray — [system-integration.md](system-integration.md) (1.10) |
 | `NotificationBridge` | Extras | ToastHost + OS notify — [system-integration.md](system-integration.md) (1.10) |
 | `WebView2Host` | Platform | Windows Edge WebView2 HWND host — [webview2.md](webview2.md) (1.18 soak green) |
+| `LineChart` / `BarChart` / `DonutChart` | Extras | Trend / columns / part-to-whole — [charts.md](charts.md) (1.23) |
+| `RingGauge` / `KpiTile` / `ChartCard` | Extras | Dashboard gauge + KPI chrome — [charts.md](charts.md) (1.23) |
 
 ---
 
@@ -87,7 +89,7 @@ Promote to stable only after a named `1.xx` slice hardens them.
 | Area | Examples | Why experimental |
 |------|----------|------------------|
 | **WebView2 advanced** | Custom Environment / multi-profile | Base `WebView2Host` is **stable (1.18)** — [webview2.md](webview2.md); advanced env options still experimental |
-| **Charts & gauges** | `LineChart`, `BarChart`, `ArcGauge`, `KpiTile`, … | Experimental; **1.11** naming recipe in [charts.md](charts.md) — promote a named subset later (roadmap 1.23) |
+| **Charts & gauges (remaining)** | `AreaChart`, `PieChart`, `ArcGauge`, `RadarChart`, … | Niche / siblings — [charts.md](charts.md); **stable subset** Line/Bar/Donut + RingGauge + KpiTile + ChartCard (**1.23**) |
 | **Advanced chrome** | Snap layouts edge cases, frost/Mica failure modes | Documented gaps; polish in **1.03** / **1.04** |
 | **Animations** | `ConnectedAnimation*`, theme transitions | Experimental; recipe [animations.md](animations.md) (1.22) — remain experimental until soak |
 | **Tear-out / exotic shells** | `TabViewTearOutWindow`, compact overlay variants | Niche |
@@ -105,7 +107,7 @@ If a type is public in [components.md](components.md) but listed in neither tabl
 |---------|------------------------|
 | [`examples/nav-settings`](../examples/nav-settings/) | `StandardWindow`, `NavigationView`, settings footer |
 | [`examples/settings-cards`](../examples/settings-cards/) | `SettingsCard`, `SettingsExpander` |
-| [`examples/dashboard`](../examples/dashboard/) | Shell + KPI/charts (**charts remain experimental**; naming in [charts.md](charts.md)) |
+| [`examples/dashboard`](../examples/dashboard/) | Shell + **stable** KPI/charts (`LineChart`, `RingGauge`, `KpiTile`, `ChartCard`) — [charts.md](charts.md) (1.23) |
 
 Always set:
 
@@ -144,3 +146,4 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.20** | Gallery catalog UX + smoke critical pages — [ci-smoke.md](ci-smoke.md) |
 | **1.21** | Media optional Multimedia recipe [media.md](media.md); stub when missing |
 | **1.22** | Animations & transitions recipe [animations.md](animations.md); Gallery hub + reducedMotion demos |
+| **1.23** | Promote chart subset Line/Bar/Donut + RingGauge + KpiTile + ChartCard — [charts.md](charts.md) |

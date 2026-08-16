@@ -6,7 +6,7 @@ import QWinUI3.Extras
 import QWinUI3.Platform
 
 // Dashboard example — one padding inset; tiles/cards bring Layout.fillWidth.
-// Chart/gauge naming: docs/charts.md (1.11).
+// Stable chart subset: docs/charts.md (1.23) — LineChart, RingGauge, KpiTile, ChartCard.
 
 StandardWindow {
     id: window

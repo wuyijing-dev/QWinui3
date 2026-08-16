@@ -929,7 +929,7 @@ QtObject {
             title: qsTr("Charts"),
             category: "charts",
             icon: FluentIcons.AreaChart,
-            description: qsTr("Overview of WinUI-style Canvas charts."),
+            description: qsTr("Stable chart subset (1.23) — Line/Bar/Donut + RingGauge + KpiTile + ChartCard."),
             component: "ChartsPage",
             source: "pages/ChartsPage.qml"
         },
@@ -1425,6 +1425,7 @@ QtObject {
     // Curated “recently shipped” recipe pages (1.20) — not catalog array order.
     function recentlyShipped(count) {
         var ids = [
+            "ChartsPage",             // 1.23
             "AnimationsPage",         // 1.22
             "MediaPlayerElementPage", // 1.21
             "AccessibilityPage",      // 1.19
@@ -1433,7 +1434,6 @@ QtObject {
             "DialogsFlyoutsPage",     // 1.16
             "CommandPalettePage",     // 1.15
             "I18nRtlPage",            // 1.13
-            "ChartsPage",             // 1.11
             "FormValidationPage",     // 1.08
             "DataTablePage",          // 1.07
             "ContentDialogPage",      // 1.16 / 1.02

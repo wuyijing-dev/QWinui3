@@ -1,8 +1,8 @@
 # Dashboard example
 
-Monitoring layout with `KpiTile`, `LineChart`, and `RingGauge` — no Gallery chrome.
+Monitoring layout with **stable** chart types only (`KpiTile`, `ChartCard`, `LineChart`, `RingGauge`) — no Gallery chrome.
 
-Naming recipe for charts/gauges: [`docs/charts.md`](../../docs/charts.md) (1.11).
+Promote list + naming: [`docs/charts.md`](../../docs/charts.md) (1.23).
 
 ```bat
 cmake --build build --target qwinui3_example_dashboard

@@ -1,21 +1,33 @@
-# Charts & gauges (1.11)
+# Charts & gauges (1.23)
 
-Short recipe for the **high-traffic** Canvas charts and dashboard gauges. The full catalog stays **experimental** in [stable-api.md](stable-api.md) until a later promote slice (see roadmap **1.23**).
+High-traffic Canvas charts and dashboard gauges. **1.23** promotes a **named stable subset**; the rest of the catalog stays **experimental**.
 
-| Surface | Use when | Prefer |
-|---------|----------|--------|
-| [`LineChart`](components/LineChart.md) / [`AreaChart`](components/AreaChart.md) | Trends over categories / time | `series` or flat `values` |
-| [`BarChart`](components/BarChart.md) / [`HorizontalBarChart`](components/HorizontalBarChart.md) | Compare magnitudes | `values` or `bars` |
-| [`DonutChart`](components/DonutChart.md) / [`PieChart`](components/PieChart.md) | Part-to-whole | `slices` (or convenience `values`) |
-| [`KpiTile`](components/KpiTile.md) + [`ChartCard`](components/ChartCard.md) | Dashboard chrome | `unit`, optional `trendValues` |
-| [`ArcGauge`](components/ArcGauge.md) / [`RadialGauge`](components/RadialGauge.md) / [`LinearGauge`](components/LinearGauge.md) / [`RingGauge`](components/RingGauge.md) | Single metric 0…max | `value` + `unit` |
-| [`ChartLegend`](components/ChartLegend.md) | Shared legend chrome | `items: [{ label, color }]` |
+| Surface | Status | Use when | Prefer |
+|---------|--------|----------|--------|
+| [`LineChart`](components/LineChart.md) | **Stable (1.23)** | Trends over categories / time | `series` or flat `values` |
+| [`BarChart`](components/BarChart.md) | **Stable (1.23)** | Compare magnitudes | `values` or `bars` |
+| [`DonutChart`](components/DonutChart.md) | **Stable (1.23)** | Part-to-whole | `slices` (or convenience `values`) |
+| [`RingGauge`](components/RingGauge.md) | **Stable (1.23)** | Single metric 0…max (ring) | `value` + `unit` |
+| [`KpiTile`](components/KpiTile.md) | **Stable (1.23)** | Dashboard metric tile | `unit`, optional `trendValues` |
+| [`ChartCard`](components/ChartCard.md) | **Stable (1.23)** | Title/subtitle chrome around one chart | host one chart child |
+| [`AreaChart`](components/AreaChart.md) / [`HorizontalBarChart`](components/HorizontalBarChart.md) / [`PieChart`](components/PieChart.md) | Experimental | Same families as above | same naming |
+| Other gauges / niche charts | Experimental | See table below | same naming where applicable |
 
-Example app: [`examples/dashboard`](../examples/dashboard/). Gallery: **Charts** hub + each control page.
+Example app: [`examples/dashboard`](../examples/dashboard/) — **only stable chart types**. Gallery: **Charts** hub + each control page.
 
 ---
 
-## Naming (1.11)
+## Stable subset (1.23)
+
+Use these in production LoB dashboards when you need the “no silent renames” promise from [stable-api.md](stable-api.md):
+
+`LineChart` · `BarChart` · `DonutChart` · `RingGauge` · `KpiTile` · `ChartCard`
+
+Everything else in the Charts category remains experimental (API may still change).
+
+---
+
+## Naming (1.11, still required)
 
 Use these names in new code. Aliases keep old call sites working.
 
@@ -50,12 +62,24 @@ DonutChart {
     // or: values: [42, 18, 12]  when labels are optional
 }
 
-ArcGauge {
+RingGauge {
     value: 64
     minimum: 0
     maximum: 100
     unit: "%"
     interactive: false   // alias of isInteractive
+}
+
+KpiTile {
+    title: qsTr("CPU")
+    value: 64
+    unit: "%"
+    trendValues: cpuHistory
+}
+
+ChartCard {
+    title: qsTr("Utilization")
+    LineChart { anchors.fill: parent; series: utilSeries }
 }
 ```
 
@@ -87,7 +111,14 @@ ArcGauge {
 
 ## Still experimental
 
-Radar, Scatter, Heatmap, Waterfall, StackedBar, Bullet, niche gauges (Tank, Thermometer, Zone, Segmented) follow the same naming where applicable but are **not** promote candidates in 1.11. See roadmap **1.23** for a named stable subset after soak.
+| Area | Examples |
+|------|----------|
+| Area / horizontal / pie siblings | `AreaChart`, `HorizontalBarChart`, `PieChart` |
+| Niche charts | `RadarChart`, `ScatterChart`, `HeatmapChart`, `WaterfallChart`, `StackedBarChart`, `BulletChart`, `Sparkline` |
+| Other gauges | `ArcGauge`, `RadialGauge`, `LinearGauge`, `TankGauge`, `ThermometerGauge`, `ZoneGauge`, `SegmentedGauge` |
+| Helpers | `ChartLegend`, `ChartUtils` (usable; not in the stable promise) |
+
+Same naming rules apply. Promote candidates for a later slice only after more soak.
 
 ---
 

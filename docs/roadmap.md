@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.22**  
-**Next up:** **1.23** (charts promote wave 2)  
+**Current:** **1.23**  
+**Next up:** **1.24** (Linux persistent tray)  
 **Planned through:** **1.50** (1.xx maturity checkpoint)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](qt-version-compat.md)
 
@@ -60,7 +60,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.22`
+## Shipped — `1.01` … `1.23`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -150,30 +150,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** [animations.md](animations.md); Gallery **Animations** hub + reducedMotion toggles on ConnectedAnimation / Entrance / Theme transitions demos; remain experimental; product version `1.22`.
 
+### 1.23 — Charts promote wave 2 (shipped)
+
+**Shipped:** Promote stable subset `LineChart` / `BarChart` / `DonutChart` / `RingGauge` / `KpiTile` / `ChartCard`; [charts.md](charts.md) + [stable-api.md](stable-api.md); dashboard example uses only stable names; Gallery Charts hub callout; product version `1.23`.
+
 ---
 
-## Mid path — planned `1.23` … `1.30`
+## Mid path — planned `1.24` … `1.30`
 
 Same rules: one theme per `YY`, still **not** `2.00`.
-
-### 1.23 — Charts promote wave 2
-
-**Why:** 1.11 aligns names; apps will want a **named** stable chart subset after soak.
-
-**In scope**
-
-- Promote a small subset (e.g. Line/Bar/Donut + one gauge + `KpiTile`/`ChartCard`) **only if** 1.11 exit criteria held in the field.
-- Update [stable-api.md](stable-api.md) + [charts.md](charts.md); leave niche charts experimental.
-
-**Out of scope**
-
-- Promoting the entire chart catalog; new chart types.
-
-**Exit criteria**
-
-- Explicit promote list; dashboard example uses only stable names for those types.
-
----
 
 ### 1.24 — Linux persistent tray (StatusNotifierItem)
 
