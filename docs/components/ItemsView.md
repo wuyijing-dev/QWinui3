@@ -4,7 +4,7 @@ ListView recipe: sections, selection, context MenuFlyout, EmptyState.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ItemsView.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ItemsView.qml)
 
-**Category:** Collections & data · **Library:** v1.18
+**Category:** Collections & data · **Library:** v1.19
 
 [← Component index](../components.md)
 
@@ -65,6 +65,7 @@ See docs/data-collections.md for pairing with ListDetailsView.
 | `emptyTitle` | `string` | EmptyState title when model is empty |
 | `emptyMessage` | `string` | EmptyState message |
 | `emptyActionText` | `string` | EmptyState action label |
+| `accessibleName` | `string` | Screen-reader name override (1.19) |
 | `count` | `int` | Resolved item count |
 | `isEmpty` | `bool` | — |
 

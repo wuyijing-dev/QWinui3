@@ -27,6 +27,7 @@ Related: [`ListTile`](components/ListTile.md), [`TwoPaneView`](components/TwoPan
 |-------|----------|
 | **Selection** | Tracks the selected **row object**. Sort/filter keep the same person selected when still visible; clears if filtered out. |
 | **Keyboard** | Tab into the table, or **Down** / Enter from the filter. Arrows, Home/End, PageUp/Down, Enter activate, Esc clears. |
+| **Accessible (1.19)** | `accessibleName`; rows announce first cell + selection; headers expose sort. |
 | **Filter / sort** | Rebuild `_viewRows` in JS on each change. |
 | **Scroll** | Rows virtualize via `ListView` + `reuseItems`. Wide tables use the **horizontal scrollbar** (vertical flick only). |
 
@@ -37,6 +38,7 @@ Related: [`ListTile`](components/ListTile.md), [`TwoPaneView`](components/TwoPan
 | Topic | Behavior |
 |-------|----------|
 | **Keyboard** | Focus the control; arrows / Home / End move selection; Enter opens details in SinglePane. |
+| **Accessible (1.19)** | `accessibleName` / `listAccessibleName`; list rows named from title/subtitle. |
 | **Narrow** | Selecting an item calls `showPane2()`. **Back** button or **Esc** calls `showList()` (`showPane1()`). |
 | **Animation** | Optional `connectedAnimationEnabled` + `ConnectedAnimationService`. |
 
@@ -47,6 +49,7 @@ Related: [`ListTile`](components/ListTile.md), [`TwoPaneView`](components/TwoPan
 | Topic | Behavior |
 |-------|----------|
 | **Keyboard** | Arrows, Home/End, PageUp/Down, Enter; Space toggles multi-select; Ctrl+A; Esc clears. |
+| **Accessible (1.19)** | `accessibleName` + count/selection description; multi CheckBox ignored. |
 | **Filter** | Not built-in — put a `TextField` / `SearchBox` above and pass a filtered model (Gallery demo). |
 | **Scale** | Prefer `QAbstractListModel` for large lists; shell enables `reuseItems`. |
 

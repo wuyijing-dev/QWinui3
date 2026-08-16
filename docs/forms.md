@@ -18,10 +18,12 @@ Short recipe for **validation** and **settings pages**. Prefer these patterns ov
 3. Call `form.validate()` — it **reads** non-empty `errorMessage` / `hasError` from descendants (`children` + `contentChildren`).
 4. Bind `ValidationSummary { errors: form.errors }`.
 5. `form.clearErrors()` clears the same tree (parity with gather as of 1.08).
+6. Set `form.accessibleName` when multiple forms share a page (1.19).
 
 ```qml
 FormLayout {
     id: form
+    accessibleName: qsTr("Account")
     ValidationSummary { errors: form.errors }
     HeaderedTextBox { id: name; header: qsTr("Name") }
     HeaderedComboBox { id: plan; header: qsTr("Plan"); model: […] }

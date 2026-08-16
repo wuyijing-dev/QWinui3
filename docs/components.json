@@ -1,6 +1,6 @@
 {
   "name": "QWinUI3",
-  "version": "1.18",
+  "version": "1.19",
   "generatedBy": "scripts/generate_component_docs.py",
   "publicCount": 208,
   "components": [
@@ -525,7 +525,7 @@
       "galleryPage": "pages/DataTablePage.qml",
       "galleryTitle": "DataTable",
       "doc": "components/DataTable.md",
-      "propertyCount": 14,
+      "propertyCount": 15,
       "signalCount": 3,
       "methodCount": 5
     },
@@ -735,7 +735,7 @@
       "galleryPage": "",
       "galleryTitle": "",
       "doc": "components/FormLayout.md",
-      "propertyCount": 5,
+      "propertyCount": 6,
       "signalCount": 0,
       "methodCount": 5
     },
@@ -960,7 +960,7 @@
       "galleryPage": "pages/ItemsViewPage.qml",
       "galleryTitle": "ItemsView",
       "doc": "components/ItemsView.md",
-      "propertyCount": 17,
+      "propertyCount": 18,
       "signalCount": 3,
       "methodCount": 4
     },
@@ -1050,7 +1050,7 @@
       "galleryPage": "pages/ListDetailsViewPage.qml",
       "galleryTitle": "ListDetailsView",
       "doc": "components/ListDetailsView.md",
-      "propertyCount": 12,
+      "propertyCount": 14,
       "signalCount": 1,
       "methodCount": 3
     },

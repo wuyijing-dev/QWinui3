@@ -177,7 +177,8 @@ T.Popup {
     contentItem: ColumnLayout {
         spacing: 8
         Accessible.role: Accessible.Dialog
-        Accessible.name: root.title
+        Accessible.name: root.title.length ? root.title : qsTr("Tip")
+        Accessible.description: root.subtitle
 
         Item {
             id: heroSlot

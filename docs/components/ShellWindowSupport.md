@@ -4,7 +4,7 @@ Shared install/presenter glue for ShellWindow.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ShellWindowSupport.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ShellWindowSupport.qml)
 
-**Category:** Shells & windows · **Library:** v1.18
+**Category:** Shells & windows · **Library:** v1.19
 
 [← Component index](../components.md)
 

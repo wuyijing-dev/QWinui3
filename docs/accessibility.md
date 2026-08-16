@@ -2,6 +2,8 @@
 
 High-traffic product path: **NavigationView**, **settings cards**, **ContentDialog**, **InfoBar** / **Toast**.
 
+Wave 2 (1.19): **DataTable** / **ListDetailsView** / **ItemsView** / **FormLayout** / **CommandPalette** / dialogs & flyouts.
+
 Authoring rules: [`conventions.md`](conventions.md). Live checklist: Gallery **Accessibility** page.
 
 ---
@@ -19,23 +21,37 @@ Authoring rules: [`conventions.md`](conventions.md). Live checklist: Gallery **A
 
 ---
 
-## Data collections (1.07)
+## Wave 2 checklist (1.19 — Done)
+
+| Surface | Status | Behavior |
+|---------|--------|----------|
+| `DataTable` | **Done** | Table role; `accessibleName`; filter named; headers sort state; **rows** announce first cell + selection; Tab/arrows |
+| `ListDetailsView` | **Done** | Pane/`accessibleName`; list + **row** names from title/subtitle; Esc → list in SinglePane; Back named |
+| `ItemsView` | **Done** | List/`accessibleName` + count/selection description; ListTile names; multi CheckBox ignored; PageUp/Down / Space / Ctrl+A |
+| `FormLayout` + headered fields | **Done** | Form/`accessibleName`; error count in description; fields put `errorMessage` in Accessible.description |
+| `ValidationSummary` | **Done** | AlertMessage; title + joined errors |
+| `CommandPalette` / CommandBar / MenuFlyout | **Done** | See [commands.md](commands.md) (1.15) |
+| `ContentDialog` / Flyout / TeachingTip / Drawer | **Done** | Dialogs recipe (1.16) + TeachingTip subtitle description; Drawer Pane name (1.19) |
+
+---
+
+## Data collections (1.07 / 1.19)
 
 | Surface | Behavior |
 |---------|----------|
-| `DataTable` | Table role; filter Accessible name; column headers expose sort state + press action; Tab / Down from filter into rows |
-| `ListDetailsView` | List Accessible name; SinglePane **Back** named; Esc returns to list |
-| `ItemsView` | Existing roving focus; PageUp/Down parity with DataTable |
+| `DataTable` | Table role; `accessibleName`; filter Accessible name; column headers expose sort state + press action; row ListItems; Tab / Down from filter into rows |
+| `ListDetailsView` | `accessibleName` / `listAccessibleName`; list rows named; SinglePane **Back** named; Esc returns to list |
+| `ItemsView` | `accessibleName`; roving focus; PageUp/Down; multi-select CheckBox ignored |
 
 Recipe doc: [`data-collections.md`](data-collections.md).
 
 ---
 
-## Forms & settings (1.08)
+## Forms & settings (1.08 / 1.19)
 
 | Surface | Behavior |
 |---------|----------|
-| `FormLayout` | `clearErrors` walks the same tree as `collectErrors` |
+| `FormLayout` | `accessibleName`; Form role; description = validation error count |
 | Headered fields / `RadioButtons` | `errorMessage` in Accessible.description; combo matches text error chrome |
 | `SettingsExpander` | `header` alias; nested cards without wrapper |
 
@@ -56,13 +72,13 @@ Recipe doc: [`commands.md`](commands.md).
 
 ---
 
-## Dialogs & flyouts (1.16)
+## Dialogs & flyouts (1.16 / 1.19)
 
 | Surface | Behavior |
 |---------|----------|
 | `ContentDialog` | Esc uses close/`requestClose` (honors `onClosing` cancel); Enter → defaultButton |
-| `Flyout` / `TeachingTip` | Light-dismiss; Accessible name from title |
-| `Drawer` | Style modal edge panel; parent window Overlay |
+| `Flyout` / `TeachingTip` | Light-dismiss; Accessible name from title; TeachingTip description = subtitle |
+| `Drawer` | Style modal edge panel; Accessible Pane name; parent window Overlay |
 
 Recipe doc: [`dialogs-flyouts.md`](dialogs-flyouts.md).
 
@@ -93,12 +109,12 @@ Recipe doc: [`webview2.md`](webview2.md).
 
 ---
 
-## Severity-tracked (not 1.02)
+## Severity-tracked (after 1.19)
 
-| Item | Severity | Notes |
-|------|----------|-------|
-| Charts / gauges Accessible completeness | Low | Deferred; use Graphic + label when shipping dashboards |
-| Full keyboard audit of every Extra | Medium | Track per control as pages are touched |
+| Item | Severity | Owner / notes |
+|------|----------|---------------|
+| Charts / gauges Accessible completeness | Low | Deferred to charts promote (roadmap ~1.23); use Graphic + label |
+| Full keyboard audit of every Extra | Medium | Wave-2 surfaces Done; remaining Extras as pages are touched |
 | Linux AT backends (Orca) | Medium | Follows Qt; validate on Wayland after packaging smoke |
 | Live region announcements for toast stacks | Low | Host roles are AlertMessage; OS polish later |
 
@@ -108,5 +124,6 @@ Recipe doc: [`webview2.md`](webview2.md).
 
 1. Prefer types in [`stable-api.md`](stable-api.md).
 2. Icon-only controls: set `toolTipText` or `Accessible.name`.
-3. Wire Gallery/Settings “Follow system accessibility” or copy `WindowHelper` SPI into `Theme.*`.
-4. Do not attach `Accessible` to `Window` / `Popup` / `Dialog` hosts — name chrome items instead.
+3. Override `accessibleName` on DataTable / ItemsView / ListDetailsView / FormLayout when multiple instances share a page.
+4. Wire Gallery/Settings “Follow system accessibility” or copy `WindowHelper` SPI into `Theme.*`.
+5. Do not attach `Accessible` to `Window` / `Popup` / `Dialog` hosts — name chrome items instead.

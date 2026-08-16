@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.18**  
-**Next up:** **1.19** (accessibility wave 2)  
+**Current:** **1.19**  
+**Next up:** **1.20** (Gallery catalog UX & smoke coverage)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
 
 This plan starts from **what 1.00 already was**, then walks **small `1.xx` minors**. Stay on **1.xx for a long time**. **2.00 is not next**—only when we truly need breaking changes.
@@ -59,7 +59,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.18`
+## Shipped — `1.01` … `1.19`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -133,30 +133,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** Soak checklist green in [webview2.md](docs/webview2.md); promote `WebView2Host` to stable; Retry force-recreate + async generation guard; Gallery callouts; product version `1.18`.
 
----
+### 1.19 — Accessibility wave 2 (shipped)
 
-## Near path — planned `1.19` … `1.20`
-
-Order is intentional but **flexible**: if a soak or customer pain appears, swap two adjacent minors—do not merge five themes into one `YY`. After this band: **mid path `1.21`–`1.30`**, then later `1.31+`—still no `2.00`.
-
-### 1.19 — Accessibility wave 2
-
-**Why:** 1.02 covered the high-traffic path; [accessibility.md](docs/accessibility.md) still tracks Medium/Low gaps.
-
-**In scope**
-
-- Second wave: DataTable / ListDetails / ItemsView / Form fields / CommandPalette / dialogs—names, keyboard, severity docs.
-- Update accessibility checklist + Gallery Accessibility page.
-
-**Out of scope**
-
-- Charts Accessible completeness (unless cheap); Orca-specific engineering beyond Qt.
-
-**Exit criteria**
-
-- Checklist items for wave-2 surfaces marked Done or severity-tracked with owners.
+**Shipped:** Wave-2 Done checklist in [accessibility.md](docs/accessibility.md); `accessibleName` on DataTable / ItemsView / ListDetailsView / FormLayout; row names + Drawer/TeachingTip polish; Gallery Accessibility page; product version `1.19`.
 
 ---
+
+## Near path — planned `1.20`
+
+Order is intentional but **flexible**: if a soak or customer pain appears, swap adjacent minors—do not merge five themes into one `YY`. After this band: **mid path `1.21`–`1.30`**, then later `1.31+`—still no `2.00`.
 
 ### 1.20 — Gallery catalog UX & smoke coverage
 

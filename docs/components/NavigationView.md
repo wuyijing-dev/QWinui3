@@ -4,7 +4,7 @@ WinUI NavigationView with pane modes and page stack.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/NavigationView.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/NavigationView.qml)
 
-**Category:** Navigation · **Library:** v1.18
+**Category:** Navigation · **Library:** v1.19
 
 [← Component index](../components.md)
 

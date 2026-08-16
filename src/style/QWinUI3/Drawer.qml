@@ -44,6 +44,10 @@ T.Drawer {
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
 
+    // Screen-reader name (1.19); apps can override Accessible.name after open.
+    Accessible.role: Accessible.Pane
+    Accessible.name: qsTr("Drawer")
+
     // Window overlay attached to this drawer (null until the control is in a Window).
     readonly property Item _windowOverlay: T.Overlay.overlay
 

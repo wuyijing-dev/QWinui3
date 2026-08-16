@@ -1209,7 +1209,7 @@ QtObject {
             title: qsTr("Accessibility"),
             category: "layout",
             icon: FluentIcons.EaseOfAccess,
-            description: qsTr("Accessible names, composite keyboard focus, and Theme a11y flags."),
+            description: qsTr("1.02 + wave 2 checklist (lists, forms, commands, dialogs)."),
             component: "AccessibilityPage",
             source: "pages/AccessibilityPage.qml"
         },

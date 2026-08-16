@@ -4,7 +4,7 @@ Non-interactive MenuFlyout section header.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/MenuFlyoutHeader.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/MenuFlyoutHeader.qml)
 
-**Category:** Dialogs & flyouts · **Library:** v1.18
+**Category:** Dialogs & flyouts · **Library:** v1.19
 
 [← Component index](../components.md)
 

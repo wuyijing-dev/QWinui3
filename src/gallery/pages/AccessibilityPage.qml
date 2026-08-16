@@ -4,11 +4,12 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — Accessibility checklist (high-traffic path + Theme flags).
+// Gallery — Accessibility checklist (1.02 high-traffic + 1.19 wave 2).
+// Recipe: docs/accessibility.md
 
 CatalogPage {
     title: qsTr("Accessibility")
-    subtitle: qsTr("Checklist for NavigationView, settings cards, ContentDialog, InfoBar/Toast. See docs/accessibility.md and docs/conventions.md.")
+    subtitle: qsTr("1.02 path + wave 2 (DataTable / lists / forms / commands / dialogs). docs/accessibility.md")
 
     ControlExample {
         headerText: qsTr("1.02 high-traffic checklist")
@@ -31,6 +32,25 @@ CatalogPage {
                 wrapMode: Text.WordWrap
                 Layout.fillWidth: true
                 color: Theme.textPrimary
+            }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Wave 2 checklist (1.19)")
+        qmlSource: "// DataTable / ItemsView / ListDetailsView / FormLayout\n// CommandPalette / ContentDialog — docs/accessibility.md"
+
+        ColumnLayout {
+            spacing: Theme.spacing
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                color: Theme.textPrimary
+                text: qsTr("• DataTable: accessibleName; filter + sortable headers; rows announce first cell; arrows / Enter.\n"
+                           + "• ItemsView / ListDetailsView: accessibleName; row titles; Esc (details→list / clear multi-select).\n"
+                           + "• FormLayout: accessibleName + error count; headered fields put errorMessage in description.\n"
+                           + "• CommandPalette / CommandBar / MenuFlyout: see Commands pages + docs/commands.md.\n"
+                           + "• ContentDialog / Flyout / TeachingTip / Drawer: docs/dialogs-flyouts.md.")
             }
         }
     }
@@ -85,6 +105,39 @@ CatalogPage {
                 title: qsTr("Demo toggle")
                 description: qsTr("Accessible CheckBox named from the title.")
                 checked: false
+            }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Wave 2 sample — form + list names")
+        qmlSource: "FormLayout { accessibleName: qsTr(\"Account\") }\nItemsView { accessibleName: qsTr(\"People\") }"
+
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacingLoose
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                color: Theme.textSecondary
+                text: qsTr("Override accessibleName when several lists/forms share a page so Narrator can tell them apart.")
+            }
+            FormLayout {
+                accessibleName: qsTr("Account form")
+                Layout.fillWidth: true
+                HeaderedTextBox {
+                    header: qsTr("Display name")
+                    placeholderText: qsTr("Required")
+                }
+            }
+            ItemsView {
+                accessibleName: qsTr("People")
+                Layout.fillWidth: true
+                Layout.preferredHeight: 160
+                model: [
+                    { title: qsTr("Alex"), subtitle: qsTr("Designer") },
+                    { title: qsTr("Blake"), subtitle: qsTr("Engineer") }
+                ]
             }
         }
     }

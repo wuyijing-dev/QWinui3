@@ -65,8 +65,10 @@ T.Control {
     implicitHeight: 360
     focusPolicy: Qt.StrongFocus
     activeFocusOnTab: true
+    // Screen-reader name override (1.19)
+    property string accessibleName: qsTr("Data table")
     Accessible.role: Accessible.Table
-    Accessible.name: qsTr("Data table")
+    Accessible.name: accessibleName.length ? accessibleName : qsTr("Data table")
     Accessible.description: qsTr("%1 rows, %2 columns").arg(rowCount).arg(columnCount)
 
     onColumnsChanged: {
@@ -421,6 +423,20 @@ T.Control {
                         required property int index
                         width: Math.max(list.width, headerRow.width)
                         height: root.rowHeight
+
+                        Accessible.role: Accessible.ListItem
+                        Accessible.name: {
+                            var first = ""
+                            if (root.columns && root.columns.length)
+                                first = root._cellText(modelData, 0)
+                            return first.length
+                                   ? first
+                                   : qsTr("Row %1").arg(index + 1)
+                        }
+                        Accessible.description: qsTr("Row %1 of %2").arg(index + 1).arg(root.rowCount)
+                        Accessible.selectable: true
+                        Accessible.selected: index === root.selectedIndex
+                        Accessible.onPressAction: root.select(index)
 
                         Rectangle {
                             anchors.fill: parent

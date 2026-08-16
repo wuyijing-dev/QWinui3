@@ -81,6 +81,9 @@ T.Control {
     // Empty action clicked
     signal emptyActionClicked()
 
+    // Screen-reader name override (1.19)
+    property string accessibleName: qsTr("Items")
+
     // Resolved item count
     readonly property int count: listView.count
     readonly property bool isEmpty: count <= 0
@@ -91,7 +94,17 @@ T.Control {
     focusPolicy: Qt.StrongFocus
     activeFocusOnTab: true
     Accessible.role: Accessible.List
-    Accessible.name: qsTr("Items")
+    Accessible.name: accessibleName.length ? accessibleName : qsTr("Items")
+    Accessible.description: {
+        if (isEmpty)
+            return emptyTitle
+        var sel = selectedIndexes && selectedIndexes.length
+                  ? qsTr("%1 selected").arg(selectedIndexes.length)
+                  : ""
+        return sel.length
+               ? qsTr("%1 items, %2").arg(count).arg(sel)
+               : qsTr("%1 items").arg(count)
+    }
 
     function _roleValue(item, role, fallbackIndex) {
         if (item === undefined || item === null)
@@ -278,6 +291,7 @@ T.Control {
                         checked: root.isSelected(index)
                         focusPolicy: Qt.NoFocus
                         activeFocusOnTab: false
+                        Accessible.ignored: true
                         onClicked: {
                             root.toggleSelection(index)
                             root.forceActiveFocus()

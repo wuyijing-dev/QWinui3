@@ -32,6 +32,7 @@ import QWinUI3.Theme
 //   Apps set field.errorMessage, then validate() / collectErrors() read descendants
 //   (children + contentChildren). clearErrors() clears the same tree.
 //   Pair with ValidationSummary. See docs/forms.md.
+//   Accessibility (1.19): Accessible.Form + accessibleName; description lists error count.
 
 T.Control {
     id: root
@@ -46,6 +47,8 @@ T.Control {
     property real fieldSpacing: Theme.spacingLoose
     // Collected error strings after validate() / collectErrors()
     property var errors: []
+    // Screen-reader name for the form region (1.19)
+    property string accessibleName: qsTr("Form")
     // Default children / field slot
     default property alias contentData: body.data
 
@@ -53,6 +56,10 @@ T.Control {
     implicitHeight: contentItem.implicitHeight + topPadding + bottomPadding
     padding: 0
     Accessible.role: Accessible.Form
+    Accessible.name: accessibleName.length ? accessibleName : qsTr("Form")
+    Accessible.description: errors && errors.length
+                            ? qsTr("%1 validation errors").arg(errors.length)
+                            : ""
 
     onLabelWidthChanged: Qt.callLater(function () { root.applyDefaults() })
     onFieldHeaderPlacementChanged: Qt.callLater(function () { root.applyDefaults() })

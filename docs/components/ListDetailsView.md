@@ -4,7 +4,7 @@ Master–detail recipe on TwoPaneView.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ListDetailsView.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ListDetailsView.qml)
 
-**Category:** Collections & data · **Library:** v1.18
+**Category:** Collections & data · **Library:** v1.19
 
 [← Component index](../components.md)
 
@@ -50,6 +50,8 @@ docs/data-collections.md.
 | `listHeader` | `alias` | — |
 | `connectedAnimationEnabled` | `bool` | Morph list row → details pane via ConnectedAnimationService |
 | `connectedAnimationKey` | `string` | — |
+| `accessibleName` | `string` | Screen-reader name override (1.19) |
+| `listAccessibleName` | `string` | — |
 | `selectedItem` | `var` | — |
 | `singlePaneDetailsOpen` | `bool` | — |
 

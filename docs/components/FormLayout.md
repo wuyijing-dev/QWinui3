@@ -4,7 +4,7 @@ Vertical form stack that collects field errorMessage values.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/FormLayout.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/FormLayout.qml)
 
-**Category:** Input & forms · **Library:** v1.18
+**Category:** Input & forms · **Library:** v1.19
 
 [← Component index](../components.md)
 
@@ -41,6 +41,7 @@ walk parents. Set formBound: false on a field to opt out.
 Apps set field.errorMessage, then validate() / collectErrors() read descendants
 (children + contentChildren). clearErrors() clears the same tree.
 Pair with ValidationSummary. See docs/forms.md.
+Accessibility (1.19): Accessible.Form + accessibleName; description lists error count.
 
 ## API
 
@@ -52,6 +53,7 @@ Pair with ValidationSummary. See docs/forms.md.
 | `fieldHeaderPlacement` | `string` | Default headerPlacement pushed to formBound fields ("left"\|"top"; empty = leave field) |
 | `fieldSpacing` | `real` | Vertical spacing between fields |
 | `errors` | `var` | Collected error strings after validate() / collectErrors() |
+| `accessibleName` | `string` | Screen-reader name for the form region (1.19) |
 | `contentData` | `alias` | Default children / field slot |
 
 ### Signals

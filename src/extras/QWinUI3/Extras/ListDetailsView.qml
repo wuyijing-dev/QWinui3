@@ -40,6 +40,9 @@ T.Control {
     // Morph list row → details pane via ConnectedAnimationService
     property bool connectedAnimationEnabled: false
     property string connectedAnimationKey: "listDetails.hero"
+    // Screen-reader name override (1.19)
+    property string accessibleName: qsTr("List details")
+    property string listAccessibleName: qsTr("Items")
 
     readonly property var selectedItem: {
         if (!model || selectedIndex < 0 || selectedIndex >= model.length)
@@ -56,7 +59,10 @@ T.Control {
     focusPolicy: Qt.StrongFocus
     activeFocusOnTab: true
     Accessible.role: Accessible.Pane
-    Accessible.name: qsTr("List details")
+    Accessible.name: accessibleName.length ? accessibleName : qsTr("List details")
+    Accessible.description: singlePaneDetailsOpen
+                            ? qsTr("Details open")
+                            : (selectedIndex >= 0 ? qsTr("Item %1 selected").arg(selectedIndex + 1) : "")
 
     function select(index) {
         if (!model || index < 0 || index >= model.length) {
@@ -184,13 +190,22 @@ T.Control {
                     model: root.model
                     currentIndex: root.selectedIndex
                     Accessible.role: Accessible.List
-                    Accessible.name: qsTr("Items")
+                    Accessible.name: root.listAccessibleName.length ? root.listAccessibleName : qsTr("Items")
                     delegate: ItemDelegate {
                         required property var modelData
                         required property int index
                         width: ListView.view.width
                         focusPolicy: Qt.NoFocus
                         highlighted: index === root.selectedIndex
+                        Accessible.role: Accessible.ListItem
+                        Accessible.name: {
+                            var t = root._titleOf(modelData)
+                            return t.length ? t : qsTr("Item %1").arg(index + 1)
+                        }
+                        Accessible.description: root._subtitleOf(modelData)
+                        Accessible.selectable: true
+                        Accessible.selected: index === root.selectedIndex
+                        Accessible.onPressAction: root.select(index)
                         onClicked: {
                             root.forceActiveFocus()
                             root.select(index)

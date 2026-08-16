@@ -138,3 +138,4 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.16** | Dialogs/flyouts recipe [dialogs-flyouts.md](dialogs-flyouts.md); ContentDialog Esc → Closing |
 | **1.17** | Shell extras promote [shell-extras.md](shell-extras.md); taskbar / attention / reveal / idle |
 | **1.18** | Promote `WebView2Host` — soak green [webview2.md](webview2.md); Retry recreate + async generation |
+| **1.19** | Accessibility wave 2 — [accessibility.md](accessibility.md); DataTable/lists/forms names |

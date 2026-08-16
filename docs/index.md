@@ -14,7 +14,7 @@ This site is generated from QML source comments and shipped via GitHub Pages.
 | [WindowHelper](window-helper.md) | Platform chrome singleton |
 | [Roadmap](roadmap.md) | Version themes — small `1.xx` slices |
 | [Stable API](stable-api.md) | What to rely on in 1.xx apps |
-| [Accessibility](accessibility.md) | 1.02 high-traffic checklist + tracked gaps |
+| [Accessibility](accessibility.md) | 1.02 + wave 2 checklist (1.19) |
 | [Linux / Wayland](platform-linux-wayland.md) | Title bar & backdrop matrix for shells |
 | [Window chrome](window-chrome.md) | DPI / backdrop / dialog failure modes |
 | [WebView2](webview2.md) | Windows WebView2Host — stable recipe (1.18) |

@@ -4,7 +4,7 @@ Fluent virtualizing table with sort, filter, resize, and keyboard.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/DataTable.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/DataTable.qml)
 
-**Category:** Collections & data · **Library:** v1.18
+**Category:** Collections & data · **Library:** v1.19
 
 [← Component index](../components.md)
 
@@ -60,6 +60,7 @@ See docs/data-collections.md for DataTable vs ItemsView vs ListDetailsView.
 | `selectedRow` | `var` | — |
 | `rowCount` | `int` | — |
 | `columnCount` | `int` | — |
+| `accessibleName` | `string` | Screen-reader name override (1.19) |
 
 ### Signals
 
