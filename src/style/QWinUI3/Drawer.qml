@@ -7,14 +7,16 @@ import QWinUI3.Theme
 //   Drawer {
 //       id: drawer
 //       edge: Qt.LeftEdge
-//       Label { anchors.centerIn: parent; text: qsTr("Menu") }
+//       width: 320
+//       Label { text: qsTr("Menu") }
 //   }
 //   drawer.open()
 //
 // @notes
 //   Style-only Fluent chrome for Qt Quick Controls Drawer.
-//   Enter/exit must animate `position` (SmoothedAnimation) — do not drive x/y/opacity
-//   or the panel background fails to size and content floats over the window.
+//   Qt Drawer only slides via `position` — it does not auto-set height/width to the
+//   window edge. Side drawers bind height to Overlay; top/bottom bind width.
+//   Enter/exit must use SmoothedAnimation on `position` (not x/y/opacity).
 
 T.Drawer {
     id: control
@@ -26,7 +28,6 @@ T.Drawer {
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
                              contentHeight + topPadding + bottomPadding)
 
-    // Hairline inset on the open edge (WinUI / Basic style)
     topPadding: control.edge === Qt.BottomEdge ? 1 : Theme.spacingSection
     leftPadding: control.edge === Qt.RightEdge ? 1 : Theme.spacingSection
     rightPadding: control.edge === Qt.LeftEdge ? 1 : Theme.spacingSection
@@ -40,7 +41,22 @@ T.Drawer {
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
 
-    // Animate Drawer.position (0→1). Custom x/y/opacity transitions break the panel.
+    // Full-edge span (see Qt Drawer docs — height/width are not assigned by QQuickDrawer).
+    Binding {
+        target: control
+        property: "height"
+        when: (control.edge === Qt.LeftEdge || control.edge === Qt.RightEdge)
+              && T.Overlay.overlay && T.Overlay.overlay.height > 0
+        value: T.Overlay.overlay.height
+    }
+    Binding {
+        target: control
+        property: "width"
+        when: (control.edge === Qt.TopEdge || control.edge === Qt.BottomEdge)
+              && T.Overlay.overlay && T.Overlay.overlay.width > 0
+        value: T.Overlay.overlay.width
+    }
+
     enter: Transition {
         SmoothedAnimation {
             velocity: 5
@@ -53,12 +69,11 @@ T.Drawer {
     }
 
     background: Rectangle {
-        // Solid surface — acrylic token is too close to white and can look “empty”.
         color: Theme.bgCard
         implicitWidth: 320
-        implicitHeight: 320
+        implicitHeight: 480
+        radius: 0
 
-        // Edge stroke toward the window content
         Rectangle {
             readonly property bool horizontal: control.edge === Qt.LeftEdge
                                               || control.edge === Qt.RightEdge
@@ -67,18 +82,6 @@ T.Drawer {
             color: Theme.strokeDivider
             x: control.edge === Qt.LeftEdge ? parent.width - 1 : 0
             y: control.edge === Qt.TopEdge ? parent.height - 1 : 0
-        }
-
-        // Soft elevation via a second face (avoid MultiEffect clipping issues on full-height drawers)
-        Rectangle {
-            z: -1
-            anchors.fill: parent
-            anchors.leftMargin: control.edge === Qt.LeftEdge ? 0 : -2
-            anchors.rightMargin: control.edge === Qt.RightEdge ? 0 : -2
-            anchors.topMargin: control.edge === Qt.TopEdge ? 0 : -2
-            anchors.bottomMargin: control.edge === Qt.BottomEdge ? 0 : -2
-            color: Theme.dark ? "#40000000" : "#18000000"
-            visible: control.position > 0
         }
     }
 
