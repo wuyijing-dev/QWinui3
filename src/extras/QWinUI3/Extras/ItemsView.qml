@@ -9,7 +9,7 @@ import QWinUI3.Theme
 //   ItemsView {
 //       model: myModel
 //       sectionRole: "group"
-//       selectionMode: selectionMultiple
+//       selectionMode: ItemsView.SelectionMultiple
 //       titleRole: "title"
 //       subtitleRole: "subtitle"
 //       emptyTitle: qsTr("No items")

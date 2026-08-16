@@ -28,7 +28,7 @@ CatalogPage {
 
     ControlExample {
         headerText: qsTr("Grouped multi-select")
-        qmlSource: "ItemsView {\n    sectionRole: \"group\"\n    selectionMode: selectionMultiple\n    contextMenu: ctx\n}"
+        qmlSource: "ItemsView {\n    sectionRole: \"group\"\n    selectionMode: ItemsView.SelectionMultiple\n    contextMenu: ctx\n}"
 
         ColumnLayout {
             Layout.fillWidth: true
@@ -61,7 +61,7 @@ CatalogPage {
                 Layout.preferredHeight: 360
                 model: page.showEmpty ? [] : page.sampleModel
                 sectionRole: "group"
-                selectionMode: selectionMultiple
+                selectionMode: ItemsView.SelectionMultiple
                 emptyTitle: qsTr("No files")
                 emptyMessage: qsTr("Add documents or restore the sample list.")
                 emptyActionText: qsTr("Restore")
