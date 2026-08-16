@@ -1,4 +1,4 @@
-# Consumer packaging & CMake (1.12)
+# Consumer packaging & CMake (1.46)
 
 End-to-end path for a **third-party app** on **Windows** and **Linux**. Prefer types in [stable-api.md](stable-api.md). Compatibility freeze: [compatibility-1xx.md](compatibility-1xx.md) · upgrades: [upgrade-notes.md](upgrade-notes.md) (**1.40**).
 
@@ -9,6 +9,29 @@ There is **no** `find_package(QWinUI3)` Config yet — consumers either:
 1. **Download** a Release shared package, or  
 2. **Package** from this repo with `scripts/package_release_libs.py`, or  
 3. **`add_subdirectory` / clone** the kit into their tree (static or shared).
+
+**1.46 polish:** shared vs static matrix, windeploy/linuxdeploy notes, strip-restricted modules, and `scripts/check_shared_package.py`.
+
+---
+
+## Shared vs static
+
+| | **Shared** (`QWINUI3_BUILD_SHARED=ON` / `--shared`) | **Static** (default in-tree / Gallery) |
+|--|--|--|
+| **Artifact** | `bin/*.dll` + `lib/*.lib` (Win) or `lib/*.so*` (Linux) + `qml/` | `lib/*.lib` / `*.a` + QML plugins + `qml/` |
+| **Link** | `qwinui3_theme` … only (import libs) | Same **plus** `qwinui3_*plugin` targets |
+| **Runtime** | Ship QWinUI3 DLLs/.so next to the app (or PATH / `LD_LIBRARY_PATH` / rpath) | QWinUI3 code linked into your binary; still ship **Qt** runtime |
+| **When to use** | Redistributable zip for third parties; multiple apps sharing one kit | Single app / Gallery-style; fewer loose files |
+| **Package command** | `python scripts/package_release_libs.py --shared --archive` | omit `--shared` |
+
+**Rule of thumb:** Release CI ships **shared** kits (`*-shared.zip` / `*.tar.gz`). The Gallery **binary** zip is a separate story (static QWinUI3 + full Qt deploy).
+
+**CMake dependency note (1.46):** `qwinui3_style` and `qwinui3_extras` **PUBLIC**-link `qwinui3_platform`. Packaging presets `core` / `style` / `extras` therefore also collect the platform DLL/.so and `QWinUI3/Platform` QML (same runtime set as `shell` for style-based apps). Theme-only (`--modules theme`) stays the smallest shared kit.
+
+Module presets (deps auto-included): `all` / `full` · `core` (theme+style, **+platform**) · `shell` · `extras` (theme+extras, **+platform**) · per-module names.  
+List: `python scripts/package_release_libs.py --list-modules`.
+
+Shared builds set `CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS` so C++ helpers such as `ThemeFonts::ensureLoaded` (used from `Bootstrap`) cross DLL boundaries on MSVC.
 
 ---
 
@@ -21,7 +44,7 @@ There is **no** `find_package(QWinUI3)` Config yet — consumers either:
 | `qwinui3-<ver>-windows-x64-shared.zip` | Shared DLLs + QML (`bin/` · `lib/` · `qml/`) |
 | `qwinui3-<ver>-linux-x64-shared.tar.gz` | Shared `.so` + QML |
 | `qwinui3-gallery-<ver>-windows-x64.zip` | Standalone Gallery + Qt runtime (`windeployqt`) |
-| `qwinui3-gallery-<ver>-linux-x64.tar.gz` | Gallery AppDir + runner |
+| `qwinui3-gallery-<ver>-linux-x64.tar.gz` | Gallery AppDir + runner (`linuxdeploy`) |
 
 - CI Qt pin: **6.8.x** (see workflow `QT_VERSION`). Apps may target **Qt 6.5+**; match major/minor ABI to the kit you link against.
 - Tag pushes package **all** modules. Manual dispatch can pass `modules` (`all` \| `core` \| `shell` \| …).
@@ -49,8 +72,14 @@ qwinui3-<ver>-…-shared/
 | `platform` | `qwinui3_platform` | `QWinUI3/Platform` |
 | `extras` | `qwinui3_extras` | `QWinUI3/Extras` |
 
-**Presets** (deps auto-included): `all` / `full` · `core` (theme+style) · `shell` (+platform) · `extras` (theme+extras) · per-module names.  
-List: `python scripts/package_release_libs.py --list-modules`.
+Validate a tree (Win or Linux):
+
+```bash
+python scripts/check_shared_package.py --dir dist/qwinui3-<ver>-windows-x64-shared
+python scripts/check_shared_package.py --dir dist/qwinui3-<ver>-linux-x64-shared --expect-shared yes
+```
+
+Repo contract check (no build): `python scripts/check_shared_package.py` — also run from Gallery smoke (**1.46**).
 
 ---
 
@@ -79,7 +108,7 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
     // Absolute path to the package's qml/ folder:
-    engine.addImportPath(QStringLiteral("D:/deps/qwinui3-1.12-windows-x64-shared/qml"));
+    engine.addImportPath(QStringLiteral("D:/deps/qwinui3-1.46-windows-x64-shared/qml"));
     // …
 }
 ```
@@ -99,7 +128,7 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
     // Absolute path to the package's qml/ folder:
-    engine.addImportPath(QStringLiteral("D:/deps/qwinui3-1.12-windows-x64-shared/qml"));
+    engine.addImportPath(QStringLiteral("D:/deps/qwinui3-1.46-windows-x64-shared/qml"));
     // …
 }
 ```
@@ -119,7 +148,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Extracted shared package root (contains bin/, lib/, qml/)
-set(QWINUI3_ROOT "D:/deps/qwinui3-1.12-windows-x64-shared" CACHE PATH "QWinUI3 shared package")
+set(QWINUI3_ROOT "D:/deps/qwinui3-1.46-windows-x64-shared" CACHE PATH "QWinUI3 shared package")
 
 find_package(Qt6 6.5 REQUIRED COMPONENTS Quick QuickControls2 LabsQmlModels Gui)
 
@@ -192,6 +221,12 @@ python scripts/package_release_gallery.py
 
 Output under `dist/`. Then follow **Path A**. Static packaging (`--shared` omitted) is for linking `.lib`/`.a` into your binary — you must also link the `*plugin` targets (see in-tree examples).
 
+After packaging:
+
+```bash
+python scripts/check_shared_package.py --dir dist/qwinui3-<ver>-<plat>-x64-shared --expect-shared yes
+```
+
 ---
 
 ## Path C — `add_subdirectory` (develop against source)
@@ -220,6 +255,51 @@ Copy an example under [`examples/`](../examples/) (`nav-settings`, `settings-car
 
 ---
 
+## Deploying **your** app (windeployqt / linuxdeploy)
+
+QWinUI3 shared zips **do not** include the Qt runtime. Your installer must still ship Qt (and any optional Multimedia / WebView2 pieces you enable).
+
+### Windows — `windeployqt`
+
+1. Build your app **Release** against the same Qt major/minor as the QWinUI3 package.
+2. Copy QWinUI3 `bin/*.dll` beside the `.exe` (POST_BUILD above) **or** leave them on `PATH` for local runs only.
+3. Run `windeployqt` on the exe (Quick + QuickControls2). Example:
+
+```bat
+windeployqt --qmldir path\to\your\qml --release myapp.exe
+```
+
+4. Ensure `engine.addImportPath` / `QML_IMPORT_PATH` still sees the QWinUI3 package `qml/` (or copy that tree under your deploy folder and point there).
+5. Run **strip-restricted** cleanup so GPL/Commercial Qt add-ons do not ride along (see below).
+
+Gallery reference: `python scripts/package_release_gallery.py` (calls `windeployqt`, then strips restricted modules).
+
+### Linux — `linuxdeploy` (+ qt plugin)
+
+1. Prefer rpath into the shared package `lib/`, or set `LD_LIBRARY_PATH` for the installed layout.
+2. Use [linuxdeploy](https://github.com/linuxdeploy/linuxdeploy) + `linuxdeploy-plugin-qt` to gather Qt libs/plugins/QML — same pattern as Gallery packaging.
+3. Do **not** assume AppImage is required; a relocatable AppDir / tarball is enough for many LoB apps.
+4. Strip restricted Qt modules from the staged tree after deploy.
+
+Gallery reference: same `package_release_gallery.py` path on Linux.
+
+---
+
+## Strip-restricted Qt modules
+
+QWinUI3 is **LGPL-3.0**. Desktop Qt kits / `windeployqt` / `linuxdeploy-plugin-qt` may copy **GPL or commercial** add-ons (notably **Virtual Keyboard**, Charts, WebEngine, Quick3D, …) into the deploy folder.
+
+**In this repo**
+
+| Helper | Use |
+|--------|-----|
+| `cmake/StripRestrictedQtModules.cmake` → `qwinui3_strip_restricted_qt_modules(target)` | POST_BUILD remove from `$<TARGET_FILE_DIR:…>` (Gallery + examples) |
+| `scripts/package_release_gallery.py` → `_strip_restricted()` | Cleans staged Gallery zip / AppDir |
+
+**Consumer apps:** call the CMake helper on your executable target, or delete the same relative paths after `windeployqt` / linuxdeploy. `scripts/check_shared_package.py --dir …` fails if those restricted trees appear **inside** a QWinUI3 lib package (they should never be part of the kit zip).
+
+---
+
 ## Qt Creator (consumer app)
 
 1. Kit: Qt **6.5+** (6.8 recommended), MSVC 2022 x64 on Windows / gcc_64 on Linux.  
@@ -236,14 +316,35 @@ Opening the **QWinUI3 monorepo** itself: [qt-creator.md](qt-creator.md).
 | Step | Windows | Linux |
 |------|---------|-------|
 | Qt prefix | `CMAKE_PREFIX_PATH` → `…/msvc2022_64` | `…/gcc_64` |
+| Library kind | Shared zip → copy `bin/`; Static → link `*plugin` | Shared → `lib/` on `LD_LIBRARY_PATH` / rpath |
 | Style | `QT_QUICK_CONTROLS_STYLE=QWinUI3` | same |
 | QML | `engine.addImportPath(…/qml)` | same |
-| Native libs | `bin/` DLLs beside exe or on `PATH` | `lib/` on `LD_LIBRARY_PATH` / rpath |
+| Qt runtime | `windeployqt` (+ strip-restricted) | `linuxdeploy` + qt plugin (+ strip) |
+| Validate kit | `check_shared_package.py --dir …` | same |
 | API surface | Prefer [stable-api.md](stable-api.md) | same |
 | License | LGPL-3.0 (`LICENSE` / `COPYING` in package) | same |
 
 ---
 
-## Out of scope (1.12)
+## Smoke (maintainers)
 
-`find_package(QWinUI3)` Config/export graph, macOS packages, new archive formats, rewriting CI module matrix.
+```bash
+# Contract + docs (no Qt) — also via smoke_gallery.py
+python scripts/check_shared_package.py
+
+# Windows shared artifact
+python scripts/package_release_libs.py --shared --preset core --archive
+python scripts/check_shared_package.py --dir dist/qwinui3-<ver>-windows-x64-shared-theme+style --expect-shared yes
+
+# Linux (CI release job or local gcc_64 kit)
+python scripts/package_release_libs.py --shared --archive
+python scripts/check_shared_package.py --dir dist/qwinui3-<ver>-linux-x64-shared --expect-shared yes
+```
+
+CI Release already builds Win + Linux shared archives on `v*` tags; run the `--dir` check locally or in a follow-up job after download.
+
+---
+
+## Out of scope
+
+`find_package(QWinUI3)` Config/export graph, official Conan/vcpkg ports, macOS packages, rewriting the CI module matrix.

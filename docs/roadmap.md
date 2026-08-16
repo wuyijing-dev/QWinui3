@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.45**
-**Next up:** **1.46** (Shared library redistribute polish)
+**Current:** **1.46**
+**Next up:** **1.47** (Snap layouts & windowing extras)
 **Planned through:** **1.50** (1.xx maturity checkpoint)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](qt-version-compat.md)
 
@@ -60,7 +60,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.45`
+## Shipped — `1.01` … `1.46`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -242,30 +242,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** Expanded [i18n-rtl.md](i18n-rtl.md) lupdate/lrelease / `--lang` / RTL regression checklist; `zh_CN` seed catalog; `scripts/check_gallery_translations.py` in smoke; Gallery i18n page + translations README; product version `1.45`.
 
+### 1.46 — Shared library redistribute polish (shipped)
+
+**Shipped:** Extended [packaging-consumer.md](packaging-consumer.md) shared vs static matrix, windeploy/linuxdeploy, strip-restricted modules; `scripts/check_shared_package.py` in smoke; MSVC `CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS` for shared; package QML collect keeps Theme/Platform siblings; product version `1.46`.
+
 ---
 
-## Horizon — planned `1.46` … `1.50`
+## Horizon — planned `1.47` … `1.50`
 
 Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per `YY`.
-
-### 1.46 — Shared library redistribute polish
-
-**Why:** `QWINUI3_BUILD_SHARED` and consumer zips need a cleaner DLL/.so story after 1.12.
-
-**In scope**
-
-- Shared vs static matrix, windeploy/linuxdeploy notes, strip-restricted modules reminder.
-- Extend [packaging-consumer.md](packaging-consumer.md).
-
-**Out of scope**
-
-- Conan/vcpkg official ports as a commitment (parking lot unless trivial).
-
-**Exit criteria**
-
-- Shared Release artifact documented and smoke-tested on Win + Linux.
-
----
 
 ### 1.47 — Snap layouts & windowing extras
 

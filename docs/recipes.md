@@ -12,7 +12,7 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 | Recipe | One-liner |
 |--------|-----------|
 | [Qt Creator](qt-creator.md) | Open root CMakeLists → Gallery or example (no `.pro`) |
-| [Consumer packaging](packaging-consumer.md) | Release zip / `add_subdirectory` / runtime |
+| [Consumer packaging](packaging-consumer.md) | Shared vs static / windeploy / strip (1.46) |
 | [1.xx compatibility](compatibility-1xx.md) | Will-not-break Theme / shells / stable controls (1.40) |
 | [Upgrade notes](upgrade-notes.md) | Consumer checklist + template (1.40) |
 | [Qt version compat](qt-version-compat.md) | 6.5+ / 6.8 LTS / CI matrix |

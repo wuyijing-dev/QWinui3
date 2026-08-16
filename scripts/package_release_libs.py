@@ -43,7 +43,8 @@ MODULES: dict[str, dict] = {
     "style": {
         "target": "qwinui3_style",
         "qml": ("QWinUI3",),  # URI QtQuick.Controls style plugin tree
-        "depends": ("theme",),
+        # CMake: style PUBLIC-links platform (IMPORTS TARGET + ApplicationWindow shells).
+        "depends": ("theme", "platform"),
         "lib_stems": ("qwinui3_style",),
     },
     "platform": {
@@ -55,7 +56,7 @@ MODULES: dict[str, dict] = {
     "extras": {
         "target": "qwinui3_extras",
         "qml": ("QWinUI3/Extras",),
-        "depends": ("theme",),
+        "depends": ("theme", "platform"),
         "lib_stems": ("qwinui3_extras",),
     },
 }
@@ -65,9 +66,10 @@ ALL_MODULES = tuple(MODULES.keys())
 PRESETS: dict[str, tuple[str, ...]] = {
     "all": ALL_MODULES,
     "full": ALL_MODULES,
+    # core ≈ theme+style; platform is pulled because style links it (same as shell).
     "core": ("theme", "style"),
     "shell": ("theme", "style", "platform"),
-    "extras": ("theme", "extras"),  # theme + extras only
+    "extras": ("theme", "extras"),  # + platform via extras CMake deps
     "theme": ("theme",),
     "style": ("theme", "style"),
     "platform": ("theme", "platform"),
@@ -245,6 +247,50 @@ def _collect_files(build_dir: Path, out_dir: Path, modules: list[str]) -> list[P
     qml_rels: list[str] = []
     for m in modules:
         qml_rels.extend(MODULES[m]["qml"])
+    # Style URI is qml/QWinUI3/; Theme/Platform/Extras nest under it. Copy the
+    # style root first, then overlay sibling modules so they are not wiped.
+    def _qml_order(rel: str) -> tuple[int, str]:
+        if rel == "QWinUI3":
+            return (0, rel)
+        return (1, rel)
+
+    qml_rels = sorted(dict.fromkeys(qml_rels), key=_qml_order)
+
+    sibling_module_dirs = {"Theme", "Platform", "Extras"}
+    skip_names = {
+        ".qt",
+        ".rcc",
+        "CMakeFiles",
+        "meta_types",
+        "qmltypes",
+        "Makefile",
+    }
+    ignore = shutil.ignore_patterns(
+        "*.obj",
+        "*.o",
+        "*.pdb",
+        "CMakeFiles",
+        "*.cmake",
+        "Makefile*",
+        ".qt",
+        ".rcc",
+        "*_autogen",
+        "meta_types",
+        "qmltypes",
+    )
+
+    def _should_skip(name: str) -> bool:
+        if name in sibling_module_dirs:
+            return False
+        if name in skip_names:
+            return True
+        if name.endswith("_autogen"):
+            return True
+        if name.endswith((".obj", ".o", ".pdb", ".cmake", ".exp")):
+            return True
+        if name.startswith("cmake_install") or name.startswith("Makefile"):
+            return True
+        return False
 
     for module_rel in qml_rels:
         # Style URI tree is "QWinUI3" but must not steal QWinUI3/Theme etc.
@@ -263,15 +309,37 @@ def _collect_files(build_dir: Path, out_dir: Path, modules: list[str]) -> list[P
             continue
         src_root = candidates[0].parent
         dest_root = qml_dir / module_rel.replace("/", os.sep)
-        if dest_root.exists():
-            shutil.rmtree(dest_root)
-        shutil.copytree(
-            src_root,
-            dest_root,
-            ignore=shutil.ignore_patterns(
-                "*.obj", "*.o", "*.pdb", "CMakeFiles", "*.cmake", "Makefile*"
-            ),
-        )
+
+        if module_rel == "QWinUI3":
+            dest_root.mkdir(parents=True, exist_ok=True)
+            for child in list(dest_root.iterdir()):
+                if child.name in sibling_module_dirs:
+                    continue
+                if child.is_dir():
+                    shutil.rmtree(child)
+                elif child.is_file() or child.is_symlink():
+                    child.unlink()
+            for item in src_root.iterdir():
+                if item.name in sibling_module_dirs or _should_skip(item.name):
+                    continue
+                dest = dest_root / item.name
+                if item.is_dir():
+                    if dest.exists():
+                        shutil.rmtree(dest)
+                    shutil.copytree(item, dest, ignore=ignore)
+                elif item.is_file():
+                    shutil.copy2(item, dest)
+        else:
+            if dest_root.exists():
+                shutil.rmtree(dest_root)
+            shutil.copytree(src_root, dest_root, ignore=ignore)
+            # Drop build-junk dirs that may still land at the module root.
+            for child in list(dest_root.iterdir()):
+                if _should_skip(child.name) and child.name not in sibling_module_dirs:
+                    if child.is_dir():
+                        shutil.rmtree(child)
+                    else:
+                        child.unlink(missing_ok=True)
         copied.append(dest_root)
 
     return copied
@@ -317,7 +385,7 @@ Features: {features}
 ## Consumer notes
 
 See the full recipe: https://wuyijing-dev.github.io/QWinui3/packaging-consumer/
-(or `docs/packaging-consumer.md` in the source repo).
+(or `docs/packaging-consumer.md` in the source repo) — shared vs static, windeploy/linuxdeploy, strip-restricted (1.46).
 
 1. Add `qml/` to `QML_IMPORT_PATH` (or `engine.addImportPath` / `QML2_IMPORT_PATH`).
 2. Link against the selected `qwinui3_*` libraries (and `*plugin` when STATIC).
@@ -325,7 +393,9 @@ See the full recipe: https://wuyijing-dev.github.io/QWinui3/packaging-consumer/
 4. On Windows shared builds, put `bin/` DLLs beside your exe or on `PATH`.
 5. Qt **6.5+** required (CI packages built with **6.8.x**): Quick, QuickControls2, LabsQmlModels.
 6. Set `QT_QUICK_CONTROLS_STYLE=QWinUI3` before creating `QGuiApplication`.
-7. License: **LGPL-3.0** (see `LICENSE` and `COPYING` in this package).
+7. After packaging: `python scripts/check_shared_package.py --dir <this-folder>`.
+8. License: **LGPL-3.0** (see `LICENSE` and `COPYING` in this package).
+9. Deploying *your* app still needs windeployqt / linuxdeploy for Qt; strip VirtualKeyboard etc.
 
 ### On-demand packaging
 

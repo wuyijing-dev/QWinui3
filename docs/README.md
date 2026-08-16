@@ -59,7 +59,7 @@ Header convention:
 | Doc | Description |
 |-----|-------------|
 | [`qt-creator.md`](qt-creator.md) | Open Gallery / examples in Qt Creator (CMake only) |
-| [`packaging-consumer.md`](packaging-consumer.md) | Third-party shared zip / CMake |
+| [`packaging-consumer.md`](packaging-consumer.md) | Shared vs static / windeploy / strip |
 | [`qt-version-compat.md`](qt-version-compat.md) | Compat shims + CI matrix |
 
 Shell / platform / LoB recipes are indexed on [`recipes.md`](recipes.md) (window shells, navigation, forms, feedback, …).

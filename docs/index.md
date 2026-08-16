@@ -17,9 +17,9 @@ This site is generated from QML source comments and shipped via GitHub Pages.
 | [Color & contrast](color-contrast.md) | AA diagnostics / `Theme.contrastRatio` (**1.43**) |
 | [Keyboard-first](keyboard.md) | Global chords → palette → dialogs → lists (**1.44**) |
 | [i18n / RTL](i18n-rtl.md) | qsTr + zh_CN seed + LayoutMirroring (**1.45**) |
+| [Consumer packaging](packaging-consumer.md) | Shared vs static / windeploy / strip (**1.46**) |
 | [Component API](components.md) | Full public + internal control index |
 | [Qt Creator](qt-creator.md) | Open Gallery / examples (CMake only) |
-| [Consumer packaging](packaging-consumer.md) | Shared zip / CMake / runtime |
 | [Roadmap](roadmap.md) | Small `1.xx` slices |
 
 Top recipes (also on the hub): [Window shells](window-shells.md) · [Navigation](navigation.md) · [Forms](forms.md) · [Data collections](data-collections.md) · [Feedback](feedback.md) · [System integration](system-integration.md) · [Performance](performance.md) (cold start **1.39**).

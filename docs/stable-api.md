@@ -176,7 +176,7 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 
 - Shared libs: `python scripts/package_release_libs.py --shared --archive`
 - Gallery: `python scripts/package_release_gallery.py`
-- **Consumer recipe (Win + Linux):** [packaging-consumer.md](packaging-consumer.md) (1.12)
+- **Consumer recipe (Win + Linux):** [packaging-consumer.md](packaging-consumer.md) (1.46)
 - Version string: `QWINUI3_VERSION` (`X.YY`) in root `CMakeLists.txt`
 - CI Release on `vX.YY` tags — see [ROADMAP.md](../ROADMAP.md)
 
@@ -223,3 +223,4 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.43** | Color & contrast diagnostics — [color-contrast.md](color-contrast.md); `Theme.contrastRatio` / AA helpers |
 | **1.44** | Keyboard-first cookbook — [keyboard.md](keyboard.md); Gallery Accessibility tour |
 | **1.45** | Localization deepen — [i18n-rtl.md](i18n-rtl.md); zh_CN seed; Gallery `--lang`; translation smoke check |
+| **1.46** | Shared redistribute polish — [packaging-consumer.md](packaging-consumer.md); `check_shared_package.py`; windeploy/linuxdeploy + strip |

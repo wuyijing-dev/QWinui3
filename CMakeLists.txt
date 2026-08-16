@@ -17,7 +17,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Product version is X.YY (two-digit minor), e.g. 1.00, 1.01, 1.10.
 # Git tags / packages use v${QWINUI3_VERSION}. CMake needs major.minor.patch.
-set(QWINUI3_VERSION "1.45")
+set(QWINUI3_VERSION "1.46")
 if(NOT QWINUI3_VERSION MATCHES "^[0-9]+\\.[0-9][0-9]$")
     message(FATAL_ERROR "QWINUI3_VERSION must be X.YY (two-digit minor), got '${QWINUI3_VERSION}'")
 endif()
@@ -112,6 +112,8 @@ option(QWINUI3_BUILD_EXAMPLES "Build copy-ready example apps" ON)
 option(QWINUI3_BUILD_SHARED "Build QWinUI3 libraries as shared (DLL/.so) for redistribution" OFF)
 if(QWINUI3_BUILD_SHARED)
     set(QWINUI3_LIB_TYPE SHARED)
+    # MSVC: export C++ symbols used across qwinui3_* DLLs (e.g. ThemeFonts from platform).
+    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 else()
     set(QWINUI3_LIB_TYPE STATIC)
 endif()

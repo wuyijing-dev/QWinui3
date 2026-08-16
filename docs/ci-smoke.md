@@ -25,7 +25,15 @@ cmake --build build --config Release --target qwinui3_gallery
 python scripts/smoke_gallery.py --build-dir build
 ```
 
-`smoke_gallery.py` first runs `scripts/smoke_catalog.py` (ControlCatalog sources + critical list sync), then `scripts/check_gallery_translations.py` (seed `.ts` XML, **1.45**), then launches `qwinui3_gallery --smoke`.
+`smoke_gallery.py` first runs `scripts/smoke_catalog.py` (ControlCatalog sources + critical list sync), then `scripts/check_gallery_translations.py` (seed `.ts` XML, **1.45**), then `scripts/check_shared_package.py` (packaging contracts / docs, **1.46**), then launches `qwinui3_gallery --smoke`.
+
+Optional after packaging a shared kit:
+
+```bash
+python scripts/check_shared_package.py --dir dist/qwinui3-<ver>-windows-x64-shared --expect-shared yes
+```
+
+See [packaging-consumer.md](packaging-consumer.md).
 
 ### Windows QPA pitfall
 
@@ -109,8 +117,8 @@ See also [gallery-catalog-page.md](gallery-catalog-page.md).
 
 ## Scope
 
-**In smoke:** Windows + Linux, Qt **6.8**, Gallery only, examples/WebView2 off for CI speed; catalog file check; critical page create.
+**In smoke:** Windows + Linux, Qt **6.8**, Gallery only, examples/WebView2 off for CI speed; catalog file check; translation seeds; shared packaging contracts; critical page create.
 
-**Not in smoke:** Screenshot diffs, full catalog page-load of every control, packaging.
+**Not in smoke:** Screenshot diffs, full catalog page-load of every control, building shared Release zips (use `package_release_libs.py` + `check_shared_package.py --dir` locally / Release workflow).
 
 **Multi-Qt (1.14):** use [qt-compat.yml](../.github/workflows/qt-compat.yml) / [qt-version-compat.md](qt-version-compat.md) — does not replace smoke.

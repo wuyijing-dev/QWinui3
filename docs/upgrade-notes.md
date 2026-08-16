@@ -47,6 +47,20 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.45 → 1.46
+
+**Product version:** 1.46  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- Follow [packaging-consumer.md](packaging-consumer.md) shared vs static matrix, windeploy/linuxdeploy, and strip-restricted steps.
+- Validate kits with `python scripts/check_shared_package.py` (optionally `--dir` after packaging).
+
+#### No action (compatible)
+
+- Additive docs + smoke check; archive layout and CMake targets unchanged.
+
 ### Upgrade 1.44 → 1.45
 
 **Product version:** 1.45  

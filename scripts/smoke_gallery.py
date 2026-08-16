@@ -153,6 +153,19 @@ def main() -> int:
             return tr.returncode if tr.returncode > 0 else 1
         print("smoke: translation seeds OK")
 
+    # 1.46 — shared packaging contracts / docs (no Qt / no package build).
+    pkg_script = ROOT / "scripts" / "check_shared_package.py"
+    if pkg_script.is_file():
+        pk = subprocess.run(
+            [sys.executable, str(pkg_script)],
+            cwd=str(ROOT),
+            check=False,
+        )
+        if pk.returncode != 0:
+            print("error: check_shared_package.py failed", file=sys.stderr)
+            return pk.returncode if pk.returncode > 0 else 1
+        print("smoke: shared package contracts OK")
+
     try:
         proc = subprocess.run(
             cmd,
