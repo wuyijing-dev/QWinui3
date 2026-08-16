@@ -104,7 +104,7 @@ Rectangle {
                 contentItem: RowLayout {
                     spacing: Theme.spacing
                     Text {
-                        text: "\uE70D"
+                        text: FluentIcons.ChevronDown
                         font.family: Theme.fontFamilyIcon
                         font.pixelSize: 12
                         color: Theme.textSecondary

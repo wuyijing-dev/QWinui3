@@ -14,7 +14,7 @@ CatalogPage {
 
     ControlExample {
         headerText: qsTr("Toggle commands")
-        qmlSource: "AppBarToggleButton {\n    iconGlyph: \"\\uE71B\"\n    text: \"Bold\"\n    checked: true\n}"
+        qmlSource: "AppBarToggleButton {\n    symbol: FluentIcons.Bold\n    text: \"Bold\"\n    checked: true\n}"
         ColumnLayout {
             spacing: Theme.spacing
             RowLayout {
@@ -29,21 +29,21 @@ CatalogPage {
             CommandBar {
                 defaultLabelPosition: labelPos.currentText
                 AppBarToggleButton {
-                    iconGlyph: "\uE71B"
+                    symbol: FluentIcons.Bold
                     text: qsTr("Bold")
                     checked: true
                 }
                 AppBarToggleButton {
-                    iconGlyph: "\uE714"
+                    symbol: FluentIcons.Italic
                     text: qsTr("Italic")
                 }
                 AppBarSeparator {}
                 AppBarToggleButton {
-                    iconGlyph: "\uE8E9"
+                    symbol: FluentIcons.BulletedList2
                     text: qsTr("List")
                 }
                 AppBarToggleButton {
-                    iconGlyph: "\uE8EA"
+                    symbol: FluentIcons.GridViewSmall
                     text: qsTr("Grid")
                 }
             }

@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
+import QWinUI3.Extras
 
 // Gallery — TreeView.
 
@@ -27,8 +28,20 @@ CatalogPage {
                     required property var modelData
                     Layout.fillWidth: true
                     leftPadding: 12 + modelData.depth * 16
-                    text: (modelData.expanded ? "\uE70E " : "\uE76C ") + modelData.title
-                    font.family: Theme.fontFamily
+                    contentItem: RowLayout {
+                        spacing: 6
+                        FontIcon {
+                            symbol: modelData.expanded ? FluentIcons.ChevronUp : FluentIcons.ChevronRight
+                            fontSize: 12
+                            iconColor: Theme.textSecondary
+                        }
+                        Label {
+                            text: modelData.title
+                            color: Theme.textPrimary
+                            Layout.fillWidth: true
+                            elide: Text.ElideRight
+                        }
+                    }
                 }
             }
         }

@@ -47,9 +47,21 @@ CatalogPage {
                     required property int index
                     Layout.fillWidth: true
                     leftPadding: 12 + modelData.depth * 16
-                    text: (modelData.expanded ? "\uE70E " : "\uE76C ") + modelData.title
-                    font.family: Theme.fontFamily
                     highlighted: page.contextRow === index
+                    contentItem: RowLayout {
+                        spacing: 6
+                        FontIcon {
+                            symbol: modelData.expanded ? FluentIcons.ChevronUp : FluentIcons.ChevronRight
+                            fontSize: 12
+                            iconColor: Theme.textSecondary
+                        }
+                        Label {
+                            text: modelData.title
+                            color: Theme.textPrimary
+                            Layout.fillWidth: true
+                            elide: Text.ElideRight
+                        }
+                    }
 
                     TapHandler {
                         acceptedButtons: Qt.RightButton

@@ -4,14 +4,29 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — FontIcon.
+// Gallery — FontIcon / FluentIcons catalog.
 
 CatalogPage {
+    id: page
     title: qsTr("FontIcon")
-    subtitle: qsTr("Use FluentIcons names — no raw \\uE… escapes. symbol: FluentIcons.Home or symbol: \"Save\".")
+    subtitle: qsTr("All FluentIcons symbols. Prefer symbol: FluentIcons.Home — not raw \\uE… escapes.")
+
+    readonly property var allNames: FluentIcons.names()
+    readonly property var filteredNames: {
+        var q = filterBox.text.trim().toLowerCase()
+        var src = allNames
+        if (!q.length)
+            return src
+        var out = []
+        for (var i = 0; i < src.length; ++i) {
+            if (String(src[i]).toLowerCase().indexOf(q) >= 0)
+                out.push(src[i])
+        }
+        return out
+    }
 
     ControlExample {
-        headerText: qsTr("FluentIcons character class")
+        headerText: qsTr("Usage")
         qmlSource: "FontIcon { symbol: FluentIcons.Home }\nIconButton { symbol: \"Search\" }"
         RowLayout {
             Layout.fillWidth: true
@@ -26,39 +41,68 @@ CatalogPage {
             IconButton { symbol: "Refresh"; highlighted: true; toolTipText: qsTr("Refresh") }
         }
     }
+
     ControlExample {
-        headerText: qsTr("Common symbols")
-        qmlSource: "FontIcon { symbol: FluentIcons.Settings }"
-        Flow {
+        headerText: qsTr("All symbols (%1)").arg(page.filteredNames.length)
+        qmlSource: "FontIcon { symbol: FluentIcons.Save }"
+        ColumnLayout {
             Layout.fillWidth: true
-            spacing: Theme.spacingLoose
-            Repeater {
-                model: [
-                    { symbol: FluentIcons.Home, n: qsTr("Home") },
-                    { symbol: FluentIcons.Settings, n: qsTr("Settings") },
-                    { symbol: FluentIcons.Search, n: qsTr("Search") },
-                    { symbol: FluentIcons.OtherUser, n: qsTr("Person") },
-                    { symbol: FluentIcons.Folder, n: qsTr("Folder") },
-                    { symbol: FluentIcons.Delete, n: qsTr("Delete") },
-                    { symbol: FluentIcons.Edit, n: qsTr("Edit") },
-                    { symbol: FluentIcons.Refresh, n: qsTr("Refresh") }
-                ]
-                Column {
-                    required property var modelData
-                    spacing: 4
-                    FontIcon {
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        symbol: modelData.symbol
-                        fontSize: 22
-                        iconColor: Theme.textPrimary
-                        toolTipText: modelData.n
-                        accessibleName: modelData.n
-                    }
-                    Label {
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        text: modelData.n
-                        color: Theme.textSecondary
-                        font.pixelSize: Theme.fontCaption
+            spacing: Theme.spacing
+
+            SearchBox {
+                id: filterBox
+                Layout.fillWidth: true
+                Layout.maximumWidth: 360
+                placeholderText: qsTr("Filter by name…")
+            }
+
+            Label {
+                visible: page.filteredNames.length === 0
+                text: qsTr("No symbols match “%1”.").arg(filterBox.text)
+                color: Theme.textSecondary
+            }
+
+            Flow {
+                Layout.fillWidth: true
+                spacing: Theme.spacingLoose
+                Repeater {
+                    model: page.filteredNames
+                    delegate: Item {
+                        id: cell
+                        required property string modelData
+                        width: 88
+                        height: 76
+
+                        Column {
+                            anchors.centerIn: parent
+                            spacing: 6
+                            FontIcon {
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                symbol: cell.modelData
+                                fontSize: 22
+                                iconColor: Theme.textPrimary
+                                toolTipText: cell.modelData
+                                accessibleName: cell.modelData
+                            }
+                            Label {
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                width: 80
+                                horizontalAlignment: Text.AlignHCenter
+                                text: cell.modelData
+                                elide: Text.ElideRight
+                                color: Theme.textSecondary
+                                font.pixelSize: Theme.fontCaption
+                            }
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            ToolTip.visible: containsMouse
+                            ToolTip.text: qsTr("FluentIcons.%1").arg(cell.modelData)
+                            ToolTip.delay: 400
+                        }
                     }
                 }
             }

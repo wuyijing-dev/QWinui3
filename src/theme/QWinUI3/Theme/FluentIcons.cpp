@@ -2,6 +2,7 @@
 #include "ThemeFonts.h"
 
 #include <QChar>
+#include <algorithm>
 
 FluentIcons::FluentIcons(QObject *parent)
     : QQmlPropertyMap(parent)
@@ -29,6 +30,11 @@ bool FluentIcons::has(const QString &name) const
     return value(name).isValid();
 }
 
+QStringList FluentIcons::names() const
+{
+    return m_names;
+}
+
 static QString g(char32_t cp)
 {
     return QString(QChar(ushort(cp)));
@@ -37,7 +43,9 @@ static QString g(char32_t cp)
 void FluentIcons::populate()
 {
     auto put = [this](const char *key, char32_t cp) {
-        insert(QString::fromLatin1(key), g(cp));
+        const QString name = QString::fromLatin1(key);
+        insert(name, g(cp));
+        m_names.append(name);
     };
 
     // Chrome / navigation (incl. AppWindowTitleBar caption glyphs)
@@ -92,6 +100,8 @@ void FluentIcons::populate()
     // Status
     put("Accept", 0xE73E);
     put("Checkmark", 0xE73E);
+    put("Checkbox", 0xE73A);
+    put("RadioButton", 0xECCA);
     put("Important", 0xE8C9);
     put("Info", 0xE946);
     put("Warning", 0xE7BA);
@@ -101,6 +111,8 @@ void FluentIcons::populate()
     put("Flag", 0xE7C1);
     put("SolidStar", 0xE735);
     put("OutlineStar", 0xE734);
+    put("HalfStar", 0xE737);
+    put("Presence", 0xE765);
 
     // People
     put("Contact", 0xE77B);
@@ -113,6 +125,7 @@ void FluentIcons::populate()
     put("Calendar", 0xE787);
     put("Mail", 0xE715);
     put("Folder", 0xE8B7);
+    put("FolderOpen", 0xE8F4);
     put("Document", 0xE8A5);
     put("Library", 0xE8F1);
     put("Tag", 0xE8EC);
@@ -130,16 +143,41 @@ void FluentIcons::populate()
     put("Lock", 0xE72E);
     put("Unlock", 0xE785);
     put("Permissions", 0xE8D7);
+    put("HardDrive", 0xE7F4);
+    put("Game", 0xE7C7);
+    put("EaseOfAccess", 0xE8AB);
+    put("DeveloperTools", 0xE945);
+    put("Street", 0xE7C3);
 
-    // View
+    // View / input chrome
     put("View", 0xE890);
     put("Hide", 0xED1A);
     put("List", 0xE8FD);
     put("GridView", 0xE80A);
     put("BulletedList", 0xE8FD);
+    put("BulletedList2", 0xE8E9);
+    put("GridViewSmall", 0xE8EA);
+    put("PageList", 0xE8F0);
+    put("ViewAll", 0xE8A9);
     put("Preview", 0xE8FF);
     put("Picture", 0xE8B9);
     put("Photo", 0xEB9F);
+    put("ScrollMode", 0xE76F);
+    put("Slider", 0xE9E9);
+    put("Toggle", 0xE9CE);
+    put("Comment", 0xE8A1);
+    put("Lightbulb", 0xE75A);
+    put("KnowledgeArticle", 0xE82F);
+
+    // Charts
+    put("AreaChart", 0xE9D2);
+    put("PieSingle", 0xE9D9);
+    put("DonutChart", 0xEB05);
+    put("BarChartVertical", 0xE81E);
+    put("AreaChartMirrored", 0xE9F9);
+    put("Dial6", 0xE9E6);
+    put("DialShape3", 0xF56C);
+    put("ProgressRingCommon", 0xEA3A);
 
     // Media
     put("Play", 0xE768);
@@ -173,10 +211,13 @@ void FluentIcons::populate()
     put("SignOut", 0xF3B1);
     put("Color", 0xE790);
     put("Repair", 0xE90F);
+    put("ConstructionCone", 0xE909);
     put("UpdateRestore", 0xE777);
     put("Notification", 0xEA8F);
     put("QuietHours", 0xE708);
     put("Publish", 0xE74A);
     put("Ruler", 0xED5E);
     put("Trim", 0xE78A);
+
+    std::sort(m_names.begin(), m_names.end());
 }

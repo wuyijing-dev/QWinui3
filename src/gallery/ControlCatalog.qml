@@ -1,29 +1,30 @@
 pragma Singleton
 import QtQuick
+import QWinUI3.Theme
 
 QtObject {
     id: root
 
     readonly property var categories: [
-        { key: "buttons", title: qsTr("Buttons"), icon: "\uE8A7" },
-        { key: "basic", title: qsTr("Basic input"), icon: "\uE73A" },
-        { key: "text", title: qsTr("Text"), icon: "\uE8D2" },
-        { key: "collections", title: qsTr("Collections"), icon: "\uE8FD" },
-        { key: "menus", title: qsTr("Menus & toolbars"), icon: "\uE712" },
-        { key: "navigation", title: qsTr("Navigation"), icon: "\uE76C" },
-        { key: "layout", title: qsTr("Layout"), icon: "\uE8A5" },
-        { key: "scrolling", title: qsTr("Scrolling"), icon: "\uE76F" },
-        { key: "date", title: qsTr("Date & time"), icon: "\uE787" },
-        { key: "dialogs", title: qsTr("Dialogs & flyouts"), icon: "\uE8A1" },
-        { key: "status", title: qsTr("Status & info"), icon: "\uE946" },
-        { key: "charts", title: qsTr("Charts"), icon: "\uE9D2" }
+        { key: "buttons", title: qsTr("Buttons"), icon: FluentIcons.OpenInNewWindow },
+        { key: "basic", title: qsTr("Basic input"), icon: FluentIcons.Checkbox },
+        { key: "text", title: qsTr("Text"), icon: FluentIcons.Font },
+        { key: "collections", title: qsTr("Collections"), icon: FluentIcons.List },
+        { key: "menus", title: qsTr("Menus & toolbars"), icon: FluentIcons.More },
+        { key: "navigation", title: qsTr("Navigation"), icon: FluentIcons.ChevronRight },
+        { key: "layout", title: qsTr("Layout"), icon: FluentIcons.Document },
+        { key: "scrolling", title: qsTr("Scrolling"), icon: FluentIcons.ScrollMode },
+        { key: "date", title: qsTr("Date & time"), icon: FluentIcons.Calendar },
+        { key: "dialogs", title: qsTr("Dialogs & flyouts"), icon: FluentIcons.Comment },
+        { key: "status", title: qsTr("Status & info"), icon: FluentIcons.Info },
+        { key: "charts", title: qsTr("Charts"), icon: FluentIcons.AreaChart }
     ]
 
     readonly property var controls: [
         {
             title: qsTr("Button"),
             category: "buttons",
-            icon: "\uE8A7",
+            icon: FluentIcons.OpenInNewWindow,
             description: qsTr("A control that responds to user input and raises a Click event."),
             component: "ButtonPage",
             source: "pages/ButtonPage.qml"
@@ -31,7 +32,7 @@ QtObject {
         {
             title: qsTr("CheckBox"),
             category: "basic",
-            icon: "\uE73A",
+            icon: FluentIcons.Checkbox,
             description: qsTr("A control that a user can select or clear."),
             component: "CheckBoxPage",
             source: "pages/CheckBoxPage.qml"
@@ -39,7 +40,7 @@ QtObject {
         {
             title: qsTr("RadioButton"),
             category: "basic",
-            icon: "\uECCA",
+            icon: FluentIcons.RadioButton,
             description: qsTr("A control that allows a user to select a single option from a group."),
             component: "RadioButtonPage",
             source: "pages/RadioButtonPage.qml"
@@ -47,7 +48,7 @@ QtObject {
         {
             title: qsTr("Slider"),
             category: "basic",
-            icon: "\uE9E9",
+            icon: FluentIcons.Slider,
             description: qsTr("A control that lets the user select from a range of values by moving a thumb."),
             component: "SliderPage",
             source: "pages/SliderPage.qml"
@@ -55,7 +56,7 @@ QtObject {
         {
             title: qsTr("RangeSlider"),
             category: "basic",
-            icon: "\uE9E9",
+            icon: FluentIcons.Slider,
             description: qsTr("A slider with two thumbs for selecting a value range."),
             component: "RangeSliderPage",
             source: "pages/RangeSliderPage.qml"
@@ -63,7 +64,7 @@ QtObject {
         {
             title: qsTr("Switch"),
             category: "basic",
-            icon: "\uE9CE",
+            icon: FluentIcons.Toggle,
             description: qsTr("A binary on/off control that can be toggled."),
             component: "SwitchPage",
             source: "pages/SwitchPage.qml"
@@ -71,7 +72,7 @@ QtObject {
         {
             title: qsTr("ComboBox"),
             category: "basic",
-            icon: "\uE70D",
+            icon: FluentIcons.ChevronDown,
             description: qsTr("A drop-down list of selectable items."),
             component: "ComboBoxPage",
             source: "pages/ComboBoxPage.qml"
@@ -79,7 +80,7 @@ QtObject {
         {
             title: qsTr("SpinBox"),
             category: "basic",
-            icon: "\uE8EF",
+            icon: FluentIcons.Calculator,
             description: qsTr("A control for selecting a numeric value."),
             component: "SpinBoxPage",
             source: "pages/SpinBoxPage.qml"
@@ -87,7 +88,7 @@ QtObject {
         {
             title: qsTr("Dial"),
             category: "basic",
-            icon: "\uE9E9",
+            icon: FluentIcons.Slider,
             description: qsTr("A circular dial for selecting a value from a range."),
             component: "DialPage",
             source: "pages/DialPage.qml"
@@ -95,7 +96,7 @@ QtObject {
         {
             title: qsTr("RatingControl"),
             category: "basic",
-            icon: "\uE734",
+            icon: FluentIcons.Favorite,
             description: qsTr("A star rating control for collecting or displaying ratings."),
             component: "RatingControlPage",
             source: "pages/RatingControlPage.qml"
@@ -103,7 +104,7 @@ QtObject {
         {
             title: qsTr("NumberBox"),
             category: "basic",
-            icon: "\uE8EF",
+            icon: FluentIcons.Calculator,
             description: qsTr("A numeric input with spin buttons and value constraints."),
             component: "NumberBoxPage",
             source: "pages/NumberBoxPage.qml"
@@ -111,7 +112,7 @@ QtObject {
         {
             title: qsTr("SplitButton"),
             category: "buttons",
-            icon: "\uE70D",
+            icon: FluentIcons.ChevronDown,
             description: qsTr("A primary action plus a flyout for related commands."),
             component: "SplitButtonPage",
             source: "pages/SplitButtonPage.qml"
@@ -119,7 +120,7 @@ QtObject {
         {
             title: qsTr("ToggleButton"),
             category: "buttons",
-            icon: "\uE8A7",
+            icon: FluentIcons.OpenInNewWindow,
             description: qsTr("A button that toggles between on and off states."),
             component: "ToggleButtonPage",
             source: "pages/ToggleButtonPage.qml"
@@ -127,7 +128,7 @@ QtObject {
         {
             title: qsTr("ToggleSplitButton"),
             category: "buttons",
-            icon: "\uE70D",
+            icon: FluentIcons.ChevronDown,
             description: qsTr("A checkable primary action with a related command flyout."),
             component: "ToggleSplitButtonPage",
             source: "pages/ToggleSplitButtonPage.qml"
@@ -135,7 +136,7 @@ QtObject {
         {
             title: qsTr("SelectorBar"),
             category: "basic",
-            icon: "\uE8A1",
+            icon: FluentIcons.Comment,
             description: qsTr("A compact segmented control for mutually exclusive options."),
             component: "SelectorBarPage",
             source: "pages/SelectorBarPage.qml"
@@ -143,7 +144,7 @@ QtObject {
         {
             title: qsTr("RadioButtons"),
             category: "basic",
-            icon: "\uECCA",
+            icon: FluentIcons.RadioButton,
             description: qsTr("A labeled group of mutually exclusive radio options."),
             component: "RadioButtonsPage",
             source: "pages/RadioButtonsPage.qml"
@@ -151,7 +152,7 @@ QtObject {
         {
             title: qsTr("ColorPicker"),
             category: "basic",
-            icon: "\uE790",
+            icon: FluentIcons.Color,
             description: qsTr("A selectable color spectrum."),
             component: "ColorPickerPage",
             source: "pages/ColorPickerPage.qml"
@@ -159,7 +160,7 @@ QtObject {
         {
             title: qsTr("AppBarButton"),
             category: "buttons",
-            icon: "\uE8A7",
+            icon: FluentIcons.OpenInNewWindow,
             description: qsTr("An icon-and-label command button for app bars and tool strips."),
             component: "AppBarButtonPage",
             source: "pages/AppBarButtonPage.qml"
@@ -167,7 +168,7 @@ QtObject {
         {
             title: qsTr("AppBarToggleButton"),
             category: "buttons",
-            icon: "\uE8A7",
+            icon: FluentIcons.OpenInNewWindow,
             description: qsTr("A checkable app-bar button that stays on until toggled off."),
             component: "AppBarToggleButtonPage",
             source: "pages/AppBarToggleButtonPage.qml"
@@ -175,7 +176,7 @@ QtObject {
         {
             title: qsTr("Chip"),
             category: "buttons",
-            icon: "\uE8FD",
+            icon: FluentIcons.List,
             description: qsTr("A compact selectable or closable tag."),
             component: "ChipPage",
             source: "pages/ChipPage.qml"
@@ -183,7 +184,7 @@ QtObject {
         {
             title: qsTr("AccentButton"),
             category: "buttons",
-            icon: "\uE8A7",
+            icon: FluentIcons.OpenInNewWindow,
             description: qsTr("A primary accent-colored button for the main call to action."),
             component: "AccentButtonPage",
             source: "pages/AccentButtonPage.qml"
@@ -191,7 +192,7 @@ QtObject {
         {
             title: qsTr("IconButton"),
             category: "buttons",
-            icon: "\uE8A7",
+            icon: FluentIcons.OpenInNewWindow,
             description: qsTr("A compact icon-only button for toolbars and dense UIs."),
             component: "IconButtonPage",
             source: "pages/IconButtonPage.qml"
@@ -199,7 +200,7 @@ QtObject {
         {
             title: qsTr("TextField"),
             category: "text",
-            icon: "\uE8D2",
+            icon: FluentIcons.Font,
             description: qsTr("A single-line text input control."),
             component: "TextFieldPage",
             source: "pages/TextFieldPage.qml"
@@ -207,7 +208,7 @@ QtObject {
         {
             title: qsTr("TextArea"),
             category: "text",
-            icon: "\uE8A5",
+            icon: FluentIcons.Document,
             description: qsTr("A multi-line text input control."),
             component: "TextAreaPage",
             source: "pages/TextAreaPage.qml"
@@ -215,7 +216,7 @@ QtObject {
         {
             title: qsTr("PasswordBox"),
             category: "text",
-            icon: "\uE72E",
+            icon: FluentIcons.Lock,
             description: qsTr("A text field for passwords with a reveal button."),
             component: "PasswordBoxPage",
             source: "pages/PasswordBoxPage.qml"
@@ -223,7 +224,7 @@ QtObject {
         {
             title: qsTr("AutoSuggestBox"),
             category: "text",
-            icon: "\uE721",
+            icon: FluentIcons.Search,
             description: qsTr("A text field that suggests matching items as you type."),
             component: "AutoSuggestBoxPage",
             source: "pages/AutoSuggestBoxPage.qml"
@@ -231,7 +232,7 @@ QtObject {
         {
             title: qsTr("SearchBox"),
             category: "text",
-            icon: "\uE721",
+            icon: FluentIcons.Search,
             description: qsTr("A search field with clear button, without suggestion popup."),
             component: "SearchBoxPage",
             source: "pages/SearchBoxPage.qml"
@@ -239,7 +240,7 @@ QtObject {
         {
             title: qsTr("TokenizingTextBox"),
             category: "text",
-            icon: "\uE8F1",
+            icon: FluentIcons.Library,
             description: qsTr("A text box that converts typed text into tokens."),
             component: "TokenizingTextBoxPage",
             source: "pages/TokenizingTextBoxPage.qml"
@@ -247,7 +248,7 @@ QtObject {
         {
             title: qsTr("Label"),
             category: "text",
-            icon: "\uE8D2",
+            icon: FluentIcons.Font,
             description: qsTr("A text label for captions and descriptions."),
             component: "LabelPage",
             source: "pages/LabelPage.qml"
@@ -255,7 +256,7 @@ QtObject {
         {
             title: qsTr("HyperlinkButton"),
             category: "buttons",
-            icon: "\uE71B",
+            icon: FluentIcons.Link,
             description: qsTr("A button that appears as a hyperlink."),
             component: "HyperlinkButtonPage",
             source: "pages/HyperlinkButtonPage.qml"
@@ -263,7 +264,7 @@ QtObject {
         {
             title: qsTr("TabBar"),
             category: "navigation",
-            icon: "\uE8A1",
+            icon: FluentIcons.Comment,
             description: qsTr("A horizontal set of tabs for switching views."),
             component: "TabBarPage",
             source: "pages/TabBarPage.qml"
@@ -271,7 +272,7 @@ QtObject {
         {
             title: qsTr("PageIndicator"),
             category: "navigation",
-            icon: "\uE909",
+            icon: FluentIcons.ConstructionCone,
             description: qsTr("Dots that show the current page in a multi-page view."),
             component: "PageIndicatorPage",
             source: "pages/PageIndicatorPage.qml"
@@ -279,7 +280,7 @@ QtObject {
         {
             title: qsTr("SwipeView"),
             category: "navigation",
-            icon: "\uE76B",
+            icon: FluentIcons.ChevronLeft,
             description: qsTr("A swipeable multi-page container."),
             component: "SwipeViewPage",
             source: "pages/SwipeViewPage.qml"
@@ -287,7 +288,7 @@ QtObject {
         {
             title: qsTr("GroupBox"),
             category: "collections",
-            icon: "\uE8FD",
+            icon: FluentIcons.List,
             description: qsTr("A container that groups related controls under a label."),
             component: "GroupBoxPage",
             source: "pages/GroupBoxPage.qml"
@@ -295,7 +296,7 @@ QtObject {
         {
             title: qsTr("ScrollBar"),
             category: "scrolling",
-            icon: "\uE76B",
+            icon: FluentIcons.ChevronLeft,
             description: qsTr("A control for scrolling content vertically or horizontally."),
             component: "ScrollBarPage",
             source: "pages/ScrollBarPage.qml"
@@ -303,7 +304,7 @@ QtObject {
         {
             title: qsTr("AnnotatedScrollBar"),
             category: "scrolling",
-            icon: "\uE76F",
+            icon: FluentIcons.ScrollMode,
             description: qsTr("A scrollable region whose scrollbar shows a label while dragging."),
             component: "AnnotatedScrollBarPage",
             source: "pages/AnnotatedScrollBarPage.qml"
@@ -311,7 +312,7 @@ QtObject {
         {
             title: qsTr("Delegates"),
             category: "collections",
-            icon: "\uE8FD",
+            icon: FluentIcons.List,
             description: qsTr("Check, switch, and radio list delegates."),
             component: "DelegatesPage",
             source: "pages/DelegatesPage.qml"
@@ -319,7 +320,7 @@ QtObject {
         {
             title: qsTr("Expander"),
             category: "collections",
-            icon: "\uE70D",
+            icon: FluentIcons.ChevronDown,
             description: qsTr("A collapsible container for progressive disclosure."),
             component: "ExpanderPage",
             source: "pages/ExpanderPage.qml"
@@ -327,7 +328,7 @@ QtObject {
         {
             title: qsTr("SwipeDelegate"),
             category: "collections",
-            icon: "\uE8FD",
+            icon: FluentIcons.List,
             description: qsTr("A list delegate that reveals actions when swiped."),
             component: "SwipeDelegatePage",
             source: "pages/SwipeDelegatePage.qml"
@@ -335,7 +336,7 @@ QtObject {
         {
             title: qsTr("TreeView"),
             category: "collections",
-            icon: "\uE8F0",
+            icon: FluentIcons.PageList,
             description: qsTr("Hierarchical rows styled with TreeViewDelegate."),
             component: "TreeViewPage",
             source: "pages/TreeViewPage.qml"
@@ -343,7 +344,7 @@ QtObject {
         {
             title: qsTr("TreeView recipe"),
             category: "collections",
-            icon: "\uE8F0",
+            icon: FluentIcons.PageList,
             description: qsTr("Tree rows with context MenuFlyout (expand / rename / delete)."),
             component: "TreeViewRecipePage",
             source: "pages/TreeViewRecipePage.qml"
@@ -351,7 +352,7 @@ QtObject {
         {
             title: qsTr("ItemsView"),
             category: "collections",
-            icon: "\uE8A9",
+            icon: FluentIcons.ViewAll,
             description: qsTr("List recipe: sections, multi-select, context menu, empty state."),
             component: "ItemsViewPage",
             source: "pages/ItemsViewPage.qml"
@@ -359,7 +360,7 @@ QtObject {
         {
             title: qsTr("ListDetailsView"),
             category: "collections",
-            icon: "\uE8A9",
+            icon: FluentIcons.ViewAll,
             description: qsTr("Master–detail recipe on TwoPaneView with list selection."),
             component: "ListDetailsViewPage",
             source: "pages/ListDetailsViewPage.qml"
@@ -367,7 +368,7 @@ QtObject {
         {
             title: qsTr("BreadcrumbBar"),
             category: "navigation",
-            icon: "\uE76C",
+            icon: FluentIcons.ChevronRight,
             description: qsTr("Shows the current path and lets users navigate ancestors."),
             component: "BreadcrumbBarPage",
             source: "pages/BreadcrumbBarPage.qml"
@@ -375,7 +376,7 @@ QtObject {
         {
             title: qsTr("NavigationView"),
             category: "navigation",
-            icon: "\uE700",
+            icon: FluentIcons.GlobalNavButton,
             description: qsTr("Top-level navigation with a collapsible pane and page host."),
             component: "NavigationViewPage",
             source: "pages/NavigationViewPage.qml"
@@ -383,7 +384,7 @@ QtObject {
         {
             title: qsTr("TitleBar"),
             category: "navigation",
-            icon: "\uE737",
+            icon: FluentIcons.HalfStar,
             description: qsTr("WinUI TitleBar with Back, PaneToggle, Subtitle, Content, and RightHeader."),
             component: "TitleBarPage",
             source: "pages/TitleBarPage.qml"
@@ -391,7 +392,7 @@ QtObject {
         {
             title: qsTr("Window shells"),
             category: "navigation",
-            icon: "\uE8A7",
+            icon: FluentIcons.OpenInNewWindow,
             description: qsTr("Window roles (paradigm/presenter) + Blank/Navigation/MenuStatus shells."),
             component: "WindowParadigmPage",
             source: "pages/WindowParadigmPage.qml"
@@ -399,7 +400,7 @@ QtObject {
         {
             title: qsTr("TableView"),
             category: "collections",
-            icon: "\uE8A9",
+            icon: FluentIcons.ViewAll,
             description: qsTr("Tabular data with styled horizontal and vertical headers."),
             component: "TableViewPage",
             source: "pages/TableViewPage.qml"
@@ -407,7 +408,7 @@ QtObject {
         {
             title: qsTr("TabView"),
             category: "collections",
-            icon: "\uE8A1",
+            icon: FluentIcons.Comment,
             description: qsTr("A multi-document tab strip with closable tabs."),
             component: "TabViewPage",
             source: "pages/TabViewPage.qml"
@@ -415,7 +416,7 @@ QtObject {
         {
             title: qsTr("FlipView"),
             category: "navigation",
-            icon: "\uE76B",
+            icon: FluentIcons.ChevronLeft,
             description: qsTr("A swipeable page container with previous and next buttons."),
             component: "FlipViewPage",
             source: "pages/FlipViewPage.qml"
@@ -423,7 +424,7 @@ QtObject {
         {
             title: qsTr("PipsPager"),
             category: "navigation",
-            icon: "\uE909",
+            icon: FluentIcons.ConstructionCone,
             description: qsTr("Clickable page indicator dots for multi-page views."),
             component: "PipsPagerPage",
             source: "pages/PipsPagerPage.qml"
@@ -431,7 +432,7 @@ QtObject {
         {
             title: qsTr("PagerControl"),
             category: "navigation",
-            icon: "\uE76C",
+            icon: FluentIcons.ChevronRight,
             description: qsTr("Numbered page navigation with previous and next."),
             component: "PagerControlPage",
             source: "pages/PagerControlPage.qml"
@@ -439,7 +440,7 @@ QtObject {
         {
             title: qsTr("StepBar"),
             category: "navigation",
-            icon: "\uE8FD",
+            icon: FluentIcons.List,
             description: qsTr("A horizontal step indicator for multi-step flows."),
             component: "StepBarPage",
             source: "pages/StepBarPage.qml"
@@ -447,7 +448,7 @@ QtObject {
         {
             title: qsTr("Pane"),
             category: "layout",
-            icon: "\uE8A5",
+            icon: FluentIcons.Document,
             description: qsTr("A styled content panel with padding and background."),
             component: "PanePage",
             source: "pages/PanePage.qml"
@@ -455,7 +456,7 @@ QtObject {
         {
             title: qsTr("SplitView"),
             category: "layout",
-            icon: "\uE74A",
+            icon: FluentIcons.Publish,
             description: qsTr("A view with resizable panes separated by a splitter."),
             component: "SplitViewPage",
             source: "pages/SplitViewPage.qml"
@@ -463,7 +464,7 @@ QtObject {
         {
             title: qsTr("Drawer"),
             category: "layout",
-            icon: "\uE700",
+            icon: FluentIcons.GlobalNavButton,
             description: qsTr("A slide-out panel anchored to a window edge."),
             component: "DrawerPage",
             source: "pages/DrawerPage.qml"
@@ -471,7 +472,7 @@ QtObject {
         {
             title: qsTr("StackView"),
             category: "navigation",
-            icon: "\uE76B",
+            icon: FluentIcons.ChevronLeft,
             description: qsTr("A stack-based navigation container with animated transitions."),
             component: "StackViewPage",
             source: "pages/StackViewPage.qml"
@@ -479,7 +480,7 @@ QtObject {
         {
             title: qsTr("CommandBar"),
             category: "menus",
-            icon: "\uE712",
+            icon: FluentIcons.More,
             description: qsTr("A compact toolbar for frequent commands."),
             component: "CommandBarPage",
             source: "pages/CommandBarPage.qml"
@@ -487,7 +488,7 @@ QtObject {
         {
             title: qsTr("CommandBarFlyout"),
             category: "menus",
-            icon: "\uE712",
+            icon: FluentIcons.More,
             description: qsTr("A flyout that hosts a compact command bar with optional secondary actions."),
             component: "CommandBarFlyoutPage",
             source: "pages/CommandBarFlyoutPage.qml"
@@ -495,7 +496,7 @@ QtObject {
         {
             title: qsTr("AppBarSeparator"),
             category: "menus",
-            icon: "\uE76C",
+            icon: FluentIcons.ChevronRight,
             description: qsTr("A thin divider for grouping commands in an app bar or command bar."),
             component: "AppBarSeparatorPage",
             source: "pages/AppBarSeparatorPage.qml"
@@ -503,7 +504,7 @@ QtObject {
         {
             title: qsTr("ToolBar"),
             category: "menus",
-            icon: "\uE90F",
+            icon: FluentIcons.Repair,
             description: qsTr("A container for command buttons and related controls."),
             component: "ToolBarPage",
             source: "pages/ToolBarPage.qml"
@@ -511,7 +512,7 @@ QtObject {
         {
             title: qsTr("MenuBar"),
             category: "menus",
-            icon: "\uE700",
+            icon: FluentIcons.GlobalNavButton,
             description: qsTr("A horizontal bar of cascading menus for an application window."),
             component: "MenuBarPage",
             source: "pages/MenuBarPage.qml"
@@ -519,7 +520,7 @@ QtObject {
         {
             title: qsTr("SettingsCard"),
             category: "layout",
-            icon: "\uE713",
+            icon: FluentIcons.Settings,
             description: qsTr("Settings row; toggle: true for a built-in Switch."),
             component: "SettingsCardPage",
             source: "pages/SettingsCardPage.qml"
@@ -527,7 +528,7 @@ QtObject {
         {
             title: qsTr("Settings combo & slider"),
             category: "layout",
-            icon: "\uE70D",
+            icon: FluentIcons.ChevronDown,
             description: qsTr("SettingsComboCard and SettingsSliderCard conveniences."),
             component: "SettingsComboSliderPage",
             source: "pages/SettingsComboSliderPage.qml"
@@ -535,7 +536,7 @@ QtObject {
         {
             title: qsTr("SettingsGroup"),
             category: "layout",
-            icon: "\uE8FD",
+            icon: FluentIcons.List,
             description: qsTr("SettingsView + SettingsGroup; SettingsCard.toggle for Switch rows."),
             component: "SettingsGroupPage",
             source: "pages/SettingsGroupPage.qml"
@@ -543,7 +544,7 @@ QtObject {
         {
             title: qsTr("StatusBar"),
             category: "layout",
-            icon: "\uE7C3",
+            icon: FluentIcons.Street,
             description: qsTr("A bottom status strip with text, progress, and slots."),
             component: "StatusBarPage",
             source: "pages/StatusBarPage.qml"
@@ -551,7 +552,7 @@ QtObject {
         {
             title: qsTr("SettingsExpander"),
             category: "layout",
-            icon: "\uE70D",
+            icon: FluentIcons.ChevronDown,
             description: qsTr("An expandable settings group with title and description."),
             component: "SettingsExpanderPage",
             source: "pages/SettingsExpanderPage.qml"
@@ -559,7 +560,7 @@ QtObject {
         {
             title: qsTr("WrapPanel"),
             category: "layout",
-            icon: "\uE8A5",
+            icon: FluentIcons.Document,
             description: qsTr("A panel that arranges child elements in wrapping rows or columns."),
             component: "WrapPanelPage",
             source: "pages/WrapPanelPage.qml"
@@ -567,7 +568,7 @@ QtObject {
         {
             title: qsTr("HeaderedContentControl"),
             category: "layout",
-            icon: "\uE8A5",
+            icon: FluentIcons.Document,
             description: qsTr("A content container with a header above the body."),
             component: "HeaderedContentControlPage",
             source: "pages/HeaderedContentControlPage.qml"
@@ -575,7 +576,7 @@ QtObject {
         {
             title: qsTr("UniformGrid"),
             category: "layout",
-            icon: "\uE8A5",
+            icon: FluentIcons.Document,
             description: qsTr("A grid that sizes all cells equally."),
             component: "UniformGridPage",
             source: "pages/UniformGridPage.qml"
@@ -583,7 +584,7 @@ QtObject {
         {
             title: qsTr("DockPanel"),
             category: "layout",
-            icon: "\uE8A5",
+            icon: FluentIcons.Document,
             description: qsTr("Arranges children along edges with a center fill region."),
             component: "DockPanelPage",
             source: "pages/DockPanelPage.qml"
@@ -591,7 +592,7 @@ QtObject {
         {
             title: qsTr("Frame"),
             category: "layout",
-            icon: "\uE8A5",
+            icon: FluentIcons.Document,
             description: qsTr("A simple styled container with padding and a surface fill."),
             component: "FramePage",
             source: "pages/FramePage.qml"
@@ -599,7 +600,7 @@ QtObject {
         {
             title: qsTr("ContentCard"),
             category: "layout",
-            icon: "\uE8A5",
+            icon: FluentIcons.Document,
             description: qsTr("An elevated card with optional title, subtitle, and body content."),
             component: "ContentCardPage",
             source: "pages/ContentCardPage.qml"
@@ -607,7 +608,7 @@ QtObject {
         {
             title: qsTr("PersonPicture"),
             category: "layout",
-            icon: "\uE77B",
+            icon: FluentIcons.Contact,
             description: qsTr("Displays a person's avatar, initials, or silhouette."),
             component: "PersonPicturePage",
             source: "pages/PersonPicturePage.qml"
@@ -615,7 +616,7 @@ QtObject {
         {
             title: qsTr("Calendar"),
             category: "date",
-            icon: "\uE787",
+            icon: FluentIcons.Calendar,
             description: qsTr("MonthGrid and DayOfWeekRow for building calendar views."),
             component: "CalendarPage",
             source: "pages/CalendarPage.qml"
@@ -623,7 +624,7 @@ QtObject {
         {
             title: qsTr("CalendarDatePicker"),
             category: "date",
-            icon: "\uE787",
+            icon: FluentIcons.Calendar,
             description: qsTr("Pick a date from a calendar flyout."),
             component: "CalendarDatePickerPage",
             source: "pages/CalendarDatePickerPage.qml"
@@ -631,7 +632,7 @@ QtObject {
         {
             title: qsTr("DatePicker"),
             category: "date",
-            icon: "\uE787",
+            icon: FluentIcons.Calendar,
             description: qsTr("Pick a date with year, month, and day tumblers."),
             component: "DatePickerPage",
             source: "pages/DatePickerPage.qml"
@@ -639,7 +640,7 @@ QtObject {
         {
             title: qsTr("Tumbler"),
             category: "date",
-            icon: "\uE81C",
+            icon: FluentIcons.History,
             description: qsTr("A spinning wheel for selecting values from a list."),
             component: "TumblerPage",
             source: "pages/TumblerPage.qml"
@@ -647,7 +648,7 @@ QtObject {
         {
             title: qsTr("TimePicker"),
             category: "date",
-            icon: "\uE823",
+            icon: FluentIcons.Clock,
             description: qsTr("Pick a time with hour and minute tumblers."),
             component: "TimePickerPage",
             source: "pages/TimePickerPage.qml"
@@ -655,7 +656,7 @@ QtObject {
         {
             title: qsTr("Dialog"),
             category: "dialogs",
-            icon: "\uE8A1",
+            icon: FluentIcons.Comment,
             description: qsTr("A modal dialog that prompts for user interaction."),
             component: "DialogPage",
             source: "pages/DialogPage.qml"
@@ -663,7 +664,7 @@ QtObject {
         {
             title: qsTr("ContentDialog"),
             category: "dialogs",
-            icon: "\uE8A1",
+            icon: FluentIcons.Comment,
             description: qsTr("A modal dialog with primary, secondary, and close actions."),
             component: "ContentDialogPage",
             source: "pages/ContentDialogPage.qml"
@@ -671,7 +672,7 @@ QtObject {
         {
             title: qsTr("Flyout"),
             category: "dialogs",
-            icon: "\uE75A",
+            icon: FluentIcons.Lightbulb,
             description: qsTr("A lightweight dismissible popup anchored to a control."),
             component: "FlyoutPage",
             source: "pages/FlyoutPage.qml"
@@ -679,7 +680,7 @@ QtObject {
         {
             title: qsTr("TeachingTip"),
             category: "dialogs",
-            icon: "\uE946",
+            icon: FluentIcons.Info,
             description: qsTr("A tip that teaches users about a new or important feature."),
             component: "TeachingTipPage",
             source: "pages/TeachingTipPage.qml"
@@ -687,7 +688,7 @@ QtObject {
         {
             title: qsTr("InfoButton"),
             category: "dialogs",
-            icon: "\uE946",
+            icon: FluentIcons.Info,
             description: qsTr("Info glyph that opens a TeachingTip."),
             component: "InfoButtonPage",
             source: "pages/InfoButtonPage.qml"
@@ -695,7 +696,7 @@ QtObject {
         {
             title: qsTr("ToolTip"),
             category: "dialogs",
-            icon: "\uE82F",
+            icon: FluentIcons.KnowledgeArticle,
             description: qsTr("A short tip shown when the user hovers a control."),
             component: "ToolTipPage",
             source: "pages/ToolTipPage.qml"
@@ -703,7 +704,7 @@ QtObject {
         {
             title: qsTr("Menu"),
             category: "menus",
-            icon: "\uE700",
+            icon: FluentIcons.GlobalNavButton,
             description: qsTr("A menu of commands and options."),
             component: "MenuPage",
             source: "pages/MenuPage.qml"
@@ -711,7 +712,7 @@ QtObject {
         {
             title: qsTr("DropDownButton"),
             category: "buttons",
-            icon: "\uE70D",
+            icon: FluentIcons.ChevronDown,
             description: qsTr("A button that opens a menu of commands."),
             component: "DropDownButtonPage",
             source: "pages/DropDownButtonPage.qml"
@@ -719,7 +720,7 @@ QtObject {
         {
             title: qsTr("ProgressBar"),
             category: "status",
-            icon: "\uE9D9",
+            icon: FluentIcons.PieSingle,
             description: qsTr("Shows the progress of an operation."),
             component: "ProgressBarPage",
             source: "pages/ProgressBarPage.qml"
@@ -727,7 +728,7 @@ QtObject {
         {
             title: qsTr("ProgressRing"),
             category: "status",
-            icon: "\uE895",
+            icon: FluentIcons.Sync,
             description: qsTr("A circular determinate or indeterminate progress indicator."),
             component: "ProgressRingPage",
             source: "pages/ProgressRingPage.qml"
@@ -735,7 +736,7 @@ QtObject {
         {
             title: qsTr("RadialGauge"),
             category: "status",
-            icon: "\uE9E9",
+            icon: FluentIcons.Slider,
             description: qsTr("Toolkit-style radial needle gauge (MinAngle, TickSpacing, ScaleWidth)."),
             component: "RadialGaugePage",
             source: "pages/RadialGaugePage.qml"
@@ -743,7 +744,7 @@ QtObject {
         {
             title: qsTr("LinearGauge"),
             category: "status",
-            icon: "\uE9D9",
+            icon: FluentIcons.PieSingle,
             description: qsTr("A horizontal or vertical linear gauge with thumb and thresholds."),
             component: "LinearGaugePage",
             source: "pages/LinearGaugePage.qml"
@@ -751,7 +752,7 @@ QtObject {
         {
             title: qsTr("ArcGauge"),
             category: "status",
-            icon: "\uE9E9",
+            icon: FluentIcons.Slider,
             description: qsTr("A semicircle dashboard gauge with a large center value."),
             component: "ArcGaugePage",
             source: "pages/ArcGaugePage.qml"
@@ -759,7 +760,7 @@ QtObject {
         {
             title: qsTr("SegmentedGauge"),
             category: "status",
-            icon: "\uE895",
+            icon: FluentIcons.Sync,
             description: qsTr("A ring divided into discrete segments for steps or quota."),
             component: "SegmentedGaugePage",
             source: "pages/SegmentedGaugePage.qml"
@@ -767,7 +768,7 @@ QtObject {
         {
             title: qsTr("ZoneGauge"),
             category: "status",
-            icon: "\uE9E9",
+            icon: FluentIcons.Slider,
             description: qsTr("A needle gauge with colored zone bands (Toolkit-style)."),
             component: "ZoneGaugePage",
             source: "pages/ZoneGaugePage.qml"
@@ -775,7 +776,7 @@ QtObject {
         {
             title: qsTr("RingGauge"),
             category: "status",
-            icon: "\uE9E9",
+            icon: FluentIcons.Slider,
             description: qsTr("A closed-ring KPI gauge with a large center value."),
             component: "RingGaugePage",
             source: "pages/RingGaugePage.qml"
@@ -783,7 +784,7 @@ QtObject {
         {
             title: qsTr("TankGauge"),
             category: "status",
-            icon: "\uE9D9",
+            icon: FluentIcons.PieSingle,
             description: qsTr("A vertical tank / reservoir level gauge."),
             component: "TankGaugePage",
             source: "pages/TankGaugePage.qml"
@@ -791,7 +792,7 @@ QtObject {
         {
             title: qsTr("ThermometerGauge"),
             category: "status",
-            icon: "\uE9D2",
+            icon: FluentIcons.AreaChart,
             description: qsTr("A classic stem-and-bulb thermometer gauge."),
             component: "ThermometerGaugePage",
             source: "pages/ThermometerGaugePage.qml"
@@ -799,7 +800,7 @@ QtObject {
         {
             title: qsTr("KpiTile"),
             category: "status",
-            icon: "\uE9D2",
+            icon: FluentIcons.AreaChart,
             description: qsTr("A compact KPI tile with delta and optional sparkline."),
             component: "KpiTilePage",
             source: "pages/KpiTilePage.qml"
@@ -807,7 +808,7 @@ QtObject {
         {
             title: qsTr("Dashboard"),
             category: "status",
-            icon: "\uE80F",
+            icon: FluentIcons.Home,
             description: qsTr("Composite monitoring layout with gauges, KPIs, and charts."),
             component: "DashboardPage",
             source: "pages/DashboardPage.qml"
@@ -815,7 +816,7 @@ QtObject {
         {
             title: qsTr("BusyIndicator"),
             category: "status",
-            icon: "\uE895",
+            icon: FluentIcons.Sync,
             description: qsTr("An indeterminate progress indicator."),
             component: "BusyIndicatorPage",
             source: "pages/BusyIndicatorPage.qml"
@@ -823,7 +824,7 @@ QtObject {
         {
             title: qsTr("InfoBar"),
             category: "status",
-            icon: "\uE946",
+            icon: FluentIcons.Info,
             description: qsTr("An inline message that informs users of an app state."),
             component: "InfoBarPage",
             source: "pages/InfoBarPage.qml"
@@ -831,7 +832,7 @@ QtObject {
         {
             title: qsTr("InfoBadge"),
             category: "status",
-            icon: "\uEA3A",
+            icon: FluentIcons.ProgressRingCommon,
             description: qsTr("A small badge for counts or status dots."),
             component: "InfoBadgePage",
             source: "pages/InfoBadgePage.qml"
@@ -839,7 +840,7 @@ QtObject {
         {
             title: qsTr("Toast"),
             category: "status",
-            icon: "\uE946",
+            icon: FluentIcons.Info,
             description: qsTr("A transient notification that auto-dismisses."),
             component: "ToastPage",
             source: "pages/ToastPage.qml"
@@ -847,7 +848,7 @@ QtObject {
         {
             title: qsTr("System integration"),
             category: "dialogs",
-            icon: "\uE8B7",
+            icon: FluentIcons.Folder,
             description: qsTr("FilePicker dialogs and TrayIcon system notify bridge."),
             component: "SystemIntegrationPage",
             source: "pages/SystemIntegrationPage.qml"
@@ -855,7 +856,7 @@ QtObject {
         {
             title: qsTr("MediaPlayerElement"),
             category: "status",
-            icon: "\uE714",
+            icon: FluentIcons.Video,
             description: qsTr("Fluent media shell (requires Qt Multimedia / QWINUI3_BUILD_MEDIA)."),
             component: "MediaPlayerElementPage",
             source: "pages/MediaPlayerElementPage.qml"
@@ -863,7 +864,7 @@ QtObject {
         {
             title: qsTr("SegmentedControl"),
             category: "basic",
-            icon: "\uE8FD",
+            icon: FluentIcons.List,
             description: qsTr("A mutually exclusive segmented option bar."),
             component: "SegmentedControlPage",
             source: "pages/SegmentedControlPage.qml"
@@ -871,7 +872,7 @@ QtObject {
         {
             title: qsTr("StackPanel"),
             category: "layout",
-            icon: "\uE8A5",
+            icon: FluentIcons.Document,
             description: qsTr("Stacks children horizontally or vertically with spacing."),
             component: "StackPanelPage",
             source: "pages/StackPanelPage.qml"
@@ -879,7 +880,7 @@ QtObject {
         {
             title: qsTr("MeterBar"),
             category: "status",
-            icon: "\uE9D9",
+            icon: FluentIcons.PieSingle,
             description: qsTr("A multi-segment meter for stacked values."),
             component: "MeterBarPage",
             source: "pages/MeterBarPage.qml"
@@ -887,7 +888,7 @@ QtObject {
         {
             title: qsTr("Charts"),
             category: "charts",
-            icon: "\uE9D2",
+            icon: FluentIcons.AreaChart,
             description: qsTr("Overview of WinUI-style Canvas charts."),
             component: "ChartsPage",
             source: "pages/ChartsPage.qml"
@@ -895,7 +896,7 @@ QtObject {
         {
             title: qsTr("Sparkline"),
             category: "charts",
-            icon: "\uE9D9",
+            icon: FluentIcons.PieSingle,
             description: qsTr("Compact inline trend glyph for dense data."),
             component: "SparklinePage",
             source: "pages/SparklinePage.qml"
@@ -903,7 +904,7 @@ QtObject {
         {
             title: qsTr("LineChart"),
             category: "charts",
-            icon: "\uE9D2",
+            icon: FluentIcons.AreaChart,
             description: qsTr("Multi-series line and area chart."),
             component: "LineChartPage",
             source: "pages/LineChartPage.qml"
@@ -911,7 +912,7 @@ QtObject {
         {
             title: qsTr("AreaChart"),
             category: "charts",
-            icon: "\uE9D2",
+            icon: FluentIcons.AreaChart,
             description: qsTr("Filled area chart with optional stacking."),
             component: "AreaChartPage",
             source: "pages/AreaChartPage.qml"
@@ -919,7 +920,7 @@ QtObject {
         {
             title: qsTr("BarChart"),
             category: "charts",
-            icon: "\uE9D9",
+            icon: FluentIcons.PieSingle,
             description: qsTr("Vertical column chart in a single Canvas pass."),
             component: "BarChartPage",
             source: "pages/BarChartPage.qml"
@@ -927,7 +928,7 @@ QtObject {
         {
             title: qsTr("HorizontalBarChart"),
             category: "charts",
-            icon: "\uE9E6",
+            icon: FluentIcons.Dial6,
             description: qsTr("Horizontal bars for rankings and comparisons."),
             component: "HorizontalBarChartPage",
             source: "pages/HorizontalBarChartPage.qml"
@@ -935,7 +936,7 @@ QtObject {
         {
             title: qsTr("StackedBarChart"),
             category: "charts",
-            icon: "\uF56C",
+            icon: FluentIcons.DialShape3,
             description: qsTr("Stacked columns for category composition."),
             component: "StackedBarChartPage",
             source: "pages/StackedBarChartPage.qml"
@@ -943,7 +944,7 @@ QtObject {
         {
             title: qsTr("DonutChart"),
             category: "charts",
-            icon: "\uEA3A",
+            icon: FluentIcons.ProgressRingCommon,
             description: qsTr("Part-to-whole donut with legend and center label."),
             component: "DonutChartPage",
             source: "pages/DonutChartPage.qml"
@@ -951,7 +952,7 @@ QtObject {
         {
             title: qsTr("PieChart"),
             category: "charts",
-            icon: "\uEB05",
+            icon: FluentIcons.DonutChart,
             description: qsTr("Solid pie chart with Fluent color tokens."),
             component: "PieChartPage",
             source: "pages/PieChartPage.qml"
@@ -959,7 +960,7 @@ QtObject {
         {
             title: qsTr("ScatterChart"),
             category: "charts",
-            icon: "\uE81E",
+            icon: FluentIcons.BarChartVertical,
             description: qsTr("Scatter plot with trend line and point tooltips."),
             component: "ScatterChartPage",
             source: "pages/ScatterChartPage.qml"
@@ -967,7 +968,7 @@ QtObject {
         {
             title: qsTr("WaterfallChart"),
             category: "charts",
-            icon: "\uE9D9",
+            icon: FluentIcons.PieSingle,
             description: qsTr("Cumulative step / bridge chart with total column."),
             component: "WaterfallChartPage",
             source: "pages/WaterfallChartPage.qml"
@@ -975,7 +976,7 @@ QtObject {
         {
             title: qsTr("HeatmapChart"),
             category: "charts",
-            icon: "\uE9F9",
+            icon: FluentIcons.AreaChartMirrored,
             description: qsTr("Density heatmap with reveal and hover readout."),
             component: "HeatmapChartPage",
             source: "pages/HeatmapChartPage.qml"
@@ -983,7 +984,7 @@ QtObject {
         {
             title: qsTr("RadarChart"),
             category: "charts",
-            icon: "\uE909",
+            icon: FluentIcons.ConstructionCone,
             description: qsTr("Spider / radar comparison chart."),
             component: "RadarChartPage",
             source: "pages/RadarChartPage.qml"
@@ -991,7 +992,7 @@ QtObject {
         {
             title: qsTr("ChartCard"),
             category: "charts",
-            icon: "\uE8A5",
+            icon: FluentIcons.Document,
             description: qsTr("Dashboard card chrome with entrance animation."),
             component: "ChartCardPage",
             source: "pages/ChartCardPage.qml"
@@ -999,7 +1000,7 @@ QtObject {
         {
             title: qsTr("BulletChart"),
             category: "charts",
-            icon: "\uE9D9",
+            icon: FluentIcons.PieSingle,
             description: qsTr("Compact KPI bullet with ranges, value, and target."),
             component: "BulletChartPage",
             source: "pages/BulletChartPage.qml"
@@ -1007,7 +1008,7 @@ QtObject {
         {
             title: qsTr("Shimmer"),
             category: "status",
-            icon: "\uE9CE",
+            icon: FluentIcons.Toggle,
             description: qsTr("Skeleton placeholders that shimmer while loading."),
             component: "ShimmerPage",
             source: "pages/ShimmerPage.qml"
@@ -1015,7 +1016,7 @@ QtObject {
         {
             title: qsTr("EmptyState"),
             category: "status",
-            icon: "\uE7BA",
+            icon: FluentIcons.Warning,
             description: qsTr("Empty collection placeholder with optional action."),
             component: "EmptyStatePage",
             source: "pages/EmptyStatePage.qml"
@@ -1023,7 +1024,7 @@ QtObject {
         {
             title: qsTr("CopyButton"),
             category: "buttons",
-            icon: "\uE8C8",
+            icon: FluentIcons.Copy,
             description: qsTr("Copies text to the clipboard with success feedback."),
             component: "CopyButtonPage",
             source: "pages/CopyButtonPage.qml"
@@ -1031,7 +1032,7 @@ QtObject {
         {
             title: qsTr("AvatarGroup"),
             category: "collections",
-            icon: "\uE716",
+            icon: FluentIcons.People,
             description: qsTr("Overlapping person pictures with overflow count."),
             component: "AvatarGroupPage",
             source: "pages/AvatarGroupPage.qml"
@@ -1039,7 +1040,7 @@ QtObject {
         {
             title: qsTr("ProgressButton"),
             category: "buttons",
-            icon: "\uE9F9",
+            icon: FluentIcons.AreaChartMirrored,
             description: qsTr("A button with embedded determinate or indeterminate progress."),
             component: "ProgressButtonPage",
             source: "pages/ProgressButtonPage.qml"
@@ -1047,7 +1048,7 @@ QtObject {
         {
             title: qsTr("TwoPaneView"),
             category: "layout",
-            icon: "\uE8A9",
+            icon: FluentIcons.ViewAll,
             description: qsTr("Adaptive dual-pane layout with wide, tall, and single modes."),
             component: "TwoPaneViewPage",
             source: "pages/TwoPaneViewPage.qml"
@@ -1055,7 +1056,7 @@ QtObject {
         {
             title: qsTr("Pivot"),
             category: "navigation",
-            icon: "\uE8FD",
+            icon: FluentIcons.List,
             description: qsTr("Headered multi-view with an accent underline indicator."),
             component: "PivotPage",
             source: "pages/PivotPage.qml"
@@ -1063,7 +1064,7 @@ QtObject {
         {
             title: qsTr("MultiSelectComboBox"),
             category: "basic",
-            icon: "\uE8A1",
+            icon: FluentIcons.Comment,
             description: qsTr("Combo box that supports multiple checked selections."),
             component: "MultiSelectComboBoxPage",
             source: "pages/MultiSelectComboBoxPage.qml"
@@ -1071,7 +1072,7 @@ QtObject {
         {
             title: qsTr("ColorPickerButton"),
             category: "basic",
-            icon: "\uE790",
+            icon: FluentIcons.Color,
             description: qsTr("Color chip button that opens a ColorPicker flyout."),
             component: "ColorPickerButtonPage",
             source: "pages/ColorPickerButtonPage.qml"
@@ -1079,7 +1080,7 @@ QtObject {
         {
             title: qsTr("AcrylicSurface"),
             category: "layout",
-            icon: "\uE790",
+            icon: FluentIcons.Color,
             description: qsTr("Layered acrylic-like surface for grouping content."),
             component: "AcrylicSurfacePage",
             source: "pages/AcrylicSurfacePage.qml"
@@ -1087,7 +1088,7 @@ QtObject {
         {
             title: qsTr("Timeline"),
             category: "collections",
-            icon: "\uE81C",
+            icon: FluentIcons.History,
             description: qsTr("Vertical timeline for chronological events."),
             component: "TimelinePage",
             source: "pages/TimelinePage.qml"
@@ -1095,7 +1096,7 @@ QtObject {
         {
             title: qsTr("SwipeControl"),
             category: "collections",
-            icon: "\uE76B",
+            icon: FluentIcons.ChevronLeft,
             description: qsTr("Reveal leading or trailing actions by dragging content."),
             component: "SwipeControlPage",
             source: "pages/SwipeControlPage.qml"
@@ -1103,7 +1104,7 @@ QtObject {
         {
             title: qsTr("KeyVisual"),
             category: "basic",
-            icon: "\uE765",
+            icon: FluentIcons.Presence,
             description: qsTr("Key chrome and KeyChordVisual shortcut parsing (not Qt Virtual Keyboard)."),
             component: "KeyVisualPage",
             source: "pages/KeyVisualPage.qml"
@@ -1111,7 +1112,7 @@ QtObject {
         {
             title: qsTr("Misc Buttons"),
             category: "buttons",
-            icon: "\uE90F",
+            icon: FluentIcons.Repair,
             description: qsTr("ToolButton, RoundButton, DelayButton and other button variants."),
             component: "MiscButtonsPage",
             source: "pages/MiscButtonsPage.qml"
@@ -1119,7 +1120,7 @@ QtObject {
         {
             title: qsTr("ListTile"),
             category: "collections",
-            icon: "\uE8FD",
+            icon: FluentIcons.List,
             description: qsTr("A list row with glyph, title, subtitle, and trailing content."),
             component: "ListTilePage",
             source: "pages/ListTilePage.qml"
@@ -1127,7 +1128,7 @@ QtObject {
         {
             title: qsTr("Pitfalls"),
             category: "layout",
-            icon: "\uE7BA",
+            icon: FluentIcons.Warning,
             description: qsTr("Anti-patterns: square fills and clip that break rounded borders."),
             component: "PitfallsPage",
             source: "pages/PitfallsPage.qml"
@@ -1135,7 +1136,7 @@ QtObject {
         {
             title: qsTr("GridTile"),
             category: "collections",
-            icon: "\uE8A5",
+            icon: FluentIcons.Document,
             description: qsTr("A selectable grid card with glyph or image, title, and subtitle."),
             component: "GridTilePage",
             source: "pages/GridTilePage.qml"
@@ -1143,7 +1144,7 @@ QtObject {
         {
             title: qsTr("HeaderedTextBox"),
             category: "text",
-            icon: "\uE8D2",
+            icon: FluentIcons.Font,
             description: qsTr("A text field with a WinUI-style header and description."),
             component: "HeaderedTextBoxPage",
             source: "pages/HeaderedTextBoxPage.qml"
@@ -1151,7 +1152,7 @@ QtObject {
         {
             title: qsTr("HeaderedComboBox"),
             category: "text",
-            icon: "\uE70D",
+            icon: FluentIcons.ChevronDown,
             description: qsTr("Labeled ComboBox with FormLayout header placement."),
             component: "HeaderedComboBoxPage",
             source: "pages/HeaderedComboBoxPage.qml"
@@ -1159,7 +1160,7 @@ QtObject {
         {
             title: qsTr("Form validation"),
             category: "text",
-            icon: "\uE73E",
+            icon: FluentIcons.Accept,
             description: qsTr("FormLayout labelWidth, left headers, ValidationSummary, RadioButtons."),
             component: "FormValidationPage",
             source: "pages/FormValidationPage.qml"
@@ -1167,7 +1168,7 @@ QtObject {
         {
             title: qsTr("FileDropZone"),
             category: "layout",
-            icon: "\uE8E5",
+            icon: FluentIcons.OpenFile,
             description: qsTr("Drag-and-drop target with optional extension filter."),
             component: "FileDropZonePage",
             source: "pages/FileDropZonePage.qml"
@@ -1175,7 +1176,7 @@ QtObject {
         {
             title: qsTr("MenuFlyout"),
             category: "menus",
-            icon: "\uE700",
+            icon: FluentIcons.GlobalNavButton,
             description: qsTr("A command flyout menu anchored to a control."),
             component: "MenuFlyoutPage",
             source: "pages/MenuFlyoutPage.qml"
@@ -1183,7 +1184,7 @@ QtObject {
         {
             title: qsTr("RefreshContainer"),
             category: "scrolling",
-            icon: "\uE72C",
+            icon: FluentIcons.Refresh,
             description: qsTr("Pull down on scrollable content to request a refresh."),
             component: "RefreshContainerPage",
             source: "pages/RefreshContainerPage.qml"
@@ -1191,7 +1192,7 @@ QtObject {
         {
             title: qsTr("TextBlock"),
             category: "text",
-            icon: "\uE8D2",
+            icon: FluentIcons.Font,
             description: qsTr("Typography mapped to the WinUI type ramp."),
             component: "TextBlockPage",
             source: "pages/TextBlockPage.qml"
@@ -1199,7 +1200,7 @@ QtObject {
         {
             title: qsTr("ActionCard"),
             category: "layout",
-            icon: "\uE8A5",
+            icon: FluentIcons.Document,
             description: qsTr("A clickable card with glyph, title, description, and chevron."),
             component: "ActionCardPage",
             source: "pages/ActionCardPage.qml"
@@ -1207,7 +1208,7 @@ QtObject {
         {
             title: qsTr("InfoBarHost"),
             category: "status",
-            icon: "\uE946",
+            icon: FluentIcons.Info,
             description: qsTr("Stacks InfoBar messages with shared layout spacing."),
             component: "InfoBarHostPage",
             source: "pages/InfoBarHostPage.qml"
@@ -1215,7 +1216,7 @@ QtObject {
         {
             title: qsTr("ToastHost"),
             category: "status",
-            icon: "\uE946",
+            icon: FluentIcons.Info,
             description: qsTr("Queues multiple toasts with a progress countdown."),
             component: "ToastHostPage",
             source: "pages/ToastHostPage.qml"
@@ -1223,7 +1224,7 @@ QtObject {
         {
             title: qsTr("ChipGroup"),
             category: "buttons",
-            icon: "\uE8FD",
+            icon: FluentIcons.List,
             description: qsTr("A row of chips for exclusive or multi-select filters."),
             component: "ChipGroupPage",
             source: "pages/ChipGroupPage.qml"
@@ -1231,7 +1232,7 @@ QtObject {
         {
             title: qsTr("StatusDot"),
             category: "status",
-            icon: "\uEA3A",
+            icon: FluentIcons.ProgressRingCommon,
             description: qsTr("Presence and health indicators with optional pulse."),
             component: "StatusDotPage",
             source: "pages/StatusDotPage.qml"
@@ -1239,7 +1240,7 @@ QtObject {
         {
             title: qsTr("FontIcon"),
             category: "basic",
-            icon: "\uE8A7",
+            icon: FluentIcons.OpenInNewWindow,
             description: qsTr("A Fluent Icons glyph with theme-aware color and size."),
             component: "FontIconPage",
             source: "pages/FontIconPage.qml"
@@ -1247,7 +1248,7 @@ QtObject {
         {
             title: qsTr("MetadataControl"),
             category: "text",
-            icon: "\uE8D2",
+            icon: FluentIcons.Font,
             description: qsTr("Label and value pairs for detail and inspector surfaces."),
             component: "MetadataControlPage",
             source: "pages/MetadataControlPage.qml"
@@ -1255,7 +1256,7 @@ QtObject {
         {
             title: qsTr("RelativePanel"),
             category: "layout",
-            icon: "\uE8A5",
+            icon: FluentIcons.Document,
             description: qsTr("Positions children with sibling and panel alignment constraints."),
             component: "RelativePanelPage",
             source: "pages/RelativePanelPage.qml"
@@ -1263,7 +1264,7 @@ QtObject {
         {
             title: qsTr("SwitchPresenter"),
             category: "layout",
-            icon: "\uE8FD",
+            icon: FluentIcons.List,
             description: qsTr("Shows one child case based on a matching value."),
             component: "SwitchPresenterPage",
             source: "pages/SwitchPresenterPage.qml"
@@ -1271,7 +1272,7 @@ QtObject {
         {
             title: qsTr("MenuFlyoutItem"),
             category: "menus",
-            icon: "\uE700",
+            icon: FluentIcons.GlobalNavButton,
             description: qsTr("Flyout menu rows with glyphs, toggles, radios, and headers."),
             component: "MenuFlyoutItemPage",
             source: "pages/MenuFlyoutItemPage.qml"

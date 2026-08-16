@@ -59,8 +59,8 @@ CatalogPage {
                             Label { text: qsTr("Showing tiles in a grid."); color: Theme.textSecondary }
                             Row {
                                 spacing: 8
-                                GridTile { title: qsTr("Alpha"); glyph: "\uE8A5"; tileWidth: 100; tileHeight: 88 }
-                                GridTile { title: qsTr("Beta"); glyph: "\uE8BD"; tileWidth: 100; tileHeight: 88 }
+                                GridTile { title: qsTr("Alpha"); glyph: FluentIcons.Document; tileWidth: 100; tileHeight: 88 }
+                                GridTile { title: qsTr("Beta"); glyph: FluentIcons.OtherUser; tileWidth: 100; tileHeight: 88 }
                             }
                         }
                     }
@@ -70,7 +70,7 @@ CatalogPage {
                             width: parent ? parent.width : 280
                             title: qsTr("No items")
                             message: qsTr("Switch back to List or Grid to see content.")
-                            glyph: "\uE7BA"
+                            glyph: FluentIcons.Warning
                             bordered: false
                         }
                     }

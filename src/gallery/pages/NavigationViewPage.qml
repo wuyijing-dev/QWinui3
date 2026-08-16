@@ -125,23 +125,23 @@ CatalogPage {
                         type: "item",
                         key: "home",
                         title: qsTr("Home"),
-                        icon: "\uE80F",
+                        icon: FluentIcons.Home,
                         component: "HomePage"
                     },
                     {
                         type: "group",
                         key: "demo",
                         title: qsTr("Samples"),
-                        icon: "\uE8F1",
+                        icon: FluentIcons.Library,
                         children: [
                             {
                                 title: qsTr("Button"),
-                                icon: "\uE8A7",
+                                icon: FluentIcons.OpenInNewWindow,
                                 component: "ButtonPage"
                             },
                             {
                                 title: qsTr("Slider"),
-                                icon: "\uE9E9",
+                                icon: FluentIcons.Slider,
                                 component: "SliderPage"
                             }
                         ]

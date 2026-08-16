@@ -13,7 +13,7 @@ CatalogPage {
 
     ControlExample {
         headerText: qsTr("With ToolButtons")
-        qmlSource: "ToolBar {\n    ToolButton { text: \"\\uE8A7\" }\n}"
+        qmlSource: "ToolBar {\n    ToolButton { text: FluentIcons.OpenInNewWindow; font.family: Theme.fontFamilyIcon }\n}"
         ColumnLayout {
             Layout.fillWidth: true
             spacing: Theme.spacing
@@ -22,23 +22,23 @@ CatalogPage {
                 RowLayout {
                     anchors.fill: parent
                     ToolButton {
-                        text: "\uE8C8"
+                        text: FluentIcons.Copy
                         font.family: Theme.fontFamilyIcon
                         onClicked: status.text = qsTr("Copy")
                     }
                     ToolButton {
-                        text: "\uE77F"
+                        text: FluentIcons.Cut
                         font.family: Theme.fontFamilyIcon
                         onClicked: status.text = qsTr("Cut")
                     }
                     ToolButton {
-                        text: "\uE77B"
+                        text: FluentIcons.Paste
                         font.family: Theme.fontFamilyIcon
                         onClicked: status.text = qsTr("Paste")
                     }
                     ToolSeparator {}
                     ToolButton {
-                        text: "\uE74D"
+                        text: FluentIcons.Delete
                         font.family: Theme.fontFamilyIcon
                         onClicked: status.text = qsTr("Delete")
                     }

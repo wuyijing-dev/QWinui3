@@ -2,6 +2,7 @@
 
 #include <QQmlEngine>
 #include <QQmlPropertyMap>
+#include <QStringList>
 #include <QtQml/qqmlregistration.h>
 
 // Segoe Fluent Icons character class — FluentIcons.Save, FluentIcons.Copy, …
@@ -18,7 +19,11 @@ public:
 
     Q_INVOKABLE QString of(const QString &name) const;
     Q_INVOKABLE bool has(const QString &name) const;
+    // Sorted symbol names for gallery / pickers (includes aliases).
+    Q_INVOKABLE QStringList names() const;
 
 private:
     void populate();
+
+    QStringList m_names;
 };

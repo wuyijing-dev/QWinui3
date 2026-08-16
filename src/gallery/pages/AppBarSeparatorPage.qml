@@ -15,16 +15,16 @@ CatalogPage {
         qmlSource: "AppBarSeparator { thickness: 1 }"
         CommandBar {
             AppBarButton {
-                iconGlyph: "\uE8C8"
+                symbol: FluentIcons.Copy
                 text: qsTr("Copy")
             }
             AppBarButton {
-                iconGlyph: "\uE77F"
+                symbol: FluentIcons.Cut
                 text: qsTr("Cut")
             }
             AppBarSeparator {}
             AppBarButton {
-                iconGlyph: "\uE74D"
+                symbol: FluentIcons.Delete
                 text: qsTr("Delete")
             }
             AppBarSeparator {
@@ -32,7 +32,7 @@ CatalogPage {
                 separatorColor: Theme.accent
             }
             AppBarToggleButton {
-                iconGlyph: "\uE71B"
+                symbol: FluentIcons.Bold
                 text: qsTr("Bold")
             }
         }

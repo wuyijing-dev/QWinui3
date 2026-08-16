@@ -23,7 +23,7 @@ CatalogPage {
         {
             title: qsTr("Getting started"),
             description: qsTr("Explore Fluent controls and try interactive samples."),
-            icon: "\uE8F1",
+            icon: FluentIcons.Library,
             tint: "#0F7B0F",
             tintBg: Theme.dark ? "#393D1B" : "#DFF6DD",
             action: "button"
@@ -31,7 +31,7 @@ CatalogPage {
         {
             title: qsTr("Window shells"),
             description: qsTr("Blank, left-nav, and menu + status application hosts."),
-            icon: "\uE8A7",
+            icon: FluentIcons.OpenInNewWindow,
             tint: "#005FB8",
             tintBg: Theme.dark ? "#272727" : "#F3F9FD",
             action: "shells"
@@ -39,7 +39,7 @@ CatalogPage {
         {
             title: qsTr("Design"),
             description: qsTr("Switch light/dark theme and motion preferences."),
-            icon: "\uE790",
+            icon: FluentIcons.Color,
             tint: "#8764B8",
             tintBg: Theme.dark ? "#3A2F4A" : "#F2EDF9",
             action: "settings"
@@ -275,7 +275,7 @@ CatalogPage {
 
                         Text {
                             Layout.alignment: Qt.AlignRight
-                            text: "\uE8A7"
+                            text: FluentIcons.OpenInNewWindow
                             font.family: Theme.fontFamilyIcon
                             font.pixelSize: 14
                             color: Theme.textSecondary
@@ -304,7 +304,7 @@ CatalogPage {
             contentItem: RowLayout {
                 spacing: 8
                 Text {
-                    text: "\uE823"
+                    text: FluentIcons.Clock
                     font.family: Theme.fontFamilyIcon
                     font.pixelSize: 14
                     color: recentPill.checked ? Theme.textOnAccent : Theme.textPrimary
@@ -342,7 +342,7 @@ CatalogPage {
             contentItem: RowLayout {
                 spacing: 8
                 Text {
-                    text: "\uE734"
+                    text: FluentIcons.Favorite
                     font.family: Theme.fontFamilyIcon
                     font.pixelSize: 14
                     color: favPill.checked ? Theme.textOnAccent : Theme.textPrimary
@@ -485,7 +485,7 @@ CatalogPage {
 
                                 contentItem: Text {
                                     anchors.centerIn: parent
-                                    text: starBtn.favorited ? "\uE735" : "\uE734"
+                                    text: starBtn.favorited ? FluentIcons.FavoriteStarFill : FluentIcons.Favorite
                                     font.family: Theme.fontFamilyIcon
                                     font.pixelSize: 14
                                     color: starBtn.favorited ? Theme.systemCaution

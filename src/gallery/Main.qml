@@ -66,7 +66,7 @@ StandardWindow {
             type: "item",
             key: "home",
             title: qsTr("Home"),
-            icon: "\uE80F",
+            icon: FluentIcons.Home,
             component: "HomePage",
             description: qsTr("Gallery home")
         })
@@ -89,7 +89,7 @@ StandardWindow {
                 type: "group",
                 key: cat.key,
                 title: cat.title,
-                icon: cat.icon || "\uE8F4",
+                icon: cat.icon || FluentIcons.FolderOpen,
                 children: children
             }
             // Badge count on Charts as a Gallery demo of InfoBadge in the rail.
@@ -168,7 +168,7 @@ StandardWindow {
         model: window.navModel
         headerText: qsTr("QWinUI3")
         footerText: qsTr("Settings")
-        footerIcon: "\uE713"
+        footerIcon: FluentIcons.Settings
         footerComponent: "SettingsPage"
         pageModule: "QWinUI3.Gallery"
         currentKey: "home"
