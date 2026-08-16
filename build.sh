@@ -114,36 +114,52 @@ cmake --build "${BUILD_DIR}" --parallel --target qwinui3_gallery
 
 QML_IMPORTS="${BUILD_DIR}/src/platform/QWinUI3:${BUILD_DIR}/src/extras/QWinUI3:${BUILD_DIR}/src/theme/QWinUI3:${BUILD_DIR}/src/style"
 
-find_gallery() {
+# Prefer the real linked binary (Qt often leaves it under src/gallery/), then
+# publish a stable path at build/qwinui3_gallery for run-gallery.sh.
+publish_gallery() {
+  local src=""
   local candidates=(
-    "${BUILD_DIR}/qwinui3_gallery"
-    "${BUILD_DIR}/bin/qwinui3_gallery"
     "${BUILD_DIR}/src/gallery/qwinui3_gallery"
+    "${BUILD_DIR}/bin/qwinui3_gallery"
+    "${BUILD_DIR}/qwinui3_gallery"
   )
   local p
   for p in "${candidates[@]}"; do
-    if [[ -x "${p}" ]]; then
-      echo "${p}"
-      return 0
+    if [[ -f "${p}" && -x "${p}" ]]; then
+      src="${p}"
+      break
     fi
   done
-  # Last resort: search under build/
-  p="$(find "${BUILD_DIR}" -maxdepth 4 -type f -name qwinui3_gallery -perm -111 2>/dev/null | head -n 1 || true)"
-  if [[ -n "${p}" ]]; then
-    echo "${p}"
-    return 0
+  if [[ -z "${src}" ]]; then
+    src="$(find "${BUILD_DIR}" -maxdepth 5 -type f -name qwinui3_gallery 2>/dev/null | head -n 1 || true)"
   fi
-  return 1
+  if [[ -z "${src}" || ! -f "${src}" ]]; then
+    return 1
+  fi
+  if [[ ! -x "${src}" ]]; then
+    chmod +x "${src}" || true
+  fi
+
+  local dest="${BUILD_DIR}/qwinui3_gallery"
+  if [[ "${src}" != "${dest}" ]]; then
+    cp -f "${src}" "${dest}"
+    chmod +x "${dest}"
+  fi
+  # Verify the stable path exists before claiming success.
+  [[ -f "${dest}" && -x "${dest}" ]] || return 1
+  echo "${dest}"
+  return 0
 }
 
-if ! GALLERY_ABS="$(find_gallery)"; then
+if ! GALLERY_ABS="$(publish_gallery)"; then
   echo "Build finished but qwinui3_gallery was not found under ${BUILD_DIR}." >&2
-  echo "Try: ./build.sh --clean" >&2
+  echo "Looked in: build/src/gallery, build/bin, build/" >&2
+  echo "Try: find build -name qwinui3_gallery -type f" >&2
+  echo "Then: ./build.sh --clean" >&2
   exit 1
 fi
 
-# Path relative to BUILD_DIR for run-gallery.sh
-GALLERY_REL="${GALLERY_ABS#"${BUILD_DIR}/"}"
+GALLERY_REL="qwinui3_gallery"
 
 cat > "${BUILD_DIR}/qt.conf" <<EOF
 [Paths]
@@ -163,7 +179,11 @@ export QML_IMPORT_PATH="${QML_IMPORTS}\${QML_IMPORT_PATH:+:\$QML_IMPORT_PATH}"
 export QML2_IMPORT_PATH="\${QML_IMPORT_PATH}"
 export LD_LIBRARY_PATH="${QT_PREFIX}/lib\${LD_LIBRARY_PATH:+:\$LD_LIBRARY_PATH}"
 cd "\${HERE}"
-exec "\${HERE}/${GALLERY_REL}" "\$@"
+if [[ ! -x "\${HERE}/qwinui3_gallery" ]]; then
+  echo "Missing \${HERE}/qwinui3_gallery — rebuild with ./build.sh" >&2
+  exit 1
+fi
+exec "\${HERE}/qwinui3_gallery" "\$@"
 EOF
 chmod +x "${BUILD_DIR}/run-gallery.sh"
 
