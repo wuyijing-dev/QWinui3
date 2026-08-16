@@ -262,7 +262,6 @@ T.Control {
                 clip: root.isDynamicOverflowEnabled
                 visible: root._showPrimary
                 opacity: visible ? 1 : 0
-                onChildrenChanged: Qt.callLater(function () { root._syncBarLabelPositions() })
                 Behavior on opacity {
                     enabled: !Theme.reducedMotion
                     NumberAnimation {
@@ -271,7 +270,10 @@ T.Control {
                     }
                 }
                 onWidthChanged: Qt.callLater(root._relayoutDynamicOverflow)
-                onChildrenChanged: Qt.callLater(root._relayoutDynamicOverflow)
+                onChildrenChanged: Qt.callLater(function () {
+                    root._syncBarLabelPositions()
+                    root._relayoutDynamicOverflow()
+                })
             }
 
             Item { Layout.fillWidth: true; visible: root._showMoreOnly }
