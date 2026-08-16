@@ -145,14 +145,10 @@ Button {
             }
         }
 
-        Rectangle {
+        FocusStroke {
             anchors.fill: parent
-            anchors.margins: -2
-            radius: Theme.cornerControl + 2
-            color: "transparent"
-            border.width: control.visualFocus ? 2 : 0
-            border.color: Theme.focusOuter
-            visible: control.visualFocus
+            show: control.visualFocus
+            frameRadius: Theme.cornerControl
         }
     }
 

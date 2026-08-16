@@ -84,5 +84,11 @@ T.TabButton {
                 }
             }
         }
+
+        FocusStroke {
+            anchors.fill: parent
+            show: control.visualFocus
+            frameRadius: Theme.cornerControl
+        }
     }
 }

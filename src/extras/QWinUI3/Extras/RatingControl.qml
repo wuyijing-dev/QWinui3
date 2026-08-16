@@ -67,11 +67,33 @@ T.Control {
     implicitHeight: caption.length ? (Theme.controlHeight + Theme.fontCaption + 4) : Theme.controlHeight
     hoverEnabled: true
     padding: 0
+    focusPolicy: Qt.StrongFocus
+    activeFocusOnTab: !readOnly && enabled
     font.family: Theme.fontFamilyIcon
     font.pixelSize: 18
     Accessible.role: Accessible.Slider
     Accessible.name: caption.length ? caption : qsTr("Rating")
     Accessible.description: qsTr("%1 of %2").arg(Math.round(value * 10) / 10).arg(maxRating)
+    Keys.onLeftPressed: nudge(-1)
+    Keys.onRightPressed: nudge(1)
+    Keys.onDownPressed: nudge(-1)
+    Keys.onUpPressed: nudge(1)
+    Keys.onHomePressed: {
+        if (readOnly || !enabled)
+            return
+        commitValue(isClearEnabled ? 0 : clampValue(stepSize))
+    }
+    Keys.onEndPressed: {
+        if (readOnly || !enabled)
+            return
+        commitValue(maxRating)
+    }
+
+    function nudge(dir) {
+        if (readOnly || !enabled)
+            return
+        commitValue(clampValue(value + dir * Math.max(0.01, stepSize)))
+    }
 
     readonly property real _displayValue: {
         if (!readOnly && previewEnabled && previewValue >= 0)
@@ -138,6 +160,13 @@ T.Control {
             height: 28
             implicitWidth: starsRow.implicitWidth
             implicitHeight: 28
+
+            FocusStroke {
+                anchors.fill: parent
+                anchors.margins: -4
+                show: root.visualFocus
+                frameRadius: Theme.cornerControl
+            }
 
             Row {
                 id: starsRow

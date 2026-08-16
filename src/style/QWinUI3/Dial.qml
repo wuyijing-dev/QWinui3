@@ -78,6 +78,12 @@ T.Dial {
             }
         }
 
+        FocusStroke {
+            anchors.fill: parent
+            show: control.visualFocus
+            frameRadius: Math.min(width, height) / 2
+        }
+
         Shape {
             id: dialShape
             anchors.fill: parent

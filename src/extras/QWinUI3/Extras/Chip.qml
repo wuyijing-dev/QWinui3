@@ -207,14 +207,10 @@ T.AbstractButton {
             ColorAnimation { duration: Theme.duration(Theme.motionFast) }
         }
 
-        Rectangle {
+        FocusStroke {
             anchors.fill: parent
-            anchors.margins: -2
-            radius: parent.radius + 2
-            color: "transparent"
-            border.width: control.visualFocus ? Theme.strokeFocusOuter : 0
-            border.color: Theme.accent
-            visible: control.visualFocus
+            show: control.visualFocus
+            frameRadius: parent.radius
         }
     }
 }

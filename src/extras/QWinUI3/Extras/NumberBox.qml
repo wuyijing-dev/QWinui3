@@ -358,6 +358,15 @@ T.Control {
                 }
             }
 
+            FocusStroke {
+                anchors.fill: parent
+                z: 2
+                show: field.activeFocus && (field.focusReason === Qt.TabFocusReason
+                                            || field.focusReason === Qt.BacktabFocusReason
+                                            || field.focusReason === Qt.ShortcutFocusReason)
+                frameRadius: Theme.cornerControl
+            }
+
             RowLayout {
                 anchors.fill: parent
                 spacing: 0
@@ -423,6 +432,14 @@ T.Control {
                         onClicked: root.bump(-root.stepSize)
                     }
                 }
+            }
+
+            FocusStroke {
+                anchors.fill: parent
+                show: field.activeFocus && (field.focusReason === Qt.TabFocusReason
+                                            || field.focusReason === Qt.BacktabFocusReason
+                                            || field.focusReason === Qt.ShortcutFocusReason)
+                frameRadius: Theme.cornerControl
             }
         }
 

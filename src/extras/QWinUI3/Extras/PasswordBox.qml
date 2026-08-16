@@ -202,10 +202,18 @@ T.Control {
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                 }
-                background: Rectangle {
-                    radius: Theme.cornerControl
-                    color: clearBtn.down ? Theme.fillSubtleTertiary
-                         : (clearBtn.hovered ? Theme.fillSubtle : "transparent")
+                background: Item {
+                    Rectangle {
+                        anchors.fill: parent
+                        radius: Theme.cornerControl
+                        color: clearBtn.down ? Theme.fillSubtleTertiary
+                             : (clearBtn.hovered ? Theme.fillSubtle : "transparent")
+                    }
+                    FocusStroke {
+                        anchors.fill: parent
+                        show: clearBtn.visualFocus
+                        frameRadius: Theme.cornerControl
+                    }
                 }
             }
 
@@ -257,16 +265,24 @@ T.Control {
                         ColorAnimation { duration: Theme.duration(Theme.motionFast) }
                     }
                 }
-                background: Rectangle {
-                    radius: Theme.cornerControl
-                    color: revealBtn.down ? Theme.fillSubtleTertiary
-                         : (revealBtn.hovered ? Theme.fillSubtle : "transparent")
-                    Behavior on color {
-                        enabled: !Theme.reducedMotion
-                        ColorAnimation {
-                            duration: Theme.duration(Theme.motionFast)
-                            easing.type: Theme.easingStandard
+                background: Item {
+                    Rectangle {
+                        anchors.fill: parent
+                        radius: Theme.cornerControl
+                        color: revealBtn.down ? Theme.fillSubtleTertiary
+                             : (revealBtn.hovered ? Theme.fillSubtle : "transparent")
+                        Behavior on color {
+                            enabled: !Theme.reducedMotion
+                            ColorAnimation {
+                                duration: Theme.duration(Theme.motionFast)
+                                easing.type: Theme.easingStandard
+                            }
                         }
+                    }
+                    FocusStroke {
+                        anchors.fill: parent
+                        show: revealBtn.visualFocus
+                        frameRadius: Theme.cornerControl
                     }
                 }
             }

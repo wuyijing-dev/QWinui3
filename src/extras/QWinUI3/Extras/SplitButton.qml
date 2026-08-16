@@ -181,20 +181,28 @@ T.AbstractButton {
                     }
                 }
 
-                background: Rectangle {
-                    color: {
-                        if (!primaryBtn.hovered && !primaryBtn.down)
-                            return "transparent"
-                        if (control.accented)
-                            return primaryBtn.down ? "#14000000" : "#0AFFFFFF"
-                        return primaryBtn.down ? Theme.fillSubtleTertiary : Theme.fillSubtle
-                    }
-                    Behavior on color {
-                        enabled: !Theme.reducedMotion
-                        ColorAnimation {
-                            duration: Theme.duration(Theme.motionFast)
-                            easing.type: Theme.easingStandard
+                background: Item {
+                    Rectangle {
+                        anchors.fill: parent
+                        color: {
+                            if (!primaryBtn.hovered && !primaryBtn.down && !primaryBtn.visualFocus)
+                                return "transparent"
+                            if (control.accented)
+                                return primaryBtn.down ? "#14000000" : "#0AFFFFFF"
+                            return primaryBtn.down ? Theme.fillSubtleTertiary : Theme.fillSubtle
                         }
+                        Behavior on color {
+                            enabled: !Theme.reducedMotion
+                            ColorAnimation {
+                                duration: Theme.duration(Theme.motionFast)
+                                easing.type: Theme.easingStandard
+                            }
+                        }
+                    }
+                    FocusStroke {
+                        anchors.fill: parent
+                        show: primaryBtn.visualFocus
+                        frameRadius: Theme.cornerControl
                     }
                 }
             }
@@ -214,6 +222,12 @@ T.AbstractButton {
                 height: parent.height
                 hoverEnabled: true
                 onClicked: popupMenu.visible ? popupMenu.close() : control.showMenu()
+                Keys.onEscapePressed: {
+                    if (popupMenu.visible) {
+                        popupMenu.close()
+                        event.accepted = true
+                    }
+                }
 
                 contentItem: Text {
                     text: FluentIcons.ChevronDown
@@ -233,21 +247,30 @@ T.AbstractButton {
                     }
                 }
 
-                background: Rectangle {
-                    color: {
-                        if (!chevronBtn.hovered && !chevronBtn.down && !popupMenu.visible)
-                            return "transparent"
-                        if (control.accented)
-                            return (chevronBtn.down || popupMenu.visible) ? "#14000000" : "#0AFFFFFF"
-                        return (chevronBtn.down || popupMenu.visible)
-                               ? Theme.fillSubtleTertiary : Theme.fillSubtle
-                    }
-                    Behavior on color {
-                        enabled: !Theme.reducedMotion
-                        ColorAnimation {
-                            duration: Theme.duration(Theme.motionFast)
-                            easing.type: Theme.easingStandard
+                background: Item {
+                    Rectangle {
+                        anchors.fill: parent
+                        color: {
+                            if (!chevronBtn.hovered && !chevronBtn.down && !popupMenu.visible
+                                    && !chevronBtn.visualFocus)
+                                return "transparent"
+                            if (control.accented)
+                                return (chevronBtn.down || popupMenu.visible) ? "#14000000" : "#0AFFFFFF"
+                            return (chevronBtn.down || popupMenu.visible)
+                                   ? Theme.fillSubtleTertiary : Theme.fillSubtle
                         }
+                        Behavior on color {
+                            enabled: !Theme.reducedMotion
+                            ColorAnimation {
+                                duration: Theme.duration(Theme.motionFast)
+                                easing.type: Theme.easingStandard
+                            }
+                        }
+                    }
+                    FocusStroke {
+                        anchors.fill: parent
+                        show: chevronBtn.visualFocus
+                        frameRadius: Theme.cornerControl
                     }
                 }
             }

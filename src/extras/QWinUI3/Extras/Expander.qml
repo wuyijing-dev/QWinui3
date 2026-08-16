@@ -223,14 +223,12 @@ T.Control {
                         }
                     }
                 }
-                Rectangle {
+
+                FocusStroke {
                     anchors.fill: parent
                     anchors.margins: -6
-                    radius: Theme.cornerControl + 1
-                    color: "transparent"
-                    border.width: headerBtn.visualFocus ? Theme.strokeFocusOuter : 0
-                    border.color: Theme.accent
-                    visible: headerBtn.visualFocus
+                    show: headerBtn.visualFocus
+                    frameRadius: Theme.cornerControl
                 }
             }
         }

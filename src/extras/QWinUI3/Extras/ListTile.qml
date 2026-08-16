@@ -149,8 +149,8 @@ T.ItemDelegate {
                     return Theme.fillSubtleSecondary
                 return "transparent"
             }
-            border.width: control.visualFocus ? 2 : 0
-            border.color: Theme.focusOuter
+            border.width: 0
+            border.color: "transparent"
 
             Behavior on color {
                 enabled: !Theme.reducedMotion
@@ -159,6 +159,11 @@ T.ItemDelegate {
                     easing.type: Theme.easingStandard
                 }
             }
+        }
+        FocusStroke {
+            anchors.fill: parent
+            show: control.visualFocus
+            frameRadius: Theme.cornerControl
         }
         Rectangle {
             visible: control.isSelected || control.checked
