@@ -149,7 +149,8 @@ Library type: {"SHARED (DLL/.so)" if shared else "STATIC (.lib/.a)"}
 1. Add `qml/` to `QML_IMPORT_PATH` (or copy beside your app and set `QML2_IMPORT_PATH`).
 2. Link against the `qwinui3_*` libraries (and `*plugin` when STATIC).
 3. Qt 6.8+ required: Quick, QuickControls2, LabsQmlModels.
-4. Prefer SHARED packaging for redistributable SDKs:
+4. License: **LGPL-3.0** (see `LICENSE` and `COPYING` in this package).
+5. Prefer SHARED packaging for redistributable SDKs:
 
 ```bash
 python scripts/package_release_libs.py --shared
@@ -158,6 +159,10 @@ python scripts/package_release_libs.py --shared
 Default in-tree builds stay STATIC for simpler Gallery linking.
 """
     (out_dir / "README.md").write_text(text, encoding="utf-8")
+    for name in ("LICENSE", "COPYING"):
+        src = ROOT / name
+        if src.is_file():
+            shutil.copy2(src, out_dir / name)
 
 
 def main() -> int:

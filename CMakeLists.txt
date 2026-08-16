@@ -11,6 +11,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 project(QWinUI3
     VERSION 0.1.0
+    DESCRIPTION "Fluent / WinUI 3 controls for Qt 6.8+ (LGPL-3.0)"
+    HOMEPAGE_URL "https://github.com/wuyijing-dev/QWinui3"
     LANGUAGES CXX
 )
 
