@@ -2,6 +2,7 @@
 
 **Current:** **1.21**  
 **Next up:** **1.22** (animations & transitions recipe)  
+**Planned through:** **1.50** (1.xx maturity checkpoint)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
 
 This plan starts from **what 1.00 already was**, then walks **small `1.xx` minors**. Stay on **1.xx for a long time**. **2.00 is not next**—only when we truly need breaking changes.
@@ -324,22 +325,405 @@ Same rules: one theme per `YY`, still **not** `2.00`.
 
 ---
 
-## Later `1.xx` (after ~1.30)
+## Late path — planned `1.31` … `1.40`
 
-Still **1.xx**—schedule as `1.31`, `1.32`, … when mid path is mostly done:
+Still **1.xx**. Schedule after mid path is mostly done; order can flex.
+
+### 1.31 — Graphics & backend notes
+
+**Why:** Gallery RHI preference and consumer GPUs still surprise integrators (OpenGL vs D3D11/12).
+
+**In scope**
+
+- Extend [graphics-backend.md](docs/graphics-backend.md): recommended backends per OS, alpha/backdrop caveats, `--rhi` / Settings restart story.
+- Gallery Settings callouts; one consumer README pointer.
+
+**Out of scope**
+
+- New RHI backends; rewriting Scene Graph.
+
+**Exit criteria**
+
+- Handbook answers “which backend should I ship?”; no silent default regressions on Windows.
+
+---
+
+### 1.32 — Window shells matrix refresh
+
+**Why:** Geometry persistence, Bootstrap, and Wayland drift since 1.03–1.04 need a re-soak.
+
+**In scope**
+
+- Re-test StandardWindow / ShellWindow / Mica / Acrylic / Solid on Win + Linux; refresh [window-chrome.md](docs/window-chrome.md) / [window-shells.md](docs/window-shells.md).
+- Document `geometryPersistenceKey` + multi-monitor clamp as the supported recipe.
+
+**Out of scope**
+
+- New shell paradigms; macOS title-bar productization.
+
+**Exit criteria**
+
+- Matrix table updated; Gallery Window paradigm page matches docs.
+
+---
+
+### 1.33 — Tree & hierarchical data
+
+**Why:** TreeView / nested lists ship but lack a LoB recipe next to DataTable (1.07).
+
+**In scope**
+
+- TreeView / nested ItemsView selection, expand/collapse keyboard, Accessible names.
+- `docs/tree-data.md` (or extend [data-collections.md](docs/data-collections.md)); Gallery polish.
+
+**Out of scope**
+
+- Virtualized million-node trees; new tree control family.
+
+**Exit criteria**
+
+- Recipe + one Gallery page that follows it end-to-end.
+
+---
+
+### 1.34 — Feedback surfaces wave 2
+
+**Why:** InfoBar / Toast / TeachingTip / Progress exist; 1.16 covered dialogs—feedback needs the same depth.
+
+**In scope**
+
+- Queueing, severity, focus return, and when-to-use matrix; Gallery callouts.
+- Short `docs/feedback.md` or extend existing tips docs.
+
+**Out of scope**
+
+- Redesigning Toast chrome; OS notification center replacement (see 1.10).
+
+**Exit criteria**
+
+- Documented patterns; listed surfaces consistent on Gallery demos.
+
+---
+
+### 1.35 — Creator kit polish
+
+**Why:** 1.12 packaging helps CMake consumers; Creator wizards/kits still feel secondary.
+
+**In scope**
+
+- Qt Creator kit / import docs beyond packaging-consumer; example “open in Creator” path.
+- Fix stale `.pro` / kit screenshots if any.
+
+**Out of scope**
+
+- Shipping a full Creator plugin product.
+
+**Exit criteria**
+
+- New engineer can open Gallery or an example from Creator using only docs.
+
+---
+
+### 1.36 — Docs site IA
+
+**Why:** Recipe count grows; MkDocs nav/search need a “start here” hub without rewriting the kit.
+
+**In scope**
+
+- Recipe hub index, clearer MkDocs sections, cross-links from README/stable-api.
+- Prune duplicate or orphan pages discovered in the pass.
+
+**Out of scope**
+
+- New docs product (Storybook); translating the whole site.
+
+**Exit criteria**
+
+- Hub page live; top recipes reachable in ≤2 clicks from README.
+
+---
+
+### 1.37 — Experimental promote sweep
+
+**Why:** Long-soaked experimental types accumulate; stable-api should reflect reality.
+
+**In scope**
+
+- Batch promote candidates with soak evidence; prune or document “won’t promote” items.
+- Update [stable-api.md](docs/stable-api.md) + Gallery badges.
+
+**Out of scope**
+
+- Promoting everything; breaking renames (that’s 2.00 territory).
+
+**Exit criteria**
+
+- Explicit promote/defer list shipped; no silent status flips.
+
+---
+
+### 1.38 — Linux Wayland edge cases
+
+**Why:** Field reports after 1.03/1.24/1.32 will need a focused Wayland/portal pass.
+
+**In scope**
+
+- Portal file/open, backdrop, SSD, tray follow-ups; extend [platform-linux-wayland.md](docs/platform-linux-wayland.md).
+- Gallery System Integration Linux notes.
+
+**Out of scope**
+
+- Supporting every compositor forever; X11-only new features.
+
+**Exit criteria**
+
+- Documented failure matrix for the issues taken in-scope; CI/smoke still green on Linux.
+
+---
+
+### 1.39 — Gallery perf & startup
+
+**Why:** Cold start and catalog weight grow with every page—pairs with 1.25 handbook.
+
+**In scope**
+
+- Catalog lazy load / defer heavy pages; measure and document cold-start tips.
+- Keep `--smoke` coverage without loading the world.
+
+**Out of scope**
+
+- Rewriting Gallery as a separate product; binary size obsession.
+
+**Exit criteria**
+
+- Measurable startup improvement or documented “expected” budget; smoke still covers critical pages.
+
+---
+
+### 1.40 — Compatibility freeze prep
+
+**Why:** Before any future 2.00 talk, publish what 1.xx will keep compatible.
+
+**In scope**
+
+- “Will not break” contract for Theme tokens, shell APIs, and stable controls.
+- Consumer upgrade notes template; link from README/stable-api.
+
+**Out of scope**
+
+- Starting 2.00; cutting Qt floors.
+
+**Exit criteria**
+
+- Compatibility doc published; used as the gate for later 1.4x changes.
+
+---
+
+## Horizon — planned `1.41` … `1.50`
+
+Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per `YY`.
+
+### 1.41 — Drag-drop & clipboard recipes
+
+**Why:** FileDropZone / clipboard helpers exist; apps need copy-ready DnD + paste patterns.
+
+**In scope**
+
+- Document FileDropZone, drag mime, and `WindowHelper` clipboard helpers; Gallery demos tightened.
+- `docs/drag-drop.md` (or system-integration chapter).
+
+**Out of scope**
+
+- Full OLE/complex Windows shell DnD productization.
+
+**Exit criteria**
+
+- Recipe covers file drop + text clipboard on Win/Linux notes.
+
+---
+
+### 1.42 — TwoPaneView & adaptive layout
+
+**Why:** TwoPaneView / responsive shells need a LoB recipe beside density (1.30).
+
+**In scope**
+
+- Narrow/wide breakpoints, list–detail with TwoPaneView; Gallery page polish.
+- Extend navigation or density docs with adaptive layout section.
+
+**Out of scope**
+
+- Phone/tablet OS shells; new layout engine.
+
+**Exit criteria**
+
+- One documented adaptive pattern; Gallery demo matches it.
+
+---
+
+### 1.43 — Color, contrast & theme diagnostics
+
+**Why:** Branding (1.09) and a11y need a stronger “is my accent OK?” story.
+
+**In scope**
+
+- Contrast guidance, accent preview diagnostics, high-contrast callouts.
+- Gallery Theme overrides / Accessibility cross-links.
+
+**Out of scope**
+
+- Automated WCAG certification product.
+
+**Exit criteria**
+
+- Diagnostic recipe in docs; Gallery shows at least one contrast check path.
+
+---
+
+### 1.44 — Keyboard-first app cookbook
+
+**Why:** Shortcuts, CommandPalette (1.15), and focus rings need one end-to-end keyboard app story.
+
+**In scope**
+
+- Cookbook: global shortcuts, palette, dialog Esc/Enter, list roving tabindex notes.
+- Gallery keyboard tour page or Settings + Commands cross-links.
+
+**Out of scope**
+
+- Custom shortcut editor control as a product.
+
+**Exit criteria**
+
+- Cookbook published; critical Gallery flows keyboard-completable per checklist.
+
+---
+
+### 1.45 — Localization packs deepen
+
+**Why:** 1.13 seeded translations; apps need Gallery/string extraction guidance and one extra locale path.
+
+**In scope**
+
+- Expand `translations/` workflow docs; optional second Gallery language pack if maintainable.
+- RTL regression pass on shells after string growth.
+
+**Out of scope**
+
+- Translating every component string into many languages.
+
+**Exit criteria**
+
+- Documented lupdate/lrelease path; at least the seed locale builds in CI or documented manual step.
+
+---
+
+### 1.46 — Shared library redistribute polish
+
+**Why:** `QWINUI3_BUILD_SHARED` and consumer zips need a cleaner DLL/.so story after 1.12.
+
+**In scope**
+
+- Shared vs static matrix, windeploy/linuxdeploy notes, strip-restricted modules reminder.
+- Extend [packaging-consumer.md](docs/packaging-consumer.md).
+
+**Out of scope**
+
+- Conan/vcpkg official ports as a commitment (parking lot unless trivial).
+
+**Exit criteria**
+
+- Shared Release artifact documented and smoke-tested on Win + Linux.
+
+---
+
+### 1.47 — Snap layouts & windowing extras
+
+**Why:** Win11 snap layouts / shell extras (1.17) deserve a focused polish pass with Gallery demos.
+
+**In scope**
+
+- Snap layouts toggle UX, taskbar progress recipes, attention/reveal callouts.
+- Refresh [shell-extras.md](docs/shell-extras.md); Linux “n/a” matrix kept honest.
+
+**Out of scope**
+
+- Implementing snap layouts on Wayland compositors.
+
+**Exit criteria**
+
+- Documented Win-only extras with Gallery System Integration demos green.
+
+---
+
+### 1.48 — Modal stack & ContentDialogQueue deepen
+
+**Why:** Queued dialogs (1.16) need multi-dialog / owner-window recipes for LoB apps.
+
+**In scope**
+
+- Queue ordering, owner/transient rules, Esc cancel patterns; Gallery stress demos.
+- Extend [dialogs-flyouts.md](docs/dialogs-flyouts.md).
+
+**Out of scope**
+
+- Replacing Qt Quick Dialog entirely; non-modal sheet redesign.
+
+**Exit criteria**
+
+- Recipe for 2+ queued dialogs; smoke or Gallery path covers the happy case.
+
+---
+
+### 1.49 — Extractable Gallery shell template
+
+**Why:** Integrators copy Gallery chrome; make a thin “app shell” example from proven Gallery patterns.
+
+**In scope**
+
+- Small example: NavigationWindow + settings + one content page, Bootstrap main, persistence key.
+- README “start from Gallery shell” row; keep it smaller than Gallery itself.
+
+**Out of scope**
+
+- Splitting Gallery into a multi-crate monorepo; removing Gallery.
+
+**Exit criteria**
+
+- Example builds in Release; docs say what to delete vs keep.
+
+---
+
+### 1.50 — 1.xx maturity checkpoint
+
+**Why:** Cap the planned 1.line with a deliberate “where we are” release—not 2.00.
+
+**In scope**
+
+- Audit stable-api vs Gallery; refresh ROADMAP shipped vs deferred; compatibility doc (1.40) revisited.
+- Fix P0 doc/link rot; optional “LTS-style” note: prefer harden over new surfaces for a while.
+
+**Out of scope**
+
+- Declaring 2.00; freezing all experimental forever.
+
+**Exit criteria**
+
+- Published checkpoint notes in ROADMAP/README; open 1.51+ only for field-driven slices or park work.
+
+---
+
+## After `1.50`
+
+Still **1.xx** if field needs dictate (`1.51`…)—or pause on polish. **Do not** treat 1.50 as permission to start **2.00**.
+
+Unscheduled follow-ups (pick only inside a named minor):
 
 | Candidate | Notes |
 |-----------|--------|
-| **1.31 Graphics & backend notes** | D3D11 / OpenGL / RHI tips for Gallery & consumers — extend [graphics-backend.md](docs/graphics-backend.md) |
-| **1.32 Window shells matrix refresh** | Re-soak StandardWindow / Mica / Wayland after 1.03–1.04 drift |
-| **1.33 Tree & hierarchical data** | TreeView / nested ItemsView recipes + docs |
-| **1.34 Feedback surfaces wave 2** | InfoBar / Toast / TeachingTip / Progress deepen after 1.16 |
-| **1.35 Creator kit polish** | Qt Creator wizard / kit docs beyond 1.12 packaging |
-| **1.36 Docs site IA** | MkDocs nav / search / “recipe hub” without rewriting the kit |
-| **1.37 Experimental promote sweep** | Batch promote long-soaked types; prune dead experimental |
-| **1.38 Linux Wayland edge cases** | Portal / backdrop / tray follow-ups from field reports |
-| **1.39 Gallery perf & startup** | Cold start, catalog lazy load — pairs with 1.25 |
-| **1.40 Compatibility freeze prep** | Document “what we will not break” before any future 2.00 discussion |
+| **1.51+ field fixes** | Portal / DPI / tray / WebView2 regressions from users |
+| **Extra locale packs** | Only if 1.45 workflow stays cheap |
+| **vcpkg / Conan sketches** | Packaging experiments—not a product promise |
 
 Order remains flexible; do not bundle into mega-minors.
 
@@ -355,7 +739,7 @@ Consider 2.00 only if several of these become true:
 - Need a new packaging/ABI contract that breaks 1.xx consumers  
 - Need to drop an old Qt floor or OS policy in a breaking way  
 
-Until then: **stay on 1.xx**, bump `YY` for each slice.
+Until then: **stay on 1.xx**, bump `YY` for each slice. Prefer finishing through **1.50** before even drafting 2.00 scope.
 
 ---
 
@@ -367,8 +751,9 @@ Unscheduled; pick up only inside a named `1.xx` minor (or never):
 - Figma / design-token pipeline  
 - Full Fluent visual redesign / Fluent 2 Style fork  
 - Screenshot diffs for every Gallery page  
-- Extra Gallery language packs  
+- Extra Gallery language packs (beyond 1.45 seed path)  
 - New chart engines / WebGL  
+- Official vcpkg/Conan ports as supported products  
 
 ---
 
