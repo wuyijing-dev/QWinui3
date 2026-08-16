@@ -33,6 +33,9 @@ T.Control {
     property real minWideWidth: 720
     property alias details: detailsSlot.data
     property alias listHeader: listHeaderSlot.data
+    // Morph list row → details pane via ConnectedAnimationService
+    property bool connectedAnimationEnabled: false
+    property string connectedAnimationKey: "listDetails.hero"
 
     readonly property var selectedItem: {
         if (!model || selectedIndex < 0 || selectedIndex >= model.length)
@@ -53,10 +56,24 @@ T.Control {
             selectionChanged(-1, null)
             return
         }
-        selectedIndex = index
-        selectionChanged(index, selectedItem)
-        if (panes.mode === TwoPaneView.SinglePane)
-            panes.showPane2()
+        var fromItem = null
+        if (connectedAnimationEnabled && list.itemAtIndex)
+            fromItem = list.itemAtIndex(index)
+
+        function _commit() {
+            selectedIndex = index
+            selectionChanged(index, selectedItem)
+            if (panes.mode === TwoPaneView.SinglePane)
+                panes.showPane2()
+        }
+
+        if (connectedAnimationEnabled && fromItem && detailsSlot.width > 0) {
+            ConnectedAnimationService.register(connectedAnimationKey, fromItem)
+            ConnectedAnimationService.register(connectedAnimationKey, detailsSlot)
+            ConnectedAnimationService.playBetween(fromItem, detailsSlot, _commit)
+        } else {
+            _commit()
+        }
     }
 
     function _titleOf(item) {

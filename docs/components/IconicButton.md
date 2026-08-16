@@ -1,6 +1,6 @@
 # IconicButton
 
-Base icon + label button used by AppBar*.
+Base icon + label button used by AppBar* / IconButton.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/IconicButton.qml`](../../src/extras/QWinUI3/Extras/IconicButton.qml)
 
@@ -21,7 +21,8 @@ IconicButton {
 
 ## Notes
 
-Button with leading Fluent symbol + text.
+Button with leading Fluent symbol + text. Prefer IconButton / AppBarButton
+for specialized layouts; this type is usable standalone.
 
 ## API
 

@@ -67,12 +67,6 @@ T.Dialog {
     property alias isOpen: root.visible
     property bool __queueWired: false
 
-    Accessible.role: Accessible.Dialog
-    Accessible.name: title
-    Accessible.description: primaryButtonText.length
-                            ? qsTr("%1 dialog").arg(title)
-                            : title
-
     // Primary button clicked
     signal primaryClicked()
     // Secondary button clicked
@@ -220,6 +214,11 @@ T.Dialog {
         id: column
         spacing: 0
         width: root.width > 0 ? root.width : 360
+        Accessible.role: Accessible.Dialog
+        Accessible.name: root.title.length ? root.title : qsTr("Dialog")
+        Accessible.description: root.primaryButtonText.length
+                                ? qsTr("%1 dialog").arg(root.title)
+                                : root.title
 
         Label {
             id: titleLabel

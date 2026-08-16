@@ -422,6 +422,14 @@ QtObject {
             source: "pages/TableViewPage.qml"
         },
         {
+            title: qsTr("DataTable"),
+            category: "collections",
+            icon: FluentIcons.ViewAll,
+            description: qsTr("Fluent table with sort, filter, column resize, keyboard, and virtualization."),
+            component: "DataTablePage",
+            source: "pages/DataTablePage.qml"
+        },
+        {
             title: qsTr("TabView"),
             category: "collections",
             icon: FluentIcons.Comment,
@@ -508,6 +516,14 @@ QtObject {
             description: qsTr("A flyout that hosts a compact command bar with optional secondary actions."),
             component: "CommandBarFlyoutPage",
             source: "pages/CommandBarFlyoutPage.qml"
+        },
+        {
+            title: qsTr("CommandPalette"),
+            category: "menus",
+            icon: FluentIcons.Search,
+            description: qsTr("Ctrl+K command launcher with fuzzy filter; wired on ShellWindow."),
+            component: "CommandPalettePage",
+            source: "pages/CommandPalettePage.qml"
         },
         {
             title: qsTr("AppBarSeparator"),
@@ -1054,6 +1070,14 @@ QtObject {
             source: "pages/ThemeTransitionsPage.qml"
         },
         {
+            title: qsTr("ConnectedAnimation"),
+            category: "status",
+            icon: FluentIcons.Sync,
+            description: qsTr("Shared-element morph for list→detail; ConnectedAnimationService keys."),
+            component: "ConnectedAnimationPage",
+            source: "pages/ConnectedAnimationPage.qml"
+        },
+        {
             title: qsTr("CopyButton"),
             category: "buttons",
             icon: FluentIcons.Copy,
@@ -1276,6 +1300,13 @@ QtObject {
             description: qsTr("Queues multiple toasts with a progress countdown."),
             component: "ToastHostPage",
             source: "pages/ToastHostPage.qml"
+        },
+        {
+            title: qsTr("NotificationBridge"),
+            category: "status",
+            icon: FluentIcons.Notification,
+            component: "NotificationBridgePage",
+            source: "pages/NotificationBridgePage.qml"
         },
         {
             title: qsTr("ChipGroup"),

@@ -11,17 +11,15 @@ Fluent styled Frame.
 ```qml
 Frame {
     id: frame
-    padding: Theme.paddingControlH
     Label { text: qsTr("Framed content") }
 }
-// --- API ---
-// inherits Frame/Pane: padding, background, contentItem
 ```
 
 ## Notes
 
 Style-only Fluent chrome for Qt Quick Controls Frame.
-Public API is the Qt Quick Controls Frame type; this file supplies visuals/metrics only.
+Must declare implicitWidth/Height like Basic — otherwise Layout hosts collapse
+to ~0 and children paint over siblings (e.g. Gallery “Source code”).
 
 ## API
 

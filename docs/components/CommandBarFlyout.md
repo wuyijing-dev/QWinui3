@@ -17,7 +17,7 @@ CommandBarFlyout {
 }
 
 // --- API ---
-// methods: showAt(item, preferredPlacement), show(), hide(), openFlyout(), closeFlyout()
+// methods: showAt(item, preferredPlacement), show(), hide(), openFlyout(), closeFlyout(), reposition()
 // commandBarFlyout.showAt(item, preferredPlacement)
 // commandBarFlyout.show()
 // commandBarFlyout.hide()
@@ -28,6 +28,8 @@ CommandBarFlyout {
 ## Notes
 
 Popup CommandBar; open at a target like Flyout.
+showAt() opens then repositions after layout — first open must not use 0×0 size
+(that clamped ShouldConstrainToRootBounds to the top-left).
 
 ## API
 
@@ -60,6 +62,7 @@ _No custom signals_ (use inherited signals from the base type).
 | `hide()` | Hide the control |
 | `openFlyout()` | Open the flyout |
 | `closeFlyout()` | Dismiss the flyout |
+| `reposition()` | Reposition against target using current laid-out size |
 
 ### Inherited from `Popup`
 

@@ -1,4 +1,4 @@
-qt_add_library(qwinui3_platform STATIC)
+qt_add_library(qwinui3_platform ${QWINUI3_LIB_TYPE})
 
 find_package(Qt6 COMPONENTS DBus QUIET)
 

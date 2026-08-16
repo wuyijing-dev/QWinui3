@@ -56,9 +56,12 @@ qt_add_qml_module(qwinui3_gallery
         pages/ComboBoxPage.qml
         pages/CommandBarPage.qml
         pages/CommandBarFlyoutPage.qml
+        pages/CommandPalettePage.qml
+        pages/ConnectedAnimationPage.qml
         pages/ContentCardPage.qml
         pages/ContentDialogPage.qml
         pages/CopyButtonPage.qml
+        pages/DataTablePage.qml
         pages/DelegatesPage.qml
         pages/DialPage.qml
         pages/DialogPage.qml
@@ -122,6 +125,7 @@ qt_add_qml_module(qwinui3_gallery
         pages/MiscButtonsPage.qml
         pages/MultiSelectComboBoxPage.qml
         pages/NavigationViewPage.qml
+        pages/NotificationBridgePage.qml
         pages/NumberBoxPage.qml
         pages/PageIndicatorPage.qml
         pages/PanePage.qml
@@ -210,14 +214,20 @@ target_link_libraries(qwinui3_gallery
         Qt6::QuickControls2
         Qt6::LabsQmlModels
         qwinui3_theme
-        qwinui3_themeplugin
         qwinui3_style
-        qwinui3_styleplugin
         qwinui3_extras
-        qwinui3_extrasplugin
         qwinui3_platform
-        qwinui3_platformplugin
 )
+
+if(NOT QWINUI3_BUILD_SHARED)
+    target_link_libraries(qwinui3_gallery
+        PRIVATE
+            qwinui3_themeplugin
+            qwinui3_styleplugin
+            qwinui3_extrasplugin
+            qwinui3_platformplugin
+    )
+endif()
 
 # Drop GPL/Commercial Qt add-ons (e.g. Virtual Keyboard) if windeployqt copied them.
 include(${CMAKE_SOURCE_DIR}/cmake/StripRestrictedQtModules.cmake)

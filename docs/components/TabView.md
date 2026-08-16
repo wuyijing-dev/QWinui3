@@ -1,6 +1,6 @@
 # TabView
 
-Closeable / reorderable tabs.
+Closeable / reorderable / tear-out tabs.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/TabView.qml`](../../src/extras/QWinUI3/Extras/TabView.qml)
 
@@ -14,16 +14,19 @@ Closeable / reorderable tabs.
 TabView {
     id: tabView
     model: tabs
-    onCloseRequested: (index) => remove(index)
+    canTearOutTabs: true
+    onTabTearOutRequested: (index, item, gx, gy) => { … }
 }
 
 // --- API ---
-// signals: onTabCloseRequested, onCurrentIndexChangedByUser, onSelectionChanged, onTabMoved, onAddTabButtonClicked
-// methods: addTab(item), closeTab(index), moveTab(from, to), tabIndexAtContentX(x), tabItemAt(index)
+// signals: onTabCloseRequested, onCurrentIndexChangedByUser, onSelectionChanged,
+//          onTabMoved, onAddTabButtonClicked, onTabTearOutRequested
+// methods: addTab(item), closeTab(index), moveTab(from, to), takeTab(index),
+//          tearOutTab(index, globalX, globalY), tabIndexAtContentX(x), tabItemAt(index)
 // tabView.addTab(item)
 // tabView.closeTab(index)
 // tabView.moveTab(from, to)
-// tabView.tabIndexAtContentX(x)
+// tabView.tearOutTab(index, gx, gy)
 ```
 
 ## Notes
@@ -32,6 +35,9 @@ model items: { title, content, icon? } or a string title.
 closable tabs emit closeRequested / tabCloseRequested — remove from model yourself.
 closeButtonOverlayMode: always | onPointerOver | auto (WinUI CloseButtonOverlayMode).
 tabStripHeader / tabStripFooter for strip chrome; tabsReorderable enables drag reorder.
+canTearOutTabs: drag a tab vertically past tearOutThreshold to open a new window
+(or handle tabTearOutRequested yourself). createTearOutWindow builds a BlankWindow
+hosting another TabView with the torn tab.
 
 ## API
 
@@ -48,6 +54,10 @@ tabStripHeader / tabStripFooter for strip chrome; tabsReorderable enables drag r
 | `tabsReorderable` | `bool` | Allow dragging tabs to reorder |
 | `canReorderTabs` | `alias` | Alias of tabsReorderable |
 | `canDragTabs` | `bool` | WinUI CanDragTabs — enable drag gesture (reorder still gated by tabsReorderable) |
+| `canTearOutTabs` | `bool` | Drag a tab out of the strip to tear it into a new window |
+| `allowTearOutLastTab` | `bool` | Allow tearing out when only one tab remains |
+| `tearOutThreshold` | `real` | Vertical drag distance (px) before a tear-out is armed |
+| `createTearOutWindow` | `bool` | When true, TabView opens a BlankWindow for torn tabs (still emits the signal) |
 | `tabWidthMode` | `string` | Tab width mode |
 | `isAddTabButtonVisible` | `bool` | Show add-tab button |
 | `tabStripHeader` | `alias` | WinUI TabStripHeader |
@@ -64,6 +74,7 @@ tabStripHeader / tabStripFooter for strip chrome; tabsReorderable enables drag r
 | `selectionChanged(int index)` | Selection changed |
 | `tabMoved(int from, int to)` | Tab reordered |
 | `addTabButtonClicked()` | Emitted when the add-tab button is clicked |
+| `tabTearOutRequested(int index, var item, real globalX, real globalY)` | Tab torn out — item already removed from model when tearOutTab runs |
 
 ### Methods
 
@@ -71,6 +82,8 @@ tabStripHeader / tabStripFooter for strip chrome; tabsReorderable enables drag r
 | --- | --- |
 | `addTab(item)` | Append a tab |
 | `closeTab(index)` | Close tab at index |
+| `takeTab(index)` | Remove tab and return its model item (no close signal) |
+| `tearOutTab(index, globalX, globalY)` | Tear tab into a new window (optional) and emit tabTearOutRequested |
 | `moveTab(from, to)` | Move a tab from/to index |
 | `tabIndexAtContentX(x)` | Tab index under a contentX |
 | `tabItemAt(index)` | Tab item at the given index |

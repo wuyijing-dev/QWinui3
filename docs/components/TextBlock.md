@@ -14,6 +14,9 @@ Fluent typography styles (title, body, caption…).
 TextBlock {
     id: textBlock
     text: qsTr("Title"); style: title
+    textWrapping: "wrap"              // WinUI TextWrapping
+    textTrimming: "characterEllipsis" // WinUI TextTrimming
+    maxLines: 2                       // WinUI MaxLines
 }
 
 // --- API ---
@@ -24,6 +27,8 @@ TextBlock {
 ## Notes
 
 Themed text helper (style/weight tokens); prefer for Fluent type ramps.
+Long text: bind width (or Layout.fillWidth) then use textWrapping /
+textTrimming / maxLines like WinUI TextBlock.
 
 ## API
 
@@ -41,8 +46,9 @@ Themed text helper (style/weight tokens); prefer for Fluent type ramps.
 | `text` | `string` | Display / input text |
 | `style` | `int` | Typography style token |
 | `isTextSelectionEnabled` | `bool` | WinUI IsTextSelectionEnabled — uses TextEdit when true (Label has no selectByMouse) |
-| `textTrimming` | `string` | none \| characterEllipsis \| wordEllipsis |
-| `maxLines` | `int` | Maximum wrapped line count |
+| `textWrapping` | `string` | WinUI TextWrapping: wrap \| noWrap \| wrapWholeWords |
+| `textTrimming` | `string` | WinUI TextTrimming: none \| characterEllipsis \| wordEllipsis |
+| `maxLines` | `int` | WinUI MaxLines — 0 = unlimited; with trimming, elides after N lines |
 | `color` | `color` | Primary color |
 | `styleName` | `string` | Current style name |
 

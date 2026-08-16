@@ -9,7 +9,7 @@ python scripts/generate_component_docs.py
 python scripts/generate_component_docs.py --lint
 ```
 
-Public components: **198**. Hub: [`docs/README.md`](README.md). Shells: [`window-shells.md`](window-shells.md). Platform chrome: [`window-helper.md`](window-helper.md).
+Public components: **208**. Hub: [`docs/README.md`](README.md). Shells: [`window-shells.md`](window-shells.md). Platform chrome: [`window-helper.md`](window-helper.md).
 
 ## Index
 
@@ -39,11 +39,16 @@ Public components: **198**. Hub: [`docs/README.md`](README.md). Shells: [`window
 - [ColorPickerButton](components/ColorPickerButton.md) — Color swatch button that opens ColorPicker.
 - [CommandBar](components/CommandBar.md) — Primary/secondary command row (AppBar host).
 - [CommandBarFlyout](components/CommandBarFlyout.md) — Popup CommandBar with primary + secondary commands.
+- [CommandPalette](components/CommandPalette.md) — Ctrl+K style command launcher (fuzzy filter + keyboard).
 - [CompactOverlayShellWindow](components/CompactOverlayShellWindow.md) — Always-on-top compact overlay shell.
+- [ConnectedAnimation](components/ConnectedAnimation.md) — Shared-element style morph between two items (same window).
+- [ConnectedAnimationService](components/ConnectedAnimationService.md) — Register shared-element keys and play list→detail morphs.
 - [ContentCard](components/ContentCard.md) — Surface card with title, subtitle, symbol, and body slot.
 - [ContentDialog](components/ContentDialog.md) — Modal dialog with primary / secondary / close actions.
 - [ContentDialogQueue](components/ContentDialogQueue.md) — Singleton queue so ContentDialogs open one at a time.
+- [ContentThemeTransition](components/ContentThemeTransition.md) — Cross-fade + slight horizontal shift when swapping content.
 - [CopyButton](components/CopyButton.md) — Copies textToCopy and flashes a success glyph.
+- [DataTable](components/DataTable.md) — Fluent virtualizing table with sort, filter, resize, and keyboard.
 - [DatePicker](components/DatePicker.md) — Date selectors (year / month / day).
 - [DetailRow](components/DetailRow.md) — Compact label / value row for forms and settings summaries.
 - [DialogShellWindow](components/DialogShellWindow.md) — ShellWindow with dialog paradigm flags.
@@ -51,6 +56,7 @@ Public components: **198**. Hub: [`docs/README.md`](README.md). Shells: [`window
 - [DonutChart](components/DonutChart.md) — Donut chart with hover and legend.
 - [DropDownButton](components/DropDownButton.md) — Button that opens a MenuFlyout of actions.
 - [EmptyState](components/EmptyState.md) — Placeholder illustration + title + optional action.
+- [EntranceThemeTransition](components/EntranceThemeTransition.md) — WinUI-style page / section entrance (fade + rise + scale).
 - [Expander](components/Expander.md) — Collapsible header with expandable content.
 - [FileDropZone](components/FileDropZone.md) — Drag-and-drop target with Fluent empty chrome.
 - [FlipView](components/FlipView.md) — Page carousel with optional navigation buttons.
@@ -65,11 +71,12 @@ Public components: **198**. Hub: [`docs/README.md`](README.md). Shells: [`window
 - [HorizontalBarChart](components/HorizontalBarChart.md) — Horizontal bar chart.
 - [HyperlinkButton](components/HyperlinkButton.md) — Link-styled button.
 - [IconButton](components/IconButton.md) — Icon-only button helper.
-- [IconicButton](components/IconicButton.md) — Base icon + label button used by AppBar*.
+- [IconicButton](components/IconicButton.md) — Base icon + label button used by AppBar* / IconButton.
 - [InfoBadge](components/InfoBadge.md) — Count / status / glyph badge.
 - [InfoBar](components/InfoBar.md) — Inline severity banner with optional action and Content slot.
 - [InfoBarHost](components/InfoBarHost.md) — Stacks InfoBars in a host region.
 - [InfoButton](components/InfoButton.md) — Icon button that opens a TeachingTip.
+- [ItemsRepeater](components/ItemsRepeater.md) — Thin WinUI-style virtualizing repeater over ListView.
 - [ItemsView](components/ItemsView.md) — ListView recipe: sections, selection, context MenuFlyout, EmptyState.
 - [KeyChordVisual](components/KeyChordVisual.md) — Renders Ctrl+K style shortcuts as KeyVisuals.
 - [KeyVisual](components/KeyVisual.md) — Single keyboard key chrome.
@@ -90,6 +97,7 @@ Public components: **198**. Hub: [`docs/README.md`](README.md). Shells: [`window
 - [MultiSelectComboBox](components/MultiSelectComboBox.md) — Combo that keeps the popup open for multi-select.
 - [NavigationView](components/NavigationView.md) — WinUI NavigationView with pane modes and page stack.
 - [NavigationWindow](components/NavigationWindow.md) — ShellWindow hosting NavigationView + content.
+- [NotificationBridge](components/NotificationBridge.md) — Mirror in-app ToastHost to OS notifications (Win balloon / Linux portal).
 - [NumberBox](components/NumberBox.md) — Numeric spin/edit with validation (WinUI AcceptsExpression / IsWrapEnabled).
 - [PagerControl](components/PagerControl.md) — Numbered page navigation (prev / numbers / next).
 - [PasswordBox](components/PasswordBox.md) — Password field with reveal toggle.
@@ -106,6 +114,7 @@ Public components: **198**. Hub: [`docs/README.md`](README.md). Shells: [`window
 - [RatingControl](components/RatingControl.md) — Star rating; stepSize supports halves (WinUI InitialSetValue / ItemInfo).
 - [RefreshContainer](components/RefreshContainer.md) — Pull-to-refresh host for flickable content.
 - [RelativePanel](components/RelativePanel.md) — Constraint-based relative layout.
+- [RepositionThemeTransition](components/RepositionThemeTransition.md) — Animate this item when its layout x/y change.
 - [RingGauge](components/RingGauge.md) — Closed-ring dashboard gauge with center value and thresholds.
 - [ScatterChart](components/ScatterChart.md) — Scatter / bubble chart.
 - [SearchBox](components/SearchBox.md) — Search field with suggestion list.
@@ -132,7 +141,8 @@ Public components: **198**. Hub: [`docs/README.md`](README.md). Shells: [`window
 - [SwipeControl](components/SwipeControl.md) — Swipe-to-reveal actions on content.
 - [SwitchCase](components/SwitchCase.md) — Case child for SwitchPresenter.
 - [SwitchPresenter](components/SwitchPresenter.md) — Shows the SwitchCase matching value.
-- [TabView](components/TabView.md) — Closeable / reorderable tabs.
+- [TabView](components/TabView.md) — Closeable / reorderable / tear-out tabs.
+- [TabViewTearOutWindow](components/TabViewTearOutWindow.md) — Host window for a torn-out TabView tab.
 - [TankGauge](components/TankGauge.md) — Vertical / horizontal tank / reservoir level gauge.
 - [TeachingTip](components/TeachingTip.md) — Anchored tip with title, subtitle, content, and actions.
 - [TextBlock](components/TextBlock.md) — Fluent typography styles (title, body, caption…).
@@ -141,7 +151,7 @@ Public components: **198**. Hub: [`docs/README.md`](README.md). Shells: [`window
 - [TimePicker](components/TimePicker.md) — Hour / minute (and period) selectors.
 - [TitleBar](components/TitleBar.md) — WinUI TitleBar content chrome (not caption buttons).
 - [Toast](components/Toast.md) — Transient toast item.
-- [ToastHost](components/ToastHost.md) — Hosts stacked Toasts.
+- [ToastHost](components/ToastHost.md) — Hosts stacked Toasts with WinUI-style corner placement.
 - [ToggleButton](components/ToggleButton.md) — Checkable button with Fluent chrome.
 - [ToggleMenuFlyoutItem](components/ToggleMenuFlyoutItem.md) — Checkable MenuFlyout item.
 - [ToggleSplitButton](components/ToggleSplitButton.md) — Toggle primary + menu SplitButton.
@@ -228,11 +238,11 @@ Public components: **198**. Hub: [`docs/README.md`](README.md). Shells: [`window
 - [ChartUtils](components/ChartUtils.md) (`QWinUI3.Extras`) — LOD helpers for large chart series.
 - [ShellWindowSupport](components/ShellWindowSupport.md) (`QWinUI3.Extras`) — Shared install/presenter glue for ShellWindow.
 - [WindowChrome](components/WindowChrome.md) (`QWinUI3.Extras`) — PlatformTitleBar + TitleBar bundle for shells.
-- [FocusStroke](components/FocusStroke.md) (`QtQuick.Controls.QWinUI3`) — Focus ring helper.
 - [SelectionPip](components/SelectionPip.md) (`QtQuick.Controls.QWinUI3`) — Navigation selection pip indicator.
 - [CaptionButton](components/CaptionButton.md) (`QWinUI3.Platform`) — Native-chrome caption min/max/close button.
 - [WindowResizeBorder](components/WindowResizeBorder.md) (`QWinUI3.Platform`) — Non-native resize hit edges.
 - [ElevatedChrome](components/ElevatedChrome.md) (`QWinUI3.Theme`) — Shared elevated shadow/border chrome (WinUI-style soft shadow).
+- [FocusStroke](components/FocusStroke.md) (`QWinUI3.Theme`) — Dual-ring keyboard focus chrome (WinUI / Fluent).
 - [IconSource](components/IconSource.md) (`QWinUI3.Theme`) — Resolve FluentIcons symbol or glyph string.
 
 ---

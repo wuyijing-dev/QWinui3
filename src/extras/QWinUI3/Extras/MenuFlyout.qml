@@ -21,7 +21,7 @@ import QWinUI3.Theme
 //   Menu-styled Flyout; host MenuFlyoutItem / Separator / Header children.
 //   contentMaxHeight (WinUI MenuFlyoutPresenter.MaxHeight) enables scroll when content is taller.
 //   shouldConstrainToRootBounds clamps into the window overlay (default true).
-//   title comes from Menu (FINAL) — set title: for Accessible.name.
+//   title comes from Menu (FINAL) — set title: for screen-reader chrome; MenuItem carries Accessible.
 
 Menu {
     id: root
@@ -144,8 +144,6 @@ Menu {
 
     background: ElevatedChrome {
         implicitWidth: 180
-        Accessible.role: Accessible.PopupMenu
-        Accessible.name: root.title.length ? root.title : qsTr("Menu")
         implicitHeight: 40
         color: Theme.bgCardElevated
         radius: Theme.cornerOverlay

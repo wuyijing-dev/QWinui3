@@ -1,4 +1,6 @@
 /build/
+/build-shared-release/
+/dist/
 /.qtcreator/
 /CMakeLists.txt.user
 *.user

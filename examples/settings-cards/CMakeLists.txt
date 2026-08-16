@@ -18,14 +18,20 @@ target_link_libraries(qwinui3_example_settings
         Qt6::Quick
         Qt6::QuickControls2
         qwinui3_theme
-        qwinui3_themeplugin
         qwinui3_style
-        qwinui3_styleplugin
         qwinui3_extras
-        qwinui3_extrasplugin
         qwinui3_platform
-        qwinui3_platformplugin
 )
+
+if(NOT QWINUI3_BUILD_SHARED)
+    target_link_libraries(qwinui3_example_settings
+        PRIVATE
+            qwinui3_themeplugin
+            qwinui3_styleplugin
+            qwinui3_extrasplugin
+            qwinui3_platformplugin
+    )
+endif()
 
 include(${CMAKE_SOURCE_DIR}/cmake/StripRestrictedQtModules.cmake)
 qwinui3_strip_restricted_qt_modules(qwinui3_example_settings)

@@ -72,6 +72,9 @@ Backdrop / paradigm via WindowHelper (see docs/window-helper.md).
 | `captionClosePressed` | `color` | Close button pressed fill |
 | `titleBarBackground` | `color` | Title bar background color |
 | `titleBarInactive` | `bool` | Dim title bar when inactive |
+| `commandPaletteEnabled` | `bool` | Ctrl+K command palette (modern desktop launcher) |
+| `commandPaletteCommands` | `var` | — |
+| `commandPalette` | `alias` | — |
 | `windowTitle` | `alias` | Compat aliases — prefer title / subtitle / symbol. |
 | `windowSubtitle` | `alias` | Window subtitle alias |
 | `windowSymbol` | `alias` | Window symbol alias |
@@ -85,6 +88,7 @@ Backdrop / paradigm via WindowHelper (see docs/window-helper.md).
 | `backRequested()` | Emitted when back is requested |
 | `searchActivated(var item)` | Emitted when a search result is activated |
 | `searchTextEdited(string text)` | Emitted when search text changes |
+| `commandTriggered(var command)` | Emitted when a CommandPalette command is run |
 
 ### Methods
 

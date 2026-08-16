@@ -1,4 +1,4 @@
-qt_add_library(qwinui3_extras STATIC)
+qt_add_library(qwinui3_extras ${QWINUI3_LIB_TYPE})
 
 # ChartUtils must be a QML singleton — .js in QML_FILES triggers a Qt 6.8
 # double-registration bug ("QWinUI3.Extras is ambiguous").
@@ -6,6 +6,9 @@ set_source_files_properties(ChartUtils.qml PROPERTIES
     QT_QML_SINGLETON_TYPE TRUE
 )
 set_source_files_properties(ContentDialogQueue.qml PROPERTIES
+    QT_QML_SINGLETON_TYPE TRUE
+)
+set_source_files_properties(ConnectedAnimationService.qml PROPERTIES
     QT_QML_SINGLETON_TYPE TRUE
 )
 
@@ -45,10 +48,15 @@ qt_add_qml_module(qwinui3_extras
         ColorPickerButton.qml
         CommandBar.qml
         CommandBarFlyout.qml
+        CommandPalette.qml
         ContentCard.qml
         ContentDialog.qml
         ContentDialogQueue.qml
+        ConnectedAnimation.qml
+        ConnectedAnimationService.qml
+        ContentThemeTransition.qml
         CopyButton.qml
+        DataTable.qml
         DatePicker.qml
         DockPanel.qml
         DropDownButton.qml
@@ -57,10 +65,9 @@ qt_add_qml_module(qwinui3_extras
         ItemsView.qml
         ItemsRepeater.qml
         EmptyState.qml
-        ContentThemeTransition.qml
-        ConnectedAnimation.qml
         EntranceThemeTransition.qml
         Expander.qml
+        NotificationBridge.qml
         RepositionThemeTransition.qml
         FlipView.qml
         Flyout.qml

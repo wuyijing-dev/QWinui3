@@ -140,3 +140,19 @@ Ship a `.desktop` whose id matches `setDesktopFileName` (e.g. `org.qwinui3.galle
 | Color scheme | AppsUseLightTheme | portal Settings → gsettings / KDE |
 | Dialog stacking | HWND owner | `setTransientParent` |
 | Fractional scale | DPI awareness | `PassThrough` + `devicePixelRatio` |
+
+## Fluent on Linux — product moat
+
+WinUI 3 is Windows-only. QWinUI3 ships the **same Fluent CSD, tokens, and Extras** on Wayland/X11:
+
+| Pillar | Why it matters |
+|--------|----------------|
+| **Client-side Fluent chrome** | `PlatformTitleBar` + caption buttons match Windows Gallery; compositor SSD stays off via `QT_WAYLAND_DISABLE_WINDOWDECORATION` |
+| **xdg-desktop-portal** | FileChooser, OpenURI, Settings (color scheme), Notifications, idle inhibit — no proprietary Windows APIs required |
+| **Embedded Fluent icons** | `WinSymbols3.ttf` so `FluentIcons.*` work without Segoe |
+| **NotificationBridge** | One API: in-app `ToastHost` + `TrayIcon.notifySystem` → portal / notify-send |
+| **ShellWindow + Ctrl+K** | Desktop launcher pattern works identically on Linux |
+
+Positioning tip: market this as **“Fluent desktop that ships on Linux”**, not as a Windows skin. Gallery → **System integration** / **NotificationBridge** and examples under `examples/` are the demo path.
+
+Ship a `.desktop` whose `StartupWMClass` / desktop file id matches `QGuiApplication::setDesktopFileName` so portals and taskbars resolve the app correctly.

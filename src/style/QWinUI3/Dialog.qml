@@ -62,8 +62,6 @@ T.Dialog {
     }
 
     background: ElevatedChrome {
-        Accessible.role: Accessible.Dialog
-        Accessible.name: control.title.length ? control.title : qsTr("Dialog")
         radius: Theme.cornerOverlay
         color: Theme.bgCard
         borderColor: Theme.strokeCard
@@ -83,6 +81,8 @@ T.Dialog {
         padding: control.padding
         topPadding: control.padding
         bottomPadding: 0
+        Accessible.role: Accessible.Heading
+        Accessible.name: control.title
     }
 
     footer: DialogButtonBox {

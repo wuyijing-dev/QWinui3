@@ -54,8 +54,6 @@ T.Menu {
 
     contentItem: Item {
         implicitHeight: menuList.contentHeight
-        Accessible.role: Accessible.PopupMenu
-        Accessible.name: control.title.length ? control.title : qsTr("Menu")
 
         ListView {
             id: menuList

@@ -62,6 +62,7 @@ initialSetValue applies on first pick when value is unset; empty/filled/placehol
 
 | Signature | Description |
 | --- | --- |
+| `nudge(dir)` | — |
 | `clampValue(v)` | Clamp value into min..max |
 | `valueFromPos(x)` | Map a pointer position to a value |
 | `commitValue(next)` | Commit the edited value |

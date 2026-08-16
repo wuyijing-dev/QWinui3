@@ -17,9 +17,6 @@ import QWinUI3.Theme
 T.ToolTip {
     id: control
 
-
-    Accessible.role: Accessible.ToolTip
-    Accessible.name: control.text
     x: parent ? (parent.width - implicitWidth) / 2 : 0
     y: parent ? -implicitHeight - 6 : 0
 
@@ -41,6 +38,8 @@ T.ToolTip {
         font: control.font
         wrapMode: Text.Wrap
         color: Theme.textPrimary
+        Accessible.role: Accessible.ToolTip
+        Accessible.name: control.text
     }
 
     background: ElevatedChrome {

@@ -104,6 +104,13 @@ ApplicationWindow {
     signal searchActivated(var item)
     // Emitted when search text changes
     signal searchTextEdited(string text)
+    // Emitted when a CommandPalette command is run
+    signal commandTriggered(var command)
+
+    // Ctrl+K command palette (modern desktop launcher)
+    property bool commandPaletteEnabled: true
+    property var commandPaletteCommands: []
+    property alias commandPalette: commandPalette
 
     // Compat aliases — prefer title / subtitle / symbol.
     property alias windowTitle: chrome.title
@@ -198,5 +205,18 @@ ApplicationWindow {
         presenter: root.presenter
         isAlwaysOnTop: root.isAlwaysOnTop
         extendsContentIntoTitleBar: root.extendsContentIntoTitleBar
+    }
+
+    Shortcut {
+        enabled: root.commandPaletteEnabled && root.visible
+        sequences: ["Ctrl+K", "Meta+K"]
+        onActivated: commandPalette.toggle()
+    }
+
+    CommandPalette {
+        id: commandPalette
+        parent: Overlay.overlay
+        commands: root.commandPaletteCommands
+        onCommandTriggered: function (cmd) { root.commandTriggered(cmd) }
     }
 }

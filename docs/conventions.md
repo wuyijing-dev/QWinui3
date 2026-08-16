@@ -14,7 +14,7 @@ See Gallery **Pitfalls** for side-by-side demos (`DelayButton` / `ProgressButton
 
 ## Accessible / focus
 
-- Attach `Accessible.*` to an `Item` / `Action` / `Control`, never to a bare `Popup` / `Menu` / `Dialog` / `Drawer` / `ApplicationWindow` root (prefer `background` / `contentItem` / `MenuItem`; window title + `TitleBar` / `WindowChrome` cover shell naming).
+- Attach `Accessible.*` only to an `Item` / `Action` / `Control`. Never attach to `Window` / `ApplicationWindow` / `Popup` / `Menu` / `Dialog` / `Drawer` / `ToolTip` (they are not Items). Qt already exposes popup chrome via `popupItem`; name interactive children (`MenuItem`, buttons, labels) instead of the popup host.
 - Prefer `FocusStroke` with `frameRadius` matching the control corner.
 - Interactive Style controls expose `Accessible.role` / `name` / checked state / description where applicable. Do **not** set `Accessible.value` / `valueMinimum` / `valueMaximum` — those attached properties were removed in Qt 6.8; put numeric state in `Accessible.description` (controls with a real `value` property are still exposed via Qt’s value interface).
 - Charts / gauges use `Accessible.Graphic` (or ProgressBar for meters) with `title` / label as `Accessible.name`.
@@ -49,6 +49,11 @@ Prefer **host push** over parent-chain walks for layout defaults:
 
 Placement helpers (`mapToItem`, `Overlay.overlay`) are fine; do not reintroduce
 `while (p = p.parent)` config discovery.
+
+## Packaging
+
+- Release shared libs: `python scripts/package_release_libs.py --shared`
+- Default builds stay STATIC; SHARED via `-DQWINUI3_BUILD_SHARED=ON`.
 
 ## Docs
 

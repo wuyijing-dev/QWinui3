@@ -10,15 +10,21 @@ Fluent styled Pane.
 
 ```qml
 Pane {
+    id: pane
     padding: Theme.paddingControlH
-    Label { text: qsTr("Pane body") }
+    TextBlock {
+        width: pane.availableWidth   // required for Wrap / Elide
+        text: qsTr("Pane body")
+        textWrapping: "wrap"
+    }
 }
 ```
 
 ## Notes
 
 Style-only Fluent chrome for Qt Quick Controls Pane.
-Public API is the Qt Quick Controls Pane type; this file supplies visuals/metrics only.
+Long text (WinUI): size the Pane (Layout.fillWidth / width), then bind
+child text width to availableWidth — TextWrapping / TextTrimming via TextBlock.
 
 ## API
 

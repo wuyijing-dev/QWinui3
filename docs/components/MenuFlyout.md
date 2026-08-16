@@ -30,7 +30,7 @@ MenuFlyout {
 Menu-styled Flyout; host MenuFlyoutItem / Separator / Header children.
 contentMaxHeight (WinUI MenuFlyoutPresenter.MaxHeight) enables scroll when content is taller.
 shouldConstrainToRootBounds clamps into the window overlay (default true).
-title comes from Menu (FINAL) — set title: for Accessible.name.
+title comes from Menu (FINAL) — set title: for screen-reader chrome; MenuItem carries Accessible.
 
 ## API
 

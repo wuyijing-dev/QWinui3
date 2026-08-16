@@ -1,4 +1,4 @@
-qt_add_library(qwinui3_style STATIC)
+qt_add_library(qwinui3_style ${QWINUI3_LIB_TYPE})
 
 qt_add_qml_module(qwinui3_style
     URI QWinUI3

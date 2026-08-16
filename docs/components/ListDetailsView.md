@@ -40,6 +40,8 @@ model items may be strings or objects (titleRole / subtitleRole).
 | `minWideWidth` | `real` | — |
 | `details` | `alias` | — |
 | `listHeader` | `alias` | — |
+| `connectedAnimationEnabled` | `bool` | Morph list row → details pane via ConnectedAnimationService |
+| `connectedAnimationKey` | `string` | — |
 | `selectedItem` | `var` | — |
 
 ### Signals

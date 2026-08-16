@@ -1,8 +1,8 @@
 # FocusStroke
 
-Focus ring helper.
+Dual-ring keyboard focus chrome (WinUI / Fluent).
 
-`import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/FocusStroke.qml`](../../src/style/QWinUI3/FocusStroke.qml)
+`import QWinUI3.Theme` · [`src/theme/QWinUI3/Theme/FocusStroke.qml`](../../src/theme/QWinUI3/Theme/FocusStroke.qml)
 
 [← Component index](../components.md)
 
@@ -13,13 +13,12 @@ Focus ring helper.
 ## Example
 
 ```qml
-FocusStroke { anchors.fill: parent; visible: control.visualFocus }
+FocusStroke { anchors.fill: parent; show: control.visualFocus }
 ```
 
 ## Notes
 
-Style-only Fluent chrome for Qt Quick Controls FocusStroke.
-Public API is the Qt Quick Controls FocusStroke type; this file supplies visuals/metrics only.
+Shared by Style + Extras. Uses Theme.strokeFocus* / focusOuter/Inner and reducedMotion.
 
 ## API
 
@@ -29,7 +28,7 @@ Public API is the Qt Quick Controls FocusStroke type; this file supplies visuals
 | --- | --- | --- |
 | `show` | `bool` | Show the control |
 | `frameRadius` | `real` | Frame corner radius |
-| `outerSize` | `real` | Outer size |
+| `outerSize` | `real` | Outer size (thicker in high contrast) |
 | `innerSize` | `real` | Inner size |
 
 ### Signals

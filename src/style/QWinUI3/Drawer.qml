@@ -69,8 +69,6 @@ T.Drawer {
     }
 
     background: Rectangle {
-        Accessible.role: Accessible.Pane
-        Accessible.name: qsTr("Drawer")
         color: Theme.bgCard
         implicitWidth: 320
         implicitHeight: 480

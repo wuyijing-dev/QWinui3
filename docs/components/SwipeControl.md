@@ -29,6 +29,7 @@ SwipeControl {
 
 Content + left/right SwipeAction reveal; openLeft/openRight/close.
 swipeMode: reveal | execute (WinUI SwipeMode).
+Action rows are clipped to the revealed strip so they stay hidden when closed.
 
 ## API
 
@@ -36,7 +37,7 @@ swipeMode: reveal | execute (WinUI SwipeMode).
 
 | Name | Type | Description |
 | --- | --- | --- |
-| `modeClosed` | `int` | Swipe content closed (`0`) |
+| `modeClosed` | `int` | Open-mode constants (not named "closed" — that name is the signal below) |
 | `leftOpen` | `int` | Left actions revealed |
 | `rightOpen` | `int` | Right actions revealed |
 | `content` | `alias` | Content slot / children host |
@@ -45,7 +46,7 @@ swipeMode: reveal | execute (WinUI SwipeMode).
 | `actionWidth` | `real` | Width of each swipe action |
 | `revealThreshold` | `real` | Drag distance to snap open |
 | `isOpen` | `bool` | Open / visible state |
-| `openMode` | `int` | single \| multiple reveal mode |
+| `openMode` | `int` | modeClosed \| leftOpen \| rightOpen |
 | `swipeMode` | `string` | WinUI SwipeMode: reveal \| execute |
 | `maxLeftReveal` | `real` | Max left swipe reveal width |
 | `maxRightReveal` | `real` | Max right swipe reveal width |

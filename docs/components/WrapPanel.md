@@ -29,6 +29,7 @@ WrapPanel {
 ## Notes
 
 Wrapping flow of children; itemSpacing / horizontalSpacing / verticalSpacing / orientation.
+implicitWidth is the single-line natural width (not availableWidth) to avoid Layout loops.
 
 ## API
 

@@ -12,7 +12,8 @@ Fluent styled Drawer.
 Drawer {
     id: drawer
     edge: Qt.LeftEdge
-    Label { anchors.centerIn: parent; text: qsTr("Menu") }
+    width: 320
+    Label { text: qsTr("Menu") }
 }
 drawer.open()
 ```
@@ -20,7 +21,9 @@ drawer.open()
 ## Notes
 
 Style-only Fluent chrome for Qt Quick Controls Drawer.
-Public API is the Qt Quick Controls Drawer type; this file supplies visuals/metrics only.
+Qt Drawer only slides via `position` — it does not auto-set height/width to the
+window edge. Side drawers bind height to Overlay; top/bottom bind width.
+Enter/exit must use SmoothedAnimation on `position` (not x/y/opacity).
 
 ## API
 

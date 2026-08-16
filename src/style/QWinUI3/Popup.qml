@@ -29,8 +29,6 @@ T.Popup {
     background: ElevatedChrome {
         implicitWidth: 200
         implicitHeight: 40
-        Accessible.role: Accessible.Dialog
-        Accessible.name: qsTr("Popup")
         radius: Theme.cornerOverlay
         color: Theme.bgCardElevated
         borderColor: Theme.strokeCard

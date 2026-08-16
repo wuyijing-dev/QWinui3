@@ -5,7 +5,7 @@ set_source_files_properties(IconSource.qml PROPERTIES
     QT_QML_SINGLETON_TYPE TRUE
 )
 
-qt_add_library(qwinui3_theme STATIC)
+qt_add_library(qwinui3_theme ${QWINUI3_LIB_TYPE})
 
 qt_add_qml_module(qwinui3_theme
     URI QWinUI3.Theme

@@ -14,7 +14,7 @@ ListView recipe: sections, selection, context MenuFlyout, EmptyState.
 ItemsView {
     model: myModel
     sectionRole: "group"
-    selectionMode: ItemsView.selectionMultiple
+    selectionMode: ItemsView.SelectionMultiple
     titleRole: "title"
     subtitleRole: "subtitle"
     emptyTitle: qsTr("No items")

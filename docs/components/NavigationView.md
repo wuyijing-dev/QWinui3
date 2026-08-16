@@ -83,6 +83,10 @@ Prefer selectKey / openPage over mutating currentIndex alone.
 | `isReorderable` | `bool` | Drag rows to reorder top-level model entries |
 | `hostContent` | `bool` | Shell host: show `content:` instead of StackView page loading (NavigationWindow). |
 | `content` | `alias` | Content slot / children host |
+| `pageHistory` | `var` | Soft navigation history for TitleBar / pane back (replace stack still applies) |
+| `canGoBack` | `bool` | — |
+| `effectiveBackVisible` | `bool` | Mirror history into the chrome back button when the app leaves the default false |
+| `effectiveBackEnabled` | `bool` | — |
 | `effectiveFooterIcon` | `string` | Resolved footer icon |
 | `resolvedPaneMode` | `string` | Effective pane mode after auto |
 | `expandedMap` | `var` | groupKey -> bool; missing means expanded |
@@ -130,6 +134,9 @@ Prefer selectKey / openPage over mutating currentIndex alone.
 | `selectIndex(index)` | Select a top-level model index (legacy) |
 | `selectKey(key, mode)` | Select by nav key and open the page |
 | `selectFooter(mode)` | Select the footer row and open footerComponent |
+| `pushHistorySnapshot()` | Snapshot current selection for TitleBar back |
+| `navigateBack(mode)` | Restore previous nav selection (slideRight by default) |
+| `clearHistory()` | — |
 | `ensureComponent(name)` | Load / cache a page Component from pageModule |
 | `applyPageTransition(mode)` | Configure enter/exit transform targets for a named transition mode |
 | `openPage(name, mode)` | Replace the page stack with the named component |
