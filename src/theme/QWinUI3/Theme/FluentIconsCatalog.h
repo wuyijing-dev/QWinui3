@@ -1,37 +1,29 @@
 #pragma once
 
 #include <QObject>
+#include <QQmlEngine>
 #include <QStringList>
 #include <QVariantList>
+#include <QtQml/qqmlregistration.h>
 
-// Catalog lists for Iconography — kept separate from QQmlPropertyMap so QML
-// can read them (PropertyMap intercepts unknown keys and hides invokables).
+// Iconography catalog — separate QML singleton (not on QQmlPropertyMap).
 class FluentIconsCatalog : public QObject
 {
     Q_OBJECT
+    QML_NAMED_ELEMENT(FluentIconsCatalog)
+    QML_SINGLETON
     Q_PROPERTY(QStringList names READ names CONSTANT)
     Q_PROPERTY(QVariantList entries READ entries CONSTANT)
     Q_PROPERTY(int namedCount READ namedCount CONSTANT)
     Q_PROPERTY(int entryCount READ entryCount CONSTANT)
 
 public:
-    explicit FluentIconsCatalog(QObject *parent = nullptr)
-        : QObject(parent)
-    {
-    }
+    explicit FluentIconsCatalog(QObject *parent = nullptr);
 
-    void setData(const QStringList &names, const QVariantList &entries)
-    {
-        m_names = names;
-        m_entries = entries;
-    }
+    static FluentIconsCatalog *create(QQmlEngine *engine, QJSEngine *scriptEngine);
 
-    QStringList names() const { return m_names; }
-    QVariantList entries() const { return m_entries; }
-    int namedCount() const { return m_names.size(); }
-    int entryCount() const { return m_entries.size(); }
-
-private:
-    QStringList m_names;
-    QVariantList m_entries;
+    QStringList names() const;
+    QVariantList entries() const;
+    int namedCount() const;
+    int entryCount() const;
 };

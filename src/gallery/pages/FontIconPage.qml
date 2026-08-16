@@ -13,8 +13,7 @@ CatalogPage {
 
     property int selectedIndex: 0
 
-    readonly property var catalog: FluentIcons.catalog
-    readonly property var allEntries: catalog ? catalog.entries : []
+    readonly property var allEntries: FluentIconsCatalog.entries
     readonly property var filteredEntries: {
         var q = filterBox.text.trim().toLowerCase()
         var src = allEntries
@@ -94,9 +93,9 @@ CatalogPage {
 
             Label {
                 text: qsTr("%1 icons · showing %2 · %3 named FluentIcons")
-                      .arg(page.allEntries ? page.allEntries.length : 0)
+                      .arg(FluentIconsCatalog.entryCount)
                       .arg(page.filteredEntries ? page.filteredEntries.length : 0)
-                      .arg(page.catalog ? page.catalog.namedCount : 0)
+                      .arg(FluentIconsCatalog.namedCount)
                 color: Theme.textSecondary
                 font.pixelSize: Theme.fontCaption
             }

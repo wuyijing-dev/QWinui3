@@ -3,18 +3,277 @@
 
 #include <QChar>
 #include <QHash>
+#include <QMutex>
+#include <QMutexLocker>
 #include <QVariantMap>
 #include <algorithm>
 
 #include "FluentIconsFontMap.inc"
 
+namespace {
+
+QMutex g_mutex;
+bool g_ready = false;
+QStringList g_names;
+QVariantList g_entries;
+QHash<ushort, QString> g_primaryNameByCode;
+QHash<QString, QString> g_glyphByName;
+
+QString glyphOf(char32_t cp)
+{
+    return QString(QChar(ushort(cp)));
+}
+
+void putShared(const char *key, char32_t cp)
+{
+    const QString name = QString::fromLatin1(key);
+    const QString glyph = glyphOf(cp);
+    g_glyphByName.insert(name, glyph);
+    g_names.append(name);
+    const ushort code = ushort(cp);
+    if (!g_primaryNameByCode.contains(code))
+        g_primaryNameByCode.insert(code, name);
+}
+
+void buildSharedCatalog_unlocked()
+{
+    if (g_ready)
+        return;
+
+    ThemeFonts::ensureLoaded();
+    g_names.clear();
+    g_glyphByName.clear();
+    g_primaryNameByCode.clear();
+    g_entries.clear();
+
+    // Chrome / navigation
+    putShared("ChromeClose", 0xE711);
+    putShared("ChromeCloseAlt", 0xE8BB);
+    putShared("ChromeMinimize", 0xE921);
+    putShared("ChromeMaximize", 0xE922);
+    putShared("ChromeRestore", 0xE923);
+    putShared("Cancel", 0xE711);
+    putShared("Clear", 0xE894);
+    putShared("Back", 0xE72B);
+    putShared("Forward", 0xE72A);
+    putShared("ChevronDown", 0xE70D);
+    putShared("ChevronUp", 0xE70E);
+    putShared("ChevronLeft", 0xE76B);
+    putShared("ChevronRight", 0xE76C);
+    putShared("More", 0xE712);
+    putShared("Home", 0xE80F);
+    putShared("GlobalNavButton", 0xE700);
+
+    // Actions
+    putShared("Add", 0xE710);
+    putShared("Remove", 0xE738);
+    putShared("Delete", 0xE74D);
+    putShared("Edit", 0xE70F);
+    putShared("Save", 0xE74E);
+    putShared("SaveAs", 0xE792);
+    putShared("Copy", 0xE8C8);
+    putShared("Cut", 0xE8C6);
+    putShared("Paste", 0xE77F);
+    putShared("Undo", 0xE7A7);
+    putShared("Redo", 0xE7A6);
+    putShared("Refresh", 0xE72C);
+    putShared("Sync", 0xE895);
+    putShared("Share", 0xE72D);
+    putShared("Download", 0xE896);
+    putShared("Upload", 0xE898);
+    putShared("Print", 0xE749);
+    putShared("OpenFile", 0xE8E5);
+    putShared("OpenInNewWindow", 0xE8A7);
+    putShared("Attach", 0xE723);
+    putShared("Send", 0xE724);
+    putShared("Pin", 0xE718);
+    putShared("Unpin", 0xE77A);
+    putShared("Filter", 0xE71C);
+    putShared("Sort", 0xE8CB);
+    putShared("Search", 0xE721);
+    putShared("Zoom", 0xE71E);
+    putShared("FullScreen", 0xE740);
+    putShared("BackToWindow", 0xE73F);
+
+    // Status
+    putShared("Accept", 0xE73E);
+    putShared("Checkmark", 0xE73E);
+    putShared("Checkbox", 0xE73A);
+    putShared("RadioButton", 0xECCA);
+    putShared("Important", 0xE8C9);
+    putShared("Info", 0xE946);
+    putShared("Warning", 0xE7BA);
+    putShared("Error", 0xE783);
+    putShared("Favorite", 0xE734);
+    putShared("FavoriteStarFill", 0xE735);
+    putShared("Flag", 0xE7C1);
+    putShared("SolidStar", 0xE735);
+    putShared("OutlineStar", 0xE734);
+    putShared("HalfStar", 0xE737);
+    putShared("Presence", 0xE765);
+
+    // People
+    putShared("Contact", 0xE77B);
+    putShared("People", 0xE716);
+    putShared("Account", 0xE77B);
+    putShared("OtherUser", 0xE8BD);
+
+    // Objects / devices
+    putShared("Settings", 0xE713);
+    putShared("Calendar", 0xE787);
+    putShared("Mail", 0xE715);
+    putShared("Folder", 0xE8B7);
+    putShared("FolderOpen", 0xE8F4);
+    putShared("Document", 0xE8A5);
+    putShared("Library", 0xE8F1);
+    putShared("Tag", 0xE8EC);
+    putShared("Link", 0xE71B);
+    putShared("Globe", 0xE774);
+    putShared("Map", 0xE707);
+    putShared("Shop", 0xE719);
+    putShared("Camera", 0xE722);
+    putShared("Video", 0xE714);
+    putShared("Microphone", 0xE720);
+    putShared("Volume", 0xE767);
+    putShared("Mute", 0xE74F);
+    putShared("Brightness", 0xE706);
+    putShared("Wifi", 0xE701);
+    putShared("Bluetooth", 0xE702);
+    putShared("VPN", 0xE705);
+    putShared("Airplane", 0xE709);
+    putShared("Tablet", 0xE70A);
+    putShared("Mouse", 0xE962);
+    putShared("Headphone", 0xE7F6);
+    putShared("Lock", 0xE72E);
+    putShared("Unlock", 0xE785);
+    putShared("Permissions", 0xE8D7);
+    putShared("HardDrive", 0xE7F4);
+    putShared("Game", 0xE7C7);
+    putShared("EaseOfAccess", 0xE8AB);
+    putShared("DeveloperTools", 0xE945);
+    putShared("Street", 0xE7C3);
+    putShared("Cloud", 0xE753);
+    putShared("CloudDownload", 0xEBD3);
+
+    // View / input
+    putShared("View", 0xE890);
+    putShared("Hide", 0xED1A);
+    putShared("List", 0xE8FD);
+    putShared("GridView", 0xE80A);
+    putShared("BulletedList", 0xE8FD);
+    putShared("BulletedList2", 0xE8E9);
+    putShared("GridViewSmall", 0xE8EA);
+    putShared("PageList", 0xE8F0);
+    putShared("ViewAll", 0xE8A9);
+    putShared("Preview", 0xE8FF);
+    putShared("Picture", 0xE8B9);
+    putShared("Photo", 0xEB9F);
+    putShared("ScrollMode", 0xE76F);
+    putShared("Slider", 0xE9E9);
+    putShared("Toggle", 0xE9CE);
+    putShared("Comment", 0xE8A1);
+    putShared("Lightbulb", 0xE75A);
+    putShared("KnowledgeArticle", 0xE82F);
+
+    // Charts
+    putShared("AreaChart", 0xE9D2);
+    putShared("PieSingle", 0xE9D9);
+    putShared("DonutChart", 0xEB05);
+    putShared("BarChartVertical", 0xE81E);
+    putShared("AreaChartMirrored", 0xE9F9);
+    putShared("Dial6", 0xE9E6);
+    putShared("DialShape3", 0xF56C);
+    putShared("ProgressRingCommon", 0xEA3A);
+
+    // Media
+    putShared("Play", 0xE768);
+    putShared("Pause", 0xE769);
+    putShared("Stop", 0xE71A);
+    putShared("Previous", 0xE892);
+    putShared("Next", 0xE893);
+
+    // Editing
+    putShared("Bold", 0xE8DD);
+    putShared("Italic", 0xE8DB);
+    putShared("Underline", 0xE8DC);
+    putShared("Font", 0xE8D2);
+    putShared("FontColor", 0xE8D3);
+    putShared("AlignLeft", 0xE8E4);
+    putShared("AlignCenter", 0xE8E3);
+    putShared("AlignRight", 0xE8E2);
+
+    // Misc
+    putShared("Placeholder", 0xE8A7);
+    putShared("Character", 0xE8C1);
+    putShared("Emoji", 0xE899);
+    putShared("Calculator", 0xE8EF);
+    putShared("Clock", 0xE823);
+    putShared("History", 0xE81C);
+    putShared("Bookmarks", 0xE8A4);
+    putShared("Puzzle", 0xEA86);
+    putShared("Code", 0xE943);
+    putShared("Admin", 0xE7EF);
+    putShared("Leave", 0xF405);
+    putShared("SignOut", 0xF3B1);
+    putShared("Color", 0xE790);
+    putShared("Repair", 0xE90F);
+    putShared("ConstructionCone", 0xE909);
+    putShared("UpdateRestore", 0xE777);
+    putShared("Notification", 0xEA8F);
+    putShared("QuietHours", 0xE708);
+    putShared("Processing", 0xE7FC);
+    putShared("Publish", 0xE74A);
+    putShared("Ruler", 0xED5E);
+    putShared("Trim", 0xE78A);
+
+    std::sort(g_names.begin(), g_names.end());
+
+    g_entries.reserve(kFluentIconCodepointCount);
+    for (int i = 0; i < kFluentIconCodepointCount; ++i) {
+        const ushort cp = kFluentIconCodepoints[i];
+        QVariantMap row;
+        const QString hex = QString::number(cp, 16).toUpper();
+        const QString glyph = glyphOf(cp);
+        const QString primary = g_primaryNameByCode.value(cp);
+        row.insert(QStringLiteral("codeHex"), hex);
+        row.insert(QStringLiteral("glyph"), glyph);
+        row.insert(QStringLiteral("named"), !primary.isEmpty());
+        row.insert(QStringLiteral("name"),
+                   primary.isEmpty() ? (QStringLiteral("U+") + hex) : primary);
+        row.insert(QStringLiteral("symbol"), primary);
+        g_entries.append(row);
+    }
+
+    g_ready = true;
+}
+
+} // namespace
+
+void FluentIcons::ensureCatalogData()
+{
+    QMutexLocker lock(&g_mutex);
+    buildSharedCatalog_unlocked();
+}
+
+QStringList FluentIcons::catalogNames()
+{
+    ensureCatalogData();
+    QMutexLocker lock(&g_mutex);
+    return g_names;
+}
+
+QVariantList FluentIcons::catalogEntries()
+{
+    ensureCatalogData();
+    QMutexLocker lock(&g_mutex);
+    return g_entries;
+}
+
 FluentIcons::FluentIcons(QObject *parent)
     : QQmlPropertyMap(parent)
-    , m_catalog(new FluentIconsCatalog(this))
 {
     ThemeFonts::ensureLoaded();
     populate();
-    buildCatalog();
 }
 
 FluentIcons *FluentIcons::create(QQmlEngine *, QJSEngine *)
@@ -43,222 +302,10 @@ QString FluentIcons::codeHex(const QString &name) const
     return QString::number(ushort(g.at(0).unicode()), 16).toUpper();
 }
 
-void FluentIcons::buildCatalog()
-{
-    QVariantList entries;
-    entries.reserve(kFluentIconCodepointCount);
-    for (int i = 0; i < kFluentIconCodepointCount; ++i) {
-        const ushort cp = kFluentIconCodepoints[i];
-        QVariantMap row;
-        const QString hex = QString::number(cp, 16).toUpper();
-        const QString glyph = QString(QChar(cp));
-        const QString primary = m_primaryNameByCode.value(cp);
-        row.insert(QStringLiteral("codeHex"), hex);
-        row.insert(QStringLiteral("glyph"), glyph);
-        row.insert(QStringLiteral("named"), !primary.isEmpty());
-        row.insert(QStringLiteral("name"),
-                   primary.isEmpty() ? (QStringLiteral("U+") + hex) : primary);
-        row.insert(QStringLiteral("symbol"), primary);
-        entries.append(row);
-    }
-    m_catalog->setData(m_names, entries);
-}
-
-static QString g(char32_t cp)
-{
-    return QString(QChar(ushort(cp)));
-}
-
 void FluentIcons::populate()
 {
-    auto put = [this](const char *key, char32_t cp) {
-        const QString name = QString::fromLatin1(key);
-        insert(name, g(cp));
-        m_names.append(name);
-        const ushort code = ushort(cp);
-        if (!m_primaryNameByCode.contains(code))
-            m_primaryNameByCode.insert(code, name);
-    };
-
-    // Chrome / navigation (incl. AppWindowTitleBar caption glyphs)
-    put("ChromeClose", 0xE711);
-    put("ChromeCloseAlt", 0xE8BB); // caption close plate
-    put("ChromeMinimize", 0xE921);
-    put("ChromeMaximize", 0xE922);
-    put("ChromeRestore", 0xE923);
-    put("Cancel", 0xE711);
-    put("Clear", 0xE894);
-    put("Back", 0xE72B);
-    put("Forward", 0xE72A);
-    put("ChevronDown", 0xE70D);
-    put("ChevronUp", 0xE70E);
-    put("ChevronLeft", 0xE76B);
-    put("ChevronRight", 0xE76C);
-    put("More", 0xE712);
-    put("Home", 0xE80F);
-    put("GlobalNavButton", 0xE700);
-
-    // Actions
-    put("Add", 0xE710);
-    put("Remove", 0xE738);
-    put("Delete", 0xE74D);
-    put("Edit", 0xE70F);
-    put("Save", 0xE74E);
-    put("SaveAs", 0xE792);
-    put("Copy", 0xE8C8);
-    put("Cut", 0xE8C6);
-    put("Paste", 0xE77F);
-    put("Undo", 0xE7A7);
-    put("Redo", 0xE7A6);
-    put("Refresh", 0xE72C);
-    put("Sync", 0xE895);
-    put("Share", 0xE72D);
-    put("Download", 0xE896);
-    put("Upload", 0xE898);
-    put("Print", 0xE749);
-    put("OpenFile", 0xE8E5);
-    put("OpenInNewWindow", 0xE8A7);
-    put("Attach", 0xE723);
-    put("Send", 0xE724);
-    put("Pin", 0xE718);
-    put("Unpin", 0xE77A);
-    put("Filter", 0xE71C);
-    put("Sort", 0xE8CB);
-    put("Search", 0xE721);
-    put("Zoom", 0xE71E);
-    put("FullScreen", 0xE740);
-    put("BackToWindow", 0xE73F);
-
-    // Status
-    put("Accept", 0xE73E);
-    put("Checkmark", 0xE73E);
-    put("Checkbox", 0xE73A);
-    put("RadioButton", 0xECCA);
-    put("Important", 0xE8C9);
-    put("Info", 0xE946);
-    put("Warning", 0xE7BA);
-    put("Error", 0xE783);
-    put("Favorite", 0xE734);
-    put("FavoriteStarFill", 0xE735);
-    put("Flag", 0xE7C1);
-    put("SolidStar", 0xE735);
-    put("OutlineStar", 0xE734);
-    put("HalfStar", 0xE737);
-    put("Presence", 0xE765);
-
-    // People
-    put("Contact", 0xE77B);
-    put("People", 0xE716);
-    put("Account", 0xE77B);
-    put("OtherUser", 0xE8BD);
-
-    // Objects / devices
-    put("Settings", 0xE713);
-    put("Calendar", 0xE787);
-    put("Mail", 0xE715);
-    put("Folder", 0xE8B7);
-    put("FolderOpen", 0xE8F4);
-    put("Document", 0xE8A5);
-    put("Library", 0xE8F1);
-    put("Tag", 0xE8EC);
-    put("Link", 0xE71B);
-    put("Globe", 0xE774);
-    put("Map", 0xE707);
-    put("Shop", 0xE719);
-    put("Camera", 0xE722);
-    put("Video", 0xE714);
-    put("Microphone", 0xE720);
-    put("Volume", 0xE767);
-    put("Mute", 0xE74F);
-    put("Brightness", 0xE706);
-    put("Wifi", 0xE701);
-    put("Bluetooth", 0xE702);
-    put("VPN", 0xE705);
-    put("Airplane", 0xE709);
-    put("Tablet", 0xE70A);
-    put("Mouse", 0xE962);
-    put("Headphone", 0xE7F6);
-    put("Lock", 0xE72E);
-    put("Unlock", 0xE785);
-    put("Permissions", 0xE8D7);
-    put("HardDrive", 0xE7F4);
-    put("Game", 0xE7C7);
-    put("EaseOfAccess", 0xE8AB);
-    put("DeveloperTools", 0xE945);
-    put("Street", 0xE7C3);
-    put("Cloud", 0xE753);
-    put("CloudDownload", 0xEBD3);
-
-    // View / input chrome
-    put("View", 0xE890);
-    put("Hide", 0xED1A);
-    put("List", 0xE8FD);
-    put("GridView", 0xE80A);
-    put("BulletedList", 0xE8FD);
-    put("BulletedList2", 0xE8E9);
-    put("GridViewSmall", 0xE8EA);
-    put("PageList", 0xE8F0);
-    put("ViewAll", 0xE8A9);
-    put("Preview", 0xE8FF);
-    put("Picture", 0xE8B9);
-    put("Photo", 0xEB9F);
-    put("ScrollMode", 0xE76F);
-    put("Slider", 0xE9E9);
-    put("Toggle", 0xE9CE);
-    put("Comment", 0xE8A1);
-    put("Lightbulb", 0xE75A);
-    put("KnowledgeArticle", 0xE82F);
-
-    // Charts
-    put("AreaChart", 0xE9D2);
-    put("PieSingle", 0xE9D9);
-    put("DonutChart", 0xEB05);
-    put("BarChartVertical", 0xE81E);
-    put("AreaChartMirrored", 0xE9F9);
-    put("Dial6", 0xE9E6);
-    put("DialShape3", 0xF56C);
-    put("ProgressRingCommon", 0xEA3A);
-
-    // Media
-    put("Play", 0xE768);
-    put("Pause", 0xE769);
-    put("Stop", 0xE71A);
-    put("Previous", 0xE892);
-    put("Next", 0xE893);
-
-    // Editing
-    put("Bold", 0xE8DD);
-    put("Italic", 0xE8DB);
-    put("Underline", 0xE8DC);
-    put("Font", 0xE8D2);
-    put("FontColor", 0xE8D3);
-    put("AlignLeft", 0xE8E4);
-    put("AlignCenter", 0xE8E3);
-    put("AlignRight", 0xE8E2);
-
-    // Misc
-    put("Placeholder", 0xE8A7);
-    put("Character", 0xE8C1);
-    put("Emoji", 0xE899);
-    put("Calculator", 0xE8EF);
-    put("Clock", 0xE823);
-    put("History", 0xE81C);
-    put("Bookmarks", 0xE8A4);
-    put("Puzzle", 0xEA86);
-    put("Code", 0xE943);
-    put("Admin", 0xE7EF);
-    put("Leave", 0xF405);
-    put("SignOut", 0xF3B1);
-    put("Color", 0xE790);
-    put("Repair", 0xE90F);
-    put("ConstructionCone", 0xE909);
-    put("UpdateRestore", 0xE777);
-    put("Notification", 0xEA8F);
-    put("QuietHours", 0xE708);
-    put("Processing", 0xE7FC);
-    put("Publish", 0xE74A);
-    put("Ruler", 0xED5E);
-    put("Trim", 0xE78A);
-
-    std::sort(m_names.begin(), m_names.end());
+    ensureCatalogData();
+    QMutexLocker lock(&g_mutex);
+    for (auto it = g_glyphByName.constBegin(); it != g_glyphByName.constEnd(); ++it)
+        insert(it.key(), it.value());
 }
