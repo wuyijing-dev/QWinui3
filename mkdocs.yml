@@ -29,6 +29,7 @@ theme:
     - navigation.tabs
     - navigation.sections
     - navigation.top
+    - navigation.indexes
     - search.suggest
     - search.highlight
     - content.code.copy
@@ -60,40 +61,49 @@ extra:
 
 nav:
   - Home: index.md
-  - Roadmap: roadmap.md
+  - Recipes:
+    - Overview: recipes.md
+    - Getting started:
+      - Qt Creator: qt-creator.md
+      - Consumer packaging: packaging-consumer.md
+      - Qt version compat: qt-version-compat.md
+      - Conventions: conventions.md
+    - App shells:
+      - Window shells: window-shells.md
+      - Window chrome: window-chrome.md
+      - WindowHelper: window-helper.md
+      - AppWindow: window-appwindow.md
+      - Linux / Wayland: platform-linux-wayland.md
+      - Graphics backend: graphics-backend.md
+      - Transparency / DWM: window-transparency-dwm.md
+    - Navigation & data:
+      - Navigation & TabView: navigation.md
+      - Forms & settings: forms.md
+      - Data collections: data-collections.md
+      - Tree & hierarchical: tree-data.md
+      - Input & pickers: pickers.md
+      - Density & responsive: density.md
+      - Theme overrides: theme-overrides.md
+      - Icons & FluentIcons: icons.md
+      - i18n / RTL: i18n-rtl.md
+    - Feedback & commands:
+      - Feedback surfaces: feedback.md
+      - Dialogs & flyouts: dialogs-flyouts.md
+      - Commands & menus: commands.md
+      - Accessibility: accessibility.md
+    - Platform & media:
+      - System integration: system-integration.md
+      - Shell extras: shell-extras.md
+      - WebView2: webview2.md
+      - Media: media.md
+      - Charts & gauges: charts.md
+      - Animations: animations.md
+      - Performance: performance.md
+    - Quality:
+      - CI smoke: ci-smoke.md
+      - Gallery CatalogPage: gallery-catalog-page.md
   - Stable API: stable-api.md
-  - Accessibility: accessibility.md
   - Component API: components.md
-  - Conventions: conventions.md
-  - Gallery CatalogPage: gallery-catalog-page.md
-  - Graphics backend: graphics-backend.md
-  - WebView2: webview2.md
-  - CI smoke: ci-smoke.md
-  - Data collections: data-collections.md
-  - Tree & hierarchical data: tree-data.md
-  - Performance: performance.md
-  - Navigation & TabView: navigation.md
-  - Input & pickers: pickers.md
-  - Icons & FluentIcons: icons.md
-  - Density & responsive: density.md
-  - Forms & settings: forms.md
-  - Theme overrides: theme-overrides.md
-  - System integration: system-integration.md
-  - Shell extras: shell-extras.md
-  - Charts & gauges: charts.md
-  - Media: media.md
-  - Consumer packaging: packaging-consumer.md
-  - i18n / RTL: i18n-rtl.md
-  - Commands & menus: commands.md
-  - Dialogs & flyouts: dialogs-flyouts.md
-  - Feedback surfaces: feedback.md
-  - Animations & transitions: animations.md
-  - WebView2 (legacy link): webview2-future.md
-  - Linux / Wayland: platform-linux-wayland.md
-  - Window shells: window-shells.md
-  - Window chrome: window-chrome.md
-  - WindowHelper: window-helper.md
-  - AppWindow: window-appwindow.md
-  - Transparency / DWM: window-transparency-dwm.md
-  - Qt Creator: qt-creator.md
-  - Qt version compat: qt-version-compat.md
+  - Roadmap: roadmap.md
+  - Legacy redirects:
+    - WebView2 (old link): webview2-future.md

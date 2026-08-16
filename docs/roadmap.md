@@ -1,6 +1,6 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.35**
+**Current:** **1.36**
 **Next up:** **1.31** (Graphics & backend notes)
 **Planned through:** **1.50** (1.xx maturity checkpoint)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](qt-version-compat.md)
@@ -60,7 +60,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.35`
+## Shipped — `1.01` … `1.36`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -202,30 +202,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** [qt-creator.md](qt-creator.md) — Gallery + example open paths, Win/Linux kit checklists, no `.pro` callout; `CMakePresets.json` `examples` / `example-*` build presets; examples README + nav-settings Creator pointers; packaging-consumer / README cross-links; product version `1.35`.
 
+### 1.36 — Docs site IA (shipped)
+
+**Shipped:** [recipes.md](recipes.md) hub; MkDocs nav regrouped under Recipes (Getting started / shells / data / feedback / platform / quality); slim docs home + README Documentation table (≤2 clicks to recipes); `webview2-future.md` kept as legacy redirect; stable-api cross-link; product version `1.36`.
+
 ---
 
-## Late path — planned `1.36` … `1.40`
+## Late path — planned `1.37` … `1.40`
 
 Still **1.xx**. Schedule after mid path is mostly done; order can flex.
-
-### 1.36 — Docs site IA
-
-**Why:** Recipe count grows; MkDocs nav/search need a “start here” hub without rewriting the kit.
-
-**In scope**
-
-- Recipe hub index, clearer MkDocs sections, cross-links from README/stable-api.
-- Prune duplicate or orphan pages discovered in the pass.
-
-**Out of scope**
-
-- New docs product (Storybook); translating the whole site.
-
-**Exit criteria**
-
-- Hub page live; top recipes reachable in ≤2 clicks from README.
-
----
 
 ### 1.37 — Experimental promote sweep
 

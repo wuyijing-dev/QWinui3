@@ -2,18 +2,17 @@
 
 Published site: **https://wuyijing-dev.github.io/QWinui3/**
 
+**Recipes hub (1.36):** [`recipes.md`](recipes.md) — all LoB how-tos in one place.
+
 ## Conventions
 
 | Doc | Description |
 |-----|-------------|
 | [`index.md`](index.md) | Docs site home |
+| [`recipes.md`](recipes.md) | Recipe hub / MkDocs Recipes tab |
 | [`conventions.md`](conventions.md) | Radius/clip pitfalls, Accessible rules, Extras import rule |
 | [`gallery-catalog-page.md`](gallery-catalog-page.md) | Gallery `CatalogPage` host — **Item not Page**, footer/overlay slots |
-| [`graphics-backend.md`](graphics-backend.md) | RHI ship table, frost caveats, `--rhi` / Settings (1.31) |
-| [`tree-data.md`](tree-data.md) | TreeView hierarchy, keyboard, a11y (1.33) |
-| [`feedback.md`](feedback.md) | InfoBar / Toast / TeachingTip / Progress (1.34) |
-| [`webview2-future.md`](webview2-future.md) | Why WebEngine is stripped; WebView2 as future Windows path |
-| [`platform-linux-wayland.md`](platform-linux-wayland.md) | Linux Wayland/X11, FilePicker, tray, **Fluent-on-Linux moat** |
+| [`webview2-future.md`](webview2-future.md) | Legacy redirect → [`webview2.md`](webview2.md) |
 
 ## Component API
 
@@ -51,17 +50,12 @@ Header convention:
 //   Optional free-form notes rendered as ## Notes.
 ```
 
-## Window / chrome
-
-| Doc | Description |
-|-----|-------------|
-| [`window-shells.md`](window-shells.md) | ShellWindow vs StandardWindow · Win/Linux soak matrix (1.32) |
-| [`window-helper.md`](window-helper.md) | `WindowHelper` singleton API |
-| [`window-appwindow.md`](window-appwindow.md) | AppWindow presenters / title-bar height |
-| [`window-transparency-dwm.md`](window-transparency-dwm.md) | DWM / Mica / Acrylic notes |
-
 ## Tooling
 
 | Doc | Description |
 |-----|-------------|
-| [`qt-creator.md`](qt-creator.md) | Open Gallery / examples in Qt Creator (CMake only, 1.35) |
+| [`qt-creator.md`](qt-creator.md) | Open Gallery / examples in Qt Creator (CMake only) |
+| [`packaging-consumer.md`](packaging-consumer.md) | Third-party shared zip / CMake |
+| [`qt-version-compat.md`](qt-version-compat.md) | Compat shims + CI matrix |
+
+Shell / platform / LoB recipes are indexed on [`recipes.md`](recipes.md) (window shells, navigation, forms, feedback, …).

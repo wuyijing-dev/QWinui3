@@ -1,0 +1,94 @@
+# Recipes hub (1.36)
+
+LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stack. Generated **control** pages live under [Component API](components.md).
+
+**Stable types:** [stable-api.md](stable-api.md) · **Open the monorepo:** [qt-creator.md](qt-creator.md) · **Roadmap:** [roadmap.md](roadmap.md)
+
+---
+
+## Start building
+
+| Recipe | One-liner |
+|--------|-----------|
+| [Qt Creator](qt-creator.md) | Open root CMakeLists → Gallery or example (no `.pro`) |
+| [Consumer packaging](packaging-consumer.md) | Release zip / `add_subdirectory` / runtime |
+| [Qt version compat](qt-version-compat.md) | 6.5+ / 6.8 LTS / CI matrix |
+| [Conventions](conventions.md) | Radius, Accessible, Extras import |
+
+---
+
+## App shells & chrome
+
+| Recipe | One-liner |
+|--------|-----------|
+| [Window shells](window-shells.md) | ShellWindow vs StandardWindow · Win/Linux matrix |
+| [Window chrome](window-chrome.md) | DPI / backdrop / geometry failure modes |
+| [WindowHelper](window-helper.md) | Geometry persistence, backdrop, platform APIs |
+| [AppWindow](window-appwindow.md) | Presenters / title-bar height |
+| [Linux / Wayland](platform-linux-wayland.md) | CSD, Solid default, portals |
+| [Graphics backend](graphics-backend.md) | RHI ship table · OpenGL for frost |
+| [Transparency / DWM](window-transparency-dwm.md) | Gallery Solid policy · Mica notes |
+
+---
+
+## Navigation, forms, data
+
+| Recipe | One-liner |
+|--------|-----------|
+| [Navigation & TabView](navigation.md) | Pane modes, Back, footer |
+| [Forms & settings](forms.md) | FormLayout validation + SettingsCard |
+| [Data collections](data-collections.md) | DataTable / ItemsView / ListDetailsView |
+| [Tree & hierarchical](tree-data.md) | TreeView expand / a11y |
+| [Input & pickers](pickers.md) | Number / date / time / color |
+| [Density & responsive](density.md) | Compact metrics, narrow shells |
+| [Theme overrides](theme-overrides.md) | Accent / density / branding |
+| [Icons & FluentIcons](icons.md) | Symbol font cookbook |
+| [i18n / RTL](i18n-rtl.md) | qsTr + LayoutMirroring |
+
+---
+
+## Feedback, dialogs, commands
+
+| Recipe | One-liner |
+|--------|-----------|
+| [Feedback surfaces](feedback.md) | InfoBar / Toast / TeachingTip / Progress |
+| [Dialogs & flyouts](dialogs-flyouts.md) | ContentDialog vs Flyout / Drawer |
+| [Commands & menus](commands.md) | CommandPalette / CommandBar / MenuFlyout |
+| [Accessibility](accessibility.md) | Focus / names checklist |
+
+---
+
+## Platform & media
+
+| Recipe | One-liner |
+|--------|-----------|
+| [System integration](system-integration.md) | FilePicker / Tray / NotificationBridge |
+| [Shell extras](shell-extras.md) | Taskbar / attention / reveal / idle |
+| [WebView2](webview2.md) | Stable Edge host (Windows) |
+| [Media](media.md) | Optional Multimedia / MediaPlayerElement |
+| [Charts & gauges](charts.md) | Stable chart subset + gauges |
+| [Animations](animations.md) | ConnectedAnimation / reducedMotion |
+| [Performance](performance.md) | Lists, models, chart budgets |
+
+---
+
+## Quality & Gallery
+
+| Recipe | One-liner |
+|--------|-----------|
+| [CI smoke](ci-smoke.md) | Gallery `--smoke` + catalog integrity |
+| [Gallery CatalogPage](gallery-catalog-page.md) | Page host slots (Item not Page) |
+
+---
+
+## Examples (in repo)
+
+| Example | Recipe pair |
+|---------|-------------|
+| [`examples/nav-settings`](../examples/nav-settings/) | [navigation.md](navigation.md) |
+| [`examples/settings-cards`](../examples/settings-cards/) | [forms.md](forms.md) / theme |
+| [`examples/dashboard`](../examples/dashboard/) | [charts.md](charts.md) |
+| [`examples/master-detail`](../examples/master-detail/) | [data-collections.md](data-collections.md) |
+| [`examples/form-settings`](../examples/form-settings/) | [forms.md](forms.md) |
+
+Build from Creator or presets: [qt-creator.md](qt-creator.md) · [examples/README.md](../examples/README.md).

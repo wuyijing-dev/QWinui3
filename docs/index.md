@@ -6,41 +6,16 @@ This site is generated from QML source comments and shipped via GitHub Pages.
 
 ## Start here
 
-| Section | Description |
-|---------|-------------|
-| [Component API](components.md) | Full public + internal control index |
-| [Conventions](conventions.md) | Radius, Accessible, Extras import rules |
-| [Window shells](window-shells.md) | ShellWindow vs StandardWindow · Win/Linux matrix (1.32) |
-| [WindowHelper](window-helper.md) | Platform chrome singleton |
-| [Roadmap](roadmap.md) | Version themes — small `1.xx` slices |
+| | |
+|--|--|
+| **[Recipes hub](recipes.md)** | All LoB how-tos in one place (1.36) |
 | [Stable API](stable-api.md) | What to rely on in 1.xx apps |
-| [Accessibility](accessibility.md) | 1.02 + wave 2 checklist (1.19) |
-| [Linux / Wayland](platform-linux-wayland.md) | Title bar & backdrop matrix for shells |
-| [Window chrome](window-chrome.md) | DPI / backdrop / geometry failure modes (1.32) |
-| [WebView2](webview2.md) | Windows WebView2Host — stable recipe (1.18) |
-| [CI smoke](ci-smoke.md) | Gallery `--smoke` + catalog integrity (1.20) |
-| [Media](media.md) | Optional Qt Multimedia / MediaPlayerElement (1.21) |
-| [Animations & transitions](animations.md) | ConnectedAnimation, entrance, theme transitions (1.22) |
-| [Data collections](data-collections.md) | DataTable / ItemsView / ListDetailsView (1.07) |
-| [Tree & hierarchical](tree-data.md) | TreeView recipe, keyboard, a11y (1.33) |
-| [Forms & settings](forms.md) | FormLayout validation + settings recipes (1.08) |
-| [Theme overrides](theme-overrides.md) | Accent / density / branding knobs (1.09) |
-| [System integration](system-integration.md) | FilePicker / TrayIcon / NotificationBridge (1.10) |
-| [Shell extras](shell-extras.md) | Taskbar / attention / reveal / idle (1.17) |
-| [Charts & gauges](charts.md) | Stable Line/Bar/Donut + RingGauge + KpiTile + ChartCard (1.23) |
-| [Performance](performance.md) | Virtualization, models, chart budgets, Gallery heavy pages (1.25) |
-| [Navigation & TabView](navigation.md) | Pane modes, footer, Back, TabView vs NavigationView (1.27) |
-| [Input & pickers](pickers.md) | Number / date / time / color + FormLayout (1.28) |
-| [Icons & FluentIcons](icons.md) | Symbol font, size/color, Gallery Iconography (1.29) |
-| [Density & responsive](density.md) | Compact metrics, type scale, narrow shells (1.30) |
-| [Graphics backend](graphics-backend.md) | RHI ship table, frost caveats, Settings / `--rhi` (1.31) |
-| [Consumer packaging](packaging-consumer.md) | Shared zip / CMake / runtime for third-party apps (1.12) |
-| [i18n / RTL](i18n-rtl.md) | qsTr workflow + LayoutMirroring baseline (1.13) |
-| [Commands & menus](commands.md) | CommandPalette / CommandBar / MenuFlyout keyboard (1.15) |
-| [Dialogs & flyouts](dialogs-flyouts.md) | ContentDialog vs Flyout / TeachingTip / Drawer (1.16) |
-| [Feedback surfaces](feedback.md) | InfoBar / Toast / TeachingTip / Progress (1.34) |
-| [Qt Creator](qt-creator.md) | Open Gallery / examples (CMake only, no `.pro`) (1.35) |
-| [Qt version compat](qt-version-compat.md) | C++ shims + CI matrix Qt 6.5 / 6.8 / 6.10 (1.14) |
+| [Component API](components.md) | Full public + internal control index |
+| [Qt Creator](qt-creator.md) | Open Gallery / examples (CMake only) |
+| [Consumer packaging](packaging-consumer.md) | Shared zip / CMake / runtime |
+| [Roadmap](roadmap.md) | Small `1.xx` slices |
+
+Top recipes (also on the hub): [Window shells](window-shells.md) · [Navigation](navigation.md) · [Forms](forms.md) · [Data collections](data-collections.md) · [Feedback](feedback.md) · [System integration](system-integration.md).
 
 ## Install / build
 

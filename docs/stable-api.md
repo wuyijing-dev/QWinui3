@@ -4,7 +4,8 @@ QWinUI3 ships **~200** public types. Not all of them carry the same compatibilit
 
 This page is the **1.xx stable surface** for apps that copy from examples / Gallery. Types **not** listed as stable may still work and stay documented—they are simply **not** covered by the “no silent renames” promise until promoted here.
 
-**Product version:** see `QWINUI3_VERSION` in root `CMakeLists.txt` (`X.YY`).
+**Product version:** see `QWINUI3_VERSION` in root `CMakeLists.txt` (`X.YY`).  
+**How-to recipes:** [recipes.md](recipes.md) (1.36).
 
 ---
 
@@ -163,3 +164,4 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.33** | Tree & hierarchical data — [tree-data.md](tree-data.md); TreeViewDelegate a11y |
 | **1.34** | Feedback surfaces — [feedback.md](feedback.md); TeachingTip focus return |
 | **1.35** | Qt Creator kit polish — [qt-creator.md](qt-creator.md); example build presets |
+| **1.36** | Docs site IA — [recipes.md](recipes.md) hub; MkDocs Recipes sections |
