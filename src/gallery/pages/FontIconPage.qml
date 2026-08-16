@@ -4,67 +4,75 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — Iconography (FluentIcons catalog, WinUI Gallery layout).
+// Gallery — Iconography (full WinSymbols / FluentIcons catalog).
 
 CatalogPage {
     id: page
     title: qsTr("Iconography")
-    subtitle: qsTr("Segoe Fluent Icons exposed as FluentIcons.* — prefer named symbols over raw \\uE… escapes.")
+    subtitle: qsTr("All glyphs from the icon font. Prefer FluentIcons.Name in components — not raw \\uE… escapes.")
 
-    property string selectedName: ""
+    property int selectedIndex: 0
 
-    readonly property var allNames: FluentIcons.names()
-    readonly property var filteredNames: {
+    readonly property var allEntries: FluentIcons.entries()
+    readonly property var filteredEntries: {
         var q = filterBox.text.trim().toLowerCase()
-        var src = allNames
+        var src = allEntries
         if (!q.length)
             return src
         var out = []
         for (var i = 0; i < src.length; ++i) {
-            var n = String(src[i])
-            var hex = page.codeHex(n).toLowerCase()
-            if (n.toLowerCase().indexOf(q) >= 0 || hex.indexOf(q) >= 0 || ("e" + hex).indexOf(q) >= 0)
-                out.push(n)
+            var e = src[i]
+            var name = String(e.name).toLowerCase()
+            var hex = String(e.codeHex).toLowerCase()
+            var sym = String(e.symbol || "").toLowerCase()
+            if (name.indexOf(q) >= 0 || hex.indexOf(q) >= 0 || sym.indexOf(q) >= 0
+                    || ("u+" + hex).indexOf(q) >= 0 || ("\\u" + hex).indexOf(q) >= 0)
+                out.push(e)
         }
         return out
     }
 
-    readonly property string selectedGlyph: selectedName.length ? FluentIcons.of(selectedName) : ""
-    readonly property string selectedHex: selectedName.length ? codeHex(selectedName) : ""
+    readonly property var selectedEntry: {
+        var list = filteredEntries
+        if (!list.length || selectedIndex < 0 || selectedIndex >= list.length)
+            return null
+        return list[selectedIndex]
+    }
+
+    readonly property string selectedName: selectedEntry ? String(selectedEntry.name) : ""
+    readonly property string selectedSymbol: selectedEntry && selectedEntry.symbol
+                                            ? String(selectedEntry.symbol) : ""
+    readonly property string selectedHex: selectedEntry ? String(selectedEntry.codeHex) : ""
+    readonly property string selectedGlyph: selectedEntry ? String(selectedEntry.glyph) : ""
+    readonly property bool selectedNamed: selectedEntry ? !!selectedEntry.named : false
     readonly property string selectedTextGlyph: selectedHex.length ? ("&#x" + selectedHex + ";") : ""
     readonly property string selectedCodeGlyph: selectedHex.length ? ("\\u" + selectedHex) : ""
-    readonly property string selectedQml: selectedName.length
-            ? ("FontIcon {\n    symbol: FluentIcons." + selectedName + "\n}")
-            : ""
-    readonly property string selectedSymbolRef: selectedName.length ? ("FluentIcons." + selectedName) : ""
-
-    function codeHex(name) {
-        var g = FluentIcons.of(name)
-        if (!g || !g.length)
+    readonly property string selectedQml: {
+        if (!selectedEntry)
             return ""
-        var cp = g.charCodeAt(0)
-        return Number(cp).toString(16).toUpperCase()
+        if (selectedNamed && selectedSymbol.length)
+            return "FontIcon {\n    symbol: FluentIcons." + selectedSymbol + "\n}"
+        return "FontIcon {\n    glyph: \"\\u" + selectedHex + "\"\n}"
+    }
+    readonly property string selectedSymbolRef: {
+        if (selectedNamed && selectedSymbol.length)
+            return "FluentIcons." + selectedSymbol
+        return selectedCodeGlyph
     }
 
     function ensureSelection() {
-        var list = filteredNames
+        var list = filteredEntries
         if (!list.length) {
-            selectedName = ""
+            selectedIndex = -1
             return
         }
-        if (selectedName.length) {
-            for (var i = 0; i < list.length; ++i) {
-                if (list[i] === selectedName)
-                    return
-            }
-        }
-        selectedName = list[0]
+        if (selectedIndex < 0 || selectedIndex >= list.length)
+            selectedIndex = 0
     }
 
     Component.onCompleted: ensureSelection()
-    onFilteredNamesChanged: ensureSelection()
+    onFilteredEntriesChanged: ensureSelection()
 
-    // Full-viewport iconography host (grid + inspector), WinUI Gallery style.
     Item {
         id: host
         Layout.fillWidth: true
@@ -78,7 +86,16 @@ CatalogPage {
             SearchBox {
                 id: filterBox
                 Layout.fillWidth: true
-                placeholderText: qsTr("Search icons by name or code")
+                placeholderText: qsTr("Search icons by name, code, or tags")
+            }
+
+            Label {
+                text: qsTr("%1 icons · showing %2 · %3 named FluentIcons")
+                      .arg(page.allEntries.length)
+                      .arg(page.filteredEntries.length)
+                      .arg(FluentIcons.names().length)
+                color: Theme.textSecondary
+                font.pixelSize: Theme.fontCaption
             }
 
             RowLayout {
@@ -86,7 +103,6 @@ CatalogPage {
                 Layout.fillHeight: true
                 spacing: Theme.spacingLoose
 
-                // --- Icon grid ---
                 Rectangle {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
@@ -103,18 +119,19 @@ CatalogPage {
                         clip: true
                         cellWidth: 104
                         cellHeight: 104
-                        model: page.filteredNames
+                        model: page.filteredEntries
                         boundsBehavior: Flickable.StopAtBounds
                         ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
+                        currentIndex: page.selectedIndex
 
                         delegate: Item {
                             id: cell
-                            required property string modelData
+                            required property var modelData
                             required property int index
                             width: grid.cellWidth
                             height: grid.cellHeight
 
-                            readonly property bool selected: page.selectedName === modelData
+                            readonly property bool selected: page.selectedIndex === index
 
                             Rectangle {
                                 id: tile
@@ -135,38 +152,35 @@ CatalogPage {
                                 Column {
                                     anchors.centerIn: parent
                                     spacing: 8
-                                    FontIcon {
+                                    Text {
                                         anchors.horizontalCenter: parent.horizontalCenter
-                                        symbol: cell.modelData
-                                        fontSize: 28
-                                        iconColor: Theme.textPrimary
+                                        text: cell.modelData.glyph
+                                        font.family: Theme.fontFamilyIcon
+                                        font.pixelSize: 28
+                                        color: Theme.textPrimary
                                     }
                                     Label {
                                         anchors.horizontalCenter: parent.horizontalCenter
                                         width: tile.width - 12
                                         horizontalAlignment: Text.AlignHCenter
-                                        text: cell.modelData
+                                        text: cell.modelData.name
                                         elide: Text.ElideRight
-                                        color: Theme.textSecondary
+                                        color: cell.modelData.named ? Theme.textSecondary : Theme.textDisabled
                                         font.pixelSize: Theme.fontCaption
                                     }
                                 }
 
                                 HoverHandler { id: hover }
                                 TapHandler {
-                                    onTapped: page.selectedName = cell.modelData
+                                    onTapped: page.selectedIndex = cell.index
                                 }
-                                Accessible.role: Accessible.Button
-                                Accessible.name: cell.modelData
-                                Accessible.checkable: true
-                                Accessible.checked: cell.selected
                             }
                         }
                     }
 
                     EmptyState {
                         anchors.centerIn: parent
-                        visible: page.filteredNames.length === 0
+                        visible: page.filteredEntries.length === 0
                         title: qsTr("No icons found")
                         description: qsTr("Try another name or codepoint.")
                         symbol: FluentIcons.Search
@@ -174,7 +188,6 @@ CatalogPage {
                     }
                 }
 
-                // --- Details inspector ---
                 Rectangle {
                     Layout.preferredWidth: 300
                     Layout.fillHeight: true
@@ -197,12 +210,13 @@ CatalogPage {
                             Item {
                                 Layout.fillWidth: true
                                 Layout.preferredHeight: 120
-                                FontIcon {
+                                Text {
                                     anchors.centerIn: parent
-                                    symbol: page.selectedName
-                                    fontSize: 56
-                                    iconColor: Theme.textPrimary
-                                    visible: page.selectedName.length > 0
+                                    visible: page.selectedGlyph.length > 0
+                                    text: page.selectedGlyph
+                                    font.family: Theme.fontFamilyIcon
+                                    font.pixelSize: 56
+                                    color: Theme.textPrimary
                                 }
                             }
 
@@ -216,7 +230,7 @@ CatalogPage {
                                 Layout.fillWidth: true
                                 Layout.margins: Theme.spacingLoose
                                 spacing: Theme.spacingLoose
-                                visible: page.selectedName.length > 0
+                                visible: page.selectedEntry !== null
 
                                 component DetailRow: RowLayout {
                                     property string label: ""
@@ -257,6 +271,7 @@ CatalogPage {
                                 DetailRow {
                                     label: qsTr("Symbol")
                                     value: page.selectedSymbolRef
+                                    visible: page.selectedNamed
                                 }
                                 DetailRow {
                                     label: qsTr("Text glyph")
@@ -269,14 +284,13 @@ CatalogPage {
                                 DetailRow {
                                     label: qsTr("FontIcon QML")
                                     value: page.selectedQml
-                                    copyValue: page.selectedQml
                                 }
 
                                 Label {
                                     Layout.fillWidth: true
-                                    text: qsTr("%1 icons · filter shows %2")
-                                          .arg(page.allNames.length)
-                                          .arg(page.filteredNames.length)
+                                    visible: !page.selectedNamed
+                                    wrapMode: Text.Wrap
+                                    text: qsTr("Unnamed glyph — add a FluentIcons put() if components should reference it by name.")
                                     color: Theme.textSecondary
                                     font.pixelSize: Theme.fontCaption
                                 }
@@ -285,7 +299,7 @@ CatalogPage {
                             EmptyState {
                                 Layout.fillWidth: true
                                 Layout.margins: Theme.spacingLoose
-                                visible: page.selectedName.length === 0
+                                visible: page.selectedEntry === null
                                 title: qsTr("Select an icon")
                                 description: qsTr("Details and copy snippets appear here.")
                                 symbol: FluentIcons.View

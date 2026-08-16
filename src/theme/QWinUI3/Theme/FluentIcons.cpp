@@ -2,7 +2,11 @@
 #include "ThemeFonts.h"
 
 #include <QChar>
+#include <QHash>
+#include <QVariantMap>
 #include <algorithm>
+
+#include "FluentIconsFontMap.inc"
 
 FluentIcons::FluentIcons(QObject *parent)
     : QQmlPropertyMap(parent)
@@ -21,7 +25,6 @@ QString FluentIcons::of(const QString &name) const
     const QVariant v = value(name);
     if (v.isValid())
         return v.toString();
-    // case-insensitive / PascalCase fallback handled in IconSource.qml
     return {};
 }
 
@@ -35,6 +38,34 @@ QStringList FluentIcons::names() const
     return m_names;
 }
 
+QString FluentIcons::codeHex(const QString &name) const
+{
+    const QString g = of(name);
+    if (g.isEmpty())
+        return {};
+    return QString::number(ushort(g.at(0).unicode()), 16).toUpper();
+}
+
+QVariantList FluentIcons::entries() const
+{
+    QVariantList out;
+    out.reserve(kFluentIconCodepointCount);
+    for (int i = 0; i < kFluentIconCodepointCount; ++i) {
+        const ushort cp = kFluentIconCodepoints[i];
+        QVariantMap row;
+        const QString hex = QString::number(cp, 16).toUpper();
+        const QString glyph = QString(QChar(cp));
+        const QString primary = m_primaryNameByCode.value(cp);
+        row.insert(QStringLiteral("codeHex"), hex);
+        row.insert(QStringLiteral("glyph"), glyph);
+        row.insert(QStringLiteral("named"), !primary.isEmpty());
+        row.insert(QStringLiteral("name"), primary.isEmpty() ? (QStringLiteral("U+") + hex) : primary);
+        row.insert(QStringLiteral("symbol"), primary);
+        out.append(row);
+    }
+    return out;
+}
+
 static QString g(char32_t cp)
 {
     return QString(QChar(ushort(cp)));
@@ -46,6 +77,9 @@ void FluentIcons::populate()
         const QString name = QString::fromLatin1(key);
         insert(name, g(cp));
         m_names.append(name);
+        const ushort code = ushort(cp);
+        if (!m_primaryNameByCode.contains(code))
+            m_primaryNameByCode.insert(code, name);
     };
 
     // Chrome / navigation (incl. AppWindowTitleBar caption glyphs)
@@ -120,7 +154,7 @@ void FluentIcons::populate()
     put("Account", 0xE77B);
     put("OtherUser", 0xE8BD);
 
-    // Objects
+    // Objects / devices
     put("Settings", 0xE713);
     put("Calendar", 0xE787);
     put("Mail", 0xE715);
@@ -140,6 +174,12 @@ void FluentIcons::populate()
     put("Mute", 0xE74F);
     put("Brightness", 0xE706);
     put("Wifi", 0xE701);
+    put("Bluetooth", 0xE702);
+    put("VPN", 0xE705);
+    put("Airplane", 0xE709);
+    put("Tablet", 0xE70A);
+    put("Mouse", 0xE962);
+    put("Headphone", 0xE7F6);
     put("Lock", 0xE72E);
     put("Unlock", 0xE785);
     put("Permissions", 0xE8D7);
@@ -148,6 +188,8 @@ void FluentIcons::populate()
     put("EaseOfAccess", 0xE8AB);
     put("DeveloperTools", 0xE945);
     put("Street", 0xE7C3);
+    put("Cloud", 0xE753);
+    put("CloudDownload", 0xEBD3);
 
     // View / input chrome
     put("View", 0xE890);

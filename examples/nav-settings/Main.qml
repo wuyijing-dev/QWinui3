@@ -26,14 +26,14 @@ StandardWindow {
                 type: "item",
                 key: "home",
                 title: qsTr("Home"),
-                icon: FluentIcons.Home,
+                symbol: FluentIcons.Home,
                 component: "HomePage"
             },
             {
                 type: "item",
                 key: "about",
                 title: qsTr("About"),
-                icon: FluentIcons.Info,
+                symbol: FluentIcons.Info,
                 component: "AboutPage"
             }
         ]

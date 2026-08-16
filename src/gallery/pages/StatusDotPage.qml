@@ -39,7 +39,7 @@ CatalogPage {
                 Layout.maximumWidth: 420
                 title: qsTr("Alex Rivera")
                 subtitle: qsTr("In a meeting")
-                glyph: FluentIcons.Contact
+                symbol: FluentIcons.Contact
                 StatusDot {
                     id: presence
                     status: presence.busy

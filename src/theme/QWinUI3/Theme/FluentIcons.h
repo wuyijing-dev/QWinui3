@@ -3,6 +3,7 @@
 #include <QQmlEngine>
 #include <QQmlPropertyMap>
 #include <QStringList>
+#include <QVariantList>
 #include <QtQml/qqmlregistration.h>
 
 // Segoe Fluent Icons character class — FluentIcons.Save, FluentIcons.Copy, …
@@ -19,11 +20,15 @@ public:
 
     Q_INVOKABLE QString of(const QString &name) const;
     Q_INVOKABLE bool has(const QString &name) const;
-    // Sorted symbol names for gallery / pickers (includes aliases).
+    // Sorted named symbols (aliases included).
     Q_INVOKABLE QStringList names() const;
+    // Full font catalog for Iconography: [{ name, codeHex, glyph, named }, …]
+    Q_INVOKABLE QVariantList entries() const;
+    Q_INVOKABLE QString codeHex(const QString &name) const;
 
 private:
     void populate();
 
     QStringList m_names;
+    QHash<ushort, QString> m_primaryNameByCode;
 };
