@@ -17,6 +17,12 @@ import QWinUI3.Theme
 T.RadioButton {
     id: control
 
+
+    Accessible.role: Accessible.RadioButton
+    Accessible.name: control.text
+    Accessible.checkable: true
+    Accessible.checked: control.checked
+    Accessible.onToggleAction: if (control.enabled) control.click()
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,

@@ -19,6 +19,12 @@ import QWinUI3.Theme
 T.CheckBox {
     id: control
 
+    Accessible.role: Accessible.CheckBox
+    Accessible.name: control.text
+    Accessible.checkable: true
+    Accessible.checked: control.checkState === Qt.Checked
+    Accessible.onToggleAction: if (control.enabled) control.toggle()
+
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,

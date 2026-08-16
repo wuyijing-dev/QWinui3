@@ -17,6 +17,9 @@ import QWinUI3.Theme
 T.Frame {
     id: control
 
+
+    Accessible.role: Accessible.Grouping
+    Accessible.name: qsTr("Frame")
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             contentWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,

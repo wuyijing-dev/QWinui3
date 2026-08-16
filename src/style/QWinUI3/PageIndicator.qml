@@ -27,6 +27,12 @@ import QWinUI3.Theme
 T.PageIndicator {
     id: control
 
+
+    Accessible.role: Accessible.PageTabList
+    Accessible.name: qsTr("Page indicator")
+    Accessible.value: control.currentIndex
+    Accessible.valueMinimum: 0
+    Accessible.valueMaximum: Math.max(0, control.count - 1)
     implicitWidth: contentItem.implicitWidth + leftPadding + rightPadding
     implicitHeight: contentItem.implicitHeight + topPadding + bottomPadding
 

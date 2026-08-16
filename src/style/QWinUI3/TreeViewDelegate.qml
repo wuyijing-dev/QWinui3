@@ -25,6 +25,9 @@ import QWinUI3.Theme
 T.TreeViewDelegate {
     id: control
 
+
+    Accessible.role: Accessible.TreeItem
+    Accessible.name: control.text
     implicitWidth: leftMargin + __contentIndent + implicitContentWidth + rightPadding + rightMargin
     implicitHeight: Math.max(Theme.navItemHeight, implicitContentHeight + 8)
 

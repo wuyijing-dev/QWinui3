@@ -20,6 +20,11 @@ import QWinUI3.Theme
 T.RadioDelegate {
     id: control
 
+
+    Accessible.role: Accessible.RadioButton
+    Accessible.name: control.text
+    Accessible.checkable: true
+    Accessible.checked: control.checked
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(Theme.navItemHeight,

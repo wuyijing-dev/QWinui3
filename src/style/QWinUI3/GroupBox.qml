@@ -19,6 +19,9 @@ import QWinUI3.Theme
 T.GroupBox {
     id: control
 
+
+    Accessible.role: Accessible.Grouping
+    Accessible.name: control.title
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             contentWidth + leftPadding + rightPadding,
                             implicitLabelWidth + leftPadding + rightPadding)

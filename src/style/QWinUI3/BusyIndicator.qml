@@ -21,6 +21,10 @@ import QWinUI3.Theme
 T.BusyIndicator {
     id: control
 
+
+    Accessible.role: Accessible.Animation
+    Accessible.name: qsTr("Busy")
+    Accessible.description: control.running ? qsTr("Loading") : qsTr("Idle")
     implicitWidth: 32
     implicitHeight: 32
 

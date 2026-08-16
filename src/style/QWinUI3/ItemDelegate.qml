@@ -21,6 +21,10 @@ import QWinUI3.Theme
 T.ItemDelegate {
     id: control
 
+
+    Accessible.role: Accessible.ListItem
+    Accessible.name: control.text
+    Accessible.onPressAction: if (control.enabled) control.clicked()
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(Theme.navItemHeight,

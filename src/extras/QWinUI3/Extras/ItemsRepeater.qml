@@ -21,6 +21,10 @@ import QWinUI3.Theme
 T.Control {
     id: root
 
+    Accessible.role: Accessible.List
+    Accessible.name: qsTr("Items")
+    Accessible.description: qsTr("%1 items").arg(root.count)
+
     // List / array / QAbstractItemModel
     property alias model: list.model
     // Item delegate component

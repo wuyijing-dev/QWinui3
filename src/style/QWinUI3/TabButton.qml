@@ -16,6 +16,11 @@ import QWinUI3.Theme
 T.TabButton {
     id: control
 
+
+    Accessible.role: Accessible.PageTab
+    Accessible.name: control.text
+    Accessible.checkable: true
+    Accessible.checked: control.checked
     implicitWidth: Math.max(implicitContentWidth + leftPadding + rightPadding, 64)
     implicitHeight: 36
 

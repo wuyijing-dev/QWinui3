@@ -25,6 +25,10 @@ import QWinUI3.Theme
 Button {
     id: control
 
+    Accessible.role: Accessible.Button
+    Accessible.name: control.text.length ? control.text : qsTr("Accent button")
+    Accessible.onPressAction: if (control.enabled) control.clicked()
+
     // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
     // Raw Fluent glyph string fallback

@@ -22,6 +22,9 @@ import QWinUI3.Theme
 T.Pane {
     id: control
 
+
+    Accessible.role: Accessible.Pane
+    Accessible.name: qsTr("Pane")
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             contentWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,

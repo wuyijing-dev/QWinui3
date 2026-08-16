@@ -22,6 +22,10 @@ import QWinUI3.Theme
 T.ToolButton {
     id: control
 
+
+    Accessible.role: Accessible.Button
+    Accessible.name: control.text
+    Accessible.onPressAction: if (control.enabled) control.clicked()
     implicitWidth: Math.max(32, implicitContentWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(32, implicitContentHeight + topPadding + bottomPadding)
 

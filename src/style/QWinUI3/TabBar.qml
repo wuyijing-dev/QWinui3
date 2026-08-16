@@ -16,6 +16,9 @@ import QWinUI3.Theme
 T.TabBar {
     id: control
 
+
+    Accessible.role: Accessible.PageTabList
+    Accessible.name: qsTr("Tab bar")
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             contentWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,

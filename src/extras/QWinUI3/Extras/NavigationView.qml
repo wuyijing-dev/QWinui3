@@ -41,6 +41,10 @@ import QWinUI3.Theme
 Item {
     id: root
 
+    Accessible.role: Accessible.Pane
+    Accessible.name: root.headerText.length ? root.headerText : qsTr("Navigation")
+    Accessible.description: qsTr("Navigation pane and content")
+
     // Navigation items: [{ type, key, title, icon|symbol, children?, badge?, badgeValue? }]
     property var model: []
     // Selected index

@@ -19,6 +19,9 @@ import QWinUI3.Theme
 T.ComboBox {
     id: control
 
+
+    Accessible.role: Accessible.ComboBox
+    Accessible.name: control.displayText.length ? control.displayText : qsTr("Combo box")
     implicitWidth: Math.max(Theme.controlMinWidth,
                             implicitContentWidth + leftPadding + rightPadding)
     implicitHeight: Theme.controlHeight

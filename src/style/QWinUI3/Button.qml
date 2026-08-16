@@ -20,6 +20,10 @@ import QWinUI3.Theme
 T.Button {
     id: control
 
+    Accessible.role: Accessible.Button
+    Accessible.name: control.text
+    Accessible.onPressAction: if (control.enabled) control.clicked()
+
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,

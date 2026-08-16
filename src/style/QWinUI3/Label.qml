@@ -15,6 +15,9 @@ import QWinUI3.Theme
 
 T.Label {
     id: control
+
+    Accessible.role: Accessible.StaticText
+    Accessible.name: control.text
     color: control.enabled ? Theme.textPrimary : Theme.textDisabled
     linkColor: Theme.accent
     font.family: Theme.fontFamily

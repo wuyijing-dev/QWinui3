@@ -20,6 +20,9 @@ import QWinUI3.Theme
 T.SwipeDelegate {
     id: control
 
+
+    Accessible.role: Accessible.ListItem
+    Accessible.name: control.text
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(Theme.navItemHeight,

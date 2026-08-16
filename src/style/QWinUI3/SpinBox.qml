@@ -16,6 +16,12 @@ import QWinUI3.Theme
 T.SpinBox {
     id: control
 
+
+    Accessible.role: Accessible.SpinBox
+    Accessible.name: qsTr("Spin box")
+    Accessible.value: control.value
+    Accessible.valueMinimum: control.from
+    Accessible.valueMaximum: control.to
     implicitWidth: Math.max(96, contentItem.implicitWidth + leftPadding + rightPadding
                             + up.implicitIndicatorWidth + down.implicitIndicatorWidth)
     implicitHeight: Theme.controlHeight

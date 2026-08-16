@@ -19,6 +19,9 @@ import QWinUI3.Theme
 T.Dialog {
     id: control
 
+
+    Accessible.role: Accessible.Dialog
+    Accessible.name: control.title.length ? control.title : qsTr("Dialog")
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             contentWidth + leftPadding + rightPadding,
                             implicitHeaderWidth, implicitFooterWidth)

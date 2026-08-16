@@ -22,6 +22,12 @@ import QWinUI3.Theme
 T.Tumbler {
     id: control
 
+
+    Accessible.role: Accessible.List
+    Accessible.name: qsTr("Tumbler")
+    Accessible.value: control.currentIndex
+    Accessible.valueMinimum: 0
+    Accessible.valueMaximum: Math.max(0, control.count - 1)
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,

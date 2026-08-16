@@ -17,6 +17,11 @@ import QWinUI3.Theme
 T.TextArea {
     id: control
 
+
+    Accessible.role: Accessible.EditableText
+    Accessible.multiLine: true
+    Accessible.name: control.placeholderText.length ? control.placeholderText : qsTr("Text area")
+    Accessible.readOnly: control.readOnly
     implicitWidth: Math.max(200, contentWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(80, contentHeight + topPadding + bottomPadding)
 

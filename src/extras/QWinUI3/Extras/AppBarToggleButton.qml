@@ -17,6 +17,17 @@ import QWinUI3.Theme
 IconicButton {
     id: control
 
+    Accessible.role: Accessible.Button
+    Accessible.name: {
+        if (control.text.length)
+            return control.text
+        return qsTr("App bar toggle")
+    }
+    Accessible.checkable: true
+    Accessible.checked: control.checked
+    Accessible.description: control.keyboardAcceleratorText
+    Accessible.onToggleAction: if (control.enabled) control.toggle()
+
     // bottom | right | collapsed
     property string labelPosition: ""
     // Injected by CommandBar (do not parent-walk)

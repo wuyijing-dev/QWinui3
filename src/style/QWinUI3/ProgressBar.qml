@@ -23,6 +23,21 @@ T.ProgressBar {
     // WinUI ShowPaused — caution color; stops indeterminate motion
     property bool showPaused: false
 
+    Accessible.role: Accessible.ProgressBar
+    Accessible.name: qsTr("Progress")
+    Accessible.value: control.indeterminate ? 0 : control.position
+    Accessible.valueMinimum: 0
+    Accessible.valueMaximum: 1
+    Accessible.description: {
+        if (control.indeterminate)
+            return qsTr("In progress")
+        if (control.showError)
+            return qsTr("Error")
+        if (control.showPaused)
+            return qsTr("Paused")
+        return qsTr("%1 percent").arg(Math.round(control.position * 100))
+    }
+
     implicitWidth: 200
     implicitHeight: Theme.sliderThickness
     padding: 0

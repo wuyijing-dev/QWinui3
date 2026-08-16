@@ -19,6 +19,12 @@ import QWinUI3.Theme
 T.Switch {
     id: control
 
+
+    Accessible.role: Accessible.CheckBox
+    Accessible.name: control.text.length ? control.text : qsTr("Toggle")
+    Accessible.checkable: true
+    Accessible.checked: control.checked
+    Accessible.onToggleAction: if (control.enabled) control.toggle()
     // WinUI OnContent — label shown when checked (beside indicator)
     property string onContent: ""
     // WinUI OffContent — label shown when unchecked

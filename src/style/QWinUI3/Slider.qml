@@ -17,6 +17,12 @@ import QWinUI3.Theme
 T.Slider {
     id: control
 
+
+    Accessible.role: Accessible.Slider
+    Accessible.name: qsTr("Slider")
+    Accessible.value: control.value
+    Accessible.valueMinimum: control.from
+    Accessible.valueMaximum: control.to
     implicitWidth: Math.max(200, implicitHandleWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(Theme.sliderThumb, implicitHandleHeight + topPadding + bottomPadding)
 

@@ -18,6 +18,13 @@ import QWinUI3.Theme
 T.RangeSlider {
     id: control
 
+
+    Accessible.role: Accessible.Slider
+    Accessible.name: qsTr("Range slider")
+    Accessible.value: control.first.value
+    Accessible.valueMinimum: control.from
+    Accessible.valueMaximum: control.to
+    Accessible.description: qsTr("From %1 to %2").arg(control.first.value).arg(control.second.value)
     implicitWidth: Math.max(200, first.handle.implicitWidth + second.handle.implicitWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(Theme.sliderThumb, first.handle.implicitHeight + topPadding + bottomPadding)
 

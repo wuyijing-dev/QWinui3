@@ -18,6 +18,9 @@ import QWinUI3.Theme
 T.MenuBarItem {
     id: control
 
+
+    Accessible.role: Accessible.MenuItem
+    Accessible.name: control.text
     implicitWidth: Math.max(implicitContentWidth + leftPadding + rightPadding, 48)
     implicitHeight: 32
 

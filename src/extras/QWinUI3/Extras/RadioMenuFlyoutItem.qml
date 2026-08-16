@@ -16,6 +16,13 @@ import QWinUI3.Theme
 MenuItem {
     id: control
 
+    Accessible.role: Accessible.MenuItem
+    Accessible.name: control.text
+    Accessible.checkable: true
+    Accessible.checked: control.checked
+    Accessible.description: control.keyboardAcceleratorText
+    Accessible.onToggleAction: if (control.enabled) control.clicked()
+
     // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
     // Raw Fluent glyph string fallback

@@ -17,6 +17,10 @@ import QWinUI3.Theme
 T.TextField {
     id: control
 
+
+    Accessible.role: Accessible.EditableText
+    Accessible.name: control.placeholderText.length ? control.placeholderText : qsTr("Text field")
+    Accessible.readOnly: control.readOnly
     implicitWidth: Math.max(200, contentWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(Theme.controlHeight,
                              contentHeight + topPadding + bottomPadding)

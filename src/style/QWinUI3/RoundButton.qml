@@ -20,6 +20,10 @@ import QWinUI3.Theme
 T.RoundButton {
     id: control
 
+
+    Accessible.role: Accessible.Button
+    Accessible.name: control.text
+    Accessible.onPressAction: if (control.enabled) control.clicked()
     implicitWidth: Math.max(36, implicitContentWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(36, implicitContentHeight + topPadding + bottomPadding)
 

@@ -18,6 +18,11 @@ import QWinUI3.Theme
 T.DelayButton {
     id: control
 
+
+    Accessible.role: Accessible.Button
+    Accessible.name: control.text
+    Accessible.description: qsTr("Press and hold")
+    Accessible.onPressAction: if (control.enabled) control.clicked()
     implicitWidth: Math.max(Theme.controlMinWidth,
                             implicitContentWidth + leftPadding + rightPadding)
     implicitHeight: Theme.controlHeight

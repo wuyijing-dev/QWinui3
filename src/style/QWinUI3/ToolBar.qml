@@ -18,6 +18,9 @@ import QWinUI3.Theme
 
 T.ToolBar {
     id: control
+
+    Accessible.role: Accessible.ToolBar
+    Accessible.name: qsTr("Tool bar")
     implicitHeight: 48
     padding: 4
     spacing: Theme.spacing
