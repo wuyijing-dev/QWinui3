@@ -2,10 +2,10 @@
 # Usage: ./build.sh [Debug|Release] [--clean]
 # Default: Release. Optional --clean removes the build/ directory first.
 # Marker used to detect stale copies of this script on disk:
-# QWINUI3_BUILD_SH_REV=3
+# QWINUI3_BUILD_SH_REV=4
 set -euo pipefail
 
-echo "QWinUI3 build.sh rev=3"
+echo "QWinUI3 build.sh rev=4"
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BUILD_DIR="${ROOT}/build"
@@ -198,14 +198,72 @@ BYTES="$(wc -c < "${GALLERY_ABS}" | tr -d ' ')"
 
 QML_IMPORTS="${BUILD_DIR}/src/platform/QWinUI3:${BUILD_DIR}/src/extras/QWinUI3:${BUILD_DIR}/src/theme/QWinUI3:${BUILD_DIR}/src/style"
 
+detect_qt_plugin_dir() {
+  if [[ -n "${QT_PLUGIN_PATH:-}" ]]; then
+    local first="${QT_PLUGIN_PATH%%:*}"
+    if [[ -d "${first}/platforms" ]]; then
+      echo "${first}"
+      return 0
+    fi
+  fi
+  if command -v qtpaths6 >/dev/null 2>&1; then
+    local d
+    d="$(qtpaths6 --plugin-dir 2>/dev/null || true)"
+    if [[ -n "${d}" && -d "${d}/platforms" ]]; then
+      echo "${d}"
+      return 0
+    fi
+  fi
+  if command -v qtpaths >/dev/null 2>&1; then
+    local d
+    d="$(qtpaths --plugin-dir 2>/dev/null || true)"
+    if [[ -n "${d}" && -d "${d}/platforms" ]]; then
+      echo "${d}"
+      return 0
+    fi
+  fi
+  local candidates=(
+    "${QT_PREFIX}/plugins"
+    "${QT_PREFIX}/lib/qt6/plugins"
+    /usr/lib/x86_64-linux-gnu/qt6/plugins
+    /usr/lib/aarch64-linux-gnu/qt6/plugins
+    /usr/lib/qt6/plugins
+    /usr/lib64/qt6/plugins
+  )
+  local c
+  for c in "${candidates[@]}"; do
+    if [[ -d "${c}/platforms" ]]; then
+      echo "${c}"
+      return 0
+    fi
+  done
+  return 1
+}
+
+if ! QT_PLUGINS="$(detect_qt_plugin_dir)"; then
+  echo "WARNING: could not locate Qt platforms/ plugins (wayland/xcb)." >&2
+  echo "  Try: sudo apt install qt6-wayland qt6-qpa-plugins" >&2
+  QT_PLUGINS=""
+fi
+
+# Linux system Qt: NEVER use Windows-style "Prefix=." + "Plugins=plugins".
+# That forces an empty build/plugins and breaks wayland/xcb discovery.
+# Only record QmlImports so in-tree modules resolve.
 cat > "${BUILD_DIR}/qt.conf" <<EOF
 [Paths]
-Prefix = .
-Libraries = .
-Binaries = .
-Plugins = plugins
-QmlImports = ${BUILD_DIR}/src/platform/QWinUI3,${BUILD_DIR}/src/extras/QWinUI3,${BUILD_DIR}/src/theme/QWinUI3,qml
+Plugins = ${QT_PLUGINS}
+QmlImports = ${BUILD_DIR}/src/platform/QWinUI3,${BUILD_DIR}/src/extras/QWinUI3,${BUILD_DIR}/src/theme/QWinUI3,${BUILD_DIR}/src/style
 EOF
+
+# If plugin dir unknown, remove Plugins= line so Qt uses built-in defaults.
+if [[ -z "${QT_PLUGINS}" ]]; then
+  cat > "${BUILD_DIR}/qt.conf" <<EOF
+[Paths]
+QmlImports = ${BUILD_DIR}/src/platform/QWinUI3,${BUILD_DIR}/src/extras/QWinUI3,${BUILD_DIR}/src/theme/QWinUI3,${BUILD_DIR}/src/style
+EOF
+fi
+
+echo "Plugins: ${QT_PLUGINS:-<qt default>}"
 
 cat > "${BUILD_DIR}/run-gallery.sh" <<EOF
 #!/usr/bin/env bash
@@ -221,10 +279,25 @@ if [[ ! -f "\${BIN}" ]]; then
   echo "Expected: \${HERE}/qwinui3_gallery or \${HERE}/src/gallery/qwinui3_gallery" >&2
   exit 1
 fi
-export QT_PLUGIN_PATH="\${QT_PLUGIN_PATH:-${QT_PREFIX}/plugins}"
+EOF
+
+if [[ -n "${QT_PLUGINS}" ]]; then
+  cat >> "${BUILD_DIR}/run-gallery.sh" <<EOF
+export QT_PLUGIN_PATH="${QT_PLUGINS}\${QT_PLUGIN_PATH:+:\$QT_PLUGIN_PATH}"
+EOF
+else
+  cat >> "${BUILD_DIR}/run-gallery.sh" <<EOF
+# Leave QT_PLUGIN_PATH unset so Qt uses its packaged defaults.
+unset QT_PLUGIN_PATH || true
+EOF
+fi
+
+cat >> "${BUILD_DIR}/run-gallery.sh" <<EOF
 export QML_IMPORT_PATH="${QML_IMPORTS}\${QML_IMPORT_PATH:+:\$QML_IMPORT_PATH}"
 export QML2_IMPORT_PATH="\${QML_IMPORT_PATH}"
-export LD_LIBRARY_PATH="${QT_PREFIX}/lib\${LD_LIBRARY_PATH:+:\$LD_LIBRARY_PATH}"
+if [[ "${QT_PREFIX}" != "/usr" && -d "${QT_PREFIX}/lib" ]]; then
+  export LD_LIBRARY_PATH="${QT_PREFIX}/lib\${LD_LIBRARY_PATH:+:\$LD_LIBRARY_PATH}"
+fi
 cd "\${HERE}"
 exec "\${BIN}" "\$@"
 EOF
@@ -233,3 +306,7 @@ chmod +x "${BUILD_DIR}/run-gallery.sh"
 echo
 echo "Done: ${GALLERY_ABS} (${CONFIG})  [${BYTES} bytes]"
 echo "Run:  ${BUILD_DIR}/run-gallery.sh"
+if [[ -n "${QT_PLUGINS}" && ! -e "${QT_PLUGINS}/platforms/libqwayland-generic.so" \
+      && ! -e "${QT_PLUGINS}/platforms/libqwayland.so" ]]; then
+  echo "Note: Wayland QPA plugin not found — install: sudo apt install qt6-wayland" >&2
+fi

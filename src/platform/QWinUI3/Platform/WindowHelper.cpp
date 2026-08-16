@@ -187,18 +187,58 @@ qreal WindowHelper::devicePixelRatio() const
 void WindowHelper::configurePlatformEnvironment()
 {
 #if defined(Q_OS_LINUX)
+    auto hasWaylandPlatformPlugin = []() -> bool {
+        const QByteArray extra = qgetenv("QT_PLUGIN_PATH");
+        QStringList roots;
+        if (!extra.isEmpty()) {
+            for (const QByteArray &part : extra.split(':')) {
+                if (!part.isEmpty())
+                    roots << QString::fromLocal8Bit(part);
+            }
+        }
+        roots << QStringLiteral("/usr/lib/x86_64-linux-gnu/qt6/plugins")
+              << QStringLiteral("/usr/lib/aarch64-linux-gnu/qt6/plugins")
+              << QStringLiteral("/usr/lib/qt6/plugins")
+              << QStringLiteral("/usr/lib64/qt6/plugins");
+        if (const QByteArray prefix = qgetenv("QTDIR"); !prefix.isEmpty())
+            roots << QString::fromLocal8Bit(prefix) + QStringLiteral("/plugins");
+        if (const QByteArray prefix = qgetenv("CMAKE_PREFIX_PATH"); !prefix.isEmpty()) {
+            for (const QByteArray &part : prefix.split(':')) {
+                if (!part.isEmpty())
+                    roots << QString::fromLocal8Bit(part) + QStringLiteral("/plugins");
+            }
+        }
+        const QStringList names = {
+            QStringLiteral("platforms/libqwayland-generic.so"),
+            QStringLiteral("platforms/libqwayland.so"),
+            QStringLiteral("platforms/libqwayland-egl.so"),
+        };
+        for (const QString &root : roots) {
+            for (const QString &name : names) {
+                if (QFile::exists(root + QLatin1Char('/') + name))
+                    return true;
+            }
+        }
+        return false;
+    };
+
     // Prefer Wayland when the session is Wayland, with xcb fallback. Respect an
     // explicit QT_QPA_PLATFORM (developers / packagers may force xcb or wayland).
     if (qEnvironmentVariableIsEmpty("QT_QPA_PLATFORM")) {
         const QByteArray session = qgetenv("XDG_SESSION_TYPE").toLower();
         const bool waylandSession = session == "wayland"
                 || !qEnvironmentVariableIsEmpty("WAYLAND_DISPLAY");
-        if (waylandSession)
+        const bool waylandPlugin = hasWaylandPlatformPlugin();
+        if (waylandSession && waylandPlugin)
             qputenv("QT_QPA_PLATFORM", "wayland;xcb");
+        else if (waylandSession && !waylandPlugin)
+            qputenv("QT_QPA_PLATFORM", "xcb"); // qt6-wayland not installed
         else if (session == "x11")
             qputenv("QT_QPA_PLATFORM", "xcb;wayland");
-        else
+        else if (waylandPlugin)
             qputenv("QT_QPA_PLATFORM", "wayland;xcb");
+        else
+            qputenv("QT_QPA_PLATFORM", "xcb");
     }
 
     // Client-side decorations: hide compositor title bar; use Fluent caption.
