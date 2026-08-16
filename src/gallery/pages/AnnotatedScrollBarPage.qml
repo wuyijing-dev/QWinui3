@@ -20,6 +20,7 @@ CatalogPage {
             Layout.preferredHeight: 220
             contentWidth: width
             contentHeight: col.implicitHeight
+            labelFormat: "%1%"
             Column {
                 id: col
                 width: parent.width

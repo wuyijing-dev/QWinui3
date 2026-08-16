@@ -43,8 +43,6 @@ Popup {
     height: column.implicitHeight
     x: parent ? Math.round((parent.width - width) / 2) : 0
     y: parent ? Math.round(parent.height * 0.18) : 80
-    Accessible.role: Accessible.Dialog
-    Accessible.name: qsTr("Command palette")
 
     property var _filtered: []
     property int _highlight: 0
@@ -119,6 +117,8 @@ Popup {
         id: column
         width: root.width
         spacing: 0
+        Accessible.role: Accessible.Dialog
+        Accessible.name: qsTr("Command palette")
 
         RowLayout {
             Layout.fillWidth: true

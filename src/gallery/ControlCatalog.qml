@@ -1305,6 +1305,7 @@ QtObject {
             title: qsTr("NotificationBridge"),
             category: "status",
             icon: FluentIcons.Notification,
+            description: qsTr("Mirror ToastHost to Windows balloons or Linux portal notifications."),
             component: "NotificationBridgePage",
             source: "pages/NotificationBridgePage.qml"
         },

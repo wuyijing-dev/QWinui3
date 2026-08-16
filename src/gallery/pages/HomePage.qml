@@ -261,7 +261,7 @@ CatalogPage {
                             Layout.fillWidth: true
                         }
                         Text {
-                            text: modelData.description
+                            text: modelData.description || ""
                             font.family: Theme.fontFamily
                             font.pixelSize: Theme.fontCaption
                             color: Theme.textSecondary
@@ -270,6 +270,7 @@ CatalogPage {
                             elide: Text.ElideRight
                             Layout.fillWidth: true
                             Layout.fillHeight: true
+                            visible: !!(modelData.description)
                         }
 
                         Item { Layout.fillWidth: true; Layout.preferredHeight: 1 }
@@ -466,12 +467,13 @@ CatalogPage {
                                     Layout.fillWidth: true
                                 }
                                 Text {
-                                    text: modelData.description
+                                    text: modelData.description || ""
                                     font.pixelSize: Theme.fontCaption
                                     color: Theme.textSecondary
                                     elide: Text.ElideRight
                                     maximumLineCount: 1
                                     Layout.fillWidth: true
+                                    visible: !!(modelData.description)
                                 }
                             }
 
@@ -586,12 +588,13 @@ CatalogPage {
                                     Layout.fillWidth: true
                                 }
                                 Text {
-                                    text: modelData.description
+                                    text: modelData.description || ""
                                     font.pixelSize: Theme.fontCaption
                                     color: Theme.textSecondary
                                     elide: Text.ElideRight
                                     maximumLineCount: 1
                                     Layout.fillWidth: true
+                                    visible: !!(modelData.description)
                                 }
                             }
                         }

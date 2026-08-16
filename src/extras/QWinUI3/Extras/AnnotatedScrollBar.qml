@@ -33,8 +33,9 @@ import QWinUI3.Theme
 //
 // @notes
 //   Place tall content as children (default property → Flickable).
-//   Vertical ScrollBar shows a floating label (ElevatedChrome) while scrolling
-//   unless alwaysShowLabel is true.
+//   Vertical ScrollBar is AlwaysOn when content overflows; floating label
+//   (ElevatedChrome) shows while scrolling / hovering / pressing the bar,
+//   or when alwaysShowLabel is true.
 //   labels: string[] (even sample) or AnnotatedScrollBarLabel-like
 //   { content|text, scrollOffset }. scrollOffset 0..1 or absolute contentY (>=1).
 
@@ -185,8 +186,9 @@ T.Control {
             boundsBehavior: Flickable.StopAtBounds
             ScrollBar.vertical: ScrollBar {
                 id: vbar
+                // Always show when scrollable so the annotated thumb/label are discoverable
                 policy: flick.contentHeight > flick.height
-                        ? ScrollBar.AsNeeded : ScrollBar.AlwaysOff
+                        ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
             }
         }
 
@@ -228,7 +230,13 @@ T.Control {
             borderColor: Theme.strokeCard
             elevation: 4
             shadowOpacity: Theme.dark ? 0.28 : 0.14
-            opacity: (root.alwaysShowLabel || vbar.pressed || vbar.hovered) && vbar.size < 1.0 ? 1 : 0
+            opacity: (root.alwaysShowLabel
+                      || vbar.active
+                      || vbar.pressed
+                      || vbar.hovered
+                      || flick.moving
+                      || flick.flicking
+                      || flick.dragging) && vbar.size < 1.0 ? 1 : 0
             visible: opacity > 0.01
             scale: opacity > 0.5 ? 1 : 0.94
 
@@ -254,7 +262,8 @@ T.Control {
                 }
             }
             Behavior on y {
-                enabled: !Theme.reducedMotion && (vbar.pressed || vbar.hovered)
+                enabled: !Theme.reducedMotion && (vbar.active || vbar.pressed || vbar.hovered
+                                                  || flick.moving || flick.flicking)
                 NumberAnimation {
                     duration: Theme.duration(Theme.motionFast)
                     easing.type: Theme.easingStandard

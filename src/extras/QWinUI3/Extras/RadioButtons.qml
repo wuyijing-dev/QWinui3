@@ -73,8 +73,15 @@ T.Control {
     Keys.onDownPressed: select(Math.min((model ? model.length : 1) - 1, currentIndex + 1))
     Keys.onLeftPressed: select(Math.max(0, currentIndex - 1))
     Keys.onRightPressed: select(Math.min((model ? model.length : 1) - 1, currentIndex + 1))
-    Keys.onHomePressed: select(0)
-    Keys.onEndPressed: select(Math.max(0, (model ? model.length : 1) - 1))
+    Keys.onPressed: function (event) {
+        if (event.key === Qt.Key_Home) {
+            select(0)
+            event.accepted = true
+        } else if (event.key === Qt.Key_End) {
+            select(Math.max(0, (model ? model.length : 1) - 1))
+            event.accepted = true
+        }
+    }
 
     readonly property int _columns: {
         if (horizontal)

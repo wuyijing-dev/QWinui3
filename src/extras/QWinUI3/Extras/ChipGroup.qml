@@ -138,23 +138,23 @@ T.Control {
         else
             currentIndex = next
     }
-    Keys.onHomePressed: {
+    Keys.onPressed: function (event) {
         if (!_selectable || _modelCount() <= 0)
             return
-        if (_exclusive)
-            select(0)
-        else
-            currentIndex = 0
-    }
-    Keys.onEndPressed: {
-        var count = _modelCount()
-        if (!_selectable || count <= 0)
-            return
-        var last = count - 1
-        if (_exclusive)
-            select(last)
-        else
-            currentIndex = last
+        if (event.key === Qt.Key_Home) {
+            if (_exclusive)
+                select(0)
+            else
+                currentIndex = 0
+            event.accepted = true
+        } else if (event.key === Qt.Key_End) {
+            var last = _modelCount() - 1
+            if (_exclusive)
+                select(last)
+            else
+                currentIndex = last
+            event.accepted = true
+        }
     }
     Keys.onSpacePressed: {
         if (_selectable && currentIndex >= 0)

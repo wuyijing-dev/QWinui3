@@ -79,11 +79,17 @@ T.Control {
     Keys.onRightPressed: if (!_vertical && isInteractive) next()
     Keys.onUpPressed: if (_vertical && isInteractive) previous()
     Keys.onDownPressed: if (_vertical && isInteractive) next()
-    Keys.onHomePressed: if (isInteractive) goTo(0)
-    Keys.onEndPressed: {
-        if (!isInteractive || !model || !model.length)
+    Keys.onPressed: function (event) {
+        if (!isInteractive)
             return
-        goTo(model.length - 1)
+        if (event.key === Qt.Key_Home) {
+            goTo(0)
+            event.accepted = true
+        } else if (event.key === Qt.Key_End) {
+            if (model && model.length)
+                goTo(model.length - 1)
+            event.accepted = true
+        }
     }
 
     contentItem: Loader {

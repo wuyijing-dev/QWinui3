@@ -45,8 +45,15 @@ T.Control {
     Keys.onRightPressed: goNext()
     Keys.onUpPressed: goPrevious()
     Keys.onDownPressed: goNext()
-    Keys.onHomePressed: select(0)
-    Keys.onEndPressed: select(numberOfPages - 1)
+    Keys.onPressed: function (event) {
+        if (event.key === Qt.Key_Home) {
+            select(0)
+            event.accepted = true
+        } else if (event.key === Qt.Key_End) {
+            select(numberOfPages - 1)
+            event.accepted = true
+        }
+    }
 
     function select(index) {
         if (numberOfPages <= 0)
