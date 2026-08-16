@@ -148,6 +148,7 @@ qt_add_qml_module(qwinui3_extras
         SwitchCase.qml
         SwitchPresenter.qml
         TabView.qml
+        TabViewTearOutWindow.qml
         TeachingTip.qml
         TextBlock.qml
         Timeline.qml

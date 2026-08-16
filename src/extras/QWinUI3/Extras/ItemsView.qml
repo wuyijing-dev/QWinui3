@@ -36,22 +36,22 @@ T.Control {
 
     Layout.fillWidth: true
 
-    // Prefer ItemsView.SelectionMode.* from outside; instance aliases below
-    // keep existing gallery / docs call sites working.
+    // Prefer ItemsView.SelectionMultiple from outside; plain ints avoid
+    // "SelectionMode is not defined" when initializing properties in-type.
     enum SelectionMode {
         SelectionNone = 0,
         SelectionSingle = 1,
         SelectionMultiple = 2
     }
 
-    readonly property int selectionNone: SelectionMode.SelectionNone
-    readonly property int selectionSingle: SelectionMode.SelectionSingle
-    readonly property int selectionMultiple: SelectionMode.SelectionMultiple
+    readonly property int selectionNone: 0
+    readonly property int selectionSingle: 1
+    readonly property int selectionMultiple: 2
 
     // List model (array or ListModel / QAbstractListModel)
     property var model: []
     // selectionNone | selectionSingle | selectionMultiple
-    property int selectionMode: SelectionMode.SelectionSingle
+    property int selectionMode: 1
     // Selected row indexes (array of int)
     property var selectedIndexes: []
     // Model role / property name for title
