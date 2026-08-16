@@ -171,7 +171,7 @@ fi
 
 if ! QT_PLUGINS="$(detect_qt_plugin_dir)"; then
   echo "WARNING: Qt platforms/ plugins not found." >&2
-  echo "  sudo apt install qt6-wayland qt6-qpa-plugins" >&2
+    echo "  sudo apt install qt6-wayland qt6-qpa-plugins qml6-module-qtquick-effects" >&2
   QT_PLUGINS=""
 fi
 

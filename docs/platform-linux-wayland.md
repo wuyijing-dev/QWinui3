@@ -39,6 +39,16 @@ ThemeFonts.iconFamily
 ThemeFonts.iconFontLoaded
 ```
 
+## Shadows / elevation (QtQuick.Effects)
+
+`ElevatedChrome` uses `MultiEffect` for WinUI-like soft shadows. Install the QML module on distro Qt:
+
+```bash
+sudo apt install qml6-module-qtquick-effects libqt6quickeffects6
+```
+
+Without it, cards/flyouts fall back poorly or fail to load Effects — shadows will not match Windows.
+
 ## Display server / desktop
 
 ```qml
