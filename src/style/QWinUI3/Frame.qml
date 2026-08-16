@@ -6,26 +6,33 @@ import QWinUI3.Theme
 //
 //   Frame {
 //       id: frame
-//       padding: Theme.paddingControlH
 //       Label { text: qsTr("Framed content") }
 //   }
-//   // --- API ---
-//   // inherits Frame/Pane: padding, background, contentItem
 //
 // @notes
 //   Style-only Fluent chrome for Qt Quick Controls Frame.
-//   Public API is the Qt Quick Controls Frame type; this file supplies visuals/metrics only.
+//   Must declare implicitWidth/Height like Basic — otherwise Layout hosts collapse
+//   to ~0 and children paint over siblings (e.g. Gallery “Source code”).
 
 T.Frame {
     id: control
-    padding: Theme.spacing
+
+    implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
+                            contentWidth + leftPadding + rightPadding)
+    implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
+                             contentHeight + topPadding + bottomPadding)
+
+    padding: Theme.spacingLoose
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
 
     background: Rectangle {
-        color: Theme.bgAcrylic
+        color: Theme.bgCard
         radius: Theme.cornerOverlay
         border.width: 1
         border.color: Theme.strokeCard
+        // Give empty frames a stable minimum so they are visible in Layouts.
+        implicitWidth: 120
+        implicitHeight: 40
     }
 }

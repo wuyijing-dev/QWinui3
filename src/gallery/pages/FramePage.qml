@@ -11,15 +11,24 @@ CatalogPage {
 
     ControlExample {
         headerText: qsTr("Content frame")
-        qmlSource: "Frame {\n    Label { text: \"Inside a Frame\" }\n}"
+        qmlSource: "Frame {\n    ColumnLayout {\n        Label { text: \"Inside a Frame\" }\n    }\n}"
+
         Frame {
+            id: demoFrame
+            Layout.fillWidth: true
             Layout.maximumWidth: 420
+
+            // Do not anchors.fill the Frame — that collapses height when the Frame
+            // is sized from its content (implicitHeight). Size to availableWidth instead.
             ColumnLayout {
-                anchors.fill: parent
+                width: demoFrame.availableWidth
                 spacing: Theme.spacing
+
                 Label {
                     text: qsTr("Inside a Frame")
                     font.weight: Theme.fontWeightSemiBold
+                    color: Theme.textPrimary
+                    Layout.fillWidth: true
                 }
                 Label {
                     Layout.fillWidth: true
