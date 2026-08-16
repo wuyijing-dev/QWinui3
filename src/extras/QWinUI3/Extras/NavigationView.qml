@@ -20,6 +20,8 @@ import QWinUI3.Theme
 //
 //   // --- API ---
 //   // navigate: nav.selectKey("home"), nav.selectFooter(), nav.openPage("HomePage")
+//   //           nav.reloadPage()  // force rebuild current page with transition
+//   // Same-key / same-page clicks skip StackView replace + pageTransition.
 //   //           nav.openSlide("HomePage"), nav.openFromCenter("HomePage")
 //   //           nav.openFade("HomePage"), nav.openDrill("HomePage")
 //   //           nav.navigateToTitle("Home"), nav.reloadPage()
@@ -131,6 +133,8 @@ Item {
     property string pageTransition: "slide"
     // Last / pending page transition mode
     property string pendingMode: "slide"
+    // Last page component successfully shown in pageStack (skip re-animate if same)
+    property string _openedPageName: ""
     // Supported mode ids for Settings / Gallery pickers
     readonly property var pageTransitionModes: [
         "slide", "slideRight", "fade", "center", "drill", "up", "down", "cover", "none"
@@ -507,6 +511,14 @@ Item {
     function selectKey(key, mode) {
         if (!key)
             return
+        // Same nav selection already active — no history push / no page transition
+        if (!root.footerSelected && key === root.currentKey) {
+            ensureSelectionVisible()
+            Qt.callLater(function () {
+                selectionPip.moveToCurrent(false)
+            })
+            return
+        }
         if (!_suppressHistory)
             pushHistorySnapshot()
         footerSelected = false
@@ -539,6 +551,9 @@ Item {
 
     // Select the footer row and open footerComponent
     function selectFooter(mode) {
+        // Already on footer page — skip transition
+        if (root.footerSelected)
+            return
         if (!_suppressHistory)
             pushHistorySnapshot()
         footerSelected = true
@@ -674,8 +689,15 @@ Item {
         }
     }
 
-    // Replace the page stack with the named component
-    function openPage(name, mode) {
+    // Replace the page stack with the named component.
+    // forceReload: true rebuilds even when the same page is already open (reloadPage).
+    function openPage(name, mode, forceReload) {
+        if (!name)
+            return
+        // Same page already showing — skip StackView replace / enter-exit animation
+        if (!forceReload && name === root._openedPageName && pageStack.depth > 0)
+            return
+
         var useMode = mode || root.pageTransition || "slide"
         applyPageTransition(useMode)
         var immediate = root.pendingMode === "none"
@@ -691,6 +713,7 @@ Item {
                 pageStack.replace(c, props, StackView.Immediate)
             else
                 pageStack.replace(c, props)
+            root._openedPageName = name
             root.pageOpened(name)
         }
         if (comp.status === Component.Ready) {
@@ -794,7 +817,7 @@ Item {
 
     // Reload the current page component
     function reloadPage() {
-        openPage(root.currentComponent, root.pendingMode || root.pageTransition || "slide")
+        openPage(root.currentComponent, root.pendingMode || root.pageTransition || "slide", true)
     }
 
     Component.onCompleted: {
