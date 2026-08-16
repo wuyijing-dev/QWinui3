@@ -889,7 +889,7 @@ QtObject {
             title: qsTr("System integration"),
             category: "dialogs",
             icon: FluentIcons.Folder,
-            description: qsTr("FilePicker, Tray, and shell extras (taskbar / attention / idle)."),
+            description: qsTr("FilePicker / Tray / portals. Linux Wayland matrix (1.38)."),
             component: "SystemIntegrationPage",
             source: "pages/SystemIntegrationPage.qml"
         },
@@ -1425,6 +1425,7 @@ QtObject {
     // Curated “recently shipped” recipe pages (1.20) — not catalog array order.
     function recentlyShipped(count) {
         var ids = [
+            "SystemIntegrationPage",  // 1.38 Wayland matrix
             "DialogsFlyoutsPage",     // 1.37 promote
             "CommandPalettePage",     // 1.37 promote
             "TabViewPage",            // 1.37 promote
@@ -1434,7 +1435,6 @@ QtObject {
             "MediaPlayerElementPage", // 1.21 experimental
             "AccessibilityPage",      // 1.19
             "WebView2Page",           // 1.18
-            "SystemIntegrationPage",  // 1.17 / 1.10
             "I18nRtlPage",            // 1.13
             "FormValidationPage",     // 1.08
             "DataTablePage",          // 1.07

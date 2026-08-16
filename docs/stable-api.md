@@ -210,3 +210,4 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.35** | Qt Creator kit polish — [qt-creator.md](qt-creator.md); example build presets |
 | **1.36** | Docs site IA — [recipes.md](recipes.md) hub; MkDocs Recipes sections |
 | **1.37** | Promote sweep — commands / Flyout / TabView / ShellWindow / pickers / progress / FontIcon / ItemsRepeater; explicit defer list |
+| **1.38** | Linux Wayland field matrix — [platform-linux-wayland.md](platform-linux-wayland.md); Gallery System integration |

@@ -5,15 +5,16 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 import QWinUI3.Platform
 
-// Gallery — FilePicker, TrayIcon, display server, Snap Layouts, shell extras (1.17).
+// Gallery — FilePicker, TrayIcon, display server, Snap Layouts, shell extras.
 //
-// Recipe: docs/shell-extras.md (taskbar / attention / reveal / idle)
+// Linux Wayland edge cases: docs/platform-linux-wayland.md (1.38).
+// Shell extras: docs/shell-extras.md (1.17). System integration: docs/system-integration.md
 
 CatalogPage {
     id: page
 
     title: qsTr("System integration")
-    subtitle: qsTr("FilePicker / Tray (1.10). Linux SNI tray (1.24). Shell extras: docs/shell-extras.md (1.17).")
+    subtitle: qsTr("FilePicker / Tray / portals. Linux Wayland matrix: docs/platform-linux-wayland.md (1.38).")
 
     property string lastPath: qsTr("(none)")
     property real taskbarValue: 0.35
@@ -35,6 +36,35 @@ CatalogPage {
         id: toasts
         width: 360
         placement: ToastHost.BottomCenter
+    }
+
+    ControlExample {
+        headerText: qsTr("Linux / Wayland (1.38)")
+        qmlSource: "// docs/platform-linux-wayland.md\n// SSD off · Solid backdrop · portal FilePicker · SNI tray"
+        visible: WindowHelper.linux
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Field matrix: double title bar → keep QT_WAYLAND_DISABLE_WINDOWDECORATION=1; Mica hollow → BackdropSolid; pure Wayland FilePicker has empty portal parent_window (still pass Window.window); GNOME tray needs SNI/AppIndicator. CI Linux --smoke is offscreen — not a compositor soak.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                color: Theme.textPrimary
+                text: qsTr("customFrame=%1 · serverSideDecorations=%2 · supportsBackdrop=%3 · portal=%4 · SNI active=%5")
+                    .arg(WindowHelper.customFrame)
+                    .arg(WindowHelper.serverSideDecorations)
+                    .arg(WindowHelper.supportsBackdrop)
+                    .arg(WindowHelper.portalAvailable)
+                    .arg(tray.persistentTrayActive)
+            }
+        }
     }
 
     ControlExample {
@@ -62,7 +92,10 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 color: Theme.textSecondary
-                text: qsTr("WAYLAND_DISPLAY=%1").arg(WindowHelper.waylandDisplay)
+                text: qsTr("WAYLAND_DISPLAY=%1 · SSD=%2 · customFrame=%3")
+                    .arg(WindowHelper.waylandDisplay)
+                    .arg(WindowHelper.serverSideDecorations)
+                    .arg(WindowHelper.customFrame)
             }
             Switch {
                 text: qsTr("Snap Layouts (Win11 HTMAXBUTTON)")
@@ -86,7 +119,7 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 color: Theme.textSecondary
-                text: qsTr("Linux/Wayland: configurePlatformEnvironment() before QGuiApplication; FilePicker prefers xdg-desktop-portal then zenity/kdialog. See docs/system-integration.md.")
+                text: qsTr("Bootstrap configureEnvironment before QGuiApplication. FilePicker: portal → zenity/kdialog. Full matrix: docs/platform-linux-wayland.md (1.38).")
             }
         }
     }
@@ -107,7 +140,7 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 color: Theme.textSecondary
-                text: qsTr("Cancel → empty path. Always pass Window.window for dialog ownership.")
+                text: qsTr("Cancel → empty path. Always pass Window.window for dialog ownership (X11 parent_window; pure Wayland parent is empty — docs/platform-linux-wayland.md 1.38).")
             }
             RowLayout {
                 Button {
@@ -161,7 +194,7 @@ CatalogPage {
                 color: Theme.textSecondary
                 text: WindowHelper.windows
                       ? qsTr("Windows: Shell_NotifyIcon balloon + persistent tray.")
-                      : qsTr("Linux: StatusNotifierItem when a tray watcher is present (KDE Plasma). notifySystem → portal / notify-send. supportsPersistentTray=%1, persistentTrayActive=%2.")
+                      : qsTr("Linux: StatusNotifierItem when a tray watcher is present (KDE Plasma reference; GNOME needs SNI/AppIndicator). notifySystem → portal / notify-send. supportsPersistentTray=%1, persistentTrayActive=%2 — docs/platform-linux-wayland.md (1.38).")
                             .arg(tray.supportsPersistentTray).arg(tray.persistentTrayActive)
             }
             Button {

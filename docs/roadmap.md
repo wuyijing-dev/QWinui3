@@ -1,6 +1,6 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.37**
+**Current:** **1.38**
 **Next up:** **1.31** (Graphics & backend notes)
 **Planned through:** **1.50** (1.xx maturity checkpoint)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](qt-version-compat.md)
@@ -60,7 +60,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.37`
+## Shipped — `1.01` … `1.38`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -210,30 +210,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** Explicit promote batch (commands, Flyout/Drawer, TabView, ShellWindow/Blank/MenuStatus, pickers, progress, FontIcon/InfoBadge, ItemsRepeater) + defer/won’t-promote list in [stable-api.md](stable-api.md); Gallery catalog + chooser/page badges; recipes hub pointer; product version `1.37`.
 
+### 1.38 — Linux Wayland edge cases (shipped)
+
+**Shipped:** [platform-linux-wayland.md](platform-linux-wayland.md) field failure matrix (SSD, Solid backdrop, portal parent_window, SNI/GNOME tray, XWayland traps, idle/taskbar no-ops); Gallery System integration Linux callout + live SSD/portal/SNI readout; system-integration / window-chrome / ci-smoke / recipes cross-links; product version `1.38`.
+
 ---
 
-## Late path — planned `1.38` … `1.40`
+## Late path — planned `1.39` … `1.40`
 
 Still **1.xx**. Schedule after mid path is mostly done; order can flex.
-
-### 1.38 — Linux Wayland edge cases
-
-**Why:** Field reports after 1.03/1.24/1.32 will need a focused Wayland/portal pass.
-
-**In scope**
-
-- Portal file/open, backdrop, SSD, tray follow-ups; extend [platform-linux-wayland.md](platform-linux-wayland.md).
-- Gallery System Integration Linux notes.
-
-**Out of scope**
-
-- Supporting every compositor forever; X11-only new features.
-
-**Exit criteria**
-
-- Documented failure matrix for the issues taken in-scope; CI/smoke still green on Linux.
-
----
 
 ### 1.39 — Gallery perf & startup
 

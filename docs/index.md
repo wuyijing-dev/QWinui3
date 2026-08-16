@@ -17,6 +17,8 @@ This site is generated from QML source comments and shipped via GitHub Pages.
 
 Top recipes (also on the hub): [Window shells](window-shells.md) · [Navigation](navigation.md) · [Forms](forms.md) · [Data collections](data-collections.md) · [Feedback](feedback.md) · [System integration](system-integration.md).
 
+Platform note: [Linux / Wayland edge cases](platform-linux-wayland.md) (field failure matrix, **1.38**).
+
 ## Install / build
 
 ```bash

@@ -36,7 +36,7 @@ FilePicker.openFolder(qsTr("Folder"), function (path) { … }, Window.window)
 | Host | Backend | `parentWindow` |
 |------|---------|----------------|
 | Windows | `IFileDialog` | HWND owner from `Window` / Item (falls back to first visible window) |
-| Linux | xdg-desktop-portal → zenity/kdialog | Portal parent on **X11** (`x11:0x…`); empty on pure Wayland |
+| Linux | xdg-desktop-portal → zenity/kdialog | Portal parent on **X11** (`x11:0x…`); empty on pure Wayland — [platform-linux-wayland.md](platform-linux-wayland.md) (**1.38** matrix) |
 | Cancel | — | `""` or `[]` |
 
 Always pass `Window.window` so the dialog is owned by your shell.
@@ -118,5 +118,5 @@ Gallery demos for Snap Layouts, battery / online / screens, and recent-docs rema
 ## Related
 
 - [shell-extras.md](shell-extras.md) — taskbar / attention / reveal / idle (1.17)  
-- [platform-linux-wayland.md](platform-linux-wayland.md) — portal matrix  
+- [platform-linux-wayland.md](platform-linux-wayland.md) — portal / SSD / tray / backdrop field matrix (**1.38**)  
 - [webview2.md](webview2.md) — separate Windows browser host

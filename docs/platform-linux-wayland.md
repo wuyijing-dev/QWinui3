@@ -1,8 +1,32 @@
-# Linux / Wayland notes for QWinUI3
+# Linux / Wayland notes for QWinUI3 (1.38)
 
 QWinUI3 uses **client-side Fluent chrome** on Linux (`WindowHelper.customFrame`, `FramelessWindowHint`, in-app `PlatformTitleBar`). Compositor server-side decorations stay off by default.
 
-Product version **1.03** focused on practical nav + settings shells. **1.32** re-soaks the host × backdrop matrix and geometry persistence — see [window-shells.md](window-shells.md) and [window-chrome.md](window-chrome.md).
+**1.03** established the nav + settings baseline. **1.24** added StatusNotifierItem tray. **1.32** re-soaked shells / geometry. **1.38** documents the field failure matrix for portal / SSD / backdrop / tray.
+
+Related: [window-shells.md](window-shells.md) · [window-chrome.md](window-chrome.md) · [system-integration.md](system-integration.md) · [shell-extras.md](shell-extras.md) · Gallery **System integration**.
+
+CI Linux Gallery jobs use **offscreen `--smoke`** (build + QML load). They do **not** exercise a real compositor — use this matrix for Wayland field checks.
+
+---
+
+## 1.38 field failure matrix
+
+| Symptom | Likely cause | Fix / expectation |
+|---------|--------------|-------------------|
+| **Double title bar** (compositor + Fluent) | SSD still on | Keep `QT_WAYLAND_DISABLE_WINDOWDECORATION=1` (Bootstrap default). Debug only: set `=0`. Check `WindowHelper.serverSideDecorations` / `customFrame`. |
+| **Hollow / white client** with Mica copy-paste | Transparent host + no DWM | Use `BackdropSolid`; `resolveBackdrop()` coerces on Linux. Prefer [window-shells.md](window-shells.md). |
+| **File dialog not modal / wrong parent** on pure Wayland | Portal `parent_window` empty | Pass `Window.window` anyway (needed on X11/XWayland). Pure Wayland cannot export `wl_surface` via Qt public API — dialog still opens; parenting is best-effort. |
+| **FilePicker falls to zenity/kdialog** | Portal missing / DBus down | Install `xdg-desktop-portal` + GTK/KDE backend; ensure session bus. Fallbacks remain supported. |
+| **No tray icon on GNOME** | No StatusNotifierWatcher | Expected without AppIndicator/SNI extension. `supportsPersistentTray` may be true (capability) while `persistentTrayActive` stays false. KDE Plasma is the reference host (**1.24**). |
+| **Tray notify only as toast** | Notifications portal / notify-send path | `notifySystem` still works without SNI; in-app Toast via Gallery wiring. Prefer `NotificationBridge` for dual path. |
+| **Stuck on XWayland** | Launch script forced `QT_QPA_PLATFORM=xcb` | Leave unset; Bootstrap sets `wayland;xcb` when session is Wayland. Packaged `./run-gallery.sh` already does this. |
+| **“Could not find Wayland QPA”** | Missing `qt6-wayland` | Install plugin; Bootstrap falls back to `xcb` with a warning when Wayland plugin absent. |
+| **Fractional scale blurry / wrong DPR** | Rounding policy | Bootstrap sets PassThrough; shells track `Theme.devicePixelRatio`. |
+| **Snap Layouts / taskbar progress** | Windows-only | No-op on Linux — [shell-extras.md](shell-extras.md). |
+| **Idle inhibit ignored** | No ScreenSaver / portal Inhibit | `inhibitIdle` returns `false`; call `releaseIdleInhibit` only after a successful inhibit. |
+
+Out of scope for 1.38: supporting every compositor forever; inventing X11-only features.
 
 ---
 
@@ -20,6 +44,7 @@ Product version **1.03** focused on practical nav + settings shells. **1.32** re
 | Taskbar progress / overlay | **Unsupported** | **Unsupported** | No-op stubs |
 | Portal FileChooser `parent_window` | **Limited** (empty) | **Works** (`x11:0x…`) | Pure Wayland has no public `wl_surface` export |
 | Color scheme / notifications / OpenURI | **Works** (portal) | **Works** | Fallbacks: gsettings / KDE / notify-send |
+| Persistent tray (SNI) | **Works** when watcher present | **Works** when watcher present | KDE reference; GNOME needs extension — [system-integration.md](system-integration.md) |
 
 Nav + settings recipe: `StandardWindow { backdrop: WindowHelper.BackdropSolid }` + `NavigationView` (see `examples/nav-settings`). Copying Windows Mica samples is safe — Linux coerces to Solid.
 
@@ -138,7 +163,7 @@ Pass the host window so X11/XWayland portals can set `parent_window` (`x11:0x…
 FilePicker.openFile(qsTr("Open"), ["All (*.*)"], function (path) { … }, Window.window)
 ```
 
-Pure Wayland leaves `parent_window` empty (Qt public API has no `wl_surface` export).
+Pure Wayland leaves `parent_window` empty (Qt public API has no `wl_surface` export) — see [1.38 matrix](#138-field-failure-matrix).
 
 ```bash
 sudo apt install xdg-desktop-portal xdg-desktop-portal-gtk   # or -kde

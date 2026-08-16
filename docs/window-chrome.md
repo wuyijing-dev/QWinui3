@@ -67,7 +67,7 @@ Always paint with `effectiveBackdrop` / `WindowHelper.resolveBackdrop(backdrop)`
 | Mica missing after DPI change (125%↔150%) | DWM attributes cleared on `WM_DPICHANGED` | 1.04 schedules backdrop reapply; QML refreshes hit-test via `screensChanged` |
 | Caption buttons miss clicks after maximize / DPI | Stale NC hit-test rects | `PlatformTitleBar.reportHitTest()` on resize, visibility, screen, `screensChanged` |
 | Dialog opens behind main / wrong screen | No transient parent / not centered | `DialogWindow.openDialog(owner)` or `setTransientParent` + `centerOnScreen` |
-| Double title bar on Wayland | Compositor SSD still on | `QWinUI3::configureEnvironment` / `QT_WAYLAND_DISABLE_WINDOWDECORATION=1` — see [platform-linux-wayland.md](platform-linux-wayland.md) |
+| Double title bar on Wayland | Compositor SSD still on | `QWinUI3::configureEnvironment` / `QT_WAYLAND_DISABLE_WINDOWDECORATION=1` — [platform-linux-wayland.md](platform-linux-wayland.md) (**1.38**) |
 | Snap Layouts flyout never appears | Maximize caption not `HTMAXIMIZE` | Ensure `nativeChrome` path + hit-test reports maximize rect; `snapLayoutsEnabled` |
 | Binding `flags` to paradigm | HWND recreate loop | Keep `flags: WindowHelper.recommendedFlags` constant; change paradigm via `installParadigmEx` |
 | Window restores off-screen / wrong monitor | Stale geometry after dock undock | Use `geometryPersistenceKey` — restore clamps to preferred / intersecting / primary `availableGeometry` |

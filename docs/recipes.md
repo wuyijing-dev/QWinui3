@@ -25,7 +25,7 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 | [Window chrome](window-chrome.md) | DPI / backdrop / geometry failure modes |
 | [WindowHelper](window-helper.md) | Geometry persistence, backdrop, platform APIs |
 | [AppWindow](window-appwindow.md) | Presenters / title-bar height |
-| [Linux / Wayland](platform-linux-wayland.md) | CSD, Solid default, portals |
+| [Linux / Wayland](platform-linux-wayland.md) | CSD, Solid, portals, field matrix (1.38) |
 | [Graphics backend](graphics-backend.md) | RHI ship table · OpenGL for frost |
 | [Transparency / DWM](window-transparency-dwm.md) | Gallery Solid policy · Mica notes |
 

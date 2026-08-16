@@ -46,7 +46,7 @@ shows:
 | Host | Default platform |
 |------|------------------|
 | Windows | `windows` |
-| Linux CI | `offscreen` |
+| Linux CI | `offscreen` (build + `--smoke` only — **not** a Wayland compositor soak; see [platform-linux-wayland.md](platform-linux-wayland.md) **1.38**) |
 
 ```bat
 REM After build.bat (windeploy) or with the build Qt bin first on PATH:
