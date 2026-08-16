@@ -14,7 +14,7 @@ Q_IMPORT_QML_PLUGIN(QWinUI3_PlatformPlugin)
 
 int main(int argc, char *argv[])
 {
-    WindowHelper::configurePlatformEnvironment();
+    WindowHelper::configurePlatformEnvironment(argv[0]);
     qunsetenv("QT_IM_MODULE");
     qputenv("QT_QUICK_CONTROLS_STYLE", "QWinUI3");
     QGuiApplication app(argc, argv);

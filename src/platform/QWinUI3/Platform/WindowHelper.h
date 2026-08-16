@@ -158,7 +158,9 @@ public:
     void setSnapLayoutsEnabled(bool enabled);
 
     // Call before QGuiApplication on Linux: Wayland-first QPA + SSD + fractional scale.
-    static void configurePlatformEnvironment();
+    // Call before QGuiApplication. Pass argv[0] on Linux so a broken
+    // build/qt.conf (Plugins=plugins) can be removed before Qt reads it.
+    static void configurePlatformEnvironment(const char *argv0 = nullptr);
     // Windows AppUserModelID (taskbar grouping); also sets desktop file name on Linux.
     static void setAppUserModelId(const QString &appId);
     // Wayland app_id / X11 WM_CLASS — pass desktop id without ".desktop"

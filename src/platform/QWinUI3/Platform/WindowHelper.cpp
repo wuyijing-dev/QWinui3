@@ -184,75 +184,114 @@ qreal WindowHelper::devicePixelRatio() const
     return 1.0;
 }
 
-void WindowHelper::configurePlatformEnvironment()
+void WindowHelper::configurePlatformEnvironment(const char *argv0)
 {
 #if defined(Q_OS_LINUX)
-    auto hasWaylandPlatformPlugin = []() -> bool {
-        const QByteArray extra = qgetenv("QT_PLUGIN_PATH");
+    // Stale Windows-style qt.conf next to the binary forces Plugins=./plugins
+    // (empty) and breaks every QPA plugin. Strip it before QGuiApplication.
+    if (argv0 && argv0[0] != '\0') {
+        const QString appDir = QFileInfo(QString::fromLocal8Bit(argv0)).absolutePath();
+        const QString confPath = appDir + QStringLiteral("/qt.conf");
+        if (QFile::exists(confPath)) {
+            QFile conf(confPath);
+            if (conf.open(QIODevice::ReadOnly)) {
+                const QByteArray body = conf.readAll();
+                conf.close();
+                const bool broken = body.contains("Prefix = .")
+                        || body.contains("Prefix=.")
+                        || body.contains("Plugins = plugins")
+                        || body.contains("Plugins=plugins");
+                if (broken) {
+                    QFile::remove(confPath);
+                    qWarning("QWinUI3: removed broken %s (it blocked Qt platform plugins)",
+                             qPrintable(confPath));
+                }
+            }
+        }
+    }
+
+    auto pluginRoots = []() -> QStringList {
         QStringList roots;
+        const QByteArray extra = qgetenv("QT_PLUGIN_PATH");
         if (!extra.isEmpty()) {
             for (const QByteArray &part : extra.split(':')) {
                 if (!part.isEmpty())
                     roots << QString::fromLocal8Bit(part);
             }
         }
-        roots << QStringLiteral("/usr/lib/x86_64-linux-gnu/qt6/plugins")
-              << QStringLiteral("/usr/lib/aarch64-linux-gnu/qt6/plugins")
-              << QStringLiteral("/usr/lib/qt6/plugins")
-              << QStringLiteral("/usr/lib64/qt6/plugins");
         if (const QByteArray prefix = qgetenv("QTDIR"); !prefix.isEmpty())
             roots << QString::fromLocal8Bit(prefix) + QStringLiteral("/plugins");
         if (const QByteArray prefix = qgetenv("CMAKE_PREFIX_PATH"); !prefix.isEmpty()) {
             for (const QByteArray &part : prefix.split(':')) {
-                if (!part.isEmpty())
+                if (!part.isEmpty()) {
                     roots << QString::fromLocal8Bit(part) + QStringLiteral("/plugins");
+                    roots << QString::fromLocal8Bit(part) + QStringLiteral("/lib/qt6/plugins");
+                }
             }
         }
-        const QStringList names = {
-            QStringLiteral("platforms/libqwayland-generic.so"),
-            QStringLiteral("platforms/libqwayland.so"),
-            QStringLiteral("platforms/libqwayland-egl.so"),
-        };
-        for (const QString &root : roots) {
-            for (const QString &name : names) {
-                if (QFile::exists(root + QLatin1Char('/') + name))
-                    return true;
-            }
-        }
-        return false;
+        roots << QStringLiteral("/usr/lib/x86_64-linux-gnu/qt6/plugins")
+              << QStringLiteral("/usr/lib/aarch64-linux-gnu/qt6/plugins")
+              << QStringLiteral("/usr/lib/qt6/plugins")
+              << QStringLiteral("/usr/lib64/qt6/plugins");
+        return roots;
     };
 
-    // Prefer Wayland when the session is Wayland, with xcb fallback. Respect an
-    // explicit QT_QPA_PLATFORM (developers / packagers may force xcb or wayland).
+    auto hasPlatform = [](const QString &root, const char *file) -> bool {
+        return QFile::exists(root + QLatin1Char('/') + QLatin1String(file));
+    };
+
+    // Force a real plugin root so Qt does not search "".
+    QString chosenPlugins;
+    for (const QString &root : pluginRoots()) {
+        if (hasPlatform(root, "platforms/libqxcb.so")
+                || hasPlatform(root, "platforms/libqwayland-generic.so")
+                || hasPlatform(root, "platforms/libqwayland.so")) {
+            chosenPlugins = root;
+            break;
+        }
+    }
+    if (!chosenPlugins.isEmpty()) {
+        const QByteArray previous = qgetenv("QT_PLUGIN_PATH");
+        if (previous.isEmpty())
+            qputenv("QT_PLUGIN_PATH", chosenPlugins.toLocal8Bit());
+        else if (!QByteArray(previous).startsWith(chosenPlugins.toLocal8Bit()))
+            qputenv("QT_PLUGIN_PATH", chosenPlugins.toLocal8Bit() + ':' + previous);
+    }
+
+    const bool waylandPlugin = !chosenPlugins.isEmpty()
+            && (hasPlatform(chosenPlugins, "platforms/libqwayland-generic.so")
+                || hasPlatform(chosenPlugins, "platforms/libqwayland.so")
+                || hasPlatform(chosenPlugins, "platforms/libqwayland-egl.so"));
+    const bool xcbPlugin = !chosenPlugins.isEmpty()
+            && hasPlatform(chosenPlugins, "platforms/libqxcb.so");
+
     if (qEnvironmentVariableIsEmpty("QT_QPA_PLATFORM")) {
         const QByteArray session = qgetenv("XDG_SESSION_TYPE").toLower();
         const bool waylandSession = session == "wayland"
                 || !qEnvironmentVariableIsEmpty("WAYLAND_DISPLAY");
-        const bool waylandPlugin = hasWaylandPlatformPlugin();
         if (waylandSession && waylandPlugin)
             qputenv("QT_QPA_PLATFORM", "wayland;xcb");
-        else if (waylandSession && !waylandPlugin)
-            qputenv("QT_QPA_PLATFORM", "xcb"); // qt6-wayland not installed
-        else if (session == "x11")
-            qputenv("QT_QPA_PLATFORM", "xcb;wayland");
+        else if (xcbPlugin)
+            qputenv("QT_QPA_PLATFORM", "xcb");
         else if (waylandPlugin)
-            qputenv("QT_QPA_PLATFORM", "wayland;xcb");
+            qputenv("QT_QPA_PLATFORM", "wayland");
         else
             qputenv("QT_QPA_PLATFORM", "xcb");
+    } else if (!waylandPlugin && xcbPlugin
+               && qgetenv("QT_QPA_PLATFORM").contains("wayland")
+               && !qEnvironmentVariableIsSet("QWINUI3_KEEP_QPA_PLATFORM")) {
+        qputenv("QT_QPA_PLATFORM", "xcb");
+        qWarning("QWinUI3: Wayland QPA plugin missing; using xcb. Install qt6-wayland.");
     }
 
-    // Client-side decorations: hide compositor title bar; use Fluent caption.
-    // Respect an explicit override if the user/packager set one.
     if (qEnvironmentVariableIsEmpty("QT_WAYLAND_DISABLE_WINDOWDECORATION"))
         qputenv("QT_WAYLAND_DISABLE_WINDOWDECORATION", "1");
 
-    // Fractional Wayland scaling — avoid forced integer rounding when unset.
     if (qEnvironmentVariableIsEmpty("QT_SCALE_FACTOR_ROUNDING_POLICY"))
         qputenv("QT_SCALE_FACTOR_ROUNDING_POLICY", "PassThrough");
 #else
-    // Windows / other: no-op (DWM chrome is handled after QGuiApplication).
+    Q_UNUSED(argv0);
 #endif
-    // Icon fonts are loaded after QGuiApplication (see gallery main / ThemeFonts).
 }
 
 void WindowHelper::setDesktopFileName(const QString &desktopFileName)

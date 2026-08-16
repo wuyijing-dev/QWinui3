@@ -17,7 +17,7 @@ Q_IMPORT_QML_PLUGIN(QWinUI3_PlatformPlugin)
 int main(int argc, char *argv[])
 {
     // Linux: Wayland-first QPA + client-side chrome (must run before QGuiApplication).
-    WindowHelper::configurePlatformEnvironment();
+    WindowHelper::configurePlatformEnvironment(argv[0]);
     // RHI / surface format only — do not touch QSettings or QObject singletons yet.
     GraphicsBackend::applyEarly(argc, argv);
 
