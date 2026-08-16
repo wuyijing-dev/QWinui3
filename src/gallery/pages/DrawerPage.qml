@@ -14,16 +14,18 @@ CatalogPage {
     overlay: Drawer {
         id: drawer
         edge: Qt.LeftEdge
-        width: 280
+        width: Math.min(320, Overlay.overlay ? Overlay.overlay.width * 0.85 : 320)
 
         ColumnLayout {
-            width: drawer.availableWidth
+            anchors.fill: parent
             spacing: Theme.spacingLoose
 
             Label {
                 text: qsTr("Drawer content")
                 font.pixelSize: Theme.fontSubtitle
+                font.weight: Theme.fontWeightSemiBold
                 color: Theme.textPrimary
+                Layout.fillWidth: true
             }
             Label {
                 text: qsTr("Use a Drawer for navigation or secondary actions.")
@@ -31,12 +33,15 @@ CatalogPage {
                 Layout.fillWidth: true
                 color: Theme.textSecondary
             }
+            Item { Layout.fillHeight: true }
             Button {
                 text: qsTr("Action")
                 highlighted: true
+                Layout.fillWidth: true
             }
             Button {
                 text: qsTr("Close")
+                Layout.fillWidth: true
                 onClicked: drawer.close()
             }
         }
