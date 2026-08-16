@@ -41,6 +41,8 @@ T.Control {
     property bool showProgress: true
     // Pause auto-advance while hovered
     property bool pauseOnHover: true
+    // Slide enter from bottom (false = from top) — set by ToastHost placement
+    property bool slideFromBottom: true
     // Emitted when action is clicked
     signal actionClicked()
     // Swipe content closed
@@ -75,10 +77,10 @@ T.Control {
     z: 1000
     // Animate via transform so anchors (ToastHost placement / Gallery overlay) stay stable.
     scale: isOpen ? 1 : 0.96
-    transformOrigin: Item.Bottom
+    transformOrigin: slideFromBottom ? Item.Bottom : Item.Top
     transform: Translate {
         id: slide
-        y: control.isOpen ? 0 : 10
+        y: control.isOpen ? 0 : (control.slideFromBottom ? 10 : -10)
         Behavior on y {
             enabled: !Theme.reducedMotion
             NumberAnimation {

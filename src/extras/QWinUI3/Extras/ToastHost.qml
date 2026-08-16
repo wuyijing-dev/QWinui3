@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
+import QtQuick.Controls
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
@@ -7,41 +8,44 @@ import QWinUI3.Theme
 //
 //   ToastHost {
 //       id: toasts
-//       placement: ToastHost.BottomCenter
+//       placement: ToastHost.BottomRight
 //   }
 //   toasts.info(qsTr("Hello"))
 //   toasts.success(qsTr("Done"))
 //
 //   // --- API ---
-//   // methods: info/success/warning/error (+ *Toast aliases), show, clear
-//   // placement: BottomCenter | BottomRight | TopRight | TopCenter
+//   // methods: info/success/warning/error (+ *Toast aliases), show, clear, setPlacementName
+//   // placement: BottomCenter | BottomRight | BottomLeft | TopRight | TopLeft | TopCenter
 //
 // @notes
-//   Default placement is bottom-center (Gallery / WinUI toast band).
+//   Reparents to the window Overlay so placement is full-window (not page-local).
+//   Visible stack up to maxVisible; extras wait in a pending queue and drain as slots free.
 //   Do not also set anchors when using placement — they conflict.
 
 T.Control {
     id: root
 
-    // Max visible items before overflow
+    // Max toasts shown at once; further show() calls wait in pendingQueue
     property int maxVisible: 3
     // Auto-dismiss duration; 0 keeps open
     property int durationMs: 3200
     // spacing is FINAL on Control — assign, do not redeclare
     spacing: Theme.spacing
-    // Stack newest items on top
+    // Stack newest items on top of the visible column
     property bool newestOnTop: true
-    // Edge inset from the overlay parent
+    // Edge inset from the window overlay
     property real placementMargin: 24
 
-    // BottomCenter / BottomRight / TopRight / TopCenter
+    // Corner / edge band placement
     enum Placement {
         BottomCenter,
         BottomRight,
         TopRight,
-        TopCenter
+        TopCenter,
+        BottomLeft,
+        TopLeft
     }
-    property int placement: ToastHost.BottomCenter
+    property int placement: ToastHost.BottomRight
 
     // Emitted when a toast is closed
     signal toastClosed(string message)
@@ -55,76 +59,139 @@ T.Control {
     Accessible.role: Accessible.AlertMessage
     Accessible.name: qsTr("Notifications")
 
-    // Informational severity constant
     readonly property int informational: 0
-    // Success severity constant
     readonly property int success: 1
-    // Warning severity constant
     readonly property int warning: 2
-    // Error severity constant
     readonly property int error: 3
 
-    // Item count
+    // Visible toast count
     readonly property int count: queue.count
+    // Waiting behind maxVisible
+    readonly property int pendingCount: pending.count
+    // Visible + pending
+    readonly property int totalCount: queue.count + pending.count
 
     readonly property bool _bottom: placement === ToastHost.BottomCenter
                                     || placement === ToastHost.BottomRight
+                                    || placement === ToastHost.BottomLeft
     readonly property bool _center: placement === ToastHost.BottomCenter
                                     || placement === ToastHost.TopCenter
     readonly property bool _right: placement === ToastHost.BottomRight
                                    || placement === ToastHost.TopRight
+    readonly property bool _left: placement === ToastHost.BottomLeft
+                                  || placement === ToastHost.TopLeft
+
+    // Window overlay — CatalogPage.overlay would otherwise clip placement to the pane.
+    readonly property Item _windowOverlay: Overlay.overlay
+
+    function _ensureWindowOverlayParent() {
+        var o = root._windowOverlay
+        if (o && root.parent !== o)
+            root.parent = o
+    }
+
+    Component.onCompleted: root._ensureWindowOverlayParent()
+    on_WindowOverlayChanged: root._ensureWindowOverlayParent()
 
     anchors.horizontalCenter: parent && _center ? parent.horizontalCenter : undefined
     anchors.right: parent && _right ? parent.right : undefined
-    anchors.left: undefined
+    anchors.left: parent && _left ? parent.left : undefined
     anchors.bottom: parent && _bottom ? parent.bottom : undefined
     anchors.top: parent && !_bottom ? parent.top : undefined
     anchors.margins: placementMargin
 
     ListModel { id: queue }
+    ListModel { id: pending }
 
-    // Show the control
-    function show(message, severity, title, actionText) {
-        while (queue.count >= root.maxVisible) {
-            if (newestOnTop)
-                queue.remove(queue.count - 1)
-            else
-                queue.remove(0)
+    function setPlacementName(name) {
+        switch (String(name || "").toLowerCase()) {
+        case "bottomright":
+        case "bottom-right":
+            placement = ToastHost.BottomRight
+            break
+        case "bottomleft":
+        case "bottom-left":
+            placement = ToastHost.BottomLeft
+            break
+        case "topright":
+        case "top-right":
+            placement = ToastHost.TopRight
+            break
+        case "topleft":
+        case "top-left":
+            placement = ToastHost.TopLeft
+            break
+        case "topcenter":
+        case "top-center":
+            placement = ToastHost.TopCenter
+            break
+        case "bottomcenter":
+        case "bottom-center":
+        default:
+            placement = ToastHost.BottomCenter
+            break
         }
-        var entry = {
-            "key": Date.now() + "-" + queue.count,
+    }
+
+    function _makeEntry(message, severity, title, actionText) {
+        return {
+            "key": Date.now() + "-" + Math.random().toString(36).slice(2, 8),
             "message": message || "",
             "severity": severity === undefined ? informational : severity,
             "title": title || "",
             "actionText": actionText || "",
             "durationMs": root.durationMs
         }
+    }
+
+    function _pushVisible(entry) {
         if (newestOnTop)
             queue.insert(0, entry)
         else
             queue.append(entry)
     }
 
-    // Show an informational toast / tip
+    function _drainPending() {
+        while (queue.count < root.maxVisible && pending.count > 0) {
+            var e = {
+                "key": pending.get(0).key,
+                "message": pending.get(0).message,
+                "severity": pending.get(0).severity,
+                "title": pending.get(0).title,
+                "actionText": pending.get(0).actionText,
+                "durationMs": pending.get(0).durationMs
+            }
+            pending.remove(0)
+            _pushVisible(e)
+        }
+    }
+
+    // Enqueue a toast (shows immediately if under maxVisible, else waits)
+    function show(message, severity, title, actionText) {
+        root._ensureWindowOverlayParent()
+        var entry = _makeEntry(message, severity, title, actionText)
+        if (queue.count >= root.maxVisible) {
+            pending.append(entry)
+            return
+        }
+        _pushVisible(entry)
+    }
+
     function info(message, title, actionText) {
         show(message, informational, title || qsTr("Information"), actionText)
     }
-    // Show a success toast
     function successToast(message, title, actionText) {
         show(message, success, title || qsTr("Success"), actionText)
     }
-    // Docs / WinUI-style alias
     function success(message, title, actionText) {
         successToast(message, title, actionText)
     }
-    // Show a warning toast
     function warningToast(message, title, actionText) {
         show(message, warning, title || qsTr("Warning"), actionText)
     }
     function warning(message, title, actionText) {
         warningToast(message, title, actionText)
     }
-    // Show an error toast
     function errorToast(message, title, actionText) {
         show(message, error, title || qsTr("Error"), actionText)
     }
@@ -132,9 +199,9 @@ T.Control {
         errorToast(message, title, actionText)
     }
 
-    // Clear text or selection
     function clear() {
         queue.clear()
+        pending.clear()
     }
 
     contentItem: ColumnLayout {
@@ -168,6 +235,7 @@ T.Control {
                     severity: wrap.severity
                     durationMs: wrap.durationMs
                     actionText: wrap.actionText
+                    slideFromBottom: root._bottom
                     Component.onCompleted: show(wrap.message, wrap.severity)
                     onActionClicked: root.toastActionClicked(wrap.message)
                     onClosed: {
@@ -178,6 +246,7 @@ T.Control {
                                 break
                             }
                         }
+                        Qt.callLater(function () { root._drainPending() })
                     }
                 }
             }
