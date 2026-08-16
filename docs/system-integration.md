@@ -41,6 +41,8 @@ FilePicker.openFolder(qsTr("Folder"), function (path) { … }, Window.window)
 
 Always pass `Window.window` so the dialog is owned by your shell.
 
+Pair with drag-drop: [drag-drop.md](drag-drop.md) (**1.41**) — `FileDropZone` + the same ingest function as `FilePicker.openFiles`.
+
 ---
 
 ## TrayIcon
@@ -118,5 +120,6 @@ Gallery demos for Snap Layouts, battery / online / screens, and recent-docs rema
 ## Related
 
 - [shell-extras.md](shell-extras.md) — taskbar / attention / reveal / idle (1.17)  
+- [drag-drop.md](drag-drop.md) — FileDropZone / clipboard / FilePicker pairing (**1.41**)  
 - [platform-linux-wayland.md](platform-linux-wayland.md) — portal / SSD / tray / backdrop field matrix (**1.38**)  
 - [webview2.md](webview2.md) — separate Windows browser host

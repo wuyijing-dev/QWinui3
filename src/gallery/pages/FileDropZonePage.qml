@@ -3,15 +3,62 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
+import QWinUI3.Platform
 
 // Gallery — FileDropZone.
+//
+// Recipe: docs/drag-drop.md (1.41) — drop + FilePicker browse + clipboard path copy.
 
 CatalogPage {
+    id: page
+
     title: qsTr("FileDropZone")
-    subtitle: qsTr("Drag-and-drop target with optional extension filter.")
+    subtitle: qsTr("Drop + Browse + copy path — docs/drag-drop.md (1.41).")
+
+    property var lastUrls: []
+    property string lastStatus: qsTr("Waiting for drop or Browse…")
+
+    function ingestUrls(urls) {
+        if (!urls || !urls.length) {
+            page.lastStatus = qsTr("Cancelled / empty")
+            return
+        }
+        page.lastUrls = urls
+        page.lastStatus = qsTr("Accepted %1 file(s):\n%2")
+            .arg(urls.length)
+            .arg(urls.join("\n"))
+    }
+
+    function pathsToUrls(paths) {
+        var out = []
+        for (var i = 0; i < paths.length; ++i) {
+            var p = String(paths[i])
+            if (!p.length)
+                continue
+            out.push(p.indexOf("file:") === 0 ? p : ("file:///" + p.replace(/\\/g, "/")))
+        }
+        return out
+    }
 
     ControlExample {
-        headerText: qsTr("Drop images")
+        headerText: qsTr("Recipe (1.41)")
+        qmlSource: "FileDropZone { acceptExtensions: [\".png\", \".jpg\"] }\nFilePicker.openFiles(…)\nWindowHelper.copyText(path)"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("DropArea keys are text/uri-list. Empty acceptExtensions = all URLs. Always offer Browse (FilePicker) for keyboard users. Win/Linux notes: docs/drag-drop.md · Wayland portal parent: docs/platform-linux-wayland.md.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Drop images + Browse")
         qmlSource: "FileDropZone {\n    acceptExtensions: [\".png\", \".jpg\"]\n    onFilesDropped: …\n}"
         ColumnLayout {
             Layout.fillWidth: true
@@ -20,21 +67,57 @@ CatalogPage {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 180
                 title: qsTr("Drop images here")
-                subtitle: qsTr("Accepts .png and .jpg")
+                subtitle: qsTr("Accepts .png / .jpg / .jpeg / .webp — or Browse")
                 acceptExtensions: [".png", ".jpg", ".jpeg", ".webp"]
-                onFilesDropped: function (urls) {
-                    status.text = qsTr("Dropped %1 file(s):\n%2")
-                        .arg(urls.length)
-                        .arg(urls.join("\n"))
+                onFilesDropped: function (urls) { page.ingestUrls(urls) }
+            }
+            RowLayout {
+                Layout.fillWidth: true
+                spacing: Theme.spacing
+                Button {
+                    text: qsTr("Browse…")
+                    onClicked: FilePicker.openFiles(
+                        qsTr("Open images"),
+                        ["Images (*.png *.jpg *.jpeg *.webp)", "All (*.*)"],
+                        function (paths) {
+                            page.ingestUrls(page.pathsToUrls(paths || []))
+                        },
+                        Window.window)
                 }
+                CopyButton {
+                    enabled: page.lastUrls.length > 0
+                    textToCopy: page.lastUrls.length ? String(page.lastUrls[0]) : ""
+                    onCopyCompleted: page.lastStatus = qsTr("Copied first URL (%1 chars)").arg(String(page.lastUrls[0]).length)
+                    onCopyFailed: page.lastStatus = qsTr("Nothing to copy")
+                }
+                Button {
+                    text: qsTr("Copy via WindowHelper")
+                    enabled: page.lastUrls.length > 0
+                    onClicked: {
+                        WindowHelper.copyText(String(page.lastUrls[0]))
+                        page.lastStatus = qsTr("WindowHelper.copyText — first URL")
+                    }
+                }
+                Item { Layout.fillWidth: true }
             }
             Label {
-                id: status
                 Layout.fillWidth: true
                 wrapMode: Text.Wrap
                 color: Theme.textSecondary
-                text: qsTr("Waiting for drop…")
+                text: page.lastStatus
             }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Accept all URLs")
+        qmlSource: "FileDropZone { /* acceptExtensions: [] */ }"
+        FileDropZone {
+            Layout.fillWidth: true
+            Layout.preferredHeight: 140
+            title: qsTr("Drop any files")
+            subtitle: qsTr("No extension filter")
+            onFilesDropped: function (urls) { page.ingestUrls(urls) }
         }
     }
 }

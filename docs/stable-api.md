@@ -126,6 +126,8 @@ Promoted this slice (Gallery + recipe soak). Status flips are **named here** —
 | `WindowHelper` shell extras | Platform | Taskbar progress/overlay, `requestUserAttention`, `revealFileInFolder`, idle inhibit — [shell-extras.md](shell-extras.md) (1.17) |
 | `WindowHelper` geometry persistence | Platform | `saveWindowGeometry` / `restoreWindowGeometry` / `geometryPersistenceKey` on shells — [window-helper.md](window-helper.md#window-geometry-persistence) |
 | `FilePicker` / `TrayIcon` | Platform | Open/save/folder + tray — [system-integration.md](system-integration.md) (1.10) |
+| `WindowHelper.copyText` / `clipboardText` | Platform | Text clipboard R/W — [drag-drop.md](drag-drop.md) (**1.41**) |
+| `FileDropZone` / `CopyButton` | Extras | Drop target + copy affordance — [drag-drop.md](drag-drop.md) (**1.41**) |
 | `NotificationBridge` | Extras | ToastHost + OS notify — [system-integration.md](system-integration.md) (1.10) |
 | `WebView2Host` | Platform | Windows Edge WebView2 HWND host — [webview2.md](webview2.md) (1.18 soak green) |
 | `LineChart` / `BarChart` / `DonutChart` | Extras | Trend / columns / part-to-whole — [charts.md](charts.md) (1.23) |
@@ -215,3 +217,4 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.38** | Linux Wayland field matrix — [platform-linux-wayland.md](platform-linux-wayland.md); Gallery System integration |
 | **1.39** | Gallery cold start — [performance.md](performance.md); NavigationView page cache / `--startup-log` |
 | **1.40** | 1.xx compatibility freeze — [compatibility-1xx.md](compatibility-1xx.md); [upgrade-notes.md](upgrade-notes.md) |
+| **1.41** | Drag-drop & clipboard — [drag-drop.md](drag-drop.md); FileDropZone / CopyButton / WindowHelper |

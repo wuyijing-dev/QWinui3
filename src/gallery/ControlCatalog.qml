@@ -1105,7 +1105,7 @@ QtObject {
             title: qsTr("CopyButton"),
             category: "buttons",
             icon: FluentIcons.Copy,
-            description: qsTr("Copies text to the clipboard with success feedback."),
+            description: qsTr("Copies text to the clipboard with success feedback — docs/drag-drop.md (1.41)."),
             component: "CopyButtonPage",
             source: "pages/CopyButtonPage.qml"
         },
@@ -1265,7 +1265,7 @@ QtObject {
             title: qsTr("FileDropZone"),
             category: "layout",
             icon: FluentIcons.OpenFile,
-            description: qsTr("Drag-and-drop target with optional extension filter."),
+            description: qsTr("Drop + Browse + clipboard — docs/drag-drop.md (1.41)."),
             component: "FileDropZonePage",
             source: "pages/FileDropZonePage.qml"
         },
@@ -1425,6 +1425,8 @@ QtObject {
     // Curated “recently shipped” recipe pages (1.20) — not catalog array order.
     function recentlyShipped(count) {
         var ids = [
+            "FileDropZonePage",       // 1.41 drag-drop recipe
+            "CopyButtonPage",         // 1.41 clipboard
             "PitfallsPage",           // 1.40 compatibility freeze
             "NavigationViewPage",     // 1.39 page cache / cold start
             "HomePage",               // 1.39 deferred card effects
@@ -1440,8 +1442,7 @@ QtObject {
             "WebView2Page",           // 1.18
             "I18nRtlPage",            // 1.13
             "FormValidationPage",     // 1.08
-            "DataTablePage",          // 1.07
-            "ContentDialogPage"
+            "DataTablePage"           // 1.07
         ]
         var n = Math.max(1, count || 9)
         var out = []

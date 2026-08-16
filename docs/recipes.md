@@ -66,6 +66,7 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 | Recipe | One-liner |
 |--------|-----------|
 | [System integration](system-integration.md) | FilePicker / Tray / NotificationBridge |
+| [Drag-drop & clipboard](drag-drop.md) | FileDropZone / CopyButton / WindowHelper (1.41) |
 | [Shell extras](shell-extras.md) | Taskbar / attention / reveal / idle |
 | [WebView2](webview2.md) | Stable Edge host (Windows) |
 | [Media](media.md) | Optional Multimedia / MediaPlayerElement |

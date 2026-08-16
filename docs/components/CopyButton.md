@@ -10,6 +10,8 @@ Copies textToCopy and flashes a success glyph.
 
 **Gallery:** `CopyButton` — [`src/gallery/pages/CopyButtonPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/CopyButtonPage.qml)
 
+**Recipe:** [drag-drop.md](../drag-drop.md) (1.41) — CopyButton vs `WindowHelper` clipboard.
+
 **Extends** `AbstractButton`.
 
 ## Example

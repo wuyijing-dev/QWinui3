@@ -150,6 +150,7 @@ WindowHelper.releaseIdleInhibit()
 WindowHelper.idleInhibited
 ```
 
+Full drop + copy/paste recipes (FileDropZone / CopyButton): [drag-drop.md](drag-drop.md) (**1.41**).
 ## Power / network / screens / shell
 
 ```cpp

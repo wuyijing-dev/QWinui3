@@ -47,6 +47,20 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.40 → 1.41
+
+**Product version:** 1.41  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- Prefer [drag-drop.md](drag-drop.md) for FileDropZone + FilePicker browse + CopyButton / `WindowHelper` clipboard.
+- Gallery FileDropZone / CopyButton pages updated.
+
+#### No action (compatible)
+
+- Additive docs + Gallery; `FileDropZone` / `CopyButton` / clipboard helpers unchanged in shape.
+
 ### Upgrade 1.39 → 1.40
 
 **Product version:** 1.40  

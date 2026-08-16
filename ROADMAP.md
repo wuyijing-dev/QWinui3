@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.40**
-**Next up:** **1.41** (Drag-drop & clipboard recipes)
+**Current:** **1.41**
+**Next up:** **1.42** (TwoPaneView & adaptive layout)
 **Planned through:** **1.50** (1.xx maturity checkpoint)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
 
@@ -60,7 +60,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.40`
+## Shipped — `1.01` … `1.41`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -222,30 +222,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** [compatibility-1xx.md](docs/compatibility-1xx.md) will-not-break contract (Theme tokens, shell APIs, stable controls) + gate checklist for 1.41+; [upgrade-notes.md](docs/upgrade-notes.md) consumer template + recent minors; stable-api / recipes / MkDocs / README / Gallery Pitfalls pointers; product version `1.40`.
 
+### 1.41 — Drag-drop & clipboard recipes (shipped)
+
+**Shipped:** [drag-drop.md](docs/drag-drop.md) — FileDropZone + FilePicker browse + CopyButton / WindowHelper clipboard (Win/Linux notes); Gallery FileDropZone / CopyButton pages; stable-api / system-integration / recipes / MkDocs links; product version `1.41`.
+
 ---
 
-## Horizon — planned `1.41` … `1.50`
+## Horizon — planned `1.42` … `1.50`
 
 Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per `YY`.
-
-### 1.41 — Drag-drop & clipboard recipes
-
-**Why:** FileDropZone / clipboard helpers exist; apps need copy-ready DnD + paste patterns.
-
-**In scope**
-
-- Document FileDropZone, drag mime, and `WindowHelper` clipboard helpers; Gallery demos tightened.
-- `docs/drag-drop.md` (or system-integration chapter).
-
-**Out of scope**
-
-- Full OLE/complex Windows shell DnD productization.
-
-**Exit criteria**
-
-- Recipe covers file drop + text clipboard on Win/Linux notes.
-
----
 
 ### 1.42 — TwoPaneView & adaptive layout
 

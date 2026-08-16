@@ -93,6 +93,7 @@ nav:
       - Accessibility: accessibility.md
     - Platform & media:
       - System integration: system-integration.md
+      - Drag-drop & clipboard: drag-drop.md
       - Shell extras: shell-extras.md
       - WebView2: webview2.md
       - Media: media.md
