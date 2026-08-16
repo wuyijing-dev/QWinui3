@@ -23,3 +23,5 @@ set when `third_party/webview2/pkg/build/native` (or `WEBVIEW2_SDK_PATH`) is fou
 
 - Prefer native QML for settings and dashboards (see `examples/`).
 - Do not ship Qt WebEngine with the Gallery binary.
+- `WebView2Host` syncs the child HWND from `mapToScene` on each window frame and
+  clips to `clip: true` ancestors so CatalogPage `ScrollView` scrolling stays aligned.

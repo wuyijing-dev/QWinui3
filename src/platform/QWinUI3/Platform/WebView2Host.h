@@ -10,7 +10,13 @@
 #  define QWINUI3_WEBVIEW2_IMPL 0
 #endif
 
+class QQuickWindow;
+
 // WebView2Host — HWND-backed Edge WebView2 under a QQuickItem (Windows only).
+//
+// The native child HWND is positioned from mapToScene each frame while attached to
+// a window, so it follows ScrollView / Flickable motion (geometryChange alone is
+// not enough when only ancestors move).
 class WebView2Host : public QQuickItem
 {
     Q_OBJECT
@@ -65,6 +71,8 @@ private:
     void destroyHost();
     void syncChildGeometry();
     void navigateInternal(const QUrl &url);
+    void bindWindow(QQuickWindow *win);
+    void unbindWindow();
 
     QUrl m_source{QStringLiteral("https://www.microsoft.com/edge/webview")};
     QString m_title;
@@ -73,6 +81,9 @@ private:
     bool m_canGoForward = false;
     bool m_loading = false;
     bool m_completed = false;
+    QMetaObject::Connection m_frameConn;
+    QMetaObject::Connection m_widthConn;
+    QMetaObject::Connection m_heightConn;
 
 #if QWINUI3_WEBVIEW2_IMPL
     class Impl;

@@ -2,7 +2,6 @@
 
 #include <QGuiApplication>
 #include <QQuickWindow>
-#include <QTimer>
 #include <algorithm>
 #include <cmath>
 
@@ -44,6 +43,8 @@ public:
         }
         parentHwnd = nullptr;
         ready = false;
+        lastX = lastY = lastW = lastH = -1;
+        hadRegion = false;
     }
 
     void ensureChild(HWND parent)
@@ -167,25 +168,84 @@ public:
                              .arg(quint32(hr), 8, 16, QLatin1Char('0')));
     }
 
+    // Visible scene rect after intersecting clip: true ancestors (e.g. ScrollView).
+    QRectF clippedSceneRect() const
+    {
+        const QRectF itemScene = q->mapRectToScene(QRectF(0, 0, q->width(), q->height()));
+        QRectF visible = itemScene;
+        for (QQuickItem *p = q->parentItem(); p; p = p->parentItem()) {
+            if (p->clip()) {
+                const QRectF pr = p->mapRectToScene(QRectF(0, 0, p->width(), p->height()));
+                visible = visible.intersected(pr);
+                if (visible.isEmpty())
+                    return visible;
+            }
+        }
+        if (QQuickWindow *win = q->window()) {
+            if (QQuickItem *ci = win->contentItem())
+                visible = visible.intersected(QRectF(0, 0, ci->width(), ci->height()));
+        }
+        return visible;
+    }
+
     void syncGeometry()
     {
         if (!childHwnd || !q->window())
             return;
 
         const qreal dpr = q->window()->devicePixelRatio();
-        const QPointF tl = q->mapToScene(QPointF(0, 0));
-        const int x = int(std::lround(tl.x() * dpr));
-        const int y = int(std::lround(tl.y() * dpr));
-        const int w = int(std::lround(std::max<qreal>(1, q->width()) * dpr));
-        const int h = int(std::lround(std::max<qreal>(1, q->height()) * dpr));
+        const QRectF itemScene = q->mapRectToScene(QRectF(0, 0, q->width(), q->height()));
+        const QRectF visibleScene = clippedSceneRect();
 
-        SetWindowPos(childHwnd, nullptr, x, y, w, h,
-                     SWP_NOZORDER | SWP_NOACTIVATE | SWP_SHOWWINDOW);
+        const bool show = q->isVisible() && q->opacity() > 0.01
+                          && itemScene.width() >= 1 && itemScene.height() >= 1
+                          && !visibleScene.isEmpty();
+
+        if (!show) {
+            ShowWindow(childHwnd, SW_HIDE);
+            if (controller)
+                controller->put_IsVisible(FALSE);
+            lastX = lastY = lastW = lastH = -1;
+            return;
+        }
+
+        const int x = int(std::lround(itemScene.x() * dpr));
+        const int y = int(std::lround(itemScene.y() * dpr));
+        const int w = int(std::lround(std::max<qreal>(1, itemScene.width()) * dpr));
+        const int h = int(std::lround(std::max<qreal>(1, itemScene.height()) * dpr));
+
+        if (x != lastX || y != lastY || w != lastW || h != lastH) {
+            SetWindowPos(childHwnd, nullptr, x, y, w, h,
+                         SWP_NOZORDER | SWP_NOACTIVATE);
+            lastX = x;
+            lastY = y;
+            lastW = w;
+            lastH = h;
+        }
+        ShowWindow(childHwnd, SW_SHOWNOACTIVATE);
+
+        // Clip the HWND to the visible intersection so ScrollView does not leak pixels.
+        const QRectF localVis = visibleScene.translated(-itemScene.x(), -itemScene.y());
+        const int rx = int(std::lround(localVis.x() * dpr));
+        const int ry = int(std::lround(localVis.y() * dpr));
+        const int rw = int(std::lround(std::max<qreal>(1, localVis.width()) * dpr));
+        const int rh = int(std::lround(std::max<qreal>(1, localVis.height()) * dpr));
+        const bool needsClip = rx > 0 || ry > 0 || rw < w || rh < h;
+        if (needsClip) {
+            HRGN rgn = CreateRectRgn(rx, ry, rx + rw, ry + rh);
+            if (rgn) {
+                SetWindowRgn(childHwnd, rgn, TRUE);
+                hadRegion = true;
+            }
+        } else if (hadRegion) {
+            SetWindowRgn(childHwnd, nullptr, TRUE);
+            hadRegion = false;
+        }
 
         if (controller) {
             RECT bounds{0, 0, w, h};
             controller->put_Bounds(bounds);
-            controller->put_IsVisible(q->isVisible() && q->opacity() > 0.01 ? TRUE : FALSE);
+            controller->put_IsVisible(TRUE);
         }
     }
 
@@ -256,6 +316,11 @@ public:
     ComPtr<ICoreWebView2Controller> controller;
     ComPtr<ICoreWebView2> webView;
     bool ready = false;
+    int lastX = -1;
+    int lastY = -1;
+    int lastW = -1;
+    int lastH = -1;
+    bool hadRegion = false;
 };
 
 #endif // QWINUI3_WEBVIEW2_IMPL
@@ -275,6 +340,7 @@ WebView2Host::WebView2Host(QQuickItem *parent)
 
 WebView2Host::~WebView2Host()
 {
+    unbindWindow();
 #if QWINUI3_WEBVIEW2_IMPL
     destroyHost();
     delete m_impl;
@@ -345,6 +411,34 @@ void WebView2Host::setStatus(const QString &msg)
     emit statusMessageChanged();
 }
 
+void WebView2Host::bindWindow(QQuickWindow *win)
+{
+    unbindWindow();
+    if (!win)
+        return;
+    // frameSwapped covers scroll/flick (afterAnimating alone may skip non-animated frames).
+    m_frameConn = connect(win, &QQuickWindow::frameSwapped,
+                          this, &WebView2Host::syncChildGeometry,
+                          Qt::QueuedConnection);
+    m_widthConn = connect(win, &QQuickWindow::widthChanged,
+                          this, &WebView2Host::syncChildGeometry);
+    m_heightConn = connect(win, &QQuickWindow::heightChanged,
+                           this, &WebView2Host::syncChildGeometry);
+}
+
+void WebView2Host::unbindWindow()
+{
+    if (m_frameConn)
+        disconnect(m_frameConn);
+    if (m_widthConn)
+        disconnect(m_widthConn);
+    if (m_heightConn)
+        disconnect(m_heightConn);
+    m_frameConn = {};
+    m_widthConn = {};
+    m_heightConn = {};
+}
+
 void WebView2Host::ensureHost()
 {
 #if QWINUI3_WEBVIEW2_IMPL
@@ -385,6 +479,7 @@ void WebView2Host::componentComplete()
 {
     QQuickItem::componentComplete();
     m_completed = true;
+    bindWindow(window());
     ensureHost();
     syncChildGeometry();
 }
@@ -392,11 +487,14 @@ void WebView2Host::componentComplete()
 void WebView2Host::itemChange(ItemChange change, const ItemChangeData &value)
 {
     QQuickItem::itemChange(change, value);
-    if (change == ItemSceneChange || change == ItemVisibleHasChanged) {
+    if (change == ItemSceneChange) {
+        bindWindow(window());
         if (window())
             ensureHost();
         else
             destroyHost();
+        syncChildGeometry();
+    } else if (change == ItemVisibleHasChanged) {
         syncChildGeometry();
     }
 }
