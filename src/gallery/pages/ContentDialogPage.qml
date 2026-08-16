@@ -122,11 +122,11 @@ CatalogPage {
         headerText: qsTr("Primary and close")
         qmlSource: "ContentDialog {\n    isOpen: true\n    defaultButton: \"primary\"\n}"
 
-        Button {
-            text: qsTr("Show ContentDialog")
-            highlighted: true
-            onClicked: contentDialog.open()
-        }
+            Button {
+                text: qsTr("Show ContentDialog")
+                highlighted: true
+                onClicked: contentDialog.show()
+            }
     }
 
     ControlExample {
@@ -174,7 +174,7 @@ CatalogPage {
             }
             Button {
                 text: qsTr("Show three-button dialog")
-                onClicked: threeBtnDialog.isOpen = true
+                onClicked: threeBtnDialog.show()
             }
             Button {
                 text: qsTr("Show fullSizeDesired")

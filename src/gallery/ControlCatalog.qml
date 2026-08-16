@@ -198,6 +198,14 @@ QtObject {
             source: "pages/IconButtonPage.qml"
         },
         {
+            title: qsTr("IconicButton"),
+            category: "buttons",
+            icon: FluentIcons.OpenInNewWindow,
+            description: qsTr("Base icon + label button used by IconButton and AppBar*."),
+            component: "IconicButtonPage",
+            source: "pages/IconicButtonPage.qml"
+        },
+        {
             title: qsTr("TextField"),
             category: "text",
             icon: FluentIcons.Font,
@@ -1028,6 +1036,14 @@ QtObject {
             description: qsTr("Fade + rise + scale entrance motion for page sections."),
             component: "EntranceThemeTransitionPage",
             source: "pages/EntranceThemeTransitionPage.qml"
+        },
+        {
+            title: qsTr("Theme transitions"),
+            category: "status",
+            icon: FluentIcons.Sync,
+            description: qsTr("ContentThemeTransition and RepositionThemeTransition demos."),
+            component: "ThemeTransitionsPage",
+            source: "pages/ThemeTransitionsPage.qml"
         },
         {
             title: qsTr("CopyButton"),

@@ -141,7 +141,8 @@ IconicButton {
     background: Rectangle {
         radius: Theme.cornerControl
         color: {
-            if (control.flat && !control.hovered && !control.down && !control.checked)
+            if (control.flat && !control.hovered && !control.down && !control.checked
+                    && !control.visualFocus)
                 return "transparent"
             if (!control.enabled)
                 return Theme.fillControlDisabled
@@ -159,6 +160,12 @@ IconicButton {
                 duration: Theme.duration(Theme.motionFast)
                 easing.type: Theme.easingStandard
             }
+        }
+
+        FocusStroke {
+            anchors.fill: parent
+            show: control.visualFocus
+            frameRadius: Theme.cornerControl
         }
 
         Rectangle {

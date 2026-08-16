@@ -16,7 +16,6 @@ qt_add_qml_module(qwinui3_style
         Dialog.qml
         DialogButtonBox.qml
         Drawer.qml
-        FocusStroke.qml
         SelectionPip.qml
         Frame.qml
         GroupBox.qml

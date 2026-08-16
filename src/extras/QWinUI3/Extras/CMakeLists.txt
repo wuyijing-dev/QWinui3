@@ -56,8 +56,10 @@ qt_add_qml_module(qwinui3_extras
         ValidationSummary.qml
         ItemsView.qml
         EmptyState.qml
+        ContentThemeTransition.qml
         EntranceThemeTransition.qml
         Expander.qml
+        RepositionThemeTransition.qml
         FlipView.qml
         Flyout.qml
         FontIcon.qml

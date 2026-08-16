@@ -20,6 +20,7 @@ qt_add_qml_module(qwinui3_theme
     QML_FILES
         Theme.qml
         ElevatedChrome.qml
+        FocusStroke.qml
         IconSource.qml
     RESOURCES
         fonts/WinSymbols3.ttf

@@ -245,6 +245,25 @@ void buildSharedCatalog_unlocked()
     putShared("Image", 0xE8B9);
     putShared("PhotoLibrary", 0xEB9F);
     putShared("LeaveChat", 0xF405);
+    putShared("Help", 0xE897);
+    putShared("Question", 0xE897);
+    putShared("Like", 0xE8E1);
+    putShared("Dislike", 0xE8E0);
+    putShared("Heart", 0xEB52);
+    putShared("Phone", 0xE717);
+    putShared("Call", 0xE717);
+    putShared("Message", 0xE8F2);
+    putShared("Reply", 0xE97A);
+    putShared("Shield", 0xEA18);
+    putShared("Power", 0xE7E8);
+    putShared("Battery", 0xE850);
+    putShared("SelectAll", 0xE8B3);
+    putShared("ZoomIn", 0xE8A3);
+    putShared("ZoomOut", 0xE71F);
+    putShared("Bug", 0xEBE8);
+    putShared("Key", 0xE192);
+    putShared("Record", 0xE7C8);
+    putShared("Show", 0xE890);
 
     std::sort(g_names.begin(), g_names.end());
 

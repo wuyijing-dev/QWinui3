@@ -144,7 +144,7 @@ IconicButton {
                     return Theme.fillSubtleTertiary
                 if (control.checked)
                     return Theme.fillSubtle
-                if (control.hovered)
+                if (control.hovered || control.visualFocus)
                     return Theme.fillSubtleSecondary
                 if (control.flat)
                     return "transparent"
@@ -182,6 +182,12 @@ IconicButton {
                     duration: Theme.duration(Theme.motionFast)
                 }
             }
+        }
+
+        FocusStroke {
+            anchors.fill: parent
+            show: control.visualFocus
+            frameRadius: Theme.cornerControl
         }
     }
 }

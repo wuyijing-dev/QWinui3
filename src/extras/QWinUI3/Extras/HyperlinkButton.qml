@@ -122,14 +122,10 @@ T.AbstractButton {
 
     background: Item {
         implicitHeight: Theme.fontBody + 4
-        Rectangle {
+        FocusStroke {
             anchors.fill: parent
-            anchors.margins: -2
-            radius: 2
-            color: "transparent"
-            border.width: control.visualFocus ? 2 : 0
-            border.color: Theme.focusOuter
-            visible: control.visualFocus
+            show: control.visualFocus
+            frameRadius: 2
         }
     }
 

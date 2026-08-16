@@ -81,6 +81,7 @@ qt_add_qml_module(qwinui3_gallery
         pages/HeaderedComboBoxPage.qml
         pages/HyperlinkButtonPage.qml
         pages/IconButtonPage.qml
+        pages/IconicButtonPage.qml
         pages/InfoBadgePage.qml
         pages/InfoBarHostPage.qml
         pages/InfoBarPage.qml
@@ -169,6 +170,7 @@ qt_add_qml_module(qwinui3_gallery
         pages/TableViewPage.qml
         pages/TabViewPage.qml
         pages/TeachingTipPage.qml
+        pages/ThemeTransitionsPage.qml
         pages/TextAreaPage.qml
         pages/TextBlockPage.qml
         pages/TextFieldPage.qml

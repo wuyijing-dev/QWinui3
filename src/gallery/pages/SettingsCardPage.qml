@@ -29,6 +29,13 @@ CatalogPage {
                 toggle: true
                 checked: true
             }
+            SettingsToggleCard {
+                title: qsTr("Dark mode")
+                description: qsTr("SettingsToggleCard alias for SettingsCard { toggle: true }.")
+                symbol: FluentIcons.Brightness
+                checked: Theme.dark
+                onToggled: Theme.dark = checked
+            }
             SettingsCard {
                 title: qsTr("Quiet hours")
                 description: qsTr("Mute alerts during scheduled times.")

@@ -171,5 +171,11 @@ T.SpinBox {
                 }
             }
         }
+
+        FocusStroke {
+            anchors.fill: parent
+            show: control.activeFocus && (control.focusReason === Qt.TabFocusReason
+                                          || control.focusReason === Qt.BacktabFocusReason)
+        }
     }
 }

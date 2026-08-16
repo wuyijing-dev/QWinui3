@@ -77,14 +77,10 @@ IconicButton {
             }
         }
 
-        Rectangle {
+        FocusStroke {
             anchors.fill: parent
-            anchors.margins: -2
-            radius: Theme.cornerControl + 1
-            color: "transparent"
-            border.width: control.visualFocus ? Theme.strokeFocusOuter : 0
-            border.color: Theme.accent
-            visible: control.visualFocus
+            show: control.visualFocus
+            frameRadius: Theme.cornerControl
         }
 
         Rectangle {
