@@ -43,6 +43,10 @@ T.Control {
     onSelectedIndexChanged: selectionChanged(selectedIndex)
     Keys.onLeftPressed: goPrevious()
     Keys.onRightPressed: goNext()
+    Keys.onUpPressed: goPrevious()
+    Keys.onDownPressed: goNext()
+    Keys.onHomePressed: select(0)
+    Keys.onEndPressed: select(numberOfPages - 1)
 
     function select(index) {
         if (numberOfPages <= 0)
@@ -88,8 +92,13 @@ T.Control {
             text: FluentIcons.ChevronLeft
             font.family: Theme.fontFamilyIcon
             enabled: root.wrap || root.selectedIndex > 0
+            focusPolicy: Qt.NoFocus
+            activeFocusOnTab: false
             Accessible.name: qsTr("Previous page")
-            onClicked: root.goPrevious()
+            onClicked: {
+                root.goPrevious()
+                root.forceActiveFocus()
+            }
         }
 
         Repeater {
@@ -101,8 +110,13 @@ T.Control {
                 flat: pageIndex !== root.selectedIndex
                 highlighted: pageIndex === root.selectedIndex
                 Layout.preferredWidth: Math.max(implicitWidth, Theme.controlHeight)
+                focusPolicy: Qt.NoFocus
+                activeFocusOnTab: false
                 Accessible.name: qsTr("Page %1").arg(pageIndex + 1)
-                onClicked: root.select(pageIndex)
+                onClicked: {
+                    root.select(pageIndex)
+                    root.forceActiveFocus()
+                }
             }
         }
 
@@ -110,8 +124,13 @@ T.Control {
             text: FluentIcons.ChevronRight
             font.family: Theme.fontFamilyIcon
             enabled: root.wrap || root.selectedIndex < root.numberOfPages - 1
+            focusPolicy: Qt.NoFocus
+            activeFocusOnTab: false
             Accessible.name: qsTr("Next page")
-            onClicked: root.goNext()
+            onClicked: {
+                root.goNext()
+                root.forceActiveFocus()
+            }
         }
     }
 }

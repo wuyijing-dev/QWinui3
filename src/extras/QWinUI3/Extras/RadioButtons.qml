@@ -73,6 +73,8 @@ T.Control {
     Keys.onDownPressed: select(Math.min((model ? model.length : 1) - 1, currentIndex + 1))
     Keys.onLeftPressed: select(Math.max(0, currentIndex - 1))
     Keys.onRightPressed: select(Math.min((model ? model.length : 1) - 1, currentIndex + 1))
+    Keys.onHomePressed: select(0)
+    Keys.onEndPressed: select(Math.max(0, (model ? model.length : 1) - 1))
 
     readonly property int _columns: {
         if (horizontal)
@@ -122,6 +124,8 @@ T.Control {
                     RadioButton {
                         id: radio
                         Layout.fillWidth: true
+                        focusPolicy: Qt.NoFocus
+                        activeFocusOnTab: false
                         text: typeof modelData === "string" ? modelData
                               : (modelData.title || modelData.text || "")
                         checked: index === control.currentIndex
@@ -133,12 +137,13 @@ T.Control {
                         onClicked: {
                             control.currentIndex = index
                             control.selected(index, modelData)
+                            control.forceActiveFocus()
                         }
 
                         background: Rectangle {
                             radius: Theme.cornerControl
                             color: radio.hovered || radio.checked ? Theme.fillSubtleSecondary : "transparent"
-                            border.width: radio.visualFocus ? 1 : 0
+                            border.width: (control.visualFocus && index === control.currentIndex) ? 1 : 0
                             border.color: Theme.focusOuter
                             Behavior on color {
                                 enabled: !Theme.reducedMotion

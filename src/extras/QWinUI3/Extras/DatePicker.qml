@@ -184,6 +184,20 @@ T.Control {
                 control.syncTumblers()
                 control.pickerOpen = !control.pickerOpen
             }
+            Keys.onPressed: function (event) {
+                if (event.key === Qt.Key_Escape && control.pickerOpen) {
+                    control.pickerOpen = false
+                    event.accepted = true
+                    return
+                }
+                if (event.key === Qt.Key_Space || event.key === Qt.Key_Return
+                        || event.key === Qt.Key_Enter || event.key === Qt.Key_F4
+                        || (event.key === Qt.Key_Down && (event.modifiers & Qt.AltModifier))) {
+                    control.syncTumblers()
+                    control.pickerOpen = !control.pickerOpen
+                    event.accepted = true
+                }
+            }
         }
 
         Text {

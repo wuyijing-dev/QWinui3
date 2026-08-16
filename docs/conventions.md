@@ -19,12 +19,13 @@ See Gallery **Pitfalls** for side-by-side demos (`DelayButton` / `ProgressButton
 - Interactive Style controls expose `Accessible.role` / `name` / value or checked state where applicable (`Button`, `CheckBox`, `Switch`, `Slider`, `ProgressBar`, `ScrollBar`, `MenuBar`, …).
 - Charts / gauges use `Accessible.Graphic` (or ProgressBar for meters) with `title` / label as `Accessible.name`.
 - Composite Extras (`HeaderedTextBox`, `ChipGroup`, `StepBar`, `CommandBar`, split/drop-down buttons) expose role + keyboard arrows / Esc / F10 where the control owns navigation.
+- Selection composites (`RadioButtons`, `SelectorBar`, `PagerControl`, `ChipGroup`, `ItemsView`) use roving tabindex: one host `StrongFocus`, children `NoFocus`, so arrows reach the group.
 - Shell / platform windows expose `Accessible.Window` / `TitleBar`; caption buttons set explicit `Accessible.name`.
 - Pure transitions, glue (`ShellWindowSupport`, `WindowResizeBorder`), and decorative chrome use `Accessible.ignored`.
 - QtObject singletons (`ChartUtils`, `ContentDialogQueue`) are non-visual and omit Accessible.
 - Icon-only buttons must set `Accessible.name` (prefer `toolTipText`, then `text`; glyph alone is not enough). Gallery icon demos should set `toolTipText`.
-- Respect `Theme.reducedMotion` / `Theme.highContrast` (and Gallery “Follow system accessibility”).
-- Keyboard: `focusPolicy: Qt.StrongFocus` + `activeFocusOnTab` for custom interactive Extras; handle arrows / Home / End / Esc where the control owns navigation.
+- Respect `Theme.reducedMotion` / `Theme.highContrast` (and Gallery “Follow system accessibility” / **Accessibility** catalog page).
+- Keyboard: `focusPolicy: Qt.StrongFocus` + `activeFocusOnTab` for custom interactive Extras; handle arrows / Home / End / Esc where the control owns navigation. Date/time pickers open with Space / Enter / F4 / Alt+Down.
 
 ## Extras module
 

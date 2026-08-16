@@ -117,6 +117,19 @@ T.Control {
                 placeholderText: root.placeholderText
                 rightPadding: 36
                 onPressed: root.calendarOpen = !root.calendarOpen
+                Keys.onPressed: function (event) {
+                    if (event.key === Qt.Key_Escape && root.calendarOpen) {
+                        root.calendarOpen = false
+                        event.accepted = true
+                        return
+                    }
+                    if (event.key === Qt.Key_Space || event.key === Qt.Key_Return
+                            || event.key === Qt.Key_Enter || event.key === Qt.Key_F4
+                            || (event.key === Qt.Key_Down && (event.modifiers & Qt.AltModifier))) {
+                        root.calendarOpen = !root.calendarOpen
+                        event.accepted = true
+                    }
+                }
             }
 
             Text {

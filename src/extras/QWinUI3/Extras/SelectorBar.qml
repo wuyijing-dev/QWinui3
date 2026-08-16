@@ -273,6 +273,8 @@ T.Control {
                     height: row.height
                     width: Math.max(64, Math.ceil(contentRow.implicitWidth + 24))
                     hoverEnabled: true
+                    focusPolicy: Qt.NoFocus
+                    activeFocusOnTab: false
                     checkable: true
                     checked: index === control.currentIndex
                     onClicked: {
@@ -280,6 +282,7 @@ T.Control {
                             return
                         control.currentIndex = index
                         control.selected(index, modelData)
+                        control.forceActiveFocus()
                     }
 
                     readonly property string _title: typeof modelData === "string"
@@ -354,7 +357,7 @@ T.Control {
                                 return Theme.fillSubtle
                             return "transparent"
                         }
-                        border.width: itemBtn.visualFocus ? 1 : 0
+                        border.width: (control.visualFocus && itemBtn.checked) ? 1 : 0
                         border.color: Theme.focusOuter
                         Behavior on color {
                             enabled: !Theme.reducedMotion

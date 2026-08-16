@@ -1166,6 +1166,14 @@ QtObject {
             source: "pages/PitfallsPage.qml"
         },
         {
+            title: qsTr("Accessibility"),
+            category: "layout",
+            icon: FluentIcons.EaseOfAccess,
+            description: qsTr("Accessible names, composite keyboard focus, and Theme a11y flags."),
+            component: "AccessibilityPage",
+            source: "pages/AccessibilityPage.qml"
+        },
+        {
             title: qsTr("GridTile"),
             category: "collections",
             icon: FluentIcons.Document,

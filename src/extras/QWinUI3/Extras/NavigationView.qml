@@ -979,6 +979,9 @@ Item {
                     visible: topNavList.hasOverflow
                     Layout.preferredWidth: Theme.navItemHeight
                     Layout.preferredHeight: Theme.navItemHeight
+                    focusPolicy: Qt.StrongFocus
+                    Accessible.role: Accessible.Button
+                    Accessible.name: qsTr("More navigation")
                     ToolTip.text: qsTr("More")
                     ToolTip.visible: hovered
                     contentItem: Text {
@@ -989,6 +992,10 @@ Item {
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
                     }
+                    Keys.onDownPressed: if (!topOverflowMenu.visible) topOverflowBtn.clicked()
+                    Keys.onReturnPressed: topOverflowBtn.clicked()
+                    Keys.onEnterPressed: topOverflowBtn.clicked()
+                    Keys.onSpacePressed: topOverflowBtn.clicked()
                     onClicked: {
                         while (topOverflowMenu.count > 0)
                             topOverflowMenu.takeItem(0)

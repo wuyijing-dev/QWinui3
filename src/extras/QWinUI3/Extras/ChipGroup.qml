@@ -138,6 +138,24 @@ T.Control {
         else
             currentIndex = next
     }
+    Keys.onHomePressed: {
+        if (!_selectable || _modelCount() <= 0)
+            return
+        if (_exclusive)
+            select(0)
+        else
+            currentIndex = 0
+    }
+    Keys.onEndPressed: {
+        var count = _modelCount()
+        if (!_selectable || count <= 0)
+            return
+        var last = count - 1
+        if (_exclusive)
+            select(last)
+        else
+            currentIndex = last
+    }
     Keys.onSpacePressed: {
         if (_selectable && currentIndex >= 0)
             toggleIndex(currentIndex)
@@ -223,7 +241,13 @@ T.Control {
                 chipSize: root.chipSize
                 checkable: root._selectable
                 checked: root.isSelected(index)
-                onClicked: root.toggleIndex(index)
+                focusPolicy: Qt.NoFocus
+                activeFocusOnTab: false
+                onClicked: {
+                    root.toggleIndex(index)
+                    if (root._selectable)
+                        root.forceActiveFocus()
+                }
             }
         }
     }

@@ -218,6 +218,13 @@ T.Control {
             if (listView.currentIndex >= 0)
                 toggleSelection(listView.currentIndex)
             event.accepted = true
+        } else if (event.key === Qt.Key_A && (event.modifiers & Qt.ControlModifier)
+                   && selectionMode === selectionMultiple) {
+            selectAll()
+            event.accepted = true
+        } else if (event.key === Qt.Key_Escape) {
+            clearSelection()
+            event.accepted = true
         }
     }
 
@@ -241,6 +248,8 @@ T.Control {
                 required property int index
                 required property var modelData
                 width: listView.width
+                focusPolicy: Qt.NoFocus
+                activeFocusOnTab: false
                 title: String(root._roleValue(modelData, root.titleRole, index))
                 subtitle: String(root._roleValue(modelData, root.subtitleRole, index))
                 // When checkbox occupies leading, draw the symbol inside leading too.
@@ -258,7 +267,12 @@ T.Control {
                     CheckBox {
                         visible: root.selectionMode === root.selectionMultiple && root.checkboxLeading
                         checked: root.isSelected(index)
-                        onClicked: root.toggleSelection(index)
+                        focusPolicy: Qt.NoFocus
+                        activeFocusOnTab: false
+                        onClicked: {
+                            root.toggleSelection(index)
+                            root.forceActiveFocus()
+                        }
                     }
 
                     Rectangle {
@@ -287,6 +301,7 @@ T.Control {
                         root.selectionChanged()
                     }
                     root.itemActivated(index, modelData)
+                    root.forceActiveFocus()
                 }
 
                 onPressAndHold: root._openContext(index, tile, 0, 0)
@@ -300,7 +315,12 @@ T.Control {
                 CheckBox {
                     visible: root.selectionMode === root.selectionMultiple && !root.checkboxLeading
                     checked: root.isSelected(index)
-                    onClicked: root.toggleSelection(index)
+                    focusPolicy: Qt.NoFocus
+                    activeFocusOnTab: false
+                    onClicked: {
+                        root.toggleSelection(index)
+                        root.forceActiveFocus()
+                    }
                 }
             }
         }
