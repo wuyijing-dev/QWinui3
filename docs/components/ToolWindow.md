@@ -2,7 +2,9 @@
 
 StandardWindow tool paradigm.
 
-`import QWinUI3.Platform` · [`src/platform/QWinUI3/Platform/ToolWindow.qml`](../../src/platform/QWinUI3/Platform/ToolWindow.qml)
+`import QWinUI3.Platform` · [`src/platform/QWinUI3/Platform/ToolWindow.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/platform/QWinUI3/Platform/ToolWindow.qml)
+
+**Category:** Platform · **Library:** v0.1.0
 
 [← Component index](../components.md)
 

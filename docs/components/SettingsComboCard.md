@@ -2,7 +2,9 @@
 
 SettingsCard with a built-in ComboBox action.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/SettingsComboCard.qml`](../../src/extras/QWinUI3/Extras/SettingsComboCard.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/SettingsComboCard.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/SettingsComboCard.qml)
+
+**Category:** Input & forms · **Library:** v0.1.0
 
 [← Component index](../components.md)
 

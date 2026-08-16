@@ -2,7 +2,9 @@
 
 Independent ApplicationWindow + WindowChrome host.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ShellWindow.qml`](../../src/extras/QWinUI3/Extras/ShellWindow.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ShellWindow.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ShellWindow.qml)
+
+**Category:** Shells & windows · **Library:** v0.1.0
 
 [← Component index](../components.md)
 
@@ -105,9 +107,7 @@ Backdrop / paradigm via WindowHelper (see docs/window-helper.md).
 Also available (base type / Qt Quick Controls):
 
 - `title`
-- `visible`
 - `menuBar` / `header` / `footer`
-- `contentItem`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

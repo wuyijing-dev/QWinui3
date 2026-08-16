@@ -2,9 +2,13 @@
 
 Fluent styled ToolTip.
 
-`import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/ToolTip.qml`](../../src/style/QWinUI3/ToolTip.qml)
+`import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/ToolTip.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/ToolTip.qml)
+
+**Category:** Styled controls · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `ToolTip` — [`src/gallery/pages/ToolTipPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/ToolTipPage.qml)
 
 ## Example
 

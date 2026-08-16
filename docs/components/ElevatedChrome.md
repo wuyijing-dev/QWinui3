@@ -2,7 +2,9 @@
 
 Shared elevated shadow/border chrome (WinUI-style soft shadow).
 
-`import QWinUI3.Theme` · [`src/theme/QWinUI3/Theme/ElevatedChrome.qml`](../../src/theme/QWinUI3/Theme/ElevatedChrome.qml)
+`import QWinUI3.Theme` · [`src/theme/QWinUI3/Theme/ElevatedChrome.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/theme/QWinUI3/Theme/ElevatedChrome.qml)
+
+**Category:** Theme · **Library:** v0.1.0
 
 [← Component index](../components.md)
 
@@ -50,7 +52,7 @@ Also available (base type / Qt Quick Controls):
 
 - `width` / `height`
 - `visible`
-- `anchors` / `x` / `y`
+- `anchors`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

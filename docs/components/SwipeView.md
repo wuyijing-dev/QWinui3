@@ -2,9 +2,13 @@
 
 Fluent styled SwipeView.
 
-`import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/SwipeView.qml`](../../src/style/QWinUI3/SwipeView.qml)
+`import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/SwipeView.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/SwipeView.qml)
+
+**Category:** Styled controls · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `SwipeView` — [`src/gallery/pages/SwipeViewPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/SwipeViewPage.qml)
 
 ## Example
 

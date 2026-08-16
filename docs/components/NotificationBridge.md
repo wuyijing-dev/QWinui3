@@ -2,9 +2,13 @@
 
 Mirror in-app ToastHost to OS notifications (Win balloon / Linux portal).
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/NotificationBridge.qml`](../../src/extras/QWinUI3/Extras/NotificationBridge.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/NotificationBridge.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/NotificationBridge.qml)
+
+**Category:** Status & feedback · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `NotificationBridge` — [`src/gallery/pages/NotificationBridgePage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/NotificationBridgePage.qml)
 
 **Extends** `Control`.
 

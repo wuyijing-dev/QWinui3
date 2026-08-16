@@ -2,9 +2,13 @@
 
 Horizontal bar chart.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/HorizontalBarChart.qml`](../../src/extras/QWinUI3/Extras/HorizontalBarChart.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/HorizontalBarChart.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/HorizontalBarChart.qml)
+
+**Category:** Charts & gauges · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `HorizontalBarChart` — [`src/gallery/pages/HorizontalBarChartPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/HorizontalBarChartPage.qml)
 
 **Extends** `Control`.
 

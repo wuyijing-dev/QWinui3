@@ -2,9 +2,13 @@
 
 Token chips + text input.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/TokenizingTextBox.qml`](../../src/extras/QWinUI3/Extras/TokenizingTextBox.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/TokenizingTextBox.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/TokenizingTextBox.qml)
+
+**Category:** Input & forms · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `TokenizingTextBox` — [`src/gallery/pages/TokenizingTextBoxPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/TokenizingTextBoxPage.qml)
 
 **Extends** `Control`.
 

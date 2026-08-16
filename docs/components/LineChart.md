@@ -2,9 +2,13 @@
 
 Multi-series line/area chart.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/LineChart.qml`](../../src/extras/QWinUI3/Extras/LineChart.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/LineChart.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/LineChart.qml)
+
+**Category:** Charts & gauges · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `LineChart` — [`src/gallery/pages/LineChartPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/LineChartPage.qml)
 
 **Extends** `Control`.
 

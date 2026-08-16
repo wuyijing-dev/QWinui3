@@ -2,9 +2,13 @@
 
 Button that opens a MenuFlyout of actions.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/DropDownButton.qml`](../../src/extras/QWinUI3/Extras/DropDownButton.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/DropDownButton.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/DropDownButton.qml)
+
+**Category:** Buttons & commands · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `DropDownButton` — [`src/gallery/pages/DropDownButtonPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/DropDownButtonPage.qml)
 
 **Extends** `AbstractButton`.
 
@@ -67,7 +71,6 @@ Also available (base type / Qt Quick Controls):
 - `enabled`
 - `down` / `pressed` / `hovered`
 - `clicked()`
-- `pressAndHold()`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

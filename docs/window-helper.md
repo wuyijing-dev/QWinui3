@@ -1,7 +1,7 @@
 # WindowHelper (QML singleton)
 
 Platform chrome helper exposed as `WindowHelper` from `QWinUI3.Platform`.
-Source: [`src/platform/QWinUI3/Platform/WindowHelper.h`](../src/platform/QWinUI3/Platform/WindowHelper.h).
+Source: [`src/platform/QWinUI3/Platform/WindowHelper.h`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/platform/QWinUI3/Platform/WindowHelper.h).
 
 Related: [window shells](window-shells.md) · [AppWindow presenters](window-appwindow.md) · [component index](components.md).
 

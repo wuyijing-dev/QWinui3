@@ -2,7 +2,9 @@
 
 Fluent styled RoundButton.
 
-`import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/RoundButton.qml`](../../src/style/QWinUI3/RoundButton.qml)
+`import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/RoundButton.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/RoundButton.qml)
+
+**Category:** Styled controls · **Library:** v0.1.0
 
 [← Component index](../components.md)
 
@@ -31,7 +33,6 @@ Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `Roun
 ### Inherited from `RoundButton`
 
 - `text`
-- `enabled`
 - `clicked()`
 
 ---

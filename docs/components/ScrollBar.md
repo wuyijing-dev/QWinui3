@@ -2,9 +2,13 @@
 
 Fluent styled ScrollBar.
 
-`import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/ScrollBar.qml`](../../src/style/QWinUI3/ScrollBar.qml)
+`import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/ScrollBar.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/ScrollBar.qml)
+
+**Category:** Styled controls · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `ScrollBar` — [`src/gallery/pages/ScrollBarPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/ScrollBarPage.qml)
 
 ## Example
 
@@ -34,8 +38,6 @@ Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `Scro
 
 - `policy`
 - `size` / `position`
-- `active`
-- `increase()` / `decrease()`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

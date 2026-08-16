@@ -2,9 +2,13 @@
 
 Labeled content host.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/HeaderedContentControl.qml`](../../src/extras/QWinUI3/Extras/HeaderedContentControl.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/HeaderedContentControl.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/HeaderedContentControl.qml)
+
+**Category:** Input & forms · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `HeaderedContentControl` — [`src/gallery/pages/HeaderedContentControlPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/HeaderedContentControlPage.qml)
 
 **Extends** `Control`.
 

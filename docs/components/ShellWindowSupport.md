@@ -2,7 +2,9 @@
 
 Shared install/presenter glue for ShellWindow.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ShellWindowSupport.qml`](../../src/extras/QWinUI3/Extras/ShellWindowSupport.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ShellWindowSupport.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ShellWindowSupport.qml)
+
+**Category:** Shells & windows · **Library:** v0.1.0
 
 [← Component index](../components.md)
 
@@ -54,6 +56,7 @@ _No custom signals_ (use inherited signals from the base type).
 | `applyPresenter()` | Apply presenter only (Overlapped / FullScreen / CompactOverlay) |
 | `applyAlwaysOnTop()` | Apply always-on-top flag |
 | `centerOnScreen()` | Center the target window on the current screen |
+| `syncThemeDpi()` | Push this window's screen DPR into Theme (hairlines / diagnostics). |
 
 ### Inherited from `Item`
 
@@ -61,7 +64,7 @@ Also available (base type / Qt Quick Controls):
 
 - `width` / `height`
 - `visible`
-- `anchors` / `x` / `y`
+- `anchors`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

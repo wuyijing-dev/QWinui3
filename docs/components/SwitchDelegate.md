@@ -2,7 +2,9 @@
 
 Fluent styled SwitchDelegate.
 
-`import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/SwitchDelegate.qml`](../../src/style/QWinUI3/SwitchDelegate.qml)
+`import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/SwitchDelegate.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/SwitchDelegate.qml)
+
+**Category:** Styled controls · **Library:** v0.1.0
 
 [← Component index](../components.md)
 

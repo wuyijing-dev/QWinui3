@@ -2,9 +2,13 @@
 
 Classic bulb + stem temperature / level gauge.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ThermometerGauge.qml`](../../src/extras/QWinUI3/Extras/ThermometerGauge.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ThermometerGauge.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ThermometerGauge.qml)
+
+**Category:** Charts & gauges · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `ThermometerGauge` — [`src/gallery/pages/ThermometerGaugePage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/ThermometerGaugePage.qml)
 
 **Extends** `Control`.
 
@@ -63,6 +67,7 @@ Drag/wheel/keys when interactive; thresholds tint mercury; severity is 0/1/2.
 | `invertThresholds` | `bool` | Invert caution/critical threshold logic |
 | `isInteractive` | `bool` | Alias of interactive |
 | `interactive` | `alias` | Enable hover / click interaction |
+| `interactionPadding` | `real` | Extra drag hit padding (px) |
 | `normalized` | `real` | — |
 | `percentage` | `real` | — |
 | `severity` | `int` | — |

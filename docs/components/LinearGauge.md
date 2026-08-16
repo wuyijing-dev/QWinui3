@@ -2,9 +2,13 @@
 
 Horizontal/vertical track gauge with thresholds.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/LinearGauge.qml`](../../src/extras/QWinUI3/Extras/LinearGauge.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/LinearGauge.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/LinearGauge.qml)
+
+**Category:** Charts & gauges · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `LinearGauge` — [`src/gallery/pages/LinearGaugePage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/LinearGaugePage.qml)
 
 **Extends** `Control`.
 
@@ -49,6 +53,7 @@ Horizontal/vertical bar gauge; same value/min/max + zone patterns as radial.
 | `showMinMax` | `bool` | Show min/max labels |
 | `tickCount` | `int` | Major tick count |
 | `showThumb` | `bool` | Show draggable thumb |
+| `interactionPadding` | `real` | Extra hit padding around the track for easier drag (px) |
 | `isInteractive` | `bool` | Alias of interactive |
 | `interactive` | `alias` | Enable hover / click interaction |
 | `fillColor` | `color` | Primary fill / progress color |

@@ -2,9 +2,13 @@
 
 Compact dashboard KPI tile with optional delta and spark trend.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/KpiTile.qml`](../../src/extras/QWinUI3/Extras/KpiTile.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/KpiTile.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/KpiTile.qml)
+
+**Category:** Charts & gauges · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `KpiTile` — [`src/gallery/pages/KpiTilePage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/KpiTilePage.qml)
 
 **Extends** `Control`.
 

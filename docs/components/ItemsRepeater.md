@@ -2,9 +2,13 @@
 
 Thin WinUI-style virtualizing repeater over ListView.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ItemsRepeater.qml`](../../src/extras/QWinUI3/Extras/ItemsRepeater.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ItemsRepeater.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ItemsRepeater.qml)
+
+**Category:** Collections & data · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `ItemsRepeater` — [`src/gallery/pages/ItemsRepeaterPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/ItemsRepeaterPage.qml)
 
 **Extends** `Control`.
 

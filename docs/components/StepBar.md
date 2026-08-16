@@ -2,9 +2,13 @@
 
 Horizontal step / wizard progress.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/StepBar.qml`](../../src/extras/QWinUI3/Extras/StepBar.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/StepBar.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/StepBar.qml)
+
+**Category:** Status & feedback · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `StepBar` — [`src/gallery/pages/StepBarPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/StepBarPage.qml)
 
 **Extends** `Control`.
 

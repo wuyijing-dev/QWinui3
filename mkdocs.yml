@@ -1,0 +1,73 @@
+site_name: QWinUI3
+site_description: Fluent / WinUI 3 controls for Qt 6.8+
+site_url: https://wuyijing-dev.github.io/QWinui3/
+repo_url: https://github.com/wuyijing-dev/QWinui3
+repo_name: wuyijing-dev/QWinui3
+edit_uri: edit/master/docs/
+
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - toc.follow
+
+plugins:
+  - search
+
+validation:
+  omitted_files: warn
+  absolute_links: info
+  unrecognized_links: ignore
+  anchors: warn
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - tables
+  - toc:
+      permalink: true
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/wuyijing-dev/QWinui3
+
+nav:
+  - Home: index.md
+  - Component API: components.md
+  - Conventions: conventions.md
+  - Gallery CatalogPage: gallery-catalog-page.md
+  - Graphics backend: graphics-backend.md
+  - WebView2: webview2-future.md
+  - Linux / Wayland: platform-linux-wayland.md
+  - Window shells: window-shells.md
+  - WindowHelper: window-helper.md
+  - AppWindow: window-appwindow.md
+  - Transparency / DWM: window-transparency-dwm.md
+  - Qt Creator: qt-creator.md

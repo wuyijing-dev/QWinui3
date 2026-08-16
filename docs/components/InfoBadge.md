@@ -2,9 +2,13 @@
 
 Count / status / glyph badge.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/InfoBadge.qml`](../../src/extras/QWinUI3/Extras/InfoBadge.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/InfoBadge.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/InfoBadge.qml)
+
+**Category:** Status & feedback · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `InfoBadge` — [`src/gallery/pages/InfoBadgePage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/InfoBadgePage.qml)
 
 **Extends** `Control`.
 

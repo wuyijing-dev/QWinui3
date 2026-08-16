@@ -2,9 +2,13 @@
 
 Heatmap matrix chart.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/HeatmapChart.qml`](../../src/extras/QWinUI3/Extras/HeatmapChart.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/HeatmapChart.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/HeatmapChart.qml)
+
+**Category:** Charts & gauges · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `HeatmapChart` — [`src/gallery/pages/HeatmapChartPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/HeatmapChartPage.qml)
 
 **Extends** `Control`.
 

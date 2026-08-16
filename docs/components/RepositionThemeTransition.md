@@ -2,7 +2,9 @@
 
 Animate this item when its layout x/y change.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/RepositionThemeTransition.qml`](../../src/extras/QWinUI3/Extras/RepositionThemeTransition.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/RepositionThemeTransition.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/RepositionThemeTransition.qml)
+
+**Category:** Media & platform · **Library:** v0.1.0
 
 [← Component index](../components.md)
 
@@ -52,7 +54,7 @@ Also available (base type / Qt Quick Controls):
 
 - `width` / `height`
 - `visible`
-- `anchors` / `x` / `y`
+- `anchors`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

@@ -2,9 +2,13 @@
 
 Mutually exclusive segment buttons.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/SegmentedControl.qml`](../../src/extras/QWinUI3/Extras/SegmentedControl.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/SegmentedControl.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/SegmentedControl.qml)
+
+**Category:** Other · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `SegmentedControl` — [`src/gallery/pages/SegmentedControlPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/SegmentedControlPage.qml)
 
 **Extends** `Control`.
 

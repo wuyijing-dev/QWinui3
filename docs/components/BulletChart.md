@@ -2,9 +2,13 @@
 
 Compact KPI bullet (ranges + performance + target).
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/BulletChart.qml`](../../src/extras/QWinUI3/Extras/BulletChart.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/BulletChart.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/BulletChart.qml)
+
+**Category:** Charts & gauges · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `BulletChart` — [`src/gallery/pages/BulletChartPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/BulletChartPage.qml)
 
 **Extends** `Control`.
 

@@ -2,9 +2,13 @@
 
 Fluent styled Slider.
 
-`import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/Slider.qml`](../../src/style/QWinUI3/Slider.qml)
+`import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/Slider.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/Slider.qml)
+
+**Category:** Styled controls · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `Slider` — [`src/gallery/pages/SliderPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/SliderPage.qml)
 
 ## Example
 
@@ -24,6 +28,12 @@ Public API is the Qt Quick Controls Slider type; this file supplies visuals/metr
 ## API
 
 Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `Slider` API (this file only supplies Fluent visuals / metrics).
+
+### Inherited from `Slider`
+
+- `from` / `to`
+- `value`
+- `moved()`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

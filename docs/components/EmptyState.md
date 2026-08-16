@@ -2,9 +2,13 @@
 
 Placeholder illustration + title + optional action.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/EmptyState.qml`](../../src/extras/QWinUI3/Extras/EmptyState.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/EmptyState.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/EmptyState.qml)
+
+**Category:** Status & feedback · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `EmptyState` — [`src/gallery/pages/EmptyStatePage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/EmptyStatePage.qml)
 
 **Extends** `Control`.
 
@@ -23,6 +27,8 @@ EmptyState {
 ## Notes
 
 Placeholder for empty lists; title/message (description alias) + optional action.
+Neutral Document default (not Warning); bordered false by default for a lighter Fluent look.
+illustration slot replaces the circular glyph when set.
 
 ## API
 
@@ -38,10 +44,11 @@ Placeholder for empty lists; title/message (description alias) + optional action
 | `actionText` | `string` | Optional action button label |
 | `secondaryActionText` | `string` | Secondary action button label |
 | `compact` | `bool` | Compact layout density |
-| `bordered` | `bool` | Draw a border when true |
+| `bordered` | `bool` | Draw a border when true (default false — lighter empty surface) |
 | `glyphColor` | `color` | Glyph color |
-| `showGlyph` | `bool` | Show leading glyph |
-| `effectiveGlyph` | `string` | Resolved glyph string |
+| `showGlyph` | `bool` | Show leading glyph (ignored when illustration has children) |
+| `illustration` | `alias` | Custom illustration slot (replaces circular glyph) |
+| `effectiveGlyph` | `string` | Resolved glyph string — neutral Document, not Warning |
 
 ### Signals
 

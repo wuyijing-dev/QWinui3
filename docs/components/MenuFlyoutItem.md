@@ -2,9 +2,13 @@
 
 Menu row with glyph and accelerator text.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/MenuFlyoutItem.qml`](../../src/extras/QWinUI3/Extras/MenuFlyoutItem.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/MenuFlyoutItem.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/MenuFlyoutItem.qml)
+
+**Category:** Dialogs & flyouts · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `MenuFlyoutItem` — [`src/gallery/pages/MenuFlyoutItemPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/MenuFlyoutItemPage.qml)
 
 **Extends** `MenuItem`.
 
@@ -50,9 +54,7 @@ _No custom methods_ (use inherited methods from the base type).
 Also available (base type / Qt Quick Controls):
 
 - `text`
-- `enabled`
 - `triggered()`
-- `checkable` / `checked`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

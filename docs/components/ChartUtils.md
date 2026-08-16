@@ -2,7 +2,9 @@
 
 LOD helpers for large chart series.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ChartUtils.qml`](../../src/extras/QWinUI3/Extras/ChartUtils.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ChartUtils.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ChartUtils.qml)
+
+**Category:** Charts & gauges · **Library:** v0.1.0
 
 [← Component index](../components.md)
 

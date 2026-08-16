@@ -2,9 +2,13 @@
 
 Fluent styled TextField.
 
-`import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/TextField.qml`](../../src/style/QWinUI3/TextField.qml)
+`import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/TextField.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/TextField.qml)
+
+**Category:** Styled controls · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `TextField` — [`src/gallery/pages/TextFieldPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/TextFieldPage.qml)
 
 ## Example
 
@@ -30,7 +34,6 @@ Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `Text
 - `text`
 - `placeholderText`
 - `accepted()`
-- `editingFinished()`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

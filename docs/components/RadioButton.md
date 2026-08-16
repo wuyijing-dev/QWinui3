@@ -2,9 +2,13 @@
 
 Fluent styled RadioButton.
 
-`import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/RadioButton.qml`](../../src/style/QWinUI3/RadioButton.qml)
+`import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/RadioButton.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/RadioButton.qml)
+
+**Category:** Styled controls · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `RadioButton` — [`src/gallery/pages/RadioButtonPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/RadioButtonPage.qml)
 
 ## Example
 
@@ -30,7 +34,6 @@ Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `Radi
 - `text`
 - `checked`
 - `toggled()`
-- `clicked()`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

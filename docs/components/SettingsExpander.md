@@ -2,9 +2,13 @@
 
 Expandable settings group.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/SettingsExpander.qml`](../../src/extras/QWinUI3/Extras/SettingsExpander.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/SettingsExpander.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/SettingsExpander.qml)
+
+**Category:** Layout · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `SettingsExpander` — [`src/gallery/pages/SettingsExpanderPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/SettingsExpanderPage.qml)
 
 **Extends** `Control`.
 

@@ -2,9 +2,13 @@
 
 Modal dialog with primary / secondary / close actions.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ContentDialog.qml`](../../src/extras/QWinUI3/Extras/ContentDialog.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ContentDialog.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ContentDialog.qml)
+
+**Category:** Input & forms · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `ContentDialog` — [`src/gallery/pages/ContentDialogPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/ContentDialogPage.qml)
 
 **Extends** `Dialog`.
 
@@ -46,41 +50,41 @@ Body: put content as children (moved into the dialog body slot).
 
 | Name | Type | Description |
 | --- | --- | --- |
-| `primaryButtonText` | `string` | Primary action label (accent); empty hides the button |
-| `secondaryButtonText` | `string` | Optional middle action; empty hides |
-| `closeButtonText` | `string` | Dismiss / cancel label; empty hides |
-| `isPrimaryDefault` | `bool` | Prefer defaultButton; isPrimaryDefault kept for compatibility |
-| `defaultButton` | `string` | WinUI DefaultButton: primary \| secondary \| close \| none |
-| `isPrimaryButtonEnabled` | `bool` | Enable primary button |
-| `isSecondaryButtonEnabled` | `bool` | Enable secondary button |
-| `isCloseButtonEnabled` | `bool` | Enable close button |
-| `fullSizeDesired` | `bool` | WinUI FullSizeDesired — nearly fill the overlay when true |
-| `dialogResult` | `string` | (dialogResult — cannot redeclare Dialog.result which is FINAL) |
-| `primaryButton` | `alias` | Custom primary button content (overrides primaryButtonText when set) |
-| `secondaryButton` | `alias` | Custom secondary button content |
-| `closeButton` | `alias` | Custom close button content |
-| `isOpen` | `alias` | Bindable open state (alias of visible) |
+| `primaryButtonText` | `string` | — |
+| `secondaryButtonText` | `string` | — |
+| `closeButtonText` | `string` | — |
+| `isPrimaryDefault` | `bool` | — |
+| `defaultButton` | `string` | — |
+| `isPrimaryButtonEnabled` | `bool` | — |
+| `isSecondaryButtonEnabled` | `bool` | — |
+| `isCloseButtonEnabled` | `bool` | — |
+| `fullSizeDesired` | `bool` | — |
+| `dialogResult` | `string` | — |
+| `primaryButton` | `alias` | — |
+| `secondaryButton` | `alias` | — |
+| `closeButton` | `alias` | — |
+| `isOpen` | `alias` | — |
 
 ### Signals
 
 | Signature | Description |
 | --- | --- |
-| `primaryClicked()` | Primary button clicked |
-| `secondaryClicked()` | Secondary button clicked |
-| `closeClicked()` | Close button clicked |
-| `resultReady(string result)` | Closed with a ContentDialogResult |
-| `closing(var args)` | WinUI Closing — set args.cancel = true to keep the dialog open |
+| `primaryClicked()` | — |
+| `secondaryClicked()` | — |
+| `closeClicked()` | — |
+| `resultReady(string result)` | — |
+| `closing(var args)` | — |
 
 ### Methods
 
 | Signature | Description |
 | --- | --- |
-| `show()` | Enqueue via ContentDialogQueue (preferred over open()) |
-| `hide()` | Hide the control (respects Closing cancel) |
+| `show()` | — |
+| `hide()` | — |
 | `requestClose(kind)` | — |
-| `openQueued()` | Open the next queued dialog |
-| `activateDefault()` | Activate the default button / action |
-| `syncBody()` | Instance children land on contentItem; move them into the body slot. |
+| `openQueued()` | — |
+| `activateDefault()` | — |
+| `syncBody()` | — |
 
 ### Inherited from `Dialog`
 
@@ -89,7 +93,6 @@ Also available (base type / Qt Quick Controls):
 - `title`
 - `open()` / `close()`
 - `accepted()` / `rejected()`
-- `standardButtons`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

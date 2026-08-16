@@ -2,7 +2,9 @@
 
 Fluent ApplicationWindow chrome defaults.
 
-`import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/ApplicationWindow.qml`](../../src/style/QWinUI3/ApplicationWindow.qml)
+`import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/ApplicationWindow.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/ApplicationWindow.qml)
+
+**Category:** Styled controls · **Library:** v0.1.0
 
 [← Component index](../components.md)
 
@@ -29,9 +31,7 @@ Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `Appl
 ### Inherited from `ApplicationWindow`
 
 - `title`
-- `visible`
 - `menuBar` / `header` / `footer`
-- `contentItem`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

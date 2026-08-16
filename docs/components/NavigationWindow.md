@@ -2,7 +2,9 @@
 
 ShellWindow hosting NavigationView + content.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/NavigationWindow.qml`](../../src/extras/QWinUI3/Extras/NavigationWindow.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/NavigationWindow.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/NavigationWindow.qml)
+
+**Category:** Shells & windows · **Library:** v0.1.0
 
 [← Component index](../components.md)
 

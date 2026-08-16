@@ -19,7 +19,7 @@ Qt Creator injects `CMAKE_PREFIX_PATH` from the kit. Shared `CMakePresets.json` 
 | `debug` | `build-debug/` | Only if you need Debug |
 | `relwithdebinfo` | `build-relwithdebinfo/` | Optional |
 
-Local Qt / Ninja paths: copy [`CMakeUserPresets.json.example`](../CMakeUserPresets.json.example) to `CMakeUserPresets.json` and edit (file is gitignored).
+Local Qt / Ninja paths: copy [`CMakeUserPresets.json.example`](https://github.com/wuyijing-dev/QWinui3/blob/master/CMakeUserPresets.json.example) to `CMakeUserPresets.json` and edit (file is gitignored).
 
 ```bat
 copy CMakeUserPresets.json.example CMakeUserPresets.json

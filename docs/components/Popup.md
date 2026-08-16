@@ -2,7 +2,9 @@
 
 Fluent styled Popup chrome.
 
-`import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/Popup.qml`](../../src/style/QWinUI3/Popup.qml)
+`import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/Popup.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/Popup.qml)
+
+**Category:** Styled controls · **Library:** v0.1.0
 
 [← Component index](../components.md)
 

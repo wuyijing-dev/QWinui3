@@ -2,9 +2,13 @@
 
 Segmented progress / capacity gauge.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/SegmentedGauge.qml`](../../src/extras/QWinUI3/Extras/SegmentedGauge.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/SegmentedGauge.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/SegmentedGauge.qml)
+
+**Category:** Charts & gauges · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `SegmentedGauge` — [`src/gallery/pages/SegmentedGaugePage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/SegmentedGaugePage.qml)
 
 **Extends** `Control`.
 
@@ -55,6 +59,7 @@ Discrete segment fill (progress pills); value vs maximum segment count.
 | `fillMode` | `string` | discrete \| partial — partial fills the leading segment proportionally |
 | `isInteractive` | `bool` | Alias of interactive |
 | `interactive` | `alias` | Enable hover / click interaction |
+| `interactionPadding` | `real` | Extra tap hit padding outside the face (px) |
 | `percentage` | `real` | Value as 0..100 percentage |
 | `effectiveFillColor` | `color` | Resolved fill color |
 | `formattedValue` | `string` | Formatted value string |

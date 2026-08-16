@@ -2,9 +2,13 @@
 
 Master–detail recipe on TwoPaneView.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ListDetailsView.qml`](../../src/extras/QWinUI3/Extras/ListDetailsView.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ListDetailsView.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ListDetailsView.qml)
+
+**Category:** Collections & data · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `ListDetailsView` — [`src/gallery/pages/ListDetailsViewPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/ListDetailsViewPage.qml)
 
 **Extends** `Control`.
 

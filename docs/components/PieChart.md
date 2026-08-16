@@ -2,9 +2,13 @@
 
 Pie chart with legend.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/PieChart.qml`](../../src/extras/QWinUI3/Extras/PieChart.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/PieChart.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/PieChart.qml)
+
+**Category:** Charts & gauges · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `PieChart` — [`src/gallery/pages/PieChartPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/PieChartPage.qml)
 
 **Extends** `Control`.
 

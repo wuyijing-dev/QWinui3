@@ -2,9 +2,13 @@
 
 Vertical / horizontal tank / reservoir level gauge.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/TankGauge.qml`](../../src/extras/QWinUI3/Extras/TankGauge.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/TankGauge.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/TankGauge.qml)
+
+**Category:** Charts & gauges · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `TankGauge` — [`src/gallery/pages/TankGaugePage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/TankGaugePage.qml)
 
 **Extends** `Control`.
 
@@ -65,6 +69,7 @@ Use invertThresholds for low=critical. Wheel/keys when interactive; setValue cla
 | `invertThresholds` | `bool` | Invert caution/critical threshold logic |
 | `isInteractive` | `bool` | Alias of interactive |
 | `interactive` | `alias` | Enable hover / click interaction |
+| `interactionPadding` | `real` | Extra drag hit padding (px) |
 | `horizontal` | `bool` | — |
 | `normalized` | `real` | — |
 | `percentage` | `real` | — |

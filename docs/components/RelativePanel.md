@@ -2,9 +2,13 @@
 
 Constraint-based relative layout.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/RelativePanel.qml`](../../src/extras/QWinUI3/Extras/RelativePanel.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/RelativePanel.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/RelativePanel.qml)
+
+**Category:** Layout · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `RelativePanel` — [`src/gallery/pages/RelativePanelPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/RelativePanelPage.qml)
 
 **Extends** `Item`.
 
@@ -66,7 +70,7 @@ Also available (base type / Qt Quick Controls):
 
 - `width` / `height`
 - `visible`
-- `anchors` / `x` / `y`
+- `anchors`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

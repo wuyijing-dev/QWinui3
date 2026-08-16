@@ -2,9 +2,13 @@
 
 Fluent ComboBox with rotating chevron indicator.
 
-`import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/ComboBox.qml`](../../src/style/QWinUI3/ComboBox.qml)
+`import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/ComboBox.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/ComboBox.qml)
+
+**Category:** Styled controls · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `ComboBox` — [`src/gallery/pages/ComboBoxPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/ComboBoxPage.qml)
 
 ## Example
 

@@ -2,7 +2,9 @@
 
 Platform ApplicationWindow + PlatformTitleBar host.
 
-`import QWinUI3.Platform` · [`src/platform/QWinUI3/Platform/StandardWindow.qml`](../../src/platform/QWinUI3/Platform/StandardWindow.qml)
+`import QWinUI3.Platform` · [`src/platform/QWinUI3/Platform/StandardWindow.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/platform/QWinUI3/Platform/StandardWindow.qml)
+
+**Category:** Platform · **Library:** v0.1.0
 
 [← Component index](../components.md)
 
@@ -65,9 +67,7 @@ _No custom signals_ (use inherited signals from the base type).
 Also available (base type / Qt Quick Controls):
 
 - `title`
-- `visible`
 - `menuBar` / `header` / `footer`
-- `contentItem`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

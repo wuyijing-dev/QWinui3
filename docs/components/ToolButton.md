@@ -2,7 +2,9 @@
 
 Fluent styled ToolButton.
 
-`import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/ToolButton.qml`](../../src/style/QWinUI3/ToolButton.qml)
+`import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/ToolButton.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/ToolButton.qml)
+
+**Category:** Styled controls · **Library:** v0.1.0
 
 [← Component index](../components.md)
 
@@ -33,7 +35,6 @@ Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `Tool
 ### Inherited from `ToolButton`
 
 - `text`
-- `enabled`
 - `checkable` / `checked`
 - `clicked()`
 

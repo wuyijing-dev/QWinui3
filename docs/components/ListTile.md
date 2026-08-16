@@ -2,9 +2,13 @@
 
 List row: leading, title, subtitle, trailing.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ListTile.qml`](../../src/extras/QWinUI3/Extras/ListTile.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ListTile.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ListTile.qml)
+
+**Category:** Collections & data · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `ListTile` — [`src/gallery/pages/ListTilePage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/ListTilePage.qml)
 
 **Extends** `ItemDelegate`.
 

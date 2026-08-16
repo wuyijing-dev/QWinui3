@@ -2,9 +2,13 @@
 
 Text field with filtered suggestion popup.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/AutoSuggestBox.qml`](../../src/extras/QWinUI3/Extras/AutoSuggestBox.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/AutoSuggestBox.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/AutoSuggestBox.qml)
+
+**Category:** Input & forms · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `AutoSuggestBox` — [`src/gallery/pages/AutoSuggestBoxPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/AutoSuggestBoxPage.qml)
 
 **Extends** `Control`.
 

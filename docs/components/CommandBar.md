@@ -2,9 +2,13 @@
 
 Primary/secondary command row (AppBar host).
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/CommandBar.qml`](../../src/extras/QWinUI3/Extras/CommandBar.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/CommandBar.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/CommandBar.qml)
+
+**Category:** Buttons & commands · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `CommandBar` — [`src/gallery/pages/CommandBarPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/CommandBarPage.qml)
 
 **Extends** `Control`.
 
@@ -33,6 +37,8 @@ Primary + secondary AppBar command row; overflow via secondary commands.
 secondaryCommandsHost accepts AppBarButton / AppBarToggleButton children.
 secondaryCommands / overflowItems keep the JS [{text, triggered}] API.
 isDynamicOverflowEnabled moves overflowing primary commands into (…).
+commandAlignment left|center|right|stretch; compact densifies like Edge toolbar.
+overflowOpensUpward false opens down (top toolbars); auto flips when space is tight.
 
 ## API
 
@@ -53,6 +59,9 @@ isDynamicOverflowEnabled moves overflowing primary commands into (…).
 | `isMoreButtonVisible` | `bool` | Show overflow (…) button |
 | `isToggleButtonVisible` | `bool` | Show toggle / more button |
 | `isDynamicOverflowEnabled` | `bool` | WinUI IsDynamicOverflowEnabled — move overflowing primary commands into (…) |
+| `commandAlignment` | `string` | Primary command alignment: left \| center \| right \| stretch (default) |
+| `compact` | `bool` | Dense Edge-like toolbar (also follows Theme.density === "compact" when unset path) |
+| `overflowOpensUpward` | `bool` | Prefer opening overflow upward; false = down (typical top toolbar) |
 | `effectiveLabelPosition` | `string` | Resolved label position |
 
 ### Signals

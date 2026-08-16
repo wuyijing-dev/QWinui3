@@ -2,9 +2,13 @@
 
 Closed-ring dashboard gauge with center value and thresholds.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/RingGauge.qml`](../../src/extras/QWinUI3/Extras/RingGauge.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/RingGauge.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/RingGauge.qml)
+
+**Category:** Charts & gauges · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `RingGauge` — [`src/gallery/pages/RingGaugePage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/RingGaugePage.qml)
 
 **Extends** `Control`.
 
@@ -63,6 +67,7 @@ Optional target tick; severity 0/1/2 from thresholds; wheel/keys when interactiv
 | `showThumb` | `bool` | Show drag thumb (defaults on when interactive) |
 | `isInteractive` | `bool` | Alias of interactive |
 | `interactive` | `alias` | Enable hover / click interaction |
+| `interactionPadding` | `real` | Extra drag hit padding outside the face (px) |
 | `normalized` | `real` | Normalized 0..1 (live value, not animated) |
 | `percentage` | `real` | Value as 0..100 percentage |
 | `severity` | `int` | 0 = ok, 1 = caution, 2 = critical |

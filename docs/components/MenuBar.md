@@ -2,9 +2,13 @@
 
 Fluent styled MenuBar.
 
-`import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/MenuBar.qml`](../../src/style/QWinUI3/MenuBar.qml)
+`import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/MenuBar.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/MenuBar.qml)
+
+**Category:** Styled controls · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `MenuBar` — [`src/gallery/pages/MenuBarPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/MenuBarPage.qml)
 
 ## Example
 

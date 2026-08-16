@@ -2,7 +2,9 @@
 
 Fluent calendar month grid for DatePicker / CalendarDatePicker.
 
-`import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/MonthGrid.qml`](../../src/style/QWinUI3/MonthGrid.qml)
+`import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/MonthGrid.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/MonthGrid.qml)
+
+**Category:** Styled controls · **Library:** v0.1.0
 
 [← Component index](../components.md)
 

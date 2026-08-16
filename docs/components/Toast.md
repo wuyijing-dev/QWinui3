@@ -2,9 +2,13 @@
 
 Transient toast item.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/Toast.qml`](../../src/extras/QWinUI3/Extras/Toast.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/Toast.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/Toast.qml)
+
+**Category:** Dialogs & flyouts · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `Toast` — [`src/gallery/pages/ToastPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/ToastPage.qml)
 
 **Extends** `Control`.
 
@@ -43,6 +47,7 @@ Transient toast content; prefer ToastHost.info/success/warning/error helpers.
 | `actionText` | `string` | Optional action button label |
 | `showProgress` | `bool` | Show progress indicator |
 | `pauseOnHover` | `bool` | Pause auto-advance while hovered |
+| `slideFromBottom` | `bool` | Slide enter from bottom (false = from top) — set by ToastHost placement |
 | `informational` | `int` | Informational severity constant |
 | `success` | `int` | Success severity constant |
 | `warning` | `int` | Warning severity constant |

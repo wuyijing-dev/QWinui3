@@ -2,9 +2,13 @@
 
 Settings row: icon, title, description, action (Toolkit ContentAlignment).
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/SettingsCard.qml`](../../src/extras/QWinUI3/Extras/SettingsCard.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/SettingsCard.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/SettingsCard.qml)
+
+**Category:** Layout · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `SettingsCard` — [`src/gallery/pages/SettingsCardPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/SettingsCardPage.qml)
 
 **Extends** `Pane`.
 
@@ -32,9 +36,10 @@ SettingsCard {
 ## Notes
 
 Toolkit SettingsCard: Header/Description/HeaderIcon, Content + Action slots,
-ContentAlignment (right|left|vertical), IsClickEnabled, ActionIcon chevron,
+ContentAlignment (right|left|vertical|center), IsClickEnabled, ActionIcon chevron,
 cornerRadius for ElevatedChrome.
 Set toggle: true for a built-in Switch (checked / onToggled) — no action glue.
+Empty title/description collapse; contentAlignment "center" centers content (illustration cards).
 Layout.fillWidth defaults to true inside Column/Row/Grid layouts.
 
 ## API
@@ -57,7 +62,7 @@ Layout.fillWidth defaults to true inside Column/Row/Grid layouts.
 | `toggleText` | `alias` | Optional Switch text beside the thumb |
 | `interactive` | `bool` | Enable hover / click interaction |
 | `isClickEnabled` | `alias` | Toolkit IsClickEnabled |
-| `contentAlignment` | `string` | Toolkit ContentAlignment: "right" \| "left" \| "vertical" |
+| `contentAlignment` | `string` | Toolkit ContentAlignment: "right" \| "left" \| "vertical" \| "center" |
 | `showChevron` | `bool` | Show trailing chevron when clickable |
 | `actionIcon` | `var` | Toolkit ActionIcon — Fluent symbol for the trailing affordance |
 | `actionIconGlyph` | `string` | Action icon glyph fallback |
@@ -82,7 +87,6 @@ Also available (base type / Qt Quick Controls):
 
 - `padding`
 - `background`
-- `contentItem`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

@@ -2,9 +2,13 @@
 
 Open-arc dashboard gauge with center value and thresholds.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ArcGauge.qml`](../../src/extras/QWinUI3/Extras/ArcGauge.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ArcGauge.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ArcGauge.qml)
+
+**Category:** Charts & gauges · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `ArcGauge` — [`src/gallery/pages/ArcGaugePage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/ArcGaugePage.qml)
 
 **Extends** `Control`.
 
@@ -56,6 +60,7 @@ thresholds / zones for colored ranges; readout via formatValue.
 | `showMinMax` | `bool` | Show min/max labels |
 | `isInteractive` | `bool` | Alias of interactive |
 | `interactive` | `alias` | Enable hover / click interaction |
+| `interactionPadding` | `real` | Extra drag hit padding outside the face (px) |
 | `percentage` | `real` | Value as 0..100 percentage |
 | `effectiveFillColor` | `color` | Resolved fill color |
 | `formattedValue` | `string` | Formatted value string |

@@ -2,9 +2,13 @@
 
 Scroll area with a value label on the vertical scrollbar.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/AnnotatedScrollBar.qml`](../../src/extras/QWinUI3/Extras/AnnotatedScrollBar.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/AnnotatedScrollBar.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/AnnotatedScrollBar.qml)
+
+**Category:** Other · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `AnnotatedScrollBar` — [`src/gallery/pages/AnnotatedScrollBarPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/AnnotatedScrollBarPage.qml)
 
 **Extends** `Control`.
 
@@ -41,8 +45,9 @@ AnnotatedScrollBar {
 ## Notes
 
 Place tall content as children (default property → Flickable).
-Vertical ScrollBar shows a floating label (ElevatedChrome) while scrolling
-unless alwaysShowLabel is true.
+Vertical ScrollBar is AlwaysOn when content overflows; floating label
+(ElevatedChrome) shows while scrolling / hovering / pressing the bar,
+or when alwaysShowLabel is true.
 labels: string[] (even sample) or AnnotatedScrollBarLabel-like
 { content|text, scrollOffset }. scrollOffset 0..1 or absolute contentY (>=1).
 

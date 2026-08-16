@@ -2,9 +2,13 @@
 
 Inline severity banner with optional action and Content slot.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/InfoBar.qml`](../../src/extras/QWinUI3/Extras/InfoBar.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/InfoBar.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/InfoBar.qml)
+
+**Category:** Dialogs & flyouts · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `InfoBar` — [`src/gallery/pages/InfoBarPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/InfoBarPage.qml)
 
 **Extends** `Control`.
 
@@ -29,6 +33,8 @@ InfoBar {
 
 Inline severity banner: informational | success | warning | error.
 WinUI Content slot via default children (below message); actionText or action slot; isClosable.
+Content-only (no title/message) promotes Content to the primary row — no empty title gap.
+collapseWhenClosed (default) drops layout space immediately when closed (no Stack spacing).
 Prefer InfoBarHost.info/success/warning/error for stacked banners.
 
 ## API
@@ -46,6 +52,7 @@ Prefer InfoBarHost.info/success/warning/error for stacked banners.
 | `message` | `string` | Body / message text |
 | `description` | `alias` | WinUI / docs alias of message |
 | `isOpen` | `bool` | Open / visible state |
+| `collapseWhenClosed` | `bool` | When true, closed bars leave no Column/Stack spacing (unlike WinUI IsOpen=false) |
 | `closable` | `bool` | Shows a close affordance when true |
 | `isClosable` | `alias` | Alias of closable |
 | `showIcon` | `bool` | Show leading status icon |
@@ -54,7 +61,7 @@ Prefer InfoBarHost.info/success/warning/error for stacked banners.
 | `symbol` | `var` | FluentIcons symbol (preferred over iconGlyph) |
 | `actionText` | `string` | Optional action button label |
 | `action` | `alias` | Custom action slot (WinUI ActionButton) |
-| `content` | `alias` | WinUI Content — rich body below the message |
+| `content` | `alias` | WinUI Content — rich body below the message (or primary row when content-only) |
 | `durationMs` | `int` | Auto-dismiss duration; 0 keeps open |
 | `severityName` | `string` | Convenience string: "informational" \| "success" \| "warning" \| "error" |
 

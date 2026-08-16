@@ -2,9 +2,13 @@
 
 Checkable AppBarButton for CommandBar.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/AppBarToggleButton.qml`](../../src/extras/QWinUI3/Extras/AppBarToggleButton.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/AppBarToggleButton.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/AppBarToggleButton.qml)
+
+**Category:** Buttons & commands · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `AppBarToggleButton` — [`src/gallery/pages/AppBarToggleButtonPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/AppBarToggleButtonPage.qml)
 
 **Extends** `IconicButton`.
 
@@ -30,6 +34,7 @@ isCompact + keyboardAcceleratorText mirror AppBarButton.
 | --- | --- | --- |
 | `labelPosition` | `string` | bottom \| right \| collapsed |
 | `barLabelPosition` | `string` | Injected by CommandBar (do not parent-walk) |
+| `barCompact` | `bool` | Injected by CommandBar.compact — denser icon-only sizing |
 | `isCompact` | `bool` | WinUI IsCompact — hide label, icon-only |
 | `keyboardAcceleratorText` | `string` | Shortcut hint (WinUI KeyboardAcceleratorText) |
 | `effectiveLabelPosition` | `string` | Resolved label position |

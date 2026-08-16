@@ -2,9 +2,13 @@
 
 Vertical bar chart with reveal animation.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/BarChart.qml`](../../src/extras/QWinUI3/Extras/BarChart.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/BarChart.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/BarChart.qml)
+
+**Category:** Charts & gauges · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `BarChart` — [`src/gallery/pages/BarChartPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/BarChartPage.qml)
 
 **Extends** `Control`.
 

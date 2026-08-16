@@ -2,9 +2,13 @@
 
 Dot pager for carousels.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/PipsPager.qml`](../../src/extras/QWinUI3/Extras/PipsPager.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/PipsPager.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/PipsPager.qml)
+
+**Category:** Navigation · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `PipsPager` — [`src/gallery/pages/PipsPagerPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/PipsPagerPage.qml)
 
 **Extends** `Control`.
 

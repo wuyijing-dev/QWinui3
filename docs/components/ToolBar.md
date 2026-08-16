@@ -2,9 +2,13 @@
 
 Fluent styled ToolBar.
 
-`import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/ToolBar.qml`](../../src/style/QWinUI3/ToolBar.qml)
+`import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/ToolBar.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/ToolBar.qml)
+
+**Category:** Styled controls · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `ToolBar` — [`src/gallery/pages/ToolBarPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/ToolBarPage.qml)
 
 ## Example
 

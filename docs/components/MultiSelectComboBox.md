@@ -2,9 +2,13 @@
 
 Combo that keeps the popup open for multi-select.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/MultiSelectComboBox.qml`](../../src/extras/QWinUI3/Extras/MultiSelectComboBox.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/MultiSelectComboBox.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/MultiSelectComboBox.qml)
+
+**Category:** Input & forms · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `MultiSelectComboBox` — [`src/gallery/pages/MultiSelectComboBoxPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/MultiSelectComboBoxPage.qml)
 
 **Extends** `AbstractButton`.
 
@@ -70,7 +74,6 @@ Also available (base type / Qt Quick Controls):
 - `enabled`
 - `down` / `pressed` / `hovered`
 - `clicked()`
-- `pressAndHold()`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

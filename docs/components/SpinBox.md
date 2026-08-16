@@ -2,9 +2,13 @@
 
 Fluent styled SpinBox.
 
-`import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/SpinBox.qml`](../../src/style/QWinUI3/SpinBox.qml)
+`import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/SpinBox.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/SpinBox.qml)
+
+**Category:** Styled controls · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `SpinBox` — [`src/gallery/pages/SpinBoxPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/SpinBoxPage.qml)
 
 ## Example
 
@@ -23,6 +27,12 @@ Public API is the Qt Quick Controls SpinBox type; this file supplies visuals/met
 ## API
 
 Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `SpinBox` API (this file only supplies Fluent visuals / metrics).
+
+### Inherited from `SpinBox`
+
+- `from` / `to`
+- `value`
+- `valueModified()`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

@@ -2,9 +2,13 @@
 
 Donut chart with hover and legend.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/DonutChart.qml`](../../src/extras/QWinUI3/Extras/DonutChart.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/DonutChart.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/DonutChart.qml)
+
+**Category:** Charts & gauges · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `DonutChart` — [`src/gallery/pages/DonutChartPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/DonutChartPage.qml)
 
 **Extends** `Control`.
 

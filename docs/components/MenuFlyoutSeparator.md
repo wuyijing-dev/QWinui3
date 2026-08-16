@@ -2,7 +2,9 @@
 
 MenuFlyout divider.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/MenuFlyoutSeparator.qml`](../../src/extras/QWinUI3/Extras/MenuFlyoutSeparator.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/MenuFlyoutSeparator.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/MenuFlyoutSeparator.qml)
+
+**Category:** Dialogs & flyouts · **Library:** v0.1.0
 
 [← Component index](../components.md)
 

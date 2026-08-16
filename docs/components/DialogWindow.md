@@ -2,7 +2,9 @@
 
 StandardWindow dialog paradigm.
 
-`import QWinUI3.Platform` · [`src/platform/QWinUI3/Platform/DialogWindow.qml`](../../src/platform/QWinUI3/Platform/DialogWindow.qml)
+`import QWinUI3.Platform` · [`src/platform/QWinUI3/Platform/DialogWindow.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/platform/QWinUI3/Platform/DialogWindow.qml)
+
+**Category:** Platform · **Library:** v0.1.0
 
 [← Component index](../components.md)
 

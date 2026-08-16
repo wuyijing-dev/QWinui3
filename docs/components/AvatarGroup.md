@@ -2,9 +2,13 @@
 
 Overlapping PersonPicture stack with overflow count.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/AvatarGroup.qml`](../../src/extras/QWinUI3/Extras/AvatarGroup.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/AvatarGroup.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/AvatarGroup.qml)
+
+**Category:** Collections & data · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `AvatarGroup` — [`src/gallery/pages/AvatarGroupPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/AvatarGroupPage.qml)
 
 **Extends** `Control`.
 

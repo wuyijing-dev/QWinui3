@@ -2,9 +2,13 @@
 
 Vertical event timeline.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/Timeline.qml`](../../src/extras/QWinUI3/Extras/Timeline.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/Timeline.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/Timeline.qml)
+
+**Category:** Collections & data · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `Timeline` — [`src/gallery/pages/TimelinePage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/TimelinePage.qml)
 
 **Extends** `Control`.
 

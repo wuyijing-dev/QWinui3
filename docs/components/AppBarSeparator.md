@@ -2,9 +2,13 @@
 
 Thin separator for CommandBar / AppBar rows.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/AppBarSeparator.qml`](../../src/extras/QWinUI3/Extras/AppBarSeparator.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/AppBarSeparator.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/AppBarSeparator.qml)
+
+**Category:** Buttons & commands · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `AppBarSeparator` — [`src/gallery/pages/AppBarSeparatorPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/AppBarSeparatorPage.qml)
 
 **Extends** `Control`.
 

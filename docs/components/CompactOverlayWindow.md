@@ -2,7 +2,9 @@
 
 StandardWindow compact overlay presenter.
 
-`import QWinUI3.Platform` · [`src/platform/QWinUI3/Platform/CompactOverlayWindow.qml`](../../src/platform/QWinUI3/Platform/CompactOverlayWindow.qml)
+`import QWinUI3.Platform` · [`src/platform/QWinUI3/Platform/CompactOverlayWindow.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/platform/QWinUI3/Platform/CompactOverlayWindow.qml)
+
+**Category:** Platform · **Library:** v0.1.0
 
 [← Component index](../components.md)
 

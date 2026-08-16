@@ -2,9 +2,13 @@
 
 Waterfall chart.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/WaterfallChart.qml`](../../src/extras/QWinUI3/Extras/WaterfallChart.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/WaterfallChart.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/WaterfallChart.qml)
+
+**Category:** Charts & gauges · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `WaterfallChart` — [`src/gallery/pages/WaterfallChartPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/WaterfallChartPage.qml)
 
 **Extends** `Control`.
 

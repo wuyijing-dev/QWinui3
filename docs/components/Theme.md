@@ -2,7 +2,9 @@
 
 Fluent color / type / motion token singleton.
 
-`import QWinUI3.Theme` · [`src/theme/QWinUI3/Theme/Theme.qml`](../../src/theme/QWinUI3/Theme/Theme.qml)
+`import QWinUI3.Theme` · [`src/theme/QWinUI3/Theme/Theme.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/theme/QWinUI3/Theme/Theme.qml)
+
+**Category:** Theme · **Library:** v0.1.0
 
 [← Component index](../components.md)
 
@@ -17,18 +19,22 @@ Theme.dark = true
 Theme.reducedMotion = false
 Theme.followSystemAccessibility = true
 Theme.density = "compact"
+Theme.uiScale = 1.0
+Theme.devicePixelRatio = Screen.devicePixelRatio
 Theme.accentPack = "purple"
 Theme.customAccent = "#C239B3"
 
 Rectangle {
     color: Theme.bgCard
     radius: Theme.cornerControl
+    border.width: Theme.strokeHairline
     Behavior on color {
         ColorAnimation { duration: Theme.duration(Theme.motionNormal) }
     }
 }
 // --- API ---
 Theme.duration(ms)
+Theme.dp(value) / Theme.hairline(dpr)
 Theme.controlFill(hovered, pressed, disabled)
 Theme.accentFill(hovered, pressed, disabled)
 Theme.setAccentPack(name)
@@ -39,6 +45,7 @@ Theme.setAccentPack(name)
 Singleton tokens: colors, type, spacing, motion, corners, density, accent packs.
 Theme.dark / reducedMotion / highContrast; followSystemAccessibility mirrors WindowHelper SPI.
 density "standard"|"compact" scales controlHeight / padding / spacing.
+devicePixelRatio + uiScale: hairline strokes and optional extra UI scale (ShellWindow syncs DPR).
 accentPack "blue"|"purple"|"green"|"orange"; customAccent (alpha>0) overrides pack.
 Use Theme.duration(ms) and controlFill/accentFill helpers for states.
 
@@ -54,6 +61,8 @@ Use Theme.duration(ms) and controlFill/accentFill helpers for states.
 | `followSystemAccessibility` | `bool` | When true, Gallery/apps should copy WindowHelper system a11y into the flags above. |
 | `followSystemColorScheme` | `bool` | When true, mirror WindowHelper.systemPrefersDark into Theme.dark (Linux/Windows). |
 | `density` | `string` | Control density: "standard" \| "compact" |
+| `uiScale` | `real` | Extra UI scale on top of system DPR (1.0 = follow OS only). Qt layout is already in DIPs. |
+| `devicePixelRatio` | `real` | Last synced window/screen devicePixelRatio (ShellWindow / StandardWindow update this). |
 | `accentPack` | `string` | Named accent pack: "blue" \| "purple" \| "green" \| "orange" |
 | `customAccent` | `color` | When alpha > 0, overrides accentPack colors |
 | `accent` | `color` | Fluent / WinUI 3 system accent (pack or customAccent) |
@@ -120,7 +129,8 @@ Use Theme.duration(ms) and controlFill/accentFill helpers for states.
 | `easingEmphasized` | `int` | Emphasized easing (slight overshoot) |
 | `cornerControl` | `real` | — |
 | `cornerOverlay` | `real` | Overlay / flyout corner radius |
-| `strokeThin` | `real` | Default 1px hairline stroke |
+| `strokeThin` | `real` | Default 1px design stroke (scales with Qt DIP) |
+| `strokeHairline` | `real` | True 1-device-pixel hairline (set Theme.devicePixelRatio from the window screen) |
 | `strokeFocusOuter` | `real` | Focus ring outer width |
 | `strokeFocusInner` | `real` | Focus ring inner width |
 | `controlHeight` | `real` | Default control height |
@@ -152,6 +162,8 @@ _No custom signals_ (use inherited signals from the base type).
 | Signature | Description |
 | --- | --- |
 | `duration(ms)` | Returns ms, or 1 when reducedMotion is on |
+| `dp(value)` | Density-aware design pixels (Qt layout units are already DPI-independent). |
+| `hairline(dpr)` | 1 physical pixel in logical units for the given DPR (defaults to Theme.devicePixelRatio). |
 | `setAccentPack(name)` | Apply a named accent pack and clear customAccent |
 | `controlFill(hovered, pressed, disabled)` | Rest/hover/pressed/disabled control fill helper |
 | `accentFill(hovered, pressed, disabled)` | Rest/hover/pressed/disabled accent fill helper |

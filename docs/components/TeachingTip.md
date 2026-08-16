@@ -2,9 +2,13 @@
 
 Anchored tip with title, subtitle, content, and actions.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/TeachingTip.qml`](../../src/extras/QWinUI3/Extras/TeachingTip.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/TeachingTip.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/TeachingTip.qml)
+
+**Category:** Dialogs & flyouts · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `TeachingTip` — [`src/gallery/pages/TeachingTipPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/TeachingTipPage.qml)
 
 **Extends** `Popup`.
 
@@ -32,6 +36,7 @@ TeachingTip {
 
 WinUI TeachingTip: target, title/subtitle, Content + HeroContent, ActionButton (actionText),
 CloseButton, PreferredPlacement, TailVisibility, PlacementMargin, IsLightDismissEnabled.
+Parents to Window Overlay on open so placement is relative to the window, not a layout cell.
 
 ## API
 

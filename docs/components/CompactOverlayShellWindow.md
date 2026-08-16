@@ -2,7 +2,9 @@
 
 Always-on-top compact overlay shell.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/CompactOverlayShellWindow.qml`](../../src/extras/QWinUI3/Extras/CompactOverlayShellWindow.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/CompactOverlayShellWindow.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/CompactOverlayShellWindow.qml)
+
+**Category:** Shells & windows · **Library:** v0.1.0
 
 [← Component index](../components.md)
 

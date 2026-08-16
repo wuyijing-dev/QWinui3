@@ -2,9 +2,13 @@
 
 Stacked bar chart.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/StackedBarChart.qml`](../../src/extras/QWinUI3/Extras/StackedBarChart.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/StackedBarChart.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/StackedBarChart.qml)
+
+**Category:** Charts & gauges · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `StackedBarChart` — [`src/gallery/pages/StackedBarChartPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/StackedBarChartPage.qml)
 
 **Extends** `Control`.
 

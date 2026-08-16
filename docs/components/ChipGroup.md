@@ -2,9 +2,13 @@
 
 Horizontal chip group for filters / single select.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ChipGroup.qml`](../../src/extras/QWinUI3/Extras/ChipGroup.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ChipGroup.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ChipGroup.qml)
+
+**Category:** Collections & data · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `ChipGroup` — [`src/gallery/pages/ChipGroupPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/ChipGroupPage.qml)
 
 **Extends** `Control`.
 

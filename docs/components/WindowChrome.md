@@ -2,7 +2,9 @@
 
 PlatformTitleBar + TitleBar bundle for shells.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/WindowChrome.qml`](../../src/extras/QWinUI3/Extras/WindowChrome.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/WindowChrome.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/WindowChrome.qml)
+
+**Category:** Shells & windows · **Library:** v0.1.0
 
 [← Component index](../components.md)
 

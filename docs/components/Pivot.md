@@ -2,9 +2,13 @@
 
 Header tabs with sliding underline and pages.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/Pivot.qml`](../../src/extras/QWinUI3/Extras/Pivot.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/Pivot.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/Pivot.qml)
+
+**Category:** Navigation · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `Pivot` — [`src/gallery/pages/PivotPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/PivotPage.qml)
 
 **Extends** `Control`.
 

@@ -2,9 +2,13 @@
 
 Single keyboard key chrome.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/KeyVisual.qml`](../../src/extras/QWinUI3/Extras/KeyVisual.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/KeyVisual.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/KeyVisual.qml)
+
+**Category:** Other · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `KeyVisual` — [`src/gallery/pages/KeyVisualPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/KeyVisualPage.qml)
 
 **Extends** `AbstractButton`.
 
@@ -54,7 +58,6 @@ Also available (base type / Qt Quick Controls):
 - `enabled`
 - `down` / `pressed` / `hovered`
 - `clicked()`
-- `pressAndHold()`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

@@ -2,9 +2,13 @@
 
 Fluent styled CheckBox.
 
-`import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/CheckBox.qml`](../../src/style/QWinUI3/CheckBox.qml)
+`import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/CheckBox.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/CheckBox.qml)
+
+**Category:** Styled controls · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `CheckBox` — [`src/gallery/pages/CheckBoxPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/CheckBoxPage.qml)
 
 ## Example
 
@@ -31,7 +35,6 @@ Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `Chec
 - `text`
 - `checked` / `checkState`
 - `toggled()`
-- `clicked()`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

@@ -2,9 +2,13 @@
 
 Hour / minute (and period) selectors.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/TimePicker.qml`](../../src/extras/QWinUI3/Extras/TimePicker.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/TimePicker.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/TimePicker.qml)
+
+**Category:** Date & time · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `TimePicker` — [`src/gallery/pages/TimePickerPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/TimePickerPage.qml)
 
 **Extends** `Control`.
 

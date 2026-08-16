@@ -2,9 +2,13 @@
 
 Icon button that opens a TeachingTip.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/InfoButton.qml`](../../src/extras/QWinUI3/Extras/InfoButton.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/InfoButton.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/InfoButton.qml)
+
+**Category:** Buttons & commands · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `InfoButton` — [`src/gallery/pages/InfoButtonPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/InfoButtonPage.qml)
 
 **Extends** `IconButton`.
 
@@ -23,7 +27,7 @@ InfoButton {
 
 ## Notes
 
-Fluent Info glyph; hosts TeachingTip anchored to itself. Prefer for settings help.
+Fluent Info glyph; hosts TeachingTip anchored to itself (overlay-parented). Prefer for settings help.
 
 ## API
 

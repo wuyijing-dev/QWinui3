@@ -1,9 +1,12 @@
 # QWinUI3 documentation
 
+Published site: **https://wuyijing-dev.github.io/QWinui3/**
+
 ## Conventions
 
 | Doc | Description |
 |-----|-------------|
+| [`index.md`](index.md) | Docs site home |
 | [`conventions.md`](conventions.md) | Radius/clip pitfalls, Accessible rules, Extras import rule |
 | [`gallery-catalog-page.md`](gallery-catalog-page.md) | Gallery `CatalogPage` host — **Item not Page**, footer/overlay slots |
 | [`graphics-backend.md`](graphics-backend.md) | RHI (`--rhi` / Settings) and Fixedsys DirectWrite noise |
@@ -16,12 +19,21 @@
 |-----|-------------|
 | [`components.md`](components.md) | Index of all controls |
 | [`components/`](components/) | One markdown page per control (generated) |
+| [`components.json`](components.json) | Machine-readable catalog (generated) |
 
 Source of truth is the `//` comment header in each `.qml` file. Regenerate:
 
 ```bash
 python scripts/generate_component_docs.py
 python scripts/generate_component_docs.py --lint
+```
+
+Build the MkDocs site locally:
+
+```bash
+pip install -r requirements-docs.txt
+python scripts/generate_component_docs.py
+mkdocs serve
 ```
 
 Header convention:

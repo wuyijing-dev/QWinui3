@@ -2,9 +2,13 @@
 
 Inline mini line chart.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/Sparkline.qml`](../../src/extras/QWinUI3/Extras/Sparkline.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/Sparkline.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/Sparkline.qml)
+
+**Category:** Charts & gauges · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `Sparkline` — [`src/gallery/pages/SparklinePage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/SparklinePage.qml)
 
 **Extends** `Control`.
 

@@ -2,7 +2,9 @@
 
 Fluent styled ScrollView.
 
-`import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/ScrollView.qml`](../../src/style/QWinUI3/ScrollView.qml)
+`import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/ScrollView.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/ScrollView.qml)
+
+**Category:** Styled controls · **Library:** v0.1.0
 
 [← Component index](../components.md)
 

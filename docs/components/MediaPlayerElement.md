@@ -2,9 +2,13 @@
 
 Fluent shell around Qt Multimedia MediaPlayer / VideoOutput.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/MediaPlayerElement.qml`](../../src/extras/QWinUI3/Extras/MediaPlayerElement.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/MediaPlayerElement.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/MediaPlayerElement.qml)
+
+**Category:** Media & platform · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `MediaPlayerElement` — [`src/gallery/pages/MediaPlayerElementPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/MediaPlayerElementPage.qml)
 
 **Extends** `Control`.
 

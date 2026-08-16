@@ -2,9 +2,13 @@
 
 Frosted pane; keep translucent under system Mica/Acrylic.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/AcrylicSurface.qml`](../../src/extras/QWinUI3/Extras/AcrylicSurface.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/AcrylicSurface.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/AcrylicSurface.qml)
+
+**Category:** Layout · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `AcrylicSurface` — [`src/gallery/pages/AcrylicSurfacePage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/AcrylicSurfacePage.qml)
 
 **Extends** `Pane`.
 
@@ -55,7 +59,6 @@ Also available (base type / Qt Quick Controls):
 
 - `padding`
 - `background`
-- `contentItem`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

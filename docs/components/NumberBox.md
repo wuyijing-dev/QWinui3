@@ -2,9 +2,13 @@
 
 Numeric spin/edit with validation (WinUI AcceptsExpression / IsWrapEnabled).
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/NumberBox.qml`](../../src/extras/QWinUI3/Extras/NumberBox.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/NumberBox.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/NumberBox.qml)
+
+**Category:** Input & forms · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `NumberBox` — [`src/gallery/pages/NumberBoxPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/NumberBoxPage.qml)
 
 **Extends** `Control`.
 

@@ -2,7 +2,9 @@
 
 Resolve FluentIcons symbol or glyph string.
 
-`import QWinUI3.Theme` · [`src/theme/QWinUI3/Theme/IconSource.qml`](../../src/theme/QWinUI3/Theme/IconSource.qml)
+`import QWinUI3.Theme` · [`src/theme/QWinUI3/Theme/IconSource.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/theme/QWinUI3/Theme/IconSource.qml)
+
+**Category:** Theme · **Library:** v0.1.0
 
 [← Component index](../components.md)
 

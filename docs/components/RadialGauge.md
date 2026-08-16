@@ -2,9 +2,13 @@
 
 Toolkit-style circular needle gauge (CommunityToolkit.WinUI.Controls.RadialGauge).
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/RadialGauge.qml`](../../src/extras/QWinUI3/Extras/RadialGauge.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/RadialGauge.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/RadialGauge.qml)
+
+**Category:** Input & forms · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `RadialGauge` — [`src/gallery/pages/RadialGaugePage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/RadialGaugePage.qml)
 
 **Extends** `Control`.
 
@@ -82,6 +86,7 @@ startAngle/sweepTotal remain as aliases of the angle range. Wheel/keys when isIn
 | `invertThresholds` | `bool` | — |
 | `isInteractive` | `bool` | --- Interaction (Toolkit IsInteractive) --- |
 | `interactive` | `alias` | — |
+| `interactionPadding` | `real` | Extra drag hit padding outside the face (px) |
 | `valueAngle` | `real` | Toolkit ValueAngle — current needle angle between minAngle and maxAngle |
 | `normalizedMinAngle` | `real` | — |
 | `normalizedMaxAngle` | `real` | — |

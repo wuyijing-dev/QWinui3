@@ -2,9 +2,13 @@
 
 ListView recipe: sections, selection, context MenuFlyout, EmptyState.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ItemsView.qml`](../../src/extras/QWinUI3/Extras/ItemsView.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ItemsView.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ItemsView.qml)
+
+**Category:** Collections & data · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `ItemsView` — [`src/gallery/pages/ItemsViewPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/ItemsViewPage.qml)
 
 **Extends** `Control`.
 

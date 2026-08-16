@@ -2,7 +2,9 @@
 
 Non-native resize hit edges.
 
-`import QWinUI3.Platform` · [`src/platform/QWinUI3/Platform/WindowResizeBorder.qml`](../../src/platform/QWinUI3/Platform/WindowResizeBorder.qml)
+`import QWinUI3.Platform` · [`src/platform/QWinUI3/Platform/WindowResizeBorder.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/platform/QWinUI3/Platform/WindowResizeBorder.qml)
+
+**Category:** Platform · **Library:** v0.1.0
 
 [← Component index](../components.md)
 
@@ -48,7 +50,7 @@ Also available (base type / Qt Quick Controls):
 
 - `width` / `height`
 - `visible`
-- `anchors` / `x` / `y`
+- `anchors`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

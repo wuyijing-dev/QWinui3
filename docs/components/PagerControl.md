@@ -2,9 +2,13 @@
 
 Numbered page navigation (prev / numbers / next).
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/PagerControl.qml`](../../src/extras/QWinUI3/Extras/PagerControl.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/PagerControl.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/PagerControl.qml)
+
+**Category:** Navigation · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `PagerControl` — [`src/gallery/pages/PagerControlPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/PagerControlPage.qml)
 
 **Extends** `Control`.
 

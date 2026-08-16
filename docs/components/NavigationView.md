@@ -2,9 +2,13 @@
 
 WinUI NavigationView with pane modes and page stack.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/NavigationView.qml`](../../src/extras/QWinUI3/Extras/NavigationView.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/NavigationView.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/NavigationView.qml)
+
+**Category:** Navigation · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `NavigationView` — [`src/gallery/pages/NavigationViewPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/NavigationViewPage.qml)
 
 **Extends** `Item`.
 
@@ -25,6 +29,8 @@ NavigationView {
 
 // --- API ---
 // navigate: nav.selectKey("home"), nav.selectFooter(), nav.openPage("HomePage")
+//           nav.reloadPage()  // force rebuild current page with transition
+// Same-key / same-page clicks skip StackView replace + pageTransition.
 //           nav.openSlide("HomePage"), nav.openFromCenter("HomePage")
 //           nav.openFade("HomePage"), nav.openDrill("HomePage")
 //           nav.navigateToTitle("Home"), nav.reloadPage()
@@ -40,8 +46,7 @@ model entries: type "item"|"group"|"header"; groups use children[].
 pageModule + component names load StackView pages (unless hostContent).
 paneDisplayMode auto switches left / leftCompact by width.
 leftMinimal overlays content with a light-dismiss scrim.
-Left-rail title bar is hamburger + paneTitle only (no Back); Back belongs on TitleBar / top mode.
-When the rail title bar is shown, hamburger and title are always paired.
+Left-rail title bar is hamburger + paneTitle (paired); Back is top mode / TitleBar.
 pageTransition / openPage modes: slide | slideRight | fade | center | drill |
 up | down | cover | none (suppress). Pane clicks use pageTransition.
 WinUI aliases: paneTitle, openPaneLength, compactPaneLength, isSettingsVisible, isPaneToggleButtonVisible.
@@ -58,12 +63,12 @@ Prefer selectKey / openPage over mutating currentIndex alone.
 | `paneOpen` | `bool` | Expanded pane when true (left / leftMinimal); compact modes force false |
 | `isPaneOpen` | `alias` | WinUI IsPaneOpen alias |
 | `isPaneVisible` | `bool` | WinUI IsPaneVisible — hide the navigation pane entirely when false |
-| `alwaysShowHeader` | `bool` | WinUI AlwaysShowHeader — show the left-rail title bar (hamburger + paneTitle) in leftCompact |
+| `alwaysShowHeader` | `bool` | WinUI AlwaysShowHeader — show the pane title bar in leftCompact (hamburger + title) |
 | `paneWidth` | `real` | Expanded pane width (WinUI OpenPaneLength) |
 | `openPaneLength` | `alias` | — |
 | `paneCompactWidth` | `real` | Compact pane width (WinUI CompactPaneLength) |
 | `compactPaneLength` | `alias` | — |
-| `headerText` | `string` | Pane header title text (WinUI PaneTitle); always paired with the hamburger when the rail title bar is shown |
+| `headerText` | `string` | Pane header title text (WinUI PaneTitle) |
 | `paneTitle` | `alias` | — |
 | `footerText` | `string` | Footer row label |
 | `footerSymbol` | `var` | Footer FluentIcons symbol |
@@ -75,7 +80,7 @@ Prefer selectKey / openPage over mutating currentIndex alone.
 | `isPaneToggleButtonVisible` | `bool` | WinUI IsPaneToggleButtonVisible — left-rail title bar (hamburger + paneTitle as a pair) |
 | `paneDisplayMode` | `string` | WinUI PaneDisplayMode: left \| leftCompact \| leftMinimal \| top \| auto |
 | `autoCompactThreshold` | `real` | Width below which auto mode uses leftCompact |
-| `isBackButtonVisible` | `bool` | Show back in top pane mode (left rail uses TitleBar / ShellWindow back) |
+| `isBackButtonVisible` | `bool` | Show back in top pane mode only (left rail uses TitleBar / ShellWindow back) |
 | `isBackEnabled` | `bool` | Enable back button |
 | `isPaneSearchEnabled` | `bool` | Shows SearchBox at the top of the pane when open |
 | `paneSearchText` | `string` | Pane SearchBox text |
@@ -87,7 +92,7 @@ Prefer selectKey / openPage over mutating currentIndex alone.
 | `content` | `alias` | Content slot / children host |
 | `pageHistory` | `var` | Soft navigation history for TitleBar / pane back (replace stack still applies) |
 | `canGoBack` | `bool` | — |
-| `effectiveBackVisible` | `bool` | Top-pane / shell chrome back visibility |
+| `effectiveBackVisible` | `bool` | Top-pane / shell chrome back (left rail no longer hosts Back) |
 | `effectiveBackEnabled` | `bool` | — |
 | `effectiveFooterIcon` | `string` | Resolved footer icon |
 | `resolvedPaneMode` | `string` | Effective pane mode after auto |
@@ -141,7 +146,7 @@ Prefer selectKey / openPage over mutating currentIndex alone.
 | `clearHistory()` | — |
 | `ensureComponent(name)` | Load / cache a page Component from pageModule |
 | `applyPageTransition(mode)` | Configure enter/exit transform targets for a named transition mode |
-| `openPage(name, mode)` | Replace the page stack with the named component |
+| `openPage(name, mode, forceReload)` | forceReload: true rebuilds even when the same page is already open (reloadPage). |
 | `openSlide(name)` | Left-nav style: content slides in from the left |
 | `openSlideRight(name)` | Forward slide from the right |
 | `openFade(name)` | Opacity-only crossfade |
@@ -160,7 +165,7 @@ Also available (base type / Qt Quick Controls):
 
 - `width` / `height`
 - `visible`
-- `anchors` / `x` / `y`
+- `anchors`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

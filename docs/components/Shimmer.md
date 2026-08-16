@@ -2,9 +2,13 @@
 
 Skeleton shimmer placeholder.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/Shimmer.qml`](../../src/extras/QWinUI3/Extras/Shimmer.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/Shimmer.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/Shimmer.qml)
+
+**Category:** Status & feedback · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `Shimmer` — [`src/gallery/pages/ShimmerPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/ShimmerPage.qml)
 
 **Extends** `Control`.
 

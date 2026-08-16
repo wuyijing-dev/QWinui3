@@ -2,9 +2,13 @@
 
 Gauge with colored zones.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ZoneGauge.qml`](../../src/extras/QWinUI3/Extras/ZoneGauge.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ZoneGauge.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ZoneGauge.qml)
+
+**Category:** Charts & gauges · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `ZoneGauge` — [`src/gallery/pages/ZoneGaugePage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/ZoneGaugePage.qml)
 
 **Extends** `Control`.
 
@@ -61,6 +65,7 @@ Toolkit-aligned aliases: minAngle/maxAngle, scaleWidth, needleLength/Width, valu
 | `maxAngle` | `real` | — |
 | `isInteractive` | `bool` | Alias of interactive |
 | `interactive` | `alias` | Enable hover / click interaction |
+| `interactionPadding` | `real` | Extra drag hit padding outside the face (px) |
 | `zones` | `var` | Colored gauge zones |
 | `percentage` | `real` | Value as 0..100 percentage |
 | `activeZoneIndex` | `int` | Index of the active gauge zone |

@@ -2,9 +2,13 @@
 
 Scatter / bubble chart.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ScatterChart.qml`](../../src/extras/QWinUI3/Extras/ScatterChart.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ScatterChart.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ScatterChart.qml)
+
+**Category:** Charts & gauges · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `ScatterChart` — [`src/gallery/pages/ScatterChartPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/ScatterChartPage.qml)
 
 **Extends** `Control`.
 

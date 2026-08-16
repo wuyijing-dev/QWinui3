@@ -2,9 +2,13 @@
 
 Ctrl+K style command launcher (fuzzy filter + keyboard).
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/CommandPalette.qml`](../../src/extras/QWinUI3/Extras/CommandPalette.qml)
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/CommandPalette.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/CommandPalette.qml)
+
+**Category:** Buttons & commands · **Library:** v0.1.0
 
 [← Component index](../components.md)
+
+**Gallery:** `CommandPalette` — [`src/gallery/pages/CommandPalettePage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/CommandPalettePage.qml)
 
 **Extends** `Popup`.
 
