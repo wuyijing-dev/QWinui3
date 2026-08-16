@@ -15,10 +15,10 @@ Item {
     property bool show: false
     // Frame corner radius
     property real frameRadius: Theme.cornerControl
-    // Outer size
-    property real outerSize: 2
+    // Outer size (thicker in high contrast)
+    property real outerSize: Theme.strokeFocusOuter
     // Inner size
-    property real innerSize: 1
+    property real innerSize: Theme.strokeFocusInner
     visible: opacity > 0.01
     opacity: show ? 1 : 0
     z: 100
@@ -36,7 +36,8 @@ Item {
         anchors.margins: -root.outerSize
         radius: root.frameRadius + root.outerSize
         color: "transparent"
-        border.width: Theme.dark ? root.outerSize : root.outerSize - root.innerSize
+        border.width: Theme.highContrast ? root.outerSize
+                     : (Theme.dark ? root.outerSize : Math.max(1, root.outerSize - root.innerSize))
         border.color: Theme.focusOuter
     }
 
@@ -47,5 +48,6 @@ Item {
         color: "transparent"
         border.width: root.innerSize
         border.color: Theme.focusInner
+        visible: !Theme.highContrast || root.innerSize > 0
     }
 }

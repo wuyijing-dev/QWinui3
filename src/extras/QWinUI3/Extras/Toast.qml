@@ -73,19 +73,23 @@ T.Control {
     opacity: isOpen ? 1 : 0
     visible: opacity > 0.01
     z: 1000
-    x: isOpen ? 0 : 12
+    // Animate via transform so anchors (ToastHost placement / Gallery overlay) stay stable.
     scale: isOpen ? 1 : 0.96
     transformOrigin: Item.Bottom
+    transform: Translate {
+        id: slide
+        y: control.isOpen ? 0 : 10
+        Behavior on y {
+            enabled: !Theme.reducedMotion
+            NumberAnimation {
+                duration: Theme.duration(Theme.motionNormal)
+                easing.type: Theme.easingEnter
+            }
+        }
+    }
     hoverEnabled: pauseOnHover
 
     Behavior on opacity {
-        enabled: !Theme.reducedMotion
-        NumberAnimation {
-            duration: Theme.duration(Theme.motionNormal)
-            easing.type: Theme.easingEnter
-        }
-    }
-    Behavior on x {
         enabled: !Theme.reducedMotion
         NumberAnimation {
             duration: Theme.duration(Theme.motionNormal)

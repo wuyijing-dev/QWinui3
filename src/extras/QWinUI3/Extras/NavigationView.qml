@@ -102,6 +102,13 @@ Item {
     property bool hostContent: false
     // Content slot / children host
     property alias content: contentHost.data
+    // Soft navigation history for TitleBar / pane back (replace stack still applies)
+    property var pageHistory: []
+    property bool _suppressHistory: false
+    readonly property bool canGoBack: pageHistory.length > 0
+    // Mirror history into the chrome back button when the app leaves the default false
+    readonly property bool effectiveBackVisible: isBackButtonVisible || canGoBack
+    readonly property bool effectiveBackEnabled: isBackEnabled && canGoBack
 
     // Resolved footer icon
     readonly property string effectiveFooterIcon: IconSource.resolve(footerSymbol, footerIcon)
@@ -496,6 +503,8 @@ Item {
     function selectKey(key, mode) {
         if (!key)
             return
+        if (!_suppressHistory)
+            pushHistorySnapshot()
         footerSelected = false
         currentKey = key
         // Expand parent group if nested
@@ -526,10 +535,52 @@ Item {
 
     // Select the footer row and open footerComponent
     function selectFooter(mode) {
+        if (!_suppressHistory)
+            pushHistorySnapshot()
         footerSelected = true
         footerClicked()
         if (!root.hostContent)
             openPage(root.footerComponent, mode || root.pageTransition)
+    }
+
+    // Snapshot current selection for TitleBar back
+    function pushHistorySnapshot() {
+        var snap = {
+            key: currentKey,
+            footer: footerSelected,
+            component: currentComponent || ""
+        }
+        var hist = pageHistory.slice()
+        // Skip duplicate consecutive entries
+        if (hist.length) {
+            var last = hist[hist.length - 1]
+            if (last.key === snap.key && last.footer === snap.footer)
+                return
+        }
+        hist.push(snap)
+        if (hist.length > 32)
+            hist = hist.slice(hist.length - 32)
+        pageHistory = hist
+    }
+
+    // Restore previous nav selection (slideRight by default)
+    function navigateBack(mode) {
+        if (!canGoBack)
+            return false
+        var hist = pageHistory.slice()
+        var prev = hist.pop()
+        pageHistory = hist
+        _suppressHistory = true
+        if (prev.footer)
+            selectFooter(mode || "slideRight")
+        else
+            selectKey(prev.key, mode || "slideRight")
+        _suppressHistory = false
+        return true
+    }
+
+    function clearHistory() {
+        pageHistory = []
     }
 
     property var _compCache: ({})
@@ -797,12 +848,17 @@ Item {
                 spacing: 2
 
                 ItemDelegate {
-                    visible: root.isBackButtonVisible
-                    enabled: root.isBackEnabled
+                    visible: root.effectiveBackVisible
+                    enabled: root.effectiveBackEnabled
                     Layout.preferredWidth: Theme.navItemHeight
                     Layout.preferredHeight: Theme.navItemHeight
                     opacity: enabled ? 1 : 0.4
-                    onClicked: root.backRequested()
+                    onClicked: {
+                        if (root.canGoBack)
+                            root.navigateBack()
+                        else
+                            root.backRequested()
+                    }
                     ToolTip.visible: hovered
                     ToolTip.text: qsTr("Back")
                     contentItem: Text {
@@ -1077,12 +1133,17 @@ Item {
                 spacing: 2
 
                 ItemDelegate {
-                    visible: root.isBackButtonVisible
-                    enabled: root.isBackEnabled
+                    visible: root.effectiveBackVisible
+                    enabled: root.effectiveBackEnabled
                     Layout.fillWidth: true
                     Layout.preferredHeight: Theme.navItemHeight
                     opacity: enabled ? 1 : 0.4
-                    onClicked: root.backRequested()
+                    onClicked: {
+                        if (root.canGoBack)
+                            root.navigateBack()
+                        else
+                            root.backRequested()
+                    }
                     ToolTip.visible: !root.paneOpen && hovered
                     ToolTip.text: qsTr("Back")
 

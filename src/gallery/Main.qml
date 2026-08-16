@@ -129,8 +129,11 @@ StandardWindow {
             subtitle: qsTr("Fluent / WinUI 3 controls")
             symbol: FluentIcons.Home
             isPaneToggleButtonVisible: true
+            isBackButtonVisible: nav.canGoBack
+            isBackButtonEnabled: nav.canGoBack
             searchModel: window.searchResults
             onPaneToggleRequested: nav.paneOpen = !nav.paneOpen
+            onBackRequested: nav.navigateBack()
             onSearchTextEdited: function (text) {
                 window.searchResults = ControlCatalog.search(text)
             }
@@ -186,6 +189,17 @@ StandardWindow {
             if (text)
                 titleBar.searchText = text
         }
+        onPageOpened: function (name) {
+            GalleryHistory.recordVisit(name)
+        }
+    }
+
+    // HomePage featured / recent cards emit these; reconnect when the stack page changes.
+    Connections {
+        target: nav.pageItem
+        ignoreUnknownSignals: true
+        function onOpenControl(item) { window.navigateToControl(item) }
+        function onOpenSettings() { nav.selectFooter() }
     }
 
     // Gallery shell alias for Settings / pages

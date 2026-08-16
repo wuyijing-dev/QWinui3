@@ -7,7 +7,8 @@ import QWinUI3.Extras
 
 // Gallery — Getting started.
 //
-// Custom hero wash; intentionally not using CatalogPage title/subtitle (empty title hides PageHeader).
+// Custom hero wash; CatalogPage with empty title (hides PageHeader). Featured /
+// recent cards emit openControl / openSettings — Main.qml wires those signals.
 
 CatalogPage {
     id: page

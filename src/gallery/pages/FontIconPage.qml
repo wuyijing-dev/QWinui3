@@ -28,7 +28,28 @@ CatalogPage {
             var hex = String(e.codeHex).toLowerCase()
             var sym = String(e.symbol || "").toLowerCase()
             if (name.indexOf(q) >= 0 || hex.indexOf(q) >= 0 || sym.indexOf(q) >= 0
-                    || ("u+" + hex).indexOf(q) >= 0 || ("\\u" + hex).indexOf(q) >= 0)
+                    || ("u+" + hex).indexOf(q) >= 0 || ("\\u" + hex).indexOf(q) >= 0) {
+                out.push(e)
+                continue
+            }
+            var aliases = e.aliases || []
+            var hit = false
+            for (var a = 0; a < aliases.length; ++a) {
+                if (String(aliases[a]).toLowerCase().indexOf(q) >= 0) {
+                    hit = true
+                    break
+                }
+            }
+            if (!hit) {
+                var tags = e.tags || []
+                for (var t = 0; t < tags.length; ++t) {
+                    if (String(tags[t]).indexOf(q) >= 0) {
+                        hit = true
+                        break
+                    }
+                }
+            }
+            if (hit)
                 out.push(e)
         }
         return out
@@ -269,6 +290,19 @@ CatalogPage {
                                 DetailRow {
                                     label: qsTr("Icon name")
                                     value: page.selectedName
+                                }
+                                DetailRow {
+                                    label: qsTr("Aliases")
+                                    value: {
+                                        var a = page.selectedEntry && page.selectedEntry.aliases
+                                        if (!a || !a.length)
+                                            return qsTr("(none)")
+                                        return a.join(", ")
+                                    }
+                                    visible: page.selectedNamed
+                                             && page.selectedEntry
+                                             && page.selectedEntry.aliases
+                                             && page.selectedEntry.aliases.length > 0
                                 }
                                 DetailRow {
                                     label: qsTr("Symbol")

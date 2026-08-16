@@ -1022,6 +1022,14 @@ QtObject {
             source: "pages/EmptyStatePage.qml"
         },
         {
+            title: qsTr("EntranceThemeTransition"),
+            category: "status",
+            icon: FluentIcons.Completed,
+            description: qsTr("Fade + rise + scale entrance motion for page sections."),
+            component: "EntranceThemeTransitionPage",
+            source: "pages/EntranceThemeTransitionPage.qml"
+        },
+        {
             title: qsTr("CopyButton"),
             category: "buttons",
             icon: FluentIcons.Copy,

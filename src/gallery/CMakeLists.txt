@@ -65,6 +65,7 @@ qt_add_qml_module(qwinui3_gallery
         pages/DrawerPage.qml
         pages/DropDownButtonPage.qml
         pages/EmptyStatePage.qml
+        pages/EntranceThemeTransitionPage.qml
         pages/ExpanderPage.qml
         pages/FlipViewPage.qml
         pages/FlyoutPage.qml

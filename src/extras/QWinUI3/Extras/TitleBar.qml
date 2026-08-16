@@ -283,16 +283,27 @@ Item {
 
         Item {
             id: contentSlot
-            Layout.fillWidth: true
+            // Search fills the WinUI Content band; custom content (e.g. menusInTitleBar)
+            // hugs its children so File/Edit sit immediately after the title — not mid-bar.
+            Layout.fillWidth: root.showBuiltInSearch
+            Layout.preferredWidth: root.hasContentChildren
+                                   ? Math.max(1, customContentHost.childrenRect.width)
+                                   : (root.showBuiltInSearch ? 200 : 0)
             Layout.preferredHeight: Theme.searchBoxHeight
-            Layout.maximumWidth: 560
+            Layout.maximumWidth: root.showBuiltInSearch ? 560 : -1
             Layout.alignment: Qt.AlignVCenter
             visible: root.hasContentChildren || root.showBuiltInSearch
             clip: true
+            implicitWidth: Layout.preferredWidth
 
             Item {
                 id: customContentHost
-                anchors.fill: parent
+                anchors.left: parent.left
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                width: root.hasContentChildren
+                       ? Math.max(1, childrenRect.width)
+                       : parent.width
                 visible: root.hasContentChildren
             }
 

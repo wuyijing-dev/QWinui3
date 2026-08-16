@@ -226,7 +226,34 @@ void buildSharedCatalog_unlocked()
     putShared("Ruler", 0xED5E);
     putShared("Trim", 0xE78A);
 
+    // Common WinUI / search aliases (same glyphs as primary names above)
+    putShared("Close", 0xE711);
+    putShared("Menu", 0xE700);
+    putShared("Hamburger", 0xE700);
+    putShared("Find", 0xE721);
+    putShared("OK", 0xE73E);
+    putShared("Completed", 0xE73E);
+    putShared("Alert", 0xE7BA);
+    putShared("Star", 0xE734);
+    putShared("StarFill", 0xE735);
+    putShared("Trash", 0xE74D);
+    putShared("Rename", 0xE70F);
+    putShared("Open", 0xE8E5);
+    putShared("NewWindow", 0xE8A7);
+    putShared("MapPin", 0xE707);
+    putShared("World", 0xE774);
+    putShared("Image", 0xE8B9);
+    putShared("PhotoLibrary", 0xEB9F);
+    putShared("LeaveChat", 0xF405);
+
     std::sort(g_names.begin(), g_names.end());
+
+    QHash<ushort, QStringList> namesByCode;
+    for (auto it = g_glyphByName.constBegin(); it != g_glyphByName.constEnd(); ++it) {
+        if (it.value().isEmpty())
+            continue;
+        namesByCode[ushort(it.value().at(0).unicode())].append(it.key());
+    }
 
     g_entries.reserve(kFluentIconCodepointCount);
     for (int i = 0; i < kFluentIconCodepointCount; ++i) {
@@ -235,12 +262,29 @@ void buildSharedCatalog_unlocked()
         const QString hex = QString::number(cp, 16).toUpper();
         const QString glyph = glyphOf(cp);
         const QString primary = g_primaryNameByCode.value(cp);
+        QStringList allNames = namesByCode.value(cp);
+        allNames.removeDuplicates();
+        std::sort(allNames.begin(), allNames.end());
+        QStringList aliases;
+        for (const QString &n : allNames) {
+            if (n != primary)
+                aliases.append(n);
+        }
+        // Lightweight search tags (synonyms) for Iconography filter
+        QStringList tags;
+        if (!primary.isEmpty()) {
+            tags.append(primary.toLower());
+            for (const QString &a : aliases)
+                tags.append(a.toLower());
+        }
         row.insert(QStringLiteral("codeHex"), hex);
         row.insert(QStringLiteral("glyph"), glyph);
         row.insert(QStringLiteral("named"), !primary.isEmpty());
         row.insert(QStringLiteral("name"),
                    primary.isEmpty() ? (QStringLiteral("U+") + hex) : primary);
         row.insert(QStringLiteral("symbol"), primary);
+        row.insert(QStringLiteral("aliases"), aliases);
+        row.insert(QStringLiteral("tags"), tags);
         g_entries.append(row);
     }
 

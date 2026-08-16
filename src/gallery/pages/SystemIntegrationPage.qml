@@ -27,10 +27,8 @@ CatalogPage {
 
     overlay: ToastHost {
         id: toasts
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 24
         width: 360
+        placement: ToastHost.BottomCenter
     }
 
     ControlExample {

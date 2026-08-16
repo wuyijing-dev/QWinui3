@@ -3,20 +3,22 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// ToastHost — Hosts stacked Toasts.
+// ToastHost — Hosts stacked Toasts with WinUI-style corner placement.
 //
 //   ToastHost {
 //       id: toasts
-//       anchors.bottom: parent.bottom
-//       anchors.horizontalCenter: parent.horizontalCenter
+//       placement: ToastHost.BottomCenter
 //   }
 //   toasts.info(qsTr("Hello"))
 //   toasts.success(qsTr("Done"))
+//
 //   // --- API ---
-//   // methods: info/success/warning/error, enqueue
+//   // methods: info/success/warning/error (+ *Toast aliases), show, clear
+//   // placement: BottomCenter | BottomRight | TopRight | TopCenter
 //
 // @notes
-//   Stack host for Toast; info/success/warning/error enqueue helpers.
+//   Default placement is bottom-center (Gallery / WinUI toast band).
+//   Do not also set anchors when using placement — they conflict.
 
 T.Control {
     id: root
@@ -29,6 +31,17 @@ T.Control {
     spacing: Theme.spacing
     // Stack newest items on top
     property bool newestOnTop: true
+    // Edge inset from the overlay parent
+    property real placementMargin: 24
+
+    // BottomCenter / BottomRight / TopRight / TopCenter
+    enum Placement {
+        BottomCenter,
+        BottomRight,
+        TopRight,
+        TopCenter
+    }
+    property int placement: ToastHost.BottomCenter
 
     // Emitted when a toast is closed
     signal toastClosed(string message)
@@ -37,6 +50,7 @@ T.Control {
 
     implicitWidth: 360
     implicitHeight: column.implicitHeight
+    width: implicitWidth
     z: 2000
     Accessible.role: Accessible.AlertMessage
     Accessible.name: qsTr("Notifications")
@@ -52,6 +66,20 @@ T.Control {
 
     // Item count
     readonly property int count: queue.count
+
+    readonly property bool _bottom: placement === ToastHost.BottomCenter
+                                    || placement === ToastHost.BottomRight
+    readonly property bool _center: placement === ToastHost.BottomCenter
+                                    || placement === ToastHost.TopCenter
+    readonly property bool _right: placement === ToastHost.BottomRight
+                                   || placement === ToastHost.TopRight
+
+    anchors.horizontalCenter: parent && _center ? parent.horizontalCenter : undefined
+    anchors.right: parent && _right ? parent.right : undefined
+    anchors.left: undefined
+    anchors.bottom: parent && _bottom ? parent.bottom : undefined
+    anchors.top: parent && !_bottom ? parent.top : undefined
+    anchors.margins: placementMargin
 
     ListModel { id: queue }
 
@@ -85,13 +113,23 @@ T.Control {
     function successToast(message, title, actionText) {
         show(message, success, title || qsTr("Success"), actionText)
     }
+    // Docs / WinUI-style alias
+    function success(message, title, actionText) {
+        successToast(message, title, actionText)
+    }
     // Show a warning toast
     function warningToast(message, title, actionText) {
         show(message, warning, title || qsTr("Warning"), actionText)
     }
+    function warning(message, title, actionText) {
+        warningToast(message, title, actionText)
+    }
     // Show an error toast
     function errorToast(message, title, actionText) {
         show(message, error, title || qsTr("Error"), actionText)
+    }
+    function error(message, title, actionText) {
+        errorToast(message, title, actionText)
     }
 
     // Clear text or selection
@@ -112,15 +150,10 @@ T.Control {
                 id: wrap
                 required property int index
                 required property string key
-                // Body / message text
                 required property string message
-                // Status severity enum
                 required property int severity
-                // Primary title text
                 required property string title
-                // Optional action button label
                 required property string actionText
-                // Auto-dismiss duration; 0 keeps open
                 required property int durationMs
 
                 Layout.fillWidth: true
