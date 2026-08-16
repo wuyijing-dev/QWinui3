@@ -6,17 +6,34 @@ import QWinUI3.Extras
 
 // Gallery — ToastHost.
 //
-// Queues toasts; info()/successToast()/errorToast() helpers, newestOnTop, clear(). API: docs/components/ToastHost.md
+// Queues toasts; info()/successToast()/errorToast() helpers, newestOnTop, clear().
+// Recipe: docs/feedback.md (1.34) · API: docs/components/ToastHost.md
 
 CatalogPage {
     title: qsTr("ToastHost")
-    subtitle: qsTr("Window-overlay placement, maxVisible stack, and pending queue when full.")
+    subtitle: qsTr("Pending queue when maxVisible is full. Recipe: docs/feedback.md (1.34).")
 
     overlay: ToastHost {
         id: host
         width: 360
         placement: ToastHost.BottomRight
         maxVisible: 3
+    }
+
+    ControlExample {
+        headerText: qsTr("When to use (1.34)")
+        qmlSource: "// ToastHost — transient ack\n// InfoBar — stays on page\n// docs/feedback.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Use ToastHost for non-blocking Saved/Done. Do not toast irreversible confirms (ContentDialog) or form field errors (InfoBar / forms). OS mirror: NotificationBridge.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+        }
     }
 
     ControlExample {

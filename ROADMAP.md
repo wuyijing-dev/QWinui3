@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.33**
-**Next up:** **1.34** (Feedback surfaces wave 2)
+**Current:** **1.34**
+**Next up:** **1.35** (Creator kit polish)
 **Planned through:** **1.50** (1.xx maturity checkpoint)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
 
@@ -60,7 +60,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.33`
+## Shipped — `1.01` … `1.34`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -194,30 +194,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** [tree-data.md](docs/tree-data.md) — TreeView vs ItemsView sections, keyboard ←/→, selection + MenuFlyout recipe; Fluent `TreeViewDelegate` Accessible name/description (expand + level); Gallery TreeView recipe end-to-end + basics page; data-collections cross-link; product version `1.33`.
 
+### 1.34 — Feedback surfaces wave 2 (shipped)
+
+**Shipped:** [feedback.md](docs/feedback.md) — when-to-use matrix, severity, ToastHost pending queue vs InfoBarHost maxVisible, TeachingTip focus return to target, progress vs toast; Gallery callouts (InfoBar / Host / ToastHost / TeachingTip / ProgressBar / InfoTeaching recipe); dialogs-flyouts cross-link; product version `1.34`.
+
 ---
 
-## Late path — planned `1.34` … `1.40`
+## Late path — planned `1.35` … `1.40`
 
 Still **1.xx**. Schedule after mid path is mostly done; order can flex.
-
-### 1.34 — Feedback surfaces wave 2
-
-**Why:** InfoBar / Toast / TeachingTip / Progress exist; 1.16 covered dialogs—feedback needs the same depth.
-
-**In scope**
-
-- Queueing, severity, focus return, and when-to-use matrix; Gallery callouts.
-- Short `docs/feedback.md` or extend existing tips docs.
-
-**Out of scope**
-
-- Redesigning Toast chrome; OS notification center replacement (see 1.10).
-
-**Exit criteria**
-
-- Documented patterns; listed surfaces consistent on Gallery demos.
-
----
 
 ### 1.35 — Creator kit polish
 

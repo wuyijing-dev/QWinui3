@@ -27,6 +27,7 @@ import QWinUI3.Theme
 //   CloseButton, PreferredPlacement, TailVisibility, PlacementMargin, IsLightDismissEnabled.
 //   Parents to Window Overlay on open so placement is relative to the window, not a layout cell.
 //   Coach-mark / first-run tip — not for confirmations (use ContentDialog; docs/dialogs-flyouts.md).
+//   On close, focus returns to target when focusable (docs/feedback.md, 1.34).
 
 T.Popup {
     id: root
@@ -103,7 +104,15 @@ T.Popup {
         if (isCloseButtonVisible)
             closeBtn.forceActiveFocus()
     }
-    onClosed: isOpen = false
+    onClosed: {
+        isOpen = false
+        // Return focus to the anchor so coach marks do not leave focus nowhere (1.34).
+        if (target && target.visible && typeof target.forceActiveFocus === "function")
+            Qt.callLater(function () {
+                if (target && target.visible)
+                    target.forceActiveFocus()
+            })
+    }
 
     // Prefer the window overlay so map/clamp use full window bounds (not a tiny layout parent).
     function _ensureOverlayParent() {

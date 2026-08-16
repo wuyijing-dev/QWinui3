@@ -10,6 +10,8 @@ LoB recipe for **FilePicker**, **TrayIcon**, and **NotificationBridge**. Prefer 
 
 Gallery: **System integration**, **NotificationBridge**.
 
+In-app only (no OS mirror): [feedback.md](feedback.md) (1.34).
+
 ---
 
 ## FilePicker

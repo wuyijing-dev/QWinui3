@@ -6,11 +6,28 @@ import QWinUI3.Extras
 
 // Gallery — InfoBar.
 //
-// Severity alerts with Fluent ChromeClose, open()/close(), and Accessible. API: docs/components/InfoBar.md
+// Severity alerts with Fluent ChromeClose, open()/close(), and Accessible.
+// Recipe: docs/feedback.md (1.34) · API: docs/components/InfoBar.md
 
 CatalogPage {
     title: qsTr("InfoBar")
-    subtitle: qsTr("Vs WinUI: content-only has no empty title gap; closed bars leave no stack spacing.")
+    subtitle: qsTr("Inline severity banner. Stack via InfoBarHost — docs/feedback.md (1.34).")
+
+    ControlExample {
+        headerText: qsTr("When to use (1.34)")
+        qmlSource: "// InfoBar — stays on page\n// ToastHost — transient\n// docs/feedback.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Prefer InfoBar for page-level status and validation. Use ToastHost for short acks. ContentDialog for blocking confirms.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+        }
+    }
 
     ControlExample {
         headerText: qsTr("Severity levels")

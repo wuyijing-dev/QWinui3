@@ -86,6 +86,7 @@ nav:
   - i18n / RTL: i18n-rtl.md
   - Commands & menus: commands.md
   - Dialogs & flyouts: dialogs-flyouts.md
+  - Feedback surfaces: feedback.md
   - Animations & transitions: animations.md
   - WebView2 (legacy link): webview2-future.md
   - Linux / Wayland: platform-linux-wayland.md

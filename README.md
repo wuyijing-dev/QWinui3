@@ -7,8 +7,8 @@ Fluent / [WinUI 3](https://learn.microsoft.com/windows/apps/winui/winui3/)-inspi
 [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-2ea44f)](https://wuyijing-dev.github.io/QWinui3/)
 [![Qt](https://img.shields.io/badge/Qt-6.5%2B-41CD52?logo=qt&logoColor=white)](https://www.qt.io/)
 
-**v1.33** · **200+** public controls · Gallery demos for most of them
-[Documentation](https://wuyijing-dev.github.io/QWinui3/) · [Stable API](docs/stable-api.md) · [Tree data](docs/tree-data.md) · [Window shells](docs/window-shells.md) · [Graphics backend](docs/graphics-backend.md) · [Density](docs/density.md) · [Icons](docs/icons.md) · [Pickers](docs/pickers.md) · [Navigation](docs/navigation.md) · [Performance](docs/performance.md) · [System integration](docs/system-integration.md) · [Theme overrides](docs/theme-overrides.md) · [Forms](docs/forms.md) · [Data collections](docs/data-collections.md) · [CI smoke](docs/ci-smoke.md) · [WebView2](docs/webview2.md) · [Component API](https://wuyijing-dev.github.io/QWinui3/components/) · [Releases](https://github.com/wuyijing-dev/QWinui3/releases) · [Roadmap](ROADMAP.md)
+**v1.34** · **200+** public controls · Gallery demos for most of them
+[Documentation](https://wuyijing-dev.github.io/QWinui3/) · [Stable API](docs/stable-api.md) · [Feedback](docs/feedback.md) · [Tree data](docs/tree-data.md) · [Window shells](docs/window-shells.md) · [Graphics backend](docs/graphics-backend.md) · [Density](docs/density.md) · [Icons](docs/icons.md) · [Pickers](docs/pickers.md) · [Navigation](docs/navigation.md) · [Performance](docs/performance.md) · [System integration](docs/system-integration.md) · [Theme overrides](docs/theme-overrides.md) · [Forms](docs/forms.md) · [Data collections](docs/data-collections.md) · [CI smoke](docs/ci-smoke.md) · [WebView2](docs/webview2.md) · [Component API](https://wuyijing-dev.github.io/QWinui3/components/) · [Releases](https://github.com/wuyijing-dev/QWinui3/releases) · [Roadmap](ROADMAP.md)
 
 ---
 

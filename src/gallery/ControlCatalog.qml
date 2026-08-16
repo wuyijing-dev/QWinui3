@@ -721,7 +721,7 @@ QtObject {
             title: qsTr("TeachingTip"),
             category: "dialogs",
             icon: FluentIcons.Info,
-            description: qsTr("A tip that teaches users about a new or important feature."),
+            description: qsTr("Coach mark; focus returns to target — docs/feedback.md (1.34)."),
             component: "TeachingTipPage",
             source: "pages/TeachingTipPage.qml"
         },
@@ -761,7 +761,7 @@ QtObject {
             title: qsTr("ProgressBar"),
             category: "status",
             icon: FluentIcons.PieSingle,
-            description: qsTr("Shows the progress of an operation."),
+            description: qsTr("In-place progress — docs/feedback.md (1.34)."),
             component: "ProgressBarPage",
             source: "pages/ProgressBarPage.qml"
         },
@@ -865,7 +865,7 @@ QtObject {
             title: qsTr("InfoBar"),
             category: "status",
             icon: FluentIcons.Info,
-            description: qsTr("An inline message that informs users of an app state."),
+            description: qsTr("Inline severity banner — docs/feedback.md (1.34)."),
             component: "InfoBarPage",
             source: "pages/InfoBarPage.qml"
         },
@@ -1305,7 +1305,7 @@ QtObject {
             title: qsTr("InfoBarHost"),
             category: "status",
             icon: FluentIcons.Info,
-            description: qsTr("Stacks InfoBar messages with shared layout spacing."),
+            description: qsTr("maxVisible InfoBar stack — docs/feedback.md (1.34)."),
             component: "InfoBarHostPage",
             source: "pages/InfoBarHostPage.qml"
         },
@@ -1313,7 +1313,7 @@ QtObject {
             title: qsTr("InfoBar + TeachingTip recipe"),
             category: "dialogs",
             icon: FluentIcons.Lightbulb,
-            description: qsTr("Form save InfoBars with a TeachingTip coach mark."),
+            description: qsTr("Form save + coach tip end-to-end — docs/feedback.md (1.34)."),
             component: "InfoTeachingRecipePage",
             source: "pages/InfoTeachingRecipePage.qml"
         },
@@ -1329,7 +1329,7 @@ QtObject {
             title: qsTr("ToastHost"),
             category: "status",
             icon: FluentIcons.Info,
-            description: qsTr("Corner placement, maxVisible stack, and pending queue when full."),
+            description: qsTr("Pending toast queue — docs/feedback.md (1.34)."),
             component: "ToastHostPage",
             source: "pages/ToastHostPage.qml"
         },

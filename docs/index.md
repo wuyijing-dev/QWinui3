@@ -38,6 +38,7 @@ This site is generated from QML source comments and shipped via GitHub Pages.
 | [i18n / RTL](i18n-rtl.md) | qsTr workflow + LayoutMirroring baseline (1.13) |
 | [Commands & menus](commands.md) | CommandPalette / CommandBar / MenuFlyout keyboard (1.15) |
 | [Dialogs & flyouts](dialogs-flyouts.md) | ContentDialog vs Flyout / TeachingTip / Drawer (1.16) |
+| [Feedback surfaces](feedback.md) | InfoBar / Toast / TeachingTip / Progress (1.34) |
 | [Qt Creator](qt-creator.md) | Open / build the CMake project |
 | [Qt version compat](qt-version-compat.md) | C++ shims + CI matrix Qt 6.5 / 6.8 / 6.10 (1.14) |
 

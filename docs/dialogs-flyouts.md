@@ -22,7 +22,7 @@ When to use **modal** vs **light-dismiss** surfaces. Prefer types already on [st
 | Persistent side tools / filters | **Drawer** |
 | Command list / context menu | **MenuFlyout** / CommandBar overflow ([commands.md](commands.md)) |
 
-Do **not** use TeachingTip or Flyout for irreversible confirms — use ContentDialog with a clear close/cancel affordance.
+Do **not** use TeachingTip or Flyout for irreversible confirms — use ContentDialog with a clear close/cancel affordance. Transient status / coach marks: [feedback.md](feedback.md) (1.34).
 
 ---
 

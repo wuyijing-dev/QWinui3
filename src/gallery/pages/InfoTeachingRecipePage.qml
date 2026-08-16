@@ -5,11 +5,13 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 
 // Gallery — InfoBar + TeachingTip scenario recipe (form save / tip coach mark).
+//
+// Feedback patterns: docs/feedback.md (1.34).
 
 CatalogPage {
     id: page
     title: qsTr("InfoBar + TeachingTip recipe")
-    subtitle: qsTr("Scenario: form validation InfoBarHost stack + TeachingTip coach mark on first focus.")
+    subtitle: qsTr("Form InfoBars + coach tip; focus returns to field. Recipe: docs/feedback.md (1.34).")
 
     property bool tipShown: false
 
@@ -34,6 +36,23 @@ CatalogPage {
             title: qsTr("Saved")
             message: qsTr("Settings saved.")
             isOpen: false
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("When to use (1.34)")
+        qmlSource: "// InfoBar — page status\n// ToastHost — transient ack\n// TeachingTip — coach mark\n// docs/feedback.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Use InfoBar for validation/save on the page. TeachingTip for first-run coaching (closes → focus back to the target). ToastHost for non-blocking acks. ContentDialog for confirms — docs/dialogs-flyouts.md.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
         }
     }
 
@@ -84,14 +103,23 @@ CatalogPage {
                         tip.open()
                     }
                 }
+                Button {
+                    text: qsTr("Clear bars")
+                    onClicked: {
+                        errorBar.isOpen = false
+                        successBar.isOpen = false
+                    }
+                }
             }
 
             TeachingTip {
                 id: tip
-                target: nameField
+                target: nameField.field
                 title: qsTr("Display name")
-                subtitle: qsTr("This name appears on your profile and shared devices.")
+                subtitle: qsTr("Enter a name, then Save. Closing this tip returns focus to the field.")
                 preferredPlacement: Qt.AlignBottom
+                actionText: qsTr("Got it")
+                onActionClicked: tip.close()
             }
         }
     }

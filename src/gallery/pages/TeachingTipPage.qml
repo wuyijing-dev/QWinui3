@@ -6,11 +6,28 @@ import QWinUI3.Extras
 
 // Gallery — TeachingTip.
 //
-// Contextual tip with symbol, ElevatedChrome, and AccentButton action. API: docs/components/TeachingTip.md
+// Contextual tip with symbol, ElevatedChrome, and AccentButton action.
+// Recipe: docs/feedback.md (1.34) · dialogs: docs/dialogs-flyouts.md
 
 CatalogPage {
     title: qsTr("TeachingTip")
-    subtitle: qsTr("Coach mark tip. Use ContentDialog for confirms — docs/dialogs-flyouts.md.")
+    subtitle: qsTr("Coach mark; focus returns to target on close. Recipe: docs/feedback.md (1.34).")
+
+    ControlExample {
+        headerText: qsTr("When to use (1.34)")
+        qmlSource: "// TeachingTip — coach mark\n// ContentDialog — confirm\n// docs/feedback.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("TeachingTip is for first-run coaching, not confirms. Closing returns focus to the target control.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+        }
+    }
 
     ControlExample {
         headerText: qsTr("A simple TeachingTip")

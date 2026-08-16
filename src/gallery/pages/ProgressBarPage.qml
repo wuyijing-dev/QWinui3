@@ -4,10 +4,28 @@ import QtQuick.Controls
 import QWinUI3.Theme
 
 // Gallery — ProgressBar.
+//
+// In-place progress — not a toast. Recipe: docs/feedback.md (1.34).
 
 CatalogPage {
     title: qsTr("ProgressBar")
-    subtitle: qsTr("Shows the progress of an operation that has a known duration.")
+    subtitle: qsTr("In-place progress next to the work — docs/feedback.md (1.34).")
+
+    ControlExample {
+        headerText: qsTr("When to use (1.34)")
+        qmlSource: "// ProgressBar — known fraction / busy\n// Toast — short ack only\n// docs/feedback.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Keep progress beside the operation. Prefer ProgressRing / ProgressButton for compact or in-button busy. Do not replace progress with a toast.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+        }
+    }
 
     ControlExample {
         headerText: qsTr("Determinate ProgressBar")

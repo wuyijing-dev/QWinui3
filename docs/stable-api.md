@@ -48,8 +48,9 @@ Style module (`QT_QUICK_CONTROLS_STYLE=QWinUI3`): treating **standard** `QtQuick
 |------|--------|--------|
 | `ContentDialog` | Extras | Modal primary/secondary/close — [dialogs-flyouts.md](dialogs-flyouts.md) (1.16 Esc/default) |
 | `ContentDialogQueue` | Extras | Serialize dialogs — [dialogs-flyouts.md](dialogs-flyouts.md) |
-| `InfoBar` / `InfoBarHost` | Extras | Inline severity banners |
-| `Toast` / `ToastHost` | Extras | Transient toasts |
+| `InfoBar` / `InfoBarHost` | Extras | Inline severity banners — [feedback.md](feedback.md) (1.34) |
+| `Toast` / `ToastHost` | Extras | Transient toasts + pending queue — [feedback.md](feedback.md) |
+| `TeachingTip` | Extras | Coach marks; focus returns to target — [feedback.md](feedback.md) (1.34) |
 
 ### Data (basics)
 
@@ -160,3 +161,4 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.31** | Graphics backend handbook — [graphics-backend.md](graphics-backend.md); Gallery Settings / `--rhi` |
 | **1.32** | Window shells matrix — [window-shells.md](window-shells.md) / [window-chrome.md](window-chrome.md); geometry clamp |
 | **1.33** | Tree & hierarchical data — [tree-data.md](tree-data.md); TreeViewDelegate a11y |
+| **1.34** | Feedback surfaces — [feedback.md](feedback.md); TeachingTip focus return |
