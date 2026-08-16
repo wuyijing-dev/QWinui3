@@ -6,11 +6,14 @@ import QWinUI3.Platform
 //
 //   DialogShellWindow {
 //       title: qsTr("Confirm")
+//       ownerWindow: mainWindow
 //       width: 440; height: 280
 //   }
+//   dlg.openDialog()
 //
 // @notes
 //   ShellWindow with WindowHelper.ParadigmDialog flags.
+//   Prefer openDialog() for owner stacking + center (same recipe as DialogWindow / Gallery).
 
 ShellWindow {
     id: root
@@ -23,4 +26,34 @@ ShellWindow {
     title: qsTr("Dialog")
     subtitle: qsTr("Dialog shell")
     symbol: FluentIcons.OpenInNewWindow
+    backdrop: WindowHelper.BackdropSolid
+
+    // Optional owner Window / Item for transient parenting
+    property var ownerWindow: null
+    property bool centerWhenOpened: true
+
+    function openDialog(owner) {
+        if (owner !== undefined && owner !== null)
+            ownerWindow = owner
+        if (ownerWindow)
+            WindowHelper.setTransientParent(root, ownerWindow)
+        if (centerWhenOpened)
+            centerOnScreen()
+        visible = true
+        requestActivate()
+    }
+
+    function closeDialog() {
+        visible = false
+    }
+
+    Component.onCompleted: {
+        if (ownerWindow)
+            WindowHelper.setTransientParent(root, ownerWindow)
+    }
+
+    onOwnerWindowChanged: {
+        if (ownerWindow)
+            WindowHelper.setTransientParent(root, ownerWindow)
+    }
 }

@@ -106,4 +106,9 @@ PlatformTitleBar {
     }
 
     Component.onCompleted: Qt.callLater(function () { root.reportHitTest() })
+
+    Connections {
+        target: WindowHelper
+        function onScreensChanged() { root.reportHitTest() }
+    }
 }

@@ -4,7 +4,7 @@ Host window for a torn-out TabView tab.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/TabViewTearOutWindow.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/TabViewTearOutWindow.qml)
 
-**Category:** Shells & windows · **Library:** v1.03
+**Category:** Shells & windows · **Library:** v1.04
 
 [← Component index](../components.md)
 

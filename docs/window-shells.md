@@ -14,6 +14,8 @@ Independent top-level hosts in `QWinUI3.Extras` share **`ShellWindow`**
 
 Prefer **ShellWindow** family for applications. Keep **StandardWindow** when you need Platform presenters without Extras.
 
+Chrome reliability (DPI, backdrop, dialog owners): [`window-chrome.md`](window-chrome.md).
+
 Platform chrome singleton: [`WindowHelper`](window-helper.md).
 
 ## Shared chrome API
@@ -44,10 +46,12 @@ titleBarBackground: Theme.bgAcrylic
 
 ```qml
 DialogShellWindow {
+    id: dlg
     title: qsTr("Confirm")
+    ownerWindow: mainWindow
     width: 440; height: 280
-    // content: …
 }
+dlg.openDialog()
 
 ToolShellWindow {
     title: qsTr("Inspector")

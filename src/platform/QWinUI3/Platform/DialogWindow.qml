@@ -9,11 +9,15 @@ import QWinUI3.Platform
 //   DialogWindow {
 //       id: dlg
 //       title: qsTr("Prompt")
+//       ownerWindow: mainWindow   // optional transient parent
 //       width: 420; height: 280
 //   }
+//   dlg.openDialog()
 //
 // @notes
 //   StandardWindow with ParadigmDialog flags.
+//   Prefer openDialog() so owner stacking + centerOnScreen match Gallery patterns.
+//   On Linux/Wayland, setTransientParent keeps modality stacking correct.
 
 StandardWindow {
     id: root
@@ -24,4 +28,37 @@ StandardWindow {
     minimumWidth: 320
     minimumHeight: 200
     title: qsTr("Dialog")
+    backdrop: WindowHelper.BackdropSolid
+
+    // Optional owner Window / Item for transient parenting (Win HWND owner / Wayland stacking)
+    property var ownerWindow: null
+    // Center on the owner screen when shown via openDialog()
+    property bool centerWhenOpened: true
+
+    // Show as a dialog: wire owner, center, then make visible
+    function openDialog(owner) {
+        if (owner !== undefined && owner !== null)
+            ownerWindow = owner
+        if (ownerWindow)
+            WindowHelper.setTransientParent(root, ownerWindow)
+        if (centerWhenOpened)
+            WindowHelper.centerOnScreen(root)
+        visible = true
+        requestActivate()
+    }
+
+    // Hide without destroying
+    function closeDialog() {
+        visible = false
+    }
+
+    Component.onCompleted: {
+        if (ownerWindow)
+            WindowHelper.setTransientParent(root, ownerWindow)
+    }
+
+    onOwnerWindowChanged: {
+        if (ownerWindow)
+            WindowHelper.setTransientParent(root, ownerWindow)
+    }
 }

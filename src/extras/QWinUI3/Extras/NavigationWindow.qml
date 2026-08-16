@@ -27,6 +27,8 @@ import QWinUI3.Theme
 
 ShellWindow {
     id: root
+    // Prefer Solid for product shells (Gallery / examples). Mica still works on Windows via backdrop.
+    backdrop: WindowHelper.BackdropSolid
     // Navigation pane expanded
     property alias paneOpen: nav.paneOpen
     // Expanded pane width

@@ -270,11 +270,14 @@ Item {
         function onWidthChanged() { root.reportHitTest() }
         function onHeightChanged() { root.reportHitTest() }
         function onVisibilityChanged() { root.reportHitTest() }
+        function onScreenChanged() { root.reportHitTest() }
     }
 
     Connections {
         target: WindowHelper
         function onCaptionHoverChanged() { }
         function onCaptionPressedChanged() { }
+        // DPI / monitor moves: refresh NC hit-test so caption buttons stay clickable.
+        function onScreensChanged() { root.reportHitTest() }
     }
 }

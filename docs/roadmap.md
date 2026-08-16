@@ -1,6 +1,6 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.03**  
+**Current:** **1.04**  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
 
 This plan starts from **what 1.00 already was**, then walks **small `1.xx` minors**. Stay on **1.xx for a long time**. **2.00 is not next**—only when we truly need breaking changes.
@@ -77,14 +77,9 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-### 1.04 — Window chrome polish (Windows-first)
+### 1.04 — Window chrome polish (Windows-first) (shipped)
 
-**Why:** Platform already claims backdrop / snap / DPI—make the claimed path reliable.
-
-- Tighten `StandardWindow` / `NavigationWindow` / dialog shells for common DPI & backdrop cases.
-- Document failure modes; align **examples** with Gallery patterns.
-
-**Not in 1.04:** New shell paradigms; WebView2 deep dive (see 1.05).
+**Shipped:** `StandardWindow` runtime backdrop/paradigm + show `reapply`; DPI hit-test refresh; DWM backdrop reapply on `WM_DPICHANGED`; `DialogWindow` / `DialogShellWindow.openDialog(owner)`; [window-chrome.md](docs/window-chrome.md) failure modes; nav-settings aligned with Gallery chrome; product version `1.04`.
 
 ---
 

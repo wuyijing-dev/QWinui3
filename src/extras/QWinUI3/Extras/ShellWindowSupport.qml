@@ -143,6 +143,15 @@ Item {
         target: root.targetWindow
         enabled: root.targetWindow !== null
         function onScreenChanged() { root.syncThemeDpi() }
+        function onVisibleChanged() {
+            if (!root._ready || !root.autoInstall || !root.targetWindow || !root.targetWindow.visible)
+                return
+            // First show / restore: Qt may have overwritten DWM attributes.
+            Qt.callLater(function () {
+                if (root.targetWindow && root.targetWindow.visible)
+                    WindowHelper.reapply(root.targetWindow)
+            })
+        }
     }
 
     Connections {

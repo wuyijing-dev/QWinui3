@@ -885,10 +885,12 @@ public:
             return true;
         }
         case WM_DPICHANGED: {
-            // Let Qt handle resize; refresh border metrics and QML DPR bindings.
+            // Let Qt handle resize; refresh border metrics, QML DPR, and DWM materials.
             applyWindowStyle(window);
             if (m_helper)
                 m_helper->notifyDisplayMetricsChanged();
+            scheduleBackdropReapply(window, state.dark, state.backdrop, 80);
+            scheduleBackdropReapply(window, state.dark, state.backdrop, 250);
             return false;
         }
         case WM_DWMCOMPOSITIONCHANGED:

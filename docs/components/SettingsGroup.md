@@ -4,7 +4,7 @@ Section header + card stack for settings pages.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/SettingsGroup.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/SettingsGroup.qml)
 
-**Category:** Layout · **Library:** v1.03
+**Category:** Layout · **Library:** v1.04
 
 [← Component index](../components.md)
 

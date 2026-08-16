@@ -22,6 +22,7 @@ import QWinUI3.Platform
 //   Low-level AppWindow host (PlatformTitleBar + WindowHelper).
 //   Prefer ShellWindow family for product UI; use this for presenter/backdrop experiments.
 //   effectiveBackdrop / WindowHelper.resolveBackdrop keep Linux shells opaque when Mica is requested.
+//   Runtime: backdrop/paradigm changes, first-show reapply, DPI → Theme + hit-test (see docs/window-chrome.md).
 //   See docs/window-appwindow.md and docs/window-helper.md.
 
 ApplicationWindow {
@@ -127,6 +128,18 @@ ApplicationWindow {
         }
     }
 
+    onBackdropChanged: {
+        if (!_chromeReady || !autoInstall)
+            return
+        WindowHelper.setBackdrop(root, root.effectiveBackdrop)
+    }
+
+    onParadigmChanged: {
+        if (!_chromeReady || !autoInstall)
+            return
+        applyChrome()
+    }
+
     onPresenterChanged: {
         if (!_chromeReady || !autoInstall)
             return
@@ -140,6 +153,16 @@ ApplicationWindow {
         if (!_chromeReady || !autoInstall)
             return
         WindowHelper.setAlwaysOnTop(root, isAlwaysOnTop)
+    }
+
+    // Qt/DWM may clear system backdrop on first show — re-install after the HWND is live.
+    onVisibleChanged: {
+        if (!_chromeReady || !autoInstall || !visible)
+            return
+        Qt.callLater(function () {
+            if (root && root.visible)
+                WindowHelper.reapply(root)
+        })
     }
 
     Connections {
@@ -156,6 +179,8 @@ ApplicationWindow {
         }
         function onScreensChanged() {
             root._syncThemeDpi()
+            if (root.chrome && root.chrome.reportHitTest)
+                root.chrome.reportHitTest()
         }
     }
 }

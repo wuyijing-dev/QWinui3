@@ -70,6 +70,7 @@ nav:
   - WebView2: webview2-future.md
   - Linux / Wayland: platform-linux-wayland.md
   - Window shells: window-shells.md
+  - Window chrome: window-chrome.md
   - WindowHelper: window-helper.md
   - AppWindow: window-appwindow.md
   - Transparency / DWM: window-transparency-dwm.md

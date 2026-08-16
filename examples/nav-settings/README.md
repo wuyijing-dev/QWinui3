@@ -1,8 +1,8 @@
 # NavigationView + Settings example
 
-Minimal shell: `StandardWindow` → `NavigationView` with Home / About and a Settings footer.
+Gallery-aligned shell: `StandardWindow` → `PlatformTitleBar` / `TitleBar` → `NavigationView` with Home / About and a Settings footer.
 
-Uses **`BackdropSolid`** so the same QML is solid on Windows and Linux (no hollow Mica on Wayland/X11).
+Uses **`BackdropSolid`** (see [`docs/window-chrome.md`](../../docs/window-chrome.md)).
 
 ## Build / run
 
@@ -16,6 +16,6 @@ cmake --build build --target qwinui3_example_nav
 ./build/qwinui3_example_nav   # path may vary by generator
 ```
 
-`main.cpp` already calls `WindowHelper::configurePlatformEnvironment` (Wayland-first + CSD) and sets a desktop file name for portals/taskbars.
+`main.cpp` already calls `WindowHelper::configurePlatformEnvironment` and sets a desktop file name.
 
-Linux details: [docs/platform-linux-wayland.md](../../docs/platform-linux-wayland.md).
+Linux: [docs/platform-linux-wayland.md](../../docs/platform-linux-wayland.md).

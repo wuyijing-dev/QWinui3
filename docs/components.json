@@ -1,6 +1,6 @@
 {
   "name": "QWinUI3",
-  "version": "1.03",
+  "version": "1.04",
   "generatedBy": "scripts/generate_component_docs.py",
   "publicCount": 208,
   "components": [
@@ -570,9 +570,9 @@
       "galleryPage": "",
       "galleryTitle": "",
       "doc": "components/DialogShellWindow.md",
-      "propertyCount": 0,
+      "propertyCount": 2,
       "signalCount": 0,
-      "methodCount": 0
+      "methodCount": 2
     },
     {
       "name": "DockPanel",
@@ -3135,9 +3135,9 @@
       "galleryPage": "",
       "galleryTitle": "",
       "doc": "components/DialogWindow.md",
-      "propertyCount": 0,
+      "propertyCount": 2,
       "signalCount": 0,
-      "methodCount": 0
+      "methodCount": 2
     },
     {
       "name": "PlatformTitleBar",

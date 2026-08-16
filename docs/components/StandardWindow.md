@@ -4,7 +4,7 @@ Platform ApplicationWindow + PlatformTitleBar host.
 
 `import QWinUI3.Platform` · [`src/platform/QWinUI3/Platform/StandardWindow.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/platform/QWinUI3/Platform/StandardWindow.qml)
 
-**Category:** Platform · **Library:** v1.03
+**Category:** Platform · **Library:** v1.04
 
 [← Component index](../components.md)
 
@@ -31,6 +31,7 @@ StandardWindow {
 Low-level AppWindow host (PlatformTitleBar + WindowHelper).
 Prefer ShellWindow family for product UI; use this for presenter/backdrop experiments.
 effectiveBackdrop / WindowHelper.resolveBackdrop keep Linux shells opaque when Mica is requested.
+Runtime: backdrop/paradigm changes, first-show reapply, DPI → Theme + hit-test (see docs/window-chrome.md).
 See docs/window-appwindow.md and docs/window-helper.md.
 
 ## API
