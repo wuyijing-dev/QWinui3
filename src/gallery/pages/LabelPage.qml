@@ -4,50 +4,28 @@ import QtQuick.Controls
 import QWinUI3.Theme
 
 // Gallery — Label.
-//
-// A text label for captions and descriptions. API: docs/components/Label.md
 
-Page {
-    padding: 0
-    ScrollView {
-        id: scroll
-        anchors.fill: parent
-        contentWidth: availableWidth
-        clip: true
+CatalogPage {
+    title: qsTr("Label")
+    subtitle: qsTr("A text label for captions and descriptions.")
+
+    ControlExample {
+        headerText: qsTr("Typography")
+        qmlSource: "Label { text: \"Body\" }\nLabel { text: \"Caption\"; font.pixelSize: 12 }"
         ColumnLayout {
-            width: scroll.availableWidth
-            spacing: Theme.spacingSection
-            PageHeader {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                Layout.topMargin: Theme.spacingSection
-                title: qsTr("Label")
-                subtitle: qsTr("A text label for captions and descriptions.")
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Label { text: qsTr("Body label") }
+            Label {
+                text: qsTr("Secondary caption")
+                color: Theme.textSecondary
+                font.pixelSize: Theme.fontCaption
             }
-            ControlExample {
+            Label {
                 Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                headerText: qsTr("Typography")
-                qmlSource: "Label { text: \"Body\" }\nLabel { text: \"Caption\"; font.pixelSize: 12 }"
-                ColumnLayout {
-                    Layout.fillWidth: true
-                    spacing: Theme.spacing
-                    Label { text: qsTr("Body label") }
-                    Label {
-                        text: qsTr("Secondary caption")
-                        color: Theme.textSecondary
-                        font.pixelSize: Theme.fontCaption
-                    }
-                    Label {
-                        Layout.fillWidth: true
-                        wrapMode: Text.Wrap
-                        text: qsTr("Wrapped label text for longer descriptions that span multiple lines.")
-                    }
-                }
+                wrapMode: Text.Wrap
+                text: qsTr("Wrapped label text for longer descriptions that span multiple lines.")
             }
-            Item { Layout.preferredHeight: Theme.spacingSection; Layout.fillWidth: true }
         }
     }
 }

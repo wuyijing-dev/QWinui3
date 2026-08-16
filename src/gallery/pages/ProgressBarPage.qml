@@ -4,94 +4,62 @@ import QtQuick.Controls
 import QWinUI3.Theme
 
 // Gallery — ProgressBar.
-//
-// Shows the progress of an operation that has a known duration. API: docs/components/ProgressBar.md
 
-Page {
-    padding: 0
-    ScrollView {
-        id: scroll
-        anchors.fill: parent
-        contentWidth: availableWidth
-        clip: true
+CatalogPage {
+    title: qsTr("ProgressBar")
+    subtitle: qsTr("Shows the progress of an operation that has a known duration.")
+
+    ControlExample {
+        headerText: qsTr("Determinate ProgressBar")
+        qmlSource: "ProgressBar { value: 0.35 }\nProgressBar { value: 0.7 }"
 
         ColumnLayout {
-            width: scroll.availableWidth
-            spacing: Theme.spacingSection
+            Layout.fillWidth: true
+            spacing: Theme.spacingLoose
 
-            PageHeader {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                Layout.topMargin: Theme.spacingSection
-                title: qsTr("ProgressBar")
-                subtitle: qsTr("Shows the progress of an operation that has a known duration.")
+            ProgressBar {
+                Layout.preferredWidth: 320
+                value: 0.35
             }
-
-            ControlExample {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                headerText: qsTr("Determinate ProgressBar")
-                qmlSource: "ProgressBar { value: 0.35 }\nProgressBar { value: 0.7 }"
-
-                ColumnLayout {
-                    Layout.fillWidth: true
-                    spacing: Theme.spacingLoose
-
-                    ProgressBar {
-                        Layout.preferredWidth: 320
-                        value: 0.35
-                    }
-                    ProgressBar {
-                        Layout.preferredWidth: 320
-                        value: 0.7
-                    }
-                }
+            ProgressBar {
+                Layout.preferredWidth: 320
+                value: 0.7
             }
+        }
+    }
 
-            ControlExample {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                headerText: qsTr("WinUI ShowError / ShowPaused")
-                qmlSource: "ProgressBar { value: 0.45; showError: true }\nProgressBar { indeterminate: true; showPaused: true }"
+    ControlExample {
+        headerText: qsTr("WinUI ShowError / ShowPaused")
+        qmlSource: "ProgressBar { value: 0.45; showError: true }\nProgressBar { indeterminate: true; showPaused: true }"
 
-                ColumnLayout {
-                    Layout.fillWidth: true
-                    spacing: Theme.spacingLoose
-                    ProgressBar {
-                        Layout.preferredWidth: 320
-                        value: 0.45
-                        showError: true
-                    }
-                    ProgressBar {
-                        Layout.preferredWidth: 320
-                        value: 0.6
-                        showPaused: true
-                    }
-                    ProgressBar {
-                        Layout.preferredWidth: 320
-                        indeterminate: true
-                        showPaused: true
-                    }
-                }
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacingLoose
+            ProgressBar {
+                Layout.preferredWidth: 320
+                value: 0.45
+                showError: true
             }
-
-            ControlExample {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                headerText: qsTr("Indeterminate ProgressBar")
-                qmlSource: "ProgressBar {\n    indeterminate: true\n}"
-
-                ProgressBar {
-                    Layout.preferredWidth: 320
-                    indeterminate: true
-                }
+            ProgressBar {
+                Layout.preferredWidth: 320
+                value: 0.6
+                showPaused: true
             }
+            ProgressBar {
+                Layout.preferredWidth: 320
+                indeterminate: true
+                showPaused: true
+            }
+        }
+    }
 
-            Item { Layout.preferredHeight: Theme.spacingSection; Layout.fillWidth: true }
+    ControlExample {
+        headerText: qsTr("Indeterminate ProgressBar")
+        qmlSource: "ProgressBar {\n    indeterminate: true\n}"
+
+        ProgressBar {
+            Layout.preferredWidth: 320
+            indeterminate: true
         }
     }
 }
