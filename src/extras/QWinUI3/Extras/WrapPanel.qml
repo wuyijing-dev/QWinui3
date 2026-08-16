@@ -20,6 +20,7 @@ import QWinUI3.Theme
 //
 // @notes
 //   Wrapping flow of children; itemSpacing / horizontalSpacing / verticalSpacing / orientation.
+//   implicitWidth is the single-line natural width (not availableWidth) to avoid Layout loops.
 
 T.Control {
     id: root
@@ -43,10 +44,14 @@ T.Control {
     // Gap between wrapped lines (<0 → spacing)
     property real verticalSpacing: -1
 
+    // Measured preferred size — must not read availableWidth/width (binding loop).
+    property real _naturalWidth: 100
+    property real _laidOutHeight: Theme.controlHeight
+
     padding: paddingEdges
     spacing: Theme.spacing
-    implicitWidth: Math.max(100, host.implicitWidth + leftPadding + rightPadding)
-    implicitHeight: Math.max(Theme.controlHeight, host.implicitHeight + topPadding + bottomPadding)
+    implicitWidth: Math.max(100, _naturalWidth + leftPadding + rightPadding)
+    implicitHeight: Math.max(Theme.controlHeight, _laidOutHeight + topPadding + bottomPadding)
     Accessible.role: Accessible.Grouping
     Accessible.name: qsTr("Wrap panel")
 
@@ -65,10 +70,9 @@ T.Control {
 
     contentItem: Item {
         id: host
-        implicitWidth: root.availableWidth
-        implicitHeight: 0
+        // Control assigns width/height from available* — do not bind implicit* to them.
         onChildrenChanged: Qt.callLater(root.relayout)
-        onWidthChanged: root.relayout()
+        onWidthChanged: Qt.callLater(root.relayout)
     }
 
     function _visibleKids() {
@@ -88,6 +92,13 @@ T.Control {
             ch.height = itemHeight
     }
 
+    function _childSize(ch) {
+        return {
+            w: ch.width > 0 ? ch.width : (ch.implicitWidth || 0),
+            h: ch.height > 0 ? ch.height : (ch.implicitHeight || 0)
+        }
+    }
+
     // Recompute wrapped layout
     function relayout() {
         var kids = _visibleKids()
@@ -97,17 +108,21 @@ T.Control {
         var rtl = layoutDirection === Qt.RightToLeft
         var maxW = 0
         var maxH = 0
+        var natural = 0
 
         if (orientation === Qt.Vertical) {
             var x = 0
             var y = 0
             var colW = 0
+            var naturalH = 0
             for (var i = 0; i < kids.length; ++i) {
                 var ch = kids[i]
                 _applyItemSize(ch)
-                var iw = ch.width > 0 ? ch.width : (ch.implicitWidth || 0)
-                var ih = ch.height > 0 ? ch.height : (ch.implicitHeight || 0)
-                if (y > 0 && y + ih > avail && avail > 0) {
+                var sz = _childSize(ch)
+                var iw = sz.w
+                var ih = sz.h
+                naturalH += ih + (i ? vGap : 0)
+                if (y > 0 && avail > 0 && y + ih > avail) {
                     y = 0
                     x += colW + hGap
                     colW = 0
@@ -116,17 +131,22 @@ T.Control {
                 ch.y = y
                 y += ih + vGap
                 colW = Math.max(colW, iw)
-                maxW = Math.max(maxW, (rtl ? avail : x + colW))
+                maxW = Math.max(maxW, x + colW)
                 maxH = Math.max(maxH, y - vGap)
             }
-            if (kids.length)
-                maxH = Math.max(maxH, 0)
-            host.implicitWidth = Math.max(avail, maxW)
-            host.implicitHeight = Math.max(0, maxH)
+            root._naturalWidth = Math.max(100, kids.length ? maxW : 100)
+            // Prefer unwrapped column height when unconstrained; laid-out height when wrapping.
+            root._laidOutHeight = Math.max(0, avail > 0 ? maxH : naturalH)
             return
         }
 
-        // Horizontal wrap (default)
+        // Horizontal wrap (default) — natural width = single-line sum (no wrap).
+        for (var m = 0; m < kids.length; ++m) {
+            _applyItemSize(kids[m])
+            var ns = _childSize(kids[m])
+            natural += ns.w + (m ? hGap : 0)
+        }
+
         var cx = 0
         var cy = 0
         var rowH = 0
@@ -151,8 +171,9 @@ T.Control {
         for (var n = 0; n < kids.length; ++n) {
             var child = kids[n]
             _applyItemSize(child)
-            var cw = child.width > 0 ? child.width : (child.implicitWidth || 0)
-            var chh = child.height > 0 ? child.height : (child.implicitHeight || 0)
+            var cs = _childSize(child)
+            var cw = cs.w
+            var chh = cs.h
             if (cx > 0 && avail > 0 && cx + cw > avail) {
                 flushLine()
                 cx = 0
@@ -171,8 +192,9 @@ T.Control {
         }
         flushLine()
         maxH = cy + rowH
-        host.implicitWidth = Math.max(avail, maxW)
-        host.implicitHeight = Math.max(0, maxH)
+
+        root._naturalWidth = Math.max(100, natural)
+        root._laidOutHeight = Math.max(0, maxH)
     }
 
     onItemWidthChanged: Qt.callLater(relayout)
