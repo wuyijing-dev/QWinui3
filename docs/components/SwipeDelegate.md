@@ -4,7 +4,7 @@ Fluent styled SwipeDelegate.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/SwipeDelegate.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/SwipeDelegate.qml)
 
-**Category:** Styled controls · **Library:** v1.20
+**Category:** Styled controls · **Library:** v1.21
 
 [← Component index](../components.md)
 

@@ -5,21 +5,29 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 import QWinUI3.Platform
 
-// Gallery — MediaPlayerElement (requires Qt Multimedia QML module at runtime).
+// Gallery — MediaPlayerElement (1.21). Recipe: docs/media.md
+// Soft-loads the Extras type so missing Multimedia never crashes the page.
 
 CatalogPage {
     id: page
 
     title: qsTr("MediaPlayerElement")
-    subtitle: qsTr("Fluent transport shell over Qt Multimedia. Pick a local file to play.")
+    subtitle: qsTr("Optional Qt Multimedia shell (experimental). Recipe: docs/media.md")
 
     property url mediaSource: ""
     property bool mediaReady: playerLoader.status === Loader.Ready
+                              && playerLoader.item
+                              && playerLoader.item.available !== false
+    property bool mediaStub: playerLoader.status === Loader.Ready
+                             && playerLoader.item
+                             && playerLoader.item.available === false
     property string mediaError: {
         if (mediaComponent && mediaComponent.status === Component.Error)
             return mediaComponent.errorString()
         if (playerLoader.status === Loader.Error)
             return qsTr("Failed to create MediaPlayerElement.")
+        if (mediaStub && playerLoader.item && playerLoader.item.errorString)
+            return playerLoader.item.errorString
         return ""
     }
 
@@ -41,8 +49,24 @@ CatalogPage {
     }
 
     ControlExample {
+        headerText: qsTr("Optional dependency (1.21)")
+        qmlSource: "// -DQWINUI3_BUILD_MEDIA=ON + Qt Multimedia\n// docs/media.md"
+
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                color: Theme.textSecondary
+                text: qsTr("MediaPlayerElement stays experimental: codecs and backends differ by OS. Build with Qt Multimedia when you need playback; without it Extras ships a stub (available === false) and this page shows EmptyState.")
+            }
+        }
+    }
+
+    ControlExample {
         headerText: qsTr("Player")
-        qmlSource: "MediaPlayerElement {\n    source: \"file:///…\"\n}"
+        qmlSource: "MediaPlayerElement {\n    source: \"file:///…\"\n    // Space toggles play\n}"
 
         ColumnLayout {
             Layout.fillWidth: true
@@ -51,12 +75,16 @@ CatalogPage {
             EmptyState {
                 Layout.fillWidth: true
                 visible: !page.mediaReady
-                title: qsTr("Qt Multimedia not loaded")
+                title: page.mediaStub
+                       ? qsTr("Qt Multimedia not in this build")
+                       : qsTr("Qt Multimedia not loaded")
                 message: page.mediaError.length
                          ? page.mediaError
-                         : qsTr("Ensure qt.conf QmlImports includes the Qt kit qml folder, or run build.bat (windeployqt).")
+                         : qsTr("Install Qt Multimedia, configure -DQWINUI3_BUILD_MEDIA=ON, and ensure the Multimedia QML plugin is deployable (windeployqt / qt.conf). See docs/media.md.")
+                actionText: qsTr("Open media docs")
                 compact: true
                 bordered: true
+                onActionClicked: Qt.openUrlExternally("https://github.com/wuyijing-dev/QWinui3/blob/master/docs/media.md")
             }
 
             RowLayout {
@@ -75,7 +103,7 @@ CatalogPage {
                 Label {
                     Layout.fillWidth: true
                     elide: Text.ElideMiddle
-                    text: page.mediaSource.toString() || qsTr("No file selected")
+                    text: page.mediaSource.toString() || qsTr("No file selected — Space toggles play when focused")
                     color: Theme.textSecondary
                 }
             }
@@ -83,10 +111,10 @@ CatalogPage {
             Loader {
                 id: playerLoader
                 Layout.fillWidth: true
-                Layout.preferredHeight: page.mediaReady ? 360 : 0
-                visible: page.mediaReady
+                Layout.preferredHeight: page.mediaReady ? 360 : (page.mediaStub ? 220 : 0)
+                visible: page.mediaReady || page.mediaStub
                 onLoaded: {
-                    if (item) {
+                    if (item && item.available !== false) {
                         item.Layout.fillWidth = true
                         if (page.mediaSource.toString().length)
                             item.source = page.mediaSource
@@ -99,7 +127,7 @@ CatalogPage {
                 target: playerLoader.item
                 property: "source"
                 value: page.mediaSource
-                when: playerLoader.item !== null
+                when: playerLoader.item !== null && playerLoader.item.available !== false
             }
         }
     }

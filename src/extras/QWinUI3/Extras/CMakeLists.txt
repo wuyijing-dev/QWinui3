@@ -20,8 +20,17 @@ if(QWINUI3_BUILD_MEDIA)
         set(QWINUI3_EXTRAS_MEDIA_QML MediaPlayerElement.qml)
         set(QWINUI3_HAS_MEDIA ON)
     else()
-        message(WARNING "QWINUI3_BUILD_MEDIA=ON but Qt6 Multimedia was not found; skipping MediaPlayerElement")
+        message(WARNING "QWINUI3_BUILD_MEDIA=ON but Qt6 Multimedia was not found; shipping MediaPlayerElement stub")
+        set(QWINUI3_EXTRAS_MEDIA_QML MediaPlayerElementStub.qml)
+        set_source_files_properties(MediaPlayerElementStub.qml PROPERTIES
+            QT_QML_SOURCE_TYPENAME MediaPlayerElement
+        )
     endif()
+else()
+    set(QWINUI3_EXTRAS_MEDIA_QML MediaPlayerElementStub.qml)
+    set_source_files_properties(MediaPlayerElementStub.qml PROPERTIES
+        QT_QML_SOURCE_TYPENAME MediaPlayerElement
+    )
 endif()
 set(QWINUI3_HAS_MEDIA ${QWINUI3_HAS_MEDIA} PARENT_SCOPE)
 

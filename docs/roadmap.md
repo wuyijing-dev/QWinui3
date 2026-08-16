@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.20**  
-**Next up:** **1.21** (Media optional Multimedia)  
+**Current:** **1.21**  
+**Next up:** **1.22** (animations & transitions recipe)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](qt-version-compat.md)
 
 This plan starts from **what 1.00 already was**, then walks **small `1.xx` minors**. Stay on **1.xx for a long time**. **2.00 is not next**—only when we truly need breaking changes.
@@ -59,7 +59,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.20`
+## Shipped — `1.01` … `1.21`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -141,31 +141,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** Curated `recentlyShipped()` + component search; page favorite star on `PageHeader`; `--smoke` loads critical pages; `smoke_catalog.py` integrity; [ci-smoke.md](ci-smoke.md) coverage set; product version `1.20`.
 
----
+### 1.21 — Media optional Multimedia (shipped)
 
-## Mid path — planned `1.21` … `1.30`
-
-Start after **1.20** (this band). Same rules: one theme per `YY`, still **not** `2.00`.
-
-### 1.21 — Media (optional Multimedia)
-
-**Why:** `MediaPlayerElement` is experimental; LoB apps need a clear optional-deps story.
-
-**In scope**
-
-- Document Qt Multimedia as **optional**; graceful EmptyState when missing.
-- Polish controls chrome, keyboard, and Theme tokens on the Gallery Media page.
-- Short `docs/media.md`; decide promote vs remain experimental.
-
-**Out of scope**
-
-- Full media suite (playlist product, codecs matrix); non-Qt backends.
-
-**Exit criteria**
-
-- Recipe doc + stable-api row update; Gallery works with and without Multimedia.
+**Shipped:** [media.md](media.md); `MediaPlayerElement` stub when Multimedia missing (`available === false`); keyboard Space/Enter + mute; Gallery page always present; remain experimental; product version `1.21`.
 
 ---
+
+## Mid path — planned `1.22` … `1.30`
+
+Same rules: one theme per `YY`, still **not** `2.00`.
 
 ### 1.22 — Animations & transitions recipe
 

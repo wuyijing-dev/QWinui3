@@ -897,7 +897,7 @@ QtObject {
             title: qsTr("MediaPlayerElement"),
             category: "status",
             icon: FluentIcons.Video,
-            description: qsTr("Fluent media shell (requires Qt Multimedia / QWINUI3_BUILD_MEDIA)."),
+            description: qsTr("Optional Qt Multimedia shell — docs/media.md (1.21)."),
             component: "MediaPlayerElementPage",
             source: "pages/MediaPlayerElementPage.qml"
         },
@@ -1417,6 +1417,7 @@ QtObject {
     // Curated “recently shipped” recipe pages (1.20) — not catalog array order.
     function recentlyShipped(count) {
         var ids = [
+            "MediaPlayerElementPage", // 1.21
             "AccessibilityPage",      // 1.19
             "WebView2Page",           // 1.18
             "SystemIntegrationPage",  // 1.17 / 1.10

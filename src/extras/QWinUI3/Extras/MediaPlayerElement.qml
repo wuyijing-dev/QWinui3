@@ -17,12 +17,16 @@ import QWinUI3.Theme
 //   // media.play() / media.pause() / media.stop()
 //
 // @notes
-//   Requires Qt Multimedia (build with -DQWINUI3_BUILD_MEDIA=ON).
-//   Exposes source, muted, volume, position helpers and transport buttons.
+//   Optional Qt Multimedia — build with -DQWINUI3_BUILD_MEDIA=ON (default when Multimedia
+//   is found). When Multimedia is absent, Extras ships a stub with available === false.
+//   Recipe: docs/media.md (1.21). Remains experimental (codecs / backends vary).
+//   Keyboard: Space / Enter toggles play; focusable transport chrome.
 
 T.Control {
     id: root
 
+    // Always true in the Multimedia build (stub sets false).
+    readonly property bool available: true
     // Media URL
     property alias source: player.source
     // Playback volume 0..1
@@ -33,16 +37,36 @@ T.Control {
     property bool autoPlay: false
     // Show transport chrome
     property bool showControls: true
+    // Screen-reader name override
+    property string accessibleName: qsTr("Media player")
 
     readonly property bool playing: player.playbackState === MediaPlayer.PlayingState
     readonly property real duration: player.duration
     readonly property real position: player.position
+    readonly property int mediaStatus: player.mediaStatus
+    readonly property string errorString: player.errorString
 
     implicitWidth: 480
     implicitHeight: 300
     padding: 0
+    focusPolicy: Qt.StrongFocus
+    activeFocusOnTab: true
     Accessible.role: Accessible.Grouping
-    Accessible.name: qsTr("Media player")
+    Accessible.name: accessibleName.length ? accessibleName : qsTr("Media player")
+    Accessible.description: playing ? qsTr("Playing") : qsTr("Paused")
+
+    Keys.onSpacePressed: function (event) {
+        togglePlayPause()
+        event.accepted = true
+    }
+    Keys.onReturnPressed: function (event) {
+        togglePlayPause()
+        event.accepted = true
+    }
+    Keys.onEnterPressed: function (event) {
+        togglePlayPause()
+        event.accepted = true
+    }
 
     function play() { player.play() }
     function pause() { player.pause() }
@@ -66,7 +90,7 @@ T.Control {
 
     background: Rectangle {
         radius: Theme.cornerCard
-        color: Theme.dark ? "#FF000000" : "#FF1A1A1A"
+        color: "#FF121212"
         border.width: Theme.highContrast ? 2 : 1
         border.color: Theme.strokeCard
     }
@@ -86,9 +110,21 @@ T.Control {
                 anchors.centerIn: parent
                 visible: !root.source || root.source.toString().length === 0
                 text: qsTr("No media")
-                color: "#AAFFFFFF"
+                color: "#CCFFFFFF"
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
+            }
+            Text {
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                anchors.margins: Theme.spacing
+                visible: root.errorString.length > 0
+                wrapMode: Text.WordWrap
+                text: root.errorString
+                color: Theme.systemCritical
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontCaption
             }
         }
 
@@ -96,7 +132,8 @@ T.Control {
             visible: root.showControls
             Layout.fillWidth: true
             height: Theme.controlHeight + 16
-            color: Theme.dark ? "#CC202020" : "#E6F3F3F3"
+            color: Theme.bgCard
+            opacity: 0.96
             bottomLeftRadius: Theme.cornerCard
             bottomRightRadius: Theme.cornerCard
 
@@ -105,19 +142,29 @@ T.Control {
                 anchors.margins: 8
                 spacing: Theme.spacing
 
-                Button {
-                    flat: true
+                ToolButton {
                     text: root.playing ? FluentIcons.Pause : FluentIcons.Play
                     font.family: Theme.fontFamilyIcon
                     onClicked: root.togglePlayPause()
                     Accessible.name: root.playing ? qsTr("Pause") : qsTr("Play")
+                    ToolTip.visible: hovered
+                    ToolTip.text: Accessible.name
                 }
-                Button {
-                    flat: true
+                ToolButton {
                     text: FluentIcons.Stop
                     font.family: Theme.fontFamilyIcon
                     onClicked: root.stop()
                     Accessible.name: qsTr("Stop")
+                    ToolTip.visible: hovered
+                    ToolTip.text: qsTr("Stop")
+                }
+                ToolButton {
+                    text: audio.muted ? FluentIcons.Mute : FluentIcons.Volume
+                    font.family: Theme.fontFamilyIcon
+                    onClicked: audio.muted = !audio.muted
+                    Accessible.name: audio.muted ? qsTr("Unmute") : qsTr("Mute")
+                    ToolTip.visible: hovered
+                    ToolTip.text: Accessible.name
                 }
                 Slider {
                     id: seek
@@ -126,6 +173,7 @@ T.Control {
                     to: Math.max(1, player.duration)
                     value: player.position
                     onMoved: player.position = value
+                    Accessible.name: qsTr("Seek")
                 }
                 Text {
                     text: {
@@ -140,6 +188,7 @@ T.Control {
                     font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontCaption
                     color: Theme.textSecondary
+                    Accessible.ignored: true
                 }
                 Slider {
                     Layout.preferredWidth: 80

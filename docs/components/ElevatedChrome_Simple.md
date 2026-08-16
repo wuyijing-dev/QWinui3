@@ -4,7 +4,7 @@ fallback when QtQuick.Effects is unavailable. Same public API as ElevatedChrome.
 
 `import QWinUI3.Theme` · [`src/theme/QWinUI3/Theme/ElevatedChrome_Simple.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/theme/QWinUI3/Theme/ElevatedChrome_Simple.qml)
 
-**Category:** Theme · **Library:** v1.20
+**Category:** Theme · **Library:** v1.21
 
 [← Component index](../components.md)
 

@@ -52,6 +52,7 @@ INTERNAL_NAMES = {
     "FocusStroke.qml",
     "SelectionPip.qml",
     "ChartUtils.qml",
+    "MediaPlayerElementStub.qml",  # CMake typename → MediaPlayerElement when no Multimedia
 }
 
 # Heuristic Gallery / docs categories (Extras-heavy types).

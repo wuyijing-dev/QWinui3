@@ -8,10 +8,8 @@ set_source_files_properties(GalleryHistory.qml PROPERTIES
 if(NOT DEFINED QWINUI3_HAS_MEDIA)
     set(QWINUI3_HAS_MEDIA OFF)
 endif()
-set(QWINUI3_GALLERY_MEDIA_QML)
-if(QWINUI3_HAS_MEDIA)
-    list(APPEND QWINUI3_GALLERY_MEDIA_QML pages/MediaPlayerElementPage.qml)
-endif()
+# Always ship the Media Gallery page (1.21) — EmptyState / stub when Multimedia is off.
+set(QWINUI3_GALLERY_MEDIA_QML pages/MediaPlayerElementPage.qml)
 
 qt_add_executable(qwinui3_gallery
     main.cpp

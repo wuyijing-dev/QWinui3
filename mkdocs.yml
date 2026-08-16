@@ -75,6 +75,7 @@ nav:
   - System integration: system-integration.md
   - Shell extras: shell-extras.md
   - Charts & gauges: charts.md
+  - Media: media.md
   - Consumer packaging: packaging-consumer.md
   - i18n / RTL: i18n-rtl.md
   - Commands & menus: commands.md

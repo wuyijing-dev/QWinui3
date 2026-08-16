@@ -109,6 +109,18 @@ Recipe doc: [`webview2.md`](webview2.md).
 
 ---
 
+## Media (1.21)
+
+| Topic | Note |
+|-------|------|
+| Optional dep | Stub when Multimedia missing — check `available` |
+| Keyboard | Space / Enter toggles play on the host |
+| Screen readers | Transport ToolButtons named; prefer `accessibleName` |
+
+Recipe doc: [`media.md`](media.md).
+
+---
+
 ## Severity-tracked (after 1.19)
 
 | Item | Severity | Owner / notes |

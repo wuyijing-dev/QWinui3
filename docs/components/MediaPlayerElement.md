@@ -4,7 +4,7 @@ Fluent shell around Qt Multimedia MediaPlayer / VideoOutput.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/MediaPlayerElement.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/MediaPlayerElement.qml)
 
-**Category:** Media & platform · **Library:** v1.20
+**Category:** Media & platform · **Library:** v1.21
 
 [← Component index](../components.md)
 
@@ -27,8 +27,10 @@ MediaPlayerElement {
 
 ## Notes
 
-Requires Qt Multimedia (build with -DQWINUI3_BUILD_MEDIA=ON).
-Exposes source, muted, volume, position helpers and transport buttons.
+Optional Qt Multimedia — build with -DQWINUI3_BUILD_MEDIA=ON (default when Multimedia
+is found). When Multimedia is absent, Extras ships a stub with available === false.
+Recipe: docs/media.md (1.21). Remains experimental (codecs / backends vary).
+Keyboard: Space / Enter toggles play; focusable transport chrome.
 
 ## API
 
@@ -36,14 +38,18 @@ Exposes source, muted, volume, position helpers and transport buttons.
 
 | Name | Type | Description |
 | --- | --- | --- |
+| `available` | `bool` | Always true in the Multimedia build (stub sets false). |
 | `source` | `alias` | Media URL |
 | `volume` | `alias` | Playback volume 0..1 |
 | `muted` | `alias` | Mute flag |
 | `autoPlay` | `bool` | Auto-play when source is set |
 | `showControls` | `bool` | Show transport chrome |
+| `accessibleName` | `string` | Screen-reader name override |
 | `playing` | `bool` | — |
 | `duration` | `real` | — |
 | `position` | `real` | — |
+| `mediaStatus` | `int` | — |
+| `errorString` | `string` | — |
 
 ### Signals
 

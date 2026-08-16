@@ -1,6 +1,6 @@
 # QWinUI3 component API
 
-Library **v1.20**. Generated from QML source comments (`scripts/generate_component_docs.py`).
+Library **v1.21**. Generated from QML source comments (`scripts/generate_component_docs.py`).
 Each control has its own page under `docs/components/`.
 
 ```bash
@@ -8,7 +8,7 @@ python scripts/generate_component_docs.py
 python scripts/generate_component_docs.py --lint
 ```
 
-**208** public · **10** internal · **151** with Gallery demos · Hub: [docs home](index.md).
+**208** public · **11** internal · **151** with Gallery demos · Hub: [docs home](index.md).
 
 ## By module
 
@@ -490,6 +490,7 @@ python scripts/generate_component_docs.py --lint
 ## Internal / support
 
 - [ChartUtils](components/ChartUtils.md) (`QWinUI3.Extras`) — LOD helpers for large chart series.
+- [MediaPlayerElementStub](components/MediaPlayerElementStub.md) (`QWinUI3.Extras`) — Stub when Qt Multimedia is not linked (1.21).
 - [ShellWindowSupport](components/ShellWindowSupport.md) (`QWinUI3.Extras`) — Shared install/presenter glue for ShellWindow.
 - [WindowChrome](components/WindowChrome.md) (`QWinUI3.Extras`) — PlatformTitleBar + TitleBar bundle for shells.
 - [SelectionPip](components/SelectionPip.md) (`QtQuick.Controls.QWinUI3`) — Navigation selection pip indicator.

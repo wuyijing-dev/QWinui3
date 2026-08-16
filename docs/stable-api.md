@@ -89,7 +89,7 @@ Promote to stable only after a named `1.xx` slice hardens them.
 | **Advanced chrome** | Snap layouts edge cases, frost/Mica failure modes | Documented gaps; polish in **1.03** / **1.04** |
 | **Animations** | `ConnectedAnimation*`, theme transitions | Power-user; less example coverage |
 | **Tear-out / exotic shells** | `TabViewTearOutWindow`, compact overlay variants | Niche |
-| **Media** | `MediaPlayerElement` | Optional Qt Multimedia |
+| **Media** | `MediaPlayerElement` | Optional Qt Multimedia; recipe [media.md](media.md) (1.21) — remain experimental |
 | **Shell extras (remaining)** | Snap Layouts, battery/online/screens, recent-docs | Gallery demos; taskbar/attention/reveal/idle promoted in **1.17** — [shell-extras.md](shell-extras.md) |
 | **Commands & menus** | `CommandPalette`, `CommandBar`, `MenuFlyout`, … | Keyboard recipe in [commands.md](commands.md) (1.15); promote later if soaked |
 
@@ -140,3 +140,4 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.18** | Promote `WebView2Host` — soak green [webview2.md](webview2.md); Retry recreate + async generation |
 | **1.19** | Accessibility wave 2 — [accessibility.md](accessibility.md); DataTable/lists/forms names |
 | **1.20** | Gallery catalog UX + smoke critical pages — [ci-smoke.md](ci-smoke.md) |
+| **1.21** | Media optional Multimedia recipe [media.md](media.md); stub when missing |
