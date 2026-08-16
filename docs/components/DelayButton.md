@@ -4,7 +4,7 @@ Fluent styled DelayButton.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/DelayButton.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/DelayButton.qml)
 
-**Category:** Styled controls · **Library:** v1.07
+**Category:** Styled controls · **Library:** v1.08
 
 [← Component index](../components.md)
 

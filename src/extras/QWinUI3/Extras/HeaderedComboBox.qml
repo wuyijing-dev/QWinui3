@@ -17,8 +17,9 @@ import QWinUI3.Theme
 //   // inherits Control; formBound fields accept FormLayout labelWidth push
 //
 // @notes
-//   Label + ComboBox pair matching HeaderedTextBox. headerPlacement top|left;
-//   FormLayout may push labelWidth / fieldHeaderPlacement when formBound is true.
+//   Label + ComboBox pair matching HeaderedTextBox (error icon + critical underline).
+//   headerPlacement top|left; FormLayout may push labelWidth / fieldHeaderPlacement
+//   when formBound is true. See docs/forms.md.
 
 T.Control {
     id: root
@@ -111,22 +112,48 @@ T.Control {
             Layout.fillWidth: true
             spacing: 4
 
-            ComboBox {
-                id: box
+            Item {
                 Layout.fillWidth: true
-                enabled: root.enabled
-                onActivated: function (index) { root.activated(index) }
-                onAccepted: root.accepted()
+                Layout.preferredHeight: box.implicitHeight
+
+                ComboBox {
+                    id: box
+                    anchors.fill: parent
+                    enabled: root.enabled
+                    onActivated: function (index) { root.activated(index) }
+                    onAccepted: root.accepted()
+                }
+
+                Rectangle {
+                    anchors.left: box.left
+                    anchors.right: box.right
+                    anchors.bottom: box.bottom
+                    height: 2
+                    radius: 1
+                    visible: root.hasError
+                    color: Theme.systemCritical
+                    opacity: 0.9
+                }
             }
 
-            Text {
-                visible: root.hasError
+            RowLayout {
                 Layout.fillWidth: true
-                text: root.errorMessage
-                font.family: root.font.family
-                font.pixelSize: Theme.fontCaption
-                color: Theme.systemCritical
-                wrapMode: Text.Wrap
+                spacing: 4
+                visible: root.hasError
+                Text {
+                    text: FluentIcons.Error
+                    font.family: Theme.fontFamilyIcon
+                    font.pixelSize: 12
+                    color: Theme.systemCritical
+                }
+                Text {
+                    Layout.fillWidth: true
+                    text: root.errorMessage
+                    font.family: root.font.family
+                    font.pixelSize: Theme.fontCaption
+                    color: Theme.systemCritical
+                    wrapMode: Text.Wrap
+                }
             }
         }
     }

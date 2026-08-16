@@ -8,11 +8,11 @@ import QWinUI3.Extras
 
 CatalogPage {
     title: qsTr("SettingsExpander")
-    subtitle: qsTr("Expandable settings group with symbol header and Fluent ChevronDown.")
+    subtitle: qsTr("Expandable settings group — nested cards, header alias, master toggle.")
 
     ControlExample {
         headerText: qsTr("Nested settings")
-        qmlSource: "SettingsExpander {\n    toggle: true\n    SettingsCard { toggle: true }\n}"
+        qmlSource: "SettingsExpander {\n    header: qsTr(\"Privacy\")\n    toggle: true\n    SettingsCard { … }\n}"
 
         ColumnLayout {
             Layout.fillWidth: true
@@ -23,7 +23,7 @@ CatalogPage {
                 color: Theme.textSecondary
             }
             SettingsExpander {
-                title: qsTr("Privacy")
+                header: qsTr("Privacy")
                 description: qsTr("Control how your data is used.")
                 symbol: FluentIcons.Lock
                 expanded: true
@@ -33,20 +33,16 @@ CatalogPage {
                 onExpanding: expStatus.text = qsTr("Expanding…")
                 onCollapsing: expStatus.text = qsTr("Collapsing…")
 
-                ColumnLayout {
-                    width: parent.width
-                    spacing: Theme.spacing
-                    SettingsCard {
-                        title: qsTr("Diagnostics")
-                        description: qsTr("Send optional diagnostic data.")
-                        toggle: true
-                        checked: true
-                    }
-                    SettingsCard {
-                        title: qsTr("Advertising ID")
-                        description: qsTr("Let apps use advertising ID.")
-                        toggle: true
-                    }
+                SettingsCard {
+                    title: qsTr("Diagnostics")
+                    description: qsTr("Send optional diagnostic data.")
+                    toggle: true
+                    checked: true
+                }
+                SettingsCard {
+                    title: qsTr("Advertising ID")
+                    description: qsTr("Let apps use advertising ID.")
+                    toggle: true
                 }
             }
         }

@@ -20,6 +20,7 @@ This site is generated from QML source comments and shipped via GitHub Pages.
 | [WebView2](webview2.md) | Windows WebView2Host recipe (1.05) |
 | [CI smoke](ci-smoke.md) | Release Gallery `--smoke` gate (1.06) |
 | [Data collections](data-collections.md) | DataTable / ItemsView / ListDetailsView (1.07) |
+| [Forms & settings](forms.md) | FormLayout validation + settings recipes (1.08) |
 | [Qt Creator](qt-creator.md) | Open / build the CMake project |
 | [Qt version compat](qt-version-compat.md) | C++ shims for Qt 6.5 / 6.8 / 6.10+ |
 

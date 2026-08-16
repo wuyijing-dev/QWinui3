@@ -1,6 +1,6 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.07**  
+**Current:** **1.08**  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
 
 This plan starts from **what 1.00 already was**, then walks **small `1.xx` minors**. Stay on **1.xx for a long time**. **2.00 is not next**—only when we truly need breaking changes.
@@ -101,14 +101,9 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-### 1.08 — Forms & settings consistency
+### 1.08 — Forms & settings consistency (shipped)
 
-**Why:** `FormLayout` / headered fields / settings cards already there.
-
-- End-to-end validation / `errorMessage` patterns; align settings expanders/cards.
-- Short forms recipe doc.
-
-**Not in 1.08:** Brand theme editor; token rename breakages.
+**Shipped:** FormLayout `clearErrors`/`collectErrors` tree parity; HeaderedComboBox + RadioButtons `errorMessage` chrome; TokenizingTextBox `formBound`; SettingsExpander `header` / ColumnLayout host / `cornerRadius`; Gallery Form validation + combo error demos; [forms.md](docs/forms.md); product version `1.08`.
 
 ---
 

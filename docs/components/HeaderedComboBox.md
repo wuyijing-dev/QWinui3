@@ -4,7 +4,7 @@ ComboBox with header, description, and FormLayout binding.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/HeaderedComboBox.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/HeaderedComboBox.qml)
 
-**Category:** Input & forms · **Library:** v1.07
+**Category:** Input & forms · **Library:** v1.08
 
 [← Component index](../components.md)
 
@@ -28,8 +28,9 @@ HeaderedComboBox {
 
 ## Notes
 
-Label + ComboBox pair matching HeaderedTextBox. headerPlacement top|left;
-FormLayout may push labelWidth / fieldHeaderPlacement when formBound is true.
+Label + ComboBox pair matching HeaderedTextBox (error icon + critical underline).
+headerPlacement top|left; FormLayout may push labelWidth / fieldHeaderPlacement
+when formBound is true. See docs/forms.md.
 
 ## API
 

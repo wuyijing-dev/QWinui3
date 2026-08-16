@@ -4,7 +4,7 @@ Token chips + text input.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/TokenizingTextBox.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/TokenizingTextBox.qml)
 
-**Category:** Input & forms · **Library:** v1.07
+**Category:** Input & forms · **Library:** v1.08
 
 [← Component index](../components.md)
 
@@ -29,6 +29,7 @@ TokenizingTextBox {
 
 Token chips + trailing TextField; tokens: string[].
 addToken / removeToken / clear; suggestionModel for popup picks.
+formBound lets FormLayout host the field (docs/forms.md).
 
 ## API
 
@@ -49,6 +50,9 @@ addToken / removeToken / clear; suggestionModel for popup picks.
 | `header` | `string` | Header label above the control |
 | `description` | `string` | Supporting description text |
 | `errorMessage` | `string` | Validation error text |
+| `formBound` | `bool` | When true, FormLayout may push labelWidth / fieldHeaderPlacement |
+| `labelWidth` | `real` | — |
+| `headerPlacement` | `string` | — |
 | `hasError` | `bool` | True when validation failed |
 | `tokenCount` | `int` | Number of tokens |
 | `filteredSuggestions` | `var` | Suggestions matching the query |

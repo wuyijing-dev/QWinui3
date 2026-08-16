@@ -36,11 +36,11 @@ Style module (`QT_QUICK_CONTROLS_STYLE=QWinUI3`): treating **standard** `QtQuick
 | Type | Module | Notes |
 |------|--------|--------|
 | `SettingsCard` | Extras | `examples/settings-cards` |
-| `SettingsExpander` | Extras | Grouped settings |
+| `SettingsExpander` | Extras | `header` alias + ColumnLayout host (1.08) |
 | `SettingsView` | Extras | Settings page host |
 | `SettingsToggleCard` / `SettingsComboCard` / `SettingsSliderCard` | Extras | Common settings rows |
-| `FormLayout` | Extras | Form stack + field errors |
-| `HeaderedTextBox` / `HeaderedComboBox` | Extras | Labeled fields |
+| `FormLayout` | Extras | Form stack + field errors — [forms.md](forms.md) (1.08) |
+| `HeaderedTextBox` / `HeaderedComboBox` / `ValidationSummary` | Extras | `errorMessage` → `validate()` — [forms.md](forms.md) |
 
 ### Dialogs & feedback
 

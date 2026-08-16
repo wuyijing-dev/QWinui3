@@ -4,7 +4,7 @@ Vertical event timeline.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/Timeline.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/Timeline.qml)
 
-**Category:** Collections & data · **Library:** v1.07
+**Category:** Collections & data · **Library:** v1.08
 
 [← Component index](../components.md)
 

@@ -6,12 +6,12 @@ import QWinUI3.Extras
 
 // Gallery — Form validation.
 //
-// FormLayout + ValidationSummary with top/left headers, RadioButtons, DetailRow.
+// FormLayout + ValidationSummary: set errorMessage, then validate().
 
 CatalogPage {
     id: page
     title: qsTr("Form validation")
-    subtitle: qsTr("FormLayout pushes labelWidth to left-header fields; ValidationSummary lists errors.")
+    subtitle: qsTr("Imperative errorMessage → FormLayout.validate() → ValidationSummary.")
 
     overlay: ToastHost {
         id: toasts
@@ -21,7 +21,7 @@ CatalogPage {
 
     ControlExample {
         headerText: qsTr("Sign-up form (top headers)")
-        qmlSource: "FormLayout {\n    ValidationSummary { errors: form.errors }\n    HeaderedTextBox { … }\n    form.validate()\n}"
+        qmlSource: "field.errorMessage = …\nif (form.validate()) { … }"
 
         FormLayout {
             id: form
@@ -44,6 +44,14 @@ CatalogPage {
                 placeholderText: qsTr("alex@example.com")
             }
 
+            HeaderedComboBox {
+                id: regionField
+                header: qsTr("Region")
+                description: qsTr("Required for billing.")
+                model: [qsTr("Select…"), qsTr("Americas"), qsTr("EMEA"), qsTr("APAC")]
+                currentIndex: 0
+            }
+
             NumberBox {
                 id: ageField
                 header: qsTr("Age")
@@ -62,7 +70,7 @@ CatalogPage {
             RadioButtons {
                 id: planField
                 header: qsTr("Plan")
-                description: qsTr("Choose a subscription tier.")
+                description: qsTr("Free is not allowed in this demo.")
                 model: [qsTr("Free"), qsTr("Pro"), qsTr("Team")]
                 selectedIndex: 0
             }
@@ -85,10 +93,14 @@ CatalogPage {
                             nameField.errorMessage = qsTr("Enter at least 2 characters.")
                         if (emailField.text.indexOf("@") < 1)
                             emailField.errorMessage = qsTr("Enter a valid email.")
+                        if (regionField.currentIndex <= 0)
+                            regionField.errorMessage = qsTr("Choose a region.")
                         if (ageField.value < 18)
                             ageField.errorMessage = qsTr("You must be 18 or older.")
                         if (passwordField.text.length < 8)
                             passwordField.errorMessage = qsTr("Password must be at least 8 characters.")
+                        if (planField.selectedIndex === 0)
+                            planField.errorMessage = qsTr("Choose Pro or Team.")
                         if (form.validate())
                             toasts.successToast(qsTr("All fields passed validation."), qsTr("Looks good"))
                     }
@@ -115,6 +127,11 @@ CatalogPage {
                 header: qsTr("Server")
                 placeholderText: qsTr("api.example.com")
             }
+            HeaderedComboBox {
+                header: qsTr("Protocol")
+                model: [qsTr("HTTPS"), qsTr("HTTP")]
+                currentIndex: 0
+            }
             NumberBox {
                 header: qsTr("Port")
                 value: 443
@@ -128,7 +145,7 @@ CatalogPage {
             }
             DetailRow {
                 label: qsTr("Transport")
-                value: qsTr("HTTPS")
+                value: qsTr("TLS 1.3")
                 symbol: FluentIcons.Shop
                 labelWidth: leftForm.labelWidth
             }

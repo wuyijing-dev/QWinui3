@@ -25,11 +25,13 @@ import QWinUI3.Theme
 //   // methods: validate(), clearErrors(), collectErrors(), applyDefaults(), applyLabelWidth()
 //
 // @notes
-//   ColumnLayout host for HeaderedTextBox / HeaderedComboBox / NumberBox / PasswordBox / DetailRow.
+//   ColumnLayout host for HeaderedTextBox / HeaderedComboBox / NumberBox / PasswordBox /
+//   RadioButtons / TokenizingTextBox / DetailRow.
 //   Pushes labelWidth (+ optional fieldHeaderPlacement) onto children — fields do not
 //   walk parents. Set formBound: false on a field to opt out.
-//   validate() gathers non-empty errorMessage (and hasError) from descendants.
-//   Pair with ValidationSummary for a page-level error list.
+//   Apps set field.errorMessage, then validate() / collectErrors() read descendants
+//   (children + contentChildren). clearErrors() clears the same tree.
+//   Pair with ValidationSummary. See docs/forms.md.
 
 T.Control {
     id: root
@@ -141,6 +143,10 @@ T.Control {
             var kids = item.children || []
             for (var i = 0; i < kids.length; ++i)
                 clearItem(kids[i])
+            if (item.contentChildren) {
+                for (var j = 0; j < item.contentChildren.length; ++j)
+                    clearItem(item.contentChildren[j])
+            }
         }
         clearItem(body)
         errors = []

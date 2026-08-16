@@ -31,6 +31,18 @@ Recipe doc: [`data-collections.md`](data-collections.md).
 
 ---
 
+## Forms & settings (1.08)
+
+| Surface | Behavior |
+|---------|----------|
+| `FormLayout` | `clearErrors` walks the same tree as `collectErrors` |
+| Headered fields / `RadioButtons` | `errorMessage` in Accessible.description; combo matches text error chrome |
+| `SettingsExpander` | `header` alias; nested cards without wrapper |
+
+Recipe doc: [`forms.md`](forms.md).
+
+---
+
 ## Severity-tracked (not 1.02)
 
 | Item | Severity | Notes |

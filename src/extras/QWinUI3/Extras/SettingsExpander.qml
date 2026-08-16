@@ -19,6 +19,7 @@ import QWinUI3.Theme
 // @notes
 //   Expander styled as a settings group; header + nested SettingsCard children.
 //   Set toggle: true for a built-in Switch (same API as SettingsCard).
+//   Default children land in a ColumnLayout (no manual wrapper). See docs/forms.md.
 
 T.Control {
     id: control
@@ -27,6 +28,8 @@ T.Control {
 
     // Primary title text
     property string title: ""
+    // Alias of title (parity with SettingsCard / SettingsGroup)
+    property alias header: control.title
     // Supporting description text
     property string description: ""
     // FluentIcons symbol (preferred over iconGlyph)
@@ -51,7 +54,11 @@ T.Control {
     property alias toggleEnabled: toggleSwitch.enabled
     // Optional Switch text
     property alias toggleText: toggleSwitch.text
-    // Default children / content slot
+    // ElevatedChrome corner radius
+    property real cornerRadius: Theme.cornerCard
+    // Nested content spacing
+    property real contentSpacing: Theme.spacing
+    // Default children / content slot (ColumnLayout)
     default property alias contentData: contentHost.data
 
     // True while expanding
@@ -106,7 +113,7 @@ T.Control {
 
     background: ElevatedChrome {
         color: Theme.bgCard
-        radius: Theme.cornerCard
+        radius: control.cornerRadius
         borderWidth: control.activeFocus ? 2 : 1
         borderColor: control.activeFocus ? Theme.accent : Theme.strokeCard
         elevation: 2
@@ -237,7 +244,7 @@ T.Control {
             opacity: 0.85
         }
 
-        Item {
+        ColumnLayout {
             id: contentHost
             visible: control.expanded
             clip: true
@@ -246,8 +253,7 @@ T.Control {
             Layout.fillWidth: true
             Layout.topMargin: control._expandUp ? 0 : 8
             Layout.bottomMargin: control._expandUp ? 8 : 0
-            implicitHeight: childrenRect.height
-            implicitWidth: childrenRect.width
+            spacing: control.contentSpacing
             opacity: control.expanded ? 1 : 0
             Behavior on opacity {
                 enabled: !Theme.reducedMotion

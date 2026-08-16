@@ -1,6 +1,6 @@
 {
   "name": "QWinUI3",
-  "version": "1.07",
+  "version": "1.08",
   "generatedBy": "scripts/generate_component_docs.py",
   "publicCount": 208,
   "components": [
@@ -1440,7 +1440,7 @@
       "galleryPage": "pages/RadioButtonsPage.qml",
       "galleryTitle": "RadioButtons",
       "doc": "components/RadioButtons.md",
-      "propertyCount": 9,
+      "propertyCount": 14,
       "signalCount": 2,
       "methodCount": 1
     },
@@ -1650,7 +1650,7 @@
       "galleryPage": "pages/SettingsExpanderPage.qml",
       "galleryTitle": "SettingsExpander",
       "doc": "components/SettingsExpander.md",
-      "propertyCount": 15,
+      "propertyCount": 18,
       "signalCount": 3,
       "methodCount": 0
     },
@@ -2145,7 +2145,7 @@
       "galleryPage": "pages/TokenizingTextBoxPage.qml",
       "galleryTitle": "TokenizingTextBox",
       "doc": "components/TokenizingTextBox.md",
-      "propertyCount": 16,
+      "propertyCount": 19,
       "signalCount": 5,
       "methodCount": 4
     },

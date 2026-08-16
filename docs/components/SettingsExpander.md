@@ -4,7 +4,7 @@ Expandable settings group.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/SettingsExpander.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/SettingsExpander.qml)
 
-**Category:** Layout · **Library:** v1.07
+**Category:** Layout · **Library:** v1.08
 
 [← Component index](../components.md)
 
@@ -30,6 +30,7 @@ SettingsExpander {
 
 Expander styled as a settings group; header + nested SettingsCard children.
 Set toggle: true for a built-in Switch (same API as SettingsCard).
+Default children land in a ColumnLayout (no manual wrapper). See docs/forms.md.
 
 ## API
 
@@ -38,6 +39,7 @@ Set toggle: true for a built-in Switch (same API as SettingsCard).
 | Name | Type | Description |
 | --- | --- | --- |
 | `title` | `string` | Primary title text |
+| `header` | `alias` | Alias of title (parity with SettingsCard / SettingsGroup) |
 | `description` | `string` | Supporting description text |
 | `symbol` | `var` | FluentIcons symbol (preferred over iconGlyph) |
 | `iconGlyph` | `string` | Raw Fluent glyph string fallback |
@@ -50,7 +52,9 @@ Set toggle: true for a built-in Switch (same API as SettingsCard).
 | `checked` | `alias` | Switch checked state (when toggle is true) |
 | `toggleEnabled` | `alias` | Switch enabled (when toggle is true) |
 | `toggleText` | `alias` | Optional Switch text |
-| `contentData` | `alias` | Default children / content slot |
+| `cornerRadius` | `real` | ElevatedChrome corner radius |
+| `contentSpacing` | `real` | Nested content spacing |
+| `contentData` | `alias` | Default children / content slot (ColumnLayout) |
 | `effectiveHeaderIcon` | `string` | Resolved header icon |
 
 ### Signals

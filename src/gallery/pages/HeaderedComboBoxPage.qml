@@ -8,7 +8,7 @@ import QWinUI3.Extras
 
 CatalogPage {
     title: qsTr("HeaderedComboBox")
-    subtitle: qsTr("Labeled ComboBox with FormLayout labelWidth / headerPlacement push.")
+    subtitle: qsTr("Labeled ComboBox with FormLayout push and errorMessage chrome.")
 
     ControlExample {
         headerText: qsTr("Plan")
@@ -29,6 +29,29 @@ CatalogPage {
             header: qsTr("Region")
             headerPlacement: "left"
             model: [qsTr("Americas"), qsTr("EMEA"), qsTr("APAC")]
+        }
+    }
+    ControlExample {
+        headerText: qsTr("errorMessage")
+        qmlSource: "HeaderedComboBox { errorMessage: qsTr(\"Choose a plan.\") }"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            HeaderedComboBox {
+                id: errCombo
+                Layout.maximumWidth: 360
+                header: qsTr("Plan")
+                description: qsTr("Description hides while errored.")
+                model: [qsTr("Free"), qsTr("Pro"), qsTr("Team")]
+                currentIndex: 0
+                errorMessage: qsTr("Choose Pro or Team.")
+            }
+            Button {
+                flat: true
+                text: qsTr("Toggle error")
+                onClicked: errCombo.errorMessage = errCombo.errorMessage.length
+                           ? "" : qsTr("Choose Pro or Team.")
+            }
         }
     }
 }

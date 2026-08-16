@@ -18,6 +18,7 @@ import QWinUI3.Theme
 // @notes
 //   Token chips + trailing TextField; tokens: string[].
 //   addToken / removeToken / clear; suggestionModel for popup picks.
+//   formBound lets FormLayout host the field (docs/forms.md).
 
 T.Control {
     id: root
@@ -48,6 +49,10 @@ T.Control {
     property string description: ""
     // Validation error text
     property string errorMessage: ""
+    // When true, FormLayout may push labelWidth / fieldHeaderPlacement
+    property bool formBound: true
+    property real labelWidth: 120
+    property string headerPlacement: "top"
     // True when validation failed
     readonly property bool hasError: errorMessage.length > 0
     // Number of tokens

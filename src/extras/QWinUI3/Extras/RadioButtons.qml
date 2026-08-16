@@ -16,6 +16,7 @@ import QWinUI3.Theme
 // @notes
 //   Grouped RadioButton column/grid from model; selectedIndex / selectedItem.
 //   maxColumns wraps the grid (WinUI MaxColumns); horizontal=true is one row.
+//   errorMessage / hasError participate in FormLayout.validate() (docs/forms.md).
 
 T.Control {
     id: control
@@ -26,6 +27,12 @@ T.Control {
     property string header: ""
     // Supporting description text
     property string description: ""
+    // Validation error text (FormLayout collects this)
+    property string errorMessage: ""
+    // When true, FormLayout may push labelWidth / fieldHeaderPlacement
+    property bool formBound: true
+    property real labelWidth: 120
+    property string headerPlacement: "top"
     // Data model / item list for this control
     property var model: []
     // WinUI ItemsSource alias of model
@@ -44,6 +51,7 @@ T.Control {
             return null
         return model[currentIndex]
     }
+    readonly property bool hasError: errorMessage.length > 0
     // Selected state
     signal selected(int index, var item)
     // Selection changed
@@ -68,7 +76,7 @@ T.Control {
     activeFocusOnTab: true
     Accessible.role: Accessible.RadioButton
     Accessible.name: header.length ? header : qsTr("Options")
-    Accessible.description: description
+    Accessible.description: hasError ? errorMessage : description
     Keys.onUpPressed: select(Math.max(0, currentIndex - 1))
     Keys.onDownPressed: select(Math.min((model ? model.length : 1) - 1, currentIndex + 1))
     Keys.onLeftPressed: select(Math.max(0, currentIndex - 1))
@@ -102,7 +110,7 @@ T.Control {
             color: Theme.textPrimary
         }
         Text {
-            visible: control.description.length > 0
+            visible: control.description.length > 0 && !control.hasError
             Layout.fillWidth: true
             text: control.description
             font.family: control.font.family
@@ -150,8 +158,12 @@ T.Control {
                         background: Rectangle {
                             radius: Theme.cornerControl
                             color: radio.hovered || radio.checked ? Theme.fillSubtleSecondary : "transparent"
-                            border.width: (control.visualFocus && index === control.currentIndex) ? 1 : 0
-                            border.color: Theme.focusOuter
+                            border.width: {
+                                if (control.hasError && index === control.currentIndex)
+                                    return 1
+                                return (control.visualFocus && index === control.currentIndex) ? 1 : 0
+                            }
+                            border.color: control.hasError ? Theme.systemCritical : Theme.focusOuter
                             Behavior on color {
                                 enabled: !Theme.reducedMotion
                                 ColorAnimation { duration: Theme.duration(Theme.motionFast) }
@@ -171,6 +183,26 @@ T.Control {
                         wrapMode: Text.Wrap
                     }
                 }
+            }
+        }
+
+        RowLayout {
+            Layout.fillWidth: true
+            spacing: 4
+            visible: control.hasError
+            Text {
+                text: FluentIcons.Error
+                font.family: Theme.fontFamilyIcon
+                font.pixelSize: 12
+                color: Theme.systemCritical
+            }
+            Text {
+                Layout.fillWidth: true
+                text: control.errorMessage
+                font.family: control.font.family
+                font.pixelSize: Theme.fontCaption
+                color: Theme.systemCritical
+                wrapMode: Text.Wrap
             }
         }
     }
