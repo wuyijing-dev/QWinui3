@@ -4,6 +4,8 @@ QWinUI3 ships **~200** public types. Not all of them carry the same compatibilit
 
 This page is the **1.xx stable surface** for apps that copy from examples / Gallery. Types **not** listed as stable may still work and stay documented—they are simply **not** covered by the “no silent renames” promise until promoted here.
 
+**1.xx freeze gate (1.40):** [compatibility-1xx.md](compatibility-1xx.md) — Theme / shell / stable “will not break”.  
+**Consumer upgrades:** [upgrade-notes.md](upgrade-notes.md).  
 **Product version:** see `QWINUI3_VERSION` in root `CMakeLists.txt` (`X.YY`).  
 **How-to recipes:** [recipes.md](recipes.md).
 
@@ -13,7 +15,7 @@ This page is the **1.xx stable surface** for apps that copy from examples / Gall
 
 | Class | Promise |
 |-------|---------|
-| **Stable** | Prefer these in product apps. In 1.xx we avoid removing or silently renaming public properties/signals without a roadmap note and docs update. |
+| **Stable** | Prefer these in product apps. In 1.xx we avoid removing or silently renaming public properties/signals without a roadmap note and docs update. See also [compatibility-1xx.md](compatibility-1xx.md). |
 | **Experimental** | Usable, Gallery-backed when marked, but APIs may change in a later `1.xx` with docs callouts. |
 | **Won’t promote (for now)** | Explicitly deferred — see [1.37 defer list](#137-defer--wont-promote-for-now). Still usable; do not assume 1.xx rename freeze. |
 | **Internal / support** | Not for app import (see generated [components.md](components.md) “Internal” section). |
@@ -212,3 +214,4 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.37** | Promote sweep — commands / Flyout / TabView / ShellWindow / pickers / progress / FontIcon / ItemsRepeater; explicit defer list |
 | **1.38** | Linux Wayland field matrix — [platform-linux-wayland.md](platform-linux-wayland.md); Gallery System integration |
 | **1.39** | Gallery cold start — [performance.md](performance.md); NavigationView page cache / `--startup-log` |
+| **1.40** | 1.xx compatibility freeze — [compatibility-1xx.md](compatibility-1xx.md); [upgrade-notes.md](upgrade-notes.md) |

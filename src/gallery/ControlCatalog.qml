@@ -1209,7 +1209,7 @@ QtObject {
             title: qsTr("Pitfalls"),
             category: "layout",
             icon: FluentIcons.Warning,
-            description: qsTr("Anti-patterns: square fills and clip that break rounded borders."),
+            description: qsTr("Anti-patterns + 1.xx compatibility freeze gate (1.40) — docs/compatibility-1xx.md."),
             component: "PitfallsPage",
             source: "pages/PitfallsPage.qml"
         },
@@ -1425,6 +1425,7 @@ QtObject {
     // Curated “recently shipped” recipe pages (1.20) — not catalog array order.
     function recentlyShipped(count) {
         var ids = [
+            "PitfallsPage",           // 1.40 compatibility freeze
             "NavigationViewPage",     // 1.39 page cache / cold start
             "HomePage",               // 1.39 deferred card effects
             "SystemIntegrationPage",  // 1.38 Wayland matrix

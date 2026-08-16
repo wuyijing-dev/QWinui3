@@ -2,7 +2,8 @@
 
 LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stack. Generated **control** pages live under [Component API](components.md).
 
-**Stable API:** prefer types on [stable-api.md](stable-api.md). **1.37** promote / defer tables live there.
+**Stable API:** prefer types on [stable-api.md](stable-api.md). **1.37** promote / defer tables live there.  
+**1.xx freeze (1.40):** [compatibility-1xx.md](compatibility-1xx.md) · [upgrade-notes.md](upgrade-notes.md).
 
 ---
 
@@ -12,6 +13,8 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 |--------|-----------|
 | [Qt Creator](qt-creator.md) | Open root CMakeLists → Gallery or example (no `.pro`) |
 | [Consumer packaging](packaging-consumer.md) | Release zip / `add_subdirectory` / runtime |
+| [1.xx compatibility](compatibility-1xx.md) | Will-not-break Theme / shells / stable controls (1.40) |
+| [Upgrade notes](upgrade-notes.md) | Consumer checklist + template (1.40) |
 | [Qt version compat](qt-version-compat.md) | 6.5+ / 6.8 LTS / CI matrix |
 | [Conventions](conventions.md) | Radius, Accessible, Extras import |
 

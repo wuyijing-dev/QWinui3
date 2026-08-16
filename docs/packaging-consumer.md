@@ -1,6 +1,6 @@
 # Consumer packaging & CMake (1.12)
 
-End-to-end path for a **third-party app** on **Windows** and **Linux**. Prefer types in [stable-api.md](stable-api.md).
+End-to-end path for a **third-party app** on **Windows** and **Linux**. Prefer types in [stable-api.md](stable-api.md). Compatibility freeze: [compatibility-1xx.md](compatibility-1xx.md) · upgrades: [upgrade-notes.md](upgrade-notes.md) (**1.40**).
 
 **Open this monorepo in Qt Creator** (Gallery / examples — CMake only, no `.pro`): [qt-creator.md](qt-creator.md) (1.35).
 

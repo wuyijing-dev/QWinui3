@@ -102,6 +102,8 @@ nav:
     - Quality:
       - CI smoke: ci-smoke.md
       - Gallery CatalogPage: gallery-catalog-page.md
+      - 1.xx compatibility: compatibility-1xx.md
+      - Upgrade notes: upgrade-notes.md
   - Stable API: stable-api.md
   - Component API: components.md
   - Roadmap: roadmap.md

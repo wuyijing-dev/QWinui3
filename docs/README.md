@@ -10,6 +10,8 @@ Published site: **https://wuyijing-dev.github.io/QWinui3/**
 |-----|-------------|
 | [`index.md`](index.md) | Docs site home |
 | [`recipes.md`](recipes.md) | Recipe hub / MkDocs Recipes tab |
+| [`compatibility-1xx.md`](compatibility-1xx.md) | 1.xx will-not-break Theme / shells / stable (1.40) |
+| [`upgrade-notes.md`](upgrade-notes.md) | Consumer upgrade checklist + template (1.40) |
 | [`conventions.md`](conventions.md) | Radius/clip pitfalls, Accessible rules, Extras import rule |
 | [`gallery-catalog-page.md`](gallery-catalog-page.md) | Gallery `CatalogPage` host — **Item not Page**, footer/overlay slots |
 | [`webview2-future.md`](webview2-future.md) | Legacy redirect → [`webview2.md`](webview2.md) |

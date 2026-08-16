@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.39**
-**Next up:** **1.40** (Compatibility freeze prep)
+**Current:** **1.40**
+**Next up:** **1.41** (Drag-drop & clipboard recipes)
 **Planned through:** **1.50** (1.xx maturity checkpoint)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](qt-version-compat.md)
 
@@ -60,7 +60,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.39`
+## Shipped — `1.01` … `1.40`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -218,28 +218,9 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** NavigationView `pageCacheLimit` / LRU / `clearPageCache` / `initialPageTransition`; Gallery Home MultiEffect defer; `--startup-log` + timed `--smoke`; [performance.md](performance.md) cold-start budget; Settings page-cache card; smoke critical list sync; product version `1.39`.
 
----
+### 1.40 — Compatibility freeze prep (shipped)
 
-## Late path — planned `1.40`
-
-Still **1.xx**. Schedule after mid path is mostly done; order can flex.
-
-### 1.40 — Compatibility freeze prep
-
-**Why:** Before any future 2.00 talk, publish what 1.xx will keep compatible.
-
-**In scope**
-
-- “Will not break” contract for Theme tokens, shell APIs, and stable controls.
-- Consumer upgrade notes template; link from README/stable-api.
-
-**Out of scope**
-
-- Starting 2.00; cutting Qt floors.
-
-**Exit criteria**
-
-- Compatibility doc published; used as the gate for later 1.4x changes.
+**Shipped:** [compatibility-1xx.md](compatibility-1xx.md) will-not-break contract (Theme tokens, shell APIs, stable controls) + gate checklist for 1.41+; [upgrade-notes.md](upgrade-notes.md) consumer template + recent minors; stable-api / recipes / MkDocs / README / Gallery Pitfalls pointers; product version `1.40`.
 
 ---
 

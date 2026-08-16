@@ -7,12 +7,13 @@ import QWinUI3.Extras
 // Gallery — Common pitfalls / anti-patterns.
 //
 // Side-by-side wrong vs right patterns for radius, clip, and progress fills.
+// Compatibility freeze: docs/compatibility-1xx.md (1.40).
 
 CatalogPage {
     id: page
 
     title: qsTr("Pitfalls")
-    subtitle: qsTr("Anti-patterns that square rounded borders — see docs/conventions.md.")
+    subtitle: qsTr("Anti-patterns + 1.xx freeze gate — docs/conventions.md · docs/compatibility-1xx.md (1.40).")
 
     property real demoProgress: 0.65
 
@@ -24,6 +25,23 @@ CatalogPage {
             page.demoProgress += 0.004
             if (page.demoProgress > 1.05)
                 page.demoProgress = 0
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("1.xx compatibility (1.40)")
+        qmlSource: "// Prefer stable-api + frozen Theme / shell names\\n// docs/compatibility-1xx.md · docs/upgrade-notes.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Product apps should stick to types on docs/stable-api.md and Theme / shell names listed in docs/compatibility-1xx.md. Later 1.4x slices treat that freeze as a merge gate. Consumer upgrade checklist: docs/upgrade-notes.md. Experimental and deferred APIs may still move.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
         }
     }
 
