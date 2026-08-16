@@ -11,7 +11,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("RatingControl")
-    subtitle: qsTr("Fluent OutlineStar / FavoriteStarFill; drag to pick whole, half, or fine ratings.")
+    subtitle: qsTr("Fluent OutlineStar / FavoriteStarFill; drag or Tab+arrows (Home/End). Whole, half, or fine ratings.")
 
     property real liveValue: 3.5
 
