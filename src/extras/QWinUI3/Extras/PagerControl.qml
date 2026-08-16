@@ -41,10 +41,11 @@ T.Control {
     Accessible.description: qsTr("Page %1 of %2").arg(selectedIndex + 1).arg(numberOfPages)
 
     onSelectedIndexChanged: selectionChanged(selectedIndex)
-    Keys.onLeftPressed: goPrevious()
-    Keys.onRightPressed: goNext()
-    Keys.onUpPressed: goPrevious()
-    Keys.onDownPressed: goNext()
+    // Qt Keys has no onHomePressed / onEndPressed attached signals.
+    Keys.onLeftPressed: function (event) { goPrevious(); event.accepted = true }
+    Keys.onRightPressed: function (event) { goNext(); event.accepted = true }
+    Keys.onUpPressed: function (event) { goPrevious(); event.accepted = true }
+    Keys.onDownPressed: function (event) { goNext(); event.accepted = true }
     Keys.onPressed: function (event) {
         if (event.key === Qt.Key_Home) {
             select(0)

@@ -113,131 +113,142 @@ Popup {
         radius: Theme.cornerOverlay
     }
 
-    contentItem: ColumnLayout {
-        id: column
+    contentItem: Item {
+        id: chrome
+        implicitWidth: column.implicitWidth
+        implicitHeight: column.implicitHeight
         width: root.width
-        spacing: 0
+        height: column.implicitHeight
         Accessible.role: Accessible.Dialog
         Accessible.name: qsTr("Command palette")
 
-        RowLayout {
-            Layout.fillWidth: true
-            Layout.margins: Theme.spacing
-            spacing: Theme.spacing
+        ColumnLayout {
+            id: column
+            width: parent.width
+            spacing: 0
+
+            RowLayout {
+                Layout.fillWidth: true
+                Layout.margins: Theme.spacing
+                spacing: Theme.spacing
+
+                Label {
+                    text: IconSource.resolve(FluentIcons.Search, "")
+                    font.family: Theme.fontFamilyIcon
+                    font.pixelSize: Theme.fontBody
+                    color: Theme.textSecondary
+                }
+
+                TextField {
+                    id: queryField
+                    Layout.fillWidth: true
+                    placeholderText: root.placeholderText
+                    background: Item {}
+                    Accessible.name: qsTr("Command search")
+                    onTextChanged: root._rebuild(text)
+                    Keys.onPressed: function (event) {
+                        if (event.key === Qt.Key_Down) {
+                            root._move(1)
+                            event.accepted = true
+                        } else if (event.key === Qt.Key_Up) {
+                            root._move(-1)
+                            event.accepted = true
+                        } else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
+                            root._run(root._highlight)
+                            event.accepted = true
+                        } else if (event.key === Qt.Key_Escape) {
+                            root.close()
+                            event.accepted = true
+                        }
+                    }
+                }
+
+                KeyChordVisual {
+                    visible: !queryField.text.length
+                    shortcut: "Esc"
+                }
+            }
+
+            Rectangle {
+                Layout.fillWidth: true
+                height: 1
+                color: Theme.strokeCard
+            }
+
+            ListView {
+                id: list
+                Layout.fillWidth: true
+                Layout.preferredHeight: Math.min(root.maxVisible, Math.max(1, root._filtered.length))
+                                       * Theme.navItemHeight
+                clip: true
+                model: root._filtered
+                currentIndex: root._highlight
+                boundsBehavior: Flickable.StopAtBounds
+                Accessible.role: Accessible.List
+                Accessible.name: qsTr("Commands")
+
+                delegate: ItemDelegate {
+                    id: del
+                    required property var modelData
+                    required property int index
+                    width: ListView.view.width
+                    height: Theme.navItemHeight
+                    highlighted: index === root._highlight
+                    onClicked: root._run(index)
+                    onHoveredChanged: if (hovered) root._highlight = index
+
+                    contentItem: RowLayout {
+                        spacing: Theme.spacing
+                        Label {
+                            visible: IconSource.resolve(del.modelData.symbol, del.modelData.iconGlyph || "").length > 0
+                            text: IconSource.resolve(del.modelData.symbol, del.modelData.iconGlyph || "")
+                            font.family: Theme.fontFamilyIcon
+                            font.pixelSize: Theme.fontBody
+                            color: Theme.textSecondary
+                        }
+                        ColumnLayout {
+                            Layout.fillWidth: true
+                            spacing: 0
+                            Label {
+                                Layout.fillWidth: true
+                                text: del.modelData.title || del.modelData.text || ""
+                                elide: Text.ElideRight
+                                color: Theme.textPrimary
+                                font.weight: Theme.fontWeightSemiBold
+                            }
+                            Label {
+                                visible: !!(del.modelData.subtitle || del.modelData.description)
+                                Layout.fillWidth: true
+                                text: del.modelData.subtitle || del.modelData.description || ""
+                                elide: Text.ElideRight
+                                color: Theme.textSecondary
+                                font.pixelSize: Theme.fontCaption
+                            }
+                        }
+                        KeyChordVisual {
+                            visible: !!(del.modelData.shortcut)
+                            shortcut: del.modelData.shortcut || ""
+                        }
+                    }
+                }
+
+                EmptyState {
+                    anchors.centerIn: parent
+                    visible: root._filtered.length === 0
+                    title: qsTr("No commands")
+                    description: qsTr("Try a different query.")
+                    symbol: FluentIcons.Search
+                }
+            }
 
             Label {
-                text: IconSource.resolve(FluentIcons.Search, "")
-                font.family: Theme.fontFamilyIcon
-                font.pixelSize: Theme.fontBody
-                color: Theme.textSecondary
-            }
-
-            TextField {
-                id: queryField
                 Layout.fillWidth: true
-                placeholderText: root.placeholderText
-                background: Item {}
-                onTextChanged: root._rebuild(text)
-                Keys.onPressed: function (event) {
-                    if (event.key === Qt.Key_Down) {
-                        root._move(1)
-                        event.accepted = true
-                    } else if (event.key === Qt.Key_Up) {
-                        root._move(-1)
-                        event.accepted = true
-                    } else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
-                        root._run(root._highlight)
-                        event.accepted = true
-                    } else if (event.key === Qt.Key_Escape) {
-                        root.close()
-                        event.accepted = true
-                    }
-                }
+                Layout.margins: Theme.spacing
+                text: qsTr("↑↓ navigate · Enter run · Esc close")
+                color: Theme.textSecondary
+                font.pixelSize: Theme.fontCaption
+                horizontalAlignment: Text.AlignHCenter
             }
-
-            KeyChordVisual {
-                visible: !queryField.text.length
-                shortcut: "Esc"
-            }
-        }
-
-        Rectangle {
-            Layout.fillWidth: true
-            height: 1
-            color: Theme.strokeCard
-        }
-
-        ListView {
-            id: list
-            Layout.fillWidth: true
-            Layout.preferredHeight: Math.min(root.maxVisible, Math.max(1, root._filtered.length))
-                                   * Theme.navItemHeight
-            clip: true
-            model: root._filtered
-            currentIndex: root._highlight
-            boundsBehavior: Flickable.StopAtBounds
-
-            delegate: ItemDelegate {
-                id: del
-                required property var modelData
-                required property int index
-                width: ListView.view.width
-                height: Theme.navItemHeight
-                highlighted: index === root._highlight
-                onClicked: root._run(index)
-                onHoveredChanged: if (hovered) root._highlight = index
-
-                contentItem: RowLayout {
-                    spacing: Theme.spacing
-                    Label {
-                        visible: IconSource.resolve(del.modelData.symbol, del.modelData.iconGlyph || "").length > 0
-                        text: IconSource.resolve(del.modelData.symbol, del.modelData.iconGlyph || "")
-                        font.family: Theme.fontFamilyIcon
-                        font.pixelSize: Theme.fontBody
-                        color: Theme.textSecondary
-                    }
-                    ColumnLayout {
-                        Layout.fillWidth: true
-                        spacing: 0
-                        Label {
-                            Layout.fillWidth: true
-                            text: del.modelData.title || del.modelData.text || ""
-                            elide: Text.ElideRight
-                            color: Theme.textPrimary
-                            font.weight: Theme.fontWeightSemiBold
-                        }
-                        Label {
-                            visible: !!(del.modelData.subtitle || del.modelData.description)
-                            Layout.fillWidth: true
-                            text: del.modelData.subtitle || del.modelData.description || ""
-                            elide: Text.ElideRight
-                            color: Theme.textSecondary
-                            font.pixelSize: Theme.fontCaption
-                        }
-                    }
-                    KeyChordVisual {
-                        visible: !!(del.modelData.shortcut)
-                        shortcut: del.modelData.shortcut || ""
-                    }
-                }
-            }
-
-            EmptyState {
-                anchors.centerIn: parent
-                visible: root._filtered.length === 0
-                title: qsTr("No commands")
-                description: qsTr("Try a different query.")
-                symbol: FluentIcons.Search
-            }
-        }
-
-        Label {
-            Layout.fillWidth: true
-            Layout.margins: Theme.spacing
-            text: qsTr("↑↓ navigate · Enter run · Esc close")
-            color: Theme.textSecondary
-            font.pixelSize: Theme.fontCaption
-            horizontalAlignment: Text.AlignHCenter
         }
     }
 
