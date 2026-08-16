@@ -8,82 +8,62 @@ import QWinUI3.Extras
 //
 // fillMode discrete|partial; tap segments when isInteractive. API: docs/components/SegmentedGauge.md
 
-Page {
-    padding: 0
-    ScrollView {
-        id: scroll
-        anchors.fill: parent
-        contentWidth: availableWidth
-        clip: true
+CatalogPage {
+    title: qsTr("SegmentedGauge")
+    subtitle: qsTr("fillMode discrete|partial; tap segments when isInteractive.")
+
+    ControlExample {
+        headerText: qsTr("Discrete + partial")
+        qmlSource: "SegmentedGauge {\n    fillMode: \"partial\"\n    isInteractive: true\n}"
         ColumnLayout {
-            width: scroll.availableWidth
-            spacing: Theme.spacingSection
-            PageHeader {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                Layout.topMargin: Theme.spacingSection
-                title: qsTr("SegmentedGauge")
-                subtitle: qsTr("fillMode discrete|partial; tap segments when isInteractive.")
-            }
-            ControlExample {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                headerText: qsTr("Discrete + partial")
-                qmlSource: "SegmentedGauge {\n    fillMode: \"partial\"\n    isInteractive: true\n}"
-                ColumnLayout {
-                    spacing: Theme.spacingLoose
-                    RowLayout {
-                        Label { text: qsTr("Fill mode"); color: Theme.textSecondary }
-                        ComboBox {
-                            id: modeBox
-                            model: ["discrete", "partial"]
-                            currentIndex: 1
-                            Layout.preferredWidth: 140
-                        }
-                    }
-                    RowLayout {
-                        spacing: Theme.spacingSection
-                        SegmentedGauge {
-                            id: steps
-                            width: 148
-                            height: 148
-                            title: qsTr("Steps")
-                            value: 8.4
-                            maximum: 12
-                            segmentCount: 12
-                            fillMode: modeBox.currentText
-                            isInteractive: true
-                            caption: qsTr("%1 / 12").arg(Number(steps.value).toFixed(1))
-                            cautionThreshold: 0.75
-                            criticalThreshold: 0.92
-                            onSegmentClicked: function (i) {
-                                segMsg.text = qsTr("segmentClicked: %1").arg(i)
-                            }
-                        }
-                        SegmentedGauge {
-                            width: 120
-                            height: 120
-                            title: qsTr("Quota")
-                            value: 7
-                            maximum: 10
-                            segmentCount: 10
-                            gapDegrees: 8
-                            fillMode: "discrete"
-                            isInteractive: true
-                            fillColor: Theme.systemAttention
-                            caption: qsTr("7 / 10")
-                        }
-                    }
-                    Label {
-                        id: segMsg
-                        text: qsTr("Tap a segment")
-                        color: Theme.textSecondary
-                    }
+            spacing: Theme.spacingLoose
+            RowLayout {
+                Label { text: qsTr("Fill mode"); color: Theme.textSecondary }
+                ComboBox {
+                    id: modeBox
+                    model: ["discrete", "partial"]
+                    currentIndex: 1
+                    Layout.preferredWidth: 140
                 }
             }
-            Item { Layout.preferredHeight: Theme.spacingSection; Layout.fillWidth: true }
+            RowLayout {
+                spacing: Theme.spacingSection
+                SegmentedGauge {
+                    id: steps
+                    width: 148
+                    height: 148
+                    title: qsTr("Steps")
+                    value: 8.4
+                    maximum: 12
+                    segmentCount: 12
+                    fillMode: modeBox.currentText
+                    isInteractive: true
+                    caption: qsTr("%1 / 12").arg(Number(steps.value).toFixed(1))
+                    cautionThreshold: 0.75
+                    criticalThreshold: 0.92
+                    onSegmentClicked: function (i) {
+                        segMsg.text = qsTr("segmentClicked: %1").arg(i)
+                    }
+                }
+                SegmentedGauge {
+                    width: 120
+                    height: 120
+                    title: qsTr("Quota")
+                    value: 7
+                    maximum: 10
+                    segmentCount: 10
+                    gapDegrees: 8
+                    fillMode: "discrete"
+                    isInteractive: true
+                    fillColor: Theme.systemAttention
+                    caption: qsTr("7 / 10")
+                }
+            }
+            Label {
+                id: segMsg
+                text: qsTr("Tap a segment")
+                color: Theme.textSecondary
+            }
         }
     }
 }

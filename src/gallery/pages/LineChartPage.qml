@@ -8,9 +8,10 @@ import QWinUI3.Extras
 //
 // Pixel LOD for million-point series, hover crosshair, and empty state. API: docs/components/LineChart.md
 
-Page {
+CatalogPage {
     id: page
-    padding: 0
+    title: qsTr("LineChart")
+    subtitle: qsTr("Pixel LOD for million-point series, hover crosshair, and empty state.")
 
     property var liveA: []
     property var liveB: []
@@ -63,139 +64,108 @@ Page {
         return a
     }
 
-    ScrollView {
-        id: scroll
-        anchors.fill: parent
-        contentWidth: availableWidth
-        clip: true
+    ControlExample {
+        headerText: qsTr("Interactive multi-series")
+        qmlSource: "LineChart {\n    title: \"Traffic\"\n    interactive: true\n}"
         ColumnLayout {
-            width: scroll.availableWidth
-            spacing: Theme.spacingSection
-
-            PageHeader {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Label {
                 Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                Layout.topMargin: Theme.spacingSection
-                title: qsTr("LineChart")
-                subtitle: qsTr("Pixel LOD for million-point series, hover crosshair, and empty state.")
+                wrapMode: Text.Wrap
+                color: Theme.textSecondary
+                text: qsTr("Move the pointer across the plot to read series values.")
             }
-
-            ControlExample {
+            LineChart {
+                id: multiLine
                 Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                headerText: qsTr("Interactive multi-series")
-                qmlSource: "LineChart {\n    title: \"Traffic\"\n    interactive: true\n}"
-                ColumnLayout {
+                Layout.preferredHeight: 240
+                title: qsTr("Traffic")
+                showArea: true
+                interactive: true
+                showLegend: true
+                series: [
+                    { name: qsTr("Inbound"), values: page.lineA, color: Theme.accent, filled: true },
+                    { name: qsTr("Outbound"), values: page.lineB, color: Theme.systemSuccess, filled: false }
+                ]
+            }
+            Button {
+                text: qsTr("Replay reveal")
+                onClicked: multiLine.playReveal()
+            }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Live stream")
+        qmlSource: "LineChart { series: liveBuffers }"
+        LineChart {
+            Layout.fillWidth: true
+            Layout.preferredHeight: 180
+            animated: false
+            showArea: true
+            showLegend: true
+            series: [
+                { name: qsTr("CPU"), values: page.liveA, color: Theme.accent, filled: true },
+                { name: qsTr("Mem"), values: page.liveB, color: Theme.systemCaution, filled: false }
+            ]
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Million-point LOD")
+        qmlSource: "ChartSeries { id: s }\nLineChart { values: s }"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.Wrap
+                color: Theme.textSecondary
+                text: qsTr("全部 100 万点已加载到内存。界面只画约「宽度×2」个包络采样（例如 900px ≈ 1.8k），这是像素级 LOD，不是只加载了 1.8k。悬停用 overlay，不再重绘 Canvas。")
+            }
+            LineChart {
+                id: megaLine
+                Layout.fillWidth: true
+                Layout.preferredHeight: 240
+                title: qsTr("1M samples (full range)")
+                showArea: false
+                showLegend: false
+                interactive: true
+                animated: false
+                values: megaSeries
+            }
+            RowLayout {
+                Label {
                     Layout.fillWidth: true
-                    spacing: Theme.spacing
-                    Label {
-                        Layout.fillWidth: true
-                        wrapMode: Text.Wrap
-                        color: Theme.textSecondary
-                        text: qsTr("Move the pointer across the plot to read series values.")
+                    color: Theme.textSecondary
+                    text: megaSeries.count
+                          ? qsTr("已加载 %1 · 屏幕采样 %2 · %3")
+                                .arg(ChartUtils.formatCount(megaSeries.count))
+                                .arg(ChartUtils.formatCount(megaLine.drawnPointCount))
+                                .arg(page.megaStatus)
+                          : page.megaStatus
+                }
+                Button {
+                    text: megaSeries.count ? qsTr("Reload 1M") : qsTr("Load 1M points")
+                    onClicked: {
+                        page.megaStatus = qsTr("generating…")
+                        Qt.callLater(function () {
+                            var t0 = Date.now()
+                            megaSeries.generateWave(1000000)
+                            page.megaStatus = qsTr("ready in %1 ms").arg(Date.now() - t0)
+                        })
                     }
-                    LineChart {
-                        id: multiLine
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 240
-                        title: qsTr("Traffic")
-                        showArea: true
-                        interactive: true
-                        showLegend: true
-                        series: [
-                            { name: qsTr("Inbound"), values: page.lineA, color: Theme.accent, filled: true },
-                            { name: qsTr("Outbound"), values: page.lineB, color: Theme.systemSuccess, filled: false }
-                        ]
-                    }
-                    Button {
-                        text: qsTr("Replay reveal")
-                        onClicked: multiLine.playReveal()
+                }
+                Button {
+                    text: qsTr("Clear")
+                    enabled: megaSeries.count > 0
+                    onClicked: {
+                        megaSeries.clear()
+                        page.megaStatus = qsTr("Cleared")
                     }
                 }
             }
-
-            ControlExample {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                headerText: qsTr("Live stream")
-                qmlSource: "LineChart { series: liveBuffers }"
-                LineChart {
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: 180
-                    animated: false
-                    showArea: true
-                    showLegend: true
-                    series: [
-                        { name: qsTr("CPU"), values: page.liveA, color: Theme.accent, filled: true },
-                        { name: qsTr("Mem"), values: page.liveB, color: Theme.systemCaution, filled: false }
-                    ]
-                }
-            }
-
-            ControlExample {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                headerText: qsTr("Million-point LOD")
-                qmlSource: "ChartSeries { id: s }\nLineChart { values: s }"
-                ColumnLayout {
-                    Layout.fillWidth: true
-                    spacing: Theme.spacing
-                    Label {
-                        Layout.fillWidth: true
-                        wrapMode: Text.Wrap
-                        color: Theme.textSecondary
-                        text: qsTr("全部 100 万点已加载到内存。界面只画约「宽度×2」个包络采样（例如 900px ≈ 1.8k），这是像素级 LOD，不是只加载了 1.8k。悬停用 overlay，不再重绘 Canvas。")
-                    }
-                    LineChart {
-                        id: megaLine
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 240
-                        title: qsTr("1M samples (full range)")
-                        showArea: false
-                        showLegend: false
-                        interactive: true
-                        animated: false
-                        values: megaSeries
-                    }
-                    RowLayout {
-                        Label {
-                            Layout.fillWidth: true
-                            color: Theme.textSecondary
-                            text: megaSeries.count
-                                  ? qsTr("已加载 %1 · 屏幕采样 %2 · %3")
-                                        .arg(ChartUtils.formatCount(megaSeries.count))
-                                        .arg(ChartUtils.formatCount(megaLine.drawnPointCount))
-                                        .arg(page.megaStatus)
-                                  : page.megaStatus
-                        }
-                        Button {
-                            text: megaSeries.count ? qsTr("Reload 1M") : qsTr("Load 1M points")
-                            onClicked: {
-                                page.megaStatus = qsTr("generating…")
-                                Qt.callLater(function () {
-                                    var t0 = Date.now()
-                                    megaSeries.generateWave(1000000)
-                                    page.megaStatus = qsTr("ready in %1 ms").arg(Date.now() - t0)
-                                })
-                            }
-                        }
-                        Button {
-                            text: qsTr("Clear")
-                            enabled: megaSeries.count > 0
-                            onClicked: {
-                                megaSeries.clear()
-                                page.megaStatus = qsTr("Cleared")
-                            }
-                        }
-                    }
-                }
-            }
-
-            Item { Layout.preferredHeight: Theme.spacingSection; Layout.fillWidth: true }
         }
     }
 }

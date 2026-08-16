@@ -8,8 +8,9 @@ import QWinUI3.Extras
 //
 // Headered multi-view with Fluent symbols, keyboard arrows, and Component pages. API: docs/components/Pivot.md
 
-Page {
-    padding: 0
+CatalogPage {
+    title: qsTr("Pivot")
+    subtitle: qsTr("Headered multi-view with Fluent symbols, keyboard arrows, and Component pages.")
 
     Component {
         id: homePage
@@ -43,69 +44,47 @@ Page {
         }
     }
 
-    ScrollView {
-        id: scroll
-        anchors.fill: parent
-        contentWidth: availableWidth
-        clip: true
+    ControlExample {
+        headerText: qsTr("Pages + keyboard")
+        qmlSource: "Pivot {\n    leftHeader: …\n    rightHeader: …\n}"
         ColumnLayout {
-            width: scroll.availableWidth
-            spacing: Theme.spacingSection
-            PageHeader {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Pivot {
+                id: pivot
                 Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                Layout.topMargin: Theme.spacingSection
-                title: qsTr("Pivot")
-                subtitle: qsTr("Headered multi-view with Fluent symbols, keyboard arrows, and Component pages.")
-            }
-            ControlExample {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                headerText: qsTr("Pages + keyboard")
-                qmlSource: "Pivot {\n    leftHeader: …\n    rightHeader: …\n}"
-                ColumnLayout {
-                    Layout.fillWidth: true
-                    spacing: Theme.spacing
-                    Pivot {
-                        id: pivot
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 260
-                        focus: true
-                        model: [
-                            { title: qsTr("Home"), symbol: FluentIcons.Home, page: homePage },
-                            { title: qsTr("Recent"), symbol: FluentIcons.History, page: recentPage },
-                            { title: qsTr("Shared"), symbol: FluentIcons.Share, content: qsTr("Items shared with you.") }
-                        ]
-                        leftHeader: Button {
-                            flat: true
-                            text: FluentIcons.Back
-                            font.family: Theme.fontFamilyIcon
-                            Accessible.name: qsTr("Back")
-                            onClicked: status.text = qsTr("LeftHeader: Back")
-                        }
-                        rightHeader: Button {
-                            flat: true
-                            text: FluentIcons.More
-                            font.family: Theme.fontFamilyIcon
-                            Accessible.name: qsTr("More")
-                            onClicked: status.text = qsTr("RightHeader: More")
-                        }
-                        onSelectionChanged: function (index) {
-                            var item = pivot.selectedItem
-                            var title = item && item.title !== undefined ? item.title : String(item)
-                            status.text = qsTr("Selected index %1 · %2").arg(index).arg(title)
-                        }
-                    }
-                    Label {
-                        id: status
-                        text: qsTr("Focus the Pivot and use ← → to change tabs.")
-                        color: Theme.textSecondary
-                    }
+                Layout.preferredHeight: 260
+                focus: true
+                model: [
+                    { title: qsTr("Home"), symbol: FluentIcons.Home, page: homePage },
+                    { title: qsTr("Recent"), symbol: FluentIcons.History, page: recentPage },
+                    { title: qsTr("Shared"), symbol: FluentIcons.Share, content: qsTr("Items shared with you.") }
+                ]
+                leftHeader: Button {
+                    flat: true
+                    text: FluentIcons.Back
+                    font.family: Theme.fontFamilyIcon
+                    Accessible.name: qsTr("Back")
+                    onClicked: status.text = qsTr("LeftHeader: Back")
+                }
+                rightHeader: Button {
+                    flat: true
+                    text: FluentIcons.More
+                    font.family: Theme.fontFamilyIcon
+                    Accessible.name: qsTr("More")
+                    onClicked: status.text = qsTr("RightHeader: More")
+                }
+                onSelectionChanged: function (index) {
+                    var item = pivot.selectedItem
+                    var title = item && item.title !== undefined ? item.title : String(item)
+                    status.text = qsTr("Selected index %1 · %2").arg(index).arg(title)
                 }
             }
-            Item { Layout.preferredHeight: Theme.spacingSection; Layout.fillWidth: true }
+            Label {
+                id: status
+                text: qsTr("Focus the Pivot and use ← → to change tabs.")
+                color: Theme.textSecondary
+            }
         }
     }
 }

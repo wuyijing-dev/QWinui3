@@ -8,9 +8,10 @@ import QWinUI3.Extras
 //
 // KPI bullets with targetMet, showTargetDelta, unit, and setValue(). API: docs/components/BulletChart.md
 
-Page {
+CatalogPage {
     id: page
-    padding: 0
+    title: qsTr("BulletChart")
+    subtitle: qsTr("KPI bullets with targetMet, showTargetDelta, unit, and setValue().")
 
     property real revenue: 72
     property real satisfaction: 88
@@ -27,71 +28,46 @@ Page {
         }
     }
 
-    ScrollView {
-        id: scroll
-        anchors.fill: parent
-        contentWidth: availableWidth
-        clip: true
+    ControlExample {
+        headerText: qsTr("Live KPIs")
+        qmlSource: "BulletChart {\n    unit: \"%\"\n    target: 80\n}"
         ColumnLayout {
-            width: scroll.availableWidth
-            spacing: Theme.spacingSection
-
-            PageHeader {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            BulletChart {
                 Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                Layout.topMargin: Theme.spacingSection
-                title: qsTr("BulletChart")
-                subtitle: qsTr("KPI bullets with targetMet, showTargetDelta, unit, and setValue().")
+                label: qsTr("Revenue")
+                value: page.revenue
+                target: 80
+                maximum: 100
+                unit: "%"
+                showTargetDelta: true
+                ranges: [0.5, 0.75, 1]
             }
-
-            ControlExample {
+            BulletChart {
                 Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                headerText: qsTr("Live KPIs")
-                qmlSource: "BulletChart {\n    unit: \"%\"\n    target: 80\n}"
-                ColumnLayout {
-                    Layout.fillWidth: true
-                    spacing: Theme.spacing
-                    BulletChart {
-                        Layout.fillWidth: true
-                        label: qsTr("Revenue")
-                        value: page.revenue
-                        target: 80
-                        maximum: 100
-                        unit: "%"
-                        showTargetDelta: true
-                        ranges: [0.5, 0.75, 1]
-                    }
-                    BulletChart {
-                        Layout.fillWidth: true
-                        label: qsTr("Satisfaction")
-                        value: page.satisfaction
-                        target: 85
-                        maximum: 100
-                        unit: "%"
-                        ranges: [0.4, 0.7, 1]
-                    }
-                    BulletChart {
-                        id: latencyBullet
-                        Layout.fillWidth: true
-                        label: qsTr("Latency")
-                        value: page.latency
-                        target: 50
-                        maximum: 100
-                        unit: " ms"
-                        showTarget: true
-                        ranges: [0.35, 0.65, 1]
-                    }
-                    Button {
-                        text: qsTr("Set latency 30")
-                        onClicked: latencyBullet.setValue(30)
-                    }
-                }
+                label: qsTr("Satisfaction")
+                value: page.satisfaction
+                target: 85
+                maximum: 100
+                unit: "%"
+                ranges: [0.4, 0.7, 1]
             }
-
-            Item { Layout.preferredHeight: Theme.spacingSection; Layout.fillWidth: true }
+            BulletChart {
+                id: latencyBullet
+                Layout.fillWidth: true
+                label: qsTr("Latency")
+                value: page.latency
+                target: 50
+                maximum: 100
+                unit: " ms"
+                showTarget: true
+                ranges: [0.35, 0.65, 1]
+            }
+            Button {
+                text: qsTr("Set latency 30")
+                onClicked: latencyBullet.setValue(30)
+            }
         }
     }
 }

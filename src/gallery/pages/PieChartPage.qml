@@ -8,9 +8,11 @@ import QWinUI3.Extras
 //
 // Interactive pie with title, selectedIndex, and synchronized legend. API: docs/components/PieChart.md
 
-Page {
+CatalogPage {
     id: page
-    padding: 0
+    title: qsTr("PieChart")
+    subtitle: qsTr("Interactive pie with title, selectedIndex, and synchronized legend.")
+
     property string status: qsTr("Hover a slice")
 
     property var slices: [
@@ -20,58 +22,33 @@ Page {
         { value: 16, label: qsTr("Other"), color: Theme.systemCritical }
     ]
 
-    ScrollView {
-        id: scroll
-        anchors.fill: parent
-        contentWidth: availableWidth
-        clip: true
+    ControlExample {
+        headerText: qsTr("Workload mix")
+        qmlSource: "PieChart {\n    title: \"Workload\"\n    interactive: true\n}"
         ColumnLayout {
-            width: scroll.availableWidth
-            spacing: Theme.spacingSection
-
-            PageHeader {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            PieChart {
+                id: pie
                 Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                Layout.topMargin: Theme.spacingSection
-                title: qsTr("PieChart")
-                subtitle: qsTr("Interactive pie with title, selectedIndex, and synchronized legend.")
-            }
-
-            ControlExample {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                headerText: qsTr("Workload mix")
-                qmlSource: "PieChart {\n    title: \"Workload\"\n    interactive: true\n}"
-                ColumnLayout {
-                    Layout.fillWidth: true
-                    spacing: Theme.spacing
-                    PieChart {
-                        id: pie
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 220
-                        title: qsTr("Workload")
-                        slices: page.slices
-                        onSliceClicked: (index, value) => {
-                            page.status = qsTr("%1 → %2").arg(page.slices[index].label).arg(value)
-                        }
-                    }
-                    RowLayout {
-                        Label {
-                            Layout.fillWidth: true
-                            color: Theme.textSecondary
-                            text: page.status
-                        }
-                        Button {
-                            text: qsTr("Replay")
-                            onClicked: pie.playReveal()
-                        }
-                    }
+                Layout.preferredHeight: 220
+                title: qsTr("Workload")
+                slices: page.slices
+                onSliceClicked: (index, value) => {
+                    page.status = qsTr("%1 → %2").arg(page.slices[index].label).arg(value)
                 }
             }
-
-            Item { Layout.preferredHeight: Theme.spacingSection; Layout.fillWidth: true }
+            RowLayout {
+                Label {
+                    Layout.fillWidth: true
+                    color: Theme.textSecondary
+                    text: page.status
+                }
+                Button {
+                    text: qsTr("Replay")
+                    onClicked: pie.playReveal()
+                }
+            }
         }
     }
 }

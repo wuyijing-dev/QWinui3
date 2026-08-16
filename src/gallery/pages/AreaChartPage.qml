@@ -8,9 +8,10 @@ import QWinUI3.Extras
 //
 // Filled areas with legend, hover crosshair, and stacked mode. API: docs/components/AreaChart.md
 
-Page {
+CatalogPage {
     id: page
-    padding: 0
+    title: qsTr("AreaChart")
+    subtitle: qsTr("Filled areas with legend, hover crosshair, and stacked mode.")
 
     readonly property var areaA: {
         var a = []
@@ -31,72 +32,44 @@ Page {
         return a
     }
 
-    ScrollView {
-        id: scroll
-        anchors.fill: parent
-        contentWidth: availableWidth
-        clip: true
+    ControlExample {
+        headerText: qsTr("Interactive areas")
+        qmlSource: "AreaChart {\n    title: \"Throughput\"\n    interactive: true\n}"
         ColumnLayout {
-            width: scroll.availableWidth
-            spacing: Theme.spacingSection
-
-            PageHeader {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            AreaChart {
+                id: areas
                 Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                Layout.topMargin: Theme.spacingSection
-                title: qsTr("AreaChart")
-                subtitle: qsTr("Filled areas with legend, hover crosshair, and stacked mode.")
+                Layout.preferredHeight: 240
+                title: qsTr("Throughput")
+                showLegend: true
+                interactive: true
+                series: [
+                    { name: qsTr("Inbound"), values: page.areaA, color: Theme.accent },
+                    { name: qsTr("Outbound"), values: page.areaB, color: Theme.systemSuccess }
+                ]
             }
-
-            ControlExample {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                headerText: qsTr("Interactive areas")
-                qmlSource: "AreaChart {\n    title: \"Throughput\"\n    interactive: true\n}"
-                ColumnLayout {
-                    Layout.fillWidth: true
-                    spacing: Theme.spacing
-                    AreaChart {
-                        id: areas
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 240
-                        title: qsTr("Throughput")
-                        showLegend: true
-                        interactive: true
-                        series: [
-                            { name: qsTr("Inbound"), values: page.areaA, color: Theme.accent },
-                            { name: qsTr("Outbound"), values: page.areaB, color: Theme.systemSuccess }
-                        ]
-                    }
-                    Button {
-                        text: qsTr("Replay reveal")
-                        onClicked: areas.playReveal()
-                    }
-                }
+            Button {
+                text: qsTr("Replay reveal")
+                onClicked: areas.playReveal()
             }
+        }
+    }
 
-            ControlExample {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                headerText: qsTr("Stacked")
-                qmlSource: "AreaChart { stacked: true }"
-                AreaChart {
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: 180
-                    stacked: true
-                    showLegend: true
-                    series: [
-                        { name: "A", values: page.areaA, color: Theme.accent },
-                        { name: "B", values: page.areaB, color: Theme.systemCaution },
-                        { name: "C", values: page.areaC, color: Theme.systemSuccess }
-                    ]
-                }
-            }
-
-            Item { Layout.preferredHeight: Theme.spacingSection; Layout.fillWidth: true }
+    ControlExample {
+        headerText: qsTr("Stacked")
+        qmlSource: "AreaChart { stacked: true }"
+        AreaChart {
+            Layout.fillWidth: true
+            Layout.preferredHeight: 180
+            stacked: true
+            showLegend: true
+            series: [
+                { name: "A", values: page.areaA, color: Theme.accent },
+                { name: "B", values: page.areaB, color: Theme.systemCaution },
+                { name: "C", values: page.areaC, color: Theme.systemSuccess }
+            ]
         }
     }
 }

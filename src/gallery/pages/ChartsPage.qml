@@ -8,9 +8,10 @@ import QWinUI3.Extras
 //
 // WinUI-style Canvas charts. Open each control in the Charts category for focused demos.
 
-Page {
+CatalogPage {
     id: page
-    padding: 0
+    title: qsTr("Charts")
+    subtitle: qsTr("WinUI-style Canvas charts. Open each control in the Charts category for focused demos.")
 
     readonly property var sparkData: {
         var a = []
@@ -25,98 +26,67 @@ Page {
         return a
     }
 
-    ScrollView {
-        id: scroll
-        anchors.fill: parent
-        contentWidth: availableWidth
-        clip: true
+    ControlExample {
+        headerText: qsTr("Trend + columns")
+        qmlSource: "LineChart / BarChart"
         ColumnLayout {
-            width: scroll.availableWidth
-            spacing: Theme.spacingSection
-
-            PageHeader {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            LineChart {
                 Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                Layout.topMargin: Theme.spacingSection
-                title: qsTr("Charts")
-                subtitle: qsTr("WinUI-style Canvas charts. Open each control in the Charts category for focused demos.")
+                Layout.preferredHeight: 120
+                showArea: true
+                values: page.lineA
             }
-
-            ControlExample {
+            BarChart {
                 Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                headerText: qsTr("Trend + columns")
-                qmlSource: "LineChart / BarChart"
-                ColumnLayout {
-                    Layout.fillWidth: true
-                    spacing: Theme.spacing
-                    LineChart {
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 120
-                        showArea: true
-                        values: page.lineA
-                    }
-                    BarChart {
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 100
-                        values: [18, 26, 22, 34, 40, 31, 28]
-                    }
-                }
+                Layout.preferredHeight: 100
+                values: [18, 26, 22, 34, 40, 31, 28]
             }
+        }
+    }
 
-            ControlExample {
+    ControlExample {
+        headerText: qsTr("Part-to-whole")
+        qmlSource: "DonutChart / PieChart"
+        RowLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacingLoose
+            DonutChart {
                 Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                headerText: qsTr("Part-to-whole")
-                qmlSource: "DonutChart / PieChart"
-                RowLayout {
-                    Layout.fillWidth: true
-                    spacing: Theme.spacingLoose
-                    DonutChart {
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 140
-                        centerText: "72%"
-                        centerSubText: qsTr("Used")
-                        slices: [
-                            { value: 42, label: qsTr("Apps"), color: Theme.accent },
-                            { value: 18, label: qsTr("Media"), color: Theme.systemCaution },
-                            { value: 12, label: qsTr("Docs"), color: Theme.systemSuccess }
-                        ]
-                    }
-                    PieChart {
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 140
-                        slices: [
-                            { value: 50, label: qsTr("A"), color: Theme.accent },
-                            { value: 30, label: qsTr("B"), color: Theme.systemSuccess },
-                            { value: 20, label: qsTr("C"), color: Theme.systemCritical }
-                        ]
-                    }
-                }
+                Layout.preferredHeight: 140
+                centerText: "72%"
+                centerSubText: qsTr("Used")
+                slices: [
+                    { value: 42, label: qsTr("Apps"), color: Theme.accent },
+                    { value: 18, label: qsTr("Media"), color: Theme.systemCaution },
+                    { value: 12, label: qsTr("Docs"), color: Theme.systemSuccess }
+                ]
             }
-
-            ControlExample {
+            PieChart {
                 Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                headerText: qsTr("Inline sparkline")
-                qmlSource: "Sparkline { values: […] }"
-                RowLayout {
-                    Layout.fillWidth: true
-                    spacing: Theme.spacingLoose
-                    Label { text: qsTr("Live"); color: Theme.textSecondary }
-                    Sparkline {
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 28
-                        values: page.sparkData
-                    }
-                }
+                Layout.preferredHeight: 140
+                slices: [
+                    { value: 50, label: qsTr("A"), color: Theme.accent },
+                    { value: 30, label: qsTr("B"), color: Theme.systemSuccess },
+                    { value: 20, label: qsTr("C"), color: Theme.systemCritical }
+                ]
             }
+        }
+    }
 
-            Item { Layout.preferredHeight: Theme.spacingSection; Layout.fillWidth: true }
+    ControlExample {
+        headerText: qsTr("Inline sparkline")
+        qmlSource: "Sparkline { values: […] }"
+        RowLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacingLoose
+            Label { text: qsTr("Live"); color: Theme.textSecondary }
+            Sparkline {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 28
+                values: page.sparkData
+            }
         }
     }
 }
