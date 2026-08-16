@@ -22,6 +22,7 @@ import QWinUI3.Theme
 // @notes
 //   Content + left/right SwipeAction reveal; openLeft/openRight/close.
 //   swipeMode: reveal | execute (WinUI SwipeMode).
+//   Action rows are clipped to the revealed strip so they stay hidden when closed.
 
 T.Control {
     id: root
@@ -73,6 +74,8 @@ T.Control {
     // Max right swipe reveal width
     readonly property real maxRightReveal: Math.max(0, rightRow.children.length * actionWidth)
     readonly property bool _executeMode: String(swipeMode).toLowerCase() === "execute"
+    readonly property real _leftReveal: Math.max(0, panel.x)
+    readonly property real _rightReveal: Math.max(0, -panel.x)
 
     // Close / dismiss
     function close() {
@@ -179,23 +182,47 @@ T.Control {
     }
 
     contentItem: Item {
-        Row {
-            id: leftRow
+        clip: true
+
+        // Left actions — clipped to the revealed strip only (hidden when closed)
+        Item {
+            id: leftClip
             anchors.left: parent.left
             anchors.top: parent.top
             anchors.bottom: parent.bottom
+            width: root._leftReveal
+            clip: true
+            visible: width > 0.5
             z: 0
-            onChildrenChanged: root._wireActions(leftRow)
+
+            Row {
+                id: leftRow
+                anchors.left: parent.left
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                onChildrenChanged: root._wireActions(leftRow)
+            }
         }
 
-        Row {
-            id: rightRow
+        // Right actions — clipped to the revealed strip only
+        Item {
+            id: rightClip
             anchors.right: parent.right
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            layoutDirection: Qt.RightToLeft
+            width: root._rightReveal
+            clip: true
+            visible: width > 0.5
             z: 0
-            onChildrenChanged: root._wireActions(rightRow)
+
+            Row {
+                id: rightRow
+                anchors.right: parent.right
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                layoutDirection: Qt.RightToLeft
+                onChildrenChanged: root._wireActions(rightRow)
+            }
         }
 
         Item {
@@ -203,6 +230,7 @@ T.Control {
             width: parent.width
             height: parent.height
             z: 1
+            clip: true
 
             Behavior on x {
                 enabled: !drag.active && !Theme.reducedMotion
@@ -210,6 +238,13 @@ T.Control {
                     duration: Theme.duration(Theme.motionNormal)
                     easing.type: Theme.easingStandard
                 }
+            }
+
+            // Opaque base so actions never show through rounded chrome / Mica wash
+            Rectangle {
+                anchors.fill: parent
+                radius: Theme.cornerControl
+                color: Theme.bgCard
             }
 
             ElevatedChrome {
