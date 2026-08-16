@@ -68,6 +68,19 @@ Recipe doc: [`dialogs-flyouts.md`](dialogs-flyouts.md).
 
 ---
 
+## Shell extras (1.17)
+
+| Helper | A11y note |
+|--------|-----------|
+| Taskbar progress / badge | Visual-only OS chrome; pair with in-app ProgressBar / InfoBadge |
+| `requestUserAttention` | Not a screen-reader announcement — also toast / InfoBar |
+| `revealFileInFolder` | External Explorer/FM; announce success/failure in-app |
+| Idle inhibit | Prefer an explicit Switch / status label (`idleInhibited`) |
+
+Recipe doc: [`shell-extras.md`](shell-extras.md).
+
+---
+
 ## Severity-tracked (not 1.02)
 
 | Item | Severity | Notes |

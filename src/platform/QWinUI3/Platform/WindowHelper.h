@@ -210,6 +210,7 @@ public:
     Q_INVOKABLE int titleBarHeightForOption(int option) const;
     Q_INVOKABLE QString titleBarHeightName(int option) const;
 
+    // --- shell extras (stable 1.17; docs/shell-extras.md) ---
     // Taskbar overlay progress (Windows ITaskbarList3; no-op elsewhere)
     Q_INVOKABLE void setTaskbarProgress(QObject *windowObject, double value);
     Q_INVOKABLE void setTaskbarProgressState(QObject *windowObject, int state);

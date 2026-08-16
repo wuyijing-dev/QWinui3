@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.16**  
-**Next up:** **1.17** (shell extras productize)  
+**Current:** **1.17**  
+**Next up:** **1.18** (WebView2 soak → stable candidate)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](qt-version-compat.md)
 
 This plan starts from **what 1.00 already was**, then walks **small `1.xx` minors**. Stay on **1.xx for a long time**. **2.00 is not next**—only when we truly need breaking changes.
@@ -59,7 +59,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.16`
+## Shipped — `1.01` … `1.17`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -125,30 +125,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** [dialogs-flyouts.md](dialogs-flyouts.md); ContentDialog Esc → `requestClose` / Closing cancel; Gallery **Dialogs & flyouts** chooser + page callouts; ContentDialog remains stable; product version `1.16`.
 
+### 1.17 — Shell extras productize (shipped)
+
+**Shipped:** [shell-extras.md](shell-extras.md); promote taskbar progress/overlay, `requestUserAttention`, `revealFileInFolder`, idle inhibit (Win/Linux matrix); Gallery System integration callouts; Snap/power/recent remain experimental; product version `1.17`.
+
 ---
 
-## Near path — planned `1.17` … `1.20`
+## Near path — planned `1.18` … `1.20`
 
 Order is intentional but **flexible**: if a soak or customer pain appears, swap two adjacent minors—do not merge five themes into one `YY`. After this band: **mid path `1.21`–`1.30`**, then later `1.31+`—still no `2.00`.
-
-### 1.17 — Shell extras productize (taskbar / idle / attention)
-**Why:** System Integration Gallery demos these; 1.10 left them experimental.
-
-**In scope**
-
-- Productize a **small** WindowHelper subset: taskbar progress overlay, idle inhibit, requestUserAttention, reveal-in-folder—docs + failure matrix.
-- Extend [system-integration.md](system-integration.md) or add `docs/shell-extras.md`.
-- Promote only APIs that meet exit criteria.
-
-**Out of scope**
-
-- Full taskbar thumbnail toolbars; Jump Lists redesign; Snap Layouts deep promote (keep demo unless cheap).
-
-**Exit criteria**
-
-- Documented Win/Linux matrix; listed stable helpers with Gallery proof.
-
----
 
 ### 1.18 — WebView2 soak → stable candidate
 

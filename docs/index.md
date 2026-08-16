@@ -23,6 +23,7 @@ This site is generated from QML source comments and shipped via GitHub Pages.
 | [Forms & settings](forms.md) | FormLayout validation + settings recipes (1.08) |
 | [Theme overrides](theme-overrides.md) | Accent / density / branding knobs (1.09) |
 | [System integration](system-integration.md) | FilePicker / TrayIcon / NotificationBridge (1.10) |
+| [Shell extras](shell-extras.md) | Taskbar / attention / reveal / idle (1.17) |
 | [Charts & gauges](charts.md) | Naming recipe for Line/Bar/Donut/gauges (1.11) |
 | [Consumer packaging](packaging-consumer.md) | Shared zip / CMake / runtime for third-party apps (1.12) |
 | [i18n / RTL](i18n-rtl.md) | qsTr workflow + LayoutMirroring baseline (1.13) |

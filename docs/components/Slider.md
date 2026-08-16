@@ -4,7 +4,7 @@ Fluent styled Slider.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/Slider.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/Slider.qml)
 
-**Category:** Styled controls · **Library:** v1.16
+**Category:** Styled controls · **Library:** v1.17
 
 [← Component index](../components.md)
 

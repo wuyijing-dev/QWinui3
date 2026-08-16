@@ -4,7 +4,7 @@ Fluent color / type / motion token singleton.
 
 `import QWinUI3.Theme` · [`src/theme/QWinUI3/Theme/Theme.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/theme/QWinUI3/Theme/Theme.qml)
 
-**Category:** Theme · **Library:** v1.16
+**Category:** Theme · **Library:** v1.17
 
 [← Component index](../components.md)
 

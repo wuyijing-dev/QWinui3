@@ -70,7 +70,8 @@ Style module (`QT_QUICK_CONTROLS_STYLE=QWinUI3`): treating **standard** `QtQuick
 
 | Type | Module | Notes |
 |------|--------|--------|
-| `WindowHelper` | Platform | Backdrop, chrome flags, system prefs—**stable for properties already used by shells/examples**. Niche OS helpers may still evolve. |
+| `WindowHelper` | Platform | Backdrop, chrome flags, system prefs—**stable for properties already used by shells/examples**. |
+| `WindowHelper` shell extras | Platform | Taskbar progress/overlay, `requestUserAttention`, `revealFileInFolder`, idle inhibit — [shell-extras.md](shell-extras.md) (1.17) |
 | `FilePicker` / `TrayIcon` | Platform | Open/save/folder + tray — [system-integration.md](system-integration.md) (1.10) |
 | `NotificationBridge` | Extras | ToastHost + OS notify — [system-integration.md](system-integration.md) (1.10) |
 
@@ -88,7 +89,7 @@ Promote to stable only after a named `1.xx` slice hardens them.
 | **Animations** | `ConnectedAnimation*`, theme transitions | Power-user; less example coverage |
 | **Tear-out / exotic shells** | `TabViewTearOutWindow`, compact overlay variants | Niche |
 | **Media** | `MediaPlayerElement` | Optional Qt Multimedia |
-| **Shell extras** | Taskbar progress, idle inhibit, Snap Layouts demos | Gallery demos; not the 1.10 stable bridge |
+| **Shell extras (remaining)** | Snap Layouts, battery/online/screens, recent-docs | Gallery demos; taskbar/attention/reveal/idle promoted in **1.17** — [shell-extras.md](shell-extras.md) |
 | **Commands & menus** | `CommandPalette`, `CommandBar`, `MenuFlyout`, … | Keyboard recipe in [commands.md](commands.md) (1.15); promote later if soaked |
 
 If a type is public in [components.md](components.md) but listed in neither table, treat it as **experimental** until added here.
@@ -134,3 +135,4 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.14** | Qt 6.5 / 6.8 / 6.10 Gallery CI matrix [qt-version-compat.md](qt-version-compat.md) |
 | **1.15** | Command surfaces keyboard recipe [commands.md](commands.md) |
 | **1.16** | Dialogs/flyouts recipe [dialogs-flyouts.md](dialogs-flyouts.md); ContentDialog Esc → Closing |
+| **1.17** | Shell extras promote [shell-extras.md](shell-extras.md); taskbar / attention / reveal / idle |

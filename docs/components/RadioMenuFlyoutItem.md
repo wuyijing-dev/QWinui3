@@ -4,7 +4,7 @@ Exclusive radio MenuFlyout item.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/RadioMenuFlyoutItem.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/RadioMenuFlyoutItem.qml)
 
-**Category:** Input & forms · **Library:** v1.16
+**Category:** Input & forms · **Library:** v1.17
 
 [← Component index](../components.md)
 

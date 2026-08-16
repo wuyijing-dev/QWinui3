@@ -5,13 +5,15 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 import QWinUI3.Platform
 
-// Gallery — FilePicker, TrayIcon, display server, Snap Layouts, taskbar progress.
+// Gallery — FilePicker, TrayIcon, display server, Snap Layouts, shell extras (1.17).
+//
+// Recipe: docs/shell-extras.md (taskbar / attention / reveal / idle)
 
 CatalogPage {
     id: page
 
     title: qsTr("System integration")
-    subtitle: qsTr("FilePicker, TrayIcon, display server, taskbar, attention, files, and idle inhibit.")
+    subtitle: qsTr("FilePicker / Tray (1.10). Shell extras: docs/shell-extras.md (1.17). Snap / power still experimental.")
 
     property string lastPath: qsTr("(none)")
     property real taskbarValue: 0.35
@@ -179,8 +181,8 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Taskbar progress")
-        qmlSource: "WindowHelper.setTaskbarProgress(window, 0.4)"
+        headerText: qsTr("Taskbar progress (1.17 stable)")
+        qmlSource: "WindowHelper.setTaskbarProgress(window, 0.4)\n// docs/shell-extras.md"
 
         ColumnLayout {
             Layout.fillWidth: true
@@ -190,8 +192,8 @@ CatalogPage {
                 wrapMode: Text.WordWrap
                 color: Theme.textSecondary
                 text: WindowHelper.windows
-                      ? qsTr("ITaskbarList3 overlay on the Gallery window.")
-                      : qsTr("Windows only.")
+                      ? qsTr("ITaskbarList3 overlay on the Gallery window. Stable API — docs/shell-extras.md.")
+                      : qsTr("Windows only (no-op on Linux). See docs/shell-extras.md.")
             }
             Slider {
                 id: progressSlider
@@ -251,8 +253,8 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Attention / files / idle")
-        qmlSource: "requestUserAttention · revealFileInFolder · inhibitIdle · copyText"
+        headerText: qsTr("Attention / files / idle (1.17 stable)")
+        qmlSource: "requestUserAttention · revealFileInFolder · inhibitIdle\n// docs/shell-extras.md"
 
         ColumnLayout {
             Layout.fillWidth: true
@@ -297,14 +299,14 @@ CatalogPage {
                 wrapMode: Text.WordWrap
                 color: Theme.textSecondary
                 text: WindowHelper.windows
-                      ? qsTr("Windows: FlashWindowEx, Explorer /select, SetThreadExecutionState.")
-                      : qsTr("Linux: raise/alert, FileManager1 ShowItems, ScreenSaver Inhibit.")
+                      ? qsTr("Windows: FlashWindowEx, Explorer /select, SetThreadExecutionState — docs/shell-extras.md.")
+                      : qsTr("Linux: raise/alert, FileManager1 ShowItems, ScreenSaver/portal Inhibit — docs/shell-extras.md.")
             }
         }
     }
 
     ControlExample {
-        headerText: qsTr("Power / network / screens / recent")
+        headerText: qsTr("Power / network / screens / recent (experimental)")
         qmlSource: "batteryLevel · isOnline · screensInfo() · addToRecentDocuments"
 
         ColumnLayout {

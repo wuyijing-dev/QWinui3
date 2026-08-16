@@ -4,7 +4,7 @@ Single keyboard key chrome.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/KeyVisual.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/KeyVisual.qml)
 
-**Category:** Other · **Library:** v1.16
+**Category:** Other · **Library:** v1.17
 
 [← Component index](../components.md)
 

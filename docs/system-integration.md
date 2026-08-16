@@ -80,13 +80,16 @@ bridge.warning(qsTr("Disk low"), qsTr("Storage"))
 
 ---
 
-## Still experimental (demo-only)
+## Shell extras (1.17)
 
-Taskbar progress, idle inhibit, Snap Layouts, battery/online helpers on the System integration Gallery page — useful demos, not promoted as stable in 1.10.
+Taskbar progress, attention flash, reveal-in-folder, and idle inhibit are documented and promoted as a **WindowHelper** subset — see [shell-extras.md](shell-extras.md) (Win/Linux matrix).
+
+Gallery demos for Snap Layouts, battery / online / screens, and recent-docs remain **experimental**.
 
 ---
 
 ## Related
 
+- [shell-extras.md](shell-extras.md) — taskbar / attention / reveal / idle (1.17)  
 - [platform-linux-wayland.md](platform-linux-wayland.md) — portal matrix  
 - [webview2.md](webview2.md) — separate Windows browser host

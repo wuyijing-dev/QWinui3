@@ -73,6 +73,7 @@ nav:
   - Forms & settings: forms.md
   - Theme overrides: theme-overrides.md
   - System integration: system-integration.md
+  - Shell extras: shell-extras.md
   - Charts & gauges: charts.md
   - Consumer packaging: packaging-consumer.md
   - i18n / RTL: i18n-rtl.md

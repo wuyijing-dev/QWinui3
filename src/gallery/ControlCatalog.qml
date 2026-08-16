@@ -889,7 +889,7 @@ QtObject {
             title: qsTr("System integration"),
             category: "dialogs",
             icon: FluentIcons.Folder,
-            description: qsTr("FilePicker dialogs and TrayIcon system notify bridge."),
+            description: qsTr("FilePicker, Tray, and shell extras (taskbar / attention / idle)."),
             component: "SystemIntegrationPage",
             source: "pages/SystemIntegrationPage.qml"
         },
