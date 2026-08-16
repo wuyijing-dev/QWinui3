@@ -1,218 +1,196 @@
 # QWinUI3 Roadmap
 
-This roadmap is the **product plan**, not a wish list. Releases are infrequent and each one must ship a **coherent, substantial** increment—not a handful of opportunistic controls or drive-by fixes dressed up as a version bump.
+**Current:** [v1.0.0](https://github.com/wuyijing-dev/QWinui3/releases/tag/v1.0.0)  
+**Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
 
-**Current release:** [v1.0.0](https://github.com/wuyijing-dev/QWinui3/releases/tag/v1.0.0)  
-**Support floor:** Qt **6.5+** (recommended **6.8 LTS**; forward **6.10+**) — see [qt-version-compat.md](docs/qt-version-compat.md)
-
----
-
-## Release principles
-
-1. **Theme before tickets** — Every version has one primary theme (quality, platform, data, architecture). Features that do not serve that theme wait.
-2. **Substance bar** — A numbered release must clear **all** of:
-   - A user-visible capability area completed end-to-end (API + Gallery + docs), **or** a cross-cutting hardening effort with measurable exit criteria.
-   - Docs site / component catalog updated for every public API change.
-   - CI Release packages still build for the supported OS matrix.
-   - No “tiny dump”: avoid shipping a release whose changelog is mostly typo fixes, one new control, or incomplete experiments.
-3. **Stability bias after 1.0** — Prefer finishing, hardening, and documenting existing surfaces over adding parallel half-finished controls.
-4. **Patch releases (`1.0.x`)** — Bug fixes, security, packaging, docs-only, and CI. Patches do **not** invent new product themes.
-5. **Explicit deferral** — Items listed under “Out of scope” for a version are deferred on purpose; do not sneak them in mid-cycle just because they are easy.
-
-Versioning intent:
-
-| Kind | When |
-|------|------|
-| **Patch** `x.y.Z` | Fixes and packaging; no new major surfaces |
-| **Minor** `x.Y.0` | One finished theme; may add controls/APIs that serve that theme |
-| **Major** `X.0.0` | Breaking architecture or support-floor changes, with a migration story |
+This plan starts from **what 1.0 already is**, then walks **small 1.x minors**. Stay on **1.x for a long time**. **2.0 is not next**—only when we truly need breaking changes.
 
 ---
 
-## v1.0.0 — Foundation (shipped)
+## What you already have (v1.0 baseline)
 
-**Theme:** Ship a usable Fluent / WinUI-inspired Qt Quick kit.
+Do not plan as if the kit is empty. Rough inventory today:
 
-| Area | What landed |
-|------|-------------|
-| Modules | Theme, Style (`QWinUI3`), Platform, Extras |
-| Catalog | 200+ public controls; Gallery demos for most |
-| Shells | Title bar / NavigationView / window helpers; optional WebView2 |
-| Docs | MkDocs site, generated component API, conventions |
-| License | LGPL-3.0 |
-| Build | Release-default CMake; shared packaging scripts; CI Release (Win + Linux) |
-| Compat | C++ shim floor for Qt 6.5 / 6.8 / 6.10+ |
+| Surface | Rough size |
+|---------|------------|
+| Public controls | ~208 |
+| Gallery demo pages | ~150+ |
+| Style QML (Fluent chrome for Controls) | ~55 |
+| Extras QML | ~150 |
+| Modules | Theme · Style · Platform · Extras |
+| Docs | MkDocs + generated component API |
+| Ship | LGPL-3.0 · CI Release (Win + Linux) · shared/gallery packaging · Qt compat shims |
 
-**Exit status:** Done. Treat 1.0 as the baseline for compatibility promises in 1.x.
-
----
-
-## v1.1 — Production hardening
-
-**Theme:** Make 1.0 **safe to bet a product on**—quality, accessibility, Linux parity, and API clarity—before growing the catalog again.
-
-### In scope (must ship as a set)
-
-1. **Accessibility pass (Style + high-traffic Extras)**  
-   Systematic audit against [conventions.md](docs/conventions.md): roles, names, keyboard, reduced motion / high contrast. Fix gaps on Style controls and the Extras used by examples (`NavigationView`, settings cards, `ContentDialog`, `DataTable`, `InfoBar` / `Toast`). Gallery **Accessibility** page stays the living checklist.
-
-2. **API & behavior freeze for 1.x “stable surface”**  
-   Publish a short **stable API list** (what apps can rely on without surprise renames). Mark experimental types in docs. No silent signature changes on stable types in 1.1+.
-
-3. **Linux desktop parity for shells**  
-   Documented, tested path for X11/Wayland: title chrome, backdrop limitations, Gallery launcher, known gaps. Fix the highest-impact Linux bugs that block “nav + settings” style apps.
-
-4. **Automated smoke**  
-   At least: Release configure + Gallery link on CI for Windows and Linux; a minimal QML/offscreen or process smoke that the Gallery binary starts (or module loads) without crash. Expand only as far as needed for regression confidence—not a full UI automation suite.
-
-5. **Packaging & onboarding polish**  
-   Shared-lib and Gallery packages verified; README / Creator docs aligned with 6.5+ floor; `package_release_*` paths documented as the supported redistributable story.
-
-### Out of scope for 1.1
-
-- Large new control families (new chart types, new shell paradigms).
-- Breaking Theme token renames.
-- macOS as a first-class target.
-- Rewriting WebView2 or replacing it with WebEngine.
-
-### Exit criteria
-
-- Stable-surface doc published; a11y audit issues for in-scope controls either fixed or explicitly tracked with severity.
-- Linux shell path documented with “works / limited / unsupported” matrix.
-- CI green for Release packages + smoke; no known Gallery startup regressions on Win/Linux Release.
+**Implication:** Near-term work is mostly **finish, fix, document, and deepen** existing surfaces—not invent a second catalog or jump to a major rewrite.
 
 ---
 
-## v1.2 — Platform & app chrome depth
+## How we version (adjusted)
 
-**Theme:** Make **real Windows (and capable Linux) apps** feel finished—windowing, embedding, and chrome—not more demo widgets.
+| Kind | Meaning |
+|------|---------|
+| **Patch** `1.0.x` | Bugs, packaging, docs, CI. Anytime. |
+| **Minor** `1.y.0` | **One focused slice**—small enough to finish, clear enough to name. Prefer several modest minors over one “epic.” |
+| **Major** `2.0.0` | **Far future.** Only for intentional breaking API/ABI or support-floor cuts, with a migration guide. Not on the near path. |
 
-### In scope (must ship as a set)
+**Rules of thumb**
 
-1. **Window / shell maturity**  
-   Coherent behavior for backdrop / frost / snap layouts / multi-monitor DPI where Platform already claims support; document failure modes. Reduce “works in Gallery but not in a copied example” gaps for `StandardWindow` / `NavigationWindow` / dialog shells.
-
-2. **WebView2 productization (Windows)**  
-   Lifecycle, clipping/scroll sync, focus, and error UI treated as product features; Gallery + docs cover integration patterns; clear unsupported cases (non-Windows, missing Runtime). No WebEngine packaging.
-
-3. **Input & system integration**  
-   Tray, file pickers, notifications bridge: consistent APIs, Gallery coverage, and failure handling on Win/Linux where applicable.
-
-4. **Internationalization baseline**  
-   Layout-ready patterns for RTL where feasible; docs for `qsTr` / string extraction in Extras/Style samples; Gallery language switch or documented hook if practical.
-
-5. **Example apps as templates**  
-   Nav / settings / dashboard examples updated to match Platform best practices from this release (copy-paste ready, same flags as Gallery).
-
-### Out of scope for 1.2
-
-- New chart/gauge families.
-- Full Fluent 2 redesign of every Style control.
-- Mobile / embedded form factors.
-
-### Exit criteria
-
-- Platform chapter in docs describes supported chrome/backends with test notes.
-- WebView2 (Win) has a documented integration recipe and Gallery page that matches current behavior.
-- Examples build and demonstrate the same shell patterns as docs—not stale screenshots of intent.
+- One minor ≈ one primary outcome (e.g. “a11y on Style + nav/settings path”), not five themes at once.
+- Still avoid empty releases (one random control + changelog spam)—but **do not** wait until you can ship “enterprise platform + forms + CI matrix” in a single tag.
+- New controls only when they serve that minor’s slice; otherwise park them.
+- After each ship: update this file (mark done, keep the next 2–3 minors concrete).
 
 ---
 
-## v1.3 — Data, forms, and brandable apps
+## Near path — small 1.x minors
 
-**Theme:** Support **line-of-business** UIs: dense data, forms, and brand theming—still without a random control explosion.
+### v1.1 — Docs & “what’s stable”
 
-### In scope (must ship as a set)
+**Why first:** Catalog is huge; consumers need a clear map before more features.
 
-1. **DataTable & collections depth**  
-   Sort / filter / resize / keyboard / virtualization behavior hardened; documented models and performance guidance; Gallery recipes for master–detail with `ListDetailsView` / `ItemsView`.
+- Publish a short **stable vs experimental** list for the types apps actually copy (shells, NavigationView, settings cards, ContentDialog, InfoBar/Toast, DataTable basics).
+- Tighten README / Creator / packaging docs so 6.5+ floor and Release CI match reality.
+- Gallery/docs lint: generate + `--lint` clean for public API comments.
 
-2. **Forms system**  
-   `FormLayout` + headered fields + validation/`errorMessage` end-to-end; settings card patterns aligned; Accessibility for form flows verified.
-
-3. **Theme branding kit**  
-   Documented accent / density / token override path for product apps; optional sample “brand theme” in Gallery or examples—without forking the Style module.
-
-4. **Charts used in apps**  
-   Stabilize the existing chart/gauge set (API consistency, reduced motion, a11y names)—**not** a large new chart taxonomy. Drop or mark experimental any half-maintained chart types.
-
-5. **Designer / Creator ergonomics**  
-   Kit/presets, QML import docs, and common pitfalls updated so Creator users hit fewer dead ends (ties to [qt-creator.md](docs/qt-creator.md)).
-
-### Out of scope for 1.3
-
-- Replacing Qt Charts / Graphs with a second engine.
-- Plugin marketplace or visual theme editor product.
-- Breaking Style URI changes.
-
-### Exit criteria
-
-- Data + forms docs with recipes; branding guide with a working sample.
-- Chart/gauge public set is consistent (or explicitly experimental); Gallery demos match docs.
-- No net growth of “undocumented public types.”
+**Not in 1.1:** Linux overhaul, WebView2 rewrite, new control families.
 
 ---
 
-## v2.0 — Architecture & long-term contract
+### v1.2 — Accessibility (high-traffic path)
 
-**Theme:** A **major** release that earns the version number: clearer module boundaries, stronger multi-Qt story, and intentional breaking changes with a migration guide.
+**Why:** Conventions already exist; apply them where product apps start.
 
-### In scope (must ship as a set)
+- Style controls + examples path: `NavigationView`, settings cards, `ContentDialog`, `InfoBar` / `Toast`.
+- Keyboard / `Accessible` / reduced-motion gaps fixed or severity-tracked.
+- Gallery Accessibility page stays the checklist.
 
-1. **Module / packaging contract**  
-   Clear redistributable layout (what goes in shared packages, plugin vs QML tree, versioned ABI expectations). Align on-demand packaging (`--modules` / presets) with documented consumer CMake.
-
-2. **Compat & Qt matrix as first-class**  
-   CI (or documented matrix) covering declared Qt floors (6.5 / 6.8 / current 6.10+); `qwinui3_qtcompat` expanded only for real breakages; drop accidental reliance on kit-private details.
-
-3. **Breaking cleanups (batched)**  
-   Rename/remove experimental APIs marked in 1.x; fix long-standing FINAL/Page/Catalog constraints with a supported pattern; Theme token renames **only** with a migration table.
-
-4. **Quality bar raise**  
-   Broader automated tests for Theme/Platform entry points; Gallery catalog generation + lint in CI as a gate.
-
-5. **Platform policy**  
-   Explicit statement of Windows-first vs Linux support level for 2.x; macOS only if someone owns it end-to-end (otherwise remains best-effort / undocumented).
-
-### Out of scope for 2.0
-
-- Rewriting the kit in Widgets or C++-only controls.
-- Bundling Qt WebEngine.
-- Guaranteeing binary compatibility with 1.x shared libs (source migration guide instead).
-
-### Exit criteria
-
-- Migration guide 1.x → 2.0 published before tagging.
-- CI matrix matches the support statement in README.
-- Shared packages and module presets match the architecture docs—no “secret” layout known only to release scripts.
+**Not in 1.2:** Full audit of every chart/gauge; new Extras.
 
 ---
 
-## Parking lot (not scheduled)
+### v1.3 — Linux shells (practical)
 
-These may enter a future theme only when they justify a full release slice:
+**Why:** Gallery/CI already build Linux; chrome gaps still trip people.
 
-- macOS first-class shells and packaging  
-- Full visual redesign to a newer Fluent language across all Style controls  
-- Design-to-code / Figma token pipeline  
-- Extensive UI automation (screenshot diffs for every Gallery page)  
-- Additional languages beyond a small set for Gallery itself  
+- Document X11 / Wayland: works / limited / unsupported for title bar & backdrop.
+- Fix the worst blockers for nav + settings style apps on Linux.
+- Keep `run-gallery` / packaging notes accurate.
 
----
-
-## How we change this document
-
-- Update **after** a release ships (move theme to “shipped” with a short outcome note).
-- Changing the **next** version’s theme requires replacing its in/out/exit sections—not appending random bullets.
-- Patch work does not need a roadmap rewrite; link notable patches from the GitHub Release notes instead.
+**Not in 1.3:** macOS; full Mica/frost parity with Windows.
 
 ---
 
-## Related docs
+### v1.4 — Window chrome polish (Windows-first)
+
+**Why:** Platform already claims backdrop / snap / DPI—make the claimed path reliable.
+
+- Tighten `StandardWindow` / `NavigationWindow` / dialog shells for common DPI & backdrop cases.
+- Document failure modes; align **examples** with Gallery patterns.
+
+**Not in 1.4:** New shell paradigms; WebView2 deep dive (see 1.5).
+
+---
+
+### v1.5 — WebView2 (Windows) productize
+
+**Why:** Host exists; treat it as a real integration, not a demo HWND.
+
+- Lifecycle, scroll/clip sync, focus, missing-Runtime UX.
+- One clear integration recipe in docs + Gallery page matching behavior.
+
+**Not in 1.5:** Qt WebEngine; non-Windows embedding.
+
+---
+
+### v1.6 — CI smoke (lightweight)
+
+**Why:** Release packages exist; need a cheap regression gate.
+
+- Windows + Linux: configure Release, build Gallery (or shared preset), minimal “binary starts / modules load” smoke.
+- Keep scope small—no full screenshot suite.
+
+**Not in 1.6:** Multi-Qt version matrix in CI (later, still under 1.x if needed).
+
+---
+
+### v1.7 — DataTable / master–detail (deepen, don’t expand)
+
+**Why:** Controls exist; LoB apps need predictable behavior.
+
+- Harden sort / filter / keyboard / docs for `DataTable` + `ListDetailsView` / `ItemsView` recipes.
+- Performance notes; Gallery recipes only—no new table product.
+
+**Not in 1.7:** New chart engines; virtualization rewrite unless required to fix bugs.
+
+---
+
+### v1.8 — Forms & settings consistency
+
+**Why:** `FormLayout` / headered fields / settings cards already there.
+
+- End-to-end validation / `errorMessage` patterns; align settings expanders/cards.
+- Short forms recipe doc.
+
+**Not in 1.8:** Brand theme editor; token rename breakages.
+
+---
+
+### v1.9 — Branding & Theme overrides (docs + sample)
+
+**Why:** Theme tokens exist; apps need a supported override path.
+
+- Document accent / density / token overrides.
+- One small “branded” sample (Gallery page or example)—no Style fork.
+
+**Not in 1.9:** Fluent 2 full restyle of all Style controls.
+
+---
+
+### Later 1.x (only when the above are mostly done)
+
+Parked as **optional further minors**, still not 2.0:
+
+- Tray / file picker / notification bridge consistency  
+- i18n / RTL baseline for samples  
+- Chart/gauge API consistency pass (stabilize set; mark experimental)  
+- Qt 6.5 / 6.8 / 6.10 **compat verification** as an extra CI job  
+- On-demand packaging docs aligned with consumer CMake  
+
+Add these as `1.10+` only when scheduled—one slice per minor.
+
+---
+
+## Far future — v2.0 (not scheduled)
+
+**Do not start 2.0 work while 1.x still absorbs polish.**
+
+Consider 2.0 only if several of these become true:
+
+- Need breaking Theme/API renames that cannot stay compatible in 1.x  
+- Need a new packaging/ABI contract that breaks 1.x consumers  
+- Need to drop an old Qt floor or OS policy in a breaking way  
+
+Until then: **stay on 1.x**, use patches freely, keep minors small.
+
+---
+
+## Parking lot
+
+Unscheduled; pick up only inside a named 1.x minor:
+
+- macOS first-class  
+- Figma / design-token pipeline  
+- Full Fluent visual redesign  
+- Screenshot diffs for every Gallery page  
+- Extra Gallery languages  
+
+---
+
+## Related
 
 | Doc | Role |
 |-----|------|
-| [README.md](README.md) | Product overview & quick start |
-| [docs/qt-version-compat.md](docs/qt-version-compat.md) | Qt 6.5 / 6.8 / 6.10+ C++ shims |
-| [docs/conventions.md](docs/conventions.md) | QML / a11y authoring rules |
-| [docs/components.md](docs/components.md) | Public control index |
+| [README.md](README.md) | Overview |
+| [docs/components.md](docs/components.md) | Control index |
+| [docs/conventions.md](docs/conventions.md) | A11y / QML rules |
+| [docs/qt-version-compat.md](docs/qt-version-compat.md) | Qt multi-version shims |
