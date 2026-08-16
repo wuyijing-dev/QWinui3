@@ -132,6 +132,25 @@ T.Control {
             close()
     }
 
+    // Wire SwipeAction.swipeControl (no action parent-walk)
+    function _wireActions(row) {
+        if (!row)
+            return
+        var kids = row.children || []
+        for (var i = 0; i < kids.length; ++i) {
+            var ch = kids[i]
+            if (ch && ch.hasOwnProperty("swipeControl"))
+                ch.swipeControl = root
+        }
+    }
+
+    function _wireAllActions() {
+        _wireActions(leftRow)
+        _wireActions(rightRow)
+    }
+
+    Component.onCompleted: _wireAllActions()
+
     function _handleDragReleased() {
         if (_executeMode) {
             if (panel.x > revealThreshold) {
@@ -166,6 +185,7 @@ T.Control {
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             z: 0
+            onChildrenChanged: root._wireActions(leftRow)
         }
 
         Row {
@@ -175,6 +195,7 @@ T.Control {
             anchors.bottom: parent.bottom
             layoutDirection: Qt.RightToLeft
             z: 0
+            onChildrenChanged: root._wireActions(rightRow)
         }
 
         Item {

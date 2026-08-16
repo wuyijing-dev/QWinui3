@@ -162,7 +162,27 @@ T.Control {
 
     onIsDynamicOverflowEnabledChanged: Qt.callLater(_relayoutDynamicOverflow)
     onWidthChanged: Qt.callLater(_relayoutDynamicOverflow)
-    Component.onCompleted: Qt.callLater(_relayoutDynamicOverflow)
+    onEffectiveLabelPositionChanged: Qt.callLater(function () { root._syncBarLabelPositions() })
+    Component.onCompleted: {
+        Qt.callLater(_relayoutDynamicOverflow)
+        Qt.callLater(function () { root._syncBarLabelPositions() })
+    }
+
+    // Push effectiveLabelPosition into AppBar* children (no child parent-walk)
+    function _syncBarLabelPositions() {
+        function syncRow(row) {
+            if (!row)
+                return
+            var kids = row.children || []
+            for (var i = 0; i < kids.length; ++i) {
+                var c = kids[i]
+                if (c && c.hasOwnProperty("barLabelPosition"))
+                    c.barLabelPosition = root.effectiveLabelPosition
+            }
+        }
+        syncRow(primaryRow)
+        syncRow(secondaryHost)
+    }
 
     padding: 4
     implicitWidth: Math.max(120, barRow.implicitWidth + leftPadding + rightPadding)
@@ -194,6 +214,7 @@ T.Control {
         height: 0
         visible: false
         enabled: false
+        onChildrenChanged: Qt.callLater(function () { root._syncBarLabelPositions() })
     }
 
     background: Rectangle {
@@ -241,6 +262,7 @@ T.Control {
                 clip: root.isDynamicOverflowEnabled
                 visible: root._showPrimary
                 opacity: visible ? 1 : 0
+                onChildrenChanged: Qt.callLater(function () { root._syncBarLabelPositions() })
                 Behavior on opacity {
                     enabled: !Theme.reducedMotion
                     NumberAnimation {

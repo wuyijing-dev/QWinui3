@@ -30,8 +30,10 @@ T.Control {
     property string iconGlyph: ""
     // Custom trailing content
     property alias trailing: trailingSlot.data
-    // Preferred label column width
+    // Preferred label column width (FormLayout may push labelWidth)
     property real labelWidth: 140
+    // When true, FormLayout may push labelWidth
+    property bool formBound: true
 
     readonly property string effectiveSymbol: IconSource.resolve(symbol, iconGlyph)
 

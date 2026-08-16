@@ -17,8 +17,10 @@ import QWinUI3.Theme
 IconicButton {
     id: control
 
-    // Override CommandBar.defaultLabelPosition when set (bottom | right | collapsed)
+    // Override CommandBar label position when set (bottom | right | collapsed)
     property string labelPosition: ""
+    // Injected by CommandBar (do not parent-walk)
+    property string barLabelPosition: "bottom"
     // WinUI IsCompact — hide label, icon-only
     property bool isCompact: false
     // Shortcut hint shown under/beside the label (WinUI KeyboardAcceleratorText)
@@ -30,15 +32,7 @@ IconicButton {
             return "collapsed"
         if (control.labelPosition.length)
             return control.labelPosition
-        var p = control.parent
-        while (p) {
-            if (typeof p.effectiveLabelPosition === "string")
-                return p.effectiveLabelPosition
-            if (typeof p.defaultLabelPosition === "string")
-                return p.defaultLabelPosition
-            p = p.parent
-        }
-        return "bottom"
+        return control.barLabelPosition.length ? control.barLabelPosition : "bottom"
     }
 
     readonly property bool _showLabel: effectiveLabelPosition !== "collapsed" && text.length > 0

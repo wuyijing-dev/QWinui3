@@ -8,7 +8,9 @@ import QWinUI3.Theme
 //
 //   FormLayout {
 //       id: form
-//       ValidationSummary { id: summary }
+//       labelWidth: 140
+//       fieldHeaderPlacement: "left"
+//       ValidationSummary { errors: form.errors }
 //       HeaderedTextBox { id: nameField; header: qsTr("Name") }
 //       NumberBox { id: ageField; header: qsTr("Age") }
 //       Button {
@@ -20,28 +22,23 @@ import QWinUI3.Theme
 //       }
 //   }
 //   // --- API ---
-//   // methods: validate(), clearErrors(), collectErrors()
-//   // form.validate()
-//   // form.clearErrors()
-//   // form.collectErrors()
+//   // methods: validate(), clearErrors(), collectErrors(), applyDefaults(), applyLabelWidth()
 //
 // @notes
-//   ColumnLayout wrapper for HeaderedTextBox / NumberBox / PasswordBox.
-//   Fields discover this host via objectName and bind labelWidth themselves.
-//   Optional fieldHeaderPlacement ("left"|"top") defaults child headerPlacement.
+//   ColumnLayout host for HeaderedTextBox / NumberBox / PasswordBox / DetailRow.
+//   Pushes labelWidth (+ optional fieldHeaderPlacement) onto children — fields do not
+//   walk parents. Set formBound: false on a field to opt out.
 //   validate() gathers non-empty errorMessage (and hasError) from descendants.
 //   Pair with ValidationSummary for a page-level error list.
 
 T.Control {
     id: root
-    objectName: "QWinUI3FormLayout"
 
     Layout.fillWidth: true
 
     // Preferred label column width for left-header fields
-    // (fields bind automatically via FormLayout ancestor — no apply walk)
     property real labelWidth: 140
-    // Default headerPlacement pushed to fields that opt into form defaults
+    // Default headerPlacement pushed to formBound fields ("left"|"top"; empty = leave field)
     property string fieldHeaderPlacement: ""
     // Vertical spacing between fields
     property real fieldSpacing: Theme.spacingLoose
@@ -55,10 +52,44 @@ T.Control {
     padding: 0
     Accessible.role: Accessible.Form
 
+    onLabelWidthChanged: Qt.callLater(function () { root.applyDefaults() })
+    onFieldHeaderPlacementChanged: Qt.callLater(function () { root.applyDefaults() })
+
     contentItem: ColumnLayout {
         id: body
         spacing: root.fieldSpacing
         width: root.availableWidth
+        onChildrenChanged: Qt.callLater(function () { root.applyDefaults() })
+        Component.onCompleted: root.applyDefaults()
+    }
+
+    // Push labelWidth / fieldHeaderPlacement onto formBound descendants
+    function applyDefaults() {
+        _applyToItem(body)
+    }
+
+    // Compat alias of applyDefaults()
+    function applyLabelWidth() {
+        applyDefaults()
+    }
+
+    function _applyToItem(item) {
+        if (!item || item === root)
+            return
+        var skip = item.formBound === false
+        if (!skip) {
+            if (item.hasOwnProperty("labelWidth"))
+                item.labelWidth = root.labelWidth
+            if (root.fieldHeaderPlacement.length && item.hasOwnProperty("headerPlacement"))
+                item.headerPlacement = root.fieldHeaderPlacement
+        }
+        var kids = item.children || []
+        for (var i = 0; i < kids.length; ++i)
+            _applyToItem(kids[i])
+        if (item.contentChildren) {
+            for (var j = 0; j < item.contentChildren.length; ++j)
+                _applyToItem(item.contentChildren[j])
+        }
     }
 
     // Walk visual children for errorMessage / hasError

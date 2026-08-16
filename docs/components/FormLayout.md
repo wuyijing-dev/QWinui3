@@ -13,7 +13,9 @@ Vertical form stack that collects field errorMessage values.
 ```qml
 FormLayout {
     id: form
-    ValidationSummary { id: summary }
+    labelWidth: 140
+    fieldHeaderPlacement: "left"
+    ValidationSummary { errors: form.errors }
     HeaderedTextBox { id: nameField; header: qsTr("Name") }
     NumberBox { id: ageField; header: qsTr("Age") }
     Button {
@@ -24,19 +26,13 @@ FormLayout {
         }
     }
 }
-// --- API ---
-// methods: validate(), clearErrors(), collectErrors()
-// form.validate()
-// form.clearErrors()
-// form.collectErrors()
 ```
 
 ## Notes
 
-ColumnLayout wrapper for HeaderedTextBox / NumberBox / PasswordBox.
-labelWidth is pushed to descendants that expose a labelWidth property
-(use headerPlacement: "left" on fields).
-validate() gathers non-empty errorMessage (and hasError) from descendants.
+Host pushes `labelWidth` / `fieldHeaderPlacement` onto formBound children — fields do not
+walk the parent chain. Set `formBound: false` on a field to opt out.
+`validate()` gathers non-empty `errorMessage` (and `hasError`) from descendants.
 Pair with ValidationSummary for a page-level error list.
 
 ## API
@@ -45,31 +41,18 @@ Pair with ValidationSummary for a page-level error list.
 
 | Name | Type | Description |
 | --- | --- | --- |
-| `labelWidth` | `real` | Preferred label column width for left-header fields (applied to descendants) |
+| `labelWidth` | `real` | Preferred label column width (pushed to descendants) |
+| `fieldHeaderPlacement` | `string` | Optional default `headerPlacement` (`left` \| `top`) |
 | `fieldSpacing` | `real` | Vertical spacing between fields |
 | `errors` | `var` | Collected error strings after validate() / collectErrors() |
 | `contentData` | `alias` | Default children / field slot |
-
-### Signals
-
-_No custom signals_ (use inherited signals from the base type).
 
 ### Methods
 
 | Signature | Description |
 | --- | --- |
-| `applyLabelWidth()` | Push labelWidth onto descendant fields that expose the property |
-| `collectErrors()` | Return string[] of current field errors (does not mutate fields) |
+| `applyDefaults()` | Push labelWidth / fieldHeaderPlacement onto formBound fields |
+| `applyLabelWidth()` | Compat alias of applyDefaults() |
+| `collectErrors()` | Return string[] of current field errors |
 | `validate()` | Refresh errors; returns true when there are none |
-| `clearErrors()` | Clear errorMessage on descendant fields that expose it |
-
-### Inherited from `Control`
-
-Also available (base type / Qt Quick Controls):
-
-- `padding`
-- `font`
-- `background` / `contentItem`
-
----
-*Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*
+| `clearErrors()` | Clear errorMessage on descendant fields |

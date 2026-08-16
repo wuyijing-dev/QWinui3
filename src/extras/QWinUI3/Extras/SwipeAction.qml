@@ -48,23 +48,15 @@ Item {
     Accessible.role: Accessible.Button
     Accessible.name: text
 
-    function _findSwipe() {
-        var p = parent
-        while (p) {
-            if (typeof p._afterActionInvoked === "function")
-                return p
-            p = p.parent
-        }
-        return null
-    }
+    // Host SwipeControl (wired by SwipeControl — no parent walk)
+    property var swipeControl: null
 
     // Invoke this action (also used by SwipeControl execute mode)
     function invoke() {
         triggered()
         clicked()
-        var swipe = _findSwipe()
-        if (swipe)
-            swipe._afterActionInvoked(root)
+        if (swipeControl && typeof swipeControl._afterActionInvoked === "function")
+            swipeControl._afterActionInvoked(root)
     }
 
     Rectangle {
