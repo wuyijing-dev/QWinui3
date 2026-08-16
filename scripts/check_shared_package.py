@@ -11,7 +11,6 @@ With --dir: validates a packaged tree (bin/ · lib/ · qml/ · README).
 from __future__ import annotations
 
 import argparse
-import re
 import sys
 from pathlib import Path
 
