@@ -124,6 +124,8 @@ T.Control {
     // --- Interaction (Toolkit IsInteractive) ---
     property bool isInteractive: false
     property alias interactive: root.isInteractive
+    // Extra drag hit padding outside the face (px)
+    property real interactionPadding: 24
 
     signal valueEdited(real value)
 
@@ -469,10 +471,13 @@ T.Control {
 
         MouseArea {
             anchors.fill: parent
+            anchors.margins: -root.interactionPadding
             enabled: root.isInteractive && root.enabled
+            preventStealing: true
             cursorShape: Qt.PointingHandCursor
             function apply(mx, my) {
-                root.setValueFromNorm(root.normFromPoint(mx, my))
+                var p = mapToItem(gaugeFace, mx, my)
+                root.setValueFromNorm(root.normFromPoint(p.x, p.y))
                 root.valueEdited(root.value)
             }
             onPressed: function (mouse) { apply(mouse.x, mouse.y) }

@@ -54,6 +54,8 @@ T.Control {
     property int tickCount: 5
     // Show draggable thumb
     property bool showThumb: true
+    // Extra hit padding around the track for easier drag (px)
+    property real interactionPadding: 20
     // Alias of interactive
     property bool isInteractive: false
     // Enable hover / click interaction
@@ -72,9 +74,9 @@ T.Control {
     // Emitted when user commits a value
     signal valueEdited(real value)
 
-    implicitWidth: orientation === Qt.Horizontal ? 240 : 56
+    implicitWidth: orientation === Qt.Horizontal ? 240 : 64
     implicitHeight: {
-        var h = orientation === Qt.Horizontal ? 48 : 180
+        var h = orientation === Qt.Horizontal ? 64 : 180
         if (title.length || showValue)
             h += Theme.fontCaption + 8
         if (caption.length || showMinMax)
@@ -196,13 +198,20 @@ T.Control {
             }
         }
 
-        Item {
+            Item {
             id: trackHost
             Layout.fillWidth: root.horizontal
             Layout.fillHeight: !root.horizontal
-            Layout.preferredWidth: root.horizontal ? -1 : Math.max(28, root.trackThickness + 20)
-            Layout.preferredHeight: root.horizontal ? Math.max(28, root.trackThickness + 20) : -1
-            Layout.minimumHeight: root.horizontal ? root.trackThickness + 16 : 80
+            Layout.preferredWidth: root.horizontal ? -1
+                                 : Math.max(44, root.trackThickness + root.interactionPadding * 2)
+            Layout.preferredHeight: root.horizontal
+                                    ? Math.max(44, root.trackThickness + root.interactionPadding * 2)
+                                    : -1
+            Layout.minimumHeight: root.horizontal
+                                  ? root.trackThickness + root.interactionPadding * 2
+                                  : 80
+            Layout.minimumWidth: root.horizontal ? 80
+                               : root.trackThickness + root.interactionPadding * 2
 
             // Caution / critical zone markers on track
             Rectangle {
@@ -265,7 +274,7 @@ T.Control {
 
             Rectangle {
                 visible: root.showThumb
-                width: root.trackThickness + 10
+                width: Math.max(root.trackThickness + 14, 28)
                 height: width
                 radius: width / 2
                 color: Theme.bgCard
@@ -291,6 +300,7 @@ T.Control {
                 anchors.fill: parent
                 enabled: root.isInteractive && root.enabled
                 hoverEnabled: true
+                preventStealing: true
                 cursorShape: Qt.PointingHandCursor
                 function apply(px, py) {
                     var n = root.horizontal

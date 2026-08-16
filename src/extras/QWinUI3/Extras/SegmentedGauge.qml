@@ -66,6 +66,8 @@ T.Control {
     property bool isInteractive: false
     // Enable hover / click interaction
     property alias interactive: root.isInteractive
+    // Extra tap hit padding outside the face (px)
+    property real interactionPadding: 24
 
     // Emitted when user commits a value
     signal valueEdited(real value)
@@ -290,11 +292,14 @@ T.Control {
 
         MouseArea {
             anchors.fill: parent
+            anchors.margins: -root.interactionPadding
             enabled: root.isInteractive && root.enabled
+            preventStealing: true
             cursorShape: Qt.PointingHandCursor
             onClicked: function (mouse) {
-                var dx = mouse.x - width / 2
-                var dy = mouse.y - height / 2
+                var p = mapToItem(parent, mouse.x, mouse.y)
+                var dx = p.x - parent.width / 2
+                var dy = p.y - parent.height / 2
                 var deg = Math.atan2(dy, dx) * 180 / Math.PI
                 var a = deg - root.startAngle
                 while (a < 0)

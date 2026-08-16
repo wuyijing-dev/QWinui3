@@ -79,6 +79,8 @@ T.Control {
     property bool isInteractive: false
     // Enable hover / click interaction
     property alias interactive: root.isInteractive
+    // Extra drag hit padding (px)
+    property real interactionPadding: 24
 
     // Emitted when user commits a value
     signal valueEdited(real value)
@@ -381,12 +383,15 @@ T.Control {
 
             MouseArea {
                 anchors.fill: parent
+                anchors.margins: -root.interactionPadding
                 enabled: root.isInteractive && root.enabled
+                preventStealing: true
                 cursorShape: Qt.PointingHandCursor
                 function apply(mx, my) {
+                    var p = mapToItem(parent, mx, my)
                     var n = root.horizontal
-                            ? Math.max(0, Math.min(1, mx / Math.max(1, width)))
-                            : 1 - Math.max(0, Math.min(1, my / Math.max(1, height)))
+                            ? Math.max(0, Math.min(1, p.x / Math.max(1, parent.width)))
+                            : 1 - Math.max(0, Math.min(1, p.y / Math.max(1, parent.height)))
                     root.setValueFromNorm(n)
                     root.valueEdited(root.value)
                 }

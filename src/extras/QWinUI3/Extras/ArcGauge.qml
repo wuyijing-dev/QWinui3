@@ -66,6 +66,8 @@ T.Control {
     property bool isInteractive: false
     // Enable hover / click interaction
     property alias interactive: root.isInteractive
+    // Extra drag hit padding outside the face (px)
+    property real interactionPadding: 24
 
     // Emitted when user commits a value
     signal valueEdited(real value)
@@ -216,7 +218,7 @@ T.Control {
         }
 
         Rectangle {
-            width: root.strokeWidth + 4
+            width: Math.max(root.strokeWidth + 10, 28)
             height: width
             radius: width / 2
             color: Theme.bgCard
@@ -287,10 +289,13 @@ T.Control {
         MouseArea {
             id: drag
             anchors.fill: parent
+            anchors.margins: -root.interactionPadding
             enabled: root.isInteractive && root.enabled
+            preventStealing: true
             cursorShape: Qt.PointingHandCursor
             function apply(mx, my) {
-                root.setValueFromNorm(root.normFromPoint(mx, my, face.cx, face.cy))
+                var p = mapToItem(face, mx, my)
+                root.setValueFromNorm(root.normFromPoint(p.x, p.y, face.cx, face.cy))
                 root.valueEdited(root.value)
             }
             onPressed: function (mouse) { apply(mouse.x, mouse.y) }
