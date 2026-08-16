@@ -105,7 +105,7 @@ QtObject {
             title: qsTr("NumberBox"),
             category: "basic",
             icon: FluentIcons.Calculator,
-            description: qsTr("Numeric spin + FormLayout validation — docs/pickers.md (1.28)."),
+            description: qsTr("Numeric spin + FormLayout validation - docs/pickers.md (1.28)."),
             component: "NumberBoxPage",
             source: "pages/NumberBoxPage.qml"
         },
@@ -657,7 +657,7 @@ QtObject {
             title: qsTr("CalendarDatePicker"),
             category: "date",
             icon: FluentIcons.Calendar,
-            description: qsTr("Calendar flyout + FormLayout errorMessage — docs/pickers.md (1.28)."),
+            description: qsTr("Calendar flyout + FormLayout errorMessage - docs/pickers.md (1.28)."),
             component: "CalendarDatePickerPage",
             source: "pages/CalendarDatePickerPage.qml"
         },
@@ -681,7 +681,7 @@ QtObject {
             title: qsTr("TimePicker"),
             category: "date",
             icon: FluentIcons.Clock,
-            description: qsTr("Pick a time with hour and minute tumblers."),
+            description: qsTr("Time tumblers + FormLayout errorMessage — docs/pickers.md (1.28)."),
             component: "TimePickerPage",
             source: "pages/TimePickerPage.qml"
         },
@@ -1257,7 +1257,7 @@ QtObject {
             title: qsTr("Form validation"),
             category: "text",
             icon: FluentIcons.Accept,
-            description: qsTr("FormLayout labelWidth, left headers, ValidationSummary, RadioButtons."),
+            description: qsTr("FormLayout + ValidationSummary + date pickers — docs/pickers.md (1.28)."),
             component: "FormValidationPage",
             source: "pages/FormValidationPage.qml"
         },
