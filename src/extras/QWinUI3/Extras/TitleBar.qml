@@ -27,6 +27,10 @@ import QWinUI3.Theme
 Item {
     id: root
 
+    Accessible.role: Accessible.TitleBar
+    Accessible.name: root.title
+    Accessible.description: root.subtitle
+
     // Primary title text
     property string title: qsTr("Application")
     // Secondary subtitle text

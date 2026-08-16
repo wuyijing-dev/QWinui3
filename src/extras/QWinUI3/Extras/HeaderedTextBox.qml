@@ -82,8 +82,13 @@ T.Control {
     implicitHeight: contentRoot.implicitHeight
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
-    Accessible.name: header
+    Accessible.role: Accessible.EditableText
+    Accessible.name: header.length ? header
+                 : (placeholderText.length ? placeholderText : qsTr("Text box"))
     Accessible.description: hasError ? errorMessage : description
+    Accessible.value: text
+    Accessible.readOnly: readOnly
+    Accessible.multiLine: false
 
     // Clear text or selection
     function clear() {

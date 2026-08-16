@@ -43,6 +43,7 @@ T.ItemDelegate {
     readonly property string effectiveGlyph: IconSource.resolve(symbol, glyph)
 
     hoverEnabled: true
+    focusPolicy: Qt.StrongFocus
     padding: 12
     leftPadding: 16
     rightPadding: 12
@@ -52,8 +53,14 @@ T.ItemDelegate {
                              contentItem.implicitHeight + topPadding + bottomPadding)
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
-    Accessible.name: title
+    Accessible.role: Accessible.ListItem
+    Accessible.name: title.length ? title : qsTr("List item")
     Accessible.description: subtitle
+    Accessible.selectable: true
+    Accessible.selected: isSelected || checked
+    Accessible.checkable: checkable
+    Accessible.checked: checked
+    Accessible.onPressAction: if (enabled) clicked()
 
     scale: down && !Theme.reducedMotion ? 0.995 : 1
     Behavior on scale {

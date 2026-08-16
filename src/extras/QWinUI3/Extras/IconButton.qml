@@ -18,8 +18,15 @@ import QWinUI3.Theme
 IconicButton {
     id: control
 
-    // Icon-only: callers should set Accessible.name; fall back to text or a generic label.
-    Accessible.name: control.text.length ? control.text : qsTr("Icon button")
+    // Icon-only: prefer toolTipText, then text; callers may still override Accessible.name.
+    Accessible.role: Accessible.Button
+    Accessible.name: {
+        if (toolTipText.length)
+            return toolTipText
+        if (control.text.length)
+            return control.text
+        return qsTr("Icon button")
+    }
 
     implicitWidth: Theme.controlHeight
     implicitHeight: Theme.controlHeight

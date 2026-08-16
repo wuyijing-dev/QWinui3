@@ -69,9 +69,22 @@ T.Control {
     padding: 4
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontCaption
+    focusPolicy: isInteractive ? Qt.StrongFocus : Qt.NoFocus
+    activeFocusOnTab: isInteractive
     Accessible.role: Accessible.PageTabList
     Accessible.name: qsTr("Steps")
     Accessible.description: qsTr("Step %1 of %2").arg(currentIndex + 1).arg(model ? model.length : 0)
+
+    Keys.onLeftPressed: if (!_vertical && isInteractive) previous()
+    Keys.onRightPressed: if (!_vertical && isInteractive) next()
+    Keys.onUpPressed: if (_vertical && isInteractive) previous()
+    Keys.onDownPressed: if (_vertical && isInteractive) next()
+    Keys.onHomePressed: if (isInteractive) goTo(0)
+    Keys.onEndPressed: {
+        if (!isInteractive || !model || !model.length)
+            return
+        goTo(model.length - 1)
+    }
 
     contentItem: Loader {
         sourceComponent: control._vertical ? verticalComp : horizontalComp

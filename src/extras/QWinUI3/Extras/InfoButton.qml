@@ -28,7 +28,9 @@ IconButton {
     property int preferredPlacement: Qt.AlignTop
 
     symbol: FluentIcons.Info
+    Accessible.role: Accessible.Button
     Accessible.name: tipTitle.length ? tipTitle : qsTr("More information")
+    Accessible.description: tipSubtitle
     ToolTip.visible: hovered && !tip.isOpen && tipSubtitle.length === 0 && tipTitle.length > 0
     ToolTip.text: tipTitle
 

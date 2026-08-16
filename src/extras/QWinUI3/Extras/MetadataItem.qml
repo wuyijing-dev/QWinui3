@@ -46,8 +46,9 @@ T.Control {
 
     height: implicitHeight
     padding: 0
-    Accessible.name: label
-    Accessible.description: value
+    Accessible.role: Accessible.StaticText
+    Accessible.name: label.length ? label : qsTr("Metadata")
+    Accessible.description: secondary.length ? (value + ". " + secondary) : value
 
     contentItem: Item {
         implicitWidth: root.implicitWidth

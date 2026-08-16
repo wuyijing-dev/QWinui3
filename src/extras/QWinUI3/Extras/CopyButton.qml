@@ -58,7 +58,9 @@ T.AbstractButton {
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontCaption
     text: iconOnly ? "" : (copied ? qsTr("Copied") : qsTr("Copy"))
+    Accessible.role: Accessible.Button
     Accessible.name: copied ? qsTr("Copied") : qsTr("Copy to clipboard")
+    Accessible.onPressAction: if (enabled) copy()
     ToolTip.visible: hovered
     ToolTip.text: copied ? qsTr("Copied") : qsTr("Copy to clipboard")
 

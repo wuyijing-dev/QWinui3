@@ -56,8 +56,12 @@ T.AbstractButton {
     padding: 12
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
-    Accessible.name: title
+    Accessible.role: Accessible.CheckBox
+    Accessible.name: title.length ? title : qsTr("Tile")
     Accessible.description: subtitle
+    Accessible.checkable: true
+    Accessible.checked: checked
+    Accessible.onPressAction: if (enabled) clicked()
 
     scale: down && !Theme.reducedMotion ? 0.98 : 1
     Behavior on scale {

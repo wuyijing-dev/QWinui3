@@ -53,8 +53,18 @@ T.Control {
     implicitHeight: contentRoot.implicitHeight
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
-    Accessible.name: header
-    Accessible.description: hasError ? errorMessage : description
+    Accessible.role: Accessible.ComboBox
+    Accessible.name: header.length ? header : qsTr("Combo box")
+    Accessible.description: {
+        if (hasError)
+            return errorMessage
+        var parts = []
+        if (description.length)
+            parts.push(description)
+        if (currentText.length)
+            parts.push(currentText)
+        return parts.join(". ")
+    }
 
     function focusField() { box.forceActiveFocus() }
 

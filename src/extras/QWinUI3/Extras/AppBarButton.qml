@@ -59,12 +59,15 @@ IconicButton {
     font.pixelSize: Theme.fontCaption
     checkable: false
     iconSize: 18
-    Accessible.description: {
-        var tip = toolTipText.length ? toolTipText : ""
-        if (keyboardAcceleratorText.length)
-            tip = tip.length ? (tip + " (" + keyboardAcceleratorText + ")") : keyboardAcceleratorText
-        return tip
+    Accessible.role: Accessible.Button
+    Accessible.name: {
+        if (toolTipText.length)
+            return toolTipText
+        if (text.length)
+            return text
+        return qsTr("App bar button")
     }
+    Accessible.description: keyboardAcceleratorText
 
     contentItem: GridLayout {
         columns: control._labelRight ? 2 : 1

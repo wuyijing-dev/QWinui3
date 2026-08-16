@@ -17,6 +17,8 @@ import QWinUI3.Theme
 SettingsCard {
     id: root
 
+    Accessible.role: Accessible.Grouping
+    Accessible.name: title
     Accessible.description: {
         var parts = []
         if (description.length)

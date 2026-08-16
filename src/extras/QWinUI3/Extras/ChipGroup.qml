@@ -103,8 +103,53 @@ T.Control {
     implicitHeight: Math.max(Theme.controlHeight - 4, row.implicitHeight)
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontCaption
+    focusPolicy: _selectable ? Qt.StrongFocus : Qt.NoFocus
+    activeFocusOnTab: _selectable
     Accessible.role: Accessible.List
     Accessible.name: qsTr("Chip group")
+    Accessible.description: {
+        if (!_selectable || currentIndex < 0)
+            return ""
+        var item = selectedItem
+        if (typeof item === "string")
+            return item
+        if (item && (item.title || item.text))
+            return item.title || item.text
+        return qsTr("Selected %1").arg(currentIndex + 1)
+    }
+
+    Keys.onLeftPressed: {
+        var count = _modelCount()
+        if (!_selectable || count <= 0)
+            return
+        var next = currentIndex <= 0 ? 0 : currentIndex - 1
+        if (_exclusive)
+            select(next)
+        else
+            currentIndex = next
+    }
+    Keys.onRightPressed: {
+        var count = _modelCount()
+        if (!_selectable || count <= 0)
+            return
+        var next = currentIndex < 0 ? 0 : Math.min(count - 1, currentIndex + 1)
+        if (_exclusive)
+            select(next)
+        else
+            currentIndex = next
+    }
+    Keys.onSpacePressed: {
+        if (_selectable && currentIndex >= 0)
+            toggleIndex(currentIndex)
+    }
+    Keys.onReturnPressed: {
+        if (_selectable && currentIndex >= 0)
+            toggleIndex(currentIndex)
+    }
+    Keys.onEnterPressed: {
+        if (_selectable && currentIndex >= 0)
+            toggleIndex(currentIndex)
+    }
 
     // True when this item is selected
     function isSelected(index) {

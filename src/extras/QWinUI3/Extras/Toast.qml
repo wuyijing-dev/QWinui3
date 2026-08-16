@@ -89,6 +89,21 @@ T.Control {
     }
     hoverEnabled: pauseOnHover
 
+    Accessible.role: Accessible.AlertMessage
+    Accessible.name: title.length ? title : severityName
+    Accessible.description: message
+    focusPolicy: isOpen ? Qt.StrongFocus : Qt.NoFocus
+    activeFocusOnTab: isOpen
+
+    Keys.onPressed: function (event) {
+        if (!isOpen)
+            return
+        if (event.key === Qt.Key_Escape) {
+            hide()
+            event.accepted = true
+        }
+    }
+
     Behavior on opacity {
         enabled: !Theme.reducedMotion
         NumberAnimation {

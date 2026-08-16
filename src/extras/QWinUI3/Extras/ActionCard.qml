@@ -58,8 +58,10 @@ T.AbstractButton {
     padding: 16
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
-    Accessible.name: title
+    Accessible.role: Accessible.Button
+    Accessible.name: title.length ? title : qsTr("Action")
     Accessible.description: description
+    Accessible.onPressAction: if (enabled) clicked()
 
     contentItem: RowLayout {
         spacing: Theme.spacingLoose

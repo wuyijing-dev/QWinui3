@@ -48,12 +48,13 @@ T.AbstractButton {
     readonly property int _radius: size === "small" ? 3 : 4
 
     hoverEnabled: true
-    focusPolicy: Qt.TabFocus
+    focusPolicy: Qt.NoFocus
     ToolTip.visible: hovered && toolTipText.length > 0
     ToolTip.text: toolTipText
     ToolTip.delay: 400
+    Accessible.role: Accessible.StaticText
     Accessible.name: toolTipText.length ? toolTipText
-                   : (keyText.length ? keyText : effectiveIconGlyph)
+                   : (keyText.length ? keyText : qsTr("Keyboard key"))
     implicitWidth: Math.max(minWidth, contentRow.implicitWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(size === "small" ? 22 : (size === "large" ? 34 : 28),
                              contentRow.implicitHeight + topPadding + bottomPadding)
