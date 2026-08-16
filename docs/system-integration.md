@@ -48,17 +48,42 @@ TrayIcon {
     id: tray
     trayVisible: true
     tooltip: qsTr("My App")
+    iconName: "dialog-information" // Linux themed icon (SNI IconName)
     onTrayActivated: function (reason) {
-        // Windows LOWORD(lParam): WM_LBUTTONUP 0x0202, DBLCLK 0x0203, RBUTTONUP 0x0205
+        // Windows: WM_LBUTTONUP 0x0202, DBLCLK 0x0203, RBUTTONUP 0x0205
+        // Linux SNI: 1 = Activate, 2 = ContextMenu, 3 = SecondaryActivate
+        // Show a MenuFlyout / CommandBarFlyout from ContextMenu (reason === 2) when needed.
     }
 }
 tray.notifySystem(qsTr("Saved"), qsTr("Document written."), 0) // 0 info, 1 warning, 2 error
 ```
 
+### Capability matrix
+
+| Capability | Windows | Linux |
+|------------|---------|-------|
+| Persistent tray icon | `Shell_NotifyIcon` | **StatusNotifierItem** via session D-Bus (`supportsPersistentTray`) |
+| Balloon / toast mirror | `NIIF_*` on tray | Notifications portal → `notify-send` (`supportsMessages`) |
+| Click / activate | `trayActivated` (Win mouse msgs) | `trayActivated` (SNI Activate / ContextMenu / SecondaryActivate) |
+| Themed icon name | — (uses app icon) | `iconName` → SNI `IconName` |
+| Built-in DBusMenu | N/A (app owns menu) | Not shipped — handle `reason === 2` in QML |
+
+`persistentTrayActive` is true when the icon is actually registered with the OS / watcher.
+
+### Linux desktop notes (1.24)
+
+| Desktop | Persistent tray | Notes |
+|---------|-----------------|-------|
+| **KDE Plasma** | Yes (reference host) | Ships `org.kde.StatusNotifierWatcher`; Gallery tray toggle should show an icon in the system tray |
+| GNOME Shell | Only with AppIndicator / SNI extension | Without a watcher, `trayVisible` stays best-effort; `notifySystem` still works |
+| Other SNI hosts (Unity, XFCE plugins, …) | When watcher is present | Same D-Bus path |
+
+Requires Qt **DBus** at build time (`QWINUI3_HAS_DBUS`). Without DBus, Linux falls back to notifications only.
+
 | Host | Notes |
 |------|-------|
 | Windows | `Shell_NotifyIcon` balloon; severity maps to `NIIF_INFO` / `WARNING` / `ERROR` |
-| Linux | No persistent StatusNotifierItem yet — `notifySystem` uses Notifications portal → `notify-send` |
+| Linux | Persistent SNI when a watcher is available; `notifySystem` uses Notifications portal → `notify-send` |
 
 ---
 

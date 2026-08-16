@@ -148,9 +148,10 @@ sudo apt install zenity kdialog   # fallbacks
 Theme.followSystemColorScheme = true
 ```
 
-## Notifications / OpenURI
+## Notifications / OpenURI / tray
 
 - `TrayIcon.notifySystem` → Notifications DBus → `notify-send`
+- `TrayIcon` persistent icon → **StatusNotifierItem** (`org.kde.StatusNotifierItem`) when `StatusNotifierWatcher` is on the session bus (proven on **KDE Plasma**; GNOME needs an AppIndicator/SNI extension). See [system-integration.md](system-integration.md).
 - `WindowHelper.openExternalUrl` → OpenURI portal → `QDesktopServices`
 
 ## Backdrop / blur (detail)
@@ -186,6 +187,7 @@ Ship a `.desktop` whose id matches `setDesktopFileName` (e.g. `org.qwinui3.galle
 | File dialogs | `IFileDialog` | portal (+ parent_window on X11) → zenity/kdialog |
 | Open URL | `QDesktopServices` | OpenURI portal → `QDesktopServices` |
 | Notifications | `Shell_NotifyIcon` | Notifications portal → notify-send |
+| Persistent tray | `Shell_NotifyIcon` | StatusNotifierItem (KDE / SNI hosts) |
 | Color scheme | AppsUseLightTheme | portal Settings → gsettings / KDE |
 | Dialog stacking | HWND owner | `setTransientParent` |
 | Fractional scale | DPI awareness | `PassThrough` + `devicePixelRatio` |

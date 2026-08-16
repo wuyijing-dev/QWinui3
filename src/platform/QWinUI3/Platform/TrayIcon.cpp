@@ -1,6 +1,10 @@
 #include "TrayIcon.h"
 #include "LinuxPortal.h"
 
+#if defined(Q_OS_LINUX) && defined(QWINUI3_HAS_DBUS)
+#  include "StatusNotifierItem.h"
+#endif
+
 #include <QCoreApplication>
 #include <QEvent>
 #include <QGuiApplication>
@@ -40,6 +44,28 @@ bool TrayIcon::supportsMessages() const
 #endif
 }
 
+bool TrayIcon::supportsPersistentTray() const
+{
+#if defined(Q_OS_WIN)
+    return true;
+#elif defined(Q_OS_LINUX) && defined(QWINUI3_HAS_DBUS)
+    return true; // Capability present; actual host depends on StatusNotifierWatcher.
+#else
+    return false;
+#endif
+}
+
+bool TrayIcon::persistentTrayActive() const
+{
+#if defined(Q_OS_WIN)
+    return m_created;
+#elif defined(Q_OS_LINUX) && defined(QWINUI3_HAS_DBUS)
+    return m_sni && m_sni->isRegistered();
+#else
+    return false;
+#endif
+}
+
 void TrayIcon::setTrayVisible(bool visible)
 {
     if (m_visible == visible)
@@ -50,6 +76,7 @@ void TrayIcon::setTrayVisible(bool visible)
     else
         destroyIcon();
     emit trayVisibleChanged();
+    emit persistentTrayActiveChanged();
 }
 
 void TrayIcon::setTooltip(const QString &tooltip)
@@ -67,10 +94,26 @@ void TrayIcon::setIconSource(const QUrl &url)
         return;
     m_iconSource = url;
     emit iconSourceChanged();
+#if defined(Q_OS_WIN)
     if (m_visible) {
         destroyIcon();
         ensureCreated();
+        emit persistentTrayActiveChanged();
     }
+#elif defined(Q_OS_LINUX) && defined(QWINUI3_HAS_DBUS)
+    // Prefer themed iconName; if iconSource is a bare name, mirror it.
+    if (m_iconName.isEmpty() && url.isValid() && url.scheme().isEmpty())
+        setIconName(url.path().isEmpty() ? url.toString() : url.path());
+#endif
+}
+
+void TrayIcon::setIconName(const QString &name)
+{
+    if (m_iconName == name)
+        return;
+    m_iconName = name;
+    applyIconName();
+    emit iconNameChanged();
 }
 
 void TrayIcon::notifySystem(const QString &title, const QString &message, int icon)
@@ -121,6 +164,19 @@ void TrayIcon::applyTooltip()
     wcsncpy_s(m_nid.szTip, reinterpret_cast<LPCWSTR>(m_tooltip.utf16()), _TRUNCATE);
     m_nid.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
     Shell_NotifyIconW(NIM_MODIFY, &m_nid);
+#elif defined(Q_OS_LINUX) && defined(QWINUI3_HAS_DBUS)
+    if (m_sni)
+        m_sni->setTooltip(m_tooltip);
+#endif
+}
+
+void TrayIcon::applyIconName()
+{
+#if defined(Q_OS_LINUX) && defined(QWINUI3_HAS_DBUS)
+    if (m_sni)
+        m_sni->setIconName(m_iconName);
+#else
+    Q_UNUSED(m_iconName);
 #endif
 }
 
@@ -154,8 +210,19 @@ void TrayIcon::ensureCreated()
     wcsncpy_s(m_nid.szTip, reinterpret_cast<LPCWSTR>(m_tooltip.utf16()), _TRUNCATE);
     if (Shell_NotifyIconW(NIM_ADD, &m_nid))
         m_created = true;
-#elif defined(Q_OS_LINUX)
-    // No persistent StatusNotifierItem yet — notify-send covers notifySystem.
+#elif defined(Q_OS_LINUX) && defined(QWINUI3_HAS_DBUS)
+    if (!m_visible)
+        return;
+    if (!m_sni) {
+        m_sni = new StatusNotifierItem(this);
+        QObject::connect(m_sni, &StatusNotifierItem::activated, this, &TrayIcon::trayActivated);
+    }
+    m_sni->setTitle(QCoreApplication::applicationName());
+    m_sni->setTooltip(m_tooltip);
+    m_sni->setIconName(m_iconName);
+    m_sni->registerItem();
+    // Watcher missing (e.g. GNOME without AppIndicator) — notifySystem still works.
+#else
     Q_UNUSED(m_visible);
 #endif
 }
@@ -171,6 +238,9 @@ void TrayIcon::destroyIcon()
         DestroyWindow(m_hwnd);
         m_hwnd = nullptr;
     }
+#elif defined(Q_OS_LINUX) && defined(QWINUI3_HAS_DBUS)
+    if (m_sni)
+        m_sni->unregisterItem();
 #endif
 }
 

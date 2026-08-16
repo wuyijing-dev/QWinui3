@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.23**  
-**Next up:** **1.24** (Linux persistent tray)  
+**Current:** **1.24**
+**Next up:** **1.25** (Performance handbook)
 **Planned through:** **1.50** (1.xx maturity checkpoint)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
 
@@ -60,7 +60,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.23`
+## Shipped — `1.01` … `1.24`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -154,31 +154,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** Promote stable subset `LineChart` / `BarChart` / `DonutChart` / `RingGauge` / `KpiTile` / `ChartCard`; [charts.md](docs/charts.md) + [stable-api.md](docs/stable-api.md); dashboard example uses only stable names; Gallery Charts hub callout; product version `1.23`.
 
+### 1.24 — Linux persistent tray (StatusNotifierItem) (shipped)
+
+**Shipped:** Linux `TrayIcon` registers `org.kde.StatusNotifierItem` when a session `StatusNotifierWatcher` is present (KDE Plasma reference); `supportsPersistentTray` / `persistentTrayActive` / `iconName`; ContextMenu → `trayActivated(2)` for app-owned menus; Win vs Linux matrix in [system-integration.md](docs/system-integration.md) + [platform-linux-wayland.md](docs/platform-linux-wayland.md); Gallery System Integration notes; product version `1.24`.
+
 ---
 
-## Mid path — planned `1.24` … `1.30`
+## Mid path — planned `1.25` … `1.30`
 
 Same rules: one theme per `YY`, still **not** `2.00`.
-
-### 1.24 — Linux persistent tray (StatusNotifierItem)
-
-**Why:** 1.10 TrayIcon is Windows-strong; Linux often falls back to notify-send only.
-
-**In scope**
-
-- StatusNotifierItem (or equivalent) path for persistent tray + menu actions where DE supports it.
-- Failure matrix in [system-integration.md](docs/system-integration.md) / platform-linux docs.
-- Gallery System Integration Linux notes.
-
-**Out of scope**
-
-- macOS tray; reinventing every DE’s indicator protocol forever.
-
-**Exit criteria**
-
-- Documented Win vs Linux tray capability table; at least one Linux DE proven in docs.
-
----
 
 ### 1.25 — Performance handbook
 

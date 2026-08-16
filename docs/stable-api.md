@@ -147,3 +147,4 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.21** | Media optional Multimedia recipe [media.md](media.md); stub when missing |
 | **1.22** | Animations & transitions recipe [animations.md](animations.md); Gallery hub + reducedMotion demos |
 | **1.23** | Promote chart subset Line/Bar/Donut + RingGauge + KpiTile + ChartCard — [charts.md](charts.md) |
+| **1.24** | Linux persistent tray (StatusNotifierItem) — [system-integration.md](system-integration.md) |

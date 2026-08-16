@@ -13,7 +13,7 @@ CatalogPage {
     id: page
 
     title: qsTr("System integration")
-    subtitle: qsTr("FilePicker / Tray (1.10). Shell extras: docs/shell-extras.md (1.17). Snap / power still experimental.")
+    subtitle: qsTr("FilePicker / Tray (1.10). Linux SNI tray (1.24). Shell extras: docs/shell-extras.md (1.17).")
 
     property string lastPath: qsTr("(none)")
     property real taskbarValue: 0.35
@@ -22,6 +22,7 @@ CatalogPage {
         id: tray
         trayVisible: trayToggle.checked
         tooltip: qsTr("QWinUI3 Gallery")
+        iconName: "dialog-information"
         onNotified: function (title, message) {
             toasts.info(message, title)
         }
@@ -159,8 +160,9 @@ CatalogPage {
                 wrapMode: Text.WordWrap
                 color: Theme.textSecondary
                 text: WindowHelper.windows
-                      ? qsTr("Windows: Shell_NotifyIcon balloon.")
-                      : qsTr("Linux: notify-send (install libnotify-bin).")
+                      ? qsTr("Windows: Shell_NotifyIcon balloon + persistent tray.")
+                      : qsTr("Linux: StatusNotifierItem when a tray watcher is present (KDE Plasma). notifySystem → portal / notify-send. supportsPersistentTray=%1, persistentTrayActive=%2.")
+                            .arg(tray.supportsPersistentTray).arg(tray.persistentTrayActive)
             }
             Button {
                 text: qsTr("Notify info")
