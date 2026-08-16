@@ -6,11 +6,12 @@ import QWinUI3.Extras
 
 // Gallery — NavigationView.
 //
-// Top-level navigation with PaneDisplayMode (Left / LeftCompact / Top) and an optional Back button. API: docs/components/NavigationView.md
+// Top-level navigation with PaneDisplayMode (Left / LeftCompact / Top).
+// Left-rail title bar is hamburger + paneTitle; Back is for top mode / TitleBar. API: docs/components/NavigationView.md
 
 CatalogPage {
     title: qsTr("NavigationView")
-    subtitle: qsTr("Pane modes, Back button, and pageTransition animations (slide / fade / drill / …).")
+    subtitle: qsTr("Pane modes, rail title bar (hamburger + title), and pageTransition animations.")
 
     ControlExample {
         headerText: qsTr("Embedded sample")
@@ -30,14 +31,15 @@ CatalogPage {
                 }
                 CheckBox {
                     id: backVis
-                    text: qsTr("Back button")
+                    text: qsTr("Back (top mode)")
                     checked: true
+                    enabled: paneMode.currentText === "top"
                 }
                 CheckBox {
                     id: backEn
                     text: qsTr("Back enabled")
                     checked: true
-                    enabled: backVis.checked
+                    enabled: backVis.checked && paneMode.currentText === "top"
                 }
                 CheckBox {
                     id: settingsVis
@@ -110,7 +112,7 @@ CatalogPage {
                 currentKey: "home"
                 pageTransition: "slide"
                 paneDisplayMode: paneMode.currentText
-                isBackButtonVisible: backVis.checked
+                isBackButtonVisible: backVis.checked && paneMode.currentText === "top"
                 isBackEnabled: backEn.checked
                 isSettingsVisible: settingsVis.checked
                 isPaneToggleButtonVisible: toggleVis.checked

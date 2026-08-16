@@ -40,6 +40,8 @@ model entries: type "item"|"group"|"header"; groups use children[].
 pageModule + component names load StackView pages (unless hostContent).
 paneDisplayMode auto switches left / leftCompact by width.
 leftMinimal overlays content with a light-dismiss scrim.
+Left-rail title bar is hamburger + paneTitle only (no Back); Back belongs on TitleBar / top mode.
+When the rail title bar is shown, hamburger and title are always paired.
 pageTransition / openPage modes: slide | slideRight | fade | center | drill |
 up | down | cover | none (suppress). Pane clicks use pageTransition.
 WinUI aliases: paneTitle, openPaneLength, compactPaneLength, isSettingsVisible, isPaneToggleButtonVisible.
@@ -56,12 +58,12 @@ Prefer selectKey / openPage over mutating currentIndex alone.
 | `paneOpen` | `bool` | Expanded pane when true (left / leftMinimal); compact modes force false |
 | `isPaneOpen` | `alias` | WinUI IsPaneOpen alias |
 | `isPaneVisible` | `bool` | WinUI IsPaneVisible — hide the navigation pane entirely when false |
-| `alwaysShowHeader` | `bool` | WinUI AlwaysShowHeader — keep pane title visible in compact / collapsed modes |
+| `alwaysShowHeader` | `bool` | WinUI AlwaysShowHeader — show the left-rail title bar (hamburger + paneTitle) in leftCompact |
 | `paneWidth` | `real` | Expanded pane width (WinUI OpenPaneLength) |
 | `openPaneLength` | `alias` | — |
 | `paneCompactWidth` | `real` | Compact pane width (WinUI CompactPaneLength) |
 | `compactPaneLength` | `alias` | — |
-| `headerText` | `string` | Pane header title text (WinUI PaneTitle) |
+| `headerText` | `string` | Pane header title text (WinUI PaneTitle); always paired with the hamburger when the rail title bar is shown |
 | `paneTitle` | `alias` | — |
 | `footerText` | `string` | Footer row label |
 | `footerSymbol` | `var` | Footer FluentIcons symbol |
@@ -70,10 +72,10 @@ Prefer selectKey / openPage over mutating currentIndex alone.
 | `pageModule` | `string` | QML import URI used to resolve page components |
 | `footerSelected` | `bool` | True when footer row is selected |
 | `isSettingsVisible` | `bool` | WinUI IsSettingsVisible — show the settings/footer item |
-| `isPaneToggleButtonVisible` | `bool` | WinUI IsPaneToggleButtonVisible — hamburger / pane toggle |
+| `isPaneToggleButtonVisible` | `bool` | WinUI IsPaneToggleButtonVisible — left-rail title bar (hamburger + paneTitle as a pair) |
 | `paneDisplayMode` | `string` | WinUI PaneDisplayMode: left \| leftCompact \| leftMinimal \| top \| auto |
 | `autoCompactThreshold` | `real` | Width below which auto mode uses leftCompact |
-| `isBackButtonVisible` | `bool` | Show back button |
+| `isBackButtonVisible` | `bool` | Show back in top pane mode (left rail uses TitleBar / ShellWindow back) |
 | `isBackEnabled` | `bool` | Enable back button |
 | `isPaneSearchEnabled` | `bool` | Shows SearchBox at the top of the pane when open |
 | `paneSearchText` | `string` | Pane SearchBox text |
@@ -85,7 +87,7 @@ Prefer selectKey / openPage over mutating currentIndex alone.
 | `content` | `alias` | Content slot / children host |
 | `pageHistory` | `var` | Soft navigation history for TitleBar / pane back (replace stack still applies) |
 | `canGoBack` | `bool` | — |
-| `effectiveBackVisible` | `bool` | Mirror history into the chrome back button when the app leaves the default false |
+| `effectiveBackVisible` | `bool` | Top-pane / shell chrome back visibility |
 | `effectiveBackEnabled` | `bool` | — |
 | `effectiveFooterIcon` | `string` | Resolved footer icon |
 | `resolvedPaneMode` | `string` | Effective pane mode after auto |

@@ -35,6 +35,7 @@ import QWinUI3.Theme
 //   pageModule + component names load StackView pages (unless hostContent).
 //   paneDisplayMode auto switches left / leftCompact by width.
 //   leftMinimal overlays content with a light-dismiss scrim.
+//   Left-rail title bar is hamburger + paneTitle (paired); Back is top mode / TitleBar.
 //   pageTransition / openPage modes: slide | slideRight | fade | center | drill |
 //   up | down | cover | none (suppress). Pane clicks use pageTransition.
 //   WinUI aliases: paneTitle, openPaneLength, compactPaneLength, isSettingsVisible, isPaneToggleButtonVisible.
@@ -57,7 +58,7 @@ Item {
     property alias isPaneOpen: root.paneOpen
     // WinUI IsPaneVisible — hide the navigation pane entirely when false
     property bool isPaneVisible: true
-    // WinUI AlwaysShowHeader — keep pane title visible in compact / collapsed modes
+    // WinUI AlwaysShowHeader — show the pane title bar in leftCompact (hamburger + title)
     property bool alwaysShowHeader: false
     // Expanded pane width (WinUI OpenPaneLength)
     property real paneWidth: Theme.navPaneWidth
@@ -82,13 +83,13 @@ Item {
     property bool footerSelected: false
     // WinUI IsSettingsVisible — show the settings/footer item
     property bool isSettingsVisible: true
-    // WinUI IsPaneToggleButtonVisible — hamburger / pane toggle
+    // WinUI IsPaneToggleButtonVisible — left-rail title bar (hamburger + paneTitle as a pair)
     property bool isPaneToggleButtonVisible: true
     // WinUI PaneDisplayMode: left | leftCompact | leftMinimal | top | auto
     property string paneDisplayMode: "left"
     // Width below which auto mode uses leftCompact
     property real autoCompactThreshold: 1008
-    // Show back button
+    // Show back in top pane mode only (left rail uses TitleBar / ShellWindow back)
     property bool isBackButtonVisible: false
     // Enable back button
     property bool isBackEnabled: true
@@ -112,9 +113,21 @@ Item {
     property var pageHistory: []
     property bool _suppressHistory: false
     readonly property bool canGoBack: pageHistory.length > 0
-    // Mirror history into the chrome back button when the app leaves the default false
+    // Top-pane / shell chrome back (left rail no longer hosts Back)
     readonly property bool effectiveBackVisible: isBackButtonVisible || canGoBack
     readonly property bool effectiveBackEnabled: isBackEnabled && canGoBack
+    // Left-rail title bar: hamburger + paneTitle must appear together when shown
+    readonly property bool _showPaneTitleBar: {
+        if (!isPaneToggleButtonVisible || !isPaneVisible)
+            return false
+        var mode = resolvedPaneMode
+        if (mode === "top")
+            return false
+        // Compact: no title-only glyph; show the full pair only with AlwaysShowHeader
+        if (mode === "leftCompact")
+            return alwaysShowHeader
+        return true
+    }
 
     // Resolved footer icon
     readonly property string effectiveFooterIcon: IconSource.resolve(footerSymbol, footerIcon)
@@ -1166,55 +1179,23 @@ Item {
                 anchors.margins: 4
                 spacing: 2
 
+                // Pane title bar: hamburger + paneTitle only (Back lives on TitleBar / top mode)
                 ItemDelegate {
-                    visible: root.effectiveBackVisible
-                    enabled: root.effectiveBackEnabled
+                    id: paneTitleBar
+                    visible: root._showPaneTitleBar
                     Layout.fillWidth: true
                     Layout.preferredHeight: Theme.navItemHeight
-                    opacity: enabled ? 1 : 0.4
+                    text: root.headerText
                     onClicked: {
-                        if (root.canGoBack)
-                            root.navigateBack()
-                        else
-                            root.backRequested()
-                    }
-                    ToolTip.visible: !root.paneOpen && hovered
-                    ToolTip.text: qsTr("Back")
-
-                    contentItem: RowLayout {
-                        spacing: 12
-                        Text {
-                            text: FluentIcons.Back
-                            font.family: Theme.fontFamilyIcon
-                            font.pixelSize: 16
-                            color: Theme.textPrimary
-                            Layout.preferredWidth: 20
-                            horizontalAlignment: Text.AlignHCenter
-                        }
-                        Text {
-                            visible: root.paneOpen
-                            text: qsTr("Back")
-                            font.family: Theme.fontFamily
-                            font.pixelSize: Theme.fontBody
-                            color: Theme.textPrimary
-                            Layout.fillWidth: true
+                        if (root.resolvedPaneMode === "leftCompact") {
+                            if (root.paneDisplayMode === "leftCompact")
+                                root.paneDisplayMode = "left"
+                            root.paneOpen = true
+                        } else {
+                            root.paneOpen = !root.paneOpen
                         }
                     }
-                    background: Rectangle {
-                        radius: Theme.cornerControl
-                        color: parent.down ? Theme.fillSubtleTertiary
-                             : (parent.hovered ? Theme.fillSubtle : "transparent")
-                    }
-                }
-
-                ItemDelegate {
-                    visible: root.isPaneToggleButtonVisible
-                             && (root.resolvedPaneMode === "left" || root.resolvedPaneMode === "leftMinimal")
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: Theme.navItemHeight
-                    text: (root.paneOpen || root.alwaysShowHeader) ? root.headerText : ""
-                    onClicked: root.paneOpen = !root.paneOpen
-                    ToolTip.visible: !root.paneOpen && !root.alwaysShowHeader && hovered
+                    ToolTip.visible: hovered && root._paneWidth < 120
                     ToolTip.text: root.paneOpen ? qsTr("Collapse") : qsTr("Expand")
 
                     contentItem: RowLayout {
@@ -1226,7 +1207,7 @@ Item {
                             color: Theme.textPrimary
                             Layout.preferredWidth: 20
                             horizontalAlignment: Text.AlignHCenter
-                            rotation: root.paneOpen ? 0 : 180
+                            rotation: root.paneOpen || root.resolvedPaneMode === "leftCompact" ? 0 : 180
                             Behavior on rotation {
                                 enabled: !Theme.reducedMotion
                                 NumberAnimation {
@@ -1236,42 +1217,15 @@ Item {
                             }
                         }
                         Text {
-                            visible: root.paneOpen || root.alwaysShowHeader
-                            opacity: (root.paneOpen || root.alwaysShowHeader) ? 1 : 0
-                            text: root.headerText
+                            // Title is required whenever the rail title bar is shown
+                            text: root.headerText.length ? root.headerText : qsTr("Navigation")
                             font.family: Theme.fontFamily
                             font.pixelSize: Theme.fontBody
                             font.weight: Theme.fontWeightSemiBold
                             color: Theme.textPrimary
                             elide: Text.ElideRight
                             Layout.fillWidth: true
-                            Behavior on opacity {
-                                enabled: !Theme.reducedMotion
-                                NumberAnimation {
-                                    duration: Theme.duration(Theme.motionFast)
-                                }
-                            }
                         }
-                    }
-                }
-
-                ItemDelegate {
-                    visible: root.resolvedPaneMode === "leftCompact"
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: Theme.navItemHeight
-                    enabled: false
-                    contentItem: Text {
-                        text: root.alwaysShowHeader
-                              ? root.headerText
-                              : (root.headerText.length ? root.headerText.charAt(0) : "Q")
-                        font.family: Theme.fontFamily
-                        font.pixelSize: Theme.fontBody
-                        font.weight: Theme.fontWeightSemiBold
-                        color: Theme.textPrimary
-                        elide: Text.ElideRight
-                        horizontalAlignment: root.alwaysShowHeader ? Text.AlignLeft : Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                        leftPadding: root.alwaysShowHeader ? 8 : 0
                     }
                 }
 
