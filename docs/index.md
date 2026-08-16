@@ -21,6 +21,7 @@ This site is generated from QML source comments and shipped via GitHub Pages.
 | [CI smoke](ci-smoke.md) | Release Gallery `--smoke` gate (1.06) |
 | [Data collections](data-collections.md) | DataTable / ItemsView / ListDetailsView (1.07) |
 | [Forms & settings](forms.md) | FormLayout validation + settings recipes (1.08) |
+| [Theme overrides](theme-overrides.md) | Accent / density / branding knobs (1.09) |
 | [Qt Creator](qt-creator.md) | Open / build the CMake project |
 | [Qt version compat](qt-version-compat.md) | C++ shims for Qt 6.5 / 6.8 / 6.10+ |
 

@@ -62,7 +62,7 @@ Style module (`QT_QUICK_CONTROLS_STYLE=QWinUI3`): treating **standard** `QtQuick
 
 | Type | Module | Notes |
 |------|--------|--------|
-| `Theme` singleton | Theme | Tokens, density, dark/light, accent |
+| `Theme` singleton | Theme | Tokens, density, dark/light, accent — [theme-overrides.md](theme-overrides.md) (1.09) |
 | `FluentIcons` | Theme | Symbol font API |
 | Style `QWinUI3` | Style | Drop-in Fluent chrome for Controls |
 

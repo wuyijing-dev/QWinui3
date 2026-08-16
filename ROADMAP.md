@@ -1,6 +1,6 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.08**  
+**Current:** **1.09**  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
 
 This plan starts from **what 1.00 already was**, then walks **small `1.xx` minors**. Stay on **1.xx for a long time**. **2.00 is not next**—only when we truly need breaking changes.
@@ -107,14 +107,9 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-### 1.09 — Branding & Theme overrides (docs + sample)
+### 1.09 — Branding & Theme overrides (docs + sample) (shipped)
 
-**Why:** Theme tokens exist; apps need a supported override path.
-
-- Document accent / density / token overrides.
-- One small “branded” sample (Gallery page or example)—no Style fork.
-
-**Not in 1.09:** Fluent 2 full restyle of all Style controls.
+**Shipped:** [theme-overrides.md](docs/theme-overrides.md) (writable knobs vs readonly tokens); Gallery **Theme overrides** page (presets + customAccent + density; restores Theme on leave); Settings **Custom accent**; product version `1.09`.
 
 ---
 

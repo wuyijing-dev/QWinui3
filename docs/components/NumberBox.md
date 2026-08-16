@@ -4,7 +4,7 @@ Numeric spin/edit with validation (WinUI AcceptsExpression / IsWrapEnabled).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/NumberBox.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/NumberBox.qml)
 
-**Category:** Input & forms · **Library:** v1.08
+**Category:** Input & forms · **Library:** v1.09
 
 [← Component index](../components.md)
 

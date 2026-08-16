@@ -1070,6 +1070,14 @@ QtObject {
             source: "pages/ThemeTransitionsPage.qml"
         },
         {
+            title: qsTr("Theme overrides"),
+            category: "status",
+            icon: FluentIcons.Color,
+            description: qsTr("Brand via customAccent / density / dark — no Style fork (1.09)."),
+            component: "ThemeOverridesPage",
+            source: "pages/ThemeOverridesPage.qml"
+        },
+        {
             title: qsTr("ConnectedAnimation"),
             category: "status",
             icon: FluentIcons.Sync,

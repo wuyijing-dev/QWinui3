@@ -181,6 +181,7 @@ qt_add_qml_module(qwinui3_gallery
         pages/TabViewPage.qml
         pages/TeachingTipPage.qml
         pages/ThemeTransitionsPage.qml
+        pages/ThemeOverridesPage.qml
         pages/TextAreaPage.qml
         pages/TextBlockPage.qml
         pages/TextFieldPage.qml

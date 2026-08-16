@@ -35,6 +35,7 @@ import QtQuick
 //   density "standard"|"compact" scales controlHeight / padding / spacing.
 //   devicePixelRatio + uiScale: hairline strokes and optional extra UI scale (ShellWindow syncs DPR).
 //   accentPack "blue"|"purple"|"green"|"orange"; customAccent (alpha>0) overrides pack.
+//   Branding: set knobs only — do not assign readonly bg*/text* or fork Style (docs/theme-overrides.md).
 //   Use Theme.duration(ms) and controlFill/accentFill helpers for states.
 
 QtObject {

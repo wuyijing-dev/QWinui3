@@ -4,7 +4,7 @@ Fluent color / type / motion token singleton.
 
 `import QWinUI3.Theme` · [`src/theme/QWinUI3/Theme/Theme.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/theme/QWinUI3/Theme/Theme.qml)
 
-**Category:** Theme · **Library:** v1.08
+**Category:** Theme · **Library:** v1.09
 
 [← Component index](../components.md)
 
@@ -47,6 +47,7 @@ Theme.dark / reducedMotion / highContrast; followSystemAccessibility mirrors Win
 density "standard"|"compact" scales controlHeight / padding / spacing.
 devicePixelRatio + uiScale: hairline strokes and optional extra UI scale (ShellWindow syncs DPR).
 accentPack "blue"|"purple"|"green"|"orange"; customAccent (alpha>0) overrides pack.
+Branding: set knobs only — do not assign readonly bg*/text* or fork Style (docs/theme-overrides.md).
 Use Theme.duration(ms) and controlFill/accentFill helpers for states.
 
 ## API

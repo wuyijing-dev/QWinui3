@@ -128,6 +128,29 @@ Page {
         }
 
         SettingsCard {
+            title: qsTr("Custom accent")
+            description: qsTr("Theme.customAccent overrides the pack (alpha > 0). Clear via setAccentPack.")
+            symbol: FluentIcons.Color
+            action: RowLayout {
+                spacing: 8
+                ColorPickerButton {
+                    selectedColor: Theme.customAccent.a > 0.001
+                                   ? Theme.customAccent : Theme.accent
+                    showHexLabel: true
+                    onColorChosen: function (c) {
+                        if (c.a > 0.001)
+                            Theme.customAccent = c
+                    }
+                }
+                Button {
+                    flat: true
+                    text: qsTr("Clear")
+                    onClicked: Theme.setAccentPack(Theme.accentPack)
+                }
+            }
+        }
+
+        SettingsCard {
             title: qsTr("Appearance")
             description: qsTr("Toggles the QWinUI3 Theme singleton between light and dark color ramps.")
             symbol: FluentIcons.Color
