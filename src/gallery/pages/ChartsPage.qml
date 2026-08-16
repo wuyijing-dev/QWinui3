@@ -7,11 +7,12 @@ import QWinUI3.Extras
 // Gallery — Charts.
 //
 // WinUI-style Canvas charts. Open each control in the Charts category for focused demos.
+// API naming recipe: docs/charts.md (1.11).
 
 CatalogPage {
     id: page
     title: qsTr("Charts")
-    subtitle: qsTr("WinUI-style Canvas charts. Open each control in the Charts category for focused demos.")
+    subtitle: qsTr("Canvas charts & gauges. Naming recipe: docs/charts.md — prefer series/values/slices, unit, interactive.")
 
     readonly property var sparkData: {
         var a = []
@@ -27,8 +28,25 @@ CatalogPage {
     }
 
     ControlExample {
+        headerText: qsTr("API consistency (1.11)")
+        qmlSource: "// Prefer: series / values / slices\n// unit (== valueUnit), interactive (== isInteractive)\n// See docs/charts.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("High-traffic charts share one naming story: series or values for trends, values or bars for columns, slices (or values) for part-to-whole, unit on gauges and bar labels, interactive on both charts and gauges.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+        }
+    }
+
+    ControlExample {
         headerText: qsTr("Trend + columns")
-        qmlSource: "LineChart / BarChart"
+        qmlSource: "LineChart { values: […] }\nBarChart { values: […]; unit: \" MB\" }"
         ColumnLayout {
             Layout.fillWidth: true
             spacing: Theme.spacing
@@ -42,13 +60,15 @@ CatalogPage {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 100
                 values: [18, 26, 22, 34, 40, 31, 28]
+                unit: " MB"
+                showValueLabels: true
             }
         }
     }
 
     ControlExample {
         headerText: qsTr("Part-to-whole")
-        qmlSource: "DonutChart / PieChart"
+        qmlSource: "DonutChart { slices: […] }\nPieChart { values: [50, 30, 20] }"
         RowLayout {
             Layout.fillWidth: true
             spacing: Theme.spacingLoose
@@ -66,11 +86,8 @@ CatalogPage {
             PieChart {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 140
-                slices: [
-                    { value: 50, label: qsTr("A"), color: Theme.accent },
-                    { value: 30, label: qsTr("B"), color: Theme.systemSuccess },
-                    { value: 20, label: qsTr("C"), color: Theme.systemCritical }
-                ]
+                // Convenience values (1.11) — same as slices without labels
+                values: [50, 30, 20]
             }
         }
     }

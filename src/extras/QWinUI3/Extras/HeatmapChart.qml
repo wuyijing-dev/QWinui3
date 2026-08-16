@@ -46,6 +46,8 @@ T.Control {
     property bool animated: true
     // Enable hover / click interaction
     property bool interactive: true
+    // Alias of interactive (gauge / KPI naming parity)
+    property alias isInteractive: root.interactive
     // 0..1 reveal animation progress
     property real revealProgress: 1
     // Hovered heatmap row index

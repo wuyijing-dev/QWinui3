@@ -20,7 +20,7 @@ import QWinUI3.Theme
 // @notes
 //   Prefer series: [{ name, values, color? }] or a flat values: number[].
 //   Large series use LOD (invalidateLod / ensureLod); call requestRedraw after data changes.
-//   playReveal() replays the enter animation; clearHover() resets crosshair.
+//   interactive / isInteractive aliases. playReveal() / clearHover() for enter + crosshair.
 
 T.Control {
     id: root
@@ -44,6 +44,8 @@ T.Control {
     property bool showLegend: true
     // Enable hover / click interaction
     property bool interactive: true
+    // Alias of interactive (gauge / KPI naming parity)
+    property alias isInteractive: root.interactive
     // Play enter / reveal animation
     property bool animated: true
     // Max points before LOD kicks in

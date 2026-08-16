@@ -4,7 +4,7 @@ Stacked bar chart.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/StackedBarChart.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/StackedBarChart.qml)
 
-**Category:** Charts & gauges · **Library:** v1.10
+**Category:** Charts & gauges · **Library:** v1.11
 
 [← Component index](../components.md)
 
@@ -47,6 +47,7 @@ Stacked series segments per category; series items supply stacked values.
 | `showLegend` | `bool` | Show chart legend |
 | `showCategoryLabels` | `bool` | Show category axis labels |
 | `interactive` | `bool` | Enable hover / click interaction |
+| `isInteractive` | `alias` | Alias of interactive (gauge / KPI naming parity) |
 | `animated` | `bool` | Play enter / reveal animation |
 | `revealProgress` | `real` | 0..1 reveal animation progress |
 | `hoverCategory` | `int` | Hovered category index |

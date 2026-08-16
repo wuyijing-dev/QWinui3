@@ -4,7 +4,7 @@ Waterfall chart.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/WaterfallChart.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/WaterfallChart.qml)
 
-**Category:** Charts & gauges · **Library:** v1.10
+**Category:** Charts & gauges · **Library:** v1.11
 
 [← Component index](../components.md)
 
@@ -43,6 +43,7 @@ values are signed deltas; total/connector styling via chart props.
 | `showConnector` | `bool` | Show connectors between steps |
 | `showLabels` | `bool` | Show item labels |
 | `interactive` | `bool` | Enable hover / click interaction |
+| `isInteractive` | `alias` | Alias of interactive (gauge / KPI naming parity) |
 | `animated` | `bool` | Play enter / reveal animation |
 | `revealProgress` | `real` | 0..1 reveal animation progress |
 | `hoverIndex` | `int` | Hovered item index |
@@ -52,6 +53,7 @@ values are signed deltas; total/connector styling via chart props.
 | `title` | `string` | Primary title text |
 | `emptyText` | `string` | Placeholder when there is no data |
 | `valueUnit` | `string` | Unit appended to value text |
+| `unit` | `alias` | Alias of valueUnit (gauge / KPI naming parity) |
 | `isEmpty` | `bool` | True when there is no data |
 
 ### Signals

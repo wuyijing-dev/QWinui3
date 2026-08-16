@@ -1,6 +1,6 @@
 {
   "name": "QWinUI3",
-  "version": "1.10",
+  "version": "1.11",
   "generatedBy": "scripts/generate_component_docs.py",
   "publicCount": 208,
   "components": [
@@ -135,7 +135,7 @@
       "galleryPage": "pages/AreaChartPage.qml",
       "galleryTitle": "AreaChart",
       "doc": "components/AreaChart.md",
-      "propertyCount": 23,
+      "propertyCount": 24,
       "signalCount": 0,
       "methodCount": 5
     },
@@ -180,7 +180,7 @@
       "galleryPage": "pages/BarChartPage.qml",
       "galleryTitle": "BarChart",
       "doc": "components/BarChart.md",
-      "propertyCount": 17,
+      "propertyCount": 19,
       "signalCount": 1,
       "methodCount": 2
     },
@@ -270,7 +270,7 @@
       "galleryPage": "",
       "galleryTitle": "",
       "doc": "components/ChartLegend.md",
-      "propertyCount": 7,
+      "propertyCount": 8,
       "signalCount": 2,
       "methodCount": 2
     },
@@ -600,7 +600,7 @@
       "galleryPage": "pages/DonutChartPage.qml",
       "galleryTitle": "DonutChart",
       "doc": "components/DonutChart.md",
-      "propertyCount": 16,
+      "propertyCount": 18,
       "signalCount": 1,
       "methodCount": 2
     },
@@ -810,7 +810,7 @@
       "galleryPage": "pages/HeatmapChartPage.qml",
       "galleryTitle": "HeatmapChart",
       "doc": "components/HeatmapChart.md",
-      "propertyCount": 17,
+      "propertyCount": 18,
       "signalCount": 1,
       "methodCount": 4
     },
@@ -825,7 +825,7 @@
       "galleryPage": "pages/HorizontalBarChartPage.qml",
       "galleryTitle": "HorizontalBarChart",
       "doc": "components/HorizontalBarChart.md",
-      "propertyCount": 18,
+      "propertyCount": 20,
       "signalCount": 1,
       "methodCount": 2
     },
@@ -1035,7 +1035,7 @@
       "galleryPage": "pages/LineChartPage.qml",
       "galleryTitle": "LineChart",
       "doc": "components/LineChart.md",
-      "propertyCount": 26,
+      "propertyCount": 27,
       "signalCount": 0,
       "methodCount": 6
     },
@@ -1335,7 +1335,7 @@
       "galleryPage": "pages/PieChartPage.qml",
       "galleryTitle": "PieChart",
       "doc": "components/PieChart.md",
-      "propertyCount": 13,
+      "propertyCount": 15,
       "signalCount": 1,
       "methodCount": 2
     },
@@ -1410,7 +1410,7 @@
       "galleryPage": "pages/RadarChartPage.qml",
       "galleryTitle": "RadarChart",
       "doc": "components/RadarChart.md",
-      "propertyCount": 16,
+      "propertyCount": 17,
       "signalCount": 0,
       "methodCount": 3
     },
@@ -1545,7 +1545,7 @@
       "galleryPage": "pages/ScatterChartPage.qml",
       "galleryTitle": "ScatterChart",
       "doc": "components/ScatterChart.md",
-      "propertyCount": 26,
+      "propertyCount": 27,
       "signalCount": 1,
       "methodCount": 5
     },
@@ -1800,7 +1800,7 @@
       "galleryPage": "pages/StackedBarChartPage.qml",
       "galleryTitle": "StackedBarChart",
       "doc": "components/StackedBarChart.md",
-      "propertyCount": 18,
+      "propertyCount": 19,
       "signalCount": 1,
       "methodCount": 2
     },
@@ -2220,7 +2220,7 @@
       "galleryPage": "pages/WaterfallChartPage.qml",
       "galleryTitle": "WaterfallChart",
       "doc": "components/WaterfallChart.md",
-      "propertyCount": 15,
+      "propertyCount": 17,
       "signalCount": 1,
       "methodCount": 3
     },

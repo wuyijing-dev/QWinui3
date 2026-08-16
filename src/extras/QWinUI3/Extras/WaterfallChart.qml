@@ -36,6 +36,8 @@ T.Control {
     property bool showLabels: true
     // Enable hover / click interaction
     property bool interactive: true
+    // Alias of interactive (gauge / KPI naming parity)
+    property alias isInteractive: root.interactive
     // Play enter / reveal animation
     property bool animated: true
     // 0..1 reveal animation progress
@@ -54,6 +56,8 @@ T.Control {
     property string emptyText: qsTr("No data")
     // Unit appended to value text
     property string valueUnit: ""
+    // Alias of valueUnit (gauge / KPI naming parity)
+    property alias unit: root.valueUnit
 
     // Emitted when a step is clicked
     signal stepClicked(int index, real value)

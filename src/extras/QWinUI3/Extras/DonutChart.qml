@@ -17,7 +17,9 @@ import QWinUI3.Theme
 //   // donutChart.requestRedraw()
 //
 // @notes
-//   PieChart with a hollow center (inner/outer radius); center label optional.
+//   Prefer slices: [{ value, label?, color? }]. Convenience values: number[] when slices
+//   is empty. Hollow center via thickness; centerText / centerSubText optional.
+//   interactive / isInteractive aliases.
 
 T.Control {
     id: root
@@ -27,6 +29,8 @@ T.Control {
 
     // Pie/donut slice descriptors
     property var slices: []
+    // Convenience values when slices is empty (number[] or { value, label?, color? }[])
+    property var values: []
     // Donut ring thickness
     property real thickness: 14
     // Show center label in donut
@@ -39,6 +43,8 @@ T.Control {
     property bool showLegend: true
     // Enable hover / click interaction
     property bool interactive: true
+    // Alias of interactive (gauge / KPI naming parity)
+    property alias isInteractive: root.interactive
     // Play enter / reveal animation
     property bool animated: true
     // Arc start angle in degrees
@@ -61,13 +67,33 @@ T.Control {
     implicitHeight: title.length ? 188 : 168
     padding: 8
 
+    readonly property var _slices: {
+        if (slices && slices.length)
+            return slices
+        var vals = values || []
+        var out = []
+        for (var i = 0; i < vals.length; ++i) {
+            var it = vals[i]
+            if (typeof it === "number") {
+                out.push({ value: it, label: String(i + 1), color: ChartUtils.palette(Theme, i) })
+            } else if (it && typeof it === "object") {
+                out.push({
+                    value: ChartUtils.asNumber(it.value !== undefined ? it.value : it),
+                    label: it.label || String(i + 1),
+                    color: it.color || ChartUtils.palette(Theme, i)
+                })
+            }
+        }
+        return out
+    }
+
     // True when there is no data
-    readonly property bool isEmpty: !slices || slices.length === 0 || total <= 0
+    readonly property bool isEmpty: !_slices.length || total <= 0
 
     // Sum of segment values
     readonly property real total: {
         var s = 0
-        var list = slices || []
+        var list = _slices
         for (var i = 0; i < list.length; ++i)
             s += Math.max(0, ChartUtils.asNumber(list[i].value))
         return s
@@ -95,6 +121,7 @@ T.Control {
     // Request chart / canvas redraw
     function requestRedraw() { canvas.requestPaint() }
     onSlicesChanged: { hoverIndex = -1; Qt.callLater(playReveal) }
+    onValuesChanged: { hoverIndex = -1; Qt.callLater(playReveal) }
     onThicknessChanged: requestRedraw()
     onRevealProgressChanged: requestRedraw()
     onHoverIndexChanged: requestRedraw()
@@ -162,7 +189,7 @@ T.Control {
                     ctx.reset()
                     var w = width
                     var h = height
-                    var list = root.slices || []
+                    var list = root._slices
                     if (w < 8 || h < 8 || !list.length)
                         return
                     var cx = w * 0.5
@@ -221,7 +248,7 @@ T.Control {
                     root._hitTest(mouse.x, mouse.y)
                     if (root.hoverIndex >= 0)
                         root.sliceClicked(root.hoverIndex,
-                                          ChartUtils.asNumber(root.slices[root.hoverIndex].value))
+                                          ChartUtils.asNumber(root._slices[root.hoverIndex].value))
                 }
             }
 
@@ -240,8 +267,8 @@ T.Control {
                     width: parent.width
                     horizontalAlignment: Text.AlignHCenter
                     text: {
-                        if (root.hoverIndex >= 0 && root.slices && root.slices[root.hoverIndex]) {
-                            var v = ChartUtils.asNumber(root.slices[root.hoverIndex].value)
+                        if (root.hoverIndex >= 0 && root._slices[root.hoverIndex]) {
+                            var v = ChartUtils.asNumber(root._slices[root.hoverIndex].value)
                             var pct = root.total > 0 ? Math.round(v / root.total * 100) : 0
                             return pct + "%"
                         }
@@ -258,8 +285,8 @@ T.Control {
                     width: parent.width
                     horizontalAlignment: Text.AlignHCenter
                     text: {
-                        if (root.hoverIndex >= 0 && root.slices && root.slices[root.hoverIndex])
-                            return root.slices[root.hoverIndex].label || ""
+                        if (root.hoverIndex >= 0 && root._slices[root.hoverIndex])
+                            return root._slices[root.hoverIndex].label || ""
                         return root.centerSubText
                     }
                     visible: text.length > 0
@@ -277,7 +304,7 @@ T.Control {
             Layout.alignment: Qt.AlignVCenter
             spacing: 6
             Repeater {
-                model: root.slices
+                model: root._slices
                 Rectangle {
                     required property var modelData
                     required property int index

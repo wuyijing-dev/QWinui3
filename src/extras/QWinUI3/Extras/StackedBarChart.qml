@@ -45,6 +45,8 @@ T.Control {
     property bool showCategoryLabels: true
     // Enable hover / click interaction
     property bool interactive: true
+    // Alias of interactive (gauge / KPI naming parity)
+    property alias isInteractive: root.interactive
     // Play enter / reveal animation
     property bool animated: true
     // 0..1 reveal animation progress

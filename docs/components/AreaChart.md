@@ -4,7 +4,7 @@ Filled area chart with legend and hover crosshair.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/AreaChart.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/AreaChart.qml)
 
-**Category:** Charts & gauges · **Library:** v1.10
+**Category:** Charts & gauges · **Library:** v1.11
 
 [← Component index](../components.md)
 
@@ -31,7 +31,7 @@ AreaChart {
 ## Notes
 
 Filled area under the line; same series/values + LOD APIs as LineChart.
-interactive enables hover crosshair; showLegend toggles ChartLegend.
+interactive / isInteractive aliases; showLegend toggles ChartLegend.
 
 ## API
 
@@ -47,6 +47,7 @@ interactive enables hover crosshair; showLegend toggles ChartLegend.
 | `stacked` | `bool` | Stack series instead of overlay |
 | `showLegend` | `bool` | Show chart legend |
 | `interactive` | `bool` | Enable hover / click interaction |
+| `isInteractive` | `alias` | Alias of interactive (gauge / KPI naming parity) |
 | `animated` | `bool` | Play enter / reveal animation |
 | `maxPoints` | `int` | Max points before LOD kicks in |
 | `lodFactor` | `real` | Level-of-detail downsample factor |

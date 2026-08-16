@@ -19,7 +19,8 @@ import QWinUI3.Theme
 //   // linearGauge.setValueFromNorm(n)
 //
 // @notes
-//   Horizontal/vertical bar gauge; same value/min/max + zone patterns as radial.
+//   Horizontal/vertical bar gauge; value/min/max/unit + interactive / isInteractive.
+//   Same zone patterns as ArcGauge / RadialGauge.
 
 T.Control {
     id: root

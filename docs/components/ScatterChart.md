@@ -4,7 +4,7 @@ Scatter / bubble chart.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ScatterChart.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ScatterChart.qml)
 
-**Category:** Charts & gauges · **Library:** v1.10
+**Category:** Charts & gauges · **Library:** v1.11
 
 [← Component index](../components.md)
 
@@ -50,6 +50,7 @@ LOD helpers for large point counts; requestRedraw after updates.
 | `showGrid` | `bool` | Show chart grid |
 | `showTrendLine` | `bool` | Show trend line |
 | `interactive` | `bool` | Enable hover / click interaction |
+| `isInteractive` | `alias` | Alias of interactive (gauge / KPI naming parity) |
 | `animated` | `bool` | Play enter / reveal animation |
 | `maxPoints` | `int` | Max points before LOD kicks in |
 | `autoLod` | `bool` | Auto-enable LOD for large series |

@@ -17,8 +17,9 @@ import QWinUI3.Theme
 //   // pieChart.requestRedraw()
 //
 // @notes
-//   Slices from values or { label, value, color? } items; donut via innerRadius.
-//   interactive emits slice hover/click; showLegend for ChartLegend.
+//   Prefer slices: [{ value, label?, color? }]. Convenience values: number[] (or objects)
+//   builds the same shape when slices is empty. interactive / isInteractive aliases.
+//   showLegend for ChartLegend.
 
 T.Control {
     id: root
@@ -28,10 +29,14 @@ T.Control {
 
     // Pie/donut slice descriptors
     property var slices: []
+    // Convenience values when slices is empty (number[] or { value, label?, color? }[])
+    property var values: []
     // Show chart legend
     property bool showLegend: true
     // Enable hover / click interaction
     property bool interactive: true
+    // Alias of interactive (gauge / KPI naming parity)
+    property alias isInteractive: root.interactive
     // Play enter / reveal animation
     property bool animated: true
     // Arc start angle in degrees
@@ -56,20 +61,40 @@ T.Control {
     implicitHeight: title.length ? 188 : 168
     padding: 8
 
+    readonly property var _slices: {
+        if (slices && slices.length)
+            return slices
+        var vals = values || []
+        var out = []
+        for (var i = 0; i < vals.length; ++i) {
+            var it = vals[i]
+            if (typeof it === "number") {
+                out.push({ value: it, label: String(i + 1), color: ChartUtils.palette(Theme, i) })
+            } else if (it && typeof it === "object") {
+                out.push({
+                    value: ChartUtils.asNumber(it.value !== undefined ? it.value : it),
+                    label: it.label || String(i + 1),
+                    color: it.color || ChartUtils.palette(Theme, i)
+                })
+            }
+        }
+        return out
+    }
+
     // True when there is no data
-    readonly property bool isEmpty: !slices || slices.length === 0 || total <= 0
+    readonly property bool isEmpty: !_slices.length || total <= 0
 
     // Sum of segment values
     readonly property real total: {
         var s = 0
-        var list = slices || []
+        var list = _slices
         for (var i = 0; i < list.length; ++i)
             s += Math.max(0, ChartUtils.asNumber(list[i].value))
         return s
     }
 
     readonly property var _legendItems: {
-        var list = slices || []
+        var list = _slices
         var out = []
         for (var i = 0; i < list.length; ++i) {
             var v = ChartUtils.asNumber(list[i].value)
@@ -105,6 +130,7 @@ T.Control {
     // Request chart / canvas redraw
     function requestRedraw() { canvas.requestPaint() }
     onSlicesChanged: { hoverIndex = -1; Qt.callLater(playReveal) }
+    onValuesChanged: { hoverIndex = -1; Qt.callLater(playReveal) }
     onPadAngleChanged: requestRedraw()
     onStartAngleChanged: requestRedraw()
     onRevealProgressChanged: requestRedraw()
@@ -157,7 +183,7 @@ T.Control {
                     ctx.reset()
                     var w = width
                     var h = height
-                    var list = root.slices || []
+                    var list = root._slices
                     if (w < 8 || h < 8 || !list.length)
                         return
                     var cx = w * 0.5
@@ -211,7 +237,7 @@ T.Control {
                 onClicked: {
                     if (root.hoverIndex >= 0)
                         root.sliceClicked(root.hoverIndex,
-                                          ChartUtils.asNumber(root.slices[root.hoverIndex].value))
+                                          ChartUtils.asNumber(root._slices[root.hoverIndex].value))
                 }
             }
 
@@ -227,7 +253,7 @@ T.Control {
                     text: {
                         if (root.hoverIndex < 0)
                             return ""
-                        var v = ChartUtils.asNumber(root.slices[root.hoverIndex].value)
+                        var v = ChartUtils.asNumber(root._slices[root.hoverIndex].value)
                         return (root.total > 0 ? Math.round(v / root.total * 100) : 0) + "%"
                     }
                     font.family: Theme.fontFamily
@@ -240,7 +266,7 @@ T.Control {
                 Text {
                     width: parent.width
                     horizontalAlignment: Text.AlignHCenter
-                    text: root.hoverIndex >= 0 ? (root.slices[root.hoverIndex].label || "") : ""
+                    text: root.hoverIndex >= 0 ? (root._slices[root.hoverIndex].label || "") : ""
                     font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontCaption
                     color: Theme.textSecondary
@@ -267,7 +293,7 @@ T.Control {
             onItemHovered: (index) => root.hoverIndex = index
             onItemClicked: (index) => {
                 root.selectedIndex = index
-                root.sliceClicked(index, ChartUtils.asNumber(root.slices[index].value))
+                root.sliceClicked(index, ChartUtils.asNumber(root._slices[index].value))
             }
         }
         } // RowLayout

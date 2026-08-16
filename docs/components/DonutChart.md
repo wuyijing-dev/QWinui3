@@ -4,7 +4,7 @@ Donut chart with hover and legend.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/DonutChart.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/DonutChart.qml)
 
-**Category:** Charts & gauges · **Library:** v1.10
+**Category:** Charts & gauges · **Library:** v1.11
 
 [← Component index](../components.md)
 
@@ -29,7 +29,9 @@ DonutChart {
 
 ## Notes
 
-PieChart with a hollow center (inner/outer radius); center label optional.
+Prefer slices: [{ value, label?, color? }]. Convenience values: number[] when slices
+is empty. Hollow center via thickness; centerText / centerSubText optional.
+interactive / isInteractive aliases.
 
 ## API
 
@@ -38,12 +40,14 @@ PieChart with a hollow center (inner/outer radius); center label optional.
 | Name | Type | Description |
 | --- | --- | --- |
 | `slices` | `var` | Pie/donut slice descriptors |
+| `values` | `var` | Convenience values when slices is empty (number[] or { value, label?, color? }[]) |
 | `thickness` | `real` | Donut ring thickness |
 | `showCenterLabel` | `bool` | Show center label in donut |
 | `centerText` | `string` | Donut center primary text |
 | `centerSubText` | `string` | Donut center secondary text |
 | `showLegend` | `bool` | Show chart legend |
 | `interactive` | `bool` | Enable hover / click interaction |
+| `isInteractive` | `alias` | Alias of interactive (gauge / KPI naming parity) |
 | `animated` | `bool` | Play enter / reveal animation |
 | `startAngle` | `real` | Arc start angle in degrees |
 | `revealProgress` | `real` | 0..1 reveal animation progress |

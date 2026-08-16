@@ -4,7 +4,7 @@ Horizontal bar chart.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/HorizontalBarChart.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/HorizontalBarChart.qml)
 
-**Category:** Charts & gauges · **Library:** v1.10
+**Category:** Charts & gauges · **Library:** v1.11
 
 [← Component index](../components.md)
 
@@ -29,7 +29,8 @@ HorizontalBarChart {
 
 ## Notes
 
-Horizontal bars; same data shape as BarChart (values / series / categories).
+Prefer values: number[] or bars: [{ value, label?, color? }] (same as BarChart).
+unit aliases valueUnit. interactive / isInteractive aliases.
 
 ## API
 
@@ -47,6 +48,7 @@ Horizontal bars; same data shape as BarChart (values / series / categories).
 | `showLabels` | `bool` | Show item labels |
 | `showValueLabels` | `bool` | Show value labels on bars |
 | `interactive` | `bool` | Enable hover / click interaction |
+| `isInteractive` | `alias` | Alias of interactive (gauge / KPI naming parity) |
 | `animated` | `bool` | Play enter / reveal animation |
 | `revealProgress` | `real` | 0..1 reveal animation progress |
 | `hoverIndex` | `int` | Hovered item index |
@@ -54,6 +56,7 @@ Horizontal bars; same data shape as BarChart (values / series / categories).
 | `title` | `string` | Primary title text |
 | `emptyText` | `string` | Placeholder when there is no data |
 | `valueUnit` | `string` | Unit appended to value text |
+| `unit` | `alias` | Alias of valueUnit (gauge / KPI naming parity) |
 | `isEmpty` | `bool` | True when there is no data |
 
 ### Signals

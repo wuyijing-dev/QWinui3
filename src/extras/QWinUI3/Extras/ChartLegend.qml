@@ -29,6 +29,8 @@ Item {
     property int selectedIndex: -1
     // Enable hover / click interaction
     property bool interactive: true
+    // Alias of interactive (gauge / KPI naming parity)
+    property alias isInteractive: root.interactive
     // Qt.Horizontal or Qt.Vertical
     property int orientation: Qt.Horizontal // or Qt.Vertical
     // Show numeric value label

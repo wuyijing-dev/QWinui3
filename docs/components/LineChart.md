@@ -4,7 +4,7 @@ Multi-series line/area chart.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/LineChart.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/LineChart.qml)
 
-**Category:** Charts & gauges · **Library:** v1.10
+**Category:** Charts & gauges · **Library:** v1.11
 
 [← Component index](../components.md)
 
@@ -32,7 +32,7 @@ LineChart {
 
 Prefer series: [{ name, values, color? }] or a flat values: number[].
 Large series use LOD (invalidateLod / ensureLod); call requestRedraw after data changes.
-playReveal() replays the enter animation; clearHover() resets crosshair.
+interactive / isInteractive aliases. playReveal() / clearHover() for enter + crosshair.
 
 ## API
 
@@ -48,6 +48,7 @@ playReveal() replays the enter animation; clearHover() resets crosshair.
 | `showArea` | `bool` | Fill area under the line |
 | `showLegend` | `bool` | Show chart legend |
 | `interactive` | `bool` | Enable hover / click interaction |
+| `isInteractive` | `alias` | Alias of interactive (gauge / KPI naming parity) |
 | `animated` | `bool` | Play enter / reveal animation |
 | `maxPoints` | `int` | Max points before LOD kicks in |
 | `lodFactor` | `real` | Level-of-detail downsample factor |

@@ -4,7 +4,7 @@ Vertical bar chart with reveal animation.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/BarChart.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/BarChart.qml)
 
-**Category:** Charts & gauges · **Library:** v1.10
+**Category:** Charts & gauges · **Library:** v1.11
 
 [← Component index](../components.md)
 
@@ -29,8 +29,8 @@ BarChart {
 
 ## Notes
 
-Vertical bars from values or series; playReveal() for enter animation.
-category labels via categories / labels; interactive for hover/click.
+Prefer values: number[] or bars: [{ value, label?, color? }].
+unit aliases valueUnit. interactive / isInteractive aliases. playReveal() for enter.
 
 ## API
 
@@ -47,6 +47,7 @@ category labels via categories / labels; interactive for hover/click.
 | `showBaseline` | `bool` | Show zero baseline |
 | `showValueLabels` | `bool` | Show value labels on bars |
 | `interactive` | `bool` | Enable hover / click interaction |
+| `isInteractive` | `alias` | Alias of interactive (gauge / KPI naming parity) |
 | `animated` | `bool` | Play enter / reveal animation |
 | `revealProgress` | `real` | 0..1 reveal animation progress |
 | `hoverIndex` | `int` | Hovered item index |
@@ -54,6 +55,7 @@ category labels via categories / labels; interactive for hover/click.
 | `title` | `string` | Primary title text |
 | `emptyText` | `string` | Placeholder when there is no data |
 | `valueUnit` | `string` | Unit appended to value text |
+| `unit` | `alias` | Alias of valueUnit (gauge / KPI naming parity) |
 | `isEmpty` | `bool` | True when there is no data |
 
 ### Signals

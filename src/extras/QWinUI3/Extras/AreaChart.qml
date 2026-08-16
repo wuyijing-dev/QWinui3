@@ -19,7 +19,7 @@ import QWinUI3.Theme
 //
 // @notes
 //   Filled area under the line; same series/values + LOD APIs as LineChart.
-//   interactive enables hover crosshair; showLegend toggles ChartLegend.
+//   interactive / isInteractive aliases; showLegend toggles ChartLegend.
 
 T.Control {
     id: root
@@ -43,6 +43,8 @@ T.Control {
     property bool showLegend: true
     // Enable hover / click interaction
     property bool interactive: true
+    // Alias of interactive (gauge / KPI naming parity)
+    property alias isInteractive: root.interactive
     // Play enter / reveal animation
     property bool animated: true
     // Max points before LOD kicks in

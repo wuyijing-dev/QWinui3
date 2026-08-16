@@ -4,7 +4,7 @@ Heatmap matrix chart.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/HeatmapChart.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/HeatmapChart.qml)
 
-**Category:** Charts & gauges · **Library:** v1.10
+**Category:** Charts & gauges · **Library:** v1.11
 
 [← Component index](../components.md)
 
@@ -49,6 +49,7 @@ colorScale maps value -> color; show axes labels as needed.
 | `cellRadius` | `real` | Heatmap cell corner radius |
 | `animated` | `bool` | Play enter / reveal animation |
 | `interactive` | `bool` | Enable hover / click interaction |
+| `isInteractive` | `alias` | Alias of interactive (gauge / KPI naming parity) |
 | `revealProgress` | `real` | 0..1 reveal animation progress |
 | `hoverRow` | `int` | Hovered heatmap row index |
 | `hoverCol` | `int` | Hovered column index |

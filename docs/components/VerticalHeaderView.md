@@ -4,7 +4,7 @@ Fluent styled VerticalHeaderView.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/VerticalHeaderView.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/VerticalHeaderView.qml)
 
-**Category:** Styled controls · **Library:** v1.10
+**Category:** Styled controls · **Library:** v1.11
 
 [← Component index](../components.md)
 

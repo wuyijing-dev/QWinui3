@@ -4,7 +4,7 @@ Radar / spider chart.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/RadarChart.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/RadarChart.qml)
 
-**Category:** Charts & gauges · **Library:** v1.10
+**Category:** Charts & gauges · **Library:** v1.11
 
 [← Component index](../components.md)
 
@@ -47,6 +47,7 @@ Polar axes from categories + series values (one value per spoke).
 | `showLabels` | `bool` | Show item labels |
 | `animated` | `bool` | Play enter / reveal animation |
 | `interactive` | `bool` | Enable hover / click interaction |
+| `isInteractive` | `alias` | Alias of interactive (gauge / KPI naming parity) |
 | `revealProgress` | `real` | 0..1 reveal animation progress |
 | `hoverSeries` | `int` | Hovered series index |
 | `selectedIndex` | `alias` | Selected index alias |

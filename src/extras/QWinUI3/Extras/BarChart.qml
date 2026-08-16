@@ -17,8 +17,8 @@ import QWinUI3.Theme
 //   // barChart.requestRedraw()
 //
 // @notes
-//   Vertical bars from values or series; playReveal() for enter animation.
-//   category labels via categories / labels; interactive for hover/click.
+//   Prefer values: number[] or bars: [{ value, label?, color? }].
+//   unit aliases valueUnit. interactive / isInteractive aliases. playReveal() for enter.
 
 T.Control {
     id: root
@@ -44,6 +44,8 @@ T.Control {
     property bool showValueLabels: false
     // Enable hover / click interaction
     property bool interactive: true
+    // Alias of interactive (gauge / KPI naming parity)
+    property alias isInteractive: root.interactive
     // Play enter / reveal animation
     property bool animated: true
     // 0..1 reveal animation progress
@@ -58,6 +60,8 @@ T.Control {
     property string emptyText: qsTr("No data")
     // Unit appended to value text
     property string valueUnit: ""
+    // Alias of valueUnit (gauge / KPI naming parity)
+    property alias unit: root.valueUnit
 
     // Emitted when a bar is clicked
     signal barClicked(int index, real value)

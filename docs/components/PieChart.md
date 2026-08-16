@@ -4,7 +4,7 @@ Pie chart with legend.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/PieChart.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/PieChart.qml)
 
-**Category:** Charts & gauges · **Library:** v1.10
+**Category:** Charts & gauges · **Library:** v1.11
 
 [← Component index](../components.md)
 
@@ -29,8 +29,9 @@ PieChart {
 
 ## Notes
 
-Slices from values or { label, value, color? } items; donut via innerRadius.
-interactive emits slice hover/click; showLegend for ChartLegend.
+Prefer slices: [{ value, label?, color? }]. Convenience values: number[] (or objects)
+builds the same shape when slices is empty. interactive / isInteractive aliases.
+showLegend for ChartLegend.
 
 ## API
 
@@ -39,8 +40,10 @@ interactive emits slice hover/click; showLegend for ChartLegend.
 | Name | Type | Description |
 | --- | --- | --- |
 | `slices` | `var` | Pie/donut slice descriptors |
+| `values` | `var` | Convenience values when slices is empty (number[] or { value, label?, color? }[]) |
 | `showLegend` | `bool` | Show chart legend |
 | `interactive` | `bool` | Enable hover / click interaction |
+| `isInteractive` | `alias` | Alias of interactive (gauge / KPI naming parity) |
 | `animated` | `bool` | Play enter / reveal animation |
 | `startAngle` | `real` | Arc start angle in degrees |
 | `padAngle` | `real` | Padding angle between pie slices |

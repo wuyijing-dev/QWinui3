@@ -20,8 +20,8 @@ import QWinUI3.Theme
 //   // arcGauge.normFromPoint(px, py, cx, cy)
 //
 // @notes
-//   Open-arc gauge; bind value/minimum/maximum; setValue clamps+snaps.
-//   thresholds / zones for colored ranges; readout via formatValue.
+//   Open-arc gauge; bind value/minimum/maximum/unit; setValue clamps+snaps.
+//   interactive aliases isInteractive. thresholds / zones for colored ranges.
 
 T.Control {
     id: root

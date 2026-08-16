@@ -48,6 +48,8 @@ T.Control {
     property bool showTrendLine: false
     // Enable hover / click interaction
     property bool interactive: true
+    // Alias of interactive (gauge / KPI naming parity)
+    property alias isInteractive: root.interactive
     // Play enter / reveal animation
     property bool animated: true
     // Max points before LOD kicks in

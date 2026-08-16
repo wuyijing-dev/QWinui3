@@ -4,7 +4,7 @@ Horizontal/vertical track gauge with thresholds.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/LinearGauge.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/LinearGauge.qml)
 
-**Category:** Charts & gauges · **Library:** v1.10
+**Category:** Charts & gauges · **Library:** v1.11
 
 [← Component index](../components.md)
 
@@ -30,7 +30,8 @@ LinearGauge {
 
 ## Notes
 
-Horizontal/vertical bar gauge; same value/min/max + zone patterns as radial.
+Horizontal/vertical bar gauge; value/min/max/unit + interactive / isInteractive.
+Same zone patterns as ArcGauge / RadialGauge.
 
 ## API
 

@@ -4,7 +4,7 @@ Fluent legend for series/slices.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ChartLegend.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ChartLegend.qml)
 
-**Category:** Charts & gauges · **Library:** v1.10
+**Category:** Charts & gauges · **Library:** v1.11
 
 [← Component index](../components.md)
 
@@ -39,6 +39,7 @@ items: [{ label, color, selected? }]; select(index) / itemHovered for interactio
 | `hoverIndex` | `int` | Hovered item index |
 | `selectedIndex` | `int` | Selected index alias |
 | `interactive` | `bool` | Enable hover / click interaction |
+| `isInteractive` | `alias` | Alias of interactive (gauge / KPI naming parity) |
 | `orientation` | `int` | Qt.Horizontal or Qt.Vertical |
 | `showValue` | `bool` | Show numeric value label |
 | `header` | `string` | Header label above the control |

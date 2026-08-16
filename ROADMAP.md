@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.10**  
-**Next up:** **1.11** (charts & gauges API consistency)  
+**Current:** **1.11**  
+**Next up:** **1.12** (consumer packaging & CMake docs)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
 
 This plan starts from **what 1.00 already was**, then walks **small `1.xx` minors**. Stay on **1.xx for a long time**. **2.00 is not next**—only when we truly need breaking changes.
@@ -59,7 +59,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.10`
+## Shipped — `1.01` … `1.11`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -101,33 +101,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** FilePicker HWND ownership; TrayIcon severity; [system-integration.md](docs/system-integration.md); promote FilePicker / TrayIcon / NotificationBridge; product version `1.10`.
 
+### 1.11 — Charts & gauges API consistency (shipped)
+
+**Shipped:** `interactive`/`isInteractive` and `unit`/`valueUnit` aliases; Pie/Donut `values` convenience; [charts.md](docs/charts.md); Gallery Charts hub callout; charts remain experimental; product version `1.11`.
+
 ---
 
-## Near path — planned `1.11` … `1.20`
+## Near path — planned `1.12` … `1.20`
 
 Order is intentional but **flexible**: if a soak or customer pain appears, swap two adjacent minors—do not merge five themes into one `YY`. After this band: **mid path `1.21`–`1.30`**, then later `1.31+`—still no `2.00`.
-
-### 1.11 — Charts & gauges API consistency
-
-**Why:** Large experimental set powers `examples/dashboard`; LoB apps need one naming/docs story before any promote-to-stable.
-
-**In scope**
-
-- Inventory chart/gauge public props (`values` / `series` / `bars`, `unit` / `valueUnit`, `interactive` / `isInteractive`, …).
-- Align **naming + docs** on the high-traffic subset (Line/Bar/Area/Donut/Pie + Arc/Radial/Linear gauges + `KpiTile` / `ChartCard` / `ChartLegend`).
-- Short recipe doc (e.g. `docs/charts.md`): when to use which chart; Theme accent usage; performance caveats.
-- Gallery: one “API consistency” callout or tightened dashboard page—no new chart engines.
-
-**Out of scope**
-
-- New chart types; WebGL/custom engines; promoting the whole set to stable in one shot (promote a **named subset** only if exit criteria are met).
-
-**Exit criteria**
-
-- Recipe doc + stable-api note (which charts remain experimental vs any newly promoted).
-- Dashboard / Gallery demos use the aligned names.
-
----
 
 ### 1.12 — Consumer packaging & CMake docs
 

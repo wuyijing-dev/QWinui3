@@ -83,7 +83,7 @@ Promote to stable only after a named `1.xx` slice hardens them.
 | Area | Examples | Why experimental |
 |------|----------|------------------|
 | **WebView2** | `WebView2Host` | Windows-only; 1.05 recipe in [webview2.md](webview2.md) — still soak-tested as experimental |
-| **Charts & gauges** | `LineChart`, `BarChart`, `ArcGauge`, `KpiTile`, … | Large set; API consistency pass later |
+| **Charts & gauges** | `LineChart`, `BarChart`, `ArcGauge`, `KpiTile`, … | Experimental; **1.11** naming recipe in [charts.md](charts.md) — promote a named subset later (roadmap 1.23) |
 | **Advanced chrome** | Snap layouts edge cases, frost/Mica failure modes | Documented gaps; polish in **1.03** / **1.04** |
 | **Animations** | `ConnectedAnimation*`, theme transitions | Power-user; less example coverage |
 | **Tear-out / exotic shells** | `TabViewTearOutWindow`, compact overlay variants | Niche |
@@ -100,7 +100,7 @@ If a type is public in [components.md](components.md) but listed in neither tabl
 |---------|------------------------|
 | [`examples/nav-settings`](../examples/nav-settings/) | `StandardWindow`, `NavigationView`, settings footer |
 | [`examples/settings-cards`](../examples/settings-cards/) | `SettingsCard`, `SettingsExpander` |
-| [`examples/dashboard`](../examples/dashboard/) | Shell + KPI/charts (**charts remain experimental**) |
+| [`examples/dashboard`](../examples/dashboard/) | Shell + KPI/charts (**charts remain experimental**; naming in [charts.md](charts.md)) |
 
 Always set:
 
@@ -126,3 +126,4 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 |---------|--------|
 | **1.01** | Initial stable vs experimental map |
 | **1.10** | Promote `FilePicker` / `TrayIcon` / `NotificationBridge`; recipe [system-integration.md](system-integration.md) |
+| **1.11** | Charts/gauges naming aliases + [charts.md](charts.md); still experimental |
