@@ -4,7 +4,7 @@ Colored status indicator dot.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/StatusDot.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/StatusDot.qml)
 
-**Category:** Status & feedback · **Library:** v1.0.0
+**Category:** Status & feedback · **Library:** v1.00
 
 [← Component index](../components.md)
 

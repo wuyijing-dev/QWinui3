@@ -1,6 +1,6 @@
 # QWinUI3 component API
 
-Library **v1.0.0**. Generated from QML source comments (`scripts/generate_component_docs.py`).
+Library **v1.00**. Generated from QML source comments (`scripts/generate_component_docs.py`).
 Each control has its own page under `docs/components/`.
 
 ```bash
@@ -8,7 +8,7 @@ python scripts/generate_component_docs.py
 python scripts/generate_component_docs.py --lint
 ```
 
-**208** public · **9** internal · **151** with Gallery demos · Hub: [docs home](index.md).
+**208** public · **10** internal · **151** with Gallery demos · Hub: [docs home](index.md).
 
 ## By module
 
@@ -496,6 +496,7 @@ python scripts/generate_component_docs.py --lint
 - [CaptionButton](components/CaptionButton.md) (`QWinUI3.Platform`) — Native-chrome caption min/max/close button.
 - [WindowResizeBorder](components/WindowResizeBorder.md) (`QWinUI3.Platform`) — Non-native resize hit edges.
 - [ElevatedChrome](components/ElevatedChrome.md) (`QWinUI3.Theme`) — Shared elevated shadow/border chrome (WinUI-style soft shadow).
+- [ElevatedChrome_Simple](components/ElevatedChrome_Simple.md) (`QWinUI3.Theme`) — fallback when QtQuick.Effects is unavailable. Same public API as ElevatedChrome.qml (MultiEffect build); soft shadow omitted.
 - [FocusStroke](components/FocusStroke.md) (`QWinUI3.Theme`) — Dual-ring keyboard focus chrome (WinUI / Fluent).
 - [IconSource](components/IconSource.md) (`QWinUI3.Theme`) — Resolve FluentIcons symbol or glyph string.
 

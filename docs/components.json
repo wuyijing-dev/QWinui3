@@ -1,6 +1,6 @@
 {
   "name": "QWinUI3",
-  "version": "1.0.0",
+  "version": "1.00",
   "generatedBy": "scripts/generate_component_docs.py",
   "publicCount": 208,
   "components": [
@@ -3210,6 +3210,21 @@
       "galleryPage": "",
       "galleryTitle": "",
       "doc": "components/ElevatedChrome.md",
+      "propertyCount": 10,
+      "signalCount": 0,
+      "methodCount": 0
+    },
+    {
+      "name": "ElevatedChrome_Simple",
+      "module": "QWinUI3.Theme",
+      "summary": "fallback when QtQuick.Effects is unavailable. Same public API as ElevatedChrome.qml (MultiEffect build); soft shadow omitted.",
+      "path": "src/theme/QWinUI3/Theme/ElevatedChrome_Simple.qml",
+      "baseType": "Item",
+      "internal": true,
+      "category": "Theme",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "doc": "components/ElevatedChrome_Simple.md",
       "propertyCount": 10,
       "signalCount": 0,
       "methodCount": 0

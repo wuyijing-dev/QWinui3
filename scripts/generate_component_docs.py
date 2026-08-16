@@ -47,6 +47,7 @@ INTERNAL_NAMES = {
     "CaptionButton.qml",
     "WindowResizeBorder.qml",
     "ElevatedChrome.qml",
+    "ElevatedChrome_Simple.qml",
     "IconSource.qml",
     "FocusStroke.qml",
     "SelectionPip.qml",
@@ -190,8 +191,11 @@ class Component:
 
 def project_version() -> str:
     text = CMAKE_PATH.read_text(encoding="utf-8") if CMAKE_PATH.is_file() else ""
+    m = re.search(r'set\s*\(\s*QWINUI3_VERSION\s+"([0-9]+\.[0-9]{2})"\s*\)', text)
+    if m:
+        return m.group(1)
     m = re.search(r"project\s*\(\s*QWinUI3\s+VERSION\s+([\d.]+)", text)
-    return m.group(1) if m else "0.0.0"
+    return m.group(1) if m else "0.00"
 
 
 def load_gallery_map() -> dict[str, tuple[str, str]]:

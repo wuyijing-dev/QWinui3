@@ -15,12 +15,30 @@ endif()
 # Help Qt Creator / clangd / VS Code resolve includes from the build tree.
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+# Product version is X.YY (two-digit minor), e.g. 1.00, 1.01, 1.10.
+# Git tags / packages use v${QWINUI3_VERSION}. CMake needs major.minor.patch.
+set(QWINUI3_VERSION "1.00")
+if(NOT QWINUI3_VERSION MATCHES "^[0-9]+\\.[0-9][0-9]$")
+    message(FATAL_ERROR "QWINUI3_VERSION must be X.YY (two-digit minor), got '${QWINUI3_VERSION}'")
+endif()
+string(REGEX REPLACE "^([0-9]+)\\.([0-9]+)$" "\\1;\\2" _qwinui3_ver_parts "${QWINUI3_VERSION}")
+list(GET _qwinui3_ver_parts 0 _qwinui3_ver_major)
+list(GET _qwinui3_ver_parts 1 _qwinui3_ver_yy)
+math(EXPR _qwinui3_ver_minor "${_qwinui3_ver_yy}")
+set(_qwinui3_cmake_version "${_qwinui3_ver_major}.${_qwinui3_ver_minor}.0")
+
 project(QWinUI3
-    VERSION 1.0.0
+    VERSION ${_qwinui3_cmake_version}
     DESCRIPTION "Fluent / WinUI 3 controls for Qt 6.5+ (LGPL-3.0); recommended 6.8+"
     HOMEPAGE_URL "https://github.com/wuyijing-dev/QWinui3"
     LANGUAGES CXX
 )
+message(STATUS "QWinUI3: product version ${QWINUI3_VERSION} (CMake ${PROJECT_VERSION})")
+unset(_qwinui3_ver_parts)
+unset(_qwinui3_ver_major)
+unset(_qwinui3_ver_yy)
+unset(_qwinui3_ver_minor)
+unset(_qwinui3_cmake_version)
 
 # Multi-config generators ignore CMAKE_BUILD_TYPE; pin the default config to Release
 # so `cmake --build` / Qt Creator / VS without an explicit --config use Release.

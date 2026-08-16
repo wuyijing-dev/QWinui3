@@ -76,9 +76,12 @@ PRESETS: dict[str, tuple[str, ...]] = {
 
 def _project_version() -> str:
     text = (ROOT / "CMakeLists.txt").read_text(encoding="utf-8")
+    m = re.search(r'set\s*\(\s*QWINUI3_VERSION\s+"([0-9]+\.[0-9]{2})"\s*\)', text)
+    if m:
+        return m.group(1)
     m = re.search(r"project\s*\(\s*QWinUI3\s+VERSION\s+([0-9]+\.[0-9]+\.[0-9]+)", text)
     if not m:
-        raise RuntimeError("Could not parse VERSION from CMakeLists.txt")
+        raise RuntimeError("Could not parse QWINUI3_VERSION from CMakeLists.txt")
     return m.group(1)
 
 

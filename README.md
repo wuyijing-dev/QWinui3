@@ -7,7 +7,7 @@ Fluent / [WinUI 3](https://learn.microsoft.com/windows/apps/winui/winui3/)-inspi
 [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-2ea44f)](https://wuyijing-dev.github.io/QWinui3/)
 [![Qt](https://img.shields.io/badge/Qt-6.5%2B-41CD52?logo=qt&logoColor=white)](https://www.qt.io/)
 
-**v1.0.0** · **200+** public controls · Gallery demos for most of them  
+**v1.00** · **200+** public controls · Gallery demos for most of them  
 [Documentation](https://wuyijing-dev.github.io/QWinui3/) · [Component API](https://wuyijing-dev.github.io/QWinui3/components/) · [Releases](https://github.com/wuyijing-dev/QWinui3/releases) · [Roadmap](ROADMAP.md)
 
 ---
@@ -205,11 +205,13 @@ scripts/         Docs generator, shared/gallery packaging, WebView2 fetch
 Push a version tag (or run **Actions → Release → Run workflow**):
 
 ```bash
-git tag v1.0.1
-git push origin v1.0.1
+git tag v1.01
+git push origin v1.01
 ```
 
-GitHub Actions builds Linux + Windows shared libraries and Gallery packages, then attaches them to the GitHub Release. Manual dispatch can re-upload assets for an existing tag (e.g. add Linux packages to `v1.0.0`).
+GitHub Actions builds Linux + Windows shared libraries and Gallery packages, then attaches them to the GitHub Release. Manual dispatch can re-upload assets for an existing tag (e.g. add Linux packages to `v1.00` / historical `v1.0.0`).
+
+Product versions use **`X.YY`** (see [`ROADMAP.md`](ROADMAP.md)); set `QWINUI3_VERSION` in root `CMakeLists.txt`.
 
 ---
 

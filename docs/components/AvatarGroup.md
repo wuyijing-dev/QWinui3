@@ -4,7 +4,7 @@ Overlapping PersonPicture stack with overflow count.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/AvatarGroup.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/AvatarGroup.qml)
 
-**Category:** Collections & data · **Library:** v1.0.0
+**Category:** Collections & data · **Library:** v1.00
 
 [← Component index](../components.md)
 

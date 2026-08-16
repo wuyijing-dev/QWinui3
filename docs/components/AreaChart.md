@@ -4,7 +4,7 @@ Filled area chart with legend and hover crosshair.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/AreaChart.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/AreaChart.qml)
 
-**Category:** Charts & gauges · **Library:** v1.0.0
+**Category:** Charts & gauges · **Library:** v1.00
 
 [← Component index](../components.md)
 

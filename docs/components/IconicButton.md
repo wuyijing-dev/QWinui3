@@ -4,7 +4,7 @@ Base icon + label button used by AppBar* / IconButton.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/IconicButton.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/IconicButton.qml)
 
-**Category:** Buttons & commands · **Library:** v1.0.0
+**Category:** Buttons & commands · **Library:** v1.00
 
 [← Component index](../components.md)
 
