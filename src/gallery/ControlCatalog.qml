@@ -665,7 +665,7 @@ QtObject {
             title: qsTr("DatePicker"),
             category: "date",
             icon: FluentIcons.Calendar,
-            description: qsTr("Date tumblers + FormLayout errorMessage — docs/pickers.md (1.28)."),
+            description: qsTr("Date tumblers + FormLayout errorMessage - docs/pickers.md (1.28)."),
             component: "DatePickerPage",
             source: "pages/DatePickerPage.qml"
         },
@@ -681,7 +681,7 @@ QtObject {
             title: qsTr("TimePicker"),
             category: "date",
             icon: FluentIcons.Clock,
-            description: qsTr("Time tumblers + FormLayout errorMessage — docs/pickers.md (1.28)."),
+            description: qsTr("Time tumblers + FormLayout errorMessage - docs/pickers.md (1.28)."),
             component: "TimePickerPage",
             source: "pages/TimePickerPage.qml"
         },
@@ -1257,7 +1257,7 @@ QtObject {
             title: qsTr("Form validation"),
             category: "text",
             icon: FluentIcons.Accept,
-            description: qsTr("FormLayout + ValidationSummary + date pickers — docs/pickers.md (1.28)."),
+            description: qsTr("FormLayout + ValidationSummary + date pickers - docs/pickers.md (1.28)."),
             component: "FormValidationPage",
             source: "pages/FormValidationPage.qml"
         },
