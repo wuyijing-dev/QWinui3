@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.12**  
-**Next up:** **1.13** (i18n / RTL baseline for samples)  
+**Current:** **1.13**  
+**Next up:** **1.14** (Qt 6.5 / 6.8 / 6.10 compat CI)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
 
 This plan starts from **what 1.00 already was**, then walks **small `1.xx` minors**. Stay on **1.xx for a long time**. **2.00 is not next**—only when we truly need breaking changes.
@@ -59,7 +59,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.12`
+## Shipped — `1.01` … `1.13`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -109,31 +109,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** [packaging-consumer.md](docs/packaging-consumer.md) (Release zip / package script / `add_subdirectory`, Win+Linux runtime, minimal consumer CMake); links from README, qt-creator, examples; product version `1.12`.
 
+### 1.13 — i18n / RTL baseline for samples (shipped)
+
+**Shipped:** [i18n-rtl.md](docs/i18n-rtl.md); Gallery **i18n / RTL** page + Settings RTL toggle; `LayoutMirroring` on Gallery / nav-settings; `AlignLeading` on Headered* left headers; seed `translations/`; product version `1.13`.
+
 ---
 
-## Near path — planned `1.13` … `1.20`
+## Near path — planned `1.14` … `1.20`
 
 Order is intentional but **flexible**: if a soak or customer pain appears, swap two adjacent minors—do not merge five themes into one `YY`. After this band: **mid path `1.21`–`1.30`**, then later `1.31+`—still no `2.00`.
-
-### 1.13 — i18n / RTL baseline for samples
-
-**Why:** Gallery/examples already use `qsTr`; apps need a known LayoutMirroring / RTL baseline.
-
-**In scope**
-
-- Document `qsTr` + `.ts` workflow for Gallery/examples.
-- One RTL / `LayoutMirroring.enabled` Gallery page or Settings toggle that exercises shells + forms + nav.
-- Fix obvious hard-coded LTR assumptions on the high-traffic path (nav, settings cards, FormLayout left headers).
-
-**Out of scope**
-
-- Full translation of every Gallery string; shipping many language packs; BiDi for every chart label.
-
-**Exit criteria**
-
-- Recipe note in docs + one demo page; no regressions on LTR default.
-
----
 
 ### 1.14 — Qt 6.5 / 6.8 / 6.10 compat CI
 

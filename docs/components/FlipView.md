@@ -4,7 +4,7 @@ Page carousel with optional navigation buttons.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/FlipView.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/FlipView.qml)
 
-**Category:** Other · **Library:** v1.12
+**Category:** Other · **Library:** v1.13
 
 [← Component index](../components.md)
 

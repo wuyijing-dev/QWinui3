@@ -62,7 +62,7 @@ CatalogPage {
                     symbol: FluentIcons.FavoriteStar
                 }
                 Label {
-                    text: qsTr("← last has no toolTipText")
+                    text: qsTr("(no toolTipText on last button)")
                     color: Theme.systemCaution
                 }
             }

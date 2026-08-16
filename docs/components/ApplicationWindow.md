@@ -4,7 +4,7 @@ Fluent ApplicationWindow chrome defaults.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/ApplicationWindow.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/ApplicationWindow.qml)
 
-**Category:** Styled controls · **Library:** v1.12
+**Category:** Styled controls · **Library:** v1.13
 
 [← Component index](../components.md)
 

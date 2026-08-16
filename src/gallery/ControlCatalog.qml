@@ -1206,6 +1206,14 @@ QtObject {
             source: "pages/AccessibilityPage.qml"
         },
         {
+            title: qsTr("i18n / RTL"),
+            category: "layout",
+            icon: FluentIcons.Globe,
+            description: qsTr("LayoutMirroring baseline, FormLayout left headers, qsTr workflow."),
+            component: "I18nRtlPage",
+            source: "pages/I18nRtlPage.qml"
+        },
+        {
             title: qsTr("GridTile"),
             category: "collections",
             icon: FluentIcons.Document,

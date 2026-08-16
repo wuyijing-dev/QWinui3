@@ -14,6 +14,10 @@ StandardWindow {
     title: qsTr("QWinUI3 Gallery")
     backdrop: WindowHelper.BackdropSolid
 
+    // 1.13 — mirror high-traffic chrome when app layoutDirection is RTL
+    LayoutMirroring.enabled: Qt.application.layoutDirection === Qt.RightToLeft
+    LayoutMirroring.childrenInherit: true
+
     property var navModel: buildNavModel()
     property var searchResults: []
     property var paneSearchModel: buildPaneSearchModel()

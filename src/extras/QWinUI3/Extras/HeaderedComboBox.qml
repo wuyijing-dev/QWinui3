@@ -81,7 +81,7 @@ T.Control {
             Layout.fillWidth: !root._headerLeft
             Layout.preferredWidth: root._headerLeft ? root.labelWidth : -1
             Layout.maximumWidth: root._headerLeft ? root.labelWidth : -1
-            Layout.alignment: root._headerLeft ? Qt.AlignVCenter : Qt.AlignLeft
+            Layout.alignment: root._headerLeft ? Qt.AlignVCenter : Qt.AlignLeading
             spacing: 4
             visible: root.header.length > 0 || (root.description.length > 0 && !root.hasError)
 

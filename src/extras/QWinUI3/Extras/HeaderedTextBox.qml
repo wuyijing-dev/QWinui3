@@ -19,6 +19,7 @@ import QWinUI3.Theme
 //
 // @notes
 //   Label + TextField pair; header/headerPlacement and text/placeholderText aliases.
+//   Left headers use AlignLeading so RTL LayoutMirroring keeps labels on the start edge.
 
 T.Control {
     id: root
@@ -112,7 +113,7 @@ T.Control {
             Layout.fillWidth: !root._headerLeft
             Layout.preferredWidth: root._headerLeft ? root.labelWidth : -1
             Layout.maximumWidth: root._headerLeft ? root.labelWidth : -1
-            Layout.alignment: root._headerLeft ? Qt.AlignTop : Qt.AlignLeft
+            Layout.alignment: root._headerLeft ? Qt.AlignTop : Qt.AlignLeading
             spacing: 4
             visible: root.header.length > 0 || (root.description.length > 0 && !root.hasError)
 

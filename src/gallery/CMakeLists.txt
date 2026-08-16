@@ -107,6 +107,7 @@ qt_add_qml_module(qwinui3_gallery
         pages/MeterBarPage.qml
         pages/PitfallsPage.qml
         pages/AccessibilityPage.qml
+        pages/I18nRtlPage.qml
         pages/ChartsPage.qml
         pages/SparklinePage.qml
         pages/LineChartPage.qml

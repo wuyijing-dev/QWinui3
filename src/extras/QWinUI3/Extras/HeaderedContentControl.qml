@@ -63,7 +63,7 @@ T.Control {
             Layout.row: 0
             Layout.column: 0
             Layout.fillWidth: !root._headerLeft
-            Layout.alignment: root._headerLeft ? Qt.AlignTop : Qt.AlignLeft
+            Layout.alignment: root._headerLeft ? Qt.AlignTop : Qt.AlignLeading
             Layout.preferredWidth: root._headerLeft ? 120 : -1
             spacing: 4
             visible: root.headerComponent !== null || root.header.length > 0

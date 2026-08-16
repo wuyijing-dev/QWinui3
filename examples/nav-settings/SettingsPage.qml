@@ -30,6 +30,18 @@ SettingsView {
         }
 
         SettingsCard {
+            title: qsTr("Right-to-left layout")
+            description: qsTr("Qt.application.layoutDirection + LayoutMirroring (docs/i18n-rtl.md).")
+            symbol: FluentIcons.Globe
+            toggle: true
+            toggleText: qsTr("RTL")
+            checked: Qt.application.layoutDirection === Qt.RightToLeft
+            onToggled: {
+                Qt.application.layoutDirection = checked ? Qt.RightToLeft : Qt.LeftToRight
+            }
+        }
+
+        SettingsCard {
             title: qsTr("Density")
             description: qsTr("Compact control metrics (Theme.density).")
             symbol: FluentIcons.Document

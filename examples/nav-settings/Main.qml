@@ -15,6 +15,9 @@ StandardWindow {
     title: qsTr("Nav + Settings example")
     backdrop: WindowHelper.BackdropSolid
 
+    LayoutMirroring.enabled: Qt.application.layoutDirection === Qt.RightToLeft
+    LayoutMirroring.childrenInherit: true
+
     header: PlatformTitleBar {
         id: platformTitle
         targetWindow: window

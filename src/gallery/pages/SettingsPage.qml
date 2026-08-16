@@ -226,6 +226,18 @@ Page {
         }
 
         SettingsCard {
+            title: qsTr("Right-to-left layout")
+            description: qsTr("Sets Qt.application.layoutDirection and mirrors the Gallery shell (NavigationView, forms, settings). Session only — see docs/i18n-rtl.md.")
+            symbol: FluentIcons.Globe
+            toggle: true
+            toggleText: qsTr("RTL")
+            checked: Qt.application.layoutDirection === Qt.RightToLeft
+            onToggled: {
+                Qt.application.layoutDirection = checked ? Qt.RightToLeft : Qt.LeftToRight
+            }
+        }
+
+        SettingsCard {
             title: qsTr("Page transition")
             description: qsTr("NavigationView pageTransition for pane clicks: slide, fade, drill, cover, …")
             symbol: FluentIcons.EaseOfAccess
