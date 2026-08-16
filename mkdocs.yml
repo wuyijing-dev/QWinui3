@@ -62,6 +62,7 @@ nav:
   - Home: index.md
   - Roadmap: roadmap.md
   - Stable API: stable-api.md
+  - Accessibility: accessibility.md
   - Component API: components.md
   - Conventions: conventions.md
   - Gallery CatalogPage: gallery-catalog-page.md

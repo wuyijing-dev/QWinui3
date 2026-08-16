@@ -93,7 +93,12 @@ T.Control {
 
     Accessible.role: Accessible.AlertMessage
     Accessible.name: title.length ? title : severityName
-    Accessible.description: message
+    Accessible.description: {
+        var parts = [severityName]
+        if (message.length)
+            parts.push(message)
+        return parts.join(". ")
+    }
     focusPolicy: isOpen ? Qt.StrongFocus : Qt.NoFocus
     activeFocusOnTab: isOpen
 
@@ -295,8 +300,14 @@ T.Control {
             implicitWidth: 28
             implicitHeight: 28
             hoverEnabled: true
+            focusPolicy: Qt.StrongFocus
+            activeFocusOnTab: control.isOpen
+            Accessible.role: Accessible.Button
             Accessible.name: qsTr("Close")
             onClicked: control.hide()
+            Keys.onReturnPressed: toastClose.clicked()
+            Keys.onEnterPressed: toastClose.clicked()
+            Keys.onSpacePressed: toastClose.clicked()
             contentItem: Text {
                 text: FluentIcons.ChromeClose
                 font.family: Theme.fontFamilyIcon

@@ -1,6 +1,6 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.01**  
+**Current:** **1.02**  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
 
 This plan starts from **what 1.00 already was**, then walks **small `1.xx` minors**. Stay on **1.xx for a long time**. **2.00 is not next**—only when we truly need breaking changes.
@@ -65,15 +65,9 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-### 1.02 — Accessibility (high-traffic path)
+### 1.02 — Accessibility (high-traffic path) (shipped)
 
-**Why:** Conventions already exist; apply them where product apps start.
-
-- Style controls + examples path: `NavigationView`, settings cards, `ContentDialog`, `InfoBar` / `Toast`.
-- Keyboard / `Accessible` / reduced-motion gaps fixed or severity-tracked.
-- Gallery Accessibility page stays the checklist.
-
-**Not in 1.02:** Full audit of every chart/gauge; new Extras.
+**Shipped:** Settings toggle rows as one CheckBox focus target; NavigationView item/footer/Back names; InfoBar/Toast severity + Close keyboard; [accessibility.md](docs/accessibility.md) + Gallery Accessibility checklist; product version `1.02`. Remaining gaps severity-tracked in that doc.
 
 ---
 

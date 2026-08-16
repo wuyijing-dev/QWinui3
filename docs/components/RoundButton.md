@@ -4,7 +4,7 @@ Fluent styled RoundButton.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/RoundButton.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/RoundButton.qml)
 
-**Category:** Styled controls · **Library:** v1.01
+**Category:** Styled controls · **Library:** v1.02
 
 [← Component index](../components.md)
 

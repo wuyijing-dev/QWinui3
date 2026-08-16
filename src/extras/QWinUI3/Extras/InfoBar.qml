@@ -107,7 +107,12 @@ T.Control {
 
     Accessible.role: Accessible.AlertMessage
     Accessible.name: title.length ? title : qsTr("Info bar")
-    Accessible.description: message
+    Accessible.description: {
+        var parts = [severityName]
+        if (message.length)
+            parts.push(message)
+        return parts.join(". ")
+    }
     focusPolicy: isOpen ? Qt.StrongFocus : Qt.NoFocus
     activeFocusOnTab: isOpen
 
@@ -326,6 +331,7 @@ T.Control {
             hoverEnabled: true
             focusPolicy: Qt.StrongFocus
             activeFocusOnTab: root.isOpen
+            Accessible.role: Accessible.Button
             Accessible.name: qsTr("Close")
             onClicked: {
                 root.isOpen = false

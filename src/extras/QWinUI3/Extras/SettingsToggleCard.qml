@@ -9,12 +9,10 @@ import QtQuick
 //   }
 //
 // Prefer SettingsCard { toggle: true } in new code.
+// Accessible CheckBox + keyboard live on SettingsCard when toggle: true.
 
 SettingsCard {
     id: root
     toggle: true
-
-    Accessible.role: Accessible.CheckBox
-    Accessible.checkable: true
-    Accessible.checked: root.checked
+    // Accessible CheckBox + keyboard live on SettingsCard when toggle: true.
 }

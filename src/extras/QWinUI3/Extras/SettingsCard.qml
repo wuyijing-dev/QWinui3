@@ -28,6 +28,7 @@ import QWinUI3.Theme
 //   ContentAlignment (right|left|vertical|center), IsClickEnabled, ActionIcon chevron,
 //   cornerRadius for ElevatedChrome.
 //   Set toggle: true for a built-in Switch (checked / onToggled) — no action glue.
+//   Toggle rows are one Accessible CheckBox (title + Space/Enter); the Switch is mouse-only.
 //   Empty title/description collapse; contentAlignment "center" centers content (illustration cards).
 //   Layout.fillWidth defaults to true inside Column/Row/Grid layouts.
 
@@ -101,14 +102,38 @@ T.Pane {
     implicitWidth: 420
     implicitHeight: Math.max(64, contentItem.implicitHeight + topPadding + bottomPadding)
     hoverEnabled: interactive
-    focusPolicy: interactive ? Qt.StrongFocus : Qt.NoFocus
-    activeFocusOnTab: interactive
-    Accessible.role: interactive ? Accessible.Button : Accessible.Grouping
-    Accessible.name: title
+    // Toggle rows are one focusable CheckBox; Switch itself is ignored for AT / Tab.
+    readonly property bool _rowFocusable: interactive || toggle
+    focusPolicy: _rowFocusable ? Qt.StrongFocus : Qt.NoFocus
+    activeFocusOnTab: _rowFocusable
+    Accessible.role: interactive ? Accessible.Button
+                   : (toggle ? Accessible.CheckBox : Accessible.Grouping)
+    Accessible.name: title.length ? title : (toggle ? qsTr("Toggle") : qsTr("Settings row"))
     Accessible.description: description
-    Keys.onReturnPressed: if (interactive) clicked()
-    Keys.onEnterPressed: if (interactive) clicked()
-    Keys.onSpacePressed: if (interactive) clicked()
+    Accessible.checkable: toggle && !interactive
+    Accessible.checked: toggle && !interactive ? checked : false
+    Accessible.onToggleAction: {
+        if (toggle && !interactive && toggleSwitch.enabled)
+            toggleSwitch.toggle()
+    }
+    Keys.onReturnPressed: {
+        if (interactive)
+            clicked()
+        else if (toggle && toggleSwitch.enabled)
+            toggleSwitch.toggle()
+    }
+    Keys.onEnterPressed: {
+        if (interactive)
+            clicked()
+        else if (toggle && toggleSwitch.enabled)
+            toggleSwitch.toggle()
+    }
+    Keys.onSpacePressed: {
+        if (interactive)
+            clicked()
+        else if (toggle && toggleSwitch.enabled)
+            toggleSwitch.toggle()
+    }
 
     background: ElevatedChrome {
         color: {
@@ -117,8 +142,8 @@ T.Pane {
             return Theme.bgCard
         }
         radius: root.cornerRadius
-        borderWidth: root.interactive && root.activeFocus ? 2 : 1
-        borderColor: root.interactive && root.activeFocus ? Theme.accent : Theme.strokeCard
+        borderWidth: root._rowFocusable && root.activeFocus ? 2 : 1
+        borderColor: root._rowFocusable && root.activeFocus ? Theme.accent : Theme.strokeCard
         elevation: 2
         shadowOpacity: Theme.dark ? 0.22 : 0.08
 
@@ -277,6 +302,10 @@ T.Pane {
         id: toggleSwitch
         parent: root.toggle ? actionSlot : null
         visible: root.toggle
+        // Row owns Accessible + Tab; keep the thumb mouse-only.
+        focusPolicy: Qt.NoFocus
+        activeFocusOnTab: false
+        Accessible.ignored: true
         onToggled: root.toggled(checked)
     }
 

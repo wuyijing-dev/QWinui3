@@ -4,7 +4,7 @@ Convenience alias for SettingsCard { toggle: true }.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/SettingsToggleCard.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/SettingsToggleCard.qml)
 
-**Category:** Layout · **Library:** v1.01
+**Category:** Layout · **Library:** v1.02
 
 [← Component index](../components.md)
 
@@ -20,6 +20,7 @@ SettingsToggleCard {
 }
 
 Prefer SettingsCard { toggle: true } in new code.
+Accessible CheckBox + keyboard live on SettingsCard when toggle: true.
 ```
 
 ## API

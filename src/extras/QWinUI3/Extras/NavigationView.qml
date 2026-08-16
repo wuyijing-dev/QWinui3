@@ -893,6 +893,8 @@ Item {
                     Layout.preferredWidth: Theme.navItemHeight
                     Layout.preferredHeight: Theme.navItemHeight
                     opacity: enabled ? 1 : 0.4
+                    Accessible.role: Accessible.Button
+                    Accessible.name: qsTr("Back")
                     onClicked: {
                         if (root.canGoBack)
                             root.navigateBack()
@@ -954,6 +956,8 @@ Item {
                         width: visible ? Math.max(88, topRow.implicitWidth + 20) : 0
                         height: ListView.view.height
                         highlighted: !root.footerSelected && root.currentKey === key
+                        Accessible.role: Accessible.ListItem
+                        Accessible.name: title.length ? title : qsTr("Navigation item")
                         onClicked: {
                             if (kind === "group") {
                                 var m = root.model || []
@@ -1089,6 +1093,8 @@ Item {
                     Layout.preferredHeight: Theme.navItemHeight
                     Layout.preferredWidth: Math.max(Theme.navItemHeight, footerTopRow.implicitWidth + 16)
                     highlighted: root.footerSelected
+                    Accessible.role: Accessible.ListItem
+                    Accessible.name: root.footerText.length ? root.footerText : qsTr("Settings")
                     onClicked: {
                         root.footerSelected = true
                         root.footerClicked()
@@ -1186,6 +1192,10 @@ Item {
                     Layout.fillWidth: true
                     Layout.preferredHeight: Theme.navItemHeight
                     text: root.headerText
+                    Accessible.role: Accessible.Button
+                    Accessible.name: root.paneOpen
+                                     ? (root.headerText.length ? root.headerText : qsTr("Collapse navigation"))
+                                     : qsTr("Expand navigation")
                     onClicked: {
                         if (root.resolvedPaneMode === "leftCompact") {
                             if (root.paneDisplayMode === "leftCompact")
@@ -1423,6 +1433,11 @@ Item {
                                     || (del.kind === "group" && !root.paneOpen
                                         && compactFlyout.visible && root.flyoutGroupKey === del.key)
                                 )
+                                Accessible.role: del.kind === "header" ? Accessible.StaticText
+                                               : Accessible.ListItem
+                                Accessible.name: del.title.length ? del.title : qsTr("Navigation item")
+                                Accessible.checkable: del.kind === "group"
+                                Accessible.checked: del.kind === "group" && del.expanded
 
                                 onClicked: {
                                     if (del.kind === "group") {
@@ -1619,6 +1634,9 @@ Item {
                                             height: Theme.navItemHeight
                                             highlighted: !root.footerSelected
                                                          && ((del.key + "/" + index) === root.currentKey)
+                                            Accessible.role: Accessible.ListItem
+                                            Accessible.name: (modelData && modelData.title)
+                                                             ? modelData.title : qsTr("Navigation item")
 
                                             onClicked: root.selectKey(del.key + "/" + index, root.pageTransition)
 
@@ -1866,6 +1884,8 @@ Item {
                     Layout.fillWidth: true
                     Layout.preferredHeight: Theme.navItemHeight
                     highlighted: root.footerSelected
+                    Accessible.role: Accessible.ListItem
+                    Accessible.name: root.footerText.length ? root.footerText : qsTr("Settings")
                     onClicked: root.selectFooter("slide")
                     ToolTip.visible: !root.paneOpen && hovered
                     ToolTip.text: root.footerText

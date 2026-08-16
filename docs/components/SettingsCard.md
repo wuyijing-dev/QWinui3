@@ -4,7 +4,7 @@ Settings row: icon, title, description, action (Toolkit ContentAlignment).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/SettingsCard.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/SettingsCard.qml)
 
-**Category:** Layout · **Library:** v1.01
+**Category:** Layout · **Library:** v1.02
 
 [← Component index](../components.md)
 
@@ -39,6 +39,7 @@ Toolkit SettingsCard: Header/Description/HeaderIcon, Content + Action slots,
 ContentAlignment (right|left|vertical|center), IsClickEnabled, ActionIcon chevron,
 cornerRadius for ElevatedChrome.
 Set toggle: true for a built-in Switch (checked / onToggled) — no action glue.
+Toggle rows are one Accessible CheckBox (title + Space/Enter); the Switch is mouse-only.
 Empty title/description collapse; contentAlignment "center" centers content (illustration cards).
 Layout.fillWidth defaults to true inside Column/Row/Grid layouts.
 

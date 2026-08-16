@@ -4,7 +4,7 @@ Scatter / bubble chart.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ScatterChart.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ScatterChart.qml)
 
-**Category:** Charts & gauges · **Library:** v1.01
+**Category:** Charts & gauges · **Library:** v1.02
 
 [← Component index](../components.md)
 

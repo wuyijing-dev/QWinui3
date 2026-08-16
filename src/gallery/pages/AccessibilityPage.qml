@@ -4,11 +4,36 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — Accessibility patterns (Accessible.name, composite keyboard, Theme flags).
+// Gallery — Accessibility checklist (high-traffic path + Theme flags).
 
 CatalogPage {
     title: qsTr("Accessibility")
-    subtitle: qsTr("Accessible names, composite keyboard focus, and Theme accessibility flags. See docs/conventions.md.")
+    subtitle: qsTr("Checklist for NavigationView, settings cards, ContentDialog, InfoBar/Toast. See docs/accessibility.md and docs/conventions.md.")
+
+    ControlExample {
+        headerText: qsTr("1.02 high-traffic checklist")
+        qmlSource: "// SettingsCard { toggle: true }\n// NavigationView items + Esc on InfoBar/Toast"
+
+        ColumnLayout {
+            spacing: Theme.spacing
+            Label {
+                text: qsTr("Product apps that copy examples/nav-settings should verify:")
+                wrapMode: Text.WordWrap
+                Layout.fillWidth: true
+                color: Theme.textSecondary
+            }
+            Label {
+                text: qsTr("• Settings toggle rows: Tab focuses the card; Space/Enter toggles; screen reader hears the title as a checkbox.\n"
+                           + "• NavigationView: Back / Expand / items / Settings footer announce names (not empty ListItem).\n"
+                           + "• ContentDialog: Esc closes; Enter activates the default button; dialog name is the title.\n"
+                           + "• InfoBar / Toast: Esc dismisses when closable; Close is keyboard-activatable; severity is in the description.\n"
+                           + "• Theme.reducedMotion / highContrast: Gallery Settings → Follow system accessibility.")
+                wrapMode: Text.WordWrap
+                Layout.fillWidth: true
+                color: Theme.textPrimary
+            }
+        }
+    }
 
     ControlExample {
         headerText: qsTr("Icon-only names")
@@ -40,6 +65,26 @@ CatalogPage {
                     text: qsTr("← last has no toolTipText")
                     color: Theme.systemCaution
                 }
+            }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Settings toggle (row owns focus)")
+        qmlSource: "SettingsToggleCard {\n    title: qsTr(\"Dark mode\")\n    checked: Theme.dark\n}"
+
+        ColumnLayout {
+            spacing: Theme.spacing
+            Label {
+                text: qsTr("Tab once onto the card, then Space. The built-in Switch is mouse-only so AT does not hear “Toggle” twice.")
+                wrapMode: Text.WordWrap
+                Layout.fillWidth: true
+                color: Theme.textSecondary
+            }
+            SettingsToggleCard {
+                title: qsTr("Demo toggle")
+                description: qsTr("Accessible CheckBox named from the title.")
+                checked: false
             }
         }
     }

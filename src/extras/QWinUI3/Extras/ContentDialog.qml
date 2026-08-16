@@ -203,7 +203,7 @@ T.Dialog {
         clip: true
         Accessible.role: Accessible.Dialog
         Accessible.name: root.title.length ? root.title : qsTr("Dialog")
-        Accessible.description: root.title
+        // Do not echo title — body text is announced via children when present.
 
         Column {
             id: column

@@ -1,0 +1,38 @@
+# Accessibility (1.02+)
+
+High-traffic product path: **NavigationView**, **settings cards**, **ContentDialog**, **InfoBar** / **Toast**.
+
+Authoring rules: [`conventions.md`](conventions.md). Live checklist: Gallery **Accessibility** page.
+
+---
+
+## Fixed in 1.02
+
+| Surface | Behavior |
+|---------|----------|
+| `SettingsCard` / `SettingsToggleCard` | Toggle rows are one Tab stop; Space/Enter toggles; `Accessible.CheckBox` uses `title`; Switch is `Accessible.ignored` |
+| `NavigationView` | Back, pane expand/collapse, nav items, nested children, Settings footer expose `Accessible.name` |
+| `ContentDialog` | Accessible name = title (no duplicate description); Esc / default Enter already wired |
+| `InfoBar` / `Toast` | Severity in description; Esc dismiss; Close has Button role + keyboard activate |
+
+`Theme.duration()` / `Theme.reducedMotion` already collapse most Behaviors and dialog transitions on this path.
+
+---
+
+## Severity-tracked (not 1.02)
+
+| Item | Severity | Notes |
+|------|----------|-------|
+| Charts / gauges Accessible completeness | Low | Deferred; use Graphic + label when shipping dashboards |
+| Full keyboard audit of every Extra | Medium | Track per control as pages are touched |
+| Linux AT backends (Orca) | Medium | Follows Qt; validate after 1.03 Linux shells |
+| Live region announcements for toast stacks | Low | Host roles are AlertMessage; OS polish later |
+
+---
+
+## App author checklist
+
+1. Prefer types in [`stable-api.md`](stable-api.md).
+2. Icon-only controls: set `toolTipText` or `Accessible.name`.
+3. Wire Gallery/Settings “Follow system accessibility” or copy `WindowHelper` SPI into `Theme.*`.
+4. Do not attach `Accessible` to `Window` / `Popup` / `Dialog` hosts — name chrome items instead.
