@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.25**
-**Next up:** **1.26** (Example app templates)
+**Current:** **1.26**
+**Next up:** **1.27** (Navigation & TabView deepen)
 **Planned through:** **1.50** (1.xx maturity checkpoint)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](qt-version-compat.md)
 
@@ -60,7 +60,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.25`
+## Shipped — `1.01` … `1.26`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -162,30 +162,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** [performance.md](performance.md) — virtualization, model roles, chart point budgets, Gallery heavy-page tips; `ItemsRepeater` enables `ListView.reuseItems`; DataTable Gallery callout; links from README / stable-api / docs index; product version `1.25`.
 
+### 1.26 — Example app templates (shipped)
+
+**Shipped:** [`examples/master-detail`](../examples/master-detail/) (`ListDetailsView` LoB tickets) and [`examples/form-settings`](../examples/form-settings/) (`FormLayout` + SettingsCard prefs); README / examples README / stable-api / forms / data-collections / window-chrome “start from” tables updated; product version `1.26`. Smoke CI keeps examples off for speed (default local `QWINUI3_BUILD_EXAMPLES=ON`).
+
 ---
 
-## Mid path — planned `1.26` … `1.30`
+## Mid path — planned `1.27` … `1.30`
 
 Same rules: one theme per `YY`, still **not** `2.00`.
-
-### 1.26 — Example app templates
-
-**Why:** Beyond nav-settings / settings-cards / dashboard, integrators want more copy-ready shapes.
-
-**In scope**
-
-- One or two extra examples (e.g. master–detail LoB shell, or settings + FormLayout app).
-- README “start from” table updated; keep each example small.
-
-**Out of scope**
-
-- Full CRM product; many half-finished templates.
-
-**Exit criteria**
-
-- New example(s) build in Release CI or documented local-only with reason; README links work.
-
----
 
 ### 1.27 — Navigation & TabView deepen
 

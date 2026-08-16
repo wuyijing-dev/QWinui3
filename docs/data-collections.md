@@ -10,6 +10,8 @@ Recipes for **tabular and master–detail** LoB surfaces. Prefer these over inve
 
 Related: [`ListTile`](components/ListTile.md), [`TwoPaneView`](components/TwoPaneView.md), [`ConnectedAnimation`](components/ConnectedAnimation.md).
 
+Example app: [`examples/master-detail`](../examples/master-detail/) (1.26) — ticket-style `ListDetailsView` shell.
+
 ---
 
 ## Choosing a control

@@ -74,7 +74,7 @@ SettingsView {
 | **API parity** | `header` alias, `cornerRadius`, `contentSpacing` like cards |
 | **Validation** | Settings rows are preferences, not FormLayout fields — keep forms separate |
 
-Example apps: [`examples/settings-cards`](../examples/settings-cards/), [`examples/nav-settings`](../examples/nav-settings/).
+Example apps: [`examples/settings-cards`](../examples/settings-cards/), [`examples/nav-settings`](../examples/nav-settings/), [`examples/form-settings`](../examples/form-settings/) (1.26 FormLayout + prefs).
 
 ---
 

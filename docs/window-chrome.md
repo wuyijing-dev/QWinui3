@@ -83,3 +83,5 @@ Gallery stays on **Solid**. Experiments: Gallery **Window paradigm** page, or se
 | `examples/nav-settings` | Gallery-like `PlatformTitleBar` + `TitleBar` + `NavigationView` |
 | `examples/settings-cards` | Same chrome + `SettingsView` |
 | `examples/dashboard` | Same chrome + dashboard body |
+| `examples/master-detail` | Same chrome + `ListDetailsView` (1.26) |
+| `examples/form-settings` | Same chrome + `FormLayout` / SettingsCard (1.26) |
