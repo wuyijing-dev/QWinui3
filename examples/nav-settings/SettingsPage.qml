@@ -14,7 +14,7 @@ SettingsView {
         SettingsCard {
             title: qsTr("Dark mode")
             description: qsTr("Light or dark Theme tokens.")
-            headerIcon: "\uE790"
+            symbol: FluentIcons.Color
             toggle: true
             checked: Theme.dark
             onToggled: Theme.dark = checked
@@ -23,7 +23,7 @@ SettingsView {
         SettingsCard {
             title: qsTr("Reduced motion")
             description: qsTr("Short-circuit Theme.duration() animations.")
-            headerIcon: "\uE7FC"
+            symbol: FluentIcons.Processing
             toggle: true
             checked: Theme.reducedMotion
             onToggled: Theme.reducedMotion = checked
@@ -32,7 +32,7 @@ SettingsView {
         SettingsCard {
             title: qsTr("Density")
             description: qsTr("Compact control metrics (Theme.density).")
-            headerIcon: "\uE8A5"
+            symbol: FluentIcons.Document
             action: ComboBox {
                 model: [qsTr("Standard"), qsTr("Compact")]
                 currentIndex: Theme.density === "compact" ? 1 : 0

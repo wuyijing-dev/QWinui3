@@ -17,7 +17,7 @@ StandardWindow {
         anchors.fill: parent
         headerText: qsTr("NavSettings")
         footerText: qsTr("Settings")
-        footerIcon: "\uE713"
+        footerIcon: FluentIcons.Settings
         footerComponent: "SettingsPage"
         pageModule: "QWinUI3.Examples.NavSettings"
         currentKey: "home"
@@ -26,14 +26,14 @@ StandardWindow {
                 type: "item",
                 key: "home",
                 title: qsTr("Home"),
-                icon: "\uE80F",
+                icon: FluentIcons.Home,
                 component: "HomePage"
             },
             {
                 type: "item",
                 key: "about",
                 title: qsTr("About"),
-                icon: "\uE946",
+                icon: FluentIcons.Info,
                 component: "AboutPage"
             }
         ]

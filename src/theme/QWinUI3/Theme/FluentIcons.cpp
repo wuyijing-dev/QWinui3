@@ -215,6 +215,7 @@ void FluentIcons::populate()
     put("UpdateRestore", 0xE777);
     put("Notification", 0xEA8F);
     put("QuietHours", 0xE708);
+    put("Processing", 0xE7FC);
     put("Publish", 0xE74A);
     put("Ruler", 0xED5E);
     put("Trim", 0xE78A);

@@ -107,14 +107,14 @@ T.Control {
 
                 Button {
                     flat: true
-                    text: root.playing ? "\uE769" : "\uE768"
+                    text: root.playing ? FluentIcons.Pause : FluentIcons.Play
                     font.family: Theme.fontFamilyIcon
                     onClicked: root.togglePlayPause()
                     Accessible.name: root.playing ? qsTr("Pause") : qsTr("Play")
                 }
                 Button {
                     flat: true
-                    text: "\uE71A"
+                    text: FluentIcons.Stop
                     font.family: Theme.fontFamilyIcon
                     onClicked: root.stop()
                     Accessible.name: qsTr("Stop")

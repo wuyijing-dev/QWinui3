@@ -39,7 +39,7 @@ StandardWindow {
             SettingsCard {
                 title: window.accountName
                 description: qsTr("Signed in locally for this example.")
-                headerIcon: "\uE77B"
+                symbol: FluentIcons.Contact
                 action: Button {
                     flat: true
                     text: qsTr("Manage")
@@ -54,7 +54,7 @@ StandardWindow {
             SettingsCard {
                 title: qsTr("App theme")
                 description: qsTr("Toggle Theme.dark")
-                headerIcon: "\uE790"
+                symbol: FluentIcons.Color
                 toggle: true
                 checked: Theme.dark
                 onToggled: Theme.dark = checked
@@ -63,7 +63,7 @@ StandardWindow {
             SettingsCard {
                 title: qsTr("Accent pack")
                 description: qsTr("Theme.accentPack presets")
-                headerIcon: "\uE790"
+                symbol: FluentIcons.Color
                 action: ComboBox {
                     model: [qsTr("Blue"), qsTr("Purple"), qsTr("Green"), qsTr("Orange")]
                     currentIndex: {
@@ -89,7 +89,7 @@ StandardWindow {
             SettingsExpander {
                 title: qsTr("Notification preferences")
                 description: qsTr("Expand for email and toast options.")
-                headerIcon: "\uEA8F"
+                symbol: FluentIcons.Notification
 
                 SettingsCard {
                     title: qsTr("Enable notifications")

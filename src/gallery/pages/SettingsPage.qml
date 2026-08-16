@@ -96,7 +96,7 @@ Page {
         SettingsCard {
             title: qsTr("Density")
             description: qsTr("Theme.density scales controlHeight, padding, and spacing.")
-            headerIcon: FluentIcons.Document
+            symbol: FluentIcons.Document
             action: ComboBox {
                 model: [qsTr("Standard"), qsTr("Compact")]
                 currentIndex: Theme.density === "compact" ? 1 : 0
@@ -109,7 +109,7 @@ Page {
         SettingsCard {
             title: qsTr("Accent pack")
             description: qsTr("Theme.accentPack / setAccentPack — blue, purple, green, orange.")
-            headerIcon: FluentIcons.Color
+            symbol: FluentIcons.Color
             action: ComboBox {
                 model: [qsTr("Blue"), qsTr("Purple"), qsTr("Green"), qsTr("Orange")]
                 currentIndex: {
@@ -130,7 +130,7 @@ Page {
         SettingsCard {
             title: qsTr("Appearance")
             description: qsTr("Toggles the QWinUI3 Theme singleton between light and dark color ramps.")
-            headerIcon: FluentIcons.Color
+            symbol: FluentIcons.Color
             toggle: true
             toggleText: Theme.dark ? qsTr("Dark") : qsTr("Light")
             checked: Theme.dark
@@ -140,7 +140,7 @@ Page {
         SettingsCard {
             title: qsTr("Follow system accessibility")
             description: qsTr("Copy OS reduce-motion / high-contrast into Theme when the window is active.")
-            headerIcon: FluentIcons.HardDrive
+            symbol: FluentIcons.HardDrive
             toggle: true
             toggleText: Theme.followSystemAccessibility ? qsTr("On") : qsTr("Off")
             checked: Theme.followSystemAccessibility
@@ -157,7 +157,7 @@ Page {
         SettingsCard {
             title: qsTr("Follow system color scheme")
             description: qsTr("Mirror WindowHelper.systemPrefersDark (portal / gsettings / Windows) into Theme.dark.")
-            headerIcon: FluentIcons.Brightness
+            symbol: FluentIcons.Brightness
             toggle: true
             toggleText: Theme.followSystemColorScheme ? qsTr("On") : qsTr("Off")
             checked: Theme.followSystemColorScheme
@@ -175,7 +175,7 @@ Page {
             description: Theme.followSystemAccessibility
                          ? qsTr("Driven by system (SPI client-area animation). Turn off “Follow system” to override.")
                          : qsTr("When enabled, Theme.duration() collapses animations for accessibility.")
-            headerIcon: FluentIcons.DeveloperTools
+            symbol: FluentIcons.DeveloperTools
             toggle: true
             toggleText: qsTr("Reduce motion")
             toggleEnabled: !Theme.followSystemAccessibility
@@ -191,7 +191,7 @@ Page {
             description: Theme.followSystemAccessibility
                          ? qsTr("Driven by system high-contrast. Turn off “Follow system” to override.")
                          : qsTr("Strengthens borders and caption focus cues (Theme.highContrast).")
-            headerIcon: FluentIcons.Game
+            symbol: FluentIcons.Game
             toggle: true
             toggleText: qsTr("High contrast")
             toggleEnabled: !Theme.followSystemAccessibility
@@ -205,7 +205,7 @@ Page {
         SettingsCard {
             title: qsTr("Page transition")
             description: qsTr("NavigationView pageTransition for pane clicks: slide, fade, drill, cover, …")
-            headerIcon: FluentIcons.EaseOfAccess
+            symbol: FluentIcons.EaseOfAccess
             action: ComboBox {
                 id: transitionBox
                 implicitWidth: 160
@@ -228,7 +228,7 @@ Page {
             enabled: WindowHelper.nativeChrome
             title: qsTr("Window corners")
             description: qsTr("DWM corner preference — round (Win11), round small, or square.")
-            headerIcon: FluentIcons.Picture
+            symbol: FluentIcons.Picture
             action: ComboBox {
                 id: cornerBox
                 implicitWidth: 160
@@ -242,7 +242,7 @@ Page {
             description: qsTr("Qt Quick RHI API. Must restart to apply. Active: %1. %2")
                          .arg(root.rhiDisplayName(GraphicsBackend.active))
                          .arg(GraphicsBackend.hint)
-            headerIcon: FluentIcons.HardDrive
+            symbol: FluentIcons.HardDrive
             action: RowLayout {
                 spacing: Theme.spacing
                 ComboBox {
