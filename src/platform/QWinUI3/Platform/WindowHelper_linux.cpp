@@ -74,6 +74,9 @@ void WindowHelper::updateHitTestLayout(QObject *windowObject,
                                        const QRect &closeButton,
                                        const QVariantList &clientRects)
 {
+    // Linux: compositor owns decorations when SSD is on; with customFrame /
+    // Frameless the QML PlatformTitleBar + MouseArea already handle drag/clicks.
+    // Native WM_NCHITTEST-style routing is Windows-only (WindowHelper_win.cpp).
     Q_UNUSED(windowObject);
     Q_UNUSED(titleBar);
     Q_UNUSED(minimizeButton);

@@ -366,6 +366,14 @@ QtObject {
             source: "pages/ItemsViewPage.qml"
         },
         {
+            title: qsTr("ItemsRepeater"),
+            category: "collections",
+            icon: FluentIcons.List,
+            description: qsTr("Virtualizing ListView wrapper for large models."),
+            component: "ItemsRepeaterPage",
+            source: "pages/ItemsRepeaterPage.qml"
+        },
+        {
             title: qsTr("ListDetailsView"),
             category: "collections",
             icon: FluentIcons.ViewAll,
@@ -1236,6 +1244,22 @@ QtObject {
             description: qsTr("Stacks InfoBar messages with shared layout spacing."),
             component: "InfoBarHostPage",
             source: "pages/InfoBarHostPage.qml"
+        },
+        {
+            title: qsTr("InfoBar + TeachingTip recipe"),
+            category: "dialogs",
+            icon: FluentIcons.Lightbulb,
+            description: qsTr("Form save InfoBars with a TeachingTip coach mark."),
+            component: "InfoTeachingRecipePage",
+            source: "pages/InfoTeachingRecipePage.qml"
+        },
+        {
+            title: qsTr("WebView2"),
+            category: "dialogs",
+            icon: FluentIcons.Globe,
+            description: qsTr("Optional Edge WebView2 host (Windows Runtime + SDK)."),
+            component: "WebView2Page",
+            source: "pages/WebView2Page.qml"
         },
         {
             title: qsTr("ToastHost"),

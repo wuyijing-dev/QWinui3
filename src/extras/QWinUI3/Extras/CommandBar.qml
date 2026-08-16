@@ -306,17 +306,23 @@ T.Control {
                         duration: Theme.duration(Theme.motionFast)
                     }
                 }
-                background: Rectangle {
-                    radius: Theme.cornerControl
-                    color: moreBtn.down ? Theme.fillSubtleTertiary
-                         : (moreBtn.hovered || moreBtn.visualFocus ? Theme.fillSubtle : "transparent")
-                    border.width: moreBtn.visualFocus ? 1 : 0
-                    border.color: Theme.accent
-                    Behavior on color {
-                        enabled: !Theme.reducedMotion
-                        ColorAnimation {
-                            duration: Theme.duration(Theme.motionFast)
+                background: Item {
+                    Rectangle {
+                        anchors.fill: parent
+                        radius: Theme.cornerControl
+                        color: moreBtn.down ? Theme.fillSubtleTertiary
+                             : (moreBtn.hovered || moreBtn.visualFocus ? Theme.fillSubtle : "transparent")
+                        Behavior on color {
+                            enabled: !Theme.reducedMotion
+                            ColorAnimation {
+                                duration: Theme.duration(Theme.motionFast)
+                            }
                         }
+                    }
+                    FocusStroke {
+                        anchors.fill: parent
+                        show: moreBtn.visualFocus
+                        frameRadius: Theme.cornerControl
                     }
                 }
             }
@@ -338,12 +344,18 @@ T.Control {
                 onClicked: root.toggle()
                 ToolTip.visible: hovered
                 ToolTip.text: root.isOpen ? qsTr("Collapse") : qsTr("Expand")
-                background: Rectangle {
-                    radius: Theme.cornerControl
-                    color: toggleBtn.down ? Theme.fillSubtleTertiary
-                         : (toggleBtn.hovered || toggleBtn.visualFocus ? Theme.fillSubtle : "transparent")
-                    border.width: toggleBtn.visualFocus ? 1 : 0
-                    border.color: Theme.accent
+                background: Item {
+                    Rectangle {
+                        anchors.fill: parent
+                        radius: Theme.cornerControl
+                        color: toggleBtn.down ? Theme.fillSubtleTertiary
+                             : (toggleBtn.hovered || toggleBtn.visualFocus ? Theme.fillSubtle : "transparent")
+                    }
+                    FocusStroke {
+                        anchors.fill: parent
+                        show: toggleBtn.visualFocus
+                        frameRadius: Theme.cornerControl
+                    }
                 }
             }
         }

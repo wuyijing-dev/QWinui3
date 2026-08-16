@@ -85,6 +85,13 @@ T.ItemDelegate {
             }
         }
 
+        FocusStroke {
+            anchors.fill: parent
+            anchors.margins: 2
+            show: control.visualFocus
+            frameRadius: Theme.cornerControl
+        }
+
         Rectangle {
             id: indicator
             anchors.left: parent.left

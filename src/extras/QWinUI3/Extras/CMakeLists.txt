@@ -55,8 +55,10 @@ qt_add_qml_module(qwinui3_extras
         FormLayout.qml
         ValidationSummary.qml
         ItemsView.qml
+        ItemsRepeater.qml
         EmptyState.qml
         ContentThemeTransition.qml
+        ConnectedAnimation.qml
         EntranceThemeTransition.qml
         Expander.qml
         RepositionThemeTransition.qml

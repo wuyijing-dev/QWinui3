@@ -4,6 +4,8 @@
 
 void WindowHelper::applyNative(QWindow *window, bool dark, int backdrop)
 {
+    // macOS / other: no DWM Mica/Acrylic yet. Keep Qt decorations; QML can still
+    // use AcrylicSurface / frost overlays for in-client depth.
     Q_UNUSED(window);
     Q_UNUSED(dark);
     Q_UNUSED(backdrop);
@@ -44,6 +46,7 @@ void WindowHelper::updateHitTestLayout(QObject *windowObject,
                                        const QRect &closeButton,
                                        const QVariantList &clientRects)
 {
+    // Non-Windows: no native non-client hit-test. Title-bar interaction stays in QML.
     Q_UNUSED(windowObject);
     Q_UNUSED(titleBar);
     Q_UNUSED(minimizeButton);

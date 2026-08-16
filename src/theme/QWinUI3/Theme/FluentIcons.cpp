@@ -264,6 +264,11 @@ void buildSharedCatalog_unlocked()
     putShared("Key", 0xE192);
     putShared("Record", 0xE7C8);
     putShared("Show", 0xE890);
+    putShared("ContactInfo", 0xE779);
+    putShared("Dictionary", 0xE82D);
+    putShared("ReadingList", 0xE7BC);
+    putShared("DockLeft", 0xE90C);
+    putShared("DockRight", 0xE90D);
 
     std::sort(g_names.begin(), g_names.end());
 

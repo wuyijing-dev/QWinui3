@@ -97,12 +97,18 @@ T.TreeViewDelegate {
                 }
             }
         }
+        FocusStroke {
+            anchors.fill: parent
+            anchors.margins: 2
+            show: control.visualFocus
+            frameRadius: Theme.cornerControl
+        }
         Rectangle {
             anchors.left: parent.left
             anchors.leftMargin: 4
             anchors.verticalCenter: parent.verticalCenter
             width: 3
-            height: control.highlighted ? 16 : 0
+            height: control.highlighted || control.visualFocus ? 16 : 0
             radius: 1.5
             color: Theme.accent
             Behavior on height {

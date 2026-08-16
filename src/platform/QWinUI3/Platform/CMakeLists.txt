@@ -2,11 +2,27 @@ qt_add_library(qwinui3_platform STATIC)
 
 find_package(Qt6 COMPONENTS DBus QUIET)
 
+include(${CMAKE_SOURCE_DIR}/cmake/FindWebView2.cmake)
+set(QWINUI3_HAS_WEBVIEW2 OFF)
+set(QWINUI3_WEBVIEW2_SOURCES WebView2Host.cpp)
+if(WIN32 AND QWINUI3_BUILD_WEBVIEW2)
+    qwinui3_find_webview2()
+    if(QWINUI3_WEBVIEW2_FOUND)
+        set(QWINUI3_HAS_WEBVIEW2 ON)
+        set(QWINUI3_WEBVIEW2_DLL "${QWINUI3_WEBVIEW2_DLL}" PARENT_SCOPE)
+        message(STATUS "QWinUI3: WebView2Host enabled")
+    else()
+        message(WARNING "QWINUI3_BUILD_WEBVIEW2=ON but SDK not found. Run scripts/fetch_webview2.ps1")
+    endif()
+endif()
+set(QWINUI3_HAS_WEBVIEW2 ${QWINUI3_HAS_WEBVIEW2} PARENT_SCOPE)
+
 set(QWINUI3_PLATFORM_SOURCES
     WindowHelper.cpp
     FilePicker.cpp
     TrayIcon.cpp
     LinuxPortal.cpp
+    ${QWINUI3_WEBVIEW2_SOURCES}
 )
 
 if(WIN32)
@@ -25,6 +41,7 @@ qt_add_qml_module(qwinui3_platform
         WindowHelper.h
         FilePicker.h
         TrayIcon.h
+        WebView2Host.h
         ${QWINUI3_PLATFORM_SOURCES}
     QML_FILES
         PlatformTitleBar.qml
@@ -46,6 +63,11 @@ target_link_libraries(qwinui3_platform
     PRIVATE
         ${QWINUI3_PLATFORM_LIBS}
 )
+
+if(QWINUI3_HAS_WEBVIEW2)
+    target_compile_definitions(qwinui3_platform PUBLIC QWINUI3_HAS_WEBVIEW2=1)
+    target_link_libraries(qwinui3_platform PRIVATE qwinui3_webview2_loader)
+endif()
 
 if(TARGET Qt6::DBus AND UNIX AND NOT APPLE)
     target_link_libraries(qwinui3_platform PRIVATE Qt6::DBus)

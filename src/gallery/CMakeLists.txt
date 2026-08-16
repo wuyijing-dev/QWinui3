@@ -86,7 +86,10 @@ qt_add_qml_module(qwinui3_gallery
         pages/InfoBarHostPage.qml
         pages/InfoBarPage.qml
         pages/InfoButtonPage.qml
+        pages/InfoTeachingRecipePage.qml
+        pages/ItemsRepeaterPage.qml
         pages/ItemsViewPage.qml
+        pages/WebView2Page.qml
         pages/KeyVisualPage.qml
         pages/LabelPage.qml
         pages/ListTilePage.qml
@@ -228,3 +231,16 @@ add_custom_target(publish_qwinui3_gallery ALL
     COMMENT "Publish qwinui3_gallery to build root"
     VERBATIM
 )
+
+if(QWINUI3_HAS_WEBVIEW2 AND DEFINED QWINUI3_WEBVIEW2_DLL AND EXISTS "${QWINUI3_WEBVIEW2_DLL}")
+    add_custom_command(TARGET qwinui3_gallery POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                "${QWINUI3_WEBVIEW2_DLL}"
+                "$<TARGET_FILE_DIR:qwinui3_gallery>/WebView2Loader.dll"
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                "${QWINUI3_WEBVIEW2_DLL}"
+                "${CMAKE_BINARY_DIR}/WebView2Loader.dll"
+        COMMENT "Copy WebView2Loader.dll beside gallery"
+        VERBATIM
+    )
+endif()

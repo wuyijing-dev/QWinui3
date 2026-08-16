@@ -131,6 +131,12 @@ T.MenuItem {
                 }
             }
         }
+        FocusStroke {
+            anchors.fill: parent
+            anchors.margins: 2
+            show: control.visualFocus
+            frameRadius: Theme.cornerControl
+        }
         // Accent pip is owned by Menu (SelectionPip) — tracks currentIndex
     }
 }

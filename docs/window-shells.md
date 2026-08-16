@@ -118,5 +118,12 @@ Accessibility: `Theme.followSystemAccessibility` (default true) copies
 ## Non-Windows notes
 
 `WindowHelper` native chrome / DWM backdrop / hit-test are Windows-first.
-On Linux/macOS, `applyNative` / hit-test layout are stubs — shells still run with Qt chrome.
-See `window-appwindow.md` and `window-transparency-dwm.md`.
+
+| | Windows | Linux | macOS |
+|--|--|--|--|
+| `supportsBackdrop` | yes (DWM Mica/Acrylic) | no (use `AcrylicSurface` / frost) | no |
+| `updateHitTestLayout` | NC hit-test | stub — QML title bar handles input | stub |
+| `customFrame` | yes | yes (frameless) | false |
+
+On Linux/macOS, shells still run; prefer in-client acrylic for depth. See
+`window-appwindow.md` and `window-transparency-dwm.md`.
