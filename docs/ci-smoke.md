@@ -76,7 +76,7 @@ Keep these three in sync when editing:
 Current set:
 
 - `HomePage`, `ButtonPage`
-- `ContentDialogPage`, `DialogsFlyoutsPage`
+- `ContentDialogPage`, `DialogsFlyoutsPage`, `AnimationsPage`
 - `DataTablePage`, `FormValidationPage`
 - `CommandPalettePage`, `AccessibilityPage`
 - `SystemIntegrationPage`, `WebView2Page`

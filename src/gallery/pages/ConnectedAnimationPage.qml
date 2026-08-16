@@ -5,12 +5,27 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 
 // Gallery — ConnectedAnimation (list → detail + key registry).
+//
+// Recipe: docs/animations.md (1.22)
 
 CatalogPage {
     title: qsTr("ConnectedAnimation")
-    subtitle: qsTr("Shared-element morph for list→detail and NavigationView-style transitions.")
+    subtitle: qsTr("Shared-element morph for list→detail. Recipe: docs/animations.md — skips when Theme.reducedMotion.")
 
     property int selected: -1
+
+    ControlExample {
+        headerText: qsTr("Reduced motion")
+        qmlSource: "Theme.reducedMotion // ConnectedAnimationService skips morph, still runs onFinished"
+        ColumnLayout {
+            Layout.fillWidth: true
+            Switch {
+                text: qsTr("Theme.reducedMotion")
+                checked: Theme.reducedMotion
+                onToggled: Theme.reducedMotion = checked
+            }
+        }
+    }
 
     ControlExample {
         headerText: qsTr("List → detail")

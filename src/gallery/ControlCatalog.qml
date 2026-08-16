@@ -1062,10 +1062,18 @@ QtObject {
             source: "pages/EmptyStatePage.qml"
         },
         {
+            title: qsTr("Animations"),
+            category: "status",
+            icon: FluentIcons.Sync,
+            description: qsTr("Motion recipe hub (1.22) — ConnectedAnimation, entrance, theme transitions."),
+            component: "AnimationsPage",
+            source: "pages/AnimationsPage.qml"
+        },
+        {
             title: qsTr("EntranceThemeTransition"),
             category: "status",
             icon: FluentIcons.Completed,
-            description: qsTr("Fade + rise + scale entrance motion for page sections."),
+            description: qsTr("Fade + rise + scale entrance — docs/animations.md (1.22)."),
             component: "EntranceThemeTransitionPage",
             source: "pages/EntranceThemeTransitionPage.qml"
         },
@@ -1073,7 +1081,7 @@ QtObject {
             title: qsTr("Theme transitions"),
             category: "status",
             icon: FluentIcons.Sync,
-            description: qsTr("ContentThemeTransition and RepositionThemeTransition demos."),
+            description: qsTr("ContentThemeTransition + RepositionThemeTransition — docs/animations.md (1.22)."),
             component: "ThemeTransitionsPage",
             source: "pages/ThemeTransitionsPage.qml"
         },
@@ -1089,7 +1097,7 @@ QtObject {
             title: qsTr("ConnectedAnimation"),
             category: "status",
             icon: FluentIcons.Sync,
-            description: qsTr("Shared-element morph for list→detail; ConnectedAnimationService keys."),
+            description: qsTr("Shared-element list→detail — docs/animations.md (1.22)."),
             component: "ConnectedAnimationPage",
             source: "pages/ConnectedAnimationPage.qml"
         },
@@ -1417,6 +1425,7 @@ QtObject {
     // Curated “recently shipped” recipe pages (1.20) — not catalog array order.
     function recentlyShipped(count) {
         var ids = [
+            "AnimationsPage",         // 1.22
             "MediaPlayerElementPage", // 1.21
             "AccessibilityPage",      // 1.19
             "WebView2Page",           // 1.18
@@ -1456,6 +1465,7 @@ QtObject {
             "WebView2Page",
             "ChartsPage",
             "DialogsFlyoutsPage",
+            "AnimationsPage",
             "I18nRtlPage"
         ]
     }

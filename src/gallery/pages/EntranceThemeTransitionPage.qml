@@ -5,10 +5,25 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 
 // Gallery — EntranceThemeTransition.
+//
+// Recipe: docs/animations.md (1.22)
 
 CatalogPage {
     title: qsTr("EntranceThemeTransition")
-    subtitle: qsTr("WinUI-style fade + rise + scale entrance. Honors Theme.reducedMotion.")
+    subtitle: qsTr("WinUI-style fade + rise + scale. Recipe: docs/animations.md — honors Theme.reducedMotion.")
+
+    ControlExample {
+        headerText: qsTr("Reduced motion")
+        qmlSource: "Theme.reducedMotion // play() snaps to final pose"
+        ColumnLayout {
+            Layout.fillWidth: true
+            Switch {
+                text: qsTr("Theme.reducedMotion")
+                checked: Theme.reducedMotion
+                onToggled: Theme.reducedMotion = checked
+            }
+        }
+    }
 
     ControlExample {
         headerText: qsTr("Play entrance")

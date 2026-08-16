@@ -5,14 +5,29 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 
 // Gallery — ContentThemeTransition + RepositionThemeTransition.
+//
+// Recipe: docs/animations.md (1.22)
 
 CatalogPage {
     id: page
     title: qsTr("Theme transitions")
-    subtitle: qsTr("ContentThemeTransition (cross-fade) and RepositionThemeTransition (layout move).")
+    subtitle: qsTr("Content swap + layout reflow. Recipe: docs/animations.md — honors Theme.reducedMotion.")
 
     property int panelIndex: 0
     property int chipCount: 5
+
+    ControlExample {
+        headerText: qsTr("Reduced motion")
+        qmlSource: "Theme.reducedMotion // Content snaps; Reposition Behavior off"
+        ColumnLayout {
+            Layout.fillWidth: true
+            Switch {
+                text: qsTr("Theme.reducedMotion")
+                checked: Theme.reducedMotion
+                onToggled: Theme.reducedMotion = checked
+            }
+        }
+    }
 
     ControlExample {
         headerText: qsTr("ContentThemeTransition")

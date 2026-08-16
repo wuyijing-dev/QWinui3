@@ -32,6 +32,7 @@ CRITICAL = [
     "WebView2Page",
     "ChartsPage",
     "DialogsFlyoutsPage",
+    "AnimationsPage",
     "I18nRtlPage",
 ]
 

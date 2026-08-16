@@ -89,7 +89,7 @@ Promote to stable only after a named `1.xx` slice hardens them.
 | **WebView2 advanced** | Custom Environment / multi-profile | Base `WebView2Host` is **stable (1.18)** — [webview2.md](webview2.md); advanced env options still experimental |
 | **Charts & gauges** | `LineChart`, `BarChart`, `ArcGauge`, `KpiTile`, … | Experimental; **1.11** naming recipe in [charts.md](charts.md) — promote a named subset later (roadmap 1.23) |
 | **Advanced chrome** | Snap layouts edge cases, frost/Mica failure modes | Documented gaps; polish in **1.03** / **1.04** |
-| **Animations** | `ConnectedAnimation*`, theme transitions | Power-user; less example coverage |
+| **Animations** | `ConnectedAnimation*`, theme transitions | Experimental; recipe [animations.md](animations.md) (1.22) — remain experimental until soak |
 | **Tear-out / exotic shells** | `TabViewTearOutWindow`, compact overlay variants | Niche |
 | **Media** | `MediaPlayerElement` | Optional Qt Multimedia; recipe [media.md](media.md) (1.21) — remain experimental |
 | **Shell extras (remaining)** | Snap Layouts, battery/online/screens, recent-docs | Gallery demos; taskbar/attention/reveal/idle promoted in **1.17** — [shell-extras.md](shell-extras.md) |
@@ -143,3 +143,4 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.19** | Accessibility wave 2 — [accessibility.md](accessibility.md); DataTable/lists/forms names |
 | **1.20** | Gallery catalog UX + smoke critical pages — [ci-smoke.md](ci-smoke.md) |
 | **1.21** | Media optional Multimedia recipe [media.md](media.md); stub when missing |
+| **1.22** | Animations & transitions recipe [animations.md](animations.md); Gallery hub + reducedMotion demos |

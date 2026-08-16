@@ -107,6 +107,7 @@ int main(int argc, char *argv[])
             "WebView2Page",
             "ChartsPage",
             "DialogsFlyoutsPage",
+            "AnimationsPage",
             "I18nRtlPage",
             nullptr,
         };

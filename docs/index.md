@@ -20,6 +20,7 @@ This site is generated from QML source comments and shipped via GitHub Pages.
 | [WebView2](webview2.md) | Windows WebView2Host — stable recipe (1.18) |
 | [CI smoke](ci-smoke.md) | Gallery `--smoke` + catalog integrity (1.20) |
 | [Media](media.md) | Optional Qt Multimedia / MediaPlayerElement (1.21) |
+| [Animations & transitions](animations.md) | ConnectedAnimation, entrance, theme transitions (1.22) |
 | [Data collections](data-collections.md) | DataTable / ItemsView / ListDetailsView (1.07) |
 | [Forms & settings](forms.md) | FormLayout validation + settings recipes (1.08) |
 | [Theme overrides](theme-overrides.md) | Accent / density / branding knobs (1.09) |

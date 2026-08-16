@@ -56,6 +56,7 @@ qt_add_qml_module(qwinui3_gallery
         pages/CommandBarFlyoutPage.qml
         pages/CommandPalettePage.qml
         pages/ConnectedAnimationPage.qml
+        pages/AnimationsPage.qml
         pages/ContentCardPage.qml
         pages/ContentDialogPage.qml
         pages/DialogsFlyoutsPage.qml

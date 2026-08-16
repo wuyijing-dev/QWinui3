@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.21**  
-**Next up:** **1.22** (animations & transitions recipe)  
+**Current:** **1.22**  
+**Next up:** **1.23** (charts promote wave 2)  
 **Planned through:** **1.50** (1.xx maturity checkpoint)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
 
@@ -60,7 +60,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.21`
+## Shipped — `1.01` … `1.22`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -146,31 +146,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** [media.md](docs/media.md); `MediaPlayerElement` stub when Multimedia missing (`available === false`); keyboard Space/Enter + mute; Gallery page always present; remain experimental; product version `1.21`.
 
+### 1.22 — Animations & transitions recipe (shipped)
+
+**Shipped:** [animations.md](docs/animations.md); Gallery **Animations** hub + reducedMotion toggles on ConnectedAnimation / Entrance / Theme transitions demos; remain experimental; product version `1.22`.
+
 ---
 
-## Mid path — planned `1.22` … `1.30`
+## Mid path — planned `1.23` … `1.30`
 
 Same rules: one theme per `YY`, still **not** `2.00`.
-
-### 1.22 — Animations & transitions recipe
-
-**Why:** `ConnectedAnimation*` and theme transitions exist but lack a copy-ready story.
-
-**In scope**
-
-- Document ConnectedAnimation patterns (list → detail, shell page enter).
-- Theme light/dark / accent transition guidance; reduce jank on high-traffic shells.
-- Gallery demo page polish; `docs/animations.md`.
-
-**Out of scope**
-
-- New animation engine; Fluent motion redesign of every control.
-
-**Exit criteria**
-
-- Recipe doc; demos match documented APIs; experimental note kept or promote if solid.
-
----
 
 ### 1.23 — Charts promote wave 2
 
