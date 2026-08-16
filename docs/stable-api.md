@@ -55,7 +55,7 @@ Style module (`QT_QUICK_CONTROLS_STYLE=QWinUI3`): treating **standard** `QtQuick
 
 | Type | Module | Notes |
 |------|--------|--------|
-| `DataTable` | Extras | Sort/filter/resize + stable selection / keyboard — [data-collections.md](data-collections.md) (1.07) |
+| `DataTable` | Extras | Sort/filter/resize + stable selection / keyboard — [data-collections.md](data-collections.md) (1.07); scale tips [performance.md](performance.md) (1.25) |
 | `ListDetailsView` / `ItemsView` / `ListTile` | Extras | Master–detail / list recipes — [data-collections.md](data-collections.md) |
 
 ### Theme & style
@@ -148,3 +148,4 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.22** | Animations & transitions recipe [animations.md](animations.md); Gallery hub + reducedMotion demos |
 | **1.23** | Promote chart subset Line/Bar/Donut + RingGauge + KpiTile + ChartCard — [charts.md](charts.md) |
 | **1.24** | Linux persistent tray (StatusNotifierItem) — [system-integration.md](system-integration.md) |
+| **1.25** | Performance handbook — [performance.md](performance.md); ItemsRepeater `reuseItems` |

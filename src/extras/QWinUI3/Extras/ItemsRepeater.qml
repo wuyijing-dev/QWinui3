@@ -17,6 +17,7 @@ import QWinUI3.Theme
 //
 // @notes
 //   Prefer this for large models; ItemsView adds selection / EmptyState recipe on top.
+//   ListView uses reuseItems (1.25) — keep delegates binding-driven for pooling.
 
 T.Control {
     id: root
@@ -56,6 +57,7 @@ T.Control {
         id: list
         anchors.fill: parent
         clip: true
+        reuseItems: true
         boundsBehavior: Flickable.StopAtBounds
         spacing: 0
         cacheBuffer: Theme.navItemHeight * 8

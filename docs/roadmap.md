@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.24**
-**Next up:** **1.25** (Performance handbook)
+**Current:** **1.25**
+**Next up:** **1.26** (Example app templates)
 **Planned through:** **1.50** (1.xx maturity checkpoint)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](qt-version-compat.md)
 
@@ -60,7 +60,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.24`
+## Shipped — `1.01` … `1.25`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -158,30 +158,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** Linux `TrayIcon` registers `org.kde.StatusNotifierItem` when a session `StatusNotifierWatcher` is present (KDE Plasma reference); `supportsPersistentTray` / `persistentTrayActive` / `iconName`; ContextMenu → `trayActivated(2)` for app-owned menus; Win vs Linux matrix in [system-integration.md](system-integration.md) + [platform-linux-wayland.md](platform-linux-wayland.md); Gallery System Integration notes; product version `1.24`.
 
+### 1.25 — Performance handbook (shipped)
+
+**Shipped:** [performance.md](performance.md) — virtualization, model roles, chart point budgets, Gallery heavy-page tips; `ItemsRepeater` enables `ListView.reuseItems`; DataTable Gallery callout; links from README / stable-api / docs index; product version `1.25`.
+
 ---
 
-## Mid path — planned `1.25` … `1.30`
+## Mid path — planned `1.26` … `1.30`
 
 Same rules: one theme per `YY`, still **not** `2.00`.
-
-### 1.25 — Performance handbook
-
-**Why:** Large models, DataTable, and chart pages need guidance before apps blame the kit.
-
-**In scope**
-
-- `docs/performance.md`: virtualization, model roles, chart data size, Gallery “heavy page” tips.
-- Cheap wins only (e.g. obvious ListView reuse / defer loads)—no rewrite of Extras.
-
-**Out of scope**
-
-- Profiler product; rewriting chart engines for GPU.
-
-**Exit criteria**
-
-- Handbook linked from README/stable-api; one Gallery callout for a heavy page.
-
----
 
 ### 1.26 — Example app templates
 

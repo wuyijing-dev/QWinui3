@@ -98,6 +98,7 @@ ChartCard {
 - Line / Area: large `values` use **LOD** (`autoLod`, `maxPoints`, `lodFactor`). Prefer mutating data then `invalidateLod()` / `requestRedraw()` over rebuilding the whole control.
 - Avoid binding `ChartUtils.makeWave(…)` in property bindings — call from a button or timer once.
 - Prefer `ChartCard` around one chart; do not nest many full-size canvases in a single view without scroll virtualization.
+- Point budgets, live buffers, and Gallery tips: **[performance.md](performance.md) (1.25)**.
 
 ---
 

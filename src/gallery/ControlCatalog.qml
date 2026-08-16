@@ -425,7 +425,7 @@ QtObject {
             title: qsTr("DataTable"),
             category: "collections",
             icon: FluentIcons.ViewAll,
-            description: qsTr("Fluent table with sort, filter, column resize, keyboard, and virtualization."),
+            description: qsTr("Fluent table with sort, filter, resize, keyboard, virtualization — docs/performance.md (1.25)."),
             component: "DataTablePage",
             source: "pages/DataTablePage.qml"
         },

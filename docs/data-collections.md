@@ -61,7 +61,9 @@ Related: [`ListTile`](components/ListTile.md), [`TwoPaneView`](components/TwoPan
 |----------------------|----------|
 | **≤ a few hundred** plain objects | `DataTable` / `ItemsView` JS arrays are fine. |
 | **Thousands+** | Use a C++ `QAbstractListModel` (or similar). Do not expect JS filter+sort on every keystroke to stay cheap. |
-| **Virtualization** | Both tables/lists use QQC `ListView` — not a custom viewport engine. No rewrite in 1.07. |
+| **Virtualization** | Both tables/lists use QQC `ListView` — not a custom viewport engine. |
+
+Full checklist (charts, Gallery heavy pages, `reuseItems`): **[performance.md](performance.md) (1.25)**.
 
 ---
 

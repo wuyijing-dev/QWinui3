@@ -17,7 +17,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Product version is X.YY (two-digit minor), e.g. 1.00, 1.01, 1.10.
 # Git tags / packages use v${QWINUI3_VERSION}. CMake needs major.minor.patch.
-set(QWINUI3_VERSION "1.24")
+set(QWINUI3_VERSION "1.25")
 if(NOT QWINUI3_VERSION MATCHES "^[0-9]+\\.[0-9][0-9]$")
     message(FATAL_ERROR "QWINUI3_VERSION must be X.YY (two-digit minor), got '${QWINUI3_VERSION}'")
 endif()
