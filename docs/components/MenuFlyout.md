@@ -41,8 +41,8 @@ shouldConstrainToRootBounds clamps into the window overlay (default true).
 | `preferredPlacement` | `alias` | Preferred flyout placement |
 | `isLightDismissEnabled` | `bool` | Close on outside click / Esc |
 | `isOpen` | `bool` | Open / visible state |
-| `title` | `string` | Primary title text |
-| `contentMaxHeight` | `real` | (cannot redeclare Popup.maxHeight which is FINAL) |
+| `title` | `string` | Inherited from `Menu` (FINAL) — Accessible name |
+| `contentMaxHeight` | `real` | WinUI MaxHeight clamp (not Popup.maxHeight) |
 | `shouldConstrainToRootBounds` | `bool` | WinUI ShouldConstrainToRootBounds — clamp popup into window overlay |
 
 ### Signals
