@@ -7,9 +7,11 @@ import QWinUI3.Theme
 //
 // A slide-out panel that presents navigation or contextual content from an edge. API: docs/components/Drawer.md
 
-Page {
-    padding: 0
-    Drawer {
+CatalogPage {
+    title: qsTr("Drawer")
+    subtitle: qsTr("A slide-out panel that presents navigation or contextual content from an edge.")
+
+    overlay: Drawer {
         id: drawer
         edge: Qt.LeftEdge
         width: 280
@@ -40,39 +42,13 @@ Page {
         }
     }
 
-    ScrollView {
-        id: scroll
-        anchors.fill: parent
-        contentWidth: availableWidth
-        clip: true
+    ControlExample {
+        headerText: qsTr("Left edge Drawer")
+        qmlSource: "Button {\n    text: \"Open drawer\"\n    onClicked: drawer.open()\n}\nDrawer {\n    edge: Qt.LeftEdge\n    // content…\n}"
 
-        ColumnLayout {
-            width: scroll.availableWidth
-            spacing: Theme.spacingSection
-
-            PageHeader {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                Layout.topMargin: Theme.spacingSection
-                title: qsTr("Drawer")
-                subtitle: qsTr("A slide-out panel that presents navigation or contextual content from an edge.")
-            }
-
-            ControlExample {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                headerText: qsTr("Left edge Drawer")
-                qmlSource: "Button {\n    text: \"Open drawer\"\n    onClicked: drawer.open()\n}\nDrawer {\n    edge: Qt.LeftEdge\n    // content…\n}"
-
-                Button {
-                    text: qsTr("Open drawer")
-                    onClicked: drawer.open()
-                }
-            }
-
-            Item { Layout.preferredHeight: Theme.spacingSection; Layout.fillWidth: true }
+        Button {
+            text: qsTr("Open drawer")
+            onClicked: drawer.open()
         }
     }
 }

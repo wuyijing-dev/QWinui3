@@ -7,9 +7,11 @@ import QWinUI3.Platform
 
 // Gallery — MediaPlayerElement (requires Qt Multimedia QML module at runtime).
 
-Page {
+CatalogPage {
     id: page
-    padding: 0
+
+    title: qsTr("MediaPlayerElement")
+    subtitle: qsTr("Fluent transport shell over Qt Multimedia. Pick a local file to play.")
 
     property url mediaSource: ""
     property bool mediaReady: playerLoader.status === Loader.Ready
@@ -38,90 +40,66 @@ Page {
             })
     }
 
-    ScrollView {
-        id: scroll
-        anchors.fill: parent
-        contentWidth: availableWidth
-        clip: true
-        ColumnLayout {
-            width: scroll.availableWidth
-            spacing: Theme.spacingSection
+    ControlExample {
+        headerText: qsTr("Player")
+        qmlSource: "MediaPlayerElement {\n    source: \"file:///…\"\n}"
 
-            PageHeader {
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+
+            EmptyState {
                 Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                Layout.topMargin: Theme.spacingSection
-                title: qsTr("MediaPlayerElement")
-                subtitle: qsTr("Fluent transport shell over Qt Multimedia. Pick a local file to play.")
+                visible: !page.mediaReady
+                title: qsTr("Qt Multimedia not loaded")
+                message: page.mediaError.length
+                         ? page.mediaError
+                         : qsTr("Ensure qt.conf QmlImports includes the Qt kit qml folder, or run build.bat (windeployqt).")
+                compact: true
+                bordered: true
             }
 
-            ControlExample {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                Layout.bottomMargin: Theme.spacingSection
-                headerText: qsTr("Player")
-                qmlSource: "MediaPlayerElement {\n    source: \"file:///…\"\n}"
-
-                ColumnLayout {
+            RowLayout {
+                visible: page.mediaReady
+                Button {
+                    text: qsTr("Open media…")
+                    highlighted: true
+                    onClicked: FilePicker.openFile(
+                        qsTr("Open media"),
+                        ["Media (*.mp4 *.mkv *.webm *.mp3 *.wav)", "All (*.*)"],
+                        function (p) {
+                            if (p && p.length)
+                                page.mediaSource = p.indexOf("file:") === 0 ? p : ("file:///" + p.replace(/\\/g, "/"))
+                        })
+                }
+                Label {
                     Layout.fillWidth: true
-                    spacing: Theme.spacing
+                    elide: Text.ElideMiddle
+                    text: page.mediaSource.toString() || qsTr("No file selected")
+                    color: Theme.textSecondary
+                }
+            }
 
-                    EmptyState {
-                        Layout.fillWidth: true
-                        visible: !page.mediaReady
-                        title: qsTr("Qt Multimedia not loaded")
-                        message: page.mediaError.length
-                                 ? page.mediaError
-                                 : qsTr("Ensure qt.conf QmlImports includes the Qt kit qml folder, or run build.bat (windeployqt).")
-                        compact: true
-                        bordered: true
-                    }
-
-                    RowLayout {
-                        visible: page.mediaReady
-                        Button {
-                            text: qsTr("Open media…")
-                            highlighted: true
-                            onClicked: FilePicker.openFile(
-                                qsTr("Open media"),
-                                ["Media (*.mp4 *.mkv *.webm *.mp3 *.wav)", "All (*.*)"],
-                                function (p) {
-                                    if (p && p.length)
-                                        page.mediaSource = p.indexOf("file:") === 0 ? p : ("file:///" + p.replace(/\\/g, "/"))
-                                })
-                        }
-                        Label {
-                            Layout.fillWidth: true
-                            elide: Text.ElideMiddle
-                            text: page.mediaSource.toString() || qsTr("No file selected")
-                            color: Theme.textSecondary
-                        }
-                    }
-
-                    Loader {
-                        id: playerLoader
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: page.mediaReady ? 360 : 0
-                        visible: page.mediaReady
-                        onLoaded: {
-                            if (item) {
-                                item.Layout.fillWidth = true
-                                if (page.mediaSource.toString().length)
-                                    item.source = page.mediaSource
-                                item.autoPlay = true
-                            }
-                        }
-                    }
-
-                    Binding {
-                        target: playerLoader.item
-                        property: "source"
-                        value: page.mediaSource
-                        when: playerLoader.item !== null
+            Loader {
+                id: playerLoader
+                Layout.fillWidth: true
+                Layout.preferredHeight: page.mediaReady ? 360 : 0
+                visible: page.mediaReady
+                onLoaded: {
+                    if (item) {
+                        item.Layout.fillWidth = true
+                        if (page.mediaSource.toString().length)
+                            item.source = page.mediaSource
+                        item.autoPlay = true
                     }
                 }
+            }
+
+            Binding {
+                target: playerLoader.item
+                property: "source"
+                value: page.mediaSource
+                when: playerLoader.item !== null
             }
         }
     }

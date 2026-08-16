@@ -11,9 +11,11 @@ import QWinUI3.Platform
 // Window paradigms / presenters / always-on-top plus Blank/Navigation/MenuStatus shells.
 // API: docs/window-shells.md · docs/window-helper.md
 
-Page {
+CatalogPage {
     id: root
-    padding: 0
+
+    title: qsTr("Window shells")
+    subtitle: qsTr("Window roles (作用): paradigm · presenter · always-on-top; plus blank / nav / menu shells.")
 
     property var _openWindows: []
     property var liveWindow: null
@@ -415,307 +417,275 @@ Page {
         win.subtitle = win.windowRoleSummary
     }
 
-    ScrollView {
-        id: scroll
-        anchors.fill: parent
-        contentWidth: availableWidth
-        clip: true
+    ControlExample {
+        headerText: qsTr("Window roles & actions")
+        qmlSource: "win.setWindowParadigm(ParadigmDialog)\nwin.setPresenterKind(PresenterCompactOverlay)\nwin.setAlwaysOnTopEnabled(true)\nwin.centerOnScreen()"
 
         ColumnLayout {
-            width: scroll.availableWidth
-            spacing: Theme.spacingSection
+            Layout.fillWidth: true
+            spacing: Theme.spacingLoose
 
-            PageHeader {
+            Label {
                 Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                Layout.topMargin: Theme.spacingSection
-                title: qsTr("Window shells")
-                subtitle: qsTr("Window roles (作用): paradigm · presenter · always-on-top; plus blank / nav / menu shells.")
+                wrapMode: Text.Wrap
+                color: Theme.textSecondary
+                text: qsTr("Open a live BlankWindow, then change its role at runtime (WinUI AppWindow presenter + paradigm).")
+            }
+            Label {
+                Layout.fillWidth: true
+                text: root.liveWindow
+                      ? qsTr("Live: %1").arg(root.liveWindow.windowRoleSummary)
+                      : qsTr("No live window — pick a control below to spawn one.")
+                color: Theme.textPrimary
+                font.weight: Theme.fontWeightSemiBold
             }
 
-            ControlExample {
+            GridLayout {
                 Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                headerText: qsTr("Window roles & actions")
-                qmlSource: "win.setWindowParadigm(ParadigmDialog)\nwin.setPresenterKind(PresenterCompactOverlay)\nwin.setAlwaysOnTopEnabled(true)\nwin.centerOnScreen()"
+                columns: width > 640 ? 2 : 1
+                rowSpacing: Theme.spacing
+                columnSpacing: Theme.spacingLoose
 
-                ColumnLayout {
+                Label { text: qsTr("Paradigm"); color: Theme.textSecondary }
+                ComboBox {
+                    id: paradigmBox
                     Layout.fillWidth: true
-                    spacing: Theme.spacingLoose
+                    Layout.maximumWidth: 280
+                    model: root.paradigmLabels
+                    currentIndex: 0
+                    onActivated: root.applyLiveParadigm(currentIndex)
+                }
 
-                    Label {
-                        Layout.fillWidth: true
-                        wrapMode: Text.Wrap
-                        color: Theme.textSecondary
-                        text: qsTr("Open a live BlankWindow, then change its role at runtime (WinUI AppWindow presenter + paradigm).")
-                    }
-                    Label {
-                        Layout.fillWidth: true
-                        text: root.liveWindow
-                              ? qsTr("Live: %1").arg(root.liveWindow.windowRoleSummary)
-                              : qsTr("No live window — pick a control below to spawn one.")
-                        color: Theme.textPrimary
-                        font.weight: Theme.fontWeightSemiBold
-                    }
+                Label { text: qsTr("Presenter"); color: Theme.textSecondary }
+                ComboBox {
+                    id: presenterBox
+                    Layout.fillWidth: true
+                    Layout.maximumWidth: 280
+                    model: root.presenterLabels
+                    currentIndex: 0
+                    onActivated: root.applyLivePresenter(currentIndex)
+                }
 
-                    GridLayout {
-                        Layout.fillWidth: true
-                        columns: width > 640 ? 2 : 1
-                        rowSpacing: Theme.spacing
-                        columnSpacing: Theme.spacingLoose
+                Label { text: qsTr("Backdrop"); color: Theme.textSecondary }
+                ComboBox {
+                    id: backdropBox
+                    Layout.fillWidth: true
+                    Layout.maximumWidth: 280
+                    model: root.backdropLabels
+                    currentIndex: WindowHelper.BackdropSolid
+                    onActivated: root.applyLiveBackdrop(currentIndex)
+                }
 
-                        Label { text: qsTr("Paradigm"); color: Theme.textSecondary }
-                        ComboBox {
-                            id: paradigmBox
-                            Layout.fillWidth: true
-                            Layout.maximumWidth: 280
-                            model: root.paradigmLabels
-                            currentIndex: 0
-                            onActivated: root.applyLiveParadigm(currentIndex)
-                        }
-
-                        Label { text: qsTr("Presenter"); color: Theme.textSecondary }
-                        ComboBox {
-                            id: presenterBox
-                            Layout.fillWidth: true
-                            Layout.maximumWidth: 280
-                            model: root.presenterLabels
-                            currentIndex: 0
-                            onActivated: root.applyLivePresenter(currentIndex)
-                        }
-
-                        Label { text: qsTr("Backdrop"); color: Theme.textSecondary }
-                        ComboBox {
-                            id: backdropBox
-                            Layout.fillWidth: true
-                            Layout.maximumWidth: 280
-                            model: root.backdropLabels
-                            currentIndex: WindowHelper.BackdropSolid
-                            onActivated: root.applyLiveBackdrop(currentIndex)
-                        }
-
-                        Label { text: qsTr("Title height"); color: Theme.textSecondary }
-                        ComboBox {
-                            id: heightBoxLive
-                            Layout.fillWidth: true
-                            Layout.maximumWidth: 280
-                            model: [qsTr("Tall 48"), qsTr("Standard 32")]
-                            currentIndex: 0
-                            onActivated: {
-                                var win = root.ensureLiveWindow()
-                                if (!win)
-                                    return
-                                win.preferredHeightOption = currentIndex === 0
-                                        ? WindowHelper.TitleBarHeightTall
-                                        : WindowHelper.TitleBarHeightStandard
-                            }
-                        }
-                    }
-
-                    Flow {
-                        Layout.fillWidth: true
-                        spacing: Theme.spacing
-                        Button {
-                            text: qsTr("Open / focus playground")
-                            highlighted: true
-                            onClicked: {
-                                var win = root.ensureLiveWindow()
-                                if (!win)
-                                    return
-                                win.raise()
-                                win.requestActivate()
-                            }
-                        }
-                        Button {
-                            text: root.liveWindow && root.liveWindow.isAlwaysOnTop
-                                  ? qsTr("Always on top: On")
-                                  : qsTr("Always on top: Off")
-                            checkable: true
-                            checked: root.liveWindow ? root.liveWindow.isAlwaysOnTop : false
-                            onClicked: {
-                                var win = root.ensureLiveWindow()
-                                if (!win)
-                                    return
-                                win.setAlwaysOnTopEnabled(!win.isAlwaysOnTop)
-                                checked = win.isAlwaysOnTop
-                            }
-                        }
-                        Button {
-                            text: qsTr("Center on screen")
-                            onClicked: {
-                                var win = root.ensureLiveWindow()
-                                if (win)
-                                    win.centerOnScreen()
-                            }
-                        }
-                        Button {
-                            text: qsTr("Re-apply role")
-                            onClicked: {
-                                var win = root.ensureLiveWindow()
-                                if (win)
-                                    win.applyWindowRole()
-                            }
-                        }
-                        Button {
-                            text: qsTr("Overlapped")
-                            onClicked: {
-                                presenterBox.currentIndex = 0
-                                root.applyLivePresenter(0)
-                            }
-                        }
-                        Button {
-                            text: qsTr("FullScreen")
-                            onClicked: {
-                                presenterBox.currentIndex = 1
-                                root.applyLivePresenter(1)
-                            }
-                        }
-                        Button {
-                            text: qsTr("CompactOverlay")
-                            onClicked: {
-                                presenterBox.currentIndex = 2
-                                root.applyLivePresenter(2)
-                            }
-                        }
+                Label { text: qsTr("Title height"); color: Theme.textSecondary }
+                ComboBox {
+                    id: heightBoxLive
+                    Layout.fillWidth: true
+                    Layout.maximumWidth: 280
+                    model: [qsTr("Tall 48"), qsTr("Standard 32")]
+                    currentIndex: 0
+                    onActivated: {
+                        var win = root.ensureLiveWindow()
+                        if (!win)
+                            return
+                        win.preferredHeightOption = currentIndex === 0
+                                ? WindowHelper.TitleBarHeightTall
+                                : WindowHelper.TitleBarHeightStandard
                     }
                 }
             }
 
-            ControlExample {
+            Flow {
                 Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                headerText: qsTr("Open a shell")
-                qmlSource: "BlankWindow { title: \"…\" }\nNavigationWindow { navModel: […] }\nMenuStatusWindow { Menu { } }"
+                spacing: Theme.spacing
+                Button {
+                    text: qsTr("Open / focus playground")
+                    highlighted: true
+                    onClicked: {
+                        var win = root.ensureLiveWindow()
+                        if (!win)
+                            return
+                        win.raise()
+                        win.requestActivate()
+                    }
+                }
+                Button {
+                    text: root.liveWindow && root.liveWindow.isAlwaysOnTop
+                          ? qsTr("Always on top: On")
+                          : qsTr("Always on top: Off")
+                    checkable: true
+                    checked: root.liveWindow ? root.liveWindow.isAlwaysOnTop : false
+                    onClicked: {
+                        var win = root.ensureLiveWindow()
+                        if (!win)
+                            return
+                        win.setAlwaysOnTopEnabled(!win.isAlwaysOnTop)
+                        checked = win.isAlwaysOnTop
+                    }
+                }
+                Button {
+                    text: qsTr("Center on screen")
+                    onClicked: {
+                        var win = root.ensureLiveWindow()
+                        if (win)
+                            win.centerOnScreen()
+                    }
+                }
+                Button {
+                    text: qsTr("Re-apply role")
+                    onClicked: {
+                        var win = root.ensureLiveWindow()
+                        if (win)
+                            win.applyWindowRole()
+                    }
+                }
+                Button {
+                    text: qsTr("Overlapped")
+                    onClicked: {
+                        presenterBox.currentIndex = 0
+                        root.applyLivePresenter(0)
+                    }
+                }
+                Button {
+                    text: qsTr("FullScreen")
+                    onClicked: {
+                        presenterBox.currentIndex = 1
+                        root.applyLivePresenter(1)
+                    }
+                }
+                Button {
+                    text: qsTr("CompactOverlay")
+                    onClicked: {
+                        presenterBox.currentIndex = 2
+                        root.applyLivePresenter(2)
+                    }
+                }
+            }
+        }
+    }
 
-                GridLayout {
-                    Layout.fillWidth: true
-                    columns: width > 720 ? 3 : 2
-                    rowSpacing: 12
-                    columnSpacing: 12
+    ControlExample {
+        headerText: qsTr("Open a shell")
+        qmlSource: "BlankWindow { title: \"…\" }\nNavigationWindow { navModel: […] }\nMenuStatusWindow { Menu { } }"
 
-                    component LaunchCard: Rectangle {
-                        id: card
-                        property string titleText
-                        property string bodyText
-                        property var symbol: FluentIcons.OpenInNewWindow
-                        signal clicked()
+        GridLayout {
+            Layout.fillWidth: true
+            columns: width > 720 ? 3 : 2
+            rowSpacing: 12
+            columnSpacing: 12
 
+            component LaunchCard: Rectangle {
+                id: card
+                property string titleText
+                property string bodyText
+                property var symbol: FluentIcons.OpenInNewWindow
+                signal clicked()
+
+                Layout.fillWidth: true
+                Layout.preferredHeight: 120
+                radius: Theme.cornerCard
+                color: Theme.bgCard
+                border.width: 1
+                border.color: Theme.strokeCard
+
+                RowLayout {
+                    anchors.fill: parent
+                    anchors.margins: 14
+                    spacing: 12
+                    Text {
+                        text: IconSource.resolve(card.symbol, "")
+                        font.family: Theme.fontFamilyIcon
+                        font.pixelSize: 22
+                        color: Theme.accent
+                        Layout.alignment: Qt.AlignTop
+                    }
+                    ColumnLayout {
                         Layout.fillWidth: true
-                        Layout.preferredHeight: 120
-                        radius: Theme.cornerCard
-                        color: Theme.bgCard
-                        border.width: 1
-                        border.color: Theme.strokeCard
-
-                        RowLayout {
-                            anchors.fill: parent
-                            anchors.margins: 14
-                            spacing: 12
-                            Text {
-                                text: IconSource.resolve(card.symbol, "")
-                                font.family: Theme.fontFamilyIcon
-                                font.pixelSize: 22
-                                color: Theme.accent
-                                Layout.alignment: Qt.AlignTop
-                            }
-                            ColumnLayout {
-                                Layout.fillWidth: true
-                                spacing: 4
-                                Label {
-                                    text: card.titleText
-                                    font.weight: Theme.fontWeightSemiBold
-                                    color: Theme.textPrimary
-                                }
-                                Label {
-                                    Layout.fillWidth: true
-                                    text: card.bodyText
-                                    wrapMode: Text.Wrap
-                                    color: Theme.textSecondary
-                                    font.pixelSize: Theme.fontCaption
-                                }
-                            }
+                        spacing: 4
+                        Label {
+                            text: card.titleText
+                            font.weight: Theme.fontWeightSemiBold
+                            color: Theme.textPrimary
                         }
-                        HoverHandler { id: hh }
-                        TapHandler { onTapped: card.clicked() }
-                        scale: hh.hovered ? 1.01 : 1
-                        Behavior on scale {
-                            enabled: !Theme.reducedMotion
-                            NumberAnimation { duration: Theme.duration(Theme.motionFast) }
+                        Label {
+                            Layout.fillWidth: true
+                            text: card.bodyText
+                            wrapMode: Text.Wrap
+                            color: Theme.textSecondary
+                            font.pixelSize: Theme.fontCaption
                         }
                     }
-
-                    LaunchCard {
-                        titleText: qsTr("BlankWindow")
-                        bodyText: qsTr("Empty client — children are the content")
-                        symbol: FluentIcons.OpenInNewWindow
-                        onClicked: root.spawn(blankComp)
-                    }
-                    LaunchCard {
-                        titleText: qsTr("NavigationWindow")
-                        bodyText: qsTr("Modes · back · footer · title height")
-                        symbol: FluentIcons.GlobalNavButton
-                        onClicked: root.spawn(navComp)
-                    }
-                    LaunchCard {
-                        titleText: qsTr("Blank · Standard 32")
-                        bodyText: qsTr("TitleBarHeightStandard caption height")
-                        symbol: FluentIcons.OpenInNewWindow
-                        onClicked: root.spawn(blankStandardComp)
-                    }
-                    LaunchCard {
-                        titleText: qsTr("MenuStatusWindow")
-                        bodyText: qsTr("TitleBar menus + multi-segment StatusBar")
-                        symbol: FluentIcons.Library
-                        onClicked: root.spawn(menuStatusComp)
-                    }
-                    LaunchCard {
-                        titleText: qsTr("DialogShellWindow")
-                        bodyText: qsTr("ShellWindow + dialog paradigm")
-                        symbol: FluentIcons.OpenInNewWindow
-                        onClicked: root.spawn(dialogShellComp)
-                    }
-                    LaunchCard {
-                        titleText: qsTr("ToolShellWindow")
-                        bodyText: qsTr("Floating tool shell")
-                        symbol: FluentIcons.OpenInNewWindow
-                        onClicked: root.spawn(toolShellComp)
-                    }
-                    LaunchCard {
-                        titleText: qsTr("CompactOverlayShell")
-                        bodyText: qsTr("Always-on-top PiP shell")
-                        symbol: FluentIcons.FullScreen
-                        onClicked: root.spawn(overlayShellComp)
-                    }
-                    LaunchCard {
-                        titleText: qsTr("Close all")
-                        bodyText: qsTr("%1 open").arg(root._openWindows.length)
-                        symbol: FluentIcons.ChromeClose
-                        onClicked: root.closeAll()
-                    }
+                }
+                HoverHandler { id: hh }
+                TapHandler { onTapped: card.clicked() }
+                scale: hh.hovered ? 1.01 : 1
+                Behavior on scale {
+                    enabled: !Theme.reducedMotion
+                    NumberAnimation { duration: Theme.duration(Theme.motionFast) }
                 }
             }
 
-            ControlExample {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                headerText: qsTr("Library usage")
-                qmlSource: "NavigationWindow {\n    title: \"App\"\n    paneDisplayMode: \"left\"\n    isBackButtonVisible: true\n    footerText: \"Settings\"\n    navModel: [{ key: \"home\", title: \"Home\", symbol: FluentIcons.Home }]\n    content: Label { text: \"Hello\" }\n}"
-
-                Label {
-                    Layout.fillWidth: true
-                    wrapMode: Text.Wrap
-                    color: Theme.textSecondary
-                    text: qsTr("ShellWindow exposes WinUI TitleBar slots (back, leftHeader, titleBarContent, rightHeader) "
-                               + "and AppWindow options (preferredHeightOption, caption buttons). "
-                               + "NavigationWindow adds paneDisplayMode, footer, and merged backRequested.")
-                }
+            LaunchCard {
+                titleText: qsTr("BlankWindow")
+                bodyText: qsTr("Empty client — children are the content")
+                symbol: FluentIcons.OpenInNewWindow
+                onClicked: root.spawn(blankComp)
             }
+            LaunchCard {
+                titleText: qsTr("NavigationWindow")
+                bodyText: qsTr("Modes · back · footer · title height")
+                symbol: FluentIcons.GlobalNavButton
+                onClicked: root.spawn(navComp)
+            }
+            LaunchCard {
+                titleText: qsTr("Blank · Standard 32")
+                bodyText: qsTr("TitleBarHeightStandard caption height")
+                symbol: FluentIcons.OpenInNewWindow
+                onClicked: root.spawn(blankStandardComp)
+            }
+            LaunchCard {
+                titleText: qsTr("MenuStatusWindow")
+                bodyText: qsTr("TitleBar menus + multi-segment StatusBar")
+                symbol: FluentIcons.Library
+                onClicked: root.spawn(menuStatusComp)
+            }
+            LaunchCard {
+                titleText: qsTr("DialogShellWindow")
+                bodyText: qsTr("ShellWindow + dialog paradigm")
+                symbol: FluentIcons.OpenInNewWindow
+                onClicked: root.spawn(dialogShellComp)
+            }
+            LaunchCard {
+                titleText: qsTr("ToolShellWindow")
+                bodyText: qsTr("Floating tool shell")
+                symbol: FluentIcons.OpenInNewWindow
+                onClicked: root.spawn(toolShellComp)
+            }
+            LaunchCard {
+                titleText: qsTr("CompactOverlayShell")
+                bodyText: qsTr("Always-on-top PiP shell")
+                symbol: FluentIcons.FullScreen
+                onClicked: root.spawn(overlayShellComp)
+            }
+            LaunchCard {
+                titleText: qsTr("Close all")
+                bodyText: qsTr("%1 open").arg(root._openWindows.length)
+                symbol: FluentIcons.ChromeClose
+                onClicked: root.closeAll()
+            }
+        }
+    }
 
-            Item { Layout.preferredHeight: Theme.spacingSection; Layout.fillWidth: true }
+    ControlExample {
+        headerText: qsTr("Library usage")
+        qmlSource: "NavigationWindow {\n    title: \"App\"\n    paneDisplayMode: \"left\"\n    isBackButtonVisible: true\n    footerText: \"Settings\"\n    navModel: [{ key: \"home\", title: \"Home\", symbol: FluentIcons.Home }]\n    content: Label { text: \"Hello\" }\n}"
+
+        Label {
+            Layout.fillWidth: true
+            wrapMode: Text.Wrap
+            color: Theme.textSecondary
+            text: qsTr("ShellWindow exposes WinUI TitleBar slots (back, leftHeader, titleBarContent, rightHeader) "
+                       + "and AppWindow options (preferredHeightOption, caption buttons). "
+                       + "NavigationWindow adds paneDisplayMode, footer, and merged backRequested.")
         }
     }
 }
