@@ -109,17 +109,19 @@ bridge.warning(qsTr("Disk low"), qsTr("Storage"))
 
 ---
 
-## Shell extras (1.17)
+## Shell extras (1.47)
 
-Taskbar progress, attention flash, reveal-in-folder, and idle inhibit are documented and promoted as a **WindowHelper** subset — see [shell-extras.md](shell-extras.md) (Win/Linux matrix).
+Taskbar progress, attention flash, reveal-in-folder, and idle inhibit are **stable** WindowHelper APIs. Snap Layouts toggle UX is documented (Win11 experimental; Linux n/a) — see [shell-extras.md](shell-extras.md).
 
-Gallery demos for Snap Layouts, battery / online / screens, and recent-docs remain **experimental**.
+Gallery **System integration** demos: Snap · taskbar recipe · attention / reveal / idle (critical smoke page).
+
+Battery / online / screens / recent-docs remain **experimental**.
 
 ---
 
 ## Related
 
-- [shell-extras.md](shell-extras.md) — taskbar / attention / reveal / idle (1.17)  
+- [shell-extras.md](shell-extras.md) — Snap / taskbar / attention / reveal / idle (**1.47**)  
 - [drag-drop.md](drag-drop.md) — FileDropZone / clipboard / FilePicker pairing (**1.41**)  
 - [platform-linux-wayland.md](platform-linux-wayland.md) — portal / SSD / tray / backdrop field matrix (**1.38**)  
 - [webview2.md](webview2.md) — separate Windows browser host

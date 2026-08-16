@@ -102,7 +102,6 @@ WindowHelper.updateHitTestLayout(
 ## Linux / Wayland startup
 
 ```cpp
-```cpp
 // Preferred (one-call):
 #include "Bootstrap.h"
 QWinUI3::configureEnvironment(argv[0]); // before QGuiApplication
@@ -111,7 +110,6 @@ QWinUI3::configureApplication(QStringLiteral("org.example.myapp"));
 
 // Or call WindowHelper directly:
 WindowHelper::configurePlatformEnvironment(); // before QGuiApplication
-```
 QGuiApplication app(argc, argv);
 QGuiApplication::setDesktopFileName(QStringLiteral("org.example.app"));
 ```
@@ -124,6 +122,14 @@ Theme.followSystemColorScheme = true
 ```
 
 See [platform-linux-wayland.md](platform-linux-wayland.md).
+
+## Snap Layouts (Win11)
+
+```qml
+WindowHelper.snapLayoutsEnabled = true   // default; hover maximize caption
+```
+
+Full recipe + Linux n/a: [shell-extras.md](shell-extras.md) (**1.47**).
 
 ## Taskbar progress (Windows)
 

@@ -47,6 +47,20 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.46 → 1.47
+
+**Product version:** 1.47  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- Follow [shell-extras.md](shell-extras.md) for Snap Layouts toggle, taskbar export loop, and attention/reveal patterns.
+- Gallery System integration page hosts the demos (critical smoke).
+
+#### No action (compatible)
+
+- Additive docs + Gallery UX; stable taskbar / attention / reveal / idle APIs unchanged. Snap Layouts remains experimental.
+
 ### Upgrade 1.45 → 1.46
 
 **Product version:** 1.46  

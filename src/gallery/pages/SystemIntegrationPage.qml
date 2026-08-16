@@ -8,16 +8,17 @@ import QWinUI3.Platform
 // Gallery — FilePicker, TrayIcon, display server, Snap Layouts, shell extras.
 //
 // Linux Wayland edge cases: docs/platform-linux-wayland.md (1.38).
-// Shell extras: docs/shell-extras.md (1.17). System integration: docs/system-integration.md
+// Shell extras / Snap: docs/shell-extras.md (1.47). System integration: docs/system-integration.md
 
 CatalogPage {
     id: page
 
     title: qsTr("System integration")
-    subtitle: qsTr("FilePicker / Tray / portals. Linux Wayland matrix: docs/platform-linux-wayland.md (1.38).")
+    subtitle: qsTr("Snap Layouts · taskbar · attention / reveal. Recipe: docs/shell-extras.md (1.47).")
 
     property string lastPath: qsTr("(none)")
     property real taskbarValue: 0.35
+    property string snapHint: ""
 
     TrayIcon {
         id: tray
@@ -69,7 +70,7 @@ CatalogPage {
 
     ControlExample {
         headerText: qsTr("Platform / display server")
-        qmlSource: "WindowHelper.displayServer · wayland · x11 · snapLayoutsEnabled"
+        qmlSource: "WindowHelper.displayServer · wayland · x11"
 
         ColumnLayout {
             Layout.fillWidth: true
@@ -98,12 +99,6 @@ CatalogPage {
                     .arg(WindowHelper.customFrame)
             }
             Switch {
-                text: qsTr("Snap Layouts (Win11 HTMAXBUTTON)")
-                checked: WindowHelper.snapLayoutsEnabled
-                enabled: WindowHelper.windows
-                onToggled: WindowHelper.snapLayoutsEnabled = checked
-            }
-            Switch {
                 text: qsTr("Follow system color scheme")
                 checked: Theme.followSystemColorScheme
                 onToggled: {
@@ -120,6 +115,54 @@ CatalogPage {
                 wrapMode: Text.WordWrap
                 color: Theme.textSecondary
                 text: qsTr("Bootstrap configureEnvironment before QGuiApplication. FilePicker: portal → zenity/kdialog. Full matrix: docs/platform-linux-wayland.md (1.38).")
+            }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Snap Layouts (1.47)")
+        qmlSource: "WindowHelper.snapLayoutsEnabled = true\n// Hover Win11 maximize caption — docs/shell-extras.md"
+
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                color: Theme.textSecondary
+                text: WindowHelper.windows
+                      ? qsTr("Win11 only (experimental). When enabled, maximize caption hit-tests as HTMAXBUTTON so Snap Layouts can appear. Hover the maximize button in the title bar — do not click yet. Toggle off to report HTCLIENT instead. Recipe: docs/shell-extras.md.")
+                      : qsTr("n/a on Linux / Wayland — no Snap Layouts flyout. Property is a no-op here; see docs/shell-extras.md platform matrix.")
+            }
+            Switch {
+                id: snapSwitch
+                text: qsTr("Enable Snap Layouts (HTMAXBUTTON)")
+                checked: WindowHelper.snapLayoutsEnabled
+                enabled: WindowHelper.windows
+                onToggled: {
+                    WindowHelper.snapLayoutsEnabled = checked
+                    page.snapHint = checked
+                            ? qsTr("On — hover the maximize caption to try Snap Layouts.")
+                            : qsTr("Off — maximize caption will not open Snap Layouts.")
+                    if (WindowHelper.windows)
+                        toasts.info(page.snapHint, qsTr("Snap Layouts"))
+                }
+            }
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                color: Theme.textPrimary
+                text: qsTr("snapLayoutsEnabled=%1 · nativeChrome=%2 · customFrame=%3")
+                    .arg(WindowHelper.snapLayoutsEnabled)
+                    .arg(WindowHelper.nativeChrome)
+                    .arg(WindowHelper.customFrame)
+            }
+            Label {
+                visible: page.snapHint.length > 0
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                color: Theme.textSecondary
+                text: page.snapHint
             }
         }
     }
@@ -216,8 +259,8 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Taskbar progress (1.17 stable)")
-        qmlSource: "WindowHelper.setTaskbarProgress(window, 0.4)\n// docs/shell-extras.md"
+        headerText: qsTr("Taskbar progress (1.47 recipe)")
+        qmlSource: "setTaskbarProgress · TaskbarPaused / Error\n// docs/shell-extras.md"
 
         ColumnLayout {
             Layout.fillWidth: true
@@ -227,8 +270,8 @@ CatalogPage {
                 wrapMode: Text.WordWrap
                 color: Theme.textSecondary
                 text: WindowHelper.windows
-                      ? qsTr("ITaskbarList3 overlay on the Gallery window. Stable API — docs/shell-extras.md.")
-                      : qsTr("Windows only (no-op on Linux). See docs/shell-extras.md.")
+                      ? qsTr("Stable ITaskbarList3 API. Typical loop: Normal + progress → Paused/Error → clear. Optional overlay badge for queued work. Full recipe: docs/shell-extras.md (1.47).")
+                      : qsTr("Windows only — n/a on Linux (no-op). Gate UI with WindowHelper.windows. See docs/shell-extras.md.")
             }
             Slider {
                 id: progressSlider
@@ -288,16 +331,26 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Attention / files / idle (1.17 stable)")
+        headerText: qsTr("Attention / reveal / idle (1.47)")
         qmlSource: "requestUserAttention · revealFileInFolder · inhibitIdle\n// docs/shell-extras.md"
 
         ColumnLayout {
             Layout.fillWidth: true
             spacing: Theme.spacing
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                color: Theme.textSecondary
+                text: qsTr("After Save: revealFileInFolder. Background job done while minimized: requestUserAttention. Pair with a toast for accessibility. Pick a file above first to enable Reveal.")
+            }
             RowLayout {
                 Button {
-                    text: qsTr("Flash / attention")
+                    text: qsTr("Flash once")
                     onClicked: WindowHelper.requestUserAttention(page.Window.window, false)
+                }
+                Button {
+                    text: qsTr("Flash continuous")
+                    onClicked: WindowHelper.requestUserAttention(page.Window.window, true)
                 }
                 Button {
                     text: qsTr("System beep")
@@ -316,6 +369,8 @@ CatalogPage {
                     onClicked: {
                         if (!WindowHelper.revealFileInFolder(page.lastPath))
                             toasts.info(qsTr("Could not reveal path"), qsTr("Files"))
+                        else
+                            toasts.info(qsTr("Opened in file manager"), qsTr("Files"))
                     }
                 }
             }
@@ -335,7 +390,7 @@ CatalogPage {
                 color: Theme.textSecondary
                 text: WindowHelper.windows
                       ? qsTr("Windows: FlashWindowEx, Explorer /select, SetThreadExecutionState — docs/shell-extras.md.")
-                      : qsTr("Linux: raise/alert, FileManager1 ShowItems, ScreenSaver/portal Inhibit — docs/shell-extras.md.")
+                      : qsTr("Linux: raise/alert (may ignore flash on Wayland), FileManager1 ShowItems, ScreenSaver/portal Inhibit — docs/shell-extras.md.")
             }
         }
     }

@@ -70,7 +70,7 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 |--------|-----------|
 | [System integration](system-integration.md) | FilePicker / Tray / NotificationBridge |
 | [Drag-drop & clipboard](drag-drop.md) | FileDropZone / CopyButton / WindowHelper (1.41) |
-| [Shell extras](shell-extras.md) | Taskbar / attention / reveal / idle |
+| [Shell extras](shell-extras.md) | Snap / taskbar / attention / reveal (1.47) |
 | [WebView2](webview2.md) | Stable Edge host (Windows) |
 | [Media](media.md) | Optional Multimedia / MediaPlayerElement |
 | [Charts & gauges](charts.md) | Stable chart subset + gauges |

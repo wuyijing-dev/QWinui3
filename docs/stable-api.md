@@ -124,7 +124,7 @@ Promoted this slice (Gallery + recipe soak). Status flips are **named here** —
 |------|--------|--------|
 | `WindowHelper` | Platform | Backdrop, chrome flags, system prefs—**stable for properties already used by shells/examples**. |
 | `QWinUI3::configureEnvironment` / `configureApplication` | Platform C++ (`Bootstrap.h`) | One-call main setup — [packaging-consumer.md](packaging-consumer.md) |
-| `WindowHelper` shell extras | Platform | Taskbar progress/overlay, `requestUserAttention`, `revealFileInFolder`, idle inhibit — [shell-extras.md](shell-extras.md) (1.17) |
+| `WindowHelper` shell extras | Platform | Taskbar progress/overlay, `requestUserAttention`, `revealFileInFolder`, idle inhibit — [shell-extras.md](shell-extras.md) (1.17 / **1.47**) |
 | `WindowHelper` geometry persistence | Platform | `saveWindowGeometry` / `restoreWindowGeometry` / `geometryPersistenceKey` on shells — [window-helper.md](window-helper.md#window-geometry-persistence) |
 | `FilePicker` / `TrayIcon` | Platform | Open/save/folder + tray — [system-integration.md](system-integration.md) (1.10) |
 | `WindowHelper.copyText` / `clipboardText` | Platform | Text clipboard R/W — [drag-drop.md](drag-drop.md) (**1.41**) |
@@ -224,3 +224,4 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.44** | Keyboard-first cookbook — [keyboard.md](keyboard.md); Gallery Accessibility tour |
 | **1.45** | Localization deepen — [i18n-rtl.md](i18n-rtl.md); zh_CN seed; Gallery `--lang`; translation smoke check |
 | **1.46** | Shared redistribute polish — [packaging-consumer.md](packaging-consumer.md); `check_shared_package.py`; windeploy/linuxdeploy + strip |
+| **1.47** | Snap Layouts / shell extras polish — [shell-extras.md](shell-extras.md); Gallery System integration demos |

@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.46**
-**Next up:** **1.47** (Snap layouts & windowing extras)
+**Current:** **1.47**
+**Next up:** **1.48** (Modal stack & ContentDialogQueue deepen)
 **Planned through:** **1.50** (1.xx maturity checkpoint)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
 
@@ -60,7 +60,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.46`
+## Shipped — `1.01` … `1.47`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -246,30 +246,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** Extended [packaging-consumer.md](docs/packaging-consumer.md) shared vs static matrix, windeploy/linuxdeploy, strip-restricted modules; `scripts/check_shared_package.py` in smoke; MSVC `CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS` for shared; package QML collect keeps Theme/Platform siblings; product version `1.46`.
 
+### 1.47 — Snap layouts & windowing extras (shipped)
+
+**Shipped:** Refreshed [shell-extras.md](docs/shell-extras.md) Snap Layouts toggle UX, taskbar / attention / reveal recipes, honest Linux n/a matrix; Gallery System integration demos (Snap · taskbar · flash continuous); window-helper / system-integration cross-links; product version `1.47`.
+
 ---
 
-## Horizon — planned `1.47` … `1.50`
+## Horizon — planned `1.48` … `1.50`
 
 Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per `YY`.
-
-### 1.47 — Snap layouts & windowing extras
-
-**Why:** Win11 snap layouts / shell extras (1.17) deserve a focused polish pass with Gallery demos.
-
-**In scope**
-
-- Snap layouts toggle UX, taskbar progress recipes, attention/reveal callouts.
-- Refresh [shell-extras.md](docs/shell-extras.md); Linux “n/a” matrix kept honest.
-
-**Out of scope**
-
-- Implementing snap layouts on Wayland compositors.
-
-**Exit criteria**
-
-- Documented Win-only extras with Gallery System Integration demos green.
-
----
 
 ### 1.48 — Modal stack & ContentDialogQueue deepen
 

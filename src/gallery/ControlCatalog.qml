@@ -889,7 +889,7 @@ QtObject {
             title: qsTr("System integration"),
             category: "dialogs",
             icon: FluentIcons.Folder,
-            description: qsTr("FilePicker / Tray / portals. Linux Wayland matrix (1.38)."),
+            description: qsTr("Snap Layouts · taskbar · attention — docs/shell-extras.md (1.47)."),
             component: "SystemIntegrationPage",
             source: "pages/SystemIntegrationPage.qml"
         },
@@ -1425,6 +1425,7 @@ QtObject {
     // Curated “recently shipped” recipe pages (1.20) — not catalog array order.
     function recentlyShipped(count) {
         var ids = [
+            "SystemIntegrationPage",  // 1.47 Snap / shell extras
             "I18nRtlPage",            // 1.45 locale packs
             "AccessibilityPage",      // 1.44 keyboard tour
             "CommandPalettePage",     // 1.44 / 1.37
@@ -1436,7 +1437,6 @@ QtObject {
             "PitfallsPage",           // 1.40 compatibility freeze
             "NavigationViewPage",     // 1.39 page cache / cold start
             "HomePage",               // 1.39 deferred card effects
-            "SystemIntegrationPage",  // 1.38 Wayland matrix
             "DialogsFlyoutsPage",     // 1.37 promote
             "TabViewPage",            // 1.37 promote
             "WindowParadigmPage",     // 1.37 ShellWindow family

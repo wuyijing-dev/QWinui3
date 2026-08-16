@@ -95,7 +95,7 @@ Recipe doc: [`dialogs-flyouts.md`](dialogs-flyouts.md).
 | `revealFileInFolder` | External Explorer/FM; announce success/failure in-app |
 | Idle inhibit | Prefer an explicit Switch / status label (`idleInhibited`) |
 
-Recipe doc: [`shell-extras.md`](shell-extras.md).
+Recipe doc: [`shell-extras.md`](shell-extras.md) (**1.47**).
 
 ---
 
