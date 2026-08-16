@@ -1225,7 +1225,7 @@ QtObject {
             title: qsTr("i18n / RTL"),
             category: "layout",
             icon: FluentIcons.Globe,
-            description: qsTr("LayoutMirroring baseline, FormLayout left headers, qsTr workflow."),
+            description: qsTr("qsTr + zh_CN seed + RTL — docs/i18n-rtl.md (1.45)."),
             component: "I18nRtlPage",
             source: "pages/I18nRtlPage.qml"
         },
@@ -1425,6 +1425,7 @@ QtObject {
     // Curated “recently shipped” recipe pages (1.20) — not catalog array order.
     function recentlyShipped(count) {
         var ids = [
+            "I18nRtlPage",            // 1.45 locale packs
             "AccessibilityPage",      // 1.44 keyboard tour
             "CommandPalettePage",     // 1.44 / 1.37
             "ThemeOverridesPage",     // 1.43 contrast AA
@@ -1441,7 +1442,6 @@ QtObject {
             "WindowParadigmPage",     // 1.37 ShellWindow family
             "ChartsPage",             // 1.23
             "AnimationsPage",         // 1.22 experimental
-            "MediaPlayerElementPage", // 1.21 experimental
             "WebView2Page",           // 1.18
             "DataTablePage"           // 1.07
         ]

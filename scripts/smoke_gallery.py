@@ -140,6 +140,19 @@ def main() -> int:
             return cat.returncode if cat.returncode > 0 else 1
         print("smoke: catalog integrity OK")
 
+    # 1.45 — translation seed catalogs (no Qt / lrelease required).
+    trans_script = ROOT / "scripts" / "check_gallery_translations.py"
+    if trans_script.is_file():
+        tr = subprocess.run(
+            [sys.executable, str(trans_script)],
+            cwd=str(ROOT),
+            check=False,
+        )
+        if tr.returncode != 0:
+            print("error: check_gallery_translations.py failed", file=sys.stderr)
+            return tr.returncode if tr.returncode > 0 else 1
+        print("smoke: translation seeds OK")
+
     try:
         proc = subprocess.run(
             cmd,

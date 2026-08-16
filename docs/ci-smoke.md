@@ -25,7 +25,7 @@ cmake --build build --config Release --target qwinui3_gallery
 python scripts/smoke_gallery.py --build-dir build
 ```
 
-`smoke_gallery.py` first runs `scripts/smoke_catalog.py` (ControlCatalog sources + critical list sync), then launches `qwinui3_gallery --smoke`.
+`smoke_gallery.py` first runs `scripts/smoke_catalog.py` (ControlCatalog sources + critical list sync), then `scripts/check_gallery_translations.py` (seed `.ts` XML, **1.45**), then launches `qwinui3_gallery --smoke`.
 
 ### Windows QPA pitfall
 

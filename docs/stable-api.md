@@ -222,3 +222,4 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.42** | Adaptive layout — [adaptive-layout.md](adaptive-layout.md); TwoPaneView / ListDetailsView breakpoints |
 | **1.43** | Color & contrast diagnostics — [color-contrast.md](color-contrast.md); `Theme.contrastRatio` / AA helpers |
 | **1.44** | Keyboard-first cookbook — [keyboard.md](keyboard.md); Gallery Accessibility tour |
+| **1.45** | Localization deepen — [i18n-rtl.md](i18n-rtl.md); zh_CN seed; Gallery `--lang`; translation smoke check |

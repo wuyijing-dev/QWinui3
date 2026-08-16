@@ -3,10 +3,12 @@
 #include <QElapsedTimer>
 #include <QEventLoop>
 #include <QGuiApplication>
+#include <QLocale>
 #include <QQmlApplicationEngine>
 #include <QQmlComponent>
 #include <QQuickStyle>
 #include <QTimer>
+#include <QTranslator>
 #include <QDebug>
 #include <cstring>
 
@@ -22,6 +24,21 @@ static bool hasArg(int argc, char *argv[], const char *flag)
             return true;
     }
     return false;
+}
+
+static QString argValue(int argc, char *argv[], const char *flag)
+{
+    const QByteArray key(flag);
+    for (int i = 1; i < argc; ++i) {
+        if (!argv[i])
+            continue;
+        const QByteArray a(argv[i]);
+        if (a == key && i + 1 < argc && argv[i + 1])
+            return QString::fromLocal8Bit(argv[i + 1]);
+        if (a.startsWith(key + '='))
+            return QString::fromLocal8Bit(a.mid(key.size() + 1));
+    }
+    return {};
 }
 
 // Published build/qwinui3_gallery.exe sits one level above src/*/QWinUI3 modules.
@@ -43,10 +60,54 @@ static void addBuildTreeImportPaths(QQmlEngine &engine)
     }
 }
 
+// Optional --lang <locale> (e.g. zh_CN). Looks for qwinui3_gallery_<locale>.qm (1.45).
+static bool installGalleryTranslator(QGuiApplication &app, QTranslator *translator, const QString &lang)
+{
+    if (lang.isEmpty() || !translator)
+        return false;
+
+    const QString fileStem = QStringLiteral("qwinui3_gallery_%1").arg(lang);
+    QStringList dirs;
+    if (const QByteArray env = qgetenv("QWINUI3_GALLERY_TRANSLATIONS"); !env.isEmpty())
+        dirs << QString::fromLocal8Bit(env);
+    const QString appDir = QCoreApplication::applicationDirPath();
+    dirs << (appDir + QStringLiteral("/translations"))
+         << appDir
+         << (appDir + QStringLiteral("/../src/gallery/translations"))
+         << (appDir + QStringLiteral("/../../src/gallery/translations"))
+         << (appDir + QStringLiteral("/../../../src/gallery/translations"));
+
+    for (const QString &dir : dirs) {
+        if (dir.isEmpty() || !QDir(dir).exists())
+            continue;
+        const QString qm = QDir(dir).filePath(fileStem + QStringLiteral(".qm"));
+        if (translator->load(qm)) {
+            app.installTranslator(translator);
+            qInfo("QWinUI3 Gallery translator: %s", qPrintable(qm));
+            return true;
+        }
+        // Also try QTranslator locale API in the same folder.
+        if (translator->load(QLocale(lang),
+                             QStringLiteral("qwinui3_gallery"),
+                             QStringLiteral("_"),
+                             dir)) {
+            app.installTranslator(translator);
+            qInfo("QWinUI3 Gallery translator (locale): %s in %s",
+                  qPrintable(lang), qPrintable(dir));
+            return true;
+        }
+    }
+    qWarning("QWinUI3 Gallery: --lang=%s requested but no .qm found "
+             "(run lrelease on src/gallery/translations/qwinui3_gallery_%s.ts)",
+             qPrintable(lang), qPrintable(lang));
+    return false;
+}
+
 int main(int argc, char *argv[])
 {
     const bool smoke = hasArg(argc, argv, "--smoke");
     const bool startupLog = smoke || hasArg(argc, argv, "--startup-log");
+    const QString lang = argValue(argc, argv, "--lang");
     QElapsedTimer wall;
     if (startupLog)
         wall.start();
@@ -75,6 +136,10 @@ int main(int argc, char *argv[])
 
     // Safe now that QCoreApplication exists.
     GraphicsBackend::syncAfterApp();
+
+    QTranslator galleryTranslator;
+    if (!lang.isEmpty())
+        installGalleryTranslator(app, &galleryTranslator, lang);
 
     const qint64 msAfterApp = startupLog ? wall.elapsed() : 0;
 

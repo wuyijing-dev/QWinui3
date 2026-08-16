@@ -4,15 +4,33 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — i18n / RTL baseline (1.13).
+// Gallery — i18n / RTL (1.13) + locale packs (1.45).
 //
 // Toggle Settings → Right-to-left layout, or the switch below, then watch FormLayout
-// left headers, SettingsCard rows, and nav-adjacent chrome mirror. Recipe: docs/i18n-rtl.md.
+// left headers, SettingsCard rows, and nav-adjacent chrome mirror.
+// Recipe: docs/i18n-rtl.md · --lang zh_CN after lrelease.
 
 CatalogPage {
     id: page
     title: qsTr("i18n / RTL")
-    subtitle: qsTr("LayoutMirroring baseline for shells, forms, and settings. qsTr + .ts workflow: docs/i18n-rtl.md.")
+    subtitle: qsTr("qsTr + zh_CN seed + RTL — docs/i18n-rtl.md (1.45).")
+
+    ControlExample {
+        headerText: qsTr("Locale packs (1.45)")
+        qmlSource: "lupdate / lrelease\nqwinui3_gallery --lang zh_CN"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Seed catalogs live in src/gallery/translations/ (en + zh_CN). Validate with python scripts/check_gallery_translations.py. After lrelease, run Gallery with --lang zh_CN to load qwinui3_gallery_zh_CN.qm. RTL is separate (toggle below). Full recipe: docs/i18n-rtl.md.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+        }
+    }
 
     ControlExample {
         headerText: qsTr("Session RTL toggle")
@@ -99,7 +117,7 @@ CatalogPage {
             SettingsCard {
                 Layout.fillWidth: true
                 title: qsTr("Language packs")
-                description: qsTr("Full Gallery translation is out of scope for 1.13 — use lupdate on src/gallery (see docs/i18n-rtl.md and translations/README.md).")
+                description: qsTr("Seed packs: en + zh_CN (1.45). lupdate / --lang / check_gallery_translations.py — docs/i18n-rtl.md.")
                 symbol: FluentIcons.Globe
             }
         }
@@ -111,8 +129,8 @@ CatalogPage {
 
         Text {
             Layout.fillWidth: true
-            wrapMode: Text.WordWrap
-            text: qsTr("Gallery and examples already wrap UI strings in qsTr. Extract with lupdate into src/gallery/translations/, translate, lrelease, then QTranslator::load. See docs/i18n-rtl.md for the copy-paste workflow.")
+            wrapMode: Text.Wrap
+            text: qsTr("Gallery and examples already wrap UI strings in qsTr. Extract with lupdate into src/gallery/translations/, translate, lrelease, then QTranslator::load or Gallery --lang. See docs/i18n-rtl.md.")
             font.family: Theme.fontFamily
             font.pixelSize: Theme.fontBody
             color: Theme.textSecondary

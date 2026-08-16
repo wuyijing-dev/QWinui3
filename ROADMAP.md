@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.44**
-**Next up:** **1.45** (Localization packs deepen)
+**Current:** **1.45**
+**Next up:** **1.46** (Shared library redistribute polish)
 **Planned through:** **1.50** (1.xx maturity checkpoint)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
 
@@ -60,7 +60,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.44`
+## Shipped — `1.01` … `1.45`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -238,30 +238,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** [keyboard.md](docs/keyboard.md) end-to-end chords → CommandPalette → dialogs → lists → focus; Gallery Accessibility keyboard tour + CommandPalette pointers; commands / accessibility / recipes / MkDocs links; product version `1.44`.
 
+### 1.45 — Localization packs deepen (shipped)
+
+**Shipped:** Expanded [i18n-rtl.md](docs/i18n-rtl.md) lupdate/lrelease / `--lang` / RTL regression checklist; `zh_CN` seed catalog; `scripts/check_gallery_translations.py` in smoke; Gallery i18n page + translations README; product version `1.45`.
+
 ---
 
-## Horizon — planned `1.45` … `1.50`
+## Horizon — planned `1.46` … `1.50`
 
 Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per `YY`.
-
-### 1.45 — Localization packs deepen
-
-**Why:** 1.13 seeded translations; apps need Gallery/string extraction guidance and one extra locale path.
-
-**In scope**
-
-- Expand `translations/` workflow docs; optional second Gallery language pack if maintainable.
-- RTL regression pass on shells after string growth.
-
-**Out of scope**
-
-- Translating every component string into many languages.
-
-**Exit criteria**
-
-- Documented lupdate/lrelease path; at least the seed locale builds in CI or documented manual step.
-
----
 
 ### 1.46 — Shared library redistribute polish
 

@@ -1,41 +1,85 @@
-# Gallery translations (1.13)
+# Gallery translations (1.13 / 1.45)
 
-Gallery / examples wrap UI strings in `qsTr(...)`. This folder holds **optional** Qt Linguist catalogs — **not** a full language pack.
+Gallery / examples wrap UI strings in `qsTr(...)`. This folder holds **seed** Qt Linguist catalogs — **not** a full Gallery language pack.
 
-## Workflow
+| File | Role |
+|------|------|
+| `qwinui3_gallery_en.ts` | English seed (identity translations) |
+| `qwinui3_gallery_zh_CN.ts` | Simplified Chinese seed (**1.45**) — demo subset |
+| `*.qm` | Optional `lrelease` output (generate locally; may be gitignored if huge) |
+| `README.md` | This workflow |
 
-From the repo root (Qt `bin` on `PATH`):
+Do **not** commit a full `lupdate` of every Gallery page unless you intentionally ship that language.
+
+---
+
+## Extract / refresh (manual)
+
+Qt `bin` on `PATH` (or use the kit from CMake `CMAKE_PREFIX_PATH`):
 
 ```bat
-REM Extract / refresh English source catalog from Gallery QML + main.cpp
 lupdate src/gallery -ts src/gallery/translations/qwinui3_gallery_en.ts
-
-REM Copy for a locale, translate in Linguist, then:
-copy src\gallery\translations\qwinui3_gallery_en.ts src\gallery\translations\qwinui3_gallery_ar.ts
-linguist src\gallery\translations\qwinui3_gallery_ar.ts
-lrelease src\gallery\translations\qwinui3_gallery_ar.ts
 ```
 
-Load at runtime (app-owned — Gallery does not auto-install a translator in 1.13):
+```bash
+lupdate src/gallery -ts src/gallery/translations/qwinui3_gallery_en.ts
+```
+
+Integrity check (no Qt required):
+
+```bash
+python scripts/check_gallery_translations.py
+```
+
+---
+
+## Add a locale
+
+```bat
+copy src\gallery\translations\qwinui3_gallery_en.ts src\gallery\translations\qwinui3_gallery_de.ts
+linguist src\gallery\translations\qwinui3_gallery_de.ts
+lrelease src\gallery\translations\qwinui3_gallery_de.ts -qm src\gallery\translations\qwinui3_gallery_de.qm
+```
+
+Name pattern: `qwinui3_gallery_<locale>.ts` where `<locale>` is `zh_CN`, `ar`, `de`, …
+
+---
+
+## Load in Gallery (1.45)
+
+```bat
+qwinui3_gallery.exe --lang zh_CN
+```
+
+`--lang` installs a `QTranslator` looking for `qwinui3_gallery_<lang>.qm` under:
+
+1. `applicationDirPath()/translations`
+2. `applicationDirPath()` (beside the exe)
+3. Source tree `src/gallery/translations` (dev builds)
+4. `QWINUI3_GALLERY_TRANSLATIONS` env override (directory)
+
+Generate `.qm` before running:
+
+```bat
+lrelease src\gallery\translations\qwinui3_gallery_zh_CN.ts -qm src\gallery\translations\qwinui3_gallery_zh_CN.qm
+```
+
+Smoke / CI does **not** require `.qm` — `scripts/check_gallery_translations.py` validates `.ts` XML only.
+
+---
+
+## Consumer apps
 
 ```cpp
 QTranslator tr;
-if (tr.load(QLocale(QLocale::Arabic),
+if (tr.load(QLocale(QLocale::Chinese, QLocale::China),
             QStringLiteral("qwinui3_gallery"),
             QStringLiteral("_"),
             QStringLiteral("path/to/translations"))) {
     app.installTranslator(&tr);
 }
-Qt::setUiLanguage(/* … */);  // optional
 ```
 
-RTL layout is separate from translation: set `Qt.application.layoutDirection` and `LayoutMirroring` on the shell (Gallery Settings → **Right-to-left layout**). See [`docs/i18n-rtl.md`](../../../docs/i18n-rtl.md).
+Or load by exact file: `tr.load("path/to/qwinui3_gallery_zh_CN.qm")`.
 
-## Files
-
-| File | Role |
-|------|------|
-| `qwinui3_gallery_en.ts` | Seed catalog (hand-maintained sample strings) |
-| `README.md` | This workflow |
-
-Regenerate the full Gallery catalog with `lupdate` when you start a real localization effort. Do not commit huge auto-generated diffs unless intentionally shipping a language.
+RTL layout is **separate** from translation — Gallery Settings → **Right-to-left layout**. See [`docs/i18n-rtl.md`](../../../docs/i18n-rtl.md).

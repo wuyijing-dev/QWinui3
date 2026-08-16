@@ -47,6 +47,20 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.44 → 1.45
+
+**Product version:** 1.45  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- Use [i18n-rtl.md](i18n-rtl.md) for lupdate/lrelease and Gallery `--lang zh_CN` after generating `.qm`.
+- CI/smoke runs `scripts/check_gallery_translations.py` on seed `.ts` files.
+
+#### No action (compatible)
+
+- Additive docs + optional CLI; no default language auto-switch.
+
 ### Upgrade 1.43 → 1.44
 
 **Product version:** 1.44  
