@@ -1,5 +1,6 @@
 #include <QCoreApplication>
 #include <QDir>
+#include <QElapsedTimer>
 #include <QEventLoop>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
@@ -45,6 +46,10 @@ static void addBuildTreeImportPaths(QQmlEngine &engine)
 int main(int argc, char *argv[])
 {
     const bool smoke = hasArg(argc, argv, "--smoke");
+    const bool startupLog = smoke || hasArg(argc, argv, "--startup-log");
+    QElapsedTimer wall;
+    if (startupLog)
+        wall.start();
 
     // CI / local smoke: pick a QPA that desktop kits actually ship.
     if (smoke) {
@@ -71,6 +76,8 @@ int main(int argc, char *argv[])
     // Safe now that QCoreApplication exists.
     GraphicsBackend::syncAfterApp();
 
+    const qint64 msAfterApp = startupLog ? wall.elapsed() : 0;
+
     QQmlApplicationEngine engine;
     addBuildTreeImportPaths(engine);
     QObject::connect(&engine, &QQmlApplicationEngine::warnings,
@@ -91,8 +98,15 @@ int main(int argc, char *argv[])
         return -1;
     }
 
+    const qint64 msAfterMain = startupLog ? wall.elapsed() : 0;
+    if (startupLog) {
+        qInfo("QWinUI3 Gallery startup: app=%lldms main=%lldms (pages still on-demand)",
+              static_cast<long long>(msAfterApp),
+              static_cast<long long>(msAfterMain));
+    }
+
     // Lightweight CI gate: Main loads, then critical Gallery pages instantiate (1.20).
-    // No pixel diffs — see docs/ci-smoke.md.
+    // Does not open the full catalog — see docs/ci-smoke.md / docs/performance.md (1.39).
     if (smoke) {
         QCoreApplication::processEvents();
         static const char *const kCriticalPages[] = {
@@ -112,6 +126,8 @@ int main(int argc, char *argv[])
             nullptr,
         };
         int pagesOk = 0;
+        QElapsedTimer pageTimer;
+        pageTimer.start();
         for (int i = 0; kCriticalPages[i]; ++i) {
             const QString typeName = QString::fromUtf8(kCriticalPages[i]);
             // Load the page document directly (same path NavigationView uses via module).
@@ -139,10 +155,14 @@ int main(int argc, char *argv[])
             ++pagesOk;
             QCoreApplication::processEvents();
         }
-        qInfo("QWinUI3 Gallery smoke OK (roots=%d, style=%s, pages=%d)",
+        const qint64 msPages = pageTimer.elapsed();
+        qInfo("QWinUI3 Gallery smoke OK (roots=%d, style=%s, pages=%d, main=%lldms, pages=%lldms, total=%lldms)",
               engine.rootObjects().size(),
               qPrintable(QQuickStyle::name()),
-              pagesOk);
+              pagesOk,
+              static_cast<long long>(msAfterMain),
+              static_cast<long long>(msPages),
+              static_cast<long long>(wall.elapsed()));
         return 0;
     }
 

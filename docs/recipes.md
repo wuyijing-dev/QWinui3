@@ -68,7 +68,7 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 | [Media](media.md) | Optional Multimedia / MediaPlayerElement |
 | [Charts & gauges](charts.md) | Stable chart subset + gauges |
 | [Animations](animations.md) | ConnectedAnimation / reducedMotion |
-| [Performance](performance.md) | Lists, models, chart budgets |
+| [Performance](performance.md) | Lists, models, chart budgets, Gallery cold start (1.39) |
 
 ---
 

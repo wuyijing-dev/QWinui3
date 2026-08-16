@@ -25,6 +25,7 @@ import QWinUI3.Theme
 //   //           nav.openSlide("HomePage"), nav.openFromCenter("HomePage")
 //   //           nav.openFade("HomePage"), nav.openDrill("HomePage")
 //   //           nav.navigateToTitle("Home"), nav.reloadPage()
+//   //           nav.clearPageCache()  // drop cached page Components (keep current)
 //   // groups:   nav.toggleGroup(key), nav.setGroupExpanded(key, true)
 //   // reorder:  nav.moveNavItem(from, to)   // requires isReorderable
 //   // signals:  onItemClicked, onPageOpened, onFooterClicked, onBackRequested,
@@ -33,6 +34,8 @@ import QWinUI3.Theme
 // @notes
 //   model entries: type "item"|"group"|"header"; groups use children[].
 //   pageModule + component names load StackView pages (unless hostContent).
+//   Pages compile on first open — not at shell startup; pageCacheLimit LRU (1.39).
+//   initialPageTransition defaults to "none" for a snappy first paint.
 //   paneDisplayMode auto switches left / leftCompact by width.
 //   leftMinimal overlays content with a light-dismiss scrim.
 //   Left-rail title bar is hamburger + paneTitle (paired); Back is top mode / TitleBar.
@@ -144,10 +147,16 @@ Item {
     property string currentKey: "home"
     // Default page transition for pane clicks (see openPage modes)
     property string pageTransition: "slide"
+    // First openPage from Component.onCompleted (Gallery cold start — 1.39)
+    property string initialPageTransition: "none"
     // Last / pending page transition mode
     property string pendingMode: "slide"
     // Last page component successfully shown in pageStack (skip re-animate if same)
     property string _openedPageName: ""
+    // Max cached page Components from pageModule (0 = unlimited). LRU eviction (1.39).
+    property int pageCacheLimit: 24
+    // Number of entries in the page Component cache
+    property int pageCacheCount: 0
     // Supported mode ids for Settings / Gallery pickers
     readonly property var pageTransitionModes: [
         "slide", "slideRight", "fade", "center", "drill", "up", "down", "cover", "none"
@@ -616,14 +625,67 @@ Item {
     }
 
     property var _compCache: ({})
+    // LRU order of cached page names (oldest first)
+    property var _compCacheOrder: []
 
-    // Load / cache a page Component from pageModule
+    function _touchPageCache(name) {
+        var order = root._compCacheOrder.slice()
+        var idx = order.indexOf(name)
+        if (idx >= 0)
+            order.splice(idx, 1)
+        order.push(name)
+        root._compCacheOrder = order
+        root._evictPageCache()
+        root.pageCacheCount = root._compCacheOrder.length
+    }
+
+    function _evictPageCache() {
+        if (root.pageCacheLimit <= 0)
+            return
+        var order = root._compCacheOrder.slice()
+        var cache = Object.assign({}, root._compCache)
+        while (order.length > root.pageCacheLimit) {
+            var drop = ""
+            for (var i = 0; i < order.length; ++i) {
+                if (order[i] !== root._openedPageName) {
+                    drop = order[i]
+                    order.splice(i, 1)
+                    break
+                }
+            }
+            if (!drop)
+                break
+            delete cache[drop]
+        }
+        root._compCache = cache
+        root._compCacheOrder = order
+    }
+
+    // Drop cached page Components. keepCurrent (default true) retains the open page type.
+    function clearPageCache(keepCurrent) {
+        if (keepCurrent === undefined)
+            keepCurrent = true
+        var cur = root._openedPageName
+        var kept = {}
+        var order = []
+        if (keepCurrent && cur && root._compCache[cur]) {
+            kept[cur] = root._compCache[cur]
+            order = [cur]
+        }
+        root._compCache = kept
+        root._compCacheOrder = order
+        root.pageCacheCount = order.length
+    }
+
+    // Load / cache a page Component from pageModule (lazy — not at shell startup)
     function ensureComponent(name) {
         if (!name || !root.pageModule)
             return null
         var cached = root._compCache[name]
-        if (cached && cached.status !== Component.Error)
+        if (cached && cached.status !== Component.Error) {
+            root._touchPageCache(name)
             return cached
+        }
         var comp = Qt.createComponent(root.pageModule, name)
         if (comp.status === Component.Error) {
             console.warn("Failed to load", root.pageModule, name, comp.errorString())
@@ -633,6 +695,7 @@ Item {
         var next = Object.assign({}, root._compCache)
         next[name] = comp
         root._compCache = next
+        root._touchPageCache(name)
         return comp
     }
 
@@ -836,7 +899,7 @@ Item {
     Component.onCompleted: {
         rebuildNavModel()
         if (!root.hostContent)
-            openPage(root.currentComponent, root.pageTransition)
+            openPage(root.currentComponent, root.initialPageTransition || "none")
     }
 
     // leftMinimal: pane reparents here so it floats over content (WinUI light-dismiss).

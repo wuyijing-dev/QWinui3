@@ -211,3 +211,4 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.36** | Docs site IA — [recipes.md](recipes.md) hub; MkDocs Recipes sections |
 | **1.37** | Promote sweep — commands / Flyout / TabView / ShellWindow / pickers / progress / FontIcon / ItemsRepeater; explicit defer list |
 | **1.38** | Linux Wayland field matrix — [platform-linux-wayland.md](platform-linux-wayland.md); Gallery System integration |
+| **1.39** | Gallery cold start — [performance.md](performance.md); NavigationView page cache / `--startup-log` |

@@ -15,7 +15,7 @@ This site is generated from QML source comments and shipped via GitHub Pages.
 | [Consumer packaging](packaging-consumer.md) | Shared zip / CMake / runtime |
 | [Roadmap](roadmap.md) | Small `1.xx` slices |
 
-Top recipes (also on the hub): [Window shells](window-shells.md) · [Navigation](navigation.md) · [Forms](forms.md) · [Data collections](data-collections.md) · [Feedback](feedback.md) · [System integration](system-integration.md).
+Top recipes (also on the hub): [Window shells](window-shells.md) · [Navigation](navigation.md) · [Forms](forms.md) · [Data collections](data-collections.md) · [Feedback](feedback.md) · [System integration](system-integration.md) · [Performance](performance.md) (cold start **1.39**).
 
 Platform note: [Linux / Wayland edge cases](platform-linux-wayland.md) (field failure matrix, **1.38**).
 

@@ -393,7 +393,7 @@ QtObject {
             title: qsTr("NavigationView"),
             category: "navigation",
             icon: FluentIcons.GlobalNavButton,
-            description: qsTr("Pane modes, footer, Back stack — docs/navigation.md (1.27)."),
+            description: qsTr("Pane modes, page cache LRU, initialPageTransition — docs/performance.md (1.39)."),
             component: "NavigationViewPage",
             source: "pages/NavigationViewPage.qml"
         },
@@ -1425,6 +1425,8 @@ QtObject {
     // Curated “recently shipped” recipe pages (1.20) — not catalog array order.
     function recentlyShipped(count) {
         var ids = [
+            "NavigationViewPage",     // 1.39 page cache / cold start
+            "HomePage",               // 1.39 deferred card effects
             "SystemIntegrationPage",  // 1.38 Wayland matrix
             "DialogsFlyoutsPage",     // 1.37 promote
             "CommandPalettePage",     // 1.37 promote
@@ -1438,8 +1440,7 @@ QtObject {
             "I18nRtlPage",            // 1.13
             "FormValidationPage",     // 1.08
             "DataTablePage",          // 1.07
-            "ContentDialogPage",
-            "HomePage"
+            "ContentDialogPage"
         ]
         var n = Math.max(1, count || 9)
         var out = []
@@ -1456,8 +1457,6 @@ QtObject {
         return [
             "HomePage",
             "ButtonPage",
-            "SettingsPage",
-            "NavigationViewPage",
             "ContentDialogPage",
             "DataTablePage",
             "FormValidationPage",
@@ -1469,6 +1468,19 @@ QtObject {
             "DialogsFlyoutsPage",
             "AnimationsPage",
             "I18nRtlPage"
+        ]
+    }
+
+    // Heavy Gallery pages — defer until opened; prefer Loader inside the page (1.39).
+    function heavyComponents() {
+        return [
+            "DataTablePage",
+            "ChartsPage",
+            "FontIconPage",
+            "WebView2Page",
+            "MediaPlayerElementPage",
+            "HeatmapChartPage",
+            "ScatterChartPage"
         ]
     }
 

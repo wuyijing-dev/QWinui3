@@ -61,7 +61,9 @@ python scripts/smoke_gallery.py --build-dir build --platform windows
 
 1. Load `QWinUI3.Gallery/Main` (modules + shell).
 2. Instantiate each **critical page** once via `QQmlComponent` (no navigation, no pixels).
-3. Print `QWinUI3 Gallery smoke OK (… pages=N)` and exit `0`.
+3. Print `QWinUI3 Gallery smoke OK (… pages=N, main=…ms, pages=…ms, total=…ms)` and exit `0`.
+
+Timing is advisory (machine-dependent). Critical set only — not the full catalog. Cold-start tips: [performance.md](performance.md) (**1.39**). Interactive measure: `qwinui3_gallery --startup-log`.
 
 ### Critical page set
 

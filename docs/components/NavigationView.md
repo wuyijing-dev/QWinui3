@@ -99,7 +99,10 @@ Prefer selectKey / openPage over mutating currentIndex alone.
 | `expandedMap` | `var` | groupKey -> bool; missing means expanded |
 | `currentKey` | `string` | Selected nav key (supports "group/0" child paths) |
 | `pageTransition` | `string` | Default page transition for pane clicks (see openPage modes) |
+| `initialPageTransition` | `string` | First open from `Component.onCompleted` (default `none` — 1.39) |
 | `pendingMode` | `string` | Last / pending page transition mode |
+| `pageCacheLimit` | `int` | Max cached page Components (`0` = unlimited; default `24` — 1.39) |
+| `pageCacheCount` | `int` | Number of entries in the page Component cache |
 | `pageTransitionModes` | `var` | Supported mode ids for Settings / Gallery pickers |
 | `pageItem` | `alias` | Current page item |
 | `currentComponent` | `string` | Current page component name |
@@ -145,6 +148,7 @@ Prefer selectKey / openPage over mutating currentIndex alone.
 | `navigateBack(mode)` | Restore previous nav selection (slideRight by default) |
 | `clearHistory()` | — |
 | `ensureComponent(name)` | Load / cache a page Component from pageModule |
+| `clearPageCache(keepCurrent)` | Drop cached page Components; keepCurrent (default true) retains the open page (1.39) |
 | `applyPageTransition(mode)` | Configure enter/exit transform targets for a named transition mode |
 | `openPage(name, mode, forceReload)` | forceReload: true rebuilds even when the same page is already open (reloadPage). |
 | `openSlide(name)` | Left-nav style: content slides in from the left |

@@ -19,6 +19,10 @@ CatalogPage {
     signal openSettings()
 
     property int homeTab: 0 // 0 = Recent, 1 = Favorites
+    // Defer MultiEffect shadows until after first frame (Gallery cold start — 1.39)
+    property bool cardEffectsReady: false
+
+    Component.onCompleted: Qt.callLater(function () { page.cardEffectsReady = true })
 
     readonly property var featuredModel: [
         {
@@ -215,7 +219,7 @@ CatalogPage {
                         }
                     }
 
-                    layer.enabled: true
+                    layer.enabled: page.cardEffectsReady && !Theme.reducedMotion
                     layer.effect: MultiEffect {
                         shadowEnabled: true
                         shadowOpacity: featuredHover.hovered
@@ -424,7 +428,7 @@ CatalogPage {
                             }
                         }
 
-                        layer.enabled: true
+                        layer.enabled: page.cardEffectsReady && !Theme.reducedMotion
                         layer.effect: MultiEffect {
                             shadowEnabled: true
                             shadowOpacity: Theme.dark ? 0.16 : 0.07
@@ -558,7 +562,7 @@ CatalogPage {
                             }
                         }
 
-                        layer.enabled: true
+                        layer.enabled: page.cardEffectsReady && !Theme.reducedMotion
                         layer.effect: MultiEffect {
                             shadowEnabled: true
                             shadowOpacity: Theme.dark ? 0.16 : 0.07

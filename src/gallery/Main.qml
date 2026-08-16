@@ -181,6 +181,8 @@ StandardWindow {
         pageModule: "QWinUI3.Gallery"
         currentKey: "home"
         paneDisplayMode: "auto"
+        pageCacheLimit: 24
+        initialPageTransition: "none"
         isPaneSearchEnabled: true
         paneSearchModel: window.paneSearchModel
         isReorderable: true

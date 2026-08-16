@@ -91,7 +91,7 @@ Page {
     SettingsView {
         anchors.fill: parent
         title: qsTr("Settings")
-        subtitle: qsTr("Theme, motion, corners, and graphics backend.")
+        subtitle: qsTr("Theme, motion, corners, graphics, and Gallery page cache.")
 
         SettingsCard {
             title: qsTr("Density")
@@ -255,6 +255,23 @@ Page {
                 onActivated: function (index) {
                     if (Window.window)
                         Window.window.pageTransition = model[index]
+                }
+            }
+        }
+
+        SettingsCard {
+            title: qsTr("Page Component cache")
+            description: qsTr("NavigationView caches compiled pages (limit %1). Count: %2. First open is instant (initialPageTransition=none). docs/performance.md (1.39)")
+                         .arg(Window.window && Window.window.navigationView
+                              ? Window.window.navigationView.pageCacheLimit : 24)
+                         .arg(Window.window && Window.window.navigationView
+                              ? Window.window.navigationView.pageCacheCount : 0)
+            symbol: FluentIcons.DeveloperTools
+            action: Button {
+                text: qsTr("Clear cache")
+                onClicked: {
+                    if (Window.window && Window.window.navigationView)
+                        Window.window.navigationView.clearPageCache(true)
                 }
             }
         }

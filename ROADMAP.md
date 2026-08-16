@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.38**
-**Next up:** **1.39** (Gallery perf & startup)
+**Current:** **1.39**
+**Next up:** **1.40** (Compatibility freeze prep)
 **Planned through:** **1.50** (1.xx maturity checkpoint)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
 
@@ -60,7 +60,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.38`
+## Shipped — `1.01` … `1.39`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -214,30 +214,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** [platform-linux-wayland.md](docs/platform-linux-wayland.md) field failure matrix (SSD, Solid backdrop, portal parent_window, SNI/GNOME tray, XWayland traps, idle/taskbar no-ops); Gallery System integration Linux callout + live SSD/portal/SNI readout; system-integration / window-chrome / ci-smoke / recipes cross-links; product version `1.38`.
 
+### 1.39 — Gallery perf & startup (shipped)
+
+**Shipped:** NavigationView `pageCacheLimit` / LRU / `clearPageCache` / `initialPageTransition`; Gallery Home MultiEffect defer; `--startup-log` + timed `--smoke`; [performance.md](docs/performance.md) cold-start budget; Settings page-cache card; smoke critical list sync; product version `1.39`.
+
 ---
 
-## Late path — planned `1.39` … `1.40`
+## Late path — planned `1.40`
 
 Still **1.xx**. Schedule after mid path is mostly done; order can flex.
-
-### 1.39 — Gallery perf & startup
-
-**Why:** Cold start and catalog weight grow with every page—pairs with 1.25 handbook.
-
-**In scope**
-
-- Catalog lazy load / defer heavy pages; measure and document cold-start tips.
-- Keep `--smoke` coverage without loading the world.
-
-**Out of scope**
-
-- Rewriting Gallery as a separate product; binary size obsession.
-
-**Exit criteria**
-
-- Measurable startup improvement or documented “expected” budget; smoke still covers critical pages.
-
----
 
 ### 1.40 — Compatibility freeze prep
 
