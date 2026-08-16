@@ -36,6 +36,8 @@ T.Control {
     id: root
     objectName: "QWinUI3FormLayout"
 
+    Layout.fillWidth: true
+
     // Preferred label column width for left-header fields
     // (fields bind automatically via FormLayout ancestor — no apply walk)
     property real labelWidth: 140

@@ -23,6 +23,8 @@ import QWinUI3.Theme
 T.Control {
     id: root
 
+    Layout.fillWidth: true
+
     // Display / input text
     property alias text: field.text
     // Placeholder when empty

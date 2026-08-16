@@ -12,15 +12,20 @@ Settings row: icon, title, description, action (Toolkit ContentAlignment).
 
 ```qml
 SettingsCard {
-    header: qsTr("Dark mode")
+    title: qsTr("Dark mode")
     description: qsTr("Use a dark appearance.")
-    contentAlignment: "right"
-    isClickEnabled: false
-    action: Switch { checked: Theme.dark; onToggled: Theme.dark = checked }
+    toggle: true
+    checked: Theme.dark
+    onToggled: Theme.dark = checked
+}
+
+SettingsCard {
+    title: qsTr("Density")
+    action: ComboBox { model: [qsTr("Standard"), qsTr("Compact")] }
 }
 
 // --- API ---
-// signals: onClicked
+// signals: onClicked, onToggled
 // inherits Pane (+ Qt Quick Controls base API)
 ```
 
@@ -29,6 +34,8 @@ SettingsCard {
 Toolkit SettingsCard: Header/Description/HeaderIcon, Content + Action slots,
 ContentAlignment (right|left|vertical), IsClickEnabled, ActionIcon chevron,
 cornerRadius for ElevatedChrome.
+Set `toggle: true` for a built-in Switch (`checked` / `onToggled`) instead of `action: Switch {…}`.
+`Layout.fillWidth` defaults to true inside layouts.
 
 ## API
 
@@ -42,8 +49,12 @@ cornerRadius for ElevatedChrome.
 | `symbol` | `var` | FluentIcons symbol (preferred over iconGlyph) |
 | `iconGlyph` | `string` | Raw Fluent glyph string fallback |
 | `headerIcon` | `var` | Header icon glyph / symbol (Toolkit HeaderIcon) |
-| `action` | `alias` | Custom action slot (trailing control) |
+| `action` | `alias` | Custom action slot (trailing control); ignored when toggle is true |
 | `content` | `alias` | Content slot / children host |
+| `toggle` | `bool` | Built-in Switch action (mutually exclusive with action:) |
+| `checked` | `alias` | Switch checked state (when toggle is true) |
+| `toggleEnabled` | `alias` | Switch enabled (when toggle is true) |
+| `toggleText` | `alias` | Optional Switch text beside the thumb |
 | `interactive` | `bool` | Enable hover / click interaction |
 | `isClickEnabled` | `alias` | Toolkit IsClickEnabled |
 | `contentAlignment` | `string` | Toolkit ContentAlignment: "right" \| "left" \| "vertical" |
@@ -59,6 +70,7 @@ cornerRadius for ElevatedChrome.
 | Signature | Description |
 | --- | --- |
 | `clicked()` | Emitted when clicked |
+| `toggled(bool checked)` | Emitted when the built-in Switch toggles |
 
 ### Methods
 

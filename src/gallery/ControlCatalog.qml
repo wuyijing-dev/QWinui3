@@ -504,7 +504,7 @@ QtObject {
             title: qsTr("SettingsCard"),
             category: "layout",
             icon: "\uE713",
-            description: qsTr("A settings row with header, description, and trailing control."),
+            description: qsTr("Settings row; toggle: true for a built-in Switch."),
             component: "SettingsCardPage",
             source: "pages/SettingsCardPage.qml"
         },
@@ -512,7 +512,7 @@ QtObject {
             title: qsTr("SettingsGroup"),
             category: "layout",
             icon: "\uE8FD",
-            description: qsTr("SettingsView + SettingsGroup + SettingsToggleCard (less layout glue)."),
+            description: qsTr("SettingsView + SettingsGroup; SettingsCard.toggle for Switch rows."),
             component: "SettingsGroupPage",
             source: "pages/SettingsGroupPage.qml"
         },

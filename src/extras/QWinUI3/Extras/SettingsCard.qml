@@ -7,24 +7,33 @@ import QWinUI3.Theme
 // SettingsCard — Settings row: icon, title, description, action (Toolkit ContentAlignment).
 //
 //   SettingsCard {
-//       header: qsTr("Dark mode")
+//       title: qsTr("Dark mode")
 //       description: qsTr("Use a dark appearance.")
-//       contentAlignment: "right"
-//       isClickEnabled: false
-//       action: Switch { checked: Theme.dark; onToggled: Theme.dark = checked }
+//       toggle: true
+//       checked: Theme.dark
+//       onToggled: Theme.dark = checked
+//   }
+//
+//   SettingsCard {
+//       title: qsTr("Density")
+//       action: ComboBox { model: [qsTr("Standard"), qsTr("Compact")] }
 //   }
 //
 //   // --- API ---
-//   // signals: onClicked
+//   // signals: onClicked, onToggled
 //   // inherits Pane (+ Qt Quick Controls base API)
 //
 // @notes
 //   Toolkit SettingsCard: Header/Description/HeaderIcon, Content + Action slots,
 //   ContentAlignment (right|left|vertical), IsClickEnabled, ActionIcon chevron,
 //   cornerRadius for ElevatedChrome.
+//   Set toggle: true for a built-in Switch (checked / onToggled) — no action glue.
+//   Layout.fillWidth defaults to true inside Column/Row/Grid layouts.
 
 T.Pane {
     id: root
+
+    Layout.fillWidth: true
 
     // Primary title text (Toolkit Header)
     property string title: ""
@@ -38,10 +47,18 @@ T.Pane {
     property string iconGlyph: ""
     // Header icon glyph / symbol (Toolkit HeaderIcon)
     property var headerIcon: ""
-    // Custom action slot (trailing control)
+    // Custom action slot (trailing control); ignored when toggle is true
     property alias action: actionSlot.data
     // Content slot / children host
     property alias content: contentSlot.data
+    // Built-in Switch action (mutually exclusive with action:)
+    property bool toggle: false
+    // Switch checked state (when toggle is true)
+    property alias checked: toggleSwitch.checked
+    // Switch enabled (when toggle is true)
+    property alias toggleEnabled: toggleSwitch.enabled
+    // Optional Switch text beside the thumb
+    property alias toggleText: toggleSwitch.text
     // Enable hover / click interaction
     property bool interactive: false
     // Toolkit IsClickEnabled
@@ -58,6 +75,8 @@ T.Pane {
     property real cornerRadius: Theme.cornerCard
     // Emitted when clicked
     signal clicked()
+    // Emitted when the built-in Switch toggles
+    signal toggled(bool checked)
 
     readonly property string effectiveHeaderIcon: {
         var primary = (symbol !== undefined && symbol !== null && String(symbol).length)
@@ -230,6 +249,13 @@ T.Pane {
         width: childrenRect.width
         height: childrenRect.height
         visible: children.length > 0
+    }
+
+    Switch {
+        id: toggleSwitch
+        parent: root.toggle ? actionSlot : null
+        visible: root.toggle
+        onToggled: root.toggled(checked)
     }
 
     TapHandler {

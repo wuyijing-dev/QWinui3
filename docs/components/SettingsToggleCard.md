@@ -1,10 +1,11 @@
 # SettingsToggleCard
 
-`SettingsCard` with a built-in `Switch` — no `action: Switch { … }` glue.
+Thin alias for `SettingsCard { toggle: true }`. Prefer the latter in new code.
 
 ```qml
-SettingsToggleCard {
+SettingsCard {
     title: qsTr("Dark mode")
+    toggle: true
     checked: Theme.dark
     onToggled: Theme.dark = checked
 }

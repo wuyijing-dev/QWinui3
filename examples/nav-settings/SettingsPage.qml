@@ -1,6 +1,5 @@
 import QtQuick
 import QtQuick.Layouts
-import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
@@ -12,18 +11,20 @@ SettingsView {
         description: qsTr("Theme tokens and density.")
         symbol: FluentIcons.Brightness
 
-        SettingsToggleCard {
+        SettingsCard {
             title: qsTr("Dark mode")
             description: qsTr("Light or dark Theme tokens.")
             headerIcon: "\uE790"
+            toggle: true
             checked: Theme.dark
             onToggled: Theme.dark = checked
         }
 
-        SettingsToggleCard {
+        SettingsCard {
             title: qsTr("Reduced motion")
             description: qsTr("Short-circuit Theme.duration() animations.")
             headerIcon: "\uE7FC"
+            toggle: true
             checked: Theme.reducedMotion
             onToggled: Theme.reducedMotion = checked
         }

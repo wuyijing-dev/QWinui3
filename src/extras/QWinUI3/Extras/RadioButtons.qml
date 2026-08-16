@@ -20,6 +20,8 @@ import QWinUI3.Theme
 T.Control {
     id: control
 
+    Layout.fillWidth: true
+
     // Header label above the control
     property string header: ""
     // Supporting description text

@@ -25,6 +25,8 @@ import QWinUI3.Theme
 T.Control {
     id: root
 
+    Layout.fillWidth: true
+
     // Current value
     property real value: 0
     // Minimum value

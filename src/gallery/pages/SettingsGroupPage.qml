@@ -4,7 +4,7 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — SettingsGroup / SettingsView / SettingsToggleCard.
+// Gallery — SettingsGroup / SettingsView / SettingsCard.toggle.
 
 Page {
     padding: 0
@@ -12,24 +12,26 @@ Page {
     SettingsView {
         anchors.fill: parent
         title: qsTr("SettingsGroup")
-        subtitle: qsTr("SettingsView pads the page; SettingsGroup fills width; SettingsToggleCard drops Switch glue.")
+        subtitle: qsTr("SettingsView pads the page; SettingsCard fills width and can host a built-in Switch via toggle.")
 
         SettingsGroup {
             title: qsTr("Appearance")
             description: qsTr("Theme tokens and motion preferences.")
             symbol: FluentIcons.Brightness
 
-            SettingsToggleCard {
+            SettingsCard {
                 title: qsTr("Dark mode")
                 description: qsTr("Use a dark appearance.")
                 symbol: FluentIcons.Brightness
+                toggle: true
                 checked: Theme.dark
                 onToggled: Theme.dark = checked
             }
-            SettingsToggleCard {
+            SettingsCard {
                 title: qsTr("Reduced motion")
                 description: qsTr("Short-circuit Theme.duration() animations.")
                 symbol: FluentIcons.QuietHours
+                toggle: true
                 checked: Theme.reducedMotion
                 onToggled: Theme.reducedMotion = checked
             }

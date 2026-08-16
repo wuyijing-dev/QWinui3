@@ -10,8 +10,9 @@ import QWinUI3.Theme
 //       title: qsTr("Settings")
 //       SettingsGroup {
 //           title: qsTr("Appearance")
-//           SettingsToggleCard {
+//           SettingsCard {
 //               title: qsTr("Dark mode")
+//               toggle: true
 //               checked: Theme.dark
 //               onToggled: Theme.dark = checked
 //           }
@@ -20,7 +21,7 @@ import QWinUI3.Theme
 //
 // @notes
 //   Owns ScrollView, page title, and horizontal padding. Put SettingsGroup /
-//   SettingsCard / DetailRow as children — no Layout margins needed.
+//   SettingsCard / DetailRow as children — no Layout margins / fillWidth needed.
 
 T.Control {
     id: root
@@ -88,19 +89,7 @@ T.Control {
                 Layout.rightMargin: root.pagePadding
                 Layout.bottomMargin: root.pagePadding
                 spacing: root.sectionSpacing
-
-                onChildrenChanged: Qt.callLater(root._fillChildren)
-                Component.onCompleted: root._fillChildren()
             }
-        }
-    }
-
-    function _fillChildren() {
-        var kids = stack.children
-        for (var i = 0; i < kids.length; ++i) {
-            var c = kids[i]
-            if (c && c.Layout !== undefined)
-                c.Layout.fillWidth = true
         }
     }
 }

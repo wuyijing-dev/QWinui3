@@ -31,7 +31,7 @@ Page {
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Toggle settings")
-                qmlSource: "SettingsCard {\n    content: …\n    action: Switch { }\n}"
+                qmlSource: "SettingsCard {\n    toggle: true\n    checked: …\n}"
                 ColumnLayout {
                     Layout.fillWidth: true
                     spacing: Theme.spacing
@@ -41,14 +41,13 @@ Page {
                         color: Theme.textSecondary
                     }
                     SettingsCard {
-                        Layout.fillWidth: true
                         title: qsTr("Notifications")
                         description: qsTr("Show toast notifications for updates.")
                         symbol: FluentIcons.Notification
-                        action: Switch { checked: true }
+                        toggle: true
+                        checked: true
                     }
                     SettingsCard {
-                        Layout.fillWidth: true
                         title: qsTr("Quiet hours")
                         description: qsTr("Mute alerts during scheduled times.")
                         symbol: FluentIcons.QuietHours
@@ -57,10 +56,9 @@ Page {
                             color: Theme.textSecondary
                             font.pixelSize: Theme.fontCaption
                         }
-                        action: Switch {}
+                        toggle: true
                     }
                     SettingsCard {
-                        Layout.fillWidth: true
                         title: qsTr("Theme")
                         description: qsTr("Choose light or dark appearance.")
                         action: ComboBox {
@@ -69,7 +67,6 @@ Page {
                         }
                     }
                     SettingsCard {
-                        Layout.fillWidth: true
                         header: qsTr("About")
                         description: qsTr("Version 1.0.0 — tap or press Enter for details")
                         symbol: FluentIcons.Info
@@ -78,7 +75,6 @@ Page {
                         onClicked: cardStatus.text = qsTr("About clicked")
                     }
                     SettingsCard {
-                        Layout.fillWidth: true
                         header: qsTr("Storage")
                         description: qsTr("Vertical content alignment (Toolkit).")
                         contentAlignment: "vertical"
@@ -92,7 +88,6 @@ Page {
                         }
                     }
                     SettingsCard {
-                        Layout.fillWidth: true
                         header: qsTr("Account")
                         description: qsTr("Left-aligned content (contentAlignment: left).")
                         contentAlignment: "left"
@@ -106,12 +101,12 @@ Page {
                         }
                     }
                     SettingsCard {
-                        Layout.fillWidth: true
                         header: qsTr("Rounded card")
                         description: qsTr("cornerRadius overrides Theme.cornerCard.")
                         symbol: FluentIcons.Color
                         cornerRadius: 20
-                        action: Switch { checked: true }
+                        toggle: true
+                        checked: true
                     }
                 }
             }

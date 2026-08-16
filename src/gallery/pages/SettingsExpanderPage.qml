@@ -31,7 +31,7 @@ Page {
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Nested settings")
-                qmlSource: "SettingsExpander {\n    action: Switch { }\n    onExpanding: …\n}"
+                qmlSource: "SettingsExpander {\n    SettingsCard { toggle: true }\n}"
                 ColumnLayout {
                     Layout.fillWidth: true
                     spacing: Theme.spacing
@@ -41,7 +41,6 @@ Page {
                         color: Theme.textSecondary
                     }
                     SettingsExpander {
-                        Layout.fillWidth: true
                         title: qsTr("Privacy")
                         description: qsTr("Control how your data is used.")
                         symbol: FluentIcons.Lock
@@ -56,16 +55,15 @@ Page {
                             width: parent.width
                             spacing: Theme.spacing
                             SettingsCard {
-                                Layout.fillWidth: true
                                 title: qsTr("Diagnostics")
                                 description: qsTr("Send optional diagnostic data.")
-                                action: Switch { checked: true }
+                                toggle: true
+                                checked: true
                             }
                             SettingsCard {
-                                Layout.fillWidth: true
                                 title: qsTr("Advertising ID")
                                 description: qsTr("Let apps use advertising ID.")
-                                action: Switch {}
+                                toggle: true
                             }
                         }
                     }

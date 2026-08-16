@@ -19,6 +19,8 @@ import QWinUI3.Theme
 T.Control {
     id: root
 
+    Layout.fillWidth: true
+
     // Leading label
     property string label: ""
     // Trailing value text (ignored when trailing has children)

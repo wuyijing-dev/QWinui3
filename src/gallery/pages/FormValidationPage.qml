@@ -48,17 +48,14 @@ Page {
 
                 FormLayout {
                     id: form
-                    Layout.fillWidth: true
                     labelWidth: 132
 
                     ValidationSummary {
-                        Layout.fillWidth: true
                         errors: form.errors
                     }
 
                     HeaderedTextBox {
                         id: nameField
-                        Layout.fillWidth: true
                         header: qsTr("Display name")
                         description: qsTr("At least 2 characters.")
                         placeholderText: qsTr("Alex")
@@ -66,14 +63,12 @@ Page {
 
                     HeaderedTextBox {
                         id: emailField
-                        Layout.fillWidth: true
                         header: qsTr("Email")
                         placeholderText: qsTr("alex@example.com")
                     }
 
                     NumberBox {
                         id: ageField
-                        Layout.fillWidth: true
                         header: qsTr("Age")
                         description: qsTr("Must be 18 or older.")
                         value: 18
@@ -83,7 +78,6 @@ Page {
 
                     PasswordBox {
                         id: passwordField
-                        Layout.fillWidth: true
                         header: qsTr("Password")
                         description: qsTr("At least 8 characters.")
                     }
@@ -98,7 +92,6 @@ Page {
                     }
 
                     DetailRow {
-                        Layout.fillWidth: true
                         label: qsTr("Selected plan")
                         value: planField.selectedItem || ""
                         symbol: FluentIcons.Shop
@@ -143,17 +136,14 @@ Page {
 
                 FormLayout {
                     id: leftForm
-                    Layout.fillWidth: true
                     labelWidth: 160
                     fieldHeaderPlacement: "left"
 
                     HeaderedTextBox {
-                        Layout.fillWidth: true
                         header: qsTr("Server")
                         placeholderText: qsTr("api.example.com")
                     }
                     NumberBox {
-                        Layout.fillWidth: true
                         header: qsTr("Port")
                         value: 443
                         minimum: 1
@@ -161,12 +151,10 @@ Page {
                         decimals: 0
                     }
                     PasswordBox {
-                        Layout.fillWidth: true
                         header: qsTr("Token")
                         placeholderText: qsTr("••••••••")
                     }
                     DetailRow {
-                        Layout.fillWidth: true
                         label: qsTr("Transport")
                         value: qsTr("HTTPS")
                         symbol: FluentIcons.Shop

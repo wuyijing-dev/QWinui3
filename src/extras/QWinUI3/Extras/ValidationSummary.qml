@@ -22,6 +22,8 @@ import QWinUI3.Theme
 T.Control {
     id: root
 
+    Layout.fillWidth: true
+
     // Error strings to display
     property var errors: []
     // Banner title

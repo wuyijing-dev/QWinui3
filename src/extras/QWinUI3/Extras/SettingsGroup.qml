@@ -9,17 +9,19 @@ import QWinUI3.Theme
 //   SettingsGroup {
 //       title: qsTr("Appearance")
 //       description: qsTr("Theme and motion preferences.")
-//       SettingsCard { title: qsTr("Dark mode"); action: Switch {} }
+//       SettingsCard { title: qsTr("Dark mode"); toggle: true; checked: … }
 //       SettingsCard { title: qsTr("Density"); action: ComboBox {} }
 //   }
 //
 // @notes
 //   Groups SettingsCard / SettingsExpander rows under a Fluent section title.
-//   Children auto Layout.fillWidth — no per-card Layout.fillWidth needed.
+//   Cards declare Layout.fillWidth themselves — no parent walk needed.
 //   Prefer nesting inside SettingsView for page padding/title.
 
 T.Control {
     id: root
+
+    Layout.fillWidth: true
 
     // Section title
     property string title: ""
@@ -93,18 +95,6 @@ T.Control {
             id: stack
             Layout.fillWidth: true
             spacing: root.contentSpacing
-
-            onChildrenChanged: Qt.callLater(root._fillChildren)
-            Component.onCompleted: root._fillChildren()
-        }
-    }
-
-    function _fillChildren() {
-        var kids = stack.children
-        for (var i = 0; i < kids.length; ++i) {
-            var c = kids[i]
-            if (c && c.Layout !== undefined)
-                c.Layout.fillWidth = true
         }
     }
 }
