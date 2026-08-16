@@ -13,6 +13,8 @@ CatalogPage {
 
     overlay: Drawer {
         id: drawer
+        // Explicit window overlay — CatalogPage.overlay would otherwise keep us in-pane.
+        parent: Overlay.overlay
         edge: Qt.LeftEdge
         // Width is the panel size; height is bound to Overlay by the Drawer style.
         width: Math.min(320, (Overlay.overlay ? Overlay.overlay.width : 1280) * 0.85)
