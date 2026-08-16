@@ -7,8 +7,8 @@ Fluent / [WinUI 3](https://learn.microsoft.com/windows/apps/winui/winui3/)-inspi
 [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-2ea44f)](https://wuyijing-dev.github.io/QWinui3/)
 [![Qt](https://img.shields.io/badge/Qt-6.5%2B-41CD52?logo=qt&logoColor=white)](https://www.qt.io/)
 
-**v1.05** · **200+** public controls · Gallery demos for most of them  
-[Documentation](https://wuyijing-dev.github.io/QWinui3/) · [Stable API](docs/stable-api.md) · [WebView2](docs/webview2.md) · [Window chrome](docs/window-chrome.md) · [Component API](https://wuyijing-dev.github.io/QWinui3/components/) · [Releases](https://github.com/wuyijing-dev/QWinui3/releases) · [Roadmap](ROADMAP.md)
+**v1.06** · **200+** public controls · Gallery demos for most of them  
+[Documentation](https://wuyijing-dev.github.io/QWinui3/) · [Stable API](docs/stable-api.md) · [CI smoke](docs/ci-smoke.md) · [WebView2](docs/webview2.md) · [Component API](https://wuyijing-dev.github.io/QWinui3/components/) · [Releases](https://github.com/wuyijing-dev/QWinui3/releases) · [Roadmap](ROADMAP.md)
 
 ---
 
@@ -199,7 +199,7 @@ src/gallery/     Control catalog application
 examples/        Small starter apps
 docs/            Markdown + MkDocs site source
 scripts/         Docs generator, shared/gallery packaging, WebView2 fetch
-.github/         Docs Pages + Release CI
+.github/         Docs Pages + Release CI + Smoke CI
 ```
 
 ### CI releases
@@ -207,9 +207,11 @@ scripts/         Docs generator, shared/gallery packaging, WebView2 fetch
 Push a version tag (or run **Actions → Release → Run workflow**):
 
 ```bash
-git tag v1.01
-git push origin v1.01
+git tag v1.06
+git push origin v1.06
 ```
+
+**PR / master smoke** (build Gallery + `--smoke`, no packages): [`.github/workflows/smoke.yml`](.github/workflows/smoke.yml) — see [`docs/ci-smoke.md`](docs/ci-smoke.md).
 
 GitHub Actions builds Linux + Windows shared libraries and Gallery packages, then attaches them to the GitHub Release. Manual dispatch can re-upload assets for an existing tag (e.g. add Linux packages to `v1.00` / historical `v1.0.0`).
 
@@ -229,6 +231,7 @@ Product versions use **`X.YY`** (see [`ROADMAP.md`](ROADMAP.md)); set `QWINUI3_V
 | [`docs/platform-linux-wayland.md`](docs/platform-linux-wayland.md) | Linux title bar / backdrop matrix |
 | [`docs/window-chrome.md`](docs/window-chrome.md) | DPI / backdrop / dialog failure modes |
 | [`docs/webview2.md`](docs/webview2.md) | Windows WebView2Host integration recipe |
+| [`docs/ci-smoke.md`](docs/ci-smoke.md) | Lightweight Gallery smoke CI |
 | [`ROADMAP.md`](ROADMAP.md) | Version themes — small `X.YY` slices |
 | [`docs/stable-api.md`](docs/stable-api.md) | Stable vs experimental types for 1.xx |
 | [`docs/qt-creator.md`](docs/qt-creator.md) | Opening the project in Qt Creator |

@@ -1,0 +1,102 @@
+name: Smoke
+
+# Lightweight regression gate (1.06): Release configure + Gallery build + --smoke.
+# No packaging, no screenshot suite, no multi-Qt matrix.
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+concurrency:
+  group: smoke-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  QT_VERSION: "6.8.3"
+
+jobs:
+  linux:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential ninja-build cmake \
+            libgl1-mesa-dev libxkbcommon-dev libxkbcommon-x11-dev \
+            libxcb-cursor0 libxcb-cursor-dev libxcb-xinerama0 \
+            libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 \
+            libxcb-shape0 libxcb-xfixes0 libxcb-randr0
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: ${{ env.QT_VERSION }}
+          host: linux
+          target: desktop
+          arch: linux_gcc_64
+          modules: qtquickeffects qtmultimedia qtimageformats qtsvg
+          cache: true
+          install-deps: true
+
+      - name: Configure Release
+        run: |
+          cmake -S . -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DQWINUI3_BUILD_EXAMPLES=OFF \
+            -DQWINUI3_BUILD_WEBVIEW2=OFF
+
+      - name: Build Gallery
+        run: cmake --build build --config Release --target qwinui3_gallery --parallel
+
+      - name: Smoke (offscreen --smoke)
+        env:
+          QT_QPA_PLATFORM: offscreen
+          QWINUI3_KEEP_QPA_PLATFORM: "1"
+        run: python scripts/smoke_gallery.py --build-dir build
+
+  windows:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Ninja
+        run: choco install ninja -y
+
+      - name: Setup MSVC
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: ${{ env.QT_VERSION }}
+          host: windows
+          target: desktop
+          arch: win64_msvc2022_64
+          modules: qtquickeffects qtmultimedia qtimageformats qtsvg
+          cache: true
+
+      - name: Configure Release
+        shell: bash
+        run: |
+          cmake -S . -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DQWINUI3_BUILD_EXAMPLES=OFF \
+            -DQWINUI3_BUILD_WEBVIEW2=OFF
+
+      - name: Build Gallery
+        shell: bash
+        run: cmake --build build --config Release --target qwinui3_gallery --parallel
+
+      - name: Smoke (--smoke)
+        shell: bash
+        # Do not set QT_QPA_PLATFORM=offscreen on Windows — only qwindows is present.
+        # Gallery --smoke forces windows; script also ignores inherited offscreen.
+        run: python scripts/smoke_gallery.py --build-dir build --platform windows

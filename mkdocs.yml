@@ -68,6 +68,7 @@ nav:
   - Gallery CatalogPage: gallery-catalog-page.md
   - Graphics backend: graphics-backend.md
   - WebView2: webview2.md
+  - CI smoke: ci-smoke.md
   - WebView2 (legacy link): webview2-future.md
   - Linux / Wayland: platform-linux-wayland.md
   - Window shells: window-shells.md

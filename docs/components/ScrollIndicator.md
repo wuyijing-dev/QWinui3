@@ -4,7 +4,7 @@ Fluent styled ScrollIndicator.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/ScrollIndicator.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/ScrollIndicator.qml)
 
-**Category:** Styled controls · **Library:** v1.05
+**Category:** Styled controls · **Library:** v1.06
 
 [← Component index](../components.md)
 

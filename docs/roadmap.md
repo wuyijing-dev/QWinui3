@@ -1,6 +1,6 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.05**  
+**Current:** **1.06**  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
 
 This plan starts from **what 1.00 already was**, then walks **small `1.xx` minors**. Stay on **1.xx for a long time**. **2.00 is not next**—only when we truly need breaking changes.
@@ -89,14 +89,9 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-### 1.06 — CI smoke (lightweight)
+### 1.06 — CI smoke (lightweight) (shipped)
 
-**Why:** Release packages exist; need a cheap regression gate.
-
-- Windows + Linux: configure Release, build Gallery (or shared preset), minimal “binary starts / modules load” smoke.
-- Keep scope small—no full screenshot suite.
-
-**Not in 1.06:** Multi-Qt version matrix in CI (later, still under 1.xx if needed).
+**Shipped:** [`.github/workflows/smoke.yml`](.github/workflows/smoke.yml) on Windows + Linux (Release Gallery build); `qwinui3_gallery --smoke` + [`scripts/smoke_gallery.py`](scripts/smoke_gallery.py); Windows QPA coerce for inherited `offscreen` (Cursor/CI) + Qt PATH pin; [ci-smoke.md](docs/ci-smoke.md); product version `1.06`.
 
 ---
 

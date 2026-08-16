@@ -4,7 +4,7 @@ Anchored tip with title, subtitle, content, and actions.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/TeachingTip.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/TeachingTip.qml)
 
-**Category:** Dialogs & flyouts · **Library:** v1.05
+**Category:** Dialogs & flyouts · **Library:** v1.06
 
 [← Component index](../components.md)
 
