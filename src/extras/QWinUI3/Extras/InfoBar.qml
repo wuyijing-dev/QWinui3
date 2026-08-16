@@ -22,6 +22,8 @@ import QWinUI3.Theme
 // @notes
 //   Inline severity banner: informational | success | warning | error.
 //   WinUI Content slot via default children (below message); actionText or action slot; isClosable.
+//   Content-only (no title/message) promotes Content to the primary row — no empty title gap.
+//   collapseWhenClosed (default) drops layout space immediately when closed (no Stack spacing).
 //   Prefer InfoBarHost.info/success/warning/error for stacked banners.
 
 T.Control {
@@ -48,6 +50,8 @@ T.Control {
     property alias description: root.message
     // Open / visible state
     property bool isOpen: true
+    // When true, closed bars leave no Column/Stack spacing (unlike WinUI IsOpen=false)
+    property bool collapseWhenClosed: true
     // Shows a close affordance when true
     property bool closable: true
     // Alias of closable
@@ -64,7 +68,7 @@ T.Control {
     property string actionText: ""
     // Custom action slot (WinUI ActionButton)
     property alias action: actionSlot.data
-    // WinUI Content — rich body below the message
+    // WinUI Content — rich body below the message (or primary row when content-only)
     default property alias content: contentSlot.data
     // Auto-dismiss duration; 0 keeps open
     property int durationMs: 0
@@ -77,6 +81,8 @@ T.Control {
         default: return "informational"
         }
     }
+    readonly property bool _contentOnly: title.length === 0 && message.length === 0
+                                         && contentSlot.children.length > 0
 
     // Close button clicked
     signal closeClicked()
@@ -127,7 +133,7 @@ T.Control {
     implicitHeight: isOpen ? (contentItem.implicitHeight + topPadding + bottomPadding) : 0
     Layout.preferredHeight: implicitHeight
 
-    visible: isOpen || opacity > 0.01
+    visible: isOpen || (!collapseWhenClosed && opacity > 0.01)
     opacity: isOpen ? 1 : 0
     scale: isOpen ? 1 : 0.98
     transformOrigin: Item.Top
@@ -233,15 +239,25 @@ T.Control {
 
         Text {
             visible: root.showIcon
-            Layout.alignment: Qt.AlignTop
-            Layout.topMargin: 2
+            Layout.alignment: Qt.AlignVCenter
             text: root._severityGlyph
             font.family: Theme.fontFamilyIcon
             font.pixelSize: 16
             color: root._accent
         }
 
+        // Content-only: promote Content into the primary row (no empty title gap).
+        Item {
+            id: contentSlotPrimaryHost
+            visible: root._contentOnly
+            Layout.fillWidth: true
+            Layout.alignment: Qt.AlignVCenter
+            Layout.preferredHeight: visible ? Math.max(contentSlot.height, 1) : 0
+            Layout.preferredWidth: visible ? Math.max(contentSlot.width, 1) : 0
+        }
+
         ColumnLayout {
+            visible: !root._contentOnly
             Layout.fillWidth: true
             spacing: 4
 
@@ -271,12 +287,19 @@ T.Control {
             }
 
             Item {
-                id: contentSlot
-                visible: children.length > 0
+                id: contentSlotBelowHost
+                visible: !root._contentOnly && contentSlot.children.length > 0
                 Layout.fillWidth: true
-                Layout.preferredHeight: children.length > 0 ? Math.max(childrenRect.height, 1) : 0
-                implicitHeight: childrenRect.height
+                Layout.preferredHeight: visible ? Math.max(contentSlot.height, 1) : 0
             }
+        }
+
+        Item {
+            id: contentSlot
+            parent: root._contentOnly ? contentSlotPrimaryHost : contentSlotBelowHost
+            width: childrenRect.width
+            height: childrenRect.height
+            visible: children.length > 0
         }
 
         Item {

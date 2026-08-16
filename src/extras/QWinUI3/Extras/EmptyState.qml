@@ -16,6 +16,8 @@ import QWinUI3.Theme
 //
 // @notes
 //   Placeholder for empty lists; title/message (description alias) + optional action.
+//   Neutral Document default (not Warning); bordered false by default for a lighter Fluent look.
+//   illustration slot replaces the circular glyph when set.
 
 T.Control {
     id: root
@@ -38,22 +40,25 @@ T.Control {
     property string secondaryActionText: ""
     // Compact layout density
     property bool compact: false
-    // Draw a border when true
-    property bool bordered: true
+    // Draw a border when true (default false — lighter empty surface)
+    property bool bordered: false
     // Glyph color
     property color glyphColor: Theme.accent
-    // Show leading glyph
+    // Show leading glyph (ignored when illustration has children)
     property bool showGlyph: true
+    // Custom illustration slot (replaces circular glyph)
+    property alias illustration: illustrationSlot.data
     // Emitted when action is clicked
     signal actionClicked()
     // Secondary action clicked
     signal secondaryActionClicked()
 
-    // Resolved glyph string
+    // Resolved glyph string — neutral Document, not Warning
     readonly property string effectiveGlyph: {
         var g = IconSource.resolve(symbol, glyph)
-        return g.length ? g : FluentIcons.Warning
+        return g.length ? g : FluentIcons.Document
     }
+    readonly property bool _hasIllustration: illustrationSlot.children.length > 0
 
     implicitWidth: 320
     implicitHeight: column.implicitHeight + topPadding + bottomPadding
@@ -75,8 +80,38 @@ T.Control {
         id: column
         spacing: root.compact ? Theme.spacing : Theme.spacingLoose
 
+        Item {
+            id: illustrationSlot
+            visible: root._hasIllustration
+            Layout.alignment: Qt.AlignHCenter
+            Layout.preferredWidth: childrenRect.width
+            Layout.preferredHeight: childrenRect.height
+            width: childrenRect.width
+            height: childrenRect.height
+            opacity: 0
+            scale: 0.88
+            Component.onCompleted: {
+                opacity = 1
+                scale = 1
+            }
+            Behavior on opacity {
+                enabled: !Theme.reducedMotion
+                NumberAnimation {
+                    duration: Theme.duration(Theme.motionNormal)
+                    easing.type: Theme.easingEnter
+                }
+            }
+            Behavior on scale {
+                enabled: !Theme.reducedMotion
+                NumberAnimation {
+                    duration: Theme.duration(Theme.motionNormal)
+                    easing.type: Theme.easingEnter
+                }
+            }
+        }
+
         Rectangle {
-            visible: root.showGlyph
+            visible: root.showGlyph && !root._hasIllustration
             Layout.alignment: Qt.AlignHCenter
             width: root.compact ? 40 : 56
             height: width
@@ -136,6 +171,7 @@ T.Control {
             Layout.alignment: Qt.AlignHCenter
             Layout.fillWidth: true
             Layout.maximumWidth: 360
+            visible: root.message.length > 0
             text: root.message
             font.family: root.font.family
             font.pixelSize: Theme.fontBody

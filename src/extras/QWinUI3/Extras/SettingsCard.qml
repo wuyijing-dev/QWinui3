@@ -25,9 +25,10 @@ import QWinUI3.Theme
 //
 // @notes
 //   Toolkit SettingsCard: Header/Description/HeaderIcon, Content + Action slots,
-//   ContentAlignment (right|left|vertical), IsClickEnabled, ActionIcon chevron,
+//   ContentAlignment (right|left|vertical|center), IsClickEnabled, ActionIcon chevron,
 //   cornerRadius for ElevatedChrome.
 //   Set toggle: true for a built-in Switch (checked / onToggled) — no action glue.
+//   Empty title/description collapse; contentAlignment "center" centers content (illustration cards).
 //   Layout.fillWidth defaults to true inside Column/Row/Grid layouts.
 
 T.Pane {
@@ -63,7 +64,7 @@ T.Pane {
     property bool interactive: false
     // Toolkit IsClickEnabled
     property alias isClickEnabled: root.interactive
-    // Toolkit ContentAlignment: "right" | "left" | "vertical"
+    // Toolkit ContentAlignment: "right" | "left" | "vertical" | "center"
     property string contentAlignment: "right"
     // Show trailing chevron when clickable
     property bool showChevron: interactive
@@ -92,6 +93,9 @@ T.Pane {
     readonly property string _align: String(contentAlignment).toLowerCase()
     readonly property bool _vertical: _align === "vertical"
     readonly property bool _contentLeft: _align === "left"
+    readonly property bool _contentCenter: _align === "center"
+    readonly property bool _hasHeaderText: title.length > 0 || description.length > 0
+    readonly property bool _showHeaderColumn: _hasHeaderText && !_contentCenter
 
     padding: 16
     implicitWidth: 420
@@ -137,9 +141,10 @@ T.Pane {
         RowLayout {
             Layout.fillWidth: true
             spacing: Theme.spacingLoose
+            visible: !root._vertical || root._showHeaderColumn || root.effectiveHeaderIcon.length > 0
 
             Text {
-                visible: root.effectiveHeaderIcon.length > 0
+                visible: root.effectiveHeaderIcon.length > 0 && !root._contentCenter
                 text: root.effectiveHeaderIcon
                 font.family: Theme.fontFamilyIcon
                 font.pixelSize: 20
@@ -157,11 +162,13 @@ T.Pane {
             }
 
             ColumnLayout {
+                visible: root._showHeaderColumn
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignVCenter
                 spacing: 2
 
                 Text {
+                    visible: root.title.length > 0
                     text: root.title
                     font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontBody
@@ -183,10 +190,20 @@ T.Pane {
                 }
             }
 
+            // Center alignment: content fills and centers (illustration / media cards)
+            Item {
+                id: contentSlotCenterHost
+                visible: root._contentCenter && !root._vertical
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                Layout.preferredHeight: visible ? Math.max(contentSlot.height, 1) : 0
+                Layout.minimumHeight: visible ? Math.max(contentSlot.height, 1) : 0
+            }
+
             // Right (default): content beside action
             Item {
                 id: contentSlotRightHost
-                visible: !root._contentLeft && !root._vertical
+                visible: !root._contentLeft && !root._vertical && !root._contentCenter
                 Layout.alignment: Qt.AlignVCenter
                 Layout.preferredWidth: visible ? Math.max(contentSlot.width, 1) : 0
                 Layout.preferredHeight: visible ? Math.max(contentSlot.height, 1) : 0
@@ -194,14 +211,14 @@ T.Pane {
 
             Item {
                 id: actionSlotHost
-                visible: !root._vertical
+                visible: !root._vertical && (root.toggle || actionSlot.children.length > 0)
                 Layout.alignment: Qt.AlignVCenter
                 Layout.preferredWidth: visible ? Math.max(actionSlot.width, 1) : 0
                 Layout.preferredHeight: visible ? Math.max(actionSlot.height, 1) : 0
             }
 
             Text {
-                visible: root.showChevron
+                visible: root.showChevron && !root._contentCenter
                 Layout.alignment: Qt.AlignVCenter
                 text: root.effectiveActionIcon
                 font.family: Theme.fontFamilyIcon
@@ -223,7 +240,7 @@ T.Pane {
             }
             Item {
                 id: actionSlotVertHost
-                visible: root._vertical
+                visible: root._vertical && (root.toggle || actionSlot.children.length > 0)
                 Layout.fillWidth: true
                 Layout.preferredHeight: visible ? Math.max(actionSlot.height, 1) : 0
             }
@@ -236,10 +253,13 @@ T.Pane {
         parent: {
             if (root._vertical)
                 return contentSlotVertHost
+            if (root._contentCenter)
+                return contentSlotCenterHost
             if (root._contentLeft)
                 return contentSlotLeftHost
             return contentSlotRightHost
         }
+        anchors.horizontalCenter: root._contentCenter ? parent.horizontalCenter : undefined
         width: childrenRect.width
         height: childrenRect.height
         visible: children.length > 0

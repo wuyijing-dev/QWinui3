@@ -8,7 +8,7 @@ import QWinUI3.Extras
 
 CatalogPage {
     title: qsTr("SettingsCard")
-    subtitle: qsTr("Settings row with symbol, Fluent ChevronRight when interactive.")
+    subtitle: qsTr("Vs WinUI Toolkit: empty headers collapse; contentAlignment center for media.")
 
     ControlExample {
         headerText: qsTr("Toggle settings")
@@ -97,6 +97,25 @@ CatalogPage {
                 toggle: true
                 checked: true
             }
+            SettingsCard {
+                contentAlignment: "center"
+                content: ColumnLayout {
+                    spacing: Theme.spacing
+                    Text {
+                        Layout.alignment: Qt.AlignHCenter
+                        text: FluentIcons.Photo
+                        font.family: Theme.fontFamilyIcon
+                        font.pixelSize: 40
+                        color: Theme.accent
+                    }
+                    Label {
+                        Layout.alignment: Qt.AlignHCenter
+                        text: qsTr("Centered illustration (no empty header row)")
+                        color: Theme.textSecondary
+                    }
+                }
+            }
         }
     }
 }
+

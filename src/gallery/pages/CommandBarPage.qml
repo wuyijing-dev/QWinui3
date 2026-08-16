@@ -10,7 +10,7 @@ import QWinUI3.Extras
 
 CatalogPage {
     title: qsTr("CommandBar")
-    subtitle: qsTr("Primary AppBar row, JS overflow, and secondaryCommandsHost AppBar buttons.")
+    subtitle: qsTr("Vs WinUI: left/center alignment, Edge-like compact density, overflow opens downward.")
 
     ControlExample {
         headerText: qsTr("Primary commands")
@@ -41,6 +41,7 @@ CatalogPage {
                 Layout.fillWidth: true
                 defaultLabelPosition: labelPos.currentText
                 closedDisplayMode: closedMode.currentText
+                compact: false
                 secondaryCommands: [
                     {
                         text: qsTr("Select all"),
@@ -86,6 +87,50 @@ CatalogPage {
                 id: status
                 text: qsTr("Ready — … opens JS overflow + AppBar secondaryCommandsHost.")
                 color: Theme.textSecondary
+            }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Alignment + compact (beyond WinUI)")
+        qmlSource: "CommandBar {\n    commandAlignment: \"center\"\n    compact: true\n}"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            RowLayout {
+                Layout.fillWidth: true
+                spacing: Theme.spacing
+                Label { text: qsTr("Align"); color: Theme.textSecondary }
+                ComboBox {
+                    id: alignBox
+                    model: ["stretch", "left", "center", "right"]
+                    currentIndex: 2
+                    Layout.preferredWidth: 140
+                }
+                Switch {
+                    id: compactSwitch
+                    text: qsTr("Compact")
+                    checked: true
+                }
+            }
+            CommandBar {
+                Layout.fillWidth: true
+                commandAlignment: alignBox.currentText
+                compact: compactSwitch.checked
+                defaultLabelPosition: "collapsed"
+                isToggleButtonVisible: false
+                secondaryCommands: [
+                    { text: qsTr("More options"), triggered: function () {} }
+                ]
+                AppBarButton { symbol: FluentIcons.Copy; text: qsTr("Copy") }
+                AppBarButton { symbol: FluentIcons.Cut; text: qsTr("Cut") }
+                AppBarButton { symbol: FluentIcons.Delete; text: qsTr("Delete") }
+            }
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.Wrap
+                color: Theme.textSecondary
+                text: qsTr("WinUI CommandBar is oversized and right-biased; compact ~40px icons and free alignment match Edge-style toolbars.")
             }
         }
     }

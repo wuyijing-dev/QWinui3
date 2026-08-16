@@ -27,6 +27,8 @@ import QWinUI3.Theme
 //   secondaryCommandsHost accepts AppBarButton / AppBarToggleButton children.
 //   secondaryCommands / overflowItems keep the JS [{text, triggered}] API.
 //   isDynamicOverflowEnabled moves overflowing primary commands into (…).
+//   commandAlignment left|center|right|stretch; compact densifies like Edge toolbar.
+//   overflowOpensUpward false opens down (top toolbars); auto flips when space is tight.
 
 T.Control {
     id: root
@@ -57,6 +59,20 @@ T.Control {
     property bool isToggleButtonVisible: true
     // WinUI IsDynamicOverflowEnabled — move overflowing primary commands into (…)
     property bool isDynamicOverflowEnabled: true
+    // Primary command alignment: left | center | right | stretch (default)
+    property string commandAlignment: "stretch"
+    // Dense Edge-like toolbar (also follows Theme.density === "compact" when unset path)
+    property bool compact: Theme.density === "compact"
+    // Prefer opening overflow upward; false = down (typical top toolbar)
+    property bool overflowOpensUpward: false
+
+    readonly property string _align: String(commandAlignment).toLowerCase()
+    readonly property bool _alignStretch: _align === "stretch" || _align.length === 0
+    readonly property bool _alignCenter: _align === "center"
+    readonly property bool _alignRight: _align === "right"
+    readonly property bool _alignLeft: _align === "left" || (!_alignStretch && !_alignCenter && !_alignRight)
+    readonly property real _chromeHeight: compact ? Math.max(28, Theme.controlHeight - 4) : Theme.controlHeight
+    readonly property real _moreWidth: compact ? 32 : 36
 
     // True while opening
     signal opening()
@@ -107,6 +123,8 @@ T.Control {
 
     // Resolved label position
     readonly property string effectiveLabelPosition: {
+        if (root.compact)
+            return "collapsed"
         if (!root.isOpen && root.closedDisplayMode === "compact")
             return "collapsed"
         return root.defaultLabelPosition
@@ -178,41 +196,70 @@ T.Control {
 
     onIsDynamicOverflowEnabledChanged: Qt.callLater(_relayoutDynamicOverflow)
     onWidthChanged: Qt.callLater(_relayoutDynamicOverflow)
-    onEffectiveLabelPositionChanged: Qt.callLater(function () { root._syncBarLabelPositions() })
+    onEffectiveLabelPositionChanged: Qt.callLater(function () { root._syncBarChrome() })
+    onCompactChanged: Qt.callLater(function () { root._syncBarChrome() })
+    onCommandAlignmentChanged: Qt.callLater(_relayoutDynamicOverflow)
     Component.onCompleted: {
         Qt.callLater(_relayoutDynamicOverflow)
-        Qt.callLater(function () { root._syncBarLabelPositions() })
+        Qt.callLater(function () { root._syncBarChrome() })
     }
 
-    // Push effectiveLabelPosition into AppBar* children (no child parent-walk)
-    function _syncBarLabelPositions() {
+    // Push label position + compact density into AppBar* children
+    function _syncBarChrome() {
         function syncRow(row) {
             if (!row)
                 return
             var kids = row.children || []
             for (var i = 0; i < kids.length; ++i) {
                 var c = kids[i]
-                if (c && c.hasOwnProperty("barLabelPosition"))
+                if (!c)
+                    continue
+                if (c.hasOwnProperty("barLabelPosition"))
                     c.barLabelPosition = root.effectiveLabelPosition
+                if (c.hasOwnProperty("barCompact"))
+                    c.barCompact = root.compact
             }
         }
         syncRow(primaryRow)
         syncRow(secondaryHost)
     }
 
-    padding: 4
+    function _openOverflowMenu() {
+        if (!moreBtn.visible)
+            return
+        var openUp = root.overflowOpensUpward
+        if (!openUp) {
+            var win = root.Window.window
+            var overlay = (typeof Overlay !== "undefined" && Overlay.overlay) ? Overlay.overlay : null
+            var hostH = overlay && overlay.height > 0 ? overlay.height
+                       : (win ? win.height : 0)
+            if (hostH > 0) {
+                var globalY = moreBtn.mapToItem(overlay || win.contentItem, 0, moreBtn.height).y
+                var spaceBelow = hostH - globalY
+                var estimate = Math.max(120, overflowMenu.implicitHeight || 160)
+                if (spaceBelow < estimate)
+                    openUp = true
+            }
+        }
+        if (openUp)
+            overflowMenu.popup(moreBtn, 0, -Math.max(overflowMenu.implicitHeight, 1) - 4)
+        else
+            overflowMenu.popup(moreBtn, 0, moreBtn.height + 4)
+    }
+
+    padding: compact ? 2 : 4
     implicitWidth: Math.max(120, barRow.implicitWidth + leftPadding + rightPadding)
     implicitHeight: {
         if (!_barVisible)
             return 0
         if (!isOpen) {
             if (closedDisplayMode === "minimal")
-                return Math.max(Theme.controlHeight, padding * 2 + 32)
-            return Theme.controlHeight + padding * 2
+                return Math.max(_chromeHeight, padding * 2 + (compact ? 28 : 32))
+            return _chromeHeight + padding * 2
         }
-        if (defaultLabelPosition === "bottom")
+        if (defaultLabelPosition === "bottom" && !compact)
             return Theme.controlHeight + 22 + padding * 2
-        return Theme.controlHeight + padding * 2
+        return _chromeHeight + padding * 2
     }
 
     Behavior on implicitHeight {
@@ -230,7 +277,7 @@ T.Control {
         height: 0
         visible: false
         enabled: false
-        onChildrenChanged: Qt.callLater(function () { root._syncBarLabelPositions() })
+        onChildrenChanged: Qt.callLater(function () { root._syncBarChrome() })
     }
 
     background: Rectangle {
@@ -258,14 +305,24 @@ T.Control {
             id: barRow
             anchors.fill: parent
             spacing: root.barSpacing
-            // Keep primary / overflow controls vertically centered in compact bars.
             Layout.alignment: Qt.AlignVCenter
+
+            // Leading spring for center / right alignment
+            Item {
+                Layout.fillWidth: root._alignCenter || root._alignRight
+                visible: root._alignCenter || root._alignRight
+            }
 
             RowLayout {
                 id: primaryRow
                 spacing: root.barSpacing
-                Layout.fillWidth: true
+                Layout.fillWidth: root._alignStretch
                 Layout.alignment: Qt.AlignVCenter
+                Layout.maximumWidth: root._alignStretch ? -1
+                                   : Math.max(0, barRow.width
+                                              - (moreBtn.visible ? root._moreWidth + root.barSpacing : 0)
+                                              - (toggleBtn.visible ? root._moreWidth + root.barSpacing : 0)
+                                              - 8)
                 clip: root.isDynamicOverflowEnabled
                 visible: root._showPrimary
                 opacity: visible ? 1 : 0
@@ -278,12 +335,16 @@ T.Control {
                 }
                 onWidthChanged: Qt.callLater(root._relayoutDynamicOverflow)
                 onChildrenChanged: Qt.callLater(function () {
-                    root._syncBarLabelPositions()
+                    root._syncBarChrome()
                     root._relayoutDynamicOverflow()
                 })
             }
 
-            Item { Layout.fillWidth: true; visible: root._showMoreOnly }
+            // Trailing spring for left / center (stretch uses primary fillWidth instead)
+            Item {
+                Layout.fillWidth: root._alignStretch || root._alignLeft || root._alignCenter || root._showMoreOnly
+                visible: root._alignStretch || root._alignLeft || root._alignCenter || root._showMoreOnly
+            }
 
             ToolButton {
                 id: moreBtn
@@ -291,11 +352,11 @@ T.Control {
                          && root._hasOverflow
                          && (root.isOpen || root.closedDisplayMode === "minimal"
                              || root.closedDisplayMode === "compact")
-                Layout.preferredWidth: 36
-                Layout.preferredHeight: Theme.controlHeight
+                Layout.preferredWidth: root._moreWidth
+                Layout.preferredHeight: root._chromeHeight
                 text: FluentIcons.More
                 font.family: Theme.fontFamilyIcon
-                font.pixelSize: 14
+                font.pixelSize: root.compact ? 12 : 14
                 focusPolicy: Qt.StrongFocus
                 Accessible.role: Accessible.Button
                 Accessible.name: root.isOpen ? qsTr("See more") : qsTr("Open command bar")
@@ -305,7 +366,7 @@ T.Control {
                     if (!root.isOpen && root.closedDisplayMode === "minimal")
                         root.isOpen = true
                     else
-                        overflowMenu.popup(moreBtn, 0, moreBtn.height + 4)
+                        root._openOverflowMenu()
                 }
                 Keys.onReturnPressed: moreBtn.clicked()
                 Keys.onEnterPressed: moreBtn.clicked()
@@ -342,8 +403,8 @@ T.Control {
             ToolButton {
                 id: toggleBtn
                 visible: root.isToggleButtonVisible && root.closedDisplayMode !== "hidden"
-                Layout.preferredWidth: 36
-                Layout.preferredHeight: Theme.controlHeight
+                Layout.preferredWidth: root._moreWidth
+                Layout.preferredHeight: root._chromeHeight
                 text: root.isOpen ? FluentIcons.ChevronUp : FluentIcons.ChevronDown
                 font.family: Theme.fontFamilyIcon
                 font.pixelSize: 12

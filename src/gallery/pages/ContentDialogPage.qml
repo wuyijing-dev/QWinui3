@@ -10,7 +10,7 @@ import QWinUI3.Extras
 
 CatalogPage {
     title: qsTr("ContentDialog")
-    subtitle: qsTr("Result logging, custom button slots, DefaultButton, and FullSizeDesired.")
+    subtitle: qsTr("Enter animation on by default (WinUI often needs DefaultContentDialogStyle). Result logging, custom buttons, FullSizeDesired.")
 
     overlay: [
         ContentDialog {

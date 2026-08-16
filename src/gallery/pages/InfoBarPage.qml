@@ -10,7 +10,7 @@ import QWinUI3.Extras
 
 CatalogPage {
     title: qsTr("InfoBar")
-    subtitle: qsTr("Severity alerts with Fluent ChromeClose, open()/close(), and Accessible.")
+    subtitle: qsTr("Vs WinUI: content-only has no empty title gap; closed bars leave no stack spacing.")
 
     ControlExample {
         headerText: qsTr("Severity levels")
@@ -78,8 +78,33 @@ CatalogPage {
     }
 
     ControlExample {
+        headerText: qsTr("Content-only (no title gap)")
+        qmlSource: "InfoBar {\n    // no title / message\n    Label { text: \"Short message\" }\n}"
+
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            InfoBar {
+                id: contentOnlyBar
+                severity: contentOnlyBar.informational
+                Label {
+                    text: qsTr("Content-only InfoBar — no empty title row (WinUI #8730).")
+                    color: Theme.textPrimary
+                    wrapMode: Text.Wrap
+                }
+            }
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.Wrap
+                color: Theme.textSecondary
+                text: qsTr("When title and message are empty, Content sits on the primary row beside the icon.")
+            }
+        }
+    }
+
+    ControlExample {
         headerText: qsTr("open() / close()")
-        qmlSource: "InfoBar {\n    onOpened: …\n    onClosed: …\n}"
+        qmlSource: "InfoBar {\n    collapseWhenClosed: true\n    onOpened: …\n}"
 
         ColumnLayout {
             Layout.fillWidth: true
@@ -93,7 +118,8 @@ CatalogPage {
                 id: collapseBar
                 severity: collapseBar.informational
                 title: qsTr("Dismiss me")
-                message: qsTr("Closing this bar collapses layout space (WinUI IsOpen).")
+                message: qsTr("Closing collapses layout space immediately (vs WinUI IsOpen keeping StackPanel spacing).")
+                collapseWhenClosed: true
                 onOpened: lifeStatus.text = qsTr("Opened")
                 onClosed: lifeStatus.text = qsTr("Closed")
             }
@@ -104,3 +130,4 @@ CatalogPage {
         }
     }
 }
+

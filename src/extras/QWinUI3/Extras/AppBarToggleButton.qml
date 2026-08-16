@@ -32,6 +32,8 @@ IconicButton {
     property string labelPosition: ""
     // Injected by CommandBar (do not parent-walk)
     property string barLabelPosition: "bottom"
+    // Injected by CommandBar.compact — denser icon-only sizing
+    property bool barCompact: false
     // WinUI IsCompact — hide label, icon-only
     property bool isCompact: false
     // Shortcut hint (WinUI KeyboardAcceleratorText)
@@ -39,7 +41,7 @@ IconicButton {
 
     // Resolved label position
     readonly property string effectiveLabelPosition: {
-        if (control.isCompact)
+        if (control.isCompact || control.barCompact)
             return "collapsed"
         if (control.labelPosition.length)
             return control.labelPosition
@@ -49,27 +51,30 @@ IconicButton {
     readonly property bool _showLabel: effectiveLabelPosition !== "collapsed" && text.length > 0
     readonly property bool _labelRight: effectiveLabelPosition === "right"
     readonly property bool _showAccel: keyboardAcceleratorText.length > 0 && _showLabel
+    readonly property bool _dense: control.isCompact || control.barCompact
 
     implicitWidth: {
         if (!_showLabel)
-            return Math.max(40, Theme.controlHeight)
+            return _dense ? 40 : Math.max(40, Theme.controlHeight)
         if (_labelRight)
-            return Math.max(72, contentItem.implicitWidth + leftPadding + rightPadding)
-        return Math.max(64, contentItem.implicitWidth + leftPadding + rightPadding)
+            return Math.max(_dense ? 64 : 72, contentItem.implicitWidth + leftPadding + rightPadding)
+        return Math.max(_dense ? 56 : 64, contentItem.implicitWidth + leftPadding + rightPadding)
     }
     implicitHeight: {
         if (!_showLabel || _labelRight)
-            return Math.max(Theme.controlHeight, contentItem.implicitHeight + topPadding + bottomPadding)
-        return Math.max(Theme.controlHeight + 20, contentItem.implicitHeight + topPadding + bottomPadding)
+            return Math.max(_dense ? 32 : Theme.controlHeight,
+                            contentItem.implicitHeight + topPadding + bottomPadding)
+        return Math.max(Theme.controlHeight + (_dense ? 12 : 20),
+                        contentItem.implicitHeight + topPadding + bottomPadding)
     }
-    leftPadding: _showLabel && _labelRight ? 10 : 8
+    leftPadding: _showLabel && _labelRight ? (_dense ? 8 : 10) : (_dense ? 6 : 8)
     rightPadding: leftPadding
-    topPadding: 6
-    bottomPadding: 6
+    topPadding: _dense ? 4 : 6
+    bottomPadding: topPadding
     checkable: true
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontCaption
-    iconSize: 18
+    iconSize: _dense ? 16 : 18
 
     contentItem: GridLayout {
         columns: control._labelRight ? 2 : 1
