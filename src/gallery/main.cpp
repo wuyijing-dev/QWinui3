@@ -7,6 +7,7 @@
 
 #include "GraphicsBackend.h"
 #include "WindowHelper.h"
+#include "ThemeFonts.h"
 
 Q_IMPORT_QML_PLUGIN(QWinUI3Plugin)
 Q_IMPORT_QML_PLUGIN(QWinUI3_ThemePlugin)
@@ -17,6 +18,7 @@ int main(int argc, char *argv[])
 {
     // Linux: Wayland-first QPA + client-side chrome (must run before QGuiApplication).
     WindowHelper::configurePlatformEnvironment();
+    // RHI / surface format only — do not touch QSettings or QObject singletons yet.
     GraphicsBackend::applyEarly(argc, argv);
 
     // Do not load Qt Virtual Keyboard (GPL/Commercial); use system IME instead.
@@ -30,6 +32,10 @@ int main(int argc, char *argv[])
     // Windows taskbar grouping / toast identity (call early).
     WindowHelper::setAppUserModelId(QStringLiteral("org.qwinui3.gallery"));
     QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
+
+    // Safe now that QCoreApplication exists.
+    GraphicsBackend::syncAfterApp();
+    ThemeFonts::ensureLoaded();
 
     QQmlApplicationEngine engine;
     QObject::connect(&engine, &QQmlApplicationEngine::warnings,

@@ -1,6 +1,5 @@
 #include "WindowHelper.h"
 #include "LinuxPortal.h"
-#include "ThemeFonts.h"
 
 #include <cstdio>
 
@@ -213,8 +212,7 @@ void WindowHelper::configurePlatformEnvironment()
 #else
     // Windows / other: no-op (DWM chrome is handled after QGuiApplication).
 #endif
-    // Embed Fluent-compatible icon font early (Linux has no Segoe Fluent Icons).
-    ThemeFonts::ensureLoaded();
+    // Icon fonts are loaded after QGuiApplication (see gallery main / ThemeFonts).
 }
 
 void WindowHelper::setDesktopFileName(const QString &desktopFileName)

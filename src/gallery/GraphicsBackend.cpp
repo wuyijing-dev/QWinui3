@@ -12,6 +12,7 @@
 
 namespace {
 GraphicsBackend *g_instance = nullptr;
+QString g_earlyBackend;
 
 QSGRendererInterface::GraphicsApi apiFor(const QString &backend)
 {
@@ -97,12 +98,17 @@ QStringList GraphicsBackend::platformBackends()
 
 QString GraphicsBackend::readStoredPreferred()
 {
+    // QSettings requires QCoreApplication — never call before QGuiApplication.
+    if (!QCoreApplication::instance())
+        return {};
     QSettings settings(QStringLiteral("QWinUI3"), QStringLiteral("Gallery"));
     return normalize(settings.value(QStringLiteral("graphics/rhiBackend")).toString());
 }
 
 void GraphicsBackend::writeStoredPreferred(const QString &backend)
 {
+    if (!QCoreApplication::instance())
+        return;
     QSettings settings(QStringLiteral("QWinUI3"), QStringLiteral("Gallery"));
     settings.setValue(QStringLiteral("graphics/rhiBackend"), backend);
 }
@@ -150,16 +156,13 @@ QString GraphicsBackend::applyEarly(int &argc, char **argv)
 {
     const QString cli = parseCli(argc, argv);
     const QString env = normalize(QString::fromUtf8(qgetenv("QSG_RHI_BACKEND")));
-    const QString stored = readStoredPreferred();
+    // Intentionally skip QSettings / instance() here — both need QCoreApplication.
 
     QString backend;
-    // Priority: CLI > existing env > saved preference > platform default.
     if (!cli.isEmpty())
         backend = cli;
     else if (!env.isEmpty())
         backend = env;
-    else if (!stored.isEmpty())
-        backend = stored;
     else
         backend = defaultBackend();
 
@@ -167,16 +170,27 @@ QString GraphicsBackend::applyEarly(int &argc, char **argv)
         backend = defaultBackend();
 
     apply(backend);
-
-    auto *self = instance();
-    self->m_active = backend;
-    self->m_preferred = stored.isEmpty() ? backend : stored;
-    if (self->m_preferred.isEmpty())
-        self->m_preferred = backend;
+    g_earlyBackend = backend;
 
     qInfo().nospace() << "QWinUI3 Gallery RHI backend: " << backend
                       << " (change in Settings or pass --rhi opengl|vulkan|d3d11|d3d12)";
     return backend;
+}
+
+void GraphicsBackend::syncAfterApp()
+{
+    auto *self = instance();
+    const QString stored = readStoredPreferred();
+    self->m_active = g_earlyBackend.isEmpty() ? defaultBackend() : g_earlyBackend;
+    self->m_preferred = stored.isEmpty() ? self->m_active : stored;
+    // If the user saved a different backend, keep it as preferred (restart to apply).
+    // Re-apply only when no CLI/env forced the early choice and a stored value exists.
+    if (qEnvironmentVariableIsEmpty("QSG_RHI_BACKEND") && stored.isEmpty() == false
+        && g_earlyBackend == defaultBackend() && stored != self->m_active) {
+        // Too late to change RHI safely; surface via restartRequired.
+        self->m_preferred = stored;
+    }
+    emit self->changed();
 }
 
 QString GraphicsBackend::active() const

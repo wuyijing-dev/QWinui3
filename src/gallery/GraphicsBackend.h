@@ -25,8 +25,10 @@ public:
     static GraphicsBackend *create(QQmlEngine *engine, QJSEngine *scriptEngine);
     static GraphicsBackend *instance();
 
-    // Must run before QGuiApplication / any QQuickWindow.
+    // Must run before QGuiApplication / any QQuickWindow (env + RHI only).
     static QString applyEarly(int &argc, char **argv);
+    // Call once after QGuiApplication exists (loads QSettings safely).
+    static void syncAfterApp();
 
     QString active() const;
     QString preferred() const;
