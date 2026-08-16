@@ -153,3 +153,4 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.25** | Performance handbook — [performance.md](performance.md); ItemsRepeater `reuseItems` |
 | **1.26** | Example templates — master-detail + form-settings — [examples/README.md](../examples/README.md) |
 | **1.27** | Navigation & TabView recipes — [navigation.md](navigation.md); nav-settings Back/`auto` |
+| **1.28** | Input & pickers consistency — [pickers.md](pickers.md); date/time `errorMessage` |

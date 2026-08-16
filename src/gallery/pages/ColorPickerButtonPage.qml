@@ -5,10 +5,12 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 
 // Gallery — ColorPickerButton.
+//
+// Swatch → ColorPicker. Forms: wrap with HeaderedContentControl — docs/pickers.md (1.28).
 
 CatalogPage {
     title: qsTr("ColorPickerButton")
-    subtitle: qsTr("Swatch, Fluent chevron, focus ring, flyoutPlacement, showAlpha, and isOpen.")
+    subtitle: qsTr("Swatch flyout. For forms wrap with HeaderedContentControl — docs/pickers.md (1.28).")
 
     ControlExample {
         headerText: qsTr("Accent")

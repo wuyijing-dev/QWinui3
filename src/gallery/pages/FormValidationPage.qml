@@ -6,12 +6,12 @@ import QWinUI3.Extras
 
 // Gallery — Form validation.
 //
-// FormLayout + ValidationSummary: set errorMessage, then validate().
+// FormLayout + ValidationSummary; pickers: docs/pickers.md (1.28).
 
 CatalogPage {
     id: page
     title: qsTr("Form validation")
-    subtitle: qsTr("Imperative errorMessage → FormLayout.validate() → ValidationSummary.")
+    subtitle: qsTr("errorMessage → validate(). NumberBox + CalendarDatePicker — docs/pickers.md (1.28).")
 
     overlay: ToastHost {
         id: toasts
@@ -61,6 +61,12 @@ CatalogPage {
                 maximum: 120
             }
 
+            CalendarDatePicker {
+                id: startField
+                header: qsTr("Start date")
+                description: qsTr("Must be today or later (demo rule).")
+            }
+
             PasswordBox {
                 id: passwordField
                 header: qsTr("Password")
@@ -97,6 +103,16 @@ CatalogPage {
                             regionField.errorMessage = qsTr("Choose a region.")
                         if (ageField.value < 18)
                             ageField.errorMessage = qsTr("You must be 18 or older.")
+                        if (startField.selectedDate) {
+                            var today = new Date()
+                            today.setHours(0, 0, 0, 0)
+                            var d = new Date(startField.selectedDate)
+                            d.setHours(0, 0, 0, 0)
+                            if (d < today)
+                                startField.errorMessage = qsTr("Start date must be today or later.")
+                        } else {
+                            startField.errorMessage = qsTr("Pick a start date.")
+                        }
                         if (passwordField.text.length < 8)
                             passwordField.errorMessage = qsTr("Password must be at least 8 characters.")
                         if (planField.selectedIndex === 0)

@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.27**
-**Next up:** **1.28** (Input & pickers consistency)
+**Current:** **1.28**
+**Next up:** **1.29** (Icons & FluentIcons cookbook)
 **Planned through:** **1.50** (1.xx maturity checkpoint)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](qt-version-compat.md)
 
@@ -60,7 +60,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.27`
+## Shipped — `1.01` … `1.28`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -170,30 +170,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** [navigation.md](navigation.md) — pane modes, footer, Back stack, compact/overlay, TabView vs NavigationView; Gallery NavigationView / TabView callouts + `leftMinimal`/`auto`; Accessible names on demo path; [`examples/nav-settings`](../examples/nav-settings/) aligned (`paneDisplayMode: auto`, TitleBar Back ↔ `navigateBack`); product version `1.27`.
 
+### 1.28 — Input & pickers consistency (shipped)
+
+**Shipped:** [pickers.md](pickers.md) inventory; DatePicker / CalendarDatePicker / TimePicker gain `description` / `errorMessage` / `hasError` for FormLayout; forms.md pairing notes; Gallery Form validation + picker page cross-links; product version `1.28`.
+
 ---
 
-## Mid path — planned `1.28` … `1.30`
+## Mid path — planned `1.29` … `1.30`
 
 Same rules: one theme per `YY`, still **not** `2.00`.
-
-### 1.28 — Input & pickers consistency
-
-**Why:** NumberBox / Date-Calendar / Color / Time pickers exist across Style + Extras with uneven docs.
-
-**In scope**
-
-- Inventory high-traffic pickers; align headers, validation, Theme density.
-- Short `docs/pickers.md`; Gallery cross-links; FormLayout pairing notes.
-
-**Out of scope**
-
-- New picker controls; replacing Qt Calendar entirely.
-
-**Exit criteria**
-
-- Recipe doc; listed pickers behave consistently on the Gallery path.
-
----
 
 ### 1.29 — Icons & FluentIcons cookbook
 

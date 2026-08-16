@@ -18,6 +18,7 @@ import QWinUI3.Theme
 // @notes
 //   Tumbler time picker; selectedTime + clockIdentifier 12HourClock|24HourClock.
 //   minuteIncrement snaps minutes (WinUI MinuteIncrement).
+//   Form: header / description / errorMessage / hasError (1.28) — FormLayout.validate().
 
 T.Control {
     id: control
@@ -42,6 +43,12 @@ T.Control {
     property alias isOpen: control.pickerOpen
     // Header label above the control
     property string header: ""
+    // Supporting description text
+    property string description: ""
+    // Validation error text (FormLayout)
+    property string errorMessage: ""
+    // True when validation failed
+    readonly property bool hasError: errorMessage.length > 0
     // WinUI MinuteIncrement — e.g. 1, 5, 15
     property int minuteIncrement: 1
 
@@ -102,12 +109,14 @@ T.Control {
     }
 
     implicitWidth: 160
-    implicitHeight: header.length ? (Theme.fontBody + 8 + Theme.controlHeight) : Theme.controlHeight
+    implicitHeight: contentItem.implicitHeight
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     Accessible.role: Accessible.ComboBox
     Accessible.name: header.length ? header : qsTr("Time")
-    Accessible.description: displayText
+    Accessible.description: hasError
+                             ? (errorMessage.length ? errorMessage : qsTr("Invalid value"))
+                             : (description.length ? description : displayText)
 
     // Minute tumbler model
     readonly property var minuteModel: {
@@ -164,6 +173,7 @@ T.Control {
         control.syncSelectedTimeFromParts()
         control.timeChosen(control.hour, control.minute)
         control.accepted(control.selectedTime)
+        control.errorMessage = ""
     }
 
     contentItem: ColumnLayout {
@@ -177,6 +187,16 @@ T.Control {
             font.pixelSize: Theme.fontBody
             font.weight: Theme.fontWeightSemiBold
             color: control.enabled ? Theme.textPrimary : Theme.textDisabled
+        }
+
+        Text {
+            visible: control.description.length > 0 && !control.hasError
+            Layout.fillWidth: true
+            text: control.description
+            font.family: control.font.family
+            font.pixelSize: Theme.fontCaption
+            color: control.enabled ? Theme.textSecondary : Theme.textDisabled
+            wrapMode: Text.Wrap
         }
 
         Item {
@@ -332,6 +352,16 @@ T.Control {
                 }
             }
         }
+        }
+
+        Text {
+            visible: control.errorMessage.length > 0
+            Layout.fillWidth: true
+            text: control.errorMessage
+            font.family: control.font.family
+            font.pixelSize: Theme.fontCaption
+            color: Theme.systemCritical
+            wrapMode: Text.Wrap
         }
     }
 

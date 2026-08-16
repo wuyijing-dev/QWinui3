@@ -19,6 +19,7 @@ import QWinUI3.Theme
 // @notes
 //   Text field + calendar flyout (MonthGrid); selectedDate with min/max bounds.
 //   FirstDayOfWeek remaps calendar locale (WinUI CalendarView.FirstDayOfWeek).
+//   Form: header / description / errorMessage / hasError (1.28) — FormLayout.validate().
 
 T.Control {
     id: root
@@ -41,6 +42,12 @@ T.Control {
     property bool isTodayHighlighted: true
     // Header label above the control
     property string header: ""
+    // Supporting description text
+    property string description: ""
+    // Validation error text (FormLayout)
+    property string errorMessage: ""
+    // True when validation failed
+    readonly property bool hasError: errorMessage.length > 0
     // Placeholder when empty
     property string placeholderText: ""
     // Minimum selectable date
@@ -71,10 +78,13 @@ T.Control {
     signal dateChosen(date date)
 
     implicitWidth: 200
-    implicitHeight: header.length ? (Theme.fontBody + 8 + Theme.controlHeight) : Theme.controlHeight
+    implicitHeight: contentItem.implicitHeight
     Accessible.role: Accessible.ComboBox
     Accessible.name: header.length ? header : qsTr("Calendar date")
-    Accessible.description: Qt.formatDate(selectedDate, dateFormat)
+    Accessible.description: hasError
+                             ? (errorMessage.length ? errorMessage : qsTr("Invalid value"))
+                             : (description.length ? description
+                                : Qt.formatDate(selectedDate, dateFormat))
 
     // True when the date is within selectable bounds
     function isDateAllowed(d) {
@@ -103,6 +113,16 @@ T.Control {
             font.pixelSize: Theme.fontBody
             font.weight: Theme.fontWeightSemiBold
             color: root.enabled ? Theme.textPrimary : Theme.textDisabled
+        }
+
+        Text {
+            visible: root.description.length > 0 && !root.hasError
+            Layout.fillWidth: true
+            text: root.description
+            font.family: Theme.fontFamily
+            font.pixelSize: Theme.fontCaption
+            color: root.enabled ? Theme.textSecondary : Theme.textDisabled
+            wrapMode: Text.Wrap
         }
 
         Item {
@@ -243,6 +263,7 @@ T.Control {
                             if (!root.isDateAllowed(date))
                                 return
                             root.selectedDate = date
+                            root.errorMessage = ""
                             root.dateChosen(date)
                             root.calendarOpen = false
                         }
@@ -268,12 +289,23 @@ T.Control {
                             grid.month = today.getMonth()
                             grid.year = today.getFullYear()
                             root.selectedDate = today
+                            root.errorMessage = ""
                             root.dateChosen(today)
                             root.calendarOpen = false
                         }
                     }
                 }
             }
+        }
+
+        Text {
+            visible: root.errorMessage.length > 0
+            Layout.fillWidth: true
+            text: root.errorMessage
+            font.family: Theme.fontFamily
+            font.pixelSize: Theme.fontCaption
+            color: Theme.systemCritical
+            wrapMode: Text.Wrap
         }
     }
 

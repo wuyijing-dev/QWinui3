@@ -13,7 +13,7 @@ Short recipe for **validation** and **settings pages**. Prefer these patterns ov
 
 ## Validation pattern
 
-1. Put fields under `FormLayout` (`HeaderedTextBox`, `HeaderedComboBox`, `NumberBox`, `PasswordBox`, `RadioButtons`, `TokenizingTextBox`, …).
+1. Put fields under `FormLayout` (`HeaderedTextBox`, `HeaderedComboBox`, `NumberBox`, `DatePicker` / `CalendarDatePicker` / `TimePicker`, `PasswordBox`, `RadioButtons`, `TokenizingTextBox`, …).
 2. On submit, **set** each `field.errorMessage = "…"` (or `""`).
 3. Call `form.validate()` — it **reads** non-empty `errorMessage` / `hasError` from descendants (`children` + `contentChildren`).
 4. Bind `ValidationSummary { errors: form.errors }`.
@@ -27,6 +27,7 @@ FormLayout {
     ValidationSummary { errors: form.errors }
     HeaderedTextBox { id: name; header: qsTr("Name") }
     HeaderedComboBox { id: plan; header: qsTr("Plan"); model: […] }
+    CalendarDatePicker { id: start; header: qsTr("Start date") }
     Button {
         text: qsTr("Save")
         onClicked: {
@@ -35,6 +36,8 @@ FormLayout {
                 name.errorMessage = qsTr("Required")
             if (plan.currentIndex < 0)
                 plan.errorMessage = qsTr("Choose a plan")
+            if (!start.selectedDate)
+                start.errorMessage = qsTr("Pick a date")
             if (form.validate())
                 /* commit */
         }
@@ -46,8 +49,12 @@ FormLayout {
 
 - No built-in QValidator pipeline — apps own rules.
 - `NumberBox.inputInvalid` can keep `hasError` after `clearErrors()` until input is fixed.
+- Date / calendar / time pickers expose `errorMessage` / `hasError` (1.28); choosing a value clears the error.
+- Color pickers: wrap with `HeaderedContentControl` — see [pickers.md](pickers.md).
 - Opt out of label push with `formBound: false`.
-- Left headers: `fieldHeaderPlacement: "left"` + `labelWidth`.
+- Left headers: `fieldHeaderPlacement: "left"` + `labelWidth` (NumberBox / Headered* today).
+
+Picker inventory + Gallery links: **[pickers.md](pickers.md) (1.28)**.
 
 ---
 

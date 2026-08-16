@@ -105,7 +105,7 @@ QtObject {
             title: qsTr("NumberBox"),
             category: "basic",
             icon: FluentIcons.Calculator,
-            description: qsTr("A numeric input with spin buttons and value constraints."),
+            description: qsTr("Numeric spin + FormLayout validation — docs/pickers.md (1.28)."),
             component: "NumberBoxPage",
             source: "pages/NumberBoxPage.qml"
         },
@@ -657,7 +657,7 @@ QtObject {
             title: qsTr("CalendarDatePicker"),
             category: "date",
             icon: FluentIcons.Calendar,
-            description: qsTr("Pick a date from a calendar flyout."),
+            description: qsTr("Calendar flyout + FormLayout errorMessage — docs/pickers.md (1.28)."),
             component: "CalendarDatePickerPage",
             source: "pages/CalendarDatePickerPage.qml"
         },
@@ -665,7 +665,7 @@ QtObject {
             title: qsTr("DatePicker"),
             category: "date",
             icon: FluentIcons.Calendar,
-            description: qsTr("Pick a date with year, month, and day tumblers."),
+            description: qsTr("Date tumblers + FormLayout errorMessage — docs/pickers.md (1.28)."),
             component: "DatePickerPage",
             source: "pages/DatePickerPage.qml"
         },

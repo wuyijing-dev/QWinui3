@@ -18,6 +18,7 @@ import QWinUI3.Theme
 //   Tumbler date picker; selectedDate or year/month/day parts.
 //   DayVisible / MonthVisible / YearVisible hide tumbler columns (WinUI).
 //   Accept commits; minYear/maxYear bound the year range.
+//   Form: header / description / errorMessage / hasError (1.28) — FormLayout.validate().
 
 T.Control {
     id: control
@@ -50,6 +51,12 @@ T.Control {
     property alias isOpen: control.pickerOpen
     // Header label above the control
     property string header: ""
+    // Supporting description text
+    property string description: ""
+    // Validation error text (FormLayout)
+    property string errorMessage: ""
+    // True when validation failed
+    readonly property bool hasError: errorMessage.length > 0
     // Placeholder when empty
     property string placeholderText: ""
     // yyyy-MM-dd | MM/dd/yyyy | dd/MM/yyyy
@@ -63,7 +70,9 @@ T.Control {
 
     Accessible.role: Accessible.ComboBox
     Accessible.name: header.length ? header : qsTr("Date")
-    Accessible.description: displayText
+    Accessible.description: hasError
+                             ? (errorMessage.length ? errorMessage : qsTr("Invalid value"))
+                             : (description.length ? description : displayText)
 
     property bool _syncingDate: false
 
@@ -90,8 +99,7 @@ T.Control {
     }
 
     implicitWidth: 180
-    implicitHeight: header.length ? (headerLabel.implicitHeight + 4 + Theme.controlHeight)
-                                  : Theme.controlHeight
+    implicitHeight: contentItem.implicitHeight
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
 
@@ -145,6 +153,7 @@ T.Control {
         dayTumbler.currentIndex = day - 1
         dateChosen(year, month, day)
         syncSelectedDateFromParts()
+        errorMessage = ""
     }
 
     // Sync tumbler positions to the value
@@ -167,6 +176,16 @@ T.Control {
             font.pixelSize: Theme.fontBody
             font.weight: Theme.fontWeightSemiBold
             color: control.enabled ? Theme.textPrimary : Theme.textDisabled
+        }
+
+        Text {
+            visible: control.description.length > 0 && !control.hasError
+            Layout.fillWidth: true
+            text: control.description
+            font.family: control.font.family
+            font.pixelSize: Theme.fontCaption
+            color: control.enabled ? Theme.textSecondary : Theme.textDisabled
+            wrapMode: Text.Wrap
         }
 
         Item {
@@ -377,6 +396,16 @@ T.Control {
             }
         }
         } // field host Item
+
+        Text {
+            visible: control.errorMessage.length > 0
+            Layout.fillWidth: true
+            text: control.errorMessage
+            font.family: control.font.family
+            font.pixelSize: Theme.fontCaption
+            color: Theme.systemCritical
+            wrapMode: Text.Wrap
+        }
     }
 
     background: Item {}

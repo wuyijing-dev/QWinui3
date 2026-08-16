@@ -29,6 +29,7 @@ This site is generated from QML source comments and shipped via GitHub Pages.
 | [Charts & gauges](charts.md) | Stable Line/Bar/Donut + RingGauge + KpiTile + ChartCard (1.23) |
 | [Performance](performance.md) | Virtualization, models, chart budgets, Gallery heavy pages (1.25) |
 | [Navigation & TabView](navigation.md) | Pane modes, footer, Back, TabView vs NavigationView (1.27) |
+| [Input & pickers](pickers.md) | Number / date / time / color + FormLayout (1.28) |
 | [Consumer packaging](packaging-consumer.md) | Shared zip / CMake / runtime for third-party apps (1.12) |
 | [i18n / RTL](i18n-rtl.md) | qsTr workflow + LayoutMirroring baseline (1.13) |
 | [Commands & menus](commands.md) | CommandPalette / CommandBar / MenuFlyout keyboard (1.15) |
