@@ -6,20 +6,20 @@ import QWinUI3.Extras
 
 // Gallery — TabView.
 //
-// Fluent Add/Close icons, symbol tabs, selectedIndex, and TabWidthMode. API: docs/components/TabView.md
+// Fluent Add/Close icons, symbol tabs, selectedIndex, TabWidthMode, and tear-out. API: docs/components/TabView.md
 
 CatalogPage {
     title: qsTr("TabView")
-    subtitle: qsTr("Fluent Add/Close icons, symbol tabs, selectedIndex, and TabWidthMode.")
+    subtitle: qsTr("Add / close / reorder tabs. Drag a tab vertically to tear it into a new window.")
 
     ControlExample {
-        headerText: qsTr("Add tab + equal width")
-        qmlSource: "TabView {\n    model: [{ title, symbol: FluentIcons.Home }]\n}"
+        headerText: qsTr("Add tab + equal width + tear-out")
+        qmlSource: "TabView {\n    canTearOutTabs: true\n    model: [{ title, symbol }]\n}"
         ColumnLayout {
             Layout.fillWidth: true
             spacing: Theme.spacing
             Label {
-                text: qsTr("Click + to add. Drag to reorder. × closes. Width mode: Equal.")
+                text: qsTr("Click + to add. Drag horizontally to reorder. Drag vertically (~48px) to open a new window. × closes.")
                 color: Theme.textSecondary
                 wrapMode: Text.Wrap
                 Layout.fillWidth: true
@@ -36,6 +36,11 @@ CatalogPage {
                     text: qsTr("CanReorderTabs")
                     checked: true
                 }
+                CheckBox {
+                    id: tearOutTabs
+                    text: qsTr("CanTearOutTabs")
+                    checked: true
+                }
                 Label {
                     text: {
                         var item = tabs.selectedItem
@@ -50,6 +55,8 @@ CatalogPage {
                 Layout.preferredHeight: 220
                 canDragTabs: dragTabs.checked
                 tabsReorderable: reorderTabs.checked
+                canTearOutTabs: tearOutTabs.checked
+                createTearOutWindow: true
                 isAddTabButtonVisible: true
                 tabWidthMode: "equal"
                 closeButtonOverlayMode: "onPointerOver"
@@ -94,6 +101,16 @@ CatalogPage {
                 Button {
                     text: qsTr("Close: on hover")
                     onClicked: tabs.closeButtonOverlayMode = "onPointerOver"
+                }
+                Button {
+                    text: qsTr("Tear out current")
+                    enabled: tabs.tabCount > 0
+                    onClicked: {
+                        var w = tabs.Window.window
+                        var gx = w ? w.x + w.width * 0.5 : 200
+                        var gy = w ? w.y + 120 : 200
+                        tabs.tearOutTab(tabs.currentIndex, gx, gy)
+                    }
                 }
             }
         }

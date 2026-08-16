@@ -2,29 +2,36 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Templates as T
+import QtQuick.Window
 import QWinUI3.Theme
 
-// TabView — Closeable / reorderable tabs.
+// TabView — Closeable / reorderable / tear-out tabs.
 //
 //   TabView {
 //       id: tabView
 //       model: tabs
-//       onCloseRequested: (index) => remove(index)
+//       canTearOutTabs: true
+//       onTabTearOutRequested: (index, item, gx, gy) => { … }
 //   }
 //
 //   // --- API ---
-//   // signals: onTabCloseRequested, onCurrentIndexChangedByUser, onSelectionChanged, onTabMoved, onAddTabButtonClicked
-//   // methods: addTab(item), closeTab(index), moveTab(from, to), tabIndexAtContentX(x), tabItemAt(index)
+//   // signals: onTabCloseRequested, onCurrentIndexChangedByUser, onSelectionChanged,
+//   //          onTabMoved, onAddTabButtonClicked, onTabTearOutRequested
+//   // methods: addTab(item), closeTab(index), moveTab(from, to), takeTab(index),
+//   //          tearOutTab(index, globalX, globalY), tabIndexAtContentX(x), tabItemAt(index)
 //   // tabView.addTab(item)
 //   // tabView.closeTab(index)
 //   // tabView.moveTab(from, to)
-//   // tabView.tabIndexAtContentX(x)
+//   // tabView.tearOutTab(index, gx, gy)
 //
 // @notes
 //   model items: { title, content, icon? } or a string title.
 //   closable tabs emit closeRequested / tabCloseRequested — remove from model yourself.
 //   closeButtonOverlayMode: always | onPointerOver | auto (WinUI CloseButtonOverlayMode).
 //   tabStripHeader / tabStripFooter for strip chrome; tabsReorderable enables drag reorder.
+//   canTearOutTabs: drag a tab vertically past tearOutThreshold to open a new window
+//   (or handle tabTearOutRequested yourself). createTearOutWindow builds a BlankWindow
+//   hosting another TabView with the torn tab.
 
 T.Control {
     id: control
@@ -47,6 +54,14 @@ T.Control {
     property alias canReorderTabs: control.tabsReorderable
     // WinUI CanDragTabs — enable drag gesture (reorder still gated by tabsReorderable)
     property bool canDragTabs: true
+    // Drag a tab out of the strip to tear it into a new window
+    property bool canTearOutTabs: true
+    // Allow tearing out when only one tab remains
+    property bool allowTearOutLastTab: true
+    // Vertical drag distance (px) before a tear-out is armed
+    property real tearOutThreshold: 48
+    // When true, TabView opens a BlankWindow for torn tabs (still emits the signal)
+    property bool createTearOutWindow: true
     // Tab width mode
     property string tabWidthMode: "sizeToContent"
     // Show add-tab button
@@ -71,9 +86,12 @@ T.Control {
     signal tabMoved(int from, int to)
     // Emitted when the add-tab button is clicked
     signal addTabButtonClicked()
+    // Tab torn out — item already removed from model when tearOutTab runs
+    signal tabTearOutRequested(int index, var item, real globalX, real globalY)
 
     property int _dragFrom: -1
     property int _dropIndex: -1
+    property bool _tearOutArmed: false
     readonly property bool _reordering: _dragFrom >= 0
     // Number of tabs
     readonly property int tabCount: model ? model.length : 0
@@ -114,6 +132,62 @@ T.Control {
             currentIndex = Math.max(0, model.length - 1)
         else if (currentIndex > index)
             currentIndex = currentIndex - 1
+    }
+
+    // Remove tab and return its model item (no close signal)
+    function takeTab(index) {
+        if (index < 0 || !model || index >= model.length)
+            return null
+        if (!allowTearOutLastTab && model.length <= 1)
+            return null
+        var next = model.slice()
+        var item = next.splice(index, 1)[0]
+        model = next
+        if (currentIndex >= model.length)
+            currentIndex = Math.max(0, model.length - 1)
+        else if (currentIndex > index)
+            currentIndex = currentIndex - 1
+        return item
+    }
+
+    // Tear tab into a new window (optional) and emit tabTearOutRequested
+    function tearOutTab(index, globalX, globalY) {
+        if (!canTearOutTabs)
+            return null
+        var item = takeTab(index)
+        if (item === null || item === undefined)
+            return null
+        var gx = Number(globalX)
+        var gy = Number(globalY)
+        if (isNaN(gx))
+            gx = 120
+        if (isNaN(gy))
+            gy = 120
+        tabTearOutRequested(index, item, gx, gy)
+        if (createTearOutWindow)
+            _openTearOutWindow(item, gx, gy)
+        return item
+    }
+
+    function _openTearOutWindow(item, globalX, globalY) {
+        var win = tearOutWindowComponent.createObject(null, {
+            "tabData": item,
+            "x": Math.round(globalX - 48),
+            "y": Math.round(globalY - 20)
+        })
+        if (!win)
+            return null
+        win.show()
+        win.raise()
+        win.requestActivate()
+        return win
+    }
+
+    function _ghostHost() {
+        var w = control.Window.window
+        if (w && w.contentItem)
+            return w.contentItem
+        return tabFlick.contentItem
     }
 
     // Move a tab from/to index
@@ -166,6 +240,60 @@ T.Control {
         return null
     }
 
+    Component {
+        id: tearOutWindowComponent
+        BlankWindow {
+            id: tearWin
+            property var tabData: ({})
+            width: 560
+            height: 400
+            minimumWidth: 320
+            minimumHeight: 240
+            title: {
+                var d = tearWin.tabData
+                if (typeof d === "string")
+                    return d
+                if (d && d.title)
+                    return d.title
+                return qsTr("Tab")
+            }
+            subtitle: qsTr("Torn-out tab")
+            symbol: {
+                var d = tearWin.tabData
+                if (d && typeof d === "object")
+                    return d.symbol || FluentIcons.OpenInNewWindow
+                return FluentIcons.OpenInNewWindow
+            }
+
+            TabView {
+                id: tornTabs
+                anchors.fill: parent
+                anchors.margins: 12
+                canDragTabs: true
+                tabsReorderable: true
+                canTearOutTabs: true
+                createTearOutWindow: true
+                allowTearOutLastTab: true
+                isAddTabButtonVisible: true
+                closable: true
+                model: {
+                    var d = tearWin.tabData
+                    if (d === undefined || d === null)
+                        return []
+                    return [d]
+                }
+                onTabCloseRequested: Qt.callLater(function () {
+                    if (tornTabs.tabCount === 0)
+                        tearWin.close()
+                })
+                onTabTearOutRequested: Qt.callLater(function () {
+                    if (tornTabs.tabCount === 0)
+                        tearWin.close()
+                })
+            }
+        }
+    }
+
     background: ElevatedChrome {
         color: Theme.bgCard
         borderColor: Theme.strokeCard
@@ -184,7 +312,7 @@ T.Control {
             Layout.preferredHeight: Theme.controlHeight + 8
             color: Theme.bgAcrylic
             radius: Theme.cornerCard
-            clip: true
+            clip: !control._tearOutArmed
 
             Rectangle {
                 anchors.left: parent.left
@@ -202,7 +330,7 @@ T.Control {
                 anchors.topMargin: 6
                 contentWidth: Math.max(width, tabStripRow.implicitWidth)
                 contentHeight: height
-                clip: true
+                clip: !control._tearOutArmed
                 flickableDirection: Flickable.HorizontalFlick
                 boundsBehavior: Flickable.StopAtBounds
                 interactive: !control._reordering
@@ -411,7 +539,7 @@ T.Control {
                                 enabled: control.canDragTabs
                                 target: null
                                 xAxis.enabled: true
-                                yAxis.enabled: false
+                                yAxis.enabled: control.canTearOutTabs
                                 acceptedButtons: Qt.LeftButton
                                 // Prefer close button when pressing it.
                                 grabPermissions: PointerHandler.CanTakeOverFromItems
@@ -423,45 +551,88 @@ T.Control {
                                 onActiveChanged: {
                                     if (active) {
                                         slid = false
+                                        control._tearOutArmed = false
                                         control._dragFrom = tabBtn.tabIndex
                                         control._dropIndex = tabBtn.tabIndex
                                         control.currentIndex = tabBtn.tabIndex
                                         ghost.title = titleLabel.text
                                         ghost.width = tabBtn.width
                                         ghost.height = tabBtn.height
+                                        ghost.parent = tabFlick.contentItem
                                         var p = tabBtn.mapToItem(tabFlick.contentItem, 0, 0)
                                         ghost.x = p.x
                                         ghost.y = p.y
                                         ghost.visible = true
+                                        ghost.elevation = 4
                                     } else {
                                         var from = control._dragFrom
                                         var to = control._dropIndex
+                                        var tear = control._tearOutArmed
+                                        var gpos = ghost.mapToGlobal(ghost.width * 0.5, ghost.height * 0.5)
                                         ghost.visible = false
+                                        ghost.parent = tabFlick.contentItem
+                                        ghost.elevation = 4
                                         control._dragFrom = -1
                                         control._dropIndex = -1
-                                        if (slid && control.tabsReorderable && from >= 0 && to >= 0 && from !== to)
+                                        control._tearOutArmed = false
+                                        if (tear && from >= 0) {
+                                            control.tearOutTab(from, gpos.x, gpos.y)
+                                        } else if (slid && control.tabsReorderable
+                                                   && from >= 0 && to >= 0 && from !== to) {
                                             control.moveTab(from, to)
+                                        }
                                     }
                                 }
 
                                 onTranslationChanged: {
                                     if (!active)
                                         return
-                                    if (Math.abs(translation.x) > 6)
+                                    if (Math.abs(translation.x) > 6 || Math.abs(translation.y) > 6)
                                         slid = true
-                                    var origin = tabBtn.mapToItem(tabFlick.contentItem, 0, 0)
-                                    ghost.x = origin.x + translation.x
-                                    ghost.y = origin.y
-                                    var centerX = ghost.x + ghost.width * 0.5
-                                    control._dropIndex = control.tabIndexAtContentX(centerX)
 
-                                    // Auto-scroll strip near edges while dragging.
-                                    var viewX = centerX - tabFlick.contentX
-                                    if (viewX > tabFlick.width - 40)
-                                        tabFlick.contentX = Math.min(tabFlick.contentWidth - tabFlick.width,
-                                                                     tabFlick.contentX + 12)
-                                    else if (viewX < 40)
-                                        tabFlick.contentX = Math.max(0, tabFlick.contentX - 12)
+                                    var canTear = control.canTearOutTabs
+                                            && (control.allowTearOutLastTab || control.tabCount > 1)
+                                    var armed = canTear
+                                            && Math.abs(translation.y) >= control.tearOutThreshold
+                                    control._tearOutArmed = armed
+
+                                    if (armed) {
+                                        var host = control._ghostHost()
+                                        if (ghost.parent !== host) {
+                                            var cur = ghost.mapToItem(host, 0, 0)
+                                            ghost.parent = host
+                                            ghost.x = cur.x
+                                            ghost.y = cur.y
+                                        }
+                                        var originHost = tabBtn.mapToItem(host, 0, 0)
+                                        ghost.x = originHost.x + translation.x
+                                        ghost.y = originHost.y + translation.y
+                                        ghost.elevation = 8
+                                        control._dropIndex = control._dragFrom
+                                    } else {
+                                        if (ghost.parent !== tabFlick.contentItem) {
+                                            var back = ghost.mapToItem(tabFlick.contentItem, 0, 0)
+                                            ghost.parent = tabFlick.contentItem
+                                            ghost.x = back.x
+                                            ghost.y = back.y
+                                        }
+                                        var origin = tabBtn.mapToItem(tabFlick.contentItem, 0, 0)
+                                        ghost.x = origin.x + translation.x
+                                        ghost.y = origin.y + (control.canTearOutTabs
+                                                             ? Math.max(-8, Math.min(8, translation.y * 0.15))
+                                                             : 0)
+                                        ghost.elevation = 4
+                                        var centerX = ghost.x + ghost.width * 0.5
+                                        control._dropIndex = control.tabIndexAtContentX(centerX)
+
+                                        // Auto-scroll strip near edges while dragging.
+                                        var viewX = centerX - tabFlick.contentX
+                                        if (viewX > tabFlick.width - 40)
+                                            tabFlick.contentX = Math.min(tabFlick.contentWidth - tabFlick.width,
+                                                                         tabFlick.contentX + 12)
+                                        else if (viewX < 40)
+                                            tabFlick.contentX = Math.max(0, tabFlick.contentX - 12)
+                                    }
                                 }
                             }
                         }
@@ -499,9 +670,14 @@ T.Control {
                     color: Theme.bgCard
                     borderWidth: 1
                     borderColor: Theme.strokeCard
-                    opacity: 0.95
+                    opacity: control._tearOutArmed ? 0.98 : 0.95
                     elevation: 4
                     shadowOpacity: 0.22
+                    scale: control._tearOutArmed && !Theme.reducedMotion ? 1.04 : 1
+                    Behavior on scale {
+                        enabled: !Theme.reducedMotion
+                        NumberAnimation { duration: Theme.duration(Theme.motionFast) }
+                    }
 
                     Text {
                         anchors.fill: parent
@@ -531,7 +707,8 @@ T.Control {
                 // Drop insertion caret
                 Rectangle {
                     id: dropCaret
-                    visible: control._reordering && control._dropIndex >= 0
+                    visible: control._reordering && !control._tearOutArmed
+                             && control._dropIndex >= 0
                              && control._dropIndex !== control._dragFrom
                     width: 2
                     height: Math.max(16, tabRow.height - 8)

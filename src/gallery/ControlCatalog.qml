@@ -425,7 +425,7 @@ QtObject {
             title: qsTr("TabView"),
             category: "collections",
             icon: FluentIcons.Comment,
-            description: qsTr("A multi-document tab strip with closable tabs."),
+            description: qsTr("Closable tabs with reorder and tear-out windows."),
             component: "TabViewPage",
             source: "pages/TabViewPage.qml"
         },
