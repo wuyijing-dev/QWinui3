@@ -34,8 +34,8 @@ target_include_directories(qwinui3_theme
         ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-# ElevatedChrome uses QtQuick.Effects (MultiEffect)
-find_package(Qt6 QUIET COMPONENTS QuickEffects)
-if (TARGET Qt6::QuickEffects)
+# ElevatedChrome uses QtQuick.Effects (MultiEffect). find_package is in root
+# CMakeLists.txt so dependent executables can see Qt6::QuickEffects.
+if(TARGET Qt6::QuickEffects)
     target_link_libraries(qwinui3_theme PUBLIC Qt6::QuickEffects)
 endif()

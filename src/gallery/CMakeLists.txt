@@ -205,13 +205,14 @@ target_link_libraries(qwinui3_gallery
 include(${CMAKE_SOURCE_DIR}/cmake/StripRestrictedQtModules.cmake)
 qwinui3_strip_restricted_qt_modules(qwinui3_gallery)
 
-# Qt's qml finalizer often ignores RUNTIME_OUTPUT_DIRECTORY and keeps the
-# binary under build/src/gallery/. Copy into the build root so launchers
-# (run-gallery.sh / build.bat) can find it next to the examples.
-add_custom_command(TARGET qwinui3_gallery POST_BUILD
+# Qt qml finalizers often leave the binary under build/src/gallery/. Always
+# publish to the build root on every build (ALL), not only when re-linked —
+# otherwise incremental Ninja skips POST_BUILD and build/qwinui3_gallery vanishes.
+add_custom_target(publish_qwinui3_gallery ALL
+    DEPENDS qwinui3_gallery
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
             "$<TARGET_FILE:qwinui3_gallery>"
             "${CMAKE_BINARY_DIR}/$<TARGET_FILE_NAME:qwinui3_gallery>"
-    COMMENT "Copy qwinui3_gallery to build root"
+    COMMENT "Publish qwinui3_gallery to build root"
     VERBATIM
 )

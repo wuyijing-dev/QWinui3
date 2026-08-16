@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 # Usage: ./build.sh [Debug|Release] [--clean]
 # Default: Release. Optional --clean removes the build/ directory first.
+# Marker used to detect stale copies of this script on disk:
+# QWINUI3_BUILD_SH_REV=3
 set -euo pipefail
+
+echo "QWinUI3 build.sh rev=3"
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BUILD_DIR="${ROOT}/build"
@@ -130,6 +134,8 @@ force_relink_gallery() {
   # Touch main so the target is definitely out of date even if restat is a no-op.
   touch "${ROOT}/src/gallery/main.cpp"
   cmake --build "${BUILD_DIR}" --parallel --target qwinui3_gallery
+  # Ensure publish ALL target runs.
+  cmake --build "${BUILD_DIR}" --parallel --target publish_qwinui3_gallery || true
 }
 
 if ! QT_PREFIX="$(detect_qt_prefix)"; then
@@ -162,6 +168,7 @@ cmake -S "${ROOT}" -B "${BUILD_DIR}" \
 
 cmake --build "${BUILD_DIR}" --parallel
 cmake --build "${BUILD_DIR}" --parallel --target qwinui3_gallery
+cmake --build "${BUILD_DIR}" --parallel --target publish_qwinui3_gallery || true
 
 LINKED=""
 if ! LINKED="$(find_linked_gallery)"; then
@@ -169,8 +176,11 @@ if ! LINKED="$(find_linked_gallery)"; then
   if ! LINKED="$(find_linked_gallery)"; then
     echo "ERROR: qwinui3_gallery was not produced." >&2
     echo "Searched under ${BUILD_DIR} (maxdepth 6)." >&2
-    echo "Debug: find ${BUILD_DIR} -name 'qwinui3_gallery*' -type f" >&2
+    echo "Debug listing:" >&2
     find "${BUILD_DIR}" -name 'qwinui3_gallery*' 2>/dev/null || true
+    echo >&2
+    echo "If configure warned about Qt6::QuickEffects, install:" >&2
+    echo "  sudo apt install qml6-module-qtquick-effects libqt6quickeffects6" >&2
     exit 1
   fi
 fi
@@ -183,6 +193,8 @@ if [[ ! -f "${BUILD_DIR}/qwinui3_gallery" ]]; then
   echo "ERROR: ${BUILD_DIR}/qwinui3_gallery is missing after publish." >&2
   exit 1
 fi
+
+BYTES="$(wc -c < "${GALLERY_ABS}" | tr -d ' ')"
 
 QML_IMPORTS="${BUILD_DIR}/src/platform/QWinUI3:${BUILD_DIR}/src/extras/QWinUI3:${BUILD_DIR}/src/theme/QWinUI3:${BUILD_DIR}/src/style"
 
@@ -206,7 +218,7 @@ if [[ ! -f "\${BIN}" && -f "\${HERE}/src/gallery/qwinui3_gallery" ]]; then
 fi
 if [[ ! -f "\${BIN}" ]]; then
   echo "Missing gallery binary. Run: ./build.sh" >&2
-  echo "If incremental skipped the link: ./build.sh  (script will force-relink)" >&2
+  echo "Expected: \${HERE}/qwinui3_gallery or \${HERE}/src/gallery/qwinui3_gallery" >&2
   exit 1
 fi
 export QT_PLUGIN_PATH="\${QT_PLUGIN_PATH:-${QT_PREFIX}/plugins}"
@@ -219,5 +231,5 @@ EOF
 chmod +x "${BUILD_DIR}/run-gallery.sh"
 
 echo
-echo "Done: ${GALLERY_ABS} (${CONFIG})  [$(wc -c < "${GALLERY_ABS}") bytes]"
+echo "Done: ${GALLERY_ABS} (${CONFIG})  [${BYTES} bytes]"
 echo "Run:  ${BUILD_DIR}/run-gallery.sh"

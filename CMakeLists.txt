@@ -22,6 +22,9 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 
 find_package(Qt6 6.8 REQUIRED COMPONENTS Quick QuickControls2 LabsQmlModels)
 find_package(Qt6 COMPONENTS Multimedia QUIET)
+# Must be at top-level so example/gallery finalizers see Qt6::QuickEffects
+# (theme's ElevatedChrome imports QtQuick.Effects).
+find_package(Qt6 COMPONENTS QuickEffects QUIET)
 
 qt_standard_project_setup(REQUIRES 6.8)
 
