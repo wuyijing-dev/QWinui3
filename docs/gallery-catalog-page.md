@@ -74,6 +74,15 @@ CatalogPage {
 - **SettingsPage / SettingsGroupPage** — intentionally use `SettingsView`
   (`anchors.fill`), not `CatalogPage`.
 
+### Favorites & search (1.20)
+
+- `CatalogPage.componentId` is set by Gallery `Main` when a page opens; `PageHeader`
+  shows a favorite star (persisted via `GalleryHistory`).
+- Title-bar search matches **component** names (e.g. `datatable`) as well as titles.
+- Home **Recently shipped** uses `ControlCatalog.recentlyShipped()` (curated recipes).
+
+Smoke coverage: [ci-smoke.md](ci-smoke.md).
+
 ## Rebuild note
 
 After editing `CatalogPage.qml` or Extras QML, rebuild `qwinui3_gallery` (and

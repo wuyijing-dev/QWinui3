@@ -1,6 +1,7 @@
 #include <QCoreApplication>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QQmlComponent>
 #include <QQuickStyle>
 #include <QDebug>
 #include <QtQml/QQmlExtensionPlugin>
@@ -101,12 +102,49 @@ int main(int argc, char *argv[])
         return -1;
     }
 
-    // Lightweight CI gate: modules load + Main instantiates, then exit.
+    // Lightweight CI gate: Main loads, then critical Gallery pages instantiate (1.20).
+    // No pixel diffs — see docs/ci-smoke.md.
     if (smoke) {
         QCoreApplication::processEvents();
-        qInfo("QWinUI3 Gallery smoke OK (roots=%d, style=%s)",
+        static const char *const kCriticalPages[] = {
+            "HomePage",
+            "ButtonPage",
+            "ContentDialogPage",
+            "DataTablePage",
+            "FormValidationPage",
+            "CommandPalettePage",
+            "AccessibilityPage",
+            "SystemIntegrationPage",
+            "WebView2Page",
+            "ChartsPage",
+            "DialogsFlyoutsPage",
+            "I18nRtlPage",
+            nullptr,
+        };
+        int pagesOk = 0;
+        for (int i = 0; kCriticalPages[i]; ++i) {
+            const QByteArray typeName(kCriticalPages[i]);
+            QQmlComponent typed(&engine);
+            typed.setData(QByteArrayLiteral("import QWinUI3.Gallery\n") + typeName
+                              + QByteArrayLiteral(" {}\n"),
+                          QUrl(QStringLiteral("qwinui3-smoke://%1").arg(QString::fromUtf8(typeName))));
+            if (typed.isError()) {
+                qWarning() << "smoke page compile failed:" << kCriticalPages[i] << typed.errors();
+                return 2;
+            }
+            QObject *obj = typed.create();
+            if (!obj) {
+                qWarning() << "smoke page create failed:" << kCriticalPages[i] << typed.errors();
+                return 2;
+            }
+            delete obj;
+            ++pagesOk;
+            QCoreApplication::processEvents();
+        }
+        qInfo("QWinUI3 Gallery smoke OK (roots=%d, style=%s, pages=%d)",
               engine.rootObjects().size(),
-              qPrintable(QQuickStyle::name()));
+              qPrintable(QQuickStyle::name()),
+              pagesOk);
         return 0;
     }
 

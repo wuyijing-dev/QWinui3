@@ -1,13 +1,15 @@
-# CI smoke (1.06)
+# CI smoke (1.06 / 1.20)
 
-Lightweight regression gate — **not** a full test suite.
+Lightweight regression gate — **not** a full test suite or screenshot farm.
 
 | Workflow | When | What |
 |----------|------|------|
-| [`.github/workflows/smoke.yml`](../.github/workflows/smoke.yml) | `push` / `pull_request` to `master`, manual | Release configure → build `qwinui3_gallery` → `--smoke` (Qt **6.8**) |
+| [`.github/workflows/smoke.yml`](../.github/workflows/smoke.yml) | `push` / `pull_request` to `master`, manual | Release configure → build `qwinui3_gallery` → catalog check + `--smoke` (Qt **6.8**) |
 | [`.github/workflows/qt-compat.yml`](../.github/workflows/qt-compat.yml) | src/CMake changes, weekly, manual | Release Gallery build on Qt **6.5 / 6.8 / 6.10** (Linux) — [qt-version-compat.md](qt-version-compat.md) |
 | [`.github/workflows/release.yml`](../.github/workflows/release.yml) | `v*` tags / dispatch | Shared libs + Gallery packages (Qt **6.8**) |
 | [`.github/workflows/docs.yml`](../.github/workflows/docs.yml) | docs changes | MkDocs / Pages |
+
+---
 
 ## Local
 
@@ -22,6 +24,8 @@ cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DQWINUI3_BUILD_EXAMPLES
 cmake --build build --config Release --target qwinui3_gallery
 python scripts/smoke_gallery.py --build-dir build
 ```
+
+`smoke_gallery.py` first runs `scripts/smoke_catalog.py` (ControlCatalog sources + critical list sync), then launches `qwinui3_gallery --smoke`.
 
 ### Windows QPA pitfall
 
@@ -51,12 +55,60 @@ qwinui3_gallery.exe --smoke
 python scripts/smoke_gallery.py --build-dir build --platform windows
 ```
 
-`--smoke` loads `QWinUI3.Gallery/Main`, processes events once, prints `QWinUI3 Gallery smoke OK`, exits `0`.
+---
+
+## What `--smoke` covers (1.20)
+
+1. Load `QWinUI3.Gallery/Main` (modules + shell).
+2. Instantiate each **critical page** once via `QQmlComponent` (no navigation, no pixels).
+3. Print `QWinUI3 Gallery smoke OK (… pages=N)` and exit `0`.
+
+### Critical page set
+
+Keep these three in sync when editing:
+
+| Location | Role |
+|----------|------|
+| `src/gallery/main.cpp` (`kCriticalPages`) | Runtime page create |
+| `ControlCatalog.smokeCriticalComponents()` | QML documentation helper |
+| `scripts/smoke_catalog.py` (`CRITICAL`) | File existence + main.cpp sync |
+
+Current set:
+
+- `HomePage`, `ButtonPage`
+- `ContentDialogPage`, `DialogsFlyoutsPage`
+- `DataTablePage`, `FormValidationPage`
+- `CommandPalettePage`, `AccessibilityPage`
+- `SystemIntegrationPage`, `WebView2Page`
+- `ChartsPage`, `I18nRtlPage`
+
+**Catalog integrity only:**
+
+```bash
+python scripts/smoke_catalog.py
+python scripts/smoke_catalog.py --list-critical
+```
+
+---
+
+## Gallery catalog UX (1.20)
+
+| Affordance | Where |
+|------------|-------|
+| Title-bar search | Matches title, **component id**, description, category |
+| Pane search | NavigationView `paneSearchModel` |
+| Recent / Favorites | Home pills + `GalleryHistory` (persisted) |
+| Page favorite star | `PageHeader` when `CatalogPage.componentId` is set (Main on open) |
+| Recently shipped | Home section via `ControlCatalog.recentlyShipped()` (curated 1.xx recipes) |
+
+See also [gallery-catalog-page.md](gallery-catalog-page.md).
+
+---
 
 ## Scope
 
-**In 1.06:** Windows + Linux, Qt **6.8**, Gallery only, examples/WebView2 off for speed.
+**In smoke:** Windows + Linux, Qt **6.8**, Gallery only, examples/WebView2 off for CI speed; catalog file check; critical page create.
 
-**Not in 1.06:** Screenshot diffs, multi-Qt matrix, packaging inside smoke.
+**Not in smoke:** Screenshot diffs, full catalog page-load of every control, packaging.
 
 **Multi-Qt (1.14):** use [qt-compat.yml](../.github/workflows/qt-compat.yml) / [qt-version-compat.md](qt-version-compat.md) — does not replace smoke.

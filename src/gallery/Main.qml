@@ -195,6 +195,9 @@ StandardWindow {
         }
         onPageOpened: function (name) {
             GalleryHistory.recordVisit(name)
+            var p = nav.pageItem
+            if (p && p.componentId !== undefined)
+                p.componentId = name
         }
     }
 

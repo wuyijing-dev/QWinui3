@@ -1,7 +1,8 @@
 name: Smoke
 
-# Lightweight regression gate (1.06): Release configure + Gallery build + --smoke.
-# No packaging, no screenshot suite. Multi-Qt matrix lives in qt-compat.yml (1.14).
+# Lightweight regression gate (1.06 / 1.20): Release configure + Gallery build +
+# catalog integrity + --smoke (Main + critical page creates). No screenshots.
+# Multi-Qt matrix lives in qt-compat.yml (1.14).
 
 on:
   push:

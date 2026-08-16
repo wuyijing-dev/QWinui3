@@ -1414,6 +1414,51 @@ QtObject {
         return out
     }
 
+    // Curated “recently shipped” recipe pages (1.20) — not catalog array order.
+    function recentlyShipped(count) {
+        var ids = [
+            "AccessibilityPage",      // 1.19
+            "WebView2Page",           // 1.18
+            "SystemIntegrationPage",  // 1.17 / 1.10
+            "DialogsFlyoutsPage",     // 1.16
+            "CommandPalettePage",     // 1.15
+            "I18nRtlPage",            // 1.13
+            "ChartsPage",             // 1.11
+            "FormValidationPage",     // 1.08
+            "DataTablePage",          // 1.07
+            "ContentDialogPage",      // 1.16 / 1.02
+            "HomePage"                // gallery home
+        ]
+        var n = Math.max(1, count || 9)
+        var out = []
+        for (var i = 0; i < ids.length && out.length < n; ++i) {
+            var item = findByComponent(ids[i])
+            if (item)
+                out.push(item)
+        }
+        return out
+    }
+
+    // Critical pages for Gallery smoke page-load (keep in sync with docs/ci-smoke.md).
+    function smokeCriticalComponents() {
+        return [
+            "HomePage",
+            "ButtonPage",
+            "SettingsPage",
+            "NavigationViewPage",
+            "ContentDialogPage",
+            "DataTablePage",
+            "FormValidationPage",
+            "CommandPalettePage",
+            "AccessibilityPage",
+            "SystemIntegrationPage",
+            "WebView2Page",
+            "ChartsPage",
+            "DialogsFlyoutsPage",
+            "I18nRtlPage"
+        ]
+    }
+
     function search(query) {
         var q = (query || "").trim().toLowerCase()
         if (!q.length)
@@ -1424,7 +1469,9 @@ QtObject {
         for (var i = 0; i < controls.length; ++i) {
             var c = controls[i]
             var title = (c.title || "").toLowerCase()
-            if (title.indexOf(q) >= 0) {
+            var comp = (c.component || "").toLowerCase()
+            var compShort = comp.replace(/page$/, "")
+            if (title.indexOf(q) >= 0 || comp.indexOf(q) >= 0 || compShort.indexOf(q) >= 0) {
                 out.push(c)
             } else {
                 var desc = (c.description || "").toLowerCase()

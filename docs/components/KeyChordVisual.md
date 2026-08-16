@@ -4,7 +4,7 @@ Renders Ctrl+K style shortcuts as KeyVisuals.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/KeyChordVisual.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/KeyChordVisual.qml)
 
-**Category:** Other · **Library:** v1.19
+**Category:** Other · **Library:** v1.20
 
 [← Component index](../components.md)
 

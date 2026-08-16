@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.19**  
-**Next up:** **1.20** (Gallery catalog UX & smoke coverage)  
+**Current:** **1.20**  
+**Next up:** **1.21** (Media optional Multimedia)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
 
 This plan starts from **what 1.00 already was**, then walks **small `1.xx` minors**. Stay on **1.xx for a long time**. **2.00 is not next**—only when we truly need breaking changes.
@@ -59,7 +59,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.19`
+## Shipped — `1.01` … `1.20`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -137,35 +137,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** Wave-2 Done checklist in [accessibility.md](docs/accessibility.md); `accessibleName` on DataTable / ItemsView / ListDetailsView / FormLayout; row names + Drawer/TeachingTip polish; Gallery Accessibility page; product version `1.19`.
 
----
+### 1.20 — Gallery catalog UX & smoke coverage (shipped)
 
-## Near path — planned `1.20`
-
-Order is intentional but **flexible**: if a soak or customer pain appears, swap adjacent minors—do not merge five themes into one `YY`. After this band: **mid path `1.21`–`1.30`**, then later `1.31+`—still no `2.00`.
-
-### 1.20 — Gallery catalog UX & smoke coverage
-
-**Why:** ~150+ pages; discovery and regression gate should grow without a screenshot farm.
-
-**In scope**
-
-- Catalog search / favorites / “recently shipped” affordances if missing.
-- Expand smoke or a lightweight page-load list for critical pages (still no pixel diffs).
-- Docs index hygiene for recipe pages.
-
-**Out of scope**
-
-- Screenshot diffs for every page (parking lot); rewriting Gallery architecture.
-
-**Exit criteria**
-
-- Measurable catalog improvement + documented smoke coverage set.
+**Shipped:** Curated `recentlyShipped()` + component search; page favorite star on `PageHeader`; `--smoke` loads critical pages; `smoke_catalog.py` integrity; [ci-smoke.md](docs/ci-smoke.md) coverage set; product version `1.20`.
 
 ---
 
 ## Mid path — planned `1.21` … `1.30`
 
-Start after ~**1.20** lands (or earlier if a soak forces a swap). Same rules: one theme per `YY`, still **not** `2.00`.
+Start after **1.20** (this band). Same rules: one theme per `YY`, still **not** `2.00`.
 
 ### 1.21 — Media (optional Multimedia)
 

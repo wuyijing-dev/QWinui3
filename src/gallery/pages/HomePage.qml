@@ -69,7 +69,7 @@ CatalogPage {
             return
         }
         if (action === "new") {
-            var added = ControlCatalog.recentlyAdded(1)
+            var added = ControlCatalog.recentlyShipped(1)
             if (added.length)
                 page.openControl(added[0])
             return
@@ -515,11 +515,19 @@ CatalogPage {
         spacing: Theme.spacingLoose
 
         Text {
-            text: qsTr("Recently added or updated")
+            text: qsTr("Recently shipped")
             font.family: Theme.fontFamily
             font.pixelSize: Theme.fontSubtitle
             font.weight: Theme.fontWeightSemiBold
             color: Theme.textPrimary
+        }
+
+        Label {
+            Layout.fillWidth: true
+            wrapMode: Text.WordWrap
+            color: Theme.textSecondary
+            text: qsTr("Curated recipe pages from recent 1.xx slices (not catalog order). Star items under Recent / Favorites.")
+            font.pixelSize: Theme.fontCaption
         }
 
         Flow {
@@ -528,7 +536,7 @@ CatalogPage {
             spacing: Theme.spacingLoose
 
             Repeater {
-                model: ControlCatalog.recentlyAdded(9)
+                model: ControlCatalog.recentlyShipped(9)
 
                 delegate: Item {
                     id: addedWrap

@@ -127,6 +127,19 @@ def main() -> int:
     if pinned:
         print(f"smoke: pinned Qt prefix {pinned}")
 
+    # 1.20 — catalog integrity (no Qt) before launching the binary.
+    catalog_script = ROOT / "scripts" / "smoke_catalog.py"
+    if catalog_script.is_file():
+        cat = subprocess.run(
+            [sys.executable, str(catalog_script)],
+            cwd=str(ROOT),
+            check=False,
+        )
+        if cat.returncode != 0:
+            print("error: smoke_catalog.py failed", file=sys.stderr)
+            return cat.returncode if cat.returncode > 0 else 1
+        print("smoke: catalog integrity OK")
+
     try:
         proc = subprocess.run(
             cmd,

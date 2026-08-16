@@ -19,6 +19,8 @@ Item {
 
     property string title: ""
     property alias subtitle: header.subtitle
+    // Gallery page component id for favorites (set by Main on open — 1.20)
+    property alias componentId: header.componentId
     property real pagePadding: Theme.spacingSection
     property real sectionSpacing: Theme.spacingSection
     // Optional footer outside the scroll (e.g. StatusBar)
