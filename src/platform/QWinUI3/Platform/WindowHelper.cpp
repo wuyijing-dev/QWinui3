@@ -1,6 +1,8 @@
 #include "WindowHelper.h"
 #include "LinuxPortal.h"
 
+#include <cstdio>
+
 #include <QClipboard>
 #include <QCoreApplication>
 #include <QDesktopServices>
@@ -312,8 +314,13 @@ void WindowHelper::systemBeep()
 {
 #if defined(Q_OS_WIN)
     MessageBeep(MB_OK);
+#elif defined(Q_OS_LINUX)
+    // QGuiApplication::beep() is not available on all Qt builds (no Widgets).
+    fputc('\a', stderr);
+    fflush(stderr);
 #else
-    QGuiApplication::beep();
+    fputc('\a', stderr);
+    fflush(stderr);
 #endif
 }
 

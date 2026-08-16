@@ -20,7 +20,7 @@ void WindowHelper::applyNative(QWindow *window, bool dark, int backdrop)
 
     const bool wantAlpha = backdrop != BackdropSolid && backdrop != BackdropNone;
     if (wantAlpha) {
-        window->setColor(QColor(0, 0, 0, 0));
+        // QWindow has no setColor; only QQuickWindow does.
         if (auto *quick = qobject_cast<QQuickWindow *>(window)) {
             quick->setColor(QColor(0, 0, 0, 0));
             // Request an alpha buffer so Mutter/KWin can composite translucency.

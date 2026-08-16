@@ -11,10 +11,12 @@
 #  include <shellapi.h>
 #endif
 
+#if defined(Q_OS_WIN)
 namespace {
 constexpr UINT kTrayIconId = 1;
 constexpr UINT kTrayCallback = WM_APP + 42;
 }
+#endif
 
 TrayIcon::TrayIcon(QObject *parent)
     : QObject(parent)
