@@ -62,12 +62,58 @@ T.Control {
     implicitHeight: 200
     padding: 0
     hoverEnabled: true
+    focusPolicy: Qt.StrongFocus
+    activeFocusOnTab: true
     Accessible.role: Accessible.Pane
     Accessible.name: qsTr("Flip view")
     Accessible.description: qsTr("Page %1 of %2").arg(swipe.currentIndex + 1).arg(swipe.count)
 
     readonly property bool _showButtons: buttonsVisible && buttonVisibility !== "hidden"
     readonly property bool _buttonsAlways: buttonVisibility === "always"
+    readonly property real _navInset: _showButtons ? 40 : 0
+    readonly property real _pipInset: (isIndicatorVisible && swipe.count > 1) ? 28 : 0
+
+    Keys.onLeftPressed: function (event) {
+        if (!_vertical) {
+            goPrevious()
+            event.accepted = true
+        }
+    }
+    Keys.onRightPressed: function (event) {
+        if (!_vertical) {
+            goNext()
+            event.accepted = true
+        }
+    }
+    Keys.onUpPressed: function (event) {
+        if (_vertical) {
+            goPrevious()
+            event.accepted = true
+        }
+    }
+    Keys.onDownPressed: function (event) {
+        if (_vertical) {
+            goNext()
+            event.accepted = true
+        }
+    }
+    Keys.onPressed: function (event) {
+        if (swipe.count <= 0)
+            return
+        if (event.key === Qt.Key_Home) {
+            var prevH = swipe.currentIndex
+            swipe.currentIndex = 0
+            if (swipe.currentIndex !== prevH)
+                currentIndexChangedByUser(swipe.currentIndex)
+            event.accepted = true
+        } else if (event.key === Qt.Key_End) {
+            var prevE = swipe.currentIndex
+            swipe.currentIndex = swipe.count - 1
+            if (swipe.currentIndex !== prevE)
+                currentIndexChangedByUser(swipe.currentIndex)
+            event.accepted = true
+        }
+    }
 
     // Navigate to the next page / item
     function goNext() {
@@ -105,34 +151,29 @@ T.Control {
         SwipeView {
             id: swipe
             anchors.fill: parent
-            anchors.leftMargin: !control._vertical && control._showButtons ? 40 : 0
-            anchors.rightMargin: control._vertical
-                                 ? (control.isIndicatorVisible && swipe.count > 1 ? 28 : 0)
-                                 : (control._showButtons ? 40 : 0)
-            anchors.topMargin: control._vertical && control._showButtons ? 40 : 0
-            anchors.bottomMargin: control._vertical
-                                  ? (control._showButtons ? 40 : 0)
-                                  : (control.isIndicatorVisible && swipe.count > 1 ? 28 : 0)
+            anchors.leftMargin: control._vertical ? 0 : control._navInset
+            anchors.rightMargin: control._vertical ? control._pipInset : control._navInset
+            anchors.topMargin: control._vertical ? control._navInset : 0
+            anchors.bottomMargin: control._vertical ? control._navInset : control._pipInset
             clip: true
             orientation: control.orientation
+            focusPolicy: Qt.NoFocus
         }
 
+        // Use x/y (not conditional anchors) — toggling anchors with undefined breaks layout.
         RoundButton {
             id: prevBtn
             visible: control._showButtons
-            anchors.left: control._vertical ? undefined : parent.left
-            anchors.leftMargin: control._vertical ? 0 : 4
-            anchors.horizontalCenter: control._vertical ? parent.horizontalCenter : undefined
-            anchors.top: control._vertical ? parent.top : undefined
-            anchors.topMargin: control._vertical ? 4 : 0
-            anchors.verticalCenter: control._vertical ? undefined : parent.verticalCenter
+            z: 2
             width: 36
             height: 36
+            x: control._vertical ? Math.round((parent.width - width) / 2) : 4
+            y: control._vertical ? 4 : Math.round((parent.height - height) / 2)
             flat: true
             opacity: {
                 if (!visible)
                     return 0
-                if (control._buttonsAlways || control.hovered || prevBtn.hovered)
+                if (control._buttonsAlways || control.hovered || prevBtn.hovered || control.activeFocus)
                     return enabled ? 1 : 0.4
                 return 0
             }
@@ -140,6 +181,7 @@ T.Control {
             text: control._vertical ? FluentIcons.ChevronUp : FluentIcons.ChevronLeft
             font.family: Theme.fontFamilyIcon
             Accessible.name: qsTr("Previous")
+            focusPolicy: Qt.NoFocus
             onClicked: control.goPrevious()
             Behavior on opacity {
                 enabled: !Theme.reducedMotion
@@ -150,19 +192,18 @@ T.Control {
         RoundButton {
             id: nextBtn
             visible: control._showButtons
-            anchors.right: control._vertical ? undefined : parent.right
-            anchors.rightMargin: control._vertical ? 0 : 4
-            anchors.horizontalCenter: control._vertical ? parent.horizontalCenter : undefined
-            anchors.bottom: control._vertical ? parent.bottom : undefined
-            anchors.bottomMargin: control._vertical ? 4 : 0
-            anchors.verticalCenter: control._vertical ? undefined : parent.verticalCenter
+            z: 2
             width: 36
             height: 36
+            x: control._vertical ? Math.round((parent.width - width) / 2)
+                                : parent.width - width - 4
+            y: control._vertical ? parent.height - height - 4
+                                : Math.round((parent.height - height) / 2)
             flat: true
             opacity: {
                 if (!visible)
                     return 0
-                if (control._buttonsAlways || control.hovered || nextBtn.hovered)
+                if (control._buttonsAlways || control.hovered || nextBtn.hovered || control.activeFocus)
                     return enabled ? 1 : 0.4
                 return 0
             }
@@ -170,6 +211,7 @@ T.Control {
             text: control._vertical ? FluentIcons.ChevronDown : FluentIcons.ChevronRight
             font.family: Theme.fontFamilyIcon
             Accessible.name: qsTr("Next")
+            focusPolicy: Qt.NoFocus
             onClicked: control.goNext()
             Behavior on opacity {
                 enabled: !Theme.reducedMotion
@@ -178,12 +220,11 @@ T.Control {
         }
 
         PipsPager {
-            anchors.horizontalCenter: control._vertical ? undefined : parent.horizontalCenter
-            anchors.verticalCenter: control._vertical ? parent.verticalCenter : undefined
-            anchors.right: control._vertical ? parent.right : undefined
-            anchors.rightMargin: control._vertical ? 4 : 0
-            anchors.bottom: control._vertical ? undefined : parent.bottom
-            anchors.bottomMargin: control._vertical ? 0 : 4
+            z: 2
+            x: control._vertical ? parent.width - width - 4
+                                 : Math.round((parent.width - width) / 2)
+            y: control._vertical ? Math.round((parent.height - height) / 2)
+                                 : parent.height - height - 4
             count: swipe.count
             currentIndex: swipe.currentIndex
             wrap: control.wrap

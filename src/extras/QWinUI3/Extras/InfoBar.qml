@@ -102,6 +102,18 @@ T.Control {
     Accessible.role: Accessible.AlertMessage
     Accessible.name: title.length ? title : qsTr("Info bar")
     Accessible.description: message
+    focusPolicy: isOpen ? Qt.StrongFocus : Qt.NoFocus
+    activeFocusOnTab: isOpen
+
+    Keys.onPressed: function (event) {
+        if (!isOpen)
+            return
+        if (event.key === Qt.Key_Escape && closable) {
+            isOpen = false
+            closeClicked()
+            event.accepted = true
+        }
+    }
 
     padding: isOpen ? 12 : 0
     leftPadding: isOpen ? 16 : 0
@@ -285,11 +297,16 @@ T.Control {
             implicitWidth: 32
             implicitHeight: 32
             hoverEnabled: true
+            focusPolicy: Qt.StrongFocus
+            activeFocusOnTab: root.isOpen
             Accessible.name: qsTr("Close")
             onClicked: {
                 root.isOpen = false
                 root.closeClicked()
             }
+            Keys.onReturnPressed: closeButton.clicked()
+            Keys.onEnterPressed: closeButton.clicked()
+            Keys.onSpacePressed: closeButton.clicked()
 
             contentItem: Text {
                 text: FluentIcons.ChromeClose

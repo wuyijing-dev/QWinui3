@@ -60,6 +60,10 @@ T.Control {
     padding: 0
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
+    focusPolicy: Qt.StrongFocus
+    activeFocusOnTab: true
+    property int _focusVisibleIndex: 0
+    property Item _ellipsisCrumb: null
     Accessible.role: Accessible.List
     Accessible.name: qsTr("Breadcrumb")
     Accessible.description: {
@@ -129,6 +133,80 @@ T.Control {
         return true
     }
 
+    function _syncFocusVisibleIndex() {
+        var vis = visibleModel
+        for (var i = 0; i < vis.length; ++i) {
+            if (!vis[i].ellipsis && vis[i].index === currentIndex) {
+                _focusVisibleIndex = i
+                return
+            }
+        }
+        _focusVisibleIndex = Math.max(0, vis.length - 1)
+    }
+
+    function _moveFocusVisible(delta) {
+        var vis = visibleModel
+        if (!vis.length)
+            return
+        var i = _focusVisibleIndex
+        for (var step = 0; step < vis.length; ++step) {
+            i = (i + delta + vis.length) % vis.length
+            if (isClickable(vis[i])) {
+                _focusVisibleIndex = i
+                return
+            }
+        }
+    }
+
+    function _activateFocusedVisible() {
+        var vis = visibleModel
+        if (_focusVisibleIndex < 0 || _focusVisibleIndex >= vis.length)
+            return
+        var entry = vis[_focusVisibleIndex]
+        if (!isClickable(entry))
+            return
+        if (entry.ellipsis) {
+            if (_ellipsisCrumb)
+                overflowMenu.popup(_ellipsisCrumb, 0, _ellipsisCrumb.height + 4)
+            return
+        }
+        currentIndex = entry.index
+        itemClicked(entry.index)
+        itemInvoked(entry.index)
+    }
+
+    onActiveFocusChanged: if (activeFocus) _syncFocusVisibleIndex()
+    onVisibleModelChanged: if (activeFocus) _syncFocusVisibleIndex()
+
+    Keys.onLeftPressed: _moveFocusVisible(-1)
+    Keys.onRightPressed: _moveFocusVisible(1)
+    Keys.onPressed: function (event) {
+        var vis = visibleModel
+        if (!vis.length)
+            return
+        if (event.key === Qt.Key_Home) {
+            for (var i = 0; i < vis.length; ++i) {
+                if (isClickable(vis[i])) {
+                    _focusVisibleIndex = i
+                    event.accepted = true
+                    return
+                }
+            }
+        } else if (event.key === Qt.Key_End) {
+            for (var j = vis.length - 1; j >= 0; --j) {
+                if (isClickable(vis[j])) {
+                    _focusVisibleIndex = j
+                    event.accepted = true
+                    return
+                }
+            }
+        } else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter
+                   || event.key === Qt.Key_Space) {
+            _activateFocusedVisible()
+            event.accepted = true
+        }
+    }
+
     contentItem: RowLayout {
         id: row
         spacing: 4
@@ -153,7 +231,19 @@ T.Control {
                     id: crumb
                     hoverEnabled: root.isClickable(modelData)
                     enabled: true
-                    focusPolicy: root.isClickable(modelData) ? Qt.StrongFocus : Qt.NoFocus
+                    focusPolicy: Qt.NoFocus
+                    readonly property bool _keyboardFocused: root.activeFocus
+                                                         && root._focusVisibleIndex === index
+
+                    Component.onCompleted: {
+                        if (modelData.ellipsis)
+                            root._ellipsisCrumb = crumb
+                    }
+                    Component.onDestruction: {
+                        if (root._ellipsisCrumb === crumb)
+                            root._ellipsisCrumb = null
+                    }
+
                     Accessible.role: Accessible.ListItem
                     Accessible.name: modelData.ellipsis
                                      ? qsTr("More breadcrumbs")
@@ -228,13 +318,13 @@ T.Control {
                                 return "transparent"
                             if (crumb.down)
                                 return Theme.fillSubtleTertiary
-                            if (crumb.hovered || crumb.visualFocus)
+                            if (crumb.hovered || crumb._keyboardFocused)
                                 return Theme.fillSubtle
                             return "transparent"
                         }
                         implicitHeight: Theme.controlHeight - 8
                         implicitWidth: Math.max(24, crumb.contentItem.implicitWidth + 12)
-                        border.width: crumb.visualFocus ? 1 : 0
+                        border.width: crumb._keyboardFocused ? 1 : 0
                         border.color: Theme.accent
                         Behavior on color {
                             enabled: !Theme.reducedMotion

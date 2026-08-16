@@ -87,6 +87,7 @@ T.Control {
     implicitHeight: 280
     padding: 0
     focusPolicy: Qt.StrongFocus
+    activeFocusOnTab: true
     Accessible.role: Accessible.List
     Accessible.name: qsTr("Items")
 
@@ -147,6 +148,77 @@ T.Control {
             contextMenu.showAt(item, 0, item.height)
         else if (contextMenu.popup)
             contextMenu.popup()
+    }
+
+    function _itemAt(index) {
+        if (!model || index < 0)
+            return null
+        if (typeof model.get === "function" && typeof model.count === "number") {
+            if (index >= model.count)
+                return null
+            return model.get(index)
+        }
+        if (index >= (model.length || 0))
+            return null
+        return model[index]
+    }
+
+    function _focusIndex(index) {
+        if (count <= 0 || index < 0 || index >= count)
+            return
+        listView.currentIndex = index
+        listView.positionViewAtIndex(index, ListView.Contain)
+    }
+
+    function _moveCurrent(delta) {
+        if (count <= 0)
+            return
+        var base = listView.currentIndex < 0 ? 0 : listView.currentIndex
+        _focusIndex(Math.max(0, Math.min(count - 1, base + delta)))
+        if (selectionMode === selectionSingle) {
+            selectedIndexes = [listView.currentIndex]
+            selectionChanged()
+        }
+    }
+
+    function _activateCurrent() {
+        if (listView.currentIndex < 0 || listView.currentIndex >= count)
+            return
+        itemActivated(listView.currentIndex, _itemAt(listView.currentIndex))
+    }
+
+    onActiveFocusChanged: {
+        if (activeFocus && listView.currentIndex < 0 && count > 0)
+            _focusIndex(0)
+    }
+
+    Keys.onUpPressed: _moveCurrent(-1)
+    Keys.onDownPressed: _moveCurrent(1)
+    Keys.onPressed: function (event) {
+        if (count <= 0)
+            return
+        if (event.key === Qt.Key_Home) {
+            _focusIndex(0)
+            if (selectionMode === selectionSingle) {
+                selectedIndexes = [0]
+                selectionChanged()
+            }
+            event.accepted = true
+        } else if (event.key === Qt.Key_End) {
+            _focusIndex(count - 1)
+            if (selectionMode === selectionSingle) {
+                selectedIndexes = [count - 1]
+                selectionChanged()
+            }
+            event.accepted = true
+        } else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
+            _activateCurrent()
+            event.accepted = true
+        } else if (event.key === Qt.Key_Space && selectionMode === selectionMultiple) {
+            if (listView.currentIndex >= 0)
+                toggleSelection(listView.currentIndex)
+            event.accepted = true
+        }
     }
 
     contentItem: Item {

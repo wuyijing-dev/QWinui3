@@ -66,22 +66,30 @@ T.Control {
 
     onCurrentIndexChanged: selectionChanged(currentIndex)
 
-    Keys.onLeftPressed: {
-        if (!keyboardNavigationEnabled || model.length === 0)
+    function _selectRelative(delta) {
+        if (!keyboardNavigationEnabled || !model || model.length === 0)
             return
-        var next = Math.max(0, currentIndex - 1)
+        var next = Math.max(0, Math.min(model.length - 1, currentIndex + delta))
         if (next !== currentIndex) {
             currentIndex = next
             currentIndexChangedByUser(next)
         }
     }
-    Keys.onRightPressed: {
-        if (!keyboardNavigationEnabled || model.length === 0)
+
+    Keys.onLeftPressed: _selectRelative(-1)
+    Keys.onRightPressed: _selectRelative(1)
+    Keys.onUpPressed: _selectRelative(-1)
+    Keys.onDownPressed: _selectRelative(1)
+    // Keys has no onHomePressed / onEndPressed — handle via onPressed
+    Keys.onPressed: function (event) {
+        if (!keyboardNavigationEnabled || !model || model.length === 0)
             return
-        var next = Math.min(model.length - 1, currentIndex + 1)
-        if (next !== currentIndex) {
-            currentIndex = next
-            currentIndexChangedByUser(next)
+        if (event.key === Qt.Key_Home) {
+            selectIndex(0)
+            event.accepted = true
+        } else if (event.key === Qt.Key_End) {
+            selectIndex(model.length - 1)
+            event.accepted = true
         }
     }
 

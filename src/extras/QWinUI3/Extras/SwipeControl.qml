@@ -27,8 +27,8 @@ import QWinUI3.Theme
 T.Control {
     id: root
 
-    // Swipe content closed
-    readonly property int closed: 0
+    // Open-mode constants (not named "closed" — that name is the signal below)
+    readonly property int modeClosed: 0
     // Left actions revealed
     readonly property int leftOpen: 1
     // Right actions revealed
@@ -45,9 +45,9 @@ T.Control {
     // Drag distance to snap open
     property real revealThreshold: 36
     // Open / visible state
-    readonly property bool isOpen: openMode !== closed
-    // single | multiple reveal mode
-    property int openMode: closed
+    readonly property bool isOpen: openMode !== modeClosed
+    // modeClosed | leftOpen | rightOpen
+    property int openMode: 0
     // WinUI SwipeMode: reveal | execute
     property string swipeMode: "reveal"
 
@@ -80,8 +80,8 @@ T.Control {
     // Close / dismiss
     function close() {
         panel.x = 0
-        if (openMode !== closed) {
-            openMode = closed
+        if (openMode !== modeClosed) {
+            openMode = modeClosed
             closed()
         }
     }

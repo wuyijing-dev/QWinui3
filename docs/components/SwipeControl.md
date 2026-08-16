@@ -36,7 +36,7 @@ swipeMode: reveal | execute (WinUI SwipeMode).
 
 | Name | Type | Description |
 | --- | --- | --- |
-| `closed` | `int` | Swipe content closed |
+| `modeClosed` | `int` | Swipe content closed (`0`) |
 | `leftOpen` | `int` | Left actions revealed |
 | `rightOpen` | `int` | Right actions revealed |
 | `content` | `alias` | Content slot / children host |

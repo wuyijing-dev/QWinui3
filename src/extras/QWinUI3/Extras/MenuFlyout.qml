@@ -120,12 +120,17 @@ Menu {
             return
         var win = root.Window.window
         var host = (win && win.Overlay && win.Overlay.overlay) ? win.Overlay.overlay : root.parent
-        if (!host)
+        if (!host || !root.parent)
             return
         var margin = 8
-        var p = root.mapToItem(host, 0, 0)
         var w = root.width
         var h = root.height
+        // Popup/Menu is not an Item — map from parent using popup x/y.
+        if (w < 1 || h < 1) {
+            Qt.callLater(root._constrainToRootBounds)
+            return
+        }
+        var p = root.parent.mapToItem(host, root.x, root.y)
         var nx = Math.max(margin, Math.min(p.x, host.width - w - margin))
         var ny = Math.max(margin, Math.min(p.y, host.height - h - margin))
         root.x += (nx - p.x)

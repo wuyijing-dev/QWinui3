@@ -169,9 +169,9 @@ ApplicationWindow {
         captionClosePressed: root.captionClosePressed
         titleBarBackground: root.titleBarBackground
         titleBarInactive: root.titleBarInactive
-        onTitleChanged: {
-            if (root.title !== title)
-                root.title = title
+        onTitleChanged: function () {
+            if (root.title !== chrome.title)
+                root.title = chrome.title
         }
         onPaneToggleRequested: root.paneToggleRequested()
         onBackRequested: root.backRequested()
@@ -179,9 +179,9 @@ ApplicationWindow {
         onSearchTextEdited: function (text) { root.searchTextEdited(text) }
     }
 
-    onTitleChanged: {
-        if (chrome.title !== title)
-            chrome.title = title
+    onTitleChanged: function () {
+        if (chrome.title !== root.title)
+            chrome.title = root.title
     }
 
     background: Rectangle {

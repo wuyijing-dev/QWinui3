@@ -97,6 +97,8 @@ T.Popup {
     onOpened: {
         isOpen = true
         reanchor()
+        if (isCloseButtonVisible)
+            closeBtn.forceActiveFocus()
     }
     onClosed: isOpen = false
 
@@ -190,12 +192,16 @@ T.Popup {
                 implicitHeight: 28
                 hoverEnabled: true
                 focusPolicy: Qt.StrongFocus
+                activeFocusOnTab: true
                 Accessible.name: qsTr("Close")
                 onClicked: {
                     root.closeButtonClicked()
                     root.closedByUser()
                     root.close()
                 }
+                Keys.onReturnPressed: closeBtn.clicked()
+                Keys.onEnterPressed: closeBtn.clicked()
+                Keys.onSpacePressed: closeBtn.clicked()
                 scale: down && !Theme.reducedMotion ? 0.92 : 1
                 Behavior on scale {
                     enabled: !Theme.reducedMotion

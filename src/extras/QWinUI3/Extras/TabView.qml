@@ -97,19 +97,78 @@ T.Control {
     readonly property int tabCount: model ? model.length : 0
     readonly property real _equalTabWidth: {
         var n = Math.max(1, model.length)
-        var addW = isAddTabButtonVisible ? 36 : 0
-        var avail = Math.max(120, tabFlick.width - addW - 4)
+        // Add button is outside the Flickable — use the full flick viewport.
+        var avail = Math.max(120, tabFlick.width - 4)
         return Math.max(72, avail / n)
     }
 
     implicitWidth: 480
     implicitHeight: 280
     padding: 0
+    focusPolicy: Qt.StrongFocus
+    activeFocusOnTab: true
     Accessible.role: Accessible.PageTabList
     Accessible.name: qsTr("Tabs")
     Accessible.description: qsTr("Tab %1 of %2").arg(currentIndex + 1).arg(tabCount)
 
-    onCurrentIndexChanged: selectionChanged(currentIndex)
+    onCurrentIndexChanged: {
+        selectionChanged(currentIndex)
+        Qt.callLater(control._ensureCurrentTabVisible)
+    }
+
+    Keys.onLeftPressed: function (event) {
+        if (tabCount <= 0)
+            return
+        currentIndex = Math.max(0, currentIndex - 1)
+        currentIndexChangedByUser(currentIndex)
+        event.accepted = true
+    }
+    Keys.onRightPressed: function (event) {
+        if (tabCount <= 0)
+            return
+        currentIndex = Math.min(tabCount - 1, currentIndex + 1)
+        currentIndexChangedByUser(currentIndex)
+        event.accepted = true
+    }
+    Keys.onPressed: function (event) {
+        if (tabCount <= 0 && event.key !== Qt.Key_T)
+            return
+        if (event.key === Qt.Key_Home) {
+            currentIndex = 0
+            currentIndexChangedByUser(currentIndex)
+            event.accepted = true
+        } else if (event.key === Qt.Key_End) {
+            currentIndex = Math.max(0, tabCount - 1)
+            currentIndexChangedByUser(currentIndex)
+            event.accepted = true
+        } else if (event.key === Qt.Key_W
+                   && (event.modifiers & Qt.ControlModifier)
+                   && closable && currentIndex >= 0) {
+            closeTab(currentIndex)
+            event.accepted = true
+        } else if (event.key === Qt.Key_T
+                   && (event.modifiers & Qt.ControlModifier)
+                   && isAddTabButtonVisible) {
+            addTab()
+            event.accepted = true
+        } else if ((event.key === Qt.Key_Delete || event.key === Qt.Key_Backspace)
+                   && closable && currentIndex >= 0) {
+            closeTab(currentIndex)
+            event.accepted = true
+        }
+    }
+
+    function _ensureCurrentTabVisible() {
+        var item = tabItemAt(currentIndex)
+        if (!item || tabFlick.width <= 0)
+            return
+        var left = item.x
+        var right = item.x + item.width
+        if (left < tabFlick.contentX)
+            tabFlick.contentX = Math.max(0, left - 8)
+        else if (right > tabFlick.contentX + tabFlick.width)
+            tabFlick.contentX = Math.max(0, right - tabFlick.width + 8)
+    }
 
     // Append a tab
     function addTab(item) {
@@ -279,55 +338,91 @@ T.Control {
                 color: parent.color
             }
 
+            Item {
+                id: tabStripHeaderSlot
+                anchors.left: parent.left
+                anchors.leftMargin: 6
+                anchors.top: parent.top
+                anchors.topMargin: 6
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 2
+                width: children.length > 0 ? Math.max(childrenRect.width, 1) : 0
+                visible: children.length > 0
+                z: 2
+            }
+
+            Item {
+                id: tabStripFooterSlot
+                anchors.right: parent.right
+                anchors.rightMargin: 6
+                anchors.top: parent.top
+                anchors.topMargin: 6
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 2
+                width: children.length > 0 ? Math.max(childrenRect.width, 1) : 0
+                visible: children.length > 0
+                z: 2
+            }
+
+            // Keep Add fixed outside the scroll viewport so it is never clipped.
+            ToolButton {
+                id: addTabBtn
+                visible: control.isAddTabButtonVisible
+                z: 2
+                width: 32
+                height: 32
+                anchors.right: tabStripFooterSlot.visible
+                               ? tabStripFooterSlot.left : parent.right
+                anchors.rightMargin: tabStripFooterSlot.visible ? 4 : 6
+                anchors.top: parent.top
+                anchors.topMargin: 6
+                text: FluentIcons.Add
+                font.family: Theme.fontFamilyIcon
+                font.pixelSize: 12
+                Accessible.name: qsTr("Add tab")
+                scale: down && !Theme.reducedMotion ? 0.92 : 1
+                Behavior on scale {
+                    enabled: !Theme.reducedMotion
+                    NumberAnimation { duration: Theme.duration(Theme.motionFast) }
+                }
+                onClicked: control.addTab()
+            }
+
             Flickable {
                 id: tabFlick
-                anchors.fill: parent
+                anchors.left: parent.left
                 anchors.leftMargin: 6 + (tabStripHeaderSlot.visible ? tabStripHeaderSlot.width + 4 : 0)
-                anchors.rightMargin: 6 + (tabStripFooterSlot.visible ? tabStripFooterSlot.width + 4 : 0)
+                anchors.right: addTabBtn.visible ? addTabBtn.left : (tabStripFooterSlot.visible
+                               ? tabStripFooterSlot.left : parent.right)
+                anchors.rightMargin: addTabBtn.visible ? 4 : (tabStripFooterSlot.visible ? 4 : 6)
+                anchors.top: parent.top
                 anchors.topMargin: 6
-                contentWidth: Math.max(width, tabStripRow.implicitWidth)
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 2
+                contentWidth: Math.max(width, tabRow.implicitWidth)
                 contentHeight: height
                 clip: !control._tearOutArmed
                 flickableDirection: Flickable.HorizontalFlick
                 boundsBehavior: Flickable.StopAtBounds
                 interactive: !control._reordering
 
-                Item {
-                    id: tabStripHeaderSlot
-                    parent: tabStrip
-                    anchors.left: parent.left
-                    anchors.leftMargin: 6
-                    anchors.top: parent.top
-                    anchors.topMargin: 6
-                    anchors.bottom: parent.bottom
-                    anchors.bottomMargin: 2
-                    width: children.length > 0 ? Math.max(childrenRect.width, 1) : 0
-                    visible: children.length > 0
-                    z: 2
+                WheelHandler {
+                    acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
+                    onWheel: function (event) {
+                        var dx = event.angleDelta.y !== 0 ? event.angleDelta.y : event.angleDelta.x
+                        if (dx === 0)
+                            return
+                        var next = tabFlick.contentX - dx
+                        var maxX = Math.max(0, tabFlick.contentWidth - tabFlick.width)
+                        tabFlick.contentX = Math.max(0, Math.min(maxX, next))
+                        event.accepted = true
+                    }
                 }
 
-                Item {
-                    id: tabStripFooterSlot
-                    parent: tabStrip
-                    anchors.right: parent.right
-                    anchors.rightMargin: 6
-                    anchors.top: parent.top
-                    anchors.topMargin: 6
-                    anchors.bottom: parent.bottom
-                    anchors.bottomMargin: 2
-                    width: children.length > 0 ? Math.max(childrenRect.width, 1) : 0
-                    visible: children.length > 0
-                    z: 2
-                }
                 Row {
-                    id: tabStripRow
+                    id: tabRow
                     height: tabFlick.height
                     spacing: 2
-
-                    Row {
-                        id: tabRow
-                        height: parent.height
-                        spacing: 2
 
                     Repeater {
                         model: control.model
@@ -372,6 +467,7 @@ T.Control {
                             checked: index === control.currentIndex
                             opacity: dragActive ? 0.35 : 1
                             z: dragActive ? 2 : 0
+                            focusPolicy: Qt.NoFocus
 
                             Behavior on opacity {
                                 enabled: !Theme.reducedMotion
@@ -593,28 +689,8 @@ T.Control {
                                 }
                             }
                         }
-                    }
-                    } // tabRow
-
-                    // WinUI AddTabButton
-                    ToolButton {
-                        id: addTabBtn
-                        visible: control.isAddTabButtonVisible
-                        width: 32
-                        height: Math.min(32, parent.height - 4)
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: FluentIcons.Add
-                        font.family: Theme.fontFamilyIcon
-                        font.pixelSize: 12
-                        Accessible.name: qsTr("Add tab")
-                        scale: down && !Theme.reducedMotion ? 0.92 : 1
-                        Behavior on scale {
-                            enabled: !Theme.reducedMotion
-                            NumberAnimation { duration: Theme.duration(Theme.motionFast) }
-                        }
-                        onClicked: control.addTab()
-                    }
-                } // tabStripRow
+                    } // Repeater
+                } // tabRow
 
                 // Floating drag preview
                 ElevatedChrome {
@@ -686,8 +762,8 @@ T.Control {
                         return item.x
                     }
                 }
-            }
-        }
+            } // tabFlick
+        } // tabStrip
 
         StackLayout {
             id: stack
