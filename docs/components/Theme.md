@@ -172,7 +172,6 @@ _No custom signals_ (use inherited signals from the base type).
 | `contrastRatio(fg, bg)` | WCAG contrast ratio (**1.43**) — [color-contrast.md](../color-contrast.md) |
 | `contrastPassesAA(fg, bg, largeText?)` | AA gate 4.5:1 / 3:1 (**1.43**) |
 | `accentContrastRatio(surface?)` | `accent` vs `bgCard` or given surface (**1.43**) |
-| `accentFill(hovered, pressed, disabled)` | Rest/hover/pressed/disabled accent fill helper |
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*
