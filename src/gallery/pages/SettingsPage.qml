@@ -9,6 +9,7 @@ import QWinUI3.Platform
 // Gallery — Settings.
 //
 // Theme, motion, corners, and graphics backend.
+// Intentionally SettingsView-hosted (not CatalogPage) — settings chrome owns padding.
 
 Page {
     id: root

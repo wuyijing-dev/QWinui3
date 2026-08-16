@@ -5,6 +5,7 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 
 // Gallery — SettingsGroup / SettingsView / SettingsCard.toggle.
+// Intentionally SettingsView-hosted (not CatalogPage) — demonstrates settings page chrome.
 
 Page {
     padding: 0

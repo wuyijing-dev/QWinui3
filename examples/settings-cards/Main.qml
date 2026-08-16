@@ -5,6 +5,8 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 import QWinUI3.Platform
 
+// Settings cards example — SettingsView host (no per-card Layout.fillWidth / margin glue).
+
 StandardWindow {
     id: window
     width: 720
@@ -25,51 +27,16 @@ StandardWindow {
         }
     }
 
-    ScrollView {
-        id: scroll
+    SettingsView {
         anchors.fill: parent
-        contentWidth: availableWidth
-        clip: true
-        background: null
+        title: qsTr("Settings")
+        subtitle: qsTr("Account, appearance, and notification rows with SettingsCard.toggle.")
 
-        ColumnLayout {
-            width: scroll.availableWidth
-            spacing: Theme.spacingSection
-
-            Text {
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                Layout.topMargin: Theme.spacingSection
-                text: qsTr("Settings")
-                font.family: Theme.fontFamily
-                font.pixelSize: Theme.fontTitle
-                font.weight: Theme.fontWeightSemiBold
-                color: Theme.textPrimary
-            }
-            Text {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                wrapMode: Text.WordWrap
-                text: qsTr("Account, appearance, and notification rows built with SettingsCard / SettingsExpander.")
-                font.family: Theme.fontFamily
-                font.pixelSize: Theme.fontBody
-                color: Theme.textSecondary
-            }
-
-            Text {
-                Layout.leftMargin: Theme.spacingSection
-                text: qsTr("Account")
-                font.family: Theme.fontFamily
-                font.pixelSize: Theme.fontBody
-                font.weight: Theme.fontWeightSemiBold
-                color: Theme.textSecondary
-            }
+        SettingsGroup {
+            title: qsTr("Account")
+            symbol: FluentIcons.Contact
 
             SettingsCard {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
                 title: window.accountName
                 description: qsTr("Signed in locally for this example.")
                 headerIcon: "\uE77B"
@@ -78,33 +45,22 @@ StandardWindow {
                     text: qsTr("Manage")
                 }
             }
+        }
 
-            Text {
-                Layout.leftMargin: Theme.spacingSection
-                text: qsTr("Appearance")
-                font.family: Theme.fontFamily
-                font.pixelSize: Theme.fontBody
-                font.weight: Theme.fontWeightSemiBold
-                color: Theme.textSecondary
-            }
+        SettingsGroup {
+            title: qsTr("Appearance")
+            symbol: FluentIcons.Brightness
 
             SettingsCard {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
                 title: qsTr("App theme")
                 description: qsTr("Toggle Theme.dark")
                 headerIcon: "\uE790"
-                action: Switch {
-                    checked: Theme.dark
-                    onToggled: Theme.dark = checked
-                }
+                toggle: true
+                checked: Theme.dark
+                onToggled: Theme.dark = checked
             }
 
             SettingsCard {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
                 title: qsTr("Accent pack")
                 description: qsTr("Theme.accentPack presets")
                 headerIcon: "\uE790"
@@ -124,44 +80,32 @@ StandardWindow {
                     }
                 }
             }
+        }
 
-            Text {
-                Layout.leftMargin: Theme.spacingSection
-                text: qsTr("Notifications")
-                font.family: Theme.fontFamily
-                font.pixelSize: Theme.fontBody
-                font.weight: Theme.fontWeightSemiBold
-                color: Theme.textSecondary
-            }
+        SettingsGroup {
+            title: qsTr("Notifications")
+            symbol: FluentIcons.Notification
 
             SettingsExpander {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                Layout.bottomMargin: Theme.spacingSection
                 title: qsTr("Notification preferences")
                 description: qsTr("Expand for email and toast options.")
                 headerIcon: "\uEA8F"
 
                 SettingsCard {
-                    Layout.fillWidth: true
                     title: qsTr("Enable notifications")
                     description: qsTr("Master switch for this sample.")
-                    action: Switch {
-                        checked: window.notificationsEnabled
-                        onToggled: window.notificationsEnabled = checked
-                    }
+                    toggle: true
+                    checked: window.notificationsEnabled
+                    onToggled: window.notificationsEnabled = checked
                 }
                 SettingsCard {
-                    Layout.fillWidth: true
                     title: qsTr("Marketing email")
                     description: qsTr("Optional promotional mail.")
                     enabled: window.notificationsEnabled
-                    action: Switch {
-                        checked: window.marketingEmail
-                        enabled: window.notificationsEnabled
-                        onToggled: window.marketingEmail = checked
-                    }
+                    toggle: true
+                    toggleEnabled: window.notificationsEnabled
+                    checked: window.marketingEmail
+                    onToggled: window.marketingEmail = checked
                 }
             }
         }

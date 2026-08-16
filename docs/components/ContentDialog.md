@@ -40,6 +40,10 @@ dialogResult: none | primary | secondary | close (WinUI ContentDialogResult).
 primaryButton / secondaryButton / closeButton slots override text buttons.
 Body: put content as children (moved into the dialog body slot).
 
+**Gallery host:** declare dialogs under `CatalogPage.overlay` and keep
+`parent: Overlay.overlay` + `anchors.centerIn: Overlay.overlay` for the modal
+scrim. See [`gallery-catalog-page.md`](../gallery-catalog-page.md).
+
 ## API
 
 ### Properties

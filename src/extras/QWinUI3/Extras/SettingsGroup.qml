@@ -16,7 +16,9 @@ import QWinUI3.Theme
 // @notes
 //   Groups SettingsCard / SettingsExpander rows under a Fluent section title.
 //   Cards declare Layout.fillWidth themselves — no parent walk needed.
-//   Prefer nesting inside SettingsView for page padding/title.
+//   Prefer SettingsCard { toggle: true } over action: Switch {…}.
+//   Prefer nesting inside SettingsView for page padding/title (Gallery Settings
+//   pages are SettingsView hosts, not CatalogPage).
 
 T.Control {
     id: root

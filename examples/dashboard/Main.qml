@@ -5,6 +5,8 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 import QWinUI3.Platform
 
+// Dashboard example — one padding inset; tiles/cards bring Layout.fillWidth.
+
 StandardWindow {
     id: window
     width: 1100
@@ -54,13 +56,13 @@ StandardWindow {
         background: null
 
         ColumnLayout {
-            width: scroll.availableWidth
+            x: Theme.spacingSection
+            width: Math.max(0, scroll.availableWidth - 2 * Theme.spacingSection)
             spacing: Theme.spacingSection
 
+            Item { Layout.preferredHeight: Theme.spacingSection; Layout.fillWidth: true }
+
             Text {
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                Layout.topMargin: Theme.spacingSection
                 text: qsTr("Ops dashboard")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontTitle
@@ -70,15 +72,12 @@ StandardWindow {
 
             GridLayout {
                 Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
                 columns: width > 700 ? 3 : 1
                 rowSpacing: Theme.spacingLoose
                 columnSpacing: Theme.spacingLoose
 
                 KpiTile {
                     id: kpiCpu
-                    Layout.fillWidth: true
                     title: qsTr("CPU")
                     value: window.cpu
                     unit: "%"
@@ -92,7 +91,6 @@ StandardWindow {
                 }
                 KpiTile {
                     id: kpiMem
-                    Layout.fillWidth: true
                     title: qsTr("Memory")
                     value: window.mem
                     unit: "%"
@@ -106,7 +104,6 @@ StandardWindow {
                 }
                 KpiTile {
                     id: kpiLat
-                    Layout.fillWidth: true
                     title: qsTr("Latency p95")
                     value: window.latency
                     unit: " ms"
@@ -124,8 +121,6 @@ StandardWindow {
 
             RowLayout {
                 Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
                 Layout.bottomMargin: Theme.spacingSection
                 spacing: Theme.spacingLoose
 

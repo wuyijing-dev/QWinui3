@@ -22,6 +22,25 @@ See Gallery **Pitfalls** for side-by-side demos (`DelayButton` / `ProgressButton
 - Inside `QWinUI3.Extras` QML, **do not** `import QWinUI3.Extras` (sibling types are in-module).
 - Prefer Theme tokens, `FluentIcons`, and `Theme.reducedMotion` / `Theme.duration()`.
 
+## Gallery CatalogPage
+
+- See [`gallery-catalog-page.md`](gallery-catalog-page.md).
+- Root must be **`Item`**, never `Page` (Qt 6.8 `title` / `footer` are FINAL).
+- Hosts: `ToastHost` / floating chrome → `overlay`; bottom bar → `footer`; dialogs →
+  `Overlay.overlay` + declare under `overlay`.
+
+## Parent / host defaults
+
+Prefer **host push** over parent-chain walks for layout defaults:
+
+- `FormLayout` pushes `labelWidth` / `fieldHeaderPlacement` to `formBound` fields.
+- `CommandBar` pushes `barLabelPosition` into AppBar* children.
+- `SwipeControl` sets `SwipeAction.swipeControl`.
+
+Placement helpers (`mapToItem`, `Overlay.overlay`) are fine; do not reintroduce
+`while (p = p.parent)` config discovery.
+
 ## Docs
 
 - Component API docs are generated from QML header comments: `python scripts/generate_component_docs.py`.
+- Gallery smoke (static): `python scripts/gallery_smoke_check.py`.

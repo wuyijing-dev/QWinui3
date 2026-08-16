@@ -14,7 +14,12 @@ Section header + card stack for settings pages.
 SettingsGroup {
     title: qsTr("Appearance")
     description: qsTr("Theme and motion preferences.")
-    SettingsCard { title: qsTr("Dark mode"); action: Switch {} }
+    SettingsCard {
+        title: qsTr("Dark mode")
+        toggle: true
+        checked: Theme.dark
+        onToggled: Theme.dark = checked
+    }
     SettingsCard { title: qsTr("Density"); action: ComboBox {} }
 }
 ```
@@ -22,8 +27,10 @@ SettingsGroup {
 ## Notes
 
 Groups SettingsCard / SettingsExpander rows under a Fluent section title.
-Children go in the default content slot (ColumnLayout). Use with FormLayout
-or a ScrollView ColumnLayout on settings pages.
+Prefer `SettingsCard { toggle: true }` over `action: Switch {…}`.
+Children go in the default content slot (ColumnLayout). Prefer hosting groups
+inside `SettingsView` (Gallery Settings / SettingsGroup pages are SettingsView
+hosts, not CatalogPage).
 
 ## API
 

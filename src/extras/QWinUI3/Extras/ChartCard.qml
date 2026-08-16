@@ -12,6 +12,8 @@ import QWinUI3.Theme
 //
 // @notes
 //   Title/subtitle chrome around a chart child; put the chart as content.
+//   Layout.fillWidth defaults to true. Omit a chart child (or bind empty series)
+//   for an empty card — charts own their empty states / units / click callbacks.
 
 T.Control {
     id: root

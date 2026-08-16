@@ -20,6 +20,8 @@ StatusBar {
 ## Notes
 
 Multi-segment status strip for MenuStatusWindow / shells.
+In Gallery, put a demo bar in `CatalogPage.footer` so it stays outside the
+scroll view (see [`gallery-catalog-page.md`](../gallery-catalog-page.md)).
 
 ## API
 

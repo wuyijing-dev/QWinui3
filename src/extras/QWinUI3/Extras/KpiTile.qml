@@ -30,9 +30,12 @@ import QWinUI3.Theme
 //   Dashboard metric tile: title, value, unit, signed delta, optional Fluent symbol and sparkline.
 //   Value thresholds drive severity/valueColor; pushTrend appends spark points; badgeText for status chip.
 //   Delta color uses Theme success/critical (invertDeltaColors when lower is better).
+//   Layout.fillWidth defaults to true inside Column/Row/Grid layouts.
 
 T.Control {
     id: root
+
+    Layout.fillWidth: true
 
     // Primary title text
     property string title: ""

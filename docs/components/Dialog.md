@@ -23,6 +23,9 @@ dlg.open()
 Style-only Fluent chrome for Qt Quick Controls Dialog.
 Public API is the Qt Quick Controls Dialog type; this file supplies visuals/metrics only.
 
+In Gallery, declare under `CatalogPage.overlay` with `parent: Overlay.overlay`
+(see [`gallery-catalog-page.md`](../gallery-catalog-page.md)).
+
 ## API
 
 Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `Dialog` API (this file only supplies Fluent visuals / metrics).
