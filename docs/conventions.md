@@ -58,4 +58,3 @@ Placement helpers (`mapToItem`, `Overlay.overlay`) are fine; do not reintroduce
 ## Docs
 
 - Component API docs are generated from QML header comments: `python scripts/generate_component_docs.py`.
-- Gallery smoke (static): `python scripts/gallery_smoke_check.py`.
