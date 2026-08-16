@@ -13,7 +13,7 @@ Authoring rules: [`conventions.md`](conventions.md). Live checklist: Gallery **A
 | Surface | Behavior |
 |---------|----------|
 | `SettingsCard` / `SettingsToggleCard` | Toggle rows are one Tab stop; Space/Enter toggles; `Accessible.CheckBox` uses `title`; Switch is `Accessible.ignored` |
-| `NavigationView` | Back, pane expand/collapse, nav items, nested children, Settings footer expose `Accessible.name` |
+| `NavigationView` | Back, pane expand/collapse, nav items, nested children, Settings footer expose `Accessible.name` — recipe [navigation.md](navigation.md) (1.27) |
 | `ContentDialog` | Accessible name = title (no duplicate description); Esc / default Enter already wired |
 | `InfoBar` / `Toast` | Severity in description; Esc dismiss; Close has Button role + keyboard activate |
 

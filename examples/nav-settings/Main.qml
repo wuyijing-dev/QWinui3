@@ -5,7 +5,7 @@ import QWinUI3.Extras
 import QWinUI3.Platform
 
 // Gallery-aligned shell: StandardWindow + PlatformTitleBar/TitleBar + NavigationView.
-// BackdropSolid keeps Windows DWM and Linux CSD predictable (see docs/window-chrome.md).
+// Patterns: docs/navigation.md (1.27). BackdropSolid — docs/window-chrome.md.
 
 StandardWindow {
     id: window
@@ -33,11 +33,13 @@ StandardWindow {
             dragWindow: window
             useSystemMove: true
             title: window.title
-            subtitle: qsTr("NavigationView + Settings")
+            subtitle: qsTr("NavigationView · docs/navigation.md")
             symbol: FluentIcons.GlobalNavButton
             isPaneToggleButtonVisible: true
-            isBackButtonVisible: false
+            isBackButtonVisible: nav.canGoBack
+            isBackButtonEnabled: nav.canGoBack
             onPaneToggleRequested: nav.paneOpen = !nav.paneOpen
+            onBackRequested: nav.navigateBack()
             onWidthChanged: platformTitle.reportHitTest()
             onHeightChanged: platformTitle.reportHitTest()
         }
@@ -50,10 +52,12 @@ StandardWindow {
         anchors.fill: parent
         headerText: qsTr("NavSettings")
         footerText: qsTr("Settings")
-        footerIcon: FluentIcons.Settings
+        footerSymbol: FluentIcons.Settings
         footerComponent: "SettingsPage"
         pageModule: "QWinUI3.Examples.NavSettings"
         currentKey: "home"
+        paneDisplayMode: "auto"
+        pageTransition: "slide"
         model: [
             {
                 type: "item",

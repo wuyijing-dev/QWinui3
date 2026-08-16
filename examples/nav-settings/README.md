@@ -2,7 +2,7 @@
 
 Gallery-aligned shell: `StandardWindow` → `PlatformTitleBar` / `TitleBar` → `NavigationView` with Home / About and a Settings footer.
 
-Uses **`BackdropSolid`** (see [`docs/window-chrome.md`](../../docs/window-chrome.md)).
+Uses **`paneDisplayMode: "auto"`**, TitleBar **Back ↔ `navigateBack`**, and **`BackdropSolid`**. Recipe: [`docs/navigation.md`](../../docs/navigation.md) (1.27). Chrome notes: [`docs/window-chrome.md`](../../docs/window-chrome.md).
 
 ## Build / run
 

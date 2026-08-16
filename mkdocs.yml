@@ -71,6 +71,7 @@ nav:
   - CI smoke: ci-smoke.md
   - Data collections: data-collections.md
   - Performance: performance.md
+  - Navigation & TabView: navigation.md
   - Forms & settings: forms.md
   - Theme overrides: theme-overrides.md
   - System integration: system-integration.md

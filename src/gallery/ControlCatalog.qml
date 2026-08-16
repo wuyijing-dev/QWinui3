@@ -393,7 +393,7 @@ QtObject {
             title: qsTr("NavigationView"),
             category: "navigation",
             icon: FluentIcons.GlobalNavButton,
-            description: qsTr("Top-level navigation with a collapsible pane and page host."),
+            description: qsTr("Pane modes, footer, Back stack — docs/navigation.md (1.27)."),
             component: "NavigationViewPage",
             source: "pages/NavigationViewPage.qml"
         },
@@ -433,7 +433,7 @@ QtObject {
             title: qsTr("TabView"),
             category: "collections",
             icon: FluentIcons.Comment,
-            description: qsTr("Closable tabs with reorder and tear-out windows."),
+            description: qsTr("Document tabs vs NavigationView — docs/navigation.md (1.27). Tear-out experimental."),
             component: "TabViewPage",
             source: "pages/TabViewPage.qml"
         },

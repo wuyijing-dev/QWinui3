@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.26**
-**Next up:** **1.27** (Navigation & TabView deepen)
+**Current:** **1.27**
+**Next up:** **1.28** (Input & pickers consistency)
 **Planned through:** **1.50** (1.xx maturity checkpoint)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](qt-version-compat.md)
 
@@ -60,7 +60,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.26`
+## Shipped — `1.01` … `1.27`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -166,30 +166,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** [`examples/master-detail`](../examples/master-detail/) (`ListDetailsView` LoB tickets) and [`examples/form-settings`](../examples/form-settings/) (`FormLayout` + SettingsCard prefs); README / examples README / stable-api / forms / data-collections / window-chrome “start from” tables updated; product version `1.26`. Smoke CI keeps examples off for speed (default local `QWINUI3_BUILD_EXAMPLES=ON`).
 
+### 1.27 — Navigation & TabView deepen (shipped)
+
+**Shipped:** [navigation.md](navigation.md) — pane modes, footer, Back stack, compact/overlay, TabView vs NavigationView; Gallery NavigationView / TabView callouts + `leftMinimal`/`auto`; Accessible names on demo path; [`examples/nav-settings`](../examples/nav-settings/) aligned (`paneDisplayMode: auto`, TitleBar Back ↔ `navigateBack`); product version `1.27`.
+
 ---
 
-## Mid path — planned `1.27` … `1.30`
+## Mid path — planned `1.28` … `1.30`
 
 Same rules: one theme per `YY`, still **not** `2.00`.
-
-### 1.27 — Navigation & TabView deepen
-
-**Why:** `NavigationView` / tab shells are the default app frame but less recipe-documented than forms/tables.
-
-**In scope**
-
-- Pane modes, footer, Back stack, compact/overlay recipes; TabView vs NavigationView when-to-use.
-- `docs/navigation.md`; Accessible names on demo path; Gallery polish.
-
-**Out of scope**
-
-- Tear-out window productization (stay experimental); new shell frameworks.
-
-**Exit criteria**
-
-- Recipe doc; examples/nav-settings aligned with documented patterns.
-
----
 
 ### 1.28 — Input & pickers consistency
 

@@ -27,7 +27,7 @@ Style module (`QT_QUICK_CONTROLS_STYLE=QWinUI3`): treating **standard** `QtQuick
 | Type | Module | Notes |
 |------|--------|--------|
 | `StandardWindow` | Platform | Primary app window for examples |
-| `NavigationView` | Extras | Pane + page stack; used by `examples/nav-settings` |
+| `NavigationView` | Extras | Pane + page stack; used by `examples/nav-settings` — [navigation.md](navigation.md) (1.27) |
 | `NavigationWindow` | Extras | Shell + NavigationView host |
 | `PlatformTitleBar` / caption chrome | Platform | Via shells; prefer shell APIs over reinventing |
 
@@ -105,7 +105,7 @@ If a type is public in [components.md](components.md) but listed in neither tabl
 
 | Starter | Stable pieces it uses |
 |---------|------------------------|
-| [`examples/nav-settings`](../examples/nav-settings/) | `StandardWindow`, `NavigationView`, settings footer |
+| [`examples/nav-settings`](../examples/nav-settings/) | `StandardWindow`, `NavigationView`, settings footer — [navigation.md](navigation.md) (1.27) |
 | [`examples/settings-cards`](../examples/settings-cards/) | `SettingsCard`, `SettingsExpander` |
 | [`examples/dashboard`](../examples/dashboard/) | Shell + **stable** KPI/charts (`LineChart`, `RingGauge`, `KpiTile`, `ChartCard`) — [charts.md](charts.md) (1.23) |
 | [`examples/master-detail`](../examples/master-detail/) | `ListDetailsView` LoB shell — [data-collections.md](data-collections.md) (1.26) |
@@ -152,3 +152,4 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.24** | Linux persistent tray (StatusNotifierItem) — [system-integration.md](system-integration.md) |
 | **1.25** | Performance handbook — [performance.md](performance.md); ItemsRepeater `reuseItems` |
 | **1.26** | Example templates — master-detail + form-settings — [examples/README.md](../examples/README.md) |
+| **1.27** | Navigation & TabView recipes — [navigation.md](navigation.md); nav-settings Back/`auto` |

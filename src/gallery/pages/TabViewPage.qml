@@ -6,11 +6,37 @@ import QWinUI3.Extras
 
 // Gallery — TabView.
 //
-// Fluent Add/Close icons, symbol tabs, selectedIndex, TabWidthMode, and tear-out. API: docs/components/TabView.md
+// Documents frame vs NavigationView destinations. Recipe: docs/navigation.md (1.27).
+// Tear-out stays experimental.
 
 CatalogPage {
     title: qsTr("TabView")
-    subtitle: qsTr("Add / close / reorder tabs. Drag a tab vertically to tear it into a new window.")
+    subtitle: qsTr("Add / close / reorder documents. Prefer NavigationView for app destinations — docs/navigation.md (1.27).")
+
+    ControlExample {
+        headerText: qsTr("When to use (1.27)")
+        qmlSource: "// TabView — documents\n// NavigationView — destinations\n// docs/navigation.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Use TabView for multiple open documents (add / close / reorder). Use NavigationView for app destinations and Settings footer. Tear-out (canTearOutTabs) remains experimental — keep off in production shells unless you own the tear-out window.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Give each tab a title for accessibility. Strip header buttons need Accessible.name (Menu demo below).")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontCaption
+                color: Theme.textPrimary
+            }
+        }
+    }
 
     ControlExample {
         headerText: qsTr("Add tab + equal width + tear-out")

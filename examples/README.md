@@ -4,7 +4,7 @@ Small apps you can copy as a starting point:
 
 | Target | Folder | What it shows |
 |--------|--------|----------------|
-| `qwinui3_example_nav` | [`nav-settings/`](nav-settings/) | `StandardWindow` + `NavigationView` + Settings footer |
+| `qwinui3_example_nav` | [`nav-settings/`](nav-settings/) | `StandardWindow` + `NavigationView` + Settings footer — [docs/navigation.md](../docs/navigation.md) (1.27) |
 | `qwinui3_example_settings` | [`settings-cards/`](settings-cards/) | Settings page built from `SettingsCard` / `SettingsExpander` |
 | `qwinui3_example_dashboard` | [`dashboard/`](dashboard/) | `KpiTile` + charts/gauges monitoring layout |
 | `qwinui3_example_master_detail` | [`master-detail/`](master-detail/) | `ListDetailsView` LoB ticket shell (1.26) |
