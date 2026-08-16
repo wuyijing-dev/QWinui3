@@ -219,8 +219,9 @@ T.AbstractButton {
             var host = (win && win.Overlay && win.Overlay.overlay) ? win.Overlay.overlay : control.parent
             if (!host)
                 return
+            // Popup is not an Item — map from the control using popup x/y.
             var margin = 8
-            var p = popup.mapToItem(host, 0, 0)
+            var p = control.mapToItem(host, popup.x, popup.y)
             var nx = Math.max(margin, Math.min(p.x, host.width - popup.width - margin))
             var ny = Math.max(margin, Math.min(p.y, host.height - popup.height - margin))
             popup.x += (nx - p.x)

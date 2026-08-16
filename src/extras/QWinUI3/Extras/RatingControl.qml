@@ -78,15 +78,17 @@ T.Control {
     Keys.onRightPressed: nudge(1)
     Keys.onDownPressed: nudge(-1)
     Keys.onUpPressed: nudge(1)
-    Keys.onHomePressed: {
+    // Keys has no onHomePressed / onEndPressed — handle via onPressed
+    Keys.onPressed: function (event) {
         if (readOnly || !enabled)
             return
-        commitValue(isClearEnabled ? 0 : clampValue(stepSize))
-    }
-    Keys.onEndPressed: {
-        if (readOnly || !enabled)
-            return
-        commitValue(maxRating)
+        if (event.key === Qt.Key_Home) {
+            commitValue(isClearEnabled ? 0 : clampValue(stepSize))
+            event.accepted = true
+        } else if (event.key === Qt.Key_End) {
+            commitValue(maxRating)
+            event.accepted = true
+        }
     }
 
     function nudge(dir) {

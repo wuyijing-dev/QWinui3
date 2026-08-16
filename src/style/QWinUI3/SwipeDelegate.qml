@@ -42,19 +42,28 @@ T.SwipeDelegate {
         }
     }
 
-    contentItem: IconLabel {
-        spacing: control.spacing
-        mirrored: control.mirrored
-        display: control.display
-        alignment: Qt.AlignLeft | Qt.AlignVCenter
-        icon: control.icon
-        text: control.text
-        font: control.font
-        color: control.enabled ? Theme.textPrimary : Theme.textDisabled
+    contentItem: Item {
+        implicitWidth: label.implicitWidth
+        implicitHeight: label.implicitHeight
+        clip: true
+
+        IconLabel {
+            id: label
+            anchors.fill: parent
+            spacing: control.spacing
+            mirrored: control.mirrored
+            display: control.display
+            alignment: Qt.AlignLeft | Qt.AlignVCenter
+            icon: control.icon
+            text: control.text
+            font: control.font
+            color: control.enabled ? Theme.textPrimary : Theme.textDisabled
+        }
     }
 
     background: Rectangle {
         implicitHeight: Theme.navItemHeight
+        clip: true
         color: control.down ? Theme.fillSubtleTertiary
              : (control.hovered ? Theme.fillSubtleSecondary : Theme.bgCard)
         radius: Theme.cornerControl

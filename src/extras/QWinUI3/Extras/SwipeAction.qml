@@ -45,6 +45,7 @@ Item {
 
     width: Math.max(88, contentCol.implicitWidth + 28)
     height: parent ? parent.height : Theme.navItemHeight
+    clip: true
     Accessible.role: Accessible.Button
     Accessible.name: text
 
@@ -77,9 +78,16 @@ Item {
             onTapped: root.invoke()
         }
 
+        // SwipeDelegate reveals the content-adjacent edge of the action first.
+        // Pin labels to that edge with a margin so "Flag" does not collide with
+        // the row title (e.g. "Archive") during a partial swipe.
         Column {
             id: contentCol
-            anchors.centerIn: parent
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.right: root.leading ? parent.right : undefined
+            anchors.left: root.leading ? undefined : parent.left
+            anchors.rightMargin: root.leading ? 12 : 0
+            anchors.leftMargin: root.leading ? 0 : 12
             spacing: 4
 
             Text {
