@@ -53,6 +53,7 @@ T.TreeViewDelegate {
         implicitWidth: 20
         implicitHeight: 20
         visible: control.isTreeNode && control.hasChildren
+        // Built-in TreeViewDelegate pointer nav toggles expand on indicator press.
 
         Rectangle {
             anchors.fill: parent

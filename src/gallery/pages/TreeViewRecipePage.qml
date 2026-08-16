@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
+import QtQml.Models
 import QWinUI3.Theme
 import QWinUI3.Extras
 
@@ -12,7 +13,7 @@ CatalogPage {
     id: page
 
     title: qsTr("TreeView recipe")
-    subtitle: qsTr("Styled hierarchy with context MenuFlyout — pair with a real tree model in apps.")
+    subtitle: qsTr("Expand / collapse via chevron, row click, or context menu.")
 
     property int contextRow: -1
 
@@ -24,62 +25,80 @@ CatalogPage {
 
     ControlExample {
         headerText: qsTr("Folders")
-        qmlSource: "TreeView {\n    delegate: TreeViewDelegate { }\n}\nMenuFlyout { … }"
+        qmlSource: "TreeView {\n    model: DemoTreeModel { }\n    delegate: TreeViewDelegate { }\n}\nMenuFlyout { … }"
 
         ColumnLayout {
             Layout.fillWidth: true
-            spacing: 2
+            spacing: Theme.spacing
 
-            Repeater {
-                id: rows
-                model: [
-                    { title: qsTr("Documents"), depth: 0, expanded: true },
-                    { title: qsTr("Projects"), depth: 1, expanded: true },
-                    { title: qsTr("QWinUI3"), depth: 2, expanded: false },
-                    { title: qsTr("Pictures"), depth: 1, expanded: false },
-                    { title: qsTr("Downloads"), depth: 0, expanded: false }
-                ]
-                ItemDelegate {
-                    id: row
-                    required property var modelData
-                    required property int index
-                    Layout.fillWidth: true
-                    leftPadding: 12 + modelData.depth * 16
-                    highlighted: page.contextRow === index
-                    contentItem: RowLayout {
-                        spacing: 6
-                        FontIcon {
-                            symbol: modelData.expanded ? FluentIcons.ChevronUp : FluentIcons.ChevronRight
-                            fontSize: 12
-                            iconColor: Theme.textSecondary
-                        }
-                        Label {
-                            text: modelData.title
-                            color: Theme.textPrimary
-                            Layout.fillWidth: true
-                            elide: Text.ElideRight
-                        }
-                    }
+            RowLayout {
+                spacing: Theme.spacing
+                Button {
+                    text: qsTr("Expand all")
+                    onClicked: tree.expandRecursively(-1)
+                }
+                Button {
+                    text: qsTr("Collapse all")
+                    onClicked: tree.collapseRecursively(-1)
+                }
+            }
+
+            TreeView {
+                id: tree
+                Layout.fillWidth: true
+                Layout.preferredHeight: 280
+                clip: true
+                boundsBehavior: Flickable.StopAtBounds
+                model: DemoTreeModel {}
+                selectionModel: ItemSelectionModel {
+                    model: tree.model
+                }
+                delegate: TreeViewDelegate {
+                    id: del
 
                     TapHandler {
                         acceptedButtons: Qt.RightButton
                         onTapped: {
-                            page.contextRow = index
-                            treeMenu.showAt(row, 0, row.height)
+                            page.contextRow = del.row
+                            treeMenu.showAt(del, 0, del.height)
                         }
                     }
-                    onPressAndHold: {
-                        page.contextRow = index
-                        treeMenu.showAt(row, 0, row.height)
-                    }
+                }
+
+                Component.onCompleted: {
+                    if (rows > 0)
+                        expand(0)
                 }
             }
 
             MenuFlyout {
                 id: treeMenu
                 MenuFlyoutItem {
-                    text: qsTr("Expand")
-                    onTriggered: toasts.info(qsTr("Expand row %1").arg(page.contextRow), qsTr("Tree"))
+                    text: {
+                        if (page.contextRow < 0 || page.contextRow >= tree.rows)
+                            return qsTr("Expand")
+                        return tree.isExpanded(page.contextRow) ? qsTr("Collapse")
+                                                                : qsTr("Expand")
+                    }
+                    enabled: page.contextRow >= 0 && page.contextRow < tree.rows
+                    onTriggered: {
+                        if (page.contextRow < 0 || page.contextRow >= tree.rows)
+                            return
+                        tree.toggleExpanded(page.contextRow)
+                        toasts.info(tree.isExpanded(page.contextRow)
+                                    ? qsTr("Expanded row %1").arg(page.contextRow)
+                                    : qsTr("Collapsed row %1").arg(page.contextRow),
+                                    qsTr("Tree"))
+                    }
+                }
+                MenuFlyoutItem {
+                    text: qsTr("Expand recursively")
+                    enabled: page.contextRow >= 0 && page.contextRow < tree.rows
+                    onTriggered: {
+                        tree.expandRecursively(page.contextRow)
+                        toasts.info(qsTr("Expanded recursively from row %1").arg(page.contextRow),
+                                    qsTr("Tree"))
+                    }
                 }
                 MenuFlyoutItem {
                     text: qsTr("Rename")
@@ -88,7 +107,8 @@ CatalogPage {
                 MenuFlyoutSeparator {}
                 MenuFlyoutItem {
                     text: qsTr("Delete")
-                    onTriggered: toasts.warningToast(qsTr("Delete row %1").arg(page.contextRow), qsTr("Tree"))
+                    onTriggered: toasts.warningToast(qsTr("Delete row %1").arg(page.contextRow),
+                                                     qsTr("Tree"))
                 }
             }
         }

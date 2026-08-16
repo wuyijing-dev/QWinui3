@@ -23,6 +23,8 @@ qt_add_qml_module(qwinui3_gallery
     SOURCES
         GraphicsBackend.h
         GraphicsBackend.cpp
+        DemoTreeModel.h
+        DemoTreeModel.cpp
     QML_FILES
         Main.qml
         ControlCatalog.qml
