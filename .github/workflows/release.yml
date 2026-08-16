@@ -15,6 +15,10 @@ on:
         description: "Version without leading v (e.g. 1.0.1). Empty = CMake project VERSION."
         required: false
         default: ""
+      modules:
+        description: "Library modules to package (all | core | shell | theme,style,platform,extras)"
+        required: false
+        default: "all"
       publish:
         description: "Upload / create GitHub Release for this version"
         type: boolean
@@ -37,18 +41,25 @@ jobs:
       version: ${{ steps.v.outputs.version }}
       tag: ${{ steps.v.outputs.tag }}
       should_publish: ${{ steps.v.outputs.should_publish }}
+      modules: ${{ steps.v.outputs.modules }}
     steps:
       - uses: actions/checkout@v4
       - id: v
         shell: bash
         run: |
           set -euo pipefail
+          MODULES="all"
           if [[ "${GITHUB_REF_TYPE}" == "tag" && "${GITHUB_REF_NAME}" == v* ]]; then
             TAG="${GITHUB_REF_NAME}"
             VERSION="${TAG#v}"
             PUBLISH=true
+            MODULES="all"
           else
             VERSION="${{ inputs.version }}"
+            MODULES="${{ inputs.modules }}"
+            if [[ -z "${MODULES}" ]]; then
+              MODULES="all"
+            fi
             if [[ -z "${VERSION}" ]]; then
               VERSION="$(python -c "import re; from pathlib import Path; t=Path('CMakeLists.txt').read_text(encoding='utf-8'); m=re.search(r'project\\s*\\(\\s*QWinUI3\\s+VERSION\\s+([0-9]+\\.[0-9]+\\.[0-9]+)', t); print(m.group(1) if m else '')")"
             fi
@@ -62,7 +73,8 @@ jobs:
           echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
           echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
           echo "should_publish=${PUBLISH}" >> "$GITHUB_OUTPUT"
-          echo "Resolved ${TAG} (publish=${PUBLISH})"
+          echo "modules=${MODULES}" >> "$GITHUB_OUTPUT"
+          echo "Resolved ${TAG} modules=${MODULES} (publish=${PUBLISH})"
 
   linux:
     needs: resolve-version
@@ -95,8 +107,16 @@ jobs:
       - name: Package shared libraries
         env:
           VERSION: ${{ needs.resolve-version.outputs.version }}
+          MODULES: ${{ needs.resolve-version.outputs.modules }}
         run: |
-          python scripts/package_release_libs.py --shared --archive --version "$VERSION"
+          set -euo pipefail
+          EXTRA=()
+          case "${MODULES}" in
+            all|full) EXTRA+=(--preset all) ;;
+            core|shell|theme|style|platform|extras) EXTRA+=(--preset "${MODULES}") ;;
+            *) EXTRA+=(--modules "${MODULES}") ;;
+          esac
+          python scripts/package_release_libs.py --shared --archive --version "$VERSION" "${EXTRA[@]}"
 
       - name: Package Gallery
         env:
@@ -113,7 +133,7 @@ jobs:
         with:
           name: linux-x64
           path: |
-            dist/qwinui3-*-linux-x64-shared.tar.gz
+            dist/qwinui3-*-linux-x64-shared*.tar.gz
             dist/qwinui3-gallery-*-linux-x64.tar.gz
           if-no-files-found: error
 
@@ -144,9 +164,17 @@ jobs:
       - name: Package shared libraries
         env:
           VERSION: ${{ needs.resolve-version.outputs.version }}
+          MODULES: ${{ needs.resolve-version.outputs.modules }}
         shell: bash
         run: |
-          python scripts/package_release_libs.py --shared --archive --version "$VERSION"
+          set -euo pipefail
+          EXTRA=()
+          case "${MODULES}" in
+            all|full) EXTRA+=(--preset all) ;;
+            core|shell|theme|style|platform|extras) EXTRA+=(--preset "${MODULES}") ;;
+            *) EXTRA+=(--modules "${MODULES}") ;;
+          esac
+          python scripts/package_release_libs.py --shared --archive --version "$VERSION" "${EXTRA[@]}"
 
       - name: Package Gallery
         env:
@@ -164,7 +192,7 @@ jobs:
         with:
           name: windows-x64
           path: |
-            dist/qwinui3-*-windows-x64-shared.zip
+            dist/qwinui3-*-windows-x64-shared*.zip
             dist/qwinui3-gallery-*-windows-x64.zip
           if-no-files-found: error
 

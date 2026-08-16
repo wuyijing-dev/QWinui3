@@ -145,14 +145,27 @@ Or open the **repo root** `CMakeLists.txt` in [Qt Creator](docs/qt-creator.md) w
 
 ### Shared / redistributable package
 
-In-tree defaults are **STATIC** (convenient for Gallery). For redistributable shared libs + archive:
+In-tree defaults are **STATIC** (convenient for Gallery). Package shared libs on demand:
 
 ```bat
+REM Full kit
 python scripts/package_release_libs.py --shared --archive
+
+REM Presets: all | core (theme+style) | shell (+platform) | extras (theme+extras)
+python scripts/package_release_libs.py --shared --preset core --archive
+
+REM Explicit modules (dependencies auto-included)
+python scripts/package_release_libs.py --shared --modules platform,extras --archive
+
+REM List options
+python scripts/package_release_libs.py --list-modules
+
+REM Gallery (always full app)
 python scripts/package_release_gallery.py
 ```
 
-Output lands under `dist/` (gitignored). CI publishes the same artifacts for Linux and Windows on each `v*` tag.
+Subset archives are named `qwinui3-<ver>-<os>-x64-shared-<modules>.zip` (e.g. `...-shared-theme+style`).  
+CI **Release** workflow accepts a `modules` input on manual dispatch; tag pushes always publish the full kit.
 
 ---
 
