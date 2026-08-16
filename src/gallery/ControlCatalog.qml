@@ -873,7 +873,7 @@ QtObject {
             title: qsTr("Toast"),
             category: "status",
             icon: FluentIcons.Info,
-            description: qsTr("A transient notification that auto-dismisses."),
+            description: qsTr("Window-overlay toast with placement picker and pending queue."),
             component: "ToastPage",
             source: "pages/ToastPage.qml"
         },
@@ -1297,7 +1297,7 @@ QtObject {
             title: qsTr("ToastHost"),
             category: "status",
             icon: FluentIcons.Info,
-            description: qsTr("Queues multiple toasts with a progress countdown."),
+            description: qsTr("Corner placement, maxVisible stack, and pending queue when full."),
             component: "ToastHostPage",
             source: "pages/ToastHostPage.qml"
         },
