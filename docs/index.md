@@ -27,7 +27,7 @@ This site is generated from QML source comments and shipped via GitHub Pages.
 | [Consumer packaging](packaging-consumer.md) | Shared zip / CMake / runtime for third-party apps (1.12) |
 | [i18n / RTL](i18n-rtl.md) | qsTr workflow + LayoutMirroring baseline (1.13) |
 | [Qt Creator](qt-creator.md) | Open / build the CMake project |
-| [Qt version compat](qt-version-compat.md) | C++ shims for Qt 6.5 / 6.8 / 6.10+ |
+| [Qt version compat](qt-version-compat.md) | C++ shims + CI matrix Qt 6.5 / 6.8 / 6.10 (1.14) |
 
 ## Install / build
 

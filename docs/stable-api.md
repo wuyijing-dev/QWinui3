@@ -130,3 +130,4 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.11** | Charts/gauges naming aliases + [charts.md](charts.md); still experimental |
 | **1.12** | Consumer packaging recipe [packaging-consumer.md](packaging-consumer.md) |
 | **1.13** | i18n / RTL baseline [i18n-rtl.md](i18n-rtl.md); LayoutMirroring + AlignLeading |
+| **1.14** | Qt 6.5 / 6.8 / 6.10 Gallery CI matrix [qt-version-compat.md](qt-version-compat.md) |

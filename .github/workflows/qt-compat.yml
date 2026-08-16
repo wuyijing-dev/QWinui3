@@ -1,0 +1,90 @@
+name: Qt compat
+
+# 1.14 — Release configure + Gallery build on Qt 6.5 / 6.8 / 6.10 (Linux).
+# Smoke stays pinned to 6.8; this matrix catches Compat / CMake floor drift.
+# No packaging, no screenshot suite, no Debug.
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - "src/**"
+      - "CMakeLists.txt"
+      - "CMakePresets.json"
+      - "cmake/**"
+      - ".github/workflows/qt-compat.yml"
+      - "docs/qt-version-compat.md"
+  pull_request:
+    branches: [master]
+    paths:
+      - "src/**"
+      - "CMakeLists.txt"
+      - "CMakePresets.json"
+      - "cmake/**"
+      - ".github/workflows/qt-compat.yml"
+      - "docs/qt-version-compat.md"
+  schedule:
+    # Weekly soak even when paths filter skips pushes
+    - cron: "17 6 * * 1"
+  workflow_dispatch:
+
+concurrency:
+  group: qt-compat-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  linux-gallery:
+    name: Linux Gallery Qt ${{ matrix.qt }}
+    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - qt: "6.5.3"
+            label: "6.5"
+          - qt: "6.8.3"
+            label: "6.8"
+          - qt: "6.10.0"
+            label: "6.10"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential ninja-build cmake \
+            libgl1-mesa-dev libxkbcommon-dev libxkbcommon-x11-dev \
+            libxcb-cursor0 libxcb-cursor-dev libxcb-xinerama0 \
+            libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 \
+            libxcb-shape0 libxcb-xfixes0 libxcb-randr0
+
+      - name: Install Qt ${{ matrix.qt }}
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: ${{ matrix.qt }}
+          host: linux
+          target: desktop
+          arch: linux_gcc_64
+          modules: qtquickeffects qtmultimedia qtimageformats qtsvg
+          cache: true
+          install-deps: true
+
+      - name: Configure Release
+        run: |
+          cmake -S . -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DQWINUI3_BUILD_EXAMPLES=OFF \
+            -DQWINUI3_BUILD_WEBVIEW2=OFF
+          echo "Configured with Qt ${{ matrix.qt }} (${{ matrix.label }})"
+
+      - name: Build Gallery
+        run: cmake --build build --config Release --target qwinui3_gallery --parallel
+
+      - name: Print capability summary
+        run: |
+          set -euo pipefail
+          echo "=== Qt matrix cell: ${{ matrix.label }} (${{ matrix.qt }}) ==="
+          grep -E "^Qt6_VERSION:|^CMAKE_PREFIX_PATH:" build/CMakeCache.txt || true
+          test -x build/qwinui3_gallery
+          ls -la build/qwinui3_gallery

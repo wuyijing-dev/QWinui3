@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.13**  
-**Next up:** **1.14** (Qt 6.5 / 6.8 / 6.10 compat CI)  
+**Current:** **1.14**  
+**Next up:** **1.15** (command surfaces deepen)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](qt-version-compat.md)
 
 This plan starts from **what 1.00 already was**, then walks **small `1.xx` minors**. Stay on **1.xx for a long time**. **2.00 is not next**—only when we truly need breaking changes.
@@ -59,7 +59,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.13`
+## Shipped — `1.01` … `1.14`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -113,30 +113,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** [i18n-rtl.md](i18n-rtl.md); Gallery **i18n / RTL** page + Settings RTL toggle; `LayoutMirroring` on Gallery / nav-settings; `AlignLeading` on Headered* left headers; seed `translations/`; product version `1.13`.
 
+### 1.14 — Qt 6.5 / 6.8 / 6.10 compat CI (shipped)
+
+**Shipped:** [`.github/workflows/qt-compat.yml`](../.github/workflows/qt-compat.yml) Linux Gallery Release matrix (6.5.3 / 6.8.3 / 6.10.0); [qt-version-compat.md](qt-version-compat.md) CI section; smoke stays on 6.8; product version `1.14`.
+
 ---
 
-## Near path — planned `1.14` … `1.20`
+## Near path — planned `1.15` … `1.20`
 
 Order is intentional but **flexible**: if a soak or customer pain appears, swap two adjacent minors—do not merge five themes into one `YY`. After this band: **mid path `1.21`–`1.30`**, then later `1.31+`—still no `2.00`.
-
-### 1.14 — Qt 6.5 / 6.8 / 6.10 compat CI
-
-**Why:** Floor is 6.5; CI is pinned to 6.8. Catch shim drift early without turning smoke into a matrix forever.
-
-**In scope**
-
-- Extra workflow or matrix job: configure + build Gallery (Release) on **6.5** and **6.10** (or latest 6.10.x) in addition to 6.8.
-- Document failures against [qt-version-compat.md](qt-version-compat.md); fix only blockers in Compat shims.
-
-**Out of scope**
-
-- Supporting every patch of every Qt; Debug builds; expanding smoke to screenshot suites.
-
-**Exit criteria**
-
-- Documented CI job green (or known allowed-fail with issue link); compat doc updated.
-
----
 
 ### 1.15 — Command surfaces deepen
 

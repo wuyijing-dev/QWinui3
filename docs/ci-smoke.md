@@ -4,8 +4,9 @@ Lightweight regression gate — **not** a full test suite.
 
 | Workflow | When | What |
 |----------|------|------|
-| [`.github/workflows/smoke.yml`](../.github/workflows/smoke.yml) | `push` / `pull_request` to `master`, manual | Release configure → build `qwinui3_gallery` → `--smoke` |
-| [`.github/workflows/release.yml`](../.github/workflows/release.yml) | `v*` tags / dispatch | Shared libs + Gallery packages |
+| [`.github/workflows/smoke.yml`](../.github/workflows/smoke.yml) | `push` / `pull_request` to `master`, manual | Release configure → build `qwinui3_gallery` → `--smoke` (Qt **6.8**) |
+| [`.github/workflows/qt-compat.yml`](../.github/workflows/qt-compat.yml) | src/CMake changes, weekly, manual | Release Gallery build on Qt **6.5 / 6.8 / 6.10** (Linux) — [qt-version-compat.md](qt-version-compat.md) |
+| [`.github/workflows/release.yml`](../.github/workflows/release.yml) | `v*` tags / dispatch | Shared libs + Gallery packages (Qt **6.8**) |
 | [`.github/workflows/docs.yml`](../.github/workflows/docs.yml) | docs changes | MkDocs / Pages |
 
 ## Local
@@ -57,3 +58,5 @@ python scripts/smoke_gallery.py --build-dir build --platform windows
 **In 1.06:** Windows + Linux, Qt **6.8**, Gallery only, examples/WebView2 off for speed.
 
 **Not in 1.06:** Screenshot diffs, multi-Qt matrix, packaging inside smoke.
+
+**Multi-Qt (1.14):** use [qt-compat.yml](../.github/workflows/qt-compat.yml) / [qt-version-compat.md](qt-version-compat.md) — does not replace smoke.

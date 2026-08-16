@@ -4,7 +4,7 @@ Button that opens a MenuFlyout of actions.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/DropDownButton.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/DropDownButton.qml)
 
-**Category:** Buttons & commands · **Library:** v1.13
+**Category:** Buttons & commands · **Library:** v1.14
 
 [← Component index](../components.md)
 
