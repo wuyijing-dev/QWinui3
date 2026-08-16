@@ -8,7 +8,7 @@ Fluent / [WinUI 3](https://learn.microsoft.com/windows/apps/winui/winui3/)-inspi
 [![Qt](https://img.shields.io/badge/Qt-6.5%2B-41CD52?logo=qt&logoColor=white)](https://www.qt.io/)
 
 **v1.0.0** · **200+** public controls · Gallery demos for most of them  
-[Documentation](https://wuyijing-dev.github.io/QWinui3/) · [Component API](https://wuyijing-dev.github.io/QWinui3/components/) · [Releases](https://github.com/wuyijing-dev/QWinui3/releases)
+[Documentation](https://wuyijing-dev.github.io/QWinui3/) · [Component API](https://wuyijing-dev.github.io/QWinui3/components/) · [Releases](https://github.com/wuyijing-dev/QWinui3/releases) · [Roadmap](ROADMAP.md)
 
 ---
 
@@ -221,6 +221,7 @@ GitHub Actions builds Linux + Windows shared libraries and Gallery packages, the
 | [`docs/components.md`](docs/components.md) | Full control index |
 | [`docs/conventions.md`](docs/conventions.md) | Radius, accessibility, import rules |
 | [`docs/window-shells.md`](docs/window-shells.md) | ShellWindow family vs StandardWindow |
+| [`ROADMAP.md`](ROADMAP.md) | Version themes — substantial releases only |
 | [`docs/qt-creator.md`](docs/qt-creator.md) | Opening the project in Qt Creator |
 | [`docs/qt-version-compat.md`](docs/qt-version-compat.md) | C++ shims for Qt 6.5 / 6.8 / 6.10+ |
 
