@@ -12,9 +12,8 @@
 .vs/
 out/
 
-.cursor/*
-!.cursor/rules/
-!.cursor/rules/**
+# Cursor IDE — local only; never publish to GitHub
+.cursor/
 
 __pycache__/
 *.pyc
