@@ -307,20 +307,221 @@ Order is intentional but **flexible**: if a soak or customer pain appears, swap 
 
 ---
 
-## Later `1.xx` (after ~1.20)
+## Mid path — planned `1.21` … `1.30`
 
-Parked for when the near path is mostly done—still **not** `2.00`:
+Start after ~**1.20** lands (or earlier if a soak forces a swap). Same rules: one theme per `YY`, still **not** `2.00`.
+
+### 1.21 — Media (optional Multimedia)
+
+**Why:** `MediaPlayerElement` is experimental; LoB apps need a clear optional-deps story.
+
+**In scope**
+
+- Document Qt Multimedia as **optional**; graceful EmptyState when missing.
+- Polish controls chrome, keyboard, and Theme tokens on the Gallery Media page.
+- Short `docs/media.md`; decide promote vs remain experimental.
+
+**Out of scope**
+
+- Full media suite (playlist product, codecs matrix); non-Qt backends.
+
+**Exit criteria**
+
+- Recipe doc + stable-api row update; Gallery works with and without Multimedia.
+
+---
+
+### 1.22 — Animations & transitions recipe
+
+**Why:** `ConnectedAnimation*` and theme transitions exist but lack a copy-ready story.
+
+**In scope**
+
+- Document ConnectedAnimation patterns (list → detail, shell page enter).
+- Theme light/dark / accent transition guidance; reduce jank on high-traffic shells.
+- Gallery demo page polish; `docs/animations.md`.
+
+**Out of scope**
+
+- New animation engine; Fluent motion redesign of every control.
+
+**Exit criteria**
+
+- Recipe doc; demos match documented APIs; experimental note kept or promote if solid.
+
+---
+
+### 1.23 — Charts promote wave 2
+
+**Why:** 1.11 aligns names; apps will want a **named** stable chart subset after soak.
+
+**In scope**
+
+- Promote a small subset (e.g. Line/Bar/Donut + one gauge + `KpiTile`/`ChartCard`) **only if** 1.11 exit criteria held in the field.
+- Update [stable-api.md](stable-api.md) + [charts.md](charts.md); leave niche charts experimental.
+
+**Out of scope**
+
+- Promoting the entire chart catalog; new chart types.
+
+**Exit criteria**
+
+- Explicit promote list; dashboard example uses only stable names for those types.
+
+---
+
+### 1.24 — Linux persistent tray (StatusNotifierItem)
+
+**Why:** 1.10 TrayIcon is Windows-strong; Linux often falls back to notify-send only.
+
+**In scope**
+
+- StatusNotifierItem (or equivalent) path for persistent tray + menu actions where DE supports it.
+- Failure matrix in [system-integration.md](system-integration.md) / platform-linux docs.
+- Gallery System Integration Linux notes.
+
+**Out of scope**
+
+- macOS tray; reinventing every DE’s indicator protocol forever.
+
+**Exit criteria**
+
+- Documented Win vs Linux tray capability table; at least one Linux DE proven in docs.
+
+---
+
+### 1.25 — Performance handbook
+
+**Why:** Large models, DataTable, and chart pages need guidance before apps blame the kit.
+
+**In scope**
+
+- `docs/performance.md`: virtualization, model roles, chart data size, Gallery “heavy page” tips.
+- Cheap wins only (e.g. obvious ListView reuse / defer loads)—no rewrite of Extras.
+
+**Out of scope**
+
+- Profiler product; rewriting chart engines for GPU.
+
+**Exit criteria**
+
+- Handbook linked from README/stable-api; one Gallery callout for a heavy page.
+
+---
+
+### 1.26 — Example app templates
+
+**Why:** Beyond nav-settings / settings-cards / dashboard, integrators want more copy-ready shapes.
+
+**In scope**
+
+- One or two extra examples (e.g. master–detail LoB shell, or settings + FormLayout app).
+- README “start from” table updated; keep each example small.
+
+**Out of scope**
+
+- Full CRM product; many half-finished templates.
+
+**Exit criteria**
+
+- New example(s) build in Release CI or documented local-only with reason; README links work.
+
+---
+
+### 1.27 — Navigation & TabView deepen
+
+**Why:** `NavigationView` / tab shells are the default app frame but less recipe-documented than forms/tables.
+
+**In scope**
+
+- Pane modes, footer, Back stack, compact/overlay recipes; TabView vs NavigationView when-to-use.
+- `docs/navigation.md`; Accessible names on demo path; Gallery polish.
+
+**Out of scope**
+
+- Tear-out window productization (stay experimental); new shell frameworks.
+
+**Exit criteria**
+
+- Recipe doc; examples/nav-settings aligned with documented patterns.
+
+---
+
+### 1.28 — Input & pickers consistency
+
+**Why:** NumberBox / Date-Calendar / Color / Time pickers exist across Style + Extras with uneven docs.
+
+**In scope**
+
+- Inventory high-traffic pickers; align headers, validation, Theme density.
+- Short `docs/pickers.md`; Gallery cross-links; FormLayout pairing notes.
+
+**Out of scope**
+
+- New picker controls; replacing Qt Calendar entirely.
+
+**Exit criteria**
+
+- Recipe doc; listed pickers behave consistently on the Gallery path.
+
+---
+
+### 1.29 — Icons & FluentIcons cookbook
+
+**Why:** Apps need a reliable symbol story (FluentIcons + Theme) without inventing asset pipelines.
+
+**In scope**
+
+- Document FluentIcons API, sizing, Theme color, Gallery icon browser tips.
+- `docs/icons.md`; fix obvious missing names on high-traffic chrome.
+
+**Out of scope**
+
+- Figma token pipeline (parking lot); shipping a second icon font.
+
+**Exit criteria**
+
+- Cookbook + Gallery Icon page matches documented usage.
+
+---
+
+### 1.30 — Density, typography & responsive shells
+
+**Why:** Theme density exists (1.09 branding); LoB apps need compact vs comfortable + narrow-window recipes.
+
+**In scope**
+
+- Document density tokens, type scale, and shell behavior at narrow widths.
+- Gallery Theme / Settings density demos tightened; extend [theme-overrides.md](theme-overrides.md) or `docs/density.md`.
+
+**Out of scope**
+
+- Full Fluent 2 visual redesign; mobile-first phone shells.
+
+**Exit criteria**
+
+- Recipe covers density + one responsive shell pattern; no LTR regressions.
+
+---
+
+## Later `1.xx` (after ~1.30)
+
+Still **1.xx**—schedule as `1.31`, `1.32`, … when mid path is mostly done:
 
 | Candidate | Notes |
 |-----------|--------|
-| **Media** | `MediaPlayerElement` optional Multimedia polish + docs |
-| **Animations** | ConnectedAnimation / theme transitions recipe pass |
-| **Charts promote wave 2** | Promote more chart types after 1.11 soak |
-| **Linux tray StatusNotifierItem** | Persistent tray beyond notify-send |
-| **Performance handbook** | Virtualization / large models / Gallery heavy pages |
-| **Example app templates** | Extra copy-ready apps beyond nav/settings/dashboard |
+| **1.31 Graphics & backend notes** | D3D11 / OpenGL / RHI tips for Gallery & consumers — extend [graphics-backend.md](graphics-backend.md) |
+| **1.32 Window shells matrix refresh** | Re-soak StandardWindow / Mica / Wayland after 1.03–1.04 drift |
+| **1.33 Tree & hierarchical data** | TreeView / nested ItemsView recipes + docs |
+| **1.34 Feedback surfaces wave 2** | InfoBar / Toast / TeachingTip / Progress deepen after 1.16 |
+| **1.35 Creator kit polish** | Qt Creator wizard / kit docs beyond 1.12 packaging |
+| **1.36 Docs site IA** | MkDocs nav / search / “recipe hub” without rewriting the kit |
+| **1.37 Experimental promote sweep** | Batch promote long-soaked types; prune dead experimental |
+| **1.38 Linux Wayland edge cases** | Portal / backdrop / tray follow-ups from field reports |
+| **1.39 Gallery perf & startup** | Cold start, catalog lazy load — pairs with 1.25 |
+| **1.40 Compatibility freeze prep** | Document “what we will not break” before any future 2.00 discussion |
 
-Schedule as `1.21`, `1.22`, … — one slice per minor.
+Order remains flexible; do not bundle into mega-minors.
 
 ---
 
@@ -360,4 +561,4 @@ Unscheduled; pick up only inside a named `1.xx` minor (or never):
 | [docs/components.md](components.md) | Control index |
 | [docs/conventions.md](conventions.md) | A11y / QML rules |
 | [docs/qt-version-compat.md](qt-version-compat.md) | Qt multi-version shims |
-| [ROADMAP.md](../ROADMAP.md) | Repo root plan |
+| [ROADMAP.md](../ROADMAP.md) | Site copy of this plan |
