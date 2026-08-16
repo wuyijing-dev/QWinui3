@@ -75,7 +75,6 @@ void TrayIcon::setIconSource(const QUrl &url)
 
 void TrayIcon::notifySystem(const QString &title, const QString &message, int icon)
 {
-    Q_UNUSED(icon);
     emit notified(title, message);
 #if defined(Q_OS_WIN)
     ensureCreated();
@@ -84,10 +83,17 @@ void TrayIcon::notifySystem(const QString &title, const QString &message, int ic
     m_nid.uFlags = NIF_INFO;
     wcsncpy_s(m_nid.szInfoTitle, reinterpret_cast<LPCWSTR>(title.utf16()), _TRUNCATE);
     wcsncpy_s(m_nid.szInfo, reinterpret_cast<LPCWSTR>(message.utf16()), _TRUNCATE);
-    m_nid.dwInfoFlags = NIIF_INFO;
+    // icon: 0 info, 1 warning, 2 error (matches NotificationBridge._systemIcon)
+    if (icon == 2)
+        m_nid.dwInfoFlags = NIIF_ERROR;
+    else if (icon == 1)
+        m_nid.dwInfoFlags = NIIF_WARNING;
+    else
+        m_nid.dwInfoFlags = NIIF_INFO;
     Shell_NotifyIconW(NIM_MODIFY, &m_nid);
     m_nid.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
 #elif defined(Q_OS_LINUX)
+    Q_UNUSED(icon);
     if (LinuxPortal::notify(QCoreApplication::applicationName(), title, message))
         return;
     QStringList args;
@@ -98,6 +104,7 @@ void TrayIcon::notifySystem(const QString &title, const QString &message, int ic
 #else
     Q_UNUSED(title);
     Q_UNUSED(message);
+    Q_UNUSED(icon);
 #endif
 }
 

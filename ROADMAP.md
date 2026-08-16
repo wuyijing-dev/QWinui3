@@ -1,6 +1,6 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.09**  
+**Current:** **1.10**  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
 
 This plan starts from **what 1.00 already was**, then walks **small `1.xx` minors**. Stay on **1.xx for a long time**. **2.00 is not next**—only when we truly need breaking changes.
@@ -113,17 +113,22 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
+### 1.10 — System bridge consistency (shipped)
+
+**Shipped:** FilePicker Windows `parentWindow` HWND ownership; TrayIcon severity icons (0/1/2); [system-integration.md](docs/system-integration.md); Gallery FilePicker/Tray/NotificationBridge polish; promote `FilePicker` / `TrayIcon` / `NotificationBridge` to stable; product version `1.10`.
+
+---
+
 ### Later `1.xx` (only when the above are mostly done)
 
 Parked as **optional further minors**, still not `2.00`:
 
-- Tray / file picker / notification bridge consistency  
 - i18n / RTL baseline for samples  
 - Chart/gauge API consistency pass (stabilize set; mark experimental)  
 - Qt 6.5 / 6.8 / 6.10 **compat verification** as an extra CI job  
 - On-demand packaging docs aligned with consumer CMake  
 
-Schedule as `1.10`, `1.11`, … — one slice per minor.
+Schedule as `1.11`, `1.12`, … — one slice per minor.
 
 ---
 

@@ -71,6 +71,8 @@ Style module (`QT_QUICK_CONTROLS_STYLE=QWinUI3`): treating **standard** `QtQuick
 | Type | Module | Notes |
 |------|--------|--------|
 | `WindowHelper` | Platform | Backdrop, chrome flags, system prefs—**stable for properties already used by shells/examples**. Niche OS helpers may still evolve. |
+| `FilePicker` / `TrayIcon` | Platform | Open/save/folder + tray — [system-integration.md](system-integration.md) (1.10) |
+| `NotificationBridge` | Extras | ToastHost + OS notify — [system-integration.md](system-integration.md) (1.10) |
 
 ---
 
@@ -86,7 +88,7 @@ Promote to stable only after a named `1.xx` slice hardens them.
 | **Animations** | `ConnectedAnimation*`, theme transitions | Power-user; less example coverage |
 | **Tear-out / exotic shells** | `TabViewTearOutWindow`, compact overlay variants | Niche |
 | **Media** | `MediaPlayerElement` | Optional Qt Multimedia |
-| **System bridge** | `NotificationBridge`, `TrayIcon`, `FilePicker` | Platform variance; consistency later |
+| **Shell extras** | Taskbar progress, idle inhibit, Snap Layouts demos | Gallery demos; not the 1.10 stable bridge |
 
 If a type is public in [components.md](components.md) but listed in neither table, treat it as **experimental** until added here.
 
@@ -123,3 +125,4 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | Version | Change |
 |---------|--------|
 | **1.01** | Initial stable vs experimental map |
+| **1.10** | Promote `FilePicker` / `TrayIcon` / `NotificationBridge`; recipe [system-integration.md](system-integration.md) |

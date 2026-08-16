@@ -4,7 +4,7 @@ Inline severity banner with optional action and Content slot.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/InfoBar.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/InfoBar.qml)
 
-**Category:** Dialogs & flyouts · **Library:** v1.09
+**Category:** Dialogs & flyouts · **Library:** v1.10
 
 [← Component index](../components.md)
 

@@ -84,6 +84,18 @@ HWND ownerHwnd()
     return nullptr;
 }
 
+HWND hwndFromParent(QObject *parentWindow)
+{
+    if (parentWindow) {
+        QWindow *window = qobject_cast<QWindow *>(parentWindow);
+        if (!window)
+            window = parentWindow->property("window").value<QWindow *>();
+        if (window && window->handle())
+            return reinterpret_cast<HWND>(window->winId());
+    }
+    return ownerHwnd();
+}
+
 void applyFilters(IFileDialog *dialog, const QStringList &filters)
 {
     if (!dialog || filters.isEmpty())
@@ -134,7 +146,7 @@ QString shellItemPath(IShellItem *item)
 
 QString pickFiles(bool multi, bool save, const QString &title,
                   const QStringList &filters, const QString &defaultSuffix,
-                  QStringList *outList)
+                  QStringList *outList, HWND owner)
 {
     const HRESULT initHr = CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
     const bool shouldUninit = (initHr == S_OK);
@@ -162,7 +174,7 @@ QString pickFiles(bool multi, bool save, const QString &title,
         if (save && !defaultSuffix.isEmpty())
             dialog->SetDefaultExtension(reinterpret_cast<LPCWSTR>(defaultSuffix.utf16()));
 
-        hr = dialog->Show(ownerHwnd());
+        hr = dialog->Show(owner ? owner : ownerHwnd());
         if (SUCCEEDED(hr)) {
             if (multi && !save) {
                 IFileOpenDialog *openDlg = nullptr;
@@ -200,7 +212,7 @@ QString pickFiles(bool multi, bool save, const QString &title,
     return result;
 }
 
-QString pickFolder(const QString &title)
+QString pickFolder(const QString &title, HWND owner)
 {
     const HRESULT initHr = CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
     const bool shouldUninit = (initHr == S_OK);
@@ -216,7 +228,7 @@ QString pickFolder(const QString &title)
         dialog->SetOptions(options);
         if (!title.isEmpty())
             dialog->SetTitle(reinterpret_cast<LPCWSTR>(title.utf16()));
-        hr = dialog->Show(ownerHwnd());
+        hr = dialog->Show(owner ? owner : ownerHwnd());
         if (SUCCEEDED(hr)) {
             IShellItem *item = nullptr;
             if (SUCCEEDED(dialog->GetResult(&item)) && item) {
@@ -379,9 +391,8 @@ void FilePicker::openFile(const QString &title, const QVariantList &nameFilters,
                           const QJSValue &callback, QObject *parentWindow)
 {
 #if defined(Q_OS_WIN)
-    Q_UNUSED(parentWindow);
     invokePath(callback, pickFiles(false, false, title, filtersFromVariant(nameFilters),
-                                   QString(), nullptr));
+                                   QString(), nullptr, hwndFromParent(parentWindow)));
 #elif defined(Q_OS_LINUX)
     Q_UNUSED(nameFilters);
     invokePath(callback, linuxOpenFile(title, parentWindow));
@@ -397,9 +408,9 @@ void FilePicker::openFiles(const QString &title, const QVariantList &nameFilters
                            const QJSValue &callback, QObject *parentWindow)
 {
 #if defined(Q_OS_WIN)
-    Q_UNUSED(parentWindow);
     QStringList list;
-    pickFiles(true, false, title, filtersFromVariant(nameFilters), QString(), &list);
+    pickFiles(true, false, title, filtersFromVariant(nameFilters), QString(), &list,
+              hwndFromParent(parentWindow));
     invokePaths(callback, list);
 #elif defined(Q_OS_LINUX)
     Q_UNUSED(nameFilters);
@@ -417,9 +428,8 @@ void FilePicker::saveFile(const QString &title, const QVariantList &nameFilters,
                           QObject *parentWindow)
 {
 #if defined(Q_OS_WIN)
-    Q_UNUSED(parentWindow);
     invokePath(callback, pickFiles(false, true, title, filtersFromVariant(nameFilters),
-                                   defaultSuffix, nullptr));
+                                   defaultSuffix, nullptr, hwndFromParent(parentWindow)));
 #elif defined(Q_OS_LINUX)
     Q_UNUSED(nameFilters);
     Q_UNUSED(defaultSuffix);
@@ -437,8 +447,7 @@ void FilePicker::openFolder(const QString &title, const QJSValue &callback,
                             QObject *parentWindow)
 {
 #if defined(Q_OS_WIN)
-    Q_UNUSED(parentWindow);
-    invokePath(callback, pickFolder(title));
+    invokePath(callback, pickFolder(title, hwndFromParent(parentWindow)));
 #elif defined(Q_OS_LINUX)
     invokePath(callback, linuxOpenFolder(title, parentWindow));
 #else

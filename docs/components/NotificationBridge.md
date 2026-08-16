@@ -4,7 +4,7 @@ Mirror in-app ToastHost to OS notifications (Win balloon / Linux portal).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/NotificationBridge.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/NotificationBridge.qml)
 
-**Category:** Status & feedback · **Library:** v1.09
+**Category:** Status & feedback · **Library:** v1.10
 
 [← Component index](../components.md)
 
@@ -31,8 +31,9 @@ bridge.info(qsTr("Saved"), qsTr("Document"))
 
 ## Notes
 
-Uses TrayIcon.notifySystem → Windows balloon / org.freedesktop.Notifications /
+Uses TrayIcon.notifySystem → Windows balloon (icon 0/1/2) / org.freedesktop.Notifications /
 notify-send. When toastHost is set, show() also enqueues an in-app toast.
+Prefer bridge.info/success/warning/error for LoB apps. See docs/system-integration.md.
 
 ## API
 

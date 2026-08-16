@@ -14,6 +14,12 @@
 #endif
 
 // TrayIcon — System tray icon + balloon / notify-send bridge.
+//
+//   TrayIcon { trayVisible: true; tooltip: qsTr("App") }
+//   tray.notifySystem(title, body, icon)  // icon: 0 info, 1 warning, 2 error
+//   onTrayActivated: (reason) => { … }    // Windows: WM_LBUTTONUP / DBLCLK / RBUTTONUP
+//
+// See docs/system-integration.md.
 class TrayIcon : public QObject
 {
     Q_OBJECT
@@ -38,7 +44,8 @@ public:
 
     bool supportsMessages() const;
 
-    // Show a tray balloon (Windows) or notify-send (Linux)
+    // Show a tray balloon (Windows) or portal/notify-send (Linux).
+    // icon: 0 = info, 1 = warning, 2 = error (Win NIIF_*; Linux severity ignored).
     Q_INVOKABLE void notifySystem(const QString &title, const QString &message, int icon = 0);
 
 signals:

@@ -118,6 +118,8 @@ Linux uses `org.freedesktop.ScreenSaver.Inhibit` (cookie) with portal Inhibit as
 
 ## FilePicker (portal → zenity/kdialog)
 
+Full LoB recipe (Win + Linux): **[system-integration.md](system-integration.md)**.
+
 When Qt DBus is available (`QWINUI3_HAS_DBUS`), FilePicker tries **xdg-desktop-portal FileChooser** first.
 
 Pass the host window so X11/XWayland portals can set `parent_window` (`x11:0x…`):

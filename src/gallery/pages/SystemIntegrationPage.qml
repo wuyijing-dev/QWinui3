@@ -23,6 +23,9 @@ CatalogPage {
         onNotified: function (title, message) {
             toasts.info(message, title)
         }
+        onTrayActivated: function (reason) {
+            toasts.info(qsTr("reason 0x%1").arg(Number(reason).toString(16)), qsTr("Tray click"))
+        }
     }
 
     overlay: ToastHost {
@@ -80,14 +83,14 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 color: Theme.textSecondary
-                text: qsTr("Linux/Wayland: configurePlatformEnvironment() before QGuiApplication; FilePicker prefers xdg-desktop-portal then zenity/kdialog. See docs/platform-linux-wayland.md.")
+                text: qsTr("Linux/Wayland: configurePlatformEnvironment() before QGuiApplication; FilePicker prefers xdg-desktop-portal then zenity/kdialog. See docs/system-integration.md.")
             }
         }
     }
 
     ControlExample {
         headerText: qsTr("FilePicker")
-        qmlSource: "FilePicker.openFile(title, filters, function (path) { … })"
+        qmlSource: "FilePicker.openFile(title, filters, function (path) { … }, Window.window)"
 
         ColumnLayout {
             Layout.fillWidth: true
@@ -97,11 +100,24 @@ CatalogPage {
                 wrapMode: Text.WrapAnywhere
                 Layout.fillWidth: true
             }
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                color: Theme.textSecondary
+                text: qsTr("Cancel → empty path. Always pass Window.window for dialog ownership.")
+            }
             RowLayout {
                 Button {
                     text: qsTr("Open file")
                     onClicked: FilePicker.openFile(qsTr("Open"), ["All (*.*)"], function (p) {
                         page.lastPath = p || qsTr("(cancelled)")
+                    }, page.Window.window)
+                }
+                Button {
+                    text: qsTr("Open files")
+                    onClicked: FilePicker.openFiles(qsTr("Open"), ["All (*.*)"], function (paths) {
+                        page.lastPath = (paths && paths.length)
+                                       ? paths.join("; ") : qsTr("(cancelled)")
                     }, page.Window.window)
                 }
                 Button {
@@ -145,9 +161,19 @@ CatalogPage {
                       : qsTr("Linux: notify-send (install libnotify-bin).")
             }
             Button {
-                text: qsTr("Notify")
+                text: qsTr("Notify info")
                 enabled: trayToggle.checked
-                onClicked: tray.notifySystem(qsTr("QWinUI3"), qsTr("Notification from Gallery."))
+                onClicked: tray.notifySystem(qsTr("QWinUI3"), qsTr("Info balloon."), 0)
+            }
+            Button {
+                text: qsTr("Notify warning")
+                enabled: trayToggle.checked
+                onClicked: tray.notifySystem(qsTr("QWinUI3"), qsTr("Warning balloon."), 1)
+            }
+            Button {
+                text: qsTr("Notify error")
+                enabled: trayToggle.checked
+                onClicked: tray.notifySystem(qsTr("QWinUI3"), qsTr("Error balloon."), 2)
             }
         }
     }

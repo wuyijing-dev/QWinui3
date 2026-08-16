@@ -19,8 +19,9 @@ import QWinUI3.Platform
 //   // signals: systemNotified(string, string)
 //
 // @notes
-//   Uses TrayIcon.notifySystem → Windows balloon / org.freedesktop.Notifications /
+//   Uses TrayIcon.notifySystem → Windows balloon (icon 0/1/2) / org.freedesktop.Notifications /
 //   notify-send. When toastHost is set, show() also enqueues an in-app toast.
+//   Prefer bridge.info/success/warning/error for LoB apps. See docs/system-integration.md.
 
 T.Control {
     id: root

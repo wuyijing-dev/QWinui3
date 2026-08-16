@@ -69,7 +69,7 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.Wrap
                 color: Theme.textSecondary
-                text: qsTr("Windows: tray balloon via Shell_NotifyIcon. Linux: org.freedesktop.Notifications portal, then notify-send.")
+                text: qsTr("Prefer bridge.info/success/warning/error for LoB apps (toast + OS). Windows balloons use icon 0/1/2; Linux portal → notify-send. See docs/system-integration.md.")
             }
         }
     }
