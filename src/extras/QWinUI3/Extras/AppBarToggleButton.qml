@@ -53,8 +53,8 @@ IconicButton {
     }
     leftPadding: _showLabel && _labelRight ? 10 : 8
     rightPadding: leftPadding
-    topPadding: _showLabel && !_labelRight ? 6 : 4
-    bottomPadding: topPadding
+    topPadding: 6
+    bottomPadding: 6
     checkable: true
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontCaption
@@ -67,33 +67,43 @@ IconicButton {
         rowSpacing: 2
         flow: GridLayout.LeftToRight
 
-        Text {
+        Item {
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+            Layout.preferredWidth: control.iconSize
+            Layout.preferredHeight: control.iconSize
             Layout.row: 0
             Layout.column: 0
-            text: control.effectiveIconGlyph
-            font.family: Theme.fontFamilyIcon
-            font.pixelSize: control.iconSize
-            color: {
-                if (!control.enabled)
-                    return Theme.textDisabled
-                if (control.checked || control.highlighted)
-                    return Theme.accent
-                return Theme.textPrimary
-            }
-            scale: control.down ? 0.92 : 1
-            Behavior on color {
-                enabled: !Theme.reducedMotion
-                ColorAnimation {
-                    duration: Theme.duration(Theme.motionFast)
-                    easing.type: Theme.easingStandard
+
+            Text {
+                anchors.centerIn: parent
+                width: control.iconSize
+                height: control.iconSize
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                text: control.effectiveIconGlyph
+                font.family: Theme.fontFamilyIcon
+                font.pixelSize: control.iconSize
+                color: {
+                    if (!control.enabled)
+                        return Theme.textDisabled
+                    if (control.checked || control.highlighted)
+                        return Theme.accent
+                    return Theme.textPrimary
                 }
-            }
-            Behavior on scale {
-                enabled: !Theme.reducedMotion
-                NumberAnimation {
-                    duration: Theme.duration(Theme.motionFast)
-                    easing.type: Theme.easingStandard
+                scale: control.down ? 0.92 : 1
+                Behavior on color {
+                    enabled: !Theme.reducedMotion
+                    ColorAnimation {
+                        duration: Theme.duration(Theme.motionFast)
+                        easing.type: Theme.easingStandard
+                    }
+                }
+                Behavior on scale {
+                    enabled: !Theme.reducedMotion
+                    NumberAnimation {
+                        duration: Theme.duration(Theme.motionFast)
+                        easing.type: Theme.easingStandard
+                    }
                 }
             }
         }
@@ -163,10 +173,9 @@ IconicButton {
         Rectangle {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.bottom: parent.bottom
-            anchors.bottomMargin: 2
-            width: control.checked ? Math.min(parent.width - 16, 24) : 0
-            height: 3
-            radius: 1.5
+            width: control.checked ? Math.min(parent.width - 12, 20) : 0
+            height: 2
+            radius: 1
             color: Theme.accent
             opacity: control.checked ? 1 : 0
             Behavior on width {

@@ -26,7 +26,9 @@ T.Control {
     property real margin: orientation === Qt.Vertical ? 4 : 4
 
     implicitWidth: orientation === Qt.Vertical ? (thickness + margin * 2) : 24
-    implicitHeight: orientation === Qt.Vertical ? Theme.controlHeight + 12 : (thickness + margin * 2)
+    // Match AppBarButton compact height — extra +12 made the bar row taller than
+    // icon buttons and looked like uneven top/bottom padding when collapsed.
+    implicitHeight: orientation === Qt.Vertical ? Theme.controlHeight : (thickness + margin * 2)
     padding: 0
     Accessible.ignored: true
 

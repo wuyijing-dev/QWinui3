@@ -230,18 +230,6 @@ T.Control {
                 duration: Theme.duration(Theme.motionFast)
             }
         }
-
-        Rectangle {
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.top: parent.top
-            anchors.margins: 1
-            height: 1
-            color: Theme.dark ? "#12FFFFFF" : "#0F000000"
-            opacity: 0.5
-            radius: 1
-            visible: root.isOpen
-        }
     }
 
     contentItem: Item {
@@ -254,11 +242,14 @@ T.Control {
             id: barRow
             anchors.fill: parent
             spacing: root.barSpacing
+            // Keep primary / overflow controls vertically centered in compact bars.
+            Layout.alignment: Qt.AlignVCenter
 
             RowLayout {
                 id: primaryRow
                 spacing: root.barSpacing
                 Layout.fillWidth: true
+                Layout.alignment: Qt.AlignVCenter
                 clip: root.isDynamicOverflowEnabled
                 visible: root._showPrimary
                 opacity: visible ? 1 : 0
