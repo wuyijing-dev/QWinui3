@@ -47,6 +47,26 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.47 → 1.48
+
+**Product version:** 1.48  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- Follow [dialogs-flyouts.md](dialogs-flyouts.md) for 2+ queued dialogs, owner `Overlay.overlay`, and Esc/`onClosing` patterns.
+- Gallery ContentDialog page: **Enqueue A → B → C** stress demo (critical smoke).
+
+#### Action required (behavior fix)
+
+| Area | Change | What to do |
+|------|--------|------------|
+| `ContentDialogQueue.replaceCurrent` | No longer pumps the pending queue while replacing | If you relied on the old race (pending opening mid-replace), switch to explicit `show()` after close |
+
+#### No action (compatible)
+
+- FIFO `show()` / `cancel` / `clearQueue` semantics unchanged for the common path.
+
 ### Upgrade 1.46 → 1.47
 
 **Product version:** 1.47  

@@ -42,7 +42,7 @@ Helpers: `host.info` / `success` / `warning` / `error` (InfoBarHost & ToastHost;
 |---------|----------------|
 | **ToastHost** | `maxVisible` (default 3); further `show()` wait in `pending`; drain when a toast closes. `count` / `pendingCount` / `totalCount`. |
 | **InfoBarHost** | Declared children; `maxVisible` hides older bars (`0` = unlimited). Not a pending queue — open/close the bars you own. |
-| **ContentDialogQueue** | One modal at a time — [dialogs-flyouts.md](dialogs-flyouts.md). |
+| **ContentDialogQueue** | One modal at a time — [dialogs-flyouts.md](dialogs-flyouts.md) (**1.48**). |
 | **TeachingTip** | One tip instance; do not stack competing tips on the same target. |
 
 ```qml

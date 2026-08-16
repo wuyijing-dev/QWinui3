@@ -19,6 +19,7 @@ This site is generated from QML source comments and shipped via GitHub Pages.
 | [i18n / RTL](i18n-rtl.md) | qsTr + zh_CN seed + LayoutMirroring (**1.45**) |
 | [Consumer packaging](packaging-consumer.md) | Shared vs static / windeploy / strip (**1.46**) |
 | [Shell extras](shell-extras.md) | Snap Layouts · taskbar · attention (**1.47**) |
+| [Dialogs & flyouts](dialogs-flyouts.md) | ContentDialogQueue FIFO · Esc (**1.48**) |
 | [Component API](components.md) | Full public + internal control index |
 | [Qt Creator](qt-creator.md) | Open Gallery / examples (CMake only) |
 | [Roadmap](roadmap.md) | Small `1.xx` slices |

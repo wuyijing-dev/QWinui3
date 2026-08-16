@@ -4,24 +4,24 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — Dialogs & flyouts chooser (1.16 / 1.37).
+// Gallery — Dialogs & flyouts chooser (1.16 / 1.37 / 1.48).
 //
-// Recipe: docs/dialogs-flyouts.md · stable-api.md (Flyout / Drawer promoted 1.37)
+// Recipe: docs/dialogs-flyouts.md · ContentDialogQueue deepen (1.48)
 
 CatalogPage {
     title: qsTr("Dialogs & flyouts")
-    subtitle: qsTr("ContentDialog / Flyout / TeachingTip / Drawer — stable surfaces (1.37). Recipe: docs/dialogs-flyouts.md.")
+    subtitle: qsTr("ContentDialog queue · Flyout · TeachingTip · Drawer. Recipe: docs/dialogs-flyouts.md (1.48).")
 
     ControlExample {
-        headerText: qsTr("When to use which (1.16 / 1.37)")
-        qmlSource: "// ContentDialog — blocking\n// Flyout / TeachingTip — light-dismiss\n// Drawer — edge panel"
+        headerText: qsTr("When to use which (1.16 / 1.37 / 1.48)")
+        qmlSource: "// ContentDialog — blocking + queue\n// Flyout / TeachingTip — light-dismiss\n// Drawer — edge panel"
         ColumnLayout {
             Layout.fillWidth: true
             spacing: Theme.spacing
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("ContentDialog (+ queue) for confirms and save/discard. Flyout for short contextual UI. TeachingTip for coach marks. Drawer for edge navigation. MenuFlyout for action lists (see Commands). Promote map: docs/stable-api.md (1.37).")
+                text: qsTr("ContentDialog (+ ContentDialogQueue) for confirms and multi-step save/export chains. Flyout for short contextual UI. TeachingTip for coach marks. Drawer for edge navigation. MenuFlyout for action lists (see Commands). Queue FIFO / owner Overlay / Esc: docs/dialogs-flyouts.md (1.48).")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
@@ -29,7 +29,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("ContentDialog: Enter activates defaultButton; Esc uses the close path and honors onClosing cancel. Outside click does not dismiss.")
+                text: qsTr("ContentDialog: Enter activates defaultButton; Esc uses the close path and honors onClosing cancel. Outside click does not dismiss. Stress demo: ContentDialog page → Enqueue A → B → C.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textPrimary
@@ -52,7 +52,7 @@ CatalogPage {
             Label {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("• ContentDialog — queue, defaultButton, Closing cancel\n• Flyout — placement + light dismiss\n• TeachingTip — coach mark + InfoBar recipe page\n• Drawer — edge panel on Overlay\n• MenuFlyout — context actions (commands.md)")
+                text: qsTr("• ContentDialog — queue stress A→B→C, defaultButton, Closing cancel (1.48)\n• Flyout — placement + light dismiss\n• TeachingTip — coach mark + InfoBar recipe page\n• Drawer — edge panel on Overlay\n• MenuFlyout — context actions (commands.md)")
                 color: Theme.textPrimary
             }
         }

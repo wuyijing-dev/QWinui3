@@ -697,7 +697,7 @@ QtObject {
             title: qsTr("ContentDialog"),
             category: "dialogs",
             icon: FluentIcons.Comment,
-            description: qsTr("A modal dialog with primary, secondary, and close actions."),
+            description: qsTr("Modal queue A→B→C · Esc/Closing — docs/dialogs-flyouts.md (1.48)."),
             component: "ContentDialogPage",
             source: "pages/ContentDialogPage.qml"
         },
@@ -705,7 +705,7 @@ QtObject {
             title: qsTr("Dialogs & flyouts"),
             category: "dialogs",
             icon: FluentIcons.Comment,
-            description: qsTr("Chooser: ContentDialog / Flyout / TeachingTip / Drawer (stable surfaces 1.37)."),
+            description: qsTr("Chooser + queue recipe pointer — docs/dialogs-flyouts.md (1.48)."),
             component: "DialogsFlyoutsPage",
             source: "pages/DialogsFlyoutsPage.qml"
         },
@@ -1425,6 +1425,8 @@ QtObject {
     // Curated “recently shipped” recipe pages (1.20) — not catalog array order.
     function recentlyShipped(count) {
         var ids = [
+            "ContentDialogPage",      // 1.48 queue stress
+            "DialogsFlyoutsPage",     // 1.48 / 1.37
             "SystemIntegrationPage",  // 1.47 Snap / shell extras
             "I18nRtlPage",            // 1.45 locale packs
             "AccessibilityPage",      // 1.44 keyboard tour
@@ -1437,7 +1439,6 @@ QtObject {
             "PitfallsPage",           // 1.40 compatibility freeze
             "NavigationViewPage",     // 1.39 page cache / cold start
             "HomePage",               // 1.39 deferred card effects
-            "DialogsFlyoutsPage",     // 1.37 promote
             "TabViewPage",            // 1.37 promote
             "WindowParadigmPage",     // 1.37 ShellWindow family
             "ChartsPage",             // 1.23

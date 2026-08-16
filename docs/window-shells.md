@@ -145,13 +145,13 @@ StatusBar {
 
 ## ContentDialog queue
 
-`ContentDialog.show()` enqueues via `ContentDialogQueue` (one visible dialog at a time).
+`ContentDialog.show()` enqueues via `ContentDialogQueue` (one visible dialog at a time). Full FIFO / owner / Esc recipe: [dialogs-flyouts.md](dialogs-flyouts.md) (**1.48**).
 
 ```qml
 ContentDialogQueue.show(dialogA)
 ContentDialogQueue.cancel(dialogA)       // drop pending
 ContentDialogQueue.clearQueue()          // drop all pending
-ContentDialogQueue.replaceCurrent(dialogB) // close active, open B; queue resumes after
+ContentDialogQueue.replaceCurrent(dialogB) // close active without pumping; open B; queue resumes after
 ```
 
 ## Theme tokens (WinUI-aligned)

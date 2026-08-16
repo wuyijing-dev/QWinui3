@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.47**
-**Next up:** **1.48** (Modal stack & ContentDialogQueue deepen)
+**Current:** **1.48**
+**Next up:** **1.49** (Extractable Gallery shell template)
 **Planned through:** **1.50** (1.xx maturity checkpoint)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](qt-version-compat.md)
 
@@ -60,7 +60,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.47`
+## Shipped — `1.01` … `1.48`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -250,30 +250,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** Refreshed [shell-extras.md](shell-extras.md) Snap Layouts toggle UX, taskbar / attention / reveal recipes, honest Linux n/a matrix; Gallery System integration demos (Snap · taskbar · flash continuous); window-helper / system-integration cross-links; product version `1.47`.
 
+### 1.48 — Modal stack & ContentDialogQueue deepen (shipped)
+
+**Shipped:** Extended [dialogs-flyouts.md](dialogs-flyouts.md) FIFO / owner Overlay / Esc recipes; fixed `replaceCurrent` not pumping pending; Gallery ContentDialog A→B→C stress + Dialogs & flyouts pointers; product version `1.48`.
+
 ---
 
-## Horizon — planned `1.48` … `1.50`
+## Horizon — planned `1.49` … `1.50`
 
 Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per `YY`.
-
-### 1.48 — Modal stack & ContentDialogQueue deepen
-
-**Why:** Queued dialogs (1.16) need multi-dialog / owner-window recipes for LoB apps.
-
-**In scope**
-
-- Queue ordering, owner/transient rules, Esc cancel patterns; Gallery stress demos.
-- Extend [dialogs-flyouts.md](dialogs-flyouts.md).
-
-**Out of scope**
-
-- Replacing Qt Quick Dialog entirely; non-modal sheet redesign.
-
-**Exit criteria**
-
-- Recipe for 2+ queued dialogs; smoke or Gallery path covers the happy case.
-
----
 
 ### 1.49 — Extractable Gallery shell template
 

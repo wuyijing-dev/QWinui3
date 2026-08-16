@@ -4,13 +4,14 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — Confirm action.
+// Gallery — Confirm action + ContentDialogQueue stress (1.48).
 //
-// Modal dialog with isOpen, enter/exit motion, and primary / secondary / close actions. API: docs/components/ContentDialog.md
+// Modal dialog with isOpen, enter/exit motion, and primary / secondary / close actions.
+// Queue recipe: docs/dialogs-flyouts.md · API: docs/components/ContentDialog.md
 
 CatalogPage {
     title: qsTr("ContentDialog")
-    subtitle: qsTr("Modal confirm via queue. Enter = defaultButton; Esc = close path. docs/dialogs-flyouts.md")
+    subtitle: qsTr("Modal queue (1.48): FIFO · owner Overlay · Esc/Closing. docs/dialogs-flyouts.md")
 
     overlay: [
         ContentDialog {
@@ -115,11 +116,100 @@ CatalogPage {
                 wrapMode: Text.Wrap
                 color: Theme.textPrimary
             }
+        },
+        ContentDialog {
+            id: queueA
+            parent: Overlay.overlay
+            anchors.centerIn: Overlay.overlay
+            title: qsTr("Queue A — Save")
+            primaryButtonText: qsTr("Save")
+            closeButtonText: qsTr("Skip")
+            defaultButton: "primary"
+            Label {
+                text: qsTr("First in FIFO stress. Dismiss to pump Queue B.")
+                wrapMode: Text.Wrap
+                color: Theme.textPrimary
+            }
+        },
+        ContentDialog {
+            id: queueB
+            parent: Overlay.overlay
+            anchors.centerIn: Overlay.overlay
+            title: qsTr("Queue B — Export")
+            primaryButtonText: qsTr("Export")
+            closeButtonText: qsTr("Later")
+            defaultButton: "close"
+            Label {
+                text: qsTr("Second in FIFO. Cancel while A is open to drop this pending entry.")
+                wrapMode: Text.Wrap
+                color: Theme.textPrimary
+            }
+        },
+        ContentDialog {
+            id: queueC
+            parent: Overlay.overlay
+            anchors.centerIn: Overlay.overlay
+            title: qsTr("Queue C — Restart")
+            primaryButtonText: qsTr("Restart")
+            closeButtonText: qsTr("Cancel")
+            defaultButton: "close"
+            Label {
+                text: qsTr("Third in FIFO. replaceCurrent can jump here without losing pending order.")
+                wrapMode: Text.Wrap
+                color: Theme.textPrimary
+            }
         }
     ]
 
     ControlExample {
-        headerText: qsTr("Keyboard model (1.16)")
+        headerText: qsTr("Queue stress (1.48)")
+        qmlSource: "a.show(); b.show(); c.show()\n// pendingCount / busy — docs/dialogs-flyouts.md"
+
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                color: Theme.textSecondary
+                text: qsTr("Parent dialogs on Overlay.overlay. Enqueue A→B→C, dismiss in order. Esc uses the close path on the active dialog only; onClosing can cancel. Recipe: docs/dialogs-flyouts.md.")
+            }
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                color: Theme.textPrimary
+                text: qsTr("busy=%1 · pendingCount=%2")
+                    .arg(ContentDialogQueue.busy)
+                    .arg(ContentDialogQueue.pendingCount)
+            }
+            RowLayout {
+                Button {
+                    text: qsTr("Enqueue A → B → C")
+                    highlighted: true
+                    onClicked: {
+                        queueA.show()
+                        queueB.show()
+                        queueC.show()
+                    }
+                }
+                Button {
+                    text: qsTr("Cancel B (pending)")
+                    onClicked: ContentDialogQueue.cancel(queueB)
+                }
+                Button {
+                    text: qsTr("Replace → C")
+                    onClicked: ContentDialogQueue.replaceCurrent(queueC)
+                }
+                Button {
+                    text: qsTr("Clear pending")
+                    onClicked: ContentDialogQueue.clearQueue()
+                }
+            }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Keyboard / Esc (1.16 / 1.48)")
         qmlSource: "// Enter → activateDefault()\n// Esc → close path (onClosing can cancel)\n// docs/dialogs-flyouts.md"
         ColumnLayout {
             Layout.fillWidth: true

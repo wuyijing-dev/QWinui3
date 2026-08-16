@@ -83,7 +83,7 @@ Promoted this slice (Gallery + recipe soak). Status flips are **named here** —
 | Type | Module | Notes |
 |------|--------|--------|
 | `ContentDialog` | Extras | Modal primary/secondary/close — [dialogs-flyouts.md](dialogs-flyouts.md) (1.16 Esc/default) |
-| `ContentDialogQueue` | Extras | Serialize dialogs — [dialogs-flyouts.md](dialogs-flyouts.md) |
+| `ContentDialogQueue` | Extras | Serialize dialogs — [dialogs-flyouts.md](dialogs-flyouts.md) (**1.48**) |
 | `Flyout` / style `Drawer` | Extras / Style | Light-dismiss / edge panel — [dialogs-flyouts.md](dialogs-flyouts.md) (**1.37**) |
 | `InfoBar` / `InfoBarHost` | Extras | Inline severity banners — [feedback.md](feedback.md) (1.34) |
 | `Toast` / `ToastHost` | Extras | Transient toasts + pending queue — [feedback.md](feedback.md) |
@@ -225,3 +225,4 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.45** | Localization deepen — [i18n-rtl.md](i18n-rtl.md); zh_CN seed; Gallery `--lang`; translation smoke check |
 | **1.46** | Shared redistribute polish — [packaging-consumer.md](packaging-consumer.md); `check_shared_package.py`; windeploy/linuxdeploy + strip |
 | **1.47** | Snap Layouts / shell extras polish — [shell-extras.md](shell-extras.md); Gallery System integration demos |
+| **1.48** | ContentDialogQueue deepen — [dialogs-flyouts.md](dialogs-flyouts.md); `replaceCurrent` pump fix; Gallery A→B→C stress |
