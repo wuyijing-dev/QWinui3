@@ -10,7 +10,7 @@ import QWinUI3.Extras
 
 CatalogPage {
     title: qsTr("TeachingTip")
-    subtitle: qsTr("Contextual tip with symbol, ElevatedChrome, and AccentButton action.")
+    subtitle: qsTr("Coach mark tip. Use ContentDialog for confirms — docs/dialogs-flyouts.md.")
 
     ControlExample {
         headerText: qsTr("A simple TeachingTip")

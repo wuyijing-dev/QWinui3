@@ -25,6 +25,7 @@ import QWinUI3.Theme
 //   Put body as children; optional title / subtitle chrome.
 //   showMode: standard | transient | transientWithDismissOnPointerMoveAway (WinUI ShowMode).
 //   shouldConstrainToRootBounds clamps to overlay / parent (default true).
+//   Prefer for non-modal context UI; use ContentDialog for blocking decisions (docs/dialogs-flyouts.md).
 
 T.Popup {
     id: root

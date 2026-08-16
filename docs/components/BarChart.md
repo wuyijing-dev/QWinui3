@@ -4,7 +4,7 @@ Vertical bar chart with reveal animation.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/BarChart.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/BarChart.qml)
 
-**Category:** Charts & gauges · **Library:** v1.15
+**Category:** Charts & gauges · **Library:** v1.16
 
 [← Component index](../components.md)
 

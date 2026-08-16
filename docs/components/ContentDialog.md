@@ -4,7 +4,7 @@ Modal dialog with primary / secondary / close actions.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ContentDialog.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ContentDialog.qml)
 
-**Category:** Input & forms · **Library:** v1.15
+**Category:** Input & forms · **Library:** v1.16
 
 [← Component index](../components.md)
 
@@ -43,6 +43,8 @@ fullSizeDesired expands toward the overlay (WinUI FullSizeDesired).
 dialogResult: none | primary | secondary | close (WinUI ContentDialogResult).
 primaryButton / secondaryButton / closeButton slots override text buttons.
 Body: put content as children (moved into the dialog body slot).
+Keyboard (1.16): Enter/Return → activateDefault(); Esc → close path via requestClose
+(honors onClosing { args.cancel = true }). Outside click does not dismiss.
 
 ## API
 

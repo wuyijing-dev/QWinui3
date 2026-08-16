@@ -9,7 +9,7 @@ import QWinUI3.Theme
 
 CatalogPage {
     title: qsTr("Drawer")
-    subtitle: qsTr("A slide-out panel that presents navigation or contextual content from an edge.")
+    subtitle: qsTr("Edge panel on Overlay. Parent window Overlay — docs/dialogs-flyouts.md.")
 
     overlay: Drawer {
         id: drawer

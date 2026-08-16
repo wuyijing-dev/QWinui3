@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.15**  
-**Next up:** **1.16** (dialogs & flyouts consistency)  
+**Current:** **1.16**  
+**Next up:** **1.17** (shell extras productize)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](qt-version-compat.md)
 
 This plan starts from **what 1.00 already was**, then walks **small `1.xx` minors**. Stay on **1.xx for a long time**. **2.00 is not next**—only when we truly need breaking changes.
@@ -59,7 +59,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.15`
+## Shipped — `1.01` … `1.16`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -121,34 +121,17 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** [commands.md](commands.md); CommandPalette list-item Accessible names; Gallery keyboard callouts (CommandPalette / CommandBar / MenuFlyout / MenuBar); MenuBar `Action.shortcut` demo; product version `1.15`.
 
+### 1.16 — Dialogs & flyouts consistency (shipped)
+
+**Shipped:** [dialogs-flyouts.md](dialogs-flyouts.md); ContentDialog Esc → `requestClose` / Closing cancel; Gallery **Dialogs & flyouts** chooser + page callouts; ContentDialog remains stable; product version `1.16`.
+
 ---
 
-## Near path — planned `1.16` … `1.20`
+## Near path — planned `1.17` … `1.20`
 
 Order is intentional but **flexible**: if a soak or customer pain appears, swap two adjacent minors—do not merge five themes into one `YY`. After this band: **mid path `1.21`–`1.30`**, then later `1.31+`—still no `2.00`.
 
-### 1.16 — Dialogs & flyouts consistency
-
-**Why:** ContentDialog / queues / TeachingTip / Flyout / Drawer already exist; apps need one modal vs light-dismiss story.
-
-**In scope**
-
-- Document when to use ContentDialog vs Flyout vs TeachingTip vs Drawer.
-- Harden queue + Esc / default button patterns if gaps remain after 1.02/1.08.
-- Gallery cross-links; small recipe doc.
-
-**Out of scope**
-
-- New dialog engine; replacing QQC Dialog entirely.
-
-**Exit criteria**
-
-- Recipe doc; stable-api unchanged unless a type is explicitly promoted.
-
----
-
 ### 1.17 — Shell extras productize (taskbar / idle / attention)
-
 **Why:** System Integration Gallery demos these; 1.10 left them experimental.
 
 **In scope**

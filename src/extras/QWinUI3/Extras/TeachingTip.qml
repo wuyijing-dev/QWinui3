@@ -26,6 +26,7 @@ import QWinUI3.Theme
 //   WinUI TeachingTip: target, title/subtitle, Content + HeroContent, ActionButton (actionText),
 //   CloseButton, PreferredPlacement, TailVisibility, PlacementMargin, IsLightDismissEnabled.
 //   Parents to Window Overlay on open so placement is relative to the window, not a layout cell.
+//   Coach-mark / first-run tip — not for confirmations (use ContentDialog; docs/dialogs-flyouts.md).
 
 T.Popup {
     id: root

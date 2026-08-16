@@ -702,6 +702,14 @@ QtObject {
             source: "pages/ContentDialogPage.qml"
         },
         {
+            title: qsTr("Dialogs & flyouts"),
+            category: "dialogs",
+            icon: FluentIcons.Comment,
+            description: qsTr("Chooser: ContentDialog vs Flyout vs TeachingTip vs Drawer."),
+            component: "DialogsFlyoutsPage",
+            source: "pages/DialogsFlyoutsPage.qml"
+        },
+        {
             title: qsTr("Flyout"),
             category: "dialogs",
             icon: FluentIcons.Lightbulb,

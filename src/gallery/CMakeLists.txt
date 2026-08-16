@@ -60,6 +60,7 @@ qt_add_qml_module(qwinui3_gallery
         pages/ConnectedAnimationPage.qml
         pages/ContentCardPage.qml
         pages/ContentDialogPage.qml
+        pages/DialogsFlyoutsPage.qml
         pages/CopyButtonPage.qml
         pages/DataTablePage.qml
         pages/DelegatesPage.qml

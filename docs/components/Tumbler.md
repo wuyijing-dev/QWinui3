@@ -4,7 +4,7 @@ Fluent styled Tumbler.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/Tumbler.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/Tumbler.qml)
 
-**Category:** Styled controls · **Library:** v1.15
+**Category:** Styled controls · **Library:** v1.16
 
 [← Component index](../components.md)
 

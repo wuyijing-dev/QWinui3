@@ -46,8 +46,8 @@ Style module (`QT_QUICK_CONTROLS_STYLE=QWinUI3`): treating **standard** `QtQuick
 
 | Type | Module | Notes |
 |------|--------|--------|
-| `ContentDialog` | Extras | Modal primary/secondary/close |
-| `ContentDialogQueue` | Extras | Serialize dialogs |
+| `ContentDialog` | Extras | Modal primary/secondary/close — [dialogs-flyouts.md](dialogs-flyouts.md) (1.16 Esc/default) |
+| `ContentDialogQueue` | Extras | Serialize dialogs — [dialogs-flyouts.md](dialogs-flyouts.md) |
 | `InfoBar` / `InfoBarHost` | Extras | Inline severity banners |
 | `Toast` / `ToastHost` | Extras | Transient toasts |
 
@@ -133,3 +133,4 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.13** | i18n / RTL baseline [i18n-rtl.md](i18n-rtl.md); LayoutMirroring + AlignLeading |
 | **1.14** | Qt 6.5 / 6.8 / 6.10 Gallery CI matrix [qt-version-compat.md](qt-version-compat.md) |
 | **1.15** | Command surfaces keyboard recipe [commands.md](commands.md) |
+| **1.16** | Dialogs/flyouts recipe [dialogs-flyouts.md](dialogs-flyouts.md); ContentDialog Esc → Closing |

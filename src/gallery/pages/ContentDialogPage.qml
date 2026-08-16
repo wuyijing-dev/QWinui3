@@ -10,7 +10,7 @@ import QWinUI3.Extras
 
 CatalogPage {
     title: qsTr("ContentDialog")
-    subtitle: qsTr("Enter animation on by default (WinUI often needs DefaultContentDialogStyle). Result logging, custom buttons, FullSizeDesired.")
+    subtitle: qsTr("Modal confirm via queue. Enter = defaultButton; Esc = close path. docs/dialogs-flyouts.md")
 
     overlay: [
         ContentDialog {
@@ -117,6 +117,23 @@ CatalogPage {
             }
         }
     ]
+
+    ControlExample {
+        headerText: qsTr("Keyboard model (1.16)")
+        qmlSource: "// Enter → activateDefault()\n// Esc → close path (onClosing can cancel)\n// docs/dialogs-flyouts.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Always call show() so ContentDialogQueue serializes dialogs. Outside click does not dismiss. Use onClosing { args.cancel = true } to block Esc/close when needed.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+        }
+    }
 
     ControlExample {
         headerText: qsTr("Primary and close")

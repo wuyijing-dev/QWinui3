@@ -32,6 +32,8 @@ import QWinUI3.Theme
 //   dialogResult: none | primary | secondary | close (WinUI ContentDialogResult).
 //   primaryButton / secondaryButton / closeButton slots override text buttons.
 //   Body: put content as children (moved into the dialog body slot).
+//   Keyboard (1.16): Enter/Return → activateDefault(); Esc → close path via requestClose
+//   (honors onClosing { args.cancel = true }). Outside click does not dismiss.
 
 T.Dialog {
     id: root
@@ -104,7 +106,8 @@ T.Dialog {
     modal: true
     focus: true
     anchors.centerIn: Overlay.overlay
-    closePolicy: T.Popup.CloseOnEscape
+    // Esc handled below so onClosing can cancel; do not light-dismiss on outside click.
+    closePolicy: T.Popup.NoAutoClose
     standardButtons: T.Dialog.NoButton
     padding: 0
     topPadding: 0
@@ -166,6 +169,14 @@ T.Dialog {
 
     Keys.onReturnPressed: event => { activateDefault(); event.accepted = true }
     Keys.onEnterPressed: event => { activateDefault(); event.accepted = true }
+    Keys.onEscapePressed: function (event) {
+        event.accepted = true
+        // Match close button path so Closing cancel + closeClicked stay consistent.
+        if (closeBtn.visible && closeBtn.enabled)
+            closeBtn.clicked()
+        else
+            requestClose("close")
+    }
 
     function activateDefault() {
         switch (root._defaultButton) {

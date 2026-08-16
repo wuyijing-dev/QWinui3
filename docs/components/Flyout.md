@@ -4,7 +4,7 @@ Light-dismiss popup anchored to a target.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/Flyout.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/Flyout.qml)
 
-**Category:** Dialogs & flyouts · **Library:** v1.15
+**Category:** Dialogs & flyouts · **Library:** v1.16
 
 [← Component index](../components.md)
 
@@ -37,6 +37,7 @@ Call show() / showAt(item, place) / hide(); reposition() after layout changes.
 Put body as children; optional title / subtitle chrome.
 showMode: standard | transient | transientWithDismissOnPointerMoveAway (WinUI ShowMode).
 shouldConstrainToRootBounds clamps to overlay / parent (default true).
+Prefer for non-modal context UI; use ContentDialog for blocking decisions (docs/dialogs-flyouts.md).
 
 ## API
 

@@ -56,6 +56,18 @@ Recipe doc: [`commands.md`](commands.md).
 
 ---
 
+## Dialogs & flyouts (1.16)
+
+| Surface | Behavior |
+|---------|----------|
+| `ContentDialog` | Esc uses close/`requestClose` (honors `onClosing` cancel); Enter → defaultButton |
+| `Flyout` / `TeachingTip` | Light-dismiss; Accessible name from title |
+| `Drawer` | Style modal edge panel; parent window Overlay |
+
+Recipe doc: [`dialogs-flyouts.md`](dialogs-flyouts.md).
+
+---
+
 ## Severity-tracked (not 1.02)
 
 | Item | Severity | Notes |

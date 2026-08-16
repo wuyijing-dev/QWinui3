@@ -10,7 +10,7 @@ import QWinUI3.Extras
 
 CatalogPage {
     title: qsTr("Flyout")
-    subtitle: qsTr("Lightweight contextual UI with title, isOpen / showAt(), and isLightDismissEnabled.")
+    subtitle: qsTr("Light-dismiss contextual UI. Not for blocking confirms — docs/dialogs-flyouts.md.")
 
     ControlExample {
         headerText: qsTr("A simple Flyout")
