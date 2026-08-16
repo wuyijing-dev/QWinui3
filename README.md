@@ -7,8 +7,8 @@ Fluent / [WinUI 3](https://learn.microsoft.com/windows/apps/winui/winui3/)-inspi
 [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-2ea44f)](https://wuyijing-dev.github.io/QWinui3/)
 [![Qt](https://img.shields.io/badge/Qt-6.5%2B-41CD52?logo=qt&logoColor=white)](https://www.qt.io/)
 
-**v1.32** · **200+** public controls · Gallery demos for most of them
-[Documentation](https://wuyijing-dev.github.io/QWinui3/) · [Stable API](docs/stable-api.md) · [Window shells](docs/window-shells.md) · [Graphics backend](docs/graphics-backend.md) · [Density](docs/density.md) · [Icons](docs/icons.md) · [Pickers](docs/pickers.md) · [Navigation](docs/navigation.md) · [Performance](docs/performance.md) · [System integration](docs/system-integration.md) · [Theme overrides](docs/theme-overrides.md) · [Forms](docs/forms.md) · [Data collections](docs/data-collections.md) · [CI smoke](docs/ci-smoke.md) · [WebView2](docs/webview2.md) · [Component API](https://wuyijing-dev.github.io/QWinui3/components/) · [Releases](https://github.com/wuyijing-dev/QWinui3/releases) · [Roadmap](ROADMAP.md)
+**v1.33** · **200+** public controls · Gallery demos for most of them
+[Documentation](https://wuyijing-dev.github.io/QWinui3/) · [Stable API](docs/stable-api.md) · [Tree data](docs/tree-data.md) · [Window shells](docs/window-shells.md) · [Graphics backend](docs/graphics-backend.md) · [Density](docs/density.md) · [Icons](docs/icons.md) · [Pickers](docs/pickers.md) · [Navigation](docs/navigation.md) · [Performance](docs/performance.md) · [System integration](docs/system-integration.md) · [Theme overrides](docs/theme-overrides.md) · [Forms](docs/forms.md) · [Data collections](docs/data-collections.md) · [CI smoke](docs/ci-smoke.md) · [WebView2](docs/webview2.md) · [Component API](https://wuyijing-dev.github.io/QWinui3/components/) · [Releases](https://github.com/wuyijing-dev/QWinui3/releases) · [Roadmap](ROADMAP.md)
 
 ---
 
@@ -257,6 +257,7 @@ Product versions use **`X.YY`** (see [`ROADMAP.md`](ROADMAP.md)); set `QWINUI3_V
 | [`docs/webview2.md`](docs/webview2.md) | Windows WebView2Host integration recipe |
 | [`docs/ci-smoke.md`](docs/ci-smoke.md) | Lightweight Gallery smoke CI |
 | [`docs/data-collections.md`](docs/data-collections.md) | DataTable / ItemsView / ListDetailsView recipes |
+| [`docs/tree-data.md`](docs/tree-data.md) | TreeView hierarchy recipe (1.33) |
 | [`docs/performance.md`](docs/performance.md) | Virtualization, models, chart budgets (1.25) |
 | [`docs/navigation.md`](docs/navigation.md) | NavigationView / TabView recipes (1.27) |
 | [`docs/pickers.md`](docs/pickers.md) | Number / date / time / color pickers (1.28) |

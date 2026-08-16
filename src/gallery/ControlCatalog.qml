@@ -345,7 +345,7 @@ QtObject {
             title: qsTr("TreeView"),
             category: "collections",
             icon: FluentIcons.PageList,
-            description: qsTr("TreeView with DemoTreeModel — expand / collapse."),
+            description: qsTr("Fluent TreeViewDelegate basics — docs/tree-data.md (1.33)."),
             component: "TreeViewPage",
             source: "pages/TreeViewPage.qml"
         },
@@ -353,7 +353,7 @@ QtObject {
             title: qsTr("TreeView recipe"),
             category: "collections",
             icon: FluentIcons.PageList,
-            description: qsTr("Expand / collapse plus context MenuFlyout."),
+            description: qsTr("Hierarchy LoB: selection, ←/→, MenuFlyout, ItemsView sections (1.33)."),
             component: "TreeViewRecipePage",
             source: "pages/TreeViewRecipePage.qml"
         },

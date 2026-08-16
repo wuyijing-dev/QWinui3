@@ -57,6 +57,7 @@ Style module (`QT_QUICK_CONTROLS_STYLE=QWinUI3`): treating **standard** `QtQuick
 |------|--------|--------|
 | `DataTable` | Extras | Sort/filter/resize + stable selection / keyboard — [data-collections.md](data-collections.md) (1.07); scale tips [performance.md](performance.md) (1.25) |
 | `ListDetailsView` / `ItemsView` / `ListTile` | Extras | Master–detail / list recipes — [data-collections.md](data-collections.md) |
+| `TreeView` + Fluent `TreeViewDelegate` | Style / QQC | Hierarchy LoB — [tree-data.md](tree-data.md) (1.33) |
 
 ### Theme & style
 
@@ -158,3 +159,4 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.30** | Density & responsive shells — [density.md](density.md); Theme overrides metrics |
 | **1.31** | Graphics backend handbook — [graphics-backend.md](graphics-backend.md); Gallery Settings / `--rhi` |
 | **1.32** | Window shells matrix — [window-shells.md](window-shells.md) / [window-chrome.md](window-chrome.md); geometry clamp |
+| **1.33** | Tree & hierarchical data — [tree-data.md](tree-data.md); TreeViewDelegate a11y |

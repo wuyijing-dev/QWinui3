@@ -70,6 +70,7 @@ nav:
   - WebView2: webview2.md
   - CI smoke: ci-smoke.md
   - Data collections: data-collections.md
+  - Tree & hierarchical data: tree-data.md
   - Performance: performance.md
   - Navigation & TabView: navigation.md
   - Input & pickers: pickers.md

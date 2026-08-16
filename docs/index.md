@@ -22,6 +22,7 @@ This site is generated from QML source comments and shipped via GitHub Pages.
 | [Media](media.md) | Optional Qt Multimedia / MediaPlayerElement (1.21) |
 | [Animations & transitions](animations.md) | ConnectedAnimation, entrance, theme transitions (1.22) |
 | [Data collections](data-collections.md) | DataTable / ItemsView / ListDetailsView (1.07) |
+| [Tree & hierarchical](tree-data.md) | TreeView recipe, keyboard, a11y (1.33) |
 | [Forms & settings](forms.md) | FormLayout validation + settings recipes (1.08) |
 | [Theme overrides](theme-overrides.md) | Accent / density / branding knobs (1.09) |
 | [System integration](system-integration.md) | FilePicker / TrayIcon / NotificationBridge (1.10) |

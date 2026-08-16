@@ -7,6 +7,9 @@ Recipes for **tabular and master–detail** LoB surfaces. Prefer these over inve
 | [`DataTable`](components/DataTable.md) | Multiple columns, sort / filter / resize, keyboard row nav | DataTable |
 | [`ItemsView`](components/ItemsView.md) | Single-column list, sections, multi-select, context menu | ItemsView |
 | [`ListDetailsView`](components/ListDetailsView.md) | Master list + details pane (`TwoPaneView`) | ListDetailsView |
+| [`TreeView`](components/TreeViewDelegate.md) + style delegate | Parent/child expand-collapse | TreeView / TreeView recipe |
+
+**Hierarchy (folders / outlines):** see **[tree-data.md](tree-data.md) (1.33)** — TreeView vs sectioned ItemsView, keyboard, a11y.
 
 Related: [`ListTile`](components/ListTile.md), [`TwoPaneView`](components/TwoPaneView.md), [`ConnectedAnimation`](components/ConnectedAnimation.md).
 
@@ -19,7 +22,8 @@ Example app: [`examples/master-detail`](../examples/master-detail/) (1.26) — t
 1. **Need columns + sort/filter** → `DataTable` with plain row objects (or wrap a model you map into `rows`).
 2. **Need multi-select / sections / flyout actions** → `ItemsView`.
 3. **Need list + detail reading pane** → `ListDetailsView` (Wide side-by-side; SinglePane with **Back** / Esc).
-4. **Compose** — put an `ItemsView` (or custom list) in `listHeader` / beside `TwoPaneView` yourself; `ListDetailsView` keeps a simple `ItemDelegate` master on purpose.
+4. **Need parent/child expand** → `TreeView` + Fluent `TreeViewDelegate` — [tree-data.md](tree-data.md) (1.33).
+5. **Compose** — put an `ItemsView` (or custom list) in `listHeader` / beside `TwoPaneView` yourself; `ListDetailsView` keeps a simple `ItemDelegate` master on purpose.
 
 ---
 
@@ -71,4 +75,4 @@ Full checklist (charts, Gallery heavy pages, `reuseItems`): **[performance.md](p
 
 ## Out of scope (still)
 
-Multi-select DataTable, cell editors, frozen columns, TreeTable, chart engines, merging ItemsView into ListDetailsView as a hard dependency.
+Multi-select DataTable, cell editors, frozen columns, TreeTable, chart engines, merging ItemsView into ListDetailsView as a hard dependency. Virtualized million-node trees stay out of scope — [tree-data.md](tree-data.md).

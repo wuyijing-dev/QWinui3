@@ -5,17 +5,19 @@ import QtQml.Models
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — TreeView recipe (expand + context menu).
+// Gallery — TreeView recipe (1.33 end-to-end).
 //
-// Fluent TreeViewDelegate rows with a right-click MenuFlyout.
+// Selection, expand/collapse keyboard, context MenuFlyout, Accessible names.
+// Recipe: docs/tree-data.md
 
 CatalogPage {
     id: page
 
     title: qsTr("TreeView recipe")
-    subtitle: qsTr("Expand / collapse via chevron, row click, or context menu.")
+    subtitle: qsTr("Hierarchy LoB: selection, ←/→ expand, MenuFlyout. Recipe: docs/tree-data.md (1.33).")
 
     property int contextRow: -1
+    property string selectedLabel: qsTr("(none)")
 
     overlay: ToastHost {
         id: toasts
@@ -23,15 +25,54 @@ CatalogPage {
         placement: ToastHost.BottomCenter
     }
 
+    function refreshSelectionLabel() {
+        if (tree.currentRow < 0 || tree.currentRow >= tree.rows) {
+            page.selectedLabel = qsTr("(none)")
+            return
+        }
+        var idx = tree.modelIndex(tree.currentRow, 0)
+        if (!idx || !idx.valid) {
+            page.selectedLabel = qsTr("(none)")
+            return
+        }
+        page.selectedLabel = String(tree.model.data(idx, Qt.DisplayRole) || qsTr("(none)"))
+    }
+
     ControlExample {
-        headerText: qsTr("Folders")
-        qmlSource: "TreeView {\n    model: DemoTreeModel { }\n    delegate: TreeViewDelegate { }\n}\nMenuFlyout { … }"
+        headerText: qsTr("When to use (1.33)")
+        qmlSource: "// TreeView — parent/child expand\n// ItemsView + sectionRole — flat groups\n// docs/tree-data.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Use TreeView for real folders/outlines. Prefer ItemsView with sectionRole for Settings-style groups without expand state. DataTable stays flat (columns). Do not invent a second tree control.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Keyboard: ↑/↓ move · → expand or enter child · ← collapse or go to parent. Fluent TreeViewDelegate announces expanded/collapsed + level.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontCaption
+                color: Theme.textPrimary
+            }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Folders + context menu")
+        qmlSource: "TreeView {\n    Accessible.name: qsTr(\"Folder tree\")\n    model: DemoTreeModel { }\n    selectionModel: ItemSelectionModel { … }\n    delegate: TreeViewDelegate { }\n}\nMenuFlyout { … }"
 
         ColumnLayout {
             Layout.fillWidth: true
             spacing: Theme.spacing
 
             RowLayout {
+                Layout.fillWidth: true
                 spacing: Theme.spacing
                 Button {
                     text: qsTr("Expand all")
@@ -41,6 +82,12 @@ CatalogPage {
                     text: qsTr("Collapse all")
                     onClicked: tree.collapseRecursively(-1)
                 }
+                Item { Layout.fillWidth: true }
+                Label {
+                    text: qsTr("Selected: %1").arg(page.selectedLabel)
+                    color: Theme.textSecondary
+                    font.pixelSize: Theme.fontCaption
+                }
             }
 
             TreeView {
@@ -49,10 +96,13 @@ CatalogPage {
                 Layout.preferredHeight: 280
                 clip: true
                 boundsBehavior: Flickable.StopAtBounds
+                Accessible.name: qsTr("Folder tree")
+                Accessible.description: qsTr("Use Left and Right arrows to collapse or expand branches.")
                 model: DemoTreeModel {}
                 selectionModel: ItemSelectionModel {
                     model: tree.model
                 }
+                onCurrentRowChanged: page.refreshSelectionLabel()
                 delegate: TreeViewDelegate {
                     id: del
 
@@ -60,6 +110,7 @@ CatalogPage {
                         acceptedButtons: Qt.RightButton
                         onTapped: {
                             page.contextRow = del.row
+                            tree.currentRow = del.row
                             treeMenu.showAt(del, 0, del.height)
                         }
                     }
@@ -68,6 +119,7 @@ CatalogPage {
                 Component.onCompleted: {
                     if (rows > 0)
                         expand(0)
+                    page.refreshSelectionLabel()
                 }
             }
 
@@ -102,14 +154,43 @@ CatalogPage {
                 }
                 MenuFlyoutItem {
                     text: qsTr("Rename")
-                    onTriggered: toasts.info(qsTr("Rename row %1").arg(page.contextRow), qsTr("Tree"))
+                    onTriggered: toasts.info(qsTr("Rename “%1”").arg(page.selectedLabel), qsTr("Tree"))
                 }
                 MenuFlyoutSeparator {}
                 MenuFlyoutItem {
                     text: qsTr("Delete")
-                    onTriggered: toasts.warningToast(qsTr("Delete row %1").arg(page.contextRow),
+                    onTriggered: toasts.warningToast(qsTr("Delete “%1”").arg(page.selectedLabel),
                                                      qsTr("Tree"))
                 }
+            }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Flat groups (ItemsView alternative)")
+        qmlSource: "ItemsView {\n    sectionRole: \"group\"\n    accessibleName: qsTr(\"Library groups\")\n}"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("When you only need group headers (no expand), ItemsView + sectionRole is enough — see docs/tree-data.md and the ItemsView Gallery page.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            ItemsView {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 200
+                accessibleName: qsTr("Library groups")
+                sectionRole: "group"
+                model: [
+                    { group: qsTr("Documents"), title: qsTr("Projects") },
+                    { group: qsTr("Documents"), title: qsTr("Pictures") },
+                    { group: qsTr("System"), title: qsTr("Downloads") },
+                    { group: qsTr("System"), title: qsTr("Temp") }
+                ]
             }
         }
     }

@@ -4,7 +4,7 @@ Fluent TreeView row with chevron expand / indent.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/TreeViewDelegate.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/TreeViewDelegate.qml)
 
-**Category:** Styled controls · **Library:** v1.21
+**Category:** Styled controls · **Library:** v1.33
 
 [← Component index](../components.md)
 
@@ -14,20 +14,18 @@ Fluent TreeView row with chevron expand / indent.
 TreeView {
     id: tree
     model: treeModel
-    delegate: TreeViewDelegate {
-        // indentation / expansion affordance from style
-    }
+    delegate: TreeViewDelegate { }
 }
 // --- API ---
-// inherits TreeViewDelegate: treeView, expanded, depth, indentation
-// --- API ---
-// inherits TreeViewDelegate: treeView, expanded, depth, indentation
+// inherits TreeViewDelegate: treeView, expanded, depth, indentation, isTreeNode, hasChildren
+// Accessible.name from display text; description includes expand + level (1.33)
 ```
 
 ## Notes
 
 Style-only Fluent chrome for Qt Quick Controls TreeViewDelegate.
 Public API is the Qt Quick Controls TreeViewDelegate type; this file supplies visuals/metrics only.
+Hierarchy recipe: docs/tree-data.md (1.33).
 
 ## API
 

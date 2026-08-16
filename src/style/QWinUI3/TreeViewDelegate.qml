@@ -9,25 +9,37 @@ import QWinUI3.Theme
 //   TreeView {
 //       id: tree
 //       model: treeModel
-//       delegate: TreeViewDelegate {
-//           // indentation / expansion affordance from style
-//       }
+//       delegate: TreeViewDelegate { }
 //   }
 //   // --- API ---
-//   // inherits TreeViewDelegate: treeView, expanded, depth, indentation
-//   // --- API ---
-//   // inherits TreeViewDelegate: treeView, expanded, depth, indentation
+//   // inherits TreeViewDelegate: treeView, expanded, depth, indentation, isTreeNode, hasChildren
+//   // Accessible.name from display text; description includes expand + level (1.33)
 //
 // @notes
 //   Style-only Fluent chrome for Qt Quick Controls TreeViewDelegate.
 //   Public API is the Qt Quick Controls TreeViewDelegate type; this file supplies visuals/metrics only.
+//   Hierarchy recipe: docs/tree-data.md (1.33).
 
 T.TreeViewDelegate {
     id: control
 
 
     Accessible.role: Accessible.TreeItem
-    Accessible.name: control.text
+    Accessible.name: {
+        if (control.text && control.text.length)
+            return control.text
+        if (control.model && control.model.display !== undefined && control.model.display !== null)
+            return String(control.model.display)
+        return qsTr("Tree item")
+    }
+    Accessible.description: {
+        var parts = []
+        if (control.isTreeNode && control.hasChildren)
+            parts.push(control.expanded ? qsTr("expanded") : qsTr("collapsed"))
+        if (control.depth >= 0)
+            parts.push(qsTr("level %1").arg(control.depth + 1))
+        return parts.join(", ")
+    }
     implicitWidth: leftMargin + __contentIndent + implicitContentWidth + rightPadding + rightMargin
     implicitHeight: Math.max(Theme.navItemHeight, implicitContentHeight + 8)
 

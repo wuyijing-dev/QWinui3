@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.32**
-**Next up:** **1.33** (Tree & hierarchical data)
+**Current:** **1.33**
+**Next up:** **1.34** (Feedback surfaces wave 2)
 **Planned through:** **1.50** (1.xx maturity checkpoint)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
 
@@ -60,7 +60,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.32`
+## Shipped — `1.01` … `1.33`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -190,30 +190,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** [window-shells.md](docs/window-shells.md) / [window-chrome.md](docs/window-chrome.md) Win+Linux soak matrix; `geometryPersistenceKey` + multi-monitor clamp recipe in [window-helper.md](docs/window-helper.md); Bootstrap note in Linux docs; Gallery Window shells page + catalog aligned; product version `1.32`.
 
+### 1.33 — Tree & hierarchical data (shipped)
+
+**Shipped:** [tree-data.md](docs/tree-data.md) — TreeView vs ItemsView sections, keyboard ←/→, selection + MenuFlyout recipe; Fluent `TreeViewDelegate` Accessible name/description (expand + level); Gallery TreeView recipe end-to-end + basics page; data-collections cross-link; product version `1.33`.
+
 ---
 
-## Late path — planned `1.33` … `1.40`
+## Late path — planned `1.34` … `1.40`
 
 Still **1.xx**. Schedule after mid path is mostly done; order can flex.
-
-### 1.33 — Tree & hierarchical data
-
-**Why:** TreeView / nested lists ship but lack a LoB recipe next to DataTable (1.07).
-
-**In scope**
-
-- TreeView / nested ItemsView selection, expand/collapse keyboard, Accessible names.
-- `docs/tree-data.md` (or extend [data-collections.md](docs/data-collections.md)); Gallery polish.
-
-**Out of scope**
-
-- Virtualized million-node trees; new tree control family.
-
-**Exit criteria**
-
-- Recipe + one Gallery page that follows it end-to-end.
-
----
 
 ### 1.34 — Feedback surfaces wave 2
 
