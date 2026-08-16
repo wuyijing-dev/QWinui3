@@ -43,6 +43,19 @@ Recipe doc: [`forms.md`](forms.md).
 
 ---
 
+## Commands & menus (1.15)
+
+| Surface | Behavior |
+|---------|----------|
+| `CommandPalette` | Dialog + search names; list rows announce `title` (+ shortcut); ↑↓ / Enter / Esc |
+| `CommandBar` | ToolBar role; more/toggle buttons named; F10 / Alt+Down opens overflow |
+| `MenuFlyout` / `MenuFlyoutItem` | Menu `title`; item name = `text`; accelerator → description |
+| `MenuBar` | Style exposes MenuBar name; prefer `Action.shortcut` |
+
+Recipe doc: [`commands.md`](commands.md).
+
+---
+
 ## Severity-tracked (not 1.02)
 
 | Item | Severity | Notes |

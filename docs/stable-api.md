@@ -89,6 +89,7 @@ Promote to stable only after a named `1.xx` slice hardens them.
 | **Tear-out / exotic shells** | `TabViewTearOutWindow`, compact overlay variants | Niche |
 | **Media** | `MediaPlayerElement` | Optional Qt Multimedia |
 | **Shell extras** | Taskbar progress, idle inhibit, Snap Layouts demos | Gallery demos; not the 1.10 stable bridge |
+| **Commands & menus** | `CommandPalette`, `CommandBar`, `MenuFlyout`, … | Keyboard recipe in [commands.md](commands.md) (1.15); promote later if soaked |
 
 If a type is public in [components.md](components.md) but listed in neither table, treat it as **experimental** until added here.
 
@@ -131,3 +132,4 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.12** | Consumer packaging recipe [packaging-consumer.md](packaging-consumer.md) |
 | **1.13** | i18n / RTL baseline [i18n-rtl.md](i18n-rtl.md); LayoutMirroring + AlignLeading |
 | **1.14** | Qt 6.5 / 6.8 / 6.10 Gallery CI matrix [qt-version-compat.md](qt-version-compat.md) |
+| **1.15** | Command surfaces keyboard recipe [commands.md](commands.md) |

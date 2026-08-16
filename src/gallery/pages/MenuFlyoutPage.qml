@@ -6,11 +6,29 @@ import QWinUI3.Extras
 
 // Gallery — MenuFlyout.
 //
-// Elevated menu with title, isOpen, preferredPlacement, and motion. API: docs/components/MenuFlyout.md
+// Elevated menu with title, isOpen, preferredPlacement, and motion.
+// Keyboard recipe: docs/commands.md (1.15).
 
 CatalogPage {
     title: qsTr("MenuFlyout")
-    subtitle: qsTr("Elevated menu with title, isOpen, preferredPlacement, and motion.")
+    subtitle: qsTr("Context menu with Esc / arrows / Enter. Recipe: docs/commands.md.")
+
+    ControlExample {
+        headerText: qsTr("Keyboard model (1.15)")
+        qmlSource: "// showAt(anchor) · Esc / outside dismiss\n// Arrows · Enter/Space · keyboardAcceleratorText"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Set MenuFlyout.title for Accessible chrome. Items use text as Accessible.name; keyboardAcceleratorText is announced as description and shown as a chord hint.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+        }
+    }
 
     ControlExample {
         headerText: qsTr("Show at button")
@@ -80,3 +98,4 @@ CatalogPage {
         QtObject { id: lastAction; property string text: "" }
     }
 }
+

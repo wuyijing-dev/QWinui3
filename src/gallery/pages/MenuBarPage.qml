@@ -4,10 +4,29 @@ import QtQuick.Controls
 import QWinUI3.Theme
 
 // Gallery — MenuBar.
+//
+// Keyboard recipe: docs/commands.md (1.15).
 
 CatalogPage {
     title: qsTr("MenuBar")
-    subtitle: qsTr("A horizontal bar of cascading menus for an application window.")
+    subtitle: qsTr("Cascading window menus. Prefer Action.shortcut for chords — docs/commands.md.")
+
+    ControlExample {
+        headerText: qsTr("Keyboard model (1.15)")
+        qmlSource: "// Alt/F10 focuses MenuBar (Qt)\n// Action { shortcut: StandardKey.Copy }"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Styled Qt Quick Controls MenuBar. Use Action.shortcut (or StandardKey.*) so chords work outside the open menu. Mnemonics follow the platform MenuBar behavior.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+        }
+    }
 
     ControlExample {
         headerText: qsTr("Standard menus")
@@ -19,26 +38,55 @@ CatalogPage {
                 Layout.fillWidth: true
                 Menu {
                     title: qsTr("File")
-                    Action { text: qsTr("New"); onTriggered: status.text = qsTr("New") }
-                    Action { text: qsTr("Open…"); onTriggered: status.text = qsTr("Open") }
+                    Action {
+                        text: qsTr("New")
+                        shortcut: StandardKey.New
+                        onTriggered: status.text = qsTr("New")
+                    }
+                    Action {
+                        text: qsTr("Open…")
+                        shortcut: StandardKey.Open
+                        onTriggered: status.text = qsTr("Open")
+                    }
                     MenuSeparator {}
-                    Action { text: qsTr("Exit"); onTriggered: status.text = qsTr("Exit") }
+                    Action {
+                        text: qsTr("Exit")
+                        shortcut: StandardKey.Quit
+                        onTriggered: status.text = qsTr("Exit")
+                    }
                 }
                 Menu {
                     title: qsTr("Edit")
-                    Action { text: qsTr("Cut"); onTriggered: status.text = qsTr("Cut") }
-                    Action { text: qsTr("Copy"); onTriggered: status.text = qsTr("Copy") }
-                    Action { text: qsTr("Paste"); onTriggered: status.text = qsTr("Paste") }
+                    Action {
+                        text: qsTr("Cut")
+                        shortcut: StandardKey.Cut
+                        onTriggered: status.text = qsTr("Cut")
+                    }
+                    Action {
+                        text: qsTr("Copy")
+                        shortcut: StandardKey.Copy
+                        onTriggered: status.text = qsTr("Copy")
+                    }
+                    Action {
+                        text: qsTr("Paste")
+                        shortcut: StandardKey.Paste
+                        onTriggered: status.text = qsTr("Paste")
+                    }
                 }
                 Menu {
                     title: qsTr("Help")
-                    Action { text: qsTr("About"); onTriggered: status.text = qsTr("About") }
+                    Action {
+                        text: qsTr("About")
+                        onTriggered: status.text = qsTr("About")
+                    }
                 }
             }
             Label {
                 id: status
-                text: qsTr("Ready")
+                text: qsTr("Ready — try Ctrl+C / Ctrl+V while this page is focused")
                 color: Theme.textSecondary
+                wrapMode: Text.WordWrap
+                Layout.fillWidth: true
             }
         }
     }

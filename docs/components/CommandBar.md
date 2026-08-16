@@ -4,7 +4,7 @@ Primary/secondary command row (AppBar host).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/CommandBar.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/CommandBar.qml)
 
-**Category:** Buttons & commands · **Library:** v1.14
+**Category:** Buttons & commands · **Library:** v1.15
 
 [← Component index](../components.md)
 
@@ -39,6 +39,8 @@ secondaryCommands / overflowItems keep the JS [{text, triggered}] API.
 isDynamicOverflowEnabled moves overflowing primary commands into (…).
 commandAlignment left|center|right|stretch; compact densifies like Edge toolbar.
 overflowOpensUpward false opens down (top toolbars); auto flips when space is tight.
+Keyboard: Tab into bar; F10 / Alt+Down opens overflow (…); Esc closes overflow Menu.
+AppBarButton: set text or Accessible.name; optional keyboardAcceleratorText hint.
 
 ## API
 

@@ -6,11 +6,11 @@ import QWinUI3.Extras
 
 // Gallery — CommandPalette.
 //
-// Ctrl+K launcher (also available on ShellWindow).
+// Ctrl+K launcher (also available on ShellWindow). Keyboard recipe: docs/commands.md (1.15).
 
 CatalogPage {
     title: qsTr("CommandPalette")
-    subtitle: qsTr("Modern Ctrl+K command launcher — fuzzy filter, keyboard, ShellWindow shortcut.")
+    subtitle: qsTr("Ctrl+K launcher — filter, ↑↓, Enter, Esc. Recipe: docs/commands.md.")
 
     overlay: CommandPalette {
         id: palette
@@ -56,9 +56,25 @@ CatalogPage {
     }
 
     ControlExample {
+        headerText: qsTr("Keyboard model (1.15)")
+        qmlSource: "// Ctrl+K open · type filter · ↑↓ · Enter · Esc\n// docs/commands.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Open with Ctrl+K (or the button). Type to filter. Arrow keys move the highlight; Enter runs the command; Esc closes. List rows announce title + shortcut.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+        }
+    }
+
+    ControlExample {
         headerText: qsTr("Open palette")
         qmlSource: "CommandPalette { commands: [ { title, action } ] }\npalette.open()\n// ShellWindow: Ctrl+K"
-
         RowLayout {
             Layout.fillWidth: true
             spacing: Theme.spacing

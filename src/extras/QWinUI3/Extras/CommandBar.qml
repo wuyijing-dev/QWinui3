@@ -29,6 +29,8 @@ import QWinUI3.Theme
 //   isDynamicOverflowEnabled moves overflowing primary commands into (…).
 //   commandAlignment left|center|right|stretch; compact densifies like Edge toolbar.
 //   overflowOpensUpward false opens down (top toolbars); auto flips when space is tight.
+//   Keyboard: Tab into bar; F10 / Alt+Down opens overflow (…); Esc closes overflow Menu.
+//   AppBarButton: set text or Accessible.name; optional keyboardAcceleratorText hint.
 
 T.Control {
     id: root

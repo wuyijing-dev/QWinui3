@@ -4,7 +4,7 @@ Elevated Menu with showAt / isOpen helpers.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/MenuFlyout.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/MenuFlyout.qml)
 
-**Category:** Dialogs & flyouts · **Library:** v1.14
+**Category:** Dialogs & flyouts · **Library:** v1.15
 
 [← Component index](../components.md)
 
@@ -35,6 +35,8 @@ Menu-styled Flyout; host MenuFlyoutItem / Separator / Header children.
 contentMaxHeight (WinUI MenuFlyoutPresenter.MaxHeight) enables scroll when content is taller.
 shouldConstrainToRootBounds clamps into the window overlay (default true).
 title comes from Menu (FINAL) — set title: for screen-reader chrome; MenuItem carries Accessible.
+Keyboard (Menu): arrows move; Enter/Space activate; Esc / light-dismiss closes.
+Prefer keyboardAcceleratorText on MenuFlyoutItem for visible chord hints.
 
 ## API
 

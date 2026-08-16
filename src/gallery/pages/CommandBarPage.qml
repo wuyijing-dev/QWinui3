@@ -6,11 +6,29 @@ import QWinUI3.Extras
 
 // Gallery — CommandBar.
 //
-// Fluent More/Chevron, toggle(), secondaryCommands, and open/close signals. API: docs/components/CommandBar.md
+// Fluent More/Chevron, toggle(), secondaryCommands, and open/close signals.
+// Keyboard recipe: docs/commands.md (1.15).
 
 CatalogPage {
     title: qsTr("CommandBar")
-    subtitle: qsTr("Vs WinUI: left/center alignment, Edge-like compact density, overflow opens downward.")
+    subtitle: qsTr("Primary/secondary AppBar row with overflow. Tab · F10/Alt+↓ · Esc — docs/commands.md.")
+
+    ControlExample {
+        headerText: qsTr("Keyboard model (1.15)")
+        qmlSource: "// Tab into bar · Space/Enter activate\n// F10 or Alt+Down → overflow · Esc closes Menu"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Tab focuses the command bar. Space/Enter activates the focused AppBar or more button. F10 or Alt+Down opens overflow (…); Esc dismisses the overflow menu. Icon-only buttons need text or Accessible.name.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+        }
+    }
 
     ControlExample {
         headerText: qsTr("Primary commands")
@@ -69,6 +87,7 @@ CatalogPage {
                 AppBarButton {
                     symbol: FluentIcons.Copy
                     text: qsTr("Copy")
+                    keyboardAcceleratorText: "Ctrl+C"
                     onClicked: status.text = qsTr("Copy")
                 }
                 AppBarButton {
@@ -85,8 +104,10 @@ CatalogPage {
             }
             Label {
                 id: status
-                text: qsTr("Ready — … opens JS overflow + AppBar secondaryCommandsHost.")
+                text: qsTr("Ready — Tab here, then F10 for overflow · … opens JS overflow + AppBar secondaryCommandsHost.")
                 color: Theme.textSecondary
+                wrapMode: Text.WordWrap
+                Layout.fillWidth: true
             }
         }
     }

@@ -4,7 +4,7 @@ Ctrl+K style command launcher (fuzzy filter + keyboard).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/CommandPalette.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/CommandPalette.qml)
 
-**Category:** Buttons & commands · **Library:** v1.14
+**Category:** Buttons & commands · **Library:** v1.15
 
 [← Component index](../components.md)
 
@@ -32,8 +32,9 @@ palette.open()
 
 ## Notes
 
-Place under Overlay.overlay (ShellWindow wires Ctrl+K when commandPaletteEnabled).
-Enter runs highlighted command; Esc closes; arrows move selection.
+Place under Overlay.overlay (ShellWindow wires Ctrl+K / Meta+K when commandPaletteEnabled).
+Keyboard: type to filter; ↑↓ move highlight; Enter runs; Esc closes.
+Each row exposes Accessible.name from title (+ shortcut in description).
 
 ## API
 

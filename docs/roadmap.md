@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.14**  
-**Next up:** **1.15** (command surfaces deepen)  
+**Current:** **1.15**  
+**Next up:** **1.16** (dialogs & flyouts consistency)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](qt-version-compat.md)
 
 This plan starts from **what 1.00 already was**, then walks **small `1.xx` minors**. Stay on **1.xx for a long time**. **2.00 is not next**—only when we truly need breaking changes.
@@ -59,7 +59,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.14`
+## Shipped — `1.01` … `1.15`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -117,31 +117,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** [`.github/workflows/qt-compat.yml`](../.github/workflows/qt-compat.yml) Linux Gallery Release matrix (6.5.3 / 6.8.3 / 6.10.0); [qt-version-compat.md](qt-version-compat.md) CI section; smoke stays on 6.8; product version `1.14`.
 
+### 1.15 — Command surfaces deepen (shipped)
+
+**Shipped:** [commands.md](commands.md); CommandPalette list-item Accessible names; Gallery keyboard callouts (CommandPalette / CommandBar / MenuFlyout / MenuBar); MenuBar `Action.shortcut` demo; product version `1.15`.
+
 ---
 
-## Near path — planned `1.15` … `1.20`
+## Near path — planned `1.16` … `1.20`
 
 Order is intentional but **flexible**: if a soak or customer pain appears, swap two adjacent minors—do not merge five themes into one `YY`. After this band: **mid path `1.21`–`1.30`**, then later `1.31+`—still no `2.00`.
-
-### 1.15 — Command surfaces deepen
-
-**Why:** `CommandBar` / `CommandPalette` / menus are LoB-critical and Gallery-backed but less recipe-documented than forms/tables.
-
-**In scope**
-
-- Keyboard / focus recipes for CommandPalette + CommandBar + MenuFlyout / MenuBar.
-- Short `docs/commands.md`; align Accessible names on the demo path.
-- Gallery polish only—no new command framework.
-
-**Out of scope**
-
-- Ribbon redesign; VS-style tool windows product.
-
-**Exit criteria**
-
-- Recipe doc + Gallery pages match the documented keyboard model.
-
----
 
 ### 1.16 — Dialogs & flyouts consistency
 

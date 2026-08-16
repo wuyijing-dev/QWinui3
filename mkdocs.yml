@@ -76,6 +76,7 @@ nav:
   - Charts & gauges: charts.md
   - Consumer packaging: packaging-consumer.md
   - i18n / RTL: i18n-rtl.md
+  - Commands & menus: commands.md
   - WebView2 (legacy link): webview2-future.md
   - Linux / Wayland: platform-linux-wayland.md
   - Window shells: window-shells.md

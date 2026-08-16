@@ -21,8 +21,9 @@ import QWinUI3.Theme
 //   // signals: commandTriggered(var), closed()
 //
 // @notes
-//   Place under Overlay.overlay (ShellWindow wires Ctrl+K when commandPaletteEnabled).
-//   Enter runs highlighted command; Esc closes; arrows move selection.
+//   Place under Overlay.overlay (ShellWindow wires Ctrl+K / Meta+K when commandPaletteEnabled).
+//   Keyboard: type to filter; ↑↓ move highlight; Enter runs; Esc closes.
+//   Each row exposes Accessible.name from title (+ shortcut in description).
 
 Popup {
     id: root
@@ -43,6 +44,7 @@ Popup {
     height: column.implicitHeight
     x: parent ? Math.round((parent.width - width) / 2) : 0
     y: parent ? Math.round(parent.height * 0.18) : 80
+    // Accessible chrome lives on contentItem (Dialog) — avoid duplicate Popup host names
 
     property var _filtered: []
     property int _highlight: 0
@@ -196,6 +198,21 @@ Popup {
                     highlighted: index === root._highlight
                     onClicked: root._run(index)
                     onHoveredChanged: if (hovered) root._highlight = index
+                    Accessible.role: Accessible.ListItem
+                    Accessible.name: {
+                        var t = del.modelData.title || del.modelData.text || ""
+                        return t.length ? t : qsTr("Command")
+                    }
+                    Accessible.description: {
+                        var parts = []
+                        var sub = del.modelData.subtitle || del.modelData.description || ""
+                        if (sub.length)
+                            parts.push(sub)
+                        if (del.modelData.shortcut)
+                            parts.push(String(del.modelData.shortcut))
+                        return parts.join(" · ")
+                    }
+                    Accessible.onPressAction: root._run(index)
 
                     contentItem: RowLayout {
                         spacing: Theme.spacing
