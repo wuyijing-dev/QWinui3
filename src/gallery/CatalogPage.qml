@@ -6,7 +6,7 @@ import QWinUI3.Theme
 // CatalogPage — Gallery scroll host (PageHeader + padded column).
 //
 //   CatalogPage {
-//       title: qsTr("Button")
+//       title: qsTr("Button")   // inherited Page.title (FINAL — do not redeclare)
 //       subtitle: qsTr("…")
 //       ControlExample { headerText: qsTr("Basic"); … }
 //   }
@@ -16,7 +16,7 @@ import QWinUI3.Theme
 Page {
     id: root
 
-    property alias title: header.title
+    // title comes from Page (FINAL) — set title: for the PageHeader
     property alias subtitle: header.subtitle
     property real pagePadding: Theme.spacingSection
     property real sectionSpacing: Theme.spacingSection
@@ -50,6 +50,7 @@ Page {
                     Layout.leftMargin: root.pagePadding
                     Layout.rightMargin: root.pagePadding
                     Layout.topMargin: root.pagePadding
+                    title: root.title
                     visible: root.title.length > 0 || root.subtitle.length > 0
                 }
 
