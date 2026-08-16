@@ -11,6 +11,8 @@ QWinUI3 is a **CMake** project. Open the **repository root** `CMakeLists.txt` (n
 
 Qt Creator injects `CMAKE_PREFIX_PATH` from the kit. Shared `CMakePresets.json` intentionally does **not** hardcode a Qt install path.
 
+For app authors: prefer types listed in [stable-api.md](stable-api.md) when copying examples into a product.
+
 ## Presets
 
 | Preset | Build dir | Notes |

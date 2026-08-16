@@ -4,7 +4,7 @@ Pie chart with legend.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/PieChart.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/PieChart.qml)
 
-**Category:** Charts & gauges · **Library:** v1.00
+**Category:** Charts & gauges · **Library:** v1.01
 
 [← Component index](../components.md)
 

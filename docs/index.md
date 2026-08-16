@@ -12,7 +12,8 @@ This site is generated from QML source comments and shipped via GitHub Pages.
 | [Conventions](conventions.md) | Radius, Accessible, Extras import rules |
 | [Window shells](window-shells.md) | ShellWindow family vs StandardWindow |
 | [WindowHelper](window-helper.md) | Platform chrome singleton |
-| [Roadmap](roadmap.md) | Version themes — substantial releases only |
+| [Roadmap](roadmap.md) | Version themes — small `1.xx` slices |
+| [Stable API](stable-api.md) | What to rely on in 1.xx apps |
 | [Qt Creator](qt-creator.md) | Open / build the CMake project |
 | [Qt version compat](qt-version-compat.md) | C++ shims for Qt 6.5 / 6.8 / 6.10+ |
 

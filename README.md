@@ -7,8 +7,8 @@ Fluent / [WinUI 3](https://learn.microsoft.com/windows/apps/winui/winui3/)-inspi
 [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-2ea44f)](https://wuyijing-dev.github.io/QWinui3/)
 [![Qt](https://img.shields.io/badge/Qt-6.5%2B-41CD52?logo=qt&logoColor=white)](https://www.qt.io/)
 
-**v1.00** · **200+** public controls · Gallery demos for most of them  
-[Documentation](https://wuyijing-dev.github.io/QWinui3/) · [Component API](https://wuyijing-dev.github.io/QWinui3/components/) · [Releases](https://github.com/wuyijing-dev/QWinui3/releases) · [Roadmap](ROADMAP.md)
+**v1.01** · **200+** public controls · Gallery demos for most of them  
+[Documentation](https://wuyijing-dev.github.io/QWinui3/) · [Stable API](docs/stable-api.md) · [Component API](https://wuyijing-dev.github.io/QWinui3/components/) · [Releases](https://github.com/wuyijing-dev/QWinui3/releases) · [Roadmap](ROADMAP.md)
 
 ---
 
@@ -148,7 +148,7 @@ Or open the **repo root** `CMakeLists.txt` in [Qt Creator](docs/qt-creator.md) w
 In-tree defaults are **STATIC** (convenient for Gallery). Package shared libs on demand:
 
 ```bat
-REM Full kit
+REM Full kit (version from QWINUI3_VERSION, e.g. 1.01)
 python scripts/package_release_libs.py --shared --archive
 
 REM Presets: all | core (theme+style) | shell (+platform) | extras (theme+extras)
@@ -165,7 +165,9 @@ python scripts/package_release_gallery.py
 ```
 
 Subset archives are named `qwinui3-<ver>-<os>-x64-shared-<modules>.zip` (e.g. `...-shared-theme+style`).  
-CI **Release** workflow accepts a `modules` input on manual dispatch; tag pushes always publish the full kit.
+Product version is **`X.YY`** (`QWINUI3_VERSION` in root `CMakeLists.txt`).  
+Which types to build on: [`docs/stable-api.md`](docs/stable-api.md).  
+CI **Release** workflow accepts a `modules` input on manual dispatch; tag pushes (`vX.YY`) publish the full kit.
 
 ---
 
@@ -223,7 +225,8 @@ Product versions use **`X.YY`** (see [`ROADMAP.md`](ROADMAP.md)); set `QWINUI3_V
 | [`docs/components.md`](docs/components.md) | Full control index |
 | [`docs/conventions.md`](docs/conventions.md) | Radius, accessibility, import rules |
 | [`docs/window-shells.md`](docs/window-shells.md) | ShellWindow family vs StandardWindow |
-| [`ROADMAP.md`](ROADMAP.md) | Version themes — substantial releases only |
+| [`ROADMAP.md`](ROADMAP.md) | Version themes — small `X.YY` slices |
+| [`docs/stable-api.md`](docs/stable-api.md) | Stable vs experimental types for 1.xx |
 | [`docs/qt-creator.md`](docs/qt-creator.md) | Opening the project in Qt Creator |
 | [`docs/qt-version-compat.md`](docs/qt-version-compat.md) | C++ shims for Qt 6.5 / 6.8 / 6.10+ |
 

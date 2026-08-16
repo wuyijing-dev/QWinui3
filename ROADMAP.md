@@ -1,9 +1,9 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.00** (GitHub tag [v1.0.0](https://github.com/wuyijing-dev/QWinui3/releases/tag/v1.0.0) — historical three-part tag; product version is **X.YY** going forward)  
+**Current:** **1.01**  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
 
-This plan starts from **what 1.00 already is**, then walks **small `1.xx` minors**. Stay on **1.xx for a long time**. **2.00 is not next**—only when we truly need breaking changes.
+This plan starts from **what 1.00 already was**, then walks **small `1.xx` minors**. Stay on **1.xx for a long time**. **2.00 is not next**—only when we truly need breaking changes.
 
 ---
 
@@ -59,15 +59,9 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ## Near path — small `1.xx` minors
 
-### 1.01 — Docs & “what’s stable”
+### 1.01 — Docs & “what’s stable” (shipped)
 
-**Why first:** Catalog is huge; consumers need a clear map before more features.
-
-- Publish a short **stable vs experimental** list for the types apps actually copy (shells, NavigationView, settings cards, ContentDialog, InfoBar/Toast, DataTable basics).
-- Tighten README / Creator / packaging docs so 6.5+ floor and Release CI match reality.
-- Gallery/docs lint: generate + `--lint` clean for public API comments.
-
-**Not in 1.01:** Linux overhaul, WebView2 rewrite, new control families.
+**Shipped:** [stable-api.md](docs/stable-api.md) (stable vs experimental map), docs/Creator/packaging pointers, component docs lint clean, product version `1.01`.
 
 ---
 
