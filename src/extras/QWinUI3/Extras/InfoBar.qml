@@ -253,6 +253,8 @@ T.Control {
                 font.weight: Theme.fontWeightSemiBold
                 color: Theme.textPrimary
                 wrapMode: Text.Wrap
+                elide: Text.ElideRight
+                maximumLineCount: 2
                 Layout.fillWidth: true
             }
 
@@ -263,6 +265,8 @@ T.Control {
                 font.pixelSize: Theme.fontBody
                 color: Theme.textPrimary
                 wrapMode: Text.Wrap
+                elide: Text.ElideRight
+                maximumLineCount: 4
                 Layout.fillWidth: true
             }
 

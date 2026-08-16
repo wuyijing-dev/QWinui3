@@ -175,7 +175,9 @@ T.Control {
                         font.family: Theme.fontFamily
                         font.pixelSize: Theme.fontCaption
                         color: root.enabled ? Theme.textSecondary : Theme.textDisabled
+                        wrapMode: Text.Wrap
                         elide: Text.ElideRight
+                        maximumLineCount: 2
                         Layout.fillWidth: true
                     }
                 }

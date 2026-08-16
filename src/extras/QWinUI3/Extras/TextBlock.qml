@@ -7,6 +7,9 @@ import QWinUI3.Theme
 //   TextBlock {
 //       id: textBlock
 //       text: qsTr("Title"); style: title
+//       textWrapping: "wrap"              // WinUI TextWrapping
+//       textTrimming: "characterEllipsis" // WinUI TextTrimming
+//       maxLines: 2                       // WinUI MaxLines
 //   }
 //
 //   // --- API ---
@@ -15,6 +18,8 @@ import QWinUI3.Theme
 //
 // @notes
 //   Themed text helper (style/weight tokens); prefer for Fluent type ramps.
+//   Long text: bind width (or Layout.fillWidth) then use textWrapping /
+//   textTrimming / maxLines like WinUI TextBlock.
 
 T.Control {
     id: root
@@ -40,10 +45,12 @@ T.Control {
     property int style: body
     // WinUI IsTextSelectionEnabled — uses TextEdit when true (Label has no selectByMouse)
     property bool isTextSelectionEnabled: false
-    // none | characterEllipsis | wordEllipsis
+    // WinUI TextWrapping: wrap | noWrap | wrapWholeWords
+    property string textWrapping: "wrap"
+    // WinUI TextTrimming: none | characterEllipsis | wordEllipsis
     property string textTrimming: "none"
-    // Maximum wrapped line count
-    property int maxLines: 0 // 0 = unlimited
+    // WinUI MaxLines — 0 = unlimited; with trimming, elides after N lines
+    property int maxLines: 0
 
     // Primary color
     property color color: style === caption ? Theme.textSecondary : Theme.textPrimary
@@ -103,15 +110,30 @@ T.Control {
                  ? Theme.fontWeightSemiBold
                  : Theme.fontWeightRegular
 
-    readonly property int _wrapMode: textTrimming === "none" ? Text.Wrap : Text.NoWrap
-    readonly property int _elide: {
-        switch (textTrimming) {
-        case "characterEllipsis": return Text.ElideRight
-        case "wordEllipsis": return Text.ElideRight
-        default: return Text.ElideNone
-        }
+    readonly property bool _trim: {
+        var t = String(textTrimming).toLowerCase()
+        return t === "characterellipsis" || t === "wordellipsis"
     }
-    readonly property int _maxLines: maxLines > 0 ? maxLines : 0
+    readonly property int _wrapMode: {
+        var w = String(textWrapping).toLowerCase()
+        // WinUI: NoWrap when single-line trim; Wrap (+ MaxLines) when multi-line trim.
+        if (_trim && maxLines <= 1)
+            return Text.NoWrap
+        if (w === "nowrap")
+            return Text.NoWrap
+        if (w === "wrapwholewords")
+            return Text.WordWrap
+        return Text.Wrap
+    }
+    readonly property int _elide: _trim ? Text.ElideRight : Text.ElideNone
+    readonly property int _maxLines: {
+        if (maxLines > 0)
+            return maxLines
+        // Single-line ellipsis needs maximumLineCount 1 for Text.elide to apply.
+        if (_trim && _wrapMode === Text.NoWrap)
+            return 1
+        return 0
+    }
 
     implicitWidth: Math.ceil(loader.item ? loader.item.implicitWidth : 0)
     implicitHeight: Math.ceil(loader.item ? loader.item.implicitHeight : 0)
@@ -155,7 +177,7 @@ T.Control {
             color: root.color
             readOnly: true
             selectByMouse: true
-            wrapMode: root._wrapMode === Text.Wrap ? TextEdit.Wrap : TextEdit.NoWrap
+            wrapMode: root._wrapMode === Text.NoWrap ? TextEdit.NoWrap : TextEdit.Wrap
             // TextEdit (QtQuick) has no background/padding — unlike Controls TextField
             activeFocusOnPress: true
         }

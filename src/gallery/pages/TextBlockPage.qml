@@ -31,8 +31,17 @@ CatalogPage {
                 Layout.maximumWidth: 220
                 text: qsTr("Caption with ellipsis when the line is too long for the available width.")
                 style: tbCaption.caption
+                textWrapping: "noWrap"
                 textTrimming: "characterEllipsis"
                 maxLines: 1
+            }
+            TextBlock {
+                Layout.fillWidth: true
+                Layout.maximumWidth: 280
+                text: qsTr("Body wrap + MaxLines trimming: this paragraph wraps normally, then elides after two lines when there is still more text that cannot fit in the constrained width of the container.")
+                textWrapping: "wrap"
+                textTrimming: "characterEllipsis"
+                maxLines: 2
             }
         }
     }

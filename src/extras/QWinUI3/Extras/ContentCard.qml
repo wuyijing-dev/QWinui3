@@ -135,6 +135,8 @@ T.Control {
                     font.pixelSize: Theme.fontCaption
                     color: Theme.textSecondary
                     wrapMode: Text.Wrap
+                    elide: Text.ElideRight
+                    maximumLineCount: 3
                     Layout.fillWidth: true
                 }
             }

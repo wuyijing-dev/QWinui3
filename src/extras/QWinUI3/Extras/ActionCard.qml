@@ -124,6 +124,8 @@ T.AbstractButton {
                 font.pixelSize: Theme.fontCaption
                 color: control.enabled ? Theme.textSecondary : Theme.textDisabled
                 wrapMode: Text.Wrap
+                elide: Text.ElideRight
+                maximumLineCount: 3
             }
         }
 

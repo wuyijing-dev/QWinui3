@@ -184,6 +184,8 @@ T.Popup {
                 color: Theme.textPrimary
                 Layout.fillWidth: true
                 wrapMode: Text.Wrap
+                elide: Text.ElideRight
+                maximumLineCount: 2
             }
             T.AbstractButton {
                 id: closeBtn
@@ -248,6 +250,8 @@ T.Popup {
             text: root.subtitle
             color: Theme.textSecondary
             wrapMode: Text.Wrap
+            elide: Text.ElideRight
+            maximumLineCount: 4
             Layout.fillWidth: true
         }
 
