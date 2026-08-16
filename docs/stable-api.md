@@ -115,6 +115,7 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 
 - Shared libs: `python scripts/package_release_libs.py --shared --archive`
 - Gallery: `python scripts/package_release_gallery.py`
+- **Consumer recipe (Win + Linux):** [packaging-consumer.md](packaging-consumer.md) (1.12)
 - Version string: `QWINUI3_VERSION` (`X.YY`) in root `CMakeLists.txt`
 - CI Release on `vX.YY` tags — see [ROADMAP.md](../ROADMAP.md)
 
@@ -127,3 +128,4 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.01** | Initial stable vs experimental map |
 | **1.10** | Promote `FilePicker` / `TrayIcon` / `NotificationBridge`; recipe [system-integration.md](system-integration.md) |
 | **1.11** | Charts/gauges naming aliases + [charts.md](charts.md); still experimental |
+| **1.12** | Consumer packaging recipe [packaging-consumer.md](packaging-consumer.md) |

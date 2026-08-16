@@ -13,6 +13,9 @@ Qt Creator injects `CMAKE_PREFIX_PATH` from the kit. Shared `CMakePresets.json` 
 
 For app authors: prefer types listed in [stable-api.md](stable-api.md) when copying examples into a product.
 
+**Consuming QWinUI3 from another app** (Release zip, `QML_IMPORT_PATH`, link lines, `add_subdirectory`):  
+[packaging-consumer.md](packaging-consumer.md).
+
 ## Presets
 
 | Preset | Build dir | Notes |

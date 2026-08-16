@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.11**  
-**Next up:** **1.12** (consumer packaging & CMake docs)  
+**Current:** **1.12**  
+**Next up:** **1.13** (i18n / RTL baseline for samples)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
 
 This plan starts from **what 1.00 already was**, then walks **small `1.xx` minors**. Stay on **1.xx for a long time**. **2.00 is not next**—only when we truly need breaking changes.
@@ -59,7 +59,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.11`
+## Shipped — `1.01` … `1.12`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -105,31 +105,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** `interactive`/`isInteractive` and `unit`/`valueUnit` aliases; Pie/Donut `values` convenience; [charts.md](docs/charts.md); Gallery Charts hub callout; charts remain experimental; product version `1.11`.
 
+### 1.12 — Consumer packaging & CMake docs (shipped)
+
+**Shipped:** [packaging-consumer.md](docs/packaging-consumer.md) (Release zip / package script / `add_subdirectory`, Win+Linux runtime, minimal consumer CMake); links from README, qt-creator, examples; product version `1.12`.
+
 ---
 
-## Near path — planned `1.12` … `1.20`
+## Near path — planned `1.13` … `1.20`
 
 Order is intentional but **flexible**: if a soak or customer pain appears, swap two adjacent minors—do not merge five themes into one `YY`. After this band: **mid path `1.21`–`1.30`**, then later `1.31+`—still no `2.00`.
-
-### 1.12 — Consumer packaging & CMake docs
-
-**Why:** Integrators need a copy-paste path beyond “open this monorepo.”
-
-**In scope**
-
-- Document shared-lib / static consume paths (`package_release_libs.py`, `CMAKE_PREFIX_PATH`, QML import).
-- Minimal consumer `CMakeLists.txt` / qmake-or-Qt Creator kit notes; link from README + [qt-creator.md](docs/qt-creator.md).
-- Clarify what Release CI already ships on `v*` tags.
-
-**Out of scope**
-
-- New packaging formats; rewriting the entire export graph; macOS packages.
-
-**Exit criteria**
-
-- One page (e.g. `docs/packaging-consumer.md`) a third-party app can follow end-to-end on Windows + Linux.
-
----
 
 ### 1.13 — i18n / RTL baseline for samples
 

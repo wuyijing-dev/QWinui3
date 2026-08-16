@@ -54,6 +54,7 @@ Placement helpers (`mapToItem`, `Overlay.overlay`) are fine; do not reintroduce
 ## Packaging
 
 - Release shared libs: `python scripts/package_release_libs.py --shared`
+- Third-party consume: [packaging-consumer.md](packaging-consumer.md)
 - Default builds stay STATIC; SHARED via `-DQWINUI3_BUILD_SHARED=ON`.
 - Project license: **LGPL-3.0** (`LICENSE` + `COPYING`).
 

@@ -33,3 +33,5 @@ On Linux, leave `QT_QPA_PLATFORM` unset so examples pick Wayland first. Prefer `
 1. Copy one example folder.
 2. Point CMake `IMPORTS` / `target_link_libraries` at your installed or in-tree `qwinui3_*` targets the same way Gallery does.
 3. Keep `QT_QUICK_CONTROLS_STYLE=QWinUI3` (see each `main.cpp`).
+
+Full third-party packaging (Release zip, import paths, Win/Linux runtime): [`docs/packaging-consumer.md`](../docs/packaging-consumer.md).

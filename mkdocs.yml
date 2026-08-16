@@ -74,6 +74,7 @@ nav:
   - Theme overrides: theme-overrides.md
   - System integration: system-integration.md
   - Charts & gauges: charts.md
+  - Consumer packaging: packaging-consumer.md
   - WebView2 (legacy link): webview2-future.md
   - Linux / Wayland: platform-linux-wayland.md
   - Window shells: window-shells.md

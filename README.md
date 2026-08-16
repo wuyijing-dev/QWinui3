@@ -7,7 +7,7 @@ Fluent / [WinUI 3](https://learn.microsoft.com/windows/apps/winui/winui3/)-inspi
 [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-2ea44f)](https://wuyijing-dev.github.io/QWinui3/)
 [![Qt](https://img.shields.io/badge/Qt-6.5%2B-41CD52?logo=qt&logoColor=white)](https://www.qt.io/)
 
-**v1.11** · **200+** public controls · Gallery demos for most of them  
+**v1.12** · **200+** public controls · Gallery demos for most of them  
 [Documentation](https://wuyijing-dev.github.io/QWinui3/) · [Stable API](docs/stable-api.md) · [System integration](docs/system-integration.md) · [Theme overrides](docs/theme-overrides.md) · [Forms](docs/forms.md) · [Data collections](docs/data-collections.md) · [CI smoke](docs/ci-smoke.md) · [WebView2](docs/webview2.md) · [Component API](https://wuyijing-dev.github.io/QWinui3/components/) · [Releases](https://github.com/wuyijing-dev/QWinui3/releases) · [Roadmap](ROADMAP.md)
 
 ---
@@ -148,7 +148,7 @@ Or open the **repo root** `CMakeLists.txt` in [Qt Creator](docs/qt-creator.md) w
 In-tree defaults are **STATIC** (convenient for Gallery). Package shared libs on demand:
 
 ```bat
-REM Full kit (version from QWINUI3_VERSION, e.g. 1.01)
+REM Full kit (version from QWINUI3_VERSION, e.g. 1.12)
 python scripts/package_release_libs.py --shared --archive
 
 REM Presets: all | core (theme+style) | shell (+platform) | extras (theme+extras)
@@ -163,6 +163,9 @@ python scripts/package_release_libs.py --list-modules
 REM Gallery (always full app)
 python scripts/package_release_gallery.py
 ```
+
+**Consumer apps (third-party CMake, import paths, Win/Linux runtime):**  
+[`docs/packaging-consumer.md`](docs/packaging-consumer.md).
 
 Subset archives are named `qwinui3-<ver>-<os>-x64-shared-<modules>.zip` (e.g. `...-shared-theme+style`).  
 Product version is **`X.YY`** (`QWINUI3_VERSION` in root `CMakeLists.txt`).  
@@ -207,8 +210,8 @@ scripts/         Docs generator, shared/gallery packaging, WebView2 fetch
 Push a version tag (or run **Actions → Release → Run workflow**):
 
 ```bash
-git tag v1.11
-git push origin v1.11
+git tag v1.12
+git push origin v1.12
 ```
 
 **PR / master smoke** (build Gallery + `--smoke`, no packages): [`.github/workflows/smoke.yml`](.github/workflows/smoke.yml) — see [`docs/ci-smoke.md`](docs/ci-smoke.md).

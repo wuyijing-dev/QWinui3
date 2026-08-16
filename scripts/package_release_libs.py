@@ -316,11 +316,16 @@ Features: {features}
 
 ## Consumer notes
 
-1. Add `qml/` to `QML_IMPORT_PATH` (or copy beside your app and set `QML2_IMPORT_PATH`).
+See the full recipe: https://wuyijing-dev.github.io/QWinui3/packaging-consumer/
+(or `docs/packaging-consumer.md` in the source repo).
+
+1. Add `qml/` to `QML_IMPORT_PATH` (or `engine.addImportPath` / `QML2_IMPORT_PATH`).
 2. Link against the selected `qwinui3_*` libraries (and `*plugin` when STATIC).
 3. On Linux shared builds, add `lib/` to `LD_LIBRARY_PATH` (or set `rpath`).
-4. Qt 6.8+ required: Quick, QuickControls2, LabsQmlModels.
-5. License: **LGPL-3.0** (see `LICENSE` and `COPYING` in this package).
+4. On Windows shared builds, put `bin/` DLLs beside your exe or on `PATH`.
+5. Qt **6.5+** required (CI packages built with **6.8.x**): Quick, QuickControls2, LabsQmlModels.
+6. Set `QT_QUICK_CONTROLS_STYLE=QWinUI3` before creating `QGuiApplication`.
+7. License: **LGPL-3.0** (see `LICENSE` and `COPYING` in this package).
 
 ### On-demand packaging
 

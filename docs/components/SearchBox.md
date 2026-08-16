@@ -4,7 +4,7 @@ Search field with suggestion list.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/SearchBox.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/SearchBox.qml)
 
-**Category:** Input & forms · **Library:** v1.11
+**Category:** Input & forms · **Library:** v1.12
 
 [← Component index](../components.md)
 
