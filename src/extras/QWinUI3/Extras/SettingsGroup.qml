@@ -15,8 +15,8 @@ import QWinUI3.Theme
 //
 // @notes
 //   Groups SettingsCard / SettingsExpander rows under a Fluent section title.
-//   Children go in the default content slot (ColumnLayout). Use with FormLayout
-//   or a ScrollView ColumnLayout on settings pages.
+//   Children auto Layout.fillWidth — no per-card Layout.fillWidth needed.
+//   Prefer nesting inside SettingsView for page padding/title.
 
 T.Control {
     id: root
@@ -93,6 +93,18 @@ T.Control {
             id: stack
             Layout.fillWidth: true
             spacing: root.contentSpacing
+
+            onChildrenChanged: Qt.callLater(root._fillChildren)
+            Component.onCompleted: root._fillChildren()
+        }
+    }
+
+    function _fillChildren() {
+        var kids = stack.children
+        for (var i = 0; i < kids.length; ++i) {
+            var c = kids[i]
+            if (c && c.Layout !== undefined)
+                c.Layout.fillWidth = true
         }
     }
 }

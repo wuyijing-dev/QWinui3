@@ -145,17 +145,16 @@ Page {
                     id: leftForm
                     Layout.fillWidth: true
                     labelWidth: 160
+                    fieldHeaderPlacement: "left"
 
                     HeaderedTextBox {
                         Layout.fillWidth: true
                         header: qsTr("Server")
-                        headerPlacement: "left"
                         placeholderText: qsTr("api.example.com")
                     }
                     NumberBox {
                         Layout.fillWidth: true
                         header: qsTr("Port")
-                        headerPlacement: "left"
                         value: 443
                         minimum: 1
                         maximum: 65535
@@ -164,7 +163,6 @@ Page {
                     PasswordBox {
                         Layout.fillWidth: true
                         header: qsTr("Token")
-                        headerPlacement: "left"
                         placeholderText: qsTr("••••••••")
                     }
                     DetailRow {

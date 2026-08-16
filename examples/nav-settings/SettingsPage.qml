@@ -4,99 +4,58 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-Page {
-    padding: 0
+SettingsView {
+    title: qsTr("Settings")
 
-    ScrollView {
-        id: scroll
-        anchors.fill: parent
-        contentWidth: availableWidth
-        clip: true
-        background: null
+    SettingsGroup {
+        title: qsTr("Appearance")
+        description: qsTr("Theme tokens and density.")
+        symbol: FluentIcons.Brightness
 
-        ColumnLayout {
-            width: scroll.availableWidth
-            spacing: Theme.spacingSection
+        SettingsToggleCard {
+            title: qsTr("Dark mode")
+            description: qsTr("Light or dark Theme tokens.")
+            headerIcon: "\uE790"
+            checked: Theme.dark
+            onToggled: Theme.dark = checked
+        }
 
-            Text {
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                Layout.topMargin: Theme.spacingSection
-                text: qsTr("Settings")
-                font.family: Theme.fontFamily
-                font.pixelSize: Theme.fontTitle
-                font.weight: Theme.fontWeightSemiBold
-                color: Theme.textPrimary
-            }
+        SettingsToggleCard {
+            title: qsTr("Reduced motion")
+            description: qsTr("Short-circuit Theme.duration() animations.")
+            headerIcon: "\uE7FC"
+            checked: Theme.reducedMotion
+            onToggled: Theme.reducedMotion = checked
+        }
 
-            SettingsGroup {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                title: qsTr("Appearance")
-                description: qsTr("Theme tokens and density.")
-                symbol: FluentIcons.Brightness
-
-                SettingsCard {
-                    Layout.fillWidth: true
-                    title: qsTr("Dark mode")
-                    description: qsTr("Light or dark Theme tokens.")
-                    headerIcon: "\uE790"
-                    action: Switch {
-                        text: Theme.dark ? qsTr("Dark") : qsTr("Light")
-                        checked: Theme.dark
-                        onToggled: Theme.dark = checked
-                    }
-                }
-
-                SettingsCard {
-                    Layout.fillWidth: true
-                    title: qsTr("Reduced motion")
-                    description: qsTr("Short-circuit Theme.duration() animations.")
-                    headerIcon: "\uE7FC"
-                    action: Switch {
-                        checked: Theme.reducedMotion
-                        onToggled: Theme.reducedMotion = checked
-                    }
-                }
-
-                SettingsCard {
-                    Layout.fillWidth: true
-                    title: qsTr("Density")
-                    description: qsTr("Compact control metrics (Theme.density).")
-                    headerIcon: "\uE8A5"
-                    action: ComboBox {
-                        model: [qsTr("Standard"), qsTr("Compact")]
-                        currentIndex: Theme.density === "compact" ? 1 : 0
-                        onActivated: function (index) {
-                            Theme.density = index === 1 ? "compact" : "standard"
-                        }
-                    }
+        SettingsCard {
+            title: qsTr("Density")
+            description: qsTr("Compact control metrics (Theme.density).")
+            headerIcon: "\uE8A5"
+            action: ComboBox {
+                model: [qsTr("Standard"), qsTr("Compact")]
+                currentIndex: Theme.density === "compact" ? 1 : 0
+                onActivated: function (index) {
+                    Theme.density = index === 1 ? "compact" : "standard"
                 }
             }
+        }
+    }
 
-            SettingsGroup {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                Layout.bottomMargin: Theme.spacingSection
-                title: qsTr("Session")
-                description: qsTr("Summary rows for the current profile.")
-                symbol: FluentIcons.Contact
+    SettingsGroup {
+        title: qsTr("Session")
+        description: qsTr("Summary rows for the current profile.")
+        symbol: FluentIcons.Contact
 
-                DetailRow {
-                    Layout.fillWidth: true
-                    label: qsTr("User")
-                    value: qsTr("Local gallery")
-                    symbol: FluentIcons.Contact
-                }
-                DetailRow {
-                    Layout.fillWidth: true
-                    label: qsTr("Theme")
-                    value: Theme.dark ? qsTr("Dark") : qsTr("Light")
-                    symbol: FluentIcons.Brightness
-                }
-            }
+        DetailRow {
+            label: qsTr("User")
+            value: qsTr("Local gallery")
+            symbol: FluentIcons.Contact
+        }
+        DetailRow {
+            label: qsTr("Theme")
+            value: Theme.dark ? qsTr("Dark") : qsTr("Light")
+            symbol: FluentIcons.Brightness
         }
     }
 }

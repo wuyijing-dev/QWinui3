@@ -124,6 +124,8 @@ qt_add_qml_module(qwinui3_extras
         SettingsCard.qml
         SettingsExpander.qml
         SettingsGroup.qml
+        SettingsToggleCard.qml
+        SettingsView.qml
         DetailRow.qml
         SwipeAction.qml
         Shimmer.qml

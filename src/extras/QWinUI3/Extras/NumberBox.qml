@@ -49,15 +49,26 @@ T.Control {
     property string description: ""
     // Validation error text
     property string errorMessage: ""
-    // WinUI HeaderPlacement: top | left
-    property string headerPlacement: "top"
+    // WinUI HeaderPlacement: top | left (falls back to FormLayout.fieldHeaderPlacement)
+    property string headerPlacement: formLayout && formLayout.fieldHeaderPlacement.length
+                                     ? formLayout.fieldHeaderPlacement
+                                     : "top"
     // Label column width when headerPlacement is left
-    property real labelWidth: 120
+    property real labelWidth: formLayout ? formLayout.labelWidth : 120
+    readonly property var formLayout: {
+        var p = parent
+        while (p) {
+            if (p.objectName === "QWinUI3FormLayout")
+                return p
+            p = p.parent
+        }
+        return null
+    }
+    readonly property bool _headerLeft: headerPlacement === "left"
     // Placeholder when empty
     property string placeholderText: ""
     // True when input fails validation
     property bool inputInvalid: false
-    readonly property bool _headerLeft: headerPlacement === "left"
     // WinUI SpinButtonPlacementMode: "inline" | "compact" | "hidden"
     property string spinButtonPlacementMode: "inline"
     // WinUI ValidationMode: "invalidInputOverValue" | "disabled"

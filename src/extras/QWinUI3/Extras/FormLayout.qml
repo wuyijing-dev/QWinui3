@@ -27,16 +27,20 @@ import QWinUI3.Theme
 //
 // @notes
 //   ColumnLayout wrapper for HeaderedTextBox / NumberBox / PasswordBox.
-//   labelWidth is pushed to descendants that expose a labelWidth property
-//   (use headerPlacement: "left" on fields).
+//   Fields discover this host via objectName and bind labelWidth themselves.
+//   Optional fieldHeaderPlacement ("left"|"top") defaults child headerPlacement.
 //   validate() gathers non-empty errorMessage (and hasError) from descendants.
 //   Pair with ValidationSummary for a page-level error list.
 
 T.Control {
     id: root
+    objectName: "QWinUI3FormLayout"
 
-    // Preferred label column width for left-header fields (applied to descendants)
+    // Preferred label column width for left-header fields
+    // (fields bind automatically via FormLayout ancestor — no apply walk)
     property real labelWidth: 140
+    // Default headerPlacement pushed to fields that opt into form defaults
+    property string fieldHeaderPlacement: ""
     // Vertical spacing between fields
     property real fieldSpacing: Theme.spacingLoose
     // Collected error strings after validate() / collectErrors()
@@ -53,29 +57,6 @@ T.Control {
         id: body
         spacing: root.fieldSpacing
         width: root.availableWidth
-
-        onChildrenChanged: Qt.callLater(root.applyLabelWidth)
-    }
-
-    onLabelWidthChanged: applyLabelWidth()
-    Component.onCompleted: applyLabelWidth()
-
-    // Push labelWidth onto descendant fields that expose the property
-    function applyLabelWidth() {
-        function walk(item) {
-            if (!item)
-                return
-            if (item !== root && item.hasOwnProperty("labelWidth"))
-                item.labelWidth = root.labelWidth
-            var kids = item.children || []
-            for (var i = 0; i < kids.length; ++i)
-                walk(kids[i])
-            if (item.contentChildren) {
-                for (var j = 0; j < item.contentChildren.length; ++j)
-                    walk(item.contentChildren[j])
-            }
-        }
-        walk(body)
     }
 
     // Walk visual children for errorMessage / hasError

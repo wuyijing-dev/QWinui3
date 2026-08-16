@@ -29,10 +29,22 @@ T.Control {
     property string description: ""
     // Validation error text
     property string errorMessage: ""
-    // WinUI HeaderPlacement: top | left
-    property string headerPlacement: "top"
-    // Label column width when headerPlacement is left
-    property real labelWidth: 120
+    // WinUI HeaderPlacement: top | left (falls back to FormLayout.fieldHeaderPlacement)
+    property string headerPlacement: formLayout && formLayout.fieldHeaderPlacement.length
+                                     ? formLayout.fieldHeaderPlacement
+                                     : "top"
+    // Label column width when headerPlacement is left (binds to FormLayout.labelWidth)
+    property real labelWidth: formLayout ? formLayout.labelWidth : 120
+    // Nearest FormLayout ancestor (if any)
+    readonly property var formLayout: {
+        var p = parent
+        while (p) {
+            if (p.objectName === "QWinUI3FormLayout")
+                return p
+            p = p.parent
+        }
+        return null
+    }
     // Show clear affordance
     property bool clearButtonVisible: false
     // Soft character counter limit
