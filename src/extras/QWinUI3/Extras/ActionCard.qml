@@ -20,6 +20,8 @@ import QWinUI3.Theme
 T.AbstractButton {
     id: control
 
+    Layout.fillWidth: true
+
     // Primary title text
     property string title: text
     // Supporting description text

@@ -5,65 +5,41 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 
 // Gallery — ActionCard.
-//
-// Clickable card with symbol, badge, and animated chevron. API: docs/components/ActionCard.md
 
-Page {
-    padding: 0
-    ScrollView {
-        id: scroll
-        anchors.fill: parent
-        contentWidth: availableWidth
-        clip: true
+CatalogPage {
+    title: qsTr("ActionCard")
+    subtitle: qsTr("Clickable card with symbol, badge, and animated chevron.")
+
+    ControlExample {
+        headerText: qsTr("Actions")
+        qmlSource: "ActionCard {\n    symbol: FluentIcons.Color\n    badgeVisible: true\n}"
         ColumnLayout {
-            width: scroll.availableWidth
-            spacing: Theme.spacingSection
-            PageHeader {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                Layout.topMargin: Theme.spacingSection
-                title: qsTr("ActionCard")
-                subtitle: qsTr("Clickable card with symbol, badge, and animated chevron.")
+            Layout.fillWidth: true
+            spacing: Theme.spacingLoose
+            ActionCard {
+                Layout.maximumWidth: 420
+                title: qsTr("Personalization")
+                description: qsTr("Background, colors, themes")
+                symbol: FluentIcons.Color
+                badgeVisible: true
+                badgeValue: 3
+                badgeSeverity: 0
+                onClicked: resultLabel.text = qsTr("Opened Personalization")
             }
-            ControlExample {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                headerText: qsTr("Actions")
-                qmlSource: "ActionCard {\n    symbol: FluentIcons.Color\n    badgeVisible: true\n}"
-                ColumnLayout {
-                    Layout.fillWidth: true
-                    spacing: Theme.spacingLoose
-                    ActionCard {
-                        Layout.fillWidth: true
-                        Layout.maximumWidth: 420
-                        title: qsTr("Personalization")
-                        description: qsTr("Background, colors, themes")
-                        symbol: FluentIcons.Color
-                        badgeVisible: true
-                        badgeValue: 3
-                        badgeSeverity: 0
-                        onClicked: resultLabel.text = qsTr("Opened Personalization")
-                    }
-                    ActionCard {
-                        Layout.fillWidth: true
-                        Layout.maximumWidth: 420
-                        title: qsTr("Network & internet")
-                        description: qsTr("Wi‑Fi, airplane mode, VPN")
-                        symbol: FluentIcons.Wifi
-                        glyphColor: Theme.systemAttention
-                        showChevron: false
-                        onClicked: resultLabel.text = qsTr("Opened Network")
-                    }
-                    Label {
-                        id: resultLabel
-                        text: qsTr("Tap a card")
-                        color: Theme.textSecondary
-                    }
-                }
+            ActionCard {
+                Layout.maximumWidth: 420
+                title: qsTr("Network & internet")
+                description: qsTr("Wi‑Fi, airplane mode, VPN")
+                symbol: FluentIcons.Wifi
+                glyphColor: Theme.systemAttention
+                showChevron: false
+                onClicked: resultLabel.text = qsTr("Opened Network")
             }
-            Item { Layout.preferredHeight: Theme.spacingSection; Layout.fillWidth: true }
+            Label {
+                id: resultLabel
+                text: qsTr("Tap a card")
+                color: Theme.textSecondary
+            }
         }
     }
 }

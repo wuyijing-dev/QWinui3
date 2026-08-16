@@ -34,6 +34,8 @@ import QWinUI3.Theme
 T.Control {
     id: root
 
+    Layout.fillWidth: true
+
     readonly property int selectionNone: 0
     readonly property int selectionSingle: 1
     readonly property int selectionMultiple: 2

@@ -27,6 +27,8 @@ import QWinUI3.Theme
 T.Control {
     id: root
 
+    Layout.fillWidth: true
+
     // Informational severity constant
     readonly property int informational: 0
     // Success severity constant

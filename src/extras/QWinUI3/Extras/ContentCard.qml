@@ -20,6 +20,8 @@ import QWinUI3.Theme
 T.Control {
     id: control
 
+    Layout.fillWidth: true
+
     // Primary title text
     property string title: ""
     // Secondary subtitle text

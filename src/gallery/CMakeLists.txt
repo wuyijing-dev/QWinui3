@@ -29,6 +29,7 @@ qt_add_qml_module(qwinui3_gallery
         GalleryHistory.qml
         PageHeader.qml
         ControlExample.qml
+        CatalogPage.qml
         pages/HomePage.qml
         pages/SettingsPage.qml
         pages/ButtonPage.qml

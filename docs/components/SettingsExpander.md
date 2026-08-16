@@ -13,16 +13,20 @@ Expandable settings group.
 ```qml
 SettingsExpander {
     title: qsTr("Advanced")
-    SettingsCard { title: qsTr("Option") }
+    toggle: true
+    checked: true
+    SettingsCard { title: qsTr("Option"); toggle: true }
 }
 
 // --- API ---
-// signals: onExpanding, onCollapsing
+// signals: onExpanding, onCollapsing, onToggled
 ```
 
 ## Notes
 
 Expander styled as a settings group; header + nested SettingsCard children.
+Set `toggle: true` for a built-in Switch (same API as SettingsCard).
+`Layout.fillWidth` defaults to true inside layouts.
 
 ## API
 
@@ -38,7 +42,11 @@ Expander styled as a settings group; header + nested SettingsCard children.
 | `expanded` | `bool` | Expanded state |
 | `isExpanded` | `alias` | Alias of expanded |
 | `expandDirection` | `string` | WinUI ExpandDirection: down \| up |
-| `action` | `alias` | Custom action slot |
+| `action` | `alias` | Custom action slot; ignored when toggle is true |
+| `toggle` | `bool` | Built-in Switch action |
+| `checked` | `alias` | Switch checked state (when toggle is true) |
+| `toggleEnabled` | `alias` | Switch enabled |
+| `toggleText` | `alias` | Optional Switch text |
 | `contentData` | `alias` | Default children / content slot |
 | `effectiveHeaderIcon` | `string` | Resolved header icon |
 
@@ -48,6 +56,7 @@ Expander styled as a settings group; header + nested SettingsCard children.
 | --- | --- |
 | `expanding()` | True while expanding |
 | `collapsing()` | True while collapsing |
+| `toggled(bool checked)` | Emitted when the built-in Switch toggles |
 
 ### Methods
 

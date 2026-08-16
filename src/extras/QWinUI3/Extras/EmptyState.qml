@@ -20,6 +20,8 @@ import QWinUI3.Theme
 T.Control {
     id: root
 
+    Layout.fillWidth: true
+
     // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
     // Fluent glyph drawn in the button

@@ -8,14 +8,17 @@ import QWinUI3.Theme
 //
 //   SettingsExpander {
 //       title: qsTr("Advanced")
-//       SettingsCard { title: qsTr("Option") }
+//       toggle: true
+//       checked: true
+//       SettingsCard { title: qsTr("Option"); toggle: true }
 //   }
 //
 //   // --- API ---
-//   // signals: onExpanding, onCollapsing
+//   // signals: onExpanding, onCollapsing, onToggled
 //
 // @notes
 //   Expander styled as a settings group; header + nested SettingsCard children.
+//   Set toggle: true for a built-in Switch (same API as SettingsCard).
 
 T.Control {
     id: control
@@ -38,8 +41,16 @@ T.Control {
     property alias isExpanded: control.expanded
     // WinUI ExpandDirection: down | up
     property string expandDirection: "down"
-    // Custom action slot
+    // Custom action slot; ignored when toggle is true
     property alias action: actionSlot.data
+    // Built-in Switch action (mutually exclusive with action:)
+    property bool toggle: false
+    // Switch checked state (when toggle is true)
+    property alias checked: toggleSwitch.checked
+    // Switch enabled (when toggle is true)
+    property alias toggleEnabled: toggleSwitch.enabled
+    // Optional Switch text
+    property alias toggleText: toggleSwitch.text
     // Default children / content slot
     default property alias contentData: contentHost.data
 
@@ -47,6 +58,8 @@ T.Control {
     signal expanding()
     // True while collapsing
     signal collapsing()
+    // Emitted when the built-in Switch toggles
+    signal toggled(bool checked)
 
     // Resolved header icon
     readonly property string effectiveHeaderIcon: {
@@ -163,6 +176,13 @@ T.Control {
                     Layout.alignment: Qt.AlignVCenter
                     implicitWidth: childrenRect.width
                     implicitHeight: childrenRect.height
+                }
+
+                Switch {
+                    id: toggleSwitch
+                    parent: control.toggle ? actionSlot : null
+                    visible: control.toggle
+                    onToggled: control.toggled(checked)
                 }
 
                 Text {
