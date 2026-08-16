@@ -32,7 +32,7 @@ If a new Qt minor breaks configure/build, fix a shim under `src/compat/` (below)
 | Header | Role |
 |--------|------|
 | `QWinUI3/Compat/QtCompatVersion.h` | `QWINUI3_QT_AT_LEAST`, `QWINUI3_HAVE_RHI_D3D12`, `QWINUI3_HAVE_QUICK_EFFECTS` |
-| `QWinUI3/Compat/QtCompatRhi.h` | RHI backend normalize / apply / D3D12 gating |
+| `QWinUI3/Compat/QtCompatRhi.h` | RHI backend normalize / apply / D3D12 gating — ship recipe [graphics-backend.md](graphics-backend.md) (1.31) |
 | `QWinUI3/Compat/QtCompatQml.h` | Support-range strings / REQUIRES floor helpers |
 | `QWinUI3/Compat/QtCompatEffects.h` | Effects availability query |
 

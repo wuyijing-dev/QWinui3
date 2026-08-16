@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.30**
-**Next up:** **1.31** (Graphics & backend notes)
+**Current:** **1.31**
+**Next up:** **1.32** (Window shells matrix refresh)
 **Planned through:** **1.50** (1.xx maturity checkpoint)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
 
@@ -60,7 +60,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.30`
+## Shipped — `1.01` … `1.31`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -182,30 +182,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** [density.md](docs/density.md) — density/uiScale token table, fixed type scale, NavigationView `auto` / ListDetailsView narrow recipe; Theme overrides Gallery live metrics + uiScale; Settings density note; theme-overrides + navigation cross-links; product version `1.30`.
 
+### 1.31 — Graphics & backend notes (shipped)
+
+**Shipped:** [graphics-backend.md](docs/graphics-backend.md) — per-OS ship table, alpha/backdrop caveats, Settings / `--rhi` / `QSG_RHI_BACKEND` restart story, consumer `Compat::Rhi::apply`; Gallery Settings callout; README pointer; Windows default stays OpenGL; product version `1.31`.
+
 ---
 
-## Late path — planned `1.31` … `1.40`
+## Late path — planned `1.32` … `1.40`
 
 Still **1.xx**. Schedule after mid path is mostly done; order can flex.
-
-### 1.31 — Graphics & backend notes
-
-**Why:** Gallery RHI preference and consumer GPUs still surprise integrators (OpenGL vs D3D11/12).
-
-**In scope**
-
-- Extend [graphics-backend.md](docs/graphics-backend.md): recommended backends per OS, alpha/backdrop caveats, `--rhi` / Settings restart story.
-- Gallery Settings callouts; one consumer README pointer.
-
-**Out of scope**
-
-- New RHI backends; rewriting Scene Graph.
-
-**Exit criteria**
-
-- Handbook answers “which backend should I ship?”; no silent default regressions on Windows.
-
----
 
 ### 1.32 — Window shells matrix refresh
 

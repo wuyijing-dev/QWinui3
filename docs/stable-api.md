@@ -156,3 +156,4 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.28** | Input & pickers consistency — [pickers.md](pickers.md); date/time `errorMessage` |
 | **1.29** | Icons & FluentIcons cookbook — [icons.md](icons.md); FontIcon / CaptionButton a11y |
 | **1.30** | Density & responsive shells — [density.md](density.md); Theme overrides metrics |
+| **1.31** | Graphics backend handbook — [graphics-backend.md](graphics-backend.md); Gallery Settings / `--rhi` |

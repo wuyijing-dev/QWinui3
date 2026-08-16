@@ -274,7 +274,7 @@ Page {
 
         SettingsCard {
             title: qsTr("Graphics backend")
-            description: qsTr("Qt Quick RHI API. Must restart to apply. Active: %1. %2")
+            description: qsTr("Qt Quick RHI. Ship OpenGL on Windows for Mica/Acrylic. Change needs Restart (--rhi). Active: %1. %2 — docs/graphics-backend.md")
                          .arg(root.rhiDisplayName(GraphicsBackend.active))
                          .arg(GraphicsBackend.hint)
             symbol: FluentIcons.HardDrive

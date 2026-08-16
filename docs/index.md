@@ -32,6 +32,7 @@ This site is generated from QML source comments and shipped via GitHub Pages.
 | [Input & pickers](pickers.md) | Number / date / time / color + FormLayout (1.28) |
 | [Icons & FluentIcons](icons.md) | Symbol font, size/color, Gallery Iconography (1.29) |
 | [Density & responsive](density.md) | Compact metrics, type scale, narrow shells (1.30) |
+| [Graphics backend](graphics-backend.md) | RHI ship table, frost caveats, Settings / `--rhi` (1.31) |
 | [Consumer packaging](packaging-consumer.md) | Shared zip / CMake / runtime for third-party apps (1.12) |
 | [i18n / RTL](i18n-rtl.md) | qsTr workflow + LayoutMirroring baseline (1.13) |
 | [Commands & menus](commands.md) | CommandPalette / CommandBar / MenuFlyout keyboard (1.15) |

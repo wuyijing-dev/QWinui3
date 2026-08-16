@@ -13,5 +13,5 @@ Gallery **默认不透明 Solid**，不再启用 Mica / Acrylic / 窗口透明�
 
 **Failure modes / DPI / dialog owners:** see [`window-chrome.md`](window-chrome.md) (1.04).
 
-RHI / `--rhi` / Fixedsys 警告见 [`graphics-backend.md`](graphics-backend.md)。
+RHI 选型 / `--rhi` / Fixedsys 警告见 [`graphics-backend.md`](graphics-backend.md)（1.31）。
 Tray、壳窗口总览见 [`window-shells.md`](window-shells.md) 与 Platform `TrayIcon`（C++，见源码 `src/platform/QWinUI3/Platform/TrayIcon.h`）。
