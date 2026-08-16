@@ -1,9 +1,15 @@
 cmake_minimum_required(VERSION 3.16)
 
-# Single-config generators (Ninja/Makefiles): default to Release unless specified.
-if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
-    set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
-    set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS Debug Release RelWithDebInfo MinSizeRel)
+# Default to Release when the user/tool does not pick a build type.
+# Single-config (Ninja/Makefiles): CMAKE_BUILD_TYPE
+# Multi-config (Visual Studio/Xcode): CMAKE_DEFAULT_BUILD_TYPE after project()
+if(NOT CMAKE_CONFIGURATION_TYPES)
+    if(NOT CMAKE_BUILD_TYPE OR CMAKE_BUILD_TYPE STREQUAL "")
+        message(STATUS "QWinUI3: CMAKE_BUILD_TYPE not set — defaulting to Release")
+        set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose the type of build." FORCE)
+    endif()
+    set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS
+        "Debug" "Release" "RelWithDebInfo" "MinSizeRel")
 endif()
 
 # Help Qt Creator / clangd / VS Code resolve includes from the build tree.
@@ -15,6 +21,25 @@ project(QWinUI3
     HOMEPAGE_URL "https://github.com/wuyijing-dev/QWinui3"
     LANGUAGES CXX
 )
+
+# Multi-config generators ignore CMAKE_BUILD_TYPE; pin the default config to Release
+# so `cmake --build` / Qt Creator / VS without an explicit --config use Release.
+get_property(_qwinui3_multi_config GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+if(_qwinui3_multi_config)
+    set(CMAKE_CONFIGURATION_TYPES "Release;RelWithDebInfo;Debug;MinSizeRel"
+        CACHE STRING "Available build configurations" FORCE)
+    if(NOT CMAKE_DEFAULT_BUILD_TYPE)
+        set(CMAKE_DEFAULT_BUILD_TYPE "Release"
+            CACHE STRING "Default multi-config build type" FORCE)
+    endif()
+    set_property(CACHE CMAKE_DEFAULT_BUILD_TYPE PROPERTY STRINGS
+        "Release" "RelWithDebInfo" "Debug" "MinSizeRel")
+    message(STATUS "QWinUI3: multi-config default = ${CMAKE_DEFAULT_BUILD_TYPE} "
+                   "(configs: ${CMAKE_CONFIGURATION_TYPES})")
+else()
+    message(STATUS "QWinUI3: CMAKE_BUILD_TYPE = ${CMAKE_BUILD_TYPE}")
+endif()
+unset(_qwinui3_multi_config)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)

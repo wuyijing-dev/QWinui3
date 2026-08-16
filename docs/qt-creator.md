@@ -6,7 +6,7 @@ QWinUI3 is a **CMake** project. Open the **repository root** `CMakeLists.txt` (n
 
 1. **File → Open File or Project…** → select `CMakeLists.txt` at the repo root.
 2. Pick a kit with **Qt 6.8+** (MSVC 2022 64-bit recommended on Windows).
-3. Choose configure preset **Release (Ninja)** (or use the kit without a preset).
+3. Choose configure preset **Default (Release)** / **Release (Ninja)** (or open without a preset — CMake still defaults to Release).
 4. Build target `qwinui3_gallery`.
 
 Qt Creator injects `CMAKE_PREFIX_PATH` from the kit. Shared `CMakePresets.json` intentionally does **not** hardcode a Qt install path.
@@ -15,9 +15,11 @@ Qt Creator injects `CMAKE_PREFIX_PATH` from the kit. Shared `CMakePresets.json` 
 
 | Preset | Build dir | Notes |
 |--------|-----------|--------|
-| `release` / `qt68-msvc` | `build/` | Default; matches CLI Release tree |
+| `default` / `release` / `qt68-msvc` | `build/` | **Release** (project default) |
 | `debug` | `build-debug/` | Only if you need Debug |
 | `relwithdebinfo` | `build-relwithdebinfo/` | Optional |
+
+Plain `cmake -S . -B build` (no `-DCMAKE_BUILD_TYPE`) also configures **Release**. Multi-config generators (Visual Studio) use `CMAKE_DEFAULT_BUILD_TYPE=Release`.
 
 Local Qt / Ninja paths: copy [`CMakeUserPresets.json.example`](https://github.com/wuyijing-dev/QWinui3/blob/master/CMakeUserPresets.json.example) to `CMakeUserPresets.json` and edit (file is gitignored).
 

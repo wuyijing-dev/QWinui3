@@ -12,7 +12,8 @@
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/build/${presetName}",
       "cacheVariables": {
-        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "CMAKE_BUILD_TYPE": "Release"
       },
       "architecture": {
         "value": "x64",
@@ -36,6 +37,12 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
       }
+    },
+    {
+      "name": "default",
+      "inherits": "release",
+      "displayName": "Default (Release)",
+      "description": "Same as release — preferred default when a tool asks for the project preset."
     },
     {
       "name": "debug",
@@ -65,28 +72,39 @@
   ],
   "buildPresets": [
     {
+      "name": "default",
+      "configurePreset": "default",
+      "configuration": "Release",
+      "targets": ["qwinui3_gallery"]
+    },
+    {
       "name": "release",
       "configurePreset": "release",
+      "configuration": "Release",
       "targets": ["qwinui3_gallery"]
     },
     {
       "name": "debug",
       "configurePreset": "debug",
+      "configuration": "Debug",
       "targets": ["qwinui3_gallery"]
     },
     {
       "name": "relwithdebinfo",
       "configurePreset": "relwithdebinfo",
+      "configuration": "RelWithDebInfo",
       "targets": ["qwinui3_gallery"]
     },
     {
       "name": "qt68-msvc",
       "configurePreset": "qt68-msvc",
+      "configuration": "Release",
       "targets": ["qwinui3_gallery"]
     },
     {
       "name": "all-release",
-      "configurePreset": "release"
+      "configurePreset": "release",
+      "configuration": "Release"
     }
   ],
   "vendor": {
