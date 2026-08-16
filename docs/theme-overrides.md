@@ -55,6 +55,8 @@ Settings → **Accent pack** / **Custom accent** / **Density** for global Galler
 
 Metrics, type scale, and narrow shells: **[density.md](density.md) (1.30)**.
 
+Contrast / AA accent checks: **[color-contrast.md](color-contrast.md) (1.43)** — `Theme.contrastRatio` / `contrastPassesAA` on the Theme overrides Gallery page.
+
 ---
 
 ## Out of scope (1.09)
@@ -62,4 +64,5 @@ Metrics, type scale, and narrow shells: **[density.md](density.md) (1.30)**.
 - Fluent 2 / Style restyle of controls  
 - Theme editor / editable token grid  
 - Making `bg*` / `text*` writable override maps  
-- New accent pack names in Theme.qml (use `customAccent`)
+- New accent pack names in Theme.qml (use `customAccent`)  
+- Automated WCAG certification (see color-contrast diagnostics instead)

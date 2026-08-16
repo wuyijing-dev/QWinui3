@@ -113,7 +113,7 @@ Promoted this slice (Gallery + recipe soak). Status flips are **named here** —
 
 | Type | Module | Notes |
 |------|--------|--------|
-| `Theme` singleton | Theme | Tokens, density, dark/light, accent — [theme-overrides.md](theme-overrides.md) (1.09) |
+| `Theme` singleton | Theme | Tokens, density, dark/light, accent — [theme-overrides.md](theme-overrides.md) (1.09); contrast helpers — [color-contrast.md](color-contrast.md) (**1.43**) |
 | `FluentIcons` / `FontIcon` | Theme / Extras | Symbol font + glyph control — [icons.md](icons.md) (**1.37** FontIcon) |
 | `InfoBadge` | Extras | Counts / status dots on nav — (**1.37**) |
 | Style `QWinUI3` | Style | Drop-in Fluent chrome for Controls |
@@ -220,3 +220,4 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.40** | 1.xx compatibility freeze — [compatibility-1xx.md](compatibility-1xx.md); [upgrade-notes.md](upgrade-notes.md) |
 | **1.41** | Drag-drop & clipboard — [drag-drop.md](drag-drop.md); FileDropZone / CopyButton / WindowHelper |
 | **1.42** | Adaptive layout — [adaptive-layout.md](adaptive-layout.md); TwoPaneView / ListDetailsView breakpoints |
+| **1.43** | Color & contrast diagnostics — [color-contrast.md](color-contrast.md); `Theme.contrastRatio` / AA helpers |

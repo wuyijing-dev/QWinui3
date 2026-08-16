@@ -168,6 +168,11 @@ _No custom signals_ (use inherited signals from the base type).
 | `setAccentPack(name)` | Apply a named accent pack and clear customAccent |
 | `controlFill(hovered, pressed, disabled)` | Rest/hover/pressed/disabled control fill helper |
 | `accentFill(hovered, pressed, disabled)` | Rest/hover/pressed/disabled accent fill helper |
+| `relativeLuminance(c)` | WCAG relative luminance 0…1 (**1.43**) |
+| `contrastRatio(fg, bg)` | WCAG contrast ratio (**1.43**) — [color-contrast.md](../color-contrast.md) |
+| `contrastPassesAA(fg, bg, largeText?)` | AA gate 4.5:1 / 3:1 (**1.43**) |
+| `accentContrastRatio(surface?)` | `accent` vs `bgCard` or given surface (**1.43**) |
+| `accentFill(hovered, pressed, disabled)` | Rest/hover/pressed/disabled accent fill helper |
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

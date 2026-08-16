@@ -28,6 +28,7 @@ import QtQuick
 //   Theme.controlFill(hovered, pressed, disabled)
 //   Theme.accentFill(hovered, pressed, disabled)
 //   Theme.setAccentPack(name)
+//   Theme.relativeLuminance(c) / Theme.contrastRatio(fg, bg) / Theme.contrastPassesAA(…)  // 1.43
 //
 // @notes
 //   Singleton tokens: colors, type, spacing, motion, corners, density, accent packs.
@@ -36,6 +37,7 @@ import QtQuick
 //   devicePixelRatio + uiScale: hairline strokes and optional extra UI scale (ShellWindow syncs DPR).
 //   accentPack "blue"|"purple"|"green"|"orange"; customAccent (alpha>0) overrides pack.
 //   Branding: set knobs only — do not assign readonly bg*/text* or fork Style (docs/theme-overrides.md).
+//   Contrast diagnostics: docs/color-contrast.md (1.43) — AA guidance, not a certification product.
 //   Use Theme.duration(ms) and controlFill/accentFill helpers for states.
 
 QtObject {
@@ -312,5 +314,41 @@ QtObject {
         if (hovered)
             return fillAccentSecondary
         return fillAccent
+    }
+
+    // --- Contrast diagnostics (1.43) — WCAG 2.x relative luminance; not a certification product ---
+
+    function _srgbChannel(c) {
+        var v = Math.max(0, Math.min(1, Number(c)))
+        return v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4)
+    }
+
+    // Relative luminance 0…1 (WCAG 2.x) for a Qt color / "#RRGGBB"
+    function relativeLuminance(colorValue) {
+        var c = Qt.color(colorValue)
+        var r = _srgbChannel(c.r)
+        var g = _srgbChannel(c.g)
+        var b = _srgbChannel(c.b)
+        return 0.2126 * r + 0.7152 * g + 0.0722 * b
+    }
+
+    // Contrast ratio ≥ 1 (WCAG). Order of fg/bg does not matter.
+    function contrastRatio(fg, bg) {
+        var l1 = relativeLuminance(fg)
+        var l2 = relativeLuminance(bg)
+        var lighter = Math.max(l1, l2)
+        var darker = Math.min(l1, l2)
+        return (lighter + 0.05) / (darker + 0.05)
+    }
+
+    // WCAG AA: 4.5:1 normal text, 3:1 large text (≥18pt / 14pt bold ≈ Theme.fontBodyLarge+)
+    function contrastPassesAA(fg, bg, largeText) {
+        var need = largeText ? 3.0 : 4.5
+        return contrastRatio(fg, bg) >= need
+    }
+
+    // Convenience: accent on a surface (default bgCard)
+    function accentContrastRatio(surface) {
+        return contrastRatio(accent, surface === undefined ? bgCard : surface)
     }
 }

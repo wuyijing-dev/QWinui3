@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.42**
-**Next up:** **1.43** (Color, contrast & theme diagnostics)
+**Current:** **1.43**
+**Next up:** **1.44** (Keyboard-first app cookbook)
 **Planned through:** **1.50** (1.xx maturity checkpoint)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](qt-version-compat.md)
 
@@ -60,7 +60,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.42`
+## Shipped — `1.01` … `1.43`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -230,30 +230,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** [adaptive-layout.md](adaptive-layout.md) breakpoint cheat sheet (Nav 1008 / TwoPane+ListDetails 720); Gallery TwoPaneView / ListDetailsView polish; density / navigation / data-collections cross-links; `TwoPaneView` on stable-api; product version `1.42`.
 
+### 1.43 — Color, contrast & theme diagnostics (shipped)
+
+**Shipped:** [color-contrast.md](color-contrast.md) AA guidance; `Theme.relativeLuminance` / `contrastRatio` / `contrastPassesAA` / `accentContrastRatio`; Gallery Theme overrides live AA table; Accessibility / theme-overrides cross-links; product version `1.43`.
+
 ---
 
-## Horizon — planned `1.43` … `1.50`
+## Horizon — planned `1.44` … `1.50`
 
 Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per `YY`.
-
-### 1.43 — Color, contrast & theme diagnostics
-
-**Why:** Branding (1.09) and a11y need a stronger “is my accent OK?” story.
-
-**In scope**
-
-- Contrast guidance, accent preview diagnostics, high-contrast callouts.
-- Gallery Theme overrides / Accessibility cross-links.
-
-**Out of scope**
-
-- Automated WCAG certification product.
-
-**Exit criteria**
-
-- Diagnostic recipe in docs; Gallery shows at least one contrast check path.
-
----
 
 ### 1.44 — Keyboard-first app cookbook
 

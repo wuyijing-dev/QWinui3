@@ -85,6 +85,7 @@ nav:
       - Density & responsive: density.md
       - Adaptive layout: adaptive-layout.md
       - Theme overrides: theme-overrides.md
+      - Color & contrast: color-contrast.md
       - Icons & FluentIcons: icons.md
       - i18n / RTL: i18n-rtl.md
     - Feedback & commands:

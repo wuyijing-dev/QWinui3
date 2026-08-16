@@ -4,17 +4,30 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — Theme overrides / branding (1.09) + density metrics (1.30).
+// Gallery — Theme overrides / branding (1.09) + density (1.30) + contrast (1.43).
 //
 // Writable knobs only — no Style fork. Restores Theme when leaving the page.
-// Density / type / narrow shells: docs/density.md
+// Density: docs/density.md · Contrast: docs/color-contrast.md
 
 CatalogPage {
     id: page
     title: qsTr("Theme overrides")
-    subtitle: qsTr("Brand + density. Live metrics: docs/density.md (1.30). Style already follows Theme.")
+    subtitle: qsTr("Brand + density + contrast AA — docs/color-contrast.md (1.43).")
 
     property var _saved: null
+
+    readonly property real _ratioPrimaryCard: Theme.contrastRatio(Theme.textPrimary, Theme.bgCard)
+    readonly property real _ratioSecondaryCard: Theme.contrastRatio(Theme.textSecondary, Theme.bgCard)
+    readonly property real _ratioAccentCard: Theme.accentContrastRatio(Theme.bgCard)
+    readonly property real _ratioOnAccent: Theme.contrastRatio(Theme.textOnAccent, Theme.accent)
+    readonly property bool _aaPrimary: Theme.contrastPassesAA(Theme.textPrimary, Theme.bgCard)
+    readonly property bool _aaSecondary: Theme.contrastPassesAA(Theme.textSecondary, Theme.bgCard)
+    readonly property bool _aaAccent: Theme.contrastPassesAA(Theme.accent, Theme.bgCard)
+    readonly property bool _aaOnAccent: Theme.contrastPassesAA(Theme.textOnAccent, Theme.accent)
+
+    function _passLabel(ok) {
+        return ok ? qsTr("AA pass") : qsTr("AA fail")
+    }
 
     function _snapshotTheme() {
         return {
@@ -40,6 +53,94 @@ CatalogPage {
 
     Component.onCompleted: _saved = _snapshotTheme()
     Component.onDestruction: _restoreTheme()
+
+    ControlExample {
+        headerText: qsTr("Contrast diagnostics (1.43)")
+        qmlSource: "Theme.contrastRatio(fg, bg)\nTheme.contrastPassesAA(fg, bg)"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("WCAG 2.x ratios for current Theme (guidance only — not a certification). Body AA ≥ 4.5:1. Change accent / dark below and watch the table. Recipe: docs/color-contrast.md · High contrast: Accessibility / Settings.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            GridLayout {
+                Layout.fillWidth: true
+                columns: 3
+                columnSpacing: Theme.spacingLoose
+                rowSpacing: Theme.spacing
+                Label { text: qsTr("Pair"); font.weight: Theme.fontWeightSemiBold; color: Theme.textPrimary }
+                Label { text: qsTr("Ratio"); font.weight: Theme.fontWeightSemiBold; color: Theme.textPrimary }
+                Label { text: qsTr("AA"); font.weight: Theme.fontWeightSemiBold; color: Theme.textPrimary }
+
+                Label { text: qsTr("textPrimary / bgCard"); color: Theme.textSecondary }
+                Label { text: page._ratioPrimaryCard.toFixed(2) + ":1"; color: Theme.textPrimary }
+                Label {
+                    text: page._passLabel(page._aaPrimary)
+                    color: page._aaPrimary ? Theme.systemSuccess : Theme.systemCritical
+                }
+
+                Label { text: qsTr("textSecondary / bgCard"); color: Theme.textSecondary }
+                Label { text: page._ratioSecondaryCard.toFixed(2) + ":1"; color: Theme.textPrimary }
+                Label {
+                    text: page._passLabel(page._aaSecondary)
+                    color: page._aaSecondary ? Theme.systemSuccess : Theme.systemCritical
+                }
+
+                Label { text: qsTr("accent / bgCard"); color: Theme.textSecondary }
+                Label { text: page._ratioAccentCard.toFixed(2) + ":1"; color: Theme.textPrimary }
+                Label {
+                    text: page._passLabel(page._aaAccent)
+                    color: page._aaAccent ? Theme.systemSuccess : Theme.systemCritical
+                }
+
+                Label { text: qsTr("textOnAccent / accent"); color: Theme.textSecondary }
+                Label { text: page._ratioOnAccent.toFixed(2) + ":1"; color: Theme.textPrimary }
+                Label {
+                    text: page._passLabel(page._aaOnAccent)
+                    color: page._aaOnAccent ? Theme.systemSuccess : Theme.systemCritical
+                }
+            }
+            RowLayout {
+                Layout.fillWidth: true
+                spacing: Theme.spacing
+                Rectangle {
+                    width: 120
+                    height: 40
+                    radius: Theme.cornerControl
+                    color: Theme.bgCard
+                    border.width: 1
+                    border.color: Theme.strokeCard
+                    Label {
+                        anchors.centerIn: parent
+                        text: qsTr("Primary")
+                        color: Theme.textPrimary
+                    }
+                }
+                Rectangle {
+                    width: 120
+                    height: 40
+                    radius: Theme.cornerControl
+                    color: Theme.accent
+                    Label {
+                        anchors.centerIn: parent
+                        text: qsTr("On accent")
+                        color: Theme.textOnAccent
+                    }
+                }
+                Label {
+                    Layout.fillWidth: true
+                    wrapMode: Text.Wrap
+                    color: Theme.textSecondary
+                    text: qsTr("dark=%1 · accent=%2").arg(Theme.dark).arg(String(Theme.accent))
+                }
+            }
+        }
+    }
 
     ControlExample {
         headerText: qsTr("Density metrics (1.30)")

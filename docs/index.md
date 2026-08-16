@@ -14,6 +14,7 @@ This site is generated from QML source comments and shipped via GitHub Pages.
 | [Upgrade notes](upgrade-notes.md) | Consumer checklist + template (**1.40**) |
 | [Drag-drop & clipboard](drag-drop.md) | FileDropZone / CopyButton / WindowHelper (**1.41**) |
 | [Adaptive layout](adaptive-layout.md) | TwoPaneView / ListDetailsView breakpoints (**1.42**) |
+| [Color & contrast](color-contrast.md) | AA diagnostics / `Theme.contrastRatio` (**1.43**) |
 | [Component API](components.md) | Full public + internal control index |
 | [Qt Creator](qt-creator.md) | Open Gallery / examples (CMake only) |
 | [Consumer packaging](packaging-consumer.md) | Shared zip / CMake / runtime |

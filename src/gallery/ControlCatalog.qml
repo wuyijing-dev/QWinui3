@@ -1089,7 +1089,7 @@ QtObject {
             title: qsTr("Theme overrides"),
             category: "status",
             icon: FluentIcons.Color,
-            description: qsTr("Brand + density metrics / uiScale - docs/density.md (1.30)."),
+            description: qsTr("Brand + contrast AA table — docs/color-contrast.md (1.43)."),
             component: "ThemeOverridesPage",
             source: "pages/ThemeOverridesPage.qml"
         },
@@ -1425,6 +1425,8 @@ QtObject {
     // Curated “recently shipped” recipe pages (1.20) — not catalog array order.
     function recentlyShipped(count) {
         var ids = [
+            "ThemeOverridesPage",     // 1.43 contrast AA
+            "AccessibilityPage",      // 1.43 high-contrast cross-link
             "TwoPaneViewPage",        // 1.42 adaptive layout
             "ListDetailsViewPage",    // 1.42 breakpoints
             "FileDropZonePage",       // 1.41 drag-drop recipe
@@ -1440,7 +1442,6 @@ QtObject {
             "ChartsPage",             // 1.23
             "AnimationsPage",         // 1.22 experimental
             "MediaPlayerElementPage", // 1.21 experimental
-            "AccessibilityPage",      // 1.19
             "WebView2Page",           // 1.18
             "DataTablePage"           // 1.07
         ]

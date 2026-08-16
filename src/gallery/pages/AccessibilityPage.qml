@@ -202,13 +202,21 @@ CatalogPage {
                 title: qsTr("High contrast")
                 description: Theme.followSystemAccessibility
                              ? qsTr("Following system — turn off Follow system accessibility in Settings to override.")
-                             : qsTr("Strengthens borders and focus cues (Theme.highContrast).")
+                             : qsTr("Strengthens borders and focus cues (Theme.highContrast). Accent AA checks: Theme overrides / docs/color-contrast.md (1.43).")
                 checked: Theme.highContrast
                 toggleEnabled: !Theme.followSystemAccessibility
                 onToggled: {
                     if (!Theme.followSystemAccessibility)
                         Theme.highContrast = checked
                 }
+            }
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Brand contrast diagnostics (textPrimary / accent on bgCard): Gallery Theme overrides — docs/color-contrast.md (1.43).")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontCaption
+                color: Theme.textSecondary
             }
         }
     }

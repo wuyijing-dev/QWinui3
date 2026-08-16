@@ -47,6 +47,20 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.42 → 1.43
+
+**Product version:** 1.43  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- Use `Theme.contrastRatio` / `contrastPassesAA` when picking `customAccent` — [color-contrast.md](color-contrast.md).
+- Gallery **Theme overrides** shows a live AA table.
+
+#### No action (compatible)
+
+- Additive Theme helpers + docs; existing branding knobs unchanged.
+
 ### Upgrade 1.41 → 1.42
 
 **Product version:** 1.42  
