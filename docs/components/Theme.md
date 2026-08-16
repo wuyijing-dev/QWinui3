@@ -52,6 +52,7 @@ Use Theme.duration(ms) and controlFill/accentFill helpers for states.
 | `reducedMotion` | `bool` | Collapse Theme.duration() animations when true |
 | `highContrast` | `bool` | When true, strengthen borders/focus for high-contrast / accessibility themes. |
 | `followSystemAccessibility` | `bool` | When true, Gallery/apps should copy WindowHelper system a11y into the flags above. |
+| `followSystemColorScheme` | `bool` | When true, mirror WindowHelper.systemPrefersDark into Theme.dark (Linux/Windows). |
 | `density` | `string` | Control density: "standard" \| "compact" |
 | `accentPack` | `string` | Named accent pack: "blue" \| "purple" \| "green" \| "orange" |
 | `customAccent` | `color` | When alpha > 0, overrides accentPack colors |
@@ -99,7 +100,8 @@ Use Theme.duration(ms) and controlFill/accentFill helpers for states.
 | `fontFamily` | `string` | Typography — Segoe UI Variable / WinUI type ramp |
 | `fontFamilyText` | `string` | Segoe UI Variable Text face |
 | `fontFamilyDisplay` | `string` | Segoe UI Variable Display face (large titles) |
-| `fontFamilyIcon` | `string` | Fluent Icons font family |
+| `fontFamilyIcon` | `string` | Fluent Icons — system Segoe on Windows when present, else embedded WinSymbols3 ("Symbols") |
+| `iconFontFamily` | `string` | Alias used by a few tiles |
 | `fontCaption` | `int` | Caption font size (12) |
 | `fontBody` | `int` | Body font size (14) |
 | `fontBodyLarge` | `int` | Body Large font size (18) |

@@ -1,6 +1,6 @@
 # ElevatedChrome
 
-Shared elevated shadow/border chrome.
+Shared elevated shadow/border chrome (WinUI-style soft shadow).
 
 `import QWinUI3.Theme` · [`src/theme/QWinUI3/Theme/ElevatedChrome.qml`](../../src/theme/QWinUI3/Theme/ElevatedChrome.qml)
 
@@ -14,6 +14,9 @@ Shared elevated shadow/border chrome.
 
 ```qml
 ElevatedChrome { anchors.fill: parent }
+
+Requires QtQuick.Effects (MultiEffect). On Debian/Ubuntu:
+sudo apt install qml6-module-qtquick-effects libqt6quickeffects6
 ```
 
 ## API

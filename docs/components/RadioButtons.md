@@ -1,12 +1,23 @@
 # RadioButtons
 
-RadioButtons (undocumented)
+Grouped radio options from a model (WinUI RadioButtons).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/RadioButtons.qml`](../../src/extras/QWinUI3/Extras/RadioButtons.qml)
 
 [← Component index](../components.md)
 
 **Extends** `Control`.
+
+## Example
+
+```qml
+RadioButtons {
+    header: qsTr("Theme")
+    model: [qsTr("Light"), qsTr("Dark"), qsTr("System")]
+    selectedIndex: 0
+    onSelected: function (index, item) { … }
+}
+```
 
 ## Notes
 

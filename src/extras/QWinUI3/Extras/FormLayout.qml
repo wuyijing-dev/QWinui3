@@ -27,13 +27,15 @@ import QWinUI3.Theme
 //
 // @notes
 //   ColumnLayout wrapper for HeaderedTextBox / NumberBox / PasswordBox.
+//   labelWidth is pushed to descendants that expose a labelWidth property
+//   (use headerPlacement: "left" on fields).
 //   validate() gathers non-empty errorMessage (and hasError) from descendants.
 //   Pair with ValidationSummary for a page-level error list.
 
 T.Control {
     id: root
 
-    // Preferred label column width for left-header fields (hint only)
+    // Preferred label column width for left-header fields (applied to descendants)
     property real labelWidth: 140
     // Vertical spacing between fields
     property real fieldSpacing: Theme.spacingLoose
@@ -51,6 +53,29 @@ T.Control {
         id: body
         spacing: root.fieldSpacing
         width: root.availableWidth
+
+        onChildrenChanged: Qt.callLater(root.applyLabelWidth)
+    }
+
+    onLabelWidthChanged: applyLabelWidth()
+    Component.onCompleted: applyLabelWidth()
+
+    // Push labelWidth onto descendant fields that expose the property
+    function applyLabelWidth() {
+        function walk(item) {
+            if (!item)
+                return
+            if (item !== root && item.hasOwnProperty("labelWidth"))
+                item.labelWidth = root.labelWidth
+            var kids = item.children || []
+            for (var i = 0; i < kids.length; ++i)
+                walk(kids[i])
+            if (item.contentChildren) {
+                for (var j = 0; j < item.contentChildren.length; ++j)
+                    walk(item.contentChildren[j])
+            }
+        }
+        walk(body)
     }
 
     // Walk visual children for errorMessage / hasError

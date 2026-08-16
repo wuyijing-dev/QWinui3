@@ -34,6 +34,8 @@ FormLayout {
 ## Notes
 
 ColumnLayout wrapper for HeaderedTextBox / NumberBox / PasswordBox.
+labelWidth is pushed to descendants that expose a labelWidth property
+(use headerPlacement: "left" on fields).
 validate() gathers non-empty errorMessage (and hasError) from descendants.
 Pair with ValidationSummary for a page-level error list.
 
@@ -43,7 +45,7 @@ Pair with ValidationSummary for a page-level error list.
 
 | Name | Type | Description |
 | --- | --- | --- |
-| `labelWidth` | `real` | Preferred label column width for left-header fields (hint only) |
+| `labelWidth` | `real` | Preferred label column width for left-header fields (applied to descendants) |
 | `fieldSpacing` | `real` | Vertical spacing between fields |
 | `errors` | `var` | Collected error strings after validate() / collectErrors() |
 | `contentData` | `alias` | Default children / field slot |
@@ -56,6 +58,7 @@ _No custom signals_ (use inherited signals from the base type).
 
 | Signature | Description |
 | --- | --- |
+| `applyLabelWidth()` | Push labelWidth onto descendant fields that expose the property |
 | `collectErrors()` | Return string[] of current field errors (does not mutate fields) |
 | `validate()` | Refresh errors; returns true when there are none |
 | `clearErrors()` | Clear errorMessage on descendant fields that expose it |

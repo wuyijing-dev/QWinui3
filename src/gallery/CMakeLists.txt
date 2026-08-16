@@ -71,6 +71,8 @@ qt_add_qml_module(qwinui3_gallery
         pages/FramePage.qml
         pages/FontIconPage.qml
         pages/GridTilePage.qml
+        pages/SettingsGroupPage.qml
+        pages/StatusBarPage.qml
         pages/GroupBoxPage.qml
         pages/HeaderedContentControlPage.qml
         pages/HeaderedTextBoxPage.qml

@@ -48,8 +48,12 @@ T.Control {
     property string titleRole: "title"
     // Model role / property name for subtitle
     property string subtitleRole: "subtitle"
+    // Model role / property name for leading Fluent symbol
+    property string symbolRole: "symbol"
     // Model role / property name for section header (empty = no sections)
     property string sectionRole: ""
+    // Put multi-select checkboxes in the leading slot (WinUI-like)
+    property bool checkboxLeading: true
     // Optional MenuFlyout (or Menu) instance for context actions
     property var contextMenu: null
     // EmptyState title when model is empty
@@ -157,8 +161,40 @@ T.Control {
                 width: listView.width
                 title: String(root._roleValue(modelData, root.titleRole, index))
                 subtitle: String(root._roleValue(modelData, root.subtitleRole, index))
+                // When checkbox occupies leading, draw the symbol inside leading too.
+                symbol: (root.selectionMode === root.selectionMultiple && root.checkboxLeading)
+                        ? ""
+                        : root._roleValue(modelData, root.symbolRole, index)
                 isSelected: root.isSelected(index)
                 highlighted: ListView.isCurrentItem
+
+                leading: RowLayout {
+                    spacing: 8
+                    visible: (root.selectionMode === root.selectionMultiple && root.checkboxLeading)
+                             || String(root._roleValue(modelData, root.symbolRole, index)).length > 0
+
+                    CheckBox {
+                        visible: root.selectionMode === root.selectionMultiple && root.checkboxLeading
+                        checked: root.isSelected(index)
+                        onClicked: root.toggleSelection(index)
+                    }
+
+                    Rectangle {
+                        visible: root.selectionMode === root.selectionMultiple && root.checkboxLeading
+                                 && String(root._roleValue(modelData, root.symbolRole, index)).length > 0
+                        Layout.preferredWidth: 36
+                        Layout.preferredHeight: 36
+                        radius: Theme.cornerControl
+                        color: Theme.fillSubtle
+                        Text {
+                            anchors.centerIn: parent
+                            text: String(root._roleValue(modelData, root.symbolRole, index))
+                            font.family: Theme.fontFamilyIcon
+                            font.pixelSize: 14
+                            color: Theme.accent
+                        }
+                    }
+                }
 
                 onClicked: {
                     listView.currentIndex = index
@@ -180,13 +216,9 @@ T.Control {
                 }
 
                 CheckBox {
-                    visible: root.selectionMode === root.selectionMultiple
+                    visible: root.selectionMode === root.selectionMultiple && !root.checkboxLeading
                     checked: root.isSelected(index)
-                    onClicked: {
-                        // Keep checkbox in sync without double-firing tile.onClicked path oddly
-                        if (checked !== root.isSelected(index))
-                            root.toggleSelection(index)
-                    }
+                    onClicked: root.toggleSelection(index)
                 }
             }
         }

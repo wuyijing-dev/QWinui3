@@ -9,7 +9,7 @@ python scripts/generate_component_docs.py
 python scripts/generate_component_docs.py --lint
 ```
 
-Public components: **188**. Hub: [`docs/README.md`](README.md). Shells: [`window-shells.md`](window-shells.md). Platform chrome: [`window-helper.md`](window-helper.md).
+Public components: **189**. Hub: [`docs/README.md`](README.md). Shells: [`window-shells.md`](window-shells.md). Platform chrome: [`window-helper.md`](window-helper.md).
 
 ## Index
 
@@ -45,6 +45,7 @@ Public components: **188**. Hub: [`docs/README.md`](README.md). Shells: [`window
 - [ContentDialogQueue](components/ContentDialogQueue.md) — Singleton queue so ContentDialogs open one at a time.
 - [CopyButton](components/CopyButton.md) — Copies textToCopy and flashes a success glyph.
 - [DatePicker](components/DatePicker.md) — Date selectors (year / month / day).
+- [DetailRow](components/DetailRow.md) — Compact label / value row for forms and settings summaries.
 - [DialogShellWindow](components/DialogShellWindow.md) — ShellWindow with dialog paradigm flags.
 - [DockPanel](components/DockPanel.md) — Dock children Top/Bottom/Left/Right/Fill.
 - [DonutChart](components/DonutChart.md) — Donut chart with hover and legend.
@@ -95,7 +96,7 @@ Public components: **188**. Hub: [`docs/README.md`](README.md). Shells: [`window
 - [ProgressRing](components/ProgressRing.md) — Circular progress / busy ring (WinUI Minimum / Maximum / IsActive).
 - [RadarChart](components/RadarChart.md) — Radar / spider chart.
 - [RadialGauge](components/RadialGauge.md) — Toolkit-style circular needle gauge (CommunityToolkit.WinUI.Controls.RadialGauge).
-- [RadioButtons](components/RadioButtons.md) — RadioButtons (undocumented)
+- [RadioButtons](components/RadioButtons.md) — Grouped radio options from a model (WinUI RadioButtons).
 - [RadioMenuFlyoutItem](components/RadioMenuFlyoutItem.md) — Exclusive radio MenuFlyout item.
 - [RatingControl](components/RatingControl.md) — Star rating; stepSize supports halves (WinUI InitialSetValue / ItemInfo).
 - [RefreshContainer](components/RefreshContainer.md) — Pull-to-refresh host for flickable content.
@@ -108,6 +109,7 @@ Public components: **188**. Hub: [`docs/README.md`](README.md). Shells: [`window
 - [SelectorBar](components/SelectorBar.md) — Compact horizontal item selector.
 - [SettingsCard](components/SettingsCard.md) — Settings row: icon, title, description, action (Toolkit ContentAlignment).
 - [SettingsExpander](components/SettingsExpander.md) — Expandable settings group.
+- [SettingsGroup](components/SettingsGroup.md) — Section header + card stack for settings pages.
 - [ShellWindow](components/ShellWindow.md) — Independent ApplicationWindow + WindowChrome host.
 - [Shimmer](components/Shimmer.md) — Skeleton shimmer placeholder.
 - [Sparkline](components/Sparkline.md) — Inline mini line chart.
@@ -150,7 +152,6 @@ Public components: **188**. Hub: [`docs/README.md`](README.md). Shells: [`window
 - [PlatformTitleBar](components/PlatformTitleBar.md) — Caption buttons + drag region + TitleBar host.
 - [StandardWindow](components/StandardWindow.md) — Platform ApplicationWindow + PlatformTitleBar host.
 - [ToolWindow](components/ToolWindow.md) — StandardWindow tool paradigm.
-- [TrayIcon](components/TrayIcon.md) — Lightweight tray placeholder (no Qt.labs.platform dependency).
 
 ### `QWinUI3.Theme`
 
@@ -222,7 +223,7 @@ Public components: **188**. Hub: [`docs/README.md`](README.md). Shells: [`window
 - [SelectionPip](components/SelectionPip.md) (`QtQuick.Controls.QWinUI3`) — Navigation selection pip indicator.
 - [CaptionButton](components/CaptionButton.md) (`QWinUI3.Platform`) — Native-chrome caption min/max/close button.
 - [WindowResizeBorder](components/WindowResizeBorder.md) (`QWinUI3.Platform`) — Non-native resize hit edges.
-- [ElevatedChrome](components/ElevatedChrome.md) (`QWinUI3.Theme`) — Shared elevated shadow/border chrome.
+- [ElevatedChrome](components/ElevatedChrome.md) (`QWinUI3.Theme`) — Shared elevated shadow/border chrome (WinUI-style soft shadow).
 - [IconSource](components/IconSource.md) (`QWinUI3.Theme`) — Resolve FluentIcons symbol or glyph string.
 
 ---

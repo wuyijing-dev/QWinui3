@@ -6,7 +6,7 @@ import QWinUI3.Extras
 
 // Gallery — Form validation.
 //
-// FormLayout + ValidationSummary with HeaderedTextBox / NumberBox / PasswordBox.
+// FormLayout + ValidationSummary with top/left headers, RadioButtons, DetailRow.
 
 Page {
     id: page
@@ -36,20 +36,20 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("Form validation")
-                subtitle: qsTr("FormLayout collects field errorMessage values; ValidationSummary lists them.")
+                subtitle: qsTr("FormLayout pushes labelWidth to left-header fields; ValidationSummary lists errors.")
             }
 
             ControlExample {
                 Layout.fillWidth: true
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
-                Layout.bottomMargin: Theme.spacingSection
-                headerText: qsTr("Sign-up form")
+                headerText: qsTr("Sign-up form (top headers)")
                 qmlSource: "FormLayout {\n    ValidationSummary { errors: form.errors }\n    HeaderedTextBox { … }\n    form.validate()\n}"
 
                 FormLayout {
                     id: form
                     Layout.fillWidth: true
+                    labelWidth: 132
 
                     ValidationSummary {
                         Layout.fillWidth: true
@@ -88,6 +88,22 @@ Page {
                         description: qsTr("At least 8 characters.")
                     }
 
+                    RadioButtons {
+                        id: planField
+                        Layout.fillWidth: true
+                        header: qsTr("Plan")
+                        description: qsTr("Choose a subscription tier.")
+                        model: [qsTr("Free"), qsTr("Pro"), qsTr("Team")]
+                        selectedIndex: 0
+                    }
+
+                    DetailRow {
+                        Layout.fillWidth: true
+                        label: qsTr("Selected plan")
+                        value: planField.selectedItem || ""
+                        symbol: FluentIcons.Shop
+                    }
+
                     RowLayout {
                         Layout.fillWidth: true
                         spacing: Theme.spacing
@@ -113,6 +129,50 @@ Page {
                             text: qsTr("Clear errors")
                             onClicked: form.clearErrors()
                         }
+                    }
+                }
+            }
+
+            ControlExample {
+                Layout.fillWidth: true
+                Layout.leftMargin: Theme.spacingSection
+                Layout.rightMargin: Theme.spacingSection
+                Layout.bottomMargin: Theme.spacingSection
+                headerText: qsTr("Left headers + shared labelWidth")
+                qmlSource: "FormLayout {\n    labelWidth: 160\n    HeaderedTextBox { headerPlacement: \"left\" }\n}"
+
+                FormLayout {
+                    id: leftForm
+                    Layout.fillWidth: true
+                    labelWidth: 160
+
+                    HeaderedTextBox {
+                        Layout.fillWidth: true
+                        header: qsTr("Server")
+                        headerPlacement: "left"
+                        placeholderText: qsTr("api.example.com")
+                    }
+                    NumberBox {
+                        Layout.fillWidth: true
+                        header: qsTr("Port")
+                        headerPlacement: "left"
+                        value: 443
+                        minimum: 1
+                        maximum: 65535
+                        decimals: 0
+                    }
+                    PasswordBox {
+                        Layout.fillWidth: true
+                        header: qsTr("Token")
+                        headerPlacement: "left"
+                        placeholderText: qsTr("••••••••")
+                    }
+                    DetailRow {
+                        Layout.fillWidth: true
+                        label: qsTr("Transport")
+                        value: qsTr("HTTPS")
+                        symbol: FluentIcons.Shop
+                        labelWidth: leftForm.labelWidth
                     }
                 }
             }

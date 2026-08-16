@@ -13,11 +13,11 @@ Page {
     padding: 0
 
     property var sampleModel: [
-        { title: qsTr("Design doc"), subtitle: qsTr("Updated yesterday"), group: qsTr("Documents") },
-        { title: qsTr("Roadmap"), subtitle: qsTr("Q3 planning"), group: qsTr("Documents") },
-        { title: qsTr("Build pipeline"), subtitle: qsTr("CI green"), group: qsTr("Engineering") },
-        { title: qsTr("Crash reports"), subtitle: qsTr("3 open"), group: qsTr("Engineering") },
-        { title: qsTr("Office lease"), subtitle: qsTr("Renewal"), group: qsTr("Admin") }
+        { title: qsTr("Design doc"), subtitle: qsTr("Updated yesterday"), group: qsTr("Documents"), symbol: FluentIcons.Document },
+        { title: qsTr("Roadmap"), subtitle: qsTr("Q3 planning"), group: qsTr("Documents"), symbol: FluentIcons.Calendar },
+        { title: qsTr("Build pipeline"), subtitle: qsTr("CI green"), group: qsTr("Engineering"), symbol: FluentIcons.Sync },
+        { title: qsTr("Crash reports"), subtitle: qsTr("3 open"), group: qsTr("Engineering"), symbol: FluentIcons.Error },
+        { title: qsTr("Office lease"), subtitle: qsTr("Renewal"), group: qsTr("Admin"), symbol: FluentIcons.Home }
     ]
     property bool showEmpty: false
 

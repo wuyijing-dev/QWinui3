@@ -67,6 +67,12 @@ T.Dialog {
     property alias isOpen: root.visible
     property bool __queueWired: false
 
+    Accessible.role: Accessible.Dialog
+    Accessible.name: title
+    Accessible.description: primaryButtonText.length
+                            ? qsTr("%1 dialog").arg(title)
+                            : title
+
     // Primary button clicked
     signal primaryClicked()
     // Secondary button clicked

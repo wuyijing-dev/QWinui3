@@ -509,6 +509,22 @@ QtObject {
             source: "pages/SettingsCardPage.qml"
         },
         {
+            title: qsTr("SettingsGroup"),
+            category: "layout",
+            icon: "\uE8FD",
+            description: qsTr("A section header that groups SettingsCard rows."),
+            component: "SettingsGroupPage",
+            source: "pages/SettingsGroupPage.qml"
+        },
+        {
+            title: qsTr("StatusBar"),
+            category: "layout",
+            icon: "\uE7C3",
+            description: qsTr("A bottom status strip with text, progress, and slots."),
+            component: "StatusBarPage",
+            source: "pages/StatusBarPage.qml"
+        },
+        {
             title: qsTr("SettingsExpander"),
             category: "layout",
             icon: "\uE70D",
@@ -1104,7 +1120,7 @@ QtObject {
             title: qsTr("Form validation"),
             category: "text",
             icon: "\uE73E",
-            description: qsTr("FormLayout + ValidationSummary with field errorMessage."),
+            description: qsTr("FormLayout labelWidth, left headers, ValidationSummary, RadioButtons."),
             component: "FormValidationPage",
             source: "pages/FormValidationPage.qml"
         },

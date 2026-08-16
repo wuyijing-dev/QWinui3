@@ -47,6 +47,8 @@ acceptsExpression evaluates +−*/() on commit; isWrapEnabled wraps past min/max
 | `header` | `string` | Header label above the control |
 | `description` | `string` | Supporting description text |
 | `errorMessage` | `string` | Validation error text |
+| `headerPlacement` | `string` | WinUI HeaderPlacement: top \| left |
+| `labelWidth` | `real` | Label column width when headerPlacement is left |
 | `placeholderText` | `string` | Placeholder when empty |
 | `inputInvalid` | `bool` | True when input fails validation |
 | `spinButtonPlacementMode` | `string` | WinUI SpinButtonPlacementMode: "inline" \| "compact" \| "hidden" |

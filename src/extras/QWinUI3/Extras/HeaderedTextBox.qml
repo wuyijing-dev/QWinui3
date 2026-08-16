@@ -31,6 +31,8 @@ T.Control {
     property string errorMessage: ""
     // WinUI HeaderPlacement: top | left
     property string headerPlacement: "top"
+    // Label column width when headerPlacement is left
+    property real labelWidth: 120
     // Show clear affordance
     property bool clearButtonVisible: false
     // Soft character counter limit
@@ -100,7 +102,8 @@ T.Control {
             Layout.row: 0
             Layout.column: 0
             Layout.fillWidth: !root._headerLeft
-            Layout.preferredWidth: root._headerLeft ? 120 : -1
+            Layout.preferredWidth: root._headerLeft ? root.labelWidth : -1
+            Layout.maximumWidth: root._headerLeft ? root.labelWidth : -1
             Layout.alignment: root._headerLeft ? Qt.AlignTop : Qt.AlignLeft
             spacing: 4
             visible: root.header.length > 0 || (root.description.length > 0 && !root.hasError)

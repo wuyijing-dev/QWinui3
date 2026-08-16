@@ -49,10 +49,15 @@ T.Control {
     property string description: ""
     // Validation error text
     property string errorMessage: ""
+    // WinUI HeaderPlacement: top | left
+    property string headerPlacement: "top"
+    // Label column width when headerPlacement is left
+    property real labelWidth: 120
     // Placeholder when empty
     property string placeholderText: ""
     // True when input fails validation
     property bool inputInvalid: false
+    readonly property bool _headerLeft: headerPlacement === "left"
     // WinUI SpinButtonPlacementMode: "inline" | "compact" | "hidden"
     property string spinButtonPlacementMode: "inline"
     // WinUI ValidationMode: "invalidInputOverValue" | "disabled"
@@ -220,20 +225,35 @@ T.Control {
 
     background: Item {}
 
-    contentItem: ColumnLayout {
-        id: column
-        spacing: 4
+    contentItem: GridLayout {
+        id: grid
+        columns: root._headerLeft ? 2 : 1
+        columnSpacing: Theme.spacingLoose
+        rowSpacing: 4
 
         Text {
             visible: root.header.length > 0
-            Layout.fillWidth: true
+            Layout.row: 0
+            Layout.column: 0
+            Layout.fillWidth: !root._headerLeft
+            Layout.preferredWidth: root._headerLeft ? root.labelWidth : -1
+            Layout.maximumWidth: root._headerLeft ? root.labelWidth : -1
+            Layout.alignment: root._headerLeft ? Qt.AlignTop : Qt.AlignLeft
             text: root.header
             font.family: root.font.family
             font.pixelSize: Theme.fontBody
             font.weight: Theme.fontWeightSemiBold
             color: root.enabled ? Theme.textPrimary : Theme.textDisabled
             elide: Text.ElideRight
+            wrapMode: root._headerLeft ? Text.WordWrap : Text.NoWrap
         }
+
+        ColumnLayout {
+            id: column
+            Layout.row: root._headerLeft ? 0 : 1
+            Layout.column: root._headerLeft ? 1 : 0
+            Layout.fillWidth: true
+            spacing: 4
 
         Text {
             visible: root.description.length > 0 && !root.hasError
@@ -415,5 +435,6 @@ T.Control {
             color: Theme.systemCritical
             wrapMode: Text.Wrap
         }
-    }
+        } // ColumnLayout column
+    } // GridLayout grid
 }

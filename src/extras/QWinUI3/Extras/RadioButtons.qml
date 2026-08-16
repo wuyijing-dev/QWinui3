@@ -4,6 +4,15 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
+// RadioButtons — Grouped radio options from a model (WinUI RadioButtons).
+//
+//   RadioButtons {
+//       header: qsTr("Theme")
+//       model: [qsTr("Light"), qsTr("Dark"), qsTr("System")]
+//       selectedIndex: 0
+//       onSelected: function (index, item) { … }
+//   }
+//
 // @notes
 //   Grouped RadioButton column/grid from model; selectedIndex / selectedItem.
 //   maxColumns wraps the grid (WinUI MaxColumns); horizontal=true is one row.

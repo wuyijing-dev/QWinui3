@@ -123,6 +123,8 @@ qt_add_qml_module(qwinui3_extras
         SelectorBar.qml
         SettingsCard.qml
         SettingsExpander.qml
+        SettingsGroup.qml
+        DetailRow.qml
         SwipeAction.qml
         Shimmer.qml
         SplitButton.qml

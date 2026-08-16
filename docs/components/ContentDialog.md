@@ -36,7 +36,7 @@ Prefer show() -> ContentDialogQueue so dialogs open one-at-a-time.
 Empty primary/secondary/closeButtonText hides that button.
 defaultButton: primary | secondary | close | none (or isPrimaryDefault).
 fullSizeDesired expands toward the overlay (WinUI FullSizeDesired).
-result: none | primary | secondary | close (WinUI ContentDialogResult).
+dialogResult: none | primary | secondary | close (WinUI ContentDialogResult).
 primaryButton / secondaryButton / closeButton slots override text buttons.
 Body: put content as children (moved into the dialog body slot).
 
@@ -55,7 +55,7 @@ Body: put content as children (moved into the dialog body slot).
 | `isSecondaryButtonEnabled` | `bool` | Enable secondary button |
 | `isCloseButtonEnabled` | `bool` | Enable close button |
 | `fullSizeDesired` | `bool` | WinUI FullSizeDesired — nearly fill the overlay when true |
-| `result` | `string` | WinUI ContentDialogResult: none \| primary \| secondary \| close |
+| `dialogResult` | `string` | (dialogResult — cannot redeclare Dialog.result which is FINAL) |
 | `primaryButton` | `alias` | Custom primary button content (overrides primaryButtonText when set) |
 | `secondaryButton` | `alias` | Custom secondary button content |
 | `closeButton` | `alias` | Custom close button content |

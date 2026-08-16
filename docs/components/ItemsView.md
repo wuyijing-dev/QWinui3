@@ -52,7 +52,9 @@ Large models: use a QAbstractListModel; this shell does not add extra pooling.
 | `selectedIndexes` | `var` | Selected row indexes (array of int) |
 | `titleRole` | `string` | Model role / property name for title |
 | `subtitleRole` | `string` | Model role / property name for subtitle |
+| `symbolRole` | `string` | Model role / property name for leading Fluent symbol |
 | `sectionRole` | `string` | Model role / property name for section header (empty = no sections) |
+| `checkboxLeading` | `bool` | Put multi-select checkboxes in the leading slot (WinUI-like) |
 | `contextMenu` | `var` | Optional MenuFlyout (or Menu) instance for context actions |
 | `emptyTitle` | `string` | EmptyState title when model is empty |
 | `emptyMessage` | `string` | EmptyState message |
