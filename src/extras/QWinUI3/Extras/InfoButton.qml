@@ -15,7 +15,7 @@ import QWinUI3.Theme
 //   // property alias tip: teachingTip
 //
 // @notes
-//   Fluent Info glyph; hosts TeachingTip anchored to itself. Prefer for settings help.
+//   Fluent Info glyph; hosts TeachingTip anchored to itself (overlay-parented). Prefer for settings help.
 
 IconButton {
     id: root
@@ -41,7 +41,6 @@ IconButton {
 
     TeachingTip {
         id: tip
-        parent: root.parent
         target: root
         title: root.tipTitle
         subtitle: root.tipSubtitle

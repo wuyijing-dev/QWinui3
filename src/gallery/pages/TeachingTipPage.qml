@@ -37,7 +37,6 @@ CatalogPage {
 
             TeachingTip {
                 id: tip
-                parent: tipTarget.parent
                 target: tipTarget
                 preferredPlacement: Qt.AlignTop
                 placementMargin: 16

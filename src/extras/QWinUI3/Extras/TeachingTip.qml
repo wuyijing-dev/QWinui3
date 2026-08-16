@@ -25,6 +25,7 @@ import QWinUI3.Theme
 // @notes
 //   WinUI TeachingTip: target, title/subtitle, Content + HeroContent, ActionButton (actionText),
 //   CloseButton, PreferredPlacement, TailVisibility, PlacementMargin, IsLightDismissEnabled.
+//   Parents to Window Overlay on open so placement is relative to the window, not a layout cell.
 
 T.Popup {
     id: root
@@ -88,6 +89,7 @@ T.Popup {
 
     onIsOpenChanged: {
         if (isOpen) {
+            _ensureOverlayParent()
             reanchor()
             open()
         } else {
@@ -102,52 +104,70 @@ T.Popup {
     }
     onClosed: isOpen = false
 
+    // Prefer the window overlay so map/clamp use full window bounds (not a tiny layout parent).
+    function _ensureOverlayParent() {
+        var anchor = target ? target : root
+        var win = anchor.Window ? anchor.Window.window : null
+        var overlay = (win && win.Overlay && win.Overlay.overlay) ? win.Overlay.overlay : null
+        if (!overlay && typeof Overlay !== "undefined")
+            overlay = Overlay.overlay
+        if (overlay)
+            parent = overlay
+    }
+
     // Recompute popup anchor
     function reanchor() {
+        _ensureOverlayParent()
         if (!target || !parent)
             return
         var p = target.mapToItem(parent, 0, 0)
         var gap = root.placementMargin
+        var w = width > 0 ? width : 320
+        var h = height > 0 ? height : implicitHeight
         var place = preferredPlacement
         if (place === Qt.AlignTop || place === 0) {
-            if (p.y - implicitHeight - gap < 8)
+            if (p.y - h - gap < 8)
                 place = Qt.AlignBottom
             else
                 place = Qt.AlignTop
         } else if (place === Qt.AlignBottom) {
-            if (p.y + target.height + gap + implicitHeight > parent.height - 8)
+            if (p.y + target.height + gap + h > parent.height - 8)
                 place = Qt.AlignTop
+        } else if (place === Qt.AlignLeft) {
+            if (p.x - w - gap < 8)
+                place = Qt.AlignRight
+        } else if (place === Qt.AlignRight) {
+            if (p.x + target.width + gap + w > parent.width - 8)
+                place = Qt.AlignLeft
         }
         effectivePlacement = place
 
         switch (place) {
         case Qt.AlignBottom:
             transformOrigin = Item.Top
-            x = p.x + (target.width - width) / 2
+            x = p.x + (target.width - w) / 2
             y = p.y + target.height + gap
             break
         case Qt.AlignLeft:
             transformOrigin = Item.Right
-            x = p.x - width - gap
-            y = p.y + (target.height - implicitHeight) / 2
+            x = p.x - w - gap
+            y = p.y + (target.height - h) / 2
             break
         case Qt.AlignRight:
             transformOrigin = Item.Left
             x = p.x + target.width + gap
-            y = p.y + (target.height - implicitHeight) / 2
+            y = p.y + (target.height - h) / 2
             break
         default:
             transformOrigin = Item.Bottom
-            x = p.x + (target.width - width) / 2
-            y = p.y - implicitHeight - gap
+            x = p.x + (target.width - w) / 2
+            y = p.y - h - gap
             break
         }
-        x = shouldConstrainToRootBounds
-            ? Math.max(8, Math.min(x, parent.width - width - 8))
-            : x
-        y = shouldConstrainToRootBounds
-            ? Math.max(8, Math.min(y, parent.height - implicitHeight - 8))
-            : y
+        if (shouldConstrainToRootBounds) {
+            x = Math.max(8, Math.min(x, parent.width - w - 8))
+            y = Math.max(8, Math.min(y, parent.height - h - 8))
+        }
     }
 
     x: 0
