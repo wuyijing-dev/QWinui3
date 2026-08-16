@@ -21,6 +21,7 @@ import QWinUI3.Theme
 //   Menu-styled Flyout; host MenuFlyoutItem / Separator / Header children.
 //   contentMaxHeight (WinUI MenuFlyoutPresenter.MaxHeight) enables scroll when content is taller.
 //   shouldConstrainToRootBounds clamps into the window overlay (default true).
+//   title comes from Menu (FINAL) — set title: for Accessible.name.
 
 Menu {
     id: root
@@ -33,8 +34,7 @@ Menu {
     property bool isLightDismissEnabled: true
     // Open / visible state
     property bool isOpen: false
-    // Primary title text
-    property string title: ""
+    // Accessible / chrome name uses inherited Menu.title (FINAL — do not redeclare)
     // WinUI MaxHeight — 0 = natural height; >0 clamps and scrolls
     // (cannot redeclare Popup.maxHeight which is FINAL)
     property real contentMaxHeight: 0
