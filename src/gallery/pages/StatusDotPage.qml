@@ -5,70 +5,47 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 
 // Gallery — StatusDot.
-//
-// Presence and health indicators with optional pulse and tooltip. API: docs/components/StatusDot.md
 
-Page {
-    padding: 0
-    ScrollView {
-        id: scroll
-        anchors.fill: parent
-        contentWidth: availableWidth
-        clip: true
+CatalogPage {
+    title: qsTr("StatusDot")
+    subtitle: qsTr("Presence and health indicators with optional pulse and tooltip.")
+
+    ControlExample {
+        headerText: qsTr("States")
+        qmlSource: "StatusDot { status: available; label: \"Online\"; pulse: true }"
         ColumnLayout {
-            width: scroll.availableWidth
-            spacing: Theme.spacingSection
-            PageHeader {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                Layout.topMargin: Theme.spacingSection
-                title: qsTr("StatusDot")
-                subtitle: qsTr("Presence and health indicators with optional pulse and tooltip.")
+            Layout.fillWidth: true
+            spacing: Theme.spacingLoose
+            RowLayout {
+                spacing: Theme.spacingSection
+                StatusDot { id: s1; status: s1.available; label: qsTr("Available"); pulse: true }
+                StatusDot { id: s2; status: s2.away; label: qsTr("Away") }
+                StatusDot { id: s3; status: s3.busy; label: qsTr("Busy"); pulse: false }
+                StatusDot { id: s4; status: s4.offline; label: qsTr("Offline"); pulse: false }
             }
-            ControlExample {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                headerText: qsTr("States")
-                qmlSource: "StatusDot { status: available; label: \"Online\"; pulse: true }"
-                ColumnLayout {
-                    Layout.fillWidth: true
-                    spacing: Theme.spacingLoose
-                    RowLayout {
-                        spacing: Theme.spacingSection
-                        StatusDot { id: s1; status: s1.available; label: qsTr("Available"); pulse: true }
-                        StatusDot { id: s2; status: s2.away; label: qsTr("Away") }
-                        StatusDot { id: s3; status: s3.busy; label: qsTr("Busy"); pulse: false }
-                        StatusDot { id: s4; status: s4.offline; label: qsTr("Offline"); pulse: false }
-                    }
-                    RowLayout {
-                        spacing: Theme.spacingLoose
-                        Label {
-                            text: qsTr("Tooltip only (hover):")
-                            color: Theme.textSecondary
-                        }
-                        StatusDot { id: tipDot; status: tipDot.available; pulse: true }
-                        Label {
-                            text: tipDot.statusName
-                            color: Theme.textSecondary
-                        }
-                    }
-                    ListTile {
-                        Layout.fillWidth: true
-                        Layout.maximumWidth: 420
-                        title: qsTr("Alex Rivera")
-                        subtitle: qsTr("In a meeting")
-                        glyph: "\uE77B"
-                        StatusDot {
-                            id: presence
-                            status: presence.busy
-                            pulse: false
-                        }
-                    }
+            RowLayout {
+                spacing: Theme.spacingLoose
+                Label {
+                    text: qsTr("Tooltip only (hover):")
+                    color: Theme.textSecondary
+                }
+                StatusDot { id: tipDot; status: tipDot.available; pulse: true }
+                Label {
+                    text: tipDot.statusName
+                    color: Theme.textSecondary
                 }
             }
-            Item { Layout.preferredHeight: Theme.spacingSection; Layout.fillWidth: true }
+            ListTile {
+                Layout.maximumWidth: 420
+                title: qsTr("Alex Rivera")
+                subtitle: qsTr("In a meeting")
+                glyph: "\uE77B"
+                StatusDot {
+                    id: presence
+                    status: presence.busy
+                    pulse: false
+                }
+            }
         }
     }
 }

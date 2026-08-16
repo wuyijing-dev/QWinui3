@@ -4,47 +4,21 @@ import QtQuick.Controls
 import QWinUI3.Theme
 
 // Gallery — RangeSlider.
-//
-// A control for selecting a continuous range between two values. API: docs/components/RangeSlider.md
 
-Page {
-    padding: 0
-    ScrollView {
-        id: scroll
-        anchors.fill: parent
-        contentWidth: availableWidth
-        clip: true
+CatalogPage {
+    title: qsTr("RangeSlider")
+    subtitle: qsTr("A control for selecting a continuous range between two values.")
 
-        ColumnLayout {
-            width: scroll.availableWidth
-            spacing: Theme.spacingSection
+    ControlExample {
+        headerText: qsTr("A simple RangeSlider")
+        qmlSource: "RangeSlider {\n    from: 0\n    to: 100\n    first.value: 20\n    second.value: 70\n}"
 
-            PageHeader {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                Layout.topMargin: Theme.spacingSection
-                title: qsTr("RangeSlider")
-                subtitle: qsTr("A control for selecting a continuous range between two values.")
-            }
-
-            ControlExample {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                headerText: qsTr("A simple RangeSlider")
-                qmlSource: "RangeSlider {\n    from: 0\n    to: 100\n    first.value: 20\n    second.value: 70\n}"
-
-                RangeSlider {
-                    Layout.preferredWidth: 320
-                    from: 0
-                    to: 100
-                    first.value: 20
-                    second.value: 70
-                }
-            }
-
-            Item { Layout.preferredHeight: Theme.spacingSection; Layout.fillWidth: true }
+        RangeSlider {
+            Layout.preferredWidth: 320
+            from: 0
+            to: 100
+            first.value: 20
+            second.value: 70
         }
     }
 }

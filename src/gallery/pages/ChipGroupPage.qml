@@ -5,82 +5,55 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 
 // Gallery — ChipGroup.
-//
-// selectionMode + selectedIndex; model.symbol: FluentIcons.*. select()/clearSelection(). API: docs/components/ChipGroup.md
 
-Page {
-    padding: 0
-    ScrollView {
-        id: scroll
-        anchors.fill: parent
-        contentWidth: availableWidth
-        clip: true
+CatalogPage {
+    title: qsTr("ChipGroup")
+    subtitle: qsTr("selectionMode + selectedIndex; model.symbol: FluentIcons.*. select()/clearSelection().")
+
+    ControlExample {
+        headerText: qsTr("Exclusive")
+        qmlSource: "ChipGroup {\n    selectionMode: \"single\"\n}"
         ColumnLayout {
-            width: scroll.availableWidth
-            spacing: Theme.spacingSection
-            PageHeader {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                Layout.topMargin: Theme.spacingSection
-                title: qsTr("ChipGroup")
-                subtitle: qsTr("selectionMode + selectedIndex; model.symbol: FluentIcons.*. select()/clearSelection().")
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            ChipGroup {
+                id: exclusiveGroup
+                selectionMode: "single"
+                currentIndex: 0
+                model: [qsTr("All"), qsTr("Apps"), qsTr("Documents"), qsTr("Photos")]
             }
-            ControlExample {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                headerText: qsTr("Exclusive")
-                qmlSource: "ChipGroup {\n    selectionMode: \"single\"\n}"
-                ColumnLayout {
-                    Layout.fillWidth: true
-                    spacing: Theme.spacing
-                    ChipGroup {
-                        id: exclusiveGroup
-                        Layout.fillWidth: true
-                        selectionMode: "single"
-                        currentIndex: 0
-                        model: [qsTr("All"), qsTr("Apps"), qsTr("Documents"), qsTr("Photos")]
-                    }
-                    Label {
-                        text: qsTr("Selected index: %1 · item: %2")
-                                .arg(exclusiveGroup.currentIndex)
-                                .arg(exclusiveGroup.selectedItem !== null
-                                     && exclusiveGroup.selectedItem !== undefined
-                                     ? String(exclusiveGroup.selectedItem) : "—")
-                        color: Theme.textSecondary
-                    }
-                }
+            Label {
+                text: qsTr("Selected index: %1 · item: %2")
+                        .arg(exclusiveGroup.currentIndex)
+                        .arg(exclusiveGroup.selectedItem !== null
+                             && exclusiveGroup.selectedItem !== undefined
+                             ? String(exclusiveGroup.selectedItem) : "—")
+                color: Theme.textSecondary
             }
-            ControlExample {
-                Layout.fillWidth: true
-                Layout.leftMargin: Theme.spacingSection
-                Layout.rightMargin: Theme.spacingSection
-                headerText: qsTr("Multi-select (max 2)")
-                qmlSource: "ChipGroup {\n    selectionMode: \"multiple\"\n    maxSelected: 2\n}"
-                ColumnLayout {
-                    Layout.fillWidth: true
-                    spacing: Theme.spacing
-                    ChipGroup {
-                        id: multiGroup
-                        Layout.fillWidth: true
-                        selectionMode: "multiple"
-                        maxSelected: 2
-                        chipSize: "small"
-                        model: [
-                            { title: qsTr("Open"), symbol: FluentIcons.Document },
-                            { title: qsTr("In progress"), symbol: FluentIcons.Refresh },
-                            { title: qsTr("Done"), symbol: FluentIcons.Accept },
-                            { title: qsTr("Blocked"), symbol: FluentIcons.Error }
-                        ]
-                    }
-                    Label {
-                        text: qsTr("selectedItems: %1").arg(multiGroup.selectedItems.length)
-                        color: Theme.textSecondary
-                    }
-                }
+        }
+    }
+    ControlExample {
+        headerText: qsTr("Multi-select (max 2)")
+        qmlSource: "ChipGroup {\n    selectionMode: \"multiple\"\n    maxSelected: 2\n}"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            ChipGroup {
+                id: multiGroup
+                selectionMode: "multiple"
+                maxSelected: 2
+                chipSize: "small"
+                model: [
+                    { title: qsTr("Open"), symbol: FluentIcons.Document },
+                    { title: qsTr("In progress"), symbol: FluentIcons.Refresh },
+                    { title: qsTr("Done"), symbol: FluentIcons.Accept },
+                    { title: qsTr("Blocked"), symbol: FluentIcons.Error }
+                ]
             }
-            Item { Layout.preferredHeight: Theme.spacingSection; Layout.fillWidth: true }
+            Label {
+                text: qsTr("selectedItems: %1").arg(multiGroup.selectedItems.length)
+                color: Theme.textSecondary
+            }
         }
     }
 }
