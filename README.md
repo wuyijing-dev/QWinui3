@@ -7,8 +7,8 @@ Fluent / [WinUI 3](https://learn.microsoft.com/windows/apps/winui/winui3/)-inspi
 [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-2ea44f)](https://wuyijing-dev.github.io/QWinui3/)
 [![Qt](https://img.shields.io/badge/Qt-6.5%2B-41CD52?logo=qt&logoColor=white)](https://www.qt.io/)
 
-**v1.34** · **200+** public controls · Gallery demos for most of them
-[Documentation](https://wuyijing-dev.github.io/QWinui3/) · [Stable API](docs/stable-api.md) · [Feedback](docs/feedback.md) · [Tree data](docs/tree-data.md) · [Window shells](docs/window-shells.md) · [Graphics backend](docs/graphics-backend.md) · [Density](docs/density.md) · [Icons](docs/icons.md) · [Pickers](docs/pickers.md) · [Navigation](docs/navigation.md) · [Performance](docs/performance.md) · [System integration](docs/system-integration.md) · [Theme overrides](docs/theme-overrides.md) · [Forms](docs/forms.md) · [Data collections](docs/data-collections.md) · [CI smoke](docs/ci-smoke.md) · [WebView2](docs/webview2.md) · [Component API](https://wuyijing-dev.github.io/QWinui3/components/) · [Releases](https://github.com/wuyijing-dev/QWinui3/releases) · [Roadmap](ROADMAP.md)
+**v1.35** · **200+** public controls · Gallery demos for most of them
+[Documentation](https://wuyijing-dev.github.io/QWinui3/) · [Stable API](docs/stable-api.md) · [Qt Creator](docs/qt-creator.md) · [Feedback](docs/feedback.md) · [Tree data](docs/tree-data.md) · [Window shells](docs/window-shells.md) · [Graphics backend](docs/graphics-backend.md) · [Density](docs/density.md) · [Icons](docs/icons.md) · [Pickers](docs/pickers.md) · [Navigation](docs/navigation.md) · [Performance](docs/performance.md) · [System integration](docs/system-integration.md) · [Theme overrides](docs/theme-overrides.md) · [Forms](docs/forms.md) · [Data collections](docs/data-collections.md) · [CI smoke](docs/ci-smoke.md) · [WebView2](docs/webview2.md) · [Component API](https://wuyijing-dev.github.io/QWinui3/components/) · [Releases](https://github.com/wuyijing-dev/QWinui3/releases) · [Roadmap](ROADMAP.md)
 
 ---
 
@@ -151,7 +151,7 @@ Point CMake at your Qt install if needed:
 1. Copy `CMakeUserPresets.json.example` → `CMakeUserPresets.json`
 2. Set `CMAKE_PREFIX_PATH` to your Qt 6.5+ prefix (e.g. `D:/Qt/6.8.0/msvc2022_64`)
 
-Or open the **repo root** `CMakeLists.txt` in [Qt Creator](docs/qt-creator.md) with a Qt 6.5+ kit (6.8+ recommended) and build `qwinui3_gallery`.
+Or open the **repo root** `CMakeLists.txt` in [Qt Creator](docs/qt-creator.md) (1.35) with a Qt 6.5+ kit (6.8+ recommended). Build `qwinui3_gallery` or an example target (`qwinui3_example_nav`, …) — there is **no** `.pro` / qmake project.
 
 ### CMake options
 
@@ -268,7 +268,7 @@ Product versions use **`X.YY`** (see [`ROADMAP.md`](ROADMAP.md)); set `QWINUI3_V
 | [`docs/system-integration.md`](docs/system-integration.md) | FilePicker / TrayIcon / NotificationBridge |
 | [`ROADMAP.md`](ROADMAP.md) | Version themes — small `X.YY` slices |
 | [`docs/stable-api.md`](docs/stable-api.md) | Stable vs experimental types for 1.xx |
-| [`docs/qt-creator.md`](docs/qt-creator.md) | Opening the project in Qt Creator |
+| [`docs/qt-creator.md`](docs/qt-creator.md) | Open Gallery / examples in Qt Creator (CMake only, 1.35) |
 | [`docs/qt-version-compat.md`](docs/qt-version-compat.md) | C++ shims + Gallery CI on Qt 6.5 / 6.8 / 6.10 |
 
 Regenerate API pages from QML comments:

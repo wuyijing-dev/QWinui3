@@ -1,6 +1,6 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.34**
+**Current:** **1.35**
 **Next up:** **1.31** (Graphics & backend notes)
 **Planned through:** **1.50** (1.xx maturity checkpoint)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](qt-version-compat.md)
@@ -60,7 +60,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.34`
+## Shipped — `1.01` … `1.35`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -198,30 +198,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** [feedback.md](feedback.md) — when-to-use matrix, severity, ToastHost pending queue vs InfoBarHost maxVisible, TeachingTip focus return to target, progress vs toast; Gallery callouts (InfoBar / Host / ToastHost / TeachingTip / ProgressBar / InfoTeaching recipe); dialogs-flyouts cross-link; product version `1.34`.
 
+### 1.35 — Creator kit polish (shipped)
+
+**Shipped:** [qt-creator.md](qt-creator.md) — Gallery + example open paths, Win/Linux kit checklists, no `.pro` callout; `CMakePresets.json` `examples` / `example-*` build presets; examples README + nav-settings Creator pointers; packaging-consumer / README cross-links; product version `1.35`.
+
 ---
 
-## Late path — planned `1.35` … `1.40`
+## Late path — planned `1.36` … `1.40`
 
 Still **1.xx**. Schedule after mid path is mostly done; order can flex.
-
-### 1.35 — Creator kit polish
-
-**Why:** 1.12 packaging helps CMake consumers; Creator wizards/kits still feel secondary.
-
-**In scope**
-
-- Qt Creator kit / import docs beyond packaging-consumer; example “open in Creator” path.
-- Fix stale `.pro` / kit screenshots if any.
-
-**Out of scope**
-
-- Shipping a full Creator plugin product.
-
-**Exit criteria**
-
-- New engineer can open Gallery or an example from Creator using only docs.
-
----
 
 ### 1.36 — Docs site IA
 

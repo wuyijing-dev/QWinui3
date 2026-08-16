@@ -1,48 +1,109 @@
-# Open in Qt Creator
+# Open in Qt Creator (1.35)
 
-QWinUI3 is a **CMake** project. Open the **repository root** `CMakeLists.txt` (not an example subfolder).
+QWinUI3 is a **CMake-only** project (no `.pro` / qmake). A new engineer should open the **repository root**, pick a Qt 6 kit, build **Gallery** or an **example**, and run — without inventing a second project layout.
 
-## Quick start
+**Consuming QWinUI3 from another app** (Release zip, `add_subdirectory`): [packaging-consumer.md](packaging-consumer.md).  
+**Stable types to copy:** [stable-api.md](stable-api.md).  
+**CLI same tree:** [README Build](../README.md#build-from-source).
 
-1. **File → Open File or Project…** → select `CMakeLists.txt` at the repo root.
-2. Pick a kit with **Qt 6.5+** (**6.8+** recommended; MSVC 2022 64-bit on Windows).
-3. Choose configure preset **Default (Release)** / **Release (Ninja)** (or open without a preset — CMake still defaults to Release).
-4. Build target `qwinui3_gallery`.
+---
 
-Qt Creator injects `CMAKE_PREFIX_PATH` from the kit. Shared `CMakePresets.json` intentionally does **not** hardcode a Qt install path.
+## Path A — Gallery (recommended first)
 
-For app authors: prefer types listed in [stable-api.md](stable-api.md) when copying examples into a product.
+1. **File → Open File or Project…** → select **`CMakeLists.txt` at the repo root** (not `examples/…`).
+2. Choose a kit with **Qt 6.5+** (**6.8 LTS** recommended).
+3. Configure with preset **Default (Release)** or **Release (Ninja)**. Leave Debug alone unless you need a debugger.
+4. In the **Projects** mode (or target selector), build **`qwinui3_gallery`**.
+5. Set the run target to `qwinui3_gallery` → **Run**.
 
-**Consuming QWinUI3 from another app** (Release zip, `QML_IMPORT_PATH`, link lines, `add_subdirectory`):  
-[packaging-consumer.md](packaging-consumer.md).
+| Output (Ninja Release) | Path |
+|------------------------|------|
+| Gallery | `build/qwinui3_gallery.exe` (Windows) / `build/qwinui3_gallery` (Linux) |
 
-## Presets
+Qt Creator injects `CMAKE_PREFIX_PATH` from the kit. Shared [`CMakePresets.json`](../CMakePresets.json) does **not** hardcode a Qt install path.
 
-| Preset | Build dir | Notes |
-|--------|-----------|--------|
-| `default` / `release` / `qt68-msvc` | `build/` | **Release** (project default) |
-| `debug` | `build-debug/` | Only if you need Debug |
-| `relwithdebinfo` | `build-relwithdebinfo/` | Optional |
+---
 
-Plain `cmake -S . -B build` (no `-DCMAKE_BUILD_TYPE`) also configures **Release**. Multi-config generators (Visual Studio) use `CMAKE_DEFAULT_BUILD_TYPE=Release`.
+## Path B — Example apps (same project)
 
-Supported Qt: **6.5+** (see [qt-version-compat.md](qt-version-compat.md)).
+Examples are **targets in the same root CMake project** (`QWINUI3_BUILD_EXAMPLES` defaults **ON**). Do **not** open `examples/nav-settings/CMakeLists.txt` alone.
 
-Local Qt / Ninja paths: copy [`CMakeUserPresets.json.example`](https://github.com/wuyijing-dev/QWinui3/blob/master/CMakeUserPresets.json.example) to `CMakeUserPresets.json` and edit (file is gitignored).
+1. Open the **repo root** as in Path A and configure Release.
+2. Build one of:
+
+| Creator / CMake target | Folder | Recipe |
+|------------------------|--------|--------|
+| `qwinui3_example_nav` | `examples/nav-settings/` | [navigation.md](navigation.md) |
+| `qwinui3_example_settings` | `examples/settings-cards/` | Settings cards |
+| `qwinui3_example_dashboard` | `examples/dashboard/` | Charts / KPI |
+| `qwinui3_example_master_detail` | `examples/master-detail/` | [data-collections.md](data-collections.md) |
+| `qwinui3_example_form` | `examples/form-settings/` | [forms.md](forms.md) |
+
+3. Select that target as the **Run** configuration → Run.
+
+Build presets (CLI or Creator preset list): `examples` (all) or `example-nav` / `example-settings` / `example-dashboard` / `example-master-detail` / `example-form`.
+
+```bat
+cmake --build --preset example-nav
+```
+
+List and notes: [examples/README.md](../examples/README.md).
+
+---
+
+## Kit checklist
+
+### Windows
+
+- Qt **6.5+** `msvc2022_64` (6.8.x recommended)
+- Compiler: **MSVC 2022** amd64 (Creator kit “Desktop Qt 6.x MSVC2022 64bit”)
+- CMake ≥ 3.21 (Qt Maintenance Tool or system)
+- Generator: **Ninja** — put `…/Qt/Tools/Ninja` on the kit `PATH`, or set `CMAKE_MAKE_PROGRAM` in user presets
+- Optional WebView2: `scripts/fetch_webview2.ps1`
+
+### Linux
+
+- Qt **6.5+** from distro or online installer (`gcc_64` / system packages with Quick + QuickControls2)
+- Kit compiler matching that Qt build
+- Prefer leaving `QT_QPA_PLATFORM` unset (Wayland-first) — [platform-linux-wayland.md](platform-linux-wayland.md)
+- Examples use `BackdropSolid` already
+
+### Local path override (CLI / stubborn kits)
 
 ```bat
 copy CMakeUserPresets.json.example CMakeUserPresets.json
+```
+
+Edit `CMAKE_PREFIX_PATH` / Ninja, then:
+
+```bat
 cmake --preset local-qt68-msvc
 cmake --build --preset local-qt68-msvc
 ```
 
-## Kit checklist (Windows)
+`CMakeUserPresets.json` is gitignored.
 
-- Qt 6.5+ `msvc2022_64` (6.8.x recommended; or newer 6.x with the same ABI)
-- Compiler: **Microsoft Visual C++ Compiler 17.x (amd64)**
-- CMake: Qt Maintenance Tool’s CMake, or system CMake ≥ 3.21
-- Generator: **Ninja** (Qt → Tools → Ninja on `PATH`, or set `CMAKE_MAKE_PROGRAM` in user presets)
-- Optional: run `scripts/fetch_webview2.ps1` if you want WebView2Host
+---
+
+## Presets (shared)
+
+| Configure preset | Build dir | Notes |
+|------------------|-----------|--------|
+| `default` / `release` / `qt68-msvc` | `build/` | **Release** (project default) |
+| `debug` | `build-debug/` | Only if you need Debug |
+| `relwithdebinfo` | `build-relwithdebinfo/` | Optional |
+
+| Build preset | Targets |
+|--------------|---------|
+| `default` / `release` / `qt68-msvc` | `qwinui3_gallery` |
+| `examples` | All five example apps |
+| `example-nav` (etc.) | One example |
+
+Plain `cmake -S . -B build` (no build type) also configures **Release**. Multi-config generators use `CMAKE_DEFAULT_BUILD_TYPE=Release`.
+
+Qt range: [qt-version-compat.md](qt-version-compat.md).
+
+---
 
 ## Common issues
 
@@ -51,13 +112,15 @@ cmake --build --preset local-qt68-msvc
 | `Could not find Qt6` | Select a Qt 6.5+ kit (6.8+ recommended), or set `CMAKE_PREFIX_PATH` in `CMakeUserPresets.json` |
 | `Ninja not found` | Install Ninja via Qt Maintenance Tool; add `…/Qt/Tools/Ninja` to kit PATH |
 | Configure fights an old `build/` cache | Delete `build/CMakeCache.txt` or use a fresh preset build dir |
-| Opened wrong folder | Always open the **repo root** CMakeLists, not `examples/…` |
+| Opened `examples/…` only | Always open the **repo root** `CMakeLists.txt` |
+| Looking for a `.pro` | There is none — CMake only (1.35) |
+| Examples missing from target list | Ensure `QWINUI3_BUILD_EXAMPLES=ON` (default); reconfigure |
+| Run fails to find QML plugins | Run the built exe from `build/` (same tree Creator uses); kit Qt must match configure |
 
-## CLI (same tree as Creator Release)
+---
 
-```bat
-cmake --preset release
-cmake --build --preset release
-```
+## After it runs
 
-Executable: `build/qwinui3_gallery.exe` (Release).
+- Prefer **stable** API names when copying into a product — [stable-api.md](stable-api.md).
+- Third-party zip / `add_subdirectory` — [packaging-consumer.md](packaging-consumer.md).
+- Shell chrome — [window-chrome.md](window-chrome.md) / [window-shells.md](window-shells.md).

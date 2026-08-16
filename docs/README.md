@@ -64,4 +64,4 @@ Header convention:
 
 | Doc | Description |
 |-----|-------------|
-| [`qt-creator.md`](qt-creator.md) | Open the CMake project in Qt Creator (presets, kits, Ninja) |
+| [`qt-creator.md`](qt-creator.md) | Open Gallery / examples in Qt Creator (CMake only, 1.35) |

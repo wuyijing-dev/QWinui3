@@ -20,6 +20,11 @@
       "name": "local-qt68-msvc",
       "configurePreset": "local-qt68-msvc",
       "targets": ["qwinui3_gallery"]
+    },
+    {
+      "name": "local-qt68-msvc-nav",
+      "configurePreset": "local-qt68-msvc",
+      "targets": ["qwinui3_example_nav"]
     }
   ]
 }

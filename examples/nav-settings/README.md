@@ -16,6 +16,8 @@ cmake --build build --target qwinui3_example_nav
 ./build/qwinui3_example_nav   # path may vary by generator
 ```
 
+Or from presets / Qt Creator: `cmake --build --preset example-nav` — open the **repo root** (not this folder). See [docs/qt-creator.md](../../docs/qt-creator.md) (1.35).
+
 `main.cpp` uses `QWinUI3::configureEnvironment` / `configureApplication` (`Bootstrap.h`) for one-call kit setup.
 
 Linux: [docs/platform-linux-wayland.md](../../docs/platform-linux-wayland.md).

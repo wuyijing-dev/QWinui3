@@ -1,6 +1,8 @@
 # Consumer packaging & CMake (1.12)
 
-End-to-end path for a **third-party app** on **Windows** and **Linux**. Prefer types in [stable-api.md](stable-api.md). Gallery / monorepo open: [qt-creator.md](qt-creator.md).
+End-to-end path for a **third-party app** on **Windows** and **Linux**. Prefer types in [stable-api.md](stable-api.md).
+
+**Open this monorepo in Qt Creator** (Gallery / examples — CMake only, no `.pro`): [qt-creator.md](qt-creator.md) (1.35).
 
 There is **no** `find_package(QWinUI3)` Config yet — consumers either:
 

@@ -105,6 +105,48 @@
       "name": "all-release",
       "configurePreset": "release",
       "configuration": "Release"
+    },
+    {
+      "name": "examples",
+      "configurePreset": "release",
+      "configuration": "Release",
+      "targets": [
+        "qwinui3_example_nav",
+        "qwinui3_example_settings",
+        "qwinui3_example_dashboard",
+        "qwinui3_example_master_detail",
+        "qwinui3_example_form"
+      ]
+    },
+    {
+      "name": "example-nav",
+      "configurePreset": "release",
+      "configuration": "Release",
+      "targets": ["qwinui3_example_nav"]
+    },
+    {
+      "name": "example-settings",
+      "configurePreset": "release",
+      "configuration": "Release",
+      "targets": ["qwinui3_example_settings"]
+    },
+    {
+      "name": "example-dashboard",
+      "configurePreset": "release",
+      "configuration": "Release",
+      "targets": ["qwinui3_example_dashboard"]
+    },
+    {
+      "name": "example-master-detail",
+      "configurePreset": "release",
+      "configuration": "Release",
+      "targets": ["qwinui3_example_master_detail"]
+    },
+    {
+      "name": "example-form",
+      "configurePreset": "release",
+      "configuration": "Release",
+      "targets": ["qwinui3_example_form"]
     }
   ],
   "vendor": {

@@ -162,3 +162,4 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.32** | Window shells matrix — [window-shells.md](window-shells.md) / [window-chrome.md](window-chrome.md); geometry clamp |
 | **1.33** | Tree & hierarchical data — [tree-data.md](tree-data.md); TreeViewDelegate a11y |
 | **1.34** | Feedback surfaces — [feedback.md](feedback.md); TeachingTip focus return |
+| **1.35** | Qt Creator kit polish — [qt-creator.md](qt-creator.md); example build presets |
