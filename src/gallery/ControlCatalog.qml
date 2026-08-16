@@ -409,7 +409,7 @@ QtObject {
             title: qsTr("Window shells"),
             category: "navigation",
             icon: FluentIcons.OpenInNewWindow,
-            description: qsTr("Window roles (paradigm/presenter) + Blank/Navigation/MenuStatus shells."),
+            description: qsTr("Solid + geometryPersistenceKey recipe; paradigm/presenter; Blank/Nav/MenuStatus shells (1.32)."),
             component: "WindowParadigmPage",
             source: "pages/WindowParadigmPage.qml"
         },

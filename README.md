@@ -7,8 +7,8 @@ Fluent / [WinUI 3](https://learn.microsoft.com/windows/apps/winui/winui3/)-inspi
 [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-2ea44f)](https://wuyijing-dev.github.io/QWinui3/)
 [![Qt](https://img.shields.io/badge/Qt-6.5%2B-41CD52?logo=qt&logoColor=white)](https://www.qt.io/)
 
-**v1.31** · **200+** public controls · Gallery demos for most of them
-[Documentation](https://wuyijing-dev.github.io/QWinui3/) · [Stable API](docs/stable-api.md) · [Graphics backend](docs/graphics-backend.md) · [Density](docs/density.md) · [Icons](docs/icons.md) · [Pickers](docs/pickers.md) · [Navigation](docs/navigation.md) · [Performance](docs/performance.md) · [System integration](docs/system-integration.md) · [Theme overrides](docs/theme-overrides.md) · [Forms](docs/forms.md) · [Data collections](docs/data-collections.md) · [CI smoke](docs/ci-smoke.md) · [WebView2](docs/webview2.md) · [Component API](https://wuyijing-dev.github.io/QWinui3/components/) · [Releases](https://github.com/wuyijing-dev/QWinui3/releases) · [Roadmap](ROADMAP.md)
+**v1.32** · **200+** public controls · Gallery demos for most of them
+[Documentation](https://wuyijing-dev.github.io/QWinui3/) · [Stable API](docs/stable-api.md) · [Window shells](docs/window-shells.md) · [Graphics backend](docs/graphics-backend.md) · [Density](docs/density.md) · [Icons](docs/icons.md) · [Pickers](docs/pickers.md) · [Navigation](docs/navigation.md) · [Performance](docs/performance.md) · [System integration](docs/system-integration.md) · [Theme overrides](docs/theme-overrides.md) · [Forms](docs/forms.md) · [Data collections](docs/data-collections.md) · [CI smoke](docs/ci-smoke.md) · [WebView2](docs/webview2.md) · [Component API](https://wuyijing-dev.github.io/QWinui3/components/) · [Releases](https://github.com/wuyijing-dev/QWinui3/releases) · [Roadmap](ROADMAP.md)
 
 ---
 
@@ -251,7 +251,7 @@ Product versions use **`X.YY`** (see [`ROADMAP.md`](ROADMAP.md)); set `QWINUI3_V
 | [`docs/components.md`](docs/components.md) | Full control index |
 | [`docs/conventions.md`](docs/conventions.md) | Radius, accessibility, import rules |
 | [`docs/accessibility.md`](docs/accessibility.md) | High-traffic a11y checklist + tracked gaps |
-| [`docs/window-shells.md`](docs/window-shells.md) | ShellWindow family vs StandardWindow |
+| [`docs/window-shells.md`](docs/window-shells.md) | ShellWindow vs StandardWindow · Win/Linux soak matrix (1.32) |
 | [`docs/platform-linux-wayland.md`](docs/platform-linux-wayland.md) | Linux title bar / backdrop matrix |
 | [`docs/window-chrome.md`](docs/window-chrome.md) | DPI / backdrop / dialog failure modes |
 | [`docs/webview2.md`](docs/webview2.md) | Windows WebView2Host integration recipe |

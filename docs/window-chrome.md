@@ -1,8 +1,10 @@
-# Window chrome failure modes (Windows-first)
+# Window chrome failure modes (Windows-first) (1.32)
 
-Product shells should follow Gallery: **`BackdropSolid`** + `PlatformTitleBar` / `TitleBar` + `reportHitTest()` after layout. See also [window-shells.md](window-shells.md), [window-helper.md](window-helper.md), [window-transparency-dwm.md](window-transparency-dwm.md).
+Product shells should follow Gallery: **`BackdropSolid`** + `PlatformTitleBar` / `TitleBar` + `reportHitTest()` after layout, plus a stable **`geometryPersistenceKey`** when you want size/pos remembered.
 
-**1.04** tightens `StandardWindow` / `NavigationWindow` / dialog shells for common DPI and backdrop cases.
+See also [window-shells.md](window-shells.md) (Win/Linux soak matrix) · [window-helper.md](window-helper.md) · [window-transparency-dwm.md](window-transparency-dwm.md) · [graphics-backend.md](graphics-backend.md) · [platform-linux-wayland.md](platform-linux-wayland.md).
+
+**1.04** tightened DPI / backdrop reapply. **1.32** re-soaks the shell matrix and documents multi-monitor geometry clamp as the supported persistence recipe.
 
 ---
 
@@ -11,6 +13,7 @@ Product shells should follow Gallery: **`BackdropSolid`** + `PlatformTitleBar` /
 ```qml
 StandardWindow {
     backdrop: WindowHelper.BackdropSolid
+    geometryPersistenceKey: "MainWindow"   // optional but recommended for product apps
     header: PlatformTitleBar {
         id: chrome
         targetWindow: window
@@ -25,6 +28,8 @@ StandardWindow {
     Component.onCompleted: Qt.callLater(chrome.reportHitTest)
 }
 ```
+
+Or ship Extras shells (`NavigationWindow` / `ShellWindow`) with the same Solid + persistence key — [window-shells.md](window-shells.md).
 
 Dialog top-levels:
 
@@ -41,6 +46,18 @@ dlg.openDialog()   // setTransientParent + centerOnScreen + visible
 
 ---
 
+## Host × backdrop matrix (1.32)
+
+| Host | Solid | Mica / Acrylic (Win) | Linux frost |
+|------|-------|----------------------|-------------|
+| `StandardWindow` (Gallery) | Default | Experiment via Window paradigm page | Coerced → Solid |
+| `ShellWindow` / Blank / Nav / MenuStatus | Prefer Solid | Supported on Win DWM | Coerced → Solid |
+| Dialog / Tool / Overlay shells | Prefer Solid | Same as ShellWindow | Coerced → Solid |
+
+Always paint with `effectiveBackdrop` / `WindowHelper.resolveBackdrop(backdrop)` when materials may be coerced. For real Mica/Acrylic on Windows, pin **OpenGL** RHI — [graphics-backend.md](graphics-backend.md).
+
+---
+
 ## Failure modes
 
 | Symptom | Likely cause | Fix |
@@ -50,9 +67,21 @@ dlg.openDialog()   // setTransientParent + centerOnScreen + visible
 | Mica missing after DPI change (125%↔150%) | DWM attributes cleared on `WM_DPICHANGED` | 1.04 schedules backdrop reapply; QML refreshes hit-test via `screensChanged` |
 | Caption buttons miss clicks after maximize / DPI | Stale NC hit-test rects | `PlatformTitleBar.reportHitTest()` on resize, visibility, screen, `screensChanged` |
 | Dialog opens behind main / wrong screen | No transient parent / not centered | `DialogWindow.openDialog(owner)` or `setTransientParent` + `centerOnScreen` |
-| Double title bar on Wayland | Compositor SSD still on | `configurePlatformEnvironment` / `QT_WAYLAND_DISABLE_WINDOWDECORATION=1` — see [platform-linux-wayland.md](platform-linux-wayland.md) |
+| Double title bar on Wayland | Compositor SSD still on | `QWinUI3::configureEnvironment` / `QT_WAYLAND_DISABLE_WINDOWDECORATION=1` — see [platform-linux-wayland.md](platform-linux-wayland.md) |
 | Snap Layouts flyout never appears | Maximize caption not `HTMAXIMIZE` | Ensure `nativeChrome` path + hit-test reports maximize rect; `snapLayoutsEnabled` |
 | Binding `flags` to paradigm | HWND recreate loop | Keep `flags: WindowHelper.recommendedFlags` constant; change paradigm via `installParadigmEx` |
+| Window restores off-screen / wrong monitor | Stale geometry after dock undock | Use `geometryPersistenceKey` — restore clamps to preferred / intersecting / primary `availableGeometry` |
+| Thin white edge with frost | D3D RHI + transparent host | Prefer OpenGL — [graphics-backend.md](graphics-backend.md) |
+
+---
+
+## Geometry persistence checklist
+
+1. Set a **stable unique** `geometryPersistenceKey` per top-level role (`"MainWindow"`, `"Inspector"`, …).
+2. Rely on shell debounce-save + close-save; do not invent a second QSettings schema.
+3. Expect multi-monitor clamp on restore (min **160×120**, fit inside taskbar-safe area, prefer saved screen name).
+4. Call `clearSavedGeometry()` when shipping a “reset layout” action.
+5. Gallery Main uses `"GalleryMain"` — see [window-helper.md](window-helper.md#window-geometry-persistence).
 
 ---
 
@@ -72,7 +101,7 @@ dlg.openDialog()   // setTransientParent + centerOnScreen + visible
 | `BackdropMica` / `MicaAlt` / `Acrylic` | Transparent host | System backdrop types |
 | `BackdropNone` | You own the fill | None |
 
-Gallery stays on **Solid**. Experiments: Gallery **Window paradigm** page, or set `backdrop` and keep `effectiveBackdrop` for paint.
+Gallery stays on **Solid**. Experiments: Gallery **Window shells** page, or set `backdrop` and keep `effectiveBackdrop` for paint.
 
 ---
 

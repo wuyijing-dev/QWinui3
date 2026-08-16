@@ -157,3 +157,4 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.29** | Icons & FluentIcons cookbook — [icons.md](icons.md); FontIcon / CaptionButton a11y |
 | **1.30** | Density & responsive shells — [density.md](density.md); Theme overrides metrics |
 | **1.31** | Graphics backend handbook — [graphics-backend.md](graphics-backend.md); Gallery Settings / `--rhi` |
+| **1.32** | Window shells matrix — [window-shells.md](window-shells.md) / [window-chrome.md](window-chrome.md); geometry clamp |

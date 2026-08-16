@@ -2,7 +2,7 @@
 
 QWinUI3 uses **client-side Fluent chrome** on Linux (`WindowHelper.customFrame`, `FramelessWindowHint`, in-app `PlatformTitleBar`). Compositor server-side decorations stay off by default.
 
-Product version **1.03** focuses on practical nav + settings shells: clear capability matrix, no hollow “Mica” windows, and accurate Gallery packaging launchers.
+Product version **1.03** focused on practical nav + settings shells. **1.32** re-soaks the host × backdrop matrix and geometry persistence — see [window-shells.md](window-shells.md) and [window-chrome.md](window-chrome.md).
 
 ---
 
@@ -35,19 +35,29 @@ readonly property int effectiveBackdrop: WindowHelper.resolveBackdrop(backdrop)
 
 ## Required app startup (before `QGuiApplication`)
 
+Prefer the Platform Bootstrap (style + Wayland/DPI + Windows QPA sanitize):
+
 ```cpp
-#include "WindowHelper.h"
+#include "Bootstrap.h"
 
 int main(int argc, char *argv[])
 {
-    WindowHelper::configurePlatformEnvironment(argv[0]); // Wayland-first + CSD + DPI
+    QWinUI3::configureEnvironment(argv[0]); // wraps configurePlatformEnvironment
     QGuiApplication app(argc, argv);
-    QGuiApplication::setDesktopFileName(QStringLiteral("org.example.myapp"));
+    QWinUI3::configureApplication(QStringLiteral("org.example.myapp"));
     // …
 }
 ```
 
-`configurePlatformEnvironment()`:
+Manual equivalent (Linux CSD/DPI only):
+
+```cpp
+#include "WindowHelper.h"
+
+WindowHelper::configurePlatformEnvironment(argv[0]); // Wayland-first + CSD + DPI
+```
+
+`configurePlatformEnvironment()` (always called from Bootstrap):
 
 | Action | Effect |
 |--------|--------|

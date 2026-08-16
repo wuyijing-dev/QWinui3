@@ -53,7 +53,7 @@ Header convention:
 
 | Doc | Description |
 |-----|-------------|
-| [`window-shells.md`](window-shells.md) | ShellWindow family vs StandardWindow |
+| [`window-shells.md`](window-shells.md) | ShellWindow vs StandardWindow · Win/Linux soak matrix (1.32) |
 | [`window-helper.md`](window-helper.md) | `WindowHelper` singleton API |
 | [`window-appwindow.md`](window-appwindow.md) | AppWindow presenters / title-bar height |
 | [`window-transparency-dwm.md`](window-transparency-dwm.md) | DWM / Mica / Acrylic notes |

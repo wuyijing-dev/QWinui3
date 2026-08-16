@@ -9,13 +9,13 @@ import QWinUI3.Platform
 // Gallery — Window shells & roles.
 //
 // Window paradigms / presenters / always-on-top plus Blank/Navigation/MenuStatus shells.
-// API: docs/window-shells.md · docs/window-helper.md
+// Recipe: docs/window-shells.md · docs/window-chrome.md (1.32).
 
 CatalogPage {
     id: root
 
     title: qsTr("Window shells")
-    subtitle: qsTr("Window roles (作用): paradigm · presenter · always-on-top; plus blank / nav / menu shells.")
+    subtitle: qsTr("Solid default · geometryPersistenceKey · paradigm / presenter. Recipe: docs/window-shells.md (1.32).")
 
     property var _openWindows: []
     property var liveWindow: null
@@ -65,6 +65,31 @@ CatalogPage {
         }
         _openWindows = []
         liveWindow = null
+    }
+
+    ControlExample {
+        headerText: qsTr("Supported recipe (1.32)")
+        qmlSource: "StandardWindow {\n    backdrop: WindowHelper.BackdropSolid\n    geometryPersistenceKey: \"MainWindow\"\n}"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Ship Solid chrome on Win and Linux. Mica/Acrylic work on Windows DWM only — Linux coerces to Solid via resolveBackdrop. Pin OpenGL when shipping frost (docs/graphics-backend.md). Gallery Main uses geometryPersistenceKey \"GalleryMain\"; restore clamps off-screen frames to availableGeometry.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Prefer ShellWindow / NavigationWindow for apps; StandardWindow for Gallery-style hosts and AppWindow presenters. Matrix: docs/window-shells.md · failure modes: docs/window-chrome.md.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontCaption
+                color: Theme.textPrimary
+            }
+        }
     }
 
     Component {
@@ -429,7 +454,7 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.Wrap
                 color: Theme.textSecondary
-                text: qsTr("Open a live BlankWindow, then change its role at runtime (WinUI AppWindow presenter + paradigm).")
+                text: qsTr("Open a live BlankWindow, then change its role at runtime (WinUI AppWindow presenter + paradigm). Prefer BackdropSolid for products; Mica/Acrylic are Windows-only experiments (Linux coerces). docs/window-shells.md")
             }
             Label {
                 Layout.fillWidth: true

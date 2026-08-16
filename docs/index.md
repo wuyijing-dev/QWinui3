@@ -10,13 +10,13 @@ This site is generated from QML source comments and shipped via GitHub Pages.
 |---------|-------------|
 | [Component API](components.md) | Full public + internal control index |
 | [Conventions](conventions.md) | Radius, Accessible, Extras import rules |
-| [Window shells](window-shells.md) | ShellWindow family vs StandardWindow |
+| [Window shells](window-shells.md) | ShellWindow vs StandardWindow · Win/Linux matrix (1.32) |
 | [WindowHelper](window-helper.md) | Platform chrome singleton |
 | [Roadmap](roadmap.md) | Version themes — small `1.xx` slices |
 | [Stable API](stable-api.md) | What to rely on in 1.xx apps |
 | [Accessibility](accessibility.md) | 1.02 + wave 2 checklist (1.19) |
 | [Linux / Wayland](platform-linux-wayland.md) | Title bar & backdrop matrix for shells |
-| [Window chrome](window-chrome.md) | DPI / backdrop / dialog failure modes |
+| [Window chrome](window-chrome.md) | DPI / backdrop / geometry failure modes (1.32) |
 | [WebView2](webview2.md) | Windows WebView2Host — stable recipe (1.18) |
 | [CI smoke](ci-smoke.md) | Gallery `--smoke` + catalog integrity (1.20) |
 | [Media](media.md) | Optional Qt Multimedia / MediaPlayerElement (1.21) |

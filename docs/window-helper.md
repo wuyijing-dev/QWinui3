@@ -170,7 +170,9 @@ WindowHelper.clearRecentDocuments() // Windows
 
 ## Window geometry persistence
 
-Stores **normal** frame geometry (and maximized vs windowed) under the application `QSettings` path as `WindowGeometry/<key>`. Missing or off-screen values are ignored / clamped.
+**Supported recipe (1.32):** set `geometryPersistenceKey` on `StandardWindow` / `ShellWindow` (or call the low-level APIs). Do not invent a parallel QSettings layout.
+
+Stores **normal** frame geometry (and maximized vs windowed) under the application `QSettings` path as `WindowGeometry/<key>`, plus the screen **name** when known. Missing or unusable values are ignored / clamped.
 
 ```qml
 import QWinUI3.Platform
@@ -182,6 +184,7 @@ WindowHelper.clearWindowGeometry("MainWindow")
 
 // Built into StandardWindow / ShellWindow (empty key = off)
 StandardWindow {
+    backdrop: WindowHelper.BackdropSolid
     geometryPersistenceKey: "MainWindow"
 }
 ShellWindow {
@@ -189,9 +192,20 @@ ShellWindow {
 }
 ```
 
-Shells debounce-save on resize/move and always save on close. Call `clearSavedGeometry()` to forget the stored frame.
+Shells debounce-save on resize/move and always save on close. Call `clearSavedGeometry()` to forget the stored frame. Gallery Main uses `"GalleryMain"`.
 
-See also [Linux / Wayland](platform-linux-wayland.md).
+### Multi-monitor clamp
+
+On restore, `WindowHelper` fits the saved rect into a real screen’s `availableGeometry` (taskbar insets):
+
+1. Prefer the saved screen **name** when that display is still connected.
+2. Else the first screen whose available rect **intersects** the saved geometry.
+3. Else center on the **primary** screen.
+4. Reject frames smaller than **160×120**; shrink width/height to fit the available area; clamp x/y inside it.
+
+Undocking a laptop / rearranging monitors therefore cannot leave the window permanently off-screen.
+
+See also [window-shells.md](window-shells.md) · [window-chrome.md](window-chrome.md) · [Linux / Wayland](platform-linux-wayland.md).
 
 ## Enums
 

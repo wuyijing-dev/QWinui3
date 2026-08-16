@@ -1,7 +1,16 @@
-# Window shells (application layout paradigms)
+# Window shells (application layout paradigms) (1.32)
 
 Independent top-level hosts in `QWinUI3.Extras` share **`ShellWindow`**
 (chrome + `WindowHelper`) — they do **not** subclass `StandardWindow`.
+
+Chrome reliability (DPI, backdrop, dialog owners): [`window-chrome.md`](window-chrome.md).  
+Geometry recipe: [`window-helper.md`](window-helper.md#window-geometry-persistence).  
+Linux matrix detail: [`platform-linux-wayland.md`](platform-linux-wayland.md).  
+Frost / RHI: [`graphics-backend.md`](graphics-backend.md).
+
+Gallery: **Window shells** (`WindowParadigmPage`) · Main host uses `BackdropSolid` + `geometryPersistenceKey: "GalleryMain"`.
+
+---
 
 ## ShellWindow vs StandardWindow
 
@@ -14,11 +23,51 @@ Independent top-level hosts in `QWinUI3.Extras` share **`ShellWindow`**
 
 Prefer **ShellWindow** family for applications. Keep **StandardWindow** when you need Platform presenters without Extras.
 
-Set `geometryPersistenceKey` on either host to remember size, position, and maximized state across launches (`WindowHelper` + `QSettings`). See [window-helper.md](window-helper.md#window-geometry-persistence).
+---
 
-Chrome reliability (DPI, backdrop, dialog owners): [`window-chrome.md`](window-chrome.md).
+## Win + Linux soak matrix (1.32)
 
-Platform chrome singleton: [`WindowHelper`](window-helper.md).
+Re-checked against Gallery Window paradigm page + Platform `resolveBackdrop` / geometry clamp.
+
+| Surface | Windows | Linux (Wayland/X11) | Ship note |
+|---------|---------|---------------------|-----------|
+| `StandardWindow` + `BackdropSolid` | **Works** | **Works** | Gallery default; safest product chrome |
+| `ShellWindow` / `NavigationWindow` + Solid | **Works** | **Works** | Prefer for apps (`NavigationWindow` defaults Solid) |
+| `BlankWindow` / MenuStatus / Dialog / Tool / Overlay shells | **Works** | **Works** | Roles via paradigm / presenter APIs |
+| `BackdropMica` / `MicaAlt` / `Acrylic` | **Works** (DWM) | **Coerced → Solid** | Paint with `effectiveBackdrop`; pin OpenGL for frost — [graphics-backend.md](graphics-backend.md) |
+| `BackdropTransparent` / `None` | DIY fill | DIY fill | No system material |
+| `geometryPersistenceKey` | **Works** | **Works** | Restore clamps to available screens (see below) |
+| NC hit-test / Snap Layouts | **Works** | Unsupported | QML caption handles input on Linux |
+| Bootstrap `configureEnvironment` | Required early | Required early | Calls `configurePlatformEnvironment` + style / IME |
+
+Do **not** ship Mica as a Linux feature — copying a Windows sample is fine; the platform coerces.
+
+---
+
+## Geometry persistence (supported recipe)
+
+Set a non-empty key on either host:
+
+```qml
+StandardWindow {
+    backdrop: WindowHelper.BackdropSolid
+    geometryPersistenceKey: "MainWindow"
+}
+ShellWindow {
+    geometryPersistenceKey: "MainWindow"
+}
+```
+
+Behavior (1.32):
+
+1. Debounced save on resize/move; always save on close.
+2. Stores **normal** frame + maximized vs windowed + optional screen **name** under `QSettings` → `WindowGeometry/<key>`.
+3. Restore runs `clampGeometryToScreens`: prefer saved screen → any intersecting screen → primary center; reject frames smaller than **160×120**; fit inside `availableGeometry` (taskbar-safe).
+4. Empty key = off. `clearSavedGeometry()` / `WindowHelper.clearWindowGeometry(key)` forgets the entry.
+
+Full API notes: [window-helper.md](window-helper.md#window-geometry-persistence).
+
+---
 
 ## Shared chrome API
 
@@ -81,7 +130,7 @@ Gallery demos: `WindowParadigmPage`.
 - Keyboard Home/End/type-ahead; compact flyout ↑↓ Enter Esc
 - Top overflow `…` lists only **clipped** items
 
-Gallery `Main.qml` enables `auto`, pane search, badges, and reorder as the living sample.
+Gallery `Main.qml` enables `auto`, pane search, badges, and reorder as the living sample. More: [navigation.md](navigation.md).
 
 ## StatusBar
 
@@ -121,16 +170,13 @@ Accessibility: `Theme.followSystemAccessibility` (default true) copies
 `WindowHelper.systemReducedMotion` / `systemHighContrast` (Windows SPI) into
 `Theme.reducedMotion` / `Theme.highContrast`. Settings can override when follow is off.
 
-## Non-Windows notes
+## Startup (Bootstrap)
 
-`WindowHelper` native DWM backdrop / NC hit-test / Snap Layouts are Windows-first.
+Prefer one-call bootstrap before `QGuiApplication`:
 
-| | Windows | Linux | macOS |
-|--|--|--|--|
-| `supportsBackdrop` | yes (DWM Mica/Acrylic) | no — `resolveBackdrop` → Solid | no |
-| Fluent CSD title bar | yes | yes (Wayland/X11) | limited |
-| `updateHitTestLayout` | NC hit-test | stub — QML title bar handles input | stub |
-| `customFrame` | yes | yes (frameless) | false |
+```cpp
+#include "Bootstrap.h"
+QWinUI3::configureEnvironment(argv[0]); // style + Wayland/DPI + QPA sanitize
+```
 
-On Linux, prefer `BackdropSolid` for nav/settings shells (examples already do). See
-[platform-linux-wayland.md](platform-linux-wayland.md) for the works/limited/unsupported matrix.
+That wraps `WindowHelper::configurePlatformEnvironment`. Manual `configurePlatformEnvironment` alone still works for Linux CSD/DPI but skips style / Windows QPA sanitize / IME unset — see [packaging-consumer.md](packaging-consumer.md).
