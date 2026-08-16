@@ -4,17 +4,12 @@
 #include <QQmlComponent>
 #include <QQuickStyle>
 #include <QDebug>
-#include <QtQml/QQmlExtensionPlugin>
 #include <cstring>
 
+#include "Bootstrap.h"
 #include "GraphicsBackend.h"
-#include "WindowHelper.h"
-#include "ThemeFonts.h"
 
-Q_IMPORT_QML_PLUGIN(QWinUI3Plugin)
-Q_IMPORT_QML_PLUGIN(QWinUI3_ThemePlugin)
-Q_IMPORT_QML_PLUGIN(QWinUI3_ExtrasPlugin)
-Q_IMPORT_QML_PLUGIN(QWinUI3_PlatformPlugin)
+QWINUI3_IMPORT_QML_PLUGINS
 
 static bool hasArg(int argc, char *argv[], const char *flag)
 {
@@ -25,30 +20,9 @@ static bool hasArg(int argc, char *argv[], const char *flag)
     return false;
 }
 
-static void sanitizeWindowsQpa()
-{
-#if defined(Q_OS_WIN)
-    // Cursor / CI shells often export QT_QPA_PLATFORM=offscreen (or xcb).
-    // Desktop MSVC kits and windeploy trees typically only ship qwindows.dll →
-    // "Available platform plugins are: windows."
-    // Opt out only with QWINUI3_ALLOW_FOREIGN_QPA=1 (KEEP alone is not enough —
-    // Cursor may leave KEEP + offscreen together).
-    if (qEnvironmentVariableIsSet("QWINUI3_ALLOW_FOREIGN_QPA"))
-        return;
-    const QByteArray p = qgetenv("QT_QPA_PLATFORM").trimmed().toLower();
-    if (p.isEmpty() || p == "windows" || p == "direct2d")
-        return;
-    qputenv("QT_QPA_PLATFORM", "windows");
-#endif
-}
-
 int main(int argc, char *argv[])
 {
     const bool smoke = hasArg(argc, argv, "--smoke");
-
-    // Always sanitize on Windows — not only --smoke (normal Gallery runs hit the
-    // same Cursor/CI offscreen inheritance and show the fatal QPA dialog).
-    sanitizeWindowsQpa();
 
     // CI / local smoke: pick a QPA that desktop kits actually ship.
     if (smoke) {
@@ -62,27 +36,18 @@ int main(int argc, char *argv[])
         qputenv("QWINUI3_KEEP_QPA_PLATFORM", "1");
     }
 
-    // Linux: Wayland-first QPA + client-side chrome (must run before QGuiApplication).
-    // Smoke already set QT_QPA_PLATFORM when needed — configure leaves non-empty values alone.
-    WindowHelper::configurePlatformEnvironment(argv[0]);
-    // RHI / surface format only — do not touch QSettings or QObject singletons yet.
+    // One-call kit setup (style + Wayland/DPI + IME) — before QGuiApplication.
+    QWinUI3::configureEnvironment(argv[0]);
+    // RHI / surface format only — Gallery-specific; do not touch QSettings yet.
     GraphicsBackend::applyEarly(argc, argv);
 
-    // Do not load Qt Virtual Keyboard (GPL/Commercial); use system IME instead.
-    qunsetenv("QT_IM_MODULE");
-    qputenv("QT_QUICK_CONTROLS_STYLE", "QWinUI3");
     QGuiApplication app(argc, argv);
     QCoreApplication::setOrganizationName(QStringLiteral("QWinUI3"));
     QCoreApplication::setApplicationName(QStringLiteral("Gallery"));
-    // Wayland app_id / desktop entry id (without .desktop suffix).
-    QGuiApplication::setDesktopFileName(QStringLiteral("org.qwinui3.gallery"));
-    // Windows taskbar grouping / toast identity (call early).
-    WindowHelper::setAppUserModelId(QStringLiteral("org.qwinui3.gallery"));
-    QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
+    QWinUI3::configureApplication(QStringLiteral("org.qwinui3.gallery"));
 
     // Safe now that QCoreApplication exists.
     GraphicsBackend::syncAfterApp();
-    ThemeFonts::ensureLoaded();
 
     QQmlApplicationEngine engine;
     QObject::connect(&engine, &QQmlApplicationEngine::warnings,

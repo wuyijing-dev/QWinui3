@@ -34,7 +34,26 @@ Primary target: **Windows desktop** (MSVC). Linux builds are supported for many 
 | **Platform** | `QWinUI3.Platform` | `StandardWindow` / shell family, `WindowHelper`, TitleBar, optional `WebView2Host` |
 | **Extras** | `QWinUI3.Extras` | WinUI-style composites: nav, dialogs, data, charts, feedback, … |
 
-Enable the style in C++ (examples and Gallery already do this):
+Enable the style in C++ — **one-call bootstrap** (preferred):
+
+```cpp
+#include "Bootstrap.h"   // from qwinui3_platform
+
+QWINUI3_IMPORT_QML_PLUGINS
+
+int main(int argc, char *argv[])
+{
+    QWinUI3::configureEnvironment(argv[0]); // BEFORE QGuiApplication
+    QGuiApplication app(argc, argv);
+    QWinUI3::configureApplication(QStringLiteral("org.example.myapp"));
+    // …
+}
+```
+
+`configureEnvironment` sets the Fluent style env, Wayland/DPI helpers, and clears `QT_IM_MODULE`.  
+`configureApplication` applies `QQuickStyle`, loads icon fonts, and optional AppUserModelID / desktop id.
+
+Manual equivalent (still supported):
 
 ```cpp
 qputenv("QT_QUICK_CONTROLS_STYLE", "QWinUI3");

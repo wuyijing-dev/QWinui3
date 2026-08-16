@@ -3,7 +3,7 @@
 Platform chrome helper exposed as `WindowHelper` from `QWinUI3.Platform`.
 Source: [`src/platform/QWinUI3/Platform/WindowHelper.h`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/platform/QWinUI3/Platform/WindowHelper.h).
 
-Related: [window shells](window-shells.md) · [AppWindow presenters](window-appwindow.md) · [component index](components.md).
+Related: [window shells](window-shells.md) · [AppWindow presenters](window-appwindow.md) · [component index](components.md) · **C++ bootstrap** [`Bootstrap.h`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/platform/QWinUI3/Platform/Bootstrap.h) (`QWinUI3::configureEnvironment` / `configureApplication`).
 
 ## Install / paradigm
 
@@ -99,7 +99,16 @@ WindowHelper.updateHitTestLayout(
 ## Linux / Wayland startup
 
 ```cpp
+```cpp
+// Preferred (one-call):
+#include "Bootstrap.h"
+QWinUI3::configureEnvironment(argv[0]); // before QGuiApplication
+QGuiApplication app(argc, argv);
+QWinUI3::configureApplication(QStringLiteral("org.example.myapp"));
+
+// Or call WindowHelper directly:
 WindowHelper::configurePlatformEnvironment(); // before QGuiApplication
+```
 QGuiApplication app(argc, argv);
 QGuiApplication::setDesktopFileName(QStringLiteral("org.example.app"));
 ```

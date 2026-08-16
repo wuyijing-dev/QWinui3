@@ -60,6 +60,30 @@ You still need a **Qt 6.5+** install (recommended **6.8** matching CI) with Quic
 
 ### 2. Runtime (before `QGuiApplication`)
 
+Prefer the **one-call bootstrap** from `qwinui3_platform` (`Bootstrap.h`):
+
+```cpp
+#include <QGuiApplication>
+#include <QQmlApplicationEngine>
+#include "Bootstrap.h"
+
+QWINUI3_IMPORT_QML_PLUGINS
+
+int main(int argc, char *argv[])
+{
+    QWinUI3::configureEnvironment(argv[0]); // style env + platform QPA/DPI
+    QGuiApplication app(argc, argv);
+    QWinUI3::configureApplication(QStringLiteral("org.example.myapp"));
+
+    QQmlApplicationEngine engine;
+    // Absolute path to the package's qml/ folder:
+    engine.addImportPath(QStringLiteral("D:/deps/qwinui3-1.12-windows-x64-shared/qml"));
+    // …
+}
+```
+
+Manual equivalent:
+
 ```cpp
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>

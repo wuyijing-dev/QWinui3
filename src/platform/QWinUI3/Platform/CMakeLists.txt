@@ -22,6 +22,7 @@ set(QWINUI3_PLATFORM_SOURCES
     FilePicker.cpp
     TrayIcon.cpp
     LinuxPortal.cpp
+    Bootstrap.cpp
     ${QWINUI3_WEBVIEW2_SOURCES}
 )
 
@@ -42,6 +43,7 @@ qt_add_qml_module(qwinui3_platform
         FilePicker.h
         TrayIcon.h
         WebView2Host.h
+        Bootstrap.h
         ${QWINUI3_PLATFORM_SOURCES}
     QML_FILES
         PlatformTitleBar.qml

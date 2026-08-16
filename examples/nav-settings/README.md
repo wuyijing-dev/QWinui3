@@ -16,6 +16,6 @@ cmake --build build --target qwinui3_example_nav
 ./build/qwinui3_example_nav   # path may vary by generator
 ```
 
-`main.cpp` already calls `WindowHelper::configurePlatformEnvironment` and sets a desktop file name.
+`main.cpp` uses `QWinUI3::configureEnvironment` / `configureApplication` (`Bootstrap.h`) for one-call kit setup.
 
 Linux: [docs/platform-linux-wayland.md](../../docs/platform-linux-wayland.md).
