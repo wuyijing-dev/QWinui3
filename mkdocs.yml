@@ -67,7 +67,8 @@ nav:
   - Conventions: conventions.md
   - Gallery CatalogPage: gallery-catalog-page.md
   - Graphics backend: graphics-backend.md
-  - WebView2: webview2-future.md
+  - WebView2: webview2.md
+  - WebView2 (legacy link): webview2-future.md
   - Linux / Wayland: platform-linux-wayland.md
   - Window shells: window-shells.md
   - Window chrome: window-chrome.md

@@ -1289,7 +1289,7 @@ QtObject {
             title: qsTr("WebView2"),
             category: "dialogs",
             icon: FluentIcons.Globe,
-            description: qsTr("Optional Edge WebView2 host (Windows Runtime + SDK)."),
+            description: qsTr("Edge WebView2 host — Runtime probe, clip/focus, Gallery recipe (docs/webview2.md)."),
             component: "WebView2Page",
             source: "pages/WebView2Page.qml"
         },

@@ -5,21 +5,44 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 import QWinUI3.Platform
 
-// Gallery — WebView2Host (Windows + Edge WebView2 Runtime).
+// Gallery — WebView2Host product recipe (Windows + Evergreen Runtime).
+// Matches docs/webview2.md: lifecycle, clip in ScrollView, missing-Runtime EmptyState.
 
 CatalogPage {
     id: page
     title: qsTr("WebView2")
-    subtitle: qsTr("HWND-backed Edge WebView2 under QQuickItem. Optional: QWINUI3_BUILD_WEBVIEW2 + fetch_webview2.ps1.")
+    subtitle: qsTr("HWND-backed Edge WebView2. See docs/webview2.md for the integration recipe.")
 
     property url demoUrl: "https://www.microsoft.com/edge/webview"
 
-    // Probe compile-time availability (instance CONSTANT mirrors QWINUI3_HAS_WEBVIEW2).
     WebView2Host {
         id: probe
         width: 0
         height: 0
         visible: false
+    }
+
+    readonly property bool showHost: probe.available && probe.runtimeInstalled
+    readonly property bool showMissingRuntime: probe.available && !probe.runtimeInstalled
+    readonly property bool showNotBuilt: !probe.available
+
+    ControlExample {
+        headerText: qsTr("Integration recipe")
+        qmlSource: "WebView2Host {\n    source: \"https://…\"\n    // clip ancestors for ScrollView\n}"
+
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                color: Theme.textSecondary
+                text: qsTr("1) fetch_webview2.ps1 + QWINUI3_BUILD_WEBVIEW2=ON\n"
+                           + "2) Install Evergreen WebView2 Runtime if runtimeInstalled is false\n"
+                           + "3) Place WebView2Host in a clip:true host; geometry follows ScrollView via mapToScene\n"
+                           + "4) Tab into the control to MoveFocus into the browser; destroy happens on page leave")
+            }
+        }
     }
 
     ControlExample {
@@ -69,6 +92,11 @@ CatalogPage {
                     }
                 }
                 Button {
+                    text: qsTr("Focus browser")
+                    enabled: hostLoader.item && hostLoader.item.ready
+                    onClicked: hostLoader.item.focusBrowser()
+                }
+                Button {
                     text: qsTr("Open externally")
                     onClicked: Qt.openUrlExternally(urlField.text)
                 }
@@ -79,13 +107,22 @@ CatalogPage {
                 wrapMode: Text.Wrap
                 color: Theme.textSecondary
                 text: {
-                    if (!probe.available)
+                    if (page.showNotBuilt)
                         return qsTr("WebView2Host not built. On Windows run scripts/fetch_webview2.ps1 and configure -DQWINUI3_BUILD_WEBVIEW2=ON.")
+                    if (page.showMissingRuntime)
+                        return qsTr("Runtime missing — install Evergreen WebView2, then Retry.")
                     if (hostLoader.item)
                         return (hostLoader.item.documentTitle || qsTr("(untitled)"))
                                + " — " + (hostLoader.item.statusMessage || "")
+                               + (hostLoader.item.ready ? "" : qsTr(" (starting…)"))
                     return qsTr("Loading host…")
                 }
+            }
+
+            ProgressBar {
+                Layout.fillWidth: true
+                visible: hostLoader.item && (hostLoader.item.loading || (!hostLoader.item.ready && page.showHost))
+                indeterminate: true
             }
 
             Rectangle {
@@ -101,18 +138,30 @@ CatalogPage {
                     id: hostLoader
                     anchors.fill: parent
                     anchors.margins: 1
-                    active: probe.available
+                    active: page.showHost
                     sourceComponent: webComp
                 }
 
                 EmptyState {
                     anchors.centerIn: parent
                     width: parent.width - 48
-                    visible: !probe.available
-                    title: qsTr("WebView2 unavailable")
-                    message: qsTr("Requires Windows, Edge WebView2 Runtime, and the NuGet SDK (scripts/fetch_webview2.ps1).")
+                    visible: page.showNotBuilt
+                    title: qsTr("WebView2 not built")
+                    message: qsTr("Requires Windows + NuGet SDK (scripts/fetch_webview2.ps1) and QWINUI3_BUILD_WEBVIEW2=ON.")
                     actionText: qsTr("Open in browser")
                     onActionClicked: Qt.openUrlExternally(page.demoUrl)
+                }
+
+                EmptyState {
+                    anchors.centerIn: parent
+                    width: parent.width - 48
+                    visible: page.showMissingRuntime
+                    title: qsTr("WebView2 Runtime missing")
+                    message: qsTr("Install the Evergreen Runtime, then click Retry. Apps should mirror this EmptyState when runtimeInstalled is false.")
+                    actionText: qsTr("Get Runtime")
+                    secondaryActionText: qsTr("Retry")
+                    onActionClicked: Qt.openUrlExternally(probe.runtimeDownloadUrl)
+                    onSecondaryActionClicked: probe.refreshRuntimeProbe()
                 }
             }
         }
@@ -122,6 +171,8 @@ CatalogPage {
         id: webComp
         WebView2Host {
             source: page.demoUrl
+            Accessible.name: qsTr("Embedded web view")
+            Accessible.description: statusMessage
         }
     }
 }

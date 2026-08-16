@@ -2,8 +2,11 @@
 
 #include <QWinUI3/Compat/QtCompatVersion.h>
 
+#include <QDir>
+#include <QFocusEvent>
 #include <QGuiApplication>
 #include <QQuickWindow>
+#include <QStandardPaths>
 #include <algorithm>
 #include <cmath>
 
@@ -47,6 +50,7 @@ public:
         ready = false;
         lastX = lastY = lastW = lastH = -1;
         hadRegion = false;
+        q->setReady(false);
     }
 
     void ensureChild(HWND parent)
@@ -57,6 +61,18 @@ public:
         parentHwnd = parent;
         if (!parent)
             return;
+
+        if (!WebView2Host::queryRuntimeInstalled()) {
+            q->m_runtimeInstalled = false;
+            emit q->runtimeInstalledChanged();
+            q->setStatus(QObject::tr(
+                "Edge WebView2 Runtime is not installed. Install the Evergreen Runtime, then reload."));
+            return;
+        }
+        if (!q->m_runtimeInstalled) {
+            q->m_runtimeInstalled = true;
+            emit q->runtimeInstalledChanged();
+        }
 
         static ATOM atom = 0;
         if (!atom) {
@@ -83,12 +99,21 @@ public:
 
         syncGeometry();
 
+        const QString dataRoot = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
+        const QString dataPath = dataRoot + QStringLiteral("/WebView2Host");
+        QDir().mkpath(dataPath);
+
         HRESULT hr = CreateCoreWebView2EnvironmentWithOptions(
-            nullptr, nullptr, nullptr,
+            nullptr,
+            reinterpret_cast<LPCWSTR>(dataPath.utf16()),
+            nullptr,
             Callback<ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler>(
                 [this](HRESULT result, ICoreWebView2Environment *env) -> HRESULT {
                     if (FAILED(result) || !env) {
-                        q->setStatus(QObject::tr("WebView2 Runtime missing or failed to start."));
+                        q->m_runtimeInstalled = WebView2Host::queryRuntimeInstalled();
+                        emit q->runtimeInstalledChanged();
+                        q->setStatus(QObject::tr(
+                            "WebView2 Runtime missing or failed to start. Install Evergreen Runtime."));
                         return result;
                     }
                     return env->CreateCoreWebView2Controller(
@@ -113,11 +138,29 @@ public:
                                     settings->put_AreDefaultContextMenusEnabled(TRUE);
                                 }
 
+                                EventRegistrationToken token = {};
+                                controller->add_GotFocus(
+                                    Callback<ICoreWebView2FocusChangedEventHandler>(
+                                        [this](ICoreWebView2Controller *, IUnknown *) -> HRESULT {
+                                            if (q && !q->hasActiveFocus())
+                                                q->forceActiveFocus(Qt::OtherFocusReason);
+                                            return S_OK;
+                                        })
+                                        .Get(),
+                                    &token);
+                                controller->add_LostFocus(
+                                    Callback<ICoreWebView2FocusChangedEventHandler>(
+                                        [this](ICoreWebView2Controller *, IUnknown *) -> HRESULT {
+                                            return S_OK;
+                                        })
+                                        .Get(),
+                                    &token);
+
                                 syncGeometry();
                                 ready = true;
+                                q->setReady(true);
                                 q->setStatus(QObject::tr("Ready"));
 
-                                EventRegistrationToken token = {};
                                 webView->add_NavigationStarting(
                                     Callback<ICoreWebView2NavigationStartingEventHandler>(
                                         [this](ICoreWebView2 *, ICoreWebView2NavigationStartingEventArgs *) -> HRESULT {
@@ -159,6 +202,8 @@ public:
 
                                 if (q->m_source.isValid())
                                     navigate(q->m_source);
+                                if (q->hasActiveFocus())
+                                    moveFocusIn();
                                 return S_OK;
                             })
                             .Get());
@@ -170,7 +215,6 @@ public:
                              .arg(quint32(hr), 8, 16, QLatin1Char('0')));
     }
 
-    // Visible scene rect after intersecting clip: true ancestors (e.g. ScrollView).
     QRectF clippedSceneRect() const
     {
         const QRectF itemScene = q->mapRectToScene(QRectF(0, 0, q->width(), q->height()));
@@ -199,7 +243,7 @@ public:
         const QRectF itemScene = q->mapRectToScene(QRectF(0, 0, q->width(), q->height()));
         const QRectF visibleScene = clippedSceneRect();
 
-        const bool show = q->isVisible() && q->opacity() > 0.01
+        const bool show = q->isVisible() && q->isEnabled() && q->opacity() > 0.01
                           && itemScene.width() >= 1 && itemScene.height() >= 1
                           && !visibleScene.isEmpty();
 
@@ -226,7 +270,6 @@ public:
         }
         ShowWindow(childHwnd, SW_SHOWNOACTIVATE);
 
-        // Clip the HWND to the visible intersection so ScrollView does not leak pixels.
         const QRectF localVis = visibleScene.translated(-itemScene.x(), -itemScene.y());
         const int rx = int(std::lround(localVis.x() * dpr));
         const int ry = int(std::lround(localVis.y() * dpr));
@@ -249,6 +292,18 @@ public:
             controller->put_Bounds(bounds);
             controller->put_IsVisible(TRUE);
         }
+    }
+
+    void moveFocusIn()
+    {
+        if (controller)
+            controller->MoveFocus(COREWEBVIEW2_MOVE_FOCUS_REASON_PROGRAMMATIC);
+    }
+
+    void moveFocusOut()
+    {
+        // No Controllable “blur” API — leaving QML focus is enough; keep HWND visible.
+        Q_UNUSED(controller);
     }
 
     void navigate(const QUrl &url)
@@ -327,14 +382,48 @@ public:
 
 #endif // QWINUI3_WEBVIEW2_IMPL
 
+bool WebView2Host::sdkBuilt()
+{
+#if QWINUI3_WEBVIEW2_IMPL
+    return true;
+#else
+    return false;
+#endif
+}
+
+bool WebView2Host::queryRuntimeInstalled()
+{
+#if QWINUI3_WEBVIEW2_IMPL
+    LPWSTR version = nullptr;
+    const HRESULT hr = GetAvailableCoreWebView2BrowserVersionString(nullptr, &version);
+    const bool ok = SUCCEEDED(hr) && version && version[0] != L'\0';
+    if (version)
+        CoTaskMemFree(version);
+    return ok;
+#else
+    return false;
+#endif
+}
+
+QString WebView2Host::evergreenDownloadUrl()
+{
+    return QStringLiteral("https://go.microsoft.com/fwlink/p/?LinkId=2124703");
+}
+
 WebView2Host::WebView2Host(QQuickItem *parent)
     : QQuickItem(parent)
 {
     setFlag(ItemHasContents, false);
     setAcceptedMouseButtons(Qt::AllButtons);
+    setActiveFocusOnTab(true);
+    setFocus(false);
 #if QWINUI3_WEBVIEW2_IMPL
     m_impl = new Impl(this);
-    setStatus(tr("Initializing WebView2…"));
+    m_runtimeInstalled = queryRuntimeInstalled();
+    if (m_runtimeInstalled)
+        setStatus(tr("Initializing WebView2…"));
+    else
+        setStatus(tr("Edge WebView2 Runtime is not installed."));
 #else
     setStatus(tr("WebView2 is Windows-only (build with QWINUI3_BUILD_WEBVIEW2=ON)."));
 #endif
@@ -350,12 +439,12 @@ WebView2Host::~WebView2Host()
 #endif
 }
 
-bool WebView2Host::runtimeAvailable()
+bool WebView2Host::runtimeMissing() const
 {
 #if QWINUI3_WEBVIEW2_IMPL
-    return true;
+    return !m_runtimeInstalled;
 #else
-    return false;
+    return true;
 #endif
 }
 
@@ -405,6 +494,34 @@ void WebView2Host::navigate(const QUrl &url)
     setSource(url);
 }
 
+void WebView2Host::refreshRuntimeProbe()
+{
+    const bool was = m_runtimeInstalled;
+    m_runtimeInstalled = queryRuntimeInstalled();
+    if (was != m_runtimeInstalled)
+        emit runtimeInstalledChanged();
+    if (m_runtimeInstalled && window() && m_completed) {
+        setStatus(tr("Initializing WebView2…"));
+        ensureHost();
+        syncChildGeometry();
+    } else if (!m_runtimeInstalled) {
+        setStatus(tr("Edge WebView2 Runtime is not installed."));
+        destroyHost();
+    }
+    emit statusMessageChanged();
+}
+
+void WebView2Host::focusBrowser()
+{
+    forceActiveFocus(Qt::OtherFocusReason);
+    applyBrowserFocus(true);
+}
+
+void WebView2Host::blurBrowser()
+{
+    applyBrowserFocus(false);
+}
+
 void WebView2Host::setStatus(const QString &msg)
 {
     if (m_status == msg)
@@ -413,18 +530,41 @@ void WebView2Host::setStatus(const QString &msg)
     emit statusMessageChanged();
 }
 
+void WebView2Host::setReady(bool on)
+{
+    if (m_ready == on)
+        return;
+    m_ready = on;
+    emit readyChanged();
+}
+
+void WebView2Host::applyBrowserFocus(bool wantFocus)
+{
+#if QWINUI3_WEBVIEW2_IMPL
+    if (!m_impl || !m_impl->ready)
+        return;
+    if (wantFocus)
+        m_impl->moveFocusIn();
+    else
+        m_impl->moveFocusOut();
+#else
+    Q_UNUSED(wantFocus);
+#endif
+}
+
 void WebView2Host::bindWindow(QQuickWindow *win)
 {
     unbindWindow();
     if (!win)
         return;
-    // frameSwapped covers scroll/flick (afterAnimating alone may skip non-animated frames).
     m_frameConn = connect(win, &QQuickWindow::frameSwapped,
                           this, &WebView2Host::syncChildGeometry,
                           Qt::QueuedConnection);
     m_widthConn = connect(win, &QQuickWindow::widthChanged,
                           this, &WebView2Host::syncChildGeometry);
     m_heightConn = connect(win, &QQuickWindow::heightChanged,
+                           this, &WebView2Host::syncChildGeometry);
+    m_screenConn = connect(win, &QQuickWindow::screenChanged,
                            this, &WebView2Host::syncChildGeometry);
 }
 
@@ -436,9 +576,12 @@ void WebView2Host::unbindWindow()
         disconnect(m_widthConn);
     if (m_heightConn)
         disconnect(m_heightConn);
+    if (m_screenConn)
+        disconnect(m_screenConn);
     m_frameConn = {};
     m_widthConn = {};
     m_heightConn = {};
+    m_screenConn = {};
 }
 
 void WebView2Host::ensureHost()
@@ -496,8 +639,10 @@ void WebView2Host::itemChange(ItemChange change, const ItemChangeData &value)
         else
             destroyHost();
         syncChildGeometry();
-    } else if (change == ItemVisibleHasChanged) {
+    } else if (change == ItemVisibleHasChanged || change == ItemOpacityHasChanged) {
         syncChildGeometry();
+    } else if (change == ItemActiveFocusHasChanged) {
+        applyBrowserFocus(hasActiveFocus());
     }
 }
 
@@ -505,4 +650,16 @@ void WebView2Host::geometryChange(const QRectF &newGeometry, const QRectF &oldGe
 {
     QQuickItem::geometryChange(newGeometry, oldGeometry);
     syncChildGeometry();
+}
+
+void WebView2Host::focusInEvent(QFocusEvent *event)
+{
+    QQuickItem::focusInEvent(event);
+    applyBrowserFocus(true);
+}
+
+void WebView2Host::focusOutEvent(QFocusEvent *event)
+{
+    QQuickItem::focusOutEvent(event);
+    applyBrowserFocus(false);
 }

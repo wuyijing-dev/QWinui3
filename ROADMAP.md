@@ -1,6 +1,6 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.04**  
+**Current:** **1.05**  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
 
 This plan starts from **what 1.00 already was**, then walks **small `1.xx` minors**. Stay on **1.xx for a long time**. **2.00 is not next**—only when we truly need breaking changes.
@@ -83,14 +83,9 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-### 1.05 — WebView2 (Windows) productize
+### 1.05 — WebView2 (Windows) productize (shipped)
 
-**Why:** Host exists; treat it as a real integration, not a demo HWND.
-
-- Lifecycle, scroll/clip sync, focus, missing-Runtime UX.
-- One clear integration recipe in docs + Gallery page matching behavior.
-
-**Not in 1.05:** Qt WebEngine; non-Windows embedding.
+**Shipped:** Runtime probe + missing-Runtime EmptyState; user-data folder lifecycle; focus hand-off; scroll/clip/DPI sync retained; [webview2.md](docs/webview2.md) + Gallery page recipe; product version `1.05`.
 
 ---
 

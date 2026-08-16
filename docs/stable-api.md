@@ -80,7 +80,7 @@ Promote to stable only after a named `1.xx` slice hardens them.
 
 | Area | Examples | Why experimental |
 |------|----------|------------------|
-| **WebView2** | `WebView2Host` | Windows-only; lifecycle/clip still productizing (**1.05**) |
+| **WebView2** | `WebView2Host` | Windows-only; 1.05 recipe in [webview2.md](webview2.md) — still soak-tested as experimental |
 | **Charts & gauges** | `LineChart`, `BarChart`, `ArcGauge`, `KpiTile`, … | Large set; API consistency pass later |
 | **Advanced chrome** | Snap layouts edge cases, frost/Mica failure modes | Documented gaps; polish in **1.03** / **1.04** |
 | **Animations** | `ConnectedAnimation*`, theme transitions | Power-user; less example coverage |

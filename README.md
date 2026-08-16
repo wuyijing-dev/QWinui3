@@ -7,8 +7,8 @@ Fluent / [WinUI 3](https://learn.microsoft.com/windows/apps/winui/winui3/)-inspi
 [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-2ea44f)](https://wuyijing-dev.github.io/QWinui3/)
 [![Qt](https://img.shields.io/badge/Qt-6.5%2B-41CD52?logo=qt&logoColor=white)](https://www.qt.io/)
 
-**v1.04** · **200+** public controls · Gallery demos for most of them  
-[Documentation](https://wuyijing-dev.github.io/QWinui3/) · [Stable API](docs/stable-api.md) · [Accessibility](docs/accessibility.md) · [Window chrome](docs/window-chrome.md) · [Linux / Wayland](docs/platform-linux-wayland.md) · [Component API](https://wuyijing-dev.github.io/QWinui3/components/) · [Releases](https://github.com/wuyijing-dev/QWinui3/releases) · [Roadmap](ROADMAP.md)
+**v1.05** · **200+** public controls · Gallery demos for most of them  
+[Documentation](https://wuyijing-dev.github.io/QWinui3/) · [Stable API](docs/stable-api.md) · [WebView2](docs/webview2.md) · [Window chrome](docs/window-chrome.md) · [Component API](https://wuyijing-dev.github.io/QWinui3/components/) · [Releases](https://github.com/wuyijing-dev/QWinui3/releases) · [Roadmap](ROADMAP.md)
 
 ---
 
@@ -228,6 +228,7 @@ Product versions use **`X.YY`** (see [`ROADMAP.md`](ROADMAP.md)); set `QWINUI3_V
 | [`docs/window-shells.md`](docs/window-shells.md) | ShellWindow family vs StandardWindow |
 | [`docs/platform-linux-wayland.md`](docs/platform-linux-wayland.md) | Linux title bar / backdrop matrix |
 | [`docs/window-chrome.md`](docs/window-chrome.md) | DPI / backdrop / dialog failure modes |
+| [`docs/webview2.md`](docs/webview2.md) | Windows WebView2Host integration recipe |
 | [`ROADMAP.md`](ROADMAP.md) | Version themes — small `X.YY` slices |
 | [`docs/stable-api.md`](docs/stable-api.md) | Stable vs experimental types for 1.xx |
 | [`docs/qt-creator.md`](docs/qt-creator.md) | Opening the project in Qt Creator |
