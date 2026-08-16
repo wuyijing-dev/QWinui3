@@ -36,51 +36,29 @@ import QWinUI3.Theme
 T.Dialog {
     id: root
 
-    // Primary action label (accent); empty hides the button
     property string primaryButtonText: qsTr("OK")
-    // Optional middle action; empty hides
     property string secondaryButtonText: ""
-    // Dismiss / cancel label; empty hides
     property string closeButtonText: qsTr("Cancel")
-    // Prefer defaultButton; isPrimaryDefault kept for compatibility
     property bool isPrimaryDefault: true
-    // WinUI DefaultButton: primary | secondary | close | none
     property string defaultButton: ""
-    // Enable primary button
     property bool isPrimaryButtonEnabled: true
-    // Enable secondary button
     property bool isSecondaryButtonEnabled: true
-    // Enable close button
     property bool isCloseButtonEnabled: true
-    // WinUI FullSizeDesired — nearly fill the overlay when true
     property bool fullSizeDesired: false
-    // WinUI ContentDialogResult: none | primary | secondary | close
-    // (dialogResult — cannot redeclare Dialog.result which is FINAL)
     property string dialogResult: "none"
-    // Custom primary button content (overrides primaryButtonText when set)
     property alias primaryButton: primarySlot.data
-    // Custom secondary button content
     property alias secondaryButton: secondarySlot.data
-    // Custom close button content
     property alias closeButton: closeSlot.data
-    // Bindable open state (alias of visible)
     property alias isOpen: root.visible
     property bool __queueWired: false
 
-    // Primary button clicked
     signal primaryClicked()
-    // Secondary button clicked
     signal secondaryClicked()
-    // Close button clicked
     signal closeClicked()
-    // Closed with a ContentDialogResult
     signal resultReady(string result)
-    // WinUI Closing — set args.cancel = true to keep the dialog open
     signal closing(var args)
 
-    // Enqueue via ContentDialogQueue (preferred over open())
     function show() { ContentDialogQueue.enqueue(root) }
-    // Hide the control (respects Closing cancel)
     function hide() { requestClose(root.dialogResult !== "none" ? root.dialogResult : "close") }
 
     function requestClose(kind) {
@@ -94,7 +72,6 @@ T.Dialog {
         return true
     }
 
-    // Open the next queued dialog
     function openQueued() { ContentDialogQueue.enqueue(root) }
 
     readonly property string _defaultButton: {
@@ -130,11 +107,30 @@ T.Dialog {
     closePolicy: T.Popup.CloseOnEscape
     standardButtons: T.Dialog.NoButton
     padding: 0
+    topPadding: 0
+    bottomPadding: 0
+    leftPadding: 0
+    rightPadding: 0
     spacing: 0
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     title: ""
     transformOrigin: Item.Center
+
+    // Size to chrome content — do not let Dialog stretch a hollow middle.
+    implicitWidth: fullSizeDesired && Overlay.overlay
+                   ? Math.max(320, Overlay.overlay.width - 48)
+                   : Math.max(320, Math.min(440, column.implicitWidth))
+    implicitHeight: fullSizeDesired && Overlay.overlay
+                    ? Math.max(column.implicitHeight, Overlay.overlay.height - 48)
+                    : column.implicitHeight
+    width: implicitWidth
+    height: implicitHeight
+    contentWidth: column.implicitWidth
+    contentHeight: column.implicitHeight
+
+    header: Item { implicitHeight: 0; implicitWidth: 0; visible: false; height: 0 }
+    footer: Item { implicitHeight: 0; implicitWidth: 0; visible: false; height: 0 }
 
     enter: Transition {
         NumberAnimation {
@@ -165,25 +161,9 @@ T.Dialog {
         }
     }
 
-    // Lock geometry to the column — never let Popup stretch the middle.
-    // WinUI FullSizeDesired: expand toward the overlay with a margin.
-    width: {
-        if (fullSizeDesired && Overlay.overlay)
-            return Math.max(320, Overlay.overlay.width - 48)
-        return Math.max(320, Math.min(440, column.implicitWidth))
-    }
-    height: {
-        if (fullSizeDesired && Overlay.overlay)
-            return Math.max(column.implicitHeight, Overlay.overlay.height - 48)
-        return column.implicitHeight
-    }
-    header: Item { implicitHeight: 0; implicitWidth: 0; visible: false }
-    footer: Item { implicitHeight: 0; implicitWidth: 0; visible: false }
-
     Keys.onReturnPressed: event => { activateDefault(); event.accepted = true }
     Keys.onEnterPressed: event => { activateDefault(); event.accepted = true }
 
-    // Activate the default button / action
     function activateDefault() {
         switch (root._defaultButton) {
         case "primary":
@@ -210,118 +190,148 @@ T.Dialog {
         shadowOpacity: 0.22
     }
 
-    contentItem: ColumnLayout {
-        id: column
-        spacing: 0
-        width: root.width > 0 ? root.width : 360
+    contentItem: Item {
+        id: chrome
+        // Match dialog size; column sizes to its children (WinUI packing).
+        implicitWidth: column.implicitWidth
+        implicitHeight: column.implicitHeight
+        width: root.width
+        height: root.fullSizeDesired ? root.height : column.implicitHeight
+        clip: true
         Accessible.role: Accessible.Dialog
         Accessible.name: root.title.length ? root.title : qsTr("Dialog")
-        Accessible.description: root.primaryButtonText.length
-                                ? qsTr("%1 dialog").arg(root.title)
-                                : root.title
+        Accessible.description: root.title
 
-        Label {
-            id: titleLabel
-            Layout.fillWidth: true
-            Layout.leftMargin: 24
-            Layout.rightMargin: 24
-            Layout.topMargin: 20
-            Layout.bottomMargin: 8
-            text: root.title
-            visible: root.title.length > 0
-            font.family: Theme.fontFamilyDisplay
-            font.pixelSize: Theme.fontSubtitle
-            font.weight: Theme.fontWeightSemiBold
-            color: Theme.textPrimary
-            wrapMode: Text.Wrap
-        }
+        Column {
+            id: column
+            width: parent.width
+            spacing: 0
 
-        Item {
-            id: body
-            Layout.fillWidth: true
-            Layout.fillHeight: root.fullSizeDesired
-            Layout.leftMargin: 24
-            Layout.rightMargin: 24
-            Layout.preferredHeight: root.fullSizeDesired
-                                   ? Math.max(120, childrenRect.height)
-                                   : Math.max(1, childrenRect.height)
-            Layout.bottomMargin: 16
-            onWidthChanged: root._fitBodyChildren()
-            onChildrenChanged: Qt.callLater(root._fitBodyChildren)
-        }
+            Item {
+                id: titleBlock
+                width: parent.width
+                height: root.title.length > 0 ? titleLabel.implicitHeight + 28 : 12
 
-        Rectangle {
-            id: divider
-            Layout.fillWidth: true
-            Layout.preferredHeight: 1
-            color: Theme.strokeDivider
-            opacity: 0.7
-        }
+                Label {
+                    id: titleLabel
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.top: parent.top
+                    anchors.leftMargin: 24
+                    anchors.rightMargin: 24
+                    anchors.topMargin: 20
+                    text: root.title
+                    visible: root.title.length > 0
+                    font.family: Theme.fontFamilyDisplay
+                    font.pixelSize: Theme.fontSubtitle
+                    font.weight: Theme.fontWeightSemiBold
+                    color: Theme.textPrimary
+                    wrapMode: Text.Wrap
+                }
+            }
 
-        Item {
-            id: buttonBar
-            Layout.fillWidth: true
-            Layout.preferredHeight: buttonRow.implicitHeight + 32
-
-            Row {
-                id: buttonRow
-                anchors.right: parent.right
-                anchors.rightMargin: 24
-                anchors.verticalCenter: parent.verticalCenter
-                spacing: Theme.spacing
-
-                Button {
-                    id: primaryBtn
-                    text: root.primaryButtonText
-                    visible: !_hasPrimaryCustom && root.primaryButtonText.length > 0
-                    enabled: root.isPrimaryButtonEnabled
-                    highlighted: root._defaultButton === "primary"
-                    onClicked: {
-                        root.primaryClicked()
-                        if (!root.requestClose("primary"))
-                            return
-                        // requestClose already dismissed; avoid double-close via accept()
+            Item {
+                id: body
+                width: parent.width
+                // Content-sized; only grow under fullSizeDesired
+                height: {
+                    var h = Math.max(1, bodyContentHeight)
+                    if (root.fullSizeDesired) {
+                        var used = titleBlock.height + divider.height + buttonBar.height
+                        return Math.max(h + 16, Math.max(120, chrome.height - used))
                     }
+                    // 16px under body content before the command-bar divider (WinUI)
+                    return h + 16
                 }
-                Item {
-                    id: primarySlot
-                    visible: root._hasPrimaryCustom
-                    width: visible ? Math.max(childrenRect.width, 1) : 0
-                    height: visible ? Math.max(childrenRect.height, Theme.controlHeight) : 0
-                }
-                Button {
-                    id: secondaryBtn
-                    text: root.secondaryButtonText
-                    visible: !_hasSecondaryCustom && root.secondaryButtonText.length > 0
-                    enabled: root.isSecondaryButtonEnabled
-                    highlighted: root._defaultButton === "secondary"
-                    onClicked: {
-                        root.secondaryClicked()
-                        root.requestClose("secondary")
+
+                readonly property real bodyContentHeight: {
+                    var maxBottom = 0
+                    for (var i = 0; i < children.length; ++i) {
+                        var ch = children[i]
+                        if (!ch || !ch.visible)
+                            continue
+                        maxBottom = Math.max(maxBottom, ch.y + ch.height)
                     }
+                    return maxBottom
                 }
-                Item {
-                    id: secondarySlot
-                    visible: root._hasSecondaryCustom
-                    width: visible ? Math.max(childrenRect.width, 1) : 0
-                    height: visible ? Math.max(childrenRect.height, Theme.controlHeight) : 0
-                }
-                Button {
-                    id: closeBtn
-                    text: root.closeButtonText
-                    visible: !_hasCloseCustom && root.closeButtonText.length > 0
-                    enabled: root.isCloseButtonEnabled
-                    highlighted: root._defaultButton === "close"
-                    onClicked: {
-                        root.closeClicked()
-                        root.requestClose("close")
+
+                onWidthChanged: root._fitBodyChildren()
+                onChildrenChanged: Qt.callLater(root._fitBodyChildren)
+            }
+
+            Rectangle {
+                id: divider
+                width: parent.width
+                height: 1
+                color: Theme.strokeDivider
+                opacity: 0.7
+            }
+
+            Item {
+                id: buttonBar
+                width: parent.width
+                // Top 16 + button + bottom 24 — keeps actions inside rounded chrome
+                height: Math.max(Theme.controlHeight, buttonRow.implicitHeight) + 40
+
+                Row {
+                    id: buttonRow
+                    anchors.right: parent.right
+                    anchors.rightMargin: 24
+                    anchors.bottom: parent.bottom
+                    anchors.bottomMargin: 24
+                    spacing: Theme.spacing
+
+                    Button {
+                        id: primaryBtn
+                        text: root.primaryButtonText
+                        visible: !_hasPrimaryCustom && root.primaryButtonText.length > 0
+                        enabled: root.isPrimaryButtonEnabled
+                        highlighted: root._defaultButton === "primary"
+                        onClicked: {
+                            root.primaryClicked()
+                            root.requestClose("primary")
+                        }
                     }
-                }
-                Item {
-                    id: closeSlot
-                    visible: root._hasCloseCustom
-                    width: visible ? Math.max(childrenRect.width, 1) : 0
-                    height: visible ? Math.max(childrenRect.height, Theme.controlHeight) : 0
+                    Item {
+                        id: primarySlot
+                        visible: root._hasPrimaryCustom
+                        width: visible ? Math.max(childrenRect.width, 1) : 0
+                        height: visible ? Math.max(childrenRect.height, Theme.controlHeight) : 0
+                    }
+                    Button {
+                        id: secondaryBtn
+                        text: root.secondaryButtonText
+                        visible: !_hasSecondaryCustom && root.secondaryButtonText.length > 0
+                        enabled: root.isSecondaryButtonEnabled
+                        highlighted: root._defaultButton === "secondary"
+                        onClicked: {
+                            root.secondaryClicked()
+                            root.requestClose("secondary")
+                        }
+                    }
+                    Item {
+                        id: secondarySlot
+                        visible: root._hasSecondaryCustom
+                        width: visible ? Math.max(childrenRect.width, 1) : 0
+                        height: visible ? Math.max(childrenRect.height, Theme.controlHeight) : 0
+                    }
+                    Button {
+                        id: closeBtn
+                        text: root.closeButtonText
+                        visible: !_hasCloseCustom && root.closeButtonText.length > 0
+                        enabled: root.isCloseButtonEnabled
+                        highlighted: root._defaultButton === "close"
+                        onClicked: {
+                            root.closeClicked()
+                            root.requestClose("close")
+                        }
+                    }
+                    Item {
+                        id: closeSlot
+                        visible: root._hasCloseCustom
+                        width: visible ? Math.max(childrenRect.width, 1) : 0
+                        height: visible ? Math.max(childrenRect.height, Theme.controlHeight) : 0
+                    }
                 }
             }
         }
@@ -329,28 +339,52 @@ T.Dialog {
 
     Component.onCompleted: Qt.callLater(syncBody)
 
-    // Instance children land on contentItem; move them into the body slot.
     function syncBody() {
         var move = []
-        for (var i = 0; i < column.children.length; ++i) {
-            var ch = column.children[i]
-            if (ch === titleLabel || ch === body || ch === divider || ch === buttonBar)
+        // Instance children may land on contentItem (chrome) or column
+        var pools = [chrome, column]
+        for (var p = 0; p < pools.length; ++p) {
+            var host = pools[p]
+            if (!host)
                 continue
-            move.push(ch)
+            for (var i = 0; i < host.children.length; ++i) {
+                var ch = host.children[i]
+                if (ch === column || ch === titleBlock || ch === body
+                        || ch === divider || ch === buttonBar || ch === titleLabel)
+                    continue
+                // Skip structural pieces already under column
+                if (ch.parent === column
+                        && (ch === titleBlock || ch === body || ch === divider || ch === buttonBar))
+                    continue
+                if (ch === body || ch.parent === body)
+                    continue
+                move.push(ch)
+            }
         }
-        for (i = 0; i < move.length; ++i)
-            move[i].parent = body
+        for (i = 0; i < move.length; ++i) {
+            if (move[i].parent !== body)
+                move[i].parent = body
+        }
         _fitBodyChildren()
     }
 
     function _fitBodyChildren() {
+        var x = 24
+        var w = Math.max(1, body.width - 48)
+        var y = 0
         for (var i = 0; i < body.children.length; ++i) {
             var ch = body.children[i]
-            if (!ch)
+            if (!ch || !ch.visible)
                 continue
-            ch.width = body.width
-            if (ch.wrapMode !== undefined && ch.wrapMode !== Text.NoWrap)
+            ch.x = x
+            ch.y = y
+            ch.width = w
+            if (ch.wrapMode !== undefined)
                 ch.wrapMode = Text.Wrap
+            // Prefer content height — avoid stretching labels into a tall empty body
+            if (ch.implicitHeight > 0)
+                ch.height = ch.implicitHeight
+            y += ch.height + (i < body.children.length - 1 ? 8 : 0)
         }
     }
 
