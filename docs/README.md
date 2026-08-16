@@ -45,3 +45,9 @@ Header convention:
 | [`window-helper.md`](window-helper.md) | `WindowHelper` singleton API |
 | [`window-appwindow.md`](window-appwindow.md) | AppWindow presenters / title-bar height |
 | [`window-transparency-dwm.md`](window-transparency-dwm.md) | DWM / Mica / Acrylic notes |
+
+## Tooling
+
+| Doc | Description |
+|-----|-------------|
+| [`qt-creator.md`](qt-creator.md) | Open the CMake project in Qt Creator (presets, kits, Ninja) |

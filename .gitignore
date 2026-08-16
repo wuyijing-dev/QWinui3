@@ -1,8 +1,11 @@
 /build/
+/build-debug/
+/build-relwithdebinfo/
 /build-shared-release/
 /dist/
 /.qtcreator/
 /CMakeLists.txt.user
+/CMakeUserPresets.json
 *.user
 *.autosave
 .vs/

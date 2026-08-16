@@ -1,21 +1,100 @@
 {
   "version": 6,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 21,
+    "patch": 0
+  },
   "configurePresets": [
     {
-      "name": "qt68-msvc",
-      "displayName": "Qt 6.8 MSVC 2022",
+      "name": "base",
+      "hidden": true,
       "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "cacheVariables": {
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+      },
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      },
+      "vendor": {
+        "qt.io/QtCreator/1.0": {
+          "AskBeforePresetsReload": false,
+          "AskReConfigureInitialParams": false,
+          "AutorunCMake": true,
+          "ShowSourceSubFolders": true
+        }
+      }
+    },
+    {
+      "name": "release",
+      "inherits": "base",
+      "displayName": "Release (Ninja)",
+      "description": "Release build for Gallery / examples. Leave CMAKE_PREFIX_PATH unset so Qt Creator Kits (or CMakeUserPresets.json) supply Qt.",
       "binaryDir": "${sourceDir}/build",
       "cacheVariables": {
-        "CMAKE_PREFIX_PATH": "D:/Qt/6.8.0/msvc2022_64",
         "CMAKE_BUILD_TYPE": "Release"
       }
+    },
+    {
+      "name": "debug",
+      "inherits": "base",
+      "displayName": "Debug (Ninja)",
+      "description": "Debug build (separate tree). Prefer Release unless you need a debugger.",
+      "binaryDir": "${sourceDir}/build-debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "relwithdebinfo",
+      "inherits": "base",
+      "displayName": "RelWithDebInfo (Ninja)",
+      "binaryDir": "${sourceDir}/build-relwithdebinfo",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+      }
+    },
+    {
+      "name": "qt68-msvc",
+      "inherits": "release",
+      "displayName": "Qt 6.8 MSVC (alias → Release)",
+      "description": "Compatibility alias for cmake --preset qt68-msvc. Put your Qt path in CMakeUserPresets.json (see CMakeUserPresets.json.example)."
     }
   ],
   "buildPresets": [
     {
+      "name": "release",
+      "configurePreset": "release",
+      "targets": ["qwinui3_gallery"]
+    },
+    {
+      "name": "debug",
+      "configurePreset": "debug",
+      "targets": ["qwinui3_gallery"]
+    },
+    {
+      "name": "relwithdebinfo",
+      "configurePreset": "relwithdebinfo",
+      "targets": ["qwinui3_gallery"]
+    },
+    {
       "name": "qt68-msvc",
-      "configurePreset": "qt68-msvc"
+      "configurePreset": "qt68-msvc",
+      "targets": ["qwinui3_gallery"]
+    },
+    {
+      "name": "all-release",
+      "configurePreset": "release"
     }
-  ]
+  ],
+  "vendor": {
+    "qt.io/QtCreator/1.0": {
+      "AskBeforePresetsReload": false,
+      "AskReConfigureInitialParams": false,
+      "AutorunCMake": true,
+      "ShowSourceSubFolders": true
+    }
+  }
 }

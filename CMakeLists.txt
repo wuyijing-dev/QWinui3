@@ -6,6 +6,9 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
     set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS Debug Release RelWithDebInfo MinSizeRel)
 endif()
 
+# Help Qt Creator / clangd / VS Code resolve includes from the build tree.
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 project(QWinUI3
     VERSION 0.1.0
     LANGUAGES CXX
@@ -13,6 +16,7 @@ project(QWinUI3
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Put executables in the build root (examples + gallery). Qt qml finalizers may
 # still write under src/<target>/; gallery also POST_BUILD-copies to here.
@@ -25,6 +29,8 @@ find_package(Qt6 COMPONENTS Multimedia QUIET)
 # Must be at top-level so example/gallery finalizers see Qt6::QuickEffects
 # (theme's ElevatedChrome imports QtQuick.Effects).
 find_package(Qt6 COMPONENTS QuickEffects QUIET)
+
+message(STATUS "QWinUI3: Qt ${Qt6_VERSION} (${Qt6_DIR})")
 
 qt_standard_project_setup(REQUIRES 6.8)
 

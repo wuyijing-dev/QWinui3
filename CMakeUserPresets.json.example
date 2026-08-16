@@ -1,0 +1,25 @@
+{
+  "version": 6,
+  "configurePresets": [
+    {
+      "name": "local-qt68-msvc",
+      "inherits": "release",
+      "displayName": "Local Qt 6.8 MSVC 2022",
+      "description": "Copy to CMakeUserPresets.json and edit paths for your machine / Qt Creator.",
+      "cacheVariables": {
+        "CMAKE_PREFIX_PATH": "D:/Qt/6.8.0/msvc2022_64",
+        "CMAKE_MAKE_PROGRAM": "D:/Qt/Tools/Ninja/ninja.exe"
+      },
+      "environment": {
+        "PATH": "D:/Qt/Tools/Ninja;D:/Qt/6.8.0/msvc2022_64/bin;$penv{PATH}"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "local-qt68-msvc",
+      "configurePreset": "local-qt68-msvc",
+      "targets": ["qwinui3_gallery"]
+    }
+  ]
+}
