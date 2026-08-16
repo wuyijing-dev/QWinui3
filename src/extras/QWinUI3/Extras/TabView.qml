@@ -170,7 +170,18 @@ T.Control {
     }
 
     function _openTearOutWindow(item, globalX, globalY) {
-        var win = tearOutWindowComponent.createObject(null, {
+        // Load by URL so TabView does not form a compile-time type cycle with
+        // TabViewTearOutWindow (which embeds TabView).
+        var comp = Qt.createComponent(Qt.resolvedUrl("TabViewTearOutWindow.qml"))
+        if (comp.status === Component.Error) {
+            console.warn("TabView tear-out:", comp.errorString())
+            return null
+        }
+        if (comp.status !== Component.Ready) {
+            console.warn("TabView tear-out: component not ready")
+            return null
+        }
+        var win = comp.createObject(null, {
             "tabData": item,
             "x": Math.round(globalX - 48),
             "y": Math.round(globalY - 20)
@@ -238,12 +249,6 @@ T.Control {
                 return ch
         }
         return null
-    }
-
-    Component {
-        id: tearOutWindowComponent
-        // Separate type — nesting TabView {} here makes TabView recursive and unloadable.
-        TabViewTearOutWindow { }
     }
 
     background: ElevatedChrome {

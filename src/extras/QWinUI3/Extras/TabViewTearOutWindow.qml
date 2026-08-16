@@ -5,7 +5,8 @@ import QWinUI3.Theme
 
 // TabViewTearOutWindow — Host window for a torn-out TabView tab.
 //
-// Kept as a separate type so TabView.qml does not recursively instantiate itself.
+// Loaded at runtime via Qt.createComponent(URL) from TabView so the two types
+// do not form a compile-time dependency cycle.
 
 BlankWindow {
     id: tearWin
