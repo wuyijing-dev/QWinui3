@@ -4,7 +4,7 @@ Donut chart with hover and legend.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/DonutChart.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/DonutChart.qml)
 
-**Category:** Charts & gauges · **Library:** v1.17
+**Category:** Charts & gauges · **Library:** v1.18
 
 [← Component index](../components.md)
 

@@ -25,6 +25,7 @@ class QQuickWindow;
 //
 // Missing Runtime: runtimeInstalled is false; statusMessage explains; Gallery shows EmptyState.
 // Focus: when the item gains activeFocus, focus moves into the browser (and back on blur).
+// Stable (1.18): Windows + Evergreen Runtime; see docs/webview2.md soak checklist.
 //
 class WebView2Host : public QQuickItem
 {

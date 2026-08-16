@@ -1313,7 +1313,7 @@ QtObject {
             title: qsTr("WebView2"),
             category: "dialogs",
             icon: FluentIcons.Globe,
-            description: qsTr("Edge WebView2 host — Runtime probe, clip/focus, Gallery recipe (docs/webview2.md)."),
+            description: qsTr("Stable Edge WebView2 host (1.18) — Runtime / clip / focus recipe."),
             component: "WebView2Page",
             source: "pages/WebView2Page.qml"
         },

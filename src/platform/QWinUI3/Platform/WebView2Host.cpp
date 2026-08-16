@@ -37,6 +37,8 @@ public:
 
     void destroy()
     {
+        // Invalidate in-flight CreateEnvironment / CreateController callbacks (1.18 soak).
+        ++generation;
         if (controller) {
             controller->Close();
             controller.Reset();
@@ -103,25 +105,35 @@ public:
         const QString dataPath = dataRoot + QStringLiteral("/WebView2Host");
         QDir().mkpath(dataPath);
 
+        const quint32 gen = generation;
         HRESULT hr = CreateCoreWebView2EnvironmentWithOptions(
             nullptr,
             reinterpret_cast<LPCWSTR>(dataPath.utf16()),
             nullptr,
             Callback<ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler>(
-                [this](HRESULT result, ICoreWebView2Environment *env) -> HRESULT {
+                [this, gen](HRESULT result, ICoreWebView2Environment *env) -> HRESULT {
+                    if (gen != generation)
+                        return S_OK;
                     if (FAILED(result) || !env) {
                         q->m_runtimeInstalled = WebView2Host::queryRuntimeInstalled();
                         emit q->runtimeInstalledChanged();
                         q->setStatus(QObject::tr(
-                            "WebView2 Runtime missing or failed to start. Install Evergreen Runtime."));
+                            "WebView2 Runtime missing or failed to start (0x%1). Install Evergreen Runtime.")
+                                         .arg(quint32(result), 8, 16, QLatin1Char('0')));
                         return result;
                     }
                     return env->CreateCoreWebView2Controller(
                         childHwnd,
                         Callback<ICoreWebView2CreateCoreWebView2ControllerCompletedHandler>(
-                            [this](HRESULT result, ICoreWebView2Controller *ctrl) -> HRESULT {
+                            [this, gen](HRESULT result, ICoreWebView2Controller *ctrl) -> HRESULT {
+                                if (gen != generation) {
+                                    if (ctrl)
+                                        ctrl->Close();
+                                    return S_OK;
+                                }
                                 if (FAILED(result) || !ctrl) {
-                                    q->setStatus(QObject::tr("Failed to create WebView2 controller."));
+                                    q->setStatus(QObject::tr("Failed to create WebView2 controller (0x%1).")
+                                                     .arg(quint32(result), 8, 16, QLatin1Char('0')));
                                     return result;
                                 }
                                 controller = ctrl;
@@ -373,6 +385,7 @@ public:
     ComPtr<ICoreWebView2Controller> controller;
     ComPtr<ICoreWebView2> webView;
     bool ready = false;
+    quint32 generation = 0;
     int lastX = -1;
     int lastY = -1;
     int lastW = -1;
@@ -501,7 +514,9 @@ void WebView2Host::refreshRuntimeProbe()
     if (was != m_runtimeInstalled)
         emit runtimeInstalledChanged();
     if (m_runtimeInstalled && window() && m_completed) {
+        // Force recreate so a half-init (HWND without controller) can recover after Runtime install.
         setStatus(tr("Initializing WebView2…"));
+        destroyHost();
         ensureHost();
         syncChildGeometry();
     } else if (!m_runtimeInstalled) {

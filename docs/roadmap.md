@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.17**  
-**Next up:** **1.18** (WebView2 soak → stable candidate)  
+**Current:** **1.18**  
+**Next up:** **1.19** (accessibility wave 2)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](qt-version-compat.md)
 
 This plan starts from **what 1.00 already was**, then walks **small `1.xx` minors**. Stay on **1.xx for a long time**. **2.00 is not next**—only when we truly need breaking changes.
@@ -59,7 +59,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.17`
+## Shipped — `1.01` … `1.18`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -129,31 +129,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** [shell-extras.md](shell-extras.md); promote taskbar progress/overlay, `requestUserAttention`, `revealFileInFolder`, idle inhibit (Win/Linux matrix); Gallery System integration callouts; Snap/power/recent remain experimental; product version `1.17`.
 
+### 1.18 — WebView2 soak → stable (shipped)
+
+**Shipped:** Soak checklist green in [webview2.md](webview2.md); promote `WebView2Host` to stable; Retry force-recreate + async generation guard; Gallery callouts; product version `1.18`.
+
 ---
 
-## Near path — planned `1.18` … `1.20`
+## Near path — planned `1.19` … `1.20`
 
 Order is intentional but **flexible**: if a soak or customer pain appears, swap two adjacent minors—do not merge five themes into one `YY`. After this band: **mid path `1.21`–`1.30`**, then later `1.31+`—still no `2.00`.
-
-### 1.18 — WebView2 soak → stable candidate
-
-**Why:** 1.05 shipped the recipe; still experimental. LoB apps need a promote-or-keep decision.
-
-**In scope**
-
-- Soak checklist (focus, DPI, missing Runtime, lifecycle) against current Edge WebView2.
-- Fill gaps from soak; update [webview2.md](webview2.md).
-- Promote `WebView2Host` to stable **only if** checklist is green; otherwise keep experimental with dated notes.
-
-**Out of scope**
-
-- Qt WebEngine; multi-profile browser product; non-Windows ports.
-
-**Exit criteria**
-
-- Explicit stable-api row update (promote or “remain experimental until …”).
-
----
 
 ### 1.19 — Accessibility wave 2
 

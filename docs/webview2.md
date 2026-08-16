@@ -2,9 +2,24 @@
 
 `QWinUI3.Platform.WebView2Host` embeds **Edge WebView2** as an HWND child under a `QQuickItem`.
 
-Qt WebEngine is intentionally stripped from Gallery deploy (`cmake/StripRestrictedQtModules.cmake`). Prefer native QML for settings/dashboards; use WebView2 when you need a real browser surface.
+**Stable in 1.18** for Windows apps that follow this recipe (Evergreen Runtime + `clip: true` host). Qt WebEngine remains out of scope.
 
-**Productized in 1.05:** lifecycle, scroll/clip sync, focus hand-off, missing-Runtime UX. Gallery page **WebView2** matches this recipe.
+Gallery page **WebView2** matches this guide.
+
+---
+
+## Soak checklist (1.18 — green)
+
+| Area | Result | Notes |
+|------|--------|-------|
+| **Lifecycle** | Pass | Attach → env + controller; detach / destroy → `Close()` + destroy HWND; hide/opacity → `IsVisible(FALSE)` without destroy |
+| **Scroll / clip** | Pass | `frameSwapped` + `mapToScene` × DPR; `SetWindowRgn` vs `clip: true` ancestors / Catalog `ScrollView` |
+| **DPI / screen** | Pass | Repositions on size + `screenChanged`; uses window `devicePixelRatio` |
+| **Focus** | Pass | `activeFocusOnTab`; Tab / `focusBrowser()` → `MoveFocus(PROGRAMMATIC)`; GotFocus syncs QML |
+| **Missing Runtime** | Pass | `runtimeInstalled` / EmptyState / `runtimeDownloadUrl`; **Retry** (`refreshRuntimeProbe`) force-recreates after install |
+| **Async teardown** | Pass (1.18) | Generation token abandons in-flight CreateEnvironment / CreateController callbacks |
+
+Remaining limitations (documented, not blockers for promote): Windows-only; single user-data folder under `AppLocalDataLocation/WebView2Host`; no multi-profile / custom Environment options API yet.
 
 ---
 
@@ -58,7 +73,7 @@ WindowHelper::configurePlatformEnvironment(argv[0]);
 
 1. Attached to a `QQuickWindow` → create child HWND + `CreateCoreWebView2Environment` (user data under `AppLocalDataLocation/WebView2Host`).
 2. `ready` becomes true when the controller exists; then `source` navigates.
-3. Scene detach / destruction → `Close()` controller and destroy HWND.
+3. Scene detach / destruction → `Close()` controller and destroy HWND (in-flight create callbacks are ignored).
 4. Hide / opacity / empty clip → `put_IsVisible(FALSE)` and hide HWND (no destroy).
 
 ### Scroll / clip / DPI
@@ -81,7 +96,7 @@ WindowHelper::configurePlatformEnvironment(argv[0]);
 | `runtimeInstalled` | Evergreen Runtime detected (`GetAvailableCoreWebView2BrowserVersionString`) |
 | `runtimeMissing` | `!runtimeInstalled` when SDK built |
 | `runtimeDownloadUrl` | Microsoft Evergreen installer link |
-| `refreshRuntimeProbe()` | Re-check Runtime and recreate host if it appeared |
+| `refreshRuntimeProbe()` | Re-check Runtime and **force-recreate** host if it appeared |
 
 Do **not** treat `available` alone as “can navigate” — check `runtimeInstalled` and `ready`.
 
@@ -94,9 +109,11 @@ Do **not** treat `available` alone as “can navigate” — check `runtimeInsta
 | `source` / `navigate(url)` | Current URL |
 | `reload` / `stop` / `goBack` / `goForward` | Navigation |
 | `documentTitle` / `canGoBack` / `canGoForward` / `loading` | State |
-| `statusMessage` | Human status (init / Ready / errors) |
+| `statusMessage` | Human status (init / Ready / HRESULT errors) |
 | `ready` | Controller ready |
 | `navigationCompleted(success)` | Signal |
+| `focusBrowser()` / `blurBrowser()` | Focus hand-off |
+| `refreshRuntimeProbe()` | Retry after Runtime install |
 
 ---
 
@@ -104,6 +121,6 @@ Do **not** treat `available` alone as “can navigate” — check `runtimeInsta
 
 - Copy `WebView2Loader.dll` next to the app (Gallery packaging already does when enabled).
 - End users need the **Evergreen WebView2 Runtime** (usually already on Win10/11 with Edge).
-- Not supported: Qt WebEngine, Linux/macOS embedding (1.05 scope).
+- Not supported: Qt WebEngine; Linux/macOS embedding.
 
-Stable-api: still listed under **experimental** until more app soak; recipe above is the supported path for 1.05+.
+Stable-api: **`WebView2Host` promoted in 1.18** — see [stable-api.md](stable-api.md).

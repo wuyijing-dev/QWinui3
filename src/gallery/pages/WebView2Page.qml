@@ -5,13 +5,12 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 import QWinUI3.Platform
 
-// Gallery — WebView2Host product recipe (Windows + Evergreen Runtime).
-// Matches docs/webview2.md: lifecycle, clip in ScrollView, missing-Runtime EmptyState.
+// Gallery — WebView2Host (stable 1.18). Recipe: docs/webview2.md
 
 CatalogPage {
     id: page
     title: qsTr("WebView2")
-    subtitle: qsTr("HWND-backed Edge WebView2. See docs/webview2.md for the integration recipe.")
+    subtitle: qsTr("Stable Windows host (1.18). Lifecycle / clip / focus / Runtime — docs/webview2.md.")
 
     property url demoUrl: "https://www.microsoft.com/edge/webview"
 
@@ -27,8 +26,8 @@ CatalogPage {
     readonly property bool showNotBuilt: !probe.available
 
     ControlExample {
-        headerText: qsTr("Integration recipe")
-        qmlSource: "WebView2Host {\n    source: \"https://…\"\n    // clip ancestors for ScrollView\n}"
+        headerText: qsTr("Integration recipe (1.18 stable)")
+        qmlSource: "WebView2Host {\n    source: \"https://…\"\n    // clip ancestors for ScrollView\n    // docs/webview2.md\n}"
 
         ColumnLayout {
             Layout.fillWidth: true

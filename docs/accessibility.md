@@ -81,6 +81,18 @@ Recipe doc: [`shell-extras.md`](shell-extras.md).
 
 ---
 
+## WebView2 (1.18)
+
+| Topic | Note |
+|-------|------|
+| Focus | Tab / `focusBrowser()` moves into the HWND browser; set `Accessible.name` on the host |
+| Runtime missing | Prefer EmptyState + Retry over a blank HWND |
+| Screen readers | Browser content uses Edge a11y tree — pair with in-app chrome labels |
+
+Recipe doc: [`webview2.md`](webview2.md).
+
+---
+
 ## Severity-tracked (not 1.02)
 
 | Item | Severity | Notes |

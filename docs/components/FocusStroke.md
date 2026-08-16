@@ -4,7 +4,7 @@ Dual-ring keyboard focus chrome (WinUI / Fluent).
 
 `import QWinUI3.Theme` · [`src/theme/QWinUI3/Theme/FocusStroke.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/theme/QWinUI3/Theme/FocusStroke.qml)
 
-**Category:** Theme · **Library:** v1.17
+**Category:** Theme · **Library:** v1.18
 
 [← Component index](../components.md)
 

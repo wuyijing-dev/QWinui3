@@ -74,6 +74,7 @@ Style module (`QT_QUICK_CONTROLS_STYLE=QWinUI3`): treating **standard** `QtQuick
 | `WindowHelper` shell extras | Platform | Taskbar progress/overlay, `requestUserAttention`, `revealFileInFolder`, idle inhibit — [shell-extras.md](shell-extras.md) (1.17) |
 | `FilePicker` / `TrayIcon` | Platform | Open/save/folder + tray — [system-integration.md](system-integration.md) (1.10) |
 | `NotificationBridge` | Extras | ToastHost + OS notify — [system-integration.md](system-integration.md) (1.10) |
+| `WebView2Host` | Platform | Windows Edge WebView2 HWND host — [webview2.md](webview2.md) (1.18 soak green) |
 
 ---
 
@@ -83,7 +84,7 @@ Promote to stable only after a named `1.xx` slice hardens them.
 
 | Area | Examples | Why experimental |
 |------|----------|------------------|
-| **WebView2** | `WebView2Host` | Windows-only; 1.05 recipe in [webview2.md](webview2.md) — still soak-tested as experimental |
+| **WebView2 advanced** | Custom Environment / multi-profile | Base `WebView2Host` is **stable (1.18)** — [webview2.md](webview2.md); advanced env options still experimental |
 | **Charts & gauges** | `LineChart`, `BarChart`, `ArcGauge`, `KpiTile`, … | Experimental; **1.11** naming recipe in [charts.md](charts.md) — promote a named subset later (roadmap 1.23) |
 | **Advanced chrome** | Snap layouts edge cases, frost/Mica failure modes | Documented gaps; polish in **1.03** / **1.04** |
 | **Animations** | `ConnectedAnimation*`, theme transitions | Power-user; less example coverage |
@@ -136,3 +137,4 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.15** | Command surfaces keyboard recipe [commands.md](commands.md) |
 | **1.16** | Dialogs/flyouts recipe [dialogs-flyouts.md](dialogs-flyouts.md); ContentDialog Esc → Closing |
 | **1.17** | Shell extras promote [shell-extras.md](shell-extras.md); taskbar / attention / reveal / idle |
+| **1.18** | Promote `WebView2Host` — soak green [webview2.md](webview2.md); Retry recreate + async generation |
