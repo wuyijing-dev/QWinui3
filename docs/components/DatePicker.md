@@ -23,7 +23,8 @@ DatePicker {
 ## Notes
 
 Tumbler date picker; selectedDate or year/month/day parts.
-Accept commits; minDate/maxDate bound the range.
+DayVisible / MonthVisible / YearVisible hide tumbler columns (WinUI).
+Accept commits; minYear/maxYear bound the year range.
 
 ## API
 
@@ -36,6 +37,12 @@ Accept commits; minDate/maxDate bound the range.
 | `day` | `int` | Selected day of month |
 | `minYear` | `int` | Minimum selectable year |
 | `maxYear` | `int` | Maximum selectable year |
+| `dayVisible` | `bool` | WinUI DayVisible |
+| `monthVisible` | `bool` | WinUI MonthVisible |
+| `yearVisible` | `bool` | WinUI YearVisible |
+| `dayFormat` | `string` | WinUI DayFormat: numeric |
+| `monthFormat` | `string` | WinUI MonthFormat: numeric \| abbreviated \| full |
+| `yearFormat` | `string` | WinUI YearFormat: numeric |
 | `pickerOpen` | `bool` | Picker flyout open |
 | `isOpen` | `alias` | Open / visible state |
 | `header` | `string` | Header label above the control |

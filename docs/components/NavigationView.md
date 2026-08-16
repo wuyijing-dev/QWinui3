@@ -26,6 +26,7 @@ NavigationView {
 // --- API ---
 // navigate: nav.selectKey("home"), nav.selectFooter(), nav.openPage("HomePage")
 //           nav.openSlide("HomePage"), nav.openFromCenter("HomePage")
+//           nav.openFade("HomePage"), nav.openDrill("HomePage")
 //           nav.navigateToTitle("Home"), nav.reloadPage()
 // groups:   nav.toggleGroup(key), nav.setGroupExpanded(key, true)
 // reorder:  nav.moveNavItem(from, to)   // requires isReorderable
@@ -39,6 +40,9 @@ model entries: type "item"|"group"|"header"; groups use children[].
 pageModule + component names load StackView pages (unless hostContent).
 paneDisplayMode auto switches left / leftCompact by width.
 leftMinimal overlays content with a light-dismiss scrim.
+pageTransition / openPage modes: slide | slideRight | fade | center | drill |
+up | down | cover | none (suppress). Pane clicks use pageTransition.
+WinUI aliases: paneTitle, openPaneLength, compactPaneLength, isSettingsVisible, isPaneToggleButtonVisible.
 Prefer selectKey / openPage over mutating currentIndex alone.
 
 ## API
@@ -50,15 +54,23 @@ Prefer selectKey / openPage over mutating currentIndex alone.
 | `model` | `var` | Navigation items: [{ type, key, title, icon\|symbol, children?, badge?, badgeValue? }] |
 | `currentIndex` | `int` | Selected index |
 | `paneOpen` | `bool` | Expanded pane when true (left / leftMinimal); compact modes force false |
-| `paneWidth` | `real` | Expanded pane width |
-| `paneCompactWidth` | `real` | Compact pane width |
-| `headerText` | `string` | Pane header title text |
+| `isPaneOpen` | `alias` | WinUI IsPaneOpen alias |
+| `isPaneVisible` | `bool` | WinUI IsPaneVisible — hide the navigation pane entirely when false |
+| `alwaysShowHeader` | `bool` | WinUI AlwaysShowHeader — keep pane title visible in compact / collapsed modes |
+| `paneWidth` | `real` | Expanded pane width (WinUI OpenPaneLength) |
+| `openPaneLength` | `alias` | — |
+| `paneCompactWidth` | `real` | Compact pane width (WinUI CompactPaneLength) |
+| `compactPaneLength` | `alias` | — |
+| `headerText` | `string` | Pane header title text (WinUI PaneTitle) |
+| `paneTitle` | `alias` | — |
 | `footerText` | `string` | Footer row label |
 | `footerSymbol` | `var` | Footer FluentIcons symbol |
 | `footerIcon` | `string` | Footer glyph string fallback |
 | `footerComponent` | `string` | Page component name loaded for the footer row (e.g. "SettingsPage") |
 | `pageModule` | `string` | QML import URI used to resolve page components |
 | `footerSelected` | `bool` | True when footer row is selected |
+| `isSettingsVisible` | `bool` | WinUI IsSettingsVisible — show the settings/footer item |
+| `isPaneToggleButtonVisible` | `bool` | WinUI IsPaneToggleButtonVisible — hamburger / pane toggle |
 | `paneDisplayMode` | `string` | WinUI PaneDisplayMode: left \| leftCompact \| leftMinimal \| top \| auto |
 | `autoCompactThreshold` | `real` | Width below which auto mode uses leftCompact |
 | `isBackButtonVisible` | `bool` | Show back button |
@@ -75,7 +87,9 @@ Prefer selectKey / openPage over mutating currentIndex alone.
 | `resolvedPaneMode` | `string` | Effective pane mode after auto |
 | `expandedMap` | `var` | groupKey -> bool; missing means expanded |
 | `currentKey` | `string` | Selected nav key (supports "group/0" child paths) |
-| `pendingMode` | `string` | Pending page transition: "slide" \| "center" |
+| `pageTransition` | `string` | Default page transition for pane clicks (see openPage modes) |
+| `pendingMode` | `string` | Last / pending page transition mode |
+| `pageTransitionModes` | `var` | Supported mode ids for Settings / Gallery pickers |
 | `pageItem` | `alias` | Current page item |
 | `currentComponent` | `string` | Current page component name |
 | `flyoutGroupKey` | `string` | Group key for exclusive flyouts |
@@ -117,8 +131,16 @@ Prefer selectKey / openPage over mutating currentIndex alone.
 | `selectKey(key, mode)` | Select by nav key and open the page |
 | `selectFooter(mode)` | Select the footer row and open footerComponent |
 | `ensureComponent(name)` | Load / cache a page Component from pageModule |
+| `applyPageTransition(mode)` | Configure enter/exit transform targets for a named transition mode |
 | `openPage(name, mode)` | Replace the page stack with the named component |
 | `openSlide(name)` | Left-nav style: content slides in from the left |
+| `openSlideRight(name)` | Forward slide from the right |
+| `openFade(name)` | Opacity-only crossfade |
+| `openDrill(name)` | Stronger scale drill-in (WinUI DrillIn–style) |
+| `openUp(name)` | Vertical rise from below |
+| `openDown(name)` | Vertical settle from above |
+| `openCover(name)` | Covering slide from the right |
+| `openNone(name)` | Instant swap (no motion) |
 | `openFromCenter(name)` | Keep center-open API (scale + fade from middle) |
 | `navigateToTitle(title, mode)` | Select the first nav item matching a title |
 | `reloadPage()` | Reload the current page component |

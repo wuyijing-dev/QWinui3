@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=QWinUI3 Gallery
+Comment=Fluent / WinUI3 controls gallery for Qt Quick
+Exec=qwinui3_gallery
+Icon=qwinui3
+Terminal=false
+Categories=Development;Qt;
+StartupWMClass=qwinui3_gallery
+# Wayland app_id must match QGuiApplication::setDesktopFileName
+X-QWinUI3-DesktopId=org.qwinui3.gallery

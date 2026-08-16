@@ -40,9 +40,18 @@ Page {
                         text: qsTr("Pull to refresh enabled")
                         checked: true
                     }
-                    Button {
-                        text: qsTr("Refresh")
-                        onClicked: refreshHost.beginRefresh()
+                    RowLayout {
+                        Label { text: qsTr("PullDirection"); color: Theme.textSecondary }
+                        ComboBox {
+                            id: pullDir
+                            model: ["top", "bottom"]
+                            currentIndex: 0
+                            Layout.preferredWidth: 120
+                        }
+                        Button {
+                            text: qsTr("Refresh")
+                            onClicked: refreshHost.beginRefresh()
+                        }
                     }
                     RefreshContainer {
                         id: refreshHost
@@ -51,6 +60,7 @@ Page {
                         contentWidth: width
                         contentHeight: refreshColumn.implicitHeight
                         pullToRefreshEnabled: pullEn.checked
+                        pullDirection: pullDir.currentText
                         onRefreshRequested: refreshTimer.start()
 
                         Rectangle {

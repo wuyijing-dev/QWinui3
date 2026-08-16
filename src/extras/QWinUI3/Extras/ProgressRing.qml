@@ -3,28 +3,34 @@ import QtQuick.Shapes
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// ProgressRing — Circular progress / busy ring.
+// ProgressRing — Circular progress / busy ring (WinUI Minimum / Maximum / IsActive).
 //
 //   ProgressRing {
 //       id: ring
-//       indeterminate: true
-//       // value: 0.4 when determinate
+//       value: 65; minimum: 0; maximum: 100
+//       showValue: true
+//       // indeterminate: true
 //   }
-//   // --- API ---
-//   // ring.value / indeterminate
 //
 // @notes
-//   Circular progress; indeterminate or value 0..1.
+//   Circular progress; indeterminate or determinate value in [minimum, maximum] (WinUI).
+//   Legacy 0..1 still works with default minimum=0 maximum=1. isActive pauses indeterminate spin.
 
 T.Control {
     id: root
 
-    // Current value
+    // Current value (WinUI Value)
     property real value: 0
-    // Show indeterminate animation when true
+    // WinUI Minimum
+    property real minimum: 0
+    // WinUI Maximum
+    property real maximum: 1
+    // Show indeterminate animation when true (WinUI IsIndeterminate)
     property bool indeterminate: false
-    // WinUI-style: Active sweeps; Paused holds a partial arc without spinning
+    // WinUI IsActive — Active sweeps; Paused holds a partial arc without spinning
     property bool isActive: true
+    // Alias of indeterminate
+    property alias isIndeterminate: root.indeterminate
     // Stroke thickness in px
     property real strokeWidth: 3
     // Primary fill / progress color
@@ -47,24 +53,30 @@ T.Control {
                              ? (isActive ? qsTr("Indeterminate") : qsTr("Paused"))
                              : formattedValue
 
+    // Normalized 0..1 progress
+    readonly property real normalized: {
+        var span = maximum - minimum
+        if (span <= 0)
+            return 0
+        return Math.max(0, Math.min(1, (value - minimum) / span))
+    }
     // True while indeterminate ring spins
     readonly property bool spinning: indeterminate && isActive && visible && !Theme.reducedMotion
     // Determinate arc sweep degrees
     readonly property real progressSweep: {
         if (indeterminate)
             return isActive ? 100 : 60
-        return Math.max(0, Math.min(360, value * 360))
+        return Math.max(0, Math.min(360, normalized * 360))
     }
     // Formatted value string
     readonly property string formattedValue: {
         if (valueLabel.length)
             return valueLabel
-        return Math.round(Math.max(0, Math.min(1, value)) * 100) + "%"
+        return Math.round(normalized * 100) + "%"
     }
 
     contentItem: Item {
         id: ring
-        // Corner radius
         readonly property real radius: Math.max(0, Math.min(width, height) / 2 - root.strokeWidth)
 
         Shape {
@@ -97,9 +109,7 @@ T.Control {
             rotation: root.spinning ? progress.spinAngle : 0
             scale: root.visible ? 1 : 0.85
 
-            // Indeterminate spin angle
             property real spinAngle: 0
-            // Animated sweep angle for gauges
             property real animatedSweep: root.progressSweep
 
             Behavior on animatedSweep {
@@ -149,7 +159,7 @@ T.Control {
             visible: root.showValue && !root.indeterminate
             text: root.formattedValue
             font.family: Theme.fontFamily
-            font.pixelSize: Math.max(9, Math.min(width, height) * 0.28)
+            font.pixelSize: Math.max(9, Math.min(parent.width, parent.height) * 0.28)
             font.weight: Theme.fontWeightSemiBold
             color: Theme.textPrimary
         }

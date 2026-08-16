@@ -262,12 +262,13 @@ T.AbstractButton {
             }
         }
 
+        // Keep the indeterminate bar inside the rounded host — do not use clip:true
+        // (axis-aligned only); a rectangular clip makes the fill cover rounded corners.
         Item {
-            id: indClip
+            id: indHost
             anchors.fill: parent
             anchors.margins: 1
             visible: control._showBar && control.indeterminate && control.progressState === "progressing"
-            clip: true
 
             Rectangle {
                 id: indBar
@@ -281,8 +282,8 @@ T.AbstractButton {
                     running: control.indeterminate && control.visible
                              && control.progressState === "progressing" && !Theme.reducedMotion
                     NumberAnimation {
-                        from: -indBar.width
-                        to: indClip.width
+                        from: 0
+                        to: Math.max(0, indHost.width - indBar.width)
                         duration: 1100
                         easing.type: Easing.InOutCubic
                     }

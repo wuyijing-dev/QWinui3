@@ -93,6 +93,26 @@ Page {
                 Layout.fillWidth: true
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
+                headerText: qsTr("Content slot")
+                qmlSource: "InfoBar {\n    title: …\n    HyperlinkButton { text: \"Learn more\" }\n}"
+
+                InfoBar {
+                    id: contentBar
+                    Layout.fillWidth: true
+                    severity: contentBar.informational
+                    title: qsTr("Privacy")
+                    message: qsTr("Review how your data is used.")
+                    Button {
+                        flat: true
+                        text: qsTr("Learn more")
+                    }
+                }
+            }
+
+            ControlExample {
+                Layout.fillWidth: true
+                Layout.leftMargin: Theme.spacingSection
+                Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("open() / close()")
                 qmlSource: "InfoBar {\n    onOpened: …\n    onClosed: …\n}"
                 ColumnLayout {

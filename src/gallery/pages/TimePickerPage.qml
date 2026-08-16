@@ -51,8 +51,21 @@ Page {
                         isAm: true
                         minuteIncrement: Number(stepBox.currentText)
                     }
+                    RowLayout {
+                        Label { text: qsTr("ClockIdentifier"); color: Theme.textSecondary }
+                        ComboBox {
+                            id: clockBox
+                            model: ["12HourClock", "24HourClock"]
+                            currentIndex: 0
+                            Layout.preferredWidth: 160
+                            onActivated: picker12.clockIdentifier = currentText
+                        }
+                    }
                     Label {
-                        text: qsTr("Chosen: %1 (%2)").arg(picker12.displayText).arg(picker12.clockIdentifier)
+                        text: qsTr("Chosen: %1 · time %2 · %3")
+                              .arg(picker12.displayText)
+                              .arg(Qt.formatTime(picker12.time, "hh:mm"))
+                              .arg(picker12.clockIdentifier)
                         color: Theme.textSecondary
                     }
                 }

@@ -20,16 +20,21 @@ import QWinUI3.Theme
 //
 // @notes
 //   Dot pager synced to a FlipView / SwipeView currentIndex.
+//   MaxVisiblePips windows the visible dots; NumberOfPages aliases count.
 
 T.Control {
     id: control
 
     // Item count
     property int count: 0
+    // WinUI NumberOfPages alias of count
+    property alias numberOfPages: control.count
     // Selected index
     property int currentIndex: 0
     // Selected index alias
     property alias selectedIndex: control.currentIndex
+    // WinUI MaxVisiblePips — 0 = show all
+    property int maxVisiblePips: 0
     // Qt.Horizontal or Qt.Vertical
     property int orientation: Qt.Horizontal
     // Wrap children to next line
@@ -54,6 +59,27 @@ T.Control {
     Keys.onDownPressed: goNext()
 
     onCurrentIndexChanged: selectionChanged(currentIndex)
+
+    readonly property int _windowSize: {
+        if (maxVisiblePips <= 0 || maxVisiblePips >= count)
+            return Math.max(0, count)
+        return maxVisiblePips
+    }
+    readonly property int _windowStart: {
+        if (_windowSize <= 0 || _windowSize >= count)
+            return 0
+        var half = Math.floor((_windowSize - 1) / 2)
+        var start = currentIndex - half
+        start = Math.max(0, Math.min(count - _windowSize, start))
+        return start
+    }
+    readonly property var _visibleIndices: {
+        var list = []
+        var n = _windowSize
+        for (var i = 0; i < n; ++i)
+            list.push(_windowStart + i)
+        return list
+    }
 
     // Navigate to the next page / item
     function goNext() {
@@ -158,16 +184,17 @@ T.Control {
 
         GridLayout {
             id: pipRow
-            rows: control.orientation === Qt.Vertical ? control.count : 1
-            columns: control.orientation === Qt.Horizontal ? control.count : 1
+            rows: control.orientation === Qt.Vertical ? control._windowSize : 1
+            columns: control.orientation === Qt.Horizontal ? control._windowSize : 1
             rowSpacing: 8
             columnSpacing: 8
 
             Repeater {
-                model: control.count
+                model: control._visibleIndices
                 AbstractButton {
                     id: pip
-                    required property int index
+                    required property int modelData
+                    readonly property int index: modelData
                     Layout.preferredWidth: control.orientation === Qt.Horizontal
                                            ? (checked ? 16 : 8) : 8
                     Layout.preferredHeight: control.orientation === Qt.Vertical

@@ -47,13 +47,21 @@ Page {
                         ]
                         selectedIndex: 1
                         onSelected: function (index, item) {
-                            status.text = qsTr("Selected: %1").arg(item.title || item)
+                            status.text = qsTr("SelectedItem: %1").arg(item.title || item)
                         }
                     }
                     SelectorBar {
                         Layout.alignment: Qt.AlignHCenter
                         selectionStyle: "underline"
                         model: [qsTr("Overview"), qsTr("Details"), qsTr("History")]
+                    }
+                    Label {
+                        Layout.alignment: Qt.AlignHCenter
+                        text: {
+                            var it = bar.selectedItem
+                            return qsTr("selectedItem: %1").arg(it && it.title ? it.title : String(it || "—"))
+                        }
+                        color: Theme.textSecondary
                     }
                     RowLayout {
                         Layout.alignment: Qt.AlignHCenter

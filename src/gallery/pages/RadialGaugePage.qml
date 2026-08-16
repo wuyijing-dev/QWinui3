@@ -6,7 +6,8 @@ import QWinUI3.Extras
 
 // Gallery — RadialGauge.
 //
-// Drag when isInteractive; invertThresholds, stepSize, valueEdited. API: docs/components/RadialGauge.md
+// Toolkit-aligned: MinAngle/MaxAngle, TickSpacing, ScaleWidth, Needle*, ValueStringFormat.
+// API: docs/components/RadialGauge.md
 
 Page {
     padding: 0
@@ -24,51 +25,68 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("RadialGauge")
-                subtitle: qsTr("Drag when isInteractive; invertThresholds, stepSize, valueEdited.")
+                subtitle: qsTr("Community Toolkit–aligned needle gauge (MinAngle, TickSpacing, ScaleWidth, NeedleLength).")
             }
             ControlExample {
                 Layout.fillWidth: true
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
-                headerText: qsTr("Interactive")
-                qmlSource: "RadialGauge {\n    isInteractive: true\n    cautionThreshold: 0.7\n}"
+                headerText: qsTr("Toolkit sample")
+                qmlSource: "RadialGauge {\n    minAngle: -150; maxAngle: 150\n    tickSpacing: 20\n    scaleWidth: 12\n    isInteractive: true\n}"
                 ColumnLayout {
                     spacing: Theme.spacingLoose
                     RowLayout {
                         spacing: Theme.spacingSection
                         RadialGauge {
                             id: gauge
-                            width: 168
-                            height: 168
-                            value: 72
-                            unit: "%"
-                            title: qsTr("CPU")
-                            tickCount: 9
-                            showNeedle: true
+                            width: 200
+                            height: 200
+                            value: 120
+                            minimum: 0
+                            maximum: 240
+                            minAngle: -150
+                            maxAngle: 150
+                            tickSpacing: 20
+                            scaleWidth: 12
+                            scalePadding: 4
+                            tickLength: 8
+                            tickWidth: 2
+                            tickPadding: 6
+                            scaleTickWidth: 2
+                            needleLength: 0.68
+                            needleWidth: 4
+                            stepSize: 5
+                            valueStringFormat: "N0"
+                            unit: "rpm"
+                            title: qsTr("Motor")
                             isInteractive: true
-                            stepSize: 1
-                            cautionThreshold: 0.7
+                            cautionThreshold: 0.75
                             criticalThreshold: 0.9
                         }
                         RadialGauge {
-                            width: 128
-                            height: 128
+                            width: 148
+                            height: 148
                             value: 22
                             maximum: 100
-                            fillColor: Theme.systemSuccess
-                            showValue: true
+                            trailBrush: Theme.systemSuccess
                             showNeedle: false
                             unit: "%"
                             title: qsTr("Battery")
                             caption: qsTr("Remaining")
+                            valueStringFormat: "N0"
                             isInteractive: true
                             invertThresholds: true
                             cautionThreshold: 0.55
                             criticalThreshold: 0.8
+                            tickSpacing: 25
+                            scaleWidth: 14
                         }
                     }
                     Label {
-                        text: qsTr("%1% — drag the dial").arg(Math.round(gauge.percentage))
+                        text: qsTr("Value %1 — angle %2° — severity %3 — drag or scroll")
+                              .arg(Math.round(gauge.value))
+                              .arg(Math.round(gauge.valueAngle))
+                              .arg(gauge.severity)
                         color: Theme.textSecondary
                     }
                 }

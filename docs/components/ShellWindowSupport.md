@@ -19,9 +19,14 @@ ShellWindowSupport {
 }
 
 // --- API ---
-// methods: applyChrome()
-// shellWindowSupport.applyChrome()
+// methods: applyChrome(), applyPresenter(), applyAlwaysOnTop(), centerOnScreen()
+// Reacts to paradigm / backdrop / presenter / isAlwaysOnTop changes.
 ```
+
+## Notes
+
+installParadigmEx for Standard/Dialog/Tool + presenter + always-on-top.
+FullScreen presenter is applied after install so the HWND exists first.
 
 ## API
 
@@ -45,7 +50,10 @@ _No custom signals_ (use inherited signals from the base type).
 
 | Signature | Description |
 | --- | --- |
-| `applyChrome()` | Apply window chrome / backdrop |
+| `applyChrome()` | Apply window chrome / backdrop / paradigm flags |
+| `applyPresenter()` | Apply presenter only (Overlapped / FullScreen / CompactOverlay) |
+| `applyAlwaysOnTop()` | Apply always-on-top flag |
+| `centerOnScreen()` | Center the target window on the current screen |
 
 ### Inherited from `Item`
 

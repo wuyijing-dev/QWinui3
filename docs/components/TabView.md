@@ -30,8 +30,8 @@ TabView {
 
 model items: { title, content, icon? } or a string title.
 closable tabs emit closeRequested / tabCloseRequested — remove from model yourself.
-tabsReorderable enables drag reorder (tabMoved).
-addTab / closeTab / moveTab mutate the model helpers.
+closeButtonOverlayMode: always | onPointerOver | auto (WinUI CloseButtonOverlayMode).
+tabStripHeader / tabStripFooter for strip chrome; tabsReorderable enables drag reorder.
 
 ## API
 
@@ -44,10 +44,15 @@ addTab / closeTab / moveTab mutate the model helpers.
 | `selectedIndex` | `alias` | Selected index alias |
 | `closable` | `bool` | Shows a close affordance when true |
 | `isClosable` | `alias` | Alias of closable |
+| `closeButtonOverlayMode` | `string` | WinUI CloseButtonOverlayMode: "always" \| "onPointerOver" \| "auto" |
 | `tabsReorderable` | `bool` | Allow dragging tabs to reorder |
 | `canReorderTabs` | `alias` | Alias of tabsReorderable |
+| `canDragTabs` | `bool` | WinUI CanDragTabs — enable drag gesture (reorder still gated by tabsReorderable) |
 | `tabWidthMode` | `string` | Tab width mode |
 | `isAddTabButtonVisible` | `bool` | Show add-tab button |
+| `tabStripHeader` | `alias` | WinUI TabStripHeader |
+| `tabStripFooter` | `alias` | WinUI TabStripFooter |
+| `selectedItem` | `var` | Currently selected model item (WinUI SelectedItem) |
 | `tabCount` | `int` | Number of tabs |
 
 ### Signals

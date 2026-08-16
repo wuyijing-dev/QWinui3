@@ -45,6 +45,19 @@ class WindowHelper : public QObject
     // OS accessibility (Windows SPI); Theme.followSystemAccessibility can mirror these
     Q_PROPERTY(bool systemReducedMotion READ systemReducedMotion NOTIFY accessibilityChanged)
     Q_PROPERTY(bool systemHighContrast READ systemHighContrast NOTIFY accessibilityChanged)
+    // Display server / compositor (windows | wayland | xcb | …)
+    Q_PROPERTY(QString displayServer READ displayServer CONSTANT)
+    Q_PROPERTY(bool wayland READ isWayland CONSTANT)
+    Q_PROPERTY(bool x11 READ isX11 CONSTANT)
+    // Linux / Wayland: compositor draws chrome (SSD); opposite of customFrame
+    Q_PROPERTY(bool serverSideDecorations READ serverSideDecorations CONSTANT)
+    Q_PROPERTY(QString desktopEnvironment READ desktopEnvironment CONSTANT)
+    Q_PROPERTY(QString waylandDisplay READ waylandDisplay CONSTANT)
+    Q_PROPERTY(bool systemPrefersDark READ systemPrefersDark NOTIFY colorSchemeChanged)
+    Q_PROPERTY(bool portalAvailable READ portalAvailable CONSTANT)
+    Q_PROPERTY(qreal devicePixelRatio READ devicePixelRatio NOTIFY screensChanged)
+    // Win11 Snap Layouts: report HTMAXBUTTON for the maximize caption rect
+    Q_PROPERTY(bool snapLayoutsEnabled READ snapLayoutsEnabled WRITE setSnapLayoutsEnabled NOTIFY snapLayoutsEnabledChanged)
 
 public:
     enum Backdrop {
@@ -97,6 +110,16 @@ public:
     };
     Q_ENUM(TitleBarHeightOption)
 
+    // Taskbar progress (ITaskbarList3 on Windows)
+    enum TaskbarProgressState {
+        TaskbarNoProgress = 0,
+        TaskbarIndeterminate = 1,
+        TaskbarNormal = 2,
+        TaskbarError = 3,
+        TaskbarPaused = 4
+    };
+    Q_ENUM(TaskbarProgressState)
+
     explicit WindowHelper(QObject *parent = nullptr);
 
     QString platformName() const;
@@ -122,6 +145,31 @@ public:
     QRect virtualDesktopGeometry() const;
     bool systemReducedMotion() const { return m_systemReducedMotion; }
     bool systemHighContrast() const { return m_systemHighContrast; }
+    QString displayServer() const;
+    bool isWayland() const;
+    bool isX11() const;
+    bool serverSideDecorations() const;
+    QString desktopEnvironment() const;
+    QString waylandDisplay() const;
+    bool systemPrefersDark() const { return m_systemPrefersDark; }
+    bool portalAvailable() const;
+    qreal devicePixelRatio() const;
+    bool snapLayoutsEnabled() const { return m_snapLayoutsEnabled; }
+    void setSnapLayoutsEnabled(bool enabled);
+
+    // Call before QGuiApplication on Linux: Wayland-first QPA + SSD + fractional scale.
+    static void configurePlatformEnvironment();
+    // Windows AppUserModelID (taskbar grouping); also sets desktop file name on Linux.
+    static void setAppUserModelId(const QString &appId);
+    // Wayland app_id / X11 WM_CLASS — pass desktop id without ".desktop"
+    Q_INVOKABLE void setDesktopFileName(const QString &desktopFileName);
+    // Raise / activate (Wayland may need xdg-activation token from the compositor)
+    Q_INVOKABLE void requestActivateWindow(QObject *windowObject);
+    // Dialog parenting (important on Wayland for correct stacking / modality)
+    Q_INVOKABLE void setTransientParent(QObject *windowObject, QObject *parentWindowObject);
+    // Open http(s)/file URLs via xdg-desktop-portal OpenURI when available
+    Q_INVOKABLE bool openExternalUrl(const QString &url);
+    Q_INVOKABLE void refreshColorScheme(); // poll OS light/dark preference
 
     void setBackdropMode(int backdrop);
     void setCornerPreference(int corner);
@@ -153,6 +201,41 @@ public:
     Q_INVOKABLE int titleBarHeightForOption(int option) const;
     Q_INVOKABLE QString titleBarHeightName(int option) const;
 
+    // Taskbar overlay progress (Windows ITaskbarList3; no-op elsewhere)
+    Q_INVOKABLE void setTaskbarProgress(QObject *windowObject, double value);
+    Q_INVOKABLE void setTaskbarProgressState(QObject *windowObject, int state);
+    Q_INVOKABLE void clearTaskbarProgress(QObject *windowObject);
+    // Taskbar overlay badge text (Windows SetOverlayIcon; empty clears)
+    Q_INVOKABLE void setTaskbarOverlayText(QObject *windowObject, const QString &text);
+    Q_INVOKABLE void clearTaskbarOverlay(QObject *windowObject);
+
+    // Flash / urgency attention (FlashWindowEx on Windows; raise elsewhere)
+    Q_INVOKABLE void requestUserAttention(QObject *windowObject, bool continuous = false);
+    // Reveal path in system file manager (Explorer select / FileManager1)
+    Q_INVOKABLE bool revealFileInFolder(const QString &path);
+    // Clipboard helpers
+    Q_INVOKABLE void copyText(const QString &text);
+    Q_INVOKABLE QString clipboardText() const;
+    Q_INVOKABLE void systemBeep();
+    // Idle inhibit (Windows SetThreadExecutionState / Linux ScreenSaver+portal)
+    Q_INVOKABLE bool inhibitIdle(const QString &reason = QString());
+    Q_INVOKABLE void releaseIdleInhibit();
+    Q_PROPERTY(bool idleInhibited READ idleInhibited NOTIFY idleInhibitedChanged)
+
+    // Windows AppUserModelID (taskbar grouping / toast identity) — use static setAppUserModelId
+    // Shell recent documents (Windows SHAddToRecentDocs; Linux best-effort)
+    Q_INVOKABLE void addToRecentDocuments(const QString &path);
+    Q_INVOKABLE void clearRecentDocuments();
+
+    // Power / network / screens
+    Q_PROPERTY(int batteryLevel READ batteryLevel NOTIFY powerChanged) // 0–100, or -1 unknown
+    Q_PROPERTY(bool onBattery READ onBattery NOTIFY powerChanged)
+    Q_PROPERTY(bool isOnline READ isOnline NOTIFY onlineChanged)
+    Q_PROPERTY(int screenCount READ screenCount NOTIFY screensChanged)
+    Q_INVOKABLE void refreshPowerStatus();
+    Q_INVOKABLE void refreshOnlineStatus();
+    Q_INVOKABLE QVariantList screensInfo() const; // [{name,geometry,availableGeometry,dpr,primary}]
+
     // NC hit-test: titleBar + caption buttons are screen-logical rects (mapToGlobal);
     // clientRects are non-draggable client areas inside the title bar.
     Q_INVOKABLE void updateHitTestLayout(QObject *windowObject,
@@ -161,6 +244,12 @@ public:
                                          const QRect &maximizeButton,
                                          const QRect &closeButton,
                                          const QVariantList &clientRects = {});
+
+    bool idleInhibited() const { return m_idleInhibited; }
+    int batteryLevel() const { return m_batteryLevel; }
+    bool onBattery() const { return m_onBattery; }
+    bool isOnline() const { return m_isOnline; }
+    int screenCount() const;
 
     static WindowHelper *create(QQmlEngine *, QJSEngine *);
 
@@ -179,6 +268,12 @@ signals:
     void captionPressedChanged();
     void wallpaperChanged();
     void accessibilityChanged();
+    void colorSchemeChanged();
+    void snapLayoutsEnabledChanged();
+    void screensChanged();
+    void idleInhibitedChanged();
+    void powerChanged();
+    void onlineChanged();
 
 private:
     void applyNative(QWindow *window, bool dark, int backdrop);
@@ -200,4 +295,11 @@ private:
     QUrl m_wallpaperUrl;
     bool m_systemReducedMotion = false;
     bool m_systemHighContrast = false;
+    bool m_systemPrefersDark = false;
+    bool m_snapLayoutsEnabled = true;
+    bool m_idleInhibited = false;
+    quint32 m_idleCookie = 0;
+    int m_batteryLevel = -1;
+    bool m_onBattery = false;
+    bool m_isOnline = true;
 };

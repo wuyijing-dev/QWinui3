@@ -26,6 +26,13 @@ StandardWindow {
         Theme.highContrast = WindowHelper.systemHighContrast
     }
 
+    function syncColorScheme() {
+        if (!Theme.followSystemColorScheme)
+            return
+        WindowHelper.refreshColorScheme()
+        Theme.dark = WindowHelper.systemPrefersDark
+    }
+
     function buildPaneSearchModel() {
         var out = []
         var m = navModel || []
@@ -137,18 +144,22 @@ StandardWindow {
 
     Component.onCompleted: {
         window.syncAccessibility()
+        window.syncColorScheme()
         Qt.callLater(function () { platformTitle.reportHitTest() })
     }
 
     Connections {
         target: WindowHelper
         function onAccessibilityChanged() { window.syncAccessibility() }
+        function onColorSchemeChanged() { window.syncColorScheme() }
     }
 
     // Re-check when the window is activated (user may have changed OS a11y settings).
     onActiveChanged: {
-        if (active)
+        if (active) {
             window.syncAccessibility()
+            window.syncColorScheme()
+        }
     }
 
     NavigationView {
@@ -165,6 +176,7 @@ StandardWindow {
         isPaneSearchEnabled: true
         paneSearchModel: window.paneSearchModel
         isReorderable: true
+        pageTransition: "slide"
         onModelReordered: function (m) {
             window.navModel = m
             window.paneSearchModel = window.buildPaneSearchModel()
@@ -175,4 +187,9 @@ StandardWindow {
                 titleBar.searchText = text
         }
     }
+
+    // Gallery shell alias for Settings / pages
+    property alias pageTransition: nav.pageTransition
+    property alias pageTransitionModes: nav.pageTransitionModes
+    property alias navigationView: nav
 }

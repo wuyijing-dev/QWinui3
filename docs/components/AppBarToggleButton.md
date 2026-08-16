@@ -20,6 +20,7 @@ AppBarToggleButton {
 ## Notes
 
 Checkable AppBarButton for CommandBar toggles.
+isCompact + keyboardAcceleratorText mirror AppBarButton.
 
 ## API
 
@@ -28,6 +29,8 @@ Checkable AppBarButton for CommandBar toggles.
 | Name | Type | Description |
 | --- | --- | --- |
 | `labelPosition` | `string` | bottom \| right \| collapsed |
+| `isCompact` | `bool` | WinUI IsCompact — hide label, icon-only |
+| `keyboardAcceleratorText` | `string` | Shortcut hint (WinUI KeyboardAcceleratorText) |
 | `effectiveLabelPosition` | `string` | Resolved label position |
 
 ### Signals

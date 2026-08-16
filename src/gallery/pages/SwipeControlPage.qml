@@ -52,7 +52,7 @@ Page {
                                 text: qsTr("Flag")
                                 symbol: FluentIcons.Flag
                                 color: Theme.systemCaution
-                                onClicked: swipe.close()
+                                onClicked: swipeStatus.text = qsTr("Flag")
                             }
                         ]
                         rightActions: [
@@ -61,7 +61,8 @@ Page {
                                 height: parent.height
                                 text: qsTr("Delete")
                                 symbol: FluentIcons.Delete
-                                onClicked: swipe.close()
+                                behaviorOnInvoked: "close"
+                                onTriggered: swipeStatus.text = qsTr("Delete")
                             },
                             SwipeAction {
                                 width: 72
@@ -69,7 +70,8 @@ Page {
                                 text: qsTr("Copy")
                                 symbol: FluentIcons.Copy
                                 color: Theme.systemAttention
-                                onClicked: swipe.close()
+                                behaviorOnInvoked: "remainOpen"
+                                onTriggered: swipeStatus.text = qsTr("Copy (remain open)")
                             }
                         ]
                         content: [
@@ -97,6 +99,44 @@ Page {
                         Button { text: qsTr("Open left"); onClicked: swipe.openLeft() }
                         Button { text: qsTr("Open right"); onClicked: swipe.openRight() }
                         Button { text: qsTr("Close"); onClicked: swipe.close() }
+                    }
+                }
+            }
+            ControlExample {
+                Layout.fillWidth: true
+                Layout.leftMargin: Theme.spacingSection
+                Layout.rightMargin: Theme.spacingSection
+                headerText: qsTr("Execute mode")
+                qmlSource: "SwipeControl {\n    swipeMode: \"execute\"\n}"
+                ColumnLayout {
+                    Layout.fillWidth: true
+                    spacing: Theme.spacing
+                    Label {
+                        id: execStatus
+                        text: qsTr("Swipe past threshold to invoke")
+                        color: Theme.textSecondary
+                    }
+                    SwipeControl {
+                        Layout.fillWidth: true
+                        Layout.maximumWidth: 420
+                        swipeMode: "execute"
+                        rightActions: [
+                            SwipeAction {
+                                width: 88
+                                height: parent.height
+                                text: qsTr("Archive")
+                                symbol: FluentIcons.Folder
+                                color: Theme.systemAttention
+                                behaviorOnInvoked: "close"
+                                onTriggered: execStatus.text = qsTr("Archived (execute)")
+                            }
+                        ]
+                        content: [
+                            Label {
+                                anchors.verticalCenter: parent.verticalCenter
+                                text: qsTr("Swipe left to archive")
+                            }
+                        ]
                     }
                 }
             }

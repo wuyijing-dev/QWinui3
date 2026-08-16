@@ -16,7 +16,8 @@ import QWinUI3.Theme
 //
 // @notes
 //   Tumbler date picker; selectedDate or year/month/day parts.
-//   Accept commits; minDate/maxDate bound the range.
+//   DayVisible / MonthVisible / YearVisible hide tumbler columns (WinUI).
+//   Accept commits; minYear/maxYear bound the year range.
 
 T.Control {
     id: control
@@ -31,6 +32,18 @@ T.Control {
     property int minYear: 1970
     // Maximum selectable year
     property int maxYear: 2100
+    // WinUI DayVisible
+    property bool dayVisible: true
+    // WinUI MonthVisible
+    property bool monthVisible: true
+    // WinUI YearVisible
+    property bool yearVisible: true
+    // WinUI DayFormat: numeric
+    property string dayFormat: "numeric"
+    // WinUI MonthFormat: numeric | abbreviated | full
+    property string monthFormat: "numeric"
+    // WinUI YearFormat: numeric
+    property string yearFormat: "numeric"
     // Picker flyout open
     property bool pickerOpen: false
     // Open / visible state
@@ -84,14 +97,31 @@ T.Control {
 
     // Text shown to the user
     readonly property string displayText: {
-        var y = String(year)
-        var m = String(month).padStart(2, "0")
-        var d = String(day).padStart(2, "0")
+        var y = _formatYear(year)
+        var m = _formatMonth(month)
+        var d = _formatDay(day)
         switch (dateFormat) {
         case "MM/dd/yyyy": return m + "/" + d + "/" + y
         case "dd/MM/yyyy": return d + "/" + m + "/" + y
         default: return y + "-" + m + "-" + d
         }
+    }
+
+    function _formatDay(d) {
+        return String(d).padStart(2, "0")
+    }
+
+    function _formatYear(y) {
+        return String(y)
+    }
+
+    function _formatMonth(m) {
+        var fmt = String(monthFormat).toLowerCase()
+        if (fmt === "abbreviated" || fmt === "short")
+            return Qt.locale().monthName(m - 1, Locale.ShortFormat)
+        if (fmt === "full" || fmt === "long")
+            return Qt.locale().monthName(m - 1, Locale.LongFormat)
+        return String(m).padStart(2, "0")
     }
 
     // Days in the selected month
@@ -226,6 +256,7 @@ T.Control {
 
                     Tumbler {
                         id: yearTumbler
+                        visible: control.yearVisible
                         Layout.preferredWidth: 72
                         Layout.preferredHeight: 140
                         model: control.maxYear - control.minYear + 1
@@ -246,7 +277,15 @@ T.Control {
 
                     Tumbler {
                         id: monthTumbler
-                        Layout.preferredWidth: 56
+                        visible: control.monthVisible
+                        Layout.preferredWidth: {
+                            var fmt = String(control.monthFormat).toLowerCase()
+                            if (fmt === "full" || fmt === "long")
+                                return 110
+                            if (fmt === "abbreviated" || fmt === "short")
+                                return 72
+                            return 56
+                        }
                         Layout.preferredHeight: 140
                         model: 12
                         visibleItemCount: 5
@@ -263,7 +302,7 @@ T.Control {
                             }
                         }
                         delegate: Text {
-                            text: String(modelData + 1).padStart(2, "0")
+                            text: control._formatMonth(modelData + 1)
                             font.family: control.font.family
                             font.pixelSize: control.font.pixelSize
                             font.weight: Math.abs(Tumbler.displacement) < 0.5
@@ -278,6 +317,7 @@ T.Control {
 
                     Tumbler {
                         id: dayTumbler
+                        visible: control.dayVisible
                         Layout.preferredWidth: 56
                         Layout.preferredHeight: 140
                         model: control.daysInMonth

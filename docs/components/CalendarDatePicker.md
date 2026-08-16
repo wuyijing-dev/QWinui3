@@ -25,6 +25,7 @@ CalendarDatePicker {
 ## Notes
 
 Text field + calendar flyout (MonthGrid); selectedDate with min/max bounds.
+FirstDayOfWeek remaps calendar locale (WinUI CalendarView.FirstDayOfWeek).
 
 ## API
 
@@ -33,16 +34,21 @@ Text field + calendar flyout (MonthGrid); selectedDate with min/max bounds.
 | Name | Type | Description |
 | --- | --- | --- |
 | `selectedDate` | `date` | Currently selected date |
+| `date` | `alias` | WinUI Date alias of selectedDate |
 | `calendarOpen` | `bool` | Calendar flyout open |
 | `isOpen` | `alias` | Open / visible state |
+| `isCalendarOpen` | `alias` | WinUI IsCalendarOpen |
 | `dateFormat` | `string` | Display date format |
 | `showTodayButton` | `bool` | Show Today button in calendar |
+| `isTodayHighlighted` | `bool` | Highlight today ring (MonthGrid isToday) |
 | `header` | `string` | Header label above the control |
 | `placeholderText` | `string` | Placeholder when empty |
 | `minDate` | `date` | Minimum selectable date |
 | `maxDate` | `date` | Maximum selectable date |
 | `hasMinDate` | `bool` | True when minDate is set |
 | `hasMaxDate` | `bool` | True when maxDate is set |
+| `firstDayOfWeek` | `int` | WinUI FirstDayOfWeek — Qt.Sunday..Qt.Saturday, or -1 for system default |
+| `calendarLocale` | `var` | Locale whose firstDayOfWeek matches the requested start day |
 
 ### Signals
 

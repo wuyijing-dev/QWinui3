@@ -341,6 +341,22 @@ QtObject {
             source: "pages/TreeViewPage.qml"
         },
         {
+            title: qsTr("TreeView recipe"),
+            category: "collections",
+            icon: "\uE8F0",
+            description: qsTr("Tree rows with context MenuFlyout (expand / rename / delete)."),
+            component: "TreeViewRecipePage",
+            source: "pages/TreeViewRecipePage.qml"
+        },
+        {
+            title: qsTr("ItemsView"),
+            category: "collections",
+            icon: "\uE8A9",
+            description: qsTr("List recipe: sections, multi-select, context menu, empty state."),
+            component: "ItemsViewPage",
+            source: "pages/ItemsViewPage.qml"
+        },
+        {
             title: qsTr("BreadcrumbBar"),
             category: "navigation",
             icon: "\uE76C",
@@ -368,7 +384,7 @@ QtObject {
             title: qsTr("Window shells"),
             category: "navigation",
             icon: "\uE8A7",
-            description: qsTr("Library shells: BlankWindow, NavigationWindow, MenuStatusWindow."),
+            description: qsTr("Window roles (paradigm/presenter) + Blank/Navigation/MenuStatus shells."),
             component: "WindowParadigmPage",
             source: "pages/WindowParadigmPage.qml"
         },
@@ -672,7 +688,7 @@ QtObject {
             title: qsTr("RadialGauge"),
             category: "status",
             icon: "\uE9E9",
-            description: qsTr("A circular gauge that displays a value on a ring."),
+            description: qsTr("Toolkit-style radial needle gauge (MinAngle, TickSpacing, ScaleWidth)."),
             component: "RadialGaugePage",
             source: "pages/RadialGaugePage.qml"
         },
@@ -709,6 +725,46 @@ QtObject {
             source: "pages/ZoneGaugePage.qml"
         },
         {
+            title: qsTr("RingGauge"),
+            category: "status",
+            icon: "\uE9E9",
+            description: qsTr("A closed-ring KPI gauge with a large center value."),
+            component: "RingGaugePage",
+            source: "pages/RingGaugePage.qml"
+        },
+        {
+            title: qsTr("TankGauge"),
+            category: "status",
+            icon: "\uE9D9",
+            description: qsTr("A vertical tank / reservoir level gauge."),
+            component: "TankGaugePage",
+            source: "pages/TankGaugePage.qml"
+        },
+        {
+            title: qsTr("ThermometerGauge"),
+            category: "status",
+            icon: "\uE9D2",
+            description: qsTr("A classic stem-and-bulb thermometer gauge."),
+            component: "ThermometerGaugePage",
+            source: "pages/ThermometerGaugePage.qml"
+        },
+        {
+            title: qsTr("KpiTile"),
+            category: "status",
+            icon: "\uE9D2",
+            description: qsTr("A compact KPI tile with delta and optional sparkline."),
+            component: "KpiTilePage",
+            source: "pages/KpiTilePage.qml"
+        },
+        {
+            title: qsTr("Dashboard"),
+            category: "status",
+            icon: "\uE80F",
+            description: qsTr("Composite monitoring layout with gauges, KPIs, and charts."),
+            component: "DashboardPage",
+            source: "pages/DashboardPage.qml"
+        },
+        {
             title: qsTr("BusyIndicator"),
             category: "status",
             icon: "\uE895",
@@ -739,6 +795,22 @@ QtObject {
             description: qsTr("A transient notification that auto-dismisses."),
             component: "ToastPage",
             source: "pages/ToastPage.qml"
+        },
+        {
+            title: qsTr("System integration"),
+            category: "dialogs",
+            icon: "\uE8B7",
+            description: qsTr("FilePicker dialogs and TrayIcon system notify bridge."),
+            component: "SystemIntegrationPage",
+            source: "pages/SystemIntegrationPage.qml"
+        },
+        {
+            title: qsTr("MediaPlayerElement"),
+            category: "status",
+            icon: "\uE714",
+            description: qsTr("Fluent media shell (requires Qt Multimedia / QWINUI3_BUILD_MEDIA)."),
+            component: "MediaPlayerElementPage",
+            source: "pages/MediaPlayerElementPage.qml"
         },
         {
             title: qsTr("SegmentedControl"),
@@ -1005,6 +1077,14 @@ QtObject {
             source: "pages/ListTilePage.qml"
         },
         {
+            title: qsTr("Pitfalls"),
+            category: "layout",
+            icon: "\uE7BA",
+            description: qsTr("Anti-patterns: square fills and clip that break rounded borders."),
+            component: "PitfallsPage",
+            source: "pages/PitfallsPage.qml"
+        },
+        {
             title: qsTr("GridTile"),
             category: "collections",
             icon: "\uE8A5",
@@ -1019,6 +1099,14 @@ QtObject {
             description: qsTr("A text field with a WinUI-style header and description."),
             component: "HeaderedTextBoxPage",
             source: "pages/HeaderedTextBoxPage.qml"
+        },
+        {
+            title: qsTr("Form validation"),
+            category: "text",
+            icon: "\uE73E",
+            description: qsTr("FormLayout + ValidationSummary with field errorMessage."),
+            component: "FormValidationPage",
+            source: "pages/FormValidationPage.qml"
         },
         {
             title: qsTr("MenuFlyout"),

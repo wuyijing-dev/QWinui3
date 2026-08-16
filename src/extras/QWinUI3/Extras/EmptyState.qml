@@ -15,7 +15,7 @@ import QWinUI3.Theme
 //   // signals: onActionClicked, onSecondaryActionClicked
 //
 // @notes
-//   Placeholder for empty lists; title/message + optional action.
+//   Placeholder for empty lists; title/message (description alias) + optional action.
 
 T.Control {
     id: root
@@ -28,6 +28,8 @@ T.Control {
     property string title: qsTr("Nothing here yet")
     // Body / message text
     property string message: qsTr("When there is content, it will show up in this area.")
+    // WinUI / docs alias of message
+    property alias description: root.message
     // Optional action button label
     property string actionText: ""
     // Secondary action button label

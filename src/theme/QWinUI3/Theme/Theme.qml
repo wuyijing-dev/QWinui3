@@ -8,7 +8,9 @@ import QtQuick
 //   Theme.dark = true
 //   Theme.reducedMotion = false
 //   Theme.followSystemAccessibility = true
-//   Theme.accent = "#005FB8"
+//   Theme.density = "compact"
+//   Theme.accentPack = "purple"
+//   Theme.customAccent = "#C239B3"
 //
 //   Rectangle {
 //       color: Theme.bgCard
@@ -21,10 +23,13 @@ import QtQuick
 //   Theme.duration(ms)
 //   Theme.controlFill(hovered, pressed, disabled)
 //   Theme.accentFill(hovered, pressed, disabled)
+//   Theme.setAccentPack(name)
 //
 // @notes
-//   Singleton tokens: colors, type, spacing, motion, corners.
+//   Singleton tokens: colors, type, spacing, motion, corners, density, accent packs.
 //   Theme.dark / reducedMotion / highContrast; followSystemAccessibility mirrors WindowHelper SPI.
+//   density "standard"|"compact" scales controlHeight / padding / spacing.
+//   accentPack "blue"|"purple"|"green"|"orange"; customAccent (alpha>0) overrides pack.
 //   Use Theme.duration(ms) and controlFill/accentFill helpers for states.
 
 QtObject {
@@ -38,13 +43,34 @@ QtObject {
     property bool highContrast: false
     // When true, Gallery/apps should copy WindowHelper system a11y into the flags above.
     property bool followSystemAccessibility: true
+    // When true, mirror WindowHelper.systemPrefersDark into Theme.dark (Linux/Windows).
+    property bool followSystemColorScheme: false
+    // Control density: "standard" | "compact"
+    property string density: "standard"
+    // Named accent pack: "blue" | "purple" | "green" | "orange"
+    property string accentPack: "blue"
+    // When alpha > 0, overrides accentPack colors
+    property color customAccent: "#00000000"
 
-    // Fluent / WinUI 3 system accent (matches FluentWinUI3 defaults)
-    readonly property color accent: dark ? "#60CDFF" : "#005FB8"
+    // Fluent / WinUI 3 system accent (pack or customAccent)
+    readonly property color accent: {
+        if (customAccent.a > 0.001)
+            return customAccent
+        switch (accentPack) {
+        case "purple":
+            return dark ? "#D2A6FF" : "#744DA9"
+        case "green":
+            return dark ? "#6CCB5F" : "#0F7B0F"
+        case "orange":
+            return dark ? "#FFB900" : "#C43E1C"
+        default:
+            return dark ? "#60CDFF" : "#005FB8"
+        }
+    }
     // Lighter accent step
-    readonly property color accentLight1: dark ? "#6CD0FF" : "#1A6FB8"
+    readonly property color accentLight1: Qt.lighter(accent, 1.12)
     // Darker accent step
-    readonly property color accentDark1: dark ? "#4AB4E8" : "#004E99"
+    readonly property color accentDark1: Qt.darker(accent, 1.18)
 
     // Primary text brush
     readonly property color textPrimary: dark ? "#FFFFFF" : "#E4000000"
@@ -81,7 +107,11 @@ QtObject {
     readonly property color fillSubtleTertiary: dark ? "#08FFFFFF" : "#05000000"
 
     // Strokes — ControlStrokeColor*
-    readonly property color strokeControl: dark ? "#12FFFFFF" : "#0F000000"
+    readonly property color strokeControl: {
+        if (highContrast)
+            return dark ? "#FFFFFF" : "#000000"
+        return dark ? "#12FFFFFF" : "#0F000000"
+    }
     // Strong control border
     readonly property color strokeControlStrong: dark ? "#8BFFFFFF" : "#9C000000"
     // Stroke on accent-filled controls
@@ -91,7 +121,11 @@ QtObject {
     // Focus ring inner color
     readonly property color focusInner: dark ? "#000000" : "#FFFFFF"
     // Card border stroke
-    readonly property color strokeCard: dark ? "#15FFFFFF" : "#0F000000"
+    readonly property color strokeCard: {
+        if (highContrast)
+            return dark ? "#FFFFFF" : "#000000"
+        return dark ? "#15FFFFFF" : "#0F000000"
+    }
     // Divider stroke
     readonly property color strokeDivider: dark ? "#15FFFFFF" : "#0F000000"
 
@@ -172,58 +206,65 @@ QtObject {
     // Emphasized easing (slight overshoot)
     readonly property int easingEmphasized: Easing.OutBack
 
-    // Control metrics (FluentWinUI3 Config)
+    // Control metrics (FluentWinUI3 Config) — scaled by density
+    readonly property real _densityScale: density === "compact" ? 0.85 : 1.0
     readonly property real cornerControl: 4
     // Overlay / flyout corner radius
     readonly property real cornerOverlay: 8
     // Default 1px hairline stroke
     readonly property real strokeThin: 1
     // Focus ring outer width
-    readonly property real strokeFocusOuter: 2
+    readonly property real strokeFocusOuter: highContrast ? 3 : 2
     // Focus ring inner width
     readonly property real strokeFocusInner: 1
     // Default control height
-    readonly property real controlHeight: 36
+    readonly property real controlHeight: Math.round(36 * _densityScale)
     // Minimum control width
-    readonly property real controlMinWidth: 96
+    readonly property real controlMinWidth: Math.round(96 * _densityScale)
     // SearchBox height
-    readonly property real searchBoxHeight: 36
+    readonly property real searchBoxHeight: controlHeight
     // Navigation item row height
-    readonly property real navItemHeight: 40
+    readonly property real navItemHeight: Math.round(40 * _densityScale)
     // Expanded NavigationView pane width
     readonly property real navPaneWidth: 280
     // Compact NavigationView pane width
     readonly property real navPaneCompactWidth: 48
     // Horizontal control padding
-    readonly property real paddingControlH: 12
+    readonly property real paddingControlH: Math.round(12 * _densityScale)
     // Vertical control padding
-    readonly property real paddingControlV: 7
+    readonly property real paddingControlV: Math.round(7 * _densityScale)
     // Child spacing
-    readonly property real spacing: 8
+    readonly property real spacing: Math.round(8 * _densityScale)
     // Loose spacing
-    readonly property real spacingLoose: 12
+    readonly property real spacingLoose: Math.round(12 * _densityScale)
     // Section spacing
-    readonly property real spacingSection: 24
+    readonly property real spacingSection: Math.round(24 * _densityScale)
     // Card corner radius
     readonly property real cornerCard: 8
     // Switch track width
-    readonly property real switchWidth: 44
+    readonly property real switchWidth: Math.round(44 * _densityScale)
     // Switch track height
-    readonly property real switchHeight: 22
+    readonly property real switchHeight: Math.round(22 * _densityScale)
     // Switch thumb diameter
-    readonly property real switchThumb: 16
+    readonly property real switchThumb: Math.round(16 * _densityScale)
     // CheckBox box size
-    readonly property real checkSize: 22
+    readonly property real checkSize: Math.round(22 * _densityScale)
     // RadioButton outer size
-    readonly property real radioSize: 22
+    readonly property real radioSize: Math.round(22 * _densityScale)
     // Slider track thickness
     readonly property real sliderThickness: 5
     // Slider thumb diameter
-    readonly property real sliderThumb: 22
+    readonly property real sliderThumb: Math.round(22 * _densityScale)
 
     // Returns ms, or 1 when reducedMotion is on
     function duration(ms) {
         return reducedMotion ? 1 : ms
+    }
+
+    // Apply a named accent pack and clear customAccent
+    function setAccentPack(name) {
+        customAccent = "#00000000"
+        accentPack = String(name || "blue")
     }
 
     // Rest/hover/pressed/disabled control fill helper

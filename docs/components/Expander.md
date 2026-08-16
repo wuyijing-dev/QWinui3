@@ -12,17 +12,19 @@ Collapsible header with expandable content.
 
 ```qml
 Expander {
-    header: qsTr("Details")
+    title: qsTr("Details")
     Label { text: qsTr("Body") }
 }
 
 // --- API ---
 // signals: onExpanding, onCollapsing
+// header: string title/subtitle OR custom headerContent slot (WinUI Header)
 ```
 
 ## Notes
 
 Header + expandable content; expanded / expand/collapse.
+headerContent replaces the default title column when it has children.
 
 ## API
 
@@ -38,6 +40,7 @@ Header + expandable content; expanded / expand/collapse.
 | `iconGlyph` | `string` | Raw Fluent glyph string fallback |
 | `headerIcon` | `var` | Header icon glyph |
 | `expandDirection` | `string` | WinUI ExpandDirection: down \| up |
+| `headerContent` | `alias` | WinUI Header — custom header content (replaces title/subtitle when set) |
 | `contentData` | `alias` | Default children / content slot |
 | `effectiveHeaderIcon` | `string` | Resolved header icon |
 

@@ -19,6 +19,8 @@ import QWinUI3.Theme
 //
 // @notes
 //   Menu-styled Flyout; host MenuFlyoutItem / Separator / Header children.
+//   contentMaxHeight (WinUI MenuFlyoutPresenter.MaxHeight) enables scroll when content is taller.
+//   shouldConstrainToRootBounds clamps into the window overlay (default true).
 
 Menu {
     id: root
@@ -33,12 +35,26 @@ Menu {
     property bool isOpen: false
     // Primary title text
     property string title: ""
+    // WinUI MaxHeight — 0 = natural height; >0 clamps and scrolls
+    // (cannot redeclare Popup.maxHeight which is FINAL)
+    property real contentMaxHeight: 0
+    // WinUI ShouldConstrainToRootBounds — clamp popup into window overlay
+    property bool shouldConstrainToRootBounds: true
 
     padding: 4
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
-    Accessible.role: Accessible.PopupMenu
-    Accessible.name: title.length ? title : qsTr("Menu")
+
+    // Clamp height so the styled ListView becomes interactive / scrollable.
+    Binding on height {
+        when: root.contentMaxHeight > 0
+        value: {
+            var natural = root.contentItem
+                          ? (root.contentItem.implicitHeight + root.topPadding + root.bottomPadding)
+                          : root.implicitHeight
+            return Math.min(Math.max(natural, 40), root.contentMaxHeight)
+        }
+    }
 
     closePolicy: isLightDismissEnabled
                  ? (Popup.CloseOnEscape | Popup.CloseOnPressOutside)
@@ -95,6 +111,25 @@ Menu {
         }
         popup(targetItem, px, py)
         isOpen = true
+        if (shouldConstrainToRootBounds)
+            Qt.callLater(root._constrainToRootBounds)
+    }
+
+    function _constrainToRootBounds() {
+        if (!shouldConstrainToRootBounds || !visible)
+            return
+        var win = root.Window.window
+        var host = (win && win.Overlay && win.Overlay.overlay) ? win.Overlay.overlay : root.parent
+        if (!host)
+            return
+        var margin = 8
+        var p = root.mapToItem(host, 0, 0)
+        var w = root.width
+        var h = root.height
+        var nx = Math.max(margin, Math.min(p.x, host.width - w - margin))
+        var ny = Math.max(margin, Math.min(p.y, host.height - h - margin))
+        root.x += (nx - p.x)
+        root.y += (ny - p.y)
     }
 
     // Hide the control
@@ -104,6 +139,8 @@ Menu {
 
     background: ElevatedChrome {
         implicitWidth: 180
+        Accessible.role: Accessible.PopupMenu
+        Accessible.name: root.title.length ? root.title : qsTr("Menu")
         implicitHeight: 40
         color: Theme.bgCardElevated
         radius: Theme.cornerOverlay

@@ -42,7 +42,7 @@ Page {
                     BreadcrumbBar {
                         id: crumbs
                         Layout.fillWidth: true
-                        maxVisibleItems: 4
+                        maxItems: 4
                         lastItemClickable: lastClickable.checked
                         model: [
                             { title: qsTr("Home"), symbol: FluentIcons.Home },
@@ -57,7 +57,12 @@ Page {
                         }
                     }
                     Label {
-                        text: qsTr("Index %1 — long paths collapse with …").arg(crumbs.currentIndex)
+                        text: {
+                            var it = crumbs.selectedItem
+                            var title = (it && it.title) ? it.title : String(it || "—")
+                            return qsTr("Index %1 · selectedItem: %2 — long paths collapse with …")
+                                .arg(crumbs.currentIndex).arg(title)
+                        }
                         color: Theme.textSecondary
                         font.pixelSize: Theme.fontCaption
                     }

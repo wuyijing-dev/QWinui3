@@ -5,153 +5,208 @@ import QtQuick.Templates as T
 import QtQuick.Shapes
 import QWinUI3.Theme
 
-// RadialGauge — Circular gauge with needle and zones.
+// RadialGauge — Toolkit-style circular needle gauge (CommunityToolkit.WinUI.Controls.RadialGauge).
 //
 //   RadialGauge {
-//       id: radialGauge
-//       value: 72; minimum: 0; maximum: 100
+//       id: radial
+//       value: 120; minimum: 0; maximum: 240
+//       minAngle: -150; maxAngle: 150
+//       isInteractive: true
+//       stepSize: 5
+//       tickSpacing: 20
+//       scaleWidth: 12
+//       needleLength: 0.72
+//       valueStringFormat: "N0"
+//       unit: "rpm"
 //   }
 //
 //   // --- API ---
 //   // signals: onValueEdited
-//   // methods: setValue(v), setValueFromNorm(n), normFromPoint(px, py)
-//   // radialGauge.setValue(v)
-//   // radialGauge.setValueFromNorm(n)
-//   // radialGauge.normFromPoint(px, py)
+//   // methods: setValue(v), setValueFromNorm(n), setAngleRange(minA, maxA), nudge(delta), normFromPoint(px, py)
+//   // radial.valueAngle / radial.severity / radial.nudge(1)
 //
 // @notes
-//   Full/partial radial needle gauge; zones via zoneModel; dragEnabled for input.
+//   Aligned with Community Toolkit RadialGauge: MinAngle/MaxAngle, ScaleWidth, NeedleLength/Width,
+//   TickSpacing/Length/Width/Padding, ScalePadding, ValueStringFormat, Trail/Scale/Needle brushes.
+//   startAngle/sweepTotal remain as aliases of the angle range. Wheel/keys when isInteractive.
 
 T.Control {
     id: root
 
+    // --- Value (Toolkit) ---
     // Current value
     property real value: 0
     // Minimum value
     property real minimum: 0
     // Maximum value
     property real maximum: 100
-    // Value step (e.g. 0.5 for half stars)
+    // Rounding interval for Value (Toolkit StepSize)
     property real stepSize: 0
-    // Stroke thickness in px
-    property real strokeWidth: 10
-    // Show numeric value label
-    property bool showValue: true
-    // Value unit label (%, rpm, …)
+    // Value string format: "N0", "N1", "F1", or empty to use valuePrecision
+    property string valueStringFormat: ""
+    // Digits after decimal when valueStringFormat is empty
+    property int valuePrecision: 0
+    // Displayed unit measure (Toolkit Unit)
     property string unit: ""
     // Primary title text
     property string title: ""
     // Caption under / beside the value
     property string caption: ""
-    // Digits after decimal for value text
-    property int valuePrecision: 0
-    // Major tick count
-    property int tickCount: 8
-    // Track / remaining color
-    property color trackColor: Theme.strokeDivider
-    // Primary fill / progress color
-    property color fillColor: Theme.accent
+    // Show numeric value label
+    property bool showValue: true
+
+    // --- Angles (Toolkit MinAngle / MaxAngle; PathAngleArc: 0° at 3 o'clock) ---
+    // Start angle of the scale (Toolkit MinAngle)
+    property real minAngle: -210
+    // End angle of the scale (Toolkit MaxAngle)
+    property real maxAngle: 30
+    // Back-compat alias of minAngle
+    property alias startAngle: root.minAngle
+    // Sweep angle (= maxAngle − minAngle); assigning updates maxAngle
+    property real sweepTotal: maxAngle - minAngle
+    onSweepTotalChanged: {
+        var expected = maxAngle - minAngle
+        if (Math.abs(sweepTotal - expected) > 0.001)
+            maxAngle = minAngle + sweepTotal
+    }
+
+    // --- Scale / trail (Toolkit ScaleWidth, brushes) ---
+    // Width of the scale arc in px (Toolkit ScaleWidth)
+    property real scaleWidth: 10
+    // Back-compat alias of scaleWidth
+    property alias strokeWidth: root.scaleWidth
+    // Inset of the scale from the outer radius, in px (Toolkit ScalePadding)
+    property real scalePadding: 2
+    // Scale / remaining track color (Toolkit ScaleBrush)
+    property color scaleBrush: Theme.strokeDivider
+    property alias trackColor: root.scaleBrush
+    // Trail / progress color (Toolkit TrailBrush)
+    property color trailBrush: Theme.accent
+    property alias fillColor: root.trailBrush
+    // Soft glow under the trail
+    property bool showGlow: true
+
+    // --- Needle (Toolkit NeedleLength / NeedleWidth / NeedleBrush) ---
     // Show needle indicator
     property bool showNeedle: true
-    // Arc start angle in degrees
-    property real startAngle: -210
-    // Total sweep angle in degrees
-    property real sweepTotal: 240
-    // Value where caution zone starts
+    // Needle length as fraction of radius (0..1); Toolkit uses % — pass 0.6 for 60
+    property real needleLength: 0.72
+    // Needle width in px
+    property real needleWidth: 3
+    // Needle color
+    property color needleBrush: Theme.textPrimary
+
+    // --- Ticks (Toolkit TickSpacing / TickLength / TickWidth / TickPadding / ScaleTickWidth) ---
+    // Tick spacing in value units (0 = use tickCount evenly)
+    property real tickSpacing: 0
+    // Legacy evenly spaced tick count when tickSpacing <= 0
+    property int tickCount: 8
+    // Outer tick length in px
+    property real tickLength: 6
+    // Outer tick width in px
+    property real tickWidth: 2
+    // Distance from scale to outer ticks in px
+    property real tickPadding: 4
+    // Width of ticks carved into the scale (0 = hide scale ticks)
+    property real scaleTickWidth: 0
+    // Outer tick color (Toolkit TickBrush)
+    property color tickBrush: Theme.textSecondary
+    // Scale-tick color (Toolkit ScaleTickBrush)
+    property color scaleTickBrush: Theme.bgLayer
+    // Show outer ticks
+    property bool showTicks: true
+
+    // --- Thresholds (QWinUI3 extension) ---
     property real cautionThreshold: -1
-    // Value where critical zone starts
     property real criticalThreshold: -1
-    // Invert caution/critical threshold logic
     property bool invertThresholds: false
-    // Alias of interactive
+
+    // --- Interaction (Toolkit IsInteractive) ---
     property bool isInteractive: false
-    // Enable hover / click interaction
     property alias interactive: root.isInteractive
 
-    // Emitted when user commits a value
     signal valueEdited(real value)
 
-    implicitWidth: 148
-    implicitHeight: title.length ? 176 : 148
+    implicitWidth: 160
+    implicitHeight: title.length ? 184 : 160
     padding: 8
     focusPolicy: isInteractive ? Qt.StrongFocus : Qt.NoFocus
     Accessible.role: Accessible.Slider
-    Accessible.name: title.length ? title : qsTr("Gauge")
-    Accessible.description: {
-        var parts = []
-        if (caption.length)
-            parts.push(caption)
-        parts.push(formattedValue)
-        return parts.join(" — ")
-    }
+    Accessible.name: title.length ? title : qsTr("Radial gauge")
+    Accessible.description: formattedValue
 
-    // Value as 0..100 percentage
-    readonly property real percentage: animatedNorm * 100
-    // Resolved fill color
-    readonly property color effectiveFillColor: {
-        var n = invertThresholds ? (1 - animatedNorm) : animatedNorm
-        if (criticalThreshold >= 0 && n >= criticalThreshold)
-            return Theme.systemCritical
-        if (cautionThreshold >= 0 && n >= cautionThreshold)
-            return Theme.systemCaution
-        return fillColor
-    }
+    // Toolkit ValueAngle — current needle angle between minAngle and maxAngle
+    readonly property real valueAngle: minAngle + animatedNorm * (maxAngle - minAngle)
+    readonly property real normalizedMinAngle: minAngle
+    readonly property real normalizedMaxAngle: maxAngle
 
-    // Normalized 0..1 value
     readonly property real normalized: {
         var span = maximum - minimum
         if (span <= 0)
             return 0
         return Math.max(0, Math.min(1, (value - minimum) / span))
     }
+    readonly property real percentage: animatedNorm * 100
+    readonly property int severity: {
+        var n = invertThresholds ? (1 - animatedNorm) : animatedNorm
+        if (criticalThreshold >= 0 && n >= criticalThreshold)
+            return 2
+        if (cautionThreshold >= 0 && n >= cautionThreshold)
+            return 1
+        return 0
+    }
+    readonly property color effectiveFillColor: {
+        if (severity === 2)
+            return Theme.systemCritical
+        if (severity === 1)
+            return Theme.systemCaution
+        return trailBrush
+    }
 
-    // Formatted value string
     readonly property string formattedValue: {
         var n = Number(animatedValue)
-        var t = valuePrecision > 0 ? n.toFixed(valuePrecision) : String(Math.round(n))
-        return t + (unit.length ? unit : "")
-    }
-
-    // Set value (clamped / snapped)
-    function setValue(v) {
-        var lo = Math.min(minimum, maximum)
-        var hi = Math.max(minimum, maximum)
-        var x = Math.max(lo, Math.min(hi, Number(v) || 0))
-        if (stepSize > 0) {
-            var steps = Math.round((x - lo) / stepSize)
-            x = Math.max(lo, Math.min(hi, lo + steps * stepSize))
+        var t
+        if (valueStringFormat.length) {
+            var fmt = valueStringFormat.toUpperCase()
+            if (fmt === "N0" || fmt === "F0")
+                t = String(Math.round(n))
+            else if (fmt === "N1" || fmt === "F1")
+                t = n.toFixed(1)
+            else if (fmt === "N2" || fmt === "F2")
+                t = n.toFixed(2)
+            else
+                t = valuePrecision > 0 ? n.toFixed(valuePrecision) : String(Math.round(n))
+        } else {
+            t = valuePrecision > 0 ? n.toFixed(valuePrecision) : String(Math.round(n))
         }
-        value = x
+        return t + (unit.length ? (" " + unit) : "")
     }
 
-    // Set value from a normalized 0..1 input
-    function setValueFromNorm(n) {
-        setValue(minimum + Math.max(0, Math.min(1, n)) * (maximum - minimum))
+    readonly property var _tickNorms: {
+        var out = []
+        var span = maximum - minimum
+        if (span <= 0)
+            return out
+        if (tickSpacing > 0) {
+            var v = minimum
+            // Align to spacing grid
+            var first = Math.ceil(minimum / tickSpacing) * tickSpacing
+            if (first < minimum)
+                first += tickSpacing
+            for (v = first; v <= maximum + 1e-6; v += tickSpacing)
+                out.push((v - minimum) / span)
+            if (out.length === 0 || out[0] > 1e-6)
+                out.unshift(0)
+            if (out[out.length - 1] < 1 - 1e-6)
+                out.push(1)
+        } else {
+            var n = Math.max(2, tickCount)
+            for (var i = 0; i < n; ++i)
+                out.push(i / (n - 1))
+        }
+        return out
     }
 
-    // Normalize a pointer position to 0..1
-    function normFromPoint(px, py) {
-        var cx = gaugeFace.width / 2
-        var cy = gaugeFace.height / 2
-        var deg = Math.atan2(py - cy, px - cx) * 180 / Math.PI
-        var a = deg
-        while (a < root.startAngle)
-            a += 360
-        while (a > root.startAngle + root.sweepTotal + 180)
-            a -= 360
-        return Math.max(0, Math.min(1, (a - root.startAngle) / Math.max(1e-6, root.sweepTotal)))
-    }
-
-    Keys.onLeftPressed: if (isInteractive) {
-        setValue(value - (stepSize > 0 ? stepSize : (maximum - minimum) * 0.05))
-        valueEdited(value)
-    }
-    Keys.onRightPressed: if (isInteractive) {
-        setValue(value + (stepSize > 0 ? stepSize : (maximum - minimum) * 0.05))
-        valueEdited(value)
-    }
-
-    // Animated display value
     property real animatedValue: value
     Behavior on animatedValue {
         enabled: !Theme.reducedMotion
@@ -163,7 +218,6 @@ T.Control {
     onValueChanged: animatedValue = value
     Component.onCompleted: animatedValue = value
 
-    // Animated 0..1 normalized value
     readonly property real animatedNorm: {
         var span = maximum - minimum
         if (span <= 0)
@@ -171,14 +225,83 @@ T.Control {
         return Math.max(0, Math.min(1, (animatedValue - minimum) / span))
     }
 
+    function setAngleRange(minA, maxA) {
+        minAngle = minA
+        maxAngle = maxA
+    }
+
+    function setValue(v) {
+        var lo = Math.min(minimum, maximum)
+        var hi = Math.max(minimum, maximum)
+        var x = Math.max(lo, Math.min(hi, Number(v) || 0))
+        if (stepSize > 0) {
+            var steps = Math.round((x - lo) / stepSize)
+            x = Math.max(lo, Math.min(hi, lo + steps * stepSize))
+        }
+        value = x
+    }
+
+    function setValueFromNorm(n) {
+        setValue(minimum + Math.max(0, Math.min(1, n)) * (maximum - minimum))
+    }
+
+    // Set value from Toolkit-style ValueAngle
+    function setValueAngle(angle) {
+        var span = maxAngle - minAngle
+        if (Math.abs(span) < 1e-6)
+            return
+        setValueFromNorm((angle - minAngle) / span)
+    }
+
+    function nudge(delta) {
+        var d = Number(delta) || 0
+        if (stepSize > 0 && Math.abs(d) < stepSize)
+            d = d < 0 ? -stepSize : stepSize
+        setValue(value + d)
+        valueEdited(value)
+    }
+
+    function _stepAmount() {
+        return stepSize > 0 ? stepSize : (maximum - minimum) * 0.05
+    }
+
+    function normFromPoint(px, py) {
+        var cx = gaugeFace.width / 2
+        var cy = gaugeFace.height / 2
+        var deg = Math.atan2(py - cy, px - cx) * 180 / Math.PI
+        var a = deg
+        while (a < root.minAngle)
+            a += 360
+        while (a > root.maxAngle + 180)
+            a -= 360
+        var span = root.maxAngle - root.minAngle
+        return Math.max(0, Math.min(1, (a - root.minAngle) / Math.max(1e-6, span)))
+    }
+
+    Keys.onLeftPressed: if (isInteractive) nudge(-_stepAmount())
+    Keys.onRightPressed: if (isInteractive) nudge(_stepAmount())
+    Keys.onDownPressed: if (isInteractive) nudge(-_stepAmount())
+    Keys.onUpPressed: if (isInteractive) nudge(_stepAmount())
+
+    WheelHandler {
+        enabled: root.isInteractive && root.enabled
+        onWheel: function (event) {
+            var dir = event.angleDelta.y !== 0 ? event.angleDelta.y : event.angleDelta.x
+            if (dir === 0)
+                return
+            root.nudge(dir > 0 ? root._stepAmount() : -root._stepAmount())
+            event.accepted = true
+        }
+    }
+
     contentItem: Item {
         id: gaugeFace
-        // Corner radius
-        readonly property real radius: Math.min(width, height) / 2 - root.strokeWidth - 2
+        readonly property real outerR: Math.min(width, height) / 2 - 2
+        readonly property real radius: outerR - root.scalePadding - root.scaleWidth * 0.5
 
-        // Soft glow under progress
         Rectangle {
             anchors.centerIn: parent
+            visible: root.showGlow
             width: gaugeFace.radius * 1.15
             height: width
             radius: width / 2
@@ -193,66 +316,84 @@ T.Control {
             }
         }
 
+        // Scale (track)
         Shape {
             anchors.fill: parent
             preferredRendererType: Shape.CurveRenderer
             ShapePath {
-                strokeWidth: root.strokeWidth
-                strokeColor: root.trackColor
+                strokeWidth: root.scaleWidth
+                strokeColor: root.scaleBrush
                 fillColor: "transparent"
                 capStyle: ShapePath.RoundCap
-                startX: gaugeFace.width / 2 + Math.cos(root.startAngle * Math.PI / 180) * gaugeFace.radius
-                startY: gaugeFace.height / 2 + Math.sin(root.startAngle * Math.PI / 180) * gaugeFace.radius
+                startX: gaugeFace.width / 2 + Math.cos(root.minAngle * Math.PI / 180) * gaugeFace.radius
+                startY: gaugeFace.height / 2 + Math.sin(root.minAngle * Math.PI / 180) * gaugeFace.radius
                 PathAngleArc {
                     centerX: gaugeFace.width / 2
                     centerY: gaugeFace.height / 2
                     radiusX: gaugeFace.radius
                     radiusY: gaugeFace.radius
-                    startAngle: root.startAngle
-                    sweepAngle: root.sweepTotal
+                    startAngle: root.minAngle
+                    sweepAngle: root.maxAngle - root.minAngle
                 }
             }
         }
 
+        // Trail (progress)
         Shape {
             id: fillArc
             anchors.fill: parent
             preferredRendererType: Shape.CurveRenderer
-            // Sweep angle in degrees
-            property real sweep: root.animatedNorm * root.sweepTotal
+            property real sweep: root.animatedNorm * (root.maxAngle - root.minAngle)
             ShapePath {
-                strokeWidth: root.strokeWidth
+                strokeWidth: root.scaleWidth
                 strokeColor: root.enabled ? root.effectiveFillColor : Theme.textDisabled
                 fillColor: "transparent"
                 capStyle: ShapePath.RoundCap
-                startX: gaugeFace.width / 2 + Math.cos(root.startAngle * Math.PI / 180) * gaugeFace.radius
-                startY: gaugeFace.height / 2 + Math.sin(root.startAngle * Math.PI / 180) * gaugeFace.radius
+                startX: gaugeFace.width / 2 + Math.cos(root.minAngle * Math.PI / 180) * gaugeFace.radius
+                startY: gaugeFace.height / 2 + Math.sin(root.minAngle * Math.PI / 180) * gaugeFace.radius
                 PathAngleArc {
                     centerX: gaugeFace.width / 2
                     centerY: gaugeFace.height / 2
                     radiusX: gaugeFace.radius
                     radiusY: gaugeFace.radius
-                    startAngle: root.startAngle
+                    startAngle: root.minAngle
                     sweepAngle: fillArc.sweep
                 }
             }
         }
 
+        // Scale ticks (notches on the arc)
         Repeater {
-            model: root.tickCount
-            Rectangle {
+            model: root.scaleTickWidth > 0 ? root._tickNorms : []
+            delegate: Rectangle {
                 required property int index
-                width: 2
-                height: root.strokeWidth * 0.4
+                required property real modelData
+                width: root.scaleTickWidth
+                height: root.scaleWidth * 0.85
                 radius: 1
-                color: Theme.textSecondary
-                opacity: 0.45
-                // Angle in degrees
-                property real angDeg: root.startAngle + (index / Math.max(1, root.tickCount - 1)) * root.sweepTotal
-                // Angle in degrees
-                property real ang: angDeg * Math.PI / 180
-                // Resolved radius
-                property real rr: gaugeFace.radius
+                color: root.scaleTickBrush
+                readonly property real angDeg: root.minAngle + modelData * (root.maxAngle - root.minAngle)
+                readonly property real ang: angDeg * Math.PI / 180
+                x: gaugeFace.width / 2 + Math.cos(ang) * gaugeFace.radius - width / 2
+                y: gaugeFace.height / 2 + Math.sin(ang) * gaugeFace.radius - height / 2
+                rotation: angDeg + 90
+            }
+        }
+
+        // Outer ticks
+        Repeater {
+            model: root.showTicks ? root._tickNorms : []
+            delegate: Rectangle {
+                required property int index
+                required property real modelData
+                width: root.tickWidth
+                height: root.tickLength
+                radius: 1
+                color: root.tickBrush
+                opacity: 0.7
+                readonly property real angDeg: root.minAngle + modelData * (root.maxAngle - root.minAngle)
+                readonly property real ang: angDeg * Math.PI / 180
+                readonly property real rr: gaugeFace.radius + root.scaleWidth * 0.5 + root.tickPadding + root.tickLength * 0.5
                 x: gaugeFace.width / 2 + Math.cos(ang) * rr - width / 2
                 y: gaugeFace.height / 2 + Math.sin(ang) * rr - height / 2
                 rotation: angDeg + 90
@@ -263,25 +404,23 @@ T.Control {
         Item {
             visible: root.showNeedle
             anchors.fill: parent
-            rotation: root.startAngle + 90 + root.animatedNorm * root.sweepTotal
+            rotation: root.valueAngle + 90
             transformOrigin: Item.Center
-            Behavior on rotation {
-                enabled: false // driven by animatedNorm already
-            }
             Rectangle {
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.bottom: parent.verticalCenter
-                width: 3
-                height: gaugeFace.radius * 0.72
-                radius: 1.5
-                color: Theme.textPrimary
-                opacity: 0.85
+                width: root.needleWidth
+                height: gaugeFace.radius * Math.max(0, Math.min(1.2,
+                        root.needleLength > 1 ? root.needleLength / 100 : root.needleLength))
+                radius: width / 2
+                color: root.needleBrush
+                opacity: 0.9
             }
             Rectangle {
                 anchors.centerIn: parent
-                width: 10
-                height: 10
-                radius: 5
+                width: Math.max(10, root.needleWidth * 3)
+                height: width
+                radius: width / 2
                 color: Theme.bgCard
                 border.width: 2
                 border.color: root.effectiveFillColor
@@ -290,7 +429,8 @@ T.Control {
 
         Column {
             anchors.centerIn: parent
-            anchors.verticalCenterOffset: root.sweepTotal < 360 ? gaugeFace.radius * 0.22 : 0
+            anchors.verticalCenterOffset: Math.abs(root.maxAngle - root.minAngle) < 360
+                                          ? gaugeFace.radius * 0.22 : 0
             spacing: 2
             visible: root.showValue
             Text {

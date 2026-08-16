@@ -28,6 +28,7 @@ SwipeControl {
 ## Notes
 
 Content + left/right SwipeAction reveal; openLeft/openRight/close.
+swipeMode: reveal | execute (WinUI SwipeMode).
 
 ## API
 
@@ -45,6 +46,7 @@ Content + left/right SwipeAction reveal; openLeft/openRight/close.
 | `revealThreshold` | `real` | Drag distance to snap open |
 | `isOpen` | `bool` | Open / visible state |
 | `openMode` | `int` | single \| multiple reveal mode |
+| `swipeMode` | `string` | WinUI SwipeMode: reveal \| execute |
 | `maxLeftReveal` | `real` | Max left swipe reveal width |
 | `maxRightReveal` | `real` | Max right swipe reveal width |
 

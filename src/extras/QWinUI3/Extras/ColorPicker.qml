@@ -23,6 +23,8 @@ import QWinUI3.Theme
 //   Edits selectedColor via spectrum + RGB/HSV/hex fields.
 //   copyHex() writes #RRGGBB to the clipboard.
 //   Bind selectedColor; channel props (hue/saturation/value/alpha) stay in sync.
+//   previousColor + isPreviousColorVisible show a restore swatch (WinUI PreviousColor).
+//   colorSpectrumShape: box | ring; isAlphaEnabled aliases showAlpha.
 
 T.Control {
     id: control
@@ -37,16 +39,31 @@ T.Control {
     property real value: 0.72
     // Show alpha channel editor
     property bool showAlpha: false
+    // WinUI IsAlphaEnabled
+    property alias isAlphaEnabled: control.showAlpha
     // Alpha 0..1
     property real alpha: 1
     // rgb | hsv | hex editor mode
     property int colorModel: 0 // 0 RGB, 1 HSV, 2 HEX
     // Show color spectrum
     property bool isColorSpectrumVisible: true
+    // WinUI ColorSpectrumShape: box | ring
+    property string colorSpectrumShape: "box"
     // Show color preview swatch
     property bool isColorPreviewVisible: true
     // Show channel text inputs
     property bool isColorChannelTextInputVisible: true
+    // Show value (brightness) slider
+    property bool isColorSliderVisible: true
+    // Show hex field row
+    property bool isHexInputVisible: true
+    // WinUI PreviousColor — shown above the current swatch; click restores it
+    property color previousColor: "#00000000"
+    // When true, always show the previous-color half of the previewer
+    property bool isPreviousColorVisible: false
+
+    readonly property bool _showPrevious: isPreviousColorVisible || previousColor.a > 0.001
+    readonly property bool _ringSpectrum: String(colorSpectrumShape).toLowerCase() === "ring"
 
     // Emitted when a color is chosen
     signal colorChosen(color color)
@@ -232,6 +249,11 @@ T.Control {
         syncFromColor(selectedColor, false)
     }
 
+    onColorSpectrumShapeChanged: {
+        if (spectrum)
+            spectrum.requestPaint()
+    }
+
     Component.onCompleted: {
         syncFromColor(selectedColor, false)
     }
@@ -245,17 +267,26 @@ T.Control {
         // Spectrum + vertical preview
         RowLayout {
             Layout.fillWidth: true
+            Layout.preferredHeight: 180
             spacing: 12
 
             Item {
                 id: spectrumHost
                 visible: control.isColorSpectrumVisible
+                // Prefer a real 2D spectrum; do not let the preview strip steal width.
                 Layout.fillWidth: true
-                Layout.preferredHeight: 180
+                Layout.fillHeight: true
+                Layout.minimumWidth: 160
+                Layout.preferredWidth: 240
+                Layout.maximumWidth: 65535
+                implicitWidth: 240
+                implicitHeight: 180
 
                 Canvas {
                     id: spectrum
                     anchors.fill: parent
+                    onWidthChanged: requestPaint()
+                    onHeightChanged: requestPaint()
                     onPaint: {
                         var ctx = getContext("2d")
                         var w = width
@@ -263,14 +294,37 @@ T.Control {
                         if (w < 2 || h < 2)
                             return
                         ctx.clearRect(0, 0, w, h)
+                        if (control._ringSpectrum) {
+                            var cx = w / 2
+                            var cy = h / 2
+                            var rMax = Math.min(w, h) / 2 - 1
+                            var step = Math.max(2, Math.floor(rMax / 32))
+                            for (var yy = 0; yy < h; yy += step) {
+                                for (var xx = 0; xx < w; xx += step) {
+                                    var dx = xx - cx + step / 2
+                                    var dy = yy - cy + step / 2
+                                    var dist = Math.sqrt(dx * dx + dy * dy)
+                                    if (dist > rMax)
+                                        continue
+                                    var ang = Math.atan2(dy, dx) * 180 / Math.PI
+                                    if (ang < 0)
+                                        ang += 360
+                                    var sat = control.clamp01(dist / Math.max(1, rMax))
+                                    var rgb = control.hsvToRgb(ang, sat, control.value)
+                                    ctx.fillStyle = Qt.rgba(rgb.r, rgb.g, rgb.b, 1)
+                                    ctx.fillRect(xx, yy, step + 1, step + 1)
+                                }
+                            }
+                            return
+                        }
                         var stepX = Math.max(1, Math.floor(w / 96))
                         var stepY = Math.max(1, Math.floor(h / 72))
                         for (var y = 0; y < h; y += stepY) {
-                            var sat = 1 - (y / Math.max(1, h - 1))
+                            var satBox = 1 - (y / Math.max(1, h - 1))
                             for (var x = 0; x < w; x += stepX) {
                                 var hu = (x / Math.max(1, w - 1)) * 360
-                                var rgb = control.hsvToRgb(hu, sat, control.value)
-                                ctx.fillStyle = Qt.rgba(rgb.r, rgb.g, rgb.b, 1)
+                                var rgbBox = control.hsvToRgb(hu, satBox, control.value)
+                                ctx.fillStyle = Qt.rgba(rgbBox.r, rgbBox.g, rgbBox.b, 1)
                                 ctx.fillRect(x, y, stepX + 1, stepY + 1)
                             }
                         }
@@ -283,7 +337,7 @@ T.Control {
 
                 Rectangle {
                     anchors.fill: parent
-                    radius: Theme.cornerControl
+                    radius: control._ringSpectrum ? width / 2 : Theme.cornerControl
                     color: "transparent"
                     border.width: 1
                     border.color: Theme.strokeControl
@@ -297,8 +351,24 @@ T.Control {
                     height: 16
                     radius: 8
                     z: 3
-                    x: Math.round((control.hue / 360) * (spectrumHost.width - 1)) - width / 2
-                    y: Math.round((1 - control.saturation) * (spectrumHost.height - 1)) - height / 2
+                    x: {
+                        if (control._ringSpectrum) {
+                            var rMax = Math.min(spectrumHost.width, spectrumHost.height) / 2 - 1
+                            var ang = control.hue * Math.PI / 180
+                            var rr = control.saturation * rMax
+                            return spectrumHost.width / 2 + Math.cos(ang) * rr - width / 2
+                        }
+                        return Math.round((control.hue / 360) * (spectrumHost.width - 1)) - width / 2
+                    }
+                    y: {
+                        if (control._ringSpectrum) {
+                            var rMaxY = Math.min(spectrumHost.width, spectrumHost.height) / 2 - 1
+                            var angY = control.hue * Math.PI / 180
+                            var rrY = control.saturation * rMaxY
+                            return spectrumHost.height / 2 + Math.sin(angY) * rrY - height / 2
+                        }
+                        return Math.round((1 - control.saturation) * (spectrumHost.height - 1)) - height / 2
+                    }
                     color: "transparent"
                     border.width: 2
                     border.color: "#FFFFFF"
@@ -318,8 +388,22 @@ T.Control {
                     cursorShape: Qt.CrossCursor
                     preventStealing: true
                     function pick(mx, my) {
-                        control.hue = control.clamp01(mx / Math.max(1, width - 1)) * 360
-                        control.saturation = 1 - control.clamp01(my / Math.max(1, height - 1))
+                        if (control._ringSpectrum) {
+                            var cx = width / 2
+                            var cy = height / 2
+                            var rMax = Math.min(width, height) / 2 - 1
+                            var dx = mx - cx
+                            var dy = my - cy
+                            var dist = Math.sqrt(dx * dx + dy * dy)
+                            var ang = Math.atan2(dy, dx) * 180 / Math.PI
+                            if (ang < 0)
+                                ang += 360
+                            control.hue = ang
+                            control.saturation = control.clamp01(dist / Math.max(1, rMax))
+                        } else {
+                            control.hue = control.clamp01(mx / Math.max(1, width - 1)) * 360
+                            control.saturation = 1 - control.clamp01(my / Math.max(1, height - 1))
+                        }
                         control.applyHsv(true)
                     }
                     onPressed: function (mouse) { pick(mouse.x, mouse.y) }
@@ -330,20 +414,64 @@ T.Control {
                 }
             }
 
-            // Selected color preview strip (WinUI ColorPreviewer)
-            Rectangle {
+            // WinUI ColorPreviewer: fixed-width strip (previous on top, current below)
+            Item {
+                id: previewStrip
                 visible: control.isColorPreviewVisible
                 Layout.preferredWidth: 28
+                Layout.minimumWidth: 28
+                Layout.maximumWidth: 28
                 Layout.fillHeight: true
-                radius: Theme.cornerControl
-                color: control.selectedColor
-                border.width: 1
-                border.color: Theme.strokeControl
-                Behavior on color {
-                    enabled: !Theme.reducedMotion
-                    ColorAnimation {
-                        duration: Theme.duration(Theme.motionNormal)
-                        easing.type: Theme.easingStandard
+                Layout.alignment: Qt.AlignVCenter
+                implicitWidth: 28
+                implicitHeight: 180
+
+                Column {
+                    anchors.fill: parent
+                    spacing: 2
+
+                    Rectangle {
+                        visible: control._showPrevious
+                        width: parent.width
+                        height: visible
+                                ? Math.floor((parent.height - parent.spacing) / 2)
+                                : 0
+                        radius: Theme.cornerControl
+                        color: control.previousColor
+                        border.width: 1
+                        border.color: Theme.strokeControl
+                        Accessible.name: qsTr("Previous color")
+                        MouseArea {
+                            id: prevArea
+                            anchors.fill: parent
+                            enabled: control._showPrevious
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            onClicked: {
+                                control.syncFromColor(control.previousColor, true)
+                                control.colorChosen(control.selectedColor)
+                            }
+                        }
+                        ToolTip.visible: prevArea.containsMouse
+                        ToolTip.text: qsTr("Restore previous")
+                        ToolTip.delay: 400
+                    }
+                    Rectangle {
+                        width: parent.width
+                        height: control._showPrevious
+                                ? Math.ceil((parent.height - parent.spacing) / 2)
+                                : parent.height
+                        radius: Theme.cornerControl
+                        color: control.selectedColor
+                        border.width: 1
+                        border.color: Theme.strokeControl
+                        Behavior on color {
+                            enabled: !Theme.reducedMotion
+                            ColorAnimation {
+                                duration: Theme.duration(Theme.motionNormal)
+                                easing.type: Theme.easingStandard
+                            }
+                        }
                     }
                 }
             }
@@ -353,6 +481,7 @@ T.Control {
         Item {
             Layout.fillWidth: true
             Layout.preferredHeight: 28
+            visible: control.isColorSliderVisible
 
             Canvas {
                 id: valueTrack
@@ -426,10 +555,12 @@ T.Control {
         RowLayout {
             Layout.fillWidth: true
             spacing: 8
+            visible: control.isHexInputVisible || control.isColorChannelTextInputVisible
 
             ComboBox {
                 id: modelBox
                 Layout.preferredWidth: 96
+                visible: control.isColorChannelTextInputVisible || control.isHexInputVisible
                 model: [qsTr("RGB"), qsTr("HSV"), qsTr("HEX")]
                 currentIndex: control.colorModel
                 onActivated: control.colorModel = currentIndex
@@ -438,6 +569,7 @@ T.Control {
             TextField {
                 id: hexField
                 Layout.fillWidth: true
+                visible: control.isHexInputVisible
                 text: "#005FB8"
                 selectByMouse: true
                 validator: RegularExpressionValidator {
@@ -452,6 +584,7 @@ T.Control {
                 }
             }
             CopyButton {
+                visible: control.isHexInputVisible
                 iconOnly: true
                 textToCopy: control.hexString(control.selectedColor)
                 Accessible.name: qsTr("Copy hex")

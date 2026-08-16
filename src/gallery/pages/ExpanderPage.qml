@@ -67,6 +67,35 @@ Page {
                             text: qsTr("Action")
                         }
                     }
+                    Expander {
+                        Layout.fillWidth: true
+                        symbol: FluentIcons.Contact
+                        expanded: false
+                        headerContent: RowLayout {
+                            spacing: Theme.spacing
+                            Label {
+                                text: qsTr("Notifications")
+                                font.weight: Theme.fontWeightSemiBold
+                                color: Theme.textPrimary
+                                Layout.fillWidth: true
+                            }
+                            InfoBadge {
+                                id: headerBadge
+                                value: 3
+                                severity: headerBadge.informational
+                            }
+                            Switch {
+                                checked: true
+                                onClicked: { /* keep header button from fighting */ }
+                            }
+                        }
+                        Label {
+                            text: qsTr("Custom WinUI Header slot — badge + switch beside the title.")
+                            wrapMode: Text.Wrap
+                            Layout.fillWidth: true
+                            color: Theme.textSecondary
+                        }
+                    }
                 }
             }
 

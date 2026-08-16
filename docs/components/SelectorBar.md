@@ -38,6 +38,7 @@ Horizontal selector tabs; model + currentIndex (nav-style underlines).
 | `model` | `var` | Data model / item list for this control |
 | `currentIndex` | `int` | Selected index |
 | `selectedIndex` | `alias` | Selected index alias |
+| `selectedItem` | `var` | Currently selected model item (WinUI SelectedItem) |
 | `selectionStyle` | `string` | "pill" (filled accent) or "underline" |
 
 ### Signals

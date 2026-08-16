@@ -24,7 +24,7 @@ Chip {
 
 ## Notes
 
-Compact tag; closable emits closeClicked; appearance filled|outline.
+Compact tag; closable emits closeClicked; appearance filled|outline; iconPlacement.
 
 ## API
 
@@ -41,6 +41,7 @@ Compact tag; closable emits closeClicked; appearance filled|outline.
 | `avatarText` | `string` | Initials / short avatar text instead of an icon |
 | `appearance` | `string` | filled \| outline |
 | `chipSize` | `string` | small \| medium |
+| `iconPlacement` | `string` | WinUI IconPlacement: left \| right |
 | `effectiveIconGlyph` | `string` | Resolved glyph string |
 
 ### Signals

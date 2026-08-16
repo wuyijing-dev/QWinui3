@@ -7,6 +7,7 @@ import QWinUI3.Theme
 //       SwipeAction {
 //           text: qsTr("Delete")
 //           symbol: FluentIcons.Delete
+//           behaviorOnInvoked: "close"
 //           onTriggered: remove()
 //       }
 //       Label { text: qsTr("Row") }
@@ -14,6 +15,7 @@ import QWinUI3.Theme
 //
 // @notes
 //   Action revealed by SwipeControl; text/symbol + onTriggered.
+//   behaviorOnInvoked: auto | close | remainOpen (WinUI SwipeBehaviorOnInvoked).
 
 Item {
     id: root
@@ -30,17 +32,40 @@ Item {
     property color textColor: "#FFFFFF"
     // Leading content slot
     property bool leading: false
+    // WinUI BehaviorOnInvoked: auto | close | remainOpen
+    property string behaviorOnInvoked: "auto"
 
     // Resolved glyph string
     readonly property string effectiveGlyph: IconSource.resolve(symbol, iconGlyph)
 
-    // Emitted when clicked
+    // Emitted when the action is invoked (preferred)
+    signal triggered()
+    // Emitted when clicked (alias of triggered for older demos)
     signal clicked()
 
     width: Math.max(88, contentCol.implicitWidth + 28)
     height: parent ? parent.height : Theme.navItemHeight
     Accessible.role: Accessible.Button
     Accessible.name: text
+
+    function _findSwipe() {
+        var p = parent
+        while (p) {
+            if (typeof p._afterActionInvoked === "function")
+                return p
+            p = p.parent
+        }
+        return null
+    }
+
+    // Invoke this action (also used by SwipeControl execute mode)
+    function invoke() {
+        triggered()
+        clicked()
+        var swipe = _findSwipe()
+        if (swipe)
+            swipe._afterActionInvoked(root)
+    }
 
     Rectangle {
         anchors.fill: parent
@@ -57,7 +82,7 @@ Item {
 
         TapHandler {
             id: tap
-            onTapped: root.clicked()
+            onTapped: root.invoke()
         }
 
         Column {

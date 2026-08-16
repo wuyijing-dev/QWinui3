@@ -28,6 +28,9 @@ import QWinUI3.Theme
 //   Prefer show() -> ContentDialogQueue so dialogs open one-at-a-time.
 //   Empty primary/secondary/closeButtonText hides that button.
 //   defaultButton: primary | secondary | close | none (or isPrimaryDefault).
+//   fullSizeDesired expands toward the overlay (WinUI FullSizeDesired).
+//   dialogResult: none | primary | secondary | close (WinUI ContentDialogResult).
+//   primaryButton / secondaryButton / closeButton slots override text buttons.
 //   Body: put content as children (moved into the dialog body slot).
 
 T.Dialog {
@@ -49,6 +52,17 @@ T.Dialog {
     property bool isSecondaryButtonEnabled: true
     // Enable close button
     property bool isCloseButtonEnabled: true
+    // WinUI FullSizeDesired — nearly fill the overlay when true
+    property bool fullSizeDesired: false
+    // WinUI ContentDialogResult: none | primary | secondary | close
+    // (dialogResult — cannot redeclare Dialog.result which is FINAL)
+    property string dialogResult: "none"
+    // Custom primary button content (overrides primaryButtonText when set)
+    property alias primaryButton: primarySlot.data
+    // Custom secondary button content
+    property alias secondaryButton: secondarySlot.data
+    // Custom close button content
+    property alias closeButton: closeSlot.data
     // Bindable open state (alias of visible)
     property alias isOpen: root.visible
     property bool __queueWired: false
@@ -59,11 +73,27 @@ T.Dialog {
     signal secondaryClicked()
     // Close button clicked
     signal closeClicked()
+    // Closed with a ContentDialogResult
+    signal resultReady(string result)
+    // WinUI Closing — set args.cancel = true to keep the dialog open
+    signal closing(var args)
 
     // Enqueue via ContentDialogQueue (preferred over open())
     function show() { ContentDialogQueue.enqueue(root) }
-    // Hide the control
-    function hide() { close() }
+    // Hide the control (respects Closing cancel)
+    function hide() { requestClose(root.dialogResult !== "none" ? root.dialogResult : "close") }
+
+    function requestClose(kind) {
+        var args = { cancel: false, result: kind || "none" }
+        closing(args)
+        if (args.cancel)
+            return false
+        if (kind && kind !== "none")
+            _finish(kind)
+        close()
+        return true
+    }
+
     // Open the next queued dialog
     function openQueued() { ContentDialogQueue.enqueue(root) }
 
@@ -71,6 +101,27 @@ T.Dialog {
         if (defaultButton.length)
             return defaultButton
         return isPrimaryDefault ? "primary" : "none"
+    }
+    readonly property bool _hasPrimaryCustom: primarySlot.children.length > 0
+    readonly property bool _hasSecondaryCustom: secondarySlot.children.length > 0
+    readonly property bool _hasCloseCustom: closeSlot.children.length > 0
+
+    function _finish(kind) {
+        root.dialogResult = kind
+        root.resultReady(kind)
+    }
+
+    onAboutToShow: {
+        root.dialogResult = "none"
+        syncBody()
+    }
+    onAccepted: {
+        if (root.dialogResult === "none")
+            _finish("primary")
+    }
+    onRejected: {
+        if (root.dialogResult === "none")
+            _finish("close")
     }
 
     modal: true
@@ -115,9 +166,17 @@ T.Dialog {
     }
 
     // Lock geometry to the column — never let Popup stretch the middle.
-    width: Math.max(320, Math.min(440, column.implicitWidth))
-    height: column.implicitHeight
-
+    // WinUI FullSizeDesired: expand toward the overlay with a margin.
+    width: {
+        if (fullSizeDesired && Overlay.overlay)
+            return Math.max(320, Overlay.overlay.width - 48)
+        return Math.max(320, Math.min(440, column.implicitWidth))
+    }
+    height: {
+        if (fullSizeDesired && Overlay.overlay)
+            return Math.max(column.implicitHeight, Overlay.overlay.height - 48)
+        return column.implicitHeight
+    }
     header: Item { implicitHeight: 0; implicitWidth: 0; visible: false }
     footer: Item { implicitHeight: 0; implicitWidth: 0; visible: false }
 
@@ -175,9 +234,12 @@ T.Dialog {
         Item {
             id: body
             Layout.fillWidth: true
+            Layout.fillHeight: root.fullSizeDesired
             Layout.leftMargin: 24
             Layout.rightMargin: 24
-            Layout.preferredHeight: Math.max(1, childrenRect.height)
+            Layout.preferredHeight: root.fullSizeDesired
+                                   ? Math.max(120, childrenRect.height)
+                                   : Math.max(1, childrenRect.height)
             Layout.bottomMargin: 16
             onWidthChanged: root._fitBodyChildren()
             onChildrenChanged: Qt.callLater(root._fitBodyChildren)
@@ -206,39 +268,61 @@ T.Dialog {
                 Button {
                     id: primaryBtn
                     text: root.primaryButtonText
-                    visible: root.primaryButtonText.length > 0
+                    visible: !_hasPrimaryCustom && root.primaryButtonText.length > 0
                     enabled: root.isPrimaryButtonEnabled
                     highlighted: root._defaultButton === "primary"
                     onClicked: {
                         root.primaryClicked()
-                        root.accept()
+                        if (!root.requestClose("primary"))
+                            return
+                        // requestClose already dismissed; avoid double-close via accept()
                     }
+                }
+                Item {
+                    id: primarySlot
+                    visible: root._hasPrimaryCustom
+                    width: visible ? Math.max(childrenRect.width, 1) : 0
+                    height: visible ? Math.max(childrenRect.height, Theme.controlHeight) : 0
                 }
                 Button {
                     id: secondaryBtn
                     text: root.secondaryButtonText
-                    visible: root.secondaryButtonText.length > 0
+                    visible: !_hasSecondaryCustom && root.secondaryButtonText.length > 0
                     enabled: root.isSecondaryButtonEnabled
                     highlighted: root._defaultButton === "secondary"
-                    onClicked: root.secondaryClicked()
+                    onClicked: {
+                        root.secondaryClicked()
+                        root.requestClose("secondary")
+                    }
+                }
+                Item {
+                    id: secondarySlot
+                    visible: root._hasSecondaryCustom
+                    width: visible ? Math.max(childrenRect.width, 1) : 0
+                    height: visible ? Math.max(childrenRect.height, Theme.controlHeight) : 0
                 }
                 Button {
                     id: closeBtn
                     text: root.closeButtonText
-                    visible: root.closeButtonText.length > 0
+                    visible: !_hasCloseCustom && root.closeButtonText.length > 0
                     enabled: root.isCloseButtonEnabled
                     highlighted: root._defaultButton === "close"
                     onClicked: {
                         root.closeClicked()
-                        root.reject()
+                        root.requestClose("close")
                     }
+                }
+                Item {
+                    id: closeSlot
+                    visible: root._hasCloseCustom
+                    width: visible ? Math.max(childrenRect.width, 1) : 0
+                    height: visible ? Math.max(childrenRect.height, Theme.controlHeight) : 0
                 }
             }
         }
     }
 
     Component.onCompleted: Qt.callLater(syncBody)
-    onAboutToShow: syncBody()
 
     // Instance children land on contentItem; move them into the body slot.
     function syncBody() {

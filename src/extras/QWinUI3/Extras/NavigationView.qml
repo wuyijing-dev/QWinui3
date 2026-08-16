@@ -21,6 +21,7 @@ import QWinUI3.Theme
 //   // --- API ---
 //   // navigate: nav.selectKey("home"), nav.selectFooter(), nav.openPage("HomePage")
 //   //           nav.openSlide("HomePage"), nav.openFromCenter("HomePage")
+//   //           nav.openFade("HomePage"), nav.openDrill("HomePage")
 //   //           nav.navigateToTitle("Home"), nav.reloadPage()
 //   // groups:   nav.toggleGroup(key), nav.setGroupExpanded(key, true)
 //   // reorder:  nav.moveNavItem(from, to)   // requires isReorderable
@@ -32,6 +33,9 @@ import QWinUI3.Theme
 //   pageModule + component names load StackView pages (unless hostContent).
 //   paneDisplayMode auto switches left / leftCompact by width.
 //   leftMinimal overlays content with a light-dismiss scrim.
+//   pageTransition / openPage modes: slide | slideRight | fade | center | drill |
+//   up | down | cover | none (suppress). Pane clicks use pageTransition.
+//   WinUI aliases: paneTitle, openPaneLength, compactPaneLength, isSettingsVisible, isPaneToggleButtonVisible.
 //   Prefer selectKey / openPage over mutating currentIndex alone.
 
 Item {
@@ -43,12 +47,21 @@ Item {
     property int currentIndex: 0
     // Expanded pane when true (left / leftMinimal); compact modes force false
     property bool paneOpen: true
-    // Expanded pane width
+    // WinUI IsPaneOpen alias
+    property alias isPaneOpen: root.paneOpen
+    // WinUI IsPaneVisible — hide the navigation pane entirely when false
+    property bool isPaneVisible: true
+    // WinUI AlwaysShowHeader — keep pane title visible in compact / collapsed modes
+    property bool alwaysShowHeader: false
+    // Expanded pane width (WinUI OpenPaneLength)
     property real paneWidth: Theme.navPaneWidth
-    // Compact pane width
+    property alias openPaneLength: root.paneWidth
+    // Compact pane width (WinUI CompactPaneLength)
     property real paneCompactWidth: Theme.navPaneCompactWidth
-    // Pane header title text
+    property alias compactPaneLength: root.paneCompactWidth
+    // Pane header title text (WinUI PaneTitle)
     property string headerText: qsTr("QWinUI3")
+    property alias paneTitle: root.headerText
     // Footer row label
     property string footerText: qsTr("Settings")
     // Footer FluentIcons symbol
@@ -61,6 +74,10 @@ Item {
     property string pageModule: "QWinUI3.Gallery"
     // True when footer row is selected
     property bool footerSelected: false
+    // WinUI IsSettingsVisible — show the settings/footer item
+    property bool isSettingsVisible: true
+    // WinUI IsPaneToggleButtonVisible — hamburger / pane toggle
+    property bool isPaneToggleButtonVisible: true
     // WinUI PaneDisplayMode: left | leftCompact | leftMinimal | top | auto
     property string paneDisplayMode: "left"
     // Width below which auto mode uses leftCompact
@@ -99,12 +116,22 @@ Item {
     property var expandedMap: ({})
     // Selected nav key (supports "group/0" child paths)
     property string currentKey: "home"
-    // Pending page transition: "slide" | "center"
+    // Default page transition for pane clicks (see openPage modes)
+    property string pageTransition: "slide"
+    // Last / pending page transition mode
     property string pendingMode: "slide"
+    // Supported mode ids for Settings / Gallery pickers
+    readonly property var pageTransitionModes: [
+        "slide", "slideRight", "fade", "center", "drill", "up", "down", "cover", "none"
+    ]
     property real _enterX: 0
     property real _exitX: 0
+    property real _enterY: 0
+    property real _exitY: 0
     property real _enterScale: 1
     property real _exitScale: 1
+    property real _enterOpacity: 0
+    property real _exitOpacity: 0
     property string _typeAhead: ""
     property int _dragFromIndex: -1
 
@@ -133,7 +160,11 @@ Item {
         return paneOpen ? paneWidth : paneCompactWidth
     }
     // leftMinimal overlays content — layout width stays 0 so the page does not shrink.
-    readonly property real _paneLayoutWidth: resolvedPaneMode === "leftMinimal" ? 0 : _paneWidth
+    readonly property real _paneLayoutWidth: {
+        if (!isPaneVisible)
+            return 0
+        return resolvedPaneMode === "leftMinimal" ? 0 : _paneWidth
+    }
     // Current page item
     readonly property alias pageItem: pageStack.currentItem
     readonly property bool _paneShowsLabels: paneOpen && resolvedPaneMode !== "leftCompact"
@@ -423,8 +454,28 @@ Item {
         var idx = flatIndexForKey(root.currentKey)
         if (idx < 0)
             return -1
-        // Search / programmatic nav often lands on an off-screen group — force the
-        // delegate to exist so selectionPip can mapToItem a real anchor.
+
+        // Prefer the pip anchor (child row inside an expanded group). Using
+        // ListView.Contain on a tall group delegate snaps to the group top and
+        // can scroll the clicked control out of view.
+        var anchor = selectionAnchorItem()
+        if (anchor && anchor.height >= 8) {
+            var p = anchor.mapToItem(navList.contentItem, 0, 0)
+            var top = p.y
+            var bottom = p.y + anchor.height
+            var viewTop = navList.contentY
+            var viewBottom = navList.contentY + navList.height
+            var margin = 8
+            var maxY = Math.max(0, navList.contentHeight - navList.height)
+            if (top < viewTop + margin) {
+                navList.contentY = Math.max(0, Math.min(maxY, top - margin))
+            } else if (bottom > viewBottom - margin) {
+                navList.contentY = Math.max(0, Math.min(maxY, bottom - navList.height + margin))
+            }
+            return idx
+        }
+
+        // Fallback when the delegate is not instantiated yet (off-screen).
         navList.positionViewAtIndex(idx, ListView.Contain)
         return idx
     }
@@ -437,7 +488,7 @@ Item {
         var it = root.model[index]
         if (!it || it.type === "header" || it.type === "group")
             return
-        selectKey(it.key || ("item_" + index), "slide")
+        selectKey(it.key || ("item_" + index), root.pageTransition)
         itemClicked(index)
     }
 
@@ -453,7 +504,7 @@ Item {
             setGroupExpanded(key.substring(0, slash), true)
         ensureSelectionVisible()
         if (!root.hostContent)
-            openPage(currentComponent, mode || "slide")
+            openPage(currentComponent, mode || root.pageTransition)
         // Sync legacy currentIndex for top-level items
         for (var i = 0; i < root.model.length; ++i) {
             var it = root.model[i]
@@ -478,7 +529,7 @@ Item {
         footerSelected = true
         footerClicked()
         if (!root.hostContent)
-            openPage(root.footerComponent, mode || "slide")
+            openPage(root.footerComponent, mode || root.pageTransition)
     }
 
     property var _compCache: ({})
@@ -502,21 +553,77 @@ Item {
         return comp
     }
 
-    // Replace the page stack with the named component
-    function openPage(name, mode) {
-        var useMode = mode || "slide"
-        root.pendingMode = useMode
-        if (useMode === "center") {
-            root._enterX = 0
-            root._exitX = 0
+    // Configure enter/exit transform targets for a named transition mode
+    function applyPageTransition(mode) {
+        var m = String(mode || root.pageTransition || "slide").toLowerCase()
+        if (m === "suppress")
+            m = "none"
+        if (m === "drillin")
+            m = "drill"
+        if (Theme.reducedMotion && m !== "none")
+            m = "fade"
+
+        root.pendingMode = m
+        root._enterX = 0
+        root._exitX = 0
+        root._enterY = 0
+        root._exitY = 0
+        root._enterScale = 1
+        root._exitScale = 1
+        root._enterOpacity = 0
+        root._exitOpacity = 0
+
+        var w = pageStack.width > 0 ? pageStack.width : 400
+        var h = pageStack.height > 0 ? pageStack.height : 300
+
+        switch (m) {
+        case "none":
+            root._enterOpacity = 1
+            break
+        case "fade":
+            break
+        case "center":
             root._enterScale = 0.94
             root._exitScale = 0.98
-        } else {
-            root._enterX = pageStack.width > 0 ? -0.12 * pageStack.width : -48
-            root._exitX = pageStack.width > 0 ? 0.06 * pageStack.width : 24
-            root._enterScale = 1
-            root._exitScale = 1
+            break
+        case "drill":
+            root._enterScale = 0.88
+            root._exitScale = 1.06
+            break
+        case "slide":
+        case "slideleft":
+            root._enterX = -0.12 * w
+            root._exitX = 0.06 * w
+            break
+        case "slideright":
+            root._enterX = 0.12 * w
+            root._exitX = -0.06 * w
+            break
+        case "cover":
+            root._enterX = Math.max(48, 0.28 * w)
+            root._exitX = -0.08 * w
+            break
+        case "up":
+            root._enterY = Math.max(24, 0.08 * h)
+            root._exitY = -Math.max(12, 0.04 * h)
+            break
+        case "down":
+            root._enterY = -Math.max(24, 0.08 * h)
+            root._exitY = Math.max(12, 0.04 * h)
+            break
+        default:
+            root._enterX = -0.12 * w
+            root._exitX = 0.06 * w
+            root.pendingMode = "slide"
+            break
         }
+    }
+
+    // Replace the page stack with the named component
+    function openPage(name, mode) {
+        var useMode = mode || root.pageTransition || "slide"
+        applyPageTransition(useMode)
+        var immediate = root.pendingMode === "none"
 
         var comp = ensureComponent(name)
         if (!comp)
@@ -525,6 +632,8 @@ Item {
             var props = { transformOrigin: Item.Center }
             if (pageStack.depth === 0)
                 pageStack.push(c, props, StackView.Immediate)
+            else if (immediate)
+                pageStack.replace(c, props, StackView.Immediate)
             else
                 pageStack.replace(c, props)
             root.pageOpened(name)
@@ -544,6 +653,41 @@ Item {
     // Left-nav style: content slides in from the left
     function openSlide(name) {
         openPage(name, "slide")
+    }
+
+    // Forward slide from the right
+    function openSlideRight(name) {
+        openPage(name, "slideRight")
+    }
+
+    // Opacity-only crossfade
+    function openFade(name) {
+        openPage(name, "fade")
+    }
+
+    // Stronger scale drill-in (WinUI DrillIn–style)
+    function openDrill(name) {
+        openPage(name, "drill")
+    }
+
+    // Vertical rise from below
+    function openUp(name) {
+        openPage(name, "up")
+    }
+
+    // Vertical settle from above
+    function openDown(name) {
+        openPage(name, "down")
+    }
+
+    // Covering slide from the right
+    function openCover(name) {
+        openPage(name, "cover")
+    }
+
+    // Instant swap (no motion)
+    function openNone(name) {
+        openPage(name, "none")
     }
 
     // Keep center-open API (scale + fade from middle)
@@ -582,12 +726,12 @@ Item {
                 var gkey = it.key || ("group_" + i)
                 for (var j = 0; j < it.children.length; ++j) {
                     if (it.children[j].title === title) {
-                        selectKey(gkey + "/" + j, mode || "slide")
+                        selectKey(gkey + "/" + j, mode || root.pageTransition)
                         return
                     }
                 }
             } else if (it && it.title === title) {
-                selectKey(it.key || ("item_" + i), mode || "slide")
+                selectKey(it.key || ("item_" + i), mode || root.pageTransition)
                 return
             }
         }
@@ -595,13 +739,13 @@ Item {
 
     // Reload the current page component
     function reloadPage() {
-        openPage(root.currentComponent, root.pendingMode || "slide")
+        openPage(root.currentComponent, root.pendingMode || root.pageTransition || "slide")
     }
 
     Component.onCompleted: {
         rebuildNavModel()
         if (!root.hostContent)
-            openPage(root.currentComponent, "slide")
+            openPage(root.currentComponent, root.pageTransition)
     }
 
     // leftMinimal: pane reparents here so it floats over content (WinUI light-dismiss).
@@ -724,13 +868,13 @@ Item {
                                     var gkey = it.key || ("group_" + i)
                                     if (gkey !== key || !it.children || !it.children.length)
                                         continue
-                                    root.selectKey(gkey + "/0", "slide")
+                                    root.selectKey(gkey + "/0", root.pageTransition)
                                     root.itemClicked(modelIndex)
                                     return
                                 }
                                 return
                             }
-                            root.selectKey(key, "slide")
+                            root.selectKey(key, root.pageTransition)
                             root.itemClicked(modelIndex)
                         }
 
@@ -815,12 +959,12 @@ Item {
                                                 continue
                                             var gkey = it.key || ("group_" + j)
                                             if (gkey === key && it.children && it.children.length) {
-                                                root.selectKey(gkey + "/0", "slide")
+                                                root.selectKey(gkey + "/0", root.pageTransition)
                                                 return
                                             }
                                         }
                                     } else {
-                                        root.selectKey(key, "slide")
+                                        root.selectKey(key, root.pageTransition)
                                     }
                                 }
                             })(row.key, row.kind))
@@ -837,7 +981,8 @@ Item {
                 }
 
                 ItemDelegate {
-                    visible: root.footerComponent.length > 0 || root.footerText.length > 0
+                    visible: root.isSettingsVisible
+                             && (root.footerComponent.length > 0 || root.footerText.length > 0)
                     Layout.preferredHeight: Theme.navItemHeight
                     Layout.preferredWidth: Math.max(Theme.navItemHeight, footerTopRow.implicitWidth + 16)
                     highlighted: root.footerSelected
@@ -845,7 +990,7 @@ Item {
                         root.footerSelected = true
                         root.footerClicked()
                         if (root.footerComponent.length)
-                            root.openPage(root.footerComponent, "slide")
+                            root.openPage(root.footerComponent, root.pageTransition)
                     }
                     contentItem: RowLayout {
                         id: footerTopRow
@@ -880,7 +1025,9 @@ Item {
         Item {
             id: paneSlot
             // leftMinimal uses overlay layer — keep a zero-width layout stub only.
-            visible: root.resolvedPaneMode !== "top" && root.resolvedPaneMode !== "leftMinimal"
+            visible: root.isPaneVisible
+                     && root.resolvedPaneMode !== "top"
+                     && root.resolvedPaneMode !== "leftMinimal"
             Layout.preferredWidth: visible ? root._paneLayoutWidth : 0
             Layout.fillHeight: true
             clip: false
@@ -904,6 +1051,7 @@ Item {
             width: root.resolvedPaneMode === "leftMinimal"
                    ? (root.paneOpen ? root.paneWidth : 0)
                    : parent.width
+            visible: root.isPaneVisible
             color: Theme.bgAcrylic
             clip: true
 
@@ -965,12 +1113,13 @@ Item {
                 }
 
                 ItemDelegate {
-                    visible: root.resolvedPaneMode === "left" || root.resolvedPaneMode === "leftMinimal"
+                    visible: root.isPaneToggleButtonVisible
+                             && (root.resolvedPaneMode === "left" || root.resolvedPaneMode === "leftMinimal")
                     Layout.fillWidth: true
                     Layout.preferredHeight: Theme.navItemHeight
-                    text: root.paneOpen ? root.headerText : ""
+                    text: (root.paneOpen || root.alwaysShowHeader) ? root.headerText : ""
                     onClicked: root.paneOpen = !root.paneOpen
-                    ToolTip.visible: !root.paneOpen && hovered
+                    ToolTip.visible: !root.paneOpen && !root.alwaysShowHeader && hovered
                     ToolTip.text: root.paneOpen ? qsTr("Collapse") : qsTr("Expand")
 
                     contentItem: RowLayout {
@@ -992,8 +1141,8 @@ Item {
                             }
                         }
                         Text {
-                            visible: root.paneOpen
-                            opacity: root.paneOpen ? 1 : 0
+                            visible: root.paneOpen || root.alwaysShowHeader
+                            opacity: (root.paneOpen || root.alwaysShowHeader) ? 1 : 0
                             text: root.headerText
                             font.family: Theme.fontFamily
                             font.pixelSize: Theme.fontBody
@@ -1017,13 +1166,17 @@ Item {
                     Layout.preferredHeight: Theme.navItemHeight
                     enabled: false
                     contentItem: Text {
-                        text: root.headerText.length ? root.headerText.charAt(0) : "Q"
+                        text: root.alwaysShowHeader
+                              ? root.headerText
+                              : (root.headerText.length ? root.headerText.charAt(0) : "Q")
                         font.family: Theme.fontFamily
                         font.pixelSize: Theme.fontBody
                         font.weight: Theme.fontWeightSemiBold
                         color: Theme.textPrimary
-                        horizontalAlignment: Text.AlignHCenter
+                        elide: Text.ElideRight
+                        horizontalAlignment: root.alwaysShowHeader ? Text.AlignLeft : Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
+                        leftPadding: root.alwaysShowHeader ? 8 : 0
                     }
                 }
 
@@ -1052,9 +1205,9 @@ Item {
                     onAccepted: function (t) { root.paneSearchActivated(t) }
                     onSuggestionChosen: function (item) {
                         if (item && item.key)
-                            root.selectKey(item.key, "slide")
+                            root.selectKey(item.key, root.pageTransition)
                         else if (item && item.title)
-                            root.navigateToTitle(item.title, "slide")
+                            root.navigateToTitle(item.title, root.pageTransition)
                         root.paneSearchActivated(paneSearch.displayTextFor(item))
                     }
                 }
@@ -1100,11 +1253,11 @@ Item {
                         Keys.onPressed: function (event) {
                             if (event.key === Qt.Key_Home) {
                                 if (navModel.count > 0)
-                                    root.selectKey(navModel.get(0).key, "slide")
+                                    root.selectKey(navModel.get(0).key, root.pageTransition)
                                 event.accepted = true
                             } else if (event.key === Qt.Key_End) {
                                 if (navModel.count > 0)
-                                    root.selectKey(navModel.get(navModel.count - 1).key, "slide")
+                                    root.selectKey(navModel.get(navModel.count - 1).key, root.pageTransition)
                                 event.accepted = true
                             } else if (event.key === Qt.Key_Right || event.key === Qt.Key_Return
                                        || event.key === Qt.Key_Enter) {
@@ -1126,7 +1279,7 @@ Item {
                                         continue
                                     if (String(r.title || "").toLowerCase().indexOf(root._typeAhead) === 0) {
                                         if (r.kind === "item")
-                                            root.selectKey(r.key, "slide")
+                                            root.selectKey(r.key, root.pageTransition)
                                         else
                                             navList.currentIndex = i
                                         break
@@ -1224,7 +1377,7 @@ Item {
                                         else
                                             root.toggleGroup(del.key)
                                     } else if (del.kind === "item") {
-                                        root.selectKey(del.key, "slide")
+                                        root.selectKey(del.key, root.pageTransition)
                                     }
                                 }
 
@@ -1413,7 +1566,7 @@ Item {
                                             highlighted: !root.footerSelected
                                                          && ((del.key + "/" + index) === root.currentKey)
 
-                                            onClicked: root.selectKey(del.key + "/" + index, "slide")
+                                            onClicked: root.selectKey(del.key + "/" + index, root.pageTransition)
 
                                             background: Item {
                                                 implicitHeight: Theme.navItemHeight
@@ -1632,7 +1785,8 @@ Item {
                 }
 
                 Rectangle {
-                    visible: root.footerComponent.length > 0 || root.footerText.length > 0
+                    visible: root.isSettingsVisible
+                             && (root.footerComponent.length > 0 || root.footerText.length > 0)
                     Layout.fillWidth: true
                     Layout.leftMargin: 8
                     Layout.rightMargin: 8
@@ -1641,7 +1795,8 @@ Item {
                 }
 
                 ItemDelegate {
-                    visible: root.footerComponent.length > 0 || root.footerText.length > 0
+                    visible: root.isSettingsVisible
+                             && (root.footerComponent.length > 0 || root.footerText.length > 0)
                     Layout.fillWidth: true
                     Layout.preferredHeight: Theme.navItemHeight
                     highlighted: root.footerSelected
@@ -1695,13 +1850,21 @@ Item {
                 ParallelAnimation {
                     NumberAnimation {
                         property: "opacity"
-                        from: 0; to: 1
+                        from: root._enterOpacity
+                        to: 1
                         duration: Theme.duration(Theme.motionNormal)
                         easing.type: Theme.easingEnter
                     }
                     NumberAnimation {
                         property: "x"
                         from: root._enterX
+                        to: 0
+                        duration: Theme.duration(Theme.motionSlow)
+                        easing.type: Theme.easingEnter
+                    }
+                    NumberAnimation {
+                        property: "y"
+                        from: root._enterY
                         to: 0
                         duration: Theme.duration(Theme.motionSlow)
                         easing.type: Theme.easingEnter
@@ -1719,7 +1882,8 @@ Item {
                 ParallelAnimation {
                     NumberAnimation {
                         property: "opacity"
-                        from: 1; to: 0
+                        from: 1
+                        to: root._exitOpacity
                         duration: Theme.duration(Theme.motionFast)
                         easing.type: Theme.easingExit
                     }
@@ -1727,6 +1891,13 @@ Item {
                         property: "x"
                         from: 0
                         to: root._exitX
+                        duration: Theme.duration(Theme.motionFast)
+                        easing.type: Theme.easingExit
+                    }
+                    NumberAnimation {
+                        property: "y"
+                        from: 0
+                        to: root._exitY
                         duration: Theme.duration(Theme.motionFast)
                         easing.type: Theme.easingExit
                     }
@@ -1879,7 +2050,7 @@ Item {
                             event.accepted = true
                         } else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
                             if (currentIndex >= 0 && currentIndex < flyoutModel.count) {
-                                root.selectKey(flyoutModel.get(currentIndex).key, "slide")
+                                root.selectKey(flyoutModel.get(currentIndex).key, root.pageTransition)
                                 compactFlyout.close()
                             }
                             event.accepted = true
@@ -1922,7 +2093,7 @@ Item {
                         height: Theme.navItemHeight
                         highlighted: key === root.currentKey
                         onClicked: {
-                            root.selectKey(key, "slide")
+                            root.selectKey(key, root.pageTransition)
                             compactFlyout.close()
                         }
 

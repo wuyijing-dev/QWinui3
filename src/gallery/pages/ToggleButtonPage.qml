@@ -49,6 +49,32 @@ Page {
                     ToggleButton { text: qsTr("Disabled"); enabled: false; checked: true }
                 }
             }
+            ControlExample {
+                Layout.fillWidth: true
+                Layout.leftMargin: Theme.spacingSection
+                Layout.rightMargin: Theme.spacingSection
+                headerText: qsTr("IsThreeState")
+                qmlSource: "ToggleButton {\n    isThreeState: true\n}"
+                ColumnLayout {
+                    spacing: Theme.spacing
+                    ToggleButton {
+                        id: triToggle
+                        text: qsTr("Three-state")
+                        symbol: FluentIcons.Checkmark
+                        isThreeState: true
+                    }
+                    Label {
+                        text: {
+                            switch (triToggle.checkState) {
+                            case Qt.Checked: return qsTr("State: Checked")
+                            case Qt.PartiallyChecked: return qsTr("State: PartiallyChecked")
+                            default: return qsTr("State: Unchecked")
+                            }
+                        }
+                        color: Theme.textSecondary
+                    }
+                }
+            }
             Item { Layout.preferredHeight: Theme.spacingSection; Layout.fillWidth: true }
         }
     }

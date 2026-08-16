@@ -45,6 +45,30 @@ Page {
                 }
             }
 
+            ControlExample {
+                Layout.fillWidth: true
+                Layout.leftMargin: Theme.spacingSection
+                Layout.rightMargin: Theme.spacingSection
+                headerText: qsTr("OnContent / OffContent")
+                qmlSource: "Switch {\n    text: \"Wi‑Fi\"\n    onContent: \"On\"\n    offContent: \"Off\"\n}"
+
+                ColumnLayout {
+                    Layout.fillWidth: true
+                    spacing: Theme.spacingLoose
+                    Switch {
+                        text: qsTr("Wi‑Fi")
+                        onContent: qsTr("On")
+                        offContent: qsTr("Off")
+                        checked: true
+                    }
+                    Switch {
+                        header: qsTr("Bluetooth")
+                        onContent: qsTr("On")
+                        offContent: qsTr("Off")
+                    }
+                }
+            }
+
             Item { Layout.preferredHeight: Theme.spacingSection; Layout.fillWidth: true }
         }
     }

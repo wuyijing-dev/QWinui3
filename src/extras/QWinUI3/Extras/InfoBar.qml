@@ -4,26 +4,25 @@ import QtQuick.Controls
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// InfoBar — Inline severity banner with optional action.
+// InfoBar — Inline severity banner with optional action and Content slot.
 //
 //   InfoBar {
 //       id: infoBar
 //       title: qsTr("Saved")
 //       message: qsTr("All changes stored.")
 //       severity: InfoBar.Success
+//       Button { flat: true; text: qsTr("Details") }
 //   }
 //
 //   // --- API ---
 //   // signals: onCloseClicked, onActionClicked, onClosed, onOpened
 //   // methods: open(), close(), setSeverityName(name)
-//   // infoBar.open()
-//   // infoBar.close()
-//   // infoBar.setSeverityName(name)
+//   // infoBar.open() / infoBar.close()
 //
 // @notes
 //   Inline severity banner: informational | success | warning | error.
-//   open()/close() or bind isOpen; optional actionText -> actionClicked.
-//   Prefer InfoBarHost.info/success/warning/error for stacked toasts-like banners.
+//   WinUI Content slot via default children (below message); actionText or action slot; isClosable.
+//   Prefer InfoBarHost.info/success/warning/error for stacked banners.
 
 T.Control {
     id: root
@@ -43,6 +42,8 @@ T.Control {
     property string title: ""
     // Body / message text
     property string message: ""
+    // WinUI / docs alias of message
+    property alias description: root.message
     // Open / visible state
     property bool isOpen: true
     // Shows a close affordance when true
@@ -59,10 +60,12 @@ T.Control {
     property var symbol: ""
     // Optional action button label
     property string actionText: ""
-    // Custom action slot
+    // Custom action slot (WinUI ActionButton)
     property alias action: actionSlot.data
+    // WinUI Content — rich body below the message
+    default property alias content: contentSlot.data
     // Auto-dismiss duration; 0 keeps open
-    property int durationMs: 0 // >0 auto-dismisses after open
+    property int durationMs: 0
     // Convenience string: "informational" | "success" | "warning" | "error"
     readonly property string severityName: {
         switch (severity) {
@@ -82,12 +85,9 @@ T.Control {
     // Emitted when opened
     signal opened()
 
-    // Open / show
     function open() { isOpen = true }
-    // Close / dismiss
     function close() { isOpen = false }
 
-    // Set severity from a string name
     function setSeverityName(name) {
         switch (String(name).toLowerCase()) {
         case "success": severity = success; break
@@ -110,7 +110,6 @@ T.Control {
     font.pixelSize: Theme.fontBody
 
     implicitWidth: Math.max(280, contentItem.implicitWidth + leftPadding + rightPadding)
-    // WinUI: closed InfoBar collapses layout height (no reserved gap).
     implicitHeight: isOpen ? (contentItem.implicitHeight + topPadding + bottomPadding) : 0
     Layout.preferredHeight: implicitHeight
 
@@ -230,7 +229,7 @@ T.Control {
 
         ColumnLayout {
             Layout.fillWidth: true
-            spacing: 2
+            spacing: 4
 
             Text {
                 visible: root.title.length > 0
@@ -244,12 +243,21 @@ T.Control {
             }
 
             Text {
+                visible: root.message.length > 0
                 text: root.message
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textPrimary
                 wrapMode: Text.Wrap
                 Layout.fillWidth: true
+            }
+
+            Item {
+                id: contentSlot
+                visible: children.length > 0
+                Layout.fillWidth: true
+                Layout.preferredHeight: children.length > 0 ? Math.max(childrenRect.height, 1) : 0
+                implicitHeight: childrenRect.height
             }
         }
 

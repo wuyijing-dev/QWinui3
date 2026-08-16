@@ -40,6 +40,8 @@ T.Control {
     property bool allowDuplicates: false
     // Characters that commit a token
     property string tokenDelimiters: ",;"
+    // Max height of the suggestion ListView (WinUI MaxSuggestionListHeight)
+    property real maxSuggestionListHeight: 180
     // Header label above the control
     property string header: ""
     // Supporting description text
@@ -278,7 +280,7 @@ T.Control {
                     contentItem: ListView {
                         id: suggestList
                         clip: true
-                        implicitHeight: Math.min(contentHeight, 180)
+                        implicitHeight: Math.min(contentHeight, root.maxSuggestionListHeight)
                         model: root.filteredSuggestions
                         keyNavigationEnabled: true
                         highlightMoveDuration: Theme.duration(Theme.motionFast)

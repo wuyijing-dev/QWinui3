@@ -21,6 +21,7 @@ import QWinUI3.Theme
 //
 // @notes
 //   Gauge with explicit colored zones; activeZoneIndex/Color/Label track the needle.
+//   Toolkit-aligned aliases: minAngle/maxAngle, scaleWidth, needleLength/Width, valueStringFormat.
 
 T.Control {
     id: root
@@ -41,20 +42,35 @@ T.Control {
     property string caption: ""
     // Digits after decimal for value text
     property int valuePrecision: 0
-    // Stroke thickness in px
+    // Stroke thickness in px (Toolkit ScaleWidth)
     property real strokeWidth: 14
+    property alias scaleWidth: root.strokeWidth
     // Show needle indicator
     property bool showNeedle: true
+    // Needle length as fraction of radius (or 0–100 Toolkit percent)
+    property real needleLength: 0.7
+    property real needleWidth: 3
+    property color needleBrush: Theme.textPrimary
     // Show numeric value label
     property bool showValue: true
+    // Toolkit-style format: "N0", "N1", …
+    property string valueStringFormat: ""
     // Show tick marks
     property bool showTicks: true
     // Major tick count
     property int tickCount: 9
-    // Arc start angle in degrees
+    // Tick spacing in value units (0 = use tickCount)
+    property real tickSpacing: 0
+    // Arc start / end (Toolkit MinAngle / MaxAngle)
     property real startAngle: -210
-    // Total sweep angle in degrees
     property real sweepTotal: 240
+    property alias minAngle: root.startAngle
+    property real maxAngle: startAngle + sweepTotal
+    onMaxAngleChanged: {
+        var expected = startAngle + sweepTotal
+        if (Math.abs(maxAngle - expected) > 0.001)
+            sweepTotal = maxAngle - startAngle
+    }
     // Alias of interactive
     property bool isInteractive: false
     // Enable hover / click interaction
@@ -110,9 +126,25 @@ T.Control {
     // Formatted value string
     readonly property string formattedValue: {
         var n = Number(animatedValue)
-        var t = valuePrecision > 0 ? n.toFixed(valuePrecision) : String(Math.round(n))
-        return t + (unit.length ? unit : "")
+        var t
+        if (valueStringFormat.length) {
+            var fmt = valueStringFormat.toUpperCase()
+            if (fmt === "N0" || fmt === "F0")
+                t = String(Math.round(n))
+            else if (fmt === "N1" || fmt === "F1")
+                t = n.toFixed(1)
+            else if (fmt === "N2" || fmt === "F2")
+                t = n.toFixed(2)
+            else
+                t = valuePrecision > 0 ? n.toFixed(valuePrecision) : String(Math.round(n))
+        } else {
+            t = valuePrecision > 0 ? n.toFixed(valuePrecision) : String(Math.round(n))
+        }
+        return t + (unit.length ? (" " + unit) : "")
     }
+
+    // Toolkit ValueAngle
+    readonly property real valueAngle: startAngle + animatedNorm * sweepTotal
 
     // Animated display value
     property real animatedValue: value
@@ -185,6 +217,19 @@ T.Control {
     Keys.onRightPressed: if (isInteractive) {
         setValue(value + (stepSize > 0 ? stepSize : (maximum - minimum) * 0.05))
         valueEdited(value)
+    }
+
+    WheelHandler {
+        enabled: root.isInteractive && root.enabled
+        onWheel: function (event) {
+            var step = root.stepSize > 0 ? root.stepSize : (root.maximum - root.minimum) * 0.05
+            var dir = event.angleDelta.y !== 0 ? event.angleDelta.y : event.angleDelta.x
+            if (dir === 0)
+                return
+            root.setValue(root.value + (dir > 0 ? step : -step))
+            root.valueEdited(root.value)
+            event.accepted = true
+        }
     }
 
     contentItem: Item {
@@ -280,10 +325,11 @@ T.Control {
             Rectangle {
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.bottom: parent.verticalCenter
-                width: 3
-                height: face.radius * 0.78
-                radius: 1.5
-                color: Theme.textPrimary
+                width: root.needleWidth
+                height: face.radius * Math.max(0, Math.min(1.2,
+                        root.needleLength > 1 ? root.needleLength / 100 : root.needleLength))
+                radius: width / 2
+                color: root.needleBrush
                 opacity: 0.9
             }
             Rectangle {

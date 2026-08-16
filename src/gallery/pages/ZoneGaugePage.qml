@@ -35,9 +35,10 @@ Page {
                 ColumnLayout {
                     spacing: Theme.spacingLoose
                     Label {
-                        text: qsTr("Active zone: %1 (%2)")
+                        text: qsTr("Active zone: %1 (%2) — angle %3° — scroll wheel when focused")
                               .arg(temp.activeZoneLabel)
                               .arg(temp.activeZoneIndex)
+                              .arg(Math.round(temp.valueAngle))
                         color: temp.activeZoneColor
                     }
                     RowLayout {
@@ -53,6 +54,13 @@ Page {
                             isInteractive: true
                             stepSize: 1
                             showTicks: true
+                            tickCount: 9
+                            scaleWidth: 16
+                            needleLength: 0.72
+                            needleWidth: 3
+                            valueStringFormat: "N0"
+                            minAngle: -210
+                            maxAngle: 30
                             zones: [
                                 { from: 0, to: 0.55, color: Theme.systemSuccess, label: qsTr("Cool") },
                                 { from: 0.55, to: 0.8, color: Theme.systemCaution, label: qsTr("Warm") },

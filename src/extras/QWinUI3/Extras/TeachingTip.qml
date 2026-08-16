@@ -4,7 +4,7 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// TeachingTip — Anchored tip with title, subtitle, and actions.
+// TeachingTip — Anchored tip with title, subtitle, content, and actions.
 //
 //   TeachingTip {
 //       id: tip
@@ -12,18 +12,19 @@ import QWinUI3.Theme
 //       title: qsTr("Tip")
 //       subtitle: qsTr("Hint")
 //       actionText: qsTr("Got it")
+//       preferredPlacement: Qt.AlignTop
+//       tailVisibility: true
 //       onActionClicked: tip.close()
 //   }
 //
 //   // --- API ---
 //   // tip.open() / tip.close() / tip.reanchor()
-//   // signals: onActionClicked, onClosedByUser
+//   // signals: onActionClicked, onClosedByUser, onCloseButtonClicked
 //   // inherits Popup
 //
 // @notes
-//   Anchored tip Popup; set target + title/subtitle (+ optional actionText).
-//   Call open()/close(); reanchor() after the target moves.
-//   isLightDismissEnabled controls outside-click dismiss.
+//   WinUI TeachingTip: target, title/subtitle, Content + HeroContent, ActionButton (actionText),
+//   CloseButton, PreferredPlacement, TailVisibility, PlacementMargin, IsLightDismissEnabled.
 
 T.Popup {
     id: root
@@ -34,8 +35,12 @@ T.Popup {
     property string title: ""
     // Secondary subtitle text
     property string subtitle: ""
-    // Optional action button label
+    // Optional action button label (WinUI ActionButtonContent as text)
     property string actionText: ""
+    // WinUI ActionButton — custom action control (replaces AccentButton when set)
+    property alias actionButton: actionButtonSlot.data
+    // WinUI CloseButtonContent — empty uses ChromeClose glyph
+    property string closeButtonContent: ""
     // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
     // Raw Fluent glyph string fallback
@@ -44,18 +49,28 @@ T.Popup {
     property bool isOpen: false
     // Close on outside click / Esc
     property bool isLightDismissEnabled: true
-    // Alias of closable
+    // Show the close affordance
     property bool isCloseButtonVisible: true
-    // Preferred flyout placement
+    // Preferred flyout placement (Qt.AlignTop/Bottom/Left/Right)
     property int preferredPlacement: Qt.AlignTop
     // Resolved flyout placement
     property int effectivePlacement: Qt.AlignTop
-    // Hero content slot
-    default property alias heroContent: heroSlot.data
+    // Gap between target and tip (WinUI PlacementMargin)
+    property real placementMargin: 12
+    // Show the pointer tail (WinUI TailVisibility)
+    property bool tailVisibility: true
+    // WinUI ShouldConstrainToRootBounds — clamp tip inside parent when true
+    property bool shouldConstrainToRootBounds: true
+    // Hero content slot (above title)
+    property alias heroContent: heroSlot.data
+    // WinUI Content — body below subtitle
+    default property alias content: bodySlot.data
     // Emitted when action is clicked
     signal actionClicked()
     // True when the user dismissed the dialog
     signal closedByUser()
+    // Close button clicked (before dismiss)
+    signal closeButtonClicked()
 
     // Resolved glyph string
     readonly property string effectiveIconGlyph: IconSource.resolve(symbol, iconGlyph)
@@ -67,8 +82,6 @@ T.Popup {
                  : T.Popup.CloseOnEscape
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
-    Accessible.role: Accessible.Dialog
-    Accessible.name: title
 
     width: 320
     implicitHeight: contentItem.implicitHeight + topPadding + bottomPadding
@@ -92,7 +105,7 @@ T.Popup {
         if (!target || !parent)
             return
         var p = target.mapToItem(parent, 0, 0)
-        var gap = 12
+        var gap = root.placementMargin
         var place = preferredPlacement
         if (place === Qt.AlignTop || place === 0) {
             if (p.y - implicitHeight - gap < 8)
@@ -127,8 +140,12 @@ T.Popup {
             y = p.y - implicitHeight - gap
             break
         }
-        x = Math.max(8, Math.min(x, parent.width - width - 8))
-        y = Math.max(8, Math.min(y, parent.height - implicitHeight - 8))
+        x = shouldConstrainToRootBounds
+            ? Math.max(8, Math.min(x, parent.width - width - 8))
+            : x
+        y = shouldConstrainToRootBounds
+            ? Math.max(8, Math.min(y, parent.height - implicitHeight - 8))
+            : y
     }
 
     x: 0
@@ -136,6 +153,8 @@ T.Popup {
 
     contentItem: ColumnLayout {
         spacing: 8
+        Accessible.role: Accessible.Dialog
+        Accessible.name: root.title
 
         Item {
             id: heroSlot
@@ -173,6 +192,7 @@ T.Popup {
                 focusPolicy: Qt.StrongFocus
                 Accessible.name: qsTr("Close")
                 onClicked: {
+                    root.closeButtonClicked()
                     root.closedByUser()
                     root.close()
                 }
@@ -185,9 +205,11 @@ T.Popup {
                     }
                 }
                 contentItem: Text {
-                    text: FluentIcons.ChromeClose
-                    font.family: Theme.fontFamilyIcon
-                    font.pixelSize: 10
+                    text: root.closeButtonContent.length ? root.closeButtonContent
+                                                         : FluentIcons.ChromeClose
+                    font.family: root.closeButtonContent.length ? Theme.fontFamily
+                                                                : Theme.fontFamilyIcon
+                    font.pixelSize: root.closeButtonContent.length ? Theme.fontCaption : 10
                     color: closeBtn.down ? Theme.textPrimary : Theme.textSecondary
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
@@ -223,8 +245,24 @@ T.Popup {
             Layout.fillWidth: true
         }
 
+        Item {
+            id: bodySlot
+            visible: children.length > 0
+            Layout.fillWidth: true
+            Layout.preferredHeight: children.length > 0 ? Math.max(childrenRect.height, 1) : 0
+            implicitHeight: childrenRect.height
+        }
+
+        Item {
+            id: actionButtonSlot
+            visible: children.length > 0
+            Layout.alignment: Qt.AlignRight
+            Layout.preferredWidth: children.length ? childrenRect.width : 0
+            Layout.preferredHeight: children.length ? Math.max(Theme.controlHeight, childrenRect.height) : 0
+        }
+
         AccentButton {
-            visible: root.actionText.length > 0
+            visible: root.actionText.length > 0 && actionButtonSlot.children.length === 0
             Layout.alignment: Qt.AlignRight
             text: root.actionText
             onClicked: {
@@ -259,6 +297,7 @@ T.Popup {
         }
         Rectangle {
             id: tipArrow
+            visible: root.tailVisibility
             width: 10
             height: 10
             rotation: 45

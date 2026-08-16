@@ -50,6 +50,8 @@ Signals: querySubmitted, suggestionChosen, cleared; helpers: focusField, clear, 
 | `updateTextOnSelect` | `bool` | When true, choosing a suggestion writes display text into the field |
 | `textMemberPath` | `string` | Object field used as display text (fallback: title \| text \| name) |
 | `isSuggestionListOpen` | `bool` | Suggestion popup open state |
+| `chooseSuggestionOnEnter` | `bool` | WinUI ChooseSuggestionOnEnter — Enter picks highlighted row when list is open |
+| `maxSuggestionListHeight` | `real` | Max height of the suggestion ListView (WinUI MaxSuggestionListHeight) |
 | `effectiveQueryIcon` | `string` | Resolved search glyph |
 
 ### Signals

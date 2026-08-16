@@ -36,6 +36,7 @@ Surface card with title/subtitle/symbol and body slot.
 | `headerIcon` | `string` | Header icon glyph |
 | `footer` | `alias` | Footer text |
 | `isClickable` | `bool` | Emit clicked when activated |
+| `cornerRadius` | `real` | Card corner radius (binds ElevatedChrome) |
 | `contentData` | `alias` | Default children / content slot |
 | `effectiveHeaderIcon` | `string` | Resolved header icon |
 

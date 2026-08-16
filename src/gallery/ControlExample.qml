@@ -44,6 +44,9 @@ Rectangle {
             Rectangle {
                 anchors.fill: parent
                 color: Theme.fillSubtleSecondary
+                // Match host radius — opaque children are not clipped to parent radius.
+                topLeftRadius: root.radius
+                topRightRadius: root.radius
             }
 
             Text {
@@ -129,6 +132,8 @@ Rectangle {
                 visible: expander.checked || height > 0
                 Layout.fillWidth: true
                 color: Theme.dark ? "#1A1A1A" : "#F5F5F5"
+                bottomLeftRadius: root.radius
+                bottomRightRadius: root.radius
                 clip: true
                 implicitHeight: expander.checked ? (codeEdit.implicitHeight + 24) : 0
                 opacity: expander.checked ? 1 : 0

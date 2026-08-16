@@ -64,7 +64,7 @@ Page {
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Pages + keyboard")
-                qmlSource: "Pivot {\n    model: [{ title, symbol: FluentIcons.Home, page }]\n}"
+                qmlSource: "Pivot {\n    leftHeader: …\n    rightHeader: …\n}"
                 ColumnLayout {
                     Layout.fillWidth: true
                     spacing: Theme.spacing
@@ -78,8 +78,24 @@ Page {
                             { title: qsTr("Recent"), symbol: FluentIcons.History, page: recentPage },
                             { title: qsTr("Shared"), symbol: FluentIcons.Share, content: qsTr("Items shared with you.") }
                         ]
+                        leftHeader: Button {
+                            flat: true
+                            text: FluentIcons.Back
+                            font.family: Theme.fontFamilyIcon
+                            Accessible.name: qsTr("Back")
+                            onClicked: status.text = qsTr("LeftHeader: Back")
+                        }
+                        rightHeader: Button {
+                            flat: true
+                            text: FluentIcons.More
+                            font.family: Theme.fontFamilyIcon
+                            Accessible.name: qsTr("More")
+                            onClicked: status.text = qsTr("RightHeader: More")
+                        }
                         onSelectionChanged: function (index) {
-                            status.text = qsTr("Selected index %1").arg(index)
+                            var item = pivot.selectedItem
+                            var title = item && item.title !== undefined ? item.title : String(item)
+                            status.text = qsTr("Selected index %1 · %2").arg(index).arg(title)
                         }
                     }
                     Label {

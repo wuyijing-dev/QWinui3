@@ -43,7 +43,16 @@ Page {
                     Button {
                         id: tipTarget
                         text: qsTr("Show teaching tip")
-                        onClicked: tip.isOpen = true
+                        onClicked: {
+                            tip.shouldConstrainToRootBounds = constrainBounds.checked
+                            tip.isOpen = true
+                        }
+                    }
+
+                    Label {
+                        id: tipStatus
+                        text: qsTr("Ready")
+                        color: Theme.textSecondary
                     }
 
                     TeachingTip {
@@ -51,14 +60,26 @@ Page {
                         parent: tipTarget.parent
                         target: tipTarget
                         preferredPlacement: Qt.AlignTop
+                        placementMargin: 16
+                        tailVisibility: true
                         symbol: FluentIcons.Info
                         title: qsTr("Quick tip")
                         subtitle: qsTr("TeachingTip can place above, below, left, or right of the target.")
-                        actionText: qsTr("Got it")
+                        // Prefer ActionButton slot over actionText when both are set
+                        actionButton: Button {
+                            text: qsTr("Custom ActionButton")
+                            onClicked: {
+                                tipStatus.text = qsTr("Custom ActionButton clicked")
+                                tip.close()
+                            }
+                        }
+                        closeButtonContent: qsTr("Dismiss")
                         onActionClicked: tipTarget.text = qsTr("Tip dismissed")
+                        onCloseButtonClicked: tipStatus.text = qsTr("Close button clicked")
+                        onClosedByUser: tipStatus.text = qsTr("Closed by user")
 
-                        Rectangle {
-                            width: parent ? parent.width : 280
+                        heroContent: Rectangle {
+                            width: tip.width - 24
                             height: 80
                             radius: Theme.cornerControl
                             gradient: Gradient {
@@ -72,14 +93,27 @@ Page {
                                 font.weight: Theme.fontWeightSemiBold
                             }
                         }
+                        Label {
+                            text: qsTr("Optional Content slot below the subtitle.")
+                            color: Theme.textSecondary
+                            wrapMode: Text.Wrap
+                            width: tip.width - 24
+                        }
                     }
 
                     RowLayout {
                         spacing: Theme.spacing
+                        CheckBox {
+                            id: constrainBounds
+                            text: qsTr("ShouldConstrainToRootBounds")
+                            checked: true
+                        }
                         Button {
                             text: qsTr("Below")
                             onClicked: {
                                 tip.preferredPlacement = Qt.AlignBottom
+                                tip.tailVisibility = true
+                                tip.shouldConstrainToRootBounds = constrainBounds.checked
                                 tip.isOpen = true
                             }
                         }
@@ -87,6 +121,16 @@ Page {
                             text: qsTr("Right")
                             onClicked: {
                                 tip.preferredPlacement = Qt.AlignRight
+                                tip.tailVisibility = true
+                                tip.shouldConstrainToRootBounds = constrainBounds.checked
+                                tip.isOpen = true
+                            }
+                        }
+                        Button {
+                            text: qsTr("No tail")
+                            onClicked: {
+                                tip.tailVisibility = false
+                                tip.shouldConstrainToRootBounds = constrainBounds.checked
                                 tip.isOpen = true
                             }
                         }

@@ -42,7 +42,10 @@ Page {
                         model: [qsTr("Day"), qsTr("Week"), qsTr("Month")]
                     }
                     Label {
-                        text: qsTr("Selected: %1").arg(daySeg.selectedIndex)
+                        text: {
+                            var it = daySeg.selectedItem
+                            return qsTr("SelectedItem: %1 (index %2)").arg(it || "—").arg(daySeg.selectedIndex)
+                        }
                         color: Theme.textSecondary
                     }
                 }

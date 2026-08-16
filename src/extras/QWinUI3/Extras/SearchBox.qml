@@ -52,6 +52,10 @@ T.Control {
     property string textMemberPath: ""
     // Suggestion popup open state
     property bool isSuggestionListOpen: false
+    // WinUI ChooseSuggestionOnEnter — Enter picks highlighted row when list is open
+    property bool chooseSuggestionOnEnter: true
+    // Max height of the suggestion ListView (WinUI MaxSuggestionListHeight)
+    property real maxSuggestionListHeight: 240
 
     // Resolved search glyph
     readonly property string effectiveQueryIcon: IconSource.resolve(symbol, queryIcon)
@@ -124,6 +128,20 @@ T.Control {
         popup.close()
     }
 
+    function _chooseCurrentSuggestion() {
+        if (!popup.opened || !suggestionModel || !suggestionModel.length)
+            return false
+        var idx = Math.max(0, list.currentIndex)
+        if (idx >= suggestionModel.length)
+            return false
+        var item = suggestionModel[idx]
+        if (updateTextOnSelect)
+            field.text = displayTextFor(item)
+        suggestionChosen(item)
+        popup.close()
+        return true
+    }
+
     contentItem: ColumnLayout {
         id: column
         spacing: 4
@@ -159,7 +177,11 @@ T.Control {
                 rightPadding: clearBtn.visible ? 36 : Theme.paddingControlH
                 placeholderText: control.placeholderText.length ? control.placeholderText : qsTr("Search")
                 onTextChanged: control.refreshSuggestions()
-                onAccepted: control.submitQuery()
+                onAccepted: {
+                    if (control.chooseSuggestionOnEnter && control._chooseCurrentSuggestion())
+                        return
+                    control.submitQuery()
+                }
                 Keys.onDownPressed: {
                     if (popup.opened)
                         list.forceActiveFocus()
@@ -271,7 +293,7 @@ T.Control {
                 contentItem: ListView {
                     id: list
                     clip: true
-                    implicitHeight: Math.min(contentHeight, 240)
+                    implicitHeight: Math.min(contentHeight, control.maxSuggestionListHeight)
                     model: control.suggestionModel
                     keyNavigationEnabled: true
                     highlightMoveDuration: Theme.duration(Theme.motionFast)

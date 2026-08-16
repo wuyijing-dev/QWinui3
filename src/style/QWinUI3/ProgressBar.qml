@@ -2,41 +2,63 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// ProgressBar — Fluent styled ProgressBar.
+// ProgressBar — Fluent styled ProgressBar (WinUI ShowError / ShowPaused).
 //
 //   ProgressBar {
 //       id: bar
-//       indeterminate: false
 //       value: 0.6
+//       showError: false
+//       showPaused: false
 //   }
 //
 // @notes
-//   Style-only Fluent chrome for Qt Quick Controls ProgressBar.
-//   Public API is the Qt Quick Controls ProgressBar type; this file supplies visuals/metrics only.
+//   Fluent ProgressBar with WinUI ShowError (critical fill) and ShowPaused (caution fill;
+//   pauses indeterminate animation). Base API is Qt Quick Controls ProgressBar.
 
 T.ProgressBar {
     id: control
+
+    // WinUI ShowError — paint the bar in the error/critical color
+    property bool showError: false
+    // WinUI ShowPaused — caution color; stops indeterminate motion
+    property bool showPaused: false
 
     implicitWidth: 200
     implicitHeight: Theme.sliderThickness
     padding: 0
 
+    readonly property color _fillColor: {
+        if (!control.enabled)
+            return Theme.textDisabled
+        if (control.showError)
+            return Theme.systemCritical
+        if (control.showPaused)
+            return Theme.systemCaution
+        return Theme.accent
+    }
+
     contentItem: Item {
         implicitWidth: 200
         implicitHeight: Theme.sliderThickness
-        clip: control.indeterminate
 
         Rectangle {
             visible: !control.indeterminate
             width: Math.max(0, control.position * parent.width)
             height: parent.height
             radius: height / 2
-            color: control.enabled ? Theme.accent : Theme.textDisabled
+            color: control._fillColor
 
             Behavior on width {
                 enabled: !Theme.reducedMotion
                 NumberAnimation {
                     duration: Theme.duration(Theme.motionNormal)
+                    easing.type: Theme.easingStandard
+                }
+            }
+            Behavior on color {
+                enabled: !Theme.reducedMotion
+                ColorAnimation {
+                    duration: Theme.duration(Theme.motionFast)
                     easing.type: Theme.easingStandard
                 }
             }
@@ -47,7 +69,7 @@ T.ProgressBar {
                 width: Math.min(parent.width, 24)
                 height: parent.height
                 radius: height / 2
-                visible: parent.width > 8
+                visible: parent.width > 8 && !control.showError
                 gradient: Gradient {
                     orientation: Gradient.Horizontal
                     GradientStop { position: 0; color: "transparent" }
@@ -65,28 +87,30 @@ T.ProgressBar {
             width: Math.max(48, parent.width * 0.32)
             height: parent.height
             radius: height / 2
-            color: Theme.accent
-            opacity: Theme.reducedMotion ? 0.85 : 1
+            color: control._fillColor
+            opacity: Theme.reducedMotion || control.showPaused ? 0.85 : 1
 
+            // Stay inside the pill track — no clip:true (would square the ends).
             SequentialAnimation on x {
                 loops: Animation.Infinite
-                running: control.indeterminate && control.visible && !Theme.reducedMotion
+                running: control.indeterminate && control.visible
+                         && !Theme.reducedMotion && !control.showPaused
                 NumberAnimation {
-                    from: -indeterminateBar.width
-                    to: control.width
+                    from: 0
+                    to: Math.max(0, control.width - indeterminateBar.width)
                     duration: Math.max(900, control.width * 8)
                     easing.type: Easing.InOutCubic
                 }
                 NumberAnimation {
-                    from: -indeterminateBar.width * 0.5
-                    to: control.width
+                    from: Math.max(0, control.width - indeterminateBar.width)
+                    to: 0
                     duration: Math.max(600, control.width * 5)
                     easing.type: Easing.InOutCubic
                 }
             }
 
             Binding {
-                when: Theme.reducedMotion && control.indeterminate
+                when: (Theme.reducedMotion || control.showPaused) && control.indeterminate
                 target: indeterminateBar
                 property: "x"
                 value: (control.width - indeterminateBar.width) / 2

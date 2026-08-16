@@ -33,6 +33,8 @@ T.AbstractButton {
     property bool highlighted: false
     // MenuFlyout placement
     property int flyoutPlacement: Qt.AlignBottom
+    // WinUI ShouldConstrainToRootBounds
+    property bool shouldConstrainToRootBounds: true
     // Raw Fluent glyph string fallback
     property string iconGlyph: ""
     // FluentIcons symbol (preferred over iconGlyph)
@@ -90,6 +92,21 @@ T.AbstractButton {
     // Close / dismiss
     function close() { popupMenu.close() }
 
+    function _constrainMenu() {
+        if (!shouldConstrainToRootBounds || !popupMenu.visible)
+            return
+        var win = control.Window.window
+        var host = (win && win.Overlay && win.Overlay.overlay) ? win.Overlay.overlay : control.parent
+        if (!host)
+            return
+        var margin = 8
+        var p = popupMenu.mapToItem(host, 0, 0)
+        var nx = Math.max(margin, Math.min(p.x, host.width - popupMenu.width - margin))
+        var ny = Math.max(margin, Math.min(p.y, host.height - popupMenu.height - margin))
+        popupMenu.x += (nx - p.x)
+        popupMenu.y += (ny - p.y)
+    }
+
     // Open the associated menu
     function showMenu() {
         var ox = 0
@@ -108,6 +125,8 @@ T.AbstractButton {
             break
         }
         popupMenu.popup(control, ox, oy)
+        if (shouldConstrainToRootBounds)
+            Qt.callLater(control._constrainMenu)
     }
 
     contentItem: RowLayout {

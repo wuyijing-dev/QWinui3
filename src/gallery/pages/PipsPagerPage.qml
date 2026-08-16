@@ -84,6 +84,33 @@ Page {
                     nextButtonVisibility: "visibleOnPointerOver"
                 }
             }
+            ControlExample {
+                Layout.fillWidth: true
+                Layout.leftMargin: Theme.spacingSection
+                Layout.rightMargin: Theme.spacingSection
+                headerText: qsTr("MaxVisiblePips")
+                qmlSource: "PipsPager {\n    numberOfPages: 12\n    maxVisiblePips: 5\n}"
+                ColumnLayout {
+                    Layout.fillWidth: true
+                    spacing: Theme.spacing
+                    Label {
+                        text: qsTr("12 pages, window of 5 pips — use arrows or click dots")
+                        color: Theme.textSecondary
+                    }
+                    PipsPager {
+                        id: manyPips
+                        Layout.alignment: Qt.AlignHCenter
+                        numberOfPages: 12
+                        selectedIndex: 0
+                        maxVisiblePips: 5
+                    }
+                    Label {
+                        text: qsTr("Page %1 / %2").arg(manyPips.selectedIndex + 1).arg(manyPips.numberOfPages)
+                        color: Theme.textSecondary
+                        Layout.alignment: Qt.AlignHCenter
+                    }
+                }
+            }
             Item { Layout.preferredHeight: Theme.spacingSection; Layout.fillWidth: true }
         }
     }

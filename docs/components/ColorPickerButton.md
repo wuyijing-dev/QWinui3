@@ -38,8 +38,13 @@ Swatch button that opens ColorPicker; bind selectedColor.
 | `pickerOpen` | `bool` | Picker flyout open |
 | `isOpen` | `alias` | Open / visible state |
 | `showAlpha` | `bool` | Show alpha channel editor |
+| `isAlphaEnabled` | `alias` | WinUI IsAlphaEnabled |
+| `colorSpectrumShape` | `string` | WinUI ColorSpectrumShape: box \| ring |
+| `previousColor` | `color` | WinUI PreviousColor |
+| `isPreviousColorVisible` | `bool` | — |
 | `showHexLabel` | `bool` | Show hex text on the button |
 | `flyoutPlacement` | `int` | MenuFlyout placement |
+| `shouldConstrainToRootBounds` | `bool` | WinUI ShouldConstrainToRootBounds for the picker popup |
 | `hexText` | `string` | Formatted hex color text |
 
 ### Signals

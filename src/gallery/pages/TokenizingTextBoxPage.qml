@@ -58,6 +58,7 @@ Page {
                         description: qsTr("Press Enter or type , / ; to commit.")
                         tokens: [qsTr("Work")]
                         maxTokens: 6
+                        maxSuggestionListHeight: 120
                         tokenDelimiters: ",;"
                         errorMessage: errBox.checked ? qsTr("Choose at least one label.") : ""
                         suggestionModel: [

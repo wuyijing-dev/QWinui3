@@ -9,7 +9,7 @@ python scripts/generate_component_docs.py
 python scripts/generate_component_docs.py --lint
 ```
 
-Public components: **179**. Hub: [`docs/README.md`](README.md). Shells: [`window-shells.md`](window-shells.md). Platform chrome: [`window-helper.md`](window-helper.md).
+Public components: **188**. Hub: [`docs/README.md`](README.md). Shells: [`window-shells.md`](window-shells.md). Platform chrome: [`window-helper.md`](window-helper.md).
 
 ## Index
 
@@ -54,6 +54,7 @@ Public components: **179**. Hub: [`docs/README.md`](README.md). Shells: [`window
 - [FlipView](components/FlipView.md) — Page carousel with optional navigation buttons.
 - [Flyout](components/Flyout.md) — Light-dismiss popup anchored to a target.
 - [FontIcon](components/FontIcon.md) — FluentIcons glyph as Text.
+- [FormLayout](components/FormLayout.md) — Vertical form stack that collects field errorMessage values.
 - [GridTile](components/GridTile.md) — Icon + title tile for launchers / galleries.
 - [HeaderedContentControl](components/HeaderedContentControl.md) — Labeled content host.
 - [HeaderedTextBox](components/HeaderedTextBox.md) — TextBox with header and description.
@@ -63,13 +64,16 @@ Public components: **179**. Hub: [`docs/README.md`](README.md). Shells: [`window
 - [IconButton](components/IconButton.md) — Icon-only button helper.
 - [IconicButton](components/IconicButton.md) — Base icon + label button used by AppBar*.
 - [InfoBadge](components/InfoBadge.md) — Count / status / glyph badge.
-- [InfoBar](components/InfoBar.md) — Inline severity banner with optional action.
+- [InfoBar](components/InfoBar.md) — Inline severity banner with optional action and Content slot.
 - [InfoBarHost](components/InfoBarHost.md) — Stacks InfoBars in a host region.
+- [ItemsView](components/ItemsView.md) — ListView recipe: sections, selection, context MenuFlyout, EmptyState.
 - [KeyChordVisual](components/KeyChordVisual.md) — Renders Ctrl+K style shortcuts as KeyVisuals.
 - [KeyVisual](components/KeyVisual.md) — Single keyboard key chrome.
+- [KpiTile](components/KpiTile.md) — Compact dashboard KPI tile with optional delta and spark trend.
 - [LinearGauge](components/LinearGauge.md) — Horizontal/vertical track gauge with thresholds.
 - [LineChart](components/LineChart.md) — Multi-series line/area chart.
 - [ListTile](components/ListTile.md) — List row: leading, title, subtitle, trailing.
+- [MediaPlayerElement](components/MediaPlayerElement.md) — Fluent shell around Qt Multimedia MediaPlayer / VideoOutput.
 - [MenuFlyout](components/MenuFlyout.md) — Elevated Menu with showAt / isOpen helpers.
 - [MenuFlyoutHeader](components/MenuFlyoutHeader.md) — Non-interactive MenuFlyout section header.
 - [MenuFlyoutItem](components/MenuFlyoutItem.md) — Menu row with glyph and accelerator text.
@@ -81,27 +85,28 @@ Public components: **179**. Hub: [`docs/README.md`](README.md). Shells: [`window
 - [MultiSelectComboBox](components/MultiSelectComboBox.md) — Combo that keeps the popup open for multi-select.
 - [NavigationView](components/NavigationView.md) — WinUI NavigationView with pane modes and page stack.
 - [NavigationWindow](components/NavigationWindow.md) — ShellWindow hosting NavigationView + content.
-- [NumberBox](components/NumberBox.md) — Numeric spin/edit with validation.
+- [NumberBox](components/NumberBox.md) — Numeric spin/edit with validation (WinUI AcceptsExpression / IsWrapEnabled).
 - [PasswordBox](components/PasswordBox.md) — Password field with reveal toggle.
-- [PersonPicture](components/PersonPicture.md) — Avatar from image or initials.
+- [PersonPicture](components/PersonPicture.md) — Avatar from image or initials (WinUI IsGroup / BadgeImageSource).
 - [PieChart](components/PieChart.md) — Pie chart with legend.
 - [PipsPager](components/PipsPager.md) — Dot pager for carousels.
 - [Pivot](components/Pivot.md) — Header tabs with sliding underline and pages.
 - [ProgressButton](components/ProgressButton.md) — Button with inline determinate/indeterminate fill.
-- [ProgressRing](components/ProgressRing.md) — Circular progress / busy ring.
+- [ProgressRing](components/ProgressRing.md) — Circular progress / busy ring (WinUI Minimum / Maximum / IsActive).
 - [RadarChart](components/RadarChart.md) — Radar / spider chart.
-- [RadialGauge](components/RadialGauge.md) — Circular gauge with needle and zones.
-- [RadioButtons](components/RadioButtons.md) — Grouped RadioButton list from a model.
+- [RadialGauge](components/RadialGauge.md) — Toolkit-style circular needle gauge (CommunityToolkit.WinUI.Controls.RadialGauge).
+- [RadioButtons](components/RadioButtons.md) — RadioButtons (undocumented)
 - [RadioMenuFlyoutItem](components/RadioMenuFlyoutItem.md) — Exclusive radio MenuFlyout item.
-- [RatingControl](components/RatingControl.md) — Star rating; stepSize supports halves.
+- [RatingControl](components/RatingControl.md) — Star rating; stepSize supports halves (WinUI InitialSetValue / ItemInfo).
 - [RefreshContainer](components/RefreshContainer.md) — Pull-to-refresh host for flickable content.
 - [RelativePanel](components/RelativePanel.md) — Constraint-based relative layout.
+- [RingGauge](components/RingGauge.md) — Closed-ring dashboard gauge with center value and thresholds.
 - [ScatterChart](components/ScatterChart.md) — Scatter / bubble chart.
 - [SearchBox](components/SearchBox.md) — Search field with suggestion list.
 - [SegmentedControl](components/SegmentedControl.md) — Mutually exclusive segment buttons.
 - [SegmentedGauge](components/SegmentedGauge.md) — Segmented progress / capacity gauge.
 - [SelectorBar](components/SelectorBar.md) — Compact horizontal item selector.
-- [SettingsCard](components/SettingsCard.md) — Settings row: icon, title, description, action.
+- [SettingsCard](components/SettingsCard.md) — Settings row: icon, title, description, action (Toolkit ContentAlignment).
 - [SettingsExpander](components/SettingsExpander.md) — Expandable settings group.
 - [ShellWindow](components/ShellWindow.md) — Independent ApplicationWindow + WindowChrome host.
 - [Shimmer](components/Shimmer.md) — Skeleton shimmer placeholder.
@@ -117,8 +122,10 @@ Public components: **179**. Hub: [`docs/README.md`](README.md). Shells: [`window
 - [SwitchCase](components/SwitchCase.md) — Case child for SwitchPresenter.
 - [SwitchPresenter](components/SwitchPresenter.md) — Shows the SwitchCase matching value.
 - [TabView](components/TabView.md) — Closeable / reorderable tabs.
-- [TeachingTip](components/TeachingTip.md) — Anchored tip with title, subtitle, and actions.
+- [TankGauge](components/TankGauge.md) — Vertical / horizontal tank / reservoir level gauge.
+- [TeachingTip](components/TeachingTip.md) — Anchored tip with title, subtitle, content, and actions.
 - [TextBlock](components/TextBlock.md) — Fluent typography styles (title, body, caption…).
+- [ThermometerGauge](components/ThermometerGauge.md) — Classic bulb + stem temperature / level gauge.
 - [Timeline](components/Timeline.md) — Vertical event timeline.
 - [TimePicker](components/TimePicker.md) — Hour / minute (and period) selectors.
 - [TitleBar](components/TitleBar.md) — WinUI TitleBar content chrome (not caption buttons).
@@ -131,6 +138,7 @@ Public components: **179**. Hub: [`docs/README.md`](README.md). Shells: [`window
 - [ToolShellWindow](components/ToolShellWindow.md) — ShellWindow with tool paradigm.
 - [TwoPaneView](components/TwoPaneView.md) — Responsive dual-pane layout.
 - [UniformGrid](components/UniformGrid.md) — Even cell grid.
+- [ValidationSummary](components/ValidationSummary.md) — Lists form-level validation errors (pairs with FormLayout).
 - [WaterfallChart](components/WaterfallChart.md) — Waterfall chart.
 - [WrapPanel](components/WrapPanel.md) — Flow / wrap layout.
 - [ZoneGauge](components/ZoneGauge.md) — Gauge with colored zones.
@@ -142,6 +150,7 @@ Public components: **179**. Hub: [`docs/README.md`](README.md). Shells: [`window
 - [PlatformTitleBar](components/PlatformTitleBar.md) — Caption buttons + drag region + TitleBar host.
 - [StandardWindow](components/StandardWindow.md) — Platform ApplicationWindow + PlatformTitleBar host.
 - [ToolWindow](components/ToolWindow.md) — StandardWindow tool paradigm.
+- [TrayIcon](components/TrayIcon.md) — Lightweight tray placeholder (no Qt.labs.platform dependency).
 
 ### `QWinUI3.Theme`
 
@@ -176,7 +185,7 @@ Public components: **179**. Hub: [`docs/README.md`](README.md). Shells: [`window
 - [PageIndicator](components/PageIndicator.md) — Fluent styled PageIndicator.
 - [Pane](components/Pane.md) — Fluent styled Pane.
 - [Popup](components/Popup.md) — Fluent styled Popup chrome.
-- [ProgressBar](components/ProgressBar.md) — Fluent styled ProgressBar.
+- [ProgressBar](components/ProgressBar.md) — Fluent styled ProgressBar (WinUI ShowError / ShowPaused).
 - [RadioButton](components/RadioButton.md) — Fluent styled RadioButton.
 - [RadioDelegate](components/RadioDelegate.md) — Fluent styled RadioDelegate.
 - [RangeSlider](components/RangeSlider.md) — Fluent styled RangeSlider.
@@ -190,7 +199,7 @@ Public components: **179**. Hub: [`docs/README.md`](README.md). Shells: [`window
 - [StackView](components/StackView.md) — Fluent styled StackView.
 - [SwipeDelegate](components/SwipeDelegate.md) — Fluent styled SwipeDelegate.
 - [SwipeView](components/SwipeView.md) — Fluent styled SwipeView.
-- [Switch](components/Switch.md) — Fluent styled Switch.
+- [Switch](components/Switch.md) — Fluent styled Switch (WinUI ToggleSwitch OnContent / OffContent).
 - [SwitchDelegate](components/SwitchDelegate.md) — Fluent styled SwitchDelegate.
 - [TabBar](components/TabBar.md) — Fluent styled TabBar.
 - [TabButton](components/TabButton.md) — Fluent styled TabButton.

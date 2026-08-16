@@ -30,6 +30,12 @@ T.Control {
     property int currentIndex: 0
     // Selected index alias
     property alias selectedIndex: control.currentIndex
+    // Currently selected model item (WinUI SelectedItem)
+    readonly property var selectedItem: {
+        if (!model || currentIndex < 0 || currentIndex >= model.length)
+            return null
+        return model[currentIndex]
+    }
     // "pill" (filled accent) or "underline"
     property string selectionStyle: "pill"
     // Selected state
@@ -46,8 +52,15 @@ T.Control {
     Accessible.name: qsTr("Selector")
     Keys.onLeftPressed: select(Math.max(0, currentIndex - 1))
     Keys.onRightPressed: select(Math.min((model ? model.length : 1) - 1, currentIndex + 1))
-    Keys.onHomePressed: select(0)
-    Keys.onEndPressed: select((model ? model.length : 1) - 1)
+    Keys.onPressed: function (event) {
+        if (event.key === Qt.Key_Home) {
+            select(0)
+            event.accepted = true
+        } else if (event.key === Qt.Key_End) {
+            select((model ? model.length : 1) - 1)
+            event.accepted = true
+        }
+    }
 
     property bool _indicatorReady: false
 

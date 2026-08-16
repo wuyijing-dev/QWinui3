@@ -49,9 +49,14 @@ Page {
                         stepSize: 0.5
                         onValueEdited: (v) => page.liveValue = v
                     }
+                    CheckBox {
+                        text: qsTr("Enabled")
+                        checked: halfRating.enabled
+                        onToggled: halfRating.enabled = checked
+                    }
                     Label {
                         color: Theme.textSecondary
-                        text: qsTr("Value: %1").arg(Number(page.liveValue).toFixed(1))
+                        text: qsTr("Value: %1 (disabledGlyph when not enabled)").arg(Number(page.liveValue).toFixed(1))
                     }
                 }
             }
@@ -101,8 +106,23 @@ Page {
                     }
                     RatingControl {
                         value: 0
-                        placeholderValue: 3
-                        stepSize: 0.5
+                        initialSetValue: 3
+                        stepSize: 1
+                        caption: qsTr("InitialSetValue → 3 on first pick")
+                    }
+                    RatingControl {
+                        value: 4
+                        stepSize: 1
+                        emptyGlyph: FluentIcons.OutlineStar
+                        filledGlyph: FluentIcons.SolidStar
+                        caption: qsTr("Custom ItemInfo glyphs")
+                    }
+                    RatingControl {
+                        value: 0
+                        placeholderValue: 4
+                        placeholderGlyph: FluentIcons.FavoriteStarFill
+                        stepSize: 1
+                        caption: qsTr("PlaceholderGlyph until first pick")
                     }
                     Label {
                         color: Theme.textSecondary

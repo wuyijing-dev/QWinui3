@@ -69,6 +69,50 @@ T.AbstractButton {
         return out
     }
 
+    // WinUI SelectedIndexes — writable list of checked indices
+    property var selectedIndexes: []
+    property bool _syncingIndexes: false
+
+    function _indexesFromModel() {
+        var out = []
+        var m = model || []
+        for (var i = 0; i < m.length; ++i) {
+            var it = m[i]
+            if (typeof it !== "string" && it && it.checked)
+                out.push(i)
+        }
+        return out
+    }
+
+    function _syncIndexesFromModel() {
+        _syncingIndexes = true
+        selectedIndexes = _indexesFromModel()
+        _syncingIndexes = false
+    }
+
+    function setSelectedIndexes(indexes) {
+        ensureObjectModel()
+        var want = {}
+        var list = indexes || []
+        for (var i = 0; i < list.length; ++i)
+            want[list[i]] = true
+        var next = (model || []).slice()
+        for (var j = 0; j < next.length; ++j) {
+            var copy = Object.assign({}, next[j])
+            copy.checked = !!want[j]
+            next[j] = copy
+        }
+        model = next
+        _syncIndexesFromModel()
+        selectionChanged(selectedItems)
+    }
+
+    onSelectedIndexesChanged: {
+        if (_syncingIndexes)
+            return
+        setSelectedIndexes(selectedIndexes)
+    }
+
     // Text shown to the user
     readonly property string displayText: {
         var names = []
@@ -99,6 +143,7 @@ T.AbstractButton {
             next[index] = copy
         }
         model = next
+        _syncIndexesFromModel()
         selectionChanged(selectedItems)
     }
 
@@ -129,6 +174,7 @@ T.AbstractButton {
             next[i] = copy
         }
         model = next
+        _syncIndexesFromModel()
         selectionChanged(selectedItems)
     }
 
@@ -142,10 +188,14 @@ T.AbstractButton {
             next[i] = copy
         }
         model = next
+        _syncIndexesFromModel()
         selectionChanged(selectedItems)
     }
 
-    Component.onCompleted: ensureObjectModel()
+    Component.onCompleted: {
+        ensureObjectModel()
+        _syncIndexesFromModel()
+    }
 
     contentItem: RowLayout {
         spacing: 8

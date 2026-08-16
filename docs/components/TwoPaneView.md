@@ -44,6 +44,8 @@ Put Pane1 / Pane2 content via pane1 / pane2 aliases (or children APIs).
 | `minWideWidth` | `real` | Minimum width for wide layout |
 | `preferredMode` | `int` | Preferred display mode |
 | `panePriority` | `int` | Which pane takes priority when collapsing |
+| `wideModeConfiguration` | `string` | WinUI WideModeConfiguration: leftRight \| rightLeft \| singlePane |
+| `tallModeConfiguration` | `string` | WinUI TallModeConfiguration: topBottom \| bottomTop \| singlePane |
 | `mode` | `int` | Display / interaction mode |
 | `singlePaneIndex` | `int` | Which pane is shown in single-pane mode |
 | `modeName` | `string` | Human-readable mode name |

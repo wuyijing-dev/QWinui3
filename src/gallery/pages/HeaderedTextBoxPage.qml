@@ -74,6 +74,22 @@ Page {
                     echoMode: TextInput.Password
                 }
             }
+            ControlExample {
+                Layout.fillWidth: true
+                Layout.leftMargin: Theme.spacingSection
+                Layout.rightMargin: Theme.spacingSection
+                headerText: qsTr("Header placement")
+                qmlSource: "HeaderedTextBox {\n    headerPlacement: \"left\"\n}"
+                HeaderedTextBox {
+                    Layout.fillWidth: true
+                    Layout.maximumWidth: 420
+                    header: qsTr("Display name")
+                    description: qsTr("Shown beside the field when headerPlacement is left.")
+                    headerPlacement: "left"
+                    placeholderText: qsTr("Alex")
+                    clearButtonVisible: true
+                }
+            }
             Item { Layout.preferredHeight: Theme.spacingSection; Layout.fillWidth: true }
         }
     }

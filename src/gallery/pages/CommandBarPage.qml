@@ -24,14 +24,14 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("CommandBar")
-                subtitle: qsTr("Fluent More/Chevron, toggle(), secondaryCommands, and open/close signals.")
+                subtitle: qsTr("Primary AppBar row, JS overflow, and secondaryCommandsHost AppBar buttons.")
             }
             ControlExample {
                 Layout.fillWidth: true
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Primary commands")
-                qmlSource: "AppBarButton { symbol: FluentIcons.Copy; text: \"Copy\" }"
+                qmlSource: "CommandBar {\n    AppBarButton { … }\n    secondaryCommandsHost: AppBarButton { text: \"Share\" }\n}"
                 ColumnLayout {
                     Layout.fillWidth: true
                     spacing: Theme.spacing
@@ -68,6 +68,18 @@ Page {
                                 triggered: function () { status.text = qsTr("Find") }
                             }
                         ]
+                        secondaryCommandsHost: [
+                            AppBarButton {
+                                symbol: FluentIcons.Share
+                                text: qsTr("Share")
+                                onClicked: status.text = qsTr("Share (host)")
+                            },
+                            AppBarToggleButton {
+                                symbol: FluentIcons.Pin
+                                text: qsTr("Pin")
+                                onClicked: status.text = checked ? qsTr("Pinned") : qsTr("Unpinned")
+                            }
+                        ]
                         onOpened: status.text = qsTr("Command bar opened")
                         onClosed: status.text = qsTr("Command bar closed")
                         AppBarButton {
@@ -89,7 +101,7 @@ Page {
                     }
                     Label {
                         id: status
-                        text: qsTr("Ready — use the chevron to collapse the bar.")
+                        text: qsTr("Ready — … opens JS overflow + AppBar secondaryCommandsHost.")
                         color: Theme.textSecondary
                     }
                 }

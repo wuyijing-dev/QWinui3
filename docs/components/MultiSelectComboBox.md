@@ -43,6 +43,7 @@ exclusive mode behaves like a normal combo.
 | `menuOpen` | `bool` | Menu currently open |
 | `isOpen` | `alias` | Open / visible state |
 | `selectedItems` | `var` | Currently selected items |
+| `selectedIndexes` | `var` | WinUI SelectedIndexes — writable list of checked indices |
 | `displayText` | `string` | Text shown to the user |
 
 ### Signals
@@ -55,6 +56,7 @@ exclusive mode behaves like a normal combo.
 
 | Signature | Description |
 | --- | --- |
+| `setSelectedIndexes(indexes)` | — |
 | `toggleAt(index)` | Toggle item at index |
 | `ensureObjectModel()` | Ensure model is an ObjectModel |
 | `selectAll()` | Select all items |

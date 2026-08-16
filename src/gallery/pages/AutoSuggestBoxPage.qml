@@ -41,12 +41,21 @@ Page {
                         text: qsTr("Update text on select")
                         checked: true
                     }
+                    CheckBox {
+                        id: chooseOnEnter
+                        text: qsTr("ChooseSuggestionOnEnter")
+                        checked: true
+                    }
                     AutoSuggestBox {
                         id: box
                         Layout.fillWidth: true
-                        placeholderText: qsTr("Fruit")
+                        header: qsTr("Fruit")
+                        description: qsTr("Type to filter. Enter chooses the highlighted suggestion when enabled.")
+                        placeholderText: qsTr("Apple, Banana…")
                         symbol: FluentIcons.Search
                         updateTextOnSelect: updateOnSelect.checked
+                        chooseSuggestionOnEnter: chooseOnEnter.checked
+                        maxSuggestionListHeight: 160
                         model: ["Apple", "Apricot", "Banana", "Blueberry", "Cherry", "Grape", "Orange", "Peach", "Pear"]
                         onSuggestionChosen: function (item) {
                             chosen.text = qsTr("SuggestionChosen: %1").arg(typeof item === "string" ? item : String(item))

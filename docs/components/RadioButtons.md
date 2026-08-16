@@ -1,6 +1,6 @@
 # RadioButtons
 
-Grouped RadioButton list from a model.
+RadioButtons (undocumented)
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/RadioButtons.qml`](../../src/extras/QWinUI3/Extras/RadioButtons.qml)
 
@@ -8,23 +8,10 @@ Grouped RadioButton list from a model.
 
 **Extends** `Control`.
 
-## Example
-
-```qml
-RadioButtons {
-    id: radioButtons
-    header: qsTr("Choice"); model: ["A", "B"]
-}
-
-// --- API ---
-// signals: onSelected, onSelectionChanged
-// methods: select(index)
-// radioButtons.select(index)
-```
-
 ## Notes
 
-Grouped RadioButton column from model; selectedIndex.
+Grouped RadioButton column/grid from model; selectedIndex / selectedItem.
+maxColumns wraps the grid (WinUI MaxColumns); horizontal=true is one row.
 
 ## API
 
@@ -35,9 +22,12 @@ Grouped RadioButton column from model; selectedIndex.
 | `header` | `string` | Header label above the control |
 | `description` | `string` | Supporting description text |
 | `model` | `var` | Data model / item list for this control |
+| `itemsSource` | `alias` | WinUI ItemsSource alias of model |
 | `currentIndex` | `int` | Selected index |
 | `selectedIndex` | `alias` | Selected index alias |
-| `horizontal` | `bool` | Horizontal orientation when true |
+| `maxColumns` | `int` | WinUI MaxColumns — 0/1 = single column; >1 wraps into a grid |
+| `horizontal` | `bool` | Horizontal orientation when true (all items in one row) |
+| `selectedItem` | `var` | Currently selected model item (WinUI SelectedItem) |
 
 ### Signals
 

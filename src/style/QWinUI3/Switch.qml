@@ -2,20 +2,29 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Switch — Fluent styled Switch.
+// Switch — Fluent styled Switch (WinUI ToggleSwitch OnContent / OffContent).
 //
 //   Switch {
 //       id: sw
-//       text: qsTr("Dark mode")
+//       text: qsTr("Wi‑Fi")
+//       onContent: qsTr("On")
+//       offContent: qsTr("Off")
 //       onToggled: Theme.dark = sw.checked
 //   }
 //
 // @notes
-//   Style-only Fluent chrome for Qt Quick Controls Switch.
-//   Public API is the Qt Quick Controls Switch type; this file supplies visuals/metrics only.
+//   Fluent Switch with WinUI OnContent/OffContent labels beside the track (plus Qt text as Header).
+//   Base API is Qt Quick Controls Switch.
 
 T.Switch {
     id: control
+
+    // WinUI OnContent — label shown when checked (beside indicator)
+    property string onContent: ""
+    // WinUI OffContent — label shown when unchecked
+    property string offContent: ""
+    // WinUI Header alias of text
+    property alias header: control.text
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding,
@@ -32,6 +41,11 @@ T.Switch {
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     hoverEnabled: true
+
+    readonly property string _stateLabel: checked
+                                         ? (onContent.length ? onContent : "")
+                                         : (offContent.length ? offContent : "")
+    readonly property bool _hasStateLabel: _stateLabel.length > 0
 
     indicator: Item {
         implicitWidth: Theme.switchWidth
@@ -146,13 +160,34 @@ T.Switch {
         }
     }
 
-    contentItem: Text {
-        leftPadding: control.indicator && !control.mirrored ? control.indicator.width + control.spacing : 0
-        rightPadding: control.indicator && control.mirrored ? control.indicator.width + control.spacing : 0
-        text: control.text
-        font: control.font
-        color: control.enabled ? Theme.textPrimary : Theme.textDisabled
-        elide: Text.ElideRight
-        verticalAlignment: Text.AlignVCenter
+    contentItem: Item {
+        implicitWidth: labelRow.implicitWidth
+                       + (control.indicator ? control.indicator.width + control.spacing : 0)
+        implicitHeight: Math.max(Theme.fontBody + 4, labelRow.implicitHeight)
+
+        Row {
+            id: labelRow
+            spacing: Theme.spacing
+            x: control.indicator && !control.mirrored ? control.indicator.width + control.spacing : 0
+            anchors.verticalCenter: parent.verticalCenter
+            width: parent.width - x
+                   - (control.indicator && control.mirrored ? control.indicator.width + control.spacing : 0)
+
+            Text {
+                visible: control.text.length > 0
+                text: control.text
+                font: control.font
+                color: control.enabled ? Theme.textPrimary : Theme.textDisabled
+                elide: Text.ElideRight
+                verticalAlignment: Text.AlignVCenter
+            }
+            Text {
+                visible: control._hasStateLabel
+                text: control._stateLabel
+                font: control.font
+                color: control.enabled ? Theme.textSecondary : Theme.textDisabled
+                verticalAlignment: Text.AlignVCenter
+            }
+        }
     }
 }

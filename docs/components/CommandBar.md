@@ -14,19 +14,25 @@ Primary/secondary command row (AppBar host).
 CommandBar {
     id: commandBar
     AppBarButton { text: qsTr("Add"); symbol: FluentIcons.Add }
+    // JS overflow (compat):
+    // overflowItems / secondaryCommands: [{ text, triggered }]
+    // Real AppBar secondary host:
+    // secondaryCommandsHost: AppBarButton { text: qsTr("Find"); … }
 }
 
 // --- API ---
 // signals: onOpening, onClosing, onOpened, onClosed, onMoreButtonClicked
 // methods: open(), close(), toggle()
-// commandBar.open()
-// commandBar.close()
-// commandBar.toggle()
+// primary: default children → primaryCommands
+// secondary: secondaryCommandsHost (AppBar*) and/or overflowItems / secondaryCommands
 ```
 
 ## Notes
 
 Primary + secondary AppBar command row; overflow via secondary commands.
+secondaryCommandsHost accepts AppBarButton / AppBarToggleButton children.
+secondaryCommands / overflowItems keep the JS [{text, triggered}] API.
+isDynamicOverflowEnabled moves overflowing primary commands into (…).
 
 ## API
 
@@ -38,13 +44,15 @@ Primary + secondary AppBar command row; overflow via secondary commands.
 | `primaryCommands` | `alias` | Primary command host |
 | `overflowMenu` | `alias` | Overflow Menu for secondary commands |
 | `overflowItems` | `var` | [{ text: string, triggered: function() }] — MenuItem cannot parent to Menu in Qt 6 |
-| `secondaryCommands` | `alias` | Secondary command host |
+| `secondaryCommands` | `alias` | Compat alias of overflowItems (JS secondary list) |
+| `secondaryCommandsHost` | `alias` | WinUI-style secondary AppBar elements (hidden host → overflow Menu) |
 | `barSpacing` | `real` | Spacing between commands |
 | `isOpen` | `bool` | Open / visible state |
 | `defaultLabelPosition` | `string` | Default AppBar label position |
 | `closedDisplayMode` | `string` | How labels show when closed |
 | `isMoreButtonVisible` | `bool` | Show overflow (…) button |
 | `isToggleButtonVisible` | `bool` | Show toggle / more button |
+| `isDynamicOverflowEnabled` | `bool` | WinUI IsDynamicOverflowEnabled — move overflowing primary commands into (…) |
 | `effectiveLabelPosition` | `string` | Resolved label position |
 
 ### Signals

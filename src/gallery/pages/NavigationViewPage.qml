@@ -24,14 +24,14 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("NavigationView")
-                subtitle: qsTr("Top-level navigation with PaneDisplayMode (Left / LeftCompact / Top) and an optional Back button.")
+                subtitle: qsTr("Pane modes, Back button, and pageTransition animations (slide / fade / drill / …).")
             }
             ControlExample {
                 Layout.fillWidth: true
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Embedded sample")
-                qmlSource: "NavigationView {\n    paneDisplayMode: \"left\"\n    isBackButtonVisible: true\n}"
+                qmlSource: "NavigationView {\n    pageTransition: \"drill\"\n    openPage(\"HomePage\", \"fade\")\n}"
                 ColumnLayout {
                     Layout.fillWidth: true
                     spacing: Theme.spacing
@@ -56,25 +56,87 @@ Page {
                             checked: true
                             enabled: backVis.checked
                         }
+                        CheckBox {
+                            id: settingsVis
+                            text: qsTr("Settings item")
+                            checked: true
+                        }
+                        CheckBox {
+                            id: toggleVis
+                            text: qsTr("Pane toggle")
+                            checked: true
+                        }
+                        CheckBox {
+                            id: paneVis
+                            text: qsTr("IsPaneVisible")
+                            checked: true
+                        }
+                        CheckBox {
+                            id: alwaysHeader
+                            text: qsTr("AlwaysShowHeader")
+                            checked: false
+                        }
+                        Label { text: qsTr("Open length"); color: Theme.textSecondary }
+                        SpinBox {
+                            id: openLen
+                            from: 200
+                            to: 360
+                            value: 280
+                            editable: true
+                            Layout.preferredWidth: 120
+                        }
                     }
                     Label {
                         id: navStatus
                         text: qsTr("Ready")
                         color: Theme.textSecondary
                     }
+                    Label {
+                        text: qsTr("Page transition (default for pane clicks)")
+                        color: Theme.textSecondary
+                    }
+                    Flow {
+                        Layout.fillWidth: true
+                        spacing: Theme.spacing
+                        Repeater {
+                            model: demoNav.pageTransitionModes
+                            delegate: Button {
+                                required property string modelData
+                                text: modelData
+                                highlighted: demoNav.pageTransition === modelData
+                                onClicked: {
+                                    demoNav.pageTransition = modelData
+                                    demoNav.reloadPage()
+                                    navStatus.text = qsTr("pageTransition → %1 (pending %2)")
+                                        .arg(demoNav.pageTransition)
+                                        .arg(demoNav.pendingMode)
+                                }
+                            }
+                        }
+                    }
                     NavigationView {
                         id: demoNav
                         Layout.fillWidth: true
                         Layout.preferredHeight: 360
-                        headerText: qsTr("Demo")
+                        paneTitle: qsTr("Demo")
+                        openPaneLength: openLen.value
+                        compactPaneLength: 48
                         footerText: qsTr("Settings")
                         footerComponent: ""
                         pageModule: "QWinUI3.Gallery"
                         currentKey: "home"
+                        pageTransition: "slide"
                         paneDisplayMode: paneMode.currentText
                         isBackButtonVisible: backVis.checked
                         isBackEnabled: backEn.checked
+                        isSettingsVisible: settingsVis.checked
+                        isPaneToggleButtonVisible: toggleVis.checked
+                        isPaneVisible: paneVis.checked
+                        alwaysShowHeader: alwaysHeader.checked
                         onBackRequested: navStatus.text = qsTr("Back requested")
+                        onPageOpened: function (name) {
+                            navStatus.text = qsTr("Opened %1 · %2").arg(name).arg(demoNav.pendingMode)
+                        }
                         model: [
                             {
                                 type: "item",

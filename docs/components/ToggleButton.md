@@ -23,7 +23,7 @@ ToggleButton {
 
 ## Notes
 
-Checkable accent-capable toggle; checked / onToggled.
+Checkable accent-capable toggle; checked / onToggled; isThreeState cycles checkState.
 
 ## API
 
@@ -34,6 +34,8 @@ Checkable accent-capable toggle; checked / onToggled.
 | `symbol` | `var` | FluentIcons symbol (preferred over iconGlyph) |
 | `iconGlyph` | `string` | Raw Fluent glyph string fallback |
 | `iconSize` | `real` | Icon size in px |
+| `isThreeState` | `bool` | WinUI IsThreeState — cycle Unchecked → Checked → PartiallyChecked |
+| `checkState` | `int` | Explicit check state (QQC Button does not expose AbstractButton.checkState in QML) |
 | `effectiveIconGlyph` | `string` | Resolved glyph string |
 | `lightScheme` | `bool` | True in light theme |
 | `accented` | `bool` | Use accent chrome |

@@ -1,14 +1,31 @@
 #include "WindowHelper.h"
+#include "LinuxPortal.h"
 
+#include <QClipboard>
+#include <QCoreApplication>
+#include <QDesktopServices>
+#include <QDir>
+#include <QFile>
+#include <QFileInfo>
 #include <QGuiApplication>
 #include <QJSEngine>
+#include <QProcess>
 #include <QQmlEngine>
 #include <QQuickWindow>
 #include <QScreen>
+#include <QStyleHints>
+#include <QUrl>
+#include <QVariantMap>
 #include <QWindow>
 
 #if defined(Q_OS_WIN)
+#  ifndef NOMINMAX
+#    define NOMINMAX
+#  endif
 #  include <Windows.h>
+#  include <shlobj.h>
+#  include <shobjidl.h>
+#  include <wininet.h>
 #endif
 
 namespace {
@@ -58,6 +75,18 @@ WindowHelper::WindowHelper(QObject *parent)
     refreshTint();
     refreshWallpaper();
     refreshAccessibility();
+    refreshColorScheme();
+    refreshPowerStatus();
+    refreshOnlineStatus();
+
+    if (qGuiApp) {
+        QObject::connect(qGuiApp, &QGuiApplication::screenAdded, this, &WindowHelper::screensChanged);
+        QObject::connect(qGuiApp, &QGuiApplication::screenRemoved, this, &WindowHelper::screensChanged);
+        QObject::connect(qGuiApp, &QGuiApplication::primaryScreenChanged, this, &WindowHelper::screensChanged);
+    }
+#if defined(Q_OS_LINUX)
+    LinuxPortal::watchColorSchemeChanges(this, SLOT(refreshColorScheme()));
+#endif
 }
 
 QString WindowHelper::platformName() const
@@ -87,6 +116,386 @@ bool WindowHelper::isLinux() const
 #else
     return false;
 #endif
+}
+
+QString WindowHelper::displayServer() const
+{
+#if defined(Q_OS_WIN)
+    return QStringLiteral("windows");
+#else
+    const QString name = QGuiApplication::platformName();
+    return name.isEmpty() ? QStringLiteral("unknown") : name;
+#endif
+}
+
+bool WindowHelper::isWayland() const
+{
+    return displayServer().startsWith(QLatin1String("wayland"));
+}
+
+bool WindowHelper::isX11() const
+{
+    const QString ds = displayServer();
+    return ds == QLatin1String("xcb") || ds.startsWith(QLatin1String("x11"));
+}
+
+bool WindowHelper::serverSideDecorations() const
+{
+    // Windows uses client-side Fluent chrome; Linux/Wayland keep compositor SSD.
+    return !customFrame();
+}
+
+QString WindowHelper::desktopEnvironment() const
+{
+#if defined(Q_OS_LINUX)
+    const QString desk = QString::fromLocal8Bit(qgetenv("XDG_CURRENT_DESKTOP"));
+    if (!desk.isEmpty())
+        return desk;
+    return QString::fromLocal8Bit(qgetenv("DESKTOP_SESSION"));
+#else
+    return platformName();
+#endif
+}
+
+QString WindowHelper::waylandDisplay() const
+{
+#if defined(Q_OS_LINUX)
+    return QString::fromLocal8Bit(qgetenv("WAYLAND_DISPLAY"));
+#else
+    return {};
+#endif
+}
+
+bool WindowHelper::portalAvailable() const
+{
+#if defined(Q_OS_LINUX)
+    return LinuxPortal::available();
+#else
+    return false;
+#endif
+}
+
+qreal WindowHelper::devicePixelRatio() const
+{
+    if (auto *screen = QGuiApplication::primaryScreen())
+        return screen->devicePixelRatio();
+    return 1.0;
+}
+
+void WindowHelper::configurePlatformEnvironment()
+{
+#if defined(Q_OS_LINUX)
+    // Prefer Wayland when the session is Wayland, with xcb fallback. Respect an
+    // explicit QT_QPA_PLATFORM (developers / packagers may force xcb or wayland).
+    if (qEnvironmentVariableIsEmpty("QT_QPA_PLATFORM")) {
+        const QByteArray session = qgetenv("XDG_SESSION_TYPE").toLower();
+        const bool waylandSession = session == "wayland"
+                || !qEnvironmentVariableIsEmpty("WAYLAND_DISPLAY");
+        if (waylandSession)
+            qputenv("QT_QPA_PLATFORM", "wayland;xcb");
+        else if (session == "x11")
+            qputenv("QT_QPA_PLATFORM", "xcb;wayland");
+        else
+            qputenv("QT_QPA_PLATFORM", "wayland;xcb");
+    }
+
+    // Keep server-side decorations; never set QT_WAYLAND_DISABLE_WINDOWDECORATION here.
+    if (qEnvironmentVariableIsEmpty("QT_WAYLAND_DECORATION"))
+        qputenv("QT_WAYLAND_DECORATION", "material");
+
+    // Fractional Wayland scaling — avoid forced integer rounding when unset.
+    if (qEnvironmentVariableIsEmpty("QT_SCALE_FACTOR_ROUNDING_POLICY"))
+        qputenv("QT_SCALE_FACTOR_ROUNDING_POLICY", "PassThrough");
+#else
+    // Windows / other: no-op (DWM chrome is handled after QGuiApplication).
+#endif
+}
+
+void WindowHelper::setDesktopFileName(const QString &desktopFileName)
+{
+    if (desktopFileName.isEmpty())
+        return;
+    QGuiApplication::setDesktopFileName(desktopFileName);
+}
+
+void WindowHelper::requestActivateWindow(QObject *windowObject)
+{
+    QWindow *window = resolveWindow(windowObject);
+    if (!window)
+        return;
+    window->requestActivate();
+    window->raise();
+}
+
+void WindowHelper::setTransientParent(QObject *windowObject, QObject *parentWindowObject)
+{
+    QWindow *window = resolveWindow(windowObject);
+    QWindow *parent = resolveWindow(parentWindowObject);
+    if (!window)
+        return;
+    window->setTransientParent(parent);
+}
+
+bool WindowHelper::openExternalUrl(const QString &url)
+{
+    if (url.isEmpty())
+        return false;
+#if defined(Q_OS_LINUX)
+    if (LinuxPortal::tryOpenUri(url, QString()))
+        return true;
+#endif
+    return QDesktopServices::openUrl(QUrl(url));
+}
+
+void WindowHelper::requestUserAttention(QObject *windowObject, bool continuous)
+{
+    QWindow *window = resolveWindow(windowObject);
+    if (!window)
+        return;
+#if defined(Q_OS_WIN)
+    HWND hwnd = reinterpret_cast<HWND>(window->winId());
+    if (!hwnd)
+        return;
+    FLASHWINFO fi {};
+    fi.cbSize = sizeof(fi);
+    fi.hwnd = hwnd;
+    fi.dwFlags = continuous ? (FLASHW_ALL | FLASHW_TIMERNOFG) : (FLASHW_ALL | FLASHW_TIMERNOFG);
+    fi.uCount = continuous ? 0 : 3;
+    fi.dwTimeout = 0;
+    FlashWindowEx(&fi);
+#else
+    Q_UNUSED(continuous);
+    window->requestActivate();
+    window->raise();
+    window->alert(continuous ? 0 : 3000);
+#endif
+}
+
+bool WindowHelper::revealFileInFolder(const QString &path)
+{
+    if (path.isEmpty())
+        return false;
+    const QFileInfo info(path);
+    const QString abs = info.absoluteFilePath();
+#if defined(Q_OS_WIN)
+    const QString native = QDir::toNativeSeparators(abs);
+    return QProcess::startDetached(
+            QStringLiteral("explorer.exe"),
+            {QStringLiteral("/select,%1").arg(native)});
+#elif defined(Q_OS_LINUX)
+    QStringList uris;
+    uris << QUrl::fromLocalFile(abs).toString();
+    if (LinuxPortal::tryShowItems(uris))
+        return true;
+    const QString dir = info.isDir() ? abs : info.absolutePath();
+    return QDesktopServices::openUrl(QUrl::fromLocalFile(dir));
+#else
+    const QString dir = info.isDir() ? abs : info.absolutePath();
+    return QDesktopServices::openUrl(QUrl::fromLocalFile(dir));
+#endif
+}
+
+void WindowHelper::copyText(const QString &text)
+{
+    if (auto *clip = QGuiApplication::clipboard())
+        clip->setText(text);
+}
+
+QString WindowHelper::clipboardText() const
+{
+    if (auto *clip = QGuiApplication::clipboard())
+        return clip->text();
+    return {};
+}
+
+void WindowHelper::systemBeep()
+{
+#if defined(Q_OS_WIN)
+    MessageBeep(MB_OK);
+#else
+    QGuiApplication::beep();
+#endif
+}
+
+bool WindowHelper::inhibitIdle(const QString &reason)
+{
+    if (m_idleInhibited)
+        return true;
+#if defined(Q_OS_WIN)
+    Q_UNUSED(reason);
+    if (SetThreadExecutionState(ES_CONTINUOUS | ES_SYSTEM_REQUIRED | ES_DISPLAY_REQUIRED)) {
+        m_idleInhibited = true;
+        m_idleCookie = 1;
+        emit idleInhibitedChanged();
+        return true;
+    }
+    return false;
+#elif defined(Q_OS_LINUX)
+    quint32 cookie = 0;
+    if (!LinuxPortal::tryInhibitIdle(QCoreApplication::applicationName(), reason, &cookie))
+        return false;
+    m_idleCookie = cookie;
+    m_idleInhibited = true;
+    emit idleInhibitedChanged();
+    return true;
+#else
+    Q_UNUSED(reason);
+    return false;
+#endif
+}
+
+void WindowHelper::releaseIdleInhibit()
+{
+    if (!m_idleInhibited)
+        return;
+#if defined(Q_OS_WIN)
+    SetThreadExecutionState(ES_CONTINUOUS);
+#elif defined(Q_OS_LINUX)
+    LinuxPortal::tryUninhibitIdle(m_idleCookie);
+#endif
+    m_idleCookie = 0;
+    m_idleInhibited = false;
+    emit idleInhibitedChanged();
+}
+
+void WindowHelper::setAppUserModelId(const QString &appId)
+{
+#if defined(Q_OS_WIN)
+    if (appId.isEmpty())
+        return;
+    SetCurrentProcessExplicitAppUserModelID(reinterpret_cast<PCWSTR>(appId.utf16()));
+#else
+    // Align Wayland/X11 desktop id when callers use the same string.
+    if (!appId.isEmpty())
+        QGuiApplication::setDesktopFileName(appId);
+#endif
+}
+
+void WindowHelper::addToRecentDocuments(const QString &path)
+{
+    if (path.isEmpty())
+        return;
+#if defined(Q_OS_WIN)
+    SHAddToRecentDocs(SHARD_PATHW, path.utf16());
+#elif defined(Q_OS_LINUX)
+    // Best-effort: ask the file manager to note the item (also used for reveal).
+    LinuxPortal::tryShowItems({QUrl::fromLocalFile(QFileInfo(path).absoluteFilePath()).toString()});
+#else
+    Q_UNUSED(path);
+#endif
+}
+
+void WindowHelper::clearRecentDocuments()
+{
+#if defined(Q_OS_WIN)
+    SHAddToRecentDocs(SHARD_PATHW, nullptr);
+#endif
+}
+
+int WindowHelper::screenCount() const
+{
+    return QGuiApplication::screens().size();
+}
+
+QVariantList WindowHelper::screensInfo() const
+{
+    QVariantList out;
+    QScreen *primary = QGuiApplication::primaryScreen();
+    const auto screens = QGuiApplication::screens();
+    for (QScreen *screen : screens) {
+        if (!screen)
+            continue;
+        QVariantMap m;
+        m.insert(QStringLiteral("name"), screen->name());
+        m.insert(QStringLiteral("manufacturer"), screen->manufacturer());
+        m.insert(QStringLiteral("model"), screen->model());
+        m.insert(QStringLiteral("geometry"), screen->geometry());
+        m.insert(QStringLiteral("availableGeometry"), screen->availableGeometry());
+        m.insert(QStringLiteral("dpr"), screen->devicePixelRatio());
+        m.insert(QStringLiteral("refreshRate"), screen->refreshRate());
+        m.insert(QStringLiteral("primary"), screen == primary);
+        out.push_back(m);
+    }
+    return out;
+}
+
+void WindowHelper::refreshPowerStatus()
+{
+    int level = -1;
+    bool battery = false;
+#if defined(Q_OS_WIN)
+    SYSTEM_POWER_STATUS status {};
+    if (GetSystemPowerStatus(&status)) {
+        if (status.BatteryFlag != 128 /* unknown */) {
+            if (status.BatteryLifePercent != 255)
+                level = int(status.BatteryLifePercent);
+            battery = status.ACLineStatus == 0;
+        }
+    }
+#elif defined(Q_OS_LINUX)
+    const QStringList candidates = {
+        QStringLiteral("/sys/class/power_supply/BAT0"),
+        QStringLiteral("/sys/class/power_supply/BAT1"),
+        QStringLiteral("/sys/class/power_supply/battery")
+    };
+    for (const QString &base : candidates) {
+        QFile cap(base + QStringLiteral("/capacity"));
+        if (!cap.open(QIODevice::ReadOnly))
+            continue;
+        bool ok = false;
+        const int v = QString::fromUtf8(cap.readAll().trimmed()).toInt(&ok);
+        if (ok)
+            level = qBound(0, v, 100);
+        QFile st(base + QStringLiteral("/status"));
+        if (st.open(QIODevice::ReadOnly)) {
+            const QByteArray s = st.readAll().trimmed().toLower();
+            battery = (s == "discharging" || s == "not charging");
+        } else {
+            battery = level >= 0;
+        }
+        break;
+    }
+#endif
+    if (level == m_batteryLevel && battery == m_onBattery)
+        return;
+    m_batteryLevel = level;
+    m_onBattery = battery;
+    emit powerChanged();
+}
+
+void WindowHelper::refreshOnlineStatus()
+{
+    bool online = true;
+#if defined(Q_OS_WIN)
+    DWORD flags = 0;
+    online = InternetGetConnectedState(&flags, 0) == TRUE;
+#elif defined(Q_OS_LINUX)
+    online = false;
+    QDir net(QStringLiteral("/sys/class/net"));
+    const QStringList entries = net.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+    for (const QString &iface : entries) {
+        if (iface == QLatin1String("lo"))
+            continue;
+        QFile state(QStringLiteral("/sys/class/net/%1/operstate").arg(iface));
+        if (state.open(QIODevice::ReadOnly)
+            && state.readAll().trimmed() == QByteArrayLiteral("up")) {
+            online = true;
+            break;
+        }
+    }
+#endif
+    if (online == m_isOnline)
+        return;
+    m_isOnline = online;
+    emit onlineChanged();
+}
+
+void WindowHelper::setSnapLayoutsEnabled(bool enabled)
+{
+    if (m_snapLayoutsEnabled == enabled)
+        return;
+    m_snapLayoutsEnabled = enabled;
+    emit snapLayoutsEnabledChanged();
 }
 
 bool WindowHelper::customFrame() const
@@ -204,11 +613,104 @@ void WindowHelper::refreshWallpaper()
     wchar_t path[MAX_PATH + 1] = {};
     if (SystemParametersInfoW(SPI_GETDESKWALLPAPER, MAX_PATH, path, 0) && path[0] != L'\0')
         url = QUrl::fromLocalFile(QString::fromWCharArray(path));
+#elif defined(Q_OS_LINUX)
+    // GNOME / portals often expose picture-uri; strip quotes from gsettings output.
+    QProcess gsettings;
+    gsettings.start(QStringLiteral("gsettings"),
+                    {QStringLiteral("get"),
+                     QStringLiteral("org.gnome.desktop.background"),
+                     QStringLiteral("picture-uri")});
+    if (gsettings.waitForFinished(400)) {
+        QString out = QString::fromUtf8(gsettings.readAllStandardOutput()).trimmed();
+        if (out.startsWith(QLatin1Char('\'')) && out.endsWith(QLatin1Char('\'')) && out.size() >= 2)
+            out = out.mid(1, out.size() - 2);
+        if (!out.isEmpty() && out != QLatin1String("''"))
+            url = QUrl(out);
+    }
 #endif
     if (url == m_wallpaperUrl)
         return;
     m_wallpaperUrl = url;
     emit wallpaperChanged();
+}
+
+void WindowHelper::refreshColorScheme()
+{
+    bool prefersDark = false;
+#if defined(Q_OS_WIN)
+    // AppsUseLightTheme = 0 → dark
+    HKEY key = nullptr;
+    if (RegOpenKeyExW(HKEY_CURRENT_USER,
+                      L"Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize",
+                      0, KEY_READ, &key) == ERROR_SUCCESS) {
+        DWORD value = 1;
+        DWORD size = sizeof(value);
+        if (RegQueryValueExW(key, L"AppsUseLightTheme", nullptr, nullptr,
+                             reinterpret_cast<LPBYTE>(&value), &size) == ERROR_SUCCESS)
+            prefersDark = value == 0;
+        RegCloseKey(key);
+    }
+#elif defined(Q_OS_LINUX)
+    bool known = false;
+    // Prefer xdg-desktop-portal Settings (works under Flatpak / Wayland).
+    uint portalScheme = 0;
+    if (LinuxPortal::tryReadColorScheme(&portalScheme)) {
+        if (portalScheme == 1) { // prefer-dark
+            prefersDark = true;
+            known = true;
+        } else if (portalScheme == 2) { // prefer-light
+            prefersDark = false;
+            known = true;
+        }
+    }
+    if (!known) {
+        QProcess gsettings;
+        gsettings.start(QStringLiteral("gsettings"),
+                        {QStringLiteral("get"),
+                         QStringLiteral("org.gnome.desktop.interface"),
+                         QStringLiteral("color-scheme")});
+        if (gsettings.waitForFinished(400)) {
+            const QByteArray out = gsettings.readAllStandardOutput().trimmed();
+            if (out.contains("prefer-dark")) {
+                prefersDark = true;
+                known = true;
+            } else if (out.contains("prefer-light") || out.contains("default")) {
+                prefersDark = false;
+                known = true;
+            }
+        }
+    }
+    if (!known) {
+        QProcess kread;
+        kread.start(QStringLiteral("kreadconfig5"),
+                    {QStringLiteral("--file"), QStringLiteral("kdeglobals"),
+                     QStringLiteral("--group"), QStringLiteral("General"),
+                     QStringLiteral("--key"), QStringLiteral("ColorScheme")});
+        if (kread.waitForFinished(400)) {
+            const QByteArray out = kread.readAllStandardOutput().toLower();
+            if (out.contains("dark")) {
+                prefersDark = true;
+                known = true;
+            }
+        }
+    }
+    if (!known) {
+        if (auto *hints = QGuiApplication::styleHints()) {
+            const auto scheme = hints->colorScheme();
+            if (scheme == Qt::ColorScheme::Dark)
+                prefersDark = true;
+            else if (scheme == Qt::ColorScheme::Light)
+                prefersDark = false;
+        }
+    } else if (auto *hints = QGuiApplication::styleHints()) {
+        // Keep Qt theme hints aligned with portal/gsettings when we know the preference.
+        hints->setColorScheme(prefersDark ? Qt::ColorScheme::Dark : Qt::ColorScheme::Light);
+    }
+#endif
+    if (prefersDark == m_systemPrefersDark)
+        return;
+    m_systemPrefersDark = prefersDark;
+    emit colorSchemeChanged();
 }
 
 void WindowHelper::refreshAccessibility()
@@ -224,6 +726,32 @@ void WindowHelper::refreshAccessibility()
     hc.cbSize = sizeof(hc);
     if (SystemParametersInfoW(SPI_GETHIGHCONTRAST, sizeof(hc), &hc, 0))
         highContrast = (hc.dwFlags & HCF_HIGHCONTRASTON) != 0;
+#elif defined(Q_OS_LINUX)
+    // GNOME: org.gnome.desktop.a11y.interface / gtk-enable-animations (inverted)
+    {
+        QProcess gsettings;
+        gsettings.start(QStringLiteral("gsettings"),
+                        {QStringLiteral("get"),
+                         QStringLiteral("org.gnome.desktop.interface"),
+                         QStringLiteral("enable-animations")});
+        if (gsettings.waitForFinished(400)) {
+            const QByteArray out = gsettings.readAllStandardOutput().trimmed();
+            if (out == "false")
+                reduced = true;
+        }
+    }
+    {
+        QProcess gsettings;
+        gsettings.start(QStringLiteral("gsettings"),
+                        {QStringLiteral("get"),
+                         QStringLiteral("org.gnome.desktop.a11y.interface"),
+                         QStringLiteral("high-contrast")});
+        if (gsettings.waitForFinished(400)) {
+            const QByteArray out = gsettings.readAllStandardOutput().trimmed();
+            if (out == "true")
+                highContrast = true;
+        }
+    }
 #endif
     if (reduced == m_systemReducedMotion && highContrast == m_systemHighContrast)
         return;
@@ -383,8 +911,15 @@ void WindowHelper::install(QObject *windowObject, bool dark, int backdrop)
         quick->setColor(frosted ? QColor(0, 0, 0, 0) : m_windowColor);
     }
 #else
-    if (auto *quick = qobject_cast<QQuickWindow *>(window))
-        quick->setColor(m_windowColor.isValid() ? m_windowColor : QColor(Qt::white));
+    // Linux / Wayland: keep SSD (no Frameless). Alpha clear when frosted so
+    // compositor blur / translucent shells can show through.
+    if (window->flags().testFlag(Qt::FramelessWindowHint))
+        window->setFlag(Qt::FramelessWindowHint, false);
+    if (auto *quick = qobject_cast<QQuickWindow *>(window)) {
+        const bool frosted = m_backdrop != BackdropSolid && m_backdrop != BackdropNone;
+        quick->setColor(frosted ? QColor(0, 0, 0, 0)
+                                : (m_windowColor.isValid() ? m_windowColor : QColor(Qt::white)));
+    }
 #endif
 
     // UniqueConnection cannot be used with lambdas — disconnect then reconnect.
@@ -707,20 +1242,3 @@ void WindowHelper::setPresenter(QObject *windowObject, int kind)
     }
     }
 }
-
-#if !defined(Q_OS_WIN)
-void WindowHelper::updateHitTestLayout(QObject *windowObject,
-                                       const QRect &titleBar,
-                                       const QRect &minimizeButton,
-                                       const QRect &maximizeButton,
-                                       const QRect &closeButton,
-                                       const QVariantList &clientRects)
-{
-    Q_UNUSED(windowObject);
-    Q_UNUSED(titleBar);
-    Q_UNUSED(minimizeButton);
-    Q_UNUSED(maximizeButton);
-    Q_UNUSED(closeButton);
-    Q_UNUSED(clientRects);
-}
-#endif

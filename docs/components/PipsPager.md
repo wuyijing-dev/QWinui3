@@ -27,6 +27,7 @@ PipsPager {
 ## Notes
 
 Dot pager synced to a FlipView / SwipeView currentIndex.
+MaxVisiblePips windows the visible dots; NumberOfPages aliases count.
 
 ## API
 
@@ -35,8 +36,10 @@ Dot pager synced to a FlipView / SwipeView currentIndex.
 | Name | Type | Description |
 | --- | --- | --- |
 | `count` | `int` | Item count |
+| `numberOfPages` | `alias` | WinUI NumberOfPages alias of count |
 | `currentIndex` | `int` | Selected index |
 | `selectedIndex` | `alias` | Selected index alias |
+| `maxVisiblePips` | `int` | WinUI MaxVisiblePips — 0 = show all |
 | `orientation` | `int` | Qt.Horizontal or Qt.Vertical |
 | `wrap` | `bool` | Wrap children to next line |
 | `previousButtonVisibility` | `string` | WinUI ButtonVisibility: "visible" \| "visibleOnPointerOver" \| "collapsed" |

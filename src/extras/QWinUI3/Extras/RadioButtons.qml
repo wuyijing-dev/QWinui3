@@ -4,20 +4,9 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// RadioButtons — Grouped RadioButton list from a model.
-//
-//   RadioButtons {
-//       id: radioButtons
-//       header: qsTr("Choice"); model: ["A", "B"]
-//   }
-//
-//   // --- API ---
-//   // signals: onSelected, onSelectionChanged
-//   // methods: select(index)
-//   // radioButtons.select(index)
-//
 // @notes
-//   Grouped RadioButton column from model; selectedIndex.
+//   Grouped RadioButton column/grid from model; selectedIndex / selectedItem.
+//   maxColumns wraps the grid (WinUI MaxColumns); horizontal=true is one row.
 
 T.Control {
     id: control
@@ -28,12 +17,22 @@ T.Control {
     property string description: ""
     // Data model / item list for this control
     property var model: []
+    // WinUI ItemsSource alias of model
+    property alias itemsSource: control.model
     // Selected index
     property int currentIndex: 0
     // Selected index alias
     property alias selectedIndex: control.currentIndex
-    // Horizontal orientation when true
+    // WinUI MaxColumns — 0/1 = single column; >1 wraps into a grid
+    property int maxColumns: 1
+    // Horizontal orientation when true (all items in one row)
     property bool horizontal: false
+    // Currently selected model item (WinUI SelectedItem)
+    readonly property var selectedItem: {
+        if (!model || currentIndex < 0 || currentIndex >= model.length)
+            return null
+        return model[currentIndex]
+    }
     // Selected state
     signal selected(int index, var item)
     // Selection changed
@@ -61,31 +60,39 @@ T.Control {
     Accessible.description: description
     Keys.onUpPressed: select(Math.max(0, currentIndex - 1))
     Keys.onDownPressed: select(Math.min((model ? model.length : 1) - 1, currentIndex + 1))
-    Keys.onLeftPressed: if (horizontal) select(Math.max(0, currentIndex - 1))
-    Keys.onRightPressed: if (horizontal) select(Math.min((model ? model.length : 1) - 1, currentIndex + 1))
+    Keys.onLeftPressed: select(Math.max(0, currentIndex - 1))
+    Keys.onRightPressed: select(Math.min((model ? model.length : 1) - 1, currentIndex + 1))
+
+    readonly property int _columns: {
+        if (horizontal)
+            return Math.max(1, model ? model.length : 1)
+        return Math.max(1, maxColumns)
+    }
 
     contentItem: ColumnLayout {
         spacing: Theme.spacing
 
-        Label {
+        Text {
             visible: control.header.length > 0
+            Layout.fillWidth: true
             text: control.header
-            color: Theme.textPrimary
+            font.family: control.font.family
+            font.pixelSize: Theme.fontBody
             font.weight: Theme.fontWeightSemiBold
-            Layout.fillWidth: true
+            color: Theme.textPrimary
         }
-        Label {
+        Text {
             visible: control.description.length > 0
-            text: control.description
-            color: Theme.textSecondary
-            font.pixelSize: Theme.fontCaption
-            wrapMode: Text.Wrap
             Layout.fillWidth: true
+            text: control.description
+            font.family: control.font.family
+            font.pixelSize: Theme.fontCaption
+            color: Theme.textSecondary
+            wrapMode: Text.Wrap
         }
 
         GridLayout {
-            columns: control.horizontal ? Math.max(1, control.model.length) : 1
-            rows: control.horizontal ? 1 : Math.max(1, control.model.length)
+            columns: control._columns
             rowSpacing: 2
             columnSpacing: Theme.spacingLoose
             Layout.fillWidth: true
@@ -96,7 +103,10 @@ T.Control {
                     required property var modelData
                     required property int index
                     spacing: 0
-                    Layout.fillWidth: !control.horizontal
+                    Layout.fillWidth: control._columns === 1
+                    Layout.preferredWidth: control._columns > 1
+                        ? Math.max(120, (control.availableWidth - (control._columns - 1) * Theme.spacingLoose) / control._columns)
+                        : -1
 
                     RadioButton {
                         id: radio

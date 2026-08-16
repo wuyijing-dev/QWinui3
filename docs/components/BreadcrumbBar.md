@@ -38,7 +38,9 @@ Path trail from model [{ title, icon? }]; itemClicked(index); overflow collapses
 | --- | --- | --- |
 | `model` | `var` | Data model / item list for this control |
 | `currentIndex` | `int` | Selected index |
+| `selectedItem` | `var` | Currently selected model item (WinUI SelectedItem) |
 | `maxVisibleItems` | `int` | Collapse middle crumbs when count exceeds this (0 = show all) |
+| `maxItems` | `alias` | WinUI MaxItems alias |
 | `lastItemClickable` | `bool` | WinUI: current/last crumb is usually non-interactive |
 | `separatorSymbol` | `var` | Breadcrumb separator FluentIcons symbol |
 | `separatorGlyph` | `string` | Breadcrumb separator glyph string |

@@ -36,13 +36,20 @@ Page {
                     Layout.fillWidth: true
                     Layout.maximumWidth: 360
                     spacing: Theme.spacing
+                    CheckBox {
+                        id: chooseOnEnter
+                        text: qsTr("ChooseSuggestionOnEnter")
+                        checked: true
+                    }
                     SearchBox {
                         id: box
                         Layout.fillWidth: true
                         header: qsTr("Find files")
-                        description: qsTr("Type to filter suggestions, Enter to submit.")
+                        description: qsTr("Type to filter suggestions, Enter to submit or choose.")
                         placeholderText: qsTr("Search files")
                         symbol: FluentIcons.Search
+                        chooseSuggestionOnEnter: chooseOnEnter.checked
+                        maxSuggestionListHeight: 160
                         model: [
                             qsTr("Documents"),
                             qsTr("Downloads"),

@@ -24,7 +24,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("AnnotatedScrollBar")
-                subtitle: qsTr("Scrollbar thumb label bubble using ElevatedChrome (no corner flicker).")
+                subtitle: qsTr("Percentage, even string labels, and offset-mapped chapter labels.")
             }
             ControlExample {
                 Layout.fillWidth: true
@@ -85,6 +85,87 @@ Page {
                             text: qsTr("Scroll to see letter labels")
                             color: Theme.textSecondary
                             font.family: Theme.fontFamily
+                        }
+                    }
+                }
+            }
+            ControlExample {
+                Layout.fillWidth: true
+                Layout.leftMargin: Theme.spacingSection
+                Layout.rightMargin: Theme.spacingSection
+                headerText: qsTr("Offset labels (AnnotatedScrollBarLabel)")
+                qmlSource: "labels: [\n  { content: \"Intro\", scrollOffset: 0 },\n  { content: \"Body\", scrollOffset: 0.4 },\n  { content: \"End\", scrollOffset: 0.9 }\n]"
+                ColumnLayout {
+                    Layout.fillWidth: true
+                    spacing: Theme.spacing
+                    AnnotatedScrollBar {
+                        id: chapterScroll
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 220
+                        alwaysShowLabel: true
+                        labelsInteractive: true
+                        detailLabel: qsTr("tap marker or bubble to jump")
+                        labels: [
+                            { content: qsTr("Intro"), scrollOffset: 0 },
+                            { content: qsTr("Body"), scrollOffset: 0.35 },
+                            { content: qsTr("Appendix"), scrollOffset: 0.7 },
+                            { content: qsTr("End"), scrollOffset: 0.95 }
+                        ]
+                        contentWidth: width
+                        contentHeight: chapterCol.implicitHeight
+                        Column {
+                            id: chapterCol
+                            width: parent.width
+                            spacing: 12
+                            Repeater {
+                                model: [
+                                    qsTr("Intro — overview of the control"),
+                                    qsTr("Body — long scrolling content block A"),
+                                    qsTr("Body — long scrolling content block B"),
+                                    qsTr("Body — long scrolling content block C"),
+                                    qsTr("Appendix — notes and references"),
+                                    qsTr("Appendix — more detail"),
+                                    qsTr("End — summary")
+                                ]
+                                Rectangle {
+                                    required property string modelData
+                                    required property int index
+                                    width: chapterCol.width - 8
+                                    height: 72
+                                    radius: Theme.cornerControl
+                                    color: Theme.fillSubtle
+                                    Text {
+                                        anchors.fill: parent
+                                        anchors.margins: 12
+                                        text: modelData
+                                        wrapMode: Text.Wrap
+                                        font.family: Theme.fontFamily
+                                        color: Theme.textPrimary
+                                        verticalAlignment: Text.AlignVCenter
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    RowLayout {
+                        spacing: Theme.spacing
+                        Button {
+                            text: qsTr("Jump Intro")
+                            onClicked: chapterScroll.jumpToLabel(0)
+                        }
+                        Button {
+                            text: qsTr("Jump Body")
+                            onClicked: chapterScroll.jumpToLabel(1)
+                        }
+                        Button {
+                            text: qsTr("Jump End")
+                            onClicked: chapterScroll.jumpToLabel(3)
+                        }
+                        Label {
+                            text: qsTr("Active: %1 (%2)")
+                                  .arg(chapterScroll.currentLabel)
+                                  .arg(chapterScroll.activeLabelIndex)
+                            color: Theme.textSecondary
                         }
                     }
                 }

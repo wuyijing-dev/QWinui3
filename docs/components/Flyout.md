@@ -31,6 +31,8 @@ Flyout {
 Light-dismiss Popup anchored to target (preferredPlacement / placement).
 Call show() / showAt(item, place) / hide(); reposition() after layout changes.
 Put body as children; optional title / subtitle chrome.
+showMode: standard | transient | transientWithDismissOnPointerMoveAway (WinUI ShowMode).
+shouldConstrainToRootBounds clamps to overlay / parent (default true).
 
 ## API
 
@@ -44,6 +46,9 @@ Put body as children; optional title / subtitle chrome.
 | `isLightDismissEnabled` | `bool` | Close on outside click / Esc |
 | `isOpen` | `bool` | Open / visible state |
 | `title` | `string` | Primary title text |
+| `subtitle` | `string` | Secondary subtitle under title |
+| `showMode` | `string` | WinUI ShowMode: standard \| transient \| transientWithDismissOnPointerMoveAway |
+| `shouldConstrainToRootBounds` | `bool` | WinUI ShouldConstrainToRootBounds — clamp to overlay / parent |
 | `contentData` | `alias` | Default children / content slot |
 
 ### Signals

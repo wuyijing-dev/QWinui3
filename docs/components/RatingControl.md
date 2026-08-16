@@ -1,6 +1,6 @@
 # RatingControl
 
-Star rating; stepSize supports halves.
+Star rating; stepSize supports halves (WinUI InitialSetValue / ItemInfo).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/RatingControl.qml`](../../src/extras/QWinUI3/Extras/RatingControl.qml)
 
@@ -13,20 +13,22 @@ Star rating; stepSize supports halves.
 ```qml
 RatingControl {
     id: ratingControl
-    value: 3.5; stepSize: 0.5
+    value: 0
+    initialSetValue: 3
+    stepSize: 0.5
+    emptyGlyph: FluentIcons.OutlineStar
+    filledGlyph: FluentIcons.FavoriteStarFill
 }
 
 // --- API ---
 // signals: onValueEdited
 // methods: clampValue(v), valueFromPos(x), commitValue(next)
-// ratingControl.clampValue(v)
-// ratingControl.valueFromPos(x)
-// ratingControl.commitValue(next)
 ```
 
 ## Notes
 
 Star rating; value / maxRating; isReadOnly disables input.
+initialSetValue applies on first pick when value is unset; empty/filled/placeholder glyphs customize ItemInfo.
 
 ## API
 
@@ -36,6 +38,7 @@ Star rating; value / maxRating; isReadOnly disables input.
 | --- | --- | --- |
 | `value` | `real` | Current value |
 | `placeholderValue` | `real` | Shown when value unset |
+| `initialSetValue` | `real` | WinUI InitialSetValue — used for the first commit when value is unset (≤0) |
 | `maxRating` | `int` | Maximum star count |
 | `readOnly` | `bool` | Read-only when true |
 | `isReadOnly` | `alias` | Alias of readOnly |
@@ -44,6 +47,10 @@ Star rating; value / maxRating; isReadOnly disables input.
 | `previewEnabled` | `bool` | Preview value on hover |
 | `previewValue` | `real` | Hovered preview value |
 | `caption` | `string` | Caption under / beside the value |
+| `emptyGlyph` | `string` | WinUI ItemInfo — empty / outline glyph |
+| `filledGlyph` | `string` | WinUI ItemInfo — filled glyph |
+| `placeholderGlyph` | `string` | Glyph used for placeholder (unset) fill |
+| `disabledGlyph` | `string` | WinUI RatingItemInfo.DisabledGlyph — used when !enabled |
 
 ### Signals
 

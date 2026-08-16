@@ -32,10 +32,19 @@ T.AbstractButton {
     property alias isOpen: control.pickerOpen
     // Show alpha channel editor
     property bool showAlpha: false
+    // WinUI IsAlphaEnabled
+    property alias isAlphaEnabled: control.showAlpha
+    // WinUI ColorSpectrumShape: box | ring
+    property string colorSpectrumShape: "box"
+    // WinUI PreviousColor
+    property color previousColor: "#00000000"
+    property bool isPreviousColorVisible: false
     // Show hex text on the button
     property bool showHexLabel: true
     // MenuFlyout placement
     property int flyoutPlacement: Qt.AlignBottom
+    // WinUI ShouldConstrainToRootBounds for the picker popup
+    property bool shouldConstrainToRootBounds: true
     // Emitted when a color is chosen
     signal colorChosen(color color)
 
@@ -198,10 +207,28 @@ T.AbstractButton {
         contentItem: ColorPicker {
             selectedColor: control.selectedColor
             showAlpha: control.showAlpha
+            colorSpectrumShape: control.colorSpectrumShape
+            previousColor: control.previousColor
+            isPreviousColorVisible: control.isPreviousColorVisible
             onColorChosen: function (c) {
                 control.selectedColor = c
                 control.colorChosen(c)
             }
+        }
+
+        onOpened: {
+            if (!control.shouldConstrainToRootBounds)
+                return
+            var win = control.Window.window
+            var host = (win && win.Overlay && win.Overlay.overlay) ? win.Overlay.overlay : control.parent
+            if (!host)
+                return
+            var margin = 8
+            var p = popup.mapToItem(host, 0, 0)
+            var nx = Math.max(margin, Math.min(p.x, host.width - popup.width - margin))
+            var ny = Math.max(margin, Math.min(p.y, host.height - popup.height - margin))
+            popup.x += (nx - p.x)
+            popup.y += (ny - p.y)
         }
 
         enter: Transition {

@@ -41,6 +41,7 @@ addToken / removeToken / clear; suggestionModel for popup picks.
 | `maxTokens` | `int` | Maximum number of tokens |
 | `allowDuplicates` | `bool` | Allow duplicate tokens |
 | `tokenDelimiters` | `string` | Characters that commit a token |
+| `maxSuggestionListHeight` | `real` | Max height of the suggestion ListView (WinUI MaxSuggestionListHeight) |
 | `header` | `string` | Header label above the control |
 | `description` | `string` | Supporting description text |
 | `errorMessage` | `string` | Validation error text |

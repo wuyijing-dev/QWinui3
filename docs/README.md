@@ -1,5 +1,13 @@
 # QWinUI3 documentation
 
+## Conventions
+
+| Doc | Description |
+|-----|-------------|
+| [`conventions.md`](conventions.md) | Radius/clip pitfalls, Accessible rules, Extras import rule |
+| [`webview2-future.md`](webview2-future.md) | Why WebEngine is stripped; WebView2 as future Windows path |
+| [`platform-linux-wayland.md`](platform-linux-wayland.md) | Linux Wayland/X11, FilePicker, tray, compositor blur |
+
 ## Component API
 
 | Doc | Description |

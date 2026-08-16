@@ -54,6 +54,34 @@ Page {
                 Layout.fillWidth: true
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
+                headerText: qsTr("WinUI ShowError / ShowPaused")
+                qmlSource: "ProgressBar { value: 0.45; showError: true }\nProgressBar { indeterminate: true; showPaused: true }"
+
+                ColumnLayout {
+                    Layout.fillWidth: true
+                    spacing: Theme.spacingLoose
+                    ProgressBar {
+                        Layout.preferredWidth: 320
+                        value: 0.45
+                        showError: true
+                    }
+                    ProgressBar {
+                        Layout.preferredWidth: 320
+                        value: 0.6
+                        showPaused: true
+                    }
+                    ProgressBar {
+                        Layout.preferredWidth: 320
+                        indeterminate: true
+                        showPaused: true
+                    }
+                }
+            }
+
+            ControlExample {
+                Layout.fillWidth: true
+                Layout.leftMargin: Theme.spacingSection
+                Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Indeterminate ProgressBar")
                 qmlSource: "ProgressBar {\n    indeterminate: true\n}"
 

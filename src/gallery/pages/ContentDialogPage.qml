@@ -42,6 +42,84 @@ Page {
         }
     }
 
+    ContentDialog {
+        id: fullDialog
+        parent: Overlay.overlay
+        anchors.centerIn: Overlay.overlay
+        title: qsTr("Full-size dialog")
+        primaryButtonText: qsTr("Done")
+        closeButtonText: qsTr("Close")
+        fullSizeDesired: true
+        defaultButton: "primary"
+        Label {
+            text: qsTr("fullSizeDesired expands the dialog toward the overlay (WinUI FullSizeDesired).")
+            wrapMode: Text.Wrap
+            color: Theme.textPrimary
+        }
+    }
+
+    ContentDialog {
+        id: resultDialog
+        parent: Overlay.overlay
+        anchors.centerIn: Overlay.overlay
+        title: qsTr("ContentDialogResult")
+        primaryButtonText: qsTr("Primary")
+        secondaryButtonText: qsTr("Secondary")
+        closeButtonText: qsTr("Close")
+        defaultButton: "primary"
+        onResultReady: function (r) { resultLog.text = qsTr("Result: %1").arg(r) }
+        Label {
+            text: qsTr("Closing sets result (none/primary/secondary/close) and emits resultReady.")
+            wrapMode: Text.Wrap
+            color: Theme.textPrimary
+        }
+    }
+
+    ContentDialog {
+        id: customBtnDialog
+        parent: Overlay.overlay
+        anchors.centerIn: Overlay.overlay
+        title: qsTr("Custom primary button")
+        closeButtonText: qsTr("Cancel")
+        primaryButton: Button {
+            text: qsTr("Save with progress")
+            highlighted: true
+            onClicked: {
+                customBtnDialog.dialogResult = "primary"
+                customBtnDialog.resultReady("primary")
+                customBtnDialog.accept()
+            }
+        }
+        Label {
+            text: qsTr("primaryButton slot replaces the default Primary text button.")
+            wrapMode: Text.Wrap
+            color: Theme.textPrimary
+        }
+    }
+
+    ContentDialog {
+        id: closingDialog
+        parent: Overlay.overlay
+        anchors.centerIn: Overlay.overlay
+        title: qsTr("Closing cancel")
+        primaryButtonText: qsTr("Try close")
+        closeButtonText: qsTr("Cancel")
+        defaultButton: "primary"
+        onClosing: function (args) {
+            if (blockClose.checked) {
+                args.cancel = true
+                closingLog.text = qsTr("Closing canceled (args.cancel = true)")
+            } else {
+                closingLog.text = qsTr("Closed with result: %1").arg(args.result)
+            }
+        }
+        Label {
+            text: qsTr("WinUI Closing: set args.cancel = true to keep the dialog open.")
+            wrapMode: Text.Wrap
+            color: Theme.textPrimary
+        }
+    }
+
     ScrollView {
         id: scroll
         anchors.fill: parent
@@ -58,7 +136,7 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("ContentDialog")
-                subtitle: qsTr("Modal dialog with isOpen, enter/exit motion, and primary / secondary / close actions.")
+                subtitle: qsTr("Result logging, custom button slots, DefaultButton, and FullSizeDesired.")
             }
 
             ControlExample {
@@ -128,6 +206,36 @@ Page {
                     Button {
                         text: qsTr("Show three-button dialog")
                         onClicked: threeBtnDialog.isOpen = true
+                    }
+                    Button {
+                        text: qsTr("Show fullSizeDesired")
+                        onClicked: fullDialog.show()
+                    }
+                    Button {
+                        text: qsTr("Show result dialog")
+                        onClicked: resultDialog.show()
+                    }
+                    Button {
+                        text: qsTr("Show custom primary button")
+                        onClicked: customBtnDialog.show()
+                    }
+                    CheckBox {
+                        id: blockClose
+                        text: qsTr("Block close via Closing")
+                    }
+                    Button {
+                        text: qsTr("Show Closing dialog")
+                        onClicked: closingDialog.show()
+                    }
+                    Label {
+                        id: closingLog
+                        text: qsTr("Closing: (none yet)")
+                        color: Theme.textSecondary
+                    }
+                    Label {
+                        id: resultLog
+                        text: qsTr("Result: (none yet)")
+                        color: Theme.textSecondary
                     }
                 }
             }

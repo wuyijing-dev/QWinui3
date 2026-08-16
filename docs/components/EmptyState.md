@@ -22,7 +22,7 @@ EmptyState {
 
 ## Notes
 
-Placeholder for empty lists; title/message + optional action.
+Placeholder for empty lists; title/message (description alias) + optional action.
 
 ## API
 
@@ -34,6 +34,7 @@ Placeholder for empty lists; title/message + optional action.
 | `glyph` | `string` | Fluent glyph drawn in the button |
 | `title` | `string` | Primary title text |
 | `message` | `string` | Body / message text |
+| `description` | `alias` | WinUI / docs alias of message |
 | `actionText` | `string` | Optional action button label |
 | `secondaryActionText` | `string` | Secondary action button label |
 | `compact` | `bool` | Compact layout density |

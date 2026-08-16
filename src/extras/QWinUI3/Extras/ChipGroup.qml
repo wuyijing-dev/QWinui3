@@ -19,7 +19,7 @@ import QWinUI3.Theme
 //   // chipGroup.toggleIndex(index)
 //
 // @notes
-//   Chip row from model; exclusive or multi (maxSelected); select(index).
+//   Chip row from model; exclusive or multi (maxSelected); select(index); selectedItem(s).
 
 T.Control {
     id: root
@@ -36,6 +36,29 @@ T.Control {
     property string selectionMode: ""
     // Multi-select indexes
     property var selectedIndexes: []
+    // Currently selected model item (exclusive / single)
+    readonly property var selectedItem: {
+        if (currentIndex < 0)
+            return null
+        return _modelAt(currentIndex)
+    }
+    // Currently selected model items (multi)
+    readonly property var selectedItems: {
+        var out = []
+        if (_exclusive) {
+            var one = selectedItem
+            if (one !== null && one !== undefined)
+                out.push(one)
+            return out
+        }
+        var idxs = selectedIndexes || []
+        for (var i = 0; i < idxs.length; ++i) {
+            var it = _modelAt(idxs[i])
+            if (it !== null && it !== undefined)
+                out.push(it)
+        }
+        return out
+    }
     // Max selected chips when not exclusive
     property int maxSelected: 0 // 0 = unlimited (multiple mode)
     // Spacing between chips
@@ -55,6 +78,26 @@ T.Control {
         return exclusive
     }
     readonly property bool _selectable: selectionMode !== "none"
+
+    function _modelCount() {
+        var m = model
+        if (!m)
+            return 0
+        if (typeof m.count === "number")
+            return m.count
+        if (typeof m.length === "number")
+            return m.length
+        return 0
+    }
+
+    function _modelAt(index) {
+        var m = model
+        if (!m || index < 0 || index >= _modelCount())
+            return null
+        if (typeof m.get === "function")
+            return m.get(index)
+        return m[index]
+    }
 
     implicitWidth: row.implicitWidth
     implicitHeight: Math.max(Theme.controlHeight - 4, row.implicitHeight)

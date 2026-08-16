@@ -49,6 +49,12 @@ Page {
                         spacing: Theme.spacing
                         Chip { text: qsTr("Outline"); appearance: "outline"; checked: true }
                         Chip { text: qsTr("Tag"); appearance: "outline"; symbol: FluentIcons.Tag }
+                        Chip {
+                            text: qsTr("Icon right")
+                            appearance: "outline"
+                            symbol: FluentIcons.Tag
+                            iconPlacement: "right"
+                        }
                         Chip { text: qsTr("B"); appearance: "outline"; avatarText: "B"; chipSize: "small" }
                     }
                 }

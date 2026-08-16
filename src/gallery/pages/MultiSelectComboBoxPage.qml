@@ -46,7 +46,9 @@ Page {
                             { text: qsTr("Support"), checked: false }
                         ]
                         onSelectionChanged: function (items) {
-                            selLabel.text = qsTr("%1 selected").arg(items.length)
+                            selLabel.text = qsTr("%1 selected · indexes %2")
+                                .arg(items.length)
+                                .arg(JSON.stringify(tags.selectedIndexes))
                         }
                     }
                     RowLayout {
@@ -58,6 +60,10 @@ Page {
                         Button {
                             text: qsTr("Clear")
                             onClicked: tags.clearSelection()
+                        }
+                        Button {
+                            text: qsTr("Indexes [0,2]")
+                            onClicked: tags.selectedIndexes = [0, 2]
                         }
                         Label {
                             id: selLabel

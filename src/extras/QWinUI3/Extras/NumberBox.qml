@@ -4,25 +4,23 @@ import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// NumberBox — Numeric spin/edit with validation.
+// NumberBox — Numeric spin/edit with validation (WinUI AcceptsExpression / IsWrapEnabled).
 //
 //   NumberBox {
 //       id: numberBox
 //       value: 10; minimum: 0; maximum: 100
+//       acceptsExpression: true
+//       isWrapEnabled: true
 //   }
 //
 //   // --- API ---
 //   // signals: onValueModified
-//   // methods: clamp(v), format(v), bump(delta), flashInvalid(), focusField(), commitText()
-//   // numberBox.clamp(v)
-//   // numberBox.format(v)
-//   // numberBox.bump(delta)
-//   // numberBox.flashInvalid()
+//   // methods: clamp(v), format(v), bump(delta), flashInvalid(), focusField(), commitText(), evalExpression(text)
+//   // numberBox.bump(1); numberBox.acceptsExpression
 //
 // @notes
 //   Numeric TextField with spin buttons / wheel / validation.
-//   Bind value; spinButtonPlacement and validationMode control UX.
-//   valueChanged / validationError for feedback.
+//   acceptsExpression evaluates +−*/() on commit; isWrapEnabled wraps past min/max when spinning.
 
 T.Control {
     id: root
@@ -35,6 +33,8 @@ T.Control {
     property real maximum: Number.POSITIVE_INFINITY
     // Value step (e.g. 0.5 for half stars)
     property real stepSize: 1
+    // WinUI SmallChange — alias of stepSize (arrows / spin / wheel)
+    property alias smallChange: root.stepSize
     // WinUI LargeChange — used with PageUp/PageDown / wheel+Ctrl
     property real largeChange: 10
     // Decimal places for formatting
@@ -59,6 +59,10 @@ T.Control {
     property string validationMode: "invalidInputOverValue"
     // Handle mouse-wheel value changes
     property bool acceptWheel: true
+    // WinUI AcceptsExpression — allow 1+2*3 style input on commit
+    property bool acceptsExpression: false
+    // WinUI IsWrapEnabled — wrap past min/max when spinning
+    property bool isWrapEnabled: false
 
     // True when validation failed
     readonly property bool hasError: errorMessage.length > 0 || inputInvalid
@@ -72,9 +76,13 @@ T.Control {
     font.pixelSize: Theme.fontBody
     Accessible.role: Accessible.SpinBox
     Accessible.name: header.length ? header : qsTr("Number")
-    Accessible.value: value
-    Accessible.description: hasError ? (errorMessage.length ? errorMessage : qsTr("Invalid value"))
-                                     : description
+    Accessible.description: {
+        var base = hasError
+                   ? (errorMessage.length ? errorMessage : qsTr("Invalid value"))
+                   : description
+        var v = qsTr("Value %1").arg(value)
+        return base.length ? (base + ". " + v) : v
+    }
 
     readonly property bool _spinnersVisible: {
         if (spinButtonPlacementMode === "hidden")
@@ -89,15 +97,54 @@ T.Control {
         return Math.min(root.maximum, Math.max(root.minimum, v))
     }
 
+    // Wrap into [minimum, maximum] when both are finite
+    function wrap(v) {
+        if (!isFinite(root.minimum) || !isFinite(root.maximum) || root.maximum <= root.minimum)
+            return root.clamp(v)
+        var span = root.maximum - root.minimum
+        var x = Number(v)
+        // Bring into range by wrapping (inclusive max maps to min on overflow)
+        while (x > root.maximum)
+            x -= span
+        while (x < root.minimum)
+            x += span
+        return x
+    }
+
     // Format / formatter callback
     function format(v) {
         return root.prefix + Number(v).toFixed(root.decimals) + root.suffix
     }
 
+    // Safe arithmetic expression (digits, + − * / ( ) . only)
+    function evalExpression(text) {
+        var s = String(text).replace(/\s+/g, "")
+        if (!s.length || !/^[0-9+\-*/().]+$/.test(s))
+            return NaN
+        try {
+            var r = Function("\"use strict\"; return (" + s + ");")()
+            return typeof r === "number" && isFinite(r) ? r : NaN
+        } catch (e) {
+            return NaN
+        }
+    }
+
     // Nudge value by one step
     function bump(delta) {
         root.inputInvalid = false
-        root.value = root.clamp(root.value + delta)
+        var next = root.value + delta
+        if (root.isWrapEnabled && isFinite(root.minimum) && isFinite(root.maximum)
+                && root.maximum > root.minimum) {
+            if (next > root.maximum)
+                next = root.minimum
+            else if (next < root.minimum)
+                next = root.maximum
+            else
+                next = root.wrap(next)
+        } else {
+            next = root.clamp(next)
+        }
+        root.value = next
         field.text = root.format(root.value)
         root.valueModified()
     }
@@ -120,23 +167,28 @@ T.Control {
             field.text = root.format(root.value)
             return
         }
-        var n = parseFloat(raw)
+        var n = root.acceptsExpression ? root.evalExpression(raw) : parseFloat(raw)
+        if (isNaN(n) && root.acceptsExpression)
+            n = parseFloat(raw)
         if (isNaN(n)) {
             root.flashInvalid()
             field.text = root.format(root.value)
             return
         }
         if (n < root.minimum || n > root.maximum) {
-            if (root.validationMode === "disabled") {
+            if (root.isWrapEnabled && isFinite(root.minimum) && isFinite(root.maximum)) {
+                n = root.wrap(n)
+            } else if (root.validationMode === "disabled") {
                 root.value = root.clamp(n)
                 root.inputInvalid = false
                 root.valueModified()
                 field.text = root.format(root.value)
                 return
+            } else {
+                root.flashInvalid()
+                field.text = root.format(root.value)
+                return
             }
-            root.flashInvalid()
-            field.text = root.format(root.value)
-            return
         }
         root.inputInvalid = false
         root.value = root.clamp(n)

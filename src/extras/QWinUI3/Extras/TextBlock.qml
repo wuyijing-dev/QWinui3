@@ -113,8 +113,8 @@ T.Control {
     }
     readonly property int _maxLines: maxLines > 0 ? maxLines : 0
 
-    implicitWidth: contentItem.implicitWidth
-    implicitHeight: contentItem.implicitHeight
+    implicitWidth: Math.ceil(loader.item ? loader.item.implicitWidth : 0)
+    implicitHeight: Math.ceil(loader.item ? loader.item.implicitHeight : 0)
     background: Item {}
     padding: 0
     Accessible.role: Accessible.Paragraph
@@ -122,14 +122,16 @@ T.Control {
 
     contentItem: Loader {
         id: loader
-        width: root.width > 0 ? root.width : item ? item.implicitWidth : 0
+        // Do not bind width to root.width — that loops with implicitWidth when the
+        // control is sized from its content. T.Control assigns contentItem geometry.
         sourceComponent: root.isTextSelectionEnabled ? selectableComp : plainComp
 
+        // Pass the Control-assigned width through for wrapping / elide.
         Binding {
             target: loader.item
             property: "width"
             value: loader.width
-            when: loader.item && loader.width > 0
+            when: loader.status === Loader.Ready && loader.width > 0
         }
     }
 

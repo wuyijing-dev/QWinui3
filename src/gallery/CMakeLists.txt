@@ -5,6 +5,14 @@ set_source_files_properties(GalleryHistory.qml PROPERTIES
     QT_QML_SINGLETON_TYPE TRUE
 )
 
+if(NOT DEFINED QWINUI3_HAS_MEDIA)
+    set(QWINUI3_HAS_MEDIA OFF)
+endif()
+set(QWINUI3_GALLERY_MEDIA_QML)
+if(QWINUI3_HAS_MEDIA)
+    list(APPEND QWINUI3_GALLERY_MEDIA_QML pages/MediaPlayerElementPage.qml)
+endif()
+
 qt_add_executable(qwinui3_gallery
     main.cpp
 )
@@ -59,6 +67,7 @@ qt_add_qml_module(qwinui3_gallery
         pages/ExpanderPage.qml
         pages/FlipViewPage.qml
         pages/FlyoutPage.qml
+        pages/FormValidationPage.qml
         pages/FramePage.qml
         pages/FontIconPage.qml
         pages/GridTilePage.qml
@@ -70,6 +79,7 @@ qt_add_qml_module(qwinui3_gallery
         pages/InfoBadgePage.qml
         pages/InfoBarHostPage.qml
         pages/InfoBarPage.qml
+        pages/ItemsViewPage.qml
         pages/KeyVisualPage.qml
         pages/LabelPage.qml
         pages/ListTilePage.qml
@@ -79,6 +89,7 @@ qt_add_qml_module(qwinui3_gallery
         pages/MenuPage.qml
         pages/MetadataControlPage.qml
         pages/MeterBarPage.qml
+        pages/PitfallsPage.qml
         pages/ChartsPage.qml
         pages/SparklinePage.qml
         pages/LineChartPage.qml
@@ -112,6 +123,11 @@ qt_add_qml_module(qwinui3_gallery
         pages/ArcGaugePage.qml
         pages/SegmentedGaugePage.qml
         pages/ZoneGaugePage.qml
+        pages/RingGaugePage.qml
+        pages/TankGaugePage.qml
+        pages/ThermometerGaugePage.qml
+        pages/KpiTilePage.qml
+        pages/DashboardPage.qml
         pages/RadioButtonPage.qml
         pages/RadioButtonsPage.qml
         pages/RangeSliderPage.qml
@@ -138,6 +154,7 @@ qt_add_qml_module(qwinui3_gallery
         pages/SwipeControlPage.qml
         pages/SwipeDelegatePage.qml
         pages/SwipeViewPage.qml
+        pages/SystemIntegrationPage.qml
         pages/TabBarPage.qml
         pages/TableViewPage.qml
         pages/TabViewPage.qml
@@ -157,10 +174,12 @@ qt_add_qml_module(qwinui3_gallery
         pages/ToolBarPage.qml
         pages/ToolTipPage.qml
         pages/TreeViewPage.qml
+        pages/TreeViewRecipePage.qml
         pages/TumblerPage.qml
         pages/TwoPaneViewPage.qml
         pages/UniformGridPage.qml
         pages/WrapPanelPage.qml
+        ${QWINUI3_GALLERY_MEDIA_QML}
     IMPORTS
         TARGET qwinui3_theme
         TARGET qwinui3_extras

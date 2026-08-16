@@ -6,6 +6,7 @@
 #include <QtQml/QQmlExtensionPlugin>
 
 #include "GraphicsBackend.h"
+#include "WindowHelper.h"
 
 Q_IMPORT_QML_PLUGIN(QWinUI3Plugin)
 Q_IMPORT_QML_PLUGIN(QWinUI3_ThemePlugin)
@@ -14,6 +15,8 @@ Q_IMPORT_QML_PLUGIN(QWinUI3_PlatformPlugin)
 
 int main(int argc, char *argv[])
 {
+    // Linux: Wayland-first QPA + SSD hints (must run before QGuiApplication).
+    WindowHelper::configurePlatformEnvironment();
     GraphicsBackend::applyEarly(argc, argv);
 
     // Do not load Qt Virtual Keyboard (GPL/Commercial); use system IME instead.
@@ -22,6 +25,10 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
     QCoreApplication::setOrganizationName(QStringLiteral("QWinUI3"));
     QCoreApplication::setApplicationName(QStringLiteral("Gallery"));
+    // Wayland app_id / desktop entry id (without .desktop suffix).
+    QGuiApplication::setDesktopFileName(QStringLiteral("org.qwinui3.gallery"));
+    // Windows taskbar grouping / toast identity (call early).
+    WindowHelper::setAppUserModelId(QStringLiteral("org.qwinui3.gallery"));
     QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 
     QQmlApplicationEngine engine;

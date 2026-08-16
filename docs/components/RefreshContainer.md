@@ -27,6 +27,7 @@ RefreshContainer {
 ## Notes
 
 Pull-to-refresh wrapper; onRefreshRequested then endRefresh() when done.
+pullDirection: "top" | "bottom" (WinUI PullDirection).
 
 ## API
 
@@ -45,6 +46,7 @@ Pull-to-refresh wrapper; onRefreshRequested then endRefresh() when done.
 | `pullToRefreshEnabled` | `bool` | Enable pull-to-refresh gesture |
 | `isEnabled` | `alias` | Enabled state alias |
 | `pullThreshold` | `real` | Pull distance before refresh fires |
+| `pullDirection` | `string` | WinUI PullDirection — "top" (default) or "bottom" |
 | `refreshText` | `string` | Text shown while pulling |
 | `refreshingText` | `string` | Text shown while refreshing |
 | `pullText` | `string` | Pull-to-refresh prompt text |

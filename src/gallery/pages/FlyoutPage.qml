@@ -57,6 +57,17 @@ Page {
                             text: qsTr("Light dismiss")
                             checked: true
                         }
+                        CheckBox {
+                            id: constrainBounds
+                            text: qsTr("Constrain to bounds")
+                            checked: true
+                        }
+                        ComboBox {
+                            id: showModeBox
+                            model: ["standard", "transient", "transientWithDismissOnPointerMoveAway"]
+                            currentIndex: 0
+                            Layout.preferredWidth: 220
+                        }
                         Label {
                             text: flyout.isOpen ? qsTr("isOpen: true") : qsTr("isOpen: false")
                             color: Theme.textSecondary
@@ -71,7 +82,10 @@ Page {
                             id: flyout
                             parent: flyoutBtn
                             title: qsTr("Quick tip")
+                            subtitle: qsTr("Optional subtitle under the title.")
+                            showMode: showModeBox.currentText
                             isLightDismissEnabled: lightDismiss.checked
+                            shouldConstrainToRootBounds: constrainBounds.checked
                             Text {
                                 text: qsTr("Flyout content")
                                 color: Theme.textPrimary

@@ -32,28 +32,39 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Primary commands")
                 qmlSource: "CommandBarFlyout {\n    showAt(btn)\n    AppBarButton { symbol: FluentIcons.Share }\n}"
-                Button {
-                    id: hostBtn
-                    text: qsTr("Show CommandBarFlyout")
-                    onClicked: flyout.showAt(hostBtn)
+                ColumnLayout {
+                    spacing: Theme.spacing
+                    CheckBox {
+                        id: constrainBox
+                        text: qsTr("ShouldConstrainToRootBounds")
+                        checked: true
+                    }
+                    Button {
+                        id: hostBtn
+                        text: qsTr("Show CommandBarFlyout")
+                        onClicked: {
+                            flyout.shouldConstrainToRootBounds = constrainBox.checked
+                            flyout.showAt(hostBtn)
+                        }
 
-                    CommandBarFlyout {
-                        id: flyout
-                        parent: hostBtn
-                        AppBarButton {
-                            symbol: FluentIcons.Share
-                            text: qsTr("Share")
-                            onClicked: flyout.hide()
-                        }
-                        AppBarButton {
-                            symbol: FluentIcons.Copy
-                            text: qsTr("Copy")
-                            onClicked: flyout.hide()
-                        }
-                        AppBarSeparator {}
-                        AppBarToggleButton {
-                            symbol: FluentIcons.Favorite
-                            text: qsTr("Favorite")
+                        CommandBarFlyout {
+                            id: flyout
+                            shouldConstrainToRootBounds: true
+                            AppBarButton {
+                                symbol: FluentIcons.Share
+                                text: qsTr("Share")
+                                onClicked: flyout.hide()
+                            }
+                            AppBarButton {
+                                symbol: FluentIcons.Copy
+                                text: qsTr("Copy")
+                                onClicked: flyout.hide()
+                            }
+                            AppBarSeparator {}
+                            AppBarToggleButton {
+                                symbol: FluentIcons.Favorite
+                                text: qsTr("Favorite")
+                            }
                         }
                     }
                 }

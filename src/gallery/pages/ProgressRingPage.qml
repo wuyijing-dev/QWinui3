@@ -46,6 +46,14 @@ Page {
                         fillColor: Theme.accent
                     }
                     ProgressRing {
+                        size: 64
+                        value: 65
+                        minimum: 0
+                        maximum: 100
+                        showValue: true
+                        fillColor: Theme.systemSuccess
+                    }
+                    ProgressRing {
                         size: 48
                         value: 0.4
                         fillColor: Theme.systemSuccess
@@ -53,8 +61,9 @@ Page {
                     ProgressRing {
                         width: 48
                         height: 48
-                        indeterminate: true
+                        isIndeterminate: true
                         isActive: true
+                        fillColor: Theme.accent
                     }
                     ProgressRing {
                         width: 48
@@ -65,7 +74,7 @@ Page {
                     }
                 }
                 Label {
-                    text: qsTr("Indeterminate Active vs Paused (right)")
+                    text: qsTr("Second ring: value 65 with minimum/maximum 0..100. Far right: isIndeterminate alias vs paused indeterminate.")
                     color: Theme.textSecondary
                 }
             }

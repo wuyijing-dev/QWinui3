@@ -25,6 +25,8 @@ Pivot {
 ## Notes
 
 Tab-like pivot headers + content; model or PivotItem children.
+leftHeader / rightHeader slots flank the tab strip (WinUI LeftHeader / RightHeader).
+selectedItem mirrors the current model entry.
 
 ## API
 
@@ -35,7 +37,10 @@ Tab-like pivot headers + content; model or PivotItem children.
 | `model` | `var` | Data model / item list for this control |
 | `currentIndex` | `int` | Selected index |
 | `selectedIndex` | `alias` | Selected index alias |
+| `selectedItem` | `var` | Currently selected model item |
 | `keyboardNavigationEnabled` | `bool` | Allow arrow-key navigation |
+| `leftHeader` | `alias` | WinUI LeftHeader — content before the tab strip |
+| `rightHeader` | `alias` | WinUI RightHeader — content after the tab strip |
 
 ### Signals
 

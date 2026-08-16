@@ -6,15 +6,24 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 import QWinUI3.Platform
 
-// Gallery — Blank shell.
+// Gallery — Window shells & roles.
 //
-// Empty client — add your content as children
+// Window paradigms / presenters / always-on-top plus Blank/Navigation/MenuStatus shells.
+// API: docs/window-shells.md · docs/window-helper.md
 
 Page {
     id: root
     padding: 0
 
     property var _openWindows: []
+    property var liveWindow: null
+
+    readonly property var paradigmLabels: [qsTr("Standard"), qsTr("Dialog"), qsTr("Tool")]
+    readonly property var presenterLabels: [qsTr("Overlapped"), qsTr("FullScreen"), qsTr("CompactOverlay")]
+    readonly property var backdropLabels: [
+        qsTr("Auto"), qsTr("None"), qsTr("Mica"), qsTr("Acrylic"),
+        qsTr("MicaAlt"), qsTr("Transparent"), qsTr("Solid")
+    ]
 
     function track(win) {
         if (!win)
@@ -53,6 +62,7 @@ Page {
                 list[i].close()
         }
         _openWindows = []
+        liveWindow = null
     }
 
     Component {
@@ -314,6 +324,97 @@ Page {
         }
     }
 
+    Component {
+        id: rolePlayComp
+        BlankWindow {
+            id: win
+            width: 560
+            height: 380
+            title: qsTr("Window role playground")
+            subtitle: win.windowRoleSummary
+            symbol: FluentIcons.OpenInNewWindow
+            paradigm: WindowHelper.ParadigmStandard
+            presenter: WindowHelper.PresenterOverlapped
+            isAlwaysOnTop: false
+            backdrop: WindowHelper.BackdropSolid
+
+            ColumnLayout {
+                anchors.fill: parent
+                anchors.margins: Theme.spacingSection
+                spacing: Theme.spacingLoose
+
+                Label {
+                    Layout.fillWidth: true
+                    wrapMode: Text.Wrap
+                    text: qsTr("Change paradigm / presenter / always-on-top from the Gallery page.\nCurrent: %1")
+                          .arg(win.windowRoleSummary)
+                    color: Theme.textSecondary
+                }
+                Label {
+                    Layout.fillWidth: true
+                    wrapMode: Text.Wrap
+                    text: qsTr("Presenter: %1 · Paradigm: %2 · Topmost: %3")
+                          .arg(WindowHelper.presenterName(win.presenter))
+                          .arg(WindowHelper.paradigmName(win.paradigm))
+                          .arg(win.isAlwaysOnTop ? qsTr("yes") : qsTr("no"))
+                    color: Theme.textPrimary
+                    font.weight: Theme.fontWeightSemiBold
+                }
+                Item { Layout.fillHeight: true }
+                RowLayout {
+                    Layout.alignment: Qt.AlignRight
+                    spacing: Theme.spacing
+                    Button {
+                        text: qsTr("Center")
+                        onClicked: win.centerOnScreen()
+                    }
+                    Button {
+                        text: qsTr("Close")
+                        onClicked: win.close()
+                    }
+                }
+            }
+        }
+    }
+
+    function ensureLiveWindow() {
+        if (liveWindow)
+            return liveWindow
+        var win = spawn(rolePlayComp)
+        liveWindow = win
+        if (win) {
+            win.closing.connect(function () {
+                if (root.liveWindow === win)
+                    root.liveWindow = null
+            })
+        }
+        return win
+    }
+
+    function applyLiveParadigm(index) {
+        var win = ensureLiveWindow()
+        if (!win)
+            return
+        win.setWindowParadigm(index)
+        win.subtitle = win.windowRoleSummary
+    }
+
+    function applyLivePresenter(index) {
+        var win = ensureLiveWindow()
+        if (!win)
+            return
+        win.setPresenterKind(index)
+        win.subtitle = win.windowRoleSummary
+    }
+
+    function applyLiveBackdrop(index) {
+        var win = ensureLiveWindow()
+        if (!win)
+            return
+        win.backdrop = index
+        win.subtitle = win.windowRoleSummary
+    }
+
     ScrollView {
         id: scroll
         anchors.fill: parent
@@ -330,7 +431,156 @@ Page {
                 Layout.rightMargin: Theme.spacingSection
                 Layout.topMargin: Theme.spacingSection
                 title: qsTr("Window shells")
-                subtitle: qsTr("Library shell paradigms: blank, left navigation, and menu + status workbench.")
+                subtitle: qsTr("Window roles (作用): paradigm · presenter · always-on-top; plus blank / nav / menu shells.")
+            }
+
+            ControlExample {
+                Layout.fillWidth: true
+                Layout.leftMargin: Theme.spacingSection
+                Layout.rightMargin: Theme.spacingSection
+                headerText: qsTr("Window roles & actions")
+                qmlSource: "win.setWindowParadigm(ParadigmDialog)\nwin.setPresenterKind(PresenterCompactOverlay)\nwin.setAlwaysOnTopEnabled(true)\nwin.centerOnScreen()"
+
+                ColumnLayout {
+                    Layout.fillWidth: true
+                    spacing: Theme.spacingLoose
+
+                    Label {
+                        Layout.fillWidth: true
+                        wrapMode: Text.Wrap
+                        color: Theme.textSecondary
+                        text: qsTr("Open a live BlankWindow, then change its role at runtime (WinUI AppWindow presenter + paradigm).")
+                    }
+                    Label {
+                        Layout.fillWidth: true
+                        text: root.liveWindow
+                              ? qsTr("Live: %1").arg(root.liveWindow.windowRoleSummary)
+                              : qsTr("No live window — pick a control below to spawn one.")
+                        color: Theme.textPrimary
+                        font.weight: Theme.fontWeightSemiBold
+                    }
+
+                    GridLayout {
+                        Layout.fillWidth: true
+                        columns: width > 640 ? 2 : 1
+                        rowSpacing: Theme.spacing
+                        columnSpacing: Theme.spacingLoose
+
+                        Label { text: qsTr("Paradigm"); color: Theme.textSecondary }
+                        ComboBox {
+                            id: paradigmBox
+                            Layout.fillWidth: true
+                            Layout.maximumWidth: 280
+                            model: root.paradigmLabels
+                            currentIndex: 0
+                            onActivated: root.applyLiveParadigm(currentIndex)
+                        }
+
+                        Label { text: qsTr("Presenter"); color: Theme.textSecondary }
+                        ComboBox {
+                            id: presenterBox
+                            Layout.fillWidth: true
+                            Layout.maximumWidth: 280
+                            model: root.presenterLabels
+                            currentIndex: 0
+                            onActivated: root.applyLivePresenter(currentIndex)
+                        }
+
+                        Label { text: qsTr("Backdrop"); color: Theme.textSecondary }
+                        ComboBox {
+                            id: backdropBox
+                            Layout.fillWidth: true
+                            Layout.maximumWidth: 280
+                            model: root.backdropLabels
+                            currentIndex: WindowHelper.BackdropSolid
+                            onActivated: root.applyLiveBackdrop(currentIndex)
+                        }
+
+                        Label { text: qsTr("Title height"); color: Theme.textSecondary }
+                        ComboBox {
+                            id: heightBoxLive
+                            Layout.fillWidth: true
+                            Layout.maximumWidth: 280
+                            model: [qsTr("Tall 48"), qsTr("Standard 32")]
+                            currentIndex: 0
+                            onActivated: {
+                                var win = root.ensureLiveWindow()
+                                if (!win)
+                                    return
+                                win.preferredHeightOption = currentIndex === 0
+                                        ? WindowHelper.TitleBarHeightTall
+                                        : WindowHelper.TitleBarHeightStandard
+                            }
+                        }
+                    }
+
+                    Flow {
+                        Layout.fillWidth: true
+                        spacing: Theme.spacing
+                        Button {
+                            text: qsTr("Open / focus playground")
+                            highlighted: true
+                            onClicked: {
+                                var win = root.ensureLiveWindow()
+                                if (!win)
+                                    return
+                                win.raise()
+                                win.requestActivate()
+                            }
+                        }
+                        Button {
+                            text: root.liveWindow && root.liveWindow.isAlwaysOnTop
+                                  ? qsTr("Always on top: On")
+                                  : qsTr("Always on top: Off")
+                            checkable: true
+                            checked: root.liveWindow ? root.liveWindow.isAlwaysOnTop : false
+                            onClicked: {
+                                var win = root.ensureLiveWindow()
+                                if (!win)
+                                    return
+                                win.setAlwaysOnTopEnabled(!win.isAlwaysOnTop)
+                                checked = win.isAlwaysOnTop
+                            }
+                        }
+                        Button {
+                            text: qsTr("Center on screen")
+                            onClicked: {
+                                var win = root.ensureLiveWindow()
+                                if (win)
+                                    win.centerOnScreen()
+                            }
+                        }
+                        Button {
+                            text: qsTr("Re-apply role")
+                            onClicked: {
+                                var win = root.ensureLiveWindow()
+                                if (win)
+                                    win.applyWindowRole()
+                            }
+                        }
+                        Button {
+                            text: qsTr("Overlapped")
+                            onClicked: {
+                                presenterBox.currentIndex = 0
+                                root.applyLivePresenter(0)
+                            }
+                        }
+                        Button {
+                            text: qsTr("FullScreen")
+                            onClicked: {
+                                presenterBox.currentIndex = 1
+                                root.applyLivePresenter(1)
+                            }
+                        }
+                        Button {
+                            text: qsTr("CompactOverlay")
+                            onClicked: {
+                                presenterBox.currentIndex = 2
+                                root.applyLivePresenter(2)
+                            }
+                        }
+                    }
+                }
             }
 
             ControlExample {

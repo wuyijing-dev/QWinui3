@@ -32,6 +32,12 @@ T.Control {
     property int currentIndex: 0
     // Selected index alias
     property alias selectedIndex: control.currentIndex
+    // Currently selected model item (WinUI SelectedItem)
+    readonly property var selectedItem: {
+        if (!model || currentIndex < 0 || currentIndex >= model.length)
+            return null
+        return model[currentIndex]
+    }
     // Stretch factor / stretch pip
     property bool stretch: false
     // Force equal-width segments

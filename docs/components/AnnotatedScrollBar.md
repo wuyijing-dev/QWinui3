@@ -14,8 +14,13 @@ Scroll area with a value label on the vertical scrollbar.
 AnnotatedScrollBar {
     id: scroll
     anchors.fill: parent
-    // labels: sampled by scrollPosition (0..1). Empty → labelFormat with percent.
-    labels: ["Intro", "Body", "End"]
+    // string[] (even spacing) OR [{ content|text, scrollOffset }]
+    // scrollOffset: 0..1 normalized, or >=1 absolute contentY
+    labels: [
+        { content: "Intro", scrollOffset: 0 },
+        { content: "Body", scrollOffset: 0.45 },
+        { content: "End", scrollOffset: 0.9 }
+    ]
     labelFormat: "%1%"
     alwaysShowLabel: false
     Column {
@@ -28,10 +33,9 @@ AnnotatedScrollBar {
 }
 
 // --- API ---
-// read:  scroll.scrollPosition (0..1), scroll.currentLabel
-// write: scroll.contentY = …  or  scroll.flickable.contentY = …
+// read:  scroll.scrollPosition, scroll.currentLabel, scroll.detailLabel, scroll.activeLabelIndex
+// write: scroll.contentY = …  or  scroll.jumpToLabel(index)
 // size:  scroll.contentWidth / contentHeight / flickable
-// inherits Control: padding, font, contentItem
 ```
 
 ## Notes
@@ -39,8 +43,8 @@ AnnotatedScrollBar {
 Place tall content as children (default property → Flickable).
 Vertical ScrollBar shows a floating label (ElevatedChrome) while scrolling
 unless alwaysShowLabel is true.
-labels is a string[]; index = round(scrollPosition * (length-1)).
-When labels is empty, currentLabel = labelFormat.arg(percent).
+labels: string[] (even sample) or AnnotatedScrollBarLabel-like
+{ content|text, scrollOffset }. scrollOffset 0..1 or absolute contentY (>=1).
 
 ## API
 
@@ -54,10 +58,13 @@ When labels is empty, currentLabel = labelFormat.arg(percent).
 | `contentX` | `alias` | Flickable content X |
 | `contentY` | `alias` | Flickable content Y — set this (or flickable.contentY) to scroll programmatically |
 | `flickable` | `alias` | Inner Flickable (bounds, contentItem, ScrollBar.vertical, …) |
-| `labels` | `var` | Optional string[] sampled by scrollPosition; empty → percentage via labelFormat |
+| `labels` | `var` | string[] or [{ content\|text, scrollOffset }] |
 | `labelFormat` | `string` | Percent format when labels is empty (Qt arg: "%1%") |
+| `detailLabel` | `string` | Optional secondary line under currentLabel (e.g. chapter detail) |
 | `alwaysShowLabel` | `bool` | Keep the floating scrollbar label visible even when idle |
+| `labelsInteractive` | `bool` | When true, clicking a label marker jumps to that offset |
 | `scrollPosition` | `real` | Normalized vertical scroll position 0..1 |
+| `activeLabelIndex` | `int` | Index of the nearest label for the current scroll position |
 | `currentLabel` | `string` | Label for the current scroll position (from labels[] or labelFormat) |
 
 ### Signals
@@ -66,7 +73,10 @@ _No custom signals_ (use inherited signals from the base type).
 
 ### Methods
 
-_No custom methods_ (use inherited methods from the base type).
+| Signature | Description |
+| --- | --- |
+| `jumpToLabel(index)` | Jump to a label by index |
+| `scrollToPosition(norm)` | Scroll so the given normalized 0..1 position is shown |
 
 ### Inherited from `Control`
 

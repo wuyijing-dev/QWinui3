@@ -27,7 +27,7 @@ ChipGroup {
 
 ## Notes
 
-Chip row from model; exclusive or multi (maxSelected); select(index).
+Chip row from model; exclusive or multi (maxSelected); select(index); selectedItem(s).
 
 ## API
 
@@ -41,6 +41,8 @@ Chip row from model; exclusive or multi (maxSelected); select(index).
 | `exclusive` | `bool` | Single-select when true |
 | `selectionMode` | `string` | single \| multiple \| none |
 | `selectedIndexes` | `var` | Multi-select indexes |
+| `selectedItem` | `var` | Currently selected model item (exclusive / single) |
+| `selectedItems` | `var` | Currently selected model items (multi) |
 | `maxSelected` | `int` | Max selected chips when not exclusive |
 | `chipSpacing` | `real` | Spacing between chips |
 | `chipSize` | `string` | small \| medium |

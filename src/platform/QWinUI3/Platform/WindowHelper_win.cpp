@@ -730,14 +730,22 @@ public:
                 }
             }
 
-            // Caption buttons: return HTCLIENT so Qt/QML owns input and hover.
-            // HTMAXBUTTON/HTCLOSE/HTMINBUTTON make Win11 paint the native caption
-            // button chrome — on translucent Mica/Acrylic that shows as an opaque
-            // white rectangle over the custom glyph (especially on press/hover).
-            // Trade-off: Snap Layouts flyout on maximize hover is unavailable.
-            if (containsScreen(state.closeButton)
-                || containsScreen(state.maximizeButton)
-                || containsScreen(state.minimizeButton)) {
+            // Caption buttons: prefer HTCLIENT so QML owns hover paint. When
+            // snapLayoutsEnabled, report HTMAXBUTTON so Win11 Snap Layouts work.
+            if (containsScreen(state.closeButton)) {
+                if (m_helper)
+                    m_helper->setCaptionHover(WindowHelper::CaptionNone);
+                *result = HTCLIENT;
+                return true;
+            }
+            if (containsScreen(state.maximizeButton)) {
+                if (m_helper)
+                    m_helper->setCaptionHover(WindowHelper::CaptionMaximize);
+                ensureNcTracking(msg->hwnd, state);
+                *result = (m_helper && m_helper->snapLayoutsEnabled()) ? HTMAXBUTTON : HTCLIENT;
+                return true;
+            }
+            if (containsScreen(state.minimizeButton)) {
                 if (m_helper)
                     m_helper->setCaptionHover(WindowHelper::CaptionNone);
                 *result = HTCLIENT;
@@ -949,4 +957,158 @@ void WindowHelper::updateHitTestLayout(QObject *windowObject,
     Q_UNUSED(closeButton);
     Q_UNUSED(clientRects);
 #endif
+}
+
+#if defined(Q_OS_WIN)
+#  include <shobjidl.h>
+
+namespace {
+
+ITaskbarList3 *taskbarList3()
+{
+    static ITaskbarList3 *tbl = nullptr;
+    static bool tried = false;
+    if (!tried) {
+        tried = true;
+        if (SUCCEEDED(CoCreateInstance(CLSID_TaskbarList, nullptr, CLSCTX_INPROC_SERVER,
+                                        IID_PPV_ARGS(&tbl))) && tbl) {
+            if (FAILED(tbl->HrInit())) {
+                tbl->Release();
+                tbl = nullptr;
+            }
+        }
+    }
+    return tbl;
+}
+
+HWND hwndFromWindow(QWindow *window)
+{
+    if (!window || !window->handle())
+        return nullptr;
+    return reinterpret_cast<HWND>(window->winId());
+}
+
+} // namespace
+#endif
+
+void WindowHelper::setTaskbarProgress(QObject *windowObject, double value)
+{
+#if defined(Q_OS_WIN)
+    QWindow *window = resolveWindow(windowObject);
+    HWND hwnd = hwndFromWindow(window);
+    ITaskbarList3 *tbl = taskbarList3();
+    if (!hwnd || !tbl)
+        return;
+    const ULONGLONG completed = ULONGLONG(qBound(0.0, value, 1.0) * 1000.0);
+    tbl->SetProgressValue(hwnd, completed, 1000);
+    tbl->SetProgressState(hwnd, TBPF_NORMAL);
+#else
+    Q_UNUSED(windowObject);
+    Q_UNUSED(value);
+#endif
+}
+
+void WindowHelper::setTaskbarProgressState(QObject *windowObject, int state)
+{
+#if defined(Q_OS_WIN)
+    QWindow *window = resolveWindow(windowObject);
+    HWND hwnd = hwndFromWindow(window);
+    ITaskbarList3 *tbl = taskbarList3();
+    if (!hwnd || !tbl)
+        return;
+    TBPFLAG flag = TBPF_NOPROGRESS;
+    switch (state) {
+    case TaskbarIndeterminate: flag = TBPF_INDETERMINATE; break;
+    case TaskbarNormal: flag = TBPF_NORMAL; break;
+    case TaskbarError: flag = TBPF_ERROR; break;
+    case TaskbarPaused: flag = TBPF_PAUSED; break;
+    case TaskbarNoProgress:
+    default: flag = TBPF_NOPROGRESS; break;
+    }
+    tbl->SetProgressState(hwnd, flag);
+#else
+    Q_UNUSED(windowObject);
+    Q_UNUSED(state);
+#endif
+}
+
+void WindowHelper::clearTaskbarProgress(QObject *windowObject)
+{
+    setTaskbarProgressState(windowObject, TaskbarNoProgress);
+}
+
+namespace {
+
+HICON createOverlayBadgeIcon(const QString &text)
+{
+    const int size = 16;
+    BITMAPINFO bmi {};
+    bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+    bmi.bmiHeader.biWidth = size;
+    bmi.bmiHeader.biHeight = -size;
+    bmi.bmiHeader.biPlanes = 1;
+    bmi.bmiHeader.biBitCount = 32;
+    bmi.bmiHeader.biCompression = BI_RGB;
+
+    void *bits = nullptr;
+    HDC screen = GetDC(nullptr);
+    HDC dc = CreateCompatibleDC(screen);
+    HBITMAP bmp = CreateDIBSection(dc, &bmi, DIB_RGB_COLORS, &bits, nullptr, 0);
+    if (!bmp || !bits) {
+        if (dc)
+            DeleteDC(dc);
+        ReleaseDC(nullptr, screen);
+        return nullptr;
+    }
+
+    HGDIOBJ old = SelectObject(dc, bmp);
+    RECT rc {0, 0, size, size};
+    HBRUSH brush = CreateSolidBrush(RGB(232, 17, 35)); // Fluent critical-ish red
+    FillRect(dc, &rc, brush);
+    DeleteObject(brush);
+
+    SetBkMode(dc, TRANSPARENT);
+    SetTextColor(dc, RGB(255, 255, 255));
+    const QString badge = text.left(2);
+    DrawTextW(dc, reinterpret_cast<LPCWSTR>(badge.utf16()), badge.size(), &rc,
+              DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+
+    ICONINFO ii {};
+    ii.fIcon = TRUE;
+    ii.hbmColor = bmp;
+    ii.hbmMask = CreateBitmap(size, size, 1, 1, nullptr);
+    HICON icon = CreateIconIndirect(&ii);
+    if (ii.hbmMask)
+        DeleteObject(ii.hbmMask);
+
+    SelectObject(dc, old);
+    DeleteObject(bmp);
+    DeleteDC(dc);
+    ReleaseDC(nullptr, screen);
+    return icon;
+}
+
+} // namespace
+
+void WindowHelper::setTaskbarOverlayText(QObject *windowObject, const QString &text)
+{
+    QWindow *window = resolveWindow(windowObject);
+    HWND hwnd = hwndFromWindow(window);
+    ITaskbarList3 *tbl = taskbarList3();
+    if (!hwnd || !tbl)
+        return;
+    if (text.trimmed().isEmpty()) {
+        tbl->SetOverlayIcon(hwnd, nullptr, L"");
+        return;
+    }
+    HICON icon = createOverlayBadgeIcon(text.trimmed());
+    if (!icon)
+        return;
+    tbl->SetOverlayIcon(hwnd, icon, reinterpret_cast<LPCWSTR>(text.utf16()));
+    DestroyIcon(icon);
+}
+
+void WindowHelper::clearTaskbarOverlay(QObject *windowObject)
+{
+    setTaskbarOverlayText(windowObject, QString());
 }

@@ -1,6 +1,6 @@
 # InfoBar
 
-Inline severity banner with optional action.
+Inline severity banner with optional action and Content slot.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/InfoBar.qml`](../../src/extras/QWinUI3/Extras/InfoBar.qml)
 
@@ -16,21 +16,20 @@ InfoBar {
     title: qsTr("Saved")
     message: qsTr("All changes stored.")
     severity: InfoBar.Success
+    Button { flat: true; text: qsTr("Details") }
 }
 
 // --- API ---
 // signals: onCloseClicked, onActionClicked, onClosed, onOpened
 // methods: open(), close(), setSeverityName(name)
-// infoBar.open()
-// infoBar.close()
-// infoBar.setSeverityName(name)
+// infoBar.open() / infoBar.close()
 ```
 
 ## Notes
 
 Inline severity banner: informational | success | warning | error.
-open()/close() or bind isOpen; optional actionText -> actionClicked.
-Prefer InfoBarHost.info/success/warning/error for stacked toasts-like banners.
+WinUI Content slot via default children (below message); actionText or action slot; isClosable.
+Prefer InfoBarHost.info/success/warning/error for stacked banners.
 
 ## API
 
@@ -45,6 +44,7 @@ Prefer InfoBarHost.info/success/warning/error for stacked toasts-like banners.
 | `severity` | `int` | Status severity enum |
 | `title` | `string` | Primary title text |
 | `message` | `string` | Body / message text |
+| `description` | `alias` | WinUI / docs alias of message |
 | `isOpen` | `bool` | Open / visible state |
 | `closable` | `bool` | Shows a close affordance when true |
 | `isClosable` | `alias` | Alias of closable |
@@ -53,7 +53,8 @@ Prefer InfoBarHost.info/success/warning/error for stacked toasts-like banners.
 | `iconGlyph` | `string` | Raw Fluent glyph string fallback |
 | `symbol` | `var` | FluentIcons symbol (preferred over iconGlyph) |
 | `actionText` | `string` | Optional action button label |
-| `action` | `alias` | Custom action slot |
+| `action` | `alias` | Custom action slot (WinUI ActionButton) |
+| `content` | `alias` | WinUI Content — rich body below the message |
 | `durationMs` | `int` | Auto-dismiss duration; 0 keeps open |
 | `severityName` | `string` | Convenience string: "informational" \| "success" \| "warning" \| "error" |
 
@@ -70,9 +71,9 @@ Prefer InfoBarHost.info/success/warning/error for stacked toasts-like banners.
 
 | Signature | Description |
 | --- | --- |
-| `open()` | Open / show |
-| `close()` | Close / dismiss |
-| `setSeverityName(name)` | Set severity from a string name |
+| `open()` | — |
+| `close()` | — |
+| `setSeverityName(name)` | — |
 
 ### Inherited from `Control`
 

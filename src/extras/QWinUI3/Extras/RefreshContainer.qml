@@ -20,6 +20,7 @@ import QWinUI3.Theme
 //
 // @notes
 //   Pull-to-refresh wrapper; onRefreshRequested then endRefresh() when done.
+//   pullDirection: "top" | "bottom" (WinUI PullDirection).
 
 T.Control {
     id: root
@@ -46,6 +47,9 @@ T.Control {
     property alias isEnabled: root.pullToRefreshEnabled
     // Pull distance before refresh fires
     property real pullThreshold: 72
+    // WinUI PullDirection — "top" (default) or "bottom"
+    property string pullDirection: "top"
+    readonly property bool _fromBottom: pullDirection === "bottom"
     // Text shown while pulling
     property string refreshText: qsTr("Release to refresh")
     // Text shown while refreshing
@@ -62,7 +66,15 @@ T.Control {
     Accessible.name: refreshing ? refreshingText : pullText
     Accessible.description: refreshing ? qsTr("Busy") : qsTr("Idle")
 
-    readonly property real _pullDistance: Math.max(0, -flick.contentY - flick.originY)
+    readonly property real _pullDistance: {
+        if (!pullToRefreshEnabled)
+            return 0
+        if (_fromBottom) {
+            var maxY = Math.max(0, flick.contentHeight - flick.height)
+            return Math.max(0, flick.contentY - flick.originY - maxY)
+        }
+        return Math.max(0, -flick.contentY - flick.originY)
+    }
     readonly property bool _armed: pullToRefreshEnabled && !refreshing && _pullDistance >= pullThreshold
     readonly property real _headerHeight: refreshing ? pullThreshold
             : (pullToRefreshEnabled ? Math.min(pullThreshold + 16, _pullDistance) : 0)
@@ -86,7 +98,8 @@ T.Control {
             id: flick
             anchors.fill: parent
             clip: true
-            topMargin: root.refreshing ? root.pullThreshold : 0
+            topMargin: (!root._fromBottom && root.refreshing) ? root.pullThreshold : 0
+            bottomMargin: (root._fromBottom && root.refreshing) ? root.pullThreshold : 0
             boundsBehavior: (!root.pullToRefreshEnabled || root.refreshing)
                             ? Flickable.StopAtBounds
                             : Flickable.DragOverBounds
@@ -111,7 +124,8 @@ T.Control {
             z: 2
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.top: parent.top
+            anchors.top: root._fromBottom ? undefined : parent.top
+            anchors.bottom: root._fromBottom ? parent.bottom : undefined
             height: root._headerHeight
             opacity: root.refreshing ? 1
                      : Math.min(1, root._pullDistance / Math.max(1, root.pullThreshold))
@@ -191,7 +205,12 @@ T.Control {
     onRefreshingChanged: {
         if (refreshing) {
             Qt.callLater(function () {
-                flick.contentY = -flick.topMargin
+                if (root._fromBottom) {
+                    var maxY = Math.max(0, flick.contentHeight - flick.height)
+                    flick.contentY = maxY + flick.bottomMargin
+                } else {
+                    flick.contentY = -flick.topMargin
+                }
             })
         } else if (!flick.dragging) {
             Qt.callLater(function () {

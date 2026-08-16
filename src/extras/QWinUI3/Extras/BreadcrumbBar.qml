@@ -31,8 +31,16 @@ T.Control {
     property var model: []
     // Selected index
     property int currentIndex: Math.max(0, (model ? model.length : 1) - 1)
+    // Currently selected model item (WinUI SelectedItem)
+    readonly property var selectedItem: {
+        if (!model || currentIndex < 0 || currentIndex >= model.length)
+            return null
+        return model[currentIndex]
+    }
     // Collapse middle crumbs when count exceeds this (0 = show all)
     property int maxVisibleItems: 0
+    // WinUI MaxItems alias
+    property alias maxItems: root.maxVisibleItems
     // WinUI: current/last crumb is usually non-interactive
     property bool lastItemClickable: false
     // Breadcrumb separator FluentIcons symbol

@@ -13,8 +13,24 @@ import QWinUI3.Platform
 WindowHelper.install(window, Theme.dark, WindowHelper.BackdropMica)
 WindowHelper.installParadigm(window, WindowHelper.ParadigmDialog, Theme.dark,
                              WindowHelper.BackdropSolid)
+WindowHelper.installParadigmEx(window, WindowHelper.ParadigmTool, Theme.dark,
+                               WindowHelper.BackdropSolid,
+                               WindowHelper.PresenterCompactOverlay, true)
 WindowHelper.centerOnScreen(window)
 WindowHelper.reapply(window)
+```
+
+Shell windows expose the same roles as QML properties and helpers:
+
+```qml
+ShellWindow {
+    paradigm: WindowHelper.ParadigmDialog
+    presenter: WindowHelper.PresenterOverlapped
+    isAlwaysOnTop: true
+    // runtime:
+    // setWindowParadigm(...); setPresenterKind(...); setAlwaysOnTopEnabled(true)
+    // applyWindowRole(); centerOnScreen()
+}
 ```
 
 | Method | Role |
@@ -71,6 +87,75 @@ WindowHelper.updateHitTestLayout(
 | `frostEnabled` / `frostBlur` / `frostSaturation` | Qt-side frost when DWM can't composite |
 | `desktopWallpaperUrl` / `virtualDesktopGeometry` | Wallpaper sampling |
 | `systemReducedMotion` / `systemHighContrast` | OS a11y (`refreshAccessibility()`) |
+| `displayServer` / `wayland` / `x11` | QPA name (`wayland`, `xcb`, …) |
+| `serverSideDecorations` | Linux SSD (`!customFrame`) |
+| `desktopEnvironment` / `waylandDisplay` | `XDG_CURRENT_DESKTOP` / `WAYLAND_DISPLAY` |
+| `portalAvailable` | xdg-desktop-portal session bus reachable |
+| `devicePixelRatio` | Primary screen DPR (fractional scale) |
+| `systemPrefersDark` | OS light/dark (`refreshColorScheme()`) |
+| `snapLayoutsEnabled` | Win11 Snap Layouts via `HTMAXBUTTON` (default on) |
+
+## Linux / Wayland startup
+
+```cpp
+WindowHelper::configurePlatformEnvironment(); // before QGuiApplication
+QGuiApplication app(argc, argv);
+QGuiApplication::setDesktopFileName(QStringLiteral("org.example.app"));
+```
+
+```qml
+WindowHelper.requestActivateWindow(window)
+WindowHelper.setTransientParent(dialogWindow, mainWindow)
+WindowHelper.openExternalUrl("https://example.com")
+Theme.followSystemColorScheme = true
+```
+
+See [platform-linux-wayland.md](platform-linux-wayland.md).
+
+## Taskbar progress (Windows)
+
+```qml
+WindowHelper.setTaskbarProgress(window, 0.4)           // 0…1
+WindowHelper.setTaskbarProgressState(window, WindowHelper.TaskbarPaused)
+WindowHelper.clearTaskbarProgress(window)
+WindowHelper.setTaskbarOverlayText(window, "3")      // badge
+WindowHelper.clearTaskbarOverlay(window)
+```
+
+Uses `ITaskbarList3`. No-op on Linux / other platforms.
+
+## Attention / files / idle / clipboard
+
+```qml
+WindowHelper.requestUserAttention(window)            // FlashWindowEx / raise+alert
+WindowHelper.revealFileInFolder(path)                // Explorer /select or FileManager1
+WindowHelper.copyText("hello")
+WindowHelper.clipboardText()
+WindowHelper.systemBeep()
+WindowHelper.inhibitIdle("Rendering")
+WindowHelper.releaseIdleInhibit()
+WindowHelper.idleInhibited
+```
+
+## Power / network / screens / shell
+
+```cpp
+WindowHelper::setAppUserModelId("org.example.app"); // early in main (Windows AUMID)
+```
+
+```qml
+WindowHelper.refreshPowerStatus()
+WindowHelper.batteryLevel   // 0–100 or -1
+WindowHelper.onBattery
+WindowHelper.refreshOnlineStatus()
+WindowHelper.isOnline
+WindowHelper.screenCount
+WindowHelper.screensInfo()  // [{name, geometry, dpr, primary, …}]
+WindowHelper.addToRecentDocuments(path)
+WindowHelper.clearRecentDocuments() // Windows
+```
+
+See also [Linux / Wayland](platform-linux-wayland.md).
 
 ## Enums
 
@@ -80,6 +165,7 @@ WindowHelper.updateHitTestLayout(
 - **WindowParadigm:** `ParadigmStandard`, `Dialog`, `Tool`
 - **PresenterKind:** `PresenterOverlapped`, `FullScreen`, `CompactOverlay`
 - **TitleBarHeightOption:** `TitleBarHeightStandard` (32), `Tall` (48)
+- **TaskbarProgressState:** `TaskbarNoProgress`, `Indeterminate`, `Normal`, `Error`, `Paused`
 
 ## Accessibility
 

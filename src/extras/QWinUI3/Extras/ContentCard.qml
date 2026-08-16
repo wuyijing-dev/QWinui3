@@ -32,6 +32,8 @@ T.Control {
     property alias footer: footerSlot.data
     // Emit clicked when activated
     property bool isClickable: false
+    // Card corner radius (binds ElevatedChrome)
+    property real cornerRadius: Theme.cornerCard
     // Default children / content slot
     default property alias contentData: body.data
     // Emitted when clicked
@@ -59,7 +61,7 @@ T.Control {
                 return Theme.fillSubtle
             return Theme.bgCardElevated
         }
-        radius: Theme.cornerCard
+        radius: control.cornerRadius
         borderColor: control.activeFocus && control.isClickable ? Theme.focusOuter : Theme.strokeCard
         borderWidth: control.activeFocus && control.isClickable ? 2 : 1
         elevation: control.isClickable && control.hovered ? 6 : 4

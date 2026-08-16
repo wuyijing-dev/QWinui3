@@ -14,16 +14,17 @@ Hour / minute (and period) selectors.
 TimePicker {
     id: time
     selectedTime: new Date()
-    clockFormat: "12"
-    onAccepted: apply(time.selectedTime)
+    clockIdentifier: "12HourClock"
+    onTimeChosen: apply(time.selectedTime)
 }
 // --- API ---
-// time.hour / minute / selectedTime
+// time.hour / minute / selectedTime / clockIdentifier
 ```
 
 ## Notes
 
-Tumbler time picker; selectedTime + clockFormat 12|24; minuteIncrement.
+Tumbler time picker; selectedTime + clockIdentifier 12HourClock|24HourClock.
+minuteIncrement snaps minutes (WinUI MinuteIncrement).
 
 ## API
 
@@ -31,15 +32,17 @@ Tumbler time picker; selectedTime + clockFormat 12|24; minuteIncrement.
 
 | Name | Type | Description |
 | --- | --- | --- |
-| `hour` | `int` | Selected hour |
+| `hour` | `int` | Selected hour (0..23) |
 | `minute` | `int` | Selected minute |
 | `isAm` | `bool` | True in AM for 12-hour clock |
 | `use24Hour` | `bool` | Use 24-hour clock |
+| `clockIdentifier` | `string` | WinUI ClockIdentifier: "12HourClock" \| "24HourClock" |
+| `selectedTime` | `date` | WinUI SelectedTime — date whose time-of-day mirrors hour/minute |
+| `time` | `alias` | WinUI Time alias of selectedTime |
 | `pickerOpen` | `bool` | Picker flyout open |
 | `isOpen` | `alias` | Open / visible state |
 | `header` | `string` | Header label above the control |
 | `minuteIncrement` | `int` | WinUI MinuteIncrement — e.g. 1, 5, 15 |
-| `clockIdentifier` | `string` | WinUI ClockIdentifier (read-only mirror of use24Hour) |
 | `minuteModel` | `var` | Minute tumbler model |
 | `displayHour` | `int` | Hour shown in the current clock format |
 | `displayText` | `string` | Text shown to the user |
@@ -49,11 +52,13 @@ Tumbler time picker; selectedTime + clockFormat 12|24; minuteIncrement.
 | Signature | Description |
 | --- | --- |
 | `timeChosen(int hour, int minute)` | Emitted when a time is chosen |
+| `accepted(date time)` | Emitted when selectedTime changes via accept |
 
 ### Methods
 
 | Signature | Description |
 | --- | --- |
+| `syncSelectedTimeFromParts()` | Push hour/minute into selectedTime |
 | `snapMinute(m)` | Snap minutes to the increment |
 | `applyFromTumblers()` | Commit tumbler selection into the value |
 

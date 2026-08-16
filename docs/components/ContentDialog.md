@@ -35,6 +35,9 @@ ContentDialog {
 Prefer show() -> ContentDialogQueue so dialogs open one-at-a-time.
 Empty primary/secondary/closeButtonText hides that button.
 defaultButton: primary | secondary | close | none (or isPrimaryDefault).
+fullSizeDesired expands toward the overlay (WinUI FullSizeDesired).
+result: none | primary | secondary | close (WinUI ContentDialogResult).
+primaryButton / secondaryButton / closeButton slots override text buttons.
 Body: put content as children (moved into the dialog body slot).
 
 ## API
@@ -51,6 +54,11 @@ Body: put content as children (moved into the dialog body slot).
 | `isPrimaryButtonEnabled` | `bool` | Enable primary button |
 | `isSecondaryButtonEnabled` | `bool` | Enable secondary button |
 | `isCloseButtonEnabled` | `bool` | Enable close button |
+| `fullSizeDesired` | `bool` | WinUI FullSizeDesired — nearly fill the overlay when true |
+| `result` | `string` | WinUI ContentDialogResult: none \| primary \| secondary \| close |
+| `primaryButton` | `alias` | Custom primary button content (overrides primaryButtonText when set) |
+| `secondaryButton` | `alias` | Custom secondary button content |
+| `closeButton` | `alias` | Custom close button content |
 | `isOpen` | `alias` | Bindable open state (alias of visible) |
 
 ### Signals
@@ -60,13 +68,16 @@ Body: put content as children (moved into the dialog body slot).
 | `primaryClicked()` | Primary button clicked |
 | `secondaryClicked()` | Secondary button clicked |
 | `closeClicked()` | Close button clicked |
+| `resultReady(string result)` | Closed with a ContentDialogResult |
+| `closing(var args)` | WinUI Closing — set args.cancel = true to keep the dialog open |
 
 ### Methods
 
 | Signature | Description |
 | --- | --- |
 | `show()` | Enqueue via ContentDialogQueue (preferred over open()) |
-| `hide()` | Hide the control |
+| `hide()` | Hide the control (respects Closing cancel) |
+| `requestClose(kind)` | — |
 | `openQueued()` | Open the next queued dialog |
 | `activateDefault()` | Activate the default button / action |
 | `syncBody()` | Instance children land on contentItem; move them into the body slot. |

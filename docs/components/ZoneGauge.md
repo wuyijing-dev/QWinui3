@@ -28,6 +28,7 @@ ZoneGauge {
 ## Notes
 
 Gauge with explicit colored zones; activeZoneIndex/Color/Label track the needle.
+Toolkit-aligned aliases: minAngle/maxAngle, scaleWidth, needleLength/Width, valueStringFormat.
 
 ## API
 
@@ -43,13 +44,21 @@ Gauge with explicit colored zones; activeZoneIndex/Color/Label track the needle.
 | `unit` | `string` | Value unit label (%, rpm, …) |
 | `caption` | `string` | Caption under / beside the value |
 | `valuePrecision` | `int` | Digits after decimal for value text |
-| `strokeWidth` | `real` | Stroke thickness in px |
+| `strokeWidth` | `real` | Stroke thickness in px (Toolkit ScaleWidth) |
+| `scaleWidth` | `alias` | — |
 | `showNeedle` | `bool` | Show needle indicator |
+| `needleLength` | `real` | Needle length as fraction of radius (or 0–100 Toolkit percent) |
+| `needleWidth` | `real` | — |
+| `needleBrush` | `color` | — |
 | `showValue` | `bool` | Show numeric value label |
+| `valueStringFormat` | `string` | Toolkit-style format: "N0", "N1", … |
 | `showTicks` | `bool` | Show tick marks |
 | `tickCount` | `int` | Major tick count |
-| `startAngle` | `real` | Arc start angle in degrees |
-| `sweepTotal` | `real` | Total sweep angle in degrees |
+| `tickSpacing` | `real` | Tick spacing in value units (0 = use tickCount) |
+| `startAngle` | `real` | Arc start / end (Toolkit MinAngle / MaxAngle) |
+| `sweepTotal` | `real` | — |
+| `minAngle` | `alias` | — |
+| `maxAngle` | `real` | — |
 | `isInteractive` | `bool` | Alias of interactive |
 | `interactive` | `alias` | Enable hover / click interaction |
 | `zones` | `var` | Colored gauge zones |
@@ -58,6 +67,7 @@ Gauge with explicit colored zones; activeZoneIndex/Color/Label track the needle.
 | `activeZoneLabel` | `string` | Label of the active gauge zone |
 | `activeZoneColor` | `color` | Color of the active gauge zone |
 | `formattedValue` | `string` | Formatted value string |
+| `valueAngle` | `real` | Toolkit ValueAngle |
 | `animatedValue` | `real` | Animated display value |
 | `animatedNorm` | `real` | Animated 0..1 normalized value |
 

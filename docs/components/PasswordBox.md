@@ -43,6 +43,7 @@ Password TextField with reveal glyph; revealPassword / revealButtonVisible.
 | `passwordRevealMode` | `string` | WinUI PasswordRevealMode: peek \| hidden \| visible |
 | `revealPassword` | `bool` | True while password is revealed |
 | `revealButtonVisible` | `bool` | Show password reveal button |
+| `canPasteClipboardContent` | `bool` | WinUI CanPasteClipboardContent — block paste when false |
 | `echoMode` | `alias` | TextField echo mode |
 | `field` | `alias` | Inner text field |
 | `hasError` | `bool` | True when validation failed |

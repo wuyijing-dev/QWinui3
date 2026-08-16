@@ -15,18 +15,20 @@ WrapPanel {
     id: wrap
     width: parent.width
     itemSpacing: 8
+    horizontalSpacing: 12
+    verticalSpacing: 6
     Repeater {
         model: 12
         Chip { text: "Tag " + index }
     }
 }
 // --- API ---
-// wrap.itemSpacing / orientation
+// wrap.itemSpacing / horizontalSpacing / verticalSpacing / orientation
 ```
 
 ## Notes
 
-Wrapping flow of children; itemSpacing / orientation.
+Wrapping flow of children; itemSpacing / horizontalSpacing / verticalSpacing / orientation.
 
 ## API
 
@@ -40,6 +42,9 @@ Wrapping flow of children; itemSpacing / orientation.
 | `itemHeight` | `real` | Item height |
 | `paddingEdges` | `int` | Edge paddings |
 | `layoutDirection` | `int` | Qt layout direction |
+| `itemSpacing` | `alias` | Uniform spacing alias (WinUI ItemSpacing) |
+| `horizontalSpacing` | `real` | Gap between items on a line (<0 → spacing) |
+| `verticalSpacing` | `real` | Gap between wrapped lines (<0 → spacing) |
 | `childCount` | `int` | Number of children |
 
 ### Signals
@@ -48,7 +53,9 @@ _No custom signals_ (use inherited signals from the base type).
 
 ### Methods
 
-_No custom methods_ (use inherited methods from the base type).
+| Signature | Description |
+| --- | --- |
+| `relayout()` | Recompute wrapped layout |
 
 ### Inherited from `Control`
 

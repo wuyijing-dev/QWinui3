@@ -18,6 +18,8 @@ import QWinUI3.Theme
 //
 // @notes
 //   Tab-like pivot headers + content; model or PivotItem children.
+//   leftHeader / rightHeader slots flank the tab strip (WinUI LeftHeader / RightHeader).
+//   selectedItem mirrors the current model entry.
 
 T.Control {
     id: control
@@ -28,8 +30,25 @@ T.Control {
     property int currentIndex: 0
     // Selected index alias
     property alias selectedIndex: control.currentIndex
+    // Currently selected model item
+    readonly property var selectedItem: {
+        if (!model || currentIndex < 0)
+            return null
+        if (typeof model.count === "number" && typeof model.get === "function") {
+            if (currentIndex >= model.count)
+                return null
+            return model.get(currentIndex)
+        }
+        if (currentIndex >= (model.length || 0))
+            return null
+        return model[currentIndex]
+    }
     // Allow arrow-key navigation
     property bool keyboardNavigationEnabled: true
+    // WinUI LeftHeader — content before the tab strip
+    property alias leftHeader: leftHeaderSlot.data
+    // WinUI RightHeader — content after the tab strip
+    property alias rightHeader: rightHeaderSlot.data
     // Selection changed by user
     signal currentIndexChangedByUser(int index)
     // Selection changed
@@ -77,100 +96,120 @@ T.Control {
     contentItem: ColumnLayout {
         spacing: 0
 
-        Flickable {
-            id: headerFlick
+        RowLayout {
             Layout.fillWidth: true
             Layout.preferredHeight: 44
-            contentWidth: headerRow.implicitWidth
-            contentHeight: height
-            clip: true
-            flickableDirection: Flickable.HorizontalFlick
-            boundsBehavior: Flickable.StopAtBounds
+            spacing: Theme.spacing
 
-            Row {
-                id: headerRow
-                height: headerFlick.height
-                spacing: 4
+            Item {
+                id: leftHeaderSlot
+                Layout.fillHeight: true
+                Layout.preferredWidth: children.length ? childrenRect.width : 0
+                visible: children.length > 0
+            }
 
-                Repeater {
-                    model: control.model
-                    AbstractButton {
-                        id: tab
-                        required property var modelData
-                        required property int index
-                        height: headerRow.height
-                        width: Math.max(72, headerContent.implicitWidth + 24)
-                        hoverEnabled: true
-                        checkable: true
-                        checked: index === control.currentIndex
-                        onClicked: control.selectIndex(index)
+            Flickable {
+                id: headerFlick
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                contentWidth: headerRow.implicitWidth
+                contentHeight: height
+                clip: true
+                flickableDirection: Flickable.HorizontalFlick
+                boundsBehavior: Flickable.StopAtBounds
 
-                        readonly property string _icon: {
-                            if (typeof modelData === "string" || !modelData)
-                                return ""
-                            return IconSource.resolve(modelData.symbol || "",
-                                                      modelData.icon || modelData.glyph || "")
-                        }
-                        readonly property string _title: typeof modelData === "string"
-                                                        ? modelData : (modelData.title || "")
+                Row {
+                    id: headerRow
+                    height: headerFlick.height
+                    spacing: 4
 
-                        contentItem: Row {
-                            id: headerContent
-                            spacing: 8
-                            anchors.centerIn: parent
-                            Text {
-                                visible: tab._icon.length > 0
-                                anchors.verticalCenter: parent.verticalCenter
-                                text: tab._icon
-                                font.family: Theme.fontFamilyIcon
-                                font.pixelSize: 14
-                                color: tab.checked ? Theme.accent : Theme.textSecondary
-                                Behavior on color {
-                                    enabled: !Theme.reducedMotion
-                                    ColorAnimation { duration: Theme.duration(Theme.motionFast) }
+                    Repeater {
+                        model: control.model
+                        AbstractButton {
+                            id: tab
+                            required property var modelData
+                            required property int index
+                            height: headerRow.height
+                            width: Math.max(72, headerContent.implicitWidth + 24)
+                            hoverEnabled: true
+                            checkable: true
+                            checked: index === control.currentIndex
+                            onClicked: control.selectIndex(index)
+
+                            readonly property string _icon: {
+                                if (typeof modelData === "string" || !modelData)
+                                    return ""
+                                return IconSource.resolve(modelData.symbol || "",
+                                                          modelData.icon || modelData.glyph || "")
+                            }
+                            readonly property string _title: typeof modelData === "string"
+                                                            ? modelData : (modelData.title || "")
+
+                            contentItem: Row {
+                                id: headerContent
+                                spacing: 8
+                                anchors.centerIn: parent
+                                Text {
+                                    visible: tab._icon.length > 0
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    text: tab._icon
+                                    font.family: Theme.fontFamilyIcon
+                                    font.pixelSize: 14
+                                    color: tab.checked ? Theme.accent : Theme.textSecondary
+                                    Behavior on color {
+                                        enabled: !Theme.reducedMotion
+                                        ColorAnimation { duration: Theme.duration(Theme.motionFast) }
+                                    }
+                                }
+                                Text {
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    text: tab._title
+                                    font.family: Theme.fontFamily
+                                    font.pixelSize: Theme.fontBody
+                                    font.weight: tab.checked ? Theme.fontWeightSemiBold : Theme.fontWeightRegular
+                                    color: tab.checked ? Theme.textPrimary : Theme.textSecondary
+                                    horizontalAlignment: Text.AlignHCenter
+                                    verticalAlignment: Text.AlignVCenter
+                                    Behavior on color {
+                                        enabled: !Theme.reducedMotion
+                                        ColorAnimation { duration: Theme.duration(Theme.motionFast) }
+                                    }
                                 }
                             }
-                            Text {
-                                anchors.verticalCenter: parent.verticalCenter
-                                text: tab._title
-                                font.family: Theme.fontFamily
-                                font.pixelSize: Theme.fontBody
-                                font.weight: tab.checked ? Theme.fontWeightSemiBold : Theme.fontWeightRegular
-                                color: tab.checked ? Theme.textPrimary : Theme.textSecondary
-                                horizontalAlignment: Text.AlignHCenter
-                                verticalAlignment: Text.AlignVCenter
-                                Behavior on color {
-                                    enabled: !Theme.reducedMotion
-                                    ColorAnimation { duration: Theme.duration(Theme.motionFast) }
-                                }
-                            }
-                        }
 
-                        background: Item {
-                            Rectangle {
-                                anchors.fill: parent
-                                anchors.margins: 2
-                                radius: Theme.cornerControl
-                                color: tab.hovered && !tab.checked ? Theme.fillSubtle : "transparent"
-                            }
-                            Rectangle {
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                anchors.bottom: parent.bottom
-                                width: tab.checked ? Math.min(parent.width - 16, headerContent.implicitWidth + 8) : 0
-                                height: 3
-                                radius: 1.5
-                                color: Theme.accent
-                                Behavior on width {
-                                    enabled: !Theme.reducedMotion
-                                    NumberAnimation {
-                                        duration: Theme.duration(Theme.motionNormal)
-                                        easing.type: Theme.easingStandard
+                            background: Item {
+                                Rectangle {
+                                    anchors.fill: parent
+                                    anchors.margins: 2
+                                    radius: Theme.cornerControl
+                                    color: tab.hovered && !tab.checked ? Theme.fillSubtle : "transparent"
+                                }
+                                Rectangle {
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    anchors.bottom: parent.bottom
+                                    width: tab.checked ? Math.min(parent.width - 16, headerContent.implicitWidth + 8) : 0
+                                    height: 3
+                                    radius: 1.5
+                                    color: Theme.accent
+                                    Behavior on width {
+                                        enabled: !Theme.reducedMotion
+                                        NumberAnimation {
+                                            duration: Theme.duration(Theme.motionNormal)
+                                            easing.type: Theme.easingStandard
+                                        }
                                     }
                                 }
                             }
                         }
                     }
                 }
+            }
+
+            Item {
+                id: rightHeaderSlot
+                Layout.fillHeight: true
+                Layout.preferredWidth: children.length ? childrenRect.width : 0
+                visible: children.length > 0
             }
         }
 

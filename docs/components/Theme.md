@@ -16,7 +16,9 @@ import QWinUI3.Theme
 Theme.dark = true
 Theme.reducedMotion = false
 Theme.followSystemAccessibility = true
-Theme.accent = "#005FB8"
+Theme.density = "compact"
+Theme.accentPack = "purple"
+Theme.customAccent = "#C239B3"
 
 Rectangle {
     color: Theme.bgCard
@@ -29,12 +31,15 @@ Rectangle {
 Theme.duration(ms)
 Theme.controlFill(hovered, pressed, disabled)
 Theme.accentFill(hovered, pressed, disabled)
+Theme.setAccentPack(name)
 ```
 
 ## Notes
 
-Singleton tokens: colors, type, spacing, motion, corners.
+Singleton tokens: colors, type, spacing, motion, corners, density, accent packs.
 Theme.dark / reducedMotion / highContrast; followSystemAccessibility mirrors WindowHelper SPI.
+density "standard"|"compact" scales controlHeight / padding / spacing.
+accentPack "blue"|"purple"|"green"|"orange"; customAccent (alpha>0) overrides pack.
 Use Theme.duration(ms) and controlFill/accentFill helpers for states.
 
 ## API
@@ -47,7 +52,10 @@ Use Theme.duration(ms) and controlFill/accentFill helpers for states.
 | `reducedMotion` | `bool` | Collapse Theme.duration() animations when true |
 | `highContrast` | `bool` | When true, strengthen borders/focus for high-contrast / accessibility themes. |
 | `followSystemAccessibility` | `bool` | When true, Gallery/apps should copy WindowHelper system a11y into the flags above. |
-| `accent` | `color` | Fluent / WinUI 3 system accent (matches FluentWinUI3 defaults) |
+| `density` | `string` | Control density: "standard" \| "compact" |
+| `accentPack` | `string` | Named accent pack: "blue" \| "purple" \| "green" \| "orange" |
+| `customAccent` | `color` | When alpha > 0, overrides accentPack colors |
+| `accent` | `color` | Fluent / WinUI 3 system accent (pack or customAccent) |
 | `accentLight1` | `color` | Lighter accent step |
 | `accentDark1` | `color` | Darker accent step |
 | `textPrimary` | `color` | Primary text brush |
@@ -108,7 +116,7 @@ Use Theme.duration(ms) and controlFill/accentFill helpers for states.
 | `easingExit` | `int` | Exit easing curve |
 | `easingStandard` | `int` | Standard easing curve |
 | `easingEmphasized` | `int` | Emphasized easing (slight overshoot) |
-| `cornerControl` | `real` | Control metrics (FluentWinUI3 Config) |
+| `cornerControl` | `real` | — |
 | `cornerOverlay` | `real` | Overlay / flyout corner radius |
 | `strokeThin` | `real` | Default 1px hairline stroke |
 | `strokeFocusOuter` | `real` | Focus ring outer width |
@@ -142,6 +150,7 @@ _No custom signals_ (use inherited signals from the base type).
 | Signature | Description |
 | --- | --- |
 | `duration(ms)` | Returns ms, or 1 when reducedMotion is on |
+| `setAccentPack(name)` | Apply a named accent pack and clear customAccent |
 | `controlFill(hovered, pressed, disabled)` | Rest/hover/pressed/disabled control fill helper |
 | `accentFill(hovered, pressed, disabled)` | Rest/hover/pressed/disabled accent fill helper |
 

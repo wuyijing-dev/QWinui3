@@ -19,6 +19,7 @@ import QWinUI3.Theme
 //
 // @notes
 //   Paged swipe view; currentIndex + buttonsVisible / isIndicatorVisible.
+//   orientation: Qt.Horizontal | Qt.Vertical (WinUI Orientation).
 
 T.Control {
     id: control
@@ -41,6 +42,15 @@ T.Control {
     property bool isIndicatorVisible: true
     // Wrap children to next line
     property bool wrap: false
+    // WinUI Orientation — Qt.Horizontal (default) or Qt.Vertical
+    property int orientation: Qt.Horizontal
+    readonly property bool _vertical: orientation === Qt.Vertical
+    // Currently selected page item
+    readonly property var selectedItem: {
+        if (swipe.currentIndex < 0 || swipe.currentIndex >= swipe.count)
+            return null
+        return swipe.itemAt(swipe.currentIndex)
+    }
     // Default children / content slot
     default property alias contentData: swipe.contentData
     // Selection changed
@@ -95,18 +105,27 @@ T.Control {
         SwipeView {
             id: swipe
             anchors.fill: parent
-            anchors.leftMargin: control._showButtons ? 40 : 0
-            anchors.rightMargin: control._showButtons ? 40 : 0
-            anchors.bottomMargin: control.isIndicatorVisible && swipe.count > 1 ? 28 : 0
+            anchors.leftMargin: !control._vertical && control._showButtons ? 40 : 0
+            anchors.rightMargin: control._vertical
+                                 ? (control.isIndicatorVisible && swipe.count > 1 ? 28 : 0)
+                                 : (control._showButtons ? 40 : 0)
+            anchors.topMargin: control._vertical && control._showButtons ? 40 : 0
+            anchors.bottomMargin: control._vertical
+                                  ? (control._showButtons ? 40 : 0)
+                                  : (control.isIndicatorVisible && swipe.count > 1 ? 28 : 0)
             clip: true
+            orientation: control.orientation
         }
 
         RoundButton {
             id: prevBtn
             visible: control._showButtons
-            anchors.left: parent.left
-            anchors.leftMargin: 4
-            anchors.verticalCenter: parent.verticalCenter
+            anchors.left: control._vertical ? undefined : parent.left
+            anchors.leftMargin: control._vertical ? 0 : 4
+            anchors.horizontalCenter: control._vertical ? parent.horizontalCenter : undefined
+            anchors.top: control._vertical ? parent.top : undefined
+            anchors.topMargin: control._vertical ? 4 : 0
+            anchors.verticalCenter: control._vertical ? undefined : parent.verticalCenter
             width: 36
             height: 36
             flat: true
@@ -118,7 +137,7 @@ T.Control {
                 return 0
             }
             enabled: control.wrap || swipe.currentIndex > 0
-            text: FluentIcons.ChevronLeft
+            text: control._vertical ? FluentIcons.ChevronUp : FluentIcons.ChevronLeft
             font.family: Theme.fontFamilyIcon
             Accessible.name: qsTr("Previous")
             onClicked: control.goPrevious()
@@ -131,9 +150,12 @@ T.Control {
         RoundButton {
             id: nextBtn
             visible: control._showButtons
-            anchors.right: parent.right
-            anchors.rightMargin: 4
-            anchors.verticalCenter: parent.verticalCenter
+            anchors.right: control._vertical ? undefined : parent.right
+            anchors.rightMargin: control._vertical ? 0 : 4
+            anchors.horizontalCenter: control._vertical ? parent.horizontalCenter : undefined
+            anchors.bottom: control._vertical ? parent.bottom : undefined
+            anchors.bottomMargin: control._vertical ? 4 : 0
+            anchors.verticalCenter: control._vertical ? undefined : parent.verticalCenter
             width: 36
             height: 36
             flat: true
@@ -145,7 +167,7 @@ T.Control {
                 return 0
             }
             enabled: control.wrap || swipe.currentIndex < swipe.count - 1
-            text: FluentIcons.ChevronRight
+            text: control._vertical ? FluentIcons.ChevronDown : FluentIcons.ChevronRight
             font.family: Theme.fontFamilyIcon
             Accessible.name: qsTr("Next")
             onClicked: control.goNext()
@@ -156,12 +178,16 @@ T.Control {
         }
 
         PipsPager {
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 4
+            anchors.horizontalCenter: control._vertical ? undefined : parent.horizontalCenter
+            anchors.verticalCenter: control._vertical ? parent.verticalCenter : undefined
+            anchors.right: control._vertical ? parent.right : undefined
+            anchors.rightMargin: control._vertical ? 4 : 0
+            anchors.bottom: control._vertical ? undefined : parent.bottom
+            anchors.bottomMargin: control._vertical ? 0 : 4
             count: swipe.count
             currentIndex: swipe.currentIndex
             wrap: control.wrap
+            orientation: control._vertical ? Qt.Vertical : Qt.Horizontal
             previousButtonVisibility: "collapsed"
             nextButtonVisibility: "collapsed"
             visible: control.isIndicatorVisible && swipe.count > 1

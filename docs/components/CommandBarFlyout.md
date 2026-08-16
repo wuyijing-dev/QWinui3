@@ -44,6 +44,7 @@ Popup CommandBar; open at a target like Flyout.
 | `target` | `Item` | Anchor item for placement |
 | `placement` | `int` | Popup / flyout placement |
 | `preferredPlacement` | `alias` | Preferred flyout placement |
+| `shouldConstrainToRootBounds` | `bool` | WinUI ShouldConstrainToRootBounds — clamp into overlay when true |
 | `showSecondary` | `bool` | Show secondary command list |
 
 ### Signals

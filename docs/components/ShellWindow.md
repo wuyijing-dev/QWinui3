@@ -14,9 +14,14 @@ Independent ApplicationWindow + WindowChrome host.
 ShellWindow {
     title: qsTr("App")
     symbol: FluentIcons.Home
+    paradigm: WindowHelper.ParadigmStandard
+    presenter: WindowHelper.PresenterOverlapped
 }
 
 // --- API ---
+// roles:    paradigm (Standard/Dialog/Tool), presenter, isAlwaysOnTop, backdrop
+// actions:  applyWindowRole(), setPresenterKind(k), setWindowParadigm(p),
+//           setAlwaysOnTopEnabled(on), centerOnScreen()
 // signals: onPaneToggleRequested, onBackRequested, onSearchActivated, onSearchTextEdited
 // inherits ApplicationWindow (+ Qt Quick Controls base API)
 ```
@@ -27,6 +32,7 @@ ApplicationWindow + WindowChrome; does not subclass StandardWindow.
 Use BlankWindow / NavigationWindow / MenuStatusWindow / DialogShellWindow /
 ToolShellWindow / CompactOverlayShellWindow for common layouts.
 Title-bar slots: leftHeader, titleBarContent, rightHeader, menusInTitleBar.
+Window roles (作用): paradigm + presenter + always-on-top via WindowHelper.
 Backdrop / paradigm via WindowHelper (see docs/window-helper.md).
 
 ## API
@@ -38,6 +44,7 @@ Backdrop / paradigm via WindowHelper (see docs/window-helper.md).
 | `subtitle` | `alias` | Secondary subtitle text |
 | `symbol` | `alias` | FluentIcons symbol (preferred over iconGlyph) |
 | `chrome` | `alias` | WindowChrome / PlatformTitleBar host |
+| `shellSupport` | `alias` | Shared WindowHelper install glue |
 | `showPaneToggle` | `bool` | Show navigation pane toggle |
 | `searchEnabled` | `alias` | Enable title-bar search |
 | `isBackButtonVisible` | `alias` | Show back button |
@@ -68,6 +75,7 @@ Backdrop / paradigm via WindowHelper (see docs/window-helper.md).
 | `windowTitle` | `alias` | Compat aliases — prefer title / subtitle / symbol. |
 | `windowSubtitle` | `alias` | Window subtitle alias |
 | `windowSymbol` | `alias` | Window symbol alias |
+| `windowRoleSummary` | `string` | Human-readable role summary for Gallery / diagnostics |
 
 ### Signals
 
@@ -80,7 +88,13 @@ Backdrop / paradigm via WindowHelper (see docs/window-helper.md).
 
 ### Methods
 
-_No custom methods_ (use inherited methods from the base type).
+| Signature | Description |
+| --- | --- |
+| `applyWindowRole()` | Re-apply paradigm + presenter + always-on-top + backdrop |
+| `setPresenterKind(kind)` | Switch AppWindowPresenterKind at runtime |
+| `setWindowParadigm(kind)` | Switch Standard / Dialog / Tool paradigm at runtime |
+| `setAlwaysOnTopEnabled(on)` | Toggle stay-on-top |
+| `centerOnScreen()` | Center on the current screen |
 
 ### Inherited from `ApplicationWindow`
 

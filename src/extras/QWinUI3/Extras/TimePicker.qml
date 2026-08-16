@@ -9,19 +9,20 @@ import QWinUI3.Theme
 //   TimePicker {
 //       id: time
 //       selectedTime: new Date()
-//       clockFormat: "12"
-//       onAccepted: apply(time.selectedTime)
+//       clockIdentifier: "12HourClock"
+//       onTimeChosen: apply(time.selectedTime)
 //   }
 //   // --- API ---
-//   // time.hour / minute / selectedTime
+//   // time.hour / minute / selectedTime / clockIdentifier
 //
 // @notes
-//   Tumbler time picker; selectedTime + clockFormat 12|24; minuteIncrement.
+//   Tumbler time picker; selectedTime + clockIdentifier 12HourClock|24HourClock.
+//   minuteIncrement snaps minutes (WinUI MinuteIncrement).
 
 T.Control {
     id: control
 
-    // Selected hour
+    // Selected hour (0..23)
     property int hour: 12
     // Selected minute
     property int minute: 0
@@ -29,6 +30,12 @@ T.Control {
     property bool isAm: true
     // Use 24-hour clock
     property bool use24Hour: false
+    // WinUI ClockIdentifier: "12HourClock" | "24HourClock"
+    property string clockIdentifier: "12HourClock"
+    // WinUI SelectedTime — date whose time-of-day mirrors hour/minute
+    property date selectedTime: new Date()
+    // WinUI Time alias of selectedTime
+    property alias time: control.selectedTime
     // Picker flyout open
     property bool pickerOpen: false
     // Open / visible state
@@ -38,11 +45,61 @@ T.Control {
     // WinUI MinuteIncrement — e.g. 1, 5, 15
     property int minuteIncrement: 1
 
-    // WinUI ClockIdentifier (read-only mirror of use24Hour)
-    readonly property string clockIdentifier: use24Hour ? "24HourClock" : "12HourClock"
+    property bool _syncingTime: false
+    property bool _syncingClock: false
 
     // Emitted when a time is chosen
     signal timeChosen(int hour, int minute)
+    // Emitted when selectedTime changes via accept
+    signal accepted(date time)
+
+    Component.onCompleted: {
+        _syncingClock = true
+        clockIdentifier = use24Hour ? "24HourClock" : "12HourClock"
+        _syncingClock = false
+        syncSelectedTimeFromParts()
+    }
+
+    onClockIdentifierChanged: {
+        if (_syncingClock)
+            return
+        _syncingClock = true
+        var id = String(clockIdentifier).toLowerCase()
+        use24Hour = id.indexOf("24") >= 0
+        _syncingClock = false
+    }
+    onUse24HourChanged: {
+        if (_syncingClock)
+            return
+        _syncingClock = true
+        clockIdentifier = use24Hour ? "24HourClock" : "12HourClock"
+        _syncingClock = false
+    }
+
+    onHourChanged: syncSelectedTimeFromParts()
+    onMinuteChanged: syncSelectedTimeFromParts()
+    onSelectedTimeChanged: {
+        if (_syncingTime || isNaN(selectedTime.getTime()))
+            return
+        _syncingTime = true
+        hour = selectedTime.getHours()
+        minute = snapMinute(selectedTime.getMinutes())
+        isAm = hour < 12
+        _syncingTime = false
+    }
+
+    // Push hour/minute into selectedTime
+    function syncSelectedTimeFromParts() {
+        if (_syncingTime)
+            return
+        _syncingTime = true
+        var d = new Date(selectedTime.getTime())
+        if (isNaN(d.getTime()))
+            d = new Date()
+        d.setHours(hour, minute, 0, 0)
+        selectedTime = d
+        _syncingTime = false
+    }
 
     implicitWidth: 160
     implicitHeight: header.length ? (Theme.fontBody + 8 + Theme.controlHeight) : Theme.controlHeight
@@ -104,7 +161,9 @@ T.Control {
                     : (twelve === 12 ? 12 : twelve + 12)
         }
         control.minute = control.snapMinute(m)
+        control.syncSelectedTimeFromParts()
         control.timeChosen(control.hour, control.minute)
+        control.accepted(control.selectedTime)
     }
 
     contentItem: ColumnLayout {

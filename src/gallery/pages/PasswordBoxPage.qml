@@ -48,6 +48,11 @@ Page {
                             id: errBox
                             text: qsTr("Show error")
                         }
+                        CheckBox {
+                            id: pasteBox
+                            text: qsTr("CanPasteClipboardContent")
+                            checked: true
+                        }
                     }
                     PasswordBox {
                         Layout.fillWidth: true
@@ -55,6 +60,7 @@ Page {
                         description: qsTr("Peek: hold the eye to show. Visible: always clear text.")
                         placeholderText: qsTr("Password")
                         passwordRevealMode: modeBox.currentText
+                        canPasteClipboardContent: pasteBox.checked
                         clearButtonVisible: true
                         errorMessage: errBox.checked ? qsTr("Password must be at least 8 characters.") : ""
                     }

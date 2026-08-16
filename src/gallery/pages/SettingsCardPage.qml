@@ -70,11 +70,48 @@ Page {
                     }
                     SettingsCard {
                         Layout.fillWidth: true
-                        interactive: true
-                        title: qsTr("About")
+                        header: qsTr("About")
                         description: qsTr("Version 1.0.0 — tap or press Enter for details")
                         symbol: FluentIcons.Info
+                        isClickEnabled: true
+                        actionIcon: FluentIcons.OpenInNewWindow
                         onClicked: cardStatus.text = qsTr("About clicked")
+                    }
+                    SettingsCard {
+                        Layout.fillWidth: true
+                        header: qsTr("Storage")
+                        description: qsTr("Vertical content alignment (Toolkit).")
+                        contentAlignment: "vertical"
+                        content: ProgressBar {
+                            width: 280
+                            value: 0.62
+                        }
+                        action: Button {
+                            text: qsTr("Manage")
+                            flat: true
+                        }
+                    }
+                    SettingsCard {
+                        Layout.fillWidth: true
+                        header: qsTr("Account")
+                        description: qsTr("Left-aligned content (contentAlignment: left).")
+                        contentAlignment: "left"
+                        content: Label {
+                            text: qsTr("alex@contoso.com")
+                            color: Theme.textSecondary
+                        }
+                        action: Button {
+                            text: qsTr("Sign out")
+                            flat: true
+                        }
+                    }
+                    SettingsCard {
+                        Layout.fillWidth: true
+                        header: qsTr("Rounded card")
+                        description: qsTr("cornerRadius overrides Theme.cornerCard.")
+                        symbol: FluentIcons.Color
+                        cornerRadius: 20
+                        action: Switch { checked: true }
                     }
                 }
             }

@@ -30,6 +30,8 @@ ColorPicker {
 Edits selectedColor via spectrum + RGB/HSV/hex fields.
 copyHex() writes #RRGGBB to the clipboard.
 Bind selectedColor; channel props (hue/saturation/value/alpha) stay in sync.
+previousColor + isPreviousColorVisible show a restore swatch (WinUI PreviousColor).
+colorSpectrumShape: box | ring; isAlphaEnabled aliases showAlpha.
 
 ## API
 
@@ -42,11 +44,17 @@ Bind selectedColor; channel props (hue/saturation/value/alpha) stay in sync.
 | `saturation` | `real` | Saturation 0..1 |
 | `value` | `real` | Current value |
 | `showAlpha` | `bool` | Show alpha channel editor |
+| `isAlphaEnabled` | `alias` | WinUI IsAlphaEnabled |
 | `alpha` | `real` | Alpha 0..1 |
 | `colorModel` | `int` | rgb \| hsv \| hex editor mode |
 | `isColorSpectrumVisible` | `bool` | Show color spectrum |
+| `colorSpectrumShape` | `string` | WinUI ColorSpectrumShape: box \| ring |
 | `isColorPreviewVisible` | `bool` | Show color preview swatch |
 | `isColorChannelTextInputVisible` | `bool` | Show channel text inputs |
+| `isColorSliderVisible` | `bool` | Show value (brightness) slider |
+| `isHexInputVisible` | `bool` | Show hex field row |
+| `previousColor` | `color` | WinUI PreviousColor — shown above the current swatch; click restores it |
+| `isPreviousColorVisible` | `bool` | When true, always show the previous-color half of the previewer |
 
 ### Signals
 

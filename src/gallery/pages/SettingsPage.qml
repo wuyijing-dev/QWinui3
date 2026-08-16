@@ -111,6 +111,46 @@ Page {
                 Layout.fillWidth: true
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
+                title: qsTr("Density")
+                description: qsTr("Theme.density scales controlHeight, padding, and spacing.")
+                headerIcon: "\uE8A5"
+                action: ComboBox {
+                    model: [qsTr("Standard"), qsTr("Compact")]
+                    currentIndex: Theme.density === "compact" ? 1 : 0
+                    onActivated: function (index) {
+                        Theme.density = index === 1 ? "compact" : "standard"
+                    }
+                }
+            }
+
+            SettingsCard {
+                Layout.fillWidth: true
+                Layout.leftMargin: Theme.spacingSection
+                Layout.rightMargin: Theme.spacingSection
+                title: qsTr("Accent pack")
+                description: qsTr("Theme.accentPack / setAccentPack — blue, purple, green, orange.")
+                headerIcon: "\uE790"
+                action: ComboBox {
+                    model: [qsTr("Blue"), qsTr("Purple"), qsTr("Green"), qsTr("Orange")]
+                    currentIndex: {
+                        switch (Theme.accentPack) {
+                        case "purple": return 1
+                        case "green": return 2
+                        case "orange": return 3
+                        default: return 0
+                        }
+                    }
+                    onActivated: function (index) {
+                        var packs = ["blue", "purple", "green", "orange"]
+                        Theme.setAccentPack(packs[index])
+                    }
+                }
+            }
+
+            SettingsCard {
+                Layout.fillWidth: true
+                Layout.leftMargin: Theme.spacingSection
+                Layout.rightMargin: Theme.spacingSection
                 title: qsTr("Appearance")
                 description: qsTr("Toggles the QWinUI3 Theme singleton between light and dark color ramps.")
                 headerIcon: "\uE790"
@@ -126,7 +166,7 @@ Page {
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
                 title: qsTr("Follow system accessibility")
-                description: qsTr("Copy Windows reduce-motion / high-contrast into Theme when the window is active.")
+                description: qsTr("Copy OS reduce-motion / high-contrast into Theme when the window is active.")
                 headerIcon: "\uE7F4"
                 action: Switch {
                     text: Theme.followSystemAccessibility ? qsTr("On") : qsTr("Off")
@@ -137,6 +177,26 @@ Page {
                             WindowHelper.refreshAccessibility()
                             Theme.reducedMotion = WindowHelper.systemReducedMotion
                             Theme.highContrast = WindowHelper.systemHighContrast
+                        }
+                    }
+                }
+            }
+
+            SettingsCard {
+                Layout.fillWidth: true
+                Layout.leftMargin: Theme.spacingSection
+                Layout.rightMargin: Theme.spacingSection
+                title: qsTr("Follow system color scheme")
+                description: qsTr("Mirror WindowHelper.systemPrefersDark (portal / gsettings / Windows) into Theme.dark.")
+                headerIcon: "\uE706"
+                action: Switch {
+                    text: Theme.followSystemColorScheme ? qsTr("On") : qsTr("Off")
+                    checked: Theme.followSystemColorScheme
+                    onToggled: {
+                        Theme.followSystemColorScheme = checked
+                        if (checked) {
+                            WindowHelper.refreshColorScheme()
+                            Theme.dark = WindowHelper.systemPrefersDark
                         }
                     }
                 }
@@ -178,6 +238,31 @@ Page {
                     onToggled: {
                         if (!Theme.followSystemAccessibility)
                             Theme.highContrast = checked
+                    }
+                }
+            }
+
+            SettingsCard {
+                Layout.fillWidth: true
+                Layout.leftMargin: Theme.spacingSection
+                Layout.rightMargin: Theme.spacingSection
+                title: qsTr("Page transition")
+                description: qsTr("NavigationView pageTransition for pane clicks: slide, fade, drill, cover, …")
+                headerIcon: "\uE8AB"
+                action: ComboBox {
+                    id: transitionBox
+                    implicitWidth: 160
+                    model: Window.window && Window.window.pageTransitionModes
+                            ? Window.window.pageTransitionModes
+                            : ["slide", "slideRight", "fade", "center", "drill", "up", "down", "cover", "none"]
+                    Component.onCompleted: {
+                        var cur = Window.window ? Window.window.pageTransition : "slide"
+                        var i = model.indexOf(cur)
+                        currentIndex = i >= 0 ? i : 0
+                    }
+                    onActivated: function (index) {
+                        if (Window.window)
+                            Window.window.pageTransition = model[index]
                     }
                 }
             }

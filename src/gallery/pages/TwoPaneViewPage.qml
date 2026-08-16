@@ -103,7 +103,46 @@ Page {
                             twoPane.panePriority = TwoPaneView.Pane1
                             twoPane.minWideWidth = 480
                             twoPane.preferredMode = TwoPaneView.Wide
+                            twoPane.wideModeConfiguration = "leftRight"
+                            twoPane.tallModeConfiguration = "topBottom"
                         }
+                    }
+                }
+            }
+            ControlExample {
+                Layout.fillWidth: true
+                Layout.leftMargin: Theme.spacingSection
+                Layout.rightMargin: Theme.spacingSection
+                headerText: qsTr("Wide / Tall configuration")
+                qmlSource: "wideModeConfiguration: \"rightLeft\"\ntallModeConfiguration: \"bottomTop\""
+                ColumnLayout {
+                    spacing: Theme.spacing
+                    RowLayout {
+                        Label { text: qsTr("Wide"); color: Theme.textSecondary }
+                        ComboBox {
+                            id: wideCfg
+                            model: ["leftRight", "rightLeft", "singlePane"]
+                            currentIndex: 0
+                            Layout.preferredWidth: 160
+                            onActivated: twoPane.wideModeConfiguration = currentText
+                        }
+                        Label { text: qsTr("Tall"); color: Theme.textSecondary }
+                        ComboBox {
+                            id: tallCfg
+                            model: ["topBottom", "bottomTop", "singlePane"]
+                            currentIndex: 0
+                            Layout.preferredWidth: 160
+                            onActivated: twoPane.tallModeConfiguration = currentText
+                        }
+                    }
+                    Label {
+                        text: qsTr("Mode: %1 · wide=%2 · tall=%3")
+                                .arg(twoPane.modeName)
+                                .arg(twoPane.wideModeConfiguration)
+                                .arg(twoPane.tallModeConfiguration)
+                        color: Theme.textSecondary
+                        wrapMode: Text.Wrap
+                        Layout.fillWidth: true
                     }
                 }
             }

@@ -36,6 +36,7 @@ Label + TextField pair; header/headerPlacement and text/placeholderText aliases.
 | `header` | `string` | Header label above the control |
 | `description` | `string` | Supporting description text |
 | `errorMessage` | `string` | Validation error text |
+| `headerPlacement` | `string` | WinUI HeaderPlacement: top \| left |
 | `clearButtonVisible` | `bool` | Show clear affordance |
 | `characterLimit` | `int` | Soft character counter limit |
 | `text` | `alias` | Display / input text |

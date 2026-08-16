@@ -21,6 +21,7 @@ import QWinUI3.Theme
 //
 // @notes
 //   Content + left/right SwipeAction reveal; openLeft/openRight/close.
+//   swipeMode: reveal | execute (WinUI SwipeMode).
 
 T.Control {
     id: root
@@ -46,6 +47,8 @@ T.Control {
     readonly property bool isOpen: openMode !== closed
     // single | multiple reveal mode
     property int openMode: closed
+    // WinUI SwipeMode: reveal | execute
+    property string swipeMode: "reveal"
 
     // Emitted when opened
     signal opened(int mode)
@@ -69,6 +72,7 @@ T.Control {
     readonly property real maxLeftReveal: Math.max(0, leftRow.children.length * actionWidth)
     // Max right swipe reveal width
     readonly property real maxRightReveal: Math.max(0, rightRow.children.length * actionWidth)
+    readonly property bool _executeMode: String(swipeMode).toLowerCase() === "execute"
 
     // Close / dismiss
     function close() {
@@ -101,6 +105,58 @@ T.Control {
             openMode = rightOpen
             opened(rightOpen)
         }
+    }
+
+    function _firstAction(row) {
+        for (var i = 0; i < row.children.length; ++i) {
+            var ch = row.children[i]
+            if (ch && typeof ch.invoke === "function")
+                return ch
+        }
+        return null
+    }
+
+    // Apply BehaviorOnInvoked after an action runs
+    function _afterActionInvoked(action) {
+        if (!action)
+            return
+        var b = String(action.behaviorOnInvoked || "auto").toLowerCase()
+        var shouldClose = false
+        if (b === "close")
+            shouldClose = true
+        else if (b === "remainopen")
+            shouldClose = false
+        else
+            shouldClose = !_executeMode // auto: close in reveal, remain in execute
+        if (shouldClose)
+            close()
+    }
+
+    function _handleDragReleased() {
+        if (_executeMode) {
+            if (panel.x > revealThreshold) {
+                var left = _firstAction(leftRow)
+                if (left)
+                    left.invoke()
+                else
+                    close()
+            } else if (panel.x < -revealThreshold) {
+                var right = _firstAction(rightRow)
+                if (right)
+                    right.invoke()
+                else
+                    close()
+            } else {
+                close()
+            }
+            return
+        }
+        if (panel.x > revealThreshold)
+            openLeft()
+        else if (panel.x < -revealThreshold)
+            openRight()
+        else
+            close()
     }
 
     contentItem: Item {
@@ -168,12 +224,7 @@ T.Control {
                 onActiveChanged: {
                     if (active)
                         return
-                    if (panel.x > root.revealThreshold)
-                        root.openLeft()
-                    else if (panel.x < -root.revealThreshold)
-                        root.openRight()
-                    else
-                        root.close()
+                    root._handleDragReleased()
                 }
             }
         }

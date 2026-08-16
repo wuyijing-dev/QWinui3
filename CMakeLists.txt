@@ -15,11 +15,23 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 6.8 REQUIRED COMPONENTS Quick QuickControls2 LabsQmlModels)
+find_package(Qt6 COMPONENTS Multimedia QUIET)
 
 qt_standard_project_setup(REQUIRES 6.8)
+
+option(QWINUI3_BUILD_EXAMPLES "Build copy-ready example apps" ON)
+if(TARGET Qt6::Multimedia)
+    option(QWINUI3_BUILD_MEDIA "Build MediaPlayerElement (requires Qt Multimedia)" ON)
+else()
+    option(QWINUI3_BUILD_MEDIA "Build MediaPlayerElement (requires Qt Multimedia)" OFF)
+endif()
 
 add_subdirectory(src/theme/QWinUI3/Theme)
 add_subdirectory(src/platform/QWinUI3/Platform)
 add_subdirectory(src/style/QWinUI3)
 add_subdirectory(src/extras/QWinUI3/Extras)
 add_subdirectory(src/gallery)
+
+if(QWINUI3_BUILD_EXAMPLES)
+    add_subdirectory(examples)
+endif()

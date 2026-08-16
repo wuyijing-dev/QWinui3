@@ -31,6 +31,7 @@ AutoSuggestBox {
 
 Text field + filtered suggestion popup (model / text / suggestionChosen).
 Call focusField() / clear(); refreshSuggestions() after model changes.
+header / description (WinUI Description); maxSuggestionListHeight caps the popup.
 
 ## API
 
@@ -49,6 +50,9 @@ Call focusField() / clear(); refreshSuggestions() after model changes.
 | `textMemberPath` | `string` | Object field used as display text |
 | `isSuggestionListOpen` | `bool` | Suggestion popup open state |
 | `header` | `string` | Header label above the control |
+| `description` | `string` | WinUI Description — supporting text under the header |
+| `maxSuggestionListHeight` | `real` | Max height of the suggestion ListView (WinUI MaxSuggestionListHeight) |
+| `chooseSuggestionOnEnter` | `bool` | WinUI ChooseSuggestionOnEnter — Enter picks highlighted row when list is open |
 | `effectiveQueryIcon` | `string` | Resolved search glyph |
 
 ### Signals

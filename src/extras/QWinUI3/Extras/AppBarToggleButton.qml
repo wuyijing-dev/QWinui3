@@ -12,15 +12,22 @@ import QWinUI3.Theme
 //
 // @notes
 //   Checkable AppBarButton for CommandBar toggles.
+//   isCompact + keyboardAcceleratorText mirror AppBarButton.
 
 IconicButton {
     id: control
 
     // bottom | right | collapsed
     property string labelPosition: ""
+    // WinUI IsCompact — hide label, icon-only
+    property bool isCompact: false
+    // Shortcut hint (WinUI KeyboardAcceleratorText)
+    property string keyboardAcceleratorText: ""
 
     // Resolved label position
     readonly property string effectiveLabelPosition: {
+        if (control.isCompact)
+            return "collapsed"
         if (control.labelPosition.length)
             return control.labelPosition
         var p = control.parent
@@ -36,6 +43,7 @@ IconicButton {
 
     readonly property bool _showLabel: effectiveLabelPosition !== "collapsed" && text.length > 0
     readonly property bool _labelRight: effectiveLabelPosition === "right"
+    readonly property bool _showAccel: keyboardAcceleratorText.length > 0 && _showLabel
 
     implicitWidth: {
         if (!_showLabel)
@@ -62,11 +70,13 @@ IconicButton {
         columns: control._labelRight ? 2 : 1
         rows: control._labelRight ? 1 : 2
         columnSpacing: 8
-        rowSpacing: 4
+        rowSpacing: 2
         flow: GridLayout.LeftToRight
 
         Text {
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+            Layout.row: 0
+            Layout.column: 0
             text: control.effectiveIconGlyph
             font.family: Theme.fontFamilyIcon
             font.pixelSize: control.iconSize
@@ -93,18 +103,39 @@ IconicButton {
                 }
             }
         }
-        Text {
+        ColumnLayout {
             Layout.alignment: control._labelRight ? (Qt.AlignLeft | Qt.AlignVCenter)
                                                   : Qt.AlignHCenter
             Layout.fillWidth: control._labelRight
+            Layout.row: control._labelRight ? 0 : 1
+            Layout.column: control._labelRight ? 1 : 0
+            spacing: 0
             visible: control._showLabel
-            text: control.text
-            font.family: control.font.family
-            font.pixelSize: control.font.pixelSize
-            color: control.enabled ? Theme.textPrimary : Theme.textDisabled
-            elide: Text.ElideRight
-            horizontalAlignment: control._labelRight ? Text.AlignLeft : Text.AlignHCenter
-            maximumLineCount: 1
+
+            Text {
+                Layout.alignment: control._labelRight ? (Qt.AlignLeft | Qt.AlignVCenter)
+                                                      : Qt.AlignHCenter
+                Layout.fillWidth: control._labelRight
+                text: control.text
+                font.family: control.font.family
+                font.pixelSize: control.font.pixelSize
+                color: control.enabled ? Theme.textPrimary : Theme.textDisabled
+                elide: Text.ElideRight
+                horizontalAlignment: control._labelRight ? Text.AlignLeft : Text.AlignHCenter
+                maximumLineCount: 1
+            }
+            Text {
+                Layout.alignment: control._labelRight ? (Qt.AlignLeft | Qt.AlignVCenter)
+                                                      : Qt.AlignHCenter
+                visible: control._showAccel
+                text: control.keyboardAcceleratorText
+                font.family: control.font.family
+                font.pixelSize: Theme.fontCaption
+                color: Theme.textSecondary
+                elide: Text.ElideRight
+                horizontalAlignment: control._labelRight ? Text.AlignLeft : Text.AlignHCenter
+                maximumLineCount: 1
+            }
         }
     }
 

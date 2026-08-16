@@ -51,8 +51,16 @@ T.Control {
     property int preferredMode: TwoPaneView.Wide
     // Which pane takes priority when collapsing
     property int panePriority: TwoPaneView.Pane1
+    // WinUI WideModeConfiguration: leftRight | rightLeft | singlePane
+    property string wideModeConfiguration: "leftRight"
+    // WinUI TallModeConfiguration: topBottom | bottomTop | singlePane
+    property string tallModeConfiguration: "topBottom"
     // Display / interaction mode
     property int mode: {
+        if (wideModeConfiguration === "singlePane" && preferredMode !== TwoPaneView.Tall)
+            return TwoPaneView.SinglePane
+        if (tallModeConfiguration === "singlePane" && preferredMode === TwoPaneView.Tall)
+            return TwoPaneView.SinglePane
         if (width < minWideWidth)
             return preferredMode === TwoPaneView.Tall ? TwoPaneView.Tall : TwoPaneView.SinglePane
         return preferredMode === TwoPaneView.Tall ? TwoPaneView.Tall : TwoPaneView.Wide
@@ -125,29 +133,35 @@ T.Control {
 
             if (root.mode === TwoPaneView.Wide) {
                 var leftW = Math.min(root.panePriorityWidth, Math.max(120, w * 0.38))
-                if (root.pane1) {
-                    root.pane1.visible = true
-                    root.pane1.x = 0; root.pane1.y = 0
-                    root.pane1.width = leftW; root.pane1.height = h
+                var rightFirst = root.wideModeConfiguration === "rightLeft"
+                var first = rightFirst ? root.pane2 : root.pane1
+                var second = rightFirst ? root.pane1 : root.pane2
+                if (first) {
+                    first.visible = true
+                    first.x = 0; first.y = 0
+                    first.width = leftW; first.height = h
                 }
-                if (root.pane2) {
-                    root.pane2.visible = true
-                    root.pane2.x = leftW + gap; root.pane2.y = 0
-                    root.pane2.width = Math.max(0, w - leftW - gap)
-                    root.pane2.height = h
+                if (second) {
+                    second.visible = true
+                    second.x = leftW + gap; second.y = 0
+                    second.width = Math.max(0, w - leftW - gap)
+                    second.height = h
                 }
             } else if (root.mode === TwoPaneView.Tall) {
                 var topH = Math.min(root.panePriorityWidth, Math.max(80, h * 0.38))
-                if (root.pane1) {
-                    root.pane1.visible = true
-                    root.pane1.x = 0; root.pane1.y = 0
-                    root.pane1.width = w; root.pane1.height = topH
+                var bottomFirst = root.tallModeConfiguration === "bottomTop"
+                var topPane = bottomFirst ? root.pane2 : root.pane1
+                var bottomPane = bottomFirst ? root.pane1 : root.pane2
+                if (topPane) {
+                    topPane.visible = true
+                    topPane.x = 0; topPane.y = 0
+                    topPane.width = w; topPane.height = topH
                 }
-                if (root.pane2) {
-                    root.pane2.visible = true
-                    root.pane2.x = 0; root.pane2.y = topH + gap
-                    root.pane2.width = w
-                    root.pane2.height = Math.max(0, h - topH - gap)
+                if (bottomPane) {
+                    bottomPane.visible = true
+                    bottomPane.x = 0; bottomPane.y = topH + gap
+                    bottomPane.width = w
+                    bottomPane.height = Math.max(0, h - topH - gap)
                 }
             } else {
                 if (root.pane1) {
@@ -174,6 +188,8 @@ T.Control {
     onSinglePaneIndexChanged: Qt.callLater(host.layoutPanes)
     onSpacingChanged: Qt.callLater(host.layoutPanes)
     onPanePriorityWidthChanged: Qt.callLater(host.layoutPanes)
+    onWideModeConfigurationChanged: Qt.callLater(host.layoutPanes)
+    onTallModeConfigurationChanged: Qt.callLater(host.layoutPanes)
 
     background: Rectangle {
         color: Theme.bgLayer

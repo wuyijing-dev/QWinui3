@@ -23,8 +23,8 @@ import QWinUI3.Theme
 // @notes
 //   model items: { title, content, icon? } or a string title.
 //   closable tabs emit closeRequested / tabCloseRequested — remove from model yourself.
-//   tabsReorderable enables drag reorder (tabMoved).
-//   addTab / closeTab / moveTab mutate the model helpers.
+//   closeButtonOverlayMode: always | onPointerOver | auto (WinUI CloseButtonOverlayMode).
+//   tabStripHeader / tabStripFooter for strip chrome; tabsReorderable enables drag reorder.
 
 T.Control {
     id: control
@@ -39,14 +39,28 @@ T.Control {
     property bool closable: true
     // Alias of closable
     property alias isClosable: control.closable
+    // WinUI CloseButtonOverlayMode: "always" | "onPointerOver" | "auto"
+    property string closeButtonOverlayMode: "always"
     // Allow dragging tabs to reorder
     property bool tabsReorderable: true
     // Alias of tabsReorderable
     property alias canReorderTabs: control.tabsReorderable
+    // WinUI CanDragTabs — enable drag gesture (reorder still gated by tabsReorderable)
+    property bool canDragTabs: true
     // Tab width mode
     property string tabWidthMode: "sizeToContent"
     // Show add-tab button
     property bool isAddTabButtonVisible: true
+    // WinUI TabStripHeader
+    property alias tabStripHeader: tabStripHeaderSlot.data
+    // WinUI TabStripFooter
+    property alias tabStripFooter: tabStripFooterSlot.data
+    // Currently selected model item (WinUI SelectedItem)
+    readonly property var selectedItem: {
+        if (!model || currentIndex < 0 || currentIndex >= model.length)
+            return null
+        return model[currentIndex]
+    }
     // User asked to close a tab
     signal tabCloseRequested(int index)
     // Selection changed by user
@@ -183,8 +197,8 @@ T.Control {
             Flickable {
                 id: tabFlick
                 anchors.fill: parent
-                anchors.leftMargin: 6
-                anchors.rightMargin: 6
+                anchors.leftMargin: 6 + (tabStripHeaderSlot.visible ? tabStripHeaderSlot.width + 4 : 0)
+                anchors.rightMargin: 6 + (tabStripFooterSlot.visible ? tabStripFooterSlot.width + 4 : 0)
                 anchors.topMargin: 6
                 contentWidth: Math.max(width, tabStripRow.implicitWidth)
                 contentHeight: height
@@ -193,6 +207,33 @@ T.Control {
                 boundsBehavior: Flickable.StopAtBounds
                 interactive: !control._reordering
 
+                Item {
+                    id: tabStripHeaderSlot
+                    parent: tabStrip
+                    anchors.left: parent.left
+                    anchors.leftMargin: 6
+                    anchors.top: parent.top
+                    anchors.topMargin: 6
+                    anchors.bottom: parent.bottom
+                    anchors.bottomMargin: 2
+                    width: children.length > 0 ? Math.max(childrenRect.width, 1) : 0
+                    visible: children.length > 0
+                    z: 2
+                }
+
+                Item {
+                    id: tabStripFooterSlot
+                    parent: tabStrip
+                    anchors.right: parent.right
+                    anchors.rightMargin: 6
+                    anchors.top: parent.top
+                    anchors.topMargin: 6
+                    anchors.bottom: parent.bottom
+                    anchors.bottomMargin: 2
+                    width: children.length > 0 ? Math.max(childrenRect.width, 1) : 0
+                    visible: children.length > 0
+                    z: 2
+                }
                 Row {
                     id: tabStripRow
                     height: tabFlick.height
@@ -218,6 +259,14 @@ T.Control {
                                     return ""
                                 return IconSource.resolve(modelData.symbol || "",
                                                           modelData.icon || modelData.glyph || "")
+                            }
+                            readonly property bool _showClose: {
+                                if (!control.closable)
+                                    return false
+                                var mode = String(control.closeButtonOverlayMode).toLowerCase()
+                                if (mode === "always")
+                                    return true
+                                return tabBtn.hovered || tabBtn.checked || tabBtn.visualFocus
                             }
 
                             height: tabRow.height
@@ -292,7 +341,7 @@ T.Control {
                                 }
                                 ToolButton {
                                     id: closeBtn
-                                    visible: control.closable
+                                    visible: tabBtn._showClose
                                     Layout.preferredWidth: 28
                                     Layout.preferredHeight: 28
                                     Layout.rightMargin: 4
@@ -359,7 +408,7 @@ T.Control {
 
                             DragHandler {
                                 id: tabDrag
-                                enabled: control.tabsReorderable
+                                enabled: control.canDragTabs
                                 target: null
                                 xAxis.enabled: true
                                 yAxis.enabled: false
@@ -390,7 +439,7 @@ T.Control {
                                         ghost.visible = false
                                         control._dragFrom = -1
                                         control._dropIndex = -1
-                                        if (slid && from >= 0 && to >= 0 && from !== to)
+                                        if (slid && control.tabsReorderable && from >= 0 && to >= 0 && from !== to)
                                             control.moveTab(from, to)
                                     }
                                 }

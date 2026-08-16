@@ -37,10 +37,22 @@ Page {
                     text: qsTr("Open menu")
                     onClicked: demoFlyout.showAt(flyoutButton)
                 }
+                CheckBox {
+                    id: maxH
+                    text: qsTr("MaxHeight 160 (scroll)")
+                    checked: false
+                }
+                CheckBox {
+                    id: constrainBounds
+                    text: qsTr("Constrain to bounds")
+                    checked: true
+                }
                 MenuFlyout {
                     id: demoFlyout
                     preferredPlacement: Qt.AlignBottom
                     title: qsTr("Actions")
+                    contentMaxHeight: maxH.checked ? 160 : 0
+                    shouldConstrainToRootBounds: constrainBounds.checked
                     MenuFlyoutItem {
                         text: qsTr("Copy")
                         symbol: FluentIcons.Copy
@@ -54,6 +66,21 @@ Page {
                         onTriggered: lastAction.text = text
                     }
                     MenuFlyoutSeparator {}
+                    MenuFlyoutItem {
+                        text: qsTr("Rename")
+                        symbol: FluentIcons.Edit
+                        onTriggered: lastAction.text = text
+                    }
+                    MenuFlyoutItem {
+                        text: qsTr("Share")
+                        symbol: FluentIcons.Share
+                        onTriggered: lastAction.text = text
+                    }
+                    MenuFlyoutItem {
+                        text: qsTr("Open")
+                        symbol: FluentIcons.OpenFile
+                        onTriggered: lastAction.text = text
+                    }
                     MenuFlyoutItem {
                         text: qsTr("Delete")
                         symbol: FluentIcons.Delete

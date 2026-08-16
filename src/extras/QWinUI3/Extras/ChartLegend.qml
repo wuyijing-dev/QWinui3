@@ -83,10 +83,12 @@ Item {
             spacing: 12
             Repeater {
                 model: root.items
-                Row {
+                Item {
+                    id: legendChip
                     required property var modelData
                     required property int index
-                    spacing: 6
+                    implicitWidth: chipRow.implicitWidth
+                    implicitHeight: Math.max(18, chipRow.implicitHeight)
                     opacity: {
                         if (root.selectedIndex >= 0)
                             return root.selectedIndex === index ? 1 : 0.4
@@ -96,45 +98,49 @@ Item {
                         enabled: !Theme.reducedMotion
                         NumberAnimation { duration: Theme.duration(Theme.motionFast) }
                     }
-                    Rectangle {
-                        width: 10
-                        height: 10
-                        radius: 2
-                        anchors.verticalCenter: parent.verticalCenter
-                        color: modelData.color || ChartUtils.palette(Theme, index)
-                        scale: (root.hoverIndex === index || root.selectedIndex === index) ? 1.15 : 1
-                        Behavior on scale {
-                            enabled: !Theme.reducedMotion
-                            NumberAnimation { duration: Theme.duration(Theme.motionFast) }
+                    Row {
+                        id: chipRow
+                        spacing: 6
+                        Rectangle {
+                            width: 10
+                            height: 10
+                            radius: 2
+                            anchors.verticalCenter: parent.verticalCenter
+                            color: legendChip.modelData.color || ChartUtils.palette(Theme, legendChip.index)
+                            scale: (root.hoverIndex === legendChip.index || root.selectedIndex === legendChip.index) ? 1.15 : 1
+                            Behavior on scale {
+                                enabled: !Theme.reducedMotion
+                                NumberAnimation { duration: Theme.duration(Theme.motionFast) }
+                            }
                         }
-                    }
-                    Text {
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: {
-                            var t = modelData.label || ("#" + (index + 1))
-                            if (root.showValue && modelData.value !== undefined)
-                                t += "  " + ChartUtils.formatNumber(modelData.value)
-                            if (modelData.secondary)
-                                t += "  " + modelData.secondary
-                            return t
+                        Text {
+                            anchors.verticalCenter: parent.verticalCenter
+                            text: {
+                                var t = legendChip.modelData.label || ("#" + (legendChip.index + 1))
+                                if (root.showValue && legendChip.modelData.value !== undefined)
+                                    t += "  " + ChartUtils.formatNumber(legendChip.modelData.value)
+                                if (legendChip.modelData.secondary)
+                                    t += "  " + legendChip.modelData.secondary
+                                return t
+                            }
+                            font.family: Theme.fontFamily
+                            font.pixelSize: Theme.fontCaption
+                            font.weight: (root.hoverIndex === legendChip.index || root.selectedIndex === legendChip.index)
+                                    ? Theme.fontWeightSemiBold : Theme.fontWeightRegular
+                            color: (root.hoverIndex === legendChip.index || root.selectedIndex === legendChip.index)
+                                    ? Theme.textPrimary : Theme.textSecondary
                         }
-                        font.family: Theme.fontFamily
-                        font.pixelSize: Theme.fontCaption
-                        font.weight: (root.hoverIndex === index || root.selectedIndex === index)
-                                ? Theme.fontWeightSemiBold : Theme.fontWeightRegular
-                        color: (root.hoverIndex === index || root.selectedIndex === index)
-                                ? Theme.textPrimary : Theme.textSecondary
                     }
                     MouseArea {
                         anchors.fill: parent
                         hoverEnabled: root.interactive
                         enabled: root.interactive
                         onEntered: {
-                            root.hoverIndex = index
-                            root.itemHovered(index)
+                            root.hoverIndex = legendChip.index
+                            root.itemHovered(legendChip.index)
                         }
-                        onExited: if (root.hoverIndex === index) root.hoverIndex = -1
-                        onClicked: root.select(index)
+                        onExited: if (root.hoverIndex === legendChip.index) root.hoverIndex = -1
+                        onClicked: root.select(legendChip.index)
                     }
                 }
             }

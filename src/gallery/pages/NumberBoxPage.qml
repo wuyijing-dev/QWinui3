@@ -35,11 +35,11 @@ Page {
                 NumberBox {
                     Layout.preferredWidth: 220
                     header: qsTr("Quantity")
-                    description: qsTr("Scroll or use ↑/↓. Ctrl+wheel uses largeChange.")
+                    description: qsTr("Scroll or use ↑/↓ (smallChange). Ctrl+wheel / PageUp uses largeChange.")
                     value: 5
                     minimum: 0
                     maximum: 100
-                    stepSize: 1
+                    smallChange: 1
                     largeChange: 10
                     spinButtonPlacementMode: "inline"
                     acceptWheel: true
@@ -87,6 +87,36 @@ Page {
                         color: Theme.textSecondary
                         wrapMode: Text.Wrap
                         Layout.fillWidth: true
+                    }
+                }
+            }
+            ControlExample {
+                Layout.fillWidth: true
+                Layout.leftMargin: Theme.spacingSection
+                Layout.rightMargin: Theme.spacingSection
+                headerText: qsTr("Expression + wrap")
+                qmlSource: "NumberBox {\n    acceptsExpression: true\n    isWrapEnabled: true\n}"
+                ColumnLayout {
+                    spacing: Theme.spacing
+                    NumberBox {
+                        Layout.preferredWidth: 220
+                        header: qsTr("Formula")
+                        description: qsTr("Try 2+3*4 then Enter (AcceptsExpression).")
+                        value: 10
+                        minimum: 0
+                        maximum: 100
+                        acceptsExpression: true
+                        spinButtonPlacementMode: "inline"
+                    }
+                    NumberBox {
+                        Layout.preferredWidth: 220
+                        header: qsTr("Wrapped spin")
+                        description: qsTr("Spin past 10 wraps to 0 (IsWrapEnabled).")
+                        value: 8
+                        minimum: 0
+                        maximum: 10
+                        isWrapEnabled: true
+                        stepSize: 1
                     }
                 }
             }

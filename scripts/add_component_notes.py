@@ -184,7 +184,9 @@ NOTES: dict[str, str] = {
 """,
     "RadialGauge": """\
 @notes
-  Full/partial radial needle gauge; zones via zoneModel; dragEnabled for input.
+  Aligned with Community Toolkit RadialGauge: MinAngle/MaxAngle, ScaleWidth, NeedleLength/Width,
+  TickSpacing/Length/Width/Padding, ScalePadding, ValueStringFormat, Trail/Scale/Needle brushes.
+  startAngle/sweepTotal remain as aliases of the angle range. Wheel/keys when isInteractive.
 """,
     "LinearGauge": """\
 @notes
@@ -193,10 +195,32 @@ NOTES: dict[str, str] = {
     "ZoneGauge": """\
 @notes
   Gauge with explicit colored zones; activeZoneIndex/Color/Label track the needle.
+  Toolkit-aligned aliases: minAngle/maxAngle, scaleWidth, needleLength/Width, valueStringFormat.
 """,
     "SegmentedGauge": """\
 @notes
   Discrete segment fill (progress pills); value vs maximum segment count.
+""",
+    "RingGauge": """\
+@notes
+  Full (or near-full) progress ring with center readout; distinct from ArcGauge (open) and RadialGauge (needle).
+  Optional target tick; severity 0/1/2 from thresholds; wheel/keys when interactive; setValue clamps+snaps.
+""",
+    "TankGauge": """\
+@notes
+  Liquid-level tank (vertical or horizontal); fill tracks value. Target line + level marks optional.
+  Use invertThresholds for low=critical. Wheel/keys when interactive; setValue clamps+snaps.
+""",
+    "ThermometerGauge": """\
+@notes
+  Classic thermometer: stem fill + bulb. Optional tick labels and target mark.
+  Drag/wheel/keys when interactive; thresholds tint mercury; severity is 0/1/2.
+""",
+    "KpiTile": """\
+@notes
+  Dashboard metric tile: title, value, unit, signed delta, optional Fluent symbol and sparkline.
+  Value thresholds drive severity/valueColor; pushTrend appends spark points; badgeText for status chip.
+  Delta color uses Theme success/critical (invertDeltaColors when lower is better).
 """,
     # --- forms / input ---
     "SearchBox": """\

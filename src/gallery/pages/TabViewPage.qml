@@ -41,18 +41,53 @@ Page {
                         wrapMode: Text.Wrap
                         Layout.fillWidth: true
                     }
+                    RowLayout {
+                        spacing: Theme.spacing
+                        CheckBox {
+                            id: dragTabs
+                            text: qsTr("CanDragTabs")
+                            checked: true
+                        }
+                        CheckBox {
+                            id: reorderTabs
+                            text: qsTr("CanReorderTabs")
+                            checked: true
+                        }
+                        Label {
+                            text: {
+                                var item = tabs.selectedItem
+                                return qsTr("SelectedItem: %1").arg(item && item.title ? item.title : "—")
+                            }
+                            color: Theme.textSecondary
+                        }
+                    }
                     TabView {
                         id: tabs
                         Layout.fillWidth: true
                         Layout.preferredHeight: 220
-                        tabsReorderable: true
+                        canDragTabs: dragTabs.checked
+                        tabsReorderable: reorderTabs.checked
                         isAddTabButtonVisible: true
                         tabWidthMode: "equal"
+                        closeButtonOverlayMode: "onPointerOver"
                         model: [
                             { title: qsTr("Home"), symbol: FluentIcons.Home, content: qsTr("Home document content") },
                             { title: qsTr("Reports"), symbol: FluentIcons.Library, content: qsTr("Reports document content") },
                             { title: qsTr("Settings"), symbol: FluentIcons.Settings, content: qsTr("Settings document content") }
                         ]
+                        tabStripHeader: ToolButton {
+                            text: FluentIcons.GlobalNavButton
+                            font.family: Theme.fontFamilyIcon
+                            Accessible.name: qsTr("Menu")
+                        }
+                        tabStripFooter: Label {
+                            text: qsTr("%1 tabs").arg(tabs.tabCount)
+                            color: Theme.textSecondary
+                            font.pixelSize: Theme.fontCaption
+                            leftPadding: 8
+                            rightPadding: 8
+                            verticalAlignment: Text.AlignVCenter
+                        }
                         onAddTabButtonClicked: { /* addTab() already appended */ }
                     }
                     RowLayout {
@@ -68,6 +103,14 @@ Page {
                         Button {
                             text: qsTr("Compact")
                             onClicked: tabs.tabWidthMode = "compact"
+                        }
+                        Button {
+                            text: qsTr("Close: always")
+                            onClicked: tabs.closeButtonOverlayMode = "always"
+                        }
+                        Button {
+                            text: qsTr("Close: on hover")
+                            onClicked: tabs.closeButtonOverlayMode = "onPointerOver"
                         }
                     }
                 }

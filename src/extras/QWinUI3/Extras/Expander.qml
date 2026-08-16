@@ -7,15 +7,17 @@ import QWinUI3.Theme
 // Expander — Collapsible header with expandable content.
 //
 //   Expander {
-//       header: qsTr("Details")
+//       title: qsTr("Details")
 //       Label { text: qsTr("Body") }
 //   }
 //
 //   // --- API ---
 //   // signals: onExpanding, onCollapsing
+//   // header: string title/subtitle OR custom headerContent slot (WinUI Header)
 //
 // @notes
 //   Header + expandable content; expanded / expand/collapse.
+//   headerContent replaces the default title column when it has children.
 
 T.Control {
     id: root
@@ -36,6 +38,8 @@ T.Control {
     property var headerIcon: ""
     // WinUI ExpandDirection: down | up
     property string expandDirection: "down"
+    // WinUI Header — custom header content (replaces title/subtitle when set)
+    property alias headerContent: headerSlot.data
     // Default children / content slot
     default property alias contentData: contentHost.data
 
@@ -51,6 +55,7 @@ T.Control {
         return IconSource.resolve(primary, iconGlyph)
     }
     readonly property bool _expandUp: expandDirection === "up"
+    readonly property bool _hasCustomHeader: headerSlot.children.length > 0
 
     onExpandedChanged: {
         if (expanded)
@@ -103,8 +108,8 @@ T.Control {
             Layout.column: 0
             Layout.fillWidth: true
             Layout.preferredHeight: implicitHeight
-            implicitHeight: Math.max(root.subtitle.length > 0 ? 64 : 48,
-                                     headerContent.implicitHeight + 16)
+            implicitHeight: Math.max(root._hasCustomHeader ? 48 : (root.subtitle.length > 0 ? 64 : 48),
+                                     headerRow.implicitHeight + 16)
             hoverEnabled: true
             focusPolicy: Qt.StrongFocus
             Accessible.name: root.title
@@ -119,7 +124,7 @@ T.Control {
             }
 
             contentItem: RowLayout {
-                id: headerContent
+                id: headerRow
                 spacing: Theme.spacing
 
                 Text {
@@ -131,7 +136,24 @@ T.Control {
                     Layout.alignment: Qt.AlignVCenter
                 }
 
+                Item {
+                    id: headerSlot
+                    visible: root._hasCustomHeader
+                    Layout.fillWidth: true
+                    Layout.alignment: Qt.AlignVCenter
+                    Layout.preferredHeight: childrenRect.height
+                    implicitWidth: childrenRect.width
+                    implicitHeight: Math.max(24, childrenRect.height)
+                    onWidthChanged: {
+                        for (var i = 0; i < children.length; ++i) {
+                            if (children[i] && children[i].width !== undefined)
+                                children[i].width = width
+                        }
+                    }
+                }
+
                 ColumnLayout {
+                    visible: !root._hasCustomHeader
                     Layout.fillWidth: true
                     Layout.alignment: Qt.AlignVCenter
                     spacing: 2
@@ -161,7 +183,6 @@ T.Control {
                     font.family: Theme.fontFamilyIcon
                     font.pixelSize: 10
                     color: root.enabled ? Theme.textSecondary : Theme.textDisabled
-                    // Up direction: chevron points up when collapsed (content will open above)
                     rotation: {
                         if (root._expandUp)
                             return root.expanded ? 0 : 180

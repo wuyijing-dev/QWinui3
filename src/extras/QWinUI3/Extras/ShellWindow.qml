@@ -9,9 +9,14 @@ import QWinUI3.Platform
 //   ShellWindow {
 //       title: qsTr("App")
 //       symbol: FluentIcons.Home
+//       paradigm: WindowHelper.ParadigmStandard
+//       presenter: WindowHelper.PresenterOverlapped
 //   }
 //
 //   // --- API ---
+//   // roles:    paradigm (Standard/Dialog/Tool), presenter, isAlwaysOnTop, backdrop
+//   // actions:  applyWindowRole(), setPresenterKind(k), setWindowParadigm(p),
+//   //           setAlwaysOnTopEnabled(on), centerOnScreen()
 //   // signals: onPaneToggleRequested, onBackRequested, onSearchActivated, onSearchTextEdited
 //   // inherits ApplicationWindow (+ Qt Quick Controls base API)
 //
@@ -20,6 +25,7 @@ import QWinUI3.Platform
 //   Use BlankWindow / NavigationWindow / MenuStatusWindow / DialogShellWindow /
 //   ToolShellWindow / CompactOverlayShellWindow for common layouts.
 //   Title-bar slots: leftHeader, titleBarContent, rightHeader, menusInTitleBar.
+//   Window roles (作用): paradigm + presenter + always-on-top via WindowHelper.
 //   Backdrop / paradigm via WindowHelper (see docs/window-helper.md).
 
 ApplicationWindow {
@@ -31,6 +37,8 @@ ApplicationWindow {
     property alias symbol: chrome.symbol
     // WindowChrome / PlatformTitleBar host
     property alias chrome: chrome
+    // Shared WindowHelper install glue
+    property alias shellSupport: shellSupport
     // Show navigation pane toggle
     property bool showPaneToggle: false
     // Enable title-bar search
@@ -104,6 +112,38 @@ ApplicationWindow {
     // Window symbol alias
     property alias windowSymbol: chrome.symbol
 
+    // Human-readable role summary for Gallery / diagnostics
+    readonly property string windowRoleSummary: {
+        return WindowHelper.paradigmName(paradigm)
+                + " · " + WindowHelper.presenterName(presenter)
+                + (isAlwaysOnTop ? " · topmost" : "")
+    }
+
+    // Re-apply paradigm + presenter + always-on-top + backdrop
+    function applyWindowRole() {
+        shellSupport.applyChrome()
+    }
+
+    // Switch AppWindowPresenterKind at runtime
+    function setPresenterKind(kind) {
+        presenter = kind
+    }
+
+    // Switch Standard / Dialog / Tool paradigm at runtime
+    function setWindowParadigm(kind) {
+        paradigm = kind
+    }
+
+    // Toggle stay-on-top
+    function setAlwaysOnTopEnabled(on) {
+        isAlwaysOnTop = !!on
+    }
+
+    // Center on the current screen
+    function centerOnScreen() {
+        shellSupport.centerOnScreen()
+    }
+
     flags: WindowHelper.recommendedFlags
     color: Theme.bgLayer
     font.family: Theme.fontFamily
@@ -151,6 +191,7 @@ ApplicationWindow {
     }
 
     ShellWindowSupport {
+        id: shellSupport
         targetWindow: root
         paradigm: root.paradigm
         backdrop: root.backdrop

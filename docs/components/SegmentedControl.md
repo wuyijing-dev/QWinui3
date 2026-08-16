@@ -39,6 +39,7 @@ Exclusive segment buttons from model; currentIndex selection.
 | `model` | `var` | Data model / item list for this control |
 | `currentIndex` | `int` | Selected index |
 | `selectedIndex` | `alias` | Selected index alias |
+| `selectedItem` | `var` | Currently selected model item (WinUI SelectedItem) |
 | `stretch` | `bool` | Stretch factor / stretch pip |
 | `equalWidth` | `bool` | Force equal-width segments |
 

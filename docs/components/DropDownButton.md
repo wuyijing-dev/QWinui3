@@ -39,6 +39,7 @@ Button that opens a MenuFlyout of children items.
 | `menuData` | `alias` | Menu children slot |
 | `highlighted` | `bool` | Emphasized / selected chrome |
 | `flyoutPlacement` | `int` | MenuFlyout placement |
+| `shouldConstrainToRootBounds` | `bool` | WinUI ShouldConstrainToRootBounds |
 | `iconGlyph` | `string` | Raw Fluent glyph string fallback |
 | `symbol` | `var` | FluentIcons symbol (preferred over iconGlyph) |
 | `isOpen` | `alias` | Open / visible state |

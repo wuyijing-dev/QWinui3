@@ -1,6 +1,6 @@
 # PersonPicture
 
-Avatar from image or initials.
+Avatar from image or initials (WinUI IsGroup / BadgeImageSource).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/PersonPicture.qml`](../../src/extras/QWinUI3/Extras/PersonPicture.qml)
 
@@ -14,15 +14,17 @@ Avatar from image or initials.
 PersonPicture {
     id: avatar
     displayName: "Ada Lovelace"
-    // source: "file:///…"
+    // profilePicture: "file:///…"
+    isGroup: false
 }
-// --- API ---
-// avatar.initials / displayName / source
 ```
 
 ## Notes
 
-Avatar from source image or displayName initials.
+Avatar from profilePicture/imageSource or displayName initials.
+initials is settable (WinUI); empty uses computedInitials from displayName.
+isGroup uses People glyph when empty; badgeImageSource paints an image badge.
+isOutOfOffice (WinUI) shows a purple Clock presence badge when no other badge is set.
 
 ## API
 
@@ -31,19 +33,25 @@ Avatar from source image or displayName initials.
 | Name | Type | Description |
 | --- | --- | --- |
 | `displayName` | `string` | Person / avatar display name |
-| `imageSource` | `url` | Image URL |
+| `imageSource` | `url` | Image URL (WinUI ProfilePicture) |
+| `profilePicture` | `alias` | WinUI ProfilePicture alias |
 | `size` | `real` | Diameter or box size in px |
 | `profileColor` | `color` | Fallback avatar fill |
+| `isGroup` | `bool` | WinUI IsGroup — group avatar empty glyph |
+| `isOutOfOffice` | `bool` | WinUI IsOutOfOffice — presence badge (Clock / purple) when no custom badge |
 | `badgeVisible` | `bool` | Show avatar badge |
 | `badgeColor` | `color` | Badge fill color |
 | `badgeSymbol` | `var` | Badge FluentIcons symbol |
 | `badgeGlyph` | `string` | Badge Fluent glyph string |
+| `badgeImageSource` | `url` | WinUI BadgeImageSource — image in the badge (overrides glyph/text when set) |
 | `badgeSeverity` | `int` | Badge severity |
 | `badgeValue` | `int` | WinUI-style count / text overlay (takes precedence over glyph when set) |
 | `badgeText` | `string` | Badge caption |
 | `badgeMaxValue` | `int` | Badge max before + |
 | `selected` | `bool` | Selected state |
-| `initials` | `string` | Initials shown when no image |
+| `initials` | `string` | WinUI Initials — settable; empty falls back to displayName-derived letters |
+| `computedInitials` | `string` | Initials derived from displayName when initials is empty |
+| `effectiveInitials` | `string` | Effective glyph letters for the avatar |
 
 ### Signals
 

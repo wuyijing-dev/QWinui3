@@ -36,6 +36,29 @@ Page {
                     id: picker
                     Layout.preferredWidth: 312
                     selectedColor: Theme.accent
+                    previousColor: "#8764B8"
+                    isPreviousColorVisible: true
+                    colorSpectrumShape: shapeBox.currentText
+                    onColorChosen: function (c) {
+                        // keep previous as last committed sample for demo
+                    }
+                }
+            }
+            ControlExample {
+                Layout.fillWidth: true
+                Layout.leftMargin: Theme.spacingSection
+                Layout.rightMargin: Theme.spacingSection
+                headerText: qsTr("Spectrum shape")
+                qmlSource: "colorSpectrumShape: \"ring\""
+                RowLayout {
+                    spacing: Theme.spacing
+                    Label { text: qsTr("Shape"); color: Theme.textSecondary }
+                    ComboBox {
+                        id: shapeBox
+                        model: ["box", "ring"]
+                        currentIndex: 0
+                        Layout.preferredWidth: 120
+                    }
                 }
             }
             ControlExample {

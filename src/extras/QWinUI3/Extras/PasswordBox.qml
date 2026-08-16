@@ -43,6 +43,8 @@ T.Control {
     property bool revealPassword: false
     // Show password reveal button
     property bool revealButtonVisible: passwordRevealMode !== "hidden" && passwordRevealMode !== "visible"
+    // WinUI CanPasteClipboardContent — block paste when false
+    property bool canPasteClipboardContent: true
     // TextField echo mode
     property alias echoMode: field.echoMode
     // Inner text field
@@ -119,6 +121,21 @@ T.Control {
                             + (clearBtn.visible ? 32 : 0)
                             + (root.revealButtonVisible || clearBtn.visible ? 0 : Theme.paddingControlH)
                 onAccepted: root.accepted()
+                Keys.onPressed: function (event) {
+                    if (root.canPasteClipboardContent)
+                        return
+                    if (event.matches(StandardKey.Paste)
+                            || ((event.modifiers & Qt.ControlModifier)
+                                && (event.key === Qt.Key_V || event.key === Qt.Key_Insert))) {
+                        event.accepted = true
+                    }
+                }
+            }
+
+            Shortcut {
+                sequences: [StandardKey.Paste]
+                enabled: !root.canPasteClipboardContent && field.activeFocus
+                onActivated: { /* swallow paste */ }
             }
 
             Rectangle {

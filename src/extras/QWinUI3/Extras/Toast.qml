@@ -208,6 +208,9 @@ T.Control {
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 width: parent.width
+                // Match toast bottom corners so a full-width bar does not square them.
+                bottomLeftRadius: Theme.cornerOverlay
+                bottomRightRadius: Theme.cornerOverlay
                 color: control._accent
                 opacity: 0.55
             }

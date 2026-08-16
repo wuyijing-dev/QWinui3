@@ -1,6 +1,6 @@
 # ProgressBar
 
-Fluent styled ProgressBar.
+Fluent styled ProgressBar (WinUI ShowError / ShowPaused).
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/ProgressBar.qml`](../../src/style/QWinUI3/ProgressBar.qml)
 
@@ -11,19 +11,33 @@ Fluent styled ProgressBar.
 ```qml
 ProgressBar {
     id: bar
-    indeterminate: false
     value: 0.6
+    showError: false
+    showPaused: false
 }
 ```
 
 ## Notes
 
-Style-only Fluent chrome for Qt Quick Controls ProgressBar.
-Public API is the Qt Quick Controls ProgressBar type; this file supplies visuals/metrics only.
+Fluent ProgressBar with WinUI ShowError (critical fill) and ShowPaused (caution fill;
+pauses indeterminate animation). Base API is Qt Quick Controls ProgressBar.
 
 ## API
 
-Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `ProgressBar` API (this file only supplies Fluent visuals / metrics).
+### Properties
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `showError` | `bool` | WinUI ShowError — paint the bar in the error/critical color |
+| `showPaused` | `bool` | WinUI ShowPaused — caution color; stops indeterminate motion |
+
+### Signals
+
+_No custom signals_ (use inherited signals from the base type).
+
+### Methods
+
+_No custom methods_ (use inherited methods from the base type).
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

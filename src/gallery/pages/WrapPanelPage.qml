@@ -74,7 +74,28 @@ Page {
                     }
                 }
             }
+            ControlExample {
+                Layout.fillWidth: true
+                Layout.leftMargin: Theme.spacingSection
+                Layout.rightMargin: Theme.spacingSection
+                headerText: qsTr("Unequal H / V spacing")
+                qmlSource: "WrapPanel {\n    horizontalSpacing: 16\n    verticalSpacing: 4\n}"
+                WrapPanel {
+                    Layout.fillWidth: true
+                    horizontalSpacing: 16
+                    verticalSpacing: 4
+                    Chip { text: qsTr("One") }
+                    Chip { text: qsTr("Two") }
+                    Chip { text: qsTr("Three") }
+                    Chip { text: qsTr("Four") }
+                    Chip { text: qsTr("Five") }
+                    Chip { text: qsTr("Six") }
+                    Chip { text: qsTr("Seven") }
+                    Chip { text: qsTr("Eight") }
+                }
+            }
             Item { Layout.preferredHeight: Theme.spacingSection; Layout.fillWidth: true }
         }
     }
 }
+

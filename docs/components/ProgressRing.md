@@ -1,6 +1,6 @@
 # ProgressRing
 
-Circular progress / busy ring.
+Circular progress / busy ring (WinUI Minimum / Maximum / IsActive).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ProgressRing.qml`](../../src/extras/QWinUI3/Extras/ProgressRing.qml)
 
@@ -13,16 +13,16 @@ Circular progress / busy ring.
 ```qml
 ProgressRing {
     id: ring
-    indeterminate: true
-    // value: 0.4 when determinate
+    value: 65; minimum: 0; maximum: 100
+    showValue: true
+    // indeterminate: true
 }
-// --- API ---
-// ring.value / indeterminate
 ```
 
 ## Notes
 
-Circular progress; indeterminate or value 0..1.
+Circular progress; indeterminate or determinate value in [minimum, maximum] (WinUI).
+Legacy 0..1 still works with default minimum=0 maximum=1. isActive pauses indeterminate spin.
 
 ## API
 
@@ -30,15 +30,19 @@ Circular progress; indeterminate or value 0..1.
 
 | Name | Type | Description |
 | --- | --- | --- |
-| `value` | `real` | Current value |
-| `indeterminate` | `bool` | Show indeterminate animation when true |
-| `isActive` | `bool` | WinUI-style: Active sweeps; Paused holds a partial arc without spinning |
+| `value` | `real` | Current value (WinUI Value) |
+| `minimum` | `real` | WinUI Minimum |
+| `maximum` | `real` | WinUI Maximum |
+| `indeterminate` | `bool` | Show indeterminate animation when true (WinUI IsIndeterminate) |
+| `isActive` | `bool` | WinUI IsActive — Active sweeps; Paused holds a partial arc without spinning |
+| `isIndeterminate` | `alias` | Alias of indeterminate |
 | `strokeWidth` | `real` | Stroke thickness in px |
 | `fillColor` | `color` | Primary fill / progress color |
 | `trackColor` | `color` | Track / remaining color |
 | `showValue` | `bool` | Show numeric value label |
 | `valueLabel` | `string` | Optional value caption |
 | `size` | `real` | Diameter or box size in px |
+| `normalized` | `real` | Normalized 0..1 progress |
 | `spinning` | `bool` | True while indeterminate ring spins |
 | `progressSweep` | `real` | Determinate arc sweep degrees |
 | `formattedValue` | `string` | Formatted value string |

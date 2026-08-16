@@ -20,6 +20,7 @@ AppBarButton {
 ## Notes
 
 CommandBar icon+label button; symbol / labelPosition for layout.
+isCompact collapses the label (WinUI IsCompact); keyboardAcceleratorText shows a shortcut hint.
 
 ## API
 
@@ -28,6 +29,8 @@ CommandBar icon+label button; symbol / labelPosition for layout.
 | Name | Type | Description |
 | --- | --- | --- |
 | `labelPosition` | `string` | Override CommandBar.defaultLabelPosition when set (bottom \| right \| collapsed) |
+| `isCompact` | `bool` | WinUI IsCompact — hide label, icon-only |
+| `keyboardAcceleratorText` | `string` | Shortcut hint shown under/beside the label (WinUI KeyboardAcceleratorText) |
 | `effectiveLabelPosition` | `string` | Resolved label position |
 
 ### Signals

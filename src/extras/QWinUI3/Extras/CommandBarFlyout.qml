@@ -44,6 +44,8 @@ T.Popup {
     property int placement: Qt.AlignBottom
     // Preferred flyout placement
     property alias preferredPlacement: root.placement
+    // WinUI ShouldConstrainToRootBounds — clamp into overlay when true
+    property bool shouldConstrainToRootBounds: true
 
     // Show secondary command list
     readonly property bool showSecondary: secondaryCol.children.length > 0
@@ -54,25 +56,33 @@ T.Popup {
             root.placement = preferredPlacement
         if (item) {
             root.target = item
-            root.parent = item
-            root.x = 0
-            root.y = 0
+            var win = item.Window.window
+            var host = (win && win.Overlay && win.Overlay.overlay) ? win.Overlay.overlay : item
+            root.parent = host
+            var p = (host === item) ? Qt.point(0, 0) : item.mapToItem(host, 0, 0)
+            var w = root.implicitWidth
+            var h = root.implicitHeight
             switch (root.placement) {
             case Qt.AlignTop:
-                root.y = -root.implicitHeight - 8
+                root.x = p.x + Math.max(0, (item.width - w) / 2)
+                root.y = p.y - h - 8
                 break
             case Qt.AlignRight:
-                root.x = item.width + 8
-                root.y = 0
+                root.x = p.x + item.width + 8
+                root.y = p.y
                 break
             case Qt.AlignLeft:
-                root.x = -root.implicitWidth - 8
-                root.y = 0
+                root.x = p.x - w - 8
+                root.y = p.y
                 break
             default:
-                root.x = Math.max(0, (item.width - root.implicitWidth) / 2)
-                root.y = item.height + 8
+                root.x = p.x + Math.max(0, (item.width - w) / 2)
+                root.y = p.y + item.height + 8
                 break
+            }
+            if (root.shouldConstrainToRootBounds && host) {
+                root.x = Math.max(8, Math.min(root.x, host.width - w - 8))
+                root.y = Math.max(8, Math.min(root.y, host.height - h - 8))
             }
         }
         root.isOpen = true
@@ -112,14 +122,14 @@ T.Popup {
     }
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
-    Accessible.role: Accessible.PopupMenu
-    Accessible.name: qsTr("Command bar flyout")
 
     implicitWidth: Math.max(200, contentItem.implicitWidth + leftPadding + rightPadding)
     implicitHeight: contentItem.implicitHeight + topPadding + bottomPadding
 
     contentItem: ColumnLayout {
         spacing: 4
+        Accessible.role: Accessible.PopupMenu
+        Accessible.name: qsTr("Command bar flyout")
 
         RowLayout {
             id: primaryRow

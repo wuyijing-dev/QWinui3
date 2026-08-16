@@ -11,8 +11,12 @@ import QWinUI3.Platform
 //   }
 //
 //   // --- API ---
-//   // methods: applyChrome()
-//   // shellWindowSupport.applyChrome()
+//   // methods: applyChrome(), applyPresenter(), applyAlwaysOnTop(), centerOnScreen()
+//   // Reacts to paradigm / backdrop / presenter / isAlwaysOnTop changes.
+//
+// @notes
+//   installParadigmEx for Standard/Dialog/Tool + presenter + always-on-top.
+//   FullScreen presenter is applied after install so the HWND exists first.
 
 Item {
     id: root
@@ -33,6 +37,7 @@ Item {
     property bool extendsContentIntoTitleBar: WindowHelper.customFrame
 
     property bool _ready: false
+    property bool _applying: false
 
     anchors.fill: parent
     z: 10000
@@ -47,15 +52,48 @@ Item {
         enabled: visible
     }
 
-    // Apply window chrome / backdrop
+    // Apply window chrome / backdrop / paradigm flags
     function applyChrome() {
-        if (!targetWindow)
+        if (!targetWindow || _applying)
             return
+        _applying = true
         WindowHelper.installParadigmEx(targetWindow, paradigm, Theme.dark, backdrop,
                                        presenter === WindowHelper.PresenterFullScreen
                                        ? WindowHelper.PresenterOverlapped
                                        : presenter,
                                        isAlwaysOnTop)
+        if (presenter === WindowHelper.PresenterFullScreen)
+            WindowHelper.setPresenter(targetWindow, WindowHelper.PresenterFullScreen)
+        else
+            WindowHelper.setPresenter(targetWindow, presenter)
+        WindowHelper.setAlwaysOnTop(targetWindow, isAlwaysOnTop)
+        _applying = false
+    }
+
+    // Apply presenter only (Overlapped / FullScreen / CompactOverlay)
+    function applyPresenter() {
+        if (!targetWindow || _applying)
+            return
+        if (presenter === WindowHelper.PresenterFullScreen)
+            Qt.callLater(function () {
+                if (root.targetWindow)
+                    WindowHelper.setPresenter(root.targetWindow, root.presenter)
+            })
+        else
+            WindowHelper.setPresenter(targetWindow, presenter)
+    }
+
+    // Apply always-on-top flag
+    function applyAlwaysOnTop() {
+        if (!targetWindow || _applying)
+            return
+        WindowHelper.setAlwaysOnTop(targetWindow, isAlwaysOnTop)
+    }
+
+    // Center the target window on the current screen
+    function centerOnScreen() {
+        if (targetWindow)
+            WindowHelper.centerOnScreen(targetWindow)
     }
 
     Component.onCompleted: {
@@ -70,19 +108,23 @@ Item {
         }
     }
 
+    onParadigmChanged: {
+        if (_ready && autoInstall)
+            applyChrome()
+    }
+    onBackdropChanged: {
+        if (_ready && autoInstall && targetWindow)
+            WindowHelper.setBackdrop(targetWindow, backdrop)
+    }
     onPresenterChanged: {
         if (!_ready || !autoInstall || !targetWindow)
             return
-        if (presenter === WindowHelper.PresenterFullScreen)
-            Qt.callLater(function () { WindowHelper.setPresenter(targetWindow, presenter) })
-        else
-            WindowHelper.setPresenter(targetWindow, presenter)
+        applyPresenter()
     }
-
     onIsAlwaysOnTopChanged: {
         if (!_ready || !autoInstall || !targetWindow)
             return
-        WindowHelper.setAlwaysOnTop(targetWindow, isAlwaysOnTop)
+        applyAlwaysOnTop()
     }
 
     Connections {

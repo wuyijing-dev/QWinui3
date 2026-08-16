@@ -15,7 +15,7 @@ import QWinUI3.Theme
 //   // toggle.checked / onToggled
 //
 // @notes
-//   Checkable accent-capable toggle; checked / onToggled.
+//   Checkable accent-capable toggle; checked / onToggled; isThreeState cycles checkState.
 
 Button {
     id: control
@@ -26,6 +26,10 @@ Button {
     property string iconGlyph: ""
     // Icon size in px
     property real iconSize: 14
+    // WinUI IsThreeState — cycle Unchecked → Checked → PartiallyChecked
+    property bool isThreeState: false
+    // Explicit check state (QQC Button does not expose AbstractButton.checkState in QML)
+    property int checkState: Qt.Unchecked
 
     // Resolved glyph string
     readonly property string effectiveIconGlyph: IconSource.resolve(symbol, iconGlyph)
@@ -33,6 +37,10 @@ Button {
     readonly property bool lightScheme: !Theme.dark
     // Use accent chrome
     readonly property bool accented: control.checked || control.highlighted
+            || (isThreeState && control.checkState === Qt.PartiallyChecked)
+    readonly property bool _partial: isThreeState && control.checkState === Qt.PartiallyChecked
+
+    property int _stateBeforePress: Qt.Unchecked
 
     checkable: true
     implicitHeight: Theme.controlHeight
@@ -41,6 +49,35 @@ Button {
     hoverEnabled: true
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
+
+    onCheckedChanged: {
+        if (isThreeState)
+            return
+        checkState = checked ? Qt.Checked : Qt.Unchecked
+    }
+
+    onPressed: {
+        if (isThreeState)
+            _stateBeforePress = control.checkState
+    }
+
+    onClicked: {
+        if (!isThreeState) {
+            checkState = checked ? Qt.Checked : Qt.Unchecked
+            return
+        }
+        // Override Button's binary toggle with Unchecked → Checked → PartiallyChecked.
+        if (_stateBeforePress === Qt.Unchecked) {
+            checkState = Qt.Checked
+            checked = true
+        } else if (_stateBeforePress === Qt.Checked) {
+            checkState = Qt.PartiallyChecked
+            checked = true
+        } else {
+            checkState = Qt.Unchecked
+            checked = false
+        }
+    }
 
     background: Item {
         implicitWidth: Math.max(Theme.controlMinWidth, control.contentItem.implicitWidth + 24)
@@ -62,6 +99,16 @@ Button {
                 if (control.accented) {
                     if (!control.enabled)
                         return Theme.dark ? "#28FFFFFF" : "#37000000"
+                    if (control._partial) {
+                        var partialBase = control.lightScheme
+                            ? Qt.tint(Theme.accent, Qt.rgba(1, 1, 1, 0.35))
+                            : Qt.tint(Theme.accent, Qt.rgba(0, 0, 0, 0.25))
+                        if (control.down)
+                            return Qt.tint(partialBase, Qt.rgba(0, 0, 0, 0.12))
+                        if (control.hovered)
+                            return Qt.tint(partialBase, Qt.rgba(1, 1, 1, 0.08))
+                        return partialBase
+                    }
                     if (control.down)
                         return control.lightScheme
                             ? Qt.tint(Theme.accent, Qt.rgba(1, 1, 1, 0.2))

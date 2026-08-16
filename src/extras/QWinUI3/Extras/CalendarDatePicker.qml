@@ -18,20 +18,27 @@ import QWinUI3.Theme
 //
 // @notes
 //   Text field + calendar flyout (MonthGrid); selectedDate with min/max bounds.
+//   FirstDayOfWeek remaps calendar locale (WinUI CalendarView.FirstDayOfWeek).
 
 T.Control {
     id: root
 
     // Currently selected date
     property date selectedDate: new Date()
+    // WinUI Date alias of selectedDate
+    property alias date: root.selectedDate
     // Calendar flyout open
     property bool calendarOpen: false
     // Open / visible state
     property alias isOpen: root.calendarOpen
+    // WinUI IsCalendarOpen
+    property alias isCalendarOpen: root.calendarOpen
     // Display date format
     property string dateFormat: Locale.ShortFormat
     // Show Today button in calendar
     property bool showTodayButton: true
+    // Highlight today ring (MonthGrid isToday)
+    property bool isTodayHighlighted: true
     // Header label above the control
     property string header: ""
     // Placeholder when empty
@@ -44,6 +51,21 @@ T.Control {
     property bool hasMinDate: false
     // True when maxDate is set
     property bool hasMaxDate: false
+    // WinUI FirstDayOfWeek — Qt.Sunday..Qt.Saturday, or -1 for system default
+    property int firstDayOfWeek: -1
+
+    // Locale whose firstDayOfWeek matches the requested start day
+    readonly property var calendarLocale: {
+        if (firstDayOfWeek < 0)
+            return Qt.locale()
+        var candidates = ["en_US", "en_GB", "de_DE", "fr_FR", "zh_CN", "ja_JP", "ar_SA", "he_IL"]
+        for (var i = 0; i < candidates.length; ++i) {
+            var loc = Qt.locale(candidates[i])
+            if (loc.firstDayOfWeek === firstDayOfWeek)
+                return loc
+        }
+        return Qt.locale()
+    }
 
     // Emitted when a date is chosen
     signal dateChosen(date date)
@@ -193,13 +215,14 @@ T.Control {
                     }
 
                     DayOfWeekRow {
-                        locale: grid.locale
+                        locale: root.calendarLocale
                         Layout.fillWidth: true
                     }
 
                     MonthGrid {
                         id: grid
                         Layout.fillWidth: true
+                        locale: root.calendarLocale
                         month: root.selectedDate.getMonth()
                         year: root.selectedDate.getFullYear()
                         selectedDate: root.selectedDate

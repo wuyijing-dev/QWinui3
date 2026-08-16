@@ -15,6 +15,7 @@ SwipeControl {
     SwipeAction {
         text: qsTr("Delete")
         symbol: FluentIcons.Delete
+        behaviorOnInvoked: "close"
         onTriggered: remove()
     }
     Label { text: qsTr("Row") }
@@ -24,6 +25,7 @@ SwipeControl {
 ## Notes
 
 Action revealed by SwipeControl; text/symbol + onTriggered.
+behaviorOnInvoked: auto | close | remainOpen (WinUI SwipeBehaviorOnInvoked).
 
 ## API
 
@@ -37,17 +39,21 @@ Action revealed by SwipeControl; text/symbol + onTriggered.
 | `color` | `color` | Primary color |
 | `textColor` | `color` | Badge / content text color |
 | `leading` | `bool` | Leading content slot |
+| `behaviorOnInvoked` | `string` | WinUI BehaviorOnInvoked: auto \| close \| remainOpen |
 | `effectiveGlyph` | `string` | Resolved glyph string |
 
 ### Signals
 
 | Signature | Description |
 | --- | --- |
-| `clicked()` | Emitted when clicked |
+| `triggered()` | Emitted when the action is invoked (preferred) |
+| `clicked()` | Emitted when clicked (alias of triggered for older demos) |
 
 ### Methods
 
-_No custom methods_ (use inherited methods from the base type).
+| Signature | Description |
+| --- | --- |
+| `invoke()` | Invoke this action (also used by SwipeControl execute mode) |
 
 ### Inherited from `Item`
 

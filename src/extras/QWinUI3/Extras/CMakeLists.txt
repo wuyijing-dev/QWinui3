@@ -9,6 +9,19 @@ set_source_files_properties(ContentDialogQueue.qml PROPERTIES
     QT_QML_SINGLETON_TYPE TRUE
 )
 
+set(QWINUI3_EXTRAS_MEDIA_QML)
+set(QWINUI3_HAS_MEDIA OFF)
+if(QWINUI3_BUILD_MEDIA)
+    find_package(Qt6 COMPONENTS Multimedia QUIET)
+    if(TARGET Qt6::Multimedia)
+        set(QWINUI3_EXTRAS_MEDIA_QML MediaPlayerElement.qml)
+        set(QWINUI3_HAS_MEDIA ON)
+    else()
+        message(WARNING "QWINUI3_BUILD_MEDIA=ON but Qt6 Multimedia was not found; skipping MediaPlayerElement")
+    endif()
+endif()
+set(QWINUI3_HAS_MEDIA ${QWINUI3_HAS_MEDIA} PARENT_SCOPE)
+
 qt_add_qml_module(qwinui3_extras
     URI QWinUI3.Extras
     VERSION 1.0
@@ -39,6 +52,9 @@ qt_add_qml_module(qwinui3_extras
         DatePicker.qml
         DockPanel.qml
         DropDownButton.qml
+        FormLayout.qml
+        ValidationSummary.qml
+        ItemsView.qml
         EmptyState.qml
         Expander.qml
         FlipView.qml
@@ -93,6 +109,10 @@ qt_add_qml_module(qwinui3_extras
         ArcGauge.qml
         SegmentedGauge.qml
         ZoneGauge.qml
+        RingGauge.qml
+        TankGauge.qml
+        ThermometerGauge.qml
+        KpiTile.qml
         RadioButtons.qml
         RadioMenuFlyoutItem.qml
         RatingControl.qml
@@ -138,6 +158,7 @@ qt_add_qml_module(qwinui3_extras
         StatusBar.qml
         WrapPanel.qml
         ActionCard.qml
+        ${QWINUI3_EXTRAS_MEDIA_QML}
     IMPORTS
         TARGET qwinui3_theme
         TARGET qwinui3_platform
@@ -151,3 +172,10 @@ target_link_libraries(qwinui3_extras
         qwinui3_style
         qwinui3_platform
 )
+
+if(QWINUI3_HAS_MEDIA)
+    target_link_libraries(qwinui3_extras PUBLIC Qt6::Multimedia)
+    if(TARGET Qt6::MultimediaQuick)
+        target_link_libraries(qwinui3_extras PUBLIC Qt6::MultimediaQuick)
+    endif()
+endif()

@@ -52,6 +52,10 @@ Page {
                             text: qsTr("Indicator")
                             checked: true
                         }
+                        CheckBox {
+                            id: vertBox
+                            text: qsTr("Vertical")
+                        }
                     }
                     FlipView {
                         id: flip
@@ -60,6 +64,7 @@ Page {
                         buttonVisibility: btnVis.currentText
                         wrap: wrapBox.checked
                         isIndicatorVisible: indBox.checked
+                        orientation: vertBox.checked ? Qt.Vertical : Qt.Horizontal
                         onSelectionChanged: function (index) {
                             // keep label binding live
                         }

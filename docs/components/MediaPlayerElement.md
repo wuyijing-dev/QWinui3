@@ -1,0 +1,66 @@
+# MediaPlayerElement
+
+Fluent shell around Qt Multimedia MediaPlayer / VideoOutput.
+
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/MediaPlayerElement.qml`](../../src/extras/QWinUI3/Extras/MediaPlayerElement.qml)
+
+[← Component index](../components.md)
+
+**Extends** `Control`.
+
+## Example
+
+```qml
+MediaPlayerElement {
+    source: "file:///C:/video.mp4"
+    Layout.fillWidth: true
+    Layout.preferredHeight: 320
+}
+// --- API ---
+// methods: play(), pause(), stop(), togglePlayPause()
+// media.play() / media.pause() / media.stop()
+```
+
+## Notes
+
+Requires Qt Multimedia (build with -DQWINUI3_BUILD_MEDIA=ON).
+Exposes source, muted, volume, position helpers and transport buttons.
+
+## API
+
+### Properties
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `source` | `alias` | Media URL |
+| `volume` | `alias` | Playback volume 0..1 |
+| `muted` | `alias` | Mute flag |
+| `autoPlay` | `bool` | Auto-play when source is set |
+| `showControls` | `bool` | Show transport chrome |
+| `playing` | `bool` | — |
+| `duration` | `real` | — |
+| `position` | `real` | — |
+
+### Signals
+
+_No custom signals_ (use inherited signals from the base type).
+
+### Methods
+
+| Signature | Description |
+| --- | --- |
+| `play()` | — |
+| `pause()` | — |
+| `stop()` | — |
+| `togglePlayPause()` | — |
+
+### Inherited from `Control`
+
+Also available (base type / Qt Quick Controls):
+
+- `padding`
+- `font`
+- `background` / `contentItem`
+
+---
+*Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

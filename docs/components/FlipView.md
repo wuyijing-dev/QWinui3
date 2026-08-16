@@ -26,6 +26,7 @@ FlipView {
 ## Notes
 
 Paged swipe view; currentIndex + buttonsVisible / isIndicatorVisible.
+orientation: Qt.Horizontal | Qt.Vertical (WinUI Orientation).
 
 ## API
 
@@ -42,6 +43,8 @@ Paged swipe view; currentIndex + buttonsVisible / isIndicatorVisible.
 | `buttonVisibility` | `string` | always \| onHover \| hidden |
 | `isIndicatorVisible` | `bool` | Show page indicator |
 | `wrap` | `bool` | Wrap children to next line |
+| `orientation` | `int` | WinUI Orientation — Qt.Horizontal (default) or Qt.Vertical |
+| `selectedItem` | `var` | Currently selected page item |
 | `contentData` | `alias` | Default children / content slot |
 
 ### Signals

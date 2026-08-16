@@ -17,7 +17,7 @@ import QWinUI3.Theme
 //   // inherits AbstractButton (+ Qt Quick Controls base API)
 //
 // @notes
-//   Compact tag; closable emits closeClicked; appearance filled|outline.
+//   Compact tag; closable emits closeClicked; appearance filled|outline; iconPlacement.
 
 T.AbstractButton {
     id: control
@@ -40,11 +40,14 @@ T.AbstractButton {
     property string appearance: "filled"
     // small | medium
     property string chipSize: "medium"
+    // WinUI IconPlacement: left | right
+    property string iconPlacement: "left"
     // Fired when the close glyph is clicked (does not uncheck)
     signal closeClicked()
 
     // Resolved glyph string
     readonly property string effectiveIconGlyph: IconSource.resolve(symbol, iconGlyph)
+    readonly property bool _iconRight: String(iconPlacement).toLowerCase() === "right"
 
     checkable: true
     hoverEnabled: true
@@ -93,7 +96,9 @@ T.AbstractButton {
             }
         }
         FontIcon {
-            visible: control.effectiveIconGlyph.length > 0 && control.avatarText.length === 0
+            visible: control.effectiveIconGlyph.length > 0
+                     && control.avatarText.length === 0
+                     && !control._iconRight
             glyph: control.effectiveIconGlyph
             fontSize: 12
             iconColor: {
@@ -122,6 +127,23 @@ T.AbstractButton {
                 return Theme.textPrimary
             }
             verticalAlignment: Text.AlignVCenter
+        }
+        FontIcon {
+            visible: control.effectiveIconGlyph.length > 0
+                     && control.avatarText.length === 0
+                     && control._iconRight
+            glyph: control.effectiveIconGlyph
+            fontSize: 12
+            iconColor: {
+                if (!control.enabled)
+                    return Theme.textDisabled
+                if (control._selected && !control._outline)
+                    return Theme.textOnAccent
+                if (control._outline && control._selected)
+                    return Theme.accent
+                return Theme.textSecondary
+            }
+            Layout.alignment: Qt.AlignVCenter
         }
         AbstractButton {
             visible: control.closable

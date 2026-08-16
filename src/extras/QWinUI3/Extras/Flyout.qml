@@ -23,6 +23,8 @@ import QWinUI3.Theme
 //   Light-dismiss Popup anchored to target (preferredPlacement / placement).
 //   Call show() / showAt(item, place) / hide(); reposition() after layout changes.
 //   Put body as children; optional title / subtitle chrome.
+//   showMode: standard | transient | transientWithDismissOnPointerMoveAway (WinUI ShowMode).
+//   shouldConstrainToRootBounds clamps to overlay / parent (default true).
 
 T.Popup {
     id: root
@@ -39,6 +41,12 @@ T.Popup {
     property bool isOpen: false
     // Primary title text
     property string title: ""
+    // Secondary subtitle under title
+    property string subtitle: ""
+    // WinUI ShowMode: standard | transient | transientWithDismissOnPointerMoveAway
+    property string showMode: "standard"
+    // WinUI ShouldConstrainToRootBounds — clamp to overlay / parent
+    property bool shouldConstrainToRootBounds: true
     // Default children / content slot
     default property alias contentData: body.data
 
@@ -50,8 +58,6 @@ T.Popup {
                  : T.Popup.CloseOnEscape
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
-    Accessible.role: Accessible.PopupMenu
-    Accessible.name: title.length ? title : qsTr("Flyout")
 
     implicitWidth: Math.max(180, contentItem.implicitWidth + leftPadding + rightPadding)
     implicitHeight: contentItem.implicitHeight + topPadding + bottomPadding
@@ -64,9 +70,12 @@ T.Popup {
     }
     onOpened: {
         isOpen = true
+        _pointerEntered = false
         reposition()
     }
     onClosed: isOpen = false
+
+    property bool _pointerEntered: false
 
     transformOrigin: {
         switch (placement) {
@@ -123,13 +132,18 @@ T.Popup {
             break
         }
         var margin = 8
-        x = Math.max(margin, Math.min(x, parent.width - w - margin))
-        y = Math.max(margin, Math.min(y, parent.height - h - margin))
+        if (shouldConstrainToRootBounds) {
+            x = Math.max(margin, Math.min(x, parent.width - w - margin))
+            y = Math.max(margin, Math.min(y, parent.height - h - margin))
+        }
     }
 
     contentItem: ColumnLayout {
         id: body
         spacing: Theme.spacing
+        Accessible.role: Accessible.PopupMenu
+        Accessible.name: root.title.length ? root.title : qsTr("Flyout")
+        Accessible.description: root.subtitle
 
         Text {
             visible: root.title.length > 0
@@ -141,6 +155,15 @@ T.Popup {
             color: Theme.textPrimary
             wrapMode: Text.Wrap
         }
+        Text {
+            visible: root.subtitle.length > 0
+            Layout.fillWidth: true
+            text: root.subtitle
+            font.family: Theme.fontFamily
+            font.pixelSize: Theme.fontCaption
+            color: Theme.textSecondary
+            wrapMode: Text.Wrap
+        }
     }
 
     background: ElevatedChrome {
@@ -150,6 +173,32 @@ T.Popup {
         borderWidth: 1
         elevation: 6
         shadowOpacity: Theme.dark ? 0.28 : 0.16
+
+        HoverHandler {
+            id: flyoutHover
+            enabled: root.showMode === "transientWithDismissOnPointerMoveAway" && root.visible
+            onHoveredChanged: {
+                if (hovered)
+                    root._pointerEntered = true
+                else if (root._pointerEntered
+                         && root.visible
+                         && root.showMode === "transientWithDismissOnPointerMoveAway")
+                    root.hide()
+            }
+        }
+    }
+
+    Timer {
+        id: transientTimer
+        interval: 2500
+        running: false
+        onTriggered: root.hide()
+    }
+    onVisibleChanged: {
+        if (visible && showMode === "transient")
+            transientTimer.restart()
+        else
+            transientTimer.stop()
     }
 
     enter: Transition {

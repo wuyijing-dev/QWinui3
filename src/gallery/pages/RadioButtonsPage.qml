@@ -47,6 +47,31 @@ Page {
                 Layout.fillWidth: true
                 Layout.leftMargin: Theme.spacingSection
                 Layout.rightMargin: Theme.spacingSection
+                headerText: qsTr("MaxColumns + selectedItem")
+                qmlSource: "RadioButtons {\n    itemsSource: […]\n    maxColumns: 2\n}"
+                ColumnLayout {
+                    spacing: Theme.spacing
+                    RadioButtons {
+                        id: gridRadios
+                        Layout.fillWidth: true
+                        maxColumns: 2
+                        header: qsTr("Theme accent")
+                        itemsSource: [
+                            qsTr("Blue"), qsTr("Purple"), qsTr("Green"),
+                            qsTr("Orange"), qsTr("Red"), qsTr("Teal")
+                        ]
+                        currentIndex: 0
+                    }
+                    Label {
+                        text: qsTr("selectedItem: %1").arg(gridRadios.selectedItem || "")
+                        color: Theme.textSecondary
+                    }
+                }
+            }
+            ControlExample {
+                Layout.fillWidth: true
+                Layout.leftMargin: Theme.spacingSection
+                Layout.rightMargin: Theme.spacingSection
                 headerText: qsTr("Horizontal")
                 qmlSource: "RadioButtons {\n    horizontal: true\n}"
                 RadioButtons {
