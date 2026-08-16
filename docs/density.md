@@ -54,7 +54,7 @@ Always use `Theme.fontFamily` / `Theme.fontFamilyIcon` — not system defaults.
 
 ## Responsive shell pattern
 
-Prefer **one** adaptive frame:
+Prefer **one** adaptive frame. Full breakpoint cheat sheet: **[adaptive-layout.md](adaptive-layout.md) (1.42)**.
 
 ### NavigationView `auto`
 
@@ -83,7 +83,7 @@ Master–detail starter: [`examples/master-detail`](../examples/master-detail/).
 |----|--------|
 | `paneDisplayMode: "auto"` for app destinations | Nesting a second full NavigationView per page |
 | Test LTR and RTL (`LayoutMirroring`) at ~900–1100 px | Assuming density changes pane rail widths |
-
+| Use [adaptive-layout.md](adaptive-layout.md) for TwoPane vs ListDetails | Fighting Nav auto + TwoPane with conflicting frames |
 ---
 
 ## Gallery
@@ -101,4 +101,4 @@ Leaving Theme overrides restores Theme knobs from page entry.
 
 ## Out of scope
 
-- Scaling fonts with density; Fluent 2 redesign; mobile-first phone shells (later adaptive work: roadmap ~1.40).
+- Scaling fonts with density; Fluent 2 redesign; phone/tablet OS shells — desktop adaptive panes: [adaptive-layout.md](adaptive-layout.md) (**1.42**).

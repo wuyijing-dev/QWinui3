@@ -377,7 +377,7 @@ QtObject {
             title: qsTr("ListDetailsView"),
             category: "collections",
             icon: FluentIcons.ViewAll,
-            description: qsTr("Master–detail recipe on TwoPaneView with list selection."),
+            description: qsTr("Master–detail on TwoPaneView — docs/adaptive-layout.md (1.42)."),
             component: "ListDetailsViewPage",
             source: "pages/ListDetailsViewPage.qml"
         },
@@ -1129,7 +1129,7 @@ QtObject {
             title: qsTr("TwoPaneView"),
             category: "layout",
             icon: FluentIcons.ViewAll,
-            description: qsTr("Adaptive dual-pane layout with wide, tall, and single modes."),
+            description: qsTr("Wide / Tall / SinglePane breakpoints — docs/adaptive-layout.md (1.42)."),
             component: "TwoPaneViewPage",
             source: "pages/TwoPaneViewPage.qml"
         },
@@ -1425,6 +1425,8 @@ QtObject {
     // Curated “recently shipped” recipe pages (1.20) — not catalog array order.
     function recentlyShipped(count) {
         var ids = [
+            "TwoPaneViewPage",        // 1.42 adaptive layout
+            "ListDetailsViewPage",    // 1.42 breakpoints
             "FileDropZonePage",       // 1.41 drag-drop recipe
             "CopyButtonPage",         // 1.41 clipboard
             "PitfallsPage",           // 1.40 compatibility freeze
@@ -1440,8 +1442,6 @@ QtObject {
             "MediaPlayerElementPage", // 1.21 experimental
             "AccessibilityPage",      // 1.19
             "WebView2Page",           // 1.18
-            "I18nRtlPage",            // 1.13
-            "FormValidationPage",     // 1.08
             "DataTablePage"           // 1.07
         ]
         var n = Math.max(1, count || 9)

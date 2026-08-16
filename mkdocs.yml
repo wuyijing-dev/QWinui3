@@ -83,6 +83,7 @@ nav:
       - Tree & hierarchical: tree-data.md
       - Input & pickers: pickers.md
       - Density & responsive: density.md
+      - Adaptive layout: adaptive-layout.md
       - Theme overrides: theme-overrides.md
       - Icons & FluentIcons: icons.md
       - i18n / RTL: i18n-rtl.md

@@ -13,6 +13,8 @@ Recipes for **tabular and master–detail** LoB surfaces. Prefer these over inve
 
 Related: [`ListTile`](components/ListTile.md), [`TwoPaneView`](components/TwoPaneView.md), [`ConnectedAnimation`](components/ConnectedAnimation.md).
 
+**Adaptive breakpoints / SinglePane:** [adaptive-layout.md](adaptive-layout.md) (**1.42**).
+
 Example app: [`examples/master-detail`](../examples/master-detail/) (1.26) — ticket-style `ListDetailsView` shell.
 
 ---
@@ -45,7 +47,7 @@ Example app: [`examples/master-detail`](../examples/master-detail/) (1.26) — t
 |-------|----------|
 | **Keyboard** | Focus the control; arrows / Home / End move selection; Enter opens details in SinglePane. |
 | **Accessible (1.19)** | `accessibleName` / `listAccessibleName`; list rows named from title/subtitle. |
-| **Narrow** | Selecting an item calls `showPane2()`. **Back** button or **Esc** calls `showList()` (`showPane1()`). |
+| **Narrow** | Selecting an item calls `showPane2()`. **Back** button or **Esc** calls `showList()` (`showPane1()`). Breakpoints: [adaptive-layout.md](adaptive-layout.md) (**1.42**). |
 | **Animation** | Optional `connectedAnimationEnabled` + `ConnectedAnimationService`. |
 
 ---

@@ -6,14 +6,42 @@ import QWinUI3.Extras
 
 // Gallery — TwoPaneView.
 //
-// Adaptive dual-pane with showPane1()/showPane2()/toggleSinglePane() and swapPanes(). API: docs/components/TwoPaneView.md
+// Recipe: docs/adaptive-layout.md (1.42) — breakpoints, SinglePane, ListDetailsView.
 
 CatalogPage {
+    id: page
+
     title: qsTr("TwoPaneView")
-    subtitle: qsTr("Adaptive dual-pane with showPane1()/showPane2()/toggleSinglePane() and swapPanes().")
+    subtitle: qsTr("Wide / Tall / SinglePane — docs/adaptive-layout.md (1.42).")
 
     ControlExample {
-        headerText: qsTr("Wide")
+        headerText: qsTr("Adaptive recipe (1.42)")
+        qmlSource: "TwoPaneView {\n    preferredMode: TwoPaneView.Wide\n    minWideWidth: 720\n}"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Ship Wide side-by-side above minWideWidth (default 720). Below that → SinglePane; use showPane1/showPane2 or ListDetailsView Back/Esc. NavigationView autoCompactThreshold is 1008 (rail only). Density is separate — docs/density.md. Full cheat sheet: docs/adaptive-layout.md.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.Wrap
+                color: Theme.textPrimary
+                text: qsTr("Demo mode: %1 · width: %2 · minWideWidth: %3")
+                        .arg(twoPane.modeName)
+                        .arg(Math.round(twoPane.width))
+                        .arg(Math.round(twoPane.minWideWidth))
+            }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Wide (resize Gallery to collapse)")
         qmlSource: "TwoPaneView {\n    preferredMode: TwoPaneView.Wide\n    pane1: ...\n}"
         TwoPaneView {
             id: twoPane
@@ -25,7 +53,7 @@ CatalogPage {
                 color: Theme.systemAttentionBg
                 Label {
                     anchors.centerIn: parent
-                    text: qsTr("Pane 1")
+                    text: qsTr("Pane 1 (master)")
                     color: Theme.textPrimary
                 }
             }
@@ -33,7 +61,7 @@ CatalogPage {
                 color: Theme.bgCard
                 Label {
                     anchors.centerIn: parent
-                    text: qsTr("Pane 2 — resize the window to see SinglePane")
+                    text: qsTr("Pane 2 — shrink the window / raise minWideWidth to see SinglePane")
                     color: Theme.textSecondary
                     wrapMode: Text.Wrap
                     width: parent.width - 24
@@ -65,17 +93,22 @@ CatalogPage {
                 onClicked: twoPane.swapPanes()
             }
             Button {
-                text: qsTr("Toggle single pane")
+                text: qsTr("Force SinglePane")
                 onClicked: {
                     twoPane.minWideWidth = 10000
-                    twoPane.toggleSinglePane()
+                    twoPane.showPane1()
                 }
+            }
+            Button {
+                text: qsTr("Toggle pane")
+                onClicked: twoPane.toggleSinglePane()
             }
             Button {
                 text: qsTr("Priority pane 2")
                 onClicked: {
                     twoPane.panePriority = TwoPaneView.Pane2
                     twoPane.minWideWidth = 10000
+                    twoPane.showPane2()
                 }
             }
             Button {
@@ -86,6 +119,7 @@ CatalogPage {
                     twoPane.preferredMode = TwoPaneView.Wide
                     twoPane.wideModeConfiguration = "leftRight"
                     twoPane.tallModeConfiguration = "topBottom"
+                    twoPane.showPane1()
                 }
             }
         }
@@ -115,7 +149,7 @@ CatalogPage {
                 }
             }
             Label {
-                text: qsTr("Mode: %1 · wide=%2 · tall=%3")
+                text: qsTr("Mode: %1 · wide=%2 · tall=%3 — master–detail apps should prefer ListDetailsView (docs/adaptive-layout.md).")
                         .arg(twoPane.modeName)
                         .arg(twoPane.wideModeConfiguration)
                         .arg(twoPane.tallModeConfiguration)

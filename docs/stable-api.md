@@ -104,7 +104,8 @@ Promoted this slice (Gallery + recipe soak). Status flips are **named here** —
 | Type | Module | Notes |
 |------|--------|--------|
 | `DataTable` | Extras | Sort/filter/resize + stable selection / keyboard — [data-collections.md](data-collections.md) (1.07); scale tips [performance.md](performance.md) (1.25) |
-| `ListDetailsView` / `ItemsView` / `ListTile` | Extras | Master–detail / list recipes — [data-collections.md](data-collections.md) |
+| `ListDetailsView` / `ItemsView` / `ListTile` | Extras | Master–detail / list recipes — [data-collections.md](data-collections.md); adaptive [adaptive-layout.md](adaptive-layout.md) (**1.42**) |
+| `TwoPaneView` | Extras | Dual pane Wide/Tall/SinglePane — [adaptive-layout.md](adaptive-layout.md) (**1.42**) |
 | `ItemsRepeater` | Extras | Virtualizing list wrapper — [performance.md](performance.md) (**1.37**) |
 | `TreeView` + Fluent `TreeViewDelegate` | Style / QQC | Hierarchy LoB — [tree-data.md](tree-data.md) (1.33) |
 
@@ -218,3 +219,4 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.39** | Gallery cold start — [performance.md](performance.md); NavigationView page cache / `--startup-log` |
 | **1.40** | 1.xx compatibility freeze — [compatibility-1xx.md](compatibility-1xx.md); [upgrade-notes.md](upgrade-notes.md) |
 | **1.41** | Drag-drop & clipboard — [drag-drop.md](drag-drop.md); FileDropZone / CopyButton / WindowHelper |
+| **1.42** | Adaptive layout — [adaptive-layout.md](adaptive-layout.md); TwoPaneView / ListDetailsView breakpoints |

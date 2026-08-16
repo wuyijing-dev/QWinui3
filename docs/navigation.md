@@ -46,9 +46,10 @@ NavigationView {
 
 | Tip | Detail |
 |-----|--------|
-| Linux / small laptops | Prefer `auto` so the rail collapses without custom breakpoints — [density.md](density.md) (1.30) |
+| Linux / small laptops | Prefer `auto` so the rail collapses without custom breakpoints — [adaptive-layout.md](adaptive-layout.md) (**1.42**) · [density.md](density.md) |
 | Hide rail | `isPaneVisible: false` |
 | Compact + title | `alwaysShowHeader: true` shows hamburger + `paneTitle` in leftCompact |
+| Master–detail pages | Prefer `ListDetailsView` / `TwoPaneView` inside the page — not a second NavigationView |
 
 ---
 

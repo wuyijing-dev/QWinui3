@@ -44,6 +44,7 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 | [Tree & hierarchical](tree-data.md) | TreeView expand / a11y |
 | [Input & pickers](pickers.md) | Number / date / time / color |
 | [Density & responsive](density.md) | Compact metrics, narrow shells |
+| [Adaptive layout](adaptive-layout.md) | TwoPaneView / ListDetailsView breakpoints (1.42) |
 | [Theme overrides](theme-overrides.md) | Accent / density / branding |
 | [Icons & FluentIcons](icons.md) | Symbol font cookbook |
 | [i18n / RTL](i18n-rtl.md) | qsTr + LayoutMirroring |

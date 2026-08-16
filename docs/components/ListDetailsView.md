@@ -10,6 +10,8 @@ Master–detail recipe on TwoPaneView.
 
 **Gallery:** `ListDetailsView` — [`src/gallery/pages/ListDetailsViewPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/ListDetailsViewPage.qml)
 
+**Recipe:** [adaptive-layout.md](../adaptive-layout.md) (1.42) · [data-collections.md](../data-collections.md).
+
 **Extends** `Control`.
 
 ## Example

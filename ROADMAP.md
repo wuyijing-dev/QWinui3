@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.41**
-**Next up:** **1.42** (TwoPaneView & adaptive layout)
+**Current:** **1.42**
+**Next up:** **1.43** (Color, contrast & theme diagnostics)
 **Planned through:** **1.50** (1.xx maturity checkpoint)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
 
@@ -60,7 +60,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.41`
+## Shipped — `1.01` … `1.42`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -226,30 +226,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** [drag-drop.md](docs/drag-drop.md) — FileDropZone + FilePicker browse + CopyButton / WindowHelper clipboard (Win/Linux notes); Gallery FileDropZone / CopyButton pages; stable-api / system-integration / recipes / MkDocs links; product version `1.41`.
 
+### 1.42 — TwoPaneView & adaptive layout (shipped)
+
+**Shipped:** [adaptive-layout.md](docs/adaptive-layout.md) breakpoint cheat sheet (Nav 1008 / TwoPane+ListDetails 720); Gallery TwoPaneView / ListDetailsView polish; density / navigation / data-collections cross-links; `TwoPaneView` on stable-api; product version `1.42`.
+
 ---
 
-## Horizon — planned `1.42` … `1.50`
+## Horizon — planned `1.43` … `1.50`
 
 Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per `YY`.
-
-### 1.42 — TwoPaneView & adaptive layout
-
-**Why:** TwoPaneView / responsive shells need a LoB recipe beside density (1.30).
-
-**In scope**
-
-- Narrow/wide breakpoints, list–detail with TwoPaneView; Gallery page polish.
-- Extend navigation or density docs with adaptive layout section.
-
-**Out of scope**
-
-- Phone/tablet OS shells; new layout engine.
-
-**Exit criteria**
-
-- One documented adaptive pattern; Gallery demo matches it.
-
----
 
 ### 1.43 — Color, contrast & theme diagnostics
 

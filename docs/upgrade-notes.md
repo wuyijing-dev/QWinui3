@@ -47,6 +47,20 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.41 → 1.42
+
+**Product version:** 1.42  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- Use [adaptive-layout.md](adaptive-layout.md) for TwoPaneView / ListDetailsView / Nav `auto` breakpoints.
+- Prefer documented defaults (`minWideWidth: 720`, `autoCompactThreshold: 1008`).
+
+#### No action (compatible)
+
+- Additive docs + Gallery; existing TwoPane / ListDetails APIs unchanged.
+
 ### Upgrade 1.40 → 1.41
 
 **Product version:** 1.41  

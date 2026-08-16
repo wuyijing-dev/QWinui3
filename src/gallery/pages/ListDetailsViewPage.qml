@@ -5,10 +5,29 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 
 // Gallery — ListDetailsView.
+//
+// Recipe: docs/adaptive-layout.md (1.42) · docs/data-collections.md
 
 CatalogPage {
     title: qsTr("ListDetailsView")
-    subtitle: qsTr("Master–detail on TwoPaneView — keyboard, SinglePane Back, selection.")
+    subtitle: qsTr("Master–detail on TwoPaneView — docs/adaptive-layout.md (1.42).")
+
+    ControlExample {
+        headerText: qsTr("Adaptive breakpoints (1.42)")
+        qmlSource: "ListDetailsView { minWideWidth: 720 }\n// Nav autoCompactThreshold: 1008"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Default minWideWidth=720 → Wide list|details; narrower → SinglePane with Back/Esc to the list. NavigationView auto uses 1008 for the rail. Density does not change these breakpoints — docs/adaptive-layout.md · docs/density.md.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+        }
+    }
 
     ControlExample {
         headerText: qsTr("Mail-style list (wide)")
@@ -51,7 +70,8 @@ CatalogPage {
         Label {
             Layout.fillWidth: true
             color: Theme.textSecondary
-            text: qsTr("Arrows / Enter select · Esc or Back returns to the list when narrow.")
+            text: qsTr("Arrows / Enter select · Esc or Back returns to the list when narrow. Live: minWideWidth=%1.")
+                    .arg(Math.round(listDetails.minWideWidth))
         }
     }
 
@@ -90,6 +110,12 @@ CatalogPage {
                     color: Theme.textPrimary
                 }
             }
+        }
+
+        Label {
+            Layout.fillWidth: true
+            color: Theme.textSecondary
+            text: qsTr("Gallery forces minWideWidth=900 so SinglePane appears in the catalog column — product apps usually keep 720.")
         }
     }
 }

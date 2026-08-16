@@ -10,6 +10,8 @@ Responsive dual-pane layout.
 
 **Gallery:** `TwoPaneView` — [`src/gallery/pages/TwoPaneViewPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/TwoPaneViewPage.qml)
 
+**Recipe:** [adaptive-layout.md](../adaptive-layout.md) (1.42) — breakpoints + ListDetailsView.
+
 **Extends** `Control`.
 
 ## Example
