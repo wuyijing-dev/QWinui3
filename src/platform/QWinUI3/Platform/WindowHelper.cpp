@@ -851,6 +851,12 @@ void WindowHelper::saveWindowGeometry(QObject *windowObject, const QString &key)
         settings.setValue(QStringLiteral("screen"), window->screen()->name());
     else
         settings.remove(QStringLiteral("screen"));
+    settings.setValue(QStringLiteral("schemaVersion"), 2);
+    if (QScreen *screen = window->screen()) {
+        settings.setValue(QStringLiteral("devicePixelRatio"), screen->devicePixelRatio());
+    } else {
+        settings.remove(QStringLiteral("devicePixelRatio"));
+    }
     settings.endGroup();
 }
 
@@ -906,6 +912,8 @@ bool WindowHelper::restoreWindowGeometry(QObject *windowObject, const QString &k
     if (boundScreen && window->screen() != boundScreen)
         window->setScreen(boundScreen);
 
+    static const char kNormalGeoProp[] = "_qwinui3_normalGeometry";
+    window->setProperty(kNormalGeoProp, clamped);
     window->setGeometry(clamped);
     if (visibility == int(QWindow::Maximized))
         window->setVisibility(QWindow::Maximized);

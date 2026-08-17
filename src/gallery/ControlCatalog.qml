@@ -1725,6 +1725,7 @@ QtObject {
     // Curated “recently shipped” recipe pages (1.20) — not catalog array order.
     function recentlyShipped(count) {
         var ids = [
+            "WindowParadigmPage",     // 2.54 window chrome footguns
             "SystemIntegrationPage",  // 2.53 Linux top-3 parity / FL-002
             "ExamplesTemplatesPage",  // 2.52 first-app quickstart / FL-003
             "PitfallsPage",           // 2.51 stable vs experimental clarity / FL-004

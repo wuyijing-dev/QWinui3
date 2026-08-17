@@ -1,6 +1,6 @@
 {
   "name": "QWinUI3",
-  "version": "2.53",
+  "version": "2.54",
   "generatedBy": "scripts/generate_component_docs.py",
   "publicCount": 227,
   "components": [
@@ -1891,7 +1891,7 @@
       "galleryTitle": "",
       "doc": "components/ShellWindowSupport.md",
       "propertyCount": 10,
-      "signalCount": 0,
+      "signalCount": 1,
       "methodCount": 8
     },
     {

@@ -72,6 +72,7 @@ ApplicationWindow {
     flags: WindowHelper.recommendedFlags
 
     readonly property int shellPadding: 0
+    readonly property real shellContentInset: WindowHelper.shellContentInset(root)
 
     color: WindowHelper.clientShellDecoration ? "transparent" : Theme.bgLayer
     font.family: Theme.fontFamily
@@ -175,8 +176,13 @@ ApplicationWindow {
 
         if (geometryPersistenceEnabled) {
             Qt.callLater(function () {
-                if (root)
+                if (root) {
                     root.restoreGeometry()
+                    Qt.callLater(function () {
+                        if (root.chrome && root.chrome.reportHitTest)
+                            root.chrome.reportHitTest()
+                    })
+                }
             })
         }
 

@@ -4,7 +4,7 @@ Shared elevated shadow/border chrome (WinUI-style soft shadow).
 
 `import QWinUI3.Theme` · [`src/theme/QWinUI3/Theme/ElevatedChrome.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/theme/QWinUI3/Theme/ElevatedChrome.qml)
 
-**Category:** Theme · **Library:** v2.53
+**Category:** Theme · **Library:** v2.54
 
 [← Component index](../components.md)
 

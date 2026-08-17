@@ -4,7 +4,7 @@ Shared install/presenter glue for ShellWindow.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ShellWindowSupport.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ShellWindowSupport.qml)
 
-**Category:** Shells & windows · **Library:** v2.53
+**Category:** Shells & windows · **Library:** v2.54
 
 [← Component index](../components.md)
 
@@ -51,7 +51,9 @@ geometryPersistenceKey → QSettings WindowGeometry/<key> via WindowHelper.
 
 ### Signals
 
-_No custom signals_ (use inherited signals from the base type).
+| Signature | Description |
+| --- | --- |
+| `geometryRestored()` | Emitted after restoreGeometry() completes (2.54 hit-test refresh). |
 
 ### Methods
 

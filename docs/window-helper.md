@@ -121,7 +121,7 @@ WindowHelper.openExternalUrl("https://example.com")
 Theme.followSystemColorScheme = true
 ```
 
-**Secondary shells (1.56):** use `DialogShellWindow.openDialog(owner)` / `DialogWindow.openDialog(owner)` so transient parenting + center run together. Give each top-level a unique `geometryPersistenceKey` (`"Main"`, `"Tool"`, …). Shared Theme is automatic in-process. Full recipe: [window-shells.md](window-shells.md#multi-window--secondary-shells-156) · sample [`examples/multi-window`](../examples/multi-window/).
+**Secondary shells (1.56 · harden 2.14):** use `DialogShellWindow.openDialog(owner)` / `DialogWindow.openDialog(owner)` — `setTransientParent` realizes both surfaces on Wayland, then `centerOnOwner`. Give each top-level a unique `geometryPersistenceKey`. Shared Theme is automatic in-process. `ensureWindowCreated(window)` when showing a `Component`-spawned shell before parenting. Full recipe: [window-shells.md](window-shells.md#multi-window--secondary-shells-156) · sample [`examples/multi-window`](../examples/multi-window/).
 
 See [platform-linux-wayland.md](platform-linux-wayland.md).
 
@@ -183,7 +183,7 @@ WindowHelper.clearRecentDocuments() // Windows
 
 **App prefs (1.65):** keep theme / toggles / coach flags in a separate `Settings` / `QSettings` category — do not overload `WindowGeometry/<key>`. Cookbook: [settings-persistence.md](settings-persistence.md).
 
-Stores **normal** frame geometry (and maximized vs windowed) under the application `QSettings` path as `WindowGeometry/<key>`, plus the screen **name** when known. Missing or unusable values are ignored / clamped.
+Stores **normal** frame geometry (and maximized vs windowed) under the application `QSettings` path as `WindowGeometry/<key>`, plus the screen **name** when known. **2.54 schema v2** also stores `schemaVersion` (2) and `devicePixelRatio` for mixed-DPI diagnostics. Missing or unusable values are ignored / clamped.
 
 ```qml
 import QWinUI3.Platform

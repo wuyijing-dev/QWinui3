@@ -165,6 +165,7 @@ ApplicationWindow {
     flags: WindowHelper.recommendedFlags
 
     readonly property int shellPadding: 0
+    readonly property real shellContentInset: WindowHelper.shellContentInset(root)
 
     color: WindowHelper.clientShellDecoration ? "transparent" : Theme.bgLayer
     font.family: Theme.fontFamily
@@ -217,6 +218,22 @@ ApplicationWindow {
         presenter: root.presenter
         isAlwaysOnTop: root.isAlwaysOnTop
         extendsContentIntoTitleBar: root.extendsContentIntoTitleBar
+    }
+
+    Connections {
+        target: shellSupport
+        function onGeometryRestored() {
+            if (chrome && chrome.reportHitTest)
+                chrome.reportHitTest()
+        }
+    }
+
+    Connections {
+        target: WindowHelper
+        function onScreensChanged() {
+            if (chrome && chrome.reportHitTest)
+                chrome.reportHitTest()
+        }
     }
 
     Shortcut {

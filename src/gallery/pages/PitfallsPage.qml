@@ -206,6 +206,27 @@ CatalogPage {
     }
 
     ControlExample {
+        headerText: qsTr("Window chrome footguns (2.54)")
+        qmlSource: "geometryPersistenceKey + reportHitTest()\\n// docs/window-chrome-footguns-254.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("2.54: geometry schema v2, normal-geo cache before restore-maximize, geometryRestored hit-test refresh on ShellWindow. Unique geometryPersistenceKey per window role. docs/window-chrome-footguns-254.md")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            CheckBox { text: qsTr("geometryPersistenceKey per main/tool/dialog — never reuse") }
+            CheckBox { text: qsTr("reportHitTest after custom TitleBar layout") }
+            CheckBox { text: qsTr("ThemePrefs category separate from WindowGeometry/*") }
+            CheckBox { text: qsTr("Mixed-DPI soak: High-DPI page + high-dpi.md") }
+        }
+    }
+
+    ControlExample {
         headerText: qsTr("Linux top-3 parity (2.53 / FL-002)")
         qmlSource: "WindowShellContentClip in NavigationWindow\\n// docs/linux-top3-253.md"
         ColumnLayout {

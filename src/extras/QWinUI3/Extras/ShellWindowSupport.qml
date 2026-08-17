@@ -48,6 +48,9 @@ Item {
     property bool _ready: false
     property bool _applying: false
 
+    // Emitted after restoreGeometry() completes (2.54 hit-test refresh).
+    signal geometryRestored()
+
     anchors.fill: parent
     z: 10000
 
@@ -119,8 +122,12 @@ Item {
     }
 
     function restoreGeometry() {
-        if (geometryPersistenceEnabled && targetWindow)
-            return WindowHelper.restoreWindowGeometry(targetWindow, geometryPersistenceKey)
+        if (geometryPersistenceEnabled && targetWindow) {
+            const ok = WindowHelper.restoreWindowGeometry(targetWindow, geometryPersistenceKey)
+            if (ok)
+                Qt.callLater(function () { root.geometryRestored() })
+            return ok
+        }
         return false
     }
 
@@ -229,6 +236,19 @@ Item {
         }
         function onScreensChanged() {
             root.syncThemeDpi()
+        }
+    }
+
+    Connections {
+        target: root.targetWindow
+        enabled: root.targetWindow !== null && root.geometryPersistenceEnabled
+        function onVisibilityChanged() {
+            if (!root._ready || !root.targetWindow)
+                return
+            if (root.targetWindow.visibility === Window.Maximized
+                    || root.targetWindow.visibility === Window.Windowed) {
+                Qt.callLater(function () { root.geometryRestored() })
+            }
         }
     }
 }

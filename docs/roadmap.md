@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **2.53** (master; Linux top-3 parity)
-**Next up:** **2.54** — Window chrome footguns (friction-only)
+**Current:** **2.54** (master; window chrome footguns)
+**Next up:** **2.55** — Forms unlike WinUI (friction-only)
 **Planned through:** **3.00** (… → **2.00** break → **2.01…2.50** tranche 1 → **2.51…2.60** friction-only → **2.61…2.70** professional surfaces → **2.71…2.73** Python / PyPI → **3.00** 2.x close-out)
 **1.xx close-out:** [checkpoint-190.md](checkpoint-190.md). **1.86…1.89** performance arc **signed off** (**animations stay**). OSK/packaging promote **2.01**. **2.50** = tranche-1 audit; **2.60** = friction tranche close-out; **2.70** = professional-surfaces audit; **2.73** = Python consumer checkpoint; **3.00** = 2.x breaking close-out ([checkpoint-300.md](checkpoint-300.md)).  
 **Qt:** 6.5+ (recommended 6.8 LTS) through **1.92** — [qt-version-compat.md](qt-version-compat.md). **2.00** raises the floor to **6.8 LTS**. **3.00** raises the floor to **6.10 LTS**. **Platforms:** **Windows + Linux** — no macOS first-class line.
@@ -651,7 +651,7 @@ Apps on **1.90** read [upgrade-notes.md](upgrade-notes.md) **1.90 → 2.00**, ra
 | **2.51** | Stable vs experimental clarity | Teams ship experimental APIs by mistake | **Shipped** |
 | **2.52** | First app in an hour | `gallery-shell` still too much to delete | **Shipped** |
 | **2.53** | Linux “feels broken” top 3 | Field matrix names 3 user-visible parity gaps | **Shipped** |
-| **2.54** | Window chrome footguns | Maximize/DPI/hit-test/geometry restore | Queue |
+| **2.54** | Window chrome footguns | Maximize/DPI/hit-test/geometry restore | **Shipped** |
 | **2.55** | Forms unlike WinUI | Validation, errors, clear/collect surprises | Queue |
 | **2.56** | Navigation mental model | Back vs pane vs stack confusion | Queue |
 | **2.57** | Files on Linux | Pick / drop / reveal still fails in apps | Queue |
@@ -677,11 +677,11 @@ Apps on **1.90** read [upgrade-notes.md](upgrade-notes.md) **1.90 → 2.00**, ra
 
 **Shipped:** [linux-top3-253.md](linux-top3-253.md) — `WindowShellContentClip` on **`NavigationWindow`** + **nav-settings**; **`sway`** compositor profile; **FilePicker** Wayland parent warning; field matrix refresh. Product version **2.53**.
 
-### 2.54 — Window chrome footguns (queue)
+### 2.54 — Window chrome footguns (shipped)
 
-**Pain:** Caption buttons, drag regions, maximize on mixed-DPI, saved geometry. **Outcome:** targeted fixes + [window-chrome.md](window-chrome.md) troubleshooting rows tied to issues.
+**Goal:** Fix top caption/geometry/DPI footguns — not a full chrome rewrite.
 
-**Deepen:** **WindowHelper** geometry v2 · **ThemePrefs** · **AcrylicSurface** · **NavigationWindow** pane width — [component-capabilities-expansion.md](planning/expansion/component-capabilities-expansion.md).
+**Shipped:** [window-chrome-footguns-254.md](window-chrome-footguns-254.md) — geometry schema v2 + normal-geo cache on restore + `geometryRestored` hit-test refresh; [window-chrome.md](window-chrome.md) troubleshooting rows. Product version **2.54**.
 
 ### 2.55 — Forms unlike WinUI (queue)
 
@@ -1364,10 +1364,10 @@ Finish the committed audit arc — **do not** add conditional controls without a
 
 | Rank | Slice | When to ship |
 |------|-------|----------------|
-| 1 | **2.54** | Window chrome footguns |
-| — | **2.53** | Linux top-3 parity — **shipped** |
+| 1 | **2.55** | Forms unlike WinUI |
+| — | **2.54** | Window chrome footguns — **shipped** |
 | — | **2.52** | First app in an hour — **shipped** |
-| 2 | **2.55** / **2.56** | Forms + navigation mental model |
+| 2 | **2.56** | Navigation mental model |
 | 3 | **2.57** | Files on Linux |
 | 4 | **2.58–2.59** | OSK in apps · named slow flows |
 | 5 | **2.60** | Friction checkpoint + 3.00 prep |

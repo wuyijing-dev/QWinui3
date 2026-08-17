@@ -57,4 +57,4 @@ CI Linux `--smoke` is **offscreen** — run on a real compositor:
 ./build/qwinui3_example_nav
 ```
 
-**Next:** **2.54** window chrome footguns · **2.57** files on Linux · **2.68** platform integration harden
+**Next:** **2.55** forms unlike WinUI · **2.57** files on Linux · **2.68** platform integration harden

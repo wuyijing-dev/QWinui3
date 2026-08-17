@@ -1,8 +1,8 @@
-# Window chrome failure modes (Windows-first) (1.32)
+# Window chrome failure modes (Windows-first) (1.32 / 2.54)
 
 Product shells should follow Gallery: **`BackdropSolid`** + `PlatformTitleBar` / `TitleBar` + `reportHitTest()` after layout, plus a stable **`geometryPersistenceKey`** when you want size/pos remembered.
 
-See also [window-shells.md](window-shells.md) (Win/Linux soak matrix) · [window-helper.md](window-helper.md) · [window-transparency-dwm.md](window-transparency-dwm.md) · [graphics-backend.md](graphics-backend.md) · [platform-linux-wayland.md](platform-linux-wayland.md).
+See also [window-shells.md](window-shells.md) (Win/Linux soak matrix) · [title-bar-cookbook.md](title-bar-cookbook.md) (header slots & hit-test, **2.05**) · [window-helper.md](window-helper.md) · [window-transparency-dwm.md](window-transparency-dwm.md) · [graphics-backend.md](graphics-backend.md) · [platform-linux-wayland.md](platform-linux-wayland.md).
 
 **1.04** tightened DPI / backdrop reapply. **1.32** re-soaks the shell matrix and documents multi-monitor geometry clamp as the supported persistence recipe. **1.58** adds mixed-DPI `setScreen` on restore + Gallery **High-DPI & monitors** readout — [high-dpi.md](high-dpi.md).
 
@@ -67,8 +67,10 @@ Always paint with `effectiveBackdrop` / `WindowHelper.resolveBackdrop(backdrop)`
 | White / hollow client when using Mica/Acrylic | Transparent clear color without working DWM material (or Linux) | Use `BackdropSolid`, or rely on `resolveBackdrop()` / `effectiveBackdrop` |
 | Mica missing after show / theme switch | Qt recreated style after `install` | Shells `reapply` on first `visible`; Win filter reapplies on activate / show |
 | Mica missing after DPI change (125%↔150%) | DWM attributes cleared on `WM_DPICHANGED` | 1.04 schedules backdrop reapply; QML refreshes hit-test via `screensChanged` |
-| Caption buttons miss clicks after maximize / DPI | Stale NC hit-test rects | `PlatformTitleBar.reportHitTest()` on resize, visibility, screen, `screensChanged` |
-| Dialog opens behind main / wrong screen | No transient parent / not centered | `DialogWindow.openDialog(owner)` or `setTransientParent` + `centerOnScreen` |
+| Caption buttons miss clicks after **restore + maximize** | Hit-test not re-run after geometry restore | **Fixed 2.54** — `ShellWindowSupport.geometryRestored` → `reportHitTest()`; see [window-chrome-footguns-254.md](window-chrome-footguns-254.md) |
+| Un-maximize wrong size after saved **maximized** session | Normal rect not cached on restore | **Fixed 2.54** — restore sets `_qwinui3_normalGeometry` before maximize |
+| Caption buttons miss clicks after maximize / DPI | Stale NC hit-test rects | `PlatformTitleBar.reportHitTest()` on resize, visibility, screen, `screensChanged` — [title-bar-cookbook.md](title-bar-cookbook.md) |
+| Dialog opens behind main / wrong screen | No transient parent / centered on primary monitor | `openDialog(owner)` — **2.14:** `centerOnOwner` + realize surfaces before `setTransientParent` |
 | Double title bar on Wayland | Compositor SSD still on | `QWinUI3::configureEnvironment` / `QT_WAYLAND_DISABLE_WINDOWDECORATION=1` — [platform-linux-wayland.md](platform-linux-wayland.md) (**1.38**) |
 | Snap Layouts flyout never appears | Maximize caption not `HTMAXIMIZE` | Ensure `nativeChrome` path + hit-test reports maximize rect; `snapLayoutsEnabled` |
 | Binding `flags` to paradigm | HWND recreate loop | Keep `flags: WindowHelper.recommendedFlags` constant; change paradigm via `installParadigmEx` |
