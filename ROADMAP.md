@@ -1,9 +1,9 @@
 # QWinUI3 Roadmap
 
 **Current:** **1.85**
-**Next up:** **1.86** — Shell / interaction performance
+**Next up:** **1.86** — Runtime performance (shell + controls)
 **Planned through:** **2.00** (1.xx close-out **1.83…1.90**, then breaking line)
-**Still 1.xx until 1.90:** Long-horizon checkpoint — [docs/checkpoint-178.md](docs/checkpoint-178.md). **1.85** a11y wave 3 (focus return / live regions). **1.86** is frame smoothness (restore hitch / DWM fringe), not another handbook. OSK/IME stays experimental until a named green soak (**1.87**). **Do not implement 2.00 before 1.90.**  
+**Still 1.xx until 1.90:** Long-horizon checkpoint — [docs/checkpoint-178.md](docs/checkpoint-178.md). **1.85** a11y wave 3 (focus return / live regions). **1.86** is frame cost after startup — **Platform shells and Extras/Style controls**, not another handbook (**1.25**) or cold-start slice (**1.39**). OSK/IME stays experimental until a named green soak (**1.87**). **Do not implement 2.00 before 1.90.**  
 **Qt:** 6.5+ (recommended 6.8 LTS) through 1.xx — [qt-version-compat.md](docs/qt-version-compat.md). **2.00** may raise the floor.
 
 This plan starts from **what 1.00 already was**, then walks **small `1.xx` minors** through a **1.90 close-out**, then a named **2.00** breaking line. **2.00 is not the next tag.**
@@ -428,7 +428,7 @@ Finish **1.xx** as named slices (**1.83…1.90**), then a **breaking 2.00**. Do 
 | **1.83** | Floating OSK / SendInput field harden | **Shipped** |
 | **1.84** | Consumer floating-OSK recipe | **Shipped** |
 | **1.85** | Accessibility wave 3 | **Shipped** |
-| **1.86** | Shell / interaction performance | **Next** |
+| **1.86** | Runtime performance (shell + controls) | **Next** |
 | **1.87** | OSK / IME green soak + promote | Planned |
 | **1.88** | Consumer packaging beyond the 1.61 sketch | Planned |
 | **1.89** | 1.xx close-out checkpoint | Planned |
@@ -452,23 +452,33 @@ Finish **1.xx** as named slices (**1.83…1.90**), then a **breaking 2.00**. Do 
 - Full catalog audit as a mega-minor
 - OSK promote (**1.87**)
 
-### 1.86 — Shell / interaction performance (planned)
+### 1.86 — Runtime performance (shell + controls) (planned)
 
-**Theme:** make returning to the window and moving around the shell feel cheap. **1.25** is the list/chart handbook; **1.39** is Gallery cold start. This minor is **frame cost after the app is up**.
+**Theme:** cheaper frames **after** the app is up — both **window chrome** and **in-tree controls**. **1.25** is the list/chart handbook; **1.39** is Gallery cold start. This minor ships **code + docs**, not another checklist-only release.
 
-Field: dark Gallery + Round corners + D3D12 can show a 1px light ring; restore / refocus can hitch while DWM attributes reapply. Pane collapse blank-column already landed after **1.85** (`NavigationView` no longer animates `Layout.preferredWidth`).
+Field drivers: dark Gallery + Round corners + D3D12 → intermittent 1px light ring; restore / refocus hitch while DWM reapply runs; pane collapse blank-column fixed post-**1.85**; scrolling / filtering / page transitions still stutter on heavy Gallery pages (DataTable, Charts, TabView, nav rail).
 
-**In**
+**In — Platform / shell**
 
-- Solid hosts: QQuickWindow clear color matches the layer fill — never `Qt::white` (round-corner AA fringe)
-- Pin `DWMWA_BORDER_COLOR` to that fill on Solid; reapply immediately on activate (do not wait for the 80/250 ms timers to hide a white system ring)
-- Solid shells: skip the extra deferred DWM reapply burst on every focus-in; keep delayed reapply for Mica/Acrylic only
-- NavigationView: do not run no-op StackView scale/x/y animators on `slide` / `fade`
-- [performance.md](docs/performance.md): shell restore / DWM fringe / RHI note (D3D12 still worse than OpenGL for frost)
+- Solid hosts: `QQuickWindow` clear color matches layer fill — never `Qt::white` (round-corner AA fringe)
+- Pin `DWMWA_BORDER_COLOR` to that fill on Solid; reapply immediately on activate (do not wait for 80/250 ms timers to hide a white system ring)
+- Solid shells: skip extra deferred DWM reapply on every focus-in; keep delayed reapply for Mica/Acrylic only
+- `NavigationView`: no no-op StackView scale/x/y animators on `slide` / `fade`; keep layout snap (no `Layout.preferredWidth` animation)
+
+**In — Extras / Style (high-traffic controls)**
+
+- **Lists / tables:** `DataTable` / `ItemsView` / `ListDetailsView` — debounce filter rebuilds; keep delegates thin under `reuseItems`; avoid full `_viewRows` walks when the query unchanged
+- **Navigation / tabs:** `NavigationView` compact flyout / group expand; `TabView` tab strip — trim redundant `Behavior` / `MultiEffect` work; honor `Theme.reducedMotion`
+- **Chrome / elevation:** `ElevatedChrome` / card shadows — defer or fall back to `ElevatedChrome_Simple` when effects are off or motion reduced
+- **Charts / gauges:** cap live redraw / reveal animation cost on Gallery heavy pages (point budget from **1.25**)
+- **Style hot path:** Button / TextField / Switch / ListTile — fewer idle `Behavior` bindings when not hovered or when `Theme.reducedMotion`
+- Gallery **Performance** callout (or Settings card): which pages are heavy + what **1.86** changed
+- [performance.md](docs/performance.md): shell restore / DWM fringe / RHI note + **control-level** wins (filter debounce, shadow defer, transition trim)
 
 **Out**
 
-- Chart GPU rewrite / custom virtualization engine / profiler product (**1.25** out-of-scope)
+- Full catalog perf audit (every Gallery page) as a mega-minor
+- Chart GPU rewrite / custom virtualization engine / built-in profiler (**1.25** out-of-scope)
 - Changing Gallery default RHI off OpenGL
 - OSK promote (**1.87**)
 - Consumer packaging (**1.88**)
