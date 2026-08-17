@@ -1,7 +1,8 @@
 name: Smoke
 
 # Lightweight regression gate (1.06 / 1.20): Release configure + Gallery build +
-# catalog integrity + --smoke (Main + critical page creates). No screenshots.
+# catalog integrity + --smoke (Main + critical page creates).
+# Opt-in visual subset (1.62): workflow_dispatch input visual_smoke.
 # Multi-Qt matrix lives in qt-compat.yml (1.14).
 
 on:
@@ -10,6 +11,11 @@ on:
   pull_request:
     branches: [master]
   workflow_dispatch:
+    inputs:
+      visual_smoke:
+        description: "Run Gallery visual smoke subset (1.62) after --smoke"
+        type: boolean
+        default: false
 
 concurrency:
   group: smoke-${{ github.workflow }}-${{ github.ref }}
@@ -61,6 +67,13 @@ jobs:
           QWINUI3_KEEP_QPA_PLATFORM: "1"
         run: python scripts/smoke_gallery.py --build-dir build
 
+      - name: Visual smoke subset (1.62, opt-in)
+        if: github.event_name == 'workflow_dispatch' && inputs.visual_smoke
+        env:
+          QT_QPA_PLATFORM: offscreen
+          QWINUI3_KEEP_QPA_PLATFORM: "1"
+        run: python scripts/smoke_visual.py --build-dir build
+
   windows:
     runs-on: windows-2022
     steps:
@@ -101,3 +114,8 @@ jobs:
         # Do not set QT_QPA_PLATFORM=offscreen on Windows — only qwindows is present.
         # Gallery --smoke forces windows; script also ignores inherited offscreen.
         run: python scripts/smoke_gallery.py --build-dir build --platform windows
+
+      - name: Visual smoke subset (1.62, opt-in)
+        if: github.event_name == 'workflow_dispatch' && inputs.visual_smoke
+        shell: bash
+        run: python scripts/smoke_visual.py --build-dir build --platform windows

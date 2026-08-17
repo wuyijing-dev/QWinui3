@@ -1,10 +1,11 @@
-# CI smoke (1.06 / 1.20 / 1.52 / 1.60)
+# CI smoke (1.06 / 1.20 / 1.52 / 1.60 / 1.62)
 
 Lightweight regression gate — **not** a full test suite or screenshot farm.
 
 | Workflow | When | What |
 |----------|------|------|
 | [`.github/workflows/smoke.yml`](../.github/workflows/smoke.yml) | `push` / `pull_request` to `master`, manual | Release configure → build `qwinui3_gallery` → catalog check + `--smoke` (Qt **6.8**) |
+| same + `visual_smoke` input | **workflow_dispatch** only | Optional `scripts/smoke_visual.py` subset grab (**1.62**) |
 | [`.github/workflows/qt-compat.yml`](../.github/workflows/qt-compat.yml) | src/CMake changes, weekly, manual | Release Gallery build on Qt **6.5 / 6.8 / 6.10** (Linux) — [qt-version-compat.md](qt-version-compat.md) |
 | [`.github/workflows/release.yml`](../.github/workflows/release.yml) | `v*` tags / dispatch | Shared libs + Gallery packages (Qt **6.8**) |
 | [`.github/workflows/docs.yml`](../.github/workflows/docs.yml) | docs changes | MkDocs / Pages |
@@ -26,6 +27,24 @@ python scripts/smoke_gallery.py --build-dir build
 ```
 
 `smoke_gallery.py` first runs `scripts/smoke_catalog.py` (ControlCatalog sources + critical list sync), then `scripts/check_gallery_translations.py` (seed `.ts` XML, **1.45**), then `scripts/check_shared_package.py` (packaging contracts / docs, **1.46**), then `scripts/check_docs_links.py` (recipe / ROADMAP / maturity links, **1.52**), then launches `qwinui3_gallery --smoke`.
+
+### Visual smoke subset (1.62) — opt-in
+
+Default smoke stays **create-only** (fast). For a small golden-frame grab:
+
+```bat
+python scripts/smoke_visual.py --build-dir build
+python scripts/smoke_visual.py --build-dir build --update-goldens
+python scripts/smoke_visual.py --build-dir build --compare
+```
+
+| Piece | Role |
+|-------|------|
+| Gallery `--visual-smoke` / `--visual-smoke-dir=` | Grab 960×640 frames + `manifest.json` (sha256) |
+| `scripts/smoke_visual.py` | Env pin + PNG size gate; optional hash compare |
+| Pages | `HomePage`, `ButtonPage`, `ContentDialogPage`, `PitfallsPage`, `ExamplesTemplatesPage` |
+
+**Not** every catalog page. Hash compare is **best-effort** (fonts/GPU/timing); primary gate is non-empty PNG at expected size. Goldens live under `testdata/visual-smoke/` (local manifests gitignored — see that folder’s README).
 
 Optional after packaging a shared kit:
 
@@ -121,6 +140,8 @@ See also [gallery-catalog-page.md](gallery-catalog-page.md).
 
 **In smoke:** Windows + Linux, Qt **6.8**, Gallery only, examples/WebView2 off for CI speed; catalog file check; translation seeds; shared packaging contracts; docs link check (**1.52**); critical page create.
 
-**Not in smoke:** Screenshot diffs, full catalog page-load of every control, building shared Release zips (use `package_release_libs.py` + `check_shared_package.py --dir` locally / Release workflow).
+**Opt-in visual (1.62):** `smoke_visual.py` / `--visual-smoke` — not on every PR; workflow_dispatch `visual_smoke` input.
+
+**Not in smoke:** Full-catalog screenshot diffs, building shared Release zips (use `package_release_libs.py` + `check_shared_package.py --dir` locally / Release workflow).
 
 **Multi-Qt (1.14):** use [qt-compat.yml](../.github/workflows/qt-compat.yml) / [qt-version-compat.md](qt-version-compat.md) — does not replace smoke.

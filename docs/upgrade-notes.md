@@ -47,6 +47,20 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.61 → 1.62
+
+**Product version:** 1.62  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- Visual smoke subset: `python scripts/smoke_visual.py --build-dir build` (Gallery `--visual-smoke`); [ci-smoke.md](ci-smoke.md).
+- Not part of default `smoke_gallery.py` — keep CI fast. Hash `--compare` is best-effort.
+
+#### No action (compatible)
+
+- Default `--smoke` path unchanged.
+
 ### Upgrade 1.60 → 1.61
 
 **Product version:** 1.61  

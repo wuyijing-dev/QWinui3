@@ -6,6 +6,9 @@
 /build-gallery-release/
 /build-fpc/
 /dist/
+/build/visual-smoke-out/
+testdata/visual-smoke/*.manifest.json
+
 /.cache/
 /.qtcreator/
 /CMakeLists.txt.user
