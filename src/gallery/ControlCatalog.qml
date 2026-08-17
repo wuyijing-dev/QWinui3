@@ -415,6 +415,14 @@ QtObject {
             source: "pages/WindowParadigmPage.qml"
         },
         {
+            title: qsTr("High-DPI & monitors"),
+            category: "navigation",
+            icon: FluentIcons.FullScreen,
+            description: qsTr("DPR readout · geometry clamp — docs/high-dpi.md (1.58)."),
+            component: "HighDpiPage",
+            source: "pages/HighDpiPage.qml"
+        },
+        {
             title: qsTr("Multi-window"),
             category: "navigation",
             icon: FluentIcons.OpenInNewWindow,

@@ -28,6 +28,7 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 |--------|-----------|
 | [Window shells](window-shells.md) | ShellWindow vs StandardWindow · multi-window (1.56) · Win/Linux matrix |
 | [Window chrome](window-chrome.md) | DPI / backdrop / geometry failure modes |
+| [High-DPI & multi-monitor](high-dpi.md) | DPR matrix · geometry clamp + setScreen (**1.58**) |
 | [WindowHelper](window-helper.md) | Geometry persistence, backdrop, platform APIs |
 | [AppWindow](window-appwindow.md) | Presenters / title-bar height |
 | [Linux / Wayland](platform-linux-wayland.md) | CSD, Solid, portals, field matrix (1.38) |

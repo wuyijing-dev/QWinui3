@@ -698,6 +698,33 @@ bool WindowHelper::restoreWindowGeometry(QObject *windowObject, const QString &k
     if (!clamped.isValid())
         return false;
 
+    // Bind the window to the monitor that owns the clamped frame so mixed-DPI
+    // restore updates QWindow::devicePixelRatio / Theme.devicePixelRatio (1.58).
+    QScreen *boundScreen = nullptr;
+    if (!screenName.isEmpty()) {
+        const auto screens = QGuiApplication::screens();
+        for (QScreen *screen : screens) {
+            if (screen && screen->name() == screenName) {
+                boundScreen = screen;
+                break;
+            }
+        }
+    }
+    if (!boundScreen) {
+        const QPoint center = clamped.center();
+        const auto screens = QGuiApplication::screens();
+        for (QScreen *screen : screens) {
+            if (screen && screen->availableGeometry().contains(center)) {
+                boundScreen = screen;
+                break;
+            }
+        }
+    }
+    if (!boundScreen)
+        boundScreen = QGuiApplication::primaryScreen();
+    if (boundScreen && window->screen() != boundScreen)
+        window->setScreen(boundScreen);
+
     window->setGeometry(clamped);
     if (visibility == int(QWindow::Maximized))
         window->setVisibility(QWindow::Maximized);

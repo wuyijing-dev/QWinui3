@@ -5,10 +5,11 @@ Independent top-level hosts in `QWinUI3.Extras` share **`ShellWindow`**
 
 Chrome reliability (DPI, backdrop, dialog owners): [`window-chrome.md`](window-chrome.md).  
 Geometry recipe: [`window-helper.md`](window-helper.md#window-geometry-persistence).  
+High-DPI / multi-monitor matrix: [`high-dpi.md`](high-dpi.md) (**1.58**).  
 Linux matrix detail: [`platform-linux-wayland.md`](platform-linux-wayland.md).  
 Frost / RHI: [`graphics-backend.md`](graphics-backend.md).
 
-Gallery: **Window shells** (`WindowParadigmPage`) · **Multi-window** (`MultiWindowPage`, **1.56**) · Main host uses `BackdropSolid` + `geometryPersistenceKey: "GalleryMain"`.  
+Gallery: **Window shells** (`WindowParadigmPage`) · **High-DPI & monitors** · **Multi-window** (`MultiWindowPage`, **1.56**) · Main host uses `BackdropSolid` + `geometryPersistenceKey: "GalleryMain"`.  
 Runnable sample: [`examples/multi-window`](../examples/multi-window/).
 
 ---

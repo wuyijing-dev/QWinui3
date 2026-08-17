@@ -71,6 +71,7 @@ nav:
     - App shells:
       - Window shells: window-shells.md
       - Window chrome: window-chrome.md
+      - High-DPI & multi-monitor: high-dpi.md
       - WindowHelper: window-helper.md
       - AppWindow: window-appwindow.md
       - Linux / Wayland: platform-linux-wayland.md

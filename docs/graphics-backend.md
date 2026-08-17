@@ -2,7 +2,9 @@
 
 Which Qt Quick RHI API to ship, how Gallery Settings / `--rhi` interact, and what breaks with Mica / Acrylic.
 
-Related: [window-chrome.md](window-chrome.md) · [window-transparency-dwm.md](window-transparency-dwm.md) · [qt-version-compat.md](qt-version-compat.md) · Gallery **Settings → Graphics backend**.
+Related: [window-chrome.md](window-chrome.md) · [window-transparency-dwm.md](window-transparency-dwm.md) · [high-dpi.md](high-dpi.md) (**1.58**) · [qt-version-compat.md](qt-version-compat.md) · Gallery **Settings → Graphics backend** · **High-DPI & monitors**.
+
+DPI / multi-monitor restore is **not** fixed by swapping RHI — see [high-dpi.md](high-dpi.md). RHI still matters for frost fringe and driver quirks.
 
 ---
 

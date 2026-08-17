@@ -4,7 +4,7 @@ Product shells should follow Gallery: **`BackdropSolid`** + `PlatformTitleBar` /
 
 See also [window-shells.md](window-shells.md) (Win/Linux soak matrix) · [window-helper.md](window-helper.md) · [window-transparency-dwm.md](window-transparency-dwm.md) · [graphics-backend.md](graphics-backend.md) · [platform-linux-wayland.md](platform-linux-wayland.md).
 
-**1.04** tightened DPI / backdrop reapply. **1.32** re-soaks the shell matrix and documents multi-monitor geometry clamp as the supported persistence recipe.
+**1.04** tightened DPI / backdrop reapply. **1.32** re-soaks the shell matrix and documents multi-monitor geometry clamp as the supported persistence recipe. **1.58** adds mixed-DPI `setScreen` on restore + Gallery **High-DPI & monitors** readout — [high-dpi.md](high-dpi.md).
 
 ---
 
@@ -73,6 +73,7 @@ Always paint with `effectiveBackdrop` / `WindowHelper.resolveBackdrop(backdrop)`
 | Snap Layouts flyout never appears | Maximize caption not `HTMAXIMIZE` | Ensure `nativeChrome` path + hit-test reports maximize rect; `snapLayoutsEnabled` |
 | Binding `flags` to paradigm | HWND recreate loop | Keep `flags: WindowHelper.recommendedFlags` constant; change paradigm via `installParadigmEx` |
 | Window restores off-screen / wrong monitor | Stale geometry after dock undock | Use `geometryPersistenceKey` — restore clamps to preferred / intersecting / primary `availableGeometry` |
+| Wrong DPR after restore to another monitor | Window still bound to old `QScreen` | **1.58** restore calls `setScreen` after clamp — [high-dpi.md](high-dpi.md) |
 | Thin white edge with frost | D3D RHI + transparent host | Prefer OpenGL — [graphics-backend.md](graphics-backend.md) |
 
 ---
@@ -93,6 +94,7 @@ Always paint with `effectiveBackdrop` / `WindowHelper.resolveBackdrop(backdrop)`
 1. `Theme.devicePixelRatio` tracks the window screen (`StandardWindow` / `ShellWindowSupport`).
 2. Hit-test rects are **screen-logical** (`mapToGlobal`); native code multiplies by DPR.
 3. After monitor / scaling changes, expect `WindowHelper.screensChanged` → re-report hit-test + optional `reapply`.
+4. Full matrix + Gallery readout: [high-dpi.md](high-dpi.md) (**1.58**).
 
 ---
 

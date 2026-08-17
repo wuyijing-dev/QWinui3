@@ -47,6 +47,20 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.57 → 1.58
+
+**Product version:** 1.58  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- High-DPI / multi-monitor cookbook: [high-dpi.md](high-dpi.md); Gallery **High-DPI & monitors** readout.
+- Geometry restore now `setScreen`s after clamp so mixed-DPI DPR updates ([window-helper.md](window-helper.md)).
+
+#### No action (compatible)
+
+- Additive restore behavior + docs; existing keys unchanged.
+
 ### Upgrade 1.56 → 1.57
 
 **Product version:** 1.57  

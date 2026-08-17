@@ -211,10 +211,11 @@ On restore, `WindowHelper` fits the saved rect into a real screen’s `available
 2. Else the first screen whose available rect **intersects** the saved geometry.
 3. Else center on the **primary** screen.
 4. Reject frames smaller than **160×120**; shrink width/height to fit the available area; clamp x/y inside it.
+5. **`setScreen`** to the monitor that owns the clamped frame (or saved name) so mixed-DPI `devicePixelRatio` updates (**1.58**).
 
 Undocking a laptop / rearranging monitors therefore cannot leave the window permanently off-screen.
 
-See also [window-shells.md](window-shells.md) · [window-chrome.md](window-chrome.md) · [Linux / Wayland](platform-linux-wayland.md).
+Cookbook + Gallery readout: [high-dpi.md](high-dpi.md). See also [window-shells.md](window-shells.md) · [window-chrome.md](window-chrome.md) · [Linux / Wayland](platform-linux-wayland.md).
 
 ## Enums
 

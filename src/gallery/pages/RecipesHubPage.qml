@@ -77,6 +77,7 @@ CatalogPage {
             Repeater {
                 model: [
                     { label: qsTr("Window shells / chrome"), doc: "docs/window-shells.md", page: "WindowParadigmPage" },
+                    { label: qsTr("High-DPI & monitors"), doc: "docs/high-dpi.md", page: "HighDpiPage" },
                     { label: qsTr("Multi-window"), doc: "docs/window-shells.md", page: "MultiWindowPage" },
                     { label: qsTr("Linux / Wayland + system integration"), doc: "docs/platform-linux-wayland.md", page: "SystemIntegrationPage" },
                     { label: qsTr("Graphics backend (RHI)"), doc: "docs/graphics-backend.md", page: "GraphicsBackendPage" },

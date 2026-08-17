@@ -15,7 +15,7 @@ CatalogPage {
     id: root
 
     title: qsTr("Window shells")
-    subtitle: qsTr("Solid default · ShellWindow family · multi-window (1.56). Recipe: docs/window-shells.md.")
+    subtitle: qsTr("Solid default · ShellWindow family · DPI clamp (1.58). Recipe: docs/window-shells.md · docs/high-dpi.md.")
 
     property var _openWindows: []
     property var liveWindow: null
@@ -76,7 +76,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Ship Solid chrome on Win and Linux. Mica/Acrylic work on Windows DWM only — Linux coerces to Solid via resolveBackdrop. Pin OpenGL when shipping frost (docs/graphics-backend.md). Gallery Main uses geometryPersistenceKey \"GalleryMain\"; restore clamps off-screen frames to availableGeometry.")
+                text: qsTr("Ship Solid chrome on Win and Linux. Mica/Acrylic work on Windows DWM only — Linux coerces to Solid via resolveBackdrop. Pin OpenGL when shipping frost (docs/graphics-backend.md). Gallery Main uses geometryPersistenceKey \"GalleryMain\"; restore clamps off-screen frames to availableGeometry and setScreen for mixed-DPI (docs/high-dpi.md, 1.58).")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary

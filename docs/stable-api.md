@@ -218,6 +218,7 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.55** | Onboarding coach — sequenced TeachingTips + don’t-show-again; [feedback.md](feedback.md) |
 | **1.56** | Multi-window — secondary shells + geometry keys; [window-shells.md](window-shells.md); `examples/multi-window` |
 | **1.57** | Touch / pen — [touch-pointer.md](touch-pointer.md); Gallery Touch & pointer + high-traffic callouts |
+| **1.58** | High-DPI / multi-monitor — [high-dpi.md](high-dpi.md); restore `setScreen` after clamp |
 | **1.35** | Qt Creator kit polish — [qt-creator.md](qt-creator.md); example build presets |
 | **1.36** | Docs site IA — [recipes.md](recipes.md) hub; MkDocs Recipes sections |
 | **1.37** | Promote sweep — commands / Flyout / TabView / ShellWindow / pickers / progress / FontIcon / ItemsRepeater; explicit defer list |

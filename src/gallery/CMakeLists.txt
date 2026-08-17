@@ -85,6 +85,7 @@ qt_add_qml_module(qwinui3_gallery
         pages/HeaderedContentControlPage.qml
         pages/HeaderedTextBoxPage.qml
         pages/HeaderedComboBoxPage.qml
+        pages/HighDpiPage.qml
         pages/HyperlinkButtonPage.qml
         pages/IconButtonPage.qml
         pages/IconicButtonPage.qml

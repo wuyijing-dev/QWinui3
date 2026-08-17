@@ -397,11 +397,17 @@ CatalogPage {
 
     ControlExample {
         headerText: qsTr("Power / network / screens / recent (experimental)")
-        qmlSource: "batteryLevel · isOnline · screensInfo() · addToRecentDocuments"
+        qmlSource: "batteryLevel · isOnline · screensInfo() · addToRecentDocuments\n// DPI polish: HighDpiPage · docs/high-dpi.md (1.58)"
 
         ColumnLayout {
             Layout.fillWidth: true
             spacing: Theme.spacing
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                color: Theme.textSecondary
+                text: qsTr("Full DPR / availableGeometry readout + GalleryMain clear: Gallery High-DPI & monitors (docs/high-dpi.md).")
+            }
             Label {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
@@ -420,9 +426,11 @@ CatalogPage {
                     var parts = []
                     for (var i = 0; i < list.length; ++i) {
                         var s = list[i]
+                        var a = s.availableGeometry
                         parts.push((s.primary ? "* " : "  ") + s.name
                                    + " @" + Number(s.dpr).toFixed(2)
-                                   + " " + s.geometry.width + "x" + s.geometry.height)
+                                   + " " + s.geometry.width + "x" + s.geometry.height
+                                   + " avail " + a.width + "x" + a.height)
                     }
                     return parts.join("\n")
                 }

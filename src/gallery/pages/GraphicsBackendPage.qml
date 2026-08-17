@@ -10,9 +10,16 @@ import QWinUI3.Platform
 CatalogPage {
     id: page
     title: qsTr("Graphics backend")
-    subtitle: qsTr("RHI ship table · OpenGL for frost — docs/graphics-backend.md (1.31).")
+    subtitle: qsTr("RHI ship table · OpenGL for frost — docs/graphics-backend.md. DPI: docs/high-dpi.md (1.58).")
 
     signal openSettings()
+    signal openControl(var item)
+
+    function openComp(id) {
+        var it = ControlCatalog.findByComponent(id)
+        if (it)
+            page.openControl(it)
+    }
 
     ControlExample {
         headerText: qsTr("Current backend")
@@ -23,10 +30,14 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Windows default stays OpenGL for reliable frost/backdrop. Change via Settings → Graphics backend, Gallery --rhi, or QSG_RHI_BACKEND (restart required). Consumer apps can call Compat::Rhi::apply before QGuiApplication.")
+                text: qsTr("Windows default stays OpenGL for reliable frost/backdrop. Change via Settings → Graphics backend, Gallery --rhi, or QSG_RHI_BACKEND (restart required). Consumer apps can call Compat::Rhi::apply before QGuiApplication. Blurry / wrong-monitor restore is a DPI path — docs/high-dpi.md — not fixed by swapping RHI.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
+            }
+            Button {
+                text: qsTr("High-DPI & monitors")
+                onClicked: page.openComp("HighDpiPage")
             }
             Label {
                 Layout.fillWidth: true

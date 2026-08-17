@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.57**
-**Next up:** **1.58** (High-DPI & multi-monitor matrix (wave 2))
+**Current:** **1.58**
+**Next up:** **1.59** (In-app search & AutoSuggest recipes)
 **Planned through:** **1.70** (long-horizon 1.xx checkpoint)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](qt-version-compat.md)
 
@@ -60,7 +60,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.57`
+## Shipped — `1.01` … `1.58`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -290,30 +290,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** [touch-pointer.md](touch-pointer.md) cookbook (target floors, scroll vs drag, stylus hover notes); Gallery **Touch & pointer** page + callouts on Button / Slider / NavigationView / FileDropZone / SwipeControl; density / accessibility / drag-drop cross-links; product version `1.57`.
 
+### 1.58 — High-DPI & multi-monitor matrix (wave 2) (shipped)
+
+**Shipped:** [high-dpi.md](high-dpi.md) Win+Linux matrix; geometry restore `setScreen` after clamp (mixed-DPI DPR); Gallery **High-DPI & monitors** readout + `GalleryMain` clear; window-chrome / window-helper / graphics-backend cross-links; product version `1.58`.
+
 ---
 
-## Horizon — planned `1.58` … `1.70`
+## Horizon — planned `1.59` … `1.70`
 
 Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per `YY`. Order can flex if field P0s force a swap; do not merge themes into mega-minors. Posture after 1.51: prefer field harden / docs over new control families.
-
-### 1.58 — High-DPI & multi-monitor matrix (wave 2)
-
-**Why:** 1.32 / 1.04 covered shells; field still hits mixed-DPI restore and per-monitor quirks.
-
-**In scope**
-
-- Refresh Win+Linux DPI matrix; geometry clamp / reopen recipes; Gallery DPI readout polish.
-- Cross-link [window-chrome.md](window-chrome.md), [graphics-backend.md](graphics-backend.md).
-
-**Out of scope**
-
-- Per-monitor awareness rewrite of the Qt platform plugin.
-
-**Exit criteria**
-
-- Matrix + at least one fixed or documented P0 restore path.
-
----
 
 ### 1.59 — In-app search & AutoSuggest recipes
 
