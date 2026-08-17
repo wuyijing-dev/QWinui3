@@ -4,7 +4,7 @@ Button with inline determinate/indeterminate fill.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ProgressButton.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ProgressButton.qml)
 
-**Category:** Buttons & commands · **Library:** v1.74
+**Category:** Buttons & commands · **Library:** v1.75
 
 [← Component index](../components.md)
 

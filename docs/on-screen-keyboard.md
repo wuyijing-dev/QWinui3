@@ -2,7 +2,7 @@
 
 Win11 / Fluent **touch keyboard chrome we own**. This is **not** Qt Virtual Keyboard, and it is **not** a hardware-shortcut cookbook ([keyboard.md](keyboard.md)).
 
-**Status:** **1.74 shipped** (soak / harden; still experimental — not promote-green). **Next:** **1.75** extra `.kmx` → **1.76** MIT-only IME deepen. Checkpoint is **1.77**.  
+**Status:** **1.75 shipped** (named Keyman `.kmx` subset + prior IME; still experimental). **Next:** **1.76** MIT-only IME deepen. Checkpoint is **1.77**.  
 **License:** OSK chrome is this repo (LGPL-3.0). SIL Keyman Core (**MIT**) for layouts. Pinyin tables are [mozillazg/pinyin-data](https://github.com/mozillazg/pinyin-data) (**MIT**) — [NOTICE-pinyin.md](NOTICE-pinyin.md). Japanese is a Hepburn romaji→kana map (not a word lexicon). Korean is Unicode hangul composition (not a lexicon). Keyman `cs_pinyin` IMX is **not** used.
 
 | Slice | What ships |
@@ -12,7 +12,7 @@ Win11 / Fluent **touch keyboard chrome we own**. This is **not** Qt Virtual Keyb
 | **1.72** | Chinese IME — pinyin composition + **our** candidate bar |
 | **1.73** | Full in-app IME — ja romaji/kana, ko hangul, emoji layer, shared candidate host |
 | **1.74** | Soak / harden — Gallery checklist + a11y + romaji fixes; **still experimental** |
-| **1.75** | Extra documented Keyman `.kmx` (not every community keyboard) |
+| **1.75** | Extra documented Keyman `.kmx` — en-GB / it / pt / pl / sv / tr (**named** subset) |
 | **1.76** | IME deepen, MIT sources only — no GPL Mozc, no hand-written 词库 |
 | **1.77** | Long-horizon checkpoint (not IME work) |
 
@@ -82,7 +82,7 @@ Follow Windows 11 Touch Keyboard: bottom dock, large hit targets, rounded keys, 
 |-------|------|
 | Letters | Physical US VKs; labels from `previewVk`; Shift latch / Caps |
 | Symbols | Numbers + punctuation |
-| Globe | Cycles en / de / fr / es / ru / ar / zh / ja / ko |
+| Globe | Cycles en-US/GB · de/fr/es/it/pt/pl/sv/tr · ru/ar · zh/ja/ko |
 | Emoji | Optional layer (**1.73** shipped) — `commitText` only, no engine |
 
 Tokens: `Theme.bgCard` / `controlFill` / `cornerControl` / `strokeHairline` / `Theme.dp(48)` hit size ([density.md](density.md) · [touch-pointer.md](touch-pointer.md)). Reuse `FluentIcons` for Globe — do not invent a second icon font.
@@ -97,11 +97,11 @@ Keyman Core already knows thousands of community keyboards. Extending languages 
 
 | Kind | Examples | When | What we add |
 |------|----------|------|-------------|
-| Direct layouts | en, de, fr, es, ru, ar | **1.71 shipped** | Globe switcher; dead keys via Core; RTL mirroring |
+| Direct layouts | en-US/GB, de, fr, es, it, pt, pl, sv, tr, ru, ar | **1.71 + 1.75** | Globe switcher; dead keys via Core; RTL mirroring |
 | Composition IME | zh-Hans pinyin | **1.72 shipped** | Preedit + candidate strip (QML we write); MIT pinyin-data |
 | More IMEs | ja romaji/kana, ko hangul | **1.73 shipped** | Same candidate host; hangul compositor + romaji map (not Keyman IMX) |
 | Soak | zh / ja / ko + 1.71 layouts | **1.74 shipped** | Gallery checklist + a11y; still experimental (not promote-green) |
-| Extra layouts | more MIT `.kmx` | **1.75** | Named subset + BYO recipe; not CJK IMX |
+| Extra layouts | more MIT `.kmx` | **1.75 shipped** | Named subset (en-GB/it/pt/pl/sv/tr) + BYO recipe; not CJK IMX |
 | IME deepen | MIT tables only | **1.76** | Optional pinyin regen; kanji only if a MIT source exists |
 | Not this product | Handwriting, dictation, cloud lexicon, OS-wide IME | Parking lot | — |
 
@@ -233,13 +233,22 @@ System IME remains available alongside the panel until a later minor explicitly 
 **Out**
 
 - Promote to stable  
-- Extra `.kmx` (**1.75**) / kanji (**1.76**) / OS IME  
+- Extra `.kmx` (**1.75 shipped**) / kanji (**1.76**) / OS IME  
 
-## 1.75 (planned) — extra Keyman packs
+## 1.75 (shipped) — extra Keyman packs
 
-- Vendor a **named** MIT `.kmx` subset (only files we actually ship)
-- Globe / ComboBox; `keyboards/README.md` lists shipped vs bring-your-own
-- Still layouts only — not Keyman Chinese/Japanese IMX
+**Shipped**
+
+- Named MIT subset (not every keyboard): `basic_kbduk` (en-GB), `basic_kbdit`, `basic_kbdpo`, `basic_kbdpl`, `basic_kbdsw`, `basic_kbdtuq` (tr-TR Turkish-Q)
+- Globe / Gallery ComboBox; full shipped table in `src/extras/QWinUI3/Extras/keyboards/README.md`
+- Re-fetch: `python scripts/fetch_keyman_keyboards.py`
+- Still `engine.backend === "keyman"` for these; Arabic RTL and 1.71 packs unchanged
+
+**Out**
+
+- Vendoring the whole keymanapp/keyboards tree  
+- CJK via Keyman IMX  
+- IME deepen (**1.76**)  
 
 ## 1.76 (planned) — IME deepen (MIT-only)
 

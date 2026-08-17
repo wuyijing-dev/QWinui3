@@ -4,7 +4,7 @@ Simple stack layout (orientation + spacing).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/StackPanel.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/StackPanel.qml)
 
-**Category:** Layout · **Library:** v1.74
+**Category:** Layout · **Library:** v1.75
 
 [← Component index](../components.md)
 

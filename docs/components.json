@@ -1,6 +1,6 @@
 {
   "name": "QWinUI3",
-  "version": "1.74",
+  "version": "1.75",
   "generatedBy": "scripts/generate_component_docs.py",
   "publicCount": 214,
   "components": [
@@ -1327,7 +1327,7 @@
     {
       "name": "OnScreenKeyboard",
       "module": "QWinUI3.Extras",
-      "summary": "Win11-style in-app touch keyboard (1.74).",
+      "summary": "Win11-style in-app touch keyboard (1.75).",
       "path": "src/extras/QWinUI3/Extras/OnScreenKeyboard.qml",
       "baseType": "Control",
       "internal": false,

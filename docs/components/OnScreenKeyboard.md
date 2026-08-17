@@ -1,10 +1,10 @@
 # OnScreenKeyboard
 
-Win11-style in-app touch keyboard (1.74).
+Win11-style in-app touch keyboard (1.75).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/OnScreenKeyboard.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/OnScreenKeyboard.qml)
 
-**Category:** Input & forms · **Library:** v1.74
+**Category:** Input & forms · **Library:** v1.75
 
 [← Component index](../components.md)
 
@@ -25,11 +25,10 @@ OnScreenKeyboard { }
 
 ## Notes
 
-Experimental (1.74 soak written; not promoted). SIL Keyman Core (MIT) for
-layouts; zh pinyin from MIT pinyin-data; ja romaji→kana; ko 2-beolsik hangul.
+Experimental. SIL Keyman Core (MIT) for layouts (named .kmx subset incl.
+en-GB/it/pt/pl/sv/tr); zh pinyin / ja romaji / ko hangul are in-app IME.
 Chrome is ours (LGPL). Not Qt Virtual Keyboard / QT_IM_MODULE.
-Keys use MouseArea (no focus steal). Globe cycles en/de/fr/es/ru/ar/zh/ja/ko.
-Emoji layer has no engine.
+Keys use MouseArea (no focus steal). Emoji layer has no engine.
 
 ## API
 

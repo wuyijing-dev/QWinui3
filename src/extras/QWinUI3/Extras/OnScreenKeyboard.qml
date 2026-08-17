@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// OnScreenKeyboard — Win11-style in-app touch keyboard (1.74).
+// OnScreenKeyboard — Win11-style in-app touch keyboard (1.75).
 //
 //   OnScreenKeyboard { }
 //   // Host in CatalogPage.footer / Overlay / shell footer so keys stay docked.
@@ -12,11 +12,10 @@ import QWinUI3.Theme
 //   // engine.layoutId / cycleLayout / processVk
 //
 // @notes
-//   Experimental (1.74 soak written; not promoted). SIL Keyman Core (MIT) for
-//   layouts; zh pinyin from MIT pinyin-data; ja romaji→kana; ko 2-beolsik hangul.
+//   Experimental. SIL Keyman Core (MIT) for layouts (named .kmx subset incl.
+//   en-GB/it/pt/pl/sv/tr); zh pinyin / ja romaji / ko hangul are in-app IME.
 //   Chrome is ours (LGPL). Not Qt Virtual Keyboard / QT_IM_MODULE.
-//   Keys use MouseArea (no focus steal). Globe cycles en/de/fr/es/ru/ar/zh/ja/ko.
-//   Emoji layer has no engine.
+//   Keys use MouseArea (no focus steal). Emoji layer has no engine.
 
 T.Control {
     id: root

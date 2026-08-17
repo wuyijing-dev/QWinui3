@@ -258,7 +258,7 @@ QtObject {
             title: qsTr("On-screen keyboard"),
             category: "text",
             icon: FluentIcons.Font,
-            description: qsTr("Win11 OSK soak — docs/on-screen-keyboard.md (1.74). Still experimental."),
+            description: qsTr("Win11 OSK + Keyman packs — docs/on-screen-keyboard.md (1.75). Still experimental."),
             component: "OnScreenKeyboardPage",
             source: "pages/OnScreenKeyboardPage.qml"
         },
@@ -1610,7 +1610,7 @@ QtObject {
     // Curated “recently shipped” recipe pages (1.20) — not catalog array order.
     function recentlyShipped(count) {
         var ids = [
-            "OnScreenKeyboardPage",   // 1.74 OSK/IME soak
+            "OnScreenKeyboardPage",   // 1.75 Keyman packs
             "ThemePrefsPage",         // 1.69 Theme recipe / ThemeSync
             "SystemIntegrationPage",  // 1.68 portal / FilePicker
             "MediaPlayerElementPage", // 1.67 media defer

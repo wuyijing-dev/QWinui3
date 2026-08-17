@@ -245,9 +245,15 @@ if(QWINUI3_HAVE_KEYMAN)
         PREFIX "/QWinUI3"
         FILES
             keyboards/basic_kbdus.kmx
+            keyboards/basic_kbduk.kmx
             keyboards/basic_kbdgr.kmx
             keyboards/basic_kbdfr.kmx
             keyboards/basic_kbdes.kmx
+            keyboards/basic_kbdit.kmx
+            keyboards/basic_kbdpo.kmx
+            keyboards/basic_kbdpl.kmx
+            keyboards/basic_kbdsw.kmx
+            keyboards/basic_kbdtuq.kmx
             keyboards/basic_kbdru.kmx
             keyboards/basic_kbda1.kmx
     )

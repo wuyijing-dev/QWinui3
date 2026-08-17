@@ -4,7 +4,7 @@ Fluent styled StackView.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/StackView.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/StackView.qml)
 
-**Category:** Styled controls · **Library:** v1.74
+**Category:** Styled controls · **Library:** v1.75
 
 [← Component index](../components.md)
 

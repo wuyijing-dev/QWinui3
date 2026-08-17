@@ -47,6 +47,19 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.74 → 1.75
+
+**Product version:** 1.75  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- Experimental OSK: more Keyman layouts — English (UK), Italiano, Português, Polski, Svenska, Türkçe. Re-fetch with `python scripts/fetch_keyman_keyboards.py`. [on-screen-keyboard.md](on-screen-keyboard.md) · [NOTICE-Keyman.md](NOTICE-Keyman.md).
+
+#### No action (compatible)
+
+- Existing Theme / shell / stable controls unchanged. OSK stays experimental.
+
 ### Upgrade 1.73 → 1.74
 
 **Product version:** 1.74  

@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.74**
-**Next up:** **1.75** (Extra Keyman layout packs)
+**Current:** **1.75**
+**Next up:** **1.76** (IME deepen, MIT-only)
 **Planned through:** **1.77** (long-horizon 1.xx checkpoint, slipped)
 **Still 1.xx:** Mid-horizon checkpoint published — [checkpoint-160.md](checkpoint-160.md). Not drafting 2.00.  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](qt-version-compat.md)
@@ -359,11 +359,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** Gallery language-matrix soak checklist; `ImeCandidateBar` a11y (composition / candidates / page buttons + Space/1–9 notes); romaji trailing-`n` finalize + small-kana map; BYO `.kmx` recipe in `keyboards/README.md`. **Stay experimental** — soak is written for manual Gallery verification, not promote-green. Product version `1.74`.
 
+### 1.75 — Extra Keyman layout packs (shipped)
+
+**Shipped:** Named MIT `.kmx` subset: en-GB (`basic_kbduk`), it-IT, pt-PT, pl-PL, sv-SE, tr-TR (`basic_kbdtuq`). Globe / ComboBox; `scripts/fetch_keyman_keyboards.py` re-fetches the subset; `keyboards/README.md` lists shipped vs BYO. Still layouts only — not every community keyboard, not CJK IMX. Product version `1.75`.
+
 ---
 
-## Horizon — planned `1.75` … `1.77`
+## Horizon — planned `1.76` … `1.77`
 
-Still **1.xx**. One theme per `YY`. **1.70…1.74** shipped the GPL-free in-app IME path through soak; **1.75…1.76** finish packs + MIT deepen. Long-horizon checkpoint is **1.77**. Plan: [on-screen-keyboard.md](on-screen-keyboard.md). Chrome stays ours. Keyman Core stays layouts only. No Qt Virtual Keyboard.
+Still **1.xx**. One theme per `YY`. **1.70…1.75** shipped OSK → IME soak → named Keyman packs; **1.76** MIT deepen. Long-horizon checkpoint is **1.77**. Plan: [on-screen-keyboard.md](on-screen-keyboard.md). Chrome stays ours. Keyman Core stays layouts only. No Qt Virtual Keyboard.
 
 | Slice | Keyboard theme |
 |-------|----------------|
@@ -372,31 +376,9 @@ Still **1.xx**. One theme per `YY`. **1.70…1.74** shipped the GPL-free in-app 
 | **1.72 shipped** | zh-Hans pinyin + candidate bar |
 | **1.73 shipped** | ja romaji/kana + ko hangul + emoji |
 | **1.74 shipped** | Soak / harden (still experimental) |
-| **1.75** | Extra documented Keyman `.kmx` (not “every keyboard”) |
+| **1.75 shipped** | Extra documented Keyman `.kmx` (named subset) |
 | **1.76** | IME deepen, MIT sources only (no GPL Mozc / no hand-written 词库) |
 | **1.77** | Long-horizon 1.xx checkpoint (slipped from 1.74) |
-
-### 1.75 — Extra Keyman layout packs
-
-**Why:** Original 1.73 “documented pack subset” did not ship — 1.73 kept the **1.71** `.kmx` set. Extending Latin/Cyrillic/etc. is load another MIT `.kmx`, not a second engine.
-
-**In scope**
-
-- A **named** MIT subset from [keymanapp/keyboards](https://github.com/keymanapp/keyboards) (only packs we actually vendor — e.g. additional `basic_kbd*` if license-clear)
-- Globe + Gallery ComboBox; `keyboards/README.md` lists shipped vs BYO
-- Direct layouts only (`engine.backend === "keyman"`)
-
-**Out of scope**
-
-- Vendoring “every” community keyboard
-- CJK via Keyman IMX / DLL
-- IME deepen (that is **1.76**)
-- Qt Virtual Keyboard
-
-**Exit criteria**
-
-- Docs name every bundled `.kmx` and the BYO three-step (drop file → `qt_add_resources` → `kLayoutIds`)
-- Arabic RTL and existing 1.71 packs still work
 
 ### 1.76 — IME deepen (MIT-only)
 

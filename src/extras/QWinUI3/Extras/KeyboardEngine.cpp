@@ -24,9 +24,15 @@ namespace {
 
 const QStringList kLayoutIds = {
     QStringLiteral("en-US"),
+    QStringLiteral("en-GB"),
     QStringLiteral("de-DE"),
     QStringLiteral("fr-FR"),
     QStringLiteral("es-ES"),
+    QStringLiteral("it-IT"),
+    QStringLiteral("pt-PT"),
+    QStringLiteral("pl-PL"),
+    QStringLiteral("sv-SE"),
+    QStringLiteral("tr-TR"),
     QStringLiteral("ru-RU"),
     QStringLiteral("ar"),
     QStringLiteral("zh-Hans"),
@@ -37,12 +43,24 @@ const QStringList kLayoutIds = {
 #ifdef QWINUI3_HAVE_KEYMAN
 QString kmxResource(const QString &layoutId)
 {
+    if (layoutId == QLatin1String("en-GB"))
+        return QStringLiteral("basic_kbduk.kmx");
     if (layoutId == QLatin1String("de-DE"))
         return QStringLiteral("basic_kbdgr.kmx");
     if (layoutId == QLatin1String("fr-FR"))
         return QStringLiteral("basic_kbdfr.kmx");
     if (layoutId == QLatin1String("es-ES"))
         return QStringLiteral("basic_kbdes.kmx");
+    if (layoutId == QLatin1String("it-IT"))
+        return QStringLiteral("basic_kbdit.kmx");
+    if (layoutId == QLatin1String("pt-PT"))
+        return QStringLiteral("basic_kbdpo.kmx");
+    if (layoutId == QLatin1String("pl-PL"))
+        return QStringLiteral("basic_kbdpl.kmx");
+    if (layoutId == QLatin1String("sv-SE"))
+        return QStringLiteral("basic_kbdsw.kmx");
+    if (layoutId == QLatin1String("tr-TR"))
+        return QStringLiteral("basic_kbdtuq.kmx");
     if (layoutId == QLatin1String("ru-RU"))
         return QStringLiteral("basic_kbdru.kmx");
     if (layoutId == QLatin1String("ar"))
@@ -123,10 +141,16 @@ QStringList KeyboardEngine::layoutIds() const
 QStringList KeyboardEngine::layoutLabels() const
 {
     return {
-        tr("English"),
+        tr("English (US)"),
+        tr("English (UK)"),
         tr("Deutsch"),
         tr("Français"),
         tr("Español"),
+        tr("Italiano"),
+        tr("Português"),
+        tr("Polski"),
+        tr("Svenska"),
+        tr("Türkçe"),
         tr("Русский"),
         tr("العربية"),
         tr("中文"),

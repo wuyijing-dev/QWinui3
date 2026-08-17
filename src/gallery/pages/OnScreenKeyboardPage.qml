@@ -4,18 +4,18 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — OnScreenKeyboard (1.74 soak). Recipe: docs/on-screen-keyboard.md
+// Gallery — OnScreenKeyboard (1.75). Recipe: docs/on-screen-keyboard.md
 //
-// Win11 dock + Keyman layouts + in-app zh/ja/ko IME + emoji. Not Qt Virtual Keyboard.
+// Named Keyman .kmx subset + in-app zh/ja/ko IME + emoji. Not Qt Virtual Keyboard.
 
 CatalogPage {
     id: page
     title: qsTr("On-screen keyboard")
-    subtitle: qsTr("Win11 OSK soak — docs/on-screen-keyboard.md (1.74). Still experimental.")
+    subtitle: qsTr("Win11 OSK — Keyman packs + zh/ja/ko IME. docs/on-screen-keyboard.md (1.75).")
 
     ControlExample {
-        headerText: qsTr("Language matrix soak (1.74)")
-        qmlSource: "OnScreenKeyboard { }\n// backend: pinyin | romaji | hangul | keyman | builtin"
+        headerText: qsTr("Language matrix (1.75 packs)")
+        qmlSource: "OnScreenKeyboard { }\n// Keyman: en-US/GB de fr es it pt pl sv tr ru ar\n// IME: zh / ja / ko"
 
         ColumnLayout {
             Layout.fillWidth: true
@@ -23,7 +23,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Tap a field, then use the dock. Check each row after trying that layout. Space confirms the first candidate (zh/ja/ko). Digits 1–9 pick on the current page. Emoji is a layer, not an engine. In-app only — not Microsoft IME, not Qt Virtual Keyboard.")
+                text: qsTr("Tap a field, then use the dock. 1.75 adds Keyman packs: English (UK), Italiano, Português, Polski, Svenska, Türkçe. Direct layouts use engine.backend “keyman”. 中文/日本語/한국어 stay in-app IME. Emoji is a layer. Not Microsoft IME, not Qt Virtual Keyboard. Shipped vs BYO: keyboards/README.md.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
@@ -56,13 +56,10 @@ CatalogPage {
                 wrapMode: TextArea.Wrap
                 LayoutMirroring.enabled: osk.engine.rtl
             }
-            CheckBox { text: qsTr("en-US letters / Shift / Caps / symbols (keyman or builtin)") }
-            CheckBox { text: qsTr("de / fr / es / ru labels match keys; ar RTL mirrors") }
-            CheckBox { text: qsTr("中文: nihao → candidates; Space / 1–9; nv → 女") }
-            CheckBox { text: qsTr("日本語: konnichiwa / trailing n → ん; xtu → っ; hiragana + katakana") }
-            CheckBox { text: qsTr("한국어: 2-beolsik 안녕 (dkssud); Shift doubles; incomplete cluster preedit") }
-            CheckBox { text: qsTr("Emoji layer inserts; does not steal focus") }
-            CheckBox { text: qsTr("Candidate bar: names + page buttons; keys never steal focus") }
+            CheckBox { text: qsTr("en-US / en-GB / de / fr / es labels match keys") }
+            CheckBox { text: qsTr("it / pt / pl / sv / tr (1.75) type correctly") }
+            CheckBox { text: qsTr("ru Cyrillic; ar RTL mirrors") }
+            CheckBox { text: qsTr("中文 / 日本語 / 한국어 IME still work") }
             CheckBox { text: qsTr("Treat OnScreenKeyboard as experimental (not freeze-covered)") }
         }
     }

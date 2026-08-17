@@ -5,7 +5,7 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 **Stable API:** prefer types on [stable-api.md](stable-api.md). **1.37** promote / defer tables live there.  
 **1.xx freeze (1.40):** [compatibility-1xx.md](compatibility-1xx.md) · [upgrade-notes.md](upgrade-notes.md).  
 **1.xx maturity (1.51):** [maturity-1xx.md](maturity-1xx.md) — prefer harden; not 2.00.  
-**Mid-horizon (1.60):** [checkpoint-160.md](checkpoint-160.md) — still 1.xx; **1.70…1.73** shipped OSK → in-app IME ([on-screen-keyboard.md](on-screen-keyboard.md)); **1.74…1.76** soak / extra packs / MIT deepen; checkpoint is **1.77**.
+**Mid-horizon (1.60):** [checkpoint-160.md](checkpoint-160.md) — still 1.xx; **1.70…1.75** shipped OSK → IME → named Keyman packs ([on-screen-keyboard.md](on-screen-keyboard.md)); **1.76** MIT deepen; checkpoint is **1.77**.
 
 ---
 
@@ -67,7 +67,7 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 | [Dialogs & flyouts](dialogs-flyouts.md) | ContentDialogQueue FIFO / Esc (1.48) |
 | [Commands & menus](commands.md) | CommandPalette / CommandBar / MenuFlyout |
 | [Keyboard-first](keyboard.md) | Global chords → palette → dialogs → lists (1.44) |
-| [On-screen keyboard](on-screen-keyboard.md) | Win11 OSK + zh/ja/ko IME soak (**1.74** shipped; still experimental) → packs **1.75** / MIT deepen **1.76** |
+| [On-screen keyboard](on-screen-keyboard.md) | Win11 OSK + named Keyman packs + zh/ja/ko (**1.75** shipped; still experimental) → MIT deepen **1.76** |
 | [In-app search & AutoSuggest](search.md) | Suggest · filter-above · catalog jump (**1.59**) |
 | [Accessibility](accessibility.md) | Focus / names checklist |
 
