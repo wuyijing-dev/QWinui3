@@ -4,7 +4,7 @@ Fluent styled DayOfWeekRow.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/DayOfWeekRow.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/DayOfWeekRow.qml)
 
-**Category:** Styled controls · **Library:** v1.81
+**Category:** Styled controls · **Library:** v1.82
 
 [← Component index](../components.md)
 

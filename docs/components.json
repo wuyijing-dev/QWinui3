@@ -1,8 +1,8 @@
 {
   "name": "QWinUI3",
-  "version": "1.81",
+  "version": "1.82",
   "generatedBy": "scripts/generate_component_docs.py",
-  "publicCount": 214,
+  "publicCount": 215,
   "components": [
     {
       "name": "AccentButton",
@@ -1327,7 +1327,7 @@
     {
       "name": "OnScreenKeyboard",
       "module": "QWinUI3.Extras",
-      "summary": "Windows 11 touch keyboard parity (1.81).",
+      "summary": "Windows 11 touch keyboard parity (1.82).",
       "path": "src/extras/QWinUI3/Extras/OnScreenKeyboard.qml",
       "baseType": "Control",
       "internal": false,
@@ -1335,9 +1335,24 @@
       "galleryPage": "pages/OnScreenKeyboardPage.qml",
       "galleryTitle": "On-screen keyboard",
       "doc": "components/OnScreenKeyboard.md",
-      "propertyCount": 24,
+      "propertyCount": 27,
       "signalCount": 2,
       "methodCount": 16
+    },
+    {
+      "name": "OnScreenKeyboardWindow",
+      "module": "QWinUI3.Extras",
+      "summary": "floating Win11-style OSK (1.82).",
+      "path": "src/extras/QWinUI3/Extras/OnScreenKeyboardWindow.qml",
+      "baseType": "Window",
+      "internal": false,
+      "category": "Shells & windows",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "doc": "components/OnScreenKeyboardWindow.md",
+      "propertyCount": 5,
+      "signalCount": 0,
+      "methodCount": 2
     },
     {
       "name": "PagerControl",

@@ -1,10 +1,10 @@
 # OnScreenKeyboard
 
-Windows 11 touch keyboard parity (1.81).
+Windows 11 touch keyboard parity (1.82).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/OnScreenKeyboard.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/OnScreenKeyboard.qml)
 
-**Category:** Input & forms · **Library:** v1.81
+**Category:** Input & forms · **Library:** v1.82
 
 [← Component index](../components.md)
 
@@ -16,20 +16,19 @@ Windows 11 touch keyboard parity (1.81).
 
 ```qml
 OnScreenKeyboard { }
-// Host in CatalogPage.footer / Overlay / shell footer so keys stay docked.
+OnScreenKeyboardWindow { systemWide: true }  // floating + optional desktop inject
 
 // --- API ---
-// keyboardSize  "default" | "small" | "wide"  (Win11 size modes — not Win10 classic)
-// engine.layoutId / cycleLayout / hardwareInput / pasteClipboard
-// langBadge  英 / 中 / あ / 한 / …
-// closeRequested / settingsRequested
+// keyboardSize  "default" | "small" | "wide"
+// systemWide    Windows SendInput into focused apps (opt-in; default off)
+// dragHostWindow  grab bar calls startSystemMove on the host Window
+// engine.layoutId / cycleLayout / hardwareInput
 ```
 
 ## Notes
 
-Experimental. Targets Windows 11 Touch Keyboard behavior (not Win10):
-long-press number hints, secondary-char flyout, rounder keys + press scale,
-size modes, clipboard strip, emoji categories. In-app only — not OS-wide.
+Experimental. Win11 touch behavior. Floating host: OnScreenKeyboardWindow.
+systemWide is Windows-only; Linux stays in-app. Not Qt Virtual Keyboard.
 
 ## API
 
@@ -42,6 +41,7 @@ size modes, clipboard strip, emoji categories. In-app only — not OS-wide.
 | `shiftLatched` | `bool` | — |
 | `capsLock` | `bool` | — |
 | `showChrome` | `bool` | — |
+| `dragHostWindow` | `bool` | — |
 | `keyboardSize` | `string` | Win11 keyboard size (Settings → Typing → Touch keyboard). Not Win10 "full" classic. |
 | `settingsOpen` | `bool` | — |
 | `clipboardOpen` | `bool` | — |
@@ -50,6 +50,8 @@ size modes, clipboard strip, emoji categories. In-app only — not OS-wide.
 | `engine` | `alias` | — |
 | `layoutId` | `alias` | — |
 | `hardwareInput` | `alias` | — |
+| `systemWide` | `alias` | — |
+| `supportsSystemWide` | `bool` | — |
 | `shiftOn` | `bool` | — |
 | `keyGap` | `real` | — |
 | `keyH` | `real` | — |

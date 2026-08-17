@@ -68,7 +68,7 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 | [Dialogs & flyouts](dialogs-flyouts.md) | ContentDialogQueue FIFO / Esc (1.48) |
 | [Commands & menus](commands.md) | CommandPalette / CommandBar / MenuFlyout |
 | [Keyboard-first](keyboard.md) | Global chords → palette → dialogs → lists (1.44) |
-| [On-screen keyboard](on-screen-keyboard.md) | Win11 OSK behavior (**1.81**) — not Win10 classic; still experimental |
+| [On-screen keyboard](on-screen-keyboard.md) | Floating Win11 OSK (**1.82**) + opt-in Windows system-wide; still experimental |
 | [In-app search & AutoSuggest](search.md) | Suggest · filter-above · catalog jump (**1.59**) |
 | [Accessibility](accessibility.md) | Focus / names checklist |
 

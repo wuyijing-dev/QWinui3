@@ -47,6 +47,19 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.81 → 1.82
+
+**Product version:** 1.82  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- Experimental OSK: `OnScreenKeyboardWindow` floating host; `systemWide` opt-in Windows `SendInput` into the focused desktop app (`supportsSystemWide`). [on-screen-keyboard.md](on-screen-keyboard.md).
+
+#### No action (compatible)
+
+- Theme / shell / stable controls unchanged. OSK stays experimental. `systemWide` defaults **off**.
+
 ### Upgrade 1.80 → 1.81
 
 **Product version:** 1.81  

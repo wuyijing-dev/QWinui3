@@ -135,6 +135,7 @@ qt_add_qml_module(qwinui3_extras
         NavigationView.qml
         NumberBox.qml
         OnScreenKeyboard.qml
+        OnScreenKeyboardWindow.qml
         PasswordBox.qml
         PersonPicture.qml
         PipsPager.qml
@@ -230,6 +231,10 @@ qt_add_resources(qwinui3_extras "qwinui3_pinyin_lexicon"
         keyboards/pinyin_lexicon.tsv
         keyboards/pinyin_words.tsv
 )
+
+if(WIN32)
+    target_link_libraries(qwinui3_extras PRIVATE user32)
+endif()
 
 if(QWINUI3_HAS_MEDIA)
     target_link_libraries(qwinui3_extras PUBLIC Qt6::Multimedia)

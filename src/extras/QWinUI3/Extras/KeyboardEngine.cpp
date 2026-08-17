@@ -323,12 +323,129 @@ bool KeyboardEngine::looksLikeEditor(const QObject *object)
     return false;
 }
 
+namespace {
+
+#ifdef Q_OS_WIN
+void winSendUnicode(const QString &text)
+{
+    if (text.isEmpty())
+        return;
+    QVector<INPUT> inputs;
+    inputs.reserve(text.size() * 2);
+    for (QChar ch : text) {
+        INPUT down {};
+        down.type = INPUT_KEYBOARD;
+        down.ki.wScan = ch.unicode();
+        down.ki.dwFlags = KEYEVENTF_UNICODE;
+        INPUT up = down;
+        up.ki.dwFlags = KEYEVENTF_UNICODE | KEYEVENTF_KEYUP;
+        inputs.append(down);
+        inputs.append(up);
+    }
+    if (!inputs.isEmpty())
+        SendInput(UINT(inputs.size()), inputs.data(), sizeof(INPUT));
+}
+
+void winSendVk(WORD vk)
+{
+    INPUT down {};
+    down.type = INPUT_KEYBOARD;
+    down.ki.wVk = vk;
+    INPUT up = down;
+    up.ki.dwFlags = KEYEVENTF_KEYUP;
+    INPUT pair[2] = { down, up };
+    SendInput(2, pair, sizeof(INPUT));
+}
+
+WORD qtKeyToWinVk(int qtKey)
+{
+    switch (qtKey) {
+    case Qt::Key_Backspace:
+        return VK_BACK;
+    case Qt::Key_Tab:
+        return VK_TAB;
+    case Qt::Key_Return:
+    case Qt::Key_Enter:
+        return VK_RETURN;
+    case Qt::Key_Escape:
+        return VK_ESCAPE;
+    case Qt::Key_Left:
+        return VK_LEFT;
+    case Qt::Key_Right:
+        return VK_RIGHT;
+    case Qt::Key_Up:
+        return VK_UP;
+    case Qt::Key_Down:
+        return VK_DOWN;
+    case Qt::Key_Delete:
+        return VK_DELETE;
+    case Qt::Key_Home:
+        return VK_HOME;
+    case Qt::Key_End:
+        return VK_END;
+    default:
+        return 0;
+    }
+}
+#endif
+
+} // namespace
+
+bool KeyboardEngine::supportsSystemWide() const
+{
+#ifdef Q_OS_WIN
+    return true;
+#else
+    return false;
+#endif
+}
+
+void KeyboardEngine::setSystemWide(bool on)
+{
+    const bool enabled = on && supportsSystemWide();
+    if (m_systemWide == enabled)
+        return;
+    m_systemWide = enabled;
+    emit systemWideChanged();
+}
+
+bool KeyboardEngine::trySystemWideText(const QString &text) const
+{
+#ifdef Q_OS_WIN
+    if (!m_systemWide || text.isEmpty())
+        return false;
+    winSendUnicode(text);
+    return true;
+#else
+    Q_UNUSED(text);
+    return false;
+#endif
+}
+
+bool KeyboardEngine::trySystemWideKey(int qtKey) const
+{
+#ifdef Q_OS_WIN
+    if (!m_systemWide)
+        return false;
+    const WORD vk = qtKeyToWinVk(qtKey);
+    if (!vk)
+        return false;
+    winSendVk(vk);
+    return true;
+#else
+    Q_UNUSED(qtKey);
+    return false;
+#endif
+}
+
 void KeyboardEngine::commitText(const QString &text)
 {
     if (text.isEmpty())
         return;
     if (ime() && composing())
         confirmCompose();
+    if (trySystemWideText(text))
+        return;
     rememberEditor(QGuiApplication::focusObject());
     QObject *item = target();
     if (!item)
@@ -410,6 +527,8 @@ void KeyboardEngine::backspace()
         return;
     }
 #endif
+    if (trySystemWideKey(Qt::Key_Backspace))
+        return;
     rememberEditor(QGuiApplication::focusObject());
     sendKey(Qt::Key_Backspace);
 }
@@ -426,27 +545,35 @@ void KeyboardEngine::enterKey()
         return;
     }
 #endif
+    if (trySystemWideKey(Qt::Key_Return))
+        return;
     rememberEditor(QGuiApplication::focusObject());
     sendKey(Qt::Key_Return, QStringLiteral("\n"));
 }
 
 void KeyboardEngine::tabKey()
 {
+    if (trySystemWideKey(Qt::Key_Tab))
+        return;
     rememberEditor(QGuiApplication::focusObject());
     sendKey(Qt::Key_Tab, QStringLiteral("\t"));
 }
 
 void KeyboardEngine::navigateKey(int qtKey)
 {
-    rememberEditor(QGuiApplication::focusObject());
     if (qtKey == Qt::Key_Escape) {
         if (composing()) {
             cancelCompose();
             return;
         }
+        if (trySystemWideKey(Qt::Key_Escape))
+            return;
         sendKey(Qt::Key_Escape);
         return;
     }
+    if (trySystemWideKey(qtKey))
+        return;
+    rememberEditor(QGuiApplication::focusObject());
     sendKey(qtKey);
 }
 
@@ -643,6 +770,9 @@ void KeyboardEngine::refreshCompose()
 
 void KeyboardEngine::sendPreedit()
 {
+    // System-wide: keep composition on the OSK candidate bar only (no foreign preedit).
+    if (m_systemWide)
+        return;
     QObject *item = target();
     if (!item)
         return;
@@ -660,6 +790,8 @@ void KeyboardEngine::sendPreedit()
 
 void KeyboardEngine::commitReplace(const QString &text)
 {
+    if (trySystemWideText(text))
+        return;
     rememberEditor(QGuiApplication::focusObject());
     QObject *item = target();
     if (!item)
@@ -1045,14 +1177,23 @@ void KeyboardEngine::applyCoreActions()
     const km_core_actions *actions = km_core_state_get_actions(m_state);
     if (!actions)
         return;
-    QObject *item = target();
-    if (!item)
-        return;
     const QString out = usvToQString(actions->output);
     const int del = int(actions->code_points_to_delete);
     if (del <= 0 && out.isEmpty() && !actions->emit_keystroke)
         return;
     if (actions->emit_keystroke && out.isEmpty() && del <= 0)
+        return;
+    if (m_systemWide && supportsSystemWide()) {
+#ifdef Q_OS_WIN
+        for (int i = 0; i < del; ++i)
+            winSendVk(VK_BACK);
+        if (!out.isEmpty())
+            winSendUnicode(out);
+#endif
+        return;
+    }
+    QObject *item = target();
+    if (!item)
         return;
     QInputMethodEvent event;
     if (del > 0)

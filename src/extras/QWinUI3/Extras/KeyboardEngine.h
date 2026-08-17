@@ -17,9 +17,10 @@ struct km_core_keyboard;
 struct km_core_state;
 #endif
 
-// KeyboardEngine — Keyman layouts + in-app IME + app-scoped hardware keys (1.77).
-// Not Qt Virtual Keyboard. Not OS-wide SendInput. CJK is not Keyman IMX.
+// KeyboardEngine — Keyman layouts + in-app IME + optional Windows system-wide inject (1.82).
+// Not Qt Virtual Keyboard. CJK is not Keyman IMX.
 // Japanese stays romaji→kana (no MIT kanji lexicon; JMDict is CC-BY-SA).
+// systemWide (opt-in, Windows SendInput) injects into the focused desktop app.
 class KeyboardEngine : public QObject
 {
     Q_OBJECT
@@ -42,8 +43,12 @@ class KeyboardEngine : public QObject
     Q_PROPERTY(int candidatePage READ candidatePage NOTIFY composeChanged)
     Q_PROPERTY(int candidatePageCount READ candidatePageCount NOTIFY composeChanged)
     // When true, physical keys in this app route through the engine (IME / Keyman).
-    // Still in-process only — never injects into other applications.
+    // Still in-process unless systemWide is also enabled.
     Q_PROPERTY(bool hardwareInput READ hardwareInput WRITE setHardwareInput NOTIFY hardwareInputChanged)
+    // Opt-in: inject into the focused desktop app via SendInput (Windows). Default off.
+    // Compose/preedit stay on the OSK candidate bar; commits/keys go system-wide.
+    Q_PROPERTY(bool systemWide READ systemWide WRITE setSystemWide NOTIFY systemWideChanged)
+    Q_PROPERTY(bool supportsSystemWide READ supportsSystemWide CONSTANT)
 
 public:
     explicit KeyboardEngine(QObject *parent = nullptr);
@@ -71,6 +76,9 @@ public:
     int candidatePageCount() const;
     bool hardwareInput() const { return m_hardwareInput; }
     void setHardwareInput(bool on);
+    bool systemWide() const { return m_systemWide; }
+    void setSystemWide(bool on);
+    bool supportsSystemWide() const;
 
     Q_INVOKABLE void watch(QObject *window);
     Q_INVOKABLE void cycleLayout();
@@ -95,6 +103,7 @@ signals:
     void layoutIdChanged();
     void composeChanged();
     void hardwareInputChanged();
+    void systemWideChanged();
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event) override;
@@ -104,6 +113,8 @@ private:
     void rememberEditor(QObject *object);
     QObject *target() const;
     void sendKey(int key, const QString &text = QString()) const;
+    bool trySystemWideText(const QString &text) const;
+    bool trySystemWideKey(int qtKey) const;
     static bool looksLikeEditor(const QObject *object);
     static bool isKnownLayout(const QString &id);
     QString displayPreedit() const;
@@ -135,6 +146,7 @@ private:
     QStringList m_candidates;
     int m_candidatePage = 0;
     bool m_hardwareInput = true;
+    bool m_systemWide = false;
     // Linux/Wayland: track CapsLock toggles (no portable GetKeyState). Windows uses VK_CAPITAL.
     bool m_capsLockOn = false;
     HangulComposer m_hangul;

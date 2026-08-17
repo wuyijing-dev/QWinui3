@@ -357,6 +357,30 @@ void WindowHelper::requestActivateWindow(QObject *windowObject)
     window->raise();
 }
 
+void WindowHelper::setNoActivate(QObject *windowObject, bool on)
+{
+    QWindow *window = resolveWindow(windowObject);
+    if (!window)
+        return;
+#if defined(Q_OS_WIN)
+    if (!window->handle())
+        window->create();
+    const WId wid = window->winId();
+    if (!wid)
+        return;
+    HWND hwnd = reinterpret_cast<HWND>(wid);
+    const LONG_PTR ex = GetWindowLongPtrW(hwnd, GWL_EXSTYLE);
+    const LONG_PTR next = on ? (ex | WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW)
+                             : (ex & ~(WS_EX_NOACTIVATE));
+    SetWindowLongPtrW(hwnd, GWL_EXSTYLE, next);
+    // Force style refresh without activating.
+    SetWindowPos(hwnd, nullptr, 0, 0, 0, 0,
+                 SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED);
+#else
+    Q_UNUSED(on);
+#endif
+}
+
 void WindowHelper::setTransientParent(QObject *windowObject, QObject *parentWindowObject)
 {
     QWindow *window = resolveWindow(windowObject);

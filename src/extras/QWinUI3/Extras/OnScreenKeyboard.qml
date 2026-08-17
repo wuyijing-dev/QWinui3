@@ -3,21 +3,20 @@ import QtQuick.Controls
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// OnScreenKeyboard — Windows 11 touch keyboard parity (1.81).
+// OnScreenKeyboard — Windows 11 touch keyboard parity (1.82).
 //
 //   OnScreenKeyboard { }
-//   // Host in CatalogPage.footer / Overlay / shell footer so keys stay docked.
+//   OnScreenKeyboardWindow { systemWide: true }  // floating + optional desktop inject
 //
 //   // --- API ---
-//   // keyboardSize  "default" | "small" | "wide"  (Win11 size modes — not Win10 classic)
-//   // engine.layoutId / cycleLayout / hardwareInput / pasteClipboard
-//   // langBadge  英 / 中 / あ / 한 / …
-//   // closeRequested / settingsRequested
+//   // keyboardSize  "default" | "small" | "wide"
+//   // systemWide    Windows SendInput into focused apps (opt-in; default off)
+//   // dragHostWindow  grab bar calls startSystemMove on the host Window
+//   // engine.layoutId / cycleLayout / hardwareInput
 //
 // @notes
-//   Experimental. Targets Windows 11 Touch Keyboard behavior (not Win10):
-//   long-press number hints, secondary-char flyout, rounder keys + press scale,
-//   size modes, clipboard strip, emoji categories. In-app only — not OS-wide.
+//   Experimental. Win11 touch behavior. Floating host: OnScreenKeyboardWindow.
+//   systemWide is Windows-only; Linux stays in-app. Not Qt Virtual Keyboard.
 
 T.Control {
     id: root
@@ -27,6 +26,7 @@ T.Control {
     property bool shiftLatched: false
     property bool capsLock: false
     property bool showChrome: true
+    property bool dragHostWindow: false
     // Win11 keyboard size (Settings → Typing → Touch keyboard). Not Win10 "full" classic.
     property string keyboardSize: "default" // default | small | wide
     property bool settingsOpen: false
@@ -37,6 +37,8 @@ T.Control {
     readonly property alias engine: engine
     property alias layoutId: engine.layoutId
     property alias hardwareInput: engine.hardwareInput
+    property alias systemWide: engine.systemWide
+    readonly property bool supportsSystemWide: engine.supportsSystemWide
 
     signal closeRequested()
     signal settingsRequested()
@@ -273,6 +275,16 @@ T.Control {
                 radius: height / 2
                 color: Theme.strokeControl
                 Accessible.ignored: true
+                MouseArea {
+                    anchors.fill: parent
+                    anchors.margins: -Theme.dp(8)
+                    enabled: root.dragHostWindow
+                    cursorShape: Qt.SizeAllCursor
+                    onPressed: {
+                        if (Window.window)
+                            Window.window.startSystemMove()
+                    }
+                }
             }
 
             Row {

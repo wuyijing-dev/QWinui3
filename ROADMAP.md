@@ -1,9 +1,9 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.81**
-**Next up:** field-driven `1.82+` or pause (prefer harden vs new surfaces)
+**Current:** **1.82**
+**Next up:** field-driven `1.83+` or pause (prefer harden vs new surfaces)
 **Planned through:** open-ended 1.xx — [docs/checkpoint-178.md](docs/checkpoint-178.md)
-**Still 1.xx:** Long-horizon checkpoint published — [docs/checkpoint-178.md](docs/checkpoint-178.md). **1.81** Win11 OSK behavior (vs Win10). OSK/IME stays experimental. Not drafting 2.00.  
+**Still 1.xx:** Long-horizon checkpoint published — [docs/checkpoint-178.md](docs/checkpoint-178.md). **1.82** floating OSK + opt-in Windows system-wide inject. OSK/IME stays experimental. Not drafting 2.00.  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
 
 This plan starts from **what 1.00 already was**, then walks **small `1.xx` minors**. Stay on **1.xx for a long time**. **2.00 is not next**—only when we truly need breaking changes.
@@ -391,6 +391,7 @@ Still **1.xx**. **1.70…1.77** shipped OSK → IME → packs → deepen → app
 | **1.79 shipped** | Linux / Wayland field harden |
 | **1.80 shipped** | Win11 OSK layout chrome |
 | **1.81 shipped** | Win11 OSK behavior (vs Win10) |
+| **1.82 shipped** | Floating OSK + opt-in Windows system-wide |
 
 ### 1.78 — Long-horizon 1.xx checkpoint (shipped)
 
@@ -408,11 +409,15 @@ Still **1.xx**. **1.70…1.77** shipped OSK → IME → packs → deepen → app
 
 **Shipped:** Long-press digit hints + punctuation alt flyout; `keyboardSize` Small/Default/Large; clipboard paste strip; emoji category chips; rounder keys + press scale (not Win10 classic flat full keyboard). `clipboardText()` peek. Still experimental. Product version `1.81`.
 
+### 1.82 — Floating OSK + opt-in Windows system-wide (shipped)
+
+**Shipped:** `OnScreenKeyboardWindow` (always-on-top, grab-drag, `WS_EX_NOACTIVATE`); `KeyboardEngine.systemWide` opt-in `SendInput` on Windows; compose stays on candidate bar. Linux: floating only (`supportsSystemWide === false`). Still experimental. Product version `1.82`.
+
 ---
 
-## After `1.81`
+## After `1.82`
 
-Still **1.xx** if field needs dictate (`1.82`…)—or **pause**. **Do not** treat 1.70…1.81 as permission to start **2.00**.
+Still **1.xx** if field needs dictate (`1.83`…)—or **pause**. **Do not** treat 1.70…1.82 as permission to start **2.00**.
 
 Unscheduled follow-ups (pick only inside a named minor):
 
@@ -421,8 +426,9 @@ Unscheduled follow-ups (pick only inside a named minor):
 |-----------|-------|
 | **Accessibility wave 3** | Focus return / live regions — slipped past 1.69 Theme prefs |
 | **IME promote → stable** | Only after a **green** soak — **1.74** wrote the checklist but did **not** promote |
-| **1.82+ field fixes** | DPI / tray / WebView2 / packaging / IME regressions |
+| **1.83+ field fixes** | DPI / tray / WebView2 / packaging / IME regressions |
 | **OSK handwriting / dictation** | Stay OS-owned / parking lot |
+| **Linux system-wide inject** | Wayland security model — not promised |
 | **More UI locale packs** | `zh_CN` / `ja_JP` seeds stay separate from IME / `.kmx` packs |
 | **Deeper Lottie / AnimatedIcon** | Only if 1.53 thin path proves valuable |
 | **Official vcpkg/Conan ports** | Beyond the 1.61 sketch—product promise only if owned |

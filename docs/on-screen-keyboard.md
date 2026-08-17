@@ -1,8 +1,8 @@
-# On-screen keyboard & in-app IME (1.70…1.81)
+# On-screen keyboard & in-app IME (1.70…1.82)
 
 Win11 / Fluent **touch keyboard chrome we own**. This is **not** Qt Virtual Keyboard, and it is **not** a hardware-shortcut cookbook ([keyboard.md](keyboard.md)).
 
-**Status:** **1.81** deepens **Windows 11** touch behavior (long-press digits / alt flyout, size modes, clipboard strip, emoji categories) — **not** Win10 classic. OSK/IME **still experimental**. **Next:** field-driven `1.82+` or pause.  
+**Status:** **1.82** adds a **floating** `OnScreenKeyboardWindow` and **opt-in Windows system-wide** inject (`SendInput`). OSK/IME **still experimental**. **Next:** field-driven `1.83+` or pause.  
 **License:** OSK chrome is this repo (LGPL-3.0). SIL Keyman Core (**MIT**) for layouts. Pinyin tables are [mozillazg/pinyin-data](https://github.com/mozillazg/pinyin-data) (**MIT**) — [NOTICE-pinyin.md](NOTICE-pinyin.md). Japanese is a Hepburn romaji→kana map (**no kanji** — no MIT reading lexicon). Korean is Unicode hangul composition (not a lexicon). Keyman `cs_pinyin` IMX is **not** used.
 
 | Slice | What ships |
@@ -14,11 +14,12 @@ Win11 / Fluent **touch keyboard chrome we own**. This is **not** Qt Virtual Keyb
 | **1.74** | Soak / harden — Gallery checklist + a11y + romaji fixes; **still experimental** |
 | **1.75** | Extra documented Keyman `.kmx` — en-GB / it / pt / pl / sv / tr (**named** subset) |
 | **1.76** | IME deepen (MIT): pinyin prefix phrases, hangul peel/Space; **ja kanji skipped** |
-| **1.77** | App-scoped hardware keys → same engine (**not** OS-wide SendInput) |
+| **1.77** | App-scoped hardware keys → same engine |
 | **1.78** | Long-horizon checkpoint |
 | **1.79** | Wayland field harden (portal parent + CapsLock); OSK still experimental |
 | **1.80** | Win11 default touch **layout** chrome (Esc/Tab/dual Shift/lang chip/hints) |
 | **1.81** | Win11 **behavior** vs Win10: long-press, size modes, clipboard, emoji tabs |
+| **1.82** | Floating `OnScreenKeyboardWindow` + opt-in Windows **system-wide** `SendInput` |
 
 ---
 
@@ -111,7 +112,27 @@ Follow **Windows 11** Touch Keyboard. Explicitly **not** the Win10 classic “fu
 
 Tokens: `Theme.bgAcrylic` / `fillControl` / local Win11 key radius (~8dp) / `Theme.dp(48)` default hit size. Reuse `FluentIcons` (Backspace / ReturnKey / Microphone / Emoji / …).
 
-Suggested Extra: `OnScreenKeyboard` (experimental). Host in `Overlay.overlay` or a shell footer. `closeRequested` / `settingsRequested` for host wiring.
+Suggested Extra: `OnScreenKeyboard` (experimental). Host in `Overlay.overlay`, a shell footer, or **`OnScreenKeyboardWindow`** (floating). `closeRequested` / `settingsRequested` for host wiring.
+
+### Floating window + system-wide (1.82)
+
+```qml
+OnScreenKeyboardWindow {
+    id: oskWin
+    systemWide: true          // Windows only — SendInput into focused apps
+    onVisibleChanged: if (visible) { /* already no-activate */ }
+}
+// oskWin.openFloating()
+```
+
+| Mode | Behavior |
+|------|----------|
+| Dock (`OnScreenKeyboard` in footer) | In-app `QInputMethodEvent` (default) |
+| Floating window | Always-on-top tool; grab bar drags; `WindowHelper.setNoActivate` so focus stays on the target |
+| `systemWide: true` (Windows) | Commits / keys use `SendInput`; IME preedit stays on the OSK candidate bar |
+| Linux / Wayland | Floating OK; `supportsSystemWide === false` (no desktop inject) |
+
+**Security / honesty:** system-wide is **opt-in**, experimental, and Windows-first. It is not a full TSF/IMM desktop IME; elevated or UIPI-protected windows may ignore inject. Do not enable in untrusted kiosk contexts without review.
 
 ---
 

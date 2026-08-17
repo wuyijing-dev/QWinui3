@@ -4,7 +4,7 @@ Fluent styled Page.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/Page.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/Page.qml)
 
-**Category:** Styled controls · **Library:** v1.81
+**Category:** Styled controls · **Library:** v1.82
 
 [← Component index](../components.md)
 
