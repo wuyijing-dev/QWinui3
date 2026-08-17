@@ -48,7 +48,7 @@ Kept in the kit and Gallery. APIs may still change. Same [naming](#naming-111-st
 
 Copy [`examples/dashboard`](../examples/dashboard/): `KpiTile` row + `ChartCard` hosts for `LineChart` / `BarChart` / `DonutChart` + one `RingGauge`. One chart per card; live series stay short ([performance.md](performance.md)).
 
-Gallery **Dashboard** splits the same stable layout from **deferred** tank/thermometer demos so the hub matches this page.
+Gallery **Charts** hosts Dashboard, KpiTile, gauges, and the chart family. **Dashboard** splits the same stable layout from **deferred** tank/thermometer demos so the hub matches this page.
 
 ---
 

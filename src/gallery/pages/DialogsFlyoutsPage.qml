@@ -71,7 +71,7 @@ CatalogPage {
             Label {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Use the nav search or category Dialogs & flyouts / Layout for:")
+                text: qsTr("Use the nav search or category Dialogs & flyouts / Recipes for:")
                 color: Theme.textSecondary
             }
             Label {

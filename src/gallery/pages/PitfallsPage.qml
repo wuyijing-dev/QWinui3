@@ -50,7 +50,7 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 color: Theme.textSecondary
-                text: qsTr("Link audit: python scripts/checkpoint_1_60_audit.py · Roadmap continues 1.61…1.70.")
+                text: qsTr("Link audit: python scripts/check_docs_links.py · Roadmap continues 1.61…1.70.")
             }
         }
     }

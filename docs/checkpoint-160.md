@@ -101,5 +101,4 @@ Order confirmed (flex only for field P0s):
 
 ```bat
 python scripts/check_docs_links.py
-python scripts/checkpoint_1_60_audit.py
 ```

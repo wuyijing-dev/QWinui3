@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
 **Current:** **1.68**
-**Next up:** **1.65** (Settings persistence & roaming recipes)
+**Next up:** **1.69** (Accessibility wave 3)
 **Planned through:** **1.70** (long-horizon 1.xx checkpoint)  
 **Still 1.xx:** Mid-horizon checkpoint published — [docs/checkpoint-160.md](docs/checkpoint-160.md). Not drafting 2.00.  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
@@ -265,7 +265,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ### 1.51 — 1.xx maturity checkpoint (shipped)
 
-**Shipped:** [maturity-1xx.md](docs/maturity-1xx.md) verdict (stay on 1.xx; harden-first); revisited [compatibility-1xx.md](docs/compatibility-1xx.md); stable-api starters + changelog through 1.51; Gallery Pitfalls maturity checklist; recipe hub + README links; `scripts/checkpoint_1_51_audit.py` (0 broken recipe/roadmap links); product version `1.51`.
+**Shipped:** [maturity-1xx.md](docs/maturity-1xx.md) verdict (stay on 1.xx; harden-first); revisited [compatibility-1xx.md](docs/compatibility-1xx.md); stable-api starters + changelog through 1.51; Gallery Pitfalls maturity checklist; recipe hub + README links; `scripts/check_docs_links.py` (0 broken recipe/roadmap links); product version `1.51`.
 
 ### 1.52 — Field polish buffer (shipped)
 
@@ -301,7 +301,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ### 1.60 — Mid-horizon checkpoint (shipped)
 
-**Shipped:** [checkpoint-160.md](docs/checkpoint-160.md) mid-horizon audit (stable-api / defer list / doc links OK; parking lot clarified); “still 1.xx” note in README/ROADMAP; smoke critical pages + `SearchRecipesPage` / `HighDpiPage`; `scripts/checkpoint_1_60_audit.py`; 1.61+ order confirmed (CMake `find_package` sketch next); product version `1.60`.
+**Shipped:** [checkpoint-160.md](docs/checkpoint-160.md) mid-horizon audit (stable-api / defer list / doc links OK; parking lot clarified); “still 1.xx” note in README/ROADMAP; smoke critical pages + `SearchRecipesPage` / `HighDpiPage`; `scripts/check_docs_links.py`; 1.61+ order confirmed (CMake `find_package` sketch next); product version `1.60`.
 
 ### 1.61 — CMake package / find_package sketch (shipped)
 

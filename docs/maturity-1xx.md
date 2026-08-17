@@ -23,7 +23,7 @@ Related: [compatibility-1xx.md](compatibility-1xx.md) · [stable-api.md](stable-
 
 | Check | Result |
 |-------|--------|
-| Recipe + ROADMAP `docs/*.md` links | **0 broken** (`scripts/checkpoint_1_51_audit.py`) |
+| Recipe + ROADMAP `docs/*.md` links | **0 broken** (`scripts/check_docs_links.py`) |
 | Gallery catalog pages | **~184** (controls + recipe hubs) |
 | Public component docs | **~208** public / **~219** generated pages |
 | Stable map vs Gallery | Stable list remains the product contract; Gallery also demos experimental — treat unlisted public types as experimental ([stable-api.md](stable-api.md)) |
@@ -77,4 +77,4 @@ Use [upgrade-notes.md](upgrade-notes.md) for `1.50` → `1.51`. Short form:
 python scripts/check_docs_links.py
 ```
 
-(`scripts/checkpoint_1_51_audit.py` remains a thin alias.)
+Use `scripts/check_docs_links.py` (also run by `scripts/smoke_gallery.py`).

@@ -42,6 +42,14 @@ CRITICAL = [
 ]
 
 
+def parse_category_keys(text: str) -> list[str]:
+    """Return category keys from ControlCatalog.categories."""
+    m = re.search(r"readonly property var categories:\s*\[([\s\S]*?)\]", text)
+    if not m:
+        return []
+    return re.findall(r'key:\s*"(\w+)"', m.group(1))
+
+
 def parse_catalog_sources(text: str) -> list[tuple[str, str]]:
     """Return (component, source) pairs from ControlCatalog.controls."""
     pairs: list[tuple[str, str]] = []
@@ -114,6 +122,24 @@ def main() -> int:
             print(f"  {line}", file=sys.stderr)
         return 1
     print("catalog: all ControlCatalog sources exist")
+
+    cat_keys = parse_category_keys(text)
+    if len(cat_keys) < 8:
+        print(f"error: expected Gallery category groups, got {cat_keys}", file=sys.stderr)
+        return 1
+    control_cats = re.findall(
+        r'category:\s*"(\w+)"[\s\S]*?component:\s*"([^"]+)"',
+        text,
+    )
+    unknown = sorted({cat for cat, _ in control_cats if cat not in cat_keys})
+    if unknown:
+        print(f"error: catalog entries use unknown categories: {unknown}", file=sys.stderr)
+        return 1
+    empty = [k for k in cat_keys if not any(cat == k for cat, _ in control_cats)]
+    if empty:
+        print(f"error: empty Gallery categories: {empty}", file=sys.stderr)
+        return 1
+    print(f"catalog: {len(cat_keys)} categories OK ({', '.join(cat_keys)})")
 
     if crit_missing_files:
         print("error: critical smoke pages missing files:", crit_missing_files, file=sys.stderr)

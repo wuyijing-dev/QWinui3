@@ -5,26 +5,26 @@ import QWinUI3.Theme
 QtObject {
     id: root
 
+    // 11 pane groups: buttons fold into Basic input; gauges/dashboard sit with Charts;
+    // how-tos (motion, a11y, system, media) live under Recipes at the end of the rail.
     readonly property var categories: [
-        { key: "buttons", title: qsTr("Buttons"), icon: FluentIcons.OpenInNewWindow },
         { key: "basic", title: qsTr("Basic input"), icon: FluentIcons.Checkbox },
         { key: "text", title: qsTr("Text"), icon: FluentIcons.Font },
         { key: "collections", title: qsTr("Collections"), icon: FluentIcons.List },
-        { key: "menus", title: qsTr("Menus & toolbars"), icon: FluentIcons.More },
-        { key: "navigation", title: qsTr("Navigation"), icon: FluentIcons.ChevronRight },
-        { key: "layout", title: qsTr("Layout"), icon: FluentIcons.Document },
-        { key: "recipes", title: qsTr("Recipes"), icon: FluentIcons.Library },
-        { key: "scrolling", title: qsTr("Scrolling"), icon: FluentIcons.ScrollMode },
         { key: "date", title: qsTr("Date & time"), icon: FluentIcons.Calendar },
         { key: "dialogs", title: qsTr("Dialogs & flyouts"), icon: FluentIcons.Comment },
+        { key: "layout", title: qsTr("Layout"), icon: FluentIcons.Document },
+        { key: "menus", title: qsTr("Menus & toolbars"), icon: FluentIcons.More },
+        { key: "navigation", title: qsTr("Navigation"), icon: FluentIcons.ChevronRight },
         { key: "status", title: qsTr("Status & info"), icon: FluentIcons.Info },
-        { key: "charts", title: qsTr("Charts"), icon: FluentIcons.AreaChart }
+        { key: "charts", title: qsTr("Charts"), icon: FluentIcons.AreaChart },
+        { key: "recipes", title: qsTr("Recipes"), icon: FluentIcons.Library }
     ]
 
     readonly property var controls: [
         {
             title: qsTr("Button"),
-            category: "buttons",
+            category: "basic",
             icon: FluentIcons.OpenInNewWindow,
             description: qsTr("A control that responds to user input and raises a Click event."),
             component: "ButtonPage",
@@ -112,7 +112,7 @@ QtObject {
         },
         {
             title: qsTr("SplitButton"),
-            category: "buttons",
+            category: "basic",
             icon: FluentIcons.ChevronDown,
             description: qsTr("A primary action plus a flyout for related commands."),
             component: "SplitButtonPage",
@@ -120,7 +120,7 @@ QtObject {
         },
         {
             title: qsTr("ToggleButton"),
-            category: "buttons",
+            category: "basic",
             icon: FluentIcons.OpenInNewWindow,
             description: qsTr("A button that toggles between on and off states."),
             component: "ToggleButtonPage",
@@ -128,7 +128,7 @@ QtObject {
         },
         {
             title: qsTr("ToggleSplitButton"),
-            category: "buttons",
+            category: "basic",
             icon: FluentIcons.ChevronDown,
             description: qsTr("A checkable primary action with a related command flyout."),
             component: "ToggleSplitButtonPage",
@@ -160,7 +160,7 @@ QtObject {
         },
         {
             title: qsTr("AppBarButton"),
-            category: "buttons",
+            category: "menus",
             icon: FluentIcons.OpenInNewWindow,
             description: qsTr("An icon-and-label command button for app bars and tool strips."),
             component: "AppBarButtonPage",
@@ -168,7 +168,7 @@ QtObject {
         },
         {
             title: qsTr("AppBarToggleButton"),
-            category: "buttons",
+            category: "menus",
             icon: FluentIcons.OpenInNewWindow,
             description: qsTr("A checkable app-bar button that stays on until toggled off."),
             component: "AppBarToggleButtonPage",
@@ -176,7 +176,7 @@ QtObject {
         },
         {
             title: qsTr("Chip"),
-            category: "buttons",
+            category: "basic",
             icon: FluentIcons.List,
             description: qsTr("A compact selectable or closable tag."),
             component: "ChipPage",
@@ -184,7 +184,7 @@ QtObject {
         },
         {
             title: qsTr("AccentButton"),
-            category: "buttons",
+            category: "basic",
             icon: FluentIcons.OpenInNewWindow,
             description: qsTr("A primary accent-colored button for the main call to action."),
             component: "AccentButtonPage",
@@ -192,7 +192,7 @@ QtObject {
         },
         {
             title: qsTr("IconButton"),
-            category: "buttons",
+            category: "basic",
             icon: FluentIcons.OpenInNewWindow,
             description: qsTr("Icon-only button with glyph micro-motion (1.49) — docs/icons.md."),
             component: "IconButtonPage",
@@ -200,7 +200,7 @@ QtObject {
         },
         {
             title: qsTr("IconicButton"),
-            category: "buttons",
+            category: "basic",
             icon: FluentIcons.OpenInNewWindow,
             description: qsTr("Base icon + label button used by IconButton and AppBar*."),
             component: "IconicButtonPage",
@@ -264,7 +264,7 @@ QtObject {
         },
         {
             title: qsTr("HyperlinkButton"),
-            category: "buttons",
+            category: "basic",
             icon: FluentIcons.Link,
             description: qsTr("A button that appears as a hyperlink."),
             component: "HyperlinkButtonPage",
@@ -304,7 +304,7 @@ QtObject {
         },
         {
             title: qsTr("ScrollBar"),
-            category: "scrolling",
+            category: "layout",
             icon: FluentIcons.ChevronLeft,
             description: qsTr("A control for scrolling content vertically or horizontally."),
             component: "ScrollBarPage",
@@ -312,7 +312,7 @@ QtObject {
         },
         {
             title: qsTr("AnnotatedScrollBar"),
-            category: "scrolling",
+            category: "layout",
             icon: FluentIcons.ScrollMode,
             description: qsTr("A scrollable region whose scrollbar shows a label while dragging."),
             component: "AnnotatedScrollBarPage",
@@ -416,7 +416,7 @@ QtObject {
         },
         {
             title: qsTr("High-DPI & monitors"),
-            category: "navigation",
+            category: "recipes",
             icon: FluentIcons.FullScreen,
             description: qsTr("DPR readout · geometry clamp — docs/high-dpi.md (1.58)."),
             component: "HighDpiPage",
@@ -592,7 +592,7 @@ QtObject {
         },
         {
             title: qsTr("StatusBar"),
-            category: "layout",
+            category: "status",
             icon: FluentIcons.Street,
             description: qsTr("A bottom status strip with text, progress, and slots."),
             component: "StatusBarPage",
@@ -656,7 +656,7 @@ QtObject {
         },
         {
             title: qsTr("PersonPicture"),
-            category: "layout",
+            category: "collections",
             icon: FluentIcons.Contact,
             description: qsTr("Displays a person's avatar, initials, or silhouette."),
             component: "PersonPicturePage",
@@ -776,7 +776,7 @@ QtObject {
         },
         {
             title: qsTr("DropDownButton"),
-            category: "buttons",
+            category: "basic",
             icon: FluentIcons.ChevronDown,
             description: qsTr("A button that opens a menu of commands."),
             component: "DropDownButtonPage",
@@ -800,7 +800,7 @@ QtObject {
         },
         {
             title: qsTr("RadialGauge"),
-            category: "status",
+            category: "charts",
             icon: FluentIcons.Slider,
             description: qsTr("Toolkit-style radial needle gauge (experimental — deferred 1.66)."),
             component: "RadialGaugePage",
@@ -808,7 +808,7 @@ QtObject {
         },
         {
             title: qsTr("LinearGauge"),
-            category: "status",
+            category: "charts",
             icon: FluentIcons.PieSingle,
             description: qsTr("Horizontal or vertical linear gauge (experimental — deferred 1.66)."),
             component: "LinearGaugePage",
@@ -816,7 +816,7 @@ QtObject {
         },
         {
             title: qsTr("ArcGauge"),
-            category: "status",
+            category: "charts",
             icon: FluentIcons.Slider,
             description: qsTr("Semicircle dashboard gauge (experimental — deferred 1.66)."),
             component: "ArcGaugePage",
@@ -824,7 +824,7 @@ QtObject {
         },
         {
             title: qsTr("SegmentedGauge"),
-            category: "status",
+            category: "charts",
             icon: FluentIcons.Sync,
             description: qsTr("Segmented ring gauge (experimental — deferred 1.66)."),
             component: "SegmentedGaugePage",
@@ -832,7 +832,7 @@ QtObject {
         },
         {
             title: qsTr("ZoneGauge"),
-            category: "status",
+            category: "charts",
             icon: FluentIcons.Slider,
             description: qsTr("Needle gauge with zone bands (experimental — deferred 1.66)."),
             component: "ZoneGaugePage",
@@ -840,7 +840,7 @@ QtObject {
         },
         {
             title: qsTr("RingGauge"),
-            category: "status",
+            category: "charts",
             icon: FluentIcons.Slider,
             description: qsTr("Closed-ring KPI gauge (stable 1.23) — docs/charts.md."),
             component: "RingGaugePage",
@@ -848,7 +848,7 @@ QtObject {
         },
         {
             title: qsTr("TankGauge"),
-            category: "status",
+            category: "charts",
             icon: FluentIcons.PieSingle,
             description: qsTr("Vertical tank / reservoir gauge (experimental — deferred 1.66)."),
             component: "TankGaugePage",
@@ -856,7 +856,7 @@ QtObject {
         },
         {
             title: qsTr("ThermometerGauge"),
-            category: "status",
+            category: "charts",
             icon: FluentIcons.AreaChart,
             description: qsTr("Stem-and-bulb thermometer (experimental — deferred 1.66)."),
             component: "ThermometerGaugePage",
@@ -864,7 +864,7 @@ QtObject {
         },
         {
             title: qsTr("KpiTile"),
-            category: "status",
+            category: "charts",
             icon: FluentIcons.AreaChart,
             description: qsTr("KPI tile with delta / sparkline (stable 1.23) — docs/charts.md."),
             component: "KpiTilePage",
@@ -872,7 +872,7 @@ QtObject {
         },
         {
             title: qsTr("Dashboard"),
-            category: "status",
+            category: "charts",
             icon: FluentIcons.Home,
             description: qsTr("Stable KPI/chart layout (1.66); extra gauges deferred — docs/charts.md."),
             component: "DashboardPage",
@@ -912,7 +912,7 @@ QtObject {
         },
         {
             title: qsTr("System integration"),
-            category: "dialogs",
+            category: "recipes",
             icon: FluentIcons.Folder,
             description: qsTr("FilePicker · tray · Snap / reveal — Linux portal harden 1.68."),
             component: "SystemIntegrationPage",
@@ -920,7 +920,7 @@ QtObject {
         },
         {
             title: qsTr("MediaPlayerElement"),
-            category: "status",
+            category: "recipes",
             icon: FluentIcons.Video,
             description: qsTr("Optional Qt Multimedia — deferred 1.67. docs/media.md."),
             component: "MediaPlayerElementPage",
@@ -944,7 +944,7 @@ QtObject {
         },
         {
             title: qsTr("MeterBar"),
-            category: "status",
+            category: "charts",
             icon: FluentIcons.PieSingle,
             description: qsTr("A multi-segment meter for stacked values."),
             component: "MeterBarPage",
@@ -1088,7 +1088,7 @@ QtObject {
         },
         {
             title: qsTr("Animations"),
-            category: "status",
+            category: "recipes",
             icon: FluentIcons.Sync,
             description: qsTr("Motion recipe hub (1.22) — ConnectedAnimation, entrance, theme transitions."),
             component: "AnimationsPage",
@@ -1096,7 +1096,7 @@ QtObject {
         },
         {
             title: qsTr("EntranceThemeTransition"),
-            category: "status",
+            category: "recipes",
             icon: FluentIcons.Completed,
             description: qsTr("Fade + rise + scale entrance — docs/animations.md (1.22)."),
             component: "EntranceThemeTransitionPage",
@@ -1104,7 +1104,7 @@ QtObject {
         },
         {
             title: qsTr("Theme transitions"),
-            category: "status",
+            category: "recipes",
             icon: FluentIcons.Sync,
             description: qsTr("ContentThemeTransition + RepositionThemeTransition — docs/animations.md (1.22)."),
             component: "ThemeTransitionsPage",
@@ -1112,7 +1112,7 @@ QtObject {
         },
         {
             title: qsTr("Theme overrides"),
-            category: "status",
+            category: "recipes",
             icon: FluentIcons.Color,
             description: qsTr("Brand + contrast AA table — docs/color-contrast.md (1.43)."),
             component: "ThemeOverridesPage",
@@ -1120,7 +1120,7 @@ QtObject {
         },
         {
             title: qsTr("ConnectedAnimation"),
-            category: "status",
+            category: "recipes",
             icon: FluentIcons.Sync,
             description: qsTr("Shared-element list→detail — docs/animations.md (1.22)."),
             component: "ConnectedAnimationPage",
@@ -1128,7 +1128,7 @@ QtObject {
         },
         {
             title: qsTr("CopyButton"),
-            category: "buttons",
+            category: "basic",
             icon: FluentIcons.Copy,
             description: qsTr("Copies text to the clipboard with success feedback — docs/drag-drop.md (1.41)."),
             component: "CopyButtonPage",
@@ -1144,7 +1144,7 @@ QtObject {
         },
         {
             title: qsTr("ProgressButton"),
-            category: "buttons",
+            category: "basic",
             icon: FluentIcons.AreaChartMirrored,
             description: qsTr("Button with embedded progress (stable 1.37) — docs/feedback.md."),
             component: "ProgressButtonPage",
@@ -1216,7 +1216,7 @@ QtObject {
         },
         {
             title: qsTr("Misc Buttons"),
-            category: "buttons",
+            category: "basic",
             icon: FluentIcons.Repair,
             description: qsTr("ToolButton, RoundButton, DelayButton and other button variants."),
             component: "MiscButtonsPage",
@@ -1232,7 +1232,7 @@ QtObject {
         },
         {
             title: qsTr("Pitfalls"),
-            category: "layout",
+            category: "recipes",
             icon: FluentIcons.Warning,
             description: qsTr("Anti-patterns + 1.xx maturity checkpoint (1.51) — docs/maturity-1xx.md."),
             component: "PitfallsPage",
@@ -1240,7 +1240,7 @@ QtObject {
         },
         {
             title: qsTr("Accessibility"),
-            category: "layout",
+            category: "recipes",
             icon: FluentIcons.EaseOfAccess,
             description: qsTr("A11y + keyboard-first tour — docs/keyboard.md (1.44)."),
             component: "AccessibilityPage",
@@ -1248,7 +1248,7 @@ QtObject {
         },
         {
             title: qsTr("i18n / RTL"),
-            category: "layout",
+            category: "recipes",
             icon: FluentIcons.Globe,
             description: qsTr("qsTr + zh_CN / ja_JP seeds + RTL — docs/i18n-rtl.md (1.54)."),
             component: "I18nRtlPage",
@@ -1440,7 +1440,7 @@ QtObject {
         },
         {
             title: qsTr("RefreshContainer"),
-            category: "scrolling",
+            category: "layout",
             icon: FluentIcons.Refresh,
             description: qsTr("Pull down on scrollable content to request a refresh."),
             component: "RefreshContainerPage",
@@ -1472,7 +1472,7 @@ QtObject {
         },
         {
             title: qsTr("InfoBar + TeachingTip recipe"),
-            category: "dialogs",
+            category: "recipes",
             icon: FluentIcons.Lightbulb,
             description: qsTr("Form save + coach tip end-to-end — docs/feedback.md (1.34)."),
             component: "InfoTeachingRecipePage",
@@ -1504,7 +1504,7 @@ QtObject {
         },
         {
             title: qsTr("ChipGroup"),
-            category: "buttons",
+            category: "basic",
             icon: FluentIcons.List,
             description: qsTr("A row of chips for exclusive or multi-select filters."),
             component: "ChipGroupPage",
