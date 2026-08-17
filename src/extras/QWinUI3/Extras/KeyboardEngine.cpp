@@ -3,6 +3,7 @@
 #include "RomajiKana.h"
 
 #include <QCoreApplication>
+#include <QClipboard>
 #include <QEvent>
 #include <QFile>
 #include <QGuiApplication>
@@ -433,6 +434,30 @@ void KeyboardEngine::tabKey()
 {
     rememberEditor(QGuiApplication::focusObject());
     sendKey(Qt::Key_Tab, QStringLiteral("\t"));
+}
+
+void KeyboardEngine::navigateKey(int qtKey)
+{
+    rememberEditor(QGuiApplication::focusObject());
+    if (qtKey == Qt::Key_Escape) {
+        if (composing()) {
+            cancelCompose();
+            return;
+        }
+        sendKey(Qt::Key_Escape);
+        return;
+    }
+    sendKey(qtKey);
+}
+
+void KeyboardEngine::pasteClipboard()
+{
+    const QString text = QGuiApplication::clipboard()->text();
+    if (text.isEmpty())
+        return;
+    if (composing())
+        confirmCompose();
+    commitText(text);
 }
 
 void KeyboardEngine::sendKey(int key, const QString &text) const

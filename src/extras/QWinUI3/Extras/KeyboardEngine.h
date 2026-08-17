@@ -86,6 +86,8 @@ public:
     Q_INVOKABLE void prevCandidatePage();
     Q_INVOKABLE void confirmCompose();
     Q_INVOKABLE void cancelCompose();
+    Q_INVOKABLE void navigateKey(int qtKey);
+    Q_INVOKABLE void pasteClipboard();
 
 signals:
     void hasTargetChanged();

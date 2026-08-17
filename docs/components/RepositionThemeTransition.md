@@ -4,7 +4,7 @@ Animate this item when its layout x/y change.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/RepositionThemeTransition.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/RepositionThemeTransition.qml)
 
-**Category:** Media & platform · **Library:** v1.79
+**Category:** Media & platform · **Library:** v1.80
 
 [← Component index](../components.md)
 

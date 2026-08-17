@@ -47,6 +47,19 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.79 → 1.80
+
+**Product version:** 1.80  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- Experimental OSK: Win11 default touch **layout** chrome (Esc/Tab/dual Shift, lang chip 英/中/あ/한, number hints, settings/grab/close). `navigateKey` / `pasteClipboard` on `KeyboardEngine`. [on-screen-keyboard.md](on-screen-keyboard.md).
+
+#### No action (compatible)
+
+- Theme / shell / stable controls unchanged. OSK stays experimental. Mic / Win keys remain chrome-only.
+
 ### Upgrade 1.78 → 1.79
 
 **Product version:** 1.79  

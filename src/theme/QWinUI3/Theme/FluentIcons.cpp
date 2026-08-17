@@ -68,6 +68,8 @@ void buildSharedCatalog_unlocked()
     putShared("Add", 0xE710);
     putShared("Remove", 0xE738);
     putShared("Delete", 0xE74D);
+    putShared("Backspace", 0xE750);
+    putShared("ReturnKey", 0xE751);
     putShared("Edit", 0xE70F);
     putShared("Save", 0xE74E);
     putShared("SaveAs", 0xE792);

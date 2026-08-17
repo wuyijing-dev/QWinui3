@@ -4,18 +4,18 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — OnScreenKeyboard (1.77). Recipe: docs/on-screen-keyboard.md
+// Gallery — OnScreenKeyboard (1.80). Recipe: docs/on-screen-keyboard.md
 //
-// App-scoped hardware keyboard → same IME/Keyman engine (not OS-wide).
+// Win11 default touch layout + app-scoped hardware input (not OS-wide).
 
 CatalogPage {
     id: page
     title: qsTr("On-screen keyboard")
-    subtitle: qsTr("Win11 OSK — app hardware input. docs/on-screen-keyboard.md (1.77).")
+    subtitle: qsTr("Win11 OSK layout · layouts / IME. docs/on-screen-keyboard.md (1.80).")
 
     ControlExample {
-        headerText: qsTr("App hardware input (1.77)")
-        qmlSource: "OnScreenKeyboard { hardwareInput: true }\n// Physical keys → KeyboardEngine (in-app only)"
+        headerText: qsTr("Win11 layout + language packs (1.80)")
+        qmlSource: "OnScreenKeyboard { }\n// Esc/Tab/dual Shift · 英/中/あ · number hints"
 
         ColumnLayout {
             Layout.fillWidth: true
@@ -23,7 +23,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Focus a field and type on the physical keyboard — letters go through the same engine as the dock (pinyin / romaji / hangul / Keyman). 1–9 pick candidates; Esc cancels; PageUp/PageDown page the bar. This is in-app only: it does not inject into other processes (no SendInput). Toggle below if you need the system IME instead.")
+                text: qsTr("Dock chrome follows Windows 11 touch keyboard: settings / grab / close, emoji + paste tools, Esc · letter row with number hints · Backspace, Tab · Enter, dual Shift, and &123 · Ctrl · Win · Alt · language chip · Space · mic · arrows. Globe/chip cycles Keyman + zh/ja/ko layouts. Hardware keys still route in-app (toggle below).")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
@@ -32,6 +32,11 @@ CatalogPage {
                 text: qsTr("Hardware input (app-scoped)")
                 checked: osk.hardwareInput
                 onToggled: osk.hardwareInput = checked
+            }
+            Switch {
+                text: qsTr("Show Win11 chrome (settings / grab / close)")
+                checked: osk.showChrome
+                onToggled: osk.showChrome = checked
             }
             ComboBox {
                 id: langBox
@@ -44,15 +49,16 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 color: Theme.textSecondary
-                text: qsTr("Active: %1 · backend “%2” · hardware %3")
+                text: qsTr("Active: %1 · chip “%2” · backend “%3” · hardware %4")
                     .arg(osk.engine.layoutLabel)
+                    .arg(osk.langBadge)
                     .arg(osk.engine.backend)
                     .arg(osk.hardwareInput ? qsTr("on") : qsTr("off"))
             }
             TextField {
                 id: lineField
                 Layout.fillWidth: true
-                placeholderText: qsTr("Type here with the physical keyboard")
+                placeholderText: qsTr("Type here with the dock or physical keyboard")
                 LayoutMirroring.enabled: osk.engine.rtl
                 LayoutMirroring.childrenInherit: true
             }
@@ -64,10 +70,15 @@ CatalogPage {
                 wrapMode: TextArea.Wrap
                 LayoutMirroring.enabled: osk.engine.rtl
             }
-            CheckBox { text: qsTr("Physical keys drive 中文 / 日本語 / 한국어 compose") }
-            CheckBox { text: qsTr("Keyman layouts (de/fr/…) match OSK via hardware") }
-            CheckBox { text: qsTr("Ctrl/Alt shortcuts still reach the app") }
-            CheckBox { text: qsTr("Not OS-wide — other apps unchanged") }
+            Button {
+                visible: !osk.visible
+                text: qsTr("Show on-screen keyboard")
+                onClicked: osk.visible = true
+            }
+            CheckBox { text: qsTr("Layout matches Win11 default touch rows") }
+            CheckBox { text: qsTr("Language chip cycles en/zh/ja/ko / Keyman packs") }
+            CheckBox { text: qsTr("Physical keys drive compose when hardwareInput is on") }
+            CheckBox { text: qsTr("Mic / Win stay chrome-only (no OS voice / Start)") }
             CheckBox { text: qsTr("Treat OnScreenKeyboard as experimental") }
         }
     }
@@ -75,6 +86,8 @@ CatalogPage {
     footer: OnScreenKeyboard {
         id: osk
         hardwareInput: true
+        onCloseRequested: visible = false
+        onSettingsRequested: langBox.forceActiveFocus()
     }
 
     Connections {

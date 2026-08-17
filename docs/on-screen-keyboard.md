@@ -1,8 +1,8 @@
-# On-screen keyboard & in-app IME (1.70…1.77)
+# On-screen keyboard & in-app IME (1.70…1.80)
 
 Win11 / Fluent **touch keyboard chrome we own**. This is **not** Qt Virtual Keyboard, and it is **not** a hardware-shortcut cookbook ([keyboard.md](keyboard.md)).
 
-**Status:** **1.77** hardware shipped; **1.78** checkpoint records OSK/IME **still experimental**; **1.79** Wayland CapsLock tracking for hardware path (still experimental). **Next:** field-driven `1.80+` or pause.  
+**Status:** **1.80** Win11 default touch **layout chrome** (Esc/Tab/dual Shift / lang chip / number hints). **1.77** hardware; **1.78** checkpoint — OSK/IME **still experimental**. **Next:** field-driven `1.81+` or pause.  
 **License:** OSK chrome is this repo (LGPL-3.0). SIL Keyman Core (**MIT**) for layouts. Pinyin tables are [mozillazg/pinyin-data](https://github.com/mozillazg/pinyin-data) (**MIT**) — [NOTICE-pinyin.md](NOTICE-pinyin.md). Japanese is a Hepburn romaji→kana map (**no kanji** — no MIT reading lexicon). Korean is Unicode hangul composition (not a lexicon). Keyman `cs_pinyin` IMX is **not** used.
 
 | Slice | What ships |
@@ -17,6 +17,7 @@ Win11 / Fluent **touch keyboard chrome we own**. This is **not** Qt Virtual Keyb
 | **1.77** | App-scoped hardware keys → same engine (**not** OS-wide SendInput) |
 | **1.78** | Long-horizon checkpoint |
 | **1.79** | Wayland field harden (portal parent + CapsLock); OSK still experimental |
+| **1.80** | Win11 default touch **layout** chrome (Esc/Tab/dual Shift/lang chip/hints) |
 
 ---
 
@@ -78,18 +79,29 @@ Keep `QT_IM_MODULE` unset. Do **not** ship a `platforminputcontexts` plugin in 1
 
 ## UI we write (Win11)
 
-Follow Windows 11 Touch Keyboard: bottom dock, large hit targets, rounded keys, wide Space / Enter / Backspace, light and dark from `Theme`.
+Follow Windows 11 Touch Keyboard: bottom dock, large hit targets, rounded keys, acrylic panel, light/dark from `Theme`.
 
-| Layer | Keys |
-|-------|------|
-| Letters | Physical US VKs; labels from `previewVk`; Shift latch / Caps |
-| Symbols | Numbers + punctuation |
-| Globe | Cycles en-US/GB · de/fr/es/it/pt/pl/sv/tr · ru/ar · zh/ja/ko |
-| Emoji | Optional layer (**1.73** shipped) — `commitText` only, no engine |
+**1.80 layout chrome** (default letter layer):
 
-Tokens: `Theme.bgCard` / `controlFill` / `cornerControl` / `strokeHairline` / `Theme.dp(48)` hit size ([density.md](density.md) · [touch-pointer.md](touch-pointer.md)). Reuse `FluentIcons` for Globe — do not invent a second icon font.
+| Row | Keys |
+|-----|------|
+| Header | Settings · grab bar · close (+ emoji / paste tools) |
+| 1 | Esc · q–p with **1–0 hints** · Backspace |
+| 2 | Tab · a–l · `;:` · Enter |
+| 3 | Shift · z–m · `,; .:` · `?!` · Shift |
+| 4 | `&123` · Ctrl · Win · Alt · **lang chip** (英/中/あ/한/…) · Space · mic · ← → |
 
-Suggested Extra: `OnScreenKeyboard` (experimental). Host in `Overlay.overlay` or a shell footer; show when a text control is focused **or** when the app sets `visible` (kiosk).
+| Layer | Behavior |
+|-------|----------|
+| Letters | Physical US VKs; labels from `previewVk`; Shift latch / Caps; Keyman / IME backends |
+| Symbols | Numbers + punctuation (`&123` / abc) |
+| Lang chip | Cycles en-US/GB · de/fr/es/it/pt/pl/sv/tr · ru/ar · zh/ja/ko |
+| Emoji | Heart tool or emoji key — `commitText` only, no engine |
+| Mic / Win | Chrome-only (no OS voice typing / Start menu) |
+
+Tokens: `Theme.bgAcrylic` / `fillControl` / `cornerControl` / `strokeHairline` / `Theme.dp(46)` hit size ([density.md](density.md) · [touch-pointer.md](touch-pointer.md)). Reuse `FluentIcons` (Backspace / ReturnKey / Microphone / …).
+
+Suggested Extra: `OnScreenKeyboard` (experimental). Host in `Overlay.overlay` or a shell footer; show when a text control is focused **or** when the app sets `visible` (kiosk). `closeRequested` / `settingsRequested` for host wiring.
 
 ---
 
