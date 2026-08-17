@@ -122,7 +122,7 @@ Page {
                 toggle: true
                 toggleText: qsTr("Show FPS")
                 checked: FrameStatsMonitor.enabled
-                onToggled: FrameStatsMonitor.enabled = checked
+                onToggled: function (on) { FrameStatsMonitor.enabled = on }
             }
 
             SettingsCard {
@@ -130,6 +130,7 @@ Page {
                 description: qsTr("Title bar RightHeader slot (FrameStatsBadge) or floating overlay.")
                 symbol: FluentIcons.Pin
                 action: ComboBox {
+                    id: fpsPlacementBox
                     implicitWidth: 180
                     enabled: FrameStatsMonitor.enabled
                     model: [
@@ -137,11 +138,15 @@ Page {
                         { label: qsTr("Overlay"), value: false }
                     ]
                     textRole: "label"
-                    Component.onCompleted: {
-                        currentIndex = FrameStatsMonitor.inTitleBar ? 0 : 1
-                    }
+                    currentIndex: FrameStatsMonitor.inTitleBar ? 0 : 1
                     onActivated: function (index) {
                         FrameStatsMonitor.inTitleBar = model[index].value
+                    }
+                }
+                Connections {
+                    target: FrameStatsMonitor
+                    function onChanged() {
+                        fpsPlacementBox.currentIndex = FrameStatsMonitor.inTitleBar ? 0 : 1
                     }
                 }
             }

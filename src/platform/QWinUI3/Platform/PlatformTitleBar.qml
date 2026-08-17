@@ -45,6 +45,8 @@ Item {
     readonly property real resolvedCaptionHeight: WindowHelper.titleBarHeightForOption(preferredHeightOption)
     // Title content slot
     default property alias titleContent: contentHost.data
+    // WinUI RightHeader — before caption buttons (FrameStatsBadge, actions, …)
+    property alias rightHeader: rightHeaderSlot.data
 
     // Caption button row height
     property real captionHeight: resolvedCaptionHeight
@@ -104,6 +106,16 @@ Item {
         if (contentHost.children.length > 0 && contentHost.children[0].clientExcludeRectsFor)
             clients = contentHost.children[0].clientExcludeRectsFor(root.targetWindow)
 
+        function pushClientItem(item) {
+            if (!item || !item.visible || item.width <= 0 || item.height <= 0)
+                return
+            var g = item.mapToGlobal(0, 0)
+            clients.push(Qt.rect(Math.floor(g.x) - 2, Math.floor(g.y) - 2,
+                                 Math.ceil(item.width) + 4, Math.ceil(item.height) + 4))
+        }
+        for (var ri = 0; ri < rightHeaderSlot.children.length; ++ri)
+            pushClientItem(rightHeaderSlot.children[ri])
+
         WindowHelper.updateHitTestLayout(
                     root.targetWindow,
                     screenRect(root),
@@ -158,6 +170,17 @@ Item {
             Layout.fillWidth: true
             Layout.fillHeight: true
             implicitHeight: children.length > 0 ? children[0].implicitHeight : 48
+        }
+
+        Row {
+            id: rightHeaderSlot
+            spacing: 4
+            Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+            Layout.preferredHeight: root.captionHeight
+            Layout.rightMargin: 4
+            onChildrenChanged: root.reportHitTest()
+            onWidthChanged: root.reportHitTest()
+            onImplicitWidthChanged: root.reportHitTest()
         }
 
         Row {

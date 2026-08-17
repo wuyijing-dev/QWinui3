@@ -29,8 +29,8 @@ PlatformTitleBar {
     property alias leftHeader: titleBar.leftHeader
     // Title-bar middle content (menus, toolbar, …)
     property alias titleBarContent: titleBar.content
-    // WinUI RightHeader slot
-    property alias rightHeader: titleBar.rightHeader
+    // WinUI RightHeader slot (PlatformTitleBar — before caption buttons)
+    // TitleBar.rightHeader remains for standalone TitleBar / WindowChrome.
     // Built-in title-bar search
     property alias searchEnabled: titleBar.searchEnabled
     property alias searchText: titleBar.searchText

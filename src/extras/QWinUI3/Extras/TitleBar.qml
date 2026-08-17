@@ -76,7 +76,8 @@ Item {
     property alias leftHeader: leftHeaderSlot.data
     // WinUI Content slot (replaces built-in search when set)
     property alias content: customContentHost.data
-    // WinUI RightHeader — also the default children slot for trailing actions.
+    // WinUI RightHeader inside TitleBar (standalone TitleBar demos). StandardTitleChrome
+    // uses PlatformTitleBar.rightHeader (before caption buttons) instead.
     default property alias rightHeader: trailingRow.data
     // Trailing slot
     property alias trailing: trailingRow.data
@@ -524,6 +525,8 @@ Item {
             id: trailingRow
             spacing: Theme.spacing
             Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+            Layout.minimumWidth: implicitWidth
+            Layout.preferredWidth: implicitWidth
             onChildrenChanged: root.notifyChromeHitTest()
             onWidthChanged: root.notifyChromeHitTest()
             onImplicitWidthChanged: root.notifyChromeHitTest()

@@ -27,4 +27,22 @@ Label {
           : qsTr("FPS …")
     Accessible.name: qsTr("Frames per second")
     Accessible.description: text
+
+    Connections {
+        target: FrameStatsMonitor
+        function onChanged() {
+            var p = root.parent
+            while (p) {
+                if (typeof p.reportHitTest === "function") {
+                    p.reportHitTest()
+                    return
+                }
+                if (typeof p.notifyChromeHitTest === "function") {
+                    p.notifyChromeHitTest()
+                    return
+                }
+                p = p.parent
+            }
+        }
+    }
 }
