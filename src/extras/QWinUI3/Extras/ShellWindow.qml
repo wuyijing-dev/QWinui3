@@ -75,6 +75,8 @@ ApplicationWindow {
     // Non-empty → persist frame geometry (see ShellWindowSupport / WindowHelper).
     property alias geometryPersistenceKey: shellSupport.geometryPersistenceKey
     readonly property bool geometryPersistenceEnabled: shellSupport.geometryPersistenceEnabled
+    // Copy OS a11y / color scheme into Theme (1.69).
+    property alias syncThemeFromSystem: shellSupport.syncThemeFromSystem
     // Show min/max/close
     property bool showCaptionButtons: WindowHelper.customFrame
     // Show minimize caption button

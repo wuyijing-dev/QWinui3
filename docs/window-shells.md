@@ -246,9 +246,11 @@ ContentDialogQueue.replaceCurrent(dialogB) // close active without pumping; open
 | Control padding | 12×7 | `paddingControlH` / `paddingControlV` |
 | Spacing scale | 8 / 12 / 24 | `spacing` / `spacingLoose` / `spacingSection` |
 
-Accessibility: `Theme.followSystemAccessibility` (default true) copies
-`WindowHelper.systemReducedMotion` / `systemHighContrast` (Windows SPI) into
-`Theme.reducedMotion` / `Theme.highContrast`. Settings can override when follow is off.
+Accessibility: `Theme.followSystemAccessibility` (default true) is applied by
+`ThemeSync` on `StandardWindow` / `ShellWindow` (**1.69**) — copies
+`WindowHelper.systemReducedMotion` / `systemHighContrast` into
+`Theme.reducedMotion` / `Theme.highContrast`. Override from
+`ThemeAppearanceSettings` when follow is off. Not Gallery-only.
 
 ## Startup (Bootstrap)
 

@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.68**
-**Next up:** **1.69** (Accessibility wave 3)
+**Current:** **1.69**
+**Next up:** **1.70** (Long-horizon 1.xx checkpoint)
 **Planned through:** **1.70** (long-horizon 1.xx checkpoint)  
 **Still 1.xx:** Mid-horizon checkpoint published — [checkpoint-160.md](checkpoint-160.md). Not drafting 2.00.  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](qt-version-compat.md)
@@ -335,30 +335,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** FilePicker portal timeout no longer falls back to zenity (P0 double-dialog); `nameFilters` / save `current_name`; reveal FileManager1 → OpenURI → folder; `WindowHelper.portalParentWindow()`; [platform-linux-wayland.md](platform-linux-wayland.md) / [system-integration.md](system-integration.md) matrix refresh; Gallery **System integration** live parent readout; product version `1.68`.
 
+### 1.69 — Theme prefs for any app (shipped)
+
+**Shipped:** `Theme.snapshot` / `apply` / `recipeText`; `ThemeSync` on `StandardWindow` / `ShellWindow`; drop-in `ThemeAppearanceSettings` + `ThemePrefs`; Gallery Settings uses the kit group (copy recipe); `examples/gallery-shell` same cards; [theme-overrides.md](theme-overrides.md); product version `1.69`.
+
 ---
 
-## Horizon — planned `1.69` … `1.70`
+## Horizon — planned `1.70`
 
 Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per `YY`. Order can flex if field P0s force a swap; do not merge themes into mega-minors. Posture after 1.51 / 1.60: prefer field harden / docs over new control families.
-
-### 1.69 — Accessibility wave 3
-
-**Why:** Waves 1–2 covered names and high-traffic paths; live regions / focus restore / dialog stacks need another pass.
-
-**In scope**
-
-- Focus return audits (dialogs, TeachingTip, drawers); live-region guidance; Gallery Accessibility checklist wave 3.
-- Extend [accessibility.md](accessibility.md) / [keyboard.md](keyboard.md).
-
-**Out of scope**
-
-- Automated full-catalog a11y CI as a hard gate.
-
-**Exit criteria**
-
-- Wave-3 Done checklist published; Gallery page updated.
-
----
 
 ### 1.70 — Long-horizon 1.xx checkpoint
 
@@ -387,6 +372,7 @@ Unscheduled follow-ups (pick only inside a named minor):
 
 | Candidate | Notes |
 |-----------|-------|
+| **Accessibility wave 3** | Focus return / live regions — slipped past 1.69 Theme prefs |
 | **1.71+ field fixes** | Portal / DPI / tray / WebView2 / packaging regressions |
 | **More locale packs** | Only if 1.45/1.54 workflow stays cheap |
 | **Deeper Lottie / AnimatedIcon** | Only if 1.53 thin path proves valuable |

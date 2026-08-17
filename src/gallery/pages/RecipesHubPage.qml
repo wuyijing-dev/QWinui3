@@ -180,6 +180,7 @@ CatalogPage {
                     { label: qsTr("Print / share / export"), doc: "docs/print-share.md", page: "PrintSharePage" },
                     { label: qsTr("Security & trust"), doc: "docs/security-trust.md", page: "SecurityTrustPage" },
                     { label: qsTr("Settings persistence"), doc: "docs/settings-persistence.md", page: "SettingsPersistencePage" },
+                    { label: qsTr("Theme prefs (copy recipe)"), doc: "docs/theme-overrides.md", page: "ThemePrefsPage" },
                     { label: qsTr("Accessibility"), doc: "docs/accessibility.md", page: "AccessibilityPage" },
                     { label: qsTr("Drag-drop & clipboard"), doc: "docs/drag-drop.md", page: "FileDropZonePage" }
                 ]

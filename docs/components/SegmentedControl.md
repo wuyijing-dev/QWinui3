@@ -4,7 +4,7 @@ Mutually exclusive segment buttons.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/SegmentedControl.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/SegmentedControl.qml)
 
-**Category:** Other · **Library:** v1.53
+**Category:** Other · **Library:** v1.69
 
 [← Component index](../components.md)
 

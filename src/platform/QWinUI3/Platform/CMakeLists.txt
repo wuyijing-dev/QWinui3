@@ -52,6 +52,7 @@ qt_add_qml_module(qwinui3_platform
         PlatformTitleBar.qml
         CaptionButton.qml
         WindowResizeBorder.qml
+        ThemeSync.qml
         StandardWindow.qml
         DialogWindow.qml
         ToolWindow.qml

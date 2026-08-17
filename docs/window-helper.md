@@ -237,4 +237,4 @@ Theme.reducedMotion = WindowHelper.systemReducedMotion
 Theme.highContrast = WindowHelper.systemHighContrast
 ```
 
-When `Theme.followSystemAccessibility` is true, Gallery / shells mirror these SPI values.
+When `Theme.followSystemAccessibility` is true, **ThemeSync** on `StandardWindow` / `ShellWindow` copies these SPI values. Not Gallery-only — [theme-overrides.md](theme-overrides.md) (**1.69**).

@@ -4,7 +4,7 @@ Independent ApplicationWindow + WindowChrome host.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ShellWindow.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ShellWindow.qml)
 
-**Category:** Shells & windows · **Library:** v1.53
+**Category:** Shells & windows · **Library:** v1.69
 
 [← Component index](../components.md)
 
@@ -65,6 +65,7 @@ Backdrop / paradigm via WindowHelper (see docs/window-helper.md).
 | `extendsContentIntoTitleBar` | `bool` | Custom frame / extend content |
 | `geometryPersistenceKey` | `alias` | Non-empty → persist frame geometry (see ShellWindowSupport / WindowHelper). |
 | `geometryPersistenceEnabled` | `bool` | — |
+| `syncThemeFromSystem` | `alias` | Copy OS a11y / color scheme into Theme (1.69). |
 | `showCaptionButtons` | `bool` | Show min/max/close |
 | `showMinimize` | `bool` | Show minimize caption button |
 | `showMaximize` | `bool` | Show maximize caption button |

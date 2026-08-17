@@ -42,6 +42,8 @@ Item {
     // Non-empty → save/restore target window geometry (QSettings WindowGeometry/<key>).
     property string geometryPersistenceKey: ""
     readonly property bool geometryPersistenceEnabled: geometryPersistenceKey.length > 0
+    // Copy OS a11y / color scheme into Theme (1.69).
+    property bool syncThemeFromSystem: true
 
     property bool _ready: false
     property bool _applying: false
@@ -141,6 +143,12 @@ Item {
         if (vis === Window.FullScreen || vis === Window.Minimized)
             return
         geometrySaveTimer.restart()
+    }
+
+    ThemeSync {
+        id: themeSync
+        targetWindow: root.targetWindow
+        enabled: root.syncThemeFromSystem
     }
 
     Component.onCompleted: {

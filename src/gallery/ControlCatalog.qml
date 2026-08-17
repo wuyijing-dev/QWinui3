@@ -1119,6 +1119,14 @@ QtObject {
             source: "pages/ThemeOverridesPage.qml"
         },
         {
+            title: qsTr("Theme prefs"),
+            category: "recipes",
+            icon: FluentIcons.Color,
+            description: qsTr("ThemeAppearanceSettings + copy recipe — kit, not Gallery-only (1.69)."),
+            component: "ThemePrefsPage",
+            source: "pages/ThemePrefsPage.qml"
+        },
+        {
             title: qsTr("ConnectedAnimation"),
             category: "recipes",
             icon: FluentIcons.Sync,
@@ -1594,6 +1602,7 @@ QtObject {
     // Curated “recently shipped” recipe pages (1.20) — not catalog array order.
     function recentlyShipped(count) {
         var ids = [
+            "ThemePrefsPage",         // 1.69 Theme recipe / ThemeSync
             "SystemIntegrationPage",  // 1.68 portal / FilePicker
             "MediaPlayerElementPage", // 1.67 media defer
             "ChartsPage",             // 1.66 dashboard polish / defer

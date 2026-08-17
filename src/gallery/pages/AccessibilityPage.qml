@@ -236,7 +236,7 @@ CatalogPage {
         ColumnLayout {
             spacing: Theme.spacing
             Label {
-                text: qsTr("Gallery Settings can follow system SPI or override reduced motion and high contrast.")
+                text: qsTr("Theme.reducedMotion / Theme.highContrast follow the OS when Theme.followSystemAccessibility is on (ThemeSync on StandardWindow / ShellWindow — not Gallery-only). Override from ThemeAppearanceSettings when follow is off.")
                 wrapMode: Text.WordWrap
                 Layout.fillWidth: true
                 color: Theme.textSecondary

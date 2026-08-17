@@ -76,6 +76,7 @@ Promoted this slice (Gallery + recipe soak). Status flips are **named here** —
 | `SettingsCard` | Extras | `examples/settings-cards` |
 | `SettingsExpander` | Extras | `header` alias + ColumnLayout host (1.08) |
 | `SettingsView` | Extras | Settings page host |
+| `ThemeAppearanceSettings` / `ThemePrefs` | Extras | Drop-in Theme cards + QSettings — [theme-overrides.md](theme-overrides.md) (**1.69**) |
 | `SettingsToggleCard` / `SettingsComboCard` / `SettingsSliderCard` | Extras | Common settings rows |
 | `FormLayout` | Extras | Form stack + field errors — [forms.md](forms.md) (1.08) |
 | `HeaderedTextBox` / `HeaderedComboBox` / `ValidationSummary` | Extras | `errorMessage` → `validate()` — [forms.md](forms.md) |
@@ -116,7 +117,7 @@ Promoted this slice (Gallery + recipe soak). Status flips are **named here** —
 
 | Type | Module | Notes |
 |------|--------|--------|
-| `Theme` singleton | Theme | Tokens, density, dark/light, accent — [theme-overrides.md](theme-overrides.md) (1.09); contrast helpers — [color-contrast.md](color-contrast.md) (**1.43**) |
+| `Theme` singleton | Theme | Tokens, density, dark/light, accent — [theme-overrides.md](theme-overrides.md) (1.09 / **1.69** `snapshot` / `apply` / `recipeText`); contrast helpers — [color-contrast.md](color-contrast.md) (**1.43**) |
 | `FluentIcons` / `FontIcon` | Theme / Extras | Symbol font + glyph control — [icons.md](icons.md) (**1.37** FontIcon) |
 | `InfoBadge` | Extras | Counts / status dots on nav — (**1.37**) |
 | Style `QWinUI3` | Style | Drop-in Fluent chrome for Controls |
@@ -126,6 +127,7 @@ Promoted this slice (Gallery + recipe soak). Status flips are **named here** —
 | Type | Module | Notes |
 |------|--------|--------|
 | `WindowHelper` | Platform | Backdrop, chrome flags, system prefs—**stable for properties already used by shells/examples**. |
+| `ThemeSync` | Platform | Follow-system a11y / color → Theme; attached by shells (**1.69**) |
 | `QWinUI3::configureEnvironment` / `configureApplication` | Platform C++ (`Bootstrap.h`) | One-call main setup — [packaging-consumer.md](packaging-consumer.md) |
 | `WindowHelper` shell extras | Platform | Taskbar progress/overlay, `requestUserAttention`, `revealFileInFolder`, idle inhibit — [shell-extras.md](shell-extras.md) (1.17 / **1.47**) |
 | `WindowHelper` geometry persistence | Platform | `saveWindowGeometry` / `restoreWindowGeometry` / `geometryPersistenceKey` on shells — [window-helper.md](window-helper.md#window-geometry-persistence) |
@@ -230,6 +232,7 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.66** | Charts & dashboard polish — defer remaining charts/gauges; [charts.md](charts.md); Gallery Charts/Dashboard |
 | **1.67** | Media honest defer — soak checklist, stay experimental; [media.md](media.md); Gallery MediaPlayerElement |
 | **1.68** | Linux portal / FilePicker harden — no zenity double-dialog; [platform-linux-wayland.md](platform-linux-wayland.md) |
+| **1.69** | Theme knobs for any app — `ThemeSync` / `ThemeAppearanceSettings` / `Theme.recipeText()`; [theme-overrides.md](theme-overrides.md) |
 | **1.35** | Qt Creator kit polish — [qt-creator.md](qt-creator.md); example build presets |
 | **1.36** | Docs site IA — [recipes.md](recipes.md) hub; MkDocs Recipes sections |
 | **1.37** | Promote sweep — commands / Flyout / TabView / ShellWindow / pickers / progress / FontIcon / ItemsRepeater; explicit defer list |

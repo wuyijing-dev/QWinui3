@@ -23,21 +23,6 @@ StandardWindow {
     property var searchResults: []
     property var paneSearchModel: buildPaneSearchModel()
 
-    function syncAccessibility() {
-        if (!Theme.followSystemAccessibility)
-            return
-        WindowHelper.refreshAccessibility()
-        Theme.reducedMotion = WindowHelper.systemReducedMotion
-        Theme.highContrast = WindowHelper.systemHighContrast
-    }
-
-    function syncColorScheme() {
-        if (!Theme.followSystemColorScheme)
-            return
-        WindowHelper.refreshColorScheme()
-        Theme.dark = WindowHelper.systemPrefersDark
-    }
-
     function buildPaneSearchModel() {
         var out = []
         var m = navModel || []
@@ -151,23 +136,7 @@ StandardWindow {
     }
 
     Component.onCompleted: {
-        window.syncAccessibility()
-        window.syncColorScheme()
         Qt.callLater(function () { platformTitle.reportHitTest() })
-    }
-
-    Connections {
-        target: WindowHelper
-        function onAccessibilityChanged() { window.syncAccessibility() }
-        function onColorSchemeChanged() { window.syncColorScheme() }
-    }
-
-    // Re-check when the window is activated (user may have changed OS a11y settings).
-    onActiveChanged: {
-        if (active) {
-            window.syncAccessibility()
-            window.syncColorScheme()
-        }
     }
 
     NavigationView {
@@ -216,4 +185,11 @@ StandardWindow {
     property alias pageTransition: nav.pageTransition
     property alias pageTransitionModes: nav.pageTransitionModes
     property alias navigationView: nav
+
+    // Load Theme knobs at startup (Settings page is created later).
+    property ThemePrefs themePrefs: ThemePrefs {
+        category: "GalleryTheme"
+        autoLoad: true
+        autoSave: true
+    }
 }

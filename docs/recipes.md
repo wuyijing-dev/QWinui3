@@ -52,7 +52,7 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 | [Density & responsive](density.md) | Compact metrics, narrow shells |
 | [Touch, pen & pointer](touch-pointer.md) | Targets · scroll vs drag · pen notes (**1.57**) |
 | [Adaptive layout](adaptive-layout.md) | TwoPaneView / ListDetailsView breakpoints (1.42) |
-| [Theme overrides](theme-overrides.md) | Accent / density / branding |
+| [Theme overrides](theme-overrides.md) | Accent / density / branding · copy recipe (**1.69**) |
 | [Color & contrast](color-contrast.md) | AA diagnostics / high contrast (1.43) |
 | [Icons & FluentIcons](icons.md) | Symbol font + micro-motion + AnimatedIcon (1.53) |
 | [i18n / RTL](i18n-rtl.md) | qsTr + zh_CN seed + LayoutMirroring (1.45) |

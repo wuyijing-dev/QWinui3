@@ -4,13 +4,11 @@ Search field with suggestion list.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/SearchBox.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/SearchBox.qml)
 
-**Category:** Input & forms · **Library:** v1.53
+**Category:** Input & forms · **Library:** v1.69
 
 [← Component index](../components.md)
 
-**Gallery:** `SearchBox` · `Search recipes` — [`SearchBoxPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/SearchBoxPage.qml) · [`SearchRecipesPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/SearchRecipesPage.qml)
-
-Recipe: [search.md](../search.md) (**1.59**).
+**Gallery:** `SearchBox` — [`src/gallery/pages/SearchBoxPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/SearchBoxPage.qml)
 
 **Extends** `Control`.
 

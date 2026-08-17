@@ -47,6 +47,20 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.68 → 1.69
+
+**Product version:** 1.69  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- Theme knobs are kit-wide: drop `ThemeAppearanceSettings` on your Settings page; copy `Theme.recipeText()` into another app. Shells run `ThemeSync` (follow system a11y / color). [theme-overrides.md](theme-overrides.md).
+- Persist Theme with `ThemePrefs` (`persist: true`) — keep geometry on `geometryPersistenceKey`.
+
+#### No action (compatible)
+
+- Existing `Theme.dark` / `followSystem*` assignments still work. Gallery Main no longer special-cases OS sync.
+
 ### Upgrade 1.67 → 1.68
 
 **Product version:** 1.68  

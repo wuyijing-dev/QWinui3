@@ -4,7 +4,7 @@ Platform ApplicationWindow + PlatformTitleBar host.
 
 `import QWinUI3.Platform` · [`src/platform/QWinUI3/Platform/StandardWindow.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/platform/QWinUI3/Platform/StandardWindow.qml)
 
-**Category:** Platform · **Library:** v1.53
+**Category:** Platform · **Library:** v1.69
 
 [← Component index](../components.md)
 
@@ -57,6 +57,8 @@ See docs/window-appwindow.md and docs/window-helper.md.
 | `effectiveBackdrop` | `int` | Platform-safe backdrop (Linux coerces Mica/Acrylic → Solid so the window is not hollow). |
 | `geometryPersistenceKey` | `string` | Non-empty → save/restore frame geometry via WindowHelper (QSettings WindowGeometry/<key>). |
 | `geometryPersistenceEnabled` | `bool` | — |
+| `syncThemeFromSystem` | `bool` | Copy OS a11y / color scheme into Theme (1.69). Same as ShellWindow — not Gallery-only. |
+| `themeSync` | `alias` | — |
 
 ### Signals
 

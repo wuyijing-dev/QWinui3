@@ -61,6 +61,9 @@ ApplicationWindow {
     // Non-empty → save/restore frame geometry via WindowHelper (QSettings WindowGeometry/<key>).
     property string geometryPersistenceKey: ""
     readonly property bool geometryPersistenceEnabled: geometryPersistenceKey.length > 0
+    // Copy OS a11y / color scheme into Theme (1.69). Same as ShellWindow — not Gallery-only.
+    property bool syncThemeFromSystem: true
+    property alias themeSync: themeSync
 
     // CONSTANT flags only (recommendedFlags has no notify). Never bind flags to
     // paradigm/presenter/isAlwaysOnTop — that fights WindowHelper.setFlags() and
@@ -157,6 +160,12 @@ ApplicationWindow {
     onVisibilityChanged: root._scheduleGeometrySave()
 
     onClosing: root.saveGeometry()
+
+    ThemeSync {
+        id: themeSync
+        targetWindow: root
+        enabled: root.syncThemeFromSystem
+    }
 
     Component.onCompleted: {
         root._syncThemeDpi()

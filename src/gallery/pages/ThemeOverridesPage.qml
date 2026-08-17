@@ -29,30 +29,8 @@ CatalogPage {
         return ok ? qsTr("AA pass") : qsTr("AA fail")
     }
 
-    function _snapshotTheme() {
-        return {
-            dark: Theme.dark,
-            density: Theme.density,
-            uiScale: Theme.uiScale,
-            accentPack: Theme.accentPack,
-            customAccent: String(Theme.customAccent),
-            followSystemColorScheme: Theme.followSystemColorScheme
-        }
-    }
-
-    function _restoreTheme() {
-        if (!_saved)
-            return
-        Theme.followSystemColorScheme = _saved.followSystemColorScheme
-        Theme.dark = _saved.dark
-        Theme.density = _saved.density
-        Theme.uiScale = _saved.uiScale
-        Theme.accentPack = _saved.accentPack
-        Theme.customAccent = _saved.customAccent
-    }
-
-    Component.onCompleted: _saved = _snapshotTheme()
-    Component.onDestruction: _restoreTheme()
+    Component.onCompleted: _saved = Theme.snapshot()
+    Component.onDestruction: Theme.apply(_saved)
 
     ControlExample {
         headerText: qsTr("Contrast diagnostics (1.43)")

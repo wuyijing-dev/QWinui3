@@ -47,11 +47,36 @@ App-local chrome (logo strip, splash) should also read `Theme.accent` / `Theme.b
 
 ---
 
+## Copy knobs into another app (1.69)
+
+These knobs are **not** a Gallery privilege. `StandardWindow` / `ShellWindow` run `ThemeSync` so follow-system flags work in any product window.
+
+| Piece | Role |
+|-------|------|
+| `Theme.snapshot()` / `Theme.apply(obj)` | In-process copy |
+| `Theme.recipeText()` / `Theme.recipeSnippet` | Paste into `Component.onCompleted` |
+| `ThemeAppearanceSettings` | Drop-in Settings group (same cards as Gallery Settings) |
+| `ThemePrefs` | Persist knobs via QtCore `Settings` — [settings-persistence.md](settings-persistence.md) |
+| `ThemeSync` | Copy OS a11y / color scheme when `followSystem*` is on |
+
+```qml
+SettingsView {
+    ThemeAppearanceSettings {
+        persist: true
+        prefsCategory: "MyAppTheme"
+    }
+}
+```
+
+Gallery **Settings** uses that group plus Gallery-only chrome (RTL, page cache, RHI). **Theme prefs** copies the current recipe. Example: [`examples/gallery-shell`](../examples/gallery-shell/).
+
+---
+
 ## Gallery
 
 **Theme overrides** page — apply Contoso-style presets, pick a custom accent, toggle density / uiScale, watch live metrics and stock controls; leaving the page restores prior Theme knobs.
 
-Settings → **Accent pack** / **Custom accent** / **Density** for global Gallery preference.
+Settings → **ThemeAppearanceSettings** (kit) plus Gallery-only RHI / page cache. **Theme prefs** copies `Theme.recipeText()`.
 
 Metrics, type scale, and narrow shells: **[density.md](density.md) (1.30)**.
 

@@ -1,6 +1,6 @@
 # QWinUI3 component API
 
-Library **v1.53**. Generated from QML source comments (`scripts/generate_component_docs.py`).
+Library **v1.69**. Generated from QML source comments (`scripts/generate_component_docs.py`).
 Each control has its own page under `docs/components/`.
 
 ```bash
@@ -8,7 +8,7 @@ python scripts/generate_component_docs.py
 python scripts/generate_component_docs.py --lint
 ```
 
-**209** public · **11** internal · **152** with Gallery demos · Hub: [docs home](index.md).
+**212** public · **11** internal · **153** with Gallery demos · Hub: [docs home](index.md).
 
 ## By module
 
@@ -146,6 +146,8 @@ python scripts/generate_component_docs.py --lint
 - [TankGauge](components/TankGauge.md) — Vertical / horizontal tank / reservoir level gauge. · Gallery
 - [TeachingTip](components/TeachingTip.md) — Anchored tip with title, subtitle, content, and actions. · Gallery
 - [TextBlock](components/TextBlock.md) — Fluent typography styles (title, body, caption…). · Gallery
+- [ThemeAppearanceSettings](components/ThemeAppearanceSettings.md) — Drop-in SettingsGroup for Theme knobs (1.69).
+- [ThemePrefs](components/ThemePrefs.md) — Persist Theme knobs via QtCore Settings (1.69). · Gallery
 - [ThermometerGauge](components/ThermometerGauge.md) — Classic bulb + stem temperature / level gauge. · Gallery
 - [Timeline](components/Timeline.md) — Vertical event timeline. · Gallery
 - [TimePicker](components/TimePicker.md) — Hour / minute (and period) selectors. · Gallery
@@ -170,6 +172,7 @@ python scripts/generate_component_docs.py --lint
 - [DialogWindow](components/DialogWindow.md) — StandardWindow dialog paradigm.
 - [PlatformTitleBar](components/PlatformTitleBar.md) — Caption buttons + drag region + TitleBar host.
 - [StandardWindow](components/StandardWindow.md) — Platform ApplicationWindow + PlatformTitleBar host.
+- [ThemeSync](components/ThemeSync.md) — Copy OS accessibility / color scheme into Theme knobs.
 - [ToolWindow](components/ToolWindow.md) — StandardWindow tool paradigm.
 
 ### `QWinUI3.Theme`
@@ -357,6 +360,7 @@ python scripts/generate_component_docs.py --lint
 - [SettingsToggleCard](components/SettingsToggleCard.md) — `QWinUI3.Extras`
 - [SettingsView](components/SettingsView.md) — `QWinUI3.Extras`
 - [StackPanel](components/StackPanel.md) — `QWinUI3.Extras`
+- [ThemeAppearanceSettings](components/ThemeAppearanceSettings.md) — `QWinUI3.Extras`
 - [TwoPaneView](components/TwoPaneView.md) — `QWinUI3.Extras`
 - [WrapPanel](components/WrapPanel.md) — `QWinUI3.Extras`
 
@@ -370,6 +374,7 @@ python scripts/generate_component_docs.py --lint
 - [FontIcon](components/FontIcon.md) — `QWinUI3.Extras`
 - [MediaPlayerElement](components/MediaPlayerElement.md) — `QWinUI3.Extras`
 - [RepositionThemeTransition](components/RepositionThemeTransition.md) — `QWinUI3.Extras`
+- [ThemePrefs](components/ThemePrefs.md) — `QWinUI3.Extras`
 
 ### Navigation
 
@@ -402,6 +407,7 @@ python scripts/generate_component_docs.py --lint
 - [DialogWindow](components/DialogWindow.md) — `QWinUI3.Platform`
 - [PlatformTitleBar](components/PlatformTitleBar.md) — `QWinUI3.Platform`
 - [StandardWindow](components/StandardWindow.md) — `QWinUI3.Platform`
+- [ThemeSync](components/ThemeSync.md) — `QWinUI3.Platform`
 - [ToolWindow](components/ToolWindow.md) — `QWinUI3.Platform`
 
 ### Shells & windows

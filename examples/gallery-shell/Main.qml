@@ -30,6 +30,12 @@ NavigationWindow {
     footerSymbol: FluentIcons.Settings
     footerComponent: "SettingsPage"
 
+    property ThemePrefs themePrefs: ThemePrefs {
+        category: "GalleryShellTheme"
+        autoLoad: true
+        autoSave: true
+    }
+
     navModel: [
         {
             type: "item",

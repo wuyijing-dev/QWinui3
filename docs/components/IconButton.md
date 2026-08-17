@@ -4,7 +4,7 @@ Icon-only button helper.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/IconButton.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/IconButton.qml)
 
-**Category:** Buttons & commands · **Library:** v1.53
+**Category:** Buttons & commands · **Library:** v1.69
 
 [← Component index](../components.md)
 

@@ -4,7 +4,7 @@ ShellWindow with tool paradigm.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ToolShellWindow.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ToolShellWindow.qml)
 
-**Category:** Shells & windows · **Library:** v1.53
+**Category:** Shells & windows · **Library:** v1.69
 
 [← Component index](../components.md)
 

@@ -8,8 +8,8 @@ import QWinUI3.Platform
 
 // Gallery — Settings.
 //
-// Theme, motion, corners, and graphics backend.
-// Intentionally SettingsView-hosted (not CatalogPage) — settings chrome owns padding.
+// Theme knobs come from ThemeAppearanceSettings (kit, not Gallery-only).
+// Gallery-only: RTL session toggle, page cache, corners, RHI.
 
 Page {
     id: root
@@ -91,226 +91,105 @@ Page {
     SettingsView {
         anchors.fill: parent
         title: qsTr("Settings")
-        subtitle: qsTr("Theme, motion, corners, graphics, and Gallery page cache.")
+        subtitle: qsTr("Theme knobs are kit-wide (copy recipe into your app). Corners, RHI, and page cache stay Gallery chrome.")
 
-        SettingsCard {
-            title: qsTr("Density")
-            description: qsTr("Theme.density scales controlHeight / padding / spacing (not fonts). docs/density.md")
-            symbol: FluentIcons.Document
-            action: ComboBox {
-                model: [qsTr("Standard"), qsTr("Compact")]
-                currentIndex: Theme.density === "compact" ? 1 : 0
-                onActivated: function (index) {
-                    Theme.density = index === 1 ? "compact" : "standard"
-                }
-            }
+        ThemeAppearanceSettings {
+            persist: false
+            prefsCategory: "GalleryTheme"
         }
 
-        SettingsCard {
-            title: qsTr("Accent pack")
-            description: qsTr("Theme.accentPack / setAccentPack — blue, purple, green, orange.")
-            symbol: FluentIcons.Color
-            action: ComboBox {
-                model: [qsTr("Blue"), qsTr("Purple"), qsTr("Green"), qsTr("Orange")]
-                currentIndex: {
-                    switch (Theme.accentPack) {
-                    case "purple": return 1
-                    case "green": return 2
-                    case "orange": return 3
-                    default: return 0
-                    }
-                }
-                onActivated: function (index) {
-                    var packs = ["blue", "purple", "green", "orange"]
-                    Theme.setAccentPack(packs[index])
-                }
-            }
-        }
-
-        SettingsCard {
-            title: qsTr("Custom accent")
-            description: qsTr("Theme.customAccent overrides the pack (alpha > 0). Clear via setAccentPack.")
-            symbol: FluentIcons.Color
-            action: RowLayout {
-                spacing: 8
-                ColorPickerButton {
-                    selectedColor: Theme.customAccent.a > 0.001
-                                   ? Theme.customAccent : Theme.accent
-                    showHexLabel: true
-                    onColorChosen: function (c) {
-                        if (c.a > 0.001)
-                            Theme.customAccent = c
-                    }
-                }
-                Button {
-                    flat: true
-                    text: qsTr("Clear")
-                    onClicked: Theme.setAccentPack(Theme.accentPack)
-                }
-            }
-        }
-
-        SettingsCard {
-            title: qsTr("Appearance")
-            description: qsTr("Toggles the QWinUI3 Theme singleton between light and dark color ramps.")
-            symbol: FluentIcons.Color
-            toggle: true
-            toggleText: Theme.dark ? qsTr("Dark") : qsTr("Light")
-            checked: Theme.dark
-            onToggled: Theme.dark = checked
-        }
-
-        SettingsCard {
-            title: qsTr("Follow system accessibility")
-            description: qsTr("Copy OS reduce-motion / high-contrast into Theme when the window is active.")
-            symbol: FluentIcons.HardDrive
-            toggle: true
-            toggleText: Theme.followSystemAccessibility ? qsTr("On") : qsTr("Off")
-            checked: Theme.followSystemAccessibility
-            onToggled: {
-                Theme.followSystemAccessibility = checked
-                if (checked) {
-                    WindowHelper.refreshAccessibility()
-                    Theme.reducedMotion = WindowHelper.systemReducedMotion
-                    Theme.highContrast = WindowHelper.systemHighContrast
-                }
-            }
-        }
-
-        SettingsCard {
-            title: qsTr("Follow system color scheme")
-            description: qsTr("Mirror WindowHelper.systemPrefersDark (portal / gsettings / Windows) into Theme.dark.")
-            symbol: FluentIcons.Brightness
-            toggle: true
-            toggleText: Theme.followSystemColorScheme ? qsTr("On") : qsTr("Off")
-            checked: Theme.followSystemColorScheme
-            onToggled: {
-                Theme.followSystemColorScheme = checked
-                if (checked) {
-                    WindowHelper.refreshColorScheme()
-                    Theme.dark = WindowHelper.systemPrefersDark
-                }
-            }
-        }
-
-        SettingsCard {
-            title: qsTr("Motion")
-            description: Theme.followSystemAccessibility
-                         ? qsTr("Driven by system (SPI client-area animation). Turn off “Follow system” to override.")
-                         : qsTr("When enabled, Theme.duration() collapses animations for accessibility.")
+        SettingsGroup {
+            title: qsTr("Gallery")
+            description: qsTr("This process only — not Theme tokens.")
             symbol: FluentIcons.DeveloperTools
-            toggle: true
-            toggleText: qsTr("Reduce motion")
-            toggleEnabled: !Theme.followSystemAccessibility
-            checked: Theme.reducedMotion
-            onToggled: {
-                if (!Theme.followSystemAccessibility)
-                    Theme.reducedMotion = checked
-            }
-        }
 
-        SettingsCard {
-            title: qsTr("High contrast")
-            description: Theme.followSystemAccessibility
-                         ? qsTr("Driven by system high-contrast. Turn off “Follow system” to override.")
-                         : qsTr("Strengthens borders and caption focus cues (Theme.highContrast).")
-            symbol: FluentIcons.Game
-            toggle: true
-            toggleText: qsTr("High contrast")
-            toggleEnabled: !Theme.followSystemAccessibility
-            checked: Theme.highContrast
-            onToggled: {
-                if (!Theme.followSystemAccessibility)
-                    Theme.highContrast = checked
-            }
-        }
-
-        SettingsCard {
-            title: qsTr("Right-to-left layout")
-            description: qsTr("Sets Qt.application.layoutDirection and mirrors the Gallery shell (NavigationView, forms, settings). Session only — see docs/i18n-rtl.md.")
-            symbol: FluentIcons.Globe
-            toggle: true
-            toggleText: qsTr("RTL")
-            checked: Qt.application.layoutDirection === Qt.RightToLeft
-            onToggled: {
-                Qt.application.layoutDirection = checked ? Qt.RightToLeft : Qt.LeftToRight
-            }
-        }
-
-        SettingsCard {
-            title: qsTr("Page transition")
-            description: qsTr("NavigationView pageTransition for pane clicks: slide, fade, drill, cover, …")
-            symbol: FluentIcons.EaseOfAccess
-            action: ComboBox {
-                id: transitionBox
-                implicitWidth: 160
-                model: Window.window && Window.window.pageTransitionModes
-                        ? Window.window.pageTransitionModes
-                        : ["slide", "slideRight", "fade", "center", "drill", "up", "down", "cover", "none"]
-                Component.onCompleted: {
-                    var cur = Window.window ? Window.window.pageTransition : "slide"
-                    var i = model.indexOf(cur)
-                    currentIndex = i >= 0 ? i : 0
-                }
-                onActivated: function (index) {
-                    if (Window.window)
-                        Window.window.pageTransition = model[index]
+            SettingsCard {
+                title: qsTr("Right-to-left layout")
+                description: qsTr("Sets Qt.application.layoutDirection and mirrors the Gallery shell. Session only — docs/i18n-rtl.md.")
+                symbol: FluentIcons.Globe
+                toggle: true
+                toggleText: qsTr("RTL")
+                checked: Qt.application.layoutDirection === Qt.RightToLeft
+                onToggled: {
+                    Qt.application.layoutDirection = checked ? Qt.RightToLeft : Qt.LeftToRight
                 }
             }
-        }
 
-        SettingsCard {
-            title: qsTr("Page Component cache")
-            description: qsTr("NavigationView caches compiled pages (limit %1). Count: %2. First open is instant (initialPageTransition=none). docs/performance.md (1.39)")
-                         .arg(Window.window && Window.window.navigationView
-                              ? Window.window.navigationView.pageCacheLimit : 24)
-                         .arg(Window.window && Window.window.navigationView
-                              ? Window.window.navigationView.pageCacheCount : 0)
-            symbol: FluentIcons.DeveloperTools
-            action: Button {
-                text: qsTr("Clear cache")
-                onClicked: {
-                    if (Window.window && Window.window.navigationView)
-                        Window.window.navigationView.clearPageCache(true)
-                }
-            }
-        }
-
-        SettingsCard {
-            enabled: WindowHelper.nativeChrome
-            title: qsTr("Window corners")
-            description: qsTr("DWM corner preference — round (Win11), round small, or square.")
-            symbol: FluentIcons.Picture
-            action: ComboBox {
-                id: cornerBox
-                implicitWidth: 160
-                model: root.cornerLabels
-                onActivated: function (index) { root.applyCornerAt(index) }
-            }
-        }
-
-        SettingsCard {
-            title: qsTr("Graphics backend")
-            description: qsTr("Qt Quick RHI. Ship OpenGL on Windows for Mica/Acrylic. Change needs Restart (--rhi). Active: %1. %2 — docs/graphics-backend.md")
-                         .arg(root.rhiDisplayName(GraphicsBackend.active))
-                         .arg(GraphicsBackend.hint)
-            symbol: FluentIcons.HardDrive
-            action: RowLayout {
-                spacing: Theme.spacing
-                ComboBox {
-                    id: rhiBox
+            SettingsCard {
+                title: qsTr("Page transition")
+                description: qsTr("NavigationView pageTransition for pane clicks: slide, fade, drill, cover, …")
+                symbol: FluentIcons.EaseOfAccess
+                action: ComboBox {
+                    id: transitionBox
                     implicitWidth: 160
-                    model: root.rhiLabels
+                    model: Window.window && Window.window.pageTransitionModes
+                            ? Window.window.pageTransitionModes
+                            : ["slide", "slideRight", "fade", "center", "drill", "up", "down", "cover", "none"]
+                    Component.onCompleted: {
+                        var cur = Window.window ? Window.window.pageTransition : "slide"
+                        var i = model.indexOf(cur)
+                        currentIndex = i >= 0 ? i : 0
+                    }
                     onActivated: function (index) {
-                        if (index < 0 || index >= GraphicsBackend.available.length)
-                            return
-                        GraphicsBackend.preferred = GraphicsBackend.available[index]
+                        if (Window.window)
+                            Window.window.pageTransition = model[index]
                     }
                 }
-                Button {
-                    text: qsTr("Restart")
-                    visible: GraphicsBackend.restartRequired
-                    onClicked: GraphicsBackend.restartApplication()
+            }
+
+            SettingsCard {
+                title: qsTr("Page Component cache")
+                description: qsTr("NavigationView caches compiled pages (limit %1). Count: %2. First open is instant (initialPageTransition=none). docs/performance.md (1.39)")
+                             .arg(Window.window && Window.window.navigationView
+                                  ? Window.window.navigationView.pageCacheLimit : 24)
+                             .arg(Window.window && Window.window.navigationView
+                                  ? Window.window.navigationView.pageCacheCount : 0)
+                symbol: FluentIcons.DeveloperTools
+                action: Button {
+                    text: qsTr("Clear cache")
+                    onClicked: {
+                        if (Window.window && Window.window.navigationView)
+                            Window.window.navigationView.clearPageCache(true)
+                    }
+                }
+            }
+
+            SettingsCard {
+                enabled: WindowHelper.nativeChrome
+                title: qsTr("Window corners")
+                description: qsTr("DWM corner preference — round (Win11), round small, or square.")
+                symbol: FluentIcons.Picture
+                action: ComboBox {
+                    id: cornerBox
+                    implicitWidth: 160
+                    model: root.cornerLabels
+                    onActivated: function (index) { root.applyCornerAt(index) }
+                }
+            }
+
+            SettingsCard {
+                title: qsTr("Graphics backend")
+                description: qsTr("Qt Quick RHI. Ship OpenGL on Windows for Mica/Acrylic. Change needs Restart (--rhi). Active: %1. %2 — docs/graphics-backend.md")
+                             .arg(root.rhiDisplayName(GraphicsBackend.active))
+                             .arg(GraphicsBackend.hint)
+                symbol: FluentIcons.HardDrive
+                action: RowLayout {
+                    spacing: Theme.spacing
+                    ComboBox {
+                        id: rhiBox
+                        implicitWidth: 160
+                        model: root.rhiLabels
+                        onActivated: function (index) {
+                            if (index < 0 || index >= GraphicsBackend.available.length)
+                                return
+                            GraphicsBackend.preferred = GraphicsBackend.available[index]
+                        }
+                    }
+                    Button {
+                        text: qsTr("Restart")
+                        visible: GraphicsBackend.restartRequired
+                        onClicked: GraphicsBackend.restartApplication()
+                    }
                 }
             }
         }

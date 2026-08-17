@@ -5,11 +5,11 @@ How to persist **app preferences** next to QWinUI3 chrome — without inventing 
 | Concern | Supported approach |
 |---------|-------------------|
 | Window size / monitor | `geometryPersistenceKey` → `QSettings` `WindowGeometry/<key>` — [window-helper.md](window-helper.md) |
-| Theme / toggles / coach flags | Qt Quick **`Settings`** (`QtCore`) or C++ `QSettings` under **your** org/app |
+| Theme / toggles / coach flags | Qt Quick **`Settings`** (`QtCore`) or C++ `QSettings` under **your** org/app. Theme knobs: **`ThemePrefs`** / **`ThemeAppearanceSettings`** (**1.69**) — [theme-overrides.md](theme-overrides.md) |
 | Portable / USB install | `QSettings::IniFormat` + explicit file under the install tree |
 | “Roaming” between PCs | Copy Ini / known folder — **not** a QWinUI3 cloud service |
 
-Gallery: **Settings persistence**. Examples: [`form-settings`](../examples/form-settings/) (prefs + schema), [`gallery-shell`](../examples/gallery-shell/) (geometry key + Settings UI).
+Gallery: **Settings persistence** · **Theme prefs**. Examples: [`form-settings`](../examples/form-settings/) (prefs + schema), [`gallery-shell`](../examples/gallery-shell/) (geometry key + `ThemeAppearanceSettings`).
 
 Related: [forms.md](forms.md) · [window-helper.md](window-helper.md) · [window-shells.md](window-shells.md) · [feedback.md](feedback.md) (onboarding “don’t show again”) · [graphics-backend.md](graphics-backend.md).
 

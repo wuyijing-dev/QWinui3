@@ -2,7 +2,7 @@
 
 Thin **extractable** app chrome from Gallery patterns: `NavigationWindow` + `pageModule` + Settings footer + `Bootstrap` + `geometryPersistenceKey`.
 
-Prefs (theme / density / reduced motion) use QtCore `Settings` under `GalleryShellPrefs` — see [`docs/settings-persistence.md`](../../docs/settings-persistence.md) (**1.65**). Keep geometry on `GalleryShellMain`; do not mix.
+Prefs (theme / density / reduced motion / accent) use **`ThemeAppearanceSettings`** + `ThemePrefs` under `GalleryShellTheme` — see [`docs/theme-overrides.md`](../../docs/theme-overrides.md) (**1.69**). Keep geometry on `GalleryShellMain`; do not mix.
 
 Smaller than Gallery itself — one Home page and Settings. Prefer this over copying `src/gallery/`.
 
@@ -36,7 +36,7 @@ When copying into your product:
 | `main.cpp` (`Bootstrap` / `configureEnvironment`) | Example `qsTr` copy and ContentCard tips on Home |
 | `CMakeLists.txt` pattern (`IMPORTS`, link `qwinui3_*`) | URI `QWinUI3.Examples.GalleryShell` → your module name |
 | `Main.qml` shell (`NavigationWindow`, persistence key, footer) | Rename persistence key (`GalleryShellMain` → your app id) |
-| `SettingsPage.qml` as a starting SettingsView | Cards you do not need |
+| `SettingsPage.qml` as a starting SettingsView | Cards you do not need (`ThemeAppearanceSettings` is the kit drop-in) |
 | One content page (`HomePage.qml`) | Add more `navModel` rows + page QML files |
 
 **Do not** copy Gallery’s `ControlCatalog.qml`, smoke harness, or full page tree.
@@ -48,7 +48,7 @@ When copying into your product:
 - `paneDisplayMode: "auto"`
 - TitleBar Back ↔ `navigateBack()` (wired inside `NavigationWindow`)
 - `geometryPersistenceKey: "GalleryShellMain"`
-- Settings prefs via `Settings` category `GalleryShellPrefs` (**1.65**)
+- Settings prefs via `ThemeAppearanceSettings` / `ThemePrefs` category `GalleryShellTheme` (**1.69**)
 - Solid backdrop (Win + Linux safe)
 
 Linux: [docs/platform-linux-wayland.md](../../docs/platform-linux-wayland.md).

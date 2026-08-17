@@ -28,11 +28,13 @@ import QtQuick
 //   Theme.controlFill(hovered, pressed, disabled)
 //   Theme.accentFill(hovered, pressed, disabled)
 //   Theme.setAccentPack(name)
+//   Theme.snapshot() / Theme.apply(obj) / Theme.recipeText()  // 1.69
 //   Theme.relativeLuminance(c) / Theme.contrastRatio(fg, bg) / Theme.contrastPassesAA(…)  // 1.43
 //
 // @notes
 //   Singleton tokens: colors, type, spacing, motion, corners, density, accent packs.
-//   Theme.dark / reducedMotion / highContrast; followSystemAccessibility mirrors WindowHelper SPI.
+//   Theme.dark / reducedMotion / highContrast; followSystem* mirrored by ThemeSync (shells, not Gallery-only).
+//   snapshot/apply/recipeText copy knobs into any app; OS follow is ThemeSync.applyFromSystem().
 //   density "standard"|"compact" scales controlHeight / padding / spacing.
 //   devicePixelRatio + uiScale: hairline strokes and optional extra UI scale (ShellWindow syncs DPR).
 //   accentPack "blue"|"purple"|"green"|"orange"; customAccent (alpha>0) overrides pack.
@@ -49,9 +51,9 @@ QtObject {
     property bool reducedMotion: false
     // When true, strengthen borders/focus for high-contrast / accessibility themes.
     property bool highContrast: false
-    // When true, Gallery/apps should copy WindowHelper system a11y into the flags above.
+    // When true, ThemeSync copies WindowHelper system a11y into reducedMotion / highContrast.
     property bool followSystemAccessibility: true
-    // When true, mirror WindowHelper.systemPrefersDark into Theme.dark (Linux/Windows).
+    // When true, ThemeSync mirrors WindowHelper.systemPrefersDark into Theme.dark.
     property bool followSystemColorScheme: false
     // Control density: "standard" | "compact"
     property string density: "standard"
@@ -292,6 +294,78 @@ QtObject {
     function setAccentPack(name) {
         customAccent = "#00000000"
         accentPack = String(name || "blue")
+    }
+
+    // Writable knobs only (1.69) — paste into another process via recipeText(), or apply() in-process.
+    function snapshot() {
+        return {
+            dark: dark,
+            reducedMotion: reducedMotion,
+            highContrast: highContrast,
+            followSystemAccessibility: followSystemAccessibility,
+            followSystemColorScheme: followSystemColorScheme,
+            density: density,
+            uiScale: uiScale,
+            accentPack: accentPack,
+            customAccent: String(customAccent)
+        }
+    }
+
+    function apply(obj) {
+        if (!obj)
+            return
+        if (obj.followSystemAccessibility !== undefined)
+            followSystemAccessibility = !!obj.followSystemAccessibility
+        if (obj.followSystemColorScheme !== undefined)
+            followSystemColorScheme = !!obj.followSystemColorScheme
+        if (obj.density === "compact" || obj.density === "standard")
+            density = obj.density
+        if (obj.uiScale !== undefined) {
+            var scale = Number(obj.uiScale)
+            if (scale > 0)
+                uiScale = scale
+        }
+        if (obj.accentPack !== undefined)
+            accentPack = String(obj.accentPack || "blue")
+        if (obj.customAccent !== undefined)
+            customAccent = obj.customAccent
+        if (obj.dark !== undefined)
+            dark = !!obj.dark
+        if (obj.reducedMotion !== undefined)
+            reducedMotion = !!obj.reducedMotion
+        if (obj.highContrast !== undefined)
+            highContrast = !!obj.highContrast
+    }
+
+    // QML snippet for Component.onCompleted — Gallery Copy is a convenience, not a privilege.
+    function recipeText() {
+        var lines = [
+            "import QWinUI3.Theme",
+            "",
+            "Theme.followSystemAccessibility = " + followSystemAccessibility,
+            "Theme.followSystemColorScheme = " + followSystemColorScheme,
+            "Theme.density = \"" + density + "\"",
+            "Theme.uiScale = " + Number(uiScale)
+        ]
+        if (customAccent.a > 0.001)
+            lines.push("Theme.customAccent = \"" + String(customAccent) + "\"")
+        else
+            lines.push("Theme.setAccentPack(\"" + accentPack + "\")")
+        if (!followSystemColorScheme)
+            lines.push("Theme.dark = " + dark)
+        if (!followSystemAccessibility) {
+            lines.push("Theme.reducedMotion = " + reducedMotion)
+            lines.push("Theme.highContrast = " + highContrast)
+        }
+        return lines.join("\n")
+    }
+
+    // Binding-friendly; CopyButton.textToCopy can track this.
+    readonly property string recipeSnippet: {
+        var _ = dark + reducedMotion + highContrast + followSystemAccessibility
+                + followSystemColorScheme + density + String(uiScale)
+                + accentPack + String(customAccent)
+        return recipeText()
     }
 
     // Rest/hover/pressed/disabled control fill helper

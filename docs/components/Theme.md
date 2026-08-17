@@ -4,7 +4,7 @@ Fluent color / type / motion token singleton.
 
 `import QWinUI3.Theme` · [`src/theme/QWinUI3/Theme/Theme.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/theme/QWinUI3/Theme/Theme.qml)
 
-**Category:** Theme · **Library:** v1.53
+**Category:** Theme · **Library:** v1.69
 
 [← Component index](../components.md)
 
@@ -38,13 +38,15 @@ Theme.dp(value) / Theme.hairline(dpr)
 Theme.controlFill(hovered, pressed, disabled)
 Theme.accentFill(hovered, pressed, disabled)
 Theme.setAccentPack(name)
+Theme.snapshot() / Theme.apply(obj) / Theme.recipeText()  // 1.69
 Theme.relativeLuminance(c) / Theme.contrastRatio(fg, bg) / Theme.contrastPassesAA(…)  // 1.43
 ```
 
 ## Notes
 
 Singleton tokens: colors, type, spacing, motion, corners, density, accent packs.
-Theme.dark / reducedMotion / highContrast; followSystemAccessibility mirrors WindowHelper SPI.
+Theme.dark / reducedMotion / highContrast; followSystem* mirrored by ThemeSync (shells, not Gallery-only).
+snapshot/apply/recipeText copy knobs into any app; OS follow is ThemeSync.applyFromSystem().
 density "standard"|"compact" scales controlHeight / padding / spacing.
 devicePixelRatio + uiScale: hairline strokes and optional extra UI scale (ShellWindow syncs DPR).
 accentPack "blue"|"purple"|"green"|"orange"; customAccent (alpha>0) overrides pack.
@@ -61,8 +63,8 @@ Use Theme.duration(ms) and controlFill/accentFill helpers for states.
 | `dark` | `bool` | Dark color scheme when true |
 | `reducedMotion` | `bool` | Collapse Theme.duration() animations when true |
 | `highContrast` | `bool` | When true, strengthen borders/focus for high-contrast / accessibility themes. |
-| `followSystemAccessibility` | `bool` | When true, Gallery/apps should copy WindowHelper system a11y into the flags above. |
-| `followSystemColorScheme` | `bool` | When true, mirror WindowHelper.systemPrefersDark into Theme.dark (Linux/Windows). |
+| `followSystemAccessibility` | `bool` | When true, ThemeSync copies WindowHelper system a11y into reducedMotion / highContrast. |
+| `followSystemColorScheme` | `bool` | When true, ThemeSync mirrors WindowHelper.systemPrefersDark into Theme.dark. |
 | `density` | `string` | Control density: "standard" \| "compact" |
 | `uiScale` | `real` | Extra UI scale on top of system DPR (1.0 = follow OS only). Qt layout is already in DIPs. |
 | `devicePixelRatio` | `real` | Last synced window/screen devicePixelRatio (ShellWindow / StandardWindow update this). |
@@ -155,6 +157,7 @@ Use Theme.duration(ms) and controlFill/accentFill helpers for states.
 | `radioSize` | `real` | RadioButton outer size |
 | `sliderThickness` | `real` | Slider track thickness |
 | `sliderThumb` | `real` | Slider thumb diameter |
+| `recipeSnippet` | `string` | Binding-friendly; CopyButton.textToCopy can track this. |
 
 ### Signals
 
@@ -168,6 +171,9 @@ _No custom signals_ (use inherited signals from the base type).
 | `dp(value)` | Density-aware design pixels (Qt layout units are already DPI-independent). |
 | `hairline(dpr)` | 1 physical pixel in logical units for the given DPR (defaults to Theme.devicePixelRatio). |
 | `setAccentPack(name)` | Apply a named accent pack and clear customAccent |
+| `snapshot()` | Writable knobs only (1.69) — paste into another process via recipeText(), or apply() in-process. |
+| `apply(obj)` | — |
+| `recipeText()` | QML snippet for Component.onCompleted — Gallery Copy is a convenience, not a privilege. |
 | `controlFill(hovered, pressed, disabled)` | Rest/hover/pressed/disabled control fill helper |
 | `accentFill(hovered, pressed, disabled)` | Rest/hover/pressed/disabled accent fill helper |
 | `relativeLuminance(colorValue)` | Relative luminance 0…1 (WCAG 2.x) for a Qt color / "#RRGGBB" |

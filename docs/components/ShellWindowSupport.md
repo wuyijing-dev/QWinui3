@@ -4,7 +4,7 @@ Shared install/presenter glue for ShellWindow.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ShellWindowSupport.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ShellWindowSupport.qml)
 
-**Category:** Shells & windows · **Library:** v1.53
+**Category:** Shells & windows · **Library:** v1.69
 
 [← Component index](../components.md)
 
@@ -47,6 +47,7 @@ geometryPersistenceKey → QSettings WindowGeometry/<key> via WindowHelper.
 | `extendsContentIntoTitleBar` | `bool` | Custom frame / extend content |
 | `geometryPersistenceKey` | `string` | Non-empty → save/restore target window geometry (QSettings WindowGeometry/<key>). |
 | `geometryPersistenceEnabled` | `bool` | — |
+| `syncThemeFromSystem` | `bool` | Copy OS a11y / color scheme into Theme (1.69). |
 
 ### Signals
 

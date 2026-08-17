@@ -154,6 +154,8 @@ qt_add_qml_module(qwinui3_extras
         SettingsComboCard.qml
         SettingsSliderCard.qml
         SettingsView.qml
+        ThemeAppearanceSettings.qml
+        ThemePrefs.qml
         DetailRow.qml
         SwipeAction.qml
         Shimmer.qml
@@ -194,6 +196,7 @@ qt_add_qml_module(qwinui3_extras
         FileDropZone.qml
         ${QWINUI3_EXTRAS_MEDIA_QML}
     IMPORTS
+        QtCore
         TARGET qwinui3_theme
         TARGET qwinui3_platform
 )
