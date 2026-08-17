@@ -4,7 +4,7 @@ Thin WinUI-style virtualizing repeater over ListView.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ItemsRepeater.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ItemsRepeater.qml)
 
-**Category:** Collections & data · **Library:** v1.21
+**Category:** Collections & data · **Library:** v1.49
 
 [← Component index](../components.md)
 
@@ -29,6 +29,7 @@ ItemsRepeater {
 ## Notes
 
 Prefer this for large models; ItemsView adds selection / EmptyState recipe on top.
+ListView uses reuseItems (1.25) — keep delegates binding-driven for pooling.
 
 ## API
 

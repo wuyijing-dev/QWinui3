@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.48**
-**Next up:** **1.49** (Icon micro-animations)
+**Current:** **1.49**
+**Next up:** **1.50** (Extractable Gallery shell template)
 **Planned through:** **1.70** (long-horizon 1.xx checkpoint)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
 
@@ -60,7 +60,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.48`
+## Shipped — `1.01` … `1.49`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -254,32 +254,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** Extended [dialogs-flyouts.md](docs/dialogs-flyouts.md) FIFO / owner Overlay / Esc recipes; fixed `replaceCurrent` not pumping pending; Gallery ContentDialog A→B→C stress + Dialogs & flyouts pointers; product version `1.48`.
 
+### 1.49 — Icon micro-animations (shipped)
+
+**Shipped:** `FontIcon` / `IconicButton` hover lift + press squash (`microMotionEnabled`, `hoverScale`, `pressScale`); aligned `IconButton` / `AppBarButton` / `AppBarToggleButton`; honors `Theme.reducedMotion`; Gallery Iconography + IconButton + AppBarButton demos; [icons.md](docs/icons.md) + [animations.md](docs/animations.md) pointer; product version `1.49`.
+
 ---
 
-## Horizon — planned `1.49` … `1.70`
+## Horizon — planned `1.50` … `1.70`
 
 Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per `YY`. Order can flex if field P0s force a swap; do not merge themes into mega-minors.
-
-### 1.49 — Icon micro-animations
-
-**Why:** WinUI-style chrome feels alive on click/hover; `FontIcon` / icon buttons need a small, consistent press–hover motion that respects reduced motion.
-
-**In scope**
-
-- Micro-motion on `FontIcon` (hover lift + press squash) and align `IconButton` / `AppBarButton` glyph feedback.
-- Opt-out / scale knobs; honor `Theme.reducedMotion` / system reduced motion.
-- Gallery **Iconography** interactive demos; extend [icons.md](docs/icons.md) (+ brief [animations.md](docs/animations.md) pointer).
-
-**Out of scope**
-
-- Full WinUI **AnimatedIcon** / Lottie state machines / per-glyph morph paths.
-- Replacing ConnectedAnimation or theme transition APIs.
-
-**Exit criteria**
-
-- Press/hover micro-motion visible in Gallery Iconography + icon buttons; docs + reduced-motion off path verified.
-
----
 
 ### 1.50 — Extractable Gallery shell template
 

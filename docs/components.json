@@ -1,6 +1,6 @@
 {
   "name": "QWinUI3",
-  "version": "1.21",
+  "version": "1.49",
   "generatedBy": "scripts/generate_component_docs.py",
   "publicCount": 208,
   "components": [
@@ -240,7 +240,7 @@
       "galleryPage": "pages/CalendarDatePickerPage.qml",
       "galleryTitle": "CalendarDatePicker",
       "doc": "components/CalendarDatePicker.md",
-      "propertyCount": 16,
+      "propertyCount": 19,
       "signalCount": 1,
       "methodCount": 1
     },
@@ -540,7 +540,7 @@
       "galleryPage": "pages/DatePickerPage.qml",
       "galleryTitle": "DatePicker",
       "doc": "components/DatePicker.md",
-      "propertyCount": 19,
+      "propertyCount": 22,
       "signalCount": 1,
       "methodCount": 4
     },
@@ -720,7 +720,7 @@
       "galleryPage": "pages/FontIconPage.qml",
       "galleryTitle": "Iconography",
       "doc": "components/FontIcon.md",
-      "propertyCount": 10,
+      "propertyCount": 14,
       "signalCount": 0,
       "methodCount": 0
     },
@@ -870,7 +870,7 @@
       "galleryPage": "pages/IconicButtonPage.qml",
       "galleryTitle": "IconicButton",
       "doc": "components/IconicButton.md",
-      "propertyCount": 11,
+      "propertyCount": 15,
       "signalCount": 0,
       "methodCount": 0
     },
@@ -1245,9 +1245,9 @@
       "galleryPage": "pages/NavigationViewPage.qml",
       "galleryTitle": "NavigationView",
       "doc": "components/NavigationView.md",
-      "propertyCount": 49,
+      "propertyCount": 52,
       "signalCount": 7,
-      "methodCount": 34
+      "methodCount": 35
     },
     {
       "name": "NavigationWindow",
@@ -2055,7 +2055,7 @@
       "galleryPage": "pages/TimePickerPage.qml",
       "galleryTitle": "TimePicker",
       "doc": "components/TimePicker.md",
-      "propertyCount": 14,
+      "propertyCount": 17,
       "signalCount": 2,
       "methodCount": 3
     },
@@ -3287,7 +3287,7 @@
       "doc": "components/Theme.md",
       "propertyCount": 97,
       "signalCount": 0,
-      "methodCount": 6
+      "methodCount": 10
     }
   ]
 }

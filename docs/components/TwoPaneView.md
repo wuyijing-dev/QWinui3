@@ -4,13 +4,11 @@ Responsive dual-pane layout.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/TwoPaneView.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/TwoPaneView.qml)
 
-**Category:** Layout · **Library:** v1.21
+**Category:** Layout · **Library:** v1.49
 
 [← Component index](../components.md)
 
 **Gallery:** `TwoPaneView` — [`src/gallery/pages/TwoPaneViewPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/TwoPaneViewPage.qml)
-
-**Recipe:** [adaptive-layout.md](../adaptive-layout.md) (1.42) — breakpoints + ListDetailsView.
 
 **Extends** `Control`.
 

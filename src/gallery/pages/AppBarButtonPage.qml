@@ -10,13 +10,20 @@ import QWinUI3.Extras
 
 CatalogPage {
     title: qsTr("AppBarButton")
-    subtitle: qsTr("Icon-and-label command button with badge and tool tip.")
+    subtitle: qsTr("Icon-and-label command button with badge, tool tip, and glyph micro-motion (1.49).")
 
     ControlExample {
         headerText: qsTr("Commands")
         qmlSource: "AppBarButton {\n    symbol: FluentIcons.Mail\n    badgeValue: 3\n}"
         ColumnLayout {
             spacing: Theme.spacing
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Glyph hover/press uses IconicButton microMotionEnabled (default on). Honors Theme.reducedMotion — docs/icons.md.")
+                color: Theme.textSecondary
+                font.pixelSize: Theme.fontCaption
+            }
             CheckBox {
                 id: compactBox
                 text: qsTr("IsCompact")

@@ -4,7 +4,7 @@ Date field with calendar flyout.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/CalendarDatePicker.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/CalendarDatePicker.qml)
 
-**Category:** Date & time · **Library:** v1.21
+**Category:** Date & time · **Library:** v1.49
 
 [← Component index](../components.md)
 
@@ -30,6 +30,7 @@ CalendarDatePicker {
 
 Text field + calendar flyout (MonthGrid); selectedDate with min/max bounds.
 FirstDayOfWeek remaps calendar locale (WinUI CalendarView.FirstDayOfWeek).
+Form: header / description / errorMessage / hasError (1.28) — FormLayout.validate().
 
 ## API
 
@@ -46,6 +47,9 @@ FirstDayOfWeek remaps calendar locale (WinUI CalendarView.FirstDayOfWeek).
 | `showTodayButton` | `bool` | Show Today button in calendar |
 | `isTodayHighlighted` | `bool` | Highlight today ring (MonthGrid isToday) |
 | `header` | `string` | Header label above the control |
+| `description` | `string` | Supporting description text |
+| `errorMessage` | `string` | Validation error text (FormLayout) |
+| `hasError` | `bool` | True when validation failed |
 | `placeholderText` | `string` | Placeholder when empty |
 | `minDate` | `date` | Minimum selectable date |
 | `maxDate` | `date` | Maximum selectable date |

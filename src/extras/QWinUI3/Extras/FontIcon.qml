@@ -11,10 +11,12 @@ import QWinUI3.Theme
 //   }
 //   // --- API ---
 //   // icon.symbol / iconGlyph / fontSize
+//   // microMotionEnabled / hoverScale / pressScale (1.49)
 //
 // @notes
 //   FluentIcons symbol / glyph text; fontSize for px size.
 //   Accessible: set accessibleName or toolTipText — never use the raw PUA glyph (1.29).
+//   Hover/press micro-motion honors Theme.reducedMotion (1.49).
 
 Item {
     id: root
@@ -37,6 +39,12 @@ Item {
     property string toolTipText: ""
     // Accessible name override
     property string accessibleName: ""
+    // WinUI-style hover/press micro-motion (1.49)
+    property bool microMotionEnabled: true
+    // Hover glyph scale when microMotionEnabled
+    property real hoverScale: 1.06
+    // Pressed glyph scale when microMotionEnabled
+    property real pressScale: 0.92
 
     // Resolved glyph string
     readonly property string effectiveGlyph: {
@@ -47,6 +55,16 @@ Item {
         if (fromIcon.length)
             return fromIcon
         return IconSource.resolve(root.glyph, FluentIcons.Placeholder)
+    }
+
+    readonly property real effectiveIconScale: {
+        if (!root.microMotionEnabled || Theme.reducedMotion || !root.enabled)
+            return 1
+        if (press.pressed)
+            return root.pressScale
+        if (hover.hovered)
+            return root.hoverScale
+        return 1
     }
 
     implicitWidth: Math.ceil(fontSize * 1.25)
@@ -65,7 +83,13 @@ Item {
 
     HoverHandler {
         id: hover
-        enabled: root.toolTipText.length > 0
+        enabled: root.microMotionEnabled || root.toolTipText.length > 0
+    }
+    TapHandler {
+        id: press
+        enabled: root.microMotionEnabled
+        acceptedButtons: Qt.LeftButton
+        gesturePolicy: TapHandler.WithinBounds
     }
     ToolTip.visible: hover.hovered && root.toolTipText.length > 0
     ToolTip.text: root.toolTipText
@@ -82,7 +106,7 @@ Item {
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         renderType: Text.NativeRendering
-        scale: hover.hovered && root.toolTipText.length > 0 && !Theme.reducedMotion ? 1.06 : 1
+        scale: root.effectiveIconScale
         transform: Scale {
             origin.x: glyphText.width / 2
             origin.y: glyphText.height / 2
@@ -98,7 +122,10 @@ Item {
         }
         Behavior on scale {
             enabled: !Theme.reducedMotion
-            NumberAnimation { duration: Theme.duration(Theme.motionFast) }
+            NumberAnimation {
+                duration: Theme.duration(Theme.motionFast)
+                easing.type: Theme.easingStandard
+            }
         }
     }
 }

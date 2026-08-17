@@ -4,7 +4,7 @@ Independent ApplicationWindow + WindowChrome host.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ShellWindow.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ShellWindow.qml)
 
-**Category:** Shells & windows · **Library:** v1.21
+**Category:** Shells & windows · **Library:** v1.49
 
 [← Component index](../components.md)
 

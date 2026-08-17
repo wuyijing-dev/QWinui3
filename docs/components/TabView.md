@@ -4,7 +4,7 @@ Closeable / reorderable / tear-out tabs.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/TabView.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/TabView.qml)
 
-**Category:** Navigation · **Library:** v1.21
+**Category:** Navigation · **Library:** v1.49
 
 [← Component index](../components.md)
 

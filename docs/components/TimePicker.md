@@ -4,7 +4,7 @@ Hour / minute (and period) selectors.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/TimePicker.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/TimePicker.qml)
 
-**Category:** Date & time · **Library:** v1.21
+**Category:** Date & time · **Library:** v1.49
 
 [← Component index](../components.md)
 
@@ -29,6 +29,7 @@ TimePicker {
 
 Tumbler time picker; selectedTime + clockIdentifier 12HourClock|24HourClock.
 minuteIncrement snaps minutes (WinUI MinuteIncrement).
+Form: header / description / errorMessage / hasError (1.28) — FormLayout.validate().
 
 ## API
 
@@ -46,6 +47,9 @@ minuteIncrement snaps minutes (WinUI MinuteIncrement).
 | `pickerOpen` | `bool` | Picker flyout open |
 | `isOpen` | `alias` | Open / visible state |
 | `header` | `string` | Header label above the control |
+| `description` | `string` | Supporting description text |
+| `errorMessage` | `string` | Validation error text (FormLayout) |
+| `hasError` | `bool` | True when validation failed |
 | `minuteIncrement` | `int` | WinUI MinuteIncrement — e.g. 1, 5, 15 |
 | `minuteModel` | `var` | Minute tumbler model |
 | `displayHour` | `int` | Hour shown in the current clock format |

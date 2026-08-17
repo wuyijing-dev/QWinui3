@@ -11,7 +11,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("Iconography")
-    subtitle: qsTr("FluentIcons browser. Size / color / a11y: docs/icons.md (1.29).")
+    subtitle: qsTr("FluentIcons browser + hover/press micro-motion (1.49). Size / color / a11y: docs/icons.md.")
 
     property int selectedIndex: 0
 
@@ -115,6 +115,64 @@ CatalogPage {
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
+            }
+
+            ControlExample {
+                Layout.fillWidth: true
+                headerText: qsTr("Micro-motion (1.49)")
+                qmlSource: "FontIcon {\n    symbol: FluentIcons.Home\n    fontSize: 28\n    toolTipText: qsTr(\"Home\")\n}\nIconButton {\n    symbol: FluentIcons.Settings\n    toolTipText: qsTr(\"Settings\")\n}"
+                ColumnLayout {
+                    spacing: Theme.spacing
+                    Label {
+                        Layout.fillWidth: true
+                        wrapMode: Text.WordWrap
+                        text: qsTr("Hover lifts · press squashes. FontIcon / IconButton / AppBarButton share microMotionEnabled, hoverScale, pressScale. Theme.reducedMotion forces scale 1.")
+                        color: Theme.textSecondary
+                        font.pixelSize: Theme.fontCaption
+                    }
+                    RowLayout {
+                        spacing: Theme.spacingLoose
+                        FontIcon {
+                            symbol: FluentIcons.Home
+                            fontSize: 28
+                            toolTipText: qsTr("Home")
+                            accessibleName: qsTr("Home")
+                        }
+                        FontIcon {
+                            symbol: FluentIcons.FavoriteStar
+                            fontSize: 28
+                            iconColor: Theme.accent
+                            toolTipText: qsTr("Favorite")
+                            accessibleName: qsTr("Favorite")
+                        }
+                        FontIcon {
+                            symbol: FluentIcons.Mail
+                            fontSize: 28
+                            microMotionEnabled: false
+                            toolTipText: qsTr("Motion off")
+                            accessibleName: qsTr("Motion off")
+                        }
+                        IconButton {
+                            symbol: FluentIcons.Settings
+                            toolTipText: qsTr("Settings")
+                        }
+                        IconButton {
+                            symbol: FluentIcons.Refresh
+                            flat: false
+                            toolTipText: qsTr("Refresh")
+                        }
+                        AppBarButton {
+                            text: qsTr("Add")
+                            symbol: FluentIcons.Add
+                            toolTipText: qsTr("Add")
+                        }
+                    }
+                    CheckBox {
+                        text: qsTr("Theme.reducedMotion")
+                        checked: Theme.reducedMotion
+                        onToggled: Theme.reducedMotion = checked
+                    }
+                }
             }
 
             SearchBox {

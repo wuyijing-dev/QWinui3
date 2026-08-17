@@ -4,7 +4,7 @@ WinUI NavigationView with pane modes and page stack.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/NavigationView.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/NavigationView.qml)
 
-**Category:** Navigation · **Library:** v1.21
+**Category:** Navigation · **Library:** v1.49
 
 [← Component index](../components.md)
 
@@ -34,6 +34,7 @@ NavigationView {
 //           nav.openSlide("HomePage"), nav.openFromCenter("HomePage")
 //           nav.openFade("HomePage"), nav.openDrill("HomePage")
 //           nav.navigateToTitle("Home"), nav.reloadPage()
+//           nav.clearPageCache()  // drop cached page Components (keep current)
 // groups:   nav.toggleGroup(key), nav.setGroupExpanded(key, true)
 // reorder:  nav.moveNavItem(from, to)   // requires isReorderable
 // signals:  onItemClicked, onPageOpened, onFooterClicked, onBackRequested,
@@ -44,6 +45,8 @@ NavigationView {
 
 model entries: type "item"|"group"|"header"; groups use children[].
 pageModule + component names load StackView pages (unless hostContent).
+Pages compile on first open — not at shell startup; pageCacheLimit LRU (1.39).
+initialPageTransition defaults to "none" for a snappy first paint.
 paneDisplayMode auto switches left / leftCompact by width.
 leftMinimal overlays content with a light-dismiss scrim.
 Left-rail title bar is hamburger + paneTitle (paired); Back is top mode / TitleBar.
@@ -99,9 +102,9 @@ Prefer selectKey / openPage over mutating currentIndex alone.
 | `expandedMap` | `var` | groupKey -> bool; missing means expanded |
 | `currentKey` | `string` | Selected nav key (supports "group/0" child paths) |
 | `pageTransition` | `string` | Default page transition for pane clicks (see openPage modes) |
-| `initialPageTransition` | `string` | First open from `Component.onCompleted` (default `none` — 1.39) |
+| `initialPageTransition` | `string` | First openPage from Component.onCompleted (Gallery cold start — 1.39) |
 | `pendingMode` | `string` | Last / pending page transition mode |
-| `pageCacheLimit` | `int` | Max cached page Components (`0` = unlimited; default `24` — 1.39) |
+| `pageCacheLimit` | `int` | Max cached page Components from pageModule (0 = unlimited). LRU eviction (1.39). |
 | `pageCacheCount` | `int` | Number of entries in the page Component cache |
 | `pageTransitionModes` | `var` | Supported mode ids for Settings / Gallery pickers |
 | `pageItem` | `alias` | Current page item |
@@ -147,8 +150,8 @@ Prefer selectKey / openPage over mutating currentIndex alone.
 | `pushHistorySnapshot()` | Snapshot current selection for TitleBar back |
 | `navigateBack(mode)` | Restore previous nav selection (slideRight by default) |
 | `clearHistory()` | — |
-| `ensureComponent(name)` | Load / cache a page Component from pageModule |
-| `clearPageCache(keepCurrent)` | Drop cached page Components; keepCurrent (default true) retains the open page (1.39) |
+| `clearPageCache(keepCurrent)` | Drop cached page Components. keepCurrent (default true) retains the open page type. |
+| `ensureComponent(name)` | Load / cache a page Component from pageModule (lazy — not at shell startup) |
 | `applyPageTransition(mode)` | Configure enter/exit transform targets for a named transition mode |
 | `openPage(name, mode, forceReload)` | forceReload: true rebuilds even when the same page is already open (reloadPage). |
 | `openSlide(name)` | Left-nav style: content slides in from the left |

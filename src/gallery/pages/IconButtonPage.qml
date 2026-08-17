@@ -8,13 +8,20 @@ import QWinUI3.Extras
 
 CatalogPage {
     title: qsTr("IconButton")
-    subtitle: qsTr("Icon-only button with Fluent symbol, badge, and Accessible name from toolTip.")
+    subtitle: qsTr("Icon-only button with Fluent symbol, badge, hover/press micro-motion (1.49), and Accessible name from toolTip.")
 
     ControlExample {
         headerText: qsTr("Icons")
-        qmlSource: "IconButton {\n    symbol: FluentIcons.Copy\n    badgeValue: 3\n}"
+        qmlSource: "IconButton {\n    symbol: FluentIcons.Copy\n    toolTipText: qsTr(\"Copy\")\n}"
         ColumnLayout {
             spacing: Theme.spacing
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Hover lifts the glyph; press squashes it. Opt out with microMotionEnabled: false. Honors Theme.reducedMotion — docs/icons.md (1.49).")
+                color: Theme.textSecondary
+                font.pixelSize: Theme.fontCaption
+            }
             RowLayout {
                 spacing: Theme.spacing
                 IconButton {
@@ -45,11 +52,22 @@ CatalogPage {
                     badgeValue: 3
                     onClicked: status.text = qsTr("Notifications")
                 }
+                IconButton {
+                    symbol: FluentIcons.Settings
+                    toolTipText: qsTr("Motion off")
+                    microMotionEnabled: false
+                    onClicked: status.text = qsTr("Motion off")
+                }
                 IconButton { symbol: FluentIcons.ChromeClose; enabled: false; toolTipText: qsTr("Close") }
+            }
+            CheckBox {
+                text: qsTr("Theme.reducedMotion")
+                checked: Theme.reducedMotion
+                onToggled: Theme.reducedMotion = checked
             }
             Label {
                 id: status
-                text: qsTr("Ready")
+                text: qsTr("Ready — hover and click the icons")
                 color: Theme.textSecondary
             }
         }

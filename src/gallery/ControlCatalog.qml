@@ -194,7 +194,7 @@ QtObject {
             title: qsTr("IconButton"),
             category: "buttons",
             icon: FluentIcons.OpenInNewWindow,
-            description: qsTr("A compact icon-only button for toolbars and dense UIs."),
+            description: qsTr("Icon-only button with glyph micro-motion (1.49) — docs/icons.md."),
             component: "IconButtonPage",
             source: "pages/IconButtonPage.qml"
         },
@@ -1458,7 +1458,7 @@ QtObject {
             title: qsTr("Iconography"),
             category: "basic",
             icon: FluentIcons.OpenInNewWindow,
-            description: qsTr("FluentIcons + FontIcon (stable 1.37) — docs/icons.md."),
+            description: qsTr("FluentIcons + FontIcon micro-motion (1.49) — docs/icons.md."),
             component: "FontIconPage",
             source: "pages/FontIconPage.qml"
         },
@@ -1522,6 +1522,9 @@ QtObject {
     // Curated “recently shipped” recipe pages (1.20) — not catalog array order.
     function recentlyShipped(count) {
         var ids = [
+            "FontIconPage",           // 1.49 icon micro-motion
+            "IconButtonPage",         // 1.49
+            "AppBarButtonPage",       // 1.49
             "RecipesHubPage",         // all recipe docs → Gallery
             "PackagingConsumerPage",  // 1.12 / 1.46
             "ContentDialogPage",      // 1.48 queue stress

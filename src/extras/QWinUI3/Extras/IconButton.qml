@@ -14,6 +14,7 @@ import QWinUI3.Theme
 //
 // @notes
 //   Icon-only Button helper; set symbol / iconGlyph; inherits clicked().
+//   Glyph hover/press micro-motion via IconicButton (1.49); Theme.reducedMotion disables.
 
 IconicButton {
     id: control
@@ -31,20 +32,12 @@ IconicButton {
     implicitWidth: Theme.controlHeight
     implicitHeight: Theme.controlHeight
     padding: 0
-    scale: down && !Theme.reducedMotion ? 0.94 : 1
-
-    Behavior on scale {
-        enabled: !Theme.reducedMotion
-        NumberAnimation {
-            duration: Theme.duration(Theme.motionFast)
-            easing.type: Theme.easingStandard
-        }
-    }
 
     contentItem: Text {
         text: control.effectiveIconGlyph
         font.family: Theme.fontFamilyIcon
         font.pixelSize: control.iconSize
+        scale: control.effectiveIconScale
         color: {
             if (!control.enabled)
                 return Theme.textDisabled
@@ -57,6 +50,13 @@ IconicButton {
         Behavior on color {
             enabled: !Theme.reducedMotion
             ColorAnimation {
+                duration: Theme.duration(Theme.motionFast)
+                easing.type: Theme.easingStandard
+            }
+        }
+        Behavior on scale {
+            enabled: !Theme.reducedMotion
+            NumberAnimation {
                 duration: Theme.duration(Theme.motionFast)
                 easing.type: Theme.easingStandard
             }

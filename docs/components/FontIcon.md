@@ -4,7 +4,7 @@ FluentIcons glyph as Text.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/FontIcon.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/FontIcon.qml)
 
-**Category:** Media & platform · **Library:** v1.21
+**Category:** Media & platform · **Library:** v1.49
 
 [← Component index](../components.md)
 
@@ -22,11 +22,14 @@ FontIcon {
 }
 // --- API ---
 // icon.symbol / iconGlyph / fontSize
+// microMotionEnabled / hoverScale / pressScale (1.49)
 ```
 
 ## Notes
 
 FluentIcons symbol / glyph text; fontSize for px size.
+Accessible: set accessibleName or toolTipText — never use the raw PUA glyph (1.29).
+Hover/press micro-motion honors Theme.reducedMotion (1.49).
 
 ## API
 
@@ -43,7 +46,11 @@ FluentIcons symbol / glyph text; fontSize for px size.
 | `fontWeight` | `int` | Font weight |
 | `toolTipText` | `string` | Tooltip text |
 | `accessibleName` | `string` | Accessible name override |
+| `microMotionEnabled` | `bool` | WinUI-style hover/press micro-motion (1.49) |
+| `hoverScale` | `real` | Hover glyph scale when microMotionEnabled |
+| `pressScale` | `real` | Pressed glyph scale when microMotionEnabled |
 | `effectiveGlyph` | `string` | Resolved glyph string |
+| `effectiveIconScale` | `real` | — |
 
 ### Signals
 

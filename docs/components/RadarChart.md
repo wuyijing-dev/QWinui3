@@ -4,7 +4,7 @@ Radar / spider chart.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/RadarChart.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/RadarChart.qml)
 
-**Category:** Charts & gauges · **Library:** v1.21
+**Category:** Charts & gauges · **Library:** v1.49
 
 [← Component index](../components.md)
 

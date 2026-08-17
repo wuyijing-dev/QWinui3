@@ -4,13 +4,11 @@ Drag-and-drop target with Fluent empty chrome.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/FileDropZone.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/FileDropZone.qml)
 
-**Category:** Layout · **Library:** v1.41
+**Category:** Media & platform · **Library:** v1.49
 
 [← Component index](../components.md)
 
 **Gallery:** `FileDropZone` — [`src/gallery/pages/FileDropZonePage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/FileDropZonePage.qml)
-
-**Recipe:** [drag-drop.md](../drag-drop.md) (1.41) — pair with FilePicker browse + clipboard.
 
 **Extends** `Control`.
 

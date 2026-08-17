@@ -16,6 +16,7 @@ import QWinUI3.Theme
 // @notes
 //   Button with leading Fluent symbol + text. Prefer IconButton / AppBarButton
 //   for specialized layouts; this type is usable standalone.
+//   microMotionEnabled / hoverScale / pressScale / effectiveIconScale (1.49).
 
 T.AbstractButton {
     id: control
@@ -40,6 +41,23 @@ T.AbstractButton {
     property bool highlighted: false
     // Flat chrome without fill
     property bool flat: true
+    // WinUI-style glyph hover/press micro-motion (1.49); off when Theme.reducedMotion
+    property bool microMotionEnabled: true
+    // Hover glyph scale when microMotionEnabled
+    property real hoverScale: 1.06
+    // Pressed glyph scale when microMotionEnabled
+    property real pressScale: 0.92
+
+    // Resolved glyph scale (1 when reduced motion / disabled)
+    readonly property real effectiveIconScale: {
+        if (!control.microMotionEnabled || Theme.reducedMotion || !control.enabled)
+            return 1
+        if (control.down)
+            return control.pressScale
+        if (control.hovered)
+            return control.hoverScale
+        return 1
+    }
 
     // Resolved glyph string
     readonly property string effectiveIconGlyph: {
@@ -95,6 +113,7 @@ T.AbstractButton {
             text: control.effectiveIconGlyph
             font.family: Theme.fontFamilyIcon
             font.pixelSize: control.iconSize
+            scale: control.effectiveIconScale
             color: {
                 if (!control.enabled)
                     return Theme.textDisabled
@@ -103,6 +122,20 @@ T.AbstractButton {
                 return Theme.textPrimary
             }
             Layout.alignment: Qt.AlignVCenter
+            Behavior on scale {
+                enabled: !Theme.reducedMotion
+                NumberAnimation {
+                    duration: Theme.duration(Theme.motionFast)
+                    easing.type: Theme.easingStandard
+                }
+            }
+            Behavior on color {
+                enabled: !Theme.reducedMotion
+                ColorAnimation {
+                    duration: Theme.duration(Theme.motionFast)
+                    easing.type: Theme.easingStandard
+                }
+            }
         }
         Text {
             visible: control.text && control.text.length > 0

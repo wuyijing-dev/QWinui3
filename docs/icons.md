@@ -1,10 +1,10 @@
-# Icons & FluentIcons (1.29)
+# Icons & FluentIcons (1.29 · micro-motion 1.49)
 
 Reliable symbol story for apps: **FluentIcons** + **Theme.fontFamilyIcon** — no custom asset pipeline required.
 
-Gallery: **Iconography** (`FontIconPage`) · IconButton · IconicButton · Accessibility.
+Gallery: **Iconography** (`FontIconPage`) · IconButton · AppBarButton · IconicButton · Accessibility.
 
-Related: [conventions.md](conventions.md) · [accessibility.md](accessibility.md) · [platform-linux-wayland.md](platform-linux-wayland.md) · [theme-overrides.md](theme-overrides.md).
+Related: [conventions.md](conventions.md) · [accessibility.md](accessibility.md) · [animations.md](animations.md) · [platform-linux-wayland.md](platform-linux-wayland.md) · [theme-overrides.md](theme-overrides.md).
 
 ---
 
@@ -43,7 +43,7 @@ IconButton {
 |-------|--------|------|
 | [`FluentIcons`](components/Theme.md) | Theme singleton | `FluentIcons.Home` → glyph string (~100 named; full map in font) |
 | `FluentIconsCatalog` | Theme singleton | Browser data: `entries`, `names`, `namedCount` |
-| [`FontIcon`](components/FontIcon.md) | Extras | Standalone glyph |
+| [`FontIcon`](components/FontIcon.md) | Extras | Standalone glyph (+ micro-motion 1.49) |
 | [`IconSource`](components/IconSource.md) | Theme | `resolve(symbol\|name\|glyph)` |
 | `Theme.fontFamilyIcon` | Theme | Active icon font family |
 
@@ -92,6 +92,42 @@ Do not invent fills for icons — follow the hosting control’s foreground reci
 
 ---
 
+## Micro-motion (1.49)
+
+WinUI-style **hover lift** and **press squash** on glyphs. Shared knobs on `FontIcon` and `IconicButton` (hence `IconButton` / `AppBarButton` / `AppBarToggleButton`):
+
+| Property | Default | Role |
+|----------|---------|------|
+| `microMotionEnabled` | `true` | Master switch |
+| `hoverScale` | `1.06` | Hover lift |
+| `pressScale` | `0.92` | Press squash |
+| `effectiveIconScale` | (readonly) | Resolved scale |
+
+```qml
+FontIcon {
+    symbol: FluentIcons.Home
+    toolTipText: qsTr("Home")
+    // microMotionEnabled: false   // opt out
+    // hoverScale: 1.08
+    // pressScale: 0.9
+}
+
+IconButton {
+    symbol: FluentIcons.Settings
+    toolTipText: qsTr("Settings")
+}
+```
+
+| Rule | Detail |
+|------|--------|
+| Reduced motion | When `Theme.reducedMotion` (or system SPI mirrored in Gallery), scale stays **1** |
+| Duration | `Theme.duration(Theme.motionFast)` + `Theme.easingStandard` |
+| Scope | Glyph only — not a full **AnimatedIcon** / Lottie path (see roadmap 1.53) |
+
+Also see [animations.md](animations.md) (pointer).
+
+---
+
 ## Accessibility
 
 | Surface | Guidance |
@@ -105,13 +141,13 @@ Do not invent fills for icons — follow the hosting control’s foreground reci
 
 ## Gallery — Iconography
 
-1. Open **Iconography** and search by name, code, or tags.
-2. Select a tile → copy `FontIcon { symbol: FluentIcons.… }` when **named**.
-3. Counts show total / filtered / named — prefer named keys in product code.
-4. Pair with **IconButton** / **Accessibility** pages for `toolTipText` demos.
+1. Open **Iconography** — try the **Micro-motion (1.49)** strip (hover/press + `Theme.reducedMotion` toggle).
+2. Search the catalog by name, code, or tags; copy `FontIcon { symbol: FluentIcons.… }` when **named**.
+3. Pair with **IconButton** / **AppBarButton** pages for control chrome demos.
 
 ---
 
 ## Out of scope
 
 - Figma token pipeline; shipping a second icon font for the kit.
+- Full WinUI AnimatedIcon / Lottie state machines (planned thin path: roadmap **1.53**).

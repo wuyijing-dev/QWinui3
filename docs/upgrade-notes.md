@@ -47,6 +47,22 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.48 → 1.49
+
+**Product version:** 1.49  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- Glyph hover/press micro-motion on `FontIcon` / `IconButton` / `AppBarButton` — see [icons.md](icons.md).
+- Opt out with `microMotionEnabled: false`; tune `hoverScale` / `pressScale`.
+- Gallery **Iconography** micro-motion strip + IconButton / AppBarButton pages.
+
+#### No action (compatible)
+
+- Defaults are additive; `Theme.reducedMotion` still forces scale `1`.
+- IconButton no longer scales the whole control — only the glyph (visual polish).
+
 ### Upgrade 1.47 → 1.48
 
 **Product version:** 1.48  

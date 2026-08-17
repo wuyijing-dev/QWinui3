@@ -106,7 +106,7 @@ IconicButton {
                         return Theme.accent
                     return Theme.textPrimary
                 }
-                scale: control.down ? 0.92 : 1
+                scale: control.effectiveIconScale
                 Behavior on color {
                     enabled: !Theme.reducedMotion
                     ColorAnimation {

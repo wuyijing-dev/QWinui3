@@ -4,7 +4,7 @@ Date selectors (year / month / day).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/DatePicker.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/DatePicker.qml)
 
-**Category:** Date & time · **Library:** v1.21
+**Category:** Date & time · **Library:** v1.49
 
 [← Component index](../components.md)
 
@@ -29,6 +29,7 @@ DatePicker {
 Tumbler date picker; selectedDate or year/month/day parts.
 DayVisible / MonthVisible / YearVisible hide tumbler columns (WinUI).
 Accept commits; minYear/maxYear bound the year range.
+Form: header / description / errorMessage / hasError (1.28) — FormLayout.validate().
 
 ## API
 
@@ -50,6 +51,9 @@ Accept commits; minYear/maxYear bound the year range.
 | `pickerOpen` | `bool` | Picker flyout open |
 | `isOpen` | `alias` | Open / visible state |
 | `header` | `string` | Header label above the control |
+| `description` | `string` | Supporting description text |
+| `errorMessage` | `string` | Validation error text (FormLayout) |
+| `hasError` | `bool` | True when validation failed |
 | `placeholderText` | `string` | Placeholder when empty |
 | `dateFormat` | `string` | yyyy-MM-dd \| MM/dd/yyyy \| dd/MM/yyyy |
 | `selectedDate` | `date` | Currently selected date |

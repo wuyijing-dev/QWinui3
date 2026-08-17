@@ -17,6 +17,7 @@ Gallery: **Animations** (hub) · ConnectedAnimation · EntranceThemeTransition �
 | First show of a section / card | [`EntranceThemeTransition`](components/EntranceThemeTransition.md) |
 | Swap content identity (tab/panel) | [`ContentThemeTransition`](components/ContentThemeTransition.md) |
 | Flow/Grid children reflow | [`RepositionThemeTransition`](components/RepositionThemeTransition.md) |
+| Icon hover/press micro-motion | [`FontIcon`](components/FontIcon.md) / IconButton — [icons.md](icons.md) (**1.49**) |
 | Theme.dark / accent color change | `Behavior` + `Theme.duration` (below) — **not** a dedicated type |
 
 Do **not** wrap the entire `ShellWindow` / title bar in entrance motion — animate **client content** only to avoid chrome jank.
@@ -163,4 +164,5 @@ Use the same pattern for `Theme.accent` fills. Avoid animating dozens of deep tr
 | [RepositionThemeTransition](components/RepositionThemeTransition.md) | Reflow |
 | [ListDetailsView](components/ListDetailsView.md) | Built-in connected animation |
 | [accessibility.md](accessibility.md) | `reducedMotion` / SPI |
+| [icons.md](icons.md) | Glyph hover/press micro-motion (**1.49**) |
 | [data-collections.md](data-collections.md) | List → detail notes |

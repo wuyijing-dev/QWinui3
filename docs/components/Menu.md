@@ -4,7 +4,7 @@ Fluent styled Menu.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/Menu.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/Menu.qml)
 
-**Category:** Styled controls · **Library:** v1.21
+**Category:** Styled controls · **Library:** v1.49
 
 [← Component index](../components.md)
 

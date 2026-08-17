@@ -4,7 +4,7 @@ Fluent color / type / motion token singleton.
 
 `import QWinUI3.Theme` · [`src/theme/QWinUI3/Theme/Theme.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/theme/QWinUI3/Theme/Theme.qml)
 
-**Category:** Theme · **Library:** v1.21
+**Category:** Theme · **Library:** v1.49
 
 [← Component index](../components.md)
 
@@ -38,6 +38,7 @@ Theme.dp(value) / Theme.hairline(dpr)
 Theme.controlFill(hovered, pressed, disabled)
 Theme.accentFill(hovered, pressed, disabled)
 Theme.setAccentPack(name)
+Theme.relativeLuminance(c) / Theme.contrastRatio(fg, bg) / Theme.contrastPassesAA(…)  // 1.43
 ```
 
 ## Notes
@@ -48,6 +49,7 @@ density "standard"|"compact" scales controlHeight / padding / spacing.
 devicePixelRatio + uiScale: hairline strokes and optional extra UI scale (ShellWindow syncs DPR).
 accentPack "blue"|"purple"|"green"|"orange"; customAccent (alpha>0) overrides pack.
 Branding: set knobs only — do not assign readonly bg*/text* or fork Style (docs/theme-overrides.md).
+Contrast diagnostics: docs/color-contrast.md (1.43) — AA guidance, not a certification product.
 Use Theme.duration(ms) and controlFill/accentFill helpers for states.
 
 ## API
@@ -168,10 +170,10 @@ _No custom signals_ (use inherited signals from the base type).
 | `setAccentPack(name)` | Apply a named accent pack and clear customAccent |
 | `controlFill(hovered, pressed, disabled)` | Rest/hover/pressed/disabled control fill helper |
 | `accentFill(hovered, pressed, disabled)` | Rest/hover/pressed/disabled accent fill helper |
-| `relativeLuminance(c)` | WCAG relative luminance 0…1 (**1.43**) |
-| `contrastRatio(fg, bg)` | WCAG contrast ratio (**1.43**) — [color-contrast.md](../color-contrast.md) |
-| `contrastPassesAA(fg, bg, largeText?)` | AA gate 4.5:1 / 3:1 (**1.43**) |
-| `accentContrastRatio(surface?)` | `accent` vs `bgCard` or given surface (**1.43**) |
+| `relativeLuminance(colorValue)` | Relative luminance 0…1 (WCAG 2.x) for a Qt color / "#RRGGBB" |
+| `contrastRatio(fg, bg)` | Contrast ratio ≥ 1 (WCAG). Order of fg/bg does not matter. |
+| `contrastPassesAA(fg, bg, largeText)` | WCAG AA: 4.5:1 normal text, 3:1 large text (≥18pt / 14pt bold ≈ Theme.fontBodyLarge+) |
+| `accentContrastRatio(surface)` | Convenience: accent on a surface (default bgCard) |
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*
