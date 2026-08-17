@@ -553,7 +553,7 @@ Small **non-breaking** slices after [checkpoint-190.md](docs/checkpoint-190.md).
 
 ### Does not ship in 2.00 (out)
 
-- Fluent 2 / full visual redesign → **2.17+** (experimental module)
+- **Fluent 2 / separate Style fork — withdrawn** (not in **2.01…2.50**; **WinUI 3 Style** only)
 - Linux system-wide OSK inject
 - **macOS first-class** — **withdrawn** (not in **2.01…2.50**)
 - Full Lottie, Figma tokens, every-locale portal
@@ -587,7 +587,7 @@ After **2.00**, ordinary **2.xx** minors — **one theme each**. Order may shift
 | **2.14** | Multi-window & modal stack harden | Planned |
 | **2.15** | High-DPI & multi-monitor wave 3 | Planned |
 | **2.16** | Command & search surfaces deepen | Planned |
-| **2.17** | Fluent 2 Style (experimental module) | Planned |
+| **2.17** | Theme & Style polish (WinUI 3) | Planned |
 | **2.18** | Performance wave 5 (2.x floor) | Planned |
 | **2.19** | Component docs & Gallery catalog refresh | Planned |
 | **2.20** | First 2.x horizon checkpoint | Planned |
@@ -608,7 +608,7 @@ After **2.00**, ordinary **2.xx** minors — **one theme each**. Order may shift
 | **2.35** | Localization wave 4 | Planned |
 | **2.36** | Security & trust wave 3 | Planned |
 | **2.37** | **New controls:** `PipsPager` + carousel shell recipes | Planned |
-| **2.38** | Fluent 2 Style deepen (still opt-in) | Planned |
+| **2.38** | Theme overrides & branding wave 2 | Planned |
 | **2.39** | Gallery catalog expansion | Planned |
 | **2.40** | Performance wave 7 | Planned |
 | **2.41** | Command palette + menu bar wave 3 | Planned |
@@ -718,11 +718,11 @@ After **2.00**, ordinary **2.xx** minors — **one theme each**. Order may shift
 
 **Out:** Spotlight clone; cloud search backends.
 
-### 2.17 — Fluent 2 Style (experimental module) (planned)
+### 2.17 — Theme & Style polish (WinUI 3) (planned)
 
-**Goal:** Optional **`QWinUI3.Fluent2`** (or Style fork) behind explicit import — **not** the default Style; Gallery opt-in page.
+**Goal:** Deepen the existing **Style** module on the **2.x** floor — control chrome consistency, token usage audits, Gallery Style spot-check pages; [theme-overrides.md](docs/theme-overrides.md) cross-links. **No** separate Fluent 2 import/module.
 
-**Out:** Replacing default Style; Figma token pipeline.
+**Out:** Fluent 2 fork; full visual redesign.
 
 ### 2.18 — Performance wave 5 (planned)
 
@@ -844,11 +844,11 @@ After **2.00**, ordinary **2.xx** minors — **one theme each**. Order may shift
 
 **Out:** Full-screen carousel product.
 
-### 2.38 — Fluent 2 Style deepen (planned)
+### 2.38 — Theme overrides & branding wave 2 (planned)
 
-**Goal:** Expand opt-in Fluent 2 tokens; coexistence docs; no default switch.
+**Goal:** Extend **1.09** branding — custom accent packs, `ThemePrefs` recipes for 2.x apps, contrast/density integration; Gallery Settings + [color-contrast.md](docs/color-contrast.md) refresh.
 
-**Out:** Fluent 2 as default in **2.50**.
+**Out:** Fluent 2 tokens; Figma pipeline.
 
 ### 2.39 — Gallery catalog expansion (planned)
 
@@ -920,7 +920,7 @@ After **2.00**, ordinary **2.xx** minors — **one theme each**. Order may shift
 
 **Goal:** [checkpoint-250.md](docs/checkpoint-250.md) — verdict on **2.00…2.50**; [upgrade-notes.md](docs/upgrade-notes.md) draft **2.50 → 3.00** (if ever); catalog size audit; parking-lot triage.
 
-**Out:** Actually shipping **3.00** in the same tag; macOS first-class revival.
+**Out:** Actually shipping **3.00** in the same tag; macOS or Fluent 2 Style fork revival.
 
 ---
 
@@ -929,8 +929,9 @@ After **2.00**, ordinary **2.xx** minors — **one theme each**. Order may shift
 Unscheduled; pick up only inside a named `1.xx` or `2.xx` minor (or never). Clarified at **1.60** ([checkpoint-160.md](docs/checkpoint-160.md)):
 
 - **macOS first-class — withdrawn** (not in **2.01…2.50**; Qt-on-macOS may still consume the kit unofficially)
+- **Fluent 2 Style fork / separate Style module — withdrawn** (WinUI 3 Style only)
 - Figma / design-token pipeline
-- Full Fluent visual redesign / Fluent 2 Style fork (**not** 2.00 by default)
+- Full Fluent visual redesign (**not** scheduled in **2.01…2.50**)
 - Screenshot diffs for **every** Gallery page (1.62 subset **removed** in 1.82; not a default CI gate)
 - Community translation portal / every-locale coverage (seeds `zh_CN` / `ja_JP` enough for 1.xx)
 - Full Lottie runtime as a hard product dependency (thin glyph path shipped in 1.53)
@@ -940,7 +941,6 @@ Unscheduled; pick up only inside a named `1.xx` or `2.xx` minor (or never). Clar
 - Consumer `find_package` productize → **2.02**
 - Wayland compositor-native chrome → **2.03** (client shell in **1.92**)
 - **New controls** (FileTree, TreeDataGrid, Hub, …) → **2.06**, **2.21…2.24**, **2.31**, **2.37**, **2.42**, **2.48**
-- Fluent 2 Style fork → **2.17** / **2.38** (not default Style)
 - Official vcpkg/Conan → **2.11**
 - Custom ink / handwriting canvas (out of 1.57 touch cookbook; out of 1.70…1.73 IME)
 - Dictation / cloud IME lexicon (out of 1.73 full in-app IME)

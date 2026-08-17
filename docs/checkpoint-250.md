@@ -6,7 +6,7 @@ Scope (from [roadmap.md](roadmap.md)): verdict on **2.00…2.50**; [upgrade-note
 
 Earlier: [checkpoint-230.md](checkpoint-230.md) · [checkpoint-220.md](checkpoint-220.md) · [ROADMAP.md](../ROADMAP.md).
 
-**Platforms:** **Windows + Linux** ship targets — **macOS first-class not planned**.
+**Platforms:** **Windows + Linux** ship targets — **macOS first-class** and **Fluent 2 Style fork not planned**.
 
 ---
 
