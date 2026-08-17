@@ -2,7 +2,7 @@
 
 **Current:** **1.69**
 **Next up:** **1.70** (Win11 on-screen keyboard — MIT engine, our UI)
-**Planned through:** **1.71** (long-horizon 1.xx checkpoint)  
+**Planned through:** **1.74** (long-horizon 1.xx checkpoint)  
 **Still 1.xx:** Mid-horizon checkpoint published — [checkpoint-160.md](checkpoint-160.md). Not drafting 2.00.  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](qt-version-compat.md)
 
@@ -341,9 +341,11 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Horizon — planned `1.70` … `1.71`
+## Horizon — planned `1.70` … `1.74`
 
-Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per `YY`. Order can flex if field P0s force a swap; do not merge themes into mega-minors. Posture after 1.51 / 1.60: prefer field harden / docs over new control families — **1.70** is an explicit exception (touch OSK; Qt Virtual Keyboard is GPL).
+Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per `YY`. Order can flex if field P0s force a swap; do not merge themes into mega-minors. Posture after 1.51 / 1.60: prefer field harden / docs over new control families — **1.70…1.73** is an explicit exception (touch OSK → full in-app IME; Qt Virtual Keyboard is GPL).
+
+Ladder (engine stays Keyman Core; chrome stays ours): **1.70** en-US OSK → **1.71** extra layouts → **1.72** Chinese IME → **1.73** full IME → **1.74** checkpoint. Plan: [on-screen-keyboard.md](on-screen-keyboard.md).
 
 ### 1.70 — Win11 on-screen keyboard (MIT engine, our UI)
 
@@ -353,22 +355,21 @@ Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per 
 **UI:** QWinUI3 QML (`OnScreenKeyboard`) — Theme tokens, Win11 dock (rounded keys, wide Space/Enter).  
 **Inject:** `QInputMethodEvent` into the focused item. Do **not** ship Qt’s IM plugin or vendor SomcoKeyboard / OpenVirtualKeyboard QML.
 
-Plan: [on-screen-keyboard.md](on-screen-keyboard.md).
-
 **In scope**
 
 - Experimental Extra + thin C++ adapter around `km_core_process_event`
 - en-US letters + Shift/Caps + symbols; dark/light; Gallery page
 - CMake stub if Core is missing (same pattern as MediaPlayerElement)
-- Docs: this recipe + keyboard.md / touch-pointer.md / packaging strip cross-links
+- Docs: OSK recipe + keyboard.md / touch-pointer.md / packaging strip cross-links
 
 **Out of scope**
 
 - Qt Virtual Keyboard / `QT_IM_MODULE=qtvirtualkeyboard`
 - Third-party QML keyboard chrome
-- Full CJK IME, handwriting, dictation, global `SendInput` into other processes
+- Extra layouts / CJK IME (that is **1.71…1.73**)
+- Handwriting, dictation, global `SendInput` into other processes
 - Promote to stable in the same minor
-- Long-horizon 1.xx audit (that is **1.71**)
+- Long-horizon 1.xx audit (that is **1.74**)
 
 **Exit criteria**
 
@@ -376,14 +377,82 @@ Plan: [on-screen-keyboard.md](on-screen-keyboard.md).
 - LICENSE/NOTICE names Keyman Core; deploy trees still strip Qt VK
 - Recipe matches the shipped Extra; type listed experimental on stable-api
 
-### 1.71 — Long-horizon 1.xx checkpoint
+### 1.71 — Extra keyboard layouts (not IME yet)
 
-**Why:** Close the planned `1.49`…`1.71` arc with a deliberate “where we are”—still not 2.00. Slipped from 1.70 so the OSK can ship as its own slice.
+**Why:** Same OSK chrome; swap Keyman `.kmx` instead of forking QML per language. European / Cyrillic / RTL layouts are keymap problems, not candidate-window problems.
+
+**In scope**
+
+- Globe / language switcher on the dock; load extra MIT Keyman keyboards (e.g. de, fr, es, ru; RTL such as ar with `LayoutMirroring`)
+- Dead keys / AltGr via Core; Gallery language ComboBox
+- Docs: layout pack list + how to add a `.kmx`
+
+**Out of scope**
+
+- Pinyin / kana / hangul **candidate lists** (that is **1.72 / 1.73**)
+- Handwriting, dictation, emoji-as-IME
+- Replacing the OS system IME
+
+**Exit criteria**
+
+- Switching layouts types the expected glyphs; RTL dock does not break en-US
+- No new GPL dependency
+
+### 1.72 — Chinese IME (pinyin + candidates)
+
+**Why:** Chinese is not “another QWERTY.” It needs composition + a candidate bar. Engine still Keyman Core; **candidate chrome is ours** (Win11 style).
+
+**In scope**
+
+- zh-Hans pinyin: preedit (`QInputMethodEvent`) + candidate strip / page keys
+- Gallery: TextField with OSK in 中文 mode
+- Honest docs: in-app IME, not Microsoft Pinyin cloud quality
+
+**Out of scope**
+
+- ja / ko / extra CJK (that is **1.73**)
+- Handwriting, speech, cloud lexicon
+- Hijacking or disabling the OS IME for the whole desktop
+
+**Exit criteria**
+
+- Type pinyin → pick a candidate → commit Hanzi into a QWinUI3 TextField
+- Candidate UI uses Theme tokens; keyboard stays experimental
+
+### 1.73 — Full in-app IME
+
+**Why:** Finish the language arc: shared candidate host + more Keyman packs (Japanese, Korean, additional community keyboards). Still one engine, one Fluent panel.
+
+**In scope**
+
+- ja (romaji/kana) and ko (jamo / hangul) through Core + the same candidate host
+- Extra language packs as resources (documented subset, not “every Keyman keyboard”)
+- Optional emoji layer (no engine)
+- Gallery language matrix; recipe “full IME” section
+- Stay **experimental** unless soak is explicitly green in this minor
+
+**Out of scope**
+
+- OS-wide IME / `platforminputcontexts` GPL path
+- Handwriting / ink (parking lot)
+- Dictation / cloud suggestion backends
+- Promote to stable unless exit soak is written and met
+- Long-horizon audit (that is **1.74**)
+
+**Exit criteria**
+
+- zh / ja / ko + at least the 1.71 layout set work in Gallery without Qt Virtual Keyboard
+- Docs name shipped packs vs “bring your own `.kmx`”
+- LICENSE/NOTICE still only MIT Core + our UI
+
+### 1.74 — Long-horizon 1.xx checkpoint
+
+**Why:** Close the planned `1.49`…`1.74` arc with a deliberate “where we are”—still not 2.00. Slipped so OSK → full IME can ship as named slices.
 
 **In scope**
 
 - Full stable-api vs Gallery audit; ROADMAP shipped/deferred refresh; compatibility-1xx revisit.
-- Publish “prefer field harden / pause vs new surfaces” guidance; open `1.72+` only for field-driven slices or park.
+- Publish “prefer field harden / pause vs new surfaces” guidance; open `1.75+` only for field-driven slices or park.
 
 **Out of scope**
 
@@ -395,18 +464,18 @@ Plan: [on-screen-keyboard.md](on-screen-keyboard.md).
 
 ---
 
-## After `1.71`
+## After `1.74`
 
-Still **1.xx** if field needs dictate (`1.72`…)—or pause on polish. **Do not** treat 1.70/1.71 as permission to start **2.00**.
+Still **1.xx** if field needs dictate (`1.75`…)—or pause on polish. **Do not** treat 1.70…1.74 as permission to start **2.00**.
 
 Unscheduled follow-ups (pick only inside a named minor):
 
 | Candidate | Notes |
 |-----------|-------|
 | **Accessibility wave 3** | Focus return / live regions — slipped past 1.69 Theme prefs |
-| **OSK CJK / emoji** | Beyond 1.70 Latin+symbols — [on-screen-keyboard.md](on-screen-keyboard.md) |
-| **1.72+ field fixes** | Portal / DPI / tray / WebView2 / packaging regressions |
-| **More locale packs** | Only if 1.45/1.54 workflow stays cheap |
+| **IME soak → stable** | Only after **1.73** field use — do not silent-promote |
+| **1.75+ field fixes** | Portal / DPI / tray / WebView2 / packaging / IME regressions |
+| **More locale packs** | UI translation (`zh_CN` / `ja_JP`) stays separate from IME packs |
 | **Deeper Lottie / AnimatedIcon** | Only if 1.53 thin path proves valuable |
 | **Official vcpkg/Conan ports** | Beyond the 1.61 sketch—product promise only if owned |
 | **macOS first-class** | Remains parking-lot until deliberately scheduled |
@@ -425,7 +494,7 @@ Consider 2.00 only if several of these become true:
 - Need a new packaging/ABI contract that breaks 1.xx consumers  
 - Need to drop an old Qt floor or OS policy in a breaking way  
 
-Until then: **stay on 1.xx**, bump `YY` for each slice. Prefer finishing through **1.71** (long-horizon checkpoint) before even drafting 2.00 scope.
+Until then: **stay on 1.xx**, bump `YY` for each slice. Prefer finishing through **1.74** (long-horizon checkpoint) before even drafting 2.00 scope.
 
 ---
 
@@ -441,8 +510,8 @@ Unscheduled; pick up only inside a named `1.xx` minor (or never). Clarified at *
 - Full Lottie runtime as a hard product dependency (thin glyph path shipped in 1.53)  
 - New chart engines / WebGL  
 - Official vcpkg/Conan ports as supported products (sketch may ship in 1.61)  
-- Custom ink / handwriting canvas (out of 1.57 touch cookbook; out of 1.70 OSK)  
-- Full CJK IME / dictation as a product IME (1.70 OSK is Latin + symbols only)  
+- Custom ink / handwriting canvas (out of 1.57 touch cookbook; out of 1.70…1.73 IME)  
+- Dictation / cloud IME lexicon (out of 1.73 full in-app IME)  
 - Qt Virtual Keyboard (GPL/commercial — never)  
 - Cloud settings roaming / share backends (out of 1.65 recipes scope)  
 
@@ -460,5 +529,5 @@ Unscheduled; pick up only inside a named `1.xx` minor (or never). Clarified at *
 | [components.md](components.md) | Control index |
 | [conventions.md](conventions.md) | A11y / QML rules |
 | [qt-version-compat.md](qt-version-compat.md) | Qt multi-version shims |
-| [on-screen-keyboard.md](on-screen-keyboard.md) | 1.70 OSK — Keyman Core + our UI |
+| [on-screen-keyboard.md](on-screen-keyboard.md) | 1.70…1.73 OSK → full in-app IME |
 | [ROADMAP.md](../ROADMAP.md) | Canonical plan (repo root) |

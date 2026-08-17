@@ -96,7 +96,7 @@ nav:
       - Dialogs & flyouts: dialogs-flyouts.md
       - Commands & menus: commands.md
       - Keyboard-first: keyboard.md
-      - On-screen keyboard: on-screen-keyboard.md
+      - On-screen keyboard / IME: on-screen-keyboard.md
       - In-app search: search.md
       - Accessibility: accessibility.md
     - Platform & media:

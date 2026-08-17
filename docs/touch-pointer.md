@@ -1,6 +1,6 @@
 # Touch, pen & pointer (1.57)
 
-Honest finger / pen guidance for QWinUI3 LoB shells — **no** custom ink stack. Pair with [density.md](density.md), [accessibility.md](accessibility.md), and [keyboard.md](keyboard.md) (hardware chords stay primary for power users). Touch OSK (Win11 chrome, MIT engine) is **1.70**: [on-screen-keyboard.md](on-screen-keyboard.md).
+Honest finger / pen guidance for QWinUI3 LoB shells — **no** custom ink stack. Pair with [density.md](density.md), [accessibility.md](accessibility.md), and [keyboard.md](keyboard.md) (hardware chords stay primary for power users). Touch OSK → in-app IME is **1.70…1.73**: [on-screen-keyboard.md](on-screen-keyboard.md).
 
 Gallery: **Touch & pointer** · **Density** · **Accessibility** · high-traffic callouts on Button / Slider / NavigationView / FileDropZone / SwipeControl.
 
@@ -89,7 +89,7 @@ Smoke these with a finger (or Windows touch emulator) after changing density:
 | [adaptive-layout.md](adaptive-layout.md) | Narrow TwoPane / ListDetails |
 | [accessibility.md](accessibility.md) | Names, focus, reduced motion |
 | [keyboard.md](keyboard.md) | Chords stay available on touch-capable PCs |
-| [on-screen-keyboard.md](on-screen-keyboard.md) | Win11 OSK (**1.70**) — not Qt Virtual Keyboard |
+| [on-screen-keyboard.md](on-screen-keyboard.md) | Win11 OSK → IME (**1.70…1.73**) — not Qt Virtual Keyboard |
 | [drag-drop.md](drag-drop.md) | Drop + Browse + clipboard |
 | [icons.md](icons.md) | Icon-only `toolTipText` |
 

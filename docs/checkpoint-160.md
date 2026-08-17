@@ -2,7 +2,7 @@
 
 Halfway audit of the **1.49…1.70** arc (as of 1.60). **Still 1.xx — not 2.00.**
 
-**Later plan update (after 1.69):** **1.70** is the Win11 on-screen keyboard ([on-screen-keyboard.md](on-screen-keyboard.md)); the long-horizon checkpoint moved to **1.71**. Freeze / “not 2.00” is unchanged.
+**Later plan update (after 1.69):** **1.70…1.73** is the OSK → full in-app IME ladder ([on-screen-keyboard.md](on-screen-keyboard.md)); the long-horizon checkpoint moved to **1.74**. Freeze / “not 2.00” is unchanged.
 
 Related: [maturity-1xx.md](maturity-1xx.md) (1.51) · [compatibility-1xx.md](compatibility-1xx.md) · [stable-api.md](stable-api.md) · [upgrade-notes.md](upgrade-notes.md) · [ROADMAP.md](../ROADMAP.md) · Gallery **Pitfalls**.
 
@@ -73,9 +73,9 @@ Keep in sync: `src/gallery/main.cpp` · `ControlCatalog.smokeCriticalComponents(
 
 ---
 
-## Confirmed plan **1.61…1.71**
+## Confirmed plan **1.61…1.74**
 
-Order confirmed at 1.60 (flex only for field P0s). **After 1.69:** 1.70 is the OSK; checkpoint is 1.71.
+Order confirmed at 1.60 (flex only for field P0s). **After 1.69:** OSK → IME ladder, then checkpoint.
 
 1. **1.61** — CMake package / `find_package` sketch  
 2. **1.62** — Gallery visual smoke (subset)  
@@ -86,8 +86,11 @@ Order confirmed at 1.60 (flex only for field P0s). **After 1.69:** 1.70 is the O
 7. **1.67** — Media soak or honest defer  
 8. **1.68** — Linux portal & file-dialog harden  
 9. **1.69** — (as roadmap)  
-10. **1.70** — Win11 on-screen keyboard (MIT Keyman Core + our UI) — [on-screen-keyboard.md](on-screen-keyboard.md)  
-11. **1.71** — Long-horizon 1.xx checkpoint (slipped from 1.70)  
+10. **1.70** — Win11 on-screen keyboard (en-US) — [on-screen-keyboard.md](on-screen-keyboard.md)  
+11. **1.71** — Extra keyboard layouts (not IME yet)  
+12. **1.72** — Chinese IME (pinyin + candidates)  
+13. **1.73** — Full in-app IME (ja / ko + packs)  
+14. **1.74** — Long-horizon 1.xx checkpoint (slipped from 1.70)  
 
 ---
 

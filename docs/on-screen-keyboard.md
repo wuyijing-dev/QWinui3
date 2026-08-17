@@ -1,9 +1,17 @@
-# On-screen keyboard (1.70)
+# On-screen keyboard & in-app IME (1.70…1.73)
 
 Win11 / Fluent **touch keyboard chrome we own**, plus an **MIT C++ keyboard engine** we do not own. This is **not** Qt Virtual Keyboard, and it is **not** a hardware-shortcut cookbook ([keyboard.md](keyboard.md)).
 
-**Status:** planned **1.70** — experimental when it ships.  
+**Status:** planned **1.70** (en-US OSK) through **1.73** (full in-app IME). Experimental until a later soak.  
 **License split:** engine MIT (third-party) · UI LGPL-3.0 (this repo).
+
+| Slice | What ships |
+|-------|------------|
+| **1.70** | Win11 dock + en-US letters/symbols |
+| **1.71** | Extra layouts (de/fr/es/ru/RTL…) — still no candidate window |
+| **1.72** | Chinese IME — pinyin composition + **our** candidate bar |
+| **1.73** | Full in-app IME — ja / ko + more Keyman packs, shared candidate host |
+| **1.74** | Long-horizon checkpoint (not IME work) |
 
 ---
 
@@ -43,7 +51,7 @@ API: [Keyman Core](https://help.keyman.com/developer/core/current-version/) (`km
   OnScreenKeyboard.qml   ← our Fluent / Win11 chrome (Theme tokens)
 ```
 
-Keep `QT_IM_MODULE` unset. Do **not** ship a `platforminputcontexts` plugin in 1.70 — an in-window dock is enough to theme, test, and stay off the GPL IM module path.
+Keep `QT_IM_MODULE` unset. Do **not** ship a `platforminputcontexts` plugin in 1.70…1.73 — an in-window dock is enough to theme, test, and stay off the GPL IM module path. Language packs are extra `.kmx` files + UI, not a second engine.
 
 ---
 
@@ -70,13 +78,30 @@ Follow Windows 11 Touch Keyboard: bottom dock, large hit targets, rounded keys, 
 |-------|------|
 | Letters | QWERTY; Shift latch / Caps |
 | Symbols | Numbers + punctuation |
-| Optional later | Emoji panel (no engine required) |
+| Optional later | Emoji panel (**1.73**, no engine required) |
 
 Tokens: `Theme.bgCard` / `controlFill` / `cornerControl` / `strokeHairline` / `Theme.dp(48)` hit size ([density.md](density.md) · [touch-pointer.md](touch-pointer.md)). Reuse `FluentIcons` for Backspace / Enter / Shift — do not invent a second icon font.
 
 Suggested Extra: `OnScreenKeyboard` (experimental). Host in `Overlay.overlay` or a shell footer; show when a text control is focused **or** when the app sets `visible` (kiosk).
 
 ---
+
+## Language & IME ladder
+
+Keyman Core already knows thousands of community keyboards. Extending languages is **load another `.kmx` + draw the matching chrome**, not rewrite Qt Virtual Keyboard.
+
+| Kind | Examples | When | What we add |
+|------|----------|------|-------------|
+| Direct layouts | en, de, fr, es, ru, ar | **1.71** | Globe switcher; dead keys / AltGr; RTL mirroring |
+| Composition IME | zh-Hans pinyin | **1.72** | Preedit + candidate strip (QML we write) |
+| More IMEs | ja romaji/kana, ko hangul | **1.73** | Same candidate host; extra packs |
+| Not this product | Handwriting, dictation, cloud lexicon, OS-wide IME | Parking lot | — |
+
+**Chinese / CJK** is a later slice because a layout key is not enough: the user types `zhong`, sees candidates, then commits 中. That candidate UI is ours (Win11), the mapping stays in Core.
+
+**Honest limit:** this is an **in-app** IME for QWinUI3 fields. It does not replace Microsoft Pinyin for the whole desktop, and 1.73 will not match a cloud IME’s phrase quality.
+
+System IME remains available alongside the panel until a later minor explicitly documents otherwise.
 
 ## 1.70 scope
 
@@ -92,9 +117,30 @@ Suggested Extra: `OnScreenKeyboard` (experimental). Host in `Overlay.overlay` or
 
 - Qt Virtual Keyboard / any GPL IM plugin  
 - Vendoring third-party QML keyboards  
-- Full CJK IME, handwriting, dictation  
+- Extra layouts / CJK IME (**1.71…1.73**)  
+- Handwriting, dictation  
 - Global `SendInput` into other processes (security)  
 - Promoting to stable in the same minor  
+
+---
+
+## 1.71…1.73 (named on the roadmap)
+
+Full in/out/exit lists live in [ROADMAP.md](../ROADMAP.md). Short form:
+
+- **1.71** — extra `.kmx` + globe language switcher; dead keys / RTL; **no** candidate list yet  
+- **1.72** — zh-Hans pinyin preedit + candidate bar (QML we write); ja/ko wait  
+- **1.73** — ja/ko + documented pack subset + optional emoji; still experimental unless soak is written  
+
+1.72+ architecture adds a candidate host next to the dock:
+
+```text
+  TextField  ←  QInputMethodEvent (preedit + commit)
+  ImeCandidateBar.qml     ← our Win11 candidate strip
+  OnScreenKeyboard.qml    ← same Fluent dock
+  KeyboardEngine          ← km_core_process_event
+  libkeymancore (MIT)
+```
 
 ---
 
@@ -102,4 +148,5 @@ Suggested Extra: `OnScreenKeyboard` (experimental). Host in `Overlay.overlay` or
 
 - Link `qwinui3_extras` as today; Core is an implementation detail.  
 - Strip Qt Virtual Keyboard from `windeployqt` trees as already documented.  
-- System IME (Microsoft Pinyin, etc.) remains the default for CJK; this panel is a **touch OSK**, not a replacement IME.
+- Through **1.70 / 1.71** this panel is a touch OSK; system IME (Microsoft Pinyin, etc.) stays the CJK default.  
+- From **1.72** the panel can compose Hanzi **in-app** — it still does not replace the desktop OS IME.

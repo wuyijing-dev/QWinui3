@@ -5,7 +5,7 @@ What QWinUI3 **will keep compatible** for the rest of the **1.xx** line—and wh
 This is the **gate** for later `1.4x` / `1.5x` / `1.6x` work: prefer additive APIs; do not silently rename or remove anything listed under **Will not break**. Breaking Theme / shell / stable-control changes belong in a future **2.00**, not a quiet `1.xx` bump.
 
 **1.51 maturity checkpoint:** [maturity-1xx.md](maturity-1xx.md) — prefer harden over new surfaces for a while.  
-**1.60 mid-horizon:** [checkpoint-160.md](checkpoint-160.md) — freeze still active; continue 1.xx (not 2.00). **1.70** is the Win11 OSK; long-horizon checkpoint is **1.71**.
+**1.60 mid-horizon:** [checkpoint-160.md](checkpoint-160.md) — freeze still active; continue 1.xx (not 2.00). **1.70…1.73** is OSK → full in-app IME; long-horizon checkpoint is **1.74**.
 
 Related: [stable-api.md](stable-api.md) (which types are stable) · [upgrade-notes.md](upgrade-notes.md) (consumer checklist) · [qt-version-compat.md](qt-version-compat.md) (Qt floors).
 

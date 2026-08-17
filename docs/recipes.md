@@ -5,7 +5,7 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 **Stable API:** prefer types on [stable-api.md](stable-api.md). **1.37** promote / defer tables live there.  
 **1.xx freeze (1.40):** [compatibility-1xx.md](compatibility-1xx.md) · [upgrade-notes.md](upgrade-notes.md).  
 **1.xx maturity (1.51):** [maturity-1xx.md](maturity-1xx.md) — prefer harden; not 2.00.  
-**Mid-horizon (1.60):** [checkpoint-160.md](checkpoint-160.md) — still 1.xx; **1.70** is now the Win11 OSK ([on-screen-keyboard.md](on-screen-keyboard.md)); long-horizon checkpoint is **1.71**.
+**Mid-horizon (1.60):** [checkpoint-160.md](checkpoint-160.md) — still 1.xx; **1.70…1.73** is OSK → full in-app IME ([on-screen-keyboard.md](on-screen-keyboard.md)); long-horizon checkpoint is **1.74**.
 
 ---
 
@@ -67,7 +67,7 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 | [Dialogs & flyouts](dialogs-flyouts.md) | ContentDialogQueue FIFO / Esc (1.48) |
 | [Commands & menus](commands.md) | CommandPalette / CommandBar / MenuFlyout |
 | [Keyboard-first](keyboard.md) | Global chords → palette → dialogs → lists (1.44) |
-| [On-screen keyboard](on-screen-keyboard.md) | Win11 OSK — Keyman Core MIT engine, our UI (**1.70**) |
+| [On-screen keyboard](on-screen-keyboard.md) | Win11 OSK → Chinese IME → full in-app IME (**1.70…1.73**) |
 | [In-app search & AutoSuggest](search.md) | Suggest · filter-above · catalog jump (**1.59**) |
 | [Accessibility](accessibility.md) | Focus / names checklist |
 

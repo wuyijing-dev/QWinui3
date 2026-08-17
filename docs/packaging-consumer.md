@@ -376,7 +376,7 @@ Gallery reference: same `package_release_gallery.py` path on Linux.
 
 QWinUI3 is **LGPL-3.0**. Desktop Qt kits / `windeployqt` / `linuxdeploy-plugin-qt` may copy **GPL or commercial** add-ons (notably **Virtual Keyboard**, Charts, WebEngine, Quick3D, …) into the deploy folder.
 
-The in-app OSK (**1.70**) uses SIL Keyman Core (**MIT**) and QWinUI3 QML — it does **not** restore Qt Virtual Keyboard. See [on-screen-keyboard.md](on-screen-keyboard.md).
+The in-app OSK / IME (**1.70…1.73**) uses SIL Keyman Core (**MIT**) and QWinUI3 QML — it does **not** restore Qt Virtual Keyboard. See [on-screen-keyboard.md](on-screen-keyboard.md).
 
 **In this repo**
 
