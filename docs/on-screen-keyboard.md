@@ -2,13 +2,13 @@
 
 Win11 / Fluent **touch keyboard chrome we own**. This is **not** Qt Virtual Keyboard, and it is **not** a hardware-shortcut cookbook ([keyboard.md](keyboard.md)).
 
-**Status:** **1.70 shipped** (en-US OSK, experimental, **builtin** inject). **1.71…1.73** still planned (layouts → Chinese IME → full in-app IME).  
-**License:** 1.70 engine + UI are this repo (LGPL-3.0). SIL Keyman Core (**MIT**) is the layout engine from **1.71** — not linked in 1.70.
+**Status:** **1.71 shipped** (Keyman Core linked, en/de/fr/es/ru/ar, experimental). **1.72…1.73** still planned (Chinese IME → full in-app IME).  
+**License:** OSK chrome is this repo (LGPL-3.0). SIL Keyman Core (**MIT**) is the layout engine when `third_party/keyman` is present. Community `.kmx` packs are MIT.
 
 | Slice | What ships |
 |-------|------------|
-| **1.70** | Win11 dock + en-US letters/symbols |
-| **1.71** | Extra layouts (de/fr/es/ru/RTL…) — still no candidate window |
+| **1.70** | Win11 dock + en-US letters/symbols (builtin inject) |
+| **1.71** | Keyman Core + extra layouts (de/fr/es/ru/ar) — still no candidate window |
 | **1.72** | Chinese IME — pinyin composition + **our** candidate bar |
 | **1.73** | Full in-app IME — ja / ko + more Keyman packs, shared candidate host |
 | **1.74** | Long-horizon checkpoint (not IME work) |
@@ -24,12 +24,13 @@ A MIT QML keyboard that also ships its own look (SomcoKeyboard, OpenVirtualKeybo
 | Piece | Owner | License | Role |
 |-------|--------|---------|------|
 | Key caps, layers, acrylic dock, Theme | QWinUI3 QML | LGPL-3.0 | Win11-style panel |
-| Key → text (shift, caps, dead keys, layouts) | **SIL Keyman Core** (`libkeymancore`) from **1.71** | **MIT** | Engine only — no UI. **1.70** uses builtin en-US in `KeyboardEngine` |
+| Key → text (shift, caps, dead keys, layouts) | **SIL Keyman Core** (`libkeymancore`) | **MIT** | Engine only — no UI. Builtin en-US fallback if Core is not fetched |
 | Insert into the focused control | QWinUI3 C++ adapter | LGPL-3.0 | `QInputMethodEvent` / a few `QKeyEvent`s |
 | Qt Virtual Keyboard / `QT_IM_MODULE=qtvirtualkeyboard` | — | GPL / commercial | **Forbidden** |
 
 Engine source: [keymanapp/keyman `core/`](https://github.com/keymanapp/keyman/tree/master/core) ([MIT](https://github.com/keymanapp/keyman/blob/master/LICENSE.md)).  
-API: [Keyman Core](https://help.keyman.com/developer/core/current-version/) (`km_core_process_event`, actions). Layouts: [keymanapp/keyboards](https://github.com/keymanapp/keyboards) (community `.kmx`, MIT).
+API: [Keyman Core](https://help.keyman.com/developer/core/current-version/) (`km_core_process_event`, actions). Layouts: [keymanapp/keyboards](https://github.com/keymanapp/keyboards) (community `.kmx`, MIT).  
+Notice: [NOTICE-Keyman.md](NOTICE-Keyman.md).
 
 ---
 
@@ -43,8 +44,8 @@ API: [Keyman Core](https://help.keyman.com/developer/core/current-version/) (`km
            │
   KeyboardEngine  (C++, QML_ELEMENT)     ← our adapter
            │
-           │  1.70: builtin en-US (this repo)
-           │  1.71+: km_core_process_event → libkeymancore (MIT)
+           │  km_core_process_event → libkeymancore (MIT, static)
+           │  fallback: builtin en-US if Core sources are missing
            ▼
   OnScreenKeyboard.qml   ← our Fluent / Win11 chrome (Theme tokens)
 ```
@@ -64,7 +65,7 @@ Keep `QT_IM_MODULE` unset. Do **not** ship a `platforminputcontexts` plugin in 1
 | Qt Virtual Keyboard | GPL / commercial | Yes | Yes | **License conflict** |
 | SomcoKeyboard / OpenVirtualKeyboard | MIT | Yes (QML) | Yes | We own chrome; do not vendor their QML |
 
-**1.70** ships a builtin en-US map so the dock types without fetching Core. **1.71** should FetchContent / vendor **only** `core/` (`libkeymancore`), not the whole Keyman monorepo. Same `KeyboardEngine` inject API.
+**How we build Core:** sparse-clone `core/` + `common/` via `scripts/fetch_keyman_core.py` into gitignored `third_party/keyman` (`QWINUI3_FETCH_KEYMAN=ON` at configure). CMake target `qwinui3_keymancore` is **static**, `KM_CORE_LIBRARY_STATIC`, **`KMN_NO_ICU=1`**. NFC/NFD uses Qt (`src/extras/keyman_shims/util_normalize_qt.cpp`). LDML regex is stubbed — basic `.kmx` packs do not need it. Do not vendor the Keyman monorepo UI.
 
 ---
 
@@ -74,11 +75,12 @@ Follow Windows 11 Touch Keyboard: bottom dock, large hit targets, rounded keys, 
 
 | Layer | Keys |
 |-------|------|
-| Letters | QWERTY; Shift latch / Caps |
+| Letters | Physical US VKs; labels from `previewVk`; Shift latch / Caps |
 | Symbols | Numbers + punctuation |
+| Globe | Cycles en / de / fr / es / ru / ar |
 | Optional later | Emoji panel (**1.73**, no engine required) |
 
-Tokens: `Theme.bgCard` / `controlFill` / `cornerControl` / `strokeHairline` / `Theme.dp(48)` hit size ([density.md](density.md) · [touch-pointer.md](touch-pointer.md)). Reuse `FluentIcons` for Backspace / Enter / Shift — do not invent a second icon font.
+Tokens: `Theme.bgCard` / `controlFill` / `cornerControl` / `strokeHairline` / `Theme.dp(48)` hit size ([density.md](density.md) · [touch-pointer.md](touch-pointer.md)). Reuse `FluentIcons` for Globe — do not invent a second icon font.
 
 Suggested Extra: `OnScreenKeyboard` (experimental). Host in `Overlay.overlay` or a shell footer; show when a text control is focused **or** when the app sets `visible` (kiosk).
 
@@ -90,7 +92,7 @@ Keyman Core already knows thousands of community keyboards. Extending languages 
 
 | Kind | Examples | When | What we add |
 |------|----------|------|-------------|
-| Direct layouts | en, de, fr, es, ru, ar | **1.71** | Globe switcher; dead keys / AltGr; RTL mirroring |
+| Direct layouts | en, de, fr, es, ru, ar | **1.71 shipped** | Globe switcher; dead keys via Core; RTL mirroring |
 | Composition IME | zh-Hans pinyin | **1.72** | Preedit + candidate strip (QML we write) |
 | More IMEs | ja romaji/kana, ko hangul | **1.73** | Same candidate host; extra packs |
 | Not this product | Handwriting, dictation, cloud lexicon, OS-wide IME | Parking lot | — |
@@ -108,7 +110,7 @@ System IME remains available alongside the panel until a later minor explicitly 
 - Experimental `OnScreenKeyboard` + `KeyboardEngine` inject adapter  
 - en-US letters + Shift/Caps + symbols; dark/light (builtin backend)  
 - Gallery footer dock + this recipe  
-- Same inject path Keyman Core will use in **1.71** (`engine.backend`)  
+- Same inject path Keyman Core uses in **1.71** (`engine.backend`)  
 
 **Out**
 
@@ -119,13 +121,33 @@ System IME remains available alongside the panel until a later minor explicitly 
 - Global `SendInput` into other processes (security)  
 - Promoting to stable in the same minor  
 
+## 1.71 (shipped)
+
+**In**
+
+- Static-link SIL Keyman Core (`qwinui3_keymancore`) when sources are fetched  
+- Bundled `.kmx`: `basic_kbdus`, `basic_kbdgr`, `basic_kbdfr`, `basic_kbdes`, `basic_kbdru`, `basic_kbda1`  
+- Globe key + Gallery ComboBox; `LayoutMirroring` on Arabic  
+- `KeyboardEngine.backend` is `"keyman"` when Core is linked; `"builtin"` otherwise  
+
+**Out**
+
+- Candidate window / pinyin (**1.72**)  
+- ICU / meson (we use `KMN_NO_ICU` + Qt normalize)  
+- Qt Virtual Keyboard  
+
+### Add a layout pack
+
+1. Drop a MIT `.kmx` in `src/extras/QWinUI3/Extras/keyboards/`.  
+2. Add the file to `qt_add_resources` in `src/extras/QWinUI3/Extras/CMakeLists.txt`.  
+3. Map a layout id → filename in `KeyboardEngine` (`kLayoutIds` + `kmxResource`).  
+
 ---
 
-## 1.71…1.73 (named on the roadmap)
+## 1.72…1.73 (named on the roadmap)
 
 Full in/out/exit lists live in [ROADMAP.md](../ROADMAP.md). Short form:
 
-- **1.71** — extra `.kmx` + globe language switcher; dead keys / RTL; **no** candidate list yet  
 - **1.72** — zh-Hans pinyin preedit + candidate bar (QML we write); ja/ko wait  
 - **1.73** — ja/ko + documented pack subset + optional emoji; still experimental unless soak is written  
 
@@ -144,7 +166,8 @@ Full in/out/exit lists live in [ROADMAP.md](../ROADMAP.md). Short form:
 ## Consumer notes (when shipped)
 
 - Link `qwinui3_extras` as today; `OnScreenKeyboard` is experimental.  
+- First configure fetches Core unless `QWINUI3_FETCH_KEYMAN=OFF`.  
 - Strip Qt Virtual Keyboard from `windeployqt` trees as already documented.  
-- Through **1.70 / 1.71** this panel is a touch OSK; system IME (Microsoft Pinyin, etc.) stays the CJK default.  
+- Through **1.71** this panel is a touch OSK; system IME (Microsoft Pinyin, etc.) stays the CJK default.  
 - From **1.72** the panel can compose Hanzi **in-app** — it still does not replace the desktop OS IME.  
-- `KeyboardEngine.backend` is `"builtin"` in 1.70; `"keyman"` when Core is linked (1.71+).
+- `KeyboardEngine.backend` is `"keyman"` when Core is linked; `"builtin"` if you skipped the fetch.

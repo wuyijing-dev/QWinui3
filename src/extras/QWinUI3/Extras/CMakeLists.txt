@@ -1,3 +1,5 @@
+include("${CMAKE_SOURCE_DIR}/cmake/KeymanCore.cmake")
+
 qt_add_library(qwinui3_extras ${QWINUI3_LIB_TYPE})
 
 # ChartUtils must be a QML singleton — .js in QML_FILES triggers a Qt 6.8
@@ -220,4 +222,19 @@ if(QWINUI3_HAS_MEDIA)
     if(TARGET Qt6::MultimediaQuick)
         target_link_libraries(qwinui3_extras PUBLIC Qt6::MultimediaQuick)
     endif()
+endif()
+
+if(QWINUI3_HAVE_KEYMAN)
+    target_link_libraries(qwinui3_extras PUBLIC qwinui3_keymancore)
+    target_compile_definitions(qwinui3_extras PUBLIC QWINUI3_HAVE_KEYMAN=1)
+    qt_add_resources(qwinui3_extras "qwinui3_keyman_keyboards"
+        PREFIX "/QWinUI3"
+        FILES
+            keyboards/basic_kbdus.kmx
+            keyboards/basic_kbdgr.kmx
+            keyboards/basic_kbdfr.kmx
+            keyboards/basic_kbdes.kmx
+            keyboards/basic_kbdru.kmx
+            keyboards/basic_kbda1.kmx
+    )
 endif()

@@ -26,3 +26,5 @@ __pycache__/
 
 # WebView2 NuGet extract (see scripts/fetch_webview2.ps1)
 /third_party/webview2/
+# SIL Keyman Core sparse clone (see scripts/fetch_keyman_core.py)
+/third_party/keyman/

@@ -47,6 +47,21 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.70 → 1.71
+
+**Product version:** 1.71  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- Experimental `OnScreenKeyboard` now feeds **SIL Keyman Core** (MIT, static). Globe / ComboBox switches en/de/fr/es/ru/ar `.kmx`. [on-screen-keyboard.md](on-screen-keyboard.md) · [NOTICE-Keyman.md](NOTICE-Keyman.md).
+- Configure fetches Core into gitignored `third_party/keyman` (`scripts/fetch_keyman_core.py`, `QWINUI3_FETCH_KEYMAN`). Without it, `engine.backend` stays `"builtin"`.
+- Still not Qt Virtual Keyboard; `QT_IM_MODULE` stays unset.
+
+#### No action (compatible)
+
+- Existing Theme / shell / stable controls unchanged. OSK stays experimental.
+
 ### Upgrade 1.69 → 1.70
 
 **Product version:** 1.70  

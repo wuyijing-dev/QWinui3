@@ -2,19 +2,19 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// OnScreenKeyboard — Win11-style in-app touch keyboard (1.70).
+// OnScreenKeyboard — Win11-style in-app touch keyboard (1.71).
 //
 //   OnScreenKeyboard { }
 //   // Host in CatalogPage.footer / Overlay / shell footer so keys stay docked.
 //
 //   // --- API ---
-//   // engine.backend  "builtin" (en-US). Keyman Core (.kmx) is 1.71+.
-//   // engine.commitText / backspace / enterKey
+//   // engine.backend  "keyman" when libkeymancore is linked; else "builtin"
+//   // engine.layoutId / cycleLayout / processVk
 //
 // @notes
-//   Experimental. MIT Keyman Core is the layout engine for 1.71+; 1.70 injects
-//   via KeyboardEngine (not Qt Virtual Keyboard / QT_IM_MODULE). Recipe:
-//   docs/on-screen-keyboard.md. Keys use MouseArea (no focus steal).
+//   Experimental. SIL Keyman Core (MIT) processes .kmx; chrome is ours (LGPL).
+//   Not Qt Virtual Keyboard / QT_IM_MODULE. Recipe: docs/on-screen-keyboard.md.
+//   Keys use MouseArea (no focus steal). Globe cycles en/de/fr/es/ru/ar.
 
 T.Control {
     id: root
@@ -23,6 +23,7 @@ T.Control {
     property bool shiftLatched: false
     property bool capsLock: false
     readonly property alias engine: engine
+    property alias layoutId: engine.layoutId
 
     implicitWidth: 640
     implicitHeight: column.implicitHeight + Theme.dp(16)
@@ -36,23 +37,32 @@ T.Control {
         id: engine
     }
 
+    readonly property bool shiftOn: capsLock || shiftLatched
     readonly property real keyGap: Theme.dp(6)
     readonly property real keyH: Math.max(Theme.dp(44), Theme.controlHeight)
+    readonly property int letterCount: 10
     readonly property real letterW: {
-        const n = 10
+        const n = letterCount
         const inner = Math.max(0, availableWidth - Theme.dp(16))
         return Math.floor((inner - keyGap * (n - 1)) / n)
     }
 
-    function displayLetter(ch) {
-        const upper = capsLock || shiftLatched
-        return upper ? ch.toUpperCase() : ch
+    function vkOf(ch) {
+        return ch.toUpperCase().charCodeAt(0)
     }
 
-    function tapLetter(ch) {
-        engine.commitText(displayLetter(ch))
-        if (shiftLatched && !capsLock)
-            shiftLatched = false
+    function keyLabel(vk) {
+        const t = engine.previewVk(vk, root.shiftOn)
+        if (t && t.length)
+            return t
+        const c = String.fromCharCode(vk)
+        return root.shiftOn ? c : c.toLowerCase()
+    }
+
+    function tapVk(vk) {
+        engine.processVk(vk, root.shiftOn)
+        if (root.shiftLatched && !root.capsLock)
+            root.shiftLatched = false
     }
 
     function tapShift() {
@@ -83,9 +93,7 @@ T.Control {
 
         Text {
             width: parent.width
-            text: engine.hasTarget
-                  ? qsTr("en-US · %1").arg(engine.backend)
-                  : qsTr("Tap a text field, then type here · %1").arg(engine.backend)
+            text: qsTr("%1 · %2").arg(engine.layoutLabel).arg(engine.backend)
             font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             color: Theme.textSecondary
@@ -106,12 +114,15 @@ T.Control {
                         width: modelData.w ? root.letterW * modelData.w + root.keyGap * (modelData.w - 1)
                                            : root.letterW
                         height: root.keyH
+                        globe: modelData.kind === "globe"
                         label: {
                             const k = modelData
-                            if (k.kind === "letter")
-                                return root.displayLetter(k.ch)
+                            if (k.kind === "vk")
+                                return root.keyLabel(k.vk)
                             if (k.kind === "shift")
                                 return root.capsLock ? qsTr("caps") : qsTr("shift")
+                            if (k.kind === "globe")
+                                return qsTr("lang")
                             return k.label
                         }
                         accent: (modelData.kind === "shift" && (root.shiftLatched || root.capsLock))
@@ -129,6 +140,7 @@ T.Control {
         property string label: ""
         property bool accent: false
         property bool wideLabel: false
+        property bool globe: false
         signal tapped
 
         radius: Theme.cornerControl
@@ -148,7 +160,15 @@ T.Control {
             ColorAnimation { duration: Theme.duration(Theme.motionFast) }
         }
 
+        FontIcon {
+            visible: cap.globe
+            anchors.centerIn: parent
+            symbol: FluentIcons.Globe
+            fontSize: Theme.fontBody
+            iconColor: cap.accent ? Theme.textOnAccent : Theme.textPrimary
+        }
         Text {
+            visible: !cap.globe
             anchors.centerIn: parent
             text: cap.label
             font.family: Theme.fontFamily
@@ -165,33 +185,34 @@ T.Control {
             onClicked: cap.tapped()
         }
         Accessible.role: Accessible.Button
-        Accessible.name: cap.label.length ? cap.label : qsTr("Key")
+        Accessible.name: cap.globe ? qsTr("Language") : (cap.label.length ? cap.label : qsTr("Key"))
         Accessible.onPressAction: cap.tapped()
     }
 
     readonly property var letterRows: [
         [
-            { kind: "letter", ch: "q" }, { kind: "letter", ch: "w" }, { kind: "letter", ch: "e" },
-            { kind: "letter", ch: "r" }, { kind: "letter", ch: "t" }, { kind: "letter", ch: "y" },
-            { kind: "letter", ch: "u" }, { kind: "letter", ch: "i" }, { kind: "letter", ch: "o" },
-            { kind: "letter", ch: "p" }
+            { kind: "vk", vk: 81 }, { kind: "vk", vk: 87 }, { kind: "vk", vk: 69 },
+            { kind: "vk", vk: 82 }, { kind: "vk", vk: 84 }, { kind: "vk", vk: 89 },
+            { kind: "vk", vk: 85 }, { kind: "vk", vk: 73 }, { kind: "vk", vk: 79 },
+            { kind: "vk", vk: 80 }
         ],
         [
-            { kind: "letter", ch: "a" }, { kind: "letter", ch: "s" }, { kind: "letter", ch: "d" },
-            { kind: "letter", ch: "f" }, { kind: "letter", ch: "g" }, { kind: "letter", ch: "h" },
-            { kind: "letter", ch: "j" }, { kind: "letter", ch: "k" }, { kind: "letter", ch: "l" }
+            { kind: "vk", vk: 65 }, { kind: "vk", vk: 83 }, { kind: "vk", vk: 68 },
+            { kind: "vk", vk: 70 }, { kind: "vk", vk: 71 }, { kind: "vk", vk: 72 },
+            { kind: "vk", vk: 74 }, { kind: "vk", vk: 75 }, { kind: "vk", vk: 76 }
         ],
         [
             { kind: "shift", label: qsTr("shift"), w: 1.4 },
-            { kind: "letter", ch: "z" }, { kind: "letter", ch: "x" }, { kind: "letter", ch: "c" },
-            { kind: "letter", ch: "v" }, { kind: "letter", ch: "b" }, { kind: "letter", ch: "n" },
-            { kind: "letter", ch: "m" },
+            { kind: "vk", vk: 90 }, { kind: "vk", vk: 88 }, { kind: "vk", vk: 67 },
+            { kind: "vk", vk: 86 }, { kind: "vk", vk: 66 }, { kind: "vk", vk: 78 },
+            { kind: "vk", vk: 77 },
             { kind: "backspace", label: qsTr("back"), w: 1.4 }
         ],
         [
-            { kind: "symbols", label: "&123", w: 1.4 },
+            { kind: "globe", w: 1.2 },
+            { kind: "symbols", label: "&123", w: 1.2 },
             { kind: "char", ch: ",", label: "," },
-            { kind: "space", label: qsTr("space"), w: 4.4 },
+            { kind: "space", label: qsTr("space"), w: 4.0 },
             { kind: "char", ch: ".", label: "." },
             { kind: "enter", label: qsTr("enter"), w: 1.6 }
         ]
@@ -199,11 +220,10 @@ T.Control {
 
     readonly property var symbolRows: [
         [
-            { kind: "char", ch: "1", label: "1" }, { kind: "char", ch: "2", label: "2" },
-            { kind: "char", ch: "3", label: "3" }, { kind: "char", ch: "4", label: "4" },
-            { kind: "char", ch: "5", label: "5" }, { kind: "char", ch: "6", label: "6" },
-            { kind: "char", ch: "7", label: "7" }, { kind: "char", ch: "8", label: "8" },
-            { kind: "char", ch: "9", label: "9" }, { kind: "char", ch: "0", label: "0" }
+            { kind: "vk", vk: 49 }, { kind: "vk", vk: 50 }, { kind: "vk", vk: 51 },
+            { kind: "vk", vk: 52 }, { kind: "vk", vk: 53 }, { kind: "vk", vk: 54 },
+            { kind: "vk", vk: 55 }, { kind: "vk", vk: 56 }, { kind: "vk", vk: 57 },
+            { kind: "vk", vk: 48 }
         ],
         [
             { kind: "char", ch: "@", label: "@" }, { kind: "char", ch: "#", label: "#" },
@@ -220,9 +240,10 @@ T.Control {
             { kind: "backspace", label: qsTr("back"), w: 1.4 }
         ],
         [
-            { kind: "symbols", label: qsTr("abc"), w: 1.4 },
+            { kind: "globe", w: 1.2 },
+            { kind: "symbols", label: qsTr("abc"), w: 1.2 },
             { kind: "char", ch: ",", label: "," },
-            { kind: "space", label: qsTr("space"), w: 4.4 },
+            { kind: "space", label: qsTr("space"), w: 4.0 },
             { kind: "char", ch: ".", label: "." },
             { kind: "enter", label: qsTr("enter"), w: 1.6 }
         ]
@@ -230,8 +251,8 @@ T.Control {
 
     function handleKey(k) {
         switch (k.kind) {
-        case "letter":
-            tapLetter(k.ch)
+        case "vk":
+            tapVk(k.vk)
             break
         case "char":
             engine.commitText(k.ch)
@@ -250,6 +271,9 @@ T.Control {
             break
         case "symbols":
             symbolsMode = !symbolsMode
+            break
+        case "globe":
+            engine.cycleLayout()
             break
         }
     }

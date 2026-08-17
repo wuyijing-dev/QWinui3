@@ -4,18 +4,18 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — OnScreenKeyboard (1.70). Recipe: docs/on-screen-keyboard.md
+// Gallery — OnScreenKeyboard (1.71). Recipe: docs/on-screen-keyboard.md
 //
-// Win11 dock + builtin en-US inject. Not Qt Virtual Keyboard.
+// Win11 dock + Keyman Core .kmx. Not Qt Virtual Keyboard.
 
 CatalogPage {
     id: page
     title: qsTr("On-screen keyboard")
-    subtitle: qsTr("Win11-style OSK — MIT engine path, our chrome. docs/on-screen-keyboard.md (1.70).")
+    subtitle: qsTr("Win11 OSK — Keyman Core (MIT) + our chrome. docs/on-screen-keyboard.md (1.71).")
 
     ControlExample {
-        headerText: qsTr("Type with the dock (1.70)")
-        qmlSource: "OnScreenKeyboard { }\n// Footer dock; keys do not steal TextField focus"
+        headerText: qsTr("Type with the dock (1.71)")
+        qmlSource: "OnScreenKeyboard { }\n// Globe cycles en/de/fr/es/ru/ar via .kmx"
 
         ColumnLayout {
             Layout.fillWidth: true
@@ -23,15 +23,24 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Tap a field below, then use the keyboard docked under this page. Shift twice = Caps. &123 = symbols. Qt Virtual Keyboard is not used (QT_IM_MODULE stays unset). Extra layouts / Chinese IME are 1.71…1.73.")
+                text: qsTr("Tap a field, then use the dock. Globe / combo switches Keyman layouts. Shift twice = Caps. Qt Virtual Keyboard is not used.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
+            }
+            ComboBox {
+                id: langBox
+                Layout.fillWidth: true
+                model: osk.engine.layoutLabels
+                currentIndex: osk.engine.layoutIndex
+                onActivated: osk.engine.layoutIndex = index
             }
             TextField {
                 id: lineField
                 Layout.fillWidth: true
                 placeholderText: qsTr("Single-line field")
+                LayoutMirroring.enabled: osk.engine.rtl
+                LayoutMirroring.childrenInherit: true
             }
             TextArea {
                 id: areaField
@@ -39,6 +48,7 @@ CatalogPage {
                 Layout.preferredHeight: Theme.dp(96)
                 placeholderText: qsTr("Multi-line area")
                 wrapMode: TextArea.Wrap
+                LayoutMirroring.enabled: osk.engine.rtl
             }
             CheckBox { text: qsTr("Treat OnScreenKeyboard as experimental (not freeze-covered)") }
         }
@@ -46,6 +56,13 @@ CatalogPage {
 
     footer: OnScreenKeyboard {
         id: osk
+    }
+
+    Connections {
+        target: osk.engine
+        function onLayoutIdChanged() {
+            langBox.currentIndex = osk.engine.layoutIndex
+        }
     }
 
     Component.onCompleted: lineField.forceActiveFocus()

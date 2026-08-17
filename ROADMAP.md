@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.70**
-**Next up:** **1.71** (Extra keyboard layouts)
+**Current:** **1.71**
+**Next up:** **1.72** (Chinese IME)
 **Planned through:** **1.74** (long-horizon 1.xx checkpoint)  
 **Still 1.xx:** Mid-horizon checkpoint published — [docs/checkpoint-160.md](docs/checkpoint-160.md). Not drafting 2.00.  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
@@ -343,34 +343,17 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** Experimental `OnScreenKeyboard` + `KeyboardEngine` inject (en-US letters / Shift-Caps / symbols, Win11 dock). Builtin backend this minor (`engine.backend === "builtin"`); Keyman Core `.kmx` remains **1.71+**. Gallery **On-screen keyboard** footer dock; [on-screen-keyboard.md](docs/on-screen-keyboard.md); not Qt Virtual Keyboard; product version `1.70`.
 
+### 1.71 — Extra keyboard layouts (not IME yet) (shipped)
+
+**Shipped:** SIL Keyman Core (**MIT**) linked statically (`KMN_NO_ICU`, Qt NFC/NFD shim). Community `.kmx` en-US / de / fr / es / ru / ar. Globe + Gallery ComboBox. `engine.backend === "keyman"` when Core sources are present (`scripts/fetch_keyman_core.py`). Chrome stays ours. Not Qt Virtual Keyboard. Product version `1.71`.
+
 ---
 
-## Horizon — planned `1.71` … `1.74`
+## Horizon — planned `1.72` … `1.74`
 
 Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per `YY`. Order can flex if field P0s force a swap; do not merge themes into mega-minors. Posture after 1.51 / 1.60: prefer field harden / docs over new control families — **1.70…1.73** is an explicit exception (touch OSK → full in-app IME; Qt Virtual Keyboard is GPL).
 
-Ladder (chrome stays ours): **1.70 shipped** en-US OSK (builtin inject; Keyman `.kmx` in **1.71+**) → **1.71** extra layouts → **1.72** Chinese IME → **1.73** full IME → **1.74** checkpoint. Plan: [docs/on-screen-keyboard.md](docs/on-screen-keyboard.md).
-
-### 1.71 — Extra keyboard layouts (not IME yet)
-
-**Why:** Same OSK chrome; swap Keyman `.kmx` instead of forking QML per language. European / Cyrillic / RTL layouts are keymap problems, not candidate-window problems.
-
-**In scope**
-
-- Globe / language switcher on the dock; load extra MIT Keyman keyboards (e.g. de, fr, es, ru; RTL such as ar with `LayoutMirroring`)
-- Dead keys / AltGr via Core; Gallery language ComboBox
-- Docs: layout pack list + how to add a `.kmx`
-
-**Out of scope**
-
-- Pinyin / kana / hangul **candidate lists** (that is **1.72 / 1.73**)
-- Handwriting, dictation, emoji-as-IME
-- Replacing the OS system IME
-
-**Exit criteria**
-
-- Switching layouts types the expected glyphs; RTL dock does not break en-US
-- No new GPL dependency
+Ladder (chrome stays ours): **1.70 shipped** en-US OSK → **1.71 shipped** Keyman layouts → **1.72** Chinese IME → **1.73** full IME → **1.74** checkpoint. Plan: [docs/on-screen-keyboard.md](docs/on-screen-keyboard.md).
 
 ### 1.72 — Chinese IME (pinyin + candidates)
 
