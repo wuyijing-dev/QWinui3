@@ -28,7 +28,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Prefer examples/gallery-shell for product chrome (NavigationWindow + Settings + persistence). Multi-window tool/dialog shells: examples/multi-window (1.56). Do not copy the full Gallery tree. CI smoke turns examples off for speed. Qt Creator: open the repo root.")
+                text: qsTr("Prefer examples/gallery-shell for product chrome (NavigationWindow + Settings + persistence). Multi-window tool/dialog shells: examples/multi-window (1.56). Shared-kit find_package sketch: examples/find-package-consumer (1.61) — not in the monorepo example build. Do not copy the full Gallery tree. CI smoke turns examples off for speed. Qt Creator: open the repo root.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
@@ -62,7 +62,8 @@ CatalogPage {
                     { name: "master-detail", recipe: qsTr("ListDetailsView LoB tickets"), page: "ListDetailsViewPage" },
                     { name: "form-settings", recipe: qsTr("FormLayout + SettingsCard prefs"), page: "FormsHubPage" },
                     { name: "settings-cards", recipe: qsTr("SettingsCard patterns"), page: "SettingsCardPage" },
-                    { name: "dashboard", recipe: qsTr("Stable charts / KPI tiles"), page: "ChartsPage" }
+                    { name: "dashboard", recipe: qsTr("Stable charts / KPI tiles"), page: "ChartsPage" },
+                    { name: "find-package-consumer", recipe: qsTr("find_package(QWinUI3) sketch (1.61) — standalone"), page: "ExamplesTemplatesPage" }
                 ]
                 delegate: RowLayout {
                     required property var modelData

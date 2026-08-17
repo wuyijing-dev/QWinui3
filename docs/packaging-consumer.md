@@ -1,16 +1,20 @@
-# Consumer packaging & CMake (1.46)
+# Consumer packaging & CMake (1.46 · find_package sketch 1.61)
 
 End-to-end path for a **third-party app** on **Windows** and **Linux**. Prefer types in [stable-api.md](stable-api.md). Compatibility freeze: [compatibility-1xx.md](compatibility-1xx.md) · upgrades: [upgrade-notes.md](upgrade-notes.md) (**1.40**).
 
 **Open this monorepo in Qt Creator** (Gallery / examples — CMake only, no `.pro`): [qt-creator.md](qt-creator.md) (1.35).
 
-There is **no** `find_package(QWinUI3)` Config yet — consumers either:
+Consumers typically:
 
 1. **Download** a Release shared package, or  
 2. **Package** from this repo with `scripts/package_release_libs.py`, or  
-3. **`add_subdirectory` / clone** the kit into their tree (static or shared).
+3. **`add_subdirectory` / clone** the kit into their tree (static or shared), or  
+4. **`find_package(QWinUI3 CONFIG)`** against a packaged tree — **sketch only (1.61)**; see [Path C](#path-c--find_package-sketch-161).
 
-**1.46 polish:** shared vs static matrix, windeploy/linuxdeploy notes, strip-restricted modules, and `scripts/check_shared_package.py`.
+> **Not a vcpkg / Conan port.** The Config files in `lib/cmake/QWinUI3/` are an experimental layout for apps that already consume the shared zip. Official ports remain in the [parking lot](../ROADMAP.md#parking-lot).
+
+**1.46 polish:** shared vs static matrix, windeploy/linuxdeploy notes, strip-restricted modules, and `scripts/check_shared_package.py`.  
+**1.61 sketch:** `QWinUI3Config.cmake` + `examples/find-package-consumer` + `scripts/verify_find_package.py`.
 
 ---
 
@@ -60,6 +64,8 @@ After extract (or `python scripts/package_release_libs.py --shared --archive`):
 qwinui3-<ver>-…-shared/
   bin/     # Windows: runtime DLLs (also copy beside your .exe or on PATH)
   lib/     # Import libs (.lib) / shared objects (.so) / plugins
+  lib/cmake/QWinUI3/  # find_package sketch (1.61)
+  include/QWinUI3/    # Bootstrap.h when platform is packaged
   qml/     # QML trees: QWinUI3/, QWinUI3/Theme, QWinUI3/Platform, QWinUI3/Extras
   README.md
   LICENSE · COPYING
@@ -210,6 +216,87 @@ Keep `QT_QUICK_CONTROLS_STYLE=QWinUI3` so styled Controls pick up the Fluent chr
 
 ---
 
+## Path C — find_package sketch (1.61)
+
+**Experimental.** Same shared zip as Path A; Config files live under `lib/cmake/QWinUI3/`. This is **not** an official vcpkg/Conan port.
+
+### 1. Package (or download) a shared kit
+
+```bat
+python scripts/package_release_libs.py --shared --preset shell --webview2 off
+```
+
+### 2. Consumer `CMakeLists.txt`
+
+```cmake
+cmake_minimum_required(VERSION 3.21)
+project(MyFluentApp LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Qt + extracted package root (contains lib/cmake/QWinUI3)
+list(APPEND CMAKE_PREFIX_PATH
+    "D:/Qt/6.8.0/msvc2022_64"
+    "D:/deps/qwinui3-1.61-windows-x64-shared-theme+style+platform"
+)
+
+find_package(Qt6 6.5 REQUIRED COMPONENTS Quick QuickControls2 LabsQmlModels Gui)
+find_package(QWinUI3 CONFIG REQUIRED)
+
+qt_standard_project_setup(REQUIRES 6.5)
+qt_add_executable(myapp main.cpp)
+qt_add_qml_module(myapp URI MyApp VERSION 1.0 QML_FILES Main.qml)
+
+target_link_libraries(myapp PRIVATE
+    Qt6::Quick
+    Qt6::QuickControls2
+    QWinUI3::theme
+    QWinUI3::style
+    QWinUI3::platform
+)
+# Or: target_link_libraries(myapp PRIVATE QWinUI3::QWinUI3)
+
+qwinui3_target_setup(myapp)  # QWINUI3_QML_ROOT + copy bin/ DLLs on Windows
+```
+
+In `main.cpp` (shared kits — **do not** `QWINUI3_IMPORT_QML_PLUGINS`):
+
+```cpp
+#include <QWinUI3/Bootstrap.h>
+#include <QGuiApplication>
+#include <QQmlApplicationEngine>
+
+int main(int argc, char *argv[])
+{
+    QWinUI3::configureEnvironment(argv[0]);
+    QGuiApplication app(argc, argv);
+    QWinUI3::configureApplication(QStringLiteral("org.example.myapp"));
+    QQmlApplicationEngine engine;
+#ifdef QWINUI3_QML_ROOT
+    engine.addImportPath(QString::fromUtf8(QWINUI3_QML_ROOT));
+#endif
+    engine.loadFromModule("MyApp", "Main");
+    return app.exec();
+}
+```
+
+### 3. Tiny verified sample
+
+| Path | Role |
+|------|------|
+| [`examples/find-package-consumer/`](../examples/find-package-consumer/) | Standalone app (not in monorepo example build) |
+| `scripts/verify_find_package.py` | Package shell kit → configure → Release build |
+
+```bat
+python scripts/verify_find_package.py
+python scripts/verify_find_package.py --package-dir dist/qwinui3-<ver>-windows-x64-shared-theme+style+platform
+```
+
+Legacy lowercase targets (`qwinui3_theme`, …) remain as **aliases** of `QWinUI3::*` for older Path A snippets.
+
+---
+
 ## Path B — package from this repo
 
 ```bat
@@ -229,7 +316,7 @@ python scripts/check_shared_package.py --dir dist/qwinui3-<ver>-<plat>-x64-share
 
 ---
 
-## Path C — `add_subdirectory` (develop against source)
+## Path D — `add_subdirectory` (develop against source)
 
 Best when you want CMake targets (`qwinui3_theme`, …) without a zip:
 
@@ -304,7 +391,7 @@ QWinUI3 is **LGPL-3.0**. Desktop Qt kits / `windeployqt` / `linuxdeploy-plugin-q
 
 1. Kit: Qt **6.5+** (6.8 recommended), MSVC 2022 x64 on Windows / gcc_64 on Linux.  
 2. Set `QWINUI3_ROOT` in the project’s CMake configuration (or hardcode while prototyping).  
-3. For Path C, open **your** app’s `CMakeLists.txt` (not necessarily the QWinUI3 root).  
+3. For Path C (`find_package`) or Path D (`add_subdirectory`), open **your** app’s `CMakeLists.txt` (not necessarily the QWinUI3 root).  
 4. Run configuration: ensure `PATH` / `LD_LIBRARY_PATH` and `QML_IMPORT_PATH` include the package `bin`/`lib`/`qml` as needed.
 
 Opening the **QWinUI3 monorepo** itself: [qt-creator.md](qt-creator.md).
@@ -336,6 +423,10 @@ python scripts/check_shared_package.py
 python scripts/package_release_libs.py --shared --preset core --archive
 python scripts/check_shared_package.py --dir dist/qwinui3-<ver>-windows-x64-shared-theme+style --expect-shared yes
 
+# find_package sketch consumer (1.61)
+python scripts/verify_find_package.py
+python scripts/verify_find_package.py --package-dir dist/qwinui3-<ver>-windows-x64-shared-theme+style+platform
+
 # Linux (CI release job or local gcc_64 kit)
 python scripts/package_release_libs.py --shared --archive
 python scripts/check_shared_package.py --dir dist/qwinui3-<ver>-linux-x64-shared --expect-shared yes
@@ -347,4 +438,4 @@ CI Release already builds Win + Linux shared archives on `v*` tags; run the `--d
 
 ## Out of scope
 
-`find_package(QWinUI3)` Config/export graph, official Conan/vcpkg ports, macOS packages, rewriting the CI module matrix.
+Official Conan/vcpkg ports as supported products, macOS packages, rewriting the CI module matrix. The **1.61** Config is a sketch only — see parking lot.

@@ -4,6 +4,7 @@
 /build-relwithdebinfo/
 /build-shared-release/
 /build-gallery-release/
+/build-fpc/
 /dist/
 /.cache/
 /.qtcreator/

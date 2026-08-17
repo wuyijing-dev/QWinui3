@@ -1,0 +1,166 @@
+# QWinUI3 CMake package config — **sketch (1.61)**
+#
+# Installed layout (shared Release zip):
+#   <prefix>/bin/*.dll          (Windows runtime)
+#   <prefix>/lib/*              (import libs / .so)
+#   <prefix>/qml/…              (QML modules)
+#   <prefix>/include/QWinUI3/…  (Bootstrap.h when platform is packaged)
+#   <prefix>/lib/cmake/QWinUI3/QWinUI3Config.cmake  (this file)
+#
+# Usage:
+#   list(APPEND CMAKE_PREFIX_PATH "D:/deps/qwinui3-1.61-windows-x64-shared")
+#   find_package(QWinUI3 CONFIG REQUIRED)
+#   target_link_libraries(myapp PRIVATE QWinUI3::platform QWinUI3::style …)
+#
+# This is **not** an official vcpkg / Conan port. Prefer add_subdirectory or the
+# documented shared zip when in doubt — docs/packaging-consumer.md.
+
+cmake_minimum_required(VERSION 3.21)
+
+@QWINUI3_PACKAGE_BANNER@
+
+get_filename_component(_QWINUI3_CMAKE_DIR "${CMAKE_CURRENT_LIST_DIR}" ABSOLUTE)
+# <prefix>/lib/cmake/QWinUI3 → <prefix>
+get_filename_component(QWinUI3_ROOT "${_QWINUI3_CMAKE_DIR}/../../.." ABSOLUTE)
+
+set(QWinUI3_VERSION "@QWINUI3_VERSION@")
+set(QWinUI3_QML_DIR "${QWinUI3_ROOT}/qml")
+set(QWinUI3_INCLUDE_DIR "${QWinUI3_ROOT}/include")
+
+if(NOT EXISTS "${QWinUI3_QML_DIR}")
+    set(QWinUI3_FOUND FALSE)
+    if(QWinUI3_FIND_REQUIRED)
+        message(FATAL_ERROR
+            "QWinUI3: qml/ missing under ${QWinUI3_ROOT}. "
+            "Point CMAKE_PREFIX_PATH / QWinUI3_DIR at a shared Release package root.")
+    endif()
+    return()
+endif()
+
+set(_qwinui3_lib_dir "${QWinUI3_ROOT}/lib")
+set(_qwinui3_bin_dir "${QWinUI3_ROOT}/bin")
+
+# Detect shared vs static from presence of runtime DLLs / .so next to import libs.
+set(QWinUI3_SHARED FALSE)
+if(WIN32)
+    file(GLOB _qwinui3_dlls "${_qwinui3_bin_dir}/qwinui3_*.dll")
+    if(_qwinui3_dlls)
+        set(QWinUI3_SHARED TRUE)
+    endif()
+    unset(_qwinui3_dlls)
+else()
+    file(GLOB _qwinui3_sos "${_qwinui3_lib_dir}/libqwinui3_*.so*")
+    if(_qwinui3_sos)
+        set(QWinUI3_SHARED TRUE)
+    endif()
+    unset(_qwinui3_sos)
+endif()
+
+function(_qwinui3_add_imported _name)
+    set(_stem "qwinui3_${_name}")
+    set(_target "QWinUI3::${_name}")
+    if(TARGET ${_target})
+        return()
+    endif()
+
+    set(_created FALSE)
+    if(WIN32)
+        set(_implib "${_qwinui3_lib_dir}/${_stem}.lib")
+        set(_dll "${_qwinui3_bin_dir}/${_stem}.dll")
+        if(QWinUI3_SHARED AND EXISTS "${_dll}" AND EXISTS "${_implib}")
+            add_library(${_target} SHARED IMPORTED GLOBAL)
+            set_target_properties(${_target} PROPERTIES
+                IMPORTED_LOCATION "${_dll}"
+                IMPORTED_IMPLIB "${_implib}"
+            )
+            set(_created TRUE)
+        elseif(EXISTS "${_implib}")
+            add_library(${_target} STATIC IMPORTED GLOBAL)
+            set_target_properties(${_target} PROPERTIES
+                IMPORTED_LOCATION "${_implib}"
+            )
+            set(_created TRUE)
+        endif()
+    else()
+        set(_shared_candidate "")
+        file(GLOB _shared_candidates
+            "${_qwinui3_lib_dir}/lib${_stem}.so"
+            "${_qwinui3_lib_dir}/lib${_stem}.so.*"
+        )
+        if(_shared_candidates)
+            list(GET _shared_candidates 0 _shared_candidate)
+        endif()
+        set(_static "${_qwinui3_lib_dir}/lib${_stem}.a")
+        if(QWinUI3_SHARED AND _shared_candidate)
+            add_library(${_target} SHARED IMPORTED GLOBAL)
+            set_target_properties(${_target} PROPERTIES
+                IMPORTED_LOCATION "${_shared_candidate}"
+            )
+            set(_created TRUE)
+        elseif(EXISTS "${_static}")
+            add_library(${_target} STATIC IMPORTED GLOBAL)
+            set_target_properties(${_target} PROPERTIES
+                IMPORTED_LOCATION "${_static}"
+            )
+            set(_created TRUE)
+        endif()
+    endif()
+
+    if(NOT _created)
+        return()
+    endif()
+
+    if(EXISTS "${QWinUI3_INCLUDE_DIR}")
+        set_target_properties(${_target} PROPERTIES
+            INTERFACE_INCLUDE_DIRECTORIES "${QWinUI3_INCLUDE_DIR}"
+        )
+    endif()
+
+    # Legacy lowercase names used by older packaging snippets.
+    if(NOT TARGET ${_stem})
+        add_library(${_stem} ALIAS ${_target})
+    endif()
+endfunction()
+
+_qwinui3_add_imported(theme)
+_qwinui3_add_imported(platform)
+_qwinui3_add_imported(style)
+_qwinui3_add_imported(extras)
+
+# Convenience: everything present in this package.
+if(NOT TARGET QWinUI3::QWinUI3)
+    add_library(QWinUI3::QWinUI3 INTERFACE IMPORTED GLOBAL)
+    set(_qwinui3_link "")
+    foreach(_n theme style platform extras)
+        if(TARGET QWinUI3::${_n})
+            list(APPEND _qwinui3_link QWinUI3::${_n})
+        endif()
+    endforeach()
+    if(_qwinui3_link)
+        set_target_properties(QWinUI3::QWinUI3 PROPERTIES
+            INTERFACE_LINK_LIBRARIES "${_qwinui3_link}"
+        )
+    endif()
+    unset(_qwinui3_link)
+endif()
+
+# Bake QML import path + optional Windows DLL copy for a consumer target.
+function(qwinui3_target_setup _tgt)
+    if(NOT TARGET ${_tgt})
+        message(FATAL_ERROR "qwinui3_target_setup: ${_tgt} is not a target")
+    endif()
+    target_compile_definitions(${_tgt} PRIVATE
+        "QWINUI3_QML_ROOT=u8\"${QWinUI3_QML_DIR}\""
+    )
+    if(WIN32 AND QWinUI3_SHARED AND EXISTS "${QWinUI3_ROOT}/bin")
+        add_custom_command(TARGET ${_tgt} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_directory
+                "${QWinUI3_ROOT}/bin" "$<TARGET_FILE_DIR:${_tgt}>"
+            COMMENT "Copy QWinUI3 runtime DLLs beside ${_tgt}"
+        )
+    endif()
+endfunction()
+
+set(QWinUI3_FOUND TRUE)
+
+message(STATUS "QWinUI3 ${QWinUI3_VERSION}: root=${QWinUI3_ROOT} shared=${QWinUI3_SHARED}")

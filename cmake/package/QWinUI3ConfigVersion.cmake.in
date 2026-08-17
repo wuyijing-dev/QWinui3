@@ -1,0 +1,21 @@
+# QWinUI3ConfigVersion.cmake — generated for package sketch (1.61)
+
+set(PACKAGE_VERSION "@QWINUI3_CMAKE_VERSION@")
+
+if(PACKAGE_VERSION VERSION_LESS PACKAGE_FIND_VERSION)
+    set(PACKAGE_VERSION_COMPATIBLE FALSE)
+else()
+    set(PACKAGE_VERSION_COMPATIBLE TRUE)
+    if(PACKAGE_FIND_VERSION STREQUAL PACKAGE_VERSION)
+        set(PACKAGE_VERSION_EXACT TRUE)
+    endif()
+endif()
+
+# Same major line only (1.xx stays on major 1).
+string(REGEX MATCH "^([0-9]+)" _qwinui3_pkg_major "${PACKAGE_VERSION}")
+string(REGEX MATCH "^([0-9]+)" _qwinui3_find_major "${PACKAGE_FIND_VERSION}")
+if(PACKAGE_FIND_VERSION AND NOT _qwinui3_pkg_major STREQUAL _qwinui3_find_major)
+    set(PACKAGE_VERSION_COMPATIBLE FALSE)
+endif()
+unset(_qwinui3_pkg_major)
+unset(_qwinui3_find_major)

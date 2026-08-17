@@ -12,6 +12,8 @@ Small apps you can copy as a starting point. **CMake only** (no `.pro`). Open th
 | `qwinui3_example_master_detail` | [`master-detail/`](master-detail/) | `ListDetailsView` LoB ticket shell (1.26) |
 | `qwinui3_example_form` | [`form-settings/`](form-settings/) | `FormLayout` validation + SettingsCard prefs (1.26) |
 
+Standalone (not in monorepo CMake tree): [`find-package-consumer/`](find-package-consumer/) — `find_package(QWinUI3 CONFIG)` sketch (**1.61**). Build with `python scripts/verify_find_package.py` or see that folder’s README.
+
 ## Build
 
 From the repo root (same toolchain as Gallery), **Release**:
@@ -54,4 +56,4 @@ On Linux, leave `QT_QPA_PLATFORM` unset so examples pick Wayland first. Prefer `
 3. Point CMake `IMPORTS` / `target_link_libraries` at your installed or in-tree `qwinui3_*` targets the same way Gallery does.
 4. Keep `QT_QUICK_CONTROLS_STYLE=QWinUI3` (see each `main.cpp` / `Bootstrap`).
 
-Full third-party packaging (Release zip, import paths, Win/Linux runtime): [`docs/packaging-consumer.md`](../docs/packaging-consumer.md).
+Full third-party packaging (Release zip, `find_package` sketch, import paths, Win/Linux runtime): [`docs/packaging-consumer.md`](../docs/packaging-consumer.md).

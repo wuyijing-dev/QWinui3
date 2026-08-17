@@ -25,6 +25,8 @@ DOC_MARKERS = (
     "strip-restricted",
     "check_shared_package",
     "gallery-shell",
+    "find_package(QWinUI3",
+    "Path C",
 )
 
 
@@ -64,6 +66,29 @@ def _check_repo_contracts() -> list[str]:
             errors.append("StripRestrictedQtModules.cmake: missing VirtualKeyboard strip")
         if "qwinui3_strip_restricted_qt_modules" not in stext:
             errors.append("StripRestrictedQtModules.cmake: missing function name")
+
+    pkg_cmake = ROOT / "cmake" / "package" / "QWinUI3Config.cmake.in"
+    if not pkg_cmake.is_file():
+        errors.append(f"missing {pkg_cmake}")
+    else:
+        ctext = pkg_cmake.read_text(encoding="utf-8")
+        for needle in ("QWinUI3::", "qwinui3_target_setup", "official vcpkg"):
+            if needle not in ctext:
+                errors.append(f"QWinUI3Config.cmake.in: missing {needle!r}")
+
+    ver_in = ROOT / "cmake" / "package" / "QWinUI3ConfigVersion.cmake.in"
+    if not ver_in.is_file():
+        errors.append(f"missing {ver_in}")
+
+    consumer = ROOT / "examples" / "find-package-consumer" / "CMakeLists.txt"
+    if not consumer.is_file():
+        errors.append(f"missing {consumer}")
+    elif "find_package(QWinUI3" not in consumer.read_text(encoding="utf-8"):
+        errors.append("find-package-consumer: missing find_package(QWinUI3)")
+
+    verify = ROOT / "scripts" / "verify_find_package.py"
+    if not verify.is_file():
+        errors.append(f"missing {verify}")
 
     doc = ROOT / "docs" / "packaging-consumer.md"
     if not doc.is_file():
@@ -151,6 +176,13 @@ def _check_package_dir(out_dir: Path, expect_shared: bool | None) -> list[str]:
     if shared is True:
         if not dlls and not sos:
             errors.append("shared package: no DLL in bin/ and no .so in lib/")
+        cmake_cfg = lib_dir / "cmake" / "QWinUI3" / "QWinUI3Config.cmake"
+        if not cmake_cfg.is_file():
+            errors.append("shared package: missing lib/cmake/QWinUI3/QWinUI3Config.cmake (1.61)")
+        if "platform" in modules:
+            bootstrap = out_dir / "include" / "QWinUI3" / "Bootstrap.h"
+            if not bootstrap.is_file():
+                errors.append("shared package with platform: missing include/QWinUI3/Bootstrap.h")
     elif shared is False:
         if not static_libs and not any("qwinui3" in p.name.lower() for p in lib_files):
             errors.append("static package: no .lib/.a (or qwinui3_* libs) in lib/")

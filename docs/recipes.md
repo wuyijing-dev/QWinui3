@@ -14,7 +14,7 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 | Recipe | One-liner |
 |--------|-----------|
 | [Qt Creator](qt-creator.md) | Open root CMakeLists → Gallery or example (no `.pro`) |
-| [Consumer packaging](packaging-consumer.md) | Shared vs static / windeploy / strip (1.46) |
+| [Consumer packaging](packaging-consumer.md) | Shared vs static / windeploy / strip (1.46) · `find_package` sketch (**1.61**) |
 | [1.xx compatibility](compatibility-1xx.md) | Will-not-break Theme / shells / stable controls (1.40 / 1.51) |
 | [1.xx maturity checkpoint](maturity-1xx.md) | Where we are; harden-first posture (**1.51**) |
 | [Mid-horizon checkpoint](checkpoint-160.md) | Halfway audit; 1.61+ confirmed (**1.60**) |

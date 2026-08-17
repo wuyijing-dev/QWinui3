@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.60**
-**Next up:** **1.61** (CMake package / find_package sketch)
+**Current:** **1.61**
+**Next up:** **1.62** (Gallery visual smoke subset)
 **Planned through:** **1.70** (long-horizon 1.xx checkpoint)  
 **Still 1.xx:** Mid-horizon checkpoint published — [checkpoint-160.md](checkpoint-160.md). Not drafting 2.00.  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](qt-version-compat.md)
@@ -61,7 +61,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.60`
+## Shipped — `1.01` … `1.61`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -303,30 +303,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** [checkpoint-160.md](checkpoint-160.md) mid-horizon audit (stable-api / defer list / doc links OK; parking lot clarified); “still 1.xx” note in README/ROADMAP; smoke critical pages + `SearchRecipesPage` / `HighDpiPage`; `scripts/checkpoint_1_60_audit.py`; 1.61+ order confirmed (CMake `find_package` sketch next); product version `1.60`.
 
+### 1.61 — CMake package / find_package sketch (shipped)
+
+**Shipped:** `cmake/package/QWinUI3Config*.cmake.in` installed into shared zips as `lib/cmake/QWinUI3/`; `include/QWinUI3/Bootstrap.h`; [packaging-consumer.md](packaging-consumer.md) Path C; `examples/find-package-consumer/`; `scripts/verify_find_package.py`; honest not-vcpkg/Conan banner; product version `1.61`.
+
 ---
 
-## Horizon — planned `1.61` … `1.70`
+## Horizon — planned `1.62` … `1.70`
 
 Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per `YY`. Order can flex if field P0s force a swap; do not merge themes into mega-minors. Posture after 1.51 / 1.60: prefer field harden / docs over new control families.
-
-### 1.61 — CMake package / find_package sketch
-
-**Why:** 1.12/1.46 cover zips and `add_subdirectory`; some consumers want a sketch `find_package` story.
-
-**In scope**
-
-- Optional install + `QWinUI3Config.cmake` sketch (or documented experimental layout); consumer CMake snippet in [packaging-consumer.md](packaging-consumer.md).
-- Honest “not an official vcpkg/Conan port” banner.
-
-**Out of scope**
-
-- Maintaining official vcpkg/Conan ports as supported products.
-
-**Exit criteria**
-
-- One documented install → `find_package` path that builds a tiny consumer in Release.
-
----
 
 ### 1.62 — Gallery visual smoke (subset)
 

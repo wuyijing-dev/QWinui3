@@ -47,6 +47,21 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.60 → 1.61
+
+**Product version:** 1.61  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- `find_package(QWinUI3 CONFIG)` sketch: [packaging-consumer.md](packaging-consumer.md) Path C; shared zips ship `lib/cmake/QWinUI3/` + `include/QWinUI3/Bootstrap.h`.
+- Tiny consumer: `examples/find-package-consumer/`; verify with `python scripts/verify_find_package.py`.
+- **Not** an official vcpkg/Conan port.
+
+#### No action (compatible)
+
+- Existing Path A / `add_subdirectory` flows unchanged; Config is additive in packages.
+
 ### Upgrade 1.59 → 1.60
 
 **Product version:** 1.60  

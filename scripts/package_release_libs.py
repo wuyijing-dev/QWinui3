@@ -345,6 +345,56 @@ def _collect_files(build_dir: Path, out_dir: Path, modules: list[str]) -> list[P
     return copied
 
 
+def _cmake_version(product: str) -> str:
+    """Map product X.YY → CMake major.minor.0 (e.g. 1.61 → 1.61.0)."""
+    major, yy = product.split(".", 1)
+    return f"{int(major)}.{int(yy)}.0"
+
+
+def _write_cmake_package(out_dir: Path, version: str) -> list[Path]:
+    """Install find_package sketch files under lib/cmake/QWinUI3 (1.61)."""
+    src_dir = ROOT / "cmake" / "package"
+    dest = out_dir / "lib" / "cmake" / "QWinUI3"
+    dest.mkdir(parents=True, exist_ok=True)
+    cmake_ver = _cmake_version(version)
+    banner = (
+        "# GENERATED — do not edit in the package tree.\\n"
+        f"# QWinUI3 {version} package sketch (1.61). "
+        "Not an official vcpkg/Conan port.\\n"
+    )
+    written: list[Path] = []
+    for name in ("QWinUI3Config.cmake.in", "QWinUI3ConfigVersion.cmake.in"):
+        src = src_dir / name
+        if not src.is_file():
+            print(f"WARNING: missing {src}", file=sys.stderr)
+            continue
+        text = src.read_text(encoding="utf-8")
+        text = (
+            text.replace("@QWINUI3_VERSION@", version)
+            .replace("@QWINUI3_CMAKE_VERSION@", cmake_ver)
+            .replace("@QWINUI3_PACKAGE_BANNER@", banner)
+        )
+        out_name = name.removesuffix(".in")
+        out_path = dest / out_name
+        out_path.write_text(text, encoding="utf-8", newline="\n")
+        written.append(out_path)
+    return written
+
+
+def _write_public_headers(out_dir: Path, modules: list[str]) -> list[Path]:
+    """Ship Bootstrap.h for shared find_package consumers (platform module)."""
+    if "platform" not in modules:
+        return []
+    src = ROOT / "src" / "platform" / "QWinUI3" / "Platform" / "Bootstrap.h"
+    if not src.is_file():
+        return []
+    dest_dir = out_dir / "include" / "QWinUI3"
+    dest_dir.mkdir(parents=True, exist_ok=True)
+    dest = dest_dir / "Bootstrap.h"
+    shutil.copy2(src, dest)
+    return [dest]
+
+
 def _write_readme(
     out_dir: Path,
     shared: bool,
@@ -380,22 +430,25 @@ Features: {features}
 
 - `bin/` — runtime DLLs (Windows shared builds)
 - `lib/` — import / static / shared libraries and plugins
+- `lib/cmake/QWinUI3/` — `find_package(QWinUI3 CONFIG)` sketch (**1.61**, not vcpkg/Conan)
+- `include/QWinUI3/` — public headers (`Bootstrap.h` when platform is packaged)
 - `qml/` — QML modules ({", ".join(f"`{q}`" for q in qml_list)})
 
 ## Consumer notes
 
 See the full recipe: https://wuyijing-dev.github.io/QWinui3/packaging-consumer/
-(or `docs/packaging-consumer.md` in the source repo) — shared vs static, windeploy/linuxdeploy, strip-restricted (1.46).
+(or `docs/packaging-consumer.md` in the source repo) — shared vs static, windeploy/linuxdeploy, strip-restricted (1.46), find_package sketch (1.61).
 
 1. Add `qml/` to `QML_IMPORT_PATH` (or `engine.addImportPath` / `QML2_IMPORT_PATH`).
-2. Link against the selected `qwinui3_*` libraries (and `*plugin` when STATIC).
+2. Link against the selected `qwinui3_*` libraries (and `*plugin` when STATIC), **or** `find_package(QWinUI3 CONFIG)` and link `QWinUI3::theme` / `::style` / …
 3. On Linux shared builds, add `lib/` to `LD_LIBRARY_PATH` (or set `rpath`).
-4. On Windows shared builds, put `bin/` DLLs beside your exe or on `PATH`.
+4. On Windows shared builds, put `bin/` DLLs beside your exe or on `PATH` (or use `qwinui3_target_setup`).
 5. Qt **6.5+** required (CI packages built with **6.8.x**): Quick, QuickControls2, LabsQmlModels.
-6. Set `QT_QUICK_CONTROLS_STYLE=QWinUI3` before creating `QGuiApplication`.
+6. Set `QT_QUICK_CONTROLS_STYLE=QWinUI3` before creating `QGuiApplication` (or call `QWinUI3::configureEnvironment`).
 7. After packaging: `python scripts/check_shared_package.py --dir <this-folder>`.
 8. License: **LGPL-3.0** (see `LICENSE` and `COPYING` in this package).
 9. Deploying *your* app still needs windeployqt / linuxdeploy for Qt; strip VirtualKeyboard etc.
+10. Tiny consumer: `examples/find-package-consumer/` + `python scripts/verify_find_package.py`.
 
 ### On-demand packaging
 
@@ -564,6 +617,8 @@ def main() -> int:
     out_dir.mkdir(parents=True, exist_ok=True)
 
     copied = _collect_files(build_dir, out_dir, modules)
+    copied.extend(_write_public_headers(out_dir, modules))
+    copied.extend(_write_cmake_package(out_dir, version))
     _write_readme(
         out_dir,
         args.shared,

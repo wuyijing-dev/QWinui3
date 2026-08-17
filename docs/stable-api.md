@@ -222,6 +222,7 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.58** | High-DPI / multi-monitor — [high-dpi.md](high-dpi.md); restore `setScreen` after clamp |
 | **1.59** | In-app search — [search.md](search.md); Gallery Search recipes |
 | **1.60** | Mid-horizon checkpoint — [checkpoint-160.md](checkpoint-160.md); smoke + SearchRecipes / HighDpi |
+| **1.61** | CMake `find_package` sketch — [packaging-consumer.md](packaging-consumer.md) Path C; `examples/find-package-consumer` |
 | **1.35** | Qt Creator kit polish — [qt-creator.md](qt-creator.md); example build presets |
 | **1.36** | Docs site IA — [recipes.md](recipes.md) hub; MkDocs Recipes sections |
 | **1.37** | Promote sweep — commands / Flyout / TabView / ShellWindow / pickers / progress / FontIcon / ItemsRepeater; explicit defer list |
