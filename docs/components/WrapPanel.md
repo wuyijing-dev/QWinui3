@@ -4,7 +4,7 @@ Flow / wrap layout.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/WrapPanel.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/WrapPanel.qml)
 
-**Category:** Layout · **Library:** v1.50
+**Category:** Layout · **Library:** v1.51
 
 [← Component index](../components.md)
 

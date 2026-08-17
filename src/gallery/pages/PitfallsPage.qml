@@ -13,7 +13,7 @@ CatalogPage {
     id: page
 
     title: qsTr("Pitfalls")
-    subtitle: qsTr("Anti-patterns + 1.xx freeze gate — docs/conventions.md · docs/compatibility-1xx.md (1.40).")
+    subtitle: qsTr("Anti-patterns + 1.xx freeze / maturity — docs/compatibility-1xx.md · docs/maturity-1xx.md (1.51).")
 
     property real demoProgress: 0.65
 
@@ -29,7 +29,34 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("1.xx compatibility (1.40)")
+        headerText: qsTr("1.xx maturity checkpoint (1.51)")
+        qmlSource: "// Prefer harden · gallery-shell · stable-api\\n// docs/maturity-1xx.md · docs/compatibility-1xx.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("1.51 is a deliberate “where we are” release—not 2.00. Prefer stable-api types, examples/gallery-shell for app chrome, and field harden over new control families for a while. Freeze gate from 1.40 remains active. Full notes: docs/maturity-1xx.md.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            CheckBox { text: qsTr("Starting apps from examples/gallery-shell (not full Gallery)") }
+            CheckBox { text: qsTr("Sticking to docs/stable-api.md for product surfaces") }
+            CheckBox { text: qsTr("Treating Media / ConnectedAnimation / niche charts as experimental") }
+            CheckBox { text: qsTr("Planning field P0s into 1.52+ instead of inventing new APIs") }
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                color: Theme.textSecondary
+                text: qsTr("Link audit: python scripts/checkpoint_1_51_audit.py · Roadmap continues 1.52…1.70.")
+            }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("1.xx compatibility (1.40 / 1.51)")
         qmlSource: "// Prefer stable-api + frozen Theme / shell names\\n// docs/compatibility-1xx.md · docs/upgrade-notes.md"
         ColumnLayout {
             Layout.fillWidth: true
@@ -37,7 +64,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Product apps should stick to types on docs/stable-api.md and Theme / shell names listed in docs/compatibility-1xx.md. Later 1.4x slices treat that freeze as a merge gate. Consumer upgrade checklist: docs/upgrade-notes.md. Experimental and deferred APIs may still move.")
+                text: qsTr("Product apps should stick to types on docs/stable-api.md and Theme / shell names listed in docs/compatibility-1xx.md. Later 1.xx slices treat that freeze as a merge gate. Consumer upgrade checklist: docs/upgrade-notes.md. Experimental and deferred APIs may still move.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary

@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.50**
-**Next up:** **1.51** (1.xx maturity checkpoint)
+**Current:** **1.51**
+**Next up:** **1.52** (Field polish buffer)
 **Planned through:** **1.70** (long-horizon 1.xx checkpoint)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
 
@@ -60,7 +60,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.50`
+## Shipped — `1.01` … `1.51`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -262,30 +262,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** [`examples/gallery-shell`](examples/gallery-shell/) — `NavigationWindow` + `pageModule` + Settings footer + Bootstrap + `geometryPersistenceKey`; `NavigationWindow` gains `pageModule` / `hostContent` / `navigateBack`; keep-vs-delete README; docs/README/Gallery Example templates; product version `1.50`.
 
----
+### 1.51 — 1.xx maturity checkpoint (shipped)
 
-## Horizon — planned `1.51` … `1.70`
-
-Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per `YY`. Order can flex if field P0s force a swap; do not merge themes into mega-minors.
-
-### 1.51 — 1.xx maturity checkpoint
-
-**Why:** Cap the first post-1.40 arc with a deliberate “where we are” release—not 2.00.
-
-**In scope**
-
-- Audit stable-api vs Gallery; refresh ROADMAP shipped vs deferred; compatibility doc (1.40) revisited.
-- Fix P0 doc/link rot; optional “LTS-style” note: prefer harden over new surfaces for a while.
-
-**Out of scope**
-
-- Declaring 2.00; freezing all experimental forever.
-
-**Exit criteria**
-
-- Published checkpoint notes in ROADMAP/README; continue through planned `1.52`…`1.70` (or pause explicitly).
+**Shipped:** [maturity-1xx.md](docs/maturity-1xx.md) verdict (stay on 1.xx; harden-first); revisited [compatibility-1xx.md](docs/compatibility-1xx.md); stable-api starters + changelog through 1.51; Gallery Pitfalls maturity checklist; recipe hub + README links; `scripts/checkpoint_1_51_audit.py` (0 broken recipe/roadmap links); product version `1.51`.
 
 ---
+
+## Horizon — planned `1.52` … `1.70`
+
+Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per `YY`. Order can flex if field P0s force a swap; do not merge themes into mega-minors. Posture after 1.51: prefer field harden / docs over new control families.
 
 ### 1.52 — Field polish buffer
 
@@ -703,6 +688,8 @@ Unscheduled; pick up only inside a named `1.xx` minor (or never):
 |-----|------|
 | [README.md](README.md) | Overview |
 | [docs/stable-api.md](docs/stable-api.md) | Stable vs experimental |
+| [docs/maturity-1xx.md](docs/maturity-1xx.md) | 1.51 maturity checkpoint |
+| [docs/compatibility-1xx.md](docs/compatibility-1xx.md) | 1.xx will-not-break freeze |
 | [docs/components.md](docs/components.md) | Control index |
 | [docs/conventions.md](docs/conventions.md) | A11y / QML rules |
 | [docs/qt-version-compat.md](docs/qt-version-compat.md) | Qt multi-version shims |

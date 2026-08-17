@@ -47,6 +47,20 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.50 → 1.51
+
+**Product version:** 1.51  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- Read [maturity-1xx.md](maturity-1xx.md) — stay on 1.xx; prefer harden / `gallery-shell` / stable-api.
+- Freeze doc revisited: [compatibility-1xx.md](compatibility-1xx.md) (still the merge gate).
+
+#### No action (compatible)
+
+- Docs + Gallery Pitfalls checklist only; no API renames.
+
 ### Upgrade 1.49 → 1.50
 
 **Product version:** 1.50  

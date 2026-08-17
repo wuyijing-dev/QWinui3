@@ -4,7 +4,7 @@ Path trail; model items raise itemClicked.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/BreadcrumbBar.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/BreadcrumbBar.qml)
 
-**Category:** Navigation · **Library:** v1.50
+**Category:** Navigation · **Library:** v1.51
 
 [← Component index](../components.md)
 

@@ -4,7 +4,7 @@ Date field with calendar flyout.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/CalendarDatePicker.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/CalendarDatePicker.qml)
 
-**Category:** Date & time · **Library:** v1.50
+**Category:** Date & time · **Library:** v1.51
 
 [← Component index](../components.md)
 

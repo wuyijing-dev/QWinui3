@@ -4,7 +4,7 @@ Toggle primary + menu SplitButton.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ToggleSplitButton.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ToggleSplitButton.qml)
 
-**Category:** Buttons & commands · **Library:** v1.50
+**Category:** Buttons & commands · **Library:** v1.51
 
 [← Component index](../components.md)
 

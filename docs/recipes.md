@@ -3,7 +3,8 @@
 LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stack. Generated **control** pages live under [Component API](components.md). **Gallery:** category **Recipes** → **Recipes hub** opens every related demo.
 
 **Stable API:** prefer types on [stable-api.md](stable-api.md). **1.37** promote / defer tables live there.  
-**1.xx freeze (1.40):** [compatibility-1xx.md](compatibility-1xx.md) · [upgrade-notes.md](upgrade-notes.md).
+**1.xx freeze (1.40):** [compatibility-1xx.md](compatibility-1xx.md) · [upgrade-notes.md](upgrade-notes.md).  
+**1.xx maturity (1.51):** [maturity-1xx.md](maturity-1xx.md) — prefer harden; not 2.00.
 
 ---
 
@@ -13,7 +14,8 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 |--------|-----------|
 | [Qt Creator](qt-creator.md) | Open root CMakeLists → Gallery or example (no `.pro`) |
 | [Consumer packaging](packaging-consumer.md) | Shared vs static / windeploy / strip (1.46) |
-| [1.xx compatibility](compatibility-1xx.md) | Will-not-break Theme / shells / stable controls (1.40) |
+| [1.xx compatibility](compatibility-1xx.md) | Will-not-break Theme / shells / stable controls (1.40 / 1.51) |
+| [1.xx maturity checkpoint](maturity-1xx.md) | Where we are; harden-first posture (**1.51**) |
 | [Upgrade notes](upgrade-notes.md) | Consumer checklist + template (1.40) |
 | [Qt version compat](qt-version-compat.md) | 6.5+ / 6.8 LTS / CI matrix |
 | [Conventions](conventions.md) | Radius, Accessible, Extras import |
@@ -47,7 +49,7 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 | [Adaptive layout](adaptive-layout.md) | TwoPaneView / ListDetailsView breakpoints (1.42) |
 | [Theme overrides](theme-overrides.md) | Accent / density / branding |
 | [Color & contrast](color-contrast.md) | AA diagnostics / high contrast (1.43) |
-| [Icons & FluentIcons](icons.md) | Symbol font cookbook |
+| [Icons & FluentIcons](icons.md) | Symbol font + micro-motion (1.49) |
 | [i18n / RTL](i18n-rtl.md) | qsTr + zh_CN seed + LayoutMirroring (1.45) |
 
 ---
@@ -92,6 +94,7 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 
 | Example | Recipe pair |
 |---------|-------------|
+| [`examples/gallery-shell`](../examples/gallery-shell/) | [window-shells.md](window-shells.md) / [navigation.md](navigation.md) (**1.50**) |
 | [`examples/nav-settings`](../examples/nav-settings/) | [navigation.md](navigation.md) |
 | [`examples/settings-cards`](../examples/settings-cards/) | [forms.md](forms.md) / theme |
 | [`examples/dashboard`](../examples/dashboard/) | [charts.md](charts.md) |

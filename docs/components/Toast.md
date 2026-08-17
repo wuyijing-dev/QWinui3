@@ -4,7 +4,7 @@ Transient toast item.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/Toast.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/Toast.qml)
 
-**Category:** Dialogs & flyouts · **Library:** v1.50
+**Category:** Dialogs & flyouts · **Library:** v1.51
 
 [← Component index](../components.md)
 

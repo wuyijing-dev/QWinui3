@@ -1,8 +1,10 @@
-# 1.xx compatibility freeze (1.40)
+# 1.xx compatibility freeze (1.40 · revisited 1.51)
 
 What QWinUI3 **will keep compatible** for the rest of the **1.xx** line—and what still may move.
 
-This is the **gate** for later `1.4x` / `1.5x` work: prefer additive APIs; do not silently rename or remove anything listed under **Will not break**. Breaking Theme / shell / stable-control changes belong in a future **2.00**, not a quiet `1.xx` bump.
+This is the **gate** for later `1.4x` / `1.5x` / `1.6x` work: prefer additive APIs; do not silently rename or remove anything listed under **Will not break**. Breaking Theme / shell / stable-control changes belong in a future **2.00**, not a quiet `1.xx` bump.
+
+**1.51 maturity checkpoint:** [maturity-1xx.md](maturity-1xx.md) — prefer harden over new surfaces for a while; continue planned `1.52`…`1.70`.
 
 Related: [stable-api.md](stable-api.md) (which types are stable) · [upgrade-notes.md](upgrade-notes.md) (consumer checklist) · [qt-version-compat.md](qt-version-compat.md) (Qt floors).
 
@@ -17,7 +19,7 @@ Related: [stable-api.md](stable-api.md) (which types are stable) · [upgrade-not
 | Shell host APIs below | Stay on `StandardWindow` / `ShellWindow` family / `NavigationView` / `WindowHelper` entry points |
 | Experimental / deferred | May change in any `1.xx` with docs callouts — [1.37 defer](stable-api.md#137-defer--wont-promote-for-now) |
 | Internal / Style-private | Not covered |
-| Qt floor | Remains **6.5+** (recommended **6.8 LTS**) unless a named slice says otherwise — not cut in 1.40 |
+| Qt floor | Remains **6.5+** (recommended **6.8 LTS**) unless a named slice says otherwise — not cut in 1.40 / 1.51 |
 
 **Additive is OK** in 1.xx: new properties with defaults, new optional signals, new stable promotes (named on stable-api).
 
@@ -66,10 +68,12 @@ Rely on these **names** from `QWinUI3.Theme` / `Theme` singleton. Prefer reading
 |-----|--------|
 | `StandardWindow` host properties used by Gallery / examples (`backdrop`, `geometryPersistenceKey`, caption flags, header slot) | [window-chrome.md](window-chrome.md) |
 | `ShellWindow` / `BlankWindow` / `NavigationWindow` / `MenuStatusWindow` public layout properties | [window-shells.md](window-shells.md) |
+| `NavigationWindow` `pageModule` / `hostContent` / `pageTransition` / `navigateBack` / `canGoBack` | Gallery-style StackView shell — [examples/gallery-shell](../examples/gallery-shell/) (**1.50**) |
 | `NavigationView`: `model`, `pageModule`, `openPage` / `selectKey` / `selectFooter`, `pageTransition`, `paneDisplayMode`, `footerComponent`, page cache props (1.39) | [navigation.md](navigation.md) · [performance.md](performance.md) |
 | `WindowHelper`: backdrop enums + `resolveBackdrop`, geometry save/restore, `configurePlatformEnvironment` / Bootstrap `configureEnvironment` | [window-helper.md](window-helper.md) |
 | `PlatformTitleBar` + embedded `TitleBar` recipe | Gallery Main / examples |
 | `QWinUI3::configureEnvironment` / `configureApplication` | [packaging-consumer.md](packaging-consumer.md) |
+| Icon glyph micro-motion knobs (`microMotionEnabled`, `hoverScale`, `pressScale`) on `FontIcon` / `IconicButton` | Additive defaults — [icons.md](icons.md) (**1.49**) |
 
 **May change:** exotic paradigm / presenter edges still marked experimental; Snap Layouts / taskbar progress remain Windows-oriented with Linux no-ops.
 
@@ -79,12 +83,13 @@ Rely on these **names** from `QWinUI3.Theme` / `Theme` singleton. Prefer reading
 
 Everything listed as **Stable** on [stable-api.md](stable-api.md) (shells, forms, dialogs, commands, pickers, charts subset, system integration, …).
 
-Rules for later `1.4x` PRs:
+Rules for later `1.5x` / `1.6x` PRs:
 
 1. Does this **rename or remove** a public member of a stable type? → **No** unless ROADMAP names a deprecation window and upgrade-notes get a row.
 2. Does this change Theme token **names** in the freeze list? → **No**.
 3. Additive API / new Gallery page / docs-only → **OK**.
 4. Promote experimental → stable → **OK** (update stable-api changelog).
+5. Prefer **field harden / docs** over new control families until [maturity-1xx.md](maturity-1xx.md) posture changes (**1.51**).
 
 ---
 
@@ -102,12 +107,13 @@ Rules for later `1.4x` PRs:
 
 ---
 
-## Gate for 1.41+
+## Gate for 1.41+ (still active at 1.51)
 
 Before merging a slice that touches Theme, shells, or stable controls:
 
 - [ ] Stable-api / this freeze list still accurate  
 - [ ] If behavior changes for apps: row in [upgrade-notes.md](upgrade-notes.md)  
 - [ ] No silent renames of frozen Theme or shell APIs  
+- [ ] Maturity posture: harden-first when choosing scope — [maturity-1xx.md](maturity-1xx.md)
 
 **2.00** is only when we truly need breaking Theme/API renames that cannot stay compatible in 1.xx — see [ROADMAP.md](../ROADMAP.md).

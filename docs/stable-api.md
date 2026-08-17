@@ -5,6 +5,7 @@ QWinUI3 ships **~200** public types. Not all of them carry the same compatibilit
 This page is the **1.xx stable surface** for apps that copy from examples / Gallery. Types **not** listed as stable may still work and stay documented—they are simply **not** covered by the “no silent renames” promise until promoted here.
 
 **1.xx freeze gate (1.40):** [compatibility-1xx.md](compatibility-1xx.md) — Theme / shell / stable “will not break”.  
+**1.xx maturity checkpoint (1.51):** [maturity-1xx.md](maturity-1xx.md) — prefer harden; not 2.00.  
 **Consumer upgrades:** [upgrade-notes.md](upgrade-notes.md).  
 **Product version:** see `QWINUI3_VERSION` in root `CMakeLists.txt` (`X.YY`).  
 **How-to recipes:** [recipes.md](recipes.md).
@@ -62,7 +63,7 @@ Promoted this slice (Gallery + recipe soak). Status flips are **named here** —
 | `StandardWindow` | Platform | Primary app window for examples |
 | `ShellWindow` / `BlankWindow` / `MenuStatusWindow` | Extras | Product shells — [window-shells.md](window-shells.md) (**1.37**) |
 | `NavigationView` | Extras | Pane + page stack; used by `examples/nav-settings` — [navigation.md](navigation.md) (1.27) |
-| `NavigationWindow` | Extras | Shell + NavigationView host |
+| `NavigationWindow` | Extras | Shell + NavigationView host; `pageModule` shell — [examples/gallery-shell](../examples/gallery-shell/) (**1.50**) |
 | `TabView` | Extras | Document tabs (tear-out remains experimental) — [navigation.md](navigation.md) (**1.37**) |
 | `PlatformTitleBar` / caption chrome | Platform | Via shells; prefer shell APIs over reinventing |
 
@@ -157,6 +158,7 @@ If a type is public in [components.md](components.md) but listed in neither tabl
 
 | Starter | Stable pieces it uses |
 |---------|------------------------|
+| [`examples/gallery-shell`](../examples/gallery-shell/) | **Prefer for apps** — `NavigationWindow` + Settings + persistence — [window-shells.md](window-shells.md) (**1.50**) |
 | [`examples/nav-settings`](../examples/nav-settings/) | `StandardWindow`, `NavigationView`, settings footer — [navigation.md](navigation.md) (1.27) |
 | [`examples/settings-cards`](../examples/settings-cards/) | `SettingsCard`, `SettingsExpander` |
 | [`examples/dashboard`](../examples/dashboard/) | Shell + **stable** KPI/charts (`LineChart`, `RingGauge`, `KpiTile`, `ChartCard`) — [charts.md](charts.md) (1.23) |
@@ -226,3 +228,6 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.46** | Shared redistribute polish — [packaging-consumer.md](packaging-consumer.md); `check_shared_package.py`; windeploy/linuxdeploy + strip |
 | **1.47** | Snap Layouts / shell extras polish — [shell-extras.md](shell-extras.md); Gallery System integration demos |
 | **1.48** | ContentDialogQueue deepen — [dialogs-flyouts.md](dialogs-flyouts.md); `replaceCurrent` pump fix; Gallery A→B→C stress |
+| **1.49** | Icon micro-motion — [icons.md](icons.md); `FontIcon` / `IconicButton` hover/press scales |
+| **1.50** | Extractable Gallery shell — [examples/gallery-shell](../examples/gallery-shell/); `NavigationWindow` `pageModule` |
+| **1.51** | 1.xx maturity checkpoint — [maturity-1xx.md](maturity-1xx.md); freeze revisit [compatibility-1xx.md](compatibility-1xx.md) |

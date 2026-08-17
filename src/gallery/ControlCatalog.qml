@@ -1210,7 +1210,7 @@ QtObject {
             title: qsTr("Pitfalls"),
             category: "layout",
             icon: FluentIcons.Warning,
-            description: qsTr("Anti-patterns + 1.xx compatibility freeze gate (1.40) — docs/compatibility-1xx.md."),
+            description: qsTr("Anti-patterns + 1.xx maturity checkpoint (1.51) — docs/maturity-1xx.md."),
             component: "PitfallsPage",
             source: "pages/PitfallsPage.qml"
         },
@@ -1522,6 +1522,7 @@ QtObject {
     // Curated “recently shipped” recipe pages (1.20) — not catalog array order.
     function recentlyShipped(count) {
         var ids = [
+            "PitfallsPage",           // 1.51 maturity checkpoint
             "ExamplesTemplatesPage",  // 1.50 gallery-shell
             "FontIconPage",           // 1.49 icon micro-motion
             "IconButtonPage",         // 1.49
@@ -1540,7 +1541,6 @@ QtObject {
             "ListDetailsViewPage",    // 1.42 breakpoints
             "FileDropZonePage",       // 1.41 drag-drop recipe
             "CopyButtonPage",         // 1.41 clipboard
-            "PitfallsPage",           // 1.40 compatibility freeze
             "PerformancePage",        // 1.39 / 1.25
             "NavigationViewPage",     // 1.39 page cache / cold start
             "HomePage",               // 1.39 deferred card effects
