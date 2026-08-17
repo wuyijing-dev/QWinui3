@@ -88,22 +88,21 @@ TitleBar {
     onBackRequested: nav.navigateBack()
     onPaneToggleRequested: nav.paneOpen = !nav.paneOpen
 }
-
-NavigationView {
-    paneDisplayMode: "auto"
-    // Top mode can also show an in-pane Back:
-    // isBackButtonVisible: true
-}
 ```
 
 | API | Role |
 |-----|------|
 | `canGoBack` / `navigateBack()` | Soft history |
-| `openPage` / `selectKey` / `navigateToTitle` | Forward navigation |
-| `pageTransition` | Default transition for pane clicks (`slide`, `fade`, `drill`, …); per-mode axis animators only (1.87) |
+| `navigateToPage(name, mode?)` | In-page drill **with** history (**2.56**) — prefer over bare `openPage` |
+| `openDrillWithHistory(name)` | `navigateToPage(name, "drill")` shorthand (**2.56**) |
+| `openPage` / `openDrill` | Replace stack **without** history — use for reload / same-level swap |
+| `openPage` / `selectKey` / `navigateToTitle` | Forward navigation (pane / search) |
+| `selectBreadcrumbIndex` | Jump to ancestor crumb **without** history push (**2.56**) |
+| `pageTransition` | Default transition for pane clicks (`slide`, `fade`, `drill`, …) |
 | Same-key click | Skips replace + transition |
+| `isPanePinned` | Keep pane open across auto collapse / leftMinimal scrim (**2.56**) |
 
-Left rail does **not** host Back — wire the **TitleBar** (Gallery / nav-settings pattern).
+Left rail does **not** host Back — wire the **TitleBar** (Gallery / nav-settings pattern). Do **not** set `isBackButtonVisible: true` statically — bind **`canGoBack`**.
 
 ---
 
@@ -177,3 +176,46 @@ Gallery NavigationView / TabView pages and [`examples/nav-settings`](../examples
 3. `NavigationView` with `paneDisplayMode: "auto"`, Home / About, Settings `footerComponent`
 
 Copy that folder, then swap `pageModule` / model entries for your app.
+
+---
+
+## BreadcrumbBar integration (2.23)
+
+Keep **TitleBar** / page chrome in sync with **NavigationView** selection using the built-in path helpers — no hand-maintained crumb arrays.
+
+```qml
+NavigationView {
+    id: nav
+    headerText: qsTr("Contoso")
+    currentKey: "home"
+    model: [
+        { type: "item", key: "home", title: qsTr("Home"),
+          symbol: FluentIcons.Home, component: "HomePage" },
+        { type: "group", key: "lib", title: qsTr("Library"),
+          symbol: FluentIcons.Folder, children: [
+            { title: qsTr("Docs"), component: "DocsPage" }
+        ] }
+    ]
+
+    content: BreadcrumbBar {
+        maxItems: 5
+        model: nav.breadcrumbModelForKey(nav.currentKey)
+        currentIndex: Math.max(0, model.length - 1)
+        onItemInvoked: (index) => nav.selectBreadcrumbIndex(index)
+    }
+}
+```
+
+| API | Role |
+|-----|------|
+| `breadcrumbPathForKey(key)` | `[{ title, symbol?, navKey }]` — full path with navigation targets |
+| `breadcrumbModelForKey(key)` | Plain `{ title, symbol? }[]` for **BreadcrumbBar.model** |
+| `selectBreadcrumbIndex(index, mode?)` | Navigate to crumb (footer → `selectFooter`, group → first child) — **no history push** (**2.56**) |
+| `navKeyForBreadcrumbIndex(key, index)` | Resolve `navKey` without selecting |
+| `BreadcrumbBar.modelFromNavigationPath(path)` | Map `breadcrumbPathForKey` when you need custom fields |
+
+**NavigationWindow:** forwarders `breadcrumbModelForKey`, `selectBreadcrumbIndex`; opt-in `syncSubtitleFromNavigation: true` mirrors the last crumb into **ShellWindow.subtitle**.
+
+**BreadcrumbBar** (unchanged control): overflow `…` flyout when `maxItems` is set; keyboard ←/→, Home/End, Enter/Space on focused bar.
+
+Gallery **BreadcrumbBar** page demonstrates standalone path trimming and live **NavigationView** sync — see also [components/BreadcrumbBar.md](components/BreadcrumbBar.md).

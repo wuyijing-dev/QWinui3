@@ -27,6 +27,7 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 | [Stable vs experimental clarity (2.51)](stable-clarity-251.md) | FL-004 queue closed — `lint_qml_imports.py` + Pitfalls |
 | [First app in an hour (2.52)](first-app-252.md) | `examples/first-app/` + preview **DashboardShell** |
 | [Linux top-3 parity (2.53)](linux-top3-253.md) | Nav shell clip + **sway** profile + FilePicker guard |
+| [Navigation mental model (2.56)](navigation-mental-model-256.md) | Back vs pane vs stack guardrails |
 | [Forms unlike WinUI (2.55)](forms-unlike-winui-255.md) | Async validate + dialog queue priority |
 | [Window chrome footguns (2.54)](window-chrome-footguns-254.md) | Geometry v2 + maximize hit-test refresh |
 | [Field harden buffer (2.47)](field-harden-247.md) | Checkpoint P0/P1 triage — packaging picker + import guard |

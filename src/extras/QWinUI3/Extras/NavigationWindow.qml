@@ -41,6 +41,8 @@ ShellWindow {
     property alias paneWidth: nav.paneWidth
     // NavigationWindow pane header text
     property alias paneHeaderText: nav.headerText
+    // When true, pane stays open across auto/scrim dismiss (2.56)
+    property alias isPanePinned: nav.isPanePinned
     // left | leftCompact | leftMinimal | top | auto
     property alias paneDisplayMode: nav.paneDisplayMode
     // Selected navigation key
@@ -91,6 +93,9 @@ ShellWindow {
     readonly property alias samePageSkipCount: nav.samePageSkipCount
     // TitleBar / pane can go back
     readonly property alias canGoBack: nav.canGoBack
+    // Bind TitleBar isBackButtonVisible to these — not a static true (2.56)
+    readonly property alias effectiveBackVisible: nav.effectiveBackVisible
+    readonly property alias effectiveBackEnabled: nav.effectiveBackEnabled
     // Mirror last breadcrumb segment into ShellWindow.subtitle (2.23)
     property bool syncSubtitleFromNavigation: false
 
@@ -204,6 +209,11 @@ ShellWindow {
     // Restore previous page (TitleBar Back)
     function navigateBack(mode) {
         return nav.navigateBack(mode)
+    }
+
+    // In-page drill with soft history (2.56)
+    function navigateToPage(name, mode) {
+        nav.navigateToPage(name, mode)
     }
 
     // Drop cached page Components (keeps current page by default)

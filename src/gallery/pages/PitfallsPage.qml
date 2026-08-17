@@ -206,6 +206,27 @@ CatalogPage {
     }
 
     ControlExample {
+        headerText: qsTr("Navigation mental model (2.56)")
+        qmlSource: "navigateToPage + isPanePinned\\n// docs/navigation-mental-model-256.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("2.56: navigateToPage for in-page drill history; breadcrumb selectBreadcrumbIndex skips history push; bind TitleBar Back to canGoBack; isPanePinned for overlay pane. docs/navigation-mental-model-256.md")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            CheckBox { text: qsTr("TitleBar isBackButtonVisible: nav.canGoBack — never static true") }
+            CheckBox { text: qsTr("In-page drill: navigateToPage — not bare openPage") }
+            CheckBox { text: qsTr("Breadcrumb: selectBreadcrumbIndex — not selectKey") }
+            CheckBox { text: qsTr("One primary frame — no NavigationView inside every TabView tab") }
+        }
+    }
+
+    ControlExample {
         headerText: qsTr("Forms unlike WinUI (2.55 / FL-018)")
         qmlSource: "beginValidate() · focusFirstError()\\nContentDialogQueue.showFront()"
         ColumnLayout {

@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **2.55** (master; forms unlike WinUI)
-**Next up:** **2.56** — Navigation mental model (friction-only)
+**Current:** **2.56** (master; navigation mental model)
+**Next up:** **2.57** — Files on Linux (friction-only)
 **Planned through:** **3.00** (… → **2.00** break → **2.01…2.50** tranche 1 → **2.51…2.60** friction-only → **2.61…2.70** professional surfaces → **2.71…2.73** Python / PyPI → **3.00** 2.x close-out)
 **1.xx close-out:** [checkpoint-190.md](docs/checkpoint-190.md). **1.86…1.89** performance arc **signed off** (**animations stay**). OSK/packaging promote **2.01**. **2.50** = tranche-1 audit; **2.60** = friction tranche close-out; **2.70** = professional-surfaces audit; **2.73** = Python consumer checkpoint; **3.00** = 2.x breaking close-out ([checkpoint-300.md](docs/checkpoint-300.md)).  
 **Qt:** 6.5+ (recommended 6.8 LTS) through **1.92** — [qt-version-compat.md](docs/qt-version-compat.md). **2.00** raises the floor to **6.8 LTS**. **3.00** raises the floor to **6.10 LTS**. **Platforms:** **Windows + Linux** — no macOS first-class line.
@@ -653,7 +653,7 @@ Apps on **1.90** read [upgrade-notes.md](docs/upgrade-notes.md) **1.90 → 2.00*
 | **2.53** | Linux “feels broken” top 3 | Field matrix names 3 user-visible parity gaps | **Shipped** |
 | **2.54** | Window chrome footguns | Maximize/DPI/hit-test/geometry restore | **Shipped** |
 | **2.55** | Forms unlike WinUI | Validation, errors, clear/collect surprises | **Shipped** |
-| **2.56** | Navigation mental model | Back vs pane vs stack confusion | Queue |
+| **2.56** | Navigation mental model | Back vs pane vs stack confusion | **Shipped** |
 | **2.57** | Files on Linux | Pick / drop / reveal still fails in apps | Queue |
 | **2.58** | Keyboard / IME / OSK in apps | Real input path unusable outside Gallery | Queue |
 | **2.59** | “Feels slow” (app-level) | Named app scenarios, not synthetic FPS only | Queue |
@@ -689,11 +689,11 @@ Apps on **1.90** read [upgrade-notes.md](docs/upgrade-notes.md) **1.90 → 2.00*
 
 **Shipped:** [forms-unlike-winui-255.md](docs/forms-unlike-winui-255.md) — `FormLayout` async API + `focusFirstError`; `ValidationSummary` live region; `ContentDialogQueue.showFront`; Enter default in TextField; Gallery form/dialog refresh. Product version **2.55**.
 
-### 2.56 — Navigation mental model (queue)
+### 2.56 — Navigation mental model (shipped)
 
-**Pain:** Back, pane, footer, and stack interact unexpectedly. **Outcome:** NavigationView recipes + optional API guardrails — **no** new nav control unless friction proves it.
+**Goal:** Close Back / pane / stack confusion — not a new nav control.
 
-**Deepen:** **NavigationView** pane pin · **TabView** scroll strip · **BreadcrumbBar** overflow · **SplitView** / **TwoPaneView** · **AppBar** — [component-capabilities-expansion.md](docs/planning/expansion/component-capabilities-expansion.md).
+**Shipped:** [navigation-mental-model-256.md](docs/navigation-mental-model-256.md) — `navigateToPage` + breadcrumb history guard + `isPanePinned`; [navigation.md](docs/navigation.md) recipes; Gallery **NavigationView** **2.56** block. Product version **2.56**.
 
 ### 2.57 — Files on Linux (queue)
 
@@ -1364,14 +1364,12 @@ Finish the committed audit arc — **do not** add conditional controls without a
 
 | Rank | Slice | When to ship |
 |------|-------|----------------|
-| 1 | **2.56** | Navigation mental model |
+| 1 | **2.57** | Files on Linux |
+| — | **2.56** | Navigation mental model — **shipped** |
 | — | **2.55** | Forms unlike WinUI — **shipped** |
 | — | **2.54** | Window chrome footguns — **shipped** |
-| — | **2.52** | First app in an hour — **shipped** |
-| 2 | **2.56** | Navigation mental model |
-| 3 | **2.57** | Files on Linux |
-| 4 | **2.58–2.59** | OSK in apps · named slow flows |
-| 5 | **2.60** | Friction checkpoint + 3.00 prep |
+| 2 | **2.58–2.59** | OSK in apps · named slow flows |
+| 3 | **2.60** | Friction checkpoint + 3.00 prep |
 
 **Hard rule:** no open **P0/P1** in friction-log → **skip tag**.
 

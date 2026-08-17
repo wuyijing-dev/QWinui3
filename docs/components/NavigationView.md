@@ -4,7 +4,7 @@ WinUI NavigationView with pane modes and page stack.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/NavigationView.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/NavigationView.qml)
 
-**Category:** Navigation · **Library:** v2.55
+**Category:** Navigation · **Library:** v2.56
 
 [← Component index](../components.md)
 
@@ -34,6 +34,7 @@ NavigationView {
 //           nav.openSlide("HomePage"), nav.openFromCenter("HomePage")
 //           nav.openFade("HomePage"), nav.openDrill("HomePage")
 //           nav.navigateToTitle("Home"), nav.reloadPage()
+//           nav.navigateToPage("DetailPage", "drill")  // in-page drill + history (2.56)
 //           nav.clearPageCache()  // drop cached page Components (keep current)
 // groups:   nav.toggleGroup(key), nav.setGroupExpanded(key, true)
 // reorder:  nav.moveNavItem(from, to)   // requires isReorderable
@@ -67,6 +68,7 @@ Live-region announces nav selection / pane expand (2.07) when announceChanges is
 | `currentIndex` | `int` | Selected index |
 | `paneOpen` | `bool` | Expanded pane when true (left / leftMinimal); compact modes force false |
 | `isPaneOpen` | `alias` | WinUI IsPaneOpen alias |
+| `isPanePinned` | `bool` | When true, auto mode / scrim will not collapse the pane (2.56) |
 | `isPaneVisible` | `bool` | WinUI IsPaneVisible — hide the navigation pane entirely when false |
 | `alwaysShowHeader` | `bool` | WinUI AlwaysShowHeader — show the pane title bar in leftCompact (hamburger + title) |
 | `paneWidth` | `real` | Expanded pane width (WinUI OpenPaneLength) |
@@ -97,7 +99,7 @@ Live-region announces nav selection / pane expand (2.07) when announceChanges is
 | `content` | `alias` | Content slot / children host |
 | `pageHistory` | `var` | Soft navigation history for TitleBar / pane back (replace stack still applies) |
 | `canGoBack` | `bool` | — |
-| `effectiveBackVisible` | `bool` | Top-pane / shell chrome back (left rail no longer hosts Back) |
+| `effectiveBackVisible` | `bool` | TitleBar / ShellWindow: bind isBackButtonVisible to this (not a static true) |
 | `effectiveBackEnabled` | `bool` | — |
 | `effectiveFooterIcon` | `string` | Resolved footer icon |
 | `resolvedPaneMode` | `string` | Effective pane mode after auto |
@@ -123,6 +125,7 @@ Live-region announces nav selection / pane expand (2.07) when announceChanges is
 
 | Signature | Description |
 | --- | --- |
+| `canGoBackChanged()` | — |
 | `footerClicked()` | Footer row clicked |
 | `itemClicked(int index)` | Emitted when an item is clicked |
 | `pageOpened(string name)` | Page was opened |
@@ -151,7 +154,7 @@ Live-region announces nav selection / pane expand (2.07) when announceChanges is
 | `breadcrumbPathForKey(key)` | Breadcrumb path for a nav key — [{ title, symbol?, navKey }] (2.23) |
 | `breadcrumbModelForKey(key)` | Plain BreadcrumbBar model derived from breadcrumbPathForKey (2.23) |
 | `navKeyForBreadcrumbIndex(key, index)` | navKey at breadcrumb index for the given selection key |
-| `selectBreadcrumbIndex(index, mode)` | Select nav destination for a breadcrumb index (2.23) |
+| `selectBreadcrumbIndex(index, mode)` | Select nav destination for a breadcrumb index (2.23) — no history push (2.56) |
 | `flatIndexForKey(key)` | Flat list index for a nav key |
 | `ensureSelectionVisible()` | Scroll so the current selection is on-screen |
 | `selectIndex(index)` | Select a top-level model index (legacy) |
@@ -168,6 +171,8 @@ Live-region announces nav selection / pane expand (2.07) when announceChanges is
 | `openSlideRight(name)` | Forward slide from the right |
 | `openFade(name)` | Opacity-only crossfade |
 | `openDrill(name)` | Stronger scale drill-in (WinUI DrillIn–style) |
+| `navigateToPage(name, mode)` | In-page drill/detail — records soft history so TitleBar Back works (2.56) |
+| `openDrillWithHistory(name)` | — |
 | `openUp(name)` | Vertical rise from below |
 | `openDown(name)` | Vertical settle from above |
 | `openCover(name)` | Covering slide from the right |

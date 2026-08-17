@@ -10,7 +10,7 @@ import QWinUI3.Extras
 
 CatalogPage {
     title: qsTr("NavigationView")
-    subtitle: qsTr("Pane modes, footer Settings, Back stack. Recipe: docs/navigation.md (1.27).")
+    subtitle: qsTr("Back vs pane vs stack — docs/navigation-mental-model-256.md (2.56).")
 
     ControlExample {
         headerText: qsTr("When to use (1.27)")
@@ -86,6 +86,11 @@ CatalogPage {
                     text: qsTr("AlwaysShowHeader")
                     checked: false
                 }
+                CheckBox {
+                    id: panePin
+                    text: qsTr("Pane pinned (2.56)")
+                    checked: false
+                }
                 Label { text: qsTr("Open length"); color: Theme.textSecondary }
                 SpinBox {
                     id: openLen
@@ -148,11 +153,18 @@ CatalogPage {
                 isPaneToggleButtonVisible: toggleVis.checked
                 isPaneVisible: paneVis.checked
                 alwaysShowHeader: alwaysHeader.checked
+                isPanePinned: panePin.checked
                 onBackRequested: navStatus.text = qsTr("Back requested · canGoBack=%1").arg(demoNav.canGoBack)
                 onFooterClicked: navStatus.text = qsTr("Footer (Settings) clicked")
                 onPageOpened: function (name) {
-                    navStatus.text = qsTr("Opened %1 · %2 · history %3")
-                        .arg(name).arg(demoNav.pendingMode).arg(demoNav.pageHistory.length)
+                    navStatus.text = qsTr("Opened %1 · cache %2/%3 · hits %4 · keySkip %5 · pageSkip %6 · history %7")
+                        .arg(name)
+                        .arg(demoNav.pageCacheCount)
+                        .arg(demoNav.pageCacheLimit)
+                        .arg(demoNav.pageCacheHits)
+                        .arg(demoNav.sameKeySkipCount)
+                        .arg(demoNav.samePageSkipCount)
+                        .arg(demoNav.pageHistory.length)
                 }
                 model: [
                     {
@@ -181,6 +193,57 @@ CatalogPage {
                         ]
                     }
                 ]
+            }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Navigation mental model (2.56)")
+        qmlSource: "nav.navigateToPage(\"DetailPage\", \"drill\")\nTitleBar: isBackButtonVisible: nav.canGoBack"
+
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Use navigateToPage/openDrillWithHistory for in-page drill — openPage alone skips soft history. Breadcrumb clicks no longer push history. Bind TitleBar Back to canGoBack (not static true). isPanePinned keeps overlay/auto pane open. docs/navigation-mental-model-256.md")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            RowLayout {
+                Button {
+                    text: qsTr("Drill → Button (with history)")
+                    highlighted: true
+                    onClicked: demoNav.navigateToPage("ButtonPage", "drill")
+                }
+                Button {
+                    text: qsTr("Drill → Button (no history)")
+                    onClicked: demoNav.openDrill("ButtonPage")
+                }
+                Button {
+                    text: qsTr("Navigate back")
+                    enabled: demoNav.canGoBack
+                    onClicked: demoNav.navigateBack()
+                }
+            }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Collection + shell perf (2.28 / 2.40)")
+        qmlSource: "// Wave 6: pageCacheHits · sameKeySkipCount\n// Wave 7: debounce paneSearchTextEdited before rebuilding paneSearchModel"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Shell trim (2.28): tune pageCacheLimit, watch sameKeySkipCount / samePageSkipCount on repeat nav. Collection trim (2.40): NavigationView does not debounce pane search — use a Timer (~80–120 ms) in paneSearchTextEdited before filtering paneSearchModel. Pair both on real app checklists — docs/performance.md.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
             }
         }
     }

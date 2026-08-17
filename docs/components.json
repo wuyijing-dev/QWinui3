@@ -1,6 +1,6 @@
 {
   "name": "QWinUI3",
-  "version": "2.55",
+  "version": "2.56",
   "generatedBy": "scripts/generate_component_docs.py",
   "publicCount": 227,
   "components": [
@@ -1335,9 +1335,9 @@
       "galleryPage": "pages/NavigationViewPage.qml",
       "galleryTitle": "NavigationView",
       "doc": "components/NavigationView.md",
-      "propertyCount": 56,
-      "signalCount": 7,
-      "methodCount": 40
+      "propertyCount": 57,
+      "signalCount": 8,
+      "methodCount": 42
     },
     {
       "name": "NavigationWindow",
@@ -1350,9 +1350,9 @@
       "galleryPage": "",
       "galleryTitle": "",
       "doc": "components/NavigationWindow.md",
-      "propertyCount": 29,
+      "propertyCount": 32,
       "signalCount": 3,
-      "methodCount": 9
+      "methodCount": 10
     },
     {
       "name": "NotificationBridge",

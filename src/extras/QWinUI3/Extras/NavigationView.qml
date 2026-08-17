@@ -25,6 +25,7 @@ import QWinUI3.Theme
 //   //           nav.openSlide("HomePage"), nav.openFromCenter("HomePage")
 //   //           nav.openFade("HomePage"), nav.openDrill("HomePage")
 //   //           nav.navigateToTitle("Home"), nav.reloadPage()
+//   //           nav.navigateToPage("DetailPage", "drill")  // in-page drill + history (2.56)
 //   //           nav.clearPageCache()  // drop cached page Components (keep current)
 //   // groups:   nav.toggleGroup(key), nav.setGroupExpanded(key, true)
 //   // reorder:  nav.moveNavItem(from, to)   // requires isReorderable
@@ -43,6 +44,7 @@ import QWinUI3.Theme
 //   up | down | cover | none (suppress). Pane clicks use pageTransition.
 //   WinUI aliases: paneTitle, openPaneLength, compactPaneLength, isSettingsVisible, isPaneToggleButtonVisible.
 //   Prefer selectKey / openPage over mutating currentIndex alone.
+//   Live-region announces nav selection / pane expand (2.07) when announceChanges is true.
 
 Item {
     id: root
@@ -50,6 +52,9 @@ Item {
     Accessible.role: Accessible.Pane
     Accessible.name: root.headerText.length ? root.headerText : qsTr("Navigation")
     Accessible.description: qsTr("Navigation pane and content")
+    // Qt 6.8+ Accessible.announce for selection / pane changes (2.07).
+    property bool announceChanges: true
+    property bool _a11yReady: false
 
     // Navigation items: [{ type, key, title, icon|symbol, children?, badge?, badgeValue? }]
     property var model: []
@@ -59,6 +64,8 @@ Item {
     property bool paneOpen: true
     // WinUI IsPaneOpen alias
     property alias isPaneOpen: root.paneOpen
+    // When true, auto mode / scrim will not collapse the pane (2.56)
+    property bool isPanePinned: false
     // WinUI IsPaneVisible — hide the navigation pane entirely when false
     property bool isPaneVisible: true
     // WinUI AlwaysShowHeader — show the pane title bar in leftCompact (hamburger + title)
@@ -116,9 +123,12 @@ Item {
     property var pageHistory: []
     property bool _suppressHistory: false
     readonly property bool canGoBack: pageHistory.length > 0
-    // Top-pane / shell chrome back (left rail no longer hosts Back)
+    // TitleBar / ShellWindow: bind isBackButtonVisible to this (not a static true)
     readonly property bool effectiveBackVisible: isBackButtonVisible || canGoBack
     readonly property bool effectiveBackEnabled: isBackEnabled && canGoBack
+
+    onPageHistoryChanged: canGoBackChanged()
+    signal canGoBackChanged()
     // Left-rail title bar: hamburger + paneTitle must appear together when shown
     readonly property bool _showPaneTitleBar: {
         if (!isPaneToggleButtonVisible || !isPaneVisible)
@@ -155,8 +165,14 @@ Item {
     property string _openedPageName: ""
     // Max cached page Components from pageModule (0 = unlimited). LRU eviction (1.39).
     property int pageCacheLimit: 24
+    // Cached Component hits (diagnostics — 2.18).
+    property int pageCacheHits: 0
     // Number of entries in the page Component cache
     property int pageCacheCount: 0
+    // selectKey skipped — same nav key already active (diagnostics — 2.28).
+    property int sameKeySkipCount: 0
+    // openPage skipped — same page component already showing (diagnostics — 2.28).
+    property int samePageSkipCount: 0
     // Supported mode ids for Settings / Gallery pickers
     readonly property var pageTransitionModes: [
         "slide", "slideRight", "fade", "center", "drill", "up", "down", "cover", "none"
@@ -227,6 +243,8 @@ Item {
         var mode = resolvedPaneMode
         var prev = _prevResolvedPaneMode
         _prevResolvedPaneMode = mode
+        if (root.isPanePinned)
+            return
         if (mode === "leftCompact" || mode === "top") {
             paneOpen = false
             return
@@ -360,6 +378,9 @@ Item {
     onPaneOpenChanged: {
         rebuildNavModel()
         compactFlyout.close()
+        if (root._a11yReady)
+            _announce(root.paneOpen ? qsTr("Navigation pane expanded")
+                                    : qsTr("Navigation pane collapsed"))
     }
 
     // Group key for exclusive flyouts
@@ -486,6 +507,138 @@ Item {
         return ""
     }
 
+    // Display title for a nav key (item or group/child path)
+    function titleForKey(key) {
+        if (!key)
+            return ""
+        var m = root.model || []
+        for (var i = 0; i < m.length; ++i) {
+            var it = m[i]
+            if (!it)
+                continue
+            if (it.type === "group" && it.children) {
+                var gkey = it.key || ("group_" + i)
+                for (var j = 0; j < it.children.length; ++j) {
+                    if ((gkey + "/" + j) === key)
+                        return it.children[j].title || ""
+                }
+            } else if (it.type !== "header" && it.type !== "group") {
+                var ikey = it.key || ("item_" + i)
+                if (ikey === key)
+                    return it.title || ""
+            }
+        }
+        return ""
+    }
+
+    // First top-level nav item key (home/default)
+    function _defaultHomeKey() {
+        var m = root.model || []
+        for (var i = 0; i < m.length; ++i) {
+            var it = m[i]
+            if (it && it.type !== "group" && it.type !== "header")
+                return it.key || ("item_" + i)
+        }
+        return ""
+    }
+
+    // Breadcrumb path for a nav key — [{ title, symbol?, navKey }] (2.23)
+    function breadcrumbPathForKey(key) {
+        if (root.footerSelected) {
+            var ft = root.footerText.length ? root.footerText : qsTr("Settings")
+            return [
+                { title: root.headerText, navKey: _defaultHomeKey() },
+                { title: ft, navKey: "__footer__" }
+            ]
+        }
+        if (!key || !key.length)
+            key = root.currentKey
+        var out = []
+        var homeKey = _defaultHomeKey()
+        out.push({ title: root.headerText, navKey: homeKey })
+
+        var m = root.model || []
+        for (var i = 0; i < m.length; ++i) {
+            var it = m[i]
+            if (!it)
+                continue
+            if (it.type === "group" && it.children) {
+                var gkey = it.key || ("group_" + i)
+                for (var j = 0; j < it.children.length; ++j) {
+                    var ck = gkey + "/" + j
+                    if (ck === key) {
+                        out.push({
+                            title: it.title || "",
+                            navKey: gkey + "/0",
+                            symbol: it.symbol || it.icon || ""
+                        })
+                        var child = it.children[j]
+                        out.push({
+                            title: child.title || "",
+                            navKey: ck,
+                            symbol: child.symbol || child.icon || ""
+                        })
+                        return out
+                    }
+                }
+            } else if (it.type !== "header" && it.type !== "group") {
+                var ikey = it.key || ("item_" + i)
+                if (ikey === key) {
+                    out.push({
+                        title: it.title || "",
+                        navKey: key,
+                        symbol: it.symbol || it.icon || ""
+                    })
+                    return out
+                }
+            }
+        }
+        var t = titleForKey(key)
+        if (t.length)
+            out.push({ title: t, navKey: key })
+        return out
+    }
+
+    // Plain BreadcrumbBar model derived from breadcrumbPathForKey (2.23)
+    function breadcrumbModelForKey(key) {
+        var path = breadcrumbPathForKey(key)
+        var out = []
+        for (var i = 0; i < path.length; ++i) {
+            var e = path[i]
+            out.push({ title: e.title || "", symbol: e.symbol || "" })
+        }
+        return out
+    }
+
+    // navKey at breadcrumb index for the given selection key
+    function navKeyForBreadcrumbIndex(key, index) {
+        var path = breadcrumbPathForKey(key)
+        if (index < 0 || index >= path.length)
+            return ""
+        return path[index].navKey || ""
+    }
+
+    // Select nav destination for a breadcrumb index (2.23) — no history push (2.56)
+    function selectBreadcrumbIndex(index, mode) {
+        var path = breadcrumbPathForKey(root.currentKey)
+        if (index < 0 || index >= path.length)
+            return
+        var nk = path[index].navKey
+        root._suppressHistory = true
+        if (nk === "__footer__")
+            selectFooter(mode)
+        else if (nk && nk.length)
+            selectKey(nk, mode)
+        root._suppressHistory = false
+    }
+
+    function _announce(text) {
+        if (!root.announceChanges || !root._a11yReady || !text || text.length === 0)
+            return
+        if (typeof Accessible.announce === "function")
+            Accessible.announce(text)
+    }
+
     // Flat list index for a nav key
     function flatIndexForKey(key) {
         for (var i = 0; i < navModel.count; ++i) {
@@ -549,6 +702,7 @@ Item {
             return
         // Same nav selection already active — no history push / no page transition
         if (!root.footerSelected && key === root.currentKey) {
+            root.sameKeySkipCount++
             ensureSelectionVisible()
             Qt.callLater(function () {
                 selectionPip.moveToCurrent(false)
@@ -577,6 +731,9 @@ Item {
             }
         }
         itemClicked(currentIndex)
+        var navTitle = titleForKey(key)
+        if (navTitle.length)
+            _announce(qsTr("Navigated to %1").arg(navTitle))
         // Child rows may still be laying out after expand + scroll.
         Qt.callLater(function () {
             ensureSelectionVisible()
@@ -594,6 +751,8 @@ Item {
             pushHistorySnapshot()
         footerSelected = true
         footerClicked()
+        _announce(qsTr("Navigated to %1").arg(
+                      root.footerText.length ? root.footerText : qsTr("Settings")))
         if (!root.hostContent)
             openPage(root.footerComponent, mode || root.pageTransition)
     }
@@ -689,6 +848,7 @@ Item {
         root._compCache = kept
         root._compCacheOrder = order
         root.pageCacheCount = order.length
+        root.pageCacheHits = 0
     }
 
     // Load / cache a page Component from pageModule (lazy — not at shell startup)
@@ -697,6 +857,7 @@ Item {
             return null
         var cached = root._compCache[name]
         if (cached && cached.status !== Component.Error) {
+            root.pageCacheHits++
             root._touchPageCache(name)
             return cached
         }
@@ -806,8 +967,10 @@ Item {
         if (!name)
             return
         // Same page already showing — skip StackView replace / enter-exit animation
-        if (!forceReload && name === root._openedPageName && pageStack.depth > 0)
+        if (!forceReload && name === root._openedPageName && pageStack.depth > 0) {
+            root.samePageSkipCount++
             return
+        }
 
         var useMode = mode || root.pageTransition || "slide"
         applyPageTransition(useMode)
@@ -857,6 +1020,19 @@ Item {
     // Stronger scale drill-in (WinUI DrillIn–style)
     function openDrill(name) {
         openPage(name, "drill")
+    }
+
+    // In-page drill/detail — records soft history so TitleBar Back works (2.56)
+    function navigateToPage(name, mode) {
+        if (!name)
+            return
+        if (!_suppressHistory)
+            pushHistorySnapshot()
+        openPage(name, mode || root.pageTransition)
+    }
+
+    function openDrillWithHistory(name) {
+        navigateToPage(name, "drill")
     }
 
     // Vertical rise from below
@@ -935,6 +1111,7 @@ Item {
         rebuildNavModel()
         if (!root.hostContent)
             openPage(root.currentComponent, root.initialPageTransition || "none")
+        Qt.callLater(function () { root._a11yReady = true })
     }
 
     // leftMinimal: pane reparents here so it floats over content (WinUI light-dismiss).
@@ -955,7 +1132,10 @@ Item {
             }
             MouseArea {
                 anchors.fill: parent
-                onClicked: root.paneOpen = false
+                onClicked: {
+                    if (!root.isPanePinned)
+                        root.paneOpen = false
+                }
             }
         }
     }

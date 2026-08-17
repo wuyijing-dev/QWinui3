@@ -4,7 +4,7 @@ ShellWindow hosting NavigationView + content.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/NavigationWindow.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/NavigationWindow.qml)
 
-**Category:** Shells & windows · **Library:** v2.55
+**Category:** Shells & windows · **Library:** v2.56
 
 [← Component index](../components.md)
 
@@ -50,6 +50,7 @@ set hostContent: false + pageModule for StackView pages (Gallery / examples/gall
 | `paneOpen` | `alias` | Navigation pane expanded |
 | `paneWidth` | `alias` | Expanded pane width |
 | `paneHeaderText` | `alias` | NavigationWindow pane header text |
+| `isPanePinned` | `alias` | When true, pane stays open across auto/scrim dismiss (2.56) |
 | `paneDisplayMode` | `alias` | left \| leftCompact \| leftMinimal \| top \| auto |
 | `currentKey` | `alias` | Selected navigation key |
 | `content` | `alias` | Content slot / children host (when hostContent) |
@@ -75,6 +76,8 @@ set hostContent: false + pageModule for StackView pages (Gallery / examples/gall
 | `sameKeySkipCount` | `alias` | selectKey skips when destination already selected (2.28) |
 | `samePageSkipCount` | `alias` | openPage skips when same component already open (2.28) |
 | `canGoBack` | `alias` | TitleBar / pane can go back |
+| `effectiveBackVisible` | `alias` | Bind TitleBar isBackButtonVisible to these — not a static true (2.56) |
+| `effectiveBackEnabled` | `alias` | — |
 | `syncSubtitleFromNavigation` | `bool` | Mirror last breadcrumb segment into ShellWindow.subtitle (2.23) |
 
 ### Signals
@@ -94,6 +97,7 @@ set hostContent: false + pageModule for StackView pages (Gallery / examples/gall
 | `addNavGroup(group)` | Append a navigation group |
 | `selectNavKey(key)` | Forward selection to the hosted NavigationView |
 | `navigateBack(mode)` | Restore previous page (TitleBar Back) |
+| `navigateToPage(name, mode)` | In-page drill with soft history (2.56) |
 | `clearPageCache(keepCurrent)` | Drop cached page Components (keeps current page by default) |
 | `breadcrumbPathForKey(key)` | Breadcrumb helpers — forward to hosted NavigationView (2.23) |
 | `breadcrumbModelForKey(key)` | — |

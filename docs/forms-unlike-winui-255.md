@@ -46,4 +46,4 @@ LoB teams copy WinUI form/dialog patterns and hit three recurring footguns: **as
 - [ ] Set **`defaultButton`** explicitly on destructive dialogs
 - [ ] Parent dialogs on owner **`Overlay.overlay`**
 
-**Next:** **2.56** navigation mental model · **2.57** files on Linux
+**Next:** **2.57** files on Linux
