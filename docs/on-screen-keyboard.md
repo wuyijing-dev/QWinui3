@@ -119,20 +119,19 @@ Suggested Extra: `OnScreenKeyboard` (experimental). Host in `Overlay.overlay`, a
 ```qml
 OnScreenKeyboardWindow {
     id: oskWin
-    systemWide: true          // Windows only — SendInput into focused apps
-    onVisibleChanged: if (visible) { /* already no-activate */ }
+    // Windows: systemWide defaults ON. Dock stays in-app unless you opt in.
 }
 // oskWin.openFloating()
 ```
 
 | Mode | Behavior |
 |------|----------|
-| Dock (`OnScreenKeyboard` in footer) | In-app `QInputMethodEvent` (default) |
+| Dock (`OnScreenKeyboard` in footer) | In-app `QInputMethodEvent` (`systemWide` default **off**) |
 | Floating window | Always-on-top tool; grab bar drags; `WindowHelper.setNoActivate` so focus stays on the target |
-| `systemWide: true` (Windows) | Commits / keys use `SendInput`; IME preedit stays on the OSK candidate bar |
+| `systemWide` (Windows) | **Default on** for `OnScreenKeyboardWindow`; commits / keys use `SendInput`; IME preedit stays on the OSK candidate bar |
 | Linux / Wayland | Floating OK; `supportsSystemWide === false` (no desktop inject) |
 
-**Security / honesty:** system-wide is **opt-in**, experimental, and Windows-first. It is not a full TSF/IMM desktop IME; elevated or UIPI-protected windows may ignore inject. Do not enable in untrusted kiosk contexts without review.
+**Honesty:** experimental, Windows-first. Not a full TSF/IMM desktop IME; elevated or UIPI-protected windows may ignore inject. Set `systemWide: false` on the floating host to force in-app-only.
 
 ---
 

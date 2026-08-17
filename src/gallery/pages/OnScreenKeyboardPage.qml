@@ -15,6 +15,7 @@ CatalogPage {
 
     OnScreenKeyboardWindow {
         id: floatOsk
+        // Keep in sync with the switch; floating defaults ON on Windows.
         systemWide: systemWideSwitch.checked
         keyboardSize: osk.keyboardSize
     }
@@ -29,7 +30,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Open a separate always-on-top keyboard like Win11 Touch Keyboard. With System-wide input (Windows), key taps inject into whichever desktop app is focused — the OSK uses no-activate so it does not steal focus. Compose stays on the candidate bar; commits go via SendInput. Linux stays in-app only.")
+                text: qsTr("Use Open floating keyboard (not the dock at the bottom). On Windows, System-wide is on by default: focus Notepad / Chrome / etc., then tap keys — SendInput goes to that app. The dock keyboard only types into this Gallery. Elevated apps may ignore inject. Linux floating stays in-app.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
@@ -43,6 +44,8 @@ CatalogPage {
                         floatOsk.keyboardSize = osk.keyboardSize
                         floatOsk.systemWide = systemWideSwitch.checked
                         floatOsk.openFloating()
+                        if (systemWideSwitch.checked)
+                            osk.flashBanner(qsTr("Focus another app, then tap the floating keyboard."))
                     }
                 }
                 Button {
@@ -55,11 +58,13 @@ CatalogPage {
                 id: systemWideSwitch
                 text: qsTr("System-wide input (Windows SendInput)")
                 enabled: osk.supportsSystemWide
-                checked: false
+                checked: osk.supportsSystemWide
                 onToggled: {
                     floatOsk.systemWide = checked
                     if (checked)
-                        osk.flashBanner(qsTr("System-wide is on — focus another app, then tap keys on the floating OSK."))
+                        osk.flashBanner(qsTr("System-wide on — focus another app, then tap the floating OSK."))
+                    else
+                        osk.flashBanner(qsTr("System-wide off — floating OSK only fills in-app fields."))
                 }
             }
             Label {
@@ -67,7 +72,7 @@ CatalogPage {
                 wrapMode: Text.WordWrap
                 color: Theme.textSecondary
                 text: osk.supportsSystemWide
-                      ? qsTr("Supports system-wide: yes (Windows). Opt-in only; injects into the focused window.")
+                      ? qsTr("Floating defaults to system-wide on Windows. Dock stays in-app. Turn the switch off to disable SendInput.")
                       : qsTr("Supports system-wide: no on this OS — floating window still works for in-app fields.")
             }
             Switch {

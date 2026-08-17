@@ -6,14 +6,13 @@ import QWinUI3.Platform
 
 // OnScreenKeyboardWindow — floating Win11-style OSK (1.82).
 //
-//   OnScreenKeyboardWindow {
-//       systemWide: true   // Windows: SendInput into focused desktop apps
-//       visible: true
-//   }
+//   OnScreenKeyboardWindow { visible: true }
+//   // Windows: systemWide defaults ON (SendInput into the focused desktop app).
+//   // Docked OnScreenKeyboard stays in-app (systemWide default off).
 //
 // @notes
-//   Same module as OnScreenKeyboard. Always-on-top tool window with
-//   WS_EX_NOACTIVATE so taps do not steal focus. systemWide is Windows-only.
+//   Always-on-top tool window with WS_EX_NOACTIVATE so taps do not steal focus.
+//   systemWide is Windows-only; Linux floating is in-app only.
 
 Window {
     id: root
@@ -67,6 +66,8 @@ Window {
         dragHostWindow: true
         showChrome: true
         hardwareInput: false
+        // Floating host is for other apps — enable SendInput when the OS allows it.
+        systemWide: supportsSystemWide
         onCloseRequested: root.closeFloating()
         onSettingsRequested: osk.settingsOpen = true
     }
