@@ -47,6 +47,19 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.83 → 1.84
+
+**Product version:** 1.84  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- Copy [`examples/floating-osk`](../examples/floating-osk/) for `OnScreenKeyboardWindow` (not the Gallery). Keyman Core is in `third_party/keyman` with the clone. [on-screen-keyboard.md](on-screen-keyboard.md).
+
+#### No action (compatible)
+
+- Theme / shell / stable controls unchanged. OSK stays experimental.
+
 ### Upgrade 1.82 → 1.83
 
 **Product version:** 1.83  

@@ -338,7 +338,9 @@ if(NOT QWINUI3_BUILD_SHARED)
 endif()
 ```
 
-Copy an example under [`examples/`](../examples/) — prefer [`gallery-shell`](../examples/gallery-shell/) (**1.50**) for app chrome, [`multi-window`](../examples/multi-window/) (**1.56**) for secondary tool/dialog HWNDs, or `nav-settings` / `settings-cards` / `dashboard` for specialized recipes — and keep the same `IMPORTS` / `Q_IMPORT_QML_PLUGIN` pattern as that example’s `main.cpp`.
+Copy an example under [`examples/`](../examples/) — prefer [`gallery-shell`](../examples/gallery-shell/) (**1.50**) for app chrome, [`floating-osk`](../examples/floating-osk/) (**1.84**) for `OnScreenKeyboardWindow`, [`multi-window`](../examples/multi-window/) (**1.56**) for secondary tool/dialog HWNDs, or `nav-settings` / `settings-cards` / `dashboard` for specialized recipes — and keep the same `IMPORTS` / `Q_IMPORT_QML_PLUGIN` pattern as that example’s `main.cpp`.
+
+SIL Keyman Core sources ship **in the clone** at [`third_party/keyman`](../third_party/keyman) ([NOTICE-Keyman.md](NOTICE-Keyman.md)). WebView2 remains an optional NuGet fetch (`scripts/fetch_webview2.ps1`) — not required for the OSK example.
 
 ---
 

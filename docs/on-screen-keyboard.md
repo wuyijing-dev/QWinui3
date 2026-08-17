@@ -2,7 +2,7 @@
 
 Win11 / Fluent **touch keyboard chrome we own**. This is **not** Qt Virtual Keyboard, and it is **not** a hardware-shortcut cookbook ([keyboard.md](keyboard.md)).
 
-**Status:** **1.83** floating no-activate soak + honest system-wide limits. OSK/IME **still experimental**. **Next:** **1.84** consumer recipe → **1.87** green soak / promote. **2.00** is after **1.90** ([ROADMAP.md](../ROADMAP.md)).  
+**Status:** **1.84** consumer example `examples/floating-osk`. OSK/IME **still experimental**. **Next:** **1.85** a11y wave 3 → **1.87** green soak / promote. **2.00** is after **1.90** ([ROADMAP.md](../ROADMAP.md)).  
 **License:** OSK chrome is this repo (LGPL-3.0). SIL Keyman Core (**MIT**) for layouts. Pinyin tables are [mozillazg/pinyin-data](https://github.com/mozillazg/pinyin-data) (**MIT**) — [NOTICE-pinyin.md](NOTICE-pinyin.md). Japanese is a Hepburn romaji→kana map (**no kanji** — no MIT reading lexicon). Korean is Unicode hangul composition (not a lexicon). Keyman `cs_pinyin` IMX is **not** used.
 
 | Slice | What ships |
@@ -21,6 +21,7 @@ Win11 / Fluent **touch keyboard chrome we own**. This is **not** Qt Virtual Keyb
 | **1.81** | Win11 **behavior** vs Win10: long-press, size modes, clipboard, emoji tabs |
 | **1.82** | Floating `OnScreenKeyboardWindow` + Windows **system-wide** `SendInput` (floating defaults on) |
 | **1.83** | Floating no-activate soak + honest UIPI / UWP / games limits |
+| **1.84** | Consumer host: [`examples/floating-osk`](../examples/floating-osk/) |
 | **1.87** | Green soak + promote (planned; slip if not green) |
 
 ---
@@ -150,6 +151,27 @@ OnScreenKeyboardWindow {
 - Promote to stable (**1.87**)  
 - Full TSF / IMM
 
+### 1.84 (shipped) — consumer host
+
+**Shipped**
+
+- [`examples/floating-osk`](../examples/floating-osk/) — `StandardWindow` + `OnScreenKeyboardWindow.openFloating()`
+- `systemWide: Qt.platform.os === "windows"`
+- Packaging: Keyman Core in `third_party/keyman` (clone); WebView2 still optional NuGet
+
+```qml
+OnScreenKeyboardWindow {
+    id: oskWin
+    systemWide: Qt.platform.os === "windows"
+}
+// oskWin.openFloating()
+```
+
+**Out**
+
+- New `.kmx` / IME languages  
+- vcpkg/Conan (**1.88**)
+
 ---
 
 ## Language & IME ladder
@@ -262,7 +284,7 @@ System IME remains available alongside the panel until a later minor explicitly 
 
 ## Consumer notes (when shipped)
 
-- Link `qwinui3_extras` as today; `OnScreenKeyboard` is experimental.  
+- Link `qwinui3_extras` as today; `OnScreenKeyboard` is experimental. Copy [`examples/floating-osk`](../examples/floating-osk/) (**1.84**), not the Gallery. Copy [`examples/floating-osk`](../examples/floating-osk/) (**1.84**), not the Gallery.  
 - Core ships in `third_party/keyman` with the clone; configure only fetches if that tree is missing (`QWINUI3_FETCH_KEYMAN`).  
 - Strip Qt Virtual Keyboard from `windeployqt` trees as already documented.  
 - Through **1.71** this panel is a touch OSK; **1.72** adds in-app pinyin; **1.73** adds ja/ko + emoji. System IME (Microsoft Pinyin, etc.) stays the desktop CJK default.  

@@ -178,7 +178,7 @@ CatalogPage {
                     { label: qsTr("Dialogs & flyouts / queue"), doc: "docs/dialogs-flyouts.md", page: "DialogsFlyoutsPage" },
                     { label: qsTr("Commands & menus"), doc: "docs/commands.md", page: "CommandsHubPage" },
                     { label: qsTr("Keyboard-first"), doc: "docs/keyboard.md", page: "KeyboardFirstPage" },
-                    { label: qsTr("On-screen keyboard (1.83)"), doc: "docs/on-screen-keyboard.md", page: "OnScreenKeyboardPage" },
+                    { label: qsTr("On-screen keyboard (1.84)"), doc: "docs/on-screen-keyboard.md", page: "OnScreenKeyboardPage" },
                     { label: qsTr("Search recipes"), doc: "docs/search.md", page: "SearchRecipesPage" },
                     { label: qsTr("Print / share / export"), doc: "docs/print-share.md", page: "PrintSharePage" },
                     { label: qsTr("Security & trust"), doc: "docs/security-trust.md", page: "SecurityTrustPage" },

@@ -111,5 +111,6 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 | [`examples/dashboard`](../examples/dashboard/) | [charts.md](charts.md) (**1.66** stable six) |
 | [`examples/master-detail`](../examples/master-detail/) | [data-collections.md](data-collections.md) |
 | [`examples/form-settings`](../examples/form-settings/) | [forms.md](forms.md) |
+| [`examples/floating-osk`](../examples/floating-osk/) | [on-screen-keyboard.md](on-screen-keyboard.md) (**1.84**) |
 
 Build from Creator or presets: [qt-creator.md](qt-creator.md) · [examples/README.md](../examples/README.md).

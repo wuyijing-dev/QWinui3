@@ -117,7 +117,8 @@
         "qwinui3_example_settings",
         "qwinui3_example_dashboard",
         "qwinui3_example_master_detail",
-        "qwinui3_example_form"
+        "qwinui3_example_form",
+        "qwinui3_example_floating_osk"
       ]
     },
     {
@@ -161,6 +162,12 @@
       "configurePreset": "release",
       "configuration": "Release",
       "targets": ["qwinui3_example_form"]
+    },
+    {
+      "name": "example-floating-osk",
+      "configurePreset": "release",
+      "configuration": "Release",
+      "targets": ["qwinui3_example_floating_osk"]
     }
   ],
   "vendor": {

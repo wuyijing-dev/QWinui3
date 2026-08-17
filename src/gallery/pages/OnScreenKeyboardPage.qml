@@ -145,7 +145,24 @@ CatalogPage {
             CheckBox { text: qsTr("Floating: Backspace / Enter / arrows inject (not compose)") }
             CheckBox { text: qsTr("Dock still types only into this Gallery (systemWide off)") }
             CheckBox { text: qsTr("Elevated / UWP / games may ignore SendInput (honest limit)") }
-            CheckBox { text: qsTr("Treat OnScreenKeyboard as experimental") }
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                color: Theme.textSecondary
+                text: qsTr("Consumer copy: examples/floating-osk (1.84) — not this Gallery page.")
+            }
+            RowLayout {
+                Layout.fillWidth: true
+                Label {
+                    Layout.fillWidth: true
+                    wrapMode: Text.WrapAnywhere
+                    text: "cmake --build build --config Release --target qwinui3_example_floating_osk"
+                    font.pixelSize: Theme.fontCaption
+                }
+                CopyButton {
+                    textToCopy: "cmake --build build --config Release --target qwinui3_example_floating_osk"
+                }
+            }
         }
     }
 

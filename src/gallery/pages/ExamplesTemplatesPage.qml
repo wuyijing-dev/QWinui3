@@ -28,7 +28,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Prefer examples/gallery-shell for product chrome (NavigationWindow + Settings + persistence). Multi-window tool/dialog shells: examples/multi-window (1.56). Shared-kit find_package sketch: examples/find-package-consumer (1.61) — not in the monorepo example build. Do not copy the full Gallery tree. CI smoke turns examples off for speed. Qt Creator: open the repo root.")
+                text: qsTr("Prefer examples/gallery-shell for product chrome. Floating OSK: examples/floating-osk (1.84) — not the Gallery tree. Multi-window: examples/multi-window (1.56). find_package sketch: examples/find-package-consumer (1.61). CI smoke turns examples off for speed. Qt Creator: open the repo root.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
@@ -61,6 +61,7 @@ CatalogPage {
                     { name: "nav-settings", recipe: qsTr("StandardWindow + NavigationView hand-wire"), page: "NavigationViewPage" },
                     { name: "master-detail", recipe: qsTr("ListDetailsView LoB tickets"), page: "ListDetailsViewPage" },
                     { name: "form-settings", recipe: qsTr("FormLayout + Settings persistence (1.65)"), page: "SettingsPersistencePage" },
+                    { name: "floating-osk", recipe: qsTr("OnScreenKeyboardWindow host (1.84)"), page: "OnScreenKeyboardPage" },
                     { name: "settings-cards", recipe: qsTr("SettingsCard patterns"), page: "SettingsCardPage" },
                     { name: "dashboard", recipe: qsTr("Stable six KPI/charts (1.66)"), page: "DashboardPage" },
                     { name: "find-package-consumer", recipe: qsTr("find_package(QWinUI3) sketch (1.61) — standalone"), page: "ExamplesTemplatesPage" }

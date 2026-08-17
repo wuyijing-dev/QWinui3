@@ -258,7 +258,7 @@ QtObject {
             title: qsTr("On-screen keyboard"),
             category: "text",
             icon: FluentIcons.Font,
-            description: qsTr("Win11 floating OSK + Windows system-wide — docs/on-screen-keyboard.md (1.83). Still experimental."),
+            description: qsTr("Win11 floating OSK + Windows system-wide — docs/on-screen-keyboard.md (1.84). Still experimental."),
             component: "OnScreenKeyboardPage",
             source: "pages/OnScreenKeyboardPage.qml"
         },
