@@ -1,9 +1,9 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.85**
-**Next up:** **1.86** — Performance wave 1 (shell & window runtime)
+**Current:** **1.86**
+**Next up:** **1.87** — Performance wave 2 (navigation & page stack)
 **Planned through:** **2.00** (1.xx close-out **1.83…1.90**, then breaking line)
-**Still 1.xx until 1.90:** Long-horizon checkpoint — [docs/checkpoint-178.md](checkpoint-178.md). **1.85** a11y wave 3. **1.86…1.89** is a **four-minor performance arc** (whole tag = perf code + docs each time; **animations stay** — optimize implementation, do not strip WinUI motion). Builds on handbook **1.25** + cold start **1.39**. OSK/IME promote and consumer packaging **slip to 2.01+** after the arc. **Do not implement 2.00 before 1.90.**  
+**Still 1.xx until 1.90:** Long-horizon checkpoint — [docs/checkpoint-178.md](checkpoint-178.md). **1.86** perf wave 1 shipped (shell runtime). **1.87…1.89** continue the performance arc (**animations stay**). OSK/packaging **2.01+**. **Do not implement 2.00 before 1.90.**  
 **Qt:** 6.5+ (recommended 6.8 LTS) through 1.xx — [qt-version-compat.md](qt-version-compat.md). **2.00** may raise the floor.
 
 This plan starts from **what 1.00 already was**, then walks **small `1.xx` minors** through a **1.90 close-out**, then a named **2.00** breaking line. **2.00 is not the next tag.**
@@ -428,8 +428,8 @@ Finish **1.xx** as named slices (**1.83…1.90**), then a **breaking 2.00**. Do 
 | **1.83** | Floating OSK / SendInput field harden | **Shipped** |
 | **1.84** | Consumer floating-OSK recipe | **Shipped** |
 | **1.85** | Accessibility wave 3 | **Shipped** |
-| **1.86** | Performance wave 1 — shell & window runtime | **Next** |
-| **1.87** | Performance wave 2 — navigation & page stack | Planned |
+| **1.86** | Performance wave 1 — shell & window runtime | **Shipped** |
+| **1.87** | Performance wave 2 — navigation & page stack | **Next** |
 | **1.88** | Performance wave 3 — lists & data collections | Planned |
 | **1.89** | Performance wave 4 — style, charts & Gallery heavy pages | Planned |
 | **1.90** | 1.xx close-out + perf regression notes + 2.00 prep | Planned |
@@ -462,21 +462,13 @@ Four consecutive minors; **each ships only performance work** (Platform / Extras
 | **Measure** | Gallery `--startup-log` / `--smoke` timings stay advisory; optional heavy-page checklist grows each wave |
 | **Out for the arc** | Chart GPU rewrite, custom virtualization engine, built-in profiler, changing Gallery default RHI off OpenGL |
 
-### 1.86 — Performance wave 1: shell & window runtime (planned)
+### 1.86 — Performance wave 1: shell & window runtime (shipped)
 
-**Theme:** cheaper **Platform** frames after the app is up — focus restore, DWM, solid host fill.
-
-**In**
-
-- Solid hosts: `QQuickWindow` clear color matches layer fill — never `Qt::white` (round-corner AA fringe)
-- Pin `DWMWA_BORDER_COLOR` to that fill on Solid; reapply immediately on activate (do not wait for 80/250 ms timers)
-- Solid shells: skip extra deferred DWM reapply on every focus-in; keep delayed reapply for Mica/Acrylic only
-- [performance.md](performance.md): shell restore / DWM fringe / RHI note (D3D12 vs OpenGL for frost)
+**Shipped:** Solid hosts use `WindowHelper.solidHostFill` for `QQuickWindow` clear color (never `Qt::white`). Windows pins `DWMWA_BORDER_COLOR` to that fill when `borderVisible` is false. Solid shells reapply border/corner **immediately** on activate; frosted hosts keep deferred DWM reapply. One 80 ms post-show reapply remains for Solid (Qt 6.8 overwrite). [performance.md](performance.md) shell section; [window-chrome.md](window-chrome.md). Product version `1.86`.
 
 **Out**
 
-- NavigationView / DataTable / Style (later waves)
-- OSK / packaging
+- NavigationView / DataTable / Style (**1.87…1.89**)
 
 ### 1.87 — Performance wave 2: navigation & page stack (planned)
 

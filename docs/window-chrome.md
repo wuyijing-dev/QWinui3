@@ -74,6 +74,7 @@ Always paint with `effectiveBackdrop` / `WindowHelper.resolveBackdrop(backdrop)`
 | Binding `flags` to paradigm | HWND recreate loop | Keep `flags: WindowHelper.recommendedFlags` constant; change paradigm via `installParadigmEx` |
 | Window restores off-screen / wrong monitor | Stale geometry after dock undock | Use `geometryPersistenceKey` — restore clamps to preferred / intersecting / primary `availableGeometry` |
 | Wrong DPR after restore to another monitor | Window still bound to old `QScreen` | **1.58** restore calls `setScreen` after clamp — [high-dpi.md](high-dpi.md) |
+| Thin white edge on **Solid** dark window | DWM default border + white swapchain clear in round-corner seam | **1.86:** layer fill clear + pinned `DWMWA_BORDER_COLOR`; still prefer OpenGL for frost — [performance.md](performance.md) |
 | Thin white edge with frost | D3D RHI + transparent host | Prefer OpenGL — [graphics-backend.md](graphics-backend.md) |
 
 ---

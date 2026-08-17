@@ -151,6 +151,33 @@ void applyNoActivateStyle(HWND hwnd, bool on)
 
 } // namespace
 
+bool WindowHelper::isFrostedBackdrop(int backdrop)
+{
+    return backdrop != BackdropSolid && backdrop != BackdropNone;
+}
+
+QColor WindowHelper::solidHostFill(bool dark, const QColor &windowColor)
+{
+    if (windowColor.isValid() && windowColor.alpha() >= 255)
+        return windowColor;
+    if (windowColor.isValid() && windowColor.alpha() > 0)
+        return QColor(windowColor.red(), windowColor.green(), windowColor.blue());
+    // Never Qt::white — round DWM corners + swapchains flash a 1px light ring.
+    return dark ? QColor(32, 32, 32) : QColor(243, 243, 243);
+}
+
+void WindowHelper::syncQuickHostColor(QWindow *window)
+{
+    if (!window)
+        return;
+    if (auto *quick = qobject_cast<QQuickWindow *>(window)) {
+        if (isFrostedBackdrop(m_backdrop))
+            quick->setColor(QColor(0, 0, 0, 0));
+        else
+            quick->setColor(solidHostFill(m_dark, m_windowColor));
+    }
+}
+
 WindowHelper *WindowHelper::create(QQmlEngine *, QJSEngine *)
 {
     return new WindowHelper;
@@ -1264,6 +1291,8 @@ void WindowHelper::refreshTint()
         emit contentTintChanged();
     if (hostChanged)
         emit windowColorChanged();
+    if (hostChanged && m_window)
+        syncQuickHostColor(m_window);
 }
 
 void WindowHelper::setBackdropMode(int backdrop)
@@ -1371,19 +1400,8 @@ void WindowHelper::install(QObject *windowObject, bool dark, int backdrop)
     // Frameless + in-app Fluent caption (Windows DWM / Wayland CSD).
     if (!window->flags().testFlag(Qt::FramelessWindowHint))
         setWindowFlagsSafe(window, window->flags() | Qt::FramelessWindowHint);
-    if (auto *quick = qobject_cast<QQuickWindow *>(window)) {
-        // Frosted hosts must clear with zero alpha or materials stay hidden.
-        const bool frosted = m_backdrop != BackdropSolid && m_backdrop != BackdropNone;
-        quick->setColor(frosted ? QColor(0, 0, 0, 0)
-                                : (m_windowColor.isValid() ? m_windowColor : QColor(Qt::white)));
-    }
-#else
-    if (auto *quick = qobject_cast<QQuickWindow *>(window)) {
-        const bool frosted = m_backdrop != BackdropSolid && m_backdrop != BackdropNone;
-        quick->setColor(frosted ? QColor(0, 0, 0, 0)
-                                : (m_windowColor.isValid() ? m_windowColor : QColor(Qt::white)));
-    }
 #endif
+    syncQuickHostColor(window);
 
     // UniqueConnection cannot be used with lambdas — disconnect then reconnect.
     QObject::disconnect(window, &QWindow::activeChanged, this, nullptr);
@@ -1519,12 +1537,7 @@ void WindowHelper::setDarkMode(QObject *windowObject, bool dark)
     m_window = window;
     m_dark = dark;
     refreshTint();
-#if defined(Q_OS_WIN)
-    if (auto *quick = qobject_cast<QQuickWindow *>(window)) {
-        const bool frosted = m_backdrop != BackdropSolid && m_backdrop != BackdropNone;
-        quick->setColor(frosted ? QColor(0, 0, 0, 0) : m_windowColor);
-    }
-#endif
+    syncQuickHostColor(window);
     applyNative(window, m_dark, m_backdrop);
 }
 
@@ -1544,13 +1557,7 @@ void WindowHelper::setBackdrop(QObject *windowObject, int backdrop)
     if (!window)
         return;
     m_window = window;
-#if defined(Q_OS_WIN) || defined(Q_OS_LINUX)
-    if (auto *quick = qobject_cast<QQuickWindow *>(window)) {
-        const bool frosted = m_backdrop != BackdropSolid && m_backdrop != BackdropNone;
-        quick->setColor(frosted ? QColor(0, 0, 0, 0)
-                                : (m_windowColor.isValid() ? m_windowColor : QColor(Qt::white)));
-    }
-#endif
+    syncQuickHostColor(window);
     applyNative(window, m_dark, m_backdrop);
 }
 
@@ -1573,12 +1580,7 @@ void WindowHelper::reapply(QObject *windowObject)
         return;
     m_window = window;
     refreshTint();
-#if defined(Q_OS_WIN)
-    if (auto *quick = qobject_cast<QQuickWindow *>(window)) {
-        const bool frosted = m_backdrop != BackdropSolid && m_backdrop != BackdropNone;
-        quick->setColor(frosted ? QColor(0, 0, 0, 0) : m_windowColor);
-    }
-#endif
+    syncQuickHostColor(window);
     applyNative(window, m_dark, m_backdrop);
 }
 

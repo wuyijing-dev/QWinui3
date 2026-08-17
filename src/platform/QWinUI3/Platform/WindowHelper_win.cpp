@@ -447,11 +447,14 @@ public:
                 return;
             m_helper->setWindowActive(window->isActive());
             applyBorderColor(window);
-            // One deferred re-apply on focus-in only (no burst of timers).
-            if (window->isActive()) {
-                const ChromeState &state = m_states[window];
+            if (!window->isActive())
+                return;
+            const ChromeState &state = m_states[window];
+            HWND h = hwndOf(window);
+            if (h)
+                applyCornerPreference(h, state.corner);
+            if (WindowHelper::isFrostedBackdrop(state.backdrop))
                 scheduleBackdropReapply(window, state.dark, state.backdrop, 80);
-            }
         });
     }
 
@@ -556,9 +559,13 @@ public:
         applyNativeDwmBackdrop(hwnd, dark, backdrop);
         logBackdropIfChanged(window, backdrop);
 
-        // Qt 6.8 may overwrite early DWM calls after show/flags — reapply corner + backdrop.
-        scheduleBackdropReapply(window, dark, backdrop, 80);
-        scheduleBackdropReapply(window, dark, backdrop, 250);
+        // Qt 6.8 may overwrite DWM after show/flags — frosted needs two passes; solid one.
+        if (WindowHelper::isFrostedBackdrop(backdrop)) {
+            scheduleBackdropReapply(window, dark, backdrop, 80);
+            scheduleBackdropReapply(window, dark, backdrop, 250);
+        } else {
+            scheduleBackdropReapply(window, dark, backdrop, 80);
+        }
     }
 
     void applyBorderColor(QWindow *window)
@@ -570,14 +577,19 @@ public:
             return;
 
         const ChromeState &state = m_states[window];
-        // Frosted hosts: hide the DWM border. Light-theme DWM borders read as a
-        // white ring and flash again on focus changes; Main.qml draws a stable
-        // 1px frame instead when borderVisible is true.
-        const bool frosted = state.backdrop != WindowHelper::BackdropSolid
-            && state.backdrop != WindowHelper::BackdropNone;
+        // Frosted hosts: hide the DWM border. Solid Gallery shells pin the border to
+        // the layer fill so round corners do not flash the system default white ring.
+        const bool frosted = WindowHelper::isFrostedBackdrop(state.backdrop);
         DWORD border = DWMWA_COLOR_DEFAULT;
-        if (!state.borderVisible || frosted) {
+        if (frosted) {
             border = DWMWA_COLOR_NONE;
+        } else if (!state.borderVisible) {
+            if (m_helper) {
+                border = qColorToColorRef(
+                    WindowHelper::solidHostFill(state.dark, m_helper->windowColor()));
+            } else {
+                border = DWMWA_COLOR_NONE;
+            }
         } else if (!window->isActive()) {
             border = state.dark ? qColorToColorRef(QColor(0x45, 0x45, 0x45))
                                 : qColorToColorRef(QColor(0xA0, 0xA0, 0xA0));
@@ -839,8 +851,11 @@ public:
             if (m_helper)
                 m_helper->setWindowActive(msg->wParam != FALSE);
             applyBorderColor(window);
-            if (msg->wParam != FALSE)
-                scheduleBackdropReapply(window, state.dark, state.backdrop, 80);
+            if (msg->wParam != FALSE) {
+                applyCornerPreference(msg->hwnd, state.corner);
+                if (WindowHelper::isFrostedBackdrop(state.backdrop))
+                    scheduleBackdropReapply(window, state.dark, state.backdrop, 80);
+            }
             return false;
         }
         case WM_NCRBUTTONUP: {

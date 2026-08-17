@@ -1,4 +1,4 @@
-# Performance handbook (1.25 / 1.39)
+# Performance handbook (1.25 / 1.39 / 1.86)
 
 Practical guidance for **large lists**, **DataTable**, **Canvas charts**, and **Gallery cold start**. QWinUI3 virtualizes through Qt Quick Controls `ListView` — there is no separate engine. Prefer these patterns before blaming the kit.
 
@@ -164,6 +164,22 @@ ChartCard {
 | Page Component cache | Cap with `pageCacheLimit`; clear after demos that thrash the stack |
 
 When a page feels slow: check **delegate cost** and **model rebuilds** first, then chart point counts, then motion (`Theme.reducedMotion`).
+
+---
+
+## Shell & window runtime (1.86)
+
+Gallery and product apps on **`BackdropSolid`** (recommended — [window-chrome.md](window-chrome.md)).
+
+| Symptom | Cause | Kit fix (1.86) |
+|---------|--------|----------------|
+| Thin **white ring** on dark windows (Round corners, D3D12) | DWM default border + `QQuickWindow` clearing white in the round-corner AA seam | Solid hosts clear with **layer fill** (`WindowHelper.solidHostFill` / `Theme.bgLayer`); `DWMWA_BORDER_COLOR` pinned to the same RGB |
+| White ring **flashes on restore / refocus** | Focus-in used to queue **80 ms DWM reapply** bursts on every Solid window | Solid: **immediate** `applyBorderColor` + corner on activate; **no** extra timer on focus-in (frosted Mica/Acrylic still deferred) |
+| Hitch when alt-tabbing back | Same deferred burst reflowing chrome | Solid focus path is synchronous border/corner only |
+
+**RHI:** Gallery ships **OpenGL** on Windows for frost. **D3D12** can still show a faint seam on transparent/frosted hosts — prefer OpenGL for Mica/Acrylic apps ([graphics-backend.md](graphics-backend.md)).
+
+**Animations:** pane collapse / page transitions unchanged — perf work trims redundant DWM work, not motion (see [navigation.md](navigation.md)).
 
 ---
 

@@ -273,6 +273,10 @@ public:
 
     static WindowHelper *create(QQmlEngine *, QJSEngine *);
 
+    // Solid host fill + frosted detection (Platform perf 1.86; used from win chrome).
+    static bool isFrostedBackdrop(int backdrop);
+    static QColor solidHostFill(bool dark, const QColor &windowColor);
+
     void setCaptionHover(int button);
     void setCaptionPressed(int button);
     void setWindowActive(bool active);
@@ -298,6 +302,7 @@ signals:
 private:
     void applyNative(QWindow *window, bool dark, int backdrop);
     void refreshTint();
+    void syncQuickHostColor(QWindow *window);
     QWindow *resolveWindow(QObject *windowObject) const;
     QWindow *currentWindow() const;
 

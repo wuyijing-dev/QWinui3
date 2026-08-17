@@ -47,6 +47,19 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.85 → 1.86
+
+**Product version:** 1.86  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Performance wave 1 (shell):** Solid `StandardWindow` hosts clear with layer fill (not `Qt::white`); Windows `DWMWA_BORDER_COLOR` matches fill; Solid windows skip focus-in DWM timer bursts (restore feels snappier). [performance.md](performance.md) · [window-chrome.md](window-chrome.md).
+
+#### No action (compatible)
+
+- Theme / shell API unchanged. OSK stays experimental. Next: **1.87** navigation perf wave.
+
 ### Upgrade 1.84 → 1.85
 
 **Product version:** 1.85  
