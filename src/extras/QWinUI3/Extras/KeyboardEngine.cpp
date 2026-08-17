@@ -738,12 +738,12 @@ bool KeyboardEngine::editorFocused() const
     return false;
 }
 
-bool KeyboardEngine::capsLockOn()
+bool KeyboardEngine::capsLockOn() const
 {
 #ifdef Q_OS_WIN
     return (GetKeyState(VK_CAPITAL) & 1) != 0;
 #else
-    return false;
+    return m_capsLockOn;
 #endif
 }
 
@@ -891,10 +891,21 @@ bool KeyboardEngine::handleHardwareKey(QKeyEvent *ke)
 bool KeyboardEngine::eventFilter(QObject *watched, QEvent *event)
 {
     Q_UNUSED(watched);
+    const QEvent::Type type = event->type();
+    if (type == QEvent::KeyPress) {
+        auto *ke = static_cast<QKeyEvent *>(event);
+#ifndef Q_OS_WIN
+        // Sync CapsLock for Latin hardware path under Wayland/X11.
+        if (ke->key() == Qt::Key_CapsLock && !ke->isAutoRepeat())
+            m_capsLockOn = !m_capsLockOn;
+#else
+        Q_UNUSED(ke);
+#endif
+    }
+
     if (!m_hardwareInput)
         return false;
 
-    const QEvent::Type type = event->type();
     if (type != QEvent::KeyPress && type != QEvent::ShortcutOverride)
         return false;
 

@@ -65,7 +65,7 @@ Until a later checkpoint says otherwise:
 
 1. **Ship on stable** — Theme tokens, shells, types on [stable-api.md](stable-api.md).
 2. **Copy `gallery-shell`**, not the full Gallery tree.
-3. **Field harden first** — portal / DPI / tray / WebView2 / packaging / IME regressions beat new control families.
+3. **Field harden first** — portal / DPI / tray / WebView2 / packaging / IME regressions beat new control families. (**1.79** shipped Wayland portal / session / CapsLock harden.)
 4. **Pause is OK** — if no field P0s, prefer docs / soak / parking-lot polish over inventing surfaces.
 5. **Promote only in named minors** — update stable-api changelog; OSK promote needs an explicit green soak.
 6. **Do not draft 2.00** — breaking Theme / shell / stable renames stay parked for a future major.
@@ -76,8 +76,8 @@ Unscheduled candidates (accessibility wave 3, IME promote, locale packs, Lottie 
 
 ## Consumer checklist
 
-- [ ] Pin / rebuild **1.78** Release
-- [ ] Skim [upgrade-notes.md](upgrade-notes.md) `1.77` → `1.78`
+- [ ] Pin / rebuild **1.79** Release (or **1.78** if you have not taken the Wayland harden yet)
+- [ ] Skim [upgrade-notes.md](upgrade-notes.md) `1.78` → `1.79`
 - [ ] Prefer [stable-api.md](stable-api.md) + `examples/gallery-shell`
 - [ ] Treat `OnScreenKeyboard` as **experimental** unless a later minor promotes it
 - [ ] Optional: `python scripts/smoke_gallery.py --build-dir build --platform windows`

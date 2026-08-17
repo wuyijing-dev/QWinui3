@@ -47,6 +47,19 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.78 → 1.79
+
+**Product version:** 1.79  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- Linux / Wayland: stronger portal `parent_window` (Qt `portalWindowIdentifier` when GuiPrivate is available; window realized before export); Bootstrap detects `WAYLAND_SOCKET`; experimental OSK CapsLock tracking on Linux. [platform-linux-wayland.md](platform-linux-wayland.md).
+
+#### No action (compatible)
+
+- Theme / shell / stable controls unchanged. OSK stays experimental. Rebuild Linux kits with `qt*-private-dev` / GuiPrivate for the best Wayland parent export.
+
 ### Upgrade 1.77 → 1.78
 
 **Product version:** 1.78  

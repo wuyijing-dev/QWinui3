@@ -36,7 +36,7 @@ FilePicker.openFolder(qsTr("Folder"), function (path) { … }, Window.window)
 | Host | Backend | `parentWindow` |
 |------|---------|----------------|
 | Windows | `IFileDialog` | HWND owner from `Window` / Item (falls back to first visible window) |
-| Linux | xdg-desktop-portal → zenity/kdialog | `x11:0x…` on X11/XWayland; `wayland:HANDLE` when Qt exports xdg-foreign; else empty — [platform-linux-wayland.md](platform-linux-wayland.md) (**1.68**) |
+| Linux | xdg-desktop-portal → zenity/kdialog | `x11:0x…` on X11/XWayland; `wayland:HANDLE` when Qt exports xdg-foreign (**1.79** prefers `portalWindowIdentifier`); else empty — [platform-linux-wayland.md](platform-linux-wayland.md) |
 | Cancel | — | `""` or `[]` |
 
 Always pass `Window.window` so the dialog is owned by your shell.
@@ -129,5 +129,5 @@ Battery / online / screens / recent-docs remain **experimental**.
 - [print-share.md](print-share.md) — grab → save → reveal · PrintSupport notes (**1.63**)  
 - [security-trust.md](security-trust.md) — picker ownership / path validation (**1.64**)  
 - [drag-drop.md](drag-drop.md) — FileDropZone / clipboard / FilePicker pairing (**1.41**)  
-- [platform-linux-wayland.md](platform-linux-wayland.md) — portal / SSD / tray / backdrop field matrix (**1.38** / **1.68**)  
+- [platform-linux-wayland.md](platform-linux-wayland.md) — portal / SSD / tray / backdrop field matrix (**1.38** / **1.68** / **1.79**)  
 - [webview2.md](webview2.md) — separate Windows browser host

@@ -13,7 +13,7 @@ CatalogPage {
     id: page
 
     title: qsTr("Pitfalls")
-    subtitle: qsTr("Anti-patterns + 1.xx freeze / long-horizon — docs/compatibility-1xx.md · docs/checkpoint-178.md (1.78).")
+    subtitle: qsTr("Anti-patterns + 1.xx freeze / long-horizon — docs/compatibility-1xx.md · docs/checkpoint-178.md · Wayland 1.79.")
 
     property real demoProgress: 0.65
 
@@ -29,15 +29,15 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Long-horizon checkpoint (1.78)")
-        qmlSource: "// Still 1.xx · field harden / pause · not 2.00\\n// docs/checkpoint-178.md"
+        headerText: qsTr("Long-horizon checkpoint (1.78) · field 1.79")
+        qmlSource: "// Still 1.xx · field harden / pause · not 2.00\\n// docs/checkpoint-178.md · docs/platform-linux-wayland.md"
         ColumnLayout {
             Layout.fillWidth: true
             spacing: Theme.spacing
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("1.78 closes the 1.49…1.78 arc. Still not 2.00. Prefer field harden or pause over new surfaces. OnScreenKeyboard / IME stayed experimental (1.74 soak did not promote). Open 1.79+ only for field P0s. Full notes: docs/checkpoint-178.md.")
+                text: qsTr("1.78 closed the long-horizon arc (still not 2.00). 1.79 is the first field harden: Linux/Wayland portal parent_window + session detect + OSK CapsLock. OnScreenKeyboard / IME stays experimental. Full notes: docs/checkpoint-178.md · docs/platform-linux-wayland.md.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
@@ -93,7 +93,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Pass Window.window to FilePicker. X11 gets x11:0x…; pure Wayland parent may be empty. After a portal dialog starts, cancel/timeout must not open zenity as a second dialog. Reveal: FileManager1 then OpenURI. Cookbook: docs/platform-linux-wayland.md · Gallery System integration.")
+                text: qsTr("Pass Window.window to FilePicker. X11 gets x11:0x…; pure Wayland parent is stronger in 1.79 (xdg-foreign when available) but may still be empty. After a portal dialog starts, cancel/timeout must not open zenity as a second dialog. Reveal: FileManager1 then OpenURI. Cookbook: docs/platform-linux-wayland.md · Gallery System integration.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary

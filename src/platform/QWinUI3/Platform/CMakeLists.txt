@@ -81,6 +81,17 @@ if(TARGET Qt6::DBus AND UNIX AND NOT APPLE)
     target_compile_definitions(qwinui3_platform PRIVATE QWINUI3_HAS_DBUS=1)
 endif()
 
+# Optional: Qt Gui private headers expose portalWindowIdentifier (xdg-foreign) on Wayland.
+# Distros without qt*-private-dev keep the native-resource fallback in LinuxPortal.cpp.
+if(UNIX AND NOT APPLE)
+    find_package(Qt6 COMPONENTS GuiPrivate QUIET)
+    if(TARGET Qt6::GuiPrivate)
+        target_link_libraries(qwinui3_platform PRIVATE Qt6::GuiPrivate)
+        target_compile_definitions(qwinui3_platform PRIVATE QWINUI3_HAS_GUI_PRIVATE=1)
+        message(STATUS "QWinUI3: GuiPrivate enabled for Wayland portal parent_window")
+    endif()
+endif()
+
 target_include_directories(qwinui3_platform
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}

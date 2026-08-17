@@ -1,9 +1,9 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.78**
-**Next up:** field-driven 1.79+\ or pause (prefer harden vs new surfaces)
+**Current:** **1.79**
+**Next up:** field-driven 1.80+\ or pause (prefer harden vs new surfaces)
 **Planned through:** open-ended 1.xx — [checkpoint-178.md](checkpoint-178.md)
-**Still 1.xx:** Long-horizon checkpoint published — [checkpoint-178.md](checkpoint-178.md). OSK/IME stays experimental. Not drafting 2.00.  
+**Still 1.xx:** Long-horizon checkpoint published — [checkpoint-178.md](checkpoint-178.md). **1.79** Wayland field harden shipped. OSK/IME stays experimental. Not drafting 2.00.  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](qt-version-compat.md)
 
 This plan starts from **what 1.00 already was**, then walks **small `1.xx` minors**. Stay on **1.xx for a long time**. **2.00 is not next**—only when we truly need breaking changes.
@@ -388,16 +388,21 @@ Still **1.xx**. **1.70…1.77** shipped OSK → IME → packs → deepen → app
 | **1.76 shipped** | IME deepen, MIT-only (ja kanji gap documented) |
 | **1.77 shipped** | App-scoped hardware input (not OS-wide) |
 | **1.78 shipped** | Long-horizon 1.xx checkpoint |
+| **1.79 shipped** | Linux / Wayland field harden |
 
 ### 1.78 — Long-horizon 1.xx checkpoint (shipped)
 
 **Shipped:** [checkpoint-178.md](checkpoint-178.md) long-horizon audit (docs links OK; ~196 Gallery pages; 214 public / 225 component docs). **Posture:** prefer field harden / pause vs new surfaces; open `1.79+` only for field-driven P0s or park. **OSK/IME:** stayed experimental through 1.74 / 1.76 / 1.77 — **not** promoted. Freeze (1.40) still active. Still not 2.00. Product version `1.78`.
 
+### 1.79 — Linux / Wayland field harden (shipped)
+
+**Shipped:** Stronger portal `parent_window` on pure Wayland (`portalWindowIdentifier` when GuiPrivate available; realize window before export; native-resource fallback); Bootstrap honors `WAYLAND_SOCKET`; experimental OSK CapsLock tracking on Linux; [platform-linux-wayland.md](platform-linux-wayland.md) + Gallery System integration soak refresh. OSK/IME still experimental. Product version `1.79`.
+
 ---
 
-## After `1.78`
+## After `1.79`
 
-Still **1.xx** if field needs dictate (`1.79`…)—or **pause**. **Do not** treat 1.70…1.78 as permission to start **2.00**.
+Still **1.xx** if field needs dictate (`1.80`…)—or **pause**. **Do not** treat 1.70…1.79 as permission to start **2.00**.
 
 Unscheduled follow-ups (pick only inside a named minor):
 
@@ -406,7 +411,7 @@ Unscheduled follow-ups (pick only inside a named minor):
 |-----------|-------|
 | **Accessibility wave 3** | Focus return / live regions — slipped past 1.69 Theme prefs |
 | **IME promote → stable** | Only after a **green** soak — **1.74** wrote the checklist but did **not** promote |
-| **1.79+ field fixes** | Portal / DPI / tray / WebView2 / packaging / IME regressions |
+| **1.80+ field fixes** | DPI / tray / WebView2 / packaging / IME regressions |
 | **More UI locale packs** | `zh_CN` / `ja_JP` seeds stay separate from IME / `.kmx` packs |
 | **Deeper Lottie / AnimatedIcon** | Only if 1.53 thin path proves valuable |
 | **Official vcpkg/Conan ports** | Beyond the 1.61 sketch—product promise only if owned |

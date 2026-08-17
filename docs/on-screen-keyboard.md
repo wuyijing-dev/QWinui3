@@ -2,7 +2,7 @@
 
 Win11 / Fluent **touch keyboard chrome we own**. This is **not** Qt Virtual Keyboard, and it is **not** a hardware-shortcut cookbook ([keyboard.md](keyboard.md)).
 
-**Status:** **1.77** hardware shipped; **1.78** checkpoint records OSK/IME **still experimental**. **Next:** field-driven `1.79+` or pause.  
+**Status:** **1.77** hardware shipped; **1.78** checkpoint records OSK/IME **still experimental**; **1.79** Wayland CapsLock tracking for hardware path (still experimental). **Next:** field-driven `1.80+` or pause.  
 **License:** OSK chrome is this repo (LGPL-3.0). SIL Keyman Core (**MIT**) for layouts. Pinyin tables are [mozillazg/pinyin-data](https://github.com/mozillazg/pinyin-data) (**MIT**) — [NOTICE-pinyin.md](NOTICE-pinyin.md). Japanese is a Hepburn romaji→kana map (**no kanji** — no MIT reading lexicon). Korean is Unicode hangul composition (not a lexicon). Keyman `cs_pinyin` IMX is **not** used.
 
 | Slice | What ships |
@@ -16,6 +16,7 @@ Win11 / Fluent **touch keyboard chrome we own**. This is **not** Qt Virtual Keyb
 | **1.76** | IME deepen (MIT): pinyin prefix phrases, hangul peel/Space; **ja kanji skipped** |
 | **1.77** | App-scoped hardware keys → same engine (**not** OS-wide SendInput) |
 | **1.78** | Long-horizon checkpoint |
+| **1.79** | Wayland field harden (portal parent + CapsLock); OSK still experimental |
 
 ---
 

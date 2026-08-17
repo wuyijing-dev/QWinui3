@@ -34,7 +34,7 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 | [High-DPI & multi-monitor](high-dpi.md) | DPR matrix · geometry clamp + setScreen (**1.58**) |
 | [WindowHelper](window-helper.md) | Geometry persistence, backdrop, platform APIs |
 | [AppWindow](window-appwindow.md) | Presenters / title-bar height |
-| [Linux / Wayland](platform-linux-wayland.md) | CSD, Solid, portals, field matrix (1.38 / **1.68**) |
+| [Linux / Wayland](platform-linux-wayland.md) | CSD, Solid, portals, field matrix (1.38 / 1.68 / **1.79**) |
 | [Graphics backend](graphics-backend.md) | RHI ship table · OpenGL for frost |
 | [Transparency / DWM](window-transparency-dwm.md) | Gallery Solid policy · Mica notes |
 
@@ -68,7 +68,7 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 | [Dialogs & flyouts](dialogs-flyouts.md) | ContentDialogQueue FIFO / Esc (1.48) |
 | [Commands & menus](commands.md) | CommandPalette / CommandBar / MenuFlyout |
 | [Keyboard-first](keyboard.md) | Global chords → palette → dialogs → lists (1.44) |
-| [On-screen keyboard](on-screen-keyboard.md) | Win11 OSK + app hardware (**1.77**); still experimental at **1.78** |
+| [On-screen keyboard](on-screen-keyboard.md) | Win11 OSK + app hardware (**1.77**); still experimental at **1.78** / **1.79** |
 | [In-app search & AutoSuggest](search.md) | Suggest · filter-above · catalog jump (**1.59**) |
 | [Accessibility](accessibility.md) | Focus / names checklist |
 
@@ -78,7 +78,7 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 
 | Recipe | One-liner |
 |--------|-----------|
-| [System integration](system-integration.md) | FilePicker / Tray / NotificationBridge (**1.68** portal harden) |
+| [System integration](system-integration.md) | FilePicker / Tray / NotificationBridge (**1.68** / **1.79** portal) |
 | [Print, share & export](print-share.md) | grabToImage · save · reveal · PrintSupport notes (**1.63**) |
 | [Security & trust](security-trust.md) | WebView2 / drop / picker boundaries (**1.64**) |
 | [Drag-drop & clipboard](drag-drop.md) | FileDropZone / CopyButton / WindowHelper (1.41) |

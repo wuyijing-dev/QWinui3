@@ -309,8 +309,11 @@ void WindowHelper::configurePlatformEnvironment(const char *argv0)
 
     if (qEnvironmentVariableIsEmpty("QT_QPA_PLATFORM")) {
         const QByteArray session = qgetenv("XDG_SESSION_TYPE").toLower();
+        // WAYLAND_SOCKET covers nested / socket-activated sessions where DISPLAY
+        // vars differ; treat any Wayland socket as a Wayland session.
         const bool waylandSession = session == "wayland"
-                || !qEnvironmentVariableIsEmpty("WAYLAND_DISPLAY");
+                || !qEnvironmentVariableIsEmpty("WAYLAND_DISPLAY")
+                || !qEnvironmentVariableIsEmpty("WAYLAND_SOCKET");
         if (waylandSession && waylandPlugin)
             qputenv("QT_QPA_PLATFORM", "wayland;xcb");
         else if (xcbPlugin)

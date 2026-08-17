@@ -1,8 +1,8 @@
-# Linux / Wayland notes for QWinUI3 (1.38 / 1.68)
+# Linux / Wayland notes for QWinUI3 (1.38 / 1.68 / 1.79)
 
 QWinUI3 uses **client-side Fluent chrome** on Linux (`WindowHelper.customFrame`, `FramelessWindowHint`, in-app `PlatformTitleBar`). Compositor server-side decorations stay off by default.
 
-**1.03** established the nav + settings baseline. **1.24** added StatusNotifierItem tray. **1.32** re-soaked shells / geometry. **1.38** documented the field failure matrix. **1.68** hardens FilePicker / portal ownership (no zenity double-dialog after portal timeout; filters + save `current_name`; reveal OpenURI fallback; live Gallery parent readout).
+**1.03** established the nav + settings baseline. **1.24** added StatusNotifierItem tray. **1.32** re-soaked shells / geometry. **1.38** documented the field failure matrix. **1.68** hardens FilePicker / portal ownership (no zenity double-dialog after portal timeout; filters + save `current_name`; reveal OpenURI fallback; live Gallery parent readout). **1.79** hardens portal `parent_window` on pure Wayland (Qt `portalWindowIdentifier` when GuiPrivate is available; realize window before export; `WAYLAND_SOCKET` session detect) and Linux CapsLock tracking for experimental OSK hardware input.
 
 Related: [window-shells.md](window-shells.md) · [window-chrome.md](window-chrome.md) · [system-integration.md](system-integration.md) · [shell-extras.md](shell-extras.md) · Gallery **System integration**.
 
@@ -10,26 +10,27 @@ CI Linux Gallery jobs use **offscreen `--smoke`** (build + QML load). They do **
 
 ---
 
-## 1.38 / 1.68 field failure matrix
+## 1.38 / 1.68 / 1.79 field failure matrix
 
 | Symptom | Likely cause | Fix / expectation |
 |---------|--------------|-------------------|
 | **Double title bar** (compositor + Fluent) | SSD still on | Keep `QT_WAYLAND_DISABLE_WINDOWDECORATION=1` (Bootstrap default). Debug only: set `=0`. Check `WindowHelper.serverSideDecorations` / `customFrame`. |
 | **Hollow / white client** with Mica copy-paste | Transparent host + no DWM | Use `BackdropSolid`; `resolveBackdrop()` coerces on Linux. Prefer [window-shells.md](window-shells.md). |
-| **File dialog not modal / wrong parent** on pure Wayland | Portal `parent_window` empty | Always pass `Window.window`. X11/XWayland → `x11:0x…`. Pure Wayland: best-effort `wayland:HANDLE` if Qt exports xdg-foreign; otherwise empty (dialog still opens). Live: `WindowHelper.portalParentWindow(Window.window)`. |
+| **File dialog not modal / wrong parent** on pure Wayland | Portal `parent_window` empty | Always pass `Window.window`. X11/XWayland → `x11:0x…`. Pure Wayland (**1.79**): prefer Qt `portalWindowIdentifier` (xdg-foreign) when the kit was built with GuiPrivate; else native-resource keys; window is `create()`d first. Still may be empty on some compositors — dialog opens anyway. Live: `WindowHelper.portalParentWindow(Window.window)`. |
 | **Second zenity/kdialog after portal** | Portal wait timed out then fallback | **Fixed 1.68** — once FileChooser returns a request path, timeout/cancel does **not** fall back. Empty path = cancel. |
 | **Filters ignored on Linux** | Old FilePicker unused `nameFilters` | **Fixed 1.68** — portal `filters` + zenity `--file-filter` / kdialog pattern. |
 | **FilePicker falls to zenity/kdialog** | Portal missing / DBus down / OpenFile error | Install `xdg-desktop-portal` + GTK/KDE backend; ensure session bus. Fallbacks remain supported. |
 | **Reveal does nothing (GNOME / Flatpak)** | No FileManager1 | **1.68** — `ShowItems` → OpenURI on the parent folder → `QDesktopServices`. |
 | **No tray icon on GNOME** | No StatusNotifierWatcher | Expected without AppIndicator/SNI extension. `supportsPersistentTray` may be true (capability) while `persistentTrayActive` stays false. KDE Plasma is the reference host (**1.24**). |
 | **Tray notify only as toast** | Notifications portal / notify-send path | `notifySystem` still works without SNI; in-app Toast via Gallery wiring. Prefer `NotificationBridge` for dual path. |
-| **Stuck on XWayland** | Launch script forced `QT_QPA_PLATFORM=xcb` | Leave unset; Bootstrap sets `wayland;xcb` when session is Wayland. Packaged `./run-gallery.sh` already does this. |
+| **Stuck on XWayland** | Launch script forced `QT_QPA_PLATFORM=xcb` | Leave unset; Bootstrap sets `wayland;xcb` when session is Wayland (**1.79** also honors `WAYLAND_SOCKET`). Packaged `./run-gallery.sh` already does this. |
 | **“Could not find Wayland QPA”** | Missing `qt6-wayland` | Install plugin; Bootstrap falls back to `xcb` with a warning when Wayland plugin absent. |
 | **Fractional scale blurry / wrong DPR** | Rounding policy | Bootstrap sets PassThrough; shells track `Theme.devicePixelRatio`. |
 | **Snap Layouts / taskbar progress** | Windows-only | No-op on Linux — [shell-extras.md](shell-extras.md). |
 | **Idle inhibit ignored** | No ScreenSaver / portal Inhibit | `inhibitIdle` returns `false`; call `releaseIdleInhibit` only after a successful inhibit. |
+| **OSK CapsLock ignored on Linux** | No `GetKeyState` | **1.79** — experimental `hardwareInput` tracks CapsLock toggles under Wayland/X11. |
 
-Out of scope for 1.68: implementing a full xdg-desktop-portal compositor; guaranteeing `wl_surface` export on every Qt minor.
+Out of scope for 1.79: implementing a full xdg-desktop-portal compositor; guaranteeing `wl_surface` export on every Qt minor without GuiPrivate; layer-shell OSK.
 
 ---
 
@@ -45,7 +46,7 @@ Out of scope for 1.68: implementing a full xdg-desktop-portal compositor; guaran
 | Compositor blur behind translucent window | **Limited** | **Limited** | Desktop-side only (KWin / Hyprland / …); not DWM parity |
 | NC hit-test / Snap Layouts | **Unsupported** | **Unsupported** | Windows-only; QML caption handles input |
 | Taskbar progress / overlay | **Unsupported** | **Unsupported** | No-op stubs |
-| Portal FileChooser `parent_window` | **Limited** (xdg-foreign when Qt exports; else empty) | **Works** (`x11:0x…`) | Live: `portalParentWindow()` (**1.68**) |
+| Portal FileChooser `parent_window` | **Improved 1.79** (xdg-foreign via Qt services when GuiPrivate linked; else best-effort) | **Works** (`x11:0x…`) | Live: `portalParentWindow()` (**1.68** / **1.79**) |
 | Color scheme / notifications / OpenURI | **Works** (portal) | **Works** | Fallbacks: gsettings / KDE / notify-send |
 | Persistent tray (SNI) | **Works** when watcher present | **Works** when watcher present | KDE reference; GNOME needs extension — [system-integration.md](system-integration.md) |
 
@@ -89,7 +90,7 @@ WindowHelper::configurePlatformEnvironment(argv[0]); // Wayland-first + CSD + DP
 
 | Action | Effect |
 |--------|--------|
-| `QT_QPA_PLATFORM=wayland;xcb` when session is Wayland | Prefer native Wayland, fall back to X11 |
+| `QT_QPA_PLATFORM=wayland;xcb` when session is Wayland | Prefer native Wayland, fall back to X11 (`WAYLAND_DISPLAY` / `WAYLAND_SOCKET` / `XDG_SESSION_TYPE`) |
 | `QT_WAYLAND_DISABLE_WINDOWDECORATION=1` if unset | Hide compositor title bar (use Fluent caption) |
 | `QT_SCALE_FACTOR_ROUNDING_POLICY=PassThrough` | Fractional Wayland scaling |
 | `ThemeFonts::ensureLoaded()` path | Register embedded Fluent icon font (`WinSymbols3.ttf`) |
@@ -169,7 +170,7 @@ FilePicker.openFile(qsTr("Open"), ["All (*.*)"], function (path) { … }, Window
 
 **1.68:** once the portal request starts, timeout/cancel returns `""` / `[]` — no second zenity dialog. `nameFilters` go to portal / zenity / kdialog. Save uses `current_name` from `defaultSuffix`.
 
-Pure Wayland: `parent_window` is `wayland:HANDLE` when the Qt Wayland plugin exports xdg-foreign; otherwise empty — see [field matrix](#138--168-field-failure-matrix). Check `WindowHelper.portalParentWindow(Window.window)` in Gallery.
+Pure Wayland: `parent_window` is `wayland:HANDLE` when Qt exports xdg-foreign (**1.79** prefers `portalWindowIdentifier`; builds without GuiPrivate keep native-resource fallback); otherwise empty — see [field matrix](#138--168--179-field-failure-matrix). Check `WindowHelper.portalParentWindow(Window.window)` in Gallery.
 
 ```bash
 sudo apt install xdg-desktop-portal xdg-desktop-portal-gtk   # or -kde

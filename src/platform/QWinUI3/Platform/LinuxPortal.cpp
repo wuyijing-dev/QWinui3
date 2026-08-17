@@ -11,6 +11,17 @@
 #include <QWindow>
 #if defined(Q_OS_LINUX)
 #  include <QtGui/qpa/qplatformnativeinterface.h>
+#  if defined(QWINUI3_HAS_GUI_PRIVATE)
+#    include <qpa/qplatformintegration.h>
+#    include <private/qguiapplication_p.h>
+#    if QT_VERSION >= QT_VERSION_CHECK(6, 9, 0)
+#      include <private/qdesktopunixservices_p.h>
+using QWinUI3UnixServices = QDesktopUnixServices;
+#    else
+#      include <private/qgenericunixservices_p.h>
+using QWinUI3UnixServices = QGenericUnixServices;
+#    endif
+#  endif
 #endif
 
 #if defined(QWINUI3_HAS_DBUS)
@@ -281,6 +292,16 @@ bool available()
     return QDBusConnection::sessionBus().isConnected();
 }
 
+static QString normalizePortalParent(const QString &raw)
+{
+    const QString id = raw.trimmed();
+    if (id.isEmpty())
+        return {};
+    if (id.startsWith(QLatin1String("wayland:")) || id.startsWith(QLatin1String("x11:")))
+        return id;
+    return QStringLiteral("wayland:%1").arg(id);
+}
+
 QString parentWindowFrom(QObject *windowObject)
 {
     if (!windowObject)
@@ -288,7 +309,12 @@ QString parentWindowFrom(QObject *windowObject)
     QWindow *window = qobject_cast<QWindow *>(windowObject);
     if (!window)
         window = windowObject->property("window").value<QWindow *>();
-    if (!window || !window->handle())
+    if (!window)
+        return {};
+    // Portal export needs a realized surface; QML Window may not have a handle yet.
+    if (!window->handle())
+        window->create();
+    if (!window->handle())
         return {};
 
     const QString platform = QGuiApplication::platformName();
@@ -297,18 +323,33 @@ QString parentWindowFrom(QObject *windowObject)
 
     if (platform.contains(QLatin1String("wayland"))) {
 #if defined(Q_OS_LINUX)
+#  if defined(QWINUI3_HAS_GUI_PRIVATE)
+        // Same path Qt uses for portal FileDialog / color picker (xdg-foreign export).
+        if (QPlatformIntegration *pi = QGuiApplicationPrivate::platformIntegration()) {
+            if (auto *services = dynamic_cast<QWinUI3UnixServices *>(pi->services())) {
+                const QString fromQt = normalizePortalParent(services->portalWindowIdentifier(window));
+                if (!fromQt.isEmpty())
+                    return fromQt;
+            }
+        }
+#  endif
         if (QPlatformNativeInterface *native = QGuiApplication::platformNativeInterface()) {
             static const char *const kKeys[] = {
                 "xdgforeignexportv2",
                 "xdgexportv2",
                 "xdg_foreign_exported_v2",
+                "xdg_exporter_v2",
+                "export",
                 nullptr
             };
             for (int i = 0; kKeys[i]; ++i) {
                 if (void *res = native->nativeResourceForWindow(kKeys[i], window)) {
                     const char *s = static_cast<const char *>(res);
-                    if (s && s[0] >= 32 && s[0] < 127)
-                        return QStringLiteral("wayland:%1").arg(QLatin1String(s));
+                    if (s && s[0] >= 32 && s[0] < 127) {
+                        const QString fromNative = normalizePortalParent(QString::fromUtf8(s));
+                        if (!fromNative.isEmpty())
+                            return fromNative;
+                    }
                 }
             }
         }

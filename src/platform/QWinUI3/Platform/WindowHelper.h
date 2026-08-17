@@ -175,6 +175,7 @@ public:
     // Dialog parenting (important on Wayland for correct stacking / modality)
     Q_INVOKABLE void setTransientParent(QObject *windowObject, QObject *parentWindowObject);
     // Portal FileChooser parent_window string (Linux); empty on Win / pure Wayland without export.
+    // 1.79: prefers Qt portalWindowIdentifier (xdg-foreign) when GuiPrivate is linked.
     Q_INVOKABLE QString portalParentWindow(QObject *windowObject) const;
     // Open http(s)/file URLs via xdg-desktop-portal OpenURI when available
     Q_INVOKABLE bool openExternalUrl(const QString &url);

@@ -114,7 +114,7 @@ private:
     bool canHandleHardware(const QKeyEvent *ke) const;
     bool handleHardwareKey(QKeyEvent *ke);
     static int qtKeyToVk(int key);
-    static bool capsLockOn();
+    bool capsLockOn() const;
 #ifdef QWINUI3_HAVE_KEYMAN
     bool loadLayout(const QString &id);
     void disposeCore();
@@ -132,6 +132,8 @@ private:
     QStringList m_candidates;
     int m_candidatePage = 0;
     bool m_hardwareInput = true;
+    // Linux/Wayland: track CapsLock toggles (no portable GetKeyState). Windows uses VK_CAPITAL.
+    bool m_capsLockOn = false;
     HangulComposer m_hangul;
     static constexpr int kPageSize = 9;
 #ifdef QWINUI3_HAVE_KEYMAN

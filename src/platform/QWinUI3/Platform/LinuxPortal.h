@@ -11,7 +11,8 @@ namespace LinuxPortal {
 bool available();
 
 // xdg-desktop-portal parent_window: "x11:0x…" on X11/XWayland;
-// "wayland:HANDLE" when Qt exports xdg-foreign (best-effort); else empty on pure Wayland.
+// "wayland:HANDLE" when Qt exports xdg-foreign (GuiPrivate portalWindowIdentifier
+// when available, else native-resource keys); else empty on pure Wayland.
 QString parentWindowFrom(QObject *windowObject);
 
 // org.freedesktop.Notifications

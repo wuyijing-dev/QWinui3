@@ -36,6 +36,7 @@ CatalogPage {
                     { label: qsTr("1.xx maturity / freeze"), doc: "docs/maturity-1xx.md", page: "PitfallsPage" },
                     { label: qsTr("Mid-horizon checkpoint (1.60)"), doc: "docs/checkpoint-160.md", page: "PitfallsPage" },
                     { label: qsTr("Long-horizon checkpoint (1.78)"), doc: "docs/checkpoint-178.md", page: "PitfallsPage" },
+                    { label: qsTr("Linux / Wayland (1.79)"), doc: "docs/platform-linux-wayland.md", page: "SystemIntegrationPage" },
                     { label: qsTr("1.xx compatibility / upgrade"), doc: "docs/compatibility-1xx.md", page: "PitfallsPage" },
                     { label: qsTr("CI smoke / Qt compat"), doc: "docs/ci-smoke.md", page: "CiSmokePage" },
                     { label: qsTr("Example templates"), doc: "examples/README.md", page: "ExamplesTemplatesPage" }
@@ -81,7 +82,7 @@ CatalogPage {
                     { label: qsTr("Window shells / chrome"), doc: "docs/window-shells.md", page: "WindowParadigmPage" },
                     { label: qsTr("High-DPI & monitors"), doc: "docs/high-dpi.md", page: "HighDpiPage" },
                     { label: qsTr("Multi-window"), doc: "docs/window-shells.md", page: "MultiWindowPage" },
-                    { label: qsTr("Linux / Wayland + system integration (1.68)"), doc: "docs/platform-linux-wayland.md", page: "SystemIntegrationPage" },
+                    { label: qsTr("Linux / Wayland + system integration (1.79)"), doc: "docs/platform-linux-wayland.md", page: "SystemIntegrationPage" },
                     { label: qsTr("Graphics backend (RHI)"), doc: "docs/graphics-backend.md", page: "GraphicsBackendPage" },
                     { label: qsTr("Shell extras / Snap / taskbar"), doc: "docs/shell-extras.md", page: "SystemIntegrationPage" }
                 ]

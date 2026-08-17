@@ -4,7 +4,7 @@ Primary/secondary command row (AppBar host).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/CommandBar.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/CommandBar.qml)
 
-**Category:** Buttons & commands · **Library:** v1.78
+**Category:** Buttons & commands · **Library:** v1.79
 
 [← Component index](../components.md)
 
