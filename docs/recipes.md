@@ -1,6 +1,6 @@
 # Recipes hub (1.36)
 
-LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stack. Generated **control** pages live under [Component API](components.md).
+LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stack. Generated **control** pages live under [Component API](components.md). **Gallery:** category **Recipes** → **Recipes hub** opens every related demo.
 
 **Stable API:** prefer types on [stable-api.md](stable-api.md). **1.37** promote / defer tables live there.  
 **1.xx freeze (1.40):** [compatibility-1xx.md](compatibility-1xx.md) · [upgrade-notes.md](upgrade-notes.md).
