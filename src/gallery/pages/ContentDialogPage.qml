@@ -11,7 +11,7 @@ import QWinUI3.Extras
 
 CatalogPage {
     title: qsTr("ContentDialog")
-    subtitle: qsTr("Modal queue (1.48): FIFO · owner Overlay · Esc/Closing. docs/dialogs-flyouts.md")
+    subtitle: qsTr("Modal queue (1.48): FIFO · showFront priority (2.55). docs/dialogs-flyouts.md")
 
     overlay: [
         ContentDialog {
@@ -158,6 +158,33 @@ CatalogPage {
                 wrapMode: Text.Wrap
                 color: Theme.textPrimary
             }
+        },
+        ContentDialog {
+            id: nameEnterDialog
+            parent: Overlay.overlay
+            anchors.centerIn: Overlay.overlay
+            title: qsTr("Rename item")
+            primaryButtonText: qsTr("Save")
+            closeButtonText: qsTr("Cancel")
+            defaultButton: "primary"
+            onPrimaryClicked: nameEnterResult.text = qsTr("Saved: %1").arg(nameField.text)
+            ColumnLayout {
+                spacing: Theme.spacing
+                width: 320
+                TextField {
+                    id: nameField
+                    Layout.fillWidth: true
+                    placeholderText: qsTr("Item name")
+                    text: qsTr("Draft")
+                }
+                Text {
+                    id: nameEnterResult
+                    Layout.fillWidth: true
+                    wrapMode: Text.WordWrap
+                    color: Theme.textSecondary
+                    text: qsTr("Press Enter while the field is focused.")
+                }
+            }
         }
     ]
 
@@ -201,9 +228,36 @@ CatalogPage {
                     onClicked: ContentDialogQueue.replaceCurrent(queueC)
                 }
                 Button {
+                    text: qsTr("Front → B (priority)")
+                    onClicked: queueB.showFront()
+                }
+                Button {
                     text: qsTr("Clear pending")
                     onClicked: ContentDialogQueue.clearQueue()
                 }
+            }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Enter in TextField (2.55)")
+        qmlSource: "defaultButton: \"primary\"\n// Enter activates default even when a TextField is focused"
+
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Open the dialog, focus the name field, press Enter — primary activates (TextArea still keeps newline).")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            Button {
+                text: qsTr("Open name dialog")
+                highlighted: true
+                onClicked: nameEnterDialog.show()
             }
         }
     }

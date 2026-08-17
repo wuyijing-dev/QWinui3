@@ -5,6 +5,7 @@ import QtQuick
 //
 //   // Show dialogs one-at-a-time through the singleton queue:
 //   ContentDialogQueue.show(confirmDialog)
+//   ContentDialogQueue.showFront(urgentDialog)
 //   ContentDialogQueue.replaceCurrent(otherDialog)
 //   ContentDialogQueue.cancel(confirmDialog)
 //   ContentDialogQueue.clearQueue()
@@ -54,6 +55,27 @@ QtObject {
     // Alias for enqueue
     function show(dialog) {
         enqueue(dialog)
+    }
+
+    // Prepend to pending queue — opens next after the active dialog (2.55 priority)
+    function enqueueFront(dialog) {
+        if (!dialog)
+            return
+        if (_active === dialog)
+            return
+        cancel(dialog)
+        if (!_active) {
+            _active = dialog
+            _wire(dialog)
+            dialog.open()
+            return
+        }
+        _queue = [dialog].concat(_queue)
+    }
+
+    // Alias for enqueueFront
+    function showFront(dialog) {
+        enqueueFront(dialog)
     }
 
     // Remove a dialog from the pending queue (no-op if already active).

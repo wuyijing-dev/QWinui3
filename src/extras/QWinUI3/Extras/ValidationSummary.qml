@@ -31,6 +31,20 @@ T.Control {
     // Show even when errors is empty (for layout testing)
     property bool forceVisible: false
 
+    property int _lastAnnouncedCount: -1
+
+    onErrorsChanged: {
+        var n = (errors && errors.length) || 0
+        Accessible.description = n ? errors.join("; ") : ""
+        if (_lastAnnouncedCount >= 0 && n !== _lastAnnouncedCount) {
+            if (n > 0)
+                Accessible.announce(qsTr("%1 validation errors").arg(n))
+            else
+                Accessible.announce(qsTr("Validation errors cleared"))
+        }
+        _lastAnnouncedCount = n
+    }
+
     visible: forceVisible || (errors && errors.length > 0)
     implicitWidth: 320
     implicitHeight: visible ? (contentItem.implicitHeight + topPadding + bottomPadding) : 0

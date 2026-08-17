@@ -74,6 +74,7 @@ CatalogPage {
             spacing: Theme.spacing
             Repeater {
                 model: [
+                    { label: qsTr("Forms unlike WinUI (2.55)"), doc: "docs/forms-unlike-winui-255.md", page: "FormValidationPage" },
                     { label: qsTr("Window chrome footguns (2.54)"), doc: "docs/window-chrome-footguns-254.md", page: "WindowParadigmPage" },
                     { label: qsTr("Linux top-3 parity (2.53)"), doc: "docs/linux-top3-253.md", page: "SystemIntegrationPage" },
                     { label: qsTr("First app in an hour (2.52)"), doc: "docs/first-app-252.md", page: "ExamplesTemplatesPage" },

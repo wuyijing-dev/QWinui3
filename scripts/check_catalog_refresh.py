@@ -73,7 +73,7 @@ def main() -> int:
 
     if CI_SMOKE.is_file():
         ctext = CI_SMOKE.read_text(encoding="utf-8")
-        for needle in ("2.54", "PitfallsPage", "window-chrome-footguns-254"):
+        for needle in ("2.55", "PitfallsPage", "forms-unlike-winui-255"):
             if needle not in ctext:
                 errors.append(f"ci-smoke.md: missing {needle!r}")
     else:

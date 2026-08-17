@@ -17,8 +17,10 @@ Short recipe for **validation** and **settings pages**. Prefer these patterns ov
 2. On submit, **set** each `field.errorMessage = "…"` (or `""`).
 3. Call `form.validate()` — it **reads** non-empty `errorMessage` / `hasError` from descendants (`children` + `contentChildren`).
 4. Bind `ValidationSummary { errors: form.errors }`.
-5. `form.clearErrors()` clears the same tree (parity with gather as of 1.08).
-6. Set `form.accessibleName` when multiple forms share a page (1.19).
+5. `form.clearErrors()` clears the same tree including **`NumberBox.inputInvalid`** (**2.55**).
+6. Async server checks: **`form.beginValidate()`** … **`form.endValidate()`**; disable submit while **`form.validating`** (**2.55**).
+7. After failed validate, call **`form.focusFirstError()`** (**2.55**).
+8. Set `form.accessibleName` when multiple forms share a page (1.19).
 
 ```qml
 FormLayout {
@@ -47,8 +49,8 @@ FormLayout {
 
 **Notes**
 
-- No built-in QValidator pipeline — apps own rules.
-- `NumberBox.inputInvalid` can keep `hasError` after `clearErrors()` until input is fixed.
+- No built-in QValidator pipeline — apps own rules. See [forms-unlike-winui-255.md](forms-unlike-winui-255.md) (**2.55**).
+- `NumberBox.inputInvalid` is cleared by `form.clearErrors()` as of **2.55** (was a common footgun).
 - Date / calendar / time pickers expose `errorMessage` / `hasError` (1.28); choosing a value clears the error.
 - Color pickers: wrap with `HeaderedContentControl` — see [pickers.md](pickers.md).
 - Opt out of label push with `formBound: false`.
@@ -84,6 +86,20 @@ SettingsView {
 Example apps: [`examples/settings-cards`](../examples/settings-cards/), [`examples/nav-settings`](../examples/nav-settings/), [`examples/form-settings`](../examples/form-settings/) (1.26 FormLayout + prefs; **1.65** `Settings` persistence).
 
 **Persist toggles / portable Ini / schemaVersion:** [settings-persistence.md](settings-persistence.md) (**1.65**). Keep `geometryPersistenceKey` for window frames — do not mix into prefs categories.
+
+---
+
+## Industry templates (2.25)
+
+Copy-ready Gallery LoB pages — not a separate form engine:
+
+| Template | Page | Pattern |
+|----------|------|---------|
+| **Registration** | `FormRegistrationTemplatePage` | `FormLayout` + `ValidationSummary` + `PasswordBox` / `NumberBox` + `TokenizingTextBox` + `MultiSelectComboBox` |
+| **Admin CRUD** | `FormAdminCrudTemplatePage` | `DataTable` selection → `FormLayout` editor (save / new) |
+| **Preferences** | `SettingsPreferencesTemplatePage` | `SettingsView` + `SettingsCard` / `SettingsExpander` + token / multi-select rows |
+
+Hub: Gallery **Forms & settings** opens all three. **`MultiSelectComboBox`** gained `errorMessage` / `hasError` / `formBound` for FormLayout parity (**2.25**). Pair pickers with [pickers.md](pickers.md).
 
 ---
 

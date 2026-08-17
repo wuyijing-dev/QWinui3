@@ -11,7 +11,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("Form validation")
-    subtitle: qsTr("errorMessage → validate(). NumberBox + CalendarDatePicker — docs/pickers.md (1.28).")
+    subtitle: qsTr("errorMessage → validate(). Async + focusFirstError (2.55). docs/forms-unlike-winui-255.md")
 
     overlay: ToastHost {
         id: toasts
@@ -117,14 +117,68 @@ CatalogPage {
                             passwordField.errorMessage = qsTr("Password must be at least 8 characters.")
                         if (planField.selectedIndex === 0)
                             planField.errorMessage = qsTr("Choose Pro or Team.")
-                        if (form.validate())
+                        if (form.validate()) {
                             toasts.successToast(qsTr("All fields passed validation."), qsTr("Looks good"))
+                        } else {
+                            form.focusFirstError()
+                        }
                     }
                 }
                 Button {
                     flat: true
                     text: qsTr("Clear errors")
                     onClicked: form.clearErrors()
+                }
+            }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Async validation (2.55)")
+        qmlSource: "form.beginValidate()\n// … await server …\nform.endValidate()"
+
+        FormLayout {
+            id: asyncForm
+            labelWidth: 132
+
+            ValidationSummary {
+                errors: asyncForm.errors
+            }
+
+            BusyIndicator {
+                Layout.alignment: Qt.AlignHCenter
+                running: asyncForm.validating
+                visible: asyncForm.validating
+            }
+
+            HeaderedTextBox {
+                id: asyncEmail
+                header: qsTr("Work email")
+                placeholderText: qsTr("you@company.com")
+            }
+
+            Button {
+                text: qsTr("Check availability")
+                highlighted: true
+                enabled: !asyncForm.validating
+                onClicked: {
+                    asyncForm.beginValidate()
+                    asyncTimer.start()
+                }
+            }
+
+            Timer {
+                id: asyncTimer
+                interval: 600
+                onTriggered: {
+                    if (asyncEmail.text.indexOf("@") < 1)
+                        asyncEmail.errorMessage = qsTr("Enter a valid email.")
+                    else if (asyncEmail.text.indexOf("taken") >= 0)
+                        asyncEmail.errorMessage = qsTr("That address is already registered.")
+                    if (asyncForm.endValidate())
+                        toasts.successToast(qsTr("Email available."), qsTr("Async OK"))
+                    else
+                        asyncForm.focusFirstError()
                 }
             }
         }

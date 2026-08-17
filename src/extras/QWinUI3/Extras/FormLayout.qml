@@ -22,7 +22,8 @@ import QWinUI3.Theme
 //       }
 //   }
 //   // --- API ---
-//   // methods: validate(), clearErrors(), collectErrors(), applyDefaults(), applyLabelWidth()
+//   // methods: validate(), validateDeferred(), beginValidate(), endValidate(),
+//   //           clearErrors(), collectErrors(), focusFirstError(), applyDefaults(), applyLabelWidth()
 //
 // @notes
 //   ColumnLayout host for HeaderedTextBox / HeaderedComboBox / NumberBox / PasswordBox /
@@ -47,6 +48,8 @@ T.Control {
     property real fieldSpacing: Theme.spacingLoose
     // Collected error strings after validate() / collectErrors()
     property var errors: []
+    // True while async validation runs (2.55 — pair with beginValidate/endValidate)
+    property bool validating: false
     // Screen-reader name for the form region (1.19)
     property string accessibleName: qsTr("Form")
     // Default children / field slot
@@ -140,13 +143,17 @@ T.Control {
         return collectErrors().length === 0
     }
 
-    // Clear errorMessage on descendant fields that expose it
+    // Clear errorMessage on descendant fields that expose it (+ NumberBox inputInvalid, 2.55)
     function clearErrors() {
         function clearItem(item) {
             if (!item)
                 return
-            if (item !== root && item.hasOwnProperty("errorMessage"))
-                item.errorMessage = ""
+            if (item !== root) {
+                if (item.hasOwnProperty("errorMessage"))
+                    item.errorMessage = ""
+                if (item.hasOwnProperty("inputInvalid"))
+                    item.inputInvalid = false
+            }
             var kids = item.children || []
             for (var i = 0; i < kids.length; ++i)
                 clearItem(kids[i])
@@ -157,5 +164,66 @@ T.Control {
         }
         clearItem(body)
         errors = []
+    }
+
+    // Mark validating before async rules; pair with endValidate()
+    function beginValidate() {
+        validating = true
+        clearErrors()
+    }
+
+    // Collect errors after async rules; clears validating and returns validate() result
+    function endValidate() {
+        var ok = validate()
+        validating = false
+        return ok
+    }
+
+    // Defer validate() to next event-loop tick (rules set in same handler)
+    function validateDeferred(callback) {
+        Qt.callLater(function () {
+            var ok = validate()
+            if (callback)
+                callback(ok)
+        })
+    }
+
+    // Focus first descendant field with an error (WinUI focus-first-error, 2.55)
+    function focusFirstError() {
+        var target = _firstErrorItem(body)
+        if (!target)
+            return false
+        if (typeof target.focusField === "function")
+            target.focusField()
+        else if (typeof target.forceActiveFocus === "function")
+            target.forceActiveFocus()
+        return true
+    }
+
+    function _firstErrorItem(item) {
+        if (!item)
+            return null
+        if (item !== root && item.hasOwnProperty("errorMessage")) {
+            var msg = String(item.errorMessage || "")
+            var bad = msg.length > 0
+            if (!bad && item.hasOwnProperty("hasError") && item.hasError)
+                bad = true
+            if (bad)
+                return item
+        }
+        var kids = item.children || []
+        for (var i = 0; i < kids.length; ++i) {
+            var hit = _firstErrorItem(kids[i])
+            if (hit)
+                return hit
+        }
+        if (item.contentChildren) {
+            for (var j = 0; j < item.contentChildren.length; ++j) {
+                var hit2 = _firstErrorItem(item.contentChildren[j])
+                if (hit2)
+                    return hit2
+            }
+        }
+        return null
     }
 }

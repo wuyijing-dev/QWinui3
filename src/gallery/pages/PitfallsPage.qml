@@ -206,6 +206,27 @@ CatalogPage {
     }
 
     ControlExample {
+        headerText: qsTr("Forms unlike WinUI (2.55 / FL-018)")
+        qmlSource: "beginValidate() · focusFirstError()\\nContentDialogQueue.showFront()"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("2.55: FormLayout validating + clearErrors(inputInvalid); ValidationSummary announce; showFront queue priority; Enter in dialog TextField. docs/forms-unlike-winui-255.md")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            CheckBox { text: qsTr("beginValidate/endValidate for async server checks") }
+            CheckBox { text: qsTr("focusFirstError after failed validate()") }
+            CheckBox { text: qsTr("showFront for urgent confirm — not replaceCurrent") }
+            CheckBox { text: qsTr("defaultButton on ContentDialog + Enter in TextField") }
+        }
+    }
+
+    ControlExample {
         headerText: qsTr("Window chrome footguns (2.54)")
         qmlSource: "geometryPersistenceKey + reportHitTest()\\n// docs/window-chrome-footguns-254.md"
         ColumnLayout {

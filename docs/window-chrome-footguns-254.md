@@ -44,4 +44,4 @@ Product apps hit **maximize**, **mixed-DPI restore**, and **caption hit-test** b
 - [ ] Theme prefs in **`ThemePrefs` category** — not `WindowGeometry/*` — [settings-persistence.md](settings-persistence.md)
 - [ ] Mixed-DPI soak: move window across monitors — [high-dpi.md](high-dpi.md)
 
-**Next:** **2.55** forms unlike WinUI · **2.57** files on Linux
+**Next:** **2.56** navigation mental model · **2.57** files on Linux

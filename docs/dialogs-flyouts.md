@@ -37,6 +37,7 @@ Do **not** use TeachingTip or Flyout for irreversible confirms — use ContentDi
 | API | Behavior |
 |-----|----------|
 | `show(d)` / `enqueue(d)` | Open now if idle; else append (deduped) |
+| `showFront(d)` / `enqueueFront(d)` | Prepend to **pending** — opens next after active closes (**2.55**) |
 | `pendingCount` / `busy` | Waiting count / whether one is open |
 | `cancel(d)` | Drop **pending** only (no-op if `d` is already active) |
 | `clearQueue()` | Drop all pending; leave the active dialog open |
@@ -75,6 +76,9 @@ ContentDialogQueue.cancel(exportDlg)
 
 // Urgent override (pending keep their order):
 ContentDialogQueue.replaceCurrent(exportDlg)
+
+// Priority without closing active — runs next after current closes (2.55):
+ContentDialogQueue.showFront(exportDlg)
 ```
 
 ### Owner / transient rules
@@ -88,7 +92,7 @@ ContentDialogQueue.replaceCurrent(exportDlg)
 
 | Key | Behavior |
 |-----|----------|
-| **Enter** / **Return** | `activateDefault()` for `defaultButton` |
+| **Enter** / **Return** | `activateDefault()` for `defaultButton` — works when a single-line **TextField** is focused (**2.55**); **TextArea** keeps newline |
 | **Esc** | Close path via `requestClose("close")` — same as close button |
 | Outside click | Does **not** dismiss (`NoAutoClose`) |
 | Block dismiss | `onClosing: function (args) { args.cancel = true }` |

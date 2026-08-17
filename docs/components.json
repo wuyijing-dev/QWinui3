@@ -1,6 +1,6 @@
 {
   "name": "QWinUI3",
-  "version": "2.54",
+  "version": "2.55",
   "generatedBy": "scripts/generate_component_docs.py",
   "publicCount": 227,
   "components": [
@@ -497,7 +497,7 @@
       "doc": "components/ContentDialog.md",
       "propertyCount": 14,
       "signalCount": 5,
-      "methodCount": 6
+      "methodCount": 7
     },
     {
       "name": "ContentDialogQueue",
@@ -512,7 +512,7 @@
       "doc": "components/ContentDialogQueue.md",
       "propertyCount": 2,
       "signalCount": 0,
-      "methodCount": 5
+      "methodCount": 7
     },
     {
       "name": "ContentThemeTransition",
@@ -795,9 +795,9 @@
       "galleryPage": "",
       "galleryTitle": "",
       "doc": "components/FormLayout.md",
-      "propertyCount": 6,
+      "propertyCount": 7,
       "signalCount": 0,
-      "methodCount": 5
+      "methodCount": 9
     },
     {
       "name": "GridTile",

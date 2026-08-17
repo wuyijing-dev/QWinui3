@@ -63,6 +63,7 @@ T.Dialog {
     signal closing(var args)
 
     function show() { ContentDialogQueue.enqueue(root) }
+    function showFront() { ContentDialogQueue.enqueueFront(root) }
     function hide() { requestClose(root.dialogResult !== "none" ? root.dialogResult : "close") }
 
     function requestClose(kind) {
@@ -198,8 +199,25 @@ T.Dialog {
         }
     }
 
-    Keys.onReturnPressed: event => { activateDefault(); event.accepted = true }
-    Keys.onEnterPressed: event => { activateDefault(); event.accepted = true }
+    Keys.onReturnPressed: function (event) {
+        if (_focusIsMultiline())
+            return
+        activateDefault()
+        event.accepted = true
+    }
+    Keys.onEnterPressed: function (event) {
+        if (_focusIsMultiline())
+            return
+        activateDefault()
+        event.accepted = true
+    }
+
+    Shortcut {
+        sequences: ["Return", "Enter"]
+        enabled: root.visible && root._defaultButton !== "none" && !root._focusIsMultiline()
+        context: Qt.WindowShortcut
+        onActivated: root.activateDefault()
+    }
     Keys.onEscapePressed: function (event) {
         event.accepted = true
         // Match close button path so Closing cancel + closeClicked stay consistent.
@@ -224,6 +242,25 @@ T.Dialog {
                 closeBtn.clicked()
             break
         }
+    }
+
+    function _focusIsMultiline() {
+        var win = root.Window ? root.Window.window : null
+        if (!win || !win.activeFocusItem)
+            return false
+        var item = win.activeFocusItem
+        var p = item
+        var inside = false
+        while (p) {
+            if (p === root) {
+                inside = true
+                break
+            }
+            p = p.parent
+        }
+        if (!inside)
+            return false
+        return item instanceof TextArea
     }
 
     background: ElevatedChrome {

@@ -188,7 +188,7 @@
 | **Pain** | **ContentDialog** queue priority, Enter default button, and **FormLayout** async validation timing differ from WinUI — teams ship confusing modal stacks. |
 | **Workaround today** | Single dialog at a time; sync validation only. |
 | **Proposed slice** | **2.55** — [component-capabilities-expansion.md](expansion/component-capabilities-expansion.md) forms + dialogs |
-| **Status** | open — scheduled **2.55**
+| **Status** | closed — **2.55** [forms-unlike-winui-255.md](../forms-unlike-winui-255.md)
 
 ### FL-010 — Forms lack industry-ready templates
 

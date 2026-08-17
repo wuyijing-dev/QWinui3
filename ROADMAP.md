@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **2.54** (master; window chrome footguns)
-**Next up:** **2.55** — Forms unlike WinUI (friction-only)
+**Current:** **2.55** (master; forms unlike WinUI)
+**Next up:** **2.56** — Navigation mental model (friction-only)
 **Planned through:** **3.00** (… → **2.00** break → **2.01…2.50** tranche 1 → **2.51…2.60** friction-only → **2.61…2.70** professional surfaces → **2.71…2.73** Python / PyPI → **3.00** 2.x close-out)
 **1.xx close-out:** [checkpoint-190.md](docs/checkpoint-190.md). **1.86…1.89** performance arc **signed off** (**animations stay**). OSK/packaging promote **2.01**. **2.50** = tranche-1 audit; **2.60** = friction tranche close-out; **2.70** = professional-surfaces audit; **2.73** = Python consumer checkpoint; **3.00** = 2.x breaking close-out ([checkpoint-300.md](docs/checkpoint-300.md)).  
 **Qt:** 6.5+ (recommended 6.8 LTS) through **1.92** — [qt-version-compat.md](docs/qt-version-compat.md). **2.00** raises the floor to **6.8 LTS**. **3.00** raises the floor to **6.10 LTS**. **Platforms:** **Windows + Linux** — no macOS first-class line.
@@ -652,7 +652,7 @@ Apps on **1.90** read [upgrade-notes.md](docs/upgrade-notes.md) **1.90 → 2.00*
 | **2.52** | First app in an hour | `gallery-shell` still too much to delete | **Shipped** |
 | **2.53** | Linux “feels broken” top 3 | Field matrix names 3 user-visible parity gaps | **Shipped** |
 | **2.54** | Window chrome footguns | Maximize/DPI/hit-test/geometry restore | **Shipped** |
-| **2.55** | Forms unlike WinUI | Validation, errors, clear/collect surprises | Queue |
+| **2.55** | Forms unlike WinUI | Validation, errors, clear/collect surprises | **Shipped** |
 | **2.56** | Navigation mental model | Back vs pane vs stack confusion | Queue |
 | **2.57** | Files on Linux | Pick / drop / reveal still fails in apps | Queue |
 | **2.58** | Keyboard / IME / OSK in apps | Real input path unusable outside Gallery | Queue |
@@ -683,11 +683,11 @@ Apps on **1.90** read [upgrade-notes.md](docs/upgrade-notes.md) **1.90 → 2.00*
 
 **Shipped:** [window-chrome-footguns-254.md](docs/window-chrome-footguns-254.md) — geometry schema v2 + normal-geo cache on restore + `geometryRestored` hit-test refresh; [window-chrome.md](docs/window-chrome.md) troubleshooting rows. Product version **2.54**.
 
-### 2.55 — Forms unlike WinUI (queue)
+### 2.55 — Forms unlike WinUI (shipped)
 
-**Pain:** Validation timing, error placement, FormLayout collect/clear unlike WinUI forms. **Outcome:** behavior fixes + Gallery form-settings refresh.
+**Goal:** Close **FL-018** — validation timing, error summary a11y, modal queue / Enter footguns.
 
-**Deepen:** **FormLayout** async validation · **ValidationSummary** live region · **ContentDialog** queue · pickers/combos · **TeachingTip** coach — **FL-018** · [component-capabilities-expansion.md](docs/planning/expansion/component-capabilities-expansion.md).
+**Shipped:** [forms-unlike-winui-255.md](docs/forms-unlike-winui-255.md) — `FormLayout` async API + `focusFirstError`; `ValidationSummary` live region; `ContentDialogQueue.showFront`; Enter default in TextField; Gallery form/dialog refresh. Product version **2.55**.
 
 ### 2.56 — Navigation mental model (queue)
 
@@ -1364,7 +1364,8 @@ Finish the committed audit arc — **do not** add conditional controls without a
 
 | Rank | Slice | When to ship |
 |------|-------|----------------|
-| 1 | **2.55** | Forms unlike WinUI |
+| 1 | **2.56** | Navigation mental model |
+| — | **2.55** | Forms unlike WinUI — **shipped** |
 | — | **2.54** | Window chrome footguns — **shipped** |
 | — | **2.52** | First app in an hour — **shipped** |
 | 2 | **2.56** | Navigation mental model |

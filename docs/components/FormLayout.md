@@ -4,7 +4,7 @@ Vertical form stack that collects field errorMessage values.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/FormLayout.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/FormLayout.qml)
 
-**Category:** Input & forms · **Library:** v2.54
+**Category:** Input & forms · **Library:** v2.55
 
 [← Component index](../components.md)
 
@@ -29,7 +29,8 @@ FormLayout {
     }
 }
 // --- API ---
-// methods: validate(), clearErrors(), collectErrors(), applyDefaults(), applyLabelWidth()
+// methods: validate(), validateDeferred(), beginValidate(), endValidate(),
+//           clearErrors(), collectErrors(), focusFirstError(), applyDefaults(), applyLabelWidth()
 ```
 
 ## Notes
@@ -53,6 +54,7 @@ Accessibility (1.19): Accessible.Form + accessibleName; description lists error 
 | `fieldHeaderPlacement` | `string` | Default headerPlacement pushed to formBound fields ("left"\|"top"; empty = leave field) |
 | `fieldSpacing` | `real` | Vertical spacing between fields |
 | `errors` | `var` | Collected error strings after validate() / collectErrors() |
+| `validating` | `bool` | True while async validation runs (2.55 — pair with beginValidate/endValidate) |
 | `accessibleName` | `string` | Screen-reader name for the form region (1.19) |
 | `contentData` | `alias` | Default children / field slot |
 
@@ -68,7 +70,11 @@ _No custom signals_ (use inherited signals from the base type).
 | `applyLabelWidth()` | Compat alias of applyDefaults() |
 | `collectErrors()` | Return string[] of current field errors (does not mutate fields) |
 | `validate()` | Refresh errors; returns true when there are none |
-| `clearErrors()` | Clear errorMessage on descendant fields that expose it |
+| `clearErrors()` | Clear errorMessage on descendant fields that expose it (+ NumberBox inputInvalid, 2.55) |
+| `beginValidate()` | Mark validating before async rules; pair with endValidate() |
+| `endValidate()` | Collect errors after async rules; clears validating and returns validate() result |
+| `validateDeferred(callback)` | Defer validate() to next event-loop tick (rules set in same handler) |
+| `focusFirstError()` | Focus first descendant field with an error (WinUI focus-first-error, 2.55) |
 
 ### Inherited from `Control`
 
