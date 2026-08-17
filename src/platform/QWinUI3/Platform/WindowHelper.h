@@ -51,6 +51,8 @@ class WindowHelper : public QObject
     Q_PROPERTY(bool x11 READ isX11 CONSTANT)
     // Linux / Wayland: false when using client-side Fluent chrome (customFrame).
     Q_PROPERTY(bool serverSideDecorations READ serverSideDecorations CONSTANT)
+    // Linux / Wayland: QML shell draws DWM-like corners + shadow when true.
+    Q_PROPERTY(bool clientShellDecoration READ clientShellDecoration CONSTANT)
     Q_PROPERTY(QString desktopEnvironment READ desktopEnvironment CONSTANT)
     Q_PROPERTY(QString waylandDisplay READ waylandDisplay CONSTANT)
     Q_PROPERTY(bool systemPrefersDark READ systemPrefersDark NOTIFY colorSchemeChanged)
@@ -149,6 +151,7 @@ public:
     bool isWayland() const;
     bool isX11() const;
     bool serverSideDecorations() const;
+    bool clientShellDecoration() const;
     QString desktopEnvironment() const;
     QString waylandDisplay() const;
     bool systemPrefersDark() const { return m_systemPrefersDark; }
@@ -201,6 +204,10 @@ public:
     // Map requested backdrop to what this platform can actually composite (Linux → Solid).
     Q_INVOKABLE int resolveBackdrop(int backdrop) const;
     Q_INVOKABLE void setCornerStyle(QObject *windowObject, int corner);
+    // Linux / Wayland client shell: rounded corners + drop shadow (QML; mirrors DWM on Windows).
+    Q_INVOKABLE qreal shellCornerRadius() const;
+    Q_INVOKABLE int shellShadowMargin() const;
+    Q_INVOKABLE bool shellChromeExpanded(QObject *windowObject) const;
     Q_INVOKABLE void reapply(QObject *windowObject = nullptr); // re-apply tracked/given window
     Q_INVOKABLE QString backdropName(int backdrop) const;
     Q_INVOKABLE void refreshWallpaper(); // reload desktop wallpaper URL

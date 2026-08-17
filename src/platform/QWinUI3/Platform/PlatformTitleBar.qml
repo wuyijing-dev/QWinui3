@@ -115,10 +115,15 @@ Item {
 
     Rectangle {
         anchors.fill: parent
+        radius: WindowHelper.clientShellDecoration
+                && root.targetWindow
+                && WindowHelper.shellChromeExpanded(root.targetWindow)
+                ? WindowHelper.shellCornerRadius() : 0
         color: root.chromeInactive
                ? Qt.rgba(root.chromeBackground.r, root.chromeBackground.g,
                          root.chromeBackground.b, 0.72)
                : root.chromeBackground
+        antialiasing: true
     }
 
     MouseArea {

@@ -61,6 +61,7 @@ qt_add_qml_module(qwinui3_platform
         CompactOverlayWindow.qml
         FrameStatsBadge.qml
         FrameStatsOverlay.qml
+        WindowShellDecoration.qml
     IMPORTS
         TARGET qwinui3_theme
 )
@@ -74,6 +75,10 @@ target_link_libraries(qwinui3_platform
     PRIVATE
         ${QWINUI3_PLATFORM_LIBS}
 )
+
+if(QWINUI3_HAVE_QUICK_EFFECTS AND TARGET Qt6::QuickEffects)
+    target_link_libraries(qwinui3_platform PUBLIC Qt6::QuickEffects)
+endif()
 
 if(QWINUI3_HAS_WEBVIEW2)
     target_compile_definitions(qwinui3_platform PUBLIC QWINUI3_HAS_WEBVIEW2=1)

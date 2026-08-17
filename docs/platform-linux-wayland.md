@@ -39,6 +39,8 @@ Out of scope for 1.79: implementing a full xdg-desktop-portal compositor; guaran
 | Surface | Wayland | X11 (`xcb`) | Notes |
 |---------|---------|-------------|--------|
 | Fluent CSD (`PlatformTitleBar` / caption buttons) | **Works** | **Works** | `startSystemMove` / `startSystemResize`; SSD off via `QT_WAYLAND_DISABLE_WINDOWDECORATION=1` |
+| **Wayland / Linux rounded corners** | **Works** (client shell) | **Works** (client shell) | `WindowShellDecoration` + `WindowHelper.cornerPreference` — not compositor SSD |
+| **Window drop shadow (shell)** | **Works** (client shell) | **Works** (client shell) | `MultiEffect` shadow via `WindowShellDecoration`; maximized → square, no margin |
 | Double title bar (compositor + Fluent) | **Avoided** (default) | N/A (frameless) | Set `QT_WAYLAND_DISABLE_WINDOWDECORATION=0` only to debug SSD |
 | `BackdropSolid` / opaque shells | **Works** | **Works** | **Preferred** for nav + settings apps |
 | `BackdropNone` (fully custom fill) | **Works** | **Works** | You own the background |
@@ -119,13 +121,13 @@ ThemeFonts.iconFontLoaded
 
 ## Shadows / elevation (QtQuick.Effects)
 
-`ElevatedChrome` uses `MultiEffect` for WinUI-like soft shadows. Install the QML module on distro Qt:
+`ElevatedChrome` uses `MultiEffect` for WinUI-like soft shadows. **`WindowShellDecoration`** (Linux client shell) uses the same module for the **window drop shadow** and rounded frame. Install on distro Qt:
 
 ```bash
 sudo apt install qml6-module-qtquick-effects libqt6quickeffects6
 ```
 
-Without it, cards/flyouts fall back to `ElevatedChrome_Simple` (see Qt compat docs).
+Without it, cards/flyouts fall back to `ElevatedChrome_Simple` (see Qt compat docs). Shell shadow needs Effects at runtime on Linux.
 
 ## Display server / desktop
 
@@ -140,6 +142,9 @@ WindowHelper.portalParentWindow(win)  // 1.68 live parent_window string
 WindowHelper.devicePixelRatio
 WindowHelper.systemPrefersDark
 WindowHelper.supportsBackdrop         // false on Linux
+WindowHelper.clientShellDecoration    // true on Linux CSD — QML corners + shadow
+WindowHelper.shellCornerRadius()      // px radius from cornerPreference
+WindowHelper.shellShadowMargin()      // padding for drop shadow (normal state)
 WindowHelper.resolveBackdrop(kind)    // coerce unsupported materials → Solid
 WindowHelper.refreshColorScheme()
 WindowHelper.requestActivateWindow(win)

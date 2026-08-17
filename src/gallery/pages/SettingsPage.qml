@@ -210,9 +210,11 @@ Page {
             }
 
             SettingsCard {
-                enabled: WindowHelper.nativeChrome
+                enabled: WindowHelper.nativeChrome || WindowHelper.clientShellDecoration
                 title: qsTr("Window corners")
-                description: qsTr("DWM corner preference — round (Win11), round small, or square.")
+                description: WindowHelper.clientShellDecoration
+                             ? qsTr("Linux / Wayland client shell — rounded window + DWM-like shadow (QtQuick.Effects). Same keys as Windows DWM preference.")
+                             : qsTr("DWM corner preference — round (Win11), round small, or square.")
                 symbol: FluentIcons.Picture
                 action: ComboBox {
                     id: cornerBox

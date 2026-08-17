@@ -108,6 +108,16 @@ CatalogPage {
                     .arg(WindowHelper.serverSideDecorations)
                     .arg(WindowHelper.customFrame)
             }
+            Label {
+                visible: WindowHelper.clientShellDecoration
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                color: Theme.textSecondary
+                text: qsTr("Client shell: corner=%1px · shadow margin=%2 · expanded=%3")
+                    .arg(WindowHelper.shellCornerRadius().toFixed(0))
+                    .arg(WindowHelper.shellShadowMargin())
+                    .arg(WindowHelper.shellChromeExpanded(Window.window))
+            }
             Switch {
                 text: qsTr("Follow system color scheme")
                 checked: Theme.followSystemColorScheme

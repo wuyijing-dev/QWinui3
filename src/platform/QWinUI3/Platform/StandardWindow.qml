@@ -71,7 +71,9 @@ ApplicationWindow {
     // recreates the HWND in a CreateWindowEx failure loop on Windows.
     flags: WindowHelper.recommendedFlags
 
-    color: Theme.bgLayer
+    readonly property int shellPadding: 0
+
+    color: WindowHelper.clientShellDecoration ? "transparent" : Theme.bgLayer
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
 
@@ -85,11 +87,8 @@ ApplicationWindow {
         preferredHeightOption: root.preferredHeightOption
     }
 
-    background: Rectangle {
-        color: (root.effectiveBackdrop === WindowHelper.BackdropSolid
-                || root.effectiveBackdrop === WindowHelper.BackdropNone)
-               ? Theme.bgLayer
-               : "transparent"
+    background: WindowShellDecoration {
+        targetWindow: root
     }
 
     WindowResizeBorder {

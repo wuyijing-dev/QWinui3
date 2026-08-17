@@ -7,6 +7,7 @@
 #include <QWindow>
 
 // Linux / Wayland: client-side Fluent chrome (Frameless + PlatformTitleBar).
+// Rounded corners + drop shadow are drawn in QML (WindowShellDecoration) to match Windows DWM.
 // Detection: WindowHelper.displayServer / wayland / x11.
 void WindowHelper::applyNative(QWindow *window, bool dark, int backdrop)
 {
@@ -18,9 +19,18 @@ void WindowHelper::applyNative(QWindow *window, bool dark, int backdrop)
         window->setFlag(Qt::FramelessWindowHint, true);
 
     const bool wantAlpha = backdrop != BackdropSolid && backdrop != BackdropNone;
-    if (wantAlpha) {
-        // QWindow has no setColor; only QQuickWindow does.
-        if (auto *quick = qobject_cast<QQuickWindow *>(window)) {
+    if (auto *quick = qobject_cast<QQuickWindow *>(window)) {
+        if (clientShellDecoration()) {
+            // Transparent host — WindowShellDecoration draws fill + shadow in QML.
+            quick->setColor(QColor(0, 0, 0, 0));
+            if (!quick->handle()) {
+                QSurfaceFormat fmt = quick->format();
+                if (fmt.alphaBufferSize() < 8) {
+                    fmt.setAlphaBufferSize(8);
+                    quick->setFormat(fmt);
+                }
+            }
+        } else if (wantAlpha) {
             quick->setColor(QColor(0, 0, 0, 0));
             // Request an alpha buffer so Mutter/KWin can composite translucency.
             // Only effective before the platform window is fully created.

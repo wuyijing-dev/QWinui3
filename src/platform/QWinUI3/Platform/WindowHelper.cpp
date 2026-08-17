@@ -994,6 +994,47 @@ bool WindowHelper::supportsBackdrop() const
 #endif
 }
 
+bool WindowHelper::clientShellDecoration() const
+{
+#if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
+    return customFrame() && !supportsBackdrop();
+#else
+    return false;
+#endif
+}
+
+qreal WindowHelper::shellCornerRadius() const
+{
+    switch (m_corner) {
+    case CornerDoNotRound:
+        return 0.0;
+    case CornerRoundSmall:
+        return 4.0;
+    case CornerDefault:
+    case CornerRound:
+    default:
+        return 8.0;
+    }
+}
+
+int WindowHelper::shellShadowMargin() const
+{
+    if (!clientShellDecoration())
+        return 0;
+    return 10;
+}
+
+bool WindowHelper::shellChromeExpanded(QObject *windowObject) const
+{
+    QWindow *window = resolveWindow(windowObject);
+    if (!window)
+        window = m_window;
+    if (!window)
+        return true;
+    const auto vis = window->visibility();
+    return vis != QWindow::Maximized && vis != QWindow::FullScreen;
+}
+
 int WindowHelper::resolveBackdrop(int backdrop) const
 {
     if (backdrop < BackdropAuto || backdrop > BackdropSolid)
