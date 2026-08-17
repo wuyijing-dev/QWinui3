@@ -1,9 +1,9 @@
 # QWinUI3 Roadmap
 
 **Current:** **1.85**
-**Next up:** **1.86** — Runtime performance (shell + controls)
+**Next up:** **1.86** — Performance wave 1 (shell & window runtime)
 **Planned through:** **2.00** (1.xx close-out **1.83…1.90**, then breaking line)
-**Still 1.xx until 1.90:** Long-horizon checkpoint — [docs/checkpoint-178.md](docs/checkpoint-178.md). **1.85** a11y wave 3 (focus return / live regions). **1.86** is frame cost after startup — **Platform shells and Extras/Style controls**, not another handbook (**1.25**) or cold-start slice (**1.39**). OSK/IME stays experimental until a named green soak (**1.87**). **Do not implement 2.00 before 1.90.**  
+**Still 1.xx until 1.90:** Long-horizon checkpoint — [docs/checkpoint-178.md](docs/checkpoint-178.md). **1.85** a11y wave 3. **1.86…1.89** is a **four-minor performance arc** (whole tag = perf code + docs each time; **animations stay** — optimize implementation, do not strip WinUI motion). Builds on handbook **1.25** + cold start **1.39**. OSK/IME promote and consumer packaging **slip to 2.01+** after the arc. **Do not implement 2.00 before 1.90.**  
 **Qt:** 6.5+ (recommended 6.8 LTS) through 1.xx — [qt-version-compat.md](docs/qt-version-compat.md). **2.00** may raise the floor.
 
 This plan starts from **what 1.00 already was**, then walks **small `1.xx` minors** through a **1.90 close-out**, then a named **2.00** breaking line. **2.00 is not the next tag.**
@@ -428,11 +428,11 @@ Finish **1.xx** as named slices (**1.83…1.90**), then a **breaking 2.00**. Do 
 | **1.83** | Floating OSK / SendInput field harden | **Shipped** |
 | **1.84** | Consumer floating-OSK recipe | **Shipped** |
 | **1.85** | Accessibility wave 3 | **Shipped** |
-| **1.86** | Runtime performance (shell + controls) | **Next** |
-| **1.87** | OSK / IME green soak + promote | Planned |
-| **1.88** | Consumer packaging beyond the 1.61 sketch | Planned |
-| **1.89** | 1.xx close-out checkpoint | Planned |
-| **1.90** | Last 1.xx hold + 2.00 deprecation notices | Planned |
+| **1.86** | Performance wave 1 — shell & window runtime | **Next** |
+| **1.87** | Performance wave 2 — navigation & page stack | Planned |
+| **1.88** | Performance wave 3 — lists & data collections | Planned |
+| **1.89** | Performance wave 4 — style, charts & Gallery heavy pages | Planned |
+| **1.90** | 1.xx close-out + perf regression notes + 2.00 prep | Planned |
 | **2.00** | Breaking baseline | Planned — **after 1.90** |
 
 ### 1.83 — Floating OSK field harden (shipped)
@@ -450,94 +450,97 @@ Finish **1.xx** as named slices (**1.83…1.90**), then a **breaking 2.00**. Do 
 **Out**
 
 - Full catalog audit as a mega-minor
-- OSK promote (**1.87**)
+- OSK promote (**2.01+**, after perf arc)
 
-### 1.86 — Runtime performance (shell + controls) (planned)
+### Performance arc (1.86…1.89)
 
-**Theme:** cheaper frames **after** the app is up — both **window chrome** and **in-tree controls**. **1.25** is the list/chart handbook; **1.39** is Gallery cold start. This minor ships **code + docs**, not another checklist-only release.
+Four consecutive minors; **each ships only performance work** (Platform / Extras / Style / Gallery + [performance.md](docs/performance.md) rows). Not a fifth handbook — extends **1.25** / **1.39**.
 
-Field drivers: dark Gallery + Round corners + D3D12 → intermittent 1px light ring; restore / refocus hitch while DWM reapply runs; pane collapse blank-column fixed post-**1.85**; scrolling / filtering / page transitions still stutter on heavy Gallery pages (DataTable, Charts, TabView, nav rail).
+| Rule | Detail |
+|------|--------|
+| **Animations stay** | Pane collapse, page transitions, control press/hover motion unchanged to the user — trim no-op animators, defer shadows, debounce model rebuilds |
+| **Measure** | Gallery `--startup-log` / `--smoke` timings stay advisory; optional heavy-page checklist grows each wave |
+| **Out for the arc** | Chart GPU rewrite, custom virtualization engine, built-in profiler, changing Gallery default RHI off OpenGL |
 
-**In — Platform / shell**
+### 1.86 — Performance wave 1: shell & window runtime (planned)
+
+**Theme:** cheaper **Platform** frames after the app is up — focus restore, DWM, solid host fill.
+
+**In**
 
 - Solid hosts: `QQuickWindow` clear color matches layer fill — never `Qt::white` (round-corner AA fringe)
-- Pin `DWMWA_BORDER_COLOR` to that fill on Solid; reapply immediately on activate (do not wait for 80/250 ms timers to hide a white system ring)
+- Pin `DWMWA_BORDER_COLOR` to that fill on Solid; reapply immediately on activate (do not wait for 80/250 ms timers)
 - Solid shells: skip extra deferred DWM reapply on every focus-in; keep delayed reapply for Mica/Acrylic only
-- `NavigationView`: no no-op StackView scale/x/y animators on `slide` / `fade`; restore pane width animation with `_paneShowsLabels` so collapse stays smooth without a blank column
-
-**In — Extras / Style (high-traffic controls)**
-
-- **Lists / tables:** `DataTable` / `ItemsView` / `ListDetailsView` — debounce filter rebuilds; keep delegates thin under `reuseItems`; avoid full `_viewRows` walks when the query unchanged
-- **Navigation / tabs:** `NavigationView` compact flyout / group expand; `TabView` tab strip — trim redundant `Behavior` / `MultiEffect` work; honor `Theme.reducedMotion`
-- **Chrome / elevation:** `ElevatedChrome` / card shadows — defer or fall back to `ElevatedChrome_Simple` when effects are off or motion reduced
-- **Charts / gauges:** cap live redraw / reveal animation cost on Gallery heavy pages (point budget from **1.25**)
-- **Style hot path:** Button / TextField / Switch / ListTile — fewer idle `Behavior` bindings when not hovered or when `Theme.reducedMotion`
-- Gallery **Performance** callout (or Settings card): which pages are heavy + what **1.86** changed
-- [performance.md](docs/performance.md): shell restore / DWM fringe / RHI note + **control-level** wins (filter debounce, shadow defer, transition trim)
+- [performance.md](docs/performance.md): shell restore / DWM fringe / RHI note (D3D12 vs OpenGL for frost)
 
 **Out**
 
-- Full catalog perf audit (every Gallery page) as a mega-minor
-- Chart GPU rewrite / custom virtualization engine / built-in profiler (**1.25** out-of-scope)
-- Changing Gallery default RHI off OpenGL
-- OSK promote (**1.87**)
-- Consumer packaging (**1.88**)
+- NavigationView / DataTable / Style (later waves)
+- OSK / packaging
 
-### 1.87 — OSK / IME green soak + promote (planned)
+### 1.87 — Performance wave 2: navigation & page stack (planned)
 
-**Theme:** the promote that **1.74** wrote a checklist for and did **not** ship.
+**Theme:** shell **navigation** and page transitions — smooth motion kept, less wasted work per frame.
 
 **In**
 
-- Re-run 1.74 Gallery language-matrix + floating / system-wide checklist; record **green** or slip
-- If green: list `OnScreenKeyboard` / `OnScreenKeyboardWindow` / `KeyboardEngine` / `ImeCandidateBar` on [stable-api.md](docs/stable-api.md) with honest Windows system-wide limits
-- If not green: stay experimental; slip promote — **do not** start 2.00 to “force” it
+- `NavigationView`: no no-op StackView scale/x/y on `slide` / `fade`; pane width animation + `_paneShowsLabels` (no blank column)
+- `NavigationView`: compact flyout / group expand — defer `MultiEffect`; honor `Theme.reducedMotion`
+- `TabView` tab strip: trim redundant `Behavior` when idle
+- `pageCacheLimit` / transition docs refresh; Gallery Settings perf card starts (wave tracker)
 
 **Out**
 
-- Japanese kanji / cloud lexicon / handwriting (parking lot)
-- Linux system-wide inject
+- DataTable filter path (**1.88**)
+- Style-wide sweep (**1.89**)
 
-### 1.88 — Consumer packaging (planned)
+### 1.88 — Performance wave 3: lists & data collections (planned)
 
-**Theme:** `find_package` / shared kit beyond the **1.61** sketch — only if we own the promise.
+**Theme:** virtualized **lists & tables** at scale.
 
 **In**
 
-- Documented `find_package(QWinUI3)` path that a clean clone can follow ([packaging-consumer.md](docs/packaging-consumer.md))
-- Optional: owned vcpkg **or** Conan sketch — not both unless one is already used in CI
+- `DataTable` / `ItemsView` / `ListDetailsView` / `ItemsRepeater`: debounce filter/sort rebuilds; skip full `_viewRows` walks when query unchanged
+- Thinner delegates under `reuseItems`; document role/model patterns in [performance.md](docs/performance.md)
+- Gallery **DataTable** / **ItemsView** / **ListDetailsView** pages: call out what changed
 
 **Out**
 
-- Official ports as a supported product if nobody will maintain them (keep parking)
+- Canvas chart engines (**1.89**)
+- C++ model requirement for apps (document only unless a clear win lands in-tree)
 
-### 1.89 — 1.xx close-out checkpoint (planned)
+### 1.89 — Performance wave 4: style, charts & Gallery heavy pages (planned)
 
-**Theme:** same job as [checkpoint-178.md](docs/checkpoint-178.md), for the **end** of 1.xx.
+**Theme:** **Style hot path**, elevation, charts, and Gallery **heavyComponents()** pass.
 
 **In**
 
-- Publish `docs/checkpoint-190.md` (or 1.89 — name at ship time): docs-link OK, Gallery catalog count, freeze still accurate
-- Inventory **what 2.00 is allowed to break** (Theme names, shell aliases, Qt floor)
-- Confirm OSK promote status from 1.87
+- `ElevatedChrome` — defer or fall back to `ElevatedChrome_Simple` when effects off / reduced motion
+- Style: Button / TextField / Switch / ListTile — fewer idle `Behavior` bindings when not hovered
+- Charts / gauges: cap live redraw & reveal animation cost (point budget from **1.25**)
+- Gallery heavy pages (Charts, FontIcon, WebView2, Media, …): defer `Loader` / shadow / MultiEffect where missing
+- [performance.md](docs/performance.md): control-level wins summary for the full arc
 
 **Out**
 
-- Breaking remaps (those wait for **2.00**)
+- Full catalog perf audit (every Gallery page) as one tag
+- Chart GPU rewrite
 
-### 1.90 — Last 1.xx hold (planned)
+### 1.90 — 1.xx close-out (planned)
 
-**Theme:** one minor of **warnings and docs**, no silent breaks.
+**Theme:** end **1.xx** with checkpoint + **performance arc** sign-off + **2.00** prep — not new perf features.
 
 **In**
 
+- Publish `docs/checkpoint-190.md`: docs-link OK, Gallery catalog count, freeze accurate, **1.86…1.89 perf checklist green**
 - [upgrade-notes.md](docs/upgrade-notes.md) draft **1.90 → 2.00** (Qt floor, remaps, removed experimentals)
+- [ci-smoke.md](docs/ci-smoke.md): note perf timing advisory from the arc
 - Gallery / README: “1.xx freeze ends at 2.00”
-- Optional compile-time or runtime notices behind a switch — **defaults stay 1.xx compatible**
 
 **Out**
 
-- Actually dropping Qt 6.5 or renaming `Theme.bgCard` (that is **2.00**)
+- Actually dropping Qt 6.5 or renaming Theme tokens (**2.00**)
+- OSK promote / packaging ( **2.01+** )
 
 ---
 
@@ -552,10 +555,10 @@ Field drivers: dark Gallery + Round corners + D3D12 → intermittent 1px light r
 | Area | 2.00 intent |
 |------|-------------|
 | **Qt floor** | Drop **Qt 6.5**. Floor **6.8 LTS** (forward 6.10+). Update [qt-version-compat.md](docs/qt-version-compat.md) + CI matrix. |
-| **Theme** | Only remaps listed in the 1.89 inventory (example: collapse duplicate stroke/focus aliases). **Not** a Fluent 2 redesign. |
+| **Theme** | Only remaps listed in the **1.90** inventory (example: collapse duplicate stroke/focus aliases). **Not** a Fluent 2 redesign. |
 | **Shell** | Remove Gallery-era aliases that 1.xx kept for compatibility; keep `StandardWindow` / `NavigationWindow` / `WindowHelper` as the contract. |
-| **Experimental leftover** | Types still experimental after 1.87 either promote, move to an explicit experimental module, or **remove** with an upgrade-notes row. |
-| **Packaging** | `QWINUI3_VERSION` `2.00`; shared/static defaults only change if 1.88 already documented the new contract. |
+| **Experimental leftover** | Types still experimental after **2.01** OSK slice either promote, move to an explicit experimental module, or **remove** with an upgrade-notes row. |
+| **Packaging** | `QWINUI3_VERSION` `2.00`; shared/static defaults only change if **2.01+** documents the new contract. |
 
 ### Does not ship in 2.00 (out)
 
@@ -576,10 +579,12 @@ Apps on **1.90** read [upgrade-notes.md](docs/upgrade-notes.md) **1.90 → 2.00*
 
 | Slice | Notes |
 |-------|--------|
+| **2.01** | OSK / IME green soak + promote (was pre-arc **1.87**) |
+| **2.02** | Consumer packaging beyond the **1.61** sketch (was pre-arc **1.88**) |
 | **2.01+** | Field harden on the new floor |
 | **2.01+** | macOS first-class — only if scheduled |
 | **2.01+** | Fluent 2 Style fork — only if scheduled |
-| **2.01+** | Official vcpkg/Conan if 1.88 did not own them |
+| **2.01+** | Official vcpkg/Conan productize |
 
 ---
 
@@ -594,7 +599,9 @@ Unscheduled; pick up only inside a named `1.xx` or `2.xx` minor (or never). Clar
 - Community translation portal / every-locale coverage (seeds `zh_CN` / `ja_JP` enough for 1.xx)
 - Full Lottie runtime as a hard product dependency (thin glyph path shipped in 1.53)
 - New chart engines / WebGL
-- Official vcpkg/Conan ports as supported products (sketch may ship in 1.61 / productize in **1.88**)
+- Official vcpkg/Conan ports as supported products (sketch in **1.61**; productize **2.02+**)
+- OSK / IME promote green soak (parked until **2.01** — perf arc **1.86…1.89** first)
+- Consumer `find_package` productize (parked until **2.02**)
 - Custom ink / handwriting canvas (out of 1.57 touch cookbook; out of 1.70…1.73 IME)
 - Dictation / cloud IME lexicon (out of 1.73 full in-app IME)
 - Qt Virtual Keyboard (GPL/commercial — **never**)
