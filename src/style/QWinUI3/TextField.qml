@@ -55,7 +55,7 @@ T.TextField {
         border.color: Theme.strokeControl
 
         Behavior on color {
-            enabled: !Theme.reducedMotion
+            enabled: !Theme.reducedMotion && (control.hovered || control.activeFocus)
             ColorAnimation {
                 duration: Theme.duration(Theme.motionNormal)
                 easing.type: Theme.easingStandard
@@ -73,14 +73,14 @@ T.TextField {
             opacity: control.activeFocus ? 1 : 0.85
 
             Behavior on height {
-                enabled: !Theme.reducedMotion
+                enabled: !Theme.reducedMotion && (control.activeFocus || control.hovered)
                 NumberAnimation {
                     duration: Theme.duration(Theme.motionNormal)
                     easing.type: Theme.easingStandard
                 }
             }
             Behavior on color {
-                enabled: !Theme.reducedMotion
+                enabled: !Theme.reducedMotion && (control.activeFocus || control.hovered)
                 ColorAnimation {
                     duration: Theme.duration(Theme.motionNormal)
                     easing.type: Theme.easingStandard

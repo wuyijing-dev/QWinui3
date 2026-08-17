@@ -47,6 +47,19 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.88 → 1.89
+
+**Product version:** 1.89  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Performance wave 4 (style/charts):** ElevatedChrome shadow defer; Style idle Behavior trim; chart reveal budget + coalesced redraw; Gallery heavy-page deferrals. [performance.md](performance.md).
+
+#### No action (compatible)
+
+- Theme / shell API unchanged. Interaction animations unchanged. Next: **1.90** close-out.
+
 ### Upgrade 1.87 → 1.88
 
 **Product version:** 1.88  

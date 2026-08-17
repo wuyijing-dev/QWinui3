@@ -24,6 +24,12 @@ CatalogPage {
     readonly property bool showHost: probe.available && probe.runtimeInstalled
     readonly property bool showMissingRuntime: probe.available && !probe.runtimeInstalled
     readonly property bool showNotBuilt: !probe.available
+    property bool hostLoaderReady: false
+
+    Component.onCompleted: Qt.callLater(function () {
+        if (page && page.showHost)
+            page.hostLoaderReady = true
+    })
 
     ControlExample {
         headerText: qsTr("Trust boundary (1.64)")
@@ -154,7 +160,7 @@ CatalogPage {
                     id: hostLoader
                     anchors.fill: parent
                     anchors.margins: 1
-                    active: page.showHost
+                    active: page.showHost && page.hostLoaderReady
                     sourceComponent: webComp
                 }
 

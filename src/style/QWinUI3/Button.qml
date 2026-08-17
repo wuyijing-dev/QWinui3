@@ -102,13 +102,14 @@ T.Button {
 
         Behavior on color {
             enabled: !Theme.reducedMotion
+                     && (control.hovered || control.down || control.accented)
             ColorAnimation {
                 duration: Theme.duration(Theme.motionNormal)
                 easing.type: Theme.easingStandard
             }
         }
         Behavior on scale {
-            enabled: !Theme.reducedMotion
+            enabled: !Theme.reducedMotion && (control.down || control.hovered)
             NumberAnimation {
                 duration: Theme.duration(Theme.motionFast)
                 easing.type: Theme.easingStandard
@@ -122,7 +123,7 @@ T.Button {
         scale: control.down && !Theme.reducedMotion ? 0.98 : 1
 
         Behavior on scale {
-            enabled: !Theme.reducedMotion
+            enabled: !Theme.reducedMotion && (control.down || control.hovered)
             NumberAnimation {
                 duration: Theme.duration(Theme.motionFast)
                 easing.type: Theme.easingStandard
@@ -180,6 +181,8 @@ T.Button {
 
                 Behavior on color {
                     enabled: !Theme.reducedMotion
+                             && (control.hovered || control.down || control.accented
+                                 || (!control.flat && control.enabled))
                     ColorAnimation {
                         duration: Theme.duration(Theme.motionNormal)
                         easing.type: Theme.easingStandard

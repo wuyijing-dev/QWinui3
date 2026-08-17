@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Effects
+import QWinUI3.Theme
 
 // ElevatedChrome — Shared elevated shadow/border chrome (WinUI-style soft shadow).
 //
@@ -7,6 +8,7 @@ import QtQuick.Effects
 //
 // Requires QtQuick.Effects (MultiEffect) when QWINUI3_HAVE_QUICK_EFFECTS is on.
 // Without Effects, CMake substitutes ElevatedChrome_Simple.qml (same API, no blur).
+// MultiEffect deferred one frame; skipped when Theme.reducedMotion (1.89).
 // Debian/Ubuntu: sudo apt install qml6-module-qtquick-effects libqt6quickeffects6
 
 Item {
@@ -33,15 +35,22 @@ Item {
     // Enable antialiased drawing
     property alias antialiasing: face.antialiasing
 
+    property bool _shadowReady: false
+
+    Component.onCompleted: Qt.callLater(function () {
+        if (root)
+            root._shadowReady = true
+    })
+
     // Soft shadow caster: nearly invisible fill, MultiEffect paints the blur behind the face.
     Rectangle {
         id: shadowCaster
         anchors.fill: parent
         radius: root.radius
         color: "#01000000"
-        visible: root.elevated && root.elevation > 0
+        visible: root.elevated && root.elevation > 0 && !Theme.reducedMotion
         z: -1
-        layer.enabled: visible
+        layer.enabled: visible && root._shadowReady
         layer.smooth: true
         layer.effect: MultiEffect {
             shadowEnabled: true

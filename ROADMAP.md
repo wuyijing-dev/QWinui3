@@ -1,9 +1,9 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.88**
-**Next up:** **1.89** — Performance wave 4 (style, charts & Gallery heavy pages)
+**Current:** **1.89**
+**Next up:** **1.90** — 1.xx close-out + perf sign-off + 2.00 prep
 **Planned through:** **2.00** (1.xx close-out **1.83…1.90**, then breaking line)
-**Still 1.xx until 1.90:** Long-horizon checkpoint — [docs/checkpoint-178.md](docs/checkpoint-178.md). **1.86…1.88** perf waves shipped. **1.89** continues the arc (**animations stay**). OSK/packaging **2.01+**. **Do not implement 2.00 before 1.90.**  
+**Still 1.xx until 1.90:** Long-horizon checkpoint — [docs/checkpoint-178.md](docs/checkpoint-178.md). **1.86…1.89** performance arc **shipped** (**animations stay**). **1.90** close-out next. OSK/packaging **2.01+**. **Do not implement 2.00 before 1.90.**  
 **Qt:** 6.5+ (recommended 6.8 LTS) through 1.xx — [qt-version-compat.md](docs/qt-version-compat.md). **2.00** may raise the floor.
 
 This plan starts from **what 1.00 already was**, then walks **small `1.xx` minors** through a **1.90 close-out**, then a named **2.00** breaking line. **2.00 is not the next tag.**
@@ -431,8 +431,8 @@ Finish **1.xx** as named slices (**1.83…1.90**), then a **breaking 2.00**. Do 
 | **1.86** | Performance wave 1 — shell & window runtime | **Shipped** |
 | **1.87** | Performance wave 2 — navigation & page stack | **Shipped** |
 | **1.88** | Performance wave 3 — lists & data collections | **Shipped** |
-| **1.89** | Performance wave 4 — style, charts & Gallery heavy pages | **Next** |
-| **1.90** | 1.xx close-out + perf regression notes + 2.00 prep | Planned |
+| **1.89** | Performance wave 4 — style, charts & Gallery heavy pages | **Shipped** |
+| **1.90** | 1.xx close-out + perf regression notes + 2.00 prep | **Next** |
 | **2.00** | Breaking baseline | Planned — **after 1.90** |
 
 ### 1.83 — Floating OSK field harden (shipped)
@@ -488,17 +488,9 @@ Four consecutive minors; **each ships only performance work** (Platform / Extras
 - Canvas chart engines (**1.89**)
 - C++ model requirement for apps (document only)
 
-### 1.89 — Performance wave 4: style, charts & Gallery heavy pages (planned)
+### 1.89 — Performance wave 4: style, charts & Gallery heavy pages (shipped)
 
-**Theme:** **Style hot path**, elevation, charts, and Gallery **heavyComponents()** pass.
-
-**In**
-
-- `ElevatedChrome` — defer or fall back to `ElevatedChrome_Simple` when effects off / reduced motion
-- Style: Button / TextField / Switch / ListTile — fewer idle `Behavior` bindings when not hovered
-- Charts / gauges: cap live redraw & reveal animation cost (point budget from **1.25**)
-- Gallery heavy pages (Charts, FontIcon, WebView2, Media, …): defer `Loader` / shadow / MultiEffect where missing
-- [performance.md](docs/performance.md): control-level wins summary for the full arc
+**Shipped:** `ElevatedChrome` defers `MultiEffect` one frame; skips shadow when `Theme.reducedMotion`. Style hot path: Button / TextField / Switch / ListTile idle `Behavior` bindings gated on hover/focus/press (motion unchanged when interacting). Stable charts (Line/Bar/Donut): `ChartUtils.revealAnimationPointBudget` (500) + coalesced canvas redraw (~16 ms). Gallery: FontIcon filter debounce; Charts deferred Pie/Sparkline `Loader`; WebView2 host deferred one frame. [performance.md](docs/performance.md) style/charts section + arc summary. Product version `1.89`.
 
 **Out**
 

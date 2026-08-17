@@ -11,13 +11,20 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("Iconography")
-    subtitle: qsTr("FluentIcons browser + hover/press micro-motion (1.49). Size / color / a11y: docs/icons.md.")
+    subtitle: qsTr("FluentIcons browser + hover/press micro-motion (1.49). Filter debounced (1.89). Size / color / a11y: docs/icons.md.")
 
     property int selectedIndex: 0
+    property string _filterDebounced: ""
+
+    Timer {
+        id: filterDebounce
+        interval: 120
+        onTriggered: page._filterDebounced = filterBox.text.trim()
+    }
 
     readonly property var allEntries: FluentIconsCatalog.entries
     readonly property var filteredEntries: {
-        var q = filterBox.text.trim().toLowerCase()
+        var q = page._filterDebounced.toLowerCase()
         var src = allEntries
         if (!src || !src.length)
             return []
@@ -180,6 +187,8 @@ CatalogPage {
                 Layout.fillWidth: true
                 placeholderText: qsTr("Search icons by name, code, or tags")
                 Accessible.name: qsTr("Search icons")
+                onTextChanged: filterDebounce.restart()
+                Component.onCompleted: page._filterDebounced = text.trim()
             }
 
             Label {

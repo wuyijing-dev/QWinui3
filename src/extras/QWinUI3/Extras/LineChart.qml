@@ -109,18 +109,26 @@ T.Control {
     }
 
     Behavior on revealProgress {
-        enabled: root.animated && !Theme.reducedMotion && root.sourcePointCountEstimate() < ChartUtils.largeSeriesThreshold
+        enabled: ChartUtils.shouldAnimateReveal(root.sourcePointCountEstimate(), root.animated)
         NumberAnimation {
             duration: Theme.duration(Theme.motionSlow)
             easing.type: Theme.easingEnter
         }
     }
 
+    Timer {
+        id: redrawCoalesce
+        interval: ChartUtils.redrawCoalesceMs
+        repeat: false
+        onTriggered: canvas.requestPaint()
+    }
+
     // Play entrance reveal animation
     function playReveal() {
         invalidateLod()
-        var huge = root.sourcePointCountEstimate() >= ChartUtils.largeSeriesThreshold
-        if (!root.animated || Theme.reducedMotion || huge) {
+        var pts = root.sourcePointCountEstimate()
+        var huge = pts >= ChartUtils.largeSeriesThreshold
+        if (!ChartUtils.shouldAnimateReveal(pts, root.animated) || huge) {
             // Assign without Behavior: force full series visible immediately.
             revealProgress = 1
             requestRedraw()
@@ -190,8 +198,8 @@ T.Control {
         return packs
     }
 
-    // Request chart / canvas redraw
-    function requestRedraw() { canvas.requestPaint() }
+    // Request chart / canvas redraw (coalesced per frame — 1.89)
+    function requestRedraw() { redrawCoalesce.restart() }
 
     onSeriesChanged: { hoverIndex = -1; invalidateLod(); Qt.callLater(playReveal) }
     onValuesChanged: { hoverIndex = -1; invalidateLod(); Qt.callLater(playReveal) }

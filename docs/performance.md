@@ -1,4 +1,4 @@
-# Performance handbook (1.25 / 1.39 / 1.86 / 1.88)
+# Performance handbook (1.25 / 1.39 / 1.86–1.89)
 
 Practical guidance for **large lists**, **DataTable**, **Canvas charts**, and **Gallery cold start**. QWinUI3 virtualizes through Qt Quick Controls `ListView` — there is no separate engine. Prefer these patterns before blaming the kit.
 
@@ -212,6 +212,34 @@ Virtualized tables and lists — **no visual change**, less work per keystroke.
 **Delegate pooling:** cache role strings in `readonly property` on the delegate root — avoids repeated `_roleValue` / `_cellText` walks when `reuseItems` recycles tiles.
 
 **Animations:** row highlight, selection, and list motion unchanged.
+
+---
+
+## Style, charts & Gallery heavy pages (1.89)
+
+**Animations stay** — hover, press, focus, and chart reveal still run when the user interacts.
+
+| Area | Change | Visual impact |
+|------|--------|----------------|
+| `ElevatedChrome` | `MultiEffect` enabled after first frame; off when `Theme.reducedMotion` | Shadow on open; flat when reduced motion |
+| Style `Button` / `TextField` / `Switch` | `Behavior` only when hovered / focused / pressed / toggled | Same motion on interaction |
+| `ListTile` | Color/scale `Behavior` when hovered / selected / pressed | Same row feedback |
+| Line / Bar / Donut charts | `revealAnimationPointBudget` (**500**); `requestRedraw` coalesced ~**16 ms** | Reveal skips only on huge series |
+| Gallery FontIcon | Filter debounced **120 ms** | Same grid, fewer full-catalog walks |
+| Gallery Charts / WebView2 | Deferred `Loader` for heavy/deferred demos | Stable charts paint first |
+
+---
+
+## Performance arc summary (1.86–1.89)
+
+| Wave | Version | Theme |
+|------|---------|--------|
+| 1 | **1.86** | Shell & window runtime — solid host fill, DWM focus path |
+| 2 | **1.87** | Navigation & page stack — per-axis transitions, flyout shadow defer |
+| 3 | **1.88** | Lists & data collections — debounced filter, skip unchanged rebuilds |
+| 4 | **1.89** | Style, charts & Gallery heavy pages — idle Behavior trim, chart budgets |
+
+Rule for the arc: **trim waste, not motion**. Sign-off checklist lands in **1.90** ([checkpoint-190.md](checkpoint-190.md) when published).
 
 ---
 

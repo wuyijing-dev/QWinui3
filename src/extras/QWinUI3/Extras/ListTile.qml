@@ -64,7 +64,7 @@ T.ItemDelegate {
 
     scale: down && !Theme.reducedMotion ? 0.995 : 1
     Behavior on scale {
-        enabled: !Theme.reducedMotion
+        enabled: !Theme.reducedMotion && (control.down || control.hovered)
         NumberAnimation {
             duration: Theme.duration(Theme.motionFast)
             easing.type: Theme.easingStandard
@@ -163,6 +163,8 @@ T.ItemDelegate {
 
             Behavior on color {
                 enabled: !Theme.reducedMotion
+                         && (control.hovered || control.down || control.isSelected
+                             || control.checked || control.highlighted)
                 ColorAnimation {
                     duration: Theme.duration(Theme.motionFast)
                     easing.type: Theme.easingStandard

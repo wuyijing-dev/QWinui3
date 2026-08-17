@@ -99,17 +99,26 @@ T.Control {
         return s
     }
 
+    readonly property int _sliceCount: _slices.length
+
     Behavior on revealProgress {
-        enabled: root.animated && !Theme.reducedMotion
+        enabled: ChartUtils.shouldAnimateReveal(_sliceCount, root.animated)
         NumberAnimation {
             duration: Theme.duration(Theme.motionSlow)
             easing.type: Theme.easingEnter
         }
     }
 
+    Timer {
+        id: redrawCoalesce
+        interval: ChartUtils.redrawCoalesceMs
+        repeat: false
+        onTriggered: canvas.requestPaint()
+    }
+
     // Play entrance reveal animation
     function playReveal() {
-        if (!root.animated || Theme.reducedMotion) {
+        if (!ChartUtils.shouldAnimateReveal(_sliceCount, root.animated)) {
             revealProgress = 1
             requestRedraw()
             return
@@ -119,7 +128,7 @@ T.Control {
     }
 
     // Request chart / canvas redraw
-    function requestRedraw() { canvas.requestPaint() }
+    function requestRedraw() { redrawCoalesce.restart() }
     onSlicesChanged: { hoverIndex = -1; Qt.callLater(playReveal) }
     onValuesChanged: { hoverIndex = -1; Qt.callLater(playReveal) }
     onThicknessChanged: requestRedraw()

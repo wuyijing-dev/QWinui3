@@ -117,7 +117,7 @@ Page {
 
             SettingsCard {
                 title: qsTr("Performance arc (1.86–1.89)")
-                description: qsTr("Four-wave perf plan — animations stay; trim no-op work only. Waves 1–3 shipped (1.86–1.88). docs/performance.md")
+                description: qsTr("Four-wave perf plan — animations stay; trim no-op work only. All four waves shipped (1.86–1.89). docs/performance.md")
                 symbol: FluentIcons.SpeedHigh
                 action: ColumnLayout {
                     spacing: 2
@@ -126,7 +126,7 @@ Page {
                             { wave: "1.86", theme: qsTr("Shell & window runtime"), status: qsTr("Shipped") },
                             { wave: "1.87", theme: qsTr("Navigation & page stack"), status: qsTr("Shipped") },
                             { wave: "1.88", theme: qsTr("Lists & data collections"), status: qsTr("Shipped") },
-                            { wave: "1.89", theme: qsTr("Style, charts & heavy pages"), status: qsTr("Planned") }
+                            { wave: "1.89", theme: qsTr("Style, charts & heavy pages"), status: qsTr("Shipped") }
                         ]
                         delegate: Label {
                             required property var modelData

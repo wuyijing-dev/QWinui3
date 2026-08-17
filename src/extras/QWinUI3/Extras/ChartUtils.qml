@@ -1,5 +1,6 @@
 pragma Singleton
 import QtQuick
+import QWinUI3.Theme
 
 // ChartUtils — LOD helpers for large chart series.
 //
@@ -18,6 +19,16 @@ import QtQuick
 QtObject {
     // Point count that triggers LOD
     readonly property int largeSeriesThreshold: 50000
+    // Reveal animation runs only up to this many points (1.25 / 1.89)
+    readonly property int revealAnimationPointBudget: 500
+    // Coalesce canvas repaints during reveal / hover (ms)
+    readonly property int redrawCoalesceMs: 16
+
+    // True when entrance reveal should animate (not snap)
+    function shouldAnimateReveal(pointCount, animated) {
+        return !!animated && !Theme.reducedMotion
+               && (pointCount | 0) <= revealAnimationPointBudget
+    }
 
     // Coerce input to number with fallback
     function asNumber(v, fallback) {

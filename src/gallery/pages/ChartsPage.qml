@@ -10,7 +10,9 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("Charts")
-    subtitle: qsTr("Stable six (1.23). Remaining charts/gauges deferred 1.66 — docs/charts.md.")
+    subtitle: qsTr("Stable six (1.23). Reveal budget + coalesced redraw (1.89). Remaining charts/gauges deferred 1.66 — docs/charts.md.")
+
+    property bool deferredChartsReady: false
 
     signal openControl(var item)
 
@@ -31,6 +33,24 @@ CatalogPage {
         var it = ControlCatalog.findByComponent(id)
         if (it)
             page.openControl(it)
+    }
+
+    Component.onCompleted: Qt.callLater(function () {
+        if (page)
+            page.deferredChartsReady = true
+    })
+
+    ControlExample {
+        headerText: qsTr("Performance (1.89)")
+        qmlSource: "// revealAnimationPointBudget: 500\n// redrawCoalesceMs: 16\n// docs/performance.md"
+        Text {
+            Layout.fillWidth: true
+            wrapMode: Text.WordWrap
+            text: qsTr("Stable Line/Bar/Donut charts coalesce canvas repaints (~16 ms) and skip reveal animation above ~500 points. ElevatedChrome defers MultiEffect one frame. Deferred Pie/Sparkline below load after first paint.")
+            font.family: Theme.fontFamily
+            font.pixelSize: Theme.fontBody
+            color: Theme.textSecondary
+        }
     }
 
     ControlExample {
@@ -107,11 +127,20 @@ CatalogPage {
                     { value: 12, label: qsTr("Docs"), color: Theme.systemSuccess }
                 ]
             }
-            PieChart {
+            Loader {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 140
-                values: [50, 30, 20]
+                active: page.deferredChartsReady
+                sourceComponent: pieComp
             }
+        }
+    }
+
+    Component {
+        id: pieComp
+        PieChart {
+            anchors.fill: parent
+            values: [50, 30, 20]
         }
     }
 
@@ -122,11 +151,20 @@ CatalogPage {
             Layout.fillWidth: true
             spacing: Theme.spacingLoose
             Label { text: qsTr("Live"); color: Theme.textSecondary }
-            Sparkline {
+            Loader {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 28
-                values: page.sparkData
+                active: page.deferredChartsReady
+                sourceComponent: sparkComp
             }
+        }
+    }
+
+    Component {
+        id: sparkComp
+        Sparkline {
+            anchors.fill: parent
+            values: page.sparkData
         }
     }
 }

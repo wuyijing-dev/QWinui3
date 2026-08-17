@@ -89,13 +89,14 @@ T.Switch {
 
             Behavior on color {
                 enabled: !Theme.reducedMotion
+                         && (control.hovered || control.down || control.checked)
                 ColorAnimation {
                     duration: Theme.duration(Theme.motionNormal)
                     easing.type: Theme.easingStandard
                 }
             }
             Behavior on border.width {
-                enabled: !Theme.reducedMotion
+                enabled: !Theme.reducedMotion && (control.hovered || control.checked)
                 NumberAnimation {
                     duration: Theme.duration(Theme.motionFast)
                     easing.type: Theme.easingStandard
@@ -128,6 +129,7 @@ T.Switch {
 
                     Behavior on color {
                         enabled: !Theme.reducedMotion
+                                 && (control.hovered || control.checked || control.down)
                         ColorAnimation {
                             duration: Theme.duration(Theme.motionNormal)
                             easing.type: Theme.easingStandard
@@ -136,7 +138,7 @@ T.Switch {
                 }
 
                 Behavior on scale {
-                    enabled: !Theme.reducedMotion
+                    enabled: !Theme.reducedMotion && (control.hovered || control.down)
                     NumberAnimation {
                         duration: Theme.duration(Theme.motionNormal)
                         easing.type: Theme.easingStandard
@@ -150,7 +152,7 @@ T.Switch {
                     }
                 }
                 Behavior on width {
-                    enabled: !Theme.reducedMotion
+                    enabled: !Theme.reducedMotion && (control.down || control.hovered)
                     NumberAnimation {
                         duration: Theme.duration(Theme.motionFast)
                         easing.type: Theme.easingStandard

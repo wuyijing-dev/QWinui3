@@ -83,17 +83,26 @@ T.Control {
         return out
     }
 
+    readonly property int _pointCount: _bars.length
+
     Behavior on revealProgress {
-        enabled: root.animated && !Theme.reducedMotion
+        enabled: ChartUtils.shouldAnimateReveal(_pointCount, root.animated)
         NumberAnimation {
             duration: Theme.duration(Theme.motionSlow)
             easing.type: Theme.easingEnter
         }
     }
 
+    Timer {
+        id: redrawCoalesce
+        interval: ChartUtils.redrawCoalesceMs
+        repeat: false
+        onTriggered: canvas.requestPaint()
+    }
+
     // Play entrance reveal animation
     function playReveal() {
-        if (!root.animated || Theme.reducedMotion) {
+        if (!ChartUtils.shouldAnimateReveal(_pointCount, root.animated)) {
             revealProgress = 1
             requestRedraw()
             return
@@ -103,7 +112,7 @@ T.Control {
     }
 
     // Request chart / canvas redraw
-    function requestRedraw() { canvas.requestPaint() }
+    function requestRedraw() { redrawCoalesce.restart() }
 
     onValuesChanged: Qt.callLater(playReveal)
     onBarsChanged: Qt.callLater(playReveal)
