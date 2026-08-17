@@ -5,10 +5,42 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 
 // Gallery — AutoSuggestBox.
+// Recipe: docs/search.md (1.59)
 
 CatalogPage {
+    id: page
     title: qsTr("AutoSuggestBox")
-    subtitle: qsTr("Fluent Search icon, ElevatedChrome list, and isSuggestionListOpen.")
+    subtitle: qsTr("Suggest-as-you-type — docs/search.md (1.59).")
+
+    signal openControl(var item)
+
+    function openComp(id) {
+        var it = ControlCatalog.findByComponent(id)
+        if (it)
+            page.openControl(it)
+    }
+
+    ControlExample {
+        headerText: qsTr("When to use (1.59)")
+        qmlSource: "// AutoSuggestBox — pick from list\n// SearchBox — search chrome\n// CommandPalette — Ctrl+K commands\n// docs/search.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Use AutoSuggestBox when typing should narrow a known list (forms, pickers). Prefer SearchBox for explicit search chrome. Global commands stay on CommandPalette (Ctrl+K). Interactive catalog + filter demos: Search recipes.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            Button {
+                text: qsTr("Open Search recipes")
+                highlighted: true
+                onClicked: page.openComp("SearchRecipesPage")
+            }
+        }
+    }
 
     ControlExample {
         headerText: qsTr("Suggestions")

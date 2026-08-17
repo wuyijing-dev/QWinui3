@@ -172,6 +172,7 @@ qt_add_qml_module(qwinui3_gallery
         pages/RelativePanelPage.qml
         pages/ScrollBarPage.qml
         pages/SearchBoxPage.qml
+        pages/SearchRecipesPage.qml
         pages/SegmentedControlPage.qml
         pages/SelectorBarPage.qml
         pages/SettingsCardPage.qml

@@ -124,6 +124,8 @@ MenuBar {
 | Need | Prefer |
 |------|--------|
 | App-wide searchable commands | **CommandPalette** |
+| Content / form suggestions | **AutoSuggestBox** / **SearchBox** — [search.md](search.md) (**1.59**) |
+| Filter an on-page list | Filter-above + model — [search.md](search.md) |
 | Always-visible page actions | **CommandBar** |
 | Few actions on a control | **MenuFlyout** / context menu |
 | Document-style File/Edit/Help | **MenuBar** |
@@ -132,4 +134,4 @@ MenuBar {
 
 ## Out of scope
 
-Ribbon redesign, VS tool windows, auto-binding every `keyboardAcceleratorText` to a global `Shortcut`.
+Ribbon redesign, VS tool windows, auto-binding every `keyboardAcceleratorText` to a global `Shortcut`. Content search engines — [search.md](search.md).

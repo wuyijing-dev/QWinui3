@@ -8,7 +8,9 @@ Text field with filtered suggestion popup.
 
 [← Component index](../components.md)
 
-**Gallery:** `AutoSuggestBox` — [`src/gallery/pages/AutoSuggestBoxPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/AutoSuggestBoxPage.qml)
+**Gallery:** `AutoSuggestBox` · `Search recipes` — [`AutoSuggestBoxPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/AutoSuggestBoxPage.qml) · [`SearchRecipesPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/SearchRecipesPage.qml)
+
+Recipe: [search.md](../search.md) (**1.59**).
 
 **Extends** `Control`.
 

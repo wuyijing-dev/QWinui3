@@ -8,7 +8,9 @@ Search field with suggestion list.
 
 [← Component index](../components.md)
 
-**Gallery:** `SearchBox` — [`src/gallery/pages/SearchBoxPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/SearchBoxPage.qml)
+**Gallery:** `SearchBox` · `Search recipes` — [`SearchBoxPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/SearchBoxPage.qml) · [`SearchRecipesPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/SearchRecipesPage.qml)
+
+Recipe: [search.md](../search.md) (**1.59**).
 
 **Extends** `Control`.
 

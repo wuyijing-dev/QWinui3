@@ -9,7 +9,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("ItemsView")
-    subtitle: qsTr("List recipe: sections, multi-select, keyboard, filter-above, empty state.")
+    subtitle: qsTr("List recipe: sections, multi-select, keyboard, filter-above — docs/search.md (1.59).")
 
     property var sampleModel: [
         { title: qsTr("Design doc"), subtitle: qsTr("Updated yesterday"), group: qsTr("Documents"), symbol: FluentIcons.Document },

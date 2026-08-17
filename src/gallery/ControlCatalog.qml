@@ -234,7 +234,7 @@ QtObject {
             title: qsTr("AutoSuggestBox"),
             category: "text",
             icon: FluentIcons.Search,
-            description: qsTr("A text field that suggests matching items as you type."),
+            description: qsTr("Suggest-as-you-type — docs/search.md (1.59)."),
             component: "AutoSuggestBoxPage",
             source: "pages/AutoSuggestBoxPage.qml"
         },
@@ -242,7 +242,7 @@ QtObject {
             title: qsTr("SearchBox"),
             category: "text",
             icon: FluentIcons.Search,
-            description: qsTr("A search field with clear button, without suggestion popup."),
+            description: qsTr("Search field + suggestions — docs/search.md (1.59)."),
             component: "SearchBoxPage",
             source: "pages/SearchBoxPage.qml"
         },
@@ -1357,6 +1357,14 @@ QtObject {
             description: qsTr("Chords → palette → dialogs → lists — docs/keyboard.md (1.44)."),
             component: "KeyboardFirstPage",
             source: "pages/KeyboardFirstPage.qml"
+        },
+        {
+            title: qsTr("Search recipes"),
+            category: "recipes",
+            icon: FluentIcons.Search,
+            description: qsTr("AutoSuggest · filter-above · catalog jump — docs/search.md (1.59)."),
+            component: "SearchRecipesPage",
+            source: "pages/SearchRecipesPage.qml"
         },
         {
             title: qsTr("GridTile"),

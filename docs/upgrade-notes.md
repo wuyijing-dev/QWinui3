@@ -47,6 +47,20 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.58 → 1.59
+
+**Product version:** 1.59  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- In-app search cookbook: [search.md](search.md) — AutoSuggestBox / SearchBox / filter-above vs CommandPalette.
+- Gallery **Search recipes** interactive demo; AutoSuggest / SearchBox / commands cross-links.
+
+#### No action (compatible)
+
+- Docs + Gallery only; existing controls unchanged.
+
 ### Upgrade 1.57 → 1.58
 
 **Product version:** 1.58  

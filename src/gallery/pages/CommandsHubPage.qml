@@ -28,7 +28,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("CommandPalette for Ctrl+K global actions. CommandBar / AppBarButton for page tool strips. MenuFlyout for context menus. MenuBar for classic menus with Action.shortcut. Keyboard-first cookbook: Keyboard-first page.")
+                text: qsTr("CommandPalette for Ctrl+K global actions. CommandBar / AppBarButton for page tool strips. MenuFlyout for context menus. MenuBar for classic menus with Action.shortcut. Content search / AutoSuggest: Search recipes (docs/search.md). Keyboard-first cookbook: Keyboard-first page.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
@@ -41,6 +41,7 @@ CatalogPage {
                     { label: qsTr("AppBarButton"), page: "AppBarButtonPage" },
                     { label: qsTr("MenuFlyout"), page: "MenuFlyoutPage" },
                     { label: qsTr("MenuBar"), page: "MenuBarPage" },
+                    { label: qsTr("Search recipes"), page: "SearchRecipesPage" },
                     { label: qsTr("Keyboard-first tour"), page: "KeyboardFirstPage" }
                 ]
                 delegate: RowLayout {

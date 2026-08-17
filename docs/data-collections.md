@@ -58,7 +58,7 @@ Example app: [`examples/master-detail`](../examples/master-detail/) (1.26) — t
 |-------|----------|
 | **Keyboard** | Arrows, Home/End, PageUp/Down, Enter; Space toggles multi-select; Ctrl+A; Esc clears. |
 | **Accessible (1.19)** | `accessibleName` + count/selection description; multi CheckBox ignored. |
-| **Filter** | Not built-in — put a `TextField` / `SearchBox` above and pass a filtered model (Gallery demo). |
+| **Filter** | Not built-in — put a `TextField` / `SearchBox` above and pass a filtered model (Gallery **ItemsView** + **Search recipes**, **1.59**) — [search.md](search.md). |
 | **Scale** | Prefer `QAbstractListModel` for large lists; shell enables `reuseItems`. |
 
 ---

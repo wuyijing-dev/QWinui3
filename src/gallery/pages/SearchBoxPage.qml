@@ -5,10 +5,41 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 
 // Gallery — SearchBox.
+// Recipe: docs/search.md (1.59)
 
 CatalogPage {
+    id: page
     title: qsTr("SearchBox")
-    subtitle: qsTr("Fluent Search/ChromeClose, ElevatedChrome suggestions, and Accessible.")
+    subtitle: qsTr("Search field + suggestions — docs/search.md (1.59).")
+
+    signal openControl(var item)
+
+    function openComp(id) {
+        var it = ControlCatalog.findByComponent(id)
+        if (it)
+            page.openControl(it)
+    }
+
+    ControlExample {
+        headerText: qsTr("When to use (1.59)")
+        qmlSource: "// SearchBox — query + clear\n// AutoSuggestBox — form suggest\n// docs/search.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("SearchBox pairs a search glyph, clear affordance, and suggestion popup for “find …” flows. AutoSuggestBox is the form-field cousin. Cookbook + catalog jump demo: Search recipes.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            Button {
+                text: qsTr("Open Search recipes")
+                onClicked: page.openComp("SearchRecipesPage")
+            }
+        }
+    }
 
     ControlExample {
         headerText: qsTr("Search + suggestions")

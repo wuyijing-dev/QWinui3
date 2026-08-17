@@ -95,6 +95,7 @@ nav:
       - Dialogs & flyouts: dialogs-flyouts.md
       - Commands & menus: commands.md
       - Keyboard-first: keyboard.md
+      - In-app search: search.md
       - Accessibility: accessibility.md
     - Platform & media:
       - System integration: system-integration.md

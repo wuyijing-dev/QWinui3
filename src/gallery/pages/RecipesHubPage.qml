@@ -175,6 +175,7 @@ CatalogPage {
                     { label: qsTr("Dialogs & flyouts / queue"), doc: "docs/dialogs-flyouts.md", page: "DialogsFlyoutsPage" },
                     { label: qsTr("Commands & menus"), doc: "docs/commands.md", page: "CommandsHubPage" },
                     { label: qsTr("Keyboard-first"), doc: "docs/keyboard.md", page: "KeyboardFirstPage" },
+                    { label: qsTr("Search recipes"), doc: "docs/search.md", page: "SearchRecipesPage" },
                     { label: qsTr("Accessibility"), doc: "docs/accessibility.md", page: "AccessibilityPage" },
                     { label: qsTr("Drag-drop & clipboard"), doc: "docs/drag-drop.md", page: "FileDropZonePage" }
                 ]

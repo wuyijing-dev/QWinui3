@@ -5,6 +5,7 @@ End-to-end keyboard story for a QWinUI3 LoB shell: **global chords → CommandPa
 | Layer | Doc / surface |
 |-------|----------------|
 | Commands & menus | [commands.md](commands.md) |
+| In-app search / suggest | [search.md](search.md) (**1.59**) |
 | Dialogs Esc/Enter | [dialogs-flyouts.md](dialogs-flyouts.md) |
 | Lists / tables | [data-collections.md](data-collections.md) · [tree-data.md](tree-data.md) |
 | Names / a11y | [accessibility.md](accessibility.md) · [conventions.md](conventions.md) |

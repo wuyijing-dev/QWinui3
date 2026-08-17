@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.58**
-**Next up:** **1.59** (In-app search & AutoSuggest recipes)
+**Current:** **1.59**
+**Next up:** **1.60** (Mid-horizon checkpoint)
 **Planned through:** **1.70** (long-horizon 1.xx checkpoint)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
 
@@ -60,7 +60,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.58`
+## Shipped — `1.01` … `1.59`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -294,30 +294,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** [high-dpi.md](docs/high-dpi.md) Win+Linux matrix; geometry restore `setScreen` after clamp (mixed-DPI DPR); Gallery **High-DPI & monitors** readout + `GalleryMain` clear; window-chrome / window-helper / graphics-backend cross-links; product version `1.58`.
 
+### 1.59 — In-app search & AutoSuggest recipes (shipped)
+
+**Shipped:** [search.md](docs/search.md) cookbook (AutoSuggestBox / SearchBox / filter-above vs CommandPalette); Gallery **Search recipes** (catalog AutoSuggest jump + filtered ItemsView); AutoSuggest / SearchBox / commands / data-collections cross-links; product version `1.59`.
+
 ---
 
-## Horizon — planned `1.59` … `1.70`
+## Horizon — planned `1.60` … `1.70`
 
 Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per `YY`. Order can flex if field P0s force a swap; do not merge themes into mega-minors. Posture after 1.51: prefer field harden / docs over new control families.
-
-### 1.59 — In-app search & AutoSuggest recipes
-
-**Why:** CommandPalette (1.15/1.44) covers chords; content filter / suggest patterns need a home.
-
-**In scope**
-
-- Recipes for AutoSuggestBox / filtered Lists / catalog search patterns; Gallery demo page deepen.
-- Docs under recipes + [commands.md](docs/commands.md) / navigation cross-links.
-
-**Out of scope**
-
-- Full-text search engine; cloud search backends.
-
-**Exit criteria**
-
-- Cookbook + Gallery interactive filter/suggest demo.
-
----
 
 ### 1.60 — Mid-horizon checkpoint
 
