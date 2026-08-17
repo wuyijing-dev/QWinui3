@@ -46,6 +46,10 @@ qt_add_qml_module(qwinui3_extras
         KeyboardEngine.cpp
         PinyinLexicon.h
         PinyinLexicon.cpp
+        HangulComposer.h
+        HangulComposer.cpp
+        RomajiKana.h
+        RomajiKana.cpp
     QML_FILES
         AccentButton.qml
         AcrylicSurface.qml

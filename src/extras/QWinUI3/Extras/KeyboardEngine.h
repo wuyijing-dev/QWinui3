@@ -1,5 +1,7 @@
 #pragma once
 
+#include "HangulComposer.h"
+
 #include <QByteArray>
 #include <QObject>
 #include <QPointer>
@@ -14,8 +16,8 @@ struct km_core_keyboard;
 struct km_core_state;
 #endif
 
-// KeyboardEngine — Keyman layouts (1.71) + in-app pinyin IME (1.72).
-// Not Qt Virtual Keyboard.
+// KeyboardEngine — Keyman layouts (1.71) + in-app IME (1.72 pinyin, 1.73 ja/ko).
+// Not Qt Virtual Keyboard. CJK candidates are not Keyman IMX.
 class KeyboardEngine : public QObject
 {
     Q_OBJECT
@@ -28,6 +30,8 @@ class KeyboardEngine : public QObject
     Q_PROPERTY(QStringList layoutLabels READ layoutLabels CONSTANT)
     Q_PROPERTY(bool rtl READ rtl NOTIFY layoutIdChanged)
     Q_PROPERTY(bool pinyin READ pinyin NOTIFY layoutIdChanged)
+    Q_PROPERTY(bool japanese READ japanese NOTIFY layoutIdChanged)
+    Q_PROPERTY(bool korean READ korean NOTIFY layoutIdChanged)
     Q_PROPERTY(bool hasTarget READ hasTarget NOTIFY hasTargetChanged)
     Q_PROPERTY(bool composing READ composing NOTIFY composeChanged)
     Q_PROPERTY(QString preedit READ preedit NOTIFY composeChanged)
@@ -50,9 +54,12 @@ public:
     QStringList layoutLabels() const;
     bool rtl() const;
     bool pinyin() const;
+    bool japanese() const;
+    bool korean() const;
+    bool ime() const;
     bool hasTarget() const { return m_target != nullptr; }
-    bool composing() const { return !m_preedit.isEmpty(); }
-    QString preedit() const { return m_preedit; }
+    bool composing() const;
+    QString preedit() const;
     QStringList candidates() const { return m_candidates; }
     QStringList pagedCandidates() const;
     int candidatePage() const { return m_candidatePage; }
@@ -84,7 +91,10 @@ private:
     void sendKey(int key, const QString &text = QString()) const;
     static bool looksLikeEditor(const QObject *object);
     static bool isKnownLayout(const QString &id);
+    QString displayPreedit() const;
     void processPinyinVk(int vk, bool shift);
+    void processJapaneseVk(int vk, bool shift);
+    void processKoreanVk(int vk, bool shift);
     void refreshCompose();
     void sendPreedit();
     void commitReplace(const QString &text);
@@ -103,6 +113,7 @@ private:
     QString m_preedit;
     QStringList m_candidates;
     int m_candidatePage = 0;
+    HangulComposer m_hangul;
     static constexpr int kPageSize = 9;
 #ifdef QWINUI3_HAVE_KEYMAN
     km_core_keyboard *m_keyboard = nullptr;

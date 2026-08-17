@@ -1,10 +1,10 @@
 # OnScreenKeyboard
 
-Win11-style in-app touch keyboard (1.72).
+Win11-style in-app touch keyboard (1.73).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/OnScreenKeyboard.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/OnScreenKeyboard.qml)
 
-**Category:** Input & forms · **Library:** v1.72
+**Category:** Input & forms · **Library:** v1.73
 
 [← Component index](../components.md)
 
@@ -19,15 +19,16 @@ OnScreenKeyboard { }
 // Host in CatalogPage.footer / Overlay / shell footer so keys stay docked.
 
 // --- API ---
-// engine.backend  "pinyin" | "keyman" | "builtin"
+// engine.backend  "pinyin" | "romaji" | "hangul" | "keyman" | "builtin"
 // engine.layoutId / cycleLayout / processVk
 ```
 
 ## Notes
 
-Experimental. SIL Keyman Core (MIT) for layouts; pinyin IME uses MIT
-pinyin-data. Chrome is ours (LGPL). Not Qt Virtual Keyboard / QT_IM_MODULE.
-Keys use MouseArea (no focus steal). Globe cycles en/de/fr/es/ru/ar/zh.
+Experimental. SIL Keyman Core (MIT) for layouts; zh pinyin from MIT
+pinyin-data; ja romaji→kana; ko 2-beolsik hangul. Chrome is ours (LGPL).
+Not Qt Virtual Keyboard / QT_IM_MODULE. Keys use MouseArea (no focus steal).
+Globe cycles en/de/fr/es/ru/ar/zh/ja/ko. Emoji layer has no engine.
 
 ## API
 
@@ -36,6 +37,7 @@ Keys use MouseArea (no focus steal). Globe cycles en/de/fr/es/ru/ar/zh.
 | Name | Type | Description |
 | --- | --- | --- |
 | `symbolsMode` | `bool` | — |
+| `emojiMode` | `bool` | — |
 | `shiftLatched` | `bool` | — |
 | `capsLock` | `bool` | — |
 | `engine` | `alias` | — |
@@ -45,8 +47,10 @@ Keys use MouseArea (no focus steal). Globe cycles en/de/fr/es/ru/ar/zh.
 | `keyH` | `real` | — |
 | `letterCount` | `int` | — |
 | `letterW` | `real` | — |
+| `letterShift` | `bool` | — |
 | `letterRows` | `var` | — |
 | `symbolRows` | `var` | — |
+| `emojiRows` | `var` | — |
 
 ### Signals
 

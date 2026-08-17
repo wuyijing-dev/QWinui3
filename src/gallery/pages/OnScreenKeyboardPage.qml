@@ -4,18 +4,18 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — OnScreenKeyboard (1.72). Recipe: docs/on-screen-keyboard.md
+// Gallery — OnScreenKeyboard (1.73). Recipe: docs/on-screen-keyboard.md
 //
-// Win11 dock + Keyman layouts + in-app pinyin. Not Qt Virtual Keyboard.
+// Win11 dock + Keyman layouts + in-app zh/ja/ko IME + emoji. Not Qt Virtual Keyboard.
 
 CatalogPage {
     id: page
     title: qsTr("On-screen keyboard")
-    subtitle: qsTr("Win11 OSK — Keyman layouts + pinyin IME. docs/on-screen-keyboard.md (1.72).")
+    subtitle: qsTr("Win11 OSK — Keyman layouts + zh/ja/ko IME. docs/on-screen-keyboard.md (1.73).")
 
     ControlExample {
-        headerText: qsTr("Type with the dock (1.72)")
-        qmlSource: "OnScreenKeyboard { }\n// Globe: layouts or 中文 pinyin + candidate bar"
+        headerText: qsTr("Type with the dock (1.73)")
+        qmlSource: "OnScreenKeyboard { }\n// Globe: en/de/fr/es/ru/ar + 中文/日本語/한국어 + emoji"
 
         ColumnLayout {
             Layout.fillWidth: true
@@ -23,7 +23,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Tap a field, then use the dock. Switch to 中文 and type pinyin (nihao), then pick a candidate. Space confirms the first. In-app IME — not Microsoft Pinyin, not Qt Virtual Keyboard.")
+                text: qsTr("Tap a field, then use the dock. 中文: pinyin (nihao). 日本語: romaji (konnichiwa) then hiragana/katakana. 한국어: 2-beolsik hangul. Emoji key is a layer, not an engine. In-app IME — not Microsoft IME, not Qt Virtual Keyboard.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary

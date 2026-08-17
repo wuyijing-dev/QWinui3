@@ -2,24 +2,26 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// OnScreenKeyboard — Win11-style in-app touch keyboard (1.72).
+// OnScreenKeyboard — Win11-style in-app touch keyboard (1.73).
 //
 //   OnScreenKeyboard { }
 //   // Host in CatalogPage.footer / Overlay / shell footer so keys stay docked.
 //
 //   // --- API ---
-//   // engine.backend  "pinyin" | "keyman" | "builtin"
+//   // engine.backend  "pinyin" | "romaji" | "hangul" | "keyman" | "builtin"
 //   // engine.layoutId / cycleLayout / processVk
 //
 // @notes
-//   Experimental. SIL Keyman Core (MIT) for layouts; pinyin IME uses MIT
-//   pinyin-data. Chrome is ours (LGPL). Not Qt Virtual Keyboard / QT_IM_MODULE.
-//   Keys use MouseArea (no focus steal). Globe cycles en/de/fr/es/ru/ar/zh.
+//   Experimental. SIL Keyman Core (MIT) for layouts; zh pinyin from MIT
+//   pinyin-data; ja romaji→kana; ko 2-beolsik hangul. Chrome is ours (LGPL).
+//   Not Qt Virtual Keyboard / QT_IM_MODULE. Keys use MouseArea (no focus steal).
+//   Globe cycles en/de/fr/es/ru/ar/zh/ja/ko. Emoji layer has no engine.
 
 T.Control {
     id: root
 
     property bool symbolsMode: false
+    property bool emojiMode: false
     property bool shiftLatched: false
     property bool capsLock: false
     readonly property alias engine: engine
@@ -51,16 +53,18 @@ T.Control {
         return ch.toUpperCase().charCodeAt(0)
     }
 
+    readonly property bool letterShift: engine.korean ? root.shiftLatched : root.shiftOn
+
     function keyLabel(vk) {
-        const t = engine.previewVk(vk, root.shiftOn)
+        const t = engine.previewVk(vk, root.letterShift)
         if (t && t.length)
             return t
         const c = String.fromCharCode(vk)
-        return root.shiftOn ? c : c.toLowerCase()
+        return root.letterShift ? c : c.toLowerCase()
     }
 
     function tapVk(vk) {
-        engine.processVk(vk, root.shiftOn)
+        engine.processVk(vk, root.letterShift)
         if (root.shiftLatched && !root.capsLock)
             root.shiftLatched = false
     }
@@ -107,7 +111,7 @@ T.Control {
         }
 
         Repeater {
-            model: root.symbolsMode ? root.symbolRows : root.letterRows
+            model: root.emojiMode ? root.emojiRows : (root.symbolsMode ? root.symbolRows : root.letterRows)
             delegate: Row {
                 required property var modelData
                 spacing: root.keyGap
@@ -120,6 +124,7 @@ T.Control {
                                            : root.letterW
                         height: root.keyH
                         globe: modelData.kind === "globe"
+                        emojiGlyph: modelData.kind === "emoji"
                         label: {
                             const k = modelData
                             if (k.kind === "vk")
@@ -128,10 +133,13 @@ T.Control {
                                 return root.capsLock ? qsTr("caps") : qsTr("shift")
                             if (k.kind === "globe")
                                 return qsTr("lang")
+                            if (k.kind === "emoji")
+                                return qsTr("emoji")
                             return k.label
                         }
                         accent: (modelData.kind === "shift" && (root.shiftLatched || root.capsLock))
                                 || (modelData.kind === "symbols" && root.symbolsMode)
+                                || (modelData.kind === "emoji" && root.emojiMode)
                         wideLabel: modelData.kind === "space"
                         onTapped: root.handleKey(modelData)
                     }
@@ -146,6 +154,7 @@ T.Control {
         property bool accent: false
         property bool wideLabel: false
         property bool globe: false
+        property bool emojiGlyph: false
         signal tapped
 
         radius: Theme.cornerControl
@@ -166,14 +175,14 @@ T.Control {
         }
 
         FontIcon {
-            visible: cap.globe
+            visible: cap.globe || cap.emojiGlyph
             anchors.centerIn: parent
-            symbol: FluentIcons.Globe
+            symbol: cap.globe ? FluentIcons.Globe : FluentIcons.Emoji
             fontSize: Theme.fontBody
             iconColor: cap.accent ? Theme.textOnAccent : Theme.textPrimary
         }
         Text {
-            visible: !cap.globe
+            visible: !cap.globe && !cap.emojiGlyph
             anchors.centerIn: parent
             text: cap.label
             font.family: Theme.fontFamily
@@ -190,7 +199,9 @@ T.Control {
             onClicked: cap.tapped()
         }
         Accessible.role: Accessible.Button
-        Accessible.name: cap.globe ? qsTr("Language") : (cap.label.length ? cap.label : qsTr("Key"))
+            Accessible.name: cap.globe ? qsTr("Language")
+                             : cap.emojiGlyph ? qsTr("Emoji")
+                             : (cap.label.length ? cap.label : qsTr("Key"))
         Accessible.onPressAction: cap.tapped()
     }
 
@@ -214,10 +225,10 @@ T.Control {
             { kind: "backspace", label: qsTr("back"), w: 1.4 }
         ],
         [
-            { kind: "globe", w: 1.2 },
+            { kind: "globe", w: 1.0 },
+            { kind: "emoji", w: 1.0 },
             { kind: "symbols", label: "&123", w: 1.2 },
-            { kind: "char", ch: ",", label: "," },
-            { kind: "space", label: qsTr("space"), w: 4.0 },
+            { kind: "space", label: qsTr("space"), w: 4.2 },
             { kind: "char", ch: ".", label: "." },
             { kind: "enter", label: qsTr("enter"), w: 1.6 }
         ]
@@ -245,10 +256,42 @@ T.Control {
             { kind: "backspace", label: qsTr("back"), w: 1.4 }
         ],
         [
-            { kind: "globe", w: 1.2 },
+            { kind: "globe", w: 1.0 },
+            { kind: "emoji", w: 1.0 },
             { kind: "symbols", label: qsTr("abc"), w: 1.2 },
-            { kind: "char", ch: ",", label: "," },
-            { kind: "space", label: qsTr("space"), w: 4.0 },
+            { kind: "space", label: qsTr("space"), w: 4.2 },
+            { kind: "char", ch: ".", label: "." },
+            { kind: "enter", label: qsTr("enter"), w: 1.6 }
+        ]
+    ]
+
+    readonly property var emojiRows: [
+        [
+            { kind: "char", ch: "😀", label: "😀" }, { kind: "char", ch: "😁", label: "😁" },
+            { kind: "char", ch: "😂", label: "😂" }, { kind: "char", ch: "🤣", label: "🤣" },
+            { kind: "char", ch: "😊", label: "😊" }, { kind: "char", ch: "😍", label: "😍" },
+            { kind: "char", ch: "🤩", label: "🤩" }, { kind: "char", ch: "😘", label: "😘" },
+            { kind: "char", ch: "🤔", label: "🤔" }, { kind: "char", ch: "😎", label: "😎" }
+        ],
+        [
+            { kind: "char", ch: "🥳", label: "🥳" }, { kind: "char", ch: "😴", label: "😴" },
+            { kind: "char", ch: "🙄", label: "🙄" }, { kind: "char", ch: "😱", label: "😱" },
+            { kind: "char", ch: "😢", label: "😢" }, { kind: "char", ch: "😡", label: "😡" },
+            { kind: "char", ch: "👍", label: "👍" }, { kind: "char", ch: "👎", label: "👎" },
+            { kind: "char", ch: "🙏", label: "🙏" }, { kind: "char", ch: "💪", label: "💪" }
+        ],
+        [
+            { kind: "char", ch: "🔥", label: "🔥" }, { kind: "char", ch: "✨", label: "✨" },
+            { kind: "char", ch: "🎉", label: "🎉" }, { kind: "char", ch: "💯", label: "💯" },
+            { kind: "char", ch: "✅", label: "✅" }, { kind: "char", ch: "❌", label: "❌" },
+            { kind: "char", ch: "⭐", label: "⭐" }, { kind: "char", ch: "👀", label: "👀" },
+            { kind: "char", ch: "❤️", label: "❤️" }, { kind: "char", ch: "🤝", label: "🤝" }
+        ],
+        [
+            { kind: "globe", w: 1.0 },
+            { kind: "emoji", w: 1.0 },
+            { kind: "symbols", label: qsTr("abc"), w: 1.2 },
+            { kind: "space", label: qsTr("space"), w: 4.2 },
             { kind: "char", ch: ".", label: "." },
             { kind: "enter", label: qsTr("enter"), w: 1.6 }
         ]
@@ -279,6 +322,13 @@ T.Control {
             break
         case "symbols":
             symbolsMode = !symbolsMode
+            if (symbolsMode)
+                emojiMode = false
+            break
+        case "emoji":
+            emojiMode = !emojiMode
+            if (emojiMode)
+                symbolsMode = false
             break
         case "globe":
             engine.cycleLayout()

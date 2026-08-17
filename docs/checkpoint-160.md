@@ -89,7 +89,7 @@ Order confirmed at 1.60 (flex only for field P0s). **After 1.69:** OSK → IME l
 10. **1.70** — Win11 on-screen keyboard (en-US) — [on-screen-keyboard.md](on-screen-keyboard.md)  
 11. **1.71** — Extra keyboard layouts (not IME yet)  
 12. **1.72** — Chinese IME (pinyin + candidates)  
-13. **1.73** — Full in-app IME (ja / ko + packs)  
+13. **1.73** — Full in-app IME (ja / ko + emoji) — **shipped**  
 14. **1.74** — Long-horizon 1.xx checkpoint (slipped from 1.70)  
 
 ---

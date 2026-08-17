@@ -47,6 +47,19 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.72 → 1.73
+
+**Product version:** 1.73  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- Experimental OSK: **日本語** (romaji→kana) and **한국어** (2-beolsik hangul) share `ImeCandidateBar`. Emoji layer has no engine. Keyman Core is still layouts only. [on-screen-keyboard.md](on-screen-keyboard.md).
+
+#### No action (compatible)
+
+- Existing Theme / shell / stable controls unchanged. OSK stays experimental.
+
 ### Upgrade 1.71 → 1.72
 
 **Product version:** 1.72  

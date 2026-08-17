@@ -2,13 +2,13 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// ImeCandidateBar — Win11-style in-app pinyin candidate strip (1.72).
+// ImeCandidateBar — Win11-style in-app IME candidate strip (1.73).
 //
 //   ImeCandidateBar { engine: osk.engine }
 //
 // @notes
 //   Host above OnScreenKeyboard. Theme tokens only. No focus steal.
-//   Lexicon is MIT pinyin-data / phrase-pinyin-data, not Microsoft Pinyin.
+//   Shared by pinyin / romaji-kana / hangul. Not Microsoft IME.
 
 T.Control {
     id: root
@@ -20,7 +20,7 @@ T.Control {
     implicitWidth: 640
     focusPolicy: Qt.NoFocus
     Accessible.role: Accessible.Grouping
-    Accessible.name: qsTr("Pinyin candidates")
+    Accessible.name: qsTr("IME candidates")
 
     background: Rectangle {
         visible: root.visible

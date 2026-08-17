@@ -1,5 +1,6 @@
 #include "KeyboardEngine.h"
 #include "PinyinLexicon.h"
+#include "RomajiKana.h"
 
 #include <QCoreApplication>
 #include <QFile>
@@ -29,6 +30,8 @@ const QStringList kLayoutIds = {
     QStringLiteral("ru-RU"),
     QStringLiteral("ar"),
     QStringLiteral("zh-Hans"),
+    QStringLiteral("ja-JP"),
+    QStringLiteral("ko-KR"),
 };
 
 #ifdef QWINUI3_HAVE_KEYMAN
@@ -96,6 +99,10 @@ QString KeyboardEngine::backend() const
 {
     if (pinyin())
         return QStringLiteral("pinyin");
+    if (japanese())
+        return QStringLiteral("romaji");
+    if (korean())
+        return QStringLiteral("hangul");
 #ifdef QWINUI3_HAVE_KEYMAN
     return QStringLiteral("keyman");
 #else
@@ -123,6 +130,8 @@ QStringList KeyboardEngine::layoutLabels() const
         tr("Русский"),
         tr("العربية"),
         tr("中文"),
+        tr("日本語"),
+        tr("한국어"),
     };
 }
 
@@ -153,7 +162,7 @@ void KeyboardEngine::setLayoutId(const QString &id)
         return;
     if (!isKnownLayout(id))
         return;
-    if (pinyin())
+    if (ime())
         cancelCompose();
     m_layoutId = id;
 #ifdef QWINUI3_HAVE_KEYMAN
@@ -170,6 +179,42 @@ bool KeyboardEngine::rtl() const
 bool KeyboardEngine::pinyin() const
 {
     return m_layoutId == QLatin1String("zh-Hans");
+}
+
+bool KeyboardEngine::japanese() const
+{
+    return m_layoutId == QLatin1String("ja-JP");
+}
+
+bool KeyboardEngine::korean() const
+{
+    return m_layoutId == QLatin1String("ko-KR");
+}
+
+bool KeyboardEngine::ime() const
+{
+    return pinyin() || japanese() || korean();
+}
+
+bool KeyboardEngine::composing() const
+{
+    return !displayPreedit().isEmpty();
+}
+
+QString KeyboardEngine::preedit() const
+{
+    return displayPreedit();
+}
+
+QString KeyboardEngine::displayPreedit() const
+{
+    if (korean())
+        return m_hangul.preedit();
+    if (japanese()) {
+        QString rest;
+        return RomajiKana::toHiragana(m_preedit, &rest) + rest;
+    }
+    return m_preedit;
 }
 
 void KeyboardEngine::cycleLayout()
@@ -245,7 +290,7 @@ void KeyboardEngine::commitText(const QString &text)
 {
     if (text.isEmpty())
         return;
-    if (pinyin() && composing())
+    if (ime() && composing())
         confirmCompose();
     rememberEditor(QGuiApplication::focusObject());
     QObject *item = target();
@@ -260,6 +305,14 @@ void KeyboardEngine::processVk(int vk, bool shift)
 {
     if (pinyin()) {
         processPinyinVk(vk, shift);
+        return;
+    }
+    if (japanese()) {
+        processJapaneseVk(vk, shift);
+        return;
+    }
+    if (korean()) {
+        processKoreanVk(vk, shift);
         return;
     }
 #ifdef QWINUI3_HAVE_KEYMAN
@@ -277,8 +330,13 @@ void KeyboardEngine::processVk(int vk, bool shift)
 
 QString KeyboardEngine::previewVk(int vk, bool shift) const
 {
-    if (pinyin())
+    if (pinyin() || japanese())
         return builtinGlyph(vk, false);
+    if (korean()) {
+        const QChar jamo = HangulComposer::jamoFromVk(vk, shift);
+        if (!jamo.isNull())
+            return QString(jamo);
+    }
 #ifdef QWINUI3_HAVE_KEYMAN
     const QString probed = probeVk(vk, shift);
     if (!probed.isEmpty())
@@ -289,7 +347,12 @@ QString KeyboardEngine::previewVk(int vk, bool shift) const
 
 void KeyboardEngine::backspace()
 {
-    if (pinyin() && composing()) {
+    if (korean()) {
+        if (m_hangul.backspace() != QLatin1String("\b")) {
+            refreshCompose();
+            return;
+        }
+    } else if (ime() && !m_preedit.isEmpty()) {
         m_preedit.chop(1);
         refreshCompose();
         return;
@@ -306,7 +369,7 @@ void KeyboardEngine::backspace()
 
 void KeyboardEngine::enterKey()
 {
-    if (pinyin() && composing()) {
+    if (ime() && composing()) {
         confirmCompose();
         return;
     }
@@ -379,9 +442,65 @@ void KeyboardEngine::processPinyinVk(int vk, bool shift)
     }
 }
 
+void KeyboardEngine::processJapaneseVk(int vk, bool shift)
+{
+    Q_UNUSED(shift);
+    rememberEditor(QGuiApplication::focusObject());
+    if (vk >= 65 && vk <= 90) {
+        m_preedit.append(QChar(vk).toLower());
+        refreshCompose();
+        return;
+    }
+    if (vk >= 49 && vk <= 57) {
+        pickCandidate(vk - 49);
+        return;
+    }
+    if (vk == 8) {
+        backspace();
+        return;
+    }
+    if (vk == 13) {
+        enterKey();
+        return;
+    }
+}
+
+void KeyboardEngine::processKoreanVk(int vk, bool shift)
+{
+    rememberEditor(QGuiApplication::focusObject());
+    if (vk >= 65 && vk <= 90) {
+        const QString committed = m_hangul.feedVk(vk, shift);
+        if (!committed.isEmpty())
+            commitReplace(committed);
+        refreshCompose();
+        return;
+    }
+    if (vk >= 49 && vk <= 57) {
+        pickCandidate(vk - 49);
+        return;
+    }
+    if (vk == 8) {
+        backspace();
+        return;
+    }
+    if (vk == 13) {
+        enterKey();
+        return;
+    }
+}
+
 void KeyboardEngine::refreshCompose()
 {
-    m_candidates = PinyinLexicon::instance().lookup(m_preedit);
+    if (pinyin())
+        m_candidates = PinyinLexicon::instance().lookup(m_preedit);
+    else if (japanese())
+        m_candidates = RomajiKana::candidates(m_preedit);
+    else if (korean()) {
+        const QString syllable = m_hangul.preedit();
+        m_candidates = syllable.isEmpty() ? QStringList{} : QStringList{syllable};
+    } else {
+        m_candidates.clear();
+    }
     m_candidatePage = 0;
     sendPreedit();
     emit composeChanged();
@@ -392,14 +511,15 @@ void KeyboardEngine::sendPreedit()
     QObject *item = target();
     if (!item)
         return;
+    const QString shown = displayPreedit();
     QList<QInputMethodEvent::Attribute> attrs;
-    if (!m_preedit.isEmpty()) {
+    if (!shown.isEmpty()) {
         QTextCharFormat fmt;
         fmt.setFontUnderline(true);
-        attrs.append({QInputMethodEvent::TextFormat, 0, int(m_preedit.size()), QVariant::fromValue(fmt)});
-        attrs.append({QInputMethodEvent::Cursor, int(m_preedit.size()), 1, QVariant()});
+        attrs.append({QInputMethodEvent::TextFormat, 0, int(shown.size()), QVariant::fromValue(fmt)});
+        attrs.append({QInputMethodEvent::Cursor, int(shown.size()), 1, QVariant()});
     }
-    QInputMethodEvent ev(m_preedit, attrs);
+    QInputMethodEvent ev(shown, attrs);
     QCoreApplication::sendEvent(item, &ev);
 }
 
@@ -416,12 +536,28 @@ void KeyboardEngine::commitReplace(const QString &text)
 
 void KeyboardEngine::pickCandidate(int indexOnPage)
 {
-    if (!pinyin() || m_candidates.isEmpty())
+    if (m_candidates.isEmpty())
         return;
     const int idx = m_candidatePage * kPageSize + indexOnPage;
     if (idx < 0 || idx >= m_candidates.size())
         return;
     const QString picked = m_candidates.at(idx);
+    if (korean()) {
+        m_hangul.reset();
+        commitReplace(picked);
+        refreshCompose();
+        return;
+    }
+    if (japanese()) {
+        QString rest;
+        RomajiKana::toHiragana(m_preedit, &rest);
+        commitReplace(picked);
+        m_preedit = rest;
+        refreshCompose();
+        return;
+    }
+    if (!pinyin())
+        return;
     const QString syl = PinyinLexicon::instance().firstSyllable(m_preedit);
     const int consume = picked.size() > 1 ? int(m_preedit.size()) : qMax(1, int(syl.size()));
     const QString rest = m_preedit.mid(consume);
@@ -452,12 +588,20 @@ void KeyboardEngine::confirmCompose()
 {
     if (!composing())
         return;
+    if (korean() && m_candidates.isEmpty()) {
+        const QString out = m_hangul.flush();
+        if (!out.isEmpty())
+            commitReplace(out);
+        refreshCompose();
+        return;
+    }
     if (!m_candidates.isEmpty()) {
         pickCandidate(0);
         return;
     }
-    const QString raw = m_preedit;
+    const QString raw = displayPreedit();
     m_preedit.clear();
+    m_hangul.reset();
     m_candidates.clear();
     m_candidatePage = 0;
     commitReplace(raw);
@@ -466,9 +610,10 @@ void KeyboardEngine::confirmCompose()
 
 void KeyboardEngine::cancelCompose()
 {
-    if (m_preedit.isEmpty() && m_candidates.isEmpty())
+    if (m_preedit.isEmpty() && m_candidates.isEmpty() && m_hangul.preedit().isEmpty())
         return;
     m_preedit.clear();
+    m_hangul.reset();
     m_candidates.clear();
     m_candidatePage = 0;
     sendPreedit();
@@ -500,7 +645,8 @@ QByteArray KeyboardEngine::loadKmx(const QString &id) const
 bool KeyboardEngine::loadLayout(const QString &id)
 {
     disposeCore();
-    if (id == QLatin1String("zh-Hans"))
+    if (id == QLatin1String("zh-Hans") || id == QLatin1String("ja-JP")
+        || id == QLatin1String("ko-KR"))
         return true;
     const QByteArray blob = loadKmx(id);
     if (blob.isEmpty())
