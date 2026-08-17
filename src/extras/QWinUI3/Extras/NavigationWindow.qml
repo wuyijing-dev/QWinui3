@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QWinUI3.Theme
+import QWinUI3.Platform
 
 // NavigationWindow — ShellWindow hosting NavigationView + content.
 //
@@ -76,8 +77,22 @@ ShellWindow {
     property alias hostContent: nav.hostContent
     // Page enter transition name
     property alias pageTransition: nav.pageTransition
+    // First openPage transition (default none — 1.39 cold start)
+    property alias initialPageTransition: nav.initialPageTransition
+    // LRU page Component cache cap (0 = unlimited)
+    property alias pageCacheLimit: nav.pageCacheLimit
+    // Cached page Component hits (diagnostics — 2.18)
+    readonly property alias pageCacheHits: nav.pageCacheHits
+    // Entries in page Component cache
+    readonly property alias pageCacheCount: nav.pageCacheCount
+    // selectKey skips when destination already selected (2.28)
+    readonly property alias sameKeySkipCount: nav.sameKeySkipCount
+    // openPage skips when same component already open (2.28)
+    readonly property alias samePageSkipCount: nav.samePageSkipCount
     // TitleBar / pane can go back
     readonly property alias canGoBack: nav.canGoBack
+    // Mirror last breadcrumb segment into ShellWindow.subtitle (2.23)
+    property bool syncSubtitleFromNavigation: false
 
     // Emitted when a nav item is activated
     signal navActivated(var item)
@@ -100,7 +115,10 @@ ShellWindow {
     onPaneToggleRequested: nav.paneOpen = !nav.paneOpen
     onPaneDisplayModeChanged: _syncPaneToggle()
     onBackRequested: nav.navigateBack()
-    Component.onCompleted: _syncPaneToggle()
+    Component.onCompleted: {
+        _syncPaneToggle()
+        _syncBreadcrumbSubtitle()
+    }
 
     // TitleBar back (ShellWindow) + NavigationView pane back -> backRequested
     Connections {
@@ -188,6 +206,32 @@ ShellWindow {
         return nav.navigateBack(mode)
     }
 
+    // Drop cached page Components (keeps current page by default)
+    function clearPageCache(keepCurrent) {
+        nav.clearPageCache(keepCurrent)
+    }
+
+    // Breadcrumb helpers — forward to hosted NavigationView (2.23)
+    function breadcrumbPathForKey(key) {
+        return nav.breadcrumbPathForKey(key || nav.currentKey)
+    }
+
+    function breadcrumbModelForKey(key) {
+        return nav.breadcrumbModelForKey(key || nav.currentKey)
+    }
+
+    function selectBreadcrumbIndex(index, mode) {
+        nav.selectBreadcrumbIndex(index, mode)
+    }
+
+    function _syncBreadcrumbSubtitle() {
+        if (!syncSubtitleFromNavigation)
+            return
+        var path = nav.breadcrumbPathForKey(nav.currentKey)
+        if (path.length)
+            root.subtitle = path[path.length - 1].title || root.subtitle
+    }
+
     function _findNavItem(key) {
         var m = navModel || []
         for (var i = 0; i < m.length; ++i) {
@@ -209,22 +253,31 @@ ShellWindow {
         return null
     }
 
-    NavigationView {
-        id: nav
+    WindowShellContentClip {
+        id: shellClip
         anchors.fill: parent
-        hostContent: true
-        model: []
-        headerText: qsTr("Navigation")
-        footerText: ""
-        footerComponent: ""
-        pageModule: ""
-        currentKey: "home"
-        paneDisplayMode: "left"
+        targetWindow: root
 
-        onItemClicked: {
-            var item = root._findNavItem(nav.currentKey)
-            if (item)
-                root.navActivated(item)
+        NavigationView {
+            id: nav
+            anchors.fill: parent
+            hostContent: true
+            model: []
+            headerText: qsTr("Navigation")
+            footerText: ""
+            footerComponent: ""
+            pageModule: ""
+            currentKey: "home"
+            paneDisplayMode: "left"
+
+            onItemClicked: {
+                var item = root._findNavItem(nav.currentKey)
+                if (item)
+                    root.navActivated(item)
+                root._syncBreadcrumbSubtitle()
+            }
+            onCurrentKeyChanged: root._syncBreadcrumbSubtitle()
+            onFooterSelectedChanged: root._syncBreadcrumbSubtitle()
         }
     }
 }

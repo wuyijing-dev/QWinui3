@@ -26,6 +26,7 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 | [Tranche-1 perf sign-off (2.49)](perf-signoff-2xx.md) | FL-008 partial — 2.x wave 5→8 summary |
 | [Stable vs experimental clarity (2.51)](stable-clarity-251.md) | FL-004 queue closed — `lint_qml_imports.py` + Pitfalls |
 | [First app in an hour (2.52)](first-app-252.md) | `examples/first-app/` + preview **DashboardShell** |
+| [Linux top-3 parity (2.53)](linux-top3-253.md) | Nav shell clip + **sway** profile + FilePicker guard |
 | [Field harden buffer (2.47)](field-harden-247.md) | Checkpoint P0/P1 triage — packaging picker + import guard |
 | [Docs IA v2](docs-ia-v2.md) | MkDocs + hub regroup for **2.xx** docs (**2.46**) |
 | [Developer diagnostics](developer-diagnostics.md) | FrameStats dev vs retail · `--retail-diagnostics` (**2.44**) |

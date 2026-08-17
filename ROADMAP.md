@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **2.52** (master; first app in an hour)
-**Next up:** **2.53** — Linux top-3 parity (friction-only)
+**Current:** **2.53** (master; Linux top-3 parity)
+**Next up:** **2.54** — Window chrome footguns (friction-only)
 **Planned through:** **3.00** (… → **2.00** break → **2.01…2.50** tranche 1 → **2.51…2.60** friction-only → **2.61…2.70** professional surfaces → **2.71…2.73** Python / PyPI → **3.00** 2.x close-out)
 **1.xx close-out:** [checkpoint-190.md](docs/checkpoint-190.md). **1.86…1.89** performance arc **signed off** (**animations stay**). OSK/packaging promote **2.01**. **2.50** = tranche-1 audit; **2.60** = friction tranche close-out; **2.70** = professional-surfaces audit; **2.73** = Python consumer checkpoint; **3.00** = 2.x breaking close-out ([checkpoint-300.md](docs/checkpoint-300.md)).  
 **Qt:** 6.5+ (recommended 6.8 LTS) through **1.92** — [qt-version-compat.md](docs/qt-version-compat.md). **2.00** raises the floor to **6.8 LTS**. **3.00** raises the floor to **6.10 LTS**. **Platforms:** **Windows + Linux** — no macOS first-class line.
@@ -650,7 +650,7 @@ Apps on **1.90** read [upgrade-notes.md](docs/upgrade-notes.md) **1.90 → 2.00*
 |-------|--------|-------------------------|--------|
 | **2.51** | Stable vs experimental clarity | Teams ship experimental APIs by mistake | **Shipped** |
 | **2.52** | First app in an hour | `gallery-shell` still too much to delete | **Shipped** |
-| **2.53** | Linux “feels broken” top 3 | Field matrix names 3 user-visible parity gaps | Queue |
+| **2.53** | Linux “feels broken” top 3 | Field matrix names 3 user-visible parity gaps | **Shipped** |
 | **2.54** | Window chrome footguns | Maximize/DPI/hit-test/geometry restore | Queue |
 | **2.55** | Forms unlike WinUI | Validation, errors, clear/collect surprises | Queue |
 | **2.56** | Navigation mental model | Back vs pane vs stack confusion | Queue |
@@ -671,9 +671,11 @@ Apps on **1.90** read [upgrade-notes.md](docs/upgrade-notes.md) **1.90 → 2.00*
 
 **Shipped:** [first-app-252.md](docs/first-app-252.md) — `examples/first-app/` quickstart + preview **`DashboardShell`**; shell ladder in Pitfalls + packaging path picker. Product version **2.52**.
 
-### 2.53 — Linux top-3 parity (queue)
+### 2.53 — Linux top-3 parity (shipped)
 
-**Pain:** “Works on Windows, broken on Linux” for shells/files/tray. **Outcome:** fix highest-count friction-log Linux rows only — not a parity science project.
+**Goal:** Fix highest-count user-visible Linux shell gaps — not full DWM parity.
+
+**Shipped:** [linux-top3-253.md](docs/linux-top3-253.md) — `WindowShellContentClip` on **`NavigationWindow`** + **nav-settings**; **`sway`** compositor profile; **FilePicker** Wayland parent warning; field matrix refresh. Product version **2.53**.
 
 ### 2.54 — Window chrome footguns (queue)
 
@@ -1362,10 +1364,11 @@ Finish the committed audit arc — **do not** add conditional controls without a
 
 | Rank | Slice | When to ship |
 |------|-------|----------------|
-| 1 | **2.53** / **2.57** | Linux shell + files parity |
+| 1 | **2.54** | Window chrome footguns |
+| — | **2.53** | Linux top-3 parity — **shipped** |
 | — | **2.52** | First app in an hour — **shipped** |
 | 2 | **2.55** / **2.56** | Forms + navigation mental model |
-| 3 | **2.54** | Window chrome footguns |
+| 3 | **2.57** | Files on Linux |
 | 4 | **2.58–2.59** | OSK in apps · named slow flows |
 | 5 | **2.60** | Friction checkpoint + 3.00 prep |
 

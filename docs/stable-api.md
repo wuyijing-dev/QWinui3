@@ -279,6 +279,7 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **2.50** | Tranche-1 checkpoint — [checkpoint-250.md](checkpoint-250.md); friction-only **2.51+** |
 | **2.51** | Stable vs experimental clarity — [stable-clarity-251.md](stable-clarity-251.md); `lint_qml_imports.py`; **FL-004** queue closed |
 | **2.52** | First app in an hour — [first-app-252.md](first-app-252.md); `examples/first-app/` + preview **DashboardShell** |
+| **2.53** | Linux top-3 parity — [linux-top3-253.md](linux-top3-253.md); **NavigationWindow** clip + **sway** profile + FilePicker guard |
 | **2.49** | Performance wave 8 + tranche-1 sign-off — [perf-signoff-2xx.md](perf-signoff-2xx.md); FL-008 partial |
 | **2.48** | Friction slot **FL-009** — dashboard compose decision tree — [dashboard-compose-decision.md](dashboard-compose-decision.md) |
 | **2.46** | Docs IA v2 — MkDocs **2.xx** regroup + recipes hub mirror — [docs-ia-v2.md](docs-ia-v2.md) |

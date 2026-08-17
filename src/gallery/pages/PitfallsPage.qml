@@ -206,6 +206,27 @@ CatalogPage {
     }
 
     ControlExample {
+        headerText: qsTr("Linux top-3 parity (2.53 / FL-002)")
+        qmlSource: "WindowShellContentClip in NavigationWindow\\n// docs/linux-top3-253.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("2.53 closes three field-matrix shell gaps: auto content clip on NavigationWindow, sway compositor shadow profile, FilePicker parent warning on Wayland. Full notes: docs/linux-top3-253.md · docs/platform-linux-wayland.md.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            CheckBox { text: qsTr("Linux nav: NavigationWindow or WindowShellContentClip wrapper") }
+            CheckBox { text: qsTr("FilePicker: always pass Window.window on Wayland") }
+            CheckBox { text: qsTr("Bootstrap configureEnvironment before QGuiApplication") }
+            CheckBox { text: qsTr("Field soak on real compositor — CI offscreen is not enough") }
+        }
+    }
+
+    ControlExample {
         headerText: qsTr("First app in an hour (2.52 / FL-003)")
         qmlSource: "// examples/first-app · DashboardShell preview\\n// docs/first-app-252.md"
         ColumnLayout {

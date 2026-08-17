@@ -47,32 +47,37 @@ StandardWindow {
 
     Component.onCompleted: Qt.callLater(function () { platformTitle.reportHitTest() })
 
-    NavigationView {
-        id: nav
+    WindowShellContentClip {
         anchors.fill: parent
-        headerText: qsTr("NavSettings")
-        footerText: qsTr("Settings")
-        footerSymbol: FluentIcons.Settings
-        footerComponent: "SettingsPage"
-        pageModule: "QWinUI3.Examples.NavSettings"
-        currentKey: "home"
-        paneDisplayMode: "auto"
-        pageTransition: "slide"
-        model: [
-            {
-                type: "item",
-                key: "home",
-                title: qsTr("Home"),
-                symbol: FluentIcons.Home,
-                component: "HomePage"
-            },
-            {
-                type: "item",
-                key: "about",
-                title: qsTr("About"),
-                symbol: FluentIcons.Info,
-                component: "AboutPage"
-            }
-        ]
+        targetWindow: window
+
+        NavigationView {
+            id: nav
+            anchors.fill: parent
+            headerText: qsTr("NavSettings")
+            footerText: qsTr("Settings")
+            footerSymbol: FluentIcons.Settings
+            footerComponent: "SettingsPage"
+            pageModule: "QWinUI3.Examples.NavSettings"
+            currentKey: "home"
+            paneDisplayMode: "auto"
+            pageTransition: "slide"
+            model: [
+                {
+                    type: "item",
+                    key: "home",
+                    title: qsTr("Home"),
+                    symbol: FluentIcons.Home,
+                    component: "HomePage"
+                },
+                {
+                    type: "item",
+                    key: "about",
+                    title: qsTr("About"),
+                    symbol: FluentIcons.Info,
+                    component: "AboutPage"
+                }
+            ]
+        }
     }
 }

@@ -98,4 +98,4 @@ Treat as **experimental** until promote wave — not in stable-api **Stable** ta
 - [ ] Graduate to **`gallery-shell`** when Settings / theme prefs needed
 - [ ] Graduate to **`dashboard`** when shipping stable six charts
 
-**Next:** **2.53** Linux top-3 parity · **2.65** **DashboardShell** product wave
+**Next:** **2.54** window chrome footguns · **2.57** files on Linux

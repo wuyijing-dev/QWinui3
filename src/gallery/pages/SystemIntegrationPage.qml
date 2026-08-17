@@ -14,7 +14,7 @@ CatalogPage {
     id: page
 
     title: qsTr("System integration")
-    subtitle: qsTr("FilePicker · tray · Snap · reveal. Linux portal: docs/platform-linux-wayland.md (1.79).")
+    subtitle: qsTr("FilePicker · tray · Snap · reveal. Linux portal wave 3 (2.33): docs/platform-linux-wayland.md.")
 
     property string lastPath: qsTr("(none)")
     property real taskbarValue: 0.35
@@ -37,6 +37,58 @@ CatalogPage {
         id: toasts
         width: 360
         placement: ToastHost.BottomCenter
+    }
+
+    ControlExample {
+        headerText: qsTr("Linux top-3 parity (2.53)")
+        qmlSource: "// NavigationWindow + WindowShellContentClip\\n// docs/linux-top3-253.md"
+        visible: WindowHelper.linux
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("2.53: auto shell content clip on NavigationWindow; sway/wlroots compositor profile; FilePicker warns when Window.window omitted on Wayland. Check shellCompositorProfile readout below.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                color: Theme.textPrimary
+                text: qsTr("shellCompositorProfile=%1 · shellShadowOpacity=%2 · shellContentInset=%3")
+                    .arg(WindowHelper.shellCompositorProfile)
+                    .arg(WindowHelper.shellShadowOpacity().toFixed(2))
+                    .arg(WindowHelper.shellContentInset(page).toFixed(0))
+            }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Linux regression suite (2.33)")
+        qmlSource: "// docs/platform-linux-wayland.md — Portal & tray wave 3\n// FilePicker · SNI tray · idle inhibit"
+        visible: WindowHelper.linux
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                color: Theme.textSecondary
+                text: qsTr("Field soak (not CI): (1) FilePicker open/save/cancel — no zenity double-dialog; (2) tray icon on KDE + notifySystem; (3) idle inhibit toggle. Use live readouts below before/after each step.")
+            }
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                color: Theme.textPrimary
+                text: qsTr("idleInhibited=%1 · supportsPersistentTray=%2 · persistentTrayActive=%3")
+                    .arg(WindowHelper.idleInhibited)
+                    .arg(tray.supportsPersistentTray)
+                    .arg(tray.persistentTrayActive)
+            }
+        }
     }
 
     ControlExample {
@@ -113,9 +165,11 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 color: Theme.textSecondary
-                text: qsTr("Client shell: corner=%1px · shadow margin=%2 · expanded=%3")
+                text: qsTr("Client shell: profile=%1 · corner=%2px · shadow margin=%3 · effects=%4 · expanded=%5")
+                    .arg(WindowHelper.shellCompositorProfile)
                     .arg(WindowHelper.shellCornerRadius().toFixed(0))
                     .arg(WindowHelper.shellShadowMargin())
+                    .arg(WindowHelper.shellQuickEffectsAvailable)
                     .arg(WindowHelper.shellChromeExpanded(Window.window))
             }
             Switch {

@@ -1,6 +1,7 @@
 #include "WindowHelper.h"
 #include "LinuxPortal.h"
 
+#include <QWinUI3/Compat/QtCompatEffects.h>
 #include <QWinUI3/Compat/QtCompatQml.h>
 #include <QWinUI3/Compat/QtCompatVersion.h>
 
@@ -328,6 +329,25 @@ qreal WindowHelper::devicePixelRatioForWindow(QObject *windowObject) const
     return devicePixelRatio();
 }
 
+QString WindowHelper::highDpiScaleFactorRoundingPolicy() const
+{
+    switch (QGuiApplication::highDpiScaleFactorRoundingPolicy()) {
+    case Qt::HighDpiScaleFactorRoundingPolicy::PassThrough:
+        return QStringLiteral("PassThrough");
+    case Qt::HighDpiScaleFactorRoundingPolicy::Round:
+        return QStringLiteral("Round");
+    case Qt::HighDpiScaleFactorRoundingPolicy::Ceil:
+        return QStringLiteral("Ceil");
+    case Qt::HighDpiScaleFactorRoundingPolicy::Floor:
+        return QStringLiteral("Floor");
+    case Qt::HighDpiScaleFactorRoundingPolicy::RoundPreferFloor:
+        return QStringLiteral("RoundPreferFloor");
+    case Qt::HighDpiScaleFactorRoundingPolicy::RoundPreferCeil:
+        return QStringLiteral("RoundPreferCeil");
+    }
+    return QStringLiteral("Unknown");
+}
+
 void WindowHelper::notifyDisplayMetricsChanged()
 {
     emit screensChanged();
@@ -488,12 +508,23 @@ void WindowHelper::setNoActivate(QObject *windowObject, bool on)
 #endif
 }
 
+void WindowHelper::ensureWindowCreated(QObject *windowObject)
+{
+    QWindow *window = resolveWindow(windowObject);
+    if (window && !window->handle())
+        window->create();
+}
+
 void WindowHelper::setTransientParent(QObject *windowObject, QObject *parentWindowObject)
 {
     QWindow *window = resolveWindow(windowObject);
     QWindow *parent = resolveWindow(parentWindowObject);
     if (!window)
         return;
+    // Wayland transient + xdg-foreign export need realized surfaces (same as portal parent_window).
+    if (parent)
+        ensureWindowCreated(parent);
+    ensureWindowCreated(window);
     window->setTransientParent(parent);
 }
 
@@ -690,7 +721,10 @@ QVariantList WindowHelper::screensInfo() const
         m.insert(QStringLiteral("model"), screen->model());
         m.insert(QStringLiteral("geometry"), screen->geometry());
         m.insert(QStringLiteral("availableGeometry"), screen->availableGeometry());
-        m.insert(QStringLiteral("dpr"), screen->devicePixelRatio());
+        const qreal dpr = screen->devicePixelRatio();
+        m.insert(QStringLiteral("dpr"), dpr);
+        m.insert(QStringLiteral("fractionalScale"),
+                 qAbs(dpr - qRound(dpr)) > 0.01);
         m.insert(QStringLiteral("refreshRate"), screen->refreshRate());
         m.insert(QStringLiteral("primary"), screen == primary);
         out.push_back(m);
@@ -1003,6 +1037,31 @@ bool WindowHelper::clientShellDecoration() const
 #endif
 }
 
+bool WindowHelper::shellQuickEffectsAvailable() const
+{
+    return QWinUI3::Compat::Effects::available();
+}
+
+QString WindowHelper::shellCompositorProfile() const
+{
+#if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
+    const QString desk = desktopEnvironment().toLower();
+    if (desk.contains(QLatin1String("kde")) || desk.contains(QLatin1String("plasma")))
+        return QStringLiteral("kde");
+    if (desk.contains(QLatin1String("gnome")) || desk.contains(QLatin1String("ubuntu"))
+        || desk.contains(QLatin1String("unity"))) {
+        return QStringLiteral("gnome");
+    }
+    if (desk.contains(QLatin1String("hyprland")))
+        return QStringLiteral("hyprland");
+    if (desk.contains(QLatin1String("sway")) || desk.contains(QLatin1String("wlroots")))
+        return QStringLiteral("sway");
+    return QStringLiteral("other");
+#else
+    return QStringLiteral("other");
+#endif
+}
+
 qreal WindowHelper::shellCornerRadius() const
 {
     switch (m_corner) {
@@ -1021,7 +1080,58 @@ int WindowHelper::shellShadowMargin() const
 {
     if (!clientShellDecoration())
         return 0;
+    const QString profile = shellCompositorProfile();
+    if (profile == QLatin1String("gnome"))
+        return 8;
+    if (profile == QLatin1String("hyprland"))
+        return 12;
+    if (profile == QLatin1String("sway"))
+        return 8;
     return 10;
+}
+
+qreal WindowHelper::shellShadowOpacity() const
+{
+    if (!clientShellDecoration())
+        return 0.0;
+    const QString profile = shellCompositorProfile();
+    const bool dark = m_dark;
+    if (profile == QLatin1String("gnome"))
+        return dark ? 0.22 : 0.12;
+    if (profile == QLatin1String("sway"))
+        return dark ? 0.20 : 0.11;
+    if (profile == QLatin1String("hyprland"))
+        return dark ? 0.34 : 0.20;
+    return dark ? 0.38 : 0.24;
+}
+
+qreal WindowHelper::shellShadowBlur() const
+{
+    if (!clientShellDecoration())
+        return 0.0;
+    if (shellCompositorProfile() == QLatin1String("gnome"))
+        return 0.95;
+    if (shellCompositorProfile() == QLatin1String("sway"))
+        return 0.90;
+    return 1.15;
+}
+
+qreal WindowHelper::shellShadowVerticalOffset() const
+{
+    if (!clientShellDecoration())
+        return 0.0;
+    if (shellCompositorProfile() == QLatin1String("gnome"))
+        return 2.0;
+    if (shellCompositorProfile() == QLatin1String("sway"))
+        return 2.0;
+    return 4.0;
+}
+
+qreal WindowHelper::shellContentInset(QObject *windowObject) const
+{
+    if (!clientShellDecoration() || !shellChromeExpanded(windowObject))
+        return 0.0;
+    return shellCornerRadius();
 }
 
 bool WindowHelper::shellChromeExpanded(QObject *windowObject) const
@@ -1518,6 +1628,27 @@ void WindowHelper::centerOnScreen(QObject *windowObject)
         screen = QGuiApplication::primaryScreen();
     if (!screen)
         return;
+    const QRect ag = screen->availableGeometry();
+    const QSize sz = window->size();
+    window->setPosition(ag.x() + (ag.width() - sz.width()) / 2,
+                        ag.y() + (ag.height() - sz.height()) / 2);
+}
+
+void WindowHelper::centerOnOwner(QObject *windowObject, QObject *ownerWindowObject)
+{
+    QWindow *window = resolveWindow(windowObject);
+    QWindow *owner = resolveWindow(ownerWindowObject);
+    if (!window)
+        return;
+    QScreen *screen = owner ? owner->screen() : nullptr;
+    if (!screen)
+        screen = window->screen();
+    if (!screen)
+        screen = QGuiApplication::primaryScreen();
+    if (!screen) {
+        centerOnScreen(windowObject);
+        return;
+    }
     const QRect ag = screen->availableGeometry();
     const QSize sz = window->size();
     window->setPosition(ag.x() + (ag.width() - sz.width()) / 2,

@@ -1,4 +1,4 @@
-# Linux / Wayland notes for QWinUI3 (1.38 / 1.68 / 1.79 / 2.03 / 2.33)
+# Linux / Wayland notes for QWinUI3 (1.38 / 1.68 / 1.79 / 2.03 / 2.33 / 2.53)
 
 QWinUI3 uses **client-side Fluent chrome** on Linux (`WindowHelper.customFrame`, `FramelessWindowHint`, in-app `PlatformTitleBar`). Compositor server-side decorations stay off by default.
 
@@ -16,7 +16,9 @@ CI Linux Gallery jobs use **offscreen `--smoke`** (build + QML load). They do **
 |---------|--------------|-------------------|
 | **Double title bar** (compositor + Fluent) | SSD still on | Keep `QT_WAYLAND_DISABLE_WINDOWDECORATION=1` (Bootstrap default). Debug only: set `=0`. Check `WindowHelper.serverSideDecorations` / `customFrame`. |
 | **Hollow / white client** with Mica copy-paste | Transparent host + no DWM | Use `BackdropSolid`; `resolveBackdrop()` coerces on Linux. Prefer [window-shells.md](window-shells.md). |
-| **File dialog not modal / wrong parent** on pure Wayland | Portal `parent_window` empty | Always pass `Window.window`. X11/XWayland → `x11:0x…`. Pure Wayland (**1.79**): prefer Qt `portalWindowIdentifier` (xdg-foreign) when the kit was built with GuiPrivate; else native-resource keys; window is `create()`d first. Still may be empty on some compositors — dialog opens anyway. Live: `WindowHelper.portalParentWindow(Window.window)`. |
+| **Square bleed at shell corners** | Full-bleed nav/page ignored inset | **Fixed 2.53** — `NavigationWindow` + `nav-settings` use `WindowShellContentClip`; manual wrap for custom shells |
+| **Heavy shadow on Sway** | Profile was `other` | **Fixed 2.53** — `shellCompositorProfile` → `sway` (softer shadow) |
+| **File dialog not modal** on pure Wayland | Portal `parent_window` empty | Always pass `Window.window`. X11/XWayland → `x11:0x…`. Pure Wayland (**1.79**): prefer Qt `portalWindowIdentifier` (xdg-foreign) when the kit was built with GuiPrivate; else native-resource keys; window is `create()`d first. Still may be empty on some compositors — dialog opens anyway. **2.53:** `qWarning` if `parentWindow` omitted on Wayland. Live: `WindowHelper.portalParentWindow(Window.window)`. |
 | **Second zenity/kdialog after portal** | Portal wait timed out then fallback | **Fixed 1.68** — once FileChooser returns a request path, timeout/cancel does **not** fall back. Empty path = cancel. |
 | **Filters ignored on Linux** | Old FilePicker unused `nameFilters` | **Fixed 1.68** — portal `filters` + zenity `--file-filter` / kdialog pattern. |
 | **FilePicker falls to zenity/kdialog** | Portal missing / DBus down / OpenFile error | Install `xdg-desktop-portal` + GTK/KDE backend; ensure session bus. Fallbacks remain supported. |
@@ -138,8 +140,9 @@ Without Effects at **build** time, Platform ships **`WindowShellDecoration_Simpl
 |---------|--------------|---------------|
 | `kde` | Plasma / KWin | Default opacity + margin (reference) |
 | `gnome` | GNOME / Mutter | Lower opacity + margin — avoids double-shadow with compositor CSD |
+| `sway` | Sway / wlroots tiling | **2.53** — GNOME-like soft shadow (was `other`) |
 | `hyprland` | Hyprland | Slightly softer than KDE |
-| `other` | Sway, wlroots, … | KDE-like defaults |
+| `other` | Unknown / generic | KDE-like defaults |
 
 Readouts: `shellShadowMargin()`, `shellShadowOpacity()`, `shellQuickEffectsAvailable`. Gallery **System integration** shows live values.
 

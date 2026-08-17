@@ -74,6 +74,7 @@ CatalogPage {
             spacing: Theme.spacing
             Repeater {
                 model: [
+                    { label: qsTr("Linux top-3 parity (2.53)"), doc: "docs/linux-top3-253.md", page: "SystemIntegrationPage" },
                     { label: qsTr("First app in an hour (2.52)"), doc: "docs/first-app-252.md", page: "ExamplesTemplatesPage" },
                     { label: qsTr("Stable vs experimental clarity (2.51)"), doc: "docs/stable-clarity-251.md", page: "PitfallsPage" },
                     { label: qsTr("Field harden buffer (2.47)"), doc: "docs/field-harden-247.md", page: "PitfallsPage" },

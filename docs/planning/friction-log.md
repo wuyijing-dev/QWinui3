@@ -45,7 +45,7 @@
 | **Pain** | No rounded corners / drop shadow on Linux Fluent shell; looks unfinished vs Win11. |
 | **Workaround today** | Solid opaque window or compositor defaults. |
 | **Proposed slice** | **2.03** compositor polish + **2.68** if residual |
-| **Status** | partial — **1.92** + **2.03** client CSD; **2.68** if field gaps remain |
+| **Status** | partial — **1.92** + **2.03** client CSD; **2.53** top-3 shell fixes — [linux-top3-253.md](../linux-top3-253.md); **2.68** if field gaps remain |
 
 ### FL-012 — Explorer apps blocked without tree + file metadata
 
