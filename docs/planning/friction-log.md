@@ -89,7 +89,7 @@
 | **Pain** | Mail editors, long notes, and template authoring need basic formatting; plain `TextArea` or WebView2 hacks fail a11y/IME integration. |
 | **Workaround today** | Embed WebView2 or third-party editor; lose Fluent chrome. |
 | **Proposed slice** | **2.61** **(conditional)** `RichEdit` |
-| **Status** | open — **conditional**; needs named app |
+| **Status** | closed — **2.61** Gallery mail-compose recipe · [rich-edit-261.md](../rich-edit-261.md) |
 
 ### FL-006 — Contacts / album dual-view blocked
 
@@ -226,6 +226,10 @@
 ---
 
 ## Checkpoint notes
+
+### 2.61 (2026-08-17)
+
+**FL-005** closed — experimental **`RichEdit`** + Gallery mail-compose recipe — [rich-edit-261.md](../rich-edit-261.md).
 
 ### 2.60 (2026-08-17)
 

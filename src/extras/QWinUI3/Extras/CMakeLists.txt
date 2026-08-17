@@ -161,6 +161,7 @@ qt_add_qml_module(qwinui3_extras
         RatingControl.qml
         RefreshContainer.qml
         RelativePanel.qml
+        RichEdit.qml
         SearchBox.qml
         SegmentedControl.qml
         SelectorBar.qml

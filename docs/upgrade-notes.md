@@ -47,6 +47,28 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 2.60 → 2.61
+
+**Product version:** 2.61
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **RichEdit (experimental):** mail/template editor — [rich-edit-261.md](rich-edit-261.md) (**2.61** / **FL-005**).
+- Gallery **RichEdit** mail-compose recipe; **`sanitizePaste`** on by default.
+
+#### Action required (only if you adopt RichEdit)
+
+| Area | Change | What to do |
+|------|--------|------------|
+| **RichEdit** | New **experimental** Extras type | `import QWinUI3.Extras` · mark experimental in app docs · wire **`onLinkActivated`** |
+| **Paste** | HTML subset | Keep **`sanitizePaste: true`** for user paste; review security-sensitive flows |
+
+#### No action (compatible)
+
+- Apps not using **`RichEdit`** — no API breaks.
+
 ### Upgrade 2.59 → 2.60
 
 **Product version:** 2.60

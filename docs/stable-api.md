@@ -169,7 +169,7 @@ Before copying a Gallery page into product code, check **badge + module**:
 | If you need… | Import | Verdict |
 |--------------|--------|---------|
 | Buttons, dialogs, shells, stable six charts | `QWinUI3.Style` / `Theme` / documented stable module | **Ship** |
-| OSK, `CalendarView`, `TreeDataGrid`, `NotificationCenter`, … | `QWinUI3.Extras` (or page-specific) | **Experimental** — friction row or internal only |
+| OSK, `CalendarView`, `TreeDataGrid`, `NotificationCenter`, `RichEdit`, … | `QWinUI3.Extras` (or page-specific) | **Experimental** — friction row or internal only |
 | `AreaChart`, `MediaPlayerElement`, deferred gauges | Do not import for shipping UI | **Permanent defer** — compose per [charts.md](charts.md) / [media.md](media.md) |
 
 **Rule:** If a type is not listed under **Stable** on this page, assume **experimental** until [experimental-sweep.md](experimental-sweep.md) says otherwise. Gallery **Pitfalls** + **2.51** lint: [stable-clarity-251.md](stable-clarity-251.md) · [field-harden-247.md](field-harden-247.md).
@@ -278,6 +278,7 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **2.42** | SwipeControl deepen — thresholds + nested scroll + teaching — [touch-pointer.md](touch-pointer.md) |
 | **2.50** | Tranche-1 checkpoint — [checkpoint-250.md](checkpoint-250.md); friction-only **2.51+** |
 | **2.51** | Stable vs experimental clarity — [stable-clarity-251.md](stable-clarity-251.md); `lint_qml_imports.py`; **FL-004** queue closed |
+| **2.61** | `RichEdit` experimental — mail/template rich text; [rich-edit-261.md](rich-edit-261.md); **FL-005** closed |
 | **2.52** | First app in an hour — [first-app-252.md](first-app-252.md); `examples/first-app/` + preview **DashboardShell** |
 | **2.53** | Linux top-3 parity — [linux-top3-253.md](linux-top3-253.md); **NavigationWindow** clip + **sway** profile + FilePicker guard |
 | **2.54** | Window chrome footguns — [window-chrome-footguns-254.md](window-chrome-footguns-254.md); geometry schema v2 + hit-test refresh |

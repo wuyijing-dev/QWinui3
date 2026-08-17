@@ -4,7 +4,7 @@ Shows the SwitchCase matching value.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/SwitchPresenter.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/SwitchPresenter.qml)
 
-**Category:** Input & forms · **Library:** v2.60
+**Category:** Input & forms · **Library:** v2.61
 
 [← Component index](../components.md)
 

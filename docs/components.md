@@ -1,6 +1,6 @@
 # QWinUI3 component API
 
-Library **v2.60**. Generated from QML source comments (`scripts/generate_component_docs.py`).
+Library **v2.61**. Generated from QML source comments (`scripts/generate_component_docs.py`).
 Each control has its own page under `docs/components/`.
 
 ```bash
@@ -8,7 +8,7 @@ python scripts/generate_component_docs.py
 python scripts/generate_component_docs.py --lint
 ```
 
-**227** public · **11** internal · **159** with Gallery demos · Hub: [docs home](index.md).
+**228** public · **11** internal · **160** with Gallery demos · Hub: [docs home](index.md).
 
 ## By module
 
@@ -123,6 +123,7 @@ python scripts/generate_component_docs.py --lint
 - [RefreshContainer](components/RefreshContainer.md) — Pull-to-refresh host for flickable content. · Gallery
 - [RelativePanel](components/RelativePanel.md) — Constraint-based relative layout. · Gallery
 - [RepositionThemeTransition](components/RepositionThemeTransition.md) — Animate this item when its layout x/y change.
+- [RichEdit](components/RichEdit.md) — Fluent rich-text editor for mail / template / long notes (2.61). · Gallery
 - [RingGauge](components/RingGauge.md) — Closed-ring dashboard gauge with center value and thresholds. · Gallery
 - [ScatterChart](components/ScatterChart.md) — Scatter / bubble chart. · Gallery
 - [SearchBox](components/SearchBox.md) — Search field with suggestion list. · Gallery
@@ -418,6 +419,7 @@ python scripts/generate_component_docs.py --lint
 - [MetadataControl](components/MetadataControl.md) — `QWinUI3.Extras`
 - [MetadataItem](components/MetadataItem.md) — `QWinUI3.Extras`
 - [RefreshContainer](components/RefreshContainer.md) — `QWinUI3.Extras`
+- [RichEdit](components/RichEdit.md) — `QWinUI3.Extras`
 - [SegmentedControl](components/SegmentedControl.md) — `QWinUI3.Extras`
 - [StandardTitleChrome](components/StandardTitleChrome.md) — `QWinUI3.Extras`
 - [SwipeAction](components/SwipeAction.md) — `QWinUI3.Extras`

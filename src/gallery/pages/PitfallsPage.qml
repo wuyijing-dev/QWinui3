@@ -206,6 +206,26 @@ CatalogPage {
     }
 
     ControlExample {
+        headerText: qsTr("RichEdit in mail apps (2.61 / FL-005)")
+        qmlSource: "RichEdit { sanitizePaste: true }\\n// docs/rich-edit-261.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("2.61: RichEdit for bold/italic/lists/links with IME-friendly TextEdit — not WebView2. sanitizePaste strips script/iframe/on* attributes. Experimental — Gallery mail-compose recipe. docs/rich-edit-261.md")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            CheckBox { text: qsTr("Pair TokenizingTextBox (To) + TextField (Subject) + RichEdit (Body)") }
+            CheckBox { text: qsTr("Wire onLinkActivated — do not leave javascript: links") }
+            CheckBox { text: qsTr("RichEdit experimental — not stable-api until promote gate") }
+        }
+    }
+
+    ControlExample {
         headerText: qsTr("Friction-line checkpoint (2.60)")
         qmlSource: "// 2.51…2.60 audited — professional 2.61+\\n// docs/checkpoint-260.md"
         ColumnLayout {

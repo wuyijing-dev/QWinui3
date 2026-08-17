@@ -4,7 +4,7 @@ Popup CommandBar with primary + secondary commands.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/CommandBarFlyout.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/CommandBarFlyout.qml)
 
-**Category:** Buttons & commands · **Library:** v2.60
+**Category:** Buttons & commands · **Library:** v2.61
 
 [← Component index](../components.md)
 

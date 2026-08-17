@@ -28,6 +28,7 @@ Related: [stable-api.md](stable-api.md) · [friction-log.md](planning/friction-l
 | **FileTree / TreeDataGrid / ItemsWrapGrid** | **Experimental** | [tree-data.md](tree-data.md) · [items-wrap-grid.md](items-wrap-grid.md) |
 | **CalendarView** | **Experimental** | Date pickers stable — [calendar-view.md](calendar-view.md) |
 | **NotificationCenter** | **Experimental** | Toast/InfoBar stable — [feedback.md](feedback.md) |
+| **RichEdit** | **Experimental** | Mail/template rich text — [rich-edit-261.md](rich-edit-261.md) |
 | **SwipeControl** | **Experimental** | [touch-pointer.md](touch-pointer.md) |
 | **DashboardShell** | **Experimental** (2.52 preview) | `examples/first-app` — promote **2.65** — [first-app-252.md](first-app-252.md) |
 | **AnimatedIcon / motion helpers** | **Experimental** | [icons.md](icons.md) · [animations.md](animations.md) |

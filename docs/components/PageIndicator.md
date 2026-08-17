@@ -4,7 +4,7 @@ Fluent styled PageIndicator.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/PageIndicator.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/PageIndicator.qml)
 
-**Category:** Styled controls · **Library:** v2.60
+**Category:** Styled controls · **Library:** v2.61
 
 [← Component index](../components.md)
 

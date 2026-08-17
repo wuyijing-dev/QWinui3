@@ -11,8 +11,20 @@ endif()
 # Always ship the Media Gallery page (1.21) — EmptyState / stub when Multimedia is off.
 set(QWINUI3_GALLERY_MEDIA_QML pages/MediaPlayerElementPage.qml)
 
+find_package(Qt6 REQUIRED COMPONENTS LinguistTools)
+
 qt_add_executable(qwinui3_gallery
     main.cpp
+)
+
+qt_add_translations(qwinui3_gallery
+    TS_FILES
+        translations/qwinui3_gallery_en.ts
+        translations/qwinui3_gallery_zh_CN.ts
+        translations/qwinui3_gallery_ja_JP.ts
+        translations/qwinui3_gallery_ko_KR.ts
+        translations/qwinui3_gallery_de_DE.ts
+    RESOURCE_PREFIX "/i18n"
 )
 
 qt_add_qml_module(qwinui3_gallery
@@ -21,6 +33,8 @@ qt_add_qml_module(qwinui3_gallery
     SOURCES
         GraphicsBackend.h
         GraphicsBackend.cpp
+        GalleryLanguage.h
+        GalleryLanguage.cpp
         DemoTreeModel.h
         DemoTreeModel.cpp
     QML_FILES
@@ -28,6 +42,7 @@ qt_add_qml_module(qwinui3_gallery
         ControlCatalog.qml
         GalleryHistory.qml
         PageHeader.qml
+        ApiStabilityBadge.qml
         ControlExample.qml
         CatalogPage.qml
         pages/HomePage.qml
@@ -76,6 +91,9 @@ qt_add_qml_module(qwinui3_gallery
         pages/FlipViewPage.qml
         pages/FlyoutPage.qml
         pages/FormValidationPage.qml
+        pages/FormRegistrationTemplatePage.qml
+        pages/FormAdminCrudTemplatePage.qml
+        pages/SettingsPreferencesTemplatePage.qml
         pages/FramePage.qml
         pages/FontIconPage.qml
         pages/GridTilePage.qml
@@ -96,6 +114,7 @@ qt_add_qml_module(qwinui3_gallery
         pages/InfoTeachingRecipePage.qml
         pages/OnboardingCoachPage.qml
         pages/ItemsRepeaterPage.qml
+        pages/ItemsWrapGridPage.qml
         pages/ItemsViewPage.qml
         pages/WebView2Page.qml
         pages/KeyVisualPage.qml
@@ -144,6 +163,7 @@ qt_add_qml_module(qwinui3_gallery
         pages/MultiSelectComboBoxPage.qml
         pages/NavigationViewPage.qml
         pages/NotificationBridgePage.qml
+        pages/NotificationCenterPage.qml
         pages/NumberBoxPage.qml
         pages/PageIndicatorPage.qml
         pages/PanePage.qml
@@ -174,6 +194,7 @@ qt_add_qml_module(qwinui3_gallery
         pages/RelativePanelPage.qml
         pages/ScrollBarPage.qml
         pages/SearchBoxPage.qml
+        pages/RichEditPage.qml
         pages/SearchRecipesPage.qml
         pages/SecurityTrustPage.qml
         pages/SegmentedControlPage.qml
@@ -203,6 +224,7 @@ qt_add_qml_module(qwinui3_gallery
         pages/TabViewPage.qml
         pages/TeachingTipPage.qml
         pages/ThemeTransitionsPage.qml
+        pages/StyleSpotCheckPage.qml
         pages/ThemeOverridesPage.qml
         pages/ThemePrefsPage.qml
         pages/TextAreaPage.qml
@@ -220,6 +242,8 @@ qt_add_qml_module(qwinui3_gallery
         pages/ToggleSplitButtonPage.qml
         pages/ToolBarPage.qml
         pages/ToolTipPage.qml
+        pages/FileTreePage.qml
+        pages/TreeDataGridPage.qml
         pages/TreeViewPage.qml
         pages/TreeViewRecipePage.qml
         pages/TumblerPage.qml

@@ -253,6 +253,14 @@ QtObject {
             source: "pages/SearchBoxPage.qml"
         },
         {
+            title: qsTr("RichEdit"),
+            category: "text",
+            icon: FluentIcons.Edit,
+            description: qsTr("Rich text for mail and templates — experimental, docs/rich-edit-261.md (2.61)."),
+            component: "RichEditPage",
+            source: "pages/RichEditPage.qml"
+        },
+        {
             title: qsTr("TokenizingTextBox"),
             category: "text",
             icon: FluentIcons.Library,
@@ -1676,7 +1684,7 @@ QtObject {
     readonly property var _experimentalPages: [
         "OnScreenKeyboardPage",
         "FileTreePage", "TreeDataGridPage", "ItemsWrapGridPage",
-        "CalendarViewPage", "NotificationCenterPage", "SwipeControlPage",
+        "CalendarViewPage", "NotificationCenterPage", "RichEditPage", "SwipeControlPage",
         "AnimatedIconPage", "AnimationsPage", "ConnectedAnimationPage",
         "EntranceThemeTransitionPage"
     ]
@@ -1725,6 +1733,7 @@ QtObject {
     // Curated “recently shipped” recipe pages (1.20) — not catalog array order.
     function recentlyShipped(count) {
         var ids = [
+            "RichEditPage",           // 2.61 RichEdit / FL-005
             "PitfallsPage",           // 2.60 friction checkpoint
             "PerformancePage",        // 2.59 app sluggishness wave 9
             "CommandPalettePage",     // 2.59 command recents + debounce
