@@ -6,7 +6,7 @@ Wave 2 (1.19): **DataTable** / **ListDetailsView** / **ItemsView** / **FormLayou
 
 Authoring rules: [`conventions.md`](conventions.md). Live checklist: Gallery **Accessibility** page (includes keyboard tour **1.44**).
 
-**Keyboard-first cookbook:** [keyboard.md](keyboard.md) (**1.44**).
+**Keyboard-first cookbook:** [keyboard.md](keyboard.md) (**1.44**). Touch PCs still need chords — see also [touch-pointer.md](touch-pointer.md) (**1.57**).
 
 ---
 
@@ -141,5 +141,6 @@ Recipe doc: [`media.md`](media.md).
 3. Override `accessibleName` on DataTable / ItemsView / ListDetailsView / FormLayout when multiple instances share a page.
 4. Brand accent contrast: [color-contrast.md](color-contrast.md) (**1.43**) — Gallery Theme overrides AA table.
 5. Keyboard-first shell: [keyboard.md](keyboard.md) (**1.44**) — Ctrl+K, dialogs, list arrows.
-4. Wire Gallery/Settings “Follow system accessibility” or copy `WindowHelper` SPI into `Theme.*`.
-5. Do not attach `Accessible` to `Window` / `Popup` / `Dialog` hosts — name chrome items instead.
+6. Touch / finger targets: [touch-pointer.md](touch-pointer.md) (**1.57**) — prefer standard density; no hover-only UI.
+7. Wire Gallery/Settings “Follow system accessibility” or copy `WindowHelper` SPI into `Theme.*`.
+8. Do not attach `Accessible` to `Window` / `Popup` / `Dialog` hosts — name chrome items instead.

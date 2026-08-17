@@ -1303,6 +1303,14 @@ QtObject {
             source: "pages/DensityPage.qml"
         },
         {
+            title: qsTr("Touch & pointer"),
+            category: "recipes",
+            icon: FluentIcons.Tablet,
+            description: qsTr("Targets · scroll vs drag · pen notes — docs/touch-pointer.md (1.57)."),
+            component: "TouchPointerPage",
+            source: "pages/TouchPointerPage.qml"
+        },
+        {
             title: qsTr("Graphics backend"),
             category: "recipes",
             icon: FluentIcons.Color,

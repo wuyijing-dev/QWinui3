@@ -9,7 +9,23 @@ import QWinUI3.Extras
 
 CatalogPage {
     title: qsTr("Accessibility")
-    subtitle: qsTr("A11y checklist + keyboard-first tour — docs/keyboard.md (1.44).")
+    subtitle: qsTr("A11y checklist + keyboard + touch pointers — docs/accessibility.md · docs/touch-pointer.md (1.57).")
+
+    ControlExample {
+        headerText: qsTr("Touch & pointer (1.57)")
+        qmlSource: "docs/touch-pointer.md · Theme.controlHeight"
+        ColumnLayout {
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Finger targets, scroll vs drag, and pen hover notes: docs/touch-pointer.md. Prefer density \"standard\" for touch-first shells; do not put required UI only on hovered.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+        }
+    }
 
     ControlExample {
         headerText: qsTr("Keyboard-first tour (1.44)")

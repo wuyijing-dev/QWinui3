@@ -4,7 +4,7 @@ Compact vs comfortable metrics, fixed type scale, and one narrow-window shell pa
 
 Gallery: **Theme overrides** (live metrics) · Settings → Density · **NavigationView** (`paneDisplayMode: auto`) · **ListDetailsView**.
 
-Related: [navigation.md](navigation.md) · [window-shells.md](window-shells.md) · [icons.md](icons.md) · [components/Theme.md](components/Theme.md).
+Related: [navigation.md](navigation.md) · [window-shells.md](window-shells.md) · [icons.md](icons.md) · [touch-pointer.md](touch-pointer.md) (**1.57**) · [components/Theme.md](components/Theme.md).
 
 ---
 
@@ -91,6 +91,7 @@ Master–detail starter: [`examples/master-detail`](../examples/master-detail/).
 | Page | What to try |
 |------|-------------|
 | Theme overrides | Toggle density / uiScale; watch live `controlHeight` / `spacing` |
+| **Touch & pointer** | Finger checklist + target floor (**1.57**) — [touch-pointer.md](touch-pointer.md) |
 | Settings | Persistent Gallery density |
 | NavigationView | `auto` / `leftCompact` / `leftMinimal` |
 | ListDetailsView | Force narrow with `minWideWidth: 900` in the demo |

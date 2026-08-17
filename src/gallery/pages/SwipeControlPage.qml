@@ -10,7 +10,7 @@ import QWinUI3.Extras
 
 CatalogPage {
     title: qsTr("SwipeControl")
-    subtitle: qsTr("Reveal actions with ElevatedChrome panel, keyboard arrows / Esc, and isOpen.")
+    subtitle: qsTr("Swipe reveal + non-swipe path — docs/touch-pointer.md (1.57).")
 
     ControlExample {
         headerText: qsTr("Mail item")

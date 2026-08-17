@@ -8,9 +8,10 @@ End-to-end keyboard story for a QWinUI3 LoB shell: **global chords → CommandPa
 | Dialogs Esc/Enter | [dialogs-flyouts.md](dialogs-flyouts.md) |
 | Lists / tables | [data-collections.md](data-collections.md) · [tree-data.md](tree-data.md) |
 | Names / a11y | [accessibility.md](accessibility.md) · [conventions.md](conventions.md) |
+| Touch / pen | [touch-pointer.md](touch-pointer.md) (**1.57**) |
 | Focus chrome | `FocusStroke` / Theme focus tokens |
 
-Gallery tour: **Accessibility** (checklist) · **CommandPalette** · **CommandBar** · **ContentDialog** · **DataTable** / **ListDetailsView** · Settings (page transition / a11y).
+Gallery tour: **Accessibility** (checklist) · **Touch & pointer** · **CommandPalette** · **CommandBar** · **ContentDialog** · **DataTable** / **ListDetailsView** · Settings (page transition / a11y).
 
 ---
 

@@ -208,6 +208,7 @@ qt_add_qml_module(qwinui3_gallery
         pages/ToastHostPage.qml
         pages/ToastPage.qml
         pages/TokenizingTextBoxPage.qml
+        pages/TouchPointerPage.qml
         pages/ToggleButtonPage.qml
         pages/ToggleSplitButtonPage.qml
         pages/ToolBarPage.qml

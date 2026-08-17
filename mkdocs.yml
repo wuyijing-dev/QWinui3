@@ -83,6 +83,7 @@ nav:
       - Tree & hierarchical: tree-data.md
       - Input & pickers: pickers.md
       - Density & responsive: density.md
+      - Touch, pen & pointer: touch-pointer.md
       - Adaptive layout: adaptive-layout.md
       - Theme overrides: theme-overrides.md
       - Color & contrast: color-contrast.md

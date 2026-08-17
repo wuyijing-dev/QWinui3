@@ -124,6 +124,7 @@ CatalogPage {
                     { label: qsTr("Data collections"), doc: "docs/data-collections.md", page: "DataTablePage" },
                     { label: qsTr("Tree data"), doc: "docs/tree-data.md", page: "TreeViewRecipePage" },
                     { label: qsTr("Density"), doc: "docs/density.md", page: "DensityPage" },
+                    { label: qsTr("Touch & pointer"), doc: "docs/touch-pointer.md", page: "TouchPointerPage" },
                     { label: qsTr("Adaptive layout"), doc: "docs/adaptive-layout.md", page: "TwoPaneViewPage" },
                     { label: qsTr("Theme / contrast"), doc: "docs/color-contrast.md", page: "ThemeOverridesPage" },
                     { label: qsTr("Icons"), doc: "docs/icons.md", page: "FontIconPage" },

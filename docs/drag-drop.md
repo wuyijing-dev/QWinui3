@@ -51,7 +51,7 @@ Button {
 | MIME | `DropArea.keys: ["text/uri-list"]` — OS file managers / Explorer / Nautilus |
 | Filter | `acceptExtensions` — lowercase suffixes; **empty = accept all** URLs |
 | Reject | Non-matching drops are ignored (no `filesDropped`) |
-| Browse | Wire `FilePicker` beside the zone — drop is not enough for keyboard / a11y users |
+| Browse | Wire `FilePicker` beside the zone — drop is not enough for keyboard / a11y / **touch** users ([touch-pointer.md](touch-pointer.md) **1.57**) |
 | Paths | Drop gives URLs; FilePicker gives native paths — normalize in one place |
 
 ### Win / Linux notes

@@ -47,6 +47,20 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.56 → 1.57
+
+**Product version:** 1.57  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- Touch / pen cookbook: [touch-pointer.md](touch-pointer.md) — target floors, scroll vs drag, stylus hover notes.
+- Gallery **Touch & pointer** page + callouts on Button / Slider / Nav / FileDropZone / SwipeControl; density & a11y cross-links.
+
+#### No action (compatible)
+
+- Docs + Gallery only; no new input stack.
+
 ### Upgrade 1.55 → 1.56
 
 **Product version:** 1.56  

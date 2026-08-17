@@ -46,6 +46,7 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 | [Tree & hierarchical](tree-data.md) | TreeView expand / a11y |
 | [Input & pickers](pickers.md) | Number / date / time / color |
 | [Density & responsive](density.md) | Compact metrics, narrow shells |
+| [Touch, pen & pointer](touch-pointer.md) | Targets · scroll vs drag · pen notes (**1.57**) |
 | [Adaptive layout](adaptive-layout.md) | TwoPaneView / ListDetailsView breakpoints (1.42) |
 | [Theme overrides](theme-overrides.md) | Accent / density / branding |
 | [Color & contrast](color-contrast.md) | AA diagnostics / high contrast (1.43) |
@@ -95,7 +96,6 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 | Example | Recipe pair |
 |---------|-------------|
 | [`examples/gallery-shell`](../examples/gallery-shell/) | [window-shells.md](window-shells.md) / [navigation.md](navigation.md) (**1.50**) |
-| [`examples/multi-window`](../examples/multi-window/) | [window-shells.md](window-shells.md) multi-window (**1.56**) |
 | [`examples/multi-window`](../examples/multi-window/) | [window-shells.md](window-shells.md) multi-window (**1.56**) |
 | [`examples/nav-settings`](../examples/nav-settings/) | [navigation.md](navigation.md) |
 | [`examples/settings-cards`](../examples/settings-cards/) | [forms.md](forms.md) / theme |

@@ -13,7 +13,7 @@ CatalogPage {
     id: page
 
     title: qsTr("FileDropZone")
-    subtitle: qsTr("Drop + Browse + copy path — docs/drag-drop.md (1.41).")
+    subtitle: qsTr("Drop + Browse + copy path — docs/drag-drop.md (1.41). Touch: keep Browse — docs/touch-pointer.md (1.57).")
 
     property var lastUrls: []
     property string lastStatus: qsTr("Waiting for drop or Browse…")
