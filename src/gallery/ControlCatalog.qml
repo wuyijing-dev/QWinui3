@@ -1725,6 +1725,7 @@ QtObject {
     // Curated “recently shipped” recipe pages (1.20) — not catalog array order.
     function recentlyShipped(count) {
         var ids = [
+            "PitfallsPage",           // 2.60 friction checkpoint
             "PerformancePage",        // 2.59 app sluggishness wave 9
             "CommandPalettePage",     // 2.59 command recents + debounce
             "OnScreenKeyboardPage",   // 2.58 OSK in apps / FL-017

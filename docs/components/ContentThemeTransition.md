@@ -4,7 +4,7 @@ Cross-fade + slight horizontal shift when swapping content.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ContentThemeTransition.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ContentThemeTransition.qml)
 
-**Category:** Media & platform · **Library:** v2.59
+**Category:** Media & platform · **Library:** v2.60
 
 [← Component index](../components.md)
 

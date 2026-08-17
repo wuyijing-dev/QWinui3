@@ -25,7 +25,7 @@ Earlier: [checkpoint-273.md](checkpoint-273.md) · [checkpoint-270.md](checkpoin
 | Check | Result |
 |-------|--------|
 | Tranche 1 (**2.00…2.50**) | **TBD** — [checkpoint-250.md](checkpoint-250.md) |
-| Friction tranche (**2.51…2.60**) | **TBD** — [checkpoint-260.md](checkpoint-260.md) |
+| Friction tranche (**2.51…2.60**) | **OK** — [checkpoint-260.md](checkpoint-260.md) |
 | Professional surfaces (**2.61…2.70**) | **TBD** — [checkpoint-270.md](checkpoint-270.md) |
 | Python / PyPI (**2.71…2.72**) | **TBD** — [checkpoint-273.md](checkpoint-273.md) |
 | Recipe + ROADMAP `docs/*.md` links | **TBD** (`python scripts/check_docs_links.py`) |

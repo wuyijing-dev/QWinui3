@@ -4,7 +4,7 @@ Light-dismiss popup anchored to a target.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/Flyout.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/Flyout.qml)
 
-**Category:** Dialogs & flyouts · **Library:** v2.59
+**Category:** Dialogs & flyouts · **Library:** v2.60
 
 [← Component index](../components.md)
 

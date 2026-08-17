@@ -13,7 +13,7 @@ CatalogPage {
     id: page
 
     title: qsTr("Pitfalls")
-    subtitle: qsTr("Anti-patterns + tranche-1 checkpoint (2.50) — docs/checkpoint-250.md")
+    subtitle: qsTr("Anti-patterns + friction checkpoint (2.60) — docs/checkpoint-260.md")
 
     property real demoProgress: 0.65
 
@@ -202,6 +202,26 @@ CatalogPage {
             CheckBox { text: qsTr("Copy Gallery demos only with experimental/stable badges") }
             CheckBox { text: qsTr("2.00 lift not bundled — read compatibility-1xx.md") }
             CheckBox { text: qsTr("Re-read docs/checkpoint-250.md after friction-log edits") }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Friction-line checkpoint (2.60)")
+        qmlSource: "// 2.51…2.60 audited — professional 2.61+\\n// docs/checkpoint-260.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("2.60 closes friction tranche: 2.51…2.59 shipped; FL-017/FL-018 closed; honest defer on FL-003/004/008. 3.00 prep draft only — breaks at 3.00. Next: 2.61…2.70 professional surfaces. Full audit: docs/checkpoint-260.md · docs/planning/friction-log.md.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            CheckBox { text: qsTr("After 2.60: professional surfaces 2.61+ — conditional rows need friction-log apps") }
+            CheckBox { text: qsTr("3.00 prep: upgrade-notes Upgrade 2.60 → 3.00 (draft) — not in this tag") }
+            CheckBox { text: qsTr("Re-read docs/checkpoint-260.md before reordering 2.61 queue") }
         }
     }
 

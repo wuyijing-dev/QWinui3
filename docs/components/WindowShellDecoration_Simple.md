@@ -4,7 +4,7 @@ fallback when QtQuick.Effects is unavailable at build time. Same public API as W
 
 `import QWinUI3.Platform` · [`src/platform/QWinUI3/Platform/WindowShellDecoration_Simple.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/platform/QWinUI3/Platform/WindowShellDecoration_Simple.qml)
 
-**Category:** Platform · **Library:** v2.59
+**Category:** Platform · **Library:** v2.60
 
 [← Component index](../components.md)
 

@@ -1,6 +1,6 @@
 # QWinUI3 component API
 
-Library **v2.59**. Generated from QML source comments (`scripts/generate_component_docs.py`).
+Library **v2.60**. Generated from QML source comments (`scripts/generate_component_docs.py`).
 Each control has its own page under `docs/components/`.
 
 ```bash

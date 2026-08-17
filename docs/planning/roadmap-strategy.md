@@ -2,7 +2,7 @@
 
 How to extend QWinUI3 **after tranche 1** without returning to “every minor adds a control.”
 
-**Current line:** **2.50** shipped · **Tranche 1 done** · **Next:** friction-only **2.51…2.60** · **Line end:** **3.00** after **2.73**
+**Current line:** **2.60** shipped · **Friction tranche done** · **Next:** professional surfaces **2.61…2.70** · **Line end:** **3.00** after **2.73**
 
 Related: [Planning hub](index.md) · [roadmap.md](../roadmap.md) · [friction-log.md](friction-log.md) · [charts-dashboard-arc.md](expansion/charts-dashboard-arc.md) · [component-capabilities-expansion.md](expansion/component-capabilities-expansion.md) · [icons-dashboard-expansion.md](expansion/icons-dashboard-expansion.md)
 
@@ -20,7 +20,7 @@ flowchart LR
 | Phase | Versions | Rule | Success metric |
 |-------|----------|------|----------------|
 | **Close-out** | **2.44 → 2.50** | Ship planned audit slices; **no** new conditional controls without friction | [checkpoint-250.md](../checkpoint-250.md) green |
-| **Friction** | **2.51 → 2.60** | **No open P0/P1 in [friction-log.md](friction-log.md) → skip tag** | Real app pains closed |
+| **Friction** | **2.51 → 2.60** | **Shipped** — [checkpoint-260.md](../checkpoint-260.md) | Real app pains closed |
 | **Professional** | **2.61 → 2.70** | LoB recipes + conditional types **only** with named friction | [checkpoint-270.md](../checkpoint-270.md) |
 | **Python** | **2.71 → 2.73** | PySide6 + PyPI after **2.02** packaging | [checkpoint-273.md](../checkpoint-273.md) |
 | **2.x close-out** | **3.00** | One breaking major — **not** a parking-lot dump | [checkpoint-300.md](../checkpoint-300.md) |
@@ -42,9 +42,11 @@ flowchart LR
 
 ---
 
-## Phase B — recommended friction queue (2.51…2.60)
+## Phase B — friction queue (2.51…2.60) — **closed at 2.60**
 
-**Priority order** when multiple P0/P1 rows are open:
+All slices **shipped**; checkpoint [checkpoint-260.md](../checkpoint-260.md). **Next:** Phase C professional surfaces **2.61…2.70**.
+
+**Priority order** (historical — completed):
 
 | Rank | Slice | Theme | Typical friction |
 |------|-------|--------|------------------|

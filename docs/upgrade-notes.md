@@ -47,6 +47,774 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 2.59 → 2.60
+
+**Product version:** 2.60
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Friction tranche checkpoint:** audit **2.51…2.60** + **3.00 prep draft** — [checkpoint-260.md](checkpoint-260.md) (**2.60**).
+- Skim slice recipes **2.51…2.59** if jumping from **2.50** ([stable-clarity-251.md](stable-clarity-251.md) … [app-sluggishness-259.md](app-sluggishness-259.md)).
+
+#### No action (compatible)
+
+- Docs-only audit tag; no API breaks.
+
+### Upgrade 2.58 → 2.59
+
+**Product version:** 2.59
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **App-level perf wave 9:** command recents, filter caps, `Button.loading` — [app-sluggishness-259.md](app-sluggishness-259.md) (**2.59**).
+
+#### Action required (only if you use these APIs)
+
+| Area | Change | What to do |
+|------|--------|------------|
+| **Button** | New **`loading`** property (style) | Async saves: `loading: busy` + `enabled: canSave && !busy` |
+| **ItemsView** / **AutoSuggestBox** | **`minFilterLength`** · **`maxFilterResults`** | Set on large JS-array models |
+| **CommandPalette** | **`maxRecentCommands`** | Optional **`id`** on commands for recents |
+
+#### No action (compatible)
+
+- Defaults preserve **2.58** behavior when new properties are untouched.
+
+### Upgrade 2.57 → 2.58
+
+**Product version:** 2.58
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **OSK in apps:** embedded dock recipe — copy [`examples/osk-dock/`](../examples/osk-dock/) — [osk-in-apps-258.md](osk-in-apps-258.md) (**2.58**).
+
+#### Action required (only if you embed OSK)
+
+| Area | Change | What to do |
+|------|--------|------------|
+| **OnScreenKeyboard** | **`sharedEngine`** · focus return · floating candidates | One **`KeyboardEngine`** per window; see [osk-in-apps-258.md](osk-in-apps-258.md) |
+
+#### No action (compatible)
+
+- Floating OSK host unchanged — [`examples/floating-osk/`](../examples/floating-osk/).
+
+### Upgrade 2.49 → 2.50
+
+**Product version:** 2.50
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Tranche-1 checkpoint:** audit **2.00…2.50** + **2.51+** friction queue — [checkpoint-250.md](checkpoint-250.md) (**2.50**).
+
+#### No action (compatible)
+
+- Docs-only audit tag; no API breaks.
+
+### Upgrade 2.48 → 2.49
+
+**Product version:** 2.49
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Performance wave 8:** tranche-1 sign-off + chart/dashboard budgets — [perf-signoff-2xx.md](perf-signoff-2xx.md) (**2.49**).
+
+#### No action (compatible)
+
+- Documentation + Gallery callouts only; no API breaks.
+
+### Upgrade 2.47 → 2.48
+
+**Product version:** 2.48
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Friction slot (FL-009):** dashboard compose decision tree — [dashboard-compose-decision.md](dashboard-compose-decision.md) (**2.48**).
+
+#### No action (compatible)
+
+- Docs + Gallery UX only; stable chart APIs unchanged.
+
+### Upgrade 2.46 → 2.47
+
+**Product version:** 2.47
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Field harden buffer:** packaging **path picker** (**FL-003**) + stable-api **import guard** (**FL-004**) — [field-harden-247.md](field-harden-247.md) (**2.47**).
+- **Smoke:** `--smoke` now loads **Recipes hub** + **Performance** pages.
+
+#### No action (compatible)
+
+- Docs + smoke coverage only; stable control APIs unchanged.
+
+### Upgrade 2.45 → 2.46
+
+**Product version:** 2.46
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Docs IA v2:** MkDocs **2.xx** nav regroup + [recipes.md](recipes.md) hub v2 + Gallery **Recipes hub** mirror — [docs-ia-v2.md](docs-ia-v2.md) (**2.46**).
+
+#### No action (compatible)
+
+- Documentation navigation only; no API changes.
+
+### Upgrade 2.44 → 2.45
+
+**Product version:** 2.45
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Experimental sweep (FL-004):** Gallery **Experimental** / **Permanent defer** badges + [experimental-sweep.md](experimental-sweep.md) verdict matrix (**2.45**).
+
+#### No action (compatible)
+
+- Docs + Gallery UX only; stable control APIs unchanged.
+
+### Upgrade 2.43 → 2.44
+
+**Product version:** 2.44
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Developer diagnostics:** `FrameStatsMonitor.retailMode` / `persistSettings` / `applyRetailProfile()`; CLI `--retail-diagnostics`; FrameStats promoted stable — [developer-diagnostics.md](developer-diagnostics.md) (**2.44**).
+
+#### No action (compatible)
+
+- Additive Platform API; call `applyRetailProfile()` only when adopting the retail checklist.
+
+### Upgrade 2.42 → 2.43
+
+**Product version:** 2.43
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Multi-window + onboarding:** coach-on-main-shell + Settings category vs geometry — [multi-window-onboarding.md](multi-window-onboarding.md) (**2.43**).
+
+#### No action (compatible)
+
+- Stable Theme / shell / control APIs unchanged for this slice.
+
+### Upgrade 2.41 → 2.42
+
+**Product version:** 2.42
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **SwipeControl deepen:** `dragThreshold` / `nestedScrollFriendly` for list rows + TeachingTip teaching pattern — [touch-pointer.md](touch-pointer.md) (**2.42**).
+
+#### No action (compatible)
+
+- Stable Theme / shell / control APIs unchanged for this slice.
+
+### Upgrade 2.40 → 2.41
+
+**Product version:** 2.41
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Command/menu wave 3:** large-model CommandPalette (`commandCount` / `filteredCount`, filter matches `shortcut`) + MenuBar accelerator mirror recipe — [commands.md](commands.md) (**2.41**).
+
+#### No action (compatible)
+
+- Stable Theme / shell / control APIs unchanged for this slice.
+
+### Upgrade 2.39 → 2.40
+
+**Product version:** 2.40
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Performance wave 7:** collection debounce/filter checklist for DataTable / ListDetailsView / NavigationView / FileTree / TreeDataGrid — [performance.md](performance.md) (**2.40**).
+
+#### No action (compatible)
+
+- Stable Theme / shell / control APIs unchanged for this slice.
+
+### Upgrade 2.38 → 2.39
+
+**Product version:** 2.39
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Gallery catalog expansion:** 2.21…2.38 findability matrix, Home Recently shipped refresh, Pitfalls 2.xx checklist — [gallery-catalog-expansion.md](gallery-catalog-expansion.md) (**2.39**).
+
+#### No action (compatible)
+
+- Stable Theme / shell / control APIs unchanged for this slice.
+
+### Upgrade 2.37 → 2.38
+
+**Product version:** 2.38
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Theme overrides wave 2:** accent packs + `ThemePrefs` persist recipe + contrast/density integration — [theme-overrides.md](theme-overrides.md) (**2.38**).
+
+#### No action (compatible)
+
+- Stable Theme / shell / control APIs unchanged for this slice.
+
+### Upgrade 2.36 → 2.37
+
+**Product version:** 2.37
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Carousel recipes:** FlipView / PipsPager + SwipeView hosts, reducedMotion — [carousel-recipes.md](carousel-recipes.md) (**2.37**).
+
+#### No action (compatible)
+
+- Stable Theme / shell / control APIs unchanged for this slice.
+
+### Upgrade 2.35 → 2.36
+
+**Product version:** 2.36
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Security & trust wave 3:** FileTree / TreeDataGrid path trust + WebView2 download policy D/E/F — [security-trust.md](security-trust.md) (**2.36**).
+
+#### No action (compatible)
+
+- Stable Theme / shell / control APIs unchanged for this slice.
+
+### Upgrade 2.34 → 2.35
+
+**Product version:** 2.35
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Localization wave 4:** fourth seed locale **`de_DE`** + **2.21…2.34** Gallery page `qsTr` checker — [i18n-rtl.md](i18n-rtl.md) (**2.35**). Run `lupdate src/gallery` after adding Gallery pages.
+
+#### No action (compatible)
+
+- Stable Theme / shell / control APIs unchanged for this slice.
+
+### Upgrade 2.33 → 2.34
+
+**Product version:** 2.34
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Packaging & CI consumer matrix:** shared/static × Win/Linux table + `consumer-matrix.yml` CI job — [packaging-consumer.md](packaging-consumer.md) (**2.34**).
+
+#### No action (compatible)
+
+- Stable Theme / shell / control APIs unchanged for this slice.
+
+### Upgrade 2.32 → 2.33
+
+**Product version:** 2.33
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Linux portal & tray wave 3:** FilePicker / SNI tray / idle inhibit field regression suite — [platform-linux-wayland.md](platform-linux-wayland.md) (**2.33**).
+
+#### No action (compatible)
+
+- Docs + Gallery callouts only; platform APIs unchanged.
+
+### Upgrade 2.31 → 2.32
+
+**Product version:** 2.32
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Media / WebView2 harden:** Field matrices + WebView2 navigation policy recipes (Pattern A/B/C) — [media.md](media.md) · [webview2.md](webview2.md) (**2.32**).
+
+#### No action (compatible)
+
+- Docs + Gallery callouts only; **MediaPlayerElement** remains experimental defer; **WebView2Host** stable API unchanged.
+
+### Upgrade 2.30 → 2.31
+
+**Product version:** 2.31
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **`CalendarView`** (experimental): always-visible month grid — **single** / **multiple** / **range** selection; distinct from **CalendarDatePicker** / **DatePicker** — [calendar-view.md](calendar-view.md).
+
+#### No action (compatible)
+
+- Style **`MonthGrid`** gains optional multi/range styling; **CalendarDatePicker** unchanged.
+
+### Upgrade 2.29 → 2.30
+
+**Product version:** 2.30
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Mid-2.x checkpoint:** [checkpoint-230.md](checkpoint-230.md) — audit **2.21…2.30**; **203** catalog / **225** public types; friction triage for **2.31…2.50** (no slices dropped).
+
+#### No action (compatible)
+
+- Docs-only checkpoint tag; no API breaks vs **2.29**.
+
+### Upgrade 2.28 → 2.29
+
+**Product version:** 2.29
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Accessibility wave 5:** **`TreeDataGrid`** / **`FileTree`** keyboard names + live regions; **`ItemsWrapGrid`** / **`BreadcrumbBar`** `accessibleName` + `announceChanges` — [accessibility.md](accessibility.md) wave 5 checklist.
+
+#### No action (compatible)
+
+- Additive a11y properties; set `announceChanges: false` only when a host already announces the same state.
+
+### Upgrade 2.27 → 2.28
+
+**Product version:** 2.28
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Shell trim diagnostics:** `NavigationView` exposes **`sameKeySkipCount`** / **`samePageSkipCount`**; **`NavigationWindow`** forwards cache aliases + **`clearPageCache()`** — [performance.md](performance.md) wave 6 checklist + advisory smoke timings.
+
+#### No action (compatible)
+
+- Additive counters; navigation behavior unchanged.
+
+### Upgrade 2.26 → 2.27
+
+**Product version:** 2.27
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Notification center:** Experimental **`NotificationCenter`** drawer (grouped history, mark read, clear) + Gallery page with **InfoBadge** bell, **ProgressRing** save path, **TeachingTip** — [feedback.md](feedback.md) wave 3 (FL-007).
+
+#### No action (compatible)
+
+- Additive experimental control; **ToastHost** / **InfoBar** unchanged.
+
+### Upgrade 2.25 → 2.26
+
+**Product version:** 2.26
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Charts recipe wave:** Gallery **Charts** deferred sibling chooser + stacked-area compose; [charts.md](charts.md) **Recipe wave (2.26)** — stable six unchanged.
+
+#### No action (compatible)
+
+- No new stable chart names; deferred types remain experimental.
+
+### Upgrade 2.24 → 2.25
+
+**Product version:** 2.25
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Industry templates:** Gallery **Registration**, **Admin CRUD**, and **Preferences** template pages — [forms.md](forms.md) **2.25** section; **Forms & settings** hub links.
+- **MultiSelectComboBox:** `errorMessage` / `hasError` / `formBound` for **FormLayout** validation parity.
+
+#### No action (compatible)
+
+- **MultiSelectComboBox** remains API-compatible; header now renders above the field (not only inside the popup).
+
+### Upgrade 2.23 → 2.24
+
+**Product version:** 2.24
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **ItemsWrapGrid:** Model-driven variable-size wrap (`WrapPanel` + `filterText`) — Gallery **ItemsWrapGrid**, [items-wrap-grid.md](items-wrap-grid.md).
+
+#### No action (compatible)
+
+- New experimental control only; **WrapPanel** / **ItemsRepeater** unchanged.
+
+### Upgrade 2.22 → 2.23
+
+**Product version:** 2.23
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **BreadcrumbBar integration:** `NavigationView.breadcrumbModelForKey` / `selectBreadcrumbIndex` keep crumbs aligned with nav selection; **NavigationWindow** exposes the same helpers and optional `syncSubtitleFromNavigation` — [navigation.md](navigation.md) **2.23** section, Gallery **BreadcrumbBar** page.
+
+#### No action (compatible)
+
+- Additive APIs on **NavigationView**, **NavigationWindow**, and **BreadcrumbBar**; defaults unchanged (`syncSubtitleFromNavigation` stays `false`).
+
+### Upgrade 2.21 → 2.22
+
+**Product version:** 2.22
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Dashboard layout:** Responsive KPI/chart breakpoints + optional `TwoPaneView` filter rail — [`examples/dashboard`](../examples/dashboard/), Gallery **Dashboard**, [charts.md](charts.md) **2.22** section.
+
+#### No action (compatible)
+
+- No new stable chart names; layout recipe only.
+
+---
+
+### Upgrade 2.20 → 2.21
+
+**Product version:** 2.21
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **TreeDataGrid (experimental):** `import QWinUI3.Extras` — hierarchical multi-column grid with sort/filter; Gallery **TreeDataGrid** page; [tree-data.md](tree-data.md).
+
+#### No action (compatible)
+
+- Component QML APIs unchanged except new experimental `TreeDataGrid`.
+
+---
+
+### Upgrade 2.19 → 2.20
+
+**Product version:** 2.20
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Gallery full locale switch:** `GalleryLanguage` — Settings → **Display language** or **i18n / RTL** page; persists `Gallery/uiLocale`; startup `--lang zh_CN`. Release embeds `.qm` via `qt_add_translations`. See [i18n-rtl.md](i18n-rtl.md).
+- **Horizon checkpoint:** [checkpoint-220.md](checkpoint-220.md) — tranche-1 audit; **2.21+** per friction table.
+
+#### No action (compatible)
+
+- Component QML APIs unchanged; no CMake breaking changes vs **2.19**.
+
+---
+
+### Upgrade 2.18 → 2.19
+
+**Product version:** 2.19
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Docs & catalog refresh:** Regenerate component API — `python scripts/generate_component_docs.py`. Critical smoke adds **MultiWindowPage** / **StyleSpotCheckPage**. [ci-smoke.md](ci-smoke.md) **2.19**.
+
+#### No action (compatible)
+
+- Component QML APIs unchanged; docs index counts may drift until you regenerate locally.
+
+---
+
+### Upgrade 2.17 → 2.18
+
+**Product version:** 2.18
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Performance wave 5:** `DataTable` / `ListDetailsView` `maxFilterResults`; ListDetailsView selection survives filter by object identity; `NavigationView.pageCacheHits`. [performance.md](performance.md) **2.18** section.
+
+#### No action (compatible)
+
+- Defaults preserve prior filter behavior (`maxFilterResults: 0` = unlimited).
+
+---
+
+### Upgrade 2.16 → 2.17
+
+**Product version:** 2.17
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Style polish:** `Theme.bgControlRest`, `Theme.borderedControlFill()`, `Theme.fillSliderThumb`; Style controls use shared fill tokens. Gallery **Style spot-check**. [style-polish.md](style-polish.md) · [theme-overrides.md](theme-overrides.md).
+
+#### No action (compatible)
+
+- Visual-only Style token migration; public control APIs unchanged.
+
+---
+
+### Upgrade 2.15 → 2.16
+
+**Product version:** 2.16
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Command & search wave 2:** `CommandPalette.filterDebounceMs` / `maxResults`; **AutoSuggestBox** / **SearchBox** `filterDebounceMs` / `maxSuggestionResults` + field-first ↑↓ keyboard. [commands.md](commands.md) · [search.md](search.md) **2.16** sections.
+
+#### No action (compatible)
+
+- Existing palette / suggest callers gain debounced filtering automatically; defaults preserve prior UX timing.
+
+---
+
+### Upgrade 2.14 → 2.15
+
+**Product version:** 2.15
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **High-DPI wave 3:** `WindowHelper.highDpiScaleFactorRoundingPolicy()`; `screensInfo()[].fractionalScale`; Gallery **High-DPI & monitors** per-monitor soak. [high-dpi.md](high-dpi.md) **2.15** section.
+
+#### No action (compatible)
+
+- Existing geometry restore / `screensInfo()` callers gain optional `fractionalScale` field; no schema break.
+
+---
+
+### Upgrade 2.13 → 2.14
+
+**Product version:** 2.14
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Multi-window harden:** `WindowHelper.ensureWindowCreated`, hardened `setTransientParent`, `centerOnOwner`; prefer `DialogShellWindow.openDialog(owner)` / `DialogWindow.openDialog(owner)`. [window-shells.md](window-shells.md) **2.14** checklist.
+
+#### No action (compatible)
+
+- Existing `openDialog` callers gain realize + owner-screen centering automatically.
+
+---
+
+### Upgrade 2.12 → 2.13
+
+**Product version:** 2.13
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Security wave 2:** [security-trust.md](security-trust.md) — WebView2 navigation policy patterns; `FileDropZone.acceptMimeTypes`; Wayland portal regression checklist. Gallery **WebView2** URL field uses demo allowlist.
+
+#### No action (compatible)
+
+- `acceptMimeTypes` defaults empty — behavior unchanged vs **2.12** when unset.
+
+---
+
+### Upgrade 2.11 → 2.12
+
+**Product version:** 2.12
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Localization wave 3:** [i18n-rtl.md](i18n-rtl.md) **Consumer lrelease recipe (2.x)** — `qt_add_translations`, `QTranslator` before QML, package layout. Gallery seed **`ko_KR`**; `examples/gallery-shell` demo with `--lang ko_KR`.
+
+#### No action (compatible)
+
+- No API breaks. Apps without `.ts` / `.qm` stay English.
+
+---
+
+### Upgrade 2.10 → 2.11
+
+**Product version:** 2.11
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **vcpkg / Conan ports:** [packaging-vcpkg-conan.md](packaging-vcpkg-conan.md) — overlay `ports/qwinui3/` (`x64-windows` · `x64-linux`) and Conan 2 recipe; same `find_package(QWinUI3 CONFIG)` layout as shared zips. **FL-003** partial — **2.02** still scheduled for primary Path C productize.
+
+#### No action (compatible)
+
+- Zip / `add_subdirectory` consumers unchanged. Ports do not vendor Qt.
+
+---
+
+### Upgrade 2.09 → 2.10
+
+**Product version:** 2.10
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Mid-2.x checkpoint:** [checkpoint-210.md](checkpoint-210.md) audits **2.00…2.10** — confirms **2.03…2.09** shipped on the 1.xx floor; **2.00 / 2.01 / 2.02** remain planned; **no breaking code**.
+
+#### No action (compatible)
+
+- No API, CMake, or Qt floor changes. Stay on **2.09** until ready — this tag is docs-only for consumers.
+
+---
+
+### Upgrade 2.08 → 2.09
+
+**Product version:** 2.09
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Media verdict:** [media.md](media.md) closes the **1.67** promote loop — `MediaPlayerElement` **permanently deferred** (experimental). App-owned Multimedia plugins/codecs. No API break.
+
+#### No action (compatible)
+
+- Apps already gating on `available === false` need no changes.
+
+---
+
+### Upgrade 2.07 → 2.08
+
+**Product version:** 2.08
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Charts compose:** [charts.md](charts.md) finalizes Area→`LineChart.showArea`, Spark→`KpiTile.trendValues`, and **permanent defer** for sibling charts/gauges. Stable six unchanged — no API breaks.
+
+#### No action (compatible)
+
+- Product dashboards on the stable six need no code changes.
+
+---
+
+### Upgrade 2.06 → 2.07
+
+**Product version:** 2.07
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Accessibility wave 4:** `DataTable`, `ListDetailsView`, and `NavigationView` expose `announceChanges` (default **true**) and call `Accessible.announce` on Qt 6.8+ for selection / sort / filter / nav / pane changes. Set `announceChanges: false` to opt out. [accessibility.md](accessibility.md).
+
+#### No action (compatible)
+
+- No breaking API changes.
+
+---
+
+### Upgrade 2.05 → 2.06
+
+**Product version:** 2.06
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **FileTree (experimental):** `import QWinUI3.Extras` — Explorer folder `TreeView` + file `DataTable`; Gallery **FileTree** page; [tree-data.md](tree-data.md).
+
+#### No action (compatible)
+
+- No breaking changes. `FileTree` is experimental — not in stable-api promote table.
+
+---
+
+### Upgrade 2.04 → 2.05
+
+**Product version:** 2.05
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Title-bar cookbook:** [title-bar-cookbook.md](title-bar-cookbook.md) documents `StandardTitleChrome` / `ShellWindow` header slots, `PlatformTitleBar.rightHeader` placement, and NC hit-test troubleshooting.
+
+#### No action (compatible)
+
+- No API or CMake breaking changes.
+
+---
+
+### Upgrade 2.03 → 2.04
+
+**Product version:** 2.04  
+**Date:** 2026-08-17  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Runtime diagnostics:** `FrameStatsMonitor.showRhi` appends active RHI label beside FPS in `FrameStatsBadge` / `FrameStatsOverlay`. Settings **Show RHI**; CLI `--show-rhi`, `--show-diagnostics`. [performance.md](performance.md).
+
+#### No action (compatible)
+
+- Windows / Linux shell paths unchanged. Opt-in only; defaults unchanged (`enabled` false, `showRhi` false).
+
+### Upgrade 2.02 → 2.03
+
+**Product version:** 2.03  
+**Date:** 2026-08-17  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Linux client shell wave 2:** compositor profile shadow tuning (`shellCompositorProfile`, `shellShadowOpacity`); `WindowShellDecoration_Simple` when kit built without QuickEffects; **`WindowShellContentClip`** / `shellContentInset()` for bottom-corner content bleed. [platform-linux-wayland.md](platform-linux-wayland.md).
+
+#### No action (compatible)
+
+- Windows DWM path unchanged. Theme / stable control APIs unchanged.
+
 ### Upgrade 1.90 → 2.00 (draft)
 
 **Status:** **Draft only** — breaks ship in **2.00**, not in 1.90. Inventory finalized in [checkpoint-190.md](checkpoint-190.md).
@@ -71,7 +839,65 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 #### Stay on 1.90 if
 
 - You must keep **Qt 6.5** in production.
-- You need the current 1.xx Theme / shell names without a migration window.
+- You need the current 2.xx Theme / shell names without a migration window.
+
+### Upgrade 2.60 → 3.00 (draft)
+
+**Status:** **Draft only** — breaks ship in **3.00**, not in **2.60**. Inventory refined at **2.73** + [checkpoint-300.md](checkpoint-300.md).
+
+**Product version target:** 3.00  
+**Qt:** floor **6.10 LTS** (drop **6.8** shim path); forward **6.12+** OK — [qt-version-compat.md](qt-version-compat.md)
+
+#### Action required (at 3.00)
+
+| Area | Change | What to do |
+|------|--------|------------|
+| **Qt** | Minimum **6.10** | Raise CI / installer Qt; rebuild Release; re-run deploy |
+| **Deferred charts/gauges** | Sibling types removed from default import or moved to experimental module | Migrate to stable six + compose — [charts.md](charts.md) |
+| **Media** | **MediaPlayerElement** not on default stable surface | App-owned Multimedia — [media.md](media.md) |
+| **Theme** | Remaining 2.x stroke/focus aliases removed | Grep legacy names; apply 3.00 remap table |
+| **Shell** | Undocumented Gallery-era window aliases removed | [window-shells.md](window-shells.md) |
+| **CMake / PyPI** | **`find_package(QWinUI3 CONFIG)`** primary; PyPI **3.00** if **2.72** shipped | [packaging-consumer.md](packaging-consumer.md) |
+
+#### Optional / polish (plan now — ship later)
+
+- Complete **2.61…2.73** professional + Python tranche before pinning **3.00**.
+- Skim [performance.md](performance.md) **2.x** waves before tuning on Qt **6.10**.
+- Read [compatibility-3xx.md](compatibility-3xx.md) when it ships.
+
+#### Stay on 2.60 if
+
+- You are mid **2.61…2.73** adoption and cannot absorb a major yet.
+- You must keep **Qt 6.8** in production until **2.73**.
+
+### Upgrade 2.73 → 3.00 (draft)
+
+**Status:** **Draft only** — breaks ship in **3.00**, not in **2.73**. Inventory finalized in [checkpoint-300.md](checkpoint-300.md).
+
+**Product version target:** 3.00  
+**Qt:** floor **6.10 LTS** (drop **6.8** shim path); forward **6.12+** OK — [qt-version-compat.md](qt-version-compat.md)
+
+#### Action required (at 3.00)
+
+| Area | Change | What to do |
+|------|--------|------------|
+| **Qt** | Minimum **6.10** | Raise CI / installer Qt; rebuild Release; re-run deploy |
+| **Deferred charts/gauges** | Sibling types removed from default import or moved to experimental module | Migrate to stable six + compose — [charts.md](charts.md) |
+| **Media** | **MediaPlayerElement** not on default stable surface | App-owned Multimedia — [media.md](media.md) |
+| **Theme** | Remaining 2.x stroke/focus aliases removed | Grep legacy names; apply 3.00 remap table |
+| **Shell** | Undocumented Gallery-era window aliases removed | [window-shells.md](window-shells.md) |
+| **CMake / PyPI** | **`find_package(QWinUI3 CONFIG)`** primary; PyPI **3.00** if **2.72** shipped | [packaging-consumer.md](packaging-consumer.md) |
+
+#### Optional / polish
+
+- Skim [performance.md](performance.md) **2.x** summary before tuning on Qt **6.10**.
+- Read [compatibility-3xx.md](compatibility-3xx.md) for the **3.xx** freeze.
+
+#### Stay on 2.73 if
+
+- You must keep **Qt 6.8** in production.
+- You depend on **permanent defer** chart/gauge siblings without migration time.
+- You use experimental APIs not promoted by **2.45** / **2.67**.
 
 ### Upgrade 1.89 → 1.90
 
@@ -823,3 +1649,5 @@ Examples that **do not** belong in a quiet 1.xx:
 - Removing a type listed as Stable on stable-api without a deprecation window
 
 Track those under the **2.00** plan in [ROADMAP.md](../ROADMAP.md) (**after 1.90**). Draft remap table: [upgrade-notes.md](upgrade-notes.md) **Upgrade 1.90 → 2.00 (draft)** and [checkpoint-190.md](checkpoint-190.md); the breaks land in **2.00**. Apps that cannot leave Qt 6.5 stay on **1.90**.
+
+**3.00 territory (after 2.73):** Qt **6.10** floor, experimental cleanup, final Theme/shell alias removal — draft in [upgrade-notes.md](upgrade-notes.md) **Upgrade 2.73 → 3.00 (draft)** and [checkpoint-300.md](checkpoint-300.md). Apps that cannot leave Qt **6.8** stay on **2.73**.

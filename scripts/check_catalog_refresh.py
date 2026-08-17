@@ -73,7 +73,7 @@ def main() -> int:
 
     if CI_SMOKE.is_file():
         ctext = CI_SMOKE.read_text(encoding="utf-8")
-        for needle in ("2.59", "PitfallsPage", "app-sluggishness-259"):
+        for needle in ("2.60", "PitfallsPage", "checkpoint-260"):
             if needle not in ctext:
                 errors.append(f"ci-smoke.md: missing {needle!r}")
     else:

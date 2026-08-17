@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
 **Current:** **2.57** (master; files on Linux)
-**Next up:** **2.60** — Friction-line checkpoint (friction-only)
+**Next up:** **2.61** — **(conditional)** `RichEdit` (professional surfaces tranche 3)
 **Planned through:** **3.00** (… → **2.00** break → **2.01…2.50** tranche 1 → **2.51…2.60** friction-only → **2.61…2.70** professional surfaces → **2.71…2.73** Python / PyPI → **3.00** 2.x close-out)
 **1.xx close-out:** [checkpoint-190.md](docs/checkpoint-190.md). **1.86…1.89** performance arc **signed off** (**animations stay**). OSK/packaging promote **2.01**. **2.50** = tranche-1 audit; **2.60** = friction tranche close-out; **2.70** = professional-surfaces audit; **2.73** = Python consumer checkpoint; **3.00** = 2.x breaking close-out ([checkpoint-300.md](docs/checkpoint-300.md)).  
 **Qt:** 6.5+ (recommended 6.8 LTS) through **1.92** — [qt-version-compat.md](docs/qt-version-compat.md). **2.00** raises the floor to **6.8 LTS**. **3.00** raises the floor to **6.10 LTS**. **Platforms:** **Windows + Linux** — no macOS first-class line.
@@ -657,7 +657,7 @@ Apps on **1.90** read [upgrade-notes.md](docs/upgrade-notes.md) **1.90 → 2.00*
 | **2.57** | Files on Linux | Pick / drop / reveal still fails in apps | **Shipped** |
 | **2.58** | Keyboard / IME / OSK in apps | Real input path unusable outside Gallery | **Shipped** |
 | **2.59** | “Feels slow” (app-level) | Named app scenarios, not synthetic FPS only | **Shipped** |
-| **2.60** | Friction-line checkpoint + 3.00 prep | [checkpoint-260.md](docs/checkpoint-260.md) — close **2.51…2.60** | Queue |
+| **2.60** | Friction-line checkpoint + 3.00 prep | [checkpoint-260.md](docs/checkpoint-260.md) — close **2.51…2.60** | **Shipped** |
 
 ### 2.51 — Stable vs experimental clarity (shipped)
 
@@ -713,11 +713,11 @@ Apps on **1.90** read [upgrade-notes.md](docs/upgrade-notes.md) **1.90 → 2.00*
 
 **Shipped:** [app-sluggishness-259.md](docs/app-sluggishness-259.md) — CommandPalette recents; ItemsView/AutoSuggest caps; Button.loading; FlipView reducedMotion; Theme.applyDensityPreset; performance.md wave **9**. Product version **2.59**.
 
-### 2.60 — Friction-line checkpoint (queue)
+### 2.60 — Friction-line checkpoint (shipped)
 
 **Goal:** [checkpoint-260.md](docs/checkpoint-260.md) — verdict on **2.51…2.60**; [upgrade-notes.md](docs/upgrade-notes.md) draft **2.60 → 3.00**; queue **2.61…2.70** from friction + professional backlog.
 
-**Out:** Shipping **3.00** in the same tag; inventing work without friction rows.
+**Shipped:** [checkpoint-260.md](docs/checkpoint-260.md) — friction tranche **2.51…2.59** audited; **3.00 prep draft**; Gallery **Pitfalls** **2.60** checklist. Product version **2.60**.
 
 ## Professional surfaces tranche 3 (`2.61` … `2.70`)
 
@@ -1360,20 +1360,22 @@ Finish the committed audit arc — **do not** add conditional controls without a
 
 **Line end:** **2.51…2.73** → **3.00** — see [Full 2.x arc → 3.00](#full-2x-arc--300-summary) above.
 
-### Friction queue (2.51 → 2.60) — recommended order
+### Friction queue (2.51 → 2.60) — closed at 2.60
 
-| Rank | Slice | When to ship |
-|------|-------|----------------|
-| 1 | **2.60** | Friction checkpoint |
+| Rank | Slice | Status |
+|------|-------|--------|
+| — | **2.60** | Friction checkpoint — **shipped** |
 | — | **2.59** | App sluggishness — **shipped** |
 | — | **2.58** | OSK in apps — **shipped** |
 | — | **2.57** | Files on Linux — **shipped** |
 | — | **2.56** | Navigation mental model — **shipped** |
 | — | **2.55** | Forms unlike WinUI — **shipped** |
 | — | **2.54** | Window chrome footguns — **shipped** |
-| 2 | **2.60** | Friction checkpoint + 3.00 prep |
+| — | **2.53** | Linux top-3 — **shipped** |
+| — | **2.52** | First app — **shipped** |
+| — | **2.51** | Stable clarity — **shipped** |
 
-**Hard rule:** no open **P0/P1** in friction-log → **skip tag**.
+**Next tranche:** **2.61…2.70** — [checkpoint-270.md](docs/checkpoint-270.md) at **2.70**.
 
 ### Icons & dashboard + component deepen (2.51 → 3.00)
 
@@ -1452,7 +1454,7 @@ Unscheduled; pick up only inside a named `1.xx` or `2.xx` minor (or never). Clar
 | [component-capabilities-expansion.md](docs/planning/expansion/component-capabilities-expansion.md) | Existing control capability matrix (**2.51…3.00**) |
 | [icons-dashboard-expansion.md](docs/planning/expansion/icons-dashboard-expansion.md) | FluentIcons + stable dashboard recipe matrix |
 | [checkpoint-250.md](docs/checkpoint-250.md) (**2.50** shipped) | 2.50 tranche-1 audit |
-| [checkpoint-260.md](docs/checkpoint-260.md) (planned) | 2.60 friction tranche close-out |
+| [checkpoint-260.md](docs/checkpoint-260.md) | 2.60 friction tranche close-out |
 | [checkpoint-270.md](docs/checkpoint-270.md) (planned) | 2.70 professional-surfaces audit |
 | [checkpoint-273.md](docs/checkpoint-273.md) (planned) | 2.73 Python / PyPI consumer checkpoint |
 | [checkpoint-300.md](docs/checkpoint-300.md) (planned) | 3.00 gate — 2.x close-out audit + breaking inventory |

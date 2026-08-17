@@ -51,4 +51,4 @@ Consumer apps report “feels slow” on **specific paths** (palette open, typea
 - [ ] Tables at scale: still use **DataTable** / **ListView.reuseItems** — wave **7** — not **ItemsView** filter on 10k rows
 - [ ] Measure named paths with **`FrameStatsMonitor`** (dev only) — [developer-diagnostics.md](developer-diagnostics.md)
 
-**Next:** **2.60** friction checkpoint · **3.00** prep
+**Next:** **2.61** professional surfaces · **3.00** prep at **2.73**
