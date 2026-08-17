@@ -8,7 +8,7 @@ Fluent / [WinUI 3](https://learn.microsoft.com/windows/apps/winui/winui3/)-inspi
 [![Qt](https://img.shields.io/badge/Qt-6.5%2B-41CD52?logo=qt&logoColor=white)](https://www.qt.io/)
 
 **v1.85** · **200+** public controls · Gallery demos for most of them  
-**Still 1.xx** — long-horizon checkpoint ([docs/checkpoint-178.md](docs/checkpoint-178.md)); **1.85** a11y wave 3 (focus return / live regions); planned through **2.00** after **1.90** ([ROADMAP.md](ROADMAP.md)). Not implementing 2.00 yet.
+**Still 1.xx** — long-horizon checkpoint ([docs/checkpoint-178.md](docs/checkpoint-178.md)); **1.86…1.89** performance arc (whole tag = perf each time; animations stay); planned through **2.00** after **1.90** ([ROADMAP.md](ROADMAP.md)). Not implementing 2.00 yet.
 [Documentation](https://wuyijing-dev.github.io/QWinui3/) · [Recipes hub](docs/recipes.md) · [Stable API](docs/stable-api.md) · [1.xx maturity](docs/maturity-1xx.md) · [Mid-horizon 1.60](docs/checkpoint-160.md) · [Long-horizon 1.78](docs/checkpoint-178.md) · [1.xx compatibility](docs/compatibility-1xx.md) · [i18n / RTL](docs/i18n-rtl.md) · [Keyboard-first](docs/keyboard.md) · [On-screen keyboard](docs/on-screen-keyboard.md) · [Color & contrast](docs/color-contrast.md) · [Adaptive layout](docs/adaptive-layout.md) · [Drag-drop](docs/drag-drop.md) · [Upgrade notes](docs/upgrade-notes.md) · [Linux / Wayland](docs/platform-linux-wayland.md) · [Qt Creator](docs/qt-creator.md) · [Component API](https://wuyijing-dev.github.io/QWinui3/components/) · [Releases](https://github.com/wuyijing-dev/QWinui3/releases) · [Roadmap](ROADMAP.md)
 
 ---
