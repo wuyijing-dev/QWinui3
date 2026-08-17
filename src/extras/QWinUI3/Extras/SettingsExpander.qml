@@ -189,7 +189,7 @@ T.Control {
                     id: toggleSwitch
                     parent: control.toggle ? actionSlot : null
                     visible: control.toggle
-                    onToggled: control.toggled(checked)
+                    onToggled: function (checked) { control.toggled(checked) }
                 }
 
                 Text {

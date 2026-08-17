@@ -301,7 +301,6 @@ T.Control {
                     clip: true
                     implicitHeight: Math.min(contentHeight, control.maxSuggestionListHeight)
                     model: control.suggestionModel
-                    property var host: control
                     keyNavigationEnabled: true
                     highlightMoveDuration: Theme.duration(Theme.motionFast)
                     delegate: ItemDelegate {
@@ -309,12 +308,12 @@ T.Control {
                         required property int index
                         width: ListView.view.width
                         height: Theme.navItemHeight
-                        text: list.host.displayTextFor(modelData)
+                        text: control.displayTextFor(modelData)
                         highlighted: ListView.isCurrentItem
                         onClicked: {
-                            if (list.host.updateTextOnSelect)
+                            if (control.updateTextOnSelect)
                                 field.text = text
-                            list.host.suggestionChosen(modelData)
+                            control.suggestionChosen(modelData)
                             popup.close()
                         }
                         Keys.onReturnPressed: clicked()

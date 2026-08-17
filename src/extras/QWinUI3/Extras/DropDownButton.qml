@@ -102,12 +102,19 @@ T.AbstractButton {
             return
         var win = control.Window.window
         var host = (win && win.Overlay && win.Overlay.overlay) ? win.Overlay.overlay : control.parent
-        if (!host)
+        if (!host || !popupMenu.parent)
             return
         var margin = 8
-        var p = popupMenu.mapToItem(host, 0, 0)
-        var nx = Math.max(margin, Math.min(p.x, host.width - popupMenu.width - margin))
-        var ny = Math.max(margin, Math.min(p.y, host.height - popupMenu.height - margin))
+        var w = popupMenu.width > 0 ? popupMenu.width : popupMenu.implicitWidth
+        var h = popupMenu.height > 0 ? popupMenu.height : popupMenu.implicitHeight
+        if (w < 1 || h < 1) {
+            Qt.callLater(control._constrainMenu)
+            return
+        }
+        // Menu is not an Item — map from its parent using menu x/y (MenuFlyout recipe).
+        var p = popupMenu.parent.mapToItem(host, popupMenu.x, popupMenu.y)
+        var nx = Math.max(margin, Math.min(p.x, host.width - w - margin))
+        var ny = Math.max(margin, Math.min(p.y, host.height - h - margin))
         popupMenu.x += (nx - p.x)
         popupMenu.y += (ny - p.y)
     }

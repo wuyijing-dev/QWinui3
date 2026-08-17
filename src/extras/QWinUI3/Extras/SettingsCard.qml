@@ -306,7 +306,7 @@ T.Pane {
         focusPolicy: Qt.NoFocus
         activeFocusOnTab: false
         Accessible.ignored: true
-        onToggled: root.toggled(checked)
+        onToggled: function (checked) { root.toggled(checked) }
     }
 
     TapHandler {

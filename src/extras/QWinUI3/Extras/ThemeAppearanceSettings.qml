@@ -115,7 +115,7 @@ SettingsGroup {
         toggleText: Theme.dark ? qsTr("Dark") : qsTr("Light")
         toggleEnabled: !Theme.followSystemColorScheme
         checked: Theme.dark
-        onToggled: {
+        onToggled: function (checked) {
             if (!Theme.followSystemColorScheme)
                 Theme.dark = checked
         }
@@ -128,7 +128,7 @@ SettingsGroup {
         toggle: true
         toggleText: Theme.followSystemAccessibility ? qsTr("On") : qsTr("Off")
         checked: Theme.followSystemAccessibility
-        onToggled: Theme.followSystemAccessibility = checked
+        onToggled: function (checked) { Theme.followSystemAccessibility = checked }
     }
 
     SettingsCard {
@@ -138,7 +138,7 @@ SettingsGroup {
         toggle: true
         toggleText: Theme.followSystemColorScheme ? qsTr("On") : qsTr("Off")
         checked: Theme.followSystemColorScheme
-        onToggled: Theme.followSystemColorScheme = checked
+        onToggled: function (checked) { Theme.followSystemColorScheme = checked }
     }
 
     SettingsCard {
@@ -151,7 +151,7 @@ SettingsGroup {
         toggleText: qsTr("Reduce motion")
         toggleEnabled: !Theme.followSystemAccessibility
         checked: Theme.reducedMotion
-        onToggled: {
+        onToggled: function (checked) {
             if (!Theme.followSystemAccessibility)
                 Theme.reducedMotion = checked
         }
@@ -167,7 +167,7 @@ SettingsGroup {
         toggleText: qsTr("High contrast")
         toggleEnabled: !Theme.followSystemAccessibility
         checked: Theme.highContrast
-        onToggled: {
+        onToggled: function (checked) {
             if (!Theme.followSystemAccessibility)
                 Theme.highContrast = checked
         }
