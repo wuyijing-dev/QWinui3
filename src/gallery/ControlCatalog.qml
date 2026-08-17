@@ -1282,7 +1282,7 @@ QtObject {
             title: qsTr("CI / smoke"),
             category: "recipes",
             icon: FluentIcons.ConstructionCone,
-            description: qsTr("Gallery --smoke · docs links · Qt matrix — docs/ci-smoke.md (1.52)."),
+            description: qsTr("Gallery --smoke · visual subset · Qt matrix — docs/ci-smoke.md (1.62)."),
             component: "CiSmokePage",
             source: "pages/CiSmokePage.qml"
         },
