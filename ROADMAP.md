@@ -1,12 +1,12 @@
 # QWinUI3 Roadmap
 
 **Current:** **1.82**
-**Next up:** field-driven `1.83+` or pause (prefer harden vs new surfaces)
-**Planned through:** open-ended 1.xx — [docs/checkpoint-178.md](docs/checkpoint-178.md)
-**Still 1.xx:** Long-horizon checkpoint published — [docs/checkpoint-178.md](docs/checkpoint-178.md). **1.82** floating OSK + opt-in Windows system-wide inject. OSK/IME stays experimental. Not drafting 2.00.  
-**Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
+**Next up:** **1.83** — floating OSK / SendInput field harden
+**Planned through:** **2.00** (1.xx close-out **1.83…1.90**, then breaking line)
+**Still 1.xx until 1.90:** Long-horizon checkpoint — [docs/checkpoint-178.md](docs/checkpoint-178.md). **1.82** floating OSK + Windows system-wide. OSK/IME stays experimental until a named green soak (**1.87**). **Do not implement 2.00 before 1.90.**  
+**Qt:** 6.5+ (recommended 6.8 LTS) through 1.xx — [qt-version-compat.md](docs/qt-version-compat.md). **2.00** may raise the floor.
 
-This plan starts from **what 1.00 already was**, then walks **small `1.xx` minors**. Stay on **1.xx for a long time**. **2.00 is not next**—only when we truly need breaking changes.
+This plan starts from **what 1.00 already was**, then walks **small `1.xx` minors** through a **1.90 close-out**, then a named **2.00** breaking line. **2.00 is not the next tag.**
 
 ---
 
@@ -49,7 +49,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 |------|---------|
 | **Same `X.YY` rebuild** | Urgent packaging/docs/CI fixes when needed |
 | **Next `X.YY`** | **One focused slice**—small enough to finish, clear enough to name |
-| **`2.00`** | **Far future.** Breaking API/ABI or support-floor cuts only |
+| **`2.00`** | Breaking line (Qt floor / freeze lift / documented remaps). **After 1.90 only.** |
 
 **Rules of thumb**
 
@@ -58,6 +58,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 - New controls only when they serve that minor’s slice; otherwise park them.
 - After each ship: bump `QWINUI3_VERSION`, update this file.
 - Prefer **docs + harden + Gallery recipe** over new product surfaces (pattern of 1.07–1.10).
+- **2.00** is one breaking slice, not a dump of the parking lot. Follow-ups are `2.01+`.
 
 ---
 
@@ -391,7 +392,7 @@ Still **1.xx**. **1.70…1.77** shipped OSK → IME → packs → deepen → app
 | **1.79 shipped** | Linux / Wayland field harden |
 | **1.80 shipped** | Win11 OSK layout chrome |
 | **1.81 shipped** | Win11 OSK behavior (vs Win10) |
-| **1.82 shipped** | Floating OSK + opt-in Windows system-wide |
+| **1.82 shipped** | Floating OSK + Windows system-wide (`SendInput`) |
 
 ### 1.78 — Long-horizon 1.xx checkpoint (shipped)
 
@@ -409,65 +410,200 @@ Still **1.xx**. **1.70…1.77** shipped OSK → IME → packs → deepen → app
 
 **Shipped:** Long-press digit hints + punctuation alt flyout; `keyboardSize` Small/Default/Large; clipboard paste strip; emoji category chips; rounder keys + press scale (not Win10 classic flat full keyboard). `clipboardText()` peek. Still experimental. Product version `1.81`.
 
-### 1.82 — Floating OSK + opt-in Windows system-wide (shipped)
+### 1.82 — Floating OSK + Windows system-wide (shipped)
 
-**Shipped:** `OnScreenKeyboardWindow` (always-on-top, grab-drag, `WS_EX_NOACTIVATE`); `KeyboardEngine.systemWide` opt-in `SendInput` on Windows; compose stays on candidate bar. Linux: floating only (`supportsSystemWide === false`). Still experimental. Product version `1.82`.
-
----
-
-## After `1.82`
-
-Still **1.xx** if field needs dictate (`1.83`…)—or **pause**. **Do not** treat 1.70…1.82 as permission to start **2.00**.
-
-Unscheduled follow-ups (pick only inside a named minor):
-
-
-| Candidate | Notes |
-|-----------|-------|
-| **Accessibility wave 3** | Focus return / live regions — slipped past 1.69 Theme prefs |
-| **IME promote → stable** | Only after a **green** soak — **1.74** wrote the checklist but did **not** promote |
-| **1.83+ field fixes** | DPI / tray / WebView2 / packaging / IME regressions |
-| **OSK handwriting / dictation** | Stay OS-owned / parking lot |
-| **Linux system-wide inject** | Wayland security model — not promised |
-| **More UI locale packs** | `zh_CN` / `ja_JP` seeds stay separate from IME / `.kmx` packs |
-| **Deeper Lottie / AnimatedIcon** | Only if 1.53 thin path proves valuable |
-| **Official vcpkg/Conan ports** | Beyond the 1.61 sketch—product promise only if owned |
-| **macOS first-class** | Remains parking-lot until deliberately scheduled |
-
-Order remains flexible; do not bundle into mega-minors.
+**Shipped:** `OnScreenKeyboardWindow` (always-on-top, grab-drag, `WS_EX_NOACTIVATE`); `KeyboardEngine.systemWide` Windows `SendInput`; compose stays on the candidate bar. Floating host **defaults `systemWide` on** (Windows); dock stays off. SIL Keyman Core **vendored** in `third_party/keyman` (clone includes sources). Gallery `--visual-smoke` removed (CI `--smoke` kept). Linux: floating only (`supportsSystemWide === false`). Still experimental. Product version `1.82`.
 
 ---
 
-## Far future — 2.00 (not scheduled)
+## After `1.82` — planned through `2.00`
 
-**Do not start 2.00 work while 1.xx still absorbs polish.**
+Finish **1.xx** as named slices (**1.83…1.90**), then a **breaking 2.00**. Do not treat 1.70…1.82 as permission to start 2.00 code. Prefer **one theme per minor**.
 
-Consider 2.00 only if several of these become true:
+| Slice | Theme | Status |
+|-------|--------|--------|
+| **1.83** | Floating OSK / SendInput field harden | **Next** |
+| **1.84** | Consumer floating-OSK recipe | Planned |
+| **1.85** | Accessibility wave 3 | Planned (slipped past 1.69) |
+| **1.86** | Leftover field P0s | Planned — skip if empty |
+| **1.87** | OSK / IME green soak + promote | Planned |
+| **1.88** | Consumer packaging beyond the 1.61 sketch | Planned |
+| **1.89** | 1.xx close-out checkpoint | Planned |
+| **1.90** | Last 1.xx hold + 2.00 deprecation notices | Planned |
+| **2.00** | Breaking baseline | Planned — **after 1.90** |
 
-- Need breaking Theme/API renames that cannot stay compatible in 1.xx  
-- Need a new packaging/ABI contract that breaks 1.xx consumers  
-- Need to drop an old Qt floor or OS policy in a breaking way  
+### 1.83 — Floating OSK field harden (planned)
 
-Until then: **stay on 1.xx**, bump `YY` for each slice. Long-horizon checkpoint **1.78** is done — prefer field harden / pause; draft 2.00 only when breaking needs pile up.
+**Theme:** typing into *other* desktop apps must be reliable enough to demo, not a new control family.
+
+**In**
+
+- No-activate soak: first tap, candidate bar, settings flyout must not steal focus from Notepad / browser
+- Honest limits in Gallery + [on-screen-keyboard.md](docs/on-screen-keyboard.md): UIPI / elevated targets / UWP / games may ignore `SendInput`
+- System-wide IME: preedit stays on OSK bar; commits inject; document Backspace / Enter / arrows
+- Gallery checklist: floating + system-wide vs dock (in-app only)
+
+**Out**
+
+- Linux / Wayland system-wide inject (security model — parking lot)
+- Full TSF / IMM desktop IME
+- Promote OSK to stable (that is **1.87**)
+
+### 1.84 — Consumer floating-OSK recipe (planned)
+
+**Theme:** apps that are not the Gallery can host the same window.
+
+**In**
+
+- Recipe / tiny example: `OnScreenKeyboardWindow` beside `examples/gallery-shell` (not copy the full Gallery tree)
+- Packaging note: Keyman Core is **in the clone**; WebView2 still optional NuGet fetch
+- Consumer `main`: call `openFloating()`; pin `systemWide` only on Windows
+
+**Out**
+
+- New IME languages / `.kmx` packs
+- Official vcpkg/Conan ports (that is **1.88** or parking)
+
+### 1.85 — Accessibility wave 3 (planned)
+
+**Theme:** focus return / live regions — slipped past 1.69 Theme prefs. One a11y slice, not a redesign.
+
+**In** (pick a tight set at start of the minor)
+
+- Dialog / flyout **focus return** to the opener
+- Live-region pattern for `InfoBar` / `ImeCandidateBar` where missing
+- Gallery Accessibility page checklist refresh
+
+**Out**
+
+- Full catalog audit as a mega-minor
+- OSK promote (**1.87**)
+
+### 1.86 — Leftover field P0s (planned)
+
+If 1.83…1.85 land and there is **no** field P0 (DPI / tray / WebView2 / packaging / IME regression): **skip this minor** and go to **1.87**. Do not invent work.
+
+**In (only if a P0 exists)**
+
+- One named field regression, documented in [upgrade-notes.md](docs/upgrade-notes.md)
+
+### 1.87 — OSK / IME green soak + promote (planned)
+
+**Theme:** the promote that **1.74** wrote a checklist for and did **not** ship.
+
+**In**
+
+- Re-run 1.74 Gallery language-matrix + floating / system-wide checklist; record **green** or slip
+- If green: list `OnScreenKeyboard` / `OnScreenKeyboardWindow` / `KeyboardEngine` / `ImeCandidateBar` on [stable-api.md](docs/stable-api.md) with honest Windows system-wide limits
+- If not green: stay experimental; slip promote — **do not** start 2.00 to “force” it
+
+**Out**
+
+- Japanese kanji / cloud lexicon / handwriting (parking lot)
+- Linux system-wide inject
+
+### 1.88 — Consumer packaging (planned)
+
+**Theme:** `find_package` / shared kit beyond the **1.61** sketch — only if we own the promise.
+
+**In**
+
+- Documented `find_package(QWinUI3)` path that a clean clone can follow ([packaging-consumer.md](docs/packaging-consumer.md))
+- Optional: owned vcpkg **or** Conan sketch — not both unless one is already used in CI
+
+**Out**
+
+- Official ports as a supported product if nobody will maintain them (keep parking)
+
+### 1.89 — 1.xx close-out checkpoint (planned)
+
+**Theme:** same job as [checkpoint-178.md](docs/checkpoint-178.md), for the **end** of 1.xx.
+
+**In**
+
+- Publish `docs/checkpoint-190.md` (or 1.89 — name at ship time): docs-link OK, Gallery catalog count, freeze still accurate
+- Inventory **what 2.00 is allowed to break** (Theme names, shell aliases, Qt floor)
+- Confirm OSK promote status from 1.87
+
+**Out**
+
+- Breaking remaps (those wait for **2.00**)
+
+### 1.90 — Last 1.xx hold (planned)
+
+**Theme:** one minor of **warnings and docs**, no silent breaks.
+
+**In**
+
+- [upgrade-notes.md](docs/upgrade-notes.md) draft **1.90 → 2.00** (Qt floor, remaps, removed experimentals)
+- Gallery / README: “1.xx freeze ends at 2.00”
+- Optional compile-time or runtime notices behind a switch — **defaults stay 1.xx compatible**
+
+**Out**
+
+- Actually dropping Qt 6.5 or renaming `Theme.bgCard` (that is **2.00**)
+
+---
+
+## 2.00 — Breaking baseline (planned, after 1.90)
+
+**Gate:** **1.90 shipped**. Do not open 2.00 PRs while 1.83…1.90 are unfinished.
+
+**Theme:** lift the [1.xx freeze](docs/compatibility-1xx.md) in **one** named major. Small enough to finish. Follow-ups are `2.01+`.
+
+### Breaks (in)
+
+| Area | 2.00 intent |
+|------|-------------|
+| **Qt floor** | Drop **Qt 6.5**. Floor **6.8 LTS** (forward 6.10+). Update [qt-version-compat.md](docs/qt-version-compat.md) + CI matrix. |
+| **Theme** | Only remaps listed in the 1.89 inventory (example: collapse duplicate stroke/focus aliases). **Not** a Fluent 2 redesign. |
+| **Shell** | Remove Gallery-era aliases that 1.xx kept for compatibility; keep `StandardWindow` / `NavigationWindow` / `WindowHelper` as the contract. |
+| **Experimental leftover** | Types still experimental after 1.87 either promote, move to an explicit experimental module, or **remove** with an upgrade-notes row. |
+| **Packaging** | `QWINUI3_VERSION` `2.00`; shared/static defaults only change if 1.88 already documented the new contract. |
+
+### Does not ship in 2.00 (out)
+
+- Fluent 2 / full visual redesign → parking / **2.01+**
+- macOS first-class → parking / **2.01+**
+- Linux system-wide OSK inject
+- Full Lottie, Figma tokens, every-locale portal
+- Qt Virtual Keyboard (never)
+- Re-adding Gallery visual-smoke as a default CI gate
+
+### Consumer upgrade (sketch)
+
+Apps on **1.90** read [upgrade-notes.md](docs/upgrade-notes.md) **1.90 → 2.00**, raise Qt to 6.8+, apply the remap table, rebuild Release. Apps that cannot leave Qt 6.5 **stay on 1.90**.
+
+### After `2.00`
+
+`2.01+` are ordinary minors again (one theme each). Candidates, not a dump:
+
+| Slice | Notes |
+|-------|--------|
+| **2.01+** | Field harden on the new floor |
+| **2.01+** | macOS first-class — only if scheduled |
+| **2.01+** | Fluent 2 Style fork — only if scheduled |
+| **2.01+** | Official vcpkg/Conan if 1.88 did not own them |
 
 ---
 
 ## Parking lot
 
-Unscheduled; pick up only inside a named `1.xx` minor (or never). Clarified at **1.60** ([checkpoint-160.md](docs/checkpoint-160.md)):
+Unscheduled; pick up only inside a named `1.xx` or `2.xx` minor (or never). Clarified at **1.60** ([checkpoint-160.md](docs/checkpoint-160.md)):
 
-- macOS first-class  
-- Figma / design-token pipeline  
-- Full Fluent visual redesign / Fluent 2 Style fork  
-- Screenshot diffs for **every** Gallery page (subset may ship in 1.62)  
-- Community translation portal / every-locale coverage (seeds `zh_CN` / `ja_JP` enough for 1.xx)  
-- Full Lottie runtime as a hard product dependency (thin glyph path shipped in 1.53)  
-- New chart engines / WebGL  
-- Official vcpkg/Conan ports as supported products (sketch may ship in 1.61)  
-- Custom ink / handwriting canvas (out of 1.57 touch cookbook; out of 1.70…1.73 IME)  
-- Dictation / cloud IME lexicon (out of 1.73 full in-app IME)  
-- Qt Virtual Keyboard (GPL/commercial — never)  
-- Cloud settings roaming / share backends (out of 1.65 recipes scope)  
+- macOS first-class (**not** 2.00 by default)
+- Figma / design-token pipeline
+- Full Fluent visual redesign / Fluent 2 Style fork (**not** 2.00 by default)
+- Screenshot diffs for **every** Gallery page (1.62 subset **removed** in 1.82; not a default CI gate)
+- Community translation portal / every-locale coverage (seeds `zh_CN` / `ja_JP` enough for 1.xx)
+- Full Lottie runtime as a hard product dependency (thin glyph path shipped in 1.53)
+- New chart engines / WebGL
+- Official vcpkg/Conan ports as supported products (sketch may ship in 1.61 / productize in **1.88**)
+- Custom ink / handwriting canvas (out of 1.57 touch cookbook; out of 1.70…1.73 IME)
+- Dictation / cloud IME lexicon (out of 1.73 full in-app IME)
+- Qt Virtual Keyboard (GPL/commercial — **never**)
+- Cloud settings roaming / share backends (out of 1.65 recipes scope)
+- Linux / Wayland system-wide inject
 
 ---
 
@@ -480,9 +616,10 @@ Unscheduled; pick up only inside a named `1.xx` minor (or never). Clarified at *
 | [docs/maturity-1xx.md](docs/maturity-1xx.md) | 1.51 maturity checkpoint |
 | [docs/checkpoint-160.md](docs/checkpoint-160.md) | 1.60 mid-horizon checkpoint |
 | [docs/checkpoint-178.md](docs/checkpoint-178.md) | 1.78 long-horizon checkpoint |
-| [docs/compatibility-1xx.md](docs/compatibility-1xx.md) | 1.xx will-not-break freeze |
+| [docs/compatibility-1xx.md](docs/compatibility-1xx.md) | 1.xx will-not-break freeze (ends at **2.00**) |
+| [docs/upgrade-notes.md](docs/upgrade-notes.md) | Consumer upgrades; 2.00 sketch after 1.90 |
 | [docs/components.md](docs/components.md) | Control index |
 | [docs/conventions.md](docs/conventions.md) | A11y / QML rules |
 | [docs/qt-version-compat.md](docs/qt-version-compat.md) | Qt multi-version shims |
-| [docs/on-screen-keyboard.md](docs/on-screen-keyboard.md) | 1.70…1.76 OSK → IME soak / extra packs / MIT deepen |
+| [docs/on-screen-keyboard.md](docs/on-screen-keyboard.md) | 1.70…1.82 OSK → IME → floating / system-wide |
 | [docs/roadmap.md](docs/roadmap.md) | Site copy of this plan |

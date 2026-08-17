@@ -119,4 +119,4 @@ Before merging a slice that touches Theme, shells, or stable controls:
 - [ ] No silent renames of frozen Theme or shell APIs  
 - [ ] Maturity posture: harden-first when choosing scope — [maturity-1xx.md](maturity-1xx.md)
 
-**2.00** is only when we truly need breaking Theme/API renames that cannot stay compatible in 1.xx — see [ROADMAP.md](../ROADMAP.md).
+**2.00** is drafted in [ROADMAP.md](../ROADMAP.md): **after 1.90 only**. Quiet 1.xx minors still must not rename frozen Theme / shell APIs.

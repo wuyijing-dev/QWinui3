@@ -690,4 +690,4 @@ Examples that **do not** belong in a quiet 1.xx:
 - Dropping Qt 6.5 without a named roadmap decision
 - Removing a type listed as Stable on stable-api without a deprecation window
 
-Track those only under a future **2.00** plan in [ROADMAP.md](../ROADMAP.md).
+Track those under the **2.00** plan in [ROADMAP.md](../ROADMAP.md) (**after 1.90**). Draft remap table ships in **1.90** upgrade notes; the breaks land in **2.00**. Apps that cannot leave Qt 6.5 stay on **1.90**.

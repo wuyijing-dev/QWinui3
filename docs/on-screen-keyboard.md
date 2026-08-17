@@ -2,7 +2,7 @@
 
 Win11 / Fluent **touch keyboard chrome we own**. This is **not** Qt Virtual Keyboard, and it is **not** a hardware-shortcut cookbook ([keyboard.md](keyboard.md)).
 
-**Status:** **1.82** adds a **floating** `OnScreenKeyboardWindow` and **opt-in Windows system-wide** inject (`SendInput`). OSK/IME **still experimental**. **Next:** field-driven `1.83+` or pause.  
+**Status:** **1.82** floating `OnScreenKeyboardWindow` + Windows system-wide `SendInput` (floating defaults on). OSK/IME **still experimental**. **Next:** **1.83** field harden → **1.87** green soak / promote. **2.00** is after **1.90** ([ROADMAP.md](../ROADMAP.md)).  
 **License:** OSK chrome is this repo (LGPL-3.0). SIL Keyman Core (**MIT**) for layouts. Pinyin tables are [mozillazg/pinyin-data](https://github.com/mozillazg/pinyin-data) (**MIT**) — [NOTICE-pinyin.md](NOTICE-pinyin.md). Japanese is a Hepburn romaji→kana map (**no kanji** — no MIT reading lexicon). Korean is Unicode hangul composition (not a lexicon). Keyman `cs_pinyin` IMX is **not** used.
 
 | Slice | What ships |
@@ -19,7 +19,9 @@ Win11 / Fluent **touch keyboard chrome we own**. This is **not** Qt Virtual Keyb
 | **1.79** | Wayland field harden (portal parent + CapsLock); OSK still experimental |
 | **1.80** | Win11 default touch **layout** chrome (Esc/Tab/dual Shift/lang chip/hints) |
 | **1.81** | Win11 **behavior** vs Win10: long-press, size modes, clipboard, emoji tabs |
-| **1.82** | Floating `OnScreenKeyboardWindow` + opt-in Windows **system-wide** `SendInput` |
+| **1.82** | Floating `OnScreenKeyboardWindow` + Windows **system-wide** `SendInput` (floating defaults on) |
+| **1.83** | Floating / SendInput field harden (planned) |
+| **1.87** | Green soak + promote (planned; slip if not green) |
 
 ---
 
