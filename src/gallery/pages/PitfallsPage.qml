@@ -42,6 +42,17 @@ CatalogPage {
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
+            CheckBox { text: qsTr("Reinstall / pin QWINUI3_VERSION for this upgrade") }
+            CheckBox { text: qsTr("Confirm Qt major/minor matches the linked kit") }
+            CheckBox { text: qsTr("Skim stable-api changelog for promotes / defer notes") }
+            CheckBox { text: qsTr("Rebuild Release; run Gallery --smoke if you vendor it") }
+            CheckBox { text: qsTr("Theme forks use customAccent / packs — not readonly bgCard") }
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                color: Theme.textSecondary
+                text: qsTr("Stable map: Theme · shells · ContentDialog · FilePicker/Tray · WebView2Host · promoted charts subset · CommandPalette — see docs/stable-api.md. Recipes hub lists every how-to.")
+            }
         }
     }
 

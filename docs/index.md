@@ -8,7 +8,7 @@ This site is generated from QML source comments and shipped via GitHub Pages.
 
 | | |
 |--|--|
-| **[Recipes hub](recipes.md)** | All LoB how-tos in one place (1.36) |
+| **[Recipes hub](recipes.md)** | All LoB how-tos — also Gallery **Recipes** category |
 | [Stable API](stable-api.md) | What to rely on in 1.xx apps (promote/defer **1.37**) |
 | [1.xx compatibility](compatibility-1xx.md) | Will-not-break Theme / shells / stable (**1.40**) |
 | [Upgrade notes](upgrade-notes.md) | Consumer checklist + template (**1.40**) |

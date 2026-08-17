@@ -38,6 +38,31 @@ CatalogPage {
     }
 
     ControlExample {
+        headerText: qsTr("Queue / owner / Esc (1.48)")
+        qmlSource: "parent: Overlay.overlay\nshow() → FIFO · replaceCurrent · onClosing"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Parent each ContentDialog on the owner window Overlay.overlay. show() opens immediately or enqueues FIFO. cancel drops pending only. clearQueue keeps the active dialog. replaceCurrent closes active without pumping pending. Esc → close path; onClosing can set args.cancel. Stress: ContentDialog → Enqueue A→B→C.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                color: Theme.textPrimary
+                text: qsTr("busy=%1 · pendingCount=%2")
+                    .arg(ContentDialogQueue.busy)
+                    .arg(ContentDialogQueue.pendingCount)
+            }
+        }
+    }
+
+    ControlExample {
         headerText: qsTr("Open related demos")
         qmlSource: "// Gallery pages: ContentDialog, Flyout, TeachingTip, Drawer, MenuFlyout"
         ColumnLayout {

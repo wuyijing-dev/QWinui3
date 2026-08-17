@@ -13,6 +13,7 @@ QtObject {
         { key: "menus", title: qsTr("Menus & toolbars"), icon: FluentIcons.More },
         { key: "navigation", title: qsTr("Navigation"), icon: FluentIcons.ChevronRight },
         { key: "layout", title: qsTr("Layout"), icon: FluentIcons.Document },
+        { key: "recipes", title: qsTr("Recipes"), icon: FluentIcons.Library },
         { key: "scrolling", title: qsTr("Scrolling"), icon: FluentIcons.ScrollMode },
         { key: "date", title: qsTr("Date & time"), icon: FluentIcons.Calendar },
         { key: "dialogs", title: qsTr("Dialogs & flyouts"), icon: FluentIcons.Comment },
@@ -1230,6 +1231,102 @@ QtObject {
             source: "pages/I18nRtlPage.qml"
         },
         {
+            title: qsTr("Recipes hub"),
+            category: "recipes",
+            icon: FluentIcons.Library,
+            description: qsTr("All LoB how-tos from docs/recipes.md — open every related demo."),
+            component: "RecipesHubPage",
+            source: "pages/RecipesHubPage.qml"
+        },
+        {
+            title: qsTr("Consumer packaging"),
+            category: "recipes",
+            icon: FluentIcons.Publish,
+            description: qsTr("Shared vs static / windeploy / strip — docs/packaging-consumer.md (1.12 / 1.46)."),
+            component: "PackagingConsumerPage",
+            source: "pages/PackagingConsumerPage.qml"
+        },
+        {
+            title: qsTr("Qt Creator"),
+            category: "recipes",
+            icon: FluentIcons.Repair,
+            description: qsTr("Open Gallery / examples with CMake kits — docs/qt-creator.md (1.35)."),
+            component: "QtCreatorPage",
+            source: "pages/QtCreatorPage.qml"
+        },
+        {
+            title: qsTr("CI / smoke"),
+            category: "recipes",
+            icon: FluentIcons.ConstructionCone,
+            description: qsTr("Gallery --smoke · Qt matrix — docs/ci-smoke.md (1.06 / 1.14)."),
+            component: "CiSmokePage",
+            source: "pages/CiSmokePage.qml"
+        },
+        {
+            title: qsTr("Example templates"),
+            category: "recipes",
+            icon: FluentIcons.PageList,
+            description: qsTr("Copy-ready examples/ apps — examples/README.md (1.26)."),
+            component: "ExamplesTemplatesPage",
+            source: "pages/ExamplesTemplatesPage.qml"
+        },
+        {
+            title: qsTr("Performance"),
+            category: "recipes",
+            icon: FluentIcons.ViewAll,
+            description: qsTr("Lists / charts / cold start — docs/performance.md (1.25 / 1.39)."),
+            component: "PerformancePage",
+            source: "pages/PerformancePage.qml"
+        },
+        {
+            title: qsTr("Density"),
+            category: "recipes",
+            icon: FluentIcons.Slider,
+            description: qsTr("uiScale / density tokens · narrow shells — docs/density.md (1.30)."),
+            component: "DensityPage",
+            source: "pages/DensityPage.qml"
+        },
+        {
+            title: qsTr("Graphics backend"),
+            category: "recipes",
+            icon: FluentIcons.Color,
+            description: qsTr("RHI ship table · --rhi — docs/graphics-backend.md (1.31)."),
+            component: "GraphicsBackendPage",
+            source: "pages/GraphicsBackendPage.qml"
+        },
+        {
+            title: qsTr("Forms & settings"),
+            category: "recipes",
+            icon: FluentIcons.Settings,
+            description: qsTr("FormLayout + SettingsCard chooser — docs/forms.md (1.08 / 1.28)."),
+            component: "FormsHubPage",
+            source: "pages/FormsHubPage.qml"
+        },
+        {
+            title: qsTr("Commands & menus"),
+            category: "recipes",
+            icon: FluentIcons.More,
+            description: qsTr("CommandPalette / CommandBar / MenuFlyout — docs/commands.md (1.15)."),
+            component: "CommandsHubPage",
+            source: "pages/CommandsHubPage.qml"
+        },
+        {
+            title: qsTr("Feedback surfaces"),
+            category: "recipes",
+            icon: FluentIcons.Info,
+            description: qsTr("InfoBar / Toast / TeachingTip — docs/feedback.md (1.34)."),
+            component: "FeedbackHubPage",
+            source: "pages/FeedbackHubPage.qml"
+        },
+        {
+            title: qsTr("Keyboard-first"),
+            category: "recipes",
+            icon: FluentIcons.Search,
+            description: qsTr("Chords → palette → dialogs → lists — docs/keyboard.md (1.44)."),
+            component: "KeyboardFirstPage",
+            source: "pages/KeyboardFirstPage.qml"
+        },
+        {
             title: qsTr("GridTile"),
             category: "collections",
             icon: FluentIcons.Document,
@@ -1425,11 +1522,14 @@ QtObject {
     // Curated “recently shipped” recipe pages (1.20) — not catalog array order.
     function recentlyShipped(count) {
         var ids = [
+            "RecipesHubPage",         // all recipe docs → Gallery
+            "PackagingConsumerPage",  // 1.12 / 1.46
             "ContentDialogPage",      // 1.48 queue stress
             "DialogsFlyoutsPage",     // 1.48 / 1.37
             "SystemIntegrationPage",  // 1.47 Snap / shell extras
             "I18nRtlPage",            // 1.45 locale packs
-            "AccessibilityPage",      // 1.44 keyboard tour
+            "KeyboardFirstPage",      // 1.44
+            "AccessibilityPage",      // 1.44 / 1.19
             "CommandPalettePage",     // 1.44 / 1.37
             "ThemeOverridesPage",     // 1.43 contrast AA
             "TwoPaneViewPage",        // 1.42 adaptive layout
@@ -1437,6 +1537,7 @@ QtObject {
             "FileDropZonePage",       // 1.41 drag-drop recipe
             "CopyButtonPage",         // 1.41 clipboard
             "PitfallsPage",           // 1.40 compatibility freeze
+            "PerformancePage",        // 1.39 / 1.25
             "NavigationViewPage",     // 1.39 page cache / cold start
             "HomePage",               // 1.39 deferred card effects
             "TabViewPage",            // 1.37 promote

@@ -3,6 +3,7 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
+import QWinUI3.Platform
 
 // Gallery — i18n / RTL (1.13) + locale packs (1.45).
 //
@@ -29,6 +30,52 @@ CatalogPage {
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
+            RowLayout {
+                Layout.fillWidth: true
+                Label {
+                    Layout.fillWidth: true
+                    wrapMode: Text.WrapAnywhere
+                    text: "python scripts/check_gallery_translations.py"
+                    font.pixelSize: Theme.fontCaption
+                }
+                CopyButton {
+                    textToCopy: "python scripts/check_gallery_translations.py"
+                }
+            }
+            RowLayout {
+                Layout.fillWidth: true
+                Label {
+                    Layout.fillWidth: true
+                    wrapMode: Text.WrapAnywhere
+                    text: "qwinui3_gallery.exe --lang zh_CN"
+                    font.pixelSize: Theme.fontCaption
+                }
+                CopyButton {
+                    textToCopy: "qwinui3_gallery.exe --lang zh_CN"
+                }
+            }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("RTL regression checklist (1.45)")
+        qmlSource: "Settings → Right-to-left layout"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("After adding strings or shell chrome, enable RTL and smoke:")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            CheckBox { text: qsTr("Gallery Home featured cards / nav rail") }
+            CheckBox { text: qsTr("This page FormLayout left headers + SettingsCard rows") }
+            CheckBox { text: qsTr("ContentDialog / CommandPalette overlay centering") }
+            CheckBox { text: qsTr("ListDetailsView / TwoPaneView (master on start edge)") }
+            CheckBox { text: qsTr("examples/nav-settings Settings RTL toggle") }
         }
     }
 

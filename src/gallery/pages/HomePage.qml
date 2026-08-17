@@ -26,12 +26,12 @@ CatalogPage {
 
     readonly property var featuredModel: [
         {
-            title: qsTr("Getting started"),
-            description: qsTr("Explore Fluent controls and try interactive samples."),
+            title: qsTr("Recipes hub"),
+            description: qsTr("Every 1.xx how-to — packaging, Creator, forms, keyboard, and more."),
             icon: FluentIcons.Library,
             tint: "#0F7B0F",
             tintBg: Theme.dark ? "#393D1B" : "#DFF6DD",
-            action: "button"
+            action: "recipes"
         },
         {
             title: qsTr("Window shells"),
@@ -70,6 +70,12 @@ CatalogPage {
             var shells = ControlCatalog.findByComponent("WindowParadigmPage")
             if (shells)
                 page.openControl(shells)
+            return
+        }
+        if (action === "recipes") {
+            var hub = ControlCatalog.findByComponent("RecipesHubPage")
+            if (hub)
+                page.openControl(hub)
             return
         }
         if (action === "new") {

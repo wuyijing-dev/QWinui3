@@ -108,6 +108,18 @@ qt_add_qml_module(qwinui3_gallery
         pages/PitfallsPage.qml
         pages/AccessibilityPage.qml
         pages/I18nRtlPage.qml
+        pages/RecipesHubPage.qml
+        pages/PackagingConsumerPage.qml
+        pages/QtCreatorPage.qml
+        pages/PerformancePage.qml
+        pages/DensityPage.qml
+        pages/GraphicsBackendPage.qml
+        pages/ExamplesTemplatesPage.qml
+        pages/CiSmokePage.qml
+        pages/FormsHubPage.qml
+        pages/CommandsHubPage.qml
+        pages/FeedbackHubPage.qml
+        pages/KeyboardFirstPage.qml
         pages/ChartsPage.qml
         pages/SparklinePage.qml
         pages/LineChartPage.qml
