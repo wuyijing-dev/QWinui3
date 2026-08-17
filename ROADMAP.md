@@ -463,7 +463,7 @@ Field drivers: dark Gallery + Round corners + D3D12 → intermittent 1px light r
 - Solid hosts: `QQuickWindow` clear color matches layer fill — never `Qt::white` (round-corner AA fringe)
 - Pin `DWMWA_BORDER_COLOR` to that fill on Solid; reapply immediately on activate (do not wait for 80/250 ms timers to hide a white system ring)
 - Solid shells: skip extra deferred DWM reapply on every focus-in; keep delayed reapply for Mica/Acrylic only
-- `NavigationView`: no no-op StackView scale/x/y animators on `slide` / `fade`; keep layout snap (no `Layout.preferredWidth` animation)
+- `NavigationView`: no no-op StackView scale/x/y animators on `slide` / `fade`; restore pane width animation with `_paneShowsLabels` so collapse stays smooth without a blank column
 
 **In — Extras / Style (high-traffic controls)**
 

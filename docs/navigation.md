@@ -113,6 +113,7 @@ Left rail does **not** host Back — wire the **TitleBar** (Gallery / nav-settin
 |---------|--------|
 | Responsive shell | `paneDisplayMode: "auto"` + TitleBar pane toggle |
 | Overlay drawer | `leftMinimal` — open with hamburger; scrim dismisses |
+| Pane collapse | `left` hamburger animates rail width (`motionNormal`); labels stay until the slot is compact (`_paneShowsLabels`) — no empty wide column |
 | Host-owned content | `hostContent: true` + `content: …` (e.g. NavigationWindow) instead of `pageModule` |
 | Groups | `model` entries `type: "group"` with `children[]`; `toggleGroup` / `setGroupExpanded` |
 

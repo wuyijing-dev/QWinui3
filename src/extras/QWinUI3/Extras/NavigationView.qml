@@ -1211,9 +1211,19 @@ Item {
                      && root.resolvedPaneMode !== "leftMinimal"
             Layout.preferredWidth: visible ? root._paneLayoutWidth : 0
             Layout.fillHeight: true
-            // Do not animate Layout.preferredWidth — Qt layouts fight the animation and
-            // leave a blank expanded column; relayouting Gallery pages every frame stutters.
-            clip: false
+            clip: true
+
+            // Animate rail width in left / leftCompact. _paneShowsLabels keeps labels visible
+            // until the slot is actually compact so we do not get an empty wide acrylic column.
+            Behavior on Layout.preferredWidth {
+                enabled: !Theme.reducedMotion
+                         && root.resolvedPaneMode !== "leftMinimal"
+                         && root.resolvedPaneMode !== "top"
+                NumberAnimation {
+                    duration: Theme.duration(Theme.motionNormal)
+                    easing.type: Theme.easingStandard
+                }
+            }
             z: 1
         }
 
@@ -1234,7 +1244,7 @@ Item {
             Behavior on width {
                 enabled: !Theme.reducedMotion && root.resolvedPaneMode === "leftMinimal"
                 NumberAnimation {
-                    duration: Theme.duration(Theme.motionFast)
+                    duration: Theme.duration(Theme.motionNormal)
                     easing.type: Theme.easingStandard
                 }
             }
