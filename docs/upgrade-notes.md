@@ -47,6 +47,19 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.80 → 1.81
+
+**Product version:** 1.81  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- Experimental OSK: Windows **11** behavior (not Win10 classic) — long-press digit hints + punctuation alt flyout, `keyboardSize` Small/Default/Large, clipboard strip, emoji category chips, rounder press-scale keys. [on-screen-keyboard.md](on-screen-keyboard.md).
+
+#### No action (compatible)
+
+- Theme / shell / stable controls unchanged. OSK stays experimental.
+
 ### Upgrade 1.79 → 1.80
 
 **Product version:** 1.80  

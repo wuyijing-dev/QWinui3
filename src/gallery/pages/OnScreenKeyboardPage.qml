@@ -4,18 +4,18 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — OnScreenKeyboard (1.80). Recipe: docs/on-screen-keyboard.md
+// Gallery — OnScreenKeyboard (1.81). Recipe: docs/on-screen-keyboard.md
 //
-// Win11 default touch layout + app-scoped hardware input (not OS-wide).
+// Windows 11 touch parity (not Win10 classic): long-press, size modes, clipboard strip.
 
 CatalogPage {
     id: page
     title: qsTr("On-screen keyboard")
-    subtitle: qsTr("Win11 OSK layout · layouts / IME. docs/on-screen-keyboard.md (1.80).")
+    subtitle: qsTr("Win11 touch parity — not Win10 classic. docs/on-screen-keyboard.md (1.81).")
 
     ControlExample {
-        headerText: qsTr("Win11 layout + language packs (1.80)")
-        qmlSource: "OnScreenKeyboard { }\n// Esc/Tab/dual Shift · 英/中/あ · number hints"
+        headerText: qsTr("Windows 11 touch behavior (1.81)")
+        qmlSource: "OnScreenKeyboard {\n    keyboardSize: \"default\"\n}\n// Long-press hints · size modes · clipboard"
 
         ColumnLayout {
             Layout.fillWidth: true
@@ -23,7 +23,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Dock chrome follows Windows 11 touch keyboard: settings / grab / close, emoji + paste tools, Esc · letter row with number hints · Backspace, Tab · Enter, dual Shift, and &123 · Ctrl · Win · Alt · language chip · Space · mic · arrows. Globe/chip cycles Keyman + zh/ja/ko layouts. Hardware keys still route in-app (toggle below).")
+                text: qsTr("This dock follows Windows 11 Touch Keyboard — not the Win10 classic full keyboard. Long-press top-row letters for digits; long-press punctuation for alternatives. Settings gear picks Small / Default / Large. Clipboard tool opens a paste strip. Emoji uses category chips. Mic / Win stay chrome-only.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
@@ -34,9 +34,23 @@ CatalogPage {
                 onToggled: osk.hardwareInput = checked
             }
             Switch {
-                text: qsTr("Show Win11 chrome (settings / grab / close)")
+                text: qsTr("Show Win11 chrome")
                 checked: osk.showChrome
                 onToggled: osk.showChrome = checked
+            }
+            RowLayout {
+                Layout.fillWidth: true
+                Label { text: qsTr("Size"); color: Theme.textSecondary }
+                ComboBox {
+                    Layout.fillWidth: true
+                    model: [qsTr("Small"), qsTr("Default"), qsTr("Large")]
+                    currentIndex: osk.keyboardSize === "small" ? 0
+                                : (osk.keyboardSize === "wide" ? 2 : 1)
+                    onActivated: {
+                        osk.keyboardSize = index === 0 ? "small"
+                                          : (index === 2 ? "wide" : "default")
+                    }
+                }
             }
             ComboBox {
                 id: langBox
@@ -49,16 +63,16 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 color: Theme.textSecondary
-                text: qsTr("Active: %1 · chip “%2” · backend “%3” · hardware %4")
+                text: qsTr("Active: %1 · chip “%2” · size %3 · backend “%4”")
                     .arg(osk.engine.layoutLabel)
                     .arg(osk.langBadge)
+                    .arg(osk.keyboardSize)
                     .arg(osk.engine.backend)
-                    .arg(osk.hardwareInput ? qsTr("on") : qsTr("off"))
             }
             TextField {
                 id: lineField
                 Layout.fillWidth: true
-                placeholderText: qsTr("Type here with the dock or physical keyboard")
+                placeholderText: qsTr("Try long-press q→1, or hold “?” for alternatives")
                 LayoutMirroring.enabled: osk.engine.rtl
                 LayoutMirroring.childrenInherit: true
             }
@@ -75,10 +89,10 @@ CatalogPage {
                 text: qsTr("Show on-screen keyboard")
                 onClicked: osk.visible = true
             }
-            CheckBox { text: qsTr("Layout matches Win11 default touch rows") }
-            CheckBox { text: qsTr("Language chip cycles en/zh/ja/ko / Keyman packs") }
-            CheckBox { text: qsTr("Physical keys drive compose when hardwareInput is on") }
-            CheckBox { text: qsTr("Mic / Win stay chrome-only (no OS voice / Start)") }
+            CheckBox { text: qsTr("Long-press letter hints insert digits (Win11)") }
+            CheckBox { text: qsTr("Long-press punctuation opens alt flyout") }
+            CheckBox { text: qsTr("Size modes Small/Default/Large — not Win10 classic") }
+            CheckBox { text: qsTr("Clipboard strip + emoji categories") }
             CheckBox { text: qsTr("Treat OnScreenKeyboard as experimental") }
         }
     }
@@ -87,7 +101,7 @@ CatalogPage {
         id: osk
         hardwareInput: true
         onCloseRequested: visible = false
-        onSettingsRequested: langBox.forceActiveFocus()
+        onSettingsRequested: osk.settingsOpen = true
     }
 
     Connections {

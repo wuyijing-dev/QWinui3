@@ -460,6 +460,11 @@ void KeyboardEngine::pasteClipboard()
     commitText(text);
 }
 
+QString KeyboardEngine::clipboardText() const
+{
+    return QGuiApplication::clipboard()->text();
+}
+
 void KeyboardEngine::sendKey(int key, const QString &text) const
 {
     QObject *item = target();

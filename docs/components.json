@@ -1,6 +1,6 @@
 {
   "name": "QWinUI3",
-  "version": "1.80",
+  "version": "1.81",
   "generatedBy": "scripts/generate_component_docs.py",
   "publicCount": 214,
   "components": [
@@ -1327,7 +1327,7 @@
     {
       "name": "OnScreenKeyboard",
       "module": "QWinUI3.Extras",
-      "summary": "Win11 touch-keyboard chrome + layouts (1.80).",
+      "summary": "Windows 11 touch keyboard parity (1.81).",
       "path": "src/extras/QWinUI3/Extras/OnScreenKeyboard.qml",
       "baseType": "Control",
       "internal": false,
@@ -1335,9 +1335,9 @@
       "galleryPage": "pages/OnScreenKeyboardPage.qml",
       "galleryTitle": "On-screen keyboard",
       "doc": "components/OnScreenKeyboard.md",
-      "propertyCount": 17,
+      "propertyCount": 24,
       "signalCount": 2,
-      "methodCount": 12
+      "methodCount": 16
     },
     {
       "name": "PagerControl",

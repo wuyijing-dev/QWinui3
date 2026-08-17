@@ -1,24 +1,23 @@
 import QtQuick
+import QtQuick.Controls
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// OnScreenKeyboard — Win11 touch-keyboard chrome + layouts (1.80).
+// OnScreenKeyboard — Windows 11 touch keyboard parity (1.81).
 //
 //   OnScreenKeyboard { }
 //   // Host in CatalogPage.footer / Overlay / shell footer so keys stay docked.
 //
 //   // --- API ---
-//   // engine.backend  "pinyin" | "romaji" | "hangul" | "keyman" | "builtin"
-//   // engine.hardwareInput  physical keys in this app → same engine (default on)
-//   // engine.layoutId / cycleLayout / processVk
-//   // langBadge  short IME chip (英 / 中 / あ / 한 / …)
+//   // keyboardSize  "default" | "small" | "wide"  (Win11 size modes — not Win10 classic)
+//   // engine.layoutId / cycleLayout / hardwareInput / pasteClipboard
+//   // langBadge  英 / 中 / あ / 한 / …
 //   // closeRequested / settingsRequested
 //
 // @notes
-//   Experimental. Matches Windows 11 default touch layout (Esc/Tab/dual Shift,
-//   &123 · Ctrl · Win · Alt · lang · Space · mic · arrows; top-row number hints).
-//   App-scoped hardware input (not OS-wide). SIL Keyman Core (MIT) for named .kmx;
-//   zh/ja/ko in-app IME. Not Qt Virtual Keyboard. Keys use MouseArea (no focus steal).
+//   Experimental. Targets Windows 11 Touch Keyboard behavior (not Win10):
+//   long-press number hints, secondary-char flyout, rounder keys + press scale,
+//   size modes, clipboard strip, emoji categories. In-app only — not OS-wide.
 
 T.Control {
     id: root
@@ -28,6 +27,13 @@ T.Control {
     property bool shiftLatched: false
     property bool capsLock: false
     property bool showChrome: true
+    // Win11 keyboard size (Settings → Typing → Touch keyboard). Not Win10 "full" classic.
+    property string keyboardSize: "default" // default | small | wide
+    property bool settingsOpen: false
+    property bool clipboardOpen: false
+    property int emojiCategory: 0
+    property string statusBanner: ""
+
     readonly property alias engine: engine
     property alias layoutId: engine.layoutId
     property alias hardwareInput: engine.hardwareInput
@@ -35,13 +41,13 @@ T.Control {
     signal closeRequested()
     signal settingsRequested()
 
-    implicitWidth: 720
+    implicitWidth: keyboardSize === "wide" ? 880 : (keyboardSize === "small" ? 560 : 720)
     implicitHeight: column.implicitHeight + Theme.dp(12)
-    padding: Theme.dp(10)
+    padding: keyboardSize === "small" ? Theme.dp(6) : Theme.dp(10)
     focusPolicy: Qt.NoFocus
     Accessible.role: Accessible.Grouping
     Accessible.name: qsTr("On-screen keyboard")
-    Accessible.description: qsTr("Win11-style touch keyboard. Language %1. Backend %2.")
+    Accessible.description: qsTr("Windows 11 touch keyboard. Language %1. Backend %2.")
         .arg(engine.layoutLabel).arg(engine.backend)
 
     KeyboardEngine {
@@ -49,11 +55,18 @@ T.Control {
     }
 
     readonly property bool shiftOn: capsLock || shiftLatched
-    readonly property real keyGap: Theme.dp(5)
-    readonly property real keyH: Math.max(Theme.dp(46), Theme.controlHeight)
+    readonly property real keyGap: keyboardSize === "small" ? Theme.dp(4) : Theme.dp(6)
+    readonly property real keyH: {
+        if (keyboardSize === "small")
+            return Math.max(Theme.dp(36), Theme.controlHeight - Theme.dp(8))
+        if (keyboardSize === "wide")
+            return Math.max(Theme.dp(52), Theme.controlHeight + Theme.dp(4))
+        return Math.max(Theme.dp(48), Theme.controlHeight)
+    }
+    // Win11 keys are noticeably rounder than Win10 / Theme.cornerControl (4).
+    readonly property real keyRadius: keyboardSize === "small" ? Theme.dp(6) : Theme.dp(8)
     readonly property bool letterShift: engine.korean ? root.shiftLatched : root.shiftOn
 
-    // Short Win11-style language chip on the bottom row.
     readonly property string langBadge: {
         const id = engine.layoutId
         if (id === "zh-Hans")
@@ -72,6 +85,24 @@ T.Control {
             return id.substring(0, 2).toUpperCase()
         return "EN"
     }
+
+    readonly property var emojiCategoryModel: [
+        {
+            title: qsTr("Smileys"),
+            glyphs: ["😀", "😁", "😂", "🤣", "😊", "😍", "🤩", "😘", "🤔", "😎",
+                     "🥳", "😴", "🙄", "😱", "😢", "😡", "😇", "🙃", "😅", "🤯"]
+        },
+        {
+            title: qsTr("Gestures"),
+            glyphs: ["👍", "👎", "🙏", "💪", "👏", "🤝", "✌️", "🤞", "👀", "💬",
+                     "👋", "🤟", "☝️", "👇", "👈", "👉", "🫡", "🫶", "💯", "✅"]
+        },
+        {
+            title: qsTr("Symbols"),
+            glyphs: ["🔥", "✨", "🎉", "⭐", "❤️", "💔", "❌", "⚠️", "📌", "📎",
+                     "🎵", "💡", "🔔", "🕒", "📅", "🔒", "🔑", "💰", "🎁", "🏠"]
+        }
+    ]
 
     function unitWidthFor(row) {
         if (!row || !row.length)
@@ -94,10 +125,6 @@ T.Control {
         const u = unitWidthFor(row)
         const w = (k.w !== undefined ? k.w : 1.0)
         return u * w + root.keyGap * (w - 1)
-    }
-
-    function vkOf(ch) {
-        return ch.toUpperCase().charCodeAt(0)
     }
 
     function keyLabel(vk) {
@@ -140,11 +167,75 @@ T.Control {
         shiftLatched = true
     }
 
+    function commitHint(k) {
+        if (!k || !k.hint)
+            return
+        engine.commitText(String(k.hint))
+        if (root.shiftLatched && !root.capsLock)
+            root.shiftLatched = false
+    }
+
+    function commitAlt(ch) {
+        if (!ch || !ch.length)
+            return
+        engine.commitText(ch)
+        if (root.shiftLatched && !root.capsLock)
+            root.shiftLatched = false
+        altPopup.close()
+    }
+
+    function flashBanner(text) {
+        statusBanner = text
+        bannerClear.restart()
+    }
+
+    Timer {
+        id: bannerClear
+        interval: 2400
+        onTriggered: root.statusBanner = ""
+    }
+
+    function openAltFlyout(item, alts) {
+        if (!alts || !alts.length || !item)
+            return
+        const win = Window.window
+        const overlay = (win && win.Overlay && win.Overlay.overlay)
+                        ? win.Overlay.overlay
+                        : Overlay.overlay
+        if (!overlay)
+            return
+        altPopup.alts = alts
+        altPopup.parent = overlay
+        const p = item.mapToItem(overlay, 0, 0)
+        altPopup.x = Math.max(Theme.dp(8), Math.min(p.x + item.width / 2 - altPopup.implicitWidth / 2,
+                                                    overlay.width - altPopup.implicitWidth - Theme.dp(8)))
+        altPopup.y = Math.max(Theme.dp(8), p.y - altPopup.implicitHeight - Theme.dp(8))
+        altPopup.open()
+    }
+
+    function altsFor(k) {
+        if (!k)
+            return []
+        if (k.alts)
+            return k.alts
+        if (k.kind === "char" && k.shiftCh && k.ch !== k.shiftCh)
+            return [k.ch, k.shiftCh]
+        return []
+    }
+
     background: Rectangle {
+        // Win11 acrylic-ish panel (softer than Win10 solid grey dock).
         color: Theme.bgAcrylic
-        radius: Theme.cornerOverlay
+        radius: Theme.dp(12)
         border.width: Theme.strokeHairline
         border.color: Theme.strokeCard
+        Rectangle {
+            anchors.fill: parent
+            anchors.margins: 1
+            radius: parent.radius - 1
+            color: Theme.dark ? "#18FFFFFF" : "#22FFFFFF"
+            Accessible.ignored: true
+        }
     }
 
     contentItem: Column {
@@ -152,13 +243,11 @@ T.Control {
         width: root.availableWidth
         spacing: root.keyGap
 
-        // Win11 floating keyboard header: settings · grab · close
         Item {
             id: chrome
             width: parent.width
             height: root.showChrome ? Theme.dp(28) : 0
             visible: root.showChrome
-            clip: true
 
             Row {
                 anchors.left: parent.left
@@ -167,7 +256,12 @@ T.Control {
                 ChromeIconButton {
                     symbol: FluentIcons.Settings
                     accessibleName: qsTr("Keyboard settings")
-                    onTapped: root.settingsRequested()
+                    accent: root.settingsOpen
+                    onTapped: {
+                        root.settingsOpen = !root.settingsOpen
+                        root.clipboardOpen = false
+                        root.settingsRequested()
+                    }
                 }
             }
 
@@ -192,26 +286,140 @@ T.Control {
             }
         }
 
-        // Win11 side tools: emoji · clipboard
         Row {
             visible: root.showChrome
             spacing: Theme.dp(4)
             height: visible ? Theme.dp(28) : 0
             ChromeIconButton {
-                symbol: FluentIcons.Heart
+                symbol: FluentIcons.Emoji
                 accessibleName: qsTr("Emoji")
                 accent: root.emojiMode
                 onTapped: {
                     root.emojiMode = !root.emojiMode
-                    if (root.emojiMode)
+                    if (root.emojiMode) {
                         root.symbolsMode = false
+                        root.settingsOpen = false
+                        root.clipboardOpen = false
+                    }
                 }
             }
             ChromeIconButton {
                 symbol: FluentIcons.Paste
-                accessibleName: qsTr("Paste")
-                onTapped: engine.pasteClipboard()
+                accessibleName: qsTr("Clipboard")
+                accent: root.clipboardOpen
+                onTapped: {
+                    root.clipboardOpen = !root.clipboardOpen
+                    root.settingsOpen = false
+                    if (root.clipboardOpen)
+                        root.emojiMode = false
+                }
             }
+        }
+
+        // Win11 settings sheet: size modes (not Win10 full classic keyboard).
+        Rectangle {
+            width: parent.width
+            visible: root.settingsOpen
+            height: visible ? settingsCol.implicitHeight + Theme.dp(12) : 0
+            radius: root.keyRadius
+            color: Theme.fillSubtle
+            border.width: Theme.strokeHairline
+            border.color: Theme.strokeCard
+            Column {
+                id: settingsCol
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.top: parent.top
+                anchors.margins: Theme.dp(8)
+                spacing: Theme.dp(6)
+                Text {
+                    text: qsTr("Keyboard size")
+                    font.family: Theme.fontFamily
+                    font.pixelSize: Theme.fontCaption
+                    color: Theme.textSecondary
+                }
+                Row {
+                    spacing: Theme.dp(6)
+                    SizeChip { sizeId: "small"; label: qsTr("Small") }
+                    SizeChip { sizeId: "default"; label: qsTr("Default") }
+                    SizeChip { sizeId: "wide"; label: qsTr("Large") }
+                }
+                Text {
+                    width: parent.width
+                    wrapMode: Text.WordWrap
+                    text: qsTr("Windows 11 touch layout — not the Win10 classic full keyboard. Long-press letter hints for digits; long-press punctuation for alternatives.")
+                    font.family: Theme.fontFamily
+                    font.pixelSize: Theme.fontCaption
+                    color: Theme.textSecondary
+                }
+            }
+        }
+
+        // Win11 clipboard strip (current clip — full history is OS-owned).
+        Rectangle {
+            width: parent.width
+            visible: root.clipboardOpen
+            height: visible ? clipCol.implicitHeight + Theme.dp(12) : 0
+            radius: root.keyRadius
+            color: Theme.fillSubtle
+            border.width: Theme.strokeHairline
+            border.color: Theme.strokeCard
+            Column {
+                id: clipCol
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.top: parent.top
+                anchors.margins: Theme.dp(8)
+                spacing: Theme.dp(6)
+                Text {
+                    text: qsTr("Clipboard")
+                    font.family: Theme.fontFamily
+                    font.pixelSize: Theme.fontCaption
+                    color: Theme.textSecondary
+                }
+                Text {
+                    width: parent.width
+                    wrapMode: Text.WrapAnywhere
+                    maximumLineCount: 3
+                    elide: Text.ElideRight
+                    text: {
+                        const t = engine.clipboardText()
+                        return t.length ? t : qsTr("(empty)")
+                    }
+                    font.family: Theme.fontFamily
+                    font.pixelSize: Theme.fontBody
+                    color: Theme.textPrimary
+                }
+                Row {
+                    spacing: Theme.dp(6)
+                    KeyCap {
+                        width: Theme.dp(88)
+                        height: Theme.dp(32)
+                        label: qsTr("Paste")
+                        onTapped: {
+                            engine.pasteClipboard()
+                            root.clipboardOpen = false
+                        }
+                    }
+                    KeyCap {
+                        width: Theme.dp(88)
+                        height: Theme.dp(32)
+                        label: qsTr("Close")
+                        onTapped: root.clipboardOpen = false
+                    }
+                }
+            }
+        }
+
+        Text {
+            width: parent.width
+            visible: root.statusBanner.length > 0
+            text: root.statusBanner
+            wrapMode: Text.WordWrap
+            font.family: Theme.fontFamily
+            font.pixelSize: Theme.fontCaption
+            color: Theme.textSecondary
+            horizontalAlignment: Text.AlignHCenter
         }
 
         ImeCandidateBar {
@@ -219,19 +427,37 @@ T.Control {
             engine: engine
         }
 
+        // Emoji category chips (Win11-style tabs — not a flat Win10 grid only).
+        Row {
+            visible: root.emojiMode
+            spacing: Theme.dp(4)
+            width: parent.width
+            Repeater {
+                model: root.emojiCategoryModel
+                delegate: SizeChip {
+                    required property int index
+                    required property var modelData
+                    sizeId: String(index)
+                    label: modelData.title
+                    checkedOverride: root.emojiCategory === index
+                    onPicked: root.emojiCategory = index
+                }
+            }
+        }
+
         Repeater {
-            model: root.emojiMode ? root.emojiRows
+            model: root.emojiMode ? root.emojiGridRows
                  : (root.symbolsMode ? root.symbolRows : root.letterRows)
             delegate: Row {
                 id: keyRow
                 required property var modelData
-                required property int index
                 spacing: root.keyGap
                 width: parent.width
 
                 Repeater {
                     model: keyRow.modelData
                     delegate: KeyCap {
+                        id: keyDelegate
                         required property var modelData
                         width: root.keyWidth(keyRow.modelData, modelData)
                         height: root.keyH
@@ -243,7 +469,44 @@ T.Control {
                             || modelData.kind === "ctrl" || modelData.kind === "alt"
                         wideLabel: modelData.kind === "space"
                         onTapped: root.handleKey(modelData)
+                        onLongPressed: {
+                            if (modelData.hint) {
+                                root.commitHint(modelData)
+                                return
+                            }
+                            const alts = root.altsFor(modelData)
+                            if (alts.length)
+                                root.openAltFlyout(keyDelegate, alts)
+                        }
                     }
+                }
+            }
+        }
+    }
+
+    Popup {
+        id: altPopup
+        property var alts: []
+        padding: Theme.dp(6)
+        modal: false
+        focus: false
+        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+        background: Rectangle {
+            radius: root.keyRadius
+            color: Theme.bgAcrylic
+            border.width: Theme.strokeHairline
+            border.color: Theme.strokeCard
+        }
+        contentItem: Row {
+            spacing: root.keyGap
+            Repeater {
+                model: altPopup.alts
+                delegate: KeyCap {
+                    required property var modelData
+                    width: Math.max(Theme.dp(40), root.keyH)
+                    height: root.keyH
+                    label: String(modelData)
+                    onTapped: root.commitAlt(String(modelData))
                 }
             }
         }
@@ -267,7 +530,7 @@ T.Control {
         case "vk":
             return root.keyLabel(k.vk)
         case "shift":
-            return root.capsLock ? qsTr("caps") : "⇧"
+            return root.capsLock ? "⇪" : "⇧"
         case "globe":
         case "lang":
             return root.langBadge
@@ -302,7 +565,44 @@ T.Control {
     function accentFor(k) {
         return (k.kind === "shift" && (root.shiftLatched || root.capsLock))
                 || (k.kind === "symbols" && root.symbolsMode)
-                || ((k.kind === "emoji" || k.kind === "heart") && root.emojiMode)
+                || (k.kind === "emoji" && root.emojiMode)
+    }
+
+    component SizeChip: Rectangle {
+        id: chip
+        property string sizeId: ""
+        property string label: ""
+        property bool checkedOverride: false
+        signal picked(string id)
+        readonly property bool checked: checkedOverride
+                                        || (sizeId === "small" || sizeId === "default" || sizeId === "wide"
+                                            ? root.keyboardSize === sizeId : false)
+        width: chipLabel.implicitWidth + Theme.dp(16)
+        height: Theme.dp(28)
+        radius: height / 2
+        color: checked ? Theme.fillAccent : Theme.fillControl
+        border.width: Theme.strokeHairline
+        border.color: Theme.strokeControl
+        Text {
+            id: chipLabel
+            anchors.centerIn: parent
+            text: chip.label
+            font.family: Theme.fontFamily
+            font.pixelSize: Theme.fontCaption
+            color: chip.checked ? Theme.textOnAccent : Theme.textPrimary
+        }
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                if (chip.sizeId === "small" || chip.sizeId === "default" || chip.sizeId === "wide")
+                    root.keyboardSize = chip.sizeId
+                chip.picked(chip.sizeId)
+            }
+        }
+        Accessible.role: Accessible.Button
+        Accessible.name: chip.label
+        Accessible.checkable: true
+        Accessible.checked: chip.checked
     }
 
     component ChromeIconButton: Item {
@@ -315,7 +615,7 @@ T.Control {
         height: Theme.dp(28)
         Rectangle {
             anchors.fill: parent
-            radius: Theme.cornerControl
+            radius: root.keyRadius
             color: cibMa.containsPress ? Theme.fillControlTertiary
                  : cibMa.containsMouse ? Theme.fillControlSecondary
                  : "transparent"
@@ -338,7 +638,7 @@ T.Control {
         Accessible.onPressAction: cib.tapped()
     }
 
-    component KeyCap: Rectangle {
+    component KeyCap: Item {
         id: cap
         property string label: ""
         property string hint: ""
@@ -347,6 +647,7 @@ T.Control {
         property bool muted: false
         property bool wideLabel: false
         signal tapped
+        signal longPressed
 
         readonly property bool hasIcon: {
             if (typeof cap.iconSymbol === "string")
@@ -354,32 +655,51 @@ T.Control {
             return cap.iconSymbol !== undefined && cap.iconSymbol !== null && cap.iconSymbol !== ""
         }
 
-        radius: Theme.cornerControl
-        opacity: muted ? 0.72 : 1
-        color: {
-            if (accent)
-                return ma.containsPress ? Theme.fillAccentTertiary
-                     : ma.containsMouse ? Theme.fillAccentSecondary
-                     : Theme.fillAccent
-            return ma.containsPress ? Theme.fillControlTertiary
-                 : ma.containsMouse ? Theme.fillControlSecondary
-                 : Theme.fillControl
-        }
-        border.width: Theme.strokeHairline
-        border.color: Theme.strokeControl
-        Behavior on color {
+        scale: ma.containsPress && !Theme.reducedMotion ? 0.96 : 1
+        Behavior on scale {
             enabled: !Theme.reducedMotion
-            ColorAnimation { duration: Theme.duration(Theme.motionFast) }
+            NumberAnimation { duration: Theme.duration(Theme.motionFast) }
+        }
+        opacity: muted ? 0.72 : 1
+
+        Rectangle {
+            anchors.fill: parent
+            radius: root.keyRadius
+            color: {
+                if (cap.accent)
+                    return ma.containsPress ? Theme.fillAccentTertiary
+                         : ma.containsMouse ? Theme.fillAccentSecondary
+                         : Theme.fillAccent
+                return ma.containsPress ? Theme.fillControlTertiary
+                     : ma.containsMouse ? Theme.fillControlSecondary
+                     : Theme.fillControl
+            }
+            border.width: Theme.strokeHairline
+            border.color: Theme.strokeControl
+            Behavior on color {
+                enabled: !Theme.reducedMotion
+                ColorAnimation { duration: Theme.duration(Theme.motionFast) }
+            }
+            // Soft raise — Win11 keys sit slightly above the acrylic tray.
+            Rectangle {
+                anchors.fill: parent
+                anchors.topMargin: height - Theme.dp(2)
+                radius: parent.radius
+                color: Theme.dark ? "#22000000" : "#14000000"
+                visible: !ma.containsPress
+                Accessible.ignored: true
+            }
         }
 
         Text {
             visible: cap.hint.length > 0
+            z: 1
             anchors.left: parent.left
             anchors.top: parent.top
             anchors.margins: Theme.dp(4)
             text: cap.hint
             font.family: Theme.fontFamily
-            font.pixelSize: Theme.fontCaption - 1
+            font.pixelSize: Math.max(9, Theme.fontCaption - 1)
             color: cap.accent ? Theme.textOnAccent : Theme.textSecondary
             Accessible.ignored: true
         }
@@ -406,12 +726,22 @@ T.Control {
             anchors.fill: parent
             hoverEnabled: true
             preventStealing: true
-            onClicked: cap.tapped()
+            pressAndHoldInterval: 380
+            property bool held: false
+            onPressed: held = false
+            onPressAndHold: {
+                held = true
+                cap.longPressed()
+            }
+            onClicked: {
+                if (!held)
+                    cap.tapped()
+            }
         }
         Accessible.role: Accessible.Button
         Accessible.name: {
             if (cap.hint.length)
-                return qsTr("%1 (hint %2)").arg(cap.label.length ? cap.label : qsTr("Key")).arg(cap.hint)
+                return qsTr("%1 — hold for %2").arg(cap.label.length ? cap.label : qsTr("Key")).arg(cap.hint)
             if (cap.label.length)
                 return cap.label
             return qsTr("Key")
@@ -419,7 +749,7 @@ T.Control {
         Accessible.onPressAction: cap.tapped()
     }
 
-    // Windows 11 default touch keyboard (letters).
+    // Windows 11 default touch keyboard (letters) — not Win10 classic with always-on number row.
     readonly property var letterRows: [
         [
             { kind: "esc", w: 1.15 },
@@ -435,7 +765,8 @@ T.Control {
             { kind: "vk", vk: 65 }, { kind: "vk", vk: 83 }, { kind: "vk", vk: 68 },
             { kind: "vk", vk: 70 }, { kind: "vk", vk: 71 }, { kind: "vk", vk: 72 },
             { kind: "vk", vk: 74 }, { kind: "vk", vk: 75 }, { kind: "vk", vk: 76 },
-            { kind: "char", ch: ";", shiftCh: ":", label: ";", shiftLabel: ":", w: 1.0 },
+            { kind: "char", ch: ";", shiftCh: ":", label: ";", shiftLabel: ":",
+              alts: [";", ":", "；", "：" ], w: 1.0 },
             { kind: "enter", w: 1.45 }
         ],
         [
@@ -443,9 +774,12 @@ T.Control {
             { kind: "vk", vk: 90 }, { kind: "vk", vk: 88 }, { kind: "vk", vk: 67 },
             { kind: "vk", vk: 86 }, { kind: "vk", vk: 66 }, { kind: "vk", vk: 78 },
             { kind: "vk", vk: 77 },
-            { kind: "char", ch: ",", shiftCh: ";", label: ",", shiftLabel: ";" },
-            { kind: "char", ch: ".", shiftCh: ":", label: ".", shiftLabel: ":" },
-            { kind: "char", ch: "?", shiftCh: "!", label: "?", shiftLabel: "!" },
+            { kind: "char", ch: ",", shiftCh: ";", label: ",", shiftLabel: ";",
+              alts: [",", ";", "、", "，"] },
+            { kind: "char", ch: ".", shiftCh: ":", label: ".", shiftLabel: ":",
+              alts: [".", ":", "。", "…"] },
+            { kind: "char", ch: "?", shiftCh: "!", label: "?", shiftLabel: "!",
+              alts: ["?", "!", "¿", "¡"] },
             { kind: "shift", w: 1.45 }
         ],
         [
@@ -472,19 +806,28 @@ T.Control {
         ],
         [
             { kind: "tab", w: 1.25 },
-            { kind: "char", ch: "@", label: "@" }, { kind: "char", ch: "#", label: "#" },
-            { kind: "char", ch: "$", label: "$" }, { kind: "char", ch: "%", label: "%" },
-            { kind: "char", ch: "&", label: "&" }, { kind: "char", ch: "-", label: "-" },
-            { kind: "char", ch: "+", label: "+" }, { kind: "char", ch: "(", label: "(" },
-            { kind: "char", ch: ")", label: ")" }, { kind: "char", ch: "/", label: "/" },
+            { kind: "char", ch: "@", label: "@", alts: ["@", "©", "®"] },
+            { kind: "char", ch: "#", label: "#", alts: ["#", "№"] },
+            { kind: "char", ch: "$", label: "$", alts: ["$", "€", "£", "¥"] },
+            { kind: "char", ch: "%", label: "%" },
+            { kind: "char", ch: "&", label: "&" },
+            { kind: "char", ch: "-", label: "-", alts: ["-", "—", "–", "_"] },
+            { kind: "char", ch: "+", label: "+" },
+            { kind: "char", ch: "(", label: "(", alts: ["(", "[", "{", "<"] },
+            { kind: "char", ch: ")", label: ")", alts: [")", "]", "}", ">"] },
+            { kind: "char", ch: "/", label: "/", alts: ["/", "\\", "|"] },
             { kind: "enter", w: 1.45 }
         ],
         [
             { kind: "char", ch: "*", label: "*", w: 1.2 },
-            { kind: "char", ch: "\"", label: "\"" }, { kind: "char", ch: "'", label: "'" },
-            { kind: "char", ch: ":", label: ":" }, { kind: "char", ch: ";", label: ";" },
-            { kind: "char", ch: "!", label: "!" }, { kind: "char", ch: "?", label: "?" },
-            { kind: "char", ch: "_", label: "_" }, { kind: "char", ch: "=", label: "=" },
+            { kind: "char", ch: "\"", label: "\"", alts: ["\"", "“", "”"] },
+            { kind: "char", ch: "'", label: "'", alts: ["'", "‘", "’"] },
+            { kind: "char", ch: ":", label: ":" },
+            { kind: "char", ch: ";", label: ";" },
+            { kind: "char", ch: "!", label: "!" },
+            { kind: "char", ch: "?", label: "?" },
+            { kind: "char", ch: "_", label: "_" },
+            { kind: "char", ch: "=", label: "=", alts: ["=", "≠", "≈"] },
             { kind: "backspace", w: 1.35 }
         ],
         [
@@ -500,31 +843,24 @@ T.Control {
         ]
     ]
 
-    readonly property var emojiRows: [
-        [
-            { kind: "char", ch: "😀", label: "😀" }, { kind: "char", ch: "😁", label: "😁" },
-            { kind: "char", ch: "😂", label: "😂" }, { kind: "char", ch: "🤣", label: "🤣" },
-            { kind: "char", ch: "😊", label: "😊" }, { kind: "char", ch: "😍", label: "😍" },
-            { kind: "char", ch: "🤩", label: "🤩" }, { kind: "char", ch: "😘", label: "😘" },
-            { kind: "char", ch: "🤔", label: "🤔" }, { kind: "char", ch: "😎", label: "😎" },
-            { kind: "backspace", w: 1.2 }
-        ],
-        [
-            { kind: "char", ch: "🥳", label: "🥳" }, { kind: "char", ch: "😴", label: "😴" },
-            { kind: "char", ch: "🙄", label: "🙄" }, { kind: "char", ch: "😱", label: "😱" },
-            { kind: "char", ch: "😢", label: "😢" }, { kind: "char", ch: "😡", label: "😡" },
-            { kind: "char", ch: "👍", label: "👍" }, { kind: "char", ch: "👎", label: "👎" },
-            { kind: "char", ch: "🙏", label: "🙏" }, { kind: "char", ch: "💪", label: "💪" },
-            { kind: "enter", w: 1.2 }
-        ],
-        [
-            { kind: "char", ch: "🔥", label: "🔥" }, { kind: "char", ch: "✨", label: "✨" },
-            { kind: "char", ch: "🎉", label: "🎉" }, { kind: "char", ch: "💯", label: "💯" },
-            { kind: "char", ch: "✅", label: "✅" }, { kind: "char", ch: "❌", label: "❌" },
-            { kind: "char", ch: "⭐", label: "⭐" }, { kind: "char", ch: "👀", label: "👀" },
-            { kind: "char", ch: "❤️", label: "❤️" }, { kind: "char", ch: "🤝", label: "🤝" }
-        ],
-        [
+    readonly property var emojiGridRows: {
+        const cat = emojiCategoryModel[Math.max(0, Math.min(emojiCategory, emojiCategoryModel.length - 1))]
+        const g = cat.glyphs
+        const rows = []
+        for (let r = 0; r < 2; ++r) {
+            const row = []
+            for (let c = 0; c < 10; ++c) {
+                const i = r * 10 + c
+                if (i < g.length)
+                    row.push({ kind: "char", ch: g[i], label: g[i] })
+            }
+            if (r === 0)
+                row.push({ kind: "backspace", w: 1.2 })
+            else
+                row.push({ kind: "enter", w: 1.2 })
+            rows.push(row)
+        }
+        rows.push([
             { kind: "symbols", label: qsTr("abc"), w: 1.25 },
             { kind: "ctrl", w: 1.0 },
             { kind: "win", w: 1.0 },
@@ -534,8 +870,9 @@ T.Control {
             { kind: "emoji", w: 1.0 },
             { kind: "left", w: 1.0 },
             { kind: "right", w: 1.0 }
-        ]
-    ]
+        ])
+        return rows
+    }
 
     function handleKey(k) {
         switch (k.kind) {
@@ -592,11 +929,14 @@ T.Control {
             engine.cycleLayout()
             break
         case "mic":
-            // Voice typing is OS-owned; in-app OSK keeps the chrome only.
+            flashBanner(qsTr("Voice typing stays with the OS — this in-app keyboard cannot start dictation."))
             break
         case "ctrl":
         case "alt":
+            flashBanner(qsTr("Ctrl / Alt are shown for Win11 layout parity; chords use the physical keyboard."))
+            break
         case "win":
+            flashBanner(qsTr("Windows key is chrome-only in-app (no Start menu)."))
             break
         }
     }

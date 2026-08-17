@@ -7,8 +7,8 @@ Fluent / [WinUI 3](https://learn.microsoft.com/windows/apps/winui/winui3/)-inspi
 [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-2ea44f)](https://wuyijing-dev.github.io/QWinui3/)
 [![Qt](https://img.shields.io/badge/Qt-6.5%2B-41CD52?logo=qt&logoColor=white)](https://www.qt.io/)
 
-**v1.80** · **200+** public controls · Gallery demos for most of them  
-**Still 1.xx** — long-horizon checkpoint ([docs/checkpoint-178.md](docs/checkpoint-178.md)); **1.80** Win11 OSK layout; prefer harden / pause vs new surfaces; not drafting 2.00.
+**v1.81** · **200+** public controls · Gallery demos for most of them  
+**Still 1.xx** — long-horizon checkpoint ([docs/checkpoint-178.md](docs/checkpoint-178.md)); **1.81** Win11 OSK behavior (not Win10); prefer harden / pause vs new surfaces; not drafting 2.00.
 [Documentation](https://wuyijing-dev.github.io/QWinui3/) · [Recipes hub](docs/recipes.md) · [Stable API](docs/stable-api.md) · [1.xx maturity](docs/maturity-1xx.md) · [Mid-horizon 1.60](docs/checkpoint-160.md) · [Long-horizon 1.78](docs/checkpoint-178.md) · [1.xx compatibility](docs/compatibility-1xx.md) · [i18n / RTL](docs/i18n-rtl.md) · [Keyboard-first](docs/keyboard.md) · [On-screen keyboard](docs/on-screen-keyboard.md) · [Color & contrast](docs/color-contrast.md) · [Adaptive layout](docs/adaptive-layout.md) · [Drag-drop](docs/drag-drop.md) · [Upgrade notes](docs/upgrade-notes.md) · [Linux / Wayland](docs/platform-linux-wayland.md) · [Qt Creator](docs/qt-creator.md) · [Component API](https://wuyijing-dev.github.io/QWinui3/components/) · [Releases](https://github.com/wuyijing-dev/QWinui3/releases) · [Roadmap](ROADMAP.md)
 
 ---

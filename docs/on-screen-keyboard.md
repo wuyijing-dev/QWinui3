@@ -1,8 +1,8 @@
-# On-screen keyboard & in-app IME (1.70…1.80)
+# On-screen keyboard & in-app IME (1.70…1.81)
 
 Win11 / Fluent **touch keyboard chrome we own**. This is **not** Qt Virtual Keyboard, and it is **not** a hardware-shortcut cookbook ([keyboard.md](keyboard.md)).
 
-**Status:** **1.80** Win11 default touch **layout chrome** (Esc/Tab/dual Shift / lang chip / number hints). **1.77** hardware; **1.78** checkpoint — OSK/IME **still experimental**. **Next:** field-driven `1.81+` or pause.  
+**Status:** **1.81** deepens **Windows 11** touch behavior (long-press digits / alt flyout, size modes, clipboard strip, emoji categories) — **not** Win10 classic. OSK/IME **still experimental**. **Next:** field-driven `1.82+` or pause.  
 **License:** OSK chrome is this repo (LGPL-3.0). SIL Keyman Core (**MIT**) for layouts. Pinyin tables are [mozillazg/pinyin-data](https://github.com/mozillazg/pinyin-data) (**MIT**) — [NOTICE-pinyin.md](NOTICE-pinyin.md). Japanese is a Hepburn romaji→kana map (**no kanji** — no MIT reading lexicon). Korean is Unicode hangul composition (not a lexicon). Keyman `cs_pinyin` IMX is **not** used.
 
 | Slice | What ships |
@@ -18,6 +18,7 @@ Win11 / Fluent **touch keyboard chrome we own**. This is **not** Qt Virtual Keyb
 | **1.78** | Long-horizon checkpoint |
 | **1.79** | Wayland field harden (portal parent + CapsLock); OSK still experimental |
 | **1.80** | Win11 default touch **layout** chrome (Esc/Tab/dual Shift/lang chip/hints) |
+| **1.81** | Win11 **behavior** vs Win10: long-press, size modes, clipboard, emoji tabs |
 
 ---
 
@@ -77,31 +78,40 @@ Keep `QT_IM_MODULE` unset. Do **not** ship a `platforminputcontexts` plugin in 1
 
 ---
 
-## UI we write (Win11)
+## UI we write (Win11 — not Win10 classic)
 
-Follow Windows 11 Touch Keyboard: bottom dock, large hit targets, rounded keys, acrylic panel, light/dark from `Theme`.
+Follow **Windows 11** Touch Keyboard. Explicitly **not** the Win10 classic “full” keyboard (always-visible number row, flatter keys, different emoji/clipboard).
 
-**1.80 layout chrome** (default letter layer):
+**1.80 layout chrome** + **1.81 behavior**:
 
 | Row | Keys |
 |-----|------|
-| Header | Settings · grab bar · close (+ emoji / paste tools) |
+| Header | Settings · grab bar · close (+ emoji / clipboard tools) |
 | 1 | Esc · q–p with **1–0 hints** · Backspace |
 | 2 | Tab · a–l · `;:` · Enter |
 | 3 | Shift · z–m · `,; .:` · `?!` · Shift |
 | 4 | `&123` · Ctrl · Win · Alt · **lang chip** (英/中/あ/한/…) · Space · mic · ← → |
 
+| Behavior (1.81) | Win11 expectation |
+|-----------------|-------------------|
+| Long-press letter with hint | Inserts the digit (`q`→`1`) |
+| Long-press punctuation | Secondary-character flyout |
+| `keyboardSize` | `small` / `default` / `wide` (Settings sheet) |
+| Clipboard tool | Paste strip for current clip (OS history stays OS-owned) |
+| Emoji | Category chips + grid |
+| Key chrome | Rounder radii, press scale, soft raise — not Win10 flat tiles |
+| Mic / Win / Ctrl / Alt | Chrome / banner only in-app |
+
 | Layer | Behavior |
 |-------|----------|
 | Letters | Physical US VKs; labels from `previewVk`; Shift latch / Caps; Keyman / IME backends |
-| Symbols | Numbers + punctuation (`&123` / abc) |
+| Symbols | Numbers + punctuation (`&123` / abc) + long-press alts |
 | Lang chip | Cycles en-US/GB · de/fr/es/it/pt/pl/sv/tr · ru/ar · zh/ja/ko |
-| Emoji | Heart tool or emoji key — `commitText` only, no engine |
-| Mic / Win | Chrome-only (no OS voice typing / Start menu) |
+| Emoji | Category tabs — `commitText` only, no engine |
 
-Tokens: `Theme.bgAcrylic` / `fillControl` / `cornerControl` / `strokeHairline` / `Theme.dp(46)` hit size ([density.md](density.md) · [touch-pointer.md](touch-pointer.md)). Reuse `FluentIcons` (Backspace / ReturnKey / Microphone / …).
+Tokens: `Theme.bgAcrylic` / `fillControl` / local Win11 key radius (~8dp) / `Theme.dp(48)` default hit size. Reuse `FluentIcons` (Backspace / ReturnKey / Microphone / Emoji / …).
 
-Suggested Extra: `OnScreenKeyboard` (experimental). Host in `Overlay.overlay` or a shell footer; show when a text control is focused **or** when the app sets `visible` (kiosk). `closeRequested` / `settingsRequested` for host wiring.
+Suggested Extra: `OnScreenKeyboard` (experimental). Host in `Overlay.overlay` or a shell footer. `closeRequested` / `settingsRequested` for host wiring.
 
 ---
 

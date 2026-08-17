@@ -88,6 +88,7 @@ public:
     Q_INVOKABLE void cancelCompose();
     Q_INVOKABLE void navigateKey(int qtKey);
     Q_INVOKABLE void pasteClipboard();
+    Q_INVOKABLE QString clipboardText() const;
 
 signals:
     void hasTargetChanged();
