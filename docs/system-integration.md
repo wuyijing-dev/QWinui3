@@ -122,6 +122,7 @@ Battery / online / screens / recent-docs remain **experimental**.
 ## Related
 
 - [shell-extras.md](shell-extras.md) — Snap / taskbar / attention / reveal / idle (**1.47**)  
+- [print-share.md](print-share.md) — grab → save → reveal · PrintSupport notes (**1.63**)  
 - [drag-drop.md](drag-drop.md) — FileDropZone / clipboard / FilePicker pairing (**1.41**)  
 - [platform-linux-wayland.md](platform-linux-wayland.md) — portal / SSD / tray / backdrop field matrix (**1.38**)  
 - [webview2.md](webview2.md) — separate Windows browser host

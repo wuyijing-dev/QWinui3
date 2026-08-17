@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.62**
-**Next up:** **1.63** (Print, share & export recipes)
+**Current:** **1.63**
+**Next up:** **1.64** (Security & trust boundaries)
 **Planned through:** **1.70** (long-horizon 1.xx checkpoint)  
 **Still 1.xx:** Mid-horizon checkpoint published — [docs/checkpoint-160.md](docs/checkpoint-160.md). Not drafting 2.00.  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
@@ -61,7 +61,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.62`
+## Shipped — `1.01` … `1.63`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -311,30 +311,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** Gallery `--visual-smoke` grabs Home + Button + ContentDialog + Pitfalls + ExamplesTemplates to PNG/sha256; `scripts/smoke_visual.py` (opt-in, not default smoke); [ci-smoke.md](docs/ci-smoke.md) docs; optional workflow_dispatch; product version `1.62`.
 
+### 1.63 — Print, share & export recipes (shipped)
+
+**Shipped:** [print-share.md](docs/print-share.md) cookbook (grabToImage → FilePicker.saveFile → reveal; optional app-side QPrinter/PrintSupport); Gallery **Print / share / export**; system-integration / drag-drop / shell-extras / recipes / MkDocs cross-links; product version `1.63`.
+
 ---
 
-## Horizon — planned `1.63` … `1.70`
+## Horizon — planned `1.64` … `1.70`
 
 Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per `YY`. Order can flex if field P0s force a swap; do not merge themes into mega-minors. Posture after 1.51 / 1.60: prefer field harden / docs over new control families.
-
-### 1.63 — Print, share & export recipes
-
-**Why:** LoB apps need “send this view somewhere” without a print subsystem rewrite.
-
-**In scope**
-
-- Recipes: `QPrinter` / grab-to-image / share file via reveal/picker; Gallery or docs-only sample.
-- Cross-link system-integration / drag-drop.
-
-**Out of scope**
-
-- Built-in PDF engine product; cloud share providers.
-
-**Exit criteria**
-
-- Published recipe with Win+Linux caveats.
-
----
 
 ### 1.64 — Security & trust boundaries
 

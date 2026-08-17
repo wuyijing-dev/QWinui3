@@ -224,6 +224,7 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.60** | Mid-horizon checkpoint — [checkpoint-160.md](checkpoint-160.md); smoke + SearchRecipes / HighDpi |
 | **1.61** | CMake `find_package` sketch — [packaging-consumer.md](packaging-consumer.md) Path C; `examples/find-package-consumer` |
 | **1.62** | Gallery visual smoke subset — `--visual-smoke` + `scripts/smoke_visual.py`; [ci-smoke.md](ci-smoke.md) |
+| **1.63** | Print / share / export — [print-share.md](print-share.md); Gallery PrintSharePage |
 | **1.35** | Qt Creator kit polish — [qt-creator.md](qt-creator.md); example build presets |
 | **1.36** | Docs site IA — [recipes.md](recipes.md) hub; MkDocs Recipes sections |
 | **1.37** | Promote sweep — commands / Flyout / TabView / ShellWindow / pickers / progress / FontIcon / ItemsRepeater; explicit defer list |

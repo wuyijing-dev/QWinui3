@@ -150,6 +150,7 @@ Always release — forgetting leaves the display awake until process exit (Windo
 ## Related
 
 - [system-integration.md](system-integration.md) — FilePicker / Tray / NotificationBridge  
+- [print-share.md](print-share.md) — grab → save → reveal (**1.63**)  
 - [platform-linux-wayland.md](platform-linux-wayland.md) — portal / SSD matrix (**1.38**)  
 - [drag-drop.md](drag-drop.md) — reveal after save (**1.41**)  
 - [stable-api.md](stable-api.md) — promoted taskbar / attention / reveal / idle surface

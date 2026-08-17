@@ -47,6 +47,20 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.62 → 1.63
+
+**Product version:** 1.63  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- Print / share / export cookbook: [print-share.md](print-share.md) — grabToImage → FilePicker.saveFile → revealFileInFolder; optional app-side PrintSupport.
+- Gallery **Print / share / export** interactive demo.
+
+#### No action (compatible)
+
+- Docs + Gallery only; no new kit PrintSupport dependency.
+
 ### Upgrade 1.61 → 1.62
 
 **Product version:** 1.62  

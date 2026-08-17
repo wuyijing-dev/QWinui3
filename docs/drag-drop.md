@@ -160,3 +160,5 @@ URL → local path conversion should use your Qt helpers (`QUrl.toLocalFile` fro
 - [ ] Linux: tested under Wayland *or* documented as X11-validated — see Wayland matrix  
 
 Out of scope: OLE compound documents, browser HTML DnD as a product API, mobile share sheets.
+
+**Export / print the other direction:** [print-share.md](print-share.md) (**1.63**) — grabToImage → save → reveal.

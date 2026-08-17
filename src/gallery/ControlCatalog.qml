@@ -1367,6 +1367,14 @@ QtObject {
             source: "pages/SearchRecipesPage.qml"
         },
         {
+            title: qsTr("Print / share / export"),
+            category: "recipes",
+            icon: FluentIcons.Share,
+            description: qsTr("grabToImage · save · reveal — docs/print-share.md (1.63)."),
+            component: "PrintSharePage",
+            source: "pages/PrintSharePage.qml"
+        },
+        {
             title: qsTr("GridTile"),
             category: "collections",
             icon: FluentIcons.Document,
@@ -1570,8 +1578,9 @@ QtObject {
     // Curated “recently shipped” recipe pages (1.20) — not catalog array order.
     function recentlyShipped(count) {
         var ids = [
+            "PrintSharePage",         // 1.63 print / share / export
             "AnimatedIconPage",       // 1.53 thin AnimatedIcon
-            "CiSmokePage",            // 1.52 docs-link smoke
+            "CiSmokePage",            // 1.52 docs-link smoke / 1.62 visual
             "PitfallsPage",           // 1.51 maturity checkpoint
             "ExamplesTemplatesPage",  // 1.50 gallery-shell
             "FontIconPage",           // 1.49 icon micro-motion

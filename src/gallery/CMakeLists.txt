@@ -151,6 +151,7 @@ qt_add_qml_module(qwinui3_gallery
         pages/PipsPagerPage.qml
         pages/PagerControlPage.qml
         pages/PivotPage.qml
+        pages/PrintSharePage.qml
         pages/ProgressBarPage.qml
         pages/ProgressButtonPage.qml
         pages/ProgressRingPage.qml

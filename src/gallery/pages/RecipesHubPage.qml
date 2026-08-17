@@ -177,6 +177,7 @@ CatalogPage {
                     { label: qsTr("Commands & menus"), doc: "docs/commands.md", page: "CommandsHubPage" },
                     { label: qsTr("Keyboard-first"), doc: "docs/keyboard.md", page: "KeyboardFirstPage" },
                     { label: qsTr("Search recipes"), doc: "docs/search.md", page: "SearchRecipesPage" },
+                    { label: qsTr("Print / share / export"), doc: "docs/print-share.md", page: "PrintSharePage" },
                     { label: qsTr("Accessibility"), doc: "docs/accessibility.md", page: "AccessibilityPage" },
                     { label: qsTr("Drag-drop & clipboard"), doc: "docs/drag-drop.md", page: "FileDropZonePage" }
                 ]
