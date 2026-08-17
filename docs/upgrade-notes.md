@@ -47,6 +47,19 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.87 → 1.88
+
+**Product version:** 1.88  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Performance wave 3 (lists):** `DataTable` debounces filter rebuilds; `ItemsView` / `ListDetailsView` / `ItemsRepeater` optional `filterText` on JS arrays. [performance.md](performance.md).
+
+#### No action (compatible)
+
+- Theme / shell API unchanged. Animations unchanged. Next: **1.89** style/charts perf wave.
+
 ### Upgrade 1.86 → 1.87
 
 **Product version:** 1.87  

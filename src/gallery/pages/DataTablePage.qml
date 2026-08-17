@@ -12,18 +12,18 @@ import QWinUI3.Extras
 
 CatalogPage {
     title: qsTr("DataTable")
-    subtitle: qsTr("Sort, filter, stable selection, keyboard, row virtualization. Heavy-page tips: docs/performance.md (1.25).")
+    subtitle: qsTr("Sort, filter, stable selection, keyboard, row virtualization. Filter debounced (1.88) — docs/performance.md.")
 
     ControlExample {
-        headerText: qsTr("Performance (1.25)")
-        qmlSource: "// DataTable → ListView + reuseItems\n// Prefer QAbstractListModel for thousands+\n// docs/performance.md"
+        headerText: qsTr("Performance (1.25 / 1.88)")
+        qmlSource: "// DataTable → ListView + reuseItems\n// filterDebounceMs (default 120)\n// docs/performance.md"
         ColumnLayout {
             Layout.fillWidth: true
             spacing: Theme.spacing
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("This demo builds ~200 plain JS row objects — fine for Gallery. Rows virtualize via ListView + reuseItems. For thousands of rows, use a C++ QAbstractListModel and avoid rebuilding the full array on every filter keystroke. Charts: keep series short and one chart per ChartCard. Full checklist: docs/performance.md.")
+                text: qsTr("This demo builds ~200 plain JS row objects — fine for Gallery. Rows virtualize via ListView + reuseItems. Filter keystrokes debounce before rebuilding _viewRows; identical query/sort skips the walk (1.88). For thousands of rows, use a C++ QAbstractListModel. Full checklist: docs/performance.md.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary

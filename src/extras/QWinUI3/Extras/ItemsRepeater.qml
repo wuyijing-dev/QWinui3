@@ -18,6 +18,7 @@ import QWinUI3.Theme
 // @notes
 //   Prefer this for large models; ItemsView adds selection / EmptyState recipe on top.
 //   ListView uses reuseItems (1.25) — keep delegates binding-driven for pooling.
+//   Optional filterText filters plain JS arrays (debounced, 1.88).
 
 T.Control {
     id: root
@@ -27,7 +28,11 @@ T.Control {
     Accessible.description: qsTr("%1 items").arg(root.count)
 
     // List / array / QAbstractItemModel
-    property alias model: list.model
+    property var model: []
+    // Filter plain JS arrays (debounced). C++ / ListModel: filter app-side.
+    property string filterText: ""
+    property var filterRoles: ["title", "name", "label"]
+    property int filterDebounceMs: 120
     // Item delegate component
     property alias delegate: list.delegate
     // Qt.Vertical or Qt.Horizontal
@@ -48,6 +53,72 @@ T.Control {
     // Emitted when an item is clicked (if delegate forwards)
     signal itemClicked(int index)
 
+    readonly property bool _filterActive: Array.isArray(model)
+                                          && (filterText || "").trim().length > 0
+    readonly property var _displayModel: _filterActive ? _filteredModel : model
+
+    property var _filteredModel: []
+    property string _lastFilterKey: ""
+    property var _lastModelRef: null
+
+    Timer {
+        id: filterDebounce
+        interval: root.filterDebounceMs
+        onTriggered: root._rebuildFilter()
+    }
+
+    onFilterTextChanged: _scheduleFilter(false)
+    onModelChanged: _scheduleFilter(true)
+    onFilterRolesChanged: _scheduleFilter(true)
+    Component.onCompleted: _rebuildFilter()
+
+    function _scheduleFilter(immediate) {
+        if (immediate) {
+            filterDebounce.stop()
+            _rebuildFilter()
+        } else {
+            filterDebounce.restart()
+        }
+    }
+
+    function _rebuildFilter() {
+        if (!_filterActive) {
+            _filteredModel = []
+            _lastFilterKey = ""
+            _lastModelRef = null
+            return
+        }
+        var m = model
+        var q = (filterText || "").trim().toLowerCase()
+        var key = q + "\0" + m.length
+        if (key === _lastFilterKey && m === _lastModelRef)
+            return
+        _lastFilterKey = key
+        _lastModelRef = m
+        var roles = filterRoles && filterRoles.length ? filterRoles : ["title"]
+        var out = []
+        for (var i = 0; i < m.length; ++i) {
+            var item = m[i]
+            if (typeof item === "string") {
+                if (item.toLowerCase().indexOf(q) >= 0)
+                    out.push(item)
+                continue
+            }
+            var hit = false
+            for (var r = 0; r < roles.length; ++r) {
+                var v = item && item[roles[r]]
+                if (v !== undefined && v !== null
+                        && String(v).toLowerCase().indexOf(q) >= 0) {
+                    hit = true
+                    break
+                }
+            }
+            if (hit)
+                out.push(item)
+        }
+        _filteredModel = out
+    }
+
     implicitWidth: 280
     implicitHeight: 200
     padding: 0
@@ -58,6 +129,7 @@ T.Control {
         anchors.fill: parent
         clip: true
         reuseItems: true
+        model: root._displayModel
         boundsBehavior: Flickable.StopAtBounds
         spacing: 0
         cacheBuffer: Theme.navItemHeight * 8

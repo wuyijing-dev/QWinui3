@@ -30,7 +30,8 @@ import QWinUI3.Theme
 //   Keyboard: arrows / Home / End / Page / Enter; Space toggles multi-select; Ctrl+A; Esc clears.
 //   Right-click / long-press opens contextMenu.
 //   Empty list shows EmptyState via emptyTitle / emptyMessage / emptyActionText.
-//   Large models: prefer QAbstractListModel. Filter is app-side (SearchBox above the list).
+//   Large models: prefer QAbstractListModel. Optional filterText filters plain JS
+//   arrays (debounced, 1.88) — C++ models: filter app-side.
 //   See docs/data-collections.md for pairing with ListDetailsView.
 
 T.Control {
@@ -74,6 +75,12 @@ T.Control {
     property string emptyMessage: qsTr("When there is content, it will show up in this area.")
     // EmptyState action label
     property string emptyActionText: ""
+    // Filter plain JS array models (debounced). Leave empty for C++ / ListModel — filter app-side.
+    property string filterText: ""
+    // Roles searched when filterText is set (defaults to title + subtitle + section + symbol).
+    property var filterRoles: []
+    // Debounce ms before rebuilding the filtered array (1.88).
+    property int filterDebounceMs: 120
     // Emitted when an item is activated (click / Enter)
     signal itemActivated(int index, var itemData)
     // Emitted when selection changes
@@ -87,6 +94,89 @@ T.Control {
     // Resolved item count
     readonly property int count: listView.count
     readonly property bool isEmpty: count <= 0
+    readonly property bool _filterActive: _canFilterModel(model)
+                                             && (filterText || "").trim().length > 0
+
+    property var _filteredModel: []
+    property string _lastFilterKey: ""
+    property var _lastModelRef: null
+
+    Timer {
+        id: filterDebounce
+        interval: root.filterDebounceMs
+        onTriggered: root._rebuildFilter()
+    }
+
+    onFilterTextChanged: _scheduleFilter(false)
+    onModelChanged: _scheduleFilter(true)
+    onFilterRolesChanged: _scheduleFilter(true)
+    Component.onCompleted: _rebuildFilter()
+
+    function _canFilterModel(m) {
+        return Array.isArray(m)
+    }
+
+    function _scheduleFilter(immediate) {
+        if (immediate) {
+            filterDebounce.stop()
+            _rebuildFilter()
+        } else {
+            filterDebounce.restart()
+        }
+    }
+
+    function _filterRolesList() {
+        var roles = filterRoles
+        if (roles && roles.length)
+            return roles
+        var out = []
+        if (titleRole)
+            out.push(titleRole)
+        if (subtitleRole)
+            out.push(subtitleRole)
+        if (sectionRole)
+            out.push(sectionRole)
+        if (symbolRole)
+            out.push(symbolRole)
+        return out
+    }
+
+    function _matchesFilter(item, query, roles) {
+        if (!query.length)
+            return true
+        for (var r = 0; r < roles.length; ++r) {
+            var v = _roleValue(item, roles[r], -1)
+            if (v !== undefined && v !== null
+                    && String(v).toLowerCase().indexOf(query) >= 0)
+                return true
+        }
+        if (typeof item === "string" && item.toLowerCase().indexOf(query) >= 0)
+            return true
+        return false
+    }
+
+    function _rebuildFilter() {
+        if (!_filterActive) {
+            _filteredModel = []
+            _lastFilterKey = ""
+            _lastModelRef = null
+            return
+        }
+        var m = model
+        var q = (filterText || "").trim().toLowerCase()
+        var key = q + "\0" + m.length
+        if (key === _lastFilterKey && m === _lastModelRef)
+            return
+        _lastFilterKey = key
+        _lastModelRef = m
+        var roles = _filterRolesList()
+        var out = []
+        for (var i = 0; i < m.length; ++i) {
+            if (_matchesFilter(m[i], q, roles))
+                out.push(m[i])
+        }
+        _filteredModel = out
+    }
 
     implicitWidth: 320
     implicitHeight: 280
@@ -166,16 +256,17 @@ T.Control {
     }
 
     function _itemAt(index) {
-        if (!model || index < 0)
+        var m = _filterActive ? _filteredModel : model
+        if (!m || index < 0)
             return null
-        if (typeof model.get === "function" && typeof model.count === "number") {
-            if (index >= model.count)
+        if (typeof m.get === "function" && typeof m.count === "number") {
+            if (index >= m.count)
                 return null
-            return model.get(index)
+            return m.get(index)
         }
-        if (index >= (model.length || 0))
+        if (index >= (m.length || 0))
             return null
-        return model[index]
+        return m[index]
     }
 
     function _focusIndex(index) {
@@ -255,7 +346,7 @@ T.Control {
             anchors.fill: parent
             clip: true
             reuseItems: true
-            model: root.model
+            model: root._filterActive ? root._filteredModel : root.model
             currentIndex: -1
             visible: !root.isEmpty
             boundsBehavior: Flickable.StopAtBounds
@@ -269,22 +360,28 @@ T.Control {
                 id: tile
                 required property int index
                 required property var modelData
+                readonly property string tileTitle: String(root._roleValue(
+                    modelData, root.titleRole, index))
+                readonly property string tileSubtitle: String(root._roleValue(
+                    modelData, root.subtitleRole, index))
+                readonly property string tileSymbol: String(root._roleValue(
+                    modelData, root.symbolRole, index))
                 width: listView.width
                 focusPolicy: Qt.NoFocus
                 activeFocusOnTab: false
-                title: String(root._roleValue(modelData, root.titleRole, index))
-                subtitle: String(root._roleValue(modelData, root.subtitleRole, index))
+                title: tileTitle
+                subtitle: tileSubtitle
                 // When checkbox occupies leading, draw the symbol inside leading too.
                 symbol: (root.selectionMode === root.selectionMultiple && root.checkboxLeading)
                         ? ""
-                        : root._roleValue(modelData, root.symbolRole, index)
+                        : tileSymbol
                 isSelected: root.isSelected(index)
                 highlighted: ListView.isCurrentItem
 
                 leading: RowLayout {
                     spacing: 8
                     visible: (root.selectionMode === root.selectionMultiple && root.checkboxLeading)
-                             || String(root._roleValue(modelData, root.symbolRole, index)).length > 0
+                             || tileSymbol.length > 0
 
                     CheckBox {
                         visible: root.selectionMode === root.selectionMultiple && root.checkboxLeading
@@ -300,14 +397,14 @@ T.Control {
 
                     Rectangle {
                         visible: root.selectionMode === root.selectionMultiple && root.checkboxLeading
-                                 && String(root._roleValue(modelData, root.symbolRole, index)).length > 0
+                                 && tileSymbol.length > 0
                         Layout.preferredWidth: 36
                         Layout.preferredHeight: 36
                         radius: Theme.cornerControl
                         color: Theme.fillSubtle
                         Text {
                             anchors.centerIn: parent
-                            text: String(root._roleValue(modelData, root.symbolRole, index))
+                            text: tileSymbol
                             font.family: Theme.fontFamilyIcon
                             font.pixelSize: 14
                             color: Theme.accent

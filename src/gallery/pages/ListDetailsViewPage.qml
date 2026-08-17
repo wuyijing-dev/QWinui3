@@ -31,7 +31,13 @@ CatalogPage {
 
     ControlExample {
         headerText: qsTr("Mail-style list (wide)")
-        qmlSource: "ListDetailsView {\n    model: […]\n    details: Label { … }\n}"
+        qmlSource: "ListDetailsView {\n    model: […]\n    filterText: …\n    details: Label { … }\n}"
+        TextField {
+            Layout.fillWidth: true
+            placeholderText: qsTr("Filter list (ListDetailsView.filterText — debounced 1.88)")
+            text: listDetails.filterText
+            onTextChanged: listDetails.filterText = text
+        }
         ListDetailsView {
             id: listDetails
             Layout.fillWidth: true

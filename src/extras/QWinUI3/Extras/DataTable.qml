@@ -23,6 +23,7 @@ import QWinUI3.Theme
 //
 // @notes
 //   ListView virtualizes rows (`reuseItems`). Filter + sort rebuild `_viewRows` in JS —
+//   debounced on filter keystrokes (1.88); skips rebuild when query/sort/rows unchanged.
 //   fine for hundreds of plain objects; prefer a C++ model + custom view for thousands+.
 //   Selection tracks the row **object** across sort/filter (clears if the row is filtered out).
 //   Tab into the table or press Down from the filter; arrows / Home / End / Page / Enter /
@@ -43,6 +44,8 @@ T.Control {
     property real rowHeight: Theme.navItemHeight
     property real minColumnWidth: 64
     property real headerHeight: Theme.navItemHeight
+    // Debounce filter keystrokes before rebuilding _viewRows (1.88).
+    property int filterDebounceMs: 120
 
     readonly property var selectedRow: {
         if (selectedIndex < 0 || selectedIndex >= _viewRows.length)
@@ -58,8 +61,16 @@ T.Control {
 
     property var _viewRows: []
     property var _columnWidths: []
+    property string _lastRefreshKey: ""
+    property var _lastRowsRef: null
     // Object identity of the selected row (survives sort/filter when still visible).
     property var _selectedRowRef: null
+
+    Timer {
+        id: filterDebounce
+        interval: root.filterDebounceMs
+        onTriggered: root.refresh()
+    }
 
     implicitWidth: 640
     implicitHeight: 360
@@ -73,15 +84,24 @@ T.Control {
 
     onColumnsChanged: {
         _syncColumnWidths()
-        Qt.callLater(refresh)
+        _scheduleRefresh(true)
     }
-    onRowsChanged: Qt.callLater(refresh)
-    onFilterTextChanged: Qt.callLater(refresh)
-    onSortColumnChanged: Qt.callLater(refresh)
-    onSortOrderChanged: Qt.callLater(refresh)
+    onRowsChanged: _scheduleRefresh(true)
+    onFilterTextChanged: _scheduleRefresh(false)
+    onSortColumnChanged: _scheduleRefresh(true)
+    onSortOrderChanged: _scheduleRefresh(true)
     Component.onCompleted: {
         _syncColumnWidths()
         refresh()
+    }
+
+    function _scheduleRefresh(immediate) {
+        if (immediate) {
+            filterDebounce.stop()
+            refresh()
+        } else {
+            filterDebounce.restart()
+        }
     }
 
     function focusTable() {
@@ -106,6 +126,12 @@ T.Control {
         var src = rows || []
         var cols = columns || []
         var q = (filterText || "").trim().toLowerCase()
+        var refreshKey = q + "\0" + sortColumn + "\0" + sortOrder + "\0" + src.length
+        if (refreshKey === _lastRefreshKey && src === _lastRowsRef)
+            return
+        _lastRefreshKey = refreshKey
+        _lastRowsRef = src
+
         var filtered = []
         for (var i = 0; i < src.length; ++i) {
             var row = src[i]
@@ -189,7 +215,6 @@ T.Control {
             sortOrder = Qt.AscendingOrder
         }
         sortChanged(sortColumn, sortOrder)
-        refresh()
     }
 
     function _syncColumnWidths() {
@@ -462,6 +487,8 @@ T.Control {
                                     delegate: Item {
                                         required property var modelData
                                         required property int index
+                                        readonly property string cellText: root._cellText(
+                                            rowItem.modelData, index)
                                         width: root._columnWidths[index] || 140
                                         height: root.rowHeight
 
@@ -469,7 +496,7 @@ T.Control {
                                             anchors.fill: parent
                                             anchors.leftMargin: 12
                                             anchors.rightMargin: 8
-                                            text: root._cellText(rowItem.modelData, index)
+                                            text: parent.cellText
                                             elide: Text.ElideRight
                                             color: Theme.textPrimary
                                             verticalAlignment: Text.AlignVCenter

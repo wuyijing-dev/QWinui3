@@ -1,9 +1,9 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.87**
-**Next up:** **1.88** — Performance wave 3 (lists & data collections)
+**Current:** **1.88**
+**Next up:** **1.89** — Performance wave 4 (style, charts & Gallery heavy pages)
 **Planned through:** **2.00** (1.xx close-out **1.83…1.90**, then breaking line)
-**Still 1.xx until 1.90:** Long-horizon checkpoint — [docs/checkpoint-178.md](docs/checkpoint-178.md). **1.86…1.87** perf waves shipped (shell + navigation). **1.88…1.89** continue the performance arc (**animations stay**). OSK/packaging **2.01+**. **Do not implement 2.00 before 1.90.**  
+**Still 1.xx until 1.90:** Long-horizon checkpoint — [docs/checkpoint-178.md](docs/checkpoint-178.md). **1.86…1.88** perf waves shipped. **1.89** continues the arc (**animations stay**). OSK/packaging **2.01+**. **Do not implement 2.00 before 1.90.**  
 **Qt:** 6.5+ (recommended 6.8 LTS) through 1.xx — [qt-version-compat.md](docs/qt-version-compat.md). **2.00** may raise the floor.
 
 This plan starts from **what 1.00 already was**, then walks **small `1.xx` minors** through a **1.90 close-out**, then a named **2.00** breaking line. **2.00 is not the next tag.**
@@ -430,8 +430,8 @@ Finish **1.xx** as named slices (**1.83…1.90**), then a **breaking 2.00**. Do 
 | **1.85** | Accessibility wave 3 | **Shipped** |
 | **1.86** | Performance wave 1 — shell & window runtime | **Shipped** |
 | **1.87** | Performance wave 2 — navigation & page stack | **Shipped** |
-| **1.88** | Performance wave 3 — lists & data collections | **Next** |
-| **1.89** | Performance wave 4 — style, charts & Gallery heavy pages | Planned |
+| **1.88** | Performance wave 3 — lists & data collections | **Shipped** |
+| **1.89** | Performance wave 4 — style, charts & Gallery heavy pages | **Next** |
 | **1.90** | 1.xx close-out + perf regression notes + 2.00 prep | Planned |
 | **2.00** | Breaking baseline | Planned — **after 1.90** |
 
@@ -479,20 +479,14 @@ Four consecutive minors; **each ships only performance work** (Platform / Extras
 - DataTable filter path (**1.88**)
 - Style-wide sweep (**1.89**)
 
-### 1.88 — Performance wave 3: lists & data collections (planned)
+### 1.88 — Performance wave 3: lists & data collections (shipped)
 
-**Theme:** virtualized **lists & tables** at scale.
-
-**In**
-
-- `DataTable` / `ItemsView` / `ListDetailsView` / `ItemsRepeater`: debounce filter/sort rebuilds; skip full `_viewRows` walks when query unchanged
-- Thinner delegates under `reuseItems`; document role/model patterns in [performance.md](docs/performance.md)
-- Gallery **DataTable** / **ItemsView** / **ListDetailsView** pages: call out what changed
+**Shipped:** `DataTable` debounces filter keystrokes (`filterDebounceMs`, default 120) and skips `_viewRows` rebuild when query/sort/rows unchanged. `ItemsView` / `ListDetailsView` / `ItemsRepeater` gain optional `filterText` for plain JS arrays (debounced, skip unchanged). Thinner role bindings under `reuseItems`. Gallery DataTable / ItemsView / ListDetailsView pages call out 1.88. [performance.md](docs/performance.md) lists section. Product version `1.88`.
 
 **Out**
 
 - Canvas chart engines (**1.89**)
-- C++ model requirement for apps (document only unless a clear win lands in-tree)
+- C++ model requirement for apps (document only)
 
 ### 1.89 — Performance wave 4: style, charts & Gallery heavy pages (planned)
 

@@ -252,6 +252,7 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.85** | Accessibility wave 3 — dialog/flyout focus return; InfoBar / ImeCandidateBar live region |
 | **1.86** | Performance wave 1 — shell / window runtime ([performance.md](performance.md)) |
 | **1.87** | Performance wave 2 — navigation & page stack ([performance.md](performance.md)) |
+| **1.88** | Performance wave 3 — lists & data collections ([performance.md](performance.md)) |
 | **1.35** | Qt Creator kit polish — [qt-creator.md](qt-creator.md); example build presets |
 | **1.36** | Docs site IA — [recipes.md](recipes.md) hub; MkDocs Recipes sections |
 | **1.37** | Promote sweep — commands / Flyout / TabView / ShellWindow / pickers / progress / FontIcon / ItemsRepeater; explicit defer list |

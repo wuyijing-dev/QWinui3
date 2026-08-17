@@ -19,6 +19,7 @@ import QWinUI3.Theme
 // @notes
 //   ListView master + details host. Collapses via TwoPaneView on narrow widths.
 //   model items may be strings or objects (titleRole / subtitleRole).
+//   Optional filterText filters plain JS arrays (debounced, 1.88).
 //   Keyboard: arrows / Home / End / Enter on the list; Esc (or Back) returns to the
 //   list in SinglePane mode. Pair with ItemsView for multi-select masters — see
 //   docs/data-collections.md.
@@ -32,6 +33,9 @@ T.Control {
     property var model: []
     property string titleRole: "title"
     property string subtitleRole: "subtitle"
+    property string filterText: ""
+    property var filterRoles: []
+    property int filterDebounceMs: 120
     property int selectedIndex: -1
     property real listPaneWidth: 280
     property real minWideWidth: 720
@@ -45,12 +49,91 @@ T.Control {
     property string listAccessibleName: qsTr("Items")
 
     readonly property var selectedItem: {
-        if (!model || selectedIndex < 0 || selectedIndex >= model.length)
+        var m = _listModel
+        if (!m || selectedIndex < 0 || selectedIndex >= m.length)
             return null
-        return model[selectedIndex]
+        return m[selectedIndex]
     }
     readonly property bool singlePaneDetailsOpen: panes.mode === TwoPaneView.SinglePane
                                                   && panes.singlePaneIndex === 1
+    readonly property var _listModel: _filterActive ? _filteredModel : model
+    readonly property bool _filterActive: Array.isArray(model)
+                                          && (filterText || "").trim().length > 0
+
+    property var _filteredModel: []
+    property string _lastFilterKey: ""
+    property var _lastModelRef: null
+
+    Timer {
+        id: filterDebounce
+        interval: root.filterDebounceMs
+        onTriggered: root._rebuildFilter()
+    }
+
+    onFilterTextChanged: _scheduleFilter(false)
+    onModelChanged: _scheduleFilter(true)
+    onFilterRolesChanged: _scheduleFilter(true)
+    Component.onCompleted: _rebuildFilter()
+
+    function _scheduleFilter(immediate) {
+        if (immediate) {
+            filterDebounce.stop()
+            _rebuildFilter()
+        } else {
+            filterDebounce.restart()
+        }
+    }
+
+    function _filterRolesList() {
+        var roles = filterRoles
+        if (roles && roles.length)
+            return roles
+        var out = []
+        if (titleRole)
+            out.push(titleRole)
+        if (subtitleRole)
+            out.push(subtitleRole)
+        return out
+    }
+
+    function _rebuildFilter() {
+        if (!_filterActive) {
+            _filteredModel = []
+            _lastFilterKey = ""
+            _lastModelRef = null
+            return
+        }
+        var m = model
+        var q = (filterText || "").trim().toLowerCase()
+        var key = q + "\0" + m.length
+        if (key === _lastFilterKey && m === _lastModelRef)
+            return
+        _lastFilterKey = key
+        _lastModelRef = m
+        var roles = _filterRolesList()
+        var out = []
+        for (var i = 0; i < m.length; ++i) {
+            var item = m[i]
+            var hit = false
+            if (typeof item === "string") {
+                hit = item.toLowerCase().indexOf(q) >= 0
+            } else {
+                for (var r = 0; r < roles.length; ++r) {
+                    var v = item && item[roles[r]]
+                    if (v !== undefined && v !== null
+                            && String(v).toLowerCase().indexOf(q) >= 0) {
+                        hit = true
+                        break
+                    }
+                }
+            }
+            if (hit)
+                out.push(item)
+        }
+        _filteredModel = out
+        if (selectedIndex >= out.length)
+            select(out.length ? out.length - 1 : -1)
+    }
 
     signal selectionChanged(int index, var item)
 
@@ -65,7 +148,8 @@ T.Control {
                             : (selectedIndex >= 0 ? qsTr("Item %1 selected").arg(selectedIndex + 1) : "")
 
     function select(index) {
-        if (!model || index < 0 || index >= model.length) {
+        var m = _listModel
+        if (!m || index < 0 || index >= m.length) {
             selectedIndex = -1
             selectionChanged(-1, null)
             return
@@ -119,10 +203,11 @@ T.Control {
     }
 
     function _moveSelection(delta) {
-        if (!model || model.length === 0)
+        var m = _listModel
+        if (!m || m.length === 0)
             return
         var next = selectedIndex < 0 ? 0 : selectedIndex + delta
-        next = Math.max(0, Math.min(model.length - 1, next))
+        next = Math.max(0, Math.min(m.length - 1, next))
         select(next)
     }
 
@@ -141,12 +226,12 @@ T.Control {
             _moveSelection(-1)
             event.accepted = true
         } else if (event.key === Qt.Key_Home) {
-            if (model && model.length)
+            if (_listModel && _listModel.length)
                 select(0)
             event.accepted = true
         } else if (event.key === Qt.Key_End) {
-            if (model && model.length)
-                select(model.length - 1)
+            if (_listModel && _listModel.length)
+                select(_listModel.length - 1)
             event.accepted = true
         } else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
             if (selectedIndex >= 0 && panes.mode === TwoPaneView.SinglePane)
@@ -187,22 +272,23 @@ T.Control {
                     Layout.fillHeight: true
                     clip: true
                     reuseItems: true
-                    model: root.model
+                    model: root._listModel
                     currentIndex: root.selectedIndex
                     Accessible.role: Accessible.List
                     Accessible.name: root.listAccessibleName.length ? root.listAccessibleName : qsTr("Items")
                     delegate: ItemDelegate {
                         required property var modelData
                         required property int index
+                        readonly property string itemTitle: root._titleOf(modelData)
+                        readonly property string itemSubtitle: root._subtitleOf(modelData)
                         width: ListView.view.width
                         focusPolicy: Qt.NoFocus
                         highlighted: index === root.selectedIndex
                         Accessible.role: Accessible.ListItem
                         Accessible.name: {
-                            var t = root._titleOf(modelData)
-                            return t.length ? t : qsTr("Item %1").arg(index + 1)
+                            return itemTitle.length ? itemTitle : qsTr("Item %1").arg(index + 1)
                         }
-                        Accessible.description: root._subtitleOf(modelData)
+                        Accessible.description: itemSubtitle
                         Accessible.selectable: true
                         Accessible.selected: index === root.selectedIndex
                         Accessible.onPressAction: root.select(index)
@@ -214,15 +300,15 @@ T.Control {
                         contentItem: ColumnLayout {
                             spacing: 2
                             Label {
-                                text: root._titleOf(modelData)
+                                text: itemTitle
                                 font.weight: Theme.fontWeightSemiBold
                                 color: Theme.textPrimary
                                 elide: Text.ElideRight
                                 Layout.fillWidth: true
                             }
                             Label {
-                                visible: root._subtitleOf(modelData).length > 0
-                                text: root._subtitleOf(modelData)
+                                visible: itemSubtitle.length > 0
+                                text: itemSubtitle
                                 color: Theme.textSecondary
                                 font.pixelSize: Theme.fontCaption
                                 elide: Text.ElideRight
@@ -233,9 +319,11 @@ T.Control {
 
                     EmptyState {
                         anchors.centerIn: parent
-                        visible: !root.model || root.model.length === 0
+                        visible: !root._listModel || root._listModel.length === 0
                         title: qsTr("No items")
-                        description: qsTr("Provide a model to populate the list.")
+                        description: root.filterText.length
+                                     ? qsTr("No items match this filter.")
+                                     : qsTr("Provide a model to populate the list.")
                     }
                 }
             }

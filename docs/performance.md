@@ -1,4 +1,4 @@
-# Performance handbook (1.25 / 1.39 / 1.86)
+# Performance handbook (1.25 / 1.39 / 1.86 / 1.88)
 
 Practical guidance for **large lists**, **DataTable**, **Canvas charts**, and **Gallery cold start**. QWinUI3 virtualizes through Qt Quick Controls `ListView` — there is no separate engine. Prefer these patterns before blaming the kit.
 
@@ -76,10 +76,10 @@ Do **not** `import` every page type into `Main.qml` — that forces compile at s
 
 | Surface | How it scrolls | Notes |
 |---------|----------------|-------|
-| [`DataTable`](components/DataTable.md) | `ListView` + `reuseItems` | Filter/sort rebuild `_viewRows` in JS |
-| [`ItemsView`](components/ItemsView.md) | `ListView` + `reuseItems` | Prefer C++ model at scale |
-| [`ListDetailsView`](components/ListDetailsView.md) | `ListView` + `reuseItems` | Master list only |
-| [`ItemsRepeater`](components/ItemsRepeater.md) | `ListView` + `reuseItems` (1.25) | Thin virtualizing wrapper |
+| [`DataTable`](components/DataTable.md) | `ListView` + `reuseItems` | Filter/sort rebuild `_viewRows` in JS — **debounced + skip unchanged (1.88)** |
+| [`ItemsView`](components/ItemsView.md) | `ListView` + `reuseItems` | Optional `filterText` on JS arrays (1.88); C++ model at scale |
+| [`ListDetailsView`](components/ListDetailsView.md) | `ListView` + `reuseItems` | Optional `filterText` on master list (1.88) |
+| [`ItemsRepeater`](components/ItemsRepeater.md) | `ListView` + `reuseItems` (1.25) | Optional `filterText` on JS arrays (1.88) |
 | Raw QQC `ListView` | Set `reuseItems: true` yourself | Required for delegate pooling |
 
 **Rule of thumb**
@@ -195,6 +195,23 @@ Gallery navigation and `TabView` shells — **motion unchanged**, less per-frame
 | Gallery Settings | **Performance arc (1.86–1.89)** tracker card | — |
 
 **pageCacheLimit:** default **24**; first page uses `initialPageTransition: "none"`. See [NavigationView.md](components/NavigationView.md).
+
+---
+
+## Lists & data collections (1.88)
+
+Virtualized tables and lists — **no visual change**, less work per keystroke.
+
+| Control | Change | App note |
+|---------|--------|----------|
+| `DataTable` | `filterDebounceMs` (default **120**) before `_viewRows` rebuild; skip when filter query + sort + `rows` ref unchanged | Sort still immediate; call `refresh()` after in-place row edits |
+| `ItemsView` | Optional `filterText` + `filterRoles` for **plain JS arrays** only | C++ / `ListModel`: filter app-side (unchanged) |
+| `ListDetailsView` | Optional `filterText` on master list (JS arrays) | Selection index is into the filtered list |
+| `ItemsRepeater` | Optional `filterText` (JS arrays) | Delegate: bind to `modelData` roles once per row |
+
+**Delegate pooling:** cache role strings in `readonly property` on the delegate root — avoids repeated `_roleValue` / `_cellText` walks when `reuseItems` recycles tiles.
+
+**Animations:** row highlight, selection, and list motion unchanged.
 
 ---
 
