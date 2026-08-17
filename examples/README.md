@@ -5,6 +5,7 @@ Small apps you can copy as a starting point. **CMake only** (no `.pro`). Open th
 | Target | Folder | What it shows |
 |--------|--------|----------------|
 | `qwinui3_example_gallery_shell` | [`gallery-shell/`](gallery-shell/) | **Start here for apps** — `NavigationWindow` + Settings + persistence (1.50) |
+| `qwinui3_example_multi_window` | [`multi-window/`](multi-window/) | Main + tool + owned dialog shells (1.56) — [docs/window-shells.md](../docs/window-shells.md) |
 | `qwinui3_example_nav` | [`nav-settings/`](nav-settings/) | `StandardWindow` + hand-wired `NavigationView` + Settings — [docs/navigation.md](../docs/navigation.md) (1.27) |
 | `qwinui3_example_settings` | [`settings-cards/`](settings-cards/) | Settings page built from `SettingsCard` / `SettingsExpander` |
 | `qwinui3_example_dashboard` | [`dashboard/`](dashboard/) | `KpiTile` + charts/gauges monitoring layout |
@@ -17,7 +18,7 @@ From the repo root (same toolchain as Gallery), **Release**:
 
 ```bat
 cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DQWINUI3_BUILD_EXAMPLES=ON
-cmake --build build --parallel --target qwinui3_example_gallery_shell qwinui3_example_nav qwinui3_example_settings qwinui3_example_dashboard qwinui3_example_master_detail qwinui3_example_form
+cmake --build build --parallel --target qwinui3_example_gallery_shell qwinui3_example_multi_window qwinui3_example_nav qwinui3_example_settings qwinui3_example_dashboard qwinui3_example_master_detail qwinui3_example_form
 ```
 
 Or use presets:
@@ -25,12 +26,13 @@ Or use presets:
 ```bat
 cmake --preset release
 cmake --build --preset example-gallery-shell
+cmake --build --preset example-multi-window
 cmake --build --preset examples
 ```
 
 ```bash
 cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DQWINUI3_BUILD_EXAMPLES=ON
-cmake --build build --parallel --target qwinui3_example_gallery_shell qwinui3_example_nav qwinui3_example_settings qwinui3_example_dashboard qwinui3_example_master_detail qwinui3_example_form
+cmake --build build --parallel --target qwinui3_example_gallery_shell qwinui3_example_multi_window qwinui3_example_nav qwinui3_example_settings qwinui3_example_dashboard qwinui3_example_master_detail qwinui3_example_form
 ```
 
 ### Qt Creator

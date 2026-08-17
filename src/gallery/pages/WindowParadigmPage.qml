@@ -15,7 +15,7 @@ CatalogPage {
     id: root
 
     title: qsTr("Window shells")
-    subtitle: qsTr("Solid default · ShellWindow family stable (1.37). Recipe: docs/window-shells.md · docs/stable-api.md.")
+    subtitle: qsTr("Solid default · ShellWindow family · multi-window (1.56). Recipe: docs/window-shells.md.")
 
     property var _openWindows: []
     property var liveWindow: null

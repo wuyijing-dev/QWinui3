@@ -42,6 +42,8 @@ DialogWindow {
 dlg.openDialog()   // setTransientParent + centerOnScreen + visible
 ```
 
+Or Extras `DialogShellWindow` / `ToolShellWindow` with distinct `geometryPersistenceKey`s — sample [`examples/multi-window`](../examples/multi-window/) (**1.56**).
+
 `NavigationWindow` defaults to `BackdropSolid`. Prefer it (or `ShellWindow`) for product UI; keep `StandardWindow` for Gallery-style hosts.
 
 ---
@@ -82,6 +84,7 @@ Always paint with `effectiveBackdrop` / `WindowHelper.resolveBackdrop(backdrop)`
 3. Expect multi-monitor clamp on restore (min **160×120**, fit inside taskbar-safe area, prefer saved screen name).
 4. Call `clearSavedGeometry()` when shipping a “reset layout” action.
 5. Gallery Main uses `"GalleryMain"` — see [window-helper.md](window-helper.md#window-geometry-persistence).
+6. **Multi-window (1.56):** never reuse one key for main + tool; owned dialogs use `openDialog(owner)` — [window-shells.md](window-shells.md#multi-window--secondary-shells-156).
 
 ---
 

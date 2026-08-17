@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.55**
-**Next up:** **1.56** (Multi-window & secondary shells)
+**Current:** **1.56**
+**Next up:** **1.57** (Touch, pen & pointer recipes)
 **Planned through:** **1.70** (long-horizon 1.xx checkpoint)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](qt-version-compat.md)
 
@@ -60,7 +60,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.55`
+## Shipped — `1.01` … `1.56`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -282,30 +282,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** Gallery **Onboarding coach** (3-step sequenced `TeachingTip`, focus handoff, don’t-show-again via `QtCore.Settings`); [feedback.md](feedback.md) recipe + when-to-use vs Toast/InfoBar/ContentDialog; keyboard / dialogs cross-links; product version `1.55`.
 
+### 1.56 — Multi-window & secondary shells (shipped)
+
+**Shipped:** Multi-window recipe (distinct `geometryPersistenceKey`s, shared Theme, `DialogShellWindow.openDialog` / transient parent); [`examples/multi-window`](../examples/multi-window/); Gallery **Multi-window** page; [window-shells.md](window-shells.md) / [window-helper.md](window-helper.md) / [window-chrome.md](window-chrome.md) Win+Linux notes; product version `1.56`.
+
 ---
 
-## Horizon — planned `1.56` … `1.70`
+## Horizon — planned `1.57` … `1.70`
 
 Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per `YY`. Order can flex if field P0s force a swap; do not merge themes into mega-minors. Posture after 1.51: prefer field harden / docs over new control families.
-
-### 1.56 — Multi-window & secondary shells
-
-**Why:** Integrators open settings/preview windows; shell docs are still single-window-first.
-
-**In scope**
-
-- Recipes for secondary `StandardWindow` / dialog-owner HWND, shared Theme, geometry persistence keys.
-- Gallery or small example: main + tool window; [window-shells.md](window-shells.md) / [window-helper.md](window-helper.md) updates.
-
-**Out of scope**
-
-- Full MDI framework; macOS Spaces integration.
-
-**Exit criteria**
-
-- Documented Win+Linux notes; at least one runnable sample path.
-
----
 
 ### 1.57 — Touch, pen & pointer recipes
 

@@ -107,6 +107,7 @@ qt_add_qml_module(qwinui3_gallery
         pages/MenuPage.qml
         pages/MetadataControlPage.qml
         pages/MeterBarPage.qml
+        pages/MultiWindowPage.qml
         pages/PitfallsPage.qml
         pages/AccessibilityPage.qml
         pages/I18nRtlPage.qml

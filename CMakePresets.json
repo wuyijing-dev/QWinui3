@@ -112,6 +112,7 @@
       "configuration": "Release",
       "targets": [
         "qwinui3_example_gallery_shell",
+        "qwinui3_example_multi_window",
         "qwinui3_example_nav",
         "qwinui3_example_settings",
         "qwinui3_example_dashboard",
@@ -124,6 +125,12 @@
       "configurePreset": "release",
       "configuration": "Release",
       "targets": ["qwinui3_example_gallery_shell"]
+    },
+    {
+      "name": "example-multi-window",
+      "configurePreset": "release",
+      "configuration": "Release",
+      "targets": ["qwinui3_example_multi_window"]
     },
     {
       "name": "example-nav",

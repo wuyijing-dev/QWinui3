@@ -47,6 +47,20 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.55 → 1.56
+
+**Product version:** 1.56  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- Multi-window recipe: secondary `ToolShellWindow` / owned `DialogShellWindow`, distinct `geometryPersistenceKey`s, shared Theme — [window-shells.md](window-shells.md).
+- Runnable [`examples/multi-window`](../examples/multi-window/); Gallery **Multi-window** page.
+
+#### No action (compatible)
+
+- Additive example + docs; existing single-window shells unchanged.
+
 ### Upgrade 1.54 → 1.55
 
 **Product version:** 1.55  

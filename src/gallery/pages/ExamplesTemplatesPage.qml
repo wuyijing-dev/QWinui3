@@ -28,7 +28,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Prefer examples/gallery-shell for product chrome (NavigationWindow + Settings + persistence). Do not copy the full Gallery tree. CI smoke turns examples off for speed. Qt Creator: open the repo root.")
+                text: qsTr("Prefer examples/gallery-shell for product chrome (NavigationWindow + Settings + persistence). Multi-window tool/dialog shells: examples/multi-window (1.56). Do not copy the full Gallery tree. CI smoke turns examples off for speed. Qt Creator: open the repo root.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
@@ -57,6 +57,7 @@ CatalogPage {
             Repeater {
                 model: [
                     { name: "gallery-shell", recipe: qsTr("NavigationWindow app shell (1.50) — keep vs delete in README"), page: "WindowParadigmPage" },
+                    { name: "multi-window", recipe: qsTr("Main + tool + owned dialog (1.56)"), page: "MultiWindowPage" },
                     { name: "nav-settings", recipe: qsTr("StandardWindow + NavigationView hand-wire"), page: "NavigationViewPage" },
                     { name: "master-detail", recipe: qsTr("ListDetailsView LoB tickets"), page: "ListDetailsViewPage" },
                     { name: "form-settings", recipe: qsTr("FormLayout + SettingsCard prefs"), page: "FormsHubPage" },

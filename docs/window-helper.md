@@ -121,6 +121,8 @@ WindowHelper.openExternalUrl("https://example.com")
 Theme.followSystemColorScheme = true
 ```
 
+**Secondary shells (1.56):** use `DialogShellWindow.openDialog(owner)` / `DialogWindow.openDialog(owner)` so transient parenting + center run together. Give each top-level a unique `geometryPersistenceKey` (`"Main"`, `"Tool"`, …). Shared Theme is automatic in-process. Full recipe: [window-shells.md](window-shells.md#multi-window--secondary-shells-156) · sample [`examples/multi-window`](../examples/multi-window/).
+
 See [platform-linux-wayland.md](platform-linux-wayland.md).
 
 ## Snap Layouts (Win11)

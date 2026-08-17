@@ -26,7 +26,7 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 
 | Recipe | One-liner |
 |--------|-----------|
-| [Window shells](window-shells.md) | ShellWindow vs StandardWindow · Win/Linux matrix |
+| [Window shells](window-shells.md) | ShellWindow vs StandardWindow · multi-window (1.56) · Win/Linux matrix |
 | [Window chrome](window-chrome.md) | DPI / backdrop / geometry failure modes |
 | [WindowHelper](window-helper.md) | Geometry persistence, backdrop, platform APIs |
 | [AppWindow](window-appwindow.md) | Presenters / title-bar height |
@@ -95,6 +95,8 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 | Example | Recipe pair |
 |---------|-------------|
 | [`examples/gallery-shell`](../examples/gallery-shell/) | [window-shells.md](window-shells.md) / [navigation.md](navigation.md) (**1.50**) |
+| [`examples/multi-window`](../examples/multi-window/) | [window-shells.md](window-shells.md) multi-window (**1.56**) |
+| [`examples/multi-window`](../examples/multi-window/) | [window-shells.md](window-shells.md) multi-window (**1.56**) |
 | [`examples/nav-settings`](../examples/nav-settings/) | [navigation.md](navigation.md) |
 | [`examples/settings-cards`](../examples/settings-cards/) | [forms.md](forms.md) / theme |
 | [`examples/dashboard`](../examples/dashboard/) | [charts.md](charts.md) |

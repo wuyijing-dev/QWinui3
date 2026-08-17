@@ -8,7 +8,8 @@ Geometry recipe: [`window-helper.md`](window-helper.md#window-geometry-persisten
 Linux matrix detail: [`platform-linux-wayland.md`](platform-linux-wayland.md).  
 Frost / RHI: [`graphics-backend.md`](graphics-backend.md).
 
-Gallery: **Window shells** (`WindowParadigmPage`) · Main host uses `BackdropSolid` + `geometryPersistenceKey: "GalleryMain"`.
+Gallery: **Window shells** (`WindowParadigmPage`) · **Multi-window** (`MultiWindowPage`, **1.56**) · Main host uses `BackdropSolid` + `geometryPersistenceKey: "GalleryMain"`.  
+Runnable sample: [`examples/multi-window`](../examples/multi-window/).
 
 ---
 
@@ -66,6 +67,60 @@ Behavior (1.32):
 4. Empty key = off. `clearSavedGeometry()` / `WindowHelper.clearWindowGeometry(key)` forgets the entry.
 
 Full API notes: [window-helper.md](window-helper.md#window-geometry-persistence).
+
+---
+
+## Multi-window & secondary shells (1.56)
+
+Integrators often open an inspector / preview / settings tool beside the main frame. Prefer **one process**, shared **Theme**, and **distinct** geometry keys — not a second app instance.
+
+| Role | Prefer | Geometry key | Ownership |
+|------|--------|--------------|-----------|
+| App chrome | `NavigationWindow` / `ShellWindow` | e.g. `"MyAppMain"` | Primary |
+| Inspector / palette | `ToolShellWindow` | e.g. `"MyAppTool"` | Independent top-level |
+| True dialog HWND | `DialogShellWindow` / `DialogWindow` | Optional (often centered) | `ownerWindow` + `openDialog()` → `setTransientParent` |
+| In-page confirm | `ContentDialog` | n/a | Same window Overlay — [dialogs-flyouts.md](dialogs-flyouts.md) |
+
+```qml
+ShellWindow {
+    id: main
+    geometryPersistenceKey: "MyAppMain"
+    backdrop: WindowHelper.BackdropSolid
+
+    ToolShellWindow {
+        id: tool
+        geometryPersistenceKey: "MyAppTool"
+        backdrop: WindowHelper.BackdropSolid
+        visible: false
+    }
+
+    DialogShellWindow {
+        id: dlg
+        ownerWindow: main
+        backdrop: WindowHelper.BackdropSolid
+    }
+}
+
+tool.visible = true
+dlg.openDialog(main)   // setTransientParent + centerOnScreen + show
+```
+
+### Shared Theme
+
+`Theme` is a process-wide singleton. Toggling `Theme.dark` / accent in any window updates every shell. Do not create a second `QGuiApplication` just for a tool window.
+
+### Win + Linux notes
+
+| Topic | Windows | Linux (Wayland / X11) |
+|-------|---------|------------------------|
+| Solid chrome | Preferred | Preferred (Mica coerced → Solid) |
+| Transient parent | Stacks dialog with owner | Call anyway; compositor may still own stacking |
+| Geometry keys | Unique per role | Same; restore clamps to `availableGeometry` |
+| Bootstrap | `configureEnvironment` early | Required for CSD / DPI — [platform-linux-wayland.md](platform-linux-wayland.md) |
+
+Failure modes (dialog behind main, off-screen restore): [window-chrome.md](window-chrome.md).
+
+Runnable sample: [`examples/multi-window`](../examples/multi-window/) (`qwinui3_example_multi_window`). Gallery: **Multi-window**.
 
 ---
 

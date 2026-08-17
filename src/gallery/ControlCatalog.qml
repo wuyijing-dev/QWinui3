@@ -415,6 +415,14 @@ QtObject {
             source: "pages/WindowParadigmPage.qml"
         },
         {
+            title: qsTr("Multi-window"),
+            category: "navigation",
+            icon: FluentIcons.OpenInNewWindow,
+            description: qsTr("Main + tool + owned dialog — docs/window-shells.md (1.56)."),
+            component: "MultiWindowPage",
+            source: "pages/MultiWindowPage.qml"
+        },
+        {
             title: qsTr("TableView"),
             category: "collections",
             icon: FluentIcons.ViewAll,
