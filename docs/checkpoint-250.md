@@ -1,12 +1,10 @@
-# 2.xx horizon checkpoint (2.50) — planned
+# Tranche-1 checkpoint (2.50) — planned
 
-**Status:** **Draft placeholder** — closes the **2.00…2.50** horizon; **3.00 prep draft only** (no breaking implementation in **2.50**).
+**Status:** **Draft placeholder** — audit **2.00…2.50** (tranche 1). **Does not** close the full 2.x line — **2.51…2.60** friction tranche and [checkpoint-260.md](checkpoint-260.md) follow.
 
-Scope (from [roadmap.md](roadmap.md)): verdict on **2.00…2.50**; [upgrade-notes.md](upgrade-notes.md) draft **2.50 → 3.00** (if ever); catalog size audit; parking-lot triage; perf waves **2.18…2.49** sign-off.
+Scope: drop **conditional** control slices without [friction-log.md](friction-log.md) proof; prioritize **2.51…2.60** queue from open pains.
 
 Earlier: [checkpoint-230.md](checkpoint-230.md) · [checkpoint-220.md](checkpoint-220.md) · [ROADMAP.md](../ROADMAP.md).
-
-**Platforms:** **Windows + Linux** ship targets — **macOS first-class** and **Fluent 2 Style fork not planned**.
 
 ---
 
@@ -14,9 +12,8 @@ Earlier: [checkpoint-230.md](checkpoint-230.md) · [checkpoint-220.md](checkpoin
 
 | Question | Answer (2.50) |
 |----------|----------------|
-| **2.xx horizon done?** | **Not yet** — fill when **2.50** ships |
-| **3.00 posture?** | **Draft only** |
-| **macOS?** | **Withdrawn** — not a reschedule target |
+| **Tranche 1 done?** | **Not yet** |
+| **Next posture?** | **2.51+** friction-only — see [friction-log.md](friction-log.md) |
 
 ---
 
@@ -24,6 +21,6 @@ Earlier: [checkpoint-230.md](checkpoint-230.md) · [checkpoint-220.md](checkpoin
 
 | Check | Result |
 |-------|--------|
-| Recipe + ROADMAP links | **TBD** |
-| Gallery catalog (incl. 2.xx controls) | **TBD** |
+| Conditional slices (2.06, 2.21, …) justified or dropped | **TBD** |
+| friction-log seeded for tranche 2 | **TBD** |
 | Product version | **2.50** (target) |

@@ -8,7 +8,7 @@ Fluent / [WinUI 3](https://learn.microsoft.com/windows/apps/winui/winui3/)-inspi
 [![Qt](https://img.shields.io/badge/Qt-6.5%2B-41CD52?logo=qt&logoColor=white)](https://www.qt.io/)
 
 **v1.90** (master **1.91…1.92** ahead) · **200+** public controls · Gallery demos for most of them  
-**1.xx close-out** — [checkpoint-190.md](docs/checkpoint-190.md) · performance arc **signed off** (1.86…1.89) · **[1.xx freeze ends at 2.00](docs/compatibility-1xx.md)** · planned through **2.50** (Win+Linux) — next major **2.00** ([ROADMAP.md](ROADMAP.md)).
+**1.xx close-out** — [checkpoint-190.md](docs/checkpoint-190.md) · performance arc **signed off** (1.86…1.89) · **[1.xx freeze ends at 2.00](docs/compatibility-1xx.md)** · planned through **2.60** (friction-gated after **2.50**) — next major **2.00** ([ROADMAP.md](ROADMAP.md)) · pain queue [friction-log.md](docs/friction-log.md).
 [Documentation](https://wuyijing-dev.github.io/QWinui3/) · [Recipes hub](docs/recipes.md) · [Stable API](docs/stable-api.md) · [1.xx maturity](docs/maturity-1xx.md) · [Mid-horizon 1.60](docs/checkpoint-160.md) · [Long-horizon 1.78](docs/checkpoint-178.md) · [1.xx close-out 1.90](docs/checkpoint-190.md) · [1.xx compatibility](docs/compatibility-1xx.md) · [i18n / RTL](docs/i18n-rtl.md) · [Keyboard-first](docs/keyboard.md) · [On-screen keyboard](docs/on-screen-keyboard.md) · [Color & contrast](docs/color-contrast.md) · [Adaptive layout](docs/adaptive-layout.md) · [Drag-drop](docs/drag-drop.md) · [Upgrade notes](docs/upgrade-notes.md) · [Linux / Wayland](docs/platform-linux-wayland.md) · [Qt Creator](docs/qt-creator.md) · [Component API](https://wuyijing-dev.github.io/QWinui3/components/) · [Releases](https://github.com/wuyijing-dev/QWinui3/releases) · [Roadmap](ROADMAP.md)
 
 ---

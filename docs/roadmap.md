@@ -2,11 +2,11 @@
 
 **Current:** **1.92** (master; last tagged **1.90** until next release)
 **Next up:** **2.00** — breaking baseline (Qt floor / freeze lift / documented remaps). **Gate: 1.90 shipped; 1.91…1.92 are post-close-out polish.**
-**Planned through:** **2.50** (… → **2.00** break → **2.01…2.50** horizon; **Windows + Linux** only)
-**1.xx close-out:** [checkpoint-190.md](checkpoint-190.md). **1.86…1.89** performance arc **signed off** (**animations stay**). OSK/packaging promote **2.01**. **2.50** closes the **2.xx** horizon (checkpoint draft only).  
+**Planned through:** **2.60** (… → **2.00** break → **2.01…2.50** tranche 1 → **2.51…2.60** friction-only tranche)
+**1.xx close-out:** [checkpoint-190.md](checkpoint-190.md). **1.86…1.89** performance arc **signed off** (**animations stay**). OSK/packaging promote **2.01**. **2.50** = tranche-1 audit; **2.60** = friction-line close-out + 3.00 prep draft.  
 **Qt:** 6.5+ (recommended 6.8 LTS) through **1.92** — [qt-version-compat.md](qt-version-compat.md). **2.00** raises the floor to **6.8 LTS**. **Platforms:** **Windows + Linux** — no macOS first-class line.
 
-This plan starts from **what 1.00 already was**, walks **small `1.xx` minors** through **1.90 close-out**, adds **post-close-out 1.91…1.92**, then a named **2.00** breaking line and **2.01…2.50** follow-ups (including **new controls** where each slice names a WinUI gap).
+This plan starts from **what 1.00 already was**, walks **1.xx** through **1.90 close-out** and **1.91…1.92**, then **2.00** and follow-ups. **After 2.50**, new minors ship only for **[documented user friction](friction-log.md)** — not catalog completeness.
 
 ---
 
@@ -39,7 +39,24 @@ Do not plan as if the kit is empty. Rough inventory today:
 | Docs | MkDocs + generated component API |
 | Ship | LGPL-3.0 · CI Release (Win + Linux) · shared/gallery packaging · Qt compat shims |
 
-**Implication:** Through **1.90**, work was mostly **finish, fix, document, and deepen**. From **2.00** onward, named minors may also ship **new controls** (one WinUI gap per slice — Gallery page + component doc + stable/experimental row in the same tag).
+**Implication:** Through **1.90**, work was mostly **finish, fix, document, and deepen**. **2.01…2.50** are a **committed tranche-1** backlog (may still be **rescheduled** at checkpoints if friction evidence is weak). **2.51+** opens **only** from rows in [friction-log.md](friction-log.md) — real “this is broken / hard to use” reports from kit consumers, not parity shopping.
+
+---
+
+## Friction gate — when a slice earns a tag
+
+A **`2.xx` minor is allowed** when at least one row in [friction-log.md](friction-log.md) names a **repeatable pain** (Gallery soak, GitHub issue, example-app author, or field app) and the slice **directly removes** that pain.
+
+| Pass | Fail |
+|------|------|
+| “Linux Wayland window looks wrong vs Windows DWM” → shell slice | “WinUI has FileTree, we should too” with no app blocked |
+| “`find_package` fails for every new consumer” → packaging slice | “Add CalendarView because roadmap slot 2.31” |
+| “Settings toggle doesn’t stick / title FPS invisible” → fix + docs | New control to pad catalog count |
+| “NavigationView Back vs pane confuses our users” → recipe + API clarify | Perf wave with no reported sluggish path |
+
+**New controls:** only when friction says **existing types cannot compose the app flow** (document the failed recipe first). Otherwise **withdraw** the slice at the next checkpoint — same rule as withdrawn macOS / Fluent 2 / Hub.
+
+**Evidence bar:** one paragraph **Pain → workaround today → slice outcome** per tag; link the friction-log row in the release note.
 
 ---
 
@@ -50,18 +67,19 @@ Do not plan as if the kit is empty. Rough inventory today:
 | **Same `X.YY` rebuild** | Urgent packaging/docs/CI fixes when needed |
 | **Next `X.YY`** | **One focused slice**—small enough to finish, clear enough to name |
 | **`2.00`** | Breaking line (Qt floor / freeze lift / documented remaps). **After 1.90 only.** |
-| **`2.01…2.50`** | Non-breaking minors on the **2.x** floor; **new controls OK** when the slice theme is a single named gap |
+| **`2.01…2.50`** | Tranche 1 — planned backlog; **conditional control slices** need friction or checkpoint green-light |
+| **`2.51…2.60`** | **Friction-only** — each tag maps to [friction-log.md](friction-log.md); no slot-filling |
 
 **Rules of thumb**
 
 - One `X.YY` ≈ one primary outcome, not five themes at once.
 - Avoid empty releases—but do not wait for “epic” bundles either.
 - **1.xx:** new controls only when they serve that minor’s slice; otherwise park them.
-- **2.xx:** a slice may **add controls** if the tag names one WinUI gap (e.g. FileTree, TreeDataGrid) plus Gallery + docs + stable-api row.
-- After each ship: bump `QWINUI3_VERSION`, update this file.
-- Prefer **docs + harden + Gallery recipe** for polish slices; use **control slices** for catalog gaps.
+- **2.01…2.50:** table order is **not** permission to ship; checkpoints **2.20 / 2.30 / 2.50** may **drop or swap** slices without friction proof.
+- **2.51+:** **no new row → no new tag.** Prefer fix + recipe over new public types.
+- After each ship: bump `QWINUI3_VERSION`, update this file, **close or add friction-log rows**.
 - **2.00** is one breaking slice, not a dump of the parking lot. Follow-ups are `2.01+`.
-- **Platforms:** **Windows + Linux** ship targets — **macOS first-class is not planned** (Qt macOS apps may still link the kit; no dedicated shell/tray/CI matrix).
+- **Platforms:** **Windows + Linux** — **macOS first-class is not planned**.
 
 ---
 
@@ -564,63 +582,122 @@ Small **non-breaking** slices after [checkpoint-190.md](checkpoint-190.md). Ship
 
 Apps on **1.90** read [upgrade-notes.md](upgrade-notes.md) **1.90 → 2.00**, raise Qt to 6.8+, apply the remap table, rebuild Release. Apps that cannot leave Qt 6.5 **stay on 1.90**.
 
-## Planned through `2.50` — `2.01` … `2.50`
+## Planned through `2.50` — tranche 1 (`2.01` … `2.50`)
 
-After **2.00**, ordinary **2.xx** minors — **one theme each**. Order may shift for field P0s. **New-control slices** must ship Gallery page + component doc + stable-api decision in the **same tag**.
+**Tranche 1** — ordered **candidates** for the **2.x** floor. **Not automatic:** slices marked **(conditional)** ship only if [friction-log.md](friction-log.md) or a checkpoint records the pain. Prefer **fix / docs / recipe** over new types.
 
-| Slice | Theme | Status |
-|-------|--------|--------|
-| **2.00** | Breaking baseline (Qt 6.8 floor, freeze lift, remaps) | **Next** |
-| **2.01** | OSK / IME green soak + promote | Planned |
-| **2.02** | Consumer `find_package` productize | Planned |
-| **2.03** | Linux Wayland shell wave 2 | Planned |
-| **2.04** | Runtime diagnostics (FPS / frame stats deepen) | Planned |
-| **2.05** | Title-bar & shell chrome cookbook | Planned |
-| **2.06** | **New controls:** `FileTree` + directory recipe | Planned |
-| **2.07** | Accessibility wave 4 | Planned |
-| **2.08** | Charts experimental promote sweep | Planned |
-| **2.09** | Media final promote or honest defer | Planned |
-| **2.10** | 2.x mid-horizon checkpoint | Planned |
-| **2.11** | vcpkg / Conan official port | Planned |
-| **2.12** | Localization wave 3 | Planned |
-| **2.13** | Security & trust wave 2 | Planned |
-| **2.14** | Multi-window & modal stack harden | Planned |
-| **2.15** | High-DPI & multi-monitor wave 3 | Planned |
-| **2.16** | Command & search surfaces deepen | Planned |
-| **2.17** | Theme & Style polish (WinUI 3) | Planned |
-| **2.18** | Performance wave 5 (2.x floor) | Planned |
-| **2.19** | Component docs & Gallery catalog refresh | Planned |
-| **2.20** | First 2.x horizon checkpoint | Planned |
-| **2.21** | **New controls:** `TreeDataGrid` (hierarchical grid) | Planned |
-| **2.22** | Dashboard layout recipes (`ChartCard` / `KpiTile`) | Planned |
-| **2.23** | Navigation — `BreadcrumbBar` + shell integration | Planned |
-| **2.24** | **New controls:** `ItemsWrapGrid` / variable wrap layouts | Planned |
-| **2.25** | Input & validation wave (`NumberBox` / `PasswordBox`) | Planned |
-| **2.26** | Charts wave — area / sparkline siblings | Planned |
-| **2.27** | Feedback — `InfoBadge` / teaching / progress polish | Planned |
-| **2.28** | Performance wave 6 | Planned |
-| **2.29** | Accessibility wave 5 | Planned |
-| **2.30** | Mid-2.x checkpoint (`checkpoint-230`) | Planned |
-| **2.31** | **New controls:** `CalendarView` month surface | Planned |
-| **2.32** | Media + WebView2 harden | Planned |
-| **2.33** | Linux portal & tray wave 3 | Planned |
-| **2.34** | Packaging & CI consumer matrix | Planned |
-| **2.35** | Localization wave 4 | Planned |
-| **2.36** | Security & trust wave 3 | Planned |
-| **2.37** | **New controls:** `PipsPager` + carousel shell recipes | Planned |
-| **2.38** | Theme overrides & branding wave 2 | Planned |
-| **2.39** | Gallery catalog expansion | Planned |
-| **2.40** | Performance wave 7 | Planned |
-| **2.41** | Command palette + menu bar wave 3 | Planned |
-| **2.42** | **New controls:** `SwipeControl` / gesture hosts deepen | Planned |
-| **2.43** | Multi-window + onboarding coach marks | Planned |
-| **2.44** | Developer diagnostics productize (`FrameStats` stable?) | Planned |
-| **2.45** | Experimental promote sweep (2.x) | Planned |
-| **2.46** | Docs IA + recipes hub v2 | Planned |
-| **2.47** | Field harden buffer | Planned |
-| **2.48** | **New controls:** WinUI gap backlog (pick 1–2) | Planned |
-| **2.49** | Performance wave 8 + 2.x perf sign-off | Planned |
-| **2.50** | 2.xx horizon checkpoint + 3.00 prep | Planned |
+| Slice | Theme | Friction / gate | Status |
+|-------|--------|-----------------|--------|
+| **2.00** | Breaking baseline | Qt 6.5 consumers blocked on tooling/security | **Next** |
+| **2.01** | OSK / IME promote | Apps fear shipping keyboard path (experimental) | Planned |
+| **2.02** | `find_package` productize | Consumer CMake/import pain every onboarding | Planned |
+| **2.03** | Linux Wayland shell wave 2 | Linux chrome still wrong vs Windows DWM | Planned |
+| **2.04** | Runtime diagnostics | Perf/RHI regressions hard to see (FPS opt-in) | Planned |
+| **2.05** | Title-bar cookbook | Custom title slots / hit-test footguns | Planned |
+| **2.06** | **(conditional)** `FileTree` | Explorer apps blocked without tree+metadata | Planned |
+| **2.07** | Accessibility wave 4 | a11y gaps on shipped 2.x paths | Planned |
+| **2.08** | Charts promote sweep | “Which chart is safe?” blocks dashboards | Planned |
+| **2.09** | Media promote or defer | Media apps blocked or need honest defer | Planned |
+| **2.10** | Checkpoint (`checkpoint-210`) | Drop weak slices | Planned |
+| **2.11** | vcpkg / Conan | Packaging still painful after **2.02** | Planned |
+| **2.12** | Localization wave 3 | RTL/i18n ship blockers | Planned |
+| **2.13** | Security wave 2 | WebView / drop paths feel unsafe | Planned |
+| **2.14** | Multi-window harden | Dialog parent / z-order wrong on Wayland | Planned |
+| **2.15** | High-DPI wave 3 | Geometry wrong across monitors | Planned |
+| **2.16** | Command & search | Palette lag / search keyboard traps | Planned |
+| **2.17** | Style polish (WinUI 3) | Controls look/behave unlike WinUI ref | Planned |
+| **2.18** | Performance wave 5 | Named sluggish user paths only | Planned |
+| **2.19** | Docs & catalog refresh | “Can’t find how to use X” | Planned |
+| **2.20** | Checkpoint (`checkpoint-220`) | Reschedule **2.21…2.50** from friction | Planned |
+| **2.21** | **(conditional)** `TreeDataGrid` | Master-detail blocked; Tree+Table hack fails | Planned |
+| **2.22** | Dashboard recipes | Layout-only pain with existing charts | Planned |
+| **2.23** | `BreadcrumbBar` integration | Title/path out of sync with nav | Planned |
+| **2.24** | **(conditional)** `ItemsWrapGrid` | Wrap layouts need custom code today | Planned |
+| **2.25** | Input & validation | Forms unlike WinUI validation UX | Planned |
+| **2.26** | Charts wave | Stated app reqs blocked by chart gap | Planned |
+| **2.27** | Feedback polish | Toast/InfoBar/TeachingTip misuse | Planned |
+| **2.28** | Performance wave 6 | Tranche-1 perf still user-visible | Planned |
+| **2.29** | Accessibility wave 5 | New surfaces fail keyboard/a11y | Planned |
+| **2.30** | Checkpoint (`checkpoint-230`) | Drop **2.31…2.50** without friction | Planned |
+| **2.31** | **(conditional)** `CalendarView` | Month grid blocked by pickers-only | Planned |
+| **2.32** | Media + WebView2 | Embed focus/DPI/policy pain | Planned |
+| **2.33** | Linux portal & tray | Field Linux dialogs/tray flaky | Planned |
+| **2.34** | Packaging CI matrix | Win/Linux consumer builds diverge | Planned |
+| **2.35** | Localization wave 4 | Non-en ship blockers | Planned |
+| **2.36** | Security wave 3 | Trust docs for new data surfaces | Planned |
+| **2.37** | **(conditional)** `PipsPager` | Carousel blocked (if friction logged) | Planned |
+| **2.38** | Theme overrides wave 2 | Branding/density hard to apply | Planned |
+| **2.39** | Gallery findability | Gallery itself is the pain | Planned |
+| **2.40** | Performance wave 7 | Lists/grids slow in real apps | Planned |
+| **2.41** | Command / menu bar wave 3 | Accelerator discovery pain | Planned |
+| **2.42** | **(conditional)** `SwipeControl` | Touch gesture conflicts reported | Planned |
+| **2.43** | Multi-window + onboarding | First-run / z-order confusion | Planned |
+| **2.44** | Diagnostics productize | Devs need ship-safe perf story | Planned |
+| **2.45** | Experimental sweep | “Is this stable?” blocks adoption | Planned |
+| **2.46** | Docs IA v2 | Docs navigation is the pain | Planned |
+| **2.47** | Field harden buffer | Checkpoint P0/P1 only | Planned |
+| **2.48** | **Friction-only control slot** | Top [friction-log.md](friction-log.md) row — no catalog pick | Planned |
+| **2.49** | Performance wave 8 | Residual perf pains logged | Planned |
+| **2.50** | Tranche-1 checkpoint | Audit **2.00…2.50**; queue **2.51…2.60** | Planned |
+
+## Friction-only tranche 2 (`2.51` … `2.60`)
+
+**Hard rule:** each row below ships **only** if [friction-log.md](friction-log.md) has an open **P0/P1** entry at tag time. Otherwise **skip the tag** (same `X.YY` rebuild or jump to checkpoint).
+
+| Slice | Theme | Typical pain (examples) | Status |
+|-------|--------|-------------------------|--------|
+| **2.51** | Stable vs experimental clarity | Teams ship experimental APIs by mistake | Queue |
+| **2.52** | First app in an hour | `gallery-shell` still too much to delete | Queue |
+| **2.53** | Linux “feels broken” top 3 | Field matrix names 3 user-visible parity gaps | Queue |
+| **2.54** | Window chrome footguns | Maximize/DPI/hit-test/geometry restore | Queue |
+| **2.55** | Forms unlike WinUI | Validation, errors, clear/collect surprises | Queue |
+| **2.56** | Navigation mental model | Back vs pane vs stack confusion | Queue |
+| **2.57** | Files on Linux | Pick / drop / reveal still fails in apps | Queue |
+| **2.58** | Keyboard / IME / OSK in apps | Real input path unusable outside Gallery | Queue |
+| **2.59** | “Feels slow” (app-level) | Named app scenarios, not synthetic FPS only | Queue |
+| **2.60** | Friction-line checkpoint + 3.00 prep | [checkpoint-260.md](checkpoint-260.md) — close **2.51…2.60** | Queue |
+
+### 2.51 — Stable vs experimental clarity (queue)
+
+**Pain:** Consumers cannot tell what is safe to ship; Gallery badges lie by omission. **Outcome:** stable-api + Gallery + Pitfalls aligned; optional lint for `@experimental` in app templates.
+
+### 2.52 — First app in an hour (queue)
+
+**Pain:** New teams stall on import paths, shell choice, Theme bootstrap. **Outcome:** minimal quickstart (smaller than gallery-shell) + video/script checklist.
+
+### 2.53 — Linux top-3 parity (queue)
+
+**Pain:** “Works on Windows, broken on Linux” for shells/files/tray. **Outcome:** fix highest-count friction-log Linux rows only — not a parity science project.
+
+### 2.54 — Window chrome footguns (queue)
+
+**Pain:** Caption buttons, drag regions, maximize on mixed-DPI, saved geometry. **Outcome:** targeted fixes + [window-chrome.md](window-chrome.md) troubleshooting rows tied to issues.
+
+### 2.55 — Forms unlike WinUI (queue)
+
+**Pain:** Validation timing, error placement, FormLayout collect/clear unlike WinUI forms. **Outcome:** behavior fixes + Gallery form-settings refresh.
+
+### 2.56 — Navigation mental model (queue)
+
+**Pain:** Back, pane, footer, and stack interact unexpectedly. **Outcome:** NavigationView recipes + optional API guardrails — **no** new nav control unless friction proves it.
+
+### 2.57 — Files on Linux (queue)
+
+**Pain:** Portal dialogs, parent window, reveal-in-folder. **Outcome:** regression tests + docs from **1.68** field data.
+
+### 2.58 — Keyboard path in real apps (queue)
+
+**Pain:** OSK/IME/hardware routing unusable outside Gallery dock. **Outcome:** only if **2.01** promote insufficient — app integration recipe or fixes.
+
+### 2.59 — App-level sluggishness (queue)
+
+**Pain:** Named slow flows in consumer apps (not “optimize everything”). **Outcome:** perf row in [performance.md](performance.md) tied to each fix.
+
+### 2.60 — Friction-line checkpoint (queue)
+
+**Goal:** [checkpoint-260.md](checkpoint-260.md) — verdict on **2.51…2.60**; [upgrade-notes.md](upgrade-notes.md) draft **2.60 → 3.00**; **empty queue is success** (no tags forced).
+
+**Out:** Shipping **3.00** in the same tag; inventing work without friction rows.
 
 ### 2.01 — OSK / IME green soak + promote (planned)
 
@@ -652,11 +729,13 @@ After **2.00**, ordinary **2.xx** minors — **one theme each**. Order may shift
 
 **Out:** Replacing `PlatformTitleBar`.
 
-### 2.06 — New controls: FileTree (planned)
+### 2.06 — (conditional) FileTree (planned)
 
-**Goal:** Add **`FileTree`** (WinUI tree + file metadata columns) — Theme/Style wiring, keyboard, selection; Gallery page; [tree-data.md](tree-data.md) extension; experimental → promote decision in tag notes.
+**Friction gate:** Explorer-style apps blocked — document failed TreeView + DataTable composition in [friction-log.md](friction-log.md) first.
 
-**Out:** Full File Explorer replacement; cloud drive backends.
+**Goal:** Add **`FileTree`** only if gate passes — Theme/Style, keyboard, selection; Gallery + [tree-data.md](tree-data.md).
+
+**Out:** Shipping without friction row; full File Explorer replacement.
 
 ### 2.07 — Accessibility wave 4 (planned)
 
@@ -904,11 +983,13 @@ After **2.00**, ordinary **2.xx** minors — **one theme each**. Order may shift
 
 **Out:** Feature creep.
 
-### 2.48 — New controls: WinUI gap backlog (planned)
+### 2.48 — Friction-only control slot (planned)
 
-**Goal:** Pick **1–2** remaining WinUI gaps (e.g. **`AppNotification`** builder chrome, **`AnimatedIcon`** Lottie path, **`InkCanvas`** sketch) — **one tag, one primary control**.
+**Friction gate:** Highest open **P0** row in [friction-log.md](friction-log.md) — **not** a catalog shopping list.
 
-**Out:** Shipping all three in one minor.
+**Goal:** One primary fix (control **or** recipe **or** platform fix) that closes that row; Gallery + docs if a new type is truly required.
+
+**Out:** Picking InkCanvas / AppNotification / etc. without a logged pain.
 
 ### 2.49 — Performance wave 8 + 2.x perf sign-off (planned)
 
@@ -916,11 +997,11 @@ After **2.00**, ordinary **2.xx** minors — **one theme each**. Order may shift
 
 **Out:** Chart GPU rewrite.
 
-### 2.50 — 2.xx horizon checkpoint + 3.00 prep (planned)
+### 2.50 — Tranche-1 checkpoint (planned)
 
-**Goal:** [checkpoint-250.md](checkpoint-250.md) — verdict on **2.00…2.50**; [upgrade-notes.md](upgrade-notes.md) draft **2.50 → 3.00** (if ever); catalog size audit; parking-lot triage.
+**Goal:** [checkpoint-250.md](checkpoint-250.md) — audit **2.00…2.50**; **drop** conditional slices with no friction; prioritize **2.51…2.60** queue from [friction-log.md](friction-log.md).
 
-**Out:** Actually shipping **3.00** in the same tag; macOS or Fluent 2 Style fork revival.
+**Out:** Treating **2.50** as final 2.x line; shipping **3.00** here.
 
 ---
 
@@ -941,7 +1022,8 @@ Unscheduled; pick up only inside a named `1.xx` or `2.xx` minor (or never). Clar
 - OSK / IME promote green soak → **2.01** (perf arc **1.86…1.89** done)
 - Consumer `find_package` productize → **2.02**
 - Wayland compositor-native chrome → **2.03** (client shell in **1.92**)
-- **New controls** (FileTree, TreeDataGrid, ItemsWrapGrid, …) → **2.06**, **2.21**, **2.24**, **2.31**, **2.37**, **2.42**, **2.48**
+- **New controls (conditional)** → need [friction-log.md](friction-log.md) row before **2.06**, **2.21**, **2.24**, **2.31**, **2.37**, **2.42**, **2.48**
+- **2.51…2.60** → friction-only queue (see roadmap); **skip tag** if queue empty
 - Official vcpkg/Conan → **2.11**
 - Custom ink / handwriting canvas (out of 1.57 touch cookbook; out of 1.70…1.73 IME)
 - Dictation / cloud IME lexicon (out of 1.73 full in-app IME)
@@ -964,7 +1046,9 @@ Unscheduled; pick up only inside a named `1.xx` or `2.xx` minor (or never). Clar
 | [checkpoint-210.md](checkpoint-210.md) (planned) | 2.10 mid-2.x audit |
 | [checkpoint-220.md](checkpoint-220.md) (planned) | 2.20 first 2.x horizon checkpoint |
 | [checkpoint-230.md](checkpoint-230.md) (planned) | 2.30 mid-2.x audit |
-| [checkpoint-250.md](checkpoint-250.md) (planned) | 2.50 2.xx horizon close-out + 3.00 prep draft |
+| [friction-log.md](friction-log.md) | User pain queue — gate for **2.51+** and conditional controls |
+| [checkpoint-250.md](checkpoint-250.md) (planned) | 2.50 tranche-1 audit |
+| [checkpoint-260.md](checkpoint-260.md) (planned) | 2.60 friction-line close-out + 3.00 prep draft |
 | [docs/compatibility-1xx.md](compatibility-1xx.md) | 1.xx will-not-break freeze (ends at **2.00**) |
 | [docs/upgrade-notes.md](upgrade-notes.md) | Consumer upgrades; 2.00 sketch after 1.90 |
 | [docs/components.md](components.md) | Control index |
