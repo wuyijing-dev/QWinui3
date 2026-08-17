@@ -34,6 +34,7 @@ CommandBarFlyout {
 Popup CommandBar; open at a target like Flyout.
 showAt() opens then repositions after layout — first open must not use 0×0 size
 (that clamped ShouldConstrainToRootBounds to the top-left).
+On close, focus returns to the opener or target (1.85).
 
 ## API
 

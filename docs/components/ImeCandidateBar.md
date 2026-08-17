@@ -21,6 +21,7 @@ ImeCandidateBar { engine: osk.engine }
 Host above OnScreenKeyboard. Theme tokens only. No focus steal.
 Shared by pinyin / romaji-kana / hangul. Digits 1–9 / Space via engine.
 Not Microsoft IME.
+Live-region: announce paged candidates / preedit on composeChanged (1.85).
 
 ## API
 

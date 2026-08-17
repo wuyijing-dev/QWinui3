@@ -47,6 +47,19 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.84 → 1.85
+
+**Product version:** 1.85  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- ContentDialog / Flyout / CommandBarFlyout return focus to the opener on close. InfoBar announces on open (`Accessible.announce` on Qt 6.8+). ImeCandidateBar announces candidates without taking focus. Gallery **Accessibility** wave 3 sample. [accessibility.md](accessibility.md).
+
+#### No action (compatible)
+
+- Theme / shell / stable control APIs unchanged. OSK stays experimental.
+
 ### Upgrade 1.83 → 1.84
 
 **Product version:** 1.84  

@@ -117,7 +117,7 @@ ContentDialog {
 dlg.show()   // ContentDialogQueue.enqueue — one dialog at a time
 ```
 
-Accessible name = `title`.
+Accessible name = `title`. On close, focus returns to the control that opened the dialog (**1.85**).
 
 ---
 
@@ -133,6 +133,8 @@ Flyout {
 }
 flyout.showAt(anchor)
 ```
+
+On close, focus returns to the opener or `target` (**1.85**).
 
 | Setting | Behavior |
 |---------|----------|

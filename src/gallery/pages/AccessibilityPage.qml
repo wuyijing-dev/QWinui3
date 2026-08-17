@@ -4,12 +4,79 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — Accessibility checklist (1.02 / 1.19) + keyboard tour (1.44).
+// Gallery — Accessibility checklist (1.02 / 1.19 / 1.85) + keyboard tour (1.44).
 // Recipe: docs/accessibility.md · docs/keyboard.md
 
 CatalogPage {
     title: qsTr("Accessibility")
-    subtitle: qsTr("A11y checklist + keyboard + touch pointers — docs/accessibility.md · docs/touch-pointer.md (1.57).")
+    subtitle: qsTr("A11y checklist + keyboard + touch pointers — docs/accessibility.md · docs/touch-pointer.md (1.57). Wave 3 (1.85): focus return + live regions.")
+
+    overlay: [
+        ContentDialog {
+            id: a11yDialog
+            parent: Overlay.overlay
+            anchors.centerIn: Overlay.overlay
+            title: qsTr("Focus return")
+            primaryButtonText: qsTr("OK")
+            closeButtonText: qsTr("Cancel")
+            defaultButton: "primary"
+            Label {
+                text: qsTr("Close this dialog. Focus should return to the button that opened it.")
+                wrapMode: Text.Wrap
+                color: Theme.textPrimary
+            }
+        },
+        Flyout {
+            id: a11yFlyout
+            title: qsTr("Focus return")
+            Label {
+                text: qsTr("Esc or click outside. Focus returns to the opener.")
+                wrapMode: Text.Wrap
+                color: Theme.textPrimary
+            }
+        }
+    ]
+
+    ControlExample {
+        headerText: qsTr("Wave 3 — focus return + live region (1.85)")
+        qmlSource: "ContentDialog / Flyout close → opener\nInfoBar AlertMessage + announce"
+
+        ColumnLayout {
+            spacing: Theme.spacing
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                color: Theme.textSecondary
+                text: qsTr("Tab to a button, activate it, then Esc. The same button should take focus again. Opening the InfoBar announces title + message (Qt 6.8+ Accessible.announce; 6.5 keeps AlertMessage). IME candidate live region is on the On-screen keyboard page.")
+            }
+            RowLayout {
+                spacing: Theme.spacing
+                Button {
+                    id: a11yDialogBtn
+                    text: qsTr("Open dialog")
+                    onClicked: a11yDialog.show()
+                }
+                Button {
+                    id: a11yFlyoutBtn
+                    text: qsTr("Open flyout")
+                    onClicked: a11yFlyout.showAt(a11yFlyoutBtn)
+                }
+                Button {
+                    text: qsTr("Show InfoBar")
+                    onClicked: a11yInfoBar.open()
+                }
+            }
+            InfoBar {
+                id: a11yInfoBar
+                Layout.fillWidth: true
+                title: qsTr("Saved")
+                message: qsTr("Changes stored. Screen readers should hear this banner.")
+                severity: success
+                isOpen: false
+                closable: true
+            }
+        }
+    }
 
     ControlExample {
         headerText: qsTr("Touch & pointer (1.57)")
@@ -45,7 +112,7 @@ CatalogPage {
                 wrapMode: Text.WordWrap
                 color: Theme.textPrimary
                 text: qsTr("• Ctrl+K → CommandPalette (type, ↑↓, Enter, Esc).\n"
-                           + "• ContentDialog: Esc closes; Enter activates default.\n"
+                           + "• ContentDialog: Esc closes; Enter activates default; focus returns to the opener (1.85).\n"
                            + "• DataTable / ListDetailsView: arrows · Enter · Esc/Back as documented.\n"
                            + "• Settings toggle cards: Tab + Space/Enter.\n"
                            + "• Icon-only buttons: toolTipText / Accessible.name.\n"

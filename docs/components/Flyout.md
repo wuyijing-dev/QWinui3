@@ -38,6 +38,7 @@ Put body as children; optional title / subtitle chrome.
 showMode: standard | transient | transientWithDismissOnPointerMoveAway (WinUI ShowMode).
 shouldConstrainToRootBounds clamps to overlay / parent (default true).
 Prefer for non-modal context UI; use ContentDialog for blocking decisions (docs/dialogs-flyouts.md).
+On close, focus returns to the opener or target (1.85).
 
 ## API
 

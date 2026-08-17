@@ -34,6 +34,7 @@ import QWinUI3.Theme
 //   Body: put content as children (moved into the dialog body slot).
 //   Keyboard (1.16): Enter/Return → activateDefault(); Esc → close path via requestClose
 //   (honors onClosing { args.cancel = true }). Outside click does not dismiss.
+//   On close, focus returns to the opener (1.85).
 
 T.Dialog {
     id: root
@@ -53,6 +54,7 @@ T.Dialog {
     property alias closeButton: closeSlot.data
     property alias isOpen: root.visible
     property bool __queueWired: false
+    property Item _focusReturn: null
 
     signal primaryClicked()
     signal secondaryClicked()
@@ -90,10 +92,39 @@ T.Dialog {
         root.resultReady(kind)
     }
 
+    function _captureFocusReturn() {
+        var win = root.Window ? root.Window.window : null
+        if (!win && typeof Overlay !== "undefined" && Overlay.overlay && Overlay.overlay.Window)
+            win = Overlay.overlay.Window.window
+        var item = (win && win.activeFocusItem) ? win.activeFocusItem : null
+        var p = item
+        while (p) {
+            if (p === root) {
+                item = null
+                break
+            }
+            p = p.parent
+        }
+        _focusReturn = item
+    }
+
+    function _restoreFocusReturn() {
+        var item = _focusReturn
+        _focusReturn = null
+        if (!item)
+            return
+        Qt.callLater(function () {
+            if (item && item.visible && typeof item.forceActiveFocus === "function")
+                item.forceActiveFocus()
+        })
+    }
+
     onAboutToShow: {
         root.dialogResult = "none"
         syncBody()
+        _captureFocusReturn()
     }
+    onClosed: _restoreFocusReturn()
     onAccepted: {
         if (root.dialogResult === "none")
             _finish("primary")

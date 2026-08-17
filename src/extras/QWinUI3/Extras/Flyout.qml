@@ -26,6 +26,7 @@ import QWinUI3.Theme
 //   showMode: standard | transient | transientWithDismissOnPointerMoveAway (WinUI ShowMode).
 //   shouldConstrainToRootBounds clamps to overlay / parent (default true).
 //   Prefer for non-modal context UI; use ContentDialog for blocking decisions (docs/dialogs-flyouts.md).
+//   On close, focus returns to the opener or target (1.85).
 
 T.Popup {
     id: root
@@ -50,6 +51,34 @@ T.Popup {
     property bool shouldConstrainToRootBounds: true
     // Default children / content slot
     default property alias contentData: body.data
+    property Item _focusReturn: null
+
+    function _captureFocusReturn() {
+        var win = root.Window ? root.Window.window : null
+        var item = (win && win.activeFocusItem) ? win.activeFocusItem : null
+        var p = item
+        while (p) {
+            if (p === root) {
+                item = null
+                break
+            }
+            p = p.parent
+        }
+        if (!item && root.target)
+            item = root.target
+        _focusReturn = item
+    }
+
+    function _restoreFocusReturn() {
+        var item = _focusReturn
+        _focusReturn = null
+        if (!item)
+            return
+        Qt.callLater(function () {
+            if (item && item.visible && typeof item.forceActiveFocus === "function")
+                item.forceActiveFocus()
+        })
+    }
 
     padding: 12
     modal: false
@@ -69,12 +98,16 @@ T.Popup {
         else if (visible)
             close()
     }
+    onAboutToShow: _captureFocusReturn()
     onOpened: {
         isOpen = true
         _pointerEntered = false
         reposition()
     }
-    onClosed: isOpen = false
+    onClosed: {
+        isOpen = false
+        _restoreFocusReturn()
+    }
 
     property bool _pointerEntered: false
 

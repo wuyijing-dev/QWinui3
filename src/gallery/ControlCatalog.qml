@@ -1258,7 +1258,7 @@ QtObject {
             title: qsTr("Accessibility"),
             category: "recipes",
             icon: FluentIcons.EaseOfAccess,
-            description: qsTr("A11y + keyboard-first tour — docs/keyboard.md (1.44)."),
+            description: qsTr("A11y + keyboard + wave 3 focus return / live regions — docs/accessibility.md (1.85)."),
             component: "AccessibilityPage",
             source: "pages/AccessibilityPage.qml"
         },

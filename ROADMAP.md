@@ -1,9 +1,9 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.84**
-**Next up:** **1.85** — Accessibility wave 3
+**Current:** **1.85**
+**Next up:** **1.86** — Leftover field P0s (skip if none → **1.87**)
 **Planned through:** **2.00** (1.xx close-out **1.83…1.90**, then breaking line)
-**Still 1.xx until 1.90:** Long-horizon checkpoint — [docs/checkpoint-178.md](docs/checkpoint-178.md). **1.84** consumer floating-OSK example. OSK/IME stays experimental until a named green soak (**1.87**). **Do not implement 2.00 before 1.90.**  
+**Still 1.xx until 1.90:** Long-horizon checkpoint — [docs/checkpoint-178.md](docs/checkpoint-178.md). **1.85** a11y wave 3 (focus return / live regions). OSK/IME stays experimental until a named green soak (**1.87**). **Do not implement 2.00 before 1.90.**  
 **Qt:** 6.5+ (recommended 6.8 LTS) through 1.xx — [qt-version-compat.md](docs/qt-version-compat.md). **2.00** may raise the floor.
 
 This plan starts from **what 1.00 already was**, then walks **small `1.xx` minors** through a **1.90 close-out**, then a named **2.00** breaking line. **2.00 is not the next tag.**
@@ -395,6 +395,7 @@ Still **1.xx**. **1.70…1.77** shipped OSK → IME → packs → deepen → app
 | **1.82 shipped** | Floating OSK + Windows system-wide (`SendInput`) |
 | **1.83 shipped** | Floating OSK / SendInput field harden |
 | **1.84 shipped** | Consumer floating-OSK recipe |
+| **1.85 shipped** | Accessibility wave 3 |
 
 ### 1.78 — Long-horizon 1.xx checkpoint (shipped)
 
@@ -426,8 +427,8 @@ Finish **1.xx** as named slices (**1.83…1.90**), then a **breaking 2.00**. Do 
 |-------|--------|--------|
 | **1.83** | Floating OSK / SendInput field harden | **Shipped** |
 | **1.84** | Consumer floating-OSK recipe | **Shipped** |
-| **1.85** | Accessibility wave 3 | **Next** |
-| **1.86** | Leftover field P0s | Planned — skip if empty |
+| **1.85** | Accessibility wave 3 | **Shipped** |
+| **1.86** | Leftover field P0s | **Next** (skip if none) |
 | **1.87** | OSK / IME green soak + promote | Planned |
 | **1.88** | Consumer packaging beyond the 1.61 sketch | Planned |
 | **1.89** | 1.xx close-out checkpoint | Planned |
@@ -442,15 +443,9 @@ Finish **1.xx** as named slices (**1.83…1.90**), then a **breaking 2.00**. Do 
 
 **Shipped:** [`examples/floating-osk`](examples/floating-osk/) — `OnScreenKeyboardWindow` + `openFloating()`; `systemWide` pinned to Windows. Docs: Keyman Core **in the clone** (`third_party/keyman`); WebView2 still optional NuGet. Do not copy the Gallery tree. Still experimental. Product version `1.84`.
 
-### 1.85 — Accessibility wave 3 (planned)
+### 1.85 — Accessibility wave 3 (shipped)
 
-**Theme:** focus return / live regions — slipped past 1.69 Theme prefs. One a11y slice, not a redesign.
-
-**In** (pick a tight set at start of the minor)
-
-- Dialog / flyout **focus return** to the opener
-- Live-region pattern for `InfoBar` / `ImeCandidateBar` where missing
-- Gallery Accessibility page checklist refresh
+**Shipped:** ContentDialog / Flyout / CommandBarFlyout return focus to the opener on close. InfoBar announces title + message + severity on open (`Accessible.announce` on Qt 6.8+; AlertMessage + description on 6.5). ImeCandidateBar announces paged candidates without taking focus. Gallery **Accessibility** wave 3 sample. [docs/accessibility.md](docs/accessibility.md). OSK still experimental. Product version `1.85`.
 
 **Out**
 

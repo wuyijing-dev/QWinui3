@@ -249,6 +249,7 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.82** | Floating `OnScreenKeyboardWindow` + Windows `systemWide` SendInput; still experimental |
 | **1.83** | Floating OSK no-activate soak; still experimental; [on-screen-keyboard.md](on-screen-keyboard.md) |
 | **1.84** | `examples/floating-osk` consumer host; still experimental |
+| **1.85** | Accessibility wave 3 — dialog/flyout focus return; InfoBar / ImeCandidateBar live region |
 | **1.35** | Qt Creator kit polish — [qt-creator.md](qt-creator.md); example build presets |
 | **1.36** | Docs site IA — [recipes.md](recipes.md) hub; MkDocs Recipes sections |
 | **1.37** | Promote sweep — commands / Flyout / TabView / ShellWindow / pickers / progress / FontIcon / ItemsRepeater; explicit defer list |

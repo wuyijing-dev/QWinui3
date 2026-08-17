@@ -45,6 +45,7 @@ primaryButton / secondaryButton / closeButton slots override text buttons.
 Body: put content as children (moved into the dialog body slot).
 Keyboard (1.16): Enter/Return → activateDefault(); Esc → close path via requestClose
 (honors onClosing { args.cancel = true }). Outside click does not dismiss.
+On close, focus returns to the opener (1.85).
 
 ## API
 

@@ -24,6 +24,7 @@ import QWinUI3.Theme
 //   Popup CommandBar; open at a target like Flyout.
 //   showAt() opens then repositions after layout — first open must not use 0×0 size
 //   (that clamped ShouldConstrainToRootBounds to the top-left).
+//   On close, focus returns to the opener or target (1.85).
 
 T.Popup {
     id: root
@@ -52,6 +53,34 @@ T.Popup {
 
     // Show secondary command list
     readonly property bool showSecondary: secondaryCol.children.length > 0
+    property Item _focusReturn: null
+
+    function _captureFocusReturn() {
+        var win = root.Window ? root.Window.window : null
+        var item = (win && win.activeFocusItem) ? win.activeFocusItem : null
+        var p = item
+        while (p) {
+            if (p === root) {
+                item = null
+                break
+            }
+            p = p.parent
+        }
+        if (!item && root.target)
+            item = root.target
+        _focusReturn = item
+    }
+
+    function _restoreFocusReturn() {
+        var item = _focusReturn
+        _focusReturn = null
+        if (!item)
+            return
+        Qt.callLater(function () {
+            if (item && item.visible && typeof item.forceActiveFocus === "function")
+                item.forceActiveFocus()
+        })
+    }
 
     // Show anchored at the given point or item
     function showAt(item, preferredPlacement) {
@@ -129,12 +158,16 @@ T.Popup {
         else if (visible)
             close()
     }
+    onAboutToShow: _captureFocusReturn()
     onOpened: {
         isOpen = true
         reposition()
         Qt.callLater(reposition)
     }
-    onClosed: isOpen = false
+    onClosed: {
+        isOpen = false
+        _restoreFocusReturn()
+    }
 
     padding: 6
     modal: false

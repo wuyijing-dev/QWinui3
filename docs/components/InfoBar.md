@@ -36,6 +36,7 @@ WinUI Content slot via default children (below message); actionText or action sl
 Content-only (no title/message) promotes Content to the primary row — no empty title gap.
 collapseWhenClosed (default) drops layout space immediately when closed (no Stack spacing).
 Prefer InfoBarHost.info/success/warning/error for stacked banners.
+AlertMessage role; Qt 6.8+ Accessible.announce on open (1.85).
 
 ## API
 

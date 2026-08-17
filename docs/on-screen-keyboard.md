@@ -2,7 +2,7 @@
 
 Win11 / Fluent **touch keyboard chrome we own**. This is **not** Qt Virtual Keyboard, and it is **not** a hardware-shortcut cookbook ([keyboard.md](keyboard.md)).
 
-**Status:** **1.84** consumer example `examples/floating-osk`. OSK/IME **still experimental**. **Next:** **1.85** a11y wave 3 → **1.87** green soak / promote. **2.00** is after **1.90** ([ROADMAP.md](../ROADMAP.md)).  
+**Status:** **1.85** a11y wave 3 (IME candidate live region). OSK/IME **still experimental**. **Next:** **1.86** leftover P0s (skip if none) → **1.87** green soak / promote. **2.00** is after **1.90** ([ROADMAP.md](../ROADMAP.md)).  
 **License:** OSK chrome is this repo (LGPL-3.0). SIL Keyman Core (**MIT**) for layouts. Pinyin tables are [mozillazg/pinyin-data](https://github.com/mozillazg/pinyin-data) (**MIT**) — [NOTICE-pinyin.md](NOTICE-pinyin.md). Japanese is a Hepburn romaji→kana map (**no kanji** — no MIT reading lexicon). Korean is Unicode hangul composition (not a lexicon). Keyman `cs_pinyin` IMX is **not** used.
 
 | Slice | What ships |
@@ -22,6 +22,7 @@ Win11 / Fluent **touch keyboard chrome we own**. This is **not** Qt Virtual Keyb
 | **1.82** | Floating `OnScreenKeyboardWindow` + Windows **system-wide** `SendInput` (floating defaults on) |
 | **1.83** | Floating no-activate soak + honest UIPI / UWP / games limits |
 | **1.84** | Consumer host: [`examples/floating-osk`](../examples/floating-osk/) |
+| **1.85** | `ImeCandidateBar` live-region announce (a11y wave 3); still experimental |
 | **1.87** | Green soak + promote (planned; slip if not green) |
 
 ---
@@ -171,6 +172,14 @@ OnScreenKeyboardWindow {
 
 - New `.kmx` / IME languages  
 - vcpkg/Conan (**1.88**)
+
+### 1.85 (shipped) — IME live region
+
+**Shipped:** `ImeCandidateBar` announces paged candidates (or preedit) on `composeChanged` without taking focus (`Accessible.announce` on Qt 6.8+). Part of a11y wave 3 — [accessibility.md](accessibility.md). Still experimental.
+
+**Out**
+
+- Promote to stable (**1.87**)
 
 ---
 

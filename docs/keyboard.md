@@ -105,8 +105,8 @@ Full tables: [commands.md](commands.md). ShellWindow can wire Ctrl+K for you.
 
 | Surface | Esc | Enter |
 |---------|-----|-------|
-| **ContentDialog** | `requestClose` (honors `onClosing`) | `activateDefault()` |
-| **Flyout** / light-dismiss | Esc + outside (when enabled) | Activate focused control |
+| **ContentDialog** | `requestClose` (honors `onClosing`); focus returns to opener (**1.85**) | `activateDefault()` |
+| **Flyout** / light-dismiss | Esc + outside (when enabled); focus returns to opener / target (**1.85**) | Activate focused control |
 | **TeachingTip** | Dismiss path + focus return — [feedback.md](feedback.md) |
 | **Onboarding coach** | Sequenced tips: Esc ends tour; Next/Done after Close focus — [feedback.md](feedback.md) (**1.55**) |
 | **Drawer** | Esc / scrim (Qt Drawer) | — |
@@ -146,7 +146,8 @@ Complete **without a mouse** (Release Gallery):
 
 - [ ] **Ctrl+K** opens CommandPalette; type + Enter runs a command; Esc closes  
 - [ ] Title-bar / pane search: type and activate a result (or Tab to nav)  
-- [ ] Open **ContentDialog** sample: Esc closes; Enter hits default  
+- [ ] Open **ContentDialog** sample: Esc closes; Enter hits default; focus returns to the opener (**1.85**)  
+- [ ] Gallery **Accessibility** wave 3: dialog / flyout / InfoBar live sample  
 - [ ] **DataTable** or **ListDetailsView**: arrows move selection; Enter / Esc as documented  
 - [ ] **Settings** toggle card: Tab focuses row; Space toggles  
 - [ ] **InfoBar** / Toast (when shown): Esc dismisses if closable  

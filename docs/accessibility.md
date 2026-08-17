@@ -4,7 +4,9 @@ High-traffic product path: **NavigationView**, **settings cards**, **ContentDial
 
 Wave 2 (1.19): **DataTable** / **ListDetailsView** / **ItemsView** / **FormLayout** / **CommandPalette** / dialogs & flyouts.
 
-Authoring rules: [`conventions.md`](conventions.md). Live checklist: Gallery **Accessibility** page (includes keyboard tour **1.44**).
+Wave 3 (**1.85**): dialog / flyout **focus return**; `InfoBar` / `ImeCandidateBar` live-region announce.
+
+Authoring rules: [`conventions.md`](conventions.md). Live checklist: Gallery **Accessibility** page (includes keyboard tour **1.44** and wave 3 **1.85**).
 
 **Keyboard-first cookbook:** [keyboard.md](keyboard.md) (**1.44**). Touch PCs still need chords — see also [touch-pointer.md](touch-pointer.md) (**1.57**).
 
@@ -34,6 +36,20 @@ Authoring rules: [`conventions.md`](conventions.md). Live checklist: Gallery **A
 | `ValidationSummary` | **Done** | AlertMessage; title + joined errors |
 | `CommandPalette` / CommandBar / MenuFlyout | **Done** | See [commands.md](commands.md) (1.15) |
 | `ContentDialog` / Flyout / TeachingTip / Drawer | **Done** | Dialogs recipe (1.16) + TeachingTip subtitle description; Drawer Pane name (1.19) |
+
+---
+
+## Wave 3 checklist (1.85 — Done)
+
+| Surface | Status | Behavior |
+|---------|--------|----------|
+| `ContentDialog` | **Done** | On close, focus returns to the item that had focus when the dialog opened |
+| `Flyout` / `CommandBarFlyout` | **Done** | On close, focus returns to the opener (`activeFocusItem`) or `target` |
+| `TeachingTip` | **Done** | Already returned focus to `target` (1.34) |
+| `InfoBar` | **Done** | `AlertMessage`; Qt 6.8+ `Accessible.announce` of title + message + severity on open; 6.5 keeps role + description |
+| `ImeCandidateBar` | **Done** | Announces paged candidates (or preedit) on `composeChanged` without taking focus |
+
+Gallery **Accessibility** page has a live dialog / flyout / InfoBar sample. IME live region is on **On-screen keyboard**.
 
 ---
 
@@ -78,8 +94,8 @@ Recipe doc: [`commands.md`](commands.md).
 
 | Surface | Behavior |
 |---------|----------|
-| `ContentDialog` | Esc uses close/`requestClose` (honors `onClosing` cancel); Enter → defaultButton |
-| `Flyout` / `TeachingTip` | Light-dismiss; Accessible name from title; TeachingTip description = subtitle |
+| `ContentDialog` | Esc uses close/`requestClose` (honors `onClosing` cancel); Enter → defaultButton; **focus returns to the opener** (1.85) |
+| `Flyout` / `TeachingTip` | Light-dismiss; Accessible name from title; TeachingTip description = subtitle; **focus returns to opener / target** (1.85 / 1.34) |
 | `Drawer` | Style modal edge panel; Accessible Pane name; parent window Overlay |
 
 Recipe doc: [`dialogs-flyouts.md`](dialogs-flyouts.md).
@@ -130,7 +146,7 @@ Recipe doc: [`media.md`](media.md).
 | Charts / gauges Accessible completeness | Low | Deferred to charts promote (roadmap ~1.23); use Graphic + label |
 | Full keyboard audit of every Extra | Medium | Wave-2 surfaces Done; remaining Extras as pages are touched |
 | Linux AT backends (Orca) | Medium | Follows Qt; validate on Wayland after packaging smoke |
-| Live region announcements for toast stacks | Low | Host roles are AlertMessage; OS polish later |
+| Live region announcements for toast stacks | Low | InfoBar announces on open (1.85); Toast host roles stay AlertMessage |
 
 ---
 
@@ -140,7 +156,7 @@ Recipe doc: [`media.md`](media.md).
 2. Icon-only controls: set `toolTipText` or `Accessible.name`. See [icons.md](icons.md) (1.29).
 3. Override `accessibleName` on DataTable / ItemsView / ListDetailsView / FormLayout when multiple instances share a page.
 4. Brand accent contrast: [color-contrast.md](color-contrast.md) (**1.43**) — Gallery Theme overrides AA table.
-5. Keyboard-first shell: [keyboard.md](keyboard.md) (**1.44**) — Ctrl+K, dialogs, list arrows.
+5. Keyboard-first shell: [keyboard.md](keyboard.md) (**1.44**) — Ctrl+K, dialogs, list arrows. After ContentDialog / Flyout, focus should return to the opener (**1.85**).
 6. Touch / finger targets: [touch-pointer.md](touch-pointer.md) (**1.57**) — prefer standard density; no hover-only UI.
 7. Wire Gallery/Settings “Follow system accessibility” or copy `WindowHelper` SPI into `Theme.*`.
 8. Do not attach `Accessible` to `Window` / `Popup` / `Dialog` hosts — name chrome items instead.

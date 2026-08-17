@@ -70,7 +70,7 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 | [Keyboard-first](keyboard.md) | Global chords → palette → dialogs → lists (1.44) |
 | [On-screen keyboard](on-screen-keyboard.md) | Floating Win11 OSK + Windows system-wide (**1.83** harden); still experimental |
 | [In-app search & AutoSuggest](search.md) | Suggest · filter-above · catalog jump (**1.59**) |
-| [Accessibility](accessibility.md) | Focus / names checklist |
+| [Accessibility](accessibility.md) | Focus return / live regions (**1.85**); names checklist |
 
 ---
 

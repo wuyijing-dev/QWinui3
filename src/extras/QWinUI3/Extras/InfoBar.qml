@@ -25,6 +25,7 @@ import QWinUI3.Theme
 //   Content-only (no title/message) promotes Content to the primary row — no empty title gap.
 //   collapseWhenClosed (default) drops layout space immediately when closed (no Stack spacing).
 //   Prefer InfoBarHost.info/success/warning/error for stacked banners.
+//   AlertMessage role; Qt 6.8+ Accessible.announce on open (1.85).
 
 T.Control {
     id: root
@@ -105,6 +106,27 @@ T.Control {
         }
     }
 
+    function _liveText() {
+        var parts = []
+        if (title.length)
+            parts.push(title)
+        if (message.length)
+            parts.push(message)
+        if (severityName.length)
+            parts.push(severityName)
+        return parts.join(". ")
+    }
+
+    function _announceLive(text) {
+        if (!text || text.length === 0)
+            return
+        try {
+            if (typeof Accessible.announce === "function")
+                Accessible.announce(text)
+        } catch (err) {
+        }
+    }
+
     Accessible.role: Accessible.AlertMessage
     Accessible.name: title.length ? title : qsTr("Info bar")
     Accessible.description: {
@@ -153,6 +175,8 @@ T.Control {
             root.opened()
         else
             root.closed()
+        if (isOpen)
+            Qt.callLater(function () { root._announceLive(root._liveText()) })
     }
 
     Timer {

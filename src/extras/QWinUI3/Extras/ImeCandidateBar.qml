@@ -10,6 +10,7 @@ import QWinUI3.Theme
 //   Host above OnScreenKeyboard. Theme tokens only. No focus steal.
 //   Shared by pinyin / romaji-kana / hangul. Digits 1–9 / Space via engine.
 //   Not Microsoft IME.
+//   Live-region: announce paged candidates / preedit on composeChanged (1.85).
 
 T.Control {
     id: root
@@ -28,6 +29,39 @@ T.Control {
         return qsTr("Page %1 of %2. Space confirms the first candidate. Digits 1 to 9 pick on the current page.")
             .arg(engine.candidatePage + 1)
             .arg(engine.candidatePageCount)
+    }
+
+    property string _lastLive: ""
+
+    function _announceCompose() {
+        if (!engine || !visible)
+            return
+        var text = ""
+        var page = engine.pagedCandidates
+        if (page && page.length)
+            text = qsTr("Candidates: %1").arg(page.slice(0, 5).join(", "))
+        else if (engine.preedit.length)
+            text = qsTr("Composition %1").arg(engine.preedit)
+        if (!text.length || text === _lastLive)
+            return
+        _lastLive = text
+        try {
+            if (typeof Accessible.announce === "function")
+                Accessible.announce(text)
+        } catch (err) {
+        }
+    }
+
+    onVisibleChanged: {
+        if (!visible)
+            _lastLive = ""
+        else
+            Qt.callLater(_announceCompose)
+    }
+
+    Connections {
+        target: root.engine
+        function onComposeChanged() { root._announceCompose() }
     }
 
     background: Rectangle {

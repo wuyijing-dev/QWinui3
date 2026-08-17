@@ -140,7 +140,7 @@ Progress belongs **next to the work**, not as a Toast. Pair long jobs with an In
 
 | Surface | Expectation |
 |---------|-------------|
-| InfoBar / Toast | `Accessible.role: AlertMessage`; name = title; description includes severity |
+| InfoBar / Toast | `Accessible.role: AlertMessage`; name = title; description includes severity; InfoBar Qt 6.8+ `Accessible.announce` on open (**1.85**) |
 | InfoBarHost / ToastHost | Host announces open / notification region |
 | TeachingTip | Dialog-like name = title; Close named; Esc / outside per `isLightDismissEnabled` |
 | Onboarding sequence | Name each step target; checkbox “Don’t show again”; Tab reaches Next/Done |
