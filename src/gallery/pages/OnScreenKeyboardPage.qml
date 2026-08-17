@@ -11,7 +11,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("On-screen keyboard")
-    subtitle: qsTr("Floating window · system-wide SendInput (Windows). docs/on-screen-keyboard.md (1.83).")
+    subtitle: qsTr("Floating window · dock · shared engine (2.58). docs/osk-in-apps-258.md · docs/on-screen-keyboard.md")
 
     OnScreenKeyboardWindow {
         id: floatOsk
@@ -149,7 +149,19 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 color: Theme.textSecondary
-                text: qsTr("Consumer copy: examples/floating-osk (1.84) — not this Gallery page.")
+                text: qsTr("Consumer copy: examples/osk-dock (2.58 embedded) · examples/floating-osk (1.84 floating) — not this Gallery page.")
+            }
+            RowLayout {
+                Layout.fillWidth: true
+                Label {
+                    Layout.fillWidth: true
+                    wrapMode: Text.WrapAnywhere
+                    text: "cmake --build build --config Release --target qwinui3_example_osk_dock"
+                    font.pixelSize: Theme.fontCaption
+                }
+                CopyButton {
+                    textToCopy: "cmake --build build --config Release --target qwinui3_example_osk_dock"
+                }
             }
             RowLayout {
                 Layout.fillWidth: true
@@ -163,6 +175,8 @@ CatalogPage {
                     textToCopy: "cmake --build build --config Release --target qwinui3_example_floating_osk"
                 }
             }
+            CheckBox { text: qsTr("2.58: sharedEngine + candidateBarPlacement floating + restoreFocusReturn") }
+            CheckBox { text: qsTr("2.58: AnnotatedScrollBar.imeEngine scrolls to composing field") }
         }
     }
 
@@ -170,6 +184,7 @@ CatalogPage {
         id: osk
         hardwareInput: true
         systemWide: false
+        candidateBarPlacement: "floating"
         onCloseRequested: visible = false
         onSettingsRequested: osk.settingsOpen = true
     }

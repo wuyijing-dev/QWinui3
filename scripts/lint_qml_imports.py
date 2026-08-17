@@ -52,7 +52,7 @@ EXPERIMENTAL = (
     "SwipeControl",
 )
 
-ALLOW_EXPERIMENTAL_DIRS = frozenset({"floating-osk"})
+ALLOW_EXPERIMENTAL_DIRS = frozenset({"floating-osk", "osk-dock"})
 
 
 def lint_file(path: Path) -> list[str]:

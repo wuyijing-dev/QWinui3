@@ -81,6 +81,8 @@ public:
     bool supportsSystemWide() const;
 
     Q_INVOKABLE void watch(QObject *window);
+    Q_INVOKABLE void rememberTarget();
+    Q_INVOKABLE bool restoreFocus();
     Q_INVOKABLE void cycleLayout();
     Q_INVOKABLE void commitText(const QString &text);
     Q_INVOKABLE void processVk(int vk, bool shift);

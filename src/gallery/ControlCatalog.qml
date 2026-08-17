@@ -1725,6 +1725,8 @@ QtObject {
     // Curated “recently shipped” recipe pages (1.20) — not catalog array order.
     function recentlyShipped(count) {
         var ids = [
+            "OnScreenKeyboardPage",   // 2.58 OSK in apps / FL-017
+            "AnnotatedScrollBarPage", // 2.58 IME scroll hint
             "SystemIntegrationPage",  // 2.57 files on Linux
             "NavigationViewPage",     // 2.56 navigation mental model
             "FormValidationPage",     // 2.55 forms unlike WinUI / FL-018

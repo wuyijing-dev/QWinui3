@@ -23,6 +23,7 @@ Win11 / Fluent **touch keyboard chrome we own**. This is **not** Qt Virtual Keyb
 | **1.83** | Floating no-activate soak + honest UIPI / UWP / games limits |
 | **1.84** | Consumer host: [`examples/floating-osk`](../examples/floating-osk/) |
 | **1.85** | `ImeCandidateBar` live-region announce (a11y wave 3); still experimental |
+| **2.58** | App dock recipe — `sharedEngine`, focus return, floating candidates, `AnnotatedScrollBar.imeEngine` — [osk-in-apps-258.md](osk-in-apps-258.md) |
 | **1.87** | Green soak + promote (planned; slip if not green) |
 
 ---
@@ -293,7 +294,7 @@ System IME remains available alongside the panel until a later minor explicitly 
 
 ## Consumer notes (when shipped)
 
-- Link `qwinui3_extras` as today; `OnScreenKeyboard` is experimental. Copy [`examples/floating-osk`](../examples/floating-osk/) (**1.84**), not the Gallery. Copy [`examples/floating-osk`](../examples/floating-osk/) (**1.84**), not the Gallery.  
+- Link `qwinui3_extras` as today; `OnScreenKeyboard` is experimental. Copy [`examples/osk-dock/](../examples/osk-dock/) (**2.58**) for embedded footer, or [`examples/floating-osk/`](../examples/floating-osk/) (**1.84**) for floating desktop input — not the Gallery.  
 - Core ships in `third_party/keyman` with the clone; configure only fetches if that tree is missing (`QWINUI3_FETCH_KEYMAN`).  
 - Strip Qt Virtual Keyboard from `windeployqt` trees as already documented.  
 - Through **1.71** this panel is a touch OSK; **1.72** adds in-app pinyin; **1.73** adds ja/ko + emoji. System IME (Microsoft Pinyin, etc.) stays the desktop CJK default.  

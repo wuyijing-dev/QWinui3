@@ -1,6 +1,6 @@
 {
   "name": "QWinUI3",
-  "version": "2.57",
+  "version": "2.58",
   "generatedBy": "scripts/generate_component_docs.py",
   "publicCount": 227,
   "components": [
@@ -75,9 +75,9 @@
       "galleryPage": "pages/AnnotatedScrollBarPage.qml",
       "galleryTitle": "AnnotatedScrollBar",
       "doc": "components/AnnotatedScrollBar.md",
-      "propertyCount": 14,
+      "propertyCount": 16,
       "signalCount": 0,
-      "methodCount": 2
+      "methodCount": 3
     },
     {
       "name": "AppBarButton",
@@ -945,7 +945,7 @@
       "galleryPage": "",
       "galleryTitle": "",
       "doc": "components/ImeCandidateBar.md",
-      "propertyCount": 1,
+      "propertyCount": 3,
       "signalCount": 0,
       "methodCount": 0
     },
@@ -1410,9 +1410,9 @@
       "galleryPage": "pages/OnScreenKeyboardPage.qml",
       "galleryTitle": "On-screen keyboard",
       "doc": "components/OnScreenKeyboard.md",
-      "propertyCount": 27,
+      "propertyCount": 29,
       "signalCount": 2,
-      "methodCount": 16
+      "methodCount": 18
     },
     {
       "name": "OnScreenKeyboardWindow",

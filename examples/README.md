@@ -12,7 +12,8 @@ Small apps you can copy as a starting point. **CMake only** (no `.pro`). Open th
 | `qwinui3_example_dashboard` | [`dashboard/`](dashboard/) | Stable six: `KpiTile` + `ChartCard` + Line/Bar/Donut + `RingGauge` (**1.66**) |
 | `qwinui3_example_master_detail` | [`master-detail/`](master-detail/) | `ListDetailsView` LoB ticket shell (1.26) |
 | `qwinui3_example_form` | [`form-settings/`](form-settings/) | `FormLayout` validation + SettingsCard prefs (1.26) |
-| `qwinui3_example_floating_osk` | [`floating-osk/`](floating-osk/) | Floating `OnScreenKeyboardWindow` (**1.84**) — [docs/on-screen-keyboard.md](../docs/on-screen-keyboard.md) |
+| `qwinui3_example_floating_osk qwinui3_example_osk_dock` | [`floating-osk/`](floating-osk/) | Floating `OnScreenKeyboardWindow` (**1.84**) — [docs/on-screen-keyboard.md](../docs/on-screen-keyboard.md) |
+| `qwinui3_example_osk_dock` | [`osk-dock/`](osk-dock/) | Embedded footer dock + shared engine (**2.58**) — [docs/osk-in-apps-258.md](../docs/osk-in-apps-258.md) |
 
 Standalone (not in monorepo CMake tree): [`find-package-consumer/`](find-package-consumer/) — `find_package(QWinUI3 CONFIG)` sketch (**1.61**). Build with `python scripts/verify_find_package.py` or see that folder’s README.
 
@@ -22,7 +23,7 @@ From the repo root (same toolchain as Gallery), **Release**:
 
 ```bat
 cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DQWINUI3_BUILD_EXAMPLES=ON
-cmake --build build --parallel --target qwinui3_example_first_app qwinui3_example_gallery_shell qwinui3_example_multi_window qwinui3_example_nav qwinui3_example_settings qwinui3_example_dashboard qwinui3_example_master_detail qwinui3_example_form qwinui3_example_floating_osk
+cmake --build build --parallel --target qwinui3_example_first_app qwinui3_example_gallery_shell qwinui3_example_multi_window qwinui3_example_nav qwinui3_example_settings qwinui3_example_dashboard qwinui3_example_master_detail qwinui3_example_form qwinui3_example_floating_osk qwinui3_example_osk_dock
 ```
 
 Or use presets:
@@ -36,7 +37,7 @@ cmake --build --preset examples
 
 ```bash
 cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DQWINUI3_BUILD_EXAMPLES=ON
-cmake --build build --parallel --target qwinui3_example_first_app qwinui3_example_gallery_shell qwinui3_example_multi_window qwinui3_example_nav qwinui3_example_settings qwinui3_example_dashboard qwinui3_example_master_detail qwinui3_example_form qwinui3_example_floating_osk
+cmake --build build --parallel --target qwinui3_example_first_app qwinui3_example_gallery_shell qwinui3_example_multi_window qwinui3_example_nav qwinui3_example_settings qwinui3_example_dashboard qwinui3_example_master_detail qwinui3_example_form qwinui3_example_floating_osk qwinui3_example_osk_dock
 ```
 
 ### Qt Creator

@@ -5,9 +5,11 @@ import QWinUI3.Theme
 // ImeCandidateBar — Win11-style in-app IME candidate strip (1.74).
 //
 //   ImeCandidateBar { engine: osk.engine }
+//   ImeCandidateBar { engine: osk.engine; placement: "floating"; dockInset: osk.implicitHeight }
 //
 // @notes
-//   Host above OnScreenKeyboard. Theme tokens only. No focus steal.
+//   Host above OnScreenKeyboard (inline) or window overlay (floating). Theme acrylic
+//   matches OSK dock in light and dark. No focus steal.
 //   Shared by pinyin / romaji-kana / hangul. Digits 1–9 / Space via engine.
 //   Not Microsoft IME.
 //   Live-region: announce paged candidates / preedit on composeChanged (1.85).
@@ -16,6 +18,9 @@ T.Control {
     id: root
 
     property KeyboardEngine engine
+    // inline — in keyboard column; floating — window overlay above dockInset (2.58)
+    property string placement: "inline"
+    property real dockInset: 0
 
     visible: engine && (engine.composing || engine.candidates.length > 0)
     implicitHeight: visible ? Math.max(Theme.dp(40), Theme.controlHeight) : 0
@@ -57,7 +62,37 @@ T.Control {
             _lastLive = ""
         else
             Qt.callLater(_announceCompose)
+        if (placement === "floating")
+            _syncFloatingParent()
     }
+
+    onPlacementChanged: _syncFloatingParent()
+    onDockInsetChanged: {
+        if (placement === "floating" && parent)
+            anchors.bottomMargin = dockInset + Theme.dp(8)
+    }
+    onWindowChanged: _syncFloatingParent()
+
+    function _syncFloatingParent() {
+        if (placement !== "floating")
+            return
+        var w = Window.window
+        if (!w)
+            return
+        var overlay = (w.Overlay && w.Overlay.overlay) ? w.Overlay.overlay : w.contentItem
+        if (!overlay)
+            return
+        parent = overlay
+        anchors.left = overlay.left
+        anchors.right = overlay.right
+        anchors.bottom = overlay.bottom
+        anchors.leftMargin = Theme.dp(8)
+        anchors.rightMargin = Theme.dp(8)
+        anchors.bottomMargin = dockInset + Theme.dp(8)
+        z = 900
+    }
+
+    Component.onCompleted: _syncFloatingParent()
 
     Connections {
         target: root.engine
@@ -66,7 +101,7 @@ T.Control {
 
     background: Rectangle {
         visible: root.visible
-        color: Theme.bgCard
+        color: Theme.bgAcrylic
         radius: Theme.cornerControl
         border.width: Theme.strokeHairline
         border.color: Theme.strokeCard

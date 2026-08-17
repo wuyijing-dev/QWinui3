@@ -13,6 +13,9 @@ import QWinUI3.Theme
 //   // systemWide    Windows SendInput into focused apps (opt-in; default off)
 //   // dragHostWindow  grab bar calls startSystemMove on the host Window
 //   // engine.layoutId / cycleLayout / hardwareInput
+//   // sharedEngine — one KeyboardEngine for dock + floating (2.58)
+//   // candidateBarPlacement  "inline" | "floating"
+//   // captureFocusReturn() / restoreFocusReturn() before hide (2.58)
 //
 // @notes
 //   Experimental. Win11 touch behavior. Floating host: OnScreenKeyboardWindow.
@@ -34,7 +37,12 @@ T.Control {
     property int emojiCategory: 0
     property string statusBanner: ""
 
-    readonly property alias engine: engine
+    // Optional shared engine (dock + floating host use the same instance — 2.58).
+    property KeyboardEngine sharedEngine: null
+    property string candidateBarPlacement: "inline" // inline | floating
+    property Item _focusReturn: null
+
+    readonly property KeyboardEngine engine: sharedEngine !== null ? sharedEngine : _engine
     property alias layoutId: engine.layoutId
     property alias hardwareInput: engine.hardwareInput
     property alias systemWide: engine.systemWide
@@ -42,6 +50,26 @@ T.Control {
 
     signal closeRequested()
     signal settingsRequested()
+
+    function captureFocusReturn() {
+        if (engine.hasTarget && engine.target) {
+            var t = engine.target
+            if (t && t.forceActiveFocus !== undefined)
+                _focusReturn = t
+            return
+        }
+        if (Window.window && Window.window.activeFocusItem)
+            _focusReturn = Window.window.activeFocusItem
+    }
+
+    function restoreFocusReturn() {
+        if (_focusReturn && _focusReturn.forceActiveFocus) {
+            _focusReturn.forceActiveFocus()
+            _focusReturn = null
+            return true
+        }
+        return engine.restoreFocus()
+    }
 
     implicitWidth: keyboardSize === "wide" ? 880 : (keyboardSize === "small" ? 560 : 720)
     implicitHeight: column.implicitHeight + Theme.dp(12)
@@ -53,7 +81,7 @@ T.Control {
         .arg(engine.layoutLabel).arg(engine.backend)
 
     KeyboardEngine {
-        id: engine
+        id: _engine
     }
 
     readonly property bool shiftOn: capsLock || shiftLatched
@@ -260,6 +288,8 @@ T.Control {
                     accessibleName: qsTr("Keyboard settings")
                     accent: root.settingsOpen
                     onTapped: {
+                        if (!root.settingsOpen)
+                            root.captureFocusReturn()
                         root.settingsOpen = !root.settingsOpen
                         root.clipboardOpen = false
                         root.settingsRequested()
@@ -293,7 +323,10 @@ T.Control {
                 ChromeIconButton {
                     symbol: FluentIcons.ChromeClose
                     accessibleName: qsTr("Close keyboard")
-                    onTapped: root.closeRequested()
+                    onTapped: {
+                        root.restoreFocusReturn()
+                        root.closeRequested()
+                    }
                 }
             }
         }
@@ -307,6 +340,8 @@ T.Control {
                 accessibleName: qsTr("Emoji")
                 accent: root.emojiMode
                 onTapped: {
+                    if (!root.emojiMode)
+                        root.captureFocusReturn()
                     root.emojiMode = !root.emojiMode
                     if (root.emojiMode) {
                         root.symbolsMode = false
@@ -320,6 +355,8 @@ T.Control {
                 accessibleName: qsTr("Clipboard")
                 accent: root.clipboardOpen
                 onTapped: {
+                    if (!root.clipboardOpen)
+                        root.captureFocusReturn()
                     root.clipboardOpen = !root.clipboardOpen
                     root.settingsOpen = false
                     if (root.clipboardOpen)
@@ -436,7 +473,9 @@ T.Control {
 
         ImeCandidateBar {
             width: parent.width
-            engine: engine
+            engine: root.engine
+            placement: "inline"
+            visible: root.candidateBarPlacement === "inline"
         }
 
         // Emoji category chips (Win11-style tabs — not a flat Win10 grid only).
@@ -959,6 +998,11 @@ T.Control {
         }
     }
 
+    onVisibleChanged: {
+        if (!visible)
+            restoreFocusReturn()
+    }
+
     onWindowChanged: {
         if (Window.window)
             engine.watch(Window.window)
@@ -966,5 +1010,15 @@ T.Control {
     Component.onCompleted: {
         if (Window.window)
             engine.watch(Window.window)
+    }
+
+    ImeCandidateBar {
+        id: floatingCandidateBar
+        visible: root.candidateBarPlacement === "floating"
+                 && (root.engine.composing || root.engine.candidates.length > 0)
+        engine: root.engine
+        placement: "floating"
+        dockInset: root.implicitHeight
+        width: Math.min(implicitWidth, root.width > 0 ? root.width - Theme.dp(16) : implicitWidth)
     }
 }

@@ -206,6 +206,27 @@ CatalogPage {
     }
 
     ControlExample {
+        headerText: qsTr("OSK in apps (2.58 / FL-017)")
+        qmlSource: "sharedEngine + candidateBarPlacement\\n// docs/osk-in-apps-258.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("2.58: shared KeyboardEngine for dock; restoreFocusReturn on close; floating ImeCandidateBar; AnnotatedScrollBar.imeEngine. Copy examples/osk-dock — not Gallery footer alone. docs/osk-in-apps-258.md")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            CheckBox { text: qsTr("One KeyboardEngine — sharedEngine on OnScreenKeyboard") }
+            CheckBox { text: qsTr("Long forms: AnnotatedScrollBar.imeEngine + candidateBarPlacement floating") }
+            CheckBox { text: qsTr("Close dock restores field focus — do not hand-roll without restoreFocusReturn") }
+            CheckBox { text: qsTr("Floating desktop OSK still examples/floating-osk (1.84)") }
+        }
+    }
+
+    ControlExample {
         headerText: qsTr("Files on Linux (2.57)")
         qmlSource: "FilePicker.open*(…, Window.window)\\nrevealFileInFolder(path, Window.window)"
         ColumnLayout {
@@ -348,7 +369,7 @@ CatalogPage {
             CheckBox { text: qsTr("Product QML: stable-api imports only — check Gallery badge first") }
             CheckBox { text: qsTr("Run python scripts/lint_qml_imports.py after editing example starters") }
             CheckBox { text: qsTr("Dashboard: stable six only — not deferred chart siblings") }
-            CheckBox { text: qsTr("OSK only via examples/floating-osk until 2.01 promote") }
+            CheckBox { text: qsTr("Embedded dock: examples/osk-dock (2.58); floating: examples/floating-osk (1.84)") }
         }
     }
 

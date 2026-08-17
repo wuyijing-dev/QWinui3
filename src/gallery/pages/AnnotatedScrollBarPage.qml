@@ -10,7 +10,7 @@ import QWinUI3.Extras
 
 CatalogPage {
     title: qsTr("AnnotatedScrollBar")
-    subtitle: qsTr("Percentage, even string labels, and offset-mapped chapter labels.")
+    subtitle: qsTr("Percentage, chapter labels, and IME composition scroll hint (2.58).")
 
     ControlExample {
         headerText: qsTr("Percentage labels")
@@ -144,6 +144,56 @@ CatalogPage {
                           .arg(chapterScroll.currentLabel)
                           .arg(chapterScroll.activeLabelIndex)
                     color: Theme.textSecondary
+                }
+            }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("IME composition scroll hint (2.58)")
+        qmlSource: "AnnotatedScrollBar { imeEngine: engine }\\n// ensureImeVisible on compose"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Bind imeEngine to the same KeyboardEngine as the footer dock. While composing, the scrollbar bubble shows preedit and scrollTo keeps the field visible. docs/osk-in-apps-258.md")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            KeyboardEngine {
+                id: imeDemoEngine
+            }
+            AnnotatedScrollBar {
+                id: imeScroll
+                Layout.fillWidth: true
+                Layout.preferredHeight: 200
+                imeEngine: imeDemoEngine
+                onWindowChanged: {
+                    if (Window.window)
+                        imeDemoEngine.watch(Window.window)
+                }
+                Component.onCompleted: {
+                    if (Window.window)
+                        imeDemoEngine.watch(Window.window)
+                }
+                Column {
+                    width: imeScroll.flickable.width
+                    spacing: Theme.spacing
+                    Repeater {
+                        model: 8
+                        Item { width: parent.width; height: Theme.dp(48) }
+                    }
+                    TextField {
+                        width: parent.width - Theme.dp(16)
+                        placeholderText: qsTr("Switch Gallery dock to 中文 — type pinyin here")
+                    }
+                    Repeater {
+                        model: 8
+                        Item { width: parent.width; height: Theme.dp(48) }
+                    }
                 }
             }
         }

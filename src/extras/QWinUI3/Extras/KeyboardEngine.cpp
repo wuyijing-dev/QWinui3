@@ -284,6 +284,21 @@ void KeyboardEngine::onFocusChanged()
     rememberEditor(m_window->activeFocusItem());
 }
 
+void KeyboardEngine::rememberTarget()
+{
+    rememberEditor(QGuiApplication::focusObject());
+}
+
+bool KeyboardEngine::restoreFocus()
+{
+    if (!m_target)
+        return false;
+    auto *item = qobject_cast<QQuickItem *>(m_target.data());
+    if (!item || !item->isVisible() || !item->isEnabled())
+        return false;
+    return item->forceActiveFocus();
+}
+
 void KeyboardEngine::rememberEditor(QObject *object)
 {
     QObject *walk = object;

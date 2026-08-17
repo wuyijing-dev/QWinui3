@@ -4,7 +4,7 @@ Win11-style in-app IME candidate strip (1.74).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ImeCandidateBar.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ImeCandidateBar.qml)
 
-**Category:** Date & time · **Library:** v2.57
+**Category:** Date & time · **Library:** v2.58
 
 [← Component index](../components.md)
 
@@ -14,11 +14,13 @@ Win11-style in-app IME candidate strip (1.74).
 
 ```qml
 ImeCandidateBar { engine: osk.engine }
+ImeCandidateBar { engine: osk.engine; placement: "floating"; dockInset: osk.implicitHeight }
 ```
 
 ## Notes
 
-Host above OnScreenKeyboard. Theme tokens only. No focus steal.
+Host above OnScreenKeyboard (inline) or window overlay (floating). Theme acrylic
+matches OSK dock in light and dark. No focus steal.
 Shared by pinyin / romaji-kana / hangul. Digits 1–9 / Space via engine.
 Not Microsoft IME.
 Live-region: announce paged candidates / preedit on composeChanged (1.85).
@@ -30,6 +32,8 @@ Live-region: announce paged candidates / preedit on composeChanged (1.85).
 | Name | Type | Description |
 | --- | --- | --- |
 | `engine` | `KeyboardEngine` | — |
+| `placement` | `string` | inline — in keyboard column; floating — window overlay above dockInset (2.58) |
+| `dockInset` | `real` | — |
 
 ### Signals
 

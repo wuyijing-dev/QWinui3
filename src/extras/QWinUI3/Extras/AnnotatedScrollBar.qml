@@ -29,6 +29,7 @@ import QWinUI3.Theme
 //   // --- API ---
 //   // read:  scroll.scrollPosition, scroll.currentLabel, scroll.detailLabel, scroll.activeLabelIndex
 //   // write: scroll.contentY = …  or  scroll.jumpToLabel(index)
+//   // ime:  scroll.imeEngine = osk.engine — ensureImeVisible() on compose (2.58)
 //   // size:  scroll.contentWidth / contentHeight / flickable
 //
 // @notes
@@ -69,6 +70,17 @@ T.Control {
     property var labels: []
     // Percent format when labels is empty (Qt arg: "%1%")
     property string labelFormat: "%1%"
+    // When set, scroll keeps the IME target visible and shows preedit in the bubble (2.58)
+    property KeyboardEngine imeEngine: null
+
+    readonly property string imeScrollHint: {
+        if (!imeEngine || !imeEngine.composing)
+            return ""
+        var pre = imeEngine.preedit
+        return pre.length ? qsTr("Composition: %1").arg(pre) : qsTr("Composing")
+    }
+
+    readonly property string _bubbleDetail: imeScrollHint.length ? imeScrollHint : detailLabel
     // Optional secondary line under currentLabel (e.g. chapter detail)
     property string detailLabel: ""
     // Keep the floating scrollbar label visible even when idle
@@ -170,6 +182,31 @@ T.Control {
         if (index < 0 || index >= entries.length)
             return
         flick.contentY = entries[index].offsetY
+    }
+
+    // Scroll the flickable so the IME target field stays in view (2.58)
+    function ensureImeVisible() {
+        if (!imeEngine || !imeEngine.hasTarget)
+            return
+        var target = imeEngine.target
+        if (!target || target.mapToItem === undefined)
+            return
+        var p = target.mapToItem(flick, 0, 0)
+        var ty = p.y
+        var th = target.height > 0 ? target.height : Theme.controlHeight
+        var pad = Theme.dp(12)
+        if (ty < flick.contentY)
+            flick.contentY = Math.max(0, ty - pad)
+        else if (ty + th > flick.contentY + flick.height)
+            flick.contentY = Math.min(_maxContentY, ty + th - flick.height + pad)
+    }
+
+    Connections {
+        target: root.imeEngine
+        function onComposeChanged() {
+            if (root.imeEngine && root.imeEngine.composing)
+                root.ensureImeVisible()
+        }
     }
 
     // Scroll so the given normalized 0..1 position is shown
@@ -283,9 +320,9 @@ T.Control {
                     color: Theme.textPrimary
                 }
                 Text {
-                    visible: root.detailLabel.length > 0
+                    visible: root._bubbleDetail.length > 0
                     anchors.horizontalCenter: parent.horizontalCenter
-                    text: root.detailLabel
+                    text: root._bubbleDetail
                     font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontCaption - 1
                     color: Theme.textSecondary

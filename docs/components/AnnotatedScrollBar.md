@@ -4,7 +4,7 @@ Scroll area with a value label on the vertical scrollbar.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/AnnotatedScrollBar.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/AnnotatedScrollBar.qml)
 
-**Category:** Other · **Library:** v2.57
+**Category:** Other · **Library:** v2.58
 
 [← Component index](../components.md)
 
@@ -39,6 +39,7 @@ AnnotatedScrollBar {
 // --- API ---
 // read:  scroll.scrollPosition, scroll.currentLabel, scroll.detailLabel, scroll.activeLabelIndex
 // write: scroll.contentY = …  or  scroll.jumpToLabel(index)
+// ime:  scroll.imeEngine = osk.engine — ensureImeVisible() on compose (2.58)
 // size:  scroll.contentWidth / contentHeight / flickable
 ```
 
@@ -65,6 +66,8 @@ labels: string[] (even sample) or AnnotatedScrollBarLabel-like
 | `flickable` | `alias` | Inner Flickable (bounds, contentItem, ScrollBar.vertical, …) |
 | `labels` | `var` | string[] or [{ content\|text, scrollOffset }] |
 | `labelFormat` | `string` | Percent format when labels is empty (Qt arg: "%1%") |
+| `imeEngine` | `KeyboardEngine` | When set, scroll keeps the IME target visible and shows preedit in the bubble (2.58) |
+| `imeScrollHint` | `string` | — |
 | `detailLabel` | `string` | Optional secondary line under currentLabel (e.g. chapter detail) |
 | `alwaysShowLabel` | `bool` | Keep the floating scrollbar label visible even when idle |
 | `labelsInteractive` | `bool` | When true, clicking a label marker jumps to that offset |
@@ -81,6 +84,7 @@ _No custom signals_ (use inherited signals from the base type).
 | Signature | Description |
 | --- | --- |
 | `jumpToLabel(index)` | Jump to a label by index |
+| `ensureImeVisible()` | Scroll the flickable so the IME target field stays in view (2.58) |
 | `scrollToPosition(norm)` | Scroll so the given normalized 0..1 position is shown |
 
 ### Inherited from `Control`

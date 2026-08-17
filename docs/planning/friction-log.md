@@ -177,7 +177,7 @@
 | **Pain** | Floating OSK works in Gallery but app authors cannot embed dock, restore focus, or route IME candidates in real forms. |
 | **Workaround today** | Copy Gallery **floating-osk** example piecemeal; system keyboard only. |
 | **Proposed slice** | **2.58** — [component-capabilities-expansion.md](expansion/component-capabilities-expansion.md) OSK module |
-| **Status** | open — scheduled **2.58** |
+| **Status** | closed — **2.58** [osk-in-apps-258.md](../osk-in-apps-258.md) |
 
 ### FL-018 — Dialog queue / validation unlike WinUI
 

@@ -4,7 +4,7 @@ Windows 11 touch keyboard parity (1.82).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/OnScreenKeyboard.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/OnScreenKeyboard.qml)
 
-**Category:** Input & forms · **Library:** v2.57
+**Category:** Input & forms · **Library:** v2.58
 
 [← Component index](../components.md)
 
@@ -23,6 +23,9 @@ OnScreenKeyboardWindow { systemWide: true }  // floating + optional desktop inje
 // systemWide    Windows SendInput into focused apps (opt-in; default off)
 // dragHostWindow  grab bar calls startSystemMove on the host Window
 // engine.layoutId / cycleLayout / hardwareInput
+// sharedEngine — one KeyboardEngine for dock + floating (2.58)
+// candidateBarPlacement  "inline" | "floating"
+// captureFocusReturn() / restoreFocusReturn() before hide (2.58)
 ```
 
 ## Notes
@@ -47,7 +50,9 @@ systemWide is Windows-only; Linux stays in-app. Not Qt Virtual Keyboard.
 | `clipboardOpen` | `bool` | — |
 | `emojiCategory` | `int` | — |
 | `statusBanner` | `string` | — |
-| `engine` | `alias` | — |
+| `sharedEngine` | `KeyboardEngine` | Optional shared engine (dock + floating host use the same instance — 2.58). |
+| `candidateBarPlacement` | `string` | — |
+| `engine` | `KeyboardEngine` | — |
 | `layoutId` | `alias` | — |
 | `hardwareInput` | `alias` | — |
 | `systemWide` | `alias` | — |
@@ -75,6 +80,8 @@ systemWide is Windows-only; Linux stays in-app. Not Qt Virtual Keyboard.
 
 | Signature | Description |
 | --- | --- |
+| `captureFocusReturn()` | — |
+| `restoreFocusReturn()` | — |
 | `unitWidthFor(row)` | — |
 | `keyWidth(row, k)` | — |
 | `keyLabel(vk)` | — |
