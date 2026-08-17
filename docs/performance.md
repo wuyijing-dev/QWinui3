@@ -183,6 +183,21 @@ Gallery and product apps on **`BackdropSolid`** (recommended — [window-chrome.
 
 ---
 
+## Navigation & page stack (1.87)
+
+Gallery navigation and `TabView` shells — **motion unchanged**, less per-frame waste.
+
+| Area | Change | Visual impact |
+|------|--------|----------------|
+| `NavigationView` StackView | Each `pageTransition` mode runs **only its axes** (`_animOpacity` / `_animX` / `_animY` / `_animScale`); `slide` and `fade` skip no-op scale/x/y animators | Slide / fade / drill / cover look the same |
+| Compact flyout shadow | `MultiEffect` layer enabled only while flyout is **open** (and not reduced motion) | Shadow still appears on open |
+| `TabView` strip | Width/opacity `Behavior` during **reorder** only; color/indicator `Behavior` when tab checked/hovered/focused | Tab select + drag reorder still animate |
+| Gallery Settings | **Performance arc (1.86–1.89)** tracker card | — |
+
+**pageCacheLimit:** default **24**; first page uses `initialPageTransition: "none"`. See [NavigationView.md](components/NavigationView.md).
+
+---
+
 ## Cheap wins (1.25 / 1.39)
 
 Already applied / recommended in-tree:

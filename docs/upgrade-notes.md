@@ -47,6 +47,19 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.86 → 1.87
+
+**Product version:** 1.87  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Performance wave 2 (navigation):** `NavigationView` StackView transitions skip no-op x/y/scale animators per mode (slide/fade look the same). Compact flyout defers shadow until open. `TabView` idle tab strip behaviors trimmed. Gallery Settings **Performance arc** card. [performance.md](performance.md).
+
+#### No action (compatible)
+
+- Theme / shell API unchanged. Pane collapse animation unchanged. Next: **1.88** lists perf wave.
+
 ### Upgrade 1.85 → 1.86
 
 **Product version:** 1.86  

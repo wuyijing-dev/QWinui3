@@ -1,9 +1,9 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.86**
-**Next up:** **1.87** — Performance wave 2 (navigation & page stack)
+**Current:** **1.87**
+**Next up:** **1.88** — Performance wave 3 (lists & data collections)
 **Planned through:** **2.00** (1.xx close-out **1.83…1.90**, then breaking line)
-**Still 1.xx until 1.90:** Long-horizon checkpoint — [docs/checkpoint-178.md](docs/checkpoint-178.md). **1.86** perf wave 1 shipped (shell runtime). **1.87…1.89** continue the performance arc (**animations stay**). OSK/packaging **2.01+**. **Do not implement 2.00 before 1.90.**  
+**Still 1.xx until 1.90:** Long-horizon checkpoint — [docs/checkpoint-178.md](docs/checkpoint-178.md). **1.86…1.87** perf waves shipped (shell + navigation). **1.88…1.89** continue the performance arc (**animations stay**). OSK/packaging **2.01+**. **Do not implement 2.00 before 1.90.**  
 **Qt:** 6.5+ (recommended 6.8 LTS) through 1.xx — [qt-version-compat.md](docs/qt-version-compat.md). **2.00** may raise the floor.
 
 This plan starts from **what 1.00 already was**, then walks **small `1.xx` minors** through a **1.90 close-out**, then a named **2.00** breaking line. **2.00 is not the next tag.**
@@ -429,8 +429,8 @@ Finish **1.xx** as named slices (**1.83…1.90**), then a **breaking 2.00**. Do 
 | **1.84** | Consumer floating-OSK recipe | **Shipped** |
 | **1.85** | Accessibility wave 3 | **Shipped** |
 | **1.86** | Performance wave 1 — shell & window runtime | **Shipped** |
-| **1.87** | Performance wave 2 — navigation & page stack | **Next** |
-| **1.88** | Performance wave 3 — lists & data collections | Planned |
+| **1.87** | Performance wave 2 — navigation & page stack | **Shipped** |
+| **1.88** | Performance wave 3 — lists & data collections | **Next** |
 | **1.89** | Performance wave 4 — style, charts & Gallery heavy pages | Planned |
 | **1.90** | 1.xx close-out + perf regression notes + 2.00 prep | Planned |
 | **2.00** | Breaking baseline | Planned — **after 1.90** |
@@ -470,16 +470,9 @@ Four consecutive minors; **each ships only performance work** (Platform / Extras
 
 - NavigationView / DataTable / Style ( **1.87…1.89** )
 
-### 1.87 — Performance wave 2: navigation & page stack (planned)
+### 1.87 — Performance wave 2: navigation & page stack (shipped)
 
-**Theme:** shell **navigation** and page transitions — smooth motion kept, less wasted work per frame.
-
-**In**
-
-- `NavigationView`: no no-op StackView scale/x/y on `slide` / `fade`; pane width animation + `_paneShowsLabels` (no blank column)
-- `NavigationView`: compact flyout / group expand — defer `MultiEffect`; honor `Theme.reducedMotion`
-- `TabView` tab strip: trim redundant `Behavior` when idle
-- `pageCacheLimit` / transition docs refresh; Gallery Settings perf card starts (wave tracker)
+**Shipped:** StackView page transitions run **only the axes each mode needs** (`slide`/`fade` skip no-op x/y/scale animators; drill/center/up/down unchanged visually). Compact-pane flyout defers `MultiEffect` until open; honors `Theme.reducedMotion`. `TabView` tab strip: width/opacity `Behavior` only during reorder; color/indicator `Behavior` when tab is active/hovered/focused. Gallery Settings **Performance arc** card. [performance.md](docs/performance.md) navigation section. Product version `1.87`.
 
 **Out**
 

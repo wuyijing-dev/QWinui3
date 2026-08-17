@@ -52,6 +52,7 @@ leftMinimal overlays content with a light-dismiss scrim.
 Left-rail title bar is hamburger + paneTitle (paired); Back is top mode / TitleBar.
 pageTransition / openPage modes: slide | slideRight | fade | center | drill |
 up | down | cover | none (suppress). Pane clicks use pageTransition.
+Each mode animates only its axes — slide/fade skip no-op x/y/scale (1.87); motion looks the same.
 WinUI aliases: paneTitle, openPaneLength, compactPaneLength, isSettingsVisible, isPaneToggleButtonVisible.
 Prefer selectKey / openPage over mutating currentIndex alone.
 

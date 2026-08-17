@@ -116,8 +116,32 @@ Page {
             }
 
             SettingsCard {
+                title: qsTr("Performance arc (1.86–1.89)")
+                description: qsTr("Four-wave perf plan — animations stay; trim no-op work only. Wave 1 shell (1.86) shipped; wave 2 navigation (1.87) shipped. docs/performance.md")
+                symbol: FluentIcons.SpeedHigh
+                action: ColumnLayout {
+                    spacing: 2
+                    Repeater {
+                        model: [
+                            { wave: "1.86", theme: qsTr("Shell & window runtime"), status: qsTr("Shipped") },
+                            { wave: "1.87", theme: qsTr("Navigation & page stack"), status: qsTr("Shipped") },
+                            { wave: "1.88", theme: qsTr("Lists & data collections"), status: qsTr("Planned") },
+                            { wave: "1.89", theme: qsTr("Style, charts & heavy pages"), status: qsTr("Planned") }
+                        ]
+                        delegate: Label {
+                            required property var modelData
+                            text: modelData.wave + " — " + modelData.theme + " (" + modelData.status + ")"
+                            font.family: Theme.fontFamily
+                            font.pixelSize: Theme.fontCaption
+                            color: Theme.textSecondary
+                        }
+                    }
+                }
+            }
+
+            SettingsCard {
                 title: qsTr("Page transition")
-                description: qsTr("NavigationView pageTransition for pane clicks: slide, fade, drill, cover, …")
+                description: qsTr("NavigationView pageTransition for pane clicks: slide, fade, drill, cover, … Each mode animates only its axes (1.87).")
                 symbol: FluentIcons.EaseOfAccess
                 action: ComboBox {
                     id: transitionBox

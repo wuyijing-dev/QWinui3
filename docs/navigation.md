@@ -100,7 +100,7 @@ NavigationView {
 |-----|------|
 | `canGoBack` / `navigateBack()` | Soft history |
 | `openPage` / `selectKey` / `navigateToTitle` | Forward navigation |
-| `pageTransition` | Default transition for pane clicks (`slide`, `fade`, `drill`, …) |
+| `pageTransition` | Default transition for pane clicks (`slide`, `fade`, `drill`, …); per-mode axis animators only (1.87) |
 | Same-key click | Skips replace + transition |
 
 Left rail does **not** host Back — wire the **TitleBar** (Gallery / nav-settings pattern).

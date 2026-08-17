@@ -169,6 +169,11 @@ Item {
     property real _exitScale: 1
     property real _enterOpacity: 0
     property real _exitOpacity: 0
+    // Per-axis StackView animators — skip no-op x/y/scale on slide/fade (1.87).
+    property bool _animOpacity: true
+    property bool _animX: false
+    property bool _animY: false
+    property bool _animScale: false
     property string _typeAhead: ""
     property string _prevResolvedPaneMode: ""
     property int _dragFromIndex: -1
@@ -727,6 +732,10 @@ Item {
         root._exitScale = 1
         root._enterOpacity = 0
         root._exitOpacity = 0
+        root._animOpacity = false
+        root._animX = false
+        root._animY = false
+        root._animScale = false
 
         var w = pageStack.width > 0 ? pageStack.width : 400
         var h = pageStack.height > 0 ? pageStack.height : 300
@@ -736,40 +745,57 @@ Item {
             root._enterOpacity = 1
             break
         case "fade":
+            root._animOpacity = true
             break
         case "center":
             root._enterScale = 0.94
             root._exitScale = 0.98
+            root._animOpacity = true
+            root._animScale = true
             break
         case "drill":
             root._enterScale = 0.88
             root._exitScale = 1.06
+            root._animOpacity = true
+            root._animScale = true
             break
         case "slide":
         case "slideleft":
             root._enterX = -0.12 * w
             root._exitX = 0.06 * w
+            root._animOpacity = true
+            root._animX = true
             break
         case "slideright":
             root._enterX = 0.12 * w
             root._exitX = -0.06 * w
+            root._animOpacity = true
+            root._animX = true
             break
         case "cover":
             root._enterX = Math.max(48, 0.28 * w)
             root._exitX = -0.08 * w
+            root._animOpacity = true
+            root._animX = true
             break
         case "up":
             root._enterY = Math.max(24, 0.08 * h)
             root._exitY = -Math.max(12, 0.04 * h)
+            root._animOpacity = true
+            root._animY = true
             break
         case "down":
             root._enterY = -Math.max(24, 0.08 * h)
             root._exitY = Math.max(12, 0.04 * h)
+            root._animOpacity = true
+            root._animY = true
             break
         default:
             root._enterX = -0.12 * w
             root._exitX = 0.06 * w
             root.pendingMode = "slide"
+            root._animOpacity = true
+            root._animX = true
             break
         }
     }
@@ -2016,28 +2042,28 @@ Item {
                         property: "opacity"
                         from: root._enterOpacity
                         to: 1
-                        duration: Theme.duration(Theme.motionNormal)
+                        duration: root._animOpacity ? Theme.duration(Theme.motionNormal) : 0
                         easing.type: Theme.easingEnter
                     }
                     NumberAnimation {
                         property: "x"
                         from: root._enterX
                         to: 0
-                        duration: Theme.duration(Theme.motionSlow)
+                        duration: root._animX ? Theme.duration(Theme.motionSlow) : 0
                         easing.type: Theme.easingEnter
                     }
                     NumberAnimation {
                         property: "y"
                         from: root._enterY
                         to: 0
-                        duration: Theme.duration(Theme.motionSlow)
+                        duration: root._animY ? Theme.duration(Theme.motionSlow) : 0
                         easing.type: Theme.easingEnter
                     }
                     NumberAnimation {
                         property: "scale"
                         from: root._enterScale
                         to: 1
-                        duration: Theme.duration(Theme.motionSlow)
+                        duration: root._animScale ? Theme.duration(Theme.motionSlow) : 0
                         easing.type: Theme.easingEnter
                     }
                 }
@@ -2048,28 +2074,28 @@ Item {
                         property: "opacity"
                         from: 1
                         to: root._exitOpacity
-                        duration: Theme.duration(Theme.motionFast)
+                        duration: root._animOpacity ? Theme.duration(Theme.motionFast) : 0
                         easing.type: Theme.easingExit
                     }
                     NumberAnimation {
                         property: "x"
                         from: 0
                         to: root._exitX
-                        duration: Theme.duration(Theme.motionFast)
+                        duration: root._animX ? Theme.duration(Theme.motionFast) : 0
                         easing.type: Theme.easingExit
                     }
                     NumberAnimation {
                         property: "y"
                         from: 0
                         to: root._exitY
-                        duration: Theme.duration(Theme.motionFast)
+                        duration: root._animY ? Theme.duration(Theme.motionFast) : 0
                         easing.type: Theme.easingExit
                     }
                     NumberAnimation {
                         property: "scale"
                         from: 1
                         to: root._exitScale
-                        duration: Theme.duration(Theme.motionFast)
+                        duration: root._animScale ? Theme.duration(Theme.motionFast) : 0
                         easing.type: Theme.easingExit
                     }
                 }
@@ -2141,7 +2167,7 @@ Item {
                 border.width: 1
                 border.color: Theme.strokeCard
 
-                layer.enabled: true
+                layer.enabled: compactFlyout.opened && !Theme.reducedMotion
                 layer.effect: MultiEffect {
                     shadowEnabled: true
                     shadowOpacity: Theme.dark ? 0.28 : 0.14

@@ -470,11 +470,11 @@ T.Control {
                             focusPolicy: Qt.NoFocus
 
                             Behavior on opacity {
-                                enabled: !Theme.reducedMotion
+                                enabled: !Theme.reducedMotion && control._reordering
                                 NumberAnimation { duration: Theme.duration(Theme.motionFast) }
                             }
                             Behavior on width {
-                                enabled: !Theme.reducedMotion
+                                enabled: !Theme.reducedMotion && control._reordering
                                 NumberAnimation {
                                     duration: Theme.duration(Theme.motionNormal)
                                     easing.type: Theme.easingStandard
@@ -515,6 +515,7 @@ T.Control {
                                     verticalAlignment: Text.AlignVCenter
                                     Behavior on color {
                                         enabled: !Theme.reducedMotion
+                                                 && (tabBtn.checked || tabBtn.hovered || tabBtn.visualFocus)
                                         ColorAnimation {
                                             duration: Theme.duration(Theme.motionFast)
                                         }
@@ -555,6 +556,7 @@ T.Control {
                                     border.color: Theme.strokeCard
                                     Behavior on color {
                                         enabled: !Theme.reducedMotion
+                                                 && (tabBtn.checked || tabBtn.hovered || tabBtn.visualFocus)
                                         ColorAnimation {
                                             duration: Theme.duration(Theme.motionFast)
                                         }
@@ -574,12 +576,14 @@ T.Control {
                                     transformOrigin: Item.Bottom
                                     Behavior on opacity {
                                         enabled: !Theme.reducedMotion
+                                                 && (tabBtn.checked || tabBtn.hovered || tabBtn.visualFocus)
                                         NumberAnimation {
                                             duration: Theme.duration(Theme.motionNormal)
                                         }
                                     }
                                     Behavior on scale {
                                         enabled: !Theme.reducedMotion
+                                                 && (tabBtn.checked || tabBtn.hovered || tabBtn.visualFocus)
                                         NumberAnimation {
                                             duration: Theme.duration(Theme.motionNormal)
                                         }
