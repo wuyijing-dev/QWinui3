@@ -18,6 +18,7 @@ Gallery: **Animations** (hub) · ConnectedAnimation · EntranceThemeTransition �
 | Swap content identity (tab/panel) | [`ContentThemeTransition`](components/ContentThemeTransition.md) |
 | Flow/Grid children reflow | [`RepositionThemeTransition`](components/RepositionThemeTransition.md) |
 | Icon hover/press micro-motion | [`FontIcon`](components/FontIcon.md) / IconButton — [icons.md](icons.md) (**1.49**) |
+| Icon **state** swap (play/pause…) | [`AnimatedIcon`](components/AnimatedIcon.md) — [icons.md](icons.md) (**1.53**, experimental, not Lottie) |
 | Theme.dark / accent color change | `Behavior` + `Theme.duration` (below) — **not** a dedicated type |
 
 Do **not** wrap the entire `ShellWindow` / title bar in entrance motion — animate **client content** only to avoid chrome jank.
@@ -164,5 +165,5 @@ Use the same pattern for `Theme.accent` fills. Avoid animating dozens of deep tr
 | [RepositionThemeTransition](components/RepositionThemeTransition.md) | Reflow |
 | [ListDetailsView](components/ListDetailsView.md) | Built-in connected animation |
 | [accessibility.md](accessibility.md) | `reducedMotion` / SPI |
-| [icons.md](icons.md) | Glyph hover/press micro-motion (**1.49**) |
+| [icons.md](icons.md) | Glyph hover/press (**1.49**) · `AnimatedIcon` state swap (**1.53**) |
 | [data-collections.md](data-collections.md) | List → detail notes |

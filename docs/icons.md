@@ -122,9 +122,45 @@ IconButton {
 |------|--------|
 | Reduced motion | When `Theme.reducedMotion` (or system SPI mirrored in Gallery), scale stays **1** |
 | Duration | `Theme.duration(Theme.motionFast)` + `Theme.easingStandard` |
-| Scope | Glyph only — not a full **AnimatedIcon** / Lottie path (see roadmap 1.53) |
+| Scope | Glyph only — for **state swaps** use [`AnimatedIcon`](components/AnimatedIcon.md) (**1.53**) |
 
 Also see [animations.md](animations.md) (pointer).
+
+---
+
+## AnimatedIcon — state glyph swap (1.53)
+
+Thin **play-on-state** path over FluentIcons — **not** Lottie and **not** full WinUI AnimatedIcon visual trees.
+
+```qml
+AnimatedIcon {
+    checked: playing
+    symbol: FluentIcons.Play
+    symbolChecked: FluentIcons.Pause
+    accessibleName: playing ? qsTr("Pause") : qsTr("Play")
+}
+
+AnimatedIcon {
+    iconState: expanded ? "open" : "closed"
+    iconStates: [
+        { name: "closed", symbol: FluentIcons.ChevronDown },
+        { name: "open", symbol: FluentIcons.ChevronUp }
+    ]
+}
+```
+
+| Property | Role |
+|----------|------|
+| `checked` + `symbol` / `symbolChecked` | Two-state toggle |
+| `iconState` + `iconStates: [{ name, symbol }]` | Multi-state map (avoids Qt Quick `Item.state`) |
+| `transitionScale` | Squash kick during swap (default `0.86`) |
+| `microMotionEnabled` | Hover/press on the visible glyph (1.49) |
+
+| Rule | Detail |
+|------|--------|
+| Reduced motion | Instant glyph swap; no scale/opacity kick |
+| Status | **Experimental** — [stable-api.md](stable-api.md) |
+| Gallery | **AnimatedIcon** page (play/pause · expand · favorite) |
 
 ---
 
@@ -142,12 +178,13 @@ Also see [animations.md](animations.md) (pointer).
 ## Gallery — Iconography
 
 1. Open **Iconography** — try the **Micro-motion (1.49)** strip (hover/press + `Theme.reducedMotion` toggle).
-2. Search the catalog by name, code, or tags; copy `FontIcon { symbol: FluentIcons.… }` when **named**.
-3. Pair with **IconButton** / **AppBarButton** pages for control chrome demos.
+2. Open **AnimatedIcon** for state swaps (play/pause, expand, favorite) — **1.53**.
+3. Search the catalog by name, code, or tags; copy `FontIcon { symbol: FluentIcons.… }` when **named**.
+4. Pair with **IconButton** / **AppBarButton** pages for control chrome demos.
 
 ---
 
 ## Out of scope
 
 - Figma token pipeline; shipping a second icon font for the kit.
-- Full WinUI AnimatedIcon / Lottie state machines (planned thin path: roadmap **1.53**).
+- Full WinUI AnimatedIcon / Lottie state machines (thin glyph path shipped in **1.53**; deeper Lottie remains parking-lot).

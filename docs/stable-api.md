@@ -46,6 +46,7 @@ Promoted this slice (Gallery + recipe soak). Status flips are **named here** —
 |-------------------|-----|
 | `MediaPlayerElement` | Optional Multimedia; backends vary — [media.md](media.md) |
 | `ConnectedAnimation*`, entrance / theme transition helpers | Motion APIs still settling — [animations.md](animations.md) |
+| `AnimatedIcon` | Thin glyph state swap (**1.53**); not Lottie — [icons.md](icons.md) |
 | `TabView` tear-out (`canTearOutTabs`, tear-out windows) | Niche; may change — [navigation.md](navigation.md) |
 | Niche charts / gauges (`AreaChart`, `PieChart`, `ArcGauge`, `RadarChart`, …) | Stable six already named — [charts.md](charts.md) |
 | WebView2 custom Environment / multi-profile | Base host stable (1.18); advanced options not |
@@ -145,7 +146,7 @@ Promote to stable only after a named `1.xx` slice hardens them. See also [1.37 d
 |------|----------|------------------|
 | **WebView2 advanced** | Custom Environment / multi-profile | Base `WebView2Host` is **stable (1.18)** — [webview2.md](webview2.md) |
 | **Charts & gauges (remaining)** | `AreaChart`, `PieChart`, `ArcGauge`, `RadarChart`, … | Niche / siblings — [charts.md](charts.md); **stable subset** Line/Bar/Donut + RingGauge + KpiTile + ChartCard (**1.23**) |
-| **Animations** | `ConnectedAnimation*`, theme transitions | Recipe [animations.md](animations.md) (1.22) — deferred in **1.37** |
+| **Animations** | `ConnectedAnimation*`, theme transitions, `AnimatedIcon` | Recipe [animations.md](animations.md) / [icons.md](icons.md) — deferred / experimental |
 | **Tear-out / exotic shells** | `canTearOutTabs`, compact-overlay / dialog-tool shell variants | Niche — deferred in **1.37** |
 | **Media** | `MediaPlayerElement` | Optional Qt Multimedia — [media.md](media.md) (1.21) — deferred in **1.37** |
 | **Shell extras (remaining)** | Snap Layouts, battery/online/screens, recent-docs | Gallery demos; taskbar/attention/reveal/idle already stable (**1.17**) |
@@ -232,3 +233,4 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.50** | Extractable Gallery shell — [examples/gallery-shell](../examples/gallery-shell/); `NavigationWindow` `pageModule` |
 | **1.51** | 1.xx maturity checkpoint — [maturity-1xx.md](maturity-1xx.md); freeze revisit [compatibility-1xx.md](compatibility-1xx.md) |
 | **1.52** | Field polish buffer — docs-link smoke + critical pages FontIcon/Pitfalls/ExamplesTemplates — [ci-smoke.md](ci-smoke.md) |
+| **1.53** | Thin `AnimatedIcon` glyph state swap (experimental, not Lottie) — [icons.md](icons.md) |

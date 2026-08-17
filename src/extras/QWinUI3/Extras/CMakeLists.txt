@@ -47,6 +47,7 @@ qt_add_qml_module(qwinui3_extras
         AppBarSeparator.qml
         AppBarToggleButton.qml
         AnnotatedScrollBar.qml
+        AnimatedIcon.qml
         AvatarGroup.qml
         AutoSuggestBox.qml
         BreadcrumbBar.qml

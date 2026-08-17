@@ -126,6 +126,7 @@ CatalogPage {
                     { label: qsTr("Adaptive layout"), doc: "docs/adaptive-layout.md", page: "TwoPaneViewPage" },
                     { label: qsTr("Theme / contrast"), doc: "docs/color-contrast.md", page: "ThemeOverridesPage" },
                     { label: qsTr("Icons"), doc: "docs/icons.md", page: "FontIconPage" },
+                    { label: qsTr("AnimatedIcon"), doc: "docs/icons.md", page: "AnimatedIconPage" },
                     { label: qsTr("i18n / RTL"), doc: "docs/i18n-rtl.md", page: "I18nRtlPage" },
                     { label: qsTr("Navigation / TabView"), doc: "docs/navigation.md", page: "NavigationViewPage" }
                 ]

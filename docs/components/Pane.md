@@ -4,7 +4,7 @@ Fluent styled Pane.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/Pane.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/Pane.qml)
 
-**Category:** Styled controls · **Library:** v1.52
+**Category:** Styled controls · **Library:** v1.53
 
 [← Component index](../components.md)
 

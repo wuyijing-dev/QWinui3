@@ -40,6 +40,7 @@ qt_add_qml_module(qwinui3_gallery
         pages/AppBarSeparatorPage.qml
         pages/AppBarToggleButtonPage.qml
         pages/AnnotatedScrollBarPage.qml
+        pages/AnimatedIconPage.qml
         pages/AutoSuggestBoxPage.qml
         pages/AvatarGroupPage.qml
         pages/BreadcrumbBarPage.qml

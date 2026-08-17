@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.52**
-**Next up:** **1.53** (Thin AnimatedIcon path)
+**Current:** **1.53**
+**Next up:** **1.54** (Extra locale pack)
 **Planned through:** **1.70** (long-horizon 1.xx checkpoint)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
 
@@ -60,7 +60,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.52`
+## Shipped — `1.01` … `1.53`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -270,30 +270,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** No open GitHub field P0s after 1.51 — used the buffer for CI/docs harden: `check_docs_links.py` in `smoke_gallery.py`; critical smoke pages + `FontIconPage` / `PitfallsPage` / `ExamplesTemplatesPage`; `smoke_catalog` syncs QML `smokeCriticalComponents()`; packaging-consumer must mention `gallery-shell`; [ci-smoke.md](docs/ci-smoke.md) updated; product version `1.52`.
 
+### 1.53 — Thin AnimatedIcon path (shipped)
+
+**Shipped:** Experimental `AnimatedIcon` (glyph state swap, not Lottie) with `checked` / `iconState`+`iconStates`, reduced-motion snap; Gallery **AnimatedIcon** demos (play/pause · expand · favorite); [icons.md](docs/icons.md) + [animations.md](docs/animations.md) + stable-api experimental note; product version `1.53`.
+
 ---
 
-## Horizon — planned `1.53` … `1.70`
+## Horizon — planned `1.54` … `1.70`
 
 Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per `YY`. Order can flex if field P0s force a swap; do not merge themes into mega-minors. Posture after 1.51: prefer field harden / docs over new control families.
-
-### 1.53 — Thin AnimatedIcon path
-
-**Why:** After 1.49 micro-motion, some chrome needs play-on-state glyphs without adopting a full Lottie product.
-
-**In scope**
-
-- Optional thin `AnimatedIcon`-style wrapper (or documented recipe) over existing glyph/scale transitions; 2–3 Gallery state demos (e.g. play/pause, expand/collapse).
-- Docs in [icons.md](docs/icons.md) / [animations.md](docs/animations.md); honor reduced motion.
-
-**Out of scope**
-
-- Shipping a Lottie runtime as a hard dependency; full WinUI AnimatedIcon visual tree parity.
-
-**Exit criteria**
-
-- One documented path + Gallery demos; honest “not Lottie” callout.
-
----
 
 ### 1.54 — Extra locale pack
 
@@ -659,7 +644,7 @@ Unscheduled; pick up only inside a named `1.xx` minor (or never):
 - Full Fluent visual redesign / Fluent 2 Style fork  
 - Screenshot diffs for **every** Gallery page (subset may ship in 1.62)  
 - Community translation portal / every-locale coverage  
-- Full Lottie runtime as a hard product dependency (thin path planned in 1.53)  
+- Full Lottie runtime as a hard product dependency (thin glyph path shipped in 1.53)  
 - New chart engines / WebGL  
 - Official vcpkg/Conan ports as supported products (sketch may ship in 1.61)  
 - Custom ink / handwriting canvas  

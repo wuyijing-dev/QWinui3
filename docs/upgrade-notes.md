@@ -47,6 +47,20 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.52 → 1.53
+
+**Product version:** 1.53  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- Experimental [`AnimatedIcon`](components/AnimatedIcon.md) for glyph state swaps — [icons.md](icons.md). Use `checked` or `iconState`/`iconStates` (not Qt Quick `Item.state`).
+- Gallery **AnimatedIcon** page; honors `Theme.reducedMotion`.
+
+#### No action (compatible)
+
+- Additive experimental type; no Lottie dependency.
+
 ### Upgrade 1.51 → 1.52
 
 **Product version:** 1.52  

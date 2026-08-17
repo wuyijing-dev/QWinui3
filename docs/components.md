@@ -1,6 +1,6 @@
 # QWinUI3 component API
 
-Library **v1.52**. Generated from QML source comments (`scripts/generate_component_docs.py`).
+Library **v1.53**. Generated from QML source comments (`scripts/generate_component_docs.py`).
 Each control has its own page under `docs/components/`.
 
 ```bash
@@ -8,7 +8,7 @@ python scripts/generate_component_docs.py
 python scripts/generate_component_docs.py --lint
 ```
 
-**208** public · **11** internal · **151** with Gallery demos · Hub: [docs home](index.md).
+**209** public · **11** internal · **152** with Gallery demos · Hub: [docs home](index.md).
 
 ## By module
 
@@ -17,6 +17,7 @@ python scripts/generate_component_docs.py --lint
 - [AccentButton](components/AccentButton.md) — Always-accent primary CTA with optional Fluent symbol. · Gallery
 - [AcrylicSurface](components/AcrylicSurface.md) — Frosted pane; keep translucent under system Mica/Acrylic. · Gallery
 - [ActionCard](components/ActionCard.md) — Clickable card with symbol, title, description, and chevron. · Gallery
+- [AnimatedIcon](components/AnimatedIcon.md) — Thin state glyph swap (1.53). Not Lottie / WinUI AnimatedIcon parity. · Gallery
 - [AnnotatedScrollBar](components/AnnotatedScrollBar.md) — Scroll area with a value label on the vertical scrollbar. · Gallery
 - [AppBarButton](components/AppBarButton.md) — CommandBar icon button with label position overrides. · Gallery
 - [AppBarSeparator](components/AppBarSeparator.md) — Thin separator for CommandBar / AppBar rows. · Gallery
@@ -382,6 +383,7 @@ python scripts/generate_component_docs.py --lint
 
 ### Other
 
+- [AnimatedIcon](components/AnimatedIcon.md) — `QWinUI3.Extras`
 - [AnnotatedScrollBar](components/AnnotatedScrollBar.md) — `QWinUI3.Extras`
 - [Expander](components/Expander.md) — `QWinUI3.Extras`
 - [FlipView](components/FlipView.md) — `QWinUI3.Extras`

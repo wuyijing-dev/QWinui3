@@ -1455,6 +1455,14 @@ QtObject {
             source: "pages/StatusDotPage.qml"
         },
         {
+            title: qsTr("AnimatedIcon"),
+            category: "basic",
+            icon: FluentIcons.Play,
+            description: qsTr("Thin state glyph swap (1.53) — not Lottie. docs/icons.md."),
+            component: "AnimatedIconPage",
+            source: "pages/AnimatedIconPage.qml"
+        },
+        {
             title: qsTr("Iconography"),
             category: "basic",
             icon: FluentIcons.OpenInNewWindow,
@@ -1522,6 +1530,7 @@ QtObject {
     // Curated “recently shipped” recipe pages (1.20) — not catalog array order.
     function recentlyShipped(count) {
         var ids = [
+            "AnimatedIconPage",       // 1.53 thin AnimatedIcon
             "CiSmokePage",            // 1.52 docs-link smoke
             "PitfallsPage",           // 1.51 maturity checkpoint
             "ExamplesTemplatesPage",  // 1.50 gallery-shell
