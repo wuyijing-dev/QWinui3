@@ -75,7 +75,7 @@ Keep `QT_IM_MODULE` unset. Do **not** ship a `platforminputcontexts` plugin in 1
 | Qt Virtual Keyboard | GPL / commercial | Yes | Yes | **License conflict** |
 | SomcoKeyboard / OpenVirtualKeyboard | MIT | Yes (QML) | Yes | We own chrome; do not vendor their QML |
 
-**How we build Core:** sparse-clone `core/` + `common/` via `scripts/fetch_keyman_core.py` into gitignored `third_party/keyman` (`QWINUI3_FETCH_KEYMAN=ON` at configure). CMake target `qwinui3_keymancore` is **static**, `KM_CORE_LIBRARY_STATIC`, **`KMN_NO_ICU=1`**. NFC/NFD uses Qt (`src/extras/keyman_shims/util_normalize_qt.cpp`). LDML regex is stubbed — basic `.kmx` packs do not need it. Do not vendor the Keyman monorepo UI.
+**How we build Core:** sources are **vendored** under `third_party/keyman` (`core/` + `common/` only — in `git clone`). `QWINUI3_FETCH_KEYMAN=ON` is only a fallback if that tree is deleted (`scripts/fetch_keyman_core.py`). CMake target `qwinui3_keymancore` is **static**, `KM_CORE_LIBRARY_STATIC`, **`KMN_NO_ICU=1`**. NFC/NFD uses Qt (`src/extras/keyman_shims/util_normalize_qt.cpp`). LDML regex is stubbed — basic `.kmx` packs do not need it. Do not vendor the Keyman monorepo UI.
 
 ---
 
@@ -247,7 +247,7 @@ System IME remains available alongside the panel until a later minor explicitly 
 ## Consumer notes (when shipped)
 
 - Link `qwinui3_extras` as today; `OnScreenKeyboard` is experimental.  
-- First configure fetches Core unless `QWINUI3_FETCH_KEYMAN=OFF`.  
+- Core ships in `third_party/keyman` with the clone; configure only fetches if that tree is missing (`QWINUI3_FETCH_KEYMAN`).  
 - Strip Qt Virtual Keyboard from `windeployqt` trees as already documented.  
 - Through **1.71** this panel is a touch OSK; **1.72** adds in-app pinyin; **1.73** adds ja/ko + emoji. System IME (Microsoft Pinyin, etc.) stays the desktop CJK default.  
 - `KeyboardEngine.backend` is `"pinyin"` / `"romaji"` / `"hangul"` on those layouts, `"keyman"` when Core is linked for direct layouts, `"builtin"` if you skipped the fetch.

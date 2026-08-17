@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Sparse-clone SIL Keyman Core sources into third_party/keyman (gitignored)."""
+"""Sparse-clone / refresh SIL Keyman Core into third_party/keyman.
+
+The tree is normally vendored in git. This script is for maintainers refreshing
+upstream, or for CMake fallback when the vendored tree is missing.
+"""
 from __future__ import annotations
 
 import subprocess

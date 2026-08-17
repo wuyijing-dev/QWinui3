@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+
+@@keys: [SHIFT K_BKQUOTE][K_1][K_BKQUOTE][LCTRL K_BKQUOTE][RALT K_BKQUOTE]
+@@expected: \u0037\u1790\u17B6\u0127\u1790\u17B6\u0065
+@@keylist: [SHIFT K_BKQUOTE][SHIFT K_1][K_BKQUOTE][K_1][CTRL-do-not-use K_1][ALT-do-not-use K_BKQUOTE][CAPS K_BKQUOTE][ALT-do-not-use CAPS K_BKQUOTE]
+
+-->
+<keyboard3 xmlns="https://schemas.unicode.org/cldr/45/keyboard3" locale="mt" conformsTo="45">
+  <info author="srl295" indicator="🙀" layout="qwerty"  name="TestKbd"/>
+
+  <keys>
+    <key id="hmaqtugha" output="ħ" />
+    <key id="that" output="ថា" />
+    <key id="seven" output="7" />
+    <key id="eee" output="e" />
+  </keys>
+
+  <layers formId="us">
+    <layer id="base" modifiers="none">
+      <row keys="hmaqtugha that" /> <!-- number row -->
+    </layer>
+    <layer id="shift" modifiers="shift">
+      <row keys="seven eee" /> <!-- number row -->
+    </layer>
+    <layer id="control" modifiers="ctrl">
+      <row keys="that gap" /> <!-- number row -->
+    </layer>
+    <layer id="catchall" modifiers="other">
+      <row keys="eee gap" /> <!-- number row -->
+    </layer>
+  </layers>
+</keyboard3>

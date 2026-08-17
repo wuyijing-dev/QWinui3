@@ -1,5 +1,5 @@
 # Build SIL Keyman Core (MIT) as a static lib without meson/ICU.
-# Sources: third_party/keyman (sparse clone of keymanapp/keyman core + common).
+# Sources: third_party/keyman (vendored in-repo; fetch script is fallback only).
 # NFC/NFD uses Qt (util_normalize_qt.cpp). LDML regex is stubbed; .kmx still works.
 
 set(QWINUI3_HAVE_KEYMAN OFF)
@@ -7,7 +7,7 @@ set(_qwinui3_keyman_root "${CMAKE_SOURCE_DIR}/third_party/keyman")
 set(_qwinui3_keyman_src "${_qwinui3_keyman_root}/core/src")
 
 if(NOT DEFINED QWINUI3_FETCH_KEYMAN)
-    option(QWINUI3_FETCH_KEYMAN "Sparse-clone SIL Keyman Core when third_party/keyman is missing" ON)
+    option(QWINUI3_FETCH_KEYMAN "If vendored third_party/keyman is missing, sparse-clone Keyman Core" ON)
 endif()
 
 if(NOT EXISTS "${_qwinui3_keyman_src}/km_core_keyboard_api.cpp")

@@ -135,8 +135,8 @@ Release packages are produced by [`.github/workflows/release.yml`](.github/workf
 **Optional**
 
 - Qt Multimedia → `MediaPlayerElement` (`QWINUI3_BUILD_MEDIA`) — **experimental / deferred 1.67**
-- Edge WebView2 SDK + Runtime → `WebView2Host` (`scripts/fetch_webview2.ps1`, `QWINUI3_BUILD_WEBVIEW2`)
-- SIL Keyman Core (MIT) → in-app OSK layouts (`scripts/fetch_keyman_core.py`; auto-fetched when missing)
+- Edge WebView2 SDK + Runtime → `WebView2Host` (`scripts/fetch_webview2.ps1`, `QWINUI3_BUILD_WEBVIEW2`) — **not** in clone (~80 MB NuGet)
+- SIL Keyman Core (MIT) → in-app OSK layouts — **vendored** in `third_party/keyman` (clone includes it; see [docs/NOTICE-Keyman.md](docs/NOTICE-Keyman.md))
 
 ---
 
@@ -163,7 +163,7 @@ Or open the **repo root** `CMakeLists.txt` in [Qt Creator](docs/qt-creator.md) (
 | `QWINUI3_BUILD_SHARED` | `OFF` | Shared libraries (DLL / `.so`) instead of static |
 | `QWINUI3_BUILD_MEDIA` | auto | Media player control when Qt Multimedia is present |
 | `QWINUI3_BUILD_WEBVIEW2` | `ON` (Win) | WebView2 host control |
-| `QWINUI3_FETCH_KEYMAN` | `ON` | Sparse-clone Keyman Core into `third_party/keyman` when missing |
+| `QWINUI3_FETCH_KEYMAN` | `ON` | If vendored `third_party/keyman` is missing, sparse-clone it (fallback) |
 
 ### Shared / redistributable package
 
@@ -278,6 +278,6 @@ python scripts/generate_component_docs.py --lint
 
 [LGPL-3.0](LICENSE) (see also [COPYING](COPYING) for the GPL-3.0 terms incorporated by LGPL-3.0).
 
-On-screen keyboard layouts use [SIL Keyman Core](https://github.com/keymanapp/keyman/tree/master/core) (**MIT**) when fetched — see [docs/NOTICE-Keyman.md](docs/NOTICE-Keyman.md). In-app pinyin tables are [mozillazg/pinyin-data](https://github.com/mozillazg/pinyin-data) (**MIT**) — see [docs/NOTICE-pinyin.md](docs/NOTICE-pinyin.md).
+On-screen keyboard layouts use [SIL Keyman Core](https://github.com/keymanapp/keyman/tree/master/core) (**MIT**), vendored under `third_party/keyman` — see [docs/NOTICE-Keyman.md](docs/NOTICE-Keyman.md). In-app pinyin tables are [mozillazg/pinyin-data](https://github.com/mozillazg/pinyin-data) (**MIT**) — see [docs/NOTICE-pinyin.md](docs/NOTICE-pinyin.md).
 
 Fluent icon font licensing notes live under `src/theme/QWinUI3/Theme/fonts/`.
