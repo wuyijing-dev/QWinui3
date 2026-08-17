@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.54**
-**Next up:** **1.55** (TeachingTip & onboarding coach marks)
+**Current:** **1.55**
+**Next up:** **1.56** (Multi-window & secondary shells)
 **Planned through:** **1.70** (long-horizon 1.xx checkpoint)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
 
@@ -60,7 +60,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.54`
+## Shipped — `1.01` … `1.55`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -278,30 +278,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** Gallery seed `ja_JP` (same demo subset as `zh_CN`); `check_gallery_translations.py` requires three seeds; Gallery i18n page Language ComboBox + `--lang` copy; [i18n-rtl.md](docs/i18n-rtl.md) + translations README; product version `1.54`.
 
+### 1.55 — TeachingTip & onboarding coach marks (shipped)
+
+**Shipped:** Gallery **Onboarding coach** (3-step sequenced `TeachingTip`, focus handoff, don’t-show-again via `QtCore.Settings`); [feedback.md](docs/feedback.md) recipe + when-to-use vs Toast/InfoBar/ContentDialog; keyboard / dialogs cross-links; product version `1.55`.
+
 ---
 
-## Horizon — planned `1.55` … `1.70`
+## Horizon — planned `1.56` … `1.70`
 
 Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per `YY`. Order can flex if field P0s force a swap; do not merge themes into mega-minors. Posture after 1.51: prefer field harden / docs over new control families.
-
-### 1.55 — TeachingTip & onboarding coach marks
-
-**Why:** Feedback wave (1.34) covered hosts; first-run coach paths still need a cookbook.
-
-**In scope**
-
-- Recipes for sequenced TeachingTips, focus return, “don’t show again” persistence; Gallery onboarding demo.
-- Extend [feedback.md](docs/feedback.md) (+ keyboard/a11y cross-links).
-
-**Out of scope**
-
-- A separate product “tour” framework; forced Spotlight overlays as a new control family.
-
-**Exit criteria**
-
-- End-to-end Gallery recipe + docs when-to-use vs Toast/InfoBar.
-
----
 
 ### 1.56 — Multi-window & secondary shells
 

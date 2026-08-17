@@ -9,7 +9,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("Feedback surfaces")
-    subtitle: qsTr("InfoBar / Toast / TeachingTip / Progress — docs/feedback.md (1.34).")
+    subtitle: qsTr("InfoBar / Toast / TeachingTip / onboarding — docs/feedback.md (1.55).")
 
     signal openControl(var item)
 
@@ -28,7 +28,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("InfoBar for in-page durable status (maxVisible via InfoBarHost). ToastHost for transient queued toasts. TeachingTip for coach marks (return focus to target). Progress for determinate work — not a toast substitute. Blocking confirms → ContentDialog.")
+                text: qsTr("InfoBar for in-page durable status (maxVisible via InfoBarHost). ToastHost for transient queued toasts. TeachingTip for coach marks (return focus to target). Sequenced first-run tours → Onboarding coach (1.55). Progress for determinate work — not a toast substitute. Blocking confirms → ContentDialog.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
@@ -39,6 +39,7 @@ CatalogPage {
                     { label: qsTr("InfoBarHost"), page: "InfoBarHostPage" },
                     { label: qsTr("Toast / ToastHost"), page: "ToastHostPage" },
                     { label: qsTr("TeachingTip"), page: "TeachingTipPage" },
+                    { label: qsTr("Onboarding coach"), page: "OnboardingCoachPage" },
                     { label: qsTr("InfoBar + TeachingTip recipe"), page: "InfoTeachingRecipePage" },
                     { label: qsTr("ProgressBar"), page: "ProgressBarPage" },
                     { label: qsTr("ContentDialog (modal)"), page: "ContentDialogPage" }

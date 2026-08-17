@@ -89,7 +89,7 @@ Promoted this slice (Gallery + recipe soak). Status flips are **named here** —
 | `Flyout` / style `Drawer` | Extras / Style | Light-dismiss / edge panel — [dialogs-flyouts.md](dialogs-flyouts.md) (**1.37**) |
 | `InfoBar` / `InfoBarHost` | Extras | Inline severity banners — [feedback.md](feedback.md) (1.34) |
 | `Toast` / `ToastHost` | Extras | Transient toasts + pending queue — [feedback.md](feedback.md) |
-| `TeachingTip` | Extras | Coach marks; focus returns to target — [feedback.md](feedback.md) (1.34) |
+| `TeachingTip` | Extras | Coach marks; focus returns to target — [feedback.md](feedback.md) (1.34 / **1.55** sequence) |
 | Style `ProgressBar` / `ProgressRing` / `ProgressButton` | Style / Extras | In-place progress — [feedback.md](feedback.md) (**1.37**) |
 
 ### Commands & menus
@@ -215,6 +215,7 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.32** | Window shells matrix — [window-shells.md](window-shells.md) / [window-chrome.md](window-chrome.md); geometry clamp |
 | **1.33** | Tree & hierarchical data — [tree-data.md](tree-data.md); TreeViewDelegate a11y |
 | **1.34** | Feedback surfaces — [feedback.md](feedback.md); TeachingTip focus return |
+| **1.55** | Onboarding coach — sequenced TeachingTips + don’t-show-again; [feedback.md](feedback.md) |
 | **1.35** | Qt Creator kit polish — [qt-creator.md](qt-creator.md); example build presets |
 | **1.36** | Docs site IA — [recipes.md](recipes.md) hub; MkDocs Recipes sections |
 | **1.37** | Promote sweep — commands / Flyout / TabView / ShellWindow / pickers / progress / FontIcon / ItemsRepeater; explicit defer list |

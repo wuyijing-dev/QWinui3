@@ -11,20 +11,33 @@ import QWinUI3.Extras
 
 CatalogPage {
     title: qsTr("TeachingTip")
-    subtitle: qsTr("Coach mark; focus returns to target on close. Recipe: docs/feedback.md (1.34).")
+    subtitle: qsTr("Coach mark; focus returns to target on close. Recipe: docs/feedback.md (1.55).")
+
+    signal openControl(var item)
+
+    function openComp(id) {
+        var it = ControlCatalog.findByComponent(id)
+        if (it)
+            openControl(it)
+    }
 
     ControlExample {
-        headerText: qsTr("When to use (1.34)")
-        qmlSource: "// TeachingTip — coach mark\n// ContentDialog — confirm\n// docs/feedback.md"
+        headerText: qsTr("When to use (1.34 / 1.55)")
+        qmlSource: "// TeachingTip — coach mark\n// OnboardingCoachPage — sequence\n// docs/feedback.md"
         ColumnLayout {
             Layout.fillWidth: true
+            spacing: Theme.spacing
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("TeachingTip is for first-run coaching, not confirms. Closing returns focus to the target control.")
+                text: qsTr("TeachingTip is for first-run coaching, not confirms. Closing returns focus to the target control. For multi-step tours + don’t-show-again persistence, open the Onboarding coach recipe.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
+            }
+            Button {
+                text: qsTr("Open Onboarding coach")
+                onClicked: openComp("OnboardingCoachPage")
             }
         }
     }

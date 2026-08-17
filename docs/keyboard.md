@@ -105,6 +105,7 @@ Full tables: [commands.md](commands.md). ShellWindow can wire Ctrl+K for you.
 | **ContentDialog** | `requestClose` (honors `onClosing`) | `activateDefault()` |
 | **Flyout** / light-dismiss | Esc + outside (when enabled) | Activate focused control |
 | **TeachingTip** | Dismiss path + focus return — [feedback.md](feedback.md) |
+| **Onboarding coach** | Sequenced tips: Esc ends tour; Next/Done after Close focus — [feedback.md](feedback.md) (**1.55**) |
 | **Drawer** | Esc / scrim (Qt Drawer) | — |
 
 Always set a **default** button on confirm dialogs so Enter is meaningful.

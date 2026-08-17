@@ -1,8 +1,8 @@
-# Feedback surfaces (1.34)
+# Feedback surfaces (1.34 / 1.55)
 
 When to use **inline banners**, **toasts**, **coach tips**, and **progress** — next to dialogs ([dialogs-flyouts.md](dialogs-flyouts.md)) and OS notify ([system-integration.md](system-integration.md)).
 
-Gallery: **InfoBar** · **InfoBarHost** · **Toast** / **ToastHost** · **TeachingTip** · **InfoBar + TeachingTip recipe** · **ProgressBar** / **ProgressRing** / **ProgressButton**.
+Gallery: **InfoBar** · **InfoBarHost** · **Toast** / **ToastHost** · **TeachingTip** · **Onboarding coach** · **InfoBar + TeachingTip recipe** · **ProgressBar** / **ProgressRing** / **ProgressButton**.
 
 ---
 
@@ -13,6 +13,7 @@ Gallery: **InfoBar** · **InfoBarHost** · **Toast** / **ToastHost** · **Teachi
 | Page-level status that stays until dismissed | **`InfoBar`** / **`InfoBarHost`** | Inline, severity-colored, optional action |
 | Transient “Saved” / non-blocking ack | **`ToastHost`** | Auto-dismiss stack; does not steal page layout |
 | First-run / “click here” coaching | **`TeachingTip`** | Anchored tip; light-dismiss |
+| Multi-step first-run tour | **Sequenced `TeachingTip`s** | One tip at a time + persistence — Gallery **Onboarding coach** (**1.55**) |
 | Blocking confirm / destructive choice | **`ContentDialog`** | [dialogs-flyouts.md](dialogs-flyouts.md) — not Toast/Tip |
 | Determinate or busy work | **`ProgressBar`** / **`ProgressRing`** / **`ProgressButton`** | In-place progress, not a toast |
 | Also mirror to OS tray / portal | **`NotificationBridge`** + ToastHost | [system-integration.md](system-integration.md) (1.10) |
@@ -83,6 +84,46 @@ Coach-mark recipe: open tip from the control’s first focus; after dismiss, the
 
 ---
 
+## Onboarding coach sequence (1.55)
+
+First-run tours are **app-owned**: reuse `TeachingTip`, do not invent a second tour framework.
+
+| Rule | Detail |
+|------|--------|
+| One tip at a time | Close (or set `isOpen: false`) before opening the next target |
+| Advance | `onActionClicked` → mark advancing → on `onClosed` open the next step (`Qt.callLater`) |
+| Focus | Focus the **next** target before opening its tip; dismiss still returns focus to the current target |
+| Don’t show again | Persist a bool in `QtCore.Settings` (or your store); skip auto-offer when set |
+| Esc / Close | End the tour; honor the checkbox if the user already checked it |
+| Not for | Save confirms, validation errors, transient “Saved” acks |
+
+```qml
+import QtCore
+
+Settings {
+    id: coachStore
+    category: "OnboardingCoach"
+    property bool dismissed: false
+}
+
+TeachingTip {
+    id: tip
+    // rebind target / title / subtitle / actionText per step
+    CheckBox { id: dontShowAgain; text: qsTr("Don’t show again") }
+    onActionClicked: { /* set advancing / pendingFinish */ }
+    onClosed: {
+        if (advancing)
+            Qt.callLater(function () { showStep(stepIndex + 1) })
+        else
+            finishTour(dontShowAgain.checked)
+    }
+}
+```
+
+Gallery: **Dialogs → Onboarding coach** (3-step demo + Reset). Cross-links: [keyboard.md](keyboard.md) (Esc / focus return), [dialogs-flyouts.md](dialogs-flyouts.md) (vs ContentDialog).
+
+---
+
 ## Progress
 
 | Control | Use when |
@@ -102,6 +143,7 @@ Progress belongs **next to the work**, not as a Toast. Pair long jobs with an In
 | InfoBar / Toast | `Accessible.role: AlertMessage`; name = title; description includes severity |
 | InfoBarHost / ToastHost | Host announces open / notification region |
 | TeachingTip | Dialog-like name = title; Close named; Esc / outside per `isLightDismissEnabled` |
+| Onboarding sequence | Name each step target; checkbox “Don’t show again”; Tab reaches Next/Done |
 | Progress* | ProgressBar role + value / indeterminate description |
 
 Close buttons expose Accessible name **Close** and keyboard activation (1.02).
@@ -115,12 +157,13 @@ Close buttons expose Accessible name **Close** and keyboard activation (1.02).
 | **InfoBar** / **InfoBarHost** | Severity + stack / maxVisible |
 | **Toast** / **ToastHost** | Transient + pending queue |
 | **TeachingTip** | Coach mark (not confirm) |
+| **Onboarding coach** | Sequenced tips + don’t-show-again (**1.55**) |
 | **InfoBar + TeachingTip recipe** | Form save + first-focus tip (follows this doc) |
 | **ProgressBar** / **Ring** / **Button** | In-place progress |
 | **NotificationBridge** | Toast + OS mirror |
 
 ---
 
-## Out of scope (1.34)
+## Out of scope
 
-Redesigning Toast chrome; replacing the OS notification center; inventing a second banner stack.
+Redesigning Toast chrome; replacing the OS notification center; inventing a second banner stack; a product “tour” / Spotlight overlay control family (1.55).

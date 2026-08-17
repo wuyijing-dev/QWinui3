@@ -47,6 +47,20 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.54 → 1.55
+
+**Product version:** 1.55  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- Gallery **Onboarding coach** — sequenced `TeachingTip`s, focus handoff, “don’t show again” via `QtCore.Settings` — [feedback.md](feedback.md).
+- Cross-links in [keyboard.md](keyboard.md) / [dialogs-flyouts.md](dialogs-flyouts.md).
+
+#### No action (compatible)
+
+- Recipe-only; no new required control family.
+
 ### Upgrade 1.53 → 1.54
 
 **Product version:** 1.54  

@@ -727,6 +727,14 @@ QtObject {
             source: "pages/TeachingTipPage.qml"
         },
         {
+            title: qsTr("Onboarding coach"),
+            category: "dialogs",
+            icon: FluentIcons.Lightbulb,
+            description: qsTr("Sequenced TeachingTips + don’t-show-again — docs/feedback.md (1.55)."),
+            component: "OnboardingCoachPage",
+            source: "pages/OnboardingCoachPage.qml"
+        },
+        {
             title: qsTr("InfoButton"),
             category: "dialogs",
             icon: FluentIcons.Info,
@@ -1314,7 +1322,7 @@ QtObject {
             title: qsTr("Feedback surfaces"),
             category: "recipes",
             icon: FluentIcons.Info,
-            description: qsTr("InfoBar / Toast / TeachingTip — docs/feedback.md (1.34)."),
+            description: qsTr("InfoBar / Toast / TeachingTip / onboarding — docs/feedback.md (1.55)."),
             component: "FeedbackHubPage",
             source: "pages/FeedbackHubPage.qml"
         },

@@ -8,7 +8,7 @@ Anchored tip with title, subtitle, content, and actions.
 
 [← Component index](../components.md)
 
-**Gallery:** `TeachingTip` — [`src/gallery/pages/TeachingTipPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/TeachingTipPage.qml)
+**Gallery:** `TeachingTip` · `Onboarding coach` — [`src/gallery/pages/TeachingTipPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/TeachingTipPage.qml) · [`OnboardingCoachPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/OnboardingCoachPage.qml)
 
 **Extends** `Popup`.
 
@@ -39,6 +39,7 @@ CloseButton, PreferredPlacement, TailVisibility, PlacementMargin, IsLightDismiss
 Parents to Window Overlay on open so placement is relative to the window, not a layout cell.
 Coach-mark / first-run tip — not for confirmations (use ContentDialog; docs/dialogs-flyouts.md).
 On close, focus returns to target when focusable (docs/feedback.md, 1.34).
+Multi-step tours + don’t-show-again: Gallery **Onboarding coach** (docs/feedback.md, 1.55).
 
 ## API
 

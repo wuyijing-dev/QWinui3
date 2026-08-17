@@ -93,6 +93,7 @@ qt_add_qml_module(qwinui3_gallery
         pages/InfoBarPage.qml
         pages/InfoButtonPage.qml
         pages/InfoTeachingRecipePage.qml
+        pages/OnboardingCoachPage.qml
         pages/ItemsRepeaterPage.qml
         pages/ItemsViewPage.qml
         pages/WebView2Page.qml

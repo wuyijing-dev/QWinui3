@@ -9,7 +9,7 @@ When to use **modal** vs **light-dismiss** surfaces. Prefer types already on [st
 |---------|--------|----------|---------|
 | [`ContentDialog`](components/ContentDialog.md) + [`ContentDialogQueue`](components/ContentDialogQueue.md) | Yes | Confirm / save / destructive choice | ContentDialog |
 | [`Flyout`](components/Flyout.md) | No (default) | Short contextual UI next to a control | Flyout (**stable 1.37**) |
-| [`TeachingTip`](components/TeachingTip.md) | No | Coach mark / first-run tip with optional action | TeachingTip · InfoBar + TeachingTip recipe |
+| [`TeachingTip`](components/TeachingTip.md) | No | Coach mark / first-run tip with optional action | TeachingTip · Onboarding coach · InfoBar + TeachingTip recipe |
 | Style [`Drawer`](components/Drawer.md) | Yes (dim) | Edge panel for nav / secondary tools | Drawer (**stable 1.37**) |
 | [`MenuFlyout`](components/MenuFlyout.md) | Light-dismiss menu | Actions list (see [commands.md](commands.md)) | MenuFlyout |
 
@@ -26,7 +26,7 @@ When to use **modal** vs **light-dismiss** surfaces. Prefer types already on [st
 | Persistent side tools / filters | **Drawer** |
 | Command list / context menu | **MenuFlyout** / CommandBar overflow ([commands.md](commands.md)) |
 
-Do **not** use TeachingTip or Flyout for irreversible confirms — use ContentDialog with a clear close/cancel affordance. Transient status / coach marks: [feedback.md](feedback.md) (1.34).
+Do **not** use TeachingTip or Flyout for irreversible confirms — use ContentDialog with a clear close/cancel affordance. Transient status / coach marks: [feedback.md](feedback.md) (1.34 / **1.55** onboarding sequence).
 
 ---
 
@@ -154,7 +154,7 @@ TeachingTip {
 }
 ```
 
-Light-dismiss by default. Pair with InfoBar for form errors — see Gallery **InfoBar + TeachingTip recipe**.
+Light-dismiss by default. Pair with InfoBar for form errors — see Gallery **InfoBar + TeachingTip recipe**. Multi-step first-run tours + don’t-show-again: Gallery **Onboarding coach** — [feedback.md](feedback.md) (**1.55**).
 
 ---
 

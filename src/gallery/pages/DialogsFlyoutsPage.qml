@@ -21,7 +21,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("ContentDialog (+ ContentDialogQueue) for confirms and multi-step save/export chains. Flyout for short contextual UI. TeachingTip for coach marks. Drawer for edge navigation. MenuFlyout for action lists (see Commands). Queue FIFO / owner Overlay / Esc: docs/dialogs-flyouts.md (1.48).")
+                text: qsTr("ContentDialog (+ ContentDialogQueue) for confirms and multi-step save/export chains. Flyout for short contextual UI. TeachingTip for coach marks (sequenced tours: Onboarding coach, 1.55). Drawer for edge navigation. MenuFlyout for action lists (see Commands). Queue FIFO / owner Overlay / Esc: docs/dialogs-flyouts.md (1.48).")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
@@ -77,7 +77,7 @@ CatalogPage {
             Label {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("• ContentDialog — queue stress A→B→C, defaultButton, Closing cancel (1.48)\n• Flyout — placement + light dismiss\n• TeachingTip — coach mark + InfoBar recipe page\n• Drawer — edge panel on Overlay\n• MenuFlyout — context actions (commands.md)")
+                text: qsTr("• ContentDialog — queue stress A→B→C, defaultButton, Closing cancel (1.48)\n• Flyout — placement + light dismiss\n• TeachingTip — coach mark + Onboarding coach sequence (1.55) + InfoBar recipe\n• Drawer — edge panel on Overlay\n• MenuFlyout — context actions (commands.md)")
                 color: Theme.textPrimary
             }
         }

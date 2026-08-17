@@ -89,7 +89,7 @@ CatalogPage {
                            + "• ItemsView / ListDetailsView: accessibleName; row titles; Esc (details→list / clear multi-select).\n"
                            + "• FormLayout: accessibleName + error count; headered fields put errorMessage in description.\n"
                            + "• CommandPalette / CommandBar / MenuFlyout: see Commands pages + docs/commands.md.\n"
-                           + "• ContentDialog / Flyout / TeachingTip / Drawer: docs/dialogs-flyouts.md.")
+                           + "• ContentDialog / Flyout / TeachingTip / onboarding coach / Drawer: docs/dialogs-flyouts.md · docs/feedback.md.")
             }
         }
     }
