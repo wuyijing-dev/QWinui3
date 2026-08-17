@@ -1,8 +1,8 @@
-# On-screen keyboard & in-app IME (1.70…1.73)
+# On-screen keyboard & in-app IME (1.70…1.76)
 
 Win11 / Fluent **touch keyboard chrome we own**. This is **not** Qt Virtual Keyboard, and it is **not** a hardware-shortcut cookbook ([keyboard.md](keyboard.md)).
 
-**Status:** **1.73 shipped** (Keyman layouts + in-app zh/ja/ko IME + emoji, experimental).  
+**Status:** **1.73 shipped** (Keyman layouts + in-app zh/ja/ko IME + emoji, experimental). **Next:** **1.74** soak → **1.75** extra `.kmx` → **1.76** MIT-only IME deepen. Checkpoint is **1.77**.  
 **License:** OSK chrome is this repo (LGPL-3.0). SIL Keyman Core (**MIT**) for layouts. Pinyin tables are [mozillazg/pinyin-data](https://github.com/mozillazg/pinyin-data) (**MIT**) — [NOTICE-pinyin.md](NOTICE-pinyin.md). Japanese is a Hepburn romaji→kana map (not a word lexicon). Korean is Unicode hangul composition (not a lexicon). Keyman `cs_pinyin` IMX is **not** used.
 
 | Slice | What ships |
@@ -11,7 +11,10 @@ Win11 / Fluent **touch keyboard chrome we own**. This is **not** Qt Virtual Keyb
 | **1.71** | Keyman Core + extra layouts (de/fr/es/ru/ar) — still no candidate window |
 | **1.72** | Chinese IME — pinyin composition + **our** candidate bar |
 | **1.73** | Full in-app IME — ja romaji/kana, ko hangul, emoji layer, shared candidate host |
-| **1.74** | Long-horizon checkpoint (not IME work) |
+| **1.74** | Soak / harden — still experimental unless soak is written and green |
+| **1.75** | Extra documented Keyman `.kmx` (not every community keyboard) |
+| **1.76** | IME deepen, MIT sources only — no GPL Mozc, no hand-written 词库 |
+| **1.77** | Long-horizon checkpoint (not IME work) |
 
 ---
 
@@ -52,7 +55,7 @@ Notice: [NOTICE-Keyman.md](NOTICE-Keyman.md).
   ImeCandidateBar.qml    ← shared candidate strip (zh/ja/ko)
 ```
 
-Keep `QT_IM_MODULE` unset. Do **not** ship a `platforminputcontexts` plugin in 1.70…1.73 — an in-window dock is enough to theme, test, and stay off the GPL IM module path. Language packs are extra `.kmx` files + UI, not a second engine.
+Keep `QT_IM_MODULE` unset. Do **not** ship a `platforminputcontexts` plugin in 1.70…1.76 — an in-window dock is enough to theme, test, and stay off the GPL IM module path. Extra languages are more `.kmx` (**1.75**) or MIT IME tables (**1.76**), not a second engine.
 
 ---
 
@@ -97,11 +100,14 @@ Keyman Core already knows thousands of community keyboards. Extending languages 
 | Direct layouts | en, de, fr, es, ru, ar | **1.71 shipped** | Globe switcher; dead keys via Core; RTL mirroring |
 | Composition IME | zh-Hans pinyin | **1.72 shipped** | Preedit + candidate strip (QML we write); MIT pinyin-data |
 | More IMEs | ja romaji/kana, ko hangul | **1.73 shipped** | Same candidate host; hangul compositor + romaji map (not Keyman IMX) |
+| Soak | zh / ja / ko + 1.71 layouts | **1.74** | Harden + a11y; still experimental unless soak is green |
+| Extra layouts | more MIT `.kmx` | **1.75** | Named subset + BYO recipe; not CJK IMX |
+| IME deepen | MIT tables only | **1.76** | Optional pinyin regen; kanji only if a MIT source exists |
 | Not this product | Handwriting, dictation, cloud lexicon, OS-wide IME | Parking lot | — |
 
 **Chinese / CJK** needs a candidate UI we own (Win11). Keyman Core does **not** run Chinese IMX, Japanese Mozc, or Korean dictionaries. zh uses MIT pinyin-data; ja is romaji→kana; ko is 2-beolsik hangul. Kanji conversion is out (no GPL Mozc, no hand-written 词库).
 
-**Honest limit:** this is an **in-app** IME for QWinUI3 fields. It does not replace Microsoft Pinyin for the whole desktop, and 1.73 will not match a cloud IME’s phrase quality.
+**Honest limit:** this is an **in-app** IME for QWinUI3 fields. It does not replace Microsoft Pinyin for the whole desktop, and 1.73–1.76 will not match a cloud IME’s phrase quality.
 
 System IME remains available alongside the panel until a later minor explicitly documents otherwise.
 
@@ -118,7 +124,7 @@ System IME remains available alongside the panel until a later minor explicitly 
 
 - Qt Virtual Keyboard / any GPL IM plugin  
 - Vendoring third-party QML keyboards  
-- Extra layouts / CJK IME (**1.71…1.73**)  
+- Extra layouts / CJK IME (**1.71…1.76**)  
 - Handwriting, dictation  
 - Global `SendInput` into other processes (security)  
 - Promoting to stable in the same minor  
@@ -200,3 +206,27 @@ System IME remains available alongside the panel until a later minor explicitly 
 - Strip Qt Virtual Keyboard from `windeployqt` trees as already documented.  
 - Through **1.71** this panel is a touch OSK; **1.72** adds in-app pinyin; **1.73** adds ja/ko + emoji. System IME (Microsoft Pinyin, etc.) stays the desktop CJK default.  
 - `KeyboardEngine.backend` is `"pinyin"` / `"romaji"` / `"hangul"` on those layouts, `"keyman"` when Core is linked for direct layouts, `"builtin"` if you skipped the fetch.
+
+---
+
+## 1.74 (planned) — soak
+
+Full in/out/exit lists live in [ROADMAP.md](../ROADMAP.md). Short form:
+
+- Gallery matrix: en/de/fr/es/ru/ar/zh/ja/ko + emoji, no Qt Virtual Keyboard
+- Candidate-bar a11y + hangul / romaji / pinyin field bugs
+- Stay experimental unless this minor writes a soak checklist **and** marks it green
+- Not extra `.kmx` (1.75), not kanji (1.76), not OS IME
+
+## 1.75 (planned) — extra Keyman packs
+
+- Vendor a **named** MIT `.kmx` subset (only files we actually ship)
+- Globe / ComboBox; `keyboards/README.md` lists shipped vs bring-your-own
+- Still layouts only — not Keyman Chinese/Japanese IMX
+
+## 1.76 (planned) — IME deepen (MIT-only)
+
+- zh: optional regenerate from the same MIT pinyin-data (script is one-shot, not CMake)
+- ja: kanji **only** if a MIT table can be generated like pinyin; otherwise skip and document
+- ko: compositor polish, not a hangul dictionary
+- No Mozc / libpinyin / Anthy / hand-written 词库

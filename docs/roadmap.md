@@ -1,8 +1,8 @@
 # QWinUI3 Roadmap
 
 **Current:** **1.73**
-**Next up:** **1.74** (long-horizon 1.xx checkpoint)
-**Planned through:** **1.74** (long-horizon 1.xx checkpoint)  
+**Next up:** **1.74** (OSK / IME soak)
+**Planned through:** **1.77** (long-horizon 1.xx checkpoint, slipped)
 **Still 1.xx:** Mid-horizon checkpoint published — [checkpoint-160.md](checkpoint-160.md). Not drafting 2.00.  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](qt-version-compat.md)
 
@@ -357,43 +357,125 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Horizon — planned `1.74`
+## Horizon — planned `1.74` … `1.77`
 
-Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per `YY`. Order can flex if field P0s force a swap; do not merge themes into mega-minors. Posture after 1.51 / 1.60: prefer field harden / docs over new control families — **1.70…1.73** is an explicit exception (touch OSK → full in-app IME; Qt Virtual Keyboard is GPL).
+Still **1.xx**. One theme per `YY`. **1.70…1.73** shipped the GPL-free in-app IME path; **1.74…1.76** finish that keyboard arc (soak → extra layouts → MIT-only deepen). Long-horizon checkpoint slips to **1.77**. Plan: [on-screen-keyboard.md](on-screen-keyboard.md). Chrome stays ours. Keyman Core stays layouts only. No Qt Virtual Keyboard.
 
-Ladder (chrome stays ours): **1.70 shipped** en-US OSK → **1.71 shipped** Keyman layouts → **1.72 shipped** Chinese IME → **1.73 shipped** ja/ko + emoji → **1.74** checkpoint. Plan: [on-screen-keyboard.md](on-screen-keyboard.md).
+| Slice | Keyboard theme |
+|-------|----------------|
+| **1.70 shipped** | Win11 OSK (en-US builtin) |
+| **1.71 shipped** | Keyman Core + de/fr/es/ru/ar |
+| **1.72 shipped** | zh-Hans pinyin + candidate bar |
+| **1.73 shipped** | ja romaji/kana + ko hangul + emoji |
+| **1.74** | Soak / harden (still experimental unless soak is green) |
+| **1.75** | Extra documented Keyman `.kmx` (not “every keyboard”) |
+| **1.76** | IME deepen, MIT sources only (no GPL Mozc / no hand-written 词库) |
+| **1.77** | Long-horizon 1.xx checkpoint (slipped from 1.74) |
 
-### 1.74 — Long-horizon 1.xx checkpoint
+### 1.74 — OSK / IME soak
 
-**Why:** Close the planned `1.49`…`1.74` arc with a deliberate “where we are”—still not 2.00. Slipped so OSK → full IME can ship as named slices.
+**Why:** 1.73 landed zh/ja/ko + emoji. Soak and fix before more packs or a promote. Do not silent-promote.
 
 **In scope**
 
-- Full stable-api vs Gallery audit; ROADMAP shipped/deferred refresh; compatibility-1xx revisit.
-- Publish “prefer field harden / pause vs new surfaces” guidance; open `1.75+` only for field-driven slices or park.
+- Gallery language matrix soak: en / de / fr / es / ru / ar / zh / ja / ko + emoji layer, no Qt Virtual Keyboard
+- `ImeCandidateBar` a11y (accessible names, paging, 1–9 / Space)
+- Field bugs in 2-beolsik hangul, Hepburn romaji, pinyin preedit / consume
+- Recipe: shipped `.kmx` vs bring-your-own; `engine.backend` (`pinyin` / `romaji` / `hangul` / `keyman` / `builtin`)
+- Stay **experimental** unless this minor writes a soak checklist **and** marks it green
 
 **Out of scope**
 
-- Declaring 2.00; freezing experimental forever.
+- Extra Keyman packs (that is **1.75**)
+- Kanji / hangul-word dictionaries / GPL IME engines
+- OS-wide IME / `platforminputcontexts`
+- Handwriting, dictation, cloud lexicon
+- Promoting to stable without a written green soak
 
 **Exit criteria**
 
-- Checkpoint notes in ROADMAP/README; explicit next posture (continue 1.xx / pause / draft 2.00 criteria only).
+- Soak notes live in [on-screen-keyboard.md](on-screen-keyboard.md)
+- zh / ja / ko + the 1.71 layout set still work in Gallery without Qt Virtual Keyboard
+- LICENSE/NOTICE still MIT Core + our UI + existing MIT pinyin tables
+
+### 1.75 — Extra Keyman layout packs
+
+**Why:** Original 1.73 “documented pack subset” did not ship — 1.73 kept the **1.71** `.kmx` set. Extending Latin/Cyrillic/etc. is load another MIT `.kmx`, not a second engine.
+
+**In scope**
+
+- A **named** MIT subset from [keymanapp/keyboards](https://github.com/keymanapp/keyboards) (only packs we actually vendor — e.g. additional `basic_kbd*` if license-clear)
+- Globe + Gallery ComboBox; `keyboards/README.md` lists shipped vs BYO
+- Direct layouts only (`engine.backend === "keyman"`)
+
+**Out of scope**
+
+- Vendoring “every” community keyboard
+- CJK via Keyman IMX / DLL
+- IME deepen (that is **1.76**)
+- Qt Virtual Keyboard
+
+**Exit criteria**
+
+- Docs name every bundled `.kmx` and the BYO three-step (drop file → `qt_add_resources` → `kLayoutIds`)
+- Arabic RTL and existing 1.71 packs still work
+
+### 1.76 — IME deepen (MIT-only)
+
+**Why:** 1.73 Japanese is kana, not kanji. Korean is a syllable compositor, not a word IME. Chinese phrases are the MIT table we already generate — not Microsoft Pinyin quality.
+
+**In scope**
+
+- zh: optional regenerate from the same mozillazg MIT sources (`scripts/gen_pinyin_lexicon.py` — still **not** a CMake step)
+- ja: kanji conversion **only** if a MIT dataset can be generated the same way as pinyin-data. No Mozc, no Anthy, no hand-written 词库. If no MIT source exists, skip kanji and document the gap
+- ko: compositor polish (compound vowels / double finals, shift vs Caps). Not libhangul dictionaries
+- Same `ImeCandidateBar` host
+
+**Out of scope**
+
+- GPL / dual-license IME engines (Mozc, libpinyin, ibus, Anthy, typical librime schemas)
+- Cloud suggestion, handwriting, dictation
+- OS-wide IME
+- Promote to stable unless **1.74** soak is already green and this minor names the promote
+
+**Exit criteria**
+
+- Honest docs: what converted vs what is still romaji/kana or hangul-only
+- No new GPL dependency; NOTICE updated only if a new MIT table is vendored
+
+### 1.77 — Long-horizon 1.xx checkpoint
+
+**Why:** Close the **1.49…1.77** arc (checkpoint slipped so the keyboard soak/packs/deepen can stay named slices). Still not 2.00.
+
+**In scope**
+
+- Full stable-api vs Gallery audit; ROADMAP shipped/deferred refresh; compatibility-1xx revisit
+- Publish “prefer field harden / pause vs new surfaces”; open `1.78+` only for field-driven slices or park
+- Record whether OSK/IME stayed experimental or was promoted in **1.74** / **1.76**
+
+**Out of scope**
+
+- Declaring 2.00; freezing experimental forever
+- Starting a new IME engine
+
+**Exit criteria**
+
+- Checkpoint notes in ROADMAP/README; explicit next posture (continue 1.xx / pause / draft 2.00 criteria only)
 
 ---
 
-## After `1.74`
+## After `1.77`
 
-Still **1.xx** if field needs dictate (`1.75`…)—or pause on polish. **Do not** treat 1.70…1.74 as permission to start **2.00**.
+Still **1.xx** if field needs dictate (`1.78`…)—or pause on polish. **Do not** treat 1.70…1.77 as permission to start **2.00**.
 
 Unscheduled follow-ups (pick only inside a named minor):
 
 | Candidate | Notes |
 |-----------|-------|
 | **Accessibility wave 3** | Focus return / live regions — slipped past 1.69 Theme prefs |
-| **IME soak → stable** | Only after **1.73** field use — do not silent-promote |
-| **1.75+ field fixes** | Portal / DPI / tray / WebView2 / packaging / IME regressions |
-| **More locale packs** | UI translation (`zh_CN` / `ja_JP`) stays separate from IME packs |
+| **IME promote → stable** | Only if **1.74** soak is green — do not silent-promote |
+| **1.78+ field fixes** | Portal / DPI / tray / WebView2 / packaging / IME regressions |
+| **More UI locale packs** | `zh_CN` / `ja_JP` seeds stay separate from IME / `.kmx` packs |
 | **Deeper Lottie / AnimatedIcon** | Only if 1.53 thin path proves valuable |
 | **Official vcpkg/Conan ports** | Beyond the 1.61 sketch—product promise only if owned |
 | **macOS first-class** | Remains parking-lot until deliberately scheduled |
@@ -412,7 +494,7 @@ Consider 2.00 only if several of these become true:
 - Need a new packaging/ABI contract that breaks 1.xx consumers  
 - Need to drop an old Qt floor or OS policy in a breaking way  
 
-Until then: **stay on 1.xx**, bump `YY` for each slice. Prefer finishing through **1.74** (long-horizon checkpoint) before even drafting 2.00 scope.
+Until then: **stay on 1.xx**, bump `YY` for each slice. Prefer finishing through **1.77** (long-horizon checkpoint) before even drafting 2.00 scope.
 
 ---
 
@@ -447,5 +529,5 @@ Unscheduled; pick up only inside a named `1.xx` minor (or never). Clarified at *
 | [components.md](components.md) | Control index |
 | [conventions.md](conventions.md) | A11y / QML rules |
 | [qt-version-compat.md](qt-version-compat.md) | Qt multi-version shims |
-| [on-screen-keyboard.md](on-screen-keyboard.md) | 1.70…1.73 OSK → full in-app IME |
+| [on-screen-keyboard.md](on-screen-keyboard.md) | 1.70…1.76 OSK → IME soak / extra packs / MIT deepen |
 | [ROADMAP.md](../ROADMAP.md) | Canonical plan (repo root) |

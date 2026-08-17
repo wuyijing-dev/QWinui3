@@ -2,7 +2,7 @@
 
 Halfway audit of the **1.49…1.70** arc (as of 1.60). **Still 1.xx — not 2.00.**
 
-**Later plan update (after 1.69):** **1.70…1.73** is the OSK → full in-app IME ladder ([on-screen-keyboard.md](on-screen-keyboard.md)); the long-horizon checkpoint moved to **1.74**. Freeze / “not 2.00” is unchanged.
+**Later plan update (after 1.73):** **1.70…1.73** shipped OSK → in-app IME ([on-screen-keyboard.md](on-screen-keyboard.md)); **1.74…1.76** continue that keyboard arc (soak / extra `.kmx` / MIT deepen); long-horizon checkpoint moved to **1.77**. Freeze / “not 2.00” is unchanged.
 
 Related: [maturity-1xx.md](maturity-1xx.md) (1.51) · [compatibility-1xx.md](compatibility-1xx.md) · [stable-api.md](stable-api.md) · [upgrade-notes.md](upgrade-notes.md) · [ROADMAP.md](../ROADMAP.md) · Gallery **Pitfalls**.
 
@@ -73,9 +73,9 @@ Keep in sync: `src/gallery/main.cpp` · `ControlCatalog.smokeCriticalComponents(
 
 ---
 
-## Confirmed plan **1.61…1.74**
+## Confirmed plan **1.61…1.77**
 
-Order confirmed at 1.60 (flex only for field P0s). **After 1.69:** OSK → IME ladder, then checkpoint.
+Order confirmed at 1.60 (flex only for field P0s). **After 1.73:** keyboard soak / extra packs / MIT deepen, then checkpoint.
 
 1. **1.61** — CMake package / `find_package` sketch  
 2. **1.62** — Gallery visual smoke (subset)  
@@ -90,7 +90,10 @@ Order confirmed at 1.60 (flex only for field P0s). **After 1.69:** OSK → IME l
 11. **1.71** — Extra keyboard layouts (not IME yet)  
 12. **1.72** — Chinese IME (pinyin + candidates)  
 13. **1.73** — Full in-app IME (ja / ko + emoji) — **shipped**  
-14. **1.74** — Long-horizon 1.xx checkpoint (slipped from 1.70)  
+14. **1.74** — OSK / IME soak (still experimental unless soak is green)  
+15. **1.75** — Extra documented Keyman `.kmx`  
+16. **1.76** — IME deepen (MIT-only)  
+17. **1.77** — Long-horizon 1.xx checkpoint (slipped from 1.74)  
 
 ---
 

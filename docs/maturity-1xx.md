@@ -2,7 +2,7 @@
 
 Deliberate **“where we are”** release for the 1.line after the post-1.40 arc (`1.41`…`1.50`). **Not** a soft 2.00.
 
-**Latest mid-horizon (1.60):** [checkpoint-160.md](checkpoint-160.md) — re-audit; **1.70…1.73** is OSK → full in-app IME; long-horizon checkpoint is **1.74**.
+**Latest mid-horizon (1.60):** [checkpoint-160.md](checkpoint-160.md) — re-audit; **1.70…1.73** shipped OSK → IME; **1.74…1.76** keyboard soak/packs/deepen; checkpoint is **1.77**.
 
 Related: [compatibility-1xx.md](compatibility-1xx.md) · [stable-api.md](stable-api.md) · [upgrade-notes.md](upgrade-notes.md) · [ROADMAP.md](../ROADMAP.md) · Gallery **Pitfalls**.
 
@@ -56,7 +56,7 @@ Still experimental / won’t-promote-for-now (see [stable-api 1.37 defer](stable
 - WebView2 advanced Environment / multi-profile
 - Snap Layouts / battery / online / screens / recent-docs helpers
 
-Scheduled follow-ups remain on the roadmap (`1.61`…`1.74`) — **1.70…1.73** IME ladder after 1.60; may flex for field P0s.
+Scheduled follow-ups remain on the roadmap (`1.61`…`1.77`) — **1.74…1.76** finish the keyboard arc; may flex for field P0s.
 
 ---
 

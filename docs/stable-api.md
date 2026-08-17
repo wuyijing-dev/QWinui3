@@ -238,6 +238,9 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.71** | Keyman Core (MIT) static + extra layouts (de/fr/es/ru/ar); still experimental; [on-screen-keyboard.md](on-screen-keyboard.md) |
 | **1.72** | In-app pinyin IME + `ImeCandidateBar`; MIT pinyin-data; still experimental; [on-screen-keyboard.md](on-screen-keyboard.md) |
 | **1.73** | In-app ja romaji/kana + ko hangul + emoji layer; still experimental; [on-screen-keyboard.md](on-screen-keyboard.md) |
+| **1.74** (planned) | OSK / IME soak — stay experimental unless soak is green; [on-screen-keyboard.md](on-screen-keyboard.md) |
+| **1.75** (planned) | Extra documented Keyman `.kmx`; [on-screen-keyboard.md](on-screen-keyboard.md) |
+| **1.76** (planned) | IME deepen, MIT-only; [on-screen-keyboard.md](on-screen-keyboard.md) |
 | **1.35** | Qt Creator kit polish — [qt-creator.md](qt-creator.md); example build presets |
 | **1.36** | Docs site IA — [recipes.md](recipes.md) hub; MkDocs Recipes sections |
 | **1.37** | Promote sweep — commands / Flyout / TabView / ShellWindow / pickers / progress / FontIcon / ItemsRepeater; explicit defer list |
