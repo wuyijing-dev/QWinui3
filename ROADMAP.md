@@ -1,8 +1,8 @@
 # QWinUI3 Roadmap
 
 **Current:** **1.48**
-**Next up:** **1.49** (Extractable Gallery shell template)
-**Planned through:** **1.50** (1.xx maturity checkpoint)  
+**Next up:** **1.49** (Icon micro-animations)
+**Planned through:** **1.52** (field / polish buffer after maturity checkpoint)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
 
 This plan starts from **what 1.00 already was**, then walks **small `1.xx` minors**. Stay on **1.xx for a long time**. **2.00 is not next**—only when we truly need breaking changes.
@@ -256,11 +256,32 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Horizon — planned `1.49` … `1.50`
+## Horizon — planned `1.49` … `1.52`
 
 Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per `YY`.
 
-### 1.49 — Extractable Gallery shell template
+### 1.49 — Icon micro-animations
+
+**Why:** WinUI-style chrome feels alive on click/hover; `FontIcon` / icon buttons need a small, consistent press–hover motion that respects reduced motion.
+
+**In scope**
+
+- Micro-motion on `FontIcon` (hover lift + press squash) and align `IconButton` / `AppBarButton` glyph feedback.
+- Opt-out / scale knobs; honor `Theme.reducedMotion` / system reduced motion.
+- Gallery **Iconography** interactive demos; extend [icons.md](docs/icons.md) (+ brief [animations.md](docs/animations.md) pointer).
+
+**Out of scope**
+
+- Full WinUI **AnimatedIcon** / Lottie state machines / per-glyph morph paths.
+- Replacing ConnectedAnimation or theme transition APIs.
+
+**Exit criteria**
+
+- Press/hover micro-motion visible in Gallery Iconography + icon buttons; docs + reduced-motion off path verified.
+
+---
+
+### 1.50 — Extractable Gallery shell template
 
 **Why:** Integrators copy Gallery chrome; make a thin “app shell” example from proven Gallery patterns.
 
@@ -279,7 +300,7 @@ Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per 
 
 ---
 
-### 1.50 — 1.xx maturity checkpoint
+### 1.51 — 1.xx maturity checkpoint
 
 **Why:** Cap the planned 1.line with a deliberate “where we are” release—not 2.00.
 
@@ -294,20 +315,40 @@ Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per 
 
 **Exit criteria**
 
-- Published checkpoint notes in ROADMAP/README; open 1.51+ only for field-driven slices or park work.
+- Published checkpoint notes in ROADMAP/README; open 1.52+ only for field-driven slices or park work.
 
 ---
 
-## After `1.50`
+### 1.52 — Field polish buffer (planned)
 
-Still **1.xx** if field needs dictate (`1.51`…)—or pause on polish. **Do not** treat 1.50 as permission to start **2.00**.
+**Why:** After the checkpoint, keep one named slot for regressions and small harden passes without inventing a new product surface.
+
+**In scope**
+
+- Portal / DPI / tray / WebView2 / packaging field fixes reported after 1.51.
+- Doc/link rot and Gallery recipe gaps only when cheap.
+
+**Out of scope**
+
+- New control families; AnimatedIcon/Lottie productization; starting 2.00.
+
+**Exit criteria**
+
+- At least one shipped harden notes block (or explicitly “no field P0 — skip / defer”).
+
+---
+
+## After `1.52`
+
+Still **1.xx** if field needs dictate (`1.53`…)—or pause on polish. **Do not** treat 1.51/1.52 as permission to start **2.00**.
 
 Unscheduled follow-ups (pick only inside a named minor):
 
 | Candidate | Notes |
-|-----------|--------|
-| **1.51+ field fixes** | Portal / DPI / tray / WebView2 regressions from users |
+|-----------|-------|
+| **1.53+ field fixes** | Portal / DPI / tray / WebView2 regressions from users |
 | **Extra locale packs** | Only if 1.45 workflow stays cheap |
+| **AnimatedIcon / Lottie** | Only if a thin optional path stays cheap after 1.49 micro-motion |
 | **vcpkg / Conan sketches** | Packaging experiments—not a product promise |
 
 Order remains flexible; do not bundle into mega-minors.
@@ -324,7 +365,7 @@ Consider 2.00 only if several of these become true:
 - Need a new packaging/ABI contract that breaks 1.xx consumers  
 - Need to drop an old Qt floor or OS policy in a breaking way  
 
-Until then: **stay on 1.xx**, bump `YY` for each slice. Prefer finishing through **1.50** before even drafting 2.00 scope.
+Until then: **stay on 1.xx**, bump `YY` for each slice. Prefer finishing through **1.51** (maturity checkpoint) before even drafting 2.00 scope.
 
 ---
 
@@ -337,6 +378,7 @@ Unscheduled; pick up only inside a named `1.xx` minor (or never):
 - Full Fluent visual redesign / Fluent 2 Style fork  
 - Screenshot diffs for every Gallery page  
 - Extra Gallery language packs (beyond 1.45 seed path)  
+- Full AnimatedIcon / Lottie state machines (thin path may follow 1.49)  
 - New chart engines / WebGL  
 - Official vcpkg/Conan ports as supported products  
 
