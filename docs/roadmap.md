@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
 **Current:** **2.57** (master; files on Linux)
-**Next up:** **2.63** — **(conditional)** Notification center (professional surfaces tranche 3)
+**Next up:** **2.64** — Collection perf + a11y sign-off (professional surfaces tranche 3)
 **Planned through:** **3.00** (… → **2.00** break → **2.01…2.50** tranche 1 → **2.51…2.60** friction-only → **2.61…2.70** professional surfaces → **2.71…2.73** Python / PyPI → **3.00** 2.x close-out)
 **1.xx close-out:** [checkpoint-190.md](checkpoint-190.md). **1.86…1.89** performance arc **signed off** (**animations stay**). OSK/packaging promote **2.01**. **2.50** = tranche-1 audit; **2.60** = friction tranche close-out; **2.70** = professional-surfaces audit; **2.73** = Python consumer checkpoint; **3.00** = 2.x breaking close-out ([checkpoint-300.md](checkpoint-300.md)).  
 **Qt:** 6.5+ (recommended 6.8 LTS) through **1.92** — [qt-version-compat.md](qt-version-compat.md). **2.00** raises the floor to **6.8 LTS**. **3.00** raises the floor to **6.10 LTS**. **Platforms:** **Windows + Linux** — no macOS first-class line.
@@ -727,7 +727,7 @@ Apps on **1.90** read [upgrade-notes.md](upgrade-notes.md) **1.90 → 2.00**, ra
 |-------|--------|-----------------|--------|
 | **2.61** | **(conditional)** `RichEdit` | Mail/template/note apps blocked by plain `TextArea` | **Shipped** |
 | **2.62** | **(conditional)** `SemanticZoom` | Contacts/album thumbnail ↔ letter index blocked | **Shipped** |
-| **2.63** | **(conditional)** Notification center | History + grouping beyond Toast/InfoBar | Planned |
+| **2.63** | **(conditional)** Notification center | History + grouping beyond Toast/InfoBar | **Shipped** |
 | **2.64** | Collection perf + a11y sign-off | Residual **DataTable** / **ListDetailsView** / **NavigationView** field rows | Planned |
 | **2.65** | **Charts + Dashboard product wave** | **FL-009** close + stable six deepen + **DashboardShell** | Planned |
 | **2.66** | Forms industry template pack | Close **2.25** LoB form pages if still open | Planned |
@@ -766,13 +766,11 @@ Apps on **1.90** read [upgrade-notes.md](upgrade-notes.md) **1.90 → 2.00**, ra
 
 **Shipped:** **`SemanticZoom`** — zoomed-in / zoomed-out hosts, shared `model` + `selectedIndex`, `selectGroup()`; Gallery contacts recipe; [semantic-zoom-262.md](semantic-zoom-262.md). Product version **2.62**. **Experimental.**
 
-### 2.63 — (conditional) Notification center (planned)
+### 2.63 — (conditional) Notification center (shipped)
 
-**Friction gate:** Apps need dismissible history + grouping — Toast-only flow insufficient (pairs with **2.27** if split).
+**Friction gate:** Apps need dismissible history + grouping — Toast-only flow insufficient (pairs with **2.27**).
 
-**Goal:** In-app **notification center** drawer/panel — list, group, mark read, clear; integrates **NotificationBridge**; Gallery recipe.
-
-**Out:** OS notification replacement; push service backend.
+**Shipped:** **`NotificationBridge.notificationCenter`** wiring; **`maxHistory`** + **`id`** dedupe; Gallery product stack; [notification-center-263.md](notification-center-263.md). Product version **2.63**. **Experimental** center.
 
 ### 2.64 — Collection perf + a11y sign-off (planned)
 

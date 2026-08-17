@@ -4,7 +4,7 @@ Mirror in-app ToastHost to OS notifications (Win balloon / Linux portal).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/NotificationBridge.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/NotificationBridge.qml)
 
-**Category:** Status & feedback · **Library:** v2.62
+**Category:** Status & feedback · **Library:** v2.63
 
 [← Component index](../components.md)
 
@@ -18,12 +18,14 @@ Mirror in-app ToastHost to OS notifications (Win balloon / Linux portal).
 NotificationBridge {
     id: bridge
     toastHost: toasts
+    notificationCenter: center
+    recordInCenter: true
     mirrorToSystem: true
 }
 bridge.info(qsTr("Saved"), qsTr("Document"))
-// or: toasts.info(...); bridge.mirrorLast(...) via show()
 
 // --- API ---
+// toastHost, notificationCenter, recordInCenter, defaultCategory
 // mirrorToSystem, appName, trayVisible
 // methods: show/info/success/warning/error, notifySystem(title, message, icon)
 // signals: systemNotified(string, string)
@@ -31,9 +33,10 @@ bridge.info(qsTr("Saved"), qsTr("Document"))
 
 ## Notes
 
-Uses TrayIcon.notifySystem → Windows balloon (icon 0/1/2) / org.freedesktop.Notifications /
+Uses TrayIcon.notifySystem → Windows balloon / org.freedesktop.Notifications /
 notify-send. When toastHost is set, show() also enqueues an in-app toast.
-Prefer bridge.info/success/warning/error for LoB apps. See docs/system-integration.md.
+When notificationCenter is set (2.63), show() also appends grouped history.
+Prefer bridge.info/success/warning/error for LoB apps. See docs/notification-center-263.md.
 
 ## API
 
@@ -42,6 +45,9 @@ Prefer bridge.info/success/warning/error for LoB apps. See docs/system-integrati
 | Name | Type | Description |
 | --- | --- | --- |
 | `toastHost` | `var` | — |
+| `notificationCenter` | `var` | — |
+| `recordInCenter` | `bool` | — |
+| `defaultCategory` | `string` | — |
 | `mirrorToSystem` | `bool` | — |
 | `toastInApp` | `bool` | — |
 | `appName` | `string` | — |
@@ -67,11 +73,11 @@ Prefer bridge.info/success/warning/error for LoB apps. See docs/system-integrati
 | Signature | Description |
 | --- | --- |
 | `notifySystem(title, message, icon)` | — |
-| `show(message, severity, title, actionText)` | — |
-| `info(message, title, actionText)` | — |
-| `success(message, title, actionText)` | — |
-| `warning(message, title, actionText)` | — |
-| `error(message, title, actionText)` | — |
+| `show(message, severity, title, actionText, dedupeId)` | — |
+| `info(message, title, actionText, dedupeId)` | — |
+| `success(message, title, actionText, dedupeId)` | — |
+| `warning(message, title, actionText, dedupeId)` | — |
+| `error(message, title, actionText, dedupeId)` | — |
 | `mirrorHostShow(message, severity, title)` | by calling bridge.mirrorFromHost after host show — prefer bridge.show(). |
 
 ### Inherited from `Control`

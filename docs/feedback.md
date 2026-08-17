@@ -120,7 +120,7 @@ TeachingTip {
 }
 ```
 
-Gallery: **Dialogs → Onboarding coach** (3-step demo + Reset). Cross-links: [keyboard.md](keyboard.md) (Esc / focus return), [dialogs-flyouts.md](dialogs-flyouts.md) (vs ContentDialog).
+Gallery: **Dialogs → Onboarding coach** (3-step demo + Reset). Cross-links: [keyboard.md](keyboard.md) (Esc / focus return), [dialogs-flyouts.md](dialogs-flyouts.md) (vs ContentDialog). **Multi-window apps:** defer tour until main shell is visible; separate Settings category from geometry — [multi-window-onboarding.md](multi-window-onboarding.md) (**2.43**).
 
 ---
 
@@ -156,11 +156,67 @@ Close buttons expose Accessible name **Close** and keyboard activation (1.02).
 |------|------|
 | **InfoBar** / **InfoBarHost** | Severity + stack / maxVisible |
 | **Toast** / **ToastHost** | Transient + pending queue |
+| **Notification center** | Grouped dismissible history (**2.27**) |
 | **TeachingTip** | Coach mark (not confirm) |
 | **Onboarding coach** | Sequenced tips + don’t-show-again (**1.55**) |
 | **InfoBar + TeachingTip recipe** | Form save + first-focus tip (follows this doc) |
 | **ProgressBar** / **Ring** / **Button** | In-place progress |
+| **InfoBadge** | Unread count on bell / nav (**2.27**) |
 | **NotificationBridge** | Toast + OS mirror |
+
+---
+
+## Notification center (2.27)
+
+**Experimental** — `NotificationCenter` addresses **FL-007** (in-app history + grouping). Toast-only flows lose dismissible history; LoB apps need a drawer.
+
+| Surface | Role |
+|---------|------|
+| **ToastHost** | Transient ack — still use for “Saved” |
+| **NotificationCenter** | Grouped list, mark read, clear read / all |
+| **InfoBadge** | `unreadCount` on bell / nav icon |
+| **ProgressRing** + **InfoBar** | Long save/upload next to the work (**2.27** demo) |
+| **TeachingTip** | One-time coach on the bell |
+
+```qml
+NotificationCenter {
+    id: center
+    model: appNotifications
+    onNotificationClicked: (index, item) => center.markRead(index)
+}
+
+IconButton {
+    id: bell
+    symbol: FluentIcons.Ringer
+    onClicked: center.open()
+    InfoBadge {
+        anchors.right: parent.right
+        anchors.top: parent.top
+        visible: center.unreadCount > 0
+        value: center.unreadCount
+    }
+}
+
+center.addNotification({
+    title: qsTr("Build finished"),
+    message: qsTr("Release succeeded."),
+    category: qsTr("CI"),
+    severity: center.success
+})
+```
+
+| API | Role |
+|-----|------|
+| `groupRole` | Model field for sections (default `"category"`) |
+| `unreadCount` | Unread rows for **InfoBadge** |
+| `markRead` / `markAllRead` / `clear` / `clearRead` | History hygiene |
+| `addNotification` / `push` | Append to history (newest first) |
+
+Gallery: **Notification center** page · **Feedback surfaces** hub.
+
+**2.63 productize:** [notification-center-263.md](notification-center-263.md) — `NotificationBridge.notificationCenter`, `maxHistory`, dedupe **`id`**.
+
+**Out:** OS notification center replacement; push SaaS.
 
 ---
 

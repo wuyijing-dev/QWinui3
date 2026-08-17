@@ -4,7 +4,7 @@ Placeholder illustration + title + optional action.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/EmptyState.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/EmptyState.qml)
 
-**Category:** Status & feedback · **Library:** v2.62
+**Category:** Status & feedback · **Library:** v2.63
 
 [← Component index](../components.md)
 

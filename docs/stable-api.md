@@ -280,6 +280,7 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **2.51** | Stable vs experimental clarity — [stable-clarity-251.md](stable-clarity-251.md); `lint_qml_imports.py`; **FL-004** queue closed |
 | **2.61** | `RichEdit` experimental — mail/template rich text; [rich-edit-261.md](rich-edit-261.md); **FL-005** closed |
 | **2.62** | `SemanticZoom` experimental — grid ↔ index; [semantic-zoom-262.md](semantic-zoom-262.md); **FL-006** closed |
+| **2.63** | Notification center productize — bridge wiring; [notification-center-263.md](notification-center-263.md); **FL-007** closed |
 | **2.52** | First app in an hour — [first-app-252.md](first-app-252.md); `examples/first-app/` + preview **DashboardShell** |
 | **2.53** | Linux top-3 parity — [linux-top3-253.md](linux-top3-253.md); **NavigationWindow** clip + **sway** profile + FilePicker guard |
 | **2.54** | Window chrome footguns — [window-chrome-footguns-254.md](window-chrome-footguns-254.md); geometry schema v2 + hit-test refresh |

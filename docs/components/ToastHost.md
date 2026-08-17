@@ -4,7 +4,7 @@ Hosts stacked Toasts with WinUI-style corner placement.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ToastHost.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ToastHost.qml)
 
-**Category:** Dialogs & flyouts · **Library:** v2.62
+**Category:** Dialogs & flyouts · **Library:** v2.63
 
 [← Component index](../components.md)
 
@@ -64,7 +64,7 @@ Do not also set anchors when using placement — they conflict.
 | Signature | Description |
 | --- | --- |
 | `setPlacementName(name)` | — |
-| `show(message, severity, title, actionText)` | Enqueue a toast (shows immediately if under maxVisible, else waits) |
+| `show(message, severity, title, actionText, dedupeId)` | Optional dedupeId skips enqueue when the same id is already visible or pending. |
 | `info(message, title, actionText)` | — |
 | `successToast(message, title, actionText)` | — |
 | `success(message, title, actionText)` | — |

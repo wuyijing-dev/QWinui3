@@ -4,7 +4,7 @@ Fluent styled ToolSeparator.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/ToolSeparator.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/ToolSeparator.qml)
 
-**Category:** Styled controls · **Library:** v2.62
+**Category:** Styled controls · **Library:** v2.63
 
 [← Component index](../components.md)
 

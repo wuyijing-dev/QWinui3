@@ -49,4 +49,4 @@ Product apps need the touch keyboard **inside the window** (footer dock), not on
 - [ ] **`hardwareInput: true`** when physical keys should share the same IME path
 - [ ] Layout hot-swap: **`engine.layoutIndex`** / **`layoutId`** — compose cancels on switch (by design)
 
-**Next:** **2.63** conditional notification center (**FL-007**)
+**Next:** **2.64** collection perf sign-off

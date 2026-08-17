@@ -4,7 +4,7 @@ Minimal dashboard layout host (2.52 preview; chart grid + filter rail in 2.65).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/DashboardShell.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/DashboardShell.qml)
 
-**Category:** Shells & windows · **Library:** v2.62
+**Category:** Shells & windows · **Library:** v2.63
 
 [← Component index](../components.md)
 

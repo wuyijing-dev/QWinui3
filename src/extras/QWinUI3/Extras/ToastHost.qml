@@ -133,8 +133,8 @@ T.Control {
         }
     }
 
-    function _makeEntry(message, severity, title, actionText) {
-        return {
+    function _makeEntry(message, severity, title, actionText, dedupeId) {
+        var entry = {
             "key": Date.now() + "-" + Math.random().toString(36).slice(2, 8),
             "message": message || "",
             "severity": severity === undefined ? informational : severity,
@@ -142,6 +142,9 @@ T.Control {
             "actionText": actionText || "",
             "durationMs": root.durationMs
         }
+        if (dedupeId && String(dedupeId).length)
+            entry.dedupeId = String(dedupeId)
+        return entry
     }
 
     function _pushVisible(entry) {
@@ -159,17 +162,30 @@ T.Control {
                 "severity": pending.get(0).severity,
                 "title": pending.get(0).title,
                 "actionText": pending.get(0).actionText,
-                "durationMs": pending.get(0).durationMs
+                "durationMs": pending.get(0).durationMs,
+                "dedupeId": pending.get(0).dedupeId || ""
             }
             pending.remove(0)
             _pushVisible(e)
         }
     }
 
-    // Enqueue a toast (shows immediately if under maxVisible, else waits)
-    function show(message, severity, title, actionText) {
+    // Enqueue a toast (shows immediately if under maxVisible, else waits).
+    // Optional dedupeId skips enqueue when the same id is already visible or pending.
+    function show(message, severity, title, actionText, dedupeId) {
         root._ensureWindowOverlayParent()
-        var entry = _makeEntry(message, severity, title, actionText)
+        if (dedupeId && String(dedupeId).length) {
+            var id = String(dedupeId)
+            for (var i = 0; i < queue.count; ++i) {
+                if (queue.get(i).dedupeId === id)
+                    return
+            }
+            for (var j = 0; j < pending.count; ++j) {
+                if (pending.get(j).dedupeId === id)
+                    return
+            }
+        }
+        var entry = _makeEntry(message, severity, title, actionText, dedupeId)
         if (queue.count >= root.maxVisible) {
             pending.append(entry)
             return

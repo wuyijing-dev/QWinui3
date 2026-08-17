@@ -8,25 +8,30 @@ import QWinUI3.Platform
 //   NotificationBridge {
 //       id: bridge
 //       toastHost: toasts
+//       notificationCenter: center
+//       recordInCenter: true
 //       mirrorToSystem: true
 //   }
 //   bridge.info(qsTr("Saved"), qsTr("Document"))
-//   // or: toasts.info(...); bridge.mirrorLast(...) via show()
 //
 //   // --- API ---
+//   // toastHost, notificationCenter, recordInCenter, defaultCategory
 //   // mirrorToSystem, appName, trayVisible
 //   // methods: show/info/success/warning/error, notifySystem(title, message, icon)
 //   // signals: systemNotified(string, string)
 //
 // @notes
-//   Uses TrayIcon.notifySystem → Windows balloon (icon 0/1/2) / org.freedesktop.Notifications /
+//   Uses TrayIcon.notifySystem → Windows balloon / org.freedesktop.Notifications /
 //   notify-send. When toastHost is set, show() also enqueues an in-app toast.
-//   Prefer bridge.info/success/warning/error for LoB apps. See docs/system-integration.md.
-
+//   When notificationCenter is set (2.63), show() also appends grouped history.
+//   Prefer bridge.info/success/warning/error for LoB apps. See docs/notification-center-263.md.
 T.Control {
     id: root
 
     property var toastHost: null
+    property var notificationCenter: null
+    property bool recordInCenter: true
+    property string defaultCategory: ""
     property bool mirrorToSystem: true
     property bool toastInApp: true
     property string appName: Qt.application.displayName || Qt.application.name || "QWinUI3"
@@ -71,27 +76,45 @@ T.Control {
         return 0
     }
 
-    function show(message, severity, title, actionText) {
+    function _recordCenter(title, message, severity, dedupeId, actionText) {
+        if (!notificationCenter || !recordInCenter || !notificationCenter.addNotification)
+            return
+        var cat = defaultCategory.length ? defaultCategory : qsTr("General")
+        var item = {
+            title: title && title.length ? title : root.appName,
+            message: message || "",
+            category: cat,
+            severity: severity === undefined ? informational : severity
+        }
+        if (dedupeId && String(dedupeId).length)
+            item.id = String(dedupeId)
+        if (actionText && actionText.length)
+            item.actionText = actionText
+        notificationCenter.addNotification(item)
+    }
+
+    function show(message, severity, title, actionText, dedupeId) {
         var sev = severity === undefined ? informational : severity
         var t = title || ""
         var m = message || ""
         if (toastInApp && toastHost && toastHost.show)
-            toastHost.show(m, sev, t, actionText || "")
+            toastHost.show(m, sev, t, actionText || "", dedupeId)
         if (mirrorToSystem)
             notifySystem(t.length ? t : root.appName, m, _systemIcon(sev))
+        root._recordCenter(t.length ? t : root.appName, m, sev, dedupeId, actionText)
     }
 
-    function info(message, title, actionText) {
-        show(message, informational, title || qsTr("Information"), actionText)
+    function info(message, title, actionText, dedupeId) {
+        show(message, informational, title || qsTr("Information"), actionText, dedupeId)
     }
-    function success(message, title, actionText) {
-        show(message, success, title || qsTr("Success"), actionText)
+    function success(message, title, actionText, dedupeId) {
+        show(message, success, title || qsTr("Success"), actionText, dedupeId)
     }
-    function warning(message, title, actionText) {
-        show(message, warning, title || qsTr("Warning"), actionText)
+    function warning(message, title, actionText, dedupeId) {
+        show(message, warning, title || qsTr("Warning"), actionText, dedupeId)
     }
-    function error(message, title, actionText) {
-        show(message, error, title || qsTr("Error"), actionText)
+    function error(message, title, actionText, dedupeId) {
+        show(message, error, title || qsTr("Error"), actionText, dedupeId)
     }
 
     // Attach listeners so ToastHost.info/success/... can optionally be mirrored

@@ -47,6 +47,29 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 2.62 → 2.63
+
+**Product version:** 2.63
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Notification center productize:** `NotificationBridge` → `NotificationCenter` — [notification-center-263.md](notification-center-263.md) (**2.63** / **FL-007**).
+- Set **`maxHistory`**; pass stable **`id`** for dedupe; use **`bridge.success()`** instead of manual toast + push.
+
+#### Action required (only if you adopt the product stack)
+
+| Area | Change | What to do |
+|------|--------|------------|
+| **NotificationBridge** | `notificationCenter` + `recordInCenter` | Wire center on bridge; one API for toast + history |
+| **NotificationCenter** | `maxHistory`, `dedupeIdRole` | Cap stored rows; dedupe by `id` |
+| **ToastHost** | Optional `dedupeId` on `show()` | Skip duplicate transient toasts |
+
+#### No action (compatible)
+
+- Apps using only **ToastHost** / **2.27** manual center — still work; bridge params optional.
+
 ### Upgrade 2.61 → 2.62
 
 **Product version:** 2.62

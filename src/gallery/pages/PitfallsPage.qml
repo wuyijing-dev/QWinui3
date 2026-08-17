@@ -206,6 +206,26 @@ CatalogPage {
     }
 
     ControlExample {
+        headerText: qsTr("Notification center product stack (2.63 / FL-007)")
+        qmlSource: "NotificationBridge { notificationCenter: center }\\n// docs/notification-center-263.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("2.63: NotificationBridge records toast + grouped history. maxHistory caps rows; id dedupes repeats. Not OS notification replacement. docs/notification-center-263.md")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            CheckBox { text: qsTr("Use bridge.success/info — not parallel toasts + manual center.push") }
+            CheckBox { text: qsTr("InfoBadge on bell ← center.unreadCount") }
+            CheckBox { text: qsTr("NotificationCenter experimental — ToastHost/Bridge patterns stable") }
+        }
+    }
+
+    ControlExample {
         headerText: qsTr("SemanticZoom for contacts (2.62 / FL-006)")
         qmlSource: "SemanticZoom { groupRole: \"letter\" }\\n// docs/semantic-zoom-262.md"
         ColumnLayout {

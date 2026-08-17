@@ -111,7 +111,7 @@
 | **Pain** | Toast-only flow loses dismissible history and grouped categories; LoB apps need a notification drawer/center. |
 | **Workaround today** | Custom `ListView` + local store beside `InfoBar` / Toast. |
 | **Proposed slice** | **2.27** / **2.63** **(conditional)** notification center |
-| **Status** | addressed — **2.27** `NotificationCenter` (experimental) |
+| **Status** | closed — **2.63** product stack · [notification-center-263.md](../notification-center-263.md) |
 
 ### FL-008 — Collection controls sluggish at scale
 
@@ -226,6 +226,10 @@
 ---
 
 ## Checkpoint notes
+
+### 2.63 (2026-08-17)
+
+**FL-007** productized — **`NotificationBridge`** → **`NotificationCenter`** + **`maxHistory`** / dedupe — [notification-center-263.md](../notification-center-263.md).
 
 ### 2.62 (2026-08-17)
 

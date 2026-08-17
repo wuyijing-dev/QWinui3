@@ -4,7 +4,7 @@ Swipe-to-reveal actions on content.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/SwipeControl.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/SwipeControl.qml)
 
-**Category:** Other · **Library:** v2.62
+**Category:** Other · **Library:** v2.63
 
 [← Component index](../components.md)
 

@@ -1,6 +1,6 @@
 # QWinUI3 component API
 
-Library **v2.62**. Generated from QML source comments (`scripts/generate_component_docs.py`).
+Library **v2.63**. Generated from QML source comments (`scripts/generate_component_docs.py`).
 Each control has its own page under `docs/components/`.
 
 ```bash
@@ -103,7 +103,7 @@ python scripts/generate_component_docs.py --lint
 - [NavigationView](components/NavigationView.md) — WinUI NavigationView with pane modes and page stack. · Gallery
 - [NavigationWindow](components/NavigationWindow.md) — ShellWindow hosting NavigationView + content.
 - [NotificationBridge](components/NotificationBridge.md) — Mirror in-app ToastHost to OS notifications (Win balloon / Linux portal). · Gallery
-- [NotificationCenter](components/NotificationCenter.md) — In-app notification drawer with grouping (2.27). · Gallery
+- [NotificationCenter](components/NotificationCenter.md) — In-app notification drawer with grouping (2.27 / 2.63). · Gallery
 - [NumberBox](components/NumberBox.md) — Numeric spin/edit with validation (WinUI AcceptsExpression / IsWrapEnabled). · Gallery
 - [OnScreenKeyboard](components/OnScreenKeyboard.md) — Windows 11 touch keyboard parity (1.82). · Gallery
 - [OnScreenKeyboardWindow](components/OnScreenKeyboardWindow.md) — floating Win11-style OSK (1.83).

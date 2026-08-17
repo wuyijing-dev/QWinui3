@@ -148,6 +148,7 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 | [Long-horizon checkpoint (1.78)](checkpoint-178.md) | 1.49…1.78 close-out |
 | [Checkpoint 2.30](checkpoint-230.md) | Tranche-1 mid audit |
 | [Checkpoint 2.50](checkpoint-250.md) | Tranche-1 close-out — friction-only **2.51+** |
+| [Notification center (2.63)](notification-center-263.md) | Toast + history **`NotificationBridge`** stack |
 | [Semantic zoom (2.62)](semantic-zoom-262.md) | Contacts **`SemanticZoom`** (**experimental**) |
 | [Rich edit (2.61)](rich-edit-261.md) | Mail / template **`RichEdit`** (**experimental**) |
 | [Checkpoint 2.60](checkpoint-260.md) | Friction tranche close-out — **2.61+** professional surfaces |

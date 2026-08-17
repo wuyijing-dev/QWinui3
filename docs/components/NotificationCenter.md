@@ -1,10 +1,10 @@
 # NotificationCenter
 
-In-app notification drawer with grouping (2.27).
+In-app notification drawer with grouping (2.27 / 2.63).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/NotificationCenter.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/NotificationCenter.qml)
 
-**Category:** Status & feedback · **Library:** v2.62
+**Category:** Status & feedback · **Library:** v2.63
 
 [← Component index](../components.md)
 
@@ -18,18 +18,20 @@ In-app notification drawer with grouping (2.27).
 NotificationCenter {
     id: center
     model: notifications
+    maxHistory: 100
     onNotificationClicked: (index, item) => { … }
 }
 center.addNotification({
+    id: "build-42",
     title: qsTr("Build finished"),
-    message: qsTr("Release 2.27 succeeded."),
+    message: qsTr("Release 2.63 succeeded."),
     category: qsTr("CI"),
     severity: center.success
 })
 center.open()
 
 // --- API ---
-// properties: model, groupRole, isOpen, unreadCount
+// properties: model, groupRole, isOpen, unreadCount, maxHistory, dedupeIdRole
 // methods: open(), close(), markRead(i), markAllRead(), clear(), clearRead(),
 //          addNotification(item), push(item)
 // signals: notificationClicked, notificationActionClicked, cleared
@@ -38,8 +40,8 @@ center.open()
 ## Notes
 
 Experimental — dismissible history + category groups (FL-007). Complements
-ToastHost (transient) and InfoBarHost (inline). Not an OS notification center.
-See docs/feedback.md wave 3.
+ToastHost (transient) and InfoBarHost (inline). Pair with NotificationBridge
+recordInCenter (2.63). Not an OS notification center. See docs/notification-center-263.md.
 
 ## API
 
@@ -49,6 +51,8 @@ See docs/feedback.md wave 3.
 | --- | --- | --- |
 | `model` | `var` | — |
 | `groupRole` | `string` | — |
+| `dedupeIdRole` | `string` | — |
+| `maxHistory` | `int` | — |
 | `edge` | `alias` | — |
 | `drawerWidth` | `alias` | — |
 | `informational` | `int` | — |

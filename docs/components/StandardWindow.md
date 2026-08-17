@@ -4,7 +4,7 @@ Platform ApplicationWindow + PlatformTitleBar host.
 
 `import QWinUI3.Platform` · [`src/platform/QWinUI3/Platform/StandardWindow.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/platform/QWinUI3/Platform/StandardWindow.qml)
 
-**Category:** Platform · **Library:** v2.62
+**Category:** Platform · **Library:** v2.63
 
 [← Component index](../components.md)
 

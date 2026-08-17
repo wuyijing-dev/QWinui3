@@ -1,6 +1,6 @@
 {
   "name": "QWinUI3",
-  "version": "2.62",
+  "version": "2.63",
   "generatedBy": "scripts/generate_component_docs.py",
   "publicCount": 229,
   "components": [
@@ -1365,14 +1365,14 @@
       "galleryPage": "pages/NotificationBridgePage.qml",
       "galleryTitle": "NotificationBridge",
       "doc": "components/NotificationBridge.md",
-      "propertyCount": 12,
+      "propertyCount": 15,
       "signalCount": 3,
       "methodCount": 7
     },
     {
       "name": "NotificationCenter",
       "module": "QWinUI3.Extras",
-      "summary": "In-app notification drawer with grouping (2.27).",
+      "summary": "In-app notification drawer with grouping (2.27 / 2.63).",
       "path": "src/extras/QWinUI3/Extras/NotificationCenter.qml",
       "baseType": "Control",
       "internal": false,
@@ -1380,7 +1380,7 @@
       "galleryPage": "pages/NotificationCenterPage.qml",
       "galleryTitle": "Notification center",
       "doc": "components/NotificationCenter.md",
-      "propertyCount": 11,
+      "propertyCount": 13,
       "signalCount": 3,
       "methodCount": 8
     },

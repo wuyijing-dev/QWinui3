@@ -101,4 +101,4 @@ Focus must be on the **`SemanticZoom`** control (or use the header zoom button w
 - [ ] Prefer **`groupKeys`** for the zoomed-out view — not a hand-maintained A–Z list
 - [ ] Not for map/graph zoom — use app-owned canvas if needed
 
-**Next:** **2.63** conditional **notification center** productize (**FL-007**)
+**Next:** **2.64** collection perf sign-off (**FL-008** residual)
