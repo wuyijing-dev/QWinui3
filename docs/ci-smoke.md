@@ -73,6 +73,8 @@ python scripts/smoke_gallery.py --build-dir build --platform windows
 
 Timing is advisory (machine-dependent). Critical set only — not the full catalog. Cold-start tips: [performance.md](performance.md) (**1.39**). Interactive measure: `qwinui3_gallery --startup-log`.
 
+**Performance arc (1.86…1.89):** smoke `--smoke` validates **page instantiate**, not frame time or navigation perf. After the arc, treat printed `main=…ms` / `pages=…ms` / `total=…ms` as a **regression hint only** — compare on the same machine/Release build; do not gate CI on absolute milliseconds. Arc sign-off: [checkpoint-190.md](checkpoint-190.md).
+
 ### Critical page set
 
 Keep these three in sync when editing:

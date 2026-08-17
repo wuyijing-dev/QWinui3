@@ -47,6 +47,47 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.90 → 2.00 (draft)
+
+**Status:** **Draft only** — breaks ship in **2.00**, not in 1.90. Inventory finalized in [checkpoint-190.md](checkpoint-190.md).
+
+**Product version target:** 2.00  
+**Qt:** floor **6.8 LTS** (drop **6.5**); forward **6.10+** OK — [qt-version-compat.md](qt-version-compat.md)
+
+#### Action required (at 2.00)
+
+| Area | Change | What to do |
+|------|--------|------------|
+| **Qt** | Minimum **6.8** | Raise CI / installer Qt; rebuild Release; re-run deploy (`windeployqt` / `linuxdeploy`) |
+| **Theme tokens** | Collapse duplicate stroke/focus aliases (exact list in 2.00 release notes) | Grep your app for legacy focus/stroke names; apply remap table from 2.00 tag |
+| **Shell aliases** | Remove Gallery-era compatibility aliases | Prefer `NavigationWindow` / `StandardWindow` / documented Extras shells — [window-shells.md](window-shells.md) |
+| **Experimental types** | Still experimental after **2.01** OSK may be promoted, moved, or removed | Pin 1.90 if you depend on undocumented experimental APIs |
+
+#### Optional / polish
+
+- Skim [performance.md](performance.md) arc (1.86…1.89) before tuning on the new floor.
+- OSK / IME promote and consumer packaging: **2.01+**, not 2.00 by default — [ROADMAP.md](../ROADMAP.md).
+
+#### Stay on 1.90 if
+
+- You must keep **Qt 6.5** in production.
+- You need the current 1.xx Theme / shell names without a migration window.
+
+### Upgrade 1.89 → 1.90
+
+**Product version:** 1.90  
+**Date:** 2026-08-17  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **1.xx close-out:** [checkpoint-190.md](checkpoint-190.md) — docs audit, perf arc sign-off, **2.00 prep draft** (no breaking code).
+- **Performance arc:** all four waves (1.86…1.89) documented in [performance.md](performance.md); smoke timing remains advisory — [ci-smoke.md](ci-smoke.md).
+
+#### No action (compatible)
+
+- Theme / shell / stable control APIs unchanged. **1.xx freeze ends at 2.00**, not at 1.90. Next planned major: **2.00** (after this tag).
+
 ### Upgrade 1.88 → 1.89
 
 **Product version:** 1.89  
@@ -781,4 +822,4 @@ Examples that **do not** belong in a quiet 1.xx:
 - Dropping Qt 6.5 without a named roadmap decision
 - Removing a type listed as Stable on stable-api without a deprecation window
 
-Track those under the **2.00** plan in [ROADMAP.md](../ROADMAP.md) (**after 1.90**). Draft remap table ships in **1.90** upgrade notes; the breaks land in **2.00**. Apps that cannot leave Qt 6.5 stay on **1.90**.
+Track those under the **2.00** plan in [ROADMAP.md](../ROADMAP.md) (**after 1.90**). Draft remap table: [upgrade-notes.md](upgrade-notes.md) **Upgrade 1.90 → 2.00 (draft)** and [checkpoint-190.md](checkpoint-190.md); the breaks land in **2.00**. Apps that cannot leave Qt 6.5 stay on **1.90**.

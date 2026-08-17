@@ -1,6 +1,6 @@
 # Long-horizon checkpoint (1.78)
 
-Close-out audit of the **1.49…1.78** arc (keyboard soak / packs / deepen / hardware slipped the old 1.74 checkpoint here). **Still 1.xx — not 2.00.**
+Close-out audit of the **1.49…1.78** arc (keyboard soak / packs / deepen / hardware slipped the old 1.74 checkpoint here). **Still 1.xx — not 2.00.** Successor close-out: **[checkpoint-190.md](checkpoint-190.md)** (1.90).
 
 Earlier: [maturity-1xx.md](maturity-1xx.md) (1.51) · [checkpoint-160.md](checkpoint-160.md) (1.60 mid-horizon) · [compatibility-1xx.md](compatibility-1xx.md) · [stable-api.md](stable-api.md) · [on-screen-keyboard.md](on-screen-keyboard.md) · [ROADMAP.md](../ROADMAP.md).
 

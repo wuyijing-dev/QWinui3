@@ -117,7 +117,7 @@ Page {
 
             SettingsCard {
                 title: qsTr("Performance arc (1.86–1.89)")
-                description: qsTr("Four-wave perf plan — animations stay; trim no-op work only. All four waves shipped (1.86–1.89). docs/performance.md")
+                description: qsTr("Four-wave perf plan — animations stay; trim no-op work only. Arc signed off at 1.90 close-out. docs/performance.md · docs/checkpoint-190.md")
                 symbol: FluentIcons.SpeedHigh
                 action: ColumnLayout {
                     spacing: 2

@@ -1,9 +1,9 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.89**
-**Next up:** **1.90** — 1.xx close-out + perf sign-off + 2.00 prep
-**Planned through:** **2.00** (1.xx close-out **1.83…1.90**, then breaking line)
-**Still 1.xx until 1.90:** Long-horizon checkpoint — [docs/checkpoint-178.md](docs/checkpoint-178.md). **1.86…1.89** performance arc **shipped** (**animations stay**). **1.90** close-out next. OSK/packaging **2.01+**. **Do not implement 2.00 before 1.90.**  
+**Current:** **1.90**
+**Next up:** **2.00** — breaking baseline (Qt floor / freeze lift / documented remaps). **Gate: 1.90 shipped.**
+**Planned through:** **2.00** (1.xx close-out **1.83…1.90** complete, then breaking line)
+**1.xx close-out:** [docs/checkpoint-190.md](docs/checkpoint-190.md). **1.86…1.89** performance arc **signed off** (**animations stay**). OSK/packaging **2.01+**. **Do not implement 2.00 before 1.90 ships.**  
 **Qt:** 6.5+ (recommended 6.8 LTS) through 1.xx — [qt-version-compat.md](docs/qt-version-compat.md). **2.00** may raise the floor.
 
 This plan starts from **what 1.00 already was**, then walks **small `1.xx` minors** through a **1.90 close-out**, then a named **2.00** breaking line. **2.00 is not the next tag.**
@@ -432,8 +432,8 @@ Finish **1.xx** as named slices (**1.83…1.90**), then a **breaking 2.00**. Do 
 | **1.87** | Performance wave 2 — navigation & page stack | **Shipped** |
 | **1.88** | Performance wave 3 — lists & data collections | **Shipped** |
 | **1.89** | Performance wave 4 — style, charts & Gallery heavy pages | **Shipped** |
-| **1.90** | 1.xx close-out + perf regression notes + 2.00 prep | **Next** |
-| **2.00** | Breaking baseline | Planned — **after 1.90** |
+| **1.90** | 1.xx close-out + perf sign-off + 2.00 prep | **Shipped** |
+| **2.00** | Breaking baseline | **Next** (after 1.90) |
 
 ### 1.83 — Floating OSK field harden (shipped)
 
@@ -497,21 +497,14 @@ Four consecutive minors; **each ships only performance work** (Platform / Extras
 - Full catalog perf audit (every Gallery page) as one tag
 - Chart GPU rewrite
 
-### 1.90 — 1.xx close-out (planned)
+### 1.90 — 1.xx close-out (shipped)
 
-**Theme:** end **1.xx** with checkpoint + **performance arc** sign-off + **2.00** prep — not new perf features.
-
-**In**
-
-- Publish `docs/checkpoint-190.md`: docs-link OK, Gallery catalog count, freeze accurate, **1.86…1.89 perf checklist green**
-- [upgrade-notes.md](docs/upgrade-notes.md) draft **1.90 → 2.00** (Qt floor, remaps, removed experimentals)
-- [ci-smoke.md](docs/ci-smoke.md): note perf timing advisory from the arc
-- Gallery / README: “1.xx freeze ends at 2.00”
+**Shipped:** `docs/checkpoint-190.md` — docs-link OK, Gallery catalog **195**, freeze accurate, **1.86…1.89 perf checklist green**. [upgrade-notes.md](docs/upgrade-notes.md) draft **1.90 → 2.00** (Qt floor, remaps, experimental posture). [ci-smoke.md](docs/ci-smoke.md) perf timing advisory from the arc. README / Gallery: **1.xx freeze ends at 2.00**. Product version `1.90`.
 
 **Out**
 
 - Actually dropping Qt 6.5 or renaming Theme tokens (**2.00**)
-- OSK promote / packaging ( **2.01+** )
+- OSK promote / packaging (**2.01+**)
 
 ---
 
@@ -590,6 +583,7 @@ Unscheduled; pick up only inside a named `1.xx` or `2.xx` minor (or never). Clar
 | [docs/maturity-1xx.md](docs/maturity-1xx.md) | 1.51 maturity checkpoint |
 | [docs/checkpoint-160.md](docs/checkpoint-160.md) | 1.60 mid-horizon checkpoint |
 | [docs/checkpoint-178.md](docs/checkpoint-178.md) | 1.78 long-horizon checkpoint |
+| [docs/checkpoint-190.md](docs/checkpoint-190.md) | 1.90 1.xx close-out + perf arc sign-off |
 | [docs/compatibility-1xx.md](docs/compatibility-1xx.md) | 1.xx will-not-break freeze (ends at **2.00**) |
 | [docs/upgrade-notes.md](docs/upgrade-notes.md) | Consumer upgrades; 2.00 sketch after 1.90 |
 | [docs/components.md](docs/components.md) | Control index |

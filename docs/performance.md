@@ -239,7 +239,7 @@ Virtualized tables and lists — **no visual change**, less work per keystroke.
 | 3 | **1.88** | Lists & data collections — debounced filter, skip unchanged rebuilds |
 | 4 | **1.89** | Style, charts & Gallery heavy pages — idle Behavior trim, chart budgets |
 
-Rule for the arc: **trim waste, not motion**. Sign-off checklist lands in **1.90** ([checkpoint-190.md](checkpoint-190.md) when published).
+Rule for the arc: **trim waste, not motion**. Sign-off: [checkpoint-190.md](checkpoint-190.md) (**1.90**).
 
 ---
 
