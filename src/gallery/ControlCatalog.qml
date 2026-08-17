@@ -1725,6 +1725,7 @@ QtObject {
     // Curated “recently shipped” recipe pages (1.20) — not catalog array order.
     function recentlyShipped(count) {
         var ids = [
+            "SystemIntegrationPage",  // 2.57 files on Linux
             "NavigationViewPage",     // 2.56 navigation mental model
             "FormValidationPage",     // 2.55 forms unlike WinUI / FL-018
             "WindowParadigmPage",     // 2.54 window chrome footguns

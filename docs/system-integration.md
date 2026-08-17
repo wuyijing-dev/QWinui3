@@ -39,9 +39,9 @@ FilePicker.openFolder(qsTr("Folder"), function (path) { … }, Window.window)
 | Linux | xdg-desktop-portal → zenity/kdialog | `x11:0x…` on X11/XWayland; `wayland:HANDLE` when Qt exports xdg-foreign (**1.79** prefers `portalWindowIdentifier`); else empty — [platform-linux-wayland.md](platform-linux-wayland.md) |
 | Cancel | — | `""` or `[]` |
 
-Always pass `Window.window` so the dialog is owned by your shell.
+Always pass `Window.window` so the dialog is owned by your shell. **2.57:** when omitted on Linux, focus/visible window is used as portal parent (still warn if export stays empty on Wayland).
 
-**1.68:** if the portal FileChooser request starts, timeout/cancel does **not** open zenity as a second dialog. `nameFilters` are forwarded. `saveFile` `defaultSuffix` becomes portal `current_name`. Reveal: FileManager1 `ShowItems` → OpenURI on the folder → `QDesktopServices`.
+**1.68:** if the portal FileChooser request starts, timeout/cancel does **not** open zenity as a second dialog. `nameFilters` are forwarded. `saveFile` `defaultSuffix` becomes portal `current_name`. Reveal: FileManager1 `ShowItems` → OpenURI on the folder (pass **`Window.window`** as second arg — **2.57**) → `QDesktopServices`.
 
 Live Linux check: `WindowHelper.portalParentWindow(Window.window)` (Gallery **System integration**).
 
@@ -129,5 +129,5 @@ Battery / online / screens / recent-docs remain **experimental**.
 - [print-share.md](print-share.md) — grab → save → reveal · PrintSupport notes (**1.63**)  
 - [security-trust.md](security-trust.md) — picker ownership / path validation (**1.64**)  
 - [drag-drop.md](drag-drop.md) — FileDropZone / clipboard / FilePicker pairing (**1.41**)  
-- [platform-linux-wayland.md](platform-linux-wayland.md) — portal / SSD / tray / backdrop field matrix (**1.38** / **1.68** / **1.79**)  
+- [platform-linux-wayland.md](platform-linux-wayland.md) — portal / SSD / tray / backdrop field matrix (**1.38** / **1.68** / **1.79**); wave 3 regression suite (**2.33**)  
 - [webview2.md](webview2.md) — separate Windows browser host

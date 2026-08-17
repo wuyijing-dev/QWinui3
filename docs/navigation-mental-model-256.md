@@ -48,4 +48,4 @@ Product shells mix **TitleBar Back**, **pane toggle**, **footer**, and **in-page
 - [ ] Overlay pane product UX: **`isPanePinned: true`** when users must keep the rail open
 - [ ] Do **not** nest a full **NavigationView** inside every **TabView** tab
 
-**Next:** **2.57** files on Linux · **2.58** OSK in apps
+**Next:** **2.58** OSK in apps · **2.59** named slow flows

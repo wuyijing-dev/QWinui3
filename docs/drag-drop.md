@@ -48,9 +48,10 @@ Button {
 
 | Topic | Detail |
 |-------|--------|
-| MIME | `DropArea.keys: ["text/uri-list"]` — OS file managers / Explorer / Nautilus |
-| Filter | `acceptExtensions` — lowercase suffixes; **empty = accept all** URLs (production: prefer a non-empty list — [security-trust.md](security-trust.md) **1.64**) |
-| Reject | Non-matching drops are ignored (no `filesDropped`) |
+| MIME | `DropArea.keys` includes `text/uri-list` + optional `acceptMimeTypes` (**2.13**) — OS file managers / Explorer / Nautilus |
+| Filter | `acceptExtensions` — lowercase suffixes; **empty = accept all** URLs |
+| MIME filter | `acceptMimeTypes` — e.g. `["image/png", "image/*"]`; defense-in-depth when OS reports formats — [security-trust.md](security-trust.md) **2.13** |
+| Reject | Non-matching drops are ignored; **`isDragRejected`** + **`dragRejected`** signal (**2.57**) highlight bad MIME/types |
 | Browse | Wire `FilePicker` beside the zone — drop is not enough for keyboard / a11y / **touch** users ([touch-pointer.md](touch-pointer.md) **1.57**) |
 | Paths | Drop gives URLs; FilePicker gives native paths — normalize in one place |
 
@@ -60,7 +61,7 @@ Button {
 |------|-------------|
 | **Windows** | Explorer → app drop works with `text/uri-list`. Always pass `Window.window` to FilePicker. |
 | **Linux X11** | Same DropArea path. Portal FilePicker gets `parent_window`. |
-| **Linux Wayland** | DnD still uses Qt DropArea; FilePicker portal parent may be empty — [platform-linux-wayland.md](platform-linux-wayland.md) (**1.68**). Prefer Solid chrome shells. |
+| **Linux Wayland** | DnD still uses Qt DropArea; FilePicker portal parent — pass **`Window.window`**; **2.57** focus fallback when omitted — [platform-linux-wayland.md](platform-linux-wayland.md) · [files-linux-257.md](files-linux-257.md) |
 | **Out of scope (1.41)** | Full OLE / complex shell DnD, dragging *out* of the app, custom non-file MIME productization |
 
 Do **not** invent a second drop chrome — restyle via `title` / `subtitle` / `symbol` / Theme tokens.

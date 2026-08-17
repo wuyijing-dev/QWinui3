@@ -4,7 +4,7 @@ One label/value pair for MetadataControl.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/MetadataItem.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/MetadataItem.qml)
 
-**Category:** Other · **Library:** v2.56
+**Category:** Other · **Library:** v2.57
 
 [← Component index](../components.md)
 

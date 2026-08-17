@@ -15,6 +15,9 @@ bool available();
 // when available, else native-resource keys); else empty on pure Wayland.
 QString parentWindowFrom(QObject *windowObject);
 
+// Resolve explicit parent or focus/visible window (2.57 FilePicker fallback).
+QObject *resolveParentObject(QObject *parentWindow);
+
 // org.freedesktop.Notifications
 bool notify(const QString &appName, const QString &title, const QString &message, int timeoutMs = 5000);
 

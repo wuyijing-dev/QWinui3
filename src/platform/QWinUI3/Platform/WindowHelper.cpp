@@ -573,13 +573,14 @@ void WindowHelper::requestUserAttention(QObject *windowObject, bool continuous)
 #endif
 }
 
-bool WindowHelper::revealFileInFolder(const QString &path)
+bool WindowHelper::revealFileInFolder(const QString &path, QObject *parentWindow)
 {
     if (path.isEmpty())
         return false;
     const QFileInfo info(path);
     const QString abs = info.absoluteFilePath();
 #if defined(Q_OS_WIN)
+    Q_UNUSED(parentWindow);
     const QString native = QDir::toNativeSeparators(abs);
     return QProcess::startDetached(
             QStringLiteral("explorer.exe"),
@@ -591,10 +592,13 @@ bool WindowHelper::revealFileInFolder(const QString &path)
         return true;
     const QString dir = info.isDir() ? abs : info.absolutePath();
     const QString dirUri = QUrl::fromLocalFile(dir).toString();
-    if (LinuxPortal::tryOpenUri(dirUri, QString()))
+    const QString portalParent = LinuxPortal::parentWindowFrom(
+            LinuxPortal::resolveParentObject(parentWindow));
+    if (LinuxPortal::tryOpenUri(dirUri, portalParent))
         return true;
     return QDesktopServices::openUrl(QUrl::fromLocalFile(dir));
 #else
+    Q_UNUSED(parentWindow);
     const QString dir = info.isDir() ? abs : info.absolutePath();
     return QDesktopServices::openUrl(QUrl::fromLocalFile(dir));
 #endif

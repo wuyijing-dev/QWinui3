@@ -13,7 +13,7 @@ CatalogPage {
     id: page
 
     title: qsTr("FileDropZone")
-    subtitle: qsTr("Drop + Browse + copy path — docs/drag-drop.md (1.41). Touch: keep Browse — docs/touch-pointer.md (1.57).")
+    subtitle: qsTr("Drop + Browse + MIME filter — docs/files-linux-257.md (2.57).")
 
     property var lastUrls: []
     property string lastStatus: qsTr("Waiting for drop or Browse…")
@@ -49,7 +49,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("DropArea keys are text/uri-list. Empty acceptExtensions = all URLs — production ingest should set a non-empty list and never auto-execute paths (docs/security-trust.md, 1.64). Always offer Browse (FilePicker) for keyboard users. Win/Linux notes: docs/drag-drop.md · Wayland portal parent: docs/platform-linux-wayland.md.")
+                text: qsTr("DropArea keys include text/uri-list + optional acceptMimeTypes (2.13). Empty acceptExtensions = all URLs — production ingest should set a non-empty suffix list and never auto-execute paths. Always offer Browse (FilePicker). docs/security-trust.md · docs/drag-drop.md.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
@@ -69,7 +69,9 @@ CatalogPage {
                 title: qsTr("Drop images here")
                 subtitle: qsTr("Accepts .png / .jpg / .jpeg / .webp — or Browse")
                 acceptExtensions: [".png", ".jpg", ".jpeg", ".webp"]
+                acceptMimeTypes: ["image/png", "image/jpeg", "image/webp", "image/*"]
                 onFilesDropped: function (urls) { page.ingestUrls(urls) }
+                onDragRejected: page.lastStatus = qsTr("Rejected — MIME/type not in acceptMimeTypes / acceptExtensions")
             }
             RowLayout {
                 Layout.fillWidth: true

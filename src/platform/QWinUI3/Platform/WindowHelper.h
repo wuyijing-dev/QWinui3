@@ -53,6 +53,8 @@ class WindowHelper : public QObject
     Q_PROPERTY(bool serverSideDecorations READ serverSideDecorations CONSTANT)
     // Linux / Wayland: QML shell draws DWM-like corners + shadow when true.
     Q_PROPERTY(bool clientShellDecoration READ clientShellDecoration CONSTANT)
+    Q_PROPERTY(bool shellQuickEffectsAvailable READ shellQuickEffectsAvailable CONSTANT)
+    Q_PROPERTY(QString shellCompositorProfile READ shellCompositorProfile CONSTANT)
     Q_PROPERTY(QString desktopEnvironment READ desktopEnvironment CONSTANT)
     Q_PROPERTY(QString waylandDisplay READ waylandDisplay CONSTANT)
     Q_PROPERTY(bool systemPrefersDark READ systemPrefersDark NOTIFY colorSchemeChanged)
@@ -152,6 +154,8 @@ public:
     bool isX11() const;
     bool serverSideDecorations() const;
     bool clientShellDecoration() const;
+    bool shellQuickEffectsAvailable() const;
+    QString shellCompositorProfile() const;
     QString desktopEnvironment() const;
     QString waylandDisplay() const;
     bool systemPrefersDark() const { return m_systemPrefersDark; }
@@ -159,6 +163,8 @@ public:
     qreal devicePixelRatio() const;
     // Per-window / per-monitor DPR (falls back to primary screen).
     Q_INVOKABLE qreal devicePixelRatioForWindow(QObject *windowObject) const;
+    // Active Qt high-DPI rounding policy (PassThrough when configureEnvironment ran early).
+    Q_INVOKABLE QString highDpiScaleFactorRoundingPolicy() const;
     // Native DPI / scale changes (e.g. WM_DPICHANGED) — refreshes devicePixelRatio bindings.
     Q_INVOKABLE void notifyDisplayMetricsChanged();
     bool snapLayoutsEnabled() const { return m_snapLayoutsEnabled; }
@@ -178,7 +184,10 @@ public:
     // Floating OSK: Win32 WS_EX_NOACTIVATE + WM_MOUSEACTIVATE → MA_NOACTIVATE (1.83).
     Q_INVOKABLE void setNoActivate(QObject *windowObject, bool on = true);
     // Dialog parenting (important on Wayland for correct stacking / modality)
+    // 2.14: realizes child + parent surfaces before setTransientParent.
     Q_INVOKABLE void setTransientParent(QObject *windowObject, QObject *parentWindowObject);
+    // Realize QWindow handle if missing (Wayland xdg-foreign / transient parent).
+    Q_INVOKABLE void ensureWindowCreated(QObject *windowObject);
     // Portal FileChooser parent_window string (Linux); empty on Win / pure Wayland without export.
     // 1.79: prefers Qt portalWindowIdentifier (xdg-foreign) when GuiPrivate is linked.
     Q_INVOKABLE QString portalParentWindow(QObject *windowObject) const;
@@ -199,6 +208,8 @@ public:
     Q_INVOKABLE int flagsForConfig(int paradigm, int presenter, bool alwaysOnTop) const;
     Q_INVOKABLE QString paradigmName(int paradigm) const;
     Q_INVOKABLE void centerOnScreen(QObject *windowObject);
+    // Center on the owner window's screen (2.14); falls back to centerOnScreen.
+    Q_INVOKABLE void centerOnOwner(QObject *windowObject, QObject *ownerWindowObject);
     Q_INVOKABLE void setDarkMode(QObject *windowObject, bool dark);
     Q_INVOKABLE void setBackdrop(QObject *windowObject, int backdrop);
     // Map requested backdrop to what this platform can actually composite (Linux → Solid).
@@ -207,6 +218,10 @@ public:
     // Linux / Wayland client shell: rounded corners + drop shadow (QML; mirrors DWM on Windows).
     Q_INVOKABLE qreal shellCornerRadius() const;
     Q_INVOKABLE int shellShadowMargin() const;
+    Q_INVOKABLE qreal shellShadowOpacity() const;
+    Q_INVOKABLE qreal shellShadowBlur() const;
+    Q_INVOKABLE qreal shellShadowVerticalOffset() const;
+    Q_INVOKABLE qreal shellContentInset(QObject *windowObject) const;
     Q_INVOKABLE bool shellChromeExpanded(QObject *windowObject) const;
     Q_INVOKABLE void reapply(QObject *windowObject = nullptr); // re-apply tracked/given window
     Q_INVOKABLE QString backdropName(int backdrop) const;
@@ -234,7 +249,7 @@ public:
     // Flash / urgency attention (FlashWindowEx on Windows; raise elsewhere)
     Q_INVOKABLE void requestUserAttention(QObject *windowObject, bool continuous = false);
     // Reveal path in system file manager (Explorer select / FileManager1 → OpenURI)
-    Q_INVOKABLE bool revealFileInFolder(const QString &path);
+    Q_INVOKABLE bool revealFileInFolder(const QString &path, QObject *parentWindow = nullptr);
     // Clipboard helpers
     Q_INVOKABLE void copyText(const QString &text);
     Q_INVOKABLE QString clipboardText() const;

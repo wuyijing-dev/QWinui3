@@ -40,7 +40,7 @@ WindowHelper.snapLayoutsEnabled = settings.snapLayouts
 | `setTaskbarOverlayText(window, text)` | Badge glyph (short text); empty clears |
 | `clearTaskbarOverlay(window)` | Clear badge |
 | `requestUserAttention(window, continuous = false)` | Flash / urgency |
-| `revealFileInFolder(path)` | Select path in file manager (`bool`) |
+| `revealFileInFolder(path, parentWindow?)` | Select path in file manager (`bool`) — pass **`Window.window`** on Linux (**2.57**) |
 | `inhibitIdle(reason)` / `releaseIdleInhibit()` | Keep display awake |
 | `idleInhibited` | Whether inhibit is active |
 
@@ -93,7 +93,7 @@ WindowHelper.requestUserAttention(Window.window, false)
 // Continuous until the user focuses the window (Windows FlashWindowEx)
 WindowHelper.requestUserAttention(Window.window, true)
 
-if (!WindowHelper.revealFileInFolder(savedPath))
+if (!WindowHelper.revealFileInFolder(savedPath, Window.window))
     console.warn("reveal failed — empty path or no Explorer/FileManager")
 ```
 

@@ -206,6 +206,27 @@ CatalogPage {
     }
 
     ControlExample {
+        headerText: qsTr("Files on Linux (2.57)")
+        qmlSource: "FilePicker.open*(…, Window.window)\\nrevealFileInFolder(path, Window.window)"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("2.57: FilePicker focus-window parent fallback; revealFileInFolder with portal parent; FileDropZone isDragRejected. docs/files-linux-257.md")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            CheckBox { text: qsTr("FilePicker.open* always pass Window.window") }
+            CheckBox { text: qsTr("revealFileInFolder(path, Window.window) after save") }
+            CheckBox { text: qsTr("FileDropZone acceptMimeTypes + onDragRejected feedback") }
+            CheckBox { text: qsTr("Same ingest fn for drop + browse — docs/drag-drop.md") }
+        }
+    }
+
+    ControlExample {
         headerText: qsTr("Navigation mental model (2.56)")
         qmlSource: "navigateToPage + isPanePinned\\n// docs/navigation-mental-model-256.md"
         ColumnLayout {

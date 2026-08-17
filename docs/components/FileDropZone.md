@@ -4,7 +4,7 @@ Drag-and-drop target with Fluent empty chrome.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/FileDropZone.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/FileDropZone.qml)
 
-**Category:** Media & platform · **Library:** v2.56
+**Category:** Media & platform · **Library:** v2.57
 
 [← Component index](../components.md)
 
@@ -45,6 +45,7 @@ Empty acceptExtensions = accept all URLs; pair both filters in production.
 | `acceptExtensions` | `var` | — |
 | `acceptMimeTypes` | `var` | — |
 | `isActive` | `bool` | — |
+| `isDragRejected` | `bool` | — |
 | `cornerRadius` | `real` | — |
 
 ### Signals
@@ -54,6 +55,7 @@ Empty acceptExtensions = accept all URLs; pair both filters in production.
 | `filesDropped(var urls)` | — |
 | `entered()` | — |
 | `exited()` | — |
+| `dragRejected()` | — |
 
 ### Methods
 

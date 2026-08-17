@@ -14,9 +14,10 @@ CatalogPage {
     id: page
 
     title: qsTr("System integration")
-    subtitle: qsTr("FilePicker · tray · Snap · reveal. Linux portal wave 3 (2.33): docs/platform-linux-wayland.md.")
+    subtitle: qsTr("FilePicker · tray · Snap · reveal. Linux files (2.57): docs/files-linux-257.md")
 
     property string lastPath: qsTr("(none)")
+    property string lastSelectionSummary: ""
     property real taskbarValue: 0.35
     property string snapHint: ""
 
@@ -49,7 +50,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("2.53: auto shell content clip on NavigationWindow; sway/wlroots compositor profile; FilePicker warns when Window.window omitted on Wayland. Check shellCompositorProfile readout below.")
+                text: qsTr("2.57: FilePicker uses focus-window parent fallback when Window.window omitted; revealFileInFolder(path, Window.window). 2.53: NavigationWindow clip + sway profile. docs/files-linux-257.md")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
@@ -257,7 +258,9 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 color: Theme.textSecondary
-                text: qsTr("Cancel → empty path. Always pass Window.window (X11 parent_window; Wayland 1.79 export improved — docs/platform-linux-wayland.md).")
+                text: page.lastSelectionSummary.length
+                      ? page.lastSelectionSummary
+                      : qsTr("Cancel → empty path. Always pass Window.window (2.57 parent fallback when omitted). Multi-select summary below.")
             }
             RowLayout {
                 Button {
@@ -271,6 +274,9 @@ CatalogPage {
                     onClicked: FilePicker.openFiles(qsTr("Open"), ["All (*.*)"], function (paths) {
                         page.lastPath = (paths && paths.length)
                                        ? paths.join("; ") : qsTr("(cancelled)")
+                        page.lastSelectionSummary = (paths && paths.length)
+                            ? qsTr("Selected %1 file(s)").arg(paths.length)
+                            : qsTr("Selection cancelled")
                     }, page.Window.window)
                 }
                 Button {
@@ -415,7 +421,7 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 color: Theme.textSecondary
-                text: qsTr("After Save: revealFileInFolder. Background job done while minimized: requestUserAttention. Pair with a toast for accessibility. Pick a file above first to enable Reveal.")
+                text: qsTr("After Save: revealFileInFolder(path, Window.window). Background job done while minimized: requestUserAttention. Pair with a toast for accessibility. Pick a file above first to enable Reveal.")
             }
             RowLayout {
                 Button {
@@ -441,7 +447,7 @@ CatalogPage {
                     text: qsTr("Reveal in folder")
                     enabled: page.lastPath.length > 0 && page.lastPath !== qsTr("(none)") && page.lastPath !== qsTr("(cancelled)")
                     onClicked: {
-                        if (!WindowHelper.revealFileInFolder(page.lastPath))
+                        if (!WindowHelper.revealFileInFolder(page.lastPath, page.Window.window))
                             toasts.info(qsTr("Could not reveal path"), qsTr("Files"))
                         else
                             toasts.info(qsTr("Opened in file manager"), qsTr("Files"))

@@ -16,6 +16,7 @@ class QJSEngine;
 //
 // Cancel → empty string / empty array. Pass parent Window for modal ownership
 // (Windows HWND; Linux portal parent_window on X11 / best-effort Wayland).
+// Linux: when parentWindow is omitted, focus/visible window is used (2.57).
 // See docs/system-integration.md · docs/platform-linux-wayland.md (1.68).
 class FilePicker : public QObject
 {

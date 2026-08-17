@@ -1,4 +1,4 @@
-# Linux / Wayland notes for QWinUI3 (1.38 / 1.68 / 1.79 / 2.03 / 2.33 / 2.53)
+# Linux / Wayland notes for QWinUI3 (1.38 / 1.68 / 1.79 / 2.03 / 2.33 / 2.53 / 2.57)
 
 QWinUI3 uses **client-side Fluent chrome** on Linux (`WindowHelper.customFrame`, `FramelessWindowHint`, in-app `PlatformTitleBar`). Compositor server-side decorations stay off by default.
 
@@ -18,11 +18,11 @@ CI Linux Gallery jobs use **offscreen `--smoke`** (build + QML load). They do **
 | **Hollow / white client** with Mica copy-paste | Transparent host + no DWM | Use `BackdropSolid`; `resolveBackdrop()` coerces on Linux. Prefer [window-shells.md](window-shells.md). |
 | **Square bleed at shell corners** | Full-bleed nav/page ignored inset | **Fixed 2.53** — `NavigationWindow` + `nav-settings` use `WindowShellContentClip`; manual wrap for custom shells |
 | **Heavy shadow on Sway** | Profile was `other` | **Fixed 2.53** — `shellCompositorProfile` → `sway` (softer shadow) |
-| **File dialog not modal** on pure Wayland | Portal `parent_window` empty | Always pass `Window.window`. X11/XWayland → `x11:0x…`. Pure Wayland (**1.79**): prefer Qt `portalWindowIdentifier` (xdg-foreign) when the kit was built with GuiPrivate; else native-resource keys; window is `create()`d first. Still may be empty on some compositors — dialog opens anyway. **2.53:** `qWarning` if `parentWindow` omitted on Wayland. Live: `WindowHelper.portalParentWindow(Window.window)`. |
+| **File dialog not modal** on pure Wayland | Portal `parent_window` empty | Always pass `Window.window`. X11/XWayland → `x11:0x…`. Pure Wayland (**1.79**): prefer Qt `portalWindowIdentifier` (xdg-foreign) when the kit was built with GuiPrivate; else native-resource keys; window is `create()`d first. Still may be empty on some compositors — dialog opens anyway. **2.53:** `qWarning` if `parentWindow` omitted on Wayland. **2.57:** focus/visible window fallback when parent omitted. Live: `WindowHelper.portalParentWindow(Window.window)`. |
 | **Second zenity/kdialog after portal** | Portal wait timed out then fallback | **Fixed 1.68** — once FileChooser returns a request path, timeout/cancel does **not** fall back. Empty path = cancel. |
 | **Filters ignored on Linux** | Old FilePicker unused `nameFilters` | **Fixed 1.68** — portal `filters` + zenity `--file-filter` / kdialog pattern. |
 | **FilePicker falls to zenity/kdialog** | Portal missing / DBus down / OpenFile error | Install `xdg-desktop-portal` + GTK/KDE backend; ensure session bus. Fallbacks remain supported. |
-| **Reveal does nothing (GNOME / Flatpak)** | No FileManager1 | **1.68** — `ShowItems` → OpenURI on the parent folder → `QDesktopServices`. |
+| **Reveal does nothing (GNOME / Flatpak)** | No FileManager1 | **1.68** — `ShowItems` → OpenURI on the parent folder → `QDesktopServices`. **2.57** — pass **`Window.window`** to **`revealFileInFolder`** for portal parent. |
 | **No tray icon on GNOME** | No StatusNotifierWatcher | Expected without AppIndicator/SNI extension. `supportsPersistentTray` may be true (capability) while `persistentTrayActive` stays false. KDE Plasma is the reference host (**1.24**). |
 | **Tray notify only as toast** | Notifications portal / notify-send path | `notifySystem` still works without SNI; in-app Toast via Gallery wiring. Prefer `NotificationBridge` for dual path. |
 | **Stuck on XWayland** | Launch script forced `QT_QPA_PLATFORM=xcb` | Leave unset; Bootstrap sets `wayland;xcb` when session is Wayland (**1.79** also honors `WAYLAND_SOCKET`). Packaged `./run-gallery.sh` already does this. |

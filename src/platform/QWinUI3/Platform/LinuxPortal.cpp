@@ -359,6 +359,22 @@ QString parentWindowFrom(QObject *windowObject)
     return {};
 }
 
+QObject *resolveParentObject(QObject *parentWindow)
+{
+    if (parentWindow)
+        return parentWindow;
+    if (!qGuiApp)
+        return nullptr;
+    if (QWindow *focus = qGuiApp->focusWindow())
+        return focus;
+    const auto windows = qGuiApp->allWindows();
+    for (QWindow *w : windows) {
+        if (w && w->isVisible())
+            return w;
+    }
+    return windows.isEmpty() ? nullptr : windows.constFirst();
+}
+
 bool notify(const QString &appName, const QString &title, const QString &message, int timeoutMs)
 {
     QDBusInterface iface(QStringLiteral("org.freedesktop.Notifications"),
@@ -631,6 +647,11 @@ bool available()
 QString parentWindowFrom(QObject *)
 {
     return {};
+}
+
+QObject *resolveParentObject(QObject *parentWindow)
+{
+    return parentWindow;
 }
 
 bool notify(const QString &, const QString &, const QString &, int)

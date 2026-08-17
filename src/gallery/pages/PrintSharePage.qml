@@ -31,7 +31,7 @@ CatalogPage {
                         return
                     }
                     page.lastPath = path
-                    var revealed = WindowHelper.revealFileInFolder(path)
+                    var revealed = WindowHelper.revealFileInFolder(path, page.Window.window)
                     page.statusText = revealed
                             ? qsTr("Saved + revealed:\n%1").arg(path)
                             : qsTr("Saved (reveal failed):\n%1").arg(path)
@@ -132,7 +132,7 @@ CatalogPage {
                     text: qsTr("Reveal again")
                     enabled: page.lastPath.length > 0
                     onClicked: {
-                        if (!WindowHelper.revealFileInFolder(page.lastPath))
+                        if (!WindowHelper.revealFileInFolder(page.lastPath, page.Window.window))
                             page.statusText = qsTr("Reveal failed:\n%1").arg(page.lastPath)
                     }
                 }

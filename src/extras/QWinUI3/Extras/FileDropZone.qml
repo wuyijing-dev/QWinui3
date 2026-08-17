@@ -8,16 +8,19 @@ import QWinUI3.Theme
 //
 //   FileDropZone {
 //       title: qsTr("Drop files here")
+//       acceptExtensions: [".png", ".jpg"]
+//       acceptMimeTypes: ["image/png", "image/jpeg"]
 //       onFilesDropped: (urls) => { … }
 //   }
 //
 //   // --- API ---
 //   // signals: onFilesDropped(var urls), onEntered, onExited
-//   // properties: title, subtitle, symbol, acceptExtensions, isActive
+//   // properties: title, subtitle, symbol, acceptExtensions, acceptMimeTypes, isActive
 //
 // @notes
 //   DropArea wrapper with dashed ElevatedChrome. acceptExtensions filters by
-//   lowercase suffix (e.g. [".png", ".jpg"]); empty accepts all URLs.
+//   lowercase suffix; acceptMimeTypes (2.13) filters drag MIME when reported.
+//   Empty acceptExtensions = accept all URLs; pair both filters in production.
 
 T.Control {
     id: root
@@ -28,18 +31,55 @@ T.Control {
     property string subtitle: qsTr("Or click to browse when a FilePicker is wired by the host.")
     property var symbol: FluentIcons.OpenFile
     property var acceptExtensions: []
+    property var acceptMimeTypes: []
     property bool isActive: drop.containsDrag
+    property bool isDragRejected: false
     property real cornerRadius: Theme.cornerCard
 
     signal filesDropped(var urls)
     signal entered()
     signal exited()
+    signal dragRejected()
 
     implicitWidth: 360
     implicitHeight: 160
     Accessible.role: Accessible.Pane
     Accessible.name: title
     Accessible.description: subtitle
+
+    readonly property var _dropKeys: {
+        var k = ["text/uri-list"]
+        if (acceptMimeTypes && acceptMimeTypes.length) {
+            for (var i = 0; i < acceptMimeTypes.length; ++i)
+                k.push(String(acceptMimeTypes[i]))
+        }
+        return k
+    }
+
+    function _mimeMatches(formats) {
+        if (!acceptMimeTypes || acceptMimeTypes.length === 0)
+            return true
+        if (!formats || formats.length === 0)
+            return false
+        var onlyUriList = formats.length === 1
+            && String(formats[0]).toLowerCase() === "text/uri-list"
+        if (onlyUriList)
+            return true
+        for (var i = 0; i < formats.length; ++i) {
+            var f = String(formats[i]).toLowerCase()
+            for (var j = 0; j < acceptMimeTypes.length; ++j) {
+                var m = String(acceptMimeTypes[j]).toLowerCase()
+                if (f === m)
+                    return true
+                if (m.endsWith("/*")) {
+                    var prefix = m.slice(0, -1)
+                    if (f.startsWith(prefix))
+                        return true
+                }
+            }
+        }
+        return false
+    }
 
     function _accepts(url) {
         if (!acceptExtensions || acceptExtensions.length === 0)
@@ -65,10 +105,10 @@ T.Control {
     background: Rectangle {
         radius: root.cornerRadius
         color: root.isActive ? Theme.fillSubtleSecondary : Theme.fillSubtle
-        border.width: 1
-        border.color: root.isActive ? Theme.accent : Theme.strokeCard
+        border.width: root.isDragRejected ? 2 : 1
+        border.color: root.isDragRejected ? Theme.systemCritical
+                      : (root.isActive ? Theme.accent : Theme.strokeCard)
 
-        // Dashed feel via overlay ticks (simple Fluent affordance)
         Rectangle {
             anchors.fill: parent
             anchors.margins: 6
@@ -89,11 +129,25 @@ T.Control {
         DropArea {
             id: drop
             anchors.fill: parent
-            keys: ["text/uri-list"]
-            onEntered: root.entered()
-            onExited: root.exited()
+            keys: root._dropKeys
+            onEntered: function (drag) {
+                if (!root._mimeMatches(drag.formats)) {
+                    drag.accepted = false
+                    root.isDragRejected = true
+                    root.dragRejected()
+                    return
+                }
+                root.isDragRejected = false
+                root.entered()
+            }
+            onExited: {
+                root.isDragRejected = false
+                root.exited()
+            }
             onDropped: function (event) {
                 if (!event.hasUrls)
+                    return
+                if (!root._mimeMatches(event.formats))
                     return
                 var urls = root._filter(event.urls)
                 if (urls.length) {

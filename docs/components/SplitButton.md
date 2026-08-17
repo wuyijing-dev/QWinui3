@@ -4,7 +4,7 @@ Primary action + chevron menu.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/SplitButton.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/SplitButton.qml)
 
-**Category:** Buttons & commands · **Library:** v2.56
+**Category:** Buttons & commands · **Library:** v2.57
 
 [← Component index](../components.md)
 

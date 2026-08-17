@@ -1,6 +1,6 @@
 {
   "name": "QWinUI3",
-  "version": "2.56",
+  "version": "2.57",
   "generatedBy": "scripts/generate_component_docs.py",
   "publicCount": 227,
   "components": [
@@ -720,8 +720,8 @@
       "galleryPage": "pages/FileDropZonePage.qml",
       "galleryTitle": "FileDropZone",
       "doc": "components/FileDropZone.md",
-      "propertyCount": 7,
-      "signalCount": 3,
+      "propertyCount": 8,
+      "signalCount": 4,
       "methodCount": 0
     },
     {

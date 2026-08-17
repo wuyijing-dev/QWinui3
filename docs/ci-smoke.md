@@ -1,4 +1,4 @@
-# CI smoke (1.06 / 1.20 / 1.52 / 1.60 / 2.27 … 2.56 + strategy/icons track)
+# CI smoke (1.06 / 1.20 / 1.52 / 1.60 / 2.27 … 2.57 + strategy/icons track)
 
 Lightweight regression gate — **not** a full test suite or screenshot farm.
 
@@ -35,7 +35,7 @@ python scripts/smoke_gallery.py --build-dir build
 5. `scripts/check_shared_package.py` — packaging contracts / docs (no `--dir`)  
 6. `scripts/lint_qml_imports.py` — example QML stable-import guard (**2.51** / **2.52** first-app)  
 
-Linux field matrix: [platform-linux-wayland.md](platform-linux-wayland.md) · top-3 fixes [linux-top3-253.md](linux-top3-253.md) (**2.53**). Chrome footguns: [window-chrome-footguns-254.md](window-chrome-footguns-254.md) (**2.54**). Forms/dialogs: [forms-unlike-winui-255.md](forms-unlike-winui-255.md) (**2.55**). Navigation: [navigation-mental-model-256.md](navigation-mental-model-256.md) (**2.56**).
+Linux field matrix: [platform-linux-wayland.md](platform-linux-wayland.md) · top-3 fixes [linux-top3-253.md](linux-top3-253.md) (**2.53**). Chrome footguns: [window-chrome-footguns-254.md](window-chrome-footguns-254.md) (**2.54**). Forms/dialogs: [forms-unlike-winui-255.md](forms-unlike-winui-255.md) (**2.55**). Navigation: [navigation-mental-model-256.md](navigation-mental-model-256.md) (**2.56**). Files: [files-linux-257.md](files-linux-257.md) (**2.57**).
 
 Then launches `qwinui3_gallery --smoke`.
 

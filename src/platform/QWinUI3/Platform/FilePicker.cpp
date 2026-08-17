@@ -265,6 +265,15 @@ void warnMissingPortalParent()
              "portal parent_window may be empty (docs/platform-linux-wayland.md)");
 }
 
+QString portalParentFor(QObject *parentWindow)
+{
+    QObject *effective = LinuxPortal::resolveParentObject(parentWindow);
+    const QString parent = LinuxPortal::parentWindowFrom(effective);
+    if (!parentWindow && parent.isEmpty())
+        warnMissingPortalParent();
+    return parent;
+}
+
 QStringList linuxDialogTools()
 {
     const QString desktop = qEnvironmentVariable("XDG_CURRENT_DESKTOP").toLower();
@@ -326,10 +335,8 @@ QString kdialogFilter(const QStringList &filters)
 
 QString linuxOpenFile(const QString &title, QObject *parentWindow, const QStringList &filters)
 {
-    if (!parentWindow)
-        warnMissingPortalParent();
     QString path;
-    const QString parent = LinuxPortal::parentWindowFrom(parentWindow);
+    const QString parent = portalParentFor(parentWindow);
     if (LinuxPortal::tryOpenFile(title, &path, parent, filters))
         return path;
     for (const QString &tool : linuxDialogTools()) {
@@ -354,10 +361,8 @@ QString linuxOpenFile(const QString &title, QObject *parentWindow, const QString
 
 QStringList linuxOpenFiles(const QString &title, QObject *parentWindow, const QStringList &filters)
 {
-    if (!parentWindow)
-        warnMissingPortalParent();
     QStringList list;
-    const QString parent = LinuxPortal::parentWindowFrom(parentWindow);
+    const QString parent = portalParentFor(parentWindow);
     if (LinuxPortal::tryOpenFiles(title, &list, parent, filters))
         return list;
     QString out;
@@ -391,10 +396,8 @@ QStringList linuxOpenFiles(const QString &title, QObject *parentWindow, const QS
 QString linuxSaveFile(const QString &title, QObject *parentWindow, const QStringList &filters,
                       const QString &defaultSuffix)
 {
-    if (!parentWindow)
-        warnMissingPortalParent();
     QString path;
-    const QString parent = LinuxPortal::parentWindowFrom(parentWindow);
+    const QString parent = portalParentFor(parentWindow);
     QString currentName;
     if (!defaultSuffix.isEmpty())
         currentName = QStringLiteral("untitled.%1").arg(defaultSuffix);
@@ -424,10 +427,8 @@ QString linuxSaveFile(const QString &title, QObject *parentWindow, const QString
 
 QString linuxOpenFolder(const QString &title, QObject *parentWindow)
 {
-    if (!parentWindow)
-        warnMissingPortalParent();
     QString path;
-    const QString parent = LinuxPortal::parentWindowFrom(parentWindow);
+    const QString parent = portalParentFor(parentWindow);
     if (LinuxPortal::tryOpenFolder(title, &path, parent))
         return path;
     for (const QString &tool : linuxDialogTools()) {
