@@ -170,6 +170,7 @@ Item {
     property real _enterOpacity: 0
     property real _exitOpacity: 0
     property string _typeAhead: ""
+    property string _prevResolvedPaneMode: ""
     property int _dragFromIndex: -1
 
     // Footer row clicked
@@ -204,23 +205,31 @@ Item {
     }
     // Current page item
     readonly property alias pageItem: pageStack.currentItem
-    readonly property bool _paneShowsLabels: paneOpen && resolvedPaneMode !== "leftCompact"
+    readonly property bool _paneShowsLabels: {
+        if (resolvedPaneMode === "leftCompact" || resolvedPaneMode === "top")
+            return false
+        if (paneOpen)
+            return true
+        // Keep labels until the rail is actually compact (avoids an empty wide column).
+        return paneSlot.width > paneCompactWidth + 32
+    }
     readonly property bool _minimalOverlay: resolvedPaneMode === "leftMinimal" && paneOpen
 
     onPaneDisplayModeChanged: _syncPaneOpenForMode()
     onResolvedPaneModeChanged: _syncPaneOpenForMode()
-    onWidthChanged: {
-        if (paneDisplayMode === "auto")
-            _syncPaneOpenForMode()
-    }
 
     function _syncPaneOpenForMode() {
         var mode = resolvedPaneMode
-        if (mode === "leftCompact" || mode === "top")
+        var prev = _prevResolvedPaneMode
+        _prevResolvedPaneMode = mode
+        if (mode === "leftCompact" || mode === "top") {
             paneOpen = false
-        else if (mode === "left")
+            return
+        }
+        // Auto-expand only when crossing into Left from a compact/top rail — not on
+        // every width tick (that reopened the pane mid-collapse and left a blank column).
+        if (mode === "left" && (prev === "leftCompact" || prev === "top"))
             paneOpen = true
-        // leftMinimal: keep current paneOpen (hamburger-driven)
     }
 
     // Reorder a top-level nav model entry (requires isReorderable)
@@ -1202,15 +1211,10 @@ Item {
                      && root.resolvedPaneMode !== "leftMinimal"
             Layout.preferredWidth: visible ? root._paneLayoutWidth : 0
             Layout.fillHeight: true
+            // Do not animate Layout.preferredWidth — Qt layouts fight the animation and
+            // leave a blank expanded column; relayouting Gallery pages every frame stutters.
             clip: false
-
-            Behavior on Layout.preferredWidth {
-                enabled: !Theme.reducedMotion
-                NumberAnimation {
-                    duration: Theme.duration(Theme.motionNormal)
-                    easing.type: Theme.easingStandard
-                }
-            }
+            z: 1
         }
 
         Rectangle {
@@ -1230,7 +1234,7 @@ Item {
             Behavior on width {
                 enabled: !Theme.reducedMotion && root.resolvedPaneMode === "leftMinimal"
                 NumberAnimation {
-                    duration: Theme.duration(Theme.motionNormal)
+                    duration: Theme.duration(Theme.motionFast)
                     easing.type: Theme.easingStandard
                 }
             }
@@ -1291,6 +1295,7 @@ Item {
                         }
                         Text {
                             // Title is required whenever the rail title bar is shown
+                            visible: root._paneShowsLabels
                             text: root.headerText.length ? root.headerText : qsTr("Navigation")
                             font.family: Theme.fontFamily
                             font.pixelSize: Theme.fontBody
@@ -1483,10 +1488,10 @@ Item {
                                 width: parent.width
                                 height: {
                                     if (del.kind === "header")
-                                        return root.paneOpen ? 28 : 0
+                                        return root._paneShowsLabels ? 28 : 0
                                     return Theme.navItemHeight
                                 }
-                                visible: del.kind === "header" ? root.paneOpen : true
+                                visible: del.kind === "header" ? root._paneShowsLabels : true
                                 enabled: del.kind !== "header"
                                 highlighted: !root.footerSelected && (
                                     (del.kind === "item" && del.key === root.currentKey)
@@ -1592,7 +1597,7 @@ Item {
                                     anchors.fill: parent
 
                                     Text {
-                                        visible: del.kind === "header" && root.paneOpen
+                                        visible: del.kind === "header" && root._paneShowsLabels
                                         anchors.left: parent.left
                                         anchors.right: parent.right
                                         anchors.verticalCenter: parent.verticalCenter
@@ -1621,7 +1626,7 @@ Item {
                                             horizontalAlignment: Text.AlignHCenter
                                         }
                                         Text {
-                                            visible: root.paneOpen
+                                            visible: root._paneShowsLabels
                                             text: del.title || ""
                                             font.family: Theme.fontFamily
                                             font.pixelSize: Theme.fontBody
@@ -1630,7 +1635,7 @@ Item {
                                             Layout.fillWidth: true
                                         }
                                         InfoBadge {
-                                            visible: root.paneOpen && (del.badge.length > 0 || del.badgeValue >= 0)
+                                            visible: root._paneShowsLabels && (del.badge.length > 0 || del.badgeValue >= 0)
                                             Layout.alignment: Qt.AlignVCenter
                                             text: del.badge
                                             value: del.badgeValue >= 0 ? del.badgeValue : 0
@@ -1638,7 +1643,7 @@ Item {
                                             hideWhenEmpty: false
                                         }
                                         Text {
-                                            visible: root.paneOpen && del.kind === "group"
+                                            visible: root._paneShowsLabels && del.kind === "group"
                                             text: FluentIcons.ChevronDown
                                             font.family: Theme.fontFamilyIcon
                                             font.pixelSize: 10
@@ -1671,7 +1676,7 @@ Item {
                                 Behavior on height {
                                     enabled: !Theme.reducedMotion && del.kind === "group" && root.paneOpen
                                     NumberAnimation {
-                                        duration: Theme.duration(Theme.motionSlow)
+                                        duration: Theme.duration(Theme.motionFast)
                                         easing.type: del.expanded ? Theme.easingEnter
                                                                   : Theme.easingExit
                                     }
@@ -1964,7 +1969,7 @@ Item {
                             horizontalAlignment: Text.AlignHCenter
                         }
                         Text {
-                            visible: root.paneOpen
+                            visible: root._paneShowsLabels
                             text: root.footerText
                             font.family: Theme.fontFamily
                             font.pixelSize: Theme.fontBody

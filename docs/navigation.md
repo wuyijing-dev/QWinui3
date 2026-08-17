@@ -34,7 +34,7 @@ Tear-out (`canTearOutTabs`) stays **experimental** (may change; see TabView note
 | `leftCompact` | Icon rail; expand via hamburger / `paneOpen` |
 | `leftMinimal` | Hamburger only; pane overlays content with light-dismiss scrim |
 | `top` | Horizontal top nav; optional in-pane Back |
-| `auto` | `left` when width ≥ `autoCompactThreshold` (default **1008**), else `leftCompact` |
+| `auto` | `left` when width ≥ `autoCompactThreshold` (default **1008**), else `leftCompact`. Hamburger collapse in `left` stays collapsed (does not force the pane open on width ticks). |
 
 ```qml
 NavigationView {
