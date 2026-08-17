@@ -154,6 +154,7 @@ Promote to stable only after a named `1.xx` slice hardens them. See also [1.37 d
 | **Tear-out / exotic shells** | `canTearOutTabs`, compact-overlay / dialog-tool shell variants | Niche — deferred in **1.37** |
 | **Media** | `MediaPlayerElement` | Optional Qt Multimedia — **permanent defer 2.09** — [media.md](media.md); app-owned codecs/deploy |
 | **Collections compose** | `FileTree` (folder tree + file table) | Explorer LoB — [tree-data.md](tree-data.md) (**2.06**); `TreeDataGrid` hierarchical grid (**2.21**); `ItemsWrapGrid` wrap grid (**2.24**) |
+| **Dashboard layout** | `DashboardShell` | Preview host (**2.52**) — full grid in **2.65** — [first-app-252.md](first-app-252.md) |
 | **On-screen keyboard** | `OnScreenKeyboard` / `OnScreenKeyboardWindow` / `KeyboardEngine` / `ImeCandidateBar` | Win11 floating OSK + Windows system-wide (**1.83** harden); **still experimental** — [on-screen-keyboard.md](on-screen-keyboard.md) |
 | **Shell extras (remaining)** | Snap Layouts, battery/online/screens, recent-docs | Gallery demos; taskbar/attention/reveal/idle already stable (**1.17**) |
 
@@ -188,6 +189,7 @@ python scripts/lint_qml_imports.py
 | [`examples/gallery-shell`](../examples/gallery-shell/) | **Prefer for apps** — `NavigationWindow` + Settings + persistence — [window-shells.md](window-shells.md) (**1.50**) |
 | [`examples/nav-settings`](../examples/nav-settings/) | `StandardWindow`, `NavigationView`, settings footer — [navigation.md](navigation.md) (1.27) |
 | [`examples/settings-cards`](../examples/settings-cards/) | `SettingsCard`, `SettingsExpander` |
+| [`examples/first-app`](../examples/first-app/) | Smallest `NavigationWindow` + **`DashboardShell`** preview — [first-app-252.md](first-app-252.md) (**2.52**) |
 | [`examples/dashboard`](../examples/dashboard/) | Shell + **all six stable** KPI/charts (`LineChart`, `BarChart`, `DonutChart`, `RingGauge`, `KpiTile`, `ChartCard`) — [charts.md](charts.md) (**1.66**) |
 | [`examples/master-detail`](../examples/master-detail/) | `ListDetailsView` LoB shell — [data-collections.md](data-collections.md) (1.26) |
 | [`examples/form-settings`](../examples/form-settings/) | `FormLayout` + `ValidationSummary` + SettingsCard prefs — [forms.md](forms.md) (1.26) |
@@ -276,6 +278,7 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **2.42** | SwipeControl deepen — thresholds + nested scroll + teaching — [touch-pointer.md](touch-pointer.md) |
 | **2.50** | Tranche-1 checkpoint — [checkpoint-250.md](checkpoint-250.md); friction-only **2.51+** |
 | **2.51** | Stable vs experimental clarity — [stable-clarity-251.md](stable-clarity-251.md); `lint_qml_imports.py`; **FL-004** queue closed |
+| **2.52** | First app in an hour — [first-app-252.md](first-app-252.md); `examples/first-app/` + preview **DashboardShell** |
 | **2.49** | Performance wave 8 + tranche-1 sign-off — [perf-signoff-2xx.md](perf-signoff-2xx.md); FL-008 partial |
 | **2.48** | Friction slot **FL-009** — dashboard compose decision tree — [dashboard-compose-decision.md](dashboard-compose-decision.md) |
 | **2.46** | Docs IA v2 — MkDocs **2.xx** regroup + recipes hub mirror — [docs-ia-v2.md](docs-ia-v2.md) |

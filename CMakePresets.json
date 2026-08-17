@@ -111,6 +111,7 @@
       "configurePreset": "release",
       "configuration": "Release",
       "targets": [
+        "qwinui3_example_first_app",
         "qwinui3_example_gallery_shell",
         "qwinui3_example_multi_window",
         "qwinui3_example_nav",
@@ -120,6 +121,12 @@
         "qwinui3_example_form",
         "qwinui3_example_floating_osk"
       ]
+    },
+    {
+      "name": "example-first-app",
+      "configurePreset": "release",
+      "configuration": "Release",
+      "targets": ["qwinui3_example_first_app"]
     },
     {
       "name": "example-gallery-shell",

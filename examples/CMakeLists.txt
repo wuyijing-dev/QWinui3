@@ -1,6 +1,7 @@
 # Copy-ready sample apps (NavigationView, Gallery shell, Settings, Dashboard, master–detail, forms, floating OSK).
 
 add_subdirectory(nav-settings)
+add_subdirectory(first-app)
 add_subdirectory(gallery-shell)
 add_subdirectory(multi-window)
 add_subdirectory(settings-cards)

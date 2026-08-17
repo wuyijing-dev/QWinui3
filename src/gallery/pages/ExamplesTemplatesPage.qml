@@ -9,7 +9,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("Example templates")
-    subtitle: qsTr("Copy-ready apps under examples/ — start from gallery-shell (1.50). examples/README.md.")
+    subtitle: qsTr("Copy-ready apps under examples/ — start from first-app (2.52) or gallery-shell (1.50). examples/README.md.")
 
     signal openControl(var item)
 
@@ -28,7 +28,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Prefer examples/gallery-shell for product chrome. Floating OSK: examples/floating-osk (1.84) — not the Gallery tree. Multi-window: examples/multi-window (1.56). find_package sketch: examples/find-package-consumer (1.61). CI smoke turns examples off for speed. Qt Creator: open the repo root.")
+                text: qsTr("Prefer examples/first-app for the first hour (2.52), then gallery-shell for Settings. Floating OSK: examples/floating-osk (1.84). Multi-window: examples/multi-window (1.56). find_package: examples/find-package-consumer (1.61). CI smoke turns examples off for speed. Qt Creator: open the repo root.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
@@ -56,6 +56,7 @@ CatalogPage {
             spacing: Theme.spacing
             Repeater {
                 model: [
+                    { name: "first-app", recipe: qsTr("Smallest NavigationWindow + DashboardShell (2.52) — start here"), page: "ExamplesTemplatesPage" },
                     { name: "gallery-shell", recipe: qsTr("NavigationWindow app shell (1.50) — Settings prefs + geometry (1.65)"), page: "SettingsPersistencePage" },
                     { name: "multi-window", recipe: qsTr("Main + tool + owned dialog (1.56)"), page: "MultiWindowPage" },
                     { name: "nav-settings", recipe: qsTr("StandardWindow + NavigationView hand-wire"), page: "NavigationViewPage" },

@@ -9,12 +9,27 @@ Consumers typically:
 1. **Download** a Release shared package, or  
 2. **Package** from this repo with `scripts/package_release_libs.py`, or  
 3. **`add_subdirectory` / clone** the kit into their tree (static or shared), or  
-4. **`find_package(QWinUI3 CONFIG)`** against a packaged tree — **sketch only (1.61)**; see [Path C](#path-c--find_package-sketch-161).
+4. **`find_package(QWinUI3 CONFIG)`** against a packaged tree — **1.61** sketch; **2.11** vcpkg/Conan ports — see [Path C](#path-c--find_package) · [Path D/E](packaging-vcpkg-conan.md).
 
-> **Not a vcpkg / Conan port.** The Config files in `lib/cmake/QWinUI3/` are an experimental layout for apps that already consume the shared zip. Official ports remain in the [parking lot](../ROADMAP.md#parking-lot).
+> **vcpkg / Conan (2.11):** Official **in-repo** ports — [packaging-vcpkg-conan.md](packaging-vcpkg-conan.md). Zip + Path C remain valid; **2.02** still productizes `find_package` as the primary path without overlay.
 
 **1.46 polish:** shared vs static matrix, windeploy/linuxdeploy notes, strip-restricted modules, and `scripts/check_shared_package.py`.  
-**1.61 sketch:** `QWinUI3Config.cmake` + `examples/find-package-consumer` + `scripts/verify_find_package.py`.
+**1.61 sketch:** `QWinUI3Config.cmake` + `examples/find-package-consumer` + `scripts/verify_find_package.py`.  
+**2.34 v2:** consumer matrix (shared/static × Win/Linux) + CI job mapping below.
+
+### Path picker (2.47 / FL-003)
+
+Use this table before copying the Gallery monorepo tree. Full `find_package` productize remains **2.02**; vcpkg/Conan overlay is **2.11** ([packaging-vcpkg-conan.md](packaging-vcpkg-conan.md)).
+
+| Your situation | Path | Doc anchor |
+|----------------|------|------------|
+| Learning / first Win11 shell app | **D** — `add_subdirectory` + [`examples/first-app/`](../examples/first-app/) (**2.52**) or [`gallery-shell/`](../examples/gallery-shell/) | [first-app-252.md](first-app-252.md) · [gallery-shell](../examples/gallery-shell/) |
+| Shipping zip from GitHub Releases | **A** — download shared kit + deploy Qt | [What CI ships](#what-ci-ships-on-v-tags) |
+| Packaging from this repo locally | **B** — `package_release_libs.py --shared` | [Shared vs static](#shared-vs-static) |
+| Corporate mirror / reproducible ports | **E** — vcpkg overlay or Conan 2 | [packaging-vcpkg-conan.md](packaging-vcpkg-conan.md) |
+| Installed prefix + CMake config (sketch) | **C** — `find_package(QWinUI3 CONFIG)` | [Path C](#path-c--find_package) (**1.61** sketch; **2.02** productize) |
+
+**2.47 harden:** [field-harden-247.md](field-harden-247.md) · Pitfalls **FL-003** checklist · smoke loads `RecipesHubPage`.
 
 ---
 
@@ -36,6 +51,36 @@ Module presets (deps auto-included): `all` / `full` · `core` (theme+style, **+p
 List: `python scripts/package_release_libs.py --list-modules`.
 
 Shared builds set `CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS` so C++ helpers such as `ThemeFonts::ensureLoaded` (used from `Bootstrap`) cross DLL boundaries on MSVC.
+
+---
+
+## Consumer matrix (2.34)
+
+Maintainers and third-party integrators can map **how you link QWinUI3** to **what CI proves** on every relevant PR:
+
+| | **Windows** | **Linux** |
+|--|--|--|
+| **Static** (default in-tree) | Build `qwinui3_example_gallery_shell` — Path D proxy (`add_subdirectory`, link `*plugin` targets) | same |
+| **Shared** (`--shared` / `QWINUI3_BUILD_SHARED=ON`) | `package_release_libs.py --shared --preset shell` → `check_shared_package.py --dir …` → `verify_find_package.py` (Path C) | same |
+
+| Workflow | When | Matrix cells |
+|----------|------|--------------|
+| [`.github/workflows/smoke.yml`](../.github/workflows/smoke.yml) | `push` / `PR` to `master` | Gallery Release build + catalog/`--smoke` (static kit in monorepo) |
+| [`.github/workflows/consumer-matrix.yml`](../.github/workflows/consumer-matrix.yml) | packaging / examples / `src/` changes, manual | **Static + shared** consumer on **Win + Linux** (Qt **6.8**) |
+| [`.github/workflows/release.yml`](../.github/workflows/release.yml) | `v*` tags / dispatch | Publishes shared zips + Gallery deploy (not the find_package sketch) |
+
+**Static consumer (CI):** Release configure with `QWINUI3_BUILD_EXAMPLES=ON`, `QWINUI3_BUILD_SHARED=OFF`, build target `qwinui3_example_gallery_shell`. Same recipe as [gallery-shell](../examples/gallery-shell/) — product chrome without a packaged zip.
+
+**Shared consumer (CI):** After `python scripts/package_release_libs.py --shared --preset shell --webview2 off`:
+
+```bash
+python scripts/check_shared_package.py --dir dist/qwinui3-<ver>-<plat>-x64-shared-theme+style+platform --expect-shared yes
+python scripts/verify_find_package.py --package-dir dist/qwinui3-<ver>-<plat>-x64-shared-theme+style+platform --skip-package
+```
+
+Contract-only (no Qt): `python scripts/check_packaging_consumer_matrix.py` — also run from Gallery smoke (**2.34**).
+
+Tag releases still ship the full shared archive; run the `--dir` check locally after download if you skip the consumer-matrix workflow.
 
 ---
 
@@ -218,7 +263,7 @@ Keep `QT_QUICK_CONTROLS_STYLE=QWinUI3` so styled Controls pick up the Fluent chr
 
 ## Path C — find_package sketch (1.61)
 
-**Experimental.** Same shared zip as Path A; Config files live under `lib/cmake/QWinUI3/`. This is **not** an official vcpkg/Conan port.
+**Experimental sketch (1.61).** Same shared zip as Path A; Config files live under `lib/cmake/QWinUI3/`. **vcpkg / Conan** consumers: [packaging-vcpkg-conan.md](packaging-vcpkg-conan.md) (Path D/E).
 
 ### 1. Package (or download) a shared kit
 
@@ -422,12 +467,18 @@ Opening the **QWinUI3 monorepo** itself: [qt-creator.md](qt-creator.md).
 ```bash
 # Contract + docs (no Qt) — also via smoke_gallery.py
 python scripts/check_shared_package.py
+python scripts/check_packaging_consumer_matrix.py   # 2.34 matrix + workflow anchors
+
+# Static consumer (Path D proxy — matches consumer-matrix.yml)
+cmake -S . -B build-static -G Ninja -DCMAKE_BUILD_TYPE=Release \
+  -DQWINUI3_BUILD_EXAMPLES=ON -DQWINUI3_BUILD_WEBVIEW2=OFF
+cmake --build build-static --config Release --target qwinui3_example_gallery_shell --parallel
 
 # Windows shared artifact
 python scripts/package_release_libs.py --shared --preset core --archive
 python scripts/check_shared_package.py --dir dist/qwinui3-<ver>-windows-x64-shared-theme+style --expect-shared yes
 
-# find_package sketch consumer (1.61)
+# find_package sketch consumer (1.61 / 2.34 shared cell)
 python scripts/verify_find_package.py
 python scripts/verify_find_package.py --package-dir dist/qwinui3-<ver>-windows-x64-shared-theme+style+platform
 
@@ -436,10 +487,10 @@ python scripts/package_release_libs.py --shared --archive
 python scripts/check_shared_package.py --dir dist/qwinui3-<ver>-linux-x64-shared --expect-shared yes
 ```
 
-CI Release already builds Win + Linux shared archives on `v*` tags; run the `--dir` check locally or in a follow-up job after download.
+CI **consumer-matrix** runs static + shared cells on Win/Linux for packaging-related changes; **release** still builds Win + Linux shared archives on `v*` tags.
 
 ---
 
 ## Out of scope
 
-Official Conan/vcpkg ports as supported products, macOS packages, rewriting the CI module matrix. The **1.61** Config is a sketch only — see parking lot.
+macOS packages, rewriting the CI module matrix, vendoring Qt through the port. **2.02** still makes Path C the primary documented `find_package` flow without overlay.

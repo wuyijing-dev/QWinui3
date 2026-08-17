@@ -62,6 +62,7 @@ qt_add_qml_module(qwinui3_extras
         AutoSuggestBox.qml
         BreadcrumbBar.qml
         CalendarDatePicker.qml
+        CalendarView.qml
         Chip.qml
         ChipGroup.qml
         ColorPicker.qml
@@ -77,6 +78,7 @@ qt_add_qml_module(qwinui3_extras
         ContentThemeTransition.qml
         CopyButton.qml
         DataTable.qml
+        DashboardShell.qml
         DatePicker.qml
         DockPanel.qml
         DropDownButton.qml
@@ -84,10 +86,12 @@ qt_add_qml_module(qwinui3_extras
         ValidationSummary.qml
         ItemsView.qml
         ItemsRepeater.qml
+        ItemsWrapGrid.qml
         EmptyState.qml
         EntranceThemeTransition.qml
         Expander.qml
         NotificationBridge.qml
+        NotificationCenter.qml
         RepositionThemeTransition.qml
         FlipView.qml
         Flyout.qml
@@ -208,6 +212,8 @@ qt_add_qml_module(qwinui3_extras
         WrapPanel.qml
         ActionCard.qml
         FileDropZone.qml
+        FileTree.qml
+        TreeDataGrid.qml
         ${QWINUI3_EXTRAS_MEDIA_QML}
     IMPORTS
         QtCore

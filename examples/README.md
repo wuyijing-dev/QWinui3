@@ -4,7 +4,8 @@ Small apps you can copy as a starting point. **CMake only** (no `.pro`). Open th
 
 | Target | Folder | What it shows |
 |--------|--------|----------------|
-| `qwinui3_example_gallery_shell` | [`gallery-shell/`](gallery-shell/) | **Start here for apps** — `NavigationWindow` + Settings + persistence (1.50) |
+| `qwinui3_example_first_app` | [`first-app/`](first-app/) | **Start here (2.52)** — smallest `NavigationWindow` + `DashboardShell` — [docs/first-app-252.md](../docs/first-app-252.md) |
+| `qwinui3_example_gallery_shell` | [`gallery-shell/`](gallery-shell/) | Product frame — Settings + `ThemeAppearanceSettings` (1.50) |
 | `qwinui3_example_multi_window` | [`multi-window/`](multi-window/) | Main + tool + owned dialog shells (1.56) — [docs/window-shells.md](../docs/window-shells.md) |
 | `qwinui3_example_nav` | [`nav-settings/`](nav-settings/) | `StandardWindow` + hand-wired `NavigationView` + Settings — [docs/navigation.md](../docs/navigation.md) (1.27) |
 | `qwinui3_example_settings` | [`settings-cards/`](settings-cards/) | Settings page built from `SettingsCard` / `SettingsExpander` |
@@ -21,7 +22,7 @@ From the repo root (same toolchain as Gallery), **Release**:
 
 ```bat
 cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DQWINUI3_BUILD_EXAMPLES=ON
-cmake --build build --parallel --target qwinui3_example_gallery_shell qwinui3_example_multi_window qwinui3_example_nav qwinui3_example_settings qwinui3_example_dashboard qwinui3_example_master_detail qwinui3_example_form qwinui3_example_floating_osk
+cmake --build build --parallel --target qwinui3_example_first_app qwinui3_example_gallery_shell qwinui3_example_multi_window qwinui3_example_nav qwinui3_example_settings qwinui3_example_dashboard qwinui3_example_master_detail qwinui3_example_form qwinui3_example_floating_osk
 ```
 
 Or use presets:
@@ -35,7 +36,7 @@ cmake --build --preset examples
 
 ```bash
 cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DQWINUI3_BUILD_EXAMPLES=ON
-cmake --build build --parallel --target qwinui3_example_gallery_shell qwinui3_example_multi_window qwinui3_example_nav qwinui3_example_settings qwinui3_example_dashboard qwinui3_example_master_detail qwinui3_example_form qwinui3_example_floating_osk
+cmake --build build --parallel --target qwinui3_example_first_app qwinui3_example_gallery_shell qwinui3_example_multi_window qwinui3_example_nav qwinui3_example_settings qwinui3_example_dashboard qwinui3_example_master_detail qwinui3_example_form qwinui3_example_floating_osk
 ```
 
 ### Qt Creator
@@ -52,7 +53,7 @@ On Linux, leave `QT_QPA_PLATFORM` unset so examples pick Wayland first. Prefer `
 
 ## Copy into your app
 
-1. Prefer **`gallery-shell/`** for a product frame (keep vs delete table in its README).
+1. Prefer **`first-app/`** for the first hour, then **`gallery-shell/`** when you need Settings (keep vs delete tables in each README).
 2. Or copy another example folder for a specialized recipe.
 3. Point CMake `IMPORTS` / `target_link_libraries` at your installed or in-tree `qwinui3_*` targets the same way Gallery does.
 4. Keep `QT_QUICK_CONTROLS_STYLE=QWinUI3` (see each `main.cpp` / `Bootstrap`).

@@ -74,6 +74,7 @@ CatalogPage {
             spacing: Theme.spacing
             Repeater {
                 model: [
+                    { label: qsTr("First app in an hour (2.52)"), doc: "docs/first-app-252.md", page: "ExamplesTemplatesPage" },
                     { label: qsTr("Stable vs experimental clarity (2.51)"), doc: "docs/stable-clarity-251.md", page: "PitfallsPage" },
                     { label: qsTr("Field harden buffer (2.47)"), doc: "docs/field-harden-247.md", page: "PitfallsPage" },
                     { label: qsTr("Docs IA v2 (2.46)"), doc: "docs/docs-ia-v2.md", page: "RecipesHubPage" },

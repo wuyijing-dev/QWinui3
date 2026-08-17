@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **2.51** (master; stable vs experimental clarity)
-**Next up:** **2.52** — First app in an hour (friction-only)
+**Current:** **2.52** (master; first app in an hour)
+**Next up:** **2.53** — Linux top-3 parity (friction-only)
 **Planned through:** **3.00** (… → **2.00** break → **2.01…2.50** tranche 1 → **2.51…2.60** friction-only → **2.61…2.70** professional surfaces → **2.71…2.73** Python / PyPI → **3.00** 2.x close-out)
 **1.xx close-out:** [checkpoint-190.md](checkpoint-190.md). **1.86…1.89** performance arc **signed off** (**animations stay**). OSK/packaging promote **2.01**. **2.50** = tranche-1 audit; **2.60** = friction tranche close-out; **2.70** = professional-surfaces audit; **2.73** = Python consumer checkpoint; **3.00** = 2.x breaking close-out ([checkpoint-300.md](checkpoint-300.md)).  
 **Qt:** 6.5+ (recommended 6.8 LTS) through **1.92** — [qt-version-compat.md](qt-version-compat.md). **2.00** raises the floor to **6.8 LTS**. **3.00** raises the floor to **6.10 LTS**. **Platforms:** **Windows + Linux** — no macOS first-class line.
@@ -649,7 +649,7 @@ Apps on **1.90** read [upgrade-notes.md](upgrade-notes.md) **1.90 → 2.00**, ra
 | Slice | Theme | Typical pain (examples) | Status |
 |-------|--------|-------------------------|--------|
 | **2.51** | Stable vs experimental clarity | Teams ship experimental APIs by mistake | **Shipped** |
-| **2.52** | First app in an hour | `gallery-shell` still too much to delete | Queue |
+| **2.52** | First app in an hour | `gallery-shell` still too much to delete | **Shipped** |
 | **2.53** | Linux “feels broken” top 3 | Field matrix names 3 user-visible parity gaps | Queue |
 | **2.54** | Window chrome footguns | Maximize/DPI/hit-test/geometry restore | Queue |
 | **2.55** | Forms unlike WinUI | Validation, errors, clear/collect surprises | Queue |
@@ -665,9 +665,11 @@ Apps on **1.90** read [upgrade-notes.md](upgrade-notes.md) **1.90 → 2.00**, ra
 
 **Shipped:** [stable-clarity-251.md](stable-clarity-251.md) — import guard recap + `scripts/lint_qml_imports.py` over `examples/`; Gallery **Pitfalls** **2.51** checklist; [stable-api.md](stable-api.md) / [experimental-sweep.md](experimental-sweep.md) aligned. Product version **2.51**.
 
-### 2.52 — First app in an hour (queue)
+### 2.52 — First app in an hour (shipped)
 
-**Pain:** New teams stall on import paths, shell choice, Theme bootstrap. **Outcome:** minimal quickstart (smaller than gallery-shell) + video/script checklist.
+**Goal:** Close adoption stall — import paths, shell choice, Theme bootstrap.
+
+**Shipped:** [first-app-252.md](first-app-252.md) — `examples/first-app/` quickstart + preview **`DashboardShell`**; shell ladder in Pitfalls + packaging path picker. Product version **2.52**.
 
 ### 2.53 — Linux top-3 parity (queue)
 
@@ -1360,13 +1362,12 @@ Finish the committed audit arc — **do not** add conditional controls without a
 
 | Rank | Slice | When to ship |
 |------|-------|----------------|
-| 1 | **2.52** | First app in an hour — biggest adoption lever |
-| — | **2.51** | Stable vs experimental clarity (FL-004) — **shipped** |
-| 2 | **2.53** / **2.57** | Linux shell + files parity |
-| 3 | **2.55** / **2.56** | Forms + navigation mental model |
-| 4 | **2.54** | Window chrome footguns |
-| 5 | **2.58–2.59** | OSK in apps · named slow flows |
-| 6 | **2.60** | Friction checkpoint + 3.00 prep |
+| 1 | **2.53** / **2.57** | Linux shell + files parity |
+| — | **2.52** | First app in an hour — **shipped** |
+| 2 | **2.55** / **2.56** | Forms + navigation mental model |
+| 3 | **2.54** | Window chrome footguns |
+| 4 | **2.58–2.59** | OSK in apps · named slow flows |
+| 5 | **2.60** | Friction checkpoint + 3.00 prep |
 
 **Hard rule:** no open **P0/P1** in friction-log → **skip tag**.
 

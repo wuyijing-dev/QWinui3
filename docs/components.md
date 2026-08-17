@@ -1,6 +1,6 @@
 # QWinUI3 component API
 
-Library **v2.51**. Generated from QML source comments (`scripts/generate_component_docs.py`).
+Library **v2.52**. Generated from QML source comments (`scripts/generate_component_docs.py`).
 Each control has its own page under `docs/components/`.
 
 ```bash
@@ -8,7 +8,7 @@ python scripts/generate_component_docs.py
 python scripts/generate_component_docs.py --lint
 ```
 
-**226** public · **11** internal · **159** with Gallery demos · Hub: [docs home](index.md).
+**227** public · **11** internal · **159** with Gallery demos · Hub: [docs home](index.md).
 
 ## By module
 
@@ -49,6 +49,7 @@ python scripts/generate_component_docs.py --lint
 - [ContentDialogQueue](components/ContentDialogQueue.md) — Singleton queue so ContentDialogs open one at a time.
 - [ContentThemeTransition](components/ContentThemeTransition.md) — Cross-fade + slight horizontal shift when swapping content.
 - [CopyButton](components/CopyButton.md) — Copies textToCopy and flashes a success glyph. · Gallery
+- [DashboardShell](components/DashboardShell.md) — Minimal dashboard layout host (2.52 preview; chart grid + filter rail in 2.65).
 - [DataTable](components/DataTable.md) — Fluent virtualizing table with sort, filter, resize, and keyboard. · Gallery
 - [DatePicker](components/DatePicker.md) — Date selectors (year / month / day). · Gallery
 - [DetailRow](components/DetailRow.md) — Compact label / value row for forms and settings summaries.
@@ -440,6 +441,7 @@ python scripts/generate_component_docs.py --lint
 
 - [BlankWindow](components/BlankWindow.md) — `QWinUI3.Extras`
 - [CompactOverlayShellWindow](components/CompactOverlayShellWindow.md) — `QWinUI3.Extras`
+- [DashboardShell](components/DashboardShell.md) — `QWinUI3.Extras`
 - [DialogShellWindow](components/DialogShellWindow.md) — `QWinUI3.Extras`
 - [MenuStatusWindow](components/MenuStatusWindow.md) — `QWinUI3.Extras`
 - [NavigationWindow](components/NavigationWindow.md) — `QWinUI3.Extras`

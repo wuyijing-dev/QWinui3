@@ -206,6 +206,27 @@ CatalogPage {
     }
 
     ControlExample {
+        headerText: qsTr("First app in an hour (2.52 / FL-003)")
+        qmlSource: "// examples/first-app · DashboardShell preview\\n// docs/first-app-252.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("2.52 adoption slice: smallest NavigationWindow example + shell ladder. Copy first-app before gallery-shell. Hour checklist: docs/first-app-252.md.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            CheckBox { text: qsTr("Start from examples/first-app — not Gallery src/gallery/") }
+            CheckBox { text: qsTr("Shell ladder: first-app → gallery-shell → dashboard → find_package") }
+            CheckBox { text: qsTr("DashboardShell is experimental until 2.65 chart grid") }
+            CheckBox { text: qsTr("Packaging path: docs/packaging-consumer.md Path picker") }
+        }
+    }
+
+    ControlExample {
         headerText: qsTr("Stable vs experimental clarity (2.51 / FL-004)")
         qmlSource: "python scripts/lint_qml_imports.py\\n// docs/stable-clarity-251.md"
         ColumnLayout {

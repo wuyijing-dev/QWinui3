@@ -67,7 +67,7 @@
 | **Pain** | Every new app struggles with `add_subdirectory` vs zip vs `find_package` sketch. |
 | **Workaround today** | Copy Gallery tree, hand-wire import paths, or use **2.11** vcpkg/Conan overlay. |
 | **Proposed slice** | **2.02** productize Path C · **2.11** vcpkg/Conan (shipped) · **2.68** residual |
-| **Status** | partial — **2.11** ports shipped; **2.47** path picker + smoke bump — [field-harden-247.md](../field-harden-247.md); **2.02** still scheduled |
+| **Status** | partial — **2.11** ports shipped; **2.47** path picker; **2.52** first-app quickstart — [first-app-252.md](../first-app-252.md); **2.02** still scheduled |
 
 ### FL-004 — Experimental vs stable confusion
 
