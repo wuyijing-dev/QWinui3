@@ -1,8 +1,8 @@
 {
   "name": "QWinUI3",
-  "version": "2.61",
+  "version": "2.62",
   "generatedBy": "scripts/generate_component_docs.py",
-  "publicCount": 228,
+  "publicCount": 229,
   "components": [
     {
       "name": "AccentButton",
@@ -1773,6 +1773,21 @@
       "propertyCount": 5,
       "signalCount": 1,
       "methodCount": 5
+    },
+    {
+      "name": "SemanticZoom",
+      "module": "QWinUI3.Extras",
+      "summary": "Shared-selection dual view (grid ↔ index) for contacts / albums (2.62).",
+      "path": "src/extras/QWinUI3/Extras/SemanticZoom.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Other",
+      "galleryPage": "pages/SemanticZoomPage.qml",
+      "galleryTitle": "SemanticZoom",
+      "doc": "components/SemanticZoom.md",
+      "propertyCount": 13,
+      "signalCount": 3,
+      "methodCount": 7
     },
     {
       "name": "SettingsCard",

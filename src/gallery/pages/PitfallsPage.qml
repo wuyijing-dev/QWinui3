@@ -206,6 +206,26 @@ CatalogPage {
     }
 
     ControlExample {
+        headerText: qsTr("SemanticZoom for contacts (2.62 / FL-006)")
+        qmlSource: "SemanticZoom { groupRole: \"letter\" }\\n// docs/semantic-zoom-262.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("2.62: SemanticZoom shares model + selectedIndex between grid and letter index — selectGroup() zooms in. Do not hand-sync two ItemsViews. Ctrl+- / Ctrl++ keyboard. Experimental. docs/semantic-zoom-262.md")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            CheckBox { text: qsTr("One model for zoomedIn + zoomedOut hosts") }
+            CheckBox { text: qsTr("Use groupKeys for index — not a duplicate A–Z array") }
+            CheckBox { text: qsTr("SemanticZoom experimental — not map/pinch zoom") }
+        }
+    }
+
+    ControlExample {
         headerText: qsTr("RichEdit in mail apps (2.61 / FL-005)")
         qmlSource: "RichEdit { sanitizePaste: true }\\n// docs/rich-edit-261.md"
         ColumnLayout {

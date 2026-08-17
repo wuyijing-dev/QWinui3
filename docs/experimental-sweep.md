@@ -29,6 +29,7 @@ Related: [stable-api.md](stable-api.md) · [friction-log.md](planning/friction-l
 | **CalendarView** | **Experimental** | Date pickers stable — [calendar-view.md](calendar-view.md) |
 | **NotificationCenter** | **Experimental** | Toast/InfoBar stable — [feedback.md](feedback.md) |
 | **RichEdit** | **Experimental** | Mail/template rich text — [rich-edit-261.md](rich-edit-261.md) |
+| **SemanticZoom** | **Experimental** | Grid ↔ index shared selection — [semantic-zoom-262.md](semantic-zoom-262.md) |
 | **SwipeControl** | **Experimental** | [touch-pointer.md](touch-pointer.md) |
 | **DashboardShell** | **Experimental** (2.52 preview) | `examples/first-app` — promote **2.65** — [first-app-252.md](first-app-252.md) |
 | **AnimatedIcon / motion helpers** | **Experimental** | [icons.md](icons.md) · [animations.md](animations.md) |

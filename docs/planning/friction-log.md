@@ -100,7 +100,7 @@
 | **Pain** | Thumbnail grid ↔ letter-index zoom needs shared selection and keyboard; two `ItemsView`s duplicate state and break WinUI mental model. |
 | **Workaround today** | Custom toggle + two views + manual sync. |
 | **Proposed slice** | **2.62** **(conditional)** `SemanticZoom` |
-| **Status** | open — **conditional**; needs named app |
+| **Status** | closed — **2.62** Gallery contacts recipe · [semantic-zoom-262.md](../semantic-zoom-262.md) |
 
 ### FL-007 — In-app notification history + grouping
 
@@ -226,6 +226,10 @@
 ---
 
 ## Checkpoint notes
+
+### 2.62 (2026-08-17)
+
+**FL-006** closed — experimental **`SemanticZoom`** + Gallery contacts recipe — [semantic-zoom-262.md](../semantic-zoom-262.md).
 
 ### 2.61 (2026-08-17)
 

@@ -93,4 +93,4 @@ Sanitize runs after text changes — not a full HTML parser. Review pasted conte
 - [ ] Pair with **`TokenizingTextBox`** for recipients — not free-form To: strings only
 - [ ] Do not embed WebView2 for the same field — duplicates IME/a11y paths
 
-**Next:** **2.62** conditional **`SemanticZoom`** (**FL-006**)
+**Next:** **2.63** notification center productize (**FL-007**)

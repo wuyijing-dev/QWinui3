@@ -199,6 +199,7 @@ qt_add_qml_module(qwinui3_gallery
         pages/SecurityTrustPage.qml
         pages/SegmentedControlPage.qml
         pages/SelectorBarPage.qml
+        pages/SemanticZoomPage.qml
         pages/SettingsPersistencePage.qml
         pages/SettingsCardPage.qml
         pages/SettingsComboSliderPage.qml

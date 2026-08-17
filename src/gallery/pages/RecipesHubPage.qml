@@ -74,6 +74,7 @@ CatalogPage {
             spacing: Theme.spacing
             Repeater {
                 model: [
+                    { label: qsTr("Semantic zoom (2.62)"), doc: "docs/semantic-zoom-262.md", page: "SemanticZoomPage" },
                     { label: qsTr("Rich edit (2.61)"), doc: "docs/rich-edit-261.md", page: "RichEditPage" },
                     { label: qsTr("Friction checkpoint (2.60)"), doc: "docs/checkpoint-260.md", page: "PitfallsPage" },
                     { label: qsTr("App sluggishness (2.59)"), doc: "docs/app-sluggishness-259.md", page: "PerformancePage" },

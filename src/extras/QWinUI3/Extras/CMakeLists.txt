@@ -165,6 +165,7 @@ qt_add_qml_module(qwinui3_extras
         SearchBox.qml
         SegmentedControl.qml
         SelectorBar.qml
+        SemanticZoom.qml
         SettingsCard.qml
         SettingsExpander.qml
         SettingsGroup.qml

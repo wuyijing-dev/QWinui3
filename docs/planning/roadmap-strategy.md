@@ -2,7 +2,7 @@
 
 How to extend QWinUI3 **after tranche 1** without returning to “every minor adds a control.”
 
-**Current line:** **2.61** shipped · **Professional tranche active** · **Next:** **2.62…2.70** · **Line end:** **3.00** after **2.73**
+**Current line:** **2.62** shipped · **Professional tranche active** · **Next:** **2.63…2.70** · **Line end:** **3.00** after **2.73**
 
 Related: [Planning hub](index.md) · [roadmap.md](../roadmap.md) · [friction-log.md](friction-log.md) · [charts-dashboard-arc.md](expansion/charts-dashboard-arc.md) · [component-capabilities-expansion.md](expansion/component-capabilities-expansion.md) · [icons-dashboard-expansion.md](expansion/icons-dashboard-expansion.md)
 

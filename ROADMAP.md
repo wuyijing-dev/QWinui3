@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
 **Current:** **2.57** (master; files on Linux)
-**Next up:** **2.62** — **(conditional)** `SemanticZoom` (professional surfaces tranche 3)
+**Next up:** **2.63** — **(conditional)** Notification center (professional surfaces tranche 3)
 **Planned through:** **3.00** (… → **2.00** break → **2.01…2.50** tranche 1 → **2.51…2.60** friction-only → **2.61…2.70** professional surfaces → **2.71…2.73** Python / PyPI → **3.00** 2.x close-out)
 **1.xx close-out:** [checkpoint-190.md](docs/checkpoint-190.md). **1.86…1.89** performance arc **signed off** (**animations stay**). OSK/packaging promote **2.01**. **2.50** = tranche-1 audit; **2.60** = friction tranche close-out; **2.70** = professional-surfaces audit; **2.73** = Python consumer checkpoint; **3.00** = 2.x breaking close-out ([checkpoint-300.md](docs/checkpoint-300.md)).  
 **Qt:** 6.5+ (recommended 6.8 LTS) through **1.92** — [qt-version-compat.md](docs/qt-version-compat.md). **2.00** raises the floor to **6.8 LTS**. **3.00** raises the floor to **6.10 LTS**. **Platforms:** **Windows + Linux** — no macOS first-class line.
@@ -726,7 +726,7 @@ Apps on **1.90** read [upgrade-notes.md](docs/upgrade-notes.md) **1.90 → 2.00*
 | Slice | Theme | Friction / gate | Status |
 |-------|--------|-----------------|--------|
 | **2.61** | **(conditional)** `RichEdit` | Mail/template/note apps blocked by plain `TextArea` | **Shipped** |
-| **2.62** | **(conditional)** `SemanticZoom` | Contacts/album thumbnail ↔ letter index blocked | Planned |
+| **2.62** | **(conditional)** `SemanticZoom` | Contacts/album thumbnail ↔ letter index blocked | **Shipped** |
 | **2.63** | **(conditional)** Notification center | History + grouping beyond Toast/InfoBar | Planned |
 | **2.64** | Collection perf + a11y sign-off | Residual **DataTable** / **ListDetailsView** / **NavigationView** field rows | Planned |
 | **2.65** | **Charts + Dashboard product wave** | **FL-009** close + stable six deepen + **DashboardShell** | Planned |
@@ -760,13 +760,11 @@ Apps on **1.90** read [upgrade-notes.md](docs/upgrade-notes.md) **1.90 → 2.00*
 
 **Shipped:** **`RichEdit`** — bold/italic/lists/links toolbar, paste sanitization, IME-friendly **TextEdit**; Gallery mail-compose recipe; [rich-edit-261.md](docs/rich-edit-261.md). Product version **2.61**. **Experimental.**
 
-### 2.62 — (conditional) SemanticZoom (planned)
+### 2.62 — (conditional) SemanticZoom (shipped)
 
 **Friction gate:** Contacts/album apps blocked — dual zoom levels cannot share selection/state with two raw `ItemsView`s.
 
-**Goal:** **`SemanticZoom`** — zoomed-out / zoomed-in views with shared model + keyboard; Gallery contacts recipe.
-
-**Out:** Generic graph zoom; map tiles.
+**Shipped:** **`SemanticZoom`** — zoomed-in / zoomed-out hosts, shared `model` + `selectedIndex`, `selectGroup()`; Gallery contacts recipe; [semantic-zoom-262.md](docs/semantic-zoom-262.md). Product version **2.62**. **Experimental.**
 
 ### 2.63 — (conditional) Notification center (planned)
 

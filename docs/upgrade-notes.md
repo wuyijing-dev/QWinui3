@@ -47,6 +47,28 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 2.61 → 2.62
+
+**Product version:** 2.62
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **SemanticZoom (experimental):** contacts grid ↔ letter index — [semantic-zoom-262.md](semantic-zoom-262.md) (**2.62** / **FL-006**).
+- Gallery **SemanticZoom** contacts recipe; **Ctrl+-** / **Ctrl++** keyboard zoom.
+
+#### Action required (only if you adopt SemanticZoom)
+
+| Area | Change | What to do |
+|------|--------|------------|
+| **SemanticZoom** | New **experimental** Extras type | `import QWinUI3.Extras` · one `model` for both views · `selectGroup()` on index |
+| **Selection** | Shared state | Do not duplicate selection across two raw `ItemsView`s |
+
+#### No action (compatible)
+
+- Apps not using **`SemanticZoom`** — no API breaks.
+
 ### Upgrade 2.60 → 2.61
 
 **Product version:** 2.61

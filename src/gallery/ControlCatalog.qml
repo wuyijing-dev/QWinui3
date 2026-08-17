@@ -653,6 +653,14 @@ QtObject {
             source: "pages/WrapPanelPage.qml"
         },
         {
+            title: qsTr("SemanticZoom"),
+            category: "collections",
+            icon: FluentIcons.People,
+            description: qsTr("Grid ↔ index with shared selection — experimental, docs/semantic-zoom-262.md (2.62)."),
+            component: "SemanticZoomPage",
+            source: "pages/SemanticZoomPage.qml"
+        },
+        {
             title: qsTr("ItemsWrapGrid"),
             category: "layout",
             icon: FluentIcons.Document,
@@ -1684,7 +1692,7 @@ QtObject {
     readonly property var _experimentalPages: [
         "OnScreenKeyboardPage",
         "FileTreePage", "TreeDataGridPage", "ItemsWrapGridPage",
-        "CalendarViewPage", "NotificationCenterPage", "RichEditPage", "SwipeControlPage",
+        "CalendarViewPage", "NotificationCenterPage", "RichEditPage", "SemanticZoomPage", "SwipeControlPage",
         "AnimatedIconPage", "AnimationsPage", "ConnectedAnimationPage",
         "EntranceThemeTransitionPage"
     ]
@@ -1733,6 +1741,7 @@ QtObject {
     // Curated “recently shipped” recipe pages (1.20) — not catalog array order.
     function recentlyShipped(count) {
         var ids = [
+            "SemanticZoomPage",       // 2.62 SemanticZoom / FL-006
             "RichEditPage",           // 2.61 RichEdit / FL-005
             "PitfallsPage",           // 2.60 friction checkpoint
             "PerformancePage",        // 2.59 app sluggishness wave 9

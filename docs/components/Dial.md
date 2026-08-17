@@ -4,7 +4,7 @@ Fluent Dial with WinUI arc track and accent thumb.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/Dial.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/Dial.qml)
 
-**Category:** Styled controls · **Library:** v2.61
+**Category:** Styled controls · **Library:** v2.62
 
 [← Component index](../components.md)
 

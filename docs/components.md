@@ -1,6 +1,6 @@
 # QWinUI3 component API
 
-Library **v2.61**. Generated from QML source comments (`scripts/generate_component_docs.py`).
+Library **v2.62**. Generated from QML source comments (`scripts/generate_component_docs.py`).
 Each control has its own page under `docs/components/`.
 
 ```bash
@@ -8,7 +8,7 @@ python scripts/generate_component_docs.py
 python scripts/generate_component_docs.py --lint
 ```
 
-**228** public · **11** internal · **160** with Gallery demos · Hub: [docs home](index.md).
+**229** public · **11** internal · **161** with Gallery demos · Hub: [docs home](index.md).
 
 ## By module
 
@@ -130,6 +130,7 @@ python scripts/generate_component_docs.py --lint
 - [SegmentedControl](components/SegmentedControl.md) — Mutually exclusive segment buttons. · Gallery
 - [SegmentedGauge](components/SegmentedGauge.md) — Segmented progress / capacity gauge. · Gallery
 - [SelectorBar](components/SelectorBar.md) — Compact horizontal item selector. · Gallery
+- [SemanticZoom](components/SemanticZoom.md) — Shared-selection dual view (grid ↔ index) for contacts / albums (2.62). · Gallery
 - [SettingsCard](components/SettingsCard.md) — Settings row: icon, title, description, action (Toolkit ContentAlignment). · Gallery
 - [SettingsComboCard](components/SettingsComboCard.md) — SettingsCard with a built-in ComboBox action.
 - [SettingsExpander](components/SettingsExpander.md) — Expandable settings group. · Gallery
@@ -421,6 +422,7 @@ python scripts/generate_component_docs.py --lint
 - [RefreshContainer](components/RefreshContainer.md) — `QWinUI3.Extras`
 - [RichEdit](components/RichEdit.md) — `QWinUI3.Extras`
 - [SegmentedControl](components/SegmentedControl.md) — `QWinUI3.Extras`
+- [SemanticZoom](components/SemanticZoom.md) — `QWinUI3.Extras`
 - [StandardTitleChrome](components/StandardTitleChrome.md) — `QWinUI3.Extras`
 - [SwipeAction](components/SwipeAction.md) — `QWinUI3.Extras`
 - [SwipeControl](components/SwipeControl.md) — `QWinUI3.Extras`

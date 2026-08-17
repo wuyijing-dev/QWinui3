@@ -4,7 +4,7 @@ Shared-element style morph between two items (same window).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ConnectedAnimation.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ConnectedAnimation.qml)
 
-**Category:** Media & platform · **Library:** v2.61
+**Category:** Media & platform · **Library:** v2.62
 
 [← Component index](../components.md)
 

@@ -4,7 +4,7 @@ Fluent styled GroupBox.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/GroupBox.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/GroupBox.qml)
 
-**Category:** Styled controls · **Library:** v2.61
+**Category:** Styled controls · **Library:** v2.62
 
 [← Component index](../components.md)
 
