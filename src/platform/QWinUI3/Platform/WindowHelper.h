@@ -172,7 +172,7 @@ public:
     Q_INVOKABLE void setDesktopFileName(const QString &desktopFileName);
     // Raise / activate (Wayland may need xdg-activation token from the compositor)
     Q_INVOKABLE void requestActivateWindow(QObject *windowObject);
-    // Floating OSK: do not steal focus from the target app (Win32 WS_EX_NOACTIVATE).
+    // Floating OSK: Win32 WS_EX_NOACTIVATE + WM_MOUSEACTIVATE → MA_NOACTIVATE (1.83).
     Q_INVOKABLE void setNoActivate(QObject *windowObject, bool on = true);
     // Dialog parenting (important on Wayland for correct stacking / modality)
     Q_INVOKABLE void setTransientParent(QObject *windowObject, QObject *parentWindowObject);

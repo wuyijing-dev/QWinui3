@@ -47,6 +47,19 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.82 → 1.83
+
+**Product version:** 1.83  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- Experimental OSK: floating host no-activate soak (`WM_MOUSEACTIVATE` / no `raise()`); long-press flyout stays in-window on Qt 6.8+. Gallery checklist vs dock. Honest limits: elevated / UIPI / UWP / games may ignore `SendInput`. [on-screen-keyboard.md](on-screen-keyboard.md).
+
+#### No action (compatible)
+
+- Theme / shell / stable controls unchanged. OSK stays experimental. Docked `systemWide` still defaults **off**.
+
 ### Upgrade 1.81 → 1.82
 
 **Product version:** 1.82  

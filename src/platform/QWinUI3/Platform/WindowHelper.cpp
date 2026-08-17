@@ -26,6 +26,11 @@
 #include <QWindow>
 
 #if defined(Q_OS_WIN)
+#  include <QAbstractNativeEventFilter>
+#  include <QSet>
+#endif
+
+#if defined(Q_OS_WIN)
 #  ifndef NOMINMAX
 #    define NOMINMAX
 #  endif
@@ -62,6 +67,87 @@ void setWindowFlagsSafe(QWindow *window, Qt::WindowFlags want)
     if (wasVisible)
         window->setVisible(true);
 }
+
+#if defined(Q_OS_WIN)
+class NoActivateFilter final : public QAbstractNativeEventFilter
+{
+public:
+    void track(QWindow *window, bool on)
+    {
+        if (!window)
+            return;
+        if (on) {
+            m_windows.insert(window);
+            if (!window->property("_qwinui3_noAct").toBool()) {
+                window->setProperty("_qwinui3_noAct", true);
+                QObject::connect(window, &QObject::destroyed, [this, window]() {
+                    m_windows.remove(window);
+                });
+            }
+        } else {
+            m_windows.remove(window);
+            window->setProperty("_qwinui3_noAct", false);
+        }
+    }
+
+    bool nativeEventFilter(const QByteArray &eventType, void *message, qintptr *result) override
+    {
+        if (eventType != "windows_generic_MSG" && eventType != "windows_dispatcher_MSG")
+            return false;
+        auto *msg = static_cast<MSG *>(message);
+        if (!msg || !result)
+            return false;
+        QWindow *match = nullptr;
+        for (QWindow *w : m_windows) {
+            if (!w || !w->handle())
+                continue;
+            if (reinterpret_cast<HWND>(w->winId()) == msg->hwnd) {
+                match = w;
+                break;
+            }
+        }
+        if (!match)
+            return false;
+        if (msg->message == WM_MOUSEACTIVATE) {
+            *result = MA_NOACTIVATE;
+            return true;
+        }
+        if (msg->message == WM_ACTIVATE && LOWORD(msg->wParam) != WA_INACTIVE) {
+            *result = 0;
+            return true;
+        }
+        return false;
+    }
+
+private:
+    QSet<QWindow *> m_windows;
+};
+
+NoActivateFilter *noActivateFilter()
+{
+    static NoActivateFilter filter;
+    static bool installed = false;
+    if (!installed) {
+        if (QCoreApplication *app = QCoreApplication::instance()) {
+            app->installNativeEventFilter(&filter);
+            installed = true;
+        }
+    }
+    return &filter;
+}
+
+void applyNoActivateStyle(HWND hwnd, bool on)
+{
+    if (!hwnd)
+        return;
+    const LONG_PTR ex = GetWindowLongPtrW(hwnd, GWL_EXSTYLE);
+    const LONG_PTR next = on ? (ex | WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW)
+                             : (ex & ~(WS_EX_NOACTIVATE));
+    SetWindowLongPtrW(hwnd, GWL_EXSTYLE, next);
+    SetWindowPos(hwnd, nullptr, 0, 0, 0, 0,
+                 SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED);
+}
+#endif
 
 } // namespace
 
@@ -368,14 +454,8 @@ void WindowHelper::setNoActivate(QObject *windowObject, bool on)
     const WId wid = window->winId();
     if (!wid)
         return;
-    HWND hwnd = reinterpret_cast<HWND>(wid);
-    const LONG_PTR ex = GetWindowLongPtrW(hwnd, GWL_EXSTYLE);
-    const LONG_PTR next = on ? (ex | WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW)
-                             : (ex & ~(WS_EX_NOACTIVATE));
-    SetWindowLongPtrW(hwnd, GWL_EXSTYLE, next);
-    // Force style refresh without activating.
-    SetWindowPos(hwnd, nullptr, 0, 0, 0, 0,
-                 SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED);
+    applyNoActivateStyle(reinterpret_cast<HWND>(wid), on);
+    noActivateFilter()->track(window, on);
 #else
     Q_UNUSED(on);
 #endif

@@ -503,6 +503,12 @@ T.Control {
         modal: false
         focus: false
         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+        Component.onCompleted: {
+            // Qt 6.8+: keep the flyout in-process (Popup.Item) so it does not
+            // create a HWND that steals focus from the target app (1.83).
+            if ("popupType" in altPopup)
+                altPopup.popupType = 0
+        }
         background: Rectangle {
             radius: root.keyRadius
             color: Theme.bgAcrylic

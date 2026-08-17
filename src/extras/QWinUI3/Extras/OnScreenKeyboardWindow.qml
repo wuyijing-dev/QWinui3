@@ -4,7 +4,7 @@ import QtQuick.Window
 import QWinUI3.Theme
 import QWinUI3.Platform
 
-// OnScreenKeyboardWindow — floating Win11-style OSK (1.82).
+// OnScreenKeyboardWindow — floating Win11-style OSK (1.83).
 //
 //   OnScreenKeyboardWindow { visible: true }
 //   // Windows: systemWide defaults ON (SendInput into the focused desktop app).
@@ -33,14 +33,15 @@ Window {
            | Qt.WindowDoesNotAcceptFocus
     visible: false
 
+    function applyNoActivate() {
+        WindowHelper.setNoActivate(root, true)
+    }
+
     function openFloating() {
-        if (!visible) {
+        if (!visible)
             show()
-            raise()
-        }
-        Qt.callLater(function () {
-            WindowHelper.setNoActivate(root, true)
-        })
+        applyNoActivate()
+        Qt.callLater(applyNoActivate)
     }
 
     function closeFloating() {
@@ -49,14 +50,18 @@ Window {
 
     onVisibleChanged: {
         if (visible)
-            Qt.callLater(function () {
-                WindowHelper.setNoActivate(root, true)
-            })
+            applyNoActivate()
+    }
+
+    onActiveChanged: {
+        // Qt may still mark the window active; keep HWND no-activate.
+        if (visible)
+            applyNoActivate()
     }
 
     Component.onCompleted: {
         if (visible)
-            WindowHelper.setNoActivate(root, true)
+            applyNoActivate()
     }
 
     OnScreenKeyboard {

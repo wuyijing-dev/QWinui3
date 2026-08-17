@@ -1,8 +1,8 @@
-# On-screen keyboard & in-app IME (1.70…1.82)
+# On-screen keyboard & in-app IME (1.70…1.83)
 
 Win11 / Fluent **touch keyboard chrome we own**. This is **not** Qt Virtual Keyboard, and it is **not** a hardware-shortcut cookbook ([keyboard.md](keyboard.md)).
 
-**Status:** **1.82** floating `OnScreenKeyboardWindow` + Windows system-wide `SendInput` (floating defaults on). OSK/IME **still experimental**. **Next:** **1.83** field harden → **1.87** green soak / promote. **2.00** is after **1.90** ([ROADMAP.md](../ROADMAP.md)).  
+**Status:** **1.83** floating no-activate soak + honest system-wide limits. OSK/IME **still experimental**. **Next:** **1.84** consumer recipe → **1.87** green soak / promote. **2.00** is after **1.90** ([ROADMAP.md](../ROADMAP.md)).  
 **License:** OSK chrome is this repo (LGPL-3.0). SIL Keyman Core (**MIT**) for layouts. Pinyin tables are [mozillazg/pinyin-data](https://github.com/mozillazg/pinyin-data) (**MIT**) — [NOTICE-pinyin.md](NOTICE-pinyin.md). Japanese is a Hepburn romaji→kana map (**no kanji** — no MIT reading lexicon). Korean is Unicode hangul composition (not a lexicon). Keyman `cs_pinyin` IMX is **not** used.
 
 | Slice | What ships |
@@ -20,7 +20,7 @@ Win11 / Fluent **touch keyboard chrome we own**. This is **not** Qt Virtual Keyb
 | **1.80** | Win11 default touch **layout** chrome (Esc/Tab/dual Shift/lang chip/hints) |
 | **1.81** | Win11 **behavior** vs Win10: long-press, size modes, clipboard, emoji tabs |
 | **1.82** | Floating `OnScreenKeyboardWindow` + Windows **system-wide** `SendInput` (floating defaults on) |
-| **1.83** | Floating / SendInput field harden (planned) |
+| **1.83** | Floating no-activate soak + honest UIPI / UWP / games limits |
 | **1.87** | Green soak + promote (planned; slip if not green) |
 
 ---
@@ -133,7 +133,22 @@ OnScreenKeyboardWindow {
 | `systemWide` (Windows) | **Default on** for `OnScreenKeyboardWindow`; commits / keys use `SendInput`; IME preedit stays on the OSK candidate bar |
 | Linux / Wayland | Floating OK; `supportsSystemWide === false` (no desktop inject) |
 
-**Honesty:** experimental, Windows-first. Not a full TSF/IMM desktop IME; elevated or UIPI-protected windows may ignore inject. Set `systemWide: false` on the floating host to force in-app-only.
+**Honesty:** experimental, Windows-first. Not a full TSF/IMM desktop IME. **Elevated apps, UIPI, many UWP hosts, and some games ignore `SendInput`.** Set `systemWide: false` on the floating host to force in-app-only.
+
+### 1.83 (shipped) — field harden
+
+**Shipped**
+
+- `WindowHelper.setNoActivate`: `WS_EX_NOACTIVATE` plus `WM_MOUSEACTIVATE` → `MA_NOACTIVATE` (first tap / grab bar)
+- Floating window does not `raise()` (that can foreground the OSK)
+- Long-press alt `Popup` uses in-item type on Qt 6.8+ so it does not spawn a focus-stealing HWND
+- Gallery soak: floating vs dock; IME preedit on the bar; Backspace / Enter / arrows inject when not composing
+
+**Out**
+
+- Linux system-wide inject  
+- Promote to stable (**1.87**)  
+- Full TSF / IMM
 
 ---
 

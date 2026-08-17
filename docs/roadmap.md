@@ -1,9 +1,9 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.82**
-**Next up:** **1.83** — floating OSK / SendInput field harden
+**Current:** **1.83**
+**Next up:** **1.84** — consumer floating-OSK recipe
 **Planned through:** **2.00** (1.xx close-out **1.83…1.90**, then breaking line)
-**Still 1.xx until 1.90:** Long-horizon checkpoint — [checkpoint-178.md](checkpoint-178.md). **1.82** floating OSK + Windows system-wide. OSK/IME stays experimental until a named green soak (**1.87**). **Do not implement 2.00 before 1.90.**  
+**Still 1.xx until 1.90:** Long-horizon checkpoint — [checkpoint-178.md](checkpoint-178.md). **1.83** floating OSK field harden. OSK/IME stays experimental until a named green soak (**1.87**). **Do not implement 2.00 before 1.90.**  
 **Qt:** 6.5+ (recommended 6.8 LTS) through 1.xx — [qt-version-compat.md](qt-version-compat.md). **2.00** may raise the floor.
 
 This plan starts from **what 1.00 already was**, then walks **small `1.xx` minors** through a **1.90 close-out**, then a named **2.00** breaking line. **2.00 is not the next tag.**
@@ -393,6 +393,7 @@ Still **1.xx**. **1.70…1.77** shipped OSK → IME → packs → deepen → app
 | **1.80 shipped** | Win11 OSK layout chrome |
 | **1.81 shipped** | Win11 OSK behavior (vs Win10) |
 | **1.82 shipped** | Floating OSK + Windows system-wide (`SendInput`) |
+| **1.83 shipped** | Floating OSK / SendInput field harden |
 
 ### 1.78 — Long-horizon 1.xx checkpoint (shipped)
 
@@ -422,8 +423,8 @@ Finish **1.xx** as named slices (**1.83…1.90**), then a **breaking 2.00**. Do 
 
 | Slice | Theme | Status |
 |-------|--------|--------|
-| **1.83** | Floating OSK / SendInput field harden | **Next** |
-| **1.84** | Consumer floating-OSK recipe | Planned |
+| **1.83** | Floating OSK / SendInput field harden | **Shipped** |
+| **1.84** | Consumer floating-OSK recipe | **Next** |
 | **1.85** | Accessibility wave 3 | Planned (slipped past 1.69) |
 | **1.86** | Leftover field P0s | Planned — skip if empty |
 | **1.87** | OSK / IME green soak + promote | Planned |
@@ -432,22 +433,9 @@ Finish **1.xx** as named slices (**1.83…1.90**), then a **breaking 2.00**. Do 
 | **1.90** | Last 1.xx hold + 2.00 deprecation notices | Planned |
 | **2.00** | Breaking baseline | Planned — **after 1.90** |
 
-### 1.83 — Floating OSK field harden (planned)
+### 1.83 — Floating OSK field harden (shipped)
 
-**Theme:** typing into *other* desktop apps must be reliable enough to demo, not a new control family.
-
-**In**
-
-- No-activate soak: first tap, candidate bar, settings flyout must not steal focus from Notepad / browser
-- Honest limits in Gallery + [on-screen-keyboard.md](on-screen-keyboard.md): UIPI / elevated targets / UWP / games may ignore `SendInput`
-- System-wide IME: preedit stays on OSK bar; commits inject; document Backspace / Enter / arrows
-- Gallery checklist: floating + system-wide vs dock (in-app only)
-
-**Out**
-
-- Linux / Wayland system-wide inject (security model — parking lot)
-- Full TSF / IMM desktop IME
-- Promote OSK to stable (that is **1.87**)
+**Shipped:** `WindowHelper.setNoActivate` also eats `WM_MOUSEACTIVATE` (`MA_NOACTIVATE`) and click `WM_ACTIVATE` so the first tap / settings / candidate bar do not steal the target app. Floating host skips `raise()`. Long-press `Popup` stays `Popup.Item` on Qt 6.8+ (no extra HWND). Gallery soak checkboxes + honest UIPI / UWP / games limits. IME preedit stays on the OSK bar; commits / Backspace / Enter / arrows still `SendInput`. Still experimental. Product version `1.83`.
 
 ### 1.84 — Consumer floating-OSK recipe (planned)
 

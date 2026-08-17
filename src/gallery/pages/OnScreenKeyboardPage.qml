@@ -4,14 +4,14 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — OnScreenKeyboard (1.82). Recipe: docs/on-screen-keyboard.md
+// Gallery — OnScreenKeyboard (1.83). Recipe: docs/on-screen-keyboard.md
 //
 // Floating Win11 OSK window + optional Windows system-wide SendInput.
 
 CatalogPage {
     id: page
     title: qsTr("On-screen keyboard")
-    subtitle: qsTr("Floating window · optional desktop inject (Windows). docs/on-screen-keyboard.md (1.82).")
+    subtitle: qsTr("Floating window · system-wide SendInput (Windows). docs/on-screen-keyboard.md (1.83).")
 
     OnScreenKeyboardWindow {
         id: floatOsk
@@ -21,7 +21,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Floating window + system-wide (1.82)")
+        headerText: qsTr("Floating window + system-wide (1.83)")
         qmlSource: "OnScreenKeyboardWindow {\n    systemWide: true\n}\n// WS_EX_NOACTIVATE · SendInput (Windows)"
 
         ColumnLayout {
@@ -30,7 +30,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Use Open floating keyboard (not the dock at the bottom). On Windows, System-wide is on by default: focus Notepad / Chrome / etc., then tap keys — SendInput goes to that app. The dock keyboard only types into this Gallery. Elevated apps may ignore inject. Linux floating stays in-app.")
+                text: qsTr("Use Open floating keyboard (not the dock). On Windows, System-wide is on by default: click Notepad / Chrome first, then tap the floating keys. Dock stays in-app. 1.83: taps / settings / candidate bar / long-press flyout must not steal focus (WS_EX_NOACTIVATE + MA_NOACTIVATE). Elevated / UIPI / UWP / some games may ignore SendInput. Linux floating stays in-app.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
@@ -139,9 +139,12 @@ CatalogPage {
                 text: qsTr("Show dock keyboard")
                 onClicked: osk.visible = true
             }
-            CheckBox { text: qsTr("Floating window matches Win11 separate OSK") }
-            CheckBox { text: qsTr("No-activate — clicks do not steal focus") }
-            CheckBox { text: qsTr("System-wide SendInput opt-in (Windows)") }
+            CheckBox { text: qsTr("Floating: first tap does not steal Notepad focus") }
+            CheckBox { text: qsTr("Floating: candidate bar / settings / long-press stay no-activate") }
+            CheckBox { text: qsTr("Floating + 中文: preedit on OSK bar; Space/1–9 inject the pick") }
+            CheckBox { text: qsTr("Floating: Backspace / Enter / arrows inject (not compose)") }
+            CheckBox { text: qsTr("Dock still types only into this Gallery (systemWide off)") }
+            CheckBox { text: qsTr("Elevated / UWP / games may ignore SendInput (honest limit)") }
             CheckBox { text: qsTr("Treat OnScreenKeyboard as experimental") }
         }
     }
