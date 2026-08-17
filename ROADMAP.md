@@ -1,12 +1,12 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.90**
-**Next up:** **2.00** — breaking baseline (Qt floor / freeze lift / documented remaps). **Gate: 1.90 shipped.**
-**Planned through:** **2.00** (1.xx close-out **1.83…1.90** complete, then breaking line)
-**1.xx close-out:** [docs/checkpoint-190.md](docs/checkpoint-190.md). **1.86…1.89** performance arc **signed off** (**animations stay**). OSK/packaging **2.01+**. **Do not implement 2.00 before 1.90 ships.**  
-**Qt:** 6.5+ (recommended 6.8 LTS) through 1.xx — [qt-version-compat.md](docs/qt-version-compat.md). **2.00** may raise the floor.
+**Current:** **1.92** (master; last tagged **1.90** until next release)
+**Next up:** **2.00** — breaking baseline (Qt floor / freeze lift / documented remaps). **Gate: 1.90 shipped; 1.91…1.92 are post-close-out polish.**
+**Planned through:** **2.20** (1.xx close-out **1.83…1.90** complete → post-close-out **1.91…1.92** → **2.00** break → **2.01…2.20** horizon)
+**1.xx close-out:** [docs/checkpoint-190.md](docs/checkpoint-190.md). **1.86…1.89** performance arc **signed off** (**animations stay**). OSK/packaging promote **2.01**. **2.20** closes the first **2.xx** horizon (checkpoint draft only).  
+**Qt:** 6.5+ (recommended 6.8 LTS) through **1.92** — [qt-version-compat.md](docs/qt-version-compat.md). **2.00** raises the floor to **6.8 LTS**.
 
-This plan starts from **what 1.00 already was**, then walks **small `1.xx` minors** through a **1.90 close-out**, then a named **2.00** breaking line. **2.00 is not the next tag.**
+This plan starts from **what 1.00 already was**, walks **small `1.xx` minors** through **1.90 close-out**, adds **post-close-out 1.91…1.92**, then a named **2.00** breaking line and **2.01…2.20** follow-ups.
 
 ---
 
@@ -504,13 +504,37 @@ Four consecutive minors; **each ships only performance work** (Platform / Extras
 **Out**
 
 - Actually dropping Qt 6.5 or renaming Theme tokens (**2.00**)
-- OSK promote / packaging (**2.01+**)
+- OSK promote / packaging (**2.01**)
 
 ---
 
-## 2.00 — Breaking baseline (planned, after 1.90)
+## Post close-out — `1.91` … `1.92` (shipped on master)
 
-**Gate:** **1.90 shipped**. Do not open 2.00 PRs while 1.83…1.90 are unfinished.
+Small **non-breaking** slices after [docs/checkpoint-190.md](docs/checkpoint-190.md). Ship as tags before **2.00** when ready.
+
+| Slice | Theme | Status |
+|-------|--------|--------|
+| **1.91** | Real-time FPS + title-bar custom slots | **Shipped** (master) |
+| **1.92** | Linux Wayland client shell (corners + DWM-like shadow) | **Shipped** (master) |
+
+### 1.91 — Real-time FPS + title-bar slots (shipped)
+
+**Shipped:** `FrameStatsMonitor` singleton (`frameSwapped` rolling FPS / frame time, QSettings, CLI `--show-fps` / `--fps-overlay`); `FrameStatsBadge` + `FrameStatsOverlay`; `StandardTitleChrome` exposes `leftHeader` / `titleBarContent` / `rightHeader` on `StandardWindow`; Gallery Settings toggles + badge in title `rightHeader`; `TitleBar.notifyChromeHitTest()` on slot layout changes. Opt-in (`enabled` default **false**). Product version target `1.91`.
+
+### 1.92 — Linux Wayland client shell (shipped)
+
+**Shipped:** `WindowHelper.clientShellDecoration` + `shellCornerRadius()` / `shellShadowMargin()` / `shellChromeExpanded()`; `WindowShellDecoration` (`MultiEffect` drop shadow + rounded frame from `cornerPreference`); `StandardWindow` / `ShellWindow` transparent host + decoration background; Linux alpha buffer when CSD active; Settings **Window corners** enabled on Linux; [docs/platform-linux-wayland.md](docs/platform-linux-wayland.md) Effects dependency note. Windows DWM path unchanged. Product version target `1.92`.
+
+**Out (2.03+)**
+
+- Compositor-native KWin/GNOME rounding hooks
+- `WindowShellDecoration_Simple` fallback without QtQuick.Effects
+
+---
+
+## 2.00 — Breaking baseline (planned, after 1.92)
+
+**Gate:** **1.90 shipped**; **1.91…1.92** tagged or explicitly folded into **2.00** release notes. Do not mix undocumented breaking remaps into 1.91/1.92.
 
 **Theme:** lift the [1.xx freeze](docs/compatibility-1xx.md) in **one** named major. Small enough to finish. Follow-ups are `2.01+`.
 
@@ -537,18 +561,153 @@ Four consecutive minors; **each ships only performance work** (Platform / Extras
 
 Apps on **1.90** read [upgrade-notes.md](docs/upgrade-notes.md) **1.90 → 2.00**, raise Qt to 6.8+, apply the remap table, rebuild Release. Apps that cannot leave Qt 6.5 **stay on 1.90**.
 
-### After `2.00`
+## Planned through `2.20` — `2.01` … `2.20`
 
-`2.01+` are ordinary minors again (one theme each). Candidates, not a dump:
+After **2.00**, ordinary **2.xx** minors again — **one theme each**. Order may shift for field P0s; do not treat this table as a permission slip for multi-theme dumps.
 
-| Slice | Notes |
-|-------|--------|
-| **2.01** | OSK / IME green soak + promote (was pre-arc **1.87**) |
-| **2.02** | Consumer packaging beyond the **1.61** sketch (was pre-arc **1.88**) |
-| **2.01+** | Field harden on the new floor |
-| **2.01+** | macOS first-class — only if scheduled |
-| **2.01+** | Fluent 2 Style fork — only if scheduled |
-| **2.01+** | Official vcpkg/Conan productize |
+| Slice | Theme | Status |
+|-------|--------|--------|
+| **2.00** | Breaking baseline (Qt 6.8 floor, freeze lift, remaps) | **Next** |
+| **2.01** | OSK / IME green soak + promote | Planned |
+| **2.02** | Consumer `find_package` productize | Planned |
+| **2.03** | Linux Wayland shell wave 2 | Planned |
+| **2.04** | Runtime diagnostics (FPS / frame stats deepen) | Planned |
+| **2.05** | Title-bar & shell chrome cookbook | Planned |
+| **2.06** | macOS first-class baseline | Planned |
+| **2.07** | Accessibility wave 4 | Planned |
+| **2.08** | Charts experimental promote sweep | Planned |
+| **2.09** | Media final promote or honest defer | Planned |
+| **2.10** | 2.x mid-horizon checkpoint | Planned |
+| **2.11** | vcpkg / Conan official port | Planned |
+| **2.12** | Localization wave 3 | Planned |
+| **2.13** | Security & trust wave 2 | Planned |
+| **2.14** | Multi-window & modal stack harden | Planned |
+| **2.15** | High-DPI & multi-monitor wave 3 | Planned |
+| **2.16** | Command & search surfaces deepen | Planned |
+| **2.17** | Fluent 2 Style (experimental module) | Planned |
+| **2.18** | Performance wave 5 (2.x floor) | Planned |
+| **2.19** | Component docs & Gallery catalog refresh | Planned |
+| **2.20** | 2.x horizon checkpoint + 3.00 prep | Planned |
+
+### 2.01 — OSK / IME green soak + promote (planned)
+
+**Goal:** Manual soak checklist **green** on Windows + Linux floating path; promote `OnScreenKeyboard` / `KeyboardEngine` / `ImeCandidateBar` subset to **stable**; [docs/on-screen-keyboard.md](docs/on-screen-keyboard.md) + [docs/stable-api.md](docs/stable-api.md) promote rows; honest limits (UIPI, no Linux system-wide inject).
+
+**Out:** Every community `.kmx`; dictation / cloud lexicon.
+
+### 2.02 — Consumer find_package productize (planned)
+
+**Goal:** Productize the **1.61** sketch — installed `QWinUI3Config.cmake` as the supported consumer path; `verify_find_package.py` in default smoke; [docs/packaging-consumer.md](docs/packaging-consumer.md) Path C as primary; optional CI consumer build.
+
+**Out:** Replacing `add_subdirectory` for in-tree kit dev.
+
+### 2.03 — Linux Wayland shell wave 2 (planned)
+
+**Goal:** Compositor-specific polish on the **2.0** floor — KWin/GNOME client-side decoration hints where available; `WindowShellDecoration_Simple` when QtQuick.Effects missing; bottom-corner content clip recipe; field matrix refresh in [docs/platform-linux-wayland.md](docs/platform-linux-wayland.md).
+
+**Out:** macOS-style unified chrome; SSD-only compositors pretending to be Win11 DWM.
+
+### 2.04 — Runtime diagnostics deepen (planned)
+
+**Goal:** Build on **1.91** — Gallery dev default or clearer discoverability; optional GPU/RHI readout beside FPS; [docs/performance.md](docs/performance.md) diagnostics section; Settings + CLI parity.
+
+**Out:** Built-in QML profiler; shipping always-on FPS in consumer apps by default.
+
+### 2.05 — Title-bar & shell chrome cookbook (planned)
+
+**Goal:** Document `StandardTitleChrome` / `ShellWindow` slot recipes (menus in bar, sync badges, drag hit-test); Gallery **TitleBar** page + **Window shells** cross-links; `notifyChromeHitTest` troubleshooting.
+
+**Out:** New caption-button APIs; replacing `PlatformTitleBar`.
+
+### 2.06 — macOS first-class baseline (planned)
+
+**Goal:** Honest macOS matrix — `WindowHelper` / shells / FilePicker / tray on **Qt 6.8+**; Gallery smoke notes; [docs/platform-macos.md](docs/platform-macos.md) (new) or platform section; CI optional macOS job if runners available.
+
+**Out:** Native NSStatusItem parity with Windows shell extras; macOS system-wide OSK.
+
+### 2.07 — Accessibility wave 4 (planned)
+
+**Goal:** Post-**2.0** floor a11y pass — high-traffic 2.x controls + shell chrome; live-region coverage for toasts/dialogs opened from title-bar slots; [docs/accessibility.md](docs/accessibility.md) wave 4 checklist.
+
+**Out:** Full 200+ control audit as one tag.
+
+### 2.08 — Charts experimental promote sweep (planned)
+
+**Goal:** Promote or explicitly **defer** remaining chart/gauge siblings beyond the stable six; [docs/charts.md](docs/charts.md) defer table final for 2.x; dashboard example stays stable-only.
+
+**Out:** WebGL / new chart engines.
+
+### 2.09 — Media final promote or defer (planned)
+
+**Goal:** Close the **1.67** defer loop — either promote `MediaPlayerElement` with Multimedia soak green or document permanent experimental + app-owned codec deploy; [docs/media.md](docs/media.md) verdict row.
+
+**Out:** Bundling FFmpeg; cloud streaming SDKs.
+
+### 2.10 — 2.x mid-horizon checkpoint (planned)
+
+**Goal:** `docs/checkpoint-210.md` — audit **2.00…2.10** (docs links, stable-api, smoke catalog); confirm macOS / OSK / packaging slices landed or rescheduled; no breaking code.
+
+**Out:** Starting **3.00** implementation.
+
+### 2.11 — vcpkg / Conan official port (planned)
+
+**Goal:** Supported community port(s) with documented triplets; README consumer path; not a substitute for Release zips.
+
+**Out:** Qt itself vendored through the port.
+
+### 2.12 — Localization wave 3 (planned)
+
+**Goal:** Extra seed locale(s); `check_gallery_translations.py` rules; [docs/i18n-rtl.md](docs/i18n-rtl.md) consumer lrelease recipe for 2.x apps.
+
+**Out:** Community translation portal; every-locale coverage.
+
+### 2.13 — Security & trust wave 2 (planned)
+
+**Goal:** Extend [docs/security-trust.md](docs/security-trust.md) — WebView2 navigation policy examples; FileDropZone MIME hardening docs; portal parent_window regression tests on Wayland.
+
+**Out:** App sandbox product; code signing service.
+
+### 2.14 — Multi-window & modal stack harden (planned)
+
+**Goal:** Field harden **1.56** / **1.48** on 2.x floor — transient parent on Wayland; `ContentDialogQueue` + multi-window z-order; [`examples/multi-window`](../examples/multi-window/) refresh.
+
+**Out:** MDI framework; tabbed document interface product.
+
+### 2.15 — High-DPI & multi-monitor wave 3 (planned)
+
+**Goal:** Extend [docs/high-dpi.md](docs/high-dpi.md) — fractional scale on Wayland 2.x; per-monitor Theme / geometry restore soak; Gallery readout additions.
+
+**Out:** Per-monitor Theme packs as a product feature.
+
+### 2.16 — Command & search surfaces deepen (planned)
+
+**Goal:** [docs/commands.md](docs/commands.md) + [docs/search.md](docs/search.md) wave 2 — CommandPalette perf on large models; AutoSuggest keyboard polish; Gallery recipes for app-wide search.
+
+**Out:** Spotlight clone; cloud search backends.
+
+### 2.17 — Fluent 2 Style (experimental module) (planned)
+
+**Goal:** Optional **`QWinUI3.Fluent2`** (or Style fork) behind explicit import — **not** the default Style; document coexistence with WinUI 3 Style; Gallery opt-in page only.
+
+**Out:** Replacing default Style in **2.20**; Figma token pipeline.
+
+### 2.18 — Performance wave 5 (planned)
+
+**Goal:** Second perf arc on **Qt 6.8+** only — shell/Navi/lists/style rows in [docs/performance.md](docs/performance.md); **animations stay** rule unchanged; advisory smoke timings.
+
+**Out:** Chart GPU rewrite; default RHI change off OpenGL (Windows).
+
+### 2.19 — Component docs & Gallery catalog refresh (planned)
+
+**Goal:** Regenerate component API index; catalog count audit; smoke critical list sync; Pitfalls / Examples templates updated for 2.x starters.
+
+**Out:** MkDocs theme redesign.
+
+### 2.20 — 2.x horizon checkpoint + 3.00 prep (planned)
+
+**Goal:** `docs/checkpoint-220.md` — verdict on **2.00…2.20**; [docs/upgrade-notes.md](docs/upgrade-notes.md) draft **2.20 → 3.00** (if ever); parking-lot triage; perf + a11y sign-off for the 2.x line.
+
+**Out:** Actually shipping **3.00** breaks; Fluent 2 as default Style.
 
 ---
 
@@ -564,8 +723,12 @@ Unscheduled; pick up only inside a named `1.xx` or `2.xx` minor (or never). Clar
 - Full Lottie runtime as a hard product dependency (thin glyph path shipped in 1.53)
 - New chart engines / WebGL
 - Official vcpkg/Conan ports as supported products (sketch in **1.61**; productize **2.02+**)
-- OSK / IME promote green soak (parked until **2.01** — perf arc **1.86…1.89** first)
-- Consumer `find_package` productize (parked until **2.02**)
+- OSK / IME promote green soak → **2.01** (perf arc **1.86…1.89** done)
+- Consumer `find_package` productize → **2.02**
+- Wayland compositor-native chrome → **2.03** (client shell in **1.92**)
+- macOS first-class → **2.06** (not **2.00**)
+- Fluent 2 Style fork → **2.17** (not **2.00**)
+- Official vcpkg/Conan → **2.11**
 - Custom ink / handwriting canvas (out of 1.57 touch cookbook; out of 1.70…1.73 IME)
 - Dictation / cloud IME lexicon (out of 1.73 full in-app IME)
 - Qt Virtual Keyboard (GPL/commercial — **never**)
@@ -584,6 +747,8 @@ Unscheduled; pick up only inside a named `1.xx` or `2.xx` minor (or never). Clar
 | [docs/checkpoint-160.md](docs/checkpoint-160.md) | 1.60 mid-horizon checkpoint |
 | [docs/checkpoint-178.md](docs/checkpoint-178.md) | 1.78 long-horizon checkpoint |
 | [docs/checkpoint-190.md](docs/checkpoint-190.md) | 1.90 1.xx close-out + perf arc sign-off |
+| [docs/checkpoint-210.md](docs/checkpoint-210.md) (planned) | 2.10 mid-2.x horizon audit |
+| [docs/checkpoint-220.md](docs/checkpoint-220.md) (planned) | 2.20 2.x horizon close-out + 3.00 prep draft |
 | [docs/compatibility-1xx.md](docs/compatibility-1xx.md) | 1.xx will-not-break freeze (ends at **2.00**) |
 | [docs/upgrade-notes.md](docs/upgrade-notes.md) | Consumer upgrades; 2.00 sketch after 1.90 |
 | [docs/components.md](docs/components.md) | Control index |
