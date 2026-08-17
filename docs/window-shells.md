@@ -130,6 +130,30 @@ Gallery demos: `WindowParadigmPage`.
 - Keyboard Home/End/type-ahead; compact flyout ↑↓ Enter Esc
 - Top overflow `…` lists only **clipped** items
 
+### Extractable app shell (1.50)
+
+Prefer [`examples/gallery-shell`](../examples/gallery-shell/) over copying Gallery:
+
+```qml
+NavigationWindow {
+    geometryPersistenceKey: "MyAppMain"
+    hostContent: false
+    pageModule: "MyApp"
+    paneDisplayMode: "auto"
+    footerText: qsTr("Settings")
+    footerComponent: "SettingsPage"
+    navModel: [
+        { type: "item", key: "home", title: qsTr("Home"),
+          symbol: FluentIcons.Home, component: "HomePage" }
+    ]
+}
+```
+
+| Mode | When |
+|------|------|
+| `hostContent: true` (default) | Single `content:` slot |
+| `hostContent: false` + `pageModule` | Gallery-style StackView pages + footer |
+
 Gallery `Main.qml` enables `auto`, pane search, badges, and reorder as the living sample. More: [navigation.md](navigation.md).
 
 ## StatusBar

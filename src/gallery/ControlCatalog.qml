@@ -1266,7 +1266,7 @@ QtObject {
             title: qsTr("Example templates"),
             category: "recipes",
             icon: FluentIcons.PageList,
-            description: qsTr("Copy-ready examples/ apps — examples/README.md (1.26)."),
+            description: qsTr("Copy-ready starters — gallery-shell (1.50) first. examples/README.md."),
             component: "ExamplesTemplatesPage",
             source: "pages/ExamplesTemplatesPage.qml"
         },
@@ -1522,6 +1522,7 @@ QtObject {
     // Curated “recently shipped” recipe pages (1.20) — not catalog array order.
     function recentlyShipped(count) {
         var ids = [
+            "ExamplesTemplatesPage",  // 1.50 gallery-shell
             "FontIconPage",           // 1.49 icon micro-motion
             "IconButtonPage",         // 1.49
             "AppBarButtonPage",       // 1.49

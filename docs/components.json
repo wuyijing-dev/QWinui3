@@ -1,6 +1,6 @@
 {
   "name": "QWinUI3",
-  "version": "1.49",
+  "version": "1.50",
   "generatedBy": "scripts/generate_component_docs.py",
   "publicCount": 208,
   "components": [
@@ -1260,9 +1260,9 @@
       "galleryPage": "",
       "galleryTitle": "",
       "doc": "components/NavigationWindow.md",
-      "propertyCount": 18,
+      "propertyCount": 22,
       "signalCount": 3,
-      "methodCount": 4
+      "methodCount": 5
     },
     {
       "name": "NotificationBridge",

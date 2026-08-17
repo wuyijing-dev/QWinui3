@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.49**
-**Next up:** **1.50** (Extractable Gallery shell template)
+**Current:** **1.50**
+**Next up:** **1.51** (1.xx maturity checkpoint)
 **Planned through:** **1.70** (long-horizon 1.xx checkpoint)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
 
@@ -60,7 +60,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.49`
+## Shipped — `1.01` … `1.50`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -258,30 +258,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** `FontIcon` / `IconicButton` hover lift + press squash (`microMotionEnabled`, `hoverScale`, `pressScale`); aligned `IconButton` / `AppBarButton` / `AppBarToggleButton`; honors `Theme.reducedMotion`; Gallery Iconography + IconButton + AppBarButton demos; [icons.md](docs/icons.md) + [animations.md](docs/animations.md) pointer; product version `1.49`.
 
+### 1.50 — Extractable Gallery shell template (shipped)
+
+**Shipped:** [`examples/gallery-shell`](examples/gallery-shell/) — `NavigationWindow` + `pageModule` + Settings footer + Bootstrap + `geometryPersistenceKey`; `NavigationWindow` gains `pageModule` / `hostContent` / `navigateBack`; keep-vs-delete README; docs/README/Gallery Example templates; product version `1.50`.
+
 ---
 
-## Horizon — planned `1.50` … `1.70`
+## Horizon — planned `1.51` … `1.70`
 
 Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per `YY`. Order can flex if field P0s force a swap; do not merge themes into mega-minors.
-
-### 1.50 — Extractable Gallery shell template
-
-**Why:** Integrators copy Gallery chrome; make a thin “app shell” example from proven Gallery patterns.
-
-**In scope**
-
-- Small example: NavigationWindow + settings + one content page, Bootstrap main, persistence key.
-- README “start from Gallery shell” row; keep it smaller than Gallery itself.
-
-**Out of scope**
-
-- Splitting Gallery into a multi-crate monorepo; removing Gallery.
-
-**Exit criteria**
-
-- Example builds in Release; docs say what to delete vs keep.
-
----
 
 ### 1.51 — 1.xx maturity checkpoint
 

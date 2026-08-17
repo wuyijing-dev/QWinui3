@@ -9,7 +9,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("Example templates")
-    subtitle: qsTr("Copy-ready apps under examples/ — examples/README.md (1.26).")
+    subtitle: qsTr("Copy-ready apps under examples/ — start from gallery-shell (1.50). examples/README.md.")
 
     signal openControl(var item)
 
@@ -21,14 +21,14 @@ CatalogPage {
 
     ControlExample {
         headerText: qsTr("Build examples")
-        qmlSource: "QWINUI3_BUILD_EXAMPLES=ON\ncmake --build … --target qwinui3_example_*"
+        qmlSource: "QWINUI3_BUILD_EXAMPLES=ON\ncmake --build … --target qwinui3_example_gallery_shell"
         ColumnLayout {
             Layout.fillWidth: true
             spacing: Theme.spacing
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Local builds enable examples by default. CI smoke turns them off for speed. Open examples/*/CMakeLists.txt from Qt Creator or use CMakePresets example-* targets. Full Creator notes: Qt Creator page.")
+                text: qsTr("Prefer examples/gallery-shell for product chrome (NavigationWindow + Settings + persistence). Do not copy the full Gallery tree. CI smoke turns examples off for speed. Qt Creator: open the repo root.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
@@ -38,11 +38,11 @@ CatalogPage {
                 Label {
                     Layout.fillWidth: true
                     wrapMode: Text.WrapAnywhere
-                    text: "cmake --build build --config Release --target qwinui3_example_nav"
+                    text: "cmake --build build --config Release --target qwinui3_example_gallery_shell"
                     font.pixelSize: Theme.fontCaption
                 }
                 CopyButton {
-                    textToCopy: "cmake --build build --config Release --target qwinui3_example_nav"
+                    textToCopy: "cmake --build build --config Release --target qwinui3_example_gallery_shell"
                 }
             }
         }
@@ -50,13 +50,14 @@ CatalogPage {
 
     ControlExample {
         headerText: qsTr("Templates")
-        qmlSource: "examples/nav-settings · master-detail · form-settings · …"
+        qmlSource: "examples/gallery-shell · nav-settings · master-detail · …"
         ColumnLayout {
             Layout.fillWidth: true
             spacing: Theme.spacing
             Repeater {
                 model: [
-                    { name: "nav-settings", recipe: qsTr("Navigation + settings shell"), page: "NavigationViewPage" },
+                    { name: "gallery-shell", recipe: qsTr("NavigationWindow app shell (1.50) — keep vs delete in README"), page: "WindowParadigmPage" },
+                    { name: "nav-settings", recipe: qsTr("StandardWindow + NavigationView hand-wire"), page: "NavigationViewPage" },
                     { name: "master-detail", recipe: qsTr("ListDetailsView LoB tickets"), page: "ListDetailsViewPage" },
                     { name: "form-settings", recipe: qsTr("FormLayout + SettingsCard prefs"), page: "FormsHubPage" },
                     { name: "settings-cards", recipe: qsTr("SettingsCard patterns"), page: "SettingsCardPage" },

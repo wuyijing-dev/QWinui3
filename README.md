@@ -7,7 +7,7 @@ Fluent / [WinUI 3](https://learn.microsoft.com/windows/apps/winui/winui3/)-inspi
 [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-2ea44f)](https://wuyijing-dev.github.io/QWinui3/)
 [![Qt](https://img.shields.io/badge/Qt-6.5%2B-41CD52?logo=qt&logoColor=white)](https://www.qt.io/)
 
-**v1.49** · **200+** public controls · Gallery demos for most of them
+**v1.50** · **200+** public controls · Gallery demos for most of them
 [Documentation](https://wuyijing-dev.github.io/QWinui3/) · [Recipes hub](docs/recipes.md) · [Stable API](docs/stable-api.md) · [i18n / RTL](docs/i18n-rtl.md) · [Keyboard-first](docs/keyboard.md) · [Color & contrast](docs/color-contrast.md) · [Adaptive layout](docs/adaptive-layout.md) · [1.xx compatibility](docs/compatibility-1xx.md) · [Drag-drop](docs/drag-drop.md) · [Upgrade notes](docs/upgrade-notes.md) · [Linux / Wayland](docs/platform-linux-wayland.md) · [Qt Creator](docs/qt-creator.md) · [Component API](https://wuyijing-dev.github.io/QWinui3/components/) · [Releases](https://github.com/wuyijing-dev/QWinui3/releases) · [Roadmap](ROADMAP.md)
 
 ---
@@ -199,6 +199,7 @@ Copy-ready starters — see [`examples/README.md`](examples/README.md):
 
 | Target | Demonstrates |
 |--------|----------------|
+| `qwinui3_example_gallery_shell` | **Start from Gallery shell** — `NavigationWindow` + Settings + persistence (**1.50**) |
 | `qwinui3_example_nav` | `StandardWindow` + `NavigationView` + Settings footer |
 | `qwinui3_example_settings` | `SettingsCard` / `SettingsExpander` settings page |
 | `qwinui3_example_dashboard` | `KpiTile` + charts / gauges layout |
@@ -206,7 +207,7 @@ Copy-ready starters — see [`examples/README.md`](examples/README.md):
 | `qwinui3_example_form` | `FormLayout` validation + SettingsCard prefs (1.26) |
 
 ```bat
-cmake --build --preset release --target qwinui3_example_nav qwinui3_example_settings qwinui3_example_dashboard qwinui3_example_master_detail qwinui3_example_form
+cmake --build --preset release --target qwinui3_example_gallery_shell qwinui3_example_nav qwinui3_example_settings qwinui3_example_dashboard qwinui3_example_master_detail qwinui3_example_form
 ```
 
 ---

@@ -251,7 +251,7 @@ if(NOT QWINUI3_BUILD_SHARED)
 endif()
 ```
 
-Copy an example under [`examples/`](../examples/) (`nav-settings`, `settings-cards`, `dashboard`) and keep the same `IMPORTS` / `Q_IMPORT_QML_PLUGIN` pattern as that example’s `main.cpp`.
+Copy an example under [`examples/`](../examples/) — prefer [`gallery-shell`](../examples/gallery-shell/) (**1.50**) for app chrome, or `nav-settings` / `settings-cards` / `dashboard` for specialized recipes — and keep the same `IMPORTS` / `Q_IMPORT_QML_PLUGIN` pattern as that example’s `main.cpp`.
 
 ---
 

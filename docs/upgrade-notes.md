@@ -47,6 +47,20 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.49 → 1.50
+
+**Product version:** 1.50  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- Prefer [`examples/gallery-shell`](../examples/gallery-shell/) as the product app frame (keep-vs-delete in its README).
+- `NavigationWindow` now exposes `pageModule` / `hostContent` / `pageTransition` / `navigateBack()` for Gallery-style StackView pages.
+
+#### No action (compatible)
+
+- Default `hostContent: true` + `content:` slot unchanged for existing NavigationWindow demos.
+
 ### Upgrade 1.48 → 1.49
 
 **Product version:** 1.49  

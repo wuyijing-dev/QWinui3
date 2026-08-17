@@ -111,12 +111,19 @@
       "configurePreset": "release",
       "configuration": "Release",
       "targets": [
+        "qwinui3_example_gallery_shell",
         "qwinui3_example_nav",
         "qwinui3_example_settings",
         "qwinui3_example_dashboard",
         "qwinui3_example_master_detail",
         "qwinui3_example_form"
       ]
+    },
+    {
+      "name": "example-gallery-shell",
+      "configurePreset": "release",
+      "configuration": "Release",
+      "targets": ["qwinui3_example_gallery_shell"]
     },
     {
       "name": "example-nav",

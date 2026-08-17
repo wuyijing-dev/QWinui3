@@ -4,26 +4,31 @@ import QWinUI3.Theme
 
 // NavigationWindow — ShellWindow hosting NavigationView + content.
 //
+//   // Simple hostContent slot:
 //   NavigationWindow {
-//       id: navigationWindow
-//       title: qsTr("App")
-//       paneDisplayMode: "left"
 //       navModel: [{ key: "home", title: "Home", symbol: FluentIcons.Home }]
 //       content: Label { text: "Hello" }
 //   }
 //
+//   // Gallery-style pageModule shell (1.50):
+//   NavigationWindow {
+//       geometryPersistenceKey: "MyAppMain"
+//       hostContent: false
+//       pageModule: "MyApp"
+//       footerText: qsTr("Settings")
+//       footerComponent: "SettingsPage"
+//       navModel: [{ key: "home", title: qsTr("Home"),
+//                    symbol: FluentIcons.Home, component: "HomePage" }]
+//   }
+//
 //   // --- API ---
 //   // signals: onNavActivated, onFooterClicked, onPaneSearchActivated
-//   // methods: clearNav(), addNavItem(item), addNavGroup(group), selectNavKey(key)
-//   // navigationWindow.clearNav()
-//   // navigationWindow.addNavItem(item)
-//   // navigationWindow.addNavGroup(group)
-//   // navigationWindow.selectNavKey(key)
+//   // methods: clearNav(), addNavItem(item), addNavGroup(group), selectNavKey(key), navigateBack()
 //   // inherits ShellWindow (+ Qt Quick Controls base API)
 //
 // @notes
-//   ShellWindow hosting NavigationView with hostContent.
-//   Wire navModel / paneDisplayMode; content goes in the NavigationView content slot.
+//   ShellWindow hosting NavigationView. Default hostContent + content slot;
+//   set hostContent: false + pageModule for StackView pages (Gallery / examples/gallery-shell).
 
 ShellWindow {
     id: root
@@ -39,7 +44,7 @@ ShellWindow {
     property alias paneDisplayMode: nav.paneDisplayMode
     // Selected navigation key
     property alias currentKey: nav.currentKey
-    // Content slot / children host
+    // Content slot / children host (when hostContent)
     property alias content: nav.content
     // NavigationView model
     property alias navModel: nav.model
@@ -65,6 +70,14 @@ ShellWindow {
     property alias footerIcon: nav.footerIcon
     // Footer page component
     property alias footerComponent: nav.footerComponent
+    // QML module URI for page components (1.50)
+    property alias pageModule: nav.pageModule
+    // true = content slot; false = StackView via pageModule (Gallery pattern)
+    property alias hostContent: nav.hostContent
+    // Page enter transition name
+    property alias pageTransition: nav.pageTransition
+    // TitleBar / pane can go back
+    readonly property alias canGoBack: nav.canGoBack
 
     // Emitted when a nav item is activated
     signal navActivated(var item)
@@ -81,9 +94,12 @@ ShellWindow {
     showPaneToggle: true
     footerText: ""
     footerComponent: ""
+    isBackButtonVisible: nav.canGoBack
+    isBackButtonEnabled: nav.canGoBack
 
     onPaneToggleRequested: nav.paneOpen = !nav.paneOpen
     onPaneDisplayModeChanged: _syncPaneToggle()
+    onBackRequested: nav.navigateBack()
     Component.onCompleted: _syncPaneToggle()
 
     // TitleBar back (ShellWindow) + NavigationView pane back -> backRequested
@@ -165,6 +181,11 @@ ShellWindow {
         if (!key)
             return
         nav.selectKey(key, "slide")
+    }
+
+    // Restore previous page (TitleBar Back)
+    function navigateBack(mode) {
+        return nav.navigateBack(mode)
     }
 
     function _findNavItem(key) {

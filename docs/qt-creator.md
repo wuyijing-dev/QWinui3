@@ -33,6 +33,7 @@ Examples are **targets in the same root CMake project** (`QWINUI3_BUILD_EXAMPLES
 
 | Creator / CMake target | Folder | Recipe |
 |------------------------|--------|--------|
+| `qwinui3_example_gallery_shell` | `examples/gallery-shell/` | **Start from Gallery shell** — [window-shells.md](window-shells.md) / [navigation.md](navigation.md) (**1.50**) |
 | `qwinui3_example_nav` | `examples/nav-settings/` | [navigation.md](navigation.md) |
 | `qwinui3_example_settings` | `examples/settings-cards/` | Settings cards |
 | `qwinui3_example_dashboard` | `examples/dashboard/` | Charts / KPI |
@@ -41,10 +42,10 @@ Examples are **targets in the same root CMake project** (`QWINUI3_BUILD_EXAMPLES
 
 3. Select that target as the **Run** configuration → Run.
 
-Build presets (CLI or Creator preset list): `examples` (all) or `example-nav` / `example-settings` / `example-dashboard` / `example-master-detail` / `example-form`.
+Build presets (CLI or Creator preset list): `examples` (all) or `example-gallery-shell` / `example-nav` / `example-settings` / `example-dashboard` / `example-master-detail` / `example-form`.
 
 ```bat
-cmake --build --preset example-nav
+cmake --build --preset example-gallery-shell
 ```
 
 List and notes: [examples/README.md](../examples/README.md).

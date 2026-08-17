@@ -3,7 +3,8 @@
 Recipes for the **default app frame**: [`NavigationView`](components/NavigationView.md) (destinations) vs [`TabView`](components/TabView.md) (documents). Prefer these over inventing a second shell stack.
 
 Gallery: **NavigationView** · **TabView** · (shell) Gallery `Main.qml`.  
-Starter: [`examples/nav-settings`](../examples/nav-settings/).
+**Start from Gallery shell:** [`examples/gallery-shell`](../examples/gallery-shell/) (**1.50**).  
+Hand-wired rail: [`examples/nav-settings`](../examples/nav-settings/).
 
 Related: [window-shells.md](window-shells.md) · [window-chrome.md](window-chrome.md) · [accessibility.md](accessibility.md).
 
@@ -17,7 +18,7 @@ Related: [window-shells.md](window-shells.md) · [window-chrome.md](window-chrom
 | Multiple open documents / editors | **TabView** (add / close / reorder) |
 | Master list + reading pane | [`ListDetailsView`](components/ListDetailsView.md) — not TabView |
 | Settings-only page | [`SettingsView`](components/SettingsView.md) (see [forms.md](forms.md)) |
-| Full shell chrome | `StandardWindow` / `NavigationWindow` + `PlatformTitleBar` / `TitleBar` |
+| Full shell chrome | `NavigationWindow` ([`examples/gallery-shell`](../examples/gallery-shell/), **1.50**) or `StandardWindow` + `NavigationView` ([`nav-settings`](../examples/nav-settings/)) |
 
 **Do not** nest a full NavigationView inside every TabView page as a second app rail — pick one primary frame.
 
