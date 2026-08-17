@@ -222,7 +222,7 @@ CatalogPage {
             Repeater {
                 model: [
                     { label: qsTr("WebView2"), doc: "docs/webview2.md", page: "WebView2Page" },
-                    { label: qsTr("Media"), doc: "docs/media.md", page: "MediaPlayerElementPage" },
+                    { label: qsTr("Media (deferred 1.67)"), doc: "docs/media.md", page: "MediaPlayerElementPage" },
                     { label: qsTr("Charts (stable six / defer)"), doc: "docs/charts.md", page: "ChartsPage" },
                     { label: qsTr("Animations"), doc: "docs/animations.md", page: "AnimationsPage" },
                     { label: qsTr("Performance / cold start"), doc: "docs/performance.md", page: "PerformancePage" }

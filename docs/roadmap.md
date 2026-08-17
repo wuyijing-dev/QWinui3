@@ -1,6 +1,6 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.66**
+**Current:** **1.67**
 **Next up:** **1.65** (Settings persistence & roaming recipes)
 **Planned through:** **1.70** (long-horizon 1.xx checkpoint)  
 **Still 1.xx:** Mid-horizon checkpoint published — [checkpoint-160.md](checkpoint-160.md). Not drafting 2.00.  
@@ -61,7 +61,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.66`
+## Shipped — `1.01` … `1.67`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -327,30 +327,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** [charts.md](charts.md) defer table for remaining siblings/gauges (stable six unchanged); Gallery **Charts** / **Dashboard** hubs match docs; `examples/dashboard` uses all six stable types; stable-api / recipes / Pitfalls; product version `1.66`.
 
+### 1.67 — Media soak or honest defer (shipped)
+
+**Shipped:** [media.md](media.md) soak checklist + **defer** for remaining 1.xx (`MediaPlayerElement` stays experimental — optional Multimedia, codecs/backends, app-owned deploy); Gallery **MediaPlayerElement** decision callout + pause-when-hidden; stable-api / recipes / Pitfalls / compatibility; product version `1.67`.
+
 ---
 
-## Horizon — planned `1.67` … `1.70`
+## Horizon — planned `1.68` … `1.70`
 
 Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per `YY`. Order can flex if field P0s force a swap; do not merge themes into mega-minors. Posture after 1.51 / 1.60: prefer field harden / docs over new control families.
-
-### 1.67 — Media soak or honest defer
-
-**Why:** 1.21 left Multimedia optional/experimental; decide promote vs stay experimental with a soak checklist.
-
-**In scope**
-
-- Soak checklist in [media.md](media.md); either promote a thin stable subset or explicitly defer with reasons.
-- Gallery Media page aligned.
-
-**Out of scope**
-
-- New codecs; streaming CDN integration.
-
-**Exit criteria**
-
-- Published promote-or-defer decision + Gallery callout.
-
----
 
 ### 1.68 — Linux portal & file-dialog harden
 

@@ -98,7 +98,8 @@ Rules for later `1.5x` / `1.6x` PRs:
 
 | Area | Status |
 |------|--------|
-| `MediaPlayerElement`, ConnectedAnimation / entrance helpers | Experimental — [media.md](media.md) · [animations.md](animations.md) |
+| `MediaPlayerElement` | Deferred **1.67** — [media.md](media.md) |
+| ConnectedAnimation / entrance helpers | Experimental — [animations.md](animations.md) |
 | TabView tear-out | Experimental |
 | Niche charts beyond the stable six | Deferred **1.66** — [charts.md](charts.md) |
 | WebView2 advanced Environment / multi-profile | Base host stable; advanced not |

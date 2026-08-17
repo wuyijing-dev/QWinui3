@@ -922,7 +922,7 @@ QtObject {
             title: qsTr("MediaPlayerElement"),
             category: "status",
             icon: FluentIcons.Video,
-            description: qsTr("Optional Qt Multimedia shell — docs/media.md (1.21)."),
+            description: qsTr("Optional Qt Multimedia — deferred 1.67. docs/media.md."),
             component: "MediaPlayerElementPage",
             source: "pages/MediaPlayerElementPage.qml"
         },
@@ -1594,6 +1594,7 @@ QtObject {
     // Curated “recently shipped” recipe pages (1.20) — not catalog array order.
     function recentlyShipped(count) {
         var ids = [
+            "MediaPlayerElementPage", // 1.67 media defer
             "ChartsPage",             // 1.66 dashboard polish / defer
             "DashboardPage",          // 1.66 stable vs deferred gauges
             "SettingsPersistencePage", // 1.65 settings persistence

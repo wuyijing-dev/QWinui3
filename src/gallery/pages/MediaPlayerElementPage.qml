@@ -5,14 +5,14 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 import QWinUI3.Platform
 
-// Gallery — MediaPlayerElement (1.21). Recipe: docs/media.md
+// Gallery — MediaPlayerElement (1.21 / 1.67 defer). Recipe: docs/media.md
 // Soft-loads the Extras type so missing Multimedia never crashes the page.
 
 CatalogPage {
     id: page
 
     title: qsTr("MediaPlayerElement")
-    subtitle: qsTr("Optional Qt Multimedia shell (experimental). Recipe: docs/media.md")
+    subtitle: qsTr("Optional Qt Multimedia — deferred 1.67. Recipe: docs/media.md")
 
     property url mediaSource: ""
     property bool mediaReady: playerLoader.status === Loader.Ready
@@ -49,8 +49,8 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Optional dependency (1.21)")
-        qmlSource: "// -DQWINUI3_BUILD_MEDIA=ON + Qt Multimedia\n// docs/media.md"
+        headerText: qsTr("Deferred for remaining 1.xx (1.67)")
+        qmlSource: "// Not freeze-covered — docs/media.md\n// Stub when Qt Multimedia is missing"
 
         ColumnLayout {
             Layout.fillWidth: true
@@ -59,8 +59,12 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 color: Theme.textSecondary
-                text: qsTr("MediaPlayerElement stays experimental: codecs and backends differ by OS. Build with Qt Multimedia when you need playback; without it Extras ships a stub (available === false) and this page shows EmptyState.")
+                text: qsTr("Honest defer: codecs, GPU backends, and Multimedia deploy differ by OS/kit. The type still ships (real player or available === false stub). Product shells that must stay on stable-api should not depend on it. No new codecs or streaming in 1.67.")
             }
+            CheckBox { text: qsTr("Treat MediaPlayerElement as experimental (not freeze-covered)") }
+            CheckBox { text: qsTr("Gate UI on available === false / EmptyState") }
+            CheckBox { text: qsTr("Deploy Multimedia QML plugins yourself (not in the kit zip)") }
+            CheckBox { text: qsTr("Pause when the host is not visible") }
         }
     }
 
@@ -128,6 +132,14 @@ CatalogPage {
                 property: "source"
                 value: page.mediaSource
                 when: playerLoader.item !== null && playerLoader.item.available !== false
+            }
+
+            Connections {
+                target: page
+                function onVisibleChanged() {
+                    if (!page.visible && playerLoader.item && playerLoader.item.available !== false)
+                        playerLoader.item.pause()
+                }
             }
         }
     }

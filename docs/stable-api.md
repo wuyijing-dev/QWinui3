@@ -45,7 +45,7 @@ Promoted this slice (Gallery + recipe soak). Status flips are **named here** —
 
 | Keep experimental | Why |
 |-------------------|-----|
-| `MediaPlayerElement` | Optional Multimedia; backends vary — [media.md](media.md) |
+| `MediaPlayerElement` | Optional Multimedia; **deferred 1.67** — [media.md](media.md) |
 | `ConnectedAnimation*`, entrance / theme transition helpers | Motion APIs still settling — [animations.md](animations.md) |
 | `AnimatedIcon` | Thin glyph state swap (**1.53**); not Lottie — [icons.md](icons.md) |
 | `TabView` tear-out (`canTearOutTabs`, tear-out windows) | Niche; may change — [navigation.md](navigation.md) |
@@ -149,7 +149,7 @@ Promote to stable only after a named `1.xx` slice hardens them. See also [1.37 d
 | **Charts & gauges (remaining)** | `AreaChart`, `PieChart`, `ArcGauge`, `RadarChart`, … | **Deferred 1.66** — [charts.md](charts.md); **stable subset** Line/Bar/Donut + RingGauge + KpiTile + ChartCard (**1.23**) |
 | **Animations** | `ConnectedAnimation*`, theme transitions, `AnimatedIcon` | Recipe [animations.md](animations.md) / [icons.md](icons.md) — deferred / experimental |
 | **Tear-out / exotic shells** | `canTearOutTabs`, compact-overlay / dialog-tool shell variants | Niche — deferred in **1.37** |
-| **Media** | `MediaPlayerElement` | Optional Qt Multimedia — [media.md](media.md) (1.21) — deferred in **1.37** |
+| **Media** | `MediaPlayerElement` | Optional Qt Multimedia — [media.md](media.md); deferred **1.37** / **1.67** (remaining 1.xx) |
 | **Shell extras (remaining)** | Snap Layouts, battery/online/screens, recent-docs | Gallery demos; taskbar/attention/reveal/idle already stable (**1.17**) |
 
 If a type is public in [components.md](components.md) but listed in neither table, treat it as **experimental** until added here.
@@ -228,6 +228,7 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.64** | Security & trust — [security-trust.md](security-trust.md); Gallery SecurityTrustPage |
 | **1.65** | Settings persistence — [settings-persistence.md](settings-persistence.md); Gallery SettingsPersistencePage |
 | **1.66** | Charts & dashboard polish — defer remaining charts/gauges; [charts.md](charts.md); Gallery Charts/Dashboard |
+| **1.67** | Media honest defer — soak checklist, stay experimental; [media.md](media.md); Gallery MediaPlayerElement |
 | **1.35** | Qt Creator kit polish — [qt-creator.md](qt-creator.md); example build presets |
 | **1.36** | Docs site IA — [recipes.md](recipes.md) hub; MkDocs Recipes sections |
 | **1.37** | Promote sweep — commands / Flyout / TabView / ShellWindow / pickers / progress / FontIcon / ItemsRepeater; explicit defer list |

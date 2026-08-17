@@ -344,7 +344,7 @@ Copy an example under [`examples/`](../examples/) — prefer [`gallery-shell`](.
 
 ## Deploying **your** app (windeployqt / linuxdeploy)
 
-QWinUI3 shared zips **do not** include the Qt runtime. Your installer must still ship Qt (and any optional Multimedia / WebView2 pieces you enable).
+QWinUI3 shared zips **do not** include the Qt runtime. Your installer must still ship Qt (and any optional Multimedia / WebView2 pieces you enable). `MediaPlayerElement` stays **experimental / deferred 1.67** — [media.md](media.md); Multimedia plugins are never a kit promise.
 
 ### Windows — `windeployqt`
 

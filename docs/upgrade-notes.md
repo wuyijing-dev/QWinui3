@@ -47,6 +47,20 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.66 → 1.67
+
+**Product version:** 1.67  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- Media cookbook: [media.md](media.md) — soak checklist + **honest defer** for remaining 1.xx (`MediaPlayerElement` stays experimental).
+- Gallery **MediaPlayerElement** decision callout.
+
+#### No action (compatible)
+
+- No promote; stub / real player behavior unchanged. Apps already using Multimedia keep the same API.
+
 ### Upgrade 1.65 → 1.66
 
 **Product version:** 1.66  

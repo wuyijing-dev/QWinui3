@@ -56,6 +56,26 @@ CatalogPage {
     }
 
     ControlExample {
+        headerText: qsTr("Media defer (1.67)")
+        qmlSource: "// MediaPlayerElement stays experimental\\n// docs/media.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Do not promote MediaPlayerElement in remaining 1.xx. Optional Qt Multimedia, codec/backends, and plugin deploy are app-owned. Gallery still demos the shell + stub. Cookbook: docs/media.md.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            CheckBox { text: qsTr("Product shells do not require MediaPlayerElement") }
+            CheckBox { text: qsTr("available === false → EmptyState, never crash") }
+            CheckBox { text: qsTr("windeployqt / installer ships Multimedia plugins") }
+        }
+    }
+
+    ControlExample {
         headerText: qsTr("Charts polish (1.66)")
         qmlSource: "// Stable six only in product dashboards\\n// docs/charts.md"
         ColumnLayout {

@@ -49,7 +49,7 @@ Until a later checkpoint says otherwise:
 
 Still experimental / won’t-promote-for-now (see [stable-api 1.37 defer](stable-api.md#137-defer--wont-promote-for-now)):
 
-- `MediaPlayerElement` (optional Multimedia)
+- `MediaPlayerElement` (optional Multimedia — **deferred 1.67**)
 - ConnectedAnimation / entrance / theme transition helpers
 - TabView tear-out
 - Niche charts beyond the stable six

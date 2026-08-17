@@ -142,6 +142,6 @@ See also [gallery-catalog-page.md](gallery-catalog-page.md).
 
 **Opt-in visual (1.62):** `smoke_visual.py` / `--visual-smoke` — not on every PR; workflow_dispatch `visual_smoke` input.
 
-**Not in smoke:** Full-catalog screenshot diffs, building shared Release zips (use `package_release_libs.py` + `check_shared_package.py --dir` locally / Release workflow).
+**Not in smoke:** Full-catalog screenshot diffs, building shared Release zips (use `package_release_libs.py` + `check_shared_package.py --dir` locally / Release workflow). Media decode is not required (`MediaPlayerElement` deferred **1.67** — [media.md](media.md)).
 
 **Multi-Qt (1.14):** use [qt-compat.yml](../.github/workflows/qt-compat.yml) / [qt-version-compat.md](qt-version-compat.md) — does not replace smoke.

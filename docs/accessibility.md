@@ -111,7 +111,7 @@ Recipe doc: [`webview2.md`](webview2.md).
 
 ---
 
-## Media (1.21)
+## Media (1.21 / deferred 1.67)
 
 | Topic | Note |
 |-------|------|

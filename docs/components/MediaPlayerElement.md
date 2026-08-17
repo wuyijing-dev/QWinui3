@@ -29,7 +29,7 @@ MediaPlayerElement {
 
 Optional Qt Multimedia — build with -DQWINUI3_BUILD_MEDIA=ON (default when Multimedia
 is found). When Multimedia is absent, Extras ships a stub with available === false.
-Recipe: docs/media.md (1.21). Remains experimental (codecs / backends vary).
+Recipe: docs/media.md (1.21). Deferred 1.67 — remains experimental (codecs / backends vary).
 Keyboard: Space / Enter toggles play; focusable transport chrome.
 
 ## API
