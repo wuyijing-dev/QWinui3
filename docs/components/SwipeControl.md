@@ -4,7 +4,7 @@ Swipe-to-reveal actions on content.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/SwipeControl.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/SwipeControl.qml)
 
-**Category:** Other · **Library:** v1.82
+**Category:** Other · **Library:** v2.51
 
 [← Component index](../components.md)
 
@@ -34,6 +34,9 @@ SwipeControl {
 Content + left/right SwipeAction reveal; openLeft/openRight/close.
 swipeMode: reveal | execute (WinUI SwipeMode).
 Action rows are clipped to the revealed strip so they stay hidden when closed.
+Thresholds (2.42): revealThreshold snap · dragThreshold before drag engages.
+nestedScrollFriendly raises dragThreshold for ListView / Flickable parents.
+Pair with a visible overflow/menu path — docs/touch-pointer.md (2.42).
 
 ## API
 
@@ -49,6 +52,9 @@ Action rows are clipped to the revealed strip so they stay hidden when closed.
 | `rightActions` | `alias` | Actions on the right |
 | `actionWidth` | `real` | Width of each swipe action |
 | `revealThreshold` | `real` | Drag distance to snap open |
+| `dragThreshold` | `real` | Pointer travel before horizontal drag engages (2.42 — nested scroll). |
+| `nestedScrollFriendly` | `bool` | Raise dragThreshold inside vertical scroll parents (2.42). |
+| `effectiveDragThreshold` | `real` | — |
 | `isOpen` | `bool` | Open / visible state |
 | `openMode` | `int` | modeClosed \| leftOpen \| rightOpen |
 | `swipeMode` | `string` | WinUI SwipeMode: reveal \| execute |

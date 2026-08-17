@@ -1,4 +1,4 @@
-# CI smoke (1.06 / 1.20 / 1.52 / 1.60 / 2.27 … 2.50 + strategy/icons track)
+# CI smoke (1.06 / 1.20 / 1.52 / 1.60 / 2.27 … 2.51 + strategy/icons track)
 
 Lightweight regression gate — **not** a full test suite or screenshot farm.
 
@@ -26,13 +26,14 @@ cmake --build build --config Release --target qwinui3_gallery
 python scripts/smoke_gallery.py --build-dir build
 ```
 
-`smoke_gallery.py` preflight (no Qt for the first five steps):
+`smoke_gallery.py` preflight (no Qt for the first six steps):
 
 1. `scripts/smoke_catalog.py` — ControlCatalog sources + critical list sync  
 2. `scripts/check_catalog_refresh.py` — component API index + version sync  
 3. `scripts/check_gallery_translations.py` — `.ts` XML + `GalleryLanguage` wiring  
 4. `scripts/check_docs_links.py` — recipe / ROADMAP / maturity markdown links  
 5. `scripts/check_shared_package.py` — packaging contracts / docs (no `--dir`)  
+6. `scripts/lint_qml_imports.py` — example QML stable-import guard (**2.51**)  
 
 Then launches `qwinui3_gallery --smoke`.
 

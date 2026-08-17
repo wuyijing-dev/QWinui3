@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **2.50** (master; tranche-1 checkpoint)
-**Next up:** **2.51** — Stable vs experimental clarity (friction-only)
+**Current:** **2.51** (master; stable vs experimental clarity)
+**Next up:** **2.52** — First app in an hour (friction-only)
 **Planned through:** **3.00** (… → **2.00** break → **2.01…2.50** tranche 1 → **2.51…2.60** friction-only → **2.61…2.70** professional surfaces → **2.71…2.73** Python / PyPI → **3.00** 2.x close-out)
 **1.xx close-out:** [checkpoint-190.md](docs/checkpoint-190.md). **1.86…1.89** performance arc **signed off** (**animations stay**). OSK/packaging promote **2.01**. **2.50** = tranche-1 audit; **2.60** = friction tranche close-out; **2.70** = professional-surfaces audit; **2.73** = Python consumer checkpoint; **3.00** = 2.x breaking close-out ([checkpoint-300.md](docs/checkpoint-300.md)).  
 **Qt:** 6.5+ (recommended 6.8 LTS) through **1.92** — [qt-version-compat.md](docs/qt-version-compat.md). **2.00** raises the floor to **6.8 LTS**. **3.00** raises the floor to **6.10 LTS**. **Platforms:** **Windows + Linux** — no macOS first-class line.
@@ -648,7 +648,7 @@ Apps on **1.90** read [upgrade-notes.md](docs/upgrade-notes.md) **1.90 → 2.00*
 
 | Slice | Theme | Typical pain (examples) | Status |
 |-------|--------|-------------------------|--------|
-| **2.51** | Stable vs experimental clarity | Teams ship experimental APIs by mistake | Queue |
+| **2.51** | Stable vs experimental clarity | Teams ship experimental APIs by mistake | **Shipped** |
 | **2.52** | First app in an hour | `gallery-shell` still too much to delete | Queue |
 | **2.53** | Linux “feels broken” top 3 | Field matrix names 3 user-visible parity gaps | Queue |
 | **2.54** | Window chrome footguns | Maximize/DPI/hit-test/geometry restore | Queue |
@@ -659,9 +659,11 @@ Apps on **1.90** read [upgrade-notes.md](docs/upgrade-notes.md) **1.90 → 2.00*
 | **2.59** | “Feels slow” (app-level) | Named app scenarios, not synthetic FPS only | Queue |
 | **2.60** | Friction-line checkpoint + 3.00 prep | [checkpoint-260.md](docs/checkpoint-260.md) — close **2.51…2.60** | Queue |
 
-### 2.51 — Stable vs experimental clarity (queue)
+### 2.51 — Stable vs experimental clarity (shipped)
 
-**Pain:** Consumers cannot tell what is safe to ship; Gallery badges lie by omission. **Outcome:** stable-api + Gallery + Pitfalls aligned; optional lint for `@experimental` in app templates.
+**Goal:** Close **FL-004** queue — consumers cannot tell what is safe to ship; Gallery badges lie by omission.
+
+**Shipped:** [stable-clarity-251.md](docs/stable-clarity-251.md) — import guard recap + `scripts/lint_qml_imports.py` over `examples/`; Gallery **Pitfalls** **2.51** checklist; [stable-api.md](docs/stable-api.md) / [experimental-sweep.md](docs/experimental-sweep.md) aligned. Product version **2.51**.
 
 ### 2.52 — First app in an hour (queue)
 
@@ -1359,12 +1361,12 @@ Finish the committed audit arc — **do not** add conditional controls without a
 | Rank | Slice | When to ship |
 |------|-------|----------------|
 | 1 | **2.52** | First app in an hour — biggest adoption lever |
-| 2 | **2.51** | Stable vs experimental clarity (FL-004) |
-| 3 | **2.53** / **2.57** | Linux shell + files parity |
-| 4 | **2.55** / **2.56** | Forms + navigation mental model |
-| 5 | **2.54** | Window chrome footguns |
-| 6 | **2.58–2.59** | OSK in apps · named slow flows |
-| 7 | **2.60** | Friction checkpoint + 3.00 prep |
+| — | **2.51** | Stable vs experimental clarity (FL-004) — **shipped** |
+| 2 | **2.53** / **2.57** | Linux shell + files parity |
+| 3 | **2.55** / **2.56** | Forms + navigation mental model |
+| 4 | **2.54** | Window chrome footguns |
+| 5 | **2.58–2.59** | OSK in apps · named slow flows |
+| 6 | **2.60** | Friction checkpoint + 3.00 prep |
 
 **Hard rule:** no open **P0/P1** in friction-log → **skip tag**.
 

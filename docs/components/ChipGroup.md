@@ -4,7 +4,7 @@ Horizontal chip group for filters / single select.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ChipGroup.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ChipGroup.qml)
 
-**Category:** Collections & data · **Library:** v1.82
+**Category:** Collections & data · **Library:** v2.51
 
 [← Component index](../components.md)
 

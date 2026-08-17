@@ -138,6 +138,7 @@ nav:
       - Docs IA v2: docs-ia-v2.md
       - Tranche-1 checkpoint (2.50): checkpoint-250.md
       - Tranche-1 perf sign-off (2.49): perf-signoff-2xx.md
+      - Stable vs experimental clarity (2.51): stable-clarity-251.md
       - Field harden buffer (2.47): field-harden-247.md
       - Developer diagnostics: developer-diagnostics.md
       - Experimental sweep: experimental-sweep.md

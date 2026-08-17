@@ -4,7 +4,7 @@ Text field with filtered suggestion popup.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/AutoSuggestBox.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/AutoSuggestBox.qml)
 
-**Category:** Input & forms · **Library:** v1.82
+**Category:** Input & forms · **Library:** v2.51
 
 [← Component index](../components.md)
 
@@ -57,6 +57,8 @@ header / description (WinUI Description); maxSuggestionListHeight caps the popup
 | `description` | `string` | WinUI Description — supporting text under the header |
 | `maxSuggestionListHeight` | `real` | Max height of the suggestion ListView (WinUI MaxSuggestionListHeight) |
 | `chooseSuggestionOnEnter` | `bool` | WinUI ChooseSuggestionOnEnter — Enter picks highlighted row when list is open |
+| `filterDebounceMs` | `int` | Debounce suggestion filter keystrokes (2.16). |
+| `maxSuggestionResults` | `int` | Cap filtered suggestion rows (2.16). |
 | `effectiveQueryIcon` | `string` | Resolved search glyph |
 
 ### Signals
@@ -74,7 +76,7 @@ header / description (WinUI Description); maxSuggestionListHeight caps the popup
 | --- | --- |
 | `focusField()` | Move keyboard focus to the text field |
 | `displayTextFor(item)` | Display text for a model item |
-| `refreshSuggestions()` | Rebuild suggestion list from text |
+| `refreshSuggestions()` | Rebuild suggestion list from text (immediate — used after model changes). |
 | `clear()` | Clear text or selection |
 
 ### Inherited from `Control`

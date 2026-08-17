@@ -4,7 +4,7 @@ Search field with suggestion list.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/SearchBox.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/SearchBox.qml)
 
-**Category:** Input & forms · **Library:** v1.82
+**Category:** Input & forms · **Library:** v2.51
 
 [← Component index](../components.md)
 
@@ -56,6 +56,8 @@ Signals: querySubmitted, suggestionChosen, cleared; helpers: focusField, clear, 
 | `isSuggestionListOpen` | `bool` | Suggestion popup open state |
 | `chooseSuggestionOnEnter` | `bool` | WinUI ChooseSuggestionOnEnter — Enter picks highlighted row when list is open |
 | `maxSuggestionListHeight` | `real` | Max height of the suggestion ListView (WinUI MaxSuggestionListHeight) |
+| `filterDebounceMs` | `int` | Debounce suggestion filter keystrokes (2.16). |
+| `maxSuggestionResults` | `int` | Cap filtered suggestion rows (2.16). |
 | `effectiveQueryIcon` | `string` | Resolved search glyph |
 
 ### Signals
@@ -73,7 +75,7 @@ Signals: querySubmitted, suggestionChosen, cleared; helpers: focusField, clear, 
 | --- | --- |
 | `focusField()` | Move keyboard focus to the text field |
 | `displayTextFor(item)` | Display text for a model item |
-| `refreshSuggestions()` | Rebuild suggestion list from text |
+| `refreshSuggestions()` | Rebuild suggestion list from text (immediate — used after model changes). |
 | `clear()` | Clear text or selection |
 | `submitQuery()` | Submit the search query |
 

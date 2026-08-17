@@ -4,7 +4,7 @@ Path trail; model items raise itemClicked.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/BreadcrumbBar.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/BreadcrumbBar.qml)
 
-**Category:** Navigation · **Library:** v1.82
+**Category:** Navigation · **Library:** v2.51
 
 [← Component index](../components.md)
 
@@ -48,6 +48,8 @@ Path trail from model [{ title, icon? }]; itemClicked(index); overflow collapses
 | `lastItemClickable` | `bool` | WinUI: current/last crumb is usually non-interactive |
 | `separatorSymbol` | `var` | Breadcrumb separator FluentIcons symbol |
 | `separatorGlyph` | `string` | Breadcrumb separator glyph string |
+| `accessibleName` | `string` | Override list name when multiple trails share a page (2.29) |
+| `announceChanges` | `bool` | Qt 6.8+ live region for crumb activation (2.29) |
 | `effectiveSeparatorGlyph` | `string` | Resolved separator glyph |
 | `visibleModel` | `var` | Visible (non-overflow) crumbs |
 | `overflowModel` | `var` | Overflow crumb items |
@@ -66,6 +68,7 @@ Path trail from model [{ title, icon? }]; itemClicked(index); overflow collapses
 | `crumbTitle(data)` | Title text for a breadcrumb item |
 | `crumbIcon(data)` | Icon for a breadcrumb item |
 | `isCurrent(index)` | True when this crumb is the current page |
+| `modelFromNavigationPath(path)` | Map NavigationView.breadcrumbPathForKey() to a BreadcrumbBar model (2.23) |
 | `isClickable(entry)` | Emit clicked when activated |
 
 ### Inherited from `Control`

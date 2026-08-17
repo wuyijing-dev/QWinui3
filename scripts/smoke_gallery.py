@@ -144,6 +144,7 @@ def main() -> int:
         ("check_catalog_refresh.py", "catalog refresh OK"),
         ("check_docs_links.py", "docs links OK"),
         ("check_shared_package.py", "shared package contracts OK"),
+        ("lint_qml_imports.py", "example QML import lint OK"),
     ):
         rc = _run_preflight(script, label)
         if rc is not None:

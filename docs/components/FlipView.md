@@ -4,7 +4,7 @@ Page carousel with optional navigation buttons.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/FlipView.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/FlipView.qml)
 
-**Category:** Other · **Library:** v1.82
+**Category:** Other · **Library:** v2.51
 
 [← Component index](../components.md)
 
@@ -31,6 +31,7 @@ FlipView {
 
 Paged swipe view; currentIndex + buttonsVisible / isIndicatorVisible.
 orientation: Qt.Horizontal | Qt.Vertical (WinUI Orientation).
+Carousel recipes + reducedMotion: docs/carousel-recipes.md (2.37).
 
 ## API
 

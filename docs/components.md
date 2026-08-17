@@ -1,6 +1,6 @@
 # QWinUI3 component API
 
-Library **v1.82**. Generated from QML source comments (`scripts/generate_component_docs.py`).
+Library **v2.51**. Generated from QML source comments (`scripts/generate_component_docs.py`).
 Each control has its own page under `docs/components/`.
 
 ```bash
@@ -8,7 +8,7 @@ python scripts/generate_component_docs.py
 python scripts/generate_component_docs.py --lint
 ```
 
-**215** public · **11** internal · **154** with Gallery demos · Hub: [docs home](index.md).
+**226** public · **11** internal · **159** with Gallery demos · Hub: [docs home](index.md).
 
 ## By module
 
@@ -31,6 +31,7 @@ python scripts/generate_component_docs.py --lint
 - [BreadcrumbBar](components/BreadcrumbBar.md) — Path trail; model items raise itemClicked. · Gallery
 - [BulletChart](components/BulletChart.md) — Compact KPI bullet (ranges + performance + target). · Gallery
 - [CalendarDatePicker](components/CalendarDatePicker.md) — Date field with calendar flyout. · Gallery
+- [CalendarView](components/CalendarView.md) — month grid for scheduling / booking surfaces (2.31). · Gallery
 - [ChartCard](components/ChartCard.md) — Title/subtitle chrome around a chart child. · Gallery
 - [ChartLegend](components/ChartLegend.md) — Fluent legend for series/slices.
 - [Chip](components/Chip.md) — Compact selectable tag; optional close affordance. · Gallery
@@ -59,6 +60,7 @@ python scripts/generate_component_docs.py --lint
 - [EntranceThemeTransition](components/EntranceThemeTransition.md) — WinUI-style page / section entrance (fade + rise + scale). · Gallery
 - [Expander](components/Expander.md) — Collapsible header with expandable content. · Gallery
 - [FileDropZone](components/FileDropZone.md) — Drag-and-drop target with Fluent empty chrome. · Gallery
+- [FileTree](components/FileTree.md) — Explorer-style folder tree + file metadata table (2.06). · Gallery
 - [FlipView](components/FlipView.md) — Page carousel with optional navigation buttons. · Gallery
 - [Flyout](components/Flyout.md) — Light-dismiss popup anchored to a target. · Gallery
 - [FontIcon](components/FontIcon.md) — FluentIcons glyph as Text. · Gallery
@@ -79,6 +81,7 @@ python scripts/generate_component_docs.py --lint
 - [InfoButton](components/InfoButton.md) — Icon button that opens a TeachingTip. · Gallery
 - [ItemsRepeater](components/ItemsRepeater.md) — Thin WinUI-style virtualizing repeater over ListView. · Gallery
 - [ItemsView](components/ItemsView.md) — ListView recipe: sections, selection, context MenuFlyout, EmptyState. · Gallery
+- [ItemsWrapGrid](components/ItemsWrapGrid.md) — model-driven variable-size wrap layout (2.24). · Gallery
 - [KeyChordVisual](components/KeyChordVisual.md) — Renders Ctrl+K style shortcuts as KeyVisuals.
 - [KeyVisual](components/KeyVisual.md) — Single keyboard key chrome. · Gallery
 - [KpiTile](components/KpiTile.md) — Compact dashboard KPI tile with optional delta and spark trend. · Gallery
@@ -99,9 +102,10 @@ python scripts/generate_component_docs.py --lint
 - [NavigationView](components/NavigationView.md) — WinUI NavigationView with pane modes and page stack. · Gallery
 - [NavigationWindow](components/NavigationWindow.md) — ShellWindow hosting NavigationView + content.
 - [NotificationBridge](components/NotificationBridge.md) — Mirror in-app ToastHost to OS notifications (Win balloon / Linux portal). · Gallery
+- [NotificationCenter](components/NotificationCenter.md) — In-app notification drawer with grouping (2.27). · Gallery
 - [NumberBox](components/NumberBox.md) — Numeric spin/edit with validation (WinUI AcceptsExpression / IsWrapEnabled). · Gallery
 - [OnScreenKeyboard](components/OnScreenKeyboard.md) — Windows 11 touch keyboard parity (1.82). · Gallery
-- [OnScreenKeyboardWindow](components/OnScreenKeyboardWindow.md) — floating Win11-style OSK (1.82).
+- [OnScreenKeyboardWindow](components/OnScreenKeyboardWindow.md) — floating Win11-style OSK (1.83).
 - [PagerControl](components/PagerControl.md) — Numbered page navigation (prev / numbers / next). · Gallery
 - [PasswordBox](components/PasswordBox.md) — Password field with reveal toggle. · Gallery
 - [PersonPicture](components/PersonPicture.md) — Avatar from image or initials (WinUI IsGroup / BadgeImageSource). · Gallery
@@ -137,6 +141,7 @@ python scripts/generate_component_docs.py --lint
 - [SplitButton](components/SplitButton.md) — Primary action + chevron menu. · Gallery
 - [StackedBarChart](components/StackedBarChart.md) — Stacked bar chart. · Gallery
 - [StackPanel](components/StackPanel.md) — Simple stack layout (orientation + spacing). · Gallery
+- [StandardTitleChrome](components/StandardTitleChrome.md) — PlatformTitleBar + TitleBar with WinUI header slots.
 - [StatusBar](components/StatusBar.md) — Window status strip with progress and slots. · Gallery
 - [StatusDot](components/StatusDot.md) — Colored status indicator dot. · Gallery
 - [StepBar](components/StepBar.md) — Horizontal step / wizard progress. · Gallery
@@ -162,6 +167,7 @@ python scripts/generate_component_docs.py --lint
 - [ToggleSplitButton](components/ToggleSplitButton.md) — Toggle primary + menu SplitButton. · Gallery
 - [TokenizingTextBox](components/TokenizingTextBox.md) — Token chips + text input. · Gallery
 - [ToolShellWindow](components/ToolShellWindow.md) — ShellWindow with tool paradigm.
+- [TreeDataGrid](components/TreeDataGrid.md) — hierarchical multi-column grid with sort + filter (2.21). · Gallery
 - [TwoPaneView](components/TwoPaneView.md) — Responsive dual-pane layout. · Gallery
 - [UniformGrid](components/UniformGrid.md) — Even cell grid. · Gallery
 - [ValidationSummary](components/ValidationSummary.md) — Lists form-level validation errors (pairs with FormLayout).
@@ -173,10 +179,15 @@ python scripts/generate_component_docs.py --lint
 
 - [CompactOverlayWindow](components/CompactOverlayWindow.md) — StandardWindow compact overlay presenter.
 - [DialogWindow](components/DialogWindow.md) — StandardWindow dialog paradigm.
+- [FrameStatsBadge](components/FrameStatsBadge.md) — compact FPS readout for TitleBar rightHeader / leftHeader slots.
+- [FrameStatsOverlay](components/FrameStatsOverlay.md) — floating FPS badge when not using the title-bar slot.
 - [PlatformTitleBar](components/PlatformTitleBar.md) — Caption buttons + drag region + TitleBar host.
 - [StandardWindow](components/StandardWindow.md) — Platform ApplicationWindow + PlatformTitleBar host.
 - [ThemeSync](components/ThemeSync.md) — Copy OS accessibility / color scheme into Theme knobs.
 - [ToolWindow](components/ToolWindow.md) — StandardWindow tool paradigm.
+- [WindowShellContentClip](components/WindowShellContentClip.md) — inset / clip helper for Linux client-shell bottom corners.
+- [WindowShellDecoration](components/WindowShellDecoration.md) — Linux / Wayland client shell: DWM-like shadow + rounded frame.
+- [WindowShellDecoration_Simple](components/WindowShellDecoration_Simple.md) — fallback when QtQuick.Effects is unavailable at build time. Same public API as WindowShellDecoration.qml (MultiEffect build); soft shadow omitted.
 
 ### `QWinUI3.Theme`
 
@@ -296,17 +307,21 @@ python scripts/generate_component_docs.py --lint
 - [ChipGroup](components/ChipGroup.md) — `QWinUI3.Extras`
 - [DataTable](components/DataTable.md) — `QWinUI3.Extras`
 - [DetailRow](components/DetailRow.md) — `QWinUI3.Extras`
+- [FileTree](components/FileTree.md) — `QWinUI3.Extras`
 - [GridTile](components/GridTile.md) — `QWinUI3.Extras`
 - [ItemsRepeater](components/ItemsRepeater.md) — `QWinUI3.Extras`
 - [ItemsView](components/ItemsView.md) — `QWinUI3.Extras`
+- [ItemsWrapGrid](components/ItemsWrapGrid.md) — `QWinUI3.Extras`
 - [ListDetailsView](components/ListDetailsView.md) — `QWinUI3.Extras`
 - [ListTile](components/ListTile.md) — `QWinUI3.Extras`
 - [PersonPicture](components/PersonPicture.md) — `QWinUI3.Extras`
 - [Timeline](components/Timeline.md) — `QWinUI3.Extras`
+- [TreeDataGrid](components/TreeDataGrid.md) — `QWinUI3.Extras`
 
 ### Date & time
 
 - [CalendarDatePicker](components/CalendarDatePicker.md) — `QWinUI3.Extras`
+- [CalendarView](components/CalendarView.md) — `QWinUI3.Extras`
 - [DatePicker](components/DatePicker.md) — `QWinUI3.Extras`
 - [ImeCandidateBar](components/ImeCandidateBar.md) — `QWinUI3.Extras`
 - [TimePicker](components/TimePicker.md) — `QWinUI3.Extras`
@@ -403,6 +418,7 @@ python scripts/generate_component_docs.py --lint
 - [MetadataItem](components/MetadataItem.md) — `QWinUI3.Extras`
 - [RefreshContainer](components/RefreshContainer.md) — `QWinUI3.Extras`
 - [SegmentedControl](components/SegmentedControl.md) — `QWinUI3.Extras`
+- [StandardTitleChrome](components/StandardTitleChrome.md) — `QWinUI3.Extras`
 - [SwipeAction](components/SwipeAction.md) — `QWinUI3.Extras`
 - [SwipeControl](components/SwipeControl.md) — `QWinUI3.Extras`
 
@@ -410,10 +426,15 @@ python scripts/generate_component_docs.py --lint
 
 - [CompactOverlayWindow](components/CompactOverlayWindow.md) — `QWinUI3.Platform`
 - [DialogWindow](components/DialogWindow.md) — `QWinUI3.Platform`
+- [FrameStatsBadge](components/FrameStatsBadge.md) — `QWinUI3.Platform`
+- [FrameStatsOverlay](components/FrameStatsOverlay.md) — `QWinUI3.Platform`
 - [PlatformTitleBar](components/PlatformTitleBar.md) — `QWinUI3.Platform`
 - [StandardWindow](components/StandardWindow.md) — `QWinUI3.Platform`
 - [ThemeSync](components/ThemeSync.md) — `QWinUI3.Platform`
 - [ToolWindow](components/ToolWindow.md) — `QWinUI3.Platform`
+- [WindowShellContentClip](components/WindowShellContentClip.md) — `QWinUI3.Platform`
+- [WindowShellDecoration](components/WindowShellDecoration.md) — `QWinUI3.Platform`
+- [WindowShellDecoration_Simple](components/WindowShellDecoration_Simple.md) — `QWinUI3.Platform`
 
 ### Shells & windows
 
@@ -434,6 +455,7 @@ python scripts/generate_component_docs.py --lint
 - [InfoBadge](components/InfoBadge.md) — `QWinUI3.Extras`
 - [MeterBar](components/MeterBar.md) — `QWinUI3.Extras`
 - [NotificationBridge](components/NotificationBridge.md) — `QWinUI3.Extras`
+- [NotificationCenter](components/NotificationCenter.md) — `QWinUI3.Extras`
 - [ProgressRing](components/ProgressRing.md) — `QWinUI3.Extras`
 - [Shimmer](components/Shimmer.md) — `QWinUI3.Extras`
 - [StatusBar](components/StatusBar.md) — `QWinUI3.Extras`

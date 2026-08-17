@@ -4,7 +4,7 @@ Fluent calendar month grid for DatePicker / CalendarDatePicker.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/MonthGrid.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/MonthGrid.qml)
 
-**Category:** Styled controls · **Library:** v1.82
+**Category:** Styled controls · **Library:** v2.51
 
 [← Component index](../components.md)
 
@@ -35,6 +35,10 @@ Public API is the Qt Quick Controls MonthGrid type; this file supplies visuals/m
 | Name | Type | Description |
 | --- | --- | --- |
 | `selectedDate` | `date` | Selected date |
+| `selectionMode` | `string` | single \| multiple \| range (2.31 CalendarView) |
+| `selectedDates` | `var` | Selected dates when selectionMode === "multiple" |
+| `rangeStart` | `date` | Range endpoints when selectionMode === "range" |
+| `rangeEnd` | `date` | — |
 
 ### Signals
 
@@ -45,6 +49,9 @@ _No custom signals_ (use inherited signals from the base type).
 | Signature | Description |
 | --- | --- |
 | `sameDay(a, b)` | True when two dates are the same calendar day |
+| `isInRange(d)` | — |
+| `isMultiSelected(d)` | — |
+| `isRangeEndpoint(d)` | — |
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

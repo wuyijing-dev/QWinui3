@@ -78,7 +78,7 @@
 | **Pain** | Teams ship OSK, charts, media, or shell extras thinking they are stable. Charts compose + media verdict closed in **2.08** / **2.09**. |
 | **Workaround today** | Read [stable-api.md](../stable-api.md) + [charts.md](../charts.md) + [media.md](../media.md). |
 | **Proposed slice** | **2.45** sweep + **2.51** clarity + **2.67** wave 2 |
-| **Status** | partial — charts **2.08**, media **2.09**; **2.45** sweep + Gallery badges; **2.47** import guard — [field-harden-247.md](../field-harden-247.md); **2.51** clarity queue |
+| **Status** | partial — charts **2.08**, media **2.09**; **2.45** sweep + Gallery badges; **2.47** import guard; **2.51** lint + Pitfalls — [stable-clarity-251.md](../stable-clarity-251.md) (**FL-004 queue closed**); **2.67** wave 2 |
 
 ### FL-005 — Rich text blocked for mail / template apps
 

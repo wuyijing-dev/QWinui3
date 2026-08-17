@@ -45,11 +45,11 @@ Promoted this slice (Gallery + recipe soak). Status flips are **named here** —
 
 | Keep experimental | Why |
 |-------------------|-----|
-| `MediaPlayerElement` | Optional Multimedia; **deferred 1.67** — [media.md](media.md) |
+| `MediaPlayerElement` | Optional Multimedia; **permanent defer 2.09** — [media.md](media.md) |
 | `ConnectedAnimation*`, entrance / theme transition helpers | Motion APIs still settling — [animations.md](animations.md) |
 | `AnimatedIcon` | Thin glyph state swap (**1.53**); not Lottie — [icons.md](icons.md) |
 | `TabView` tear-out (`canTearOutTabs`, tear-out windows) | Niche; may change — [navigation.md](navigation.md) |
-| Niche charts / gauges (`AreaChart`, `PieChart`, `ArcGauge`, `RadarChart`, …) | Stable six already named; **deferred 1.66** — [charts.md](charts.md) |
+| Niche charts / gauges (`AreaChart`, `PieChart`, `ArcGauge`, `RadarChart`, …) | Stable six frozen; **permanent defer 2.08** — compose in [charts.md](charts.md) |
 | WebView2 custom Environment / multi-profile | Base host stable (1.18); advanced options not |
 | Snap Layouts / battery / online / screens / recent-docs helpers | Gallery demos only — [shell-extras.md](shell-extras.md) |
 | Compact overlay / dialog-tool exotic shell variants beyond Blank/Nav/MenuStatus | Prefer `ShellWindow` / `NavigationWindow` for LoB |
@@ -133,6 +133,7 @@ Promoted this slice (Gallery + recipe soak). Status flips are **named here** —
 | `WindowHelper` geometry persistence | Platform | `saveWindowGeometry` / `restoreWindowGeometry` / `geometryPersistenceKey` on shells — [window-helper.md](window-helper.md#window-geometry-persistence) |
 | `FilePicker` / `TrayIcon` | Platform | Open/save/folder + tray — [system-integration.md](system-integration.md) (1.10; **1.68** Linux portal) |
 | `WindowHelper.copyText` / `clipboardText` | Platform | Text clipboard R/W — [drag-drop.md](drag-drop.md) (**1.41**) |
+| `FrameStatsMonitor` / `FrameStatsBadge` / `FrameStatsOverlay` | Platform | Opt-in FPS/RHI dev diagnostics — **`applyRetailProfile()`** for retail — [developer-diagnostics.md](developer-diagnostics.md) (**2.44**) |
 | `FileDropZone` / `CopyButton` | Extras | Drop target + copy affordance — [drag-drop.md](drag-drop.md) (**1.41**) |
 | `NotificationBridge` | Extras | ToastHost + OS notify — [system-integration.md](system-integration.md) (1.10) |
 | `WebView2Host` | Platform | Windows Edge WebView2 HWND host — [webview2.md](webview2.md) (1.18 soak green) |
@@ -148,14 +149,35 @@ Promote to stable only after a named `1.xx` slice hardens them. See also [1.37 d
 | Area | Examples | Why experimental |
 |------|----------|------------------|
 | **WebView2 advanced** | Custom Environment / multi-profile | Base `WebView2Host` is **stable (1.18)** — [webview2.md](webview2.md) |
-| **Charts & gauges (remaining)** | `AreaChart`, `PieChart`, `ArcGauge`, `RadarChart`, … | **Deferred 1.66** — [charts.md](charts.md); **stable subset** Line/Bar/Donut + RingGauge + KpiTile + ChartCard (**1.23**) |
+| **Charts & gauges (remaining)** | `AreaChart`, `PieChart`, `ArcGauge`, `RadarChart`, … | **Permanent defer 2.08** — [charts.md](charts.md) compose recipes; stable six unchanged |
 | **Animations** | `ConnectedAnimation*`, theme transitions, `AnimatedIcon` | Recipe [animations.md](animations.md) / [icons.md](icons.md) — deferred / experimental |
 | **Tear-out / exotic shells** | `canTearOutTabs`, compact-overlay / dialog-tool shell variants | Niche — deferred in **1.37** |
-| **Media** | `MediaPlayerElement` | Optional Qt Multimedia — [media.md](media.md); deferred **1.37** / **1.67** (remaining 1.xx) |
+| **Media** | `MediaPlayerElement` | Optional Qt Multimedia — **permanent defer 2.09** — [media.md](media.md); app-owned codecs/deploy |
+| **Collections compose** | `FileTree` (folder tree + file table) | Explorer LoB — [tree-data.md](tree-data.md) (**2.06**); `TreeDataGrid` hierarchical grid (**2.21**); `ItemsWrapGrid` wrap grid (**2.24**) |
 | **On-screen keyboard** | `OnScreenKeyboard` / `OnScreenKeyboardWindow` / `KeyboardEngine` / `ImeCandidateBar` | Win11 floating OSK + Windows system-wide (**1.83** harden); **still experimental** — [on-screen-keyboard.md](on-screen-keyboard.md) |
 | **Shell extras (remaining)** | Snap Layouts, battery/online/screens, recent-docs | Gallery demos; taskbar/attention/reveal/idle already stable (**1.17**) |
 
 If a type is public in [components.md](components.md) but listed in neither table, treat it as **experimental** until added here.
+
+**2.45 sweep:** Gallery **Experimental** / **Permanent defer** badges on catalog pages; full verdict matrix — [experimental-sweep.md](experimental-sweep.md). **2.51** closes clarity queue — [stable-clarity-251.md](stable-clarity-251.md).
+
+### Import guard (2.47 / 2.51)
+
+Before copying a Gallery page into product code, check **badge + module**:
+
+| If you need… | Import | Verdict |
+|--------------|--------|---------|
+| Buttons, dialogs, shells, stable six charts | `QWinUI3.Style` / `Theme` / documented stable module | **Ship** |
+| OSK, `CalendarView`, `TreeDataGrid`, `NotificationCenter`, … | `QWinUI3.Extras` (or page-specific) | **Experimental** — friction row or internal only |
+| `AreaChart`, `MediaPlayerElement`, deferred gauges | Do not import for shipping UI | **Permanent defer** — compose per [charts.md](charts.md) / [media.md](media.md) |
+
+**Rule:** If a type is not listed under **Stable** on this page, assume **experimental** until [experimental-sweep.md](experimental-sweep.md) says otherwise. Gallery **Pitfalls** + **2.51** lint: [stable-clarity-251.md](stable-clarity-251.md) · [field-harden-247.md](field-harden-247.md).
+
+Run before copying an example:
+
+```bash
+python scripts/lint_qml_imports.py
+```
 
 ---
 
@@ -231,6 +253,34 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.64** | Security & trust — [security-trust.md](security-trust.md); Gallery SecurityTrustPage |
 | **1.65** | Settings persistence — [settings-persistence.md](settings-persistence.md); Gallery SettingsPersistencePage |
 | **1.66** | Charts & dashboard polish — defer remaining charts/gauges; [charts.md](charts.md); Gallery Charts/Dashboard |
+| **2.08** | Charts compose recipes + permanent defer table — stable six frozen; Area→LineChart showArea, Spark→KpiTile; [charts.md](charts.md) |
+| **2.09** | Media permanent defer — `MediaPlayerElement` stays experimental; [media.md](media.md) verdict; Gallery/Pitfalls/stable-api aligned |
+| **2.21** | `TreeDataGrid` experimental — hierarchical multi-column grid; [tree-data.md](tree-data.md) |
+| **2.24** | `ItemsWrapGrid` experimental — variable-size wrap grid; [items-wrap-grid.md](items-wrap-grid.md) |
+| **2.26** | Charts recipe wave — deferred sibling compose table; stable six unchanged; [charts.md](charts.md) |
+| **2.27** | `NotificationCenter` experimental — grouped in-app history; [feedback.md](feedback.md) wave 3 |
+| **2.28** | Navigation trim diagnostics — `sameKeySkipCount` / `samePageSkipCount`; [performance.md](performance.md) wave 6 |
+| **2.29** | Tree + wrap + breadcrumb a11y — `accessibleName` / `announceChanges` on **2.21…2.24** surfaces; [accessibility.md](accessibility.md) wave 5 |
+| **2.30** | Mid-2.x checkpoint — [checkpoint-230.md](checkpoint-230.md); audit **2.21…2.30** |
+| **2.31** | `CalendarView` experimental — month grid selection modes; [calendar-view.md](calendar-view.md) |
+| **2.32** | Media + WebView2 field matrix + policy recipes — [media.md](media.md) · [webview2.md](webview2.md) |
+| **2.33** | Linux portal & tray wave 3 regression suite — [platform-linux-wayland.md](platform-linux-wayland.md) |
+| **2.34** | Packaging consumer matrix + CI — [packaging-consumer.md](packaging-consumer.md) |
+| **2.35** | Localization wave 4 — `de_DE` seed + control page qsTr rules — [i18n-rtl.md](i18n-rtl.md) |
+| **2.36** | Security & trust wave 3 — path trust + WebView2 download policy — [security-trust.md](security-trust.md) |
+| **2.37** | Carousel recipes — FlipView / PipsPager + reducedMotion — [carousel-recipes.md](carousel-recipes.md) |
+| **2.38** | Theme overrides wave 2 — accent packs + ThemePrefs + contrast/density — [theme-overrides.md](theme-overrides.md) |
+| **2.39** | Gallery catalog expansion — 2.21…2.38 findability matrix + recentlyShipped — [gallery-catalog-expansion.md](gallery-catalog-expansion.md) |
+| **2.40** | Performance wave 7 — collection debounce/filter paths — [performance.md](performance.md) wave 7 |
+| **2.41** | Command/menu wave 3 — large palette + shortcut discovery — [commands.md](commands.md) wave 3 |
+| **2.42** | SwipeControl deepen — thresholds + nested scroll + teaching — [touch-pointer.md](touch-pointer.md) |
+| **2.50** | Tranche-1 checkpoint — [checkpoint-250.md](checkpoint-250.md); friction-only **2.51+** |
+| **2.51** | Stable vs experimental clarity — [stable-clarity-251.md](stable-clarity-251.md); `lint_qml_imports.py`; **FL-004** queue closed |
+| **2.49** | Performance wave 8 + tranche-1 sign-off — [perf-signoff-2xx.md](perf-signoff-2xx.md); FL-008 partial |
+| **2.48** | Friction slot **FL-009** — dashboard compose decision tree — [dashboard-compose-decision.md](dashboard-compose-decision.md) |
+| **2.46** | Docs IA v2 — MkDocs **2.xx** regroup + recipes hub mirror — [docs-ia-v2.md](docs-ia-v2.md) |
+| **2.43** | Multi-window + onboarding — coach + z-order + Settings — [multi-window-onboarding.md](multi-window-onboarding.md) |
+| **2.22** | Dashboard layout recipes — responsive breakpoints + `TwoPaneView` filter rail; [charts.md](charts.md) |
 | **1.67** | Media honest defer — soak checklist, stay experimental; [media.md](media.md); Gallery MediaPlayerElement |
 | **1.68** | Linux portal / FilePicker harden — no zenity double-dialog; [platform-linux-wayland.md](platform-linux-wayland.md) |
 | **1.69** | Theme knobs for any app — `ThemeSync` / `ThemeAppearanceSettings` / `Theme.recipeText()`; [theme-overrides.md](theme-overrides.md) |

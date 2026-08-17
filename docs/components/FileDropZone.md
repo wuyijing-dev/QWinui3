@@ -4,7 +4,7 @@ Drag-and-drop target with Fluent empty chrome.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/FileDropZone.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/FileDropZone.qml)
 
-**Category:** Media & platform · **Library:** v1.82
+**Category:** Media & platform · **Library:** v2.51
 
 [← Component index](../components.md)
 
@@ -17,18 +17,21 @@ Drag-and-drop target with Fluent empty chrome.
 ```qml
 FileDropZone {
     title: qsTr("Drop files here")
+    acceptExtensions: [".png", ".jpg"]
+    acceptMimeTypes: ["image/png", "image/jpeg"]
     onFilesDropped: (urls) => { … }
 }
 
 // --- API ---
 // signals: onFilesDropped(var urls), onEntered, onExited
-// properties: title, subtitle, symbol, acceptExtensions, isActive
+// properties: title, subtitle, symbol, acceptExtensions, acceptMimeTypes, isActive
 ```
 
 ## Notes
 
 DropArea wrapper with dashed ElevatedChrome. acceptExtensions filters by
-lowercase suffix (e.g. [".png", ".jpg"]); empty accepts all URLs.
+lowercase suffix; acceptMimeTypes (2.13) filters drag MIME when reported.
+Empty acceptExtensions = accept all URLs; pair both filters in production.
 
 ## API
 
@@ -40,6 +43,7 @@ lowercase suffix (e.g. [".png", ".jpg"]); empty accepts all URLs.
 | `subtitle` | `string` | — |
 | `symbol` | `var` | — |
 | `acceptExtensions` | `var` | — |
+| `acceptMimeTypes` | `var` | — |
 | `isActive` | `bool` | — |
 | `cornerRadius` | `real` | — |
 

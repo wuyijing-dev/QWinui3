@@ -4,7 +4,7 @@ WinUI NavigationView with pane modes and page stack.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/NavigationView.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/NavigationView.qml)
 
-**Category:** Navigation · **Library:** v1.82
+**Category:** Navigation · **Library:** v2.51
 
 [← Component index](../components.md)
 
@@ -52,9 +52,9 @@ leftMinimal overlays content with a light-dismiss scrim.
 Left-rail title bar is hamburger + paneTitle (paired); Back is top mode / TitleBar.
 pageTransition / openPage modes: slide | slideRight | fade | center | drill |
 up | down | cover | none (suppress). Pane clicks use pageTransition.
-Each mode animates only its axes — slide/fade skip no-op x/y/scale (1.87); motion looks the same.
 WinUI aliases: paneTitle, openPaneLength, compactPaneLength, isSettingsVisible, isPaneToggleButtonVisible.
 Prefer selectKey / openPage over mutating currentIndex alone.
+Live-region announces nav selection / pane expand (2.07) when announceChanges is true.
 
 ## API
 
@@ -62,6 +62,7 @@ Prefer selectKey / openPage over mutating currentIndex alone.
 
 | Name | Type | Description |
 | --- | --- | --- |
+| `announceChanges` | `bool` | Qt 6.8+ Accessible.announce for selection / pane changes (2.07). |
 | `model` | `var` | Navigation items: [{ type, key, title, icon\|symbol, children?, badge?, badgeValue? }] |
 | `currentIndex` | `int` | Selected index |
 | `paneOpen` | `bool` | Expanded pane when true (left / leftMinimal); compact modes force false |
@@ -106,7 +107,10 @@ Prefer selectKey / openPage over mutating currentIndex alone.
 | `initialPageTransition` | `string` | First openPage from Component.onCompleted (Gallery cold start — 1.39) |
 | `pendingMode` | `string` | Last / pending page transition mode |
 | `pageCacheLimit` | `int` | Max cached page Components from pageModule (0 = unlimited). LRU eviction (1.39). |
+| `pageCacheHits` | `int` | Cached Component hits (diagnostics — 2.18). |
 | `pageCacheCount` | `int` | Number of entries in the page Component cache |
+| `sameKeySkipCount` | `int` | selectKey skipped — same nav key already active (diagnostics — 2.28). |
+| `samePageSkipCount` | `int` | openPage skipped — same page component already showing (diagnostics — 2.28). |
 | `pageTransitionModes` | `var` | Supported mode ids for Settings / Gallery pickers |
 | `pageItem` | `alias` | Current page item |
 | `currentComponent` | `string` | Current page component name |
@@ -143,6 +147,11 @@ Prefer selectKey / openPage over mutating currentIndex alone.
 | `requestCompactFlyout(groupKey, anchorItem)` | Schedule opening the compact flyout (hover delay) |
 | `requestCloseCompactFlyout()` | Schedule closing the compact flyout |
 | `componentForKey(key)` | Resolve page component name for a nav key |
+| `titleForKey(key)` | Display title for a nav key (item or group/child path) |
+| `breadcrumbPathForKey(key)` | Breadcrumb path for a nav key — [{ title, symbol?, navKey }] (2.23) |
+| `breadcrumbModelForKey(key)` | Plain BreadcrumbBar model derived from breadcrumbPathForKey (2.23) |
+| `navKeyForBreadcrumbIndex(key, index)` | navKey at breadcrumb index for the given selection key |
+| `selectBreadcrumbIndex(index, mode)` | Select nav destination for a breadcrumb index (2.23) |
 | `flatIndexForKey(key)` | Flat list index for a nav key |
 | `ensureSelectionVisible()` | Scroll so the current selection is on-screen |
 | `selectIndex(index)` | Select a top-level model index (legacy) |

@@ -4,7 +4,7 @@ Persist Theme knobs via QtCore Settings (1.69).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ThemePrefs.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ThemePrefs.qml)
 
-**Category:** Media & platform · **Library:** v1.82
+**Category:** Media & platform · **Library:** v2.51
 
 [← Component index](../components.md)
 
@@ -29,6 +29,7 @@ ThemePrefs {
 
 Same QSettings recipe as docs/settings-persistence.md — not a Gallery store.
 Keep WindowGeometry on geometryPersistenceKey; this category is Theme only.
+Branding wave 2 persist recipe: docs/theme-overrides.md (2.38).
 
 ## API
 

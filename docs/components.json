@@ -1,8 +1,8 @@
 {
   "name": "QWinUI3",
-  "version": "1.82",
+  "version": "2.51",
   "generatedBy": "scripts/generate_component_docs.py",
-  "publicCount": 215,
+  "publicCount": 226,
   "components": [
     {
       "name": "AccentButton",
@@ -165,7 +165,7 @@
       "galleryPage": "pages/AutoSuggestBoxPage.qml",
       "galleryTitle": "AutoSuggestBox",
       "doc": "components/AutoSuggestBox.md",
-      "propertyCount": 15,
+      "propertyCount": 17,
       "signalCount": 4,
       "methodCount": 4
     },
@@ -225,9 +225,9 @@
       "galleryPage": "pages/BreadcrumbBarPage.qml",
       "galleryTitle": "BreadcrumbBar",
       "doc": "components/BreadcrumbBar.md",
-      "propertyCount": 11,
+      "propertyCount": 13,
       "signalCount": 2,
-      "methodCount": 4
+      "methodCount": 5
     },
     {
       "name": "BulletChart",
@@ -258,6 +258,21 @@
       "propertyCount": 19,
       "signalCount": 1,
       "methodCount": 1
+    },
+    {
+      "name": "CalendarView",
+      "module": "QWinUI3.Extras",
+      "summary": "month grid for scheduling / booking surfaces (2.31).",
+      "path": "src/extras/QWinUI3/Extras/CalendarView.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Date & time",
+      "galleryPage": "pages/CalendarViewPage.qml",
+      "galleryTitle": "CalendarView",
+      "doc": "components/CalendarView.md",
+      "propertyCount": 17,
+      "signalCount": 2,
+      "methodCount": 5
     },
     {
       "name": "ChartCard",
@@ -300,9 +315,9 @@
       "galleryPage": "",
       "galleryTitle": "",
       "doc": "components/ChartUtils.md",
-      "propertyCount": 1,
+      "propertyCount": 3,
       "signalCount": 0,
-      "methodCount": 20
+      "methodCount": 21
     },
     {
       "name": "Chip",
@@ -405,7 +420,7 @@
       "galleryPage": "pages/CommandPalettePage.qml",
       "galleryTitle": "CommandPalette",
       "doc": "components/CommandPalette.md",
-      "propertyCount": 4,
+      "propertyCount": 8,
       "signalCount": 1,
       "methodCount": 2
     },
@@ -540,7 +555,7 @@
       "galleryPage": "pages/DataTablePage.qml",
       "galleryTitle": "DataTable",
       "doc": "components/DataTable.md",
-      "propertyCount": 15,
+      "propertyCount": 18,
       "signalCount": 3,
       "methodCount": 5
     },
@@ -690,9 +705,24 @@
       "galleryPage": "pages/FileDropZonePage.qml",
       "galleryTitle": "FileDropZone",
       "doc": "components/FileDropZone.md",
-      "propertyCount": 6,
+      "propertyCount": 7,
       "signalCount": 3,
       "methodCount": 0
+    },
+    {
+      "name": "FileTree",
+      "module": "QWinUI3.Extras",
+      "summary": "Explorer-style folder tree + file metadata table (2.06).",
+      "path": "src/extras/QWinUI3/Extras/FileTree.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Collections & data",
+      "galleryPage": "pages/FileTreePage.qml",
+      "galleryTitle": "FileTree",
+      "doc": "components/FileTree.md",
+      "propertyCount": 16,
+      "signalCount": 3,
+      "methodCount": 4
     },
     {
       "name": "FlipView",
@@ -975,7 +1005,7 @@
       "galleryPage": "pages/ItemsRepeaterPage.qml",
       "galleryTitle": "ItemsRepeater",
       "doc": "components/ItemsRepeater.md",
-      "propertyCount": 11,
+      "propertyCount": 14,
       "signalCount": 1,
       "methodCount": 0
     },
@@ -990,9 +1020,24 @@
       "galleryPage": "pages/ItemsViewPage.qml",
       "galleryTitle": "ItemsView",
       "doc": "components/ItemsView.md",
-      "propertyCount": 18,
+      "propertyCount": 21,
       "signalCount": 3,
       "methodCount": 4
+    },
+    {
+      "name": "ItemsWrapGrid",
+      "module": "QWinUI3.Extras",
+      "summary": "model-driven variable-size wrap layout (2.24).",
+      "path": "src/extras/QWinUI3/Extras/ItemsWrapGrid.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Collections & data",
+      "galleryPage": "pages/ItemsWrapGridPage.qml",
+      "galleryTitle": "ItemsWrapGrid",
+      "doc": "components/ItemsWrapGrid.md",
+      "propertyCount": 16,
+      "signalCount": 2,
+      "methodCount": 0
     },
     {
       "name": "KeyChordVisual",
@@ -1080,7 +1125,7 @@
       "galleryPage": "pages/ListDetailsViewPage.qml",
       "galleryTitle": "ListDetailsView",
       "doc": "components/ListDetailsView.md",
-      "propertyCount": 14,
+      "propertyCount": 20,
       "signalCount": 1,
       "methodCount": 3
     },
@@ -1254,15 +1299,15 @@
       "module": "QWinUI3.Extras",
       "summary": "Combo that keeps the popup open for multi-select.",
       "path": "src/extras/QWinUI3/Extras/MultiSelectComboBox.qml",
-      "baseType": "AbstractButton",
+      "baseType": "Control",
       "internal": false,
       "category": "Input & forms",
       "galleryPage": "pages/MultiSelectComboBoxPage.qml",
       "galleryTitle": "MultiSelectComboBox",
       "doc": "components/MultiSelectComboBox.md",
-      "propertyCount": 8,
+      "propertyCount": 14,
       "signalCount": 1,
-      "methodCount": 5
+      "methodCount": 6
     },
     {
       "name": "NavigationView",
@@ -1275,9 +1320,9 @@
       "galleryPage": "pages/NavigationViewPage.qml",
       "galleryTitle": "NavigationView",
       "doc": "components/NavigationView.md",
-      "propertyCount": 52,
+      "propertyCount": 56,
       "signalCount": 7,
-      "methodCount": 35
+      "methodCount": 40
     },
     {
       "name": "NavigationWindow",
@@ -1290,9 +1335,9 @@
       "galleryPage": "",
       "galleryTitle": "",
       "doc": "components/NavigationWindow.md",
-      "propertyCount": 22,
+      "propertyCount": 29,
       "signalCount": 3,
-      "methodCount": 5
+      "methodCount": 9
     },
     {
       "name": "NotificationBridge",
@@ -1308,6 +1353,21 @@
       "propertyCount": 12,
       "signalCount": 3,
       "methodCount": 7
+    },
+    {
+      "name": "NotificationCenter",
+      "module": "QWinUI3.Extras",
+      "summary": "In-app notification drawer with grouping (2.27).",
+      "path": "src/extras/QWinUI3/Extras/NotificationCenter.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Status & feedback",
+      "galleryPage": "pages/NotificationCenterPage.qml",
+      "galleryTitle": "Notification center",
+      "doc": "components/NotificationCenter.md",
+      "propertyCount": 11,
+      "signalCount": 3,
+      "methodCount": 8
     },
     {
       "name": "NumberBox",
@@ -1342,7 +1402,7 @@
     {
       "name": "OnScreenKeyboardWindow",
       "module": "QWinUI3.Extras",
-      "summary": "floating Win11-style OSK (1.82).",
+      "summary": "floating Win11-style OSK (1.83).",
       "path": "src/extras/QWinUI3/Extras/OnScreenKeyboardWindow.qml",
       "baseType": "Window",
       "internal": false,
@@ -1352,7 +1412,7 @@
       "doc": "components/OnScreenKeyboardWindow.md",
       "propertyCount": 5,
       "signalCount": 0,
-      "methodCount": 2
+      "methodCount": 3
     },
     {
       "name": "PagerControl",
@@ -1635,7 +1695,7 @@
       "galleryPage": "pages/SearchBoxPage.qml",
       "galleryTitle": "SearchBox",
       "doc": "components/SearchBox.md",
-      "propertyCount": 15,
+      "propertyCount": 17,
       "signalCount": 4,
       "methodCount": 5
     },
@@ -1800,7 +1860,7 @@
       "galleryPage": "",
       "galleryTitle": "",
       "doc": "components/ShellWindow.md",
-      "propertyCount": 42,
+      "propertyCount": 44,
       "signalCount": 5,
       "methodCount": 8
     },
@@ -1895,6 +1955,21 @@
       "methodCount": 3
     },
     {
+      "name": "StandardTitleChrome",
+      "module": "QWinUI3.Extras",
+      "summary": "PlatformTitleBar + TitleBar with WinUI header slots.",
+      "path": "src/extras/QWinUI3/Extras/StandardTitleChrome.qml",
+      "baseType": "PlatformTitleBar",
+      "internal": false,
+      "category": "Other",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "doc": "components/StandardTitleChrome.md",
+      "propertyCount": 11,
+      "signalCount": 4,
+      "methodCount": 0
+    },
+    {
       "name": "StatusBar",
       "module": "QWinUI3.Extras",
       "summary": "Window status strip with progress and slots.",
@@ -1965,7 +2040,7 @@
       "galleryPage": "pages/SwipeControlPage.qml",
       "galleryTitle": "SwipeControl",
       "doc": "components/SwipeControl.md",
-      "propertyCount": 13,
+      "propertyCount": 16,
       "signalCount": 2,
       "methodCount": 3
     },
@@ -2162,7 +2237,7 @@
       "doc": "components/TitleBar.md",
       "propertyCount": 23,
       "signalCount": 4,
-      "methodCount": 1
+      "methodCount": 2
     },
     {
       "name": "Toast",
@@ -2268,6 +2343,21 @@
       "propertyCount": 0,
       "signalCount": 0,
       "methodCount": 0
+    },
+    {
+      "name": "TreeDataGrid",
+      "module": "QWinUI3.Extras",
+      "summary": "hierarchical multi-column grid with sort + filter (2.21).",
+      "path": "src/extras/QWinUI3/Extras/TreeDataGrid.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Collections & data",
+      "galleryPage": "pages/TreeDataGridPage.qml",
+      "galleryTitle": "TreeDataGrid",
+      "doc": "components/TreeDataGrid.md",
+      "propertyCount": 20,
+      "signalCount": 4,
+      "methodCount": 8
     },
     {
       "name": "TwoPaneView",
@@ -2715,9 +2805,9 @@
       "galleryPage": "",
       "galleryTitle": "",
       "doc": "components/MonthGrid.md",
-      "propertyCount": 1,
+      "propertyCount": 5,
       "signalCount": 0,
-      "methodCount": 1
+      "methodCount": 4
     },
     {
       "name": "Page",
@@ -3245,6 +3335,36 @@
       "methodCount": 2
     },
     {
+      "name": "FrameStatsBadge",
+      "module": "QWinUI3.Platform",
+      "summary": "compact FPS readout for TitleBar rightHeader / leftHeader slots.",
+      "path": "src/platform/QWinUI3/Platform/FrameStatsBadge.qml",
+      "baseType": "Label",
+      "internal": false,
+      "category": "Platform",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "doc": "components/FrameStatsBadge.md",
+      "propertyCount": 1,
+      "signalCount": 0,
+      "methodCount": 0
+    },
+    {
+      "name": "FrameStatsOverlay",
+      "module": "QWinUI3.Platform",
+      "summary": "floating FPS badge when not using the title-bar slot.",
+      "path": "src/platform/QWinUI3/Platform/FrameStatsOverlay.qml",
+      "baseType": "Item",
+      "internal": false,
+      "category": "Platform",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "doc": "components/FrameStatsOverlay.md",
+      "propertyCount": 1,
+      "signalCount": 0,
+      "methodCount": 0
+    },
+    {
       "name": "PlatformTitleBar",
       "module": "QWinUI3.Platform",
       "summary": "Caption buttons + drag region + TitleBar host.",
@@ -3255,7 +3375,7 @@
       "galleryPage": "",
       "galleryTitle": "",
       "doc": "components/PlatformTitleBar.md",
-      "propertyCount": 18,
+      "propertyCount": 19,
       "signalCount": 0,
       "methodCount": 1
     },
@@ -3270,7 +3390,7 @@
       "galleryPage": "",
       "galleryTitle": "",
       "doc": "components/StandardWindow.md",
-      "propertyCount": 17,
+      "propertyCount": 19,
       "signalCount": 0,
       "methodCount": 5
     },
@@ -3318,6 +3438,51 @@
       "propertyCount": 2,
       "signalCount": 0,
       "methodCount": 1
+    },
+    {
+      "name": "WindowShellContentClip",
+      "module": "QWinUI3.Platform",
+      "summary": "inset / clip helper for Linux client-shell bottom corners.",
+      "path": "src/platform/QWinUI3/Platform/WindowShellContentClip.qml",
+      "baseType": "Item",
+      "internal": false,
+      "category": "Platform",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "doc": "components/WindowShellContentClip.md",
+      "propertyCount": 4,
+      "signalCount": 0,
+      "methodCount": 0
+    },
+    {
+      "name": "WindowShellDecoration",
+      "module": "QWinUI3.Platform",
+      "summary": "Linux / Wayland client shell: DWM-like shadow + rounded frame.",
+      "path": "src/platform/QWinUI3/Platform/WindowShellDecoration.qml",
+      "baseType": "Item",
+      "internal": false,
+      "category": "Platform",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "doc": "components/WindowShellDecoration.md",
+      "propertyCount": 10,
+      "signalCount": 0,
+      "methodCount": 0
+    },
+    {
+      "name": "WindowShellDecoration_Simple",
+      "module": "QWinUI3.Platform",
+      "summary": "fallback when QtQuick.Effects is unavailable at build time. Same public API as WindowShellDecoration.qml (MultiEffect build); soft shadow omitted.",
+      "path": "src/platform/QWinUI3/Platform/WindowShellDecoration_Simple.qml",
+      "baseType": "Item",
+      "internal": false,
+      "category": "Platform",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "doc": "components/WindowShellDecoration_Simple.md",
+      "propertyCount": 6,
+      "signalCount": 0,
+      "methodCount": 0
     },
     {
       "name": "ElevatedChrome",
@@ -3390,9 +3555,9 @@
       "galleryPage": "",
       "galleryTitle": "",
       "doc": "components/Theme.md",
-      "propertyCount": 98,
+      "propertyCount": 100,
       "signalCount": 0,
-      "methodCount": 13
+      "methodCount": 14
     }
   ]
 }

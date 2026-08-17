@@ -4,7 +4,7 @@ Fluent color / type / motion token singleton.
 
 `import QWinUI3.Theme` · [`src/theme/QWinUI3/Theme/Theme.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/theme/QWinUI3/Theme/Theme.qml)
 
-**Category:** Theme · **Library:** v1.82
+**Category:** Theme · **Library:** v2.51
 
 [← Component index](../components.md)
 
@@ -82,6 +82,8 @@ Use Theme.duration(ms) and controlFill/accentFill helpers for states.
 | `fillControlSecondary` | `color` | Control fill (hover) |
 | `fillControlTertiary` | `color` | Control fill (pressed) |
 | `fillControlDisabled` | `color` | Control fill (disabled) |
+| `bgControlRest` | `color` | Opaque rest fill for bordered inputs (2.17 — Style token audit) |
+| `fillSliderThumb` | `color` | Slider / range thumb rest fill (2.17) |
 | `fillAccent` | `color` | Accent fill (rest) — same as accent brush |
 | `fillAccentSecondary` | `color` | Accent fill (hover) |
 | `fillAccentTertiary` | `color` | Accent fill (pressed) |
@@ -175,6 +177,7 @@ _No custom signals_ (use inherited signals from the base type).
 | `apply(obj)` | — |
 | `recipeText()` | QML snippet for Component.onCompleted — Gallery Copy is a convenience, not a privilege. |
 | `controlFill(hovered, pressed, disabled)` | Rest/hover/pressed/disabled control fill helper |
+| `borderedControlFill(hovered, pressed, disabled)` | Bordered Button / ComboBox / TextField rest states (2.17) |
 | `accentFill(hovered, pressed, disabled)` | Rest/hover/pressed/disabled accent fill helper |
 | `relativeLuminance(colorValue)` | Relative luminance 0…1 (WCAG 2.x) for a Qt color / "#RRGGBB" |
 | `contrastRatio(fg, bg)` | Contrast ratio ≥ 1 (WCAG). Order of fg/bg does not matter. |

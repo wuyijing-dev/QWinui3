@@ -4,7 +4,7 @@ Dot pager for carousels.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/PipsPager.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/PipsPager.qml)
 
-**Category:** Navigation · **Library:** v1.82
+**Category:** Navigation · **Library:** v2.51
 
 [← Component index](../components.md)
 
@@ -32,6 +32,7 @@ PipsPager {
 
 Dot pager synced to a FlipView / SwipeView currentIndex.
 MaxVisiblePips windows the visible dots; NumberOfPages aliases count.
+Carousel hosts + reducedMotion: docs/carousel-recipes.md (2.37).
 
 ## API
 

@@ -1,10 +1,10 @@
 # OnScreenKeyboardWindow
 
-floating Win11-style OSK (1.82).
+floating Win11-style OSK (1.83).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/OnScreenKeyboardWindow.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/OnScreenKeyboardWindow.qml)
 
-**Category:** Shells & windows · **Library:** v1.82
+**Category:** Shells & windows · **Library:** v2.51
 
 [← Component index](../components.md)
 
@@ -13,16 +13,15 @@ floating Win11-style OSK (1.82).
 ## Example
 
 ```qml
-OnScreenKeyboardWindow {
-    systemWide: true   // Windows: SendInput into focused desktop apps
-    visible: true
-}
+OnScreenKeyboardWindow { visible: true }
+// Windows: systemWide defaults ON (SendInput into the focused desktop app).
+// Docked OnScreenKeyboard stays in-app (systemWide default off).
 ```
 
 ## Notes
 
-Same module as OnScreenKeyboard. Always-on-top tool window with
-WS_EX_NOACTIVATE so taps do not steal focus. systemWide is Windows-only.
+Always-on-top tool window with WS_EX_NOACTIVATE so taps do not steal focus.
+systemWide is Windows-only; Linux floating is in-app only.
 
 ## API
 
@@ -44,6 +43,7 @@ _No custom signals_ (use inherited signals from the base type).
 
 | Signature | Description |
 | --- | --- |
+| `applyNoActivate()` | — |
 | `openFloating()` | — |
 | `closeFloating()` | — |
 

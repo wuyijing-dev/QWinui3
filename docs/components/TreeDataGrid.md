@@ -1,0 +1,102 @@
+# TreeDataGrid
+
+hierarchical multi-column grid with sort + filter (2.21).
+
+`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/TreeDataGrid.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/TreeDataGrid.qml)
+
+**Category:** Collections & data · **Library:** v2.51
+
+[← Component index](../components.md)
+
+**Gallery:** `TreeDataGrid` — [`src/gallery/pages/TreeDataGridPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/TreeDataGridPage.qml)
+
+**Extends** `Control`.
+
+## Example
+
+```qml
+TreeDataGrid {
+    columns: [
+        { title: qsTr("Name"), role: "name", width: 200, sortable: true },
+        { title: qsTr("Role"), role: "role", width: 120, sortable: true },
+        { title: qsTr("Status"), role: "status", width: 100 }
+    ]
+    rows: [
+        { name: "Engineering", role: "Group", status: "Active",
+          children: [ { name: "Alex", role: "Engineer", status: "Active" } ] }
+    ]
+}
+
+// --- API ---
+// selectedRow / selectedIndex, sortColumn / sortOrder, filterText
+// methods: select(index), clearSelection(), refresh(), focusGrid(),
+//          expandAll(), collapseAll(), toggleExpanded(path)
+// signals: rowActivated(int, var), selectionChanged(int, var), sortChanged(int, int)
+```
+
+## Notes
+
+Experimental — nested JS rows with optional `children`. Sort applies per sibling
+group; filter keeps matching branches (ancestors auto-expanded). Not Excel-scale;
+prefer C++ model + custom view for huge trees. Filter debounce + maxFilterResults
+match DataTable (2.18 / 2.40). See docs/tree-data.md · docs/performance.md wave 7.
+
+## API
+
+### Properties
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `columns` | `var` | — |
+| `rows` | `var` | — |
+| `filterText` | `string` | — |
+| `filterPlaceholder` | `string` | — |
+| `filterVisible` | `bool` | — |
+| `selectedIndex` | `int` | — |
+| `sortColumn` | `int` | — |
+| `sortOrder` | `int` | — |
+| `rowHeight` | `real` | — |
+| `minColumnWidth` | `real` | — |
+| `headerHeight` | `real` | — |
+| `indentWidth` | `real` | — |
+| `filterDebounceMs` | `int` | — |
+| `maxFilterResults` | `int` | — |
+| `announceChanges` | `bool` | — |
+| `expandOnFilter` | `bool` | — |
+| `selectedRow` | `var` | — |
+| `rowCount` | `int` | — |
+| `columnCount` | `int` | — |
+| `accessibleName` | `string` | — |
+
+### Signals
+
+| Signature | Description |
+| --- | --- |
+| `rowActivated(int index, var row)` | — |
+| `selectionChanged(int index, var row)` | — |
+| `sortChanged(int column, int order)` | — |
+| `expandedChanged(string path, bool expanded)` | — |
+
+### Methods
+
+| Signature | Description |
+| --- | --- |
+| `toggleExpanded(path)` | — |
+| `expandAll()` | — |
+| `collapseAll()` | — |
+| `focusGrid()` | — |
+| `clearSelection()` | — |
+| `select(index)` | — |
+| `toggleSort(column)` | — |
+| `refresh()` | — |
+
+### Inherited from `Control`
+
+Also available (base type / Qt Quick Controls):
+
+- `padding`
+- `font`
+- `background` / `contentItem`
+
+---
+*Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

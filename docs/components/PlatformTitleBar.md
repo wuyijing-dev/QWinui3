@@ -4,7 +4,7 @@ Caption buttons + drag region + TitleBar host.
 
 `import QWinUI3.Platform` · [`src/platform/QWinUI3/Platform/PlatformTitleBar.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/platform/QWinUI3/Platform/PlatformTitleBar.qml)
 
-**Category:** Platform · **Library:** v1.82
+**Category:** Platform · **Library:** v2.51
 
 [← Component index](../components.md)
 
@@ -44,6 +44,7 @@ Caption buttons use screen-logical rects (mapToGlobal).
 | `useNativeChrome` | `bool` | Use native NC hit-testing |
 | `resolvedCaptionHeight` | `real` | Resolved caption button height |
 | `titleContent` | `alias` | Title content slot |
+| `rightHeader` | `alias` | WinUI RightHeader — before caption buttons (FrameStatsBadge, actions, …) |
 | `captionHeight` | `real` | Caption button row height |
 | `chromeBackground` | `color` | AppWindowTitleBar theming (WinUI caption button / chrome colors). |
 | `chromeInactive` | `bool` | Inactive chrome styling |

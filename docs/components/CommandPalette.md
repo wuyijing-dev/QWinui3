@@ -4,7 +4,7 @@ Ctrl+K style command launcher (fuzzy filter + keyboard).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/CommandPalette.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/CommandPalette.qml)
 
-**Category:** Buttons & commands · **Library:** v1.82
+**Category:** Buttons & commands · **Library:** v2.51
 
 [← Component index](../components.md)
 
@@ -35,6 +35,8 @@ palette.open()
 Place under Overlay.overlay (ShellWindow wires Ctrl+K / Meta+K when commandPaletteEnabled).
 Keyboard: type to filter; ↑↓ move highlight; Enter runs; Esc closes.
 Each row exposes Accessible.name from title (+ shortcut in description).
+Large lists (2.16): filterDebounceMs + maxResults + _lastFilterKey skip.
+Accelerator discovery (2.41): filter matches shortcut string; commandCount / filteredCount.
 
 ## API
 
@@ -46,6 +48,10 @@ Each row exposes Accessible.name from title (+ shortcut in description).
 | `placeholderText` | `string` | — |
 | `maxVisible` | `int` | — |
 | `paletteWidth` | `real` | — |
+| `filterDebounceMs` | `int` | Debounce filter keystrokes (2.16 — large command lists). |
+| `maxResults` | `int` | Cap filtered rows before ListView bind (2.16). |
+| `commandCount` | `int` | — |
+| `filteredCount` | `int` | — |
 
 ### Signals
 

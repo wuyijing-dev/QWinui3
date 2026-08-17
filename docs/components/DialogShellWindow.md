@@ -4,7 +4,7 @@ ShellWindow with dialog paradigm flags.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/DialogShellWindow.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/DialogShellWindow.qml)
 
-**Category:** Shells & windows · **Library:** v1.82
+**Category:** Shells & windows · **Library:** v2.51
 
 [← Component index](../components.md)
 
@@ -24,7 +24,7 @@ dlg.openDialog()
 ## Notes
 
 ShellWindow with WindowHelper.ParadigmDialog flags.
-Prefer openDialog() for owner stacking + center (same recipe as DialogWindow / Gallery).
+Prefer openDialog() for owner stacking + centerOnOwner (2.14).
 
 ## API
 

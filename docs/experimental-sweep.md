@@ -57,4 +57,4 @@ Related: [stable-api.md](stable-api.md) · [friction-log.md](planning/friction-l
 - [ ] OSK path gated — not enabled for all users until **2.01** promote
 - [ ] Read Gallery badge before copying a demo page wholesale
 
-**Next:** **2.51** stable vs experimental clarity (lint/templates) · **2.67** promote wave 2
+**Next:** **2.67** experimental promote wave 2

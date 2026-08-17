@@ -4,36 +4,33 @@ Combo that keeps the popup open for multi-select.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/MultiSelectComboBox.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/MultiSelectComboBox.qml)
 
-**Category:** Input & forms · **Library:** v1.82
+**Category:** Input & forms · **Library:** v2.51
 
 [← Component index](../components.md)
 
 **Gallery:** `MultiSelectComboBox` — [`src/gallery/pages/MultiSelectComboBoxPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/MultiSelectComboBoxPage.qml)
 
-**Extends** `AbstractButton`.
+**Extends** `Control`.
 
 ## Example
 
 ```qml
 MultiSelectComboBox {
     id: multiSelectComboBox
+    header: qsTr("Teams")
     model: items; selectedIndexes: [0, 2]
 }
 
 // --- API ---
 // signals: onSelectionChanged
-// methods: toggleAt(index), ensureObjectModel(), selectAll(), clearSelection()
-// multiSelectComboBox.toggleAt(index)
-// multiSelectComboBox.ensureObjectModel()
-// multiSelectComboBox.selectAll()
-// multiSelectComboBox.clearSelection()
-// inherits AbstractButton (+ Qt Quick Controls base API)
+// methods: toggleAt(index), ensureObjectModel(), selectAll(), clearSelection(), focusField()
+// inherits Control (+ Qt Quick Controls base API)
 ```
 
 ## Notes
 
 ComboBox with multi-check selection; selectedIndexes / selectedItems.
-exclusive mode behaves like a normal combo.
+header / description / errorMessage for FormLayout (2.25).
 
 ## API
 
@@ -41,39 +38,45 @@ exclusive mode behaves like a normal combo.
 
 | Name | Type | Description |
 | --- | --- | --- |
-| `model` | `var` | Data model / item list for this control |
-| `placeholderText` | `string` | Placeholder when empty |
-| `header` | `string` | Header label above the control |
-| `menuOpen` | `bool` | Menu currently open |
-| `isOpen` | `alias` | Open / visible state |
-| `selectedItems` | `var` | Currently selected items |
-| `selectedIndexes` | `var` | WinUI SelectedIndexes — writable list of checked indices |
-| `displayText` | `string` | Text shown to the user |
+| `model` | `var` | — |
+| `placeholderText` | `string` | — |
+| `header` | `string` | — |
+| `description` | `string` | — |
+| `errorMessage` | `string` | — |
+| `headerPlacement` | `string` | — |
+| `labelWidth` | `real` | — |
+| `formBound` | `bool` | — |
+| `hasError` | `bool` | — |
+| `menuOpen` | `bool` | — |
+| `isOpen` | `alias` | — |
+| `selectedItems` | `var` | — |
+| `selectedIndexes` | `var` | — |
+| `displayText` | `string` | — |
 
 ### Signals
 
 | Signature | Description |
 | --- | --- |
-| `selectionChanged(var selected)` | Selection changed |
+| `selectionChanged(var selected)` | — |
 
 ### Methods
 
 | Signature | Description |
 | --- | --- |
+| `focusField()` | — |
 | `setSelectedIndexes(indexes)` | — |
-| `toggleAt(index)` | Toggle item at index |
-| `ensureObjectModel()` | Ensure model is an ObjectModel |
-| `selectAll()` | Select all items |
-| `clearSelection()` | Clear the current selection |
+| `toggleAt(index)` | — |
+| `ensureObjectModel()` | — |
+| `selectAll()` | — |
+| `clearSelection()` | — |
 
-### Inherited from `AbstractButton`
+### Inherited from `Control`
 
 Also available (base type / Qt Quick Controls):
 
-- `text`
-- `enabled`
-- `down` / `pressed` / `hovered`
-- `clicked()`
+- `padding`
+- `font`
+- `background` / `contentItem`
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

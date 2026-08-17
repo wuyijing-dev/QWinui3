@@ -4,7 +4,7 @@ ListView recipe: sections, selection, context MenuFlyout, EmptyState.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ItemsView.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ItemsView.qml)
 
-**Category:** Collections & data · **Library:** v1.82
+**Category:** Collections & data · **Library:** v2.51
 
 [← Component index](../components.md)
 
@@ -41,7 +41,8 @@ selectionMode: selectionNone | selectionSingle | selectionMultiple.
 Keyboard: arrows / Home / End / Page / Enter; Space toggles multi-select; Ctrl+A; Esc clears.
 Right-click / long-press opens contextMenu.
 Empty list shows EmptyState via emptyTitle / emptyMessage / emptyActionText.
-Large models: prefer QAbstractListModel. Filter is app-side (SearchBox above the list).
+Large models: prefer QAbstractListModel. Optional filterText filters plain JS
+arrays (debounced, 1.88) — C++ models: filter app-side.
 See docs/data-collections.md for pairing with ListDetailsView.
 
 ## API
@@ -65,6 +66,9 @@ See docs/data-collections.md for pairing with ListDetailsView.
 | `emptyTitle` | `string` | EmptyState title when model is empty |
 | `emptyMessage` | `string` | EmptyState message |
 | `emptyActionText` | `string` | EmptyState action label |
+| `filterText` | `string` | Filter plain JS array models (debounced). Leave empty for C++ / ListModel — filter app-side. |
+| `filterRoles` | `var` | Roles searched when filterText is set (defaults to title + subtitle + section + symbol). |
+| `filterDebounceMs` | `int` | Debounce ms before rebuilding the filtered array (1.88). |
 | `accessibleName` | `string` | Screen-reader name override (1.19) |
 | `count` | `int` | Resolved item count |
 | `isEmpty` | `bool` | — |

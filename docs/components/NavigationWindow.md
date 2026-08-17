@@ -4,7 +4,7 @@ ShellWindow hosting NavigationView + content.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/NavigationWindow.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/NavigationWindow.qml)
 
-**Category:** Shells & windows · **Library:** v1.82
+**Category:** Shells & windows · **Library:** v2.51
 
 [← Component index](../components.md)
 
@@ -68,7 +68,14 @@ set hostContent: false + pageModule for StackView pages (Gallery / examples/gall
 | `pageModule` | `alias` | QML module URI for page components (1.50) |
 | `hostContent` | `alias` | true = content slot; false = StackView via pageModule (Gallery pattern) |
 | `pageTransition` | `alias` | Page enter transition name |
+| `initialPageTransition` | `alias` | First openPage transition (default none — 1.39 cold start) |
+| `pageCacheLimit` | `alias` | LRU page Component cache cap (0 = unlimited) |
+| `pageCacheHits` | `alias` | Cached page Component hits (diagnostics — 2.18) |
+| `pageCacheCount` | `alias` | Entries in page Component cache |
+| `sameKeySkipCount` | `alias` | selectKey skips when destination already selected (2.28) |
+| `samePageSkipCount` | `alias` | openPage skips when same component already open (2.28) |
 | `canGoBack` | `alias` | TitleBar / pane can go back |
+| `syncSubtitleFromNavigation` | `bool` | Mirror last breadcrumb segment into ShellWindow.subtitle (2.23) |
 
 ### Signals
 
@@ -87,6 +94,10 @@ set hostContent: false + pageModule for StackView pages (Gallery / examples/gall
 | `addNavGroup(group)` | Append a navigation group |
 | `selectNavKey(key)` | Forward selection to the hosted NavigationView |
 | `navigateBack(mode)` | Restore previous page (TitleBar Back) |
+| `clearPageCache(keepCurrent)` | Drop cached page Components (keeps current page by default) |
+| `breadcrumbPathForKey(key)` | Breadcrumb helpers — forward to hosted NavigationView (2.23) |
+| `breadcrumbModelForKey(key)` | — |
+| `selectBreadcrumbIndex(index, mode)` | — |
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

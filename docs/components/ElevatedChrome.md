@@ -4,7 +4,7 @@ Shared elevated shadow/border chrome (WinUI-style soft shadow).
 
 `import QWinUI3.Theme` · [`src/theme/QWinUI3/Theme/ElevatedChrome.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/theme/QWinUI3/Theme/ElevatedChrome.qml)
 
-**Category:** Theme · **Library:** v1.82
+**Category:** Theme · **Library:** v2.51
 
 [← Component index](../components.md)
 
@@ -19,6 +19,7 @@ ElevatedChrome { anchors.fill: parent }
 
 Requires QtQuick.Effects (MultiEffect) when QWINUI3_HAVE_QUICK_EFFECTS is on.
 Without Effects, CMake substitutes ElevatedChrome_Simple.qml (same API, no blur).
+MultiEffect deferred one frame; skipped when Theme.reducedMotion (1.89).
 Debian/Ubuntu: sudo apt install qml6-module-qtquick-effects libqt6quickeffects6
 ```
 

@@ -4,7 +4,7 @@ Thin WinUI-style virtualizing repeater over ListView.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ItemsRepeater.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ItemsRepeater.qml)
 
-**Category:** Collections & data · **Library:** v1.82
+**Category:** Collections & data · **Library:** v2.51
 
 [← Component index](../components.md)
 
@@ -30,6 +30,7 @@ ItemsRepeater {
 
 Prefer this for large models; ItemsView adds selection / EmptyState recipe on top.
 ListView uses reuseItems (1.25) — keep delegates binding-driven for pooling.
+Optional filterText filters plain JS arrays (debounced, 1.88).
 
 ## API
 
@@ -37,7 +38,10 @@ ListView uses reuseItems (1.25) — keep delegates binding-driven for pooling.
 
 | Name | Type | Description |
 | --- | --- | --- |
-| `model` | `alias` | List / array / QAbstractItemModel |
+| `model` | `var` | List / array / QAbstractItemModel |
+| `filterText` | `string` | Filter plain JS arrays (debounced). C++ / ListModel: filter app-side. |
+| `filterRoles` | `var` | — |
+| `filterDebounceMs` | `int` | — |
 | `delegate` | `alias` | Item delegate component |
 | `orientation` | `alias` | Qt.Vertical or Qt.Horizontal |
 | `itemSpacing` | `alias` | Spacing between items (Control.spacing is FINAL — do not alias it) |

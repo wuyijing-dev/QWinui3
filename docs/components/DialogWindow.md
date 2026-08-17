@@ -4,7 +4,7 @@ StandardWindow dialog paradigm.
 
 `import QWinUI3.Platform` · [`src/platform/QWinUI3/Platform/DialogWindow.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/platform/QWinUI3/Platform/DialogWindow.qml)
 
-**Category:** Platform · **Library:** v1.82
+**Category:** Platform · **Library:** v2.51
 
 [← Component index](../components.md)
 
@@ -25,8 +25,8 @@ dlg.openDialog()
 ## Notes
 
 StandardWindow with ParadigmDialog flags.
-Prefer openDialog() so owner stacking + centerOnScreen match Gallery patterns.
-On Linux/Wayland, setTransientParent keeps modality stacking correct.
+Prefer openDialog() so owner stacking + centerOnOwner match Gallery patterns (2.14).
+On Linux/Wayland, setTransientParent realizes surfaces before parenting.
 
 ## API
 

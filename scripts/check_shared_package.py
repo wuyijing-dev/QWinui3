@@ -78,9 +78,13 @@ def _check_repo_contracts() -> list[str]:
             if needle not in ctext:
                 errors.append(f"QWinUI3Config.cmake.in: missing {needle!r}")
 
-    ports_script = ROOT / "scripts" / "check_ports.py"
-    if not ports_script.is_file():
-        errors.append(f"missing {ports_script}")
+    ports_manifest = ROOT / "ports" / "qwinui3" / "vcpkg.json"
+    if not ports_manifest.is_file():
+        errors.append(f"missing {ports_manifest}")
+    else:
+        ptext = ports_manifest.read_text(encoding="utf-8")
+        if "qwinui3" not in ptext:
+            errors.append("ports/qwinui3/vcpkg.json: missing qwinui3 port name")
 
     ver_in = ROOT / "cmake" / "package" / "QWinUI3ConfigVersion.cmake.in"
     if not ver_in.is_file():

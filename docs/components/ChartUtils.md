@@ -4,7 +4,7 @@ LOD helpers for large chart series.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ChartUtils.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ChartUtils.qml)
 
-**Category:** Charts & gauges · **Library:** v1.82
+**Category:** Charts & gauges · **Library:** v2.51
 
 [← Component index](../components.md)
 
@@ -36,6 +36,8 @@ Internal helpers: downsample, extents, palette, formatNumber (used by chart cont
 | Name | Type | Description |
 | --- | --- | --- |
 | `largeSeriesThreshold` | `int` | Point count that triggers LOD |
+| `revealAnimationPointBudget` | `int` | Reveal animation runs only up to this many points (1.25 / 1.89) |
+| `redrawCoalesceMs` | `int` | Coalesce canvas repaints during reveal / hover (ms) |
 
 ### Signals
 
@@ -45,6 +47,7 @@ _No custom signals_ (use inherited signals from the base type).
 
 | Signature | Description |
 | --- | --- |
+| `shouldAnimateReveal(pointCount, animated)` | True when entrance reveal should animate (not snap) |
 | `asNumber(v, fallback)` | Coerce input to number with fallback |
 | `valueCount(input)` | Number of values in the series input |
 | `valueAt(input, index, fallback)` | Read one numeric sample without allocating a flattened copy. |

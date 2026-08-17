@@ -114,7 +114,6 @@ python scripts/verify_find_package.py --package-dir <prefix>
 ## Maintainer checks
 
 ```bash
-python scripts/check_ports.py
 python scripts/check_shared_package.py
 ```
 

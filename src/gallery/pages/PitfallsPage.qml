@@ -201,7 +201,28 @@ CatalogPage {
             CheckBox { text: qsTr("After 2.50: friction-only minors — skip tag if queue empty") }
             CheckBox { text: qsTr("Copy Gallery demos only with experimental/stable badges") }
             CheckBox { text: qsTr("2.00 lift not bundled — read compatibility-1xx.md") }
-            CheckBox { text: qsTr("Re-run python scripts/check_checkpoint_250.py after doc edits") }
+            CheckBox { text: qsTr("Re-read docs/checkpoint-250.md after friction-log edits") }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Stable vs experimental clarity (2.51 / FL-004)")
+        qmlSource: "python scripts/lint_qml_imports.py\\n// docs/stable-clarity-251.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("2.51 closes FL-004 queue: import guard recap in stable-api, example lint over examples/, and Pitfalls checklist. Run lint before copying starters. Full notes: docs/stable-clarity-251.md.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            CheckBox { text: qsTr("Product QML: stable-api imports only — check Gallery badge first") }
+            CheckBox { text: qsTr("Run python scripts/lint_qml_imports.py after editing example starters") }
+            CheckBox { text: qsTr("Dashboard: stable six only — not deferred chart siblings") }
+            CheckBox { text: qsTr("OSK only via examples/floating-osk until 2.01 promote") }
         }
     }
 
@@ -244,7 +265,7 @@ CatalogPage {
             CheckBox { text: qsTr("Product QML: stable-api imports only unless badge says experimental (FL-004)") }
             CheckBox { text: qsTr("FrameStats: applyRetailProfile() in retail builds (2.44)") }
             CheckBox { text: qsTr("Charts: stable six in shipping UI — not deferred siblings") }
-            CheckBox { text: qsTr("Re-run python scripts/check_field_harden_247.py after doc edits") }
+            CheckBox { text: qsTr("2.51: run lint_qml_imports.py on examples/ — docs/stable-clarity-251.md") }
         }
     }
 

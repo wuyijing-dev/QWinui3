@@ -4,7 +4,7 @@ Independent ApplicationWindow + WindowChrome host.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ShellWindow.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ShellWindow.qml)
 
-**Category:** Shells & windows · **Library:** v1.82
+**Category:** Shells & windows · **Library:** v2.51
 
 [← Component index](../components.md)
 
@@ -85,6 +85,8 @@ Backdrop / paradigm via WindowHelper (see docs/window-helper.md).
 | `windowSubtitle` | `alias` | Window subtitle alias |
 | `windowSymbol` | `alias` | Window symbol alias |
 | `windowRoleSummary` | `string` | Human-readable role summary for Gallery / diagnostics |
+| `shellPadding` | `int` | — |
+| `shellContentInset` | `real` | — |
 
 ### Signals
 

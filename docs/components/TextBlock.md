@@ -4,7 +4,7 @@ Fluent typography styles (title, body, caption…).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/TextBlock.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/TextBlock.qml)
 
-**Category:** Input & forms · **Library:** v1.82
+**Category:** Input & forms · **Library:** v2.51
 
 [← Component index](../components.md)
 

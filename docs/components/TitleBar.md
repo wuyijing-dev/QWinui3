@@ -4,7 +4,7 @@ WinUI TitleBar content chrome (not caption buttons).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/TitleBar.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/TitleBar.qml)
 
-**Category:** Shells & windows · **Library:** v1.82
+**Category:** Shells & windows · **Library:** v2.51
 
 [← Component index](../components.md)
 
@@ -31,11 +31,9 @@ TitleBar {
 ## Notes
 
 WinUI-style title bar for ShellWindow / WindowChrome / **StandardTitleChrome**.
-**Header slots:** `leftHeader`, `content` (`titleBarContent` on shells), `rightHeader` — put buttons, combos, or `FrameStatsBadge` (Platform) here.
-Slot layout changes auto-refresh Windows NC hit-test via `notifyChromeHitTest()`.
-preferredHeightOption: standard (32) or tall (48) via WindowHelper.
-Caption hit-test uses screen-logical rects (mapToGlobal) so maximize/fullscreen
-caption buttons stay clickable.
+Header slots: leftHeader, content (titleBarContent on shells), rightHeader.
+StandardTitleChrome.rightHeader → PlatformTitleBar (before captions); ShellWindow.rightHeader → TitleBar.
+Cookbook: docs/title-bar-cookbook.md. Slot layout changes auto-refresh Windows NC hit-test via notifyChromeHitTest().
 
 ## API
 
@@ -64,7 +62,7 @@ caption buttons stay clickable.
 | `showBuiltInSearch` | `bool` | Show built-in search field |
 | `leftHeader` | `alias` | WinUI LeftHeader slot |
 | `content` | `alias` | WinUI Content slot (replaces built-in search when set) |
-| `rightHeader` | `alias` | WinUI RightHeader — also the default children slot for trailing actions. |
+| `rightHeader` | `alias` | uses PlatformTitleBar.rightHeader (before caption buttons) instead. |
 | `trailing` | `alias` | Trailing slot |
 
 ### Signals
@@ -81,6 +79,7 @@ caption buttons stay clickable.
 | Signature | Description |
 | --- | --- |
 | `clientExcludeRectsFor(window)` | whole fill-width slot (caption drag vs menu clicks). |
+| `notifyChromeHitTest()` | Ask ancestor PlatformTitleBar / WindowChrome to refresh NC hit-test after slot layout changes. |
 
 ### Inherited from `Item`
 

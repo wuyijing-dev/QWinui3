@@ -4,7 +4,7 @@ Drop-in SettingsGroup for Theme knobs (1.69).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ThemeAppearanceSettings.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ThemeAppearanceSettings.qml)
 
-**Category:** Layout · **Library:** v1.82
+**Category:** Layout · **Library:** v2.51
 
 [← Component index](../components.md)
 
@@ -29,6 +29,7 @@ SettingsView {
 
 Same cards Gallery Settings uses. Follow-system apply is ThemeSync (shells).
 persist writes ThemePrefs (docs/settings-persistence.md).
+Branding wave 2: accent packs + contrast/density — docs/theme-overrides.md (2.38).
 
 ## API
 
