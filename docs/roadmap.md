@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.71**
-**Next up:** **1.72** (Chinese IME)
+**Current:** **1.72**
+**Next up:** **1.73** (Full in-app IME)
 **Planned through:** **1.74** (long-horizon 1.xx checkpoint)  
 **Still 1.xx:** Mid-horizon checkpoint published — [checkpoint-160.md](checkpoint-160.md). Not drafting 2.00.  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](qt-version-compat.md)
@@ -347,34 +347,17 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** SIL Keyman Core (**MIT**) linked statically (`KMN_NO_ICU`, Qt NFC/NFD shim). Community `.kmx` en-US / de / fr / es / ru / ar. Globe + Gallery ComboBox. `engine.backend === "keyman"` when Core sources are present (`scripts/fetch_keyman_core.py`). Chrome stays ours. Not Qt Virtual Keyboard. Product version `1.71`.
 
+### 1.72 — Chinese IME (pinyin + candidates) (shipped)
+
+**Shipped:** zh-Hans pinyin preedit + `ImeCandidateBar` (our chrome). Lexicon from mozillazg pinyin-data / phrase-pinyin-data (MIT) — not Keyman IMX, not GPL libpinyin. Gallery 中文 mode. Honest in-app IME. Product version `1.72`.
+
 ---
 
-## Horizon — planned `1.72` … `1.74`
+## Horizon — planned `1.73` … `1.74`
 
 Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per `YY`. Order can flex if field P0s force a swap; do not merge themes into mega-minors. Posture after 1.51 / 1.60: prefer field harden / docs over new control families — **1.70…1.73** is an explicit exception (touch OSK → full in-app IME; Qt Virtual Keyboard is GPL).
 
-Ladder (chrome stays ours): **1.70 shipped** en-US OSK → **1.71 shipped** Keyman layouts → **1.72** Chinese IME → **1.73** full IME → **1.74** checkpoint. Plan: [on-screen-keyboard.md](on-screen-keyboard.md).
-
-### 1.72 — Chinese IME (pinyin + candidates)
-
-**Why:** Chinese is not “another QWERTY.” It needs composition + a candidate bar. Engine still Keyman Core; **candidate chrome is ours** (Win11 style).
-
-**In scope**
-
-- zh-Hans pinyin: preedit (`QInputMethodEvent`) + candidate strip / page keys
-- Gallery: TextField with OSK in 中文 mode
-- Honest docs: in-app IME, not Microsoft Pinyin cloud quality
-
-**Out of scope**
-
-- ja / ko / extra CJK (that is **1.73**)
-- Handwriting, speech, cloud lexicon
-- Hijacking or disabling the OS IME for the whole desktop
-
-**Exit criteria**
-
-- Type pinyin → pick a candidate → commit Hanzi into a QWinUI3 TextField
-- Candidate UI uses Theme tokens; keyboard stays experimental
+Ladder (chrome stays ours): **1.70 shipped** en-US OSK → **1.71 shipped** Keyman layouts → **1.72 shipped** Chinese IME → **1.73** full IME → **1.74** checkpoint. Plan: [on-screen-keyboard.md](on-screen-keyboard.md).
 
 ### 1.73 — Full in-app IME
 

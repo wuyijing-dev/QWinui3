@@ -44,6 +44,8 @@ qt_add_qml_module(qwinui3_extras
         ChartSeries.cpp
         KeyboardEngine.h
         KeyboardEngine.cpp
+        PinyinLexicon.h
+        PinyinLexicon.cpp
     QML_FILES
         AccentButton.qml
         AcrylicSurface.qml
@@ -92,6 +94,7 @@ qt_add_qml_module(qwinui3_extras
         HeaderedComboBox.qml
         HyperlinkButton.qml
         IconButton.qml
+        ImeCandidateBar.qml
         IconicButton.qml
         InfoBadge.qml
         InfoBar.qml
@@ -215,6 +218,13 @@ target_link_libraries(qwinui3_extras
         qwinui3_style
         qwinui3_platform
         qwinui3_qtcompat
+)
+
+qt_add_resources(qwinui3_extras "qwinui3_pinyin_lexicon"
+    PREFIX "/QWinUI3"
+    FILES
+        keyboards/pinyin_lexicon.tsv
+        keyboards/pinyin_words.tsv
 )
 
 if(QWINUI3_HAS_MEDIA)

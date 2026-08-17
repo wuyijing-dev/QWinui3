@@ -1,4 +1,5 @@
 #include "KeyboardEngine.h"
+#include "PinyinLexicon.h"
 
 #include <QCoreApplication>
 #include <QFile>
@@ -8,6 +9,7 @@
 #include <QKeyEvent>
 #include <QQuickItem>
 #include <QQuickWindow>
+#include <QTextCharFormat>
 #include <QVector>
 #include <string>
 
@@ -26,6 +28,7 @@ const QStringList kLayoutIds = {
     QStringLiteral("es-ES"),
     QStringLiteral("ru-RU"),
     QStringLiteral("ar"),
+    QStringLiteral("zh-Hans"),
 };
 
 #ifdef QWINUI3_HAVE_KEYMAN
@@ -91,6 +94,8 @@ KeyboardEngine::~KeyboardEngine()
 
 QString KeyboardEngine::backend() const
 {
+    if (pinyin())
+        return QStringLiteral("pinyin");
 #ifdef QWINUI3_HAVE_KEYMAN
     return QStringLiteral("keyman");
 #else
@@ -117,6 +122,7 @@ QStringList KeyboardEngine::layoutLabels() const
         tr("Español"),
         tr("Русский"),
         tr("العربية"),
+        tr("中文"),
     };
 }
 
@@ -147,6 +153,8 @@ void KeyboardEngine::setLayoutId(const QString &id)
         return;
     if (!isKnownLayout(id))
         return;
+    if (pinyin())
+        cancelCompose();
     m_layoutId = id;
 #ifdef QWINUI3_HAVE_KEYMAN
     loadLayout(m_layoutId);
@@ -157,6 +165,11 @@ void KeyboardEngine::setLayoutId(const QString &id)
 bool KeyboardEngine::rtl() const
 {
     return m_layoutId == QLatin1String("ar");
+}
+
+bool KeyboardEngine::pinyin() const
+{
+    return m_layoutId == QLatin1String("zh-Hans");
 }
 
 void KeyboardEngine::cycleLayout()
@@ -232,6 +245,8 @@ void KeyboardEngine::commitText(const QString &text)
 {
     if (text.isEmpty())
         return;
+    if (pinyin() && composing())
+        confirmCompose();
     rememberEditor(QGuiApplication::focusObject());
     QObject *item = target();
     if (!item)
@@ -243,6 +258,10 @@ void KeyboardEngine::commitText(const QString &text)
 
 void KeyboardEngine::processVk(int vk, bool shift)
 {
+    if (pinyin()) {
+        processPinyinVk(vk, shift);
+        return;
+    }
 #ifdef QWINUI3_HAVE_KEYMAN
     if (m_state) {
         rememberEditor(QGuiApplication::focusObject());
@@ -258,6 +277,8 @@ void KeyboardEngine::processVk(int vk, bool shift)
 
 QString KeyboardEngine::previewVk(int vk, bool shift) const
 {
+    if (pinyin())
+        return builtinGlyph(vk, false);
 #ifdef QWINUI3_HAVE_KEYMAN
     const QString probed = probeVk(vk, shift);
     if (!probed.isEmpty())
@@ -268,6 +289,11 @@ QString KeyboardEngine::previewVk(int vk, bool shift) const
 
 void KeyboardEngine::backspace()
 {
+    if (pinyin() && composing()) {
+        m_preedit.chop(1);
+        refreshCompose();
+        return;
+    }
 #ifdef QWINUI3_HAVE_KEYMAN
     if (m_state) {
         processVk(KM_CORE_VKEY_BKSP, false);
@@ -280,6 +306,10 @@ void KeyboardEngine::backspace()
 
 void KeyboardEngine::enterKey()
 {
+    if (pinyin() && composing()) {
+        confirmCompose();
+        return;
+    }
 #ifdef QWINUI3_HAVE_KEYMAN
     if (m_state) {
         processVk(KM_CORE_VKEY_ENTER, false);
@@ -307,6 +337,144 @@ void KeyboardEngine::sendKey(int key, const QString &text) const
     QCoreApplication::sendEvent(item, &release);
 }
 
+int KeyboardEngine::candidatePageCount() const
+{
+    if (m_candidates.isEmpty())
+        return 0;
+    return (m_candidates.size() + kPageSize - 1) / kPageSize;
+}
+
+QStringList KeyboardEngine::pagedCandidates() const
+{
+    QStringList out;
+    const int start = m_candidatePage * kPageSize;
+    for (int i = 0; i < kPageSize && start + i < m_candidates.size(); ++i)
+        out.append(m_candidates.at(start + i));
+    return out;
+}
+
+void KeyboardEngine::processPinyinVk(int vk, bool shift)
+{
+    Q_UNUSED(shift);
+    rememberEditor(QGuiApplication::focusObject());
+    if (vk >= 65 && vk <= 90) {
+        const QChar letter = QChar(vk).toLower();
+        if (!PinyinLexicon::instance().canAppend(m_preedit, letter))
+            return;
+        m_preedit.append(letter);
+        refreshCompose();
+        return;
+    }
+    if (vk >= 49 && vk <= 57) {
+        pickCandidate(vk - 49);
+        return;
+    }
+    if (vk == 8) {
+        backspace();
+        return;
+    }
+    if (vk == 13) {
+        enterKey();
+        return;
+    }
+}
+
+void KeyboardEngine::refreshCompose()
+{
+    m_candidates = PinyinLexicon::instance().lookup(m_preedit);
+    m_candidatePage = 0;
+    sendPreedit();
+    emit composeChanged();
+}
+
+void KeyboardEngine::sendPreedit()
+{
+    QObject *item = target();
+    if (!item)
+        return;
+    QList<QInputMethodEvent::Attribute> attrs;
+    if (!m_preedit.isEmpty()) {
+        QTextCharFormat fmt;
+        fmt.setFontUnderline(true);
+        attrs.append({QInputMethodEvent::TextFormat, 0, int(m_preedit.size()), QVariant::fromValue(fmt)});
+        attrs.append({QInputMethodEvent::Cursor, int(m_preedit.size()), 1, QVariant()});
+    }
+    QInputMethodEvent ev(m_preedit, attrs);
+    QCoreApplication::sendEvent(item, &ev);
+}
+
+void KeyboardEngine::commitReplace(const QString &text)
+{
+    rememberEditor(QGuiApplication::focusObject());
+    QObject *item = target();
+    if (!item)
+        return;
+    QInputMethodEvent ev(QString(), {});
+    ev.setCommitString(text);
+    QCoreApplication::sendEvent(item, &ev);
+}
+
+void KeyboardEngine::pickCandidate(int indexOnPage)
+{
+    if (!pinyin() || m_candidates.isEmpty())
+        return;
+    const int idx = m_candidatePage * kPageSize + indexOnPage;
+    if (idx < 0 || idx >= m_candidates.size())
+        return;
+    const QString picked = m_candidates.at(idx);
+    const QString syl = PinyinLexicon::instance().firstSyllable(m_preedit);
+    const int consume = picked.size() > 1 ? int(m_preedit.size()) : qMax(1, int(syl.size()));
+    const QString rest = m_preedit.mid(consume);
+    commitReplace(picked);
+    m_preedit = rest;
+    refreshCompose();
+}
+
+void KeyboardEngine::nextCandidatePage()
+{
+    const int n = candidatePageCount();
+    if (n <= 0)
+        return;
+    m_candidatePage = (m_candidatePage + 1) % n;
+    emit composeChanged();
+}
+
+void KeyboardEngine::prevCandidatePage()
+{
+    const int n = candidatePageCount();
+    if (n <= 0)
+        return;
+    m_candidatePage = (m_candidatePage + n - 1) % n;
+    emit composeChanged();
+}
+
+void KeyboardEngine::confirmCompose()
+{
+    if (!composing())
+        return;
+    if (!m_candidates.isEmpty()) {
+        pickCandidate(0);
+        return;
+    }
+    const QString raw = m_preedit;
+    m_preedit.clear();
+    m_candidates.clear();
+    m_candidatePage = 0;
+    commitReplace(raw);
+    emit composeChanged();
+}
+
+void KeyboardEngine::cancelCompose()
+{
+    if (m_preedit.isEmpty() && m_candidates.isEmpty())
+        return;
+    m_preedit.clear();
+    m_candidates.clear();
+    m_candidatePage = 0;
+    sendPreedit();
+    emit composeChanged();
+}
+
 #ifdef QWINUI3_HAVE_KEYMAN
 
 void KeyboardEngine::disposeCore()
@@ -332,6 +500,8 @@ QByteArray KeyboardEngine::loadKmx(const QString &id) const
 bool KeyboardEngine::loadLayout(const QString &id)
 {
     disposeCore();
+    if (id == QLatin1String("zh-Hans"))
+        return true;
     const QByteArray blob = loadKmx(id);
     if (blob.isEmpty())
         return false;

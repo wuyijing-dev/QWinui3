@@ -1,6 +1,6 @@
 # QWinUI3 component API
 
-Library **v1.71**. Generated from QML source comments (`scripts/generate_component_docs.py`).
+Library **v1.72**. Generated from QML source comments (`scripts/generate_component_docs.py`).
 Each control has its own page under `docs/components/`.
 
 ```bash
@@ -8,7 +8,7 @@ python scripts/generate_component_docs.py
 python scripts/generate_component_docs.py --lint
 ```
 
-**213** public · **11** internal · **154** with Gallery demos · Hub: [docs home](index.md).
+**214** public · **11** internal · **154** with Gallery demos · Hub: [docs home](index.md).
 
 ## By module
 
@@ -72,6 +72,7 @@ python scripts/generate_component_docs.py --lint
 - [HyperlinkButton](components/HyperlinkButton.md) — Link-styled button. · Gallery
 - [IconButton](components/IconButton.md) — Icon-only button helper. · Gallery
 - [IconicButton](components/IconicButton.md) — Base icon + label button used by AppBar* / IconButton. · Gallery
+- [ImeCandidateBar](components/ImeCandidateBar.md) — Win11-style in-app pinyin candidate strip (1.72).
 - [InfoBadge](components/InfoBadge.md) — Count / status / glyph badge. · Gallery
 - [InfoBar](components/InfoBar.md) — Inline severity banner with optional action and Content slot. · Gallery
 - [InfoBarHost](components/InfoBarHost.md) — Stacks InfoBars in a host region. · Gallery
@@ -99,7 +100,7 @@ python scripts/generate_component_docs.py --lint
 - [NavigationWindow](components/NavigationWindow.md) — ShellWindow hosting NavigationView + content.
 - [NotificationBridge](components/NotificationBridge.md) — Mirror in-app ToastHost to OS notifications (Win balloon / Linux portal). · Gallery
 - [NumberBox](components/NumberBox.md) — Numeric spin/edit with validation (WinUI AcceptsExpression / IsWrapEnabled). · Gallery
-- [OnScreenKeyboard](components/OnScreenKeyboard.md) — Win11-style in-app touch keyboard (1.71). · Gallery
+- [OnScreenKeyboard](components/OnScreenKeyboard.md) — Win11-style in-app touch keyboard (1.72). · Gallery
 - [PagerControl](components/PagerControl.md) — Numbered page navigation (prev / numbers / next). · Gallery
 - [PasswordBox](components/PasswordBox.md) — Password field with reveal toggle. · Gallery
 - [PersonPicture](components/PersonPicture.md) — Avatar from image or initials (WinUI IsGroup / BadgeImageSource). · Gallery
@@ -306,6 +307,7 @@ python scripts/generate_component_docs.py --lint
 
 - [CalendarDatePicker](components/CalendarDatePicker.md) — `QWinUI3.Extras`
 - [DatePicker](components/DatePicker.md) — `QWinUI3.Extras`
+- [ImeCandidateBar](components/ImeCandidateBar.md) — `QWinUI3.Extras`
 - [TimePicker](components/TimePicker.md) — `QWinUI3.Extras`
 
 ### Dialogs & flyouts

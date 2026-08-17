@@ -47,6 +47,19 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.71 → 1.72
+
+**Product version:** 1.72  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- Experimental OSK: switch to **中文** for in-app pinyin (`ImeCandidateBar`). Lexicon is MIT pinyin-data, not Microsoft Pinyin. [on-screen-keyboard.md](on-screen-keyboard.md) · [NOTICE-pinyin.md](NOTICE-pinyin.md).
+
+#### No action (compatible)
+
+- Existing Theme / shell / stable controls unchanged. OSK stays experimental.
+
 ### Upgrade 1.70 → 1.71
 
 **Product version:** 1.71  

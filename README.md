@@ -7,7 +7,7 @@ Fluent / [WinUI 3](https://learn.microsoft.com/windows/apps/winui/winui3/)-inspi
 [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-2ea44f)](https://wuyijing-dev.github.io/QWinui3/)
 [![Qt](https://img.shields.io/badge/Qt-6.5%2B-41CD52?logo=qt&logoColor=white)](https://www.qt.io/)
 
-**v1.71** · **200+** public controls · Gallery demos for most of them  
+**v1.72** · **200+** public controls · Gallery demos for most of them  
 **Still 1.xx** — mid-horizon checkpoint ([docs/checkpoint-160.md](docs/checkpoint-160.md)); not drafting 2.00.
 [Documentation](https://wuyijing-dev.github.io/QWinui3/) · [Recipes hub](docs/recipes.md) · [Stable API](docs/stable-api.md) · [1.xx maturity](docs/maturity-1xx.md) · [Mid-horizon 1.60](docs/checkpoint-160.md) · [1.xx compatibility](docs/compatibility-1xx.md) · [i18n / RTL](docs/i18n-rtl.md) · [Keyboard-first](docs/keyboard.md) · [On-screen keyboard](docs/on-screen-keyboard.md) · [Color & contrast](docs/color-contrast.md) · [Adaptive layout](docs/adaptive-layout.md) · [Drag-drop](docs/drag-drop.md) · [Upgrade notes](docs/upgrade-notes.md) · [Linux / Wayland](docs/platform-linux-wayland.md) · [Qt Creator](docs/qt-creator.md) · [Component API](https://wuyijing-dev.github.io/QWinui3/components/) · [Releases](https://github.com/wuyijing-dev/QWinui3/releases) · [Roadmap](ROADMAP.md)
 
@@ -276,6 +276,6 @@ python scripts/generate_component_docs.py --lint
 
 [LGPL-3.0](LICENSE) (see also [COPYING](COPYING) for the GPL-3.0 terms incorporated by LGPL-3.0).
 
-On-screen keyboard layouts use [SIL Keyman Core](https://github.com/keymanapp/keyman/tree/master/core) (**MIT**) when fetched — see [docs/NOTICE-Keyman.md](docs/NOTICE-Keyman.md).
+On-screen keyboard layouts use [SIL Keyman Core](https://github.com/keymanapp/keyman/tree/master/core) (**MIT**) when fetched — see [docs/NOTICE-Keyman.md](docs/NOTICE-Keyman.md). In-app pinyin tables are [mozillazg/pinyin-data](https://github.com/mozillazg/pinyin-data) (**MIT**) — see [docs/NOTICE-pinyin.md](docs/NOTICE-pinyin.md).
 
 Fluent icon font licensing notes live under `src/theme/QWinUI3/Theme/fonts/`.

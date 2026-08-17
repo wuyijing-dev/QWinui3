@@ -1,8 +1,8 @@
 {
   "name": "QWinUI3",
-  "version": "1.71",
+  "version": "1.72",
   "generatedBy": "scripts/generate_component_docs.py",
-  "publicCount": 213,
+  "publicCount": 214,
   "components": [
     {
       "name": "AccentButton",
@@ -890,6 +890,21 @@
       "methodCount": 0
     },
     {
+      "name": "ImeCandidateBar",
+      "module": "QWinUI3.Extras",
+      "summary": "Win11-style in-app pinyin candidate strip (1.72).",
+      "path": "src/extras/QWinUI3/Extras/ImeCandidateBar.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Date & time",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "doc": "components/ImeCandidateBar.md",
+      "propertyCount": 1,
+      "signalCount": 0,
+      "methodCount": 0
+    },
+    {
       "name": "InfoBadge",
       "module": "QWinUI3.Extras",
       "summary": "Count / status / glyph badge.",
@@ -1312,7 +1327,7 @@
     {
       "name": "OnScreenKeyboard",
       "module": "QWinUI3.Extras",
-      "summary": "Win11-style in-app touch keyboard (1.71).",
+      "summary": "Win11-style in-app touch keyboard (1.72).",
       "path": "src/extras/QWinUI3/Extras/OnScreenKeyboard.qml",
       "baseType": "Control",
       "internal": false,

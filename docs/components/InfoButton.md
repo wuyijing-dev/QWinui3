@@ -4,7 +4,7 @@ Icon button that opens a TeachingTip.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/InfoButton.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/InfoButton.qml)
 
-**Category:** Buttons & commands · **Library:** v1.71
+**Category:** Buttons & commands · **Library:** v1.72
 
 [← Component index](../components.md)
 

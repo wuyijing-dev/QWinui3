@@ -4,18 +4,18 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — OnScreenKeyboard (1.71). Recipe: docs/on-screen-keyboard.md
+// Gallery — OnScreenKeyboard (1.72). Recipe: docs/on-screen-keyboard.md
 //
-// Win11 dock + Keyman Core .kmx. Not Qt Virtual Keyboard.
+// Win11 dock + Keyman layouts + in-app pinyin. Not Qt Virtual Keyboard.
 
 CatalogPage {
     id: page
     title: qsTr("On-screen keyboard")
-    subtitle: qsTr("Win11 OSK — Keyman Core (MIT) + our chrome. docs/on-screen-keyboard.md (1.71).")
+    subtitle: qsTr("Win11 OSK — Keyman layouts + pinyin IME. docs/on-screen-keyboard.md (1.72).")
 
     ControlExample {
-        headerText: qsTr("Type with the dock (1.71)")
-        qmlSource: "OnScreenKeyboard { }\n// Globe cycles en/de/fr/es/ru/ar via .kmx"
+        headerText: qsTr("Type with the dock (1.72)")
+        qmlSource: "OnScreenKeyboard { }\n// Globe: layouts or 中文 pinyin + candidate bar"
 
         ColumnLayout {
             Layout.fillWidth: true
@@ -23,7 +23,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Tap a field, then use the dock. Globe / combo switches Keyman layouts. Shift twice = Caps. Qt Virtual Keyboard is not used.")
+                text: qsTr("Tap a field, then use the dock. Switch to 中文 and type pinyin (nihao), then pick a candidate. Space confirms the first. In-app IME — not Microsoft Pinyin, not Qt Virtual Keyboard.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary

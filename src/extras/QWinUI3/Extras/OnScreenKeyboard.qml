@@ -2,19 +2,19 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// OnScreenKeyboard — Win11-style in-app touch keyboard (1.71).
+// OnScreenKeyboard — Win11-style in-app touch keyboard (1.72).
 //
 //   OnScreenKeyboard { }
 //   // Host in CatalogPage.footer / Overlay / shell footer so keys stay docked.
 //
 //   // --- API ---
-//   // engine.backend  "keyman" when libkeymancore is linked; else "builtin"
+//   // engine.backend  "pinyin" | "keyman" | "builtin"
 //   // engine.layoutId / cycleLayout / processVk
 //
 // @notes
-//   Experimental. SIL Keyman Core (MIT) processes .kmx; chrome is ours (LGPL).
-//   Not Qt Virtual Keyboard / QT_IM_MODULE. Recipe: docs/on-screen-keyboard.md.
-//   Keys use MouseArea (no focus steal). Globe cycles en/de/fr/es/ru/ar.
+//   Experimental. SIL Keyman Core (MIT) for layouts; pinyin IME uses MIT
+//   pinyin-data. Chrome is ours (LGPL). Not Qt Virtual Keyboard / QT_IM_MODULE.
+//   Keys use MouseArea (no focus steal). Globe cycles en/de/fr/es/ru/ar/zh.
 
 T.Control {
     id: root
@@ -99,6 +99,11 @@ T.Control {
             color: Theme.textSecondary
             horizontalAlignment: Text.AlignHCenter
             Accessible.ignored: true
+        }
+
+        ImeCandidateBar {
+            width: parent.width
+            engine: engine
         }
 
         Repeater {
@@ -258,7 +263,10 @@ T.Control {
             engine.commitText(k.ch)
             break
         case "space":
-            engine.commitText(" ")
+            if (engine.composing)
+                engine.confirmCompose()
+            else
+                engine.commitText(" ")
             break
         case "backspace":
             engine.backspace()

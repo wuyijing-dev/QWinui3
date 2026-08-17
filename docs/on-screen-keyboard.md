@@ -2,8 +2,8 @@
 
 Win11 / Fluent **touch keyboard chrome we own**. This is **not** Qt Virtual Keyboard, and it is **not** a hardware-shortcut cookbook ([keyboard.md](keyboard.md)).
 
-**Status:** **1.71 shipped** (Keyman Core linked, en/de/fr/es/ru/ar, experimental). **1.72…1.73** still planned (Chinese IME → full in-app IME).  
-**License:** OSK chrome is this repo (LGPL-3.0). SIL Keyman Core (**MIT**) is the layout engine when `third_party/keyman` is present. Community `.kmx` packs are MIT.
+**Status:** **1.72 shipped** (Keyman layouts + in-app pinyin, experimental). **1.73** still planned (ja/ko full IME).  
+**License:** OSK chrome is this repo (LGPL-3.0). SIL Keyman Core (**MIT**) for layouts. Pinyin tables are [mozillazg/pinyin-data](https://github.com/mozillazg/pinyin-data) (**MIT**) — [NOTICE-pinyin.md](NOTICE-pinyin.md). Keyman `cs_pinyin` IMX is **not** used.
 
 | Slice | What ships |
 |-------|------------|
@@ -93,7 +93,7 @@ Keyman Core already knows thousands of community keyboards. Extending languages 
 | Kind | Examples | When | What we add |
 |------|----------|------|-------------|
 | Direct layouts | en, de, fr, es, ru, ar | **1.71 shipped** | Globe switcher; dead keys via Core; RTL mirroring |
-| Composition IME | zh-Hans pinyin | **1.72** | Preedit + candidate strip (QML we write) |
+| Composition IME | zh-Hans pinyin | **1.72 shipped** | Preedit + candidate strip (QML we write); MIT pinyin-data |
 | More IMEs | ja romaji/kana, ko hangul | **1.73** | Same candidate host; extra packs |
 | Not this product | Handwriting, dictation, cloud lexicon, OS-wide IME | Parking lot | — |
 
@@ -144,11 +144,27 @@ System IME remains available alongside the panel until a later minor explicitly 
 
 ---
 
-## 1.72…1.73 (named on the roadmap)
+## 1.72 (shipped)
+
+**In**
+
+- zh-Hans on the globe; `engine.backend === "pinyin"`  
+- Preedit via `QInputMethodEvent` + `ImeCandidateBar` (Theme tokens)  
+- Lexicon generated from mozillazg **pinyin-data** / **phrase-pinyin-data** (MIT) — not a hand-written table, not GPL libpinyin, not Keyman IMX  
+- Space / 1–9 / tap confirm; honest limit: in-app, not Microsoft Pinyin quality  
+
+**Out**
+
+- ja / ko (**1.73**)  
+- Cloud lexicon / handwriting  
+- Replacing the desktop OS IME  
+
+---
+
+## 1.73 (named on the roadmap)
 
 Full in/out/exit lists live in [ROADMAP.md](../ROADMAP.md). Short form:
 
-- **1.72** — zh-Hans pinyin preedit + candidate bar (QML we write); ja/ko wait  
 - **1.73** — ja/ko + documented pack subset + optional emoji; still experimental unless soak is written  
 
 1.72+ architecture adds a candidate host next to the dock:
@@ -157,8 +173,8 @@ Full in/out/exit lists live in [ROADMAP.md](../ROADMAP.md). Short form:
   TextField  ←  QInputMethodEvent (preedit + commit)
   ImeCandidateBar.qml     ← our Win11 candidate strip
   OnScreenKeyboard.qml    ← same Fluent dock
-  KeyboardEngine          ← km_core_process_event
-  libkeymancore (MIT)
+  KeyboardEngine          ← pinyin lexicon (MIT) / km_core_process_event
+  libkeymancore (MIT)     ← layouts only; Chinese is not Keyman IMX
 ```
 
 ---
@@ -168,6 +184,5 @@ Full in/out/exit lists live in [ROADMAP.md](../ROADMAP.md). Short form:
 - Link `qwinui3_extras` as today; `OnScreenKeyboard` is experimental.  
 - First configure fetches Core unless `QWINUI3_FETCH_KEYMAN=OFF`.  
 - Strip Qt Virtual Keyboard from `windeployqt` trees as already documented.  
-- Through **1.71** this panel is a touch OSK; system IME (Microsoft Pinyin, etc.) stays the CJK default.  
-- From **1.72** the panel can compose Hanzi **in-app** — it still does not replace the desktop OS IME.  
-- `KeyboardEngine.backend` is `"keyman"` when Core is linked; `"builtin"` if you skipped the fetch.
+- Through **1.71** this panel is a touch OSK; **1.72** adds in-app pinyin. System IME (Microsoft Pinyin, etc.) stays the desktop CJK default.  
+- `KeyboardEngine.backend` is `"pinyin"` in 中文, `"keyman"` when Core is linked, `"builtin"` if you skipped the fetch.
