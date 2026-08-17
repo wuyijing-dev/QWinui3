@@ -135,6 +135,21 @@ Item {
         return list
     }
 
+    // Ask ancestor PlatformTitleBar / WindowChrome to refresh NC hit-test after slot layout changes.
+    function notifyChromeHitTest() {
+        var p = root.parent
+        while (p) {
+            if (typeof p.reportHitTest === "function") {
+                p.reportHitTest()
+                return
+            }
+            p = p.parent
+        }
+    }
+
+    onImplicitWidthChanged: notifyChromeHitTest()
+    onImplicitHeightChanged: notifyChromeHitTest()
+
     Rectangle {
         anchors.fill: parent
         visible: !root.embedded
@@ -234,6 +249,9 @@ Item {
             spacing: 4
             Layout.alignment: Qt.AlignVCenter
             visible: children.length > 0
+            onChildrenChanged: root.notifyChromeHitTest()
+            onWidthChanged: root.notifyChromeHitTest()
+            onImplicitWidthChanged: root.notifyChromeHitTest()
         }
 
         Item {
@@ -309,6 +327,9 @@ Item {
                        ? Math.max(1, childrenRect.width)
                        : parent.width
                 visible: root.hasContentChildren
+                onChildrenChanged: root.notifyChromeHitTest()
+                onWidthChanged: root.notifyChromeHitTest()
+                onImplicitWidthChanged: root.notifyChromeHitTest()
             }
 
             Item {
@@ -503,6 +524,9 @@ Item {
             id: trailingRow
             spacing: Theme.spacing
             Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+            onChildrenChanged: root.notifyChromeHitTest()
+            onWidthChanged: root.notifyChromeHitTest()
+            onImplicitWidthChanged: root.notifyChromeHitTest()
         }
     }
 }

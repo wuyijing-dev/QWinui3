@@ -47,7 +47,9 @@ qt_add_qml_module(qwinui3_platform
         TrayIcon.h
         WebView2Host.h
         Bootstrap.h
+        FrameStatsMonitor.h
         ${QWINUI3_PLATFORM_SOURCES}
+        FrameStatsMonitor.cpp
     QML_FILES
         PlatformTitleBar.qml
         CaptionButton.qml
@@ -57,6 +59,8 @@ qt_add_qml_module(qwinui3_platform
         DialogWindow.qml
         ToolWindow.qml
         CompactOverlayWindow.qml
+        FrameStatsBadge.qml
+        FrameStatsOverlay.qml
     IMPORTS
         TARGET qwinui3_theme
 )

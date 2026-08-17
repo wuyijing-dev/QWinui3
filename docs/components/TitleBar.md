@@ -30,7 +30,9 @@ TitleBar {
 
 ## Notes
 
-WinUI-style title bar for ShellWindow / WindowChrome.
+WinUI-style title bar for ShellWindow / WindowChrome / **StandardTitleChrome**.
+**Header slots:** `leftHeader`, `content` (`titleBarContent` on shells), `rightHeader` — put buttons, combos, or `FrameStatsBadge` (Platform) here.
+Slot layout changes auto-refresh Windows NC hit-test via `notifyChromeHitTest()`.
 preferredHeightOption: standard (32) or tall (48) via WindowHelper.
 Caption hit-test uses screen-logical rects (mapToGlobal) so maximize/fullscreen
 caption buttons stay clickable.

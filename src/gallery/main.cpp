@@ -9,11 +9,13 @@
 #include <QQuickStyle>
 #include <QTimer>
 #include <QTranslator>
+#include <QQuickWindow>
 #include <QDebug>
 #include <cstring>
 
 #include "Bootstrap.h"
 #include "GraphicsBackend.h"
+#include "FrameStatsMonitor.h"
 
 QWINUI3_IMPORT_QML_PLUGINS
 
@@ -127,6 +129,7 @@ int main(int argc, char *argv[])
     QWinUI3::configureEnvironment(argv[0]);
     // RHI / surface format only — Gallery-specific; do not touch QSettings yet.
     GraphicsBackend::applyEarly(argc, argv);
+    FrameStatsMonitor::applyCli(argc, argv);
 
     QGuiApplication app(argc, argv);
     QCoreApplication::setOrganizationName(QStringLiteral("QWinUI3"));
@@ -160,6 +163,11 @@ int main(int argc, char *argv[])
         qWarning() << "Style:" << QQuickStyle::name();
         qWarning() << "Import paths:" << engine.importPathList();
         return -1;
+    }
+
+    if (QObject *root = engine.rootObjects().constFirst()) {
+        if (auto *win = qobject_cast<QQuickWindow *>(root))
+            FrameStatsMonitor::instance()->attachWindow(win);
     }
 
     const qint64 msAfterMain = startupLog ? wall.elapsed() : 0;

@@ -241,6 +241,10 @@ Virtualized tables and lists — **no visual change**, less work per keystroke.
 
 Rule for the arc: **trim waste, not motion**. Sign-off: [checkpoint-190.md](checkpoint-190.md) (**1.90**).
 
+### Real-time FPS (Gallery / product opt-in)
+
+`FrameStatsMonitor` (Platform singleton) samples `QQuickWindow::frameSwapped` and exposes rolling **FPS** + **frame time**. Drop `FrameStatsBadge` into a `TitleBar` / `ShellWindow` **rightHeader**, or use `FrameStatsOverlay` for a floating badge. Gallery Settings toggles placement; CLI: `--show-fps`, `--fps-overlay`. Not a full profiler — advisory only.
+
 ---
 
 ## Cheap wins (1.25 / 1.39)

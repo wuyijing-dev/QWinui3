@@ -116,6 +116,37 @@ Page {
             }
 
             SettingsCard {
+                title: qsTr("Real-time FPS")
+                description: qsTr("FrameStatsMonitor — title-bar badge or floating overlay. Toggle persists in QSettings. CLI: --show-fps, --fps-overlay.")
+                symbol: FluentIcons.SpeedHigh
+                toggle: true
+                toggleText: qsTr("Show FPS")
+                checked: FrameStatsMonitor.enabled
+                onToggled: FrameStatsMonitor.enabled = checked
+            }
+
+            SettingsCard {
+                title: qsTr("FPS placement")
+                description: qsTr("Title bar RightHeader slot (FrameStatsBadge) or floating overlay.")
+                symbol: FluentIcons.Pin
+                action: ComboBox {
+                    implicitWidth: 180
+                    enabled: FrameStatsMonitor.enabled
+                    model: [
+                        { label: qsTr("Title bar"), value: true },
+                        { label: qsTr("Overlay"), value: false }
+                    ]
+                    textRole: "label"
+                    Component.onCompleted: {
+                        currentIndex = FrameStatsMonitor.inTitleBar ? 0 : 1
+                    }
+                    onActivated: function (index) {
+                        FrameStatsMonitor.inTitleBar = model[index].value
+                    }
+                }
+            }
+
+            SettingsCard {
                 title: qsTr("Performance arc (1.86–1.89)")
                 description: qsTr("Four-wave perf plan — animations stay; trim no-op work only. Arc signed off at 1.90 close-out. docs/performance.md · docs/checkpoint-190.md")
                 symbol: FluentIcons.SpeedHigh

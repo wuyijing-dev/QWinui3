@@ -195,6 +195,7 @@ qt_add_qml_module(qwinui3_extras
         TwoPaneView.qml
         UniformGrid.qml
         WindowChrome.qml
+        StandardTitleChrome.qml
         ShellWindowSupport.qml
         ShellWindow.qml
         BlankWindow.qml

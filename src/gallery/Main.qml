@@ -99,7 +99,7 @@ StandardWindow {
             nav.navigateToTitle(item.title, mode || "slide")
     }
 
-    header: PlatformTitleBar {
+    header: StandardTitleChrome {
         id: platformTitle
         targetWindow: window
         showCaptionButtons: window.showCaptionButtons
@@ -108,34 +108,31 @@ StandardWindow {
         showClose: window.showClose
         preferredHeightOption: window.preferredHeightOption
 
-        TitleBar {
-            id: titleBar
-            anchors.fill: parent
-            embedded: true
-            dragWindow: window
-            useSystemMove: true
-            trailingReserve: 0
-            title: qsTr("QWinUI3 Gallery")
-            subtitle: qsTr("Fluent / WinUI 3 controls")
-            symbol: FluentIcons.Home
-            isPaneToggleButtonVisible: true
-            isBackButtonVisible: nav.canGoBack
-            isBackButtonEnabled: nav.canGoBack
-            searchModel: window.searchResults
-            onPaneToggleRequested: nav.paneOpen = !nav.paneOpen
-            onBackRequested: nav.navigateBack()
-            onSearchTextEdited: function (text) {
-                window.searchResults = ControlCatalog.search(text)
-            }
-            onSearchActivated: function (item) {
-                window.navigateToControl(item, "center")
-            }
-            onWidthChanged: platformTitle.reportHitTest()
-            onHeightChanged: platformTitle.reportHitTest()
+        title: qsTr("QWinUI3 Gallery")
+        subtitle: qsTr("Fluent / WinUI 3 controls")
+        symbol: FluentIcons.Home
+        isPaneToggleButtonVisible: true
+        isBackButtonVisible: nav.canGoBack
+        isBackButtonEnabled: nav.canGoBack
+        searchModel: window.searchResults
+        onPaneToggleRequested: nav.paneOpen = !nav.paneOpen
+        onBackRequested: nav.navigateBack()
+        onSearchTextEdited: function (text) {
+            window.searchResults = ControlCatalog.search(text)
         }
+        onSearchActivated: function (item) {
+            window.navigateToControl(item, "center")
+        }
+
+        rightHeader: FrameStatsBadge { }
+    }
+
+    FrameStatsOverlay {
+        anchors.fill: parent
     }
 
     Component.onCompleted: {
+        FrameStatsMonitor.attachWindow(window)
         Qt.callLater(function () { platformTitle.reportHitTest() })
     }
 
@@ -163,7 +160,7 @@ StandardWindow {
         onPaneSearchActivated: function (text) {
             // SearchBox suggestion path already selects keys when present.
             if (text)
-                titleBar.searchText = text
+                platformTitle.searchText = text
         }
         onPageOpened: function (name) {
             GalleryHistory.recordVisit(name)

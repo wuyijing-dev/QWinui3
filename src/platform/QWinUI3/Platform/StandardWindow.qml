@@ -22,6 +22,7 @@ import QWinUI3.Platform
 // @notes
 //   Low-level AppWindow host (PlatformTitleBar + WindowHelper).
 //   Prefer ShellWindow family for product UI; use this for presenter/backdrop experiments.
+//   Title-bar slots: use Extras StandardTitleChrome as header (see docs/components/TitleBar.md).
 //   geometryPersistenceKey → persist size/pos/maximized (see docs/window-helper.md).
 //   effectiveBackdrop / WindowHelper.resolveBackdrop keep Linux shells opaque when Mica is requested.
 //   Runtime: backdrop/paradigm changes, first-show reapply, DPI → Theme + hit-test (see docs/window-chrome.md).
