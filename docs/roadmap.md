@@ -2,7 +2,7 @@
 
 **Current:** **1.48**
 **Next up:** **1.49** (Icon micro-animations)
-**Planned through:** **1.52** (field / polish buffer after maturity checkpoint)  
+**Planned through:** **1.70** (long-horizon 1.xx checkpoint)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](qt-version-compat.md)
 
 This plan starts from **what 1.00 already was**, then walks **small `1.xx` minors**. Stay on **1.xx for a long time**. **2.00 is not next**—only when we truly need breaking changes.
@@ -256,9 +256,9 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Horizon — planned `1.49` … `1.52`
+## Horizon — planned `1.49` … `1.70`
 
-Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per `YY`.
+Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per `YY`. Order can flex if field P0s force a swap; do not merge themes into mega-minors.
 
 ### 1.49 — Icon micro-animations
 
@@ -302,7 +302,7 @@ Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per 
 
 ### 1.51 — 1.xx maturity checkpoint
 
-**Why:** Cap the planned 1.line with a deliberate “where we are” release—not 2.00.
+**Why:** Cap the first post-1.40 arc with a deliberate “where we are” release—not 2.00.
 
 **In scope**
 
@@ -315,11 +315,11 @@ Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per 
 
 **Exit criteria**
 
-- Published checkpoint notes in ROADMAP/README; open 1.52+ only for field-driven slices or park work.
+- Published checkpoint notes in ROADMAP/README; continue through planned `1.52`…`1.70` (or pause explicitly).
 
 ---
 
-### 1.52 — Field polish buffer (planned)
+### 1.52 — Field polish buffer
 
 **Why:** After the checkpoint, keep one named slot for regressions and small harden passes without inventing a new product surface.
 
@@ -338,18 +338,361 @@ Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per 
 
 ---
 
-## After `1.52`
+### 1.53 — Thin AnimatedIcon path
 
-Still **1.xx** if field needs dictate (`1.53`…)—or pause on polish. **Do not** treat 1.51/1.52 as permission to start **2.00**.
+**Why:** After 1.49 micro-motion, some chrome needs play-on-state glyphs without adopting a full Lottie product.
+
+**In scope**
+
+- Optional thin `AnimatedIcon`-style wrapper (or documented recipe) over existing glyph/scale transitions; 2–3 Gallery state demos (e.g. play/pause, expand/collapse).
+- Docs in [icons.md](icons.md) / [animations.md](animations.md); honor reduced motion.
+
+**Out of scope**
+
+- Shipping a Lottie runtime as a hard dependency; full WinUI AnimatedIcon visual tree parity.
+
+**Exit criteria**
+
+- One documented path + Gallery demos; honest “not Lottie” callout.
+
+---
+
+### 1.54 — Extra locale pack
+
+**Why:** 1.45 proved the workflow; one more seed locale keeps i18n from rotting.
+
+**In scope**
+
+- One additional Gallery seed locale (pick by demand: e.g. `ja_JP` or `de_DE`) + lupdate/lrelease notes in [i18n-rtl.md](i18n-rtl.md).
+- Smoke translation check extended; Gallery language switcher coverage.
+
+**Out of scope**
+
+- Full professional translation of every string; community translation portal.
+
+**Exit criteria**
+
+- Second locale builds/loads via `--lang`; checklist green in smoke or docs.
+
+---
+
+### 1.55 — TeachingTip & onboarding coach marks
+
+**Why:** Feedback wave (1.34) covered hosts; first-run coach paths still need a cookbook.
+
+**In scope**
+
+- Recipes for sequenced TeachingTips, focus return, “don’t show again” persistence; Gallery onboarding demo.
+- Extend [feedback.md](feedback.md) (+ keyboard/a11y cross-links).
+
+**Out of scope**
+
+- A separate product “tour” framework; forced Spotlight overlays as a new control family.
+
+**Exit criteria**
+
+- End-to-end Gallery recipe + docs when-to-use vs Toast/InfoBar.
+
+---
+
+### 1.56 — Multi-window & secondary shells
+
+**Why:** Integrators open settings/preview windows; shell docs are still single-window-first.
+
+**In scope**
+
+- Recipes for secondary `StandardWindow` / dialog-owner HWND, shared Theme, geometry persistence keys.
+- Gallery or small example: main + tool window; [window-shells.md](window-shells.md) / [window-helper.md](window-helper.md) updates.
+
+**Out of scope**
+
+- Full MDI framework; macOS Spaces integration.
+
+**Exit criteria**
+
+- Documented Win+Linux notes; at least one runnable sample path.
+
+---
+
+### 1.57 — Touch, pen & pointer recipes
+
+**Why:** Gallery and LoB apps need honest touch targets and pen notes without a new input stack.
+
+**In scope**
+
+- Density/touch target guidance; scroll/drag vs click; optional stylus hover notes where Qt exposes them.
+- Gallery touch checklist page section; [density.md](density.md) / [accessibility.md](accessibility.md) pointers.
+
+**Out of scope**
+
+- Custom ink canvas product; handwriting recognition.
+
+**Exit criteria**
+
+- Published touch cookbook + Gallery callouts on high-traffic controls.
+
+---
+
+### 1.58 — High-DPI & multi-monitor matrix (wave 2)
+
+**Why:** 1.32 / 1.04 covered shells; field still hits mixed-DPI restore and per-monitor quirks.
+
+**In scope**
+
+- Refresh Win+Linux DPI matrix; geometry clamp / reopen recipes; Gallery DPI readout polish.
+- Cross-link [window-chrome.md](window-chrome.md), [graphics-backend.md](graphics-backend.md).
+
+**Out of scope**
+
+- Per-monitor awareness rewrite of the Qt platform plugin.
+
+**Exit criteria**
+
+- Matrix + at least one fixed or documented P0 restore path.
+
+---
+
+### 1.59 — In-app search & AutoSuggest recipes
+
+**Why:** CommandPalette (1.15/1.44) covers chords; content filter / suggest patterns need a home.
+
+**In scope**
+
+- Recipes for AutoSuggestBox / filtered Lists / catalog search patterns; Gallery demo page deepen.
+- Docs under recipes + [commands.md](commands.md) / navigation cross-links.
+
+**Out of scope**
+
+- Full-text search engine; cloud search backends.
+
+**Exit criteria**
+
+- Cookbook + Gallery interactive filter/suggest demo.
+
+---
+
+### 1.60 — Mid-horizon checkpoint
+
+**Why:** Halfway through the 1.49–1.70 plan—audit before the second half.
+
+**In scope**
+
+- Re-audit stable-api, experimental defer list, doc link rot; trim parking lot.
+- Short “still 1.xx” note in README/ROADMAP; optional smoke coverage bump.
+
+**Out of scope**
+
+- Starting 2.00; mass new controls.
+
+**Exit criteria**
+
+- Checkpoint notes published; 1.61+ plan confirmed or reordered.
+
+---
+
+### 1.61 — CMake package / find_package sketch
+
+**Why:** 1.12/1.46 cover zips and `add_subdirectory`; some consumers want a sketch `find_package` story.
+
+**In scope**
+
+- Optional install + `QWinUI3Config.cmake` sketch (or documented experimental layout); consumer CMake snippet in [packaging-consumer.md](packaging-consumer.md).
+- Honest “not an official vcpkg/Conan port” banner.
+
+**Out of scope**
+
+- Maintaining official vcpkg/Conan ports as supported products.
+
+**Exit criteria**
+
+- One documented install → `find_package` path that builds a tiny consumer in Release.
+
+---
+
+### 1.62 — Gallery visual smoke (subset)
+
+**Why:** `--smoke` loads pages; a small golden-frame set catches theme/chrome regressions earlier.
+
+**In scope**
+
+- Subset of Gallery pages (Home + few chrome/control pages) screenshot or hash smoke; docs in [ci-smoke.md](ci-smoke.md).
+- Opt-in CI job or local script; keep default smoke fast.
+
+**Out of scope**
+
+- Pixel diffs for every Gallery page; flaky full-catalog visual CI.
+
+**Exit criteria**
+
+- Subset script documented; runs locally (CI optional).
+
+---
+
+### 1.63 — Print, share & export recipes
+
+**Why:** LoB apps need “send this view somewhere” without a print subsystem rewrite.
+
+**In scope**
+
+- Recipes: `QPrinter` / grab-to-image / share file via reveal/picker; Gallery or docs-only sample.
+- Cross-link system-integration / drag-drop.
+
+**Out of scope**
+
+- Built-in PDF engine product; cloud share providers.
+
+**Exit criteria**
+
+- Published recipe with Win+Linux caveats.
+
+---
+
+### 1.64 — Security & trust boundaries
+
+**Why:** WebView2, FileDropZone, and pickers need a single “what we promise / what apps must do” page.
+
+**In scope**
+
+- Trust boundary doc: navigation allowlists, user-data dirs, drop validation, picker ownership.
+- Gallery Pitfalls / WebView2 callouts; links from [webview2.md](webview2.md) / [drag-drop.md](drag-drop.md).
+
+**Out of scope**
+
+- Claiming a hardened sandbox product; rewriting WebView2 host.
+
+**Exit criteria**
+
+- One security cookbook page + Gallery pointers.
+
+---
+
+### 1.65 — Settings persistence & roaming recipes
+
+**Why:** Geometry keys exist; app settings sync patterns are still ad hoc.
+
+**In scope**
+
+- Cookbook for `QSettings` / JSON prefs, per-user vs portable, migration keys; example alignment with form-settings.
+- Docs + Gallery Settings persistence callout.
+
+**Out of scope**
+
+- Cloud roaming service; encrypted vault product.
+
+**Exit criteria**
+
+- Recipe + at least one example or Gallery path using the pattern.
+
+---
+
+### 1.66 — Charts & dashboard polish (wave 3)
+
+**Why:** 1.23 promoted a stable subset; remaining chart surfaces and dashboard recipes still need a harden pass.
+
+**In scope**
+
+- Polish leftover experimental charts or document defer; dashboard example / Gallery hub refresh.
+- Update [charts.md](charts.md) + stable-api notes.
+
+**Out of scope**
+
+- New chart engines / WebGL; replacing Qt Graphs wholesale.
+
+**Exit criteria**
+
+- Clear stable vs deferred chart list; Gallery hub matches docs.
+
+---
+
+### 1.67 — Media soak or honest defer
+
+**Why:** 1.21 left Multimedia optional/experimental; decide promote vs stay experimental with a soak checklist.
+
+**In scope**
+
+- Soak checklist in [media.md](media.md); either promote a thin stable subset or explicitly defer with reasons.
+- Gallery Media page aligned.
+
+**Out of scope**
+
+- New codecs; streaming CDN integration.
+
+**Exit criteria**
+
+- Published promote-or-defer decision + Gallery callout.
+
+---
+
+### 1.68 — Linux portal & file-dialog harden
+
+**Why:** 1.38 covered Wayland edges; portal parent_window / FilePicker still generate field bugs.
+
+**In scope**
+
+- Portal ownership matrix refresh; FilePicker / folder reveal harden; Gallery Linux system-integration live checks.
+- Update [platform-linux-wayland.md](platform-linux-wayland.md) / [system-integration.md](system-integration.md).
+
+**Out of scope**
+
+- Implementing a full xdg-desktop-portal compositor.
+
+**Exit criteria**
+
+- Matrix + at least one fixed or documented P0 portal path.
+
+---
+
+### 1.69 — Accessibility wave 3
+
+**Why:** Waves 1–2 covered names and high-traffic paths; live regions / focus restore / dialog stacks need another pass.
+
+**In scope**
+
+- Focus return audits (dialogs, TeachingTip, drawers); live-region guidance; Gallery Accessibility checklist wave 3.
+- Extend [accessibility.md](accessibility.md) / [keyboard.md](keyboard.md).
+
+**Out of scope**
+
+- Automated full-catalog a11y CI as a hard gate.
+
+**Exit criteria**
+
+- Wave-3 Done checklist published; Gallery page updated.
+
+---
+
+### 1.70 — Long-horizon 1.xx checkpoint
+
+**Why:** Close the planned `1.49`…`1.70` arc with a deliberate “where we are”—still not 2.00.
+
+**In scope**
+
+- Full stable-api vs Gallery audit; ROADMAP shipped/deferred refresh; compatibility-1xx revisit.
+- Publish “prefer field harden / pause vs new surfaces” guidance; open `1.71+` only for field-driven slices or park.
+
+**Out of scope**
+
+- Declaring 2.00; freezing experimental forever.
+
+**Exit criteria**
+
+- Checkpoint notes in ROADMAP/README; explicit next posture (continue 1.xx / pause / draft 2.00 criteria only).
+
+---
+
+## After `1.70`
+
+Still **1.xx** if field needs dictate (`1.71`…)—or pause on polish. **Do not** treat 1.70 as permission to start **2.00**.
 
 Unscheduled follow-ups (pick only inside a named minor):
 
 | Candidate | Notes |
 |-----------|-------|
-| **1.53+ field fixes** | Portal / DPI / tray / WebView2 regressions from users |
-| **Extra locale packs** | Only if 1.45 workflow stays cheap |
-| **AnimatedIcon / Lottie** | Only if a thin optional path stays cheap after 1.49 micro-motion |
-| **vcpkg / Conan sketches** | Packaging experiments—not a product promise |
+| **1.71+ field fixes** | Portal / DPI / tray / WebView2 / packaging regressions |
+| **More locale packs** | Only if 1.45/1.54 workflow stays cheap |
+| **Deeper Lottie / AnimatedIcon** | Only if 1.53 thin path proves valuable |
+| **Official vcpkg/Conan ports** | Beyond the 1.61 sketch—product promise only if owned |
+| **macOS first-class** | Remains parking-lot until deliberately scheduled |
 
 Order remains flexible; do not bundle into mega-minors.
 
@@ -365,7 +708,7 @@ Consider 2.00 only if several of these become true:
 - Need a new packaging/ABI contract that breaks 1.xx consumers  
 - Need to drop an old Qt floor or OS policy in a breaking way  
 
-Until then: **stay on 1.xx**, bump `YY` for each slice. Prefer finishing through **1.51** (maturity checkpoint) before even drafting 2.00 scope.
+Until then: **stay on 1.xx**, bump `YY` for each slice. Prefer finishing through **1.70** (long-horizon checkpoint) before even drafting 2.00 scope.
 
 ---
 
@@ -376,11 +719,13 @@ Unscheduled; pick up only inside a named `1.xx` minor (or never):
 - macOS first-class  
 - Figma / design-token pipeline  
 - Full Fluent visual redesign / Fluent 2 Style fork  
-- Screenshot diffs for every Gallery page  
-- Extra Gallery language packs (beyond 1.45 seed path)  
-- Full AnimatedIcon / Lottie state machines (thin path may follow 1.49)  
+- Screenshot diffs for **every** Gallery page (subset may ship in 1.62)  
+- Community translation portal / every-locale coverage  
+- Full Lottie runtime as a hard product dependency (thin path planned in 1.53)  
 - New chart engines / WebGL  
-- Official vcpkg/Conan ports as supported products  
+- Official vcpkg/Conan ports as supported products (sketch may ship in 1.61)  
+- Custom ink / handwriting canvas  
+- Cloud settings roaming / share backends 
 
 ---
 
