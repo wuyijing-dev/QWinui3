@@ -2,8 +2,8 @@
 
 Win11 / Fluent **touch keyboard chrome we own**. This is **not** Qt Virtual Keyboard, and it is **not** a hardware-shortcut cookbook ([keyboard.md](keyboard.md)).
 
-**Status:** **1.75 shipped** (named Keyman `.kmx` subset + prior IME; still experimental). **Next:** **1.76** MIT-only IME deepen. Checkpoint is **1.77**.  
-**License:** OSK chrome is this repo (LGPL-3.0). SIL Keyman Core (**MIT**) for layouts. Pinyin tables are [mozillazg/pinyin-data](https://github.com/mozillazg/pinyin-data) (**MIT**) — [NOTICE-pinyin.md](NOTICE-pinyin.md). Japanese is a Hepburn romaji→kana map (not a word lexicon). Korean is Unicode hangul composition (not a lexicon). Keyman `cs_pinyin` IMX is **not** used.
+**Status:** **1.76 shipped** (MIT-only IME deepen; still experimental). **Next:** **1.77** long-horizon checkpoint.  
+**License:** OSK chrome is this repo (LGPL-3.0). SIL Keyman Core (**MIT**) for layouts. Pinyin tables are [mozillazg/pinyin-data](https://github.com/mozillazg/pinyin-data) (**MIT**) — [NOTICE-pinyin.md](NOTICE-pinyin.md). Japanese is a Hepburn romaji→kana map (**no kanji** — no MIT reading lexicon). Korean is Unicode hangul composition (not a lexicon). Keyman `cs_pinyin` IMX is **not** used.
 
 | Slice | What ships |
 |-------|------------|
@@ -13,7 +13,7 @@ Win11 / Fluent **touch keyboard chrome we own**. This is **not** Qt Virtual Keyb
 | **1.73** | Full in-app IME — ja romaji/kana, ko hangul, emoji layer, shared candidate host |
 | **1.74** | Soak / harden — Gallery checklist + a11y + romaji fixes; **still experimental** |
 | **1.75** | Extra documented Keyman `.kmx` — en-GB / it / pt / pl / sv / tr (**named** subset) |
-| **1.76** | IME deepen, MIT sources only — no GPL Mozc, no hand-written 词库 |
+| **1.76** | IME deepen (MIT): pinyin prefix phrases, hangul peel/Space; **ja kanji skipped** |
 | **1.77** | Long-horizon checkpoint (not IME work) |
 
 ---
@@ -102,7 +102,7 @@ Keyman Core already knows thousands of community keyboards. Extending languages 
 | More IMEs | ja romaji/kana, ko hangul | **1.73 shipped** | Same candidate host; hangul compositor + romaji map (not Keyman IMX) |
 | Soak | zh / ja / ko + 1.71 layouts | **1.74 shipped** | Gallery checklist + a11y; still experimental (not promote-green) |
 | Extra layouts | more MIT `.kmx` | **1.75 shipped** | Named subset (en-GB/it/pt/pl/sv/tr) + BYO recipe; not CJK IMX |
-| IME deepen | MIT tables only | **1.76** | Optional pinyin regen; kanji only if a MIT source exists |
+| IME deepen | MIT tables only | **1.76 shipped** | Prefix phrases + hangul polish; ja stays kana (no MIT kanji) |
 | Not this product | Handwriting, dictation, cloud lexicon, OS-wide IME | Parking lot | — |
 
 **Chinese / CJK** needs a candidate UI we own (Win11). Keyman Core does **not** run Chinese IMX, Japanese Mozc, or Korean dictionaries. zh uses MIT pinyin-data; ja is romaji→kana; ko is 2-beolsik hangul. Kanji conversion is out (no GPL Mozc, no hand-written 词库).
@@ -250,9 +250,17 @@ System IME remains available alongside the panel until a later minor explicitly 
 - CJK via Keyman IMX  
 - IME deepen (**1.76**)  
 
-## 1.76 (planned) — IME deepen (MIT-only)
+## 1.76 (shipped) — IME deepen (MIT-only)
 
-- zh: optional regenerate from the same MIT pinyin-data (script is one-shot, not CMake)
-- ja: kanji **only** if a MIT table can be generated like pinyin; otherwise skip and document
-- ko: compositor polish, not a hangul dictionary
-- No Mozc / libpinyin / Anthy / hand-written 词库
+**Shipped**
+
+- zh: regenerated mozillazg MIT tables (phrases 2–6 chars, more candidates); **prefix phrase** lookup (
+iha → 你好); consumeLength for partial picks
+- ko: Backspace peels compound vowels (ㅘ/ㅙ/ㅚ/ㅝ/ㅞ/ㅟ/ㅢ) and double finals; Space commits + inserts a word break; Caps does not double jamo (Shift only)
+- ja: extra Hepburn rows (thi/dhi/ts*/wh*/fyu…); **kanji not shipped** — JMdict / KANJIDIC are CC-BY-SA, not MIT. Gap is intentional under the MIT-only rule
+
+**Out**
+
+- Mozc / Anthy / libpinyin / hand-written 词库  
+- Promote to stable  
+

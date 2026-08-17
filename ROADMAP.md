@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.75**
-**Next up:** **1.76** (IME deepen, MIT-only)
+**Current:** **1.76**
+**Next up:** **1.77** (long-horizon 1.xx checkpoint, slipped)
 **Planned through:** **1.77** (long-horizon 1.xx checkpoint, slipped)
 **Still 1.xx:** Mid-horizon checkpoint published — [docs/checkpoint-160.md](docs/checkpoint-160.md). Not drafting 2.00.  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
@@ -363,11 +363,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** Named MIT `.kmx` subset: en-GB (`basic_kbduk`), it-IT, pt-PT, pl-PL, sv-SE, tr-TR (`basic_kbdtuq`). Globe / ComboBox; `scripts/fetch_keyman_keyboards.py` re-fetches the subset; `keyboards/README.md` lists shipped vs BYO. Still layouts only — not every community keyboard, not CJK IMX. Product version `1.75`.
 
+### 1.76 — IME deepen (MIT-only) (shipped)
+
+**Shipped:** zh — regenerated MIT pinyin tables (phrases up to 6 chars) + **prefix phrase** candidates (`niha` → 你好) with correct consume length. ko — Backspace peels compound vowels (ㅘ/ㅢ…) and finals; Space commits syllable + word break; Shift (not Caps) doubles. ja — extra romaji (thi/dhi/ts*/wh*); **kanji skipped** — no MIT reading lexicon (JMdict/KANJIDIC are CC-BY-SA). Still experimental; not promote-green. Product version `1.76`.
+
 ---
 
-## Horizon — planned `1.76` … `1.77`
+## Horizon — planned `1.77`
 
-Still **1.xx**. One theme per `YY`. **1.70…1.75** shipped OSK → IME soak → named Keyman packs; **1.76** MIT deepen. Long-horizon checkpoint is **1.77**. Plan: [docs/on-screen-keyboard.md](docs/on-screen-keyboard.md). Chrome stays ours. Keyman Core stays layouts only. No Qt Virtual Keyboard.
+Still **1.xx**. One theme per `YY`. **1.70…1.76** shipped the GPL-free OSK/IME arc through MIT deepen. Long-horizon checkpoint is **1.77**. Plan: [docs/on-screen-keyboard.md](docs/on-screen-keyboard.md). Chrome stays ours. Keyman Core stays layouts only. No Qt Virtual Keyboard.
 
 | Slice | Keyboard theme |
 |-------|----------------|
@@ -377,31 +381,8 @@ Still **1.xx**. One theme per `YY`. **1.70…1.75** shipped OSK → IME soak →
 | **1.73 shipped** | ja romaji/kana + ko hangul + emoji |
 | **1.74 shipped** | Soak / harden (still experimental) |
 | **1.75 shipped** | Extra documented Keyman `.kmx` (named subset) |
-| **1.76** | IME deepen, MIT sources only (no GPL Mozc / no hand-written 词库) |
+| **1.76 shipped** | IME deepen, MIT-only (ja kanji gap documented) |
 | **1.77** | Long-horizon 1.xx checkpoint (slipped from 1.74) |
-
-### 1.76 — IME deepen (MIT-only)
-
-**Why:** 1.73 Japanese is kana, not kanji. Korean is a syllable compositor, not a word IME. Chinese phrases are the MIT table we already generate — not Microsoft Pinyin quality.
-
-**In scope**
-
-- zh: optional regenerate from the same mozillazg MIT sources (`scripts/gen_pinyin_lexicon.py` — still **not** a CMake step)
-- ja: kanji conversion **only** if a MIT dataset can be generated the same way as pinyin-data. No Mozc, no Anthy, no hand-written 词库. If no MIT source exists, skip kanji and document the gap
-- ko: compositor polish (compound vowels / double finals, shift vs Caps). Not libhangul dictionaries
-- Same `ImeCandidateBar` host
-
-**Out of scope**
-
-- GPL / dual-license IME engines (Mozc, libpinyin, ibus, Anthy, typical librime schemas)
-- Cloud suggestion, handwriting, dictation
-- OS-wide IME
-- Promote to stable unless **1.74** soak is already green and this minor names the promote
-
-**Exit criteria**
-
-- Honest docs: what converted vs what is still romaji/kana or hangul-only
-- No new GPL dependency; NOTICE updated only if a new MIT table is vendored
 
 ### 1.77 — Long-horizon 1.xx checkpoint
 

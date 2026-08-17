@@ -4,18 +4,18 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — OnScreenKeyboard (1.75). Recipe: docs/on-screen-keyboard.md
+// Gallery — OnScreenKeyboard (1.76). Recipe: docs/on-screen-keyboard.md
 //
-// Named Keyman .kmx subset + in-app zh/ja/ko IME + emoji. Not Qt Virtual Keyboard.
+// MIT-only IME deepen: pinyin prefix phrases, hangul peel/space, ja kana only.
 
 CatalogPage {
     id: page
     title: qsTr("On-screen keyboard")
-    subtitle: qsTr("Win11 OSK — Keyman packs + zh/ja/ko IME. docs/on-screen-keyboard.md (1.75).")
+    subtitle: qsTr("Win11 OSK — IME deepen (MIT-only). docs/on-screen-keyboard.md (1.76).")
 
     ControlExample {
-        headerText: qsTr("Language matrix (1.75 packs)")
-        qmlSource: "OnScreenKeyboard { }\n// Keyman: en-US/GB de fr es it pt pl sv tr ru ar\n// IME: zh / ja / ko"
+        headerText: qsTr("IME deepen (1.76)")
+        qmlSource: "OnScreenKeyboard { }\n// zh prefix phrases · ko peel/Space · ja kana only"
 
         ColumnLayout {
             Layout.fillWidth: true
@@ -23,7 +23,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Tap a field, then use the dock. 1.75 adds Keyman packs: English (UK), Italiano, Português, Polski, Svenska, Türkçe. Direct layouts use engine.backend “keyman”. 中文/日本語/한국어 stay in-app IME. Emoji is a layer. Not Microsoft IME, not Qt Virtual Keyboard. Shipped vs BYO: keyboards/README.md.")
+                text: qsTr("中文: type a partial phrase (e.g. niha) — prefix hits appear before single chars. 日本語: romaji→kana only — no kanji (JMDict is CC-BY-SA, not MIT). 한국어: Shift doubles; Caps ignored; Backspace peels ㅘ/ㅢ and double finals; Space commits + word break. Still experimental — not Microsoft / Mozc quality.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
@@ -56,10 +56,10 @@ CatalogPage {
                 wrapMode: TextArea.Wrap
                 LayoutMirroring.enabled: osk.engine.rtl
             }
-            CheckBox { text: qsTr("en-US / en-GB / de / fr / es labels match keys") }
-            CheckBox { text: qsTr("it / pt / pl / sv / tr (1.75) type correctly") }
-            CheckBox { text: qsTr("ru Cyrillic; ar RTL mirrors") }
-            CheckBox { text: qsTr("中文 / 日本語 / 한국어 IME still work") }
+            CheckBox { text: qsTr("中文: niha shows 你好 (prefix); Space/1–9 still work") }
+            CheckBox { text: qsTr("日本語: kana only — no kanji candidates (documented gap)") }
+            CheckBox { text: qsTr("한국어: ㅘ peel on Backspace; Space commits + space") }
+            CheckBox { text: qsTr("Keyman packs from 1.75 still switch via Globe") }
             CheckBox { text: qsTr("Treat OnScreenKeyboard as experimental (not freeze-covered)") }
         }
     }

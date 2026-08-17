@@ -47,6 +47,19 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.75 → 1.76
+
+**Product version:** 1.76  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- Experimental OSK IME deepen (MIT-only): pinyin prefix phrases + regenerated tables; hangul compound peel / Space word-break; Japanese stays kana — kanji skipped (no MIT lexicon). [on-screen-keyboard.md](on-screen-keyboard.md) · [NOTICE-pinyin.md](NOTICE-pinyin.md).
+
+#### No action (compatible)
+
+- Existing Theme / shell / stable controls unchanged. OSK stays experimental.
+
 ### Upgrade 1.74 → 1.75
 
 **Product version:** 1.75  

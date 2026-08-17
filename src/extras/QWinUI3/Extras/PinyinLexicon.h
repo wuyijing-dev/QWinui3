@@ -14,6 +14,8 @@ public:
     QStringList lookup(const QString &buf) const;
     QString firstSyllable(const QString &buf) const;
     bool canAppend(const QString &buf, QChar letter) const;
+    // How many romanization chars to consume when `picked` is chosen for `buf`.
+    int consumeLength(const QString &buf, const QString &picked) const;
 
 private:
     PinyinLexicon();
@@ -22,5 +24,6 @@ private:
 
     QHash<QString, QString> m_chars;
     QHash<QString, QStringList> m_words;
+    QHash<QString, QStringList> m_wordPrefixKeys; // buf prefix → full pinyin keys
     QSet<QString> m_prefixes;
 };

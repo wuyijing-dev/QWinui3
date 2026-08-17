@@ -77,7 +77,7 @@ def write_chars(src: Path) -> int:
             seen.add(ch)
             uniq.append(ch)
         uniq.sort(key=lambda c: (rank.get(c, 10_000), ord(c)))
-        lines.append(f"{py}\t{''.join(uniq[:12])}")
+        lines.append(f"{py}\t{''.join(uniq[:16])}")
     OUT_CHARS.parent.mkdir(parents=True, exist_ok=True)
     OUT_CHARS.write_text("\n".join(lines) + "\n", encoding="utf-8")
     return len(lines) - 1
@@ -90,7 +90,7 @@ def write_words(src: Path) -> int:
             continue
         phrase, reading = raw.split(":", 1)
         phrase = phrase.strip()
-        if not (2 <= len(phrase) <= 4):
+        if not (2 <= len(phrase) <= 6):
             continue
         if any(ord(c) < 0x4E00 or ord(c) > 0x9FFF for c in phrase):
             continue
@@ -102,7 +102,7 @@ def write_words(src: Path) -> int:
 
     lines = ["# Compact pinyin → words. Generated from mozillazg/phrase-pinyin-data (MIT)."]
     for py in sorted(buckets):
-        lines.append(f"{py}\t{','.join(buckets[py][:6])}")
+        lines.append(f"{py}\t{','.join(buckets[py][:8])}")
     OUT_WORDS.write_text("\n".join(lines) + "\n", encoding="utf-8")
     return len(lines) - 1
 

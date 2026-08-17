@@ -16,8 +16,9 @@ struct km_core_keyboard;
 struct km_core_state;
 #endif
 
-// KeyboardEngine — Keyman layouts (1.71/1.75) + in-app IME (1.72–1.74).
+// KeyboardEngine — Keyman layouts (1.71/1.75) + in-app IME (1.72–1.76).
 // Not Qt Virtual Keyboard. CJK candidates are not Keyman IMX.
+// Japanese stays romaji→kana (no MIT kanji lexicon; JMDict is CC-BY-SA).
 class KeyboardEngine : public QObject
 {
     Q_OBJECT

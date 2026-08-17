@@ -32,9 +32,9 @@ Pinyin tables: [NOTICE-pinyin.md](../../../../../docs/NOTICE-pinyin.md).
 
 | Layout id | Engine | Notes |
 |-----------|--------|-------|
-| zh-Hans | `PinyinLexicon` | MIT pinyin-data |
-| ja-JP | `RomajiKana` | Hepburn map — not a word lexicon |
-| ko-KR | `HangulComposer` | Unicode syllables — not a hangul dictionary |
+| zh-Hans | `PinyinLexicon` | MIT pinyin-data; **1.76** prefix phrases |
+| ja-JP | `RomajiKana` | Hepburn map — **no kanji** (no MIT lexicon) |
+| ko-KR | `HangulComposer` | Unicode syllables; **1.76** peel + Space break |
 
 UI chrome stays in `OnScreenKeyboard.qml`.
 

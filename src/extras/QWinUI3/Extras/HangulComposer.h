@@ -4,6 +4,7 @@
 #include <QString>
 
 // 2-beolsik hangul compositor (Unicode syllable algorithm, not a lexicon).
+// Shift (not Caps) doubles ㅂㅈㄷㄱㅅ / ㅐㅔ. Backspace peels compound vowels/finals.
 class HangulComposer
 {
 public:

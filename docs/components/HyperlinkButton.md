@@ -4,7 +4,7 @@ Link-styled button.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/HyperlinkButton.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/HyperlinkButton.qml)
 
-**Category:** Buttons & commands · **Library:** v1.75
+**Category:** Buttons & commands · **Library:** v1.76
 
 [← Component index](../components.md)
 

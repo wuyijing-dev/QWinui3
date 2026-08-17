@@ -154,6 +154,18 @@ QChar compatGlyph(int l, int v)
     return {};
 }
 
+int peelVowel(int v)
+{
+    // Compound medial → base (ㅘ/ㅙ/ㅚ → ㅗ, ㅝ/ㅞ/ㅟ → ㅜ, ㅢ → ㅡ).
+    if (v == 9 || v == 10 || v == 11)
+        return 8;
+    if (v == 14 || v == 15 || v == 16)
+        return 13;
+    if (v == 19)
+        return 18;
+    return -1;
+}
+
 } // namespace
 
 QChar HangulComposer::jamoFromVk(int vk, bool shift)
@@ -210,7 +222,8 @@ QString HangulComposer::backspace()
         return {};
     }
     if (m_v >= 0) {
-        m_v = -1;
+        const int base = peelVowel(m_v);
+        m_v = base;
         return {};
     }
     if (m_l >= 0) {

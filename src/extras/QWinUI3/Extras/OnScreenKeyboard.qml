@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// OnScreenKeyboard — Win11-style in-app touch keyboard (1.75).
+// OnScreenKeyboard — Win11-style in-app touch keyboard (1.76).
 //
 //   OnScreenKeyboard { }
 //   // Host in CatalogPage.footer / Overlay / shell footer so keys stay docked.
@@ -12,9 +12,9 @@ import QWinUI3.Theme
 //   // engine.layoutId / cycleLayout / processVk
 //
 // @notes
-//   Experimental. SIL Keyman Core (MIT) for layouts (named .kmx subset incl.
-//   en-GB/it/pt/pl/sv/tr); zh pinyin / ja romaji / ko hangul are in-app IME.
-//   Chrome is ours (LGPL). Not Qt Virtual Keyboard / QT_IM_MODULE.
+//   Experimental. SIL Keyman Core (MIT) for named .kmx packs; zh pinyin prefix
+//   phrases (MIT tables); ja romaji→kana only (no MIT kanji source); ko 2-beolsik
+//   with compound peel + Space word-break. Not Qt Virtual Keyboard / QT_IM_MODULE.
 //   Keys use MouseArea (no focus steal). Emoji layer has no engine.
 
 T.Control {
@@ -307,10 +307,14 @@ T.Control {
             engine.commitText(k.ch)
             break
         case "space":
-            if (engine.composing)
+            if (engine.composing) {
                 engine.confirmCompose()
-            else
+                // Korean IME: Space commits the syllable and inserts a word break.
+                if (engine.korean)
+                    engine.commitText(" ")
+            } else {
                 engine.commitText(" ")
+            }
             break
         case "backspace":
             engine.backspace()

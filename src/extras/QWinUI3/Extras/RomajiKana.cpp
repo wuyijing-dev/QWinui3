@@ -12,6 +12,20 @@ const QList<Pair> &table()
 {
     static const QList<Pair> t = [] {
         QList<Pair> rows = {
+        {QStringLiteral("thi"), QStringLiteral("てぃ")},
+        {QStringLiteral("dhi"), QStringLiteral("でぃ")},
+        {QStringLiteral("twu"), QStringLiteral("とぅ")},
+        {QStringLiteral("dwu"), QStringLiteral("どぅ")},
+        {QStringLiteral("tsa"), QStringLiteral("つぁ")},
+        {QStringLiteral("tsi"), QStringLiteral("つぃ")},
+        {QStringLiteral("tse"), QStringLiteral("つぇ")},
+        {QStringLiteral("tso"), QStringLiteral("つぉ")},
+        {QStringLiteral("fyu"), QStringLiteral("ふゅ")},
+        {QStringLiteral("fye"), QStringLiteral("ふぇ")},
+        {QStringLiteral("wha"), QStringLiteral("うぁ")},
+        {QStringLiteral("whi"), QStringLiteral("うぃ")},
+        {QStringLiteral("whe"), QStringLiteral("うぇ")},
+        {QStringLiteral("who"), QStringLiteral("うぉ")},
         {QStringLiteral("kya"), QStringLiteral("きゃ")},
         {QStringLiteral("xya"), QStringLiteral("ゃ")},
         {QStringLiteral("xyu"), QStringLiteral("ゅ")},

@@ -582,9 +582,8 @@ void KeyboardEngine::pickCandidate(int indexOnPage)
     }
     if (!pinyin())
         return;
-    const QString syl = PinyinLexicon::instance().firstSyllable(m_preedit);
-    const int consume = picked.size() > 1 ? int(m_preedit.size()) : qMax(1, int(syl.size()));
-    const QString rest = m_preedit.mid(consume);
+    const int consume = PinyinLexicon::instance().consumeLength(m_preedit, picked);
+    const QString rest = m_preedit.mid(qMax(1, consume));
     commitReplace(picked);
     m_preedit = rest;
     refreshCompose();

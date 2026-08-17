@@ -152,7 +152,7 @@ Promote to stable only after a named `1.xx` slice hardens them. See also [1.37 d
 | **Animations** | `ConnectedAnimation*`, theme transitions, `AnimatedIcon` | Recipe [animations.md](animations.md) / [icons.md](icons.md) — deferred / experimental |
 | **Tear-out / exotic shells** | `canTearOutTabs`, compact-overlay / dialog-tool shell variants | Niche — deferred in **1.37** |
 | **Media** | `MediaPlayerElement` | Optional Qt Multimedia — [media.md](media.md); deferred **1.37** / **1.67** (remaining 1.xx) |
-| **On-screen keyboard** | `OnScreenKeyboard` / `KeyboardEngine` / `ImeCandidateBar` | Win11 OSK + named Keyman packs + zh/ja/ko IME (**1.75**); still experimental — [on-screen-keyboard.md](on-screen-keyboard.md) |
+| **On-screen keyboard** | `OnScreenKeyboard` / `KeyboardEngine` / `ImeCandidateBar` | Win11 OSK + Keyman packs + MIT IME deepen (**1.76**); ja kana-only; still experimental — [on-screen-keyboard.md](on-screen-keyboard.md) |
 | **Shell extras (remaining)** | Snap Layouts, battery/online/screens, recent-docs | Gallery demos; taskbar/attention/reveal/idle already stable (**1.17**) |
 
 If a type is public in [components.md](components.md) but listed in neither table, treat it as **experimental** until added here.
@@ -240,7 +240,8 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.73** | In-app ja romaji/kana + ko hangul + emoji layer; still experimental; [on-screen-keyboard.md](on-screen-keyboard.md) |
 | **1.74** | OSK / IME soak checklist + a11y + romaji fixes; still experimental (not promote-green); [on-screen-keyboard.md](on-screen-keyboard.md) |
 | **1.75** | Extra Keyman `.kmx` (en-GB/it/pt/pl/sv/tr); still experimental; [on-screen-keyboard.md](on-screen-keyboard.md) |
-| **1.76** (planned) | IME deepen, MIT-only; [on-screen-keyboard.md](on-screen-keyboard.md) |
+| **1.76** | IME deepen (MIT): pinyin prefix phrases, hangul peel/Space; ja kanji gap documented; [on-screen-keyboard.md](on-screen-keyboard.md) |
+| **1.77** (planned) | Long-horizon 1.xx checkpoint |
 | **1.35** | Qt Creator kit polish — [qt-creator.md](qt-creator.md); example build presets |
 | **1.36** | Docs site IA — [recipes.md](recipes.md) hub; MkDocs Recipes sections |
 | **1.37** | Promote sweep — commands / Flyout / TabView / ShellWindow / pickers / progress / FontIcon / ItemsRepeater; explicit defer list |
