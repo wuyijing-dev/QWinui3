@@ -4,7 +4,7 @@ Fluent styled ScrollBar.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/ScrollBar.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/ScrollBar.qml)
 
-**Category:** Styled controls · **Library:** v2.58
+**Category:** Styled controls · **Library:** v2.59
 
 [← Component index](../components.md)
 

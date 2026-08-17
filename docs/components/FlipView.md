@@ -4,7 +4,7 @@ Page carousel with optional navigation buttons.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/FlipView.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/FlipView.qml)
 
-**Category:** Other · **Library:** v2.58
+**Category:** Other · **Library:** v2.59
 
 [← Component index](../components.md)
 
@@ -42,7 +42,7 @@ Carousel recipes + reducedMotion: docs/carousel-recipes.md (2.37).
 | `currentIndex` | `alias` | Selected index |
 | `selectedIndex` | `alias` | Selected index alias |
 | `count` | `alias` | Item count |
-| `interactive` | `alias` | Enable hover / click interaction |
+| `interactive` | `bool` | Enable hover / click interaction (swipe off when reducedMotion — 2.59). |
 | `buttonsVisible` | `bool` | Show next/prev buttons |
 | `isButtonsVisible` | `alias` | Alias of buttonsVisible |
 | `buttonVisibility` | `string` | always \| onHover \| hidden |

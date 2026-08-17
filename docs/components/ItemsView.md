@@ -4,7 +4,7 @@ ListView recipe: sections, selection, context MenuFlyout, EmptyState.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ItemsView.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ItemsView.qml)
 
-**Category:** Collections & data · **Library:** v2.58
+**Category:** Collections & data · **Library:** v2.59
 
 [← Component index](../components.md)
 
@@ -69,6 +69,8 @@ See docs/data-collections.md for pairing with ListDetailsView.
 | `filterText` | `string` | Filter plain JS array models (debounced). Leave empty for C++ / ListModel — filter app-side. |
 | `filterRoles` | `var` | Roles searched when filterText is set (defaults to title + subtitle + section + symbol). |
 | `filterDebounceMs` | `int` | Debounce ms before rebuilding the filtered array (1.88). |
+| `minFilterLength` | `int` | Skip filter until query length >= this (2.59 — huge JS arrays). |
+| `maxFilterResults` | `int` | Cap filtered rows for plain JS arrays (2.59). |
 | `accessibleName` | `string` | Screen-reader name override (1.19) |
 | `count` | `int` | Resolved item count |
 | `isEmpty` | `bool` | — |

@@ -206,6 +206,27 @@ CatalogPage {
     }
 
     ControlExample {
+        headerText: qsTr("App sluggishness (2.59)")
+        qmlSource: "filterDebounceMs · minFilterLength · Button.loading\\n// docs/app-sluggishness-259.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("2.59: CommandPalette recents + debounce; ItemsView/AutoSuggest minFilterLength + caps; Button.loading; FlipView honors reducedMotion. docs/app-sluggishness-259.md")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            CheckBox { text: qsTr("Palette/search: filterDebounceMs — not sync filter on every key") }
+            CheckBox { text: qsTr("1000+ row JS models: minFilterLength 2 + maxFilterResults") }
+            CheckBox { text: qsTr("Async save: Button.loading — pair with enabled: !busy") }
+            CheckBox { text: qsTr("Tables at scale: DataTable + reuseItems — not ItemsView filter") }
+        }
+    }
+
+    ControlExample {
         headerText: qsTr("OSK in apps (2.58 / FL-017)")
         qmlSource: "sharedEngine + candidateBarPlacement\\n// docs/osk-in-apps-258.md"
         ColumnLayout {

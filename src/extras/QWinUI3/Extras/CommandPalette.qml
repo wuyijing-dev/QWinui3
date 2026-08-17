@@ -24,6 +24,9 @@ import QWinUI3.Theme
 //   Place under Overlay.overlay (ShellWindow wires Ctrl+K / Meta+K when commandPaletteEnabled).
 //   Keyboard: type to filter; ↑↓ move highlight; Enter runs; Esc closes.
 //   Each row exposes Accessible.name from title (+ shortcut in description).
+//   Large lists (2.16): filterDebounceMs + maxResults + _lastFilterKey skip.
+//   Recent commands (2.59): maxRecentCommands + optional command id for recentKeyRole.
+//   Accelerator discovery (2.41): filter matches shortcut string; commandCount / filteredCount.
 
 Popup {
     id: root
@@ -32,6 +35,16 @@ Popup {
     property string placeholderText: qsTr("Type a command")
     property int maxVisible: 8
     property real paletteWidth: Math.min(560, (parent ? parent.width : 560) - 48)
+    // Debounce filter keystrokes (2.16 — large command lists).
+    property int filterDebounceMs: 80
+    // Cap filtered rows before ListView bind (2.16).
+    property int maxResults: 64
+    // Pin recently run commands when query is empty (2.59).
+    property int maxRecentCommands: 5
+    property string recentKeyRole: "id"
+
+    readonly property int commandCount: (commands || []).length
+    readonly property int filteredCount: _filtered.length
 
     signal commandTriggered(var command)
     // closed() inherited from Popup
@@ -48,9 +61,19 @@ Popup {
 
     property var _filtered: []
     property int _highlight: 0
+    property string _pendingQuery: ""
+    property string _lastFilterKey: ""
+    property var _recentKeys: []
+
+    Timer {
+        id: filterDebounce
+        interval: root.filterDebounceMs
+        onTriggered: root._rebuild(root._pendingQuery)
+    }
 
     function open() {
         queryField.text = ""
+        _lastFilterKey = ""
         _rebuild("")
         visible = true
         Qt.callLater(function () { queryField.forceActiveFocus() })
@@ -63,32 +86,122 @@ Popup {
             open()
     }
 
+    function _scheduleRebuild(query) {
+        root._pendingQuery = query || ""
+        var q = root._pendingQuery.trim()
+        if (!q.length) {
+            filterDebounce.stop()
+            root._rebuild("")
+            return
+        }
+        filterDebounce.restart()
+    }
+
+    function _commandKey(cmd) {
+        if (!cmd)
+            return ""
+        if (recentKeyRole && cmd[recentKeyRole] !== undefined)
+            return String(cmd[recentKeyRole])
+        return String(cmd.title || cmd.text || "")
+    }
+
+    function _rememberRecent(cmd) {
+        var key = _commandKey(cmd)
+        if (!key.length)
+            return
+        var next = _recentKeys.slice()
+        var at = next.indexOf(key)
+        if (at >= 0)
+            next.splice(at, 1)
+        next.unshift(key)
+        if (maxRecentCommands > 0 && next.length > maxRecentCommands)
+            next = next.slice(0, maxRecentCommands)
+        _recentKeys = next
+    }
+
+    function _findCommand(key) {
+        var src = commands || []
+        for (var i = 0; i < src.length; ++i) {
+            if (_commandKey(src[i]) === key)
+                return src[i]
+        }
+        return null
+    }
+
+    function _matchesQuery(cmd, q) {
+        if (!cmd)
+            return false
+        var title = String(cmd.title || cmd.text || "")
+        var sub = String(cmd.subtitle || cmd.description || "")
+        var keys = String(cmd.keywords || "")
+        var chord = String(cmd.shortcut || "")
+        return !q.length
+                || title.toLowerCase().indexOf(q) >= 0
+                || sub.toLowerCase().indexOf(q) >= 0
+                || keys.toLowerCase().indexOf(q) >= 0
+                || chord.toLowerCase().indexOf(q) >= 0
+    }
+
     function _rebuild(query) {
         var q = (query || "").trim().toLowerCase()
+        if (q === root._lastFilterKey)
+            return
+        root._lastFilterKey = q
         var src = commands || []
         var out = []
-        for (var i = 0; i < src.length; ++i) {
-            var cmd = src[i]
+        var seen = {}
+
+        function push(cmd) {
             if (!cmd)
-                continue
-            var title = String(cmd.title || cmd.text || "")
-            var sub = String(cmd.subtitle || cmd.description || "")
-            var keys = String(cmd.keywords || "")
-            if (!q.length
-                    || title.toLowerCase().indexOf(q) >= 0
-                    || sub.toLowerCase().indexOf(q) >= 0
-                    || keys.toLowerCase().indexOf(q) >= 0) {
-                out.push(cmd)
-            }
+                return
+            var k = _commandKey(cmd)
+            if (k.length && seen[k])
+                return
+            if (k.length)
+                seen[k] = true
+            if (root.maxResults > 0 && out.length >= root.maxResults)
+                return
+            out.push(cmd)
         }
-        _filtered = out
-        _highlight = out.length ? 0 : -1
+
+        if (!q.length && maxRecentCommands > 0) {
+            for (var r = 0; r < _recentKeys.length; ++r)
+                push(_findCommand(_recentKeys[r]))
+        }
+
+        for (var i = 0; i < src.length; ++i) {
+            if (root.maxResults > 0 && out.length >= root.maxResults)
+                break
+            var cmd = src[i]
+            if (_matchesQuery(cmd, q))
+                push(cmd)
+        }
+
+        if (q.length && maxRecentCommands > 0 && out.length > 1) {
+            var recent = []
+            var rest = []
+            for (var j = 0; j < out.length; ++j) {
+                var ck = _commandKey(out[j])
+                if (_recentKeys.indexOf(ck) >= 0)
+                    recent.push(out[j])
+                else
+                    rest.push(out[j])
+            }
+            out = recent.concat(rest)
+        }
+
+        root._filtered = out
+        if (!out.length)
+            root._highlight = -1
+        else if (root._highlight < 0 || root._highlight >= out.length)
+            root._highlight = 0
     }
 
     function _run(index) {
         if (index < 0 || index >= _filtered.length)
             return
         var cmd = _filtered[index]
+        _rememberRecent(cmd)
         close()
         commandTriggered(cmd)
         if (typeof cmd.action === "function")
@@ -147,7 +260,7 @@ Popup {
                     placeholderText: root.placeholderText
                     background: Item {}
                     Accessible.name: qsTr("Command search")
-                    onTextChanged: root._rebuild(text)
+                    onTextChanged: root._scheduleRebuild(text)
                     Keys.onPressed: function (event) {
                         if (event.key === Qt.Key_Down) {
                             root._move(1)
@@ -261,7 +374,10 @@ Popup {
             Label {
                 Layout.fillWidth: true
                 Layout.margins: Theme.spacing
-                text: qsTr("↑↓ navigate · Enter run · Esc close")
+                text: queryField.text.length
+                      ? qsTr("%1 of %2 commands · ↑↓ navigate · Enter run · Esc close")
+                            .arg(root.filteredCount).arg(root.commandCount)
+                      : qsTr("↑↓ navigate · Enter run · Esc close")
                 color: Theme.textSecondary
                 font.pixelSize: Theme.fontCaption
                 horizontalAlignment: Text.AlignHCenter

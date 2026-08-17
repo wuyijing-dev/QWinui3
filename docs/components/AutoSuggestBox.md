@@ -4,7 +4,7 @@ Text field with filtered suggestion popup.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/AutoSuggestBox.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/AutoSuggestBox.qml)
 
-**Category:** Input & forms · **Library:** v2.58
+**Category:** Input & forms · **Library:** v2.59
 
 [← Component index](../components.md)
 
@@ -59,6 +59,7 @@ header / description (WinUI Description); maxSuggestionListHeight caps the popup
 | `chooseSuggestionOnEnter` | `bool` | WinUI ChooseSuggestionOnEnter — Enter picks highlighted row when list is open |
 | `filterDebounceMs` | `int` | Debounce suggestion filter keystrokes (2.16). |
 | `maxSuggestionResults` | `int` | Cap filtered suggestion rows (2.16). |
+| `minFilterLength` | `int` | Skip filter until query length >= this (2.59). |
 | `effectiveQueryIcon` | `string` | Resolved search glyph |
 
 ### Signals

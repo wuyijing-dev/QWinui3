@@ -4,7 +4,7 @@ inset / clip helper for Linux client-shell bottom corners.
 
 `import QWinUI3.Platform` · [`src/platform/QWinUI3/Platform/WindowShellContentClip.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/platform/QWinUI3/Platform/WindowShellContentClip.qml)
 
-**Category:** Platform · **Library:** v2.58
+**Category:** Platform · **Library:** v2.59
 
 [← Component index](../components.md)
 

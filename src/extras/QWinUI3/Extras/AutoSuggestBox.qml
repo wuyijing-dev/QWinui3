@@ -57,6 +57,12 @@ T.Control {
     property real maxSuggestionListHeight: 240
     // WinUI ChooseSuggestionOnEnter — Enter picks highlighted row when list is open
     property bool chooseSuggestionOnEnter: true
+    // Debounce suggestion filter keystrokes (2.16).
+    property int filterDebounceMs: 120
+    // Cap filtered suggestion rows (2.16).
+    property int maxSuggestionResults: 32
+    // Skip filter until query length >= this (2.59).
+    property int minFilterLength: 0
 
     // Resolved search glyph
     readonly property string effectiveQueryIcon: IconSource.resolve(symbol, queryIcon)
@@ -78,6 +84,14 @@ T.Control {
     Accessible.name: header.length ? header : qsTr("Suggestions")
     Accessible.description: description
 
+    property string _lastSuggestKey: ""
+
+    Timer {
+        id: suggestDebounce
+        interval: control.filterDebounceMs
+        onTriggered: control._rebuildSuggestions()
+    }
+
     // Move keyboard focus to the text field
     function focusField() { field.forceActiveFocus() }
 
@@ -92,28 +106,69 @@ T.Control {
         return String(item.title || item.text || "")
     }
 
-    // Rebuild suggestion list from text
+    // Rebuild suggestion list from text (immediate — used after model changes).
     function refreshSuggestions() {
+        suggestDebounce.stop()
+        control._rebuildSuggestions()
+    }
+
+    function _scheduleSuggestions() {
+        var q = (field.text || "").trim()
+        if (!q.length) {
+            suggestDebounce.stop()
+            control._rebuildSuggestions()
+            return
+        }
+        suggestDebounce.restart()
+    }
+
+    function _rebuildSuggestions() {
         var q = (field.text || "").trim().toLowerCase()
+        if (minFilterLength > 0 && q.length > 0 && q.length < minFilterLength) {
+            control.suggestionModel = []
+            popup.close()
+            return
+        }
+        if (q === control._lastSuggestKey)
+            return
+        control._lastSuggestKey = q
         if (!q.length) {
             control.suggestionModel = []
             popup.close()
             return
         }
-        control.suggestionModel = control.model.filter(function (item) {
+        var out = control.model.filter(function (item) {
             var title = control.displayTextFor(item)
             return String(title).toLowerCase().indexOf(q) >= 0
         })
-        if (control.suggestionModel.length)
+        if (control.maxSuggestionResults > 0 && out.length > control.maxSuggestionResults)
+            out = out.slice(0, control.maxSuggestionResults)
+        control.suggestionModel = out
+        if (out.length) {
+            list.currentIndex = 0
             popup.open()
-        else
+        } else {
             popup.close()
+        }
+    }
+
+    function _moveSuggestion(delta) {
+        if (!popup.opened || !suggestionModel || !suggestionModel.length)
+            return
+        var next = list.currentIndex < 0 ? 0 : list.currentIndex + delta
+        if (next < 0)
+            next = suggestionModel.length - 1
+        if (next >= suggestionModel.length)
+            next = 0
+        list.currentIndex = next
+        list.positionViewAtIndex(next, ListView.Contain)
     }
 
     // Clear text or selection
     function clear() {
         field.text = ""
         suggestionModel = []
+        _lastSuggestKey = ""
         popup.close()
         cleared()
     }
@@ -166,7 +221,7 @@ T.Control {
                 leftPadding: 36
                 rightPadding: clearBtn.visible ? 36 : Theme.paddingControlH
                 placeholderText: control.placeholderText
-                onTextChanged: control.refreshSuggestions()
+                onTextChanged: control._scheduleSuggestions()
                 onAccepted: {
                     if (control.chooseSuggestionOnEnter && control._chooseCurrentSuggestion())
                         return
@@ -174,11 +229,24 @@ T.Control {
                     control.querySubmitted(text)
                     popup.close()
                 }
-                Keys.onDownPressed: {
-                    if (popup.opened)
-                        list.forceActiveFocus()
+                Keys.onDownPressed: function (event) {
+                    if (popup.opened && suggestionModel.length) {
+                        control._moveSuggestion(1)
+                        event.accepted = true
+                    }
                 }
-                Keys.onEscapePressed: popup.close()
+                Keys.onUpPressed: function (event) {
+                    if (popup.opened && suggestionModel.length) {
+                        control._moveSuggestion(-1)
+                        event.accepted = true
+                    }
+                }
+                Keys.onEscapePressed: function (event) {
+                    if (popup.opened) {
+                        popup.close()
+                        event.accepted = true
+                    }
+                }
             }
 
             Text {
@@ -315,8 +383,20 @@ T.Control {
                                 field.text = text
                             control.suggestionChosen(modelData)
                             popup.close()
+                            field.forceActiveFocus()
                         }
                         Keys.onReturnPressed: clicked()
+                        Keys.onEscapePressed: {
+                            popup.close()
+                            field.forceActiveFocus()
+                        }
+                        Keys.onUpPressed: function (event) {
+                            if (index <= 0) {
+                                field.forceActiveFocus()
+                                event.accepted = true
+                            }
+                        }
+                        onHoveredChanged: if (hovered) ListView.view.currentIndex = index
                     }
                 }
             }

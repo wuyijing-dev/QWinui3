@@ -74,6 +74,7 @@ CatalogPage {
             spacing: Theme.spacing
             Repeater {
                 model: [
+                    { label: qsTr("App sluggishness (2.59)"), doc: "docs/app-sluggishness-259.md", page: "PerformancePage" },
                     { label: qsTr("OSK in apps (2.58)"), doc: "docs/osk-in-apps-258.md", page: "OnScreenKeyboardPage" },
                     { label: qsTr("Files on Linux (2.57)"), doc: "docs/files-linux-257.md", page: "SystemIntegrationPage" },
                     { label: qsTr("Navigation mental model (2.56)"), doc: "docs/navigation-mental-model-256.md", page: "NavigationViewPage" },

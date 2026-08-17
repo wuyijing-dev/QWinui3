@@ -4,7 +4,7 @@ Circular progress / busy ring (WinUI Minimum / Maximum / IsActive).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ProgressRing.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ProgressRing.qml)
 
-**Category:** Status & feedback · **Library:** v2.58
+**Category:** Status & feedback · **Library:** v2.59
 
 [← Component index](../components.md)
 

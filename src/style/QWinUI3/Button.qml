@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Controls
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
@@ -11,6 +12,7 @@ import QWinUI3.Theme
 //   }
 //   // --- API ---
 //   // style-only Fluent chrome; API is Qt Quick Controls Button
+//   // loading: true — inline busy ring, disables click (2.59)
 //   // btn.text / enabled / highlighted / clicked()
 //
 // @notes
@@ -20,12 +22,29 @@ import QWinUI3.Theme
 T.Button {
     id: control
 
+    // Async action in flight — disables click and shows inline ring (2.59).
+    property bool loading: false
+    // Keep width stable while loading (avoids toolbar reflow).
+    property bool preserveWidthWhileLoading: true
+    property real _loadingWidthCache: 0
+
+    onLoadingChanged: {
+        if (loading && preserveWidthWhileLoading)
+            _loadingWidthCache = implicitWidth
+    }
+
     Accessible.role: Accessible.Button
     Accessible.name: control.text
-    Accessible.onPressAction: if (control.enabled) control.clicked()
+    Accessible.description: loading ? qsTr("Loading") : ""
+    hoverEnabled: enabled && !loading
+    opacity: enabled && !loading ? 1 : (enabled ? 0.72 : 1)
+
+    Accessible.onPressAction: if (control.enabled && !loading) control.clicked()
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
-                            implicitContentWidth + leftPadding + rightPadding)
+                            implicitContentWidth + leftPadding + rightPadding,
+                            loading && preserveWidthWhileLoading && _loadingWidthCache > 0
+                                ? _loadingWidthCache : 0)
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
                              implicitContentHeight + topPadding + bottomPadding)
 
@@ -36,7 +55,6 @@ T.Button {
     spacing: Theme.spacing
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
-    hoverEnabled: true
 
     // Use accent chrome
     readonly property bool accented: control.highlighted || control.checked
@@ -77,42 +95,55 @@ T.Button {
         }
         if (control.flat) {
             if (control.down)
-                return Theme.dark ? Qt.rgba(1, 1, 1, 0.04) : Qt.rgba(0, 0, 0, 0.02)
+                return Theme.fillSubtleTertiary
             if (control.hovered)
-                return Theme.dark ? Qt.rgba(1, 1, 1, 0.06) : Qt.rgba(0, 0, 0, 0.04)
+                return Theme.fillSubtleSecondary
             return "transparent"
         }
         if (!control.enabled)
-            return Theme.dark ? "#0BFFFFFF" : "#4DF9F9F9"
+            return Theme.fillControlDisabled
         if (control.down)
-            return control.lightScheme ? "#4DF9F9F9" : "#08FFFFFF"
+            return Theme.fillControlTertiary
         if (control.hovered)
-            return control.lightScheme ? "#80F9F9F9" : "#15FFFFFF"
-        return control.lightScheme ? "#FFFFFF" : "#0FFFFFFF"
+            return Theme.fillControlSecondary
+        return Theme.bgControlRest
     }
 
-    contentItem: Text {
-        text: control.text
-        font: control.font
-        color: control.__buttonText
-        horizontalAlignment: Text.AlignHCenter
-        verticalAlignment: Text.AlignVCenter
-        elide: Text.ElideRight
-        scale: control.down && !Theme.reducedMotion ? 0.98 : 1
-
-        Behavior on color {
-            enabled: !Theme.reducedMotion
-                     && (control.hovered || control.down || control.accented)
-            ColorAnimation {
-                duration: Theme.duration(Theme.motionNormal)
-                easing.type: Theme.easingStandard
-            }
+    contentItem: Row {
+        spacing: Theme.spacing
+        anchors.centerIn: parent
+        BusyIndicator {
+            visible: control.loading
+            running: control.loading
+            width: Theme.dp(16)
+            height: Theme.dp(16)
+            Accessible.ignored: true
         }
-        Behavior on scale {
-            enabled: !Theme.reducedMotion && (control.down || control.hovered)
-            NumberAnimation {
-                duration: Theme.duration(Theme.motionFast)
-                easing.type: Theme.easingStandard
+        Text {
+            visible: control.text.length > 0
+            text: control.text
+            font: control.font
+            color: control.__buttonText
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            elide: Text.ElideRight
+            opacity: control.loading ? 0.72 : 1
+            scale: control.down && !Theme.reducedMotion && !control.loading ? 0.98 : 1
+
+            Behavior on color {
+                enabled: !Theme.reducedMotion
+                         && (control.hovered || control.down || control.accented)
+                ColorAnimation {
+                    duration: Theme.duration(Theme.motionNormal)
+                    easing.type: Theme.easingStandard
+                }
+            }
+            Behavior on scale {
+                enabled: !Theme.reducedMotion && (control.down || control.hovered) && !control.loading
+                NumberAnimation {
+                    duration: Theme.duration(Theme.motionFast)
+                    easing.type: Theme.easingStandard
+                }
             }
         }
     }
@@ -195,6 +226,13 @@ T.Button {
             anchors.fill: parent
             show: control.visualFocus
             frameRadius: Theme.cornerControl
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            enabled: control.loading
+            z: 20
+            onClicked: function (mouse) { mouse.accepted = true }
         }
     }
 }

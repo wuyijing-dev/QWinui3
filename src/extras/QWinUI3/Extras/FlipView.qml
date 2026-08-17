@@ -20,6 +20,7 @@ import QWinUI3.Theme
 // @notes
 //   Paged swipe view; currentIndex + buttonsVisible / isIndicatorVisible.
 //   orientation: Qt.Horizontal | Qt.Vertical (WinUI Orientation).
+//   Carousel recipes + reducedMotion: docs/carousel-recipes.md (2.37).
 
 T.Control {
     id: control
@@ -30,8 +31,8 @@ T.Control {
     property alias selectedIndex: swipe.currentIndex
     // Item count
     property alias count: swipe.count
-    // Enable hover / click interaction
-    property alias interactive: swipe.interactive
+    // Enable hover / click interaction (swipe off when reducedMotion — 2.59).
+    property bool interactive: true
     // Show next/prev buttons
     property bool buttonsVisible: true
     // Alias of buttonsVisible
@@ -158,6 +159,7 @@ T.Control {
             clip: true
             orientation: control.orientation
             focusPolicy: Qt.NoFocus
+            interactive: control.interactive && !Theme.reducedMotion
         }
 
         // Use x/y (not conditional anchors) — toggling anchors with undefined breaks layout.

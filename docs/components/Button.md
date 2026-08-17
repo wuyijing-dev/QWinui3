@@ -4,7 +4,7 @@ Fluent Button with WinUI stroke / fill / focus chrome.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/Button.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/Button.qml)
 
-**Category:** Styled controls · **Library:** v2.58
+**Category:** Styled controls · **Library:** v2.59
 
 [← Component index](../components.md)
 
@@ -20,6 +20,7 @@ Button {
 }
 // --- API ---
 // style-only Fluent chrome; API is Qt Quick Controls Button
+// loading: true — inline busy ring, disables click (2.59)
 // btn.text / enabled / highlighted / clicked()
 ```
 
@@ -34,6 +35,8 @@ Public API is the Qt Quick Controls Button type; this file supplies visuals/metr
 
 | Name | Type | Description |
 | --- | --- | --- |
+| `loading` | `bool` | Async action in flight — disables click and shows inline ring (2.59). |
+| `preserveWidthWhileLoading` | `bool` | Keep width stable while loading (avoids toolbar reflow). |
 | `accented` | `bool` | Use accent chrome |
 | `lightScheme` | `bool` | True in light theme |
 

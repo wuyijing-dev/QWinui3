@@ -49,4 +49,4 @@ Product apps need the touch keyboard **inside the window** (footer dock), not on
 - [ ] **`hardwareInput: true`** when physical keys should share the same IME path
 - [ ] Layout hot-swap: **`engine.layoutIndex`** / **`layoutId`** — compose cancels on switch (by design)
 
-**Next:** **2.59** named slow flows · **2.60** friction checkpoint
+**Next:** **2.60** friction checkpoint

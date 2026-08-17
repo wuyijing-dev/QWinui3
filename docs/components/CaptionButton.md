@@ -4,7 +4,7 @@ Native-chrome caption min/max/close button.
 
 `import QWinUI3.Platform` · [`src/platform/QWinUI3/Platform/CaptionButton.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/platform/QWinUI3/Platform/CaptionButton.qml)
 
-**Category:** Platform · **Library:** v2.58
+**Category:** Platform · **Library:** v2.59
 
 [← Component index](../components.md)
 

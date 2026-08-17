@@ -105,6 +105,10 @@ QtObject {
     readonly property color fillControlTertiary: dark ? "#08FFFFFF" : "#4DF9F9F9"
     // Control fill (disabled)
     readonly property color fillControlDisabled: dark ? "#0BFFFFFF" : "#4DF9F9F9"
+    // Opaque rest fill for bordered inputs (2.17 — Style token audit)
+    readonly property color bgControlRest: dark ? fillControl : bgCard
+    // Slider / range thumb rest fill (2.17)
+    readonly property color fillSliderThumb: dark ? "#2D2D2D" : bgCard
     // Accent fill (rest) — same as accent brush
     readonly property color fillAccent: accent
     // Accent fill (hover)
@@ -296,6 +300,13 @@ QtObject {
         accentPack = String(name || "blue")
     }
 
+    // Apply standard | compact density preset (2.59).
+    function applyDensityPreset(name) {
+        var n = String(name || "standard")
+        if (n === "compact" || n === "standard")
+            density = n
+    }
+
     // Writable knobs only (1.69) — paste into another process via recipeText(), or apply() in-process.
     function snapshot() {
         return {
@@ -377,6 +388,17 @@ QtObject {
         if (hovered)
             return fillControlSecondary
         return fillControl
+    }
+
+    // Bordered Button / ComboBox / TextField rest states (2.17)
+    function borderedControlFill(hovered, pressed, disabled) {
+        if (disabled)
+            return fillControlDisabled
+        if (pressed)
+            return fillControlTertiary
+        if (hovered)
+            return fillControlSecondary
+        return bgControlRest
     }
 
     // Rest/hover/pressed/disabled accent fill helper

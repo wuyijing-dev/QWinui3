@@ -4,7 +4,7 @@ ComboBox with header, description, and FormLayout binding.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/HeaderedComboBox.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/HeaderedComboBox.qml)
 
-**Category:** Input & forms · **Library:** v2.58
+**Category:** Input & forms · **Library:** v2.59
 
 [← Component index](../components.md)
 

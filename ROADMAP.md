@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
 **Current:** **2.57** (master; files on Linux)
-**Next up:** **2.59** — App-level sluggishness (friction-only)
+**Next up:** **2.60** — Friction-line checkpoint (friction-only)
 **Planned through:** **3.00** (… → **2.00** break → **2.01…2.50** tranche 1 → **2.51…2.60** friction-only → **2.61…2.70** professional surfaces → **2.71…2.73** Python / PyPI → **3.00** 2.x close-out)
 **1.xx close-out:** [checkpoint-190.md](docs/checkpoint-190.md). **1.86…1.89** performance arc **signed off** (**animations stay**). OSK/packaging promote **2.01**. **2.50** = tranche-1 audit; **2.60** = friction tranche close-out; **2.70** = professional-surfaces audit; **2.73** = Python consumer checkpoint; **3.00** = 2.x breaking close-out ([checkpoint-300.md](docs/checkpoint-300.md)).  
 **Qt:** 6.5+ (recommended 6.8 LTS) through **1.92** — [qt-version-compat.md](docs/qt-version-compat.md). **2.00** raises the floor to **6.8 LTS**. **3.00** raises the floor to **6.10 LTS**. **Platforms:** **Windows + Linux** — no macOS first-class line.
@@ -656,7 +656,7 @@ Apps on **1.90** read [upgrade-notes.md](docs/upgrade-notes.md) **1.90 → 2.00*
 | **2.56** | Navigation mental model | Back vs pane vs stack confusion | **Shipped** |
 | **2.57** | Files on Linux | Pick / drop / reveal still fails in apps | **Shipped** |
 | **2.58** | Keyboard / IME / OSK in apps | Real input path unusable outside Gallery | **Shipped** |
-| **2.59** | “Feels slow” (app-level) | Named app scenarios, not synthetic FPS only | Queue |
+| **2.59** | “Feels slow” (app-level) | Named app scenarios, not synthetic FPS only | **Shipped** |
 | **2.60** | Friction-line checkpoint + 3.00 prep | [checkpoint-260.md](docs/checkpoint-260.md) — close **2.51…2.60** | Queue |
 
 ### 2.51 — Stable vs experimental clarity (shipped)
@@ -707,11 +707,11 @@ Apps on **1.90** read [upgrade-notes.md](docs/upgrade-notes.md) **1.90 → 2.00*
 
 **Shipped:** [osk-in-apps-258.md](docs/osk-in-apps-258.md) — `sharedEngine` + focus return; floating `ImeCandidateBar`; `AnnotatedScrollBar.imeEngine`; [`examples/osk-dock/`](examples/osk-dock/). Product version **2.58**.
 
-### 2.59 — App-level sluggishness (queue)
+### 2.59 — App-level sluggishness (shipped)
 
 **Pain:** Named slow flows in consumer apps (not “optimize everything”). **Outcome:** perf row in [performance.md](docs/performance.md) tied to each fix.
 
-**Deepen:** **CommandPalette** · **ItemsView** sections · **AutoSuggestBox** · **SwipeControl** / **PipsPager** · **Button** loading · **ThemeOverrides** — [component-capabilities-expansion.md](docs/planning/expansion/component-capabilities-expansion.md).
+**Shipped:** [app-sluggishness-259.md](docs/app-sluggishness-259.md) — CommandPalette recents; ItemsView/AutoSuggest caps; Button.loading; FlipView reducedMotion; Theme.applyDensityPreset; performance.md wave **9**. Product version **2.59**.
 
 ### 2.60 — Friction-line checkpoint (queue)
 
@@ -1364,7 +1364,8 @@ Finish the committed audit arc — **do not** add conditional controls without a
 
 | Rank | Slice | When to ship |
 |------|-------|----------------|
-| 1 | **2.59** | Named slow flows |
+| 1 | **2.60** | Friction checkpoint |
+| — | **2.59** | App sluggishness — **shipped** |
 | — | **2.58** | OSK in apps — **shipped** |
 | — | **2.57** | Files on Linux — **shipped** |
 | — | **2.56** | Navigation mental model — **shipped** |

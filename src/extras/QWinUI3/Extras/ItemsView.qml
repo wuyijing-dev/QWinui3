@@ -81,6 +81,10 @@ T.Control {
     property var filterRoles: []
     // Debounce ms before rebuilding the filtered array (1.88).
     property int filterDebounceMs: 120
+    // Skip filter until query length >= this (2.59 — huge JS arrays).
+    property int minFilterLength: 0
+    // Cap filtered rows for plain JS arrays (2.59).
+    property int maxFilterResults: 256
     // Emitted when an item is activated (click / Enter)
     signal itemActivated(int index, var itemData)
     // Emitted when selection changes
@@ -164,7 +168,13 @@ T.Control {
         }
         var m = model
         var q = (filterText || "").trim().toLowerCase()
-        var key = q + "\0" + m.length
+        if (minFilterLength > 0 && q.length < minFilterLength) {
+            _filteredModel = []
+            _lastFilterKey = ""
+            _lastModelRef = m
+            return
+        }
+        var key = q + "\0" + m.length + "\0" + minFilterLength + "\0" + maxFilterResults
         if (key === _lastFilterKey && m === _lastModelRef)
             return
         _lastFilterKey = key
@@ -172,8 +182,11 @@ T.Control {
         var roles = _filterRolesList()
         var out = []
         for (var i = 0; i < m.length; ++i) {
-            if (_matchesFilter(m[i], q, roles))
+            if (_matchesFilter(m[i], q, roles)) {
                 out.push(m[i])
+                if (maxFilterResults > 0 && out.length >= maxFilterResults)
+                    break
+            }
         }
         _filteredModel = out
     }

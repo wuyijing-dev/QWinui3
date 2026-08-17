@@ -4,7 +4,7 @@ Clickable card with symbol, title, description, and chevron.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ActionCard.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ActionCard.qml)
 
-**Category:** Layout · **Library:** v2.58
+**Category:** Layout · **Library:** v2.59
 
 [← Component index](../components.md)
 

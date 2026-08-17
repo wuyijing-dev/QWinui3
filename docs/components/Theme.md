@@ -4,7 +4,7 @@ Fluent color / type / motion token singleton.
 
 `import QWinUI3.Theme` · [`src/theme/QWinUI3/Theme/Theme.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/theme/QWinUI3/Theme/Theme.qml)
 
-**Category:** Theme · **Library:** v2.58
+**Category:** Theme · **Library:** v2.59
 
 [← Component index](../components.md)
 
@@ -173,6 +173,7 @@ _No custom signals_ (use inherited signals from the base type).
 | `dp(value)` | Density-aware design pixels (Qt layout units are already DPI-independent). |
 | `hairline(dpr)` | 1 physical pixel in logical units for the given DPR (defaults to Theme.devicePixelRatio). |
 | `setAccentPack(name)` | Apply a named accent pack and clear customAccent |
+| `applyDensityPreset(name)` | Apply standard \| compact density preset (2.59). |
 | `snapshot()` | Writable knobs only (1.69) — paste into another process via recipeText(), or apply() in-process. |
 | `apply(obj)` | — |
 | `recipeText()` | QML snippet for Component.onCompleted — Gallery Copy is a convenience, not a privilege. |

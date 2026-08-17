@@ -6,18 +6,17 @@ import QWinUI3.Extras
 
 // Gallery — CommandPalette.
 //
-// Ctrl+K launcher (also available on ShellWindow). Stable 1.37.
+// Ctrl+K launcher (also available on ShellWindow). Stable 1.37 · perf 2.16.
 // Recipe: docs/commands.md · docs/keyboard.md (1.44)
 
 CatalogPage {
     title: qsTr("CommandPalette")
-    subtitle: qsTr("Ctrl+K hub — docs/keyboard.md (1.44) · docs/commands.md.")
+    subtitle: qsTr("Ctrl+K hub — recents + debounce (2.59) · docs/commands.md")
 
-    overlay: CommandPalette {
-        id: palette
-        parent: Overlay.overlay
-        commands: [
+    function stressCommands() {
+        var out = [
             {
+                id: "settings",
                 title: qsTr("Go to Settings"),
                 subtitle: qsTr("Open Gallery settings"),
                 shortcut: "Ctrl+,",
@@ -51,21 +50,66 @@ CatalogPage {
                 action: function () { result.text = qsTr("Copied") }
             }
         ]
+        for (var i = 1; i <= 480; ++i) {
+            out.push({
+                title: qsTr("Stress command %1").arg(i),
+                subtitle: qsTr("Large list filter demo (2.41)"),
+                keywords: "stress perf debounce",
+                action: (function (n) {
+                    return function () { result.text = qsTr("Stress %1").arg(n) }
+                })(i)
+            })
+        }
+        return out
+    }
+
+    overlay: CommandPalette {
+        id: palette
+        parent: Overlay.overlay
+        filterDebounceMs: 80
+        maxResults: 64
+        commands: page.stressCommands()
         onCommandTriggered: function (cmd) {
             result.text = qsTr("Ran: %1").arg(cmd.title)
         }
     }
 
     ControlExample {
-        headerText: qsTr("Keyboard model (1.15)")
-        qmlSource: "// Ctrl+K open · type filter · ↑↓ · Enter · Esc\n// docs/commands.md"
+        headerText: qsTr("Wave 3 — large list + shortcuts (2.41)")
+        qmlSource: "// 480+ commands · filter matches shortcut\n// commandCount · filteredCount · docs/commands.md wave 3"
         ColumnLayout {
             Layout.fillWidth: true
             spacing: Theme.spacing
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Open with Ctrl+K (or the button). Type to filter. Arrow keys move the highlight; Enter runs the command; Esc closes. End-to-end app story: docs/keyboard.md (1.44). List rows announce title + shortcut.")
+                text: qsTr("Stress list: 480+ commands with debounced filter (80 ms) and maxResults cap (64). Type a shortcut (e.g. ctrl+c) to discover by chord — not just title/keywords. Footer shows filteredCount of commandCount while typing. Mirror MenuBar Action.shortcut strings here for discovery.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                color: Theme.textPrimary
+                text: palette.visible
+                      ? qsTr("Palette open — %1 of %2 commands")
+                            .arg(palette.filteredCount).arg(palette.commandCount)
+                      : qsTr("Open palette to see commandCount / filteredCount")
+            }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Keyboard model (2.16)")
+        qmlSource: "// Ctrl+K · debounced filter · maxResults\n// ↑↓ · Enter · Esc — docs/commands.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Open with Ctrl+K (or the button). Type to filter — keystrokes debounce before rebuild (80 ms); results cap at maxResults (64). Arrow keys move highlight; Enter runs; Esc closes. Stress list: 120+ commands. docs/commands.md wave 2.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary

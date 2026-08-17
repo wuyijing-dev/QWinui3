@@ -1,6 +1,6 @@
 {
   "name": "QWinUI3",
-  "version": "2.58",
+  "version": "2.59",
   "generatedBy": "scripts/generate_component_docs.py",
   "publicCount": 227,
   "components": [
@@ -165,7 +165,7 @@
       "galleryPage": "pages/AutoSuggestBoxPage.qml",
       "galleryTitle": "AutoSuggestBox",
       "doc": "components/AutoSuggestBox.md",
-      "propertyCount": 17,
+      "propertyCount": 18,
       "signalCount": 4,
       "methodCount": 4
     },
@@ -420,7 +420,7 @@
       "galleryPage": "pages/CommandPalettePage.qml",
       "galleryTitle": "CommandPalette",
       "doc": "components/CommandPalette.md",
-      "propertyCount": 8,
+      "propertyCount": 10,
       "signalCount": 1,
       "methodCount": 2
     },
@@ -1035,7 +1035,7 @@
       "galleryPage": "pages/ItemsViewPage.qml",
       "galleryTitle": "ItemsView",
       "doc": "components/ItemsView.md",
-      "propertyCount": 21,
+      "propertyCount": 23,
       "signalCount": 3,
       "methodCount": 4
     },
@@ -2520,7 +2520,7 @@
       "galleryPage": "pages/ButtonPage.qml",
       "galleryTitle": "Button",
       "doc": "components/Button.md",
-      "propertyCount": 2,
+      "propertyCount": 4,
       "signalCount": 0,
       "methodCount": 0
     },
@@ -3572,7 +3572,7 @@
       "doc": "components/Theme.md",
       "propertyCount": 100,
       "signalCount": 0,
-      "methodCount": 14
+      "methodCount": 15
     }
   ]
 }

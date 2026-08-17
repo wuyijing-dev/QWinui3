@@ -1,4 +1,4 @@
-# Performance handbook (1.25 / 1.39 / 1.86–1.89 / 2.18 / 2.28 / 2.40 / 2.49)
+# Performance handbook (1.25 / 1.39 / 1.86–1.89 / 2.18 / 2.28 / 2.40 / 2.49 / 2.59)
 
 Practical guidance for **large lists**, **DataTable**, **Canvas charts**, and **Gallery cold start**. QWinUI3 virtualizes through Qt Quick Controls `ListView` — there is no separate engine. Prefer these patterns before blaming the kit.
 
@@ -365,6 +365,28 @@ Summary for **2.00…2.49** — full verdict doc: [perf-signoff-2xx.md](perf-sig
 | **Animations** | **Stay** — no motion removal in perf waves |
 
 **Out for 2.49:** GPU chart rewrite · built-in profiler · always-on retail FPS.
+
+---
+
+## App-level flows wave 9 (2.59)
+
+Fourth **2.x** pass on **command / search / carousel / async chrome** — named product paths, not collection tables. Full slice doc: [app-sluggishness-259.md](app-sluggishness-259.md). Builds on **2.16** debounce on **CommandPalette** / **AutoSuggestBox** and **2.37** carousel recipes.
+
+### Real-app checklist
+
+| # | Surface | Check | API / pattern | Why |
+|---|---------|-------|---------------|-----|
+| 1 | **CommandPalette** | Debounce + cap | `filterDebounceMs` (**80**); `maxResults` (**64**); `maxRecentCommands` (**5**) | Avoid scanning full command tree every key |
+| 2 | **AutoSuggestBox** | Min length + cap | `minFilterLength` (**2** on huge lists); `filterDebounceMs`; `maxSuggestionResults` | Skip 1-char full-array walks |
+| 3 | **ItemsView** | Section filter | `minFilterLength`; `maxFilterResults` (**256**); `filterDebounceMs` | JS-array filter is not a C++ model |
+| 4 | **Button** | Async save | `loading: true`; `enabled: !busy`; `preserveWidthWhileLoading` | Block double-submit + toolbar reflow |
+| 5 | **FlipView** | Reduced motion | Swipe off when `Theme.reducedMotion`; use buttons / **PipsPager** | Avoid heavy swipe transitions |
+| 6 | **Theme** | Compact kiosk | `Theme.applyDensityPreset("compact")` | Smaller controls without per-page hacks |
+| 7 | **All** | Scale path | **DataTable** / **ItemsRepeater** for 1k+ rows | **ItemsView** filter stays for hundreds, not thousands |
+
+**Named paths:** palette keystroke → debounce → capped filter + recent pin; typeahead → min length → debounce → capped suggestions; Save click → `loading` until promise resolves.
+
+**Out for 2.59:** **FL-008** collection wave 9 (**2.64**); GPU chart rewrite.
 
 ---
 
