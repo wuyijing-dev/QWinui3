@@ -14,7 +14,7 @@ Published site: **https://wuyijing-dev.github.io/QWinui3/**
 | [`upgrade-notes.md`](upgrade-notes.md) | Consumer upgrade checklist + template (1.40) |
 | [`color-contrast.md`](color-contrast.md) | Accent AA diagnostics / Theme.contrastRatio (1.43) |
 | [`keyboard.md`](keyboard.md) | Keyboard-first app cookbook (1.44) |
-| [`on-screen-keyboard.md`](on-screen-keyboard.md) | Win11 OSK → IME (1.70…**1.76** deepen; ja kana-only; still experimental) |
+| [`on-screen-keyboard.md`](on-screen-keyboard.md) | Win11 OSK → IME (1.70…**1.77** app hardware; still experimental) |
 | [`conventions.md`](conventions.md) | Radius/clip pitfalls, Accessible rules, Extras import rule |
 | [`gallery-catalog-page.md`](gallery-catalog-page.md) | Gallery `CatalogPage` host — **Item not Page**, footer/overlay slots |
 | [`webview2-future.md`](webview2-future.md) | Legacy redirect → [`webview2.md`](webview2.md) |

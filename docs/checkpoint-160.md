@@ -93,7 +93,8 @@ Order confirmed at 1.60 (flex only for field P0s). **After 1.73:** keyboard soak
 14. **1.74** — OSK / IME soak (still experimental) — **shipped**  
 15. **1.75** — Extra documented Keyman `.kmx` — **shipped**  
 16. **1.76** — IME deepen (MIT-only; ja kanji gap) — **shipped**  
-17. **1.77** — Long-horizon 1.xx checkpoint (slipped from 1.74)  
+17. **1.77** — App-scoped hardware input (not OS-wide) — **shipped**  
+18. **1.78** — Long-horizon 1.xx checkpoint (slipped)  
 
 ---
 

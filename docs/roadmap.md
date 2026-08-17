@@ -1,8 +1,8 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.76**
-**Next up:** **1.77** (long-horizon 1.xx checkpoint, slipped)
-**Planned through:** **1.77** (long-horizon 1.xx checkpoint, slipped)
+**Current:** **1.77**
+**Next up:** **1.78** (long-horizon 1.xx checkpoint, slipped)
+**Planned through:** **1.78** (long-horizon 1.xx checkpoint, slipped)
 **Still 1.xx:** Mid-horizon checkpoint published — [checkpoint-160.md](checkpoint-160.md). Not drafting 2.00.  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](qt-version-compat.md)
 
@@ -367,10 +367,14 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** zh — regenerated MIT pinyin tables (phrases up to 6 chars) + **prefix phrase** candidates (iha\ → 你好) with correct consume length. ko — Backspace peels compound vowels (ㅘ/ㅢ…) and finals; Space commits syllable + word break; Shift (not Caps) doubles. ja — extra romaji (thi/dhi/ts*/wh*); **kanji skipped** — no MIT reading lexicon (JMdict/KANJIDIC are CC-BY-SA). Still experimental; not promote-green. Product version .76\.
 
+### 1.77 — App hardware keyboard input (shipped)
+
+**Shipped:** KeyboardEngine.hardwareInput (default on) routes physical keys in this process through the same engine as the OSK dock — pinyin / romaji / hangul / Keyman (incl. AltGr). 1–9 pick candidates; Esc cancels; PageUp/PageDown page the bar; Ctrl/Meta shortcuts pass through. **Not** OS-wide: no SendInput into other apps. Toggle in Gallery. Product version 1.77.
+
 ---
 
-## Horizon — planned .77
-Still **1.xx**. One theme per \YY\. **1.70…1.76** shipped the GPL-free OSK/IME arc through MIT deepen. Long-horizon checkpoint is **1.77**. Plan: [on-screen-keyboard.md](on-screen-keyboard.md). Chrome stays ours. Keyman Core stays layouts only. No Qt Virtual Keyboard.
+## Horizon — planned .78
+Still **1.xx**. **1.70…1.77** shipped OSK → IME → packs → deepen → app hardware input. Long-horizon checkpoint is **1.78** (slipped). Plan: [on-screen-keyboard.md](on-screen-keyboard.md).
 
 | Slice | Keyboard theme |
 |-------|----------------|
@@ -381,17 +385,18 @@ Still **1.xx**. One theme per \YY\. **1.70…1.76** shipped the GPL-free OSK/IME
 | **1.74 shipped** | Soak / harden (still experimental) |
 | **1.75 shipped** | Extra documented Keyman \.kmx\ (named subset) |
 | **1.76 shipped** | IME deepen, MIT-only (ja kanji gap documented) |
-| **1.77** | Long-horizon 1.xx checkpoint (slipped from 1.74) |
+| **1.77 shipped** | App-scoped hardware input (not OS-wide) |
+| **1.78** | Long-horizon 1.xx checkpoint (slipped from 1.74 / 1.77) |
 
-### 1.77 — Long-horizon 1.xx checkpoint
+### 1.78 — Long-horizon 1.xx checkpoint
 
-**Why:** Close the **1.49…1.77** arc (checkpoint slipped so the keyboard soak/packs/deepen can stay named slices). Still not 2.00.
+**Why:** Close the **1.49…1.78** arc (checkpoint slipped so the keyboard soak/packs/deepen can stay named slices). Still not 2.00.
 
 **In scope**
 
 - Full stable-api vs Gallery audit; ROADMAP shipped/deferred refresh; compatibility-1xx revisit
 - Publish “prefer field harden / pause vs new surfaces”; open `1.78+` only for field-driven slices or park
-- Record whether OSK/IME stayed experimental or was promoted in **1.74** / **1.76**
+- Record whether OSK/IME stayed experimental or was promoted in **1.74** / **1.76** / **1.77**
 
 **Out of scope**
 
@@ -406,7 +411,7 @@ Still **1.xx**. One theme per \YY\. **1.70…1.76** shipped the GPL-free OSK/IME
 
 ## After `1.77`
 
-Still **1.xx** if field needs dictate (`1.78`…)—or pause on polish. **Do not** treat 1.70…1.77 as permission to start **2.00**.
+Still **1.xx** if field needs dictate (`1.78`…)—or pause on polish. **Do not** treat 1.70…1.78 as permission to start **2.00**.
 
 Unscheduled follow-ups (pick only inside a named minor):
 
@@ -434,7 +439,7 @@ Consider 2.00 only if several of these become true:
 - Need a new packaging/ABI contract that breaks 1.xx consumers  
 - Need to drop an old Qt floor or OS policy in a breaking way  
 
-Until then: **stay on 1.xx**, bump `YY` for each slice. Prefer finishing through **1.77** (long-horizon checkpoint) before even drafting 2.00 scope.
+Until then: **stay on 1.xx**, bump `YY` for each slice. Prefer finishing through **1.78** (long-horizon checkpoint) before even drafting 2.00 scope.
 
 ---
 

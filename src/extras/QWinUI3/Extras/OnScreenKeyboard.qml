@@ -2,19 +2,19 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// OnScreenKeyboard — Win11-style in-app touch keyboard (1.76).
+// OnScreenKeyboard — Win11-style in-app touch keyboard (1.77).
 //
 //   OnScreenKeyboard { }
 //   // Host in CatalogPage.footer / Overlay / shell footer so keys stay docked.
 //
 //   // --- API ---
 //   // engine.backend  "pinyin" | "romaji" | "hangul" | "keyman" | "builtin"
+//   // engine.hardwareInput  physical keys in this app → same engine (default on)
 //   // engine.layoutId / cycleLayout / processVk
 //
 // @notes
-//   Experimental. SIL Keyman Core (MIT) for named .kmx packs; zh pinyin prefix
-//   phrases (MIT tables); ja romaji→kana only (no MIT kanji source); ko 2-beolsik
-//   with compound peel + Space word-break. Not Qt Virtual Keyboard / QT_IM_MODULE.
+//   Experimental. App-scoped hardware input (not OS-wide SendInput). SIL Keyman
+//   Core (MIT) for named .kmx; zh/ja/ko in-app IME. Not Qt Virtual Keyboard.
 //   Keys use MouseArea (no focus steal). Emoji layer has no engine.
 
 T.Control {
@@ -26,6 +26,7 @@ T.Control {
     property bool capsLock: false
     readonly property alias engine: engine
     property alias layoutId: engine.layoutId
+    property alias hardwareInput: engine.hardwareInput
 
     implicitWidth: 640
     implicitHeight: column.implicitHeight + Theme.dp(16)

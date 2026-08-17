@@ -47,6 +47,19 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.76 → 1.77
+
+**Product version:** 1.77  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- Experimental OSK: `hardwareInput` (default on) routes physical keyboard keys in **this app** through the same engine as the dock. Not OS-wide. [on-screen-keyboard.md](on-screen-keyboard.md).
+
+#### No action (compatible)
+
+- Existing Theme / shell / stable controls unchanged. OSK stays experimental. Set `hardwareInput: false` to leave keys to the system IME.
+
 ### Upgrade 1.75 → 1.76
 
 **Product version:** 1.76  

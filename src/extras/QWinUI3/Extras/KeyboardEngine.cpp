@@ -3,6 +3,7 @@
 #include "RomajiKana.h"
 
 #include <QCoreApplication>
+#include <QEvent>
 #include <QFile>
 #include <QGuiApplication>
 #include <QInputMethodEvent>
@@ -13,6 +14,13 @@
 #include <QTextCharFormat>
 #include <QVector>
 #include <string>
+
+#ifdef Q_OS_WIN
+#  ifndef NOMINMAX
+#    define NOMINMAX
+#  endif
+#  include <windows.h>
+#endif
 
 #ifdef QWINUI3_HAVE_KEYMAN
 #include <keyman/keyman_core_api.h>
@@ -101,6 +109,8 @@ QString builtinGlyph(int vk, bool shift)
 KeyboardEngine::KeyboardEngine(QObject *parent)
     : QObject(parent)
 {
+    if (QCoreApplication::instance())
+        QCoreApplication::instance()->installEventFilter(this);
 #ifdef QWINUI3_HAVE_KEYMAN
     loadLayout(m_layoutId);
 #endif
@@ -108,6 +118,8 @@ KeyboardEngine::KeyboardEngine(QObject *parent)
 
 KeyboardEngine::~KeyboardEngine()
 {
+    if (QCoreApplication::instance())
+        QCoreApplication::instance()->removeEventFilter(this);
 #ifdef QWINUI3_HAVE_KEYMAN
     disposeCore();
 #endif
@@ -325,7 +337,20 @@ void KeyboardEngine::commitText(const QString &text)
     QCoreApplication::sendEvent(item, &event);
 }
 
+void KeyboardEngine::setHardwareInput(bool on)
+{
+    if (m_hardwareInput == on)
+        return;
+    m_hardwareInput = on;
+    emit hardwareInputChanged();
+}
+
 void KeyboardEngine::processVk(int vk, bool shift)
+{
+    processVk(vk, shift, false);
+}
+
+void KeyboardEngine::processVk(int vk, bool shift, bool altGr)
 {
     if (pinyin()) {
         processPinyinVk(vk, shift);
@@ -341,14 +366,11 @@ void KeyboardEngine::processVk(int vk, bool shift)
     }
 #ifdef QWINUI3_HAVE_KEYMAN
     if (m_state) {
-        rememberEditor(QGuiApplication::focusObject());
-        const uint16_t mods = shift ? KM_CORE_MODIFIER_SHIFT : KM_CORE_MODIFIER_NONE;
-        km_core_process_event(m_state, km_core_virtual_key(vk), mods, 1, KM_CORE_EVENT_FLAG_TOUCH);
-        applyCoreActions();
-        km_core_process_event(m_state, km_core_virtual_key(vk), mods, 0, KM_CORE_EVENT_FLAG_TOUCH);
+        processKeymanVk(vk, shift, altGr);
         return;
     }
 #endif
+    Q_UNUSED(altGr);
     commitText(builtinGlyph(vk, shift));
 }
 
@@ -453,7 +475,22 @@ void KeyboardEngine::processPinyinVk(int vk, bool shift)
         return;
     }
     if (vk >= 49 && vk <= 57) {
-        pickCandidate(vk - 49);
+        if (composing() || !m_candidates.isEmpty()) {
+            pickCandidate(vk - 49);
+            return;
+        }
+        commitText(QString(QChar(QLatin1Char('0' + (vk - 48)))));
+        return;
+    }
+    if (vk == 48) {
+        commitText(QStringLiteral("0"));
+        return;
+    }
+    if (vk == 32) {
+        if (composing())
+            confirmCompose();
+        else
+            commitText(QStringLiteral(" "));
         return;
     }
     if (vk == 8) {
@@ -462,6 +499,10 @@ void KeyboardEngine::processPinyinVk(int vk, bool shift)
     }
     if (vk == 13) {
         enterKey();
+        return;
+    }
+    if (vk == 27) {
+        cancelCompose();
         return;
     }
 }
@@ -476,7 +517,22 @@ void KeyboardEngine::processJapaneseVk(int vk, bool shift)
         return;
     }
     if (vk >= 49 && vk <= 57) {
-        pickCandidate(vk - 49);
+        if (composing() || !m_candidates.isEmpty()) {
+            pickCandidate(vk - 49);
+            return;
+        }
+        commitText(QString(QChar(QLatin1Char('0' + (vk - 48)))));
+        return;
+    }
+    if (vk == 48) {
+        commitText(QStringLiteral("0"));
+        return;
+    }
+    if (vk == 32) {
+        if (composing())
+            confirmCompose();
+        else
+            commitText(QStringLiteral(" "));
         return;
     }
     if (vk == 8) {
@@ -485,6 +541,10 @@ void KeyboardEngine::processJapaneseVk(int vk, bool shift)
     }
     if (vk == 13) {
         enterKey();
+        return;
+    }
+    if (vk == 27) {
+        cancelCompose();
         return;
     }
 }
@@ -500,7 +560,24 @@ void KeyboardEngine::processKoreanVk(int vk, bool shift)
         return;
     }
     if (vk >= 49 && vk <= 57) {
-        pickCandidate(vk - 49);
+        if (composing() || !m_candidates.isEmpty()) {
+            pickCandidate(vk - 49);
+            return;
+        }
+        commitText(QString(QChar(QLatin1Char('0' + (vk - 48)))));
+        return;
+    }
+    if (vk == 48) {
+        commitText(QStringLiteral("0"));
+        return;
+    }
+    if (vk == 32) {
+        if (composing()) {
+            confirmCompose();
+            commitText(QStringLiteral(" "));
+        } else {
+            commitText(QStringLiteral(" "));
+        }
         return;
     }
     if (vk == 8) {
@@ -509,6 +586,10 @@ void KeyboardEngine::processKoreanVk(int vk, bool shift)
     }
     if (vk == 13) {
         enterKey();
+        return;
+    }
+    if (vk == 27) {
+        cancelCompose();
         return;
     }
 }
@@ -643,7 +724,206 @@ void KeyboardEngine::cancelCompose()
     emit composeChanged();
 }
 
+bool KeyboardEngine::editorFocused() const
+{
+    if (looksLikeEditor(target()))
+        return true;
+    QObject *focus = QGuiApplication::focusObject();
+    QObject *walk = focus;
+    while (walk) {
+        if (looksLikeEditor(walk))
+            return true;
+        walk = walk->parent();
+    }
+    return false;
+}
+
+bool KeyboardEngine::capsLockOn()
+{
+#ifdef Q_OS_WIN
+    return (GetKeyState(VK_CAPITAL) & 1) != 0;
+#else
+    return false;
+#endif
+}
+
+int KeyboardEngine::qtKeyToVk(int key)
+{
+    if (key >= Qt::Key_A && key <= Qt::Key_Z)
+        return key; // Qt::Key_A == 0x41
+    if (key >= Qt::Key_0 && key <= Qt::Key_9)
+        return key; // Qt::Key_0 == 0x30
+    switch (key) {
+    case Qt::Key_Backspace:
+        return 8;
+    case Qt::Key_Tab:
+        return 9;
+    case Qt::Key_Return:
+    case Qt::Key_Enter:
+        return 13;
+    case Qt::Key_Escape:
+        return 27;
+    case Qt::Key_Space:
+        return 32;
+    case Qt::Key_Period:
+        return 190;
+    case Qt::Key_Comma:
+        return 188;
+    case Qt::Key_Minus:
+        return 189;
+    case Qt::Key_Plus:
+        return 187;
+    case Qt::Key_BracketLeft:
+        return 219;
+    case Qt::Key_BracketRight:
+        return 221;
+    case Qt::Key_Backslash:
+        return 220;
+    case Qt::Key_Semicolon:
+        return 186;
+    case Qt::Key_Apostrophe:
+        return 222;
+    case Qt::Key_QuoteLeft:
+    case Qt::Key_AsciiTilde:
+        return 192;
+    case Qt::Key_Slash:
+        return 191;
+    default:
+        return 0;
+    }
+}
+
+bool KeyboardEngine::canHandleHardware(const QKeyEvent *ke) const
+{
+    if (!ke || ke->isAutoRepeat())
+        return false;
+    if (!editorFocused())
+        return false;
+
+    const Qt::KeyboardModifiers mods = ke->modifiers();
+    const bool altGr = (mods & Qt::AltModifier) && (mods & Qt::ControlModifier);
+    const bool ctrlOnly = (mods & Qt::ControlModifier) && !(mods & Qt::AltModifier);
+    if (ctrlOnly || (mods & Qt::MetaModifier))
+        return false;
+    if ((mods & Qt::AltModifier) && !altGr)
+        return false;
+
+    const int key = ke->key();
+    if (key == Qt::Key_Escape)
+        return composing();
+    if (key == Qt::Key_PageUp || key == Qt::Key_PageDown)
+        return composing() || !m_candidates.isEmpty();
+#ifdef Q_OS_WIN
+    const quint32 nvk = ke->nativeVirtualKey();
+    if ((nvk >= '0' && nvk <= '9') || (nvk >= 'A' && nvk <= 'Z') || nvk == VK_SPACE
+        || nvk == VK_BACK || nvk == VK_RETURN || nvk == VK_TAB || nvk == VK_ESCAPE
+        || (nvk >= 186 && nvk <= 222))
+        return true;
+#endif
+    if (qtKeyToVk(key) != 0)
+        return true;
+    return false;
+}
+
+bool KeyboardEngine::handleHardwareKey(QKeyEvent *ke)
+{
+    if (!canHandleHardware(ke))
+        return false;
+
+    rememberEditor(QGuiApplication::focusObject());
+    const int key = ke->key();
+    if (key == Qt::Key_Escape) {
+        cancelCompose();
+        return true;
+    }
+    if (key == Qt::Key_PageDown) {
+        nextCandidatePage();
+        return true;
+    }
+    if (key == Qt::Key_PageUp) {
+        prevCandidatePage();
+        return true;
+    }
+
+    int vk = 0;
+#ifdef Q_OS_WIN
+    const quint32 nvk = ke->nativeVirtualKey();
+    if ((nvk >= '0' && nvk <= '9') || (nvk >= 'A' && nvk <= 'Z') || nvk == VK_SPACE
+        || nvk == VK_BACK || nvk == VK_RETURN || nvk == VK_TAB || nvk == VK_ESCAPE
+        || (nvk >= 186 && nvk <= 222))
+        vk = int(nvk);
+#endif
+    if (vk == 0)
+        vk = qtKeyToVk(key);
+    if (vk == 0)
+        return false;
+
+    const Qt::KeyboardModifiers mods = ke->modifiers();
+    const bool altGr = (mods & Qt::AltModifier) && (mods & Qt::ControlModifier);
+    bool shift = mods & Qt::ShiftModifier;
+    if (!korean() && !ime() && (vk >= 65 && vk <= 90) && capsLockOn())
+        shift = !shift;
+    if (korean())
+        shift = mods & Qt::ShiftModifier;
+
+    if (vk == 32) {
+        processVk(32, false, false);
+        return true;
+    }
+
+    // OEM punctuation — Keyman / builtin only; IME layouts leave them to Qt.
+    if (vk >= 186 && vk <= 222) {
+        if (ime() || korean())
+            return false;
 #ifdef QWINUI3_HAVE_KEYMAN
+        if (m_state) {
+            processKeymanVk(vk, shift, altGr);
+            return true;
+        }
+#endif
+        return false;
+    }
+
+    processVk(vk, shift, altGr);
+    return true;
+}
+
+bool KeyboardEngine::eventFilter(QObject *watched, QEvent *event)
+{
+    Q_UNUSED(watched);
+    if (!m_hardwareInput)
+        return false;
+
+    const QEvent::Type type = event->type();
+    if (type != QEvent::KeyPress && type != QEvent::ShortcutOverride)
+        return false;
+
+    auto *ke = static_cast<QKeyEvent *>(event);
+    if (type == QEvent::ShortcutOverride) {
+        if (canHandleHardware(ke)) {
+            ke->accept();
+            return true;
+        }
+        return false;
+    }
+
+    return handleHardwareKey(ke);
+}
+
+#ifdef QWINUI3_HAVE_KEYMAN
+
+void KeyboardEngine::processKeymanVk(int vk, bool shift, bool altGr)
+{
+    rememberEditor(QGuiApplication::focusObject());
+    uint16_t mods = KM_CORE_MODIFIER_NONE;
+    if (shift)
+        mods |= KM_CORE_MODIFIER_SHIFT;
+    if (altGr)
+        mods |= KM_CORE_MODIFIER_RALT;
+    km_core_process_event(m_state, km_core_virtual_key(vk), mods, 1, KM_CORE_EVENT_FLAG_TOUCH);
+    applyCoreActions();
+    km_core_process_event(m_state, km_core_virtual_key(vk), mods, 0, KM_CORE_EVENT_FLAG_TOUCH);
+}
 
 void KeyboardEngine::disposeCore()
 {

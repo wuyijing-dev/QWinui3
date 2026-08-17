@@ -258,7 +258,7 @@ QtObject {
             title: qsTr("On-screen keyboard"),
             category: "text",
             icon: FluentIcons.Font,
-            description: qsTr("Win11 OSK + MIT IME deepen — docs/on-screen-keyboard.md (1.76). Still experimental."),
+            description: qsTr("Win11 OSK + app hardware input — docs/on-screen-keyboard.md (1.77). Still experimental."),
             component: "OnScreenKeyboardPage",
             source: "pages/OnScreenKeyboardPage.qml"
         },
@@ -1610,7 +1610,7 @@ QtObject {
     // Curated “recently shipped” recipe pages (1.20) — not catalog array order.
     function recentlyShipped(count) {
         var ids = [
-            "OnScreenKeyboardPage",   // 1.76 IME deepen
+            "OnScreenKeyboardPage",   // 1.77 app hardware input
             "ThemePrefsPage",         // 1.69 Theme recipe / ThemeSync
             "SystemIntegrationPage",  // 1.68 portal / FilePicker
             "MediaPlayerElementPage", // 1.67 media defer

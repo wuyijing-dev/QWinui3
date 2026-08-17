@@ -1,8 +1,8 @@
-# On-screen keyboard & in-app IME (1.70…1.76)
+# On-screen keyboard & in-app IME (1.70…1.77)
 
 Win11 / Fluent **touch keyboard chrome we own**. This is **not** Qt Virtual Keyboard, and it is **not** a hardware-shortcut cookbook ([keyboard.md](keyboard.md)).
 
-**Status:** **1.76 shipped** (MIT-only IME deepen; still experimental). **Next:** **1.77** long-horizon checkpoint.  
+**Status:** **1.77 shipped** (app-scoped hardware input; still experimental). **Next:** **1.78** long-horizon checkpoint.  
 **License:** OSK chrome is this repo (LGPL-3.0). SIL Keyman Core (**MIT**) for layouts. Pinyin tables are [mozillazg/pinyin-data](https://github.com/mozillazg/pinyin-data) (**MIT**) — [NOTICE-pinyin.md](NOTICE-pinyin.md). Japanese is a Hepburn romaji→kana map (**no kanji** — no MIT reading lexicon). Korean is Unicode hangul composition (not a lexicon). Keyman `cs_pinyin` IMX is **not** used.
 
 | Slice | What ships |
@@ -14,7 +14,8 @@ Win11 / Fluent **touch keyboard chrome we own**. This is **not** Qt Virtual Keyb
 | **1.74** | Soak / harden — Gallery checklist + a11y + romaji fixes; **still experimental** |
 | **1.75** | Extra documented Keyman `.kmx` — en-GB / it / pt / pl / sv / tr (**named** subset) |
 | **1.76** | IME deepen (MIT): pinyin prefix phrases, hangul peel/Space; **ja kanji skipped** |
-| **1.77** | Long-horizon checkpoint (not IME work) |
+| **1.77** | App-scoped hardware keys → same engine (**not** OS-wide SendInput) |
+| **1.78** | Long-horizon checkpoint |
 
 ---
 
@@ -55,7 +56,7 @@ Notice: [NOTICE-Keyman.md](NOTICE-Keyman.md).
   ImeCandidateBar.qml    ← shared candidate strip (zh/ja/ko)
 ```
 
-Keep `QT_IM_MODULE` unset. Do **not** ship a `platforminputcontexts` plugin in 1.70…1.76 — an in-window dock is enough to theme, test, and stay off the GPL IM module path. Extra languages are more `.kmx` (**1.75**) or MIT IME tables (**1.76**), not a second engine.
+Keep `QT_IM_MODULE` unset. Do **not** ship a `platforminputcontexts` plugin in 1.70…1.77 — an in-window dock is enough to theme, test, and stay off the GPL IM module path. Extra languages are more `.kmx` (**1.75**) or MIT IME tables (**1.76**), not a second engine.
 
 ---
 
@@ -262,5 +263,19 @@ iha → 你好); consumeLength for partial picks
 **Out**
 
 - Mozc / Anthy / libpinyin / hand-written 词库  
-- Promote to stable  
+- Promote to stable
+
+## 1.77 (shipped) — app hardware input
+
+**Shipped**
+
+- KeyboardEngine.hardwareInput (default **on**) — physical keys in this process feed processVk / Keyman (AltGr supported)
+- Candidate keys: 1–9, Esc cancel, PageUp/PageDown page
+- Ctrl / Meta shortcuts pass through; Gallery Switch to disable
+- Honest limit: **in-app only**. No SendInput into other processes. Not a desktop IME replacement.
+
+**Out**
+
+- OS-wide / system input method
+- platforminputcontexts plugin
 

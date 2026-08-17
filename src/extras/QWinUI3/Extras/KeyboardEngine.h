@@ -9,6 +9,7 @@
 #include <QStringList>
 #include <QtQml/qqmlregistration.h>
 
+class QKeyEvent;
 class QQuickWindow;
 
 #ifdef QWINUI3_HAVE_KEYMAN
@@ -16,8 +17,8 @@ struct km_core_keyboard;
 struct km_core_state;
 #endif
 
-// KeyboardEngine — Keyman layouts (1.71/1.75) + in-app IME (1.72–1.76).
-// Not Qt Virtual Keyboard. CJK candidates are not Keyman IMX.
+// KeyboardEngine — Keyman layouts + in-app IME + app-scoped hardware keys (1.77).
+// Not Qt Virtual Keyboard. Not OS-wide SendInput. CJK is not Keyman IMX.
 // Japanese stays romaji→kana (no MIT kanji lexicon; JMDict is CC-BY-SA).
 class KeyboardEngine : public QObject
 {
@@ -40,6 +41,9 @@ class KeyboardEngine : public QObject
     Q_PROPERTY(QStringList pagedCandidates READ pagedCandidates NOTIFY composeChanged)
     Q_PROPERTY(int candidatePage READ candidatePage NOTIFY composeChanged)
     Q_PROPERTY(int candidatePageCount READ candidatePageCount NOTIFY composeChanged)
+    // When true, physical keys in this app route through the engine (IME / Keyman).
+    // Still in-process only — never injects into other applications.
+    Q_PROPERTY(bool hardwareInput READ hardwareInput WRITE setHardwareInput NOTIFY hardwareInputChanged)
 
 public:
     explicit KeyboardEngine(QObject *parent = nullptr);
@@ -65,11 +69,14 @@ public:
     QStringList pagedCandidates() const;
     int candidatePage() const { return m_candidatePage; }
     int candidatePageCount() const;
+    bool hardwareInput() const { return m_hardwareInput; }
+    void setHardwareInput(bool on);
 
     Q_INVOKABLE void watch(QObject *window);
     Q_INVOKABLE void cycleLayout();
     Q_INVOKABLE void commitText(const QString &text);
     Q_INVOKABLE void processVk(int vk, bool shift);
+    Q_INVOKABLE void processVk(int vk, bool shift, bool altGr);
     Q_INVOKABLE QString previewVk(int vk, bool shift) const;
     Q_INVOKABLE void backspace();
     Q_INVOKABLE void enterKey();
@@ -84,6 +91,10 @@ signals:
     void hasTargetChanged();
     void layoutIdChanged();
     void composeChanged();
+    void hardwareInputChanged();
+
+protected:
+    bool eventFilter(QObject *watched, QEvent *event) override;
 
 private:
     void onFocusChanged();
@@ -99,6 +110,11 @@ private:
     void refreshCompose();
     void sendPreedit();
     void commitReplace(const QString &text);
+    bool editorFocused() const;
+    bool canHandleHardware(const QKeyEvent *ke) const;
+    bool handleHardwareKey(QKeyEvent *ke);
+    static int qtKeyToVk(int key);
+    static bool capsLockOn();
 #ifdef QWINUI3_HAVE_KEYMAN
     bool loadLayout(const QString &id);
     void disposeCore();
@@ -106,6 +122,7 @@ private:
     void applyCoreActions();
     QString probeVk(int vk, bool shift) const;
     QByteArray loadKmx(const QString &id) const;
+    void processKeymanVk(int vk, bool shift, bool altGr);
 #endif
 
     QPointer<QQuickWindow> m_window;
@@ -114,6 +131,7 @@ private:
     QString m_preedit;
     QStringList m_candidates;
     int m_candidatePage = 0;
+    bool m_hardwareInput = true;
     HangulComposer m_hangul;
     static constexpr int kPageSize = 9;
 #ifdef QWINUI3_HAVE_KEYMAN

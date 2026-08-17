@@ -1,6 +1,6 @@
 # QWinUI3 component API
 
-Library **v1.76**. Generated from QML source comments (`scripts/generate_component_docs.py`).
+Library **v1.77**. Generated from QML source comments (`scripts/generate_component_docs.py`).
 Each control has its own page under `docs/components/`.
 
 ```bash
@@ -100,7 +100,7 @@ python scripts/generate_component_docs.py --lint
 - [NavigationWindow](components/NavigationWindow.md) — ShellWindow hosting NavigationView + content.
 - [NotificationBridge](components/NotificationBridge.md) — Mirror in-app ToastHost to OS notifications (Win balloon / Linux portal). · Gallery
 - [NumberBox](components/NumberBox.md) — Numeric spin/edit with validation (WinUI AcceptsExpression / IsWrapEnabled). · Gallery
-- [OnScreenKeyboard](components/OnScreenKeyboard.md) — Win11-style in-app touch keyboard (1.76). · Gallery
+- [OnScreenKeyboard](components/OnScreenKeyboard.md) — Win11-style in-app touch keyboard (1.77). · Gallery
 - [PagerControl](components/PagerControl.md) — Numbered page navigation (prev / numbers / next). · Gallery
 - [PasswordBox](components/PasswordBox.md) — Password field with reveal toggle. · Gallery
 - [PersonPicture](components/PersonPicture.md) — Avatar from image or initials (WinUI IsGroup / BadgeImageSource). · Gallery

@@ -1,10 +1,10 @@
 # OnScreenKeyboard
 
-Win11-style in-app touch keyboard (1.76).
+Win11-style in-app touch keyboard (1.77).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/OnScreenKeyboard.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/OnScreenKeyboard.qml)
 
-**Category:** Input & forms · **Library:** v1.76
+**Category:** Input & forms · **Library:** v1.77
 
 [← Component index](../components.md)
 
@@ -20,14 +20,14 @@ OnScreenKeyboard { }
 
 // --- API ---
 // engine.backend  "pinyin" | "romaji" | "hangul" | "keyman" | "builtin"
+// engine.hardwareInput  physical keys in this app → same engine (default on)
 // engine.layoutId / cycleLayout / processVk
 ```
 
 ## Notes
 
-Experimental. SIL Keyman Core (MIT) for named .kmx packs; zh pinyin prefix
-phrases (MIT tables); ja romaji→kana only (no MIT kanji source); ko 2-beolsik
-with compound peel + Space word-break. Not Qt Virtual Keyboard / QT_IM_MODULE.
+Experimental. App-scoped hardware input (not OS-wide SendInput). SIL Keyman
+Core (MIT) for named .kmx; zh/ja/ko in-app IME. Not Qt Virtual Keyboard.
 Keys use MouseArea (no focus steal). Emoji layer has no engine.
 
 ## API
@@ -42,6 +42,7 @@ Keys use MouseArea (no focus steal). Emoji layer has no engine.
 | `capsLock` | `bool` | — |
 | `engine` | `alias` | — |
 | `layoutId` | `alias` | — |
+| `hardwareInput` | `alias` | — |
 | `shiftOn` | `bool` | — |
 | `keyGap` | `real` | — |
 | `keyH` | `real` | — |

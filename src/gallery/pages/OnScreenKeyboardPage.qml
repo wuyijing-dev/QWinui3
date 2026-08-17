@@ -4,18 +4,18 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — OnScreenKeyboard (1.76). Recipe: docs/on-screen-keyboard.md
+// Gallery — OnScreenKeyboard (1.77). Recipe: docs/on-screen-keyboard.md
 //
-// MIT-only IME deepen: pinyin prefix phrases, hangul peel/space, ja kana only.
+// App-scoped hardware keyboard → same IME/Keyman engine (not OS-wide).
 
 CatalogPage {
     id: page
     title: qsTr("On-screen keyboard")
-    subtitle: qsTr("Win11 OSK — IME deepen (MIT-only). docs/on-screen-keyboard.md (1.76).")
+    subtitle: qsTr("Win11 OSK — app hardware input. docs/on-screen-keyboard.md (1.77).")
 
     ControlExample {
-        headerText: qsTr("IME deepen (1.76)")
-        qmlSource: "OnScreenKeyboard { }\n// zh prefix phrases · ko peel/Space · ja kana only"
+        headerText: qsTr("App hardware input (1.77)")
+        qmlSource: "OnScreenKeyboard { hardwareInput: true }\n// Physical keys → KeyboardEngine (in-app only)"
 
         ColumnLayout {
             Layout.fillWidth: true
@@ -23,10 +23,15 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("中文: type a partial phrase (e.g. niha) — prefix hits appear before single chars. 日本語: romaji→kana only — no kanji (JMDict is CC-BY-SA, not MIT). 한국어: Shift doubles; Caps ignored; Backspace peels ㅘ/ㅢ and double finals; Space commits + word break. Still experimental — not Microsoft / Mozc quality.")
+                text: qsTr("Focus a field and type on the physical keyboard — letters go through the same engine as the dock (pinyin / romaji / hangul / Keyman). 1–9 pick candidates; Esc cancels; PageUp/PageDown page the bar. This is in-app only: it does not inject into other processes (no SendInput). Toggle below if you need the system IME instead.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
+            }
+            Switch {
+                text: qsTr("Hardware input (app-scoped)")
+                checked: osk.hardwareInput
+                onToggled: osk.hardwareInput = checked
             }
             ComboBox {
                 id: langBox
@@ -39,12 +44,15 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 color: Theme.textSecondary
-                text: qsTr("Active: %1 · backend “%2”").arg(osk.engine.layoutLabel).arg(osk.engine.backend)
+                text: qsTr("Active: %1 · backend “%2” · hardware %3")
+                    .arg(osk.engine.layoutLabel)
+                    .arg(osk.engine.backend)
+                    .arg(osk.hardwareInput ? qsTr("on") : qsTr("off"))
             }
             TextField {
                 id: lineField
                 Layout.fillWidth: true
-                placeholderText: qsTr("Single-line field")
+                placeholderText: qsTr("Type here with the physical keyboard")
                 LayoutMirroring.enabled: osk.engine.rtl
                 LayoutMirroring.childrenInherit: true
             }
@@ -56,16 +64,17 @@ CatalogPage {
                 wrapMode: TextArea.Wrap
                 LayoutMirroring.enabled: osk.engine.rtl
             }
-            CheckBox { text: qsTr("中文: niha shows 你好 (prefix); Space/1–9 still work") }
-            CheckBox { text: qsTr("日本語: kana only — no kanji candidates (documented gap)") }
-            CheckBox { text: qsTr("한국어: ㅘ peel on Backspace; Space commits + space") }
-            CheckBox { text: qsTr("Keyman packs from 1.75 still switch via Globe") }
-            CheckBox { text: qsTr("Treat OnScreenKeyboard as experimental (not freeze-covered)") }
+            CheckBox { text: qsTr("Physical keys drive 中文 / 日本語 / 한국어 compose") }
+            CheckBox { text: qsTr("Keyman layouts (de/fr/…) match OSK via hardware") }
+            CheckBox { text: qsTr("Ctrl/Alt shortcuts still reach the app") }
+            CheckBox { text: qsTr("Not OS-wide — other apps unchanged") }
+            CheckBox { text: qsTr("Treat OnScreenKeyboard as experimental") }
         }
     }
 
     footer: OnScreenKeyboard {
         id: osk
+        hardwareInput: true
     }
 
     Connections {
