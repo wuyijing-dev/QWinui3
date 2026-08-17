@@ -11,7 +11,7 @@ import QWinUI3.Extras
 
 CatalogPage {
     title: qsTr("RadialGauge")
-    subtitle: qsTr("Community Toolkit–aligned needle gauge (MinAngle, TickSpacing, ScaleWidth, NeedleLength).")
+    subtitle: qsTr("Experimental (deferred 1.66). Prefer RingGauge. Toolkit-aligned needle gauge.")
 
     ControlExample {
         headerText: qsTr("Toolkit sample")

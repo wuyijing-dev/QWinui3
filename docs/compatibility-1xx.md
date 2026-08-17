@@ -100,7 +100,7 @@ Rules for later `1.5x` / `1.6x` PRs:
 |------|--------|
 | `MediaPlayerElement`, ConnectedAnimation / entrance helpers | Experimental — [media.md](media.md) · [animations.md](animations.md) |
 | TabView tear-out | Experimental |
-| Niche charts beyond the stable six | Experimental — [charts.md](charts.md) |
+| Niche charts beyond the stable six | Deferred **1.66** — [charts.md](charts.md) |
 | WebView2 advanced Environment / multi-profile | Base host stable; advanced not |
 | Gallery-only helpers in [shell-extras.md](shell-extras.md) demos | Not a product contract |
 | Generated internal types | [components.md](components.md) Internal section |

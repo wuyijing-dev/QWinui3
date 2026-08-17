@@ -49,7 +49,7 @@ Promoted this slice (Gallery + recipe soak). Status flips are **named here** —
 | `ConnectedAnimation*`, entrance / theme transition helpers | Motion APIs still settling — [animations.md](animations.md) |
 | `AnimatedIcon` | Thin glyph state swap (**1.53**); not Lottie — [icons.md](icons.md) |
 | `TabView` tear-out (`canTearOutTabs`, tear-out windows) | Niche; may change — [navigation.md](navigation.md) |
-| Niche charts / gauges (`AreaChart`, `PieChart`, `ArcGauge`, `RadarChart`, …) | Stable six already named — [charts.md](charts.md) |
+| Niche charts / gauges (`AreaChart`, `PieChart`, `ArcGauge`, `RadarChart`, …) | Stable six already named; **deferred 1.66** — [charts.md](charts.md) |
 | WebView2 custom Environment / multi-profile | Base host stable (1.18); advanced options not |
 | Snap Layouts / battery / online / screens / recent-docs helpers | Gallery demos only — [shell-extras.md](shell-extras.md) |
 | Compact overlay / dialog-tool exotic shell variants beyond Blank/Nav/MenuStatus | Prefer `ShellWindow` / `NavigationWindow` for LoB |
@@ -134,8 +134,8 @@ Promoted this slice (Gallery + recipe soak). Status flips are **named here** —
 | `FileDropZone` / `CopyButton` | Extras | Drop target + copy affordance — [drag-drop.md](drag-drop.md) (**1.41**) |
 | `NotificationBridge` | Extras | ToastHost + OS notify — [system-integration.md](system-integration.md) (1.10) |
 | `WebView2Host` | Platform | Windows Edge WebView2 HWND host — [webview2.md](webview2.md) (1.18 soak green) |
-| `LineChart` / `BarChart` / `DonutChart` | Extras | Trend / columns / part-to-whole — [charts.md](charts.md) (1.23) |
-| `RingGauge` / `KpiTile` / `ChartCard` | Extras | Dashboard gauge + KPI chrome — [charts.md](charts.md) (1.23) |
+| `LineChart` / `BarChart` / `DonutChart` | Extras | Trend / columns / part-to-whole — [charts.md](charts.md) (1.23; **1.66** dashboard polish) |
+| `RingGauge` / `KpiTile` / `ChartCard` | Extras | Dashboard gauge + KPI chrome — [charts.md](charts.md) (1.23; **1.66**) |
 
 ---
 
@@ -146,7 +146,7 @@ Promote to stable only after a named `1.xx` slice hardens them. See also [1.37 d
 | Area | Examples | Why experimental |
 |------|----------|------------------|
 | **WebView2 advanced** | Custom Environment / multi-profile | Base `WebView2Host` is **stable (1.18)** — [webview2.md](webview2.md) |
-| **Charts & gauges (remaining)** | `AreaChart`, `PieChart`, `ArcGauge`, `RadarChart`, … | Niche / siblings — [charts.md](charts.md); **stable subset** Line/Bar/Donut + RingGauge + KpiTile + ChartCard (**1.23**) |
+| **Charts & gauges (remaining)** | `AreaChart`, `PieChart`, `ArcGauge`, `RadarChart`, … | **Deferred 1.66** — [charts.md](charts.md); **stable subset** Line/Bar/Donut + RingGauge + KpiTile + ChartCard (**1.23**) |
 | **Animations** | `ConnectedAnimation*`, theme transitions, `AnimatedIcon` | Recipe [animations.md](animations.md) / [icons.md](icons.md) — deferred / experimental |
 | **Tear-out / exotic shells** | `canTearOutTabs`, compact-overlay / dialog-tool shell variants | Niche — deferred in **1.37** |
 | **Media** | `MediaPlayerElement` | Optional Qt Multimedia — [media.md](media.md) (1.21) — deferred in **1.37** |
@@ -163,7 +163,7 @@ If a type is public in [components.md](components.md) but listed in neither tabl
 | [`examples/gallery-shell`](../examples/gallery-shell/) | **Prefer for apps** — `NavigationWindow` + Settings + persistence — [window-shells.md](window-shells.md) (**1.50**) |
 | [`examples/nav-settings`](../examples/nav-settings/) | `StandardWindow`, `NavigationView`, settings footer — [navigation.md](navigation.md) (1.27) |
 | [`examples/settings-cards`](../examples/settings-cards/) | `SettingsCard`, `SettingsExpander` |
-| [`examples/dashboard`](../examples/dashboard/) | Shell + **stable** KPI/charts (`LineChart`, `RingGauge`, `KpiTile`, `ChartCard`) — [charts.md](charts.md) (1.23) |
+| [`examples/dashboard`](../examples/dashboard/) | Shell + **all six stable** KPI/charts (`LineChart`, `BarChart`, `DonutChart`, `RingGauge`, `KpiTile`, `ChartCard`) — [charts.md](charts.md) (**1.66**) |
 | [`examples/master-detail`](../examples/master-detail/) | `ListDetailsView` LoB shell — [data-collections.md](data-collections.md) (1.26) |
 | [`examples/form-settings`](../examples/form-settings/) | `FormLayout` + `ValidationSummary` + SettingsCard prefs — [forms.md](forms.md) (1.26) |
 
@@ -227,6 +227,7 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.63** | Print / share / export — [print-share.md](print-share.md); Gallery PrintSharePage |
 | **1.64** | Security & trust — [security-trust.md](security-trust.md); Gallery SecurityTrustPage |
 | **1.65** | Settings persistence — [settings-persistence.md](settings-persistence.md); Gallery SettingsPersistencePage |
+| **1.66** | Charts & dashboard polish — defer remaining charts/gauges; [charts.md](charts.md); Gallery Charts/Dashboard |
 | **1.35** | Qt Creator kit polish — [qt-creator.md](qt-creator.md); example build presets |
 | **1.36** | Docs site IA — [recipes.md](recipes.md) hub; MkDocs Recipes sections |
 | **1.37** | Promote sweep — commands / Flyout / TabView / ShellWindow / pickers / progress / FontIcon / ItemsRepeater; explicit defer list |

@@ -10,7 +10,7 @@ import QWinUI3.Extras
 
 CatalogPage {
     title: qsTr("TankGauge")
-    subtitle: qsTr("Vertical tank level; drag to set; invertThresholds for low=critical.")
+    subtitle: qsTr("Experimental (deferred 1.66). Prefer RingGauge. Vertical tank; invertThresholds for low=critical.")
 
     ControlExample {
         headerText: qsTr("Reservoir levels")

@@ -11,7 +11,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("RadarChart")
-    subtitle: qsTr("Spider chart with title, empty state, and legend emphasis.")
+    subtitle: qsTr("Experimental (deferred 1.66). Spider chart with legend emphasis.")
 
     ControlExample {
         headerText: qsTr("Team comparison")

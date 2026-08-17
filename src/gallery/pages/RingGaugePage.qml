@@ -10,7 +10,7 @@ import QWinUI3.Extras
 
 CatalogPage {
     title: qsTr("RingGauge")
-    subtitle: qsTr("Closed KPI ring with center value; drag when interactive.")
+    subtitle: qsTr("Stable (1.23). Closed KPI ring; drag when interactive — docs/charts.md.")
 
     ControlExample {
         headerText: qsTr("Interactive rings")

@@ -47,6 +47,20 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.65 → 1.66
+
+**Product version:** 1.66  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- Charts cookbook: [charts.md](charts.md) — remaining siblings/gauges **deferred** for remaining 1.xx (prefer Line/Bar/Donut + RingGauge + KpiTile + ChartCard).
+- Gallery **Charts** / **Dashboard** hubs split stable vs deferred; `examples/dashboard` now uses all six stable types.
+
+#### No action (compatible)
+
+- Stable six unchanged; no new chart engine. Deferred types still ship (experimental).
+
 ### Upgrade 1.64 → 1.65
 
 **Product version:** 1.65  

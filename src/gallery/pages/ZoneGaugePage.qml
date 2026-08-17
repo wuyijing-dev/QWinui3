@@ -10,7 +10,7 @@ import QWinUI3.Extras
 
 CatalogPage {
     title: qsTr("ZoneGauge")
-    subtitle: qsTr("Drag needle; activeZoneIndex / label; zone colors and ticks.")
+    subtitle: qsTr("Experimental (deferred 1.66). Prefer RingGauge. Needle with zone bands.")
 
     ControlExample {
         headerText: qsTr("Interactive zones")

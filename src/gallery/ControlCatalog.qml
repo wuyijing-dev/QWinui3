@@ -802,7 +802,7 @@ QtObject {
             title: qsTr("RadialGauge"),
             category: "status",
             icon: FluentIcons.Slider,
-            description: qsTr("Toolkit-style radial needle gauge (MinAngle, TickSpacing, ScaleWidth)."),
+            description: qsTr("Toolkit-style radial needle gauge (experimental — deferred 1.66)."),
             component: "RadialGaugePage",
             source: "pages/RadialGaugePage.qml"
         },
@@ -810,7 +810,7 @@ QtObject {
             title: qsTr("LinearGauge"),
             category: "status",
             icon: FluentIcons.PieSingle,
-            description: qsTr("A horizontal or vertical linear gauge with thumb and thresholds."),
+            description: qsTr("Horizontal or vertical linear gauge (experimental — deferred 1.66)."),
             component: "LinearGaugePage",
             source: "pages/LinearGaugePage.qml"
         },
@@ -818,7 +818,7 @@ QtObject {
             title: qsTr("ArcGauge"),
             category: "status",
             icon: FluentIcons.Slider,
-            description: qsTr("A semicircle dashboard gauge with a large center value."),
+            description: qsTr("Semicircle dashboard gauge (experimental — deferred 1.66)."),
             component: "ArcGaugePage",
             source: "pages/ArcGaugePage.qml"
         },
@@ -826,7 +826,7 @@ QtObject {
             title: qsTr("SegmentedGauge"),
             category: "status",
             icon: FluentIcons.Sync,
-            description: qsTr("A ring divided into discrete segments for steps or quota."),
+            description: qsTr("Segmented ring gauge (experimental — deferred 1.66)."),
             component: "SegmentedGaugePage",
             source: "pages/SegmentedGaugePage.qml"
         },
@@ -834,7 +834,7 @@ QtObject {
             title: qsTr("ZoneGauge"),
             category: "status",
             icon: FluentIcons.Slider,
-            description: qsTr("A needle gauge with colored zone bands (Toolkit-style)."),
+            description: qsTr("Needle gauge with zone bands (experimental — deferred 1.66)."),
             component: "ZoneGaugePage",
             source: "pages/ZoneGaugePage.qml"
         },
@@ -842,7 +842,7 @@ QtObject {
             title: qsTr("RingGauge"),
             category: "status",
             icon: FluentIcons.Slider,
-            description: qsTr("A closed-ring KPI gauge with a large center value."),
+            description: qsTr("Closed-ring KPI gauge (stable 1.23) — docs/charts.md."),
             component: "RingGaugePage",
             source: "pages/RingGaugePage.qml"
         },
@@ -850,7 +850,7 @@ QtObject {
             title: qsTr("TankGauge"),
             category: "status",
             icon: FluentIcons.PieSingle,
-            description: qsTr("A vertical tank / reservoir level gauge."),
+            description: qsTr("Vertical tank / reservoir gauge (experimental — deferred 1.66)."),
             component: "TankGaugePage",
             source: "pages/TankGaugePage.qml"
         },
@@ -858,7 +858,7 @@ QtObject {
             title: qsTr("ThermometerGauge"),
             category: "status",
             icon: FluentIcons.AreaChart,
-            description: qsTr("A classic stem-and-bulb thermometer gauge."),
+            description: qsTr("Stem-and-bulb thermometer (experimental — deferred 1.66)."),
             component: "ThermometerGaugePage",
             source: "pages/ThermometerGaugePage.qml"
         },
@@ -866,7 +866,7 @@ QtObject {
             title: qsTr("KpiTile"),
             category: "status",
             icon: FluentIcons.AreaChart,
-            description: qsTr("A compact KPI tile with delta and optional sparkline."),
+            description: qsTr("KPI tile with delta / sparkline (stable 1.23) — docs/charts.md."),
             component: "KpiTilePage",
             source: "pages/KpiTilePage.qml"
         },
@@ -874,7 +874,7 @@ QtObject {
             title: qsTr("Dashboard"),
             category: "status",
             icon: FluentIcons.Home,
-            description: qsTr("Composite monitoring layout with gauges, KPIs, and charts."),
+            description: qsTr("Stable KPI/chart layout (1.66); extra gauges deferred — docs/charts.md."),
             component: "DashboardPage",
             source: "pages/DashboardPage.qml"
         },
@@ -954,7 +954,7 @@ QtObject {
             title: qsTr("Charts"),
             category: "charts",
             icon: FluentIcons.AreaChart,
-            description: qsTr("Stable chart subset (1.23) — Line/Bar/Donut + RingGauge + KpiTile + ChartCard."),
+            description: qsTr("Stable six (1.23); remaining deferred 1.66 — docs/charts.md."),
             component: "ChartsPage",
             source: "pages/ChartsPage.qml"
         },
@@ -962,7 +962,7 @@ QtObject {
             title: qsTr("Sparkline"),
             category: "charts",
             icon: FluentIcons.PieSingle,
-            description: qsTr("Compact inline trend glyph for dense data."),
+            description: qsTr("Compact inline trend (experimental — deferred 1.66). Prefer KpiTile.trendValues."),
             component: "SparklinePage",
             source: "pages/SparklinePage.qml"
         },
@@ -970,7 +970,7 @@ QtObject {
             title: qsTr("LineChart"),
             category: "charts",
             icon: FluentIcons.AreaChart,
-            description: qsTr("Multi-series line and area chart."),
+            description: qsTr("Multi-series line/area chart (stable 1.23) — docs/charts.md."),
             component: "LineChartPage",
             source: "pages/LineChartPage.qml"
         },
@@ -978,7 +978,7 @@ QtObject {
             title: qsTr("AreaChart"),
             category: "charts",
             icon: FluentIcons.AreaChart,
-            description: qsTr("Filled area chart with optional stacking."),
+            description: qsTr("Filled area chart (experimental — deferred 1.66). Prefer LineChart showArea."),
             component: "AreaChartPage",
             source: "pages/AreaChartPage.qml"
         },
@@ -986,7 +986,7 @@ QtObject {
             title: qsTr("BarChart"),
             category: "charts",
             icon: FluentIcons.PieSingle,
-            description: qsTr("Vertical column chart in a single Canvas pass."),
+            description: qsTr("Vertical column chart (stable 1.23) — docs/charts.md."),
             component: "BarChartPage",
             source: "pages/BarChartPage.qml"
         },
@@ -994,7 +994,7 @@ QtObject {
             title: qsTr("HorizontalBarChart"),
             category: "charts",
             icon: FluentIcons.Dial6,
-            description: qsTr("Horizontal bars for rankings and comparisons."),
+            description: qsTr("Horizontal bars (experimental — deferred 1.66). Prefer BarChart."),
             component: "HorizontalBarChartPage",
             source: "pages/HorizontalBarChartPage.qml"
         },
@@ -1002,7 +1002,7 @@ QtObject {
             title: qsTr("StackedBarChart"),
             category: "charts",
             icon: FluentIcons.DialShape3,
-            description: qsTr("Stacked columns for category composition."),
+            description: qsTr("Stacked columns (experimental — deferred 1.66)."),
             component: "StackedBarChartPage",
             source: "pages/StackedBarChartPage.qml"
         },
@@ -1010,7 +1010,7 @@ QtObject {
             title: qsTr("DonutChart"),
             category: "charts",
             icon: FluentIcons.ProgressRingCommon,
-            description: qsTr("Part-to-whole donut with legend and center label."),
+            description: qsTr("Part-to-whole donut (stable 1.23) — docs/charts.md."),
             component: "DonutChartPage",
             source: "pages/DonutChartPage.qml"
         },
@@ -1018,7 +1018,7 @@ QtObject {
             title: qsTr("PieChart"),
             category: "charts",
             icon: FluentIcons.DonutChart,
-            description: qsTr("Solid pie chart with Fluent color tokens."),
+            description: qsTr("Solid pie (experimental — deferred 1.66). Prefer DonutChart."),
             component: "PieChartPage",
             source: "pages/PieChartPage.qml"
         },
@@ -1026,7 +1026,7 @@ QtObject {
             title: qsTr("ScatterChart"),
             category: "charts",
             icon: FluentIcons.BarChartVertical,
-            description: qsTr("Scatter plot with trend line and point tooltips."),
+            description: qsTr("Scatter plot (experimental — deferred 1.66)."),
             component: "ScatterChartPage",
             source: "pages/ScatterChartPage.qml"
         },
@@ -1034,7 +1034,7 @@ QtObject {
             title: qsTr("WaterfallChart"),
             category: "charts",
             icon: FluentIcons.PieSingle,
-            description: qsTr("Cumulative step / bridge chart with total column."),
+            description: qsTr("Bridge / step chart (experimental — deferred 1.66)."),
             component: "WaterfallChartPage",
             source: "pages/WaterfallChartPage.qml"
         },
@@ -1042,7 +1042,7 @@ QtObject {
             title: qsTr("HeatmapChart"),
             category: "charts",
             icon: FluentIcons.AreaChartMirrored,
-            description: qsTr("Density heatmap with reveal and hover readout."),
+            description: qsTr("Density heatmap (experimental — deferred 1.66)."),
             component: "HeatmapChartPage",
             source: "pages/HeatmapChartPage.qml"
         },
@@ -1050,7 +1050,7 @@ QtObject {
             title: qsTr("RadarChart"),
             category: "charts",
             icon: FluentIcons.ConstructionCone,
-            description: qsTr("Spider / radar comparison chart."),
+            description: qsTr("Spider / radar chart (experimental — deferred 1.66)."),
             component: "RadarChartPage",
             source: "pages/RadarChartPage.qml"
         },
@@ -1058,7 +1058,7 @@ QtObject {
             title: qsTr("ChartCard"),
             category: "charts",
             icon: FluentIcons.Document,
-            description: qsTr("Dashboard card chrome with entrance animation."),
+            description: qsTr("Dashboard card chrome (stable 1.23) — docs/charts.md."),
             component: "ChartCardPage",
             source: "pages/ChartCardPage.qml"
         },
@@ -1066,7 +1066,7 @@ QtObject {
             title: qsTr("BulletChart"),
             category: "charts",
             icon: FluentIcons.PieSingle,
-            description: qsTr("Compact KPI bullet with ranges, value, and target."),
+            description: qsTr("KPI bullet (experimental — deferred 1.66). Prefer KpiTile."),
             component: "BulletChartPage",
             source: "pages/BulletChartPage.qml"
         },
@@ -1594,6 +1594,8 @@ QtObject {
     // Curated “recently shipped” recipe pages (1.20) — not catalog array order.
     function recentlyShipped(count) {
         var ids = [
+            "ChartsPage",             // 1.66 dashboard polish / defer
+            "DashboardPage",          // 1.66 stable vs deferred gauges
             "SettingsPersistencePage", // 1.65 settings persistence
             "SecurityTrustPage",      // 1.64 trust boundaries
             "PrintSharePage",         // 1.63 print / share / export
@@ -1623,7 +1625,6 @@ QtObject {
             "HomePage",               // 1.39 deferred card effects
             "TabViewPage",            // 1.37 promote
             "WindowParadigmPage",     // 1.37 ShellWindow family
-            "ChartsPage",             // 1.23
             "AnimationsPage",         // 1.22 experimental
             "WebView2Page",           // 1.18
             "DataTablePage"           // 1.07

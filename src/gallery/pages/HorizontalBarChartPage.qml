@@ -11,7 +11,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("HorizontalBarChart")
-    subtitle: qsTr("Ranked bars with reveal, hover row highlight, and value labels.")
+    subtitle: qsTr("Experimental (deferred 1.66). Prefer BarChart.")
 
     property string status: qsTr("Hover or click a bar")
 

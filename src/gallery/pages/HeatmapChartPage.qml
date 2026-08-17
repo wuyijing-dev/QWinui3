@@ -11,7 +11,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("HeatmapChart")
-    subtitle: qsTr("Density grid with title, empty state, and hover readout.")
+    subtitle: qsTr("Experimental (deferred 1.66). Density grid with hover readout.")
 
     property string status: qsTr("Hover a cell")
     readonly property var matrix: {

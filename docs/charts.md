@@ -1,6 +1,6 @@
-# Charts & gauges (1.23)
+# Charts & gauges (1.23 / 1.66)
 
-High-traffic Canvas charts and dashboard gauges. **1.23** promotes a **named stable subset**; the rest of the catalog stays **experimental**.
+High-traffic Canvas charts and dashboard gauges. **1.23** promoted a **named stable subset**. **1.66** keeps that six-pack frozen and **defers** the rest of the catalog for remaining 1.xx — Gallery still demos them; product apps should not treat those names as freeze-covered.
 
 | Surface | Status | Use when | Prefer |
 |---------|--------|----------|--------|
@@ -10,20 +10,45 @@ High-traffic Canvas charts and dashboard gauges. **1.23** promotes a **named sta
 | [`RingGauge`](components/RingGauge.md) | **Stable (1.23)** | Single metric 0…max (ring) | `value` + `unit` |
 | [`KpiTile`](components/KpiTile.md) | **Stable (1.23)** | Dashboard metric tile | `unit`, optional `trendValues` |
 | [`ChartCard`](components/ChartCard.md) | **Stable (1.23)** | Title/subtitle chrome around one chart | host one chart child |
-| [`AreaChart`](components/AreaChart.md) / [`HorizontalBarChart`](components/HorizontalBarChart.md) / [`PieChart`](components/PieChart.md) | Experimental | Same families as above | same naming |
-| Other gauges / niche charts | Experimental | See table below | same naming where applicable |
+| Area / pie / extra gauges / niche | **Deferred (1.66)** | Gallery / prototypes | table below |
 
-Example app: [`examples/dashboard`](../examples/dashboard/) — **only stable chart types**. Gallery: **Charts** hub + each control page.
+Example app: [`examples/dashboard`](../examples/dashboard/) — **all six stable types**. Gallery: **Charts** hub + **Dashboard** (stable row vs deferred gauges).
+
+Related: [stable-api.md](stable-api.md) · [performance.md](performance.md) · [recipes.md](recipes.md).
 
 ---
 
-## Stable subset (1.23)
+## Stable subset (1.23, unchanged 1.66)
 
 Use these in production LoB dashboards when you need the “no silent renames” promise from [stable-api.md](stable-api.md):
 
 `LineChart` · `BarChart` · `DonutChart` · `RingGauge` · `KpiTile` · `ChartCard`
 
-Everything else in the Charts category remains experimental (API may still change).
+Do **not** expand this list without a later named soak. `LineChart { showArea: true }` covers filled trends without `AreaChart`.
+
+---
+
+## Deferred — won’t promote in remaining 1.xx (1.66)
+
+Kept in the kit and Gallery. APIs may still change. Same [naming](#naming-111-still-required) aliases apply.
+
+| Keep experimental | Prefer instead | Why |
+|-------------------|----------------|-----|
+| [`AreaChart`](components/AreaChart.md) | `LineChart` + `showArea: true` | Sibling of the stable line |
+| [`HorizontalBarChart`](components/HorizontalBarChart.md) | [`BarChart`](components/BarChart.md) | Same family, less soak |
+| [`PieChart`](components/PieChart.md) | [`DonutChart`](components/DonutChart.md) | Same part-to-whole |
+| [`Sparkline`](components/Sparkline.md) | `KpiTile.trendValues` / `LineChart` | Inline glyph, not a dashboard card |
+| `RadarChart` · `ScatterChart` · `HeatmapChart` · `WaterfallChart` · `StackedBarChart` · `BulletChart` | Stay experimental or custom | Niche; no LoB freeze |
+| `ArcGauge` · `RadialGauge` · `LinearGauge` · `TankGauge` · `ThermometerGauge` · `ZoneGauge` · `SegmentedGauge` | [`RingGauge`](components/RingGauge.md) | Extra gauges |
+| `ChartLegend` · `ChartUtils` | Usable helpers | Not in the freeze promise |
+
+---
+
+## Dashboard recipe
+
+Copy [`examples/dashboard`](../examples/dashboard/): `KpiTile` row + `ChartCard` hosts for `LineChart` / `BarChart` / `DonutChart` + one `RingGauge`. One chart per card; live series stay short ([performance.md](performance.md)).
+
+Gallery **Dashboard** splits the same stable layout from **deferred** tank/thermometer demos so the hub matches this page.
 
 ---
 
@@ -110,19 +135,6 @@ ChartCard {
 
 ---
 
-## Still experimental
-
-| Area | Examples |
-|------|----------|
-| Area / horizontal / pie siblings | `AreaChart`, `HorizontalBarChart`, `PieChart` |
-| Niche charts | `RadarChart`, `ScatterChart`, `HeatmapChart`, `WaterfallChart`, `StackedBarChart`, `BulletChart`, `Sparkline` |
-| Other gauges | `ArcGauge`, `RadialGauge`, `LinearGauge`, `TankGauge`, `ThermometerGauge`, `ZoneGauge`, `SegmentedGauge` |
-| Helpers | `ChartLegend`, `ChartUtils` (usable; not in the stable promise) |
-
-Same naming rules apply. Promote candidates for a later slice only after more soak.
-
----
-
 ## Out of scope
 
-New chart engines, WebGL, screenshot diffs, Accessible completeness for every chart (tracked under a11y later).
+New chart engines, WebGL, replacing Qt Graphs, screenshot diffs, Accessible completeness for every chart (tracked under a11y later).

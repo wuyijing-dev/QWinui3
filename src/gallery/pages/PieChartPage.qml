@@ -11,7 +11,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("PieChart")
-    subtitle: qsTr("Interactive pie with title, selectedIndex, and synchronized legend.")
+    subtitle: qsTr("Experimental (deferred 1.66). Prefer DonutChart.")
 
     property string status: qsTr("Hover a slice")
 

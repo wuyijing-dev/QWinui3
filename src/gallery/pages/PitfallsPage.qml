@@ -56,6 +56,26 @@ CatalogPage {
     }
 
     ControlExample {
+        headerText: qsTr("Charts polish (1.66)")
+        qmlSource: "// Stable six only in product dashboards\\n// docs/charts.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Keep LineChart / BarChart / DonutChart / RingGauge / KpiTile / ChartCard. Area/Pie/Sparkline and extra gauges are deferred for remaining 1.xx — Gallery demos only. Copy examples/dashboard. Cookbook: docs/charts.md.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            CheckBox { text: qsTr("Product dashboards use only the stable six") }
+            CheckBox { text: qsTr("AreaChart → LineChart showArea; PieChart → DonutChart") }
+            CheckBox { text: qsTr("Extra gauges → RingGauge (Tank/Thermo stay Gallery-only)") }
+        }
+    }
+
+    ControlExample {
         headerText: qsTr("Settings persistence (1.65)")
         qmlSource: "// Settings category ≠ geometryPersistenceKey\\n// docs/settings-persistence.md"
         ColumnLayout {

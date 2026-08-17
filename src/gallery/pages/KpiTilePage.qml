@@ -11,7 +11,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("KpiTile")
-    subtitle: qsTr("Compact KPI with signed delta and optional sparkline.")
+    subtitle: qsTr("Stable (1.23). Compact KPI with signed delta and optional sparkline.")
 
     property var latencyTrend: [48, 44, 46, 42, 40, 43, 41, 39, 42]
     property var cpuTrend: [52, 55, 58, 54, 60, 62, 59, 61, 64]

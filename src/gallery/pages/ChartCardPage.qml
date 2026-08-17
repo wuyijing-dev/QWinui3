@@ -11,7 +11,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("ChartCard")
-    subtitle: qsTr("Dashboard chrome with ElevatedChrome, symbol, footer, and entrance motion.")
+    subtitle: qsTr("Stable (1.23). Dashboard chrome with ElevatedChrome and entrance motion.")
 
     property real gaugeValue: 64
     property var spark: {

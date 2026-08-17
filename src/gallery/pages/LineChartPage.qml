@@ -11,7 +11,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("LineChart")
-    subtitle: qsTr("Pixel LOD for million-point series, hover crosshair, and empty state.")
+    subtitle: qsTr("Stable (1.23). Pixel LOD, hover crosshair, empty state — docs/charts.md.")
 
     property var liveA: []
     property var liveB: []

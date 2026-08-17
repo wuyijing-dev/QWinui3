@@ -11,7 +11,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("AreaChart")
-    subtitle: qsTr("Filled areas with legend, hover crosshair, and stacked mode.")
+    subtitle: qsTr("Experimental (deferred 1.66). Prefer LineChart { showArea: true }.")
 
     readonly property var areaA: {
         var a = []

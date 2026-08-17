@@ -1,6 +1,6 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.65**
+**Current:** **1.66**
 **Next up:** **1.65** (Settings persistence & roaming recipes)
 **Planned through:** **1.70** (long-horizon 1.xx checkpoint)  
 **Still 1.xx:** Mid-horizon checkpoint published — [docs/checkpoint-160.md](docs/checkpoint-160.md). Not drafting 2.00.  
@@ -61,7 +61,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.65`
+## Shipped — `1.01` … `1.66`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -323,30 +323,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** [settings-persistence.md](docs/settings-persistence.md) cookbook (`Settings` / QSettings, portable Ini, honest “roaming”, `schemaVersion`); Gallery **Settings persistence**; `examples/form-settings` + `gallery-shell` prefs; forms / window-helper / recipes / MkDocs links; product version `1.65`.
 
+### 1.66 — Charts & dashboard polish (wave 3) (shipped)
+
+**Shipped:** [charts.md](docs/charts.md) defer table for remaining siblings/gauges (stable six unchanged); Gallery **Charts** / **Dashboard** hubs match docs; `examples/dashboard` uses all six stable types; stable-api / recipes / Pitfalls; product version `1.66`.
+
 ---
 
-## Horizon — planned `1.66` … `1.70`
+## Horizon — planned `1.67` … `1.70`
 
 Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per `YY`. Order can flex if field P0s force a swap; do not merge themes into mega-minors. Posture after 1.51 / 1.60: prefer field harden / docs over new control families.
-
-### 1.66 — Charts & dashboard polish (wave 3)
-
-**Why:** 1.23 promoted a stable subset; remaining chart surfaces and dashboard recipes still need a harden pass.
-
-**In scope**
-
-- Polish leftover experimental charts or document defer; dashboard example / Gallery hub refresh.
-- Update [charts.md](docs/charts.md) + stable-api notes.
-
-**Out of scope**
-
-- New chart engines / WebGL; replacing Qt Graphs wholesale.
-
-**Exit criteria**
-
-- Clear stable vs deferred chart list; Gallery hub matches docs.
-
----
 
 ### 1.67 — Media soak or honest defer
 

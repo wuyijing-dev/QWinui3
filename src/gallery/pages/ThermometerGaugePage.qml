@@ -10,7 +10,7 @@ import QWinUI3.Extras
 
 CatalogPage {
     title: qsTr("ThermometerGauge")
-    subtitle: qsTr("Classic stem + bulb; drag to set; thresholds tint the mercury.")
+    subtitle: qsTr("Experimental (deferred 1.66). Prefer RingGauge. Stem + bulb thermometer.")
 
     ControlExample {
         headerText: qsTr("Temperature")

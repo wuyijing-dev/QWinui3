@@ -10,7 +10,7 @@ import QWinUI3.Extras
 
 CatalogPage {
     title: qsTr("ArcGauge")
-    subtitle: qsTr("Drag the arc; invertThresholds for battery-style low=critical.")
+    subtitle: qsTr("Experimental (deferred 1.66). Prefer RingGauge. Drag the arc; invertThresholds for low=critical.")
 
     ControlExample {
         headerText: qsTr("Interactive arcs")

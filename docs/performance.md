@@ -139,7 +139,7 @@ Canvas charts redraw when data or size changes. Keep series short and surfaces f
 | Cards | One chart inside [`ChartCard`](components/ChartCard.md); scroll the page rather than tiling many full canvases |
 | Live updates | Append/trim a capped ring buffer; don’t rebuild a 10k-point array every tick |
 | Hover | `interactive: true` adds hit-testing cost — turn off on dense static sparkline walls |
-| Stable subset | Production: Line / Bar / Donut / RingGauge / KpiTile / ChartCard — [charts.md](charts.md) |
+| Stable subset | Production: Line / Bar / Donut / RingGauge / KpiTile / ChartCard — remaining deferred **1.66** — [charts.md](charts.md) |
 
 ```qml
 ChartCard {

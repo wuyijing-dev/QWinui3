@@ -1,10 +1,10 @@
 # Dashboard example
 
-Monitoring layout with **stable** chart types only (`KpiTile`, `ChartCard`, `LineChart`, `RingGauge`) — no Gallery chrome.
+Monitoring layout with **all six stable** chart types (`KpiTile`, `ChartCard`, `LineChart`, `BarChart`, `DonutChart`, `RingGauge`) — no Gallery chrome.
 
-Promote list + naming: [`docs/charts.md`](../../docs/charts.md) (1.23).
+Promote list + defer table: [`docs/charts.md`](../../docs/charts.md) (**1.23** / **1.66**).
 
 ```bat
-cmake --build build --target qwinui3_example_dashboard
+cmake --build build --config Release --target qwinui3_example_dashboard
 build\qwinui3_example_dashboard.exe
 ```

@@ -83,7 +83,7 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 | [Shell extras](shell-extras.md) | Snap / taskbar / attention / reveal (1.47) |
 | [WebView2](webview2.md) | Stable Edge host (Windows) |
 | [Media](media.md) | Optional Multimedia / MediaPlayerElement |
-| [Charts & gauges](charts.md) | Stable chart subset + gauges |
+| [Charts & gauges](charts.md) | Stable six + deferred remaining (**1.66**) |
 | [Animations](animations.md) | ConnectedAnimation / reducedMotion |
 | [Performance](performance.md) | Lists, models, chart budgets, Gallery cold start (1.39) |
 
@@ -106,7 +106,7 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 | [`examples/multi-window`](../examples/multi-window/) | [window-shells.md](window-shells.md) multi-window (**1.56**) |
 | [`examples/nav-settings`](../examples/nav-settings/) | [navigation.md](navigation.md) |
 | [`examples/settings-cards`](../examples/settings-cards/) | [forms.md](forms.md) / theme |
-| [`examples/dashboard`](../examples/dashboard/) | [charts.md](charts.md) |
+| [`examples/dashboard`](../examples/dashboard/) | [charts.md](charts.md) (**1.66** stable six) |
 | [`examples/master-detail`](../examples/master-detail/) | [data-collections.md](data-collections.md) |
 | [`examples/form-settings`](../examples/form-settings/) | [forms.md](forms.md) |
 

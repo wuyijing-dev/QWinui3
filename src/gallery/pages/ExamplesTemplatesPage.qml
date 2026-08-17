@@ -62,7 +62,7 @@ CatalogPage {
                     { name: "master-detail", recipe: qsTr("ListDetailsView LoB tickets"), page: "ListDetailsViewPage" },
                     { name: "form-settings", recipe: qsTr("FormLayout + Settings persistence (1.65)"), page: "SettingsPersistencePage" },
                     { name: "settings-cards", recipe: qsTr("SettingsCard patterns"), page: "SettingsCardPage" },
-                    { name: "dashboard", recipe: qsTr("Stable charts / KPI tiles"), page: "ChartsPage" },
+                    { name: "dashboard", recipe: qsTr("Stable six KPI/charts (1.66)"), page: "DashboardPage" },
                     { name: "find-package-consumer", recipe: qsTr("find_package(QWinUI3) sketch (1.61) — standalone"), page: "ExamplesTemplatesPage" }
                 ]
                 delegate: RowLayout {

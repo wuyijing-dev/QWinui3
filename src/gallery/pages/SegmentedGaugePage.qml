@@ -10,7 +10,7 @@ import QWinUI3.Extras
 
 CatalogPage {
     title: qsTr("SegmentedGauge")
-    subtitle: qsTr("fillMode discrete|partial; tap segments when isInteractive.")
+    subtitle: qsTr("Experimental (deferred 1.66). Prefer RingGauge. Discrete/partial fillMode.")
 
     ControlExample {
         headerText: qsTr("Discrete + partial")

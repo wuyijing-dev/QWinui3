@@ -11,7 +11,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("Sparkline")
-    subtitle: qsTr("Reveal wipe, showDelta, end marker, caption, and live streams.")
+    subtitle: qsTr("Experimental (deferred 1.66). Prefer KpiTile.trendValues.")
 
     property var liveSpark: []
     property int tick: 0

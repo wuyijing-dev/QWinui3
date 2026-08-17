@@ -4,29 +4,35 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — Dashboard.
-//
-// Composite monitoring layout: KpiTile, RingGauge, TankGauge, charts. API: docs/components/RingGauge.md
+// Gallery — Dashboard (1.66).
+// Stable layout matches examples/dashboard; extra gauges are deferred.
+// Recipe: docs/charts.md
 
 CatalogPage {
     id: page
     title: qsTr("Dashboard")
-    subtitle: qsTr("Composite layout with KPIs, ring/tank gauges, and a live chart.")
+    subtitle: qsTr("Stable KPI/chart recipe (1.66) — extra gauges deferred. docs/charts.md.")
+
+    signal openControl(var item)
 
     property real cpu: 64
     property real mem: 71
     property real tank: 58
     property real temp: 42
     property real latency: 42
-    property var spark: {
-        var a = []
-        for (var i = 0; i < 36; ++i)
-            a.push(40 + Math.sin(i * 0.35) * 12 + (i % 5))
-        return a
-    }
     property var cpuTrend: [52, 55, 58, 54, 60, 62, 59, 61, 64]
     property var memTrend: [68, 69, 70, 71, 70, 72, 71, 73, 71]
     property var latTrend: [48, 44, 46, 42, 40, 43, 41, 39, 42]
+    property var utilSeries: [
+        { name: qsTr("CPU"), color: Theme.accent, values: [40, 48, 52, 55, 60, 58, 62, 64] },
+        { name: qsTr("Mem"), color: Theme.systemCaution, values: [60, 62, 65, 68, 70, 69, 71, 71] }
+    ]
+
+    function openComp(id) {
+        var it = ControlCatalog.findByComponent(id)
+        if (it)
+            page.openControl(it)
+    }
 
     Timer {
         interval: 1400
@@ -45,12 +51,21 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Ops overview")
-        qmlSource: "KpiTile { … }\nRingGauge { … }\nTankGauge { … }\nChartCard { LineChart { … } }"
+        headerText: qsTr("Stable ops overview (1.66)")
+        qmlSource: "KpiTile { … }\nChartCard { LineChart / BarChart / DonutChart }\nRingGauge { … }\n// examples/dashboard · docs/charts.md"
 
         ColumnLayout {
             Layout.fillWidth: true
             spacing: Theme.spacingLoose
+
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Matches examples/dashboard: only LineChart, BarChart, DonutChart, RingGauge, KpiTile, ChartCard. Copy that example for product shells.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
 
             GridLayout {
                 Layout.fillWidth: true
@@ -107,7 +122,7 @@ CatalogPage {
 
             GridLayout {
                 Layout.fillWidth: true
-                columns: width > 900 ? 4 : (width > 720 ? 2 : 1)
+                columns: width > 900 ? 2 : 1
                 rowSpacing: Theme.spacingLoose
                 columnSpacing: Theme.spacingLoose
 
@@ -115,39 +130,95 @@ CatalogPage {
                     Layout.fillWidth: true
                     Layout.preferredHeight: 220
                     title: qsTr("Utilization")
-                    subtitle: qsTr("Ring gauges")
+                    subtitle: qsTr("CPU / Memory")
                     footer: qsTr("Live")
-                    RowLayout {
+                    LineChart {
                         anchors.fill: parent
-                        spacing: Theme.spacingLoose
-                        RingGauge {
-                            Layout.preferredWidth: 140
-                            Layout.preferredHeight: 140
-                            title: qsTr("CPU")
-                            value: page.cpu
-                            unit: "%"
-                            target: 75
-                            cautionThreshold: 0.75
-                            criticalThreshold: 0.9
-                        }
-                        RingGauge {
-                            Layout.preferredWidth: 140
-                            Layout.preferredHeight: 140
-                            title: qsTr("Mem")
-                            value: page.mem
-                            unit: "%"
-                            cautionThreshold: 0.8
-                            criticalThreshold: 0.92
-                            fillColor: Theme.systemCaution
-                        }
+                        showLegend: true
+                        series: page.utilSeries
                     }
                 }
 
                 ChartCard {
                     Layout.fillWidth: true
                     Layout.preferredHeight: 220
+                    title: qsTr("CPU ring")
+                    RingGauge {
+                        anchors.centerIn: parent
+                        width: 140
+                        height: 140
+                        title: qsTr("CPU")
+                        value: page.cpu
+                        unit: "%"
+                        cautionThreshold: 0.75
+                        criticalThreshold: 0.9
+                    }
+                }
+
+                ChartCard {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 220
+                    title: qsTr("Throughput")
+                    subtitle: qsTr("Requests / min")
+                    BarChart {
+                        anchors.fill: parent
+                        values: [18, 26, 22, 34, 40, 31, 28]
+                        unit: ""
+                        showValueLabels: false
+                    }
+                }
+
+                ChartCard {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 220
+                    title: qsTr("Share")
+                    DonutChart {
+                        anchors.fill: parent
+                        centerText: "72%"
+                        slices: [
+                            { value: 42, label: qsTr("Apps"), color: Theme.accent },
+                            { value: 18, label: qsTr("Media"), color: Theme.systemCaution },
+                            { value: 12, label: qsTr("Docs"), color: Theme.systemSuccess }
+                        ]
+                    }
+                }
+            }
+
+            Button {
+                text: qsTr("Charts hub")
+                onClicked: page.openComp("ChartsPage")
+            }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Deferred gauges (1.66)")
+        qmlSource: "TankGauge { … }       // deferred\nThermometerGauge { … } // prefer RingGauge"
+
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacingLoose
+
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("TankGauge / ThermometerGauge stay experimental. Prefer RingGauge in product dashboards.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+
+            GridLayout {
+                Layout.fillWidth: true
+                columns: width > 720 ? 2 : 1
+                rowSpacing: Theme.spacingLoose
+                columnSpacing: Theme.spacingLoose
+
+                ChartCard {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 220
                     title: qsTr("Coolant")
-                    subtitle: qsTr("Tank level")
+                    subtitle: qsTr("TankGauge — deferred")
                     footer: qsTr("%1%").arg(Math.round(page.tank))
                     TankGauge {
                         anchors.horizontalCenter: parent.horizontalCenter
@@ -169,7 +240,7 @@ CatalogPage {
                     Layout.fillWidth: true
                     Layout.preferredHeight: 220
                     title: qsTr("Thermal")
-                    subtitle: qsTr("Package")
+                    subtitle: qsTr("ThermometerGauge — deferred")
                     footer: qsTr("%1°C").arg(Math.round(page.temp))
                     ThermometerGauge {
                         anchors.horizontalCenter: parent.horizontalCenter
@@ -185,19 +256,6 @@ CatalogPage {
                         cautionThreshold: 0.65
                         criticalThreshold: 0.8
                         fillColor: Theme.systemCaution
-                    }
-                }
-
-                ChartCard {
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: 220
-                    title: qsTr("Throughput")
-                    subtitle: qsTr("Requests / min")
-                    footer: qsTr("Updated just now")
-                    LineChart {
-                        anchors.fill: parent
-                        showLegend: false
-                        values: page.spark
                     }
                 }
             }

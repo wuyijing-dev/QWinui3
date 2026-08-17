@@ -6,7 +6,7 @@ import QWinUI3.Extras
 import QWinUI3.Platform
 
 // Dashboard example — one padding inset; tiles/cards bring Layout.fillWidth.
-// Stable chart subset: docs/charts.md (1.23) — LineChart, RingGauge, KpiTile, ChartCard.
+// Stable six: docs/charts.md (1.23 / 1.66) — LineChart, BarChart, DonutChart, RingGauge, KpiTile, ChartCard.
 
 StandardWindow {
     id: window
@@ -122,7 +122,6 @@ StandardWindow {
 
             RowLayout {
                 Layout.fillWidth: true
-                Layout.bottomMargin: Theme.spacingSection
                 spacing: Theme.spacingLoose
 
                 ChartCard {
@@ -149,6 +148,39 @@ StandardWindow {
                         unit: "%"
                         cautionThreshold: 0.75
                         criticalThreshold: 0.9
+                    }
+                }
+            }
+
+            RowLayout {
+                Layout.fillWidth: true
+                Layout.bottomMargin: Theme.spacingSection
+                spacing: Theme.spacingLoose
+
+                ChartCard {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 240
+                    title: qsTr("Throughput")
+                    subtitle: qsTr("Requests / min")
+                    BarChart {
+                        anchors.fill: parent
+                        values: [18, 26, 22, 34, 40, 31, 28]
+                        showValueLabels: false
+                    }
+                }
+
+                ChartCard {
+                    Layout.preferredWidth: 260
+                    Layout.preferredHeight: 240
+                    title: qsTr("Share")
+                    DonutChart {
+                        anchors.fill: parent
+                        centerText: "72%"
+                        slices: [
+                            { value: 42, label: qsTr("Apps"), color: Theme.accent },
+                            { value: 18, label: qsTr("Media"), color: Theme.systemCaution },
+                            { value: 12, label: qsTr("Docs"), color: Theme.systemSuccess }
+                        ]
                     }
                 }
             }

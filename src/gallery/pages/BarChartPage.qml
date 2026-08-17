@@ -11,7 +11,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("BarChart")
-    subtitle: qsTr("Gradient columns with title, valueUnit, and empty state.")
+    subtitle: qsTr("Stable (1.23). Gradient columns, valueUnit, empty state — docs/charts.md.")
 
     property string lastClick: qsTr("Click a bar")
 

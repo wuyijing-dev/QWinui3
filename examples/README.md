@@ -8,7 +8,7 @@ Small apps you can copy as a starting point. **CMake only** (no `.pro`). Open th
 | `qwinui3_example_multi_window` | [`multi-window/`](multi-window/) | Main + tool + owned dialog shells (1.56) — [docs/window-shells.md](../docs/window-shells.md) |
 | `qwinui3_example_nav` | [`nav-settings/`](nav-settings/) | `StandardWindow` + hand-wired `NavigationView` + Settings — [docs/navigation.md](../docs/navigation.md) (1.27) |
 | `qwinui3_example_settings` | [`settings-cards/`](settings-cards/) | Settings page built from `SettingsCard` / `SettingsExpander` |
-| `qwinui3_example_dashboard` | [`dashboard/`](dashboard/) | `KpiTile` + charts/gauges monitoring layout |
+| `qwinui3_example_dashboard` | [`dashboard/`](dashboard/) | Stable six: `KpiTile` + `ChartCard` + Line/Bar/Donut + `RingGauge` (**1.66**) |
 | `qwinui3_example_master_detail` | [`master-detail/`](master-detail/) | `ListDetailsView` LoB ticket shell (1.26) |
 | `qwinui3_example_form` | [`form-settings/`](form-settings/) | `FormLayout` validation + SettingsCard prefs (1.26) |
 
