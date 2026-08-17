@@ -49,7 +49,7 @@ Button {
 | Topic | Detail |
 |-------|--------|
 | MIME | `DropArea.keys: ["text/uri-list"]` — OS file managers / Explorer / Nautilus |
-| Filter | `acceptExtensions` — lowercase suffixes; **empty = accept all** URLs |
+| Filter | `acceptExtensions` — lowercase suffixes; **empty = accept all** URLs (production: prefer a non-empty list — [security-trust.md](security-trust.md) **1.64**) |
 | Reject | Non-matching drops are ignored (no `filesDropped`) |
 | Browse | Wire `FilePicker` beside the zone — drop is not enough for keyboard / a11y / **touch** users ([touch-pointer.md](touch-pointer.md) **1.57**) |
 | Paths | Drop gives URLs; FilePicker gives native paths — normalize in one place |
@@ -161,4 +161,5 @@ URL → local path conversion should use your Qt helpers (`QUrl.toLocalFile` fro
 
 Out of scope: OLE compound documents, browser HTML DnD as a product API, mobile share sheets.
 
-**Export / print the other direction:** [print-share.md](print-share.md) (**1.63**) — grabToImage → save → reveal.
+**Export / print the other direction:** [print-share.md](print-share.md) (**1.63**) — grabToImage → save → reveal.  
+**Trust:** [security-trust.md](security-trust.md) (**1.64**) — never auto-execute drops; keep filters tight.

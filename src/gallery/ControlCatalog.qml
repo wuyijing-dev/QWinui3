@@ -1375,6 +1375,14 @@ QtObject {
             source: "pages/PrintSharePage.qml"
         },
         {
+            title: qsTr("Security & trust"),
+            category: "recipes",
+            icon: FluentIcons.Shield,
+            description: qsTr("WebView2 / drop / picker boundaries — docs/security-trust.md (1.64)."),
+            component: "SecurityTrustPage",
+            source: "pages/SecurityTrustPage.qml"
+        },
+        {
             title: qsTr("GridTile"),
             category: "collections",
             icon: FluentIcons.Document,
@@ -1466,7 +1474,7 @@ QtObject {
             title: qsTr("WebView2"),
             category: "dialogs",
             icon: FluentIcons.Globe,
-            description: qsTr("Stable Edge WebView2 host (1.18) — Runtime / clip / focus recipe."),
+            description: qsTr("Stable Edge WebView2 host (1.18) — trust: docs/security-trust.md (1.64)."),
             component: "WebView2Page",
             source: "pages/WebView2Page.qml"
         },
@@ -1578,6 +1586,7 @@ QtObject {
     // Curated “recently shipped” recipe pages (1.20) — not catalog array order.
     function recentlyShipped(count) {
         var ids = [
+            "SecurityTrustPage",      // 1.64 trust boundaries
             "PrintSharePage",         // 1.63 print / share / export
             "AnimatedIconPage",       // 1.53 thin AnimatedIcon
             "CiSmokePage",            // 1.52 docs-link smoke / 1.62 visual

@@ -56,6 +56,26 @@ CatalogPage {
     }
 
     ControlExample {
+        headerText: qsTr("Security & trust (1.64)")
+        qmlSource: "// WebView2 allowlist · drop filters · picker parent\\n// docs/security-trust.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Not a sandbox product. Gate WebView2 URLs, keep FileDropZone acceptExtensions non-empty for production ingest, never auto-execute drops, and always pass Window.window to FilePicker. Cookbook: docs/security-trust.md · Gallery Security & trust.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            CheckBox { text: qsTr("WebView2 source gated (no free-form production URL bar)") }
+            CheckBox { text: qsTr("Drop zone acceptExtensions non-empty; no auto-execute") }
+            CheckBox { text: qsTr("FilePicker gets Window.window; cancel = empty") }
+        }
+    }
+
+    ControlExample {
         headerText: qsTr("1.xx compatibility (1.40 / 1.51)")
         qmlSource: "// Prefer stable-api + frozen Theme / shell names\\n// docs/compatibility-1xx.md · docs/upgrade-notes.md"
         ColumnLayout {

@@ -10,7 +10,7 @@ import QWinUI3.Platform
 CatalogPage {
     id: page
     title: qsTr("WebView2")
-    subtitle: qsTr("Stable Windows host (1.18). Lifecycle / clip / focus / Runtime — docs/webview2.md.")
+    subtitle: qsTr("Stable Windows host (1.18). Lifecycle / clip / focus / Runtime — docs/webview2.md. Trust: docs/security-trust.md (1.64).")
 
     property url demoUrl: "https://www.microsoft.com/edge/webview"
 
@@ -24,6 +24,23 @@ CatalogPage {
     readonly property bool showHost: probe.available && probe.runtimeInstalled
     readonly property bool showMissingRuntime: probe.available && !probe.runtimeInstalled
     readonly property bool showNotBuilt: !probe.available
+
+    ControlExample {
+        headerText: qsTr("Trust boundary (1.64)")
+        qmlSource: "// Gate source / navigate — host does not cancel nav\\n// docs/security-trust.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("WebView2Host does not enforce a navigation allowlist. Production apps must validate URLs before assigning source. User data lives under AppLocalDataLocation/WebView2Host. Full notes: docs/security-trust.md.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+        }
+    }
 
     ControlExample {
         headerText: qsTr("Integration recipe (1.18 stable)")

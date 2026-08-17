@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.63**
-**Next up:** **1.64** (Security & trust boundaries)
+**Current:** **1.64**
+**Next up:** **1.65** (Settings persistence & roaming recipes)
 **Planned through:** **1.70** (long-horizon 1.xx checkpoint)  
 **Still 1.xx:** Mid-horizon checkpoint published — [docs/checkpoint-160.md](docs/checkpoint-160.md). Not drafting 2.00.  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
@@ -61,7 +61,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.63`
+## Shipped — `1.01` … `1.64`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -315,30 +315,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** [print-share.md](docs/print-share.md) cookbook (grabToImage → FilePicker.saveFile → reveal; optional app-side QPrinter/PrintSupport); Gallery **Print / share / export**; system-integration / drag-drop / shell-extras / recipes / MkDocs cross-links; product version `1.63`.
 
+### 1.64 — Security & trust boundaries (shipped)
+
+**Shipped:** [security-trust.md](docs/security-trust.md) cookbook (WebView2 user-data + app-side allowlists, FileDropZone filters, FilePicker ownership — not a sandbox product); Gallery **Security & trust** + Pitfalls / WebView2 / FileDropZone callouts; webview2 / drag-drop / system-integration / recipes / MkDocs links; product version `1.64`.
+
 ---
 
-## Horizon — planned `1.64` … `1.70`
+## Horizon — planned `1.65` … `1.70`
 
 Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per `YY`. Order can flex if field P0s force a swap; do not merge themes into mega-minors. Posture after 1.51 / 1.60: prefer field harden / docs over new control families.
-
-### 1.64 — Security & trust boundaries
-
-**Why:** WebView2, FileDropZone, and pickers need a single “what we promise / what apps must do” page.
-
-**In scope**
-
-- Trust boundary doc: navigation allowlists, user-data dirs, drop validation, picker ownership.
-- Gallery Pitfalls / WebView2 callouts; links from [webview2.md](docs/webview2.md) / [drag-drop.md](docs/drag-drop.md).
-
-**Out of scope**
-
-- Claiming a hardened sandbox product; rewriting WebView2 host.
-
-**Exit criteria**
-
-- One security cookbook page + Gallery pointers.
-
----
 
 ### 1.65 — Settings persistence & roaming recipes
 

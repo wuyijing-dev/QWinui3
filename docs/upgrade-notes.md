@@ -47,6 +47,20 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.63 → 1.64
+
+**Product version:** 1.64  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- Security & trust cookbook: [security-trust.md](security-trust.md) — WebView2 user-data / app-side URL allowlists, FileDropZone filters, FilePicker ownership (not a sandbox product).
+- Gallery **Security & trust** + Pitfalls / WebView2 / FileDropZone callouts.
+
+#### No action (compatible)
+
+- Docs + Gallery only; WebView2Host / FileDropZone APIs unchanged.
+
 ### Upgrade 1.62 → 1.63
 
 **Product version:** 1.63  

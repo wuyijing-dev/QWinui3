@@ -124,3 +124,5 @@ Do **not** treat `available` alone as “can navigate” — check `runtimeInsta
 - Not supported: Qt WebEngine; Linux/macOS embedding.
 
 Stable-api: **`WebView2Host` promoted in 1.18** — see [stable-api.md](stable-api.md).
+
+**Trust boundaries (1.64):** the host does **not** cancel navigations or offer an allowlist API — gate `source` / `navigate` in the app; user data under `AppLocalDataLocation/WebView2Host` — [security-trust.md](security-trust.md).

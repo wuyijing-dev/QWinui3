@@ -49,7 +49,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("DropArea keys are text/uri-list. Empty acceptExtensions = all URLs. Always offer Browse (FilePicker) for keyboard users. Win/Linux notes: docs/drag-drop.md · Wayland portal parent: docs/platform-linux-wayland.md.")
+                text: qsTr("DropArea keys are text/uri-list. Empty acceptExtensions = all URLs — production ingest should set a non-empty list and never auto-execute paths (docs/security-trust.md, 1.64). Always offer Browse (FilePicker) for keyboard users. Win/Linux notes: docs/drag-drop.md · Wayland portal parent: docs/platform-linux-wayland.md.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
