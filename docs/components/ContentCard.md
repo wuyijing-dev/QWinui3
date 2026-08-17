@@ -4,7 +4,7 @@ Surface card with title, subtitle, symbol, and body slot.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ContentCard.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ContentCard.qml)
 
-**Category:** Layout · **Library:** v1.73
+**Category:** Layout · **Library:** v1.74
 
 [← Component index](../components.md)
 

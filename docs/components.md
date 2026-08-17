@@ -1,6 +1,6 @@
 # QWinUI3 component API
 
-Library **v1.73**. Generated from QML source comments (`scripts/generate_component_docs.py`).
+Library **v1.74**. Generated from QML source comments (`scripts/generate_component_docs.py`).
 Each control has its own page under `docs/components/`.
 
 ```bash
@@ -72,7 +72,7 @@ python scripts/generate_component_docs.py --lint
 - [HyperlinkButton](components/HyperlinkButton.md) — Link-styled button. · Gallery
 - [IconButton](components/IconButton.md) — Icon-only button helper. · Gallery
 - [IconicButton](components/IconicButton.md) — Base icon + label button used by AppBar* / IconButton. · Gallery
-- [ImeCandidateBar](components/ImeCandidateBar.md) — Win11-style in-app IME candidate strip (1.73).
+- [ImeCandidateBar](components/ImeCandidateBar.md) — Win11-style in-app IME candidate strip (1.74).
 - [InfoBadge](components/InfoBadge.md) — Count / status / glyph badge. · Gallery
 - [InfoBar](components/InfoBar.md) — Inline severity banner with optional action and Content slot. · Gallery
 - [InfoBarHost](components/InfoBarHost.md) — Stacks InfoBars in a host region. · Gallery
@@ -100,7 +100,7 @@ python scripts/generate_component_docs.py --lint
 - [NavigationWindow](components/NavigationWindow.md) — ShellWindow hosting NavigationView + content.
 - [NotificationBridge](components/NotificationBridge.md) — Mirror in-app ToastHost to OS notifications (Win balloon / Linux portal). · Gallery
 - [NumberBox](components/NumberBox.md) — Numeric spin/edit with validation (WinUI AcceptsExpression / IsWrapEnabled). · Gallery
-- [OnScreenKeyboard](components/OnScreenKeyboard.md) — Win11-style in-app touch keyboard (1.73). · Gallery
+- [OnScreenKeyboard](components/OnScreenKeyboard.md) — Win11-style in-app touch keyboard (1.74). · Gallery
 - [PagerControl](components/PagerControl.md) — Numbered page navigation (prev / numbers / next). · Gallery
 - [PasswordBox](components/PasswordBox.md) — Password field with reveal toggle. · Gallery
 - [PersonPicture](components/PersonPicture.md) — Avatar from image or initials (WinUI IsGroup / BadgeImageSource). · Gallery

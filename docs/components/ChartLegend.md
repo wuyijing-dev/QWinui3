@@ -4,7 +4,7 @@ Fluent legend for series/slices.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ChartLegend.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ChartLegend.qml)
 
-**Category:** Charts & gauges · **Library:** v1.73
+**Category:** Charts & gauges · **Library:** v1.74
 
 [← Component index](../components.md)
 

@@ -1,10 +1,10 @@
 # ImeCandidateBar
 
-Win11-style in-app IME candidate strip (1.73).
+Win11-style in-app IME candidate strip (1.74).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ImeCandidateBar.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ImeCandidateBar.qml)
 
-**Category:** Date & time · **Library:** v1.73
+**Category:** Date & time · **Library:** v1.74
 
 [← Component index](../components.md)
 
@@ -19,7 +19,8 @@ ImeCandidateBar { engine: osk.engine }
 ## Notes
 
 Host above OnScreenKeyboard. Theme tokens only. No focus steal.
-Shared by pinyin / romaji-kana / hangul. Not Microsoft IME.
+Shared by pinyin / romaji-kana / hangul. Digits 1–9 / Space via engine.
+Not Microsoft IME.
 
 ## API
 

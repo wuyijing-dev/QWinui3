@@ -2,7 +2,7 @@
 
 Win11 / Fluent **touch keyboard chrome we own**. This is **not** Qt Virtual Keyboard, and it is **not** a hardware-shortcut cookbook ([keyboard.md](keyboard.md)).
 
-**Status:** **1.73 shipped** (Keyman layouts + in-app zh/ja/ko IME + emoji, experimental). **Next:** **1.74** soak → **1.75** extra `.kmx` → **1.76** MIT-only IME deepen. Checkpoint is **1.77**.  
+**Status:** **1.74 shipped** (soak / harden; still experimental — not promote-green). **Next:** **1.75** extra `.kmx` → **1.76** MIT-only IME deepen. Checkpoint is **1.77**.  
 **License:** OSK chrome is this repo (LGPL-3.0). SIL Keyman Core (**MIT**) for layouts. Pinyin tables are [mozillazg/pinyin-data](https://github.com/mozillazg/pinyin-data) (**MIT**) — [NOTICE-pinyin.md](NOTICE-pinyin.md). Japanese is a Hepburn romaji→kana map (not a word lexicon). Korean is Unicode hangul composition (not a lexicon). Keyman `cs_pinyin` IMX is **not** used.
 
 | Slice | What ships |
@@ -11,7 +11,7 @@ Win11 / Fluent **touch keyboard chrome we own**. This is **not** Qt Virtual Keyb
 | **1.71** | Keyman Core + extra layouts (de/fr/es/ru/ar) — still no candidate window |
 | **1.72** | Chinese IME — pinyin composition + **our** candidate bar |
 | **1.73** | Full in-app IME — ja romaji/kana, ko hangul, emoji layer, shared candidate host |
-| **1.74** | Soak / harden — still experimental unless soak is written and green |
+| **1.74** | Soak / harden — Gallery checklist + a11y + romaji fixes; **still experimental** |
 | **1.75** | Extra documented Keyman `.kmx` (not every community keyboard) |
 | **1.76** | IME deepen, MIT sources only — no GPL Mozc, no hand-written 词库 |
 | **1.77** | Long-horizon checkpoint (not IME work) |
@@ -100,7 +100,7 @@ Keyman Core already knows thousands of community keyboards. Extending languages 
 | Direct layouts | en, de, fr, es, ru, ar | **1.71 shipped** | Globe switcher; dead keys via Core; RTL mirroring |
 | Composition IME | zh-Hans pinyin | **1.72 shipped** | Preedit + candidate strip (QML we write); MIT pinyin-data |
 | More IMEs | ja romaji/kana, ko hangul | **1.73 shipped** | Same candidate host; hangul compositor + romaji map (not Keyman IMX) |
-| Soak | zh / ja / ko + 1.71 layouts | **1.74** | Harden + a11y; still experimental unless soak is green |
+| Soak | zh / ja / ko + 1.71 layouts | **1.74 shipped** | Gallery checklist + a11y; still experimental (not promote-green) |
 | Extra layouts | more MIT `.kmx` | **1.75** | Named subset + BYO recipe; not CJK IMX |
 | IME deepen | MIT tables only | **1.76** | Optional pinyin regen; kanji only if a MIT source exists |
 | Not this product | Handwriting, dictation, cloud lexicon, OS-wide IME | Parking lot | — |
@@ -209,14 +209,31 @@ System IME remains available alongside the panel until a later minor explicitly 
 
 ---
 
-## 1.74 (planned) — soak
+## 1.74 (shipped) — soak
 
-Full in/out/exit lists live in [ROADMAP.md](../ROADMAP.md). Short form:
+**Verdict:** soak **written** for manual Gallery verification. **Not** promote-green. `OnScreenKeyboard` stays experimental.
 
-- Gallery matrix: en/de/fr/es/ru/ar/zh/ja/ko + emoji, no Qt Virtual Keyboard
-- Candidate-bar a11y + hangul / romaji / pinyin field bugs
-- Stay experimental unless this minor writes a soak checklist **and** marks it green
-- Not extra `.kmx` (1.75), not kanji (1.76), not OS IME
+**Shipped**
+
+- Gallery **On-screen keyboard** language-matrix checklist (en/de/fr/es/ru/ar/zh/ja/ko + emoji + backend readout)
+- `ImeCandidateBar` accessible names for composition, candidates (`Candidate N …`), page buttons; description mentions Space / 1–9
+- Romaji: finalize trailing `n` → `ん` on display / candidates / pick; small kana (`xtu`/`xa`/…), `ye`/`wi`/`we`, `v*`/`f*`
+- `keyboards/README.md` lists shipped `.kmx` vs BYO three-step; IME backends named
+
+**Manual checklist** (Gallery footer dock)
+
+- [ ] en-US letters / Shift / Caps / symbols (`keyman` or `builtin`)
+- [ ] de / fr / es / ru labels; ar RTL
+- [ ] 中文 `nihao` + Space/1–9; `nv` → 女
+- [ ] 日本語 `konnichiwa`; trailing `n` → ん; `xtu` → っ; hiragana + katakana
+- [ ] 한국어 2-beolsik `dkssud` → 안녕; Shift doubles; incomplete cluster preedit
+- [ ] Emoji layer; keys never steal focus
+- [ ] Candidate bar page buttons when many pinyin hits
+
+**Out**
+
+- Promote to stable  
+- Extra `.kmx` (**1.75**) / kanji (**1.76**) / OS IME  
 
 ## 1.75 (planned) — extra Keyman packs
 

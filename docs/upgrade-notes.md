@@ -47,6 +47,19 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.73 → 1.74
+
+**Product version:** 1.74  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- Experimental OSK soak: Gallery language-matrix checklist, candidate-bar a11y, romaji trailing-`n` / small kana. Still experimental — not promoted. [on-screen-keyboard.md](on-screen-keyboard.md).
+
+#### No action (compatible)
+
+- Existing Theme / shell / stable controls unchanged. OSK stays experimental.
+
 ### Upgrade 1.72 → 1.73
 
 **Product version:** 1.73  

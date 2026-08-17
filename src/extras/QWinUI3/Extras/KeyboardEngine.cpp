@@ -212,7 +212,7 @@ QString KeyboardEngine::displayPreedit() const
         return m_hangul.preedit();
     if (japanese()) {
         QString rest;
-        return RomajiKana::toHiragana(m_preedit, &rest) + rest;
+        return RomajiKana::toHiragana(m_preedit, &rest, true) + rest;
     }
     return m_preedit;
 }
@@ -550,7 +550,7 @@ void KeyboardEngine::pickCandidate(int indexOnPage)
     }
     if (japanese()) {
         QString rest;
-        RomajiKana::toHiragana(m_preedit, &rest);
+        RomajiKana::toHiragana(m_preedit, &rest, true);
         commitReplace(picked);
         m_preedit = rest;
         refreshCompose();

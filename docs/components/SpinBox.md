@@ -4,7 +4,7 @@ Fluent styled SpinBox.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/SpinBox.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/SpinBox.qml)
 
-**Category:** Styled controls · **Library:** v1.73
+**Category:** Styled controls · **Library:** v1.74
 
 [← Component index](../components.md)
 

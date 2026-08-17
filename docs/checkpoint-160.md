@@ -90,7 +90,7 @@ Order confirmed at 1.60 (flex only for field P0s). **After 1.73:** keyboard soak
 11. **1.71** — Extra keyboard layouts (not IME yet)  
 12. **1.72** — Chinese IME (pinyin + candidates)  
 13. **1.73** — Full in-app IME (ja / ko + emoji) — **shipped**  
-14. **1.74** — OSK / IME soak (still experimental unless soak is green)  
+14. **1.74** — OSK / IME soak (still experimental) — **shipped**  
 15. **1.75** — Extra documented Keyman `.kmx`  
 16. **1.76** — IME deepen (MIT-only)  
 17. **1.77** — Long-horizon 1.xx checkpoint (slipped from 1.74)  

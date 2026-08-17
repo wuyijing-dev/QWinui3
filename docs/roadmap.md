@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.73**
-**Next up:** **1.74** (OSK / IME soak)
+**Current:** **1.74**
+**Next up:** **1.75** (Extra Keyman layout packs)
 **Planned through:** **1.77** (long-horizon 1.xx checkpoint, slipped)
 **Still 1.xx:** Mid-horizon checkpoint published — [checkpoint-160.md](checkpoint-160.md). Not drafting 2.00.  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](qt-version-compat.md)
@@ -355,11 +355,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** ja-JP Hepburn romaji→kana (hiragana/katakana candidates) + ko-KR 2-beolsik hangul compositor (Unicode syllables, not a lexicon). Shared `ImeCandidateBar`. Emoji layer (no engine). Keyman Core still layouts only — ja/ko are not `.kmx` IMX. Gallery language matrix. Still experimental. Product version `1.73`.
 
+### 1.74 — OSK / IME soak (shipped)
+
+**Shipped:** Gallery language-matrix soak checklist; `ImeCandidateBar` a11y (composition / candidates / page buttons + Space/1–9 notes); romaji trailing-`n` finalize + small-kana map; BYO `.kmx` recipe in `keyboards/README.md`. **Stay experimental** — soak is written for manual Gallery verification, not promote-green. Product version `1.74`.
+
 ---
 
-## Horizon — planned `1.74` … `1.77`
+## Horizon — planned `1.75` … `1.77`
 
-Still **1.xx**. One theme per `YY`. **1.70…1.73** shipped the GPL-free in-app IME path; **1.74…1.76** finish that keyboard arc (soak → extra layouts → MIT-only deepen). Long-horizon checkpoint slips to **1.77**. Plan: [on-screen-keyboard.md](on-screen-keyboard.md). Chrome stays ours. Keyman Core stays layouts only. No Qt Virtual Keyboard.
+Still **1.xx**. One theme per `YY`. **1.70…1.74** shipped the GPL-free in-app IME path through soak; **1.75…1.76** finish packs + MIT deepen. Long-horizon checkpoint is **1.77**. Plan: [on-screen-keyboard.md](on-screen-keyboard.md). Chrome stays ours. Keyman Core stays layouts only. No Qt Virtual Keyboard.
 
 | Slice | Keyboard theme |
 |-------|----------------|
@@ -367,36 +371,10 @@ Still **1.xx**. One theme per `YY`. **1.70…1.73** shipped the GPL-free in-app 
 | **1.71 shipped** | Keyman Core + de/fr/es/ru/ar |
 | **1.72 shipped** | zh-Hans pinyin + candidate bar |
 | **1.73 shipped** | ja romaji/kana + ko hangul + emoji |
-| **1.74** | Soak / harden (still experimental unless soak is green) |
+| **1.74 shipped** | Soak / harden (still experimental) |
 | **1.75** | Extra documented Keyman `.kmx` (not “every keyboard”) |
 | **1.76** | IME deepen, MIT sources only (no GPL Mozc / no hand-written 词库) |
 | **1.77** | Long-horizon 1.xx checkpoint (slipped from 1.74) |
-
-### 1.74 — OSK / IME soak
-
-**Why:** 1.73 landed zh/ja/ko + emoji. Soak and fix before more packs or a promote. Do not silent-promote.
-
-**In scope**
-
-- Gallery language matrix soak: en / de / fr / es / ru / ar / zh / ja / ko + emoji layer, no Qt Virtual Keyboard
-- `ImeCandidateBar` a11y (accessible names, paging, 1–9 / Space)
-- Field bugs in 2-beolsik hangul, Hepburn romaji, pinyin preedit / consume
-- Recipe: shipped `.kmx` vs bring-your-own; `engine.backend` (`pinyin` / `romaji` / `hangul` / `keyman` / `builtin`)
-- Stay **experimental** unless this minor writes a soak checklist **and** marks it green
-
-**Out of scope**
-
-- Extra Keyman packs (that is **1.75**)
-- Kanji / hangul-word dictionaries / GPL IME engines
-- OS-wide IME / `platforminputcontexts`
-- Handwriting, dictation, cloud lexicon
-- Promoting to stable without a written green soak
-
-**Exit criteria**
-
-- Soak notes live in [on-screen-keyboard.md](on-screen-keyboard.md)
-- zh / ja / ko + the 1.71 layout set still work in Gallery without Qt Virtual Keyboard
-- LICENSE/NOTICE still MIT Core + our UI + existing MIT pinyin tables
 
 ### 1.75 — Extra Keyman layout packs
 
@@ -473,7 +451,7 @@ Unscheduled follow-ups (pick only inside a named minor):
 | Candidate | Notes |
 |-----------|-------|
 | **Accessibility wave 3** | Focus return / live regions — slipped past 1.69 Theme prefs |
-| **IME promote → stable** | Only if **1.74** soak is green — do not silent-promote |
+| **IME promote → stable** | Only after a **green** soak — **1.74** wrote the checklist but did **not** promote |
 | **1.78+ field fixes** | Portal / DPI / tray / WebView2 / packaging / IME regressions |
 | **More UI locale packs** | `zh_CN` / `ja_JP` seeds stay separate from IME / `.kmx` packs |
 | **Deeper Lottie / AnimatedIcon** | Only if 1.53 thin path proves valuable |

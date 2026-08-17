@@ -13,6 +13,37 @@ const QList<Pair> &table()
     static const QList<Pair> t = [] {
         QList<Pair> rows = {
         {QStringLiteral("kya"), QStringLiteral("きゃ")},
+        {QStringLiteral("xya"), QStringLiteral("ゃ")},
+        {QStringLiteral("xyu"), QStringLiteral("ゅ")},
+        {QStringLiteral("xyo"), QStringLiteral("ょ")},
+        {QStringLiteral("lya"), QStringLiteral("ゃ")},
+        {QStringLiteral("lyu"), QStringLiteral("ゅ")},
+        {QStringLiteral("lyo"), QStringLiteral("ょ")},
+        {QStringLiteral("xtu"), QStringLiteral("っ")},
+        {QStringLiteral("ltu"), QStringLiteral("っ")},
+        {QStringLiteral("ltsu"), QStringLiteral("っ")},
+        {QStringLiteral("xa"), QStringLiteral("ぁ")},
+        {QStringLiteral("xi"), QStringLiteral("ぃ")},
+        {QStringLiteral("xu"), QStringLiteral("ぅ")},
+        {QStringLiteral("xe"), QStringLiteral("ぇ")},
+        {QStringLiteral("xo"), QStringLiteral("ぉ")},
+        {QStringLiteral("la"), QStringLiteral("ぁ")},
+        {QStringLiteral("li"), QStringLiteral("ぃ")},
+        {QStringLiteral("lu"), QStringLiteral("ぅ")},
+        {QStringLiteral("le"), QStringLiteral("ぇ")},
+        {QStringLiteral("lo"), QStringLiteral("ぉ")},
+        {QStringLiteral("ye"), QStringLiteral("いぇ")},
+        {QStringLiteral("wi"), QStringLiteral("うぃ")},
+        {QStringLiteral("we"), QStringLiteral("うぇ")},
+        {QStringLiteral("va"), QStringLiteral("ゔぁ")},
+        {QStringLiteral("vi"), QStringLiteral("ゔぃ")},
+        {QStringLiteral("vu"), QStringLiteral("ゔ")},
+        {QStringLiteral("ve"), QStringLiteral("ゔぇ")},
+        {QStringLiteral("vo"), QStringLiteral("ゔぉ")},
+        {QStringLiteral("fa"), QStringLiteral("ふぁ")},
+        {QStringLiteral("fi"), QStringLiteral("ふぃ")},
+        {QStringLiteral("fe"), QStringLiteral("ふぇ")},
+        {QStringLiteral("fo"), QStringLiteral("ふぉ")},
         {QStringLiteral("kyu"), QStringLiteral("きゅ")},
         {QStringLiteral("kyo"), QStringLiteral("きょ")},
         {QStringLiteral("gya"), QStringLiteral("ぎゃ")},
@@ -149,14 +180,20 @@ bool isConsonant(QChar c)
 
 } // namespace
 
-QString RomajiKana::toHiragana(const QString &romaji, QString *rest)
+QString RomajiKana::toHiragana(const QString &romaji, QString *rest, bool finalize)
 {
     QString in = romaji.toLower();
     QString out;
     int i = 0;
     while (i < in.size()) {
-        if (in.at(i) == QLatin1Char('n') && i + 1 == in.size())
+        if (in.at(i) == QLatin1Char('n') && i + 1 == in.size()) {
+            if (finalize) {
+                out += QStringLiteral("ん");
+                ++i;
+                continue;
+            }
             break;
+        }
         if (in.at(i) == QLatin1Char('n') && i + 1 < in.size()) {
             const QChar nxt = in.at(i + 1);
             if (nxt != QLatin1Char('a') && nxt != QLatin1Char('i') && nxt != QLatin1Char('u')
@@ -208,7 +245,7 @@ QString RomajiKana::toKatakana(const QString &hiragana)
 QStringList RomajiKana::candidates(const QString &romaji)
 {
     QString rest;
-    const QString hira = toHiragana(romaji, &rest);
+    const QString hira = toHiragana(romaji, &rest, true);
     if (hira.isEmpty())
         return {};
     QStringList out;
