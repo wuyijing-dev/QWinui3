@@ -61,6 +61,14 @@ extra:
 
 nav:
   - Home: index.md
+  - Planning:
+    - Overview: planning/index.md
+    - Friction log: planning/friction-log.md
+    - Roadmap strategy: planning/roadmap-strategy.md
+    - Product expansion:
+      - Charts & dashboard arc: planning/expansion/charts-dashboard-arc.md
+      - Component capabilities: planning/expansion/component-capabilities-expansion.md
+      - Icons & dashboard: planning/expansion/icons-dashboard-expansion.md
   - Recipes:
     - Overview: recipes.md
     - Getting started:
@@ -109,6 +117,7 @@ nav:
       - Media: media.md
       - Charts & gauges: charts.md
       - Animations: animations.md
+      - Carousel: carousel-recipes.md
       - Performance: performance.md
     - Quality:
       - CI smoke: ci-smoke.md
@@ -117,6 +126,28 @@ nav:
       - 1.xx maturity checkpoint: maturity-1xx.md
       - Mid-horizon checkpoint (1.60): checkpoint-160.md
       - Upgrade notes: upgrade-notes.md
+      - 2.xx checkpoints:
+        - Checkpoint 2.30: checkpoint-230.md
+        - Checkpoint 2.50: checkpoint-250.md
+        - Checkpoint 2.60: checkpoint-260.md
+        - Checkpoint 2.70: checkpoint-270.md
+        - Checkpoint 2.73: checkpoint-273.md
+        - Checkpoint 3.00: checkpoint-300.md
+        - 3.xx compatibility (draft): compatibility-3xx.md
+    - 2.xx developer:
+      - Docs IA v2: docs-ia-v2.md
+      - Tranche-1 checkpoint (2.50): checkpoint-250.md
+      - Tranche-1 perf sign-off (2.49): perf-signoff-2xx.md
+      - Field harden buffer (2.47): field-harden-247.md
+      - Developer diagnostics: developer-diagnostics.md
+      - Experimental sweep: experimental-sweep.md
+    - 2.xx controls:
+      - Dashboard compose decision (2.48): dashboard-compose-decision.md
+      - Gallery catalog expansion: gallery-catalog-expansion.md
+      - Calendar view: calendar-view.md
+      - Items wrap grid: items-wrap-grid.md
+      - Style polish: style-polish.md
+      - Multi-window onboarding: multi-window-onboarding.md
   - Stable API: stable-api.md
   - Component API: components.md
   - Roadmap: roadmap.md

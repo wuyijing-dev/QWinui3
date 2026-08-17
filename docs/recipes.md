@@ -1,11 +1,48 @@
-# Recipes hub (1.36)
+# Recipes hub (2.46 v2)
 
 LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stack. Generated **control** pages live under [Component API](components.md). **Gallery:** last pane group **Recipes** → **Recipes hub** (also motion, a11y, system, media how-tos).
 
-**Stable API:** prefer types on [stable-api.md](stable-api.md). **1.37** promote / defer tables live there.  
-**1.xx freeze (1.40):** [compatibility-1xx.md](compatibility-1xx.md) · [upgrade-notes.md](upgrade-notes.md).  
-**1.xx maturity (1.51):** [maturity-1xx.md](maturity-1xx.md) — prefer harden; not 2.00.  
-**Mid-horizon (1.60):** [checkpoint-160.md](checkpoint-160.md). **Long-horizon (1.78):** [checkpoint-178.md](checkpoint-178.md) — still 1.xx; prefer field harden / pause; OSK stays experimental ([on-screen-keyboard.md](on-screen-keyboard.md)).
+**Docs IA v2 (2.46):** [docs-ia-v2.md](docs-ia-v2.md) — MkDocs **Planning** + **Recipes** regroup; this hub mirrors Gallery rows.
+
+---
+
+## Planning & product expansion
+
+| Doc | One-liner |
+|-----|-----------|
+| [Planning hub](planning/index.md) | Friction gate + expansion tracks (**2.51→3.00**) |
+| [Friction log](planning/friction-log.md) | Open P0/P1 rows — post-**2.50** gate |
+| [Roadmap strategy](planning/roadmap-strategy.md) | Phases through **3.00** |
+| [Charts & dashboard arc](planning/expansion/charts-dashboard-arc.md) | New types + stable six deepen |
+| [Component capabilities](planning/expansion/component-capabilities-expansion.md) | **All modules** — existing control API deepen |
+| [Icons & dashboard](planning/expansion/icons-dashboard-expansion.md) | KPI / ChartCard symbols |
+
+---
+
+## 2.xx developer & stability
+
+| Recipe | One-liner |
+|--------|-----------|
+| [Tranche-1 perf sign-off (2.49)](perf-signoff-2xx.md) | FL-008 partial — 2.x wave 5→8 summary |
+| [Field harden buffer (2.47)](field-harden-247.md) | Checkpoint P0/P1 triage — packaging picker + import guard |
+| [Docs IA v2](docs-ia-v2.md) | MkDocs + hub regroup for **2.xx** docs (**2.46**) |
+| [Developer diagnostics](developer-diagnostics.md) | FrameStats dev vs retail · `--retail-diagnostics` (**2.44**) |
+| [Experimental sweep](experimental-sweep.md) | FL-004 verdict matrix + Gallery badges (**2.45**) |
+
+---
+
+## 2.xx controls & Gallery
+
+| Recipe | One-liner |
+|--------|-----------|
+| [Dashboard compose decision (2.48)](dashboard-compose-decision.md) | FL-009 — deferred chart → stable six tree |
+| [Gallery catalog expansion](gallery-catalog-expansion.md) | 2.21…2.38 findability matrix (**2.39**) |
+| [Calendar view](calendar-view.md) | Experimental month grid (**2.31**) |
+| [Items wrap grid](items-wrap-grid.md) | Experimental wrap layout (**2.24**) |
+| [Style polish](style-polish.md) | Spot-check + polish notes (**2.32**) |
+| [Multi-window onboarding](multi-window-onboarding.md) | Second-window recipe (**2.14** harden) |
+
+**Stable API:** prefer types on [stable-api.md](stable-api.md). **1.xx freeze:** [compatibility-1xx.md](compatibility-1xx.md) · [upgrade-notes.md](upgrade-notes.md).
 
 ---
 
@@ -14,7 +51,8 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 | Recipe | One-liner |
 |--------|-----------|
 | [Qt Creator](qt-creator.md) | Open root CMakeLists → Gallery or example (no `.pro`) |
-| [Consumer packaging](packaging-consumer.md) | Shared vs static / windeploy / strip (1.46) · `find_package` sketch (**1.61**) |
+| [Consumer packaging](packaging-consumer.md) | Shared vs static / windeploy / strip (1.46) · `find_package` (1.61) |
+| [vcpkg / Conan](packaging-vcpkg-conan.md) | Overlay port + Conan 2 recipe (**2.11**) |
 | [1.xx compatibility](compatibility-1xx.md) | Will-not-break Theme / shells / stable controls (1.40 / 1.51) |
 | [1.xx maturity checkpoint](maturity-1xx.md) | Where we are; harden-first posture (**1.51**) |
 | [Mid-horizon checkpoint](checkpoint-160.md) | Halfway audit; 1.61+ confirmed (**1.60**) |
@@ -29,7 +67,7 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 
 | Recipe | One-liner |
 |--------|-----------|
-| [Window shells](window-shells.md) | ShellWindow vs StandardWindow · multi-window (1.56) · Win/Linux matrix |
+| [Window shells](window-shells.md) | ShellWindow vs StandardWindow · multi-window (**1.56** · **2.14** harden) |
 | [Window chrome](window-chrome.md) | DPI / backdrop / geometry failure modes |
 | [High-DPI & multi-monitor](high-dpi.md) | DPR matrix · geometry clamp + setScreen (**1.58**) |
 | [WindowHelper](window-helper.md) | Geometry persistence, backdrop, platform APIs |
@@ -45,6 +83,7 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 | Recipe | One-liner |
 |--------|-----------|
 | [Navigation & TabView](navigation.md) | Pane modes, Back, footer |
+| [Carousel / FlipView](carousel-recipes.md) | PipsPager + SwipeView hosts · reducedMotion (**2.37**) |
 | [Forms & settings](forms.md) | FormLayout validation + SettingsCard |
 | [Settings persistence](settings-persistence.md) | QSettings / Settings · portable Ini · schemaVersion (**1.65**) |
 | [Data collections](data-collections.md) | DataTable / ItemsView / ListDetailsView |
@@ -53,10 +92,10 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 | [Density & responsive](density.md) | Compact metrics, narrow shells |
 | [Touch, pen & pointer](touch-pointer.md) | Targets · scroll vs drag · pen notes (**1.57**) |
 | [Adaptive layout](adaptive-layout.md) | TwoPaneView / ListDetailsView breakpoints (1.42) |
-| [Theme overrides](theme-overrides.md) | Accent / density / branding · copy recipe (**1.69**) |
+| [Theme overrides](theme-overrides.md) | Accent / density / branding · copy recipe (**1.69**) · wave 2 packs + ThemePrefs (**2.38**) |
 | [Color & contrast](color-contrast.md) | AA diagnostics / high contrast (1.43) |
 | [Icons & FluentIcons](icons.md) | Symbol font + micro-motion + AnimatedIcon (1.53) |
-| [i18n / RTL](i18n-rtl.md) | qsTr + zh_CN seed + LayoutMirroring (1.45) |
+| [i18n / RTL](i18n-rtl.md) | qsTr + seed locales + LayoutMirroring · consumer lrelease (**2.12**) |
 
 ---
 
@@ -80,23 +119,33 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 |--------|-----------|
 | [System integration](system-integration.md) | FilePicker / Tray / NotificationBridge (**1.68** / **1.79** portal) |
 | [Print, share & export](print-share.md) | grabToImage · save · reveal · PrintSupport notes (**1.63**) |
-| [Security & trust](security-trust.md) | WebView2 / drop / picker boundaries (**1.64**) |
+| [Security & trust](security-trust.md) | WebView2 / drop / picker / path trust · wave 2 (**2.13**) · wave 3 (**2.36**) |
 | [Drag-drop & clipboard](drag-drop.md) | FileDropZone / CopyButton / WindowHelper (1.41) |
 | [Shell extras](shell-extras.md) | Snap / taskbar / attention / reveal (1.47) |
 | [WebView2](webview2.md) | Stable Edge host (Windows) |
-| [Media](media.md) | Optional Multimedia — **deferred 1.67** |
+| [Media](media.md) | Optional Multimedia — **permanent defer 2.09** |
 | [Charts & gauges](charts.md) | Stable six + deferred remaining (**1.66**) |
 | [Animations](animations.md) | ConnectedAnimation / reducedMotion |
+| [Carousel](carousel-recipes.md) | FlipView / PipsPager hosts (**2.37**) |
 | [Performance](performance.md) | Lists, models, chart budgets, Gallery cold start (1.39) |
 
 ---
 
-## Quality & Gallery
+## Quality & checkpoints
 
 | Recipe | One-liner |
 |--------|-----------|
 | [CI smoke](ci-smoke.md) | Gallery `--smoke` + opt-in visual subset (**1.62**) |
 | [Gallery CatalogPage](gallery-catalog-page.md) | Page host slots (Item not Page) |
+| [Mid-horizon checkpoint (1.60)](checkpoint-160.md) | Halfway audit; 1.61+ confirmed |
+| [Long-horizon checkpoint (1.78)](checkpoint-178.md) | 1.49…1.78 close-out |
+| [Checkpoint 2.30](checkpoint-230.md) | Tranche-1 mid audit |
+| [Checkpoint 2.50](checkpoint-250.md) | Tranche-1 close-out — friction-only **2.51+** |
+| [Checkpoint 2.60](checkpoint-260.md) | Friction tranche close-out (planned) |
+| [Checkpoint 2.70](checkpoint-270.md) | Professional surfaces audit (planned) |
+| [Checkpoint 2.73](checkpoint-273.md) | Python consumer checkpoint (planned) |
+| [Checkpoint 3.00](checkpoint-300.md) | 2.x line close-out (draft) |
+| [3.xx compatibility (draft)](compatibility-3xx.md) | Breaking close-out notes |
 
 ---
 

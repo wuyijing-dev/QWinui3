@@ -1,54 +1,222 @@
-# Charts & gauges (1.23 / 1.66)
+# Charts & gauges (1.23 / 1.66 / 2.08)
 
-High-traffic Canvas charts and dashboard gauges. **1.23** promoted a **named stable subset**. **1.66** keeps that six-pack frozen and **defers** the rest of the catalog for remaining 1.xx — Gallery still demos them; product apps should not treat those names as freeze-covered.
+High-traffic Canvas charts and dashboard gauges. **1.23** promoted a **named stable subset**. **1.66** keeps that six-pack frozen and **defers** the rest of the catalog. **2.08** finalizes compose recipes and **permanent defer** for sibling gauges — **no new stable chart names**.
 
 | Surface | Status | Use when | Prefer |
 |---------|--------|----------|--------|
-| [`LineChart`](components/LineChart.md) | **Stable (1.23)** | Trends over categories / time | `series` or flat `values` |
+| [`LineChart`](components/LineChart.md) | **Stable (1.23)** | Trends over categories / time | `series` or flat `values`; **`showArea: true`** instead of `AreaChart` |
 | [`BarChart`](components/BarChart.md) | **Stable (1.23)** | Compare magnitudes | `values` or `bars` |
 | [`DonutChart`](components/DonutChart.md) | **Stable (1.23)** | Part-to-whole | `slices` (or convenience `values`) |
-| [`RingGauge`](components/RingGauge.md) | **Stable (1.23)** | Single metric 0…max (ring) | `value` + `unit` |
-| [`KpiTile`](components/KpiTile.md) | **Stable (1.23)** | Dashboard metric tile | `unit`, optional `trendValues` |
+| [`RingGauge`](components/RingGauge.md) | **Stable (1.23)** | Single metric 0…max (ring) | `value` + `unit` — **prefer over extra gauge types** |
+| [`KpiTile`](components/KpiTile.md) | **Stable (1.23)** | Dashboard metric tile | `unit`, **`trendValues`** instead of `Sparkline` |
 | [`ChartCard`](components/ChartCard.md) | **Stable (1.23)** | Title/subtitle chrome around one chart | host one chart child |
-| Area / pie / extra gauges / niche | **Deferred (1.66)** | Gallery / prototypes | table below |
+| Area / pie / extra gauges / niche | **Permanent defer (2.08)** | Gallery / prototypes only | compose table below |
 
-Example app: [`examples/dashboard`](../examples/dashboard/) — **all six stable types**. Gallery: **Charts** hub + **Dashboard** (stable row vs deferred gauges).
+Example app: [`examples/dashboard`](../examples/dashboard/) — **all six stable types**. Gallery: **Charts** hub (compose recipes) + **Dashboard** (stable row vs deferred gauges).
+
+**2.48 / FL-009:** compose decision tree — [dashboard-compose-decision.md](dashboard-compose-decision.md) (which deferred name → stable compose). Gallery **Dashboard** + **Pitfalls** checklist.
 
 Related: [stable-api.md](stable-api.md) · [performance.md](performance.md) · [recipes.md](recipes.md).
 
 ---
 
-## Stable subset (1.23, unchanged 1.66)
+## Stable subset (frozen — 1.23 / 1.66 / 2.08)
 
 Use these in production LoB dashboards when you need the “no silent renames” promise from [stable-api.md](stable-api.md):
 
 `LineChart` · `BarChart` · `DonutChart` · `RingGauge` · `KpiTile` · `ChartCard`
 
-Do **not** expand this list without a later named soak. `LineChart { showArea: true }` covers filled trends without `AreaChart`.
+Do **not** expand this list without a later named soak. Compose paths below replace deferred siblings without adding stable names.
 
 ---
 
-## Deferred — won’t promote in remaining 1.xx (1.66)
+## Compose recipes (2.08)
 
-Kept in the kit and Gallery. APIs may still change. Same [naming](#naming-111-still-required) aliases apply.
+Copy these instead of deferred chart/gauge types. Gallery **Charts** and **Dashboard** demonstrate each path.
 
-| Keep experimental | Prefer instead | Why |
-|-------------------|----------------|-----|
-| [`AreaChart`](components/AreaChart.md) | `LineChart` + `showArea: true` | Sibling of the stable line |
-| [`HorizontalBarChart`](components/HorizontalBarChart.md) | [`BarChart`](components/BarChart.md) | Same family, less soak |
-| [`PieChart`](components/PieChart.md) | [`DonutChart`](components/DonutChart.md) | Same part-to-whole |
-| [`Sparkline`](components/Sparkline.md) | `KpiTile.trendValues` / `LineChart` | Inline glyph, not a dashboard card |
-| `RadarChart` · `ScatterChart` · `HeatmapChart` · `WaterfallChart` · `StackedBarChart` · `BulletChart` | Stay experimental or custom | Niche; no LoB freeze |
-| `ArcGauge` · `RadialGauge` · `LinearGauge` · `TankGauge` · `ThermometerGauge` · `ZoneGauge` · `SegmentedGauge` | [`RingGauge`](components/RingGauge.md) | Extra gauges |
+### Filled trend — `AreaChart` → `LineChart { showArea: true }`
+
+```qml
+ChartCard {
+    title: qsTr("Throughput")
+    LineChart {
+        anchors.fill: parent
+        showArea: true
+        showLegend: true
+        series: [
+            { name: qsTr("In"), color: Theme.accent, values: inboundSeries },
+            { name: qsTr("Out"), color: Theme.systemCaution, values: outboundSeries }
+        ]
+    }
+}
+```
+
+Single series: `values: history` + `showArea: true`. Stacked areas: multiple `series` entries (same as deferred `AreaChart.stacked`).
+
+### Inline trend — `Sparkline` → `KpiTile.trendValues` or compact `LineChart`
+
+**Dashboard KPI row (preferred):**
+
+```qml
+KpiTile {
+    title: qsTr("CPU")
+    value: cpuPercent
+    unit: "%"
+    trendValues: cpuHistory   // inline sparkline strip inside the tile
+    delta: 1.2
+}
+```
+
+**Table / list row (compact line, no KPI chrome):**
+
+```qml
+LineChart {
+    width: 120
+    height: 28
+    showArea: false
+    showLegend: false
+    showGrid: false
+    interactive: false
+    values: row.history
+}
+```
+
+### Part-to-whole — `PieChart` → `DonutChart`
+
+Same `slices` / `values` API. Use `centerText` / `centerSubText` for the hole label.
+
+### Single metric — extra gauges → `RingGauge`
+
+| Deferred gauge | Stable compose |
+|----------------|----------------|
+| `ArcGauge` · `RadialGauge` · `LinearGauge` | `RingGauge { value; minimum; maximum; unit }` |
+| `TankGauge` · `ThermometerGauge` · `ZoneGauge` · `SegmentedGauge` | `RingGauge` + thresholds; or keep deferred type in Gallery-only demos |
+
+**Verdict (2.08):** sibling gauges stay **experimental permanently** unless a future friction row proves a distinct LoB need. Product dashboards use **`RingGauge`**.
+
+### Niche charts — permanent defer
+
+`RadarChart` · `ScatterChart` · `HeatmapChart` · `WaterfallChart` · `StackedBarChart` · `HorizontalBarChart` · `BulletChart` — Gallery demos; compose with stable types or app-owned visuals when possible.
+
+---
+
+## Deferred catalog (Gallery only — permanent defer 2.08)
+
+Kept in the kit and Gallery. APIs may still change. **Do not** ship these names in product dashboards.
+
+| Keep experimental | Prefer instead | Verdict |
+|-------------------|----------------|---------|
+| [`AreaChart`](components/AreaChart.md) | `LineChart { showArea: true }` | **Permanent defer** — compose recipe above |
+| [`HorizontalBarChart`](components/HorizontalBarChart.md) | [`BarChart`](components/BarChart.md) | **Permanent defer** |
+| [`PieChart`](components/PieChart.md) | [`DonutChart`](components/DonutChart.md) | **Permanent defer** |
+| [`Sparkline`](components/Sparkline.md) | `KpiTile.trendValues` / compact `LineChart` | **Permanent defer** — compose recipe above |
+| `RadarChart` · `ScatterChart` · `HeatmapChart` · `WaterfallChart` · `StackedBarChart` · `BulletChart` | Stable six or custom | **Permanent defer** |
+| `ArcGauge` · `RadialGauge` · `LinearGauge` · `TankGauge` · `ThermometerGauge` · `ZoneGauge` · `SegmentedGauge` | [`RingGauge`](components/RingGauge.md) | **Permanent defer** |
 | `ChartLegend` · `ChartUtils` | Usable helpers | Not in the freeze promise |
 
 ---
 
 ## Dashboard recipe
 
-Copy [`examples/dashboard`](../examples/dashboard/): `KpiTile` row + `ChartCard` hosts for `LineChart` / `BarChart` / `DonutChart` + one `RingGauge`. One chart per card; live series stay short ([performance.md](performance.md)).
+Copy [`examples/dashboard`](../examples/dashboard/): `KpiTile` row (`trendValues` for inline trends) + `ChartCard` hosts for `LineChart` / `BarChart` / `DonutChart` + one `RingGauge`. One chart per card; live series stay short ([performance.md](performance.md)).
 
-Gallery **Charts** hosts Dashboard, KpiTile, gauges, and the chart family. **Dashboard** splits the same stable layout from **deferred** tank/thermometer demos so the hub matches this page.
+Gallery **Charts** hosts compose recipes (2.08) plus deferred demos. **Dashboard** splits stable layout from deferred tank/thermometer gauges.
+
+---
+
+## Recipe wave (2.26)
+
+Gallery **Charts** hub refresh — every deferred sibling gets an explicit **compose path** or **Gallery-only** verdict. **No new stable chart names** (stable six unchanged).
+
+| Deferred (Gallery) | Product compose | Open in Gallery |
+|------------------|-----------------|-----------------|
+| `AreaChart` | `LineChart { showArea: true }` | AreaChart · **LineChart** |
+| `Sparkline` | `KpiTile.trendValues` or compact `LineChart` | Sparkline · **KpiTile** |
+| `PieChart` | `DonutChart` (same `slices` / `values`) | PieChart · **DonutChart** |
+| `StackedBarChart` | `LineChart { showArea: true; series: […] }` stacked areas | StackedBarChart · **Charts** demo |
+| `HorizontalBarChart` | `BarChart { bars: [{ value, label }] }` ranked columns | HorizontalBarChart · **BarChart** |
+| `BulletChart` | `KpiTile` + thresholds / `RingGauge` for single metric | BulletChart · **KpiTile** |
+| `WaterfallChart` | Precompute bridge steps → `BarChart` bars, or keep deferred in Gallery | WaterfallChart |
+| `RadarChart` · `ScatterChart` · `HeatmapChart` | **Gallery-only** — app-owned visuals or stable six approximations | respective pages |
+| Extra gauges (`Tank`, `Thermometer`, `Arc`, …) | `RingGauge` | **Dashboard** deferred section |
+
+```qml
+// StackedBarChart → LineChart (2.26)
+ChartCard {
+    title: qsTr("Weekly mix")
+    LineChart {
+        anchors.fill: parent
+        showArea: true
+        showLegend: true
+        series: [
+            { name: qsTr("Apps"), color: Theme.accent, values: appsWeek },
+            { name: qsTr("Media"), color: Theme.systemCaution, values: mediaWeek }
+        ]
+    }
+}
+
+// HorizontalBarChart → ranked BarChart (2.26)
+BarChart {
+    showValueLabels: true
+    unit: "%"
+    bars: [
+        { value: 92, label: qsTr("Design"), color: Theme.accent },
+        { value: 78, label: qsTr("Eng"), color: Theme.systemSuccess }
+    ]
+}
+
+// BulletChart → KpiTile (2.26)
+KpiTile {
+    title: qsTr("Revenue")
+    value: revenue
+    unit: "%"
+    delta: revenue - 80
+    cautionThreshold: 75
+    criticalThreshold: 90
+    badgeText: revenue >= 80 ? qsTr("On target") : qsTr("Below target")
+}
+```
+
+Smoke: `scripts/check_charts_recipes.py`. Hub: Gallery **Charts** · **Dashboard** · [`examples/dashboard`](../examples/dashboard/).
+
+---
+
+## Dashboard layout (2.22)
+
+Responsive ops layout using **stable six only** — no `Hub` / `HubSection` controls.
+
+| Breakpoint | Width | Layout |
+|------------|-------|--------|
+| KPI row | `> 700` | `GridLayout` **3** columns; else **1** (stack) |
+| Chart grid | `> 900` | `GridLayout` **2** columns; else **1** |
+| Filter rail | `≥ 720` (`TwoPaneView.minWideWidth`) | Filters in **pane1**, charts in **pane2**; below → **SinglePane** |
+
+```qml
+// KPI row — bind columns to content width
+GridLayout {
+    columns: root.width > 700 ? 3 : 1
+    rowSpacing: Theme.spacingLoose
+    columnSpacing: Theme.spacingLoose
+    KpiTile { Layout.fillWidth: true; trendValues: cpuHistory; … }
+}
+
+// Charts + optional filter rail
+TwoPaneView {
+    Layout.fillWidth: true
+    preferredMode: TwoPaneView.Wide
+    minWideWidth: 720
+    pane1: filterSidebar   // ComboBox, toggles — not a Hub control
+    pane2: GridLayout {
+        columns: root.width > 900 ? 2 : 1
+        ChartCard { … LineChart … }
+        ChartCard { … RingGauge … }
+    }
+}
+```
+
+**Example app:** [`examples/dashboard`](../examples/dashboard/) ships live breakpoint readout + filter `TwoPaneView`. Gallery **Dashboard** mirrors the same KPI/chart column math.
+
+Related: [icons-dashboard-expansion.md](planning/expansion/icons-dashboard-expansion.md) (**KpiTile** / **ChartCard.symbol** matrix).
 
 ---
 

@@ -13,7 +13,7 @@ CatalogPage {
     id: page
 
     title: qsTr("Pitfalls")
-    subtitle: qsTr("Anti-patterns + 1.xx freeze / long-horizon — docs/compatibility-1xx.md · docs/checkpoint-178.md · Wayland 1.79.")
+    subtitle: qsTr("Anti-patterns + tranche-1 checkpoint (2.50) — docs/checkpoint-250.md")
 
     property real demoProgress: 0.65
 
@@ -105,7 +105,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Media defer (1.67)")
+        headerText: qsTr("Media — permanent defer (2.09)")
         qmlSource: "// MediaPlayerElement stays experimental\\n// docs/media.md"
         ColumnLayout {
             Layout.fillWidth: true
@@ -113,7 +113,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Do not promote MediaPlayerElement in remaining 1.xx. Optional Qt Multimedia, codec/backends, and plugin deploy are app-owned. Gallery still demos the shell + stub. Cookbook: docs/media.md.")
+                text: qsTr("2.09 verdict: do not promote MediaPlayerElement. Optional Qt Multimedia, codec/backends, and plugin deploy are app-owned — not stable-api. Gallery demos the shell + stub only. Cookbook: docs/media.md.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
@@ -133,7 +133,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Keep LineChart / BarChart / DonutChart / RingGauge / KpiTile / ChartCard. Area/Pie/Sparkline and extra gauges are deferred for remaining 1.xx — Gallery demos only. Copy examples/dashboard. Cookbook: docs/charts.md.")
+                text: qsTr("Keep LineChart / BarChart / DonutChart / RingGauge / KpiTile / ChartCard. Area/Pie/Sparkline and extra gauges are permanently deferred (2.08) — use compose recipes in docs/charts.md. Copy examples/dashboard.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
@@ -181,6 +181,137 @@ CatalogPage {
             CheckBox { text: qsTr("WebView2 source gated (no free-form production URL bar)") }
             CheckBox { text: qsTr("Drop zone acceptExtensions non-empty; no auto-execute") }
             CheckBox { text: qsTr("FilePicker gets Window.window; cancel = empty") }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Tranche-1 checkpoint (2.50)")
+        qmlSource: "// 2.00…2.50 audited — friction-only 2.51+\\n// docs/checkpoint-250.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("2.50 closes tranche 1: close-out 2.44…2.49 shipped; conditional controls justified by friction-log; post-2.50 tags need open P0/P1. 2.00 breaking baseline still Next. Full audit: docs/checkpoint-250.md · docs/planning/friction-log.md.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            CheckBox { text: qsTr("After 2.50: friction-only minors — skip tag if queue empty") }
+            CheckBox { text: qsTr("Copy Gallery demos only with experimental/stable badges") }
+            CheckBox { text: qsTr("2.00 lift not bundled — read compatibility-1xx.md") }
+            CheckBox { text: qsTr("Re-run python scripts/check_checkpoint_250.py after doc edits") }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Dashboard compose (2.48 / FL-009)")
+        qmlSource: "// Stable six only in product\\n// docs/dashboard-compose-decision.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("2.48 friction slot closes FL-009 partial: use the compose decision tree before importing deferred chart types. KpiTile + ChartCard stable six — not Sparkline/AreaChart/PieChart in product. docs/dashboard-compose-decision.md · Gallery Dashboard.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            CheckBox { text: qsTr("Product dashboard: stable six only (FL-009)") }
+            CheckBox { text: qsTr("Deferred charts: Gallery demos + compose recipes only") }
+            CheckBox { text: qsTr("ChartCard.symbol set on every card (icons track)") }
+            CheckBox { text: qsTr("Copy examples/dashboard — not deferred gauge pages") }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Field harden buffer (2.47 / FL-003 + FL-004)")
+        qmlSource: "// Checkpoint P0/P1 triage — no new controls\\n// docs/field-harden-247.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("2.47 closes actionable audit rows from checkpoint 2.30 and post-2.45 sweep: packaging path picker (FL-003), QML import guard (FL-004), and smoke loads for Recipes hub + Performance diagnostics. Full notes: docs/field-harden-247.md.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            CheckBox { text: qsTr("Pick packaging Path A–E — do not copy Gallery monorepo blindly (FL-003)") }
+            CheckBox { text: qsTr("Product QML: stable-api imports only unless badge says experimental (FL-004)") }
+            CheckBox { text: qsTr("FrameStats: applyRetailProfile() in retail builds (2.44)") }
+            CheckBox { text: qsTr("Charts: stable six in shipping UI — not deferred siblings") }
+            CheckBox { text: qsTr("Re-run python scripts/check_field_harden_247.py after doc edits") }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Experimental vs stable sweep (2.45 / FL-004)")
+        qmlSource: "ControlCatalog.apiStabilityForComponent(\"AreaChartPage\")  // permanent-defer\\n// docs/experimental-sweep.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Gallery badges: Experimental (may change) vs Permanent defer (do not ship — use stable six / compose). Page headers and Home Recently shipped show badges. Full matrix: docs/experimental-sweep.md · docs/stable-api.md.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            CheckBox { text: qsTr("Product apps: stable-api types only unless documented experimental") }
+            CheckBox { text: qsTr("Charts: stable six — not deferred siblings in shipping UI") }
+            CheckBox { text: qsTr("Media: permanent defer 2.09 — app-owned Multimedia") }
+            CheckBox { text: qsTr("OSK/IME: experimental until 2.01 promote") }
+            RowLayout {
+                spacing: Theme.spacing
+                ApiStabilityBadge { stability: "experimental" }
+                ApiStabilityBadge { stability: "permanent-defer" }
+            }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Developer diagnostics (2.44)")
+        qmlSource: "FrameStatsMonitor.applyRetailProfile()  // Release main\\n// docs/developer-diagnostics.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Never ship FPS/RHI in the title bar for end users. Gallery is a dev profile — Settings may persist Show FPS. Retail apps call applyRetailProfile() before loading QML. FrameStatsMonitor / Badge / Overlay are stable dev tooling only.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            CheckBox { text: qsTr("applyRetailProfile() (or retailMode) in Release main") }
+            CheckBox { text: qsTr("No FrameStatsBadge in retail TitleBar rightHeader") }
+            CheckBox { text: qsTr("--show-diagnostics only on internal / QA builds") }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("2.xx tranche pitfalls (2.39)")
+        qmlSource: "// Experimental: TreeDataGrid · ItemsWrapGrid · CalendarView · NotificationCenter\\n// docs/gallery-catalog-expansion.md · stable-api.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Every 2.21…2.38 slice has a Gallery catalog entry. Use Home Recently shipped, title-bar search (component id), and docs/gallery-catalog-expansion.md for the smoke matrix. Experimental types may move — check stable-api.md before shipping.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            CheckBox { text: qsTr("TreeDataGrid / FileTree: path trust — no raw user paths in production") }
+            CheckBox { text: qsTr("CalendarView / ItemsWrapGrid: experimental — not on stable-api") }
+            CheckBox { text: qsTr("NotificationCenter: in-app history only — not OS toast replacement") }
+            CheckBox { text: qsTr("Theme overrides: restore accent packs after Gallery demos") }
         }
     }
 

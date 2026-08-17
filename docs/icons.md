@@ -181,6 +181,7 @@ AnimatedIcon {
 2. Open **AnimatedIcon** for state swaps (play/pause, expand, favorite) — **1.53**.
 3. Search the catalog by name, code, or tags; copy `FontIcon { symbol: FluentIcons.… }` when **named**.
 4. Pair with **IconButton** / **AppBarButton** pages for control chrome demos.
+5. **Dashboard KPI icons** — preset symbols on Gallery **Dashboard** + [icons-dashboard-expansion.md](planning/expansion/icons-dashboard-expansion.md).
 
 ---
 

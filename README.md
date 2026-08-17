@@ -8,7 +8,7 @@ Fluent / [WinUI 3](https://learn.microsoft.com/windows/apps/winui/winui3/)-inspi
 [![Qt](https://img.shields.io/badge/Qt-6.5%2B-41CD52?logo=qt&logoColor=white)](https://www.qt.io/)
 
 **v1.90** (master **1.91…1.92** ahead) · **200+** public controls · Gallery demos for most of them  
-**1.xx close-out** — [checkpoint-190.md](docs/checkpoint-190.md) · performance arc **signed off** (1.86…1.89) · **[1.xx freeze ends at 2.00](docs/compatibility-1xx.md)** · planned through **2.60** (friction-gated after **2.50**) — next major **2.00** ([ROADMAP.md](ROADMAP.md)) · pain queue [friction-log.md](docs/friction-log.md).
+**1.xx close-out** — [checkpoint-190.md](docs/checkpoint-190.md) · performance arc **signed off** (1.86…1.89) · **[1.xx freeze ends at 2.00](docs/compatibility-1xx.md)** · planned through **2.60** (friction-gated after **2.50**) — next major **2.00** ([ROADMAP.md](ROADMAP.md)) · pain queue [friction-log.md](docs/planning/friction-log.md).
 [Documentation](https://wuyijing-dev.github.io/QWinui3/) · [Recipes hub](docs/recipes.md) · [Stable API](docs/stable-api.md) · [1.xx maturity](docs/maturity-1xx.md) · [Mid-horizon 1.60](docs/checkpoint-160.md) · [Long-horizon 1.78](docs/checkpoint-178.md) · [1.xx close-out 1.90](docs/checkpoint-190.md) · [1.xx compatibility](docs/compatibility-1xx.md) · [i18n / RTL](docs/i18n-rtl.md) · [Keyboard-first](docs/keyboard.md) · [On-screen keyboard](docs/on-screen-keyboard.md) · [Color & contrast](docs/color-contrast.md) · [Adaptive layout](docs/adaptive-layout.md) · [Drag-drop](docs/drag-drop.md) · [Upgrade notes](docs/upgrade-notes.md) · [Linux / Wayland](docs/platform-linux-wayland.md) · [Qt Creator](docs/qt-creator.md) · [Component API](https://wuyijing-dev.github.io/QWinui3/components/) · [Releases](https://github.com/wuyijing-dev/QWinui3/releases) · [Roadmap](ROADMAP.md)
 
 ---
@@ -187,7 +187,7 @@ python scripts/package_release_gallery.py
 ```
 
 **Consumer apps (third-party CMake, import paths, Win/Linux runtime):**  
-[`docs/packaging-consumer.md`](docs/packaging-consumer.md).
+[`docs/packaging-consumer.md`](docs/packaging-consumer.md) · **vcpkg / Conan:** [`docs/packaging-vcpkg-conan.md`](docs/packaging-vcpkg-conan.md) (**2.11**).
 
 Subset archives are named `qwinui3-<ver>-<os>-x64-shared-<modules>.zip` (e.g. `...-shared-theme+style`).  
 Product version is **`X.YY`** (`QWINUI3_VERSION` in root `CMakeLists.txt`).  
@@ -227,7 +227,9 @@ src/extras/      QWinUI3.Extras
 src/gallery/     Control catalog application
 examples/        Small starter apps
 docs/            Markdown + MkDocs site source
-scripts/         Docs generator, shared/gallery packaging, WebView2 / Keyman fetch
+scripts/         Docs generator, shared/gallery packaging, port checks, WebView2 / Keyman fetch
+ports/           vcpkg overlay (qwinui3)
+conan/           Conan 2 recipe
 .github/         Docs Pages + Release CI + Smoke CI
 ```
 
@@ -253,7 +255,8 @@ Product versions use **`X.YY`** (see [`ROADMAP.md`](ROADMAP.md)); set `QWINUI3_V
 | Resource | Description |
 |----------|-------------|
 | [Docs site](https://wuyijing-dev.github.io/QWinui3/) | MkDocs Material (GitHub Pages) |
-| [`docs/recipes.md`](docs/recipes.md) | **Recipes hub** — all LoB how-tos (1.36) |
+| [`docs/recipes.md`](docs/recipes.md) | **Recipes hub** — all LoB how-tos (**2.46** v2) |
+| [`docs/docs-ia-v2.md`](docs/docs-ia-v2.md) | **2.xx** MkDocs regroup + Gallery mirror (**2.46**) |
 | [`docs/maturity-1xx.md`](docs/maturity-1xx.md) | 1.51 maturity checkpoint |
 | [`docs/checkpoint-160.md`](docs/checkpoint-160.md) | 1.60 mid-horizon checkpoint |
 | [`docs/checkpoint-178.md`](docs/checkpoint-178.md) | 1.78 long-horizon checkpoint |
@@ -262,6 +265,7 @@ Product versions use **`X.YY`** (see [`ROADMAP.md`](ROADMAP.md)); set `QWINUI3_V
 | [`docs/components.md`](docs/components.md) | Full control index |
 | [`docs/qt-creator.md`](docs/qt-creator.md) | Open Gallery / examples (CMake only) |
 | [`docs/packaging-consumer.md`](docs/packaging-consumer.md) | Shared vs static / windeploy / strip |
+| [`docs/packaging-vcpkg-conan.md`](docs/packaging-vcpkg-conan.md) | vcpkg overlay + Conan 2 (**2.11**) |
 | [`ROADMAP.md`](ROADMAP.md) | Version themes — small `X.YY` slices |
 
 Individual recipes (navigation, forms, shells, feedback, …) are listed on the [hub](docs/recipes.md) — reachable in ≤2 clicks from here.

@@ -1,10 +1,11 @@
-# CI smoke (1.06 / 1.20 / 1.52 / 1.60)
+# CI smoke (1.06 / 1.20 / 1.52 / 1.60 / 2.27 … 2.50 + strategy/icons track)
 
 Lightweight regression gate — **not** a full test suite or screenshot farm.
 
 | Workflow | When | What |
 |----------|------|------|
 | [`.github/workflows/smoke.yml`](../.github/workflows/smoke.yml) | `push` / `pull_request` to `master`, manual | Release configure → build `qwinui3_gallery` → catalog check + `--smoke` (Qt **6.8**) |
+| [`.github/workflows/consumer-matrix.yml`](../.github/workflows/consumer-matrix.yml) | packaging / examples / `src/` changes, manual | Static + shared consumer builds on Win + Linux (Qt **6.8**) — [packaging-consumer.md](packaging-consumer.md) **2.34** |
 | [`.github/workflows/qt-compat.yml`](../.github/workflows/qt-compat.yml) | src/CMake changes, weekly, manual | Release Gallery build on Qt **6.5 / 6.8 / 6.10** (Linux) — [qt-version-compat.md](qt-version-compat.md) |
 | [`.github/workflows/release.yml`](../.github/workflows/release.yml) | `v*` tags / dispatch | Shared libs + Gallery packages (Qt **6.8**) |
 | [`.github/workflows/docs.yml`](../.github/workflows/docs.yml) | docs changes | MkDocs / Pages |
@@ -25,7 +26,7 @@ cmake --build build --config Release --target qwinui3_gallery
 python scripts/smoke_gallery.py --build-dir build
 ```
 
-`smoke_gallery.py` first runs `scripts/smoke_catalog.py` (ControlCatalog sources + critical list sync), then `scripts/check_gallery_translations.py` (seed `.ts` XML, **1.45**), then `scripts/check_shared_package.py` (packaging contracts / docs, **1.46**), then `scripts/check_docs_links.py` (recipe / ROADMAP / maturity links, **1.52**), then launches `qwinui3_gallery --smoke`.
+`smoke_gallery.py` first runs `scripts/smoke_catalog.py` (ControlCatalog sources + critical list sync), then `scripts/check_catalog_refresh.py` (component API index + version sync, **2.50**), then `scripts/check_gallery_translations.py` (`.ts` XML + live `GalleryLanguage` wiring, **2.20** / **de_DE 2.35**), then `scripts/check_localization_wave4.py` (**2.35**), then `scripts/check_security_trust.py` (**2.13**), then `scripts/check_security_trust_wave3.py` (**2.36**), then `scripts/check_tree_data_grid.py` (**2.21**), then `scripts/check_dashboard_recipes.py` (**2.22**), then `scripts/check_breadcrumb_integration.py` (**2.23**), then `scripts/check_items_wrap_grid.py` (**2.24**), then `scripts/check_form_templates.py` (**2.25**), then `scripts/check_charts_recipes.py` (**2.26**), then `scripts/check_notification_feedback.py` (**2.27**), then `scripts/check_performance_wave6.py` (**2.28**), then `scripts/check_accessibility_wave5.py` (**2.29**), then `scripts/check_checkpoint_230.py` (**2.30**), then `scripts/check_calendar_view.py` (**2.31**), then `scripts/check_media_webview_harden.py` (**2.32**), then `scripts/check_linux_portal_tray.py` (**2.33**), then `scripts/check_packaging_consumer_matrix.py` (**2.34**), then `scripts/check_pips_pager_carousel.py` (**2.37**), then `scripts/check_theme_overrides_wave2.py` (**2.38**), then `scripts/check_gallery_catalog_expansion.py` (**2.39**), then `scripts/check_performance_wave7.py` (**2.40**), then `scripts/check_command_menu_wave3.py` (**2.41**), then `scripts/check_swipe_control_deepen.py` (**2.42**), then `scripts/check_multi_window_onboarding.py` (**2.43**), then `scripts/check_roadmap_strategy.py` (post-**2.43** strategy docs), then `scripts/check_planning_ia.py` (**docs/planning/** hub + MkDocs regroup), then `scripts/check_charts_dashboard_arc.py` (charts/dashboard product arc **2.65…3.01**), then `scripts/check_component_capabilities_expansion.py` (existing control deepen matrix), then `scripts/check_icons_dashboard_expansion.py` (icons + dashboard Gallery anchors), then `scripts/check_developer_diagnostics.py` (**2.44** — `PerformancePage` / FrameStats retail profile), then `scripts/check_experimental_sweep.py` (**2.45** — `PitfallsPage` / FL-004 badges), then `scripts/check_docs_ia_v2.py` (**2.46** — `RecipesHubPage` / MkDocs regroup), then `scripts/check_field_harden_247.py` (**2.47** — `PitfallsPage` / FL-003+004 harden), then `scripts/check_friction_slot_248.py` (**2.48** — `DashboardPage` / FL-009 compose decision), then `scripts/check_performance_wave8.py` (**2.49** — `PerformancePage` / tranche-1 sign-off), then `scripts/check_checkpoint_250.py` (**2.50** — `checkpoint-250.md` / tranche-1 audit), then `scripts/check_shared_package.py` (packaging contracts / docs, **1.46**), then `scripts/check_docs_links.py` (recipe / ROADMAP / maturity links, **1.52**), then launches `qwinui3_gallery --smoke`.
 
 Optional after packaging a shared kit:
 
@@ -75,6 +76,8 @@ Timing is advisory (machine-dependent). Critical set only — not the full catal
 
 **Performance arc (1.86…1.89):** smoke `--smoke` validates **page instantiate**, not frame time or navigation perf. After the arc, treat printed `main=…ms` / `pages=…ms` / `total=…ms` as a **regression hint only** — compare on the same machine/Release build; do not gate CI on absolute milliseconds. Arc sign-off: [checkpoint-190.md](checkpoint-190.md).
 
+**Shell trim (2.28):** [performance.md](performance.md) **Shell & navigation wave 6** documents `sameKeySkipCount` / `samePageSkipCount` on `NavigationView` and forwarded aliases on `NavigationWindow`. Use `--startup-log` with `--smoke` locally when validating cache or skip-trim edits — advisory only.
+
 ### Critical page set
 
 Keep these three in sync when editing:
@@ -95,6 +98,15 @@ Current set:
 - `ChartsPage`, `I18nRtlPage`
 - `FontIconPage`, `PitfallsPage`, `ExamplesTemplatesPage` (**1.52** — recent recipe harden)
 - `SearchRecipesPage`, `HighDpiPage` (**1.60** — mid-horizon smoke bump)
+- `MultiWindowPage`, `StyleSpotCheckPage` (**2.19** — 2.14 / 2.17 recipe smoke)
+- `RecipesHubPage`, `PerformancePage` (**2.47** — docs hub + FrameStats diagnostics)
+
+Regenerate component API after QML comment changes:
+
+```bash
+python scripts/generate_component_docs.py
+python scripts/check_catalog_refresh.py
+```
 
 **Catalog integrity only:**
 
@@ -113,7 +125,8 @@ python scripts/smoke_catalog.py --list-critical
 | Pane search | NavigationView `paneSearchModel` |
 | Recent / Favorites | Home pills + `GalleryHistory` (persisted) |
 | Page favorite star | `PageHeader` when `CatalogPage.componentId` is set (Main on open) |
-| Recently shipped | Home section via `ControlCatalog.recentlyShipped()` (curated 1.xx recipes) |
+| Recently shipped | Home section via `ControlCatalog.recentlyShipped()` (curated; **2.39** tops **2.38 → 2.21**) |
+| Catalog matrix | [gallery-catalog-expansion.md](gallery-catalog-expansion.md) (**2.39**) |
 
 See also [gallery-catalog-page.md](gallery-catalog-page.md).
 

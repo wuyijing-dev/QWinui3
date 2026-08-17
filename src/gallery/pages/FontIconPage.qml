@@ -16,6 +16,14 @@ CatalogPage {
     property int selectedIndex: 0
     property string _filterDebounced: ""
 
+    signal openControl(var item)
+
+    function openComp(id) {
+        var it = ControlCatalog.findByComponent(id)
+        if (it)
+            page.openControl(it)
+    }
+
     Timer {
         id: filterDebounce
         interval: 120
@@ -178,6 +186,66 @@ CatalogPage {
                         text: qsTr("Theme.reducedMotion")
                         checked: Theme.reducedMotion
                         onToggled: Theme.reducedMotion = checked
+                    }
+                }
+            }
+
+            ControlExample {
+                Layout.fillWidth: true
+                headerText: qsTr("Dashboard KPI icons")
+                qmlSource: "KpiTile { symbol: FluentIcons.Sync }\nChartCard { symbol: FluentIcons.LineChart }"
+                ColumnLayout {
+                    spacing: Theme.spacing
+                    Label {
+                        Layout.fillWidth: true
+                        wrapMode: Text.WordWrap
+                        text: qsTr("Preset symbols for ops dashboards — pair with KpiTile + ChartCard.symbol. Recipe: docs/planning/expansion/icons-dashboard-expansion.md.")
+                        color: Theme.textSecondary
+                        font.pixelSize: Theme.fontCaption
+                    }
+                    Flow {
+                        Layout.fillWidth: true
+                        spacing: Theme.spacingLoose
+                        Repeater {
+                            model: [
+                                { label: qsTr("CPU live"), sym: FluentIcons.Sync },
+                                { label: qsTr("Memory"), sym: FluentIcons.Save },
+                                { label: qsTr("Latency"), sym: FluentIcons.Clock },
+                                { label: qsTr("Trend"), sym: FluentIcons.LineChart },
+                                { label: qsTr("Bars"), sym: FluentIcons.BarChartHorizontal },
+                                { label: qsTr("Share"), sym: FluentIcons.PieSingle },
+                                { label: qsTr("Gauge"), sym: FluentIcons.SpeedHigh },
+                                { label: qsTr("Alerts"), sym: FluentIcons.Ringer }
+                            ]
+                            delegate: ColumnLayout {
+                                required property var modelData
+                                spacing: Theme.spacingTight
+                                FontIcon {
+                                    Layout.alignment: Qt.AlignHCenter
+                                    symbol: modelData.sym
+                                    fontSize: 24
+                                    iconColor: Theme.accent
+                                    accessibleName: modelData.label
+                                    toolTipText: modelData.label
+                                }
+                                Label {
+                                    text: modelData.label
+                                    color: Theme.textSecondary
+                                    font.pixelSize: Theme.fontCaption
+                                }
+                            }
+                        }
+                    }
+                    RowLayout {
+                        spacing: Theme.spacing
+                        Button {
+                            text: qsTr("Dashboard demo")
+                            onClicked: page.openComp("DashboardPage")
+                        }
+                        Button {
+                            text: qsTr("Charts hub")
+                            onClicked: page.openComp("ChartsPage")
+                        }
                     }
                 }
             }

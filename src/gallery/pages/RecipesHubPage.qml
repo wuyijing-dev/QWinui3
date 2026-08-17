@@ -9,7 +9,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("Recipes hub")
-    subtitle: qsTr("All LoB how-tos from docs/recipes.md — open the matching Gallery demo.")
+    subtitle: qsTr("All LoB how-tos — MkDocs hub v2 (2.46) maps here.")
 
     signal openControl(var item)
 
@@ -21,6 +21,98 @@ CatalogPage {
 
     function row(label, doc, pageId) {
         return { label: label, doc: doc, page: pageId }
+    }
+
+    ControlExample {
+        headerText: qsTr("Planning & product expansion")
+        qmlSource: "docs/planning/index.md · docs/planning/expansion/"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Repeater {
+                model: [
+                    { label: qsTr("Planning hub"), doc: "docs/planning/index.md", page: "RecipesHubPage" },
+                    { label: qsTr("Component capabilities (2.51→3.00)"), doc: "docs/planning/expansion/component-capabilities-expansion.md", page: "PitfallsPage" },
+                    { label: qsTr("Charts & dashboard arc"), doc: "docs/planning/expansion/charts-dashboard-arc.md", page: "DashboardPage" },
+                    { label: qsTr("Roadmap strategy"), doc: "docs/planning/roadmap-strategy.md", page: "PitfallsPage" },
+                    { label: qsTr("Friction log"), doc: "docs/planning/friction-log.md", page: "PitfallsPage" }
+                ]
+                delegate: RowLayout {
+                    required property var modelData
+                    Layout.fillWidth: true
+                    ColumnLayout {
+                        Layout.fillWidth: true
+                        spacing: 2
+                        Label {
+                            Layout.fillWidth: true
+                            text: modelData.label
+                            color: Theme.textPrimary
+                            font.pixelSize: Theme.fontSizeBody
+                        }
+                        Label {
+                            Layout.fillWidth: true
+                            text: modelData.doc
+                            color: Theme.textSecondary
+                            font.pixelSize: Theme.fontSizeCaption
+                            elide: Text.ElideRight
+                        }
+                    }
+                    Button {
+                        text: qsTr("Open")
+                        onClicked: page.openComp(modelData.page)
+                    }
+                }
+            }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("2.xx developer & stability")
+        qmlSource: "docs/docs-ia-v2.md · docs/developer-diagnostics.md · docs/experimental-sweep.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Repeater {
+                model: [
+                    { label: qsTr("Field harden buffer (2.47)"), doc: "docs/field-harden-247.md", page: "PitfallsPage" },
+                    { label: qsTr("Docs IA v2 (2.46)"), doc: "docs/docs-ia-v2.md", page: "RecipesHubPage" },
+                    { label: qsTr("Perf sign-off (2.49)"), doc: "docs/perf-signoff-2xx.md", page: "PerformancePage" },
+                    { label: qsTr("Developer diagnostics (2.44)"), doc: "docs/developer-diagnostics.md", page: "PerformancePage" },
+                    { label: qsTr("Stable vs experimental (2.45)"), doc: "docs/experimental-sweep.md", page: "PitfallsPage" },
+                    { label: qsTr("Tranche-1 checkpoint (2.50)"), doc: "docs/checkpoint-250.md", page: "PitfallsPage" },
+                    { label: qsTr("Dashboard compose (2.48)"), doc: "docs/dashboard-compose-decision.md", page: "DashboardPage" },
+                    { label: qsTr("Icons & dashboard (2.43)"), doc: "docs/planning/expansion/icons-dashboard-expansion.md", page: "DashboardPage" },
+                    { label: qsTr("Calendar view (2.31)"), doc: "docs/calendar-view.md", page: "CalendarViewPage" },
+                    { label: qsTr("Items wrap grid (2.24)"), doc: "docs/items-wrap-grid.md", page: "ItemsWrapGridPage" }
+                ]
+                delegate: RowLayout {
+                    required property var modelData
+                    Layout.fillWidth: true
+                    ColumnLayout {
+                        Layout.fillWidth: true
+                        spacing: 2
+                        Label {
+                            Layout.fillWidth: true
+                            text: modelData.label
+                            color: Theme.textPrimary
+                            font.weight: Theme.fontWeightSemiBold
+                            wrapMode: Text.WordWrap
+                        }
+                        Label {
+                            Layout.fillWidth: true
+                            text: modelData.doc
+                            color: Theme.textSecondary
+                            font.pixelSize: Theme.fontCaption
+                            wrapMode: Text.WrapAnywhere
+                        }
+                    }
+                    Button {
+                        text: qsTr("Open")
+                        onClicked: page.openComp(modelData.page)
+                    }
+                }
+            }
+        }
     }
 
     ControlExample {
@@ -79,6 +171,7 @@ CatalogPage {
             spacing: Theme.spacing
             Repeater {
                 model: [
+                    { label: qsTr("Title-bar slots & hit-test (2.05)"), doc: "docs/title-bar-cookbook.md", page: "TitleBarPage" },
                     { label: qsTr("Window shells / chrome"), doc: "docs/window-shells.md", page: "WindowParadigmPage" },
                     { label: qsTr("High-DPI & monitors"), doc: "docs/high-dpi.md", page: "HighDpiPage" },
                     { label: qsTr("Multi-window"), doc: "docs/window-shells.md", page: "MultiWindowPage" },
@@ -226,10 +319,12 @@ CatalogPage {
             Repeater {
                 model: [
                     { label: qsTr("WebView2"), doc: "docs/webview2.md", page: "WebView2Page" },
-                    { label: qsTr("Media (deferred 1.67)"), doc: "docs/media.md", page: "MediaPlayerElementPage" },
-                    { label: qsTr("Charts (stable six / defer)"), doc: "docs/charts.md", page: "ChartsPage" },
+                    { label: qsTr("Media (permanent defer 2.09)"), doc: "docs/media.md", page: "MediaPlayerElementPage" },
+                    { label: qsTr("Charts (stable six + compose 2.26)"), doc: "docs/charts.md", page: "ChartsPage" },
+                    { label: qsTr("Dashboard + icons (2.65 track)"), doc: "docs/planning/expansion/icons-dashboard-expansion.md", page: "DashboardPage" },
+                    { label: qsTr("Iconography catalog"), doc: "docs/icons.md", page: "FontIconPage" },
                     { label: qsTr("Animations"), doc: "docs/animations.md", page: "AnimationsPage" },
-                    { label: qsTr("Performance / cold start"), doc: "docs/performance.md", page: "PerformancePage" }
+                    { label: qsTr("Performance / cold start"), doc: "docs/performance.md", page: "PerformancePage" },
                 ]
                 delegate: RowLayout {
                     required property var modelData
