@@ -2,7 +2,7 @@
 
 **Status:** **Draft placeholder** — audit lands with product version **2.10**, not before **2.00** ships.
 
-Scope (from [roadmap.md](roadmap.md)): review **2.00…2.10** (docs links, stable-api, smoke catalog); confirm macOS / OSK / packaging slices landed or rescheduled; **no breaking code**.
+Scope (from [roadmap.md](roadmap.md)): review **2.00…2.10** (docs links, stable-api, smoke catalog); confirm OSK / packaging / **2.06 FileTree** slice landed or rescheduled; **no breaking code**. **macOS first-class is not in scope** (withdrawn).
 
 Earlier: [checkpoint-190.md](checkpoint-190.md) (1.xx close-out) · [compatibility-1xx.md](compatibility-1xx.md) · [ROADMAP.md](../ROADMAP.md).
 

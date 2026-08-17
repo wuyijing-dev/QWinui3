@@ -1,10 +1,10 @@
-# 2.x horizon checkpoint (2.20) — planned
+# First 2.x horizon checkpoint (2.20) — planned
 
-**Status:** **Draft placeholder** — closes the first **2.xx** horizon; **3.00 prep draft only** (no breaking implementation in **2.20**).
+**Status:** **Draft placeholder** — first tranche audit at product version **2.20**; **3.00 prep** continues at **2.50**, not here.
 
-Scope (from [roadmap.md](roadmap.md)): verdict on **2.00…2.20**; [upgrade-notes.md](upgrade-notes.md) draft **2.20 → 3.00** (if ever); parking-lot triage; perf + a11y sign-off for the 2.x line.
+Scope (from [roadmap.md](roadmap.md)): verdict on **2.00…2.20**; parking-lot triage for **2.21…2.50**; perf + a11y sign-off for tranche 1; **no breaking code**.
 
-Earlier: [checkpoint-210.md](checkpoint-210.md) (mid-2.x) · [checkpoint-190.md](checkpoint-190.md) · [ROADMAP.md](../ROADMAP.md).
+Earlier: [checkpoint-210.md](checkpoint-210.md) · [checkpoint-190.md](checkpoint-190.md) · [ROADMAP.md](../ROADMAP.md).
 
 ---
 
@@ -12,8 +12,8 @@ Earlier: [checkpoint-210.md](checkpoint-210.md) (mid-2.x) · [checkpoint-190.md]
 
 | Question | Answer (2.20) |
 |----------|----------------|
-| **2.xx horizon done?** | **Not yet** — fill when **2.20** ships |
-| **3.00 posture?** | **Draft only** — breaking line not scheduled here |
+| **Tranche 1 done?** | **Not yet** — fill when **2.20** ships |
+| **3.00 posture?** | **Draft only** — full horizon closes at **2.50** |
 
 ---
 

@@ -2,11 +2,11 @@
 
 **Current:** **1.92** (master; last tagged **1.90** until next release)
 **Next up:** **2.00** — breaking baseline (Qt floor / freeze lift / documented remaps). **Gate: 1.90 shipped; 1.91…1.92 are post-close-out polish.**
-**Planned through:** **2.20** (1.xx close-out **1.83…1.90** complete → post-close-out **1.91…1.92** → **2.00** break → **2.01…2.20** horizon)
-**1.xx close-out:** [docs/checkpoint-190.md](docs/checkpoint-190.md). **1.86…1.89** performance arc **signed off** (**animations stay**). OSK/packaging promote **2.01**. **2.20** closes the first **2.xx** horizon (checkpoint draft only).  
-**Qt:** 6.5+ (recommended 6.8 LTS) through **1.92** — [qt-version-compat.md](docs/qt-version-compat.md). **2.00** raises the floor to **6.8 LTS**.
+**Planned through:** **2.50** (… → **2.00** break → **2.01…2.50** horizon; **Windows + Linux** only)
+**1.xx close-out:** [checkpoint-190.md](docs/checkpoint-190.md). **1.86…1.89** performance arc **signed off** (**animations stay**). OSK/packaging promote **2.01**. **2.50** closes the **2.xx** horizon (checkpoint draft only).  
+**Qt:** 6.5+ (recommended 6.8 LTS) through **1.92** — [qt-version-compat.md](docs/qt-version-compat.md). **2.00** raises the floor to **6.8 LTS**. **Platforms:** **Windows + Linux** — no macOS first-class line.
 
-This plan starts from **what 1.00 already was**, walks **small `1.xx` minors** through **1.90 close-out**, adds **post-close-out 1.91…1.92**, then a named **2.00** breaking line and **2.01…2.20** follow-ups.
+This plan starts from **what 1.00 already was**, walks **small `1.xx` minors** through **1.90 close-out**, adds **post-close-out 1.91…1.92**, then a named **2.00** breaking line and **2.01…2.50** follow-ups (including **new controls** where each slice names a WinUI gap).
 
 ---
 
@@ -39,7 +39,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 | Docs | MkDocs + generated component API |
 | Ship | LGPL-3.0 · CI Release (Win + Linux) · shared/gallery packaging · Qt compat shims |
 
-**Implication:** Near-term work is mostly **finish, fix, document, and deepen** existing surfaces—not invent a second catalog or jump to a major rewrite.
+**Implication:** Through **1.90**, work was mostly **finish, fix, document, and deepen**. From **2.00** onward, named minors may also ship **new controls** (one WinUI gap per slice — Gallery page + component doc + stable/experimental row in the same tag).
 
 ---
 
@@ -50,15 +50,18 @@ Do not plan as if the kit is empty. Rough inventory today:
 | **Same `X.YY` rebuild** | Urgent packaging/docs/CI fixes when needed |
 | **Next `X.YY`** | **One focused slice**—small enough to finish, clear enough to name |
 | **`2.00`** | Breaking line (Qt floor / freeze lift / documented remaps). **After 1.90 only.** |
+| **`2.01…2.50`** | Non-breaking minors on the **2.x** floor; **new controls OK** when the slice theme is a single named gap |
 
 **Rules of thumb**
 
 - One `X.YY` ≈ one primary outcome, not five themes at once.
 - Avoid empty releases—but do not wait for “epic” bundles either.
-- New controls only when they serve that minor’s slice; otherwise park them.
+- **1.xx:** new controls only when they serve that minor’s slice; otherwise park them.
+- **2.xx:** a slice may **add controls** if the tag names one WinUI gap (e.g. FileTree, TreeDataGrid) plus Gallery + docs + stable-api row.
 - After each ship: bump `QWINUI3_VERSION`, update this file.
-- Prefer **docs + harden + Gallery recipe** over new product surfaces (pattern of 1.07–1.10).
+- Prefer **docs + harden + Gallery recipe** for polish slices; use **control slices** for catalog gaps.
 - **2.00** is one breaking slice, not a dump of the parking lot. Follow-ups are `2.01+`.
+- **Platforms:** **Windows + Linux** ship targets — **macOS first-class is not planned** (Qt macOS apps may still link the kit; no dedicated shell/tray/CI matrix).
 
 ---
 
@@ -166,11 +169,11 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ### 1.26 — Example app templates (shipped)
 
-**Shipped:** [`examples/master-detail`](examples/master-detail/) (`ListDetailsView` LoB tickets) and [`examples/form-settings`](examples/form-settings/) (`FormLayout` + SettingsCard prefs); README / examples README / stable-api / forms / data-collections / window-chrome “start from” tables updated; product version `1.26`. Smoke CI keeps examples off for speed (default local `QWINUI3_BUILD_EXAMPLES=ON`).
+**Shipped:** [`examples/master-detail`](../examples/master-detail/) (`ListDetailsView` LoB tickets) and [`examples/form-settings`](../examples/form-settings/) (`FormLayout` + SettingsCard prefs); README / examples README / stable-api / forms / data-collections / window-chrome “start from” tables updated; product version `1.26`. Smoke CI keeps examples off for speed (default local `QWINUI3_BUILD_EXAMPLES=ON`).
 
 ### 1.27 — Navigation & TabView deepen (shipped)
 
-**Shipped:** [navigation.md](docs/navigation.md) — pane modes, footer, Back stack, compact/overlay, TabView vs NavigationView; Gallery NavigationView / TabView callouts + `leftMinimal`/`auto`; Accessible names on demo path; [`examples/nav-settings`](examples/nav-settings/) aligned (`paneDisplayMode: auto`, TitleBar Back ↔ `navigateBack`); product version `1.27`.
+**Shipped:** [navigation.md](docs/navigation.md) — pane modes, footer, Back stack, compact/overlay, TabView vs NavigationView; Gallery NavigationView / TabView callouts + `leftMinimal`/`auto`; Accessible names on demo path; [`examples/nav-settings`](../examples/nav-settings/) aligned (`paneDisplayMode: auto`, TitleBar Back ↔ `navigateBack`); product version `1.27`.
 
 ### 1.28 — Input & pickers consistency (shipped)
 
@@ -262,7 +265,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ### 1.50 — Extractable Gallery shell template (shipped)
 
-**Shipped:** [`examples/gallery-shell`](examples/gallery-shell/) — `NavigationWindow` + `pageModule` + Settings footer + Bootstrap + `geometryPersistenceKey`; `NavigationWindow` gains `pageModule` / `hostContent` / `navigateBack`; keep-vs-delete README; docs/README/Gallery Example templates; product version `1.50`.
+**Shipped:** [`examples/gallery-shell`](../examples/gallery-shell/) — `NavigationWindow` + `pageModule` + Settings footer + Bootstrap + `geometryPersistenceKey`; `NavigationWindow` gains `pageModule` / `hostContent` / `navigateBack`; keep-vs-delete README; docs/README/Gallery Example templates; product version `1.50`.
 
 ### 1.51 — 1.xx maturity checkpoint (shipped)
 
@@ -286,7 +289,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ### 1.56 — Multi-window & secondary shells (shipped)
 
-**Shipped:** Multi-window recipe (distinct `geometryPersistenceKey`s, shared Theme, `DialogShellWindow.openDialog` / transient parent); [`examples/multi-window`](examples/multi-window/); Gallery **Multi-window** page; [window-shells.md](docs/window-shells.md) / [window-helper.md](docs/window-helper.md) / [window-chrome.md](docs/window-chrome.md) Win+Linux notes; product version `1.56`.
+**Shipped:** Multi-window recipe (distinct `geometryPersistenceKey`s, shared Theme, `DialogShellWindow.openDialog` / transient parent); [`examples/multi-window`](../examples/multi-window/); Gallery **Multi-window** page; [window-shells.md](docs/window-shells.md) / [window-helper.md](docs/window-helper.md) / [window-chrome.md](docs/window-chrome.md) Win+Linux notes; product version `1.56`.
 
 ### 1.57 — Touch, pen & pointer recipes (shipped)
 
@@ -441,7 +444,7 @@ Finish **1.xx** as named slices (**1.83…1.90**), then a **breaking 2.00**. Do 
 
 ### 1.84 — Consumer floating-OSK recipe (shipped)
 
-**Shipped:** [`examples/floating-osk`](examples/floating-osk/) — `OnScreenKeyboardWindow` + `openFloating()`; `systemWide` pinned to Windows. Docs: Keyman Core **in the clone** (`third_party/keyman`); WebView2 still optional NuGet. Do not copy the Gallery tree. Still experimental. Product version `1.84`.
+**Shipped:** [`examples/floating-osk`](../examples/floating-osk/) — `OnScreenKeyboardWindow` + `openFloating()`; `systemWide` pinned to Windows. Docs: Keyman Core **in the clone** (`third_party/keyman`); WebView2 still optional NuGet. Do not copy the Gallery tree. Still experimental. Product version `1.84`.
 
 ### 1.85 — Accessibility wave 3 (shipped)
 
@@ -468,7 +471,7 @@ Four consecutive minors; **each ships only performance work** (Platform / Extras
 
 **Out**
 
-- NavigationView / DataTable / Style ( **1.87…1.89** )
+- NavigationView / DataTable / Style (**1.87…1.89**)
 
 ### 1.87 — Performance wave 2: navigation & page stack (shipped)
 
@@ -499,7 +502,7 @@ Four consecutive minors; **each ships only performance work** (Platform / Extras
 
 ### 1.90 — 1.xx close-out (shipped)
 
-**Shipped:** `docs/checkpoint-190.md` — docs-link OK, Gallery catalog **195**, freeze accurate, **1.86…1.89 perf checklist green**. [upgrade-notes.md](docs/upgrade-notes.md) draft **1.90 → 2.00** (Qt floor, remaps, experimental posture). [ci-smoke.md](docs/ci-smoke.md) perf timing advisory from the arc. README / Gallery: **1.xx freeze ends at 2.00**. Product version `1.90`.
+**Shipped:** [checkpoint-190.md](docs/checkpoint-190.md) — docs-link OK, Gallery catalog **195**, freeze accurate, **1.86…1.89 perf checklist green**. [upgrade-notes.md](docs/upgrade-notes.md) draft **1.90 → 2.00** (Qt floor, remaps, experimental posture). [ci-smoke.md](docs/ci-smoke.md) perf timing advisory from the arc. README / Gallery: **1.xx freeze ends at 2.00**. Product version `1.90`.
 
 **Out**
 
@@ -510,7 +513,7 @@ Four consecutive minors; **each ships only performance work** (Platform / Extras
 
 ## Post close-out — `1.91` … `1.92` (shipped on master)
 
-Small **non-breaking** slices after [docs/checkpoint-190.md](docs/checkpoint-190.md). Ship as tags before **2.00** when ready.
+Small **non-breaking** slices after [checkpoint-190.md](docs/checkpoint-190.md). Ship as tags before **2.00** when ready.
 
 | Slice | Theme | Status |
 |-------|--------|--------|
@@ -523,7 +526,7 @@ Small **non-breaking** slices after [docs/checkpoint-190.md](docs/checkpoint-190
 
 ### 1.92 — Linux Wayland client shell (shipped)
 
-**Shipped:** `WindowHelper.clientShellDecoration` + `shellCornerRadius()` / `shellShadowMargin()` / `shellChromeExpanded()`; `WindowShellDecoration` (`MultiEffect` drop shadow + rounded frame from `cornerPreference`); `StandardWindow` / `ShellWindow` transparent host + decoration background; Linux alpha buffer when CSD active; Settings **Window corners** enabled on Linux; [docs/platform-linux-wayland.md](docs/platform-linux-wayland.md) Effects dependency note. Windows DWM path unchanged. Product version target `1.92`.
+**Shipped:** `WindowHelper.clientShellDecoration` + `shellCornerRadius()` / `shellShadowMargin()` / `shellChromeExpanded()`; `WindowShellDecoration` (`MultiEffect` drop shadow + rounded frame from `cornerPreference`); `StandardWindow` / `ShellWindow` transparent host + decoration background; Linux alpha buffer when CSD active; Settings **Window corners** enabled on Linux; [platform-linux-wayland.md](docs/platform-linux-wayland.md) Effects dependency note. Windows DWM path unchanged. Product version target `1.92`.
 
 **Out (2.03+)**
 
@@ -550,9 +553,9 @@ Small **non-breaking** slices after [docs/checkpoint-190.md](docs/checkpoint-190
 
 ### Does not ship in 2.00 (out)
 
-- Fluent 2 / full visual redesign → parking / **2.01+**
-- macOS first-class → parking / **2.01+**
+- Fluent 2 / full visual redesign → **2.17+** (experimental module)
 - Linux system-wide OSK inject
+- **macOS first-class** — **withdrawn** (not in **2.01…2.50**)
 - Full Lottie, Figma tokens, every-locale portal
 - Qt Virtual Keyboard (never)
 - Re-adding Gallery visual-smoke as a default CI gate
@@ -561,9 +564,9 @@ Small **non-breaking** slices after [docs/checkpoint-190.md](docs/checkpoint-190
 
 Apps on **1.90** read [upgrade-notes.md](docs/upgrade-notes.md) **1.90 → 2.00**, raise Qt to 6.8+, apply the remap table, rebuild Release. Apps that cannot leave Qt 6.5 **stay on 1.90**.
 
-## Planned through `2.20` — `2.01` … `2.20`
+## Planned through `2.50` — `2.01` … `2.50`
 
-After **2.00**, ordinary **2.xx** minors again — **one theme each**. Order may shift for field P0s; do not treat this table as a permission slip for multi-theme dumps.
+After **2.00**, ordinary **2.xx** minors — **one theme each**. Order may shift for field P0s. **New-control slices** must ship Gallery page + component doc + stable-api decision in the **same tag**.
 
 | Slice | Theme | Status |
 |-------|--------|--------|
@@ -573,7 +576,7 @@ After **2.00**, ordinary **2.xx** minors again — **one theme each**. Order may
 | **2.03** | Linux Wayland shell wave 2 | Planned |
 | **2.04** | Runtime diagnostics (FPS / frame stats deepen) | Planned |
 | **2.05** | Title-bar & shell chrome cookbook | Planned |
-| **2.06** | macOS first-class baseline | Planned |
+| **2.06** | **New controls:** `FileTree` + directory recipe | Planned |
 | **2.07** | Accessibility wave 4 | Planned |
 | **2.08** | Charts experimental promote sweep | Planned |
 | **2.09** | Media final promote or honest defer | Planned |
@@ -587,127 +590,337 @@ After **2.00**, ordinary **2.xx** minors again — **one theme each**. Order may
 | **2.17** | Fluent 2 Style (experimental module) | Planned |
 | **2.18** | Performance wave 5 (2.x floor) | Planned |
 | **2.19** | Component docs & Gallery catalog refresh | Planned |
-| **2.20** | 2.x horizon checkpoint + 3.00 prep | Planned |
+| **2.20** | First 2.x horizon checkpoint | Planned |
+| **2.21** | **New controls:** `TreeDataGrid` (hierarchical grid) | Planned |
+| **2.22** | **New controls:** `Hub` + `HubSection` | Planned |
+| **2.23** | Navigation — `BreadcrumbBar` + shell integration | Planned |
+| **2.24** | **New controls:** `ItemsWrapGrid` / variable wrap layouts | Planned |
+| **2.25** | Input & validation wave (`NumberBox` / `PasswordBox`) | Planned |
+| **2.26** | Charts wave — area / sparkline siblings | Planned |
+| **2.27** | Feedback — `InfoBadge` / teaching / progress polish | Planned |
+| **2.28** | Performance wave 6 | Planned |
+| **2.29** | Accessibility wave 5 | Planned |
+| **2.30** | Mid-2.x checkpoint (`checkpoint-230`) | Planned |
+| **2.31** | **New controls:** `CalendarView` month surface | Planned |
+| **2.32** | Media + WebView2 harden | Planned |
+| **2.33** | Linux portal & tray wave 3 | Planned |
+| **2.34** | Packaging & CI consumer matrix | Planned |
+| **2.35** | Localization wave 4 | Planned |
+| **2.36** | Security & trust wave 3 | Planned |
+| **2.37** | **New controls:** `PipsPager` + carousel shell recipes | Planned |
+| **2.38** | Fluent 2 Style deepen (still opt-in) | Planned |
+| **2.39** | Gallery catalog expansion | Planned |
+| **2.40** | Performance wave 7 | Planned |
+| **2.41** | Command palette + menu bar wave 3 | Planned |
+| **2.42** | **New controls:** `SwipeControl` / gesture hosts deepen | Planned |
+| **2.43** | Multi-window + onboarding coach marks | Planned |
+| **2.44** | Developer diagnostics productize (`FrameStats` stable?) | Planned |
+| **2.45** | Experimental promote sweep (2.x) | Planned |
+| **2.46** | Docs IA + recipes hub v2 | Planned |
+| **2.47** | Field harden buffer | Planned |
+| **2.48** | **New controls:** WinUI gap backlog (pick 1–2) | Planned |
+| **2.49** | Performance wave 8 + 2.x perf sign-off | Planned |
+| **2.50** | 2.xx horizon checkpoint + 3.00 prep | Planned |
 
 ### 2.01 — OSK / IME green soak + promote (planned)
 
-**Goal:** Manual soak checklist **green** on Windows + Linux floating path; promote `OnScreenKeyboard` / `KeyboardEngine` / `ImeCandidateBar` subset to **stable**; [docs/on-screen-keyboard.md](docs/on-screen-keyboard.md) + [docs/stable-api.md](docs/stable-api.md) promote rows; honest limits (UIPI, no Linux system-wide inject).
+**Goal:** Manual soak checklist **green** on Windows + Linux floating path; promote `OnScreenKeyboard` / `KeyboardEngine` / `ImeCandidateBar` subset to **stable**; [on-screen-keyboard.md](docs/on-screen-keyboard.md) + [stable-api.md](docs/stable-api.md) promote rows; honest limits (UIPI, no Linux system-wide inject).
 
 **Out:** Every community `.kmx`; dictation / cloud lexicon.
 
 ### 2.02 — Consumer find_package productize (planned)
 
-**Goal:** Productize the **1.61** sketch — installed `QWinUI3Config.cmake` as the supported consumer path; `verify_find_package.py` in default smoke; [docs/packaging-consumer.md](docs/packaging-consumer.md) Path C as primary; optional CI consumer build.
+**Goal:** Productize the **1.61** sketch — installed `QWinUI3Config.cmake` as the supported consumer path; `verify_find_package.py` in default smoke; [packaging-consumer.md](docs/packaging-consumer.md) Path C as primary; optional CI consumer build.
 
 **Out:** Replacing `add_subdirectory` for in-tree kit dev.
 
 ### 2.03 — Linux Wayland shell wave 2 (planned)
 
-**Goal:** Compositor-specific polish on the **2.0** floor — KWin/GNOME client-side decoration hints where available; `WindowShellDecoration_Simple` when QtQuick.Effects missing; bottom-corner content clip recipe; field matrix refresh in [docs/platform-linux-wayland.md](docs/platform-linux-wayland.md).
+**Goal:** Compositor-specific polish on the **2.0** floor — KWin/GNOME client-side decoration hints where available; `WindowShellDecoration_Simple` when QtQuick.Effects missing; bottom-corner content clip recipe; field matrix refresh in [platform-linux-wayland.md](docs/platform-linux-wayland.md).
 
-**Out:** macOS-style unified chrome; SSD-only compositors pretending to be Win11 DWM.
+**Out:** SSD-only compositors pretending to be Win11 DWM.
 
 ### 2.04 — Runtime diagnostics deepen (planned)
 
-**Goal:** Build on **1.91** — Gallery dev default or clearer discoverability; optional GPU/RHI readout beside FPS; [docs/performance.md](docs/performance.md) diagnostics section; Settings + CLI parity.
+**Goal:** Build on **1.91** — Gallery discoverability; optional GPU/RHI readout beside FPS; [performance.md](docs/performance.md) diagnostics section; Settings + CLI parity.
 
-**Out:** Built-in QML profiler; shipping always-on FPS in consumer apps by default.
+**Out:** Built-in QML profiler; always-on FPS in consumer apps by default.
 
 ### 2.05 — Title-bar & shell chrome cookbook (planned)
 
-**Goal:** Document `StandardTitleChrome` / `ShellWindow` slot recipes (menus in bar, sync badges, drag hit-test); Gallery **TitleBar** page + **Window shells** cross-links; `notifyChromeHitTest` troubleshooting.
+**Goal:** Document `StandardTitleChrome` / `ShellWindow` slots (`PlatformTitleBar.rightHeader` before captions); Gallery **TitleBar** + **Window shells** cross-links; hit-test troubleshooting.
 
-**Out:** New caption-button APIs; replacing `PlatformTitleBar`.
+**Out:** Replacing `PlatformTitleBar`.
 
-### 2.06 — macOS first-class baseline (planned)
+### 2.06 — New controls: FileTree (planned)
 
-**Goal:** Honest macOS matrix — `WindowHelper` / shells / FilePicker / tray on **Qt 6.8+**; Gallery smoke notes; [docs/platform-macos.md](docs/platform-macos.md) (new) or platform section; CI optional macOS job if runners available.
+**Goal:** Add **`FileTree`** (WinUI tree + file metadata columns) — Theme/Style wiring, keyboard, selection; Gallery page; [tree-data.md](docs/tree-data.md) extension; experimental → promote decision in tag notes.
 
-**Out:** Native NSStatusItem parity with Windows shell extras; macOS system-wide OSK.
+**Out:** Full File Explorer replacement; cloud drive backends.
 
 ### 2.07 — Accessibility wave 4 (planned)
 
-**Goal:** Post-**2.0** floor a11y pass — high-traffic 2.x controls + shell chrome; live-region coverage for toasts/dialogs opened from title-bar slots; [docs/accessibility.md](docs/accessibility.md) wave 4 checklist.
+**Goal:** Post-**2.0** floor a11y pass — high-traffic 2.x controls + shell chrome; live-region coverage for title-bar slot actions; [accessibility.md](docs/accessibility.md) wave 4 checklist.
 
 **Out:** Full 200+ control audit as one tag.
 
 ### 2.08 — Charts experimental promote sweep (planned)
 
-**Goal:** Promote or explicitly **defer** remaining chart/gauge siblings beyond the stable six; [docs/charts.md](docs/charts.md) defer table final for 2.x; dashboard example stays stable-only.
+**Goal:** Promote or **defer** remaining chart/gauge siblings beyond the stable six; [charts.md](docs/charts.md) defer table final for 2.x.
 
 **Out:** WebGL / new chart engines.
 
 ### 2.09 — Media final promote or defer (planned)
 
-**Goal:** Close the **1.67** defer loop — either promote `MediaPlayerElement` with Multimedia soak green or document permanent experimental + app-owned codec deploy; [docs/media.md](docs/media.md) verdict row.
+**Goal:** Close the **1.67** defer loop — promote `MediaPlayerElement` with soak green or permanent experimental + app-owned codecs; [media.md](docs/media.md) verdict.
 
 **Out:** Bundling FFmpeg; cloud streaming SDKs.
 
 ### 2.10 — 2.x mid-horizon checkpoint (planned)
 
-**Goal:** `docs/checkpoint-210.md` — audit **2.00…2.10** (docs links, stable-api, smoke catalog); confirm macOS / OSK / packaging slices landed or rescheduled; no breaking code.
+**Goal:** [checkpoint-210.md](docs/checkpoint-210.md) — audit **2.00…2.10**; confirm OSK / packaging / first control slice landed or rescheduled; no breaking code.
 
 **Out:** Starting **3.00** implementation.
 
 ### 2.11 — vcpkg / Conan official port (planned)
 
-**Goal:** Supported community port(s) with documented triplets; README consumer path; not a substitute for Release zips.
+**Goal:** Supported community port(s) with documented triplets; README consumer path.
 
 **Out:** Qt itself vendored through the port.
 
 ### 2.12 — Localization wave 3 (planned)
 
-**Goal:** Extra seed locale(s); `check_gallery_translations.py` rules; [docs/i18n-rtl.md](docs/i18n-rtl.md) consumer lrelease recipe for 2.x apps.
+**Goal:** Extra seed locale(s); [i18n-rtl.md](docs/i18n-rtl.md) consumer lrelease recipe for 2.x apps.
 
 **Out:** Community translation portal; every-locale coverage.
 
 ### 2.13 — Security & trust wave 2 (planned)
 
-**Goal:** Extend [docs/security-trust.md](docs/security-trust.md) — WebView2 navigation policy examples; FileDropZone MIME hardening docs; portal parent_window regression tests on Wayland.
+**Goal:** Extend [security-trust.md](docs/security-trust.md) — WebView2 navigation policy examples; FileDropZone MIME hardening; portal parent_window regression on Wayland.
 
-**Out:** App sandbox product; code signing service.
+**Out:** App sandbox product.
 
 ### 2.14 — Multi-window & modal stack harden (planned)
 
-**Goal:** Field harden **1.56** / **1.48** on 2.x floor — transient parent on Wayland; `ContentDialogQueue` + multi-window z-order; [`examples/multi-window`](../examples/multi-window/) refresh.
+**Goal:** Field harden **1.56** / **1.48** on 2.x floor — transient parent on Wayland; [`examples/multi-window`](../examples/multi-window/) refresh.
 
-**Out:** MDI framework; tabbed document interface product.
+**Out:** MDI / tabbed document interface product.
 
 ### 2.15 — High-DPI & multi-monitor wave 3 (planned)
 
-**Goal:** Extend [docs/high-dpi.md](docs/high-dpi.md) — fractional scale on Wayland 2.x; per-monitor Theme / geometry restore soak; Gallery readout additions.
+**Goal:** Extend [high-dpi.md](docs/high-dpi.md) — fractional scale on Wayland; per-monitor geometry soak; Gallery readout.
 
 **Out:** Per-monitor Theme packs as a product feature.
 
 ### 2.16 — Command & search surfaces deepen (planned)
 
-**Goal:** [docs/commands.md](docs/commands.md) + [docs/search.md](docs/search.md) wave 2 — CommandPalette perf on large models; AutoSuggest keyboard polish; Gallery recipes for app-wide search.
+**Goal:** [commands.md](docs/commands.md) + [search.md](docs/search.md) wave 2 — CommandPalette perf; AutoSuggest keyboard polish.
 
 **Out:** Spotlight clone; cloud search backends.
 
 ### 2.17 — Fluent 2 Style (experimental module) (planned)
 
-**Goal:** Optional **`QWinUI3.Fluent2`** (or Style fork) behind explicit import — **not** the default Style; document coexistence with WinUI 3 Style; Gallery opt-in page only.
+**Goal:** Optional **`QWinUI3.Fluent2`** (or Style fork) behind explicit import — **not** the default Style; Gallery opt-in page.
 
-**Out:** Replacing default Style in **2.20**; Figma token pipeline.
+**Out:** Replacing default Style; Figma token pipeline.
 
 ### 2.18 — Performance wave 5 (planned)
 
-**Goal:** Second perf arc on **Qt 6.8+** only — shell/Navi/lists/style rows in [docs/performance.md](docs/performance.md); **animations stay** rule unchanged; advisory smoke timings.
+**Goal:** Second perf arc on **Qt 6.8+** — shell/Navi/lists/style rows in [performance.md](docs/performance.md); **animations stay**.
 
 **Out:** Chart GPU rewrite; default RHI change off OpenGL (Windows).
 
 ### 2.19 — Component docs & Gallery catalog refresh (planned)
 
-**Goal:** Regenerate component API index; catalog count audit; smoke critical list sync; Pitfalls / Examples templates updated for 2.x starters.
+**Goal:** Regenerate component API index; catalog audit; smoke critical list sync.
 
 **Out:** MkDocs theme redesign.
 
-### 2.20 — 2.x horizon checkpoint + 3.00 prep (planned)
+### 2.20 — First 2.x horizon checkpoint (planned)
 
-**Goal:** `docs/checkpoint-220.md` — verdict on **2.00…2.20**; [docs/upgrade-notes.md](docs/upgrade-notes.md) draft **2.20 → 3.00** (if ever); parking-lot triage; perf + a11y sign-off for the 2.x line.
+**Goal:** [checkpoint-220.md](docs/checkpoint-220.md) — verdict on **2.00…2.20**; parking-lot triage for **2.21…2.50**; perf + a11y sign-off for tranche 1.
 
-**Out:** Actually shipping **3.00** breaks; Fluent 2 as default Style.
+**Out:** Shipping **3.00** breaks.
+
+### 2.21 — New controls: TreeDataGrid (planned)
+
+**Goal:** **`TreeDataGrid`** — hierarchical rows + sort/filter hooks; pairs with **2.06** FileTree recipe; Gallery master-detail demo; experimental first.
+
+**Out:** Excel-scale grid engine; GPU virtualization rewrite.
+
+### 2.22 — New controls: Hub + HubSection (planned)
+
+**Goal:** **`Hub`** / **`HubSection`** — dashboard hub chrome (header + body slots); Gallery dashboard hub page; [charts.md](docs/charts.md) / dashboard example cross-link.
+
+**Out:** Dynamic tile store / cloud hub backend.
+
+### 2.23 — Navigation: BreadcrumbBar integration (planned)
+
+**Goal:** Deepen existing **`BreadcrumbBar`** — NavigationView / ShellWindow title sync, overflow flyout, keyboard; not a new type unless overflow sub-control is required.
+
+**Out:** File system watcher integration.
+
+### 2.24 — New controls: ItemsWrapGrid (planned)
+
+**Goal:** **`ItemsWrapGrid`** (variable-sized wrap) — WinUI wrap panel for ItemsRepeater/ItemsView; touch floors from [touch-pointer.md](docs/touch-pointer.md).
+
+**Out:** Virtualizing wrap for million items.
+
+### 2.25 — Input & validation wave (planned)
+
+**Goal:** **`NumberBox`** / **`PasswordBox`** / FormLayout error parity; Gallery form validation refresh.
+
+**Out:** Masked input engine for every locale.
+
+### 2.26 — Charts wave (planned)
+
+**Goal:** **AreaChart** / **Sparkline** promote or defer; stable-api row; dashboard example optional siblings.
+
+**Out:** WebGL chart backend.
+
+### 2.27 — Feedback polish (planned)
+
+**Goal:** **InfoBadge** / **ProgressRing** / TeachingTip recipes; [feedback.md](docs/feedback.md) wave 3.
+
+**Out:** Toast notification center product.
+
+### 2.28 — Performance wave 6 (planned)
+
+**Goal:** Shell + navigation trim on real apps checklist; advisory smoke timings.
+
+**Out:** Removing animations globally.
+
+### 2.29 — Accessibility wave 5 (planned)
+
+**Goal:** New **2.21…2.24** controls + Hub/FileTree keyboard names; wave 5 checklist.
+
+**Out:** Mega audit single tag.
+
+### 2.30 — Mid-2.x checkpoint (planned)
+
+**Goal:** [checkpoint-230.md](docs/checkpoint-230.md) — audit **2.21…2.30**; control count + doc links; reschedule **2.31…2.50** if needed.
+
+**Out:** **3.00** code.
+
+### 2.31 — New controls: CalendarView (planned)
+
+**Goal:** **`CalendarView`** month grid (distinct from date pickers); selection modes; Gallery page.
+
+**Out:** Outlook sync; recurring events engine.
+
+### 2.32 — Media + WebView2 harden (planned)
+
+**Goal:** Field matrix on **2.x** floor; WebView2 policy recipes; Multimedia deploy notes.
+
+**Out:** Bundled browser engine.
+
+### 2.33 — Linux portal & tray wave 3 (planned)
+
+**Goal:** FilePicker / tray / idle inhibit regression suite; [platform-linux-wayland.md](docs/platform-linux-wayland.md) refresh.
+
+**Out:** macOS portal work.
+
+### 2.34 — Packaging & CI consumer matrix (planned)
+
+**Goal:** Shared/static × Win/Linux consumer builds in CI; [packaging-consumer.md](docs/packaging-consumer.md) v2.
+
+**Out:** Hosted artifact store product.
+
+### 2.35 — Localization wave 4 (planned)
+
+**Goal:** Fourth seed locale; translation checker rules for new control pages.
+
+**Out:** Crowdin portal.
+
+### 2.36 — Security & trust wave 3 (planned)
+
+**Goal:** FileTree / TreeDataGrid path trust notes; WebView2 download policy examples.
+
+**Out:** Code signing service.
+
+### 2.37 — New controls: PipsPager + carousel recipes (planned)
+
+**Goal:** Deepen **`PipsPager`** + **`FlipView`** / carousel hosts; Gallery motion + reducedMotion demos.
+
+**Out:** Full-screen carousel product.
+
+### 2.38 — Fluent 2 Style deepen (planned)
+
+**Goal:** Expand opt-in Fluent 2 tokens; coexistence docs; no default switch.
+
+**Out:** Fluent 2 as default in **2.50**.
+
+### 2.39 — Gallery catalog expansion (planned)
+
+**Goal:** Every **2.xx** new control has catalog entry + smoke consideration; Pitfalls updated.
+
+**Out:** Screenshot diff every page.
+
+### 2.40 — Performance wave 7 (planned)
+
+**Goal:** Lists + new grids (FileTree / TreeDataGrid) debounce/filter perf rows.
+
+**Out:** Custom scene graph.
+
+### 2.41 — Command palette + menu bar wave 3 (planned)
+
+**Goal:** Large-model CommandPalette; MenuBar accelerators on 2.x floor.
+
+**Out:** OS global shortcuts.
+
+### 2.42 — New controls: SwipeControl deepen (planned)
+
+**Goal:** **`SwipeControl`** thresholds, teaching, nested scroll; Gallery [touch-pointer.md](docs/touch-pointer.md) cross-links.
+
+**Out:** Full edge-gesture OS hooks.
+
+### 2.43 — Multi-window + onboarding (planned)
+
+**Goal:** **1.55** coach marks + multi-window z-order; Settings persistence for tours.
+
+**Out:** Analytics-backed onboarding SaaS.
+
+### 2.44 — Developer diagnostics productize (planned)
+
+**Goal:** Promote or defer **`FrameStatsMonitor`** / badge / overlay; dev-vs-ship guidance.
+
+**Out:** Always-on FPS in retail apps.
+
+### 2.45 — Experimental promote sweep (planned)
+
+**Goal:** Final 2.x pass on experimental inventory — promote, module-ize, or remove with upgrade-notes.
+
+**Out:** Zero experimental types (unrealistic — document honest deferrals).
+
+### 2.46 — Docs IA + recipes hub v2 (planned)
+
+**Goal:** MkDocs nav regroup for **2.xx** controls; [recipes.md](docs/recipes.md) hub v2.
+
+**Out:** Full site redesign.
+
+### 2.47 — Field harden buffer (planned)
+
+**Goal:** Open P0/P1 from **2.30** / **2.45** audits only — no new surfaces.
+
+**Out:** Feature creep.
+
+### 2.48 — New controls: WinUI gap backlog (planned)
+
+**Goal:** Pick **1–2** remaining WinUI gaps (e.g. **`AppNotification`** builder chrome, **`AnimatedIcon`** Lottie path, **`InkCanvas`** sketch) — **one tag, one primary control**.
+
+**Out:** Shipping all three in one minor.
+
+### 2.49 — Performance wave 8 + 2.x perf sign-off (planned)
+
+**Goal:** Final perf checklist for **2.00…2.49**; [performance.md](docs/performance.md) 2.x summary; **animations stay**.
+
+**Out:** Chart GPU rewrite.
+
+### 2.50 — 2.xx horizon checkpoint + 3.00 prep (planned)
+
+**Goal:** [checkpoint-250.md](docs/checkpoint-250.md) — verdict on **2.00…2.50**; [upgrade-notes.md](docs/upgrade-notes.md) draft **2.50 → 3.00** (if ever); catalog size audit; parking-lot triage.
+
+**Out:** Actually shipping **3.00** in the same tag; macOS first-class revival.
 
 ---
 
@@ -715,7 +928,7 @@ After **2.00**, ordinary **2.xx** minors again — **one theme each**. Order may
 
 Unscheduled; pick up only inside a named `1.xx` or `2.xx` minor (or never). Clarified at **1.60** ([checkpoint-160.md](docs/checkpoint-160.md)):
 
-- macOS first-class (**not** 2.00 by default)
+- **macOS first-class — withdrawn** (not in **2.01…2.50**; Qt-on-macOS may still consume the kit unofficially)
 - Figma / design-token pipeline
 - Full Fluent visual redesign / Fluent 2 Style fork (**not** 2.00 by default)
 - Screenshot diffs for **every** Gallery page (1.62 subset **removed** in 1.82; not a default CI gate)
@@ -726,8 +939,8 @@ Unscheduled; pick up only inside a named `1.xx` or `2.xx` minor (or never). Clar
 - OSK / IME promote green soak → **2.01** (perf arc **1.86…1.89** done)
 - Consumer `find_package` productize → **2.02**
 - Wayland compositor-native chrome → **2.03** (client shell in **1.92**)
-- macOS first-class → **2.06** (not **2.00**)
-- Fluent 2 Style fork → **2.17** (not **2.00**)
+- **New controls** (FileTree, TreeDataGrid, Hub, …) → **2.06**, **2.21…2.24**, **2.31**, **2.37**, **2.42**, **2.48**
+- Fluent 2 Style fork → **2.17** / **2.38** (not default Style)
 - Official vcpkg/Conan → **2.11**
 - Custom ink / handwriting canvas (out of 1.57 touch cookbook; out of 1.70…1.73 IME)
 - Dictation / cloud IME lexicon (out of 1.73 full in-app IME)
@@ -746,9 +959,11 @@ Unscheduled; pick up only inside a named `1.xx` or `2.xx` minor (or never). Clar
 | [docs/maturity-1xx.md](docs/maturity-1xx.md) | 1.51 maturity checkpoint |
 | [docs/checkpoint-160.md](docs/checkpoint-160.md) | 1.60 mid-horizon checkpoint |
 | [docs/checkpoint-178.md](docs/checkpoint-178.md) | 1.78 long-horizon checkpoint |
-| [docs/checkpoint-190.md](docs/checkpoint-190.md) | 1.90 1.xx close-out + perf arc sign-off |
-| [docs/checkpoint-210.md](docs/checkpoint-210.md) (planned) | 2.10 mid-2.x horizon audit |
-| [docs/checkpoint-220.md](docs/checkpoint-220.md) (planned) | 2.20 2.x horizon close-out + 3.00 prep draft |
+| [checkpoint-190.md](docs/checkpoint-190.md) | 1.90 1.xx close-out + perf arc sign-off |
+| [checkpoint-210.md](docs/checkpoint-210.md) (planned) | 2.10 mid-2.x audit |
+| [checkpoint-220.md](docs/checkpoint-220.md) (planned) | 2.20 first 2.x horizon checkpoint |
+| [checkpoint-230.md](docs/checkpoint-230.md) (planned) | 2.30 mid-2.x audit |
+| [checkpoint-250.md](docs/checkpoint-250.md) (planned) | 2.50 2.xx horizon close-out + 3.00 prep draft |
 | [docs/compatibility-1xx.md](docs/compatibility-1xx.md) | 1.xx will-not-break freeze (ends at **2.00**) |
 | [docs/upgrade-notes.md](docs/upgrade-notes.md) | Consumer upgrades; 2.00 sketch after 1.90 |
 | [docs/components.md](docs/components.md) | Control index |
