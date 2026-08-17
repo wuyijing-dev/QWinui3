@@ -2,7 +2,7 @@
 
 Deliberate **“where we are”** release for the 1.line after the post-1.40 arc (`1.41`…`1.50`). **Not** a soft 2.00.
 
-**Latest mid-horizon (1.60):** [checkpoint-160.md](checkpoint-160.md) — re-audit + confirmed `1.61`…`1.70` order.
+**Latest mid-horizon (1.60):** [checkpoint-160.md](checkpoint-160.md) — re-audit; **1.70** is now the Win11 OSK, long-horizon checkpoint is **1.71**.
 
 Related: [compatibility-1xx.md](compatibility-1xx.md) · [stable-api.md](stable-api.md) · [upgrade-notes.md](upgrade-notes.md) · [ROADMAP.md](../ROADMAP.md) · Gallery **Pitfalls**.
 
@@ -13,7 +13,7 @@ Related: [compatibility-1xx.md](compatibility-1xx.md) · [stable-api.md](stable-
 | Question | Answer (1.51) |
 |----------|----------------|
 | Ready for LoB apps on stable surface? | **Yes** — prefer [stable-api.md](stable-api.md) + [examples/gallery-shell](../examples/gallery-shell/) |
-| Start **2.00**? | **No** — stay on 1.xx through planned `1.52`…`1.70` (or pause) |
+| Start **2.00**? | **No** — stay on 1.xx through planned `1.52`…`1.71` (or pause) |
 | Posture for the next slices? | **Prefer harden / field polish / docs** over inventing new control families |
 | Experimental still movable? | **Yes** — Media, ConnectedAnimation, niche charts, Snap Layouts, TabView tear-out (1.37 defer) |
 
@@ -56,7 +56,7 @@ Still experimental / won’t-promote-for-now (see [stable-api 1.37 defer](stable
 - WebView2 advanced Environment / multi-profile
 - Snap Layouts / battery / online / screens / recent-docs helpers
 
-Scheduled follow-ups remain on the roadmap (`1.61`…`1.70`) — order confirmed at **1.60**; may flex for field P0s.
+Scheduled follow-ups remain on the roadmap (`1.61`…`1.71`) — **1.70** OSK swap after 1.60; may flex for field P0s.
 
 ---
 

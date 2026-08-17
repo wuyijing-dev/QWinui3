@@ -10,6 +10,7 @@ End-to-end keyboard story for a QWinUI3 LoB shell: **global chords → CommandPa
 | Lists / tables | [data-collections.md](data-collections.md) · [tree-data.md](tree-data.md) |
 | Names / a11y | [accessibility.md](accessibility.md) · [conventions.md](conventions.md) |
 | Touch / pen | [touch-pointer.md](touch-pointer.md) (**1.57**) |
+| On-screen keyboard | [on-screen-keyboard.md](on-screen-keyboard.md) (**1.70** planned) — not Qt Virtual Keyboard |
 | Focus chrome | `FocusStroke` / Theme focus tokens |
 
 Gallery tour: **Accessibility** (checklist) · **Touch & pointer** · **CommandPalette** · **CommandBar** · **ContentDialog** · **DataTable** / **ListDetailsView** · Settings (page transition / a11y).
@@ -178,3 +179,4 @@ Or ship `ShellWindow { commandPaletteEnabled: true; commandPaletteCommands: […
 - Custom shortcut-editor control as a product  
 - Auto-binding every accelerator label to a global Shortcut  
 - Full audit of every Extra (track via [accessibility.md](accessibility.md) severity table)
+- On-screen / touch keyboard chrome — that is **1.70** ([on-screen-keyboard.md](on-screen-keyboard.md)), not this cookbook

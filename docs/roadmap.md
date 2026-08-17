@@ -1,8 +1,8 @@
 # QWinUI3 Roadmap
 
 **Current:** **1.69**
-**Next up:** **1.70** (Long-horizon 1.xx checkpoint)
-**Planned through:** **1.70** (long-horizon 1.xx checkpoint)  
+**Next up:** **1.70** (Win11 on-screen keyboard — MIT engine, our UI)
+**Planned through:** **1.71** (long-horizon 1.xx checkpoint)  
 **Still 1.xx:** Mid-horizon checkpoint published — [checkpoint-160.md](checkpoint-160.md). Not drafting 2.00.  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](qt-version-compat.md)
 
@@ -341,18 +341,49 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Horizon — planned `1.70`
+## Horizon — planned `1.70` … `1.71`
 
-Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per `YY`. Order can flex if field P0s force a swap; do not merge themes into mega-minors. Posture after 1.51 / 1.60: prefer field harden / docs over new control families.
+Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per `YY`. Order can flex if field P0s force a swap; do not merge themes into mega-minors. Posture after 1.51 / 1.60: prefer field harden / docs over new control families — **1.70** is an explicit exception (touch OSK; Qt Virtual Keyboard is GPL).
 
-### 1.70 — Long-horizon 1.xx checkpoint
+### 1.70 — Win11 on-screen keyboard (MIT engine, our UI)
 
-**Why:** Close the planned `1.49`…`1.70` arc with a deliberate “where we are”—still not 2.00.
+**Why:** Touch / kiosk shells need a Fluent OSK. Qt Virtual Keyboard is GPL/commercial and is already banned (`QT_IM_MODULE` cleared). Use an MIT **engine** and write Win11 chrome ourselves.
+
+**Engine:** [SIL Keyman Core](https://github.com/keymanapp/keyman/tree/master/core) (`libkeymancore`, **MIT**) — C API, no UI, Windows-first. Layouts from [keymanapp/keyboards](https://github.com/keymanapp/keyboards) (MIT).  
+**UI:** QWinUI3 QML (`OnScreenKeyboard`) — Theme tokens, Win11 dock (rounded keys, wide Space/Enter).  
+**Inject:** `QInputMethodEvent` into the focused item. Do **not** ship Qt’s IM plugin or vendor SomcoKeyboard / OpenVirtualKeyboard QML.
+
+Plan: [on-screen-keyboard.md](on-screen-keyboard.md).
+
+**In scope**
+
+- Experimental Extra + thin C++ adapter around `km_core_process_event`
+- en-US letters + Shift/Caps + symbols; dark/light; Gallery page
+- CMake stub if Core is missing (same pattern as MediaPlayerElement)
+- Docs: this recipe + keyboard.md / touch-pointer.md / packaging strip cross-links
+
+**Out of scope**
+
+- Qt Virtual Keyboard / `QT_IM_MODULE=qtvirtualkeyboard`
+- Third-party QML keyboard chrome
+- Full CJK IME, handwriting, dictation, global `SendInput` into other processes
+- Promote to stable in the same minor
+- Long-horizon 1.xx audit (that is **1.71**)
+
+**Exit criteria**
+
+- Gallery demo types into a TextField without Qt Virtual Keyboard
+- LICENSE/NOTICE names Keyman Core; deploy trees still strip Qt VK
+- Recipe matches the shipped Extra; type listed experimental on stable-api
+
+### 1.71 — Long-horizon 1.xx checkpoint
+
+**Why:** Close the planned `1.49`…`1.71` arc with a deliberate “where we are”—still not 2.00. Slipped from 1.70 so the OSK can ship as its own slice.
 
 **In scope**
 
 - Full stable-api vs Gallery audit; ROADMAP shipped/deferred refresh; compatibility-1xx revisit.
-- Publish “prefer field harden / pause vs new surfaces” guidance; open `1.71+` only for field-driven slices or park.
+- Publish “prefer field harden / pause vs new surfaces” guidance; open `1.72+` only for field-driven slices or park.
 
 **Out of scope**
 
@@ -364,16 +395,17 @@ Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per 
 
 ---
 
-## After `1.70`
+## After `1.71`
 
-Still **1.xx** if field needs dictate (`1.71`…)—or pause on polish. **Do not** treat 1.70 as permission to start **2.00**.
+Still **1.xx** if field needs dictate (`1.72`…)—or pause on polish. **Do not** treat 1.70/1.71 as permission to start **2.00**.
 
 Unscheduled follow-ups (pick only inside a named minor):
 
 | Candidate | Notes |
 |-----------|-------|
 | **Accessibility wave 3** | Focus return / live regions — slipped past 1.69 Theme prefs |
-| **1.71+ field fixes** | Portal / DPI / tray / WebView2 / packaging regressions |
+| **OSK CJK / emoji** | Beyond 1.70 Latin+symbols — [on-screen-keyboard.md](on-screen-keyboard.md) |
+| **1.72+ field fixes** | Portal / DPI / tray / WebView2 / packaging regressions |
 | **More locale packs** | Only if 1.45/1.54 workflow stays cheap |
 | **Deeper Lottie / AnimatedIcon** | Only if 1.53 thin path proves valuable |
 | **Official vcpkg/Conan ports** | Beyond the 1.61 sketch—product promise only if owned |
@@ -393,7 +425,7 @@ Consider 2.00 only if several of these become true:
 - Need a new packaging/ABI contract that breaks 1.xx consumers  
 - Need to drop an old Qt floor or OS policy in a breaking way  
 
-Until then: **stay on 1.xx**, bump `YY` for each slice. Prefer finishing through **1.70** (long-horizon checkpoint) before even drafting 2.00 scope.
+Until then: **stay on 1.xx**, bump `YY` for each slice. Prefer finishing through **1.71** (long-horizon checkpoint) before even drafting 2.00 scope.
 
 ---
 
@@ -409,7 +441,9 @@ Unscheduled; pick up only inside a named `1.xx` minor (or never). Clarified at *
 - Full Lottie runtime as a hard product dependency (thin glyph path shipped in 1.53)  
 - New chart engines / WebGL  
 - Official vcpkg/Conan ports as supported products (sketch may ship in 1.61)  
-- Custom ink / handwriting canvas (out of 1.57 touch cookbook)  
+- Custom ink / handwriting canvas (out of 1.57 touch cookbook; out of 1.70 OSK)  
+- Full CJK IME / dictation as a product IME (1.70 OSK is Latin + symbols only)  
+- Qt Virtual Keyboard (GPL/commercial — never)  
 - Cloud settings roaming / share backends (out of 1.65 recipes scope)  
 
 ---
@@ -426,4 +460,5 @@ Unscheduled; pick up only inside a named `1.xx` minor (or never). Clarified at *
 | [components.md](components.md) | Control index |
 | [conventions.md](conventions.md) | A11y / QML rules |
 | [qt-version-compat.md](qt-version-compat.md) | Qt multi-version shims |
+| [on-screen-keyboard.md](on-screen-keyboard.md) | 1.70 OSK — Keyman Core + our UI |
 | [ROADMAP.md](../ROADMAP.md) | Canonical plan (repo root) |

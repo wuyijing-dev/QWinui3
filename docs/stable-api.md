@@ -233,6 +233,7 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.67** | Media honest defer — soak checklist, stay experimental; [media.md](media.md); Gallery MediaPlayerElement |
 | **1.68** | Linux portal / FilePicker harden — no zenity double-dialog; [platform-linux-wayland.md](platform-linux-wayland.md) |
 | **1.69** | Theme knobs for any app — `ThemeSync` / `ThemeAppearanceSettings` / `Theme.recipeText()`; [theme-overrides.md](theme-overrides.md) |
+| **1.70** (planned) | Win11 OSK — Keyman Core MIT engine + our UI; experimental; [on-screen-keyboard.md](on-screen-keyboard.md) |
 | **1.35** | Qt Creator kit polish — [qt-creator.md](qt-creator.md); example build presets |
 | **1.36** | Docs site IA — [recipes.md](recipes.md) hub; MkDocs Recipes sections |
 | **1.37** | Promote sweep — commands / Flyout / TabView / ShellWindow / pickers / progress / FontIcon / ItemsRepeater; explicit defer list |
