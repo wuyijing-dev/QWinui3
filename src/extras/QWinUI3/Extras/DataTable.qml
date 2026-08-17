@@ -8,26 +8,30 @@ import QWinUI3.Theme
 //
 //   DataTable {
 //       columns: [
-//           { title: qsTr("Name"), role: "name", width: 160, sortable: true },
+//           { title: qsTr("Name"), role: "name", width: 160, sortable: true, pinned: true },
 //           { title: qsTr("Role"), role: "role", width: 140, sortable: true },
 //           { title: qsTr("Status"), role: "status", width: 120 }
 //       ]
-//       rows: [ { name: "Alex", role: "Design", status: "Active" }, … ]
+//       rows: [ { name: "Alex", role: "Design", status: "Active", team: "Alpha" }, … ]
+//       groupRole: "team"
 //       filterPlaceholder: qsTr("Filter rows")
 //   }
 //
 //   // --- API ---
-//   // selectedRow / selectedIndex, sortColumn / sortOrder, filterText
-//   // methods: select(row), clearSelection(), refresh(), focusTable()
+//   // selectedRow / selectedIndex, sortColumn / sortOrder, filterText, columnOrder
+//   // methods: select(row), clearSelection(), refresh(), focusTable(), moveColumn(from, to)
 //   // signals: rowActivated(int, var), selectionChanged(int, var), sortChanged(int, int)
 //
 // @notes
 //   ListView virtualizes rows (`reuseItems`). Filter + sort rebuild `_viewRows` in JS —
-//   debounced on filter keystrokes (1.88); skips rebuild when query/sort/rows unchanged.
+//   debounced on filter keystrokes (1.88); skips rebuild when query/sort/rows unchanged (2.18).
+//   maxFilterResults caps filter walk for huge JS arrays (2.18).
+//   Column pin + reorder (columnOrder / moveColumn) and row group headers (groupRole) — 2.64.
 //   fine for hundreds of plain objects; prefer a C++ model + custom view for thousands+.
 //   Selection tracks the row **object** across sort/filter (clears if the row is filtered out).
 //   Tab into the table or press Down from the filter; arrows / Home / End / Page / Enter /
-//   Esc navigate. Horizontal scroll via the bottom scrollbar (list flick is vertical).
+//   Esc navigate. Pinned columns stay fixed; scrollable columns share a horizontal offset.
+//   Live-region announces on selection / sort / filter (2.07) when announceChanges is true.
 //   See docs/data-collections.md for DataTable vs ItemsView vs ListDetailsView.
 
 T.Control {
@@ -46,6 +50,15 @@ T.Control {
     property real headerHeight: Theme.navItemHeight
     // Debounce filter keystrokes before rebuilding _viewRows (1.88).
     property int filterDebounceMs: 120
+    // Cap filtered rows (0 = unlimited). Large JS arrays only (2.18).
+    property int maxFilterResults: 0
+    // Qt 6.8+ Accessible.announce for selection / sort / filter (2.07).
+    property bool announceChanges: true
+    // Row group header role — inserts sticky-style group rows (2.64).
+    property string groupRole: ""
+    property real groupHeaderHeight: Theme.navItemHeight
+    // Persist column order — bind to Settings; empty = natural column index order (2.64).
+    property var columnOrder: []
 
     readonly property var selectedRow: {
         if (selectedIndex < 0 || selectedIndex >= _viewRows.length)
@@ -54,17 +67,66 @@ T.Control {
     }
     readonly property int rowCount: _viewRows.length
     readonly property int columnCount: columns ? columns.length : 0
+    readonly property bool _groupActive: groupRole.length > 0
+    readonly property real _pinnedWidth: {
+        var w = 0
+        for (var i = 0; i < _pinnedColOrder.length; ++i)
+            w += _columnWidths[_pinnedColOrder[i]] || 140
+        return w
+    }
+    readonly property real _scrollContentWidth: {
+        var w = 0
+        for (var i = 0; i < _scrollColOrder.length; ++i)
+            w += _columnWidths[_scrollColOrder[i]] || 140
+        return w
+    }
+    readonly property int _listCurrentIndex: _listDisplayIndex(selectedIndex)
 
     signal rowActivated(int index, var row)
     signal selectionChanged(int index, var row)
     signal sortChanged(int column, int order)
+    signal columnLayoutChanged()
 
     property var _viewRows: []
+    property var _displayItems: []
     property var _columnWidths: []
+    property var _pinnedColOrder: []
+    property var _scrollColOrder: []
+    property real _scrollX: 0
     property string _lastRefreshKey: ""
     property var _lastRowsRef: null
-    // Object identity of the selected row (survives sort/filter when still visible).
+    property string _lastAnnouncedFilterSummary: ""
     property var _selectedRowRef: null
+
+    function _announce(text) {
+        if (!root.announceChanges || !text || text.length === 0)
+            return
+        if (typeof Accessible.announce === "function")
+            Accessible.announce(text)
+    }
+
+    function _announceSelection(index) {
+        if (index < 0) {
+            _announce(qsTr("Selection cleared"))
+            return
+        }
+        var row = _viewRows[index]
+        var name = _cellText(row, 0)
+        if (!name.length)
+            name = qsTr("Row %1").arg(index + 1)
+        _announce(qsTr("%1, row %2 of %3").arg(name).arg(index + 1).arg(rowCount))
+    }
+
+    function _announceFilterResult() {
+        var q = (filterText || "").trim()
+        var summary = q.length
+                ? qsTr("%1 rows match filter").arg(_viewRows.length)
+                : qsTr("%1 rows").arg(_viewRows.length)
+        if (summary === _lastAnnouncedFilterSummary)
+            return
+        _lastAnnouncedFilterSummary = summary
+        _announce(summary)
+    }
 
     Timer {
         id: filterDebounce
@@ -76,7 +138,6 @@ T.Control {
     implicitHeight: 360
     focusPolicy: Qt.StrongFocus
     activeFocusOnTab: true
-    // Screen-reader name override (1.19)
     property string accessibleName: qsTr("Data table")
     Accessible.role: Accessible.Table
     Accessible.name: accessibleName.length ? accessibleName : qsTr("Data table")
@@ -84,14 +145,18 @@ T.Control {
 
     onColumnsChanged: {
         _syncColumnWidths()
+        _rebuildColumnLayout()
         _scheduleRefresh(true)
     }
+    onColumnOrderChanged: _rebuildColumnLayout()
     onRowsChanged: _scheduleRefresh(true)
     onFilterTextChanged: _scheduleRefresh(false)
     onSortColumnChanged: _scheduleRefresh(true)
     onSortOrderChanged: _scheduleRefresh(true)
+    onGroupRoleChanged: _scheduleRefresh(true)
     Component.onCompleted: {
         _syncColumnWidths()
+        _rebuildColumnLayout()
         refresh()
     }
 
@@ -104,6 +169,55 @@ T.Control {
         }
     }
 
+    function _displayColumnIndices() {
+        var cols = columns || []
+        var order = columnOrder
+        if (order && order.length === cols.length) {
+            var seen = ({})
+            for (var i = 0; i < order.length; ++i) {
+                var idx = order[i]
+                if (typeof idx !== "number" || idx < 0 || idx >= cols.length || seen[idx])
+                    break
+                seen[idx] = true
+                if (i === order.length - 1)
+                    return order.slice()
+            }
+        }
+        var natural = []
+        for (var j = 0; j < cols.length; ++j)
+            natural.push(j)
+        return natural
+    }
+
+    function _rebuildColumnLayout() {
+        var order = _displayColumnIndices()
+        var pinned = []
+        var scroll = []
+        var cols = columns || []
+        for (var i = 0; i < order.length; ++i) {
+            var ci = order[i]
+            if (ci >= 0 && ci < cols.length && cols[ci].pinned === true)
+                pinned.push(ci)
+            else
+                scroll.push(ci)
+        }
+        _pinnedColOrder = pinned
+        _scrollColOrder = scroll
+        columnLayoutChanged()
+    }
+
+    function moveColumn(fromDisplay, toDisplay) {
+        var order = _displayColumnIndices().slice()
+        if (fromDisplay < 0 || fromDisplay >= order.length
+                || toDisplay < 0 || toDisplay >= order.length
+                || fromDisplay === toDisplay)
+            return
+        var item = order.splice(fromDisplay, 1)[0]
+        order.splice(toDisplay, 0, item)
+        columnOrder = order
+        _rebuildColumnLayout()
+    }
+
     function focusTable() {
         forceActiveFocus()
     }
@@ -112,21 +226,89 @@ T.Control {
         select(-1)
     }
 
+    function _listDisplayIndex(dataIndex) {
+        if (dataIndex < 0)
+            return -1
+        if (!_groupActive)
+            return dataIndex
+        for (var i = 0; i < _displayItems.length; ++i) {
+            var it = _displayItems[i]
+            if (it.kind === "row" && it.rowIndex === dataIndex)
+                return i
+        }
+        return -1
+    }
+
+    function _dataIndexFromDisplay(displayIndex) {
+        if (!_groupActive)
+            return displayIndex
+        if (displayIndex < 0 || displayIndex >= _displayItems.length)
+            return -1
+        var it = _displayItems[displayIndex]
+        return it && it.kind === "row" ? it.rowIndex : -1
+    }
+
     function select(index) {
         if (index < -1 || index >= _viewRows.length)
             return
         selectedIndex = index
         _selectedRowRef = index >= 0 ? _viewRows[index] : null
         selectionChanged(index, selectedRow)
-        if (index >= 0)
-            list.positionViewAtIndex(index, ListView.Contain)
+        _announceSelection(index)
+        if (index >= 0) {
+            var di = _listDisplayIndex(index)
+            if (di >= 0)
+                list.positionViewAtIndex(di, ListView.Contain)
+        }
+    }
+
+    function _buildDisplayItems(rows) {
+        if (!_groupActive) {
+            _displayItems = []
+            return
+        }
+        var items = []
+        var lastGroup = null
+        for (var i = 0; i < rows.length; ++i) {
+            var row = rows[i]
+            var g = row[groupRole]
+            var gStr = g === undefined || g === null ? "" : String(g)
+            if (gStr !== lastGroup) {
+                items.push({
+                    kind: "group",
+                    label: gStr.length ? gStr : qsTr("Ungrouped")
+                })
+                lastGroup = gStr
+            }
+            items.push({ kind: "row", rowIndex: i, row: row })
+        }
+        _displayItems = items
+    }
+
+    function _compareValues(av, bv, asc) {
+        if (av === bv)
+            return 0
+        if (av === undefined || av === null)
+            return asc ? -1 : 1
+        if (bv === undefined || bv === null)
+            return asc ? 1 : -1
+        if (typeof av === "number" && typeof bv === "number")
+            return asc ? (av - bv) : (bv - av)
+        var as = String(av).toLowerCase()
+        var bs = String(bv).toLowerCase()
+        if (as < bs)
+            return asc ? -1 : 1
+        if (as > bs)
+            return asc ? 1 : -1
+        return 0
     }
 
     function refresh() {
         var src = rows || []
         var cols = columns || []
         var q = (filterText || "").trim().toLowerCase()
-        var refreshKey = q + "\0" + sortColumn + "\0" + sortOrder + "\0" + src.length
+        var refreshKey = q + "\0" + sortColumn + "\0" + sortOrder + "\0"
+                + src.length + "\0" + groupRole
         if (refreshKey === _lastRefreshKey && src === _lastRowsRef)
             return
         _lastRefreshKey = refreshKey
@@ -137,6 +319,8 @@ T.Control {
             var row = src[i]
             if (!q.length) {
                 filtered.push(row)
+                if (root.maxFilterResults > 0 && filtered.length >= root.maxFilterResults)
+                    break
                 continue
             }
             var hit = false
@@ -150,33 +334,33 @@ T.Control {
             }
             if (hit)
                 filtered.push(row)
+            if (root.maxFilterResults > 0 && filtered.length >= root.maxFilterResults)
+                break
         }
-        if (sortColumn >= 0 && sortColumn < cols.length && cols[sortColumn].sortable !== false) {
-            var roleSort = cols[sortColumn].role || ("c" + sortColumn)
-            var asc = sortOrder === Qt.AscendingOrder
+        var roleSort = ""
+        var asc = sortOrder === Qt.AscendingOrder
+        var canSort = sortColumn >= 0 && sortColumn < cols.length && cols[sortColumn].sortable !== false
+        if (canSort)
+            roleSort = cols[sortColumn].role || ("c" + sortColumn)
+
+        if (root._groupActive || canSort) {
             filtered = filtered.slice().sort(function (a, b) {
-                var av = a[roleSort]
-                var bv = b[roleSort]
-                if (av === bv)
+                if (root._groupActive) {
+                    var ga = a[root.groupRole]
+                    var gb = b[root.groupRole]
+                    var gcmp = root._compareValues(ga, gb, true)
+                    if (gcmp !== 0)
+                        return gcmp
+                }
+                if (!canSort)
                     return 0
-                if (av === undefined || av === null)
-                    return asc ? -1 : 1
-                if (bv === undefined || bv === null)
-                    return asc ? 1 : -1
-                if (typeof av === "number" && typeof bv === "number")
-                    return asc ? (av - bv) : (bv - av)
-                var as = String(av).toLowerCase()
-                var bs = String(bv).toLowerCase()
-                if (as < bs)
-                    return asc ? -1 : 1
-                if (as > bs)
-                    return asc ? 1 : -1
-                return 0
+                return root._compareValues(a[roleSort], b[roleSort], asc)
             })
         }
 
         var prev = _selectedRowRef
         _viewRows = filtered
+        _buildDisplayItems(filtered)
 
         if (prev !== null && prev !== undefined) {
             var found = -1
@@ -191,7 +375,9 @@ T.Control {
                     selectedIndex = found
                     selectionChanged(found, prev)
                 }
-                list.positionViewAtIndex(found, ListView.Contain)
+                var di = _listDisplayIndex(found)
+                if (di >= 0)
+                    list.positionViewAtIndex(di, ListView.Contain)
             } else {
                 selectedIndex = -1
                 _selectedRowRef = null
@@ -200,6 +386,7 @@ T.Control {
         } else if (selectedIndex >= _viewRows.length) {
             select(_viewRows.length ? _viewRows.length - 1 : -1)
         }
+        _announceFilterResult()
     }
 
     function toggleSort(column) {
@@ -215,6 +402,12 @@ T.Control {
             sortOrder = Qt.AscendingOrder
         }
         sortChanged(sortColumn, sortOrder)
+        if (announceChanges) {
+            var colTitle = cols[column].title || cols[column].role || ""
+            var order = sortOrder === Qt.AscendingOrder
+                    ? qsTr("ascending") : qsTr("descending")
+            _announce(qsTr("Sorted by %1, %2").arg(colTitle).arg(order))
+        }
     }
 
     function _syncColumnWidths() {
@@ -273,6 +466,123 @@ T.Control {
         }
     }
 
+    component HeaderCell: Item {
+        id: headerCell
+        required property int columnIndex
+        property real cellWidth: root._columnWidths[columnIndex] || 140
+
+        width: cellWidth
+        height: root.headerHeight
+
+        readonly property var colDef: {
+            var cols = root.columns || []
+            return columnIndex >= 0 && columnIndex < cols.length ? cols[columnIndex] : ({})
+        }
+
+        Rectangle {
+            anchors.fill: parent
+            color: Theme.bgAcrylic
+            Accessible.role: Accessible.ColumnHeader
+            Accessible.name: {
+                var t = headerCell.colDef.title || headerCell.colDef.role || ""
+                if (headerCell.colDef.pinned === true)
+                    t += qsTr(", pinned")
+                if (root.sortColumn === headerCell.columnIndex) {
+                    t += root.sortOrder === Qt.AscendingOrder
+                             ? qsTr(", sorted ascending")
+                             : qsTr(", sorted descending")
+                }
+                return t
+            }
+            Accessible.onPressAction: root.toggleSort(headerCell.columnIndex)
+
+            Rectangle {
+                anchors.bottom: parent.bottom
+                width: parent.width
+                height: 1
+                color: Theme.strokeCard
+            }
+
+            RowLayout {
+                anchors.fill: parent
+                anchors.leftMargin: 12
+                anchors.rightMargin: 8
+                spacing: 4
+
+                Label {
+                    Layout.fillWidth: true
+                    text: headerCell.colDef.title || headerCell.colDef.role || ""
+                    elide: Text.ElideRight
+                    font.weight: Theme.fontWeightSemiBold
+                    color: Theme.textPrimary
+                    verticalAlignment: Text.AlignVCenter
+                }
+
+                Label {
+                    visible: root.sortColumn === headerCell.columnIndex
+                    text: root.sortOrder === Qt.AscendingOrder ? "▲" : "▼"
+                    color: Theme.accent
+                    font.pixelSize: Theme.fontCaption
+                }
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                anchors.rightMargin: 6
+                cursorShape: headerCell.colDef.sortable === false
+                             ? Qt.ArrowCursor : Qt.PointingHandCursor
+                onClicked: root.toggleSort(headerCell.columnIndex)
+            }
+
+            MouseArea {
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.right: parent.right
+                width: 6
+                cursorShape: Qt.SplitHCursor
+                visible: headerCell.colDef.resizable !== false
+                property real _startX: 0
+                property real _startW: 0
+                onPressed: function (mouse) {
+                    _startX = mouse.x
+                    _startW = headerCell.width
+                }
+                onPositionChanged: function (mouse) {
+                    if (!pressed)
+                        return
+                    var nw = Math.max(root.minColumnWidth, _startW + (mouse.x - _startX))
+                    var widths = root._columnWidths.slice()
+                    widths[headerCell.columnIndex] = nw
+                    root._columnWidths = widths
+                }
+            }
+        }
+    }
+
+    component DataCell: Item {
+        id: dataCell
+        required property int columnIndex
+        required property var rowObj
+        property real cellWidth: root._columnWidths[columnIndex] || 140
+
+        width: cellWidth
+        height: root.rowHeight
+
+        readonly property string cellText: root._cellText(rowObj, columnIndex)
+
+        Label {
+            anchors.fill: parent
+            anchors.leftMargin: 12
+            anchors.rightMargin: 8
+            text: dataCell.cellText
+            elide: Text.ElideRight
+            color: Theme.textPrimary
+            verticalAlignment: Text.AlignVCenter
+            font.family: Theme.fontFamily
+            font.pixelSize: Theme.fontBody
+        }
+    }
+
     contentItem: ColumnLayout {
         spacing: Theme.spacing
         anchors.fill: parent
@@ -311,108 +621,48 @@ T.Control {
                 anchors.margins: 1
                 spacing: 0
 
-                Flickable {
-                    id: headerFlick
+                Row {
                     Layout.fillWidth: true
                     Layout.preferredHeight: root.headerHeight
-                    contentWidth: headerRow.width
-                    contentHeight: height
-                    clip: true
-                    interactive: false
-                    boundsBehavior: Flickable.StopAtBounds
+                    spacing: 0
 
                     Row {
-                        id: headerRow
+                        id: pinnedHeaderRow
+                        visible: root._pinnedColOrder.length > 0
                         height: root.headerHeight
-
                         Repeater {
-                            model: root.columns || []
+                            model: root._pinnedColOrder
+                            delegate: HeaderCell {
+                                columnIndex: modelData
+                            }
+                        }
+                        Rectangle {
+                            anchors.right: parent.right
+                            width: 1
+                            height: parent.height
+                            color: Theme.strokeCard
+                            visible: root._scrollColOrder.length > 0
+                        }
+                    }
 
-                            delegate: Item {
-                                id: headerCell
-                                required property var modelData
-                                required property int index
-                                width: root._columnWidths[index] || 140
-                                height: root.headerHeight
+                    Flickable {
+                        id: headerFlick
+                        width: parent.width - pinnedHeaderRow.width
+                        height: root.headerHeight
+                        contentWidth: scrollHeaderRow.width
+                        contentHeight: height
+                        clip: true
+                        interactive: false
+                        boundsBehavior: Flickable.StopAtBounds
+                        contentX: root._scrollX
 
-                                Rectangle {
-                                    anchors.fill: parent
-                                    color: Theme.bgAcrylic
-                                    Accessible.role: Accessible.ColumnHeader
-                                    Accessible.name: {
-                                        var t = headerCell.modelData.title
-                                                || headerCell.modelData.role || ""
-                                        if (root.sortColumn === headerCell.index) {
-                                            t += root.sortOrder === Qt.AscendingOrder
-                                                 ? qsTr(", sorted ascending")
-                                                 : qsTr(", sorted descending")
-                                        }
-                                        return t
-                                    }
-                                    Accessible.onPressAction: root.toggleSort(headerCell.index)
-
-                                    Rectangle {
-                                        anchors.bottom: parent.bottom
-                                        width: parent.width
-                                        height: 1
-                                        color: Theme.strokeCard
-                                    }
-
-                                    RowLayout {
-                                        anchors.fill: parent
-                                        anchors.leftMargin: 12
-                                        anchors.rightMargin: 8
-                                        spacing: 4
-
-                                        Label {
-                                            Layout.fillWidth: true
-                                            text: headerCell.modelData.title
-                                                  || headerCell.modelData.role
-                                                  || ""
-                                            elide: Text.ElideRight
-                                            font.weight: Theme.fontWeightSemiBold
-                                            color: Theme.textPrimary
-                                            verticalAlignment: Text.AlignVCenter
-                                        }
-
-                                        Label {
-                                            visible: root.sortColumn === headerCell.index
-                                            text: root.sortOrder === Qt.AscendingOrder ? "▲" : "▼"
-                                            color: Theme.accent
-                                            font.pixelSize: Theme.fontCaption
-                                        }
-                                    }
-
-                                    MouseArea {
-                                        anchors.fill: parent
-                                        anchors.rightMargin: 6
-                                        cursorShape: headerCell.modelData.sortable === false
-                                                     ? Qt.ArrowCursor : Qt.PointingHandCursor
-                                        onClicked: root.toggleSort(headerCell.index)
-                                    }
-
-                                    MouseArea {
-                                        anchors.top: parent.top
-                                        anchors.bottom: parent.bottom
-                                        anchors.right: parent.right
-                                        width: 6
-                                        cursorShape: Qt.SplitHCursor
-                                        visible: headerCell.modelData.resizable !== false
-                                        property real _startX: 0
-                                        property real _startW: 0
-                                        onPressed: function (mouse) {
-                                            _startX = mouse.x
-                                            _startW = headerCell.width
-                                        }
-                                        onPositionChanged: function (mouse) {
-                                            if (!pressed)
-                                                return
-                                            var nw = Math.max(root.minColumnWidth, _startW + (mouse.x - _startX))
-                                            var widths = root._columnWidths.slice()
-                                            widths[headerCell.index] = nw
-                                            root._columnWidths = widths
-                                        }
-                                    }
+                        Row {
+                            id: scrollHeaderRow
+                            height: root.headerHeight
+                            Repeater {
+                                model: root._scrollColOrder
+                                delegate: HeaderCell {
+                                    columnIndex: modelData
                                 }
                             }
                         }
@@ -426,19 +676,19 @@ T.Control {
                     clip: true
                     reuseItems: true
                     boundsBehavior: Flickable.StopAtBounds
-                    model: root._viewRows
-                    currentIndex: root.selectedIndex
-                    contentWidth: headerRow.width
+                    model: root._groupActive ? root._displayItems : root._viewRows
+                    currentIndex: root._listCurrentIndex
                     flickableDirection: Flickable.VerticalFlick
-                    onContentXChanged: headerFlick.contentX = contentX
 
                     ScrollBar.vertical: ScrollBar {}
                     ScrollBar.horizontal: ScrollBar {
-                        policy: list.contentWidth > list.width
+                        id: hScroll
+                        policy: root._scrollContentWidth > (list.width - root._pinnedWidth)
                                 ? ScrollBar.AsNeeded : ScrollBar.AlwaysOff
                         onPositionChanged: {
-                            list.contentX = position * (list.contentWidth - list.width)
-                            headerFlick.contentX = list.contentX
+                            var viewport = Math.max(1, list.width - root._pinnedWidth)
+                            var maxX = Math.max(0, root._scrollContentWidth - viewport)
+                            root._scrollX = position * maxX
                         }
                     }
 
@@ -446,28 +696,61 @@ T.Control {
                         id: rowItem
                         required property var modelData
                         required property int index
-                        width: Math.max(list.width, headerRow.width)
-                        height: root.rowHeight
+                        readonly property bool isGroup: root._groupActive && modelData.kind === "group"
+                        readonly property int dataIndex: root._groupActive
+                                ? (isGroup ? -1 : modelData.rowIndex)
+                                : index
+                        readonly property var rowObj: root._groupActive
+                                ? (isGroup ? null : modelData.row)
+                                : modelData
+                        width: list.width
+                        height: isGroup ? root.groupHeaderHeight : root.rowHeight
 
-                        Accessible.role: Accessible.ListItem
+                        Accessible.role: isGroup ? Accessible.StaticText : Accessible.ListItem
                         Accessible.name: {
+                            if (isGroup)
+                                return modelData.label
                             var first = ""
                             if (root.columns && root.columns.length)
-                                first = root._cellText(modelData, 0)
-                            return first.length
-                                   ? first
-                                   : qsTr("Row %1").arg(index + 1)
+                                first = root._cellText(rowObj, 0)
+                            return first.length ? first : qsTr("Row %1").arg(dataIndex + 1)
                         }
-                        Accessible.description: qsTr("Row %1 of %2").arg(index + 1).arg(root.rowCount)
-                        Accessible.selectable: true
-                        Accessible.selected: index === root.selectedIndex
-                        Accessible.onPressAction: root.select(index)
+                        Accessible.description: isGroup ? "" : qsTr("Row %1 of %2")
+                                                      .arg(dataIndex + 1).arg(root.rowCount)
+                        Accessible.selectable: !isGroup
+                        Accessible.selected: !isGroup && dataIndex === root.selectedIndex
+                        Accessible.onPressAction: {
+                            if (!isGroup)
+                                root.select(dataIndex)
+                        }
 
                         Rectangle {
                             anchors.fill: parent
-                            color: index === root.selectedIndex
+                            visible: isGroup
+                            color: Theme.bgAcrylic
+                            Label {
+                                anchors.fill: parent
+                                anchors.leftMargin: 12
+                                anchors.rightMargin: 8
+                                text: rowItem.modelData.label
+                                font.weight: Theme.fontWeightSemiBold
+                                color: Theme.textSecondary
+                                verticalAlignment: Text.AlignVCenter
+                            }
+                            Rectangle {
+                                anchors.bottom: parent.bottom
+                                width: parent.width
+                                height: 1
+                                color: Theme.strokeCard
+                            }
+                        }
+
+                        Rectangle {
+                            anchors.fill: parent
+                            visible: !isGroup
+                            color: dataIndex === root.selectedIndex
                                    ? Theme.fillSubtleSecondary
-                                   : (index % 2 === 0 ? Theme.bgCard : Theme.fillSubtle)
+                                   : (dataIndex % 2 === 0 ? Theme.bgCard : Theme.fillSubtle)
 
                             Rectangle {
                                 anchors.bottom: parent.bottom
@@ -478,30 +761,43 @@ T.Control {
                             }
 
                             Row {
-                                id: cellRow
                                 height: parent.height
+                                spacing: 0
 
-                                Repeater {
-                                    model: root.columns || []
+                                Row {
+                                    id: pinnedCells
+                                    visible: root._pinnedColOrder.length > 0
+                                    height: parent.height
+                                    Repeater {
+                                        model: root._pinnedColOrder
+                                        delegate: DataCell {
+                                            columnIndex: modelData
+                                            rowObj: rowItem.rowObj
+                                        }
+                                    }
+                                    Rectangle {
+                                        anchors.right: parent.right
+                                        width: 1
+                                        height: parent.height
+                                        color: Theme.strokeCard
+                                        visible: root._scrollColOrder.length > 0
+                                    }
+                                }
 
-                                    delegate: Item {
-                                        required property var modelData
-                                        required property int index
-                                        readonly property string cellText: root._cellText(
-                                            rowItem.modelData, index)
-                                        width: root._columnWidths[index] || 140
-                                        height: root.rowHeight
+                                Item {
+                                    width: list.width - pinnedCells.width
+                                    height: parent.height
+                                    clip: true
 
-                                        Label {
-                                            anchors.fill: parent
-                                            anchors.leftMargin: 12
-                                            anchors.rightMargin: 8
-                                            text: parent.cellText
-                                            elide: Text.ElideRight
-                                            color: Theme.textPrimary
-                                            verticalAlignment: Text.AlignVCenter
-                                            font.family: Theme.fontFamily
-                                            font.pixelSize: Theme.fontBody
+                                    Row {
+                                        x: -root._scrollX
+                                        height: parent.height
+                                        Repeater {
+                                            model: root._scrollColOrder
+                                            delegate: DataCell {
+                                                columnIndex: modelData
+                                                rowObj: rowItem.rowObj
+                                            }
                                         }
                                     }
                                 }
@@ -511,11 +807,11 @@ T.Control {
                                 anchors.fill: parent
                                 onClicked: {
                                     root.forceActiveFocus()
-                                    root.select(rowItem.index)
+                                    root.select(rowItem.dataIndex)
                                 }
                                 onDoubleClicked: {
-                                    root.select(rowItem.index)
-                                    root.rowActivated(rowItem.index, root.selectedRow)
+                                    root.select(rowItem.dataIndex)
+                                    root.rowActivated(rowItem.dataIndex, root._viewRows[rowItem.dataIndex])
                                 }
                             }
                         }
@@ -539,6 +835,9 @@ T.Control {
             text: qsTr("%1 of %2 rows").arg(root.rowCount).arg((root.rows || []).length)
                   + (root.selectedIndex >= 0
                      ? qsTr(" · selected %1").arg(root.selectedIndex + 1) : "")
+                  + (root._groupActive ? qsTr(" · grouped by %1").arg(root.groupRole) : "")
+                  + (root._pinnedColOrder.length
+                     ? qsTr(" · %1 pinned").arg(root._pinnedColOrder.length) : "")
             color: Theme.textSecondary
             font.pixelSize: Theme.fontCaption
         }

@@ -6,6 +6,10 @@ Wave 2 (1.19): **DataTable** / **ListDetailsView** / **ItemsView** / **FormLayou
 
 Wave 3 (**1.85**): dialog / flyout **focus return**; `InfoBar` / `ImeCandidateBar` live-region announce.
 
+Wave 4 (**2.07**): **DataTable** / **ListDetailsView** / **NavigationView** live-region announces; shell title-bar description.
+
+Wave 5 (**2.29**): **TreeDataGrid** / **FileTree** / **ItemsWrapGrid** / **BreadcrumbBar** keyboard names + live regions for **2.21…2.24** surfaces.
+
 Authoring rules: [`conventions.md`](conventions.md). Live checklist: Gallery **Accessibility** page (includes keyboard tour **1.44** and wave 3 **1.85**).
 
 **Keyboard-first cookbook:** [keyboard.md](keyboard.md) (**1.44**). Touch PCs still need chords — see also [touch-pointer.md](touch-pointer.md) (**1.57**).
@@ -53,13 +57,44 @@ Gallery **Accessibility** page has a live dialog / flyout / InfoBar sample. IME 
 
 ---
 
-## Data collections (1.07 / 1.19)
+## Wave 4 checklist (2.07 — Done)
+
+| Surface | Status | Behavior |
+|---------|--------|----------|
+| `DataTable` | **Done** | `announceChanges` (default true): `Accessible.announce` on row selection, column sort, debounced filter row count (Qt 6.8+); **2.64** group headers **StaticText**; pinned headers announce **", pinned"** |
+| `ListDetailsView` | **Done** | Announces selected item / **Details for …** in SinglePane; **Returned to list** on Back / Esc; **2.64** multi-select checkbox names |
+| `NavigationView` | **Done** | Announces **Navigated to …** on `selectKey` / footer; pane expand/collapse announce |
+| Shell `PlatformTitleBar` | **Done** | `Accessible.description` = window `title`; caption Min/Max/Restore/Close named |
+
+Set `announceChanges: false` on collection controls when a page already announces the same state (rare).
+
+Gallery **Accessibility** page includes a wave 4 collection sample.
+
+---
+
+## Wave 5 checklist (2.29 — Done)
+
+| Surface | Status | Behavior |
+|---------|--------|----------|
+| `TreeDataGrid` | **Done** | `accessibleName`; filter named; column headers sort state + press; **TreeItem** rows with level / row index; `announceChanges` on selection / sort / filter / expand |
+| `FileTree` | **Done** | Pane name; **Tree** role on folder tree; `treeAccessibleName` / `tableAccessibleName`; Tab tree ↔ table; folder change live region (`announceChanges`) |
+| `ItemsWrapGrid` | **Done** | `accessibleName`; list role + item count; filter count live region; delegates should set per-chip `Accessible.name` |
+| `BreadcrumbBar` | **Done** | `accessibleName`; roving Left/Right + Enter/Space; **Navigated to …** live region (`announceChanges`); overflow **More breadcrumbs** |
+
+Set `announceChanges: false` when a host page already announces the same navigation (same pattern as wave 4).
+
+Gallery **Accessibility** page includes a wave 5 tree + breadcrumb sample.
+
+---
+
+## Data collections (1.07 / 1.19 / 2.07)
 
 | Surface | Behavior |
 |---------|----------|
-| `DataTable` | Table role; `accessibleName`; filter Accessible name; column headers expose sort state + press action; row ListItems; Tab / Down from filter into rows |
-| `ListDetailsView` | `accessibleName` / `listAccessibleName`; list rows named; SinglePane **Back** named; Esc returns to list |
+| `DataTable` | Table role; `accessibleName`; filter Accessible name; column headers expose sort state + press action; row ListItems; Tab / Down from filter into rows; **live region** on selection / sort / filter (**2.07**); **group headers StaticText**, pinned headers announce (**2.64**) |
+| `ListDetailsView` | `accessibleName` / `listAccessibleName`; list rows named; SinglePane **Back** named; Esc returns to list; **live region** on selection / pane (**2.07**); multi-select checkbox names (**2.64**) |
 | `ItemsView` | `accessibleName`; roving focus; PageUp/Down; multi-select CheckBox ignored |
+| `NavigationView` | Back / pane / items / footer names (**1.02**); **live region** on nav selection / pane toggle (**2.07**) |
 
 Recipe doc: [`data-collections.md`](data-collections.md).
 

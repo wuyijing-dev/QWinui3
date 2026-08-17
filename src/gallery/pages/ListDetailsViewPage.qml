@@ -10,7 +10,64 @@ import QWinUI3.Extras
 
 CatalogPage {
     title: qsTr("ListDetailsView")
-    subtitle: qsTr("Master–detail on TwoPaneView — docs/adaptive-layout.md (1.42).")
+    subtitle: qsTr("Master–detail · filter + multi-select toolbar (2.64) — docs/collection-perf-264.md.")
+
+    ControlExample {
+        headerText: qsTr("Bulk mail actions (2.64)")
+        qmlSource: "ListDetailsView {\n    multiSelectEnabled: true\n    detailToolbar: RowLayout { … }\n}"
+        ListDetailsView {
+            id: bulkMail
+            Layout.fillWidth: true
+            Layout.preferredHeight: 380
+            multiSelectEnabled: true
+            model: [
+                { title: qsTr("Quarterly review"), subtitle: qsTr("boss@contoso.com"), body: qsTr("Please review attached deck.") },
+                { title: qsTr("Build green"), subtitle: qsTr("ci@contoso.com"), body: qsTr("All checks passed.") },
+                { title: qsTr("Design sync"), subtitle: qsTr("calendar"), body: qsTr("Thursday 10:00.") },
+                { title: qsTr("Invoice #4421"), subtitle: qsTr("billing@vendor.com"), body: qsTr("Payment due Friday.") }
+            ]
+            Component.onCompleted: select(0)
+            detailToolbar: RowLayout {
+                spacing: Theme.spacing
+                Label {
+                    text: qsTr("%1 selected").arg(bulkMail.selectionCount)
+                    color: Theme.textSecondary
+                }
+                Button {
+                    text: qsTr("Archive")
+                    enabled: bulkMail.selectionCount > 0
+                    onClicked: archiveHint.text = qsTr("Archived %1 messages (demo)")
+                                                   .arg(bulkMail.selectionCount)
+                }
+                Button {
+                    flat: true
+                    text: qsTr("Clear")
+                    visible: bulkMail.selectionCount > 0
+                    onClicked: bulkMail.clearMultiSelection()
+                }
+            }
+            details: ColumnLayout {
+                anchors.fill: parent
+                spacing: Theme.spacing
+                Label {
+                    text: bulkMail.selectedItem ? bulkMail.selectedItem.title : ""
+                    font.pixelSize: Theme.fontSubtitle
+                    font.weight: Theme.fontWeightSemiBold
+                }
+                Label {
+                    Layout.fillWidth: true
+                    wrapMode: Text.Wrap
+                    text: bulkMail.selectedItem ? bulkMail.selectedItem.body : ""
+                }
+            }
+        }
+        Label {
+            id: archiveHint
+            Layout.fillWidth: true
+            color: Theme.textSecondary
+            text: qsTr("Ctrl+click · Shift+range · Ctrl+A · checkboxes — detailToolbar for bulk commands.")
+        }
+    }
 
     ControlExample {
         headerText: qsTr("Adaptive breakpoints (1.42)")
@@ -34,7 +91,7 @@ CatalogPage {
         qmlSource: "ListDetailsView {\n    model: […]\n    filterText: …\n    details: Label { … }\n}"
         TextField {
             Layout.fillWidth: true
-            placeholderText: qsTr("Filter list (ListDetailsView.filterText — debounced 1.88)")
+            placeholderText: qsTr("Filter list (debounced · selection by object — 2.18)")
             text: listDetails.filterText
             onTextChanged: listDetails.filterText = text
         }
@@ -76,8 +133,34 @@ CatalogPage {
         Label {
             Layout.fillWidth: true
             color: Theme.textSecondary
-            text: qsTr("Arrows / Enter select · Esc or Back returns to the list when narrow. Live: minWideWidth=%1.")
+            text: qsTr("Arrows / Enter select · Esc or Back returns to the list when narrow. Filtered: %1 · minWideWidth=%2.")
+                    .arg(listDetails.filteredCount)
                     .arg(Math.round(listDetails.minWideWidth))
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Perf checklist (2.40)")
+        qmlSource: "docs/performance.md wave 7 · filterDebounceMs · maxFilterResults · filteredCount"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            CheckBox { text: qsTr("Filter keystrokes debounce before master rebuild") }
+            CheckBox { text: qsTr("Selection survives filter when same object still visible") }
+            CheckBox { text: qsTr("Use filteredCount readout — cap maxFilterResults on huge arrays") }
+            CheckBox { text: qsTr("ListView reuseItems — no Column+Repeater for long lists") }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Perf checklist (2.18)")
+        qmlSource: "docs/performance.md · filterDebounceMs · maxFilterResults"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            CheckBox { text: qsTr("Filter keystrokes debounce before master rebuild") }
+            CheckBox { text: qsTr("Selection survives filter when same object still visible") }
+            CheckBox { text: qsTr("ListView reuseItems — no Column+Repeater for long lists") }
         }
     }
 

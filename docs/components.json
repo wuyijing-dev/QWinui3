@@ -1,6 +1,6 @@
 {
   "name": "QWinUI3",
-  "version": "2.63",
+  "version": "2.64",
   "generatedBy": "scripts/generate_component_docs.py",
   "publicCount": 229,
   "components": [
@@ -570,9 +570,9 @@
       "galleryPage": "pages/DataTablePage.qml",
       "galleryTitle": "DataTable",
       "doc": "components/DataTable.md",
-      "propertyCount": 18,
-      "signalCount": 3,
-      "methodCount": 5
+      "propertyCount": 21,
+      "signalCount": 4,
+      "methodCount": 6
     },
     {
       "name": "DatePicker",
@@ -735,7 +735,7 @@
       "galleryPage": "pages/FileTreePage.qml",
       "galleryTitle": "FileTree",
       "doc": "components/FileTree.md",
-      "propertyCount": 16,
+      "propertyCount": 20,
       "signalCount": 3,
       "methodCount": 4
     },
@@ -1140,9 +1140,9 @@
       "galleryPage": "pages/ListDetailsViewPage.qml",
       "galleryTitle": "ListDetailsView",
       "doc": "components/ListDetailsView.md",
-      "propertyCount": 20,
-      "signalCount": 1,
-      "methodCount": 3
+      "propertyCount": 24,
+      "signalCount": 2,
+      "methodCount": 7
     },
     {
       "name": "ListTile",
@@ -2400,7 +2400,7 @@
       "galleryPage": "pages/TreeDataGridPage.qml",
       "galleryTitle": "TreeDataGrid",
       "doc": "components/TreeDataGrid.md",
-      "propertyCount": 20,
+      "propertyCount": 21,
       "signalCount": 4,
       "methodCount": 8
     },

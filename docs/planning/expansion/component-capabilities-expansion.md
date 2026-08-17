@@ -12,16 +12,16 @@ Plan to **大幅增强现有组件** — new properties, behaviors, and recipes 
 
 | Control | Capability expansion | Target slice | Doc |
 |---------|---------------------|--------------|-----|
-| **DataTable** | Column pin/reorder persist; row grouping header; inline edit commit | **2.64** | [data-collections.md](../../data-collections.md) |
-| **ListDetailsView** | Master multi-select; detail pane toolbar; empty state | **2.64** | [data-collections.md](../../data-collections.md) |
-| **TreeView** | Lazy load hooks; checkbox cascade policy doc | **2.64** | [tree-data.md](../../tree-data.md) |
-| **FileTree** | Column chooser; quick filter sync tree↔table | **2.64** | [tree-data.md](../../tree-data.md) |
-| **TreeDataGrid** | Column resize; frozen first column | **2.64** | experimental |
+| **DataTable** | Column pin/reorder persist; row grouping header | **2.64 shipped** | [collection-perf-264.md](../../collection-perf-264.md) |
+| **ListDetailsView** | Master multi-select; detail pane toolbar | **2.64 shipped** | [collection-perf-264.md](../../collection-perf-264.md) |
+| **TreeView** | Lazy load / checkbox cascade — **app-side policy** (no new type) | **2.64 shipped** | [tree-data.md](../../tree-data.md) |
+| **FileTree** | Column chooser; `filterText` sync | **2.64 shipped** | [tree-data.md](../../tree-data.md) |
+| **TreeDataGrid** | Column resize; `freezeFirstColumn` | **2.64 shipped** | [tree-data.md](../../tree-data.md) |
 | **ItemsView** | Section sticky header; grid cell span | **2.59** | [data-collections.md](../../data-collections.md) |
 | **ItemsWrapGrid** | `maxVisible` + overflow chip | **2.59** | [items-wrap-grid.md](../../items-wrap-grid.md) |
 | **ItemsRepeater** | Section headers in virtualized list | **2.59** | [performance.md](../../performance.md) |
 | **ListTile** | Leading/trailing action slots; swipe hint doc | **2.59** | [data-collections.md](../../data-collections.md) |
-| **EmptyState** | Primary/secondary actions; illustration slot | **2.64** | [feedback.md](../../feedback.md) |
+| **EmptyState** | Primary/secondary actions; illustration slot | **shipped** (pre-2.64) | [feedback.md](../../feedback.md) |
 
 ### Navigation & shell
 

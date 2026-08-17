@@ -1741,6 +1741,8 @@ QtObject {
     // Curated “recently shipped” recipe pages (1.20) — not catalog array order.
     function recentlyShipped(count) {
         var ids = [
+            "DataTablePage",          // 2.64 collection pin/group / FL-016
+            "ListDetailsViewPage",    // 2.64 multi-select toolbar
             "NotificationCenterPage", // 2.63 notification productize / FL-007
             "SemanticZoomPage",       // 2.62 SemanticZoom / FL-006
             "RichEditPage",           // 2.61 RichEdit / FL-005

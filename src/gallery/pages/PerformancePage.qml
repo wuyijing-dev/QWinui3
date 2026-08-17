@@ -9,7 +9,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("Performance")
-    subtitle: qsTr("Lists, shell trim, tranche-1 sign-off, app flows (2.59) — docs/performance.md")
+    subtitle: qsTr("Lists, shell trim, tranche-1 sign-off, app + collection flows — docs/performance.md")
 
     signal openControl(var item)
 
@@ -237,7 +237,7 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 color: Theme.textPrimary
-                text: qsTr("Full sign-off: docs/perf-signoff-2xx.md · FL-008 partial — 2.64 if field metrics return.")
+                text: qsTr("Full sign-off: docs/perf-signoff-2xx.md · FL-008 closed at 2.64 documented paths — docs/collection-perf-264.md.")
             }
         }
     }
@@ -274,6 +274,41 @@ CatalogPage {
             CheckBox { text: qsTr("CommandPalette: maxRecentCommands pins hot commands when query empty") }
             CheckBox { text: qsTr("ItemsView / AutoSuggest: minFilterLength 2 on 1000+ JS rows") }
             CheckBox { text: qsTr("Button.loading + enabled: !busy blocks double-submit") }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Collection wave 10 (2.64)")
+        qmlSource: "DataTable { groupRole; columns: [{ pinned: true }] }\nListDetailsView { multiSelectEnabled; detailToolbar }"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Ops tables: pin identity columns, groupRole section headers, persist columnOrder. Mail master: multiSelectEnabled + detailToolbar instead of a second ItemsView. TreeDataGrid freezeFirstColumn; FileTree filterText + column chooser. docs/collection-perf-264.md")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            RowLayout {
+                spacing: Theme.spacing
+                Button {
+                    text: qsTr("DataTable")
+                    onClicked: page.openComp("DataTablePage")
+                }
+                Button {
+                    text: qsTr("ListDetailsView")
+                    onClicked: page.openComp("ListDetailsViewPage")
+                }
+                Button {
+                    text: qsTr("FileTree")
+                    onClicked: page.openComp("FileTreePage")
+                }
+            }
+            CheckBox { text: qsTr("Pin name/id; groupRole clusters consecutive teams after group sort") }
+            CheckBox { text: qsTr("maxFilterResults still required for huge JS arrays") }
+            CheckBox { text: qsTr("Million-row GPU grid remains out of scope") }
         }
     }
 }

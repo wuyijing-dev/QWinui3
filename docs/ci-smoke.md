@@ -1,4 +1,4 @@
-# CI smoke (1.06 / 1.20 / 1.52 / 1.60 / 2.27 … 2.63 + strategy/icons track)
+# CI smoke (1.06 / 1.20 / 1.52 / 1.60 / 2.27 … 2.64 + strategy/icons track)
 
 Lightweight regression gate — **not** a full test suite or screenshot farm.
 
@@ -35,7 +35,7 @@ python scripts/smoke_gallery.py --build-dir build
 5. `scripts/check_shared_package.py` — packaging contracts / docs (no `--dir`)  
 6. `scripts/lint_qml_imports.py` — example QML stable-import guard (**2.51** / **2.52** first-app)  
 
-Linux field matrix: [platform-linux-wayland.md](platform-linux-wayland.md) · top-3 fixes [linux-top3-253.md](linux-top3-253.md) (**2.53**). Chrome footguns: [window-chrome-footguns-254.md](window-chrome-footguns-254.md) (**2.54**). Forms/dialogs: [forms-unlike-winui-255.md](forms-unlike-winui-255.md) (**2.55**). Navigation: [navigation-mental-model-256.md](navigation-mental-model-256.md) (**2.56**). Files: [files-linux-257.md](files-linux-257.md) (**2.57**). OSK: [osk-in-apps-258.md](osk-in-apps-258.md) (**2.58**). App perf: [app-sluggishness-259.md](app-sluggishness-259.md) (**2.59**). Friction checkpoint: [checkpoint-260.md](checkpoint-260.md) (**2.60**). Rich edit: [rich-edit-261.md](rich-edit-261.md) (**2.61**). Semantic zoom: [semantic-zoom-262.md](semantic-zoom-262.md) (**2.62**). Notification center: [notification-center-263.md](notification-center-263.md) (**2.63**). Gallery **NotificationCenterPage** product stack.
+Linux field matrix: [platform-linux-wayland.md](platform-linux-wayland.md) · top-3 fixes [linux-top3-253.md](linux-top3-253.md) (**2.53**). Chrome footguns: [window-chrome-footguns-254.md](window-chrome-footguns-254.md) (**2.54**). Forms/dialogs: [forms-unlike-winui-255.md](forms-unlike-winui-255.md) (**2.55**). Navigation: [navigation-mental-model-256.md](navigation-mental-model-256.md) (**2.56**). Files: [files-linux-257.md](files-linux-257.md) (**2.57**). OSK: [osk-in-apps-258.md](osk-in-apps-258.md) (**2.58**). App perf: [app-sluggishness-259.md](app-sluggishness-259.md) (**2.59**). Friction checkpoint: [checkpoint-260.md](checkpoint-260.md) (**2.60**). Rich edit: [rich-edit-261.md](rich-edit-261.md) (**2.61**). Semantic zoom: [semantic-zoom-262.md](semantic-zoom-262.md) (**2.62**). Notification center: [notification-center-263.md](notification-center-263.md) (**2.63**). Collection perf: [collection-perf-264.md](collection-perf-264.md) (**2.64**). Gallery **DataTablePage** pin/group + **ListDetailsViewPage** multi-select.
 
 Then launches `qwinui3_gallery --smoke`.
 

@@ -4,7 +4,7 @@ Star rating; stepSize supports halves (WinUI InitialSetValue / ItemInfo).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/RatingControl.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/RatingControl.qml)
 
-**Category:** Input & forms · **Library:** v2.63
+**Category:** Input & forms · **Library:** v2.64
 
 [← Component index](../components.md)
 

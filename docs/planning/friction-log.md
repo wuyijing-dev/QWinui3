@@ -122,7 +122,7 @@
 | **Pain** | **DataTable** / **ListDetailsView** / **NavigationView** feel slow with large models — filter typing stalls UI or rebuilds entire view rows. |
 | **Workaround today** | Smaller pages, custom proxies, or drop kit controls. |
 | **Proposed slice** | **2.18** / **2.40** / **2.49** / **2.64** collection perf |
-| **Status** | partial — **2.18** wave 5 + **2.28** wave 6 + **2.40** wave 7; **2.49** tranche-1 sign-off — [perf-signoff-2xx.md](../perf-signoff-2xx.md); **2.64** if field metrics return |
+| **Status** | closed — **2.18** wave 5 + **2.40** wave 7 + **2.49** sign-off + **2.64** wave 10 — [collection-perf-264.md](../collection-perf-264.md); million-row GPU still out |
 
 ### FL-009 — Dashboard / chart compose confusion
 
@@ -166,7 +166,7 @@
 | **Pain** | Ops dashboards need pinned columns and row grouping headers; **DataTable** feels spreadsheet-limited vs WinUI **DataGrid**. |
 | **Workaround today** | Split views, custom headers, or drop kit grid. |
 | **Proposed slice** | **2.64** collection wave 9 — [component-capabilities-expansion.md](expansion/component-capabilities-expansion.md) |
-| **Status** | open — scheduled **2.64**
+| **Status** | closed — **2.64** pin/group + columnOrder — [collection-perf-264.md](../collection-perf-264.md) |
 
 ### FL-017 — OSK unusable outside Gallery dock
 
@@ -226,6 +226,10 @@
 ---
 
 ## Checkpoint notes
+
+### 2.64 (2026-08-17)
+
+**FL-008** / **FL-016** closed at documented-path sign-off — **DataTable** pin/group, **ListDetailsView** multi-select toolbar, tree/file polish — [collection-perf-264.md](../collection-perf-264.md).
 
 ### 2.63 (2026-08-17)
 

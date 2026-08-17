@@ -47,6 +47,29 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 2.63 → 2.64
+
+**Product version:** 2.64
+**Date:** 2026-08-17
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Collection perf + a11y sign-off:** **DataTable** pin/group, **ListDetailsView** multi-select toolbar — [collection-perf-264.md](collection-perf-264.md) (**2.64** / **FL-008**, **FL-016**).
+- **TreeDataGrid** column resize; **FileTree** `filterText` + column chooser.
+
+#### Action required (only if you adopt new APIs)
+
+| Area | Change | What to do |
+|------|--------|------------|
+| **DataTable** | `groupRole`, `columns[].pinned`, `columnOrder` | Pin identity columns; group ops rows; persist order in Settings |
+| **ListDetailsView** | `multiSelectEnabled`, `detailToolbar`, `selectedItems` | Bulk toolbar instead of separate **ItemsView** master |
+| **FileTree** | `filterText`, `hiddenColumnRoles` | Shared table filter; toggle metadata columns |
+
+#### No action (compatible)
+
+- Existing **DataTable** / **ListDetailsView** pages — new properties default off (`groupRole` empty, `multiSelectEnabled` false).
+
 ### Upgrade 2.62 → 2.63
 
 **Product version:** 2.63

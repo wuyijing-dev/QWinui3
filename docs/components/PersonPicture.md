@@ -4,7 +4,7 @@ Avatar from image or initials (WinUI IsGroup / BadgeImageSource).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/PersonPicture.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/PersonPicture.qml)
 
-**Category:** Collections & data · **Library:** v2.63
+**Category:** Collections & data · **Library:** v2.64
 
 [← Component index](../components.md)
 

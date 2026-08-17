@@ -4,7 +4,7 @@ Responsive dual-pane layout.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/TwoPaneView.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/TwoPaneView.qml)
 
-**Category:** Layout · **Library:** v2.63
+**Category:** Layout · **Library:** v2.64
 
 [← Component index](../components.md)
 

@@ -4,7 +4,7 @@ hierarchical multi-column grid with sort + filter (2.21).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/TreeDataGrid.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/TreeDataGrid.qml)
 
-**Category:** Collections & data · **Library:** v2.63
+**Category:** Collections & data · **Library:** v2.64
 
 [← Component index](../components.md)
 
@@ -39,7 +39,8 @@ TreeDataGrid {
 Experimental — nested JS rows with optional `children`. Sort applies per sibling
 group; filter keeps matching branches (ancestors auto-expanded). Not Excel-scale;
 prefer C++ model + custom view for huge trees. Filter debounce + maxFilterResults
-match DataTable (2.18 / 2.40). See docs/tree-data.md · docs/performance.md wave 7.
+match DataTable (2.18 / 2.40). Column resize + freezeFirstColumn (2.64).
+See docs/tree-data.md · docs/collection-perf-264.md.
 
 ## API
 
@@ -63,6 +64,7 @@ match DataTable (2.18 / 2.40). See docs/tree-data.md · docs/performance.md wave
 | `maxFilterResults` | `int` | — |
 | `announceChanges` | `bool` | — |
 | `expandOnFilter` | `bool` | — |
+| `freezeFirstColumn` | `bool` | Keep name column visible during horizontal scroll (2.64). |
 | `selectedRow` | `var` | — |
 | `rowCount` | `int` | — |
 | `columnCount` | `int` | — |

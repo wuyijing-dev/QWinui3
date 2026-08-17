@@ -4,7 +4,7 @@ Master–detail recipe on TwoPaneView.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ListDetailsView.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ListDetailsView.qml)
 
-**Category:** Collections & data · **Library:** v2.63
+**Category:** Collections & data · **Library:** v2.64
 
 [← Component index](../components.md)
 
@@ -23,7 +23,8 @@ ListDetailsView {
 
 // --- API ---
 // selectedIndex / selectedItem, select(index), showList(), showDetails()
-// listHeader / details slots; connectedAnimationEnabled (+ key)
+// listHeader / detailToolbar / details slots; multiSelectEnabled + selectedItems (2.64)
+// connectedAnimationEnabled (+ key)
 ```
 
 ## Notes
@@ -32,9 +33,9 @@ ListView master + details host. Collapses via TwoPaneView on narrow widths.
 model items may be strings or objects (titleRole / subtitleRole).
 Optional filterText filters plain JS arrays (debounced, 1.88).
 Selection tracks item **object** across filter rebuilds (2.18).
+multiSelectEnabled adds checkboxes + detailToolbar for bulk actions (2.64).
 Keyboard: arrows / Home / End / Enter on the list; Esc (or Back) returns to the
-list in SinglePane mode. Pair with ItemsView for multi-select masters — see
-docs/data-collections.md. Live-region announces selection / pane changes (2.07).
+list in SinglePane mode. Live-region announces selection / pane changes (2.07).
 
 ## API
 
@@ -54,6 +55,8 @@ docs/data-collections.md. Live-region announces selection / pane changes (2.07).
 | `minWideWidth` | `real` | — |
 | `details` | `alias` | — |
 | `listHeader` | `alias` | — |
+| `detailToolbar` | `alias` | — |
+| `multiSelectEnabled` | `bool` | Master multi-select + bulk toolbar slot (2.64). |
 | `connectedAnimationEnabled` | `bool` | Morph list row → details pane via ConnectedAnimationService |
 | `connectedAnimationKey` | `string` | — |
 | `accessibleName` | `string` | Screen-reader name override (1.19) |
@@ -62,17 +65,24 @@ docs/data-collections.md. Live-region announces selection / pane changes (2.07).
 | `selectedItem` | `var` | — |
 | `singlePaneDetailsOpen` | `bool` | — |
 | `filteredCount` | `int` | — |
+| `selectedItems` | `var` | — |
+| `selectionCount` | `int` | — |
 
 ### Signals
 
 | Signature | Description |
 | --- | --- |
 | `selectionChanged(int index, var item)` | — |
+| `multiSelectionChanged(var items)` | — |
 
 ### Methods
 
 | Signature | Description |
 | --- | --- |
+| `isMultiSelected(item)` | — |
+| `toggleMultiSelect(index)` | — |
+| `selectAllMulti()` | — |
+| `clearMultiSelection()` | — |
 | `select(index)` | — |
 | `showList()` | — |
 | `showDetails()` | — |

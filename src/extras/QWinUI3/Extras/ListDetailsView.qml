@@ -14,15 +14,17 @@ import QWinUI3.Theme
 //
 //   // --- API ---
 //   // selectedIndex / selectedItem, select(index), showList(), showDetails()
-//   // listHeader / details slots; connectedAnimationEnabled (+ key)
+//   // listHeader / detailToolbar / details slots; multiSelectEnabled + selectedItems (2.64)
+//   // connectedAnimationEnabled (+ key)
 //
 // @notes
 //   ListView master + details host. Collapses via TwoPaneView on narrow widths.
 //   model items may be strings or objects (titleRole / subtitleRole).
 //   Optional filterText filters plain JS arrays (debounced, 1.88).
+//   Selection tracks item **object** across filter rebuilds (2.18).
+//   multiSelectEnabled adds checkboxes + detailToolbar for bulk actions (2.64).
 //   Keyboard: arrows / Home / End / Enter on the list; Esc (or Back) returns to the
-//   list in SinglePane mode. Pair with ItemsView for multi-select masters — see
-//   docs/data-collections.md.
+//   list in SinglePane mode. Live-region announces selection / pane changes (2.07).
 
 T.Control {
     id: root
@@ -36,17 +38,24 @@ T.Control {
     property string filterText: ""
     property var filterRoles: []
     property int filterDebounceMs: 120
+    // Cap filtered master rows (0 = unlimited) — 2.18.
+    property int maxFilterResults: 0
     property int selectedIndex: -1
     property real listPaneWidth: 280
     property real minWideWidth: 720
     property alias details: detailsSlot.data
     property alias listHeader: listHeaderSlot.data
+    property alias detailToolbar: detailToolbarSlot.data
+    // Master multi-select + bulk toolbar slot (2.64).
+    property bool multiSelectEnabled: false
     // Morph list row → details pane via ConnectedAnimationService
     property bool connectedAnimationEnabled: false
     property string connectedAnimationKey: "listDetails.hero"
     // Screen-reader name override (1.19)
     property string accessibleName: qsTr("List details")
     property string listAccessibleName: qsTr("Items")
+    // Qt 6.8+ Accessible.announce for selection / pane changes (2.07).
+    property bool announceChanges: true
 
     readonly property var selectedItem: {
         var m = _listModel
@@ -63,6 +72,29 @@ T.Control {
     property var _filteredModel: []
     property string _lastFilterKey: ""
     property var _lastModelRef: null
+    // Object identity of selected item (survives filter when still visible) — 2.18.
+    property var _selectedItemRef: null
+
+    readonly property int filteredCount: _listModel ? _listModel.length : 0
+    readonly property var selectedItems: {
+        var m = _listModel
+        if (!m || !_multiRefs.length)
+            return []
+        var out = []
+        for (var i = 0; i < _multiRefs.length; ++i) {
+            for (var j = 0; j < m.length; ++j) {
+                if (m[j] === _multiRefs[i]) {
+                    out.push(m[j])
+                    break
+                }
+            }
+        }
+        return out
+    }
+    readonly property int selectionCount: selectedItems.length
+
+    property var _multiRefs: []
+    property int _multiAnchorIndex: -1
 
     Timer {
         id: filterDebounce
@@ -129,13 +161,142 @@ T.Control {
             }
             if (hit)
                 out.push(item)
+            if (root.maxFilterResults > 0 && out.length >= root.maxFilterResults)
+                break
         }
         _filteredModel = out
-        if (selectedIndex >= out.length)
+
+        var prev = root._selectedItemRef
+        if (prev !== null && prev !== undefined) {
+            var found = -1
+            for (var k = 0; k < out.length; ++k) {
+                if (out[k] === prev) {
+                    found = k
+                    break
+                }
+            }
+            if (found >= 0) {
+                if (selectedIndex !== found) {
+                    selectedIndex = found
+                    selectionChanged(found, prev)
+                }
+                list.positionViewAtIndex(found, ListView.Contain)
+            } else {
+                selectedIndex = -1
+                _selectedItemRef = null
+                selectionChanged(-1, null)
+            }
+        } else if (selectedIndex >= out.length) {
             select(out.length ? out.length - 1 : -1)
+        }
+        _pruneMultiRefs(out)
+    }
+
+    function _pruneMultiRefs(visibleModel) {
+        if (!_multiRefs.length)
+            return
+        var m = visibleModel || _listModel
+        if (!m) {
+            _multiRefs = []
+            multiSelectionChanged(selectedItems)
+            return
+        }
+        var kept = []
+        for (var i = 0; i < _multiRefs.length; ++i) {
+            for (var j = 0; j < m.length; ++j) {
+                if (m[j] === _multiRefs[i]) {
+                    kept.push(_multiRefs[i])
+                    break
+                }
+            }
+        }
+        if (kept.length !== _multiRefs.length) {
+            _multiRefs = kept
+            multiSelectionChanged(selectedItems)
+        }
+    }
+
+    function isMultiSelected(item) {
+        for (var i = 0; i < _multiRefs.length; ++i) {
+            if (_multiRefs[i] === item)
+                return true
+        }
+        return false
+    }
+
+    function toggleMultiSelect(index) {
+        var m = _listModel
+        if (!m || index < 0 || index >= m.length)
+            return
+        var item = m[index]
+        var refs = _multiRefs.slice()
+        var found = -1
+        for (var i = 0; i < refs.length; ++i) {
+            if (refs[i] === item) {
+                found = i
+                break
+            }
+        }
+        if (found >= 0)
+            refs.splice(found, 1)
+        else
+            refs.push(item)
+        _multiRefs = refs
+        _multiAnchorIndex = index
+        multiSelectionChanged(selectedItems)
+        if (announceChanges)
+            _announce(qsTr("%1 items selected").arg(refs.length))
+    }
+
+    function selectAllMulti() {
+        var m = _listModel
+        if (!m || !m.length)
+            return
+        _multiRefs = m.slice()
+        multiSelectionChanged(selectedItems)
+        if (announceChanges)
+            _announce(qsTr("All %1 items selected").arg(m.length))
+    }
+
+    function clearMultiSelection() {
+        if (!_multiRefs.length)
+            return
+        _multiRefs = []
+        _multiAnchorIndex = -1
+        multiSelectionChanged(selectedItems)
+        if (announceChanges)
+            _announce(qsTr("Multi-selection cleared"))
+    }
+
+    function _multiSelectRange(toIndex) {
+        var m = _listModel
+        if (!m || toIndex < 0 || toIndex >= m.length)
+            return
+        var from = _multiAnchorIndex >= 0 ? _multiAnchorIndex : selectedIndex
+        if (from < 0)
+            from = toIndex
+        var lo = Math.min(from, toIndex)
+        var hi = Math.max(from, toIndex)
+        var refs = _multiRefs.slice()
+        for (var i = lo; i <= hi; ++i) {
+            var item = m[i]
+            var exists = false
+            for (var j = 0; j < refs.length; ++j) {
+                if (refs[j] === item) {
+                    exists = true
+                    break
+                }
+            }
+            if (!exists)
+                refs.push(item)
+        }
+        _multiRefs = refs
+        _multiAnchorIndex = toIndex
+        multiSelectionChanged(selectedItems)
     }
 
     signal selectionChanged(int index, var item)
+    signal multiSelectionChanged(var items)
 
     implicitWidth: 720
     implicitHeight: 400
@@ -147,11 +308,20 @@ T.Control {
                             ? qsTr("Details open")
                             : (selectedIndex >= 0 ? qsTr("Item %1 selected").arg(selectedIndex + 1) : "")
 
+    function _announce(text) {
+        if (!root.announceChanges || !text || text.length === 0)
+            return
+        if (typeof Accessible.announce === "function")
+            Accessible.announce(text)
+    }
+
     function select(index) {
         var m = _listModel
         if (!m || index < 0 || index >= m.length) {
             selectedIndex = -1
+            _selectedItemRef = null
             selectionChanged(-1, null)
+            _announce(qsTr("Selection cleared"))
             return
         }
         var fromItem = null
@@ -160,7 +330,15 @@ T.Control {
 
         function _commit() {
             selectedIndex = index
+            _selectedItemRef = m[index]
             selectionChanged(index, selectedItem)
+            var title = _titleOf(selectedItem)
+            if (title.length) {
+                if (panes.mode === TwoPaneView.SinglePane)
+                    _announce(qsTr("Details for %1").arg(title))
+                else
+                    _announce(qsTr("Selected %1").arg(title))
+            }
             if (panes.mode === TwoPaneView.SinglePane)
                 panes.showPane2()
         }
@@ -177,6 +355,7 @@ T.Control {
     function showList() {
         panes.showPane1()
         forceActiveFocus()
+        _announce(qsTr("Returned to list"))
     }
 
     function showDetails() {
@@ -237,6 +416,14 @@ T.Control {
             if (selectedIndex >= 0 && panes.mode === TwoPaneView.SinglePane)
                 panes.showPane2()
             event.accepted = true
+        } else if (multiSelectEnabled && event.modifiers & Qt.ControlModifier
+                   && event.key === Qt.Key_A) {
+            selectAllMulti()
+            event.accepted = true
+        } else if (multiSelectEnabled && event.key === Qt.Key_Space
+                   && selectedIndex >= 0) {
+            toggleMultiSelect(selectedIndex)
+            event.accepted = true
         }
     }
 
@@ -281,38 +468,66 @@ T.Control {
                         required property int index
                         readonly property string itemTitle: root._titleOf(modelData)
                         readonly property string itemSubtitle: root._subtitleOf(modelData)
+                        readonly property bool multiChecked: root.isMultiSelected(modelData)
                         width: ListView.view.width
                         focusPolicy: Qt.NoFocus
                         highlighted: index === root.selectedIndex
+                                     || (root.multiSelectEnabled && multiChecked)
                         Accessible.role: Accessible.ListItem
                         Accessible.name: {
-                            return itemTitle.length ? itemTitle : qsTr("Item %1").arg(index + 1)
+                            var t = itemTitle.length ? itemTitle : qsTr("Item %1").arg(index + 1)
+                            if (root.multiSelectEnabled && multiChecked)
+                                t += qsTr(", selected")
+                            return t
                         }
                         Accessible.description: itemSubtitle
                         Accessible.selectable: true
                         Accessible.selected: index === root.selectedIndex
+                                             || (root.multiSelectEnabled && multiChecked)
                         Accessible.onPressAction: root.select(index)
                         onClicked: {
                             root.forceActiveFocus()
+                            var mods = Qt.keyboardModifiers
+                            if (root.multiSelectEnabled && (mods & Qt.ShiftModifier)) {
+                                root._multiSelectRange(index)
+                                root.select(index)
+                                return
+                            }
+                            if (root.multiSelectEnabled && (mods & Qt.ControlModifier)) {
+                                root.toggleMultiSelect(index)
+                                root.select(index)
+                                return
+                            }
                             root.select(index)
                         }
 
-                        contentItem: ColumnLayout {
-                            spacing: 2
-                            Label {
-                                text: itemTitle
-                                font.weight: Theme.fontWeightSemiBold
-                                color: Theme.textPrimary
-                                elide: Text.ElideRight
-                                Layout.fillWidth: true
+                        contentItem: RowLayout {
+                            spacing: Theme.spacingTight
+                            CheckBox {
+                                visible: root.multiSelectEnabled
+                                checkable: false
+                                checked: multiChecked
+                                Accessible.name: qsTr("Select %1").arg(itemTitle)
+                                onClicked: root.toggleMultiSelect(index)
                             }
-                            Label {
-                                visible: itemSubtitle.length > 0
-                                text: itemSubtitle
-                                color: Theme.textSecondary
-                                font.pixelSize: Theme.fontCaption
-                                elide: Text.ElideRight
+                            ColumnLayout {
+                                spacing: 2
                                 Layout.fillWidth: true
+                                Label {
+                                    text: itemTitle
+                                    font.weight: Theme.fontWeightSemiBold
+                                    color: Theme.textPrimary
+                                    elide: Text.ElideRight
+                                    Layout.fillWidth: true
+                                }
+                                Label {
+                                    visible: itemSubtitle.length > 0
+                                    text: itemSubtitle
+                                    color: Theme.textSecondary
+                                    font.pixelSize: Theme.fontCaption
+                                    elide: Text.ElideRight
+                                    Layout.fillWidth: true
+                                }
                             }
                         }
                     }
@@ -348,6 +563,13 @@ T.Control {
                     Layout.alignment: Qt.AlignLeft
                     Accessible.name: qsTr("Back to list")
                     onClicked: root.showList()
+                }
+
+                Item {
+                    id: detailToolbarSlot
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: children.length ? childrenRect.height : 0
+                    visible: children.length > 0
                 }
 
                 Item {

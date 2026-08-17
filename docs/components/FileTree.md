@@ -4,7 +4,7 @@ Explorer-style folder tree + file metadata table (2.06).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/FileTree.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/FileTree.qml)
 
-**Category:** Collections & data · **Library:** v2.63
+**Category:** Collections & data · **Library:** v2.64
 
 [← Component index](../components.md)
 
@@ -35,12 +35,14 @@ FileTree {
 // signals: folderChanged(int treeRow, string folderLabel)
 //           fileActivated(int index, var row), fileSelectionChanged(int index, var row)
 // methods: focusTree(), focusTable(), expandAll(), collapseAll()
+// filterText syncs tree filter + table filter (2.64)
 ```
 
 ## Notes
 
 Composes TreeView + DataTable for Explorer LoB. Experimental — see docs/tree-data.md.
 Tree keyboard: ↑/↓/←/→. Tab moves focus tree ↔ table. DataTable keeps sort/filter/keyboard.
+filterText applies to file table; optional column chooser hides metadata columns (2.64).
 fileCatalog keys match folder display text from treeModel (Qt.DisplayRole).
 
 ## API
@@ -57,6 +59,9 @@ fileCatalog keys match folder display text from treeModel (Qt.DisplayRole).
 | `minWideWidth` | `real` | — |
 | `filterVisible` | `bool` | — |
 | `filterPlaceholder` | `string` | — |
+| `filterText` | `string` | Shared filter for the file table (2.64). |
+| `hiddenColumnRoles` | `var` | Hide column roles — e.g. ["modified"] (2.64). |
+| `columnChooserVisible` | `bool` | — |
 | `treeAccessibleName` | `string` | — |
 | `tableAccessibleName` | `string` | — |
 | `accessibleName` | `string` | — |
@@ -65,6 +70,7 @@ fileCatalog keys match folder display text from treeModel (Qt.DisplayRole).
 | `currentFolderLabel` | `string` | — |
 | `selectedFile` | `var` | — |
 | `tableRows` | `var` | — |
+| `visibleColumns` | `var` | — |
 
 ### Signals
 

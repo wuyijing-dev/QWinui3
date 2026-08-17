@@ -206,6 +206,26 @@ CatalogPage {
     }
 
     ControlExample {
+        headerText: qsTr("Collection pin / group / bulk (2.64 / FL-008 / FL-016)")
+        qmlSource: "DataTable { groupRole; columns: [{ pinned: true }] }\n// docs/collection-perf-264.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("2.64: DataTable pin + groupRole; ListDetailsView multiSelectEnabled + detailToolbar. Not a million-row grid. Persist columnOrder in Settings. docs/collection-perf-264.md")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            CheckBox { text: qsTr("Pin identity columns — do not freeze every metric column") }
+            CheckBox { text: qsTr("Use ListDetailsView bulk toolbar — not a second ItemsView master") }
+            CheckBox { text: qsTr("Cap JS filters with maxFilterResults; C++ model for thousands+") }
+        }
+    }
+
+    ControlExample {
         headerText: qsTr("Notification center product stack (2.63 / FL-007)")
         qmlSource: "NotificationBridge { notificationCenter: center }\\n// docs/notification-center-263.md"
         ColumnLayout {

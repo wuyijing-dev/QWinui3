@@ -4,7 +4,7 @@ Fluent rich-text editor for mail / template / long notes (2.61).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/RichEdit.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/RichEdit.qml)
 
-**Category:** Other · **Library:** v2.63
+**Category:** Other · **Library:** v2.64
 
 [← Component index](../components.md)
 

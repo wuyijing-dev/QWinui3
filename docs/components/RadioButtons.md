@@ -4,7 +4,7 @@ Grouped radio options from a model (WinUI RadioButtons).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/RadioButtons.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/RadioButtons.qml)
 
-**Category:** Buttons & commands · **Library:** v2.63
+**Category:** Buttons & commands · **Library:** v2.64
 
 [← Component index](../components.md)
 

@@ -9,7 +9,13 @@ import QWinUI3.Extras
 
 CatalogPage {
     title: qsTr("Accessibility")
-    subtitle: qsTr("A11y checklist + keyboard + touch pointers — docs/accessibility.md · docs/touch-pointer.md (1.57). Wave 3 (1.85): focus return + live regions.")
+    subtitle: qsTr("A11y checklist + keyboard + touch pointers — docs/accessibility.md. Wave 4 (2.07) + wave 10 (2.64) collection pin/group.")
+
+    readonly property var a11yTableRows: [
+        { name: "Alex Chen", role: "Design", status: "Active" },
+        { name: "Jordan Lee", role: "Engineering", status: "Away" },
+        { name: "Sam Rivera", role: "Product", status: "Active" }
+    ]
 
     overlay: [
         ContentDialog {
@@ -36,6 +42,107 @@ CatalogPage {
             }
         }
     ]
+
+    ControlExample {
+        headerText: qsTr("Wave 5 — tree + breadcrumb (2.29)")
+        qmlSource: "TreeDataGrid.announceChanges · FileTree.announceChanges\nBreadcrumbBar.announceChanges · ItemsWrapGrid.accessibleName"
+
+        ColumnLayout {
+            spacing: Theme.spacing
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                color: Theme.textSecondary
+                text: qsTr("TreeDataGrid: arrow rows, Left/Right expand branches — hear selection + expand. BreadcrumbBar: Tab, Left/Right, Enter — hear Navigated to …. ItemsWrapGrid: set accessibleName and name each delegate chip.")
+            }
+            TreeDataGrid {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 200
+                accessibleName: qsTr("Org sample")
+                columns: [
+                    { title: qsTr("Name"), role: "name", width: 140, sortable: true },
+                    { title: qsTr("Role"), role: "role", width: 100 }
+                ]
+                rows: [
+                    {
+                        name: qsTr("Engineering"),
+                        role: qsTr("Group"),
+                        children: [
+                            { name: qsTr("Alex"), role: qsTr("Engineer") },
+                            { name: qsTr("Blake"), role: qsTr("Engineer") }
+                        ]
+                    }
+                ]
+                Component.onCompleted: expandAll()
+            }
+            BreadcrumbBar {
+                Layout.fillWidth: true
+                accessibleName: qsTr("Document path")
+                model: [
+                    { title: qsTr("Home"), symbol: FluentIcons.Home },
+                    { title: qsTr("Docs") },
+                    qsTr("Accessibility")
+                ]
+            }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Wave 4 — collection live regions (2.07)")
+        qmlSource: "DataTable.announceChanges · ListDetailsView.announceChanges\nNavigationView.announceChanges"
+
+        ColumnLayout {
+            spacing: Theme.spacing
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                color: Theme.textSecondary
+                text: qsTr("Arrow through the table or list — Narrator should announce selection (Qt 6.8+ Accessible.announce). Sort a column or type in the filter to hear row counts. NavigationView announces page changes in Gallery Main when you switch nav items.")
+            }
+            DataTable {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 200
+                accessibleName: qsTr("Team roster")
+                filterPlaceholder: qsTr("Filter team")
+                columns: [
+                    { title: qsTr("Name"), role: "name", width: 140, sortable: true },
+                    { title: qsTr("Role"), role: "role", width: 120, sortable: true },
+                    { title: qsTr("Status"), role: "status", width: 100 }
+                ]
+                rows: page.a11yTableRows
+            }
+            ListDetailsView {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 180
+                accessibleName: qsTr("Team details sample")
+                listAccessibleName: qsTr("Team members")
+                minWideWidth: 480
+                model: page.a11yTableRows
+                titleRole: "name"
+                subtitleRole: "role"
+                Component.onCompleted: select(0)
+                details: Label {
+                    anchors.fill: parent
+                    wrapMode: Text.Wrap
+                    color: Theme.textPrimary
+                    text: listDetails.selectedItem
+                          ? qsTr("Status: %1").arg(listDetails.selectedItem.status || "")
+                          : ""
+                }
+            }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Wave 10 — pin / group / bulk (2.64)")
+        qmlSource: "DataTable { groupRole; columns: [{ pinned: true }] }\nListDetailsView { multiSelectEnabled }"
+        Label {
+            Layout.fillWidth: true
+            wrapMode: Text.Wrap
+            color: Theme.textSecondary
+            text: qsTr("Group headers are StaticText (not selectable). Pinned column headers announce “pinned”. Multi-select checkboxes are named Select {title}. docs/collection-perf-264.md")
+        }
+    }
 
     ControlExample {
         headerText: qsTr("Wave 3 — focus return + live region (1.85)")

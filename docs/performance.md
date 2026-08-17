@@ -361,7 +361,7 @@ Summary for **2.00…2.49** — full verdict doc: [perf-signoff-2xx.md](perf-sig
 | **Charts / dashboard** | Wave **8** — stable six point budgets + capped KPI trends |
 | **Wrap grids** | Wave **8** — `ItemsWrapGrid` debounce + low hundreds cap |
 | **Diagnostics** | **2.44** — FrameStats dev-only; `applyRetailProfile()` in retail |
-| **FL-008** | **Partial** — documented paths; **2.64** if field metrics return |
+| **FL-008** | **Closed** — wave 10 sign-off — [collection-perf-264.md](collection-perf-264.md); GPU million-row still out |
 | **Animations** | **Stay** — no motion removal in perf waves |
 
 **Out for 2.49:** GPU chart rewrite · built-in profiler · always-on retail FPS.
@@ -386,7 +386,30 @@ Fourth **2.x** pass on **command / search / carousel / async chrome** — named 
 
 **Named paths:** palette keystroke → debounce → capped filter + recent pin; typeahead → min length → debounce → capped suggestions; Save click → `loading` until promise resolves.
 
-**Out for 2.59:** **FL-008** collection wave 9 (**2.64**); GPU chart rewrite.
+**Out for 2.59:** **FL-008** collection wave 10 (**2.64** shipped); GPU chart rewrite.
+
+---
+
+## Collection controls wave 10 (2.64)
+
+Fifth **2.x** pass on **DataTable** / **ListDetailsView** / tree file surfaces — ops LoB paths. Full slice doc: [collection-perf-264.md](collection-perf-264.md). Builds on waves **5** / **7** debounce + **2.49** tranche-1 sign-off.
+
+### Real-app checklist
+
+| # | Surface | Check | API / pattern | Why |
+|---|---------|-------|---------------|-----|
+| 1 | **DataTable** | Pin identity column | `columns[].pinned: true` | Name/id stays visible while scrolling metrics |
+| 2 | **DataTable** | Group rows | `groupRole` | Team/status section headers for ops scan |
+| 3 | **DataTable** | Persist order | `columnOrder` + `moveColumn()` | Restore user layout from Settings |
+| 4 | **ListDetailsView** | Bulk actions | `multiSelectEnabled` + `detailToolbar` | Mail/archive without second **ItemsView** |
+| 5 | **ListDetailsView** | Multi keyboard | Ctrl+click · Shift+range · Ctrl+A | Matches desktop mail selection |
+| 6 | **TreeDataGrid** | Resize + freeze | Header splitters; `freezeFirstColumn` | Wide hierarchies keep name column |
+| 7 | **FileTree** | Filter + columns | `filterText`; `hiddenColumnRoles` | Explorer LoB without custom chrome |
+| 8 | **All** | Scale path unchanged | `maxFilterResults` + debounce | JS arrays — not million-row GPU grid |
+
+**Named paths:** ops table → pin name → group by team; mail master → multi-select → archive toolbar; file explorer → filter table → hide Modified column.
+
+**Out for 2.64:** Million-row GPU grid rewrite.
 
 ---
 
