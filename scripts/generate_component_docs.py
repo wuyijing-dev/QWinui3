@@ -74,6 +74,7 @@ CATEGORY_RULES: list[tuple[str, tuple[str, ...]]] = [
         "Text", "NumberBox", "Password", "Combo", "Spin", "Slider", "Dial",
         "Check", "Radio", "Switch", "Rating", "Tokeniz", "AutoSuggest",
         "Search", "Headered", "Form", "Validation", "ColorPicker",
+        "Keyboard", "OnScreen",
     )),
     ("Collections & data", (
         "List", "Tree", "Table", "DataTable", "Items", "GridTile", "ListTile",

@@ -1,6 +1,6 @@
 # QWinUI3 component API
 
-Library **v1.69**. Generated from QML source comments (`scripts/generate_component_docs.py`).
+Library **v1.70**. Generated from QML source comments (`scripts/generate_component_docs.py`).
 Each control has its own page under `docs/components/`.
 
 ```bash
@@ -8,7 +8,7 @@ python scripts/generate_component_docs.py
 python scripts/generate_component_docs.py --lint
 ```
 
-**212** public · **11** internal · **153** with Gallery demos · Hub: [docs home](index.md).
+**213** public · **11** internal · **154** with Gallery demos · Hub: [docs home](index.md).
 
 ## By module
 
@@ -99,6 +99,7 @@ python scripts/generate_component_docs.py --lint
 - [NavigationWindow](components/NavigationWindow.md) — ShellWindow hosting NavigationView + content.
 - [NotificationBridge](components/NotificationBridge.md) — Mirror in-app ToastHost to OS notifications (Win balloon / Linux portal). · Gallery
 - [NumberBox](components/NumberBox.md) — Numeric spin/edit with validation (WinUI AcceptsExpression / IsWrapEnabled). · Gallery
+- [OnScreenKeyboard](components/OnScreenKeyboard.md) — Win11-style in-app touch keyboard (1.70). · Gallery
 - [PagerControl](components/PagerControl.md) — Numbered page navigation (prev / numbers / next). · Gallery
 - [PasswordBox](components/PasswordBox.md) — Password field with reveal toggle. · Gallery
 - [PersonPicture](components/PersonPicture.md) — Avatar from image or initials (WinUI IsGroup / BadgeImageSource). · Gallery
@@ -333,6 +334,7 @@ python scripts/generate_component_docs.py --lint
 - [HeaderedTextBox](components/HeaderedTextBox.md) — `QWinUI3.Extras`
 - [MultiSelectComboBox](components/MultiSelectComboBox.md) — `QWinUI3.Extras`
 - [NumberBox](components/NumberBox.md) — `QWinUI3.Extras`
+- [OnScreenKeyboard](components/OnScreenKeyboard.md) — `QWinUI3.Extras`
 - [PasswordBox](components/PasswordBox.md) — `QWinUI3.Extras`
 - [RadialGauge](components/RadialGauge.md) — `QWinUI3.Extras`
 - [RadioMenuFlyoutItem](components/RadioMenuFlyoutItem.md) — `QWinUI3.Extras`

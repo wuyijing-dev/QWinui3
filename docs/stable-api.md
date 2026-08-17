@@ -152,6 +152,7 @@ Promote to stable only after a named `1.xx` slice hardens them. See also [1.37 d
 | **Animations** | `ConnectedAnimation*`, theme transitions, `AnimatedIcon` | Recipe [animations.md](animations.md) / [icons.md](icons.md) — deferred / experimental |
 | **Tear-out / exotic shells** | `canTearOutTabs`, compact-overlay / dialog-tool shell variants | Niche — deferred in **1.37** |
 | **Media** | `MediaPlayerElement` | Optional Qt Multimedia — [media.md](media.md); deferred **1.37** / **1.67** (remaining 1.xx) |
+| **On-screen keyboard** | `OnScreenKeyboard` / `KeyboardEngine` | Win11 OSK (**1.70**); Keyman layouts **1.71+** — [on-screen-keyboard.md](on-screen-keyboard.md) |
 | **Shell extras (remaining)** | Snap Layouts, battery/online/screens, recent-docs | Gallery demos; taskbar/attention/reveal/idle already stable (**1.17**) |
 
 If a type is public in [components.md](components.md) but listed in neither table, treat it as **experimental** until added here.
@@ -233,7 +234,7 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.67** | Media honest defer — soak checklist, stay experimental; [media.md](media.md); Gallery MediaPlayerElement |
 | **1.68** | Linux portal / FilePicker harden — no zenity double-dialog; [platform-linux-wayland.md](platform-linux-wayland.md) |
 | **1.69** | Theme knobs for any app — `ThemeSync` / `ThemeAppearanceSettings` / `Theme.recipeText()`; [theme-overrides.md](theme-overrides.md) |
-| **1.70** (planned) | Win11 OSK (en-US) — Keyman Core MIT engine + our UI; experimental; [on-screen-keyboard.md](on-screen-keyboard.md) |
+| **1.70** | Win11 OSK (en-US) — `OnScreenKeyboard` / `KeyboardEngine` builtin inject; experimental; [on-screen-keyboard.md](on-screen-keyboard.md) |
 | **1.71** (planned) | Extra keyboard layouts / language switcher — still not IME |
 | **1.72** (planned) | Chinese IME — pinyin + our candidate bar |
 | **1.73** (planned) | Full in-app IME — ja / ko + packs; stay experimental unless soak is green |

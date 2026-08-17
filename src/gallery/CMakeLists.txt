@@ -124,6 +124,7 @@ qt_add_qml_module(qwinui3_gallery
         pages/CommandsHubPage.qml
         pages/FeedbackHubPage.qml
         pages/KeyboardFirstPage.qml
+        pages/OnScreenKeyboardPage.qml
         pages/ChartsPage.qml
         pages/SparklinePage.qml
         pages/LineChartPage.qml

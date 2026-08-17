@@ -47,6 +47,20 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.69 → 1.70
+
+**Product version:** 1.70  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- Experimental `OnScreenKeyboard` dock + `KeyboardEngine` (en-US). Host in a shell footer / `CatalogPage.footer`. [on-screen-keyboard.md](on-screen-keyboard.md).
+- Do not enable Qt Virtual Keyboard; `QT_IM_MODULE` stays unset.
+
+#### No action (compatible)
+
+- Existing Theme / shell / stable controls unchanged. OSK is additive and experimental.
+
 ### Upgrade 1.68 → 1.69
 
 **Product version:** 1.69  

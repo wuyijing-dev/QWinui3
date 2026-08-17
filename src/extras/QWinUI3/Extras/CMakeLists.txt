@@ -40,6 +40,8 @@ qt_add_qml_module(qwinui3_extras
     SOURCES
         ChartSeries.h
         ChartSeries.cpp
+        KeyboardEngine.h
+        KeyboardEngine.cpp
     QML_FILES
         AccentButton.qml
         AcrylicSurface.qml
@@ -123,6 +125,7 @@ qt_add_qml_module(qwinui3_extras
         MultiSelectComboBox.qml
         NavigationView.qml
         NumberBox.qml
+        OnScreenKeyboard.qml
         PasswordBox.qml
         PersonPicture.qml
         PipsPager.qml
@@ -205,6 +208,7 @@ target_link_libraries(qwinui3_extras
     PUBLIC
         Qt6::Quick
         Qt6::QuickControls2
+        Qt6::Gui
         qwinui3_theme
         qwinui3_style
         qwinui3_platform

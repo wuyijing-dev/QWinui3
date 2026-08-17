@@ -255,6 +255,14 @@ QtObject {
             source: "pages/TokenizingTextBoxPage.qml"
         },
         {
+            title: qsTr("On-screen keyboard"),
+            category: "text",
+            icon: FluentIcons.Font,
+            description: qsTr("Win11 OSK dock — docs/on-screen-keyboard.md (1.70). Not Qt Virtual Keyboard."),
+            component: "OnScreenKeyboardPage",
+            source: "pages/OnScreenKeyboardPage.qml"
+        },
+        {
             title: qsTr("Label"),
             category: "text",
             icon: FluentIcons.Font,
@@ -1602,6 +1610,7 @@ QtObject {
     // Curated “recently shipped” recipe pages (1.20) — not catalog array order.
     function recentlyShipped(count) {
         var ids = [
+            "OnScreenKeyboardPage",   // 1.70 Win11 OSK
             "ThemePrefsPage",         // 1.69 Theme recipe / ThemeSync
             "SystemIntegrationPage",  // 1.68 portal / FilePicker
             "MediaPlayerElementPage", // 1.67 media defer

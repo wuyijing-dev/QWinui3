@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.69**
-**Next up:** **1.70** (Win11 on-screen keyboard — MIT engine, our UI)
+**Current:** **1.70**
+**Next up:** **1.71** (Extra keyboard layouts)
 **Planned through:** **1.74** (long-horizon 1.xx checkpoint)  
 **Still 1.xx:** Mid-horizon checkpoint published — [checkpoint-160.md](checkpoint-160.md). Not drafting 2.00.  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](qt-version-compat.md)
@@ -339,43 +339,17 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** `Theme.snapshot` / `apply` / `recipeText`; `ThemeSync` on `StandardWindow` / `ShellWindow`; drop-in `ThemeAppearanceSettings` + `ThemePrefs`; Gallery Settings uses the kit group (copy recipe); `examples/gallery-shell` same cards; [theme-overrides.md](theme-overrides.md); product version `1.69`.
 
+### 1.70 — Win11 on-screen keyboard (MIT engine path, our UI) (shipped)
+
+**Shipped:** Experimental `OnScreenKeyboard` + `KeyboardEngine` inject (en-US letters / Shift-Caps / symbols, Win11 dock). Builtin backend this minor (`engine.backend === "builtin"`); Keyman Core `.kmx` remains **1.71+**. Gallery **On-screen keyboard** footer dock; [on-screen-keyboard.md](on-screen-keyboard.md); not Qt Virtual Keyboard; product version `1.70`.
+
 ---
 
-## Horizon — planned `1.70` … `1.74`
+## Horizon — planned `1.71` … `1.74`
 
 Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per `YY`. Order can flex if field P0s force a swap; do not merge themes into mega-minors. Posture after 1.51 / 1.60: prefer field harden / docs over new control families — **1.70…1.73** is an explicit exception (touch OSK → full in-app IME; Qt Virtual Keyboard is GPL).
 
-Ladder (engine stays Keyman Core; chrome stays ours): **1.70** en-US OSK → **1.71** extra layouts → **1.72** Chinese IME → **1.73** full IME → **1.74** checkpoint. Plan: [on-screen-keyboard.md](on-screen-keyboard.md).
-
-### 1.70 — Win11 on-screen keyboard (MIT engine, our UI)
-
-**Why:** Touch / kiosk shells need a Fluent OSK. Qt Virtual Keyboard is GPL/commercial and is already banned (`QT_IM_MODULE` cleared). Use an MIT **engine** and write Win11 chrome ourselves.
-
-**Engine:** [SIL Keyman Core](https://github.com/keymanapp/keyman/tree/master/core) (`libkeymancore`, **MIT**) — C API, no UI, Windows-first. Layouts from [keymanapp/keyboards](https://github.com/keymanapp/keyboards) (MIT).  
-**UI:** QWinUI3 QML (`OnScreenKeyboard`) — Theme tokens, Win11 dock (rounded keys, wide Space/Enter).  
-**Inject:** `QInputMethodEvent` into the focused item. Do **not** ship Qt’s IM plugin or vendor SomcoKeyboard / OpenVirtualKeyboard QML.
-
-**In scope**
-
-- Experimental Extra + thin C++ adapter around `km_core_process_event`
-- en-US letters + Shift/Caps + symbols; dark/light; Gallery page
-- CMake stub if Core is missing (same pattern as MediaPlayerElement)
-- Docs: OSK recipe + keyboard.md / touch-pointer.md / packaging strip cross-links
-
-**Out of scope**
-
-- Qt Virtual Keyboard / `QT_IM_MODULE=qtvirtualkeyboard`
-- Third-party QML keyboard chrome
-- Extra layouts / CJK IME (that is **1.71…1.73**)
-- Handwriting, dictation, global `SendInput` into other processes
-- Promote to stable in the same minor
-- Long-horizon 1.xx audit (that is **1.74**)
-
-**Exit criteria**
-
-- Gallery demo types into a TextField without Qt Virtual Keyboard
-- LICENSE/NOTICE names Keyman Core; deploy trees still strip Qt VK
-- Recipe matches the shipped Extra; type listed experimental on stable-api
+Ladder (chrome stays ours): **1.70 shipped** en-US OSK (builtin inject; Keyman `.kmx` in **1.71+**) → **1.71** extra layouts → **1.72** Chinese IME → **1.73** full IME → **1.74** checkpoint. Plan: [on-screen-keyboard.md](on-screen-keyboard.md).
 
 ### 1.71 — Extra keyboard layouts (not IME yet)
 
