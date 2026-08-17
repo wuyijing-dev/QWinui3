@@ -5,7 +5,7 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 **Stable API:** prefer types on [stable-api.md](stable-api.md). **1.37** promote / defer tables live there.  
 **1.xx freeze (1.40):** [compatibility-1xx.md](compatibility-1xx.md) · [upgrade-notes.md](upgrade-notes.md).  
 **1.xx maturity (1.51):** [maturity-1xx.md](maturity-1xx.md) — prefer harden; not 2.00.  
-**Mid-horizon (1.60):** [checkpoint-160.md](checkpoint-160.md) — still 1.xx; **1.70…1.77** shipped OSK → app hardware input ([on-screen-keyboard.md](on-screen-keyboard.md)); checkpoint is **1.78**.
+**Mid-horizon (1.60):** [checkpoint-160.md](checkpoint-160.md). **Long-horizon (1.78):** [checkpoint-178.md](checkpoint-178.md) — still 1.xx; prefer field harden / pause; OSK stays experimental ([on-screen-keyboard.md](on-screen-keyboard.md)).
 
 ---
 
@@ -18,6 +18,7 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 | [1.xx compatibility](compatibility-1xx.md) | Will-not-break Theme / shells / stable controls (1.40 / 1.51) |
 | [1.xx maturity checkpoint](maturity-1xx.md) | Where we are; harden-first posture (**1.51**) |
 | [Mid-horizon checkpoint](checkpoint-160.md) | Halfway audit; 1.61+ confirmed (**1.60**) |
+| [Long-horizon checkpoint](checkpoint-178.md) | 1.49…1.78 close-out; field harden / pause (**1.78**) |
 | [Upgrade notes](upgrade-notes.md) | Consumer checklist + template (1.40) |
 | [Qt version compat](qt-version-compat.md) | 6.5+ / 6.8 LTS / CI matrix |
 | [Conventions](conventions.md) | Radius, Accessible, Extras import |
@@ -67,7 +68,7 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 | [Dialogs & flyouts](dialogs-flyouts.md) | ContentDialogQueue FIFO / Esc (1.48) |
 | [Commands & menus](commands.md) | CommandPalette / CommandBar / MenuFlyout |
 | [Keyboard-first](keyboard.md) | Global chords → palette → dialogs → lists (1.44) |
-| [On-screen keyboard](on-screen-keyboard.md) | Win11 OSK + app hardware input (**1.77** shipped; still experimental) → checkpoint **1.78** |
+| [On-screen keyboard](on-screen-keyboard.md) | Win11 OSK + app hardware (**1.77**); still experimental at **1.78** |
 | [In-app search & AutoSuggest](search.md) | Suggest · filter-above · catalog jump (**1.59**) |
 | [Accessibility](accessibility.md) | Focus / names checklist |
 

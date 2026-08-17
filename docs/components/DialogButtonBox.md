@@ -4,7 +4,7 @@ Fluent styled DialogButtonBox.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/DialogButtonBox.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/DialogButtonBox.qml)
 
-**Category:** Styled controls · **Library:** v1.77
+**Category:** Styled controls · **Library:** v1.78
 
 [← Component index](../components.md)
 

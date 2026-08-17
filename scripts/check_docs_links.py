@@ -36,6 +36,7 @@ def main() -> int:
         "stable-api.md",
         "upgrade-notes.md",
         "checkpoint-160.md",
+        "checkpoint-178.md",
     ):
         if not (ROOT / "docs" / name).is_file():
             missing.append(f"missing docs/{name}")
@@ -46,7 +47,7 @@ def main() -> int:
             if not (ROOT / link).is_file():
                 missing.append(f"ROADMAP.md → {link}")
 
-    for doc_name in ("maturity-1xx.md", "checkpoint-160.md"):
+    for doc_name in ("maturity-1xx.md", "checkpoint-160.md", "checkpoint-178.md"):
         doc = ROOT / "docs" / doc_name
         if doc.is_file():
             for link in _md_links(doc.read_text(encoding="utf-8")):

@@ -1,9 +1,9 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.77**
-**Next up:** **1.78** (long-horizon 1.xx checkpoint, slipped)
-**Planned through:** **1.78** (long-horizon 1.xx checkpoint, slipped)
-**Still 1.xx:** Mid-horizon checkpoint published — [docs/checkpoint-160.md](docs/checkpoint-160.md). Not drafting 2.00.  
+**Current:** **1.78**
+**Next up:** field-driven `1.79+` or pause (prefer harden vs new surfaces)
+**Planned through:** open-ended 1.xx — [docs/checkpoint-178.md](docs/checkpoint-178.md)
+**Still 1.xx:** Long-horizon checkpoint published — [docs/checkpoint-178.md](docs/checkpoint-178.md). OSK/IME stays experimental. Not drafting 2.00.  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
 
 This plan starts from **what 1.00 already was**, then walks **small `1.xx` minors**. Stay on **1.xx for a long time**. **2.00 is not next**—only when we truly need breaking changes.
@@ -373,8 +373,9 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Horizon — planned .78
-Still **1.xx**. **1.70…1.77** shipped OSK → IME → packs → deepen → app hardware input. Long-horizon checkpoint is **1.78** (slipped). Plan: [docs/on-screen-keyboard.md](docs/on-screen-keyboard.md).
+## Horizon — closed at `1.78`
+
+Still **1.xx**. **1.70…1.77** shipped OSK → IME → packs → deepen → app hardware input. Long-horizon checkpoint **shipped** as **1.78**. Plan: [docs/on-screen-keyboard.md](docs/on-screen-keyboard.md).
 
 | Slice | Keyboard theme |
 |-------|----------------|
@@ -383,43 +384,29 @@ Still **1.xx**. **1.70…1.77** shipped OSK → IME → packs → deepen → app
 | **1.72 shipped** | zh-Hans pinyin + candidate bar |
 | **1.73 shipped** | ja romaji/kana + ko hangul + emoji |
 | **1.74 shipped** | Soak / harden (still experimental) |
-| **1.75 shipped** | Extra documented Keyman \.kmx\ (named subset) |
+| **1.75 shipped** | Extra documented Keyman `.kmx` (named subset) |
 | **1.76 shipped** | IME deepen, MIT-only (ja kanji gap documented) |
 | **1.77 shipped** | App-scoped hardware input (not OS-wide) |
-| **1.78** | Long-horizon 1.xx checkpoint (slipped from 1.74 / 1.77) |
+| **1.78 shipped** | Long-horizon 1.xx checkpoint |
 
-### 1.78 — Long-horizon 1.xx checkpoint
+### 1.78 — Long-horizon 1.xx checkpoint (shipped)
 
-**Why:** Close the **1.49…1.78** arc (checkpoint slipped so the keyboard soak/packs/deepen can stay named slices). Still not 2.00.
-
-**In scope**
-
-- Full stable-api vs Gallery audit; ROADMAP shipped/deferred refresh; compatibility-1xx revisit
-- Publish “prefer field harden / pause vs new surfaces”; open `1.78+` only for field-driven slices or park
-- Record whether OSK/IME stayed experimental or was promoted in **1.74** / **1.76** / **1.77**
-
-**Out of scope**
-
-- Declaring 2.00; freezing experimental forever
-- Starting a new IME engine
-
-**Exit criteria**
-
-- Checkpoint notes in ROADMAP/README; explicit next posture (continue 1.xx / pause / draft 2.00 criteria only)
+**Shipped:** [checkpoint-178.md](docs/checkpoint-178.md) long-horizon audit (docs links OK; ~196 Gallery pages; 214 public / 225 component docs). **Posture:** prefer field harden / pause vs new surfaces; open `1.79+` only for field-driven P0s or park. **OSK/IME:** stayed experimental through 1.74 / 1.76 / 1.77 — **not** promoted. Freeze (1.40) still active. Still not 2.00. Product version `1.78`.
 
 ---
 
-## After `1.77`
+## After `1.78`
 
-Still **1.xx** if field needs dictate (`1.78`…)—or pause on polish. **Do not** treat 1.70…1.78 as permission to start **2.00**.
+Still **1.xx** if field needs dictate (`1.79`…)—or **pause**. **Do not** treat 1.70…1.78 as permission to start **2.00**.
 
 Unscheduled follow-ups (pick only inside a named minor):
+
 
 | Candidate | Notes |
 |-----------|-------|
 | **Accessibility wave 3** | Focus return / live regions — slipped past 1.69 Theme prefs |
 | **IME promote → stable** | Only after a **green** soak — **1.74** wrote the checklist but did **not** promote |
-| **1.78+ field fixes** | Portal / DPI / tray / WebView2 / packaging / IME regressions |
+| **1.79+ field fixes** | Portal / DPI / tray / WebView2 / packaging / IME regressions |
 | **More UI locale packs** | `zh_CN` / `ja_JP` seeds stay separate from IME / `.kmx` packs |
 | **Deeper Lottie / AnimatedIcon** | Only if 1.53 thin path proves valuable |
 | **Official vcpkg/Conan ports** | Beyond the 1.61 sketch—product promise only if owned |
@@ -439,7 +426,7 @@ Consider 2.00 only if several of these become true:
 - Need a new packaging/ABI contract that breaks 1.xx consumers  
 - Need to drop an old Qt floor or OS policy in a breaking way  
 
-Until then: **stay on 1.xx**, bump `YY` for each slice. Prefer finishing through **1.78** (long-horizon checkpoint) before even drafting 2.00 scope.
+Until then: **stay on 1.xx**, bump `YY` for each slice. Long-horizon checkpoint **1.78** is done — prefer field harden / pause; draft 2.00 only when breaking needs pile up.
 
 ---
 
@@ -470,6 +457,7 @@ Unscheduled; pick up only inside a named `1.xx` minor (or never). Clarified at *
 | [docs/stable-api.md](docs/stable-api.md) | Stable vs experimental |
 | [docs/maturity-1xx.md](docs/maturity-1xx.md) | 1.51 maturity checkpoint |
 | [docs/checkpoint-160.md](docs/checkpoint-160.md) | 1.60 mid-horizon checkpoint |
+| [docs/checkpoint-178.md](docs/checkpoint-178.md) | 1.78 long-horizon checkpoint |
 | [docs/compatibility-1xx.md](docs/compatibility-1xx.md) | 1.xx will-not-break freeze |
 | [docs/components.md](docs/components.md) | Control index |
 | [docs/conventions.md](docs/conventions.md) | A11y / QML rules |

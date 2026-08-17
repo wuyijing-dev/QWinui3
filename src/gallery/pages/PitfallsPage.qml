@@ -13,7 +13,7 @@ CatalogPage {
     id: page
 
     title: qsTr("Pitfalls")
-    subtitle: qsTr("Anti-patterns + 1.xx freeze / mid-horizon — docs/compatibility-1xx.md · docs/checkpoint-160.md (1.60).")
+    subtitle: qsTr("Anti-patterns + 1.xx freeze / long-horizon — docs/compatibility-1xx.md · docs/checkpoint-178.md (1.78).")
 
     property real demoProgress: 0.65
 
@@ -29,6 +29,35 @@ CatalogPage {
     }
 
     ControlExample {
+        headerText: qsTr("Long-horizon checkpoint (1.78)")
+        qmlSource: "// Still 1.xx · field harden / pause · not 2.00\\n// docs/checkpoint-178.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("1.78 closes the 1.49…1.78 arc. Still not 2.00. Prefer field harden or pause over new surfaces. OnScreenKeyboard / IME stayed experimental (1.74 soak did not promote). Open 1.79+ only for field P0s. Full notes: docs/checkpoint-178.md.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            CheckBox { text: qsTr("Starting apps from examples/gallery-shell (not full Gallery)") }
+            CheckBox { text: qsTr("Sticking to docs/stable-api.md for product surfaces") }
+            CheckBox { text: qsTr("Treating OnScreenKeyboard / Media / niche charts as experimental") }
+            CheckBox { text: qsTr("Preferring field P0s / pause over inventing new APIs") }
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Also: docs/checkpoint-160.md (1.60 mid-horizon) · docs/maturity-1xx.md (1.51)")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontCaption
+                color: Theme.textSecondary
+            }
+        }
+    }
+
+    ControlExample {
         headerText: qsTr("Mid-horizon checkpoint (1.60)")
         qmlSource: "// Still 1.xx · harden-first · not 2.00\\n// docs/checkpoint-160.md · docs/maturity-1xx.md"
         ColumnLayout {
@@ -37,7 +66,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("1.60 re-audits the 1.line halfway through 1.49…1.70. Still not 2.00. Prefer stable-api types, examples/gallery-shell, and field harden. Experimental defer list unchanged. Next: 1.61 CMake find_package sketch. Full notes: docs/checkpoint-160.md.")
+                text: qsTr("1.60 re-audits the 1.line halfway through 1.49…1.70. Still not 2.00. Prefer stable-api types, examples/gallery-shell, and field harden. Experimental defer list unchanged. Historical next was 1.61 CMake sketch — see ROADMAP. Full notes: docs/checkpoint-160.md.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
@@ -45,7 +74,7 @@ CatalogPage {
             CheckBox { text: qsTr("Starting apps from examples/gallery-shell (not full Gallery)") }
             CheckBox { text: qsTr("Sticking to docs/stable-api.md for product surfaces") }
             CheckBox { text: qsTr("Treating Media / ConnectedAnimation / niche charts as experimental") }
-            CheckBox { text: qsTr("Planning field P0s into 1.61+ instead of inventing new APIs") }
+            CheckBox { text: qsTr("Planning field P0s into later 1.xx instead of inventing new APIs") }
             Label {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap

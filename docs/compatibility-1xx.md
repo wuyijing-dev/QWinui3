@@ -1,11 +1,12 @@
-# 1.xx compatibility freeze (1.40 · revisited 1.51 · 1.60)
+# 1.xx compatibility freeze (1.40 · revisited 1.51 · 1.60 · **1.78**)
 
 What QWinUI3 **will keep compatible** for the rest of the **1.xx** line—and what still may move.
 
-This is the **gate** for later `1.4x` / `1.5x` / `1.6x` work: prefer additive APIs; do not silently rename or remove anything listed under **Will not break**. Breaking Theme / shell / stable-control changes belong in a future **2.00**, not a quiet `1.xx` bump.
+This is the **gate** for later `1.4x` / `1.5x` / `1.6x` / `1.7x` work: prefer additive APIs; do not silently rename or remove anything listed under **Will not break**. Breaking Theme / shell / stable-control changes belong in a future **2.00**, not a quiet `1.xx` bump.
 
 **1.51 maturity checkpoint:** [maturity-1xx.md](maturity-1xx.md) — prefer harden over new surfaces for a while.  
-**1.60 mid-horizon:** [checkpoint-160.md](checkpoint-160.md) — freeze still active; continue 1.xx (not 2.00). **1.70…1.73** shipped OSK → IME; **1.74…1.76** soak / extra packs / MIT deepen; checkpoint is **1.77**.
+**1.60 mid-horizon:** [checkpoint-160.md](checkpoint-160.md) — freeze still active; continue 1.xx (not 2.00).  
+**1.78 long-horizon:** [checkpoint-178.md](checkpoint-178.md) — freeze still active; **prefer field harden / pause vs new surfaces**; OSK/IME stayed experimental; not drafting 2.00.
 
 Related: [stable-api.md](stable-api.md) (which types are stable) · [upgrade-notes.md](upgrade-notes.md) (consumer checklist) · [qt-version-compat.md](qt-version-compat.md) (Qt floors).
 
@@ -20,7 +21,7 @@ Related: [stable-api.md](stable-api.md) (which types are stable) · [upgrade-not
 | Shell host APIs below | Stay on `StandardWindow` / `ShellWindow` family / `NavigationView` / `WindowHelper` entry points |
 | Experimental / deferred | May change in any `1.xx` with docs callouts — [1.37 defer](stable-api.md#137-defer--wont-promote-for-now) |
 | Internal / Style-private | Not covered |
-| Qt floor | Remains **6.5+** (recommended **6.8 LTS**) unless a named slice says otherwise — not cut in 1.40 / 1.51 / 1.60 |
+| Qt floor | Remains **6.5+** (recommended **6.8 LTS**) unless a named slice says otherwise — not cut in 1.40 / 1.51 / 1.60 / **1.78** |
 
 **Additive is OK** in 1.xx: new properties with defaults, new optional signals, new stable promotes (named on stable-api).
 

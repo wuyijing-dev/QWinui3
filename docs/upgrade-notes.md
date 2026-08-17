@@ -47,6 +47,19 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.77 → 1.78
+
+**Product version:** 1.78  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Docs / posture
+
+- Long-horizon checkpoint: [checkpoint-178.md](checkpoint-178.md). Prefer **field harden / pause vs new surfaces**; `1.79+` only for field-driven P0s or park. OSK/IME **stays experimental** (not promoted in 1.74 / 1.76 / 1.77).
+
+#### No action (compatible)
+
+- Theme / shell / stable controls unchanged. Freeze (1.40) still active.
+
 ### Upgrade 1.76 → 1.77
 
 **Product version:** 1.77  

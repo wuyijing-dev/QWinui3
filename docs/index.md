@@ -17,7 +17,7 @@ This site is generated from QML source comments and shipped via GitHub Pages.
 | [Adaptive layout](adaptive-layout.md) | TwoPaneView / ListDetailsView breakpoints (**1.42**) |
 | [Color & contrast](color-contrast.md) | AA diagnostics / `Theme.contrastRatio` (**1.43**) |
 | [Keyboard-first](keyboard.md) | Global chords → palette → dialogs → lists (**1.44**) |
-| [On-screen keyboard](on-screen-keyboard.md) | Win11 OSK + app hardware input (**1.77**; still experimental) |
+| [On-screen keyboard](on-screen-keyboard.md) | Win11 OSK + app hardware (**1.77**); still experimental (**1.78**) |
 | [i18n / RTL](i18n-rtl.md) | qsTr + zh_CN seed + LayoutMirroring (**1.45**) |
 | [Consumer packaging](packaging-consumer.md) | Shared vs static / windeploy / strip (**1.46**) |
 | [Shell extras](shell-extras.md) | Snap Layouts · taskbar · attention (**1.47**) |

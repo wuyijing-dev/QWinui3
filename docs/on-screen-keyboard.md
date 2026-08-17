@@ -2,7 +2,7 @@
 
 Win11 / Fluent **touch keyboard chrome we own**. This is **not** Qt Virtual Keyboard, and it is **not** a hardware-shortcut cookbook ([keyboard.md](keyboard.md)).
 
-**Status:** **1.77 shipped** (app-scoped hardware input; still experimental). **Next:** **1.78** long-horizon checkpoint.  
+**Status:** **1.77** hardware shipped; **1.78** checkpoint records OSK/IME **still experimental**. **Next:** field-driven `1.79+` or pause.  
 **License:** OSK chrome is this repo (LGPL-3.0). SIL Keyman Core (**MIT**) for layouts. Pinyin tables are [mozillazg/pinyin-data](https://github.com/mozillazg/pinyin-data) (**MIT**) — [NOTICE-pinyin.md](NOTICE-pinyin.md). Japanese is a Hepburn romaji→kana map (**no kanji** — no MIT reading lexicon). Korean is Unicode hangul composition (not a lexicon). Keyman `cs_pinyin` IMX is **not** used.
 
 | Slice | What ships |

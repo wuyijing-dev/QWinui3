@@ -2,7 +2,9 @@
 
 Halfway audit of the **1.49…1.70** arc (as of 1.60). **Still 1.xx — not 2.00.**
 
-**Later plan update (after 1.73):** **1.70…1.73** shipped OSK → in-app IME ([on-screen-keyboard.md](on-screen-keyboard.md)); **1.74…1.76** continue that keyboard arc (soak / extra `.kmx` / MIT deepen); long-horizon checkpoint moved to **1.77**. Freeze / “not 2.00” is unchanged.
+**Later plan update (after 1.78):** Keyboard arc **1.70…1.77** shipped; long-horizon checkpoint is **[checkpoint-178.md](checkpoint-178.md)**. Prefer field harden / pause; OSK stays experimental. Freeze / “not 2.00” is unchanged.
+
+**Earlier note (after 1.73):** **1.70…1.73** shipped OSK → in-app IME; soak/packs/deepen/hardware followed as **1.74…1.77**.
 
 Related: [maturity-1xx.md](maturity-1xx.md) (1.51) · [compatibility-1xx.md](compatibility-1xx.md) · [stable-api.md](stable-api.md) · [upgrade-notes.md](upgrade-notes.md) · [ROADMAP.md](../ROADMAP.md) · Gallery **Pitfalls**.
 
@@ -94,7 +96,8 @@ Order confirmed at 1.60 (flex only for field P0s). **After 1.73:** keyboard soak
 15. **1.75** — Extra documented Keyman `.kmx` — **shipped**  
 16. **1.76** — IME deepen (MIT-only; ja kanji gap) — **shipped**  
 17. **1.77** — App-scoped hardware input (not OS-wide) — **shipped**  
-18. **1.78** — Long-horizon 1.xx checkpoint (slipped)  
+18. **1.78** — Long-horizon 1.xx checkpoint — **shipped** ([checkpoint-178.md](checkpoint-178.md))  
+19. **1.79+** — Field-driven only (or pause)  
 
 ---
 

@@ -35,6 +35,7 @@ CatalogPage {
                     { label: qsTr("Consumer packaging"), doc: "docs/packaging-consumer.md", page: "PackagingConsumerPage" },
                     { label: qsTr("1.xx maturity / freeze"), doc: "docs/maturity-1xx.md", page: "PitfallsPage" },
                     { label: qsTr("Mid-horizon checkpoint (1.60)"), doc: "docs/checkpoint-160.md", page: "PitfallsPage" },
+                    { label: qsTr("Long-horizon checkpoint (1.78)"), doc: "docs/checkpoint-178.md", page: "PitfallsPage" },
                     { label: qsTr("1.xx compatibility / upgrade"), doc: "docs/compatibility-1xx.md", page: "PitfallsPage" },
                     { label: qsTr("CI smoke / Qt compat"), doc: "docs/ci-smoke.md", page: "CiSmokePage" },
                     { label: qsTr("Example templates"), doc: "examples/README.md", page: "ExamplesTemplatesPage" }

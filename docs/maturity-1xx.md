@@ -2,7 +2,9 @@
 
 Deliberate **“where we are”** release for the 1.line after the post-1.40 arc (`1.41`…`1.50`). **Not** a soft 2.00.
 
-**Latest mid-horizon (1.60):** [checkpoint-160.md](checkpoint-160.md) — re-audit; **1.70…1.73** shipped OSK → IME; **1.74…1.76** keyboard soak/packs/deepen; checkpoint is **1.77**.
+**Latest long-horizon (1.78):** [checkpoint-178.md](checkpoint-178.md) — re-audit; prefer field harden / pause; OSK/IME stays experimental; not 2.00.
+
+**Latest mid-horizon (1.60):** [checkpoint-160.md](checkpoint-160.md) — re-audit; keyboard arc **1.70…1.77** shipped afterward.
 
 Related: [compatibility-1xx.md](compatibility-1xx.md) · [stable-api.md](stable-api.md) · [upgrade-notes.md](upgrade-notes.md) · [ROADMAP.md](../ROADMAP.md) · Gallery **Pitfalls**.
 
@@ -13,7 +15,7 @@ Related: [compatibility-1xx.md](compatibility-1xx.md) · [stable-api.md](stable-
 | Question | Answer (1.51) |
 |----------|----------------|
 | Ready for LoB apps on stable surface? | **Yes** — prefer [stable-api.md](stable-api.md) + [examples/gallery-shell](../examples/gallery-shell/) |
-| Start **2.00**? | **No** — stay on 1.xx through planned `1.52`…`1.74` (or pause) |
+| Start **2.00**? | **No** — stay on 1.xx; see [checkpoint-178.md](checkpoint-178.md) |
 | Posture for the next slices? | **Prefer harden / field polish / docs** over inventing new control families |
 | Experimental still movable? | **Yes** — Media, ConnectedAnimation, niche charts, Snap Layouts, TabView tear-out (1.37 defer) |
 
@@ -56,7 +58,7 @@ Still experimental / won’t-promote-for-now (see [stable-api 1.37 defer](stable
 - WebView2 advanced Environment / multi-profile
 - Snap Layouts / battery / online / screens / recent-docs helpers
 
-Scheduled follow-ups remain on the roadmap (`1.61`…`1.77`) — **1.74…1.76** finish the keyboard arc; may flex for field P0s.
+Scheduled follow-ups remain on the roadmap parking lot — **1.78** closed the long-horizon arc; prefer field P0s over new surfaces.
 
 ---
 
