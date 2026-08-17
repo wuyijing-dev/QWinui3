@@ -1,19 +1,12 @@
 #include <QCoreApplication>
-#include <QCryptographicHash>
 #include <QDir>
 #include <QElapsedTimer>
 #include <QEventLoop>
-#include <QFile>
 #include <QGuiApplication>
-#include <QImage>
-#include <QJsonDocument>
-#include <QJsonObject>
 #include <QLocale>
 #include <QQmlApplicationEngine>
 #include <QQmlComponent>
-#include <QQuickItem>
 #include <QQuickStyle>
-#include <QQuickWindow>
 #include <QTimer>
 #include <QTranslator>
 #include <QDebug>
@@ -109,159 +102,17 @@ static bool installGalleryTranslator(QGuiApplication &app, QTranslator *translat
     return false;
 }
 
-// 1.62 — subset frame grab (keep in sync with scripts/smoke_visual.py VISUAL_PAGES).
-static const char *const kVisualSmokePages[] = {
-    "HomePage",
-    "ButtonPage",
-    "ContentDialogPage",
-    "PitfallsPage",
-    "ExamplesTemplatesPage",
-    nullptr,
-};
-
-static int runVisualSmoke(QQmlApplicationEngine &engine, const QString &outDirPath)
-{
-    QDir outDir(outDirPath);
-    if (!outDir.exists() && !outDir.mkpath(QStringLiteral("."))) {
-        qWarning() << "visual-smoke: cannot create" << outDirPath;
-        return 2;
-    }
-
-    QQuickWindow window;
-    window.setTitle(QStringLiteral("QWinUI3 visual-smoke"));
-    window.setColor(QColor(QStringLiteral("#F3F3F3")));
-    window.resize(960, 640);
-    window.setMinimumSize(QSize(960, 640));
-    window.setMaximumSize(QSize(960, 640));
-    window.show();
-    QCoreApplication::processEvents();
-
-    QJsonObject pagesJson;
-    int pagesOk = 0;
-    QElapsedTimer pageTimer;
-    pageTimer.start();
-
-    for (int i = 0; kVisualSmokePages[i]; ++i) {
-        const QString typeName = QString::fromUtf8(kVisualSmokePages[i]);
-        QQmlComponent typed(
-            &engine,
-            QUrl(QStringLiteral("qrc:/qt/qml/QWinUI3/Gallery/pages/%1.qml").arg(typeName)));
-        if (typed.isLoading()) {
-            QEventLoop loop;
-            QObject::connect(&typed, &QQmlComponent::statusChanged, &loop, &QEventLoop::quit);
-            QTimer::singleShot(8000, &loop, &QEventLoop::quit);
-            loop.exec();
-        }
-        if (typed.isError() || typed.status() != QQmlComponent::Ready) {
-            qWarning() << "visual-smoke compile failed:" << kVisualSmokePages[i]
-                       << "status=" << int(typed.status()) << typed.errors();
-            return 2;
-        }
-        QObject *obj = typed.create();
-        if (!obj) {
-            qWarning() << "visual-smoke create failed:" << kVisualSmokePages[i] << typed.errors();
-            return 2;
-        }
-        QQuickItem *item = qobject_cast<QQuickItem *>(obj);
-        if (!item) {
-            qWarning() << "visual-smoke: not a QQuickItem:" << kVisualSmokePages[i];
-            delete obj;
-            return 2;
-        }
-        item->setParentItem(window.contentItem());
-        item->setWidth(window.width());
-        item->setHeight(window.height());
-
-        // Wait for at least two presented frames so deferred effects settle.
-        {
-            QEventLoop loop;
-            int frames = 0;
-            QObject::connect(&window, &QQuickWindow::frameSwapped, &loop, [&]() {
-                if (++frames >= 2)
-                    loop.quit();
-            });
-            QTimer::singleShot(2000, &loop, &QEventLoop::quit);
-            // Kick a redraw.
-            window.update();
-            loop.exec();
-        }
-        QCoreApplication::processEvents();
-
-        const QImage img = window.grabWindow();
-        if (img.isNull() || img.width() < 320 || img.height() < 240) {
-            qWarning() << "visual-smoke grab failed:" << kVisualSmokePages[i]
-                       << "size=" << img.size();
-            delete obj;
-            return 2;
-        }
-
-        const QString pngPath = outDir.filePath(typeName + QStringLiteral(".png"));
-        if (!img.save(pngPath, "PNG")) {
-            qWarning() << "visual-smoke save failed:" << pngPath;
-            delete obj;
-            return 2;
-        }
-
-        QFile pngFile(pngPath);
-        if (!pngFile.open(QIODevice::ReadOnly)) {
-            qWarning() << "visual-smoke read failed:" << pngPath;
-            delete obj;
-            return 2;
-        }
-        const QByteArray pngBytes = pngFile.readAll();
-        pngFile.close();
-        const QByteArray digest = QCryptographicHash::hash(pngBytes, QCryptographicHash::Sha256);
-
-        QJsonObject entry;
-        entry.insert(QStringLiteral("sha256"), QString::fromLatin1(digest.toHex()));
-        entry.insert(QStringLiteral("width"), img.width());
-        entry.insert(QStringLiteral("height"), img.height());
-        entry.insert(QStringLiteral("bytes"), pngBytes.size());
-        pagesJson.insert(typeName, entry);
-
-        item->setParentItem(nullptr);
-        delete obj;
-        ++pagesOk;
-        QCoreApplication::processEvents();
-        qInfo("visual-smoke: %s ok (%dx%d, %d bytes)",
-              qPrintable(typeName), img.width(), img.height(), int(pngBytes.size()));
-    }
-
-    QJsonObject root;
-    root.insert(QStringLiteral("version"), QStringLiteral("1.62"));
-    root.insert(QStringLiteral("width"), 960);
-    root.insert(QStringLiteral("height"), 640);
-    root.insert(QStringLiteral("pages"), pagesJson);
-
-    const QString manifestPath = outDir.filePath(QStringLiteral("manifest.json"));
-    QFile manifest(manifestPath);
-    if (!manifest.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
-        qWarning() << "visual-smoke: cannot write" << manifestPath;
-        return 2;
-    }
-    manifest.write(QJsonDocument(root).toJson(QJsonDocument::Indented));
-    manifest.close();
-
-    qInfo("QWinUI3 Gallery visual-smoke OK (pages=%d, grab=%lldms, out=%s)",
-          pagesOk,
-          static_cast<long long>(pageTimer.elapsed()),
-          qPrintable(outDirPath));
-    return 0;
-}
-
 int main(int argc, char *argv[])
 {
     const bool smoke = hasArg(argc, argv, "--smoke");
-    const bool visualSmoke = hasArg(argc, argv, "--visual-smoke");
-    const bool startupLog = smoke || visualSmoke || hasArg(argc, argv, "--startup-log");
+    const bool startupLog = smoke || hasArg(argc, argv, "--startup-log");
     const QString lang = argValue(argc, argv, "--lang");
-    QString visualOut = argValue(argc, argv, "--visual-smoke-dir");
     QElapsedTimer wall;
     if (startupLog)
         wall.start();
 
     // CI / local smoke: pick a QPA that desktop kits actually ship.
-    if (smoke || visualSmoke) {
+    if (smoke) {
 #if defined(Q_OS_WIN)
         qputenv("QT_QPA_PLATFORM", "windows");
 #else
@@ -270,13 +121,6 @@ int main(int argc, char *argv[])
             qputenv("QT_QPA_PLATFORM", "offscreen");
 #endif
         qputenv("QWINUI3_KEEP_QPA_PLATFORM", "1");
-    }
-    if (visualSmoke) {
-        // Prefer stable DPR for hash compares (fonts/OS still differ).
-        if (qEnvironmentVariableIsEmpty("QT_SCALE_FACTOR"))
-            qputenv("QT_SCALE_FACTOR", "1");
-        if (qEnvironmentVariableIsEmpty("QT_ENABLE_HIGHDPI_SCALING"))
-            qputenv("QT_ENABLE_HIGHDPI_SCALING", "0");
     }
 
     // One-call kit setup (style + Wayland/DPI + IME) — before QGuiApplication.
@@ -323,25 +167,6 @@ int main(int argc, char *argv[])
         qInfo("QWinUI3 Gallery startup: app=%lldms main=%lldms (pages still on-demand)",
               static_cast<long long>(msAfterApp),
               static_cast<long long>(msAfterMain));
-    }
-
-    // 1.62 — opt-in visual subset (PNGs + sha256). Not the default --smoke path.
-    if (visualSmoke) {
-        if (visualOut.isEmpty())
-            visualOut = QDir(QCoreApplication::applicationDirPath())
-                            .filePath(QStringLiteral("visual-smoke-out"));
-        // Hide Main window so only the grab host is visible.
-        for (QObject *root : engine.rootObjects()) {
-            if (auto *w = qobject_cast<QQuickWindow *>(root))
-                w->hide();
-        }
-        // Prefer quieter chrome for more stable frames (Home MultiEffect, timers).
-        if (QObject *theme = engine.singletonInstance<QObject *>(u"QWinUI3.Theme"_qs, u"Theme"_qs)) {
-            theme->setProperty("reducedMotion", true);
-            theme->setProperty("followSystemAccessibility", false);
-        }
-        QCoreApplication::processEvents();
-        return runVisualSmoke(engine, visualOut);
     }
 
     // Lightweight CI gate: Main loads, then critical Gallery pages instantiate (1.20).

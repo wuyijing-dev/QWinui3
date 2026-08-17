@@ -55,6 +55,7 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 #### Optional / polish
 
 - Experimental OSK: `OnScreenKeyboardWindow` floating host; `systemWide` opt-in Windows `SendInput` into the focused desktop app (`supportsSystemWide`). [on-screen-keyboard.md](on-screen-keyboard.md).
+- Gallery: removed unused `--visual-smoke` / `scripts/smoke_visual.py` (1.62 opt-in subset). CI `--smoke` unchanged. [ci-smoke.md](ci-smoke.md).
 
 #### No action (compatible)
 

@@ -1298,7 +1298,7 @@ QtObject {
             title: qsTr("CI / smoke"),
             category: "recipes",
             icon: FluentIcons.ConstructionCone,
-            description: qsTr("Gallery --smoke · visual subset · Qt matrix — docs/ci-smoke.md (1.62)."),
+            description: qsTr("Gallery --smoke · docs links · Qt matrix — docs/ci-smoke.md."),
             component: "CiSmokePage",
             source: "pages/CiSmokePage.qml"
         },
@@ -1620,7 +1620,7 @@ QtObject {
             "SecurityTrustPage",      // 1.64 trust boundaries
             "PrintSharePage",         // 1.63 print / share / export
             "AnimatedIconPage",       // 1.53 thin AnimatedIcon
-            "CiSmokePage",            // 1.52 docs-link smoke / 1.62 visual
+            "CiSmokePage",            // 1.52 docs-link smoke
             "PitfallsPage",           // 1.51 maturity checkpoint
             "ExamplesTemplatesPage",  // 1.50 gallery-shell
             "FontIconPage",           // 1.49 icon micro-motion
