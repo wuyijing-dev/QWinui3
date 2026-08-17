@@ -1383,6 +1383,14 @@ QtObject {
             source: "pages/SecurityTrustPage.qml"
         },
         {
+            title: qsTr("Settings persistence"),
+            category: "recipes",
+            icon: FluentIcons.Save,
+            description: qsTr("QSettings / Settings · schemaVersion — docs/settings-persistence.md (1.65)."),
+            component: "SettingsPersistencePage",
+            source: "pages/SettingsPersistencePage.qml"
+        },
+        {
             title: qsTr("GridTile"),
             category: "collections",
             icon: FluentIcons.Document,
@@ -1586,6 +1594,7 @@ QtObject {
     // Curated “recently shipped” recipe pages (1.20) — not catalog array order.
     function recentlyShipped(count) {
         var ids = [
+            "SettingsPersistencePage", // 1.65 settings persistence
             "SecurityTrustPage",      // 1.64 trust boundaries
             "PrintSharePage",         // 1.63 print / share / export
             "AnimatedIconPage",       // 1.53 thin AnimatedIcon

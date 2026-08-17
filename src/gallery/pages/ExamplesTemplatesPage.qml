@@ -56,11 +56,11 @@ CatalogPage {
             spacing: Theme.spacing
             Repeater {
                 model: [
-                    { name: "gallery-shell", recipe: qsTr("NavigationWindow app shell (1.50) — keep vs delete in README"), page: "WindowParadigmPage" },
+                    { name: "gallery-shell", recipe: qsTr("NavigationWindow app shell (1.50) — Settings prefs + geometry (1.65)"), page: "SettingsPersistencePage" },
                     { name: "multi-window", recipe: qsTr("Main + tool + owned dialog (1.56)"), page: "MultiWindowPage" },
                     { name: "nav-settings", recipe: qsTr("StandardWindow + NavigationView hand-wire"), page: "NavigationViewPage" },
                     { name: "master-detail", recipe: qsTr("ListDetailsView LoB tickets"), page: "ListDetailsViewPage" },
-                    { name: "form-settings", recipe: qsTr("FormLayout + SettingsCard prefs"), page: "FormsHubPage" },
+                    { name: "form-settings", recipe: qsTr("FormLayout + Settings persistence (1.65)"), page: "SettingsPersistencePage" },
                     { name: "settings-cards", recipe: qsTr("SettingsCard patterns"), page: "SettingsCardPage" },
                     { name: "dashboard", recipe: qsTr("Stable charts / KPI tiles"), page: "ChartsPage" },
                     { name: "find-package-consumer", recipe: qsTr("find_package(QWinUI3) sketch (1.61) — standalone"), page: "ExamplesTemplatesPage" }

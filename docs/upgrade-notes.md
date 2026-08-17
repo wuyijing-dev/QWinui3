@@ -47,6 +47,20 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.64 → 1.65
+
+**Product version:** 1.65  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- Settings persistence cookbook: [settings-persistence.md](settings-persistence.md) — `Settings` / QSettings, portable Ini, honest “roaming”, `schemaVersion`; keep geometry on `geometryPersistenceKey`.
+- Gallery **Settings persistence**; examples `form-settings` + `gallery-shell` prefs.
+
+#### No action (compatible)
+
+- Docs + Gallery / example patterns only; no Theme or shell API breaks.
+
 ### Upgrade 1.63 → 1.64
 
 **Product version:** 1.64  

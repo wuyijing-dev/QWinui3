@@ -81,7 +81,9 @@ SettingsView {
 | **API parity** | `header` alias, `cornerRadius`, `contentSpacing` like cards |
 | **Validation** | Settings rows are preferences, not FormLayout fields — keep forms separate |
 
-Example apps: [`examples/settings-cards`](../examples/settings-cards/), [`examples/nav-settings`](../examples/nav-settings/), [`examples/form-settings`](../examples/form-settings/) (1.26 FormLayout + prefs).
+Example apps: [`examples/settings-cards`](../examples/settings-cards/), [`examples/nav-settings`](../examples/nav-settings/), [`examples/form-settings`](../examples/form-settings/) (1.26 FormLayout + prefs; **1.65** `Settings` persistence).
+
+**Persist toggles / portable Ini / schemaVersion:** [settings-persistence.md](settings-persistence.md) (**1.65**). Keep `geometryPersistenceKey` for window frames — do not mix into prefs categories.
 
 ---
 

@@ -1,6 +1,6 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.64**
+**Current:** **1.65**
 **Next up:** **1.65** (Settings persistence & roaming recipes)
 **Planned through:** **1.70** (long-horizon 1.xx checkpoint)  
 **Still 1.xx:** Mid-horizon checkpoint published — [docs/checkpoint-160.md](docs/checkpoint-160.md). Not drafting 2.00.  
@@ -61,7 +61,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.64`
+## Shipped — `1.01` … `1.65`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -319,30 +319,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** [security-trust.md](docs/security-trust.md) cookbook (WebView2 user-data + app-side allowlists, FileDropZone filters, FilePicker ownership — not a sandbox product); Gallery **Security & trust** + Pitfalls / WebView2 / FileDropZone callouts; webview2 / drag-drop / system-integration / recipes / MkDocs links; product version `1.64`.
 
+### 1.65 — Settings persistence & roaming recipes (shipped)
+
+**Shipped:** [settings-persistence.md](docs/settings-persistence.md) cookbook (`Settings` / QSettings, portable Ini, honest “roaming”, `schemaVersion`); Gallery **Settings persistence**; `examples/form-settings` + `gallery-shell` prefs; forms / window-helper / recipes / MkDocs links; product version `1.65`.
+
 ---
 
-## Horizon — planned `1.65` … `1.70`
+## Horizon — planned `1.66` … `1.70`
 
 Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per `YY`. Order can flex if field P0s force a swap; do not merge themes into mega-minors. Posture after 1.51 / 1.60: prefer field harden / docs over new control families.
-
-### 1.65 — Settings persistence & roaming recipes
-
-**Why:** Geometry keys exist; app settings sync patterns are still ad hoc.
-
-**In scope**
-
-- Cookbook for `QSettings` / JSON prefs, per-user vs portable, migration keys; example alignment with form-settings.
-- Docs + Gallery Settings persistence callout.
-
-**Out of scope**
-
-- Cloud roaming service; encrypted vault product.
-
-**Exit criteria**
-
-- Recipe + at least one example or Gallery path using the pattern.
-
----
 
 ### 1.66 — Charts & dashboard polish (wave 3)
 

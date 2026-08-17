@@ -45,6 +45,7 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 |--------|-----------|
 | [Navigation & TabView](navigation.md) | Pane modes, Back, footer |
 | [Forms & settings](forms.md) | FormLayout validation + SettingsCard |
+| [Settings persistence](settings-persistence.md) | QSettings / Settings · portable Ini · schemaVersion (**1.65**) |
 | [Data collections](data-collections.md) | DataTable / ItemsView / ListDetailsView |
 | [Tree & hierarchical](tree-data.md) | TreeView expand / a11y |
 | [Input & pickers](pickers.md) | Number / date / time / color |

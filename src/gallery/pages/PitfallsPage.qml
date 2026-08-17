@@ -56,6 +56,26 @@ CatalogPage {
     }
 
     ControlExample {
+        headerText: qsTr("Settings persistence (1.65)")
+        qmlSource: "// Settings category ≠ geometryPersistenceKey\\n// docs/settings-persistence.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Keep WindowGeometry on geometryPersistenceKey. Put theme / toggles in QtCore Settings (or QSettings). Portable = Ini beside the exe. “Roaming” = copy Ini — not a cloud product. Cookbook: docs/settings-persistence.md · Gallery Settings persistence · examples/form-settings.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            CheckBox { text: qsTr("geometryPersistenceKey only for window frames") }
+            CheckBox { text: qsTr("Prefs in a separate Settings / QSettings category") }
+            CheckBox { text: qsTr("schemaVersion migration when changing defaults") }
+        }
+    }
+
+    ControlExample {
         headerText: qsTr("Security & trust (1.64)")
         qmlSource: "// WebView2 allowlist · drop filters · picker parent\\n// docs/security-trust.md"
         ColumnLayout {

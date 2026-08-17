@@ -1,11 +1,13 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
+import QtCore
 import QWinUI3.Theme
 import QWinUI3.Extras
 import QWinUI3.Platform
 
 // Form + settings shell — FormLayout validation + SettingsCard prefs (docs/forms.md).
+// Prefs persistence: QtCore Settings — docs/settings-persistence.md (1.65).
 
 StandardWindow {
     id: window
@@ -14,16 +16,32 @@ StandardWindow {
     visible: true
     title: qsTr("Form + settings example")
     backdrop: WindowHelper.BackdropSolid
+    geometryPersistenceKey: "FormSettingsExample"
 
-    property bool shareDiagnostics: true
+    Settings {
+        id: prefs
+        category: "Prefs"
+        property int schemaVersion: 1
+        property bool shareDiagnostics: true
+        property bool dark: false
+    }
+
     property string savedHint: ""
+
+    Component.onCompleted: {
+        if (prefs.schemaVersion < 1) {
+            prefs.shareDiagnostics = true
+            prefs.schemaVersion = 1
+        }
+        Theme.dark = prefs.dark
+    }
 
     header: PlatformTitleBar {
         targetWindow: window
         TitleBar {
             embedded: true
             title: window.title
-            subtitle: qsTr("FormLayout · docs/forms.md")
+            subtitle: qsTr("FormLayout · Settings persistence (1.65)")
         }
     }
 
@@ -62,7 +80,7 @@ StandardWindow {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.Wrap
-                text: qsTr("Set field.errorMessage, then form.validate(). Preferences stay on SettingsCard (not FormLayout).")
+                text: qsTr("Set field.errorMessage, then form.validate(). Preferences use Settings (survive restart). Geometry: geometryPersistenceKey.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
@@ -154,23 +172,27 @@ StandardWindow {
             SettingsGroup {
                 Layout.fillWidth: true
                 title: qsTr("Privacy preferences")
+                description: qsTr("Persisted via Settings category Prefs — docs/settings-persistence.md")
                 symbol: FluentIcons.Permissions
 
                 SettingsCard {
                     title: qsTr("Share diagnostics")
-                    description: qsTr("Settings rows are preferences — keep validation on FormLayout.")
+                    description: qsTr("Survives app restart (QSettings).")
                     toggle: true
-                    checked: window.shareDiagnostics
-                    onToggled: window.shareDiagnostics = checked
+                    checked: prefs.shareDiagnostics
+                    onToggled: prefs.shareDiagnostics = checked
                 }
 
                 SettingsCard {
                     title: qsTr("App theme")
-                    description: qsTr("Toggle Theme.dark")
+                    description: qsTr("Theme.dark + prefs.dark")
                     symbol: FluentIcons.Color
                     toggle: true
                     checked: Theme.dark
-                    onToggled: Theme.dark = checked
+                    onToggled: {
+                        Theme.dark = checked
+                        prefs.dark = checked
+                    }
                 }
             }
 

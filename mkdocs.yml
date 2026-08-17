@@ -80,6 +80,7 @@ nav:
     - Navigation & data:
       - Navigation & TabView: navigation.md
       - Forms & settings: forms.md
+      - Settings persistence: settings-persistence.md
       - Data collections: data-collections.md
       - Tree & hierarchical: tree-data.md
       - Input & pickers: pickers.md

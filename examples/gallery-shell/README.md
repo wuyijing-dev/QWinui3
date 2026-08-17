@@ -2,6 +2,8 @@
 
 Thin **extractable** app chrome from Gallery patterns: `NavigationWindow` + `pageModule` + Settings footer + `Bootstrap` + `geometryPersistenceKey`.
 
+Prefs (theme / density / reduced motion) use QtCore `Settings` under `GalleryShellPrefs` — see [`docs/settings-persistence.md`](../../docs/settings-persistence.md) (**1.65**). Keep geometry on `GalleryShellMain`; do not mix.
+
 Smaller than Gallery itself — one Home page and Settings. Prefer this over copying `src/gallery/`.
 
 | Related | Role |
@@ -46,6 +48,7 @@ When copying into your product:
 - `paneDisplayMode: "auto"`
 - TitleBar Back ↔ `navigateBack()` (wired inside `NavigationWindow`)
 - `geometryPersistenceKey: "GalleryShellMain"`
+- Settings prefs via `Settings` category `GalleryShellPrefs` (**1.65**)
 - Solid backdrop (Win + Linux safe)
 
 Linux: [docs/platform-linux-wayland.md](../../docs/platform-linux-wayland.md).

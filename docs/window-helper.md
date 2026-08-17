@@ -181,6 +181,8 @@ WindowHelper.clearRecentDocuments() // Windows
 
 **Supported recipe (1.32):** set `geometryPersistenceKey` on `StandardWindow` / `ShellWindow` (or call the low-level APIs). Do not invent a parallel QSettings layout.
 
+**App prefs (1.65):** keep theme / toggles / coach flags in a separate `Settings` / `QSettings` category — do not overload `WindowGeometry/<key>`. Cookbook: [settings-persistence.md](settings-persistence.md).
+
 Stores **normal** frame geometry (and maximized vs windowed) under the application `QSettings` path as `WindowGeometry/<key>`, plus the screen **name** when known. Missing or unusable values are ignored / clamped.
 
 ```qml
