@@ -33,7 +33,7 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 | [High-DPI & multi-monitor](high-dpi.md) | DPR matrix · geometry clamp + setScreen (**1.58**) |
 | [WindowHelper](window-helper.md) | Geometry persistence, backdrop, platform APIs |
 | [AppWindow](window-appwindow.md) | Presenters / title-bar height |
-| [Linux / Wayland](platform-linux-wayland.md) | CSD, Solid, portals, field matrix (1.38) |
+| [Linux / Wayland](platform-linux-wayland.md) | CSD, Solid, portals, field matrix (1.38 / **1.68**) |
 | [Graphics backend](graphics-backend.md) | RHI ship table · OpenGL for frost |
 | [Transparency / DWM](window-transparency-dwm.md) | Gallery Solid policy · Mica notes |
 
@@ -76,7 +76,7 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 
 | Recipe | One-liner |
 |--------|-----------|
-| [System integration](system-integration.md) | FilePicker / Tray / NotificationBridge |
+| [System integration](system-integration.md) | FilePicker / Tray / NotificationBridge (**1.68** portal harden) |
 | [Print, share & export](print-share.md) | grabToImage · save · reveal · PrintSupport notes (**1.63**) |
 | [Security & trust](security-trust.md) | WebView2 / drop / picker boundaries (**1.64**) |
 | [Drag-drop & clipboard](drag-drop.md) | FileDropZone / CopyButton / WindowHelper (1.41) |

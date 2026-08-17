@@ -3,19 +3,68 @@
 #include <QCoreApplication>
 #include <QEventLoop>
 #include <QGuiApplication>
+#include <QRegularExpression>
 #include <QTimer>
 #include <QUrl>
 #include <QVariantList>
 #include <QVariantMap>
 #include <QWindow>
+#if defined(Q_OS_LINUX)
+#  include <QtGui/qpa/qplatformnativeinterface.h>
+#endif
 
 #if defined(QWINUI3_HAS_DBUS)
+#  include <QDBusArgument>
 #  include <QDBusConnection>
 #  include <QDBusInterface>
 #  include <QDBusMessage>
+#  include <QDBusMetaType>
 #  include <QDBusObjectPath>
 #  include <QDBusVariant>
 #  include <QRandomGenerator>
+
+// Portal FileChooser filters: a(sa(us)) — type 0 = glob.
+struct QWinUI3PortalGlob {
+    uint type = 0;
+    QString pattern;
+};
+struct QWinUI3PortalFilter {
+    QString name;
+    QList<QWinUI3PortalGlob> globs;
+};
+Q_DECLARE_METATYPE(QWinUI3PortalGlob)
+Q_DECLARE_METATYPE(QList<QWinUI3PortalGlob>)
+Q_DECLARE_METATYPE(QWinUI3PortalFilter)
+Q_DECLARE_METATYPE(QList<QWinUI3PortalFilter>)
+
+inline QDBusArgument &operator<<(QDBusArgument &arg, const QWinUI3PortalGlob &g)
+{
+    arg.beginStructure();
+    arg << g.type << g.pattern;
+    arg.endStructure();
+    return arg;
+}
+inline const QDBusArgument &operator>>(const QDBusArgument &arg, QWinUI3PortalGlob &g)
+{
+    arg.beginStructure();
+    arg >> g.type >> g.pattern;
+    arg.endStructure();
+    return arg;
+}
+inline QDBusArgument &operator<<(QDBusArgument &arg, const QWinUI3PortalFilter &f)
+{
+    arg.beginStructure();
+    arg << f.name << f.globs;
+    arg.endStructure();
+    return arg;
+}
+inline const QDBusArgument &operator>>(const QDBusArgument &arg, QWinUI3PortalFilter &f)
+{
+    arg.beginStructure();
+    arg >> f.name >> f.globs;
+    arg.endStructure();
+    return arg;
+}
 
 class QWinUI3PortalWaiter : public QObject
 {
@@ -75,7 +124,9 @@ QString makeToken(const char *prefix)
             .arg(QRandomGenerator::global()->generate(), 0, 16);
 }
 
-bool waitForRequest(const QDBusObjectPath &requestPath, QVariantMap *resultsOut, int *responseOut)
+enum class PortalWait { Failed, TimedOut, Done };
+
+PortalWait waitForRequest(const QDBusObjectPath &requestPath, QVariantMap *resultsOut, int *responseOut)
 {
     QWinUI3PortalWaiter waiter;
     const bool ok = QDBusConnection::sessionBus().connect(
@@ -86,7 +137,7 @@ bool waitForRequest(const QDBusObjectPath &requestPath, QVariantMap *resultsOut,
             &waiter,
             SLOT(onResponse(uint,QVariantMap)));
     if (!ok)
-        return false;
+        return PortalWait::Failed;
 
     QEventLoop loop;
     QObject::connect(&waiter, &QWinUI3PortalWaiter::finished, &loop, &QEventLoop::quit);
@@ -102,12 +153,76 @@ bool waitForRequest(const QDBusObjectPath &requestPath, QVariantMap *resultsOut,
             SLOT(onResponse(uint,QVariantMap)));
 
     if (waiter.response < 0)
-        return false;
+        return PortalWait::TimedOut;
     if (responseOut)
         *responseOut = waiter.response;
     if (resultsOut)
         *resultsOut = waiter.results;
-    return true;
+    return PortalWait::Done;
+}
+
+void registerChooserTypes()
+{
+    static bool done = false;
+    if (done)
+        return;
+    done = true;
+    qDBusRegisterMetaType<QWinUI3PortalGlob>();
+    qDBusRegisterMetaType<QList<QWinUI3PortalGlob>>();
+    qDBusRegisterMetaType<QWinUI3PortalFilter>();
+    qDBusRegisterMetaType<QList<QWinUI3PortalFilter>>();
+}
+
+QList<QWinUI3PortalFilter> filtersFromNames(const QStringList &nameFilters)
+{
+    QList<QWinUI3PortalFilter> out;
+    for (const QString &f : nameFilters) {
+        QWinUI3PortalFilter pf;
+        const int lp = f.lastIndexOf(QLatin1Char('('));
+        const int rp = f.lastIndexOf(QLatin1Char(')'));
+        if (lp >= 0 && rp > lp) {
+            pf.name = f.left(lp).trimmed();
+            const QString inner = f.mid(lp + 1, rp - lp - 1);
+            const QStringList parts = inner.split(QRegularExpression(QStringLiteral("[ ;]+")),
+                                                  Qt::SkipEmptyParts);
+            for (QString g : parts) {
+                g.remove(QLatin1Char(','));
+                if (!g.isEmpty())
+                    pf.globs.push_back({0, g});
+            }
+        } else {
+            pf.name = f;
+            pf.globs.push_back({0, QStringLiteral("*")});
+        }
+        if (pf.name.isEmpty())
+            pf.name = f;
+        if (pf.globs.isEmpty())
+            pf.globs.push_back({0, QStringLiteral("*")});
+        out.push_back(pf);
+    }
+    return out;
+}
+
+void applyChooserOptions(QVariantMap *options, const QStringList &nameFilters,
+                         const QString &currentName = QString())
+{
+    registerChooserTypes();
+    options->insert(QStringLiteral("modal"), true);
+    const auto filters = filtersFromNames(nameFilters);
+    if (!filters.isEmpty())
+        options->insert(QStringLiteral("filters"), QVariant::fromValue(filters));
+    if (!currentName.isEmpty())
+        options->insert(QStringLiteral("current_name"), currentName);
+}
+
+bool finishChooser(const QDBusMessage &reply, QVariantMap *resultsOut, int *responseOut)
+{
+    if (reply.type() == QDBusMessage::ErrorMessage || reply.arguments().isEmpty())
+        return false;
+    const auto path = reply.arguments().constFirst().value<QDBusObjectPath>();
+    const PortalWait wait = waitForRequest(path, resultsOut, responseOut);
+    // TimedOut: dialog was shown — treat as handled so callers do not open zenity too.
+    return wait != PortalWait::Failed;
 }
 
 QDBusInterface fileChooser()
@@ -179,7 +294,27 @@ QString parentWindowFrom(QObject *windowObject)
     const QString platform = QGuiApplication::platformName();
     if (platform == QLatin1String("xcb") || platform.startsWith(QLatin1String("x11")))
         return QStringLiteral("x11:0x%1").arg(quint64(window->winId()), 0, 16);
-    // Pure Wayland needs an exported wl_surface handle; Qt public API does not expose it.
+
+    if (platform.contains(QLatin1String("wayland"))) {
+#if defined(Q_OS_LINUX)
+        if (QPlatformNativeInterface *native = QGuiApplication::platformNativeInterface()) {
+            static const char *const kKeys[] = {
+                "xdgforeignexportv2",
+                "xdgexportv2",
+                "xdg_foreign_exported_v2",
+                nullptr
+            };
+            for (int i = 0; kKeys[i]; ++i) {
+                if (void *res = native->nativeResourceForWindow(kKeys[i], window)) {
+                    const char *s = static_cast<const char *>(res);
+                    if (s && s[0] >= 32 && s[0] < 127)
+                        return QStringLiteral("wayland:%1").arg(QLatin1String(s));
+                }
+            }
+        }
+#endif
+        return {};
+    }
     return {};
 }
 
@@ -266,12 +401,13 @@ bool tryOpenUri(const QString &uri, const QString &parentWindow)
 
     const auto path = reply.arguments().constFirst().value<QDBusObjectPath>();
     int response = -1;
-    if (!waitForRequest(path, nullptr, &response))
+    if (waitForRequest(path, nullptr, &response) != PortalWait::Done)
         return false;
     return response == 0;
 }
 
-bool tryOpenFile(const QString &title, QString *pathOut, const QString &parentWindow)
+bool tryOpenFile(const QString &title, QString *pathOut, const QString &parentWindow,
+                 const QStringList &nameFilters)
 {
     if (pathOut)
         pathOut->clear();
@@ -281,23 +417,20 @@ bool tryOpenFile(const QString &title, QString *pathOut, const QString &parentWi
 
     QVariantMap options;
     options.insert(QStringLiteral("handle_token"), makeToken("open"));
-    options.insert(QStringLiteral("modal"), true);
+    applyChooserOptions(&options, nameFilters);
 
     const QDBusMessage reply = portal.call(QStringLiteral("OpenFile"), parentWindow, title, options);
-    if (reply.type() == QDBusMessage::ErrorMessage || reply.arguments().isEmpty())
-        return false;
-
-    const auto path = reply.arguments().constFirst().value<QDBusObjectPath>();
     QVariantMap results;
     int response = -1;
-    if (!waitForRequest(path, &results, &response))
+    if (!finishChooser(reply, &results, &response))
         return false;
     if (response == 0 && pathOut)
         *pathOut = firstUri(results);
     return true;
 }
 
-bool tryOpenFiles(const QString &title, QStringList *pathsOut, const QString &parentWindow)
+bool tryOpenFiles(const QString &title, QStringList *pathsOut, const QString &parentWindow,
+                  const QStringList &nameFilters)
 {
     if (pathsOut)
         pathsOut->clear();
@@ -307,24 +440,21 @@ bool tryOpenFiles(const QString &title, QStringList *pathsOut, const QString &pa
 
     QVariantMap options;
     options.insert(QStringLiteral("handle_token"), makeToken("openm"));
-    options.insert(QStringLiteral("modal"), true);
+    applyChooserOptions(&options, nameFilters);
     options.insert(QStringLiteral("multiple"), true);
 
     const QDBusMessage reply = portal.call(QStringLiteral("OpenFile"), parentWindow, title, options);
-    if (reply.type() == QDBusMessage::ErrorMessage || reply.arguments().isEmpty())
-        return false;
-
-    const auto path = reply.arguments().constFirst().value<QDBusObjectPath>();
     QVariantMap results;
     int response = -1;
-    if (!waitForRequest(path, &results, &response))
+    if (!finishChooser(reply, &results, &response))
         return false;
     if (response == 0 && pathsOut)
         *pathsOut = allUris(results);
     return true;
 }
 
-bool trySaveFile(const QString &title, QString *pathOut, const QString &parentWindow)
+bool trySaveFile(const QString &title, QString *pathOut, const QString &parentWindow,
+                 const QStringList &nameFilters, const QString &currentName)
 {
     if (pathOut)
         pathOut->clear();
@@ -334,16 +464,12 @@ bool trySaveFile(const QString &title, QString *pathOut, const QString &parentWi
 
     QVariantMap options;
     options.insert(QStringLiteral("handle_token"), makeToken("save"));
-    options.insert(QStringLiteral("modal"), true);
+    applyChooserOptions(&options, nameFilters, currentName);
 
     const QDBusMessage reply = portal.call(QStringLiteral("SaveFile"), parentWindow, title, options);
-    if (reply.type() == QDBusMessage::ErrorMessage || reply.arguments().isEmpty())
-        return false;
-
-    const auto path = reply.arguments().constFirst().value<QDBusObjectPath>();
     QVariantMap results;
     int response = -1;
-    if (!waitForRequest(path, &results, &response))
+    if (!finishChooser(reply, &results, &response))
         return false;
     if (response == 0 && pathOut)
         *pathOut = firstUri(results);
@@ -364,13 +490,9 @@ bool tryOpenFolder(const QString &title, QString *pathOut, const QString &parent
     options.insert(QStringLiteral("directory"), true);
 
     const QDBusMessage reply = portal.call(QStringLiteral("OpenFile"), parentWindow, title, options);
-    if (reply.type() == QDBusMessage::ErrorMessage || reply.arguments().isEmpty())
-        return false;
-
-    const auto path = reply.arguments().constFirst().value<QDBusObjectPath>();
     QVariantMap results;
     int response = -1;
-    if (!waitForRequest(path, &results, &response))
+    if (!finishChooser(reply, &results, &response))
         return false;
     if (response == 0 && pathOut)
         *pathOut = firstUri(results);
@@ -434,7 +556,7 @@ bool tryInhibitIdle(const QString &appName, const QString &reason, quint32 *cook
 
     const auto path = reply.arguments().constFirst().value<QDBusObjectPath>();
     int response = -1;
-    if (!waitForRequest(path, nullptr, &response) || response != 0)
+    if (waitForRequest(path, nullptr, &response) != PortalWait::Done || response != 0)
         return false;
     // Portal inhibit does not return a simple cookie; store 1 as a marker.
     if (cookieOut)
@@ -505,17 +627,17 @@ bool tryUninhibitIdle(quint32)
     return false;
 }
 
-bool tryOpenFile(const QString &, QString *, const QString &)
+bool tryOpenFile(const QString &, QString *, const QString &, const QStringList &)
 {
     return false;
 }
 
-bool tryOpenFiles(const QString &, QStringList *, const QString &)
+bool tryOpenFiles(const QString &, QStringList *, const QString &, const QStringList &)
 {
     return false;
 }
 
-bool trySaveFile(const QString &, QString *, const QString &)
+bool trySaveFile(const QString &, QString *, const QString &, const QStringList &, const QString &)
 {
     return false;
 }

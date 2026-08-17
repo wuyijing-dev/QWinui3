@@ -128,7 +128,7 @@ Always release — forgetting leaves the display awake until process exit (Windo
 | Taskbar progress / state / clear | **Yes** — `ITaskbarList3` | **n/a** (no-op) | Visible HWND; quiet fail if COM/taskbar blocked |
 | Taskbar overlay badge | **Yes** — `SetOverlayIcon` | **n/a** (no-op) | Short text (≈2 chars); empty clears |
 | `requestUserAttention` | **Yes** — `FlashWindowEx` | Best-effort — `raise` + `alert` | Wayland may ignore flash |
-| `revealFileInFolder` | **Yes** — `explorer /select` | Best-effort — FileManager1 `ShowItems`, else parent dir | `false` on empty / launch failure |
+| `revealFileInFolder` | **Yes** — `explorer /select` | Best-effort — FileManager1 `ShowItems` → OpenURI folder → parent dir (**1.68**) | `false` on empty / launch failure |
 | `inhibitIdle` | **Yes** — `SetThreadExecutionState` | Best-effort — ScreenSaver → portal Inhibit | `false` if both fail |
 | `idleInhibited` | Tracks success | Tracks success | Stays `false` if inhibit failed |
 
@@ -151,6 +151,6 @@ Always release — forgetting leaves the display awake until process exit (Windo
 
 - [system-integration.md](system-integration.md) — FilePicker / Tray / NotificationBridge  
 - [print-share.md](print-share.md) — grab → save → reveal (**1.63**)  
-- [platform-linux-wayland.md](platform-linux-wayland.md) — portal / SSD matrix (**1.38**)  
+- [platform-linux-wayland.md](platform-linux-wayland.md) — portal / SSD matrix (**1.38** / **1.68**)  
 - [drag-drop.md](drag-drop.md) — reveal after save (**1.41**)  
 - [stable-api.md](stable-api.md) — promoted taskbar / attention / reveal / idle surface

@@ -129,7 +129,7 @@ Promoted this slice (Gallery + recipe soak). Status flips are **named here** —
 | `QWinUI3::configureEnvironment` / `configureApplication` | Platform C++ (`Bootstrap.h`) | One-call main setup — [packaging-consumer.md](packaging-consumer.md) |
 | `WindowHelper` shell extras | Platform | Taskbar progress/overlay, `requestUserAttention`, `revealFileInFolder`, idle inhibit — [shell-extras.md](shell-extras.md) (1.17 / **1.47**) |
 | `WindowHelper` geometry persistence | Platform | `saveWindowGeometry` / `restoreWindowGeometry` / `geometryPersistenceKey` on shells — [window-helper.md](window-helper.md#window-geometry-persistence) |
-| `FilePicker` / `TrayIcon` | Platform | Open/save/folder + tray — [system-integration.md](system-integration.md) (1.10) |
+| `FilePicker` / `TrayIcon` | Platform | Open/save/folder + tray — [system-integration.md](system-integration.md) (1.10; **1.68** Linux portal) |
 | `WindowHelper.copyText` / `clipboardText` | Platform | Text clipboard R/W — [drag-drop.md](drag-drop.md) (**1.41**) |
 | `FileDropZone` / `CopyButton` | Extras | Drop target + copy affordance — [drag-drop.md](drag-drop.md) (**1.41**) |
 | `NotificationBridge` | Extras | ToastHost + OS notify — [system-integration.md](system-integration.md) (1.10) |
@@ -229,6 +229,7 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.65** | Settings persistence — [settings-persistence.md](settings-persistence.md); Gallery SettingsPersistencePage |
 | **1.66** | Charts & dashboard polish — defer remaining charts/gauges; [charts.md](charts.md); Gallery Charts/Dashboard |
 | **1.67** | Media honest defer — soak checklist, stay experimental; [media.md](media.md); Gallery MediaPlayerElement |
+| **1.68** | Linux portal / FilePicker harden — no zenity double-dialog; [platform-linux-wayland.md](platform-linux-wayland.md) |
 | **1.35** | Qt Creator kit polish — [qt-creator.md](qt-creator.md); example build presets |
 | **1.36** | Docs site IA — [recipes.md](recipes.md) hub; MkDocs Recipes sections |
 | **1.37** | Promote sweep — commands / Flyout / TabView / ShellWindow / pickers / progress / FontIcon / ItemsRepeater; explicit defer list |

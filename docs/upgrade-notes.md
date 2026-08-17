@@ -47,6 +47,20 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.67 → 1.68
+
+**Product version:** 1.68  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- Linux portal harden: [platform-linux-wayland.md](platform-linux-wayland.md) / [system-integration.md](system-integration.md) — FilePicker no longer falls back to zenity after a portal timeout; filters + save `current_name`; reveal OpenURI fallback; `WindowHelper.portalParentWindow()`.
+- Gallery **System integration** live `parent_window` readout.
+
+#### No action (compatible)
+
+- FilePicker QML signatures unchanged. Pass `Window.window` as before.
+
 ### Upgrade 1.66 → 1.67
 
 **Product version:** 1.67  

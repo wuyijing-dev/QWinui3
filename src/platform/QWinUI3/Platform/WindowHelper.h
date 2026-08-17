@@ -174,6 +174,8 @@ public:
     Q_INVOKABLE void requestActivateWindow(QObject *windowObject);
     // Dialog parenting (important on Wayland for correct stacking / modality)
     Q_INVOKABLE void setTransientParent(QObject *windowObject, QObject *parentWindowObject);
+    // Portal FileChooser parent_window string (Linux); empty on Win / pure Wayland without export.
+    Q_INVOKABLE QString portalParentWindow(QObject *windowObject) const;
     // Open http(s)/file URLs via xdg-desktop-portal OpenURI when available
     Q_INVOKABLE bool openExternalUrl(const QString &url);
     Q_INVOKABLE void refreshColorScheme(); // poll OS light/dark preference
@@ -221,7 +223,7 @@ public:
 
     // Flash / urgency attention (FlashWindowEx on Windows; raise elsewhere)
     Q_INVOKABLE void requestUserAttention(QObject *windowObject, bool continuous = false);
-    // Reveal path in system file manager (Explorer select / FileManager1)
+    // Reveal path in system file manager (Explorer select / FileManager1 → OpenURI)
     Q_INVOKABLE bool revealFileInFolder(const QString &path);
     // Clipboard helpers
     Q_INVOKABLE void copyText(const QString &text);

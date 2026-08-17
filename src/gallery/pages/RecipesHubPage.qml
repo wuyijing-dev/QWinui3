@@ -80,7 +80,7 @@ CatalogPage {
                     { label: qsTr("Window shells / chrome"), doc: "docs/window-shells.md", page: "WindowParadigmPage" },
                     { label: qsTr("High-DPI & monitors"), doc: "docs/high-dpi.md", page: "HighDpiPage" },
                     { label: qsTr("Multi-window"), doc: "docs/window-shells.md", page: "MultiWindowPage" },
-                    { label: qsTr("Linux / Wayland + system integration"), doc: "docs/platform-linux-wayland.md", page: "SystemIntegrationPage" },
+                    { label: qsTr("Linux / Wayland + system integration (1.68)"), doc: "docs/platform-linux-wayland.md", page: "SystemIntegrationPage" },
                     { label: qsTr("Graphics backend (RHI)"), doc: "docs/graphics-backend.md", page: "GraphicsBackendPage" },
                     { label: qsTr("Shell extras / Snap / taskbar"), doc: "docs/shell-extras.md", page: "SystemIntegrationPage" }
                 ]

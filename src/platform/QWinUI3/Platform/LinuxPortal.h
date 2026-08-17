@@ -10,7 +10,8 @@ namespace LinuxPortal {
 
 bool available();
 
-// xdg-desktop-portal parent_window: "x11:0x…" on X11/XWayland; empty on pure Wayland.
+// xdg-desktop-portal parent_window: "x11:0x…" on X11/XWayland;
+// "wayland:HANDLE" when Qt exports xdg-foreign (best-effort); else empty on pure Wayland.
 QString parentWindowFrom(QObject *windowObject);
 
 // org.freedesktop.Notifications
@@ -35,10 +36,14 @@ bool tryShowItems(const QStringList &uris);
 bool tryInhibitIdle(const QString &appName, const QString &reason, quint32 *cookieOut);
 bool tryUninhibitIdle(quint32 cookie);
 
-// FileChooser — true when portal handled (OK or cancel); false → fall back.
-bool tryOpenFile(const QString &title, QString *pathOut, const QString &parentWindow = QString());
-bool tryOpenFiles(const QString &title, QStringList *pathsOut, const QString &parentWindow = QString());
-bool trySaveFile(const QString &title, QString *pathOut, const QString &parentWindow = QString());
+// FileChooser — true when portal handled (OK, cancel, or timeout after the
+// dialog was shown). false → caller may fall back to zenity/kdialog.
+bool tryOpenFile(const QString &title, QString *pathOut, const QString &parentWindow = QString(),
+                 const QStringList &nameFilters = QStringList());
+bool tryOpenFiles(const QString &title, QStringList *pathsOut, const QString &parentWindow = QString(),
+                  const QStringList &nameFilters = QStringList());
+bool trySaveFile(const QString &title, QString *pathOut, const QString &parentWindow = QString(),
+                 const QStringList &nameFilters = QStringList(), const QString &currentName = QString());
 bool tryOpenFolder(const QString &title, QString *pathOut, const QString &parentWindow = QString());
 
 } // namespace LinuxPortal

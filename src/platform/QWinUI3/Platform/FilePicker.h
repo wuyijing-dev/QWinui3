@@ -15,7 +15,8 @@ class QJSEngine;
 //   FilePicker.openFile(qsTr("Open"), ["All (*.*)"], function (path) { … }, Window.window)
 //
 // Cancel → empty string / empty array. Pass parent Window for modal ownership
-// (Windows HWND; Linux xdg-desktop-portal on X11). See docs/system-integration.md.
+// (Windows HWND; Linux portal parent_window on X11 / best-effort Wayland).
+// See docs/system-integration.md · docs/platform-linux-wayland.md (1.68).
 class FilePicker : public QObject
 {
     Q_OBJECT
@@ -28,7 +29,7 @@ public:
     static FilePicker *create(QQmlEngine *, QJSEngine *);
 
     // Open a single file; callback(pathString) — "" on cancel.
-    // parentWindow: Window / Item — Win HWND owner; Linux portal parent (X11).
+    // parentWindow: Window / Item — Win HWND owner; Linux portal parent (X11 / Wayland export).
     Q_INVOKABLE void openFile(const QString &title, const QVariantList &nameFilters,
                               const QJSValue &callback, QObject *parentWindow = nullptr);
     // Open multiple files; callback(string[]) — [] on cancel

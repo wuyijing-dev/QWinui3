@@ -1,4 +1,4 @@
-# System integration (1.10)
+# System integration (1.10 / 1.68)
 
 LoB recipe for **FilePicker**, **TrayIcon**, and **NotificationBridge**. Prefer these over QtQuick.Dialogs / ad-hoc notify scripts.
 
@@ -36,10 +36,14 @@ FilePicker.openFolder(qsTr("Folder"), function (path) { … }, Window.window)
 | Host | Backend | `parentWindow` |
 |------|---------|----------------|
 | Windows | `IFileDialog` | HWND owner from `Window` / Item (falls back to first visible window) |
-| Linux | xdg-desktop-portal → zenity/kdialog | Portal parent on **X11** (`x11:0x…`); empty on pure Wayland — [platform-linux-wayland.md](platform-linux-wayland.md) (**1.38** matrix) |
+| Linux | xdg-desktop-portal → zenity/kdialog | `x11:0x…` on X11/XWayland; `wayland:HANDLE` when Qt exports xdg-foreign; else empty — [platform-linux-wayland.md](platform-linux-wayland.md) (**1.68**) |
 | Cancel | — | `""` or `[]` |
 
 Always pass `Window.window` so the dialog is owned by your shell.
+
+**1.68:** if the portal FileChooser request starts, timeout/cancel does **not** open zenity as a second dialog. `nameFilters` are forwarded. `saveFile` `defaultSuffix` becomes portal `current_name`. Reveal: FileManager1 `ShowItems` → OpenURI on the folder → `QDesktopServices`.
+
+Live Linux check: `WindowHelper.portalParentWindow(Window.window)` (Gallery **System integration**).
 
 Pair with drag-drop: [drag-drop.md](drag-drop.md) (**1.41**) — `FileDropZone` + the same ingest function as `FilePicker.openFiles`.
 
@@ -125,5 +129,5 @@ Battery / online / screens / recent-docs remain **experimental**.
 - [print-share.md](print-share.md) — grab → save → reveal · PrintSupport notes (**1.63**)  
 - [security-trust.md](security-trust.md) — picker ownership / path validation (**1.64**)  
 - [drag-drop.md](drag-drop.md) — FileDropZone / clipboard / FilePicker pairing (**1.41**)  
-- [platform-linux-wayland.md](platform-linux-wayland.md) — portal / SSD / tray / backdrop field matrix (**1.38**)  
+- [platform-linux-wayland.md](platform-linux-wayland.md) — portal / SSD / tray / backdrop field matrix (**1.38** / **1.68**)  
 - [webview2.md](webview2.md) — separate Windows browser host

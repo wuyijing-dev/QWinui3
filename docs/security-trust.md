@@ -99,7 +99,7 @@ Unclipped hosts leak pixels over Fluent chrome — always nest in `clip: true` (
 |------|-----------|
 | Windows | Pass `Window.window` so `IFileDialog` is HWND-owned (modal / Z-order). |
 | Linux X11 | Portal gets `parent_window` when possible. |
-| Linux Wayland | Parent may be empty — still pass the Window; [platform-linux-wayland.md](platform-linux-wayland.md). |
+| Linux Wayland | Parent may be empty unless Qt exports xdg-foreign — still pass the Window; [platform-linux-wayland.md](platform-linux-wayland.md) (**1.68**). |
 
 **App checklist:**
 

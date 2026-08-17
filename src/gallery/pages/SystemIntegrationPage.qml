@@ -7,14 +7,14 @@ import QWinUI3.Platform
 
 // Gallery — FilePicker, TrayIcon, display server, Snap Layouts, shell extras.
 //
-// Linux Wayland edge cases: docs/platform-linux-wayland.md (1.38).
+// Linux Wayland edge cases: docs/platform-linux-wayland.md (1.38 / 1.68).
 // Shell extras / Snap: docs/shell-extras.md (1.47). System integration: docs/system-integration.md
 
 CatalogPage {
     id: page
 
     title: qsTr("System integration")
-    subtitle: qsTr("Snap Layouts · taskbar · attention / reveal. Recipe: docs/shell-extras.md (1.47).")
+    subtitle: qsTr("FilePicker · tray · Snap · reveal. Linux portal: docs/platform-linux-wayland.md (1.68).")
 
     property string lastPath: qsTr("(none)")
     property real taskbarValue: 0.35
@@ -40,8 +40,8 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Linux / Wayland (1.38)")
-        qmlSource: "// docs/platform-linux-wayland.md\n// SSD off · Solid backdrop · portal FilePicker · SNI tray"
+        headerText: qsTr("Linux / Wayland (1.68)")
+        qmlSource: "// docs/platform-linux-wayland.md\n// SSD off · Solid · portal FilePicker · SNI tray"
         visible: WindowHelper.linux
         ColumnLayout {
             Layout.fillWidth: true
@@ -49,7 +49,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Field matrix: double title bar → keep QT_WAYLAND_DISABLE_WINDOWDECORATION=1; Mica hollow → BackdropSolid; pure Wayland FilePicker has empty portal parent_window (still pass Window.window); GNOME tray needs SNI/AppIndicator. CI Linux --smoke is offscreen — not a compositor soak.")
+                text: qsTr("Field matrix: double title bar → QT_WAYLAND_DISABLE_WINDOWDECORATION=1; Mica hollow → BackdropSolid; portal timeout no longer opens zenity as a second dialog (1.68). Pure Wayland parent_window may still be empty — still pass Window.window. GNOME tray needs SNI/AppIndicator. CI Linux --smoke is offscreen — not a compositor soak.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
@@ -64,6 +64,16 @@ CatalogPage {
                     .arg(WindowHelper.supportsBackdrop)
                     .arg(WindowHelper.portalAvailable)
                     .arg(tray.persistentTrayActive)
+            }
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.WrapAnywhere
+                color: Theme.textSecondary
+                text: {
+                    var p = WindowHelper.portalParentWindow(page.Window.window)
+                    return qsTr("portal parent_window=%1")
+                        .arg(p && p.length ? p : qsTr("(empty — X11 uses x11:0x…; Wayland export is best-effort)"))
+                }
             }
         }
     }
@@ -114,7 +124,7 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 color: Theme.textSecondary
-                text: qsTr("Bootstrap configureEnvironment before QGuiApplication. FilePicker: portal → zenity/kdialog. Full matrix: docs/platform-linux-wayland.md (1.38).")
+                text: qsTr("Bootstrap configureEnvironment before QGuiApplication. FilePicker: portal → zenity/kdialog (1.68: no double dialog after portal timeout). Full matrix: docs/platform-linux-wayland.md.")
             }
         }
     }
@@ -183,12 +193,12 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 color: Theme.textSecondary
-                text: qsTr("Cancel → empty path. Always pass Window.window for dialog ownership (X11 parent_window; pure Wayland parent is empty — docs/platform-linux-wayland.md 1.38).")
+                text: qsTr("Cancel → empty path. Always pass Window.window (X11 parent_window; Wayland export best-effort — docs/platform-linux-wayland.md 1.68).")
             }
             RowLayout {
                 Button {
                     text: qsTr("Open file")
-                    onClicked: FilePicker.openFile(qsTr("Open"), ["All (*.*)"], function (p) {
+                    onClicked: FilePicker.openFile(qsTr("Open"), ["Text (*.txt *.md)", "All (*.*)"], function (p) {
                         page.lastPath = p || qsTr("(cancelled)")
                     }, page.Window.window)
                 }
@@ -390,7 +400,7 @@ CatalogPage {
                 color: Theme.textSecondary
                 text: WindowHelper.windows
                       ? qsTr("Windows: FlashWindowEx, Explorer /select, SetThreadExecutionState — docs/shell-extras.md.")
-                      : qsTr("Linux: raise/alert (may ignore flash on Wayland), FileManager1 ShowItems, ScreenSaver/portal Inhibit — docs/shell-extras.md.")
+                      : qsTr("Linux: raise/alert (may ignore flash on Wayland), FileManager1 ShowItems → OpenURI folder → QDesktopServices (1.68), ScreenSaver/portal Inhibit — docs/shell-extras.md.")
             }
         }
     }

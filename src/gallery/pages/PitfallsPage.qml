@@ -56,6 +56,26 @@ CatalogPage {
     }
 
     ControlExample {
+        headerText: qsTr("Linux portal / FilePicker (1.68)")
+        qmlSource: "// Always pass Window.window\\n// docs/platform-linux-wayland.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Pass Window.window to FilePicker. X11 gets x11:0x…; pure Wayland parent may be empty. After a portal dialog starts, cancel/timeout must not open zenity as a second dialog. Reveal: FileManager1 then OpenURI. Cookbook: docs/platform-linux-wayland.md · Gallery System integration.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            CheckBox { text: qsTr("FilePicker always gets Window.window") }
+            CheckBox { text: qsTr("Cancel / timeout → empty path (no second dialog)") }
+            CheckBox { text: qsTr("nameFilters forwarded on Linux (portal / zenity)") }
+        }
+    }
+
+    ControlExample {
         headerText: qsTr("Media defer (1.67)")
         qmlSource: "// MediaPlayerElement stays experimental\\n// docs/media.md"
         ColumnLayout {

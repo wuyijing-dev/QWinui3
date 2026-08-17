@@ -284,50 +284,85 @@ bool pickWithKdialog(const QStringList &args, QString *out)
     return runDialog(QStringLiteral("kdialog"), args, out);
 }
 
-QString linuxOpenFile(const QString &title, QObject *parentWindow)
+QStringList zenityFilterArgs(const QStringList &filters)
+{
+    QStringList args;
+    for (const QString &f : filters) {
+        QString name = f;
+        QString globs = QStringLiteral("*");
+        const int lp = f.lastIndexOf(QLatin1Char('('));
+        const int rp = f.lastIndexOf(QLatin1Char(')'));
+        if (lp >= 0 && rp > lp) {
+            name = f.left(lp).trimmed();
+            globs = f.mid(lp + 1, rp - lp - 1).trimmed();
+            globs.replace(QLatin1Char(';'), QLatin1Char(' '));
+        }
+        if (name.isEmpty())
+            name = f;
+        args << QStringLiteral("--file-filter=%1 | %2").arg(name, globs);
+    }
+    return args;
+}
+
+QString kdialogFilter(const QStringList &filters)
+{
+    if (filters.isEmpty())
+        return {};
+    return filters.first();
+}
+
+QString linuxOpenFile(const QString &title, QObject *parentWindow, const QStringList &filters)
 {
     QString path;
     const QString parent = LinuxPortal::parentWindowFrom(parentWindow);
-    if (LinuxPortal::tryOpenFile(title, &path, parent))
+    if (LinuxPortal::tryOpenFile(title, &path, parent, filters))
         return path;
     for (const QString &tool : linuxDialogTools()) {
         if (tool == QLatin1String("zenity")) {
-            if (pickWithZenity({QStringLiteral("--file-selection"),
-                                QStringLiteral("--title=") + title},
-                               &path))
+            QStringList args = {QStringLiteral("--file-selection"),
+                                QStringLiteral("--title=") + title};
+            args += zenityFilterArgs(filters);
+            if (pickWithZenity(args, &path))
                 return path;
         } else if (tool == QLatin1String("kdialog")) {
-            if (pickWithKdialog({QStringLiteral("--getopenfilename"),
-                                 QStringLiteral("."), title},
-                                &path))
+            QStringList args = {QStringLiteral("--getopenfilename"),
+                                QStringLiteral("."), title};
+            const QString kf = kdialogFilter(filters);
+            if (!kf.isEmpty())
+                args << kf;
+            if (pickWithKdialog(args, &path))
                 return path;
         }
     }
     return {};
 }
 
-QStringList linuxOpenFiles(const QString &title, QObject *parentWindow)
+QStringList linuxOpenFiles(const QString &title, QObject *parentWindow, const QStringList &filters)
 {
     QStringList list;
     const QString parent = LinuxPortal::parentWindowFrom(parentWindow);
-    if (LinuxPortal::tryOpenFiles(title, &list, parent))
+    if (LinuxPortal::tryOpenFiles(title, &list, parent, filters))
         return list;
     QString out;
     for (const QString &tool : linuxDialogTools()) {
         if (tool == QLatin1String("zenity")) {
-            if (pickWithZenity({QStringLiteral("--file-selection"),
+            QStringList args = {QStringLiteral("--file-selection"),
                                 QStringLiteral("--multiple"),
                                 QStringLiteral("--separator=\n"),
-                                QStringLiteral("--title=") + title},
-                               &out)) {
+                                QStringLiteral("--title=") + title};
+            args += zenityFilterArgs(filters);
+            if (pickWithZenity(args, &out)) {
                 return out.isEmpty() ? QStringList{}
                                      : out.split(QLatin1Char('\n'), Qt::SkipEmptyParts);
             }
         } else if (tool == QLatin1String("kdialog")) {
-            if (pickWithKdialog({QStringLiteral("--getopenfilename"),
-                                 QStringLiteral("."), title,
-                                 QStringLiteral("--multiple")},
-                                &out)) {
+            QStringList args = {QStringLiteral("--getopenfilename"),
+                                QStringLiteral("."), title,
+                                QStringLiteral("--multiple")};
+            const QString kf = kdialogFilter(filters);
+            if (!kf.isEmpty())
+                args << kf;
+            if (pickWithKdialog(args, &out)) {
                 return out.split(QRegularExpression(QStringLiteral("[\\n\\r]+")),
                                  Qt::SkipEmptyParts);
             }
@@ -336,24 +371,32 @@ QStringList linuxOpenFiles(const QString &title, QObject *parentWindow)
     return {};
 }
 
-QString linuxSaveFile(const QString &title, QObject *parentWindow)
+QString linuxSaveFile(const QString &title, QObject *parentWindow, const QStringList &filters,
+                      const QString &defaultSuffix)
 {
     QString path;
     const QString parent = LinuxPortal::parentWindowFrom(parentWindow);
-    if (LinuxPortal::trySaveFile(title, &path, parent))
+    QString currentName;
+    if (!defaultSuffix.isEmpty())
+        currentName = QStringLiteral("untitled.%1").arg(defaultSuffix);
+    if (LinuxPortal::trySaveFile(title, &path, parent, filters, currentName))
         return path;
     for (const QString &tool : linuxDialogTools()) {
         if (tool == QLatin1String("zenity")) {
-            if (pickWithZenity({QStringLiteral("--file-selection"),
+            QStringList args = {QStringLiteral("--file-selection"),
                                 QStringLiteral("--save"),
                                 QStringLiteral("--confirm-overwrite"),
-                                QStringLiteral("--title=") + title},
-                               &path))
+                                QStringLiteral("--title=") + title};
+            args += zenityFilterArgs(filters);
+            if (pickWithZenity(args, &path))
                 return path;
         } else if (tool == QLatin1String("kdialog")) {
-            if (pickWithKdialog({QStringLiteral("--getsavefilename"),
-                                 QStringLiteral("."), title},
-                                &path))
+            QStringList args = {QStringLiteral("--getsavefilename"),
+                                QStringLiteral("."), title};
+            const QString kf = kdialogFilter(filters);
+            if (!kf.isEmpty())
+                args << kf;
+            if (pickWithKdialog(args, &path))
                 return path;
         }
     }
@@ -394,8 +437,7 @@ void FilePicker::openFile(const QString &title, const QVariantList &nameFilters,
     invokePath(callback, pickFiles(false, false, title, filtersFromVariant(nameFilters),
                                    QString(), nullptr, hwndFromParent(parentWindow)));
 #elif defined(Q_OS_LINUX)
-    Q_UNUSED(nameFilters);
-    invokePath(callback, linuxOpenFile(title, parentWindow));
+    invokePath(callback, linuxOpenFile(title, parentWindow, filtersFromVariant(nameFilters)));
 #else
     Q_UNUSED(title);
     Q_UNUSED(nameFilters);
@@ -413,8 +455,7 @@ void FilePicker::openFiles(const QString &title, const QVariantList &nameFilters
               hwndFromParent(parentWindow));
     invokePaths(callback, list);
 #elif defined(Q_OS_LINUX)
-    Q_UNUSED(nameFilters);
-    invokePaths(callback, linuxOpenFiles(title, parentWindow));
+    invokePaths(callback, linuxOpenFiles(title, parentWindow, filtersFromVariant(nameFilters)));
 #else
     Q_UNUSED(title);
     Q_UNUSED(nameFilters);
@@ -431,9 +472,8 @@ void FilePicker::saveFile(const QString &title, const QVariantList &nameFilters,
     invokePath(callback, pickFiles(false, true, title, filtersFromVariant(nameFilters),
                                    defaultSuffix, nullptr, hwndFromParent(parentWindow)));
 #elif defined(Q_OS_LINUX)
-    Q_UNUSED(nameFilters);
-    Q_UNUSED(defaultSuffix);
-    invokePath(callback, linuxSaveFile(title, parentWindow));
+    invokePath(callback, linuxSaveFile(title, parentWindow, filtersFromVariant(nameFilters),
+                                       defaultSuffix));
 #else
     Q_UNUSED(title);
     Q_UNUSED(nameFilters);

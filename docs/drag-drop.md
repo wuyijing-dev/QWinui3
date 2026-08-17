@@ -60,7 +60,7 @@ Button {
 |------|-------------|
 | **Windows** | Explorer → app drop works with `text/uri-list`. Always pass `Window.window` to FilePicker. |
 | **Linux X11** | Same DropArea path. Portal FilePicker gets `parent_window`. |
-| **Linux Wayland** | DnD still uses Qt DropArea; FilePicker portal parent may be empty — [platform-linux-wayland.md](platform-linux-wayland.md). Prefer Solid chrome shells. |
+| **Linux Wayland** | DnD still uses Qt DropArea; FilePicker portal parent may be empty — [platform-linux-wayland.md](platform-linux-wayland.md) (**1.68**). Prefer Solid chrome shells. |
 | **Out of scope (1.41)** | Full OLE / complex shell DnD, dragging *out* of the app, custom non-file MIME productization |
 
 Do **not** invent a second drop chrome — restyle via `title` / `subtitle` / `symbol` / Theme tokens.

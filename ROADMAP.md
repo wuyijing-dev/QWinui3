@@ -1,6 +1,6 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.67**
+**Current:** **1.68**
 **Next up:** **1.65** (Settings persistence & roaming recipes)
 **Planned through:** **1.70** (long-horizon 1.xx checkpoint)  
 **Still 1.xx:** Mid-horizon checkpoint published — [docs/checkpoint-160.md](docs/checkpoint-160.md). Not drafting 2.00.  
@@ -61,7 +61,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.67`
+## Shipped — `1.01` … `1.68`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -331,30 +331,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** [media.md](docs/media.md) soak checklist + **defer** for remaining 1.xx (`MediaPlayerElement` stays experimental — optional Multimedia, codecs/backends, app-owned deploy); Gallery **MediaPlayerElement** decision callout + pause-when-hidden; stable-api / recipes / Pitfalls / compatibility; product version `1.67`.
 
+### 1.68 — Linux portal & file-dialog harden (shipped)
+
+**Shipped:** FilePicker portal timeout no longer falls back to zenity (P0 double-dialog); `nameFilters` / save `current_name`; reveal FileManager1 → OpenURI → folder; `WindowHelper.portalParentWindow()`; [platform-linux-wayland.md](docs/platform-linux-wayland.md) / [system-integration.md](docs/system-integration.md) matrix refresh; Gallery **System integration** live parent readout; product version `1.68`.
+
 ---
 
-## Horizon — planned `1.68` … `1.70`
+## Horizon — planned `1.69` … `1.70`
 
 Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per `YY`. Order can flex if field P0s force a swap; do not merge themes into mega-minors. Posture after 1.51 / 1.60: prefer field harden / docs over new control families.
-
-### 1.68 — Linux portal & file-dialog harden
-
-**Why:** 1.38 covered Wayland edges; portal parent_window / FilePicker still generate field bugs.
-
-**In scope**
-
-- Portal ownership matrix refresh; FilePicker / folder reveal harden; Gallery Linux system-integration live checks.
-- Update [platform-linux-wayland.md](docs/platform-linux-wayland.md) / [system-integration.md](docs/system-integration.md).
-
-**Out of scope**
-
-- Implementing a full xdg-desktop-portal compositor.
-
-**Exit criteria**
-
-- Matrix + at least one fixed or documented P0 portal path.
-
----
 
 ### 1.69 — Accessibility wave 3
 

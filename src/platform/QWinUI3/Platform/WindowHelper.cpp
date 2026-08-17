@@ -363,6 +363,16 @@ void WindowHelper::setTransientParent(QObject *windowObject, QObject *parentWind
     window->setTransientParent(parent);
 }
 
+QString WindowHelper::portalParentWindow(QObject *windowObject) const
+{
+#if defined(Q_OS_LINUX)
+    return LinuxPortal::parentWindowFrom(windowObject);
+#else
+    Q_UNUSED(windowObject);
+    return {};
+#endif
+}
+
 bool WindowHelper::openExternalUrl(const QString &url)
 {
     if (url.isEmpty())
@@ -415,6 +425,9 @@ bool WindowHelper::revealFileInFolder(const QString &path)
     if (LinuxPortal::tryShowItems(uris))
         return true;
     const QString dir = info.isDir() ? abs : info.absolutePath();
+    const QString dirUri = QUrl::fromLocalFile(dir).toString();
+    if (LinuxPortal::tryOpenUri(dirUri, QString()))
+        return true;
     return QDesktopServices::openUrl(QUrl::fromLocalFile(dir));
 #else
     const QString dir = info.isDir() ? abs : info.absolutePath();

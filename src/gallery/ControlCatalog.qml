@@ -914,7 +914,7 @@ QtObject {
             title: qsTr("System integration"),
             category: "dialogs",
             icon: FluentIcons.Folder,
-            description: qsTr("Snap Layouts · taskbar · attention — docs/shell-extras.md (1.47)."),
+            description: qsTr("FilePicker · tray · Snap / reveal — Linux portal harden 1.68."),
             component: "SystemIntegrationPage",
             source: "pages/SystemIntegrationPage.qml"
         },
@@ -1594,6 +1594,7 @@ QtObject {
     // Curated “recently shipped” recipe pages (1.20) — not catalog array order.
     function recentlyShipped(count) {
         var ids = [
+            "SystemIntegrationPage",  // 1.68 portal / FilePicker
             "MediaPlayerElementPage", // 1.67 media defer
             "ChartsPage",             // 1.66 dashboard polish / defer
             "DashboardPage",          // 1.66 stable vs deferred gauges
