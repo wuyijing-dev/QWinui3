@@ -4,8 +4,6 @@ Product plan for **new analytics surfaces** and **deeper chart/dashboard APIs** 
 
 **Strategy:** [roadmap-strategy.md](../roadmap-strategy.md) · **Compose today:** [dashboard-compose-decision.md](../../dashboard-compose-decision.md) · **Icons:** [icons-dashboard-expansion.md](icons-dashboard-expansion.md) · **Component deepen:** [component-capabilities-expansion.md](component-capabilities-expansion.md)
 
-Validation: `python scripts/check_charts_dashboard_arc.py`
-
 ---
 
 ## Principles

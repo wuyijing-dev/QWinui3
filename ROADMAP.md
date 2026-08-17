@@ -1384,8 +1384,6 @@ Finish the committed audit arc — **do not** add conditional controls without a
 
 Docs: [charts-dashboard-arc.md](docs/planning/expansion/charts-dashboard-arc.md) · [component-capabilities-expansion.md](docs/planning/expansion/component-capabilities-expansion.md)
 
-Validators: `scripts/check_charts_dashboard_arc.py` · `scripts/check_component_capabilities_expansion.py` · `scripts/check_roadmap_strategy.py`
-
 ### Icons & dashboard (Gallery parity — shipped through 2.48)
 
 | Milestone | Work |

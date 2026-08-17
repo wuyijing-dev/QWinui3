@@ -1,4 +1,4 @@
-# Performance handbook (1.25 / 1.39 / 1.86–1.89)
+# Performance handbook (1.25 / 1.39 / 1.86–1.89 / 2.18 / 2.28 / 2.40 / 2.49)
 
 Practical guidance for **large lists**, **DataTable**, **Canvas charts**, and **Gallery cold start**. QWinUI3 virtualizes through Qt Quick Controls `ListView` — there is no separate engine. Prefer these patterns before blaming the kit.
 
@@ -80,6 +80,7 @@ Do **not** `import` every page type into `Main.qml` — that forces compile at s
 | [`ItemsView`](components/ItemsView.md) | `ListView` + `reuseItems` | Optional `filterText` on JS arrays (1.88); C++ model at scale |
 | [`ListDetailsView`](components/ListDetailsView.md) | `ListView` + `reuseItems` | Optional `filterText` on master list (1.88) |
 | [`ItemsRepeater`](components/ItemsRepeater.md) | `ListView` + `reuseItems` (1.25) | Optional `filterText` on JS arrays (1.88) |
+| [`ItemsWrapGrid`](components/ItemsWrapGrid.md) | `WrapPanel` + `Repeater` (2.24) | Not virtualized — low hundreds; optional `filterText` |
 | Raw QQC `ListView` | Set `reuseItems: true` yourself | Required for delegate pooling |
 
 **Rule of thumb**
@@ -241,9 +242,161 @@ Virtualized tables and lists — **no visual change**, less work per keystroke.
 
 Rule for the arc: **trim waste, not motion**. Sign-off: [checkpoint-190.md](checkpoint-190.md) (**1.90**).
 
-### Real-time FPS (Gallery / product opt-in)
+---
 
-`FrameStatsMonitor` (Platform singleton) samples `QQuickWindow::frameSwapped` and exposes rolling **FPS** + **frame time**. Drop `FrameStatsBadge` into a `TitleBar` / `ShellWindow` **rightHeader**, or use `FrameStatsOverlay` for a floating badge. Gallery Settings toggles placement; CLI: `--show-fps`, `--fps-overlay`. Not a full profiler — advisory only.
+## Collection controls wave 5 (2.18)
+
+Deepens **1.88** list/table perf on the **2.x** floor — **animations stay**.
+
+| Control | Change | App note |
+|---------|--------|----------|
+| `DataTable` | `maxFilterResults` (default **0** = unlimited) caps JS filter walk | Pair with `filterDebounceMs`; selection still tracks row **object** |
+| `ListDetailsView` | `_selectedItemRef` — selection survives filter rebuild when item still visible | `filteredCount` readout; same object-identity model as DataTable |
+| `ListDetailsView` | `maxFilterResults` cap on master filter | C++ / `ListModel`: filter app-side |
+| `NavigationView` | `pageCacheHits` diagnostics; `ensureComponent` LRU unchanged | Same-key nav still skips StackView replace; set `pageCacheLimit` |
+
+**Virtualization:** all three use `ListView` + `reuseItems` — no second engine. For thousands of rows, filter/sort in C++ and bind a model.
+
+
+---
+
+## Shell & navigation wave 6 (2.28)
+
+Deepens **1.39** / **2.18** on **NavigationView** / **NavigationWindow** — **animations stay**. Focus: real apps with `pageModule` shells, not micro-benchmarks.
+
+### Real-app checklist
+
+| # | Check | API / pattern | Why |
+|---|--------|---------------|-----|
+| 1 | Lazy pages | `NavigationWindow` + `pageModule` + `hostContent: false` | Page QML compiles on first open — not at shell startup |
+| 2 | Tune cache | `pageCacheLimit` (default **24**); `clearPageCache()` after major locale/theme swaps | LRU evicts cold `Component`s; Settings card exposes live count |
+| 3 | Same destination | `selectKey` when `key === currentKey` | Skips history push + `openPage` — see `sameKeySkipCount` |
+| 4 | Same component | `openPage` when `_openedPageName` matches | Skips StackView replace + enter/exit — see `samePageSkipCount` |
+| 5 | First paint | `initialPageTransition: "none"` | Gallery default; pair with `pageTransition` for later nav |
+| 6 | Heavy destinations | `Loader` / deferred sibling (Charts **2.26**) | Avoid compiling optional surfaces until selected |
+| 7 | Breadcrumb subtitle | `syncSubtitleFromNavigation: true` only when needed | Avoid extra string work on every nav tick |
+| 8 | Diagnostics | `pageCacheHits`, `sameKeySkipCount`, `samePageSkipCount` | Log in dev; compare before/after trim passes |
+| 9 | Frame budget | `FrameStatsBadge` / `--show-fps` (2.04) | Advisory FPS — not a profiler |
+
+**NavigationWindow** forwards cache + skip counters and `clearPageCache()` so product shells do not reach through `NavigationView` internals.
+
+### Advisory smoke timings
+
+Gallery `--smoke` prints wall-clock splits (machine-dependent — **do not CI-gate on absolute ms**):
+
+```
+QWinUI3 Gallery startup: app=…ms main=…ms (pages still on-demand)
+QWinUI3 Gallery smoke OK (… main=…ms, pages=…ms, total=…ms)
+```
+
+| Field | Meaning | Use |
+|-------|---------|-----|
+| `app` | Through `QGuiApplication` + engine setup | Baseline Qt / import cost |
+| `main` | Through `Main.qml` root load | Shell + module graph |
+| `pages` | Critical page `QQmlComponent` instantiate loop | On-demand compile cost proxy |
+| `total` | Wall clock to exit | Local regression hint after perf edits |
+
+Run locally: `qwinui3_gallery --smoke --startup-log` (Release build, same machine). Compare **relative** deltas — see [ci-smoke.md](ci-smoke.md) (**2.28**). Smoke validates **instantiate**, not navigation frame time.
+
+
+---
+
+## Collection controls wave 7 (2.40)
+
+Second collection pass on the **2.x** floor — **DataTable** / **ListDetailsView** / **NavigationView** debounce-filter field paths, plus **FileTree** / **TreeDataGrid** when shipped. Builds on **2.18** (wave 5) and **2.28** (wave 6). **Animations stay.**
+
+### Real-app checklist
+
+| # | Surface | Check | API / pattern | Why |
+|---|---------|-------|---------------|-----|
+| 1 | **DataTable** | Debounced filter | `filterDebounceMs` (default **120**) | Avoid `_viewRows` rebuild on every key |
+| 2 | **DataTable** | Skip unchanged | `_lastRefreshKey` (query + sort + rows ref) | **1.88** / **2.18** — identical filter/sort skips walk |
+| 3 | **DataTable** | Cap filter walk | `maxFilterResults` > 0 on huge JS arrays | **2.18** — stop after N matches |
+| 4 | **DataTable** | Stable selection | `_selectedRowRef` object identity | Selection survives sort/filter when row still visible |
+| 5 | **ListDetailsView** | Master filter | `filterText` + `filterDebounceMs` + `filteredCount` readout | Same debounce model as DataTable |
+| 6 | **ListDetailsView** | Cap master list | `maxFilterResults` | C++ / `ListModel`: filter app-side instead |
+| 7 | **NavigationView** | Pane search | Debounce in `paneSearchTextEdited` handler (~80–120 ms) | Type exposes text + model — no built-in debounce |
+| 8 | **NavigationView** | Shell trim | Wave 6: `pageCacheLimit`, `sameKeySkipCount`, `samePageSkipCount` | Pair collection filter trim with nav skip metrics |
+| 9 | **TreeDataGrid** | Branch filter | `filterDebounceMs`, `maxFilterResults`, `expandOnFilter` | Tree walk is O(branches) — cap + debounce |
+| 10 | **TreeDataGrid** | Skip unchanged | `_lastRefreshKey` + rows ref | Same skip pattern as DataTable |
+| 11 | **FileTree** | Table side | Embedded **DataTable** inherits filter debounce / caps | Tree side: filter `treeModel` app-side — do not rebuild whole tree per key |
+| 12 | **All lists** | Virtualize | `ListView` + `reuseItems` | No `Column` + `Repeater` for long collections |
+| 13 | **Large apps** | Model-side filter | `QAbstractItemModel` + query | JS filter+sort on thousands+ rows is not a product path |
+
+**Named paths:** filter keystroke → debounce timer → `refresh()` → skip if key unchanged → cap walk → `ListView` reuse. Navigation pane search: app-owned Timer on `paneSearchTextEdited` before rebuilding `paneSearchModel`.
+
+
+---
+
+## Charts & dashboard wave 8 (2.49)
+
+Third **2.x** pass on **stable six** + wrap grids + dashboard live series — closes tranche-1 perf sign-off with [perf-signoff-2xx.md](perf-signoff-2xx.md). Builds on **2.26** compose recipes and **2.48** dashboard decision tree. **Animations stay.**
+
+### Real-app checklist
+
+| # | Surface | Check | API / pattern | Why |
+|---|---------|-------|---------------|-----|
+| 1 | **LineChart / BarChart / DonutChart** | Point budget | `revealAnimationPointBudget` (**500**); coalesced redraw ~**16 ms** | Skip reveal + batch paint on huge series |
+| 2 | **Dashboard KPI** | Trend ring | `KpiTile.trendValues` capped (e.g. **16** samples) | Replaces deferred Sparkline without unbounded arrays |
+| 3 | **Dashboard layout** | Card count | One chart per **ChartCard**; scroll page | Avoid tiling many full canvases |
+| 4 | **ItemsWrapGrid** | Debounced filter | `filterDebounceMs` (default **120**) | Wrap uses `Repeater` — not virtualized |
+| 5 | **ItemsWrapGrid** | Tile count | **Low hundreds** max | Use **ItemsView** / **DataTable** at scale |
+| 6 | **CalendarView** | Month cells | Bounded month model only | Experimental — no year-long virtualized grid |
+| 7 | **NotificationCenter** | History list | Cap stored rows; group categories | Experimental drawer — not a sync engine |
+| 8 | **All** | Motion policy | `Theme.reducedMotion` honored | Perf trims DWM/debounce waste, not navigation motion |
+
+**Named paths:** live metric tick → append/trim ring buffer → chart `values` replace; filter keystroke → `filterDebounceMs` → filter walk on small arrays only.
+
+
+---
+
+## Tranche-1 performance sign-off (2.49)
+
+Summary for **2.00…2.49** — full verdict doc: [perf-signoff-2xx.md](perf-signoff-2xx.md).
+
+| Area | Tranche-1 posture |
+|------|-------------------|
+| **Lists / tables** | Waves **5** + **7** — debounce, skip unchanged, `maxFilterResults`, `reuseItems` |
+| **Shell / nav** | Wave **6** — `pageCacheLimit`, skip counters, deferred heavy `Loader`s |
+| **Charts / dashboard** | Wave **8** — stable six point budgets + capped KPI trends |
+| **Wrap grids** | Wave **8** — `ItemsWrapGrid` debounce + low hundreds cap |
+| **Diagnostics** | **2.44** — FrameStats dev-only; `applyRetailProfile()` in retail |
+| **FL-008** | **Partial** — documented paths; **2.64** if field metrics return |
+| **Animations** | **Stay** — no motion removal in perf waves |
+
+**Out for 2.49:** GPU chart rewrite · built-in profiler · always-on retail FPS.
+
+---
+
+### Runtime diagnostics (2.04)
+
+`FrameStatsMonitor` (Platform singleton) samples `QQuickWindow::frameSwapped` and exposes rolling **FPS** + **frame time**. Optional **RHI backend** readout (`showRhi`) appends the active Qt Quick graphics API (OpenGL, Vulkan, D3D11, …) from `QQuickWindow::rendererInterface()` or `QSG_RHI_BACKEND`.
+
+| Surface | Usage |
+|---------|--------|
+| Title bar | `FrameStatsBadge` in `TitleBar` / `ShellWindow` **rightHeader** |
+| Overlay | `FrameStatsOverlay` when `inTitleBar` is false |
+| Gallery Settings | **Show FPS**, **Show RHI**, placement |
+| CLI | `--show-fps`, `--fps-overlay`, `--show-rhi`, `--show-diagnostics` |
+
+Opt-in only (`enabled` default **false**). Not a full profiler — advisory only. For RHI restart / backend selection see [graphics-backend.md](graphics-backend.md) (Gallery `GraphicsBackend` singleton).
+
+**1.91 baseline:** FPS + frame time only. **2.04** adds RHI beside FPS when `showRhi` is on.
+
+### Developer diagnostics productize (2.44)
+
+**Retail vs dev:** shipping apps call **`FrameStatsMonitor.applyRetailProfile()`** (or `retailMode: true` + `persistSettings: false`) so FPS/RHI never persist from Gallery QSettings. Dev/internal builds keep CLI `--show-fps` / `--show-diagnostics`. Full cookbook: [developer-diagnostics.md](developer-diagnostics.md).
+
+| API | Role |
+|-----|------|
+| `retailMode` | Skip loading/saving enabled + RHI from QSettings |
+| `persistSettings` | When false, toggles are session-only |
+| `applyRetailProfile()` | One-shot retail setup + clear `performance/*` keys |
+| `--retail-diagnostics` | CLI retail profile (smoke / CI) |
+
+**Promoted to stable** (dev tooling): `FrameStatsMonitor`, `FrameStatsBadge`, `FrameStatsOverlay` — [stable-api.md](stable-api.md).
+
+**Out:** Always-on FPS in retail builds.
 
 ---
 

@@ -73,6 +73,4 @@ Rules: [icons.md](../../icons.md) — named `FluentIcons.*`, `Theme.fontFamilyIc
 - [ ] Breakpoints: KPI **700**, charts **900**, filter rail **720**
 - [ ] Icon-only drill-down buttons have names
 
-Validation: `python scripts/check_icons_dashboard_expansion.py`
-
 **Out:** WebGL; unconditional new stable chart types without friction row; Hub controls; Lottie icon pipeline.

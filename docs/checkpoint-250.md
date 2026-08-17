@@ -6,7 +6,6 @@ Scope: **no breaking code** in this tag (docs-only audit). Drop **conditional** 
 
 Earlier: [checkpoint-230.md](checkpoint-230.md) · [perf-signoff-2xx.md](perf-signoff-2xx.md) (**2.49**) · [experimental-sweep.md](experimental-sweep.md) (**2.45**) · [ROADMAP.md](../ROADMAP.md).
 
-Validation: `python scripts/check_checkpoint_250.py`
 
 ---
 

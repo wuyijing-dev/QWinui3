@@ -4,8 +4,6 @@ Plan to **大幅增强现有组件** — new properties, behaviors, and recipes 
 
 **Parallel tracks:** [charts-dashboard-arc.md](charts-dashboard-arc.md) (analytics) · [roadmap-strategy.md](../roadmap-strategy.md)
 
-Validation: `python scripts/check_component_capabilities_expansion.py`
-
 ---
 
 ## Deepening matrix (by module)

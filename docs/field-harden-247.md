@@ -4,7 +4,6 @@ Tranche-1 **buffer tag** — close actionable **P0/P1** rows from [checkpoint-23
 
 Related: [friction-log.md](planning/friction-log.md) · [packaging-consumer.md](packaging-consumer.md) · [stable-api.md](stable-api.md) · [docs-ia-v2.md](docs-ia-v2.md)
 
-Validation: `python scripts/check_field_harden_247.py`
 
 ---
 

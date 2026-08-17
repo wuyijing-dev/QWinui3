@@ -1,4 +1,4 @@
-# Commands & menus (1.15)
+# Commands & menus (1.15 · 2.16 wave 2 · 2.41 wave 3)
 
 Keyboard / focus recipes for **command launchers**, **command bars**, and **menus**. Prefer these over inventing a parallel ribbon. Surfaces below are **stable as of 1.37** — [stable-api.md](stable-api.md).
 
@@ -44,7 +44,86 @@ Shortcut { sequences: ["Ctrl+K"]; onActivated: palette.open() }
 | **Enter** | Run highlighted command |
 | **Esc** | Close |
 
+**Performance (2.16):** `filterDebounceMs` (default **80**) debounces filter keystrokes; `maxResults` (default **64**) caps rows before the ListView binds. Empty query rebuilds immediately on `open()`. Identical queries skip rebuild.
+
 **Accessible:** dialog name “Command palette”; search field; list rows use `title` (+ shortcut in description).
+
+---
+
+## Wave 2 — large command lists (2.16)
+
+| Property | Default | Use |
+|----------|---------|-----|
+| `filterDebounceMs` | 80 | Avoid rebuilding on every key for hundreds of commands |
+| `maxResults` | 64 | Cap filtered rows; tune down for very slow devices |
+
+```qml
+CommandPalette {
+    filterDebounceMs: 80
+    maxResults: 48
+    commands: largeCommandArray
+}
+```
+
+
+---
+
+## Wave 3 — accelerator discovery + large lists (2.41)
+
+**Friction:** teams ship MenuBar `Action.shortcut` chords but users cannot discover them. **Goal:** large-model CommandPalette + MenuBar accelerator recipes on the **2.x** floor — not OS-global shortcut hooks.
+
+### Large-model CommandPalette
+
+| Property | Default | Use |
+|----------|---------|-----|
+| `commandCount` | readonly | Source array size — log in dev |
+| `filteredCount` | readonly | Rows after filter — footer shows “N of M” while typing |
+| `filterDebounceMs` | 80 | Required for **300+** commands |
+| `maxResults` | 64 | Cap ListView bind; tune down on slow devices |
+| `keywords` | optional | Synonyms when title alone is ambiguous |
+| `shortcut` | optional | **Also searched** — type `ctrl+c` to find Copy |
+
+```qml
+CommandPalette {
+    filterDebounceMs: 80
+    maxResults: 48
+    commands: appCommandModel   // 500+ plain objects OK with debounce + cap
+}
+```
+
+**App pattern:** build `commands` once per locale/theme change — do not rebuild the array on every filter keystroke. For dynamic backends, swap `commands` and call `open()` to reset filter state.
+
+### MenuBar accelerators (2.x floor)
+
+| # | Check | Pattern |
+|---|--------|---------|
+| 1 | Real chords | `Action { shortcut: StandardKey.Copy }` — works when menu is closed |
+| 2 | Custom chords | `Action { shortcut: "Ctrl+Shift+P" }` — same string in palette `shortcut` for discovery |
+| 3 | Palette mirror | Duplicate high-value MenuBar actions in `CommandPalette.commands` with the **same** `shortcut` text |
+| 4 | Visual-only hints | `keyboardAcceleratorText` on CommandBar does **not** bind shortcuts — use `Action.shortcut` or `Shortcut` |
+| 5 | Focus | Alt / F10 focuses MenuBar (Qt); arrows / Enter navigate open menu |
+
+```qml
+MenuBar {
+    Menu {
+        title: qsTr("Edit")
+        Action {
+            text: qsTr("Copy")
+            shortcut: StandardKey.Copy
+            onTriggered: copySelection()
+        }
+    }
+}
+// Discovery hub — same chord string:
+CommandPalette {
+    commands: [
+        { title: qsTr("Copy"), shortcut: "Ctrl+C", action: copySelection }
+    ]
+}
+```
+
+
+**Out:** OS-global shortcut registration product; auto-binding every `keyboardAcceleratorText`.
 
 ---
 

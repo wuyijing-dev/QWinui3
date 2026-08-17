@@ -4,6 +4,7 @@ Independent top-level hosts in `QWinUI3.Extras` share **`ShellWindow`**
 (chrome + `WindowHelper`) — they do **not** subclass `StandardWindow`.
 
 Chrome reliability (DPI, backdrop, dialog owners): [`window-chrome.md`](window-chrome.md).  
+Title-bar slots & hit-test recipes: [`title-bar-cookbook.md`](title-bar-cookbook.md) (**2.05**).  
 Geometry recipe: [`window-helper.md`](window-helper.md#window-geometry-persistence).  
 High-DPI / multi-monitor matrix: [`high-dpi.md`](high-dpi.md) (**1.58**).  
 Linux matrix detail: [`platform-linux-wayland.md`](platform-linux-wayland.md).  
@@ -121,7 +122,31 @@ dlg.openDialog(main)   // setTransientParent + centerOnScreen + show
 
 Failure modes (dialog behind main, off-screen restore): [window-chrome.md](window-chrome.md).
 
+### Field harden (**2.14**)
+
+| Check | Why |
+|-------|-----|
+| `openDialog(owner)` not raw `visible = true` | Wires `setTransientParent` + `centerOnOwner` |
+| Owner visible before dialog | Parent surface must exist on Wayland |
+| `WindowHelper.ensureWindowCreated` before first show | Realizes handle when spawning from `Component` |
+| `centerOnOwner` not primary screen | Dialog lands on owner's monitor |
+| Portal readout | `WindowHelper.portalParentWindow(owner)` — [security-trust.md](security-trust.md) Wayland regression |
+
+Platform code (**2.14**): `setTransientParent` calls `ensureWindowCreated` on **both** child and parent (same realize path as portal `parent_window` **1.79**).
+
 Runnable sample: [`examples/multi-window`](../examples/multi-window/) (`qwinui3_example_multi_window`). Gallery: **Multi-window**.
+
+### Onboarding + z-order (**2.43**)
+
+When the app also runs a first-run coach (**1.55**):
+
+| Check | Why |
+|-------|-----|
+| Coach on main shell only | Tips anchor to primary `NavigationWindow` / `ShellWindow` |
+| Defer until main visible | Avoid tips on a hidden or zero-size window |
+| Pause tour before `openDialog` | Secondary shell mid-step breaks focus + stacking |
+| Onboarding Settings category | Not `WindowGeometry/*` — [multi-window-onboarding.md](multi-window-onboarding.md) |
+
 
 ---
 

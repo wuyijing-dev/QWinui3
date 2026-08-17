@@ -58,6 +58,4 @@ flowchart TB
 - **Recipes** — LoB how-tos and checkpoints
 - **Stable API** / **Component API** — shipped contracts
 
-Validation: `python scripts/check_planning_ia.py` · `python scripts/check_component_capabilities_expansion.py` · `python scripts/check_charts_dashboard_arc.py`
-
-**Related:** [docs-ia-v2.md](../docs-ia-v2.md) · [recipes.md](../recipes.md)
+**Related:** [docs-ia-v2.md](../docs-ia-v2.md) · [recipes.md](../recipes.md) · [ci-smoke.md](../ci-smoke.md)

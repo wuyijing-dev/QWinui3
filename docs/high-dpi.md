@@ -1,4 +1,4 @@
-# High-DPI & multi-monitor (1.58)
+# High-DPI & multi-monitor (1.58 · 2.15 wave 3)
 
 Wave-2 cookbook for mixed scaling, geometry restore, and Gallery diagnostics. Builds on **1.04** (DPI reapply / hit-test) and **1.32** (geometry clamp).
 
@@ -16,7 +16,7 @@ Gallery: **High-DPI & monitors** · **Window shells** · **System integration** 
 | `Theme.devicePixelRatio` | Synced from **window** screen | Synced from window screen | Hairlines via `Theme.strokeHairline` / `Theme.hairline()` |
 | `WindowHelper.devicePixelRatio` | **Primary** screen DPR | Primary DPR | Diagnostics only — prefer per-window API |
 | `devicePixelRatioForWindow(w)` | That window’s screen DPR | Same | Use after restore / drag across monitors |
-| Fractional scale | Per-monitor awareness | Wayland: Bootstrap `PassThrough` | [platform-linux-wayland.md](platform-linux-wayland.md) |
+| Fractional scale | Per-monitor awareness | Wayland: Bootstrap `PassThrough` | [platform-linux-wayland.md](platform-linux-wayland.md) · **2.15** `fractionalScale` readout |
 | Geometry restore | Clamp + **setScreen** (1.58) | Clamp + setScreen | See [restore recipe](#geometry-restore-recipe) |
 | Caption hit-test | Screen-logical `mapToGlobal` × DPR | QML caption (no NC) | Re-report on `screensChanged` |
 | Mica / Acrylic after DPI change | Reapply on `WM_DPICHANGED` | Coerced → Solid | Pin OpenGL for frost — [graphics-backend.md](graphics-backend.md) |
@@ -60,13 +60,37 @@ WindowHelper.clearWindowGeometry("MainWindow")
 **High-DPI & monitors** shows:
 
 - Window `Screen.devicePixelRatio` vs `Theme.devicePixelRatio` vs primary `WindowHelper.devicePixelRatio`
-- `WindowHelper.screensInfo()` rows: name, primary, dpr, geometry, **availableGeometry**
+- **`WindowHelper.highDpiScaleFactorRoundingPolicy()`** — active Qt rounding (`PassThrough` when `configureEnvironment` ran early)
+- `WindowHelper.screensInfo()` rows: name, primary, dpr, **`fractionalScale`**, geometry, **availableGeometry**
 - Clear Gallery Main geometry (`GalleryMain`) for restore experiments
-- Checklist for 125%↔150%, dock undock, secondary monitor open
+- **Per-monitor geometry soak** (2.15): drag window across monitors; verify Theme DPR + geometry rows
+- Checklist for 125%↔150%, dock undock, secondary monitor open, Wayland fractional scale
 
 Also: System integration screens dump · Window shells persistence callout · Settings RHI (unrelated but often confused with “blurry”).
 
 ---
+
+## Wave 3 — fractional scale & per-monitor soak (2.15)
+
+**API additions**
+
+| API | Purpose |
+|-----|---------|
+| `WindowHelper.highDpiScaleFactorRoundingPolicy()` | Read active Qt policy string (`PassThrough`, `Round`, …) |
+| `screensInfo()[].fractionalScale` | `true` when `devicePixelRatio` is not an integer (typical Wayland fractional scale) |
+
+**Bootstrap**
+
+`QWinUI3::configureEnvironment` sets `HighDpiScaleFactorRoundingPolicy::PassThrough` before `QGuiApplication`. Apps that skip early configure may see `Round` — check the Gallery readout.
+
+**Per-monitor geometry soak**
+
+1. Open Gallery **High-DPI & monitors**.
+2. Note primary + secondary rows from `screensInfo()` (geometry + availableGeometry).
+3. Drag the Gallery window to each monitor; confirm Theme DPR matches window screen DPR.
+4. On fractional-scale Wayland, expect non-integer DPR and `fractionalScale: true`.
+5. Clear `GalleryMain` geometry, move/resize on each monitor, restart — restore clamps and `setScreen` still bind the correct monitor.
+
 
 ## Failure modes (P0 paths)
 
@@ -91,6 +115,6 @@ Also: System integration screens dump · Window shells persistence callout · Se
 
 ---
 
-## Out of scope (1.58)
+## Out of scope (1.58 · 2.15)
 
 Per-monitor Qt platform plugin rewrite; inventing a second geometry store; macOS Spaces.

@@ -359,8 +359,8 @@ def _write_cmake_package(out_dir: Path, version: str) -> list[Path]:
     cmake_ver = _cmake_version(version)
     banner = (
         "# GENERATED — do not edit in the package tree.\\n"
-        f"# QWinUI3 {version} package sketch (1.61). "
-        "Not an official vcpkg/Conan port.\\n"
+        f"# QWinUI3 {version} — find_package layout (zip · vcpkg · Conan).\\n"
+        "# See docs/packaging-vcpkg-conan.md\\n"
     )
     written: list[Path] = []
     for name in ("QWinUI3Config.cmake.in", "QWinUI3ConfigVersion.cmake.in"):
@@ -430,7 +430,7 @@ Features: {features}
 
 - `bin/` — runtime DLLs (Windows shared builds)
 - `lib/` — import / static / shared libraries and plugins
-- `lib/cmake/QWinUI3/` — `find_package(QWinUI3 CONFIG)` sketch (**1.61**, not vcpkg/Conan)
+- `lib/cmake/QWinUI3/` — `find_package(QWinUI3 CONFIG)` (zip · vcpkg · Conan — docs/packaging-vcpkg-conan.md)
 - `include/QWinUI3/` — public headers (`Bootstrap.h` when platform is packaged)
 - `qml/` — QML modules ({", ".join(f"`{q}`" for q in qml_list)})
 

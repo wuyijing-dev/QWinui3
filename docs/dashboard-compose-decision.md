@@ -4,7 +4,6 @@
 
 **Rule:** Product dashboards use the **stable six** only. Every deferred sibling has a **compose path** or **Gallery-only** verdict — [charts.md](charts.md) recipe wave (**2.26**). Icons: [icons-dashboard-expansion.md](planning/expansion/icons-dashboard-expansion.md).
 
-Validation: `python scripts/check_friction_slot_248.py`
 
 ---
 

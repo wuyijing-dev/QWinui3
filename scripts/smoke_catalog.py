@@ -39,12 +39,19 @@ CRITICAL = [
     "ExamplesTemplatesPage",  # 1.50 gallery-shell
     "SearchRecipesPage",      # 1.59 search cookbook
     "HighDpiPage",            # 1.58 DPI matrix
+    "MultiWindowPage",        # 2.14 modal stack harden
+    "StyleSpotCheckPage",     # 2.17 Style token audit
+    "RecipesHubPage",         # 2.46 docs IA hub mirror
+    "PerformancePage",        # 2.44 FrameStats retail profile
 ]
 
 
 def parse_category_keys(text: str) -> list[str]:
     """Return category keys from ControlCatalog.categories."""
-    m = re.search(r"readonly property var categories:\s*\[([\s\S]*?)\]", text)
+    m = re.search(
+        r"readonly property var categories:\s*(?:\{[\s\S]*?return\s*)?\[([\s\S]*?)\]",
+        text,
+    )
     if not m:
         return []
     return re.findall(r'key:\s*"(\w+)"', m.group(1))

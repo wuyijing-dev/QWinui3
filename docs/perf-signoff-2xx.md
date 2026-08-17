@@ -4,7 +4,6 @@
 
 Related: [performance.md](performance.md) · [friction-log.md](planning/friction-log.md) (**FL-008**) · [developer-diagnostics.md](developer-diagnostics.md) (**2.44**) · [checkpoint-250.md](checkpoint-250.md) (**2.50** shipped)
 
-Validation: `python scripts/check_performance_wave8.py`
 
 ---
 

@@ -27,6 +27,8 @@ DOC_MARKERS = (
     "gallery-shell",
     "find_package(QWinUI3",
     "Path C",
+    "Consumer matrix",
+    "packaging-vcpkg-conan",
 )
 
 
@@ -72,9 +74,13 @@ def _check_repo_contracts() -> list[str]:
         errors.append(f"missing {pkg_cmake}")
     else:
         ctext = pkg_cmake.read_text(encoding="utf-8")
-        for needle in ("QWinUI3::", "qwinui3_target_setup", "official vcpkg"):
+        for needle in ("QWinUI3::", "qwinui3_target_setup", "packaging-vcpkg-conan"):
             if needle not in ctext:
                 errors.append(f"QWinUI3Config.cmake.in: missing {needle!r}")
+
+    ports_script = ROOT / "scripts" / "check_ports.py"
+    if not ports_script.is_file():
+        errors.append(f"missing {ports_script}")
 
     ver_in = ROOT / "cmake" / "package" / "QWinUI3ConfigVersion.cmake.in"
     if not ver_in.is_file():

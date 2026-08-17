@@ -1,4 +1,4 @@
-# Linux / Wayland notes for QWinUI3 (1.38 / 1.68 / 1.79)
+# Linux / Wayland notes for QWinUI3 (1.38 / 1.68 / 1.79 / 2.03 / 2.33)
 
 QWinUI3 uses **client-side Fluent chrome** on Linux (`WindowHelper.customFrame`, `FramelessWindowHint`, in-app `PlatformTitleBar`). Compositor server-side decorations stay off by default.
 
@@ -40,7 +40,8 @@ Out of scope for 1.79: implementing a full xdg-desktop-portal compositor; guaran
 |---------|---------|-------------|--------|
 | Fluent CSD (`PlatformTitleBar` / caption buttons) | **Works** | **Works** | `startSystemMove` / `startSystemResize`; SSD off via `QT_WAYLAND_DISABLE_WINDOWDECORATION=1` |
 | **Wayland / Linux rounded corners** | **Works** (client shell) | **Works** (client shell) | `WindowShellDecoration` + `WindowHelper.cornerPreference` — not compositor SSD |
-| **Window drop shadow (shell)** | **Works** (client shell) | **Works** (client shell) | `MultiEffect` shadow via `WindowShellDecoration`; maximized → square, no margin |
+| **Window drop shadow (shell)** | **Works** (client shell) | **Works** (client shell) | `MultiEffect` via `WindowShellDecoration`; **2.03** compositor profile tuning; maximized → square |
+| **Shell without QtQuick.Effects** | **Works** (simple fallback) | **Works** (simple fallback) | **2.03** `WindowShellDecoration_Simple` at build time — flat rim, no MultiEffect |
 | Double title bar (compositor + Fluent) | **Avoided** (default) | N/A (frameless) | Set `QT_WAYLAND_DISABLE_WINDOWDECORATION=0` only to debug SSD |
 | `BackdropSolid` / opaque shells | **Works** | **Works** | **Preferred** for nav + settings apps |
 | `BackdropNone` (fully custom fill) | **Works** | **Works** | You own the background |
@@ -121,13 +122,42 @@ ThemeFonts.iconFontLoaded
 
 ## Shadows / elevation (QtQuick.Effects)
 
-`ElevatedChrome` uses `MultiEffect` for WinUI-like soft shadows. **`WindowShellDecoration`** (Linux client shell) uses the same module for the **window drop shadow** and rounded frame. Install on distro Qt:
+`ElevatedChrome` uses `MultiEffect` for WinUI-like soft shadows. **`WindowShellDecoration`** (Linux client shell) uses the same module for the **window drop shadow** and rounded frame when the kit is built with QuickEffects. Install on distro Qt:
 
 ```bash
 sudo apt install qml6-module-qtquick-effects libqt6quickeffects6
 ```
 
-Without it, cards/flyouts fall back to `ElevatedChrome_Simple` (see Qt compat docs). Shell shadow needs Effects at runtime on Linux.
+Without Effects at **build** time, Platform ships **`WindowShellDecoration_Simple`** (flat rim + rounded frame — same API, no blur). Cards/flyouts still use `ElevatedChrome_Simple` (see [qt-version-compat.md](qt-version-compat.md)).
+
+### Client shell compositor profiles (**2.03**)
+
+`WindowHelper.shellCompositorProfile` derives from `XDG_CURRENT_DESKTOP` / `DESKTOP_SESSION`:
+
+| Profile | Typical host | Shadow tuning |
+|---------|--------------|---------------|
+| `kde` | Plasma / KWin | Default opacity + margin (reference) |
+| `gnome` | GNOME / Mutter | Lower opacity + margin — avoids double-shadow with compositor CSD |
+| `hyprland` | Hyprland | Slightly softer than KDE |
+| `other` | Sway, wlroots, … | KDE-like defaults |
+
+Readouts: `shellShadowMargin()`, `shellShadowOpacity()`, `shellQuickEffectsAvailable`. Gallery **System integration** shows live values.
+
+### Bottom-corner content clip (**2.03**)
+
+Full-bleed pages (solid `NavigationView` / list backgrounds) can show square content through rounded shell corners. Wrap page content:
+
+```qml
+import QWinUI3.Platform
+
+WindowShellContentClip {
+    targetWindow: window
+    anchors.fill: parent
+    NavigationView { anchors.fill: parent }
+}
+```
+
+Or inset manually: `anchors.margins: WindowHelper.shellContentInset(window)` on `StandardWindow` / `ShellWindow` (`shellContentInset` property mirrors the helper). Maximized / fullscreen → inset **0** (`shellChromeExpanded` false).
 
 ## Display server / desktop
 
@@ -143,8 +173,12 @@ WindowHelper.devicePixelRatio
 WindowHelper.systemPrefersDark
 WindowHelper.supportsBackdrop         // false on Linux
 WindowHelper.clientShellDecoration    // true on Linux CSD — QML corners + shadow
+WindowHelper.shellCompositorProfile   // kde | gnome | hyprland | other (2.03)
+WindowHelper.shellQuickEffectsAvailable // build-time QuickEffects (2.03)
 WindowHelper.shellCornerRadius()      // px radius from cornerPreference
 WindowHelper.shellShadowMargin()      // padding for drop shadow (normal state)
+WindowHelper.shellShadowOpacity()     // compositor-tuned (2.03)
+WindowHelper.shellContentInset(win)   // bottom/side inset for content clip (2.03)
 WindowHelper.resolveBackdrop(kind)    // coerce unsupported materials → Solid
 WindowHelper.refreshColorScheme()
 WindowHelper.requestActivateWindow(win)
@@ -252,3 +286,43 @@ WinUI 3 is Windows-only. QWinUI3 ships the **same Fluent CSD, tokens, and Extras
 | **ShellWindow + Ctrl+K** | Desktop launcher pattern works on Linux |
 
 Gallery → **System integration** / **NotificationBridge** and `examples/nav-settings` are the demo path.
+
+---
+
+## Portal & tray wave 3 regression suite (2.33)
+
+Manual field checklist — **not** covered by CI offscreen `--smoke`. Run on **KDE Plasma Wayland** (reference) and spot-check **GNOME** when tray/portal behavior differs.
+
+
+### FilePicker / portal
+
+| # | Step | Pass criteria |
+|---|------|----------------|
+| 1 | `FilePicker.openFile(…, Window.window)` | Dialog modal to app; path or cancel |
+| 2 | Cancel / Esc | Returns `""` — **no** zenity/kdialog follow-up (**1.68**) |
+| 3 | `saveFile` + `nameFilters` + `defaultSuffix` | Filter + `current_name` honored on portal path |
+| 4 | `openFolder` | Directory path or cancel |
+| 5 | Live readout | `WindowHelper.portalParentWindow(Window.window)` — `x11:0x…` on X11; `wayland:…` when xdg-foreign export works (**1.79**) |
+| 6 | `revealFileInFolder` after save | FileManager1 `ShowItems` → OpenURI folder → `QDesktopServices` (**1.68**) |
+
+### Tray (StatusNotifierItem)
+
+| # | Step | Pass criteria |
+|---|------|----------------|
+| 1 | Enable tray on KDE Plasma | `persistentTrayActive === true`; icon visible |
+| 2 | `notifySystem(title, body, severity)` | OS notification (portal / notify-send) |
+| 3 | GNOME without SNI / AppIndicator | No persistent icon is **OK**; `notifySystem` still works |
+| 4 | Click tray icon | `trayActivated(reason)` — wire app menu / restore window |
+
+See [system-integration.md](system-integration.md) tray matrix.
+
+### Idle inhibit
+
+| # | Step | Pass criteria |
+|---|------|----------------|
+| 1 | `WindowHelper.inhibitIdle(reason)` | `idleInhibited === true` when ScreenSaver or portal Inhibit succeeds |
+| 2 | `releaseIdleInhibit()` | Property returns false; cookie released on Linux |
+| 3 | Session without inhibitor backend | `inhibitIdle` returns false — app shows status, no crash |
+| 4 | App exit while inhibited | Release on shutdown (Gallery toggle off before quit in manual soak) |
+
+Cross-links: [security-trust.md](security-trust.md) Wayland portal regression (**2.13** / **2.33**) · [shell-extras.md](shell-extras.md) idle / attention.

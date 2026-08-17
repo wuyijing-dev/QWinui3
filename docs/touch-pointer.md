@@ -1,4 +1,4 @@
-# Touch, pen & pointer (1.57)
+# Touch, pen & pointer (1.57 · 2.42 SwipeControl)
 
 Honest finger / pen guidance for QWinUI3 LoB shells — **no** custom ink stack. Pair with [density.md](density.md), [accessibility.md](accessibility.md), and [keyboard.md](keyboard.md) (hardware chords stay primary for power users). Touch OSK → in-app IME is **1.70…1.73**: [on-screen-keyboard.md](on-screen-keyboard.md).
 
@@ -75,9 +75,62 @@ Smoke these with a finger (or Windows touch emulator) after changing density:
 - [ ] **ListDetailsView** / **ItemsView** rows — activate without precision hunting
 - [ ] **SettingsCard** toggle rows — whole row toggles (already one Tab stop)
 - [ ] **FileDropZone** — Browse still works when drag is unavailable
-- [ ] **SwipeControl** — swipe reveal **and** a visible overflow/menu path
+- [ ] **SwipeControl** — swipe reveal **and** a visible overflow/menu path (**2.42** thresholds + teaching — below)
 - [ ] **ContentDialog** primary/secondary — full-width-friendly buttons on narrow panes
 - [ ] Hover tooltips — nice-to-have; names still via `Accessible.name` / `toolTipText` for a11y
+
+---
+
+## SwipeControl deepen (2.42)
+
+Horizontal swipe rows inside vertical lists are a common friction point. **`SwipeControl`** exposes tuning knobs — not OS edge gestures.
+
+### Thresholds
+
+| Property | Default | Role |
+|----------|---------|------|
+| `revealThreshold` | 36 | Release distance to snap open (reveal mode) or invoke first action (execute mode) |
+| `dragThreshold` | 12 | Pointer travel before horizontal drag engages |
+| `nestedScrollFriendly` | false | When **true**, uses `max(dragThreshold, 20)` so vertical flick can win in `ListView` / `ScrollView` |
+| `actionWidth` | 72 | Width per `SwipeAction` — affects `maxLeftReveal` / `maxRightReveal` |
+
+```qml
+SwipeControl {
+    nestedScrollFriendly: true
+    revealThreshold: 40
+    dragThreshold: 16
+    // …
+}
+```
+
+**Rule:** inside a scrolling list, set **`nestedScrollFriendly: true`** and keep a **non-swipe** delete/archive path (`MenuFlyout`, overflow `IconButton`, or row button).
+
+### Teaching (first-run)
+
+Use **`TeachingTip`** anchored to the first swipe row — not as the only discoverability path:
+
+```qml
+TeachingTip {
+    target: firstRow
+    title: qsTr("Swipe for actions")
+    subtitle: qsTr("Or tap ⋯ — swipe is optional")
+}
+```
+
+Gallery **SwipeControl** demonstrates tip + overflow menu. Persistence: `Settings` / onboarding coach — [feedback.md](feedback.md) (**1.55**).
+
+### Nested scroll checklist
+
+| # | Check |
+|---|--------|
+| 1 | Parent is `ListView` / `ScrollView` / `DataTable` flick — child row uses `nestedScrollFriendly: true` |
+| 2 | Vertical scroll still works without accidental horizontal capture |
+| 3 | `revealThreshold` ≤ half row width — tune on real touch hardware |
+| 4 | Execute mode (`swipeMode: "execute"`) — higher threshold recommended for destructive actions |
+| 5 | Keyboard path remains: **←** / **→** reveal · **Esc** close |
+
+
+**Out:** OS edge-back / system gesture hooks.
 
 ---
 

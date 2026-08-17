@@ -126,3 +126,82 @@ Do **not** treat `available` alone as “can navigate” — check `runtimeInsta
 Stable-api: **`WebView2Host` promoted in 1.18** — see [stable-api.md](stable-api.md).
 
 **Trust boundaries (1.64):** the host does **not** cancel navigations or offer an allowlist API — gate `source` / `navigate` in the app; user data under `AppLocalDataLocation/WebView2Host` — [security-trust.md](security-trust.md).
+
+---
+
+## Field matrix (2.32 — 2.x floor)
+
+Windows-only embedding. Qt **6.5+** (recommended **6.8**). Gallery `--smoke` includes **WebView2Page** (compile only — no HWND pixels in CI).
+
+| Scenario | Expected UX | App action |
+|----------|-------------|------------|
+| SDK built + Runtime installed | `available && runtimeInstalled && ready` | `clip: true` host; set `source` after allowlist check |
+| SDK built, Runtime missing | EmptyState + `runtimeDownloadUrl` + **Retry** (`refreshRuntimeProbe`) | Mirror Gallery; do not navigate until `runtimeInstalled` |
+| `QWINUI3_BUILD_WEBVIEW2=OFF` or SDK absent | `available === false` | EmptyState “not built”; open externally |
+| Non-Windows configure | Stub `available === false` | Same as not built |
+| Host inside `ScrollView` / overlapping panes | `SetWindowRgn` + `mapToScene` × DPR | Parent **`clip: true`** — ghost pixels if skipped |
+| High-DPI / monitor move | Repositions on `frameSwapped` + `screenChanged` | Avoid fixed pixel offsets |
+| Keyboard | Tab → `MoveFocus(PROGRAMMATIC)`; `focusBrowser()` | Name host `Accessible.name` |
+| In-document navigation | Edge allows — host does **not** cancel | App Pattern A/B/C below |
+
+
+---
+
+## Navigation policy recipes (2.32)
+
+`WebView2Host` does **not** enforce policy — copy one pattern into your shell ([security-trust.md](security-trust.md) Pattern A–C).
+
+| Pattern | When | Sketch |
+|---------|------|--------|
+| **A — Fixed URL** | Help / status page only | `source: "https://docs.example.com/help"` — no URL bar |
+| **B — HTTPS only** | Known hosts, block `file:` / `http:` | Validate scheme before `navigate(url)` |
+| **C — Host allowlist** | LoB with curated domains | Gallery **WebView2** `navigateSafe()` — suffix match on host |
+
+```qml
+function hostAllowed(urlString) {
+    var m = String(urlString).match(/^https?:\/\/([^/?#]+)/i)
+    if (!m) return false
+    var host = m[1].toLowerCase().replace(/^www\./, "")
+    for (var i = 0; i < allowedHosts.length; ++i) {
+        var h = allowedHosts[i].toLowerCase()
+        if (host === h || host.endsWith("." + h))
+            return true
+    }
+    return false
+}
+
+WebView2Host {
+    id: web
+    // Set source only after hostAllowed(url)
+}
+```
+
+**Downloads / new windows:** not intercepted by the kit — treat as app security review (block raw URL bars in production). **2.36** download policy patterns: [security-trust.md](security-trust.md) **Download policy** · Gallery **WebView2** callout.
+
+---
+
+## Download policy (2.36)
+
+`WebView2Host` does **not** wire CoreWebView2 `DownloadStarting`. Edge may still prompt save/open for content on allowlisted pages.
+
+| Pattern | When | Sketch |
+|---------|------|--------|
+| **D — Tight navigation** | Default LoB | Pattern A/C — users cannot reach arbitrary download hosts in-embed |
+| **E — External fetch** | Known release artifact | `Qt.openUrlExternally(url)` only after `hostAllowed(url)` + explicit button |
+| **F — Sandboxed save (app C++)** | Must save in-app | Your native handler: destination under `AppDataLocation`, confirm filename, block `.exe` |
+
+```qml
+// Policy E — never auto-download from page JS; user clicks a vetted control
+Button {
+    text: qsTr("Get update (browser)")
+    onClicked: {
+        if (!hostAllowed(updateUrl))
+            return
+        Qt.openUrlExternally(updateUrl)
+    }
+}
+```
+
+**Checklist:** no silent writes to `%USERPROFILE%\\Downloads`; log blocked attempts; same host rules as navigation. Full cookbook: [security-trust.md](security-trust.md) wave 3 (**2.36**).
+
+Gallery: **WebView2** trust + field matrix callouts (**2.32** / **2.36**).

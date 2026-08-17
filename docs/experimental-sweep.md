@@ -4,7 +4,6 @@
 
 Related: [stable-api.md](stable-api.md) · [friction-log.md](planning/friction-log.md) · [gallery-catalog-expansion.md](gallery-catalog-expansion.md)
 
-Validation: `python scripts/check_experimental_sweep.py`
 
 ---
 

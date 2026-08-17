@@ -84,8 +84,6 @@ Parallel product tracks — **not** recipe-only. New chart/dashboard **types** a
 
 **Rule:** Prefer **deepen** stable six APIs before new stable chart names. Unconditional new types without a [friction-log.md](friction-log.md) row → **skip tag**.
 
-Validators: `scripts/check_charts_dashboard_arc.py` · `scripts/check_component_capabilities_expansion.py` · `scripts/check_planning_ia.py`
-
 ---
 
 ## Phase D — conditional controls (2.61+)
@@ -127,8 +125,6 @@ Draft consumer steps: [upgrade-notes.md](../upgrade-notes.md) **Upgrade 2.73 →
 5. **Component deepen:** [component-capabilities-expansion.md](expansion/component-capabilities-expansion.md) — expand existing controls before sibling types.
 6. **3.00 prep** starts at **2.60** (draft) · finalized at **2.73** + [checkpoint-300.md](../checkpoint-300.md) — do not break stable-api early.
 7. **Open 3.00 only after 2.73** — one breaking major; **3.01+** is friction-gated like **2.51+**.
-
-Validation: `python scripts/check_roadmap_strategy.py`
 
 ---
 
