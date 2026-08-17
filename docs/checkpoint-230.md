@@ -13,7 +13,7 @@ Earlier: [checkpoint-220.md](checkpoint-220.md) · [checkpoint-210.md](checkpoin
 | Question | Answer (2.30) |
 |----------|----------------|
 | **Checkpoint done?** | **Not yet** — fill when **2.30** ships |
-| **New controls tranche?** | **TBD** — FileTree / TreeDataGrid / Hub / wrap grid per roadmap |
+| **New controls tranche?** | **TBD** — FileTree / TreeDataGrid / wrap grid per roadmap (**Hub withdrawn**) |
 | **Next tag posture?** | **2.31+** per roadmap |
 
 ---

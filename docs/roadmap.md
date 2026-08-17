@@ -592,7 +592,7 @@ After **2.00**, ordinary **2.xx** minors — **one theme each**. Order may shift
 | **2.19** | Component docs & Gallery catalog refresh | Planned |
 | **2.20** | First 2.x horizon checkpoint | Planned |
 | **2.21** | **New controls:** `TreeDataGrid` (hierarchical grid) | Planned |
-| **2.22** | **New controls:** `Hub` + `HubSection` | Planned |
+| **2.22** | Dashboard layout recipes (`ChartCard` / `KpiTile`) | Planned |
 | **2.23** | Navigation — `BreadcrumbBar` + shell integration | Planned |
 | **2.24** | **New controls:** `ItemsWrapGrid` / variable wrap layouts | Planned |
 | **2.25** | Input & validation wave (`NumberBox` / `PasswordBox`) | Planned |
@@ -748,11 +748,11 @@ After **2.00**, ordinary **2.xx** minors — **one theme each**. Order may shift
 
 **Out:** Excel-scale grid engine; GPU virtualization rewrite.
 
-### 2.22 — New controls: Hub + HubSection (planned)
+### 2.22 — Dashboard layout recipes (planned)
 
-**Goal:** **`Hub`** / **`HubSection`** — dashboard hub chrome (header + body slots); Gallery dashboard hub page; [charts.md](charts.md) / dashboard example cross-link.
+**Goal:** Deepen [`examples/dashboard`](../examples/dashboard/) and Gallery **Dashboard** hub using existing **`ChartCard`** / **`KpiTile`** / stable charts — layout, responsive breakpoints, [charts.md](charts.md) recipe. **No** `Hub` / `HubSection` controls.
 
-**Out:** Dynamic tile store / cloud hub backend.
+**Out:** **`Hub` / `HubSection` WinUI controls** (withdrawn); dynamic tile store / cloud hub backend.
 
 ### 2.23 — Navigation: BreadcrumbBar integration (planned)
 
@@ -792,7 +792,7 @@ After **2.00**, ordinary **2.xx** minors — **one theme each**. Order may shift
 
 ### 2.29 — Accessibility wave 5 (planned)
 
-**Goal:** New **2.21…2.24** controls + Hub/FileTree keyboard names; wave 5 checklist.
+**Goal:** New **2.21…2.24** controls + FileTree/TreeDataGrid keyboard names; wave 5 checklist.
 
 **Out:** Mega audit single tag.
 
@@ -930,6 +930,7 @@ Unscheduled; pick up only inside a named `1.xx` or `2.xx` minor (or never). Clar
 
 - **macOS first-class — withdrawn** (not in **2.01…2.50**; Qt-on-macOS may still consume the kit unofficially)
 - **Fluent 2 Style fork / separate Style module — withdrawn** (WinUI 3 Style only)
+- **`Hub` / `HubSection` controls — withdrawn** (use `ChartCard` / dashboard layouts instead)
 - Figma / design-token pipeline
 - Full Fluent visual redesign (**not** scheduled in **2.01…2.50**)
 - Screenshot diffs for **every** Gallery page (1.62 subset **removed** in 1.82; not a default CI gate)
@@ -940,7 +941,7 @@ Unscheduled; pick up only inside a named `1.xx` or `2.xx` minor (or never). Clar
 - OSK / IME promote green soak → **2.01** (perf arc **1.86…1.89** done)
 - Consumer `find_package` productize → **2.02**
 - Wayland compositor-native chrome → **2.03** (client shell in **1.92**)
-- **New controls** (FileTree, TreeDataGrid, Hub, …) → **2.06**, **2.21…2.24**, **2.31**, **2.37**, **2.42**, **2.48**
+- **New controls** (FileTree, TreeDataGrid, ItemsWrapGrid, …) → **2.06**, **2.21**, **2.24**, **2.31**, **2.37**, **2.42**, **2.48**
 - Official vcpkg/Conan → **2.11**
 - Custom ink / handwriting canvas (out of 1.57 touch cookbook; out of 1.70…1.73 IME)
 - Dictation / cloud IME lexicon (out of 1.73 full in-app IME)

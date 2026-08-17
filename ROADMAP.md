@@ -592,7 +592,7 @@ After **2.00**, ordinary **2.xx** minors — **one theme each**. Order may shift
 | **2.19** | Component docs & Gallery catalog refresh | Planned |
 | **2.20** | First 2.x horizon checkpoint | Planned |
 | **2.21** | **New controls:** `TreeDataGrid` (hierarchical grid) | Planned |
-| **2.22** | **New controls:** `Hub` + `HubSection` | Planned |
+| **2.22** | Dashboard layout recipes (`ChartCard` / `KpiTile`) | Planned |
 | **2.23** | Navigation — `BreadcrumbBar` + shell integration | Planned |
 | **2.24** | **New controls:** `ItemsWrapGrid` / variable wrap layouts | Planned |
 | **2.25** | Input & validation wave (`NumberBox` / `PasswordBox`) | Planned |
