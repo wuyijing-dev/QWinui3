@@ -2,6 +2,8 @@
 
 Deliberate **“where we are”** release for the 1.line after the post-1.40 arc (`1.41`…`1.50`). **Not** a soft 2.00.
 
+**Latest mid-horizon (1.60):** [checkpoint-160.md](checkpoint-160.md) — re-audit + confirmed `1.61`…`1.70` order.
+
 Related: [compatibility-1xx.md](compatibility-1xx.md) · [stable-api.md](stable-api.md) · [upgrade-notes.md](upgrade-notes.md) · [ROADMAP.md](../ROADMAP.md) · Gallery **Pitfalls**.
 
 ---
@@ -54,7 +56,7 @@ Still experimental / won’t-promote-for-now (see [stable-api 1.37 defer](stable
 - WebView2 advanced Environment / multi-profile
 - Snap Layouts / battery / online / screens / recent-docs helpers
 
-Scheduled follow-ups remain on the roadmap (`1.52`…`1.70`) — order may flex for field P0s.
+Scheduled follow-ups remain on the roadmap (`1.61`…`1.70`) — order confirmed at **1.60**; may flex for field P0s.
 
 ---
 

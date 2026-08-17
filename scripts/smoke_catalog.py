@@ -35,8 +35,10 @@ CRITICAL = [
     "AnimationsPage",
     "I18nRtlPage",
     "FontIconPage",           # 1.49 micro-motion
-    "PitfallsPage",           # 1.51 maturity
+    "PitfallsPage",           # 1.51 / 1.60 maturity
     "ExamplesTemplatesPage",  # 1.50 gallery-shell
+    "SearchRecipesPage",      # 1.59 search cookbook
+    "HighDpiPage",            # 1.58 DPI matrix
 ]
 
 

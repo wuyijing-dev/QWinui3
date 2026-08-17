@@ -6,6 +6,7 @@ This page is the **1.xx stable surface** for apps that copy from examples / Gall
 
 **1.xx freeze gate (1.40):** [compatibility-1xx.md](compatibility-1xx.md) — Theme / shell / stable “will not break”.  
 **1.xx maturity checkpoint (1.51):** [maturity-1xx.md](maturity-1xx.md) — prefer harden; not 2.00.  
+**Mid-horizon (1.60):** [checkpoint-160.md](checkpoint-160.md) — defer list unchanged; next is packaging sketch.  
 **Consumer upgrades:** [upgrade-notes.md](upgrade-notes.md).  
 **Product version:** see `QWINUI3_VERSION` in root `CMakeLists.txt` (`X.YY`).  
 **How-to recipes:** [recipes.md](recipes.md).
@@ -220,6 +221,7 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.57** | Touch / pen — [touch-pointer.md](touch-pointer.md); Gallery Touch & pointer + high-traffic callouts |
 | **1.58** | High-DPI / multi-monitor — [high-dpi.md](high-dpi.md); restore `setScreen` after clamp |
 | **1.59** | In-app search — [search.md](search.md); Gallery Search recipes |
+| **1.60** | Mid-horizon checkpoint — [checkpoint-160.md](checkpoint-160.md); smoke + SearchRecipes / HighDpi |
 | **1.35** | Qt Creator kit polish — [qt-creator.md](qt-creator.md); example build presets |
 | **1.36** | Docs site IA — [recipes.md](recipes.md) hub; MkDocs Recipes sections |
 | **1.37** | Promote sweep — commands / Flyout / TabView / ShellWindow / pickers / progress / FontIcon / ItemsRepeater; explicit defer list |

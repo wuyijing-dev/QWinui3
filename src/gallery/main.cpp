@@ -191,6 +191,8 @@ int main(int argc, char *argv[])
             "FontIconPage",
             "PitfallsPage",
             "ExamplesTemplatesPage",
+            "SearchRecipesPage",
+            "HighDpiPage",
             nullptr,
         };
         int pagesOk = 0;

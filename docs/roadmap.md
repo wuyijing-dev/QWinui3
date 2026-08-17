@@ -1,8 +1,9 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.59**
-**Next up:** **1.60** (Mid-horizon checkpoint)
+**Current:** **1.60**
+**Next up:** **1.61** (CMake package / find_package sketch)
 **Planned through:** **1.70** (long-horizon 1.xx checkpoint)  
+**Still 1.xx:** Mid-horizon checkpoint published — [checkpoint-160.md](checkpoint-160.md). Not drafting 2.00.  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](qt-version-compat.md)
 
 This plan starts from **what 1.00 already was**, then walks **small `1.xx` minors**. Stay on **1.xx for a long time**. **2.00 is not next**—only when we truly need breaking changes.
@@ -60,7 +61,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.59`
+## Shipped — `1.01` … `1.60`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -298,30 +299,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** [search.md](search.md) cookbook (AutoSuggestBox / SearchBox / filter-above vs CommandPalette); Gallery **Search recipes** (catalog AutoSuggest jump + filtered ItemsView); AutoSuggest / SearchBox / commands / data-collections cross-links; product version `1.59`.
 
----
+### 1.60 — Mid-horizon checkpoint (shipped)
 
-## Horizon — planned `1.60` … `1.70`
-
-Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per `YY`. Order can flex if field P0s force a swap; do not merge themes into mega-minors. Posture after 1.51: prefer field harden / docs over new control families.
-
-### 1.60 — Mid-horizon checkpoint
-
-**Why:** Halfway through the 1.49–1.70 plan—audit before the second half.
-
-**In scope**
-
-- Re-audit stable-api, experimental defer list, doc link rot; trim parking lot.
-- Short “still 1.xx” note in README/ROADMAP; optional smoke coverage bump.
-
-**Out of scope**
-
-- Starting 2.00; mass new controls.
-
-**Exit criteria**
-
-- Checkpoint notes published; 1.61+ plan confirmed or reordered.
+**Shipped:** [checkpoint-160.md](checkpoint-160.md) mid-horizon audit (stable-api / defer list / doc links OK; parking lot clarified); “still 1.xx” note in README/ROADMAP; smoke critical pages + `SearchRecipesPage` / `HighDpiPage`; `scripts/checkpoint_1_60_audit.py`; 1.61+ order confirmed (CMake `find_package` sketch next); product version `1.60`.
 
 ---
+
+## Horizon — planned `1.61` … `1.70`
+
+Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per `YY`. Order can flex if field P0s force a swap; do not merge themes into mega-minors. Posture after 1.51 / 1.60: prefer field harden / docs over new control families.
 
 ### 1.61 — CMake package / find_package sketch
 
@@ -547,18 +533,18 @@ Until then: **stay on 1.xx**, bump `YY` for each slice. Prefer finishing through
 
 ## Parking lot
 
-Unscheduled; pick up only inside a named `1.xx` minor (or never):
+Unscheduled; pick up only inside a named `1.xx` minor (or never). Clarified at **1.60** ([checkpoint-160.md](checkpoint-160.md)):
 
 - macOS first-class  
 - Figma / design-token pipeline  
 - Full Fluent visual redesign / Fluent 2 Style fork  
 - Screenshot diffs for **every** Gallery page (subset may ship in 1.62)  
-- Community translation portal / every-locale coverage  
+- Community translation portal / every-locale coverage (seeds `zh_CN` / `ja_JP` enough for 1.xx)  
 - Full Lottie runtime as a hard product dependency (thin glyph path shipped in 1.53)  
 - New chart engines / WebGL  
 - Official vcpkg/Conan ports as supported products (sketch may ship in 1.61)  
-- Custom ink / handwriting canvas  
-- Cloud settings roaming / share backends 
+- Custom ink / handwriting canvas (out of 1.57 touch cookbook)  
+- Cloud settings roaming / share backends (out of 1.65 recipes scope)  
 
 ---
 
@@ -569,6 +555,7 @@ Unscheduled; pick up only inside a named `1.xx` minor (or never):
 | [README.md](../README.md) | Overview |
 | [stable-api.md](stable-api.md) | Stable vs experimental |
 | [maturity-1xx.md](maturity-1xx.md) | 1.51 maturity checkpoint |
+| [checkpoint-160.md](checkpoint-160.md) | 1.60 mid-horizon checkpoint |
 | [compatibility-1xx.md](compatibility-1xx.md) | 1.xx will-not-break freeze |
 | [components.md](components.md) | Control index |
 | [conventions.md](conventions.md) | A11y / QML rules |

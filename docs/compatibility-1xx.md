@@ -1,10 +1,11 @@
-# 1.xx compatibility freeze (1.40 · revisited 1.51)
+# 1.xx compatibility freeze (1.40 · revisited 1.51 · 1.60)
 
 What QWinUI3 **will keep compatible** for the rest of the **1.xx** line—and what still may move.
 
 This is the **gate** for later `1.4x` / `1.5x` / `1.6x` work: prefer additive APIs; do not silently rename or remove anything listed under **Will not break**. Breaking Theme / shell / stable-control changes belong in a future **2.00**, not a quiet `1.xx` bump.
 
-**1.51 maturity checkpoint:** [maturity-1xx.md](maturity-1xx.md) — prefer harden over new surfaces for a while; continue planned `1.52`…`1.70`.
+**1.51 maturity checkpoint:** [maturity-1xx.md](maturity-1xx.md) — prefer harden over new surfaces for a while.  
+**1.60 mid-horizon:** [checkpoint-160.md](checkpoint-160.md) — freeze still active; continue planned `1.61`…`1.70` (not 2.00).
 
 Related: [stable-api.md](stable-api.md) (which types are stable) · [upgrade-notes.md](upgrade-notes.md) (consumer checklist) · [qt-version-compat.md](qt-version-compat.md) (Qt floors).
 
@@ -19,7 +20,7 @@ Related: [stable-api.md](stable-api.md) (which types are stable) · [upgrade-not
 | Shell host APIs below | Stay on `StandardWindow` / `ShellWindow` family / `NavigationView` / `WindowHelper` entry points |
 | Experimental / deferred | May change in any `1.xx` with docs callouts — [1.37 defer](stable-api.md#137-defer--wont-promote-for-now) |
 | Internal / Style-private | Not covered |
-| Qt floor | Remains **6.5+** (recommended **6.8 LTS**) unless a named slice says otherwise — not cut in 1.40 / 1.51 |
+| Qt floor | Remains **6.5+** (recommended **6.8 LTS**) unless a named slice says otherwise — not cut in 1.40 / 1.51 / 1.60 |
 
 **Additive is OK** in 1.xx: new properties with defaults, new optional signals, new stable promotes (named on stable-api).
 
@@ -89,7 +90,7 @@ Rules for later `1.5x` / `1.6x` PRs:
 2. Does this change Theme token **names** in the freeze list? → **No**.
 3. Additive API / new Gallery page / docs-only → **OK**.
 4. Promote experimental → stable → **OK** (update stable-api changelog).
-5. Prefer **field harden / docs** over new control families until [maturity-1xx.md](maturity-1xx.md) posture changes (**1.51**).
+5. Prefer **field harden / docs** over new control families until [checkpoint-160.md](checkpoint-160.md) / [maturity-1xx.md](maturity-1xx.md) posture changes (**1.51** / **1.60**).
 
 ---
 
@@ -107,7 +108,7 @@ Rules for later `1.5x` / `1.6x` PRs:
 
 ---
 
-## Gate for 1.41+ (still active at 1.51)
+## Gate for 1.41+ (still active at 1.60)
 
 Before merging a slice that touches Theme, shells, or stable controls:
 

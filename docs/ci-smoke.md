@@ -1,4 +1,4 @@
-# CI smoke (1.06 / 1.20 / 1.52)
+# CI smoke (1.06 / 1.20 / 1.52 / 1.60)
 
 Lightweight regression gate — **not** a full test suite or screenshot farm.
 
@@ -92,6 +92,7 @@ Current set:
 - `SystemIntegrationPage`, `WebView2Page`
 - `ChartsPage`, `I18nRtlPage`
 - `FontIconPage`, `PitfallsPage`, `ExamplesTemplatesPage` (**1.52** — recent recipe harden)
+- `SearchRecipesPage`, `HighDpiPage` (**1.60** — mid-horizon smoke bump)
 
 **Catalog integrity only:**
 

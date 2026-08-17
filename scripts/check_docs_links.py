@@ -30,7 +30,13 @@ def main() -> int:
             if not p.is_file():
                 missing.append(f"recipes.md → {link}")
 
-    for name in ("maturity-1xx.md", "compatibility-1xx.md", "stable-api.md", "upgrade-notes.md"):
+    for name in (
+        "maturity-1xx.md",
+        "compatibility-1xx.md",
+        "stable-api.md",
+        "upgrade-notes.md",
+        "checkpoint-160.md",
+    ):
         if not (ROOT / "docs" / name).is_file():
             missing.append(f"missing docs/{name}")
 
@@ -40,15 +46,16 @@ def main() -> int:
             if not (ROOT / link).is_file():
                 missing.append(f"ROADMAP.md → {link}")
 
-    maturity = ROOT / "docs" / "maturity-1xx.md"
-    if maturity.is_file():
-        for link in _md_links(maturity.read_text(encoding="utf-8")):
-            if link.startswith("../"):
-                p = (maturity.parent / link).resolve()
-            else:
-                p = (ROOT / "docs" / link).resolve()
-            if not p.is_file():
-                missing.append(f"maturity-1xx.md → {link}")
+    for doc_name in ("maturity-1xx.md", "checkpoint-160.md"):
+        doc = ROOT / "docs" / doc_name
+        if doc.is_file():
+            for link in _md_links(doc.read_text(encoding="utf-8")):
+                if link.startswith("../"):
+                    p = (doc.parent / link).resolve()
+                else:
+                    p = (ROOT / "docs" / link).resolve()
+                if not p.is_file():
+                    missing.append(f"{doc_name} → {link}")
 
     catalog = ROOT / "src" / "gallery" / "ControlCatalog.qml"
     if catalog.is_file():
@@ -62,7 +69,7 @@ def main() -> int:
             print(f"  {m}", file=sys.stderr)
         return 1
 
-    print("docs links: OK (recipes + ROADMAP + maturity core)")
+    print("docs links: OK (recipes + ROADMAP + maturity / checkpoint core)")
     return 0
 
 

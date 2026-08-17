@@ -4,7 +4,8 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 
 **Stable API:** prefer types on [stable-api.md](stable-api.md). **1.37** promote / defer tables live there.  
 **1.xx freeze (1.40):** [compatibility-1xx.md](compatibility-1xx.md) · [upgrade-notes.md](upgrade-notes.md).  
-**1.xx maturity (1.51):** [maturity-1xx.md](maturity-1xx.md) — prefer harden; not 2.00.
+**1.xx maturity (1.51):** [maturity-1xx.md](maturity-1xx.md) — prefer harden; not 2.00.  
+**Mid-horizon (1.60):** [checkpoint-160.md](checkpoint-160.md) — still 1.xx; plan confirmed through 1.70.
 
 ---
 
@@ -16,6 +17,7 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 | [Consumer packaging](packaging-consumer.md) | Shared vs static / windeploy / strip (1.46) |
 | [1.xx compatibility](compatibility-1xx.md) | Will-not-break Theme / shells / stable controls (1.40 / 1.51) |
 | [1.xx maturity checkpoint](maturity-1xx.md) | Where we are; harden-first posture (**1.51**) |
+| [Mid-horizon checkpoint](checkpoint-160.md) | Halfway audit; 1.61+ confirmed (**1.60**) |
 | [Upgrade notes](upgrade-notes.md) | Consumer checklist + template (1.40) |
 | [Qt version compat](qt-version-compat.md) | 6.5+ / 6.8 LTS / CI matrix |
 | [Conventions](conventions.md) | Radius, Accessible, Extras import |

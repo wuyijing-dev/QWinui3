@@ -7,8 +7,9 @@ Fluent / [WinUI 3](https://learn.microsoft.com/windows/apps/winui/winui3/)-inspi
 [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-2ea44f)](https://wuyijing-dev.github.io/QWinui3/)
 [![Qt](https://img.shields.io/badge/Qt-6.5%2B-41CD52?logo=qt&logoColor=white)](https://www.qt.io/)
 
-**v1.59** · **200+** public controls · Gallery demos for most of them
-[Documentation](https://wuyijing-dev.github.io/QWinui3/) · [Recipes hub](docs/recipes.md) · [Stable API](docs/stable-api.md) · [1.xx maturity](docs/maturity-1xx.md) · [1.xx compatibility](docs/compatibility-1xx.md) · [i18n / RTL](docs/i18n-rtl.md) · [Keyboard-first](docs/keyboard.md) · [Color & contrast](docs/color-contrast.md) · [Adaptive layout](docs/adaptive-layout.md) · [Drag-drop](docs/drag-drop.md) · [Upgrade notes](docs/upgrade-notes.md) · [Linux / Wayland](docs/platform-linux-wayland.md) · [Qt Creator](docs/qt-creator.md) · [Component API](https://wuyijing-dev.github.io/QWinui3/components/) · [Releases](https://github.com/wuyijing-dev/QWinui3/releases) · [Roadmap](ROADMAP.md)
+**v1.60** · **200+** public controls · Gallery demos for most of them  
+**Still 1.xx** — mid-horizon checkpoint ([docs/checkpoint-160.md](docs/checkpoint-160.md)); not drafting 2.00.
+[Documentation](https://wuyijing-dev.github.io/QWinui3/) · [Recipes hub](docs/recipes.md) · [Stable API](docs/stable-api.md) · [1.xx maturity](docs/maturity-1xx.md) · [Mid-horizon 1.60](docs/checkpoint-160.md) · [1.xx compatibility](docs/compatibility-1xx.md) · [i18n / RTL](docs/i18n-rtl.md) · [Keyboard-first](docs/keyboard.md) · [Color & contrast](docs/color-contrast.md) · [Adaptive layout](docs/adaptive-layout.md) · [Drag-drop](docs/drag-drop.md) · [Upgrade notes](docs/upgrade-notes.md) · [Linux / Wayland](docs/platform-linux-wayland.md) · [Qt Creator](docs/qt-creator.md) · [Component API](https://wuyijing-dev.github.io/QWinui3/components/) · [Releases](https://github.com/wuyijing-dev/QWinui3/releases) · [Roadmap](ROADMAP.md)
 
 ---
 
@@ -250,6 +251,8 @@ Product versions use **`X.YY`** (see [`ROADMAP.md`](ROADMAP.md)); set `QWINUI3_V
 |----------|-------------|
 | [Docs site](https://wuyijing-dev.github.io/QWinui3/) | MkDocs Material (GitHub Pages) |
 | [`docs/recipes.md`](docs/recipes.md) | **Recipes hub** — all LoB how-tos (1.36) |
+| [`docs/maturity-1xx.md`](docs/maturity-1xx.md) | 1.51 maturity checkpoint |
+| [`docs/checkpoint-160.md`](docs/checkpoint-160.md) | 1.60 mid-horizon checkpoint |
 | [`docs/stable-api.md`](docs/stable-api.md) | Stable vs experimental types for 1.xx |
 | [`docs/components.md`](docs/components.md) | Full control index |
 | [`docs/qt-creator.md`](docs/qt-creator.md) | Open Gallery / examples (CMake only) |

@@ -47,6 +47,20 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.59 → 1.60
+
+**Product version:** 1.60  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- Mid-horizon checkpoint: [checkpoint-160.md](checkpoint-160.md) — still 1.xx; 1.61+ order confirmed.
+- Gallery **Pitfalls** mid-horizon checklist; smoke critical pages include Search recipes + High-DPI.
+
+#### No action (compatible)
+
+- Docs / Gallery / smoke list only; APIs unchanged.
+
 ### Upgrade 1.58 → 1.59
 
 **Product version:** 1.59  

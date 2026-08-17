@@ -13,7 +13,7 @@ CatalogPage {
     id: page
 
     title: qsTr("Pitfalls")
-    subtitle: qsTr("Anti-patterns + 1.xx freeze / maturity — docs/compatibility-1xx.md · docs/maturity-1xx.md (1.51).")
+    subtitle: qsTr("Anti-patterns + 1.xx freeze / mid-horizon — docs/compatibility-1xx.md · docs/checkpoint-160.md (1.60).")
 
     property real demoProgress: 0.65
 
@@ -29,15 +29,15 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("1.xx maturity checkpoint (1.51)")
-        qmlSource: "// Prefer harden · gallery-shell · stable-api\\n// docs/maturity-1xx.md · docs/compatibility-1xx.md"
+        headerText: qsTr("Mid-horizon checkpoint (1.60)")
+        qmlSource: "// Still 1.xx · harden-first · not 2.00\\n// docs/checkpoint-160.md · docs/maturity-1xx.md"
         ColumnLayout {
             Layout.fillWidth: true
             spacing: Theme.spacing
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("1.51 is a deliberate “where we are” release—not 2.00. Prefer stable-api types, examples/gallery-shell for app chrome, and field harden over new control families for a while. Freeze gate from 1.40 remains active. Full notes: docs/maturity-1xx.md.")
+                text: qsTr("1.60 re-audits the 1.line halfway through 1.49…1.70. Still not 2.00. Prefer stable-api types, examples/gallery-shell, and field harden. Experimental defer list unchanged. Next: 1.61 CMake find_package sketch. Full notes: docs/checkpoint-160.md.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
@@ -45,12 +45,12 @@ CatalogPage {
             CheckBox { text: qsTr("Starting apps from examples/gallery-shell (not full Gallery)") }
             CheckBox { text: qsTr("Sticking to docs/stable-api.md for product surfaces") }
             CheckBox { text: qsTr("Treating Media / ConnectedAnimation / niche charts as experimental") }
-            CheckBox { text: qsTr("Planning field P0s into 1.52+ instead of inventing new APIs") }
+            CheckBox { text: qsTr("Planning field P0s into 1.61+ instead of inventing new APIs") }
             Label {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 color: Theme.textSecondary
-                text: qsTr("Link audit: python scripts/checkpoint_1_51_audit.py · Roadmap continues 1.52…1.70.")
+                text: qsTr("Link audit: python scripts/checkpoint_1_60_audit.py · Roadmap continues 1.61…1.70.")
             }
         }
     }

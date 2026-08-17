@@ -1629,7 +1629,9 @@ QtObject {
             "I18nRtlPage",
             "FontIconPage",
             "PitfallsPage",
-            "ExamplesTemplatesPage"
+            "ExamplesTemplatesPage",
+            "SearchRecipesPage",
+            "HighDpiPage"
         ]
     }
 
