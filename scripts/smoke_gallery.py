@@ -166,6 +166,19 @@ def main() -> int:
             return pk.returncode if pk.returncode > 0 else 1
         print("smoke: shared package contracts OK")
 
+    # 1.52 — recipe / ROADMAP / maturity markdown links (no Qt).
+    docs_script = ROOT / "scripts" / "check_docs_links.py"
+    if docs_script.is_file():
+        docs = subprocess.run(
+            [sys.executable, str(docs_script)],
+            cwd=str(ROOT),
+            check=False,
+        )
+        if docs.returncode != 0:
+            print("error: check_docs_links.py failed", file=sys.stderr)
+            return docs.returncode if docs.returncode > 0 else 1
+        print("smoke: docs links OK")
+
     try:
         proc = subprocess.run(
             cmd,

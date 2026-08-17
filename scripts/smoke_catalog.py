@@ -34,6 +34,9 @@ CRITICAL = [
     "DialogsFlyoutsPage",
     "AnimationsPage",
     "I18nRtlPage",
+    "FontIconPage",           # 1.49 micro-motion
+    "PitfallsPage",           # 1.51 maturity
+    "ExamplesTemplatesPage",  # 1.50 gallery-shell
 ]
 
 
@@ -116,7 +119,23 @@ def main() -> int:
     if crit_missing_cpp:
         print("error: critical pages not listed in main.cpp:", crit_missing_cpp, file=sys.stderr)
         return 1
-    print(f"catalog: {len(CRITICAL)} critical smoke pages OK (synced with main.cpp)")
+
+    # 1.52 — keep ControlCatalog.smokeCriticalComponents() in sync with CRITICAL.
+    fn = re.search(
+        r"function smokeCriticalComponents\(\)\s*\{\s*return\s*\[([\s\S]*?)\]\s*\}",
+        text,
+    )
+    if not fn:
+        print("error: smokeCriticalComponents() not found in ControlCatalog.qml", file=sys.stderr)
+        return 1
+    qml_crit = re.findall(r'"([A-Za-z0-9]+)"', fn.group(1))
+    if qml_crit != CRITICAL:
+        print("error: ControlCatalog.smokeCriticalComponents() != CRITICAL", file=sys.stderr)
+        print(f"  CRITICAL: {CRITICAL}", file=sys.stderr)
+        print(f"  QML:      {qml_crit}", file=sys.stderr)
+        return 1
+
+    print(f"catalog: {len(CRITICAL)} critical smoke pages OK (synced with main.cpp + QML)")
     return 0
 
 

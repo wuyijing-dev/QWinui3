@@ -188,6 +188,9 @@ int main(int argc, char *argv[])
             "DialogsFlyoutsPage",
             "AnimationsPage",
             "I18nRtlPage",
+            "FontIconPage",
+            "PitfallsPage",
+            "ExamplesTemplatesPage",
             nullptr,
         };
         int pagesOk = 0;

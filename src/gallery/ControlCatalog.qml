@@ -1258,7 +1258,7 @@ QtObject {
             title: qsTr("CI / smoke"),
             category: "recipes",
             icon: FluentIcons.ConstructionCone,
-            description: qsTr("Gallery --smoke · Qt matrix — docs/ci-smoke.md (1.06 / 1.14)."),
+            description: qsTr("Gallery --smoke · docs links · Qt matrix — docs/ci-smoke.md (1.52)."),
             component: "CiSmokePage",
             source: "pages/CiSmokePage.qml"
         },
@@ -1522,6 +1522,7 @@ QtObject {
     // Curated “recently shipped” recipe pages (1.20) — not catalog array order.
     function recentlyShipped(count) {
         var ids = [
+            "CiSmokePage",            // 1.52 docs-link smoke
             "PitfallsPage",           // 1.51 maturity checkpoint
             "ExamplesTemplatesPage",  // 1.50 gallery-shell
             "FontIconPage",           // 1.49 icon micro-motion
@@ -1576,7 +1577,10 @@ QtObject {
             "ChartsPage",
             "DialogsFlyoutsPage",
             "AnimationsPage",
-            "I18nRtlPage"
+            "I18nRtlPage",
+            "FontIconPage",
+            "PitfallsPage",
+            "ExamplesTemplatesPage"
         ]
     }
 

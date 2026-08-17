@@ -11,7 +11,7 @@ import QWinUI3.Platform
 CatalogPage {
     id: page
     title: qsTr("CI / smoke")
-    subtitle: qsTr("Gallery --smoke · catalog integrity · Qt matrix — docs/ci-smoke.md (1.06 / 1.14 / 1.20).")
+    subtitle: qsTr("Gallery --smoke · catalog · docs links · Qt matrix — docs/ci-smoke.md (1.52).")
 
     ControlExample {
         headerText: qsTr("Local smoke")
@@ -22,7 +22,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Release-build Gallery, then smoke_gallery.py: catalog check, translation seeds, shared-package contracts, then qwinui3_gallery --smoke (loads critical pages). Windows coerces foreign QT_QPA_PLATFORM to windows.")
+                text: qsTr("Release-build Gallery, then smoke_gallery.py: catalog check, translation seeds, shared-package contracts, docs links (1.52), then qwinui3_gallery --smoke (loads critical pages). Windows coerces foreign QT_QPA_PLATFORM to windows.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary

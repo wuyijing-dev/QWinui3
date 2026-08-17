@@ -85,7 +85,7 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 
 | Recipe | One-liner |
 |--------|-----------|
-| [CI smoke](ci-smoke.md) | Gallery `--smoke` + catalog integrity |
+| [CI smoke](ci-smoke.md) | Gallery `--smoke` + docs links + catalog (**1.52**) |
 | [Gallery CatalogPage](gallery-catalog-page.md) | Page host slots (Item not Page) |
 
 ---

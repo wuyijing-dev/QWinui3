@@ -4,7 +4,7 @@ Fluent styled Switch (WinUI ToggleSwitch OnContent / OffContent).
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/Switch.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/Switch.qml)
 
-**Category:** Styled controls · **Library:** v1.51
+**Category:** Styled controls · **Library:** v1.52
 
 [← Component index](../components.md)
 

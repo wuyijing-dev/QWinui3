@@ -47,6 +47,20 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.51 → 1.52
+
+**Product version:** 1.52  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- Local/CI smoke now also runs `scripts/check_docs_links.py` and loads `FontIconPage` / `PitfallsPage` / `ExamplesTemplatesPage` as critical pages — [ci-smoke.md](ci-smoke.md).
+- No open field P0s were reported after 1.51; this buffer shipped CI/docs harden instead of skipping.
+
+#### No action (compatible)
+
+- Additive smoke coverage only.
+
 ### Upgrade 1.50 → 1.51
 
 **Product version:** 1.51  

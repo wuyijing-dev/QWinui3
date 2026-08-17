@@ -4,7 +4,7 @@ Even cell grid.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/UniformGrid.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/UniformGrid.qml)
 
-**Category:** Input & forms · **Library:** v1.51
+**Category:** Input & forms · **Library:** v1.52
 
 [← Component index](../components.md)
 

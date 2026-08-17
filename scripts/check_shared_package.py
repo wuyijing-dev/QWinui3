@@ -24,6 +24,7 @@ DOC_MARKERS = (
     "linuxdeploy",
     "strip-restricted",
     "check_shared_package",
+    "gallery-shell",
 )
 
 

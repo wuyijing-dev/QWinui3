@@ -231,3 +231,4 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.49** | Icon micro-motion — [icons.md](icons.md); `FontIcon` / `IconicButton` hover/press scales |
 | **1.50** | Extractable Gallery shell — [examples/gallery-shell](../examples/gallery-shell/); `NavigationWindow` `pageModule` |
 | **1.51** | 1.xx maturity checkpoint — [maturity-1xx.md](maturity-1xx.md); freeze revisit [compatibility-1xx.md](compatibility-1xx.md) |
+| **1.52** | Field polish buffer — docs-link smoke + critical pages FontIcon/Pitfalls/ExamplesTemplates — [ci-smoke.md](ci-smoke.md) |

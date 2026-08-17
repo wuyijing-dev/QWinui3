@@ -4,7 +4,7 @@ Fluent styled BusyIndicator.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/BusyIndicator.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/BusyIndicator.qml)
 
-**Category:** Styled controls · **Library:** v1.51
+**Category:** Styled controls · **Library:** v1.52
 
 [← Component index](../components.md)
 

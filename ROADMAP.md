@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.51**
-**Next up:** **1.52** (Field polish buffer)
+**Current:** **1.52**
+**Next up:** **1.53** (Thin AnimatedIcon path)
 **Planned through:** **1.70** (long-horizon 1.xx checkpoint)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](docs/qt-version-compat.md)
 
@@ -60,7 +60,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.51`
+## Shipped — `1.01` … `1.52`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -266,30 +266,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** [maturity-1xx.md](docs/maturity-1xx.md) verdict (stay on 1.xx; harden-first); revisited [compatibility-1xx.md](docs/compatibility-1xx.md); stable-api starters + changelog through 1.51; Gallery Pitfalls maturity checklist; recipe hub + README links; `scripts/checkpoint_1_51_audit.py` (0 broken recipe/roadmap links); product version `1.51`.
 
+### 1.52 — Field polish buffer (shipped)
+
+**Shipped:** No open GitHub field P0s after 1.51 — used the buffer for CI/docs harden: `check_docs_links.py` in `smoke_gallery.py`; critical smoke pages + `FontIconPage` / `PitfallsPage` / `ExamplesTemplatesPage`; `smoke_catalog` syncs QML `smokeCriticalComponents()`; packaging-consumer must mention `gallery-shell`; [ci-smoke.md](docs/ci-smoke.md) updated; product version `1.52`.
+
 ---
 
-## Horizon — planned `1.52` … `1.70`
+## Horizon — planned `1.53` … `1.70`
 
 Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per `YY`. Order can flex if field P0s force a swap; do not merge themes into mega-minors. Posture after 1.51: prefer field harden / docs over new control families.
-
-### 1.52 — Field polish buffer
-
-**Why:** After the checkpoint, keep one named slot for regressions and small harden passes without inventing a new product surface.
-
-**In scope**
-
-- Portal / DPI / tray / WebView2 / packaging field fixes reported after 1.51.
-- Doc/link rot and Gallery recipe gaps only when cheap.
-
-**Out of scope**
-
-- New control families; AnimatedIcon/Lottie productization; starting 2.00.
-
-**Exit criteria**
-
-- At least one shipped harden notes block (or explicitly “no field P0 — skip / defer”).
-
----
 
 ### 1.53 — Thin AnimatedIcon path
 

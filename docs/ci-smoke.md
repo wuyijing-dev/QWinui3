@@ -1,4 +1,4 @@
-# CI smoke (1.06 / 1.20)
+# CI smoke (1.06 / 1.20 / 1.52)
 
 Lightweight regression gate — **not** a full test suite or screenshot farm.
 
@@ -25,7 +25,7 @@ cmake --build build --config Release --target qwinui3_gallery
 python scripts/smoke_gallery.py --build-dir build
 ```
 
-`smoke_gallery.py` first runs `scripts/smoke_catalog.py` (ControlCatalog sources + critical list sync), then `scripts/check_gallery_translations.py` (seed `.ts` XML, **1.45**), then `scripts/check_shared_package.py` (packaging contracts / docs, **1.46**), then launches `qwinui3_gallery --smoke`.
+`smoke_gallery.py` first runs `scripts/smoke_catalog.py` (ControlCatalog sources + critical list sync), then `scripts/check_gallery_translations.py` (seed `.ts` XML, **1.45**), then `scripts/check_shared_package.py` (packaging contracts / docs, **1.46**), then `scripts/check_docs_links.py` (recipe / ROADMAP / maturity links, **1.52**), then launches `qwinui3_gallery --smoke`.
 
 Optional after packaging a shared kit:
 
@@ -91,6 +91,7 @@ Current set:
 - `CommandPalettePage`, `AccessibilityPage`
 - `SystemIntegrationPage`, `WebView2Page`
 - `ChartsPage`, `I18nRtlPage`
+- `FontIconPage`, `PitfallsPage`, `ExamplesTemplatesPage` (**1.52** — recent recipe harden)
 
 **Catalog integrity only:**
 
@@ -117,7 +118,7 @@ See also [gallery-catalog-page.md](gallery-catalog-page.md).
 
 ## Scope
 
-**In smoke:** Windows + Linux, Qt **6.8**, Gallery only, examples/WebView2 off for CI speed; catalog file check; translation seeds; shared packaging contracts; critical page create.
+**In smoke:** Windows + Linux, Qt **6.8**, Gallery only, examples/WebView2 off for CI speed; catalog file check; translation seeds; shared packaging contracts; docs link check (**1.52**); critical page create.
 
 **Not in smoke:** Screenshot diffs, full catalog page-load of every control, building shared Release zips (use `package_release_libs.py` + `check_shared_package.py --dir` locally / Release workflow).
 

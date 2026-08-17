@@ -37,7 +37,7 @@ Until a later checkpoint says otherwise:
 
 1. **Ship on stable** — Theme tokens, shells, and types named on [stable-api.md](stable-api.md).
 2. **Copy `gallery-shell`**, not the full Gallery tree — [examples/gallery-shell/README.md](../examples/gallery-shell/README.md) keep-vs-delete.
-3. **Harden first** — field P0s (portal / DPI / tray / WebView2 / packaging) beat new surfaces; roadmap **1.52** is the named buffer.
+3. **Harden first** — field P0s (portal / DPI / tray / WebView2 / packaging) beat new surfaces; **1.52** shipped CI/docs harden when no field P0s were open.
 4. **Promote only in named minors** — update stable-api changelog; do not silently flip experimental → stable.
 5. **Do not draft 2.00** until several breaking needs pile up — [ROADMAP.md](../ROADMAP.md) far-future section.
 
@@ -72,5 +72,7 @@ Use [upgrade-notes.md](upgrade-notes.md) for `1.50` → `1.51`. Short form:
 ## Re-run the link audit
 
 ```bat
-python scripts/checkpoint_1_51_audit.py
+python scripts/check_docs_links.py
 ```
+
+(`scripts/checkpoint_1_51_audit.py` remains a thin alias.)
