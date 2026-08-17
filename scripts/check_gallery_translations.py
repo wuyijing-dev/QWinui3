@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate Gallery translation seed catalogs (1.45).
+"""Validate Gallery translation seed catalogs (1.45 / 1.54).
 
   python scripts/check_gallery_translations.py
 
@@ -20,6 +20,7 @@ TRANS = ROOT / "src" / "gallery" / "translations"
 REQUIRED = [
     "qwinui3_gallery_en.ts",
     "qwinui3_gallery_zh_CN.ts",
+    "qwinui3_gallery_ja_JP.ts",  # 1.54 extra locale pack
 ]
 
 

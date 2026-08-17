@@ -1,4 +1,4 @@
-# i18n / RTL (1.13 / 1.45)
+# i18n / RTL (1.13 / 1.45 / 1.54)
 
 Gallery and starter examples wrap UI strings in **`qsTr`**. This page covers:
 
@@ -10,10 +10,10 @@ Not in scope: translating every Gallery string, shipping many full language pack
 
 | Surface | Where |
 |---------|--------|
-| Gallery demo | **Layout → i18n / RTL** |
+| Gallery demo | **Layout → i18n / RTL** (locale ComboBox + `--lang` copy) |
 | Gallery Settings | **Right-to-left layout** toggle |
 | Example | [`examples/nav-settings`](../examples/nav-settings/) (same toggle + shell mirroring) |
-| Seed `.ts` | [`src/gallery/translations/`](../src/gallery/translations/) — `en` + **`zh_CN` (1.45)** |
+| Seed `.ts` | [`src/gallery/translations/`](../src/gallery/translations/) — `en` + **`zh_CN` (1.45)** + **`ja_JP` (1.54)** |
 | Integrity | `python scripts/check_gallery_translations.py` |
 
 ---
@@ -42,7 +42,7 @@ Keep seed catalogs **small**. A full Gallery `lupdate` produces a huge diff — 
 python scripts/check_gallery_translations.py
 ```
 
-Ensures `qwinui3_gallery_en.ts` and `qwinui3_gallery_zh_CN.ts` parse as Linguist XML.
+Ensures `qwinui3_gallery_en.ts`, `qwinui3_gallery_zh_CN.ts`, and `qwinui3_gallery_ja_JP.ts` parse as Linguist XML.
 
 ### 4. Translate + release
 
@@ -52,16 +52,20 @@ linguist src\gallery\translations\qwinui3_gallery_de.ts
 lrelease src\gallery\translations\qwinui3_gallery_de.ts -qm src\gallery\translations\qwinui3_gallery_de.qm
 ```
 
-Shipped seed: **`zh_CN`** already has sample translations for the i18n / Settings demo strings.
+Shipped seeds: **`zh_CN` (1.45)** and **`ja_JP` (1.54)** cover the same i18n / Settings demo string subset.
 
 ### 5. Load at runtime
 
-**Gallery (1.45):**
+**Gallery (1.45 / 1.54):**
 
 ```bat
 lrelease src\gallery\translations\qwinui3_gallery_zh_CN.ts -qm src\gallery\translations\qwinui3_gallery_zh_CN.qm
+lrelease src\gallery\translations\qwinui3_gallery_ja_JP.ts -qm src\gallery\translations\qwinui3_gallery_ja_JP.qm
 qwinui3_gallery.exe --lang zh_CN
+qwinui3_gallery.exe --lang ja_JP
 ```
+
+On the Gallery **i18n / RTL** page, use the **Language** ComboBox to pick `zh_CN` or `ja_JP`, copy the `--lang` command, then relaunch (translators install at startup only).
 
 Search path: `translations/` beside the exe, exe dir, source-tree `src/gallery/translations`, or `QWINUI3_GALLERY_TRANSLATIONS`.
 
@@ -69,7 +73,7 @@ Search path: `translations/` beside the exe, exe dir, source-tree `src/gallery/t
 
 ```cpp
 QTranslator tr;
-if (tr.load(QLocale(QLocale::Chinese, QLocale::China),
+if (tr.load(QLocale(QLocale::Japanese, QLocale::Japan),
             QStringLiteral("myapp"),
             QStringLiteral("_"),
             QStringLiteral(":/i18n"))) {
@@ -77,7 +81,7 @@ if (tr.load(QLocale(QLocale::Chinese, QLocale::China),
 }
 ```
 
-Gallery does **not** auto-pick OS language in 1.45 — apps own selection (CLI / Settings / installer).
+Gallery does **not** auto-pick OS language — apps own selection (CLI / Settings / installer).
 
 Examples under `examples/` also use `qsTr`; point `lupdate` at those folders the same way.
 

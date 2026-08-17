@@ -1,4 +1,4 @@
-# Gallery translations (1.13 / 1.45)
+# Gallery translations (1.13 / 1.45 / 1.54)
 
 Gallery / examples wrap UI strings in `qsTr(...)`. This folder holds **seed** Qt Linguist catalogs — **not** a full Gallery language pack.
 
@@ -6,6 +6,7 @@ Gallery / examples wrap UI strings in `qsTr(...)`. This folder holds **seed** Qt
 |------|------|
 | `qwinui3_gallery_en.ts` | English seed (identity translations) |
 | `qwinui3_gallery_zh_CN.ts` | Simplified Chinese seed (**1.45**) — demo subset |
+| `qwinui3_gallery_ja_JP.ts` | Japanese seed (**1.54**) — same demo subset |
 | `*.qm` | Optional `lrelease` output (generate locally; may be gitignored if huge) |
 | `README.md` | This workflow |
 
@@ -41,14 +42,15 @@ linguist src\gallery\translations\qwinui3_gallery_de.ts
 lrelease src\gallery\translations\qwinui3_gallery_de.ts -qm src\gallery\translations\qwinui3_gallery_de.qm
 ```
 
-Name pattern: `qwinui3_gallery_<locale>.ts` where `<locale>` is `zh_CN`, `ar`, `de`, …
+Name pattern: `qwinui3_gallery_<locale>.ts` where `<locale>` is `zh_CN`, `ja_JP`, `ar`, `de`, …
 
 ---
 
-## Load in Gallery (1.45)
+## Load in Gallery (1.45 / 1.54)
 
 ```bat
 qwinui3_gallery.exe --lang zh_CN
+qwinui3_gallery.exe --lang ja_JP
 ```
 
 `--lang` installs a `QTranslator` looking for `qwinui3_gallery_<lang>.qm` under:
@@ -62,6 +64,7 @@ Generate `.qm` before running:
 
 ```bat
 lrelease src\gallery\translations\qwinui3_gallery_zh_CN.ts -qm src\gallery\translations\qwinui3_gallery_zh_CN.qm
+lrelease src\gallery\translations\qwinui3_gallery_ja_JP.ts -qm src\gallery\translations\qwinui3_gallery_ja_JP.qm
 ```
 
 Smoke / CI does **not** require `.qm` — `scripts/check_gallery_translations.py` validates `.ts` XML only.
@@ -72,7 +75,7 @@ Smoke / CI does **not** require `.qm` — `scripts/check_gallery_translations.py
 
 ```cpp
 QTranslator tr;
-if (tr.load(QLocale(QLocale::Chinese, QLocale::China),
+if (tr.load(QLocale(QLocale::Japanese, QLocale::Japan),
             QStringLiteral("qwinui3_gallery"),
             QStringLiteral("_"),
             QStringLiteral("path/to/translations"))) {
@@ -80,6 +83,6 @@ if (tr.load(QLocale(QLocale::Chinese, QLocale::China),
 }
 ```
 
-Or load by exact file: `tr.load("path/to/qwinui3_gallery_zh_CN.qm")`.
+Or load by exact file: `tr.load("path/to/qwinui3_gallery_ja_JP.qm")`.
 
 RTL layout is **separate** from translation — Gallery Settings → **Right-to-left layout**. See [`docs/i18n-rtl.md`](../../../docs/i18n-rtl.md).

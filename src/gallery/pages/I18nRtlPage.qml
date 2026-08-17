@@ -5,30 +5,54 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 import QWinUI3.Platform
 
-// Gallery — i18n / RTL (1.13) + locale packs (1.45).
+// Gallery — i18n / RTL (1.13) + locale packs (1.45 / 1.54).
 //
 // Toggle Settings → Right-to-left layout, or the switch below, then watch FormLayout
 // left headers, SettingsCard rows, and nav-adjacent chrome mirror.
-// Recipe: docs/i18n-rtl.md · --lang zh_CN after lrelease.
+// Recipe: docs/i18n-rtl.md · --lang zh_CN | ja_JP after lrelease.
 
 CatalogPage {
     id: page
     title: qsTr("i18n / RTL")
-    subtitle: qsTr("qsTr + zh_CN seed + RTL — docs/i18n-rtl.md (1.45).")
+    subtitle: qsTr("qsTr + zh_CN / ja_JP seeds + RTL — docs/i18n-rtl.md (1.54).")
+
+    readonly property var seedLocaleCodes: ["zh_CN", "ja_JP"]
+    property int selectedLocaleIndex: 0
+    readonly property string selectedLocaleCode: seedLocaleCodes[selectedLocaleIndex]
+    readonly property string langLaunchCommand: "qwinui3_gallery.exe --lang " + selectedLocaleCode
 
     ControlExample {
-        headerText: qsTr("Locale packs (1.45)")
-        qmlSource: "lupdate / lrelease\nqwinui3_gallery --lang zh_CN"
+        headerText: qsTr("Locale packs (1.54)")
+        qmlSource: "lupdate / lrelease\nqwinui3_gallery --lang zh_CN|ja_JP"
         ColumnLayout {
             Layout.fillWidth: true
             spacing: Theme.spacing
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Seed catalogs live in src/gallery/translations/ (en + zh_CN). Validate with python scripts/check_gallery_translations.py. After lrelease, run Gallery with --lang zh_CN to load qwinui3_gallery_zh_CN.qm. RTL is separate (toggle below). Full recipe: docs/i18n-rtl.md.")
+                text: qsTr("Seed catalogs live in src/gallery/translations/ (en + zh_CN + ja_JP). Validate with python scripts/check_gallery_translations.py. After lrelease, pick a locale below and relaunch Gallery with --lang. Translators load at startup only. RTL is separate (toggle below). Full recipe: docs/i18n-rtl.md.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
+            }
+            RowLayout {
+                Layout.fillWidth: true
+                spacing: Theme.spacing
+                Text {
+                    text: qsTr("Language")
+                    font.family: Theme.fontFamily
+                    font.pixelSize: Theme.fontBody
+                    color: Theme.textPrimary
+                }
+                ComboBox {
+                    Layout.fillWidth: true
+                    model: [
+                        qsTr("Simplified Chinese (zh_CN)"),
+                        qsTr("Japanese (ja_JP)")
+                    ]
+                    currentIndex: page.selectedLocaleIndex
+                    onActivated: function (index) { page.selectedLocaleIndex = index }
+                }
             }
             RowLayout {
                 Layout.fillWidth: true
@@ -47,11 +71,11 @@ CatalogPage {
                 Label {
                     Layout.fillWidth: true
                     wrapMode: Text.WrapAnywhere
-                    text: "qwinui3_gallery.exe --lang zh_CN"
+                    text: page.langLaunchCommand
                     font.pixelSize: Theme.fontCaption
                 }
                 CopyButton {
-                    textToCopy: "qwinui3_gallery.exe --lang zh_CN"
+                    textToCopy: page.langLaunchCommand
                 }
             }
         }
@@ -164,7 +188,7 @@ CatalogPage {
             SettingsCard {
                 Layout.fillWidth: true
                 title: qsTr("Language packs")
-                description: qsTr("Seed packs: en + zh_CN (1.45). lupdate / --lang / check_gallery_translations.py — docs/i18n-rtl.md.")
+                description: qsTr("Seed packs: en + zh_CN + ja_JP (1.54). lupdate / --lang / check_gallery_translations.py — docs/i18n-rtl.md.")
                 symbol: FluentIcons.Globe
             }
         }

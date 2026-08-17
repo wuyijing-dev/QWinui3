@@ -47,6 +47,20 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 1.53 → 1.54
+
+**Product version:** 1.54  
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- Second Gallery seed locale **`ja_JP`** alongside `zh_CN` — [i18n-rtl.md](i18n-rtl.md).
+- `scripts/check_gallery_translations.py` requires the `ja_JP` catalog; Gallery i18n page locale ComboBox + `--lang` copy.
+
+#### No action (compatible)
+
+- Additive seed + docs; no API breaks.
+
 ### Upgrade 1.52 → 1.53
 
 **Product version:** 1.53  

@@ -226,6 +226,7 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.43** | Color & contrast diagnostics — [color-contrast.md](color-contrast.md); `Theme.contrastRatio` / AA helpers |
 | **1.44** | Keyboard-first cookbook — [keyboard.md](keyboard.md); Gallery Accessibility tour |
 | **1.45** | Localization deepen — [i18n-rtl.md](i18n-rtl.md); zh_CN seed; Gallery `--lang`; translation smoke check |
+| **1.54** | Extra locale pack — `ja_JP` seed; Gallery language ComboBox; translation check extended |
 | **1.46** | Shared redistribute polish — [packaging-consumer.md](packaging-consumer.md); `check_shared_package.py`; windeploy/linuxdeploy + strip |
 | **1.47** | Snap Layouts / shell extras polish — [shell-extras.md](shell-extras.md); Gallery System integration demos |
 | **1.48** | ContentDialogQueue deepen — [dialogs-flyouts.md](dialogs-flyouts.md); `replaceCurrent` pump fix; Gallery A→B→C stress |

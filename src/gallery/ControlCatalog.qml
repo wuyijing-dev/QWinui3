@@ -1226,7 +1226,7 @@ QtObject {
             title: qsTr("i18n / RTL"),
             category: "layout",
             icon: FluentIcons.Globe,
-            description: qsTr("qsTr + zh_CN seed + RTL — docs/i18n-rtl.md (1.45)."),
+            description: qsTr("qsTr + zh_CN / ja_JP seeds + RTL — docs/i18n-rtl.md (1.54)."),
             component: "I18nRtlPage",
             source: "pages/I18nRtlPage.qml"
         },

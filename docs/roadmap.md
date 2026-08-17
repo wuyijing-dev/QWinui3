@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **1.53**
-**Next up:** **1.54** (Extra locale pack)
+**Current:** **1.54**
+**Next up:** **1.55** (TeachingTip & onboarding coach marks)
 **Planned through:** **1.70** (long-horizon 1.xx checkpoint)  
 **Qt:** 6.5+ (recommended 6.8 LTS) — [qt-version-compat.md](qt-version-compat.md)
 
@@ -60,7 +60,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 ---
 
-## Shipped — `1.01` … `1.53`
+## Shipped — `1.01` … `1.54`
 
 ### 1.01 — Docs & “what’s stable” (shipped)
 
@@ -274,30 +274,15 @@ Do not plan as if the kit is empty. Rough inventory today:
 
 **Shipped:** Experimental `AnimatedIcon` (glyph state swap, not Lottie) with `checked` / `iconState`+`iconStates`, reduced-motion snap; Gallery **AnimatedIcon** demos (play/pause · expand · favorite); [icons.md](icons.md) + [animations.md](animations.md) + stable-api experimental note; product version `1.53`.
 
+### 1.54 — Extra locale pack (shipped)
+
+**Shipped:** Gallery seed `ja_JP` (same demo subset as `zh_CN`); `check_gallery_translations.py` requires three seeds; Gallery i18n page Language ComboBox + `--lang` copy; [i18n-rtl.md](i18n-rtl.md) + translations README; product version `1.54`.
+
 ---
 
-## Horizon — planned `1.54` … `1.70`
+## Horizon — planned `1.55` … `1.70`
 
 Still **1.xx**. Aim for maturity of the 1.line—not a soft 2.00. One theme per `YY`. Order can flex if field P0s force a swap; do not merge themes into mega-minors. Posture after 1.51: prefer field harden / docs over new control families.
-
-### 1.54 — Extra locale pack
-
-**Why:** 1.45 proved the workflow; one more seed locale keeps i18n from rotting.
-
-**In scope**
-
-- One additional Gallery seed locale (pick by demand: e.g. `ja_JP` or `de_DE`) + lupdate/lrelease notes in [i18n-rtl.md](i18n-rtl.md).
-- Smoke translation check extended; Gallery language switcher coverage.
-
-**Out of scope**
-
-- Full professional translation of every string; community translation portal.
-
-**Exit criteria**
-
-- Second locale builds/loads via `--lang`; checklist green in smoke or docs.
-
----
 
 ### 1.55 — TeachingTip & onboarding coach marks
 
