@@ -1,9 +1,9 @@
 # QWinUI3 Roadmap
 
 **Current:** **1.85**
-**Next up:** **1.86** — Leftover field P0s (skip if none → **1.87**)
+**Next up:** **1.86** — Shell / interaction performance
 **Planned through:** **2.00** (1.xx close-out **1.83…1.90**, then breaking line)
-**Still 1.xx until 1.90:** Long-horizon checkpoint — [docs/checkpoint-178.md](checkpoint-178.md). **1.85** a11y wave 3 (focus return / live regions). OSK/IME stays experimental until a named green soak (**1.87**). **Do not implement 2.00 before 1.90.**  
+**Still 1.xx until 1.90:** Long-horizon checkpoint — [docs/checkpoint-178.md](checkpoint-178.md). **1.85** a11y wave 3 (focus return / live regions). **1.86** is frame smoothness (restore hitch / DWM fringe), not another handbook. OSK/IME stays experimental until a named green soak (**1.87**). **Do not implement 2.00 before 1.90.**  
 **Qt:** 6.5+ (recommended 6.8 LTS) through 1.xx — [qt-version-compat.md](qt-version-compat.md). **2.00** may raise the floor.
 
 This plan starts from **what 1.00 already was**, then walks **small `1.xx` minors** through a **1.90 close-out**, then a named **2.00** breaking line. **2.00 is not the next tag.**
@@ -428,7 +428,7 @@ Finish **1.xx** as named slices (**1.83…1.90**), then a **breaking 2.00**. Do 
 | **1.83** | Floating OSK / SendInput field harden | **Shipped** |
 | **1.84** | Consumer floating-OSK recipe | **Shipped** |
 | **1.85** | Accessibility wave 3 | **Shipped** |
-| **1.86** | Leftover field P0s | **Next** (skip if none) |
+| **1.86** | Shell / interaction performance | **Next** |
 | **1.87** | OSK / IME green soak + promote | Planned |
 | **1.88** | Consumer packaging beyond the 1.61 sketch | Planned |
 | **1.89** | 1.xx close-out checkpoint | Planned |
@@ -452,13 +452,26 @@ Finish **1.xx** as named slices (**1.83…1.90**), then a **breaking 2.00**. Do 
 - Full catalog audit as a mega-minor
 - OSK promote (**1.87**)
 
-### 1.86 — Leftover field P0s (planned)
+### 1.86 — Shell / interaction performance (planned)
 
-If 1.83…1.85 land and there is **no** field P0 (DPI / tray / WebView2 / packaging / IME regression): **skip this minor** and go to **1.87**. Do not invent work.
+**Theme:** make returning to the window and moving around the shell feel cheap. **1.25** is the list/chart handbook; **1.39** is Gallery cold start. This minor is **frame cost after the app is up**.
 
-**In (only if a P0 exists)**
+Field: dark Gallery + Round corners + D3D12 can show a 1px light ring; restore / refocus can hitch while DWM attributes reapply. Pane collapse blank-column already landed after **1.85** (`NavigationView` no longer animates `Layout.preferredWidth`).
 
-- One named field regression, documented in [upgrade-notes.md](upgrade-notes.md)
+**In**
+
+- Solid hosts: QQuickWindow clear color matches the layer fill — never `Qt::white` (round-corner AA fringe)
+- Pin `DWMWA_BORDER_COLOR` to that fill on Solid; reapply immediately on activate (do not wait for the 80/250 ms timers to hide a white system ring)
+- Solid shells: skip the extra deferred DWM reapply burst on every focus-in; keep delayed reapply for Mica/Acrylic only
+- NavigationView: do not run no-op StackView scale/x/y animators on `slide` / `fade`
+- [performance.md](performance.md): shell restore / DWM fringe / RHI note (D3D12 still worse than OpenGL for frost)
+
+**Out**
+
+- Chart GPU rewrite / custom virtualization engine / profiler product (**1.25** out-of-scope)
+- Changing Gallery default RHI off OpenGL
+- OSK promote (**1.87**)
+- Consumer packaging (**1.88**)
 
 ### 1.87 — OSK / IME green soak + promote (planned)
 
