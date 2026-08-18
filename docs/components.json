@@ -2,7 +2,7 @@
   "name": "QWinUI3",
   "version": "2.64",
   "generatedBy": "scripts/generate_component_docs.py",
-  "publicCount": 260,
+  "publicCount": 270,
   "components": [
     {
       "name": "AccentButton",
@@ -155,6 +155,21 @@
       "methodCount": 5
     },
     {
+      "name": "AutomotiveCluster",
+      "module": "QWinUI3.Extras",
+      "summary": "Composed vehicle instrument cluster.",
+      "path": "src/extras/QWinUI3/Extras/AutomotiveCluster.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Charts & gauges",
+      "galleryPage": "pages/AutomotiveClusterPage.qml",
+      "galleryTitle": "AutomotiveCluster",
+      "doc": "components/AutomotiveCluster.md",
+      "propertyCount": 22,
+      "signalCount": 0,
+      "methodCount": 2
+    },
+    {
       "name": "AutoSuggestBox",
       "module": "QWinUI3.Extras",
       "summary": "Text field with filtered suggestion popup.",
@@ -243,6 +258,21 @@
       "propertyCount": 0,
       "signalCount": 0,
       "methodCount": 0
+    },
+    {
+      "name": "BoostGauge",
+      "module": "QWinUI3.Extras",
+      "summary": "Turbo vacuum / boost with zero at center-left of the scale.",
+      "path": "src/extras/QWinUI3/Extras/BoostGauge.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Charts & gauges",
+      "galleryPage": "pages/BoostGaugePage.qml",
+      "galleryTitle": "BoostGauge",
+      "doc": "components/BoostGauge.md",
+      "propertyCount": 12,
+      "signalCount": 1,
+      "methodCount": 1
     },
     {
       "name": "BoxPlotChart",
@@ -620,6 +650,21 @@
       "methodCount": 2
     },
     {
+      "name": "CoolantGauge",
+      "module": "QWinUI3.Extras",
+      "summary": "Automotive C–H coolant temperature.",
+      "path": "src/extras/QWinUI3/Extras/CoolantGauge.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Charts & gauges",
+      "galleryPage": "pages/CoolantGaugePage.qml",
+      "galleryTitle": "CoolantGauge",
+      "doc": "components/CoolantGauge.md",
+      "propertyCount": 14,
+      "signalCount": 1,
+      "methodCount": 1
+    },
+    {
       "name": "CopyButton",
       "module": "QWinUI3.Extras",
       "summary": "Copies textToCopy and flashes a success glyph.",
@@ -993,6 +1038,36 @@
       "propertyCount": 10,
       "signalCount": 1,
       "methodCount": 0
+    },
+    {
+      "name": "GearIndicator",
+      "module": "QWinUI3.Extras",
+      "summary": "PRNDS / manual gear readout for a cluster.",
+      "path": "src/extras/QWinUI3/Extras/GearIndicator.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Charts & gauges",
+      "galleryPage": "pages/GearIndicatorPage.qml",
+      "galleryTitle": "GearIndicator",
+      "doc": "components/GearIndicator.md",
+      "propertyCount": 5,
+      "signalCount": 0,
+      "methodCount": 1
+    },
+    {
+      "name": "GMeterGauge",
+      "module": "QWinUI3.Extras",
+      "summary": "Lateral / longitudinal G-force plot.",
+      "path": "src/extras/QWinUI3/Extras/GMeterGauge.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Charts & gauges",
+      "galleryPage": "pages/GMeterGaugePage.qml",
+      "galleryTitle": "GMeterGauge",
+      "doc": "components/GMeterGauge.md",
+      "propertyCount": 4,
+      "signalCount": 0,
+      "methodCount": 1
     },
     {
       "name": "GridTile",
@@ -1638,6 +1713,21 @@
       "propertyCount": 23,
       "signalCount": 1,
       "methodCount": 8
+    },
+    {
+      "name": "OdometerGauge",
+      "module": "QWinUI3.Extras",
+      "summary": "Total and trip distance.",
+      "path": "src/extras/QWinUI3/Extras/OdometerGauge.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Charts & gauges",
+      "galleryPage": "pages/OdometerGaugePage.qml",
+      "galleryTitle": "OdometerGauge",
+      "doc": "components/OdometerGauge.md",
+      "propertyCount": 8,
+      "signalCount": 0,
+      "methodCount": 3
     },
     {
       "name": "OnScreenKeyboard",
@@ -2315,6 +2405,21 @@
       "methodCount": 1
     },
     {
+      "name": "SpeedometerGauge",
+      "module": "QWinUI3.Extras",
+      "summary": "Vehicle speed needle (km/h or mph).",
+      "path": "src/extras/QWinUI3/Extras/SpeedometerGauge.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Charts & gauges",
+      "galleryPage": "pages/SpeedometerGaugePage.qml",
+      "galleryTitle": "SpeedometerGauge",
+      "doc": "components/SpeedometerGauge.md",
+      "propertyCount": 13,
+      "signalCount": 1,
+      "methodCount": 1
+    },
+    {
       "name": "SplitButton",
       "module": "QWinUI3.Extras",
       "summary": "Primary action + chevron menu.",
@@ -2585,6 +2690,21 @@
       "methodCount": 1
     },
     {
+      "name": "TelltaleBar",
+      "module": "QWinUI3.Extras",
+      "summary": "Cluster warning / indicator lamps.",
+      "path": "src/extras/QWinUI3/Extras/TelltaleBar.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Charts & gauges",
+      "galleryPage": "pages/TelltaleBarPage.qml",
+      "galleryTitle": "TelltaleBar",
+      "doc": "components/TelltaleBar.md",
+      "propertyCount": 12,
+      "signalCount": 0,
+      "methodCount": 0
+    },
+    {
       "name": "TextBlock",
       "module": "QWinUI3.Extras",
       "summary": "Fluent typography styles (title, body, caption…).",
@@ -2795,6 +2915,21 @@
       "methodCount": 0
     },
     {
+      "name": "TpmsGauge",
+      "module": "QWinUI3.Extras",
+      "summary": "Four-corner tire pressure.",
+      "path": "src/extras/QWinUI3/Extras/TpmsGauge.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Charts & gauges",
+      "galleryPage": "pages/TpmsGaugePage.qml",
+      "galleryTitle": "TpmsGauge",
+      "doc": "components/TpmsGauge.md",
+      "propertyCount": 8,
+      "signalCount": 0,
+      "methodCount": 0
+    },
+    {
       "name": "TreeDataGrid",
       "module": "QWinUI3.Extras",
       "summary": "hierarchical multi-column grid with sort + filter (2.21).",
@@ -2883,6 +3018,21 @@
       "propertyCount": 8,
       "signalCount": 0,
       "methodCount": 0
+    },
+    {
+      "name": "VoltageGauge",
+      "module": "QWinUI3.Extras",
+      "summary": "12 V vehicle electrical system.",
+      "path": "src/extras/QWinUI3/Extras/VoltageGauge.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Charts & gauges",
+      "galleryPage": "pages/VoltageGaugePage.qml",
+      "galleryTitle": "VoltageGauge",
+      "doc": "components/VoltageGauge.md",
+      "propertyCount": 12,
+      "signalCount": 1,
+      "methodCount": 1
     },
     {
       "name": "VuMeter",
@@ -4065,7 +4215,7 @@
       "galleryPage": "",
       "galleryTitle": "",
       "doc": "components/Theme.md",
-      "propertyCount": 107,
+      "propertyCount": 108,
       "signalCount": 0,
       "methodCount": 15
     }

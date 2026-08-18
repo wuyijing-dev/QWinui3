@@ -1013,6 +1013,86 @@ QtObject {
             source: "pages/PressureGaugePage.qml"
         },
         {
+            title: qsTr("SpeedometerGauge"),
+            category: "charts",
+            icon: FluentIcons.SpeedHigh,
+            description: qsTr("Vehicle speed needle (experimental). Prefer RadialGauge."),
+            component: "SpeedometerGaugePage",
+            source: "pages/SpeedometerGaugePage.qml"
+        },
+        {
+            title: qsTr("CoolantGauge"),
+            category: "charts",
+            icon: FluentIcons.Dial6,
+            description: qsTr("C–H coolant arc (experimental). Prefer ThermometerGauge."),
+            component: "CoolantGaugePage",
+            source: "pages/CoolantGaugePage.qml"
+        },
+        {
+            title: qsTr("BoostGauge"),
+            category: "charts",
+            icon: FluentIcons.Dial6,
+            description: qsTr("Vacuum/boost needle (experimental). Prefer RadialGauge."),
+            component: "BoostGaugePage",
+            source: "pages/BoostGaugePage.qml"
+        },
+        {
+            title: qsTr("VoltageGauge"),
+            category: "charts",
+            icon: FluentIcons.Battery,
+            description: qsTr("12 V electrical bar (experimental). Prefer LinearGauge."),
+            component: "VoltageGaugePage",
+            source: "pages/VoltageGaugePage.qml"
+        },
+        {
+            title: qsTr("GearIndicator"),
+            category: "charts",
+            icon: FluentIcons.Dial6,
+            description: qsTr("PRNDS gear readout (experimental). Prefer DigitGauge."),
+            component: "GearIndicatorPage",
+            source: "pages/GearIndicatorPage.qml"
+        },
+        {
+            title: qsTr("OdometerGauge"),
+            category: "charts",
+            icon: FluentIcons.Calculator,
+            description: qsTr("Total and trip distance (experimental). Prefer DigitGauge."),
+            component: "OdometerGaugePage",
+            source: "pages/OdometerGaugePage.qml"
+        },
+        {
+            title: qsTr("TelltaleBar"),
+            category: "charts",
+            icon: FluentIcons.Warning,
+            description: qsTr("Cluster warning lamps (experimental). Prefer InfoBadge."),
+            component: "TelltaleBarPage",
+            source: "pages/TelltaleBarPage.qml"
+        },
+        {
+            title: qsTr("TpmsGauge"),
+            category: "charts",
+            icon: FluentIcons.Dial6,
+            description: qsTr("Four-corner tire pressure (experimental). Prefer KpiTile."),
+            component: "TpmsGaugePage",
+            source: "pages/TpmsGaugePage.qml"
+        },
+        {
+            title: qsTr("GMeterGauge"),
+            category: "charts",
+            icon: FluentIcons.DialShape3,
+            description: qsTr("Lateral/longitudinal G plot (experimental). Prefer ScatterChart."),
+            component: "GMeterGaugePage",
+            source: "pages/GMeterGaugePage.qml"
+        },
+        {
+            title: qsTr("AutomotiveCluster"),
+            category: "charts",
+            icon: FluentIcons.SpeedHigh,
+            description: qsTr("Composed instrument cluster (experimental). Prefer the stable six."),
+            component: "AutomotiveClusterPage",
+            source: "pages/AutomotiveClusterPage.qml"
+        },
+        {
             title: qsTr("KpiTile"),
             category: "charts",
             icon: FluentIcons.AreaChart,
@@ -1899,7 +1979,9 @@ QtObject {
         "RadialGaugePage", "LinearGaugePage", "ArcGaugePage", "SegmentedGaugePage",
         "ZoneGaugePage", "TankGaugePage", "ThermometerGaugePage",
         "CompassGaugePage", "VuMeterPage", "DualRingGaugePage", "TachometerGaugePage", "BatteryGaugePage",
-        "FuelGaugePage", "QuarterGaugePage", "DigitGaugePage", "CylinderGaugePage", "LedRingGaugePage", "PressureGaugePage"
+        "FuelGaugePage", "QuarterGaugePage", "DigitGaugePage", "CylinderGaugePage", "LedRingGaugePage", "PressureGaugePage",
+        "SpeedometerGaugePage", "CoolantGaugePage", "BoostGaugePage", "VoltageGaugePage", "GearIndicatorPage",
+        "OdometerGaugePage", "TelltaleBarPage", "TpmsGaugePage", "GMeterGaugePage", "AutomotiveClusterPage"
     ]
 
     readonly property var _experimentalPages: [

@@ -98,7 +98,7 @@ Same `slices` / `values` API. Use `centerText` / `centerSubText` for the hole la
 
 `RadarChart` · `ScatterChart` · `HeatmapChart` · `WaterfallChart` · `StackedBarChart` · `HorizontalBarChart` · `BulletChart` — Gallery demos; compose with stable types or app-owned visuals when possible.
 
-**Professional extras (Gallery, experimental — not stable six):** `ComboChart`, `FunnelChart`, `CandlestickChart`, `HistogramChart`, `BoxPlotChart`, `ParetoChart`, `BandChart`, `TreemapChart`, `PolarAreaChart`, `ViolinChart`, `ErrorBarChart`, `WaffleChart`, `LollipopChart`, `DumbbellChart`, `SunburstChart`, `CompassGauge`, `VuMeter`, `DualRingGauge`, `TachometerGauge`, `BatteryGauge`, `FuelGauge`, `QuarterGauge`, `DigitGauge`, `CylinderGauge`, `LedRingGauge`, `PressureGauge`. `RadialGauge.value2` / `RingGauge.value2` draw a second needle or inner ring. Stable six deepen: `LineChart.xAxisLabels` / `stepMode`, `BarChart.stacked` / `horizontal` / `series`, `KpiTile.compareValue`.
+**Professional extras (Gallery, experimental — not stable six):** `ComboChart`, `FunnelChart`, `CandlestickChart`, `HistogramChart`, `BoxPlotChart`, `ParetoChart`, `BandChart`, `TreemapChart`, `PolarAreaChart`, `ViolinChart`, `ErrorBarChart`, `WaffleChart`, `LollipopChart`, `DumbbellChart`, `SunburstChart`, `CompassGauge`, `VuMeter`, `DualRingGauge`, `TachometerGauge`, `BatteryGauge`, `FuelGauge`, `QuarterGauge`, `DigitGauge`, `CylinderGauge`, `LedRingGauge`, `PressureGauge`, `SpeedometerGauge`, `CoolantGauge`, `BoostGauge`, `VoltageGauge`, `GearIndicator`, `OdometerGauge`, `TelltaleBar`, `TpmsGauge`, `GMeterGauge`, `AutomotiveCluster`. `RadialGauge.value2` / `RingGauge.value2` draw a second needle or inner ring. Stable six deepen: `LineChart.xAxisLabels` / `stepMode`, `BarChart.stacked` / `horizontal` / `series`, `KpiTile.compareValue`.
 
 ---
 
@@ -113,7 +113,7 @@ Kept in the kit and Gallery. APIs may still change. **Do not** ship these names 
 | [`PieChart`](components/PieChart.md) | [`DonutChart`](components/DonutChart.md) | **Permanent defer** |
 | [`Sparkline`](components/Sparkline.md) | `KpiTile.trendValues` / compact `LineChart` | **Permanent defer** — compose recipe above |
 | `RadarChart` · `ScatterChart` · `HeatmapChart` · `WaterfallChart` · `StackedBarChart` · `BulletChart` · `ComboChart` · `FunnelChart` · `CandlestickChart` · `HistogramChart` · `BoxPlotChart` · `ParetoChart` · `BandChart` · `TreemapChart` · `PolarAreaChart` · `ViolinChart` · `ErrorBarChart` · `WaffleChart` · `LollipopChart` · `DumbbellChart` · `SunburstChart` | Stable six or custom | **Permanent defer** |
-| `ArcGauge` · `RadialGauge` · `LinearGauge` · `TankGauge` · `ThermometerGauge` · `ZoneGauge` · `SegmentedGauge` · `CompassGauge` · `VuMeter` · `DualRingGauge` · `TachometerGauge` · `BatteryGauge` · `FuelGauge` · `QuarterGauge` · `DigitGauge` · `CylinderGauge` · `LedRingGauge` · `PressureGauge` | [`RingGauge`](components/RingGauge.md) | **Permanent defer** |
+| `ArcGauge` · `RadialGauge` · `LinearGauge` · `TankGauge` · `ThermometerGauge` · `ZoneGauge` · `SegmentedGauge` · `CompassGauge` · `VuMeter` · `DualRingGauge` · `TachometerGauge` · `BatteryGauge` · `FuelGauge` · `QuarterGauge` · `DigitGauge` · `CylinderGauge` · `LedRingGauge` · `PressureGauge` · `SpeedometerGauge` · `CoolantGauge` · `BoostGauge` · `VoltageGauge` · `GearIndicator` · `OdometerGauge` · `TelltaleBar` · `TpmsGauge` · `GMeterGauge` · `AutomotiveCluster` | [`RingGauge`](components/RingGauge.md) | **Permanent defer** |
 | `ChartLegend` · `ChartUtils` | Usable helpers | Not in the freeze promise |
 
 ---

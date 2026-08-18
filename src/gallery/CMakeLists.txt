@@ -211,6 +211,16 @@ qt_add_qml_module(qwinui3_gallery
         pages/CylinderGaugePage.qml
         pages/LedRingGaugePage.qml
         pages/PressureGaugePage.qml
+        pages/SpeedometerGaugePage.qml
+        pages/CoolantGaugePage.qml
+        pages/BoostGaugePage.qml
+        pages/VoltageGaugePage.qml
+        pages/GearIndicatorPage.qml
+        pages/OdometerGaugePage.qml
+        pages/TelltaleBarPage.qml
+        pages/TpmsGaugePage.qml
+        pages/GMeterGaugePage.qml
+        pages/AutomotiveClusterPage.qml
         pages/KpiTilePage.qml
         pages/DashboardPage.qml
         pages/RadioButtonPage.qml

@@ -8,7 +8,7 @@ python scripts/generate_component_docs.py
 python scripts/generate_component_docs.py --lint
 ```
 
-**260** public · **11** internal · **187** with Gallery demos · Hub: [docs home](index.md).
+**270** public · **11** internal · **197** with Gallery demos · Hub: [docs home](index.md).
 
 ## By module
 
@@ -24,12 +24,14 @@ python scripts/generate_component_docs.py --lint
 - [AppBarToggleButton](components/AppBarToggleButton.md) — Checkable AppBarButton for CommandBar. · Gallery
 - [ArcGauge](components/ArcGauge.md) — Open-arc dashboard gauge with center value and thresholds. · Gallery
 - [AreaChart](components/AreaChart.md) — Filled area chart with legend and hover crosshair. · Gallery
+- [AutomotiveCluster](components/AutomotiveCluster.md) — Composed vehicle instrument cluster. · Gallery
 - [AutoSuggestBox](components/AutoSuggestBox.md) — Text field with filtered suggestion popup. · Gallery
 - [AvatarGroup](components/AvatarGroup.md) — Overlapping PersonPicture stack with overflow count. · Gallery
 - [BandChart](components/BandChart.md) — High/low envelope with an optional mid line. · Gallery
 - [BarChart](components/BarChart.md) — Vertical bar chart with reveal animation. · Gallery
 - [BatteryGauge](components/BatteryGauge.md) — Battery silhouette with charge fill and optional charging bolt. · Gallery
 - [BlankWindow](components/BlankWindow.md) — Empty ShellWindow client — declare UI as children.
+- [BoostGauge](components/BoostGauge.md) — Turbo vacuum / boost with zero at center-left of the scale. · Gallery
 - [BoxPlotChart](components/BoxPlotChart.md) — Tukey box-and-whisker groups. · Gallery
 - [BreadcrumbBar](components/BreadcrumbBar.md) — Path trail; model items raise itemClicked. · Gallery
 - [BulletChart](components/BulletChart.md) — Compact KPI bullet (ranges + performance + target). · Gallery
@@ -54,6 +56,7 @@ python scripts/generate_component_docs.py --lint
 - [ContentDialog](components/ContentDialog.md) — Modal dialog with primary / secondary / close actions. · Gallery
 - [ContentDialogQueue](components/ContentDialogQueue.md) — Singleton queue so ContentDialogs open one at a time.
 - [ContentThemeTransition](components/ContentThemeTransition.md) — Cross-fade + slight horizontal shift when swapping content.
+- [CoolantGauge](components/CoolantGauge.md) — Automotive C–H coolant temperature. · Gallery
 - [CopyButton](components/CopyButton.md) — Copies textToCopy and flashes a success glyph. · Gallery
 - [CylinderGauge](components/CylinderGauge.md) — Isometric cylinder level. · Gallery
 - [DashboardShell](components/DashboardShell.md) — Minimal dashboard layout host (2.52 preview; chart grid + filter rail in 2.65).
@@ -79,6 +82,8 @@ python scripts/generate_component_docs.py --lint
 - [FormLayout](components/FormLayout.md) — Vertical form stack that collects field errorMessage values.
 - [FuelGauge](components/FuelGauge.md) — Empty/full arc with E–F marks. · Gallery
 - [FunnelChart](components/FunnelChart.md) — Conversion funnel from stage values. · Gallery
+- [GearIndicator](components/GearIndicator.md) — PRNDS / manual gear readout for a cluster. · Gallery
+- [GMeterGauge](components/GMeterGauge.md) — Lateral / longitudinal G-force plot. · Gallery
 - [GridTile](components/GridTile.md) — Icon + title tile for launchers / galleries. · Gallery
 - [HeaderedComboBox](components/HeaderedComboBox.md) — ComboBox with header, description, and FormLayout binding. · Gallery
 - [HeaderedContentControl](components/HeaderedContentControl.md) — Labeled content host. · Gallery
@@ -121,6 +126,7 @@ python scripts/generate_component_docs.py --lint
 - [NotificationBridge](components/NotificationBridge.md) — Mirror in-app ToastHost to OS notifications (Win balloon / Linux portal). · Gallery
 - [NotificationCenter](components/NotificationCenter.md) — In-app notification drawer with grouping (2.27 / 2.63). · Gallery
 - [NumberBox](components/NumberBox.md) — Numeric spin/edit with validation (WinUI AcceptsExpression / IsWrapEnabled). · Gallery
+- [OdometerGauge](components/OdometerGauge.md) — Total and trip distance. · Gallery
 - [OnScreenKeyboard](components/OnScreenKeyboard.md) — Windows 11 touch keyboard parity (1.82). · Gallery
 - [OnScreenKeyboardWindow](components/OnScreenKeyboardWindow.md) — floating Win11-style OSK (1.83).
 - [OskHandwritingPad](components/OskHandwritingPad.md) — Zinnia CLI handwriting panel (Windows + Linux).
@@ -165,6 +171,7 @@ python scripts/generate_component_docs.py --lint
 - [ShellWindow](components/ShellWindow.md) — Independent ApplicationWindow + WindowChrome host.
 - [Shimmer](components/Shimmer.md) — Skeleton shimmer placeholder. · Gallery
 - [Sparkline](components/Sparkline.md) — Inline mini line chart. · Gallery
+- [SpeedometerGauge](components/SpeedometerGauge.md) — Vehicle speed needle (km/h or mph). · Gallery
 - [SplitButton](components/SplitButton.md) — Primary action + chevron menu. · Gallery
 - [StackedBarChart](components/StackedBarChart.md) — Stacked bar chart. · Gallery
 - [StackPanel](components/StackPanel.md) — Simple stack layout (orientation + spacing). · Gallery
@@ -183,6 +190,7 @@ python scripts/generate_component_docs.py --lint
 - [TachometerGauge](components/TachometerGauge.md) — RPM-style needle with a redline band. · Gallery
 - [TankGauge](components/TankGauge.md) — Vertical / horizontal tank / reservoir level gauge. · Gallery
 - [TeachingTip](components/TeachingTip.md) — Anchored tip with title, subtitle, content, and actions. · Gallery
+- [TelltaleBar](components/TelltaleBar.md) — Cluster warning / indicator lamps. · Gallery
 - [TextBlock](components/TextBlock.md) — Fluent typography styles (title, body, caption…). · Gallery
 - [ThemeAppearanceSettings](components/ThemeAppearanceSettings.md) — Drop-in SettingsGroup for Theme knobs (1.69).
 - [ThemePrefs](components/ThemePrefs.md) — Persist Theme knobs via QtCore Settings (1.69). · Gallery
@@ -197,12 +205,14 @@ python scripts/generate_component_docs.py --lint
 - [ToggleSplitButton](components/ToggleSplitButton.md) — Toggle primary + menu SplitButton. · Gallery
 - [TokenizingTextBox](components/TokenizingTextBox.md) — Token chips + text input. · Gallery
 - [ToolShellWindow](components/ToolShellWindow.md) — ShellWindow with tool paradigm.
+- [TpmsGauge](components/TpmsGauge.md) — Four-corner tire pressure. · Gallery
 - [TreeDataGrid](components/TreeDataGrid.md) — hierarchical multi-column grid with sort + filter (2.21). · Gallery
 - [TreemapChart](components/TreemapChart.md) — Nested slice-and-dice treemap. · Gallery
 - [TwoPaneView](components/TwoPaneView.md) — Responsive dual-pane layout. · Gallery
 - [UniformGrid](components/UniformGrid.md) — Even cell grid. · Gallery
 - [ValidationSummary](components/ValidationSummary.md) — Lists form-level validation errors (pairs with FormLayout).
 - [ViolinChart](components/ViolinChart.md) — Density violin from sample groups. · Gallery
+- [VoltageGauge](components/VoltageGauge.md) — 12 V vehicle electrical system. · Gallery
 - [VuMeter](components/VuMeter.md) — Linear LED / peak-hold meter (audio, signal, load). · Gallery
 - [WaffleChart](components/WaffleChart.md) — 10×10 part-to-whole grid. · Gallery
 - [WaterfallChart](components/WaterfallChart.md) — Waterfall chart. · Gallery
@@ -313,15 +323,18 @@ python scripts/generate_component_docs.py --lint
 
 - [ArcGauge](components/ArcGauge.md) — `QWinUI3.Extras`
 - [AreaChart](components/AreaChart.md) — `QWinUI3.Extras`
+- [AutomotiveCluster](components/AutomotiveCluster.md) — `QWinUI3.Extras`
 - [BandChart](components/BandChart.md) — `QWinUI3.Extras`
 - [BarChart](components/BarChart.md) — `QWinUI3.Extras`
 - [BatteryGauge](components/BatteryGauge.md) — `QWinUI3.Extras`
+- [BoostGauge](components/BoostGauge.md) — `QWinUI3.Extras`
 - [BoxPlotChart](components/BoxPlotChart.md) — `QWinUI3.Extras`
 - [BulletChart](components/BulletChart.md) — `QWinUI3.Extras`
 - [CandlestickChart](components/CandlestickChart.md) — `QWinUI3.Extras`
 - [ChartCard](components/ChartCard.md) — `QWinUI3.Extras`
 - [ChartLegend](components/ChartLegend.md) — `QWinUI3.Extras`
 - [CompassGauge](components/CompassGauge.md) — `QWinUI3.Extras`
+- [CoolantGauge](components/CoolantGauge.md) — `QWinUI3.Extras`
 - [CylinderGauge](components/CylinderGauge.md) — `QWinUI3.Extras`
 - [DigitGauge](components/DigitGauge.md) — `QWinUI3.Extras`
 - [DonutChart](components/DonutChart.md) — `QWinUI3.Extras`
@@ -330,6 +343,8 @@ python scripts/generate_component_docs.py --lint
 - [ErrorBarChart](components/ErrorBarChart.md) — `QWinUI3.Extras`
 - [FuelGauge](components/FuelGauge.md) — `QWinUI3.Extras`
 - [FunnelChart](components/FunnelChart.md) — `QWinUI3.Extras`
+- [GMeterGauge](components/GMeterGauge.md) — `QWinUI3.Extras`
+- [GearIndicator](components/GearIndicator.md) — `QWinUI3.Extras`
 - [HeatmapChart](components/HeatmapChart.md) — `QWinUI3.Extras`
 - [HistogramChart](components/HistogramChart.md) — `QWinUI3.Extras`
 - [HorizontalBarChart](components/HorizontalBarChart.md) — `QWinUI3.Extras`
@@ -338,6 +353,7 @@ python scripts/generate_component_docs.py --lint
 - [LineChart](components/LineChart.md) — `QWinUI3.Extras`
 - [LinearGauge](components/LinearGauge.md) — `QWinUI3.Extras`
 - [LollipopChart](components/LollipopChart.md) — `QWinUI3.Extras`
+- [OdometerGauge](components/OdometerGauge.md) — `QWinUI3.Extras`
 - [ParetoChart](components/ParetoChart.md) — `QWinUI3.Extras`
 - [PieChart](components/PieChart.md) — `QWinUI3.Extras`
 - [PolarAreaChart](components/PolarAreaChart.md) — `QWinUI3.Extras`
@@ -348,12 +364,16 @@ python scripts/generate_component_docs.py --lint
 - [ScatterChart](components/ScatterChart.md) — `QWinUI3.Extras`
 - [SegmentedGauge](components/SegmentedGauge.md) — `QWinUI3.Extras`
 - [Sparkline](components/Sparkline.md) — `QWinUI3.Extras`
+- [SpeedometerGauge](components/SpeedometerGauge.md) — `QWinUI3.Extras`
 - [StackedBarChart](components/StackedBarChart.md) — `QWinUI3.Extras`
 - [SunburstChart](components/SunburstChart.md) — `QWinUI3.Extras`
 - [TachometerGauge](components/TachometerGauge.md) — `QWinUI3.Extras`
 - [TankGauge](components/TankGauge.md) — `QWinUI3.Extras`
+- [TelltaleBar](components/TelltaleBar.md) — `QWinUI3.Extras`
 - [ThermometerGauge](components/ThermometerGauge.md) — `QWinUI3.Extras`
+- [TpmsGauge](components/TpmsGauge.md) — `QWinUI3.Extras`
 - [ViolinChart](components/ViolinChart.md) — `QWinUI3.Extras`
+- [VoltageGauge](components/VoltageGauge.md) — `QWinUI3.Extras`
 - [WaffleChart](components/WaffleChart.md) — `QWinUI3.Extras`
 - [WaterfallChart](components/WaterfallChart.md) — `QWinUI3.Extras`
 - [ZoneGauge](components/ZoneGauge.md) — `QWinUI3.Extras`

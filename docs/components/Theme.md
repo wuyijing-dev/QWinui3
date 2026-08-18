@@ -119,7 +119,8 @@ Use Theme.duration(ms) and controlFill/accentFill helpers for states.
 | `fontFamilyDisplay` | `string` | Segoe UI Variable Display face (large titles) |
 | `fontFamilyIcon` | `string` | Fluent Icons — system Segoe on Windows when present, else embedded WinSymbols3 ("Symbols") |
 | `iconFontFamily` | `string` | Alias used by a few tiles |
-| `fontFamilyMono` | `string` | Monospace — resolved at runtime; never use generic "monospace" (maps to Fixedsys on Windows) |
+| `fontFamilyMono` | `string` | Monospace — outline family from ThemeFonts (never generic "monospace" / Fixedsys) |
+| `fontMonoCode` | `font` | — |
 | `fontFamiliesMono` | `var` | — |
 | `fontCaption` | `int` | Caption font size (12) |
 | `fontSizeCaption` | `int` | — |

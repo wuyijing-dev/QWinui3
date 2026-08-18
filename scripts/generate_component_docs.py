@@ -90,6 +90,7 @@ CATEGORY_RULES: list[tuple[str, tuple[str, ...]]] = [
     )),
     ("Charts & gauges", (
         "Chart", "Gauge", "Sparkline", "Heatmap", "Kpi",
+        "Cluster", "Telltale", "GearIndicator",
     )),
     ("Date & time", ("Date", "Time", "Calendar", "Month", "DayOfWeek")),
     ("Layout", (

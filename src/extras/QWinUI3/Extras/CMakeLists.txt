@@ -194,6 +194,16 @@ qt_add_qml_module(qwinui3_extras
         CylinderGauge.qml
         LedRingGauge.qml
         PressureGauge.qml
+        SpeedometerGauge.qml
+        CoolantGauge.qml
+        BoostGauge.qml
+        VoltageGauge.qml
+        GearIndicator.qml
+        OdometerGauge.qml
+        TelltaleBar.qml
+        TpmsGauge.qml
+        GMeterGauge.qml
+        AutomotiveCluster.qml
         KpiTile.qml
         RadioButtons.qml
         RadioMenuFlyoutItem.qml
