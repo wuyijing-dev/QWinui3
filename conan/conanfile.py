@@ -20,7 +20,7 @@ from conan.tools.files import copy, load
 class QWinui3Conan(ConanFile):
     name = "qwinui3"
     version = "2.11"
-    license = "LGPL-3.0-or-later"
+    license = "MIT"
     author = "QWinUI3 contributors"
     url = "https://github.com/wuyijing-dev/QWinui3"
     homepage = "https://github.com/wuyijing-dev/QWinui3"

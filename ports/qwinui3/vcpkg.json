@@ -2,9 +2,9 @@
   "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
   "name": "qwinui3",
   "version": "2.11",
-  "description": "Fluent / WinUI 3-inspired controls for Qt 6 Quick (LGPL-3.0)",
+  "description": "Fluent / WinUI 3-inspired controls for Qt 6 Quick (MIT base + GPL Extras)",
   "homepage": "https://github.com/wuyijing-dev/QWinui3",
-  "license": "LGPL-3.0-or-later",
+  "license": "MIT",
   "supports": "(windows & !uwp) | linux",
   "dependencies": [
     "qtdeclarative"

@@ -76,6 +76,7 @@ nav:
       - Consumer packaging: packaging-consumer.md
       - Qt version compat: qt-version-compat.md
       - Conventions: conventions.md
+      - Licensing: licensing.md
     - App shells:
       - Window shells: window-shells.md
       - Window chrome: window-chrome.md

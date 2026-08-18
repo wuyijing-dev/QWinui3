@@ -219,7 +219,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("QWinUI3 is LGPL-3.0. windeployqt / linuxdeploy-plugin-qt may copy GPL/commercial add-ons (notably Virtual Keyboard). Use cmake/StripRestrictedQtModules.cmake on your exe target, or the cleanup in package_release_gallery.py. Never ship those trees inside the QWinUI3 kit zip.")
+                text: qsTr("QWinUI3: MIT for Theme/Style/Platform; GPL-3.0 for Extras/Gallery (docs/licensing.md). windeployqt may copy GPL Qt add-ons (Virtual Keyboard) — use StripRestrictedQtModules or package_release_gallery cleanup.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
