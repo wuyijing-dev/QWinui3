@@ -1,9 +1,12 @@
 #include "FrameStatsMonitor.h"
 
+#include <QWinUI3/Compat/QtCompatRhi.h>
+
 #include <QCoreApplication>
 #include <QElapsedTimer>
 #include <QQmlEngine>
 #include <QQuickWindow>
+#include <QSGRendererInterface>
 #include <QSettings>
 #include <cstring>
 
@@ -41,6 +44,21 @@ void FrameStatsMonitor::applyCli(int &argc, char **argv)
         if (std::strcmp(argv[i], "--fps-overlay") == 0) {
             instance()->setEnabled(true);
             instance()->setInTitleBar(false);
+            continue;
+        }
+        if (std::strcmp(argv[i], "--show-rhi") == 0) {
+            instance()->setShowRhi(true);
+            instance()->setEnabled(true);
+            continue;
+        }
+        if (std::strcmp(argv[i], "--show-diagnostics") == 0) {
+            instance()->setEnabled(true);
+            instance()->setShowRhi(true);
+            continue;
+        }
+        if (std::strcmp(argv[i], "--retail-diagnostics") == 0) {
+            instance()->applyRetailProfile();
+            continue;
         }
     }
 }
@@ -80,6 +98,64 @@ void FrameStatsMonitor::setInTitleBar(bool inTitleBar)
     emit changed();
 }
 
+bool FrameStatsMonitor::showRhi() const
+{
+    return m_showRhi;
+}
+
+void FrameStatsMonitor::setShowRhi(bool on)
+{
+    if (m_showRhi == on)
+        return;
+    m_showRhi = on;
+    saveSettings();
+    emit changed();
+}
+
+bool FrameStatsMonitor::persistSettings() const
+{
+    return m_persistSettings;
+}
+
+void FrameStatsMonitor::setPersistSettings(bool on)
+{
+    if (m_persistSettings == on)
+        return;
+    m_persistSettings = on;
+    emit changed();
+}
+
+bool FrameStatsMonitor::retailMode() const
+{
+    return m_retailMode;
+}
+
+void FrameStatsMonitor::setRetailMode(bool on)
+{
+    if (m_retailMode == on)
+        return;
+    m_retailMode = on;
+    if (m_retailMode) {
+        m_enabled = false;
+        m_showRhi = false;
+    }
+    emit changed();
+}
+
+void FrameStatsMonitor::applyRetailProfile()
+{
+    setRetailMode(true);
+    setPersistSettings(false);
+    setEnabled(false);
+    setShowRhi(false);
+    if (!QCoreApplication::instance())
+        return;
+    QSettings settings;
+    settings.remove(QStringLiteral("performance/showFps"));
+    settings.remove(QStringLiteral("performance/fpsInTitleBar"));
+    settings.remove(QStringLiteral("performance/showRhiInBadge"));
+}
+
 qreal FrameStatsMonitor::fps() const
 {
     return m_fps;
@@ -90,27 +166,71 @@ qreal FrameStatsMonitor::frameTimeMs() const
     return m_frameTimeMs;
 }
 
+QString FrameStatsMonitor::rhiBackend() const
+{
+    return m_rhiBackend;
+}
+
+QString FrameStatsMonitor::rhiLabel() const
+{
+    return m_rhiLabel;
+}
+
 void FrameStatsMonitor::loadSettings()
 {
     if (!QCoreApplication::instance())
         return;
     QSettings settings;
+    if (m_retailMode) {
+        m_enabled = false;
+        m_showRhi = false;
+        m_inTitleBar = settings.value(QStringLiteral("performance/fpsInTitleBar"), true).toBool();
+        return;
+    }
     m_enabled = settings.value(QStringLiteral("performance/showFps"), false).toBool();
     m_inTitleBar = settings.value(QStringLiteral("performance/fpsInTitleBar"), true).toBool();
+    m_showRhi = settings.value(QStringLiteral("performance/showRhiInBadge"), false).toBool();
 }
 
 void FrameStatsMonitor::saveSettings()
 {
-    if (!QCoreApplication::instance())
+    if (!QCoreApplication::instance() || !m_persistSettings || m_retailMode)
         return;
     QSettings settings;
     settings.setValue(QStringLiteral("performance/showFps"), m_enabled);
     settings.setValue(QStringLiteral("performance/fpsInTitleBar"), m_inTitleBar);
+    settings.setValue(QStringLiteral("performance/showRhiInBadge"), m_showRhi);
 }
 
 void FrameStatsMonitor::attachWindow(QQuickWindow *window)
 {
     bindWindow(window);
+}
+
+void FrameStatsMonitor::refreshRhi()
+{
+    QString backend;
+    if (m_window) {
+        if (auto *rif = m_window->rendererInterface()) {
+            backend = QWinUI3::Compat::Rhi::backendForGraphicsApi(rif->graphicsApi());
+        }
+    }
+    if (backend.isEmpty()) {
+        backend = QWinUI3::Compat::Rhi::normalize(
+            QString::fromUtf8(qgetenv("QSG_RHI_BACKEND")));
+    }
+
+    const QString label = backend.isEmpty()
+            ? QString()
+            : QWinUI3::Compat::Rhi::displayName(backend);
+
+    const bool backendChanged = backend != m_rhiBackend;
+    const bool labelChanged = label != m_rhiLabel;
+    m_rhiBackend = backend;
+    m_rhiLabel = label;
+
+    if (backendChanged || labelChanged)
+        emit changed();
 }
 
 void FrameStatsMonitor::bindWindow(QQuickWindow *window)
@@ -126,6 +246,8 @@ void FrameStatsMonitor::bindWindow(QQuickWindow *window)
     m_frameCount = 0;
     m_accumMs = 0.0;
 
+    refreshRhi();
+
     if (!m_window)
         return;
 
@@ -136,6 +258,9 @@ void FrameStatsMonitor::bindWindow(QQuickWindow *window)
 
 void FrameStatsMonitor::onFrameSwapped()
 {
+    if (m_rhiBackend.isEmpty())
+        refreshRhi();
+
     if (!m_enabled)
         return;
 

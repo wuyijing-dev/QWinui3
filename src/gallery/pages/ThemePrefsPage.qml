@@ -11,9 +11,22 @@ import QWinUI3.Platform
 CatalogPage {
     id: page
     title: qsTr("Theme prefs")
-    subtitle: qsTr("ThemeAppearanceSettings + Theme.recipeText() — not a Gallery privilege. docs/theme-overrides.md (1.69).")
+    subtitle: qsTr("ThemeAppearanceSettings + ThemePrefs persist recipe — docs/theme-overrides.md (2.38).")
 
     signal openSettings()
+
+    ControlExample {
+        headerText: qsTr("ThemePrefs for 2.x apps (2.38)")
+        qmlSource: "ThemePrefs { category: \"MyAppTheme\"; autoLoad: true; autoSave: true }"
+        Text {
+            Layout.fillWidth: true
+            wrapMode: Text.WordWrap
+            text: qsTr("Separate ThemePrefs category from geometryPersistenceKey. ThemeAppearanceSettings { persist: true; prefsCategory: \"MyAppTheme\" } writes the same knobs. ThemeSync on StandardWindow/ShellWindow applies followSystem* after load.")
+            font.family: Theme.fontFamily
+            font.pixelSize: Theme.fontBody
+            color: Theme.textSecondary
+        }
+    }
 
     ControlExample {
         headerText: qsTr("Drop-in for any app (1.69)")
@@ -44,7 +57,7 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WrapAnywhere
                 text: Theme.recipeSnippet
-                font.family: "Consolas"
+                font.family: Theme.fontFamilyMono
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textSecondary
             }

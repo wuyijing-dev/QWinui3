@@ -13,6 +13,9 @@ set_source_files_properties(ContentDialogQueue.qml PROPERTIES
 set_source_files_properties(ConnectedAnimationService.qml PROPERTIES
     QT_QML_SINGLETON_TYPE TRUE
 )
+set_source_files_properties(TabViewDropHub.qml PROPERTIES
+    QT_QML_SINGLETON_TYPE TRUE
+)
 
 set(QWINUI3_EXTRAS_MEDIA_QML)
 set(QWINUI3_HAS_MEDIA OFF)
@@ -46,6 +49,12 @@ qt_add_qml_module(qwinui3_extras
         KeyboardEngine.cpp
         PinyinLexicon.h
         PinyinLexicon.cpp
+        OskUserLexicon.h
+        OskUserLexicon.cpp
+        OskSpeechService.h
+        OskSpeechService.cpp
+        OskHandwritingService.h
+        OskHandwritingService.cpp
         HangulComposer.h
         HangulComposer.cpp
         RomajiKana.h
@@ -103,6 +112,10 @@ qt_add_qml_module(qwinui3_extras
         HyperlinkButton.qml
         IconButton.qml
         ImeCandidateBar.qml
+        OskHandwritingPad.qml
+        OskPanelButton.qml
+        OskSettingsFlyout.qml
+        OskVoiceBar.qml
         IconicButton.qml
         InfoBadge.qml
         InfoBar.qml
@@ -186,6 +199,7 @@ qt_add_qml_module(qwinui3_extras
         SwitchCase.qml
         SwitchPresenter.qml
         TabView.qml
+        TabViewDropHub.qml
         TabViewTearOutWindow.qml
         TeachingTip.qml
         TextBlock.qml

@@ -1,4 +1,5 @@
 #include "KeyboardEngine.h"
+#include "OskUserLexicon.h"
 #include "PinyinLexicon.h"
 #include "RomajiKana.h"
 
@@ -296,7 +297,8 @@ bool KeyboardEngine::restoreFocus()
     auto *item = qobject_cast<QQuickItem *>(m_target.data());
     if (!item || !item->isVisible() || !item->isEnabled())
         return false;
-    return item->forceActiveFocus();
+    item->forceActiveFocus();
+    return item->hasActiveFocus();
 }
 
 void KeyboardEngine::rememberEditor(QObject *object)
@@ -609,11 +611,23 @@ QString KeyboardEngine::clipboardText() const
 
 void KeyboardEngine::sendKey(int key, const QString &text) const
 {
+    int mods = Qt::NoModifier;
+    if (m_ctrlLatched)
+        mods |= Qt::ControlModifier;
+    if (m_altLatched)
+        mods |= Qt::AltModifier;
+    if (m_winLatched)
+        mods |= Qt::MetaModifier;
+    sendKeyWithModifiers(key, text, mods);
+}
+
+void KeyboardEngine::sendKeyWithModifiers(int key, const QString &text, int modifiers) const
+{
     QObject *item = target();
     if (!item)
         return;
-    QKeyEvent press(QEvent::KeyPress, key, Qt::NoModifier, text);
-    QKeyEvent release(QEvent::KeyRelease, key, Qt::NoModifier, text);
+    QKeyEvent press(QEvent::KeyPress, key, Qt::KeyboardModifiers(modifiers), text);
+    QKeyEvent release(QEvent::KeyRelease, key, Qt::KeyboardModifiers(modifiers), text);
     QCoreApplication::sendEvent(item, &press);
     QCoreApplication::sendEvent(item, &release);
 }
@@ -632,6 +646,43 @@ QStringList KeyboardEngine::pagedCandidates() const
     for (int i = 0; i < kPageSize && start + i < m_candidates.size(); ++i)
         out.append(m_candidates.at(start + i));
     return out;
+}
+
+QVariantList KeyboardEngine::candidateGroups() const
+{
+    return m_candidateGroups;
+}
+
+void KeyboardEngine::toggleModifier(const QString &name)
+{
+    const QString n = name.toLower();
+    if (n == QStringLiteral("ctrl") || n == QStringLiteral("control")) {
+        m_ctrlLatched = !m_ctrlLatched;
+    } else if (n == QStringLiteral("alt")) {
+        m_altLatched = !m_altLatched;
+    } else if (n == QStringLiteral("win") || n == QStringLiteral("meta")) {
+        m_winLatched = !m_winLatched;
+    } else {
+        return;
+    }
+    emit modifiersChanged();
+}
+
+void KeyboardEngine::clearModifiers()
+{
+    bool changed = m_ctrlLatched || m_altLatched || m_winLatched;
+    m_ctrlLatched = false;
+    m_altLatched = false;
+    m_winLatched = false;
+    if (changed)
+        emit modifiersChanged();
+}
+
+void KeyboardEngine::clearUserLexicon()
+{
+    OskUserLexicon::instance().clear();
+    if (pinyin())
+        refreshCompose();
 }
 
 void KeyboardEngine::processPinyinVk(int vk, bool shift)
@@ -768,11 +819,27 @@ void KeyboardEngine::processKoreanVk(int vk, bool shift)
 
 void KeyboardEngine::refreshCompose()
 {
-    if (pinyin())
-        m_candidates = PinyinLexicon::instance().lookup(m_preedit);
-    else if (japanese())
+    m_candidateGroups.clear();
+    if (pinyin()) {
+        const OskPinyinGroupedLookup grouped = PinyinLexicon::instance().lookupGrouped(m_preedit);
+        m_candidates = grouped.all();
+        OskUserLexicon::instance().boost(&m_candidates, m_preedit);
+        auto tier = [](const QString &id, const QString &label, const QStringList &items) {
+            QVariantMap m;
+            m.insert(QStringLiteral("id"), id);
+            m.insert(QStringLiteral("label"), label);
+            m.insert(QStringLiteral("items"), items);
+            return m;
+        };
+        if (!grouped.single.isEmpty())
+            m_candidateGroups.append(tier(QStringLiteral("single"), tr("单字"), grouped.single));
+        if (!grouped.doubleChar.isEmpty())
+            m_candidateGroups.append(tier(QStringLiteral("double"), tr("双字"), grouped.doubleChar));
+        if (!grouped.phrase.isEmpty())
+            m_candidateGroups.append(tier(QStringLiteral("phrase"), tr("词语"), grouped.phrase));
+    } else if (japanese()) {
         m_candidates = RomajiKana::candidates(m_preedit);
-    else if (korean()) {
+    } else if (korean()) {
         const QString syllable = m_hangul.preedit();
         m_candidates = syllable.isEmpty() ? QStringList{} : QStringList{syllable};
     } else {
@@ -823,7 +890,19 @@ void KeyboardEngine::pickCandidate(int indexOnPage)
     const int idx = m_candidatePage * kPageSize + indexOnPage;
     if (idx < 0 || idx >= m_candidates.size())
         return;
+    pickCandidateWord(m_candidates.at(idx));
+}
+
+void KeyboardEngine::pickCandidateWord(const QString &word)
+{
+    if (word.isEmpty() || m_candidates.isEmpty())
+        return;
+    const int idx = m_candidates.indexOf(word);
+    if (idx < 0)
+        return;
     const QString picked = m_candidates.at(idx);
+    if (pinyin())
+        OskUserLexicon::instance().recordPick(m_preedit, picked);
     if (korean()) {
         m_hangul.reset();
         commitReplace(picked);

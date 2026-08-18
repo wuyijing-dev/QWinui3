@@ -31,7 +31,8 @@ import QWinUI3.Theme
 //   tabStripHeader / tabStripFooter for strip chrome; tabsReorderable enables drag reorder.
 //   canTearOutTabs: drag a tab vertically past tearOutThreshold to open a new window
 //   (or handle tabTearOutRequested yourself). createTearOutWindow builds a BlankWindow
-//   hosting another TabView with the torn tab.
+//   hosting another TabView with the torn tab. Drop onto another TabView in this
+//   process to dock it back (TabViewDropHub). closeWhenEmpty closes tear-out hosts.
 
 T.Control {
     id: control
@@ -62,6 +63,8 @@ T.Control {
     property real tearOutThreshold: 48
     // When true, TabView opens a BlankWindow for torn tabs (still emits the signal)
     property bool createTearOutWindow: true
+    // Close the host window when the last tab is taken (tear-out windows)
+    property bool closeWhenEmpty: false
     // Tab width mode
     property string tabWidthMode: "sizeToContent"
     // Show add-tab button
@@ -110,6 +113,9 @@ T.Control {
     Accessible.role: Accessible.PageTabList
     Accessible.name: qsTr("Tabs")
     Accessible.description: qsTr("Tab %1 of %2").arg(currentIndex + 1).arg(tabCount)
+
+    Component.onCompleted: TabViewDropHub.register(control)
+    Component.onDestruction: TabViewDropHub.unregister(control)
 
     onCurrentIndexChanged: {
         selectionChanged(currentIndex)
@@ -213,19 +219,58 @@ T.Control {
     function tearOutTab(index, globalX, globalY) {
         if (!canTearOutTabs)
             return null
-        var item = takeTab(index)
-        if (item === null || item === undefined)
-            return null
         var gx = Number(globalX)
         var gy = Number(globalY)
         if (isNaN(gx))
             gx = 120
         if (isNaN(gy))
             gy = 120
+        var dock = TabViewDropHub.hit(gx, gy, control)
+        var item = takeTab(index)
+        if (item === null || item === undefined)
+            return null
         tabTearOutRequested(index, item, gx, gy)
+        if (dock && typeof dock.insertTab === "function") {
+            dock.insertTab(item, dock.dropIndexAt(gx, gy))
+            control._closeIfEmpty()
+            return item
+        }
         if (createTearOutWindow)
             _openTearOutWindow(item, gx, gy)
+        control._closeIfEmpty()
         return item
+    }
+
+    function _closeIfEmpty() {
+        if (!closeWhenEmpty || tabCount > 0)
+            return
+        var w = control.Window.window
+        if (w)
+            Qt.callLater(function () { w.close() })
+    }
+
+    function insertTab(item, index) {
+        if (item === undefined || item === null)
+            return
+        var next = (model && model.slice) ? model.slice() : []
+        var i = (index === undefined || index < 0) ? next.length : Math.min(index, next.length)
+        next.splice(i, 0, item)
+        model = next
+        currentIndex = i
+    }
+
+    function dropIndexAt(gx, gy) {
+        var p = tabFlick.contentItem.mapFromGlobal(gx, gy)
+        return tabIndexAtContentX(p.x)
+    }
+
+    function containsGlobal(gx, gy) {
+        if (!visible)
+            return false
+        var p = control.mapFromGlobal(gx, gy)
+        return p.x >= -16 && p.y >= -16
+                && p.x <= control.width + 16
+                && p.y <= control.height + 16
     }
 
     function _openTearOutWindow(item, globalX, globalY) {
@@ -258,6 +303,32 @@ T.Control {
         if (w && w.contentItem)
             return w.contentItem
         return tabFlick.contentItem
+    }
+
+    function _ghostOverlay() {
+        if (typeof Overlay !== "undefined" && Overlay.overlay)
+            return Overlay.overlay
+        return control._ghostHost()
+    }
+
+    function _parkGhostOnTab(tabBtn) {
+        var host = control._ghostOverlay()
+        ghost.parent = host
+        ghost.z = 100000
+        var gp = tabBtn.mapToGlobal(0, 0)
+        var lp = host.mapFromGlobal(gp.x, gp.y)
+        ghost.x = lp.x
+        ghost.y = lp.y
+    }
+
+    function _moveGhostWithTab(tabBtn, translation) {
+        var host = ghost.parent
+        if (!host)
+            return
+        var gp = tabBtn.mapToGlobal(translation.x, translation.y)
+        var lp = host.mapFromGlobal(gp.x, gp.y)
+        ghost.x = lp.x
+        ghost.y = lp.y
     }
 
     // Move a tab from/to index
@@ -615,10 +686,7 @@ T.Control {
                                         ghost.title = titleLabel.text
                                         ghost.width = tabBtn.width
                                         ghost.height = tabBtn.height
-                                        ghost.parent = tabFlick.contentItem
-                                        var p = tabBtn.mapToItem(tabFlick.contentItem, 0, 0)
-                                        ghost.x = p.x
-                                        ghost.y = p.y
+                                        control._parkGhostOnTab(tabBtn)
                                         ghost.visible = true
                                         ghost.elevation = 4
                                     } else {
@@ -628,11 +696,27 @@ T.Control {
                                         var gpos = ghost.mapToGlobal(ghost.width * 0.5, ghost.height * 0.5)
                                         ghost.visible = false
                                         ghost.parent = tabFlick.contentItem
+                                        ghost.z = 100
                                         ghost.elevation = 4
                                         control._dragFrom = -1
                                         control._dropIndex = -1
                                         control._tearOutArmed = false
-                                        if (tear && from >= 0) {
+                                        var dock = TabViewDropHub.hit(gpos.x, gpos.y, null)
+                                        if (dock && dock !== control && from >= 0) {
+                                            var moved = control.takeTab(from)
+                                            if (moved !== null && moved !== undefined) {
+                                                dock.insertTab(moved, dock.dropIndexAt(gpos.x, gpos.y))
+                                                var srcWin = control.Window.window
+                                                control._closeIfEmpty()
+                                                if (control.tabCount === 0 && srcWin
+                                                        && srcWin !== dock.Window.window)
+                                                    Qt.callLater(function () { srcWin.close() })
+                                            }
+                                        } else if (dock === control) {
+                                            if (slid && control.tabsReorderable
+                                                    && from >= 0 && to >= 0 && from !== to)
+                                                control.moveTab(from, to)
+                                        } else if (tear && from >= 0) {
                                             control.tearOutTab(from, gpos.x, gpos.y)
                                         } else if (slid && control.tabsReorderable
                                                    && from >= 0 && to >= 0 && from !== to) {
@@ -654,36 +738,18 @@ T.Control {
                                     control._tearOutArmed = armed
 
                                     if (armed) {
-                                        var host = control._ghostHost()
-                                        if (ghost.parent !== host) {
-                                            var cur = ghost.mapToItem(host, 0, 0)
-                                            ghost.parent = host
-                                            ghost.x = cur.x
-                                            ghost.y = cur.y
-                                        }
-                                        var originHost = tabBtn.mapToItem(host, 0, 0)
-                                        ghost.x = originHost.x + translation.x
-                                        ghost.y = originHost.y + translation.y
+                                        control._moveGhostWithTab(tabBtn, translation)
                                         ghost.elevation = 8
                                         control._dropIndex = control._dragFrom
                                     } else {
-                                        if (ghost.parent !== tabFlick.contentItem) {
-                                            var back = ghost.mapToItem(tabFlick.contentItem, 0, 0)
-                                            ghost.parent = tabFlick.contentItem
-                                            ghost.x = back.x
-                                            ghost.y = back.y
-                                        }
-                                        var origin = tabBtn.mapToItem(tabFlick.contentItem, 0, 0)
-                                        ghost.x = origin.x + translation.x
-                                        ghost.y = origin.y + (control.canTearOutTabs
-                                                             ? Math.max(-8, Math.min(8, translation.y * 0.15))
-                                                             : 0)
+                                        control._moveGhostWithTab(tabBtn, translation)
                                         ghost.elevation = 4
-                                        var centerX = ghost.x + ghost.width * 0.5
-                                        control._dropIndex = control.tabIndexAtContentX(centerX)
+                                        var localX = ghost.mapToItem(tabFlick.contentItem,
+                                                                       ghost.width * 0.5, ghost.height * 0.5).x
+                                        control._dropIndex = control.tabIndexAtContentX(localX)
 
                                         // Auto-scroll strip near edges while dragging.
-                                        var viewX = centerX - tabFlick.contentX
+                                        var viewX = localX - tabFlick.contentX
                                         if (viewX > tabFlick.width - 40)
                                             tabFlick.contentX = Math.min(tabFlick.contentWidth - tabFlick.width,
                                                                          tabFlick.contentX + 12)

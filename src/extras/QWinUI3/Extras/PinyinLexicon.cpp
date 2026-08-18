@@ -138,6 +138,44 @@ QStringList PinyinLexicon::lookup(const QString &buf) const
     return out;
 }
 
+QStringList OskPinyinGroupedLookup::all() const
+{
+    QStringList out;
+    auto appendUnique = [&out](const QStringList &src) {
+        for (const QString &s : src) {
+            if (!s.isEmpty() && !out.contains(s))
+                out.append(s);
+        }
+    };
+    appendUnique(single);
+    appendUnique(doubleChar);
+    appendUnique(phrase);
+    return out;
+}
+
+static void appendUniqueTier(QStringList *tier, const QString &s)
+{
+    if (!tier || s.isEmpty() || tier->contains(s))
+        return;
+    tier->append(s);
+}
+
+OskPinyinGroupedLookup PinyinLexicon::lookupGrouped(const QString &buf) const
+{
+    OskPinyinGroupedLookup grouped;
+    const QStringList flat = lookup(buf);
+    for (const QString &w : flat) {
+        const int n = w.size();
+        if (n <= 1)
+            appendUniqueTier(&grouped.single, w);
+        else if (n == 2)
+            appendUniqueTier(&grouped.doubleChar, w);
+        else
+            appendUniqueTier(&grouped.phrase, w);
+    }
+    return grouped;
+}
+
 int PinyinLexicon::consumeLength(const QString &buf, const QString &picked) const
 {
     if (buf.isEmpty() || picked.isEmpty())

@@ -94,7 +94,7 @@ CatalogPage {
         }
     }
 
-    ConnectedAnimation {
+    overlay: ConnectedAnimation {
         id: connectAnim
     }
 }

@@ -24,7 +24,9 @@ CatalogPage {
 
     Component.onCompleted: Qt.callLater(function () { page.cardEffectsReady = true })
 
-    readonly property var featuredModel: [
+    readonly property var featuredModel: {
+        GalleryLanguage.currentLocale
+        return [
         {
             title: qsTr("Recipes hub"),
             description: qsTr("Every 1.xx how-to — packaging, Creator, forms, keyboard, and more."),
@@ -49,7 +51,8 @@ CatalogPage {
             tintBg: Theme.dark ? "#3A2F4A" : "#F2EDF9",
             action: "settings"
         }
-    ]
+        ]
+    }
 
     readonly property int _historyTick: GalleryHistory.recentIds.length
                                         + GalleryHistory.favoriteIds.length
@@ -57,6 +60,7 @@ CatalogPage {
 
     readonly property var listModel: {
         var _ = _historyTick
+        GalleryLanguage.currentLocale
         return homeTab === 0 ? GalleryHistory.recentControls()
                              : GalleryHistory.favoriteControls()
     }
@@ -605,14 +609,21 @@ CatalogPage {
                                     elide: Text.ElideRight
                                     Layout.fillWidth: true
                                 }
-                                Text {
-                                    text: modelData.description || ""
-                                    font.pixelSize: Theme.fontCaption
-                                    color: Theme.textSecondary
-                                    elide: Text.ElideRight
-                                    maximumLineCount: 1
+                                RowLayout {
                                     Layout.fillWidth: true
-                                    visible: !!(modelData.description)
+                                    spacing: Theme.spacingTight
+                                    ApiStabilityBadge {
+                                        stability: ControlCatalog.apiStabilityForComponent(modelData.component)
+                                    }
+                                    Text {
+                                        Layout.fillWidth: true
+                                        text: modelData.description || ""
+                                        font.pixelSize: Theme.fontCaption
+                                        color: Theme.textSecondary
+                                        elide: Text.ElideRight
+                                        maximumLineCount: 1
+                                        visible: !!(modelData.description)
+                                    }
                                 }
                             }
                         }

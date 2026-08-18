@@ -62,6 +62,7 @@ qt_add_qml_module(qwinui3_gallery
         pages/BusyIndicatorPage.qml
         pages/CalendarDatePickerPage.qml
         pages/CalendarPage.qml
+        pages/CalendarViewPage.qml
         pages/CheckBoxPage.qml
         pages/ChipGroupPage.qml
         pages/ChipPage.qml

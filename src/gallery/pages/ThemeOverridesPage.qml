@@ -12,9 +12,14 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("Theme overrides")
-    subtitle: qsTr("Brand + density + contrast AA — docs/color-contrast.md (1.43).")
+    subtitle: qsTr("Brand + density + contrast AA — docs/theme-overrides.md (2.38).")
 
     property var _saved: null
+
+    function _restoreTheme() {
+        if (page._saved)
+            Theme.apply(page._saved)
+    }
 
     readonly property real _ratioPrimaryCard: Theme.contrastRatio(Theme.textPrimary, Theme.bgCard)
     readonly property real _ratioSecondaryCard: Theme.contrastRatio(Theme.textSecondary, Theme.bgCard)
@@ -31,6 +36,45 @@ CatalogPage {
 
     Component.onCompleted: _saved = Theme.snapshot()
     Component.onDestruction: Theme.apply(_saved)
+
+    ControlExample {
+        headerText: qsTr("Branding wave 2 — accent packs (2.38)")
+        qmlSource: "Theme.setAccentPack(\"purple\")\nTheme.customAccent = \"#0F766E\""
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Built-in packs: blue · purple · green · orange. customAccent overrides pack. Persist with ThemeAppearanceSettings + ThemePrefs — docs/theme-overrides.md wave 2.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            RowLayout {
+                Layout.fillWidth: true
+                spacing: Theme.spacing
+                Repeater {
+                    model: ["blue", "purple", "green", "orange"]
+                    delegate: Button {
+                        required property string modelData
+                        text: modelData
+                        flat: Theme.accentPack !== modelData || Theme.customAccent.a > 0.001
+                        onClicked: Theme.setAccentPack(modelData)
+                    }
+                }
+            }
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.Wrap
+                color: Theme.textPrimary
+                text: qsTr("accentPack=%1 · custom=%2 · AA accent/card: %3")
+                         .arg(Theme.accentPack)
+                         .arg(Theme.customAccent.a > 0.001 ? String(Theme.customAccent) : qsTr("(none)"))
+                         .arg(page._aaAccent ? qsTr("pass") : qsTr("fail"))
+            }
+        }
+    }
 
     ControlExample {
         headerText: qsTr("Contrast diagnostics (1.43)")

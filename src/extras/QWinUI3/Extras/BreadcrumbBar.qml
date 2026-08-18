@@ -47,6 +47,10 @@ T.Control {
     property var separatorSymbol: FluentIcons.ChevronRight
     // Breadcrumb separator glyph string
     property string separatorGlyph: ""
+    // Override list name when multiple trails share a page (2.29)
+    property string accessibleName: qsTr("Breadcrumb")
+    // Qt 6.8+ live region for crumb activation (2.29)
+    property bool announceChanges: true
     // Emitted when an item is clicked
     signal itemClicked(int index)
     // WinUI ItemInvoked
@@ -65,7 +69,7 @@ T.Control {
     property int _focusVisibleIndex: 0
     property Item _ellipsisCrumb: null
     Accessible.role: Accessible.List
-    Accessible.name: qsTr("Breadcrumb")
+    Accessible.name: accessibleName.length ? accessibleName : qsTr("Breadcrumb")
     Accessible.description: {
         var m = root.model || []
         var parts = []
@@ -124,6 +128,18 @@ T.Control {
         return !isNaN(index) && index >= 0 && index === root.currentIndex
     }
 
+    // Map NavigationView.breadcrumbPathForKey() to a BreadcrumbBar model (2.23)
+    function modelFromNavigationPath(path) {
+        if (!path)
+            return []
+        var out = []
+        for (var i = 0; i < path.length; ++i) {
+            var e = path[i]
+            out.push({ title: e.title || "", symbol: e.symbol || e.icon || "" })
+        }
+        return out
+    }
+
     // Emit clicked when activated
     function isClickable(entry) {
         if (!entry || entry.ellipsis)
@@ -131,6 +147,21 @@ T.Control {
         if (isCurrent(entry.index) && !root.lastItemClickable)
             return false
         return true
+    }
+
+    function _announce(text) {
+        if (!root.announceChanges || !text || text.length === 0)
+            return
+        if (typeof Accessible.announce === "function")
+            Accessible.announce(text)
+    }
+
+    function _announceCrumb(index) {
+        if (index < 0 || !root.model || index >= root.model.length)
+            return
+        var title = root.crumbTitle(root.model[index])
+        if (title.length)
+            _announce(qsTr("Navigated to %1").arg(title))
     }
 
     function _syncFocusVisibleIndex() {
@@ -173,6 +204,7 @@ T.Control {
         currentIndex = entry.index
         itemClicked(entry.index)
         itemInvoked(entry.index)
+        _announceCrumb(entry.index)
     }
 
     onActiveFocusChanged: if (activeFocus) _syncFocusVisibleIndex()
@@ -261,6 +293,7 @@ T.Control {
                         root.currentIndex = modelData.index
                         root.itemClicked(modelData.index)
                         root.itemInvoked(modelData.index)
+                        root._announceCrumb(modelData.index)
                     }
                     scale: down && !Theme.reducedMotion && root.isClickable(modelData) ? 0.96 : 1
                     Behavior on scale {
@@ -349,6 +382,7 @@ T.Control {
                         root.currentIndex = modelData.index
                         root.itemClicked(modelData.index)
                         root.itemInvoked(modelData.index)
+                        root._announceCrumb(modelData.index)
                     }
                 }
                 onObjectAdded: function (i, obj) { overflowMenu.insertItem(i, obj) }

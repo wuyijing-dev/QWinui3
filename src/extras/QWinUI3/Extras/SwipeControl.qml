@@ -23,6 +23,9 @@ import QWinUI3.Theme
 //   Content + left/right SwipeAction reveal; openLeft/openRight/close.
 //   swipeMode: reveal | execute (WinUI SwipeMode).
 //   Action rows are clipped to the revealed strip so they stay hidden when closed.
+//   Thresholds (2.42): revealThreshold snap · dragThreshold before drag engages.
+//   nestedScrollFriendly raises dragThreshold for ListView / Flickable parents.
+//   Pair with a visible overflow/menu path — docs/touch-pointer.md (2.42).
 
 T.Control {
     id: root
@@ -44,6 +47,13 @@ T.Control {
     property real actionWidth: 72
     // Drag distance to snap open
     property real revealThreshold: 36
+    // Pointer travel before horizontal drag engages (2.42 — nested scroll).
+    property real dragThreshold: 12
+    // Raise dragThreshold inside vertical scroll parents (2.42).
+    property bool nestedScrollFriendly: false
+    readonly property real effectiveDragThreshold: nestedScrollFriendly
+            ? Math.max(dragThreshold, 20)
+            : dragThreshold
     // Open / visible state
     readonly property bool isOpen: openMode !== modeClosed
     // modeClosed | leftOpen | rightOpen
@@ -273,6 +283,7 @@ T.Control {
             DragHandler {
                 id: drag
                 target: panel
+                dragThreshold: root.effectiveDragThreshold
                 xAxis.enabled: true
                 yAxis.enabled: false
                 xAxis.minimum: -root.maxRightReveal

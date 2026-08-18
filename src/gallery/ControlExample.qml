@@ -28,7 +28,8 @@ Rectangle {
         shadowHorizontalOffset: 0
         shadowVerticalOffset: 2
         blurMax: 12
-        autoPaddingEnabled: true
+        // Padding shifts the layer vs hit-test geometry and eats clicks on compact chrome.
+        autoPaddingEnabled: false
     }
 
     ColumnLayout {
@@ -163,7 +164,7 @@ Rectangle {
                     wrapMode: TextEdit.NoWrap
                     text: root.qmlSource
                     color: Theme.textPrimary
-                    font.family: "Cascadia Mono"
+                    font.family: Theme.fontFamilyMono
                     font.pixelSize: 12
                     textFormat: TextEdit.PlainText
                 }

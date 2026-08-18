@@ -24,7 +24,9 @@ import QWinUI3.Theme
 
 Item {
     id: root
-    anchors.fill: parent
+    parent: Overlay.overlay
+    width: parent ? parent.width : 0
+    height: parent ? parent.height : 0
     visible: running
     z: 5000
 

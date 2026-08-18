@@ -79,7 +79,8 @@ CatalogPage {
 - `CatalogPage.componentId` is set by Gallery `Main` when a page opens; `PageHeader`
   shows a favorite star (persisted via `GalleryHistory`).
 - Title-bar search matches **component** names (e.g. `datatable`) as well as titles.
-- Home **Recently shipped** uses `ControlCatalog.recentlyShipped()` (curated recipes).
+- Home **Recently shipped** uses `ControlCatalog.recentlyShipped()` (curated recipes; **2.39** surfaces **2.38 → 2.21** at top).
+- Full **2.21…2.38** matrix: [gallery-catalog-expansion.md](gallery-catalog-expansion.md) (**2.39**).
 
 Smoke coverage: [ci-smoke.md](ci-smoke.md).
 

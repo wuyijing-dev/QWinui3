@@ -25,6 +25,13 @@ T.AbstractMonthGrid {
 
     // Selected date
     property date selectedDate: new Date(NaN)
+    // single | multiple | range (2.31 CalendarView)
+    property string selectionMode: "single"
+    // Selected dates when selectionMode === "multiple"
+    property var selectedDates: []
+    // Range endpoints when selectionMode === "range"
+    property date rangeStart: new Date(NaN)
+    property date rangeEnd: new Date(NaN)
 
     implicitWidth: 280
     implicitHeight: 240
@@ -45,6 +52,38 @@ T.AbstractMonthGrid {
             && a.getDate() === b.getDate()
     }
 
+    function _dayTime(d) {
+        return new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime()
+    }
+
+    function isInRange(d) {
+        if (selectionMode !== "range")
+            return false
+        if (isNaN(rangeStart.getTime()) || isNaN(rangeEnd.getTime()))
+            return false
+        var t = _dayTime(d)
+        var lo = Math.min(_dayTime(rangeStart), _dayTime(rangeEnd))
+        var hi = Math.max(_dayTime(rangeStart), _dayTime(rangeEnd))
+        return t >= lo && t <= hi
+    }
+
+    function isMultiSelected(d) {
+        if (selectionMode !== "multiple")
+            return false
+        var arr = selectedDates || []
+        for (var i = 0; i < arr.length; ++i) {
+            if (sameDay(d, arr[i]))
+                return true
+        }
+        return false
+    }
+
+    function isRangeEndpoint(d) {
+        if (selectionMode !== "range")
+            return false
+        return sameDay(d, rangeStart) || sameDay(d, rangeEnd)
+    }
+
     delegate: Item {
         id: cell
         // Data model
@@ -57,7 +96,14 @@ T.AbstractMonthGrid {
         // True when the day is today
         readonly property bool isToday: !!model.today
         // Selected state
-        readonly property bool isSelected: control.sameDay(model.date, control.selectedDate)
+        readonly property bool isSelected: {
+            if (control.selectionMode === "multiple")
+                return control.isMultiSelected(model.date)
+            if (control.selectionMode === "range")
+                return control.isRangeEndpoint(model.date)
+            return control.sameDay(model.date, control.selectedDate)
+        }
+        readonly property bool inRangeSpan: control.isInRange(model.date) && !isSelected
 
         HoverHandler { id: cellHover }
 
@@ -69,6 +115,8 @@ T.AbstractMonthGrid {
             color: {
                 if (cell.isSelected)
                     return Theme.accent
+                if (cell.inRangeSpan && cell.inMonth)
+                    return Theme.fillSubtleSecondary
                 if (cellHover.hovered && cell.inMonth)
                     return Theme.fillSubtle
                 return "transparent"

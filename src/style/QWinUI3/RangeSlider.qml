@@ -38,7 +38,7 @@ T.RangeSlider {
         Rectangle {
             anchors.fill: parent
             radius: width / 2
-            color: Theme.dark ? "#2D2D2D" : "#FFFFFF"
+            color: Theme.fillSliderThumb
             border.width: 1
             border.color: Theme.strokeControl
             scale: control.first.pressed ? 0.96 : 1
@@ -93,7 +93,7 @@ T.RangeSlider {
         Rectangle {
             anchors.fill: parent
             radius: width / 2
-            color: Theme.dark ? "#2D2D2D" : "#FFFFFF"
+            color: Theme.fillSliderThumb
             border.width: 1
             border.color: Theme.strokeControl
             scale: control.second.pressed ? 0.96 : 1

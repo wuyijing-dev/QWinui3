@@ -6,13 +6,13 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 import QWinUI3.Platform
 
-// Gallery — High-DPI & multi-monitor (1.58).
+// Gallery — High-DPI & multi-monitor (1.58 · 2.15 wave 3).
 // Recipe: docs/high-dpi.md · docs/window-chrome.md · docs/graphics-backend.md
 
 CatalogPage {
     id: page
     title: qsTr("High-DPI & monitors")
-    subtitle: qsTr("DPR readout · screensInfo · geometry clamp — docs/high-dpi.md (1.58).")
+    subtitle: qsTr("DPR readout · fractional scale · per-monitor soak — docs/high-dpi.md (2.15).")
 
     signal openControl(var item)
 
@@ -38,6 +38,7 @@ CatalogPage {
             var a = s.availableGeometry
             parts.push((s.primary ? qsTr("[primary] ") : "") + s.name
                        + qsTr("  dpr=%1").arg(Number(s.dpr).toFixed(2))
+                       + (s.fractionalScale ? qsTr("  [fractional]") : "")
                        + qsTr("  geom=%1×%2@%3,%4")
                            .arg(g.width).arg(g.height).arg(g.x).arg(g.y)
                        + qsTr("  avail=%1×%2@%3,%4")
@@ -52,8 +53,8 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Live DPR (1.58)")
-        qmlSource: "Theme.devicePixelRatio\nWindowHelper.devicePixelRatioForWindow(window)"
+        headerText: qsTr("Live DPR (2.15)")
+        qmlSource: "Theme.devicePixelRatio\nWindowHelper.devicePixelRatioForWindow(window)\nWindowHelper.highDpiScaleFactorRoundingPolicy()"
         ColumnLayout {
             Layout.fillWidth: true
             spacing: Theme.spacing
@@ -74,10 +75,11 @@ CatalogPage {
                     var win = page.Window ? page.Window.window : null
                     var winDpr = win ? WindowHelper.devicePixelRatioForWindow(win) : Theme.devicePixelRatio
                     var screenDpr = (win && win.screen) ? win.screen.devicePixelRatio : winDpr
-                    return qsTr("Window screen DPR: %1 · Theme DPR: %2 · Primary DPR: %3 · screens: %4 · hairline: %5")
+                    return qsTr("Window screen DPR: %1 · Theme DPR: %2 · Primary DPR: %3 · rounding: %4 · screens: %5 · hairline: %6")
                         .arg(Number(screenDpr).toFixed(2))
                         .arg(Theme.devicePixelRatio.toFixed(2))
                         .arg(WindowHelper.devicePixelRatio.toFixed(2))
+                        .arg(WindowHelper.highDpiScaleFactorRoundingPolicy())
                         .arg(WindowHelper.screenCount)
                         .arg(Theme.strokeHairline.toFixed(3))
                 }
@@ -102,7 +104,7 @@ CatalogPage {
 
     ControlExample {
         headerText: qsTr("screensInfo()")
-        qmlSource: "WindowHelper.screensInfo()\n// name · dpr · geometry · availableGeometry"
+        qmlSource: "WindowHelper.screensInfo()\n// name · dpr · fractionalScale · geometry · availableGeometry"
         ColumnLayout {
             Layout.fillWidth: true
             spacing: Theme.spacing
@@ -141,6 +143,30 @@ CatalogPage {
     }
 
     ControlExample {
+        headerText: qsTr("Per-monitor geometry soak (2.15)")
+        qmlSource: "WindowHelper.screensInfo() // drag window across monitors"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Move this Gallery window to each monitor listed below. After each move, confirm Theme DPR matches the window screen DPR and screensInfo() shows the correct geometry / availableGeometry. On Wayland with fractional scale, dpr may be non-integer and fractionalScale is true — docs/high-dpi.md.")
+                color: Theme.textSecondary
+                font.pixelSize: Theme.fontBody
+            }
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.WrapAnywhere
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontCaption
+                color: Theme.textPrimary
+                text: page.screenRows()
+            }
+        }
+    }
+
+    ControlExample {
         headerText: qsTr("Checklist")
         qmlSource: "docs/high-dpi.md · docs/window-chrome.md"
         ColumnLayout {
@@ -151,7 +177,8 @@ CatalogPage {
             CheckBox { text: qsTr("Undock laptop: restore stays on-screen (clamp)") }
             CheckBox { text: qsTr("Clear + restart: no stale off-screen frame") }
             CheckBox { text: qsTr("Frost apps: OpenGL RHI — not a DPI substitute") }
-            CheckBox { text: qsTr("Wayland fractional scale: Bootstrap configureEnvironment") }
+            CheckBox { text: qsTr("Wayland fractional scale: PassThrough + fractionalScale flag (2.15)") }
+            CheckBox { text: qsTr("Per-monitor soak: geometry/avail rows match each monitor (2.15)") }
         }
     }
 }

@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
+import QWinUI3.Extras
 
 ColumnLayout {
     id: root
@@ -10,6 +11,8 @@ ColumnLayout {
     property string subtitle: ""
     // When set (Gallery CatalogPage), show favorite toggle (1.20).
     property string componentId: ""
+
+    readonly property string apiStability: ControlCatalog.apiStabilityForComponent(root.componentId)
 
     spacing: 8
     Layout.fillWidth: true
@@ -27,6 +30,11 @@ ColumnLayout {
             color: Theme.textPrimary
             wrapMode: Text.Wrap
             Layout.fillWidth: true
+        }
+
+        ApiStabilityBadge {
+            stability: root.apiStability
+            Layout.alignment: Qt.AlignTop
         }
 
         AbstractButton {

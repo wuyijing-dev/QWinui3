@@ -36,6 +36,8 @@ T.Control {
     property bool clipboardOpen: false
     property int emojiCategory: 0
     property string statusBanner: ""
+    // none | voice | handwriting
+    property string panelMode: "none"
 
     // Optional shared engine (dock + floating host use the same instance — 2.58).
     property KeyboardEngine sharedEngine: null
@@ -82,6 +84,14 @@ T.Control {
 
     KeyboardEngine {
         id: _engine
+    }
+
+    OskSpeechService {
+        id: _speech
+    }
+
+    OskHandwritingService {
+        id: _handwriting
     }
 
     readonly property bool shiftOn: capsLock || shiftLatched
@@ -217,6 +227,33 @@ T.Control {
     function flashBanner(text) {
         statusBanner = text
         bannerClear.restart()
+    }
+
+    function openVoicePanel() {
+        captureFocusReturn()
+        panelMode = "voice"
+        settingsOpen = false
+        clipboardOpen = false
+        emojiMode = false
+    }
+
+    function closeVoicePanel() {
+        if (_speech.listening)
+            _speech.cancel()
+        panelMode = "none"
+    }
+
+    function openHandwritingPanel() {
+        captureFocusReturn()
+        panelMode = "handwriting"
+        settingsOpen = false
+        clipboardOpen = false
+        emojiMode = false
+    }
+
+    function closeHandwritingPanel() {
+        _handwriting.clearStrokes()
+        panelMode = "none"
     }
 
     Timer {
@@ -365,43 +402,38 @@ T.Control {
             }
         }
 
-        // Win11 settings sheet: size modes (not Win10 full classic keyboard).
-        Rectangle {
+        // Win11 settings sheet: size modes + voice/handwriting + user lexicon.
+        OskSettingsFlyout {
             width: parent.width
             visible: root.settingsOpen
-            height: visible ? settingsCol.implicitHeight + Theme.dp(12) : 0
-            radius: root.keyRadius
-            color: Theme.fillSubtle
-            border.width: Theme.strokeHairline
-            border.color: Theme.strokeCard
-            Column {
-                id: settingsCol
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.top: parent.top
-                anchors.margins: Theme.dp(8)
-                spacing: Theme.dp(6)
-                Text {
-                    text: qsTr("Keyboard size")
-                    font.family: Theme.fontFamily
-                    font.pixelSize: Theme.fontCaption
-                    color: Theme.textSecondary
-                }
-                Row {
-                    spacing: Theme.dp(6)
-                    SizeChip { sizeId: "small"; label: qsTr("Small") }
-                    SizeChip { sizeId: "default"; label: qsTr("Default") }
-                    SizeChip { sizeId: "wide"; label: qsTr("Large") }
-                }
-                Text {
-                    width: parent.width
-                    wrapMode: Text.WordWrap
-                    text: qsTr("Windows 11 touch layout — not the Win10 classic full keyboard. Long-press letter hints for digits; long-press punctuation for alternatives.")
-                    font.family: Theme.fontFamily
-                    font.pixelSize: Theme.fontCaption
-                    color: Theme.textSecondary
-                }
-            }
+            height: visible ? implicitHeight : 0
+            engine: root.engine
+            speech: _speech
+            handwriting: _handwriting
+            keyboardSize: root.keyboardSize
+            onKeyboardSizeChanged: function(id) { root.keyboardSize = id }
+            onOpenVoice: root.openVoicePanel()
+            onOpenHandwriting: root.openHandwritingPanel()
+        }
+
+        OskVoiceBar {
+            width: parent.width
+            visible: root.panelMode === "voice"
+            height: visible ? implicitHeight : 0
+            engine: root.engine
+            speech: _speech
+            onClose: root.closeVoicePanel()
+            onFlash: root.flashBanner
+        }
+
+        OskHandwritingPad {
+            width: parent.width
+            visible: root.panelMode === "handwriting"
+            height: visible ? implicitHeight : 0
+            engine: root.engine
+            handwriting: _handwriting
+            onClose: root.closeHandwritingPanel()
+            onFlash: root.flashBanner
         }
 
         // Win11 clipboard strip (current clip — full history is OS-owned).
@@ -497,8 +529,9 @@ T.Control {
         }
 
         Repeater {
-            model: root.emojiMode ? root.emojiGridRows
-                 : (root.symbolsMode ? root.symbolRows : root.letterRows)
+            model: root.panelMode !== "none" ? [] :
+                   (root.emojiMode ? root.emojiGridRows
+                 : (root.symbolsMode ? root.symbolRows : root.letterRows))
             delegate: Row {
                 id: keyRow
                 required property var modelData
@@ -623,6 +656,10 @@ T.Control {
         return (k.kind === "shift" && (root.shiftLatched || root.capsLock))
                 || (k.kind === "symbols" && root.symbolsMode)
                 || (k.kind === "emoji" && root.emojiMode)
+                || (k.kind === "ctrl" && engine.ctrlLatched)
+                || (k.kind === "alt" && engine.altLatched)
+                || (k.kind === "win" && engine.winLatched)
+                || (k.kind === "mic" && (root.panelMode === "voice" || _speech.listening))
     }
 
     component SizeChip: Rectangle {
@@ -986,14 +1023,22 @@ T.Control {
             engine.cycleLayout()
             break
         case "mic":
-            flashBanner(qsTr("Voice typing stays with the OS — this in-app keyboard cannot start dictation."))
+            if (root.panelMode === "voice")
+                root.closeVoicePanel()
+            else if (_speech.available)
+                root.openVoicePanel()
+            else
+                flashBanner(_speech.statusText.length ? _speech.statusText
+                            : qsTr("Voice input not configured — see docs/on-screen-keyboard-voice-handwriting.md"))
             break
         case "ctrl":
+            engine.toggleModifier("ctrl")
+            break
         case "alt":
-            flashBanner(qsTr("Ctrl / Alt are shown for Win11 layout parity; chords use the physical keyboard."))
+            engine.toggleModifier("alt")
             break
         case "win":
-            flashBanner(qsTr("Windows key is chrome-only in-app (no Start menu)."))
+            engine.toggleModifier("win")
             break
         }
     }

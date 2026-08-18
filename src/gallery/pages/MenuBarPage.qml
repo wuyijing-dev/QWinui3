@@ -9,7 +9,27 @@ import QWinUI3.Theme
 
 CatalogPage {
     title: qsTr("MenuBar")
-    subtitle: qsTr("Cascading window menus. Prefer Action.shortcut for chords — docs/commands.md.")
+    subtitle: qsTr("Cascading window menus + StandardKey accelerators (2.41) — docs/commands.md.")
+
+    ControlExample {
+        headerText: qsTr("Accelerator discovery (2.41)")
+        qmlSource: "// Action.shortcut = real chord\n// Mirror same string in CommandPalette.commands[].shortcut"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("MenuBar Action.shortcut chords work when the menu is closed (StandardKey.* or explicit strings). Users still need discovery — mirror high-value actions in CommandPalette with the same shortcut text so Ctrl+K finds Ctrl+C. keyboardAcceleratorText on CommandBar is visual-only. docs/commands.md wave 3.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            CheckBox { text: qsTr("Edit menu uses StandardKey.Cut / Copy / Paste") }
+            CheckBox { text: qsTr("Same chords documented in CommandPalette for Ctrl+K search") }
+            CheckBox { text: qsTr("No OS-global shortcut hooks — app-scoped Action.shortcut only") }
+        }
+    }
 
     ControlExample {
         headerText: qsTr("Keyboard model (1.15)")

@@ -55,12 +55,12 @@ T.RadioButton {
                     return Theme.accent
                 }
                 if (!control.enabled)
-                    return Theme.dark ? "#0BFFFFFF" : "#4DF9F9F9"
+                    return Theme.fillControlDisabled
                 if (control.down)
                     return Theme.fillControlTertiary
                 if (control.hovered)
                     return Theme.fillControlSecondary
-                return Theme.dark ? "#0FFFFFFF" : "#FFFFFF"
+                return Theme.bgControlRest
             }
             border.width: control.checked ? 0 : 1
             border.color: control.enabled ? Theme.strokeControlStrong : Theme.strokeControl

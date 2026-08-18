@@ -6,11 +6,227 @@ import QWinUI3.Extras
 
 // Gallery — SwipeControl.
 //
-// Reveal actions with ElevatedChrome panel, keyboard arrows / Esc, and isOpen. API: docs/components/SwipeControl.md
+// Reveal actions with ElevatedChrome panel, keyboard arrows / Esc, and isOpen.
+// Deepen 2.42: thresholds, nested scroll, TeachingTip. docs/touch-pointer.md
 
 CatalogPage {
+    id: page
+
     title: qsTr("SwipeControl")
-    subtitle: qsTr("Swipe reveal + non-swipe path — docs/touch-pointer.md (1.57).")
+    subtitle: qsTr("Thresholds · nested scroll · teaching — docs/touch-pointer.md (2.42).")
+
+    ControlExample {
+        headerText: qsTr("Thresholds (2.42)")
+        qmlSource: "SwipeControl {\n    revealThreshold: 36\n    dragThreshold: 12\n    nestedScrollFriendly: false\n}"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("revealThreshold — release distance to snap open (or invoke in execute mode). dragThreshold — pointer travel before horizontal drag engages. nestedScrollFriendly raises dragThreshold inside vertical lists so flick scroll wins. docs/touch-pointer.md SwipeControl deepen.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            RowLayout {
+                spacing: Theme.spacing
+                Label { text: qsTr("revealThreshold"); color: Theme.textSecondary }
+                SpinBox {
+                    id: revealSpin
+                    from: 16
+                    to: 80
+                    value: tuneSwipe.revealThreshold
+                    onValueChanged: tuneSwipe.revealThreshold = value
+                }
+                Label { text: qsTr("dragThreshold"); color: Theme.textSecondary }
+                SpinBox {
+                    id: dragSpin
+                    from: 4
+                    to: 32
+                    value: tuneSwipe.dragThreshold
+                    onValueChanged: tuneSwipe.dragThreshold = value
+                }
+                CheckBox {
+                    text: qsTr("nestedScrollFriendly")
+                    checked: tuneSwipe.nestedScrollFriendly
+                    onCheckedChanged: tuneSwipe.nestedScrollFriendly = checked
+                }
+            }
+            SwipeControl {
+                id: tuneSwipe
+                Layout.fillWidth: true
+                Layout.maximumWidth: 420
+                nestedScrollFriendly: true
+                rightActions: [
+                    SwipeAction {
+                        width: 72
+                        height: parent.height
+                        text: qsTr("Done")
+                        symbol: FluentIcons.Accept
+                        behaviorOnInvoked: "close"
+                        onTriggered: tuneStatus.text = qsTr("Done")
+                    }
+                ]
+                content: [
+                    Label {
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: qsTr("Tune thresholds · effective drag %1 px")
+                                .arg(tuneSwipe.effectiveDragThreshold)
+                    }
+                ]
+            }
+            Label {
+                id: tuneStatus
+                color: Theme.textSecondary
+                text: qsTr("Swipe to test thresholds")
+            }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Nested scroll list (2.42)")
+        qmlSource: "ScrollView {\n    Column { SwipeControl { nestedScrollFriendly: true } }\n}"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Rows inside ScrollView use nestedScrollFriendly so vertical flick is not stolen by horizontal drag. Each row also exposes ⋯ overflow — swipe is not the only path.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            ScrollView {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 240
+                clip: true
+                ColumnLayout {
+                    width: parent.width
+                    spacing: Theme.spacingTight
+                    Repeater {
+                        model: 6
+                        delegate: SwipeControl {
+                            required property int index
+                            Layout.fillWidth: true
+                            nestedScrollFriendly: true
+                            rightActions: [
+                                SwipeAction {
+                                    width: 72
+                                    height: parent.height
+                                    text: qsTr("Remove")
+                                    symbol: FluentIcons.Delete
+                                    behaviorOnInvoked: "close"
+                                    onTriggered: listStatus.text = qsTr("Removed row %1").arg(index + 1)
+                                }
+                            ]
+                            content: [
+                                RowLayout {
+                                    anchors.fill: parent
+                                    spacing: Theme.spacing
+                                    ColumnLayout {
+                                        Layout.fillWidth: true
+                                        spacing: 0
+                                        Label {
+                                            text: qsTr("Inbox item %1").arg(index + 1)
+                                            font.weight: Theme.fontWeightSemiBold
+                                        }
+                                        Label {
+                                            text: qsTr("Scroll vertically · swipe horizontally")
+                                            color: Theme.textSecondary
+                                            font.pixelSize: Theme.fontCaption
+                                        }
+                                    }
+                                    IconButton {
+                                        id: moreBtn
+                                        symbol: FluentIcons.More
+                                        Accessible.name: qsTr("More actions")
+                                        onClicked: rowMenu.showAt(moreBtn)
+                                    }
+                                },
+                                MenuFlyout {
+                                    id: rowMenu
+                                    title: qsTr("Row actions")
+                                    MenuFlyoutItem {
+                                        text: qsTr("Remove")
+                                        symbol: FluentIcons.Delete
+                                        onTriggered: listStatus.text = qsTr("Menu remove row %1").arg(index + 1)
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+            Label {
+                id: listStatus
+                color: Theme.textSecondary
+                text: qsTr("Try vertical scroll + horizontal swipe")
+            }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Teaching tip (2.42)")
+        qmlSource: "TeachingTip { target: swipeRow }\n// First-run only — also expose ⋯ menu"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("TeachingTip coaches first swipe — not a substitute for overflow/menu. Persist dismissed state with Settings or OnboardingCoach (docs/feedback.md).")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            SwipeControl {
+                id: teachRow
+                Layout.fillWidth: true
+                Layout.maximumWidth: 420
+                rightActions: [
+                    SwipeAction {
+                        width: 72
+                        height: parent.height
+                        text: qsTr("Pin")
+                        symbol: FluentIcons.Pinned
+                        behaviorOnInvoked: "close"
+                        onTriggered: teachStatus.text = qsTr("Pinned")
+                    }
+                ]
+                content: [
+                    Label {
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: qsTr("First row — show teaching tip")
+                    }
+                ]
+            }
+            RowLayout {
+                spacing: Theme.spacing
+                Button {
+                    text: qsTr("Show swipe tip")
+                    onClicked: swipeTip.open()
+                }
+                Label {
+                    id: teachStatus
+                    Layout.fillWidth: true
+                    color: Theme.textSecondary
+                    text: qsTr("Tip targets the row above")
+                }
+            }
+            TeachingTip {
+                id: swipeTip
+                parent: Overlay.overlay
+                target: teachRow
+                preferredPlacement: Qt.AlignBottom
+                title: qsTr("Swipe for actions")
+                subtitle: qsTr("Or use keyboard ← → and Esc · overflow menu on list rows")
+                actionText: qsTr("Got it")
+                onActionClicked: swipeTip.close()
+            }
+        }
+    }
 
     ControlExample {
         headerText: qsTr("Mail item")
@@ -100,6 +316,7 @@ CatalogPage {
                 Layout.fillWidth: true
                 Layout.maximumWidth: 420
                 swipeMode: "execute"
+                revealThreshold: 48
                 rightActions: [
                     SwipeAction {
                         width: 88

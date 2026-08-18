@@ -9,7 +9,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("Feedback surfaces")
-    subtitle: qsTr("InfoBar / Toast / TeachingTip / onboarding — docs/feedback.md (1.55).")
+    subtitle: qsTr("InfoBar / Toast / Notification center / onboarding — docs/feedback.md (2.27).")
 
     signal openControl(var item)
 
@@ -35,13 +35,15 @@ CatalogPage {
             }
             Repeater {
                 model: [
+                    { label: qsTr("Notification center (2.27)"), page: "NotificationCenterPage" },
                     { label: qsTr("InfoBar"), page: "InfoBarPage" },
                     { label: qsTr("InfoBarHost"), page: "InfoBarHostPage" },
                     { label: qsTr("Toast / ToastHost"), page: "ToastHostPage" },
                     { label: qsTr("TeachingTip"), page: "TeachingTipPage" },
                     { label: qsTr("Onboarding coach"), page: "OnboardingCoachPage" },
                     { label: qsTr("InfoBar + TeachingTip recipe"), page: "InfoTeachingRecipePage" },
-                    { label: qsTr("ProgressBar"), page: "ProgressBarPage" },
+                    { label: qsTr("ProgressRing"), page: "ProgressRingPage" },
+                    { label: qsTr("InfoBadge"), page: "InfoBadgePage" },
                     { label: qsTr("ContentDialog (modal)"), page: "ContentDialogPage" }
                 ]
                 delegate: RowLayout {

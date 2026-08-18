@@ -186,6 +186,19 @@ void buildSharedCatalog_unlocked()
     putShared("Dial6", 0xE9E6);
     putShared("DialShape3", 0xF56C);
     putShared("ProgressRingCommon", 0xEA3A);
+    // Dashboard / WinUI search aliases (icons-dashboard-expansion 2.65)
+    putShared("LineChart", 0xE9D2);
+    putShared("TrendingUp", 0xE771);
+    putShared("BarChartHorizontal", 0xE81E);
+    putShared("SpeedHigh", 0xE916);
+    putShared("Gauge", 0xE9D5);
+    putShared("Temperature", 0xE1C4);
+    putShared("Ringer", 0xEA8F);
+    putShared("CheckMark", 0xE73E);
+    putShared("CompletedSolid", 0xE930);
+    putShared("ErrorBadge", 0xE730);
+    putShared("StatusErrorFull", 0xE783);
+    putShared("Drop", 0xE9E6);
 
     // Media
     putShared("Play", 0xE768);

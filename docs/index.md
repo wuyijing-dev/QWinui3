@@ -9,6 +9,9 @@ This site is generated from QML source comments and shipped via GitHub Pages.
 | | |
 |--|--|
 | **[Recipes hub](recipes.md)** | All LoB how-tos — also Gallery **Recipes** category |
+| [Docs IA v2](docs-ia-v2.md) | **2.xx** MkDocs regroup + hub mirror (**2.46**) |
+| [Developer diagnostics](developer-diagnostics.md) | FrameStats dev vs retail (**2.44**) |
+| [Experimental sweep](experimental-sweep.md) | FL-004 badges + verdict matrix (**2.45**) |
 | [Stable API](stable-api.md) | What to rely on in 1.xx apps (promote/defer **1.37**) |
 | [1.xx maturity](maturity-1xx.md) | Checkpoint verdict — harden-first (**1.51**) |
 | [1.xx compatibility](compatibility-1xx.md) | Will-not-break Theme / shells / stable (**1.40** / **1.51**) |

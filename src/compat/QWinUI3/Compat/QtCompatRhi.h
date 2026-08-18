@@ -26,4 +26,10 @@ void apply(const QString &backend);
 /// If @p backend is unavailable, fall back to a safe default for the platform.
 QString coerceAvailable(const QString &backend, const QString &fallback = QString());
 
+/// Map QSGRendererInterface::GraphicsApi → canonical backend key (empty if unknown).
+QString backendForGraphicsApi(QSGRendererInterface::GraphicsApi api);
+
+/// Human-readable label for a canonical backend key (OpenGL, Vulkan, …).
+QString displayName(const QString &backend);
+
 } // namespace QWinUI3::Compat::Rhi

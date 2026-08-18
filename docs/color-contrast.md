@@ -1,4 +1,4 @@
-# Color, contrast & theme diagnostics (1.43)
+# Color, contrast & theme diagnostics (1.43 · 2.38 refresh)
 
 Is this accent OK on light/dark cards? Prefer Theme tokens + a quick **contrast ratio** check—not a WCAG certification product.
 
@@ -9,11 +9,24 @@ Is this accent OK on light/dark cards? Prefer Theme tokens + a quick **contrast 
 | `Theme.relativeLuminance(c)` | 0…1 luminance |
 | `Theme.accentContrastRatio(surface?)` | `accent` vs `bgCard` (or given surface) |
 | `Theme.highContrast` | Stronger borders / focus — [accessibility.md](accessibility.md) |
-| Branding knobs | [theme-overrides.md](theme-overrides.md) |
+| Branding knobs | [theme-overrides.md](theme-overrides.md) (**2.38** wave 2) |
 
-Gallery: **Theme overrides** (live AA table) · **Accessibility** (high contrast) · Settings → Accent / High contrast.
+Gallery: **Theme overrides** (live AA table + accent packs) · **Theme prefs** (persist recipe) · **Accessibility** (high contrast) · Settings → **ThemeAppearanceSettings**.
 
 Related: [compatibility-1xx.md](compatibility-1xx.md) (frozen token names) · [density.md](density.md).
+
+---
+
+## Branding wave 2 workflow (2.38)
+
+Use with [theme-overrides.md](theme-overrides.md) **Branding wave 2**:
+
+1. Apply **`Theme.setAccentPack(...)`** or **`Theme.customAccent`**.  
+2. Open **Theme overrides** → Contrast diagnostics — confirm **accent / bgCard** passes AA in **light and dark**.  
+3. Adjust density on the same page — typography pairs unchanged ([density.md](density.md)).  
+4. Persist via **`ThemeAppearanceSettings { persist: true }`** when branding is approved.
+
+Named packs (`blue` / `purple` / `green` / `orange`) and custom hex share the same contrast helpers.
 
 ---
 
@@ -82,12 +95,13 @@ High contrast is **orthogonal** to AA ratios: enable it for OS themes; still pre
 
 ---
 
-## Gallery path (1.43)
+## Gallery path (1.43 / 2.38)
 
 1. Open **Theme overrides** → Contrast diagnostics table (live ratios + AA pass/fail).  
-2. Change Contoso presets / custom accent / light↔dark — watch accent-on-card.  
-3. Open **Accessibility** → High contrast toggle (when not following system).  
-4. Settings → Accent pack / Custom accent for a persistent Gallery preference.
+2. Change Contoso presets / accent packs / custom accent / light↔dark — watch accent-on-card.  
+3. **Theme prefs** → copy `Theme.recipeText()` or enable `ThemePrefs` persist recipe.  
+4. Open **Accessibility** → High contrast toggle (when not following system).  
+5. Settings → **ThemeAppearanceSettings** for kit-wide knobs (Gallery session; your app sets `persist: true`).
 
 ---
 

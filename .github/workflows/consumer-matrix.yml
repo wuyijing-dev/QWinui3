@@ -1,0 +1,135 @@
+name: Consumer matrix
+
+# 2.34 — Shared/static × Win/Linux consumer builds in CI.
+# Static cell: in-tree gallery-shell example (Path D proxy).
+# Shared cell: package shell kit → check_shared_package → verify_find_package.
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - ".github/workflows/consumer-matrix.yml"
+      - "cmake/**"
+      - "examples/**"
+      - "scripts/package_release_libs.py"
+      - "scripts/check_shared_package.py"
+      - "scripts/verify_find_package.py"
+      - "CMakeLists.txt"
+      - "src/**"
+  pull_request:
+    branches: [master]
+    paths:
+      - ".github/workflows/consumer-matrix.yml"
+      - "cmake/**"
+      - "examples/**"
+      - "scripts/package_release_libs.py"
+      - "scripts/check_shared_package.py"
+      - "scripts/verify_find_package.py"
+      - "CMakeLists.txt"
+      - "src/**"
+  workflow_dispatch:
+
+concurrency:
+  group: consumer-matrix-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  QT_VERSION: "6.8.3"
+
+jobs:
+  linux:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential ninja-build cmake \
+            libgl1-mesa-dev libxkbcommon-dev libxkbcommon-x11-dev \
+            libxcb-cursor0 libxcb-cursor-dev libxcb-xinerama0 \
+            libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 \
+            libxcb-shape0 libxcb-xfixes0 libxcb-randr0
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: ${{ env.QT_VERSION }}
+          host: linux
+          target: desktop
+          arch: linux_gcc_64
+          modules: qtquickeffects qtmultimedia qtimageformats qtsvg
+          cache: true
+          install-deps: true
+
+      - name: Static consumer (gallery-shell)
+        run: |
+          set -euo pipefail
+          cmake -S . -B build-static -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DQWINUI3_BUILD_EXAMPLES=ON \
+            -DQWINUI3_BUILD_WEBVIEW2=OFF \
+            -DQWINUI3_BUILD_SHARED=OFF
+          cmake --build build-static --config Release \
+            --target qwinui3_example_gallery_shell --parallel
+
+      - name: Shared consumer (package + find_package)
+        run: |
+          set -euo pipefail
+          python scripts/package_release_libs.py --shared --preset shell --webview2 off
+          PKG="$(ls -dt dist/qwinui3-*-linux-x64-shared* 2>/dev/null | head -1)"
+          if [[ -z "${PKG}" || ! -d "${PKG}" ]]; then
+            echo "error: no linux shared package under dist/" >&2
+            exit 1
+          fi
+          python scripts/check_shared_package.py --dir "${PKG}" --expect-shared yes
+          python scripts/verify_find_package.py --package-dir "${PKG}" --skip-package
+
+  windows:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Ninja
+        run: choco install ninja -y
+
+      - name: Setup MSVC
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: ${{ env.QT_VERSION }}
+          host: windows
+          target: desktop
+          arch: win64_msvc2022_64
+          modules: qtquickeffects qtmultimedia qtimageformats qtsvg
+          cache: true
+
+      - name: Static consumer (gallery-shell)
+        shell: bash
+        run: |
+          set -euo pipefail
+          cmake -S . -B build-static -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DQWINUI3_BUILD_EXAMPLES=ON \
+            -DQWINUI3_BUILD_WEBVIEW2=OFF \
+            -DQWINUI3_BUILD_SHARED=OFF
+          cmake --build build-static --config Release \
+            --target qwinui3_example_gallery_shell --parallel
+
+      - name: Shared consumer (package + find_package)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/package_release_libs.py --shared --preset shell --webview2 off
+          PKG="$(ls -dt dist/qwinui3-*-windows-x64-shared* 2>/dev/null | head -1)"
+          if [[ -z "${PKG}" || ! -d "${PKG}" ]]; then
+            echo "error: no windows shared package under dist/" >&2
+            exit 1
+          fi
+          python scripts/check_shared_package.py --dir "${PKG}" --expect-shared yes
+          python scripts/verify_find_package.py --package-dir "${PKG}" --skip-package

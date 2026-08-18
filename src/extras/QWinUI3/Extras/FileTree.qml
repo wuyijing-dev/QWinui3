@@ -128,10 +128,26 @@ T.Control {
         tree.collapseRecursively(-1)
     }
 
+    function _treeIndex(row, column) {
+        column = (column === undefined || column === null) ? 0 : column
+        if (typeof tree.index === "function")
+            return tree.index(row, column)
+        return tree.modelIndex(row, column)
+    }
+
+    function _setCurrentRow(row) {
+        if (row < 0)
+            return
+        var idx = _treeIndex(row, 0)
+        if (tree.selectionModel && idx && idx.valid)
+            tree.selectionModel.setCurrentIndex(idx,
+                ItemSelectionModel.Rows | ItemSelectionModel.ClearAndSelect)
+    }
+
     function _folderLabelAtRow(row) {
         if (row < 0 || !root.treeModel)
             return ""
-        var idx = tree.modelIndex(row, 0)
+        var idx = _treeIndex(row, 0)
         if (!idx || !idx.valid)
             return ""
         return String(root.treeModel.data(idx, Qt.DisplayRole) || "")
@@ -194,7 +210,7 @@ T.Control {
                 Component.onCompleted: {
                     if (rows > 0) {
                         expand(0)
-                        currentRow = 0
+                        root._setCurrentRow(0)
                     }
                     root._syncFolder(currentRow)
                 }

@@ -2,6 +2,15 @@ qt_add_executable(qwinui3_example_gallery_shell
     main.cpp
 )
 
+find_package(Qt6 REQUIRED COMPONENTS LinguistTools)
+
+qt_add_translations(qwinui3_example_gallery_shell
+    TS_FILES
+        translations/qwinui3_gallery_shell_en.ts
+        translations/qwinui3_gallery_shell_ko_KR.ts
+    RESOURCE_PREFIX "/i18n"
+)
+
 qt_add_qml_module(qwinui3_example_gallery_shell
     URI QWinUI3.Examples.GalleryShell
     VERSION 1.0

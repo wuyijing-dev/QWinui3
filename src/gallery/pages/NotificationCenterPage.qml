@@ -175,7 +175,7 @@ CatalogPage {
                     onClicked: {
                         bridge.show(
                             qsTr("You were tagged in Docs."),
-                            bridge.informational,
+                            bridge.severityInformational,
                             qsTr("New mention"),
                             qsTr("View"),
                             "mention-demo")

@@ -19,6 +19,7 @@ Gallery: **Animations** (hub) · ConnectedAnimation · EntranceThemeTransition �
 | Flow/Grid children reflow | [`RepositionThemeTransition`](components/RepositionThemeTransition.md) |
 | Icon hover/press micro-motion | [`FontIcon`](components/FontIcon.md) / IconButton — [icons.md](icons.md) (**1.49**) |
 | Icon **state** swap (play/pause…) | [`AnimatedIcon`](components/AnimatedIcon.md) — [icons.md](icons.md) (**1.53**, experimental, not Lottie) |
+| Page carousel / hero strip | [`FlipView`](components/FlipView.md) + [`PipsPager`](components/PipsPager.md) — [carousel-recipes.md](carousel-recipes.md) (**2.37**) |
 | Theme.dark / accent color change | `Behavior` + `Theme.duration` (below) — **not** a dedicated type |
 
 Do **not** wrap the entire `ShellWindow` / title bar in entrance motion — animate **client content** only to avoid chrome jank.

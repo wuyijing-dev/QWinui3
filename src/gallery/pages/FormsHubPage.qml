@@ -9,7 +9,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("Forms & settings")
-    subtitle: qsTr("FormLayout validation + SettingsCard — docs/forms.md (1.08 / 1.28).")
+    subtitle: qsTr("FormLayout validation + industry LoB templates — docs/forms.md (2.25).")
 
     signal openControl(var item)
 
@@ -35,6 +35,9 @@ CatalogPage {
             }
             Repeater {
                 model: [
+                    { label: qsTr("Registration template (2.25)"), page: "FormRegistrationTemplatePage" },
+                    { label: qsTr("Admin CRUD template (2.25)"), page: "FormAdminCrudTemplatePage" },
+                    { label: qsTr("Preferences template (2.25)"), page: "SettingsPreferencesTemplatePage" },
                     { label: qsTr("Form validation"), page: "FormValidationPage" },
                     { label: qsTr("SettingsCard"), page: "SettingsCardPage" },
                     { label: qsTr("SettingsExpander"), page: "SettingsExpanderPage" },

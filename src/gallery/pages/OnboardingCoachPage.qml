@@ -9,17 +9,27 @@ import QWinUI3.Extras
 //
 // One tip at a time → Next advances → Done / Esc ends.
 // “Don’t show again” persists via QtCore Settings (Gallery org).
-// Recipe: docs/feedback.md · keyboard: docs/keyboard.md
+// Recipe: docs/feedback.md · docs/multi-window-onboarding.md (2.43) · keyboard: docs/keyboard.md
 
 CatalogPage {
     id: page
     title: qsTr("Onboarding coach")
-    subtitle: qsTr("Sequenced TeachingTips + don’t-show-again — docs/feedback.md (1.55).")
+    subtitle: qsTr("Sequenced TeachingTips + don’t-show-again — docs/feedback.md (1.55 / 2.43).")
+
+    signal openControl(var item)
+
+    function openComp(id) {
+        var it = ControlCatalog.findByComponent(id)
+        if (it)
+            page.openControl(it)
+    }
 
     Settings {
         id: coachStore
         category: "OnboardingCoach"
         property bool dismissed: false
+        // 2.43 — separate from WindowGeometry/* (multi-window apps)
+        property bool mainTourDismissed: dismissed
     }
 
     property int stepIndex: -1
@@ -104,6 +114,29 @@ CatalogPage {
         coachStore.dismissed = false
         dontShowAgain.checked = false
         page.statusText = qsTr("Preference cleared — Start tour to run again.")
+    }
+
+    ControlExample {
+        headerText: qsTr("Multi-window apps (2.43)")
+        qmlSource: "// Defer tour until main ShellWindow visible\n// docs/multi-window-onboarding.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Run the coach on the primary shell only — after it is visible. Do not anchor tips to ToolShellWindow or mid-spawn owned dialogs. Persist mainTourDismissed in this Settings category, not geometryPersistenceKey. Z-order recipe: Gallery Multi-window.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            Button {
+                text: qsTr("Open Multi-window")
+                onClicked: page.openComp("MultiWindowPage")
+            }
+            CheckBox { text: qsTr("Settings category OnboardingCoach — not WindowGeometry/*") }
+            CheckBox { text: qsTr("Pause tour before openDialog(owner)") }
+        }
     }
 
     ControlExample {

@@ -23,7 +23,7 @@ import QWinUI3.Theme
 //   Do not also set anchors when using placement — they conflict.
 
 T.Control {
-    id: root
+    id: toastHost
 
     // Max toasts shown at once; further show() calls wait in pendingQueue
     property int maxVisible: 3
@@ -55,14 +55,15 @@ T.Control {
     implicitWidth: 360
     implicitHeight: column.implicitHeight
     width: implicitWidth
+    height: implicitHeight
     z: 2000
     Accessible.role: Accessible.AlertMessage
     Accessible.name: qsTr("Notifications")
 
-    readonly property int informational: 0
-    readonly property int success: 1
-    readonly property int warning: 2
-    readonly property int error: 3
+    readonly property int severityInformational: 0
+    readonly property int severitySuccess: 1
+    readonly property int severityWarning: 2
+    readonly property int severityError: 3
 
     // Visible toast count
     readonly property int count: queue.count
@@ -85,13 +86,14 @@ T.Control {
     readonly property Item _windowOverlay: Overlay.overlay
 
     function _ensureWindowOverlayParent() {
-        var o = root._windowOverlay
-        if (o && root.parent !== o)
-            root.parent = o
+        var o = toastHost._windowOverlay
+        if (o && toastHost.parent !== o)
+            toastHost.parent = o
     }
 
-    Component.onCompleted: root._ensureWindowOverlayParent()
-    on_WindowOverlayChanged: root._ensureWindowOverlayParent()
+    Component.onCompleted: toastHost._ensureWindowOverlayParent()
+    on_WindowOverlayChanged: toastHost._ensureWindowOverlayParent()
+    onPlacementChanged: toastHost._ensureWindowOverlayParent()
 
     anchors.horizontalCenter: parent && _center ? parent.horizontalCenter : undefined
     anchors.right: parent && _right ? parent.right : undefined
@@ -99,6 +101,8 @@ T.Control {
     anchors.bottom: parent && _bottom ? parent.bottom : undefined
     anchors.top: parent && !_bottom ? parent.top : undefined
     anchors.margins: placementMargin
+    // Never stretch to overlay width — corner stacks stay card-sized.
+    anchors.fill: undefined
 
     ListModel { id: queue }
     ListModel { id: pending }
@@ -137,10 +141,10 @@ T.Control {
         var entry = {
             "key": Date.now() + "-" + Math.random().toString(36).slice(2, 8),
             "message": message || "",
-            "severity": severity === undefined ? informational : severity,
+            "severity": severity === undefined ? severityInformational : severity,
             "title": title || "",
             "actionText": actionText || "",
-            "durationMs": root.durationMs
+            "durationMs": toastHost.durationMs
         }
         if (dedupeId && String(dedupeId).length)
             entry.dedupeId = String(dedupeId)
@@ -154,8 +158,14 @@ T.Control {
             queue.append(entry)
     }
 
+    function _scheduleDrainPending() {
+        // Capture host before delegate teardown; callLater must not resolve ids lazily.
+        var host = toastHost
+        Qt.callLater(function () { host._drainPending() })
+    }
+
     function _drainPending() {
-        while (queue.count < root.maxVisible && pending.count > 0) {
+        while (queue.count < maxVisible && pending.count > 0) {
             var e = {
                 "key": pending.get(0).key,
                 "message": pending.get(0).message,
@@ -173,7 +183,7 @@ T.Control {
     // Enqueue a toast (shows immediately if under maxVisible, else waits).
     // Optional dedupeId skips enqueue when the same id is already visible or pending.
     function show(message, severity, title, actionText, dedupeId) {
-        root._ensureWindowOverlayParent()
+        toastHost._ensureWindowOverlayParent()
         if (dedupeId && String(dedupeId).length) {
             var id = String(dedupeId)
             for (var i = 0; i < queue.count; ++i) {
@@ -186,7 +196,7 @@ T.Control {
             }
         }
         var entry = _makeEntry(message, severity, title, actionText, dedupeId)
-        if (queue.count >= root.maxVisible) {
+        if (queue.count >= toastHost.maxVisible) {
             pending.append(entry)
             return
         }
@@ -194,22 +204,22 @@ T.Control {
     }
 
     function info(message, title, actionText) {
-        show(message, informational, title || qsTr("Information"), actionText)
+        show(message, severityInformational, title || qsTr("Information"), actionText)
     }
     function successToast(message, title, actionText) {
-        show(message, success, title || qsTr("Success"), actionText)
+        show(message, severitySuccess, title || qsTr("Success"), actionText)
     }
     function success(message, title, actionText) {
         successToast(message, title, actionText)
     }
     function warningToast(message, title, actionText) {
-        show(message, warning, title || qsTr("Warning"), actionText)
+        show(message, severityWarning, title || qsTr("Warning"), actionText)
     }
     function warning(message, title, actionText) {
         warningToast(message, title, actionText)
     }
     function errorToast(message, title, actionText) {
-        show(message, error, title || qsTr("Error"), actionText)
+        show(message, severityError, title || qsTr("Error"), actionText)
     }
     function error(message, title, actionText) {
         errorToast(message, title, actionText)
@@ -222,8 +232,8 @@ T.Control {
 
     contentItem: ColumnLayout {
         id: column
-        spacing: root.spacing
-        width: root.width
+        spacing: toastHost.spacing
+        width: toastHost.implicitWidth
         layoutDirection: Qt.LeftToRight
 
         Repeater {
@@ -239,30 +249,30 @@ T.Control {
                 required property string actionText
                 required property int durationMs
 
-                Layout.fillWidth: true
+                Layout.preferredWidth: toastHost.implicitWidth
                 Layout.preferredHeight: toastItem.implicitHeight
-                implicitWidth: toastItem.implicitWidth
 
                 Toast {
                     id: toastItem
-                    width: parent.width
+                    width: toastHost.implicitWidth
                     title: wrap.title
                     message: wrap.message
                     severity: wrap.severity
                     durationMs: wrap.durationMs
                     actionText: wrap.actionText
-                    slideFromBottom: root._bottom
+                    slideFromBottom: toastHost._bottom
                     Component.onCompleted: show(wrap.message, wrap.severity)
-                    onActionClicked: root.toastActionClicked(wrap.message)
+                    onActionClicked: toastHost.toastActionClicked(wrap.message)
                     onClosed: {
-                        root.toastClosed(wrap.message)
+                        var host = toastHost
+                        host.toastClosed(wrap.message)
                         for (var i = 0; i < queue.count; ++i) {
                             if (queue.get(i).key === wrap.key) {
                                 queue.remove(i)
                                 break
                             }
                         }
-                        Qt.callLater(function () { root._drainPending() })
+                        host._scheduleDrainPending()
                     }
                 }
             }

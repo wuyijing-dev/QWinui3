@@ -33,6 +33,8 @@ T.Control {
     property string zoomInLabel: qsTr("Zoom in")
     property string zoomOutLabel: qsTr("Zoom out")
     property string accessibleName: qsTr("Semantic zoom")
+    // Forward wheel to parent ScrollView when the inner grid cannot scroll further
+    property bool nestedInScrollView: true
 
     default property alias zoomedIn: zoomedInHost.data
     property alias zoomedOut: zoomedOutHost.data
@@ -170,6 +172,62 @@ T.Control {
         return out
     }
 
+    function _childGridView(host) {
+        if (!host)
+            return null
+        var stack = [host]
+        while (stack.length) {
+            var n = stack.pop()
+            if (n && n.cellWidth !== undefined && n.contentY !== undefined)
+                return n
+            var kids = n.children || []
+            for (var i = 0; i < kids.length; ++i)
+                stack.push(kids[i])
+        }
+        return null
+    }
+
+    function _activeGridView() {
+        return root.isZoomedOut
+                ? root._childGridView(zoomedOutHost)
+                : root._childGridView(zoomedInHost)
+    }
+
+    function _parentPageFlickable() {
+        var p = root.parent
+        while (p) {
+            if (p.contentItem !== undefined && p.contentItem
+                    && p.contentItem.contentY !== undefined)
+                return p.contentItem
+            if (p.contentY !== undefined && p.contentItem !== undefined
+                    && p.flickableDirection !== undefined)
+                return p
+            p = p.parent
+        }
+        return null
+    }
+
+    WheelHandler {
+        acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
+        enabled: root.nestedInScrollView
+        onWheel: function (event) {
+            var grid = root._activeGridView()
+            var dy = event.angleDelta.y
+            if (grid && grid.contentHeight > grid.height + 1) {
+                var atTop = grid.contentY <= 0.5
+                var atBottom = grid.contentY >= grid.contentHeight - grid.height - 0.5
+                if ((dy > 0 && !atTop) || (dy < 0 && !atBottom))
+                    return
+            }
+            var page = root._parentPageFlickable()
+            if (!page)
+                return
+            var maxY = Math.max(0, page.contentHeight - page.height)
+            page.contentY = Math.max(0, Math.min(maxY, page.contentY - dy / 8))
+            event.accepted = true
+        }
+    }
+
     Keys.onPressed: function (event) {
         if (!root.canChangeViews)
             return
@@ -212,6 +270,7 @@ T.Control {
                 id: zoomedInHost
                 Layout.fillWidth: true
                 Layout.fillHeight: true
+                clip: true
                 focus: !root.isZoomedOut
             }
 
@@ -219,6 +278,7 @@ T.Control {
                 id: zoomedOutHost
                 Layout.fillWidth: true
                 Layout.fillHeight: true
+                clip: true
                 focus: root.isZoomedOut
             }
         }

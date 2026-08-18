@@ -1,6 +1,6 @@
-# QWinUI3 CMake package config — **sketch (1.61)**
+# QWinUI3 CMake package config (1.61 sketch · 2.11 vcpkg/Conan ports)
 #
-# Installed layout (shared Release zip):
+# Installed layout (shared Release zip / vcpkg / Conan prefix):
 #   <prefix>/bin/*.dll          (Windows runtime)
 #   <prefix>/lib/*              (import libs / .so)
 #   <prefix>/qml/…              (QML modules)
@@ -8,12 +8,12 @@
 #   <prefix>/lib/cmake/QWinUI3/QWinUI3Config.cmake  (this file)
 #
 # Usage:
-#   list(APPEND CMAKE_PREFIX_PATH "D:/deps/qwinui3-1.61-windows-x64-shared")
+#   list(APPEND CMAKE_PREFIX_PATH "D:/deps/qwinui3-2.11-windows-x64-shared")
 #   find_package(QWinUI3 CONFIG REQUIRED)
 #   target_link_libraries(myapp PRIVATE QWinUI3::platform QWinUI3::style …)
 #
-# This is **not** an official vcpkg / Conan port. Prefer add_subdirectory or the
-# documented shared zip when in doubt — docs/packaging-consumer.md.
+# Package managers: docs/packaging-vcpkg-conan.md (vcpkg overlay · Conan 2).
+# Zip / add_subdirectory: docs/packaging-consumer.md.
 
 cmake_minimum_required(VERSION 3.21)
 

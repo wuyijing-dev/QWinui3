@@ -80,12 +80,16 @@ Shortcut { sequences: ["Ctrl+K"]; onActivated: palette.open() }
 | Key | Behavior |
 |-----|----------|
 | **Ctrl+K** / **Meta+K** | Open / toggle |
-| Type | Filter `title` / `subtitle` / `keywords` |
+| Type | Filter `title` / `subtitle` / `keywords` / **`shortcut`** (**2.41**) |
 | **↑** / **↓** | Move highlight |
 | **Enter** | Run command |
 | **Esc** | Close |
 
-Full tables: [commands.md](commands.md). ShellWindow can wire Ctrl+K for you.
+Full tables: [commands.md](commands.md) (**2.41** wave 3 — large lists + shortcut discovery). ShellWindow can wire Ctrl+K for you.
+
+### MenuBar accelerator discovery (2.41)
+
+Mirror high-value `MenuBar` `Action.shortcut` entries into `CommandPalette.commands` with the same chord string so **Ctrl+K** finds what **Ctrl+C** already does. `keyboardAcceleratorText` on CommandBar is visual-only — use `Action.shortcut` or `Shortcut` for real chords. Gallery: **MenuBar** · **CommandPalette**.
 
 ---
 
@@ -119,11 +123,11 @@ Always set a **default** button on confirm dialogs so Enter is meaningful.
 
 | Surface | Model |
 |---------|--------|
-| **DataTable** | Tab in (or ↓ from filter); arrows / Home/End / PageUp/Down; Enter activates; Esc clears |
+| **DataTable** | Tab in (or ↓ from filter); arrows / Home/End / PageUp/Down; Enter activates; Esc clears; AT announces selection / sort / filter (**2.07**) |
 | **ItemsView** | Roving focus; PageUp/Down; Space / Ctrl+A when multi-select |
-| **ListDetailsView** | Arrows / Home/End; Enter opens details (SinglePane); Esc / Back → list |
+| **ListDetailsView** | Arrows / Home/End; Enter opens details (SinglePane); Esc / Back → list; AT announces selection / pane (**2.07**) |
 | **TreeView** | ←/→ expand-collapse — [tree-data.md](tree-data.md) |
-| **NavigationView** | Pane keys / type-ahead; compact flyout ↑↓ Enter Esc |
+| **NavigationView** | Pane keys / type-ahead; compact flyout ↑↓ Enter Esc; AT announces nav target / pane expand (**2.07**) |
 
 Treat the list as **one Tab stop** with arrow roving inside — don’t Tab every row.
 

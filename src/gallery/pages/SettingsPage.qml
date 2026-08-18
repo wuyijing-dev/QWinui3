@@ -91,7 +91,7 @@ Page {
     SettingsView {
         anchors.fill: parent
         title: qsTr("Settings")
-        subtitle: qsTr("Theme knobs are kit-wide (copy recipe into your app). Corners, RHI, and page cache stay Gallery chrome.")
+        subtitle: qsTr("Theme knobs are kit-wide (ThemeAppearanceSettings). Branding wave 2 (2.38): accent packs + ThemePrefs persist — docs/theme-overrides.md.")
 
         ThemeAppearanceSettings {
             persist: false
@@ -102,6 +102,24 @@ Page {
             title: qsTr("Gallery")
             description: qsTr("This process only — not Theme tokens.")
             symbol: FluentIcons.DeveloperTools
+
+            SettingsCard {
+                title: qsTr("Display language")
+                description: GalleryLanguage.translatorActive
+                    ? qsTr("UI locale: %1 — all qsTr strings refresh live. Persisted for next launch. Full catalogs: src/gallery/translations/.")
+                        .arg(GalleryLanguage.labelForLocale(GalleryLanguage.currentLocale))
+                    : qsTr("English (default). Pick 简体中文 / 日本語 / 한국어 when .qm is built (Release + qt_add_translations). docs/i18n-rtl.md.")
+                symbol: FluentIcons.Globe
+                action: ComboBox {
+                    id: langBox
+                    implicitWidth: 220
+                    model: GalleryLanguage.localeLabels
+                    currentIndex: GalleryLanguage.indexOfLocale(GalleryLanguage.currentLocale)
+                    onActivated: function (index) {
+                        GalleryLanguage.applyLocale(GalleryLanguage.availableLocales[index])
+                    }
+                }
+            }
 
             SettingsCard {
                 title: qsTr("Right-to-left layout")
@@ -117,12 +135,23 @@ Page {
 
             SettingsCard {
                 title: qsTr("Real-time FPS")
-                description: qsTr("FrameStatsMonitor — title-bar badge or floating overlay. Toggle persists in QSettings. CLI: --show-fps, --fps-overlay.")
+                description: qsTr("FrameStatsMonitor — title-bar badge or floating overlay. Toggle persists in QSettings (Gallery dev profile). Retail apps: applyRetailProfile() — docs/developer-diagnostics.md (2.44). CLI: --show-fps, --fps-overlay, --show-rhi, --show-diagnostics, --retail-diagnostics.")
                 symbol: FluentIcons.SpeedHigh
                 toggle: true
                 toggleText: qsTr("Show FPS")
                 checked: FrameStatsMonitor.enabled
                 onToggled: function (on) { FrameStatsMonitor.enabled = on }
+            }
+
+            SettingsCard {
+                title: qsTr("RHI in FPS badge")
+                description: qsTr("Append active Qt Quick RHI backend (OpenGL, Vulkan, D3D11, …) beside FPS readout. Requires Show FPS. Persists in QSettings.")
+                symbol: FluentIcons.HardDrive
+                toggle: true
+                toggleText: qsTr("Show RHI")
+                enabled: FrameStatsMonitor.enabled
+                checked: FrameStatsMonitor.showRhi
+                onToggled: function (on) { FrameStatsMonitor.showRhi = on }
             }
 
             SettingsCard {

@@ -125,7 +125,7 @@ T.Control {
 
     // Resolved label position
     readonly property string effectiveLabelPosition: {
-        if (root.compact)
+        if (root.compact || root._showMinimalChrome)
             return "collapsed"
         if (!root.isOpen && root.closedDisplayMode === "compact")
             return "collapsed"
@@ -134,7 +134,9 @@ T.Control {
     readonly property bool _barVisible: root.isOpen || root.closedDisplayMode !== "hidden"
     readonly property bool _showPrimary: root.isOpen
                                          || root.closedDisplayMode === "compact"
+                                         || root._showMinimalChrome
     readonly property bool _showMoreOnly: !root.isOpen && root.closedDisplayMode === "minimal"
+    readonly property bool _showMinimalChrome: !root.isOpen && root.closedDisplayMode === "minimal"
     readonly property bool _hasSecondaryHost: secondaryHost.children.length > 0
     readonly property bool _hasOverflowItems: root.overflowItems && root.overflowItems.length > 0
     property var _overflowedPrimaries: []
@@ -249,6 +251,7 @@ T.Control {
             overflowMenu.popup(moreBtn, 0, moreBtn.height + 4)
     }
 
+    hoverEnabled: true
     padding: compact ? 2 : 4
     implicitWidth: Math.max(120, barRow.implicitWidth + leftPadding + rightPadding)
     implicitHeight: {
@@ -298,9 +301,11 @@ T.Control {
     }
 
     contentItem: Item {
-        implicitWidth: barRow.implicitWidth
+        implicitWidth: Math.max(barRow.implicitWidth, root.width)
         implicitHeight: barRow.implicitHeight
-        clip: true
+        width: root.width
+        height: implicitHeight
+        clip: false
         visible: root._barVisible
 
         RowLayout {
@@ -325,7 +330,7 @@ T.Control {
                                               - (moreBtn.visible ? root._moreWidth + root.barSpacing : 0)
                                               - (toggleBtn.visible ? root._moreWidth + root.barSpacing : 0)
                                               - 8)
-                clip: root.isDynamicOverflowEnabled
+                clip: false
                 visible: root._showPrimary
                 opacity: visible ? 1 : 0
                 Behavior on opacity {
@@ -351,7 +356,7 @@ T.Control {
             ToolButton {
                 id: moreBtn
                 visible: root.isMoreButtonVisible
-                         && root._hasOverflow
+                         && (root._hasOverflow || root._showMinimalChrome)
                          && (root.isOpen || root.closedDisplayMode === "minimal"
                              || root.closedDisplayMode === "compact")
                 Layout.preferredWidth: root._moreWidth
@@ -404,7 +409,8 @@ T.Control {
 
             ToolButton {
                 id: toggleBtn
-                visible: root.isToggleButtonVisible && root.closedDisplayMode !== "hidden"
+                visible: (root.isToggleButtonVisible && root.closedDisplayMode !== "hidden")
+                         || root._showMinimalChrome
                 Layout.preferredWidth: root._moreWidth
                 Layout.preferredHeight: root._chromeHeight
                 text: root.isOpen ? FluentIcons.ChevronUp : FluentIcons.ChevronDown

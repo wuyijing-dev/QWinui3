@@ -5,6 +5,24 @@
 
 bool ThemeFonts::s_loaded = false;
 QString ThemeFonts::s_iconFamily = QStringLiteral("Segoe Fluent Icons");
+QString ThemeFonts::s_monoFamily;
+
+static QString resolveMonoFamily()
+{
+    static const char *const kCandidates[] = {
+        "Cascadia Mono",
+        "Cascadia Code",
+        "Consolas",
+        "Courier New",
+        nullptr,
+    };
+    for (const char *name : kCandidates) {
+        const QString family = QString::fromUtf8(name);
+        if (QFontDatabase::hasFamily(family))
+            return family;
+    }
+    return QStringLiteral("Courier New");
+}
 
 ThemeFonts::ThemeFonts(QObject *parent)
     : QObject(parent)
@@ -22,6 +40,7 @@ void ThemeFonts::ensureLoaded()
     if (s_loaded)
         return;
     s_loaded = true;
+    s_monoFamily = resolveMonoFamily();
 
 #if defined(Q_OS_WIN)
     // Prefer the system font when present (native Win11 look).
@@ -63,6 +82,12 @@ QString ThemeFonts::iconFamily() const
 {
     ensureLoaded();
     return s_iconFamily;
+}
+
+QString ThemeFonts::monoFamily() const
+{
+    ensureLoaded();
+    return s_monoFamily;
 }
 
 bool ThemeFonts::iconFontLoaded() const

@@ -32,6 +32,16 @@ BlankWindow {
         return FluentIcons.OpenInNewWindow
     }
 
+    property var tabModel: []
+
+    Component.onCompleted: {
+        var d = tearWin.tabData
+        if (d === undefined || d === null)
+            tabModel = []
+        else
+            tabModel = [d]
+    }
+
     TabView {
         id: tornTabs
         anchors.fill: parent
@@ -41,14 +51,10 @@ BlankWindow {
         canTearOutTabs: true
         createTearOutWindow: true
         allowTearOutLastTab: true
+        closeWhenEmpty: true
         isAddTabButtonVisible: true
         closable: true
-        model: {
-            var d = tearWin.tabData
-            if (d === undefined || d === null)
-                return []
-            return [d]
-        }
+        model: tearWin.tabModel
         onTabCloseRequested: Qt.callLater(function () {
             if (tornTabs.tabCount === 0)
                 tearWin.close()

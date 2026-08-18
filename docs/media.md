@@ -1,48 +1,51 @@
-# Media (optional Qt Multimedia) — 1.21 / 1.67
+# Media (optional Qt Multimedia) — 1.21 / 1.67 / 2.09
 
 `MediaPlayerElement` is a Fluent transport shell over **Qt Multimedia** (`MediaPlayer` + `VideoOutput`).
 
-**Status (1.67):** **experimental — deferred for remaining 1.xx.** Not freeze-covered. Apps that already ship Qt Multimedia may still use it; do not treat the type as a stable-api promise.
+**Status (2.09):** **experimental — permanently deferred.** Not freeze-covered. The type still ships (real player when Multimedia is linked; `available === false` stub otherwise). Product shells on [stable-api.md](stable-api.md) should **not** depend on it.
 
 Gallery: **MediaPlayerElement**. Related: [stable-api.md](stable-api.md) · [packaging-consumer.md](packaging-consumer.md) · [ci-smoke.md](ci-smoke.md).
 
-**Out of scope (1.67):** new codecs, streaming / CDN, playlists, custom pipelines, non-Qt backends.
+**Out of scope:** bundling FFmpeg, cloud streaming SDKs, playlists, captions, hardware-decode promises.
 
 ---
 
-## Decision (1.67) — defer, do not promote
+## Verdict (2.09) — permanent defer, do not promote
+
+Closes the **1.67** promote/defer loop. Soak is green enough to **keep shipping** as experimental; promote blockers remain open.
 
 | Question | Answer |
 |----------|--------|
-| Promote a thin stable subset? | **No** |
+| Promote to stable-api? | **No — permanent defer (2.09)** |
 | Keep shipping? | **Yes** — real type when Multimedia is found; stub otherwise |
-| Freeze-covered? | **No** — API / deploy story may still change |
+| Freeze-covered? | **No** |
+| Product LoB on stable-api? | **Do not require** this type |
 
-**Why not promote**
+**Why permanent defer (not a kit contract)**
 
 | Gap | Detail |
 |-----|--------|
 | Optional kit | Consumer Qt installs often omit Multimedia; stub vs real is a configure-time fork |
-| Backends | Windows Media Foundation vs Linux GStreamer vs FFmpeg — decode quality is not a kit contract |
-| Deploy | Multimedia QML plugin / codecs are **app** `windeployqt` / installer work, not in the QWinUI3 zip |
+| Backends | Windows Media Foundation vs Linux GStreamer vs FFmpeg — decode quality varies by OS/kit |
+| Deploy | Multimedia QML plugin / codecs are **app** `windeployqt` / installer work, not in QWinUI3 zips |
 | CI | Gallery `--smoke` does **not** decode media; no codec matrix gate |
-| Surface | Transport chrome only — no playlist, captions, hardware-decode flags, or network streaming recipe |
+| Surface | Transport chrome only — no playlist, captions, streaming recipe, or hardware-decode flags |
 
-Prefer **not** depending on this type for LoB shells that must stay on [stable-api.md](stable-api.md). Open local files with [FilePicker](system-integration.md) and host video only when you already own Multimedia deploy.
+**App-owned path when you need video:** install/link Qt Multimedia yourself, deploy plugins with your installer, gate UI on `available === false`, pause when hidden. Use [FilePicker](system-integration.md) for local files.
 
 ---
 
-## Soak checklist (1.67)
+## Soak checklist (shipped — experimental)
 
-What **is** soaked enough to keep shipping as experimental:
+What **is** soaked enough to keep shipping:
 
 - [x] CMake `QWINUI3_BUILD_MEDIA` ON when `Qt6::Multimedia` is found; stub type still named `MediaPlayerElement` with `available === false`
 - [x] Gallery page always present; `Qt.createComponent` + `Loader` so missing Multimedia never crashes the page
 - [x] Keyboard Space / Enter toggles play; mute / seek / volume chrome named for a11y
-- [x] Pause when the host is not visible (app recipe — see below)
+- [x] Pause when the host is not visible (Gallery recipe)
 - [x] Bad file → `errorString`; chrome stays usable
 
-What **fails** promote (still open):
+What **blocks promote** (unchanged — why defer is permanent):
 
 - [ ] Codec matrix (H.264 / WebM / audio-only) across Win + Linux kits
 - [ ] Hardware decode / RHI + `VideoOutput` field bugs as a kit promise
@@ -107,6 +110,31 @@ Soft-detect (Gallery pattern): `Qt.createComponent("QWinUI3.Extras", "MediaPlaye
 | Multimedia built but QML plugin missing at runtime | `createComponent` / load error — Gallery shows error string |
 | Bad / unsupported file | `errorString` from `MediaPlayer`; chrome stays usable |
 | Headless / offscreen CI | Prefer not relying on decode; smoke does not require this page |
+| Product on stable-api only | Do not ship MediaPlayerElement — use app-owned Multimedia or external player |
+
+---
+
+## Field matrix (2.32 — 2.x floor)
+
+Qt **6.5+** (recommended **6.8**). Gallery `--smoke` compiles **MediaPlayerElementPage** but does **not** decode video.
+
+| Scenario | Windows Release | Linux Release | App action |
+|----------|-----------------|---------------|------------|
+| `QWINUI3_BUILD_MEDIA=ON` + kit has Multimedia | Real player (`available === true`) | Real (GStreamer backend) | Deploy Multimedia QML plugin via `windeployqt` / package |
+| Multimedia absent at configure | Stub (`available === false`) | Same | EmptyState; optional `-DQWINUI3_BUILD_MEDIA=ON` after installing Multimedia |
+| QML plugin missing at runtime | `createComponent` error / load fail | Same | Ship `QtMultimedia` / `QtMultimediaQuick` imports with installer |
+| Unsupported codec / bad file | `errorString`; chrome usable | Same | App-owned codec matrix — not a kit promise |
+| Hidden / off-screen host | Gallery pauses on `visible === false` | Same | `onVisibleChanged: if (!visible) pause()` |
+| CI / headless smoke | Page instantiates; no decode gate | Same | Do not gate CI on playback |
+
+**Deploy checklist (app-owned — not in QWinUI3 zips):**
+
+1. Configure with `-DQWINUI3_BUILD_MEDIA=ON` when `Qt6::Multimedia` is present.
+2. Run `windeployqt` (or Linux equivalent) including **Multimedia** QML plugins.
+3. Gate product UI on `MediaPlayerElement.available === false` → EmptyState + docs link.
+4. Soft-load with `Qt.createComponent("QWinUI3.Extras", "MediaPlayerElement")` + `Loader` (Gallery pattern).
+
+See [packaging-consumer.md](packaging-consumer.md) · Gallery **MediaPlayerElement** field matrix callout (**2.32**).
 
 ---
 

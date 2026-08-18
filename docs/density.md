@@ -1,6 +1,6 @@
 # Density, typography & responsive shells (1.30)
 
-Compact vs comfortable metrics, fixed type scale, and one narrow-window shell pattern. Branding knobs stay in [theme-overrides.md](theme-overrides.md); this page is the **metrics + layout** recipe.
+Compact vs comfortable metrics, fixed type scale, and one narrow-window shell pattern. Branding knobs stay in [theme-overrides.md](theme-overrides.md) (**2.38** contrast+density integration); this page is the **metrics + layout** recipe.
 
 Gallery: **Theme overrides** (live metrics) · Settings → Density · **NavigationView** (`paneDisplayMode: auto`) · **ListDetailsView**.
 

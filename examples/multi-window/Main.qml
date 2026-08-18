@@ -20,6 +20,12 @@ ShellWindow {
     geometryPersistenceKey: "MultiWindowExampleMain"
 
     property string statusText: qsTr("Open a tool window or an owned dialog. Theme is shared automatically.")
+    readonly property string portalReadout: {
+        var id = WindowHelper.portalParentWindow(mainWindow)
+        return id.length
+            ? qsTr("portal parent_window=%1").arg(id)
+            : qsTr("portal parent_window=(empty on this session — still call openDialog(owner))")
+    }
 
     Pane {
         anchors.fill: parent
@@ -33,7 +39,7 @@ ShellWindow {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Main shell uses geometryPersistenceKey \"MultiWindowExampleMain\". Tool window uses a separate key. Dialog uses setTransientParent via ownerWindow + openDialog().")
+                text: qsTr("Main shell uses geometryPersistenceKey \"MultiWindowExampleMain\". Tool window uses a separate key. Dialog uses setTransientParent + centerOnOwner via openDialog() (2.14).")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
@@ -54,7 +60,7 @@ ShellWindow {
                     text: qsTr("Open owned dialog")
                     onClicked: {
                         aboutDialog.openDialog(mainWindow)
-                        mainWindow.statusText = qsTr("Dialog opened with transient parent (stacks with main on Win; Wayland follows compositor).")
+                        mainWindow.statusText = qsTr("Dialog opened — transient parent + centerOnOwner (2.14). %1").arg(mainWindow.portalReadout)
                     }
                 }
                 Button {
@@ -158,7 +164,7 @@ ShellWindow {
                 Text {
                     Layout.fillWidth: true
                     wrapMode: Text.WordWrap
-                    text: qsTr("openDialog(owner) calls WindowHelper.setTransientParent + centerOnScreen. Prefer this over a second ContentDialog host.")
+                    text: qsTr("openDialog(owner) calls ensureWindowCreated + setTransientParent + centerOnOwner. Prefer this over a second ContentDialog host.")
                     color: Theme.textSecondary
                 }
 

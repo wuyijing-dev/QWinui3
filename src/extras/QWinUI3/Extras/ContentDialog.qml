@@ -125,6 +125,7 @@ T.Dialog {
         syncBody()
         _captureFocusReturn()
     }
+    onOpened: Qt.callLater(function () { chrome.forceActiveFocus() })
     onClosed: _restoreFocusReturn()
     onAccepted: {
         if (root.dialogResult === "none")
@@ -199,32 +200,22 @@ T.Dialog {
         }
     }
 
-    Keys.onReturnPressed: function (event) {
-        if (_focusIsMultiline())
-            return
-        activateDefault()
-        event.accepted = true
-    }
-    Keys.onEnterPressed: function (event) {
-        if (_focusIsMultiline())
-            return
-        activateDefault()
-        event.accepted = true
-    }
-
     Shortcut {
         sequences: ["Return", "Enter"]
         enabled: root.visible && root._defaultButton !== "none" && !root._focusIsMultiline()
         context: Qt.WindowShortcut
         onActivated: root.activateDefault()
     }
-    Keys.onEscapePressed: function (event) {
-        event.accepted = true
-        // Match close button path so Closing cancel + closeClicked stay consistent.
-        if (closeBtn.visible && closeBtn.enabled)
-            closeBtn.clicked()
-        else
-            requestClose("close")
+    Shortcut {
+        sequences: ["Escape"]
+        enabled: root.visible
+        context: Qt.WindowShortcut
+        onActivated: {
+            if (closeBtn.visible && closeBtn.enabled)
+                closeBtn.clicked()
+            else
+                root.requestClose("close")
+        }
     }
 
     function activateDefault() {
@@ -280,8 +271,28 @@ T.Dialog {
         width: root.width
         height: root.fullSizeDesired ? root.height : column.implicitHeight
         clip: true
+        focus: true
         Accessible.role: Accessible.Dialog
         Accessible.name: root.title.length ? root.title : qsTr("Dialog")
+        Keys.onReturnPressed: function (event) {
+            if (root._focusIsMultiline())
+                return
+            root.activateDefault()
+            event.accepted = true
+        }
+        Keys.onEnterPressed: function (event) {
+            if (root._focusIsMultiline())
+                return
+            root.activateDefault()
+            event.accepted = true
+        }
+        Keys.onEscapePressed: function (event) {
+            event.accepted = true
+            if (closeBtn.visible && closeBtn.enabled)
+                closeBtn.clicked()
+            else
+                root.requestClose("close")
+        }
         // Do not echo title — body text is announced via children when present.
 
         Column {

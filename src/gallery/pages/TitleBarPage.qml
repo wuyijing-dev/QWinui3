@@ -9,8 +9,17 @@ import QWinUI3.Extras
 // WinUI TitleBar: Back, PaneToggle, Icon, Title/Subtitle, Content, RightHeader. API: docs/components/TitleBar.md
 
 CatalogPage {
+    id: page
     title: qsTr("TitleBar")
-    subtitle: qsTr("WinUI TitleBar: Back, PaneToggle, Icon, Title/Subtitle, Content, RightHeader.")
+    subtitle: qsTr("WinUI TitleBar: Back, PaneToggle, Icon, Title/Subtitle, Content, RightHeader. Cookbook: docs/title-bar-cookbook.md · Window shells page for ShellWindow slots.")
+
+    signal openControl(var item)
+
+    function openComp(id) {
+        var it = ControlCatalog.findByComponent(id)
+        if (it)
+            page.openControl(it)
+    }
 
     ControlExample {
         headerText: qsTr("LeftHeader & Content slots")
@@ -51,10 +60,15 @@ CatalogPage {
             }
             Label {
                 Layout.fillWidth: true
-                text: qsTr("ShellWindow / StandardTitleChrome expose the same slots: leftHeader, titleBarContent, rightHeader.")
                 wrapMode: Text.WordWrap
                 color: Theme.textSecondary
                 font.pixelSize: Theme.fontCaption
+                text: qsTr("ShellWindow / StandardTitleChrome expose leftHeader, titleBarContent, rightHeader. StandardTitleChrome.rightHeader is PlatformTitleBar (before captions); ShellWindow.rightHeader is inside TitleBar — see docs/title-bar-cookbook.md.")
+            }
+            Button {
+                flat: true
+                text: qsTr("Open Window shells page")
+                onClicked: page.openComp("WindowParadigmPage")
             }
         }
     }

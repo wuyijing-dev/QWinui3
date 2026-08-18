@@ -31,7 +31,8 @@ CatalogPage {
             PieChart {
                 id: pie
                 Layout.fillWidth: true
-                Layout.preferredHeight: 220
+                Layout.preferredHeight: 240
+                Layout.minimumHeight: 200
                 title: qsTr("Workload")
                 slices: page.slices
                 onSliceClicked: (index, value) => {
@@ -39,6 +40,8 @@ CatalogPage {
                 }
             }
             RowLayout {
+                Layout.fillWidth: true
+                Layout.topMargin: Theme.spacing
                 Label {
                     Layout.fillWidth: true
                     color: Theme.textSecondary

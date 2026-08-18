@@ -1,88 +1,60 @@
-# Gallery translations (1.13 / 1.45 / 1.54)
+# Gallery translations
 
-Gallery / examples wrap UI strings in `qsTr(...)`. This folder holds **seed** Qt Linguist catalogs — **not** a full Gallery language pack.
+Gallery wraps UI strings in `qsTr(...)`. **`lupdate src/gallery`** extracts **~3600** messages per locale.
 
 | File | Role |
 |------|------|
-| `qwinui3_gallery_en.ts` | English seed (identity translations) |
-| `qwinui3_gallery_zh_CN.ts` | Simplified Chinese seed (**1.45**) — demo subset |
-| `qwinui3_gallery_ja_JP.ts` | Japanese seed (**1.54**) — same demo subset |
-| `*.qm` | Optional `lrelease` output (generate locally; may be gitignored if huge) |
-| `README.md` | This workflow |
+| `qwinui3_gallery_en.ts` | English (source) |
+| `qwinui3_gallery_zh_CN.ts` | 简体中文 |
+| `qwinui3_gallery_ja_JP.ts` | 日本語 |
+| `qwinui3_gallery_ko_KR.ts` | 한국어 |
+| `qwinui3_gallery_de_DE.ts` | Deutsch (**2.35** seed) |
 
-Do **not** commit a full `lupdate` of every Gallery page unless you intentionally ship that language.
+Release builds embed `.qm` via **`qt_add_translations`** (`:/i18n`).
+
+Switch language **live**: Gallery **Settings → Display language** or **i18n / RTL** (`GalleryLanguage` + `QQmlEngine::retranslate`). Persisted in `QSettings` (`Gallery/uiLocale`). Startup override: `--lang zh_CN`.
 
 ---
 
-## Extract / refresh (manual)
-
-Qt `bin` on `PATH` (or use the kit from CMake `CMAKE_PREFIX_PATH`):
+## Extract / refresh
 
 ```bat
-lupdate src/gallery -ts src/gallery/translations/qwinui3_gallery_en.ts
+lupdate src/gallery -ts src/gallery/translations/qwinui3_gallery_en.ts ^
+    src/gallery/translations/qwinui3_gallery_zh_CN.ts ^
+    src/gallery/translations/qwinui3_gallery_ja_JP.ts ^
+    src/gallery/translations/qwinui3_gallery_ko_KR.ts ^
+    src/gallery/translations/qwinui3_gallery_de_DE.ts -no-obsolete
 ```
 
 ```bash
-lupdate src/gallery -ts src/gallery/translations/qwinui3_gallery_en.ts
+lupdate src/gallery \
+  -ts src/gallery/translations/qwinui3_gallery_en.ts \
+     src/gallery/translations/qwinui3_gallery_zh_CN.ts \
+     src/gallery/translations/qwinui3_gallery_ja_JP.ts \
+     src/gallery/translations/qwinui3_gallery_ko_KR.ts \
+     src/gallery/translations/qwinui3_gallery_de_DE.ts \
+  -no-obsolete
 ```
 
-Integrity check (no Qt required):
+Validate (CI, no Qt):
 
 ```bash
 python scripts/check_gallery_translations.py
+python scripts/check_localization_wave4.py   # 2.35 control page qsTr rules
 ```
+
+Translate in Qt Linguist, then **Release build** (CMake runs `lrelease` via `qt_add_translations`).
 
 ---
 
 ## Add a locale
 
-```bat
-copy src\gallery\translations\qwinui3_gallery_en.ts src\gallery\translations\qwinui3_gallery_de.ts
-linguist src\gallery\translations\qwinui3_gallery_de.ts
-lrelease src\gallery\translations\qwinui3_gallery_de.ts -qm src\gallery\translations\qwinui3_gallery_de.qm
-```
-
-Name pattern: `qwinui3_gallery_<locale>.ts` where `<locale>` is `zh_CN`, `ja_JP`, `ar`, `de`, …
-
----
-
-## Load in Gallery (1.45 / 1.54)
-
-```bat
-qwinui3_gallery.exe --lang zh_CN
-qwinui3_gallery.exe --lang ja_JP
-```
-
-`--lang` installs a `QTranslator` looking for `qwinui3_gallery_<lang>.qm` under:
-
-1. `applicationDirPath()/translations`
-2. `applicationDirPath()` (beside the exe)
-3. Source tree `src/gallery/translations` (dev builds)
-4. `QWINUI3_GALLERY_TRANSLATIONS` env override (directory)
-
-Generate `.qm` before running:
-
-```bat
-lrelease src\gallery\translations\qwinui3_gallery_zh_CN.ts -qm src\gallery\translations\qwinui3_gallery_zh_CN.qm
-lrelease src\gallery\translations\qwinui3_gallery_ja_JP.ts -qm src\gallery\translations\qwinui3_gallery_ja_JP.qm
-```
-
-Smoke / CI does **not** require `.qm` — `scripts/check_gallery_translations.py` validates `.ts` XML only.
+Copy `qwinui3_gallery_en.ts` → `qwinui3_gallery_de_DE.ts` (or other locale code), translate, add the `.ts` to `qt_add_translations` in `src/gallery/CMakeLists.txt`, extend `GalleryLanguage::availableLocales()`. **2.35** ships **`de_DE`** as the fourth seed.
 
 ---
 
 ## Consumer apps
 
-```cpp
-QTranslator tr;
-if (tr.load(QLocale(QLocale::Japanese, QLocale::Japan),
-            QStringLiteral("qwinui3_gallery"),
-            QStringLiteral("_"),
-            QStringLiteral("path/to/translations"))) {
-    app.installTranslator(&tr);
-}
-```
+[`docs/i18n-rtl.md`](../../../docs/i18n-rtl.md) · [`examples/gallery-shell/translations/`](../../../examples/gallery-shell/translations/)
 
-Or load by exact file: `tr.load("path/to/qwinui3_gallery_ja_JP.qm")`.
-
-RTL layout is **separate** from translation — Gallery Settings → **Right-to-left layout**. See [`docs/i18n-rtl.md`](../../../docs/i18n-rtl.md).
+RTL layout is separate — Gallery Settings → **Right-to-left layout**.

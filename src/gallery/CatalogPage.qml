@@ -29,6 +29,65 @@ Item {
     property alias overlay: overlaySlot.data
     default property alias contentData: stack.data
 
+    function _findNamed(item, name) {
+        if (!item || !name)
+            return null
+        if (item.objectName === name)
+            return item
+        var kids = item.children || []
+        for (var i = 0; i < kids.length; ++i) {
+            var hit = _findNamed(kids[i], name)
+            if (hit)
+                return hit
+        }
+        return null
+    }
+
+    function _flickableAncestor(start) {
+        var p = start
+        while (p) {
+            if (p.contentItem !== undefined && p.contentItem
+                    && p.contentItem.contentY !== undefined)
+                return p.contentItem
+            if (p.contentY !== undefined && p.contentItem !== undefined
+                    && p.flickableDirection !== undefined)
+                return p
+            p = p.parent
+        }
+        return null
+    }
+
+    function scrollToItem(item) {
+        if (!item)
+            return false
+        var flick = null
+        var p = item
+        while (p) {
+            flick = _flickableAncestor(p)
+            if (flick)
+                break
+            p = p.parent
+        }
+        if (!flick)
+            return false
+        var itemTop = item.mapToGlobal(0, 0).y
+        var viewTop = flick.mapToGlobal(0, 0).y
+        var localY = itemTop - viewTop + flick.contentY
+        var maxY = Math.max(0, flick.contentHeight - flick.height)
+        flick.contentY = Math.max(0, Math.min(localY - 12, maxY))
+        return true
+    }
+
+    function scrollToName(name) {
+        var hit = _findNamed(root, String(name || ""))
+        if (!hit)
+            return false
+        var ok = scrollToItem(hit)
+        if (!ok)
+            Qt.callLater(function () { root.scrollToItem(hit) })
+        return true
+    }
+
     ColumnLayout {
         anchors.fill: parent
         spacing: 0
@@ -40,6 +99,28 @@ Item {
             contentWidth: availableWidth
             clip: true
             background: null
+            ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+
+            WheelHandler {
+                target: scroll
+                acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
+                onWheel: function (event) {
+                    var flick = scroll.contentItem
+                    if (!flick || flick.contentHeight === undefined
+                            || flick.contentHeight <= flick.height)
+                        return
+                    var dy = 0
+                    if (event.pixelDelta.y !== 0)
+                        dy = event.pixelDelta.y
+                    else if (event.angleDelta.y !== 0)
+                        dy = event.angleDelta.y / Theme.scrollWheelAngleDivisor
+                    if (dy === 0)
+                        return
+                    flick.contentY = Math.max(0, Math.min(flick.contentHeight - flick.height,
+                                                          flick.contentY - dy))
+                    event.accepted = true
+                }
+            }
 
             ColumnLayout {
                 width: scroll.availableWidth

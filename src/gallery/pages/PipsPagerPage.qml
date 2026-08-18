@@ -10,7 +10,53 @@ import QWinUI3.Extras
 
 CatalogPage {
     title: qsTr("PipsPager")
-    subtitle: qsTr("Page indicators with selectedIndex, keyboard nav, and WinUI previous/next visibility.")
+    subtitle: qsTr("Page indicators — FlipView / SwipeView hosts, maxVisiblePips — docs/carousel-recipes.md (2.37).")
+
+    ControlExample {
+        headerText: qsTr("SwipeView host (2.37)")
+        qmlSource: "SwipeView + PipsPager two-way sync — docs/carousel-recipes.md Recipe B"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacingLoose
+            SwipeView {
+                id: swipeHost
+                Layout.fillWidth: true
+                Layout.preferredHeight: 120
+                clip: true
+                Rectangle {
+                    color: Theme.systemAttentionBg
+                    Label { anchors.centerIn: parent; text: qsTr("A"); color: Theme.textPrimary }
+                }
+                Rectangle {
+                    color: Theme.systemSuccessBg
+                    Label { anchors.centerIn: parent; text: qsTr("B"); color: Theme.textPrimary }
+                }
+                Rectangle {
+                    color: Theme.systemCautionBg
+                    Label { anchors.centerIn: parent; text: qsTr("C"); color: Theme.textPrimary }
+                }
+            }
+            PipsPager {
+                Layout.alignment: Qt.AlignHCenter
+                count: swipeHost.count
+                selectedIndex: swipeHost.currentIndex
+                onCurrentIndexEdited: function (index) { swipeHost.currentIndex = index }
+            }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Reduced motion (2.37)")
+        qmlSource: "Theme.reducedMotion — pip size/color Behaviors"
+        SettingsToggleCard {
+            Layout.fillWidth: true
+            title: qsTr("Reduced motion")
+            description: qsTr("Pip expand/collapse and nav button hover colors snap when enabled.")
+            symbol: FluentIcons.AlignLeft
+            checked: Theme.reducedMotion
+            onToggled: Theme.reducedMotion = checked
+        }
+    }
 
     ControlExample {
         headerText: qsTr("With FlipView")

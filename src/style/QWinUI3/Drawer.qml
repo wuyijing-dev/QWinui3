@@ -8,6 +8,7 @@ import QWinUI3.Theme
 //       id: drawer
 //       edge: Qt.LeftEdge
 //       width: Theme.dp(320)
+//       title: qsTr("Menu")
 //       Label { text: qsTr("Menu") }
 //   }
 //   drawer.open()
@@ -20,21 +21,33 @@ import QWinUI3.Theme
 //   Parent must stay on the window Overlay: page-local overlay slots (e.g. Gallery
 //   CatalogPage) reparent children and would otherwise clip the drawer to the pane.
 //   Overlay size / DPI changes re-assert full-edge span.
+//   title draws a pane caption; showHandle paints an edge grabber.
+//   Accessible is on the background Item (Popup is not an Item).
 
 T.Drawer {
     id: control
 
     parent: T.Overlay.overlay
 
+    // Optional pane title drawn above content
+    property string title: ""
+    // Edge grabber affordance
+    property bool showHandle: true
+
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             contentWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
                              contentHeight + topPadding + bottomPadding)
 
-    topPadding: control.edge === Qt.BottomEdge ? 1 : Theme.spacingSection
-    leftPadding: control.edge === Qt.RightEdge ? 1 : Theme.spacingSection
-    rightPadding: control.edge === Qt.LeftEdge ? 1 : Theme.spacingSection
-    bottomPadding: control.edge === Qt.TopEdge ? 1 : Theme.spacingSection
+    topPadding: Theme.spacingSection
+                + (control.title.length ? 28 : 0)
+                + (control.showHandle && control.edge === Qt.BottomEdge ? 10 : 0)
+    leftPadding: Theme.spacingSection
+                 + (control.showHandle && control.edge === Qt.RightEdge ? 10 : 0)
+    rightPadding: Theme.spacingSection
+                  + (control.showHandle && control.edge === Qt.LeftEdge ? 10 : 0)
+    bottomPadding: Theme.spacingSection
+                   + (control.showHandle && control.edge === Qt.TopEdge ? 10 : 0)
 
     modal: true
     dim: true
@@ -43,10 +56,6 @@ T.Drawer {
 
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
-
-    // Screen-reader name (1.19); apps can override Accessible.name after open.
-    Accessible.role: Accessible.Pane
-    Accessible.name: qsTr("Drawer")
 
     // Window overlay attached to this drawer (null until the control is in a Window).
     readonly property Item _windowOverlay: T.Overlay.overlay
@@ -101,6 +110,8 @@ T.Drawer {
         implicitWidth: Theme.dp(320)
         implicitHeight: Theme.dp(480)
         radius: 0
+        Accessible.role: Accessible.Pane
+        Accessible.name: control.title.length ? control.title : qsTr("Drawer")
 
         Rectangle {
             readonly property bool horizontal: control.edge === Qt.LeftEdge
@@ -110,6 +121,41 @@ T.Drawer {
             color: Theme.strokeDivider
             x: control.edge === Qt.LeftEdge ? parent.width - width : 0
             y: control.edge === Qt.TopEdge ? parent.height - height : 0
+        }
+
+        Text {
+            visible: control.title.length > 0
+            text: control.title
+            font.family: Theme.fontFamily
+            font.pixelSize: Theme.fontSubtitle
+            font.weight: Theme.fontWeightSemiBold
+            color: Theme.textPrimary
+            elide: Text.ElideRight
+            x: Theme.spacingSection
+            y: Theme.spacingSection
+            width: parent.width - Theme.spacingSection * 2
+        }
+
+        Rectangle {
+            visible: control.showHandle
+            radius: 2
+            color: Theme.strokeControl
+            width: (control.edge === Qt.LeftEdge || control.edge === Qt.RightEdge) ? 4 : 36
+            height: (control.edge === Qt.LeftEdge || control.edge === Qt.RightEdge) ? 36 : 4
+            x: {
+                if (control.edge === Qt.LeftEdge)
+                    return parent.width - width - 6
+                if (control.edge === Qt.RightEdge)
+                    return 6
+                return (parent.width - width) / 2
+            }
+            y: {
+                if (control.edge === Qt.TopEdge)
+                    return parent.height - height - 6
+                if (control.edge === Qt.BottomEdge)
+                    return 6
+                return (parent.height - height) / 2
+            }
         }
     }
 

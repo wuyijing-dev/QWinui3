@@ -10,7 +10,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("AutoSuggestBox")
-    subtitle: qsTr("Suggest-as-you-type — docs/search.md (1.59).")
+    subtitle: qsTr("Suggest-as-you-type · field-first ↑↓ (2.16) — docs/search.md.")
 
     signal openControl(var item)
 

@@ -1,0 +1,148 @@
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
+import QWinUI3.Theme
+import QWinUI3.Extras
+
+// Gallery — Style module spot-check (2.17).
+// Recipe: docs/style-polish.md · docs/theme-overrides.md
+
+CatalogPage {
+    id: page
+    title: qsTr("Style spot-check")
+    subtitle: qsTr("WinUI 3 chrome consistency — docs/style-polish.md (2.17).")
+
+    signal openControl(var item)
+
+    function openComp(id) {
+        var it = ControlCatalog.findByComponent(id)
+        if (it)
+            page.openControl(it)
+    }
+
+    ControlExample {
+        headerText: qsTr("Stock Style controls (2.17)")
+        qmlSource: "import QWinUI3.Style  // implicit via gallery\nButton · TextField · ComboBox · CheckBox"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacingLoose
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Side-by-side spot-check for the QWinUI3 Style module. Toggle light/dark, accent, and density on Theme overrides — fills should stay consistent (borderedControlFill / bgControlRest). docs/style-polish.md.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            GridLayout {
+                Layout.fillWidth: true
+                columns: 2
+                columnSpacing: Theme.spacingLoose
+                rowSpacing: Theme.spacing
+                Button {
+                    Layout.fillWidth: true
+                    text: qsTr("Standard")
+                }
+                Button {
+                    Layout.fillWidth: true
+                    text: qsTr("Accent")
+                    highlighted: true
+                }
+                TextField {
+                    Layout.fillWidth: true
+                    placeholderText: qsTr("TextField rest / hover / focus")
+                }
+                ComboBox {
+                    Layout.fillWidth: true
+                    model: [qsTr("Combo A"), qsTr("Combo B"), qsTr("Combo C")]
+                }
+                CheckBox {
+                    text: qsTr("Checked")
+                    checked: true
+                }
+                CheckBox {
+                    text: qsTr("Unchecked")
+                }
+                RadioButton {
+                    text: qsTr("Radio on")
+                    checked: true
+                }
+                RadioButton {
+                    text: qsTr("Radio off")
+                }
+                Switch {
+                    text: qsTr("Switch")
+                    checked: true
+                }
+                Slider {
+                    Layout.fillWidth: true
+                    from: 0
+                    to: 100
+                    value: 40
+                }
+            }
+            RowLayout {
+                spacing: Theme.spacing
+                Button {
+                    text: qsTr("Theme overrides")
+                    highlighted: true
+                    onClicked: page.openComp("ThemeOverridesPage")
+                }
+                Button {
+                    text: qsTr("Button page")
+                    onClicked: page.openComp("ButtonPage")
+                }
+                Button {
+                    text: qsTr("TextField page")
+                    onClicked: page.openComp("TextFieldPage")
+                }
+            }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Token readout")
+        qmlSource: "Theme.borderedControlFill\nTheme.bgControlRest · Theme.fillSliderThumb"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontCaption
+                color: Theme.textSecondary
+                text: qsTr("bgControlRest: %1 · fillControlSecondary: %2 · fillControlDisabled: %3 · fillSliderThumb: %4")
+                    .arg(Theme.bgControlRest)
+                    .arg(Theme.fillControlSecondary)
+                    .arg(Theme.fillControlDisabled)
+                    .arg(Theme.fillSliderThumb)
+            }
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontCaption
+                color: Theme.textSecondary
+                text: qsTr("borderedControlFill(rest): %1 · borderedControlFill(hover): %2")
+                    .arg(Theme.borderedControlFill(false, false, false))
+                    .arg(Theme.borderedControlFill(true, false, false))
+            }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Checklist")
+        qmlSource: "docs/style-polish.md · docs/theme-overrides.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            CheckBox { text: qsTr("Button ↔ ComboBox rest/hover/press fills match (2.17)") }
+            CheckBox { text: qsTr("TextField / SpinBox use bgControlRest at rest") }
+            CheckBox { text: qsTr("CheckBox / Radio unchecked rest matches TextField") }
+            CheckBox { text: qsTr("Slider thumb uses fillSliderThumb") }
+            CheckBox { text: qsTr("Theme overrides: accent + dark retoken all controls") }
+            CheckBox { text: qsTr("Tab focus: FocusStroke visible on TextField / Button") }
+        }
+    }
+}

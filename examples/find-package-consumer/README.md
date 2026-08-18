@@ -33,6 +33,6 @@ python scripts/verify_find_package.py --package-dir dist/qwinui3-…-shared
 
 ## Notes
 
-- Sketch only — **not** an official vcpkg/Conan port ([parking lot](../../ROADMAP.md#parking-lot)).
+- Shared kit + `find_package(QWinUI3 CONFIG)` — zip Path C or [vcpkg/Conan](../../docs/packaging-vcpkg-conan.md) (**2.11**).
 - Full recipe: [docs/packaging-consumer.md](../../docs/packaging-consumer.md) **Path C**.
 - Shared builds: do **not** use `QWINUI3_IMPORT_QML_PLUGINS` (plugins load from `qml/`).

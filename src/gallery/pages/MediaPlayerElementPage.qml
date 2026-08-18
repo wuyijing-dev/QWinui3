@@ -5,14 +5,14 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 import QWinUI3.Platform
 
-// Gallery — MediaPlayerElement (1.21 / 1.67 defer). Recipe: docs/media.md
+// Gallery — MediaPlayerElement (1.21 / permanent defer 2.09). Recipe: docs/media.md
 // Soft-loads the Extras type so missing Multimedia never crashes the page.
 
 CatalogPage {
     id: page
 
     title: qsTr("MediaPlayerElement")
-    subtitle: qsTr("Optional Qt Multimedia — deferred 1.67. Recipe: docs/media.md")
+    subtitle: qsTr("Optional Qt Multimedia — permanently deferred (2.09). Field matrix (2.32): docs/media.md")
 
     property url mediaSource: ""
     property bool mediaReady: playerLoader.status === Loader.Ready
@@ -31,7 +31,6 @@ CatalogPage {
         return ""
     }
 
-    // Resolve from Extras so missing QtMultimedia fails softly (no hard page crash).
     property var mediaComponent: Qt.createComponent("QWinUI3.Extras", "MediaPlayerElement")
 
     Component.onCompleted: {
@@ -49,8 +48,23 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Deferred for remaining 1.xx (1.67)")
-        qmlSource: "// Not freeze-covered — docs/media.md\n// Stub when Qt Multimedia is missing"
+        headerText: qsTr("Field matrix (2.32)")
+        qmlSource: "// docs/media.md — Field matrix (2.32)\n// windeployqt Multimedia plugins · available === false"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                color: Theme.textSecondary
+                text: qsTr("2.x floor: stub when Multimedia missing at configure; real player when BUILD_MEDIA=ON + plugins deployed. Smoke compiles this page — no decode gate. Pause when hidden; gate on available === false.")
+            }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Verdict — permanent defer (2.09)")
+        qmlSource: "// Not stable-api — docs/media.md\n// Stub when Qt Multimedia is missing"
 
         ColumnLayout {
             Layout.fillWidth: true
@@ -59,17 +73,17 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 color: Theme.textSecondary
-                text: qsTr("Honest defer: codecs, GPU backends, and Multimedia deploy differ by OS/kit. The type still ships (real player or available === false stub). Product shells that must stay on stable-api should not depend on it. No new codecs or streaming in 1.67.")
+                text: qsTr("2.09 closes the 1.67 promote loop: keep shipping as experimental, do not promote. Codecs, GPU backends, and Multimedia plugin deploy differ by OS and are app-owned — not a kit contract. Product shells on stable-api should not require this type.")
             }
-            CheckBox { text: qsTr("Treat MediaPlayerElement as experimental (not freeze-covered)") }
-            CheckBox { text: qsTr("Gate UI on available === false / EmptyState") }
-            CheckBox { text: qsTr("Deploy Multimedia QML plugins yourself (not in the kit zip)") }
+            CheckBox { text: qsTr("Treat MediaPlayerElement as experimental (permanent defer 2.09)") }
+            CheckBox { text: qsTr("Gate UI on available === false → EmptyState") }
+            CheckBox { text: qsTr("windeployqt / installer ships Multimedia plugins (not in kit zip)") }
             CheckBox { text: qsTr("Pause when the host is not visible") }
         }
     }
 
     ControlExample {
-        headerText: qsTr("Player")
+        headerText: qsTr("Player demo")
         qmlSource: "MediaPlayerElement {\n    source: \"file:///…\"\n    // Space toggles play\n}"
 
         ColumnLayout {
@@ -84,7 +98,7 @@ CatalogPage {
                        : qsTr("Qt Multimedia not loaded")
                 message: page.mediaError.length
                          ? page.mediaError
-                         : qsTr("Install Qt Multimedia, configure -DQWINUI3_BUILD_MEDIA=ON, and ensure the Multimedia QML plugin is deployable (windeployqt / qt.conf). See docs/media.md.")
+                         : qsTr("Install Qt Multimedia, configure -DQWINUI3_BUILD_MEDIA=ON, and deploy the Multimedia QML plugin (windeployqt / qt.conf). See docs/media.md.")
                 actionText: qsTr("Open media docs")
                 compact: true
                 bordered: true

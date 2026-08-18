@@ -69,7 +69,7 @@ T.DelayButton {
                 return Theme.fillControlTertiary
             if (control.hovered)
                 return Theme.fillControlSecondary
-            return Theme.dark ? "#0FFFFFFF" : "#FFFFFF"
+            return Theme.bgControlRest
         }
         border.width: 1
         border.color: Theme.strokeControl

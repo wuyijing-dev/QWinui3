@@ -371,3 +371,15 @@ iha → 你好); consumeLength for partial picks
 - OS-wide / system input method
 - platforminputcontexts plugin
 
+## Voice & handwriting (cross-platform)
+
+Optional panels wired into `OnScreenKeyboard` — **Windows + Linux** via system/SDK/CLI (no custom neural nets).
+
+| Feature | Windows | Linux |
+|---------|---------|-------|
+| **Voice** | `System.Speech` (PowerShell) | `whisper-cli` or `vosk-transcriber` + `arecord` |
+| **Handwriting** | Zinnia CLI (`zinnia_character`) | Same |
+| **Pinyin learning** | `OskUserLexicon` (local QSettings) | Same |
+
+Setup, env vars, and Gallery checklist: [on-screen-keyboard-voice-handwriting.md](on-screen-keyboard-voice-handwriting.md).
+

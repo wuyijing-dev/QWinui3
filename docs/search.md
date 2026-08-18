@@ -1,4 +1,4 @@
-# In-app search & AutoSuggest (1.59)
+# In-app search & AutoSuggest (1.59 · 2.16 wave 2)
 
 Content filter and suggestion patterns for QWinUI3 LoB apps. **CommandPalette** stays the home for global “type to run” chords ([commands.md](commands.md) · [keyboard.md](keyboard.md)). This page covers **finding content** inside a page or shell—not a full-text engine.
 
@@ -42,6 +42,10 @@ AutoSuggestBox {
 | Objects | Set `textMemberPath` when model rows are objects |
 | A11y | ComboBox role; name from `header` |
 
+**Keyboard (2.16):** ↑↓ move highlight **without leaving the field**; Enter chooses highlighted row when `chooseSuggestionOnEnter`; Esc closes popup (field keeps focus); ↑ at first list row returns focus to field when navigating inside the popup.
+
+**Performance (2.16):** `filterDebounceMs` (default **120**); `maxSuggestionResults` (default **32**).
+
 Gallery: **AutoSuggestBox**.
 
 ---
@@ -60,7 +64,27 @@ SearchBox {
 
 Same suggestion mechanics as AutoSuggestBox with search glyph / clear affordances. Prefer when the primary verb is **Search** / submit a query.
 
+**Keyboard / perf:** same **2.16** model as AutoSuggestBox (`filterDebounceMs`, `maxSuggestionResults`, field-first ↑↓).
+
 Gallery: **SearchBox**.
+
+---
+
+## Wave 2 — keyboard polish & filter perf (2.16)
+
+| Property | Default | Surfaces |
+|----------|---------|----------|
+| `filterDebounceMs` | 120 | **AutoSuggestBox**, **SearchBox** |
+| `maxSuggestionResults` | 32 | Cap popup rows while typing |
+| `chooseSuggestionOnEnter` | true | Enter picks highlight when popup open |
+
+**Keyboard traps avoided**
+
+1. **Field-first navigation** — ↑↓ adjust highlight while typing; focus stays in the text field.
+2. **Esc** — closes suggestion popup only; does not steal focus from the field.
+3. **List ↑ at row 0** — returns focus to the field (no dead-end in the popup).
+
+Gallery **Search recipes** checklist · `python scripts/check_command_search.py`.
 
 ---
 
@@ -112,6 +136,6 @@ Cross-links: [navigation.md](navigation.md) (shell chrome) · [forms.md](forms.m
 
 ---
 
-## Out of scope (1.59)
+## Out of scope (1.59 · 2.16)
 
 Full-text / inverted-index engines; cloud search backends; replacing CommandPalette with AutoSuggestBox for global chords.

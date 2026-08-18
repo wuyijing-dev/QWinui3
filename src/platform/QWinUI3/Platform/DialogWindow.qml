@@ -16,8 +16,8 @@ import QWinUI3.Platform
 //
 // @notes
 //   StandardWindow with ParadigmDialog flags.
-//   Prefer openDialog() so owner stacking + centerOnScreen match Gallery patterns.
-//   On Linux/Wayland, setTransientParent keeps modality stacking correct.
+//   Prefer openDialog() so owner stacking + centerOnOwner match Gallery patterns (2.14).
+//   On Linux/Wayland, setTransientParent realizes surfaces before parenting.
 
 StandardWindow {
     id: root
@@ -41,8 +41,14 @@ StandardWindow {
             ownerWindow = owner
         if (ownerWindow)
             WindowHelper.setTransientParent(root, ownerWindow)
-        if (centerWhenOpened)
-            WindowHelper.centerOnScreen(root)
+        else
+            WindowHelper.ensureWindowCreated(root)
+        if (centerWhenOpened) {
+            if (ownerWindow)
+                WindowHelper.centerOnOwner(root, ownerWindow)
+            else
+                WindowHelper.centerOnScreen(root)
+        }
         visible = true
         requestActivate()
     }

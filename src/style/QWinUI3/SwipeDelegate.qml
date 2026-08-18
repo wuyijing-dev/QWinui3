@@ -20,6 +20,8 @@ import QWinUI3.Theme
 T.SwipeDelegate {
     id: control
 
+    // 0 = idle, +1 = revealing swipe.left (swipe right), -1 = revealing swipe.right (swipe left)
+    property int _swipeSide: 0
 
     Accessible.role: Accessible.ListItem
     Accessible.name: control.text
@@ -39,9 +41,41 @@ T.SwipeDelegate {
     icon.color: Theme.textPrimary
 
     swipe.transition: Transition {
-        SmoothedAnimation {
-            velocity: 3
+        NumberAnimation {
+            duration: Theme.reducedMotion ? 0 : Theme.duration(Theme.motionNormal)
             easing.type: Theme.easingStandard
+        }
+    }
+
+    swipe.onPositionChanged: {
+        var pos = control.swipe.position
+        if (Math.abs(pos) < 0.04) {
+            control._swipeSide = 0
+            if (control.swipe.leftItem)
+                control.swipe.leftItem.visible = true
+            if (control.swipe.rightItem)
+                control.swipe.rightItem.visible = true
+            return
+        }
+        if (control._swipeSide === 0)
+            control._swipeSide = pos > 0 ? 1 : -1
+
+        if (control.swipe.leftItem)
+            control.swipe.leftItem.visible = pos > 0.02 && control._swipeSide >= 0
+        if (control.swipe.rightItem)
+            control.swipe.rightItem.visible = pos < -0.02 && control._swipeSide <= 0
+    }
+
+    Connections {
+        target: control.swipe
+        function onCompleteChanged() {
+            if (!control.swipe.complete) {
+                control._swipeSide = 0
+                if (control.swipe.leftItem)
+                    control.swipe.leftItem.visible = true
+                if (control.swipe.rightItem)
+                    control.swipe.rightItem.visible = true
+            }
         }
     }
 

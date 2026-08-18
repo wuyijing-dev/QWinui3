@@ -342,8 +342,10 @@ QString WindowHelper::highDpiScaleFactorRoundingPolicy() const
         return QStringLiteral("Floor");
     case Qt::HighDpiScaleFactorRoundingPolicy::RoundPreferFloor:
         return QStringLiteral("RoundPreferFloor");
+#if QT_VERSION >= QT_VERSION_CHECK(6, 9, 0)
     case Qt::HighDpiScaleFactorRoundingPolicy::RoundPreferCeil:
         return QStringLiteral("RoundPreferCeil");
+#endif
     }
     return QStringLiteral("Unknown");
 }

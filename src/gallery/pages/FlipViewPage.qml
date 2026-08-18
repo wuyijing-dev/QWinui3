@@ -10,7 +10,32 @@ import QWinUI3.Extras
 
 CatalogPage {
     title: qsTr("FlipView")
-    subtitle: qsTr("Swipeable pages with Fluent chevrons, PipsPager, and Accessible page index.")
+    subtitle: qsTr("Swipeable pages with Fluent chevrons, PipsPager, and Accessible page index — docs/carousel-recipes.md (2.37).")
+
+    ControlExample {
+        headerText: qsTr("Reduced motion (2.37)")
+        qmlSource: "Theme.reducedMotion — pip/chevron Behaviors snap off"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("FlipView chevron fade and embedded PipsPager pip animations honor Theme.reducedMotion. Toggle below and hover chevrons / change pages — motion should snap.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            SettingsToggleCard {
+                Layout.fillWidth: true
+                title: qsTr("Reduced motion")
+                description: qsTr("Sets Theme.reducedMotion for this session — same flag as Settings → Accessibility.")
+                symbol: FluentIcons.AlignLeft
+                checked: Theme.reducedMotion
+                onToggled: Theme.reducedMotion = checked
+            }
+        }
+    }
 
     ControlExample {
         headerText: qsTr("Pages")

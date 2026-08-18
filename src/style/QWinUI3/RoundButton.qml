@@ -71,7 +71,7 @@ T.RoundButton {
                 return Theme.fillControlTertiary
             if (control.hovered)
                 return Theme.fillControlSecondary
-            return Theme.dark ? "#0FFFFFFF" : "#FFFFFF"
+            return Theme.bgControlRest
         }
         border.width: control.highlighted ? 0 : 1
         border.color: Theme.strokeControl

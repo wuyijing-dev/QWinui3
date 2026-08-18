@@ -40,10 +40,10 @@ T.Control {
     property alias iconSource: tray.iconSource
     property alias supportsMessages: tray.supportsMessages
 
-    readonly property int informational: 0
-    readonly property int success: 1
-    readonly property int warning: 2
-    readonly property int error: 3
+    readonly property int severityInformational: 0
+    readonly property int severitySuccess: 1
+    readonly property int severityWarning: 2
+    readonly property int severityError: 3
 
     signal systemNotified(string title, string message)
     signal toastClosed(string message)
@@ -69,9 +69,9 @@ T.Control {
 
     function _systemIcon(severity) {
         // TrayIcon: 0 info, 1 warning, 2 error (convention used by Win NIIF_*)
-        if (severity === error)
+        if (severity === severityError)
             return 2
-        if (severity === warning)
+        if (severity === severityWarning)
             return 1
         return 0
     }
@@ -84,7 +84,7 @@ T.Control {
             title: title && title.length ? title : root.appName,
             message: message || "",
             category: cat,
-            severity: severity === undefined ? informational : severity
+            severity: severity === undefined ? severityInformational : severity
         }
         if (dedupeId && String(dedupeId).length)
             item.id = String(dedupeId)
@@ -94,7 +94,7 @@ T.Control {
     }
 
     function show(message, severity, title, actionText, dedupeId) {
-        var sev = severity === undefined ? informational : severity
+        var sev = severity === undefined ? severityInformational : severity
         var t = title || ""
         var m = message || ""
         if (toastInApp && toastHost && toastHost.show)
@@ -105,16 +105,16 @@ T.Control {
     }
 
     function info(message, title, actionText, dedupeId) {
-        show(message, informational, title || qsTr("Information"), actionText, dedupeId)
+        show(message, severityInformational, title || qsTr("Information"), actionText, dedupeId)
     }
     function success(message, title, actionText, dedupeId) {
-        show(message, success, title || qsTr("Success"), actionText, dedupeId)
+        show(message, severitySuccess, title || qsTr("Success"), actionText, dedupeId)
     }
     function warning(message, title, actionText, dedupeId) {
-        show(message, warning, title || qsTr("Warning"), actionText, dedupeId)
+        show(message, severityWarning, title || qsTr("Warning"), actionText, dedupeId)
     }
     function error(message, title, actionText, dedupeId) {
-        show(message, error, title || qsTr("Error"), actionText, dedupeId)
+        show(message, severityError, title || qsTr("Error"), actionText, dedupeId)
     }
 
     // Attach listeners so ToastHost.info/success/... can optionally be mirrored

@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.impl
 import QtQuick.Templates as T
+import QtQuick.Shapes
 import QWinUI3.Theme
 
 // TreeViewDelegate — Fluent TreeView row with chevron expand / indent.
@@ -77,12 +78,11 @@ T.TreeViewDelegate {
             HoverHandler { id: chevronHover }
         }
 
-        Text {
+            Shape {
+            id: chevron
             anchors.centerIn: parent
-            text: FluentIcons.ChevronRight
-            font.family: Theme.fontFamilyIcon
-            font.pixelSize: 10
-            color: Theme.textSecondary
+            width: 12
+            height: 12
             rotation: control.expanded ? 90 : (control.mirrored ? 180 : 0)
             Behavior on rotation {
                 enabled: !Theme.reducedMotion
@@ -90,6 +90,17 @@ T.TreeViewDelegate {
                     duration: Theme.duration(Theme.motionNormal)
                     easing.type: Theme.easingStandard
                 }
+            }
+            ShapePath {
+                strokeWidth: 1.6
+                strokeColor: Theme.textSecondary
+                fillColor: "transparent"
+                capStyle: ShapePath.RoundCap
+                joinStyle: ShapePath.RoundJoin
+                startX: 4
+                startY: 1.5
+                PathLine { x: 9; y: 6 }
+                PathLine { x: 4; y: 10.5 }
             }
         }
     }

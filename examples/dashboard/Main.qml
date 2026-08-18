@@ -5,8 +5,8 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 import QWinUI3.Platform
 
-// Dashboard example — one padding inset; tiles/cards bring Layout.fillWidth.
-// Stable six: docs/charts.md (1.23 / 1.66) — LineChart, BarChart, DonutChart, RingGauge, KpiTile, ChartCard.
+// Dashboard example — responsive ops layout (2.22).
+// Stable six: docs/charts.md — KpiTile, ChartCard, LineChart, BarChart, DonutChart, RingGauge.
 
 StandardWindow {
     id: window
@@ -15,6 +15,13 @@ StandardWindow {
     visible: true
     title: qsTr("Dashboard example")
     backdrop: WindowHelper.BackdropSolid
+
+    // Breakpoints — match Gallery DashboardPage + docs/charts.md (2.22).
+    readonly property int kpiBreakpoint: 700
+    readonly property int chartBreakpoint: 900
+    readonly property int filterPaneBreakpoint: 720
+    readonly property int kpiColumns: content.width > kpiBreakpoint ? 3 : 1
+    readonly property int chartColumns: content.width > chartBreakpoint ? 2 : 1
 
     property real cpu: 64
     property real mem: 71
@@ -57,6 +64,7 @@ StandardWindow {
         background: null
 
         ColumnLayout {
+            id: content
             x: Theme.spacingSection
             width: Math.max(0, scroll.availableWidth - 2 * Theme.spacingSection)
             spacing: Theme.spacingSection
@@ -71,14 +79,27 @@ StandardWindow {
                 color: Theme.textPrimary
             }
 
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.Wrap
+                font.pixelSize: Theme.fontCaption
+                color: Theme.textSecondary
+                text: qsTr("Layout: %1 px · KPI columns: %2 (≥%3 → 3) · chart columns: %4 (≥%5 → 2) · filter pane: %6")
+                        .arg(Math.round(content.width))
+                        .arg(window.kpiColumns).arg(window.kpiBreakpoint)
+                        .arg(window.chartColumns).arg(window.chartBreakpoint)
+                        .arg(filterPane.modeName)
+            }
+
             GridLayout {
                 Layout.fillWidth: true
-                columns: width > 700 ? 3 : 1
+                columns: window.kpiColumns
                 rowSpacing: Theme.spacingLoose
                 columnSpacing: Theme.spacingLoose
 
                 KpiTile {
                     id: kpiCpu
+                    Layout.fillWidth: true
                     title: qsTr("CPU")
                     value: window.cpu
                     unit: "%"
@@ -92,6 +113,7 @@ StandardWindow {
                 }
                 KpiTile {
                     id: kpiMem
+                    Layout.fillWidth: true
                     title: qsTr("Memory")
                     value: window.mem
                     unit: "%"
@@ -105,6 +127,7 @@ StandardWindow {
                 }
                 KpiTile {
                     id: kpiLat
+                    Layout.fillWidth: true
                     title: qsTr("Latency p95")
                     value: window.latency
                     unit: " ms"
@@ -120,70 +143,124 @@ StandardWindow {
                 }
             }
 
-            RowLayout {
+            TwoPaneView {
+                id: filterPane
                 Layout.fillWidth: true
-                spacing: Theme.spacingLoose
+                Layout.preferredHeight: 540
+                preferredMode: TwoPaneView.Wide
+                minWideWidth: window.filterPaneBreakpoint
 
-                ChartCard {
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: 260
-                    title: qsTr("Utilization")
-                    subtitle: qsTr("CPU / Memory")
-                    LineChart {
+                pane1: Rectangle {
+                    color: Theme.bgCard
+                    border.width: 1
+                    border.color: Theme.strokeCard
+                    radius: Theme.cornerCard
+                    clip: true
+
+                    ColumnLayout {
                         anchors.fill: parent
-                        series: window.utilSeries
+                        anchors.margins: Theme.spacing
+                        spacing: Theme.spacing
+
+                        Text {
+                            Layout.fillWidth: true
+                            text: qsTr("Filters")
+                            font.family: Theme.fontFamily
+                            font.pixelSize: Theme.fontBody
+                            font.weight: Theme.fontWeightSemiBold
+                            color: Theme.textPrimary
+                        }
+                        ComboBox {
+                            Layout.fillWidth: true
+                            model: [qsTr("Last hour"), qsTr("Last 24h"), qsTr("Last 7d")]
+                            currentIndex: 1
+                        }
+                        CheckBox {
+                            text: qsTr("Live refresh")
+                            checked: true
+                        }
+                        CheckBox {
+                            text: qsTr("Show deferred gauges")
+                            checked: false
+                        }
+                        Item { Layout.fillHeight: true }
+                        Text {
+                            Layout.fillWidth: true
+                            wrapMode: Text.WordWrap
+                            text: qsTr("TwoPaneView: filter rail beside charts when width ≥ %1. Narrow → SinglePane (docs/charts.md 2.22).")
+                                    .arg(window.filterPaneBreakpoint)
+                            font.pixelSize: Theme.fontCaption
+                            color: Theme.textSecondary
+                        }
                     }
                 }
 
-                ChartCard {
-                    Layout.preferredWidth: 220
-                    Layout.preferredHeight: 260
-                    title: qsTr("CPU ring")
-                    RingGauge {
-                        anchors.centerIn: parent
-                        width: 160
-                        height: 160
-                        title: qsTr("CPU")
-                        value: window.cpu
-                        unit: "%"
-                        cautionThreshold: 0.75
-                        criticalThreshold: 0.9
+                pane2: Item {
+                    GridLayout {
+                        anchors.fill: parent
+                        columns: window.chartColumns
+                        rowSpacing: Theme.spacingLoose
+                        columnSpacing: Theme.spacingLoose
+
+                        ChartCard {
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 220
+                            title: qsTr("Utilization")
+                            subtitle: qsTr("CPU / Memory")
+                            LineChart {
+                                anchors.fill: parent
+                                showLegend: true
+                                series: window.utilSeries
+                            }
+                        }
+
+                        ChartCard {
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 220
+                            title: qsTr("CPU ring")
+                            RingGauge {
+                                anchors.centerIn: parent
+                                width: 140
+                                height: 140
+                                title: qsTr("CPU")
+                                value: window.cpu
+                                unit: "%"
+                                cautionThreshold: 0.75
+                                criticalThreshold: 0.9
+                            }
+                        }
+
+                        ChartCard {
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 220
+                            title: qsTr("Throughput")
+                            subtitle: qsTr("Requests / min")
+                            BarChart {
+                                anchors.fill: parent
+                                values: [18, 26, 22, 34, 40, 31, 28]
+                                showValueLabels: false
+                            }
+                        }
+
+                        ChartCard {
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 220
+                            title: qsTr("Share")
+                            DonutChart {
+                                anchors.fill: parent
+                                centerText: "72%"
+                                slices: [
+                                    { value: 42, label: qsTr("Apps"), color: Theme.accent },
+                                    { value: 18, label: qsTr("Media"), color: Theme.systemCaution },
+                                    { value: 12, label: qsTr("Docs"), color: Theme.systemSuccess }
+                                ]
+                            }
+                        }
                     }
                 }
             }
 
-            RowLayout {
-                Layout.fillWidth: true
-                Layout.bottomMargin: Theme.spacingSection
-                spacing: Theme.spacingLoose
-
-                ChartCard {
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: 240
-                    title: qsTr("Throughput")
-                    subtitle: qsTr("Requests / min")
-                    BarChart {
-                        anchors.fill: parent
-                        values: [18, 26, 22, 34, 40, 31, 28]
-                        showValueLabels: false
-                    }
-                }
-
-                ChartCard {
-                    Layout.preferredWidth: 260
-                    Layout.preferredHeight: 240
-                    title: qsTr("Share")
-                    DonutChart {
-                        anchors.fill: parent
-                        centerText: "72%"
-                        slices: [
-                            { value: 42, label: qsTr("Apps"), color: Theme.accent },
-                            { value: 18, label: qsTr("Media"), color: Theme.systemCaution },
-                            { value: 12, label: qsTr("Docs"), color: Theme.systemSuccess }
-                        ]
-                    }
-                }
-            }
+            Item { Layout.preferredHeight: Theme.spacingSection; Layout.fillWidth: true }
         }
     }
 }

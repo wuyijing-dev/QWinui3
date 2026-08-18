@@ -2,7 +2,7 @@
 
 High-traffic **date / time / number / color** pickers. Prefer these Extras types over inventing parallel flyouts. Pair with [forms.md](forms.md) when the field participates in `FormLayout.validate()`.
 
-Gallery: **NumberBox** · **DatePicker** · **CalendarDatePicker** · **TimePicker** · **ColorPicker** · **ColorPickerButton** · **Form validation**.
+Gallery: **NumberBox** · **DatePicker** · **CalendarDatePicker** · **`CalendarView`** · **TimePicker** · **ColorPicker** · **ColorPickerButton** · **Form validation**.
 
 Style only supplies calendar chrome (`MonthGrid` / `DayOfWeekRow`) — not a second date API.
 
@@ -15,6 +15,7 @@ Style only supplies calendar chrome (`MonthGrid` / `DayOfWeekRow`) — not a sec
 | [`NumberBox`](components/NumberBox.md) | Numeric spin / edit | yes + `description` + left/`formBound` | yes (+ `inputInvalid`) | `Theme.controlHeight` |
 | [`DatePicker`](components/DatePicker.md) | Y/M/D tumblers | yes + `description` | **yes (1.28)** | `Theme.controlHeight` |
 | [`CalendarDatePicker`](components/CalendarDatePicker.md) | Field + MonthGrid flyout | yes + `description` | **yes (1.28)** | `Theme.controlHeight` |
+| [`CalendarView`](components/CalendarView.md) | Always-visible month grid | — | — | grid intrinsic |
 | [`TimePicker`](components/TimePicker.md) | Hour / minute tumblers | yes + `description` | **yes (1.28)** | `Theme.controlHeight` |
 | [`ColorPicker`](components/ColorPicker.md) | Full spectrum panel | — | — | Theme strokes / fonts |
 | [`ColorPickerButton`](components/ColorPickerButton.md) | Swatch that opens ColorPicker | — | — | `Theme.controlHeight` |
@@ -27,7 +28,8 @@ Style only supplies calendar chrome (`MonthGrid` / `DayOfWeekRow`) — not a sec
 |------|--------|
 | Quantity / seats / age | **NumberBox** |
 | Compact date entry | **DatePicker** (tumblers) |
-| Calendar browsing | **CalendarDatePicker** |
+| Calendar browsing in a form field | **CalendarDatePicker** |
+| Full-month schedule / booking grid | **`CalendarView`** (2.31, experimental) |
 | Arrival / schedule time | **TimePicker** |
 | Accent / brand color | **ColorPickerButton** (or embed **ColorPicker**) |
 

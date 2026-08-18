@@ -23,6 +23,18 @@ StandardWindow {
     property var searchResults: []
     property var paneSearchModel: buildPaneSearchModel()
 
+    function refreshNavForLocale() {
+        navModel = buildNavModel()
+        paneSearchModel = buildPaneSearchModel()
+    }
+
+    Connections {
+        target: GalleryLanguage
+        function onCurrentLocaleChanged() {
+            window.refreshNavForLocale()
+        }
+    }
+
     function buildPaneSearchModel() {
         var out = []
         var m = navModel || []
@@ -111,8 +123,8 @@ StandardWindow {
         title: qsTr("QWinUI3 Gallery")
         subtitle: qsTr("Fluent / WinUI 3 controls")
         symbol: FluentIcons.Home
-        isPaneToggleButtonVisible: true
-        isBackButtonVisible: nav.canGoBack
+        isPaneToggleButtonVisible: nav.hasLeftRail
+        isBackButtonVisible: nav.hasLeftRail
         isBackButtonEnabled: nav.canGoBack
         searchModel: window.searchResults
         onPaneToggleRequested: nav.paneOpen = !nav.paneOpen

@@ -10,7 +10,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("Touch & pointer")
-    subtitle: qsTr("Targets · scroll vs drag · pen hover notes — docs/touch-pointer.md (1.57).")
+    subtitle: qsTr("Targets · scroll vs drag · SwipeControl deepen — docs/touch-pointer.md (1.57 / 2.42).")
 
     signal openControl(var item)
 
@@ -95,7 +95,7 @@ CatalogPage {
                 }
                 Button {
                     text: qsTr("Standard")
-                    implicitHeight: Math.max(implicitHeight, page.minTarget)
+                    Layout.preferredHeight: page.minTarget
                 }
                 IconButton {
                     symbol: FluentIcons.Settings
@@ -104,7 +104,7 @@ CatalogPage {
                 }
                 AccentButton {
                     text: qsTr("Primary")
-                    implicitHeight: Math.max(implicitHeight, page.minTarget)
+                    Layout.preferredHeight: page.minTarget
                 }
             }
         }
@@ -119,7 +119,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Keep flick scrolling on the scrollable. FileDropZone must keep Browse (touch often has no OS file drag). SwipeControl should also expose a menu/button path. Avoid hover-only discovery.")
+                text: qsTr("Keep flick scrolling on the scrollable. FileDropZone must keep Browse (touch often has no OS file drag). SwipeControl should also expose a menu/button path — set nestedScrollFriendly inside lists (2.42). Avoid hover-only discovery.")
                 color: Theme.textSecondary
                 font.pixelSize: Theme.fontBody
             }

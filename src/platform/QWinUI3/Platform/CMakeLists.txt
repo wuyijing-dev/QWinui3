@@ -1,5 +1,21 @@
 qt_add_library(qwinui3_platform ${QWINUI3_LIB_TYPE})
 
+# WindowShellDecoration: MultiEffect when QtQuick.Effects is linked; otherwise Simple.
+if(QWINUI3_HAVE_QUICK_EFFECTS)
+    set(QWINUI3_SHELL_DECORATION_QML WindowShellDecoration.qml)
+else()
+    set(QWINUI3_SHELL_DECORATION_QML ${CMAKE_CURRENT_BINARY_DIR}/WindowShellDecoration.qml)
+    configure_file(
+        ${CMAKE_CURRENT_SOURCE_DIR}/WindowShellDecoration_Simple.qml
+        ${QWINUI3_SHELL_DECORATION_QML}
+        COPYONLY
+    )
+    set_source_files_properties(${QWINUI3_SHELL_DECORATION_QML} PROPERTIES
+        QT_RESOURCE_ALIAS "WindowShellDecoration.qml"
+    )
+    message(STATUS "QWinUI3.Platform: WindowShellDecoration without QtQuick.Effects (simple fallback)")
+endif()
+
 find_package(Qt6 COMPONENTS DBus QUIET)
 
 include(${CMAKE_SOURCE_DIR}/cmake/FindWebView2.cmake)
@@ -61,7 +77,8 @@ qt_add_qml_module(qwinui3_platform
         CompactOverlayWindow.qml
         FrameStatsBadge.qml
         FrameStatsOverlay.qml
-        WindowShellDecoration.qml
+        ${QWINUI3_SHELL_DECORATION_QML}
+        WindowShellContentClip.qml
     IMPORTS
         TARGET qwinui3_theme
 )

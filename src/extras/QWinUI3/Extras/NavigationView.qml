@@ -94,7 +94,7 @@ Item {
     // WinUI IsSettingsVisible — show the settings/footer item
     property bool isSettingsVisible: true
     // WinUI IsPaneToggleButtonVisible — left-rail title bar (hamburger + paneTitle as a pair)
-    property bool isPaneToggleButtonVisible: true
+    property bool isPaneToggleButtonVisible: false
     // WinUI PaneDisplayMode: left | leftCompact | leftMinimal | top | auto
     property string paneDisplayMode: "left"
     // Width below which auto mode uses leftCompact
@@ -126,9 +126,10 @@ Item {
     // TitleBar / ShellWindow: bind isBackButtonVisible to this (not a static true)
     readonly property bool effectiveBackVisible: isBackButtonVisible || canGoBack
     readonly property bool effectiveBackEnabled: isBackEnabled && canGoBack
-
-    onPageHistoryChanged: canGoBackChanged()
-    signal canGoBackChanged()
+    // True when a left navigation rail is active (TitleBar chrome)
+    readonly property bool hasLeftRail: resolvedPaneMode === "left"
+                                       || resolvedPaneMode === "leftCompact"
+                                       || resolvedPaneMode === "leftMinimal"
     // Left-rail title bar: hamburger + paneTitle must appear together when shown
     readonly property bool _showPaneTitleBar: {
         if (!isPaneToggleButtonVisible || !isPaneVisible)
@@ -232,7 +233,7 @@ Item {
         if (paneOpen)
             return true
         // Keep labels until the rail is actually compact (avoids an empty wide column).
-        return paneSlot.width > paneCompactWidth + 32
+        return paneSlot.width > paneCompactWidth + 72
     }
     readonly property bool _minimalOverlay: resolvedPaneMode === "leftMinimal" && paneOpen
 
@@ -1426,7 +1427,7 @@ Item {
                          && root.resolvedPaneMode !== "leftMinimal"
                          && root.resolvedPaneMode !== "top"
                 NumberAnimation {
-                    duration: Theme.duration(Theme.motionNormal)
+                    duration: Theme.duration(Theme.motionSlow)
                     easing.type: Theme.easingStandard
                 }
             }
@@ -1892,7 +1893,8 @@ Item {
                                 Behavior on height {
                                     enabled: !Theme.reducedMotion && del.kind === "group" && root.paneOpen
                                     NumberAnimation {
-                                        duration: Theme.duration(Theme.motionFast)
+                                        duration: Theme.duration(Theme.motionNormal
+                                            + Math.min(280, childRepeater.count * 14))
                                         easing.type: del.expanded ? Theme.easingEnter
                                                                   : Theme.easingExit
                                     }

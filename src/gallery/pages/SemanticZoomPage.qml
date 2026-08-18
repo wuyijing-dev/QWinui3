@@ -88,13 +88,14 @@ CatalogPage {
                     anchors.margins: Theme.spacingSmall
                     model: contactsZoom.model
                     clip: true
+                    boundsBehavior: Flickable.StopAtBounds
                     cellWidth: 112
                     cellHeight: 108
                     delegate: Item {
                         required property int index
                         required property var modelData
-                        width: cellWidth
-                        height: cellHeight
+                        width: GridView.view.cellWidth
+                        height: GridView.view.cellHeight
                         GridTile {
                             anchors.centerIn: parent
                             tileWidth: 100
@@ -113,13 +114,14 @@ CatalogPage {
                     anchors.margins: Theme.spacingSmall
                     model: contactsZoom.groupKeys
                     clip: true
+                    boundsBehavior: Flickable.StopAtBounds
                     cellWidth: 52
                     cellHeight: 52
                     delegate: Item {
                         required property int index
                         required property string modelData
-                        width: cellWidth
-                        height: cellHeight
+                        width: GridView.view.cellWidth
+                        height: GridView.view.cellHeight
                         RoundButton {
                             anchors.centerIn: parent
                             text: modelData

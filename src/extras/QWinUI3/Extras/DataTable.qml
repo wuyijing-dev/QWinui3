@@ -633,15 +633,14 @@ T.Control {
                         Repeater {
                             model: root._pinnedColOrder
                             delegate: HeaderCell {
+                                required property var modelData
                                 columnIndex: modelData
                             }
                         }
                         Rectangle {
-                            anchors.right: parent.right
-                            width: 1
+                            width: root._scrollColOrder.length > 0 ? 1 : 0
                             height: parent.height
                             color: Theme.strokeCard
-                            visible: root._scrollColOrder.length > 0
                         }
                     }
 
@@ -662,6 +661,7 @@ T.Control {
                             Repeater {
                                 model: root._scrollColOrder
                                 delegate: HeaderCell {
+                                    required property var modelData
                                     columnIndex: modelData
                                 }
                             }
@@ -732,7 +732,8 @@ T.Control {
                                 anchors.fill: parent
                                 anchors.leftMargin: 12
                                 anchors.rightMargin: 8
-                                text: rowItem.modelData.label
+                                text: (rowItem.isGroup && rowItem.modelData && rowItem.modelData.label)
+                                      ? rowItem.modelData.label : ""
                                 font.weight: Theme.fontWeightSemiBold
                                 color: Theme.textSecondary
                                 verticalAlignment: Text.AlignVCenter
@@ -771,16 +772,15 @@ T.Control {
                                     Repeater {
                                         model: root._pinnedColOrder
                                         delegate: DataCell {
+                                            required property var modelData
                                             columnIndex: modelData
                                             rowObj: rowItem.rowObj
                                         }
                                     }
                                     Rectangle {
-                                        anchors.right: parent.right
-                                        width: 1
+                                        width: root._scrollColOrder.length > 0 ? 1 : 0
                                         height: parent.height
                                         color: Theme.strokeCard
-                                        visible: root._scrollColOrder.length > 0
                                     }
                                 }
 
@@ -795,6 +795,7 @@ T.Control {
                                         Repeater {
                                             model: root._scrollColOrder
                                             delegate: DataCell {
+                                                required property var modelData
                                                 columnIndex: modelData
                                                 rowObj: rowItem.rowObj
                                             }

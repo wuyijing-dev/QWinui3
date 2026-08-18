@@ -19,10 +19,10 @@ import QWinUI3.Theme
 //   // titleBar.clientExcludeRectsFor(window)
 //
 // @notes
-//   WinUI-style title bar for ShellWindow / WindowChrome.
-//   preferredHeightOption: standard (32) or tall (48) via WindowHelper.
-//   Caption hit-test uses screen-logical rects (mapToGlobal) so maximize/fullscreen
-//   caption buttons stay clickable.
+//   WinUI-style title bar for ShellWindow / WindowChrome / **StandardTitleChrome**.
+//   Header slots: leftHeader, content (titleBarContent on shells), rightHeader.
+//   StandardTitleChrome.rightHeader → PlatformTitleBar (before captions); ShellWindow.rightHeader → TitleBar.
+//   Cookbook: docs/title-bar-cookbook.md. Slot layout changes auto-refresh Windows NC hit-test via notifyChromeHitTest().
 
 Item {
     id: root

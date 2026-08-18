@@ -13,6 +13,31 @@ CatalogPage {
     title: qsTr("CommandBar")
     subtitle: qsTr("Primary/secondary AppBar row with overflow. Tab · F10/Alt+↓ · Esc — docs/commands.md.")
 
+    overlay: Item {
+        anchors.fill: parent
+        ToastHost {
+            id: toasts
+            width: 360
+            placement: ToastHost.BottomCenter
+        }
+        TextEdit {
+            id: clipBuf
+            visible: false
+            width: 0
+            height: 0
+            function put(s) {
+                text = s
+                selectAll()
+                copy()
+            }
+        }
+    }
+
+    function runCommand(name) {
+        status.text = name
+        toasts.info(name, qsTr("CommandBar"))
+    }
+
     ControlExample {
         headerText: qsTr("Keyboard model (1.15)")
         qmlSource: "// Tab into bar · Space/Enter activate\n// F10 or Alt+Down → overflow · Esc closes Menu"
@@ -63,23 +88,23 @@ CatalogPage {
                 secondaryCommands: [
                     {
                         text: qsTr("Select all"),
-                        triggered: function () { status.text = qsTr("Select all") }
+                        triggered: function () { runCommand(qsTr("Select all")) }
                     },
                     {
                         text: qsTr("Find"),
-                        triggered: function () { status.text = qsTr("Find") }
+                        triggered: function () { runCommand(qsTr("Find")) }
                     }
                 ]
                 secondaryCommandsHost: [
                     AppBarButton {
                         symbol: FluentIcons.Share
                         text: qsTr("Share")
-                        onClicked: status.text = qsTr("Share (host)")
+                        onClicked: runCommand(qsTr("Share (host)"))
                     },
                     AppBarToggleButton {
                         symbol: FluentIcons.Pin
                         text: qsTr("Pin")
-                        onClicked: status.text = checked ? qsTr("Pinned") : qsTr("Unpinned")
+                        onClicked: runCommand(checked ? qsTr("Pinned") : qsTr("Unpinned"))
                     }
                 ]
                 onOpened: status.text = qsTr("Command bar opened")
@@ -88,18 +113,24 @@ CatalogPage {
                     symbol: FluentIcons.Copy
                     text: qsTr("Copy")
                     keyboardAcceleratorText: "Ctrl+C"
-                    onClicked: status.text = qsTr("Copy")
+                    onClicked: {
+                        clipBuf.put(qsTr("Copied from CommandBar"))
+                        runCommand(qsTr("Copy"))
+                    }
                 }
                 AppBarButton {
                     symbol: FluentIcons.Cut
                     text: qsTr("Cut")
-                    onClicked: status.text = qsTr("Cut")
+                    onClicked: {
+                        clipBuf.put(qsTr("Cut from CommandBar"))
+                        runCommand(qsTr("Cut"))
+                    }
                 }
                 AppBarSeparator {}
                 AppBarButton {
                     symbol: FluentIcons.Delete
                     text: qsTr("Delete")
-                    onClicked: status.text = qsTr("Delete")
+                    onClicked: runCommand(qsTr("Delete"))
                 }
             }
             Label {
@@ -143,9 +174,21 @@ CatalogPage {
                 secondaryCommands: [
                     { text: qsTr("More options"), triggered: function () {} }
                 ]
-                AppBarButton { symbol: FluentIcons.Copy; text: qsTr("Copy") }
-                AppBarButton { symbol: FluentIcons.Cut; text: qsTr("Cut") }
-                AppBarButton { symbol: FluentIcons.Delete; text: qsTr("Delete") }
+                AppBarButton {
+                    symbol: FluentIcons.Copy
+                    text: qsTr("Copy")
+                    onClicked: runCommand(qsTr("Copy"))
+                }
+                AppBarButton {
+                    symbol: FluentIcons.Cut
+                    text: qsTr("Cut")
+                    onClicked: runCommand(qsTr("Cut"))
+                }
+                AppBarButton {
+                    symbol: FluentIcons.Delete
+                    text: qsTr("Delete")
+                    onClicked: runCommand(qsTr("Delete"))
+                }
             }
             Label {
                 Layout.fillWidth: true

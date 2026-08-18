@@ -33,10 +33,17 @@ Item {
             font.pixelSize: Theme.fontCaption
             font.weight: Theme.fontWeightSemiBold
             color: Theme.textPrimary
-            text: FrameStatsMonitor.fps > 0
-                  ? qsTr("%1 FPS · %2 ms").arg(FrameStatsMonitor.fps.toFixed(1))
-                                            .arg(FrameStatsMonitor.frameTimeMs.toFixed(1))
-                  : qsTr("FPS …")
+            readonly property string readoutText: {
+                if (FrameStatsMonitor.fps <= 0)
+                    return qsTr("FPS …")
+                var line = qsTr("%1 FPS · %2 ms")
+                        .arg(FrameStatsMonitor.fps.toFixed(1))
+                        .arg(FrameStatsMonitor.frameTimeMs.toFixed(1))
+                if (FrameStatsMonitor.showRhi && FrameStatsMonitor.rhiLabel.length)
+                    line += qsTr(" · %1").arg(FrameStatsMonitor.rhiLabel)
+                return line
+            }
+            text: readoutText
         }
     }
 }

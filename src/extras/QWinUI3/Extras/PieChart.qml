@@ -108,17 +108,26 @@ T.Control {
         return out
     }
 
+    readonly property int _sliceCount: _slices.length
+
     Behavior on revealProgress {
-        enabled: root.animated && !Theme.reducedMotion
+        enabled: ChartUtils.shouldAnimateReveal(_sliceCount, root.animated)
         NumberAnimation {
             duration: Theme.duration(Theme.motionSlow)
             easing.type: Theme.easingEnter
         }
     }
 
+    Timer {
+        id: redrawCoalesce
+        interval: ChartUtils.redrawCoalesceMs
+        repeat: false
+        onTriggered: canvas.requestPaint()
+    }
+
     // Play entrance reveal animation
     function playReveal() {
-        if (!root.animated || Theme.reducedMotion) {
+        if (!ChartUtils.shouldAnimateReveal(_sliceCount, root.animated)) {
             revealProgress = 1
             requestRedraw()
             return
@@ -128,7 +137,7 @@ T.Control {
     }
 
     // Request chart / canvas redraw
-    function requestRedraw() { canvas.requestPaint() }
+    function requestRedraw() { redrawCoalesce.restart() }
     onSlicesChanged: { hoverIndex = -1; Qt.callLater(playReveal) }
     onValuesChanged: { hoverIndex = -1; Qt.callLater(playReveal) }
     onPadAngleChanged: requestRedraw()
@@ -153,151 +162,6 @@ T.Control {
             elide: Text.ElideRight
         }
 
-        RowLayout {
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            spacing: Theme.spacingLoose
-            visible: !root.isEmpty
-
-        Item {
-            Layout.preferredWidth: Math.min(parent.height, parent.width * (root.showLegend ? 0.48 : 1))
-            Layout.preferredHeight: Layout.preferredWidth
-            Layout.alignment: Qt.AlignVCenter
-
-            Canvas {
-                id: canvas
-                anchors.fill: parent
-                antialiasing: true
-                renderStrategy: Canvas.Cooperative
-                // Center X
-                property real cx: 0
-                // Center Y
-                property real cy: 0
-                // Corner radius
-                property real radius: 0
-                // Arc path descriptors
-                property var arcs: []
-
-                onPaint: {
-                    var ctx = getContext("2d")
-                    ctx.reset()
-                    var w = width
-                    var h = height
-                    var list = root._slices
-                    if (w < 8 || h < 8 || !list.length)
-                        return
-                    var cx = w * 0.5
-                    var cy = h * 0.5
-                    var radius = Math.min(w, h) * 0.5 - 4
-                    var sum = Math.max(1e-6, root.total)
-                    var angle = root.startAngle
-                    var pad = Math.max(0, root.padAngle)
-                    var reveal = Math.max(0, Math.min(1, root.revealProgress))
-                    var arcs = []
-
-                    for (var i = 0; i < list.length; ++i) {
-                        var v = Math.max(0, ChartUtils.asNumber(list[i].value))
-                        var fullSweep = (v / sum) * Math.PI * 2
-                        var sweep = fullSweep * reveal - pad
-                        var start = angle
-                        if (sweep > 0.001) {
-                            var color = list[i].color || ChartUtils.palette(Theme, i)
-                            var hovered = root.hoverIndex === i
-                            var rad = radius + (hovered ? 4 : 0)
-                            ctx.beginPath()
-                            ctx.moveTo(cx, cy)
-                            ctx.arc(cx, cy, rad, start + pad * 0.5, start + pad * 0.5 + sweep, false)
-                            ctx.closePath()
-                            ctx.fillStyle = color
-                            ctx.globalAlpha = hovered || root.hoverIndex < 0 ? 1 : 0.4
-                            ctx.fill()
-                            ctx.globalAlpha = 1
-                            if (hovered) {
-                                ctx.lineWidth = 2
-                                ctx.strokeStyle = Theme.bgCard
-                                ctx.stroke()
-                            }
-                        }
-                        arcs.push({ start: start, sweep: fullSweep, value: v })
-                        angle += fullSweep
-                    }
-                    canvas.cx = cx
-                    canvas.cy = cy
-                    canvas.radius = radius
-                    canvas.arcs = arcs
-                }
-            }
-
-            MouseArea {
-                anchors.fill: parent
-                hoverEnabled: root.interactive
-                enabled: root.interactive
-                onPositionChanged: (mouse) => root._hitTest(mouse.x, mouse.y)
-                onExited: root.hoverIndex = -1
-                onClicked: {
-                    if (root.hoverIndex >= 0)
-                        root.sliceClicked(root.hoverIndex,
-                                          ChartUtils.asNumber(root._slices[root.hoverIndex].value))
-                }
-            }
-
-            // Center hover readout
-            Column {
-                anchors.centerIn: parent
-                visible: root.hoverIndex >= 0
-                spacing: 2
-                width: parent.width * 0.4
-                Text {
-                    width: parent.width
-                    horizontalAlignment: Text.AlignHCenter
-                    text: {
-                        if (root.hoverIndex < 0)
-                            return ""
-                        var v = ChartUtils.asNumber(root._slices[root.hoverIndex].value)
-                        return (root.total > 0 ? Math.round(v / root.total * 100) : 0) + "%"
-                    }
-                    font.family: Theme.fontFamily
-                    font.pixelSize: Theme.fontSubtitle
-                    font.weight: Theme.fontWeightSemiBold
-                    color: Theme.textPrimary
-                    style: Text.Outline
-                    styleColor: Theme.bgCard
-                }
-                Text {
-                    width: parent.width
-                    horizontalAlignment: Text.AlignHCenter
-                    text: root.hoverIndex >= 0 ? (root._slices[root.hoverIndex].label || "") : ""
-                    font.family: Theme.fontFamily
-                    font.pixelSize: Theme.fontCaption
-                    color: Theme.textSecondary
-                    style: Text.Outline
-                    styleColor: Theme.bgCard
-                    elide: Text.ElideRight
-                }
-            }
-        }
-
-        ChartLegend {
-            visible: root.showLegend
-            Layout.fillWidth: true
-            Layout.preferredHeight: parent.height
-            Layout.alignment: Qt.AlignVCenter
-            orientation: Qt.Vertical
-            header: qsTr("Legend")
-            items: root._legendItems
-            showValue: false
-            interactive: root.interactive
-            hoverIndex: root.hoverIndex
-            selectedIndex: root.selectedIndex
-            onHoverIndexChanged: root.hoverIndex = hoverIndex
-            onItemHovered: (index) => root.hoverIndex = index
-            onItemClicked: (index) => {
-                root.selectedIndex = index
-                root.sliceClicked(index, ChartUtils.asNumber(root._slices[index].value))
-            }
-        }
-        } // RowLayout
-
         Text {
             visible: root.isEmpty
             Layout.fillWidth: true
@@ -308,6 +172,216 @@ T.Control {
             font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             color: Theme.textSecondary
+        }
+
+        RowLayout {
+            id: chartRow
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            spacing: Theme.spacingLoose
+            visible: !root.isEmpty
+
+            Item {
+                id: plot
+                readonly property real side: Math.max(64,
+                    Math.min(chartRow.height,
+                             chartRow.width * (root.showLegend ? 0.52 : 1)))
+                Layout.preferredWidth: side
+                Layout.preferredHeight: side
+                Layout.minimumWidth: 64
+                Layout.minimumHeight: 64
+                Layout.alignment: Qt.AlignVCenter
+
+                onSideChanged: root.requestRedraw()
+
+                Canvas {
+                    id: canvas
+                    anchors.fill: parent
+                    antialiasing: true
+                    renderStrategy: Canvas.Immediate
+                    // Center X
+                    property real cx: 0
+                    // Center Y
+                    property real cy: 0
+                    // Corner radius
+                    property real radius: 0
+                    // Arc path descriptors
+                    property var arcs: []
+
+                    onWidthChanged: if (width > 8 && height > 8) root.requestRedraw()
+                    onHeightChanged: if (width > 8 && height > 8) root.requestRedraw()
+
+                    onPaint: {
+                        var ctx = getContext("2d")
+                        ctx.reset()
+                        var w = width
+                        var h = height
+                        var list = root._slices
+                        if (w < 8 || h < 8 || !list.length)
+                            return
+                        var cx = w * 0.5
+                        var cy = h * 0.5
+                        var radius = Math.min(w, h) * 0.5 - 4
+                        var sum = Math.max(1e-6, root.total)
+                        var angle = root.startAngle
+                        var pad = Math.max(0, root.padAngle)
+                        var reveal = Math.max(0, Math.min(1, root.revealProgress))
+                        var arcs = []
+
+                        for (var i = 0; i < list.length; ++i) {
+                            var v = Math.max(0, ChartUtils.asNumber(list[i].value))
+                            var fullSweep = (v / sum) * Math.PI * 2
+                            var sweep = fullSweep * reveal - pad
+                            var start = angle
+                            if (sweep > 0.001) {
+                                var color = list[i].color || ChartUtils.palette(Theme, i)
+                                var hovered = root.hoverIndex === i
+                                var rad = radius + (hovered ? 4 : 0)
+                                ctx.beginPath()
+                                ctx.moveTo(cx, cy)
+                                ctx.arc(cx, cy, rad, start + pad * 0.5, start + pad * 0.5 + sweep, false)
+                                ctx.closePath()
+                                ctx.fillStyle = color
+                                ctx.globalAlpha = hovered || root.hoverIndex < 0 ? 1 : 0.4
+                                ctx.fill()
+                                ctx.globalAlpha = 1
+                                if (hovered) {
+                                    ctx.lineWidth = 2
+                                    ctx.strokeStyle = Theme.bgCard
+                                    ctx.stroke()
+                                }
+                            }
+                            arcs.push({ start: start, sweep: fullSweep, value: v })
+                            angle += fullSweep
+                        }
+                        canvas.cx = cx
+                        canvas.cy = cy
+                        canvas.radius = radius
+                        canvas.arcs = arcs
+                    }
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    hoverEnabled: root.interactive
+                    enabled: root.interactive
+                    onPositionChanged: (mouse) => root._hitTest(mouse.x, mouse.y)
+                    onExited: root.hoverIndex = -1
+                    onClicked: {
+                        if (root.hoverIndex >= 0)
+                            root.sliceClicked(root.hoverIndex,
+                                              ChartUtils.asNumber(root._slices[root.hoverIndex].value))
+                    }
+                }
+
+                // Center hover readout
+                Column {
+                    anchors.centerIn: parent
+                    visible: root.hoverIndex >= 0
+                    spacing: 2
+                    width: parent.width * 0.4
+                    Text {
+                        width: parent.width
+                        horizontalAlignment: Text.AlignHCenter
+                        text: {
+                            if (root.hoverIndex < 0)
+                                return ""
+                            var v = ChartUtils.asNumber(root._slices[root.hoverIndex].value)
+                            return (root.total > 0 ? Math.round(v / root.total * 100) : 0) + "%"
+                        }
+                        font.family: Theme.fontFamily
+                        font.pixelSize: Theme.fontSubtitle
+                        font.weight: Theme.fontWeightSemiBold
+                        color: Theme.textPrimary
+                        style: Text.Outline
+                        styleColor: Theme.bgCard
+                    }
+                    Text {
+                        width: parent.width
+                        horizontalAlignment: Text.AlignHCenter
+                        text: root.hoverIndex >= 0 ? (root._slices[root.hoverIndex].label || "") : ""
+                        font.family: Theme.fontFamily
+                        font.pixelSize: Theme.fontCaption
+                        color: Theme.textSecondary
+                        style: Text.Outline
+                        styleColor: Theme.bgCard
+                        elide: Text.ElideRight
+                    }
+                }
+            }
+
+            Column {
+                visible: root.showLegend
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignVCenter
+                spacing: 6
+
+                Text {
+                    width: parent.width
+                    text: qsTr("Legend")
+                    font.family: Theme.fontFamily
+                    font.pixelSize: Theme.fontCaption
+                    font.weight: Theme.fontWeightSemiBold
+                    color: Theme.textSecondary
+                }
+
+                Repeater {
+                    model: root._slices
+                    Rectangle {
+                        required property var modelData
+                        required property int index
+                        width: parent.width
+                        height: 28
+                        radius: Theme.cornerControl
+                        color: root.hoverIndex === index ? Theme.fillSubtleSecondary : "transparent"
+                        Behavior on color {
+                            ColorAnimation { duration: Theme.duration(Theme.motionFast) }
+                        }
+                        Row {
+                            anchors.fill: parent
+                            anchors.leftMargin: 6
+                            anchors.rightMargin: 6
+                            spacing: 8
+                            Rectangle {
+                                width: 10
+                                height: 10
+                                radius: 2
+                                anchors.verticalCenter: parent.verticalCenter
+                                color: modelData.color || ChartUtils.palette(Theme, index)
+                                scale: root.hoverIndex === index ? 1.15 : 1
+                                Behavior on scale {
+                                    enabled: !Theme.reducedMotion
+                                    NumberAnimation { duration: Theme.duration(Theme.motionFast) }
+                                }
+                            }
+                            Text {
+                                width: Math.max(40, parent.width - 18)
+                                anchors.verticalCenter: parent.verticalCenter
+                                text: {
+                                    var label = modelData.label || ("#" + (index + 1))
+                                    var v = ChartUtils.asNumber(modelData.value)
+                                    var pct = root.total > 0 ? Math.round(v / root.total * 100) : 0
+                                    return label + "  " + pct + "%"
+                                }
+                                font.family: Theme.fontFamily
+                                font.pixelSize: Theme.fontCaption
+                                font.weight: root.hoverIndex === index ? Theme.fontWeightSemiBold
+                                                                       : Theme.fontWeightRegular
+                                color: root.hoverIndex === index ? Theme.textPrimary : Theme.textSecondary
+                                elide: Text.ElideRight
+                            }
+                        }
+                        MouseArea {
+                            anchors.fill: parent
+                            hoverEnabled: root.interactive
+                            enabled: root.interactive
+                            onEntered: root.hoverIndex = index
+                            onExited: if (root.hoverIndex === index) root.hoverIndex = -1
+                            onClicked: root.sliceClicked(index, ChartUtils.asNumber(modelData.value))
+                        }
+                    }
+                }
+            }
         }
     }
 

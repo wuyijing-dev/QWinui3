@@ -13,9 +13,27 @@ import QWinUI3.Platform
 CatalogPage {
     id: root
     title: qsTr("Multi-window")
-    subtitle: qsTr("Secondary shells + geometry keys + transient parent — docs/window-shells.md (1.56).")
+    subtitle: qsTr("Secondary shells + transient parent — docs/window-shells.md (2.14 / 2.43).")
+
+    readonly property string portalParentReadout: {
+        var host = root.Window ? root.Window.window : null
+        if (!host)
+            return qsTr("portal parent_window=(no host window)")
+        var id = WindowHelper.portalParentWindow(host)
+        return id.length
+            ? qsTr("portal parent_window=%1").arg(id)
+            : qsTr("portal parent_window=(empty — pure Wayland without xdg-foreign export)")
+    }
 
     property var _openWindows: []
+
+    signal openControl(var item)
+
+    function openComp(id) {
+        var it = ControlCatalog.findByComponent(id)
+        if (it)
+            root.openControl(it)
+    }
 
     function track(win) {
         if (!win)
@@ -118,7 +136,7 @@ CatalogPage {
                 Text {
                     Layout.fillWidth: true
                     wrapMode: Text.WordWrap
-                    text: qsTr("openDialog(owner) sets the transient parent so the dialog stacks with the Gallery window.")
+                    text: qsTr("openDialog(owner) sets transient parent (2.14: realize surfaces) and centers on the owner screen.")
                     color: Theme.textSecondary
                 }
                 Item { Layout.fillHeight: true }
@@ -132,6 +150,33 @@ CatalogPage {
     }
 
     ControlExample {
+        headerText: qsTr("Onboarding + z-order (2.43)")
+        qmlSource: "// Coach on main shell only\n// Settings category != WindowGeometry\n// docs/multi-window-onboarding.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("First-run TeachingTip tours (1.55) should run on the primary shell after it is visible — not on tool windows. Finish or pause the coach before openDialog(owner). Persist don’t-show-again in a dedicated Settings category, not geometryPersistenceKey. Gallery Onboarding coach demonstrates persistence.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            RowLayout {
+                spacing: Theme.spacing
+                Button {
+                    text: qsTr("Open Onboarding coach")
+                    onClicked: root.openComp("OnboardingCoachPage")
+                }
+            }
+            CheckBox { text: qsTr("Coach deferred until main window visible") }
+            CheckBox { text: qsTr("No tool/dialog spawn during active coach step") }
+            CheckBox { text: qsTr("Onboarding Settings separate from WindowGeometry/*") }
+        }
+    }
+
+    ControlExample {
         headerText: qsTr("When to use (1.56)")
         qmlSource: "ToolShellWindow { geometryPersistenceKey }\nDialogShellWindow { openDialog(owner) }"
         ColumnLayout {
@@ -140,7 +185,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Use a second top-level shell for inspectors, previews, or true dialog HWNDs. Keep ContentDialog for in-window confirms. One Theme per process. Unique geometryPersistenceKey per window role. Runnable sample: examples/multi-window.")
+                text: qsTr("Use a second top-level shell for inspectors, previews, or true dialog HWNDs. Keep ContentDialog for in-window confirms. One Theme per process. Unique geometryPersistenceKey per window role. 2.14: openDialog(owner) realizes surfaces + centerOnOwner on Wayland. Runnable sample: examples/multi-window.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
@@ -191,6 +236,29 @@ CatalogPage {
     }
 
     ControlExample {
+        headerText: qsTr("Wayland modal stack (2.14)")
+        qmlSource: "openDialog(owner) · centerOnOwner · portalParentWindow"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.Wrap
+                text: root.portalParentReadout
+                color: Theme.textSecondary
+            }
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("After spawning a dialog, confirm it stacks with Gallery on your compositor. Empty portal id on pure Wayland is expected without xdg-foreign — transient parent still helps. Regression: docs/security-trust.md · docs/platform-linux-wayland.md.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontCaption
+                color: Theme.textTertiary
+            }
+        }
+    }
+
+    ControlExample {
         headerText: qsTr("Win + Linux checklist")
         qmlSource: "docs/window-shells.md · docs/platform-linux-wayland.md"
         ColumnLayout {
@@ -198,9 +266,10 @@ CatalogPage {
             spacing: Theme.spacing
             CheckBox { text: qsTr("BackdropSolid on every secondary shell") }
             CheckBox { text: qsTr("Distinct geometryPersistenceKey (Main vs Tool vs Dialog)") }
-            CheckBox { text: qsTr("DialogShellWindow.openDialog(owner) for stacking") }
+            CheckBox { text: qsTr("DialogShellWindow.openDialog(owner) — not raw visible=true") }
+            CheckBox { text: qsTr("centerOnOwner lands dialog on owner monitor (2.14)") }
             CheckBox { text: qsTr("Theme toggles apply to all windows in-process") }
-            CheckBox { text: qsTr("Wayland: Bootstrap configureEnvironment; expect compositor-owned stacking") }
+            CheckBox { text: qsTr("Wayland: Bootstrap configureEnvironment; portal readout above") }
         }
     }
 }

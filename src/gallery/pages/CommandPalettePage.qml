@@ -10,6 +10,8 @@ import QWinUI3.Extras
 // Recipe: docs/commands.md · docs/keyboard.md (1.44)
 
 CatalogPage {
+    id: page
+
     title: qsTr("CommandPalette")
     subtitle: qsTr("Ctrl+K hub — recents + debounce (2.59) · docs/commands.md")
 

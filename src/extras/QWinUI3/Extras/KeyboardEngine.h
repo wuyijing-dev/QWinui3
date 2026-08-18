@@ -7,6 +7,7 @@
 #include <QPointer>
 #include <QString>
 #include <QStringList>
+#include <QVariantList>
 #include <QtQml/qqmlregistration.h>
 
 class QKeyEvent;
@@ -40,8 +41,12 @@ class KeyboardEngine : public QObject
     Q_PROPERTY(QString preedit READ preedit NOTIFY composeChanged)
     Q_PROPERTY(QStringList candidates READ candidates NOTIFY composeChanged)
     Q_PROPERTY(QStringList pagedCandidates READ pagedCandidates NOTIFY composeChanged)
+    Q_PROPERTY(QVariantList candidateGroups READ candidateGroups NOTIFY composeChanged)
     Q_PROPERTY(int candidatePage READ candidatePage NOTIFY composeChanged)
     Q_PROPERTY(int candidatePageCount READ candidatePageCount NOTIFY composeChanged)
+    Q_PROPERTY(bool ctrlLatched READ ctrlLatched NOTIFY modifiersChanged)
+    Q_PROPERTY(bool altLatched READ altLatched NOTIFY modifiersChanged)
+    Q_PROPERTY(bool winLatched READ winLatched NOTIFY modifiersChanged)
     // When true, physical keys in this app route through the engine (IME / Keyman).
     // Still in-process unless systemWide is also enabled.
     Q_PROPERTY(bool hardwareInput READ hardwareInput WRITE setHardwareInput NOTIFY hardwareInputChanged)
@@ -72,8 +77,12 @@ public:
     QString preedit() const;
     QStringList candidates() const { return m_candidates; }
     QStringList pagedCandidates() const;
+    QVariantList candidateGroups() const;
     int candidatePage() const { return m_candidatePage; }
     int candidatePageCount() const;
+    bool ctrlLatched() const { return m_ctrlLatched; }
+    bool altLatched() const { return m_altLatched; }
+    bool winLatched() const { return m_winLatched; }
     bool hardwareInput() const { return m_hardwareInput; }
     void setHardwareInput(bool on);
     bool systemWide() const { return m_systemWide; }
@@ -92,6 +101,7 @@ public:
     Q_INVOKABLE void enterKey();
     Q_INVOKABLE void tabKey();
     Q_INVOKABLE void pickCandidate(int indexOnPage);
+    Q_INVOKABLE void pickCandidateWord(const QString &word);
     Q_INVOKABLE void nextCandidatePage();
     Q_INVOKABLE void prevCandidatePage();
     Q_INVOKABLE void confirmCompose();
@@ -99,6 +109,9 @@ public:
     Q_INVOKABLE void navigateKey(int qtKey);
     Q_INVOKABLE void pasteClipboard();
     Q_INVOKABLE QString clipboardText() const;
+    Q_INVOKABLE void toggleModifier(const QString &name);
+    Q_INVOKABLE void clearModifiers();
+    Q_INVOKABLE void clearUserLexicon();
 
 signals:
     void hasTargetChanged();
@@ -106,6 +119,7 @@ signals:
     void composeChanged();
     void hardwareInputChanged();
     void systemWideChanged();
+    void modifiersChanged();
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event) override;
@@ -115,6 +129,7 @@ private:
     void rememberEditor(QObject *object);
     QObject *target() const;
     void sendKey(int key, const QString &text = QString()) const;
+    void sendKeyWithModifiers(int key, const QString &text, int modifiers) const;
     bool trySystemWideText(const QString &text) const;
     bool trySystemWideKey(int qtKey) const;
     static bool looksLikeEditor(const QObject *object);
@@ -146,9 +161,13 @@ private:
     QString m_layoutId = QStringLiteral("en-US");
     QString m_preedit;
     QStringList m_candidates;
+    QVariantList m_candidateGroups;
     int m_candidatePage = 0;
     bool m_hardwareInput = true;
     bool m_systemWide = false;
+    bool m_ctrlLatched = false;
+    bool m_altLatched = false;
+    bool m_winLatched = false;
     // Linux/Wayland: track CapsLock toggles (no portable GetKeyState). Windows uses VK_CAPITAL.
     bool m_capsLockOn = false;
     HangulComposer m_hangul;

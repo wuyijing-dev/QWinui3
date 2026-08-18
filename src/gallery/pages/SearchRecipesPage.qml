@@ -4,13 +4,13 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — In-app search & AutoSuggest recipes (1.59).
+// Gallery — In-app search & AutoSuggest recipes (1.59 · 2.16).
 // Recipe: docs/search.md · docs/commands.md · docs/data-collections.md
 
 CatalogPage {
     id: page
     title: qsTr("Search recipes")
-    subtitle: qsTr("AutoSuggest · filter-above · catalog jump — docs/search.md (1.59).")
+    subtitle: qsTr("AutoSuggest keyboard polish · debounced filter — docs/search.md (2.16).")
 
     signal openControl(var item)
 
@@ -43,6 +43,7 @@ CatalogPage {
     }
 
     readonly property var catalogSuggestModel: {
+        GalleryLanguage.currentLocale
         var out = []
         var src = ControlCatalog.controls
         var limit = 40
@@ -199,6 +200,8 @@ CatalogPage {
             spacing: Theme.spacing
             CheckBox { text: qsTr("Commands → CommandPalette (Ctrl+K), not AutoSuggest") }
             CheckBox { text: qsTr("Form suggest → AutoSuggestBox / SearchBox") }
+            CheckBox { text: qsTr("↑↓ in field moves highlight — focus stays in field (2.16)") }
+            CheckBox { text: qsTr("Esc closes popup only; ↑ at row 0 returns to field (2.16)") }
             CheckBox { text: qsTr("List/table → filter-above + filtered model") }
             CheckBox { text: qsTr("Cap huge catalog results (Gallery uses 24 in title bar)") }
             CheckBox { text: qsTr("Empty state when filter matches nothing") }

@@ -19,8 +19,12 @@ Item {
                                      && WindowHelper.shellChromeExpanded(targetWindow)
     readonly property real cornerRadius: expanded ? WindowHelper.shellCornerRadius() : 0
     readonly property bool showShadow: expanded && !Theme.reducedMotion
+            && WindowHelper.shellShadowOpacity() > 0.001
     readonly property color frameFill: Theme.bgLayer
     readonly property color frameBorder: Theme.strokeDivider
+    readonly property real shadowOpacity: WindowHelper.shellShadowOpacity()
+    readonly property real shadowBlur: WindowHelper.shellShadowBlur()
+    readonly property real shadowVerticalOffset: WindowHelper.shellShadowVerticalOffset()
 
     property bool _shadowReady: false
 
@@ -41,11 +45,11 @@ Item {
         layer.smooth: true
         layer.effect: MultiEffect {
             shadowEnabled: true
-            shadowBlur: 1.15
-            shadowOpacity: Theme.dark ? 0.38 : 0.24
+            shadowBlur: root.shadowBlur
+            shadowOpacity: root.shadowOpacity
             shadowColor: "#000000"
             shadowHorizontalOffset: 0
-            shadowVerticalOffset: 4
+            shadowVerticalOffset: root.shadowVerticalOffset
             blurMax: 44
             autoPaddingEnabled: true
         }

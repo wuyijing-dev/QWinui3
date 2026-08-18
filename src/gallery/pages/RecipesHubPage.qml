@@ -47,7 +47,7 @@ CatalogPage {
                             Layout.fillWidth: true
                             text: modelData.label
                             color: Theme.textPrimary
-                            font.pixelSize: Theme.fontSizeBody
+                            font.pixelSize: Theme.fontBody
                         }
                         Label {
                             Layout.fillWidth: true

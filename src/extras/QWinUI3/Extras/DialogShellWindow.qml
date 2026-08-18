@@ -13,7 +13,7 @@ import QWinUI3.Platform
 //
 // @notes
 //   ShellWindow with WindowHelper.ParadigmDialog flags.
-//   Prefer openDialog() for owner stacking + center (same recipe as DialogWindow / Gallery).
+//   Prefer openDialog() for owner stacking + centerOnOwner (2.14).
 
 ShellWindow {
     id: root
@@ -37,8 +37,14 @@ ShellWindow {
             ownerWindow = owner
         if (ownerWindow)
             WindowHelper.setTransientParent(root, ownerWindow)
-        if (centerWhenOpened)
-            centerOnScreen()
+        else
+            WindowHelper.ensureWindowCreated(root)
+        if (centerWhenOpened) {
+            if (ownerWindow)
+                WindowHelper.centerOnOwner(root, ownerWindow)
+            else
+                WindowHelper.centerOnScreen(root)
+        }
         visible = true
         requestActivate()
     }

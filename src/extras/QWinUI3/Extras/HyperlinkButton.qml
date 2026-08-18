@@ -12,10 +12,11 @@ import QWinUI3.Theme
 //       onClicked: Qt.openUrlExternally(navigateUri)
 //   }
 //   // --- API ---
-//   // link.navigateUri / showExternalGlyph
+//   // link.navigateUri / showExternalGlyph / navigateMode (auto | external | inPage | signal)
 //
 // @notes
 //   Link-styled button; navigateUri + optional external glyph.
+//   navigateMode auto: "#anchor" scrolls in-page; http(s) opens externally.
 
 T.AbstractButton {
     id: control
@@ -34,8 +35,8 @@ T.AbstractButton {
     property bool visited: false
     // Show external-link glyph
     property bool showExternalGlyph: false
-    // "external" opens the URL; "signal" only emits clicked / navigateRequested
-    property string navigateMode: "external"
+    // navigateMode: auto | external | inPage | signal
+    property string navigateMode: "auto"
     // Emitted to request navigation
     signal navigateRequested(url target)
 
@@ -129,9 +130,103 @@ T.AbstractButton {
         }
     }
 
+    function _urlString() {
+        return control.url ? control.url.toString() : ""
+    }
+
+    function _urlFragment() {
+        var f = control.url ? control.url.fragment : ""
+        return f ? String(f) : ""
+    }
+
+    function _fragment() {
+        var s = _urlString()
+        if (s.length && s.charAt(0) === "#")
+            return s.substring(1)
+        var hash = s.lastIndexOf("#")
+        if (hash < 0)
+            return _urlFragment()
+        try {
+            return decodeURIComponent(s.substring(hash + 1))
+        } catch (err) {
+            return s.substring(hash + 1)
+        }
+    }
+
+    function _isFragmentOnly() {
+        var s = _urlString()
+        if (!s.length)
+            return false
+        if (s.charAt(0) === "#")
+            return true
+        var hash = s.lastIndexOf("#")
+        if (hash < 0)
+            return false
+        var before = s.substring(0, hash).toLowerCase()
+        if (before.indexOf("http:") === 0 || before.indexOf("https:") === 0
+                || before.indexOf("mailto:") === 0)
+            return false
+        return true
+    }
+
+    function _findNamed(item, name) {
+        if (!item || !name)
+            return null
+        if (item.objectName === name)
+            return item
+        var kids = item.children || []
+        for (var i = 0; i < kids.length; ++i) {
+            var hit = _findNamed(kids[i], name)
+            if (hit)
+                return hit
+        }
+        return null
+    }
+
+    function _scrollToFragment(frag) {
+        if (!frag.length)
+            return false
+        var p = control.parent
+        while (p) {
+            if (typeof p.scrollToName === "function" && p.scrollToName(frag))
+                return true
+            p = p.parent
+        }
+        var win = control.Window.window
+        var rootItem = win && win.contentItem ? win.contentItem : control
+        var target = _findNamed(rootItem, frag)
+        if (!target)
+            return false
+        var q = target
+        while (q) {
+            if (typeof q.scrollToItem === "function")
+                return q.scrollToItem(target)
+            if (q.contentY !== undefined && q.contentItem
+                    && q.flickableDirection !== undefined) {
+                var pt = target.mapToItem(q.contentItem, 0, 0)
+                var maxY = Math.max(0, q.contentHeight - q.height)
+                q.contentY = Math.max(0, Math.min(pt.y - 12, maxY))
+                return true
+            }
+            q = q.parent
+        }
+        return false
+    }
+
     onClicked: {
         var target = control.url
-        if (control.navigateMode !== "signal" && target.toString().length > 0)
+        var mode = String(control.navigateMode || "auto").toLowerCase()
+        var frag = control._fragment()
+        var inPage = mode === "inpage"
+                     || (mode === "auto" && control._isFragmentOnly() && frag.length)
+        if (mode !== "signal" && inPage && control._scrollToFragment(frag)) {
+            control.visited = true
+            control.navigateRequested(target)
+            Qt.callLater(function () { control._scrollToFragment(frag) })
+            return
+        }
+        if (mode !== "signal" && mode !== "inpage" && target.toString().length > 0
+                && !control._isFragmentOnly())
             Qt.openUrlExternally(target)
         if (target.toString().length > 0)
             control.visited = true

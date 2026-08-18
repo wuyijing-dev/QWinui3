@@ -26,6 +26,8 @@ Item {
 
     Accessible.role: Accessible.TitleBar
     Accessible.name: qsTr("Title bar")
+    Accessible.description: root.targetWindow && root.targetWindow.title
+                            ? root.targetWindow.title : ""
 
     // Window this chrome is attached to
     property var targetWindow: null

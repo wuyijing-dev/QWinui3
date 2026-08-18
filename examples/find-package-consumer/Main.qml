@@ -38,7 +38,7 @@ StandardWindow {
             color: Theme.textPrimary
         }
         Label {
-            text: qsTr("Shared kit + Bootstrap — not a vcpkg/Conan port.")
+            text: qsTr("Shared kit + Bootstrap — find_package (zip · vcpkg · Conan).")
             color: Theme.textSecondary
             wrapMode: Text.WordWrap
             width: 360

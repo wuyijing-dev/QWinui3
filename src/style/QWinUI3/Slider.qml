@@ -42,7 +42,7 @@ T.Slider {
         Rectangle {
             anchors.fill: parent
             radius: width / 2
-            color: Theme.dark ? "#2D2D2D" : "#FFFFFF"
+            color: Theme.fillSliderThumb
             border.width: 1
             border.color: Theme.strokeControl
             scale: control.pressed ? 0.96 : 1

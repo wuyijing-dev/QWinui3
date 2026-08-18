@@ -32,7 +32,7 @@ import QWinUI3.Theme
 //   ToastHost (transient) and InfoBarHost (inline). Pair with NotificationBridge
 //   recordInCenter (2.63). Not an OS notification center. See docs/notification-center-263.md.
 T.Control {
-    id: root
+    id: notificationCenter
 
     property var model: []
     property string groupRole: "category"
@@ -217,20 +217,20 @@ T.Control {
                     color: Theme.textPrimary
                 }
                 InfoBadge {
-                    visible: root.unreadCount > 0
-                    value: root.unreadCount
+                    visible: notificationCenter.unreadCount > 0
+                    value: notificationCenter.unreadCount
                     severity: InfoBadge.attention
                 }
                 Button {
                     flat: true
                     text: qsTr("Mark all read")
-                    enabled: root.unreadCount > 0
-                    onClicked: root.markAllRead()
+                    enabled: notificationCenter.unreadCount > 0
+                    onClicked: notificationCenter.markAllRead()
                 }
                 Button {
                     flat: true
                     text: qsTr("Clear read")
-                    onClicked: root.clearRead()
+                    onClicked: notificationCenter.clearRead()
                 }
             }
 
@@ -254,13 +254,13 @@ T.Control {
                     EmptyState {
                         Layout.fillWidth: true
                         Layout.topMargin: Theme.spacingSection
-                        visible: !(root.model && root.model.length)
+                        visible: !(notificationCenter.model && notificationCenter.model.length)
                         title: qsTr("No notifications")
                         message: qsTr("Toasts stay transient — this drawer keeps dismissible history grouped by category.")
                     }
 
                     Repeater {
-                        model: root.groupedModel
+                        model: notificationCenter.groupedModel
                         delegate: ColumnLayout {
                             required property var modelData
                             Layout.fillWidth: true
@@ -291,23 +291,23 @@ T.Control {
                                     symbol: row.symbol || FluentIcons.Ringer
                                     isSelected: !row.read
                                     onClicked: {
-                                        root.markRead(rowIndex)
-                                        root.notificationClicked(rowIndex, row)
+                                        notificationCenter.markRead(rowIndex)
+                                        notificationCenter.notificationClicked(rowIndex, row)
                                     }
                                     leading: Rectangle {
                                         width: 4
                                         height: parent.height * 0.6
                                         radius: 2
                                         anchors.verticalCenter: parent.verticalCenter
-                                        color: root._severityColor(row.severity !== undefined
-                                                                   ? row.severity : root.informational)
+                                        color: notificationCenter._severityColor(row.severity !== undefined
+                                                                   ? row.severity : notificationCenter.informational)
                                         opacity: row.read ? 0.35 : 1
                                     }
                                     trailing: Button {
-                                        visible: row.actionText && row.actionText.length
+                                        visible: !!(row.actionText && String(row.actionText).length)
                                         flat: true
                                         text: row.actionText || ""
-                                        onClicked: root.notificationActionClicked(rowIndex, row)
+                                        onClicked: notificationCenter.notificationActionClicked(rowIndex, row)
                                     }
                                 }
                             }
@@ -329,7 +329,7 @@ T.Control {
                 Button {
                     Layout.fillWidth: true
                     text: qsTr("Clear all")
-                    onClicked: root.clear()
+                    onClicked: notificationCenter.clear()
                 }
                 Button {
                     highlighted: true

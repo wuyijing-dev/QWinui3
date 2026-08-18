@@ -37,15 +37,7 @@ T.ComboBox {
 
     // True in light theme
     readonly property bool lightScheme: !Theme.dark
-    readonly property color __fill: {
-        if (!control.enabled)
-            return Theme.dark ? "#0BFFFFFF" : "#4DF9F9F9"
-        if (control.down)
-            return control.lightScheme ? "#4DF9F9F9" : "#08FFFFFF"
-        if (control.hovered)
-            return control.lightScheme ? "#80F9F9F9" : "#15FFFFFF"
-        return control.lightScheme ? "#FFFFFF" : "#0FFFFFFF"
-    }
+    readonly property color __fill: Theme.borderedControlFill(control.hovered, control.down, !control.enabled)
 
     delegate: T.ItemDelegate {
         id: delegateRoot

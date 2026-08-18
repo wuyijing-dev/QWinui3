@@ -10,9 +10,49 @@ import QWinUI3.Platform
 CatalogPage {
     id: page
     title: qsTr("WebView2")
-    subtitle: qsTr("Stable Windows host (1.18). Lifecycle / clip / focus / Runtime — docs/webview2.md. Trust: docs/security-trust.md (1.64).")
+    subtitle: qsTr("Stable Windows host (1.18). Field matrix + policy recipes (2.32) — docs/webview2.md · docs/security-trust.md.")
 
     property url demoUrl: "https://www.microsoft.com/edge/webview"
+    property string navStatus: ""
+
+    readonly property var allowedHosts: [
+        "microsoft.com",
+        "www.microsoft.com",
+        "learn.microsoft.com"
+    ]
+
+    function _hostFromUrl(urlString) {
+        var s = String(urlString)
+        var m = s.match(/^https?:\/\/([^/?#]+)/i)
+        if (!m)
+            return ""
+        return m[1].toLowerCase().replace(/^www\./, "")
+    }
+
+    function hostAllowed(urlString) {
+        var host = page._hostFromUrl(urlString)
+        if (!host.length)
+            return false
+        for (var i = 0; i < page.allowedHosts.length; ++i) {
+            var h = String(page.allowedHosts[i]).toLowerCase()
+            if (host === h || host.endsWith("." + h))
+                return true
+        }
+        return false
+    }
+
+    function navigateSafe(urlString) {
+        if (!page.hostAllowed(urlString)) {
+            page.navStatus = qsTr("Blocked %1 — Gallery demo allowlist only (docs/security-trust.md Pattern C).")
+                .arg(page._hostFromUrl(urlString) || urlString)
+            return false
+        }
+        page.navStatus = ""
+        page.demoUrl = urlString
+        if (hostLoader.item)
+            hostLoader.item.source = page.demoUrl
+        return true
+    }
 
     WebView2Host {
         id: probe
@@ -32,18 +72,57 @@ CatalogPage {
     })
 
     ControlExample {
-        headerText: qsTr("Trust boundary (1.64)")
-        qmlSource: "// Gate source / navigate — host does not cancel nav\\n// docs/security-trust.md"
+        headerText: qsTr("Field matrix (2.32)")
+        qmlSource: "// docs/webview2.md — SDK / Runtime / clip / DPI\n// Smoke compiles page; no HWND in CI"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                color: Theme.textSecondary
+                text: qsTr("Built + Runtime → ready host. SDK only → EmptyState + Retry. Not built / Linux → available false. ScrollView hosts need clip:true. Navigation: Pattern A/B/C below — host never cancels in-page links.")
+            }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Trust boundary (2.13 / 2.32)")
+        qmlSource: "// Pattern C host allowlist — docs/security-trust.md\\nfunction navigateSafe(url) { … }"
         ColumnLayout {
             Layout.fillWidth: true
             spacing: Theme.spacing
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("WebView2Host does not enforce a navigation allowlist. Production apps must validate URLs before assigning source. User data lives under AppLocalDataLocation/WebView2Host. Full notes: docs/security-trust.md.")
+                text: qsTr("WebView2Host does not enforce navigation policy. This page gates the URL field with an allowlist (Microsoft hosts only). User data: AppLocalDataLocation/WebView2Host. Patterns A–C: docs/security-trust.md.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
+            }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Download policy (2.36)")
+        qmlSource: "// Policy D — tight allowlist\\n// Policy E — Qt.openUrlExternally after hostAllowed\\n// docs/security-trust.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("WebView2Host does not intercept DownloadStarting. Policy D: this page’s host allowlist blocks most drive-by download hosts. Policy E: use explicit buttons + hostAllowed before Qt.openUrlExternally. Policy F: native handler + AppDataLocation — not in the kit.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.Wrap
+                font.pixelSize: Theme.fontCaption
+                color: Theme.textPrimary
+                text: qsTr("Open externally still requires the same host check as Navigate — do not bypass allowlist for downloads.")
             }
         }
     }
@@ -97,20 +176,13 @@ CatalogPage {
                     id: urlField
                     Layout.fillWidth: true
                     text: page.demoUrl
-                    onAccepted: {
-                        page.demoUrl = text
-                        if (hostLoader.item)
-                            hostLoader.item.source = page.demoUrl
-                    }
+                    onAccepted: page.navigateSafe(text)
                 }
                 AccentButton {
                     text: qsTr("Go")
                     onClicked: {
-                        page.demoUrl = urlField.text
-                        if (hostLoader.item)
-                            hostLoader.item.source = page.demoUrl
-                        else
-                            Qt.openUrlExternally(page.demoUrl)
+                        if (!page.navigateSafe(urlField.text) && !hostLoader.item)
+                            Qt.openUrlExternally(urlField.text)
                     }
                 }
                 Button {
@@ -120,8 +192,21 @@ CatalogPage {
                 }
                 Button {
                     text: qsTr("Open externally")
-                    onClicked: Qt.openUrlExternally(urlField.text)
+                    onClicked: {
+                        if (page.hostAllowed(urlField.text))
+                            Qt.openUrlExternally(urlField.text)
+                        else
+                            page.navStatus = qsTr("Blocked external open — allowlist only (2.36 Policy E).")
+                    }
                 }
+            }
+
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.Wrap
+                visible: page.navStatus.length > 0
+                color: Theme.systemCritical
+                text: page.navStatus
             }
 
             Label {

@@ -21,6 +21,7 @@ import QWinUI3.Platform
 // @notes
 //   Same cards Gallery Settings uses. Follow-system apply is ThemeSync (shells).
 //   persist writes ThemePrefs (docs/settings-persistence.md).
+//   Branding wave 2: accent packs + contrast/density — docs/theme-overrides.md (2.38).
 
 SettingsGroup {
     id: root

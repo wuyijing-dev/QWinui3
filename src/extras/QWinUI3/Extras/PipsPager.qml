@@ -21,6 +21,7 @@ import QWinUI3.Theme
 // @notes
 //   Dot pager synced to a FlipView / SwipeView currentIndex.
 //   MaxVisiblePips windows the visible dots; NumberOfPages aliases count.
+//   Carousel hosts + reducedMotion: docs/carousel-recipes.md (2.37).
 
 T.Control {
     id: control

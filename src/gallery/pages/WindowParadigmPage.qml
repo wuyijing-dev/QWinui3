@@ -15,7 +15,15 @@ CatalogPage {
     id: root
 
     title: qsTr("Window shells")
-    subtitle: qsTr("Solid default · ShellWindow family · DPI clamp (1.58). Recipe: docs/window-shells.md · docs/high-dpi.md.")
+    subtitle: qsTr("Solid default · ShellWindow family · DPI clamp (1.58). Recipe: docs/window-shells.md · Title-bar slots: docs/title-bar-cookbook.md · Gallery TitleBar page.")
+
+    signal openControl(var item)
+
+    function openComp(id) {
+        var it = ControlCatalog.findByComponent(id)
+        if (it)
+            root.openControl(it)
+    }
 
     property var _openWindows: []
     property var liveWindow: null
@@ -84,10 +92,15 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Prefer ShellWindow / NavigationWindow for apps; StandardWindow for Gallery-style hosts and AppWindow presenters. Matrix: docs/window-shells.md · failure modes: docs/window-chrome.md.")
+                text: qsTr("Prefer ShellWindow / NavigationWindow for apps; StandardWindow for Gallery-style hosts and AppWindow presenters. Title-bar slots: docs/title-bar-cookbook.md · matrix: docs/window-shells.md · failure modes: docs/window-chrome.md.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textPrimary
+            }
+            Button {
+                flat: true
+                text: qsTr("Open TitleBar page")
+                onClicked: root.openComp("TitleBarPage")
             }
         }
     }

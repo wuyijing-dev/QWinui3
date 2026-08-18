@@ -8,11 +8,12 @@ import QWinUI3.Extras
 
 CatalogPage {
     title: qsTr("HyperlinkButton")
-    subtitle: qsTr("Fluent link with symbol, showExternalGlyph, visited, and navigateMode.")
+    subtitle: qsTr("Fluent link with symbol, showExternalGlyph, visited, in-page jump, and navigateMode.")
 
     ControlExample {
+        objectName: "underlineStyles"
         headerText: qsTr("Underline styles")
-        qmlSource: "HyperlinkButton {\n    symbol: FluentIcons.OpenInNewWindow\n    showExternalGlyph: true\n}"
+        qmlSource: "HyperlinkButton {\n    navigateUri: \"#section\"\n    navigateMode: \"inPage\"\n}"
 
         ColumnLayout {
             spacing: Theme.spacing
@@ -45,6 +46,11 @@ CatalogPage {
                     }
                 }
                 HyperlinkButton {
+                    text: qsTr("Jump to in-page demo")
+                    navigateUri: "#inPageJump"
+                    underlineStyle: underBox.currentText
+                }
+                HyperlinkButton {
                     text: qsTr("Disabled")
                     enabled: false
                     underlineStyle: underBox.currentText
@@ -54,6 +60,34 @@ CatalogPage {
                 id: status
                 text: qsTr("Click a link — visited styling applies after open.")
                 color: Theme.textSecondary
+            }
+        }
+    }
+
+    ControlExample {
+        objectName: "inPageJump"
+        headerText: qsTr("In-page jump")
+        qmlSource: "HyperlinkButton {\n    navigateUri: \"#underlineStyles\"\n}"
+
+        ColumnLayout {
+            spacing: Theme.spacing
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.Wrap
+                text: qsTr("Fragment URLs (#objectName) scroll this Gallery page. External http(s) still open in the browser.")
+                color: Theme.textSecondary
+            }
+            RowLayout {
+                spacing: Theme.spacingLoose
+                HyperlinkButton {
+                    text: qsTr("Back to underline styles")
+                    navigateUri: "#underlineStyles"
+                }
+                HyperlinkButton {
+                    text: qsTr("Jump to this block")
+                    navigateUri: "#inPageJump"
+                    navigateMode: "inPage"
+                }
             }
         }
     }

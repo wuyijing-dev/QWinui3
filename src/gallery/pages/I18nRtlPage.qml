@@ -5,32 +5,36 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 import QWinUI3.Platform
 
-// Gallery — i18n / RTL (1.13) + locale packs (1.45 / 1.54).
-//
-// Toggle Settings → Right-to-left layout, or the switch below, then watch FormLayout
-// left headers, SettingsCard rows, and nav-adjacent chrome mirror.
-// Recipe: docs/i18n-rtl.md · --lang zh_CN | ja_JP after lrelease.
+// Gallery — i18n / RTL (1.13) + full locale switch (runtime GalleryLanguage).
 
 CatalogPage {
     id: page
     title: qsTr("i18n / RTL")
-    subtitle: qsTr("qsTr + zh_CN / ja_JP seeds + RTL — docs/i18n-rtl.md (1.54).")
-
-    readonly property var seedLocaleCodes: ["zh_CN", "ja_JP"]
-    property int selectedLocaleIndex: 0
-    readonly property string selectedLocaleCode: seedLocaleCodes[selectedLocaleIndex]
-    readonly property string langLaunchCommand: "qwinui3_gallery.exe --lang " + selectedLocaleCode
+    subtitle: qsTr("Live language switch + full Gallery catalogs — docs/i18n-rtl.md (2.35: de_DE seed).")
 
     ControlExample {
-        headerText: qsTr("Locale packs (1.54)")
-        qmlSource: "lupdate / lrelease\nqwinui3_gallery --lang zh_CN|ja_JP"
+        headerText: qsTr("Localization wave 4 (2.35)")
+        qmlSource: "GalleryLanguage.applyLocale(\"de_DE\")"
+        Text {
+            Layout.fillWidth: true
+            wrapMode: Text.WordWrap
+            text: qsTr("Fourth seed locale: Deutsch (de_DE). Control pages from 2.21…2.34 must keep qsTr titles — python scripts/check_localization_wave4.py.")
+            font.family: Theme.fontFamily
+            font.pixelSize: Theme.fontBody
+            color: Theme.textSecondary
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Display language (live)")
+        qmlSource: "GalleryLanguage.applyLocale(\"zh_CN\")\n// QQmlEngine.retranslate()"
         ColumnLayout {
             Layout.fillWidth: true
             spacing: Theme.spacing
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Seed catalogs live in src/gallery/translations/ (en + zh_CN + ja_JP). Validate with python scripts/check_gallery_translations.py. After lrelease, pick a locale below and relaunch Gallery with --lang. Translators load at startup only. RTL is separate (toggle below). Full recipe: docs/i18n-rtl.md.")
+                text: qsTr("Pick a locale below — the whole Gallery retranslates without restart. Settings → Display language uses the same API. ~3600 strings extracted via lupdate; translate .ts in Linguist, rebuild Release for .qm. CLI: --lang zh_CN still works at startup.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
@@ -45,37 +49,34 @@ CatalogPage {
                     color: Theme.textPrimary
                 }
                 ComboBox {
+                    id: langPick
                     Layout.fillWidth: true
-                    model: [
-                        qsTr("Simplified Chinese (zh_CN)"),
-                        qsTr("Japanese (ja_JP)")
-                    ]
-                    currentIndex: page.selectedLocaleIndex
-                    onActivated: function (index) { page.selectedLocaleIndex = index }
+                    model: GalleryLanguage.localeLabels
+                    currentIndex: GalleryLanguage.indexOfLocale(GalleryLanguage.currentLocale)
+                    onActivated: function (index) {
+                        GalleryLanguage.applyLocale(GalleryLanguage.availableLocales[index])
+                    }
                 }
+            }
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                font.pixelSize: Theme.fontCaption
+                color: Theme.textPrimary
+                text: GalleryLanguage.translatorActive
+                      ? qsTr("Active: %1").arg(GalleryLanguage.labelForLocale(GalleryLanguage.currentLocale))
+                      : qsTr("Active: English (default)")
             }
             RowLayout {
                 Layout.fillWidth: true
                 Label {
                     Layout.fillWidth: true
                     wrapMode: Text.WrapAnywhere
-                    text: "python scripts/check_gallery_translations.py"
                     font.pixelSize: Theme.fontCaption
+                    text: "python scripts/check_gallery_translations.py"
                 }
                 CopyButton {
                     textToCopy: "python scripts/check_gallery_translations.py"
-                }
-            }
-            RowLayout {
-                Layout.fillWidth: true
-                Label {
-                    Layout.fillWidth: true
-                    wrapMode: Text.WrapAnywhere
-                    text: page.langLaunchCommand
-                    font.pixelSize: Theme.fontCaption
-                }
-                CopyButton {
-                    textToCopy: page.langLaunchCommand
                 }
             }
         }
@@ -188,7 +189,7 @@ CatalogPage {
             SettingsCard {
                 Layout.fillWidth: true
                 title: qsTr("Language packs")
-                description: qsTr("Seed packs: en + zh_CN + ja_JP (1.54). lupdate / --lang / check_gallery_translations.py — docs/i18n-rtl.md.")
+                description: qsTr("Full Gallery lupdate (~3600 strings). Settings or this page switch locale live.")
                 symbol: FluentIcons.Globe
             }
         }
@@ -201,7 +202,7 @@ CatalogPage {
         Text {
             Layout.fillWidth: true
             wrapMode: Text.Wrap
-            text: qsTr("Gallery and examples already wrap UI strings in qsTr. Extract with lupdate into src/gallery/translations/, translate, lrelease, then QTranslator::load or Gallery --lang. See docs/i18n-rtl.md.")
+            text: qsTr("Gallery wraps UI strings in qsTr. lupdate src/gallery into translations/*.ts, translate in Linguist, Release build embeds .qm via qt_add_translations. See docs/i18n-rtl.md.")
             font.family: Theme.fontFamily
             font.pixelSize: Theme.fontBody
             color: Theme.textSecondary

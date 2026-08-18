@@ -16,6 +16,7 @@ import QWinUI3.Theme
 // @notes
 //   Same QSettings recipe as docs/settings-persistence.md — not a Gallery store.
 //   Keep WindowGeometry on geometryPersistenceKey; this category is Theme only.
+//   Branding wave 2 persist recipe: docs/theme-overrides.md (2.38).
 
 Item {
     id: root

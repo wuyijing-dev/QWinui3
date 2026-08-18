@@ -42,11 +42,9 @@ T.TextArea {
         color: {
             if (!control.enabled)
                 return Theme.fillControlDisabled
-            if (control.activeFocus)
-                return Theme.dark ? "#0FFFFFFF" : "#FFFFFF"
             if (control.hovered)
                 return Theme.fillControlSecondary
-            return Theme.dark ? "#0FFFFFFF" : "#FFFFFF"
+            return Theme.bgControlRest
         }
         border.width: 1
         border.color: Theme.strokeControl

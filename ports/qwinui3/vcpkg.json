@@ -1,0 +1,30 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+  "name": "qwinui3",
+  "version": "2.11",
+  "description": "Fluent / WinUI 3-inspired controls for Qt 6 Quick (LGPL-3.0)",
+  "homepage": "https://github.com/wuyijing-dev/QWinui3",
+  "license": "LGPL-3.0-or-later",
+  "supports": "(windows & !uwp) | linux",
+  "dependencies": [
+    "qtdeclarative"
+  ],
+  "default-features": [
+    "extras"
+  ],
+  "features": {
+    "extras": {
+      "description": "Ship QWinUI3.Extras (NavigationView, DataTable, charts, dialogs, …)"
+    },
+    "media": {
+      "description": "Build MediaPlayerElement (experimental; requires Qt Multimedia)",
+      "dependencies": [
+        "qtmultimedia"
+      ]
+    },
+    "webview2": {
+      "description": "Build WebView2Host (Windows; requires Edge WebView2 Runtime on target machines)",
+      "supports": "windows"
+    }
+  }
+}

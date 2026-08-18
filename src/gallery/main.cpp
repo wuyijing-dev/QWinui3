@@ -8,13 +8,13 @@
 #include <QQmlComponent>
 #include <QQuickStyle>
 #include <QTimer>
-#include <QTranslator>
 #include <QQuickWindow>
 #include <QDebug>
 #include <cstring>
 
 #include "Bootstrap.h"
 #include "GraphicsBackend.h"
+#include "GalleryLanguage.h"
 #include "FrameStatsMonitor.h"
 
 QWINUI3_IMPORT_QML_PLUGINS
@@ -62,47 +62,7 @@ static void addBuildTreeImportPaths(QQmlEngine &engine)
     }
 }
 
-// Optional --lang <locale> (e.g. zh_CN). Looks for qwinui3_gallery_<locale>.qm (1.45).
-static bool installGalleryTranslator(QGuiApplication &app, QTranslator *translator, const QString &lang)
-{
-    if (lang.isEmpty() || !translator)
-        return false;
-
-    const QString fileStem = QStringLiteral("qwinui3_gallery_%1").arg(lang);
-    QStringList dirs;
-    if (const QByteArray env = qgetenv("QWINUI3_GALLERY_TRANSLATIONS"); !env.isEmpty())
-        dirs << QString::fromLocal8Bit(env);
-    const QString appDir = QCoreApplication::applicationDirPath();
-    dirs << (appDir + QStringLiteral("/translations"))
-         << appDir
-         << (appDir + QStringLiteral("/../src/gallery/translations"))
-         << (appDir + QStringLiteral("/../../src/gallery/translations"))
-         << (appDir + QStringLiteral("/../../../src/gallery/translations"));
-
-    for (const QString &dir : dirs) {
-        if (dir.isEmpty() || !QDir(dir).exists())
-            continue;
-        const QString qm = QDir(dir).filePath(fileStem + QStringLiteral(".qm"));
-        if (translator->load(qm)) {
-            app.installTranslator(translator);
-            qInfo("QWinUI3 Gallery translator: %s", qPrintable(qm));
-            return true;
-        }
-        if (translator->load(QLocale(lang),
-                             QStringLiteral("qwinui3_gallery"),
-                             QStringLiteral("_"),
-                             dir)) {
-            app.installTranslator(translator);
-            qInfo("QWinUI3 Gallery translator (locale): %s in %s",
-                  qPrintable(lang), qPrintable(dir));
-            return true;
-        }
-    }
-    qWarning("QWinUI3 Gallery: --lang=%s requested but no .qm found "
-             "(run lrelease on src/gallery/translations/qwinui3_gallery_%s.ts)",
-             qPrintable(lang), qPrintable(lang));
-    return false;
-}
+// Optional --lang <locale> before QML loads (GalleryLanguage applies on engine create).
 
 int main(int argc, char *argv[])
 {
@@ -139,9 +99,8 @@ int main(int argc, char *argv[])
     // Safe now that QCoreApplication exists.
     GraphicsBackend::syncAfterApp();
 
-    QTranslator galleryTranslator;
     if (!lang.isEmpty())
-        installGalleryTranslator(app, &galleryTranslator, lang);
+        GalleryLanguage::setStartupLocaleOverride(lang);
 
     const qint64 msAfterApp = startupLog ? wall.elapsed() : 0;
 
@@ -200,6 +159,10 @@ int main(int argc, char *argv[])
             "ExamplesTemplatesPage",
             "SearchRecipesPage",
             "HighDpiPage",
+            "MultiWindowPage",
+            "StyleSpotCheckPage",
+            "RecipesHubPage",
+            "PerformancePage",
             nullptr,
         };
         int pagesOk = 0;

@@ -72,6 +72,39 @@ QString coerceAvailable(const QString &backend, const QString &fallback)
     return available.isEmpty() ? QStringLiteral("opengl") : available.first();
 }
 
+QString backendForGraphicsApi(QSGRendererInterface::GraphicsApi api)
+{
+    switch (api) {
+    case QSGRendererInterface::OpenGL:
+        return QStringLiteral("opengl");
+    case QSGRendererInterface::Vulkan:
+        return QStringLiteral("vulkan");
+    case QSGRendererInterface::Direct3D11:
+        return QStringLiteral("d3d11");
+    case QSGRendererInterface::Direct3D12:
+        return QStringLiteral("d3d12");
+    case QSGRendererInterface::Metal:
+        return QStringLiteral("metal");
+    default:
+        return {};
+    }
+}
+
+QString displayName(const QString &backend)
+{
+    if (backend == QLatin1String("opengl"))
+        return QStringLiteral("OpenGL");
+    if (backend == QLatin1String("vulkan"))
+        return QStringLiteral("Vulkan");
+    if (backend == QLatin1String("d3d11"))
+        return QStringLiteral("D3D11");
+    if (backend == QLatin1String("d3d12"))
+        return QStringLiteral("D3D12");
+    if (backend == QLatin1String("metal"))
+        return QStringLiteral("Metal");
+    return backend;
+}
+
 void apply(const QString &backend)
 {
     const QString chosen = coerceAvailable(backend);

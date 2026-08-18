@@ -45,7 +45,7 @@ CatalogPage {
             Layout.fillWidth: true
             spacing: Theme.spacing
             Label {
-                text: qsTr("Click + to add. Drag horizontally to reorder. Drag vertically (~48px) to open a new window. × closes.")
+                text: qsTr("Click + to add. Drag horizontally to reorder. Drag vertically (~48px) to a new window. Drop a torn tab back onto this strip (same app) to dock it.")
                 color: Theme.textSecondary
                 wrapMode: Text.Wrap
                 Layout.fillWidth: true

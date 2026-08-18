@@ -44,12 +44,10 @@ T.TextField {
         radius: Theme.cornerControl
         color: {
             if (!control.enabled)
-                return Theme.dark ? "#0BFFFFFF" : "#4DF9F9F9"
-            if (control.activeFocus)
-                return Theme.dark ? "#0FFFFFFF" : "#FFFFFF"
+                return Theme.fillControlDisabled
             if (control.hovered)
                 return Theme.fillControlSecondary
-            return Theme.dark ? "#0FFFFFFF" : "#FFFFFF"
+            return Theme.bgControlRest
         }
         border.width: 1
         border.color: Theme.strokeControl

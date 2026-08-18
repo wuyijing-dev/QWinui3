@@ -25,12 +25,28 @@ CatalogPage {
         placement: ToastHost.BottomCenter
     }
 
+    function _treeIndex(row, column) {
+        column = (column === undefined || column === null) ? 0 : column
+        if (typeof tree.index === "function")
+            return tree.index(row, column)
+        return tree.modelIndex(row, column)
+    }
+
+    function _setCurrentRow(row) {
+        if (row < 0)
+            return
+        var idx = _treeIndex(row, 0)
+        if (tree.selectionModel && idx && idx.valid)
+            tree.selectionModel.setCurrentIndex(idx,
+                ItemSelectionModel.Rows | ItemSelectionModel.ClearAndSelect)
+    }
+
     function refreshSelectionLabel() {
         if (tree.currentRow < 0 || tree.currentRow >= tree.rows) {
             page.selectedLabel = qsTr("(none)")
             return
         }
-        var idx = tree.modelIndex(tree.currentRow, 0)
+        var idx = _treeIndex(tree.currentRow, 0)
         if (!idx || !idx.valid) {
             page.selectedLabel = qsTr("(none)")
             return
@@ -47,7 +63,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Use TreeView for real folders/outlines. Prefer ItemsView with sectionRole for Settings-style groups without expand state. DataTable stays flat (columns). Do not invent a second tree control.")
+                text: qsTr("Use TreeView for real folders/outlines. Explorer folder + file columns: FileTree (2.06). Prefer ItemsView with sectionRole for Settings-style groups without expand state. DataTable stays flat (columns).")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
@@ -110,7 +126,7 @@ CatalogPage {
                         acceptedButtons: Qt.RightButton
                         onTapped: {
                             page.contextRow = del.row
-                            tree.currentRow = del.row
+                            page._setCurrentRow(del.row)
                             treeMenu.showAt(del, 0, del.height)
                         }
                     }

@@ -90,6 +90,8 @@ QtObject {
     readonly property color textPrimary: dark ? "#FFFFFF" : "#E4000000"
     // Secondary text brush
     readonly property color textSecondary: dark ? "#C5FFFFFF" : "#9E000000"
+    // Tertiary / caption text (WinUI TextFillColorTertiary)
+    readonly property color textTertiary: dark ? "#87FFFFFF" : "#72000000"
     // Disabled text brush
     readonly property color textDisabled: dark ? "#5DFFFFFF" : "#5C000000"
     // Text on accent fill
@@ -191,8 +193,12 @@ QtObject {
     readonly property string fontFamilyIcon: ThemeFonts.iconFamily
     // Alias used by a few tiles
     readonly property string iconFontFamily: fontFamilyIcon
+    // Monospace — resolved at runtime; never use generic "monospace" (maps to Fixedsys on Windows)
+    readonly property string fontFamilyMono: ThemeFonts.monoFamily
+    readonly property var fontFamiliesMono: ["Cascadia Mono", "Cascadia Code", "Consolas", "Courier New"]
     // Caption font size (12)
     readonly property int fontCaption: 12
+    readonly property int fontSizeCaption: fontCaption
     // Body font size (14)
     readonly property int fontBody: 14
     // Body Large font size (18)
@@ -226,6 +232,9 @@ QtObject {
     // Emphasized easing (slight overshoot)
     readonly property int easingEmphasized: Easing.OutBack
 
+    // Scroll — wheel angleDelta divisor (lower = faster; Qt default ≈ 8–12 on Windows)
+    readonly property real scrollWheelAngleDivisor: 2
+
     // Control metrics (FluentWinUI3 Config) — scaled by density (+ optional uiScale)
     readonly property real _densityScale: (density === "compact" ? 0.85 : 1.0) * Math.max(0.5, uiScale)
     readonly property real cornerControl: 4
@@ -257,6 +266,10 @@ QtObject {
     readonly property real paddingControlV: Math.round(7 * _densityScale)
     // Child spacing
     readonly property real spacing: Math.round(8 * _densityScale)
+    // Tight inline spacing (badges, icon+label rows)
+    readonly property real spacingTight: Math.round(4 * _densityScale)
+    // Alias used by SemanticZoom and compact layouts
+    readonly property real spacingSmall: spacingTight
     // Loose spacing
     readonly property real spacingLoose: Math.round(12 * _densityScale)
     // Section spacing
