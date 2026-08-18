@@ -312,34 +312,40 @@ T.Control {
             visible: !root.isEmpty && root._seriesList.length > 0
             Repeater {
                 model: root._seriesList
-                Row {
+                Item {
+                    id: legendChip
                     required property var modelData
                     required property int index
-                    spacing: 5
+                    implicitWidth: legendRow.implicitWidth
+                    implicitHeight: legendRow.implicitHeight
                     opacity: root.hoverSeries < 0 || root.hoverSeries === index ? 1 : 0.45
                     Behavior on opacity {
                         enabled: !Theme.reducedMotion
                         NumberAnimation { duration: Theme.duration(Theme.motionFast) }
                     }
-                    Rectangle {
-                        width: 8
-                        height: 8
-                        radius: 2
-                        anchors.verticalCenter: parent.verticalCenter
-                        color: modelData.color || ChartUtils.palette(Theme, index)
-                    }
-                    Text {
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: modelData.name || (qsTr("Series") + " " + (index + 1))
-                        font.family: Theme.fontFamily
-                        font.pixelSize: Theme.fontCaption
-                        color: Theme.textSecondary
+                    Row {
+                        id: legendRow
+                        spacing: 5
+                        Rectangle {
+                            width: 8
+                            height: 8
+                            radius: 2
+                            anchors.verticalCenter: parent.verticalCenter
+                            color: legendChip.modelData.color || ChartUtils.palette(Theme, legendChip.index)
+                        }
+                        Text {
+                            anchors.verticalCenter: parent.verticalCenter
+                            text: legendChip.modelData.name || (qsTr("Series") + " " + (legendChip.index + 1))
+                            font.family: Theme.fontFamily
+                            font.pixelSize: Theme.fontCaption
+                            color: Theme.textSecondary
+                        }
                     }
                     MouseArea {
                         anchors.fill: parent
                         hoverEnabled: true
-                        onEntered: root.hoverSeries = index
-                        onExited: if (root.hoverSeries === index) root.hoverSeries = -1
+                        onEntered: root.hoverSeries = legendChip.index
+                        onExited: if (root.hoverSeries === legendChip.index) root.hoverSeries = -1
                     }
                 }
             }

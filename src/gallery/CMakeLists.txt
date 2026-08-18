@@ -168,6 +168,12 @@ qt_add_qml_module(qwinui3_gallery
         pages/BandChartPage.qml
         pages/TreemapChartPage.qml
         pages/PolarAreaChartPage.qml
+        pages/ViolinChartPage.qml
+        pages/ErrorBarChartPage.qml
+        pages/WaffleChartPage.qml
+        pages/LollipopChartPage.qml
+        pages/DumbbellChartPage.qml
+        pages/SunburstChartPage.qml
         pages/ChartCardPage.qml
         pages/MiscButtonsPage.qml
         pages/MultiSelectComboBoxPage.qml
@@ -199,6 +205,12 @@ qt_add_qml_module(qwinui3_gallery
         pages/DualRingGaugePage.qml
         pages/TachometerGaugePage.qml
         pages/BatteryGaugePage.qml
+        pages/FuelGaugePage.qml
+        pages/QuarterGaugePage.qml
+        pages/DigitGaugePage.qml
+        pages/CylinderGaugePage.qml
+        pages/LedRingGaugePage.qml
+        pages/PressureGaugePage.qml
         pages/KpiTilePage.qml
         pages/DashboardPage.qml
         pages/RadioButtonPage.qml

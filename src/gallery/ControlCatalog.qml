@@ -965,6 +965,54 @@ QtObject {
             source: "pages/BatteryGaugePage.qml"
         },
         {
+            title: qsTr("FuelGauge"),
+            category: "charts",
+            icon: FluentIcons.Dial6,
+            description: qsTr("E–F fuel arc (experimental). Prefer RingGauge."),
+            component: "FuelGaugePage",
+            source: "pages/FuelGaugePage.qml"
+        },
+        {
+            title: qsTr("QuarterGauge"),
+            category: "charts",
+            icon: FluentIcons.Dial6,
+            description: qsTr("90° quadrant meter (experimental). Prefer RadialGauge."),
+            component: "QuarterGaugePage",
+            source: "pages/QuarterGaugePage.qml"
+        },
+        {
+            title: qsTr("DigitGauge"),
+            category: "charts",
+            icon: FluentIcons.Calculator,
+            description: qsTr("Seven-segment readout (experimental). Prefer KpiTile."),
+            component: "DigitGaugePage",
+            source: "pages/DigitGaugePage.qml"
+        },
+        {
+            title: qsTr("CylinderGauge"),
+            category: "charts",
+            icon: FluentIcons.AreaChart,
+            description: qsTr("Isometric cylinder level (experimental). Prefer TankGauge."),
+            component: "CylinderGaugePage",
+            source: "pages/CylinderGaugePage.qml"
+        },
+        {
+            title: qsTr("LedRingGauge"),
+            category: "charts",
+            icon: FluentIcons.ProgressRingCommon,
+            description: qsTr("Circular LED / peak-hold (experimental). Prefer VuMeter."),
+            component: "LedRingGaugePage",
+            source: "pages/LedRingGaugePage.qml"
+        },
+        {
+            title: qsTr("PressureGauge"),
+            category: "charts",
+            icon: FluentIcons.Dial6,
+            description: qsTr("Zoned industrial needle (experimental). Prefer RadialGauge."),
+            component: "PressureGaugePage",
+            source: "pages/PressureGaugePage.qml"
+        },
+        {
             title: qsTr("KpiTile"),
             category: "charts",
             icon: FluentIcons.AreaChart,
@@ -1243,6 +1291,54 @@ QtObject {
             description: qsTr("Coxcomb / polar area (experimental). Prefer RadarChart."),
             component: "PolarAreaChartPage",
             source: "pages/PolarAreaChartPage.qml"
+        },
+        {
+            title: qsTr("ViolinChart"),
+            category: "charts",
+            icon: FluentIcons.AreaChart,
+            description: qsTr("Density violins (experimental). Prefer BoxPlotChart for Tukey summaries."),
+            component: "ViolinChartPage",
+            source: "pages/ViolinChartPage.qml"
+        },
+        {
+            title: qsTr("ErrorBarChart"),
+            category: "charts",
+            icon: FluentIcons.BarChartVertical,
+            description: qsTr("Mean ± error whiskers (experimental). Prefer BoxPlotChart for samples."),
+            component: "ErrorBarChartPage",
+            source: "pages/ErrorBarChartPage.qml"
+        },
+        {
+            title: qsTr("WaffleChart"),
+            category: "charts",
+            icon: FluentIcons.GridView,
+            description: qsTr("10×10 part-to-whole (experimental). Prefer DonutChart."),
+            component: "WaffleChartPage",
+            source: "pages/WaffleChartPage.qml"
+        },
+        {
+            title: qsTr("LollipopChart"),
+            category: "charts",
+            icon: FluentIcons.PieSingle,
+            description: qsTr("Stem-and-marker (experimental). Prefer BarChart."),
+            component: "LollipopChartPage",
+            source: "pages/LollipopChartPage.qml"
+        },
+        {
+            title: qsTr("DumbbellChart"),
+            category: "charts",
+            icon: FluentIcons.AreaChartMirrored,
+            description: qsTr("Before/after pairs (experimental). Prefer BarChart.series."),
+            component: "DumbbellChartPage",
+            source: "pages/DumbbellChartPage.qml"
+        },
+        {
+            title: qsTr("SunburstChart"),
+            category: "charts",
+            icon: FluentIcons.ProgressRingCommon,
+            description: qsTr("Two-level nested rings (experimental). Prefer DonutChart."),
+            component: "SunburstChartPage",
+            source: "pages/SunburstChartPage.qml"
         },
         {
             title: qsTr("Shimmer"),
@@ -1799,9 +1895,11 @@ QtObject {
         "RadarChartPage", "BulletChartPage",
         "ComboChartPage", "FunnelChartPage", "CandlestickChartPage", "HistogramChartPage",
         "BoxPlotChartPage", "ParetoChartPage", "BandChartPage", "TreemapChartPage", "PolarAreaChartPage",
+        "ViolinChartPage", "ErrorBarChartPage", "WaffleChartPage", "LollipopChartPage", "DumbbellChartPage", "SunburstChartPage",
         "RadialGaugePage", "LinearGaugePage", "ArcGaugePage", "SegmentedGaugePage",
         "ZoneGaugePage", "TankGaugePage", "ThermometerGaugePage",
-        "CompassGaugePage", "VuMeterPage", "DualRingGaugePage", "TachometerGaugePage", "BatteryGaugePage"
+        "CompassGaugePage", "VuMeterPage", "DualRingGaugePage", "TachometerGaugePage", "BatteryGaugePage",
+        "FuelGaugePage", "QuarterGaugePage", "DigitGaugePage", "CylinderGaugePage", "LedRingGaugePage", "PressureGaugePage"
     ]
 
     readonly property var _experimentalPages: [

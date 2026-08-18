@@ -66,13 +66,15 @@ T.Control {
                 onPaint: {
                     var ctx = getContext("2d")
                     ctx.reset()
-                    var bins = root._bins
+                    var bins = root._bins || []
                     var n = bins.length
                     if (width < 8 || height < 8 || n === 0)
                         return
                     var maxC = 1
-                    for (var i = 0; i < n; ++i)
-                        maxC = Math.max(maxC, bins[i].count)
+                    for (var i = 0; i < n; ++i) {
+                        if (bins[i])
+                            maxC = Math.max(maxC, ChartUtils.asNumber(bins[i].count))
+                    }
                     var padT = 8
                     var padB = 18
                     var padL = 4
@@ -116,11 +118,15 @@ T.Control {
         Text {
             visible: root.hoverIndex >= 0 && root.hoverIndex < root._bins.length
             text: {
-                var b = root._bins[root.hoverIndex]
+                var bins = root._bins
+                var idx = root.hoverIndex
+                if (!bins || idx < 0 || idx >= bins.length || !bins[idx])
+                    return ""
+                var b = bins[idx]
                 return qsTr("%1 – %2  ·  %3")
-                        .arg(b.from.toFixed(1))
-                        .arg(b.to.toFixed(1))
-                        .arg(b.count)
+                        .arg(ChartUtils.asNumber(b.from).toFixed(1))
+                        .arg(ChartUtils.asNumber(b.to).toFixed(1))
+                        .arg(ChartUtils.asNumber(b.count))
             }
             font.pixelSize: Theme.fontCaption
             color: Theme.textSecondary

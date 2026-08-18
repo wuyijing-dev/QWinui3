@@ -21,9 +21,7 @@ T.Control {
 
     Accessible.role: Accessible.ProgressBar
     Accessible.name: title.length ? title : qsTr("Battery")
-    Accessible.value: Math.round(value)
-    Accessible.maximumValue: 100
-    Accessible.minimumValue: 0
+    Accessible.description: Math.round(value) + unit
 
     property real value: 0
     property real minimum: 0

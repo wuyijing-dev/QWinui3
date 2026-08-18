@@ -166,6 +166,7 @@ Rectangle {
                     color: Theme.textPrimary
                     font.family: Theme.fontFamilyMono
                     font.pixelSize: 12
+                    font.styleHint: Font.SansSerif
                     textFormat: TextEdit.PlainText
                 }
             }

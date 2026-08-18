@@ -154,6 +154,12 @@ qt_add_qml_module(qwinui3_extras
         BandChart.qml
         TreemapChart.qml
         PolarAreaChart.qml
+        ViolinChart.qml
+        ErrorBarChart.qml
+        WaffleChart.qml
+        LollipopChart.qml
+        DumbbellChart.qml
+        SunburstChart.qml
         ChartCard.qml
         ChartLegend.qml
         ChartUtils.qml
@@ -182,6 +188,12 @@ qt_add_qml_module(qwinui3_extras
         DualRingGauge.qml
         TachometerGauge.qml
         BatteryGauge.qml
+        FuelGauge.qml
+        QuarterGauge.qml
+        DigitGauge.qml
+        CylinderGauge.qml
+        LedRingGauge.qml
+        PressureGauge.qml
         KpiTile.qml
         RadioButtons.qml
         RadioMenuFlyoutItem.qml

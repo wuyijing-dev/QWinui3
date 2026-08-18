@@ -230,7 +230,6 @@ T.Control {
                     selectedTextColor: Theme.textOnAccent
                     font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontBody
-                    hoverEnabled: true
 
                     onLinkActivated: function (link) {
                         root.linkActivated(link)

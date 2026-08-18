@@ -18,9 +18,14 @@ static QString resolveMonoFamily()
     };
     for (const char *name : kCandidates) {
         const QString family = QString::fromUtf8(name);
+        if (family.compare(QLatin1String("Fixedsys"), Qt::CaseInsensitive) == 0
+            || family.compare(QLatin1String("Terminal"), Qt::CaseInsensitive) == 0
+            || family.compare(QLatin1String("Modern"), Qt::CaseInsensitive) == 0)
+            continue;
         if (QFontDatabase::hasFamily(family))
             return family;
     }
+    // Courier New is an outline font; never fall back to GDI bitmap "Fixedsys".
     return QStringLiteral("Courier New");
 }
 

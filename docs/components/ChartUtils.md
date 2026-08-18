@@ -18,7 +18,7 @@ LOD helpers for large chart series.
 ChartUtils.downsample(values, maxPoints)
 
 // --- API ---
-// methods: asNumber(v, fallback), valueCount(input), valueAt(input, index, fallback), pointX(input, index), pointY(input, index), pointColor(input, index), flattenValues(input), extents(values), extentsXY(points), lodBudget(plotWidth, maxPoints, factor), boxPlotStats(values), paretoRows(values), treemapRects(slices, x, y, w, h)
+// methods: asNumber(v, fallback), valueCount(input), valueAt(input, index, fallback), pointX(input, index), pointY(input, index), pointColor(input, index), flattenValues(input), extents(values), extentsXY(points), lodBudget(plotWidth, maxPoints, factor), boxPlotStats(values), paretoRows(values), treemapRects(slices, x, y, w, h), violinWidths(values, binCount)
 // chartUtils.asNumber(v, fallback)
 // chartUtils.valueCount(input)
 // chartUtils.valueAt(input, index, fallback)
@@ -72,6 +72,7 @@ _No custom signals_ (use inherited signals from the base type).
 | `boxPlotStats(values)` | Tukey five-number summary for a numeric series |
 | `paretoRows(values)` | Sorted Pareto rows with cumulative share (0..1) |
 | `treemapRects(slices, x, y, w, h)` | Slice-and-dice treemap rectangles { x, y, w, h, index } |
+| `violinWidths(values, binCount)` | Histogram bins with a 0..1 width for violin / density charts |
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

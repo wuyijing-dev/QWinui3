@@ -7,7 +7,7 @@ import QWinUI3.Theme
 //   ChartUtils.downsample(values, maxPoints)
 //
 //   // --- API ---
-//   // methods: asNumber(v, fallback), valueCount(input), valueAt(input, index, fallback), pointX(input, index), pointY(input, index), pointColor(input, index), flattenValues(input), extents(values), extentsXY(points), lodBudget(plotWidth, maxPoints, factor), boxPlotStats(values), paretoRows(values), treemapRects(slices, x, y, w, h)
+//   // methods: asNumber(v, fallback), valueCount(input), valueAt(input, index, fallback), pointX(input, index), pointY(input, index), pointColor(input, index), flattenValues(input), extents(values), extentsXY(points), lodBudget(plotWidth, maxPoints, factor), boxPlotStats(values), paretoRows(values), treemapRects(slices, x, y, w, h), violinWidths(values, binCount)
 //   // chartUtils.asNumber(v, fallback)
 //   // chartUtils.valueCount(input)
 //   // chartUtils.valueAt(input, index, fallback)
@@ -533,5 +533,16 @@ QtObject {
         }
         layout(0, n, x, y, w, h, w >= h)
         return out
+    }
+
+    // Histogram bins with a 0..1 width for violin / density charts
+    function violinWidths(values, binCount) {
+        var bins = histogramBins(values, binCount)
+        var maxC = 1
+        for (var i = 0; i < bins.length; ++i)
+            maxC = Math.max(maxC, asNumber(bins[i].count))
+        for (i = 0; i < bins.length; ++i)
+            bins[i].width = maxC > 0 ? asNumber(bins[i].count) / maxC : 0
+        return bins
     }
 }

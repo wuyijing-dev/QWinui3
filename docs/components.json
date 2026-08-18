@@ -2,7 +2,7 @@
   "name": "QWinUI3",
   "version": "2.64",
   "generatedBy": "scripts/generate_component_docs.py",
-  "publicCount": 248,
+  "publicCount": 260,
   "components": [
     {
       "name": "AccentButton",
@@ -377,7 +377,7 @@
       "doc": "components/ChartUtils.md",
       "propertyCount": 3,
       "signalCount": 0,
-      "methodCount": 25
+      "methodCount": 26
     },
     {
       "name": "Chip",
@@ -635,6 +635,21 @@
       "methodCount": 1
     },
     {
+      "name": "CylinderGauge",
+      "module": "QWinUI3.Extras",
+      "summary": "Isometric cylinder level.",
+      "path": "src/extras/QWinUI3/Extras/CylinderGauge.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Charts & gauges",
+      "galleryPage": "pages/CylinderGaugePage.qml",
+      "galleryTitle": "CylinderGauge",
+      "doc": "components/CylinderGauge.md",
+      "propertyCount": 10,
+      "signalCount": 1,
+      "methodCount": 1
+    },
+    {
       "name": "DashboardShell",
       "module": "QWinUI3.Extras",
       "summary": "Minimal dashboard layout host (2.52 preview; chart grid + filter rail in 2.65).",
@@ -710,6 +725,21 @@
       "methodCount": 2
     },
     {
+      "name": "DigitGauge",
+      "module": "QWinUI3.Extras",
+      "summary": "Seven-segment numeric readout.",
+      "path": "src/extras/QWinUI3/Extras/DigitGauge.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Charts & gauges",
+      "galleryPage": "pages/DigitGaugePage.qml",
+      "galleryTitle": "DigitGauge",
+      "doc": "components/DigitGauge.md",
+      "propertyCount": 9,
+      "signalCount": 0,
+      "methodCount": 1
+    },
+    {
       "name": "DockPanel",
       "module": "QWinUI3.Extras",
       "summary": "Dock children Top/Bottom/Left/Right/Fill.",
@@ -770,6 +800,21 @@
       "methodCount": 2
     },
     {
+      "name": "DumbbellChart",
+      "module": "QWinUI3.Extras",
+      "summary": "Before/after pairs on a shared category axis.",
+      "path": "src/extras/QWinUI3/Extras/DumbbellChart.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Charts & gauges",
+      "galleryPage": "pages/DumbbellChartPage.qml",
+      "galleryTitle": "DumbbellChart",
+      "doc": "components/DumbbellChart.md",
+      "propertyCount": 11,
+      "signalCount": 0,
+      "methodCount": 0
+    },
+    {
       "name": "EmptyState",
       "module": "QWinUI3.Extras",
       "summary": "Placeholder illustration + title + optional action.",
@@ -798,6 +843,21 @@
       "propertyCount": 5,
       "signalCount": 0,
       "methodCount": 2
+    },
+    {
+      "name": "ErrorBarChart",
+      "module": "QWinUI3.Extras",
+      "summary": "Mean (or value) with ± error whiskers.",
+      "path": "src/extras/QWinUI3/Extras/ErrorBarChart.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Charts & gauges",
+      "galleryPage": "pages/ErrorBarChartPage.qml",
+      "galleryTitle": "ErrorBarChart",
+      "doc": "components/ErrorBarChart.md",
+      "propertyCount": 7,
+      "signalCount": 0,
+      "methodCount": 0
     },
     {
       "name": "Expander",
@@ -903,6 +963,21 @@
       "propertyCount": 7,
       "signalCount": 0,
       "methodCount": 9
+    },
+    {
+      "name": "FuelGauge",
+      "module": "QWinUI3.Extras",
+      "summary": "Empty/full arc with E–F marks.",
+      "path": "src/extras/QWinUI3/Extras/FuelGauge.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Charts & gauges",
+      "galleryPage": "pages/FuelGaugePage.qml",
+      "galleryTitle": "FuelGauge",
+      "doc": "components/FuelGauge.md",
+      "propertyCount": 13,
+      "signalCount": 1,
+      "methodCount": 1
     },
     {
       "name": "FunnelChart",
@@ -1235,6 +1310,21 @@
       "methodCount": 4
     },
     {
+      "name": "LedRingGauge",
+      "module": "QWinUI3.Extras",
+      "summary": "Circular LED / peak-hold ring.",
+      "path": "src/extras/QWinUI3/Extras/LedRingGauge.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Charts & gauges",
+      "galleryPage": "pages/LedRingGaugePage.qml",
+      "galleryTitle": "LedRingGauge",
+      "doc": "components/LedRingGauge.md",
+      "propertyCount": 13,
+      "signalCount": 1,
+      "methodCount": 1
+    },
+    {
       "name": "LinearGauge",
       "module": "QWinUI3.Extras",
       "summary": "Horizontal/vertical track gauge with thresholds.",
@@ -1290,6 +1380,21 @@
       "galleryPage": "pages/ListTilePage.qml",
       "galleryTitle": "ListTile",
       "doc": "components/ListTile.md",
+      "propertyCount": 10,
+      "signalCount": 0,
+      "methodCount": 0
+    },
+    {
+      "name": "LollipopChart",
+      "module": "QWinUI3.Extras",
+      "summary": "Stem-and-marker chart (compact bar alternative).",
+      "path": "src/extras/QWinUI3/Extras/LollipopChart.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Charts & gauges",
+      "galleryPage": "pages/LollipopChartPage.qml",
+      "galleryTitle": "LollipopChart",
+      "doc": "components/LollipopChart.md",
       "propertyCount": 10,
       "signalCount": 0,
       "methodCount": 0
@@ -1745,6 +1850,21 @@
       "methodCount": 0
     },
     {
+      "name": "PressureGauge",
+      "module": "QWinUI3.Extras",
+      "summary": "Industrial needle with green / caution / red zones.",
+      "path": "src/extras/QWinUI3/Extras/PressureGauge.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Charts & gauges",
+      "galleryPage": "pages/PressureGaugePage.qml",
+      "galleryTitle": "PressureGauge",
+      "doc": "components/PressureGauge.md",
+      "propertyCount": 13,
+      "signalCount": 1,
+      "methodCount": 1
+    },
+    {
       "name": "ProgressButton",
       "module": "QWinUI3.Extras",
       "summary": "Button with inline determinate/indeterminate fill.",
@@ -1773,6 +1893,21 @@
       "propertyCount": 16,
       "signalCount": 0,
       "methodCount": 0
+    },
+    {
+      "name": "QuarterGauge",
+      "module": "QWinUI3.Extras",
+      "summary": "90° dashboard quadrant meter.",
+      "path": "src/extras/QWinUI3/Extras/QuarterGauge.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Charts & gauges",
+      "galleryPage": "pages/QuarterGaugePage.qml",
+      "galleryTitle": "QuarterGauge",
+      "doc": "components/QuarterGauge.md",
+      "propertyCount": 12,
+      "signalCount": 1,
+      "methodCount": 1
     },
     {
       "name": "RadarChart",
@@ -2285,6 +2420,21 @@
       "methodCount": 3
     },
     {
+      "name": "SunburstChart",
+      "module": "QWinUI3.Extras",
+      "summary": "Two-level nested rings.",
+      "path": "src/extras/QWinUI3/Extras/SunburstChart.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Charts & gauges",
+      "galleryPage": "pages/SunburstChartPage.qml",
+      "galleryTitle": "SunburstChart",
+      "doc": "components/SunburstChart.md",
+      "propertyCount": 7,
+      "signalCount": 0,
+      "methodCount": 0
+    },
+    {
       "name": "SwipeAction",
       "module": "QWinUI3.Extras",
       "summary": "Action revealed by SwipeControl.",
@@ -2720,6 +2870,21 @@
       "methodCount": 0
     },
     {
+      "name": "ViolinChart",
+      "module": "QWinUI3.Extras",
+      "summary": "Density violin from sample groups.",
+      "path": "src/extras/QWinUI3/Extras/ViolinChart.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Charts & gauges",
+      "galleryPage": "pages/ViolinChartPage.qml",
+      "galleryTitle": "ViolinChart",
+      "doc": "components/ViolinChart.md",
+      "propertyCount": 8,
+      "signalCount": 0,
+      "methodCount": 0
+    },
+    {
       "name": "VuMeter",
       "module": "QWinUI3.Extras",
       "summary": "Linear LED / peak-hold meter (audio, signal, load).",
@@ -2733,6 +2898,21 @@
       "propertyCount": 15,
       "signalCount": 1,
       "methodCount": 1
+    },
+    {
+      "name": "WaffleChart",
+      "module": "QWinUI3.Extras",
+      "summary": "10×10 part-to-whole grid.",
+      "path": "src/extras/QWinUI3/Extras/WaffleChart.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Charts & gauges",
+      "galleryPage": "pages/WaffleChartPage.qml",
+      "galleryTitle": "WaffleChart",
+      "doc": "components/WaffleChart.md",
+      "propertyCount": 9,
+      "signalCount": 0,
+      "methodCount": 0
     },
     {
       "name": "WaterfallChart",
