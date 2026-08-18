@@ -17,12 +17,13 @@ import QWinUI3.Theme
 // @notes
 //   Experimental — basic HTML formatting (bold/italic/lists/links), paste sanitization,
 //   IME-friendly TextEdit (FL-005). Not a Word-compatible engine. See docs/rich-edit-261.md.
+//   The editor pane is a fixed viewport (ScrollView); it does not grow with contentHeight.
 
 T.Control {
     id: root
 
     property alias text: editor.text
-    readonly property string plainText: editor.text.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim()
+    property string plainText: ""
     property string placeholderText: qsTr("Write here…")
     property bool readOnly: false
     property bool showToolbar: true
@@ -36,7 +37,10 @@ T.Control {
     signal formattingChanged()
 
     implicitWidth: 320
-    implicitHeight: toolbarRow.visible ? (toolbarRow.implicitHeight + editorPane.implicitHeight) : editorPane.implicitHeight
+    implicitHeight: 220
+    clip: true
+
+    Component.onCompleted: root._refreshPlainText()
 
     Accessible.role: Accessible.EditableText
     Accessible.multiLine: true
@@ -59,6 +63,7 @@ T.Control {
     function clear() {
         editor.text = ""
         editor.cursorPosition = 0
+        root.plainText = ""
     }
 
     function wrapSelection(openTag, closeTag) {
@@ -111,6 +116,11 @@ T.Control {
         return s
     }
 
+    function _refreshPlainText() {
+        var t = editor.getText(0, editor.length)
+        root.plainText = String(t || "").replace(/\s+/g, " ").trim()
+    }
+
     function _runSanitize() {
         if (!root.sanitizePaste)
             return
@@ -124,6 +134,8 @@ T.Control {
 
     contentItem: ColumnLayout {
         spacing: 0
+        width: root.availableWidth
+        height: root.availableHeight
 
         RowLayout {
             id: toolbarRow
@@ -174,7 +186,9 @@ T.Control {
         Rectangle {
             id: editorPane
             Layout.fillWidth: true
-            Layout.preferredHeight: Math.max(120, editor.contentHeight + Theme.paddingControlV * 2 + 8)
+            Layout.fillHeight: true
+            Layout.minimumHeight: 120
+            implicitHeight: 160
             radius: Theme.cornerControl
             color: {
                 if (!root.enabled)
@@ -185,6 +199,7 @@ T.Control {
             }
             border.width: 1
             border.color: Theme.strokeControl
+            clip: true
 
             Behavior on color {
                 enabled: !Theme.reducedMotion
@@ -218,9 +233,8 @@ T.Control {
 
                 TextEdit {
                     id: editor
-                    width: editorPane.width - Theme.paddingControlH * 2
+                    width: Math.max(0, editorPane.width - Theme.paddingControlH * 2)
                     padding: Theme.paddingControlH
-                    focus: true
                     selectByMouse: true
                     readOnly: root.readOnly
                     wrapMode: TextEdit.Wrap
@@ -235,7 +249,11 @@ T.Control {
                         root.linkActivated(link)
                     }
                     onTextChanged: {
-                        sanitizeTimer.restart()
+                        if (editor.preeditText.length)
+                            return
+                        plainTimer.restart()
+                        if (root.sanitizePaste)
+                            sanitizeTimer.restart()
                         root.textEdited()
                     }
                 }
@@ -258,7 +276,12 @@ T.Control {
 
     Timer {
         id: sanitizeTimer
-        interval: 0
+        interval: 180
         onTriggered: root._runSanitize()
+    }
+    Timer {
+        id: plainTimer
+        interval: 80
+        onTriggered: root._refreshPlainText()
     }
 }

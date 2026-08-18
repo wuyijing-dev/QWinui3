@@ -71,7 +71,7 @@ Toolbar buttons call the same methods when `showToolbar: true` (default).
 |----------|---------|------|
 | `sanitizePaste` | `true` | Strips `<script>`, `<iframe>`, `on*` / `style` attributes, `javascript:` URLs |
 
-Sanitize runs after text changes — not a full HTML parser. Review pasted content in security-sensitive apps.
+Sanitize is debounced (~180 ms) after text changes — not a full HTML parser. The editor is a **fixed viewport** (`ScrollView`); it does not grow with `contentHeight`. Review pasted content in security-sensitive apps.
 
 ---
 

@@ -28,6 +28,7 @@ body.insertLink("https://example.com")
 
 Experimental — basic HTML formatting (bold/italic/lists/links), paste sanitization,
 IME-friendly TextEdit (FL-005). Not a Word-compatible engine. See docs/rich-edit-261.md.
+The editor pane is a fixed viewport (ScrollView); it does not grow with contentHeight.
 
 ## API
 

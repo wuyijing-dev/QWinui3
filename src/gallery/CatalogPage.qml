@@ -23,6 +23,11 @@ Item {
     property alias componentId: header.componentId
     property real pagePadding: Theme.spacingSection
     property real sectionSpacing: Theme.spacingSection
+    // True while the page Flickable is dragged or coasting
+    readonly property bool viewMoving: Math.abs(_wheelRemain) > 0.35
+                                       || (scroll.contentItem
+                                           && (scroll.contentItem.moving || scroll.contentItem.flicking))
+    property real _wheelRemain: 0
     // Optional footer outside the scroll (e.g. StatusBar)
     property alias footer: footerSlot.data
     // Floating overlays (ToastHost, dialogs) — not scrolled
@@ -101,6 +106,15 @@ Item {
             background: null
             ScrollBar.vertical.policy: ScrollBar.AlwaysOn
 
+            Component.onCompleted: {
+                var f = contentItem
+                if (!f)
+                    return
+                f.flickDeceleration = 2800
+                f.maximumFlickVelocity = 4500
+                f.boundsBehavior = Flickable.StopAtBounds
+            }
+
             WheelHandler {
                 target: scroll
                 acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
@@ -109,15 +123,19 @@ Item {
                     if (!flick || flick.contentHeight === undefined
                             || flick.contentHeight <= flick.height)
                         return
-                    var dy = 0
-                    if (event.pixelDelta.y !== 0)
-                        dy = event.pixelDelta.y
-                    else if (event.angleDelta.y !== 0)
-                        dy = event.angleDelta.y / Theme.scrollWheelAngleDivisor
-                    if (dy === 0)
+                    if (event.pixelDelta.y !== 0) {
+                        root._wheelRemain = 0
+                        wheelCoast.stop()
+                        var maxY = Math.max(0, flick.contentHeight - flick.height)
+                        flick.contentY = Math.max(0, Math.min(maxY, flick.contentY - event.pixelDelta.y))
+                        event.accepted = true
                         return
-                    flick.contentY = Math.max(0, Math.min(flick.contentHeight - flick.height,
-                                                          flick.contentY - dy))
+                    }
+                    if (event.angleDelta.y === 0)
+                        return
+                    root._wheelRemain += event.angleDelta.y / Theme.scrollWheelAngleDivisor
+                    if (!wheelCoast.running)
+                        wheelCoast.start()
                     event.accepted = true
                 }
             }
@@ -166,5 +184,23 @@ Item {
         id: overlaySlot
         anchors.fill: parent
         z: 100
+    }
+
+    Timer {
+        id: wheelCoast
+        interval: 8
+        repeat: true
+        onTriggered: {
+            var flick = scroll.contentItem
+            if (!flick || Math.abs(root._wheelRemain) < 0.35) {
+                root._wheelRemain = 0
+                stop()
+                return
+            }
+            var step = root._wheelRemain * 0.22
+            root._wheelRemain -= step
+            var maxY = Math.max(0, flick.contentHeight - flick.height)
+            flick.contentY = Math.max(0, Math.min(maxY, flick.contentY - step))
+        }
     }
 }

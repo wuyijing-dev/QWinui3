@@ -16,6 +16,12 @@ CatalogPage {
 
     property string statusText: qsTr("Compose a message with the toolbar or paste from Word.")
 
+    Timer {
+        id: previewTimer
+        interval: 120
+        onTriggered: page._refreshPreview()
+    }
+
     ControlExample {
         headerText: qsTr("Why RichEdit (2.61 / FL-005)")
         qmlSource: "RichEdit { placeholderText: qsTr(\"Body\") }"
@@ -60,7 +66,7 @@ CatalogPage {
                 onLinkActivated: function (url) {
                     page.statusText = qsTr("Link: %1").arg(url)
                 }
-                onTextEdited: page._refreshPreview()
+                onTextEdited: previewTimer.restart()
             }
 
             RowLayout {

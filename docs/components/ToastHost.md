@@ -31,7 +31,7 @@ toasts.success(qsTr("Done"))
 
 Reparents to the window Overlay so placement is full-window (not page-local).
 Visible stack up to maxVisible; extras wait in a pending queue and drain as slots free.
-Do not also set anchors when using placement — they conflict.
+Placement uses x/y (not anchors) so Overlay reparenting cannot leave a stacked gap.
 
 ## API
 

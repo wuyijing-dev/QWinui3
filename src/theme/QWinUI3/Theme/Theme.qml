@@ -261,6 +261,10 @@ QtObject {
     readonly property real navPaneWidth: 280
     // Compact NavigationView pane width
     readonly property real navPaneCompactWidth: 48
+    // Compact rail width when compactPaneStyle is "labeled" (Store-style captions)
+    readonly property real navPaneLabeledCompactWidth: 72
+    // Compact rail item height for icon-above-caption rows
+    readonly property real navItemLabeledCompactHeight: Math.round(56 * _densityScale)
     // Horizontal control padding
     readonly property real paddingControlH: Math.round(12 * _densityScale)
     // Vertical control padding

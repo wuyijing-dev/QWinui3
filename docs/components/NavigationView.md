@@ -37,6 +37,8 @@ NavigationView {
 //           nav.navigateToPage("DetailPage", "drill")  // in-page drill + history (2.56)
 //           nav.clearPageCache()  // drop cached page Components (keep current)
 // groups:   nav.toggleGroup(key), nav.setGroupExpanded(key, true)
+// pane:     nav.togglePane()  // TitleBar hamburger; no-op when too narrow
+//           compactPaneStyle "iconOnly" | "labeled"
 // reorder:  nav.moveNavItem(from, to)   // requires isReorderable
 // signals:  onItemClicked, onPageOpened, onFooterClicked, onBackRequested,
 //           onPaneSearchActivated, onPaneSearchTextEdited, onModelReordered
@@ -54,6 +56,8 @@ Left-rail title bar is hamburger + paneTitle (paired); Back is top mode / TitleB
 pageTransition / openPage modes: slide | slideRight | fade | center | drill |
 up | down | cover | none (suppress). Pane clicks use pageTransition.
 WinUI aliases: paneTitle, openPaneLength, compactPaneLength, isSettingsVisible, isPaneToggleButtonVisible.
+compactPaneStyle: "iconOnly" (WinUI) | "labeled" (Store — icon above caption).
+togglePane() — TitleBar hamburger; will not expand when the window is too narrow.
 Prefer selectKey / openPage over mutating currentIndex alone.
 Live-region announces nav selection / pane expand (2.07) when announceChanges is true.
 
@@ -75,6 +79,8 @@ Live-region announces nav selection / pane expand (2.07) when announceChanges is
 | `openPaneLength` | `alias` | — |
 | `paneCompactWidth` | `real` | Compact pane width (WinUI CompactPaneLength) |
 | `compactPaneLength` | `alias` | — |
+| `compactPaneStyle` | `string` | Compact rail: "iconOnly" (WinUI) or "labeled" (Store icon-above-caption) |
+| `minContentWidth` | `real` | Minimum page width reserved when the left pane is expanded |
 | `headerText` | `string` | Pane header title text (WinUI PaneTitle) |
 | `paneTitle` | `alias` | — |
 | `footerText` | `string` | Footer row label |
@@ -144,6 +150,7 @@ Live-region announces nav selection / pane expand (2.07) when announceChanges is
 | `setGroupExpanded(key, expanded)` | Expand or collapse a nav group by key |
 | `selectionAnchorItem()` | Visual anchor item for the selection pip |
 | `toggleGroup(key)` | Toggle a nav group expanded state |
+| `togglePane()` | Toggle the left pane; no-op when the window is too narrow to expand |
 | `groupTitle(key)` | Title text for a nav group key |
 | `fillFlyoutModel(key)` | Populate the compact-mode group flyout model |
 | `openCompactFlyout(groupKey, anchorItem)` | Open the compact pane group flyout |

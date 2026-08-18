@@ -152,6 +152,8 @@ Use Theme.duration(ms) and controlFill/accentFill helpers for states.
 | `navItemHeight` | `real` | Navigation item row height |
 | `navPaneWidth` | `real` | Expanded NavigationView pane width |
 | `navPaneCompactWidth` | `real` | Compact NavigationView pane width |
+| `navPaneLabeledCompactWidth` | `real` | Compact rail width when compactPaneStyle is "labeled" (Store-style captions) |
+| `navItemLabeledCompactHeight` | `real` | Compact rail item height for icon-above-caption rows |
 | `paddingControlH` | `real` | Horizontal control padding |
 | `paddingControlV` | `real` | Vertical control padding |
 | `spacing` | `real` | Child spacing |

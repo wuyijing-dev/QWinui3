@@ -149,10 +149,24 @@ T.Control {
 
     // Hide the control
     function hide() {
+        if (closeAnimTimer.running)
+            return
+        if (!isOpen) {
+            hideTimer.stop()
+            progressAnim.stop()
+            closed()
+            return
+        }
         isOpen = false
         hideTimer.stop()
         progressAnim.stop()
-        closed()
+        closeAnimTimer.restart()
+    }
+
+    Timer {
+        id: closeAnimTimer
+        interval: Theme.reducedMotion ? 1 : Theme.duration(Theme.motionNormal)
+        onTriggered: control.closed()
     }
 
     Timer {

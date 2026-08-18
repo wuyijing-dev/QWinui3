@@ -127,7 +127,7 @@ StandardWindow {
         isBackButtonVisible: nav.hasLeftRail
         isBackButtonEnabled: nav.canGoBack
         searchModel: window.searchResults
-        onPaneToggleRequested: nav.paneOpen = !nav.paneOpen
+        onPaneToggleRequested: nav.togglePane()
         onBackRequested: nav.navigateBack()
         onSearchTextEdited: function (text) {
             window.searchResults = ControlCatalog.search(text)
@@ -159,6 +159,7 @@ StandardWindow {
         pageModule: "QWinUI3.Gallery"
         currentKey: "home"
         paneDisplayMode: "auto"
+        compactPaneStyle: "labeled"
         pageCacheLimit: 24
         initialPageTransition: "none"
         isPaneSearchEnabled: true

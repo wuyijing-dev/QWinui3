@@ -1650,9 +1650,9 @@
       "galleryPage": "pages/NavigationViewPage.qml",
       "galleryTitle": "NavigationView",
       "doc": "components/NavigationView.md",
-      "propertyCount": 58,
+      "propertyCount": 60,
       "signalCount": 7,
-      "methodCount": 42
+      "methodCount": 43
     },
     {
       "name": "NavigationWindow",
@@ -4215,7 +4215,7 @@
       "galleryPage": "",
       "galleryTitle": "",
       "doc": "components/Theme.md",
-      "propertyCount": 108,
+      "propertyCount": 110,
       "signalCount": 0,
       "methodCount": 15
     }

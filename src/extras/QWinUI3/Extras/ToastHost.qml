@@ -1,5 +1,4 @@
 import QtQuick
-import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Templates as T
 import QWinUI3.Theme
@@ -20,7 +19,7 @@ import QWinUI3.Theme
 // @notes
 //   Reparents to the window Overlay so placement is full-window (not page-local).
 //   Visible stack up to maxVisible; extras wait in a pending queue and drain as slots free.
-//   Do not also set anchors when using placement — they conflict.
+//   Placement uses x/y (not anchors) so Overlay reparenting cannot leave a stacked gap.
 
 T.Control {
     id: toastHost
@@ -30,7 +29,7 @@ T.Control {
     // Auto-dismiss duration; 0 keeps open
     property int durationMs: 3200
     // spacing is FINAL on Control — assign, do not redeclare
-    spacing: Theme.spacing
+    spacing: Theme.spacingTight
     // Stack newest items on top of the visible column
     property bool newestOnTop: true
     // Edge inset from the window overlay
@@ -95,14 +94,27 @@ T.Control {
     on_WindowOverlayChanged: toastHost._ensureWindowOverlayParent()
     onPlacementChanged: toastHost._ensureWindowOverlayParent()
 
-    anchors.horizontalCenter: parent && _center ? parent.horizontalCenter : undefined
-    anchors.right: parent && _right ? parent.right : undefined
-    anchors.left: parent && _left ? parent.left : undefined
-    anchors.bottom: parent && _bottom ? parent.bottom : undefined
-    anchors.top: parent && !_bottom ? parent.top : undefined
-    anchors.margins: placementMargin
-    // Never stretch to overlay width — corner stacks stay card-sized.
-    anchors.fill: undefined
+    // Position with x/y so reparenting to Overlay.overlay cannot fight leftover anchors.
+    x: {
+        var o = toastHost.parent
+        if (!o)
+            return 0
+        var m = placementMargin
+        if (_center)
+            return Math.round((o.width - width) / 2)
+        if (_right)
+            return Math.max(m, o.width - width - m)
+        return m
+    }
+    y: {
+        var o = toastHost.parent
+        if (!o)
+            return 0
+        var m = placementMargin
+        if (_bottom)
+            return Math.max(m, o.height - height - m)
+        return m
+    }
 
     ListModel { id: queue }
     ListModel { id: pending }
@@ -230,11 +242,10 @@ T.Control {
         pending.clear()
     }
 
-    contentItem: ColumnLayout {
+    contentItem: Column {
         id: column
         spacing: toastHost.spacing
         width: toastHost.implicitWidth
-        layoutDirection: Qt.LeftToRight
 
         Repeater {
             model: queue
@@ -249,8 +260,17 @@ T.Control {
                 required property string actionText
                 required property int durationMs
 
-                Layout.preferredWidth: toastHost.implicitWidth
-                Layout.preferredHeight: toastItem.implicitHeight
+                width: toastHost.implicitWidth
+                height: toastItem.isOpen ? toastItem.implicitHeight : 0
+                clip: true
+
+                Behavior on height {
+                    enabled: !Theme.reducedMotion
+                    NumberAnimation {
+                        duration: Theme.duration(Theme.motionNormal)
+                        easing.type: Theme.easingStandard
+                    }
+                }
 
                 Toast {
                     id: toastItem

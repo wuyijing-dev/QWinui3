@@ -229,7 +229,7 @@ CatalogPage {
                         }
                     }
 
-                    layer.enabled: page.cardEffectsReady && !Theme.reducedMotion
+                    layer.enabled: page.cardEffectsReady && !Theme.reducedMotion && !page.viewMoving
                     layer.effect: MultiEffect {
                         shadowEnabled: true
                         shadowOpacity: featuredHover.hovered
@@ -438,7 +438,7 @@ CatalogPage {
                             }
                         }
 
-                        layer.enabled: page.cardEffectsReady && !Theme.reducedMotion
+                        layer.enabled: page.cardEffectsReady && !Theme.reducedMotion && !page.viewMoving
                         layer.effect: MultiEffect {
                             shadowEnabled: true
                             shadowOpacity: Theme.dark ? 0.16 : 0.07
@@ -572,7 +572,7 @@ CatalogPage {
                             }
                         }
 
-                        layer.enabled: page.cardEffectsReady && !Theme.reducedMotion
+                        layer.enabled: page.cardEffectsReady && !Theme.reducedMotion && !page.viewMoving
                         layer.effect: MultiEffect {
                             shadowEnabled: true
                             shadowOpacity: Theme.dark ? 0.16 : 0.07

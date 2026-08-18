@@ -112,7 +112,7 @@ Left rail does **not** host Back — wire the **TitleBar** (Gallery / nav-settin
 |---------|--------|
 | Responsive shell | `paneDisplayMode: "auto"` + TitleBar pane toggle |
 | Overlay drawer | `leftMinimal` — open with hamburger; scrim dismisses |
-| Pane collapse | `left` hamburger animates rail width (`motionNormal`); labels stay until the slot is compact (`_paneShowsLabels`) — no empty wide column |
+| Pane collapse | `left` hamburger animates rail width; labels follow the animated slot (`_paneShowsLabels`) so expand cannot overflow. `compactPaneStyle: "labeled"` uses Store-style icon-above-caption in the compact rail. `togglePane()` will not expand when the window is too narrow. |
 | Host-owned content | `hostContent: true` + `content: …` (e.g. NavigationWindow) instead of `pageModule` |
 | Groups | `model` entries `type: "group"` with `children[]`; `toggleGroup` / `setGroupExpanded` |
 

@@ -28,6 +28,8 @@ import QWinUI3.Theme
 //   //           nav.navigateToPage("DetailPage", "drill")  // in-page drill + history (2.56)
 //   //           nav.clearPageCache()  // drop cached page Components (keep current)
 //   // groups:   nav.toggleGroup(key), nav.setGroupExpanded(key, true)
+//   // pane:     nav.togglePane()  // TitleBar hamburger; no-op when too narrow
+//   //           compactPaneStyle "iconOnly" | "labeled"
 //   // reorder:  nav.moveNavItem(from, to)   // requires isReorderable
 //   // signals:  onItemClicked, onPageOpened, onFooterClicked, onBackRequested,
 //   //           onPaneSearchActivated, onPaneSearchTextEdited, onModelReordered
@@ -43,6 +45,8 @@ import QWinUI3.Theme
 //   pageTransition / openPage modes: slide | slideRight | fade | center | drill |
 //   up | down | cover | none (suppress). Pane clicks use pageTransition.
 //   WinUI aliases: paneTitle, openPaneLength, compactPaneLength, isSettingsVisible, isPaneToggleButtonVisible.
+//   compactPaneStyle: "iconOnly" (WinUI) | "labeled" (Store — icon above caption).
+//   togglePane() — TitleBar hamburger; will not expand when the window is too narrow.
 //   Prefer selectKey / openPage over mutating currentIndex alone.
 //   Live-region announces nav selection / pane expand (2.07) when announceChanges is true.
 
@@ -76,6 +80,10 @@ Item {
     // Compact pane width (WinUI CompactPaneLength)
     property real paneCompactWidth: Theme.navPaneCompactWidth
     property alias compactPaneLength: root.paneCompactWidth
+    // Compact rail: "iconOnly" (WinUI) or "labeled" (Store icon-above-caption)
+    property string compactPaneStyle: "iconOnly"
+    // Minimum page width reserved when the left pane is expanded
+    property real minContentWidth: 320
     // Pane header title text (WinUI PaneTitle)
     property string headerText: qsTr("QWinUI3")
     property alias paneTitle: root.headerText
@@ -210,14 +218,20 @@ Item {
     // Emitted after a successful drag-reorder with the new model array
     signal modelReordered(var model)
 
+    readonly property real _effectiveCompactWidth: compactPaneStyle === "labeled"
+        ? Math.max(paneCompactWidth, Theme.navPaneLabeledCompactWidth)
+        : paneCompactWidth
+    readonly property real _maxExpandedPaneWidth: Math.max(_effectiveCompactWidth,
+                                                           root.width - minContentWidth)
+    readonly property real _expandedPaneWidth: Math.min(paneWidth, _maxExpandedPaneWidth)
     readonly property real _paneWidth: {
         if (resolvedPaneMode === "top")
             return 0
         if (resolvedPaneMode === "leftMinimal")
-            return paneOpen ? paneWidth : 0
+            return paneOpen ? _expandedPaneWidth : 0
         if (resolvedPaneMode === "leftCompact")
-            return paneCompactWidth
-        return paneOpen ? paneWidth : paneCompactWidth
+            return _effectiveCompactWidth
+        return paneOpen ? _expandedPaneWidth : _effectiveCompactWidth
     }
     // leftMinimal overlays content — layout width stays 0 so the page does not shrink.
     readonly property real _paneLayoutWidth: {
@@ -228,13 +242,22 @@ Item {
     // Current page item
     readonly property alias pageItem: pageStack.currentItem
     readonly property bool _paneShowsLabels: {
-        if (resolvedPaneMode === "leftCompact" || resolvedPaneMode === "top")
+        if (resolvedPaneMode === "top")
             return false
-        if (paneOpen)
-            return true
-        // Keep labels until the rail is actually compact (avoids an empty wide column).
-        return paneSlot.width > paneCompactWidth + 72
+        if (resolvedPaneMode === "leftMinimal")
+            return paneOpen
+        if (resolvedPaneMode === "leftCompact")
+            return false
+        // Follow the animated slot width — flipping labels on paneOpen immediately
+        // paints a full row inside a still-compact rail and overflows the page.
+        return paneSlot.width >= Math.max(_effectiveCompactWidth + 56, 140)
     }
+    readonly property bool _useLabeledCompact: compactPaneStyle === "labeled"
+                                               && resolvedPaneMode !== "top"
+                                               && !_paneShowsLabels
+    readonly property real _railItemHeight: _useLabeledCompact
+                                            ? Theme.navItemLabeledCompactHeight
+                                            : Theme.navItemHeight
     readonly property bool _minimalOverlay: resolvedPaneMode === "leftMinimal" && paneOpen
 
     onPaneDisplayModeChanged: _syncPaneOpenForMode()
@@ -377,11 +400,24 @@ Item {
             openPage(root.currentComponent, root.pendingMode || "slide")
     }
     onPaneOpenChanged: {
-        rebuildNavModel()
         compactFlyout.close()
         if (root._a11yReady)
             _announce(root.paneOpen ? qsTr("Navigation pane expanded")
                                     : qsTr("Navigation pane collapsed"))
+        Qt.callLater(function () { selectionPip.moveToCurrent(true) })
+    }
+
+    // Toggle the left pane; no-op when the window is too narrow to expand
+    function togglePane() {
+        compactFlyout.close()
+        var mode = resolvedPaneMode
+        if (mode === "top")
+            return
+        if (mode === "leftCompact")
+            return
+        if (mode === "left" && !paneOpen && _expandedPaneWidth <= _effectiveCompactWidth + 8)
+            return
+        paneOpen = !paneOpen
     }
 
     // Group key for exclusive flyouts
@@ -439,7 +475,8 @@ Item {
         if (flyoutModel.count === 0)
             return
         var p = anchorItem.mapToItem(root, 0, 0)
-        compactFlyout.x = root._paneWidth + 4
+        compactFlyout.x = Math.min(root._paneWidth + 4,
+                                   Math.max(4, root.width - 280))
         // Keep flyout on-screen vertically
         var maxY = Math.max(8, root.height - Math.min(flyoutModel.count * Theme.navItemHeight + 40, root.height - 16))
         compactFlyout.y = Math.max(8, Math.min(p.y, maxY))
@@ -1474,21 +1511,13 @@ Item {
                     id: paneTitleBar
                     visible: root._showPaneTitleBar
                     Layout.fillWidth: true
-                    Layout.preferredHeight: Theme.navItemHeight
+                    Layout.preferredHeight: root._railItemHeight
                     text: root.headerText
                     Accessible.role: Accessible.Button
                     Accessible.name: root.paneOpen
                                      ? (root.headerText.length ? root.headerText : qsTr("Collapse navigation"))
                                      : qsTr("Expand navigation")
-                    onClicked: {
-                        if (root.resolvedPaneMode === "leftCompact") {
-                            if (root.paneDisplayMode === "leftCompact")
-                                root.paneDisplayMode = "left"
-                            root.paneOpen = true
-                        } else {
-                            root.paneOpen = !root.paneOpen
-                        }
-                    }
+                    onClicked: root.togglePane()
                     ToolTip.visible: hovered && root._paneWidth < 120
                     ToolTip.text: root.paneOpen ? qsTr("Collapse") : qsTr("Expand")
 
@@ -1706,7 +1735,7 @@ Item {
                                 height: {
                                     if (del.kind === "header")
                                         return root._paneShowsLabels ? 28 : 0
-                                    return Theme.navItemHeight
+                                    return root._railItemHeight
                                 }
                                 visible: del.kind === "header" ? root._paneShowsLabels : true
                                 enabled: del.kind !== "header"
@@ -1744,7 +1773,8 @@ Item {
                                         root.requestCloseCompactFlyout()
                                 }
 
-                                ToolTip.visible: !root.paneOpen && del.kind === "item" && hovered
+                                ToolTip.visible: !root._useLabeledCompact && !root.paneOpen
+                                                 && del.kind === "item" && hovered
                                                  && !compactFlyout.visible
                                 ToolTip.text: del.title || ""
 
@@ -1781,7 +1811,7 @@ Item {
                                 }
 
                                 background: Item {
-                                    implicitHeight: Theme.navItemHeight
+                                    implicitHeight: root._railItemHeight
                                     Rectangle {
                                         anchors.fill: parent
                                         anchors.leftMargin: 4
@@ -1828,7 +1858,8 @@ Item {
                                     }
 
                                     RowLayout {
-                                        visible: del.kind === "group" || del.kind === "item"
+                                        visible: (del.kind === "group" || del.kind === "item")
+                                                 && !root._useLabeledCompact
                                         anchors.fill: parent
                                         anchors.leftMargin: 8
                                         anchors.rightMargin: 8
@@ -1875,6 +1906,37 @@ Item {
                                             }
                                         }
                                     }
+
+                                    Column {
+                                        visible: (del.kind === "group" || del.kind === "item")
+                                                 && root._useLabeledCompact
+                                        anchors.fill: parent
+                                        anchors.topMargin: 6
+                                        anchors.bottomMargin: 4
+                                        anchors.leftMargin: 2
+                                        anchors.rightMargin: 2
+                                        spacing: 2
+
+                                        Text {
+                                            width: parent.width
+                                            text: del.glyph || FluentIcons.Placeholder
+                                            font.family: Theme.fontFamilyIcon
+                                            font.pixelSize: 16
+                                            color: topRow.highlighted ? Theme.textPrimary : Theme.textSecondary
+                                            horizontalAlignment: Text.AlignHCenter
+                                        }
+                                        Text {
+                                            width: parent.width
+                                            text: del.title || ""
+                                            font.family: Theme.fontFamily
+                                            font.pixelSize: Theme.fontCaption
+                                            color: Theme.textPrimary
+                                            horizontalAlignment: Text.AlignHCenter
+                                            wrapMode: Text.Wrap
+                                            maximumLineCount: 2
+                                            elide: Text.ElideRight
+                                        }
+                                    }
                                 }
                             }
 
@@ -1886,6 +1948,8 @@ Item {
                                 visible: del.kind === "group"
                                 height: {
                                     if (del.kind !== "group" || !root.paneOpen || !del.expanded)
+                                        return 0
+                                    if (!root._paneShowsLabels)
                                         return 0
                                     return childrenCol.implicitHeight
                                 }
@@ -2168,32 +2232,62 @@ Item {
                     visible: root.isSettingsVisible
                              && (root.footerComponent.length > 0 || root.footerText.length > 0)
                     Layout.fillWidth: true
-                    Layout.preferredHeight: Theme.navItemHeight
+                    Layout.preferredHeight: root._railItemHeight
                     highlighted: root.footerSelected
                     Accessible.role: Accessible.ListItem
                     Accessible.name: root.footerText.length ? root.footerText : qsTr("Settings")
                     onClicked: root.selectFooter("slide")
-                    ToolTip.visible: !root.paneOpen && hovered
+                    ToolTip.visible: !root._useLabeledCompact && !root.paneOpen && hovered
                     ToolTip.text: root.footerText
 
-                    contentItem: RowLayout {
-                        spacing: 12
-                        Text {
-                            text: root.effectiveFooterIcon
-                            font.family: Theme.fontFamilyIcon
-                            font.pixelSize: 16
-                            color: root.footerSelected ? Theme.textPrimary : Theme.textSecondary
-                            Layout.preferredWidth: 20
-                            horizontalAlignment: Text.AlignHCenter
+                    contentItem: Item {
+                        RowLayout {
+                            visible: !root._useLabeledCompact
+                            anchors.fill: parent
+                            spacing: 12
+                            Text {
+                                text: root.effectiveFooterIcon
+                                font.family: Theme.fontFamilyIcon
+                                font.pixelSize: 16
+                                color: root.footerSelected ? Theme.textPrimary : Theme.textSecondary
+                                Layout.preferredWidth: 20
+                                horizontalAlignment: Text.AlignHCenter
+                            }
+                            Text {
+                                visible: root._paneShowsLabels
+                                text: root.footerText
+                                font.family: Theme.fontFamily
+                                font.pixelSize: Theme.fontBody
+                                color: Theme.textPrimary
+                                elide: Text.ElideRight
+                                Layout.fillWidth: true
+                            }
                         }
-                        Text {
-                            visible: root._paneShowsLabels
-                            text: root.footerText
-                            font.family: Theme.fontFamily
-                            font.pixelSize: Theme.fontBody
-                            color: Theme.textPrimary
-                            elide: Text.ElideRight
-                            Layout.fillWidth: true
+                        Column {
+                            visible: root._useLabeledCompact
+                            anchors.fill: parent
+                            anchors.topMargin: 6
+                            anchors.bottomMargin: 4
+                            spacing: 2
+                            Text {
+                                width: parent.width
+                                text: root.effectiveFooterIcon
+                                font.family: Theme.fontFamilyIcon
+                                font.pixelSize: 16
+                                color: root.footerSelected ? Theme.textPrimary : Theme.textSecondary
+                                horizontalAlignment: Text.AlignHCenter
+                            }
+                            Text {
+                                width: parent.width
+                                text: root.footerText
+                                font.family: Theme.fontFamily
+                                font.pixelSize: Theme.fontCaption
+                                color: Theme.textPrimary
+                                horizontalAlignment: Text.AlignHCenter
+                                wrapMode: Text.Wrap
+                                maximumLineCount: 2
+                                elide: Text.ElideRight
+                            }
                         }
                     }
                 }
