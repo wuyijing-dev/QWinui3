@@ -99,7 +99,7 @@ T.Control {
         Text {
             width: parent.width - parent.leftPadding - parent.rightPadding
             wrapMode: Text.WordWrap
-            text: qsTr("Voice: Windows System.Speech; Linux whisper-cli or vosk (env vars). Handwriting: Zinnia CLI + QWINUI3_ZINNIA_MODEL.")
+            text: qsTr("Voice: in-process Vosk (Kaldi) or Windows SAPI. Handwriting: in-process Zinnia or Windows Ink. No command-line tools.")
             font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             color: Theme.textSecondary

@@ -256,11 +256,12 @@ qt_add_resources(qwinui3_extras "qwinui3_pinyin_lexicon"
 )
 
 if(WIN32)
-    target_link_libraries(qwinui3_extras PRIVATE user32)
+    target_link_libraries(qwinui3_extras PRIVATE user32 ole32 oleaut32 uuid sapi)
 endif()
 
 if(QWINUI3_HAS_MEDIA)
     target_link_libraries(qwinui3_extras PUBLIC Qt6::Multimedia)
+    target_compile_definitions(qwinui3_extras PRIVATE QWINUI3_OSK_MULTIMEDIA=1)
     if(TARGET Qt6::MultimediaQuick)
         target_link_libraries(qwinui3_extras PUBLIC Qt6::MultimediaQuick)
     endif()

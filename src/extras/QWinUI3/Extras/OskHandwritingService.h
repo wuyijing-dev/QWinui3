@@ -12,7 +12,8 @@ struct OskStroke
     QVector<QPointF> points;
 };
 
-// Cross-platform handwriting recognition via Zinnia CLI (Windows + Linux).
+// In-process handwriting for OSK (Windows + Linux). No helper processes.
+// Windows: Ink recognizer COM. Both: Zinnia shared library when a model is present.
 class OskHandwritingService : public QObject
 {
     Q_OBJECT
@@ -20,7 +21,7 @@ class OskHandwritingService : public QObject
     Q_PROPERTY(bool available READ available NOTIFY availabilityChanged)
     Q_PROPERTY(QStringList candidates READ candidates NOTIFY candidatesChanged)
     Q_PROPERTY(QString statusText READ statusText NOTIFY statusTextChanged)
-    Q_PROPERTY(QString platformBackend READ platformBackend CONSTANT)
+    Q_PROPERTY(QString platformBackend READ platformBackend NOTIFY availabilityChanged)
 
 public:
     explicit OskHandwritingService(QObject *parent = nullptr);
@@ -43,10 +44,15 @@ signals:
     void errorOccurred(const QString &message);
 
 private:
+    enum class Backend { None, Ink, Zinnia };
+
     void probeAvailability();
     void setStatus(const QString &text);
+    bool recognizeInk();
+    bool recognizeZinnia();
 
     bool m_available = false;
+    Backend m_backend = Backend::None;
     QString m_statusText;
     QStringList m_candidates;
     QVector<OskStroke> m_strokes;

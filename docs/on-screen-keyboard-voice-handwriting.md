@@ -1,48 +1,49 @@
-# OSK voice & handwriting (cross-platform)
+# OSK voice & handwriting (in-process libraries)
 
-Optional **speech-to-text** and **handwriting** panels for `OnScreenKeyboard`. No custom neural nets — system/SDK/CLI only.
+Speech and handwriting run **inside the Gallery / app process**. There is **no** `whisper-cli`, `arecord`, `zinnia_character`, or PowerShell helper.
 
-**Platforms:** Windows + Linux. macOS: not wired (backend returns `none`).
+We **do not train** a net from scratch. We load **existing pretrained models / OS recognizers**:
 
----
+| Feature | Preferred library (neural / ML) | Built-in fallback |
+|---------|----------------------------------|-------------------|
+| **Voice** | [Vosk](https://alphacephei.com/vosk/) (`libvosk`) — Kaldi DNN acoustic model | Windows **SAPI** in-proc recognizer |
+| **Handwriting** | [Zinnia](https://github.com/taku910/zinnia) (`libzinnia`) — SVM character model | Windows **Ink** recognizer (language pack) |
 
-## Voice input
-
-| OS | Backend | Setup |
-|----|---------|--------|
-| **Windows** | `System.Speech` (PowerShell helper) | Install a speech language pack; mic permission |
-| **Linux** | `whisper-cli` **or** `vosk-transcriber` | Set env vars below + `alsa-utils` (`arecord`) |
-
-### Linux environment
-
-```bash
-# Option A — Whisper
-export QWINUI3_WHISPER_CLI=/usr/bin/whisper-cli   # optional; default: whisper-cli on PATH
-export QWINUI3_WHISPER_MODEL=/path/to/ggml-base.bin
-
-# Option B — Vosk
-export QWINUI3_VOSK_BIN=/usr/bin/vosk-transcriber  # optional
-export QWINUI3_VOSK_MODEL=/path/to/vosk-model-small-cn-0.22
-```
-
-Open **Settings → Voice** on the OSK, or tap the **mic** key. Recognized text is committed through `KeyboardEngine.commitText`.
+**Platforms:** Windows + Linux. macOS: not wired.
 
 ---
 
-## Handwriting input
+## Voice (Vosk)
 
-| OS | Backend | Setup |
-|----|---------|--------|
-| **Windows / Linux** | [Zinnia](https://github.com/taku910/zinnia) CLI (`zinnia_character`) | Model file + optional binary path |
+Drop the **shared library** and a **model directory** next to the executable, or set:
 
-```bash
-export QWINUI3_ZINNIA_MODEL=/path/to/handwriting-zh_CN.model
-export QWINUI3_ZINNIA_BIN=/usr/bin/zinnia_character   # optional
+```text
+QWINUI3_VOSK_LIB    path to libvosk.so / libvosk.dll
+QWINUI3_VOSK_MODEL  path to a Vosk model folder (e.g. vosk-model-small-cn-0.22)
 ```
 
-Bundled lookup: `<appDir>/handwriting-zh_CN.model` if present.
+Also accepted: `<appDir>/vosk-model/`.
 
-Open **Settings → Handwriting**, draw strokes, tap **Recognize**, pick a candidate.
+Microphone capture uses **Qt Multimedia** (`QAudioSource`) in-process — not `arecord`.
+
+On Windows, if Vosk is not present, the mic key uses **SAPI dictation** (install a speech language pack). No PowerShell.
+
+Tap **Listen**, speak, tap **Stop**. Text is committed through `KeyboardEngine.commitText`.
+
+---
+
+## Handwriting (Zinnia)
+
+```text
+QWINUI3_ZINNIA_LIB    path to libzinnia.so / zinnia.dll
+QWINUI3_ZINNIA_MODEL  path to a Zinnia .model file (e.g. handwriting-zh_CN.model)
+```
+
+Also accepted: `<appDir>/handwriting-zh_CN.model`.
+
+On Windows, if Zinnia is not present, recognition uses **Windows Ink** (install a handwriting language pack for Chinese).
+
+Open **Settings → Handwriting**, draw, tap **Recognize**, pick a candidate.
 
 ---
 

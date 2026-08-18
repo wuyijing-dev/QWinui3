@@ -1,13 +1,15 @@
 #pragma once
 
+#include <QByteArray>
 #include <QObject>
 #include <QString>
 #include <QtQml/qqmlregistration.h>
+#include <atomic>
 
-class QProcess;
+class QThread;
 
-// Cross-platform speech-to-text for OSK (Windows + Linux). No custom neural nets.
-// Windows: System.Speech via helper process. Linux: whisper-cli or vosk CLI when configured.
+// In-process speech-to-text for OSK (Windows + Linux). No helper processes.
+// Windows: SAPI in-proc recognizer. Optional Vosk shared library on both OSes.
 class OskSpeechService : public QObject
 {
     Q_OBJECT
@@ -15,7 +17,7 @@ class OskSpeechService : public QObject
     Q_PROPERTY(bool available READ available NOTIFY availabilityChanged)
     Q_PROPERTY(bool listening READ listening NOTIFY listeningChanged)
     Q_PROPERTY(QString statusText READ statusText NOTIFY statusTextChanged)
-    Q_PROPERTY(QString platformBackend READ platformBackend CONSTANT)
+    Q_PROPERTY(QString platformBackend READ platformBackend NOTIFY availabilityChanged)
 
 public:
     explicit OskSpeechService(QObject *parent = nullptr);
@@ -38,16 +40,22 @@ signals:
     void errorOccurred(const QString &message);
 
 private:
+    enum class Backend { None, Sapi, Vosk };
+
     void setListening(bool on);
     void setStatus(const QString &text);
     void probeAvailability();
-    void beginCapture();
-    void finishCapture();
-    void runRecognizer(const QString &wavPath);
+    void finishWithText(const QString &text);
+    void finishWithError(const QString &message);
+    void startSapiWorker();
+    void startVoskWorker();
 
     bool m_available = false;
     bool m_listening = false;
+    Backend m_backend = Backend::None;
     QString m_statusText;
-    QString m_capturePath;
-    QProcess *m_recognizer = nullptr;
+    QByteArray m_pcm;
+    QThread *m_worker = nullptr;
+    QObject *m_capture = nullptr;
+    std::atomic<bool> m_cancel{false};
 };

@@ -144,7 +144,7 @@ CatalogPage {
             CheckBox { text: qsTr("Floating + 中文: preedit on OSK bar; Space/1–9 inject the pick") }
             CheckBox { text: qsTr("Floating: Backspace / Enter / arrows inject (not compose)") }
             CheckBox { text: qsTr("Dock still types only into this Gallery (systemWide off)") }
-            CheckBox { text: qsTr("Settings → Voice / Handwriting panels (Windows + Linux CLI)") }
+            CheckBox { text: qsTr("Settings → Voice / Handwriting (in-process Vosk / Zinnia / SAPI / Ink)") }
             CheckBox { text: qsTr("Mic key toggles voice; Ctrl/Alt/Win latch modifiers") }
             CheckBox { text: qsTr("中文: candidate tiers 单字 / 双字 / 词语 on ImeCandidateBar") }
             CheckBox { text: qsTr("Elevated / UWP / games may ignore SendInput (honest limit)") }

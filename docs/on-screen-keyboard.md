@@ -373,13 +373,13 @@ iha → 你好); consumeLength for partial picks
 
 ## Voice & handwriting (cross-platform)
 
-Optional panels wired into `OnScreenKeyboard` — **Windows + Linux** via system/SDK/CLI (no custom neural nets).
+Optional panels wired into `OnScreenKeyboard` — **Windows + Linux**, **in-process libraries** (no command-line helpers).
 
 | Feature | Windows | Linux |
 |---------|---------|-------|
-| **Voice** | `System.Speech` (PowerShell) | `whisper-cli` or `vosk-transcriber` + `arecord` |
-| **Handwriting** | Zinnia CLI (`zinnia_character`) | Same |
+| **Voice** | Vosk (`libvosk`) or SAPI in-proc | Vosk + Qt Multimedia capture |
+| **Handwriting** | Zinnia (`libzinnia`) or Windows Ink | Zinnia in-process |
 | **Pinyin learning** | `OskUserLexicon` (local QSettings) | Same |
 
-Setup, env vars, and Gallery checklist: [on-screen-keyboard-voice-handwriting.md](on-screen-keyboard-voice-handwriting.md).
+Setup: [on-screen-keyboard-voice-handwriting.md](on-screen-keyboard-voice-handwriting.md).
 
