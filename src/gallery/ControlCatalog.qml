@@ -941,6 +941,30 @@ QtObject {
             source: "pages/VuMeterPage.qml"
         },
         {
+            title: qsTr("DualRingGauge"),
+            category: "charts",
+            icon: FluentIcons.ProgressRingCommon,
+            description: qsTr("Concentric KPI rings (experimental). Prefer RingGauge.value2 when scales match."),
+            component: "DualRingGaugePage",
+            source: "pages/DualRingGaugePage.qml"
+        },
+        {
+            title: qsTr("TachometerGauge"),
+            category: "charts",
+            icon: FluentIcons.Dial6,
+            description: qsTr("RPM needle with redline (experimental). Prefer RadialGauge for generic scales."),
+            component: "TachometerGaugePage",
+            source: "pages/TachometerGaugePage.qml"
+        },
+        {
+            title: qsTr("BatteryGauge"),
+            category: "charts",
+            icon: FluentIcons.Battery,
+            description: qsTr("Battery silhouette (experimental). Prefer RingGauge for a generic closed ring."),
+            component: "BatteryGaugePage",
+            source: "pages/BatteryGaugePage.qml"
+        },
+        {
             title: qsTr("KpiTile"),
             category: "charts",
             icon: FluentIcons.AreaChart,
@@ -1179,6 +1203,46 @@ QtObject {
             description: qsTr("Frequency bins (experimental). ChartUtils.histogramBins."),
             component: "HistogramChartPage",
             source: "pages/HistogramChartPage.qml"
+        },
+        {
+            title: qsTr("BoxPlotChart"),
+            category: "charts",
+            icon: FluentIcons.BarChartVertical,
+            description: qsTr("Tukey box-and-whisker (experimental). ChartUtils.boxPlotStats."),
+            component: "BoxPlotChartPage",
+            source: "pages/BoxPlotChartPage.qml"
+        },
+        {
+            title: qsTr("ParetoChart"),
+            category: "charts",
+            icon: FluentIcons.AreaChart,
+            description: qsTr("Ranked bars + cumulative percent (experimental)."),
+            component: "ParetoChartPage",
+            source: "pages/ParetoChartPage.qml"
+        },
+        {
+            title: qsTr("BandChart"),
+            category: "charts",
+            icon: FluentIcons.AreaChart,
+            description: qsTr("High/low envelope with mid line (experimental). Prefer LineChart.showArea."),
+            component: "BandChartPage",
+            source: "pages/BandChartPage.qml"
+        },
+        {
+            title: qsTr("TreemapChart"),
+            category: "charts",
+            icon: FluentIcons.GridView,
+            description: qsTr("Slice-and-dice treemap (experimental). Prefer DonutChart."),
+            component: "TreemapChartPage",
+            source: "pages/TreemapChartPage.qml"
+        },
+        {
+            title: qsTr("PolarAreaChart"),
+            category: "charts",
+            icon: FluentIcons.ConstructionCone,
+            description: qsTr("Coxcomb / polar area (experimental). Prefer RadarChart."),
+            component: "PolarAreaChartPage",
+            source: "pages/PolarAreaChartPage.qml"
         },
         {
             title: qsTr("Shimmer"),
@@ -1734,9 +1798,10 @@ QtObject {
         "PieChartPage", "ScatterChartPage", "WaterfallChartPage", "HeatmapChartPage",
         "RadarChartPage", "BulletChartPage",
         "ComboChartPage", "FunnelChartPage", "CandlestickChartPage", "HistogramChartPage",
+        "BoxPlotChartPage", "ParetoChartPage", "BandChartPage", "TreemapChartPage", "PolarAreaChartPage",
         "RadialGaugePage", "LinearGaugePage", "ArcGaugePage", "SegmentedGaugePage",
         "ZoneGaugePage", "TankGaugePage", "ThermometerGaugePage",
-        "CompassGaugePage", "VuMeterPage"
+        "CompassGaugePage", "VuMeterPage", "DualRingGaugePage", "TachometerGaugePage", "BatteryGaugePage"
     ]
 
     readonly property var _experimentalPages: [

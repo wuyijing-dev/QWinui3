@@ -34,6 +34,8 @@ CatalogPage {
                     cautionThreshold: 0.7
                     criticalThreshold: 0.9
                     caption: qsTr("Host A")
+                    value2: 48
+                    fillColor2: Theme.systemCaution
                 }
                 RingGauge {
                     width: 148

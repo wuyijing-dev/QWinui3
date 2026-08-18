@@ -56,6 +56,10 @@ unit aliases valueUnit. interactive / isInteractive aliases. playReveal() for en
 | `emptyText` | `string` | Placeholder when there is no data |
 | `valueUnit` | `string` | Unit appended to value text |
 | `unit` | `alias` | Alias of valueUnit (gauge / KPI naming parity) |
+| `horizontal` | `bool` | Draw bars left-to-right instead of bottom-up |
+| `stacked` | `bool` | Stack series on the same category (requires series) |
+| `series` | `var` | Multi-series [{ name, values, color? }] — grouped when stacked is false |
+| `labels` | `var` | Category labels (used with series) |
 | `isEmpty` | `bool` | True when there is no data |
 
 ### Signals

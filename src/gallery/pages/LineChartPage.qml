@@ -113,6 +113,21 @@ CatalogPage {
     }
 
     ControlExample {
+        headerText: qsTr("Step + category labels")
+        qmlSource: "LineChart {\n    stepMode: true\n    xAxisLabels: [\"Mon\", \"Tue\"]\n}"
+        LineChart {
+            Layout.fillWidth: true
+            Layout.preferredHeight: 180
+            title: qsTr("Queue depth")
+            stepMode: true
+            showArea: true
+            showLegend: false
+            xAxisLabels: [qsTr("Mon"), qsTr("Tue"), qsTr("Wed"), qsTr("Thu"), qsTr("Fri"), qsTr("Sat"), qsTr("Sun")]
+            values: [4, 7, 5, 12, 9, 3, 2]
+        }
+    }
+
+    ControlExample {
         headerText: qsTr("Million-point LOD")
         qmlSource: "ChartSeries { id: s }\nLineChart { values: s }"
         ColumnLayout {

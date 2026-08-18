@@ -64,6 +64,8 @@ interactive / isInteractive aliases. playReveal() / clearHover() for enter + cro
 | `hoverText` | `string` | Tooltip / hover readout text |
 | `title` | `string` | Primary title text |
 | `emptyText` | `string` | Placeholder when there is no data |
+| `xAxisLabels` | `var` | Category labels along the X axis (sparse; drawn at sampled indices) |
+| `stepMode` | `bool` | Horizontal-then-vertical steps instead of a polyline |
 | `sourcePointCount` | `int` | LOD diagnostics |
 | `drawnPointCount` | `int` | Points drawn after LOD |
 | `isEmpty` | `bool` | True when there is no data |

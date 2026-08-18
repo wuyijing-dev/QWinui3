@@ -68,6 +68,9 @@ Optional target tick; severity 0/1/2 from thresholds; wheel/keys when interactiv
 | `isInteractive` | `bool` | Alias of interactive |
 | `interactive` | `alias` | Enable hover / click interaction |
 | `interactionPadding` | `real` | Extra drag hit padding outside the face (px) |
+| `value2` | `real` | Optional inner-ring value (NaN to hide) |
+| `fillColor2` | `color` | Inner-ring fill color |
+| `strokeWidthInner` | `real` | Inner-ring stroke thickness |
 | `normalized` | `real` | Normalized 0..1 (live value, not animated) |
 | `percentage` | `real` | Value as 0..100 percentage |
 | `severity` | `int` | 0 = ok, 1 = caution, 2 = critical |
@@ -76,6 +79,9 @@ Optional target tick; severity 0/1/2 from thresholds; wheel/keys when interactiv
 | `targetNorm` | `real` | — |
 | `formattedValue` | `string` | Formatted value string |
 | `animatedValue` | `real` | Animated display value |
+| `hasValue2` | `bool` | — |
+| `animatedValue2` | `real` | — |
+| `animatedNorm2` | `real` | — |
 | `animatedNorm` | `real` | Animated 0..1 normalized value |
 
 ### Signals

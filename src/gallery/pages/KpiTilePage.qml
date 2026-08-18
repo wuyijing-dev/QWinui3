@@ -44,6 +44,7 @@ CatalogPage {
                 unit: " ms"
                 delta: -3.2
                 invertDeltaColors: true
+                compareValue: 45
                 cautionThreshold: 60
                 criticalThreshold: 80
                 invertThresholds: true

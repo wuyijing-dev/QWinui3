@@ -65,4 +65,34 @@ CatalogPage {
             ]
         }
     }
+
+    ControlExample {
+        headerText: qsTr("Stacked series")
+        qmlSource: "BarChart {\n    stacked: true\n    series: [{ name: \"A\", values: […] }]\n}"
+        BarChart {
+            Layout.fillWidth: true
+            Layout.preferredHeight: 200
+            title: qsTr("Stacked")
+            stacked: true
+            labels: ["Q1", "Q2", "Q3", "Q4"]
+            series: [
+                { name: qsTr("New"), values: [12, 18, 14, 20], color: Theme.accent },
+                { name: qsTr("Renew"), values: [8, 10, 11, 9], color: Theme.systemSuccess },
+                { name: qsTr("Churn"), values: [3, 4, 2, 5], color: Theme.systemCaution }
+            ]
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Horizontal")
+        qmlSource: "BarChart { horizontal: true }"
+        BarChart {
+            Layout.fillWidth: true
+            Layout.preferredHeight: 200
+            title: qsTr("Share")
+            horizontal: true
+            showValueLabels: true
+            values: [72, 48, 91, 33]
+        }
+    }
 }

@@ -79,6 +79,12 @@ T.Control {
     property alias interactive: root.isInteractive
     // Extra drag hit padding outside the face (px)
     property real interactionPadding: 24
+    // Optional inner-ring value (NaN to hide)
+    property real value2: NaN
+    // Inner-ring fill color
+    property color fillColor2: Theme.systemCaution
+    // Inner-ring stroke thickness
+    property real strokeWidthInner: 8
 
     // Emitted when user commits a value
     signal valueEdited(real value)
@@ -144,7 +150,32 @@ T.Control {
         }
     }
     onValueChanged: animatedValue = value
-    Component.onCompleted: animatedValue = value
+    Component.onCompleted: {
+        animatedValue = value
+        if (isFinite(value2))
+            animatedValue2 = value2
+    }
+
+    readonly property bool hasValue2: isFinite(value2)
+    property real animatedValue2: 0
+    Behavior on animatedValue2 {
+        enabled: !Theme.reducedMotion
+        NumberAnimation {
+            duration: Theme.duration(Theme.motionSlow)
+            easing.type: Theme.easingStandard
+        }
+    }
+    onValue2Changed: {
+        if (isFinite(value2))
+            animatedValue2 = value2
+    }
+
+    readonly property real animatedNorm2: {
+        var span = maximum - minimum
+        if (span <= 0 || !hasValue2)
+            return 0
+        return Math.max(0, Math.min(1, (animatedValue2 - minimum) / span))
+    }
 
     // Animated 0..1 normalized value
     readonly property real animatedNorm: {
@@ -222,6 +253,7 @@ T.Control {
         readonly property real cx: width / 2
         readonly property real cy: height / 2
         readonly property real radius: Math.min(width, height) * 0.42 - root.strokeWidth * 0.5
+        readonly property real innerRadius: Math.max(8, radius - root.strokeWidth * 0.5 - root.strokeWidthInner * 0.5 - 6)
 
         // Soft glow under progress
         Shape {
@@ -288,6 +320,52 @@ T.Control {
                     radiusY: face.radius
                     startAngle: root.startAngle
                     sweepAngle: fillShape.sweep
+                }
+            }
+        }
+
+        Shape {
+            anchors.fill: parent
+            visible: root.showTrack && root.hasValue2
+            preferredRendererType: Shape.CurveRenderer
+            ShapePath {
+                strokeWidth: root.strokeWidthInner
+                strokeColor: root.trackColor
+                fillColor: "transparent"
+                capStyle: ShapePath.RoundCap
+                startX: face.cx + Math.cos(root.startAngle * Math.PI / 180) * face.innerRadius
+                startY: face.cy + Math.sin(root.startAngle * Math.PI / 180) * face.innerRadius
+                PathAngleArc {
+                    centerX: face.cx
+                    centerY: face.cy
+                    radiusX: face.innerRadius
+                    radiusY: face.innerRadius
+                    startAngle: root.startAngle
+                    sweepAngle: root.sweepTotal
+                }
+            }
+        }
+
+        Shape {
+            id: fillShape2
+            anchors.fill: parent
+            visible: root.hasValue2
+            preferredRendererType: Shape.CurveRenderer
+            property real sweep: root.animatedNorm2 * root.sweepTotal
+            ShapePath {
+                strokeWidth: root.strokeWidthInner
+                strokeColor: root.enabled ? root.fillColor2 : Theme.textDisabled
+                fillColor: "transparent"
+                capStyle: ShapePath.RoundCap
+                startX: face.cx + Math.cos(root.startAngle * Math.PI / 180) * face.innerRadius
+                startY: face.cy + Math.sin(root.startAngle * Math.PI / 180) * face.innerRadius
+                PathAngleArc {
+                    centerX: face.cx
+                    centerY: face.cy
+                    radiusX: face.innerRadius
+                    radiusY: face.innerRadius
+                    startAngle: root.startAngle
+                    sweepAngle: fillShape2.sweep
                 }
             }
         }

@@ -77,6 +77,10 @@ T.Control {
     property string title: ""
     // Placeholder when there is no data
     property string emptyText: qsTr("No data")
+    // Category labels along the X axis (sparse; drawn at sampled indices)
+    property var xAxisLabels: []
+    // Horizontal-then-vertical steps instead of a polyline
+    property bool stepMode: false
 
     // LOD diagnostics
     property int sourcePointCount: 0
@@ -209,6 +213,8 @@ T.Control {
     onMaximumChanged: requestRedraw()
     onShowGridChanged: requestRedraw()
     onShowAreaChanged: requestRedraw()
+    onXAxisLabelsChanged: requestRedraw()
+    onStepModeChanged: requestRedraw()
     onRevealProgressChanged: requestRedraw()
     onWidthChanged: requestRedraw()
     onHeightChanged: requestRedraw()
@@ -296,7 +302,7 @@ T.Control {
                     var padL = 4
                     var padR = 4
                     var padT = 6
-                    var padB = 6
+                    var padB = (root.xAxisLabels && root.xAxisLabels.length) ? 18 : 6
                     var plotW = w - padL - padR
                     var plotH = h - padT - padB
                     var budget = root.autoLod
@@ -364,8 +370,14 @@ T.Control {
                         if (filled) {
                             ctx.beginPath()
                             ctx.moveTo(X(0), Y(pts[0]))
-                            for (var i = 1; i < pts.length; ++i)
-                                ctx.lineTo(X(i), Y(pts[i]))
+                            for (var i = 1; i < pts.length; ++i) {
+                                if (root.stepMode) {
+                                    ctx.lineTo(X(i), Y(pts[i - 1]))
+                                    ctx.lineTo(X(i), Y(pts[i]))
+                                } else {
+                                    ctx.lineTo(X(i), Y(pts[i]))
+                                }
+                            }
                             ctx.lineTo(X(pts.length - 1), padT + plotH)
                             ctx.lineTo(X(0), padT + plotH)
                             ctx.closePath()
@@ -382,11 +394,38 @@ T.Control {
                         ctx.strokeStyle = color
                         ctx.beginPath()
                         ctx.moveTo(X(0), Y(pts[0]))
-                        for (i = 1; i < pts.length; ++i)
-                            ctx.lineTo(X(i), Y(pts[i]))
+                        for (i = 1; i < pts.length; ++i) {
+                            if (root.stepMode) {
+                                ctx.lineTo(X(i), Y(pts[i - 1]))
+                                ctx.lineTo(X(i), Y(pts[i]))
+                            } else {
+                                ctx.lineTo(X(i), Y(pts[i]))
+                            }
+                        }
                         ctx.stroke()
                     }
                     ctx.restore()
+
+                    if (root.xAxisLabels && root.xAxisLabels.length) {
+                        ctx.fillStyle = Theme.textSecondary
+                        ctx.font = Theme.fontCaption + "px \"" + Theme.fontFamily + "\""
+                        ctx.textAlign = "center"
+                        ctx.textBaseline = "top"
+                        var nLab = sampled[0].length
+                        var stride = Math.max(1, Math.ceil(nLab / 8))
+                        for (var li = 0; li < nLab; li += stride) {
+                            var labIdx = li
+                            if (root.xAxisLabels.length === nLab)
+                                labIdx = li
+                            else if (root.xAxisLabels.length > 1)
+                                labIdx = Math.round(li / Math.max(1, nLab - 1) * (root.xAxisLabels.length - 1))
+                            var lab = root.xAxisLabels[labIdx]
+                            if (lab === undefined || lab === null)
+                                continue
+                            var lx = padL + (nLab <= 1 ? plotW * 0.5 : (li / (nLab - 1)) * plotW)
+                            ctx.fillText(String(lab), lx, padT + plotH + 2)
+                        }
+                    }
                     // Hover crosshair is a QML overlay — never paint it here (keeps mouse move cheap).
                 }
             }
@@ -506,6 +545,13 @@ T.Control {
                 y: canvas.plotT + canvas.plotH - ((v - lo) / span) * canvas.plotH,
                 color: list[s].color || ChartUtils.palette(Theme, s)
             })
+        }
+        if (root.xAxisLabels && root.xAxisLabels.length) {
+            var lab = root.xAxisLabels.length === n
+                      ? root.xAxisLabels[idx]
+                      : root.xAxisLabels[Math.round(idx / Math.max(1, n - 1) * (root.xAxisLabels.length - 1))]
+            if (lab !== undefined && lab !== null)
+                lines.unshift(String(lab))
         }
         hoverText = lines.join("\n")
         hoverMarkers = markers

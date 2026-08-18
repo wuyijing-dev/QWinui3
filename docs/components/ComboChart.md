@@ -54,7 +54,9 @@ _No custom signals_ (use inherited signals from the base type).
 
 ### Methods
 
-_No custom methods_ (use inherited methods from the base type).
+| Signature | Description |
+| --- | --- |
+| `requestRedraw()` | — |
 
 ### Inherited from `Control`
 

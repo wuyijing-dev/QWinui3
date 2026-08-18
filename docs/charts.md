@@ -98,7 +98,7 @@ Same `slices` / `values` API. Use `centerText` / `centerSubText` for the hole la
 
 `RadarChart` · `ScatterChart` · `HeatmapChart` · `WaterfallChart` · `StackedBarChart` · `HorizontalBarChart` · `BulletChart` — Gallery demos; compose with stable types or app-owned visuals when possible.
 
-**Professional extras (Gallery, experimental — not stable six):** `ComboChart` (bars + line, dual axis), `FunnelChart`, `CandlestickChart` (OHLC objects), `HistogramChart` (`ChartUtils.histogramBins`), `CompassGauge`, `VuMeter` (LED peak-hold). `RadialGauge.value2` draws a second needle (setpoint vs actual).
+**Professional extras (Gallery, experimental — not stable six):** `ComboChart` (bars + line, dual axis), `FunnelChart`, `CandlestickChart` (OHLC + optional volume pane), `HistogramChart` (`ChartUtils.histogramBins`), `BoxPlotChart`, `ParetoChart`, `BandChart`, `TreemapChart`, `PolarAreaChart`, `CompassGauge`, `VuMeter`, `DualRingGauge`, `TachometerGauge`, `BatteryGauge`. `RadialGauge.value2` / `RingGauge.value2` draw a second needle or inner ring. Stable six deepen: `LineChart.xAxisLabels` / `stepMode`, `BarChart.stacked` / `horizontal` / `series`, `KpiTile.compareValue`.
 
 ---
 
@@ -112,8 +112,8 @@ Kept in the kit and Gallery. APIs may still change. **Do not** ship these names 
 | [`HorizontalBarChart`](components/HorizontalBarChart.md) | [`BarChart`](components/BarChart.md) | **Permanent defer** |
 | [`PieChart`](components/PieChart.md) | [`DonutChart`](components/DonutChart.md) | **Permanent defer** |
 | [`Sparkline`](components/Sparkline.md) | `KpiTile.trendValues` / compact `LineChart` | **Permanent defer** — compose recipe above |
-| `RadarChart` · `ScatterChart` · `HeatmapChart` · `WaterfallChart` · `StackedBarChart` · `BulletChart` · `ComboChart` · `FunnelChart` · `CandlestickChart` · `HistogramChart` | Stable six or custom | **Permanent defer** |
-| `ArcGauge` · `RadialGauge` · `LinearGauge` · `TankGauge` · `ThermometerGauge` · `ZoneGauge` · `SegmentedGauge` · `CompassGauge` · `VuMeter` | [`RingGauge`](components/RingGauge.md) | **Permanent defer** |
+| `RadarChart` · `ScatterChart` · `HeatmapChart` · `WaterfallChart` · `StackedBarChart` · `BulletChart` · `ComboChart` · `FunnelChart` · `CandlestickChart` · `HistogramChart` · `BoxPlotChart` · `ParetoChart` · `BandChart` · `TreemapChart` · `PolarAreaChart` | Stable six or custom | **Permanent defer** |
+| `ArcGauge` · `RadialGauge` · `LinearGauge` · `TankGauge` · `ThermometerGauge` · `ZoneGauge` · `SegmentedGauge` · `CompassGauge` · `VuMeter` · `DualRingGauge` · `TachometerGauge` · `BatteryGauge` | [`RingGauge`](components/RingGauge.md) | **Permanent defer** |
 | `ChartLegend` · `ChartUtils` | Usable helpers | Not in the freeze promise |
 
 ---

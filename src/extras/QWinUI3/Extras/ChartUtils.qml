@@ -7,7 +7,7 @@ import QWinUI3.Theme
 //   ChartUtils.downsample(values, maxPoints)
 //
 //   // --- API ---
-//   // methods: asNumber(v, fallback), valueCount(input), valueAt(input, index, fallback), pointX(input, index), pointY(input, index), pointColor(input, index), flattenValues(input), extents(values), extentsXY(points), lodBudget(plotWidth, maxPoints, factor)
+//   // methods: asNumber(v, fallback), valueCount(input), valueAt(input, index, fallback), pointX(input, index), pointY(input, index), pointColor(input, index), flattenValues(input), extents(values), extentsXY(points), lodBudget(plotWidth, maxPoints, factor), boxPlotStats(values), paretoRows(values), treemapRects(slices, x, y, w, h)
 //   // chartUtils.asNumber(v, fallback)
 //   // chartUtils.valueCount(input)
 //   // chartUtils.valueAt(input, index, fallback)
@@ -432,5 +432,106 @@ QtObject {
         if (n >= 1000)
             return (n / 1000).toFixed(n % 1000 === 0 ? 0 : 1) + "k"
         return String(n)
+    }
+
+    // Tukey five-number summary for a numeric series
+    function boxPlotStats(values) {
+        var arr = flattenValues(values)
+        arr.sort(function (a, b) { return a - b })
+        var n = arr.length
+        if (!n)
+            return { min: 0, q1: 0, median: 0, q3: 0, max: 0, n: 0 }
+        function pct(p) {
+            var i = (n - 1) * p
+            var lo = Math.floor(i)
+            var hi = Math.ceil(i)
+            if (lo === hi)
+                return arr[lo]
+            return arr[lo] + (arr[hi] - arr[lo]) * (i - lo)
+        }
+        return {
+            min: arr[0],
+            q1: pct(0.25),
+            median: pct(0.5),
+            q3: pct(0.75),
+            max: arr[n - 1],
+            n: n
+        }
+    }
+
+    // Sorted Pareto rows with cumulative share (0..1)
+    function paretoRows(values) {
+        var vals = flattenValues(values)
+        var n = vals.length
+        var order = []
+        var total = 0
+        for (var i = 0; i < n; ++i) {
+            order.push(i)
+            total += Math.max(0, asNumber(vals[i]))
+        }
+        order.sort(function (a, b) { return asNumber(vals[b]) - asNumber(vals[a]) })
+        var cum = 0
+        var out = []
+        for (i = 0; i < n; ++i) {
+            var idx = order[i]
+            var v = asNumber(vals[idx])
+            cum += Math.max(0, v)
+            out.push({
+                index: idx,
+                value: v,
+                cumulative: total > 0 ? cum / total : 0
+            })
+        }
+        return out
+    }
+
+    // Slice-and-dice treemap rectangles { x, y, w, h, index }
+    function treemapRects(slices, x, y, w, h) {
+        var n = slices && slices.length ? slices.length : 0
+        var out = []
+        if (!n || w < 1 || h < 1)
+            return out
+        var weights = []
+        var total = 0
+        for (var i = 0; i < n; ++i) {
+            var wt = Math.max(0, asNumber(slices[i].value, slices[i]))
+            weights.push(wt)
+            total += wt
+        }
+        if (total <= 0)
+            return out
+        function layout(start, end, rx, ry, rw, rh, vertical) {
+            if (start >= end || rw < 0.5 || rh < 0.5)
+                return
+            if (end - start === 1) {
+                out.push({ x: rx, y: ry, w: rw, h: rh, index: start })
+                return
+            }
+            var sub = 0
+            for (var k = start; k < end; ++k)
+                sub += weights[k]
+            if (sub <= 0)
+                return
+            var acc = 0
+            var split = start
+            for (k = start; k < end - 1; ++k) {
+                acc += weights[k]
+                split = k
+                if (acc >= sub * 0.5)
+                    break
+            }
+            var frac = acc / sub
+            if (vertical) {
+                var left = rw * frac
+                layout(start, split + 1, rx, ry, left, rh, false)
+                layout(split + 1, end, rx + left, ry, rw - left, rh, false)
+            } else {
+                var top = rh * frac
+                layout(start, split + 1, rx, ry, rw, top, true)
+                layout(split + 1, end, rx, ry + top, rw, rh - top, true)
+            }
+        }
+        layout(0, n, x, y, w, h, w >= h)
+        return out
     }
 }

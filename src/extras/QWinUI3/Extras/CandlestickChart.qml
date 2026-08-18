@@ -31,6 +31,8 @@ T.Control {
     property int hoverIndex: -1
     property color upColor: Theme.systemSuccess
     property color downColor: Theme.systemCritical
+    // Draw volume bars when candles include v or volume
+    property bool showVolume: true
 
     implicitWidth: 360
     implicitHeight: title.length ? 240 : 220
@@ -71,16 +73,23 @@ T.Control {
                         return
                     var lo = Number.POSITIVE_INFINITY
                     var hi = Number.NEGATIVE_INFINITY
+                    var maxVol = 0
+                    var hasVol = false
                     for (var i = 0; i < n; ++i) {
                         lo = Math.min(lo, ChartUtils.asNumber(list[i].l, list[i].c))
                         hi = Math.max(hi, ChartUtils.asNumber(list[i].h, list[i].c))
+                        var vol = ChartUtils.asNumber(list[i].v !== undefined ? list[i].v : list[i].volume, 0)
+                        if (vol > 0)
+                            hasVol = true
+                        maxVol = Math.max(maxVol, vol)
                     }
                     if (hi <= lo)
                         hi = lo + 1
                     var padL = 8
                     var padR = 8
                     var padT = 8
-                    var padB = 16
+                    var volH = (root.showVolume && hasVol) ? Math.max(22, height * 0.22) : 0
+                    var padB = 16 + volH
                     var plotW = width - padL - padR
                     var plotH = height - padT - padB
                     var slot = plotW / n
@@ -121,6 +130,20 @@ T.Control {
                         var bh = Math.max(1, bot - top)
                         ctx.fillStyle = ChartUtils.withAlpha(col, up ? 0.95 : 0.9)
                         ctx.fillRect(cx - bodyW / 2, top, bodyW, bh)
+                    }
+
+                    if (volH > 0 && maxVol > 0) {
+                        var volTop = padT + plotH + 8
+                        for (i = 0; i < n; ++i) {
+                            vol = ChartUtils.asNumber(list[i].v !== undefined ? list[i].v : list[i].volume, 0)
+                            var vh = (vol / maxVol) * (volH - 4)
+                            o = ChartUtils.asNumber(list[i].o)
+                            c = ChartUtils.asNumber(list[i].c, o)
+                            col = c >= o ? root.upColor : root.downColor
+                            ctx.fillStyle = ChartUtils.withAlpha(col, 0.45)
+                            cx = padL + i * slot + slot * 0.5
+                            ctx.fillRect(cx - bodyW / 2, volTop + volH - 4 - vh, bodyW, Math.max(1, vh))
+                        }
                     }
                 }
             }

@@ -2,7 +2,7 @@
   "name": "QWinUI3",
   "version": "2.64",
   "generatedBy": "scripts/generate_component_docs.py",
-  "publicCount": 240,
+  "publicCount": 248,
   "components": [
     {
       "name": "AccentButton",
@@ -185,6 +185,21 @@
       "methodCount": 0
     },
     {
+      "name": "BandChart",
+      "module": "QWinUI3.Extras",
+      "summary": "High/low envelope with an optional mid line.",
+      "path": "src/extras/QWinUI3/Extras/BandChart.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Charts & gauges",
+      "galleryPage": "pages/BandChartPage.qml",
+      "galleryTitle": "BandChart",
+      "doc": "components/BandChart.md",
+      "propertyCount": 12,
+      "signalCount": 0,
+      "methodCount": 0
+    },
+    {
       "name": "BarChart",
       "module": "QWinUI3.Extras",
       "summary": "Vertical bar chart with reveal animation.",
@@ -195,9 +210,24 @@
       "galleryPage": "pages/BarChartPage.qml",
       "galleryTitle": "BarChart",
       "doc": "components/BarChart.md",
-      "propertyCount": 19,
+      "propertyCount": 23,
       "signalCount": 1,
       "methodCount": 2
+    },
+    {
+      "name": "BatteryGauge",
+      "module": "QWinUI3.Extras",
+      "summary": "Battery silhouette with charge fill and optional charging bolt.",
+      "path": "src/extras/QWinUI3/Extras/BatteryGauge.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Charts & gauges",
+      "galleryPage": "pages/BatteryGaugePage.qml",
+      "galleryTitle": "BatteryGauge",
+      "doc": "components/BatteryGauge.md",
+      "propertyCount": 13,
+      "signalCount": 0,
+      "methodCount": 1
     },
     {
       "name": "BlankWindow",
@@ -211,6 +241,21 @@
       "galleryTitle": "",
       "doc": "components/BlankWindow.md",
       "propertyCount": 0,
+      "signalCount": 0,
+      "methodCount": 0
+    },
+    {
+      "name": "BoxPlotChart",
+      "module": "QWinUI3.Extras",
+      "summary": "Tukey box-and-whisker groups.",
+      "path": "src/extras/QWinUI3/Extras/BoxPlotChart.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Charts & gauges",
+      "galleryPage": "pages/BoxPlotChartPage.qml",
+      "galleryTitle": "BoxPlotChart",
+      "doc": "components/BoxPlotChart.md",
+      "propertyCount": 7,
       "signalCount": 0,
       "methodCount": 0
     },
@@ -285,7 +330,7 @@
       "galleryPage": "pages/CandlestickChartPage.qml",
       "galleryTitle": "CandlestickChart",
       "doc": "components/CandlestickChart.md",
-      "propertyCount": 9,
+      "propertyCount": 10,
       "signalCount": 0,
       "methodCount": 0
     },
@@ -332,7 +377,7 @@
       "doc": "components/ChartUtils.md",
       "propertyCount": 3,
       "signalCount": 0,
-      "methodCount": 22
+      "methodCount": 25
     },
     {
       "name": "Chip",
@@ -407,7 +452,7 @@
       "doc": "components/ComboChart.md",
       "propertyCount": 15,
       "signalCount": 0,
-      "methodCount": 0
+      "methodCount": 1
     },
     {
       "name": "CommandBar",
@@ -708,6 +753,21 @@
       "propertyCount": 11,
       "signalCount": 0,
       "methodCount": 3
+    },
+    {
+      "name": "DualRingGauge",
+      "module": "QWinUI3.Extras",
+      "summary": "Two independent concentric KPI rings.",
+      "path": "src/extras/QWinUI3/Extras/DualRingGauge.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Charts & gauges",
+      "galleryPage": "pages/DualRingGaugePage.qml",
+      "galleryTitle": "DualRingGauge",
+      "doc": "components/DualRingGauge.md",
+      "propertyCount": 18,
+      "signalCount": 0,
+      "methodCount": 2
     },
     {
       "name": "EmptyState",
@@ -1170,7 +1230,7 @@
       "galleryPage": "pages/KpiTilePage.qml",
       "galleryTitle": "KpiTile",
       "doc": "components/KpiTile.md",
-      "propertyCount": 38,
+      "propertyCount": 42,
       "signalCount": 1,
       "methodCount": 4
     },
@@ -1200,7 +1260,7 @@
       "galleryPage": "pages/LineChartPage.qml",
       "galleryTitle": "LineChart",
       "doc": "components/LineChart.md",
-      "propertyCount": 27,
+      "propertyCount": 29,
       "signalCount": 0,
       "methodCount": 6
     },
@@ -1580,6 +1640,21 @@
       "methodCount": 3
     },
     {
+      "name": "ParetoChart",
+      "module": "QWinUI3.Extras",
+      "summary": "Ranked bars plus cumulative percent line.",
+      "path": "src/extras/QWinUI3/Extras/ParetoChart.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Charts & gauges",
+      "galleryPage": "pages/ParetoChartPage.qml",
+      "galleryTitle": "ParetoChart",
+      "doc": "components/ParetoChart.md",
+      "propertyCount": 10,
+      "signalCount": 0,
+      "methodCount": 0
+    },
+    {
       "name": "PasswordBox",
       "module": "QWinUI3.Extras",
       "summary": "Password field with reveal toggle.",
@@ -1653,6 +1728,21 @@
       "propertyCount": 7,
       "signalCount": 2,
       "methodCount": 1
+    },
+    {
+      "name": "PolarAreaChart",
+      "module": "QWinUI3.Extras",
+      "summary": "Coxcomb / polar-area sectors (radius encodes value).",
+      "path": "src/extras/QWinUI3/Extras/PolarAreaChart.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Charts & gauges",
+      "galleryPage": "pages/PolarAreaChartPage.qml",
+      "galleryTitle": "PolarAreaChart",
+      "doc": "components/PolarAreaChart.md",
+      "propertyCount": 8,
+      "signalCount": 0,
+      "methodCount": 0
     },
     {
       "name": "ProgressButton",
@@ -1830,7 +1920,7 @@
       "galleryPage": "pages/RingGaugePage.qml",
       "galleryTitle": "RingGauge",
       "doc": "components/RingGauge.md",
-      "propertyCount": 34,
+      "propertyCount": 40,
       "signalCount": 1,
       "methodCount": 5
     },
@@ -2300,6 +2390,21 @@
       "methodCount": 0
     },
     {
+      "name": "TachometerGauge",
+      "module": "QWinUI3.Extras",
+      "summary": "RPM-style needle with a redline band.",
+      "path": "src/extras/QWinUI3/Extras/TachometerGauge.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Charts & gauges",
+      "galleryPage": "pages/TachometerGaugePage.qml",
+      "galleryTitle": "TachometerGauge",
+      "doc": "components/TachometerGauge.md",
+      "propertyCount": 15,
+      "signalCount": 1,
+      "methodCount": 1
+    },
+    {
       "name": "TankGauge",
       "module": "QWinUI3.Extras",
       "summary": "Vertical / horizontal tank / reservoir level gauge.",
@@ -2553,6 +2658,21 @@
       "propertyCount": 21,
       "signalCount": 4,
       "methodCount": 8
+    },
+    {
+      "name": "TreemapChart",
+      "module": "QWinUI3.Extras",
+      "summary": "Nested slice-and-dice treemap.",
+      "path": "src/extras/QWinUI3/Extras/TreemapChart.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Collections & data",
+      "galleryPage": "pages/TreemapChartPage.qml",
+      "galleryTitle": "TreemapChart",
+      "doc": "components/TreemapChart.md",
+      "propertyCount": 8,
+      "signalCount": 1,
+      "methodCount": 0
     },
     {
       "name": "TwoPaneView",

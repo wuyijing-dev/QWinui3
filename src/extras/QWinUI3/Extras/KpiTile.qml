@@ -51,6 +51,10 @@ T.Control {
     property string footer: ""
     // Signed change vs previous period (NaN to hide)
     property real delta: NaN
+    // Comparison period value (NaN to hide) — e.g. last week
+    property real compareValue: NaN
+    // Prefix for the comparison readout
+    property string comparePrefix: qsTr("vs ")
     // Suffix for delta text (e.g. "%")
     property string deltaUnit: "%"
     // Digits after decimal for delta
@@ -131,6 +135,15 @@ T.Control {
         return sign + Number(delta).toFixed(deltaPrecision) + deltaUnit
     }
 
+    readonly property bool hasCompare: isFinite(compareValue)
+    readonly property string formattedCompare: {
+        if (!hasCompare)
+            return ""
+        var n = Number(compareValue)
+        var t = valuePrecision > 0 ? n.toFixed(valuePrecision) : String(Math.round(n))
+        return comparePrefix + t + (unit.length ? unit : "")
+    }
+
     // 0 = ok, 1 = caution, 2 = critical (from absolute value thresholds)
     readonly property int severity: {
         if (cautionThreshold < 0 && criticalThreshold < 0)
@@ -200,6 +213,8 @@ T.Control {
             h += 18
         if (caption.length)
             h += 4
+        if (hasCompare)
+            h += 16
         return h
     }
     padding: 12
@@ -207,7 +222,9 @@ T.Control {
     focusPolicy: isInteractive ? Qt.StrongFocus : Qt.NoFocus
     Accessible.role: isInteractive ? Accessible.Button : Accessible.StaticText
     Accessible.name: title.length ? title : qsTr("KPI")
-    Accessible.description: formattedValue + (hasDelta ? (" " + formattedDelta) : "")
+    Accessible.description: formattedValue
+                            + (hasDelta ? (" " + formattedDelta) : "")
+                            + (hasCompare ? (" " + formattedCompare) : "")
     Accessible.onPressAction: if (isInteractive) clicked()
 
     Keys.onReturnPressed: if (isInteractive) clicked()
@@ -290,13 +307,25 @@ T.Control {
             }
         }
 
-        Text {
+        RowLayout {
             Layout.fillWidth: true
-            text: root.formattedValue
-            font.family: Theme.fontFamilyDisplay
-            font.pixelSize: Theme.fontTitle
-            font.weight: Theme.fontWeightSemiBold
-            color: root.valueColor
+            spacing: 8
+            Text {
+                text: root.formattedValue
+                font.family: Theme.fontFamilyDisplay
+                font.pixelSize: Theme.fontTitle
+                font.weight: Theme.fontWeightSemiBold
+                color: root.valueColor
+            }
+            Text {
+                visible: root.hasCompare
+                Layout.fillWidth: true
+                text: root.formattedCompare
+                elide: Text.ElideRight
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontCaption
+                color: Theme.textSecondary
+            }
         }
 
         Text {

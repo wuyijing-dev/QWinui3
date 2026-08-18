@@ -56,6 +56,8 @@ Layout.fillWidth defaults to true inside Column/Row/Grid layouts.
 | `caption` | `string` | Caption under the value row |
 | `footer` | `string` | Footer line under the spark |
 | `delta` | `real` | Signed change vs previous period (NaN to hide) |
+| `compareValue` | `real` | Comparison period value (NaN to hide) — e.g. last week |
+| `comparePrefix` | `string` | Prefix for the comparison readout |
 | `deltaUnit` | `string` | Suffix for delta text (e.g. "%") |
 | `deltaPrecision` | `int` | Digits after decimal for delta |
 | `invertDeltaColors` | `bool` | When true, negative delta is success (lower-is-better metrics) |
@@ -82,6 +84,8 @@ Layout.fillWidth defaults to true inside Column/Row/Grid layouts.
 | `deltaPositive` | `bool` | — |
 | `deltaColor` | `color` | — |
 | `formattedDelta` | `string` | — |
+| `hasCompare` | `bool` | — |
+| `formattedCompare` | `string` | — |
 | `severity` | `int` | 0 = ok, 1 = caution, 2 = critical (from absolute value thresholds) |
 | `valueColor` | `color` | — |
 | `effectiveBadgeSeverity` | `int` | — |

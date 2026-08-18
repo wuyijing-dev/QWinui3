@@ -41,6 +41,7 @@ Experimental Canvas OHLC. Not part of the stable six. ChartSeries is Y-only — 
 | `hoverIndex` | `int` | — |
 | `upColor` | `color` | — |
 | `downColor` | `color` | — |
+| `showVolume` | `bool` | Draw volume bars when candles include v or volume |
 | `isEmpty` | `bool` | — |
 
 ### Signals

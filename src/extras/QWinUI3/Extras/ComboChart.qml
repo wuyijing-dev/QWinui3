@@ -47,6 +47,22 @@ T.Control {
     property alias isInteractive: root.interactive
     property int hoverIndex: -1
 
+    Timer {
+        id: redrawCoalesce
+        interval: ChartUtils.redrawCoalesceMs
+        repeat: false
+        onTriggered: canvas.requestPaint()
+    }
+
+    function requestRedraw() { redrawCoalesce.restart() }
+
+    onBarsChanged: requestRedraw()
+    onLineChanged: requestRedraw()
+    onLabelsChanged: requestRedraw()
+    onHoverIndexChanged: requestRedraw()
+    onWidthChanged: requestRedraw()
+    onHeightChanged: requestRedraw()
+
     implicitWidth: 360
     implicitHeight: title.length || showLegend ? 240 : 200
     padding: 8

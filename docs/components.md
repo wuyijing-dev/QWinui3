@@ -8,7 +8,7 @@ python scripts/generate_component_docs.py
 python scripts/generate_component_docs.py --lint
 ```
 
-**240** public · **11** internal · **167** with Gallery demos · Hub: [docs home](index.md).
+**248** public · **11** internal · **175** with Gallery demos · Hub: [docs home](index.md).
 
 ## By module
 
@@ -26,8 +26,11 @@ python scripts/generate_component_docs.py --lint
 - [AreaChart](components/AreaChart.md) — Filled area chart with legend and hover crosshair. · Gallery
 - [AutoSuggestBox](components/AutoSuggestBox.md) — Text field with filtered suggestion popup. · Gallery
 - [AvatarGroup](components/AvatarGroup.md) — Overlapping PersonPicture stack with overflow count. · Gallery
+- [BandChart](components/BandChart.md) — High/low envelope with an optional mid line. · Gallery
 - [BarChart](components/BarChart.md) — Vertical bar chart with reveal animation. · Gallery
+- [BatteryGauge](components/BatteryGauge.md) — Battery silhouette with charge fill and optional charging bolt. · Gallery
 - [BlankWindow](components/BlankWindow.md) — Empty ShellWindow client — declare UI as children.
+- [BoxPlotChart](components/BoxPlotChart.md) — Tukey box-and-whisker groups. · Gallery
 - [BreadcrumbBar](components/BreadcrumbBar.md) — Path trail; model items raise itemClicked. · Gallery
 - [BulletChart](components/BulletChart.md) — Compact KPI bullet (ranges + performance + target). · Gallery
 - [CalendarDatePicker](components/CalendarDatePicker.md) — Date field with calendar flyout. · Gallery
@@ -60,6 +63,7 @@ python scripts/generate_component_docs.py --lint
 - [DockPanel](components/DockPanel.md) — Dock children Top/Bottom/Left/Right/Fill. · Gallery
 - [DonutChart](components/DonutChart.md) — Donut chart with hover and legend. · Gallery
 - [DropDownButton](components/DropDownButton.md) — Button that opens a MenuFlyout of actions. · Gallery
+- [DualRingGauge](components/DualRingGauge.md) — Two independent concentric KPI rings. · Gallery
 - [EmptyState](components/EmptyState.md) — Placeholder illustration + title + optional action. · Gallery
 - [EntranceThemeTransition](components/EntranceThemeTransition.md) — WinUI-style page / section entrance (fade + rise + scale). · Gallery
 - [Expander](components/Expander.md) — Collapsible header with expandable content. · Gallery
@@ -117,11 +121,13 @@ python scripts/generate_component_docs.py --lint
 - [OskSettingsFlyout](components/OskSettingsFlyout.md) — Win11-style keyboard settings (size, voice/handwriting, user lexicon).
 - [OskVoiceBar](components/OskVoiceBar.md) — cross-platform speech-to-text strip (Windows System.Speech / Linux whisper|vosk).
 - [PagerControl](components/PagerControl.md) — Numbered page navigation (prev / numbers / next). · Gallery
+- [ParetoChart](components/ParetoChart.md) — Ranked bars plus cumulative percent line. · Gallery
 - [PasswordBox](components/PasswordBox.md) — Password field with reveal toggle. · Gallery
 - [PersonPicture](components/PersonPicture.md) — Avatar from image or initials (WinUI IsGroup / BadgeImageSource). · Gallery
 - [PieChart](components/PieChart.md) — Pie chart with legend. · Gallery
 - [PipsPager](components/PipsPager.md) — Dot pager for carousels. · Gallery
 - [Pivot](components/Pivot.md) — Header tabs with sliding underline and pages. · Gallery
+- [PolarAreaChart](components/PolarAreaChart.md) — Coxcomb / polar-area sectors (radius encodes value). · Gallery
 - [ProgressButton](components/ProgressButton.md) — Button with inline determinate/indeterminate fill. · Gallery
 - [ProgressRing](components/ProgressRing.md) — Circular progress / busy ring (WinUI Minimum / Maximum / IsActive). · Gallery
 - [RadarChart](components/RadarChart.md) — Radar / spider chart. · Gallery
@@ -164,6 +170,7 @@ python scripts/generate_component_docs.py --lint
 - [TabView](components/TabView.md) — Closeable / reorderable / tear-out tabs. · Gallery
 - [TabViewDropHub](components/TabViewDropHub.md) — same-process registry so torn-out tabs can dock back.
 - [TabViewTearOutWindow](components/TabViewTearOutWindow.md) — Host window for a torn-out TabView tab.
+- [TachometerGauge](components/TachometerGauge.md) — RPM-style needle with a redline band. · Gallery
 - [TankGauge](components/TankGauge.md) — Vertical / horizontal tank / reservoir level gauge. · Gallery
 - [TeachingTip](components/TeachingTip.md) — Anchored tip with title, subtitle, content, and actions. · Gallery
 - [TextBlock](components/TextBlock.md) — Fluent typography styles (title, body, caption…). · Gallery
@@ -181,6 +188,7 @@ python scripts/generate_component_docs.py --lint
 - [TokenizingTextBox](components/TokenizingTextBox.md) — Token chips + text input. · Gallery
 - [ToolShellWindow](components/ToolShellWindow.md) — ShellWindow with tool paradigm.
 - [TreeDataGrid](components/TreeDataGrid.md) — hierarchical multi-column grid with sort + filter (2.21). · Gallery
+- [TreemapChart](components/TreemapChart.md) — Nested slice-and-dice treemap. · Gallery
 - [TwoPaneView](components/TwoPaneView.md) — Responsive dual-pane layout. · Gallery
 - [UniformGrid](components/UniformGrid.md) — Even cell grid. · Gallery
 - [ValidationSummary](components/ValidationSummary.md) — Lists form-level validation errors (pairs with FormLayout).
@@ -293,13 +301,17 @@ python scripts/generate_component_docs.py --lint
 
 - [ArcGauge](components/ArcGauge.md) — `QWinUI3.Extras`
 - [AreaChart](components/AreaChart.md) — `QWinUI3.Extras`
+- [BandChart](components/BandChart.md) — `QWinUI3.Extras`
 - [BarChart](components/BarChart.md) — `QWinUI3.Extras`
+- [BatteryGauge](components/BatteryGauge.md) — `QWinUI3.Extras`
+- [BoxPlotChart](components/BoxPlotChart.md) — `QWinUI3.Extras`
 - [BulletChart](components/BulletChart.md) — `QWinUI3.Extras`
 - [CandlestickChart](components/CandlestickChart.md) — `QWinUI3.Extras`
 - [ChartCard](components/ChartCard.md) — `QWinUI3.Extras`
 - [ChartLegend](components/ChartLegend.md) — `QWinUI3.Extras`
 - [CompassGauge](components/CompassGauge.md) — `QWinUI3.Extras`
 - [DonutChart](components/DonutChart.md) — `QWinUI3.Extras`
+- [DualRingGauge](components/DualRingGauge.md) — `QWinUI3.Extras`
 - [FunnelChart](components/FunnelChart.md) — `QWinUI3.Extras`
 - [HeatmapChart](components/HeatmapChart.md) — `QWinUI3.Extras`
 - [HistogramChart](components/HistogramChart.md) — `QWinUI3.Extras`
@@ -307,13 +319,16 @@ python scripts/generate_component_docs.py --lint
 - [KpiTile](components/KpiTile.md) — `QWinUI3.Extras`
 - [LineChart](components/LineChart.md) — `QWinUI3.Extras`
 - [LinearGauge](components/LinearGauge.md) — `QWinUI3.Extras`
+- [ParetoChart](components/ParetoChart.md) — `QWinUI3.Extras`
 - [PieChart](components/PieChart.md) — `QWinUI3.Extras`
+- [PolarAreaChart](components/PolarAreaChart.md) — `QWinUI3.Extras`
 - [RadarChart](components/RadarChart.md) — `QWinUI3.Extras`
 - [RingGauge](components/RingGauge.md) — `QWinUI3.Extras`
 - [ScatterChart](components/ScatterChart.md) — `QWinUI3.Extras`
 - [SegmentedGauge](components/SegmentedGauge.md) — `QWinUI3.Extras`
 - [Sparkline](components/Sparkline.md) — `QWinUI3.Extras`
 - [StackedBarChart](components/StackedBarChart.md) — `QWinUI3.Extras`
+- [TachometerGauge](components/TachometerGauge.md) — `QWinUI3.Extras`
 - [TankGauge](components/TankGauge.md) — `QWinUI3.Extras`
 - [ThermometerGauge](components/ThermometerGauge.md) — `QWinUI3.Extras`
 - [WaterfallChart](components/WaterfallChart.md) — `QWinUI3.Extras`
@@ -336,6 +351,7 @@ python scripts/generate_component_docs.py --lint
 - [PersonPicture](components/PersonPicture.md) — `QWinUI3.Extras`
 - [Timeline](components/Timeline.md) — `QWinUI3.Extras`
 - [TreeDataGrid](components/TreeDataGrid.md) — `QWinUI3.Extras`
+- [TreemapChart](components/TreemapChart.md) — `QWinUI3.Extras`
 
 ### Date & time
 
