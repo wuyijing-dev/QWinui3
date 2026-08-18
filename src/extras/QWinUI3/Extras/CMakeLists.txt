@@ -7,6 +7,9 @@ qt_add_library(qwinui3_extras ${QWINUI3_LIB_TYPE})
 set_source_files_properties(ChartUtils.qml PROPERTIES
     QT_QML_SINGLETON_TYPE TRUE
 )
+set_source_files_properties(GaugeUtils.qml PROPERTIES
+    QT_QML_SINGLETON_TYPE TRUE
+)
 set_source_files_properties(ContentDialogQueue.qml PROPERTIES
     QT_QML_SINGLETON_TYPE TRUE
 )
@@ -189,6 +192,8 @@ qt_add_qml_module(qwinui3_extras
         TachometerGauge.qml
         BatteryGauge.qml
         FuelGauge.qml
+        GaugeDragLayer.qml
+        GaugeUtils.qml
         QuarterGauge.qml
         DigitGauge.qml
         CylinderGauge.qml

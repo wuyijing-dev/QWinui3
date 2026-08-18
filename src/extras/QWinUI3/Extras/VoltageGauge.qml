@@ -55,26 +55,28 @@ T.Control {
 
     function setValue(v) { value = Math.max(minimum, Math.min(maximum, v)) }
 
-    contentItem: ColumnLayout {
-        spacing: 4
-        RowLayout {
-            Text {
+    contentItem: Item {
+        ColumnLayout {
+            anchors.fill: parent
+            spacing: 4
+            RowLayout {
+                Text {
+                    Layout.fillWidth: true
+                    text: root.title.length ? root.title : qsTr("Batt")
+                    font.pixelSize: Theme.fontCaption
+                    color: Theme.textSecondary
+                }
+                Text {
+                    text: (Math.round(root.animatedValue * 10) / 10).toFixed(1) + " " + root.unit
+                    font.weight: Theme.fontWeightSemiBold
+                    color: root.fillColor
+                }
+            }
+            Canvas {
+                id: canvas
                 Layout.fillWidth: true
-                text: root.title.length ? root.title : qsTr("Batt")
-                font.pixelSize: Theme.fontCaption
-                color: Theme.textSecondary
-            }
-            Text {
-                text: (Math.round(root.animatedValue * 10) / 10).toFixed(1) + " " + root.unit
-                font.weight: Theme.fontWeightSemiBold
-                color: root.fillColor
-            }
-        }
-        Canvas {
-            id: canvas
-            Layout.fillWidth: true
-            Layout.preferredHeight: 18
-            onPaint: {
+                Layout.preferredHeight: 18
+                onPaint: {
                 var ctx = getContext("2d")
                 ctx.reset()
                 var w = width
@@ -85,17 +87,17 @@ T.Control {
                 ctx.fillStyle = root.fillColor
                 ctx.fillRect(0, 2, fw, h - 4)
             }
-            MouseArea {
-                anchors.fill: parent
-                enabled: root.isInteractive
-                onPressed: function (mouse) { positionChanged(mouse) }
-                onPositionChanged: function (mouse) {
-                    if (!pressed)
-                        return
-                    root.setValue(root.minimum + Math.max(0, Math.min(1, mouse.x / Math.max(1, width))) * (root.maximum - root.minimum))
-                    root.valueEdited(root.value)
-                    canvas.requestPaint()
-                }
+            }
+        }
+
+        GaugeDragLayer {
+            coordSpace: canvas
+            enabled: root.isInteractive && root.enabled
+            onDragged: function (x, y) {
+                var n = Math.max(0, Math.min(1, x / Math.max(1, canvas.width)))
+                root.setValue(GaugeUtils.valueFromNorm(n, root.minimum, root.maximum))
+                root.valueEdited(root.value)
+                canvas.requestPaint()
             }
         }
     }

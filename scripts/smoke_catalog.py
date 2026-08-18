@@ -37,11 +37,10 @@ CRITICAL = [
     "FontIconPage",           # 1.49 micro-motion
     "PitfallsPage",           # 1.51 / 1.60 maturity
     "ExamplesTemplatesPage",  # 1.50 gallery-shell
-    "SearchRecipesPage",      # 1.59 search cookbook
+    "SearchBoxPage",          # 1.59 search patterns
     "HighDpiPage",            # 1.58 DPI matrix
     "MultiWindowPage",        # 2.14 modal stack harden
     "StyleSpotCheckPage",     # 2.17 Style token audit
-    "RecipesHubPage",         # 2.46 docs IA hub mirror
     "PerformancePage",        # 2.44 FrameStats retail profile
 ]
 

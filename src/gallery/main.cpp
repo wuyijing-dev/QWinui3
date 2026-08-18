@@ -157,11 +157,10 @@ int main(int argc, char *argv[])
             "FontIconPage",
             "PitfallsPage",
             "ExamplesTemplatesPage",
-            "SearchRecipesPage",
+            "SearchBoxPage",
             "HighDpiPage",
             "MultiWindowPage",
             "StyleSpotCheckPage",
-            "RecipesHubPage",
             "PerformancePage",
             nullptr,
         };

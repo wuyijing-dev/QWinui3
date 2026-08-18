@@ -49,19 +49,21 @@ T.Control {
 
     function setValue(v) { value = Math.max(minimum, Math.min(maximum, v)) }
 
-    contentItem: ColumnLayout {
-        spacing: 4
-        Text {
-            visible: root.title.length > 0
-            text: root.title
-            font.pixelSize: Theme.fontCaption
-            color: Theme.textSecondary
-        }
-        Canvas {
-            id: canvas
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            antialiasing: true
+    contentItem: Item {
+        ColumnLayout {
+            anchors.fill: parent
+            spacing: 4
+            Text {
+                visible: root.title.length > 0
+                text: root.title
+                font.pixelSize: Theme.fontCaption
+                color: Theme.textSecondary
+            }
+            Canvas {
+                id: canvas
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                antialiasing: true
             onPaint: {
                 var ctx = getContext("2d")
                 ctx.reset()
@@ -104,6 +106,7 @@ T.Control {
                 ellipse(fillTop, root.fillColor, Theme.strokeControl)
                 ellipse(top, "transparent", Theme.strokeControl)
             }
+            }
             Text {
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.bottom: parent.bottom
@@ -111,18 +114,16 @@ T.Control {
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textSecondary
             }
-            MouseArea {
-                anchors.fill: parent
-                enabled: root.isInteractive
-                onPressed: function (mouse) { positionChanged(mouse) }
-                onPositionChanged: function (mouse) {
-                    if (!pressed)
-                        return
-                    var nrm = 1 - Math.max(0, Math.min(1, (mouse.y - 14) / Math.max(1, height - 24)))
-                    root.setValue(root.minimum + nrm * (root.maximum - root.minimum))
-                    root.valueEdited(root.value)
-                    canvas.requestPaint()
-                }
+        }
+
+        GaugeDragLayer {
+            coordSpace: canvas
+            enabled: root.isInteractive && root.enabled
+            onDragged: function (x, y) {
+                var nrm = 1 - Math.max(0, Math.min(1, (y - 14) / Math.max(1, canvas.height - 24)))
+                root.setValue(GaugeUtils.valueFromNorm(nrm, root.minimum, root.maximum))
+                root.valueEdited(root.value)
+                canvas.requestPaint()
             }
         }
     }

@@ -507,63 +507,69 @@ T.Control {
                     Layout.preferredHeight: root.headerHeight
                     spacing: 0
 
-                    Row {
-                        id: frozenHeaderRow
+                    Item {
+                        id: frozenHeaderHost
                         visible: root._frozenColOrder.length > 0
                         height: root.headerHeight
-                        Repeater {
-                            model: root._frozenColOrder
-                            delegate: Item {
-                                id: frozenHeaderCell
-                                required property var modelData
-                                readonly property int columnIndex: modelData
-                                width: root._columnWidths[columnIndex] || 140
-                                height: root.headerHeight
-                                readonly property var colDef: (root.columns || [])[columnIndex] || ({})
+                        width: frozenHeaderRow.width
 
-                                Rectangle {
-                                    anchors.fill: parent
-                                    color: Theme.bgAcrylic
-                                    Accessible.role: Accessible.ColumnHeader
-                                    Accessible.name: frozenHeaderCell.colDef.title
-                                                     || frozenHeaderCell.colDef.role || ""
-                                    Accessible.onPressAction: root.toggleSort(frozenHeaderCell.columnIndex)
+                        Row {
+                            id: frozenHeaderRow
+                            height: parent.height
+                            Repeater {
+                                model: root._frozenColOrder
+                                delegate: Item {
+                                    id: frozenHeaderCell
+                                    required property var modelData
+                                    readonly property int columnIndex: modelData
+                                    width: root._columnWidths[columnIndex] || 140
+                                    height: root.headerHeight
+                                    readonly property var colDef: (root.columns || [])[columnIndex] || ({})
 
-                                    Label {
+                                    Rectangle {
                                         anchors.fill: parent
-                                        anchors.leftMargin: 12
-                                        anchors.rightMargin: 8
-                                        text: frozenHeaderCell.colDef.title
-                                              || frozenHeaderCell.colDef.role || ""
-                                        elide: Text.ElideRight
-                                        font.weight: Theme.fontWeightSemiBold
-                                        verticalAlignment: Text.AlignVCenter
-                                    }
-                                    MouseArea {
-                                        anchors.fill: parent
-                                        anchors.rightMargin: 6
-                                        onClicked: root.toggleSort(frozenHeaderCell.columnIndex)
-                                    }
-                                    MouseArea {
-                                        anchors.top: parent.top
-                                        anchors.bottom: parent.bottom
-                                        anchors.right: parent.right
-                                        width: 6
-                                        cursorShape: Qt.SplitHCursor
-                                        visible: frozenHeaderCell.colDef.resizable !== false
-                                        property real _startX: 0
-                                        property real _startW: 0
-                                        onPressed: function (mouse) {
-                                            _startX = mouse.x
-                                            _startW = frozenHeaderCell.width
+                                        color: Theme.bgAcrylic
+                                        Accessible.role: Accessible.ColumnHeader
+                                        Accessible.name: frozenHeaderCell.colDef.title
+                                                         || frozenHeaderCell.colDef.role || ""
+                                        Accessible.onPressAction: root.toggleSort(frozenHeaderCell.columnIndex)
+
+                                        Label {
+                                            anchors.fill: parent
+                                            anchors.leftMargin: 12
+                                            anchors.rightMargin: 8
+                                            text: frozenHeaderCell.colDef.title
+                                                  || frozenHeaderCell.colDef.role || ""
+                                            elide: Text.ElideRight
+                                            font.weight: Theme.fontWeightSemiBold
+                                            verticalAlignment: Text.AlignVCenter
                                         }
-                                        onPositionChanged: function (mouse) {
-                                            if (!pressed)
-                                                return
-                                            var nw = Math.max(root.minColumnWidth, _startW + (mouse.x - _startX))
-                                            var widths = root._columnWidths.slice()
-                                            widths[frozenHeaderCell.columnIndex] = nw
-                                            root._columnWidths = widths
+                                        MouseArea {
+                                            anchors.fill: parent
+                                            anchors.rightMargin: 6
+                                            onClicked: root.toggleSort(frozenHeaderCell.columnIndex)
+                                        }
+                                        MouseArea {
+                                            anchors.top: parent.top
+                                            anchors.bottom: parent.bottom
+                                            anchors.right: parent.right
+                                            width: 6
+                                            cursorShape: Qt.SplitHCursor
+                                            visible: frozenHeaderCell.colDef.resizable !== false
+                                            property real _startX: 0
+                                            property real _startW: 0
+                                            onPressed: function (mouse) {
+                                                _startX = mouse.x
+                                                _startW = frozenHeaderCell.width
+                                            }
+                                            onPositionChanged: function (mouse) {
+                                                if (!pressed)
+                                                    return
+                                                var nw = Math.max(root.minColumnWidth, _startW + (mouse.x - _startX))
+                                                var widths = root._columnWidths.slice()
+                                                widths[frozenHeaderCell.columnIndex] = nw
+                                                root._columnWidths = widths
+                                            }
                                         }
                                     }
                                 }
@@ -580,7 +586,7 @@ T.Control {
 
                     Flickable {
                         id: headerFlick
-                        width: parent.width - frozenHeaderRow.width
+                        width: parent.width - frozenHeaderHost.width
                         height: root.headerHeight
                         contentWidth: scrollHeaderRow.width
                         contentHeight: height
@@ -734,46 +740,52 @@ T.Control {
                                 height: parent.height
                                 spacing: 0
 
-                                Row {
-                                    id: frozenCells
+                                Item {
+                                    id: frozenCellHost
                                     visible: root._frozenColOrder.length > 0
                                     height: parent.height
-                                    Repeater {
-                                        model: root._frozenColOrder
-                                        delegate: Item {
-                                            required property var modelData
-                                            readonly property int columnIndex: modelData
-                                            readonly property real indent: rowItem.modelData.depth * root.indentWidth
-                                            width: (root._columnWidths[columnIndex] || 140)
-                                            height: root.rowHeight
-                                            Row {
-                                                x: indent
-                                                height: parent.height
-                                                spacing: 4
-                                                Item {
-                                                    width: 20
+                                    width: frozenCells.width
+
+                                    Row {
+                                        id: frozenCells
+                                        height: parent.height
+                                        Repeater {
+                                            model: root._frozenColOrder
+                                            delegate: Item {
+                                                required property var modelData
+                                                readonly property int columnIndex: modelData
+                                                readonly property real indent: rowItem.modelData.depth * root.indentWidth
+                                                width: (root._columnWidths[columnIndex] || 140)
+                                                height: root.rowHeight
+                                                Row {
+                                                    x: indent
                                                     height: parent.height
-                                                    visible: rowItem.modelData.hasChildren
-                                                    Text {
-                                                        anchors.centerIn: parent
-                                                        text: FluentIcons.ChevronRight
-                                                        font.family: Theme.fontFamilyIcon
-                                                        font.pixelSize: 10
-                                                        color: Theme.textSecondary
-                                                        rotation: root._isExpanded(rowItem.modelData.path) ? 90 : 0
+                                                    spacing: 4
+                                                    Item {
+                                                        width: 20
+                                                        height: parent.height
+                                                        visible: rowItem.modelData.hasChildren
+                                                        Text {
+                                                            anchors.centerIn: parent
+                                                            text: FluentIcons.ChevronRight
+                                                            font.family: Theme.fontFamilyIcon
+                                                            font.pixelSize: 10
+                                                            color: Theme.textSecondary
+                                                            rotation: root._isExpanded(rowItem.modelData.path) ? 90 : 0
+                                                        }
+                                                        MouseArea {
+                                                            anchors.fill: parent
+                                                            onClicked: root.toggleExpanded(rowItem.modelData.path)
+                                                        }
                                                     }
-                                                    MouseArea {
-                                                        anchors.fill: parent
-                                                        onClicked: root.toggleExpanded(rowItem.modelData.path)
+                                                    Label {
+                                                        width: Math.max(40, parent.parent.width - indent - 28)
+                                                        height: parent.height
+                                                        text: root._cellText(rowItem.modelData.row, columnIndex)
+                                                        elide: Text.ElideRight
+                                                        verticalAlignment: Text.AlignVCenter
+                                                        color: Theme.textPrimary
                                                     }
-                                                }
-                                                Label {
-                                                    width: Math.max(40, parent.parent.width - indent - 28)
-                                                    height: parent.height
-                                                    text: root._cellText(rowItem.modelData.row, columnIndex)
-                                                    elide: Text.ElideRight
-                                                    verticalAlignment: Text.AlignVCenter
-                                                    color: Theme.textPrimary
                                                 }
                                             }
                                         }
@@ -788,7 +800,7 @@ T.Control {
                                 }
 
                                 Item {
-                                    width: list.width - frozenCells.width
+                                    width: list.width - frozenCellHost.width
                                     height: parent.height
                                     clip: true
                                     Row {

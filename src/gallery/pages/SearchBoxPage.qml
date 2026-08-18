@@ -29,14 +29,14 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("SearchBox pairs a search glyph, clear affordance, and suggestion popup for “find …” flows. AutoSuggestBox is the form-field cousin. Cookbook + catalog jump demo: Search recipes.")
+                text: qsTr("SearchBox pairs a search glyph, clear affordance, and suggestion popup for “find …” flows. AutoSuggestBox is the form-field cousin. See docs/search.md for filter-above and catalog jump patterns.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
             Button {
-                text: qsTr("Open Search recipes")
-                onClicked: page.openComp("SearchRecipesPage")
+                text: qsTr("Open AutoSuggestBox")
+                onClicked: page.openComp("AutoSuggestBoxPage")
             }
         }
     }

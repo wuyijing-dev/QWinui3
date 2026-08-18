@@ -381,25 +381,17 @@ T.Control {
                    : root.shellWidth + 1 + (1 - root.targetNorm) * (parent.height - 2 * root.shellWidth - 2) - height / 2
             }
 
-            MouseArea {
-                anchors.fill: parent
-                anchors.margins: -root.interactionPadding
-                enabled: root.isInteractive && root.enabled
-                preventStealing: true
-                cursorShape: Qt.PointingHandCursor
-                function apply(mx, my) {
-                    var p = mapToItem(parent, mx, my)
-                    var n = root.horizontal
-                            ? Math.max(0, Math.min(1, p.x / Math.max(1, parent.width)))
-                            : 1 - Math.max(0, Math.min(1, p.y / Math.max(1, parent.height)))
-                    root.setValueFromNorm(n)
-                    root.valueEdited(root.value)
-                }
-                onPressed: function (mouse) { apply(mouse.x, mouse.y) }
-                onPositionChanged: function (mouse) {
-                    if (pressed)
-                        apply(mouse.x, mouse.y)
-                }
+        }
+
+        GaugeDragLayer {
+            coordSpace: tankBody
+            enabled: root.isInteractive && root.enabled
+            onDragged: function (x, y) {
+                var n = root.horizontal
+                        ? Math.max(0, Math.min(1, x / Math.max(1, tankBody.width)))
+                        : 1 - Math.max(0, Math.min(1, y / Math.max(1, tankBody.height)))
+                root.setValueFromNorm(n)
+                root.valueEdited(root.value)
             }
         }
     }

@@ -28,12 +28,12 @@ CatalogPage {
         GalleryLanguage.currentLocale
         return [
         {
-            title: qsTr("Recipes hub"),
-            description: qsTr("Every 1.xx how-to — packaging, Creator, forms, keyboard, and more."),
-            icon: FluentIcons.Library,
+            title: qsTr("Example templates"),
+            description: qsTr("Copy-ready starters — gallery-shell first. examples/README.md."),
+            icon: FluentIcons.PageList,
             tint: "#0F7B0F",
             tintBg: Theme.dark ? "#393D1B" : "#DFF6DD",
-            action: "recipes"
+            action: "templates"
         },
         {
             title: qsTr("Window shells"),
@@ -76,10 +76,10 @@ CatalogPage {
                 page.openControl(shells)
             return
         }
-        if (action === "recipes") {
-            var hub = ControlCatalog.findByComponent("RecipesHubPage")
-            if (hub)
-                page.openControl(hub)
+        if (action === "templates") {
+            var templates = ControlCatalog.findByComponent("ExamplesTemplatesPage")
+            if (templates)
+                page.openControl(templates)
             return
         }
         if (action === "new") {

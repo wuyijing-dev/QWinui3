@@ -25,10 +25,12 @@ T.Control {
     property string title: ""
     property string unit: ""
     property color fillColor: Theme.accent
-    property color dimColor: Theme.strokeDivider
+    // Dark LED face — inactive segments use dim fillColor, not strokeDivider on a light card.
+    property color faceColor: Theme.dark ? "#0C0C0C" : "#1A1A1A"
+    property real offSegmentOpacity: 0.42
 
     implicitWidth: Math.max(120, digits * 28 + 24)
-    implicitHeight: title.length ? 72 : 52
+    implicitHeight: title.length ? 76 : 56
     padding: 8
 
     property real animatedValue: value
@@ -52,85 +54,112 @@ T.Control {
         Text {
             visible: root.title.length > 0
             text: root.title
+            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
-            color: Theme.textSecondary
+            font.weight: Theme.fontWeightSemiBold
+            color: Theme.textPrimary
         }
-        Canvas {
-            id: canvas
+        Item {
             Layout.fillWidth: true
-            Layout.preferredHeight: 36
-            antialiasing: true
-            onPaint: {
-                var ctx = getContext("2d")
-                ctx.reset()
-                var maps = [
-                    [1,1,1,1,1,1,0],
-                    [0,1,1,0,0,0,0],
-                    [1,1,0,1,1,0,1],
-                    [1,1,1,1,0,0,1],
-                    [0,1,1,0,0,1,1],
-                    [1,0,1,1,0,1,1],
-                    [1,0,1,1,1,1,1],
-                    [1,1,1,0,0,0,0],
-                    [1,1,1,1,1,1,1],
-                    [1,1,1,1,0,1,1]
-                ]
-                var raw = root.valuePrecision > 0
-                          ? Number(root.animatedValue).toFixed(root.valuePrecision)
-                          : String(Math.round(root.animatedValue))
-                var chars = raw.split("")
-                while (chars.length < root.digits)
-                    chars.unshift(" ")
-                if (chars.length > root.digits)
-                    chars = chars.slice(chars.length - root.digits)
-                var slot = width / Math.max(1, chars.length)
-                var dw = Math.min(22, slot * 0.7)
-                var dh = height - 4
-                function seg(on, x, y, w, h) {
-                    ctx.fillStyle = on ? root.fillColor : ChartUtils.withAlpha(root.dimColor, 0.35)
-                    ctx.fillRect(x, y, w, h)
+            Layout.preferredHeight: 40
+
+            Rectangle {
+                anchors.fill: parent
+                radius: Theme.cornerControl
+                color: root.faceColor
+                border.width: 1
+                border.color: Theme.dark ? "#28FFFFFF" : "#24000000"
+            }
+
+            Canvas {
+                id: canvas
+                anchors.fill: parent
+                anchors.margins: 2
+                antialiasing: true
+                onPaint: {
+                    var ctx = getContext("2d")
+                    ctx.reset()
+                    var maps = [
+                        [1,1,1,1,1,1,0],
+                        [0,1,1,0,0,0,0],
+                        [1,1,0,1,1,0,1],
+                        [1,1,1,1,0,0,1],
+                        [0,1,1,0,0,1,1],
+                        [1,0,1,1,0,1,1],
+                        [1,0,1,1,1,1,1],
+                        [1,1,1,0,0,0,0],
+                        [1,1,1,1,1,1,1],
+                        [1,1,1,1,0,1,1]
+                    ]
+                    var raw = root.valuePrecision > 0
+                              ? Number(root.animatedValue).toFixed(root.valuePrecision)
+                              : String(Math.round(root.animatedValue))
+                    var chars = raw.split("")
+                    while (chars.length < root.digits)
+                        chars.unshift(" ")
+                    if (chars.length > root.digits)
+                        chars = chars.slice(chars.length - root.digits)
+                    var slot = width / Math.max(1, chars.length)
+                    var dw = Math.min(24, slot * 0.72)
+                    var dh = height - 2
+                    var offColor = ChartUtils.withAlpha(root.fillColor, root.offSegmentOpacity)
+                    function seg(on, x, y, w, h) {
+                        ctx.fillStyle = on ? root.fillColor : offColor
+                        ctx.fillRect(x, y, w, h)
+                    }
+                    for (var i = 0; i < chars.length; ++i) {
+                        var ch = chars[i]
+                        var ox = i * slot + (slot - dw) * 0.5
+                        var oy = 1
+                        if (ch === ".") {
+                            ctx.fillStyle = root.fillColor
+                            ctx.beginPath()
+                            ctx.arc(ox + dw * 0.72, oy + dh - 5, 2.5, 0, Math.PI * 2)
+                            ctx.fill()
+                            continue
+                        }
+                        if (ch === "-") {
+                            seg(true, ox + 3, oy + dh * 0.5 - 2, dw - 6, 4)
+                            continue
+                        }
+                        var d = parseInt(ch, 10)
+                        if (isNaN(d))
+                            continue
+                        var m = maps[d]
+                        var t = 4
+                        seg(m[0], ox + 4, oy, dw - 8, t)
+                        seg(m[1], ox + dw - t, oy + 3, t, dh * 0.42)
+                        seg(m[2], ox + dw - t, oy + dh * 0.5, t, dh * 0.42)
+                        seg(m[3], ox + 4, oy + dh - t, dw - 8, t)
+                        seg(m[4], ox, oy + dh * 0.5, t, dh * 0.42)
+                        seg(m[5], ox, oy + 3, t, dh * 0.42)
+                        seg(m[6], ox + 4, oy + dh * 0.5 - 2, dw - 8, t)
+                    }
                 }
-                for (var i = 0; i < chars.length; ++i) {
-                    var ch = chars[i]
-                    var ox = i * slot + (slot - dw) * 0.5
-                    var oy = 2
-                    if (ch === ".") {
-                        ctx.fillStyle = root.fillColor
-                        ctx.fillRect(ox + dw * 0.7, oy + dh - 6, 4, 4)
-                        continue
-                    }
-                    if (ch === "-") {
-                        seg(true, ox + 3, oy + dh * 0.5 - 1.5, dw - 6, 3)
-                        continue
-                    }
-                    var d = parseInt(ch, 10)
-                    if (isNaN(d))
-                        continue
-                    var m = maps[d]
-                    var t = 3
-                    seg(m[0], ox + 4, oy, dw - 8, t)
-                    seg(m[1], ox + dw - t, oy + 3, t, dh * 0.42)
-                    seg(m[2], ox + dw - t, oy + dh * 0.5, t, dh * 0.42)
-                    seg(m[3], ox + 4, oy + dh - t, dw - 8, t)
-                    seg(m[4], ox, oy + dh * 0.5, t, dh * 0.42)
-                    seg(m[5], ox, oy + 3, t, dh * 0.42)
-                    seg(m[6], ox + 4, oy + dh * 0.5 - 1.5, dw - 8, t)
+                onWidthChanged: requestPaint()
+                onHeightChanged: requestPaint()
+                Connections {
+                    target: root
+                    function onAnimatedValueChanged() { canvas.requestPaint() }
+                    function onFillColorChanged() { canvas.requestPaint() }
+                    function onFaceColorChanged() { canvas.requestPaint() }
+                    function onOffSegmentOpacityChanged() { canvas.requestPaint() }
                 }
             }
         }
         Text {
             visible: root.unit.length > 0
             text: root.unit
+            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             color: Theme.textSecondary
         }
     }
-    onAnimatedValueChanged: canvas.requestPaint()
     onDigitsChanged: canvas.requestPaint()
     onWidthChanged: canvas.requestPaint()
     background: Rectangle {
         radius: Theme.cornerControl
-        color: Theme.fillSubtle
+        color: Theme.bgCard
         border.width: 1
         border.color: Theme.strokeCard
     }

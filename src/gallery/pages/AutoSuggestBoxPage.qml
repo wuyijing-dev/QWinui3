@@ -29,15 +29,15 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Use AutoSuggestBox when typing should narrow a known list (forms, pickers). Prefer SearchBox for explicit search chrome. Global commands stay on CommandPalette (Ctrl+K). Interactive catalog + filter demos: Search recipes.")
+                text: qsTr("Use AutoSuggestBox when typing should narrow a known list (forms, pickers). Prefer SearchBox for explicit search chrome. Global commands stay on CommandPalette (Ctrl+K). See docs/search.md.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
             Button {
-                text: qsTr("Open Search recipes")
+                text: qsTr("Open SearchBox")
                 highlighted: true
-                onClicked: page.openComp("SearchRecipesPage")
+                onClicked: page.openComp("SearchBoxPage")
             }
         }
     }

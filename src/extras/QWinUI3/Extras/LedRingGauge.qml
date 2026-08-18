@@ -59,20 +59,22 @@ T.Control {
         onTriggered: root.peakNorm = root.normalized
     }
 
-    contentItem: ColumnLayout {
-        spacing: 4
-        Text {
-            visible: root.title.length > 0
-            text: root.title
-            font.pixelSize: Theme.fontCaption
-            color: Theme.textSecondary
-        }
-        Canvas {
-            id: canvas
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            antialiasing: true
-            onPaint: {
+    contentItem: Item {
+        ColumnLayout {
+            anchors.fill: parent
+            spacing: 4
+            Text {
+                visible: root.title.length > 0
+                text: root.title
+                font.pixelSize: Theme.fontCaption
+                color: Theme.textSecondary
+            }
+            Canvas {
+                id: canvas
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                antialiasing: true
+                onPaint: {
                 var ctx = getContext("2d")
                 ctx.reset()
                 var n = Math.max(8, root.segmentCount)
@@ -101,27 +103,26 @@ T.Control {
                 }
             }
             Text {
-                anchors.centerIn: parent
+                anchors.centerIn: canvas
                 text: Math.round(root.normalized * 100) + "%"
                 font.weight: Theme.fontWeightSemiBold
                 color: Theme.textPrimary
             }
-            MouseArea {
-                anchors.fill: parent
-                enabled: root.isInteractive
-                onPressed: function (mouse) { positionChanged(mouse) }
-                onPositionChanged: function (mouse) {
-                    if (!pressed)
-                        return
-                    var cx = width / 2
-                    var cy = height / 2
-                    var a = Math.atan2(mouse.y - cy, mouse.x - cx) + Math.PI / 2
-                    if (a < 0)
-                        a += Math.PI * 2
-                    root.setValue(root.minimum + (a / (Math.PI * 2)) * (root.maximum - root.minimum))
-                    root.valueEdited(root.value)
-                    canvas.requestPaint()
-                }
+            }
+        }
+
+        GaugeDragLayer {
+            coordSpace: canvas
+            enabled: root.isInteractive && root.enabled
+            onDragged: function (x, y) {
+                var cx = canvas.width / 2
+                var cy = canvas.height / 2
+                var a = Math.atan2(y - cy, x - cx) + Math.PI / 2
+                if (a < 0)
+                    a += Math.PI * 2
+                root.setValue(root.minimum + (a / (Math.PI * 2)) * (root.maximum - root.minimum))
+                root.valueEdited(root.value)
+                canvas.requestPaint()
             }
         }
     }

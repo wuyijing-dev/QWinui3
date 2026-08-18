@@ -54,19 +54,25 @@ T.Control {
 
     function setValue(v) { value = Math.max(minimum, Math.min(maximum, v)) }
 
-    contentItem: ColumnLayout {
-        spacing: 2
-        Text {
-            visible: root.title.length > 0
-            text: root.title
-            font.pixelSize: Theme.fontCaption
-            color: Theme.textSecondary
-        }
-        Canvas {
-            id: canvas
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            antialiasing: true
+    contentItem: Item {
+        ColumnLayout {
+            anchors.fill: parent
+            spacing: 2
+            Text {
+                visible: root.title.length > 0
+                text: root.title
+                font.pixelSize: Theme.fontCaption
+                color: Theme.textSecondary
+            }
+            Item {
+                id: face
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                readonly property real pivotY: height * 0.58
+                Canvas {
+                    id: canvas
+                    anchors.fill: parent
+                    antialiasing: true
             onPaint: {
                 var ctx = getContext("2d")
                 ctx.reset()
@@ -101,6 +107,7 @@ T.Control {
                 ctx.arc(cx, cy, 5, 0, Math.PI * 2)
                 ctx.fill()
             }
+                }
             Text {
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.bottom: parent.bottom
@@ -108,23 +115,17 @@ T.Control {
                 font.weight: Theme.fontWeightSemiBold
                 color: root.animatedNorm >= 0.78 ? Theme.systemCritical : Theme.textPrimary
             }
-            MouseArea {
-                anchors.fill: parent
-                enabled: root.isInteractive
-                onPressed: function (mouse) { positionChanged(mouse) }
-                onPositionChanged: function (mouse) {
-                    if (!pressed)
-                        return
-                    var cx = width / 2
-                    var cy = height * 0.58
-                    var ang = Math.atan2(mouse.y - cy, mouse.x - cx) * 180 / Math.PI
-                    var rel = ang - root.startAngle
-                    while (rel < 0)
-                        rel += 360
-                    root.setValue(root.minimum + Math.max(0, Math.min(1, rel / root.sweepTotal)) * (root.maximum - root.minimum))
-                    root.valueEdited(root.value)
-                    canvas.requestPaint()
-                }
+            }
+        }
+
+        GaugeDragLayer {
+            coordSpace: face
+            enabled: root.isInteractive && root.enabled
+            onDragged: function (x, y) {
+                var n = GaugeUtils.normFromAngle(x, y, face.width / 2, face.pivotY, root.startAngle, root.sweepTotal)
+                root.setValue(GaugeUtils.valueFromNorm(n, root.minimum, root.maximum))
+                root.valueEdited(root.value)
+                canvas.requestPaint()
             }
         }
     }

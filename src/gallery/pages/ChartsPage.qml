@@ -13,8 +13,6 @@ CatalogPage {
     subtitle: qsTr("Stable six frozen. Compose decision 2.48 + deferred chooser (2.26). docs/charts.md")
     property bool deferredChartsReady: false
 
-    signal openControl(var item)
-
     readonly property var sparkData: {
         var a = []
         for (var i = 0; i < 48; ++i)
@@ -32,12 +30,6 @@ CatalogPage {
         for (var j = 0; j < 60; ++j)
             a.push(18 + Math.cos(j * 0.12) * 8)
         return a
-    }
-
-    function openComp(id) {
-        var it = ControlCatalog.findByComponent(id)
-        if (it)
-            page.openControl(it)
     }
 
     Component.onCompleted: Qt.callLater(function () {
@@ -65,132 +57,155 @@ CatalogPage {
     ControlExample {
         headerText: qsTr("Compose decision (2.48 / FL-009)")
         qmlSource: "docs/dashboard-compose-decision.md"
-        ColumnLayout {
+        Text {
             Layout.fillWidth: true
-            spacing: Theme.spacing
-            Text {
-                Layout.fillWidth: true
-                wrapMode: Text.WordWrap
-                text: qsTr("Before copying a deferred chart page into product code, run the decision tree — stable six only in shipping UI. Pair with Dashboard stable layout and examples/dashboard.")
-                font.family: Theme.fontFamily
-                font.pixelSize: Theme.fontBody
-                color: Theme.textSecondary
-            }
-            Button {
-                text: qsTr("Open Dashboard")
-                onClicked: page.openComp("DashboardPage")
-            }
+            wrapMode: Text.WordWrap
+            text: qsTr("Before copying a deferred chart page into product code, run the decision tree — stable six only in shipping UI. Dashboard layout demo is embedded below.")
+            font.family: Theme.fontFamily
+            font.pixelSize: Theme.fontBody
+            color: Theme.textSecondary
         }
     }
 
+    DashboardPage { hubEmbed: true; width: parent.width }
+
     ControlExample {
-        headerText: qsTr("Deferred sibling chooser (2.26)")
-        qmlSource: "// Each deferred type → compose path or Gallery-only\n// docs/charts.md Recipe wave (2.26)"
-        ColumnLayout {
+        headerText: qsTr("Deferred chart demos (2.26)")
+        qmlSource: "// Each deferred type — scroll for live demos\n// docs/charts.md"
+        Text {
             Layout.fillWidth: true
-            spacing: Theme.spacing
-            Text {
-                Layout.fillWidth: true
-                wrapMode: Text.WordWrap
-                text: qsTr("Production dashboards stay on the stable six. Open a deferred demo to compare, or copy the compose path. Radar / Scatter / Heatmap remain Gallery-only.")
-                font.family: Theme.fontFamily
-                font.pixelSize: Theme.fontBody
-                color: Theme.textSecondary
-            }
-            Repeater {
-                model: [
-                    {
-                        deferred: qsTr("AreaChart"),
-                        compose: qsTr("LineChart { showArea: true }"),
-                        page: "AreaChartPage",
-                        stable: "LineChartPage"
-                    },
-                    {
-                        deferred: qsTr("Sparkline"),
-                        compose: qsTr("KpiTile.trendValues"),
-                        page: "SparklinePage",
-                        stable: "KpiTilePage"
-                    },
-                    {
-                        deferred: qsTr("PieChart"),
-                        compose: qsTr("DonutChart"),
-                        page: "PieChartPage",
-                        stable: "DonutChartPage"
-                    },
-                    {
-                        deferred: qsTr("StackedBarChart"),
-                        compose: qsTr("LineChart stacked areas"),
-                        page: "StackedBarChartPage",
-                        stable: ""
-                    },
-                    {
-                        deferred: qsTr("HorizontalBarChart"),
-                        compose: qsTr("BarChart { bars: [...] }"),
-                        page: "HorizontalBarChartPage",
-                        stable: "BarChartPage"
-                    },
-                    {
-                        deferred: qsTr("BulletChart"),
-                        compose: qsTr("KpiTile + thresholds"),
-                        page: "BulletChartPage",
-                        stable: "KpiTilePage"
-                    },
-                    {
-                        deferred: qsTr("WaterfallChart"),
-                        compose: qsTr("BarChart bridge or Gallery"),
-                        page: "WaterfallChartPage",
-                        stable: ""
-                    },
-                    {
-                        deferred: qsTr("RadarChart"),
-                        compose: qsTr("Gallery-only"),
-                        page: "RadarChartPage",
-                        stable: ""
-                    },
-                    {
-                        deferred: qsTr("ScatterChart"),
-                        compose: qsTr("Gallery-only"),
-                        page: "ScatterChartPage",
-                        stable: ""
-                    },
-                    {
-                        deferred: qsTr("HeatmapChart"),
-                        compose: qsTr("Gallery-only"),
-                        page: "HeatmapChartPage",
-                        stable: ""
-                    }
-                ]
-                delegate: RowLayout {
-                    required property var modelData
-                    Layout.fillWidth: true
-                    spacing: Theme.spacing
-                    Label {
-                        Layout.preferredWidth: 140
-                        text: modelData.deferred
-                        font.weight: Theme.fontWeightSemiBold
-                        color: Theme.textPrimary
-                    }
-                    Label {
-                        Layout.fillWidth: true
-                        wrapMode: Text.WordWrap
-                        text: modelData.compose
-                        color: Theme.textSecondary
-                        font.pixelSize: Theme.fontCaption
-                    }
-                    Button {
-                        text: qsTr("Deferred")
-                        flat: true
-                        onClicked: page.openComp(modelData.page)
-                    }
-                    Button {
-                        visible: modelData.stable.length > 0
-                        text: qsTr("Stable")
-                        flat: true
-                        onClicked: page.openComp(modelData.stable)
-                    }
-                }
-            }
+            wrapMode: Text.WordWrap
+            text: qsTr("Production dashboards stay on the stable six. Deferred siblings below are Gallery-only comparisons — use compose recipes in docs/charts.md for shipping UI.")
+            font.family: Theme.fontFamily
+            font.pixelSize: Theme.fontBody
+            color: Theme.textSecondary
         }
+    }
+
+    GalleryHubSection {
+        title: qsTr("AreaChart")
+        description: qsTr("Deferred filled area chart — prefer LineChart showArea in product.")
+        AreaChartPage { hubEmbed: true; width: parent.width }
+    }
+    GalleryHubSection {
+        title: qsTr("Sparkline")
+        description: qsTr("Deferred inline sparkline — prefer KpiTile.trendValues.")
+        SparklinePage { hubEmbed: true; width: parent.width }
+    }
+    GalleryHubSection {
+        title: qsTr("PieChart")
+        description: qsTr("Deferred pie chart — prefer DonutChart in product.")
+        PieChartPage { hubEmbed: true; width: parent.width }
+    }
+    GalleryHubSection {
+        title: qsTr("HorizontalBarChart")
+        description: qsTr("Deferred horizontal bar chart demo.")
+        HorizontalBarChartPage { hubEmbed: true; width: parent.width }
+    }
+    GalleryHubSection {
+        title: qsTr("StackedBarChart")
+        description: qsTr("Deferred stacked columns — compose with LineChart showArea.")
+        StackedBarChartPage { hubEmbed: true; width: parent.width }
+    }
+    GalleryHubSection {
+        title: qsTr("BulletChart")
+        description: qsTr("Deferred bullet chart comparison demo.")
+        BulletChartPage { hubEmbed: true; width: parent.width }
+    }
+    GalleryHubSection {
+        title: qsTr("WaterfallChart")
+        description: qsTr("Deferred waterfall chart demo.")
+        WaterfallChartPage { hubEmbed: true; width: parent.width }
+    }
+    GalleryHubSection {
+        title: qsTr("RadarChart")
+        description: qsTr("Deferred radar / spider chart demo.")
+        RadarChartPage { hubEmbed: true; width: parent.width }
+    }
+    GalleryHubSection {
+        title: qsTr("ScatterChart")
+        description: qsTr("Deferred scatter plot demo.")
+        ScatterChartPage { hubEmbed: true; width: parent.width }
+    }
+    GalleryHubSection {
+        title: qsTr("HeatmapChart")
+        description: qsTr("Deferred heatmap chart demo.")
+        HeatmapChartPage { hubEmbed: true; width: parent.width }
+    }
+    GalleryHubSection {
+        title: qsTr("ComboChart")
+        description: qsTr("Deferred combo line + bar chart demo.")
+        ComboChartPage { hubEmbed: true; width: parent.width }
+    }
+    GalleryHubSection {
+        title: qsTr("FunnelChart")
+        description: qsTr("Deferred funnel chart demo.")
+        FunnelChartPage { hubEmbed: true; width: parent.width }
+    }
+    GalleryHubSection {
+        title: qsTr("CandlestickChart")
+        description: qsTr("Deferred candlestick chart demo.")
+        CandlestickChartPage { hubEmbed: true; width: parent.width }
+    }
+    GalleryHubSection {
+        title: qsTr("HistogramChart")
+        description: qsTr("Deferred histogram chart demo.")
+        HistogramChartPage { hubEmbed: true; width: parent.width }
+    }
+    GalleryHubSection {
+        title: qsTr("BoxPlotChart")
+        description: qsTr("Deferred box plot chart demo.")
+        BoxPlotChartPage { hubEmbed: true; width: parent.width }
+    }
+    GalleryHubSection {
+        title: qsTr("ParetoChart")
+        description: qsTr("Deferred Pareto chart demo.")
+        ParetoChartPage { hubEmbed: true; width: parent.width }
+    }
+    GalleryHubSection {
+        title: qsTr("BandChart")
+        description: qsTr("Deferred band chart demo.")
+        BandChartPage { hubEmbed: true; width: parent.width }
+    }
+    GalleryHubSection {
+        title: qsTr("TreemapChart")
+        description: qsTr("Deferred treemap chart demo.")
+        TreemapChartPage { hubEmbed: true; width: parent.width }
+    }
+    GalleryHubSection {
+        title: qsTr("PolarAreaChart")
+        description: qsTr("Deferred polar area chart demo.")
+        PolarAreaChartPage { hubEmbed: true; width: parent.width }
+    }
+    GalleryHubSection {
+        title: qsTr("ViolinChart")
+        description: qsTr("Deferred violin plot demo.")
+        ViolinChartPage { hubEmbed: true; width: parent.width }
+    }
+    GalleryHubSection {
+        title: qsTr("ErrorBarChart")
+        description: qsTr("Deferred error bar chart demo.")
+        ErrorBarChartPage { hubEmbed: true; width: parent.width }
+    }
+    GalleryHubSection {
+        title: qsTr("WaffleChart")
+        description: qsTr("Deferred waffle chart demo.")
+        WaffleChartPage { hubEmbed: true; width: parent.width }
+    }
+    GalleryHubSection {
+        title: qsTr("LollipopChart")
+        description: qsTr("Deferred lollipop chart demo.")
+        LollipopChartPage { hubEmbed: true; width: parent.width }
+    }
+    GalleryHubSection {
+        title: qsTr("DumbbellChart")
+        description: qsTr("Deferred dumbbell chart demo.")
+        DumbbellChartPage { hubEmbed: true; width: parent.width }
+    }
+    GalleryHubSection {
+        title: qsTr("SunburstChart")
+        description: qsTr("Deferred sunburst chart demo.")
+        SunburstChartPage { hubEmbed: true; width: parent.width }
     }
 
     ControlExample {
@@ -218,17 +233,12 @@ CatalogPage {
                     { name: qsTr("Docs"), color: Theme.systemSuccess, values: [5, 7, 6, 4, 8, 6, 5] }
                 ]
             }
-            RowLayout {
-                Button {
-                    flat: true
-                    text: qsTr("Compare StackedBarChart (deferred)")
-                    onClicked: page.openComp("StackedBarChartPage")
-                }
-                Button {
-                    flat: true
-                    text: qsTr("Ranked BarChart compose")
-                    onClicked: page.openComp("BarChartPage")
-                }
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                font.pixelSize: Theme.fontCaption
+                color: Theme.textSecondary
+                text: qsTr("Compare with StackedBarChart deferred demo embedded above.")
             }
         }
     }
@@ -300,11 +310,6 @@ CatalogPage {
                 color: Theme.textSecondary
                 text: qsTr("Right: compact LineChart for table rows. Left: KpiTile for dashboard KPIs.")
             }
-            Button {
-                flat: true
-                text: qsTr("Open Dashboard page")
-                onClicked: page.openComp("DashboardPage")
-            }
         }
     }
 
@@ -330,22 +335,48 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Stable six is frozen — no new chart names in 2.08. Sibling gauges (Tank, Thermometer, Arc, …) are permanently deferred; product apps use RingGauge. PieChart → DonutChart; extra niche charts stay Gallery-only.")
+                text: qsTr("Stable six is frozen — no new chart names in 2.08. Full stable demos: LineChart, BarChart, DonutChart, RingGauge, KpiTile, ChartCard — embedded below and in Gauges hub.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
-            Flow {
-                Layout.fillWidth: true
-                spacing: Theme.spacing
-                Button { text: qsTr("Dashboard"); onClicked: page.openComp("DashboardPage") }
-                Button { text: qsTr("LineChart"); onClicked: page.openComp("LineChartPage") }
-                Button { text: qsTr("BarChart"); onClicked: page.openComp("BarChartPage") }
-                Button { text: qsTr("DonutChart"); onClicked: page.openComp("DonutChartPage") }
-                Button { text: qsTr("RingGauge"); onClicked: page.openComp("RingGaugePage") }
-                Button { text: qsTr("KpiTile"); onClicked: page.openComp("KpiTilePage") }
-            }
         }
+    }
+
+    GalleryHubSection {
+        title: qsTr("LineChart")
+        description: qsTr("Stable trend chart with area, legend, and interaction.")
+        LineChartPage { hubEmbed: true; width: parent.width }
+    }
+
+    GalleryHubSection {
+        title: qsTr("BarChart")
+        description: qsTr("Stable column chart with value labels.")
+        BarChartPage { hubEmbed: true; width: parent.width }
+    }
+
+    GalleryHubSection {
+        title: qsTr("DonutChart")
+        description: qsTr("Stable part-to-whole ring chart.")
+        DonutChartPage { hubEmbed: true; width: parent.width }
+    }
+
+    GalleryHubSection {
+        title: qsTr("ChartCard")
+        description: qsTr("Elevated card chrome wrapping a chart.")
+        ChartCardPage { hubEmbed: true; width: parent.width }
+    }
+
+    GalleryHubSection {
+        title: qsTr("RingGauge")
+        description: qsTr("Stable radial gauge for KPI dashboards.")
+        RingGaugePage { hubEmbed: true; width: parent.width }
+    }
+
+    GalleryHubSection {
+        title: qsTr("KpiTile")
+        description: qsTr("Stable KPI tile with delta and inline spark trend.")
+        KpiTilePage { hubEmbed: true; width: parent.width }
     }
 
     ControlExample {

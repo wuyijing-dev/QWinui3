@@ -73,21 +73,24 @@ T.Control {
         value = Math.max(lo, Math.min(hi, Number(v) || 0))
     }
 
-    contentItem: ColumnLayout {
-        spacing: 4
-        Text {
-            visible: root.title.length > 0
-            text: root.title
-            font.pixelSize: Theme.fontCaption
-            color: Theme.textSecondary
-            Layout.alignment: Qt.AlignHCenter
-        }
-        Item {
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            Grid {
-                id: grid
-                anchors.fill: parent
+    contentItem: Item {
+        ColumnLayout {
+            anchors.fill: parent
+            spacing: 4
+            Text {
+                visible: root.title.length > 0
+                text: root.title
+                font.pixelSize: Theme.fontCaption
+                color: Theme.textSecondary
+                Layout.alignment: Qt.AlignHCenter
+            }
+            Item {
+                id: meterFace
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                Grid {
+                    id: grid
+                    anchors.fill: parent
                 rows: root.orientation === Qt.Vertical ? root.segmentCount : 1
                 columns: root.orientation === Qt.Vertical ? 1 : root.segmentCount
                 spacing: 2
@@ -116,27 +119,27 @@ T.Control {
                         }
                     }
                 }
-            }
-            MouseArea {
-                anchors.fill: parent
-                enabled: root.isInteractive
-                onPressed: function (mouse) { apply(mouse) }
-                onPositionChanged: function (mouse) { if (pressed) apply(mouse) }
-                function apply(mouse) {
-                    var n = root.orientation === Qt.Vertical
-                            ? 1 - mouse.y / Math.max(1, height)
-                            : mouse.x / Math.max(1, width)
-                    root.setValue(root.minimum + Math.max(0, Math.min(1, n)) * (root.maximum - root.minimum))
-                    root.valueEdited(root.value)
                 }
             }
+            Text {
+                visible: root.unit.length > 0
+                text: (root.normalized * 100).toFixed(0) + root.unit
+                font.pixelSize: Theme.fontCaption
+                color: Theme.textSecondary
+                Layout.alignment: Qt.AlignHCenter
+            }
         }
-        Text {
-            visible: root.unit.length > 0
-            text: (root.normalized * 100).toFixed(0) + root.unit
-            font.pixelSize: Theme.fontCaption
-            color: Theme.textSecondary
-            Layout.alignment: Qt.AlignHCenter
+
+        GaugeDragLayer {
+            coordSpace: meterFace
+            enabled: root.isInteractive && root.enabled
+            onDragged: function (x, y) {
+                var n = root.orientation === Qt.Vertical
+                        ? 1 - y / Math.max(1, meterFace.height)
+                        : x / Math.max(1, meterFace.width)
+                root.setValue(GaugeUtils.valueFromNorm(n, root.minimum, root.maximum))
+                root.valueEdited(root.value)
+            }
         }
     }
 

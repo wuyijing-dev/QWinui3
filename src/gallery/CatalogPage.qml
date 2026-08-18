@@ -5,34 +5,28 @@ import QWinUI3.Theme
 
 // CatalogPage — Gallery scroll host (PageHeader + padded column).
 //
-//   CatalogPage {
-//       title: qsTr("Button")
-//       subtitle: qsTr("…")
-//       ControlExample { headerText: qsTr("Basic"); … }
-//   }
-//
-// Root is Item (not Page): Qt 6.8 Page.title / Page.footer / Pane.contentData are FINAL
-// and cannot be redeclared or aliased.
+// Standalone pages: Flickable + ScrollBar (content lives inside the Flickable).
+// hubEmbed: same tree but Flickable expands to content height (non-interactive) so
+// the parent hub page receives wheel / drag.
 
 Item {
     id: root
 
     property string title: ""
     property alias subtitle: header.subtitle
-    // Gallery page component id for favorites (set by Main on open — 1.20)
+    property bool hubEmbed: false
     property alias componentId: header.componentId
-    property real pagePadding: Theme.spacingSection
+    property real pagePadding: hubEmbed ? 0 : Theme.spacingSection
     property real sectionSpacing: Theme.spacingSection
-    // True while the page Flickable is dragged or coasting
-    readonly property bool viewMoving: Math.abs(_wheelRemain) > 0.35
-                                       || (scroll.contentItem
-                                           && (scroll.contentItem.moving || scroll.contentItem.flicking))
-    property real _wheelRemain: 0
-    // Optional footer outside the scroll (e.g. StatusBar)
+    readonly property bool viewMoving: !hubEmbed && (flick.moving || flick.flicking)
     property alias footer: footerSlot.data
-    // Floating overlays (ToastHost, dialogs) — not scrolled
     property alias overlay: overlaySlot.data
     default property alias contentData: stack.data
+
+    anchors.fill: hubEmbed ? undefined : parent
+    implicitHeight: hubEmbed ? bodyCol.implicitHeight : 0
+    Layout.fillWidth: true
+    Layout.preferredHeight: hubEmbed ? bodyCol.implicitHeight : -1
 
     function _findNamed(item, name) {
         if (!item || !name)
@@ -51,12 +45,12 @@ Item {
     function _flickableAncestor(start) {
         var p = start
         while (p) {
+            if (p.contentY !== undefined && p.contentHeight !== undefined
+                    && p.flickableDirection !== undefined)
+                return p
             if (p.contentItem !== undefined && p.contentItem
                     && p.contentItem.contentY !== undefined)
                 return p.contentItem
-            if (p.contentY !== undefined && p.contentItem !== undefined
-                    && p.flickableDirection !== undefined)
-                return p
             p = p.parent
         }
         return null
@@ -65,21 +59,21 @@ Item {
     function scrollToItem(item) {
         if (!item)
             return false
-        var flick = null
+        var flickTarget = null
         var p = item
         while (p) {
-            flick = _flickableAncestor(p)
-            if (flick)
+            flickTarget = _flickableAncestor(p)
+            if (flickTarget)
                 break
             p = p.parent
         }
-        if (!flick)
+        if (!flickTarget)
             return false
         var itemTop = item.mapToGlobal(0, 0).y
-        var viewTop = flick.mapToGlobal(0, 0).y
-        var localY = itemTop - viewTop + flick.contentY
-        var maxY = Math.max(0, flick.contentHeight - flick.height)
-        flick.contentY = Math.max(0, Math.min(localY - 12, maxY))
+        var viewTop = flickTarget.mapToGlobal(0, 0).y
+        var localY = itemTop - viewTop + flickTarget.contentY
+        var maxY = Math.max(0, flickTarget.contentHeight - flickTarget.height)
+        flickTarget.contentY = Math.max(0, Math.min(localY - 12, maxY))
         return true
     }
 
@@ -93,55 +87,63 @@ Item {
         return true
     }
 
+    function _liftOverlays() {
+        if (!root.hubEmbed)
+            return
+        var target = Overlay.overlay
+        if (!target)
+            return
+        var kids = overlaySlot.children
+        for (var i = 0; i < kids.length; ++i) {
+            var c = kids[i]
+            if (!c || c.parent !== overlaySlot)
+                continue
+            if (c.parent === target)
+                continue
+            c.parent = target
+        }
+    }
+
+    onHubEmbedChanged: {
+        if (hubEmbed)
+            Qt.callLater(_liftOverlays)
+    }
+
+    Component.onCompleted: {
+        if (hubEmbed)
+            Qt.callLater(_liftOverlays)
+    }
+
     ColumnLayout {
-        anchors.fill: parent
+        id: bodyCol
+        anchors.fill: hubEmbed ? undefined : parent
+        anchors.left: hubEmbed ? parent.left : undefined
+        anchors.right: hubEmbed ? parent.right : undefined
+        width: hubEmbed && parent ? parent.width : undefined
         spacing: 0
 
-        ScrollView {
-            id: scroll
+        Flickable {
+            id: flick
             Layout.fillWidth: true
-            Layout.fillHeight: true
-            contentWidth: availableWidth
-            clip: true
-            background: null
-            ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+            Layout.fillHeight: !root.hubEmbed
+            Layout.preferredHeight: root.hubEmbed ? pageColumn.implicitHeight : -1
+            clip: !root.hubEmbed
+            interactive: !root.hubEmbed
+            boundsBehavior: Flickable.StopAtBounds
+            flickableDirection: Flickable.VerticalFlick
+            flickDeceleration: 1200
+            maximumFlickVelocity: 7000
+            pressDelay: 0
+            contentWidth: width
+            contentHeight: pageColumn.implicitHeight
 
-            Component.onCompleted: {
-                var f = contentItem
-                if (!f)
-                    return
-                f.flickDeceleration = 2800
-                f.maximumFlickVelocity = 4500
-                f.boundsBehavior = Flickable.StopAtBounds
-            }
-
-            WheelHandler {
-                target: scroll
-                acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
-                onWheel: function (event) {
-                    var flick = scroll.contentItem
-                    if (!flick || flick.contentHeight === undefined
-                            || flick.contentHeight <= flick.height)
-                        return
-                    if (event.pixelDelta.y !== 0) {
-                        root._wheelRemain = 0
-                        wheelCoast.stop()
-                        var maxY = Math.max(0, flick.contentHeight - flick.height)
-                        flick.contentY = Math.max(0, Math.min(maxY, flick.contentY - event.pixelDelta.y))
-                        event.accepted = true
-                        return
-                    }
-                    if (event.angleDelta.y === 0)
-                        return
-                    root._wheelRemain += event.angleDelta.y / Theme.scrollWheelAngleDivisor
-                    if (!wheelCoast.running)
-                        wheelCoast.start()
-                    event.accepted = true
-                }
+            ScrollBar.vertical: ScrollBar {
+                policy: root.hubEmbed ? ScrollBar.AlwaysOff : ScrollBar.AsNeeded
             }
 
             ColumnLayout {
-                width: scroll.availableWidth
+                id: pageColumn
+                width: flick.width
                 spacing: root.sectionSpacing
 
                 PageHeader {
@@ -151,7 +153,7 @@ Item {
                     Layout.rightMargin: root.pagePadding
                     Layout.topMargin: root.pagePadding
                     title: root.title
-                    visible: root.title.length > 0 || root.subtitle.length > 0
+                    visible: !root.hubEmbed && (root.title.length > 0 || root.subtitle.length > 0)
                 }
 
                 ColumnLayout {
@@ -184,23 +186,11 @@ Item {
         id: overlaySlot
         anchors.fill: parent
         z: 100
-    }
+        enabled: false
 
-    Timer {
-        id: wheelCoast
-        interval: 8
-        repeat: true
-        onTriggered: {
-            var flick = scroll.contentItem
-            if (!flick || Math.abs(root._wheelRemain) < 0.35) {
-                root._wheelRemain = 0
-                stop()
-                return
-            }
-            var step = root._wheelRemain * 0.22
-            root._wheelRemain -= step
-            var maxY = Math.max(0, flick.contentHeight - flick.height)
-            flick.contentY = Math.max(0, Math.min(maxY, flick.contentY - step))
+        onChildrenChanged: {
+            if (root.hubEmbed)
+                Qt.callLater(root._liftOverlays)
         }
     }
 }

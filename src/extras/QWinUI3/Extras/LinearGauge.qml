@@ -188,10 +188,13 @@ T.Control {
         }
     }
 
-    contentItem: ColumnLayout {
-        spacing: 6
+    contentItem: Item {
+        ColumnLayout {
+            id: gaugeLayout
+            anchors.fill: parent
+            spacing: 6
 
-        RowLayout {
+            RowLayout {
             Layout.fillWidth: true
             visible: root.title.length > 0 || root.showValue
             spacing: Theme.spacing
@@ -299,7 +302,7 @@ T.Control {
                 border.color: root.activeFocus && root.isInteractive
                               ? Theme.focusOuter
                               : (root.enabled ? root.effectiveFillColor : Theme.textDisabled)
-                scale: drag.pressed && !Theme.reducedMotion ? 1.08 : 1
+                scale: gaugeDrag.pressed && !Theme.reducedMotion ? 1.08 : 1
                 x: root.horizontal
                    ? track.x + root.animatedNorm * track.width - width / 2
                    : track.x + track.width / 2 - width / 2
@@ -311,57 +314,50 @@ T.Control {
                     NumberAnimation { duration: Theme.duration(Theme.motionFast) }
                 }
             }
+        }
 
-            MouseArea {
-                id: drag
-                anchors.fill: parent
-                enabled: root.isInteractive && root.enabled
-                hoverEnabled: true
-                preventStealing: true
-                cursorShape: Qt.PointingHandCursor
-                function apply(px, py) {
-                    var n = root.horizontal
-                            ? (px - track.x) / Math.max(1, track.width)
-                            : 1 - (py - track.y) / Math.max(1, track.height)
-                    root.setValueFromNorm(n)
-                    root.valueEdited(root.value)
+            RowLayout {
+                Layout.fillWidth: true
+                visible: root.showMinMax || root.caption.length > 0
+                Text {
+                    visible: root.showMinMax
+                    text: valuePrecision > 0 ? Number(root.minimum).toFixed(valuePrecision)
+                                             : String(Math.round(root.minimum))
+                    font.family: Theme.fontFamily
+                    font.pixelSize: Theme.fontCaption
+                    color: Theme.textSecondary
                 }
-                onPressed: function (mouse) { apply(mouse.x, mouse.y) }
-                onPositionChanged: function (mouse) {
-                    if (pressed)
-                        apply(mouse.x, mouse.y)
+                Text {
+                    Layout.fillWidth: true
+                    visible: root.caption.length > 0
+                    text: root.caption
+                    font.family: Theme.fontFamily
+                    font.pixelSize: Theme.fontCaption
+                    color: Theme.textSecondary
+                    wrapMode: Text.Wrap
+                    horizontalAlignment: root.showMinMax ? Text.AlignHCenter : Text.AlignLeft
+                }
+                Text {
+                    visible: root.showMinMax
+                    text: valuePrecision > 0 ? Number(root.maximum).toFixed(valuePrecision)
+                                             : String(Math.round(root.maximum))
+                    font.family: Theme.fontFamily
+                    font.pixelSize: Theme.fontCaption
+                    color: Theme.textSecondary
                 }
             }
         }
 
-        RowLayout {
-            Layout.fillWidth: true
-            visible: root.showMinMax || root.caption.length > 0
-            Text {
-                visible: root.showMinMax
-                text: valuePrecision > 0 ? Number(root.minimum).toFixed(valuePrecision)
-                                         : String(Math.round(root.minimum))
-                font.family: Theme.fontFamily
-                font.pixelSize: Theme.fontCaption
-                color: Theme.textSecondary
-            }
-            Text {
-                Layout.fillWidth: true
-                visible: root.caption.length > 0
-                text: root.caption
-                font.family: Theme.fontFamily
-                font.pixelSize: Theme.fontCaption
-                color: Theme.textSecondary
-                wrapMode: Text.Wrap
-                horizontalAlignment: root.showMinMax ? Text.AlignHCenter : Text.AlignLeft
-            }
-            Text {
-                visible: root.showMinMax
-                text: valuePrecision > 0 ? Number(root.maximum).toFixed(valuePrecision)
-                                         : String(Math.round(root.maximum))
-                font.family: Theme.fontFamily
-                font.pixelSize: Theme.fontCaption
-                color: Theme.textSecondary
+        GaugeDragLayer {
+            id: gaugeDrag
+            coordSpace: trackHost
+            enabled: root.isInteractive && root.enabled
+            onDragged: function (x, y) {
+                var n = root.horizontal
+                        ? x / Math.max(1, trackHost.width)
+                        : 1 - y / Math.max(1, trackHost.height)
+                root.setValueFromNorm(n)
+                root.valueEdited(root.value)
             }
         }
     }

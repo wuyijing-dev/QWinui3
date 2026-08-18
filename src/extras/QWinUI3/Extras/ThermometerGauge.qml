@@ -362,26 +362,17 @@ T.Control {
                     }
                 }
             }
+        }
 
-            MouseArea {
-                anchors.fill: parent
-                anchors.margins: -root.interactionPadding
-                enabled: root.isInteractive && root.enabled
-                preventStealing: true
-                cursorShape: Qt.PointingHandCursor
-                function apply(my) {
-                    var p = mapToItem(face, 0, my)
-                    var y0 = face.stemTop
-                    var y1 = face.stemBottom
-                    var n = 1 - Math.max(0, Math.min(1, (p.y - y0) / Math.max(1, y1 - y0)))
-                    root.setValueFromNorm(n)
-                    root.valueEdited(root.value)
-                }
-                onPressed: function (mouse) { apply(mouse.y) }
-                onPositionChanged: function (mouse) {
-                    if (pressed)
-                        apply(mouse.y)
-                }
+        GaugeDragLayer {
+            coordSpace: face
+            enabled: root.isInteractive && root.enabled
+            onDragged: function (x, y) {
+                var y0 = face.stemTop
+                var y1 = face.stemBottom
+                var n = 1 - Math.max(0, Math.min(1, (y - y0) / Math.max(1, y1 - y0)))
+                root.setValueFromNorm(n)
+                root.valueEdited(root.value)
             }
         }
     }

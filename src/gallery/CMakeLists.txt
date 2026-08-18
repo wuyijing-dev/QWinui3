@@ -45,6 +45,7 @@ qt_add_qml_module(qwinui3_gallery
         ApiStabilityBadge.qml
         ControlExample.qml
         CatalogPage.qml
+        GalleryHubSection.qml
         pages/HomePage.qml
         pages/SettingsPage.qml
         pages/ButtonPage.qml
@@ -132,7 +133,6 @@ qt_add_qml_module(qwinui3_gallery
         pages/PitfallsPage.qml
         pages/AccessibilityPage.qml
         pages/I18nRtlPage.qml
-        pages/RecipesHubPage.qml
         pages/PackagingConsumerPage.qml
         pages/QtCreatorPage.qml
         pages/PerformancePage.qml
@@ -143,6 +143,9 @@ qt_add_qml_module(qwinui3_gallery
         pages/FormsHubPage.qml
         pages/CommandsHubPage.qml
         pages/FeedbackHubPage.qml
+        pages/GaugesHubPage.qml
+        pages/SettingsHubPage.qml
+        pages/PanelsHubPage.qml
         pages/KeyboardFirstPage.qml
         pages/OnScreenKeyboardPage.qml
         pages/ChartsPage.qml
@@ -232,7 +235,6 @@ qt_add_qml_module(qwinui3_gallery
         pages/ScrollBarPage.qml
         pages/SearchBoxPage.qml
         pages/RichEditPage.qml
-        pages/SearchRecipesPage.qml
         pages/SecurityTrustPage.qml
         pages/SegmentedControlPage.qml
         pages/SelectorBarPage.qml

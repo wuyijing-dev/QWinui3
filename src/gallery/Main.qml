@@ -75,7 +75,7 @@ StandardWindow {
         for (var c = 0; c < ControlCatalog.categories.length; ++c) {
             var cat = ControlCatalog.categories[c]
             var children = []
-            var list = ControlCatalog.controlsInCategory(cat.key)
+            var list = ControlCatalog.controlsForRail(cat.key)
             for (var i = 0; i < list.length; ++i) {
                 var ctrl = list[i]
                 children.push({
@@ -94,8 +94,8 @@ StandardWindow {
                 icon: cat.icon || FluentIcons.FolderOpen,
                 children: children
             }
-            // Badge count on Charts as a Gallery demo of InfoBadge in the rail.
-            if (cat.key === "charts")
+            // Badge count on Charts — rail-visible entries only.
+            if (cat.key === "charts" && children.length > 0)
                 entry.badgeValue = children.length
             items.push(entry)
         }
@@ -105,10 +105,16 @@ StandardWindow {
     function navigateToControl(item, mode) {
         if (!item)
             return
-        if (mode === "center")
-            nav.openFromCenter(item.component)
-        else
-            nav.navigateToTitle(item.title, mode || "slide")
+        var m = mode || "slide"
+        if (item.component) {
+            if (m === "center")
+                nav.openFromCenter(item.component)
+            else
+                nav.openPage(item.component, m)
+            return
+        }
+        if (item.title)
+            nav.navigateToTitle(item.title, m)
     }
 
     header: StandardTitleChrome {

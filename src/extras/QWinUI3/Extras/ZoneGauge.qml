@@ -378,7 +378,6 @@ T.Control {
 
         MouseArea {
             anchors.fill: parent
-            anchors.margins: -root.interactionPadding
             enabled: root.isInteractive && root.enabled
             preventStealing: true
             cursorShape: Qt.PointingHandCursor

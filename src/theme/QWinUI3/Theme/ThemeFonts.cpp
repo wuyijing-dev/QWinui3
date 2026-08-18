@@ -8,6 +8,14 @@ bool ThemeFonts::s_loaded = false;
 QString ThemeFonts::s_iconFamily = QStringLiteral("Segoe Fluent Icons");
 QString ThemeFonts::s_monoFamily;
 
+static bool isBitmapMonoFamily(const QString &family)
+{
+    return family.compare(QLatin1String("Fixedsys"), Qt::CaseInsensitive) == 0
+           || family.compare(QLatin1String("Terminal"), Qt::CaseInsensitive) == 0
+           || family.compare(QLatin1String("Modern"), Qt::CaseInsensitive) == 0
+           || family.compare(QLatin1String("MS Sans Serif"), Qt::CaseInsensitive) == 0;
+}
+
 static QString resolveMonoFamily()
 {
     static const char *const kCandidates[] = {
@@ -19,9 +27,7 @@ static QString resolveMonoFamily()
     };
     for (const char *name : kCandidates) {
         const QString family = QString::fromUtf8(name);
-        if (family.compare(QLatin1String("Fixedsys"), Qt::CaseInsensitive) == 0
-            || family.compare(QLatin1String("Terminal"), Qt::CaseInsensitive) == 0
-            || family.compare(QLatin1String("Modern"), Qt::CaseInsensitive) == 0)
+        if (isBitmapMonoFamily(family))
             continue;
         if (QFontDatabase::hasFamily(family))
             return family;
@@ -33,12 +39,20 @@ static QString resolveMonoFamily()
 static QFont makeMonoFont(const QString &family, int pixelSize)
 {
     QFont f;
-    f.setFamilies({ family });
-    f.setFamily(family);
-    f.setFixedPitch(true);
-    f.setStyleHint(QFont::SansSerif);
+    f.setFamilies({
+        QStringLiteral("Cascadia Mono"),
+        QStringLiteral("Cascadia Code"),
+        QStringLiteral("Consolas"),
+        QStringLiteral("Courier New"),
+    });
+    if (!family.isEmpty() && !isBitmapMonoFamily(family))
+        f.setFamily(family);
+    // Do not setFixedPitch / TypeWriter — Windows maps that to bitmap Fixedsys under DirectWrite.
+    f.setStyleHint(QFont::AnyStyle);
     f.setStyleStrategy(static_cast<QFont::StyleStrategy>(
-        static_cast<int>(QFont::PreferOutline) | static_cast<int>(QFont::NoFontMerging)));
+        static_cast<int>(QFont::PreferOutline)
+        | static_cast<int>(QFont::NoFontMerging)
+        | static_cast<int>(QFont::PreferMatch)));
     if (pixelSize > 0)
         f.setPixelSize(pixelSize);
     return f;

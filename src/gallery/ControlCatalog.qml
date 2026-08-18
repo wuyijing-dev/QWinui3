@@ -5,8 +5,7 @@ import QWinUI3.Theme
 QtObject {
     id: root
 
-    // 11 pane groups: buttons fold into Basic input; gauges/dashboard sit with Charts;
-    // how-tos (motion, a11y, system, media) live under Recipes at the end of the rail.
+    // 10 pane groups. Rail uses hub pages with inline demos (hubEmbed); search finds all siblings.
     // Locale dependency so qsTr titles refresh with GalleryLanguage + engine.retranslate().
     readonly property var categories: {
         GalleryLanguage.currentLocale
@@ -20,8 +19,7 @@ QtObject {
         { key: "menus", title: qsTr("Menus & toolbars"), icon: FluentIcons.More },
         { key: "navigation", title: qsTr("Navigation"), icon: FluentIcons.ChevronRight },
         { key: "status", title: qsTr("Status & info"), icon: FluentIcons.Info },
-        { key: "charts", title: qsTr("Charts"), icon: FluentIcons.AreaChart },
-        { key: "recipes", title: qsTr("Recipes"), icon: FluentIcons.Library }
+        { key: "charts", title: qsTr("Charts"), icon: FluentIcons.AreaChart }
         ]
     }
 
@@ -454,7 +452,7 @@ QtObject {
         },
         {
             title: qsTr("High-DPI & monitors"),
-            category: "recipes",
+            category: "navigation",
             icon: FluentIcons.FullScreen,
             description: qsTr("DPR readout · geometry clamp — docs/high-dpi.md (1.58)."),
             component: "HighDpiPage",
@@ -605,6 +603,14 @@ QtObject {
             source: "pages/MenuBarPage.qml"
         },
         {
+            title: qsTr("Settings patterns"),
+            category: "layout",
+            icon: FluentIcons.Settings,
+            description: qsTr("SettingsView building blocks — SettingsGroup / SettingsCard / expander."),
+            component: "SettingsHubPage",
+            source: "pages/SettingsHubPage.qml"
+        },
+        {
             title: qsTr("SettingsCard"),
             category: "layout",
             icon: FluentIcons.Settings,
@@ -643,6 +649,14 @@ QtObject {
             description: qsTr("An expandable settings group with title and description."),
             component: "SettingsExpanderPage",
             source: "pages/SettingsExpanderPage.qml"
+        },
+        {
+            title: qsTr("Panels & grids"),
+            category: "layout",
+            icon: FluentIcons.GridView,
+            description: qsTr("WrapPanel · UniformGrid · DockPanel · RelativePanel · StackPanel."),
+            component: "PanelsHubPage",
+            source: "pages/PanelsHubPage.qml"
         },
         {
             title: qsTr("WrapPanel"),
@@ -1142,7 +1156,7 @@ QtObject {
         },
         {
             title: qsTr("System integration"),
-            category: "recipes",
+            category: "navigation",
             icon: FluentIcons.Folder,
             description: qsTr("FilePicker · tray · Snap / reveal — Linux portal harden 1.68."),
             component: "SystemIntegrationPage",
@@ -1150,7 +1164,7 @@ QtObject {
         },
         {
             title: qsTr("MediaPlayerElement"),
-            category: "recipes",
+            category: "dialogs",
             icon: FluentIcons.Video,
             description: qsTr("Optional Qt Multimedia — permanent defer 2.09. docs/media.md."),
             component: "MediaPlayerElementPage",
@@ -1187,6 +1201,14 @@ QtObject {
             description: qsTr("Stable six + deferred compose chooser (2.26) — docs/charts.md."),
             component: "ChartsPage",
             source: "pages/ChartsPage.qml"
+        },
+        {
+            title: qsTr("Gauges"),
+            category: "charts",
+            icon: FluentIcons.Dial6,
+            description: qsTr("Deferred gauge chooser — product apps use RingGauge / KpiTile."),
+            component: "GaugesHubPage",
+            source: "pages/GaugesHubPage.qml"
         },
         {
             title: qsTr("Sparkline"),
@@ -1438,7 +1460,7 @@ QtObject {
         },
         {
             title: qsTr("Animations"),
-            category: "recipes",
+            category: "layout",
             icon: FluentIcons.Sync,
             description: qsTr("Motion recipe hub (1.22) — ConnectedAnimation, entrance, theme transitions."),
             component: "AnimationsPage",
@@ -1446,7 +1468,7 @@ QtObject {
         },
         {
             title: qsTr("EntranceThemeTransition"),
-            category: "recipes",
+            category: "layout",
             icon: FluentIcons.Completed,
             description: qsTr("Fade + rise + scale entrance — docs/animations.md (1.22)."),
             component: "EntranceThemeTransitionPage",
@@ -1454,7 +1476,7 @@ QtObject {
         },
         {
             title: qsTr("Theme transitions"),
-            category: "recipes",
+            category: "layout",
             icon: FluentIcons.Sync,
             description: qsTr("ContentThemeTransition + RepositionThemeTransition — docs/animations.md (1.22)."),
             component: "ThemeTransitionsPage",
@@ -1462,7 +1484,7 @@ QtObject {
         },
         {
             title: qsTr("Style spot-check"),
-            category: "recipes",
+            category: "layout",
             icon: FluentIcons.Edit,
             description: qsTr("WinUI 3 Style chrome audit — docs/style-polish.md (2.17)."),
             component: "StyleSpotCheckPage",
@@ -1470,7 +1492,7 @@ QtObject {
         },
         {
             title: qsTr("Theme overrides"),
-            category: "recipes",
+            category: "layout",
             icon: FluentIcons.Color,
             description: qsTr("Brand + contrast AA table — docs/color-contrast.md (1.43)."),
             component: "ThemeOverridesPage",
@@ -1478,7 +1500,7 @@ QtObject {
         },
         {
             title: qsTr("Theme prefs"),
-            category: "recipes",
+            category: "layout",
             icon: FluentIcons.Color,
             description: qsTr("ThemeAppearanceSettings + copy recipe — kit, not Gallery-only (1.69)."),
             component: "ThemePrefsPage",
@@ -1486,7 +1508,7 @@ QtObject {
         },
         {
             title: qsTr("ConnectedAnimation"),
-            category: "recipes",
+            category: "layout",
             icon: FluentIcons.Sync,
             description: qsTr("Shared-element list→detail — docs/animations.md (1.22)."),
             component: "ConnectedAnimationPage",
@@ -1598,7 +1620,7 @@ QtObject {
         },
         {
             title: qsTr("Pitfalls"),
-            category: "recipes",
+            category: "status",
             icon: FluentIcons.Warning,
             description: qsTr("Anti-patterns + 1.xx maturity checkpoint (1.51) — docs/maturity-1xx.md."),
             component: "PitfallsPage",
@@ -1606,7 +1628,7 @@ QtObject {
         },
         {
             title: qsTr("Accessibility"),
-            category: "recipes",
+            category: "status",
             icon: FluentIcons.EaseOfAccess,
             description: qsTr("A11y + keyboard + wave 3 focus return / live regions — docs/accessibility.md (1.85)."),
             component: "AccessibilityPage",
@@ -1614,23 +1636,15 @@ QtObject {
         },
         {
             title: qsTr("i18n / RTL"),
-            category: "recipes",
+            category: "text",
             icon: FluentIcons.Globe,
             description: qsTr("Live language switch + full catalogs — docs/i18n-rtl.md."),
             component: "I18nRtlPage",
             source: "pages/I18nRtlPage.qml"
         },
         {
-            title: qsTr("Recipes hub"),
-            category: "recipes",
-            icon: FluentIcons.Library,
-            description: qsTr("All LoB how-tos from docs/recipes.md — open every related demo."),
-            component: "RecipesHubPage",
-            source: "pages/RecipesHubPage.qml"
-        },
-        {
             title: qsTr("Consumer packaging"),
-            category: "recipes",
+            category: "navigation",
             icon: FluentIcons.Publish,
             description: qsTr("Shared vs static / windeploy / strip — docs/packaging-consumer.md (1.12 / 1.46)."),
             component: "PackagingConsumerPage",
@@ -1638,7 +1652,7 @@ QtObject {
         },
         {
             title: qsTr("Qt Creator"),
-            category: "recipes",
+            category: "navigation",
             icon: FluentIcons.Repair,
             description: qsTr("Open Gallery / examples with CMake kits — docs/qt-creator.md (1.35)."),
             component: "QtCreatorPage",
@@ -1646,7 +1660,7 @@ QtObject {
         },
         {
             title: qsTr("CI / smoke"),
-            category: "recipes",
+            category: "navigation",
             icon: FluentIcons.ConstructionCone,
             description: qsTr("Gallery --smoke · docs links · Qt matrix — docs/ci-smoke.md."),
             component: "CiSmokePage",
@@ -1654,7 +1668,7 @@ QtObject {
         },
         {
             title: qsTr("Example templates"),
-            category: "recipes",
+            category: "navigation",
             icon: FluentIcons.PageList,
             description: qsTr("Copy-ready starters — gallery-shell (1.50) first. examples/README.md."),
             component: "ExamplesTemplatesPage",
@@ -1662,7 +1676,7 @@ QtObject {
         },
         {
             title: qsTr("Performance"),
-            category: "recipes",
+            category: "status",
             icon: FluentIcons.ViewAll,
             description: qsTr("Lists / charts / cold start — docs/performance.md (1.25 / 1.39)."),
             component: "PerformancePage",
@@ -1670,7 +1684,7 @@ QtObject {
         },
         {
             title: qsTr("Density"),
-            category: "recipes",
+            category: "layout",
             icon: FluentIcons.Slider,
             description: qsTr("uiScale / density tokens · narrow shells — docs/density.md (1.30)."),
             component: "DensityPage",
@@ -1678,7 +1692,7 @@ QtObject {
         },
         {
             title: qsTr("Touch & pointer"),
-            category: "recipes",
+            category: "basic",
             icon: FluentIcons.Tablet,
             description: qsTr("Targets · scroll vs drag · pen notes — docs/touch-pointer.md (1.57)."),
             component: "TouchPointerPage",
@@ -1686,7 +1700,7 @@ QtObject {
         },
         {
             title: qsTr("Graphics backend"),
-            category: "recipes",
+            category: "navigation",
             icon: FluentIcons.Color,
             description: qsTr("RHI ship table · --rhi — docs/graphics-backend.md (1.31)."),
             component: "GraphicsBackendPage",
@@ -1694,7 +1708,7 @@ QtObject {
         },
         {
             title: qsTr("Forms & settings"),
-            category: "recipes",
+            category: "layout",
             icon: FluentIcons.Settings,
             description: qsTr("FormLayout + LoB templates — docs/forms.md (2.25)."),
             component: "FormsHubPage",
@@ -1702,7 +1716,7 @@ QtObject {
         },
         {
             title: qsTr("Registration template"),
-            category: "recipes",
+            category: "layout",
             icon: FluentIcons.Contact,
             description: qsTr("LoB sign-up — FormLayout, tokens, multi-select (2.25)."),
             component: "FormRegistrationTemplatePage",
@@ -1710,7 +1724,7 @@ QtObject {
         },
         {
             title: qsTr("Admin CRUD template"),
-            category: "recipes",
+            category: "layout",
             icon: FluentIcons.Edit,
             description: qsTr("DataTable + FormLayout admin editor (2.25)."),
             component: "FormAdminCrudTemplatePage",
@@ -1718,7 +1732,7 @@ QtObject {
         },
         {
             title: qsTr("Preferences template"),
-            category: "recipes",
+            category: "layout",
             icon: FluentIcons.Settings,
             description: qsTr("SettingsView cards + expander + tokens (2.25)."),
             component: "SettingsPreferencesTemplatePage",
@@ -1726,7 +1740,7 @@ QtObject {
         },
         {
             title: qsTr("Commands & menus"),
-            category: "recipes",
+            category: "menus",
             icon: FluentIcons.More,
             description: qsTr("CommandPalette / CommandBar / MenuFlyout — docs/commands.md (1.15)."),
             component: "CommandsHubPage",
@@ -1734,7 +1748,7 @@ QtObject {
         },
         {
             title: qsTr("Feedback surfaces"),
-            category: "recipes",
+            category: "status",
             icon: FluentIcons.Info,
             description: qsTr("InfoBar / Toast / TeachingTip / onboarding — docs/feedback.md (1.55)."),
             component: "FeedbackHubPage",
@@ -1742,7 +1756,7 @@ QtObject {
         },
         {
             title: qsTr("Notification center"),
-            category: "recipes",
+            category: "status",
             icon: FluentIcons.Ringer,
             description: qsTr("Grouped in-app history + InfoBadge bell — docs/feedback.md (2.27)."),
             component: "NotificationCenterPage",
@@ -1750,23 +1764,15 @@ QtObject {
         },
         {
             title: qsTr("Keyboard-first"),
-            category: "recipes",
+            category: "menus",
             icon: FluentIcons.Search,
             description: qsTr("Chords → palette → dialogs → lists — docs/keyboard.md (1.44)."),
             component: "KeyboardFirstPage",
             source: "pages/KeyboardFirstPage.qml"
         },
         {
-            title: qsTr("Search recipes"),
-            category: "recipes",
-            icon: FluentIcons.Search,
-            description: qsTr("AutoSuggest · filter-above · catalog jump — docs/search.md (1.59)."),
-            component: "SearchRecipesPage",
-            source: "pages/SearchRecipesPage.qml"
-        },
-        {
             title: qsTr("Print / share / export"),
-            category: "recipes",
+            category: "dialogs",
             icon: FluentIcons.Share,
             description: qsTr("grabToImage · save · reveal — docs/print-share.md (1.63)."),
             component: "PrintSharePage",
@@ -1774,7 +1780,7 @@ QtObject {
         },
         {
             title: qsTr("Security & trust"),
-            category: "recipes",
+            category: "dialogs",
             icon: FluentIcons.Shield,
             description: qsTr("WebView2 / drop / picker boundaries — docs/security-trust.md (1.64)."),
             component: "SecurityTrustPage",
@@ -1782,7 +1788,7 @@ QtObject {
         },
         {
             title: qsTr("Settings persistence"),
-            category: "recipes",
+            category: "layout",
             icon: FluentIcons.Save,
             description: qsTr("QSettings / Settings · schemaVersion — docs/settings-persistence.md (1.65)."),
             component: "SettingsPersistencePage",
@@ -1870,7 +1876,7 @@ QtObject {
         },
         {
             title: qsTr("InfoBar + TeachingTip recipe"),
-            category: "recipes",
+            category: "status",
             icon: FluentIcons.Lightbulb,
             description: qsTr("Form save + coach tip end-to-end — docs/feedback.md (1.34)."),
             component: "InfoTeachingRecipePage",
@@ -1968,6 +1974,27 @@ QtObject {
     }
 
     // Gallery API stability badges (2.45) — see docs/experimental-sweep.md
+    readonly property var _railHiddenBeyondDefer: [
+        // Basic — button variants (Misc Buttons hub)
+        "AccentButtonPage", "IconButtonPage", "IconicButtonPage", "HyperlinkButtonPage",
+        "ToggleSplitButtonPage", "CopyButtonPage", "ProgressButtonPage",
+        // Collections — covered by Delegates / hubs
+        "SwipeDelegatePage", "TreeViewRecipePage", "AvatarGroupPage", "GridTilePage",
+        "PersonPicturePage", "TimelinePage",
+        // Text — suggest patterns covered by SearchBox / AutoSuggestBox demos
+        "AutoSuggestBoxPage", "OnScreenKeyboardPage", "I18nRtlPage",
+        // Former Recipes category — searchable, not on rail
+        "HighDpiPage", "SystemIntegrationPage", "AnimationsPage", "EntranceThemeTransitionPage",
+        "ThemeTransitionsPage", "ConnectedAnimationPage", "StyleSpotCheckPage", "ThemeOverridesPage",
+        "ThemePrefsPage", "PitfallsPage", "AccessibilityPage", "PackagingConsumerPage", "QtCreatorPage",
+        "CiSmokePage", "ExamplesTemplatesPage", "PerformancePage", "DensityPage", "TouchPointerPage",
+        "GraphicsBackendPage", "FormsHubPage", "FormRegistrationTemplatePage", "FormAdminCrudTemplatePage",
+        "SettingsPreferencesTemplatePage", "NotificationCenterPage", "KeyboardFirstPage", "PrintSharePage",
+        "SecurityTrustPage", "SettingsPersistencePage", "InfoTeachingRecipePage",
+        // Navigation — carousel / step chrome
+        "PageIndicatorPage", "PipsPagerPage", "FlipViewPage", "StepBarPage", "BreadcrumbBarPage"
+    ]
+
     readonly property var _permanentDeferPages: [
         "MediaPlayerElementPage",
         "SparklinePage", "AreaChartPage", "HorizontalBarChartPage", "StackedBarChartPage",
@@ -1983,6 +2010,16 @@ QtObject {
         "SpeedometerGaugePage", "CoolantGaugePage", "BoostGaugePage", "VoltageGaugePage", "GearIndicatorPage",
         "OdometerGaugePage", "TelltaleBarPage", "TpmsGaugePage", "GMeterGaugePage", "AutomotiveClusterPage"
     ]
+
+    readonly property var _railHiddenComponents: {
+        var h = _railHiddenBeyondDefer.slice(0)
+        for (var i = 0; i < _permanentDeferPages.length; ++i) {
+            var id = _permanentDeferPages[i]
+            if (h.indexOf(id) < 0)
+                h.push(id)
+        }
+        return h
+    }
 
     readonly property var _experimentalPages: [
         "OnScreenKeyboardPage",
@@ -2012,6 +2049,57 @@ QtObject {
 
     function controlsInCategory(key) {
         return controls.filter(function (c) { return c.category === key })
+    }
+
+    function isRailVisible(componentId) {
+        if (!componentId || !componentId.length)
+            return true
+        if (_railHiddenComponents.indexOf(componentId) >= 0)
+            return false
+        var item = findByComponent(componentId)
+        if (!item)
+            return true
+        var cat = item.category
+        if (cat === "charts") {
+            return componentId === "ChartsPage"
+                || componentId === "DashboardPage"
+                || componentId === "GaugesHubPage"
+                || componentId === "LineChartPage"
+                || componentId === "BarChartPage"
+                || componentId === "DonutChartPage"
+                || componentId === "RingGaugePage"
+                || componentId === "KpiTilePage"
+                || componentId === "ChartCardPage"
+        }
+        if (cat === "menus")
+            return componentId === "CommandsHubPage"
+        if (cat === "dialogs")
+            return componentId === "DialogsFlyoutsPage"
+        if (cat === "status")
+            return componentId === "FeedbackHubPage"
+        if (cat === "layout") {
+            return componentId === "SettingsHubPage"
+                || componentId === "SettingsGroupPage"
+                || componentId === "PanelsHubPage"
+                || componentId === "TwoPaneViewPage"
+                || componentId === "SplitViewPage"
+                || componentId === "PanePage"
+                || componentId === "DrawerPage"
+                || componentId === "ScrollBarPage"
+                || componentId === "AnnotatedScrollBarPage"
+                || componentId === "FramePage"
+                || componentId === "ContentCardPage"
+                || componentId === "ActionCardPage"
+                || componentId === "FileDropZonePage"
+                || componentId === "RefreshContainerPage"
+        }
+        return true
+    }
+
+    function controlsForRail(key) {
+        return controls.filter(function (c) {
+            return c.category === key && isRailVisible(c.component)
+        })
     }
 
     function findByComponent(name) {
@@ -2082,7 +2170,6 @@ QtObject {
             "FontIconPage",           // 1.49 icon micro-motion
             "IconButtonPage",         // 1.49
             "AppBarButtonPage",       // 1.49
-            "RecipesHubPage",         // all recipe docs → Gallery
             "PackagingConsumerPage",  // 1.12 / 1.46
             "ContentDialogPage",      // 1.48 queue stress
             "DialogsFlyoutsPage",     // 1.48 / 1.37
@@ -2133,11 +2220,10 @@ QtObject {
             "FontIconPage",
             "PitfallsPage",
             "ExamplesTemplatesPage",
-            "SearchRecipesPage",
+            "SearchBoxPage",
             "HighDpiPage",
             "MultiWindowPage",
             "StyleSpotCheckPage",
-            "RecipesHubPage",
             "PerformancePage"
         ]
     }
