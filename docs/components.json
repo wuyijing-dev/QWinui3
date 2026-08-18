@@ -2,7 +2,7 @@
   "name": "QWinUI3",
   "version": "2.64",
   "generatedBy": "scripts/generate_component_docs.py",
-  "publicCount": 229,
+  "publicCount": 240,
   "components": [
     {
       "name": "AccentButton",
@@ -275,6 +275,21 @@
       "methodCount": 5
     },
     {
+      "name": "CandlestickChart",
+      "module": "QWinUI3.Extras",
+      "summary": "OHLC candlesticks for professional price series.",
+      "path": "src/extras/QWinUI3/Extras/CandlestickChart.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Charts & gauges",
+      "galleryPage": "pages/CandlestickChartPage.qml",
+      "galleryTitle": "CandlestickChart",
+      "doc": "components/CandlestickChart.md",
+      "propertyCount": 9,
+      "signalCount": 0,
+      "methodCount": 0
+    },
+    {
       "name": "ChartCard",
       "module": "QWinUI3.Extras",
       "summary": "Title/subtitle chrome around a chart child.",
@@ -317,7 +332,7 @@
       "doc": "components/ChartUtils.md",
       "propertyCount": 3,
       "signalCount": 0,
-      "methodCount": 21
+      "methodCount": 22
     },
     {
       "name": "Chip",
@@ -380,6 +395,21 @@
       "methodCount": 2
     },
     {
+      "name": "ComboChart",
+      "module": "QWinUI3.Extras",
+      "summary": "Bars plus an overlay line (volume vs price).",
+      "path": "src/extras/QWinUI3/Extras/ComboChart.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Input & forms",
+      "galleryPage": "pages/ComboChartPage.qml",
+      "galleryTitle": "ComboChart",
+      "doc": "components/ComboChart.md",
+      "propertyCount": 15,
+      "signalCount": 0,
+      "methodCount": 0
+    },
+    {
       "name": "CommandBar",
       "module": "QWinUI3.Extras",
       "summary": "Primary/secondary command row (AppBar host).",
@@ -438,6 +468,21 @@
       "propertyCount": 0,
       "signalCount": 0,
       "methodCount": 0
+    },
+    {
+      "name": "CompassGauge",
+      "module": "QWinUI3.Extras",
+      "summary": "Heading / bearing compass (0–360°, wraparound).",
+      "path": "src/extras/QWinUI3/Extras/CompassGauge.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Charts & gauges",
+      "galleryPage": "pages/CompassGaugePage.qml",
+      "galleryTitle": "CompassGauge",
+      "doc": "components/CompassGauge.md",
+      "propertyCount": 9,
+      "signalCount": 1,
+      "methodCount": 1
     },
     {
       "name": "ConnectedAnimation",
@@ -800,6 +845,21 @@
       "methodCount": 9
     },
     {
+      "name": "FunnelChart",
+      "module": "QWinUI3.Extras",
+      "summary": "Conversion funnel from stage values.",
+      "path": "src/extras/QWinUI3/Extras/FunnelChart.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Charts & gauges",
+      "galleryPage": "pages/FunnelChartPage.qml",
+      "galleryTitle": "FunnelChart",
+      "doc": "components/FunnelChart.md",
+      "propertyCount": 10,
+      "signalCount": 1,
+      "methodCount": 0
+    },
+    {
       "name": "GridTile",
       "module": "QWinUI3.Extras",
       "summary": "Icon + title tile for launchers / galleries.",
@@ -875,6 +935,21 @@
       "methodCount": 4
     },
     {
+      "name": "HistogramChart",
+      "module": "QWinUI3.Extras",
+      "summary": "Frequency bins from a numeric series.",
+      "path": "src/extras/QWinUI3/Extras/HistogramChart.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Charts & gauges",
+      "galleryPage": "pages/HistogramChartPage.qml",
+      "galleryTitle": "HistogramChart",
+      "doc": "components/HistogramChart.md",
+      "propertyCount": 9,
+      "signalCount": 0,
+      "methodCount": 0
+    },
+    {
       "name": "HorizontalBarChart",
       "module": "QWinUI3.Extras",
       "summary": "Horizontal bar chart.",
@@ -945,7 +1020,7 @@
       "galleryPage": "",
       "galleryTitle": "",
       "doc": "components/ImeCandidateBar.md",
-      "propertyCount": 3,
+      "propertyCount": 5,
       "signalCount": 0,
       "methodCount": 0
     },
@@ -1335,8 +1410,8 @@
       "galleryPage": "pages/NavigationViewPage.qml",
       "galleryTitle": "NavigationView",
       "doc": "components/NavigationView.md",
-      "propertyCount": 57,
-      "signalCount": 8,
+      "propertyCount": 58,
+      "signalCount": 7,
       "methodCount": 42
     },
     {
@@ -1410,9 +1485,9 @@
       "galleryPage": "pages/OnScreenKeyboardPage.qml",
       "galleryTitle": "On-screen keyboard",
       "doc": "components/OnScreenKeyboard.md",
-      "propertyCount": 29,
+      "propertyCount": 30,
       "signalCount": 2,
-      "methodCount": 18
+      "methodCount": 22
     },
     {
       "name": "OnScreenKeyboardWindow",
@@ -1428,6 +1503,66 @@
       "propertyCount": 5,
       "signalCount": 0,
       "methodCount": 3
+    },
+    {
+      "name": "OskHandwritingPad",
+      "module": "QWinUI3.Extras",
+      "summary": "Zinnia CLI handwriting panel (Windows + Linux).",
+      "path": "src/extras/QWinUI3/Extras/OskHandwritingPad.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Other",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "doc": "components/OskHandwritingPad.md",
+      "propertyCount": 2,
+      "signalCount": 2,
+      "methodCount": 1
+    },
+    {
+      "name": "OskPanelButton",
+      "module": "QWinUI3.Extras",
+      "summary": "compact action chip for OSK auxiliary panels.",
+      "path": "src/extras/QWinUI3/Extras/OskPanelButton.qml",
+      "baseType": "Item",
+      "internal": false,
+      "category": "Buttons & commands",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "doc": "components/OskPanelButton.md",
+      "propertyCount": 3,
+      "signalCount": 1,
+      "methodCount": 0
+    },
+    {
+      "name": "OskSettingsFlyout",
+      "module": "QWinUI3.Extras",
+      "summary": "Win11-style keyboard settings (size, voice/handwriting, user lexicon).",
+      "path": "src/extras/QWinUI3/Extras/OskSettingsFlyout.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Dialogs & flyouts",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "doc": "components/OskSettingsFlyout.md",
+      "propertyCount": 4,
+      "signalCount": 3,
+      "methodCount": 0
+    },
+    {
+      "name": "OskVoiceBar",
+      "module": "QWinUI3.Extras",
+      "summary": "cross-platform speech-to-text strip (Windows System.Speech / Linux whisper|vosk).",
+      "path": "src/extras/QWinUI3/Extras/OskVoiceBar.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Other",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "doc": "components/OskVoiceBar.md",
+      "propertyCount": 2,
+      "signalCount": 2,
+      "methodCount": 0
     },
     {
       "name": "PagerControl",
@@ -1575,7 +1710,7 @@
       "galleryPage": "pages/RadialGaugePage.qml",
       "galleryTitle": "RadialGauge",
       "doc": "components/RadialGauge.md",
-      "propertyCount": 51,
+      "propertyCount": 57,
       "signalCount": 1,
       "methodCount": 6
     },
@@ -1785,7 +1920,7 @@
       "galleryPage": "pages/SemanticZoomPage.qml",
       "galleryTitle": "SemanticZoom",
       "doc": "components/SemanticZoom.md",
-      "propertyCount": 13,
+      "propertyCount": 14,
       "signalCount": 3,
       "methodCount": 7
     },
@@ -2010,7 +2145,7 @@
       "galleryPage": "",
       "galleryTitle": "",
       "doc": "components/StandardTitleChrome.md",
-      "propertyCount": 11,
+      "propertyCount": 12,
       "signalCount": 4,
       "methodCount": 0
     },
@@ -2130,9 +2265,24 @@
       "galleryPage": "pages/TabViewPage.qml",
       "galleryTitle": "TabView",
       "doc": "components/TabView.md",
-      "propertyCount": 19,
+      "propertyCount": 20,
       "signalCount": 6,
-      "methodCount": 7
+      "methodCount": 10
+    },
+    {
+      "name": "TabViewDropHub",
+      "module": "QWinUI3.Extras",
+      "summary": "same-process registry so torn-out tabs can dock back.",
+      "path": "src/extras/QWinUI3/Extras/TabViewDropHub.qml",
+      "baseType": "QtObject",
+      "internal": false,
+      "category": "Navigation",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "doc": "components/TabViewDropHub.md",
+      "propertyCount": 0,
+      "signalCount": 0,
+      "methodCount": 3
     },
     {
       "name": "TabViewTearOutWindow",
@@ -2145,7 +2295,7 @@
       "galleryPage": "",
       "galleryTitle": "",
       "doc": "components/TabViewTearOutWindow.md",
-      "propertyCount": 1,
+      "propertyCount": 2,
       "signalCount": 0,
       "methodCount": 0
     },
@@ -2450,6 +2600,21 @@
       "methodCount": 0
     },
     {
+      "name": "VuMeter",
+      "module": "QWinUI3.Extras",
+      "summary": "Linear LED / peak-hold meter (audio, signal, load).",
+      "path": "src/extras/QWinUI3/Extras/VuMeter.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Other",
+      "galleryPage": "pages/VuMeterPage.qml",
+      "galleryTitle": "VuMeter",
+      "doc": "components/VuMeter.md",
+      "propertyCount": 15,
+      "signalCount": 1,
+      "methodCount": 1
+    },
+    {
       "name": "WaterfallChart",
       "module": "QWinUI3.Extras",
       "summary": "Waterfall chart.",
@@ -2685,7 +2850,7 @@
       "galleryPage": "pages/DrawerPage.qml",
       "galleryTitle": "Drawer",
       "doc": "components/Drawer.md",
-      "propertyCount": 0,
+      "propertyCount": 2,
       "signalCount": 0,
       "methodCount": 0
     },
@@ -3382,7 +3547,7 @@
     {
       "name": "FrameStatsBadge",
       "module": "QWinUI3.Platform",
-      "summary": "compact FPS readout for TitleBar rightHeader / leftHeader slots.",
+      "summary": "compact FPS readout for StandardTitleChrome.rightHeader (PlatformTitleBar slot before caption buttons — not TitleBar.rightHeader).",
       "path": "src/platform/QWinUI3/Platform/FrameStatsBadge.qml",
       "baseType": "Label",
       "internal": false,
@@ -3600,7 +3765,7 @@
       "galleryPage": "",
       "galleryTitle": "",
       "doc": "components/Theme.md",
-      "propertyCount": 100,
+      "propertyCount": 107,
       "signalCount": 0,
       "methodCount": 15
     }

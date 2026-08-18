@@ -8,8 +8,9 @@ T.Control {
 
     property KeyboardEngine engine
     property OskSpeechService speech
-    property var onClose: null
-    property var onFlash: null
+
+    signal closeRequested()
+    signal flashRequested(string message)
 
     implicitWidth: 640
     implicitHeight: Theme.dp(72)
@@ -61,10 +62,7 @@ T.Control {
                 width: Theme.dp(88)
                 height: Theme.dp(36)
                 label: qsTr("Close")
-                onTapped: {
-                    if (onClose)
-                        onClose()
-                }
+                onTapped: root.closeRequested()
             }
         }
 
@@ -83,12 +81,10 @@ T.Control {
         function onRecognized(text) {
             if (root.engine && text.length)
                 root.engine.commitText(text)
-            if (root.onClose)
-                root.onClose()
+            root.closeRequested()
         }
         function onErrorOccurred(msg) {
-            if (root.onFlash)
-                root.onFlash(msg)
+            root.flashRequested(msg)
         }
     }
 }

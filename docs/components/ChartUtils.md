@@ -56,6 +56,7 @@ _No custom signals_ (use inherited signals from the base type).
 | `pointColor(input, index)` | Color for a series point |
 | `flattenValues(input)` | Prefer valueAt/valueCount for large series. Dense number arrays are returned as-is. |
 | `extents(values)` | Min/max extents of a value series |
+| `histogramBins(values, binCount)` | Histogram bins from a numeric series. Returns [{ from, to, count, value }]. |
 | `extentsXY(points)` | X/Y extents of a point series |
 | `lodBudget(plotWidth, maxPoints, factor)` | Pixel-aware draw budget. Default keeps ~2 samples per horizontal pixel. |
 | `buildLod(values, maxPoints)` | Prefers ChartSeries.lod (C++) when available. |

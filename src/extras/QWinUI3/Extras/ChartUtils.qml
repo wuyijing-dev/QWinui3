@@ -132,6 +132,41 @@ QtObject {
         return { min: lo, max: hi }
     }
 
+    // Histogram bins from a numeric series. Returns [{ from, to, count, value }].
+    function histogramBins(values, binCount) {
+        var n = valueCount(values)
+        var bins = Math.max(1, binCount | 0)
+        if (!n) {
+            var empty = []
+            for (var e = 0; e < bins; ++e)
+                empty.push({ from: e, to: e + 1, count: 0, value: 0 })
+            return empty
+        }
+        var ext = extents(values)
+        var span = ext.max - ext.min
+        if (span <= 0)
+            span = 1
+        var counts = []
+        for (var b = 0; b < bins; ++b)
+            counts.push(0)
+        for (var i = 0; i < n; ++i) {
+            var v = valueAt(values, i)
+            var idx = Math.floor(((v - ext.min) / span) * bins)
+            if (idx >= bins)
+                idx = bins - 1
+            if (idx < 0)
+                idx = 0
+            counts[idx] += 1
+        }
+        var out = []
+        for (b = 0; b < bins; ++b) {
+            var from = ext.min + (span * b) / bins
+            var to = ext.min + (span * (b + 1)) / bins
+            out.push({ from: from, to: to, count: counts[b], value: counts[b] })
+        }
+        return out
+    }
+
     // X/Y extents of a point series
     function extentsXY(points) {
         var n = valueCount(points)

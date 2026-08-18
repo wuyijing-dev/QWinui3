@@ -19,6 +19,10 @@ import QWinUI3.Platform
 PlatformTitleBar {
     id: root
 
+    // Unnamed children land before caption buttons (Share, FPS, …).
+    // TitleBar is assigned to titleContent so it is not covered by extra controls.
+    default property alias extraContent: root.rightHeader
+
     // Primary title text
     property string title: qsTr("Application")
     // Secondary subtitle text
@@ -44,7 +48,7 @@ PlatformTitleBar {
     signal searchActivated(var item)
     signal searchTextEdited(string text)
 
-    TitleBar {
+    titleContent: TitleBar {
         id: titleBar
         anchors.fill: parent
         embedded: true

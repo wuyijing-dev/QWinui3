@@ -72,6 +72,11 @@ startAngle/sweepTotal remain as aliases of the angle range. Wheel/keys when isIn
 | `needleLength` | `real` | Needle length as fraction of radius (0..1); Toolkit uses % — pass 0.6 for 60 |
 | `needleWidth` | `real` | Needle width in px |
 | `needleBrush` | `color` | Needle color |
+| `value2` | `real` | Second needle (setpoint vs actual) |
+| `showSecondNeedle` | `bool` | — |
+| `needleBrush2` | `color` | — |
+| `needleLength2` | `real` | — |
+| `needleWidth2` | `real` | — |
 | `tickSpacing` | `real` | Tick spacing in value units (0 = use tickCount evenly) |
 | `tickCount` | `int` | Legacy evenly spaced tick count when tickSpacing <= 0 |
 | `tickLength` | `real` | Outer tick length in px |
@@ -88,6 +93,7 @@ startAngle/sweepTotal remain as aliases of the angle range. Wheel/keys when isIn
 | `interactive` | `alias` | — |
 | `interactionPadding` | `real` | Extra drag hit padding outside the face (px) |
 | `valueAngle` | `real` | Toolkit ValueAngle — current needle angle between minAngle and maxAngle |
+| `value2Angle` | `real` | — |
 | `normalizedMinAngle` | `real` | — |
 | `normalizedMaxAngle` | `real` | — |
 | `normalized` | `real` | — |

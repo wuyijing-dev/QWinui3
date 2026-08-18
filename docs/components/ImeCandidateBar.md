@@ -32,8 +32,10 @@ Live-region: announce paged candidates / preedit on composeChanged (1.85).
 | Name | Type | Description |
 | --- | --- | --- |
 | `engine` | `KeyboardEngine` | — |
-| `placement` | `string` | inline — in keyboard column; floating — window overlay above dockInset (2.58) |
+| `placement` | `string` | — |
 | `dockInset` | `real` | — |
+| `activeGroupIndex` | `int` | — |
+| `groupPage` | `int` | — |
 
 ### Signals
 

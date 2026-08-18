@@ -22,12 +22,13 @@ HyperlinkButton {
     onClicked: Qt.openUrlExternally(navigateUri)
 }
 // --- API ---
-// link.navigateUri / showExternalGlyph
+// link.navigateUri / showExternalGlyph / navigateMode (auto | external | inPage | signal)
 ```
 
 ## Notes
 
 Link-styled button; navigateUri + optional external glyph.
+navigateMode auto: "#anchor" scrolls in-page; http(s) opens externally.
 
 ## API
 
@@ -42,7 +43,7 @@ Link-styled button; navigateUri + optional external glyph.
 | `iconGlyph` | `string` | Raw Fluent glyph string fallback |
 | `visited` | `bool` | True when the step was visited |
 | `showExternalGlyph` | `bool` | Show external-link glyph |
-| `navigateMode` | `string` | "external" opens the URL; "signal" only emits clicked / navigateRequested |
+| `navigateMode` | `string` | navigateMode: auto \| external \| inPage \| signal |
 | `effectiveIconGlyph` | `string` | Resolved glyph string |
 
 ### Signals

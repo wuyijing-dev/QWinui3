@@ -101,6 +101,7 @@ Live-region announces nav selection / pane expand (2.07) when announceChanges is
 | `canGoBack` | `bool` | — |
 | `effectiveBackVisible` | `bool` | TitleBar / ShellWindow: bind isBackButtonVisible to this (not a static true) |
 | `effectiveBackEnabled` | `bool` | — |
+| `hasLeftRail` | `bool` | True when a left navigation rail is active (TitleBar chrome) |
 | `effectiveFooterIcon` | `string` | Resolved footer icon |
 | `resolvedPaneMode` | `string` | Effective pane mode after auto |
 | `expandedMap` | `var` | groupKey -> bool; missing means expanded |
@@ -125,7 +126,6 @@ Live-region announces nav selection / pane expand (2.07) when announceChanges is
 
 | Signature | Description |
 | --- | --- |
-| `canGoBackChanged()` | — |
 | `footerClicked()` | Footer row clicked |
 | `itemClicked(int index)` | Emitted when an item is clicked |
 | `pageOpened(string name)` | Page was opened |

@@ -145,6 +145,10 @@ qt_add_qml_module(qwinui3_extras
         RadarChart.qml
         WaterfallChart.qml
         BulletChart.qml
+        ComboChart.qml
+        FunnelChart.qml
+        CandlestickChart.qml
+        HistogramChart.qml
         ChartCard.qml
         ChartLegend.qml
         ChartUtils.qml
@@ -168,6 +172,8 @@ qt_add_qml_module(qwinui3_extras
         RingGauge.qml
         TankGauge.qml
         ThermometerGauge.qml
+        CompassGauge.qml
+        VuMeter.qml
         KpiTile.qml
         RadioButtons.qml
         RadioMenuFlyoutItem.qml

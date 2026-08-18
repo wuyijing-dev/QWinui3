@@ -1,15 +1,17 @@
 import QtQuick
+import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Platform
 
-// FrameStatsBadge — compact FPS readout for TitleBar rightHeader / leftHeader slots.
+// FrameStatsBadge — compact FPS readout for StandardTitleChrome.rightHeader
+// (PlatformTitleBar slot before caption buttons — not TitleBar.rightHeader).
 //
-//   TitleBar {
+//   StandardTitleChrome {
 //       rightHeader: FrameStatsBadge { }
 //   }
 //
-// Requires FrameStatsMonitor.attachWindow(window) once (Gallery Main does this on completed).
+// Requires FrameStatsMonitor.attachWindow(window) and FrameStatsMonitor.enabled.
 
 Label {
     id: root
@@ -17,6 +19,9 @@ Label {
     visible: FrameStatsMonitor.enabled && FrameStatsMonitor.inTitleBar
     padding: 6
     verticalAlignment: Text.AlignVCenter
+    Layout.fillWidth: false
+    Layout.minimumWidth: implicitWidth
+    Layout.preferredWidth: implicitWidth
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontCaption
     font.weight: Theme.fontWeightSemiBold

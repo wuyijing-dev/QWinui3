@@ -8,8 +8,9 @@ T.Control {
 
     property KeyboardEngine engine
     property OskHandwritingService handwriting
-    property var onClose: null
-    property var onFlash: null
+
+    signal closeRequested()
+    signal flashRequested(string message)
 
     implicitWidth: 640
     implicitHeight: padArea.height + candRow.height + Theme.dp(52)
@@ -18,8 +19,7 @@ T.Control {
     property var _currentStroke: []
 
     function closePanel() {
-        if (onClose)
-            onClose()
+        closeRequested()
     }
 
     background: Rectangle {
@@ -175,8 +175,7 @@ T.Control {
             ink.requestPaint()
         }
         function onErrorOccurred(msg) {
-            if (root.onFlash)
-                root.onFlash(msg)
+            root.flashRequested(msg)
         }
     }
 }

@@ -24,6 +24,7 @@ do not form a compile-time dependency cycle.
 | Name | Type | Description |
 | --- | --- | --- |
 | `tabData` | `var` | — |
+| `tabModel` | `var` | — |
 
 ### Signals
 

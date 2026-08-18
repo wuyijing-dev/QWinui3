@@ -10,9 +10,10 @@ T.Control {
     property OskSpeechService speech
     property OskHandwritingService handwriting
     property string keyboardSize: "default"
-    property var onKeyboardSizeChanged: null
-    property var onOpenVoice: null
-    property var onOpenHandwriting: null
+
+    signal sizePicked(string sizeId)
+    signal voiceRequested()
+    signal handwritingRequested()
 
     implicitWidth: 640
     implicitHeight: col.implicitHeight + Theme.dp(16)
@@ -63,10 +64,7 @@ T.Control {
                     }
                     MouseArea {
                         anchors.fill: parent
-                        onClicked: {
-                            if (root.onKeyboardSizeChanged)
-                                root.onKeyboardSizeChanged(modelData.id)
-                        }
+                        onClicked: root.sizePicked(modelData.id)
                     }
                 }
             }
@@ -85,14 +83,14 @@ T.Control {
                 height: Theme.dp(32)
                 label: qsTr("Voice")
                 enabled: speech && speech.available
-                onTapped: { if (root.onOpenVoice) root.onOpenVoice() }
+                onTapped: root.voiceRequested()
             }
             OskPanelButton {
                 width: Theme.dp(110)
                 height: Theme.dp(32)
                 label: qsTr("Handwriting")
                 enabled: handwriting && handwriting.available
-                onTapped: { if (root.onOpenHandwriting) root.onOpenHandwriting() }
+                onTapped: root.handwritingRequested()
             }
         }
 

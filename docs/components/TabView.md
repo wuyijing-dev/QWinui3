@@ -41,7 +41,8 @@ closeButtonOverlayMode: always | onPointerOver | auto (WinUI CloseButtonOverlayM
 tabStripHeader / tabStripFooter for strip chrome; tabsReorderable enables drag reorder.
 canTearOutTabs: drag a tab vertically past tearOutThreshold to open a new window
 (or handle tabTearOutRequested yourself). createTearOutWindow builds a BlankWindow
-hosting another TabView with the torn tab.
+hosting another TabView with the torn tab. Drop onto another TabView in this
+process to dock it back (TabViewDropHub). closeWhenEmpty closes tear-out hosts.
 
 ## API
 
@@ -62,6 +63,7 @@ hosting another TabView with the torn tab.
 | `allowTearOutLastTab` | `bool` | Allow tearing out when only one tab remains |
 | `tearOutThreshold` | `real` | Vertical drag distance (px) before a tear-out is armed |
 | `createTearOutWindow` | `bool` | When true, TabView opens a BlankWindow for torn tabs (still emits the signal) |
+| `closeWhenEmpty` | `bool` | Close the host window when the last tab is taken (tear-out windows) |
 | `tabWidthMode` | `string` | Tab width mode |
 | `isAddTabButtonVisible` | `bool` | Show add-tab button |
 | `tabStripHeader` | `alias` | WinUI TabStripHeader |
@@ -88,6 +90,9 @@ hosting another TabView with the torn tab.
 | `closeTab(index)` | Close tab at index |
 | `takeTab(index)` | Remove tab and return its model item (no close signal) |
 | `tearOutTab(index, globalX, globalY)` | Tear tab into a new window (optional) and emit tabTearOutRequested |
+| `insertTab(item, index)` | — |
+| `dropIndexAt(gx, gy)` | — |
+| `containsGlobal(gx, gy)` | — |
 | `moveTab(from, to)` | Move a tab from/to index |
 | `tabIndexAtContentX(x)` | Tab index under a contentX |
 | `tabItemAt(index)` | Tab item at the given index |

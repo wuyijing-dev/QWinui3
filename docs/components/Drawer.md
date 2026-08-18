@@ -17,6 +17,7 @@ Drawer {
     id: drawer
     edge: Qt.LeftEdge
     width: Theme.dp(320)
+    title: qsTr("Menu")
     Label { text: qsTr("Menu") }
 }
 drawer.open()
@@ -31,10 +32,25 @@ Enter/exit must use SmoothedAnimation on `position` (not x/y/opacity).
 Parent must stay on the window Overlay: page-local overlay slots (e.g. Gallery
 CatalogPage) reparent children and would otherwise clip the drawer to the pane.
 Overlay size / DPI changes re-assert full-edge span.
+title draws a pane caption; showHandle paints an edge grabber.
+Accessible is on the background Item (Popup is not an Item).
 
 ## API
 
-Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `Drawer` API (this file only supplies Fluent visuals / metrics).
+### Properties
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `title` | `string` | Optional pane title drawn above content |
+| `showHandle` | `bool` | Edge grabber affordance |
+
+### Signals
+
+_No custom signals_ (use inherited signals from the base type).
+
+### Methods
+
+_No custom methods_ (use inherited methods from the base type).
 
 ---
 *Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*

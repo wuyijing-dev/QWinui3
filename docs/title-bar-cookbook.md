@@ -59,7 +59,8 @@ There are **two** RightHeader channels. Using the wrong one makes controls vanis
 
 **Rule of thumb**
 
-- **`StandardWindow` + `StandardTitleChrome`:** put `FrameStatsBadge`, dense trailing controls, or anything that must stay **left of min/max/close** on `rightHeader` at the chrome root (Platform slot).
+- **`StandardWindow` + `StandardTitleChrome`:** put `FrameStatsBadge`, dense trailing controls, or anything that must stay **left of min/max/close** on `rightHeader` at the chrome root (Platform slot). Unnamed children of `StandardTitleChrome` also land there (`extraContent` default property) — they are **not** buried under the inner TitleBar.
+- **Named TitleBar slots** on a standalone `TitleBar`: use `leftHeader:`, `content:`, and `rightHeader:` — unnamed children always go to `rightHeader` (the default property), so a toolbar `Row` without `content:` never appears in the middle band.
 - **`ShellWindow` / `NavigationWindow`:** use `rightHeader` for normal trailing actions (Share, Settings). For diagnostics badge before captions on shells, prefer **`FrameStatsOverlay`** or Settings overlay mode — ShellWindow does not re-export PlatformTitleBar `rightHeader` today.
 
 Historical pain: Gallery “Show FPS in title bar” was invisible until badge moved to PlatformTitleBar `rightHeader` ([friction-log.md](planning/friction-log.md) FL-001).

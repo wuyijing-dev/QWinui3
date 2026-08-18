@@ -50,12 +50,13 @@ systemWide is Windows-only; Linux stays in-app. Not Qt Virtual Keyboard.
 | `clipboardOpen` | `bool` | — |
 | `emojiCategory` | `int` | — |
 | `statusBanner` | `string` | — |
+| `panelMode` | `string` | none \| voice \| handwriting |
 | `sharedEngine` | `KeyboardEngine` | Optional shared engine (dock + floating host use the same instance — 2.58). |
 | `candidateBarPlacement` | `string` | — |
 | `engine` | `KeyboardEngine` | — |
-| `layoutId` | `alias` | — |
-| `hardwareInput` | `alias` | — |
-| `systemWide` | `alias` | — |
+| `layoutId` | `string` | — |
+| `hardwareInput` | `bool` | — |
+| `systemWide` | `bool` | — |
 | `supportsSystemWide` | `bool` | — |
 | `shiftOn` | `bool` | — |
 | `keyGap` | `real` | — |
@@ -92,6 +93,10 @@ systemWide is Windows-only; Linux stays in-app. Not Qt Virtual Keyboard.
 | `commitHint(k)` | — |
 | `commitAlt(ch)` | — |
 | `flashBanner(text)` | — |
+| `openVoicePanel()` | — |
+| `closeVoicePanel()` | — |
+| `openHandwritingPanel()` | — |
+| `closeHandwritingPanel()` | — |
 | `openAltFlyout(item, alts)` | — |
 | `altsFor(k)` | — |
 | `iconFor(k)` | — |

@@ -75,6 +75,7 @@ Use Theme.duration(ms) and controlFill/accentFill helpers for states.
 | `accentDark1` | `color` | Darker accent step |
 | `textPrimary` | `color` | Primary text brush |
 | `textSecondary` | `color` | Secondary text brush |
+| `textTertiary` | `color` | Tertiary / caption text (WinUI TextFillColorTertiary) |
 | `textDisabled` | `color` | Disabled text brush |
 | `textOnAccent` | `color` | Text on accent fill |
 | `textOnAccentSecondary` | `color` | Secondary text on accent fill |
@@ -118,7 +119,10 @@ Use Theme.duration(ms) and controlFill/accentFill helpers for states.
 | `fontFamilyDisplay` | `string` | Segoe UI Variable Display face (large titles) |
 | `fontFamilyIcon` | `string` | Fluent Icons — system Segoe on Windows when present, else embedded WinSymbols3 ("Symbols") |
 | `iconFontFamily` | `string` | Alias used by a few tiles |
+| `fontFamilyMono` | `string` | Monospace — resolved at runtime; never use generic "monospace" (maps to Fixedsys on Windows) |
+| `fontFamiliesMono` | `var` | — |
 | `fontCaption` | `int` | Caption font size (12) |
+| `fontSizeCaption` | `int` | — |
 | `fontBody` | `int` | Body font size (14) |
 | `fontBodyLarge` | `int` | Body Large font size (18) |
 | `fontSubtitle` | `int` | Subtitle font size (20) |
@@ -134,6 +138,7 @@ Use Theme.duration(ms) and controlFill/accentFill helpers for states.
 | `easingExit` | `int` | Exit easing curve |
 | `easingStandard` | `int` | Standard easing curve |
 | `easingEmphasized` | `int` | Emphasized easing (slight overshoot) |
+| `scrollWheelAngleDivisor` | `real` | Scroll — wheel angleDelta divisor (lower = faster; Qt default ≈ 8–12 on Windows) |
 | `cornerControl` | `real` | — |
 | `cornerOverlay` | `real` | Overlay / flyout corner radius |
 | `strokeThin` | `real` | Default 1px design stroke (scales with Qt DIP) |
@@ -149,6 +154,8 @@ Use Theme.duration(ms) and controlFill/accentFill helpers for states.
 | `paddingControlH` | `real` | Horizontal control padding |
 | `paddingControlV` | `real` | Vertical control padding |
 | `spacing` | `real` | Child spacing |
+| `spacingTight` | `real` | Tight inline spacing (badges, icon+label rows) |
+| `spacingSmall` | `real` | Alias used by SemanticZoom and compact layouts |
 | `spacingLoose` | `real` | Loose spacing |
 | `spacingSection` | `real` | Section spacing |
 | `cornerCard` | `real` | Card corner radius |

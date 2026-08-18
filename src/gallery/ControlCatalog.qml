@@ -925,6 +925,22 @@ QtObject {
             source: "pages/ThermometerGaugePage.qml"
         },
         {
+            title: qsTr("CompassGauge"),
+            category: "charts",
+            icon: FluentIcons.Dial6,
+            description: qsTr("Heading compass 0–360° (experimental). Prefer RadialGauge for linear scales."),
+            component: "CompassGaugePage",
+            source: "pages/CompassGaugePage.qml"
+        },
+        {
+            title: qsTr("VuMeter"),
+            category: "charts",
+            icon: FluentIcons.Microphone,
+            description: qsTr("LED / peak-hold meter (experimental). Prefer LinearGauge for analog tracks."),
+            component: "VuMeterPage",
+            source: "pages/VuMeterPage.qml"
+        },
+        {
             title: qsTr("KpiTile"),
             category: "charts",
             icon: FluentIcons.AreaChart,
@@ -1131,6 +1147,38 @@ QtObject {
             description: qsTr("KPI bullet (experimental — deferred 1.66). Prefer KpiTile."),
             component: "BulletChartPage",
             source: "pages/BulletChartPage.qml"
+        },
+        {
+            title: qsTr("ComboChart"),
+            category: "charts",
+            icon: FluentIcons.AreaChart,
+            description: qsTr("Dual-axis bars + line (experimental). Volume vs price."),
+            component: "ComboChartPage",
+            source: "pages/ComboChartPage.qml"
+        },
+        {
+            title: qsTr("FunnelChart"),
+            category: "charts",
+            icon: FluentIcons.Filter,
+            description: qsTr("Conversion funnel (experimental). Prefer DonutChart for part-to-whole."),
+            component: "FunnelChartPage",
+            source: "pages/FunnelChartPage.qml"
+        },
+        {
+            title: qsTr("CandlestickChart"),
+            category: "charts",
+            icon: FluentIcons.PieSingle,
+            description: qsTr("OHLC candlesticks (experimental). Pass {o,h,l,c} objects."),
+            component: "CandlestickChartPage",
+            source: "pages/CandlestickChartPage.qml"
+        },
+        {
+            title: qsTr("HistogramChart"),
+            category: "charts",
+            icon: FluentIcons.BarChartVertical,
+            description: qsTr("Frequency bins (experimental). ChartUtils.histogramBins."),
+            component: "HistogramChartPage",
+            source: "pages/HistogramChartPage.qml"
         },
         {
             title: qsTr("Shimmer"),
@@ -1685,8 +1733,10 @@ QtObject {
         "SparklinePage", "AreaChartPage", "HorizontalBarChartPage", "StackedBarChartPage",
         "PieChartPage", "ScatterChartPage", "WaterfallChartPage", "HeatmapChartPage",
         "RadarChartPage", "BulletChartPage",
+        "ComboChartPage", "FunnelChartPage", "CandlestickChartPage", "HistogramChartPage",
         "RadialGaugePage", "LinearGaugePage", "ArcGaugePage", "SegmentedGaugePage",
-        "ZoneGaugePage", "TankGaugePage", "ThermometerGaugePage"
+        "ZoneGaugePage", "TankGaugePage", "ThermometerGaugePage",
+        "CompassGaugePage", "VuMeterPage"
     ]
 
     readonly property var _experimentalPages: [

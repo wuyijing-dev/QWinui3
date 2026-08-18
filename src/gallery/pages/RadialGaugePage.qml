@@ -25,6 +25,9 @@ CatalogPage {
                     width: 200
                     height: 200
                     value: 120
+                    value2: 90
+                    showSecondNeedle: true
+                    needleBrush2: Theme.systemCaution
                     minimum: 0
                     maximum: 240
                     minAngle: -150

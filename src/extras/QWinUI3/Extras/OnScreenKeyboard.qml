@@ -45,10 +45,39 @@ T.Control {
     property Item _focusReturn: null
 
     readonly property KeyboardEngine engine: sharedEngine !== null ? sharedEngine : _engine
-    property alias layoutId: engine.layoutId
-    property alias hardwareInput: engine.hardwareInput
-    property alias systemWide: engine.systemWide
+    property string layoutId: engine.layoutId
+    property bool hardwareInput: engine.hardwareInput
+    property bool systemWide: engine.systemWide
     readonly property bool supportsSystemWide: engine.supportsSystemWide
+
+    onLayoutIdChanged: {
+        if (engine && engine.layoutId !== layoutId)
+            engine.layoutId = layoutId
+    }
+    onHardwareInputChanged: {
+        if (engine && engine.hardwareInput !== hardwareInput)
+            engine.hardwareInput = hardwareInput
+    }
+    onSystemWideChanged: {
+        if (engine && engine.systemWide !== systemWide)
+            engine.systemWide = systemWide
+    }
+
+    Connections {
+        target: root.engine
+        function onLayoutIdChanged() {
+            if (root.layoutId !== root.engine.layoutId)
+                root.layoutId = root.engine.layoutId
+        }
+        function onHardwareInputChanged() {
+            if (root.hardwareInput !== root.engine.hardwareInput)
+                root.hardwareInput = root.engine.hardwareInput
+        }
+        function onSystemWideChanged() {
+            if (root.systemWide !== root.engine.systemWide)
+                root.systemWide = root.engine.systemWide
+        }
+    }
 
     signal closeRequested()
     signal settingsRequested()
@@ -411,9 +440,9 @@ T.Control {
             speech: _speech
             handwriting: _handwriting
             keyboardSize: root.keyboardSize
-            onKeyboardSizeChanged: function(id) { root.keyboardSize = id }
-            onOpenVoice: root.openVoicePanel()
-            onOpenHandwriting: root.openHandwritingPanel()
+            onSizePicked: function(id) { root.keyboardSize = id }
+            onVoiceRequested: root.openVoicePanel()
+            onHandwritingRequested: root.openHandwritingPanel()
         }
 
         OskVoiceBar {
@@ -422,8 +451,8 @@ T.Control {
             height: visible ? implicitHeight : 0
             engine: root.engine
             speech: _speech
-            onClose: root.closeVoicePanel()
-            onFlash: root.flashBanner
+            onCloseRequested: root.closeVoicePanel()
+            onFlashRequested: root.flashBanner
         }
 
         OskHandwritingPad {
@@ -432,8 +461,8 @@ T.Control {
             height: visible ? implicitHeight : 0
             engine: root.engine
             handwriting: _handwriting
-            onClose: root.closeHandwritingPanel()
-            onFlash: root.flashBanner
+            onCloseRequested: root.closeHandwritingPanel()
+            onFlashRequested: root.flashBanner
         }
 
         // Win11 clipboard strip (current clip — full history is OS-owned).

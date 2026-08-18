@@ -179,6 +179,11 @@ Item {
             spacing: 4
             Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
             Layout.preferredHeight: root.captionHeight
+            Layout.fillWidth: false
+            Layout.fillHeight: false
+            Layout.minimumWidth: implicitWidth
+            Layout.preferredWidth: implicitWidth
+            Layout.maximumWidth: implicitWidth
             Layout.rightMargin: 4
             onChildrenChanged: root.reportHitTest()
             onWidthChanged: root.reportHitTest()

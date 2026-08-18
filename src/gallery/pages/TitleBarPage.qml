@@ -3,6 +3,7 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
+import QWinUI3.Platform
 
 // Gallery — TitleBar.
 //
@@ -47,12 +48,12 @@ CatalogPage {
                         implicitWidth: 120
                         model: [qsTr("Draft"), qsTr("Published")]
                     }
-                    Row {
+                    content: Row {
                         spacing: 4
                         Button { text: qsTr("Undo"); flat: true }
                         Button { text: qsTr("Redo"); flat: true }
                     }
-                    Button {
+                    rightHeader: Button {
                         text: qsTr("Save")
                         flat: true
                     }
@@ -101,13 +102,16 @@ CatalogPage {
                     onBackRequested: tip.text = qsTr("BackRequested")
                     onPaneToggleRequested: tip.text = qsTr("PaneToggleRequested")
 
-                    Button {
-                        text: qsTr("Share")
-                        flat: true
-                    }
-                    Button {
-                        text: qsTr("More")
-                        flat: true
+                    rightHeader: Row {
+                        spacing: 4
+                        Button {
+                            text: qsTr("Share")
+                            flat: true
+                        }
+                        Button {
+                            text: qsTr("More")
+                            flat: true
+                        }
                     }
                 }
             }
@@ -117,6 +121,58 @@ CatalogPage {
                 text: qsTr("Interact with Back / Pane toggle — Share/More sit in RightHeader")
                 color: Theme.textSecondary
                 font.pixelSize: Theme.fontCaption
+            }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("StandardTitleChrome extraContent (before captions)")
+        qmlSource: "StandardTitleChrome {\n    titleBarContent: Button { text: \"Filter\" }\n    Button { text: \"Share\" }  // extraContent / rightHeader\n}"
+
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Rectangle {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 56
+                color: Theme.bgAcrylic
+                border.width: 1
+                border.color: Theme.strokeDivider
+                radius: Theme.cornerControl
+                clip: true
+                StandardTitleChrome {
+                    anchors.fill: parent
+                    showCaptionButtons: false
+                    title: qsTr("Host window")
+                    subtitle: qsTr("extraContent sits before captions")
+                    symbol: FluentIcons.Home
+                    searchEnabled: false
+                    titleBarContent: Button {
+                        text: qsTr("Filter")
+                        flat: true
+                    }
+                    Button {
+                        text: qsTr("Share")
+                        flat: true
+                    }
+                    FrameStatsBadge { }
+                }
+            }
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                color: Theme.textSecondary
+                font.pixelSize: Theme.fontCaption
+                text: qsTr("Unnamed children of StandardTitleChrome go to extraContent (Platform rightHeader). Enable Settings → Show FPS to see FrameStatsBadge beside Share. Named slots: leftHeader, titleBarContent, rightHeader.")
+            }
+            Switch {
+                text: qsTr("Show FPS in title bar")
+                checked: FrameStatsMonitor.enabled && FrameStatsMonitor.inTitleBar
+                onToggled: {
+                    FrameStatsMonitor.enabled = checked
+                    if (checked)
+                        FrameStatsMonitor.inTitleBar = true
+                }
             }
         }
     }

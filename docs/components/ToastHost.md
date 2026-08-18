@@ -44,10 +44,10 @@ Do not also set anchors when using placement — they conflict.
 | `newestOnTop` | `bool` | Stack newest items on top of the visible column |
 | `placementMargin` | `real` | Edge inset from the window overlay |
 | `placement` | `int` | — |
-| `informational` | `int` | — |
-| `success` | `int` | — |
-| `warning` | `int` | — |
-| `error` | `int` | — |
+| `severityInformational` | `int` | — |
+| `severitySuccess` | `int` | — |
+| `severityWarning` | `int` | — |
+| `severityError` | `int` | — |
 | `count` | `int` | Visible toast count |
 | `pendingCount` | `int` | Waiting behind maxVisible |
 | `totalCount` | `int` | Visible + pending |

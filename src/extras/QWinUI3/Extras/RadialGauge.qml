@@ -95,6 +95,12 @@ T.Control {
     property real needleWidth: 3
     // Needle color
     property color needleBrush: Theme.textPrimary
+    // Second needle (setpoint vs actual)
+    property real value2: NaN
+    property bool showSecondNeedle: isFinite(value2)
+    property color needleBrush2: Theme.systemCaution
+    property real needleLength2: 0.58
+    property real needleWidth2: 2
 
     // --- Ticks (Toolkit TickSpacing / TickLength / TickWidth / TickPadding / ScaleTickWidth) ---
     // Tick spacing in value units (0 = use tickCount evenly)
@@ -139,6 +145,13 @@ T.Control {
 
     // Toolkit ValueAngle — current needle angle between minAngle and maxAngle
     readonly property real valueAngle: minAngle + animatedNorm * (maxAngle - minAngle)
+    readonly property real value2Angle: {
+        var span = maximum - minimum
+        if (span <= 0 || !isFinite(value2))
+            return minAngle
+        var n = Math.max(0, Math.min(1, (value2 - minimum) / span))
+        return minAngle + n * (maxAngle - minAngle)
+    }
     readonly property real normalizedMinAngle: minAngle
     readonly property real normalizedMaxAngle: maxAngle
 
@@ -418,15 +431,35 @@ T.Control {
                 color: root.needleBrush
                 opacity: 0.9
             }
+        }
+
+        Item {
+            visible: root.showNeedle && root.showSecondNeedle
+            anchors.fill: parent
+            rotation: root.value2Angle + 90
+            transformOrigin: Item.Center
             Rectangle {
-                anchors.centerIn: parent
-                width: Math.max(10, root.needleWidth * 3)
-                height: width
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.bottom: parent.verticalCenter
+                width: root.needleWidth2
+                height: gaugeFace.radius * Math.max(0, Math.min(1.2,
+                        root.needleLength2 > 1 ? root.needleLength2 / 100 : root.needleLength2))
                 radius: width / 2
-                color: Theme.bgCard
-                border.width: 2
-                border.color: root.effectiveFillColor
+                color: root.needleBrush2
+                opacity: 0.85
             }
+        }
+
+        Rectangle {
+            visible: root.showNeedle
+            anchors.centerIn: parent
+            width: Math.max(10, root.needleWidth * 3)
+            height: width
+            radius: width / 2
+            z: 2
+            color: Theme.bgCard
+            border.width: 2
+            border.color: root.effectiveFillColor
         }
 
         Column {

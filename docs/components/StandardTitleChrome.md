@@ -31,6 +31,7 @@ Same slot model as ShellWindow (leftHeader / titleBarContent / rightHeader).
 
 | Name | Type | Description |
 | --- | --- | --- |
+| `extraContent` | `alias` | TitleBar is assigned to titleContent so it is not covered by extra controls. |
 | `title` | `string` | Primary title text |
 | `subtitle` | `string` | Secondary subtitle text |
 | `symbol` | `var` | FluentIcons symbol |

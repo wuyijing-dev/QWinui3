@@ -47,6 +47,7 @@ Not generic pinch/map zoom. See docs/semantic-zoom-262.md.
 | `zoomInLabel` | `string` | — |
 | `zoomOutLabel` | `string` | — |
 | `accessibleName` | `string` | — |
+| `nestedInScrollView` | `bool` | Forward wheel to parent ScrollView when the inner grid cannot scroll further |
 | `zoomedIn` | `alias` | — |
 | `zoomedOut` | `alias` | — |
 | `groupKeys` | `var` | — |

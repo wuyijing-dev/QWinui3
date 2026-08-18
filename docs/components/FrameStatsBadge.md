@@ -1,6 +1,6 @@
 # FrameStatsBadge
 
-compact FPS readout for TitleBar rightHeader / leftHeader slots.
+compact FPS readout for StandardTitleChrome.rightHeader (PlatformTitleBar slot before caption buttons — not TitleBar.rightHeader).
 
 `import QWinUI3.Platform` · [`src/platform/QWinUI3/Platform/FrameStatsBadge.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/platform/QWinUI3/Platform/FrameStatsBadge.qml)
 
@@ -13,11 +13,11 @@ compact FPS readout for TitleBar rightHeader / leftHeader slots.
 ## Example
 
 ```qml
-TitleBar {
+StandardTitleChrome {
     rightHeader: FrameStatsBadge { }
 }
 
-Requires FrameStatsMonitor.attachWindow(window) once (Gallery Main does this on completed).
+Requires FrameStatsMonitor.attachWindow(window) and FrameStatsMonitor.enabled.
 ```
 
 ## API

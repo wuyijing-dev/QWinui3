@@ -55,10 +55,10 @@ Prefer bridge.info/success/warning/error for LoB apps. See docs/notification-cen
 | `tooltip` | `alias` | — |
 | `iconSource` | `alias` | — |
 | `supportsMessages` | `alias` | — |
-| `informational` | `int` | — |
-| `success` | `int` | — |
-| `warning` | `int` | — |
-| `error` | `int` | — |
+| `severityInformational` | `int` | — |
+| `severitySuccess` | `int` | — |
+| `severityWarning` | `int` | — |
+| `severityError` | `int` | — |
 
 ### Signals
 
