@@ -1,5 +1,6 @@
 #include "ThemeFonts.h"
 
+#include <QFont>
 #include <QFontDatabase>
 #include <QQmlEngine>
 
@@ -27,6 +28,20 @@ static QString resolveMonoFamily()
     }
     // Courier New is an outline font; never fall back to GDI bitmap "Fixedsys".
     return QStringLiteral("Courier New");
+}
+
+static QFont makeMonoFont(const QString &family, int pixelSize)
+{
+    QFont f;
+    f.setFamilies({ family });
+    f.setFamily(family);
+    f.setFixedPitch(true);
+    f.setStyleHint(QFont::SansSerif);
+    f.setStyleStrategy(static_cast<QFont::StyleStrategy>(
+        static_cast<int>(QFont::PreferOutline) | static_cast<int>(QFont::NoFontMerging)));
+    if (pixelSize > 0)
+        f.setPixelSize(pixelSize);
+    return f;
 }
 
 ThemeFonts::ThemeFonts(QObject *parent)
@@ -93,6 +108,17 @@ QString ThemeFonts::monoFamily() const
 {
     ensureLoaded();
     return s_monoFamily;
+}
+
+QFont ThemeFonts::monoFont() const
+{
+    return monoFontFor(12);
+}
+
+QFont ThemeFonts::monoFontFor(int pixelSize) const
+{
+    ensureLoaded();
+    return makeMonoFont(s_monoFamily, pixelSize);
 }
 
 bool ThemeFonts::iconFontLoaded() const

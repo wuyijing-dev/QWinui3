@@ -193,8 +193,9 @@ QtObject {
     readonly property string fontFamilyIcon: ThemeFonts.iconFamily
     // Alias used by a few tiles
     readonly property string iconFontFamily: fontFamilyIcon
-    // Monospace — resolved at runtime; never use generic "monospace" (maps to Fixedsys on Windows)
+    // Monospace — outline family from ThemeFonts (never generic "monospace" / Fixedsys)
     readonly property string fontFamilyMono: ThemeFonts.monoFamily
+    readonly property font fontMonoCode: ThemeFonts.monoFont
     readonly property var fontFamiliesMono: ["Cascadia Mono", "Cascadia Code", "Consolas", "Courier New"]
     // Caption font size (12)
     readonly property int fontCaption: 12

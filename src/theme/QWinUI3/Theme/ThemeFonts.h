@@ -1,5 +1,6 @@
 #pragma once
 
+#include <QFont>
 #include <QObject>
 #include <QString>
 #include <QtQml/qqmlregistration.h>
@@ -15,6 +16,7 @@ class ThemeFonts : public QObject
     QML_SINGLETON
     Q_PROPERTY(QString iconFamily READ iconFamily CONSTANT)
     Q_PROPERTY(QString monoFamily READ monoFamily CONSTANT)
+    Q_PROPERTY(QFont monoFont READ monoFont CONSTANT)
     Q_PROPERTY(bool iconFontLoaded READ iconFontLoaded CONSTANT)
 
 public:
@@ -27,6 +29,8 @@ public:
 
     QString iconFamily() const;
     QString monoFamily() const;
+    QFont monoFont() const;
+    Q_INVOKABLE QFont monoFontFor(int pixelSize) const;
     bool iconFontLoaded() const;
 
 private:

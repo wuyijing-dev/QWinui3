@@ -57,8 +57,7 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WrapAnywhere
                 text: Theme.recipeSnippet
-                font.family: Theme.fontFamilyMono
-                font.pixelSize: Theme.fontCaption
+                font: ThemeFonts.monoFontFor(Theme.fontCaption)
                 color: Theme.textSecondary
             }
         }
