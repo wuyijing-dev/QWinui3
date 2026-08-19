@@ -571,7 +571,7 @@ def main() -> int:
             print(f"  {name:10} target={info['target']}  depends={deps}")
         print("\nPresets:")
         for name, mods in sorted(PRESETS.items()):
-            print(f"  {name:10} → {', '.join(mods)}")
+            print(f"  {name:10} -> {', '.join(mods)}")
 
         return 0
 
