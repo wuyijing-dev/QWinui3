@@ -1,10 +1,51 @@
 # Python consumer packaging (PySide6 / PyQt6)
 
-**Status:** Shipped on **2.64** (early **2.71** slice; PyPI wheels remain **2.72**).
+**Status:** Shipped on **2.64** (Gallery + bootstrap). **PyPI wheels** ship on **2.72** (`pip install qwinui3`).
 
 Use **PySide6** or **PyQt6** with a **shared QWinUI3 kit** (`qml/` + native plugins). Python loads the **same Gallery** as `src/gallery` — not a subprocess of `qwinui3_gallery.exe`.
 
 Related: [packaging-consumer.md](packaging-consumer.md) **Path E** · [recipes.md](recipes.md) · [friction-log.md](planning/friction-log.md) **FL-011**.
+
+---
+
+## Install from PyPI (2.72+)
+
+Platform wheels bundle the shared kit for **Windows x64** and **Linux x86_64**. You still install **PySide6** or **PyQt6** separately (Qt is not vendored).
+
+```bat
+pip install qwinui3[pyside6]
+qwinui3-gallery
+```
+
+```bash
+pip install qwinui3[pyside6]
+qwinui3-gallery --smoke
+```
+
+| Wheel | Contents |
+|-------|----------|
+| `qwinui3` | `qwinui3/`, `qwinui3_gallery/`, bundled `_kit/` + Gallery QML |
+| Your env | PySide6 or PyQt6 — **match Qt major.minor** to the kit Qt used at wheel build time (CI uses Qt **6.8.3**) |
+
+**Library use** (no Gallery window):
+
+```bat
+pip install qwinui3[pyside6]
+```
+
+```python
+from qwinui3 import configure_environment, configure_application, setup_engine, QtGui, QtQml
+
+configure_environment()  # uses bundled _kit after pip install
+app = QtGui.QGuiApplication([])
+configure_application("org.example.app")
+engine = QtQml.QQmlApplicationEngine()
+setup_engine(engine)
+```
+
+Kit discovery order: explicit `kit=` → `QWINUI3_ROOT` → **bundled `_kit`** (wheel) → repo `dist/qwinui3-*-shared` (checkout).
+
+**Maintainers:** build wheels locally with `python scripts/build_pypi_wheel.py` (requires Qt + compiler once). CI: [.github/workflows/pypi.yml](../.github/workflows/pypi.yml).
 
 ---
 
@@ -319,14 +360,15 @@ python scripts/qwinui3.py gallery --smoke
 
 ---
 
-## Out of scope (2.64)
+## Out of scope
 
-| Item | Target slice |
-|------|----------------|
-| `pip install qwinui3` wheels | **2.72** |
+| Item | Notes |
+|------|--------|
+| Vendoring full Qt in the wheel | Install PySide6/PyQt6; kit Qt major.minor must match |
 | Shiboken wrappers for every C++ helper | — |
 | Subprocess / embed `qwinui3_gallery.exe` | — |
 | Conda-forge official port | TBD |
+| macOS wheels | Not in **2.72** matrix |
 
 ---
 

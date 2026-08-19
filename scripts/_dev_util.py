@@ -206,6 +206,13 @@ def doctor_report() -> int:
     print(f"  C++ Gallery:     {binary or 'not built'}")
 
     kit = _kit_in_dist()
+    if kit is None:
+        try:
+            from qwinui3._paths import bundled_kit_dir
+
+            kit = bundled_kit_dir()
+        except ImportError:
+            kit = None
     print(f"  Python kit:      {kit or 'not packaged (run: python scripts/qwinui3.py python)'}")
 
     sys.path.insert(0, str(ROOT / "python"))

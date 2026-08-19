@@ -1,24 +1,69 @@
-"""Stage src/gallery QML into a filesystem QWinUI3.Gallery module for Python."""
+"""Stage Gallery QML into a filesystem QWinUI3.Gallery module for Python."""
 
 from __future__ import annotations
 
+import os
 import shutil
+import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
-SRC = ROOT / "src" / "gallery"
-STAGE_ROOT = ROOT / "examples" / "python-gallery" / ".qml-module"
-MODULE_DIR = STAGE_ROOT / "QWinUI3" / "Gallery"
+from qwinui3._paths import repo_root
+
+_PKG = Path(__file__).resolve().parent
+_BUNDLED_SRC = _PKG / "_gallery_qml"
+_GALLERY_IMPORT = "import QWinUI3.Gallery 1.0"
 
 _SINGLETONS = {"ControlCatalog", "GalleryHistory"}
 _SKIP_TYPES = {"GraphicsBackend", "GalleryLanguage", "DemoTreeModel"}
-_GALLERY_IMPORT = "import QWinUI3.Gallery 1.0"
+
+_module_dir: Path | None = None
+
+
+def gallery_qml_source() -> Path:
+    """Bundled wheel copy, or repo `src/gallery`."""
+    if _BUNDLED_SRC.is_dir():
+        return _BUNDLED_SRC
+    root = repo_root()
+    if root is not None:
+        src = root / "src" / "gallery"
+        if src.is_dir():
+            return src
+    raise FileNotFoundError(
+        "Gallery QML source not found. Install qwinui3 from PyPI or run from the repo checkout."
+    )
+
+
+def default_stage_root() -> Path:
+    """Where to materialize the QWinUI3.Gallery import tree."""
+    root = repo_root()
+    if root is not None:
+        return root / "examples" / "python-gallery" / ".qml-module"
+    override = os.environ.get("QWINUI3_GALLERY_CACHE", "").strip()
+    if override:
+        return Path(override)
+    if sys.platform == "win32":
+        base = os.environ.get("LOCALAPPDATA") or str(Path.home() / "AppData" / "Local")
+    else:
+        base = os.environ.get("XDG_CACHE_HOME") or str(Path.home() / ".cache")
+    return Path(base) / "qwinui3" / "gallery-qml-module"
+
+
+def gallery_module_dir(stage_root: Path | None = None) -> Path:
+    root = stage_root or default_stage_root()
+    return root / "QWinUI3" / "Gallery"
+
+
+def get_module_dir() -> Path:
+    """Module directory after `stage_gallery_qml()` (or the default path)."""
+    return _module_dir if _module_dir is not None else gallery_module_dir()
 
 
 def stage_gallery_qml(src: Path | None = None, dest: Path | None = None) -> Path:
-    """Copy Gallery QML from src/gallery and write qmldir. Returns import-path root."""
-    source = Path(src) if src else SRC
-    module_dir = Path(dest) if dest else MODULE_DIR
+    """Copy Gallery QML and write qmldir. Returns import-path root."""
+    global _module_dir
+    source = Path(src) if src else gallery_qml_source()
+    stage_root = dest.parent.parent if dest else default_stage_root()
+    module_dir = Path(dest) if dest else gallery_module_dir(stage_root)
     if not source.is_dir():
         raise FileNotFoundError(f"Gallery QML source not found: {source}")
 
@@ -47,6 +92,7 @@ def stage_gallery_qml(src: Path | None = None, dest: Path | None = None) -> Path
             shutil.copy2(qm, trans_dest / qm.name)
 
     _write_qmldir(module_dir, copied)
+    _module_dir = module_dir
     return module_dir.parent.parent  # …/.qml-module
 
 

@@ -1,0 +1,55 @@
+# QWinUI3 PyPI package — version synced by scripts/build_pypi_wheel.py from CMake QWINUI3_VERSION.
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qwinui3"
+version = "2.64.0"
+description = "Fluent Qt Quick controls (WinUI-style) for PySide6 and PyQt6"
+readme = "python/README-PyPI.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+authors = [{ name = "QWinUI3 contributors" }]
+keywords = ["qt", "qml", "pyside6", "pyqt6", "fluent", "winui", "qtquick"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: User Interfaces",
+]
+
+dependencies = []
+
+[project.optional-dependencies]
+pyside6 = ["PySide6>=6.5"]
+pyqt6 = ["PyQt6>=6.5"]
+gallery = ["PySide6>=6.5"]
+
+[project.scripts]
+qwinui3-gallery = "qwinui3_gallery.main:main"
+
+[project.urls]
+Homepage = "https://github.com/wuyijing-dev/QWinui3"
+Documentation = "https://wuyijing-dev.github.io/QWinui3/packaging-python/"
+Repository = "https://github.com/wuyijing-dev/QWinui3"
+Issues = "https://github.com/wuyijing-dev/QWinui3/issues"
+
+[tool.setuptools]
+package-dir = { "" = "python" }
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["python"]
+
+[tool.setuptools.package-data]
+qwinui3 = ["py.typed", "_kit/**"]
+qwinui3_gallery = ["_gallery_qml/**"]

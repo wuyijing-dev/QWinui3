@@ -29,7 +29,7 @@ from qwinui3 import (  # noqa: E402
 )
 from qwinui3_gallery.gallery_language import set_startup_locale_override  # noqa: E402
 from qwinui3_gallery.graphics_backend import apply_early, sync_after_app  # noqa: E402
-from qwinui3_gallery.qml_module import MODULE_DIR, stage_gallery_qml  # noqa: E402
+from qwinui3_gallery.qml_module import get_module_dir, stage_gallery_qml  # noqa: E402
 from qwinui3_gallery.types import register_types  # noqa: E402
 
 CRITICAL_PAGES = (
@@ -77,7 +77,7 @@ def _smoke_pages(engine) -> int:
     pages_ok = 0
     t0 = time.perf_counter()
     for name in CRITICAL_PAGES:
-        page_url = QtCore.QUrl.fromLocalFile(str(MODULE_DIR / "pages" / f"{name}.qml"))
+        page_url = QtCore.QUrl.fromLocalFile(str(get_module_dir() / "pages" / f"{name}.qml"))
         typed = QtQml.QQmlComponent(engine, page_url)
         if typed.isLoading():
             loop = QtCore.QEventLoop()
@@ -150,7 +150,7 @@ def main(argv: list[str] | None = None) -> int:
     if hasattr(engine, "loadFromModule"):
         engine.loadFromModule("QWinUI3.Gallery", "Main")
     else:
-        engine.load(QtCore.QUrl.fromLocalFile(str(MODULE_DIR / "Main.qml")))
+        engine.load(QtCore.QUrl.fromLocalFile(str(get_module_dir() / "Main.qml")))
 
     if not engine.rootObjects():
         print("Failed to load QWinUI3.Gallery/Main", file=sys.stderr)

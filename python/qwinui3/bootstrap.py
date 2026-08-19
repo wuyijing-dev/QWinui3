@@ -11,22 +11,7 @@ import sys
 from pathlib import Path
 
 from . import _qt
-
-ROOT = Path(__file__).resolve().parents[2]
-
-
-def _kit_looks_valid(kit: Path) -> bool:
-    qml = kit / "qml"
-    if (qml / "QWinUI3").is_dir() and (
-        (qml / "QWinUI3" / "Theme").is_dir() or (qml / "QWinUI3" / "qmldir").is_file()
-    ):
-        return True
-    # In-tree shared build (DLLs beside CMake output, qml under src/*).
-    if (kit / "src" / "theme").is_dir() or any(kit.glob("qwinui3_theme.dll")) or any(
-        kit.glob("libqwinui3_theme.so*")
-    ):
-        return True
-    return False
+from ._paths import bundled_kit_dir, dist_kit_dirs
 
 
 def find_kit(explicit: str | os.PathLike[str] | None = None) -> Path:
@@ -37,22 +22,25 @@ def find_kit(explicit: str | os.PathLike[str] | None = None) -> Path:
     env = os.environ.get("QWINUI3_ROOT")
     if env:
         candidates.append(Path(env))
+    bundled = bundled_kit_dir()
+    if bundled is not None:
+        candidates.append(bundled)
+    candidates.extend(dist_kit_dirs())
     for c in candidates:
         p = c.expanduser()
         if p.is_file() and p.suffix.lower() in {".zip", ".gz"}:
             continue
-        if _kit_looks_valid(p):
+        qml = p / "qml"
+        if (qml / "QWinUI3").is_dir() or any(p.glob("qwinui3_*.dll")) or any(
+            p.glob("libqwinui3_*.so*")
+        ):
             return p.resolve()
-    dist = ROOT / "dist"
-    if dist.is_dir():
-        for archive_dir in sorted(dist.glob("qwinui3-*-shared"), reverse=True):
-            if _kit_looks_valid(archive_dir):
-                return archive_dir.resolve()
     raise FileNotFoundError(
-        "No QWinUI3 shared kit found. Package first:\n"
-        "  python scripts/package_release_libs.py --shared --archive\n"
-        "Then set QWINUI3_ROOT to dist/qwinui3-<ver>-<plat>-x64-shared "
-        "or pass kit= to configure_environment()."
+        "No QWinUI3 shared kit found.\n"
+        "  pip install qwinui3[pyside6]   # wheel bundles platform kit\n"
+        "  python scripts/package_release_libs.py --shared --archive  # dev checkout\n"
+        "  set QWINUI3_ROOT=dist\\qwinui3-<ver>-<plat>-x64-shared\n"
+        "Or pass kit= to configure_environment()."
     )
 
 

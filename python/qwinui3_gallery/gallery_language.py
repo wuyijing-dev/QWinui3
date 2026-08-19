@@ -21,7 +21,7 @@ QML_IMPORT_NAME = "QWinUI3.Gallery"
 QML_IMPORT_MAJOR_VERSION = 1
 QML_IMPORT_MINOR_VERSION = 0
 
-ROOT = Path(__file__).resolve().parents[2]
+_PKG = Path(__file__).resolve().parent
 _STARTUP_OVERRIDE = ""
 _instance: GalleryLanguage | None = None
 _LOCALES = ["", "zh_CN", "ja_JP", "ko_KR", "de_DE"]
@@ -39,13 +39,24 @@ def _search_directories() -> list[str]:
     env = os.environ.get("QWINUI3_GALLERY_TRANSLATIONS", "")
     if env:
         dirs.append(env)
+    bundled = _PKG / "_gallery_qml" / "translations"
+    if bundled.is_dir():
+        dirs.append(str(bundled))
+    try:
+        from qwinui3_gallery.qml_module import get_module_dir
+
+        staged = get_module_dir() / "translations"
+        if staged.is_dir():
+            dirs.append(str(staged))
+    except Exception:
+        pass
+    from qwinui3._paths import repo_root
+
+    root = repo_root()
+    if root is not None:
+        dirs.append(str(root / "src" / "gallery" / "translations"))
+        dirs.append(str(root / "examples" / "python-gallery" / "translations"))
     app_dir = QtCore.QCoreApplication.applicationDirPath() if QtCore.QCoreApplication.instance() else ""
-    dirs.extend(
-        [
-            str(ROOT / "src" / "gallery" / "translations"),
-            str(ROOT / "examples" / "python-gallery" / "translations"),
-        ]
-    )
     if app_dir:
         dirs.extend(
             [
