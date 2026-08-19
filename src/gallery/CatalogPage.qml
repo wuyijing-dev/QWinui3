@@ -23,10 +23,12 @@ Item {
     property alias overlay: overlaySlot.data
     default property alias contentData: stack.data
 
-    anchors.fill: hubEmbed ? undefined : parent
+    // StackView animates this item's x/y/scale — do not anchors.fill the page root.
+    width: parent ? parent.width : 0
+    height: hubEmbed ? implicitHeight : (parent ? parent.height : 0)
     implicitHeight: hubEmbed ? bodyCol.implicitHeight : 0
     Layout.fillWidth: true
-    Layout.preferredHeight: hubEmbed ? bodyCol.implicitHeight : -1
+    Layout.preferredHeight: hubEmbed ? implicitHeight : -1
 
     function _findNamed(item, name) {
         if (!item || !name)

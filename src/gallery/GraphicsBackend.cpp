@@ -1,8 +1,6 @@
 #include "GraphicsBackend.h"
 
-#include <QWinUI3/Compat/QtCompatQml.h>
 #include <QWinUI3/Compat/QtCompatRhi.h>
-#include <QWinUI3/Compat/QtCompatVersion.h>
 
 #include <QCoreApplication>
 #include <QGuiApplication>
@@ -121,9 +119,9 @@ QString GraphicsBackend::applyEarly(int &argc, char **argv)
     apply(backend);
     g_earlyBackend = backend;
 
-    qInfo().nospace() << "QWinUI3 Gallery RHI backend: " << backend
-                      << " (" << QWinUI3::Compat::Qml::supportRangeString()
-                      << "; change in Settings or pass --rhi opengl|vulkan|d3d11|d3d12)";
+    qInfo().noquote() << QStringLiteral(
+                            "QWinUI3 Gallery RHI backend: %1 — change in Settings or --rhi opengl|vulkan|d3d11|d3d12")
+                            .arg(backend);
     return backend;
 }
 

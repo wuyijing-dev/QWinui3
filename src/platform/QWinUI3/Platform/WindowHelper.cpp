@@ -357,11 +357,11 @@ void WindowHelper::notifyDisplayMetricsChanged()
 
 void WindowHelper::configurePlatformEnvironment(const char *argv0)
 {
-    qInfo().noquote() << "QWinUI3:" << QWinUI3::Compat::Qml::supportRangeString()
-                      << QStringLiteral("(built with Qt %1.%2.%3)")
+    qInfo().noquote() << QStringLiteral("QWinUI3: Qt %1.%2.%3 — %4")
                              .arg(QWinUI3::Compat::qtVersionMajor())
                              .arg(QWinUI3::Compat::qtVersionMinor())
-                             .arg(QWinUI3::Compat::qtVersionPatch());
+                             .arg(QWinUI3::Compat::qtVersionPatch())
+                             .arg(QWinUI3::Compat::Qml::supportRangeString());
 
 #if defined(Q_OS_LINUX)
     // Stale Windows-style qt.conf next to the binary forces Plugins=./plugins
