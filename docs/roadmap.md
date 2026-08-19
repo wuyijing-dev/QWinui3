@@ -37,7 +37,7 @@ Do not plan as if the kit is empty. Rough inventory today:
 | Extras QML | ~150 |
 | Modules | Theme · Style · Platform · Extras |
 | Docs | MkDocs + generated component API |
-| Ship | LGPL-3.0 · CI Release (Win + Linux) · shared/gallery packaging · Qt compat shims |
+| Ship | Apache-2.0 · CI Release (Win + Linux) · shared/gallery packaging · Qt compat shims |
 
 **Implication:** Through **1.90**, work was mostly **finish, fix, document, and deepen**. **2.01…2.50** are a **committed tranche-1** backlog (may still be **rescheduled** at checkpoints if friction evidence is weak). **2.51+** opens **only** from rows in [friction-log.md](planning/friction-log.md) — real “this is broken / hard to use” reports from kit consumers, not parity shopping.
 

@@ -29,7 +29,7 @@ set(_qwinui3_cmake_version "${_qwinui3_ver_major}.${_qwinui3_ver_minor}.0")
 
 project(QWinUI3
     VERSION ${_qwinui3_cmake_version}
-    DESCRIPTION "Fluent / WinUI 3 controls for Qt 6.5+ (MIT base + GPL Extras); recommended 6.8+"
+    DESCRIPTION "Fluent / WinUI 3 controls for Qt 6.5+ (Apache-2.0); recommended 6.8+"
     HOMEPAGE_URL "https://github.com/wuyijing-dev/QWinui3"
     LANGUAGES CXX
 )

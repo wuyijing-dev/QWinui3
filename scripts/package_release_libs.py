@@ -446,7 +446,7 @@ See the full recipe: https://wuyijing-dev.github.io/QWinui3/packaging-consumer/
 5. Qt **6.5+** required (CI packages built with **6.8.x**): Quick, QuickControls2, LabsQmlModels.
 6. Set `QT_QUICK_CONTROLS_STYLE=QWinUI3` before creating `QGuiApplication` (or call `QWinUI3::configureEnvironment`).
 7. After packaging: `python scripts/check_shared_package.py --dir <this-folder>`.
-8. License: **MIT** (Theme/Style/Platform) + **GPL-3.0** (Extras) — see `LICENSE`, `LICENSE-MIT`, `LICENSE-GPL` / `COPYING`.
+8. License: **Apache-2.0** (see `LICENSE` and `NOTICE` in this package).
 9. Deploying *your* app still needs windeployqt / linuxdeploy for Qt; strip VirtualKeyboard etc.
 10. Tiny consumer: `examples/find-package-consumer/` + `python scripts/verify_find_package.py`.
 
@@ -473,7 +473,7 @@ Presets: {", ".join(sorted(PRESETS))}
 Modules: {", ".join(ALL_MODULES)}
 """
     (out_dir / "README.md").write_text(text, encoding="utf-8")
-    for name in ("LICENSE", "LICENSE-MIT", "LICENSE-GPL", "COPYING"):
+    for name in ("LICENSE", "NOTICE"):
         src = ROOT / name
         if src.is_file():
             shutil.copy2(src, out_dir / name)

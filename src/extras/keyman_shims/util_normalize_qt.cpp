@@ -1,5 +1,5 @@
 // Qt NFC/NFD stand-in for Keyman Core util_normalize.cpp (native KMN_NO_ICU).
-// SIL Keyman Core is MIT; this shim is LGPL-3.0 (this repo).
+// SIL Keyman Core is MIT; this shim is Apache-2.0 (this repo).
 
 #include "util_normalize.hpp"
 

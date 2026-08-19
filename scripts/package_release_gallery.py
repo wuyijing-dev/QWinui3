@@ -346,13 +346,13 @@ def _package_linux(build_dir: Path, stage: Path, qt_prefix: str | None) -> None:
                 "`WindowHelper.resolveBackdrop` coerce Mica/Acrylic). See",
                 "https://wuyijing-dev.github.io/QWinui3/platform-linux-wayland/",
                 "",
-                "License: MIT (Theme/Style/Platform) + GPL-3.0 (Extras/Gallery) — see LICENSE / LICENSE-MIT / LICENSE-GPL.",
+                "License: Apache-2.0 — see LICENSE / NOTICE.",
                 "",
             ]
         ),
         encoding="utf-8",
     )
-    for name in ("LICENSE", "LICENSE-MIT", "LICENSE-GPL", "COPYING"):
+    for name in ("LICENSE", "NOTICE"):
         src = ROOT / name
         if src.is_file():
             shutil.copy2(src, stage / name)
@@ -387,14 +387,14 @@ def _package_windows(build_dir: Path, stage: Path, qt_prefix: str | None) -> Non
     )
     _strip_restricted(stage)
 
-    for name in ("LICENSE", "LICENSE-MIT", "LICENSE-GPL", "COPYING"):
+    for name in ("LICENSE", "NOTICE"):
         src = ROOT / name
         if src.is_file():
             shutil.copy2(src, stage / name)
     (stage / "README.md").write_text(
         "# QWinUI3 Gallery (Windows x64)\n\n"
         "Run `qwinui3_gallery.exe`. Qt runtime is bundled via windeployqt.\n\n"
-        "License: MIT + GPL-3.0 — see LICENSE / LICENSE-MIT / LICENSE-GPL.\n",
+        "License: Apache-2.0 — see LICENSE / NOTICE.\n",
         encoding="utf-8",
     )
 

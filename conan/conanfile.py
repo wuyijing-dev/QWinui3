@@ -20,7 +20,7 @@ from conan.tools.files import copy, load
 class QWinui3Conan(ConanFile):
     name = "qwinui3"
     version = "2.11"
-    license = "MIT"
+    license = "Apache-2.0"
     author = "QWinUI3 contributors"
     url = "https://github.com/wuyijing-dev/QWinui3"
     homepage = "https://github.com/wuyijing-dev/QWinui3"
@@ -42,7 +42,7 @@ class QWinui3Conan(ConanFile):
 
     def export_sources(self):
         root = os.path.normpath(os.path.join(self.recipe_folder, ".."))
-        for name in ("CMakeLists.txt", "LICENSE", "COPYING"):
+        for name in ("CMakeLists.txt", "LICENSE", "NOTICE"):
             copy(self, name, src=root, dst=".")
         for name in ("src", "cmake", "scripts"):
             copy(self, "*", src=os.path.join(root, name), dst=name, keep_path=True)

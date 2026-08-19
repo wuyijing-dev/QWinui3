@@ -57,7 +57,7 @@ Placement helpers (`mapToItem`, `Overlay.overlay`) are fine; do not reintroduce
 - Third-party consume: [packaging-consumer.md](packaging-consumer.md)
 - Default builds stay STATIC; SHARED via `-DQWINUI3_BUILD_SHARED=ON` (enables `CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS` on MSVC).
 - Validate: `python scripts/check_shared_package.py` (+ optional `--dir` after packaging)
-- Project license: **MIT (Theme/Style/Platform) + GPL-3.0 (Extras/Gallery)** — [licensing.md](licensing.md), [LICENSE](../LICENSE-MIT), [LICENSE-GPL](../LICENSE-GPL).
+- Project license: **Apache-2.0** — [licensing.md](licensing.md), [LICENSE](../LICENSE), [NOTICE](../NOTICE).
 
 ## Docs
 

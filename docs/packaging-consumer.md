@@ -113,7 +113,7 @@ qwinui3-<ver>-…-shared/
   include/QWinUI3/    # Bootstrap.h when platform is packaged
   qml/     # QML trees: QWinUI3/, QWinUI3/Theme, QWinUI3/Platform, QWinUI3/Extras
   README.md
-  LICENSE · COPYING
+  LICENSE · NOTICE
 ```
 
 | Module | CMake target | QML under `qml/` |
@@ -421,7 +421,7 @@ Gallery reference: same `package_release_gallery.py` path on Linux.
 
 ## Strip-restricted Qt modules
 
-QWinUI3 is **MIT** (Theme/Style/Platform) + **GPL-3.0** (Extras). See [licensing.md](licensing.md). Desktop Qt kits / `windeployqt` / `linuxdeploy-plugin-qt` may copy **GPL or commercial** add-ons (notably **Virtual Keyboard**, Charts, WebEngine, Quick3D, …) into the deploy folder.
+QWinUI3 is **Apache-2.0**. See [licensing.md](licensing.md). Desktop Qt kits / `windeployqt` / `linuxdeploy-plugin-qt` may copy **GPL or commercial** add-ons (notably **Virtual Keyboard**, Charts, WebEngine, Quick3D, …) into the deploy folder.
 
 The in-app OSK (**1.73**) is QWinUI3 QML + SIL Keyman Core (**MIT**) for layouts, MIT pinyin-data for zh-Hans, romaji→kana for ja, and Unicode hangul for ko. It does **not** restore Qt Virtual Keyboard. See [on-screen-keyboard.md](on-screen-keyboard.md), [NOTICE-Keyman.md](NOTICE-Keyman.md), and [NOTICE-pinyin.md](NOTICE-pinyin.md).
 
@@ -458,7 +458,7 @@ Opening the **QWinUI3 monorepo** itself: [qt-creator.md](qt-creator.md).
 | Qt runtime | `windeployqt` (+ strip-restricted) | `linuxdeploy` + qt plugin (+ strip) |
 | Validate kit | `check_shared_package.py --dir …` | same |
 | API surface | Prefer [stable-api.md](stable-api.md) | same |
-| License | MIT + GPL-3.0 (`LICENSE` / `LICENSE-MIT` / `LICENSE-GPL` in package) | same |
+| License | Apache-2.0 (`LICENSE` / `NOTICE` in package) | same |
 
 ---
 

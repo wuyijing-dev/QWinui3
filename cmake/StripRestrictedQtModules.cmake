@@ -1,5 +1,5 @@
 # Removes Qt add-on modules that are GPL/Commercial (or otherwise restricted)
-# and must not ship with LGPL-oriented QWinUI3 deployments.
+# and must not ship with Apache-2.0 QWinUI3 deployments.
 # Virtual Keyboard is the primary example; extend the lists as needed.
 #
 # Usage:

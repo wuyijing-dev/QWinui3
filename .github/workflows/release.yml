@@ -249,7 +249,7 @@ jobs:
           ### Docs
 
           - https://wuyijing-dev.github.io/QWinui3/
-          - License: MIT (Theme/Style/Platform) + GPL-3.0 (Extras) — see LICENSE / LICENSE-MIT / LICENSE-GPL in repo
+          - License: Apache-2.0 — see LICENSE / NOTICE in repo
           EOF
           )"
 

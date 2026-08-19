@@ -3,7 +3,7 @@
 Win11 / Fluent **touch keyboard chrome we own**. This is **not** Qt Virtual Keyboard, and it is **not** a hardware-shortcut cookbook ([keyboard.md](keyboard.md)).
 
 **Status:** **1.85** a11y wave 3 (IME candidate live region). OSK/IME **still experimental**. **Next:** **2.01+** green soak / promote (parked until after **2.00**). **2.00** is after **1.90** ([ROADMAP.md](../ROADMAP.md), [checkpoint-190.md](checkpoint-190.md)).  
-**License:** OSK chrome is this repo (LGPL-3.0). SIL Keyman Core (**MIT**) for layouts. Pinyin tables are [mozillazg/pinyin-data](https://github.com/mozillazg/pinyin-data) (**MIT**) — [NOTICE-pinyin.md](NOTICE-pinyin.md). Japanese is a Hepburn romaji→kana map (**no kanji** — no MIT reading lexicon). Korean is Unicode hangul composition (not a lexicon). Keyman `cs_pinyin` IMX is **not** used.
+**License:** OSK chrome is this repo (**Apache-2.0**). SIL Keyman Core (**MIT**) for layouts. Pinyin tables are [mozillazg/pinyin-data](https://github.com/mozillazg/pinyin-data) (**MIT**) — [NOTICE-pinyin.md](NOTICE-pinyin.md). Japanese is a Hepburn romaji→kana map (**no kanji** — no MIT reading lexicon). Korean is Unicode hangul composition (not a lexicon). Keyman `cs_pinyin` IMX is **not** used.
 
 | Slice | What ships |
 |-------|------------|
@@ -30,15 +30,15 @@ Win11 / Fluent **touch keyboard chrome we own**. This is **not** Qt Virtual Keyb
 
 ## Why this split
 
-Qt Virtual Keyboard is **GPL-3.0 or commercial**. QWinUI3 is **LGPL-3.0**. `Bootstrap::configureEnvironment` already clears `QT_IM_MODULE` so desktop kits do not pull that GPL plugin ([packaging-consumer.md](packaging-consumer.md) strip notes).
+Qt Virtual Keyboard is **GPL-3.0 or commercial**. QWinUI3 is **Apache-2.0**. `Bootstrap::configureEnvironment` already clears `QT_IM_MODULE` so desktop kits do not pull that GPL plugin ([packaging-consumer.md](packaging-consumer.md) strip notes).
 
 A MIT QML keyboard that also ships its own look (SomcoKeyboard, OpenVirtualKeyboard, UnivKbd) would fight Theme tokens and Win11 chrome. We only want their **idea** (in-process OSK), not their UI.
 
 | Piece | Owner | License | Role |
 |-------|--------|---------|------|
-| Key caps, layers, acrylic dock, Theme | QWinUI3 QML | LGPL-3.0 | Win11-style panel |
+| Key caps, layers, acrylic dock, Theme | QWinUI3 QML | Apache-2.0 | Win11-style panel |
 | Key → text (shift, caps, dead keys, layouts) | **SIL Keyman Core** (`libkeymancore`) | **MIT** | Engine only — no UI. Builtin en-US fallback if Core is not fetched |
-| Insert into the focused control | QWinUI3 C++ adapter | LGPL-3.0 | `QInputMethodEvent` / a few `QKeyEvent`s |
+| Insert into the focused control | QWinUI3 C++ adapter | Apache-2.0 | `QInputMethodEvent` / a few `QKeyEvent`s |
 | Qt Virtual Keyboard / `QT_IM_MODULE=qtvirtualkeyboard` | — | GPL / commercial | **Forbidden** |
 
 Engine source: [keymanapp/keyman `core/`](https://github.com/keymanapp/keyman/tree/master/core) ([MIT](https://github.com/keymanapp/keyman/blob/master/LICENSE.md)).  

@@ -1,0 +1,11 @@
+QWinUI3
+Copyright 2026 wuyijing-dev and QWinUI3 contributors
+
+This product is licensed under the Apache License, Version 2.0.
+See LICENSE and docs/licensing.md.
+
+Third-party notices:
+
+- SIL Keyman Core (MIT) — third_party/keyman/ — docs/NOTICE-Keyman.md
+- mozillazg/pinyin-data (MIT) — src/extras QML pinyin tables — docs/NOTICE-pinyin.md
+- WinSymbols3 font (MIT) — src/theme/QWinUI3/Theme/fonts/LICENSE-WinSymbols3.txt

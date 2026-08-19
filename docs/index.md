@@ -57,9 +57,6 @@ Machine-readable catalog: [`components.json`](components.json).
 
 ## License
 
-QWinUI3 uses a **split license** — see [licensing.md](licensing.md):
+QWinUI3 is licensed under the **[Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0)** (`Apache-2.0`). See [`LICENSE`](https://github.com/wuyijing-dev/QWinui3/blob/master/LICENSE), [`NOTICE`](https://github.com/wuyijing-dev/QWinui3/blob/master/NOTICE), and [licensing.md](licensing.md).
 
-- **MIT:** Theme, Style, Platform (permissive base)
-- **GPL-3.0-or-later:** Extras, Gallery (advanced composites)
-
-Qt remains **LGPL/commercial**. [`LICENSE`](../LICENSE) indexes the files; full texts: [`LICENSE-MIT`](../LICENSE-MIT), [`LICENSE-GPL`](../LICENSE-GPL) / [`COPYING`](../COPYING).
+Qt itself remains **LGPL-3.0 / commercial** — Apache-2.0 on QWinUI3 does not relicense Qt.

@@ -3,7 +3,7 @@
 Fluent / [WinUI 3](https://learn.microsoft.com/windows/apps/winui/winui3/)-inspired controls for **Qt 6 Quick** — theme tokens, a full Quick Controls style, window shells, and a large Extras catalog you can drop into desktop apps. Supports **Qt 6.5+** (recommended **6.8 LTS**; forward **6.10+**) via a C++ compatibility layer.
 
 [![Release](https://img.shields.io/github/v/release/wuyijing-dev/QWinui3?label=release)](https://github.com/wuyijing-dev/QWinui3/releases/latest)
-[![License: MIT + GPL-3.0](https://img.shields.io/badge/license-MIT%20%2B%20GPL--3.0-blue.svg)](docs/licensing.md)
+[![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-2ea44f)](https://wuyijing-dev.github.io/QWinui3/)
 [![Qt](https://img.shields.io/badge/Qt-6.5%2B-41CD52?logo=qt&logoColor=white)](https://www.qt.io/)
 
@@ -281,10 +281,7 @@ python scripts/generate_component_docs.py --lint
 
 ## License
 
-**MIT** for **Theme**, **Style**, and **Platform** — use styled `QtQuick.Controls` and window shells in proprietary apps.  
-**GPL-3.0-or-later** for **Extras** and **Gallery** — NavigationView, DataTable, charts, and other composites.
-
-Details: [docs/licensing.md](docs/licensing.md) · [LICENSE-MIT](LICENSE-MIT) · [LICENSE-GPL](LICENSE-GPL)
+[Apache License 2.0](LICENSE) — Theme, Style, Platform, Extras, and Gallery. See [docs/licensing.md](docs/licensing.md) and [NOTICE](NOTICE).
 
 On-screen keyboard layouts use [SIL Keyman Core](https://github.com/keymanapp/keyman/tree/master/core) (**MIT**), vendored under `third_party/keyman` — see [docs/NOTICE-Keyman.md](docs/NOTICE-Keyman.md). In-app pinyin tables are [mozillazg/pinyin-data](https://github.com/mozillazg/pinyin-data) (**MIT**) — see [docs/NOTICE-pinyin.md](docs/NOTICE-pinyin.md).
 

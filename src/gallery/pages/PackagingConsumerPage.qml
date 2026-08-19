@@ -219,7 +219,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("QWinUI3: MIT for Theme/Style/Platform; GPL-3.0 for Extras/Gallery (docs/licensing.md). windeployqt may copy GPL Qt add-ons (Virtual Keyboard) — use StripRestrictedQtModules or package_release_gallery cleanup.")
+                text: qsTr("QWinUI3 is Apache-2.0 (docs/licensing.md). windeployqt may copy GPL Qt add-ons (Virtual Keyboard) — use StripRestrictedQtModules or package_release_gallery cleanup.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary

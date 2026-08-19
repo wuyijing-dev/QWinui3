@@ -153,8 +153,8 @@ def _check_package_dir(out_dir: Path, expect_shared: bool | None) -> list[str]:
             else:
                 shared = True
 
-    if not (out_dir / "LICENSE").is_file() and not (out_dir / "COPYING").is_file():
-        errors.append("missing LICENSE and COPYING")
+    if not (out_dir / "LICENSE").is_file():
+        errors.append("missing LICENSE")
 
     lib_dir = out_dir / "lib"
     qml_dir = out_dir / "qml"
