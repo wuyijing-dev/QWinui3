@@ -8,7 +8,7 @@ python scripts/generate_component_docs.py
 python scripts/generate_component_docs.py --lint
 ```
 
-**278** public · **14** internal · **206** with Gallery demos · Hub: [docs home](index.md).
+**280** public · **14** internal · **206** with Gallery demos · Hub: [docs home](index.md).
 
 ## By module
 
@@ -158,6 +158,7 @@ python scripts/generate_component_docs.py --lint
 - [RingGauge](components/RingGauge.md) — Closed-ring dashboard gauge with center value and thresholds. · Gallery
 - [ScatterChart](components/ScatterChart.md) — Scatter / bubble chart. · Gallery
 - [SearchBox](components/SearchBox.md) — Search field with suggestion list. · Gallery
+- [SearchBoxRecipe](components/SearchBoxRecipe.md) — standard SearchBox preset for product apps.
 - [SegmentedControl](components/SegmentedControl.md) — Mutually exclusive segment buttons. · Gallery
 - [SegmentedGauge](components/SegmentedGauge.md) — Segmented progress / capacity gauge. · Gallery
 - [SelectorBar](components/SelectorBar.md) — Compact horizontal item selector. · Gallery
@@ -210,6 +211,7 @@ python scripts/generate_component_docs.py --lint
 - [TreeDataGrid](components/TreeDataGrid.md) — hierarchical multi-column grid with sort + filter (2.21). · Gallery
 - [TreemapChart](components/TreemapChart.md) — Nested slice-and-dice treemap. · Gallery
 - [TwoPaneView](components/TwoPaneView.md) — Responsive dual-pane layout. · Gallery
+- [UnifiedSearchSurface](components/UnifiedSearchSurface.md) — unify TitleBar search + Navigation pane search + custom middle search
 - [UniformGrid](components/UniformGrid.md) — Even cell grid. · Gallery
 - [ValidationSummary](components/ValidationSummary.md) — Lists form-level validation errors (pairs with FormLayout).
 - [ViolinChart](components/ViolinChart.md) — Density violin from sample groups. · Gallery
@@ -449,12 +451,14 @@ python scripts/generate_component_docs.py --lint
 - [RadioMenuFlyoutItem](components/RadioMenuFlyoutItem.md) — `QWinUI3.Extras`
 - [RatingControl](components/RatingControl.md) — `QWinUI3.Extras`
 - [SearchBox](components/SearchBox.md) — `QWinUI3.Extras`
+- [SearchBoxRecipe](components/SearchBoxRecipe.md) — `QWinUI3.Extras`
 - [SettingsComboCard](components/SettingsComboCard.md) — `QWinUI3.Extras`
 - [SettingsSliderCard](components/SettingsSliderCard.md) — `QWinUI3.Extras`
 - [SwitchCase](components/SwitchCase.md) — `QWinUI3.Extras`
 - [SwitchPresenter](components/SwitchPresenter.md) — `QWinUI3.Extras`
 - [TextBlock](components/TextBlock.md) — `QWinUI3.Extras`
 - [TokenizingTextBox](components/TokenizingTextBox.md) — `QWinUI3.Extras`
+- [UnifiedSearchSurface](components/UnifiedSearchSurface.md) — `QWinUI3.Extras`
 - [UniformGrid](components/UniformGrid.md) — `QWinUI3.Extras`
 - [ValidationSummary](components/ValidationSummary.md) — `QWinUI3.Extras`
 

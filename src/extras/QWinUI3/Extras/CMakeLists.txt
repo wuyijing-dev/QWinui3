@@ -217,6 +217,8 @@ qt_add_qml_module(qwinui3_extras
         RelativePanel.qml
         RichEdit.qml
         SearchBox.qml
+        SearchBoxRecipe.qml
+        UnifiedSearchSurface.qml
         SegmentedControl.qml
         SelectorBar.qml
         SemanticZoom.qml
