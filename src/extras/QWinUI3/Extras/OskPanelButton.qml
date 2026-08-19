@@ -4,7 +4,8 @@ import QWinUI3.Theme
 // OskPanelButton — compact action chip for OSK auxiliary panels.
 //
 //   OskPanelButton { label: qsTr("123"); onTapped: showSymbols() }
-//Item {
+//
+Item {
     id: cap
     property string label: ""
     property bool accent: false

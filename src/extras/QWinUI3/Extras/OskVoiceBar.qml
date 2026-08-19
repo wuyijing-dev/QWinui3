@@ -5,7 +5,8 @@ import QWinUI3.Theme
 // OskVoiceBar — cross-platform speech-to-text strip (Windows System.Speech / Linux whisper|vosk).
 //
 //   OskVoiceBar { engine: kbd; speech: speechSvc }
-//T.Control {
+//
+T.Control {
     id: root
 
     property KeyboardEngine engine
