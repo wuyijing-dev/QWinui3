@@ -780,6 +780,22 @@ Apps on **1.90** read [upgrade-notes.md](upgrade-notes.md) **1.90 → 2.00**, ra
 
 **Out:** Million-row GPU grid rewrite.
 
+### LoB App integration addendum (non-breaking, version-iterated)
+
+This addendum records **product-shell / LoB integration** improvements driven by real app author pain (e.g. Light Photos), not by catalog parity.
+Each deliverable is pinned to an explicit `2.6x/2.7x` target slice so iteration stays traceable.
+
+| Version | Slice goal (Deliverable) | Main items |
+|--------|----------------------------|------------|
+| **2.64+ (master after 2.64 tag)** | Search unification adapter shipped | **`UnifiedSearchSurface`** + **`SearchBoxRecipe`**; shell placeholder + pane search event-path alignment |
+| **2.66** | Theme + Settings persistence alignment for product shells | **`ThemePersistenceCard`**, **`ThemeSyncCard`**, **`GeometryAndPrefsGuard`** |
+| **2.68** | Right-click + flyout stability (global positioning + scroll behavior) | **`MenuFlyoutPresenter`**, **`MenuFlyoutAutoMaxHeight`**, **`ContextMenuAtItem`**, **`RightClickAnchorHelper`** |
+| **2.69** | Empty-state + focus consistency for filtered/paginated lists | **`ItemsViewEmptyStateHelper`**, **`FlyoutKeyboardFocusTrap`**, **`DataTableFilterOverlay`** |
+| **2.70** | Toolbar preset + overflow diagnostics (avoid “looks broken” combos) | **`AppBarPreset` / `CommandBarPreset`**, **`ToolbarOverflowInspector`**, **`CommandBarKeyHints`** |
+| **2.70+** | Icon semantics + common examples to prevent misuse | **`IconButton`** rating/toggle mode semantics, **`RatingStars`** standard体系 + examples |
+
+Rule: if a listed deliverable fails to remove a repeatable pain in practice, it moves to the next allowed slice only after friction evidence is added to [planning/friction-log.md](planning/friction-log.md).
+
 ### 2.65 — Charts + Dashboard product wave (planned)
 
 **Goal:** Close **FL-009** and ship **Wave A** analytics — **deepen stable six** + new dashboard hosts (not withdrawn `Hub`).
