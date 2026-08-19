@@ -367,7 +367,7 @@ SIL Keyman Core sources ship **in the clone** at [`third_party/keyman`](../third
 1. `pip install PySide6` (or `PyQt6` + `QWINUI3_QT_BINDING=pyqt6`).
 2. Package a shared kit: `python scripts/package_release_libs.py --shared --archive`.
 3. Match kit Qt **major.minor** to `from PySide6.QtCore import qVersion`.
-4. Run Gallery: `python examples/python-gallery/main.py` or `python scripts/verify_python.py --smoke`.
+4. Run Gallery: `python scripts/qwinui3.py python` or `python scripts/qwinui3.py python --smoke`.
 
 Recipe: [packaging-python.md](packaging-python.md). Bootstrap: [`python/qwinui3/`](../python/qwinui3/). Gallery: [`python/qwinui3_gallery/`](../python/qwinui3_gallery/).
 

@@ -1,53 +1,39 @@
 # Python Gallery (PySide6 / PyQt6)
 
-Loads the **same Gallery** as `src/gallery` from Python: QML is copied from `src/gallery` at startup; `main.cpp` / `GraphicsBackend` / `GalleryLanguage` / `DemoTreeModel` are Python.
+Loads the **same Gallery** as `src/gallery` from Python. Controls come from a **shared kit** in `dist/`.
 
-Controls still come from a **shared kit** (`QWinUI3.Theme` / Style / Platform / Extras). This is not a subprocess of `qwinui3_gallery.exe`.
+## One command
 
-Recipe: [`docs/packaging-python.md`](../../docs/packaging-python.md).
+From repo root:
 
-## Prerequisites
+```bat
+pip install PySide6
+python scripts/qwinui3.py python
+```
 
-1. `pip install PySide6` (preferred) or `pip install PyQt6`
-2. A **shared** kit whose Qt **major.minor** matches the bindings (`from PySide6.QtCore import qVersion`):
+Or double-click **`python-gallery.cmd`** (Windows).
+
+First run packages the shared kit into `dist/` if it is missing (needs Qt + compiler — same as `package_release_libs.py`). Later runs skip packaging.
+
+Smoke:
+
+```bat
+python scripts/qwinui3.py python --smoke
+```
+
+Check environment:
+
+```bat
+python scripts/qwinui3.py doctor
+```
+
+Full recipe: [`docs/packaging-python.md`](../../docs/packaging-python.md).
+
+## Manual path (advanced)
 
 ```bat
 python scripts/package_release_libs.py --shared --archive
-```
-
-Pair PySide6 **6.11** with a kit built against official Qt **6.11**, not 6.8/6.10.
-
-## Run
-
-```bat
-set QWINUI3_ROOT=dist\qwinui3-2.64-windows-x64-shared
 python examples/python-gallery/main.py
 ```
 
-Or:
-
-```bat
-python -m qwinui3_gallery
-```
-
-(`PYTHONPATH=python` or run from the wrapper above.)
-
-```bat
-python examples/python-gallery/main.py --smoke
-python examples/python-gallery/main.py --lang zh_CN
-python examples/python-gallery/main.py --rhi opengl
-```
-
-Force PyQt6:
-
-```bat
-set QWINUI3_QT_BINDING=pyqt6
-python examples/python-gallery/main.py --binding pyqt6
-```
-
-Verify import + optional smoke:
-
-```bat
-python scripts/verify_python.py
-python scripts/verify_python.py --smoke
-```
+`QWINUI3_ROOT` is optional when `dist/qwinui3-*-shared` exists.

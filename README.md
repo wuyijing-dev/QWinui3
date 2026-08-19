@@ -36,9 +36,24 @@ Primary target: **Windows** (MSVC). Many controls run on **Linux**; WebView2 is 
 | **Qt** | 6.5+ (recommended **6.8 LTS**) — Quick, Quick Controls, Labs QML Models |
 | **CMake** | ≥ 3.21 for presets |
 | **Compiler** | C++17 — MSVC 2022 on Windows, GCC/Clang on Linux |
-| **Generator** | Ninja (presets) or Visual Studio / Qt Creator kit |
+| **Python** (optional) | 3.10+ with **PySide6** or **PyQt6** for Python Gallery |
 
-### Build Gallery
+### Run Gallery — pick one path
+
+| Path | One command (from repo root) | First-time setup |
+|------|------------------------------|------------------|
+| **C++** | `python scripts/qwinui3.py gallery` | Qt on `CMAKE_PREFIX_PATH` / `CMakeUserPresets.json` |
+| **Python** | `python scripts/qwinui3.py python` | `pip install PySide6` (kit auto-packaged to `dist/`) |
+
+Windows shortcuts: `gallery.cmd` · `python-gallery.cmd`
+
+```bat
+python scripts/qwinui3.py doctor          :: what is missing?
+python scripts/qwinui3.py gallery --smoke  :: CI-style C++ smoke
+python scripts/qwinui3.py python --smoke   :: CI-style Python smoke
+```
+
+**C++ details** — auto-configures Release on first run if `build/` is empty:
 
 ```bat
 cmake --preset release
@@ -46,12 +61,14 @@ cmake --build --preset release --target qwinui3_gallery
 build\qwinui3_gallery.exe
 ```
 
-Point CMake at your Qt install when presets do not find it:
+Point CMake at Qt when presets do not find it:
 
 1. Copy `CMakeUserPresets.json.example` → `CMakeUserPresets.json`
 2. Set `CMAKE_PREFIX_PATH` to your Qt prefix (e.g. `D:/Qt/6.8.3/msvc2022_64`)
 
 Or open the repo root in [Qt Creator](docs/qt-creator.md) with a Qt 6.5+ kit and build target `qwinui3_gallery`.
+
+**Python details:** [`docs/packaging-python.md`](docs/packaging-python.md) — kit Qt **major.minor** must match PySide6 `qVersion()`.
 
 ### Enable the style in your app
 
@@ -113,7 +130,7 @@ Copy-ready starters under [`examples/`](examples/README.md):
 cmake --build --preset release --target qwinui3_example_gallery_shell qwinui3_example_nav
 ```
 
-**Python Gallery** (PySide6 / PyQt6, not CMake): `python examples/python-gallery/main.py` — see [docs/packaging-python.md](docs/packaging-python.md).
+**Python Gallery** (PySide6 / PyQt6): `python scripts/qwinui3.py python` — see [docs/packaging-python.md](docs/packaging-python.md).
 
 ---
 

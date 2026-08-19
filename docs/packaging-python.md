@@ -71,23 +71,29 @@ print(qVersion())  # must match kit Qt major.minor
 
 ## Quick start — Gallery
 
-From repo root.
+**Recommended (one command after `pip install PySide6`):**
+
+```bat
+python scripts/qwinui3.py python
+```
+
+Windows: double-click **`python-gallery.cmd`**. First run auto-packages the shared kit into `dist/` if missing (needs Qt + compiler once). **`QWINUI3_ROOT` is not required** when `dist/qwinui3-*-shared` exists.
+
+```bat
+python scripts/qwinui3.py doctor           :: check bindings + kit
+python scripts/qwinui3.py python --smoke   :: CI smoke
+```
+
+### Manual steps (advanced)
+
+<details>
+<summary>Expand if you prefer explicit control</summary>
 
 **Windows (cmd):**
 
 ```bat
 pip install PySide6
 python scripts/package_release_libs.py --shared --archive
-set QWINUI3_ROOT=dist\qwinui3-2.64-windows-x64-shared
-python examples/python-gallery/main.py
-```
-
-**Windows (PowerShell):**
-
-```powershell
-pip install PySide6
-python scripts/package_release_libs.py --shared --archive
-$env:QWINUI3_ROOT = "dist\qwinui3-2.64-windows-x64-shared"
 python examples/python-gallery/main.py
 ```
 
@@ -96,34 +102,24 @@ python examples/python-gallery/main.py
 ```bash
 pip install PySide6
 python scripts/package_release_libs.py --shared --archive
-export QWINUI3_ROOT=dist/qwinui3-2.64-linux-x64-shared
 python examples/python-gallery/main.py
 ```
 
-Alternative entry:
-
-```bat
-set PYTHONPATH=python
-python -m qwinui3_gallery
-```
+</details>
 
 ### Smoke / CI gate
 
 Same critical page list as C++ `qwinui3_gallery --smoke`:
 
 ```bat
-python examples/python-gallery/main.py --smoke
-python scripts/verify_python.py --smoke
+python scripts/qwinui3.py python --smoke
 ```
-
-`verify_python.py` checks binding import + kit discovery, then optionally runs Gallery smoke.
 
 ### PyQt6
 
 ```bat
 pip install PyQt6
-set QWINUI3_QT_BINDING=pyqt6
-python examples/python-gallery/main.py --binding pyqt6
+python scripts/qwinui3.py python --binding pyqt6
 ```
 
 Binding detection order: **PySide6 first**, then PyQt6, unless `QWINUI3_QT_BINDING` or `--binding` overrides.
@@ -311,15 +307,14 @@ Enable QML warnings in your entry (Gallery already connects `engine.warnings`).
 ## Verification
 
 ```bat
-python scripts/verify_python.py
-python scripts/verify_python.py --smoke
-python scripts/verify_python.py --binding pyqt6 --smoke
+python scripts/qwinui3.py doctor
+python scripts/qwinui3.py python --smoke
 ```
 
-C++ Gallery smoke (separate binary) remains:
+C++ Gallery smoke:
 
 ```bat
-python scripts/smoke_gallery.py --smoke
+python scripts/qwinui3.py gallery --smoke
 ```
 
 ---
