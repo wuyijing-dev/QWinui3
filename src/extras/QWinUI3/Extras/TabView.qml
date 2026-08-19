@@ -32,7 +32,8 @@ import QWinUI3.Theme
 //   canTearOutTabs: drag a tab vertically past tearOutThreshold to open a new window
 //   (or handle tabTearOutRequested yourself). createTearOutWindow builds a BlankWindow
 //   hosting another TabView with the torn tab. Drop onto another TabView in this
-//   process to dock it back (TabViewDropHub). closeWhenEmpty closes tear-out hosts.
+//   process to dock it back (TabViewDropHub). closeWhenEmpty destroys empty
+//   tear-out hosts (close() alone would leave them running in the background).
 
 T.Control {
     id: control
@@ -63,7 +64,7 @@ T.Control {
     property real tearOutThreshold: 48
     // When true, TabView opens a BlankWindow for torn tabs (still emits the signal)
     property bool createTearOutWindow: true
-    // Close the host window when the last tab is taken (tear-out windows)
+    // Close and destroy the host window when the last tab is taken (tear-out windows)
     property bool closeWhenEmpty: false
     // Tab width mode
     property string tabWidthMode: "sizeToContent"
@@ -114,8 +115,17 @@ T.Control {
     Accessible.name: qsTr("Tabs")
     Accessible.description: qsTr("Tab %1 of %2").arg(currentIndex + 1).arg(tabCount)
 
+    // Dynamically created TabViewTearOutWindow hosts (createObject). close() only
+    // hides ApplicationWindow — they must be destroy()'d or they keep running.
+    property var _tearOutWindows: []
+    // Tear-out host to dismiss when closeWhenEmpty; never fall back to Gallery.
+    property var _hostWindow: null
+
     Component.onCompleted: TabViewDropHub.register(control)
-    Component.onDestruction: TabViewDropHub.unregister(control)
+    Component.onDestruction: {
+        TabViewDropHub.unregister(control)
+        control._destroyTearOutWindows()
+    }
 
     onCurrentIndexChanged: {
         selectionChanged(currentIndex)
@@ -197,6 +207,7 @@ T.Control {
             currentIndex = Math.max(0, model.length - 1)
         else if (currentIndex > index)
             currentIndex = currentIndex - 1
+        control._closeIfEmpty()
     }
 
     // Remove tab and return its model item (no close signal)
@@ -244,9 +255,71 @@ T.Control {
     function _closeIfEmpty() {
         if (!closeWhenEmpty || tabCount > 0)
             return
-        var w = control.Window.window
-        if (w)
-            Qt.callLater(function () { w.close() })
+        var w = control._hostWindow
+        if (!w)
+            return
+        Qt.callLater(function () {
+            if (control.tabCount > 0)
+                return
+            if (typeof w.dismiss === "function")
+                w.dismiss()
+            else
+                control._destroyWindow(w)
+        })
+    }
+
+    function _trackTearOut(win) {
+        if (!win)
+            return
+        var next = control._tearOutWindows.slice()
+        if (next.indexOf(win) < 0)
+            next.push(win)
+        control._tearOutWindows = next
+        win.closing.connect(function () {
+            try {
+                if (control)
+                    control._untrackTearOut(win)
+            } catch (err) {
+            }
+            Qt.callLater(function () {
+                try {
+                    if (!win || win._qmlGone)
+                        return
+                    win._qmlGone = true
+                    win.destroy()
+                } catch (err2) {
+                }
+            })
+        })
+    }
+
+    function _untrackTearOut(win) {
+        var next = []
+        var list = control._tearOutWindows
+        for (var i = 0; i < list.length; ++i) {
+            if (list[i] && list[i] !== win)
+                next.push(list[i])
+        }
+        control._tearOutWindows = next
+    }
+
+    function _destroyWindow(win) {
+        if (!win)
+            return
+        try {
+            if (win._qmlGone)
+                return
+            win._qmlGone = true
+            win.destroy()
+        } catch (err) {
+        }
+    }
+
+    function _destroyTearOutWindows() {
+        var list = control._tearOutWindows.slice()
+        control._tearOutWindows = []
+        for (var i = 0; i < list.length; ++i)
+            control._destroyWindow(list[i])
     }
 
     function insertTab(item, index) {
@@ -287,11 +360,13 @@ T.Control {
         }
         var win = comp.createObject(null, {
             "tabData": item,
+            "tabModel": [item],
             "x": Math.round(globalX - 48),
             "y": Math.round(globalY - 20)
         })
         if (!win)
             return null
+        control._trackTearOut(win)
         win.show()
         win.raise()
         win.requestActivate()
@@ -706,11 +781,7 @@ T.Control {
                                             var moved = control.takeTab(from)
                                             if (moved !== null && moved !== undefined) {
                                                 dock.insertTab(moved, dock.dropIndexAt(gpos.x, gpos.y))
-                                                var srcWin = control.Window.window
                                                 control._closeIfEmpty()
-                                                if (control.tabCount === 0 && srcWin
-                                                        && srcWin !== dock.Window.window)
-                                                    Qt.callLater(function () { srcWin.close() })
                                             }
                                         } else if (dock === control) {
                                             if (slid && control.tabsReorderable
