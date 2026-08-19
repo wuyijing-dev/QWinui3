@@ -2,7 +2,7 @@
   "name": "QWinUI3",
   "version": "2.64",
   "generatedBy": "scripts/generate_component_docs.py",
-  "publicCount": 291,
+  "publicCount": 295,
   "components": [
     {
       "name": "AccentButton",
@@ -103,6 +103,23 @@
       "singleton": false,
       "doc": "components/AppBarButton.md",
       "propertyCount": 6,
+      "signalCount": 0,
+      "methodCount": 0
+    },
+    {
+      "name": "AppBarPreset",
+      "module": "QWinUI3.Extras",
+      "summary": "semantic alias of CommandBarPreset for product shells.",
+      "path": "src/extras/QWinUI3/Extras/AppBarPreset.qml",
+      "baseType": "CommandBarPreset",
+      "internal": false,
+      "category": "Buttons & commands",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "kind": "qml",
+      "singleton": false,
+      "doc": "components/AppBarPreset.md",
+      "propertyCount": 0,
       "signalCount": 0,
       "methodCount": 0
     },
@@ -598,6 +615,40 @@
       "propertyCount": 11,
       "signalCount": 0,
       "methodCount": 6
+    },
+    {
+      "name": "CommandBarKeyHints",
+      "module": "QWinUI3.Extras",
+      "summary": "show keyboardAcceleratorText hints from AppBarButton children.",
+      "path": "src/extras/QWinUI3/Extras/CommandBarKeyHints.qml",
+      "baseType": "Item",
+      "internal": false,
+      "category": "Buttons & commands",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "kind": "qml",
+      "singleton": false,
+      "doc": "components/CommandBarKeyHints.md",
+      "propertyCount": 2,
+      "signalCount": 0,
+      "methodCount": 0
+    },
+    {
+      "name": "CommandBarPreset",
+      "module": "QWinUI3.Extras",
+      "summary": "product default preset to avoid “looks broken” combos.",
+      "path": "src/extras/QWinUI3/Extras/CommandBarPreset.qml",
+      "baseType": "CommandBar",
+      "internal": false,
+      "category": "Buttons & commands",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "kind": "qml",
+      "singleton": false,
+      "doc": "components/CommandBarPreset.md",
+      "propertyCount": 0,
+      "signalCount": 0,
+      "methodCount": 0
     },
     {
       "name": "CommandPalette",
@@ -3573,6 +3624,23 @@
       "propertyCount": 19,
       "signalCount": 5,
       "methodCount": 4
+    },
+    {
+      "name": "ToolbarOverflowInspector",
+      "module": "QWinUI3.Extras",
+      "summary": "show live overflow configuration + diagnostics.",
+      "path": "src/extras/QWinUI3/Extras/ToolbarOverflowInspector.qml",
+      "baseType": "Item",
+      "internal": false,
+      "category": "Other",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "kind": "qml",
+      "singleton": false,
+      "doc": "components/ToolbarOverflowInspector.md",
+      "propertyCount": 2,
+      "signalCount": 0,
+      "methodCount": 0
     },
     {
       "name": "ToolShellWindow",

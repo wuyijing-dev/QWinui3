@@ -80,6 +80,8 @@ qt_add_qml_module(qwinui3_extras
         ColorPicker.qml
         ColorPickerButton.qml
         CommandBar.qml
+        CommandBarPreset.qml
+        AppBarPreset.qml
         CommandBarFlyout.qml
         CommandPalette.qml
         ContentCard.qml
@@ -262,6 +264,8 @@ qt_add_qml_module(qwinui3_extras
         TitleBar.qml
         Toast.qml
         ToastHost.qml
+        ToolbarOverflowInspector.qml
+        CommandBarKeyHints.qml
         TokenizingTextBox.qml
         ToggleButton.qml
         ToggleMenuFlyoutItem.qml

@@ -8,7 +8,7 @@ python scripts/generate_component_docs.py
 python scripts/generate_component_docs.py --lint
 ```
 
-**291** public · **14** internal · **206** with Gallery demos · Hub: [docs home](index.md).
+**295** public · **14** internal · **206** with Gallery demos · Hub: [docs home](index.md).
 
 ## By module
 
@@ -20,6 +20,7 @@ python scripts/generate_component_docs.py --lint
 - [AnimatedIcon](components/AnimatedIcon.md) — Thin state glyph swap (1.53). Not Lottie / WinUI AnimatedIcon parity. · Gallery
 - [AnnotatedScrollBar](components/AnnotatedScrollBar.md) — Scroll area with a value label on the vertical scrollbar. · Gallery
 - [AppBarButton](components/AppBarButton.md) — CommandBar icon button with label position overrides. · Gallery
+- [AppBarPreset](components/AppBarPreset.md) — semantic alias of CommandBarPreset for product shells.
 - [AppBarSeparator](components/AppBarSeparator.md) — Thin separator for CommandBar / AppBar rows. · Gallery
 - [AppBarToggleButton](components/AppBarToggleButton.md) — Checkable AppBarButton for CommandBar. · Gallery
 - [ArcGauge](components/ArcGauge.md) — Open-arc dashboard gauge with center value and thresholds. · Gallery
@@ -48,6 +49,8 @@ python scripts/generate_component_docs.py --lint
 - [ComboChart](components/ComboChart.md) — Bars plus an overlay line (volume vs price). · Gallery
 - [CommandBar](components/CommandBar.md) — Primary/secondary command row (AppBar host). · Gallery
 - [CommandBarFlyout](components/CommandBarFlyout.md) — Popup CommandBar with primary + secondary commands. · Gallery
+- [CommandBarKeyHints](components/CommandBarKeyHints.md) — show keyboardAcceleratorText hints from AppBarButton children.
+- [CommandBarPreset](components/CommandBarPreset.md) — product default preset to avoid “looks broken” combos.
 - [CommandPalette](components/CommandPalette.md) — Ctrl+K style command launcher (fuzzy filter + keyboard). · Gallery
 - [CompactOverlayShellWindow](components/CompactOverlayShellWindow.md) — Always-on-top compact overlay shell.
 - [CompassGauge](components/CompassGauge.md) — Heading / bearing compass (0–360°, wraparound). · Gallery
@@ -217,6 +220,7 @@ python scripts/generate_component_docs.py --lint
 - [ToggleMenuFlyoutItem](components/ToggleMenuFlyoutItem.md) — Checkable MenuFlyout item.
 - [ToggleSplitButton](components/ToggleSplitButton.md) — Toggle primary + menu SplitButton. · Gallery
 - [TokenizingTextBox](components/TokenizingTextBox.md) — Token chips + text input. · Gallery
+- [ToolbarOverflowInspector](components/ToolbarOverflowInspector.md) — show live overflow configuration + diagnostics.
 - [ToolShellWindow](components/ToolShellWindow.md) — ShellWindow with tool paradigm.
 - [TpmsGauge](components/TpmsGauge.md) — Four-corner tire pressure. · Gallery
 - [TreeDataGrid](components/TreeDataGrid.md) — hierarchical multi-column grid with sort + filter (2.21). · Gallery
@@ -321,11 +325,14 @@ python scripts/generate_component_docs.py --lint
 
 - [AccentButton](components/AccentButton.md) — `QWinUI3.Extras`
 - [AppBarButton](components/AppBarButton.md) — `QWinUI3.Extras`
+- [AppBarPreset](components/AppBarPreset.md) — `QWinUI3.Extras`
 - [AppBarSeparator](components/AppBarSeparator.md) — `QWinUI3.Extras`
 - [AppBarToggleButton](components/AppBarToggleButton.md) — `QWinUI3.Extras`
 - [ColorPickerButton](components/ColorPickerButton.md) — `QWinUI3.Extras`
 - [CommandBar](components/CommandBar.md) — `QWinUI3.Extras`
 - [CommandBarFlyout](components/CommandBarFlyout.md) — `QWinUI3.Extras`
+- [CommandBarKeyHints](components/CommandBarKeyHints.md) — `QWinUI3.Extras`
+- [CommandBarPreset](components/CommandBarPreset.md) — `QWinUI3.Extras`
 - [CommandPalette](components/CommandPalette.md) — `QWinUI3.Extras`
 - [CopyButton](components/CopyButton.md) — `QWinUI3.Extras`
 - [DropDownButton](components/DropDownButton.md) — `QWinUI3.Extras`
@@ -543,6 +550,7 @@ python scripts/generate_component_docs.py --lint
 - [StandardTitleChrome](components/StandardTitleChrome.md) — `QWinUI3.Extras`
 - [SwipeAction](components/SwipeAction.md) — `QWinUI3.Extras`
 - [SwipeControl](components/SwipeControl.md) — `QWinUI3.Extras`
+- [ToolbarOverflowInspector](components/ToolbarOverflowInspector.md) — `QWinUI3.Extras`
 
 ### Platform
 
