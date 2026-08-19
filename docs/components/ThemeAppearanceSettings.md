@@ -37,7 +37,7 @@ Branding wave 2: accent packs + contrast/density — docs/theme-overrides.md (2.
 
 | Name | Type | Description |
 | --- | --- | --- |
-| `persist` | `bool` | Persist via ThemePrefs (QSettings). Off by default so demos do not fight each other. |
+| `persist` | `bool` | Persist via ThemePrefs (QSettings). Gallery / demo pages set persist: false explicitly. |
 | `prefsCategory` | `string` | — |
 | `showCopyRecipe` | `bool` | — |
 | `recipeSnippet` | `string` | — |

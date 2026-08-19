@@ -7,6 +7,7 @@ import QWinUI3.Theme
 //   IconButton {
 //       id: btn
 //       symbol: FluentIcons.Settings
+//       accentIcon: true   // accent-colored icon (alias of highlighted; ratings, favorites)
 //       onClicked: openSettings()
 //   }
 //   // --- API ---
@@ -18,6 +19,9 @@ import QWinUI3.Theme
 
 IconicButton {
     id: control
+
+    // Accent-colored icon (rating stars, favorited toolbar). Alias of highlighted.
+    property alias accentIcon: control.highlighted
 
     // Icon-only: prefer toolTipText, then text; callers may still override Accessible.name.
     Accessible.role: Accessible.Button

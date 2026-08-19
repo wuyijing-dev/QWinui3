@@ -120,6 +120,8 @@ Item {
     property string paneSearchText: ""
     // Suggestion model for pane SearchBox: [{ title, key?, component? }]
     property var paneSearchModel: []
+    // Placeholder for pane SearchBox (product apps: qsTr("Search photos"))
+    property string paneSearchPlaceholder: qsTr("Search")
     // Custom pane header slot
     property alias paneHeader: paneHeaderHost.data
     // Custom pane footer slot
@@ -1609,7 +1611,7 @@ Item {
                     Layout.leftMargin: 4
                     Layout.rightMargin: 4
                     Layout.preferredHeight: visible ? implicitHeight : 0
-                    placeholderText: qsTr("Search")
+                    placeholderText: root.paneSearchPlaceholder
                     text: root.paneSearchText
                     model: root.paneSearchModel
                     onTextChanged: {

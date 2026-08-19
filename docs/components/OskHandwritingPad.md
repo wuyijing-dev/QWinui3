@@ -8,11 +8,12 @@ Zinnia CLI handwriting panel (Windows + Linux).
 
 [← Component index](../components.md)
 
+**Extends** `Control`.
+
 ## Example
 
 ```qml
 OskHandwritingPad { engine: kbd; handwriting: hwSvc }
-T.Control {
 ```
 
 ## API
@@ -36,6 +37,14 @@ T.Control {
 | Signature | Description |
 | --- | --- |
 | `closePanel()` | — |
+
+### Inherited from `Control`
+
+Also available (base type / Qt Quick Controls):
+
+- `padding`
+- `font`
+- `background` / `contentItem`
 
 ---
 *Generated from module sources by `scripts/generate_component_docs.py` — do not edit by hand.*

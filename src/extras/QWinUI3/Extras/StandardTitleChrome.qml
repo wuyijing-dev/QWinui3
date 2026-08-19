@@ -39,6 +39,7 @@ PlatformTitleBar {
     property alias searchEnabled: titleBar.searchEnabled
     property alias searchText: titleBar.searchText
     property alias searchModel: titleBar.searchModel
+    property alias searchPlaceholder: titleBar.searchPlaceholder
     property alias isBackButtonVisible: titleBar.isBackButtonVisible
     property alias isBackButtonEnabled: titleBar.isBackButtonEnabled
     property alias isPaneToggleButtonVisible: titleBar.isPaneToggleButtonVisible

@@ -88,6 +88,20 @@ SettingsCard {
 
 ---
 
+## ThemeAppearanceSettings vs window ThemePrefs
+
+`ThemeAppearanceSettings` (**1.69**) wraps the same knobs as Gallery Settings cards. **`persist` defaults to `true`** — theme changes write via `ThemePrefs` (`prefsCategory`, default `"ThemePrefs"`).
+
+| Surface | Persist | When |
+|---------|---------|------|
+| `NavigationWindow` + `ThemePrefs { category: "MyAppTheme" }` | Window-level load/save | Single source of truth for theme in main |
+| `ThemeAppearanceSettings` on Settings page | `persist: true` + **same `prefsCategory`** | Settings UI matches window prefs |
+| Gallery / gallery-shell demos | `persist: false` on Settings page | Avoid fighting Gallery’s own `ThemePrefs` |
+
+**Do not** mix `persist: false` on Settings with window-level `ThemePrefs` autoSave unless intentional — users will think theme “does not save”. See [product-integration.md](product-integration.md).
+
+---
+
 ## Recipe B — Portable Ini (side-by-side install)
 
 ```cpp

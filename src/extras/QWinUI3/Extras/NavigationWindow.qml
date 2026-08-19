@@ -23,7 +23,9 @@ import QWinUI3.Platform
 //   }
 //
 //   // --- API ---
-//   // signals: onNavActivated, onFooterClicked, onPaneSearchActivated
+//   // signals: onNavActivated, onFooterClicked, onPaneSearchActivated, onPaneSearchTextEdited
+//   // search: searchPlaceholder (title bar), paneSearchPlaceholder, onSearchTextEdited (title)
+//   // chrome.titleBarContent: replace built-in search with domain SearchBox (see docs/search.md)
 //   // methods: clearNav(), addNavItem(item), addNavGroup(group), selectNavKey(key), navigateBack()
 //   // inherits ShellWindow (+ Qt Quick Controls base API)
 //
@@ -63,6 +65,8 @@ ShellWindow {
     property alias paneSearchText: nav.paneSearchText
     // Pane search suggestion model
     property alias paneSearchModel: nav.paneSearchModel
+    // Pane SearchBox placeholder (real-time filter via onPaneSearchTextEdited)
+    property alias paneSearchPlaceholder: nav.paneSearchPlaceholder
     // Custom pane header slot
     property alias paneHeader: nav.paneHeader
     // Custom pane footer slot
@@ -107,6 +111,8 @@ ShellWindow {
     signal footerClicked()
     // Pane search accepted
     signal paneSearchActivated(string text)
+    // Pane search text changed (live filter — mirrors ShellWindow.searchTextEdited)
+    signal paneSearchTextEdited(string text)
 
     width: 960
     height: 640
@@ -136,6 +142,8 @@ ShellWindow {
         function onFooterClicked() { root.footerClicked() }
         // Forward pane search activation
         function onPaneSearchActivated(text) { root.paneSearchActivated(text) }
+        // Forward pane search live edits
+        function onPaneSearchTextEdited(text) { root.paneSearchTextEdited(text) }
     }
 
     function _syncPaneToggle() {

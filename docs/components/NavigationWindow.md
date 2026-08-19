@@ -31,7 +31,9 @@ NavigationWindow {
 }
 
 // --- API ---
-// signals: onNavActivated, onFooterClicked, onPaneSearchActivated
+// signals: onNavActivated, onFooterClicked, onPaneSearchActivated, onPaneSearchTextEdited
+// search: searchPlaceholder (title bar), paneSearchPlaceholder, onSearchTextEdited (title)
+// chrome.titleBarContent: replace built-in search with domain SearchBox (see docs/search.md)
 // methods: clearNav(), addNavItem(item), addNavGroup(group), selectNavKey(key), navigateBack()
 // inherits ShellWindow (+ Qt Quick Controls base API)
 ```
@@ -51,6 +53,7 @@ set hostContent: false + pageModule for StackView pages (Gallery / examples/gall
 | `paneWidth` | `alias` | Expanded pane width |
 | `paneHeaderText` | `alias` | NavigationWindow pane header text |
 | `isPanePinned` | `alias` | When true, pane stays open across auto/scrim dismiss (2.56) |
+| `autoMinimalThreshold` | `alias` | Width below which auto mode uses leftMinimal overlay drawer |
 | `paneDisplayMode` | `alias` | left \| leftCompact \| leftMinimal \| top \| auto |
 | `currentKey` | `alias` | Selected navigation key |
 | `content` | `alias` | Content slot / children host (when hostContent) |
@@ -60,6 +63,7 @@ set hostContent: false + pageModule for StackView pages (Gallery / examples/gall
 | `isPaneSearchEnabled` | `alias` | Show pane SearchBox |
 | `paneSearchText` | `alias` | Pane SearchBox text |
 | `paneSearchModel` | `alias` | Pane search suggestion model |
+| `paneSearchPlaceholder` | `alias` | Pane SearchBox placeholder (real-time filter via onPaneSearchTextEdited) |
 | `paneHeader` | `alias` | Custom pane header slot |
 | `paneFooter` | `alias` | Custom pane footer slot |
 | `footerText` | `alias` | Footer row label |
@@ -87,6 +91,7 @@ set hostContent: false + pageModule for StackView pages (Gallery / examples/gall
 | `navActivated(var item)` | Emitted when a nav item is activated |
 | `footerClicked()` | Footer row clicked |
 | `paneSearchActivated(string text)` | Pane search accepted |
+| `paneSearchTextEdited(string text)` | Pane search text changed (live filter — mirrors ShellWindow.searchTextEdited) |
 
 ### Methods
 

@@ -48,7 +48,8 @@ Cookbook: docs/title-bar-cookbook.md. Slot layout changes auto-refresh Windows N
 | `iconGlyph` | `string` | Raw Fluent glyph string fallback |
 | `searchText` | `alias` | Title-bar search field text |
 | `searchModel` | `var` | Suggestion rows for the built-in search field |
-| `searchEnabled` | `bool` | When true and content slot is empty, show built-in catalog search (Gallery default). |
+| `searchPlaceholder` | `string` | Placeholder for built-in search (product apps; Gallery sets qsTr("Search controls")) |
+| `searchEnabled` | `bool` | When true and content slot is empty, show built-in search field. |
 | `isBackButtonVisible` | `bool` | Show back button |
 | `isBackButtonEnabled` | `bool` | Enable back button |
 | `isPaneToggleButtonVisible` | `bool` | Show navigation pane toggle |

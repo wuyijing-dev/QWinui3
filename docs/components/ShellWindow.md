@@ -34,6 +34,7 @@ ApplicationWindow + WindowChrome; does not subclass StandardWindow.
 Use BlankWindow / NavigationWindow / MenuStatusWindow / DialogShellWindow /
 ToolShellWindow / CompactOverlayShellWindow for common layouts.
 Title-bar slots: leftHeader, titleBarContent, rightHeader, menusInTitleBar.
+Domain search: searchPlaceholder, or searchEnabled: false + titleBarContent: SearchBox { … }
 Window roles (作用): paradigm + presenter + always-on-top via WindowHelper.
 Backdrop / paradigm via WindowHelper (see docs/window-helper.md).
 
@@ -56,6 +57,7 @@ Backdrop / paradigm via WindowHelper (see docs/window-helper.md).
 | `rightHeader` | `alias` | WinUI RightHeader slot |
 | `searchText` | `alias` | Title-bar search field text |
 | `searchModel` | `alias` | Title-bar search suggestions |
+| `searchPlaceholder` | `alias` | Built-in title-bar search placeholder (default qsTr("Search"); Gallery uses "Search controls") |
 | `backdrop` | `int` | WindowHelper.Backdrop* |
 | `effectiveBackdrop` | `int` | Platform-safe backdrop (Linux coerces Mica/Acrylic → Solid). |
 | `preferredHeightOption` | `int` | WindowHelper.TitleBarHeightStandard \| TitleBarHeightTall |

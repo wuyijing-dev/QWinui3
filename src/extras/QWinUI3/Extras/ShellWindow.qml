@@ -25,6 +25,7 @@ import QWinUI3.Platform
 //   Use BlankWindow / NavigationWindow / MenuStatusWindow / DialogShellWindow /
 //   ToolShellWindow / CompactOverlayShellWindow for common layouts.
 //   Title-bar slots: leftHeader, titleBarContent, rightHeader, menusInTitleBar.
+//   Domain search: searchPlaceholder, or searchEnabled: false + titleBarContent: SearchBox { … }
 //   Window roles (作用): paradigm + presenter + always-on-top via WindowHelper.
 //   Backdrop / paradigm via WindowHelper (see docs/window-helper.md).
 
@@ -57,6 +58,8 @@ ApplicationWindow {
     property alias searchText: chrome.searchText
     // Title-bar search suggestions
     property alias searchModel: chrome.searchModel
+    // Built-in title-bar search placeholder (default qsTr("Search"); Gallery uses "Search controls")
+    property alias searchPlaceholder: chrome.searchPlaceholder
 
     // WindowHelper.Backdrop*
     property int backdrop: WindowHelper.BackdropSolid

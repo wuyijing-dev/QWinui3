@@ -30,8 +30,8 @@ SettingsGroup {
     description: qsTr("Theme knobs for this process. Copy the recipe into any QWinUI3 app.")
     symbol: FluentIcons.Color
 
-    // Persist via ThemePrefs (QSettings). Off by default so demos do not fight each other.
-    property bool persist: false
+    // Persist via ThemePrefs (QSettings). Gallery / demo pages set persist: false explicitly.
+    property bool persist: true
     property string prefsCategory: "ThemePrefs"
     property bool showCopyRecipe: true
 

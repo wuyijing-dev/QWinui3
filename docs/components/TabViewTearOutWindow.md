@@ -15,6 +15,12 @@ Host window for a torn-out TabView tab.
 ```qml
 Loaded at runtime via Qt.createComponent(URL) from TabView so the two types
 do not form a compile-time dependency cycle.
+
+TabView { canTearOutTabs: true; createTearOutWindow: true }
+
+close() only hides a dynamically created ApplicationWindow. dismiss() hides
+and destroy()s the host so it cannot keep running after the last tab is
+closed, docked back, or the source TabView is recycled.
 ```
 
 ## API
@@ -32,7 +38,9 @@ _No custom signals_ (use inherited signals from the base type).
 
 ### Methods
 
-_No custom methods_ (use inherited methods from the base type).
+| Signature | Description |
+| --- | --- |
+| `dismiss()` | — |
 
 ---
 *Generated from module sources by `scripts/generate_component_docs.py` — do not edit by hand.*

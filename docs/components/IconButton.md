@@ -18,6 +18,7 @@ Icon-only button helper.
 IconButton {
     id: btn
     symbol: FluentIcons.Settings
+    accentIcon: true   // accent-colored icon (alias of highlighted; ratings, favorites)
     onClicked: openSettings()
 }
 // --- API ---
@@ -33,7 +34,9 @@ Glyph hover/press micro-motion via IconicButton (1.49); Theme.reducedMotion disa
 
 ### Properties
 
-_No additional properties beyond the base type._
+| Name | Type | Description |
+| --- | --- | --- |
+| `accentIcon` | `alias` | Accent-colored icon (rating stars, favorited toolbar). Alias of highlighted. |
 
 ### Signals
 

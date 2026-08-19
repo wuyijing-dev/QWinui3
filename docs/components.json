@@ -1411,7 +1411,7 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/IconButton.md",
-      "propertyCount": 0,
+      "propertyCount": 1,
       "signalCount": 0,
       "methodCount": 0
     },
@@ -1770,7 +1770,7 @@
       "doc": "components/MenuFlyout.md",
       "propertyCount": 6,
       "signalCount": 0,
-      "methodCount": 4
+      "methodCount": 5
     },
     {
       "name": "MenuFlyoutHeader",
@@ -1921,7 +1921,7 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/NavigationView.md",
-      "propertyCount": 60,
+      "propertyCount": 62,
       "signalCount": 7,
       "methodCount": 43
     },
@@ -1938,8 +1938,8 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/NavigationWindow.md",
-      "propertyCount": 32,
-      "signalCount": 3,
+      "propertyCount": 34,
+      "signalCount": 4,
       "methodCount": 10
     },
     {
@@ -2049,7 +2049,7 @@
       "module": "QWinUI3.Extras",
       "summary": "Zinnia CLI handwriting panel (Windows + Linux).",
       "path": "src/extras/QWinUI3/Extras/OskHandwritingPad.qml",
-      "baseType": "",
+      "baseType": "Control",
       "internal": false,
       "category": "Other",
       "galleryPage": "",
@@ -2083,7 +2083,7 @@
       "module": "QWinUI3.Extras",
       "summary": "compact action chip for OSK auxiliary panels.",
       "path": "src/extras/QWinUI3/Extras/OskPanelButton.qml",
-      "baseType": "",
+      "baseType": "Item",
       "internal": false,
       "category": "Buttons & commands",
       "galleryPage": "",
@@ -2100,7 +2100,7 @@
       "module": "QWinUI3.Extras",
       "summary": "Win11-style keyboard settings (size, voice/handwriting, user lexicon).",
       "path": "src/extras/QWinUI3/Extras/OskSettingsFlyout.qml",
-      "baseType": "",
+      "baseType": "Control",
       "internal": false,
       "category": "Dialogs & flyouts",
       "galleryPage": "",
@@ -2134,7 +2134,7 @@
       "module": "QWinUI3.Extras",
       "summary": "cross-platform speech-to-text strip (Windows System.Speech / Linux whisper|vosk).",
       "path": "src/extras/QWinUI3/Extras/OskVoiceBar.qml",
-      "baseType": "",
+      "baseType": "Control",
       "internal": false,
       "category": "Other",
       "galleryPage": "",
@@ -2754,7 +2754,7 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/ShellWindow.md",
-      "propertyCount": 44,
+      "propertyCount": 45,
       "signalCount": 5,
       "methodCount": 8
     },
@@ -2890,7 +2890,7 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/StandardTitleChrome.md",
-      "propertyCount": 12,
+      "propertyCount": 13,
       "signalCount": 4,
       "methodCount": 0
     },
@@ -3079,7 +3079,7 @@
       "doc": "components/TabViewTearOutWindow.md",
       "propertyCount": 2,
       "signalCount": 0,
-      "methodCount": 0
+      "methodCount": 1
     },
     {
       "name": "TachometerGauge",
@@ -3264,7 +3264,7 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/TitleBar.md",
-      "propertyCount": 23,
+      "propertyCount": 24,
       "signalCount": 4,
       "methodCount": 2
     },
@@ -3587,7 +3587,7 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/WindowChrome.md",
-      "propertyCount": 20,
+      "propertyCount": 21,
       "signalCount": 4,
       "methodCount": 0
     },

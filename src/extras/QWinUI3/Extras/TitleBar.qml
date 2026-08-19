@@ -45,7 +45,9 @@ Item {
     property alias searchText: searchField.text
     // Suggestion rows for the built-in search field
     property var searchModel: []
-    // When true and content slot is empty, show built-in catalog search (Gallery default).
+    // Placeholder for built-in search (product apps; Gallery sets qsTr("Search controls"))
+    property string searchPlaceholder: qsTr("Search")
+    // When true and content slot is empty, show built-in search field.
     property bool searchEnabled: true
     // Show back button
     property bool isBackButtonVisible: false
@@ -340,7 +342,7 @@ Item {
                 TextField {
                     id: searchField
                     anchors.fill: parent
-                    placeholderText: qsTr("Search controls")
+                    placeholderText: root.searchPlaceholder
                     leftPadding: 36
                     rightPadding: clearBtn.visible ? 36 : Theme.paddingControlH
                     onTextChanged: {

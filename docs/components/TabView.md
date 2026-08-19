@@ -42,7 +42,8 @@ tabStripHeader / tabStripFooter for strip chrome; tabsReorderable enables drag r
 canTearOutTabs: drag a tab vertically past tearOutThreshold to open a new window
 (or handle tabTearOutRequested yourself). createTearOutWindow builds a BlankWindow
 hosting another TabView with the torn tab. Drop onto another TabView in this
-process to dock it back (TabViewDropHub). closeWhenEmpty closes tear-out hosts.
+process to dock it back (TabViewDropHub). closeWhenEmpty destroys empty
+tear-out hosts (close() alone would leave them running in the background).
 
 ## API
 
@@ -63,7 +64,7 @@ process to dock it back (TabViewDropHub). closeWhenEmpty closes tear-out hosts.
 | `allowTearOutLastTab` | `bool` | Allow tearing out when only one tab remains |
 | `tearOutThreshold` | `real` | Vertical drag distance (px) before a tear-out is armed |
 | `createTearOutWindow` | `bool` | When true, TabView opens a BlankWindow for torn tabs (still emits the signal) |
-| `closeWhenEmpty` | `bool` | Close the host window when the last tab is taken (tear-out windows) |
+| `closeWhenEmpty` | `bool` | Close and destroy the host window when the last tab is taken (tear-out windows) |
 | `tabWidthMode` | `string` | Tab width mode |
 | `isAddTabButtonVisible` | `bool` | Show add-tab button |
 | `tabStripHeader` | `alias` | WinUI TabStripHeader |

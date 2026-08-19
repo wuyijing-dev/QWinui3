@@ -46,6 +46,8 @@ PlatformTitleBar {
     property alias searchText: titleBar.searchText
     // Title-bar search suggestions
     property alias searchModel: titleBar.searchModel
+    // Built-in title-bar search placeholder
+    property alias searchPlaceholder: titleBar.searchPlaceholder
 
     // Caption button rest fill
     property color captionButtonBackground: "transparent"
@@ -93,6 +95,7 @@ PlatformTitleBar {
         useSystemMove: true
         preferredHeight: root.resolvedCaptionHeight
         searchEnabled: root.searchEnabled
+        searchPlaceholder: root.searchPlaceholder
         title: root.title
         subtitle: root.subtitle
         symbol: root.symbol

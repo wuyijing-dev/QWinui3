@@ -120,6 +120,31 @@ onSearchActivated: (item) => { navigateToControl(item) }
 
 ---
 
+## Shell search (NavigationWindow / ShellWindow)
+
+Product apps need **domain placeholders** and **live filtering**, not Gallery catalog defaults.
+
+| Channel | API | Use |
+|---------|-----|-----|
+| Title bar | `searchPlaceholder`, `onSearchTextEdited`, `onSearchActivated` | App-wide search |
+| Nav pane | `paneSearchPlaceholder`, `onPaneSearchTextEdited`, `onPaneSearchActivated` | Side-rail filter |
+| Custom | `searchEnabled: false` + `chrome.titleBarContent: SearchBox { … }` | Full control |
+
+Default placeholder: **`Search`**. Gallery sets **`Search controls`** on `StandardTitleChrome` + `NavigationView`.
+
+```qml
+NavigationWindow {
+    searchPlaceholder: qsTr("Search photos")
+    paneSearchPlaceholder: qsTr("Filter library")
+    onSearchTextEdited: (t) => store.filter(t)
+    onPaneSearchTextEdited: (t) => store.filter(t)
+}
+```
+
+See [product-integration.md](product-integration.md) · [title-bar-cookbook.md](title-bar-cookbook.md).
+
+---
+
 ## Choosing a surface (quick)
 
 | Surface | Best for |

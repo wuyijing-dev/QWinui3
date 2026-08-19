@@ -133,6 +133,7 @@ StandardWindow {
         isBackButtonVisible: nav.hasLeftRail
         isBackButtonEnabled: nav.canGoBack
         searchModel: window.searchResults
+        searchPlaceholder: qsTr("Search controls")
         onPaneToggleRequested: nav.togglePane()
         onBackRequested: nav.navigateBack()
         onSearchTextEdited: function (text) {
@@ -169,6 +170,7 @@ StandardWindow {
         pageCacheLimit: 24
         initialPageTransition: "none"
         isPaneSearchEnabled: true
+        paneSearchPlaceholder: qsTr("Search controls")
         paneSearchModel: window.paneSearchModel
         isReorderable: true
         pageTransition: "slide"

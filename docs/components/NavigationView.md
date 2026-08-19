@@ -50,14 +50,15 @@ model entries: type "item"|"group"|"header"; groups use children[].
 pageModule + component names load StackView pages (unless hostContent).
 Pages compile on first open — not at shell startup; pageCacheLimit LRU (1.39).
 initialPageTransition defaults to "none" for a snappy first paint.
-paneDisplayMode auto switches left / leftCompact by width.
-leftMinimal overlays content with a light-dismiss scrim.
+paneDisplayMode auto: left → leftCompact → leftMinimal (drawer) by width.
+leftMinimal / compact drawer overlay content with a light-dismiss scrim (Calculator-like).
 Left-rail title bar is hamburger + paneTitle (paired); Back is top mode / TitleBar.
 pageTransition / openPage modes: slide | slideRight | fade | center | drill |
 up | down | cover | none (suppress). Pane clicks use pageTransition.
 WinUI aliases: paneTitle, openPaneLength, compactPaneLength, isSettingsVisible, isPaneToggleButtonVisible.
 compactPaneStyle: "iconOnly" (WinUI) | "labeled" (Store — icon above caption).
-togglePane() — TitleBar hamburger; will not expand when the window is too narrow.
+togglePane() — TitleBar hamburger; leftCompact expands inline or opens a drawer
+when the window is too narrow; leftMinimal opens the overlay drawer.
 Prefer selectKey / openPage over mutating currentIndex alone.
 Live-region announces nav selection / pane expand (2.07) when announceChanges is true.
 
@@ -92,12 +93,14 @@ Live-region announces nav selection / pane expand (2.07) when announceChanges is
 | `isSettingsVisible` | `bool` | WinUI IsSettingsVisible — show the settings/footer item |
 | `isPaneToggleButtonVisible` | `bool` | WinUI IsPaneToggleButtonVisible — left-rail title bar (hamburger + paneTitle as a pair) |
 | `paneDisplayMode` | `string` | WinUI PaneDisplayMode: left \| leftCompact \| leftMinimal \| top \| auto |
-| `autoCompactThreshold` | `real` | Width below which auto mode uses leftCompact |
+| `autoCompactThreshold` | `real` | Width below which auto mode uses leftCompact (icon rail) |
+| `autoMinimalThreshold` | `real` | Width below which auto mode uses leftMinimal (overlay drawer — Calculator-like) |
 | `isBackButtonVisible` | `bool` | Show back in top pane mode only (left rail uses TitleBar / ShellWindow back) |
 | `isBackEnabled` | `bool` | Enable back button |
 | `isPaneSearchEnabled` | `bool` | Shows SearchBox at the top of the pane when open |
 | `paneSearchText` | `string` | Pane SearchBox text |
 | `paneSearchModel` | `var` | Suggestion model for pane SearchBox: [{ title, key?, component? }] |
+| `paneSearchPlaceholder` | `string` | Placeholder for pane SearchBox (product apps: qsTr("Search photos")) |
 | `paneHeader` | `alias` | Custom pane header slot |
 | `paneFooter` | `alias` | Custom pane footer slot |
 | `isReorderable` | `bool` | Drag rows to reorder top-level model entries |
@@ -150,7 +153,7 @@ Live-region announces nav selection / pane expand (2.07) when announceChanges is
 | `setGroupExpanded(key, expanded)` | Expand or collapse a nav group by key |
 | `selectionAnchorItem()` | Visual anchor item for the selection pip |
 | `toggleGroup(key)` | Toggle a nav group expanded state |
-| `togglePane()` | Toggle the left pane; no-op when the window is too narrow to expand |
+| `togglePane()` | Toggle the left pane / overlay drawer |
 | `groupTitle(key)` | Title text for a nav group key |
 | `fillFlyoutModel(key)` | Populate the compact-mode group flyout model |
 | `openCompactFlyout(groupKey, anchorItem)` | Open the compact pane group flyout |

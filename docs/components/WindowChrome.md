@@ -44,6 +44,7 @@ Internal title-bar chrome for ShellWindow (caption + header slots).
 | `rightHeader` | `alias` | WinUI RightHeader slot |
 | `searchText` | `alias` | Title-bar search field text |
 | `searchModel` | `alias` | Title-bar search suggestions |
+| `searchPlaceholder` | `alias` | Built-in title-bar search placeholder |
 | `captionButtonBackground` | `color` | Caption button rest fill |
 | `captionButtonHover` | `color` | Caption button hover fill |
 | `captionButtonPressed` | `color` | Caption button pressed fill |

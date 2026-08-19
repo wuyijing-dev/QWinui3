@@ -10,7 +10,8 @@ import QWinUI3.Theme
 //   }
 //
 //   // --- API ---
-//   // methods: openMenu(), closeMenu(), showAt(targetItem, offsetX, offsetY), hide()
+//   // methods: openMenu(), closeMenu(), showAt(targetItem, offsetX, offsetY),
+//   //          popupAtGlobal(overlay, globalX, globalY), hide()
 //   // menuFlyout.openMenu()
 //   // menuFlyout.closeMenu()
 //   // menuFlyout.showAt(targetItem, offsetX, offsetY)
@@ -24,6 +25,8 @@ import QWinUI3.Theme
 //   title comes from Menu (FINAL) — set title: for screen-reader chrome; MenuItem carries Accessible.
 //   Keyboard (Menu): arrows move; Enter/Space activate; Esc / light-dismiss closes.
 //   Prefer keyboardAcceleratorText on MenuFlyoutItem for visible chord hints.
+//   Long menus: snapshot dynamic labels when opening; set contentMaxHeight for scroll.
+//   Context menu at cursor: popupAtGlobal(Overlay.overlay, mouse.x, mouse.y) — docs/recipes.md.
 
 Menu {
     id: root
@@ -112,6 +115,20 @@ Menu {
             break
         }
         popup(targetItem, px, py)
+        isOpen = true
+        if (shouldConstrainToRootBounds)
+            Qt.callLater(root._constrainToRootBounds)
+    }
+
+    // Show at global screen coordinates (e.g. grid / photo context menu).
+    // overlay: ApplicationWindow Overlay.overlay (or any Item in window coords).
+    function popupAtGlobal(overlay, globalX, globalY) {
+        if (!overlay) {
+            isOpen = true
+            return
+        }
+        var pos = overlay.mapFromGlobal(globalX, globalY)
+        popup(overlay, pos.x, pos.y)
         isOpen = true
         if (shouldConstrainToRootBounds)
             Qt.callLater(root._constrainToRootBounds)

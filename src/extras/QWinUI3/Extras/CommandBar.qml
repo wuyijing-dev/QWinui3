@@ -27,6 +27,8 @@ import QWinUI3.Theme
 //   secondaryCommandsHost accepts AppBarButton / AppBarToggleButton children.
 //   secondaryCommands / overflowItems keep the JS [{text, triggered}] API.
 //   isDynamicOverflowEnabled moves overflowing primary commands into (…).
+//   Product toolbar preset: compact: false; isDynamicOverflowEnabled: true;
+//   isToggleButtonVisible: true; defaultLabelPosition: "bottom" — docs/recipes.md.
 //   commandAlignment left|center|right|stretch; compact densifies like Edge toolbar.
 //   overflowOpensUpward false opens down (top toolbars); auto flips when space is tight.
 //   Keyboard: Tab into bar; F10 / Alt+Down opens overflow (…); Esc closes overflow Menu.

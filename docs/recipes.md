@@ -164,3 +164,51 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 | [`examples/floating-osk`](../examples/floating-osk/) | [on-screen-keyboard.md](on-screen-keyboard.md) (**1.84**) |
 
 Build from Creator or presets: [qt-creator.md](qt-creator.md) · [examples/README.md](../examples/README.md).
+
+---
+
+## Product app presets (Light Photos / LoB)
+
+From [product-integration.md](product-integration.md) — common traps when shipping beyond Gallery demos.
+
+### CommandBar (viewer / product toolbar)
+
+| Property | Gallery / advanced | **Product preset** |
+|----------|-------------------|-------------------|
+| `compact` | `true` or Theme compact | **`false`** |
+| `isDynamicOverflowEnabled` | varies | **`true`** |
+| `isToggleButtonVisible` | `false` hides chevron | **`true`** |
+| `defaultLabelPosition` | `"collapsed"` | **`"bottom"`** |
+
+```qml
+CommandBar {
+    compact: false
+    isDynamicOverflowEnabled: true
+    isToggleButtonVisible: true
+    defaultLabelPosition: "bottom"
+    AppBarButton { text: qsTr("Share"); symbol: FluentIcons.Share }
+}
+```
+
+### MenuFlyout (long / context menus)
+
+| Issue | Fix |
+|-------|-----|
+| Scroll jumps to top | Snapshot dynamic counts in `onAboutToShow`; avoid live `selectedCount` bindings while open |
+| Grid right-click | `popupAtGlobal(Overlay.overlay, mouse.x, mouse.y)` — not only `showAt(item)` |
+| Tall menu | `contentMaxHeight: 480` |
+
+```qml
+MenuFlyout {
+    id: ctx
+    contentMaxHeight: 480
+    onAboutToShow: snapshotSelection()
+}
+// Grid MouseArea.onClicked: ctx.popupAtGlobal(Overlay.overlay, mouse.x, mouse.y)
+```
+
+### IconButton accent icons
+
+Use **`accentIcon: true`** (alias of **`highlighted`**) for rating stars / favorited glyphs — not `iconColor` (does not exist).
+
+---

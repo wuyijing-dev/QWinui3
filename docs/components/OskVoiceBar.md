@@ -8,11 +8,12 @@ cross-platform speech-to-text strip (Windows System.Speech / Linux whisper|vosk)
 
 [← Component index](../components.md)
 
+**Extends** `Control`.
+
 ## Example
 
 ```qml
 OskVoiceBar { engine: kbd; speech: speechSvc }
-T.Control {
 ```
 
 ## API
@@ -34,6 +35,14 @@ T.Control {
 ### Methods
 
 _No custom methods_ (use inherited methods from the base type).
+
+### Inherited from `Control`
+
+Also available (base type / Qt Quick Controls):
+
+- `padding`
+- `font`
+- `background` / `contentItem`
 
 ---
 *Generated from module sources by `scripts/generate_component_docs.py` — do not edit by hand.*

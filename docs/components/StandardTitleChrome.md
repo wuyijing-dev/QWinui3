@@ -40,6 +40,7 @@ Same slot model as ShellWindow (leftHeader / titleBarContent / rightHeader).
 | `searchEnabled` | `alias` | Built-in title-bar search |
 | `searchText` | `alias` | — |
 | `searchModel` | `alias` | — |
+| `searchPlaceholder` | `alias` | — |
 | `isBackButtonVisible` | `alias` | — |
 | `isBackButtonEnabled` | `alias` | — |
 | `isPaneToggleButtonVisible` | `alias` | — |

@@ -21,7 +21,8 @@ MenuFlyout {
 }
 
 // --- API ---
-// methods: openMenu(), closeMenu(), showAt(targetItem, offsetX, offsetY), hide()
+// methods: openMenu(), closeMenu(), showAt(targetItem, offsetX, offsetY),
+//          popupAtGlobal(overlay, globalX, globalY), hide()
 // menuFlyout.openMenu()
 // menuFlyout.closeMenu()
 // menuFlyout.showAt(targetItem, offsetX, offsetY)
@@ -37,6 +38,8 @@ shouldConstrainToRootBounds clamps into the window overlay (default true).
 title comes from Menu (FINAL) — set title: for screen-reader chrome; MenuItem carries Accessible.
 Keyboard (Menu): arrows move; Enter/Space activate; Esc / light-dismiss closes.
 Prefer keyboardAcceleratorText on MenuFlyoutItem for visible chord hints.
+Long menus: snapshot dynamic labels when opening; set contentMaxHeight for scroll.
+Context menu at cursor: popupAtGlobal(Overlay.overlay, mouse.x, mouse.y) — docs/recipes.md.
 
 ## API
 
@@ -62,6 +65,7 @@ _No custom signals_ (use inherited signals from the base type).
 | `openMenu()` | Open the menu |
 | `closeMenu()` | Dismiss the menu |
 | `showAt(targetItem, offsetX, offsetY)` | Show anchored at the given point or item |
+| `popupAtGlobal(overlay, globalX, globalY)` | overlay: ApplicationWindow Overlay.overlay (or any Item in window coords). |
 | `hide()` | Hide the control |
 
 ---
