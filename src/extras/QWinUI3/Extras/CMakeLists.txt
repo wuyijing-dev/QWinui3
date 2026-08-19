@@ -90,6 +90,7 @@ qt_add_qml_module(qwinui3_extras
         ContentThemeTransition.qml
         CopyButton.qml
         DataTable.qml
+        DataTableFilterOverlay.qml
         DashboardShell.qml
         DatePicker.qml
         DockPanel.qml
@@ -97,6 +98,7 @@ qt_add_qml_module(qwinui3_extras
         FormLayout.qml
         ValidationSummary.qml
         ItemsView.qml
+        ItemsViewEmptyStateHelper.qml
         ItemsRepeater.qml
         ItemsWrapGrid.qml
         EmptyState.qml
@@ -137,6 +139,7 @@ qt_add_qml_module(qwinui3_extras
         MenuFlyoutSnapshotModel.qml
         ContextMenuAtItem.qml
         RightClickAnchorHelper.qml
+        FlyoutKeyboardFocusTrap.qml
         MetadataControl.qml
         MetadataItem.qml
         MeterBar.qml

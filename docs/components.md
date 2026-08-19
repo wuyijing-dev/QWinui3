@@ -8,7 +8,7 @@ python scripts/generate_component_docs.py
 python scripts/generate_component_docs.py --lint
 ```
 
-**288** public · **14** internal · **206** with Gallery demos · Hub: [docs home](index.md).
+**291** public · **14** internal · **206** with Gallery demos · Hub: [docs home](index.md).
 
 ## By module
 
@@ -63,6 +63,7 @@ python scripts/generate_component_docs.py --lint
 - [CylinderGauge](components/CylinderGauge.md) — Isometric cylinder level. · Gallery
 - [DashboardShell](components/DashboardShell.md) — Minimal dashboard layout host (2.52 preview; chart grid + filter rail in 2.65).
 - [DataTable](components/DataTable.md) — Fluent virtualizing table with sort, filter, resize, and keyboard. · Gallery
+- [DataTableFilterOverlay](components/DataTableFilterOverlay.md) — lightweight filter UI for DataTable.
 - [DatePicker](components/DatePicker.md) — Date selectors (year / month / day). · Gallery
 - [DetailRow](components/DetailRow.md) — Compact label / value row for forms and settings summaries.
 - [DialogShellWindow](components/DialogShellWindow.md) — ShellWindow with dialog paradigm flags.
@@ -80,6 +81,7 @@ python scripts/generate_component_docs.py --lint
 - [FileTree](components/FileTree.md) — Explorer-style folder tree + file metadata table (2.06). · Gallery
 - [FlipView](components/FlipView.md) — Page carousel with optional navigation buttons. · Gallery
 - [Flyout](components/Flyout.md) — Light-dismiss popup anchored to a target. · Gallery
+- [FlyoutKeyboardFocusTrap](components/FlyoutKeyboardFocusTrap.md) — restore keyboard focus after MenuFlyout closes.
 - [FontIcon](components/FontIcon.md) — FluentIcons glyph as Text. · Gallery
 - [FormLayout](components/FormLayout.md) — Vertical form stack that collects field errorMessage values.
 - [FuelGauge](components/FuelGauge.md) — Empty/full arc with E–F marks. · Gallery
@@ -104,6 +106,7 @@ python scripts/generate_component_docs.py --lint
 - [InfoButton](components/InfoButton.md) — Icon button that opens a TeachingTip. · Gallery
 - [ItemsRepeater](components/ItemsRepeater.md) — Thin WinUI-style virtualizing repeater over ListView. · Gallery
 - [ItemsView](components/ItemsView.md) — ListView recipe: sections, selection, context MenuFlyout, EmptyState. · Gallery
+- [ItemsViewEmptyStateHelper](components/ItemsViewEmptyStateHelper.md) — unify emptyTitle/emptyMessage for filtered lists.
 - [ItemsWrapGrid](components/ItemsWrapGrid.md) — model-driven variable-size wrap layout (2.24). · Gallery
 - [KeyChordVisual](components/KeyChordVisual.md) — Renders Ctrl+K style shortcuts as KeyVisuals.
 - [KeyVisual](components/KeyVisual.md) — Single keyboard key chrome. · Gallery
@@ -404,11 +407,13 @@ python scripts/generate_component_docs.py --lint
 - [Chip](components/Chip.md) — `QWinUI3.Extras`
 - [ChipGroup](components/ChipGroup.md) — `QWinUI3.Extras`
 - [DataTable](components/DataTable.md) — `QWinUI3.Extras`
+- [DataTableFilterOverlay](components/DataTableFilterOverlay.md) — `QWinUI3.Extras`
 - [DetailRow](components/DetailRow.md) — `QWinUI3.Extras`
 - [FileTree](components/FileTree.md) — `QWinUI3.Extras`
 - [GridTile](components/GridTile.md) — `QWinUI3.Extras`
 - [ItemsRepeater](components/ItemsRepeater.md) — `QWinUI3.Extras`
 - [ItemsView](components/ItemsView.md) — `QWinUI3.Extras`
+- [ItemsViewEmptyStateHelper](components/ItemsViewEmptyStateHelper.md) — `QWinUI3.Extras`
 - [ItemsWrapGrid](components/ItemsWrapGrid.md) — `QWinUI3.Extras`
 - [ListDetailsView](components/ListDetailsView.md) — `QWinUI3.Extras`
 - [ListTile](components/ListTile.md) — `QWinUI3.Extras`
@@ -451,6 +456,7 @@ python scripts/generate_component_docs.py --lint
 - [ContentDialog](components/ContentDialog.md) — `QWinUI3.Extras`
 - [ContentDialogQueue](components/ContentDialogQueue.md) — `QWinUI3.Extras`
 - [ContextMenuAtItem](components/ContextMenuAtItem.md) — `QWinUI3.Extras`
+- [FlyoutKeyboardFocusTrap](components/FlyoutKeyboardFocusTrap.md) — `QWinUI3.Extras`
 - [FormLayout](components/FormLayout.md) — `QWinUI3.Extras`
 - [HeaderedComboBox](components/HeaderedComboBox.md) — `QWinUI3.Extras`
 - [HeaderedContentControl](components/HeaderedContentControl.md) — `QWinUI3.Extras`
