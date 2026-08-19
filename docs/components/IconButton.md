@@ -37,6 +37,7 @@ Glyph hover/press micro-motion via IconicButton (1.49); Theme.reducedMotion disa
 | Name | Type | Description |
 | --- | --- | --- |
 | `accentIcon` | `alias` | Accent-colored icon (rating stars, favorited toolbar). Alias of highlighted. |
+| `toggleMode` | `bool` | Useful for rating/favorite semantics where a single click flips the state. |
 
 ### Signals
 

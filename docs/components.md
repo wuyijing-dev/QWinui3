@@ -8,7 +8,7 @@ python scripts/generate_component_docs.py
 python scripts/generate_component_docs.py --lint
 ```
 
-**295** public · **14** internal · **206** with Gallery demos · Hub: [docs home](index.md).
+**296** public · **14** internal · **206** with Gallery demos · Hub: [docs home](index.md).
 
 ## By module
 
@@ -162,6 +162,7 @@ python scripts/generate_component_docs.py --lint
 - [RadioButtons](components/RadioButtons.md) — Grouped radio options from a model (WinUI RadioButtons). · Gallery
 - [RadioMenuFlyoutItem](components/RadioMenuFlyoutItem.md) — Exclusive radio MenuFlyout item.
 - [RatingControl](components/RatingControl.md) — Star rating; stepSize supports halves (WinUI InitialSetValue / ItemInfo). · Gallery
+- [RatingStars](components/RatingStars.md) — semantic star-rating wrapper around RatingControl.
 - [RefreshContainer](components/RefreshContainer.md) — Pull-to-refresh host for flickable content. · Gallery
 - [RelativePanel](components/RelativePanel.md) — Constraint-based relative layout. · Gallery
 - [RepositionThemeTransition](components/RepositionThemeTransition.md) — Animate this item when its layout x/y change.
@@ -475,6 +476,7 @@ python scripts/generate_component_docs.py --lint
 - [RadialGauge](components/RadialGauge.md) — `QWinUI3.Extras`
 - [RadioMenuFlyoutItem](components/RadioMenuFlyoutItem.md) — `QWinUI3.Extras`
 - [RatingControl](components/RatingControl.md) — `QWinUI3.Extras`
+- [RatingStars](components/RatingStars.md) — `QWinUI3.Extras`
 - [SearchBox](components/SearchBox.md) — `QWinUI3.Extras`
 - [SearchBoxRecipe](components/SearchBoxRecipe.md) — `QWinUI3.Extras`
 - [SettingsComboCard](components/SettingsComboCard.md) — `QWinUI3.Extras`

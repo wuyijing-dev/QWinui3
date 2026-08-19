@@ -223,6 +223,7 @@ qt_add_qml_module(qwinui3_extras
         RadioButtons.qml
         RadioMenuFlyoutItem.qml
         RatingControl.qml
+        RatingStars.qml
         RefreshContainer.qml
         RelativePanel.qml
         RichEdit.qml

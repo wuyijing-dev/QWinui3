@@ -23,6 +23,11 @@ IconicButton {
     // Accent-colored icon (rating stars, favorited toolbar). Alias of highlighted.
     property alias accentIcon: control.highlighted
 
+    // When true, the icon behaves like a toggle (uses `checked` state).
+    // Useful for rating/favorite semantics where a single click flips the state.
+    property bool toggleMode: false
+    checkable: toggleMode
+
     // Icon-only: prefer toolTipText, then text; callers may still override Accessible.name.
     Accessible.role: Accessible.Button
     Accessible.name: {
