@@ -2,7 +2,7 @@
   "name": "QWinUI3",
   "version": "2.64",
   "generatedBy": "scripts/generate_component_docs.py",
-  "publicCount": 283,
+  "publicCount": 288,
   "components": [
     {
       "name": "AccentButton",
@@ -751,6 +751,23 @@
       "propertyCount": 5,
       "signalCount": 0,
       "methodCount": 2
+    },
+    {
+      "name": "ContextMenuAtItem",
+      "module": "QWinUI3.Extras",
+      "summary": "helper to open a MenuFlyout from item + mouse.",
+      "path": "src/extras/QWinUI3/Extras/ContextMenuAtItem.qml",
+      "baseType": "QtObject",
+      "internal": false,
+      "category": "Input & forms",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "kind": "qml",
+      "singleton": false,
+      "doc": "components/ContextMenuAtItem.md",
+      "propertyCount": 2,
+      "signalCount": 0,
+      "methodCount": 1
     },
     {
       "name": "CoolantGauge",
@@ -1790,6 +1807,23 @@
       "methodCount": 5
     },
     {
+      "name": "MenuFlyoutAutoMaxHeight",
+      "module": "QWinUI3.Extras",
+      "summary": "menu max-height computed from host overlay size.",
+      "path": "src/extras/QWinUI3/Extras/MenuFlyoutAutoMaxHeight.qml",
+      "baseType": "MenuFlyoutPresenter",
+      "internal": false,
+      "category": "Dialogs & flyouts",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "kind": "qml",
+      "singleton": false,
+      "doc": "components/MenuFlyoutAutoMaxHeight.md",
+      "propertyCount": 3,
+      "signalCount": 0,
+      "methodCount": 0
+    },
+    {
       "name": "MenuFlyoutHeader",
       "module": "QWinUI3.Extras",
       "summary": "Non-interactive MenuFlyout section header.",
@@ -1824,6 +1858,23 @@
       "methodCount": 0
     },
     {
+      "name": "MenuFlyoutPresenter",
+      "module": "QWinUI3.Extras",
+      "summary": "product-friendly wrapper for MenuFlyout.",
+      "path": "src/extras/QWinUI3/Extras/MenuFlyoutPresenter.qml",
+      "baseType": "MenuFlyout",
+      "internal": false,
+      "category": "Dialogs & flyouts",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "kind": "qml",
+      "singleton": false,
+      "doc": "components/MenuFlyoutPresenter.md",
+      "propertyCount": 4,
+      "signalCount": 1,
+      "methodCount": 1
+    },
+    {
       "name": "MenuFlyoutSeparator",
       "module": "QWinUI3.Extras",
       "summary": "MenuFlyout divider.",
@@ -1839,6 +1890,23 @@
       "propertyCount": 0,
       "signalCount": 0,
       "methodCount": 0
+    },
+    {
+      "name": "MenuFlyoutSnapshotModel",
+      "module": "QWinUI3.Extras",
+      "summary": "Freeze dynamic menu label values at open time.",
+      "path": "src/extras/QWinUI3/Extras/MenuFlyoutSnapshotModel.qml",
+      "baseType": "QtObject",
+      "internal": false,
+      "category": "Dialogs & flyouts",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "kind": "qml",
+      "singleton": false,
+      "doc": "components/MenuFlyoutSnapshotModel.md",
+      "propertyCount": 4,
+      "signalCount": 0,
+      "methodCount": 1
     },
     {
       "name": "MenuStatusWindow",
@@ -2519,6 +2587,23 @@
       "propertyCount": 9,
       "signalCount": 3,
       "methodCount": 7
+    },
+    {
+      "name": "RightClickAnchorHelper",
+      "module": "QWinUI3.Extras",
+      "summary": "compute global anchor point for right-click menus.",
+      "path": "src/extras/QWinUI3/Extras/RightClickAnchorHelper.qml",
+      "baseType": "QtObject",
+      "internal": false,
+      "category": "Other",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "kind": "qml",
+      "singleton": false,
+      "doc": "components/RightClickAnchorHelper.md",
+      "propertyCount": 0,
+      "signalCount": 0,
+      "methodCount": 2
     },
     {
       "name": "RingGauge",

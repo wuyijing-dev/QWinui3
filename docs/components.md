@@ -8,7 +8,7 @@ python scripts/generate_component_docs.py
 python scripts/generate_component_docs.py --lint
 ```
 
-**283** public · **14** internal · **206** with Gallery demos · Hub: [docs home](index.md).
+**288** public · **14** internal · **206** with Gallery demos · Hub: [docs home](index.md).
 
 ## By module
 
@@ -57,6 +57,7 @@ python scripts/generate_component_docs.py --lint
 - [ContentDialog](components/ContentDialog.md) — Modal dialog with primary / secondary / close actions. · Gallery
 - [ContentDialogQueue](components/ContentDialogQueue.md) — Singleton queue so ContentDialogs open one at a time. · singleton
 - [ContentThemeTransition](components/ContentThemeTransition.md) — Cross-fade + slight horizontal shift when swapping content.
+- [ContextMenuAtItem](components/ContextMenuAtItem.md) — helper to open a MenuFlyout from item + mouse.
 - [CoolantGauge](components/CoolantGauge.md) — Automotive C–H coolant temperature. · Gallery
 - [CopyButton](components/CopyButton.md) — Copies textToCopy and flashes a success glyph. · Gallery
 - [CylinderGauge](components/CylinderGauge.md) — Isometric cylinder level. · Gallery
@@ -115,9 +116,12 @@ python scripts/generate_component_docs.py --lint
 - [LollipopChart](components/LollipopChart.md) — Stem-and-marker chart (compact bar alternative). · Gallery
 - [MediaPlayerElement](components/MediaPlayerElement.md) — Fluent shell around Qt Multimedia MediaPlayer / VideoOutput. · Gallery
 - [MenuFlyout](components/MenuFlyout.md) — Elevated Menu with showAt / isOpen helpers. · Gallery
+- [MenuFlyoutAutoMaxHeight](components/MenuFlyoutAutoMaxHeight.md) — menu max-height computed from host overlay size.
 - [MenuFlyoutHeader](components/MenuFlyoutHeader.md) — Non-interactive MenuFlyout section header.
 - [MenuFlyoutItem](components/MenuFlyoutItem.md) — Menu row with glyph and accelerator text. · Gallery
+- [MenuFlyoutPresenter](components/MenuFlyoutPresenter.md) — product-friendly wrapper for MenuFlyout.
 - [MenuFlyoutSeparator](components/MenuFlyoutSeparator.md) — MenuFlyout divider.
+- [MenuFlyoutSnapshotModel](components/MenuFlyoutSnapshotModel.md) — Freeze dynamic menu label values at open time.
 - [MenuStatusWindow](components/MenuStatusWindow.md) — TitleBar + MenuBar + content + StatusBar shell.
 - [MetadataControl](components/MetadataControl.md) — Stacked or flowed label/value metadata block. · Gallery
 - [MetadataItem](components/MetadataItem.md) — One label/value pair for MetadataControl.
@@ -156,6 +160,7 @@ python scripts/generate_component_docs.py --lint
 - [RelativePanel](components/RelativePanel.md) — Constraint-based relative layout. · Gallery
 - [RepositionThemeTransition](components/RepositionThemeTransition.md) — Animate this item when its layout x/y change.
 - [RichEdit](components/RichEdit.md) — Fluent rich-text editor for mail / template / long notes (2.61). · Gallery
+- [RightClickAnchorHelper](components/RightClickAnchorHelper.md) — compute global anchor point for right-click menus.
 - [RingGauge](components/RingGauge.md) — Closed-ring dashboard gauge with center value and thresholds. · Gallery
 - [ScatterChart](components/ScatterChart.md) — Scatter / bubble chart. · Gallery
 - [SearchBox](components/SearchBox.md) — Search field with suggestion list. · Gallery
@@ -426,9 +431,12 @@ python scripts/generate_component_docs.py --lint
 - [InfoBar](components/InfoBar.md) — `QWinUI3.Extras`
 - [InfoBarHost](components/InfoBarHost.md) — `QWinUI3.Extras`
 - [MenuFlyout](components/MenuFlyout.md) — `QWinUI3.Extras`
+- [MenuFlyoutAutoMaxHeight](components/MenuFlyoutAutoMaxHeight.md) — `QWinUI3.Extras`
 - [MenuFlyoutHeader](components/MenuFlyoutHeader.md) — `QWinUI3.Extras`
 - [MenuFlyoutItem](components/MenuFlyoutItem.md) — `QWinUI3.Extras`
+- [MenuFlyoutPresenter](components/MenuFlyoutPresenter.md) — `QWinUI3.Extras`
 - [MenuFlyoutSeparator](components/MenuFlyoutSeparator.md) — `QWinUI3.Extras`
+- [MenuFlyoutSnapshotModel](components/MenuFlyoutSnapshotModel.md) — `QWinUI3.Extras`
 - [OskSettingsFlyout](components/OskSettingsFlyout.md) — `QWinUI3.Extras`
 - [TeachingTip](components/TeachingTip.md) — `QWinUI3.Extras`
 - [Toast](components/Toast.md) — `QWinUI3.Extras`
@@ -442,6 +450,7 @@ python scripts/generate_component_docs.py --lint
 - [ComboChart](components/ComboChart.md) — `QWinUI3.Extras`
 - [ContentDialog](components/ContentDialog.md) — `QWinUI3.Extras`
 - [ContentDialogQueue](components/ContentDialogQueue.md) — `QWinUI3.Extras`
+- [ContextMenuAtItem](components/ContextMenuAtItem.md) — `QWinUI3.Extras`
 - [FormLayout](components/FormLayout.md) — `QWinUI3.Extras`
 - [HeaderedComboBox](components/HeaderedComboBox.md) — `QWinUI3.Extras`
 - [HeaderedContentControl](components/HeaderedContentControl.md) — `QWinUI3.Extras`
@@ -522,6 +531,7 @@ python scripts/generate_component_docs.py --lint
 - [OskVoiceBar](components/OskVoiceBar.md) — `QWinUI3.Extras`
 - [RefreshContainer](components/RefreshContainer.md) — `QWinUI3.Extras`
 - [RichEdit](components/RichEdit.md) — `QWinUI3.Extras`
+- [RightClickAnchorHelper](components/RightClickAnchorHelper.md) — `QWinUI3.Extras`
 - [SegmentedControl](components/SegmentedControl.md) — `QWinUI3.Extras`
 - [SemanticZoom](components/SemanticZoom.md) — `QWinUI3.Extras`
 - [StandardTitleChrome](components/StandardTitleChrome.md) — `QWinUI3.Extras`

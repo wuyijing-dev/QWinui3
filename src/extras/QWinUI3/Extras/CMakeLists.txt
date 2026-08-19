@@ -132,6 +132,11 @@ qt_add_qml_module(qwinui3_extras
         MenuFlyoutHeader.qml
         MenuFlyoutItem.qml
         MenuFlyoutSeparator.qml
+        MenuFlyoutPresenter.qml
+        MenuFlyoutAutoMaxHeight.qml
+        MenuFlyoutSnapshotModel.qml
+        ContextMenuAtItem.qml
+        RightClickAnchorHelper.qml
         MetadataControl.qml
         MetadataItem.qml
         MeterBar.qml
