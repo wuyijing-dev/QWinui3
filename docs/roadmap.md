@@ -790,8 +790,8 @@ Each deliverable is pinned to an explicit `2.6x/2.7x` target slice so iteration 
 | **2.64+ (master after 2.64 tag)** | Search unification adapter shipped | **`UnifiedSearchSurface`** + **`SearchBoxRecipe`**; shell placeholder + pane search event-path alignment |
 | **2.66** | Theme + Settings persistence alignment for product shells | **`ThemePersistenceCard`**, **`ThemeSyncCard`**, **`GeometryAndPrefsGuard`** |
 | **2.68** | Right-click + flyout stability (global positioning + scroll behavior) | **`MenuFlyoutPresenter`**, **`MenuFlyoutAutoMaxHeight`**, **`ContextMenuAtItem`**, **`RightClickAnchorHelper`** |
-| **2.69** | Empty-state + focus consistency for filtered/paginated lists | **`ItemsViewEmptyStateHelper`**, **`FlyoutKeyboardFocusTrap`**, **`DataTableFilterOverlay`** |
-| **2.70** | Toolbar preset + overflow diagnostics (avoid “looks broken” combos) | **`AppBarPreset` / `CommandBarPreset`**, **`ToolbarOverflowInspector`**, **`CommandBarKeyHints`** |
+| **2.69** | Empty-state + focus consistency for filtered/paginated lists | **`ItemsViewEmptyStateHelper`**, **`FlyoutKeyboardFocusTrap`**, **`DataTableFilterOverlay`** (已落地) |
+| **2.70** | Toolbar preset + overflow diagnostics (avoid “looks broken” combos) | **`AppBarPreset` / `CommandBarPreset`**, **`ToolbarOverflowInspector`**, **`CommandBarKeyHints`** (已落地) |
 | **2.70+** | Icon semantics + common examples to prevent misuse | **`IconButton`** rating/toggle mode semantics, **`RatingStars`** standard体系 + examples |
 
 Rule: if a listed deliverable fails to remove a repeatable pain in practice, it moves to the next allowed slice only after friction evidence is added to [planning/friction-log.md](planning/friction-log.md).
