@@ -22,6 +22,9 @@ out/
 __pycache__/
 *.pyc
 
+# Python Gallery stages src/gallery QML here at launch (not a second source tree).
+/examples/python-gallery/.qml-module/
+
 # WebView2 NuGet extract (large; see scripts/fetch_webview2.ps1)
 /third_party/webview2/
 # Keyman Core is vendored under third_party/keyman/ (in clone).

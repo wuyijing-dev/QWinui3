@@ -838,7 +838,7 @@ Apps on **1.90** read [upgrade-notes.md](docs/upgrade-notes.md) **1.90 → 2.00*
 
 | Slice | Theme | Friction / gate | Status |
 |-------|--------|-----------------|--------|
-| **2.71** | PySide6 consumer integration | Python teams blocked — kit is C++/CMake-only today | Planned |
+| **2.71** | PySide6 consumer integration | Python teams blocked — kit is C++/CMake-only today | **Partial — 2.64** (Gallery; PyPI **2.72**) |
 | **2.72** | PyPI packaging + publish | `pip install` friction; wheel layout + CI on `v*` tags | Planned |
 | **2.73** | Python consumer checkpoint | checkpoint-273 — audit **2.71…2.72**; 3.00 prep refresh | Planned |
 
@@ -846,18 +846,20 @@ Apps on **1.90** read [upgrade-notes.md](docs/upgrade-notes.md) **1.90 → 2.00*
 
 | Area | Primary slices | Deliverable |
 |------|----------------|-------------|
-| PySide6 integration | **2.71** | Import paths, Theme bootstrap, minimal QML app from Python |
+| PySide6 integration | **2.71** (**early 2.64**) | Full Gallery from Python; [packaging-python.md](docs/packaging-python.md) |
 | PyPI | **2.72** | `pyproject.toml`, Win/Linux wheels, TestPyPI + PyPI CI |
-| Docs | **2.71**, **2.72** | [packaging-pyside6.md](docs/packaging-pyside6.md) · [packaging-consumer.md](docs/packaging-consumer.md) Path E |
+| Docs | **2.71**, **2.72** | [packaging-python.md](docs/packaging-python.md) · [packaging-consumer.md](docs/packaging-consumer.md) Path E |
 | Prerequisite | **2.02** | Shared zip / `find_package` artifact layout stable |
 
-### 2.71 — PySide6 consumer integration (planned)
+### 2.71 — PySide6 consumer integration (partial — shipped **2.64**)
 
 **Prerequisite:** **2.02** — shared package or `find_package(QWinUI3 CONFIG)` green on Win + Linux.
 
-**Goal:** Supported **PySide6 6.8+** path (matches **2.00** Qt floor) — `QQmlApplicationEngine` + QWinUI3 QML import roots; [`examples/pyside6-minimal/`](../examples/pyside6-minimal/) hello window with **Theme** bootstrap; `scripts/verify_pyside6.py` smoke; [packaging-pyside6.md](docs/packaging-pyside6.md).
+**Delivered on 2.64:** Full Gallery from PySide6 / PyQt6 — [`examples/python-gallery/`](../examples/python-gallery/), [`python/qwinui3/`](../python/qwinui3/), `scripts/verify_python.py`, [packaging-python.md](docs/packaging-python.md). QML copied from `src/gallery`; C++ Gallery helpers ported to Python.
 
-**Out:** PyQt6 in the same tag; Shiboken wrappers for every C++ helper; regenerating controls in Python.
+**Still planned for 2.71 tag / 2.72:** PyPI wheels; optional minimal hello trimmed for docs-only consumers.
+
+**Out:** Shiboken wrappers for every C++ helper; regenerating controls in Python.
 
 ### 2.72 — PyPI packaging & publish (planned)
 

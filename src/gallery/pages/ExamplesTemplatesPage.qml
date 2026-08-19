@@ -65,7 +65,8 @@ CatalogPage {
                     { name: "floating-osk", recipe: qsTr("OnScreenKeyboardWindow host (1.84)"), page: "OnScreenKeyboardPage" },
                     { name: "settings-cards", recipe: qsTr("SettingsCard patterns"), page: "SettingsCardPage" },
                     { name: "dashboard", recipe: qsTr("Stable six KPI/charts (1.66)"), page: "DashboardPage" },
-                    { name: "find-package-consumer", recipe: qsTr("find_package(QWinUI3) sketch (1.61) — standalone"), page: "ExamplesTemplatesPage" }
+                    { name: "find-package-consumer", recipe: qsTr("find_package(QWinUI3) sketch (1.61) — standalone"), page: "ExamplesTemplatesPage" },
+                    { name: "python-gallery", recipe: qsTr("Full Gallery from PySide6 / PyQt6 (2.64) — packaging-python.md"), page: "ExamplesTemplatesPage" }
                 ]
                 delegate: RowLayout {
                     required property var modelData

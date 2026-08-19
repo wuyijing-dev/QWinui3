@@ -9,7 +9,8 @@ Consumers typically:
 1. **Build** from this repo (static or shared), or  
 2. **Package** locally with `scripts/package_release_libs.py`, or  
 3. **`add_subdirectory` / clone** the kit into their tree, or  
-4. **`find_package(QWinUI3 CONFIG)`** against a packaged tree — see [Path C](#path-c--find_package) · [vcpkg / Conan](packaging-vcpkg-conan.md).
+4. **`find_package(QWinUI3 CONFIG)`** against a packaged tree — see [Path C](#path-c--find_package) · [vcpkg / Conan](packaging-vcpkg-conan.md), or  
+5. **Python** (PySide6 / PyQt6) + shared kit — see [Path E](#path-e--python-pyside6--pyqt6--shared-kit) · [packaging-python.md](packaging-python.md).
 
 > **vcpkg / Conan (2.11):** Official **in-repo** ports — [packaging-vcpkg-conan.md](packaging-vcpkg-conan.md). Zip + Path C remain valid; **2.02** still productizes `find_package` as the primary path without overlay.
 
@@ -352,9 +353,24 @@ if(NOT QWINUI3_BUILD_SHARED)
 endif()
 ```
 
-Copy an example under [`examples/`](../examples/) — prefer [`gallery-shell`](../examples/gallery-shell/) (**1.50**) for app chrome, [`floating-osk`](../examples/floating-osk/) (**1.84**) for `OnScreenKeyboardWindow`, [`multi-window`](../examples/multi-window/) (**1.56**) for secondary tool/dialog HWNDs, or `nav-settings` / `settings-cards` / `dashboard` for specialized recipes — and keep the same `IMPORTS` / `Q_IMPORT_QML_PLUGIN` pattern as that example’s `main.cpp`.
+Copy an example under [`examples/`](../examples/) — prefer [`gallery-shell`](../examples/gallery-shell/) (**1.50**) for app chrome, [`floating-osk`](../examples/floating-osk/) (**1.84**) for `OnScreenKeyboardWindow`, [`multi-window`](../examples/multi-window/) (**1.56**) for secondary tool/dialog HWNDs, [`python-gallery`](../examples/python-gallery/) (**2.64**) for PySide6 / PyQt6, or `nav-settings` / `settings-cards` / `dashboard` for specialized recipes — and keep the same `IMPORTS` / `Q_IMPORT_QML_PLUGIN` pattern as that example’s `main.cpp`.
 
 SIL Keyman Core sources ship **in the clone** at [`third_party/keyman`](../third_party/keyman) ([NOTICE-Keyman.md](NOTICE-Keyman.md)). WebView2 remains an optional NuGet fetch (`scripts/fetch_webview2.ps1`) — not required for the OSK example.
+
+---
+
+## Path E — Python (PySide6 / PyQt6) + shared kit
+
+**Shipped early on 2.64** (full Gallery; PyPI wheels remain **2.72**).
+
+1. `pip install PySide6` (or `PyQt6` + `QWINUI3_QT_BINDING=pyqt6`).
+2. Package a shared kit: `python scripts/package_release_libs.py --shared --archive`.
+3. Match kit Qt **major.minor** to `from PySide6.QtCore import qVersion`.
+4. Run Gallery: `python examples/python-gallery/main.py` or `python scripts/verify_python.py --smoke`.
+
+Recipe: [packaging-python.md](packaging-python.md). Bootstrap: [`python/qwinui3/`](../python/qwinui3/). Gallery: [`python/qwinui3_gallery/`](../python/qwinui3_gallery/).
+
+Import bindings **before** kit DLL directories (`qwinui3.configure_environment()`). Do not subprocess `qwinui3_gallery.exe`.
 
 ---
 

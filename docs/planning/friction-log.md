@@ -221,7 +221,7 @@
 | **Pain** | Teams standardize on **PySide6** but QWinUI3 docs and artifacts assume CMake/C++ — no import path, no minimal Python example, no pip story. |
 | **Workaround today** | Stay on C++ / QML split repo; hand-wire `QQmlApplicationEngine` and QML paths from forum snippets. |
 | **Proposed slice** | **2.71** PySide6 · **2.72** PyPI · **2.73** checkpoint (requires **2.02** first) |
-| **Status** | open — scheduled **2.71** / **2.72** |
+| **Status** | **partial — 2.64** — [`examples/python-gallery/`](../examples/python-gallery/) + [`packaging-python.md`](../packaging-python.md); PyPI still **2.72** |
 
 ---
 

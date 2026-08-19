@@ -17,6 +17,8 @@ Small apps you can copy as a starting point. **CMake only** (no `.pro`). Open th
 
 Standalone (not in monorepo CMake tree): [`find-package-consumer/`](find-package-consumer/) — `find_package(QWinUI3 CONFIG)` sketch (**1.61**). Build with `python scripts/verify_find_package.py` or see that folder’s README.
 
+**Python Gallery** (not in CMake tree): [`python-gallery/`](python-gallery/) — same catalog as `src/gallery` via PySide6 / PyQt6 + shared kit — [docs/packaging-python.md](../docs/packaging-python.md) (**2.64**).
+
 ## Build
 
 From the repo root (same toolchain as Gallery), **Release**:

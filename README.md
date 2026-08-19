@@ -113,6 +113,8 @@ Copy-ready starters under [`examples/`](examples/README.md):
 cmake --build --preset release --target qwinui3_example_gallery_shell qwinui3_example_nav
 ```
 
+**Python Gallery** (PySide6 / PyQt6, not CMake): `python examples/python-gallery/main.py` — see [docs/packaging-python.md](docs/packaging-python.md).
+
 ---
 
 ## CMake options

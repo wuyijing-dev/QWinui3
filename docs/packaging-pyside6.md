@@ -1,29 +1,9 @@
-# PySide6 consumer packaging — planned
+# PySide6 consumer packaging
 
-**Status:** **Draft placeholder** — ships with **2.71** PySide6 integration slice (after **2.02** `find_package` / shared layout is stable).
+**Moved:** Python consumer docs live in [packaging-python.md](packaging-python.md) (shipped early on **2.64**).
 
-**Goal:** Document the supported **PySide6 6.8+** path — QML import roots, Theme bootstrap, wheel layout expectations, and how it relates to [packaging-consumer.md](packaging-consumer.md) **Path E**.
+PySide6-only placeholder from roadmap **2.71**; **PyQt6** is also supported via `QWINUI3_QT_BINDING=pyqt6`.
 
-**Out of scope here:** PyQt6; Shiboken wrappers for every C++ helper; vendoring full Qt inside wheels.
+Example: [`examples/python-gallery/`](../examples/python-gallery/) — full Gallery from Python.
 
-Related: [roadmap.md](roadmap.md) **2.71…2.72** · checkpoint-273 · [friction-log.md](planning/friction-log.md) **FL-011**.
-
----
-
-## Planned sections (2.71)
-
-| Section | Content |
-|---------|---------|
-| Prerequisites | **2.02** artifact layout · PySide6 **6.8+** |
-| Minimal app | `examples/pyside6-minimal/` walkthrough |
-| Import paths | `QQmlApplicationEngine` + QWinUI3 QML roots |
-| Verification | `scripts/verify_pyside6.py` |
-| Wheels | Cross-link **2.72** PyPI tag |
-
----
-
-## Consumer checklist (TBD)
-
-- [ ] Install PySide6 **6.8+**
-- [ ] Point QML import path at installed QWinUI3 `qml/`
-- [ ] Run minimal example + verify script
+Verification: `python scripts/verify_python.py --smoke`

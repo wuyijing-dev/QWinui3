@@ -55,6 +55,7 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 #### Optional / polish
 
+- **Python Gallery (early 2.71):** [`examples/python-gallery/`](../examples/python-gallery/) — full Gallery from PySide6 / PyQt6; [`packaging-python.md`](packaging-python.md); `python scripts/verify_python.py --smoke`.
 - **Collection perf + a11y sign-off:** **DataTable** pin/group, **ListDetailsView** multi-select toolbar — [collection-perf-264.md](collection-perf-264.md) (**2.64** / **FL-008**, **FL-016**).
 - **TreeDataGrid** column resize; **FileTree** `filterText` + column chooser.
 
