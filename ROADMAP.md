@@ -838,9 +838,9 @@ Apps on **1.90** read [upgrade-notes.md](docs/upgrade-notes.md) **1.90 → 2.00*
 
 | Slice | Theme | Friction / gate | Status |
 |-------|--------|-----------------|--------|
-| **2.71** | PySide6 consumer integration | Python teams blocked — kit is C++/CMake-only today | **Partial — 2.64** (Gallery; PyPI **2.72**) |
-| **2.72** | PyPI packaging + publish | `pip install` friction; wheel layout + CI on `v*` tags | Planned |
-| **2.73** | Python consumer checkpoint | checkpoint-273 — audit **2.71…2.72**; 3.00 prep refresh | Planned |
+| **2.71** | PySide6 consumer integration | Python teams blocked — kit is C++/CMake-only today | **Partial — 2.64/2.71** (Gallery + consumer bootstrap ergonomics; PyPI **2.72**) |
+| **2.72** | PyPI packaging + publish | `pip install` friction; wheel layout + CI on `v*` tags | **Partial — local wheel build + twine check + isolated wheel import verified; packaged qmldir prefers on-disk QML; CI upload pending** |
+| **2.73** | Python consumer checkpoint | checkpoint-273 — audit **2.71…2.72**; 3.00 prep refresh | **Partial — local PySide6 smoke verified with packaged kit; doctor --report added** |
 
 ### Summary — Python / PyPI (tranche 4)
 
@@ -867,11 +867,15 @@ Apps on **1.90** read [upgrade-notes.md](docs/upgrade-notes.md) **1.90 → 2.00*
 
 **Goal:** **`pyproject.toml`** + package name (e.g. `qwinui3` — finalize at ship); wheels for **`win_amd64`** + **`manylinux_x86_64`** that ship or locate QWinUI3 shared libs + `qml/` tree; documented **`pip install`** flow; TestPyPI on PR + PyPI publish on `v*` tag; [packaging-consumer.md](docs/packaging-consumer.md) **Path E**.
 
+**Local verification completed:** `build_pypi_wheel.py` platform wheel build, `twine check`, isolated wheel install/import, and packaged `qmldir` cleanup so on-disk QML wins over stale plugin-embedded qrc copies.
+
 **Out:** Conda-forge as official port in the same tag; vendoring full Qt inside the wheel; every PySide patch release without a documented matrix.
 
 ### 2.73 — Python consumer checkpoint (planned)
 
 **Goal:** checkpoint-273 — audit **2.71…2.72**; Win/Linux CI runs `pip install` + minimal app; update [upgrade-notes.md](docs/upgrade-notes.md) **3.00** prep if Python is a first-class consumer beside CMake.
+
+**Local checkpoint evidence:** `python scripts/qwinui3.py python --smoke --kit dist/qwinui3-2.64-windows-x64-shared --binding pyside6` passed after packaged-qmldir fix; `python scripts/qwinui3.py doctor --report` now prints binding/Qt/kit/qml-root runtime details.
 
 **Out:** Python as the only supported consumer path; shipping **3.00** in the same tag.
 
@@ -1396,6 +1400,161 @@ Docs: [charts-dashboard-arc.md](docs/planning/expansion/charts-dashboard-arc.md)
 | **Now (Gallery/docs)** | **Dashboard:** status icon strip + **ChartCard.symbol** on stable six; **Iconography:** dashboard KPI preset row |
 | **2.65** (planned) | Product wave — new APIs + **DashboardShell** (see arc doc) |
 | **Not planned** | WebGL; withdrawn **Hub** revival |
+
+---
+
+## Capability expansion — professional features roadmap
+
+These are **framework-level capabilities** (not new controls) planned for **2.65+** through **3.xx**. Each item deepens existing surfaces or adds cross-cutting infrastructure that LoB / tool / analytics desktop apps need. Capabilities are grouped by domain; version slots are indicative and subject to friction-gate and checkpoint review.
+
+### Data capabilities
+
+Deepen `DataTable` / `TreeDataGrid` / `ItemsView` with professional grid features.
+
+| Capability | Description | Target |
+|------------|-------------|--------|
+| **Column pinning** | Freeze columns left/right so they stay visible during horizontal scroll | **2.66** |
+| **Multi-column sort** | Sort by 2+ columns with priority indicators | **2.66** |
+| **Column visibility toggle** | Runtime show/hide columns via a chooser panel | **2.66** |
+| **Column drag reorder** | Drag column headers to rearrange order | **2.67** |
+| **Column width persistence** | Save/restore column widths across sessions | **2.67** |
+| **Row grouping & collapse** | Group rows by column value with collapsible group headers | **2.68** |
+| **Summary / subtotal row** | Aggregate row (sum, avg, count, custom) at group footer or table footer | **2.68** |
+| **Filter expression builder** | Composable AND/OR filter rules per column with UI | **2.69** |
+| **Inline editing mode** | Click-to-edit cells with commit/cancel and validation | **2.70** |
+| **Batch edit mode** | Multi-select rows → apply value to a column across selection | **2.70** |
+| **Cell copy / export** | Copy selection to clipboard; export visible data to CSV/JSON | **2.71** |
+| **Variable row height virtualization** | Virtual scrolling with heterogeneous row heights | **2.72** |
+| **Row drag reorder** | Drag rows to reorder within the model | **2.72** |
+| **Data import preview + field mapping** | Preview imported data (CSV/JSON) with column-to-field mapping UI | **3.xx** |
+| **Data conflict detection & merge** | Detect concurrent edits; present side-by-side merge resolution | **3.xx** |
+| **Paged loading** | Server-side pagination with page controls | **2.69** |
+| **Incremental loading / infinite scroll** | Append pages on scroll-to-bottom; loading footer | **2.69** |
+| **Unified state switching** | Empty / loading / error / offline state host for any data view | **2.66** |
+
+### Form capabilities
+
+Deepen `FormLayout` / `HeaderedTextBox` / `ValidationSummary` for enterprise form workflows.
+
+| Capability | Description | Target |
+|------------|-------------|--------|
+| **Async field validation** | Validate against remote (debounced); show spinner + result | **2.67** |
+| **Field dependency / conditional visibility** | Show/hide/enable fields based on other field values | **2.67** |
+| **Dirty state detection** | Track whether any field changed from its initial value | **2.68** |
+| **Leave protection (unsaved prompt)** | Block navigation / close when form is dirty; prompt save/discard | **2.68** |
+| **Review before submit** | Summary view of all values before final commit | **2.69** |
+| **Readonly / approval mode toggle** | One-property switch between editable and readonly presentation | **2.69** |
+| **Field-level permission control** | Per-field visible/editable/hidden based on role | **2.70** |
+| **Schema-driven form rendering** | Render a form from a JSON/JS schema (field types, order, rules) | **3.xx** |
+| **Draft auto-save** | Periodically persist form state; restore on reopen | **2.70** |
+| **Form comparison (old vs new)** | Side-by-side or inline diff of field values | **3.xx** |
+| **Input mask** | Masked text input (phone, ID, date patterns) | **2.71** |
+| **Collapsible form sections** | Grouped fields with expand/collapse headers | **2.67** |
+
+### Navigation & workflow capabilities
+
+Extend `NavigationView` / `NavigationWindow` / `BreadcrumbBar` for complex app flows.
+
+| Capability | Description | Target |
+|------------|-------------|--------|
+| **Multi-step wizard flow** | Step-by-step guided flow with validation gates per step | **2.68** |
+| **Approval flow visualization** | Visual pipeline of approval stages with status per node | **3.xx** |
+| **Navigation history panel** | Browsable back-stack with jump-to-any-page | **2.69** |
+| **Recent items tracking** | Auto-track recently visited pages / opened records | **2.69** |
+| **Pinned / favorite pages** | User-pinnable pages in navigation pane | **2.70** |
+| **Jump list** | Quick alphabetical / categorical jump index | **2.70** |
+| **Page cache strategy configuration** | Per-page cache policy (always / LRU / never) beyond global `pageCacheLimit` | **2.68** |
+| **Page preloading** | Prefetch adjacent / likely-next pages in background | **3.xx** |
+| **Data drilldown navigation** | Click-through from summary → detail → sub-detail with breadcrumb trail | **2.71** |
+
+### Window & workspace capabilities
+
+Extend `StandardWindow` / `ShellWindow` / multi-window for IDE / tool / analyst workflows.
+
+| Capability | Description | Target |
+|------------|-------------|--------|
+| **Dockable panels** | Drag panels to dock positions (left/right/bottom/float) | **3.xx** |
+| **Panel float / minimize / restore** | Detach panel to floating window; minimize to tab strip; restore | **3.xx** |
+| **Workspace layout save & restore** | Persist entire panel arrangement + sizes; named layouts | **3.xx** |
+| **Inter-window data communication** | Typed message bus between ShellWindow instances | **2.72** |
+| **Multi-window layout sync** | Coordinate window positions / states across monitors | **3.xx** |
+| **Session restore** | On restart, reopen previous windows / pages / scroll positions | **2.71** |
+| **Single-instance guard + activation** | Prevent duplicate launch; focus existing instance; forward args | **2.68** |
+| **Multi-instance coordination** | Multiple app instances share state / avoid conflicts | **3.xx** |
+
+### Async & state management capabilities
+
+Cross-cutting patterns for loading, error handling, and background work.
+
+| Capability | Description | Target |
+|------------|-------------|--------|
+| **Unified page state machine** | Declarative host switching between loading / success / empty / error / offline | **2.66** |
+| **Skeleton / shimmer placeholder** | Content-shaped loading placeholders (beyond existing `Shimmer`) | **2.66** |
+| **Deferred / lazy loading** | Load page content only when first navigated to | **2.67** |
+| **Background task queue** | Queue, track, cancel background operations with progress | **2.70** |
+| **Operation retry** | Automatic / manual retry with backoff for failed operations | **2.69** |
+| **Optimistic update + rollback** | Apply change immediately; rollback on server reject | **3.xx** |
+| **Long task progress tracking** | Named tasks with elapsed time, ETA, cancel affordance | **2.70** |
+| **Background refresh indicator** | Subtle badge / animation when data is refreshing behind the scenes | **2.69** |
+| **Offline detection + auto-reconnect** | Detect connectivity loss; show banner; auto-retry on restore | **2.71** |
+| **Sync conflict prompt & resolution** | Detect stale data on save; present conflict resolution choices | **3.xx** |
+
+### Command & shortcut capabilities
+
+Extend `CommandPalette` / `CommandBar` / `MenuBar` for professional keyboard workflows.
+
+| Capability | Description | Target |
+|------------|-------------|--------|
+| **Command routing system** | Scoped command dispatch: global → window → page → focused component | **2.69** |
+| **Shortcut conflict detection** | Warn when two commands bind to the same key chord | **2.70** |
+| **Custom shortcut binding** | User-configurable key bindings with persist | **2.71** |
+| **Command registry + discoverability** | Central registry; CommandPalette auto-discovers all registered commands | **2.69** |
+| **Context-aware command enable/disable** | Commands auto-enable/disable based on current selection / page / state | **2.70** |
+| **Undo / redo framework** | Pluggable command-based undo stack with UI integration | **3.xx** |
+
+### Security & permission capabilities
+
+Patterns for enterprise apps with role-based access and audit requirements.
+
+| Capability | Description | Target |
+|------------|-------------|--------|
+| **Permission gate** | Declaratively show/hide/disable UI elements by role | **2.71** |
+| **Tiered destructive action confirmation** | Low / medium / high risk → different confirmation UX | **2.71** |
+| **Confirm with reason** | Require user to enter a reason before confirming a sensitive action | **2.72** |
+| **Audit log display** | Timeline of who-did-what with timestamp and detail expand | **3.xx** |
+| **Change history tracking** | Per-record history of field changes with diff | **3.xx** |
+| **Session timeout handling** | Idle timer → warning → lock / logout with unsaved data protection | **2.72** |
+| **Data classification badge** | Visual tag indicating data sensitivity level | **2.72** |
+| **Sensitive data masking** | Mask field values (e.g. `****1234`) with reveal toggle | **2.71** |
+
+### Platform & system capabilities
+
+Cross-platform desktop integration beyond existing `WindowHelper` / `FilePicker` / `TrayIcon`.
+
+| Capability | Description | Target |
+|------------|-------------|--------|
+| **Platform capability probe** | Runtime query: does this platform support Mica / tray / notification / WebView / blur | **2.67** |
+| **Cross-platform visual degradation strategy** | Automatic fallback chain for backdrop / effects per platform | **2.67** |
+| **Update checker + version migration prompt** | Check for new version; prompt update; run migration on first launch after upgrade | **3.xx** |
+| **Recent files manager** | Track and surface recently opened files across sessions | **2.70** |
+| **File association helper** | Register app as handler for file types (Windows + Linux .desktop) | **3.xx** |
+| **Native menu bridge** | Surface Qt menu model as native system menu where supported | **3.xx** |
+| **System theme change listener** | React to OS dark/light/accent/contrast changes in real time (beyond existing `ThemeSync`) | **2.68** |
+| **Global error boundary / crash recovery** | Catch unhandled QML errors; show recovery UI; offer restart with session restore | **2.72** |
+
+### Theme & design system capabilities
+
+Extend `Theme` / `ThemePrefs` / tokens for enterprise-grade theming.
+
+| Capability | Description | Target |
+|------------|-------------|--------|
+| **Business semantic color tokens** | Domain tokens beyond success/warning/error (e.g. revenue, cost, target, actual) | **2.68** |
+| **Motion token system** | Named duration / easing tokens consumed by all animations | **2.69** |
+| **Chart color token system** | Coordinated palette tokens for chart series that respect dark/light/contrast | **2.68** |
+| **Information density mode** | Global compact / normal / spacious density beyond existing `uiScale` | **2.70** |
+| **Theme pack mechanism** | Loadable / switchable theme bundles (tokens + overrides) | **3.xx** |
+| **Branding kit** | One-file brand config (accent, logo, font, radius) that themes the whole app | **3.xx** |
+| **High-contrast strategy enhancement** | Automatic token remapping for Windows High Contrast and forced-colors | **2.71** |
 
 ---
 
