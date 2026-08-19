@@ -108,8 +108,9 @@ T.Control {
             }
             }
             Text {
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.bottom: parent.bottom
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignHCenter
+                horizontalAlignment: Text.AlignHCenter
                 text: Math.round(root.animatedValue) + root.unit
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textSecondary

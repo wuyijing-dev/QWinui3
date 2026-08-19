@@ -1,64 +1,72 @@
 # QWinUI3
 
-Fluent / [WinUI 3](https://learn.microsoft.com/windows/apps/winui/winui3/)-inspired controls for **Qt 6 Quick** — theme tokens, a full Quick Controls style, window shells, and a large Extras catalog you can drop into desktop apps. Supports **Qt 6.5+** (recommended **6.8 LTS**; forward **6.10+**) via a C++ compatibility layer.
+Fluent / [WinUI 3](https://learn.microsoft.com/windows/apps/winui/winui3/)-inspired controls for **Qt 6 Quick** — design tokens, a Quick Controls style, window shells, and an Extras catalog for desktop applications.
 
-[![Release](https://img.shields.io/github/v/release/wuyijing-dev/QWinui3?label=release)](https://github.com/wuyijing-dev/QWinui3/releases/latest)
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-2ea44f)](https://wuyijing-dev.github.io/QWinui3/)
 [![Qt](https://img.shields.io/badge/Qt-6.5%2B-41CD52?logo=qt&logoColor=white)](https://www.qt.io/)
 
-**v1.90** (master **1.91…1.92** ahead) · **200+** public controls · Gallery demos for most of them  
-**1.xx close-out** — performance arc **signed off** (1.86…1.89) · **[1.xx freeze ends at 2.00](docs/compatibility-1xx.md)** · planned through **2.60** (friction-gated after **2.50**) — next major **2.00** ([ROADMAP.md](ROADMAP.md)) · pain queue [friction-log.md](docs/planning/friction-log.md).
-[Documentation](https://wuyijing-dev.github.io/QWinui3/) · [Recipes hub](docs/recipes.md) · [Stable API](docs/stable-api.md) · [1.xx maturity](docs/maturity-1xx.md) · [1.xx compatibility](docs/compatibility-1xx.md) · [i18n / RTL](docs/i18n-rtl.md) · [Keyboard-first](docs/keyboard.md) · [On-screen keyboard](docs/on-screen-keyboard.md) · [Color & contrast](docs/color-contrast.md) · [Adaptive layout](docs/adaptive-layout.md) · [Drag-drop](docs/drag-drop.md) · [Upgrade notes](docs/upgrade-notes.md) · [Linux / Wayland](docs/platform-linux-wayland.md) · [Qt Creator](docs/qt-creator.md) · [Component API](https://wuyijing-dev.github.io/QWinui3/components/) · [Releases](https://github.com/wuyijing-dev/QWinui3/releases) · [Roadmap](ROADMAP.md)
+**Distribution:** source-only — build Gallery and libraries from this repository. Pre-built binaries are not published.
+
+[Documentation](https://wuyijing-dev.github.io/QWinui3/) · [Recipes](docs/recipes.md) · [Stable API](docs/stable-api.md) · [Component index](docs/components.md) · [Roadmap](ROADMAP.md)
 
 ---
 
-## Why QWinUI3
+## Overview
 
-Qt ships excellent primitives; shipping a **Fluent-looking product** still means restyling chrome, inventing navigation shells, and reinventing InfoBars, settings cards, gauges, and charts. QWinUI3 packages that layer as QML modules:
+QWinUI3 packages a WinUI-like layer on top of Qt Quick:
 
-- **Drop-in style** — set `QT_QUICK_CONTROLS_STYLE=QWinUI3` and standard `QtQuick.Controls` pick up Fluent chrome.
-- **Design tokens** — density, dark/light, accent, and FluentIcons via `QWinUI3.Theme`.
-- **App shells** — title bar, Mica/backdrop helpers, NavigationView windows, optional WebView2.
-- **Extras catalog** — NavigationView, DataTable, ContentDialog, charts/gauges, settings cards, CommandPalette, TeachingTip, and more — with Gallery pages to try them.
+| Layer | Module | Role |
+|-------|--------|------|
+| Style | `QtQuick.Controls` + style `QWinUI3` | Fluent chrome for standard controls |
+| Theme | `QWinUI3.Theme` | Tokens, density, dark/light, `FluentIcons` |
+| Platform | `QWinUI3.Platform` | `StandardWindow`, shells, `WindowHelper`, optional WebView2 |
+| Extras | `QWinUI3.Extras` | Navigation, dialogs, data grids, charts, feedback, settings |
 
-Primary target: **Windows desktop** (MSVC). Linux builds are supported for many controls; WebView2 is Windows-only.
+Primary target: **Windows** (MSVC). Many controls run on **Linux**; WebView2 is Windows-only.
 
 ---
 
-## Modules
+## Quick start
 
-| Module | QML import | What you get |
-|--------|------------|--------------|
-| **Style** | `QtQuick.Controls` + style `QWinUI3` | Fluent look for Button, TextField, ComboBox, Slider, … |
-| **Theme** | `QWinUI3.Theme` | Color / typography / spacing tokens, `FluentIcons`, theme switching |
-| **Platform** | `QWinUI3.Platform` | `StandardWindow` / shell family, `WindowHelper`, TitleBar, optional `WebView2Host` |
-| **Extras** | `QWinUI3.Extras` | WinUI-style composites: nav, dialogs, data, charts, feedback, … |
+### Requirements
 
-Enable the style in C++ — **one-call bootstrap** (preferred):
+| | |
+|--|--|
+| **Qt** | 6.5+ (recommended **6.8 LTS**) — Quick, Quick Controls, Labs QML Models |
+| **CMake** | ≥ 3.21 for presets |
+| **Compiler** | C++17 — MSVC 2022 on Windows, GCC/Clang on Linux |
+| **Generator** | Ninja (presets) or Visual Studio / Qt Creator kit |
+
+### Build Gallery
+
+```bat
+cmake --preset release
+cmake --build --preset release --target qwinui3_gallery
+build\qwinui3_gallery.exe
+```
+
+Point CMake at your Qt install when presets do not find it:
+
+1. Copy `CMakeUserPresets.json.example` → `CMakeUserPresets.json`
+2. Set `CMAKE_PREFIX_PATH` to your Qt prefix (e.g. `D:/Qt/6.8.3/msvc2022_64`)
+
+Or open the repo root in [Qt Creator](docs/qt-creator.md) with a Qt 6.5+ kit and build target `qwinui3_gallery`.
+
+### Enable the style in your app
 
 ```cpp
-#include "Bootstrap.h"   // from qwinui3_platform
+#include "Bootstrap.h"
 
 QWINUI3_IMPORT_QML_PLUGINS
 
 int main(int argc, char *argv[])
 {
-    QWinUI3::configureEnvironment(argv[0]); // BEFORE QGuiApplication
+    QWinUI3::configureEnvironment(argv[0]); // before QGuiApplication
     QGuiApplication app(argc, argv);
     QWinUI3::configureApplication(QStringLiteral("org.example.myapp"));
     // …
 }
-```
-
-`configureEnvironment` sets the Fluent style env, Wayland/DPI helpers, and clears `QT_IM_MODULE`.  
-`configureApplication` applies `QQuickStyle`, loads icon fonts, and optional AppUserModelID / desktop id.
-
-Manual equivalent (still supported):
-
-```cpp
-qputenv("QT_QUICK_CONTROLS_STYLE", "QWinUI3");
-QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 ```
 
 Minimal shell:
@@ -71,9 +79,7 @@ import QWinUI3.Extras
 import QWinUI3.Platform
 
 StandardWindow {
-    width: 1100
-    height: 720
-    visible: true
+    width: 1100; height: 720; visible: true
     title: qsTr("My app")
     backdrop: WindowHelper.BackdropSolid
 
@@ -91,162 +97,69 @@ StandardWindow {
 
 ---
 
-## Feature highlights
-
-| Area | Examples |
-|------|----------|
-| **Navigation & shells** | `NavigationView`, `NavigationWindow`, `TwoPaneView`, TitleBar shells |
-| **Commands** | `CommandBar`, `CommandPalette`, AppBar buttons, `SplitButton`, `DropDownButton` |
-| **Forms & input** | `NumberBox`, `AutoSuggestBox`, headered fields, `ColorPicker`, `PasswordBox` |
-| **Dialogs & tips** | `ContentDialog`, `Flyout`, `MenuFlyout`, `TeachingTip`, `InfoButton` |
-| **Feedback** | `InfoBar` / `InfoBarHost`, `Toast` / `ToastHost`, `ProgressRing`, badges |
-| **Data & layout** | `DataTable`, `ItemsView`, `ListDetailsView`, settings cards / expanders |
-| **Charts & gauges** | Line / bar / donut / heatmap / sparkline, arc / radial / tank gauges, `KpiTile` |
-| **Platform extras** | Acrylic surfaces, notification bridge, optional media player & WebView2 |
-
-Full index (with Gallery flags): [docs/components.md](docs/components.md) · [online API](https://wuyijing-dev.github.io/QWinui3/components/).
-
----
-
-## Try it without building
-
-From [GitHub Releases](https://github.com/wuyijing-dev/QWinui3/releases/latest) (built by CI):
-
-| Asset | Platform | Use |
-|-------|----------|-----|
-| **`qwinui3-gallery-*-windows-x64.zip`** | Windows x64 | Gallery + Qt runtime (`windeployqt`) — run `qwinui3_gallery.exe` |
-| **`qwinui3-*-windows-x64-shared.zip`** | Windows x64 | Shared DLLs + QML (needs Qt **6.5+** MSVC; CI builds with 6.8) |
-| **`qwinui3-gallery-*-linux-x64.tar.gz`** | Linux x64 | Gallery AppDir + Qt runtime — run `./run-gallery.sh` (Wayland-first; do not force `xcb`) |
-| **`qwinui3-*-linux-x64-shared.tar.gz`** | Linux x64 | Shared `.so` + QML (needs Qt **6.5+** gcc_64; CI builds with 6.8) |
-
-Release packages are produced by [`.github/workflows/release.yml`](.github/workflows/release.yml) on `v*` tags (or manual **Release** workflow dispatch).
-
----
-
-## Requirements
-
-| | |
-|--|--|
-| **Qt** | **6.5+** (recommended **6.8+**) — Quick, QuickControls2, LabsQmlModels (QuickEffects recommended) |
-| **CMake** | ≥ 3.21 for presets; ≥ 3.16 minimum in tree |
-| **Compiler** | C++17 — **MSVC 2022** recommended on Windows |
-| **Generator** | Ninja (presets) or Visual Studio / Qt Creator kit |
-
-**Optional**
-
-- Qt Multimedia → `MediaPlayerElement` (`QWINUI3_BUILD_MEDIA`) — **experimental / deferred 1.67**
-- Edge WebView2 SDK + Runtime → `WebView2Host` (`scripts/fetch_webview2.ps1`, `QWINUI3_BUILD_WEBVIEW2`) — **not** in clone (~80 MB NuGet)
-- SIL Keyman Core (MIT) → in-app OSK layouts — **vendored** in `third_party/keyman` (clone includes it; see [docs/NOTICE-Keyman.md](docs/NOTICE-Keyman.md))
-
----
-
-## Build from source
-
-```bat
-cmake --preset release
-cmake --build --preset release --target qwinui3_gallery
-build\qwinui3_gallery.exe
-```
-
-Point CMake at your Qt install if needed:
-
-1. Copy `CMakeUserPresets.json.example` → `CMakeUserPresets.json`
-2. Set `CMAKE_PREFIX_PATH` to your Qt 6.5+ prefix (e.g. `D:/Qt/6.8.0/msvc2022_64`)
-
-Or open the **repo root** `CMakeLists.txt` in [Qt Creator](docs/qt-creator.md) (1.35) with a Qt 6.5+ kit (6.8+ recommended). Build `qwinui3_gallery` or an example target (`qwinui3_example_nav`, …) — there is **no** `.pro` / qmake project.
-
-### CMake options
-
-| Option | Default | Meaning |
-|--------|---------|---------|
-| `QWINUI3_BUILD_EXAMPLES` | `ON` | Small starter apps under `examples/` |
-| `QWINUI3_BUILD_SHARED` | `OFF` | Shared libraries (DLL / `.so`) instead of static |
-| `QWINUI3_BUILD_MEDIA` | auto | Media player control when Qt Multimedia is present |
-| `QWINUI3_BUILD_WEBVIEW2` | `ON` (Win) | WebView2 host control |
-| `QWINUI3_FETCH_KEYMAN` | `ON` | If vendored `third_party/keyman` is missing, sparse-clone it (fallback) |
-
-### Shared / redistributable package
-
-In-tree defaults are **STATIC** (convenient for Gallery). Package shared libs on demand:
-
-```bat
-REM Full kit (version from QWINUI3_VERSION, e.g. 1.12)
-python scripts/package_release_libs.py --shared --archive
-
-REM Presets: all | core (theme+style) | shell (+platform) | extras (theme+extras)
-python scripts/package_release_libs.py --shared --preset core --archive
-
-REM Explicit modules (dependencies auto-included)
-python scripts/package_release_libs.py --shared --modules platform,extras --archive
-
-REM List options
-python scripts/package_release_libs.py --list-modules
-
-REM Gallery (always full app)
-python scripts/package_release_gallery.py
-```
-
-**Consumer apps (third-party CMake, import paths, Win/Linux runtime):**  
-[`docs/packaging-consumer.md`](docs/packaging-consumer.md) · **vcpkg / Conan:** [`docs/packaging-vcpkg-conan.md`](docs/packaging-vcpkg-conan.md) (**2.11**).
-
-Subset archives are named `qwinui3-<ver>-<os>-x64-shared-<modules>.zip` (e.g. `...-shared-theme+style`).  
-Product version is **`X.YY`** (`QWINUI3_VERSION` in root `CMakeLists.txt`).  
-Which types to build on: [`docs/stable-api.md`](docs/stable-api.md).  
-CI **Release** workflow accepts a `modules` input on manual dispatch; tag pushes (`vX.YY`) publish the full kit.
-
----
-
 ## Examples
 
-Copy-ready starters — see [`examples/README.md`](examples/README.md):
+Copy-ready starters under [`examples/`](examples/README.md):
 
 | Target | Demonstrates |
 |--------|----------------|
-| `qwinui3_example_gallery_shell` | **Start from Gallery shell** — `NavigationWindow` + Settings + persistence (**1.50**) |
-| `qwinui3_example_nav` | `StandardWindow` + `NavigationView` + Settings footer |
-| `qwinui3_example_settings` | `SettingsCard` / `SettingsExpander` settings page |
-| `qwinui3_example_dashboard` | `KpiTile` + charts / gauges layout |
-| `qwinui3_example_master_detail` | `ListDetailsView` master–detail LoB shell (1.26) |
-| `qwinui3_example_form` | `FormLayout` validation + SettingsCard prefs (1.26) |
-| `qwinui3_example_floating_osk` | Floating `OnScreenKeyboardWindow` (**1.84**) |
+| `qwinui3_example_gallery_shell` | `NavigationWindow` + Settings + persistence |
+| `qwinui3_example_nav` | `StandardWindow` + `NavigationView` |
+| `qwinui3_example_settings` | Settings cards / expanders |
+| `qwinui3_example_master_detail` | `ListDetailsView` shell |
+| `qwinui3_example_form` | `FormLayout` + validation |
 
 ```bat
-cmake --build --preset release --target qwinui3_example_gallery_shell qwinui3_example_nav qwinui3_example_settings qwinui3_example_dashboard qwinui3_example_master_detail qwinui3_example_form qwinui3_example_floating_osk
+cmake --build --preset release --target qwinui3_example_gallery_shell qwinui3_example_nav
 ```
+
+---
+
+## CMake options
+
+| Option | Default | Meaning |
+|--------|---------|---------|
+| `QWINUI3_BUILD_EXAMPLES` | `ON` | Starter apps under `examples/` |
+| `QWINUI3_BUILD_SHARED` | `OFF` | Shared libraries (DLL / `.so`) instead of static |
+| `QWINUI3_BUILD_MEDIA` | auto | Media player when Qt Multimedia is present |
+| `QWINUI3_BUILD_WEBVIEW2` | `ON` (Win) | WebView2 host control |
+| `QWINUI3_FETCH_KEYMAN` | `ON` | Fetch Keyman keyboards if vendored copy is missing |
+
+Product version is **`X.YY`** (`QWINUI3_VERSION` in root `CMakeLists.txt`, currently **2.64**).
+
+---
+
+## Local packaging
+
+In-tree defaults are **static** (Gallery-friendly). To produce a shared kit for your own deployment pipeline:
+
+```bat
+python scripts/package_release_libs.py --shared --archive
+python scripts/package_release_gallery.py
+```
+
+Presets: `all` · `core` · `shell` · `extras` — see [`docs/packaging-consumer.md`](docs/packaging-consumer.md) for `find_package`, vcpkg, and Conan.
 
 ---
 
 ## Repository layout
 
 ```
-src/compat/      Qt 6.5 / 6.8 / 6.10+ C++ compatibility (qwinui3_qtcompat)
+src/compat/      Qt version compatibility (qwinui3_qtcompat)
 src/theme/       QWinUI3.Theme
-src/style/       Qt Quick Controls style (QWinUI3)
+src/style/       Qt Quick Controls style
 src/platform/    QWinUI3.Platform
 src/extras/      QWinUI3.Extras
-src/gallery/     Control catalog application
-examples/        Small starter apps
-docs/            Markdown + MkDocs site source
-scripts/         Docs generator, shared/gallery packaging, port checks, WebView2 / Keyman fetch
-ports/           vcpkg overlay (qwinui3)
-conan/           Conan 2 recipe
-.github/         Docs Pages + Release CI + Smoke CI
+src/gallery/     Control catalog (Gallery)
+examples/        Starter applications
+docs/            Recipes and MkDocs site source
+scripts/         Docs generator, packaging, smoke helpers
+.github/         CI (smoke, consumer matrix, docs)
 ```
 
-### CI releases
+### CI
 
-Push a version tag (or run **Actions → Release → Run workflow**):
-
-```bash
-git tag v1.30
-git push origin v1.30
-```
-
-**PR / master smoke** (build Gallery + `--smoke`, no packages): [`.github/workflows/smoke.yml`](.github/workflows/smoke.yml) — `python scripts/smoke_gallery.py`.
-
-GitHub Actions builds Linux + Windows shared libraries and Gallery packages, then attaches them to the GitHub Release. Manual dispatch can re-upload assets for an existing tag (e.g. add Linux packages to `v1.00` / historical `v1.0.0`).
-
-Product versions use **`X.YY`** (see [`ROADMAP.md`](ROADMAP.md)); set `QWINUI3_VERSION` in root `CMakeLists.txt`.
+Pull requests and `master` run [smoke](.github/workflows/smoke.yml): Release configure, Gallery build, and `python scripts/smoke_gallery.py --smoke`. No release artifacts are attached to GitHub.
 
 ---
 
@@ -254,21 +167,13 @@ Product versions use **`X.YY`** (see [`ROADMAP.md`](ROADMAP.md)); set `QWINUI3_V
 
 | Resource | Description |
 |----------|-------------|
-| [Docs site](https://wuyijing-dev.github.io/QWinui3/) | MkDocs Material (GitHub Pages) |
-| [`docs/recipes.md`](docs/recipes.md) | **Recipes hub** — all LoB how-tos (**2.46** v2) |
-| [`docs/docs-ia-v2.md`](docs/docs-ia-v2.md) | **2.xx** MkDocs regroup + Gallery mirror (**2.46**) |
-| [`docs/maturity-1xx.md`](docs/maturity-1xx.md) | 1.51 maturity checkpoint |
-| [`docs/platform-linux-wayland.md`](docs/platform-linux-wayland.md) | Linux / Wayland field matrix (**1.79**) |
-| [`docs/stable-api.md`](docs/stable-api.md) | Stable vs experimental types for 1.xx |
-| [`docs/components.md`](docs/components.md) | Full control index |
-| [`docs/qt-creator.md`](docs/qt-creator.md) | Open Gallery / examples (CMake only) |
-| [`docs/packaging-consumer.md`](docs/packaging-consumer.md) | Shared vs static / windeploy / strip |
-| [`docs/packaging-vcpkg-conan.md`](docs/packaging-vcpkg-conan.md) | vcpkg overlay + Conan 2 (**2.11**) |
-| [`ROADMAP.md`](ROADMAP.md) | Version themes — small `X.YY` slices |
+| [Docs site](https://wuyijing-dev.github.io/QWinui3/) | Published recipes and API |
+| [`docs/recipes.md`](docs/recipes.md) | How-to index |
+| [`docs/stable-api.md`](docs/stable-api.md) | Stable vs experimental surface |
+| [`docs/components.md`](docs/components.md) | Control catalog |
+| [`ROADMAP.md`](ROADMAP.md) | Version themes and planning |
 
-Individual recipes (navigation, forms, shells, feedback, …) are listed on the [hub](docs/recipes.md) — reachable in ≤2 clicks from here.
-
-Regenerate API pages from QML comments:
+Regenerate API pages from sources:
 
 ```bat
 python scripts/generate_component_docs.py
@@ -279,8 +184,6 @@ python scripts/generate_component_docs.py --lint
 
 ## License
 
-[Apache License 2.0](LICENSE) — Theme, Style, Platform, Extras, and Gallery. See [docs/licensing.md](docs/licensing.md) and [NOTICE](NOTICE).
+[Apache License 2.0](LICENSE) — see [docs/licensing.md](docs/licensing.md) and [NOTICE](NOTICE).
 
-On-screen keyboard layouts use [SIL Keyman Core](https://github.com/keymanapp/keyman/tree/master/core) (**MIT**), vendored under `third_party/keyman` — see [docs/NOTICE-Keyman.md](docs/NOTICE-Keyman.md). In-app pinyin tables are [mozillazg/pinyin-data](https://github.com/mozillazg/pinyin-data) (**MIT**) — see [docs/NOTICE-pinyin.md](docs/NOTICE-pinyin.md).
-
-Fluent icon font licensing notes live under `src/theme/QWinUI3/Theme/fonts/`.
+On-screen keyboard layouts use [SIL Keyman Core](https://github.com/keymanapp/keyman/tree/master/core) (MIT), vendored under `third_party/keyman`. Pinyin data: [mozillazg/pinyin-data](https://github.com/mozillazg/pinyin-data) (MIT).

@@ -10,12 +10,12 @@ Version-sensitive Qt APIs are wrapped in **`qwinui3_qtcompat`** so application a
 |----------|-------------|------|
 | [`.github/workflows/smoke.yml`](../.github/workflows/smoke.yml) | **6.8.3** (pin) | Release Gallery + `--smoke` (Win + Linux) |
 | [`.github/workflows/qt-compat.yml`](../.github/workflows/qt-compat.yml) | **6.5.3**, **6.8.3**, **6.10.0** | Release configure + build `qwinui3_gallery` (Linux) |
-| [`.github/workflows/release.yml`](../.github/workflows/release.yml) | **6.8.3** (pin) | Shared libs + Gallery packages |
+| [`.github/workflows/consumer-matrix.yml`](../.github/workflows/consumer-matrix.yml) | **6.8.3** (pin) | Shared/static consumer packaging checks |
 
 Compat CI runs on `master` / PR when `src/**`, root CMake, or this doc / workflow change; weekly Monday soak; and `workflow_dispatch`.  
 `fail-fast: false` so one Qt cell does not cancel the others — the job still fails if any cell fails.
 
-**aqt modules (6.8+):** extra names `qtsvg` and `qtquickeffects` are no longer listed; SVG / `QtQuick.Effects` come with the desktop kit. Smoke / Release / consumer-matrix install `qtmultimedia qtimageformats` only. The 6.5 cell still requests the old extra modules.
+**aqt modules (6.8+):** extra names `qtsvg` and `qtquickeffects` are no longer listed; SVG / `QtQuick.Effects` come with the desktop kit. Smoke / consumer-matrix install `qtmultimedia qtimageformats` only. The 6.5 cell still requests the old extra modules.
 
 **Not in the matrix:** every patch of every Qt, Debug builds, screenshot suites, packaging inside compat CI.
 
@@ -26,7 +26,7 @@ If a new Qt minor breaks configure/build, fix a shim under `src/compat/` (below)
 | Qt | Status | Notes |
 |----|--------|-------|
 | 6.5.3 | Required | Floor — `find_package(Qt6 6.5 …)`; D3D12 RHI helpers gated off (`QWINUI3_HAVE_RHI_D3D12` false below 6.6) |
-| 6.8.3 | Required | Same pin as Smoke / Release |
+| 6.8.3 | Required | Same pin as Smoke / consumer-matrix |
 | 6.10.0 | Required | Forward pin — bump patch in the workflow when CI mirrors ship a newer 6.10.x |
 
 ## Headers

@@ -164,9 +164,7 @@ Rectangle {
                     wrapMode: TextEdit.NoWrap
                     text: root.qmlSource
                     color: Theme.textPrimary
-                    font.family: Theme.fontFamilyMono
-                    font.pixelSize: Theme.fontCaption
-                    font.hintingPreference: Font.PreferFullHinting
+                    font: ThemeFonts.monoFontFor(Theme.fontCaption)
                     textFormat: TextEdit.PlainText
                 }
             }
