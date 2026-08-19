@@ -627,7 +627,7 @@ def main() -> int:
         webview2=webview2_flag,
     )
 
-    print(f"\nPackaged {len(copied)} items → {out_dir}")
+    print(f"\nPackaged {len(copied)} items -> {out_dir}")
     if args.shared:
         has_dll = any(p.suffix.lower() == ".dll" for p in out_dir.joinpath("bin").glob("*") if p.is_file())
         has_so = list(out_dir.joinpath("lib").glob("*.so*"))
@@ -644,7 +644,7 @@ def main() -> int:
         else:
             archive = ROOT / "dist" / f"{default_name}.tar.gz"
         _archive(out_dir, archive)
-        print(f"Archive → {archive}")
+        print(f"Archive -> {archive}")
     return 0
 
 
