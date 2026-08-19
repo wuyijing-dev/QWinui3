@@ -74,6 +74,7 @@ nav:
     - Getting started:
       - Qt Creator: qt-creator.md
       - Consumer packaging: packaging-consumer.md
+      - Python (PySide6 / PyQt6): packaging-python.md
       - Qt version compat: qt-version-compat.md
       - Conventions: conventions.md
       - Licensing: licensing.md

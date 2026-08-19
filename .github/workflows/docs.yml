@@ -5,6 +5,9 @@ on:
     branches: [master]
     paths:
       - "docs/**"
+      - "python/**"
+      - "examples/python-gallery/**"
+      - "scripts/verify_python.py"
       - "src/**/*.qml"
       - "src/gallery/ControlCatalog.qml"
       - "scripts/generate_component_docs.py"

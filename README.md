@@ -167,12 +167,17 @@ Pull requests and `master` run [smoke](.github/workflows/smoke.yml): Release con
 
 ## Documentation
 
+- **Site:** https://wuyijing-dev.github.io/QWinui3/
+- **Python consumer:** [docs/packaging-python.md](docs/packaging-python.md)
+- **Recipes / components:** see [`docs/`](docs/) and MkDocs nav
+
 | Resource | Description |
 |----------|-------------|
 | [Docs site](https://wuyijing-dev.github.io/QWinui3/) | Published recipes and API |
 | [`docs/recipes.md`](docs/recipes.md) | How-to index |
 | [`docs/stable-api.md`](docs/stable-api.md) | Stable vs experimental surface |
 | [`docs/components.md`](docs/components.md) | Control catalog |
+| [`docs/packaging-python.md`](docs/packaging-python.md) | PySide6 / PyQt6 + shared kit (**2.64**) |
 | [`ROADMAP.md`](ROADMAP.md) | Version themes and planning |
 
 Regenerate API pages from sources:

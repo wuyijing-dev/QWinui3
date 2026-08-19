@@ -23,6 +23,7 @@ This site is generated from QML source comments and shipped via GitHub Pages.
 | [On-screen keyboard](on-screen-keyboard.md) | Win11 OSK + app hardware (**1.77**); still experimental (**1.78**) |
 | [i18n / RTL](i18n-rtl.md) | qsTr + zh_CN seed + LayoutMirroring (**1.45**) |
 | [Consumer packaging](packaging-consumer.md) | Shared vs static / windeploy / strip (**1.46**) |
+| **[Python / PySide6 / PyQt6](packaging-python.md)** | Full Gallery from Python + shared kit (**2.64**) |
 | [Shell extras](shell-extras.md) | Snap Layouts · taskbar · attention (**1.47**) |
 | [Dialogs & flyouts](dialogs-flyouts.md) | ContentDialogQueue FIFO · Esc (**1.48**) |
 | [Component API](components.md) | Full public + internal control index |
@@ -45,6 +46,8 @@ Shared libraries:
 ```bash
 python scripts/package_release_libs.py --shared
 ```
+
+**Python Gallery** (PySide6 / PyQt6): [packaging-python.md](packaging-python.md) · `python examples/python-gallery/main.py`
 
 ## Regenerate docs
 

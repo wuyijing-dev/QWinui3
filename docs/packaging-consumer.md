@@ -25,8 +25,9 @@ Use this table before copying the Gallery monorepo tree. Full `find_package` pro
 | Your situation | Path | Doc anchor |
 |----------------|------|------------|
 | Learning / first Win11 shell app | **D** — `add_subdirectory` + [`examples/first-app/`](../examples/first-app/) or [`gallery-shell/`](../examples/gallery-shell/) | [first-app-252.md](first-app-252.md) |
+| **Python** / PySide6 / PyQt6 app | **E** — shared kit + [`python/qwinui3/`](../python/qwinui3/) | [packaging-python.md](packaging-python.md) |
 | Packaging from this repo locally | **B** — `package_release_libs.py --shared` | [Shared vs static](#shared-vs-static) |
-| Corporate mirror / reproducible ports | **E** — vcpkg overlay or Conan 2 | [packaging-vcpkg-conan.md](packaging-vcpkg-conan.md) |
+| Corporate mirror / vcpkg / Conan | overlay | [packaging-vcpkg-conan.md](packaging-vcpkg-conan.md) |
 | Installed prefix + CMake config | **C** — `find_package(QWinUI3 CONFIG)` | [Path C](#path-c--find_package) |
 
 **2.47 harden:** [field-harden-247.md](field-harden-247.md) · Pitfalls **FL-003** checklist · smoke loads `RecipesHubPage`.
