@@ -58,7 +58,7 @@ def _sync_pyproject_version(version: str) -> None:
     if n != 1:
         raise RuntimeError("Could not update version in pyproject.toml")
     PYPROJECT.write_text(updated, encoding="utf-8")
-    print(f"pyproject.toml version → {version}", flush=True)
+    print(f"pyproject.toml version -> {version}", flush=True)
 
 
 def _kit_in_dist() -> Path | None:
@@ -99,7 +99,7 @@ def _copy_tree(src: Path, dest: Path) -> None:
 
 
 def _stage_kit(kit_dir: Path) -> None:
-    print(f"Staging kit {kit_dir} → {KIT_DEST}", flush=True)
+    print(f"Staging kit {kit_dir} -> {KIT_DEST}", flush=True)
     _copy_tree(kit_dir, KIT_DEST)
     meta = (
         f"product={_project_version()}\n"
@@ -113,7 +113,7 @@ def _stage_gallery_qml() -> None:
     src = ROOT / "src" / "gallery"
     if not src.is_dir():
         raise FileNotFoundError(f"Gallery source missing: {src}")
-    print(f"Staging Gallery QML {src} → {GALLERY_DEST}", flush=True)
+    print(f"Staging Gallery QML {src} -> {GALLERY_DEST}", flush=True)
     if GALLERY_DEST.exists():
         shutil.rmtree(GALLERY_DEST)
     GALLERY_DEST.mkdir(parents=True)
@@ -183,7 +183,7 @@ def main() -> int:
 
     wheels = _build_wheel()
     for wheel in wheels:
-        print(f"Wheel → {wheel}", flush=True)
+        print(f"Wheel -> {wheel}", flush=True)
 
     if not args.keep_staged:
         for path in (KIT_DEST, GALLERY_DEST):
