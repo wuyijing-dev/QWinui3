@@ -15,5 +15,5 @@ From repo root (or use **`python-gallery.cmd`** on Windows).
 
 | Directory | Role |
 |-----------|------|
-| `qwinui3/` | Bootstrap for PySide6/PyQt6 + shared kit |
+| `qwinui3/` | Bootstrap for PySide6/PyQt6 + shared kit (`create_engine()`, runtime diagnostics) |
 | `qwinui3_gallery/` | Full Gallery entry |

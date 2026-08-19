@@ -22,7 +22,7 @@ Use `qwinui3[pyqt6]` if you prefer PyQt6. Match your binding Qt **major.minor** 
 
 | Piece | Notes |
 |-------|--------|
-| `qwinui3` | Bootstrap — `configure_environment()`, `setup_engine()` |
+| `qwinui3` | Bootstrap — `configure_environment()`, `create_engine()`, runtime diagnostics |
 | `qwinui3_gallery` | Full Gallery (`qwinui3-gallery` CLI) |
 | Bundled kit | Platform wheel includes shared `qml/QWinUI3` + DLLs/.so |
 
@@ -31,13 +31,12 @@ Use `qwinui3[pyqt6]` if you prefer PyQt6. Match your binding Qt **major.minor** 
 Full consumer guide: [packaging-python.md](https://wuyijing-dev.github.io/QWinui3/packaging-python/)
 
 ```python
-from qwinui3 import configure_environment, configure_application, setup_engine, QtGui, QtQml
+from qwinui3 import configure_environment, configure_application, create_engine, QtGui
 
-configure_environment()
+kit = configure_environment()
 app = QtGui.QGuiApplication([])
 configure_application("org.example.app")
-engine = QtQml.QQmlApplicationEngine()
-setup_engine(engine)
+engine, _ = create_engine(kit=kit)
 ```
 
 ## License

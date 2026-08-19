@@ -854,7 +854,7 @@ Rule: if a listed deliverable fails to remove a repeatable pain in practice, it 
 
 | Slice | Theme | Friction / gate | Status |
 |-------|--------|-----------------|--------|
-| **2.71** | PySide6 consumer integration | Python teams blocked — kit is C++/CMake-only today | **Partial — 2.64** (Gallery; PyPI **2.72**) |
+| **2.71** | PySide6 consumer integration | Python teams blocked — kit is C++/CMake-only today | **Partial — 2.64/2.71** (Gallery + consumer bootstrap ergonomics; PyPI **2.72**) |
 | **2.72** | PyPI packaging + publish | `pip install` friction; wheel layout + CI on `v*` tags | Planned |
 | **2.73** | Python consumer checkpoint | checkpoint-273 — audit **2.71…2.72**; 3.00 prep refresh | Planned |
 

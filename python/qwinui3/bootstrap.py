@@ -126,6 +126,52 @@ def setup_engine(engine, kit: Path | None = None) -> Path:
     return resolved
 
 
+def create_engine(
+    *,
+    kit: str | os.PathLike[str] | None = None,
+    extra_import_paths: list[str | os.PathLike[str]] | None = None,
+):
+    """Create QQmlApplicationEngine pre-wired with the QWinUI3 import root."""
+    _qt.init()
+    engine = _qt.QtQml.QQmlApplicationEngine()
+    resolved = setup_engine(engine, Path(kit) if kit is not None else None)
+    for import_path in extra_import_paths or ():
+        engine.addImportPath(str(Path(import_path)))
+    return engine, resolved
+
+
+def runtime_report(kit: Path | None = None) -> dict[str, object]:
+    """Structured runtime info for app diagnostics and bug reports."""
+    resolved = kit or find_kit()
+    qml_root = resolved / "qml"
+    return {
+        "binding": binding_name(),
+        "qt_version": qt_version(),
+        "kit": str(resolved),
+        "qml_root": str(qml_root),
+        "has_qml_root": qml_root.is_dir(),
+        "style": os.environ.get("QT_QUICK_CONTROLS_STYLE", ""),
+        "qpa_platform": os.environ.get("QT_QPA_PLATFORM", ""),
+    }
+
+
+def validate_runtime(kit: Path | None = None) -> dict[str, object]:
+    """Raise a readable error when the located kit is incomplete."""
+    report = runtime_report(kit)
+    qml_root = Path(str(report["qml_root"]))
+    if not qml_root.is_dir():
+        raise FileNotFoundError(
+            f"QWinUI3 kit is missing its qml/ import root: {qml_root}\n"
+            "Rebuild or reinstall the shared kit, or point QWINUI3_ROOT at a valid package."
+        )
+    if not (qml_root / "QWinUI3").is_dir():
+        raise FileNotFoundError(
+            f"QWinUI3 kit is missing qml/QWinUI3: {qml_root}\n"
+            "The package looks incomplete; rebuild the shared kit or reinstall qwinui3."
+        )
+    return report
+
+
 def qt_version() -> str:
     _qt.init()
     return _qt.QtCore.qVersion()

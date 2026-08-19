@@ -178,21 +178,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]  # repo root if under examples/myapp/
 sys.path.insert(0, str(ROOT / "python"))
 
-from qwinui3 import (
-    QtCore,
-    QtGui,
-    QtQml,
-    configure_environment,
-    configure_application,
-    setup_engine,
-)
+from qwinui3 import QtCore, QtGui, configure_environment, configure_application, create_engine
 
 def main() -> int:
     kit = configure_environment()  # before QGuiApplication
     app = QtGui.QGuiApplication(sys.argv)
     configure_application("org.example.myapp")
-    engine = QtQml.QQmlApplicationEngine()
-    setup_engine(engine, kit)
+    engine, _ = create_engine(kit=kit)
     engine.load(QtCore.QUrl.fromLocalFile(str(Path(__file__).with_name("Main.qml"))))
     if not engine.rootObjects():
         return 1
@@ -200,6 +192,15 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+```
+
+Optional early self-check:
+
+```python
+from qwinui3 import runtime_report, validate_runtime
+
+print(runtime_report())
+validate_runtime()
 ```
 
 `Main.qml` uses normal QWinUI3 imports:
@@ -245,7 +246,10 @@ Mirrors C++ [`Bootstrap.h`](../src/platform/QWinUI3/Platform/Bootstrap.h).
 | `configure_environment(kit=, binding=)` | **Before** `QGuiApplication` | Pick PySide6/PyQt6, find kit, set style env, high-DPI, DLL paths |
 | `configure_application(app_id=)` | **After** `QGuiApplication` | `QQuickStyle.setStyle("QWinUI3")`, optional desktop name |
 | `setup_engine(engine, kit=)` | Before `engine.load` | `engine.addImportPath(kit/qml)` |
+| `create_engine(kit=, extra_import_paths=)` | After `QGuiApplication` | Build `QQmlApplicationEngine` already wired to the QWinUI3 import root |
 | `find_kit(explicit=)` | Anytime | Resolve shared kit path |
+| `runtime_report(kit=)` | Anytime after init | Structured diagnostics: binding / Qt / kit / qml root / style / QPA |
+| `validate_runtime(kit=)` | After `configure_environment()` | Fail early if the located package is missing `qml/QWinUI3` |
 | `binding_name()` | After init | `"pyside6"` or `"pyqt6"` |
 | `qt_version()` | After init | Binding Qt version string |
 

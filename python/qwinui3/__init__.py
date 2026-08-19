@@ -22,9 +22,12 @@ from .bootstrap import (
     binding_name,
     configure_application,
     configure_environment,
+    create_engine,
     find_kit,
     qt_version,
+    runtime_report,
     setup_engine,
+    validate_runtime,
 )
 
 __all__ = [
@@ -37,9 +40,12 @@ __all__ = [
     "binding_name",
     "configure_application",
     "configure_environment",
+    "create_engine",
     "find_kit",
     "qt_version",
+    "runtime_report",
     "setup_engine",
+    "validate_runtime",
 ]
 
 
