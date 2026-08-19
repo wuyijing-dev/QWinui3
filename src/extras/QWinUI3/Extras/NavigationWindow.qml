@@ -43,6 +43,8 @@ ShellWindow {
     property alias paneHeaderText: nav.headerText
     // When true, pane stays open across auto/scrim dismiss (2.56)
     property alias isPanePinned: nav.isPanePinned
+    // Width below which auto mode uses leftMinimal overlay drawer
+    property alias autoMinimalThreshold: nav.autoMinimalThreshold
     // left | leftCompact | leftMinimal | top | auto
     property alias paneDisplayMode: nav.paneDisplayMode
     // Selected navigation key
@@ -117,7 +119,7 @@ ShellWindow {
     isBackButtonVisible: nav.canGoBack
     isBackButtonEnabled: nav.canGoBack
 
-    onPaneToggleRequested: nav.paneOpen = !nav.paneOpen
+    onPaneToggleRequested: nav.togglePane()
     onPaneDisplayModeChanged: _syncPaneToggle()
     onBackRequested: nav.navigateBack()
     Component.onCompleted: {

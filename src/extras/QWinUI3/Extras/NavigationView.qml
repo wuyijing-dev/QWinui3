@@ -39,14 +39,15 @@ import QWinUI3.Theme
 //   pageModule + component names load StackView pages (unless hostContent).
 //   Pages compile on first open — not at shell startup; pageCacheLimit LRU (1.39).
 //   initialPageTransition defaults to "none" for a snappy first paint.
-//   paneDisplayMode auto switches left / leftCompact by width.
-//   leftMinimal overlays content with a light-dismiss scrim.
+//   paneDisplayMode auto: left → leftCompact → leftMinimal (drawer) by width.
+//   leftMinimal / compact drawer overlay content with a light-dismiss scrim (Calculator-like).
 //   Left-rail title bar is hamburger + paneTitle (paired); Back is top mode / TitleBar.
 //   pageTransition / openPage modes: slide | slideRight | fade | center | drill |
 //   up | down | cover | none (suppress). Pane clicks use pageTransition.
 //   WinUI aliases: paneTitle, openPaneLength, compactPaneLength, isSettingsVisible, isPaneToggleButtonVisible.
 //   compactPaneStyle: "iconOnly" (WinUI) | "labeled" (Store — icon above caption).
-//   togglePane() — TitleBar hamburger; will not expand when the window is too narrow.
+//   togglePane() — TitleBar hamburger; leftCompact expands inline or opens a drawer
+//   when the window is too narrow; leftMinimal opens the overlay drawer.
 //   Prefer selectKey / openPage over mutating currentIndex alone.
 //   Live-region announces nav selection / pane expand (2.07) when announceChanges is true.
 
@@ -105,8 +106,10 @@ Item {
     property bool isPaneToggleButtonVisible: false
     // WinUI PaneDisplayMode: left | leftCompact | leftMinimal | top | auto
     property string paneDisplayMode: "left"
-    // Width below which auto mode uses leftCompact
+    // Width below which auto mode uses leftCompact (icon rail)
     property real autoCompactThreshold: 1008
+    // Width below which auto mode uses leftMinimal (overlay drawer — Calculator-like)
+    property real autoMinimalThreshold: 640
     // Show back in top pane mode only (left rail uses TitleBar / ShellWindow back)
     property bool isBackButtonVisible: false
     // Enable back button
@@ -155,10 +158,24 @@ Item {
     readonly property string effectiveFooterIcon: IconSource.resolve(footerSymbol, footerIcon)
     // Effective pane mode after auto
     readonly property string resolvedPaneMode: {
-        if (paneDisplayMode === "auto")
-            return root.width < autoCompactThreshold ? "leftCompact" : "left"
-        return paneDisplayMode
+        if (paneDisplayMode !== "auto")
+            return paneDisplayMode
+        if (root.width < autoMinimalThreshold)
+            return "leftMinimal"
+        if (root.width < autoCompactThreshold)
+            return "leftCompact"
+        return "left"
     }
+
+    // Room to widen the rail inline (left / leftCompact)
+    readonly property bool _canExpandPaneInline: _expandedPaneWidth > _effectiveCompactWidth + 8
+            && (_effectiveCompactWidth + _expandedPaneWidth + minContentWidth <= root.width + 1)
+    // leftCompact + too narrow for inline expand → overlay drawer over content
+    readonly property bool _compactDrawerOverlay: resolvedPaneMode === "leftCompact"
+            && paneOpen && !_canExpandPaneInline
+    // Overlay drawer active (leftMinimal or compact fallback)
+    readonly property bool _paneOverlayActive: (resolvedPaneMode === "leftMinimal" && paneOpen)
+            || _compactDrawerOverlay
 
     // groupKey -> bool; missing means expanded
     property var expandedMap: ({})
@@ -230,14 +247,16 @@ Item {
         if (resolvedPaneMode === "leftMinimal")
             return paneOpen ? _expandedPaneWidth : 0
         if (resolvedPaneMode === "leftCompact")
-            return _effectiveCompactWidth
+            return paneOpen && _canExpandPaneInline ? _expandedPaneWidth : _effectiveCompactWidth
         return paneOpen ? _expandedPaneWidth : _effectiveCompactWidth
     }
-    // leftMinimal overlays content — layout width stays 0 so the page does not shrink.
+    // leftMinimal / compact drawer overlays content — layout width stays 0.
     readonly property real _paneLayoutWidth: {
         if (!isPaneVisible)
             return 0
-        return resolvedPaneMode === "leftMinimal" ? 0 : _paneWidth
+        if (resolvedPaneMode === "leftMinimal" || _compactDrawerOverlay)
+            return 0
+        return _paneWidth
     }
     // Current page item
     readonly property alias pageItem: pageStack.currentItem
@@ -247,7 +266,7 @@ Item {
         if (resolvedPaneMode === "leftMinimal")
             return paneOpen
         if (resolvedPaneMode === "leftCompact")
-            return false
+            return paneOpen
         // Follow the animated slot width — flipping labels on paneOpen immediately
         // paints a full row inside a still-compact rail and overflows the page.
         return paneSlot.width >= Math.max(_effectiveCompactWidth + 56, 140)
@@ -258,7 +277,7 @@ Item {
     readonly property real _railItemHeight: _useLabeledCompact
                                             ? Theme.navItemLabeledCompactHeight
                                             : Theme.navItemHeight
-    readonly property bool _minimalOverlay: resolvedPaneMode === "leftMinimal" && paneOpen
+    readonly property bool _minimalOverlay: _paneOverlayActive
 
     onPaneDisplayModeChanged: _syncPaneOpenForMode()
     onResolvedPaneModeChanged: _syncPaneOpenForMode()
@@ -269,14 +288,25 @@ Item {
         _prevResolvedPaneMode = mode
         if (root.isPanePinned)
             return
-        if (mode === "leftCompact" || mode === "top") {
+        if (mode === "top") {
             paneOpen = false
             return
         }
+        if (mode === "leftMinimal" && prev !== "leftMinimal")
+            paneOpen = false
+        if (mode === "leftCompact" && (prev === "left" || prev === "leftMinimal"))
+            paneOpen = false
         // Auto-expand only when crossing into Left from a compact/top rail — not on
         // every width tick (that reopened the pane mid-collapse and left a blank column).
-        if (mode === "left" && (prev === "leftCompact" || prev === "top"))
+        if (mode === "left" && (prev === "leftCompact" || prev === "top" || prev === "leftMinimal"))
             paneOpen = true
+    }
+
+    function _dismissPaneDrawerIfNeeded() {
+        if (root.isPanePinned || !root.paneOpen)
+            return
+        if (root.resolvedPaneMode === "leftMinimal" || root._compactDrawerOverlay)
+            root.paneOpen = false
     }
 
     // Reorder a top-level nav model entry (requires isReorderable)
@@ -407,15 +437,13 @@ Item {
         Qt.callLater(function () { selectionPip.moveToCurrent(true) })
     }
 
-    // Toggle the left pane; no-op when the window is too narrow to expand
+    // Toggle the left pane / overlay drawer
     function togglePane() {
         compactFlyout.close()
         var mode = resolvedPaneMode
         if (mode === "top")
             return
-        if (mode === "leftCompact")
-            return
-        if (mode === "left" && !paneOpen && _expandedPaneWidth <= _effectiveCompactWidth + 8)
+        if (mode === "left" && !paneOpen && !_canExpandPaneInline)
             return
         paneOpen = !paneOpen
     }
@@ -778,6 +806,7 @@ Item {
             selectionPip.moveToCurrent(false)
             Qt.callLater(function () { selectionPip.moveToCurrent(false) })
         })
+        _dismissPaneDrawerIfNeeded()
     }
 
     // Select the footer row and open footerComponent
@@ -793,6 +822,7 @@ Item {
                       root.footerText.length ? root.footerText : qsTr("Settings")))
         if (!root.hostContent)
             openPage(root.footerComponent, mode || root.pageTransition)
+        _dismissPaneDrawerIfNeeded()
     }
 
     // Snapshot current selection for TitleBar back
@@ -1152,16 +1182,17 @@ Item {
         Qt.callLater(function () { root._a11yReady = true })
     }
 
-    // leftMinimal: pane reparents here so it floats over content (WinUI light-dismiss).
+    // leftMinimal / compact drawer: pane reparents here so it floats over content.
     Item {
         id: minimalOverlayLayer
         anchors.fill: parent
         z: 50
-        visible: root.resolvedPaneMode === "leftMinimal"
+        visible: root.resolvedPaneMode === "leftMinimal" || root._compactDrawerOverlay
 
         Rectangle {
             anchors.fill: parent
-            visible: root.paneOpen
+            anchors.leftMargin: root._compactDrawerOverlay ? root._effectiveCompactWidth : 0
+            visible: root._paneOverlayActive
             color: Theme.bgSmoke
             opacity: visible ? 1 : 0
             Behavior on opacity {
@@ -1170,10 +1201,7 @@ Item {
             }
             MouseArea {
                 anchors.fill: parent
-                onClicked: {
-                    if (!root.isPanePinned)
-                        root.paneOpen = false
-                }
+                onClicked: root._dismissPaneDrawerIfNeeded()
             }
         }
     }
@@ -1453,6 +1481,7 @@ Item {
             visible: root.isPaneVisible
                      && root.resolvedPaneMode !== "top"
                      && root.resolvedPaneMode !== "leftMinimal"
+                     && !root._compactDrawerOverlay
             Layout.preferredWidth: visible ? root._paneLayoutWidth : 0
             Layout.fillHeight: true
             clip: true
@@ -1462,6 +1491,7 @@ Item {
             Behavior on Layout.preferredWidth {
                 enabled: !Theme.reducedMotion
                          && root.resolvedPaneMode !== "leftMinimal"
+                         && !root._compactDrawerOverlay
                          && root.resolvedPaneMode !== "top"
                 NumberAnimation {
                     duration: Theme.duration(Theme.motionSlow)
@@ -1473,20 +1503,31 @@ Item {
 
         Rectangle {
             id: pane
-            parent: root.resolvedPaneMode === "leftMinimal" ? minimalOverlayLayer : paneSlot
+            parent: root._paneOverlayActive ? minimalOverlayLayer : paneSlot
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             anchors.left: parent.left
-            z: root.resolvedPaneMode === "leftMinimal" ? 1 : 0
+            x: root._compactDrawerOverlay ? root._effectiveCompactWidth : 0
+            z: root._paneOverlayActive ? 1 : 0
             width: root.resolvedPaneMode === "leftMinimal"
-                   ? (root.paneOpen ? root.paneWidth : 0)
-                   : parent.width
+                   ? (root.paneOpen ? root._expandedPaneWidth : 0)
+                   : root._compactDrawerOverlay
+                     ? root._expandedPaneWidth
+                     : parent.width
             visible: root.isPaneVisible
             color: Theme.bgAcrylic
             clip: true
 
             Behavior on width {
-                enabled: !Theme.reducedMotion && root.resolvedPaneMode === "leftMinimal"
+                enabled: !Theme.reducedMotion
+                         && (root.resolvedPaneMode === "leftMinimal" || root._compactDrawerOverlay)
+                NumberAnimation {
+                    duration: Theme.duration(Theme.motionNormal)
+                    easing.type: Theme.easingStandard
+                }
+            }
+            Behavior on x {
+                enabled: !Theme.reducedMotion && root._compactDrawerOverlay
                 NumberAnimation {
                     duration: Theme.duration(Theme.motionNormal)
                     easing.type: Theme.easingStandard

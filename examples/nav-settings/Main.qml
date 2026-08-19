@@ -38,7 +38,7 @@ StandardWindow {
             isPaneToggleButtonVisible: true
             isBackButtonVisible: nav.canGoBack
             isBackButtonEnabled: nav.canGoBack
-            onPaneToggleRequested: nav.paneOpen = !nav.paneOpen
+            onPaneToggleRequested: nav.togglePane()
             onBackRequested: nav.navigateBack()
             onWidthChanged: platformTitle.reportHitTest()
             onHeightChanged: platformTitle.reportHitTest()

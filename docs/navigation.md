@@ -34,12 +34,13 @@ Tear-out (`canTearOutTabs`) stays **experimental** (may change; see TabView note
 | `leftCompact` | Icon rail; expand via hamburger / `paneOpen` |
 | `leftMinimal` | Hamburger only; pane overlays content with light-dismiss scrim |
 | `top` | Horizontal top nav; optional in-pane Back |
-| `auto` | `left` when width ≥ `autoCompactThreshold` (default **1008**), else `leftCompact`. Hamburger collapse in `left` stays collapsed (does not force the pane open on width ticks). |
+| `auto` | `left` when width ≥ `autoCompactThreshold` (default **1008**); `leftCompact` when ≥ `autoMinimalThreshold` (default **640**); else **`leftMinimal`** overlay drawer (Calculator-like). TitleBar hamburger → `togglePane()`. |
 
 ```qml
 NavigationView {
     paneDisplayMode: "auto"
     autoCompactThreshold: 1008
+    autoMinimalThreshold: 640   // below → overlay drawer (Windows Calculator-like)
     openPaneLength: Theme.navPaneWidth
     compactPaneLength: Theme.navPaneCompactWidth
 }
@@ -110,9 +111,10 @@ Left rail does **not** host Back — wire the **TitleBar** (Gallery / nav-settin
 
 | Pattern | Recipe |
 |---------|--------|
-| Responsive shell | `paneDisplayMode: "auto"` + TitleBar pane toggle |
-| Overlay drawer | `leftMinimal` — open with hamburger; scrim dismisses |
-| Pane collapse | `left` hamburger animates rail width; labels follow the animated slot (`_paneShowsLabels`) so expand cannot overflow. `compactPaneStyle: "labeled"` uses Store-style icon-above-caption in the compact rail. `togglePane()` will not expand when the window is too narrow. |
+| Responsive shell | `paneDisplayMode: "auto"` + TitleBar `onPaneToggleRequested: nav.togglePane()` |
+| Overlay drawer | `leftMinimal` or auto below `autoMinimalThreshold` — hamburger opens rail over content; scrim / pick dismisses |
+| Compact drawer | `leftCompact` when too narrow to widen inline — `togglePane()` opens the same overlay drawer |
+| Pane collapse | `left` hamburger animates rail width; labels follow the animated slot (`_paneShowsLabels`) so expand cannot overflow. `compactPaneStyle: "labeled"` uses Store-style icon-above-caption in the compact rail. |
 | Host-owned content | `hostContent: true` + `content: …` (e.g. NavigationWindow) instead of `pageModule` |
 | Groups | `model` entries `type: "group"` with `children[]`; `toggleGroup` / `setGroupExpanded` |
 

@@ -21,7 +21,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Use NavigationView for app destinations (Home / Settings / groups) with pageModule + component. Prefer TabView for multiple open documents. Wire TitleBar Back to navigateBack(). Product starter: examples/gallery-shell (NavigationWindow, 1.50). Hand-wired rail: examples/nav-settings. Touch: pane rows follow navItemHeight — docs/touch-pointer.md (1.57).")
+                text: qsTr("Use NavigationView for app destinations (Home / Settings / groups) with pageModule + component. Prefer TabView for multiple open documents. Wire TitleBar Back to navigateBack(); pane toggle → togglePane() for overlay drawer on small windows (auto → leftMinimal below 640px). Product starter: examples/gallery-shell (NavigationWindow, 1.50). Hand-wired rail: examples/nav-settings. Touch: pane rows follow navItemHeight — docs/touch-pointer.md (1.57).")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
@@ -101,6 +101,17 @@ CatalogPage {
                     Layout.preferredWidth: 120
                     Accessible.name: qsTr("Open pane length")
                 }
+                Label { text: qsTr("Auto minimal"); color: Theme.textSecondary }
+                SpinBox {
+                    id: autoMin
+                    from: 320
+                    to: 960
+                    value: 640
+                    editable: true
+                    enabled: paneMode.currentText === "auto"
+                    Layout.preferredWidth: 120
+                    Accessible.name: qsTr("Auto minimal threshold")
+                }
             }
             Label {
                 id: navStatus
@@ -147,6 +158,7 @@ CatalogPage {
                 currentKey: "home"
                 pageTransition: "slide"
                 paneDisplayMode: paneMode.currentText
+                autoMinimalThreshold: autoMin.value
                 isBackButtonVisible: backVis.checked && paneMode.currentText === "top"
                 isBackEnabled: backEn.checked
                 isSettingsVisible: settingsVis.checked
