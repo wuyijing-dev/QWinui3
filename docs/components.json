@@ -2,7 +2,7 @@
   "name": "QWinUI3",
   "version": "2.64",
   "generatedBy": "scripts/generate_component_docs.py",
-  "publicCount": 280,
+  "publicCount": 283,
   "components": [
     {
       "name": "AccentButton",
@@ -1244,6 +1244,23 @@
       "propertyCount": 5,
       "signalCount": 0,
       "methodCount": 1
+    },
+    {
+      "name": "GeometryAndPrefsGuard",
+      "module": "QWinUI3.Extras",
+      "summary": "Warn when ThemeAppearanceSettings.persist=false may surprise users.",
+      "path": "src/extras/QWinUI3/Extras/GeometryAndPrefsGuard.qml",
+      "baseType": "SettingsCard",
+      "internal": false,
+      "category": "Other",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "kind": "qml",
+      "singleton": false,
+      "doc": "components/GeometryAndPrefsGuard.md",
+      "propertyCount": 3,
+      "signalCount": 0,
+      "methodCount": 0
     },
     {
       "name": "GMeterGauge",
@@ -3201,6 +3218,23 @@
       "methodCount": 0
     },
     {
+      "name": "ThemePersistenceCard",
+      "module": "QWinUI3.Extras",
+      "summary": "Product-friendly wrapper for ThemeAppearanceSettings.",
+      "path": "src/extras/QWinUI3/Extras/ThemePersistenceCard.qml",
+      "baseType": "ThemeAppearanceSettings",
+      "internal": false,
+      "category": "Media & platform",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "kind": "qml",
+      "singleton": false,
+      "doc": "components/ThemePersistenceCard.md",
+      "propertyCount": 0,
+      "signalCount": 0,
+      "methodCount": 0
+    },
+    {
       "name": "ThemePrefs",
       "module": "QWinUI3.Extras",
       "summary": "Persist Theme knobs via QtCore Settings (1.69).",
@@ -3216,6 +3250,23 @@
       "propertyCount": 3,
       "signalCount": 0,
       "methodCount": 2
+    },
+    {
+      "name": "ThemeSyncCard",
+      "module": "QWinUI3.Extras",
+      "summary": "Summarize ThemeSync vs ThemePrefs vs persist:false semantics.",
+      "path": "src/extras/QWinUI3/Extras/ThemeSyncCard.qml",
+      "baseType": "SettingsGroup",
+      "internal": false,
+      "category": "Media & platform",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "kind": "qml",
+      "singleton": false,
+      "doc": "components/ThemeSyncCard.md",
+      "propertyCount": 0,
+      "signalCount": 0,
+      "methodCount": 0
     },
     {
       "name": "ThermometerGauge",

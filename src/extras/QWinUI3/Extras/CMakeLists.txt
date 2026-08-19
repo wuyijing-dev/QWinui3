@@ -230,6 +230,9 @@ qt_add_qml_module(qwinui3_extras
         SettingsSliderCard.qml
         SettingsView.qml
         ThemeAppearanceSettings.qml
+        ThemePersistenceCard.qml
+        ThemeSyncCard.qml
+        GeometryAndPrefsGuard.qml
         ThemePrefs.qml
         DetailRow.qml
         SwipeAction.qml

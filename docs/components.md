@@ -8,7 +8,7 @@ python scripts/generate_component_docs.py
 python scripts/generate_component_docs.py --lint
 ```
 
-**280** public · **14** internal · **206** with Gallery demos · Hub: [docs home](index.md).
+**283** public · **14** internal · **206** with Gallery demos · Hub: [docs home](index.md).
 
 ## By module
 
@@ -84,6 +84,7 @@ python scripts/generate_component_docs.py --lint
 - [FuelGauge](components/FuelGauge.md) — Empty/full arc with E–F marks. · Gallery
 - [FunnelChart](components/FunnelChart.md) — Conversion funnel from stage values. · Gallery
 - [GearIndicator](components/GearIndicator.md) — PRNDS / manual gear readout for a cluster. · Gallery
+- [GeometryAndPrefsGuard](components/GeometryAndPrefsGuard.md) — Warn when ThemeAppearanceSettings.persist=false may surprise users.
 - [GMeterGauge](components/GMeterGauge.md) — Lateral / longitudinal G-force plot. · Gallery
 - [GridTile](components/GridTile.md) — Icon + title tile for launchers / galleries. · Gallery
 - [HeaderedComboBox](components/HeaderedComboBox.md) — ComboBox with header, description, and FormLayout binding. · Gallery
@@ -195,7 +196,9 @@ python scripts/generate_component_docs.py --lint
 - [TelltaleBar](components/TelltaleBar.md) — Cluster warning / indicator lamps. · Gallery
 - [TextBlock](components/TextBlock.md) — Fluent typography styles (title, body, caption…). · Gallery
 - [ThemeAppearanceSettings](components/ThemeAppearanceSettings.md) — Drop-in SettingsGroup for Theme knobs (1.69).
+- [ThemePersistenceCard](components/ThemePersistenceCard.md) — Product-friendly wrapper for ThemeAppearanceSettings.
 - [ThemePrefs](components/ThemePrefs.md) — Persist Theme knobs via QtCore Settings (1.69). · Gallery
+- [ThemeSyncCard](components/ThemeSyncCard.md) — Summarize ThemeSync vs ThemePrefs vs persist:false semantics.
 - [ThermometerGauge](components/ThermometerGauge.md) — Classic bulb + stem temperature / level gauge. · Gallery
 - [Timeline](components/Timeline.md) — Vertical event timeline. · Gallery
 - [TimePicker](components/TimePicker.md) — Hour / minute (and period) selectors. · Gallery
@@ -489,7 +492,9 @@ python scripts/generate_component_docs.py --lint
 - [FontIcon](components/FontIcon.md) — `QWinUI3.Extras`
 - [MediaPlayerElement](components/MediaPlayerElement.md) — `QWinUI3.Extras`
 - [RepositionThemeTransition](components/RepositionThemeTransition.md) — `QWinUI3.Extras`
+- [ThemePersistenceCard](components/ThemePersistenceCard.md) — `QWinUI3.Extras`
 - [ThemePrefs](components/ThemePrefs.md) — `QWinUI3.Extras`
+- [ThemeSyncCard](components/ThemeSyncCard.md) — `QWinUI3.Extras`
 
 ### Navigation
 
@@ -508,6 +513,7 @@ python scripts/generate_component_docs.py --lint
 - [AnnotatedScrollBar](components/AnnotatedScrollBar.md) — `QWinUI3.Extras`
 - [Expander](components/Expander.md) — `QWinUI3.Extras`
 - [FlipView](components/FlipView.md) — `QWinUI3.Extras`
+- [GeometryAndPrefsGuard](components/GeometryAndPrefsGuard.md) — `QWinUI3.Extras`
 - [KeyChordVisual](components/KeyChordVisual.md) — `QWinUI3.Extras`
 - [KeyVisual](components/KeyVisual.md) — `QWinUI3.Extras`
 - [MetadataControl](components/MetadataControl.md) — `QWinUI3.Extras`
