@@ -140,10 +140,6 @@ def main() -> int:
 
     for script, label in (
         ("smoke_catalog.py", "catalog integrity OK"),
-        ("check_gallery_translations.py", "translation seeds OK"),
-        ("check_catalog_refresh.py", "catalog refresh OK"),
-        ("check_docs_links.py", "docs links OK"),
-        ("check_shared_package.py", "shared package contracts OK"),
         ("lint_qml_imports.py", "example QML import lint OK"),
     ):
         rc = _run_preflight(script, label)

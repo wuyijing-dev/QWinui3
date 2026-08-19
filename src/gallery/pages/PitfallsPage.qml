@@ -13,7 +13,7 @@ CatalogPage {
     id: page
 
     title: qsTr("Pitfalls")
-    subtitle: qsTr("Anti-patterns + friction checkpoint (2.60) — docs/checkpoint-260.md")
+    subtitle: qsTr("Anti-patterns + friction checkpoint (2.60) — checkpoint-260")
 
     property real demoProgress: 0.65
 
@@ -30,14 +30,14 @@ CatalogPage {
 
     ControlExample {
         headerText: qsTr("Long-horizon checkpoint (1.78) · field 1.79")
-        qmlSource: "// Still 1.xx · field harden / pause · not 2.00\\n// docs/checkpoint-178.md · docs/platform-linux-wayland.md"
+        qmlSource: "// Still 1.xx · field harden / pause · not 2.00\\n// checkpoint-178 · docs/platform-linux-wayland.md"
         ColumnLayout {
             Layout.fillWidth: true
             spacing: Theme.spacing
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("1.78 closed the long-horizon arc (still not 2.00). 1.79 is the first field harden: Linux/Wayland portal parent_window + session detect + OSK CapsLock. OnScreenKeyboard / IME stays experimental. Full notes: docs/checkpoint-178.md · docs/platform-linux-wayland.md.")
+                text: qsTr("1.78 closed the long-horizon arc (still not 2.00). 1.79 is the first field harden: Linux/Wayland portal parent_window + session detect + OSK CapsLock. OnScreenKeyboard / IME stays experimental. Full notes: checkpoint-178 · docs/platform-linux-wayland.md.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
@@ -49,7 +49,7 @@ CatalogPage {
             Label {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Also: docs/checkpoint-160.md (1.60 mid-horizon) · docs/maturity-1xx.md (1.51)")
+                text: qsTr("Also: checkpoint-160 (1.60 mid-horizon) · docs/maturity-1xx.md (1.51)")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textSecondary
@@ -59,14 +59,14 @@ CatalogPage {
 
     ControlExample {
         headerText: qsTr("Mid-horizon checkpoint (1.60)")
-        qmlSource: "// Still 1.xx · harden-first · not 2.00\\n// docs/checkpoint-160.md · docs/maturity-1xx.md"
+        qmlSource: "// Still 1.xx · harden-first · not 2.00\\n// checkpoint-160 · docs/maturity-1xx.md"
         ColumnLayout {
             Layout.fillWidth: true
             spacing: Theme.spacing
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("1.60 re-audits the 1.line halfway through 1.49…1.70. Still not 2.00. Prefer stable-api types, examples/gallery-shell, and field harden. Experimental defer list unchanged. Historical next was 1.61 CMake sketch — see ROADMAP. Full notes: docs/checkpoint-160.md.")
+                text: qsTr("1.60 re-audits the 1.line halfway through 1.49…1.70. Still not 2.00. Prefer stable-api types, examples/gallery-shell, and field harden. Experimental defer list unchanged. Historical next was 1.61 CMake sketch — see ROADMAP. Full notes: checkpoint-160.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
@@ -79,7 +79,7 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 color: Theme.textSecondary
-                text: qsTr("Link audit: python scripts/check_docs_links.py · Roadmap continues 1.61…1.70.")
+                text: qsTr("Roadmap continues 1.61…1.70.")
             }
         }
     }
@@ -186,14 +186,14 @@ CatalogPage {
 
     ControlExample {
         headerText: qsTr("Tranche-1 checkpoint (2.50)")
-        qmlSource: "// 2.00…2.50 audited — friction-only 2.51+\\n// docs/checkpoint-250.md"
+        qmlSource: "// 2.00…2.50 audited — friction-only 2.51+\\n// checkpoint-250"
         ColumnLayout {
             Layout.fillWidth: true
             spacing: Theme.spacing
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("2.50 closes tranche 1: close-out 2.44…2.49 shipped; conditional controls justified by friction-log; post-2.50 tags need open P0/P1. 2.00 breaking baseline still Next. Full audit: docs/checkpoint-250.md · docs/planning/friction-log.md.")
+                text: qsTr("2.50 closes tranche 1: close-out 2.44…2.49 shipped; conditional controls justified by friction-log; post-2.50 tags need open P0/P1. 2.00 breaking baseline still Next. Full audit: checkpoint-250 · docs/planning/friction-log.md.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
@@ -201,7 +201,7 @@ CatalogPage {
             CheckBox { text: qsTr("After 2.50: friction-only minors — skip tag if queue empty") }
             CheckBox { text: qsTr("Copy Gallery demos only with experimental/stable badges") }
             CheckBox { text: qsTr("2.00 lift not bundled — read compatibility-1xx.md") }
-            CheckBox { text: qsTr("Re-read docs/checkpoint-250.md after friction-log edits") }
+            CheckBox { text: qsTr("Re-read checkpoint-250 after friction-log edits") }
         }
     }
 
@@ -287,21 +287,21 @@ CatalogPage {
 
     ControlExample {
         headerText: qsTr("Friction-line checkpoint (2.60)")
-        qmlSource: "// 2.51…2.60 audited — professional 2.61+\\n// docs/checkpoint-260.md"
+        qmlSource: "// 2.51…2.60 audited — professional 2.61+\\n// checkpoint-260"
         ColumnLayout {
             Layout.fillWidth: true
             spacing: Theme.spacing
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("2.60 closes friction tranche: 2.51…2.59 shipped; FL-017/FL-018 closed; honest defer on FL-003/004/008. 3.00 prep draft only — breaks at 3.00. Next: 2.61…2.70 professional surfaces. Full audit: docs/checkpoint-260.md · docs/planning/friction-log.md.")
+                text: qsTr("2.60 closes friction tranche: 2.51…2.59 shipped; FL-017/FL-018 closed; honest defer on FL-003/004/008. 3.00 prep draft only — breaks at 3.00. Next: 2.61…2.70 professional surfaces. Full audit: checkpoint-260 · docs/planning/friction-log.md.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
             CheckBox { text: qsTr("After 2.60: professional surfaces 2.61+ — conditional rows need friction-log apps") }
             CheckBox { text: qsTr("3.00 prep: upgrade-notes Upgrade 2.60 → 3.00 (draft) — not in this tag") }
-            CheckBox { text: qsTr("Re-read docs/checkpoint-260.md before reordering 2.61 queue") }
+            CheckBox { text: qsTr("Re-read checkpoint-260 before reordering 2.61 queue") }
         }
     }
 

@@ -4,7 +4,7 @@
 
 **Status (2.09):** **experimental — permanently deferred.** Not freeze-covered. The type still ships (real player when Multimedia is linked; `available === false` stub otherwise). Product shells on [stable-api.md](stable-api.md) should **not** depend on it.
 
-Gallery: **MediaPlayerElement**. Related: [stable-api.md](stable-api.md) · [packaging-consumer.md](packaging-consumer.md) · [ci-smoke.md](ci-smoke.md).
+Gallery: **MediaPlayerElement**. Related: [stable-api.md](stable-api.md) · [packaging-consumer.md](packaging-consumer.md) · `python scripts/smoke_gallery.py`.
 
 **Out of scope:** bundling FFmpeg, cloud streaming SDKs, playlists, captions, hardware-decode promises.
 
@@ -141,6 +141,6 @@ See [packaging-consumer.md](packaging-consumer.md) · Gallery **MediaPlayerEleme
 ## Related
 
 - [packaging-consumer.md](packaging-consumer.md) — deploying Qt modules  
-- [ci-smoke.md](ci-smoke.md) — smoke does not require Multimedia  
+- `python scripts/smoke_gallery.py` — smoke does not require Multimedia  
 - [accessibility.md](accessibility.md) — Space/Enter + named transport  
 - Generated API: [components/MediaPlayerElement.md](components/MediaPlayerElement.md)

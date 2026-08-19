@@ -1662,7 +1662,7 @@ QtObject {
             title: qsTr("CI / smoke"),
             category: "navigation",
             icon: FluentIcons.ConstructionCone,
-            description: qsTr("Gallery --smoke · docs links · Qt matrix — docs/ci-smoke.md."),
+            description: qsTr("Gallery --smoke · docs links · Qt matrix — python scripts/smoke_gallery.py."),
             component: "CiSmokePage",
             source: "pages/CiSmokePage.qml"
         },
@@ -2201,7 +2201,7 @@ QtObject {
         return out
     }
 
-    // Critical pages for Gallery smoke page-load (keep in sync with docs/ci-smoke.md).
+    // Critical pages for Gallery smoke page-load (keep in sync with python scripts/smoke_gallery.py).
     function smokeCriticalComponents() {
         return [
             "HomePage",

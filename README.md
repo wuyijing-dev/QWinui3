@@ -8,8 +8,8 @@ Fluent / [WinUI 3](https://learn.microsoft.com/windows/apps/winui/winui3/)-inspi
 [![Qt](https://img.shields.io/badge/Qt-6.5%2B-41CD52?logo=qt&logoColor=white)](https://www.qt.io/)
 
 **v1.90** (master **1.91…1.92** ahead) · **200+** public controls · Gallery demos for most of them  
-**1.xx close-out** — [checkpoint-190.md](docs/checkpoint-190.md) · performance arc **signed off** (1.86…1.89) · **[1.xx freeze ends at 2.00](docs/compatibility-1xx.md)** · planned through **2.60** (friction-gated after **2.50**) — next major **2.00** ([ROADMAP.md](ROADMAP.md)) · pain queue [friction-log.md](docs/planning/friction-log.md).
-[Documentation](https://wuyijing-dev.github.io/QWinui3/) · [Recipes hub](docs/recipes.md) · [Stable API](docs/stable-api.md) · [1.xx maturity](docs/maturity-1xx.md) · [Mid-horizon 1.60](docs/checkpoint-160.md) · [Long-horizon 1.78](docs/checkpoint-178.md) · [1.xx close-out 1.90](docs/checkpoint-190.md) · [1.xx compatibility](docs/compatibility-1xx.md) · [i18n / RTL](docs/i18n-rtl.md) · [Keyboard-first](docs/keyboard.md) · [On-screen keyboard](docs/on-screen-keyboard.md) · [Color & contrast](docs/color-contrast.md) · [Adaptive layout](docs/adaptive-layout.md) · [Drag-drop](docs/drag-drop.md) · [Upgrade notes](docs/upgrade-notes.md) · [Linux / Wayland](docs/platform-linux-wayland.md) · [Qt Creator](docs/qt-creator.md) · [Component API](https://wuyijing-dev.github.io/QWinui3/components/) · [Releases](https://github.com/wuyijing-dev/QWinui3/releases) · [Roadmap](ROADMAP.md)
+**1.xx close-out** — performance arc **signed off** (1.86…1.89) · **[1.xx freeze ends at 2.00](docs/compatibility-1xx.md)** · planned through **2.60** (friction-gated after **2.50**) — next major **2.00** ([ROADMAP.md](ROADMAP.md)) · pain queue [friction-log.md](docs/planning/friction-log.md).
+[Documentation](https://wuyijing-dev.github.io/QWinui3/) · [Recipes hub](docs/recipes.md) · [Stable API](docs/stable-api.md) · [1.xx maturity](docs/maturity-1xx.md) · [1.xx compatibility](docs/compatibility-1xx.md) · [i18n / RTL](docs/i18n-rtl.md) · [Keyboard-first](docs/keyboard.md) · [On-screen keyboard](docs/on-screen-keyboard.md) · [Color & contrast](docs/color-contrast.md) · [Adaptive layout](docs/adaptive-layout.md) · [Drag-drop](docs/drag-drop.md) · [Upgrade notes](docs/upgrade-notes.md) · [Linux / Wayland](docs/platform-linux-wayland.md) · [Qt Creator](docs/qt-creator.md) · [Component API](https://wuyijing-dev.github.io/QWinui3/components/) · [Releases](https://github.com/wuyijing-dev/QWinui3/releases) · [Roadmap](ROADMAP.md)
 
 ---
 
@@ -242,7 +242,7 @@ git tag v1.30
 git push origin v1.30
 ```
 
-**PR / master smoke** (build Gallery + `--smoke`, no packages): [`.github/workflows/smoke.yml`](.github/workflows/smoke.yml) — see [`docs/ci-smoke.md`](docs/ci-smoke.md).
+**PR / master smoke** (build Gallery + `--smoke`, no packages): [`.github/workflows/smoke.yml`](.github/workflows/smoke.yml) — `python scripts/smoke_gallery.py`.
 
 GitHub Actions builds Linux + Windows shared libraries and Gallery packages, then attaches them to the GitHub Release. Manual dispatch can re-upload assets for an existing tag (e.g. add Linux packages to `v1.00` / historical `v1.0.0`).
 
@@ -258,8 +258,6 @@ Product versions use **`X.YY`** (see [`ROADMAP.md`](ROADMAP.md)); set `QWINUI3_V
 | [`docs/recipes.md`](docs/recipes.md) | **Recipes hub** — all LoB how-tos (**2.46** v2) |
 | [`docs/docs-ia-v2.md`](docs/docs-ia-v2.md) | **2.xx** MkDocs regroup + Gallery mirror (**2.46**) |
 | [`docs/maturity-1xx.md`](docs/maturity-1xx.md) | 1.51 maturity checkpoint |
-| [`docs/checkpoint-160.md`](docs/checkpoint-160.md) | 1.60 mid-horizon checkpoint |
-| [`docs/checkpoint-178.md`](docs/checkpoint-178.md) | 1.78 long-horizon checkpoint |
 | [`docs/platform-linux-wayland.md`](docs/platform-linux-wayland.md) | Linux / Wayland field matrix (**1.79**) |
 | [`docs/stable-api.md`](docs/stable-api.md) | Stable vs experimental types for 1.xx |
 | [`docs/components.md`](docs/components.md) | Full control index |

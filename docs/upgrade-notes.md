@@ -145,7 +145,7 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 #### Optional / polish
 
-- **Friction tranche checkpoint:** audit **2.51…2.60** + **3.00 prep draft** — [checkpoint-260.md](checkpoint-260.md) (**2.60**).
+- **Friction tranche checkpoint:** audit **2.51…2.60** + **3.00 prep draft** — checkpoint-260 (**2.60**).
 - Skim slice recipes **2.51…2.59** if jumping from **2.50** ([stable-clarity-251.md](stable-clarity-251.md) … [app-sluggishness-259.md](app-sluggishness-259.md)).
 
 #### No action (compatible)
@@ -202,7 +202,7 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 #### Optional / polish
 
-- **Tranche-1 checkpoint:** audit **2.00…2.50** + **2.51+** friction queue — [checkpoint-250.md](checkpoint-250.md) (**2.50**).
+- **Tranche-1 checkpoint:** audit **2.00…2.50** + **2.51+** friction queue — checkpoint-250 (**2.50**).
 
 #### No action (compatible)
 
@@ -483,7 +483,7 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 #### Optional / polish
 
-- **Mid-2.x checkpoint:** [checkpoint-230.md](checkpoint-230.md) — audit **2.21…2.30**; **203** catalog / **225** public types; friction triage for **2.31…2.50** (no slices dropped).
+- **Mid-2.x checkpoint:** checkpoint-230 — audit **2.21…2.30**; **203** catalog / **225** public types; friction triage for **2.31…2.50** (no slices dropped).
 
 #### No action (compatible)
 
@@ -629,7 +629,7 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 #### Optional / polish
 
 - **Gallery full locale switch:** `GalleryLanguage` — Settings → **Display language** or **i18n / RTL** page; persists `Gallery/uiLocale`; startup `--lang zh_CN`. Release embeds `.qm` via `qt_add_translations`. See [i18n-rtl.md](i18n-rtl.md).
-- **Horizon checkpoint:** [checkpoint-220.md](checkpoint-220.md) — tranche-1 audit; **2.21+** per friction table.
+- **Horizon checkpoint:** checkpoint-220 — tranche-1 audit; **2.21+** per friction table.
 
 #### No action (compatible)
 
@@ -645,7 +645,7 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 #### Optional / polish
 
-- **Docs & catalog refresh:** Regenerate component API — `python scripts/generate_component_docs.py`. Critical smoke adds **MultiWindowPage** / **StyleSpotCheckPage**. [ci-smoke.md](ci-smoke.md) **2.19**.
+- **Docs & catalog refresh:** Regenerate component API — `python scripts/generate_component_docs.py`. Critical smoke adds **MultiWindowPage** / **StyleSpotCheckPage**. `python scripts/smoke_gallery.py` **2.19**.
 
 #### No action (compatible)
 
@@ -789,7 +789,7 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 #### Optional / polish
 
-- **Mid-2.x checkpoint:** [checkpoint-210.md](checkpoint-210.md) audits **2.00…2.10** — confirms **2.03…2.09** shipped on the 1.xx floor; **2.00 / 2.01 / 2.02** remain planned; **no breaking code**.
+- **Mid-2.x checkpoint:** checkpoint-210 audits **2.00…2.10** — confirms **2.03…2.09** shipped on the 1.xx floor; **2.00 / 2.01 / 2.02** remain planned; **no breaking code**.
 
 #### No action (compatible)
 
@@ -907,7 +907,7 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ### Upgrade 1.90 → 2.00 (draft)
 
-**Status:** **Draft only** — breaks ship in **2.00**, not in 1.90. Inventory finalized in [checkpoint-190.md](checkpoint-190.md).
+**Status:** **Draft only** — breaks ship in **2.00**, not in 1.90. Inventory finalized in checkpoint-190.
 
 **Product version target:** 2.00  
 **Qt:** floor **6.8 LTS** (drop **6.5**); forward **6.10+** OK — [qt-version-compat.md](qt-version-compat.md)
@@ -933,7 +933,7 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ### Upgrade 2.60 → 3.00 (draft)
 
-**Status:** **Draft only** — breaks ship in **3.00**, not in **2.60**. Inventory refined at **2.73** + [checkpoint-300.md](checkpoint-300.md).
+**Status:** **Draft only** — breaks ship in **3.00**, not in **2.60**. Inventory refined at **2.73** + checkpoint-300.
 
 **Product version target:** 3.00  
 **Qt:** floor **6.10 LTS** (drop **6.8** shim path); forward **6.12+** OK — [qt-version-compat.md](qt-version-compat.md)
@@ -962,7 +962,7 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ### Upgrade 2.73 → 3.00 (draft)
 
-**Status:** **Draft only** — breaks ship in **3.00**, not in **2.73**. Inventory finalized in [checkpoint-300.md](checkpoint-300.md).
+**Status:** **Draft only** — breaks ship in **3.00**, not in **2.73**. Inventory finalized in checkpoint-300.
 
 **Product version target:** 3.00  
 **Qt:** floor **6.10 LTS** (drop **6.8** shim path); forward **6.12+** OK — [qt-version-compat.md](qt-version-compat.md)
@@ -997,8 +997,8 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 #### Optional / polish
 
-- **1.xx close-out:** [checkpoint-190.md](checkpoint-190.md) — docs audit, perf arc sign-off, **2.00 prep draft** (no breaking code).
-- **Performance arc:** all four waves (1.86…1.89) documented in [performance.md](performance.md); smoke timing remains advisory — [ci-smoke.md](ci-smoke.md).
+- **1.xx close-out:** checkpoint-190 — docs audit, perf arc sign-off, **2.00 prep draft** (no breaking code).
+- **Performance arc:** all four waves (1.86…1.89) documented in [performance.md](performance.md); smoke timing remains advisory — `python scripts/smoke_gallery.py`.
 
 #### No action (compatible)
 
@@ -1103,7 +1103,7 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 #### Optional / polish
 
 - Experimental OSK: `OnScreenKeyboardWindow` floating host; Windows `SendInput` into the focused desktop app (`systemWide`, default **on** for the floating window; dock stays off). [on-screen-keyboard.md](on-screen-keyboard.md).
-- Gallery: removed unused `--visual-smoke` / `scripts/smoke_visual.py` (1.62 opt-in subset). CI `--smoke` unchanged. [ci-smoke.md](ci-smoke.md).
+- Gallery: removed unused `--visual-smoke` / `scripts/smoke_visual.py` (1.62 opt-in subset). CI `--smoke` unchanged. `python scripts/smoke_gallery.py`.
 
 #### No action (compatible)
 
@@ -1155,7 +1155,7 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 #### Docs / posture
 
-- Long-horizon checkpoint: [checkpoint-178.md](checkpoint-178.md). Prefer **field harden / pause vs new surfaces**; `1.79+` only for field-driven P0s or park. OSK/IME **stays experimental** (not promoted in 1.74 / 1.76 / 1.77).
+- Long-horizon checkpoint: checkpoint-178. Prefer **field harden / pause vs new surfaces**; `1.79+` only for field-driven P0s or park. OSK/IME **stays experimental** (not promoted in 1.74 / 1.76 / 1.77).
 
 #### No action (compatible)
 
@@ -1373,7 +1373,7 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 #### Optional / polish
 
-- Visual smoke subset: `python scripts/smoke_visual.py --build-dir build` (Gallery `--visual-smoke`); [ci-smoke.md](ci-smoke.md).
+- Visual smoke subset: `python scripts/smoke_visual.py --build-dir build` (Gallery `--visual-smoke`); `python scripts/smoke_gallery.py`.
 - Not part of default `smoke_gallery.py` — keep CI fast. Hash `--compare` is best-effort.
 
 #### No action (compatible)
@@ -1402,7 +1402,7 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 #### Optional / polish
 
-- Mid-horizon checkpoint: [checkpoint-160.md](checkpoint-160.md) — still 1.xx; 1.61+ order confirmed.
+- Mid-horizon checkpoint: checkpoint-160 — still 1.xx; 1.61+ order confirmed.
 - Gallery **Pitfalls** mid-horizon checklist; smoke critical pages include Search recipes + High-DPI.
 
 #### No action (compatible)
@@ -1486,8 +1486,7 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 #### Optional / polish
 
-- Second Gallery seed locale **`ja_JP`** alongside `zh_CN` — [i18n-rtl.md](i18n-rtl.md).
-- `scripts/check_gallery_translations.py` requires the `ja_JP` catalog; Gallery i18n page locale ComboBox + `--lang` copy.
+- Second Gallery seed locale **`ja_JP`** alongside `zh_CN` — [i18n-rtl.md](i18n-rtl.md); Gallery i18n page locale ComboBox + `--lang` copy.
 
 #### No action (compatible)
 
@@ -1514,7 +1513,7 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 #### Optional / polish
 
-- Local/CI smoke now also runs `scripts/check_docs_links.py` and loads `FontIconPage` / `PitfallsPage` / `ExamplesTemplatesPage` as critical pages — [ci-smoke.md](ci-smoke.md).
+- Local/CI smoke now also loads `FontIconPage` / `PitfallsPage` / `ExamplesTemplatesPage` as critical pages — `python scripts/smoke_gallery.py`.
 - No open field P0s were reported after 1.51; this buffer shipped CI/docs harden instead of skipping.
 
 #### No action (compatible)
@@ -1607,7 +1606,6 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 #### Optional / polish
 
 - Follow [packaging-consumer.md](packaging-consumer.md) shared vs static matrix, windeploy/linuxdeploy, and strip-restricted steps.
-- Validate kits with `python scripts/check_shared_package.py` (optionally `--dir` after packaging).
 
 #### No action (compatible)
 
@@ -1621,7 +1619,7 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 #### Optional / polish
 
 - Use [i18n-rtl.md](i18n-rtl.md) for lupdate/lrelease and Gallery `--lang zh_CN` after generating `.qm`.
-- CI/smoke runs `scripts/check_gallery_translations.py` on seed `.ts` files.
+- Gallery `--lang zh_CN` after generating `.qm` — [i18n-rtl.md](i18n-rtl.md).
 
 #### No action (compatible)
 
@@ -1738,6 +1736,6 @@ Examples that **do not** belong in a quiet 1.xx:
 - Dropping Qt 6.5 without a named roadmap decision
 - Removing a type listed as Stable on stable-api without a deprecation window
 
-Track those under the **2.00** plan in [ROADMAP.md](../ROADMAP.md) (**after 1.90**). Draft remap table: [upgrade-notes.md](upgrade-notes.md) **Upgrade 1.90 → 2.00 (draft)** and [checkpoint-190.md](checkpoint-190.md); the breaks land in **2.00**. Apps that cannot leave Qt 6.5 stay on **1.90**.
+Track those under the **2.00** plan in [ROADMAP.md](../ROADMAP.md) (**after 1.90**). Draft remap table: [upgrade-notes.md](upgrade-notes.md) **Upgrade 1.90 → 2.00 (draft)** and checkpoint-190; the breaks land in **2.00**. Apps that cannot leave Qt 6.5 stay on **1.90**.
 
-**3.00 territory (after 2.73):** Qt **6.10** floor, experimental cleanup, final Theme/shell alias removal — draft in [upgrade-notes.md](upgrade-notes.md) **Upgrade 2.73 → 3.00 (draft)** and [checkpoint-300.md](checkpoint-300.md). Apps that cannot leave Qt **6.8** stay on **2.73**.
+**3.00 territory (after 2.73):** Qt **6.10** floor, experimental cleanup, final Theme/shell alias removal — draft in [upgrade-notes.md](upgrade-notes.md) **Upgrade 2.73 → 3.00 (draft)** and checkpoint-300. Apps that cannot leave Qt **6.8** stay on **2.73**.

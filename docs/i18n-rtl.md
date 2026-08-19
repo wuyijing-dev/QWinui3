@@ -12,7 +12,6 @@ Gallery and starter examples wrap UI strings in **`qsTr`**. This page covers:
 | Gallery demo | **Layout → i18n / RTL** — same `GalleryLanguage` API |
 | Gallery Settings | **Right-to-left layout** toggle (separate from translation) |
 | Catalogs | [`src/gallery/translations/`](../src/gallery/translations/) — `en`, `zh_CN`, `ja_JP`, `ko_KR`, `de_DE` (**2.35**) |
-| Integrity | `python scripts/check_gallery_translations.py` · `python scripts/check_localization_wave4.py` (**2.35**) |
 
 ---
 
@@ -44,21 +43,7 @@ lupdate src/gallery \
 
 Each locale file holds the same **~3600** source ids. Finish translations in Qt Linguist; unfinished entries fall back to English source at runtime.
 
-### 3. Validate seeds (CI-friendly, no Qt)
-
-```bash
-python scripts/check_gallery_translations.py
-```
-
-Ensures `qwinui3_gallery_en.ts`, `qwinui3_gallery_zh_CN.ts`, `qwinui3_gallery_ja_JP.ts`, `qwinui3_gallery_ko_KR.ts`, and `qwinui3_gallery_de_DE.ts` parse as Linguist XML.
-
-**2.35 wave 4 — control page rules:**
-
-```bash
-python scripts/check_localization_wave4.py
-```
-
-Verifies **2.21…2.34** Gallery pages use `title: qsTr(...)` and their titles appear in `qwinui3_gallery_en.ts` (run `lupdate` after adding pages).
+**2.35 wave 4 — control page rules:** Gallery pages for **2.21…2.34** should use `title: qsTr(...)`. Run `lupdate` after adding pages.
 
 ### 4. Translate + release
 
@@ -77,8 +62,7 @@ Shipped seeds: **`zh_CN` (1.45)**, **`ja_JP` (1.54)**, **`ko_KR` (2.12)**, and *
 | Item | Detail |
 |------|--------|
 | **Fourth seed locale** | **`de_DE`** — German catalog copied from `en` extract; selectable in Settings / **i18n / RTL** |
-| **Checker** | `scripts/check_localization_wave4.py` — `de_DE` wiring + **2.21…2.34** control pages must use `qsTr` titles present in `qwinui3_gallery_en.ts` |
-| **Smoke** | Hooked from `smoke_gallery.py` after `check_gallery_translations.py` |
+| **Smoke** | `python scripts/smoke_gallery.py` |
 
 **Out:** Crowdin portal; full **`ja_JP`** / **`ko_KR`** / **`de_DE`** Linguist completion (community or follow-up minors).
 
@@ -194,13 +178,7 @@ After `windeployqt` / `linuxdeploy`, copy extra `.qm` into `translations/` if no
 
 ### 5. CI without Qt Linguist
 
-Commit `.ts` seeds; validate XML in CI:
-
-```bash
-python scripts/check_gallery_translations.py   # Gallery seeds
-```
-
-Add a similar check for your app catalogs if you keep multiple locales in-tree.
+Commit `.ts` seeds with the Gallery tree. After adding pages, run `lupdate` and a Release build.
 
 ### 6. RTL unchanged
 

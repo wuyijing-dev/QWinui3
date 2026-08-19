@@ -1,6 +1,6 @@
 # Field harden buffer (2.47)
 
-Tranche-1 **buffer tag** — close actionable **P0/P1** rows from [checkpoint-230.md](checkpoint-230.md) and post-**2.45** [experimental-sweep.md](experimental-sweep.md) audits. **No new controls.**
+Tranche-1 **buffer tag** — close actionable **P0/P1** rows from checkpoint-230 and post-**2.45** [experimental-sweep.md](experimental-sweep.md) audits. **No new controls.**
 
 Related: [friction-log.md](planning/friction-log.md) · [packaging-consumer.md](packaging-consumer.md) · [stable-api.md](stable-api.md) · [docs-ia-v2.md](docs-ia-v2.md)
 
@@ -39,4 +39,4 @@ Related: [friction-log.md](planning/friction-log.md) · [packaging-consumer.md](
 - [ ] Re-run `python scripts/smoke_gallery.py` after bumping to **2.47**
 - [ ] Skim [upgrade-notes.md](upgrade-notes.md) **2.46 → 2.47**
 
-**Next:** **2.48** friction-only slot (top open **P0** row) · **2.50** [checkpoint-250.md](checkpoint-250.md)
+**Next:** **2.48** friction-only slot (top open **P0** row) · **2.50** checkpoint-250

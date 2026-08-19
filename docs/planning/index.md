@@ -58,4 +58,4 @@ flowchart TB
 - **Recipes** — LoB how-tos and checkpoints
 - **Stable API** / **Component API** — shipped contracts
 
-**Related:** [docs-ia-v2.md](../docs-ia-v2.md) · [recipes.md](../recipes.md) · [ci-smoke.md](../ci-smoke.md)
+**Related:** [docs-ia-v2.md](../docs-ia-v2.md) · [recipes.md](../recipes.md) · `python scripts/smoke_gallery.py`

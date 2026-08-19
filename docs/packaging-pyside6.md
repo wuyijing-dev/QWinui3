@@ -6,7 +6,7 @@
 
 **Out of scope here:** PyQt6; Shiboken wrappers for every C++ helper; vendoring full Qt inside wheels.
 
-Related: [roadmap.md](roadmap.md) **2.71…2.72** · [checkpoint-273.md](checkpoint-273.md) · [friction-log.md](planning/friction-log.md) **FL-011**.
+Related: [roadmap.md](roadmap.md) **2.71…2.72** · checkpoint-273 · [friction-log.md](planning/friction-log.md) **FL-011**.
 
 ---
 

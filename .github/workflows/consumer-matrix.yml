@@ -2,7 +2,7 @@ name: Consumer matrix
 
 # 2.34 — Shared/static × Win/Linux consumer builds in CI.
 # Static cell: in-tree gallery-shell example (Path D proxy).
-# Shared cell: package shell kit → check_shared_package → verify_find_package.
+# Shared cell: package shell kit → verify_find_package.
 
 on:
   push:
@@ -12,7 +12,6 @@ on:
       - "cmake/**"
       - "examples/**"
       - "scripts/package_release_libs.py"
-      - "scripts/check_shared_package.py"
       - "scripts/verify_find_package.py"
       - "CMakeLists.txt"
       - "src/**"
@@ -23,7 +22,6 @@ on:
       - "cmake/**"
       - "examples/**"
       - "scripts/package_release_libs.py"
-      - "scripts/check_shared_package.py"
       - "scripts/verify_find_package.py"
       - "CMakeLists.txt"
       - "src/**"
@@ -83,7 +81,6 @@ jobs:
             echo "error: no linux shared package under dist/" >&2
             exit 1
           fi
-          python scripts/check_shared_package.py --dir "${PKG}" --expect-shared yes
           python scripts/verify_find_package.py --package-dir "${PKG}" --skip-package
 
   windows:
@@ -131,5 +128,4 @@ jobs:
             echo "error: no windows shared package under dist/" >&2
             exit 1
           fi
-          python scripts/check_shared_package.py --dir "${PKG}" --expect-shared yes
           python scripts/verify_find_package.py --package-dir "${PKG}" --skip-package

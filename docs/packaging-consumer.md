@@ -13,7 +13,7 @@ Consumers typically:
 
 > **vcpkg / Conan (2.11):** Official **in-repo** ports — [packaging-vcpkg-conan.md](packaging-vcpkg-conan.md). Zip + Path C remain valid; **2.02** still productizes `find_package` as the primary path without overlay.
 
-**1.46 polish:** shared vs static matrix, windeploy/linuxdeploy notes, strip-restricted modules, and `scripts/check_shared_package.py`.  
+**1.46 polish:** shared vs static matrix, windeploy/linuxdeploy notes, strip-restricted modules.  
 **1.61 sketch:** `QWinUI3Config.cmake` + `examples/find-package-consumer` + `scripts/verify_find_package.py`.  
 **2.34 v2:** consumer matrix (shared/static × Win/Linux) + CI job mapping below.
 
@@ -61,7 +61,7 @@ Maintainers and third-party integrators can map **how you link QWinUI3** to **wh
 | | **Windows** | **Linux** |
 |--|--|--|
 | **Static** (default in-tree) | Build `qwinui3_example_gallery_shell` — Path D proxy (`add_subdirectory`, link `*plugin` targets) | same |
-| **Shared** (`--shared` / `QWINUI3_BUILD_SHARED=ON`) | `package_release_libs.py --shared --preset shell` → `check_shared_package.py --dir …` → `verify_find_package.py` (Path C) | same |
+| **Shared** (`--shared` / `QWINUI3_BUILD_SHARED=ON`) | `package_release_libs.py --shared --preset shell` → `verify_find_package.py` (Path C) | same |
 
 | Workflow | When | Matrix cells |
 |----------|------|--------------|
@@ -74,11 +74,8 @@ Maintainers and third-party integrators can map **how you link QWinUI3** to **wh
 **Shared consumer (CI):** After `python scripts/package_release_libs.py --shared --preset shell --webview2 off`:
 
 ```bash
-python scripts/check_shared_package.py --dir dist/qwinui3-<ver>-<plat>-x64-shared-theme+style+platform --expect-shared yes
 python scripts/verify_find_package.py --package-dir dist/qwinui3-<ver>-<plat>-x64-shared-theme+style+platform --skip-package
 ```
-
-Contract-only (no Qt): `python scripts/check_packaging_consumer_matrix.py` — also run from Gallery smoke (**2.34**).
 
 Tag releases still ship the full shared archive; run the `--dir` check locally after download if you skip the consumer-matrix workflow.
 
@@ -123,14 +120,7 @@ qwinui3-<ver>-…-shared/
 | `platform` | `qwinui3_platform` | `QWinUI3/Platform` |
 | `extras` | `qwinui3_extras` | `QWinUI3/Extras` |
 
-Validate a tree (Win or Linux):
-
-```bash
-python scripts/check_shared_package.py --dir dist/qwinui3-<ver>-windows-x64-shared
-python scripts/check_shared_package.py --dir dist/qwinui3-<ver>-linux-x64-shared --expect-shared yes
-```
-
-Repo contract check (no build): `python scripts/check_shared_package.py` — also run from Gallery smoke (**1.46**).
+Validate a tree with `python scripts/verify_find_package.py --package-dir dist/qwinui3-<ver>-windows-x64-shared` (or the Linux equivalent).
 
 ---
 
@@ -353,11 +343,7 @@ python scripts/package_release_gallery.py
 
 Output under `dist/`. Then follow **Path A**. Static packaging (`--shared` omitted) is for linking `.lib`/`.a` into your binary — you must also link the `*plugin` targets (see in-tree examples).
 
-After packaging:
-
-```bash
-python scripts/check_shared_package.py --dir dist/qwinui3-<ver>-<plat>-x64-shared --expect-shared yes
-```
+After packaging, run `python scripts/verify_find_package.py --package-dir dist/qwinui3-<ver>-<plat>-x64-shared`.
 
 ---
 
@@ -432,7 +418,7 @@ The in-app OSK (**1.73**) is QWinUI3 QML + SIL Keyman Core (**MIT**) for layouts
 | `cmake/StripRestrictedQtModules.cmake` → `qwinui3_strip_restricted_qt_modules(target)` | POST_BUILD remove from `$<TARGET_FILE_DIR:…>` (Gallery + examples) |
 | `scripts/package_release_gallery.py` → `_strip_restricted()` | Cleans staged Gallery zip / AppDir |
 
-**Consumer apps:** call the CMake helper on your executable target, or delete the same relative paths after `windeployqt` / linuxdeploy. `scripts/check_shared_package.py --dir …` fails if those restricted trees appear **inside** a QWinUI3 lib package (they should never be part of the kit zip).
+**Consumer apps:** call the CMake helper on your executable target, or delete the same relative paths after `windeployqt` / linuxdeploy. Restricted Qt add-on trees should never appear inside a QWinUI3 lib package.
 
 ---
 
@@ -456,7 +442,7 @@ Opening the **QWinUI3 monorepo** itself: [qt-creator.md](qt-creator.md).
 | Style | `QT_QUICK_CONTROLS_STYLE=QWinUI3` | same |
 | QML | `engine.addImportPath(…/qml)` | same |
 | Qt runtime | `windeployqt` (+ strip-restricted) | `linuxdeploy` + qt plugin (+ strip) |
-| Validate kit | `check_shared_package.py --dir …` | same |
+| Validate kit | `verify_find_package.py --package-dir …` | same |
 | API surface | Prefer [stable-api.md](stable-api.md) | same |
 | License | Apache-2.0 (`LICENSE` / `NOTICE` in package) | same |
 
@@ -465,26 +451,18 @@ Opening the **QWinUI3 monorepo** itself: [qt-creator.md](qt-creator.md).
 ## Smoke (maintainers)
 
 ```bash
-# Contract + docs (no Qt) — also via smoke_gallery.py
-python scripts/check_shared_package.py
-python scripts/check_packaging_consumer_matrix.py   # 2.34 matrix + workflow anchors
-
 # Static consumer (Path D proxy — matches consumer-matrix.yml)
 cmake -S . -B build-static -G Ninja -DCMAKE_BUILD_TYPE=Release \
   -DQWINUI3_BUILD_EXAMPLES=ON -DQWINUI3_BUILD_WEBVIEW2=OFF
 cmake --build build-static --config Release --target qwinui3_example_gallery_shell --parallel
 
-# Windows shared artifact
+# Windows shared artifact + find_package sketch (1.61 / 2.34 shared cell)
 python scripts/package_release_libs.py --shared --preset core --archive
-python scripts/check_shared_package.py --dir dist/qwinui3-<ver>-windows-x64-shared-theme+style --expect-shared yes
-
-# find_package sketch consumer (1.61 / 2.34 shared cell)
 python scripts/verify_find_package.py
 python scripts/verify_find_package.py --package-dir dist/qwinui3-<ver>-windows-x64-shared-theme+style+platform
 
 # Linux (CI release job or local gcc_64 kit)
 python scripts/package_release_libs.py --shared --archive
-python scripts/check_shared_package.py --dir dist/qwinui3-<ver>-linux-x64-shared --expect-shared yes
 ```
 
 CI **consumer-matrix** runs static + shared cells on Win/Linux for packaging-related changes; **release** still builds Win + Linux shared archives on `v*` tags.

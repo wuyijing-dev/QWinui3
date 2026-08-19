@@ -2,7 +2,7 @@
 
 **Product version:** **2.49** — closes the **2.00…2.49** performance arc for tranche 1. **Animations stay.** Not a GPU chart rewrite.
 
-Related: [performance.md](performance.md) · [friction-log.md](planning/friction-log.md) (**FL-008**) · [developer-diagnostics.md](developer-diagnostics.md) (**2.44**) · [checkpoint-250.md](checkpoint-250.md) (**2.50** shipped)
+Related: [performance.md](performance.md) · [friction-log.md](planning/friction-log.md) (**FL-008**) · [developer-diagnostics.md](developer-diagnostics.md) (**2.44**) · checkpoint-250 (**2.50** shipped)
 
 
 ---

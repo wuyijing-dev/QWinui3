@@ -179,7 +179,7 @@ KpiTile {
 }
 ```
 
-Smoke: `scripts/check_charts_recipes.py`. Hub: Gallery **Charts** · **Dashboard** · [`examples/dashboard`](../examples/dashboard/).
+Smoke: `python scripts/smoke_gallery.py`. Hub: Gallery **Charts** · **Dashboard** · [`examples/dashboard`](../examples/dashboard/).
 
 ---
 

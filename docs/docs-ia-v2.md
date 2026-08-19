@@ -4,7 +4,7 @@ MkDocs navigation and [recipes.md](recipes.md) hub regroup for **2.xx** — deve
 
 **Find docs in ≤2 clicks:** [Recipes hub](recipes.md) → section tables · MkDocs **Planning** + **Recipes** · Gallery **Recipes hub** mirrors rows.
 
-Related: [roadmap.md](roadmap.md) **2.46** · [Planning hub](planning/index.md) · [ci-smoke.md](ci-smoke.md)
+Related: [roadmap.md](roadmap.md) **2.46** · [Planning hub](planning/index.md) · `python scripts/smoke_gallery.py`
 
 ---
 
@@ -27,7 +27,7 @@ Related: [roadmap.md](roadmap.md) **2.46** · [Planning hub](planning/index.md) 
 
 Gallery **Recipes → Recipes hub** (`RecipesHubPage`) lists the same doc paths as the hub tables — open the matching demo with **Open**. **Planning & product expansion** block added for `docs/planning/`.
 
-Smoke: `python scripts/smoke_gallery.py` (catalog + docs links + Gallery `--smoke`).
+Smoke: `python scripts/smoke_gallery.py` (catalog + Gallery `--smoke`).
 
 ---
 
@@ -36,5 +36,5 @@ Smoke: `python scripts/smoke_gallery.py` (catalog + docs links + Gallery `--smok
 1. Add a **2.xx** recipe doc → row in [recipes.md](recipes.md) **and** `mkdocs.yml` under **Recipes** or **Planning**.
 2. Expansion / friction docs → `docs/planning/` + **Planning** nav + [recipes.md](recipes.md) **Planning & product expansion** section.
 3. If the doc has a Gallery demo → row in `RecipesHubPage.qml` with the same `docs/…` path.
-4. Run `python scripts/check_docs_links.py` and `python scripts/smoke_gallery.py` after doc edits.
+4. Run `python scripts/smoke_gallery.py` after doc edits.
 5. Regenerate component index when bumping product version: `python scripts/generate_component_docs.py`.

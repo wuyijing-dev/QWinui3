@@ -13,7 +13,7 @@ Gallery: **Print / share / export** (`PrintSharePage`).
 
 Related: [system-integration.md](system-integration.md) · [drag-drop.md](drag-drop.md) · [shell-extras.md](shell-extras.md) · [window-helper.md](window-helper.md) · [platform-linux-wayland.md](platform-linux-wayland.md).
 
-**Out of scope (1.63):** built-in PDF product, cloud share providers, screenshot farms ([ci-smoke.md](ci-smoke.md) visual subset is separate).
+**Out of scope (1.63):** built-in PDF product, cloud share providers, screenshot farms (`python scripts/smoke_gallery.py` visual subset is separate).
 
 ---
 

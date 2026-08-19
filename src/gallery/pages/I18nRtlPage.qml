@@ -18,7 +18,7 @@ CatalogPage {
         Text {
             Layout.fillWidth: true
             wrapMode: Text.WordWrap
-            text: qsTr("Fourth seed locale: Deutsch (de_DE). Control pages from 2.21…2.34 must keep qsTr titles — python scripts/check_localization_wave4.py.")
+            text: qsTr("Fourth seed locale: Deutsch (de_DE). Control pages from 2.21…2.34 should keep qsTr titles.")
             font.family: Theme.fontFamily
             font.pixelSize: Theme.fontBody
             color: Theme.textSecondary
@@ -73,10 +73,10 @@ CatalogPage {
                     Layout.fillWidth: true
                     wrapMode: Text.WrapAnywhere
                     font.pixelSize: Theme.fontCaption
-                    text: "python scripts/check_gallery_translations.py"
+                    text: "python scripts/smoke_gallery.py"
                 }
                 CopyButton {
-                    textToCopy: "python scripts/check_gallery_translations.py"
+                    textToCopy: "python scripts/smoke_gallery.py"
                 }
             }
         }

@@ -6,7 +6,7 @@ This page is the **1.xx stable surface** for apps that copy from examples / Gall
 
 **1.xx freeze gate (1.40):** [compatibility-1xx.md](compatibility-1xx.md) — Theme / shell / stable “will not break”.  
 **1.xx maturity checkpoint (1.51):** [maturity-1xx.md](maturity-1xx.md) — prefer harden; not 2.00.  
-**Mid-horizon (1.60):** [checkpoint-160.md](checkpoint-160.md) — defer list unchanged; next is packaging sketch.  
+**Mid-horizon (1.60):** checkpoint-160 — defer list unchanged; next is packaging sketch.  
 **Consumer upgrades:** [upgrade-notes.md](upgrade-notes.md).  
 **Product version:** see `QWINUI3_VERSION` in root `CMakeLists.txt` (`X.YY`).  
 **How-to recipes:** [recipes.md](recipes.md).
@@ -228,7 +228,7 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.17** | Shell extras promote [shell-extras.md](shell-extras.md); taskbar / attention / reveal / idle |
 | **1.18** | Promote `WebView2Host` — soak green [webview2.md](webview2.md); Retry recreate + async generation |
 | **1.19** | Accessibility wave 2 — [accessibility.md](accessibility.md); DataTable/lists/forms names |
-| **1.20** | Gallery catalog UX + smoke critical pages — [ci-smoke.md](ci-smoke.md) |
+| **1.20** | Gallery catalog UX + smoke critical pages — `python scripts/smoke_gallery.py` |
 | **1.21** | Media optional Multimedia recipe [media.md](media.md); stub when missing |
 | **1.22** | Animations & transitions recipe [animations.md](animations.md); Gallery hub + reducedMotion demos |
 | **1.23** | Promote chart subset Line/Bar/Donut + RingGauge + KpiTile + ChartCard — [charts.md](charts.md) |
@@ -248,9 +248,9 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.57** | Touch / pen — [touch-pointer.md](touch-pointer.md); Gallery Touch & pointer + high-traffic callouts |
 | **1.58** | High-DPI / multi-monitor — [high-dpi.md](high-dpi.md); restore `setScreen` after clamp |
 | **1.59** | In-app search — [search.md](search.md); Gallery Search recipes |
-| **1.60** | Mid-horizon checkpoint — [checkpoint-160.md](checkpoint-160.md); smoke + SearchRecipes / HighDpi |
+| **1.60** | Mid-horizon checkpoint — checkpoint-160; smoke + SearchRecipes / HighDpi |
 | **1.61** | CMake `find_package` sketch — [packaging-consumer.md](packaging-consumer.md) Path C; `examples/find-package-consumer` |
-| **1.62** | Gallery visual smoke subset — `--visual-smoke` + `scripts/smoke_visual.py`; [ci-smoke.md](ci-smoke.md) |
+| **1.62** | Gallery visual smoke subset — `--visual-smoke` + `scripts/smoke_visual.py`; `python scripts/smoke_gallery.py` |
 | **1.63** | Print / share / export — [print-share.md](print-share.md); Gallery PrintSharePage |
 | **1.64** | Security & trust — [security-trust.md](security-trust.md); Gallery SecurityTrustPage |
 | **1.65** | Settings persistence — [settings-persistence.md](settings-persistence.md); Gallery SettingsPersistencePage |
@@ -263,7 +263,7 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **2.27** | `NotificationCenter` experimental — grouped in-app history; [feedback.md](feedback.md) wave 3 |
 | **2.28** | Navigation trim diagnostics — `sameKeySkipCount` / `samePageSkipCount`; [performance.md](performance.md) wave 6 |
 | **2.29** | Tree + wrap + breadcrumb a11y — `accessibleName` / `announceChanges` on **2.21…2.24** surfaces; [accessibility.md](accessibility.md) wave 5 |
-| **2.30** | Mid-2.x checkpoint — [checkpoint-230.md](checkpoint-230.md); audit **2.21…2.30** |
+| **2.30** | Mid-2.x checkpoint — checkpoint-230; audit **2.21…2.30** |
 | **2.31** | `CalendarView` experimental — month grid selection modes; [calendar-view.md](calendar-view.md) |
 | **2.32** | Media + WebView2 field matrix + policy recipes — [media.md](media.md) · [webview2.md](webview2.md) |
 | **2.33** | Linux portal & tray wave 3 regression suite — [platform-linux-wayland.md](platform-linux-wayland.md) |
@@ -276,7 +276,7 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **2.40** | Performance wave 7 — collection debounce/filter paths — [performance.md](performance.md) wave 7 |
 | **2.41** | Command/menu wave 3 — large palette + shortcut discovery — [commands.md](commands.md) wave 3 |
 | **2.42** | SwipeControl deepen — thresholds + nested scroll + teaching — [touch-pointer.md](touch-pointer.md) |
-| **2.50** | Tranche-1 checkpoint — [checkpoint-250.md](checkpoint-250.md); friction-only **2.51+** |
+| **2.50** | Tranche-1 checkpoint — checkpoint-250; friction-only **2.51+** |
 | **2.51** | Stable vs experimental clarity — [stable-clarity-251.md](stable-clarity-251.md); `lint_qml_imports.py`; **FL-004** queue closed |
 | **2.61** | `RichEdit` experimental — mail/template rich text; [rich-edit-261.md](rich-edit-261.md); **FL-005** closed |
 | **2.62** | `SemanticZoom` experimental — grid ↔ index; [semantic-zoom-262.md](semantic-zoom-262.md); **FL-006** closed |
@@ -300,7 +300,7 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.75** | Extra Keyman `.kmx` (en-GB/it/pt/pl/sv/tr); still experimental; [on-screen-keyboard.md](on-screen-keyboard.md) |
 | **1.76** | IME deepen (MIT): pinyin prefix phrases, hangul peel/Space; ja kanji gap documented; [on-screen-keyboard.md](on-screen-keyboard.md) |
 | **1.77** | App-scoped hardware input (`hardwareInput`); not OS-wide; [on-screen-keyboard.md](on-screen-keyboard.md) |
-| **1.78** | Long-horizon 1.xx checkpoint — [checkpoint-178.md](checkpoint-178.md); OSK stays experimental; prefer field harden / pause |
+| **1.78** | Long-horizon 1.xx checkpoint — checkpoint-178; OSK stays experimental; prefer field harden / pause |
 | **1.79** | Linux / Wayland field harden — [platform-linux-wayland.md](platform-linux-wayland.md) |
 | **1.80** | Win11 OSK layout chrome; still experimental; [on-screen-keyboard.md](on-screen-keyboard.md) |
 | **1.81** | Win11 OSK behavior vs Win10; still experimental |
@@ -312,7 +312,7 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.87** | Performance wave 2 — navigation & page stack ([performance.md](performance.md)) |
 | **1.88** | Performance wave 3 — lists & data collections ([performance.md](performance.md)) |
 | **1.89** | Performance wave 4 — style, charts & Gallery heavy pages ([performance.md](performance.md)) |
-| **1.90** | 1.xx close-out — perf arc sign-off + 2.00 prep draft ([checkpoint-190.md](checkpoint-190.md)) |
+| **1.90** | 1.xx close-out — perf arc sign-off + 2.00 prep draft (checkpoint-190) |
 | **1.35** | Qt Creator kit polish — [qt-creator.md](qt-creator.md); example build presets |
 | **1.36** | Docs site IA — [recipes.md](recipes.md) hub; MkDocs Recipes sections |
 | **1.37** | Promote sweep — commands / Flyout / TabView / ShellWindow / pickers / progress / FontIcon / ItemsRepeater; explicit defer list |
@@ -325,11 +325,11 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.44** | Keyboard-first cookbook — [keyboard.md](keyboard.md); Gallery Accessibility tour |
 | **1.45** | Localization deepen — [i18n-rtl.md](i18n-rtl.md); zh_CN seed; Gallery `--lang`; translation smoke check |
 | **1.54** | Extra locale pack — `ja_JP` seed; Gallery language ComboBox; translation check extended |
-| **1.46** | Shared redistribute polish — [packaging-consumer.md](packaging-consumer.md); `check_shared_package.py`; windeploy/linuxdeploy + strip |
+| **1.46** | Shared redistribute polish — [packaging-consumer.md](packaging-consumer.md); windeploy/linuxdeploy + strip |
 | **1.47** | Snap Layouts / shell extras polish — [shell-extras.md](shell-extras.md); Gallery System integration demos |
 | **1.48** | ContentDialogQueue deepen — [dialogs-flyouts.md](dialogs-flyouts.md); `replaceCurrent` pump fix; Gallery A→B→C stress |
 | **1.49** | Icon micro-motion — [icons.md](icons.md); `FontIcon` / `IconicButton` hover/press scales |
 | **1.50** | Extractable Gallery shell — [examples/gallery-shell](../examples/gallery-shell/); `NavigationWindow` `pageModule` |
 | **1.51** | 1.xx maturity checkpoint — [maturity-1xx.md](maturity-1xx.md); freeze revisit [compatibility-1xx.md](compatibility-1xx.md) |
-| **1.52** | Field polish buffer — docs-link smoke + critical pages FontIcon/Pitfalls/ExamplesTemplates — [ci-smoke.md](ci-smoke.md) |
+| **1.52** | Field polish buffer — docs-link smoke + critical pages FontIcon/Pitfalls/ExamplesTemplates — `python scripts/smoke_gallery.py` |
 | **1.53** | Thin `AnimatedIcon` glyph state swap (experimental, not Lottie) — [icons.md](icons.md) |

@@ -56,7 +56,6 @@ Placement helpers (`mapToItem`, `Overlay.overlay`) are fine; do not reintroduce
 - Release shared libs: `python scripts/package_release_libs.py --shared`
 - Third-party consume: [packaging-consumer.md](packaging-consumer.md)
 - Default builds stay STATIC; SHARED via `-DQWINUI3_BUILD_SHARED=ON` (enables `CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS` on MSVC).
-- Validate: `python scripts/check_shared_package.py` (+ optional `--dir` after packaging)
 - Project license: **Apache-2.0** — [licensing.md](licensing.md), [LICENSE](../LICENSE), [NOTICE](../NOTICE).
 
 ## Docs

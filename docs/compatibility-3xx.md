@@ -26,7 +26,7 @@ Same categories as [compatibility-1xx.md](compatibility-1xx.md), post-**3.00** i
 - **NavigationView** / **TabView** (non–tear-out APIs)
 - **Platform** `WindowHelper` contract documented in **2.x**
 
-Fill exact type list when [checkpoint-300.md](checkpoint-300.md) audits **2.73**.
+Fill exact type list when checkpoint-300 audits **2.73**.
 
 ---
 
@@ -34,6 +34,6 @@ Fill exact type list when [checkpoint-300.md](checkpoint-300.md) audits **2.73**
 
 | Doc | Role |
 |-----|------|
-| [checkpoint-300.md](checkpoint-300.md) | 3.00 gate audit |
+| checkpoint-300 | 3.00 gate audit |
 | [roadmap.md](roadmap.md) | Full plan through **3.00** |
 | [stable-api.md](stable-api.md) | Stable vs experimental map |

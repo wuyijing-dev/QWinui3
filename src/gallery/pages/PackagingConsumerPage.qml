@@ -8,7 +8,7 @@ import QWinUI3.Platform
 // Gallery — Consumer packaging & shared redistribute (1.46).
 //
 // Surfaces docs/packaging-consumer.md: shared vs static, windeploy/linuxdeploy,
-// strip-restricted modules, check_shared_package.py.
+// strip-restricted modules.
 
 CatalogPage {
     id: page
@@ -128,14 +128,14 @@ CatalogPage {
 
     ControlExample {
         headerText: qsTr("Validate package tree")
-        qmlSource: "python scripts/check_shared_package.py\npython scripts/check_shared_package.py --dir dist/…"
+        qmlSource: "python scripts/verify_find_package.py --package-dir dist/…"
         ColumnLayout {
             Layout.fillWidth: true
             spacing: Theme.spacing
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("No-Qt contract check (also in Gallery smoke). After packaging, pass --dir and --expect-shared yes. Fails if Theme/Platform QML missing or restricted Qt add-ons leaked into the kit zip.")
+                text: qsTr("After packaging a shared kit, run verify_find_package against the dist folder (consumer-matrix CI does this). Restricted Qt add-ons must not leak into the kit zip.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
@@ -145,27 +145,13 @@ CatalogPage {
                 Label {
                     Layout.fillWidth: true
                     wrapMode: Text.WrapAnywhere
-                    text: "python scripts/check_shared_package.py"
+                    text: "python scripts/verify_find_package.py --package-dir dist/qwinui3-<ver>-windows-x64-shared"
                     font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontCaption
                 }
                 CopyButton {
-                    textToCopy: "python scripts/check_shared_package.py"
-                    onCopyCompleted: page.noteCopied(qsTr("contract check"))
-                }
-            }
-            RowLayout {
-                Layout.fillWidth: true
-                Label {
-                    Layout.fillWidth: true
-                    wrapMode: Text.WrapAnywhere
-                    text: "python scripts/check_shared_package.py --dir dist/qwinui3-<ver>-windows-x64-shared --expect-shared yes"
-                    font.family: Theme.fontFamily
-                    font.pixelSize: Theme.fontCaption
-                }
-                CopyButton {
-                    textToCopy: "python scripts/check_shared_package.py --dir dist/qwinui3-<ver>-windows-x64-shared --expect-shared yes"
-                    onCopyCompleted: page.noteCopied(qsTr("--dir check"))
+                    textToCopy: "python scripts/verify_find_package.py --package-dir dist/qwinui3-<ver>-windows-x64-shared"
+                    onCopyCompleted: page.noteCopied(qsTr("find_package check"))
                 }
             }
         }

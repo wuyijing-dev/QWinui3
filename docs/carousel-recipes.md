@@ -157,11 +157,7 @@ Gallery **PipsPager** → **MaxVisiblePips** demo.
 
 ## Validation
 
-```bash
-python scripts/check_pips_pager_carousel.py
-```
-
-Hooked from Gallery smoke (**2.37**). No Qt build required.
+`python scripts/smoke_gallery.py` (Gallery **FlipView** / **PipsPager** pages).
 
 ---
 

@@ -105,7 +105,6 @@ Same as a Release shared zip:
 Validate:
 
 ```bash
-python scripts/check_shared_package.py --dir <prefix> --expect-shared yes
 python scripts/verify_find_package.py --package-dir <prefix>
 ```
 
@@ -113,9 +112,7 @@ python scripts/verify_find_package.py --package-dir <prefix>
 
 ## Maintainer checks
 
-```bash
-python scripts/check_shared_package.py
-```
+Package a shared kit and run `python scripts/verify_find_package.py --package-dir <prefix>`.
 
 Registry / ConCenter publication is **optional follow-up** — this slice ships **in-repo** ports with documented triplets.
 

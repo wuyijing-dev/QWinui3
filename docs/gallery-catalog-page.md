@@ -82,7 +82,7 @@ CatalogPage {
 - Home **Recently shipped** uses `ControlCatalog.recentlyShipped()` (curated recipes; **2.39** surfaces **2.38 → 2.21** at top).
 - Full **2.21…2.38** matrix: [gallery-catalog-expansion.md](gallery-catalog-expansion.md) (**2.39**).
 
-Smoke coverage: [ci-smoke.md](ci-smoke.md).
+Smoke coverage: `python scripts/smoke_gallery.py`.
 
 ## Rebuild note
 

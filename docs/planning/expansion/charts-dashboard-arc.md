@@ -13,7 +13,7 @@ Product plan for **new analytics surfaces** and **deeper chart/dashboard APIs** 
 | **Stable six stays** | `LineChart`, `BarChart`, `DonutChart`, `RingGauge`, `KpiTile`, `ChartCard` remain the product core through **2.73** |
 | **New types = friction** | Every **new** chart/gauge/dashboard host needs a [friction-log.md](../friction-log.md) row + Gallery page before stable promote |
 | **Deepen before duplicate** | Prefer new properties on existing types (`LineChart` brush, `KpiTile` compare) over sibling chart names |
-| **3.00 cleanup** | Permanent-defer siblings may move to `QWinUI3.Experimental` or remove — [checkpoint-300.md](../../checkpoint-300.md) |
+| **3.00 cleanup** | Permanent-defer siblings may move to `QWinUI3.Experimental` or remove — checkpoint-300 |
 
 ---
 

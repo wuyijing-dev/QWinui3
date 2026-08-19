@@ -19,11 +19,11 @@ flowchart LR
 
 | Phase | Versions | Rule | Success metric |
 |-------|----------|------|----------------|
-| **Close-out** | **2.44 → 2.50** | Ship planned audit slices; **no** new conditional controls without friction | [checkpoint-250.md](../checkpoint-250.md) green |
-| **Friction** | **2.51 → 2.60** | **Shipped** — [checkpoint-260.md](../checkpoint-260.md) | Real app pains closed |
-| **Professional** | **2.61 → 2.70** | LoB recipes + conditional types **only** with named friction | [checkpoint-270.md](../checkpoint-270.md) |
-| **Python** | **2.71 → 2.73** | PySide6 + PyPI after **2.02** packaging | [checkpoint-273.md](../checkpoint-273.md) |
-| **2.x close-out** | **3.00** | One breaking major — **not** a parking-lot dump | [checkpoint-300.md](../checkpoint-300.md) |
+| **Close-out** | **2.44 → 2.50** | Ship planned audit slices; **no** new conditional controls without friction | checkpoint-250 green |
+| **Friction** | **2.51 → 2.60** | **Shipped** — checkpoint-260 | Real app pains closed |
+| **Professional** | **2.61 → 2.70** | LoB recipes + conditional types **only** with named friction | checkpoint-270 |
+| **Python** | **2.71 → 2.73** | PySide6 + PyPI after **2.02** packaging | checkpoint-273 |
+| **2.x close-out** | **3.00** | One breaking major — **not** a parking-lot dump | checkpoint-300 |
 | **3.xx** | **3.01+** | Same friction gate as **2.51+** | friction-log row required |
 
 ---
@@ -44,7 +44,7 @@ flowchart LR
 
 ## Phase B — friction queue (2.51…2.60) — **closed at 2.60**
 
-All slices **shipped**; checkpoint [checkpoint-260.md](../checkpoint-260.md). **Next:** Phase C professional surfaces **2.61…2.70**.
+All slices **shipped**; checkpoint checkpoint-260. **Next:** Phase C professional surfaces **2.61…2.70**.
 
 **Priority order** (historical — completed):
 
@@ -102,7 +102,7 @@ Only after **named app** rows in friction-log:
 
 ## Phase E — 2.x close-out (3.00)
 
-**Gate:** **2.73** shipped + [checkpoint-300.md](../checkpoint-300.md) green. **Do not** open 3.00 PRs before **2.73**.
+**Gate:** **2.73** shipped + checkpoint-300 green. **Do not** open 3.00 PRs before **2.73**.
 
 | Area | 3.00 intent | Do not |
 |------|-------------|--------|
@@ -125,7 +125,7 @@ Draft consumer steps: [upgrade-notes.md](../upgrade-notes.md) **Upgrade 2.73 →
 3. **Prefer recipe/docs slices** over API changes when pain is “how do I compose this?” — **except** when friction rows demand API deepen (charts arc, collection wave 9).
 4. **Charts + dashboard:** [charts-dashboard-arc.md](expansion/charts-dashboard-arc.md) — deepen stable six first; new types friction-gated (**FL-014** / **FL-015**).
 5. **Component deepen:** [component-capabilities-expansion.md](expansion/component-capabilities-expansion.md) — expand existing controls before sibling types.
-6. **3.00 prep** starts at **2.60** (draft) · finalized at **2.73** + [checkpoint-300.md](../checkpoint-300.md) — do not break stable-api early.
+6. **3.00 prep** starts at **2.60** (draft) · finalized at **2.73** + checkpoint-300 — do not break stable-api early.
 7. **Open 3.00 only after 2.73** — one breaking major; **3.01+** is friction-gated like **2.51+**.
 
 ---

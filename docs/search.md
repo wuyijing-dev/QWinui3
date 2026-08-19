@@ -84,8 +84,6 @@ Gallery: **SearchBox**.
 2. **Esc** — closes suggestion popup only; does not steal focus from the field.
 3. **List ↑ at row 0** — returns focus to the field (no dead-end in the popup).
 
-Gallery **Search recipes** checklist · `python scripts/check_command_search.py`.
-
 ---
 
 ## Filter-above list (catalog pattern)

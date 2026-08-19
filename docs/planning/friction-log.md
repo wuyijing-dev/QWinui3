@@ -245,7 +245,7 @@
 
 ### 2.60 (2026-08-17)
 
-Friction tranche **2.51…2.60** closed — [checkpoint-260.md](../checkpoint-260.md). **FL-017** / **FL-018** closed; **FL-003**, **FL-004**, **FL-008** honest defer. **3.00** prep draft only. **Next queue:** professional surfaces **2.61…2.70** (conditional rows need named apps).
+Friction tranche **2.51…2.60** closed — checkpoint-260. **FL-017** / **FL-018** closed; **FL-003**, **FL-004**, **FL-008** honest defer. **3.00** prep draft only. **Next queue:** professional surfaces **2.61…2.70** (conditional rows need named apps).
 
 ---
 

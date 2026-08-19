@@ -36,14 +36,7 @@ lupdate src/gallery \
   -no-obsolete
 ```
 
-Validate (CI, no Qt):
-
-```bash
-python scripts/check_gallery_translations.py
-python scripts/check_localization_wave4.py   # 2.35 control page qsTr rules
-```
-
-Translate in Qt Linguist, then **Release build** (CMake runs `lrelease` via `qt_add_translations`).
+After `lupdate`, translate in Qt Linguist, then **Release build** (CMake runs `lrelease` via `qt_add_translations`).
 
 ---
 

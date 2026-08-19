@@ -4,7 +4,7 @@ Practical guidance for **large lists**, **DataTable**, **Canvas charts**, and **
 
 Gallery: **DataTable** (heavy-page callout) · ItemsView · ItemsRepeater · Charts · **Settings → Page Component cache**.
 
-Related: [data-collections.md](data-collections.md) · [charts.md](charts.md) · [animations.md](animations.md) · [ci-smoke.md](ci-smoke.md).
+Related: [data-collections.md](data-collections.md) · [charts.md](charts.md) · [animations.md](animations.md) · `python scripts/smoke_gallery.py`.
 
 ---
 
@@ -50,7 +50,7 @@ qwinui3_gallery.exe --smoke
 | Component LRU | `pageCacheLimit: 24` (default); `clearPageCache()` from Settings |
 | Home shadows | `MultiEffect` deferred one frame; off when `Theme.reducedMotion` |
 | Optional hosts | WebView2 / MediaPlayer pages use `Loader` until activated |
-| Smoke scope | Critical list only — [ci-smoke.md](ci-smoke.md) |
+| Smoke scope | Critical list only — `python scripts/smoke_gallery.py` |
 
 Heavy pages (prefer not to touch on Home): `ControlCatalog.heavyComponents()` — DataTable, Charts, FontIcon, WebView2, Media, dense chart samples.
 
@@ -240,7 +240,7 @@ Virtualized tables and lists — **no visual change**, less work per keystroke.
 | 3 | **1.88** | Lists & data collections — debounced filter, skip unchanged rebuilds |
 | 4 | **1.89** | Style, charts & Gallery heavy pages — idle Behavior trim, chart budgets |
 
-Rule for the arc: **trim waste, not motion**. Sign-off: [checkpoint-190.md](checkpoint-190.md) (**1.90**).
+Rule for the arc: **trim waste, not motion**. Sign-off: checkpoint-190 (**1.90**).
 
 ---
 
@@ -256,7 +256,6 @@ Deepens **1.88** list/table perf on the **2.x** floor — **animations stay**.
 | `NavigationView` | `pageCacheHits` diagnostics; `ensureComponent` LRU unchanged | Same-key nav still skips StackView replace; set `pageCacheLimit` |
 
 **Virtualization:** all three use `ListView` + `reuseItems` — no second engine. For thousands of rows, filter/sort in C++ and bind a model.
-
 
 ---
 
@@ -296,8 +295,7 @@ QWinUI3 Gallery smoke OK (… main=…ms, pages=…ms, total=…ms)
 | `pages` | Critical page `QQmlComponent` instantiate loop | On-demand compile cost proxy |
 | `total` | Wall clock to exit | Local regression hint after perf edits |
 
-Run locally: `qwinui3_gallery --smoke --startup-log` (Release build, same machine). Compare **relative** deltas — see [ci-smoke.md](ci-smoke.md) (**2.28**). Smoke validates **instantiate**, not navigation frame time.
-
+Run locally: `qwinui3_gallery --smoke --startup-log` (Release build, same machine). Compare **relative** deltas — see `python scripts/smoke_gallery.py` (**2.28**). Smoke validates **instantiate**, not navigation frame time.
 
 ---
 
@@ -325,7 +323,6 @@ Second collection pass on the **2.x** floor — **DataTable** / **ListDetailsVie
 
 **Named paths:** filter keystroke → debounce timer → `refresh()` → skip if key unchanged → cap walk → `ListView` reuse. Navigation pane search: app-owned Timer on `paneSearchTextEdited` before rebuilding `paneSearchModel`.
 
-
 ---
 
 ## Charts & dashboard wave 8 (2.49)
@@ -346,7 +343,6 @@ Third **2.x** pass on **stable six** + wrap grids + dashboard live series — cl
 | 8 | **All** | Motion policy | `Theme.reducedMotion` honored | Perf trims DWM/debounce waste, not navigation motion |
 
 **Named paths:** live metric tick → append/trim ring buffer → chart `values` replace; filter keystroke → `filterDebounceMs` → filter walk on small arrays only.
-
 
 ---
 

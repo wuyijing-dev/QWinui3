@@ -62,8 +62,6 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 | [vcpkg / Conan](packaging-vcpkg-conan.md) | Overlay port + Conan 2 recipe (**2.11**) |
 | [1.xx compatibility](compatibility-1xx.md) | Will-not-break Theme / shells / stable controls (1.40 / 1.51) |
 | [1.xx maturity checkpoint](maturity-1xx.md) | Where we are; harden-first posture (**1.51**) |
-| [Mid-horizon checkpoint](checkpoint-160.md) | Halfway audit; 1.61+ confirmed (**1.60**) |
-| [Long-horizon checkpoint](checkpoint-178.md) | 1.49…1.78 close-out; field harden / pause (**1.78**) |
 | [Upgrade notes](upgrade-notes.md) | Consumer checklist + template (1.40) |
 | [Qt version compat](qt-version-compat.md) | 6.5+ / 6.8 LTS / CI matrix |
 | [Conventions](conventions.md) | Radius, Accessible, Extras import |
@@ -138,24 +136,15 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 
 ---
 
-## Quality & checkpoints
+## Quality
 
 | Recipe | One-liner |
 |--------|-----------|
-| [CI smoke](ci-smoke.md) | Gallery `--smoke` + opt-in visual subset (**1.62**) |
 | [Gallery CatalogPage](gallery-catalog-page.md) | Page host slots (Item not Page) |
-| [Mid-horizon checkpoint (1.60)](checkpoint-160.md) | Halfway audit; 1.61+ confirmed |
-| [Long-horizon checkpoint (1.78)](checkpoint-178.md) | 1.49…1.78 close-out |
-| [Checkpoint 2.30](checkpoint-230.md) | Tranche-1 mid audit |
-| [Checkpoint 2.50](checkpoint-250.md) | Tranche-1 close-out — friction-only **2.51+** |
 | [Collection perf (2.64)](collection-perf-264.md) | DataTable pin/group · ListDetailsView bulk toolbar |
 | [Notification center (2.63)](notification-center-263.md) | Toast + history **`NotificationBridge`** stack |
 | [Semantic zoom (2.62)](semantic-zoom-262.md) | Contacts **`SemanticZoom`** (**experimental**) |
 | [Rich edit (2.61)](rich-edit-261.md) | Mail / template **`RichEdit`** (**experimental**) |
-| [Checkpoint 2.60](checkpoint-260.md) | Friction tranche close-out — **2.61+** professional surfaces |
-| [Checkpoint 2.70](checkpoint-270.md) | Professional surfaces audit (planned) |
-| [Checkpoint 2.73](checkpoint-273.md) | Python consumer checkpoint (planned) |
-| [Checkpoint 3.00](checkpoint-300.md) | 2.x line close-out (draft) |
 | [3.xx compatibility (draft)](compatibility-3xx.md) | Breaking close-out notes |
 
 ---
