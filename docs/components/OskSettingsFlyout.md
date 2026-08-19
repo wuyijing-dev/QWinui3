@@ -8,7 +8,12 @@ Win11-style keyboard settings (size, voice/handwriting, user lexicon).
 
 [← Component index](../components.md)
 
-**Extends** `Control`.
+## Example
+
+```qml
+OskSettingsFlyout { engine: kbd; speech: speechSvc; handwriting: hwSvc }
+T.Control {
+```
 
 ## API
 
@@ -33,13 +38,5 @@ Win11-style keyboard settings (size, voice/handwriting, user lexicon).
 
 _No custom methods_ (use inherited methods from the base type).
 
-### Inherited from `Control`
-
-Also available (base type / Qt Quick Controls):
-
-- `padding`
-- `font`
-- `background` / `contentItem`
-
 ---
-*Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*
+*Generated from module sources by `scripts/generate_component_docs.py` — do not edit by hand.*

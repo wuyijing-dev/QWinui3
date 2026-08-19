@@ -1,6 +1,6 @@
 # QWinUI3 component API
 
-Library **v2.64**. Generated from QML source comments (`scripts/generate_component_docs.py`).
+Library **v2.64**. Generated from CMake ``QML_FILES`` + C++ ``QML_ELEMENT`` types (`scripts/generate_component_docs.py`).
 Each control has its own page under `docs/components/`.
 
 ```bash
@@ -8,7 +8,7 @@ python scripts/generate_component_docs.py
 python scripts/generate_component_docs.py --lint
 ```
 
-**270** public · **11** internal · **197** with Gallery demos · Hub: [docs home](index.md).
+**278** public · **14** internal · **206** with Gallery demos · Hub: [docs home](index.md).
 
 ## By module
 
@@ -40,6 +40,7 @@ python scripts/generate_component_docs.py --lint
 - [CandlestickChart](components/CandlestickChart.md) — OHLC candlesticks for professional price series. · Gallery
 - [ChartCard](components/ChartCard.md) — Title/subtitle chrome around a chart child. · Gallery
 - [ChartLegend](components/ChartLegend.md) — Fluent legend for series/slices.
+- [ChartSeries](components/ChartSeries.md) — Dense numeric series owned in C++ for million-point charts. · Gallery · C++
 - [Chip](components/Chip.md) — Compact selectable tag; optional close affordance. · Gallery
 - [ChipGroup](components/ChipGroup.md) — Horizontal chip group for filters / single select. · Gallery
 - [ColorPicker](components/ColorPicker.md) — Spectrum + RGB/Hex color editor. · Gallery
@@ -51,10 +52,10 @@ python scripts/generate_component_docs.py --lint
 - [CompactOverlayShellWindow](components/CompactOverlayShellWindow.md) — Always-on-top compact overlay shell.
 - [CompassGauge](components/CompassGauge.md) — Heading / bearing compass (0–360°, wraparound). · Gallery
 - [ConnectedAnimation](components/ConnectedAnimation.md) — Shared-element style morph between two items (same window). · Gallery
-- [ConnectedAnimationService](components/ConnectedAnimationService.md) — Register shared-element keys and play list→detail morphs.
+- [ConnectedAnimationService](components/ConnectedAnimationService.md) — Register shared-element keys and play list→detail morphs. · singleton
 - [ContentCard](components/ContentCard.md) — Surface card with title, subtitle, symbol, and body slot. · Gallery
 - [ContentDialog](components/ContentDialog.md) — Modal dialog with primary / secondary / close actions. · Gallery
-- [ContentDialogQueue](components/ContentDialogQueue.md) — Singleton queue so ContentDialogs open one at a time.
+- [ContentDialogQueue](components/ContentDialogQueue.md) — Singleton queue so ContentDialogs open one at a time. · singleton
 - [ContentThemeTransition](components/ContentThemeTransition.md) — Cross-fade + slight horizontal shift when swapping content.
 - [CoolantGauge](components/CoolantGauge.md) — Automotive C–H coolant temperature. · Gallery
 - [CopyButton](components/CopyButton.md) — Copies textToCopy and flashes a success glyph. · Gallery
@@ -185,7 +186,7 @@ python scripts/generate_component_docs.py --lint
 - [SwitchCase](components/SwitchCase.md) — Case child for SwitchPresenter.
 - [SwitchPresenter](components/SwitchPresenter.md) — Shows the SwitchCase matching value. · Gallery
 - [TabView](components/TabView.md) — Closeable / reorderable / tear-out tabs. · Gallery
-- [TabViewDropHub](components/TabViewDropHub.md) — same-process registry so torn-out tabs can dock back.
+- [TabViewDropHub](components/TabViewDropHub.md) — same-process registry so torn-out tabs can dock back. · singleton
 - [TabViewTearOutWindow](components/TabViewTearOutWindow.md) — Host window for a torn-out TabView tab.
 - [TachometerGauge](components/TachometerGauge.md) — RPM-style needle with a redline band. · Gallery
 - [TankGauge](components/TankGauge.md) — Vertical / horizontal tank / reservoir level gauge. · Gallery
@@ -223,19 +224,26 @@ python scripts/generate_component_docs.py --lint
 
 - [CompactOverlayWindow](components/CompactOverlayWindow.md) — StandardWindow compact overlay presenter.
 - [DialogWindow](components/DialogWindow.md) — StandardWindow dialog paradigm.
+- [FilePicker](components/FilePicker.md) — Native open/save/folder dialogs for QML (no QtQuick.Dialogs). · Gallery · C++ · singleton
 - [FrameStatsBadge](components/FrameStatsBadge.md) — compact FPS readout for StandardTitleChrome.rightHeader (PlatformTitleBar slot before caption buttons — not TitleBar.rightHeader).
+- [FrameStatsMonitor](components/FrameStatsMonitor.md) — FPS / frame-time / RHI readout for Gallery and retail diagnostics (singleton). · Gallery · C++ · singleton
 - [FrameStatsOverlay](components/FrameStatsOverlay.md) — floating FPS badge when not using the title-bar slot.
 - [PlatformTitleBar](components/PlatformTitleBar.md) — Caption buttons + drag region + TitleBar host.
 - [StandardWindow](components/StandardWindow.md) — Platform ApplicationWindow + PlatformTitleBar host.
 - [ThemeSync](components/ThemeSync.md) — Copy OS accessibility / color scheme into Theme knobs.
 - [ToolWindow](components/ToolWindow.md) — StandardWindow tool paradigm.
+- [TrayIcon](components/TrayIcon.md) — System tray icon + balloon / notify-send bridge. · Gallery · C++
+- [WebView2Host](components/WebView2Host.md) — HWND-backed Edge WebView2 under a QQuickItem (Windows only). · Gallery · C++
+- [WindowHelper](components/WindowHelper.md) — Platform chrome, backdrop, DPI, and geometry helpers (singleton). · Gallery · C++ · singleton
 - [WindowShellContentClip](components/WindowShellContentClip.md) — inset / clip helper for Linux client-shell bottom corners.
 - [WindowShellDecoration](components/WindowShellDecoration.md) — Linux / Wayland client shell: DWM-like shadow + rounded frame.
-- [WindowShellDecoration_Simple](components/WindowShellDecoration_Simple.md) — fallback when QtQuick.Effects is unavailable at build time. Same public API as WindowShellDecoration.qml (MultiEffect build); soft shadow omitted.
 
 ### `QWinUI3.Theme`
 
-- [Theme](components/Theme.md) — Fluent color / type / motion token singleton.
+- [FluentIcons](components/FluentIcons.md) — Segoe Fluent Icons character class — FluentIcons.Save, FluentIcons.Copy, … Full glyph lists: FluentIconsCatalog singleton (PropertyMap hides child props). · Gallery · C++ · singleton
+- [FluentIconsCatalog](components/FluentIconsCatalog.md) — Iconography catalog — separate QML singleton (not on QQmlPropertyMap). · Gallery · C++ · singleton
+- [Theme](components/Theme.md) — Fluent color / type / motion token singleton. · singleton
+- [ThemeFonts](components/ThemeFonts.md) — registers embedded Fluent-compatible icon fonts (qrc). · Gallery · C++ · singleton
 
 ### `QtQuick.Controls.QWinUI3`
 
@@ -333,6 +341,7 @@ python scripts/generate_component_docs.py --lint
 - [CandlestickChart](components/CandlestickChart.md) — `QWinUI3.Extras`
 - [ChartCard](components/ChartCard.md) — `QWinUI3.Extras`
 - [ChartLegend](components/ChartLegend.md) — `QWinUI3.Extras`
+- [ChartSeries](components/ChartSeries.md) — `QWinUI3.Extras`
 - [CompassGauge](components/CompassGauge.md) — `QWinUI3.Extras`
 - [CoolantGauge](components/CoolantGauge.md) — `QWinUI3.Extras`
 - [CylinderGauge](components/CylinderGauge.md) — `QWinUI3.Extras`
@@ -374,6 +383,7 @@ python scripts/generate_component_docs.py --lint
 - [TpmsGauge](components/TpmsGauge.md) — `QWinUI3.Extras`
 - [ViolinChart](components/ViolinChart.md) — `QWinUI3.Extras`
 - [VoltageGauge](components/VoltageGauge.md) — `QWinUI3.Extras`
+- [VuMeter](components/VuMeter.md) — `QWinUI3.Extras`
 - [WaffleChart](components/WaffleChart.md) — `QWinUI3.Extras`
 - [WaterfallChart](components/WaterfallChart.md) — `QWinUI3.Extras`
 - [ZoneGauge](components/ZoneGauge.md) — `QWinUI3.Extras`
@@ -507,21 +517,24 @@ python scripts/generate_component_docs.py --lint
 - [StandardTitleChrome](components/StandardTitleChrome.md) — `QWinUI3.Extras`
 - [SwipeAction](components/SwipeAction.md) — `QWinUI3.Extras`
 - [SwipeControl](components/SwipeControl.md) — `QWinUI3.Extras`
-- [VuMeter](components/VuMeter.md) — `QWinUI3.Extras`
 
 ### Platform
 
 - [CompactOverlayWindow](components/CompactOverlayWindow.md) — `QWinUI3.Platform`
 - [DialogWindow](components/DialogWindow.md) — `QWinUI3.Platform`
+- [FilePicker](components/FilePicker.md) — `QWinUI3.Platform`
 - [FrameStatsBadge](components/FrameStatsBadge.md) — `QWinUI3.Platform`
+- [FrameStatsMonitor](components/FrameStatsMonitor.md) — `QWinUI3.Platform`
 - [FrameStatsOverlay](components/FrameStatsOverlay.md) — `QWinUI3.Platform`
 - [PlatformTitleBar](components/PlatformTitleBar.md) — `QWinUI3.Platform`
 - [StandardWindow](components/StandardWindow.md) — `QWinUI3.Platform`
 - [ThemeSync](components/ThemeSync.md) — `QWinUI3.Platform`
 - [ToolWindow](components/ToolWindow.md) — `QWinUI3.Platform`
+- [TrayIcon](components/TrayIcon.md) — `QWinUI3.Platform`
+- [WebView2Host](components/WebView2Host.md) — `QWinUI3.Platform`
+- [WindowHelper](components/WindowHelper.md) — `QWinUI3.Platform`
 - [WindowShellContentClip](components/WindowShellContentClip.md) — `QWinUI3.Platform`
 - [WindowShellDecoration](components/WindowShellDecoration.md) — `QWinUI3.Platform`
-- [WindowShellDecoration_Simple](components/WindowShellDecoration_Simple.md) — `QWinUI3.Platform`
 
 ### Shells & windows
 
@@ -609,21 +622,27 @@ python scripts/generate_component_docs.py --lint
 
 ### Theme
 
+- [FluentIcons](components/FluentIcons.md) — `QWinUI3.Theme`
+- [FluentIconsCatalog](components/FluentIconsCatalog.md) — `QWinUI3.Theme`
 - [Theme](components/Theme.md) — `QWinUI3.Theme`
+- [ThemeFonts](components/ThemeFonts.md) — `QWinUI3.Theme`
 
 ## Internal / support
 
 - [ChartUtils](components/ChartUtils.md) (`QWinUI3.Extras`) — LOD helpers for large chart series.
-- [MediaPlayerElementStub](components/MediaPlayerElementStub.md) (`QWinUI3.Extras`) — Stub when Qt Multimedia is not linked (1.21).
+- [GaugeDragLayer](components/GaugeDragLayer.md) (`QWinUI3.Extras`) — Maps drags anywhere on the gauge control into coordSpace (face / canvas / track).
+- [GaugeUtils](components/GaugeUtils.md) (`QWinUI3.Extras`) — Shared pointer → value helpers for interactive gauges.
+- [KeyboardEngine](components/KeyboardEngine.md) (`QWinUI3.Extras`) — Keyman layouts + in-app IME + optional Windows system-wide inject (1.82). Not Qt Virtual Keyboard. CJK is not Keyman IMX. Japanese stays romaji→kana (no MIT kanji lexicon; JMDict is CC-BY-SA). systemWide (opt-in, Windows SendInput) injects into the focused desktop app.
+- [OskHandwritingService](components/OskHandwritingService.md) (`QWinUI3.Extras`) — process handwriting for OSK (Windows + Linux). No helper processes. Windows: Ink recognizer COM. Both: Zinnia shared library when a model is present.
+- [OskSpeechService](components/OskSpeechService.md) (`QWinUI3.Extras`) — process speech-to-text for OSK (Windows + Linux). No helper processes. Windows: SAPI in-proc recognizer. Optional Vosk shared library on both OSes.
 - [ShellWindowSupport](components/ShellWindowSupport.md) (`QWinUI3.Extras`) — Shared install/presenter glue for ShellWindow.
 - [WindowChrome](components/WindowChrome.md) (`QWinUI3.Extras`) — PlatformTitleBar + TitleBar bundle for shells.
-- [SelectionPip](components/SelectionPip.md) (`QtQuick.Controls.QWinUI3`) — Navigation selection pip indicator.
 - [CaptionButton](components/CaptionButton.md) (`QWinUI3.Platform`) — Native-chrome caption min/max/close button.
 - [WindowResizeBorder](components/WindowResizeBorder.md) (`QWinUI3.Platform`) — Non-native resize hit edges.
 - [ElevatedChrome](components/ElevatedChrome.md) (`QWinUI3.Theme`) — Shared elevated shadow/border chrome (WinUI-style soft shadow).
-- [ElevatedChrome_Simple](components/ElevatedChrome_Simple.md) (`QWinUI3.Theme`) — fallback when QtQuick.Effects is unavailable. Same public API as ElevatedChrome.qml (MultiEffect build); soft shadow omitted.
 - [FocusStroke](components/FocusStroke.md) (`QWinUI3.Theme`) — Dual-ring keyboard focus chrome (WinUI / Fluent).
 - [IconSource](components/IconSource.md) (`QWinUI3.Theme`) — Resolve FluentIcons symbol or glyph string.
+- [SelectionPip](components/SelectionPip.md) (`QtQuick.Controls.QWinUI3`) — Navigation selection pip indicator.
 
 ---
 *Generated by `scripts/generate_component_docs.py` — do not edit by hand.*

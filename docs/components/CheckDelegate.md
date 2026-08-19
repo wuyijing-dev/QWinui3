@@ -30,4 +30,4 @@ Public API is the Qt Quick Controls CheckDelegate type; this file supplies visua
 Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `CheckDelegate` API (this file only supplies Fluent visuals / metrics).
 
 ---
-*Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*
+*Generated from module sources by `scripts/generate_component_docs.py` — do not edit by hand.*

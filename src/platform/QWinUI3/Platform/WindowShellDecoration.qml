@@ -6,6 +6,8 @@ import QWinUI3.Platform
 
 // WindowShellDecoration — Linux / Wayland client shell: DWM-like shadow + rounded frame.
 //
+//   WindowShellDecoration { targetWindow: window }
+//
 // Used as ApplicationWindow.background when WindowHelper.clientShellDecoration is true.
 // Windows uses native DWM; this is the cross-compositor fallback.
 

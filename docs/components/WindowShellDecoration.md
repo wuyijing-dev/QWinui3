@@ -13,6 +13,8 @@ Linux / Wayland client shell: DWM-like shadow + rounded frame.
 ## Example
 
 ```qml
+WindowShellDecoration { targetWindow: window }
+
 Used as ApplicationWindow.background when WindowHelper.clientShellDecoration is true.
 Windows uses native DWM; this is the cross-compositor fallback.
 ```
@@ -51,4 +53,4 @@ Also available (base type / Qt Quick Controls):
 - `anchors`
 
 ---
-*Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*
+*Generated from module sources by `scripts/generate_component_docs.py` — do not edit by hand.*

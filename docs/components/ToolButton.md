@@ -39,4 +39,4 @@ Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `Tool
 - `clicked()`
 
 ---
-*Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*
+*Generated from module sources by `scripts/generate_component_docs.py` — do not edit by hand.*

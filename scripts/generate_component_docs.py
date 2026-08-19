@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Generate QWinUI3 component API docs from QML source comments.
+"""Generate QWinUI3 component API docs from registered module sources.
 
-Adapted to the current library layout:
+Source of truth is each module's CMake ``QML_FILES`` (not a directory glob),
+plus C++ types marked ``QML_ELEMENT`` / ``QML_NAMED_ELEMENT`` in the same trees.
 
   src/extras/QWinUI3/Extras     → QWinUI3.Extras
-  src/style/QWinUI3             → QtQuick.Controls.QWinUI3
+  src/style/QWinUI3             → QtQuick.Controls.QWinUI3  (style id; CMake URI is QWinUI3)
   src/platform/QWinUI3/Platform → QWinUI3.Platform
   src/theme/QWinUI3/Theme       → QWinUI3.Theme
 
@@ -26,33 +27,85 @@ import argparse
 import json
 import re
 import sys
-from dataclasses import asdict, dataclass, field
+from dataclasses import dataclass, field
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 
-SCAN_DIRS = [
-    ROOT / "src" / "extras" / "QWinUI3" / "Extras",
-    ROOT / "src" / "style" / "QWinUI3",
-    ROOT / "src" / "platform" / "QWinUI3" / "Platform",
-    ROOT / "src" / "theme" / "QWinUI3" / "Theme",
-]
-
 CATALOG_PATH = ROOT / "src" / "gallery" / "ControlCatalog.qml"
 CMAKE_PATH = ROOT / "CMakeLists.txt"
 
-INTERNAL_NAMES = {
-    "ShellWindowSupport.qml",
-    "WindowChrome.qml",
-    "CaptionButton.qml",
-    "WindowResizeBorder.qml",
-    "ElevatedChrome.qml",
-    "ElevatedChrome_Simple.qml",
-    "IconSource.qml",
-    "FocusStroke.qml",
-    "SelectionPip.qml",
-    "ChartUtils.qml",
-    "MediaPlayerElementStub.qml",  # CMake typename → MediaPlayerElement when no Multimedia
+# (CMakeLists.txt, QML dir, documented import, CMake URI)
+CMAKE_MODULES: list[tuple[Path, Path, str]] = [
+    (
+        ROOT / "src" / "extras" / "QWinUI3" / "Extras" / "CMakeLists.txt",
+        ROOT / "src" / "extras" / "QWinUI3" / "Extras",
+        "QWinUI3.Extras",
+    ),
+    (
+        ROOT / "src" / "style" / "QWinUI3" / "CMakeLists.txt",
+        ROOT / "src" / "style" / "QWinUI3",
+        "QtQuick.Controls.QWinUI3",
+    ),
+    (
+        ROOT / "src" / "platform" / "QWinUI3" / "Platform" / "CMakeLists.txt",
+        ROOT / "src" / "platform" / "QWinUI3" / "Platform",
+        "QWinUI3.Platform",
+    ),
+    (
+        ROOT / "src" / "theme" / "QWinUI3" / "Theme" / "CMakeLists.txt",
+        ROOT / "src" / "theme" / "QWinUI3" / "Theme",
+        "QWinUI3.Theme",
+    ),
+]
+
+QML_FILES_END = {
+    "IMPORTS",
+    "RESOURCES",
+    "SOURCES",
+    "DEPENDENCIES",
+    "OUTPUT_DIRECTORY",
+    "NO_CACHEGEN",
+    "NO_LINT",
+    "NO_PLUGIN",
+    "NO_GENERATE_PLUGIN_SOURCE",
+    "CLASSNAME",
+    "PLUGIN_TARGET",
+}
+
+# Public type names that are implementation helpers (not app-facing).
+INTERNAL_TYPES = {
+    "ShellWindowSupport",
+    "WindowChrome",
+    "CaptionButton",
+    "WindowResizeBorder",
+    "ElevatedChrome",
+    "IconSource",
+    "FocusStroke",
+    "SelectionPip",
+    "ChartUtils",
+    "GaugeUtils",
+    "GaugeDragLayer",
+    "KeyboardEngine",
+    "OskSpeechService",
+    "OskHandwritingService",
+    "HangulComposer",
+    "RomajiKana",
+    "PinyinLexicon",
+    "OskUserLexicon",
+}
+
+# ControlCatalog page stem → extra control names that share that demo.
+GALLERY_ALIASES = {
+    "WebView2Host": "WebView2",
+    "FilePicker": "SystemIntegration",
+    "TrayIcon": "SystemIntegration",
+    "FluentIcons": "FontIcon",
+    "FluentIconsCatalog": "FontIcon",
+    "ThemeFonts": "FontIcon",
+    "WindowHelper": "WindowParadigm",
+    "FrameStatsMonitor": "GraphicsBackend",
+    "ChartSeries": "LineChart",
 }
 
 # Heuristic Gallery / docs categories (Extras-heavy types).
@@ -90,7 +143,14 @@ CATEGORY_RULES: list[tuple[str, tuple[str, ...]]] = [
     )),
     ("Charts & gauges", (
         "Chart", "Gauge", "Sparkline", "Heatmap", "Kpi",
-        "Cluster", "Telltale", "GearIndicator",
+        "Cluster", "Telltale", "GearIndicator", "Histogram", "Pareto",
+        "Sunburst", "Violin", "Waterfall", "Polar", "Candlestick",
+        "Treemap", "Funnel", "Bullet", "Radar", "Scatter", "Donut",
+        "Waffle", "Lollipop", "Dumbbell", "Band", "Combo",
+        "Tachometer", "Speedometer", "Voltage", "Fuel", "Quarter",
+        "Odometer", "Boost", "Coolant", "Pressure", "Cylinder",
+        "Digit", "Compass", "VuMeter", "Battery", "Tpms", "Automotive",
+        "ChartSeries",
     )),
     ("Date & time", ("Date", "Time", "Calendar", "Month", "DayOfWeek")),
     ("Layout", (
@@ -144,12 +204,6 @@ RE_HEADER_BLOCK = re.compile(
 )
 RE_BRIEF_TAG = re.compile(r"(?m)^//\s*@brief\s+(?P<brief>.+)\s*$")
 RE_COMMENT_LINE = re.compile(r"(?m)^//(?P<body>.*)$")
-RE_CATALOG_ENTRY = re.compile(
-    r"title:\s*qsTr\(\s*\"(?P<title>[^\"]+)\"\s*\)\s*,"
-    r".*?component:\s*\"(?P<component>\w+)\"\s*,"
-    r".*?source:\s*\"(?P<source>[^\"]+)\"",
-    re.DOTALL,
-)
 
 
 @dataclass
@@ -169,6 +223,8 @@ class Component:
     gallery_page: str = ""
     gallery_title: str = ""
     category: str = "Other"
+    kind: str = "qml"
+    singleton: bool = False
 
     @property
     def doc_filename(self) -> str:
@@ -185,6 +241,8 @@ class Component:
             "category": self.category,
             "galleryPage": self.gallery_page,
             "galleryTitle": self.gallery_title,
+            "kind": self.kind,
+            "singleton": self.singleton,
             "doc": f"components/{self.doc_filename}",
             "propertyCount": len(self.properties),
             "signalCount": len(self.signals),
@@ -207,7 +265,6 @@ def load_gallery_map() -> dict[str, tuple[str, str]]:
         return {}
     text = CATALOG_PATH.read_text(encoding="utf-8")
     out: dict[str, tuple[str, str]] = {}
-    # Simpler line-oriented parse: look for component: "FooPage"
     blocks = re.split(r"\n\s*\{\s*\n", text)
     for block in blocks:
         title_m = re.search(r'title:\s*qsTr\(\s*"([^"]+)"\s*\)', block)
@@ -219,8 +276,233 @@ def load_gallery_map() -> dict[str, tuple[str, str]]:
         if not page.endswith("Page"):
             continue
         control = page[: -len("Page")]
-        out[control] = (title_m.group(1), src_m.group(1))
+        entry = (title_m.group(1), src_m.group(1))
+        out[control] = entry
+        title = title_m.group(1).replace(" ", "")
+        out.setdefault(title, entry)
     return out
+
+
+def gallery_for(name: str, gallery: dict[str, tuple[str, str]]) -> tuple[str, str]:
+    if name in gallery:
+        return gallery[name]
+    alias = GALLERY_ALIASES.get(name)
+    if alias and alias in gallery:
+        return gallery[alias]
+    return ("", "")
+
+
+def cmake_qml_tokens(cmake_path: Path) -> list[str]:
+    """Collect QML_FILES entries from qt_add_qml_module()."""
+    if not cmake_path.is_file():
+        return []
+    tokens: list[str] = []
+    in_qml = False
+    for raw in cmake_path.read_text(encoding="utf-8").splitlines():
+        line = raw.strip()
+        if not in_qml:
+            if line == "QML_FILES" or line.startswith("QML_FILES "):
+                in_qml = True
+                rest = line[len("QML_FILES") :].strip()
+                if rest:
+                    tokens.extend(rest.split())
+            continue
+        if not line or line.startswith("#"):
+            continue
+        key = line.split()[0].rstrip(")")
+        if key in QML_FILES_END:
+            break
+        if line == ")":
+            break
+        cleaned = line.replace(")", " ")
+        for tok in cleaned.split():
+            if tok.endswith(".qml") or tok.startswith("${"):
+                tokens.append(tok)
+    return tokens
+
+
+def resolve_qml_token(token: str, directory: Path) -> tuple[Path, str] | None:
+    """Map a CMake QML_FILES token to (source path, public type name)."""
+    if token == "${QWINUI3_EXTRAS_MEDIA_QML}":
+        full = directory / "MediaPlayerElement.qml"
+        stub = directory / "MediaPlayerElementStub.qml"
+        if full.is_file():
+            return full, "MediaPlayerElement"
+        if stub.is_file():
+            return stub, "MediaPlayerElement"
+        return None
+    if token == "${QWINUI3_SHELL_DECORATION_QML}":
+        full = directory / "WindowShellDecoration.qml"
+        simple = directory / "WindowShellDecoration_Simple.qml"
+        if full.is_file():
+            return full, "WindowShellDecoration"
+        if simple.is_file():
+            return simple, "WindowShellDecoration"
+        return None
+    if token == "${QWINUI3_ELEVATED_CHROME_QML}":
+        full = directory / "ElevatedChrome.qml"
+        simple = directory / "ElevatedChrome_Simple.qml"
+        if full.is_file():
+            return full, "ElevatedChrome"
+        if simple.is_file():
+            return simple, "ElevatedChrome"
+        return None
+    if token.startswith("${"):
+        return None
+    name = Path(token).name
+    path = directory / name
+    if not path.is_file():
+        return None
+    stem = path.stem
+    if stem.endswith("_Simple"):
+        stem = stem[: -len("_Simple")]
+    if stem.endswith("Stub"):
+        stem = stem[: -len("Stub")]
+    return path, stem
+
+
+def cpp_qml_names(text: str) -> tuple[str, str] | None:
+    """Return (public type name, C++ class name) for a QML-registered header."""
+    named = re.search(r"QML_NAMED_ELEMENT\s*\(\s*(\w+)\s*\)", text)
+    elem = re.search(r"\bQML_ELEMENT\b", text)
+    if not named and not elem:
+        return None
+    pos = named.start() if named else elem.start()
+    classes = list(
+        re.finditer(r"^class\s+(\w+)\b(?!\s*;)", text[:pos], re.M)
+    )
+    if not classes:
+        return None
+    class_name = classes[-1].group(1)
+    public = named.group(1) if named else class_name
+    return public, class_name
+
+
+def parse_cpp_comments_before_class(text: str, class_name: str) -> str:
+    lines = text.splitlines()
+    idx = None
+    for i, line in enumerate(lines):
+        if re.match(rf"^class\s+{re.escape(class_name)}\b", line):
+            idx = i
+            break
+    if idx is None:
+        return ""
+    block: list[str] = []
+    j = idx - 1
+    while j >= 0:
+        s = lines[j].strip()
+        if s.startswith("//"):
+            block.append(lines[j])
+            j -= 1
+            continue
+        if not s or s.startswith("#"):
+            j -= 1
+            continue
+        break
+    block.reverse()
+    return "\n".join(block) + ("\n" if block else "")
+
+
+def extract_cpp_api(
+    text: str,
+) -> tuple[list[tuple[str, str, str]], list[tuple[str, str]], list[tuple[str, str]]]:
+    props: list[tuple[str, str, str]] = []
+    seen_p: set[str] = set()
+    for m in re.finditer(
+        r"Q_PROPERTY\s*\(\s*(?P<type>[\w:<>,\s\*&]+?)\s+(?P<name>\w+)\s+",
+        text,
+    ):
+        n = m.group("name")
+        if n.startswith("_") or n in seen_p:
+            continue
+        seen_p.add(n)
+        props.append((n, re.sub(r"\s+", " ", m.group("type")).strip(), ""))
+
+    funcs: list[tuple[str, str]] = []
+    seen_f: set[str] = set()
+    for m in re.finditer(
+        r"Q_INVOKABLE\s+(?:static\s+)?(?:[\w:<>,\s\*&]+)\s+(?P<name>\w+)\s*(?P<args>\([^;{]*)",
+        text,
+    ):
+        n = m.group("name")
+        if n.startswith("_") or n in seen_f:
+            continue
+        seen_f.add(n)
+        args = (m.group("args") or "()").split("{")[0].strip()
+        if not args.endswith(")"):
+            args = args + ")"
+        funcs.append((n + args, ""))
+
+    signals: list[tuple[str, str]] = []
+    seen_s: set[str] = set()
+    sig_sec = re.search(
+        r"\nsignals:\s*\n(.*?)(?:\n(?:public|private|protected|public slots|private slots):|\Z)",
+        text,
+        re.DOTALL,
+    )
+    if sig_sec:
+        for m in re.finditer(
+            r"void\s+(?P<name>\w+)\s*(?P<args>\([^;]*\))",
+            sig_sec.group(1),
+        ):
+            n = m.group("name")
+            if n.startswith("_") or n in seen_s:
+                continue
+            seen_s.add(n)
+            signals.append((n + m.group("args"), ""))
+    return props, signals, funcs
+
+
+def parse_cpp_component(path: Path, module: str, gallery: dict[str, tuple[str, str]]) -> Component | None:
+    text = path.read_text(encoding="utf-8")
+    names = cpp_qml_names(text)
+    if names is None:
+        return None
+    name, class_name = names
+    comment = parse_cpp_comments_before_class(text, class_name)
+    lint: list[str] = []
+    summary, usage, notes = "", "", ""
+    if comment:
+        fake = "import QtQuick\n" + comment
+        if not comment.endswith("\n"):
+            fake += "\n"
+        summary, usage, notes, lint = parse_header_comments(fake, name)
+        lint = [
+            e
+            for e in lint
+            if "usage block does not look like" not in e
+            and "missing indented usage" not in e
+        ]
+    if not summary:
+        summary = f"C++ QML type in `{module}`."
+        if not comment:
+            lint = []
+    props, signals, funcs = extract_cpp_api(text)
+    gtitle, gsrc = gallery_for(name, gallery)
+    base = "QObject"
+    if "QQuickItem" in text:
+        base = "QQuickItem"
+    elif "QQmlPropertyMap" in text:
+        base = "QQmlPropertyMap"
+    return Component(
+        name=name,
+        path=path,
+        module=module,
+        summary=summary,
+        usage=usage,
+        notes=notes,
+        properties=props,
+        signals=signals,
+        functions=funcs,
+        base_type=base,
+        internal=name in INTERNAL_TYPES or name.startswith("_"),
+        lint_errors=lint,
+        gallery_page=gsrc,
+        gallery_title=gtitle,
+        category=categorize(name, module),
+        kind="cpp",
+        singleton="QML_SINGLETON" in text,
+    )
 
 
 def categorize(name: str, module: str) -> str:
@@ -422,13 +704,20 @@ def extract_api(
     return props, signals, funcs
 
 
-def parse_component(path: Path, gallery: dict[str, tuple[str, str]]) -> Component:
+def parse_component(
+    path: Path,
+    gallery: dict[str, tuple[str, str]],
+    *,
+    name: str | None = None,
+    module: str | None = None,
+) -> Component:
     text = path.read_text(encoding="utf-8")
-    name = path.stem
+    name = name or path.stem
     summary, usage, notes, lint = parse_header_comments(text, name)
     props, signals, funcs = extract_api(text)
-    module = module_for(path)
-    gtitle, gsrc = gallery.get(name, ("", ""))
+    module = module or module_for(path)
+    gtitle, gsrc = gallery_for(name, gallery)
+    singleton = bool(re.search(r"(?m)^pragma\s+Singleton\b", text))
     return Component(
         name=name,
         path=path,
@@ -440,22 +729,44 @@ def parse_component(path: Path, gallery: dict[str, tuple[str, str]]) -> Componen
         signals=signals,
         functions=funcs,
         base_type=detect_base_type(text),
-        internal=path.name in INTERNAL_NAMES or path.name.startswith("_"),
+        internal=name in INTERNAL_TYPES or path.name.startswith("_"),
         lint_errors=lint,
         gallery_page=gsrc,
         gallery_title=gtitle,
         category=categorize(name, module),
+        kind="qml",
+        singleton=singleton,
     )
 
 
 def collect() -> list[Component]:
     gallery = load_gallery_map()
     comps: list[Component] = []
-    for d in SCAN_DIRS:
-        if not d.is_dir():
-            continue
-        for path in sorted(d.glob("*.qml")):
-            comps.append(parse_component(path, gallery))
+    seen: set[str] = set()
+
+    for cmake_path, directory, module in CMAKE_MODULES:
+        for token in cmake_qml_tokens(cmake_path):
+            resolved = resolve_qml_token(token, directory)
+            if not resolved:
+                continue
+            path, name = resolved
+            key = f"{module}:{name}"
+            if key in seen:
+                continue
+            seen.add(key)
+            comps.append(parse_component(path, gallery, name=name, module=module))
+        if directory.is_dir():
+            for header in sorted(directory.glob("*.h")):
+                cpp = parse_cpp_component(header, module, gallery)
+                if cpp is None:
+                    continue
+                key = f"{module}:{cpp.name}"
+                if key in seen:
+                    continue
+                seen.add(key)
+                comps.append(cpp)
+
+    comps.sort(key=lambda c: (c.module, c.name.lower()))
     return comps
 
 
@@ -479,7 +790,9 @@ def render_component_page(c: Component, version: str) -> str:
         "",
         f"`import {c.module}` · [`{rel}`]({src_url})",
         "",
-        f"**Category:** {c.category} · **Library:** v{version}",
+        f"**Category:** {c.category} · **Library:** v{version}"
+        + (" · **C++ type**" if c.kind == "cpp" else "")
+        + (" · **singleton**" if c.singleton else ""),
         "",
         "[← Component index](../components.md)",
         "",
@@ -582,7 +895,7 @@ def render_component_page(c: Component, version: str) -> str:
 
     out += [
         "---",
-        "*Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*",
+        "*Generated from module sources by `scripts/generate_component_docs.py` — do not edit by hand.*",
         "",
     ]
     return "\n".join(out)
@@ -603,8 +916,8 @@ def render_index(comps: list[Component], outdir: Path, version: str) -> str:
     out: list[str] = [
         "# QWinUI3 component API",
         "",
-        f"Library **v{version}**. Generated from QML source comments "
-        f"(`scripts/generate_component_docs.py`).",
+        f"Library **v{version}**. Generated from CMake ``QML_FILES`` + C++ "
+        f"``QML_ELEMENT`` types (`scripts/generate_component_docs.py`).",
         f"Each control has its own page under `{rel_dir}/`.",
         "",
         "```bash",
@@ -623,7 +936,13 @@ def render_index(comps: list[Component], outdir: Path, version: str) -> str:
         out.append(f"### `{mod}`")
         out.append("")
         for c in by_mod[mod]:
-            badge = " · Gallery" if c.gallery_page else ""
+            badge = ""
+            if c.gallery_page:
+                badge += " · Gallery"
+            if c.kind == "cpp":
+                badge += " · C++"
+            if c.singleton:
+                badge += " · singleton"
             out.append(
                 f"- [{c.name}]({outdir.name}/{c.doc_filename}) — {c.summary}{badge}"
             )

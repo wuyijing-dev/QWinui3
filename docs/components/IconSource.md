@@ -4,7 +4,7 @@ Resolve FluentIcons symbol or glyph string.
 
 `import QWinUI3.Theme` · [`src/theme/QWinUI3/Theme/IconSource.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/theme/QWinUI3/Theme/IconSource.qml)
 
-**Category:** Theme · **Library:** v2.64
+**Category:** Theme · **Library:** v2.64 · **singleton**
 
 [← Component index](../components.md)
 
@@ -46,4 +46,4 @@ _No custom signals_ (use inherited signals from the base type).
 | `has(value)` | True when the named case / key exists |
 
 ---
-*Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*
+*Generated from module sources by `scripts/generate_component_docs.py` — do not edit by hand.*

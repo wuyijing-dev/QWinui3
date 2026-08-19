@@ -4,7 +4,7 @@ Fluent color / type / motion token singleton.
 
 `import QWinUI3.Theme` · [`src/theme/QWinUI3/Theme/Theme.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/theme/QWinUI3/Theme/Theme.qml)
 
-**Category:** Theme · **Library:** v2.64
+**Category:** Theme · **Library:** v2.64 · **singleton**
 
 [← Component index](../components.md)
 
@@ -196,4 +196,4 @@ _No custom signals_ (use inherited signals from the base type).
 | `accentContrastRatio(surface)` | Convenience: accent on a surface (default bgCard) |
 
 ---
-*Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*
+*Generated from module sources by `scripts/generate_component_docs.py` — do not edit by hand.*

@@ -4,7 +4,7 @@ Register shared-element keys and play list→detail morphs.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ConnectedAnimationService.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ConnectedAnimationService.qml)
 
-**Category:** Media & platform · **Library:** v2.64
+**Category:** Media & platform · **Library:** v2.64 · **singleton**
 
 [← Component index](../components.md)
 
@@ -48,4 +48,4 @@ _No custom signals_ (use inherited signals from the base type).
 | `playBetween(fromItem, toItem, onFinished)` | — |
 
 ---
-*Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*
+*Generated from module sources by `scripts/generate_component_docs.py` — do not edit by hand.*

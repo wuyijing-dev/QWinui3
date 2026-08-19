@@ -11,6 +11,7 @@ class QWindow;
 class QQmlEngine;
 class QJSEngine;
 
+// WindowHelper — Platform chrome, backdrop, DPI, and geometry helpers (singleton).
 class WindowHelper : public QObject
 {
     Q_OBJECT

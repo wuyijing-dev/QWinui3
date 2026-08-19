@@ -73,4 +73,4 @@ Also available (base type / Qt Quick Controls):
 - `clicked()`
 
 ---
-*Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*
+*Generated from module sources by `scripts/generate_component_docs.py` — do not edit by hand.*

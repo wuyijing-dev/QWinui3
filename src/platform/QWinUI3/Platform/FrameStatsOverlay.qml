@@ -4,7 +4,9 @@ import QWinUI3.Theme
 import QWinUI3.Platform
 
 // FrameStatsOverlay — floating FPS badge when not using the title-bar slot.
-
+//
+//   FrameStatsOverlay { targetWindow: window }
+//
 Item {
     id: root
 

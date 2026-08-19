@@ -65,4 +65,4 @@ _No custom signals_ (use inherited signals from the base type).
 | `hide()` | Hide the control |
 
 ---
-*Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*
+*Generated from module sources by `scripts/generate_component_docs.py` — do not edit by hand.*

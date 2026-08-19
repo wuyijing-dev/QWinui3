@@ -3,7 +3,9 @@ import QtQuick.Templates as T
 import QWinUI3.Theme
 
 // OskHandwritingPad — Zinnia CLI handwriting panel (Windows + Linux).
-T.Control {
+//
+//   OskHandwritingPad { engine: kbd; handwriting: hwSvc }
+//T.Control {
     id: root
 
     property KeyboardEngine engine

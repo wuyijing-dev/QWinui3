@@ -4,7 +4,7 @@ Linear LED / peak-hold meter (audio, signal, load).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/VuMeter.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/VuMeter.qml)
 
-**Category:** Other · **Library:** v2.64
+**Category:** Charts & gauges · **Library:** v2.64
 
 [← Component index](../components.md)
 
@@ -66,4 +66,4 @@ Also available (base type / Qt Quick Controls):
 - `background` / `contentItem`
 
 ---
-*Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*
+*Generated from module sources by `scripts/generate_component_docs.py` — do not edit by hand.*

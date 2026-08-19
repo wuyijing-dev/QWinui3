@@ -37,7 +37,8 @@ Experimental LED digits. Prefer KpiTile for dashboard KPI text.
 | `title` | `string` | — |
 | `unit` | `string` | — |
 | `fillColor` | `color` | — |
-| `dimColor` | `color` | — |
+| `faceColor` | `color` | Dark LED face — inactive segments use dim fillColor, not strokeDivider on a light card. |
+| `offSegmentOpacity` | `real` | — |
 | `animatedValue` | `real` | — |
 | `formattedValue` | `string` | — |
 
@@ -60,4 +61,4 @@ Also available (base type / Qt Quick Controls):
 - `background` / `contentItem`
 
 ---
-*Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*
+*Generated from module sources by `scripts/generate_component_docs.py` — do not edit by hand.*

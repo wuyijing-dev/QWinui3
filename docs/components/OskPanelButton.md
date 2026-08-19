@@ -8,7 +8,12 @@ compact action chip for OSK auxiliary panels.
 
 [← Component index](../components.md)
 
-**Extends** `Item`.
+## Example
+
+```qml
+OskPanelButton { label: qsTr("123"); onTapped: showSymbols() }
+Item {
+```
 
 ## API
 
@@ -30,13 +35,5 @@ compact action chip for OSK auxiliary panels.
 
 _No custom methods_ (use inherited methods from the base type).
 
-### Inherited from `Item`
-
-Also available (base type / Qt Quick Controls):
-
-- `width` / `height`
-- `visible`
-- `anchors`
-
 ---
-*Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*
+*Generated from module sources by `scripts/generate_component_docs.py` — do not edit by hand.*

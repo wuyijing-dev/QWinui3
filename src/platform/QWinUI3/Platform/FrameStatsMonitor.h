@@ -8,6 +8,7 @@ class QJSEngine;
 
 #include <QQuickWindow>
 
+// FrameStatsMonitor — FPS / frame-time / RHI readout for Gallery and retail diagnostics (singleton).
 class FrameStatsMonitor : public QObject
 {
     Q_OBJECT

@@ -3,7 +3,9 @@ import QtQuick.Templates as T
 import QWinUI3.Theme
 
 // OskSettingsFlyout — Win11-style keyboard settings (size, voice/handwriting, user lexicon).
-T.Control {
+//
+//   OskSettingsFlyout { engine: kbd; speech: speechSvc; handwriting: hwSvc }
+//T.Control {
     id: root
 
     property KeyboardEngine engine

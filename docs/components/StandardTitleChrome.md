@@ -58,4 +58,4 @@ Same slot model as ShellWindow (leftHeader / titleBarContent / rightHeader).
 _No custom methods_ (use inherited methods from the base type).
 
 ---
-*Generated from QML comments by `scripts/generate_component_docs.py` — do not edit by hand.*
+*Generated from module sources by `scripts/generate_component_docs.py` — do not edit by hand.*

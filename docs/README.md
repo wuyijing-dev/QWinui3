@@ -27,7 +27,7 @@ Published site: **https://wuyijing-dev.github.io/QWinui3/**
 | [`components/`](components/) | One markdown page per control (generated) |
 | [`components.json`](components.json) | Machine-readable catalog (generated) |
 
-Source of truth is the `//` comment header in each `.qml` file. Regenerate:
+Source of truth is each module's CMake `QML_FILES` plus C++ `QML_ELEMENT` types (headers use the same `// Name —` comment convention as QML). Regenerate:
 
 ```bash
 python scripts/generate_component_docs.py
