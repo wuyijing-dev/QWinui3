@@ -95,6 +95,8 @@ jobs:
             libxcb-shape0 libxcb-xfixes0 libxcb-randr0 \
             libfuse2 desktop-file-utils
 
+      # Qt 6.8+: qtsvg / QtQuick.Effects ship in the desktop kit. Extra aqt names
+      # `qtsvg` and `qtquickeffects` are no longer modules and fail install-qt-action.
       - name: Install Qt
         uses: jurplel/install-qt-action@v4
         with:
@@ -102,7 +104,7 @@ jobs:
           host: linux
           target: desktop
           arch: linux_gcc_64
-          modules: qtquickeffects qtmultimedia qtimageformats qtsvg
+          modules: qtmultimedia qtimageformats
           cache: true
           install-deps: true
 
@@ -160,7 +162,7 @@ jobs:
           host: windows
           target: desktop
           arch: win64_msvc2022_64
-          modules: qtquickeffects qtmultimedia qtimageformats qtsvg
+          modules: qtmultimedia qtimageformats
           cache: true
 
       - name: Package shared libraries
@@ -236,6 +238,8 @@ jobs:
           ## QWinUI3 ${VERSION}
 
           Automated CI release packages (Qt ${{ env.QT_VERSION }}).
+
+          Built from this tag’s commit on `master`. Includes shared libraries and Gallery (windeploy / linuxdeploy).
 
           ### Downloads
 

@@ -57,7 +57,7 @@ jobs:
           host: linux
           target: desktop
           arch: linux_gcc_64
-          modules: qtquickeffects qtmultimedia qtimageformats qtsvg
+          modules: qtmultimedia qtimageformats
           cache: true
           install-deps: true
 
@@ -103,7 +103,7 @@ jobs:
           host: windows
           target: desktop
           arch: win64_msvc2022_64
-          modules: qtquickeffects qtmultimedia qtimageformats qtsvg
+          modules: qtmultimedia qtimageformats
           cache: true
 
       - name: Static consumer (gallery-shell)

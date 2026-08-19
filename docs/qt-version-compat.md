@@ -15,6 +15,8 @@ Version-sensitive Qt APIs are wrapped in **`qwinui3_qtcompat`** so application a
 Compat CI runs on `master` / PR when `src/**`, root CMake, or this doc / workflow change; weekly Monday soak; and `workflow_dispatch`.  
 `fail-fast: false` so one Qt cell does not cancel the others — the job still fails if any cell fails.
 
+**aqt modules (6.8+):** extra names `qtsvg` and `qtquickeffects` are no longer listed; SVG / `QtQuick.Effects` come with the desktop kit. Smoke / Release / consumer-matrix install `qtmultimedia qtimageformats` only. The 6.5 cell still requests the old extra modules.
+
 **Not in the matrix:** every patch of every Qt, Debug builds, screenshot suites, packaging inside compat CI.
 
 If a new Qt minor breaks configure/build, fix a shim under `src/compat/` (below) or adjust the matrix pin in `qt-compat.yml`, then note the resolution in this page.

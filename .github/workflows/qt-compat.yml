@@ -42,10 +42,13 @@ jobs:
         include:
           - qt: "6.5.3"
             label: "6.5"
+            modules: "qtquickeffects qtmultimedia qtimageformats qtsvg"
           - qt: "6.8.3"
             label: "6.8"
+            modules: "qtmultimedia qtimageformats"
           - qt: "6.10.0"
             label: "6.10"
+            modules: "qtmultimedia qtimageformats"
     steps:
       - uses: actions/checkout@v4
 
@@ -66,7 +69,7 @@ jobs:
           host: linux
           target: desktop
           arch: linux_gcc_64
-          modules: qtquickeffects qtmultimedia qtimageformats qtsvg
+          modules: ${{ matrix.modules }}
           cache: true
           install-deps: true
 
