@@ -209,6 +209,18 @@ def _is_lib_for_modules(path: Path, modules: list[str]) -> bool:
     return False
 
 
+def _strip_qrc_prefer_from_qmldir(module_root: Path) -> None:
+    """Packaged kits should prefer on-disk QML over plugin-embedded qrc copies."""
+    qmldir = module_root / "qmldir"
+    if not qmldir.is_file():
+        return
+    text = qmldir.read_text(encoding="utf-8")
+    lines = [line for line in text.splitlines() if not line.startswith("prefer :/qt/qml/")]
+    updated = "\n".join(lines).rstrip() + "\n"
+    if updated != text:
+        qmldir.write_text(updated, encoding="utf-8", newline="\n")
+
+
 def _collect_files(build_dir: Path, out_dir: Path, modules: list[str]) -> list[Path]:
     lib_dir = out_dir / "lib"
     qml_dir = out_dir / "qml"
@@ -340,6 +352,7 @@ def _collect_files(build_dir: Path, out_dir: Path, modules: list[str]) -> list[P
                         shutil.rmtree(child)
                     else:
                         child.unlink(missing_ok=True)
+        _strip_qrc_prefer_from_qmldir(dest_root)
         copied.append(dest_root)
 
     return copied

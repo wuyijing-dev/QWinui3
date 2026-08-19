@@ -341,6 +341,7 @@ set QWINUI3_ROOT=dist\qwinui3-2.64-windows-x64-shared
 | `No QWinUI3 shared kit found` | Missing `dist/` package | Run `package_release_libs.py --shared --archive` or set `QWINUI3_ROOT` |
 | `Type StandardWindow unavailable` / `ElevatedChrome` errors | Qt ABI mismatch or wrong registration | Match kit Qt to binding; use `@QmlElement`, not manual singleton register |
 | `Failed to load QWinUI3.Gallery/Main` | Import path / kit | Check `QWINUI3_ROOT`, `engine.importPathList()` |
+| New property exists in source, but packaged kit says it does not | Shared kit copied old plugin-preferred QML | Rebuild the shared kit with current scripts; packaged `qmldir` now strips `prefer :/qt/qml/...` so on-disk QML wins |
 | Plugin load / DLL errors (Windows) | Kit `bin/` not visible | Use `configure_environment()`; kit DLLs load **after** PySide6 |
 | Gallery Settings RHI restart | Expected | Same as C++ — saved backend applies on restart |
 | Linux Wayland issues | Platform QPA | See [platform-linux-wayland.md](platform-linux-wayland.md); prefer `BackdropSolid` |

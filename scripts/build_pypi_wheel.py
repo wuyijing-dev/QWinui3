@@ -98,9 +98,19 @@ def _copy_tree(src: Path, dest: Path) -> None:
     shutil.copytree(src, dest)
 
 
+def _strip_qrc_prefer_lines(root: Path) -> None:
+    for qmldir in root.rglob("qmldir"):
+        text = qmldir.read_text(encoding="utf-8")
+        lines = [line for line in text.splitlines() if not line.startswith("prefer :/qt/qml/")]
+        updated = "\n".join(lines).rstrip() + "\n"
+        if updated != text:
+            qmldir.write_text(updated, encoding="utf-8", newline="\n")
+
+
 def _stage_kit(kit_dir: Path) -> None:
     print(f"Staging kit {kit_dir} -> {KIT_DEST}", flush=True)
     _copy_tree(kit_dir, KIT_DEST)
+    _strip_qrc_prefer_lines(KIT_DEST / "qml")
     meta = (
         f"product={_project_version()}\n"
         f"platform={platform.system()}-{platform.machine()}\n"
