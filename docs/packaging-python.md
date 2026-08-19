@@ -122,6 +122,7 @@ Windows: double-click **`python-gallery.cmd`**. First run auto-packages the shar
 
 ```bat
 python scripts/qwinui3.py doctor           :: check bindings + kit
+python scripts/qwinui3.py doctor --report  :: include Python runtime report
 python scripts/qwinui3.py python --smoke   :: CI smoke
 ```
 

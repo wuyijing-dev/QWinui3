@@ -188,7 +188,12 @@ def ensure_python_binding(prefer: str | None = None) -> str:
         ) from exc
 
 
-def doctor_report() -> int:
+def doctor_report(
+    *,
+    prefer_binding: str | None = None,
+    explicit_kit: str | Path | None = None,
+    report_runtime: bool = False,
+) -> int:
     print("QWinUI3 environment check\n")
     issues = 0
 
@@ -205,26 +210,36 @@ def doctor_report() -> int:
     binary = find_gallery(build_dir)
     print(f"  C++ Gallery:     {binary or 'not built'}")
 
-    kit = _kit_in_dist()
-    if kit is None:
+    discovered_kit = Path(explicit_kit).resolve() if explicit_kit is not None else _kit_in_dist()
+    if discovered_kit is None:
         try:
             from qwinui3._paths import bundled_kit_dir
 
-            kit = bundled_kit_dir()
+            discovered_kit = bundled_kit_dir()
         except ImportError:
-            kit = None
-    print(f"  Python kit:      {kit or 'not packaged (run: python scripts/qwinui3.py python)'}")
+            discovered_kit = None
+    print(f"  Python kit:      {discovered_kit or 'not packaged (run: python scripts/qwinui3.py python)'}")
 
     sys.path.insert(0, str(ROOT / "python"))
     try:
-        from qwinui3 import _qt, qt_version
+        from qwinui3 import _qt, configure_environment, qt_version, runtime_report, validate_runtime
 
-        binding = _qt.init()
+        binding = _qt.init(prefer_binding)
         print(f"  Python binding:  {binding} (Qt {qt_version()})")
-        if kit is not None:
+        if discovered_kit is not None:
             print("  Tip: kit Qt major.minor should match binding Qt (see qVersion above).")
+        if report_runtime:
+            resolved_kit = configure_environment(kit=explicit_kit or discovered_kit, binding=prefer_binding)
+            validate_runtime(resolved_kit)
+            report = runtime_report(resolved_kit)
+            print("\n  Python runtime report:")
+            for key in ("binding", "qt_version", "kit", "qml_root", "has_qml_root", "style", "qpa_platform"):
+                print(f"    {key}: {report.get(key, '')}")
     except ImportError:
         print("  Python binding:  not installed (pip install PySide6)")
+        issues += 1
+    except FileNotFoundError as exc:
+        print(f"  Python runtime:  invalid ({exc})")
         issues += 1
 
     print("\nQuick run:")

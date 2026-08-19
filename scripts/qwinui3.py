@@ -124,7 +124,16 @@ def main(argv: list[str] | None = None) -> int:
     p_build.set_defaults(func=_cmd_build)
 
     p_doc = sub.add_parser("doctor", help="Check Qt, kit, and Python bindings")
-    p_doc.set_defaults(func=lambda _a: doctor_report())
+    p_doc.add_argument("--binding", choices=("pyside6", "pyqt6"), default=None)
+    p_doc.add_argument("--kit", type=Path, default=None, help="Shared kit root for runtime report")
+    p_doc.add_argument("--report", action="store_true", help="Also print Python runtime_report() details")
+    p_doc.set_defaults(
+        func=lambda a: doctor_report(
+            prefer_binding=a.binding,
+            explicit_kit=a.kit,
+            report_runtime=a.report,
+        )
+    )
 
     args = parser.parse_args(argv)
     if getattr(args, "extra", None) and args.extra and args.extra[0] == "--":
