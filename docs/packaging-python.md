@@ -45,7 +45,7 @@ setup_engine(engine)
 
 Kit discovery order: explicit `kit=` → `QWINUI3_ROOT` → **bundled `_kit`** (wheel) → repo `dist/qwinui3-*-shared` (checkout).
 
-**Maintainers:** build wheels locally with `python scripts/build_pypi_wheel.py` (requires Qt + compiler once). CI: [.github/workflows/pypi.yml](../.github/workflows/pypi.yml).
+**Maintainers:** build wheels locally with `python scripts/build_pypi_wheel.py` (requires Qt + compiler once), then run `python -m twine check dist/qwinui3-*.whl`. CI: [.github/workflows/pypi.yml](../.github/workflows/pypi.yml).
 
 ---
 
