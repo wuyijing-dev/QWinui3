@@ -96,7 +96,9 @@ jobs:
           if-no-files-found: error
 
   publish-pypi:
-    if: github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/v')
+    if: |
+      (github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/v')) &&
+      needs.build.result == 'success'
     needs: build
     runs-on: ubuntu-latest
     environment: pypi
@@ -114,10 +116,11 @@ jobs:
       - name: List wheels
         run: ls -lh dist/
 
+      - name: Validate wheels
+        run: python -m pip install --upgrade twine && python -m twine check dist/qwinui3-*.whl
+
       - name: Upload to PyPI
         env:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI }}
-        run: |
-          python -m pip install --upgrade twine
-          python -m twine upload --non-interactive dist/qwinui3-*.whl
+        run: python -m twine upload --non-interactive --verbose dist/qwinui3-*.whl

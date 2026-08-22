@@ -151,7 +151,35 @@ def _build_wheel() -> list[Path]:
     wheels = [w for w in wheels if "py3-none-any" not in w.name]
     if not wheels:
         raise RuntimeError("No platform wheel produced under dist/")
-    return wheels
+    return _repair_linux_wheels(wheels)
+
+
+def _repair_linux_wheels(wheels: list[Path]) -> list[Path]:
+    """PyPI rejects bare linux_x86_64 tags; repair to manylinux2014_x86_64."""
+    if not sys.platform.startswith("linux"):
+        return wheels
+
+    linux_wheels = [w for w in wheels if "linux" in w.name]
+    if not linux_wheels:
+        return wheels
+
+    _run([sys.executable, "-m", "pip", "install", "auditwheel"])
+    out_dir = linux_wheels[0].parent
+    kept = [w for w in wheels if "linux" not in w.name]
+    repaired: list[Path] = []
+
+    for wheel in linux_wheels:
+        print(f"auditwheel repair {wheel.name}", flush=True)
+        _run(["auditwheel", "repair", str(wheel), "-w", str(out_dir)])
+        wheel.unlink(missing_ok=True)
+
+    for path in sorted(out_dir.glob("qwinui3-*manylinux*.whl")):
+        repaired.append(path)
+
+    if not repaired:
+        raise RuntimeError("auditwheel repair produced no manylinux wheels")
+
+    return sorted(kept + repaired, key=lambda p: p.name)
 
 
 def _configure_stdio() -> None:
