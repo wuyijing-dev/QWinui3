@@ -3,7 +3,7 @@
 
   python scripts/build_pypi_wheel.py
   python scripts/build_pypi_wheel.py --kit-dir dist/qwinui3-2.64-windows-x64-shared
-  python scripts/build_pypi_wheel.py --skip-kit-build --upload testpypi
+  python scripts/build_pypi_wheel.py --skip-kit-build --upload pypi
 
 Requires: pip install build twine (for upload). Builds a **platform** wheel with
 native QWinUI3 shared libraries — run on Windows or Linux separately.
@@ -154,13 +154,20 @@ def _build_wheel() -> list[Path]:
     return wheels
 
 
-def _upload(wheels: list[Path], target: str) -> None:
-    repo = "testpypi" if target == "testpypi" else "pypi"
+def _configure_stdio() -> None:
+    """Git Bash on Windows may ignore PYTHONUTF8; force UTF-8 on stdio."""
+    for stream in (sys.stdout, sys.stderr):
+        reconfigure = getattr(stream, "reconfigure", None)
+        if callable(reconfigure):
+            reconfigure(encoding="utf-8", errors="replace")
+
+
+def _upload(wheels: list[Path]) -> None:
     _run([sys.executable, "-m", "pip", "install", "--upgrade", "twine"])
-    env = os.environ.copy()
-    if target == "testpypi":
-        env.setdefault("TWINE_REPOSITORY", "testpypi")
-    _run([sys.executable, "-m", "twine", "upload", "--non-interactive", *[str(w) for w in wheels]], cwd=ROOT)
+    _run(
+        [sys.executable, "-m", "twine", "upload", "--non-interactive", *[str(w) for w in wheels]],
+        cwd=ROOT,
+    )
 
 
 def main() -> int:
@@ -178,11 +185,13 @@ def main() -> int:
     )
     parser.add_argument(
         "--upload",
-        choices=("testpypi", "pypi"),
+        choices=("pypi",),
         default=None,
-        help="Upload built wheel(s) with twine",
+        help="Upload built wheel(s) to PyPI with twine",
     )
     args = parser.parse_args()
+
+    _configure_stdio()
 
     version = _pypi_version(_project_version())
     _sync_pyproject_version(version)
@@ -202,7 +211,7 @@ def main() -> int:
                 print(f"Removed staged {path}", flush=True)
 
     if args.upload:
-        _upload(wheels, args.upload)
+        _upload(wheels)
 
     return 0
 
