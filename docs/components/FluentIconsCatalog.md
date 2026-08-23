@@ -4,7 +4,7 @@ Iconography catalog — separate QML singleton (not on QQmlPropertyMap).
 
 `import QWinUI3.Theme` · [`src/theme/QWinUI3/Theme/FluentIconsCatalog.h`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/theme/QWinUI3/Theme/FluentIconsCatalog.h)
 
-**Category:** Theme · **Library:** v2.64 · **C++ type** · **singleton**
+**Category:** Theme · **Library:** v2.65 · **C++ type** · **singleton**
 
 [← Component index](../components.md)
 

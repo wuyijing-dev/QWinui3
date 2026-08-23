@@ -4,7 +4,7 @@ Icon-only button helper.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/IconButton.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/IconButton.qml)
 
-**Category:** Buttons & commands · **Library:** v2.64
+**Category:** Buttons & commands · **Library:** v2.65
 
 [← Component index](../components.md)
 
@@ -19,16 +19,16 @@ IconButton {
     id: btn
     symbol: FluentIcons.Settings
     accentIcon: true   // accent-colored icon (alias of highlighted; ratings, favorites)
+    loading: true       // inline ring; defers press animation (2.67 — I5/M11)
     onClicked: openSettings()
 }
-// --- API ---
-// inherits Button: enabled, clicked()
 ```
 
 ## Notes
 
 Icon-only Button helper; set symbol / iconGlyph; inherits clicked().
-Glyph hover/press micro-motion via IconicButton (1.49); Theme.reducedMotion disables.
+Glyph hover/press micro-motion via FontIcon (1.49); Theme.reducedMotion disables.
+Touch floor ≥ 40×40 logical px (M11).
 
 ## API
 
@@ -37,7 +37,8 @@ Glyph hover/press micro-motion via IconicButton (1.49); Theme.reducedMotion disa
 | Name | Type | Description |
 | --- | --- | --- |
 | `accentIcon` | `alias` | Accent-colored icon (rating stars, favorited toolbar). Alias of highlighted. |
-| `toggleMode` | `bool` | Useful for rating/favorite semantics where a single click flips the state. |
+| `loading` | `bool` | Async action — shows ProgressRing, disables click (2.67 — I5/M11) |
+| `toggleMode` | `bool` | When true, the icon behaves like a toggle (uses `checked` state). |
 
 ### Signals
 

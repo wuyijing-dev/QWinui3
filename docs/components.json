@@ -1,8 +1,8 @@
 {
   "name": "QWinUI3",
-  "version": "2.64",
+  "version": "2.65",
   "generatedBy": "scripts/generate_component_docs.py",
-  "publicCount": 296,
+  "publicCount": 299,
   "components": [
     {
       "name": "AccentButton",
@@ -442,8 +442,25 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/ChartCard.md",
-      "propertyCount": 11,
-      "signalCount": 0,
+      "propertyCount": 14,
+      "signalCount": 1,
+      "methodCount": 0
+    },
+    {
+      "name": "ChartEmptyState",
+      "module": "QWinUI3.Extras",
+      "summary": "Fluent empty / loading / error placeholder for ChartCard (2.65).",
+      "path": "src/extras/QWinUI3/Extras/ChartEmptyState.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Status & feedback",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "kind": "qml",
+      "singleton": false,
+      "doc": "components/ChartEmptyState.md",
+      "propertyCount": 5,
+      "signalCount": 1,
       "methodCount": 0
     },
     {
@@ -874,7 +891,7 @@
     {
       "name": "DashboardShell",
       "module": "QWinUI3.Extras",
-      "summary": "Minimal dashboard layout host (2.52 preview; chart grid + filter rail in 2.65).",
+      "summary": "Opinionated dashboard layout host (2.65 Wave A).",
       "path": "src/extras/QWinUI3/Extras/DashboardShell.qml",
       "baseType": "Item",
       "internal": false,
@@ -884,7 +901,7 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/DashboardShell.md",
-      "propertyCount": 4,
+      "propertyCount": 9,
       "signalCount": 0,
       "methodCount": 0
     },
@@ -1020,7 +1037,7 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/DonutChart.md",
-      "propertyCount": 18,
+      "propertyCount": 19,
       "signalCount": 1,
       "methodCount": 2
     },
@@ -1241,7 +1258,7 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/FontIcon.md",
-      "propertyCount": 14,
+      "propertyCount": 25,
       "signalCount": 0,
       "methodCount": 0
     },
@@ -1328,7 +1345,7 @@
       "doc": "components/GaugeUtils.md",
       "propertyCount": 0,
       "signalCount": 0,
-      "methodCount": 3
+      "methodCount": 4
     },
     {
       "name": "GearIndicator",
@@ -1530,7 +1547,7 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/IconButton.md",
-      "propertyCount": 2,
+      "propertyCount": 3,
       "signalCount": 0,
       "methodCount": 0
     },
@@ -1768,7 +1785,7 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/KpiTile.md",
-      "propertyCount": 42,
+      "propertyCount": 43,
       "signalCount": 1,
       "methodCount": 4
     },
@@ -1819,9 +1836,9 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/LineChart.md",
-      "propertyCount": 29,
+      "propertyCount": 32,
       "signalCount": 0,
-      "methodCount": 6
+      "methodCount": 7
     },
     {
       "name": "ListDetailsView",
@@ -1853,7 +1870,7 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/ListTile.md",
-      "propertyCount": 10,
+      "propertyCount": 11,
       "signalCount": 0,
       "methodCount": 0
     },
@@ -2079,6 +2096,23 @@
       "methodCount": 0
     },
     {
+      "name": "MetricCompareRow",
+      "module": "QWinUI3.Extras",
+      "summary": "Side-by-side KpiTile row with a shared period caption (2.65).",
+      "path": "src/extras/QWinUI3/Extras/MetricCompareRow.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Other",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "kind": "qml",
+      "singleton": false,
+      "doc": "components/MetricCompareRow.md",
+      "propertyCount": 3,
+      "signalCount": 0,
+      "methodCount": 0
+    },
+    {
       "name": "MultiSelectComboBox",
       "module": "QWinUI3.Extras",
       "summary": "Combo that keeps the popup open for multi-select.",
@@ -2110,7 +2144,7 @@
       "doc": "components/NavigationView.md",
       "propertyCount": 62,
       "signalCount": 7,
-      "methodCount": 43
+      "methodCount": 44
     },
     {
       "name": "NavigationWindow",
@@ -2737,7 +2771,7 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/RingGauge.md",
-      "propertyCount": 40,
+      "propertyCount": 41,
       "signalCount": 1,
       "methodCount": 5
     },
@@ -4306,6 +4340,23 @@
       "methodCount": 5
     },
     {
+      "name": "PointerCursor",
+      "module": "QWinUI3.Theme",
+      "summary": "Hover cursor affordance for styled controls (2.66 M8).",
+      "path": "src/theme/QWinUI3/Theme/PointerCursor.qml",
+      "baseType": "HoverHandler",
+      "internal": false,
+      "category": "Theme",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "kind": "qml",
+      "singleton": false,
+      "doc": "components/PointerCursor.md",
+      "propertyCount": 1,
+      "signalCount": 0,
+      "methodCount": 0
+    },
+    {
       "name": "Theme",
       "module": "QWinUI3.Theme",
       "summary": "Fluent color / type / motion token singleton.",
@@ -4318,9 +4369,9 @@
       "kind": "qml",
       "singleton": true,
       "doc": "components/Theme.md",
-      "propertyCount": 110,
+      "propertyCount": 111,
       "signalCount": 0,
-      "methodCount": 15
+      "methodCount": 20
     },
     {
       "name": "ThemeFonts",
@@ -4386,7 +4437,7 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/Button.md",
-      "propertyCount": 4,
+      "propertyCount": 5,
       "signalCount": 0,
       "methodCount": 0
     },
@@ -5134,7 +5185,7 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/TextArea.md",
-      "propertyCount": 0,
+      "propertyCount": 2,
       "signalCount": 0,
       "methodCount": 0
     },
@@ -5151,7 +5202,7 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/TextField.md",
-      "propertyCount": 0,
+      "propertyCount": 5,
       "signalCount": 0,
       "methodCount": 0
     },

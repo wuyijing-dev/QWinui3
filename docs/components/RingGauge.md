@@ -4,7 +4,7 @@ Closed-ring dashboard gauge with center value and thresholds.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/RingGauge.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/RingGauge.qml)
 
-**Category:** Charts & gauges · **Library:** v2.64
+**Category:** Charts & gauges · **Library:** v2.65
 
 [← Component index](../components.md)
 
@@ -51,6 +51,7 @@ Optional target tick; severity 0/1/2 from thresholds; wheel/keys when interactiv
 | `unit` | `string` | Value unit label (%, rpm, …) |
 | `caption` | `string` | Caption under / beside the value |
 | `valuePrecision` | `int` | Digits after decimal for value text |
+| `valueFormat` | `string` | Use "%1" for the number and "%2" for the unit, e.g. "%1%2" or "%1 %2". |
 | `strokeWidth` | `real` | Stroke thickness in px |
 | `fillColor` | `color` | Primary fill / progress color |
 | `trackColor` | `color` | Track / remaining color |

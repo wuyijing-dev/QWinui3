@@ -4,7 +4,7 @@ Win11-style keyboard settings (size, voice/handwriting, user lexicon).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/OskSettingsFlyout.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/OskSettingsFlyout.qml)
 
-**Category:** Dialogs & flyouts · **Library:** v2.64
+**Category:** Dialogs & flyouts · **Library:** v2.65
 
 [← Component index](../components.md)
 

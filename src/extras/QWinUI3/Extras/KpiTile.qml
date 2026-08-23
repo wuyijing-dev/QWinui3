@@ -65,6 +65,8 @@ T.Control {
     property var trendValues: []
     // Show sparkline when trendValues has 2+ points
     property bool showTrend: true
+    // Sparkline strip height in px (2.65)
+    property real sparklineHeight: 28
     // Absolute caution threshold on value (-1 disables)
     property real cautionThreshold: -1
     // Absolute critical threshold on value (-1 disables)
@@ -340,7 +342,7 @@ T.Control {
 
         Sparkline {
             Layout.fillWidth: true
-            Layout.preferredHeight: 28
+            Layout.preferredHeight: root.sparklineHeight
             visible: root.hasTrend
             values: root.trendValues
             strokeColor: root.severity > 0 ? root.valueColor : root.accentColor

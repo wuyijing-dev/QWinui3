@@ -1,6 +1,6 @@
 # QWinUI3 component API
 
-Library **v2.64**. Generated from CMake ``QML_FILES`` + C++ ``QML_ELEMENT`` types (`scripts/generate_component_docs.py`).
+Library **v2.65**. Generated from CMake ``QML_FILES`` + C++ ``QML_ELEMENT`` types (`scripts/generate_component_docs.py`).
 Each control has its own page under `docs/components/`.
 
 ```bash
@@ -8,7 +8,7 @@ python scripts/generate_component_docs.py
 python scripts/generate_component_docs.py --lint
 ```
 
-**296** public · **14** internal · **206** with Gallery demos · Hub: [docs home](index.md).
+**299** public · **14** internal · **206** with Gallery demos · Hub: [docs home](index.md).
 
 ## By module
 
@@ -40,6 +40,7 @@ python scripts/generate_component_docs.py --lint
 - [CalendarView](components/CalendarView.md) — month grid for scheduling / booking surfaces (2.31). · Gallery
 - [CandlestickChart](components/CandlestickChart.md) — OHLC candlesticks for professional price series. · Gallery
 - [ChartCard](components/ChartCard.md) — Title/subtitle chrome around a chart child. · Gallery
+- [ChartEmptyState](components/ChartEmptyState.md) — Fluent empty / loading / error placeholder for ChartCard (2.65).
 - [ChartLegend](components/ChartLegend.md) — Fluent legend for series/slices.
 - [ChartSeries](components/ChartSeries.md) — Dense numeric series owned in C++ for million-point charts. · Gallery · C++
 - [Chip](components/Chip.md) — Compact selectable tag; optional close affordance. · Gallery
@@ -64,7 +65,7 @@ python scripts/generate_component_docs.py --lint
 - [CoolantGauge](components/CoolantGauge.md) — Automotive C–H coolant temperature. · Gallery
 - [CopyButton](components/CopyButton.md) — Copies textToCopy and flashes a success glyph. · Gallery
 - [CylinderGauge](components/CylinderGauge.md) — Isometric cylinder level. · Gallery
-- [DashboardShell](components/DashboardShell.md) — Minimal dashboard layout host (2.52 preview; chart grid + filter rail in 2.65).
+- [DashboardShell](components/DashboardShell.md) — Opinionated dashboard layout host (2.65 Wave A).
 - [DataTable](components/DataTable.md) — Fluent virtualizing table with sort, filter, resize, and keyboard. · Gallery
 - [DataTableFilterOverlay](components/DataTableFilterOverlay.md) — lightweight filter UI for DataTable.
 - [DatePicker](components/DatePicker.md) — Date selectors (year / month / day). · Gallery
@@ -132,6 +133,7 @@ python scripts/generate_component_docs.py --lint
 - [MetadataControl](components/MetadataControl.md) — Stacked or flowed label/value metadata block. · Gallery
 - [MetadataItem](components/MetadataItem.md) — One label/value pair for MetadataControl.
 - [MeterBar](components/MeterBar.md) — Multi-segment stacked meter (e.g. disk usage). · Gallery
+- [MetricCompareRow](components/MetricCompareRow.md) — Side-by-side KpiTile row with a shared period caption (2.65).
 - [MultiSelectComboBox](components/MultiSelectComboBox.md) — Combo that keeps the popup open for multi-select. · Gallery
 - [NavigationView](components/NavigationView.md) — WinUI NavigationView with pane modes and page stack. · Gallery
 - [NavigationWindow](components/NavigationWindow.md) — ShellWindow hosting NavigationView + content.
@@ -260,6 +262,7 @@ python scripts/generate_component_docs.py --lint
 
 - [FluentIcons](components/FluentIcons.md) — Segoe Fluent Icons character class — FluentIcons.Save, FluentIcons.Copy, … Full glyph lists: FluentIconsCatalog singleton (PropertyMap hides child props). · Gallery · C++ · singleton
 - [FluentIconsCatalog](components/FluentIconsCatalog.md) — Iconography catalog — separate QML singleton (not on QQmlPropertyMap). · Gallery · C++ · singleton
+- [PointerCursor](components/PointerCursor.md) — Hover cursor affordance for styled controls (2.66 M8).
 - [Theme](components/Theme.md) — Fluent color / type / motion token singleton. · singleton
 - [ThemeFonts](components/ThemeFonts.md) — registers embedded Fluent-compatible icon fonts (qrc). · Gallery · C++ · singleton
 
@@ -542,6 +545,7 @@ python scripts/generate_component_docs.py --lint
 - [KeyVisual](components/KeyVisual.md) — `QWinUI3.Extras`
 - [MetadataControl](components/MetadataControl.md) — `QWinUI3.Extras`
 - [MetadataItem](components/MetadataItem.md) — `QWinUI3.Extras`
+- [MetricCompareRow](components/MetricCompareRow.md) — `QWinUI3.Extras`
 - [OskHandwritingPad](components/OskHandwritingPad.md) — `QWinUI3.Extras`
 - [OskVoiceBar](components/OskVoiceBar.md) — `QWinUI3.Extras`
 - [RefreshContainer](components/RefreshContainer.md) — `QWinUI3.Extras`
@@ -588,6 +592,7 @@ python scripts/generate_component_docs.py --lint
 
 ### Status & feedback
 
+- [ChartEmptyState](components/ChartEmptyState.md) — `QWinUI3.Extras`
 - [EmptyState](components/EmptyState.md) — `QWinUI3.Extras`
 - [InfoBadge](components/InfoBadge.md) — `QWinUI3.Extras`
 - [MeterBar](components/MeterBar.md) — `QWinUI3.Extras`
@@ -660,6 +665,7 @@ python scripts/generate_component_docs.py --lint
 
 - [FluentIcons](components/FluentIcons.md) — `QWinUI3.Theme`
 - [FluentIconsCatalog](components/FluentIconsCatalog.md) — `QWinUI3.Theme`
+- [PointerCursor](components/PointerCursor.md) — `QWinUI3.Theme`
 - [Theme](components/Theme.md) — `QWinUI3.Theme`
 - [ThemeFonts](components/ThemeFonts.md) — `QWinUI3.Theme`
 

@@ -113,6 +113,51 @@ CatalogPage {
     }
 
     ControlExample {
+        headerText: qsTr("Brush zoom (2.65)")
+        qmlSource: "LineChart {\n    zoomEnabled: true\n    // drag on plot · resetZoom()\n}"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.Wrap
+                color: Theme.textSecondary
+                text: qsTr("Drag horizontally on the plot to zoom the X window. Crosshair still works on hover. Reset restores the full series.")
+            }
+            LineChart {
+                id: zoomLine
+                Layout.fillWidth: true
+                Layout.preferredHeight: 220
+                title: qsTr("Traffic (zoom)")
+                zoomEnabled: true
+                showArea: true
+                interactive: true
+                showLegend: true
+                series: [
+                    { name: qsTr("Inbound"), values: page.lineA, color: Theme.accent, filled: true },
+                    { name: qsTr("Outbound"), values: page.lineB, color: Theme.systemSuccess, filled: false }
+                ]
+            }
+            RowLayout {
+                spacing: Theme.spacing
+                Label {
+                    text: qsTr("Window %1–%2")
+                            .arg(zoomLine.viewStart.toFixed(2))
+                            .arg(zoomLine.viewEnd.toFixed(2))
+                    color: Theme.textSecondary
+                    font.pixelSize: Theme.fontCaption
+                }
+                Item { Layout.fillWidth: true }
+                Button {
+                    text: qsTr("Reset zoom")
+                    enabled: zoomLine.viewStart > 0.001 || zoomLine.viewEnd < 0.999
+                    onClicked: zoomLine.resetZoom()
+                }
+            }
+        }
+    }
+
+    ControlExample {
         headerText: qsTr("Step + category labels")
         qmlSource: "LineChart {\n    stepMode: true\n    xAxisLabels: [\"Mon\", \"Tue\"]\n}"
         LineChart {

@@ -81,6 +81,24 @@ T.Control {
     property var xAxisLabels: []
     // Horizontal-then-vertical steps instead of a polyline
     property bool stepMode: false
+    // Drag a brush on the plot to zoom the X window (2.65). Crosshair stays on hover.
+    property bool zoomEnabled: false
+    // Visible window as normalized [0, 1] fractions of the source series.
+    property real viewStart: 0
+    property real viewEnd: 1
+    // Brush drag start (plot-local X); -1 when idle
+    property real _brushX0: -1
+    property real _brushX1: -1
+
+    // Reset the zoom window to the full series
+    function resetZoom() {
+        viewStart = 0
+        viewEnd = 1
+        _brushX0 = -1
+        _brushX1 = -1
+        invalidateLod()
+        requestRedraw()
+    }
 
     // LOD diagnostics
     property int sourcePointCount: 0
@@ -160,7 +178,7 @@ T.Control {
     // Build LOD samples for the given budget
     function ensureLod(budget) {
         var list = root._seriesList
-        var key = String(budget)
+        var key = String(budget) + "@" + String(root.viewStart) + ":" + String(root.viewEnd)
         for (var s = 0; s < list.length; ++s)
             key += "|" + ChartUtils.valueCount(list[s].values)
         // Soft reuse when resize only nudges budget (±15%)
@@ -179,8 +197,20 @@ T.Control {
         var ghi = NaN
         var drawn = 0
         var src = 0
+        var vs = Math.max(0, Math.min(1, root.viewStart))
+        var ve = Math.max(vs + 0.02, Math.min(1, root.viewEnd))
         for (s = 0; s < list.length; ++s) {
-            var pack = ChartUtils.buildLod(list[s].values, budget)
+            var raw = list[s].values
+            var nRaw = ChartUtils.valueCount(raw)
+            var sliced = raw
+            if (nRaw > 2 && (vs > 0.001 || ve < 0.999)) {
+                var i0 = Math.floor(vs * (nRaw - 1))
+                var i1 = Math.ceil(ve * (nRaw - 1))
+                sliced = []
+                for (var zi = i0; zi <= i1; ++zi)
+                    sliced.push(raw[zi])
+            }
+            var pack = ChartUtils.buildLod(sliced, budget)
             packs.push(pack)
             drawn += pack.values.length
             src = Math.max(src, pack.sourceCount)
@@ -215,6 +245,13 @@ T.Control {
     onShowAreaChanged: requestRedraw()
     onXAxisLabelsChanged: requestRedraw()
     onStepModeChanged: requestRedraw()
+    onViewStartChanged: { invalidateLod(); requestRedraw() }
+    onViewEndChanged: { invalidateLod(); requestRedraw() }
+    onZoomEnabledChanged: {
+        if (!zoomEnabled)
+            resetZoom()
+        requestRedraw()
+    }
     onRevealProgressChanged: requestRedraw()
     onWidthChanged: requestRedraw()
     onHeightChanged: requestRedraw()
@@ -459,9 +496,69 @@ T.Control {
                 anchors.fill: parent
                 hoverEnabled: root.interactive
                 enabled: root.interactive
-                acceptedButtons: Qt.NoButton
-                onPositionChanged: (mouse) => root._updateHover(mouse.x, mouse.y)
-                onExited: root.clearHover()
+                acceptedButtons: root.zoomEnabled ? Qt.LeftButton : Qt.NoButton
+                preventStealing: root.zoomEnabled
+                onPositionChanged: (mouse) => {
+                    if (root.zoomEnabled && pressed && root._brushX0 >= 0) {
+                        root._brushX1 = mouse.x
+                        return
+                    }
+                    root._updateHover(mouse.x, mouse.y)
+                }
+                onPressed: (mouse) => {
+                    if (!root.zoomEnabled)
+                        return
+                    root._brushX0 = mouse.x
+                    root._brushX1 = mouse.x
+                    root.clearHover()
+                }
+                onReleased: (mouse) => {
+                    if (!root.zoomEnabled || root._brushX0 < 0)
+                        return
+                    root._brushX1 = mouse.x
+                    var a = Math.min(root._brushX0, root._brushX1)
+                    var b = Math.max(root._brushX0, root._brushX1)
+                    root._brushX0 = -1
+                    root._brushX1 = -1
+                    if (b - a < 8) {
+                        root._updateHover(mouse.x, mouse.y)
+                        return
+                    }
+                    var plotL = canvas.plotL
+                    var plotW = Math.max(1, canvas.plotW)
+                    var t0 = Math.max(0, Math.min(1, (a - plotL) / plotW))
+                    var t1 = Math.max(0, Math.min(1, (b - plotL) / plotW))
+                    var span = Math.max(0.02, root.viewEnd - root.viewStart)
+                    var ns = root.viewStart + t0 * span
+                    var ne = root.viewStart + t1 * span
+                    if (ne - ns < 0.02)
+                        ne = ns + 0.02
+                    root.viewStart = ns
+                    root.viewEnd = Math.min(1, ne)
+                    root.invalidateLod()
+                    root.requestRedraw()
+                }
+                onExited: {
+                    if (root._brushX0 < 0)
+                        root.clearHover()
+                }
+                onDoubleClicked: {
+                    if (root.zoomEnabled)
+                        root.resetZoom()
+                }
+            }
+
+            // Zoom brush overlay
+            Rectangle {
+                visible: root.zoomEnabled && root._brushX0 >= 0
+                x: Math.min(root._brushX0, root._brushX1)
+                y: canvas.plotT
+                width: Math.abs(root._brushX1 - root._brushX0)
+                height: canvas.plotH
+                color: Theme.accent
+                opacity: 0.18
+                border.width: 1
+                border.color: Theme.accent
             }
 
             // Hover tooltip card

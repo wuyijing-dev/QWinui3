@@ -4,7 +4,7 @@ FluentIcons glyph as Text.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/FontIcon.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/FontIcon.qml)
 
-**Category:** Media & platform · **Library:** v2.64
+**Category:** Media & platform · **Library:** v2.65
 
 [← Component index](../components.md)
 
@@ -43,13 +43,24 @@ Hover/press micro-motion honors Theme.reducedMotion (1.49).
 | `fontSize` | `real` | Font size in px |
 | `iconColor` | `color` | Icon color |
 | `mirrorGlyph` | `bool` | Mirror glyph for RTL |
+| `autoMirror` | `bool` | When true, mirror directional glyphs under LayoutMirroring (2.67 — I9) |
 | `fontWeight` | `int` | Font weight |
 | `toolTipText` | `string` | Tooltip text |
 | `accessibleName` | `string` | Accessible name override |
 | `microMotionEnabled` | `bool` | WinUI-style hover/press micro-motion (1.49) |
 | `hoverScale` | `real` | Hover glyph scale when microMotionEnabled |
 | `pressScale` | `real` | Pressed glyph scale when microMotionEnabled |
-| `effectiveGlyph` | `string` | Resolved glyph string |
+| `iconOffsetX` | `real` | Manual optical offset (px); NaN → Theme.iconOpticalOffset(fontSize) |
+| `iconOffsetY` | `real` | — |
+| `iconContext` | `string` | Size band hint: caption \| chrome \| nav \| appbar \| "" (auto from fontSize) |
+| `chevronRotation` | `real` | Chevron expand rotation (deg); use with FluentIcons.Chevron* (2.66 — I4) |
+| `selected` | `bool` | Selected / emphasized glyph (accent + motion — 2.66 — I3) |
+| `effectiveOffsetX` | `real` | — |
+| `effectiveOffsetY` | `real` | — |
+| `effectiveIconColor` | `color` | — |
+| `effectiveDisabledOpacity` | `real` | — |
+| `effectiveGlyph` | `string` | — |
+| `effectiveMirror` | `bool` | — |
 | `effectiveIconScale` | `real` | — |
 
 ### Signals

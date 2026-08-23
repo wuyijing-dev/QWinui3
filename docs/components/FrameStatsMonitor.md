@@ -4,7 +4,7 @@ FPS / frame-time / RHI readout for Gallery and retail diagnostics (singleton).
 
 `import QWinUI3.Platform` · [`src/platform/QWinUI3/Platform/FrameStatsMonitor.h`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/platform/QWinUI3/Platform/FrameStatsMonitor.h)
 
-**Category:** Platform · **Library:** v2.64 · **C++ type** · **singleton**
+**Category:** Platform · **Library:** v2.65 · **C++ type** · **singleton**
 
 [← Component index](../components.md)
 

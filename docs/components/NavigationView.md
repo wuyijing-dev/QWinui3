@@ -4,7 +4,7 @@ WinUI NavigationView with pane modes and page stack.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/NavigationView.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/NavigationView.qml)
 
-**Category:** Navigation · **Library:** v2.64
+**Category:** Navigation · **Library:** v2.65
 
 [← Component index](../components.md)
 
@@ -160,6 +160,7 @@ Live-region announces nav selection / pane expand (2.07) when announceChanges is
 | `requestCompactFlyout(groupKey, anchorItem)` | Schedule opening the compact flyout (hover delay) |
 | `requestCloseCompactFlyout()` | Schedule closing the compact flyout |
 | `componentForKey(key)` | Resolve page component name for a nav key |
+| `keyForComponent(componentName)` | First nav key whose component matches (for search / featured → rail pip). |
 | `titleForKey(key)` | Display title for a nav key (item or group/child path) |
 | `breadcrumbPathForKey(key)` | Breadcrumb path for a nav key — [{ title, symbol?, navKey }] (2.23) |
 | `breadcrumbModelForKey(key)` | Plain BreadcrumbBar model derived from breadcrumbPathForKey (2.23) |
@@ -168,7 +169,7 @@ Live-region announces nav selection / pane expand (2.07) when announceChanges is
 | `flatIndexForKey(key)` | Flat list index for a nav key |
 | `ensureSelectionVisible()` | Scroll so the current selection is on-screen |
 | `selectIndex(index)` | Select a top-level model index (legacy) |
-| `selectKey(key, mode)` | Select by nav key and open the page |
+| `selectKey(key, mode, pageName)` | (Gallery search / hub pages that are not themselves rail entries). |
 | `selectFooter(mode)` | Select the footer row and open footerComponent |
 | `pushHistorySnapshot()` | Snapshot current selection for TitleBar back |
 | `navigateBack(mode)` | Restore previous nav selection (slideRight by default) |

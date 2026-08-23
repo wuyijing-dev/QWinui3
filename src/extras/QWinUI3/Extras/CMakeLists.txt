@@ -174,8 +174,10 @@ qt_add_qml_module(qwinui3_extras
         DumbbellChart.qml
         SunburstChart.qml
         ChartCard.qml
+        ChartEmptyState.qml
         ChartLegend.qml
         ChartUtils.qml
+        MetricCompareRow.qml
         MultiSelectComboBox.qml
         NavigationView.qml
         NumberBox.qml

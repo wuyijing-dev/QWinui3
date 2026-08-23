@@ -154,7 +154,8 @@ Promote to stable only after a named `1.xx` slice hardens them. See also [1.37 d
 | **Tear-out / exotic shells** | `canTearOutTabs`, compact-overlay / dialog-tool shell variants | Niche — deferred in **1.37** |
 | **Media** | `MediaPlayerElement` | Optional Qt Multimedia — **permanent defer 2.09** — [media.md](media.md); app-owned codecs/deploy |
 | **Collections compose** | `FileTree` (folder tree + file table) | Explorer LoB — [tree-data.md](tree-data.md) (**2.06**); `TreeDataGrid` hierarchical grid (**2.21**); `ItemsWrapGrid` wrap grid (**2.24**) |
-| **Dashboard layout** | `DashboardShell` | Preview host (**2.52**) — full grid in **2.65** — [first-app-252.md](first-app-252.md) |
+| **Dashboard layout** | `DashboardShell` | KPI strip + chart body + optional `filterPane` (**2.65**) — [charts.md](charts.md) · [first-app-252.md](first-app-252.md) |
+| **Dashboard compose** | `MetricCompareRow`, `ChartEmptyState` | Period KPI row + empty/loading/error inside **ChartCard** (**2.65**) |
 | **On-screen keyboard** | `OnScreenKeyboard` / `OnScreenKeyboardWindow` / `KeyboardEngine` / `ImeCandidateBar` | Win11 floating OSK + Windows system-wide (**1.83** harden); **still experimental** — [on-screen-keyboard.md](on-screen-keyboard.md) |
 | **Shell extras (remaining)** | Snap Layouts, battery/online/screens, recent-docs | Gallery demos; taskbar/attention/reveal/idle already stable (**1.17**) |
 

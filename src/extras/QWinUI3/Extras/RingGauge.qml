@@ -45,6 +45,9 @@ T.Control {
     property string caption: ""
     // Digits after decimal for value text
     property int valuePrecision: 0
+    // Optional printf-style format for the center value (2.65). Empty → precision + unit.
+    // Use "%1" for the number and "%2" for the unit, e.g. "%1%2" or "%1 %2".
+    property string valueFormat: ""
     // Stroke thickness in px
     property real strokeWidth: 12
     // Primary fill / progress color
@@ -137,6 +140,8 @@ T.Control {
     readonly property string formattedValue: {
         var n = Number(animatedValue)
         var t = valuePrecision > 0 ? n.toFixed(valuePrecision) : String(Math.round(n))
+        if (valueFormat.length)
+            return valueFormat.arg(t).arg(unit)
         return t + (unit.length ? unit : "")
     }
 

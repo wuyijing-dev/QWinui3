@@ -1,8 +1,8 @@
 # QWinUI3 Roadmap
 
-**Current:** **2.64** (master; collection perf + a11y sign-off; PyPI **2.64.0** published)
-**Next up:** **2.65** Charts + Dashboard (product versions first)
-**Planned through:** **3.00** (… → **2.65…2.70** product wave → **2.71…2.75** platform/Python polish → **3.00** close-out → [micro-interaction backlog last](#micro-interaction--visual-polish--deferred-last))
+**Current:** **2.65** (master; Charts + Dashboard Wave A)
+**Next up:** **2.66** Appearance foundations + DataTable pro grid
+**Planned through:** **3.00** (… → **2.66…2.70** product wave → **2.71…2.75** platform/Python polish → **3.00** close-out → [micro-interaction backlog last](#micro-interaction--visual-polish--deferred-last))
 **Checkpoints ahead:** **2.70** professional-surfaces audit · **2.73** Python consumer · **3.00** breaking close-out (checkpoint-300)
 **Qt:** 6.5+ (recommended 6.8 LTS) on master today — **2.00** raises floor to **6.8 LTS** · **3.00** to **6.10 LTS**
 **Platforms:** **Windows + Linux** — no macOS first-class line.
@@ -134,7 +134,7 @@ Consumer sketch: [upgrade-notes.md](docs/upgrade-notes.md) **Upgrade 1.90 → 2.
 
 | Slice | Primary theme | Bundled tracks | Status |
 |-------|---------------|----------------|--------|
-| **2.65** | Charts + Dashboard | Analytics wave A (**FL-009**) | **Next** |
+| **2.65** | Charts + Dashboard | Analytics wave A (**FL-009**) | **Shipped** |
 | **2.66** | Appearance + grid + table perf | **A1** · **A2** · **C1** · **D1** | Planned |
 | **2.67** | List/card appearance + motion tokens | **A3** · **A4** · **B1** · **B2** · **C2** · **C4** · **D2** · **F1** | Planned |
 | **2.68** | Nav/tabs + connected motion + workflow | **A5** · **B3** · **B4** · **C3** · **C4** · **D3** · **D4** · **F2** · **F3** | Planned |
@@ -143,17 +143,17 @@ Consumer sketch: [upgrade-notes.md](docs/upgrade-notes.md) **Upgrade 1.90 → 2.
 
 **Also scheduled inside tranche 3 (when bandwidth allows):** experimental promote wave 2 (**2.67** carry-over) · analytics wave B (**2.69** conditional, **FL-014** / **FL-015**) · forms industry Gallery templates (folded into **D2** / [forms.md](docs/forms.md)).
 
-### 2.65 — Charts + Dashboard product wave (planned)
+### 2.65 — Charts + Dashboard product wave (shipped)
 
 **Goal:** Close **FL-009** and ship **Wave A** analytics — **deepen stable six** + new dashboard hosts (not withdrawn `Hub`).
 
 | Item | Detail |
 |------|--------|
-| **Stable six APIs** | **LineChart** crosshair/zoom/axis; **BarChart** stacked; **DonutChart** center label; **KpiTile** compare period; **ChartCard** footer/export hook |
+| **Stable six APIs** | **LineChart** crosshair/zoom; **BarChart** stacked/horizontal; **DonutChart** center + `legendPosition`; **KpiTile** `compareValue` / `sparklineHeight`; **ChartCard** footer/`exportRequested`; **RingGauge** `valueFormat` |
 | **DashboardShell** | Layout host — KPI row + chart grid + **TwoPaneView** filter rail |
 | **MetricCompareRow** / **ChartEmptyState** | Dashboard UX compose types |
-| **Gallery + example** | **Dashboard** v2 · [`examples/dashboard`](../examples/dashboard/) refresh |
-| **Docs** | [charts-dashboard-arc.md](docs/planning/expansion/charts-dashboard-arc.md) · [icons-dashboard-expansion.md](docs/planning/expansion/icons-dashboard-expansion.md) |
+| **Gallery + example** | **Dashboard** v2 · [`examples/dashboard`](examples/dashboard/) refresh |
+| **Docs** | [charts-dashboard-arc.md](docs/planning/expansion/charts-dashboard-arc.md) · [charts.md](docs/charts.md) |
 
 **Out:** WebGL engine; unconditional new stable chart names without friction row.
 

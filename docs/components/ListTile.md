@@ -4,7 +4,7 @@ List row: leading, title, subtitle, trailing.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ListTile.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ListTile.qml)
 
-**Category:** Collections & data · **Library:** v2.64
+**Category:** Collections & data · **Library:** v2.65
 
 [← Component index](../components.md)
 
@@ -41,6 +41,7 @@ List row tile with leading symbol and trailing slot.
 | `trailing` | `alias` | Trailing slot |
 | `showChevron` | `bool` | Show trailing chevron |
 | `isSelected` | `bool` | Selected state |
+| `tileDensity` | `string` | Row density: standard \| compact (2.67 — M9 / A3) |
 | `effectiveGlyph` | `string` | Resolved glyph string |
 
 ### Signals

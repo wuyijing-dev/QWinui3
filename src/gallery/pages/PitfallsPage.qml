@@ -468,7 +468,7 @@ CatalogPage {
             }
             CheckBox { text: qsTr("Start from examples/first-app — not Gallery src/gallery/") }
             CheckBox { text: qsTr("Shell ladder: first-app → gallery-shell → dashboard → find_package") }
-            CheckBox { text: qsTr("DashboardShell is experimental until 2.65 chart grid") }
+            CheckBox { text: qsTr("DashboardShell hosts KPI + chart grid + optional filterPane (2.65)") }
             CheckBox { text: qsTr("Packaging path: docs/packaging-consumer.md Path picker") }
         }
     }

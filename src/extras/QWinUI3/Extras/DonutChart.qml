@@ -41,6 +41,8 @@ T.Control {
     property string centerSubText: ""
     // Show chart legend
     property bool showLegend: true
+    // Legend placement: "right" (default) or "bottom" (2.65)
+    property string legendPosition: "right"
     // Enable hover / click interaction
     property bool interactive: true
     // Alias of interactive (gauge / KPI naming parity)
@@ -165,17 +167,21 @@ T.Control {
             color: Theme.textSecondary
         }
 
-        RowLayout {
+        GridLayout {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            spacing: Theme.spacingLoose
+            columns: root.legendPosition === "bottom" ? 1 : 2
+            rowSpacing: Theme.spacingLoose
+            columnSpacing: Theme.spacingLoose
             visible: !root.isEmpty
 
         Item {
             id: plot
-            Layout.preferredWidth: Math.min(parent.height, parent.width * (root.showLegend ? 0.48 : 1))
+            Layout.preferredWidth: Math.min(parent.height, parent.width * (root.showLegend && root.legendPosition !== "bottom" ? 0.48 : 1))
             Layout.preferredHeight: Layout.preferredWidth
-            Layout.alignment: Qt.AlignVCenter
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+            Layout.fillWidth: root.legendPosition === "bottom" || !root.showLegend
+            Layout.maximumWidth: root.legendPosition === "bottom" ? 220 : -1
 
             Canvas {
                 id: canvas
@@ -371,7 +377,7 @@ T.Control {
                 }
             }
         }
-        } // RowLayout
+        } // GridLayout
     }
 
     function _hitTest(mx, my) {

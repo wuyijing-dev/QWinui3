@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
@@ -26,6 +27,15 @@ T.Control {
     property string subtitle: ""
     // Footer text
     property string footer: ""
+    // Show an Export action in the footer strip (2.65)
+    property bool showExportAction: false
+    // Export action label
+    property string exportActionText: qsTr("Export")
+    // Trailing footer actions slot (buttons, links)
+    property alias footerActions: footerActionsRow.data
+    // Emitted when the built-in Export action is clicked
+    signal exportRequested()
+
     // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
     // Raw Fluent glyph string fallback
@@ -135,6 +145,27 @@ T.Control {
             font.pixelSize: Theme.fontCaption
             color: Theme.textSecondary
             elide: Text.ElideRight
+        }
+
+        RowLayout {
+            Layout.fillWidth: true
+            visible: root.showExportAction || footerActionsRow.children.length > 0
+            spacing: 8
+
+            Item { Layout.fillWidth: true }
+
+            Row {
+                id: footerActionsRow
+                spacing: 4
+                Layout.alignment: Qt.AlignVCenter
+            }
+
+            Button {
+                visible: root.showExportAction
+                text: root.exportActionText
+                flat: true
+                onClicked: root.exportRequested()
+            }
         }
     }
 

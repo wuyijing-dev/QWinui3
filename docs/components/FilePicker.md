@@ -4,7 +4,7 @@ Native open/save/folder dialogs for QML (no QtQuick.Dialogs).
 
 `import QWinUI3.Platform` · [`src/platform/QWinUI3/Platform/FilePicker.h`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/platform/QWinUI3/Platform/FilePicker.h)
 
-**Category:** Platform · **Library:** v2.64 · **C++ type** · **singleton**
+**Category:** Platform · **Library:** v2.65 · **C++ type** · **singleton**
 
 [← Component index](../components.md)
 

@@ -4,7 +4,7 @@ Header tabs with sliding underline and pages.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/Pivot.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/Pivot.qml)
 
-**Category:** Navigation · **Library:** v2.64
+**Category:** Navigation · **Library:** v2.65
 
 [← Component index](../components.md)
 
@@ -57,7 +57,7 @@ selectedItem mirrors the current model entry.
 
 | Signature | Description |
 | --- | --- |
-| `selectIndex(index)` | Select by index |
+| `selectIndex(index)` | — |
 
 ### Inherited from `Control`
 

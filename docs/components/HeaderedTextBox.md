@@ -4,7 +4,7 @@ TextBox with header and description.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/HeaderedTextBox.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/HeaderedTextBox.qml)
 
-**Category:** Input & forms · **Library:** v2.64
+**Category:** Input & forms · **Library:** v2.65
 
 [← Component index](../components.md)
 

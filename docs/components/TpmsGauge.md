@@ -4,7 +4,7 @@ Four-corner tire pressure.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/TpmsGauge.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/TpmsGauge.qml)
 
-**Category:** Charts & gauges · **Library:** v2.64
+**Category:** Charts & gauges · **Library:** v2.65
 
 [← Component index](../components.md)
 

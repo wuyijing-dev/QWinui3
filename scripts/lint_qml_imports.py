@@ -87,6 +87,9 @@ def main() -> int:
 
     errors: list[str] = []
     for qml in sorted(root.rglob("*.qml")):
+        # Skip local mirrors / caches (e.g. python-gallery/.qml-module/)
+        if any(part.startswith(".") for part in qml.relative_to(root).parts):
+            continue
         errors.extend(lint_file(qml))
 
     if errors:

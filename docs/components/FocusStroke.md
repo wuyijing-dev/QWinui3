@@ -4,7 +4,7 @@ Dual-ring keyboard focus chrome (WinUI / Fluent).
 
 `import QWinUI3.Theme` · [`src/theme/QWinUI3/Theme/FocusStroke.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/theme/QWinUI3/Theme/FocusStroke.qml)
 
-**Category:** Theme · **Library:** v2.64
+**Category:** Theme · **Library:** v2.65
 
 [← Component index](../components.md)
 
@@ -30,8 +30,8 @@ Shared by Style + Extras. Uses Theme.strokeFocus* / focusOuter/Inner and reduced
 | --- | --- | --- |
 | `show` | `bool` | Show the control |
 | `frameRadius` | `real` | Frame corner radius |
-| `outerSize` | `real` | Outer size (thicker in high contrast) |
-| `innerSize` | `real` | Inner size |
+| `outerSize` | `real` | Outer ring width (thicker in high contrast — 2px double per accessibility.md) |
+| `innerSize` | `real` | Inner ring width |
 
 ### Signals
 

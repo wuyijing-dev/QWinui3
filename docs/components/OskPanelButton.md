@@ -4,7 +4,7 @@ compact action chip for OSK auxiliary panels.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/OskPanelButton.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/OskPanelButton.qml)
 
-**Category:** Buttons & commands · **Library:** v2.64
+**Category:** Buttons & commands · **Library:** v2.65
 
 [← Component index](../components.md)
 

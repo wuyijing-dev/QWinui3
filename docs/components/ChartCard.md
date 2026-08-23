@@ -4,7 +4,7 @@ Title/subtitle chrome around a chart child.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ChartCard.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ChartCard.qml)
 
-**Category:** Charts & gauges · **Library:** v2.64
+**Category:** Charts & gauges · **Library:** v2.65
 
 [← Component index](../components.md)
 
@@ -36,6 +36,9 @@ for an empty card — charts own their empty states / units / click callbacks.
 | `title` | `string` | Primary title text |
 | `subtitle` | `string` | Secondary subtitle text |
 | `footer` | `string` | Footer text |
+| `showExportAction` | `bool` | Show an Export action in the footer strip (2.65) |
+| `exportActionText` | `string` | Export action label |
+| `footerActions` | `alias` | Trailing footer actions slot (buttons, links) |
 | `symbol` | `var` | FluentIcons symbol (preferred over iconGlyph) |
 | `iconGlyph` | `string` | Raw Fluent glyph string fallback |
 | `animated` | `bool` | Play enter / reveal animation |
@@ -47,7 +50,9 @@ for an empty card — charts own their empty states / units / click callbacks.
 
 ### Signals
 
-_No custom signals_ (use inherited signals from the base type).
+| Signature | Description |
+| --- | --- |
+| `exportRequested()` | Emitted when the built-in Export action is clicked |
 
 ### Methods
 

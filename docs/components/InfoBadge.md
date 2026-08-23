@@ -4,7 +4,7 @@ Count / status / glyph badge.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/InfoBadge.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/InfoBadge.qml)
 
-**Category:** Status & feedback · **Library:** v2.64
+**Category:** Status & feedback · **Library:** v2.65
 
 [← Component index](../components.md)
 
@@ -67,7 +67,7 @@ _No custom signals_ (use inherited signals from the base type).
 | Signature | Description |
 | --- | --- |
 | `setSeverityName(name)` | Set severity from a string name |
-| `bump()` | Nudge value by one step |
+| `bump()` | One-shot scale pulse when badge content grows |
 
 ### Inherited from `Control`
 

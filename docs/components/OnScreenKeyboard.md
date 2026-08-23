@@ -4,7 +4,7 @@ Windows 11 touch keyboard parity (1.82).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/OnScreenKeyboard.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/OnScreenKeyboard.qml)
 
-**Category:** Input & forms · **Library:** v2.64
+**Category:** Input & forms · **Library:** v2.65
 
 [← Component index](../components.md)
 

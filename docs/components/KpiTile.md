@@ -4,7 +4,7 @@ Compact dashboard KPI tile with optional delta and spark trend.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/KpiTile.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/KpiTile.qml)
 
-**Category:** Charts & gauges · **Library:** v2.64
+**Category:** Charts & gauges · **Library:** v2.65
 
 [← Component index](../components.md)
 
@@ -63,6 +63,7 @@ Layout.fillWidth defaults to true inside Column/Row/Grid layouts.
 | `invertDeltaColors` | `bool` | When true, negative delta is success (lower-is-better metrics) |
 | `trendValues` | `var` | Optional sparkline values (number[]) |
 | `showTrend` | `bool` | Show sparkline when trendValues has 2+ points |
+| `sparklineHeight` | `real` | Sparkline strip height in px (2.65) |
 | `cautionThreshold` | `real` | Absolute caution threshold on value (-1 disables) |
 | `criticalThreshold` | `real` | Absolute critical threshold on value (-1 disables) |
 | `invertThresholds` | `bool` | When true, low values map to caution/critical |

@@ -4,7 +4,7 @@ unify emptyTitle/emptyMessage for filtered lists.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ItemsViewEmptyStateHelper.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ItemsViewEmptyStateHelper.qml)
 
-**Category:** Collections & data · **Library:** v2.64
+**Category:** Collections & data · **Library:** v2.65
 
 [← Component index](../components.md)
 

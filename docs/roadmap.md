@@ -1,13 +1,13 @@
 # QWinUI3 Roadmap
 
-**Current:** **2.64** (master; collection perf + a11y sign-off; PyPI **2.64.0** published)
-**Next up:** **2.65** Charts + Dashboard (product versions first)
-**Planned through:** **3.00** (… → **2.65…2.70** product wave → **2.71…2.75** platform/Python polish → **3.00** close-out → [micro-interaction backlog last](#micro-interaction--visual-polish--deferred-last))
+**Current:** **2.65** (master; Charts + Dashboard Wave A)
+**Next up:** **2.66** Appearance foundations + DataTable pro grid
+**Planned through:** **3.00** (… → **2.66…2.70** product wave → **2.71…2.75** platform/Python polish → **3.00** close-out → [micro-interaction backlog last](#micro-interaction--visual-polish--deferred-last))
 **Checkpoints ahead:** **2.70** professional-surfaces audit · **2.73** Python consumer · **3.00** breaking close-out (checkpoint-300)
 **Qt:** 6.5+ (recommended 6.8 LTS) on master today — **2.00** raises floor to **6.8 LTS** · **3.00** to **6.10 LTS**
 **Platforms:** **Windows + Linux** — no macOS first-class line.
 
-**After 2.50**, new minors ship only for **[documented user friction](planning/friction-log.md)** — not catalog completeness. Release history for **1.01…2.64** lives in git tags, [upgrade-notes.md](upgrade-notes.md), and per-slice docs under `docs/`.
+**After 2.50**, new minors ship only for **[documented user friction](docs/planning/friction-log.md)** — not catalog completeness. Release history for **1.01…2.64** lives in git tags, [upgrade-notes.md](docs/upgrade-notes.md), and per-slice docs under `docs/`.
 
 ---
 
@@ -42,7 +42,7 @@
 
 ## Friction gate — when a slice earns a tag
 
-A **`2.xx` minor is allowed** when at least one row in [friction-log.md](planning/friction-log.md) names a **repeatable pain** and the slice **directly removes** it.
+A **`2.xx` minor is allowed** when at least one row in [friction-log.md](docs/planning/friction-log.md) names a **repeatable pain** and the slice **directly removes** it.
 
 | Pass | Fail |
 |------|------|
@@ -81,7 +81,7 @@ A **`2.xx` minor is allowed** when at least one row in [friction-log.md](plannin
 
 ## Shipped summary (archived)
 
-Detailed per-minor notes were removed from this file to keep the plan forward-looking. Use git tags (`v1.01` … `v2.64`), [upgrade-notes.md](upgrade-notes.md), and slice docs (`docs/*-25*.md`, checkpoint pages, etc.) for history.
+Detailed per-minor notes were removed from this file to keep the plan forward-looking. Use git tags (`v1.01` … `v2.64`), [upgrade-notes.md](docs/upgrade-notes.md), and slice docs (`docs/*-25*.md`, checkpoint pages, etc.) for history.
 
 | Tranche | Versions | Checkpoint | Outcome |
 |---------|----------|------------|---------|
@@ -89,7 +89,7 @@ Detailed per-minor notes were removed from this file to keep the plan forward-lo
 | **2.x tranche 1** | **2.03 → 2.50** | checkpoint-250 | Conditional controls, dashboard recipes, perf/a11y waves, experimental sweep, docs IA v2 |
 | **2.x friction** | **2.51 → 2.60** | checkpoint-260 | Stable clarity, first-app, Linux top-3, forms/nav/files/OSK/perf friction closes |
 | **2.x professional (partial)** | **2.61 → 2.64** | — | RichEdit, SemanticZoom, NotificationCenter, collection perf + a11y sign-off |
-| **Python / PyPI (early)** | **2.64 / 2.72 goals** | — | [`examples/python-gallery/`](../examples/python-gallery/), [packaging-python.md](packaging-python.md), **`pip install qwinui3`** on PyPI (Win + manylinux) |
+| **Python / PyPI (early)** | **2.64 / 2.72 goals** | — | [`examples/python-gallery/`](../examples/python-gallery/), [packaging-python.md](docs/packaging-python.md), **`pip install qwinui3`** on PyPI (Win + manylinux) |
 
 **Rescheduled (not yet tagged):** **2.00** breaking baseline · **2.01** OSK promote · **2.02** `find_package` productize — see below.
 
@@ -105,24 +105,24 @@ These slices were planned before the **2.03…2.64** tranche landed on the **1.x
 
 | Area | 2.00 intent |
 |------|-------------|
-| **Qt floor** | Drop **Qt 6.5**. Floor **6.8 LTS** (forward 6.10+). Update [qt-version-compat.md](qt-version-compat.md) + CI matrix. |
+| **Qt floor** | Drop **Qt 6.5**. Floor **6.8 LTS** (forward 6.10+). Update [qt-version-compat.md](docs/qt-version-compat.md) + CI matrix. |
 | **Theme** | Only remaps listed in the **1.90** inventory — **not** a Fluent 2 redesign. |
 | **Shell** | Remove Gallery-era aliases; keep `StandardWindow` / `NavigationWindow` / `WindowHelper` as the contract. |
 | **Experimental** | Types still experimental after **2.01** OSK slice either promote, move to experimental module, or **remove** with upgrade-notes row. |
 
 **Out:** Fluent 2 fork · macOS first-class · Qt Virtual Keyboard · full Lottie/Figma pipeline.
 
-Consumer sketch: [upgrade-notes.md](upgrade-notes.md) **Upgrade 1.90 → 2.00 (draft)**.
+Consumer sketch: [upgrade-notes.md](docs/upgrade-notes.md) **Upgrade 1.90 → 2.00 (draft)**.
 
 ### 2.01 — OSK / IME green soak + promote (planned)
 
-**Goal:** Manual soak checklist **green** on Windows + Linux floating path; promote `OnScreenKeyboard` / `KeyboardEngine` / `ImeCandidateBar` subset to **stable**; [on-screen-keyboard.md](on-screen-keyboard.md) + [stable-api.md](stable-api.md) promote rows.
+**Goal:** Manual soak checklist **green** on Windows + Linux floating path; promote `OnScreenKeyboard` / `KeyboardEngine` / `ImeCandidateBar` subset to **stable**; [on-screen-keyboard.md](docs/on-screen-keyboard.md) + [stable-api.md](docs/stable-api.md) promote rows.
 
 **Out:** Every community `.kmx`; dictation / cloud lexicon.
 
 ### 2.02 — Consumer find_package productize (planned)
 
-**Goal:** Productize the **1.61** sketch — installed `QWinUI3Config.cmake` as the supported consumer path; closes **FL-003**; `verify_find_package.py` in default smoke; [packaging-consumer.md](packaging-consumer.md) Path C as primary.
+**Goal:** Productize the **1.61** sketch — installed `QWinUI3Config.cmake` as the supported consumer path; closes **FL-003**; `verify_find_package.py` in default smoke; [packaging-consumer.md](docs/packaging-consumer.md) Path C as primary.
 
 **Out:** Replacing `add_subdirectory` for in-tree kit dev.
 
@@ -134,26 +134,26 @@ Consumer sketch: [upgrade-notes.md](upgrade-notes.md) **Upgrade 1.90 → 2.00 (d
 
 | Slice | Primary theme | Bundled tracks | Status |
 |-------|---------------|----------------|--------|
-| **2.65** | Charts + Dashboard | Analytics wave A (**FL-009**) | **Next** |
+| **2.65** | Charts + Dashboard | Analytics wave A (**FL-009**) | **Shipped** |
 | **2.66** | Appearance + grid + table perf | **A1** · **A2** · **C1** · **D1** | Planned |
 | **2.67** | List/card appearance + motion tokens | **A3** · **A4** · **B1** · **B2** · **C2** · **C4** · **D2** · **F1** | Planned |
 | **2.68** | Nav/tabs + connected motion + workflow | **A5** · **B3** · **B4** · **C3** · **C4** · **D3** · **D4** · **F2** · **F3** | Planned |
 | **2.69** | Collections + dialogs + calendar/RichEdit | **A6** · **B5** · **C5** · **D5** · **D6** · **F4** · **F5** | Planned |
 | **2.70** | Feedback chrome + loading + session + checkpoint | **A7** · **B6** · **C6** · **D7** · **D8** · **F6** · checkpoint-270 | Planned |
 
-**Also scheduled inside tranche 3 (when bandwidth allows):** experimental promote wave 2 (**2.67** carry-over) · analytics wave B (**2.69** conditional, **FL-014** / **FL-015**) · forms industry Gallery templates (folded into **D2** / [forms.md](forms.md)).
+**Also scheduled inside tranche 3 (when bandwidth allows):** experimental promote wave 2 (**2.67** carry-over) · analytics wave B (**2.69** conditional, **FL-014** / **FL-015**) · forms industry Gallery templates (folded into **D2** / [forms.md](docs/forms.md)).
 
-### 2.65 — Charts + Dashboard product wave (planned)
+### 2.65 — Charts + Dashboard product wave (shipped)
 
 **Goal:** Close **FL-009** and ship **Wave A** analytics — **deepen stable six** + new dashboard hosts (not withdrawn `Hub`).
 
 | Item | Detail |
 |------|--------|
-| **Stable six APIs** | **LineChart** crosshair/zoom/axis; **BarChart** stacked; **DonutChart** center label; **KpiTile** compare period; **ChartCard** footer/export hook |
+| **Stable six APIs** | **LineChart** crosshair/zoom; **BarChart** stacked/horizontal; **DonutChart** center + `legendPosition`; **KpiTile** `compareValue` / `sparklineHeight`; **ChartCard** footer/`exportRequested`; **RingGauge** `valueFormat` |
 | **DashboardShell** | Layout host — KPI row + chart grid + **TwoPaneView** filter rail |
 | **MetricCompareRow** / **ChartEmptyState** | Dashboard UX compose types |
-| **Gallery + example** | **Dashboard** v2 · [`examples/dashboard`](../examples/dashboard/) refresh |
-| **Docs** | [charts-dashboard-arc.md](planning/expansion/charts-dashboard-arc.md) · [icons-dashboard-expansion.md](planning/expansion/icons-dashboard-expansion.md) |
+| **Gallery + example** | **Dashboard** v2 · [`examples/dashboard`](examples/dashboard/) refresh |
+| **Docs** | [charts-dashboard-arc.md](docs/planning/expansion/charts-dashboard-arc.md) · [charts.md](docs/charts.md) |
 
 **Out:** WebGL engine; unconditional new stable chart names without friction row.
 
@@ -163,10 +163,10 @@ Consumer sketch: [upgrade-notes.md](upgrade-notes.md) **Upgrade 1.90 → 2.00 (d
 |----|-------------|
 | **A1** | **Button 族外观体系** — `appearance: filled / subtle / outline / ghost` on **Button**, **AccentButton**, **HyperlinkButton**; Theme token driven |
 | **A2** | **输入框视觉档位** — **TextBox** / **TextArea** / **ComboBox**: `filled` vs `outline`; error / readonly / disabled tied to **FormLayout** |
-| **C1** | **DataTable 10k 行路径** — column virtualization + fixed row-height fast path; incremental filter/sort; Gallery benchmark + [performance.md](performance.md) budget row |
+| **C1** | **DataTable 10k 行路径** — column virtualization + fixed row-height fast path; incremental filter/sort; Gallery benchmark + [performance.md](docs/performance.md) budget row |
 | **D1** | **DataTable 专业网格包** — multi-column sort, column visibility chooser, column width persistence |
 
-**Docs:** appearance variant cookbook (new) · [forms.md](forms.md) · [data-collections.md](data-collections.md) · [performance.md](performance.md)
+**Docs:** appearance variant cookbook (new) · [forms.md](docs/forms.md) · [data-collections.md](docs/data-collections.md) · [performance.md](docs/performance.md)
 
 **Out:** Million-row GPU grid; masked-input engine for every locale.
 
@@ -183,7 +183,7 @@ Consumer sketch: [upgrade-notes.md](upgrade-notes.md) **Upgrade 1.90 → 2.00 (d
 | **D2** | **Form 工作流包** — async field validation, field dependency visibility, collapsible form sections |
 | **F1** | **PlatformCapability API** — runtime query Mica / Acrylic / tray / WebView / blur / SNI; UI degrades honestly |
 
-**Also:** experimental promote wave 2 — [stable-api.md](stable-api.md) + **Sparkline** promote/defer verdict ([charts-dashboard-arc.md](planning/expansion/charts-dashboard-arc.md)).
+**Also:** experimental promote wave 2 — [stable-api.md](docs/stable-api.md) + **Sparkline** promote/defer verdict ([charts-dashboard-arc.md](docs/planning/expansion/charts-dashboard-arc.md)).
 
 **Out:** Full site visual redesign; promoting every experimental type without soak.
 
@@ -229,9 +229,9 @@ Consumer sketch: [upgrade-notes.md](upgrade-notes.md) **Upgrade 1.90 → 2.00 (d
 | **C6** | **冷启动 wave 11** — first-frame defer checklist; optional icon/atlas warm-up; `--startup-log` target budget |
 | **D7** | **NotificationCenter 产品化** — grouping policies, action buttons, persistent read state |
 | **D8** | **Session restore 包** — window geometry + navigation page + table scroll/selection restore |
-| **F6** | **Fractional DPI 文本锐化** — 125%/150% Wayland text/icon crispness; [high-dpi.md](high-dpi.md) wave 4 |
+| **F6** | **Fractional DPI 文本锐化** — 125%/150% Wayland text/icon crispness; [high-dpi.md](docs/high-dpi.md) wave 4 |
 
-**Checkpoint:** checkpoint-270 — audit **2.65…2.70**; update **3.00** prep in [upgrade-notes.md](upgrade-notes.md).
+**Checkpoint:** checkpoint-270 — audit **2.65…2.70**; update **3.00** prep in [upgrade-notes.md](docs/upgrade-notes.md).
 
 **Out:** Treating **2.70** as final 2.x line; shipping **3.00** in the same tag.
 
@@ -268,8 +268,8 @@ Python / PyPI (**2.71** / **2.72** goals) **shipped at 2.64**. Platform slices *
 
 | Slice | Theme | Status |
 |-------|--------|--------|
-| **2.71** | PySide6 consumer integration | **Shipped (2.64)** — Gallery + [packaging-python.md](packaging-python.md) |
-| **2.72** | PyPI packaging + publish | **Shipped (2.64.0)** — [pypi.yml](../.github/workflows/pypi.yml), `pip install qwinui3` |
+| **2.71** | PySide6 consumer integration | **Shipped (2.64)** — Gallery + [packaging-python.md](docs/packaging-python.md) |
+| **2.72** | PyPI packaging + publish | **Shipped (2.64.0)** — [pypi.yml](.github/workflows/pypi.yml), `pip install qwinui3` |
 | **2.73** | **Consumer checkpoint + fast integration (C++ & Python)** | Planned |
 
 **Note:** Platform **F7** / **F8** ship as **2.74** / **2.75** (Python/PyPI already consumed **2.71** / **2.72** at **2.64**). Order: checkpoint-270 → **2.73** → **2.74** → **2.75** → **3.00** prep.
@@ -283,7 +283,7 @@ Python / PyPI (**2.71** / **2.72** goals) **shipped at 2.64**. Platform slices *
 | **C++** | **A** in-tree `add_subdirectory` · **B** shared Release zip · **C** `find_package(QWinUI3)` · **D** vcpkg / Conan overlay | `consumer-matrix.yml` + `qwinui3 init` output builds |
 | **Python** | **E** `pip install qwinui3` + PySide6/PyQt6 | `pip install` + `qwinui3 run` smoke |
 
-**DX deliverables (same tag):** **DX1–DX6** — `init` / `doctor --fix` / [getting-started.md](getting-started.md) / `run` / import lint for **every** path above.
+**DX deliverables (same tag):** **DX1–DX6** — `init` / `doctor --fix` / [getting-started.md](docs/getting-started.md) / `run` / import lint for **every** path above.
 
 **Out:** Declaring Python the only supported consumer; shipping **3.00** in the same tag.
 
@@ -323,7 +323,7 @@ flowchart TB
 
 **After 3.00:** minors **`3.01+`** follow the same friction gate as **2.51+**.
 
-**Expansion docs:** [roadmap-strategy.md](planning/roadmap-strategy.md) · [charts-dashboard-arc.md](planning/expansion/charts-dashboard-arc.md) · [component-capabilities-expansion.md](planning/expansion/component-capabilities-expansion.md) · [icons-dashboard-expansion.md](planning/expansion/icons-dashboard-expansion.md)
+**Expansion docs:** [roadmap-strategy.md](docs/planning/roadmap-strategy.md) · [charts-dashboard-arc.md](docs/planning/expansion/charts-dashboard-arc.md) · [component-capabilities-expansion.md](docs/planning/expansion/component-capabilities-expansion.md) · [icons-dashboard-expansion.md](docs/planning/expansion/icons-dashboard-expansion.md)
 
 ---
 
@@ -338,9 +338,9 @@ flowchart TB
 | **Qt** | Floor **6.10 LTS**; drop **6.8** compat shims |
 | **Theme** | Remove remaining 2.x token/shell aliases deferred from **2.00** |
 | **Experimental** | **Permanent defer** inventory removed from default QML imports or namespaced |
-| **Stable contract** | [compatibility-3xx.md](compatibility-3xx.md) — **3.xx** “will not break” freeze |
+| **Stable contract** | [compatibility-3xx.md](docs/compatibility-3xx.md) — **3.xx** “will not break” freeze |
 | **CMake / PyPI** | **`find_package(QWinUI3)`** primary path; PyPI semver **3.00** |
-| **Docs** | [upgrade-notes.md](upgrade-notes.md) **Upgrade 2.73 → 3.00** |
+| **Docs** | [upgrade-notes.md](docs/upgrade-notes.md) **Upgrade 2.73 → 3.00** |
 
 **Out:** macOS first-class · Fluent 2 fork · **`Hub` / `HubSection`** (withdrawn) · WebGL chart engines · Qt Virtual Keyboard.
 
@@ -546,7 +546,7 @@ Framework-level capabilities aligned with slices above. Version slots match [pro
 
 ## Developer experience — fast integration (proposed)
 
-**Status:** **Not yet scheduled** — primary goal: **C++ or Python consumer bootstraps a working app without hunting README / packaging-consumer / examples / stable-api**. Applies to **all** [packaging-consumer.md](packaging-consumer.md) paths (**A–E**), not only PyPI.
+**Status:** **Not yet scheduled** — primary goal: **C++ or Python consumer bootstraps a working app without hunting README / packaging-consumer / examples / stable-api**. Applies to **all** [packaging-consumer.md](docs/packaging-consumer.md) paths (**A–E**), not only PyPI.
 
 **Success criteria (same bar for every path):**
 
@@ -564,12 +564,12 @@ Framework-level capabilities aligned with slices above. Version slots match [pro
 |----|-------|-------|---------|
 | **DX1** | **2.73** | **`qwinui3 init`** | Interactive or flags: **`--cpp` / `--python`** × **`--packaging`** (subtree · zip · cmake-config · vcpkg · conan · pip) × **`--shell`** (first-app · gallery-shell · dashboard · blank) → full project tree + build files + QML + **generated README** (build/run only, no external links required) |
 | **DX2** | **2.73** | **`qwinui3 doctor --fix`** | Kit dir, Qt prefix, **`QML_IMPORT_PATH`**, platform plugins, RHI, binding (Python); **C++**: missing `.dll`/`.so` hints; **actionable fix** lines — not a report you must cross-reference |
-| **DX3** | **2.73** | **Single start doc** | [getting-started.md](getting-started.md) — **one page**, path **A–E** as equal tabs/sections, ≤3 decisions each; README + docs index link **here only** until first run |
+| **DX3** | **2.73** | **Single start doc** | [getting-started.md](docs/getting-started.md) — **one page**, path **A–E** as equal tabs/sections, ≤3 decisions each; README + docs index link **here only** until first run |
 | **DX4** | **2.73** | **Shell + packaging lists in CLI** | `qwinui3 init --list-shells` · `--list-packaging` — replaces `examples/README` + packaging-consumer path picker for discovery |
 | **DX5** | **2.74** | **`qwinui3 run` / `qwinui3 build`** | **C++**: detect/build via CMake preset or cached configure, set env, launch exe. **Python**: set `QML_IMPORT_PATH` from wheel/kit, launch with chosen binding. Dev loop without manual deploy for daily work |
 | **DX6** | **2.74** | **Import guard in init** | Generated QML stable-only; `lint_qml_imports.py` at end of `init` (C++ and Python trees) |
-| **DX7** | **2.74** | **`qwinui3 upgrade`** | Print upgrade checklist from [upgrade-notes.md](upgrade-notes.md) for `--from` → current; grep project for renamed tokens |
-| **DX8** | **2.75** | **Path parity in CI** | Extend [consumer-matrix.yml](../.github/workflows/consumer-matrix.yml): each **A–E** path runs `init` output or equivalent smoke — fast integration stays green |
+| **DX7** | **2.74** | **`qwinui3 upgrade`** | Print upgrade checklist from [upgrade-notes.md](docs/upgrade-notes.md) for `--from` → current; grep project for renamed tokens |
+| **DX8** | **2.75** | **Path parity in CI** | Extend [consumer-matrix.yml](.github/workflows/consumer-matrix.yml): each **A–E** path runs `init` output or equivalent smoke — fast integration stays green |
 | **DX9** | **2.75** | **IDE open helpers** | `qwinui3 init --ide qtcreator|vscode` — writes open-in-IDE hints + recommended CMake preset (**C++**); Python gets `.vscode`/launch.json |
 | **DX10** | **3.00** prep | **Optional `qwinui3.toml`** | One manifest: `language`, `packaging`, `kit`, `shell`, `imports` — `doctor` validates; works for **C++ zip and pip** alike |
 
@@ -603,7 +603,7 @@ Unscheduled; pick up only inside a named minor (or never).
 - Cloud settings roaming · Linux / Wayland system-wide inject
 - Custom ink / handwriting canvas · dictation / cloud IME lexicon
 
-**Conditional new controls** need a [friction-log.md](planning/friction-log.md) row before ship.
+**Conditional new controls** need a [friction-log.md](docs/planning/friction-log.md) row before ship.
 
 ---
 
@@ -619,11 +619,11 @@ Unscheduled; pick up only inside a named minor (or never).
 |------|--------|
 | **Motion tokens** | All new durations/easing use **B1** `Theme.motion.*` — no one-off `Behavior` ms values |
 | **Reduced motion** | `Theme.reducedMotion` → instant state change, no scale/ripple/slide |
-| **Pointer parity** | Mouse hover + touch press share the same visual state machine; touch floors from [touch-pointer.md](touch-pointer.md) |
+| **Pointer parity** | Mouse hover + touch press share the same visual state machine; touch floors from [touch-pointer.md](docs/touch-pointer.md) |
 | **No gimmicks** | Subtle depth (scale ≤1.06, opacity, 1px stroke) — not Material ripples unless opt-in |
 | **Gallery proof** | Each row gets a **Style spot-check** or control page toggle to compare on/off |
 
-**Docs target:** [icons.md](icons.md) micro-motion v2 · new [pointer-feedback.md](pointer-feedback.md) · [animations.md](animations.md) cross-links.
+**Docs target:** [icons.md](docs/icons.md) micro-motion v2 · new [pointer-feedback.md](docs/pointer-feedback.md) · [animations.md](docs/animations.md) cross-links.
 
 ### Suggested schedule (only after product wave)
 
@@ -649,7 +649,7 @@ Unscheduled; pick up only inside a named minor (or never).
 | **I4** | **Chevron rotation on expand** | **L1** | TreeView / SettingsExpander / NavigationView flyout chevron 0°→90° with reducedMotion snap |
 | **I5** | **Loading spinner on icon button** | **L2** | **IconButton** / **AppBarButton**: optional `loading` swaps glyph → **ProgressRing** 16px inset |
 | **I6** | **Badge pulse (subtle)** | **L2** | **InfoBadge** on bell / nav footer: one-shot scale when count increases; off when reducedMotion |
-| **I7** | **Dashboard / KPI symbol presets** | **L2** | **ChartCard.symbol** + **KpiTile** leading icon size/color tokens ([icons-dashboard-expansion.md](planning/expansion/icons-dashboard-expansion.md)) |
+| **I7** | **Dashboard / KPI symbol presets** | **L2** | **ChartCard.symbol** + **KpiTile** leading icon size/color tokens ([icons-dashboard-expansion.md](docs/planning/expansion/icons-dashboard-expansion.md)) |
 | **I8** | **AnimatedIcon cross-fade** | **L2** | **AnimatedIcon** glyph swap opacity 120ms instead of hard swap; honors reducedMotion |
 | **I9** | **RTL mirror rules** | **L2** | Back / forward / chevron / sort arrows mirror under `LayoutMirroring`; document exceptions |
 | **I10** | **Symbol weight on pressed chrome** | **L2** | Caption **Chrome*** buttons: glyph `opacity` dip on press (match Win11 title bar) |
@@ -674,7 +674,7 @@ Unscheduled; pick up only inside a named minor (or never).
 | **M4** | **ComboBox** | Popup open: chevron flip; item hover `Theme.bgControlHover`; selected tick fade-in | **L1** |
 | **M5** | **CheckBox** / **RadioButton** | Check/dot scale-in 0→1 on check; hover box border accent preview | **L1** |
 | **M6** | **SpinBox** | Repeat buttons independent hover/press; hold-to-repeat accel curve documented | **L1** |
-| **M7** | **FocusStroke** | Focus ring inset/outset per control type; HC mode 2px double ([accessibility.md](accessibility.md)) | **L1** |
+| **M7** | **FocusStroke** | Focus ring inset/outset per control type; HC mode 2px double ([accessibility.md](docs/accessibility.md)) | **L1** |
 | **M8** | **Cursor shapes** | Hand on clickable labels; I-beam on editable; resize cursors on splitters — Gallery matrix | **L1** |
 | **M9** | **ListTile** | **A3** density; whole-row press highlight + leading checkbox ripple bounds; swipe hint at rest | **L2** |
 | **M10** | **SettingsCard** / **ChartCard** | **A4** surfaces; card hover elevate 1dp (`MultiEffect` deferred); header click expands SettingsCard | **L2** |
@@ -719,12 +719,12 @@ Unscheduled; pick up only inside a named minor (or never).
 | Doc | Role |
 |-----|------|
 | [README.md](../README.md) | Overview |
-| [stable-api.md](stable-api.md) | Stable vs experimental |
-| [friction-log.md](planning/friction-log.md) | User pain queue — gate for **2.51+** |
-| [roadmap-strategy.md](planning/roadmap-strategy.md) | Post-2.43 phases, expansion tracks |
-| [charts-dashboard-arc.md](planning/expansion/charts-dashboard-arc.md) | Charts/dashboard arc (**2.65…3.10**) |
-| [component-capabilities-expansion.md](planning/expansion/component-capabilities-expansion.md) | Existing control capability matrix |
-| [packaging-python.md](packaging-python.md) | PySide6 + PyPI consumer guide |
-| [packaging-consumer.md](packaging-consumer.md) | Consumer zip / CMake paths |
-| [upgrade-notes.md](upgrade-notes.md) | Consumer upgrades |
-| [ROADMAP.md](../ROADMAP.md) | Repo root copy |
+| [docs/stable-api.md](docs/stable-api.md) | Stable vs experimental |
+| [friction-log.md](docs/planning/friction-log.md) | User pain queue — gate for **2.51+** |
+| [roadmap-strategy.md](docs/planning/roadmap-strategy.md) | Post-2.43 phases, expansion tracks |
+| [charts-dashboard-arc.md](docs/planning/expansion/charts-dashboard-arc.md) | Charts/dashboard arc (**2.65…3.10**) |
+| [component-capabilities-expansion.md](docs/planning/expansion/component-capabilities-expansion.md) | Existing control capability matrix |
+| [packaging-python.md](docs/packaging-python.md) | PySide6 + PyPI consumer guide |
+| [packaging-consumer.md](docs/packaging-consumer.md) | Consumer zip / CMake paths |
+| [upgrade-notes.md](docs/upgrade-notes.md) | Consumer upgrades |
+| [docs/roadmap.md](docs/roadmap.md) | Site copy of this plan |

@@ -4,7 +4,7 @@ Fluent color / type / motion token singleton.
 
 `import QWinUI3.Theme` · [`src/theme/QWinUI3/Theme/Theme.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/theme/QWinUI3/Theme/Theme.qml)
 
-**Category:** Theme · **Library:** v2.64 · **singleton**
+**Category:** Theme · **Library:** v2.65 · **singleton**
 
 [← Component index](../components.md)
 
@@ -135,6 +135,7 @@ Use Theme.duration(ms) and controlFill/accentFill helpers for states.
 | `motionNormal` | `int` | Normal motion duration (ms) |
 | `motionSlow` | `int` | Slow motion duration (ms) |
 | `motionFlyout` | `int` | Flyout / popup enter duration (ms) |
+| `iconDisabledOpacity` | `real` | Disabled icon glyph opacity (2.66 — I2) |
 | `easingEnter` | `int` | Enter easing curve |
 | `easingExit` | `int` | Exit easing curve |
 | `easingStandard` | `int` | Standard easing curve |
@@ -180,6 +181,11 @@ _No custom signals_ (use inherited signals from the base type).
 | Signature | Description |
 | --- | --- |
 | `duration(ms)` | Returns ms, or 1 when reducedMotion is on |
+| `motionMs(slot)` | Named motion slot → duration(ms) — foundation for B1 motion token consumers (2.66+). |
+| `motionEasing(slot)` | Named easing slot — pair with motionMs for B1 consumers (2.67+). |
+| `iconOpticalOffset(fontSize)` | Optical nudge for Fluent icon font (2.66 — I1): caption 10 · chrome 14 · nav 16 · app bar 18. |
+| `iconColor(baseColor, selected, hovered, enabled)` | Resolve icon color with optional selected emphasis (2.66 — I3). |
+| `iconShouldMirror(glyphOrName)` | Chevrons left/right, back/forward, page arrows — not vertical chevrons or media icons. |
 | `dp(value)` | Density-aware design pixels (Qt layout units are already DPI-independent). |
 | `hairline(dpr)` | 1 physical pixel in logical units for the given DPR (defaults to Theme.devicePixelRatio). |
 | `setAccentPack(name)` | Apply a named accent pack and clear customAccent |

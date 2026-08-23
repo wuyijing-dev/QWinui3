@@ -4,7 +4,7 @@ Multi-series line/area chart.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/LineChart.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/LineChart.qml)
 
-**Category:** Charts & gauges · **Library:** v2.64
+**Category:** Charts & gauges · **Library:** v2.65
 
 [← Component index](../components.md)
 
@@ -66,6 +66,9 @@ interactive / isInteractive aliases. playReveal() / clearHover() for enter + cro
 | `emptyText` | `string` | Placeholder when there is no data |
 | `xAxisLabels` | `var` | Category labels along the X axis (sparse; drawn at sampled indices) |
 | `stepMode` | `bool` | Horizontal-then-vertical steps instead of a polyline |
+| `zoomEnabled` | `bool` | Drag a brush on the plot to zoom the X window (2.65). Crosshair stays on hover. |
+| `viewStart` | `real` | Visible window as normalized [0, 1] fractions of the source series. |
+| `viewEnd` | `real` | — |
 | `sourcePointCount` | `int` | LOD diagnostics |
 | `drawnPointCount` | `int` | Points drawn after LOD |
 | `isEmpty` | `bool` | True when there is no data |
@@ -78,6 +81,7 @@ _No custom signals_ (use inherited signals from the base type).
 
 | Signature | Description |
 | --- | --- |
+| `resetZoom()` | Reset the zoom window to the full series |
 | `playReveal()` | Play entrance reveal animation |
 | `sourcePointCountEstimate()` | Estimated source point count before LOD |
 | `invalidateLod()` | Invalidate level-of-detail cache |

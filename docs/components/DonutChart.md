@@ -4,7 +4,7 @@ Donut chart with hover and legend.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/DonutChart.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/DonutChart.qml)
 
-**Category:** Charts & gauges · **Library:** v2.64
+**Category:** Charts & gauges · **Library:** v2.65
 
 [← Component index](../components.md)
 
@@ -46,6 +46,7 @@ interactive / isInteractive aliases.
 | `centerText` | `string` | Donut center primary text |
 | `centerSubText` | `string` | Donut center secondary text |
 | `showLegend` | `bool` | Show chart legend |
+| `legendPosition` | `string` | Legend placement: "right" (default) or "bottom" (2.65) |
 | `interactive` | `bool` | Enable hover / click interaction |
 | `isInteractive` | `alias` | Alias of interactive (gauge / KPI naming parity) |
 | `animated` | `bool` | Play enter / reveal animation |

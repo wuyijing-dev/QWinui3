@@ -47,6 +47,33 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 2.64 → 2.65
+
+**Product version:** 2.65
+**Date:** 2026-08-23
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Charts + Dashboard Wave A (FL-009):** deepen stable six + dashboard hosts — [charts.md](charts.md) · [charts-dashboard-arc.md](planning/expansion/charts-dashboard-arc.md).
+- **LineChart** `zoomEnabled` brush zoom (`viewStart` / `viewEnd` / `resetZoom()`); keep crosshair on hover.
+- **ChartCard** `showExportAction` / `exportRequested` / `footerActions`.
+- **KpiTile** `compareValue` + `sparklineHeight`; **RingGauge** `valueFormat`; **DonutChart** `legendPosition`.
+- **DashboardShell** filter rail (`filterPane`) + **MetricCompareRow** / **ChartEmptyState**.
+- Gallery **Dashboard** + [`examples/dashboard`](../examples/dashboard/) refresh.
+
+#### Action required (only if you adopt new APIs)
+
+| Area | Change | What to do |
+|------|--------|------------|
+| **Dashboard layout** | Prefer **DashboardShell** over ad-hoc `ColumnLayout` + `TwoPaneView` | Copy `examples/dashboard` or Gallery **Dashboard** |
+| **LineChart** | Optional `zoomEnabled: true` | Teach drag-to-zoom; call `resetZoom()` for a Reset action |
+| **Empty charts** | **ChartEmptyState** inside **ChartCard** | Use `state: "empty" \| "loading" \| "error"` |
+
+#### No action (compatible)
+
+- Existing stable-six dashboards keep working; new properties default off / empty.
+
 ### Upgrade 2.63 → 2.64
 
 **Product version:** 2.64

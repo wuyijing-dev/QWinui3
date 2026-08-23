@@ -133,7 +133,7 @@
 | **Pain** | Teams unsure whether to use deferred `AreaChart` / `Sparkline` or stable compose paths; dashboard layouts ad hoc. |
 | **Workaround today** | Copy Gallery piecemeal; guess stable vs experimental. |
 | **Proposed slice** | **2.08** / **2.22** / **2.26** / **2.48** / **2.65** product wave + [charts-dashboard-arc.md](expansion/charts-dashboard-arc.md) |
-| **Status** | partial — **2.08** + **2.22** + **2.26** recipes shipped; **2.48** compose decision tree — [dashboard-compose-decision.md](../dashboard-compose-decision.md); **2.65** closes APIs + **DashboardShell** |
+| **Status** | **closed (2.65)** — Wave A APIs + **DashboardShell** / **MetricCompareRow** / **ChartEmptyState**; Gallery **Dashboard** + [`examples/dashboard`](../../examples/dashboard/) — [charts-dashboard-arc.md](expansion/charts-dashboard-arc.md) · [dashboard-compose-decision.md](../dashboard-compose-decision.md) |
 
 ### FL-014 — Real-time KPI dashboards blocked
 
@@ -226,6 +226,10 @@
 ---
 
 ## Checkpoint notes
+
+### 2.65 (2026-08-23)
+
+**FL-009** closed — Wave A stable-six deepen + **DashboardShell** / **MetricCompareRow** / **ChartEmptyState** — [charts.md](../charts.md) · [charts-dashboard-arc.md](expansion/charts-dashboard-arc.md).
 
 ### 2.64 (2026-08-17)
 

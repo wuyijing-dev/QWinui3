@@ -11,7 +11,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("Dashboard")
-    subtitle: qsTr("Stable six + compose decision (2.48) — docs/dashboard-compose-decision.md")
+    subtitle: qsTr("2.65 Wave A — DashboardShell, MetricCompareRow, zoom / empty / export — docs/charts.md")
 
     signal openControl(var item)
 
@@ -30,6 +30,8 @@ CatalogPage {
         { name: qsTr("CPU"), color: Theme.accent, values: [40, 48, 52, 55, 60, 58, 62, 64] },
         { name: qsTr("Mem"), color: Theme.systemCaution, values: [60, 62, 65, 68, 70, 69, 71, 71] }
     ]
+    property string emptyState: "empty"
+    property string exportNote: ""
 
     function openComp(id) {
         var it = ControlCatalog.findByComponent(id)
@@ -53,9 +55,16 @@ CatalogPage {
         }
     }
 
+    Timer {
+        interval: 1100
+        running: page.emptyState === "loading"
+        repeat: false
+        onTriggered: page.emptyState = "error"
+    }
+
     ControlExample {
-        headerText: qsTr("Responsive breakpoints (2.22)")
-        qmlSource: "GridLayout { columns: width > 700 ? 3 : 1 }\nTwoPaneView { minWideWidth: 720; pane1: filters; pane2: charts }"
+        headerText: qsTr("Responsive breakpoints (2.65)")
+        qmlSource: "DashboardShell {\n    chartBreakpoint: 900\n    filterBreakpoint: 720\n    // chartColumns hint for GridLayout\n}"
 
         ColumnLayout {
             Layout.fillWidth: true
@@ -64,7 +73,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("KPI row: 3 columns when content width > 700, else stack. Chart grid: 2 columns when > 900. Optional TwoPaneView filter rail (minWideWidth 720) — see examples/dashboard. No Hub controls.")
+                text: qsTr("DashboardShell exposes chartColumns / filterBreakpoint. Optional filterPane uses TwoPaneView (wide ≥ 720). See examples/dashboard.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
@@ -75,10 +84,9 @@ CatalogPage {
                 wrapMode: Text.Wrap
                 color: Theme.textPrimary
                 font.pixelSize: Theme.fontCaption
-                text: qsTr("Demo width: %1 px · KPI cols: %2 · chart cols: %3")
-                        .arg(Math.round(stableDemo.width))
-                        .arg(stableDemo.width > page.kpiBreakpoint ? 3 : 1)
-                        .arg(stableDemo.width > page.chartBreakpoint ? 2 : 1)
+                text: qsTr("Demo width: %1 px · chart cols: %2")
+                        .arg(Math.round(shellDemo.width))
+                        .arg(shellDemo.width > page.chartBreakpoint ? 2 : 1)
             }
         }
     }
@@ -193,9 +201,9 @@ CatalogPage {
     }
 
     ControlExample {
-        id: stableDemo
-        headerText: qsTr("Stable ops overview (1.66 / 2.22)")
-        qmlSource: "KpiTile { … }\nChartCard { LineChart / BarChart / DonutChart }\nRingGauge { … }\n// examples/dashboard · docs/charts.md"
+        id: shellDemo
+        headerText: qsTr("DashboardShell ops overview (2.65)")
+        qmlSource: "DashboardShell {\n    filterPane: …\n    kpiRow: MetricCompareRow { KpiTile { compareValue } }\n    ChartCard { LineChart { zoomEnabled } }\n}"
 
         ColumnLayout {
             Layout.fillWidth: true
@@ -204,136 +212,193 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Matches examples/dashboard: responsive KPI + chart GridLayout, TwoPaneView filter rail. KpiTile.trendValues replaces Sparkline (cap ~16 samples — 2.49 wave 8); LineChart showArea replaces AreaChart (2.08 compose — docs/charts.md).")
+                text: qsTr("Matches examples/dashboard: DashboardShell filter rail, MetricCompareRow, LineChart brush zoom, ChartCard export, ChartEmptyState, DonutChart legendPosition, RingGauge valueFormat.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
 
-            GridLayout {
+            DashboardShell {
+                id: shell
                 Layout.fillWidth: true
-                columns: stableDemo.width > page.kpiBreakpoint ? 3 : 1
-                rowSpacing: Theme.spacingLoose
-                columnSpacing: Theme.spacingLoose
+                Layout.preferredHeight: 720
+                title: qsTr("Ops")
+                subtitle: qsTr("Live · width %1 · chart cols %2")
+                        .arg(Math.round(shell.width))
+                        .arg(shell.chartColumns)
+                filterBreakpoint: 720
+                chartBreakpoint: page.chartBreakpoint
 
-                KpiTile {
-                    id: kpiCpu
-                    Layout.fillWidth: true
-                    title: qsTr("CPU")
-                    value: page.cpu
-                    unit: "%"
-                    delta: 1.6
-                    cautionThreshold: 75
-                    criticalThreshold: 90
-                    badgeText: qsTr("LIVE")
-                    trendValues: page.cpuTrend
-                    symbol: FluentIcons.Sync
-                    elevated: true
-                    footer: qsTr("severity %1").arg(kpiCpu.severity)
-                }
-                KpiTile {
-                    id: kpiMem
-                    Layout.fillWidth: true
-                    title: qsTr("Memory")
-                    value: page.mem
-                    unit: "%"
-                    delta: -0.8
-                    invertDeltaColors: true
-                    cautionThreshold: 80
-                    criticalThreshold: 92
-                    trendValues: page.memTrend
-                    symbol: FluentIcons.Save
-                    elevated: true
-                }
-                KpiTile {
-                    id: kpiLat
-                    Layout.fillWidth: true
-                    title: qsTr("Latency p95")
-                    value: page.latency
-                    unit: " ms"
-                    delta: -2.4
-                    invertDeltaColors: true
-                    invertThresholds: true
-                    cautionThreshold: 50
-                    criticalThreshold: 70
-                    badgeText: qsTr("p95")
-                    trendValues: page.latTrend
-                    symbol: FluentIcons.Clock
-                    elevated: true
-                }
-            }
-
-            GridLayout {
-                Layout.fillWidth: true
-                columns: stableDemo.width > page.chartBreakpoint ? 2 : 1
-                rowSpacing: Theme.spacingLoose
-                columnSpacing: Theme.spacingLoose
-
-                ChartCard {
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: 220
-                    title: qsTr("Utilization")
-                    subtitle: qsTr("CPU / Memory")
-                    footer: qsTr("Live")
-                    symbol: FluentIcons.LineChart
-                    LineChart {
-                        anchors.fill: parent
-                        showLegend: true
-                        series: page.utilSeries
+                filterPane: ColumnLayout {
+                    spacing: Theme.spacing
+                    Text {
+                        Layout.fillWidth: true
+                        text: qsTr("Filters")
+                        font.weight: Theme.fontWeightSemiBold
+                        color: Theme.textPrimary
                     }
+                    ComboBox {
+                        Layout.fillWidth: true
+                        model: [qsTr("Last hour"), qsTr("Last 24h"), qsTr("Last 7d")]
+                        currentIndex: 1
+                    }
+                    CheckBox { text: qsTr("Live refresh"); checked: true }
                 }
 
-                ChartCard {
+                kpiRow: MetricCompareRow {
                     Layout.fillWidth: true
-                    Layout.preferredHeight: 220
-                    title: qsTr("CPU ring")
-                    symbol: FluentIcons.SpeedHigh
-                    RingGauge {
-                        anchors.centerIn: parent
-                        width: 140
-                        height: 140
+                    periodLabel: qsTr("vs last period")
+                    KpiTile {
+                        id: kpiCpu
+                        Layout.fillWidth: true
                         title: qsTr("CPU")
                         value: page.cpu
                         unit: "%"
-                        cautionThreshold: 0.75
-                        criticalThreshold: 0.9
+                        compareValue: 58
+                        delta: 1.6
+                        cautionThreshold: 75
+                        criticalThreshold: 90
+                        badgeText: qsTr("LIVE")
+                        trendValues: page.cpuTrend
+                        sparklineHeight: 32
+                        symbol: FluentIcons.Sync
+                        elevated: true
+                    }
+                    KpiTile {
+                        id: kpiMem
+                        Layout.fillWidth: true
+                        title: qsTr("Memory")
+                        value: page.mem
+                        unit: "%"
+                        compareValue: 69
+                        delta: -0.8
+                        invertDeltaColors: true
+                        cautionThreshold: 80
+                        criticalThreshold: 92
+                        trendValues: page.memTrend
+                        symbol: FluentIcons.Save
+                        elevated: true
+                    }
+                    KpiTile {
+                        id: kpiLat
+                        Layout.fillWidth: true
+                        title: qsTr("Latency p95")
+                        value: page.latency
+                        unit: " ms"
+                        compareValue: 45
+                        delta: -2.4
+                        invertDeltaColors: true
+                        invertThresholds: true
+                        cautionThreshold: 50
+                        criticalThreshold: 70
+                        badgeText: qsTr("p95")
+                        trendValues: page.latTrend
+                        symbol: FluentIcons.Clock
+                        elevated: true
                     }
                 }
 
-                ChartCard {
+                GridLayout {
                     Layout.fillWidth: true
-                    Layout.preferredHeight: 220
-                    title: qsTr("Throughput")
-                    subtitle: qsTr("Requests / min")
-                    symbol: FluentIcons.BarChartHorizontal
-                    BarChart {
-                        anchors.fill: parent
-                        values: [18, 26, 22, 34, 40, 31, 28]
-                        unit: ""
-                        showValueLabels: false
-                    }
-                }
+                    columns: shell.chartColumns
+                    rowSpacing: Theme.spacingLoose
+                    columnSpacing: Theme.spacingLoose
 
-                ChartCard {
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: 220
-                    title: qsTr("Share")
-                    symbol: FluentIcons.PieSingle
-                    DonutChart {
-                        anchors.fill: parent
-                        centerText: "72%"
-                        slices: [
-                            { value: 42, label: qsTr("Apps"), color: Theme.accent },
-                            { value: 18, label: qsTr("Media"), color: Theme.systemCaution },
-                            { value: 12, label: qsTr("Docs"), color: Theme.systemSuccess }
-                        ]
+                    ChartCard {
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 220
+                        title: qsTr("Utilization")
+                        subtitle: qsTr("Brush zoom + export")
+                        footer: page.exportNote.length ? page.exportNote : qsTr("Live")
+                        showExportAction: true
+                        symbol: FluentIcons.LineChart
+                        onExportRequested: page.exportNote = qsTr("Export requested")
+                        LineChart {
+                            anchors.fill: parent
+                            zoomEnabled: true
+                            showLegend: true
+                            series: page.utilSeries
+                        }
+                    }
+
+                    ChartCard {
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 220
+                        title: qsTr("CPU ring")
+                        symbol: FluentIcons.SpeedHigh
+                        RingGauge {
+                            anchors.centerIn: parent
+                            width: 140
+                            height: 140
+                            title: qsTr("CPU")
+                            value: page.cpu
+                            unit: "%"
+                            valueFormat: "%1%2"
+                            cautionThreshold: 0.75
+                            criticalThreshold: 0.9
+                        }
+                    }
+
+                    ChartCard {
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 220
+                        title: qsTr("Throughput")
+                        subtitle: qsTr("Requests / min")
+                        symbol: FluentIcons.BarChartHorizontal
+                        BarChart {
+                            anchors.fill: parent
+                            values: [18, 26, 22, 34, 40, 31, 28]
+                            unit: ""
+                            showValueLabels: false
+                        }
+                    }
+
+                    ChartCard {
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 220
+                        title: qsTr("Share")
+                        symbol: FluentIcons.PieSingle
+                        DonutChart {
+                            anchors.fill: parent
+                            centerText: "72%"
+                            legendPosition: "bottom"
+                            slices: [
+                                { value: 42, label: qsTr("Apps"), color: Theme.accent },
+                                { value: 18, label: qsTr("Media"), color: Theme.systemCaution },
+                                { value: 12, label: qsTr("Docs"), color: Theme.systemSuccess }
+                            ]
+                        }
+                    }
+
+                    ChartCard {
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 180
+                        Layout.columnSpan: shell.chartColumns
+                        title: qsTr("ChartEmptyState")
+                        subtitle: qsTr("empty · loading · error")
+                        ChartEmptyState {
+                            anchors.fill: parent
+                            state: page.emptyState
+                            message: page.emptyState === "error"
+                                     ? qsTr("Check the data source and try again.")
+                                     : qsTr("Widen the date range or connect a source.")
+                            actionText: page.emptyState === "loading" ? "" : qsTr("Cycle state")
+                            onActionClicked: {
+                                if (page.emptyState === "empty")
+                                    page.emptyState = "loading"
+                                else if (page.emptyState === "error")
+                                    page.emptyState = "empty"
+                                else
+                                    page.emptyState = "error"
+                            }
+                        }
                     }
                 }
             }
 
             Button {
-                text: qsTr("Charts hub (compose recipes)")
-                onClicked: page.openComp("ChartsPage")
+                text: qsTr("LineChart zoom page")
+                onClicked: page.openComp("LineChart")
             }
         }
     }

@@ -4,7 +4,7 @@ Fluent styled TextField.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/TextField.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/TextField.qml)
 
-**Category:** Styled controls · **Library:** v2.64
+**Category:** Styled controls · **Library:** v2.65
 
 [← Component index](../components.md)
 
@@ -27,13 +27,23 @@ Public API is the Qt Quick Controls TextField type; this file supplies visuals/m
 
 ## API
 
-Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `TextField` API (this file only supplies Fluent visuals / metrics).
+### Properties
 
-### Inherited from `TextField`
+| Name | Type | Description |
+| --- | --- | --- |
+| `hasError` | `bool` | Form validation error (2.66 M3) |
+| `appearance` | `string` | Visual variant: filled \| outline \| "" (filled default — 2.66 A2/M3) |
+| `leadingSymbol` | `var` | Leading FluentIcons symbol (preferred) or raw glyph (2.67 — I11) |
+| `leadingGlyph` | `string` | — |
+| `clearButtonVisible` | `bool` | Show clear (×) when non-empty and editable |
 
-- `text`
-- `placeholderText`
-- `accepted()`
+### Signals
+
+_No custom signals_ (use inherited signals from the base type).
+
+### Methods
+
+_No custom methods_ (use inherited methods from the base type).
 
 ---
 *Generated from module sources by `scripts/generate_component_docs.py` — do not edit by hand.*

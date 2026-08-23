@@ -1,10 +1,10 @@
 # DashboardShell
 
-Minimal dashboard layout host (2.52 preview; chart grid + filter rail in 2.65).
+Opinionated dashboard layout host (2.65 Wave A).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/DashboardShell.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/DashboardShell.qml)
 
-**Category:** Shells & windows · **Library:** v2.64
+**Category:** Shells & windows · **Library:** v2.65
 
 [← Component index](../components.md)
 
@@ -16,17 +16,22 @@ Minimal dashboard layout host (2.52 preview; chart grid + filter rail in 2.65).
 DashboardShell {
     title: qsTr("Ops")
     subtitle: qsTr("Last 24h")
-    kpiRow: RowLayout {
-        KpiTile { title: qsTr("Users"); value: 1284 }
+    filterPane: ColumnLayout {
+        ComboBox { model: [qsTr("Last 24h"), qsTr("Last 7d")] }
     }
-    ContentCard { title: qsTr("Details") }
+    kpiRow: MetricCompareRow {
+        periodLabel: qsTr("vs last week")
+        KpiTile { title: qsTr("Users"); value: 1284; compareValue: 1200 }
+    }
+    ChartCard { title: qsTr("Trend"); LineChart { values: series } }
 }
 ```
 
 ## Notes
 
-Opinionated column: optional title block, KPI row slot, default body (charts/cards).
-Experimental until 2.65 deepens grid + TwoPaneView filter rail — docs/first-app-252.md.
+Title + KPI strip + body. Optional filterPane uses TwoPaneView (≥ filterBreakpoint
+wide; otherwise SinglePane shows body — toggle filter via TwoPaneView APIs).
+chartColumns is a layout hint for GridLayout children. Not the withdrawn Hub.
 
 ## API
 
@@ -34,10 +39,15 @@ Experimental until 2.65 deepens grid + TwoPaneView filter rail — docs/first-ap
 
 | Name | Type | Description |
 | --- | --- | --- |
-| `title` | `string` | — |
-| `subtitle` | `string` | — |
-| `kpiRow` | `alias` | — |
-| `content` | `alias` | — |
+| `title` | `string` | Page title |
+| `subtitle` | `string` | Supporting subtitle |
+| `kpiRow` | `alias` | KPI strip (MetricCompareRow / RowLayout of KpiTile) |
+| `filterPane` | `alias` | Optional filter rail (TwoPaneView pane1) |
+| `content` | `alias` | Chart / card body |
+| `chartBreakpoint` | `int` | Hint for GridLayout columns in demos |
+| `chartColumns` | `int` | — |
+| `filterBreakpoint` | `int` | Wide mode threshold for filter \| body |
+| `filterPaneWidth` | `real` | Preferred filter rail width when wide |
 
 ### Signals
 

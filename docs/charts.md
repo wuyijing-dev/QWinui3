@@ -1,20 +1,22 @@
-# Charts & gauges (1.23 / 1.66 / 2.08)
+# Charts & gauges (1.23 / 1.66 / 2.08 / 2.65)
 
-High-traffic Canvas charts and dashboard gauges. **1.23** promoted a **named stable subset**. **1.66** keeps that six-pack frozen and **defers** the rest of the catalog. **2.08** finalizes compose recipes and **permanent defer** for sibling gauges — **no new stable chart names**.
+High-traffic Canvas charts and dashboard gauges. **1.23** promoted a **named stable subset**. **1.66** keeps that six-pack frozen and **defers** the rest of the catalog. **2.08** finalizes compose recipes and **permanent defer** for sibling gauges — **no new stable chart names**. **2.65** deepens the stable six and ships **DashboardShell** / **MetricCompareRow** / **ChartEmptyState**.
 
 | Surface | Status | Use when | Prefer |
 |---------|--------|----------|--------|
-| [`LineChart`](components/LineChart.md) | **Stable (1.23)** | Trends over categories / time | `series` or flat `values`; **`showArea: true`** instead of `AreaChart` |
-| [`BarChart`](components/BarChart.md) | **Stable (1.23)** | Compare magnitudes | `values` or `bars` |
-| [`DonutChart`](components/DonutChart.md) | **Stable (1.23)** | Part-to-whole | `slices` (or convenience `values`) |
-| [`RingGauge`](components/RingGauge.md) | **Stable (1.23)** | Single metric 0…max (ring) | `value` + `unit` — **prefer over extra gauge types** |
-| [`KpiTile`](components/KpiTile.md) | **Stable (1.23)** | Dashboard metric tile | `unit`, **`trendValues`** instead of `Sparkline` |
-| [`ChartCard`](components/ChartCard.md) | **Stable (1.23)** | Title/subtitle chrome around one chart | host one chart child |
+| [`LineChart`](components/LineChart.md) | **Stable (1.23)** | Trends over categories / time | `series` or flat `values`; **`showArea: true`** instead of `AreaChart`; **`zoomEnabled`** for brush zoom (**2.65**) |
+| [`BarChart`](components/BarChart.md) | **Stable (1.23)** | Compare magnitudes | `values` or `bars`; `stacked` / `horizontal` |
+| [`DonutChart`](components/DonutChart.md) | **Stable (1.23)** | Part-to-whole | `slices` (or convenience `values`); `centerText` + `legendPosition` (**2.65**) |
+| [`RingGauge`](components/RingGauge.md) | **Stable (1.23)** | Single metric 0…max (ring) | `value` + `unit` / `valueFormat` — **prefer over extra gauge types** |
+| [`KpiTile`](components/KpiTile.md) | **Stable (1.23)** | Dashboard metric tile | `unit`, **`trendValues`**, **`compareValue`** / `sparklineHeight` (**2.65**) |
+| [`ChartCard`](components/ChartCard.md) | **Stable (1.23)** | Title/subtitle chrome around one chart | host one chart child; `showExportAction` / `footer` (**2.65**) |
+| [`DashboardShell`](components/DashboardShell.md) | **Stable host (2.65)** | Ops / analytics page layout | `kpiRow` + body + optional `filterPane` |
+| [`MetricCompareRow`](components/MetricCompareRow.md) / [`ChartEmptyState`](components/ChartEmptyState.md) | **Compose (2.65)** | KPI compare strip / empty card | Prefer over ad-hoc Row + Labels |
 | Area / pie / extra gauges / niche | **Permanent defer (2.08)** | Gallery / prototypes only | compose table below |
 
-Example app: [`examples/dashboard`](../examples/dashboard/) — **all six stable types**. Gallery: **Charts** hub (compose recipes) + **Dashboard** (stable row vs deferred gauges).
+Example app: [`examples/dashboard`](../examples/dashboard/) — **DashboardShell** + all six stable types. Gallery: **Charts** hub + **Dashboard** (Wave A demos vs deferred gauges).
 
-**2.48 / FL-009:** compose decision tree — [dashboard-compose-decision.md](dashboard-compose-decision.md) (which deferred name → stable compose). Gallery **Dashboard** + **Pitfalls** checklist.
+**2.48 / FL-009:** compose decision tree — [dashboard-compose-decision.md](dashboard-compose-decision.md). **2.65** closes the friction row with hosts + deepen APIs.
 
 Related: [stable-api.md](stable-api.md) · [performance.md](performance.md) · [recipes.md](recipes.md).
 
