@@ -51,7 +51,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("2.57: FilePicker uses focus-window parent fallback when Window.window omitted; revealFileInFolder(path, Window.window). 2.53: NavigationWindow clip + sway profile. docs/files-linux-257.md")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -103,7 +102,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("1.79: portal parent_window uses Qt xdg-foreign export when available; window is realized before export; Bootstrap honors WAYLAND_SOCKET. Still pass Window.window. Double title bar → QT_WAYLAND_DISABLE_WINDOWDECORATION=1; Mica hollow → BackdropSolid; portal timeout must not open zenity (1.68). GNOME tray needs SNI/AppIndicator. CI Linux --smoke is offscreen — not a compositor soak.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

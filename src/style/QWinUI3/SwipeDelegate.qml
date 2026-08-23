@@ -32,7 +32,6 @@ T.SwipeDelegate {
 
     padding: 12
     spacing: 12
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     hoverEnabled: true
     clip: true

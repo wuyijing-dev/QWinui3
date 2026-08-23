@@ -78,7 +78,6 @@ T.TextField {
     placeholderTextColor: Theme.textSecondary
     selectionColor: Theme.accent
     selectedTextColor: Theme.textOnAccent
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     verticalAlignment: TextInput.AlignVCenter
     hoverEnabled: true

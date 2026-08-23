@@ -31,7 +31,6 @@ T.ToolButton {
 
     padding: 6
     spacing: 4
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     hoverEnabled: true
     flat: true

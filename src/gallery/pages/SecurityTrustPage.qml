@@ -31,7 +31,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("QWinUI3 embeds WebView2, filters drops by suffix + optional MIME, and owns FilePicker dialogs — it does not cancel unsafe navigations, intercept downloads, or scan file contents. Wave 3 (2.36): FileTree / TreeDataGrid path trust + WebView2 download policy D/E/F.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -46,7 +45,6 @@ CatalogPage {
         Text {
             Layout.fillWidth: true
             wrapMode: Text.Wrap
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             color: Theme.textSecondary
             text: qsTr("See docs/security-trust.md — fixed URL, https-only, and host allowlist patterns. Gallery WebView2 demo gates its URL field.")

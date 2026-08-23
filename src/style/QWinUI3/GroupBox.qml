@@ -31,14 +31,12 @@ T.GroupBox {
     spacing: 8
     padding: 12
     topPadding: padding + (label && label.implicitWidth > 0 ? label.implicitHeight + spacing : 0)
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
 
     label: Text {
         x: control.leftPadding
         width: control.availableWidth
         text: control.title
-        font.family: Theme.fontFamily
         font.pixelSize: Theme.fontCaption
         font.weight: Theme.fontWeightSemiBold
         color: Theme.textSecondary

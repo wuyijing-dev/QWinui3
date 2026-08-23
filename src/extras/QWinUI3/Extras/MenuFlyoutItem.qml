@@ -78,7 +78,6 @@ MenuItem {
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignVCenter
             text: control.text
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontBody
             elide: Text.ElideRight
             color: {
@@ -101,7 +100,6 @@ MenuItem {
             visible: control.keyboardAcceleratorText.length > 0 && !control.keyVisualAccelerator
             Layout.alignment: Qt.AlignVCenter
             text: control.keyboardAcceleratorText
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             color: control.enabled ? Theme.textSecondary : Theme.textDisabled
             Behavior on color {

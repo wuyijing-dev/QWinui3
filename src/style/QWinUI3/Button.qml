@@ -67,7 +67,6 @@ T.Button {
     leftPadding: Theme.paddingControlH
     rightPadding: Theme.paddingControlH
     spacing: Theme.spacing
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
 
     // Use accent chrome

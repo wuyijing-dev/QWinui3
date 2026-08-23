@@ -18,7 +18,6 @@ CatalogPage {
             Layout.fillWidth: true
             wrapMode: Text.WordWrap
             text: qsTr("Shipping dashboards stay on RingGauge and KpiTile. Each gauge demo below is the full Gallery page — compare styling or copy a one-off, not for new stable API names.")
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontBody
             color: Theme.textSecondary
         }

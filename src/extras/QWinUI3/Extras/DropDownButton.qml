@@ -53,7 +53,6 @@ T.AbstractButton {
     topPadding: Theme.paddingControlV
     bottomPadding: Theme.paddingControlV
     spacing: Theme.spacing
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     hoverEnabled: true
     focusPolicy: Qt.StrongFocus

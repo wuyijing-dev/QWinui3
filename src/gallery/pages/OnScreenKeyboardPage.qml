@@ -31,7 +31,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Use Open floating keyboard (not the dock). On Windows, System-wide is on by default: click Notepad / Chrome first, then tap the floating keys. Dock stays in-app. 1.83: taps / settings / candidate bar / long-press flyout must not steal focus (WS_EX_NOACTIVATE + MA_NOACTIVATE). Elevated / UIPI / UWP / some games may ignore SendInput. Linux floating stays in-app.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

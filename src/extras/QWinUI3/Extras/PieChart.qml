@@ -155,7 +155,6 @@ T.Control {
             visible: root.title.length > 0
             Layout.fillWidth: true
             text: root.title
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontBody
             font.weight: Theme.fontWeightSemiBold
             color: Theme.textPrimary
@@ -169,7 +168,6 @@ T.Control {
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             text: root.emptyText
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             color: Theme.textSecondary
         }
@@ -289,7 +287,6 @@ T.Control {
                             var v = ChartUtils.asNumber(root._slices[root.hoverIndex].value)
                             return (root.total > 0 ? Math.round(v / root.total * 100) : 0) + "%"
                         }
-                        font.family: Theme.fontFamily
                         font.pixelSize: Theme.fontSubtitle
                         font.weight: Theme.fontWeightSemiBold
                         color: Theme.textPrimary
@@ -300,7 +297,6 @@ T.Control {
                         width: parent.width
                         horizontalAlignment: Text.AlignHCenter
                         text: root.hoverIndex >= 0 ? (root._slices[root.hoverIndex].label || "") : ""
-                        font.family: Theme.fontFamily
                         font.pixelSize: Theme.fontCaption
                         color: Theme.textSecondary
                         style: Text.Outline
@@ -319,7 +315,6 @@ T.Control {
                 Text {
                     width: parent.width
                     text: qsTr("Legend")
-                    font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontCaption
                     font.weight: Theme.fontWeightSemiBold
                     color: Theme.textSecondary
@@ -363,7 +358,6 @@ T.Control {
                                     var pct = root.total > 0 ? Math.round(v / root.total * 100) : 0
                                     return label + "  " + pct + "%"
                                 }
-                                font.family: Theme.fontFamily
                                 font.pixelSize: Theme.fontCaption
                                 font.weight: root.hoverIndex === index ? Theme.fontWeightSemiBold
                                                                        : Theme.fontWeightRegular

@@ -83,7 +83,6 @@ T.Popup {
     closePolicy: isLightDismissEnabled
                  ? (T.Popup.CloseOnEscape | T.Popup.CloseOnPressOutside)
                  : T.Popup.CloseOnEscape
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
 
     width: 320

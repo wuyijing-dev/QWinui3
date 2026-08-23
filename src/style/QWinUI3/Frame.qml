@@ -26,7 +26,6 @@ T.Frame {
                              contentHeight + topPadding + bottomPadding)
 
     padding: Theme.spacingLoose
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
 
     background: Rectangle {

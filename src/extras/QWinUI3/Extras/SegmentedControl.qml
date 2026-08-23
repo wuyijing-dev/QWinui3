@@ -138,7 +138,6 @@ T.Control {
     implicitWidth: stretch ? 240 : (row.implicitWidth + leftPadding + rightPadding)
     implicitHeight: Theme.controlHeight
     padding: 3
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     focusPolicy: Qt.StrongFocus
     activeFocusOnTab: true

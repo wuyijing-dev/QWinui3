@@ -108,7 +108,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("2.63: one bridge.success() → ToastHost ack + NotificationCenter history. Pass dedupe id to collapse repeats. maxHistory caps stored rows. docs/notification-center-263.md")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -144,7 +143,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("ToastHost acks are transient. NotificationCenter keeps grouped history with mark read / clear. Pair InfoBadge on a nav bell with unreadCount.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

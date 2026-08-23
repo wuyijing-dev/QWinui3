@@ -161,7 +161,6 @@ T.Control {
     rightPadding: isOpen ? padding : 0
     topPadding: isOpen ? 12 : 0
     bottomPadding: isOpen ? 12 : 0
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
 
     implicitWidth: Math.max(280, contentItem.implicitWidth + leftPadding + rightPadding)
@@ -311,7 +310,6 @@ T.Control {
             Text {
                 visible: root.title.length > 0
                 text: root.title
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 font.weight: Theme.fontWeightSemiBold
                 color: Theme.textPrimary
@@ -324,7 +322,6 @@ T.Control {
             Text {
                 visible: root.message.length > 0
                 text: root.message
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textPrimary
                 wrapMode: Text.Wrap

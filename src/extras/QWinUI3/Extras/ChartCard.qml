@@ -116,7 +116,6 @@ T.Control {
                     visible: root.title.length > 0
                     Layout.fillWidth: true
                     text: root.title
-                    font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontBody
                     font.weight: Theme.fontWeightSemiBold
                     color: Theme.textPrimary
@@ -126,7 +125,6 @@ T.Control {
                     visible: root.subtitle.length > 0
                     Layout.fillWidth: true
                     text: root.subtitle
-                    font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontCaption
                     color: Theme.textSecondary
                     elide: Text.ElideRight
@@ -150,7 +148,6 @@ T.Control {
             visible: root.footer.length > 0
             Layout.fillWidth: true
             text: root.footer
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             color: Theme.textSecondary
             elide: Text.ElideRight

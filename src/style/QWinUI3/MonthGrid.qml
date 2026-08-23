@@ -40,7 +40,6 @@ T.AbstractMonthGrid {
     rightPadding: 8
     topPadding: 4
     bottomPadding: 8
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
 
     // True when two dates are the same calendar day

@@ -47,7 +47,6 @@ CatalogPage {
                     Text {
                         anchors.centerIn: parent
                         text: qsTr("Item %1").arg(index + 1)
-                        font.family: Theme.fontFamily
                         color: Theme.textPrimary
                     }
                 }

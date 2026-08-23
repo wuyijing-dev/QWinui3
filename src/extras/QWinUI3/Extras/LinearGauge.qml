@@ -202,7 +202,6 @@ T.Control {
                 visible: root.title.length > 0
                 Layout.fillWidth: true
                 text: root.title
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 font.weight: Theme.fontWeightSemiBold
                 color: Theme.textSecondary
@@ -211,7 +210,6 @@ T.Control {
             Text {
                 visible: root.showValue
                 text: root.formattedValue
-                font.family: Theme.fontFamilyDisplay
                 font.pixelSize: Theme.fontBody
                 font.weight: Theme.fontWeightSemiBold
                 color: Theme.textPrimary
@@ -323,7 +321,6 @@ T.Control {
                     visible: root.showMinMax
                     text: valuePrecision > 0 ? Number(root.minimum).toFixed(valuePrecision)
                                              : String(Math.round(root.minimum))
-                    font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontCaption
                     color: Theme.textSecondary
                 }
@@ -331,7 +328,6 @@ T.Control {
                     Layout.fillWidth: true
                     visible: root.caption.length > 0
                     text: root.caption
-                    font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontCaption
                     color: Theme.textSecondary
                     wrapMode: Text.Wrap
@@ -341,7 +337,6 @@ T.Control {
                     visible: root.showMinMax
                     text: valuePrecision > 0 ? Number(root.maximum).toFixed(valuePrecision)
                                              : String(Math.round(root.maximum))
-                    font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontCaption
                     color: Theme.textSecondary
                 }

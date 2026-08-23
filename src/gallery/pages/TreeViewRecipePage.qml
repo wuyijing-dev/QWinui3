@@ -64,7 +64,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Use TreeView for real folders/outlines. Explorer folder + file columns: FileTree (2.06). Prefer ItemsView with sectionRole for Settings-style groups without expand state. DataTable stays flat (columns).")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -72,7 +71,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Keyboard: ↑/↓ move · → expand or enter child · ← collapse or go to parent. Fluent TreeViewDelegate announces expanded/collapsed + level.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textPrimary
             }
@@ -192,7 +190,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("When you only need group headers (no expand), ItemsView + sectionRole is enough — see docs/tree-data.md and the ItemsView Gallery page.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

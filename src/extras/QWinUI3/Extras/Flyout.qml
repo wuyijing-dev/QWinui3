@@ -86,7 +86,6 @@ T.Popup {
     closePolicy: isLightDismissEnabled
                  ? (T.Popup.CloseOnEscape | T.Popup.CloseOnPressOutside)
                  : T.Popup.CloseOnEscape
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
 
     implicitWidth: Math.max(180, contentItem.implicitWidth + leftPadding + rightPadding)
@@ -183,7 +182,6 @@ T.Popup {
             visible: root.title.length > 0
             Layout.fillWidth: true
             text: root.title
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontBody
             font.weight: Theme.fontWeightSemiBold
             color: Theme.textPrimary
@@ -193,7 +191,6 @@ T.Popup {
             visible: root.subtitle.length > 0
             Layout.fillWidth: true
             text: root.subtitle
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             color: Theme.textSecondary
             wrapMode: Text.Wrap

@@ -18,7 +18,6 @@ CatalogPage {
             Layout.fillWidth: true
             wrapMode: Text.WordWrap
             text: qsTr("SettingsView scrolls grouped preference rows. SettingsGroup provides section headers; SettingsCard / SettingsExpander for individual rows.")
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontBody
             color: Theme.textSecondary
         }

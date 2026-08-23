@@ -35,7 +35,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Select a row to edit — form fields mirror the row. Save validates required fields; New clears selection for create mode.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textSecondary
             }

@@ -483,7 +483,6 @@ T.Control {
                 spacing: Theme.dp(6)
                 Text {
                     text: qsTr("Clipboard")
-                    font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontCaption
                     color: Theme.textSecondary
                 }
@@ -496,7 +495,6 @@ T.Control {
                         const t = engine.clipboardText()
                         return t.length ? t : qsTr("(empty)")
                     }
-                    font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontBody
                     color: Theme.textPrimary
                 }
@@ -526,7 +524,6 @@ T.Control {
             visible: root.statusBanner.length > 0
             text: root.statusBanner
             wrapMode: Text.WordWrap
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             color: Theme.textSecondary
             horizontalAlignment: Text.AlignHCenter
@@ -710,7 +707,6 @@ T.Control {
             id: chipLabel
             anchors.centerIn: parent
             text: chip.label
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             color: chip.checked ? Theme.textOnAccent : Theme.textPrimary
         }
@@ -821,7 +817,6 @@ T.Control {
             anchors.top: parent.top
             anchors.margins: Theme.dp(4)
             text: cap.hint
-            font.family: Theme.fontFamily
             font.pixelSize: Math.max(9, Theme.fontCaption - 1)
             color: cap.accent ? Theme.textOnAccent : Theme.textSecondary
             Accessible.ignored: true
@@ -838,7 +833,6 @@ T.Control {
             visible: !cap.hasIcon
             anchors.centerIn: parent
             text: cap.label
-            font.family: Theme.fontFamily
             font.pixelSize: cap.wideLabel ? Theme.fontCaption : Theme.fontBody
             font.weight: Theme.fontWeightSemiBold
             color: cap.accent ? Theme.textOnAccent : Theme.textPrimary

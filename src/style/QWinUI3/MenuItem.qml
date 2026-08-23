@@ -33,7 +33,6 @@ T.MenuItem {
     leftPadding: 12
     rightPadding: 12
     spacing: Theme.spacing
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     hoverEnabled: true
 

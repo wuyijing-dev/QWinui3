@@ -35,7 +35,6 @@ CatalogPage {
             Layout.fillWidth: true
             wrapMode: Text.WordWrap
             text: qsTr("Product apps should stick to types on docs/stable-api.md. Prefer examples/gallery-shell over copying Gallery sources. Experimental and deferred APIs may move — see docs/experimental-sweep.md.")
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontBody
             color: Theme.textSecondary
         }

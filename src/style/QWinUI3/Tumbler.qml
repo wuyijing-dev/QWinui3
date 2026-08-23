@@ -31,7 +31,6 @@ T.Tumbler {
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
                              implicitContentHeight + topPadding + bottomPadding)
 
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     visibleItemCount: 5
 

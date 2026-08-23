@@ -19,7 +19,6 @@ T.Page {
     Accessible.role: Accessible.Pane
     Accessible.name: control.title.length ? control.title : qsTr("Page")
 
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
 
     background: Rectangle {

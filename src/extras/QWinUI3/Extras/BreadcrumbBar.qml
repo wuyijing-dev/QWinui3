@@ -62,7 +62,6 @@ T.Control {
     implicitWidth: row.implicitWidth
     implicitHeight: Theme.controlHeight
     padding: 0
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     focusPolicy: Qt.StrongFocus
     activeFocusOnTab: true

@@ -180,8 +180,6 @@ T.Control {
     implicitWidth: row.implicitWidth + leftPadding + rightPadding
     implicitHeight: row.implicitHeight + topPadding + bottomPadding
     padding: 4
-    font.family: Theme.fontFamily
-
     contentItem: RowLayout {
         id: row
         spacing: 4

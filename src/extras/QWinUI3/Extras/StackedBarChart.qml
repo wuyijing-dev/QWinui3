@@ -128,7 +128,6 @@ T.Control {
             visible: root.title.length > 0
             Layout.fillWidth: true
             text: root.title
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontBody
             font.weight: Theme.fontWeightSemiBold
             color: Theme.textPrimary
@@ -143,7 +142,6 @@ T.Control {
                 anchors.centerIn: parent
                 visible: root.isEmpty
                 text: root.emptyText
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textSecondary
             }
@@ -328,7 +326,6 @@ T.Control {
                     id: tipLabel
                     anchors.centerIn: parent
                     text: root.hoverText
-                    font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontCaption
                     color: Theme.textPrimary
                 }

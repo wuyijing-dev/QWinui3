@@ -35,7 +35,6 @@ T.SwitchDelegate {
     leftPadding: 12
     rightPadding: 12
     spacing: 12
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     hoverEnabled: true
     icon.width: 16

@@ -126,7 +126,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Run the coach on the primary shell only — after it is visible. Do not anchor tips to ToolShellWindow or mid-spawn owned dialogs. Persist mainTourDismissed in this Settings category, not geometryPersistenceKey. Z-order recipe: Gallery Multi-window.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -147,7 +146,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Use a short TeachingTip sequence for first-run coach marks. Persist “don’t show again” with QtCore Settings (or your store). Not for confirms (ContentDialog) or durable page status (InfoBar) or transient acks (Toast). Focus: open tip → Close gets focus → dismiss returns focus to target — then advance to the next target.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

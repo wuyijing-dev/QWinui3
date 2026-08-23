@@ -143,7 +143,6 @@ T.AbstractButton {
     bottomPadding: Theme.paddingControlV
     hoverEnabled: true
     focusPolicy: Qt.StrongFocus
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     Accessible.role: Accessible.Button
     Accessible.name: displayText

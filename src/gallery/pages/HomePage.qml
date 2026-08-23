@@ -215,13 +215,11 @@ CatalogPage {
 
             Text {
                 text: qsTr("Qt Quick · Fluent controls")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textSecondary
             }
             Text {
                 text: qsTr("QWinUI3 Gallery")
-                font.family: Theme.fontFamilyDisplay
                 font.pixelSize: Theme.fontTitleLarge
                 font.weight: Theme.fontWeightSemiBold
                 color: Theme.textPrimary
@@ -308,7 +306,6 @@ CatalogPage {
 
                         Text {
                             text: modelData.title
-                            font.family: Theme.fontFamily
                             font.pixelSize: Theme.fontBody
                             font.weight: Theme.fontWeightSemiBold
                             color: Theme.textPrimary
@@ -317,7 +314,6 @@ CatalogPage {
                         }
                         Text {
                             text: modelData.description || ""
-                            font.family: Theme.fontFamily
                             font.pixelSize: Theme.fontCaption
                             color: Theme.textSecondary
                             wrapMode: Text.Wrap
@@ -396,7 +392,6 @@ CatalogPage {
                 }
                 Text {
                     text: qsTr("Recent")
-                    font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontBody
                     font.weight: Theme.fontWeightSemiBold
                     color: recentPill.checked ? Theme.textOnAccent : Theme.textPrimary
@@ -434,7 +429,6 @@ CatalogPage {
                 }
                 Text {
                     text: qsTr("Favorites")
-                    font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontBody
                     font.weight: Theme.fontWeightSemiBold
                     color: favPill.checked ? Theme.textOnAccent : Theme.textPrimary
@@ -465,7 +459,6 @@ CatalogPage {
         Text {
             text: page.homeTab === 0 ? qsTr("Recently visited")
                                      : qsTr("Favorites")
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontSubtitle
             font.weight: Theme.fontWeightSemiBold
             color: Theme.textPrimary

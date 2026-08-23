@@ -30,7 +30,6 @@ T.ToolTip {
     timeout: 5000
     closePolicy: T.Popup.CloseOnEscape | T.Popup.CloseOnPressOutsideParent
                  | T.Popup.CloseOnReleaseOutsideParent
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontCaption
 
     contentItem: Text {

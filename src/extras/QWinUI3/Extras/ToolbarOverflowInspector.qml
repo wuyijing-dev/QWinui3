@@ -36,7 +36,6 @@ Item {
 
         Text {
             Layout.fillWidth: true
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontBodyLarge
             font.weight: Theme.fontWeightSemiBold
             color: Theme.textPrimary
@@ -46,13 +45,12 @@ Item {
 
         function _v(x) { return x === undefined || x === null ? "—" : String(x) }
 
-        Text { color: Theme.textSecondary; font.family: Theme.fontFamily; font.pixelSize: Theme.fontCaption; text: qsTr("compact: %1").arg(_v(root.commandBar.compact)) }
-        Text { color: Theme.textSecondary; font.family: Theme.fontFamily; font.pixelSize: Theme.fontCaption; text: qsTr("defaultLabelPosition: %1").arg(_v(root.commandBar.defaultLabelPosition)) }
-        Text { color: Theme.textSecondary; font.family: Theme.fontFamily; font.pixelSize: Theme.fontCaption; text: qsTr("isDynamicOverflowEnabled: %1").arg(_v(root.commandBar.isDynamicOverflowEnabled)) }
-        Text { color: Theme.textSecondary; font.family: Theme.fontFamily; font.pixelSize: Theme.fontCaption; text: qsTr("isToggleButtonVisible: %1").arg(_v(root.commandBar.isToggleButtonVisible)) }
+        Text { color: Theme.textSecondary; font.pixelSize: Theme.fontCaption; text: qsTr("compact: %1").arg(_v(root.commandBar.compact)) }
+        Text { color: Theme.textSecondary; font.pixelSize: Theme.fontCaption; text: qsTr("defaultLabelPosition: %1").arg(_v(root.commandBar.defaultLabelPosition)) }
+        Text { color: Theme.textSecondary; font.pixelSize: Theme.fontCaption; text: qsTr("isDynamicOverflowEnabled: %1").arg(_v(root.commandBar.isDynamicOverflowEnabled)) }
+        Text { color: Theme.textSecondary; font.pixelSize: Theme.fontCaption; text: qsTr("isToggleButtonVisible: %1").arg(_v(root.commandBar.isToggleButtonVisible)) }
         Text {
             color: Theme.textSecondary
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             text: qsTr("isMoreButtonVisible: %1").arg(_v(root.commandBar.isMoreButtonVisible))
         }
@@ -60,7 +58,6 @@ Item {
         Text {
             visible: root.commandBar._hasDynamicOverflow || root.commandBar._overflowedPrimaries
             color: Theme.textSecondary
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             text: qsTr("overflowedPrimaries: %1").arg(_v(root.commandBar._overflowedPrimaries && root.commandBar._overflowedPrimaries.length !== undefined ? root.commandBar._overflowedPrimaries.length : "—"))
         }

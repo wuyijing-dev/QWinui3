@@ -25,7 +25,6 @@ T.TabButton {
     implicitHeight: 36
 
     padding: 10
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     hoverEnabled: true
 

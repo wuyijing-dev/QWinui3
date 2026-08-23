@@ -79,7 +79,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Default minWideWidth=720 → Wide list|details; narrower → SinglePane with Back/Esc to the list. NavigationView auto uses 1008 for the rail. Density does not change these breakpoints — docs/adaptive-layout.md · docs/density.md.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

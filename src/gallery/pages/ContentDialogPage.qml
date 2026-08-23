@@ -250,7 +250,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Open the dialog, focus the name field, press Enter — primary activates (TextArea still keeps newline).")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -272,7 +271,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Always call show() so ContentDialogQueue serializes dialogs. Outside click does not dismiss. Use onClosing { args.cancel = true } to block Esc/close when needed.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

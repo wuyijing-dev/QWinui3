@@ -32,7 +32,6 @@ T.CheckBox {
 
     spacing: Theme.spacing
     padding: 0
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     hoverEnabled: true
 

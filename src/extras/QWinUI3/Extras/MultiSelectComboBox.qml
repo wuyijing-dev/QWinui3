@@ -77,7 +77,6 @@ T.Control {
 
     implicitWidth: 280
     implicitHeight: contentRoot.implicitHeight
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     Accessible.role: Accessible.ComboBox
     Accessible.name: header.length ? header : qsTr("Multi-select")
@@ -463,7 +462,6 @@ T.Control {
                     Text {
                         Layout.fillWidth: true
                         text: row.itemText
-                        font.family: Theme.fontFamily
                         font.pixelSize: Theme.fontBody
                         font.weight: row.itemChecked ? Theme.fontWeightSemiBold
                                                      : Theme.fontWeightRegular

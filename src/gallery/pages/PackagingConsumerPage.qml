@@ -42,7 +42,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Release CI ships shared kits (DLL/.so + qml/). Gallery itself links QWinUI3 statically and deploys Qt with windeployqt / linuxdeploy. Prefer shared zips for third-party redistribute; static for single-app / in-tree.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -73,7 +72,6 @@ CatalogPage {
                     Layout.fillWidth: true
                     wrapMode: Text.WrapAnywhere
                     text: "python scripts/package_release_libs.py --shared --archive"
-                    font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontCaption
                 }
                 CopyButton {
@@ -87,7 +85,6 @@ CatalogPage {
                     Layout.fillWidth: true
                     wrapMode: Text.WrapAnywhere
                     text: "python scripts/package_release_libs.py --shared --preset core --archive"
-                    font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontCaption
                 }
                 CopyButton {
@@ -101,7 +98,6 @@ CatalogPage {
                     Layout.fillWidth: true
                     wrapMode: Text.WrapAnywhere
                     text: "python scripts/package_release_libs.py --list-modules"
-                    font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontCaption
                 }
                 CopyButton {
@@ -115,7 +111,6 @@ CatalogPage {
                     Layout.fillWidth: true
                     wrapMode: Text.WrapAnywhere
                     text: "python scripts/package_release_gallery.py"
-                    font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontCaption
                 }
                 CopyButton {
@@ -136,7 +131,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("After packaging a shared kit, run verify_find_package against the dist folder (consumer-matrix CI does this). Restricted Qt add-ons must not leak into the kit zip.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -146,7 +140,6 @@ CatalogPage {
                     Layout.fillWidth: true
                     wrapMode: Text.WrapAnywhere
                     text: "python scripts/verify_find_package.py --package-dir dist/qwinui3-<ver>-windows-x64-shared"
-                    font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontCaption
                 }
                 CopyButton {
@@ -175,7 +168,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("QWinUI3 shared zips do not include the Qt runtime. Match Qt major/minor to the kit you link (CI packages use 6.8.x; apps may target 6.5+).")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -185,7 +177,6 @@ CatalogPage {
                     Layout.fillWidth: true
                     wrapMode: Text.WrapAnywhere
                     text: "windeployqt --qmldir path\\to\\qml --release myapp.exe"
-                    font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontCaption
                 }
                 CopyButton {
@@ -206,7 +197,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("QWinUI3 is Apache-2.0 (docs/licensing.md). windeployqt may copy GPL Qt add-ons (Virtual Keyboard) — use StripRestrictedQtModules or package_release_gallery cleanup.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -235,7 +225,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Bootstrap: QWinUI3::configureEnvironment before QGuiApplication; set QT_QUICK_CONTROLS_STYLE=QWinUI3. Full CMake snippet: docs/packaging-consumer.md. No find_package(QWinUI3) Config yet.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

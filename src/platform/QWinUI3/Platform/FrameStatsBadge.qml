@@ -22,7 +22,6 @@ Label {
     Layout.fillWidth: false
     Layout.minimumWidth: implicitWidth
     Layout.preferredWidth: implicitWidth
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontCaption
     font.weight: Theme.fontWeightSemiBold
     readonly property string readoutText: {

@@ -39,7 +39,6 @@ T.Control {
 
         Text {
             text: qsTr("Keyboard size")
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             color: Theme.textSecondary
         }
@@ -61,7 +60,6 @@ T.Control {
                         id: chipLabel
                         anchors.centerIn: parent
                         text: modelData.label
-                        font.family: Theme.fontFamily
                         font.pixelSize: Theme.fontCaption
                         color: root.keyboardSize === modelData.id ? Theme.textOnAccent : Theme.textPrimary
                     }
@@ -75,7 +73,6 @@ T.Control {
 
         Text {
             text: qsTr("Input modes")
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             color: Theme.textSecondary
         }
@@ -101,14 +98,12 @@ T.Control {
             width: parent.width - parent.leftPadding - parent.rightPadding
             wrapMode: Text.WordWrap
             text: qsTr("Voice: in-process Vosk (Kaldi) or Windows SAPI. Handwriting: in-process Zinnia or Windows Ink. No command-line tools.")
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             color: Theme.textSecondary
         }
 
         Text {
             text: qsTr("Learning")
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             color: Theme.textSecondary
         }
@@ -127,7 +122,6 @@ T.Control {
             width: parent.width - parent.leftPadding - parent.rightPadding
             wrapMode: Text.WordWrap
             text: qsTr("Long-press letter hints for digits; long-press punctuation for alternatives. Ctrl / Alt / Win latch for chords.")
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             color: Theme.textSecondary
         }

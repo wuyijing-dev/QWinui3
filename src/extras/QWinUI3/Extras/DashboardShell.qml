@@ -62,7 +62,6 @@ Item {
                 Layout.fillWidth: true
                 visible: root.title.length > 0
                 text: root.title
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontTitle
                 font.weight: Theme.fontWeightSemiBold
                 color: Theme.textPrimary
@@ -72,7 +71,6 @@ Item {
                 Layout.fillWidth: true
                 visible: root.subtitle.length > 0
                 text: root.subtitle
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
                 wrapMode: Text.WordWrap

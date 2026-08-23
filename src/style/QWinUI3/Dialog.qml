@@ -31,7 +31,6 @@ T.Dialog {
     topPadding: 8
     bottomPadding: 8
     spacing: 8
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
 
     enter: Transition {
@@ -76,7 +75,6 @@ T.Dialog {
         elide: Text.ElideRight
         font.pixelSize: Theme.fontSubtitle
         font.weight: Theme.fontWeightSemiBold
-        font.family: Theme.fontFamily
         color: Theme.textPrimary
         padding: control.padding
         topPadding: control.padding

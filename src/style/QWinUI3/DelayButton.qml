@@ -31,7 +31,6 @@ T.DelayButton {
     bottomPadding: Theme.paddingControlV
     leftPadding: Theme.paddingControlH
     rightPadding: Theme.paddingControlH
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     hoverEnabled: true
     delay: 1000

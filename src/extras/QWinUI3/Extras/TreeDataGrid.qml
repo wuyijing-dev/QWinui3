@@ -844,7 +844,6 @@ T.Control {
                                                         elide: Text.ElideRight
                                                         verticalAlignment: Text.AlignVCenter
                                                         color: Theme.textPrimary
-                                                        font.family: Theme.fontFamily
                                                         font.pixelSize: Theme.fontBody
                                                     }
                                                 }

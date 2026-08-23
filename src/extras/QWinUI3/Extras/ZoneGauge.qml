@@ -349,7 +349,6 @@ T.Control {
                 anchors.horizontalCenter: parent.horizontalCenter
                 visible: root.title.length > 0
                 text: root.title
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textSecondary
             }
@@ -357,7 +356,6 @@ T.Control {
                 anchors.horizontalCenter: parent.horizontalCenter
                 visible: root.showValue
                 text: root.formattedValue
-                font.family: Theme.fontFamilyDisplay
                 font.pixelSize: Theme.fontSubtitle
                 font.weight: Theme.fontWeightSemiBold
                 color: Theme.textPrimary
@@ -366,7 +364,6 @@ T.Control {
                 anchors.horizontalCenter: parent.horizontalCenter
                 visible: root.activeZoneLabel.length > 0 || root.caption.length > 0
                 text: root.activeZoneLabel.length ? root.activeZoneLabel : root.caption
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: root.activeZoneLabel.length ? root.activeZoneColor : Theme.textSecondary
             }

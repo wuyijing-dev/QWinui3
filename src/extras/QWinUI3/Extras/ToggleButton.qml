@@ -54,7 +54,6 @@ Button {
     leftPadding: Theme.paddingControlH
     rightPadding: Theme.paddingControlH
     hoverEnabled: true
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
 
     PointerCursor { shape: Qt.PointingHandCursor }

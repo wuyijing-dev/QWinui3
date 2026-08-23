@@ -110,7 +110,6 @@ T.Control {
 
     implicitWidth: 160
     implicitHeight: contentItem.implicitHeight
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     Accessible.role: Accessible.ComboBox
     Accessible.name: header.length ? header : qsTr("Time")

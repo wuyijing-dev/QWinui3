@@ -22,7 +22,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Use ConnectedAnimation / ConnectedAnimationService for shared-element list→detail. EntranceThemeTransition for first show of a section. ContentThemeTransition when swapping panel identity. RepositionThemeTransition for Flow/Grid reflow. Theme.dark/accent: Behavior + Theme.duration — do not animate the whole title bar.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -30,7 +29,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("All helpers skip or snap when Theme.reducedMotion is true (Gallery mirrors WindowHelper.systemReducedMotion when followSystemAccessibility is on).")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textPrimary
             }

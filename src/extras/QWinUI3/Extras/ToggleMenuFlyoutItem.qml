@@ -86,7 +86,6 @@ MenuItem {
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignVCenter
             text: control.text
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontBody
             font.weight: control.checked ? Theme.fontWeightSemiBold : Theme.fontWeightRegular
             elide: Text.ElideRight
@@ -96,7 +95,6 @@ MenuItem {
         Text {
             visible: control.keyboardAcceleratorText.length > 0 && !control.keyVisualAccelerator
             text: control.keyboardAcceleratorText
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             color: Theme.textSecondary
         }

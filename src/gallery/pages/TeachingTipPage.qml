@@ -31,7 +31,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("TeachingTip is for first-run coaching, not confirms. Closing returns focus to the target control. For multi-step tours + don’t-show-again persistence, open the Onboarding coach recipe.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

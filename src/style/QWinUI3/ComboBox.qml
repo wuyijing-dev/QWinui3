@@ -61,7 +61,6 @@ T.ComboBox {
     topPadding: Theme.paddingControlV
     bottomPadding: Theme.paddingControlV
     spacing: Theme.spacing
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     hoverEnabled: true
     transform: Translate { x: control._shakeOffset }

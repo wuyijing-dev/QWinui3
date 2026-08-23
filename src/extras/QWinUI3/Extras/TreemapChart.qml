@@ -52,7 +52,6 @@ T.Control {
         Text {
             visible: root.title.length > 0
             text: root.title
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontBody
             font.weight: Theme.fontWeightSemiBold
             color: Theme.textPrimary

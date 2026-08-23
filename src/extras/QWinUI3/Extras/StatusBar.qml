@@ -84,7 +84,6 @@ T.Control {
         Text {
             visible: root.text.length > 0
             text: root.text
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             color: Theme.textSecondary
             elide: Text.ElideRight

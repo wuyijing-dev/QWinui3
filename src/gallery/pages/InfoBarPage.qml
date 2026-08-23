@@ -52,7 +52,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Prefer InfoBar for page-level status and validation. Use ToastHost for short acks. ContentDialog for blocking confirms.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

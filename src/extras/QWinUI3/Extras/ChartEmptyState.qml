@@ -86,7 +86,6 @@ T.Control {
             Layout.fillWidth: true
             horizontalAlignment: Text.AlignHCenter
             text: root.title
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontBody
             font.weight: Theme.fontWeightSemiBold
             color: Theme.textPrimary
@@ -98,7 +97,6 @@ T.Control {
             visible: root.message.length > 0
             horizontalAlignment: Text.AlignHCenter
             text: root.message
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             color: Theme.textSecondary
             wrapMode: Text.WordWrap

@@ -54,7 +54,6 @@ T.Drawer {
     interactive: true
     closePolicy: T.Popup.CloseOnEscape | T.Popup.CloseOnPressOutside
 
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
 
     // Window overlay attached to this drawer (null until the control is in a Window).
@@ -126,7 +125,6 @@ T.Drawer {
         Text {
             visible: control.title.length > 0
             text: control.title
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontSubtitle
             font.weight: Theme.fontWeightSemiBold
             color: Theme.textPrimary

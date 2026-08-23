@@ -81,7 +81,6 @@ T.Control {
 
     implicitWidth: 280
     implicitHeight: contentRoot.implicitHeight
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     Accessible.role: Accessible.EditableText
     Accessible.name: header.length ? header

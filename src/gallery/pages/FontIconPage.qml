@@ -127,7 +127,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Prefer FluentIcons.Name + FontIcon / control symbol:. Sizes: caption 10, chrome 14, body 16, AppBar 18. Colors: Theme.textPrimary / textSecondary / accent. Icon-only: toolTipText or accessibleName — never the raw glyph. Full recipe: docs/icons.md.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -424,7 +423,6 @@ CatalogPage {
                                             text: value
                                             color: Theme.textPrimary
                                             wrapMode: Text.WrapAnywhere
-                                            font.family: Theme.fontFamily
                                             font.pixelSize: Theme.fontBody
                                         }
                                     }

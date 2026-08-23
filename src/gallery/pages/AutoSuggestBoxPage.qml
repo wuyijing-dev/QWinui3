@@ -30,7 +30,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Use AutoSuggestBox when typing should narrow a known list (forms, pickers). Prefer SearchBox for explicit search chrome. Global commands stay on CommandPalette (Ctrl+K). See docs/search.md.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

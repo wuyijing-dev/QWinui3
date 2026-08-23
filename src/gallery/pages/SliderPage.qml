@@ -16,7 +16,6 @@ CatalogPage {
             Layout.fillWidth: true
             wrapMode: Text.WordWrap
             text: qsTr("Thumbs follow Theme metrics. On touch devices, avoid ultra-compact density if sliders are primary controls — docs/touch-pointer.md · docs/density.md.")
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontBody
             color: Theme.textSecondary
         }

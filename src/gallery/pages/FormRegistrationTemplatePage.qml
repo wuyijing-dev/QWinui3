@@ -29,7 +29,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Industry registration pattern — set field.errorMessage, form.validate(), commit. Pair with examples/form-settings for persistence.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textSecondary
             }

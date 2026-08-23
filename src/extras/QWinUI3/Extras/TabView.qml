@@ -660,7 +660,6 @@ T.Control {
                                              || titleLabel.implicitWidth < tabBtn.width - 36
                                     text: typeof modelData === "string" ? modelData : (modelData.title || "")
                                     elide: Text.ElideRight
-                                    font.family: Theme.fontFamily
                                     font.pixelSize: Theme.fontBody
                                     font.weight: tabBtn.checked ? Theme.fontWeightSemiBold
                                                                 : Theme.fontWeightRegular
@@ -891,7 +890,6 @@ T.Control {
                         anchors.rightMargin: 10
                         text: ghost.title
                         elide: Text.ElideRight
-                        font.family: Theme.fontFamily
                         font.pixelSize: Theme.fontBody
                         font.weight: Theme.fontWeightSemiBold
                         color: Theme.textPrimary
@@ -955,7 +953,6 @@ T.Control {
                               ? modelData
                               : (modelData.content || modelData.title || "")
                         color: Theme.textSecondary
-                        font.family: Theme.fontFamily
                         font.pixelSize: Theme.fontBody
                         wrapMode: Text.Wrap
                         width: parent.width - 48

@@ -54,7 +54,6 @@ T.Control {
         Text {
             visible: root.title.length > 0
             text: root.title
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             font.weight: Theme.fontWeightSemiBold
             color: Theme.textPrimary
@@ -150,7 +149,6 @@ T.Control {
         Text {
             visible: root.unit.length > 0
             text: root.unit
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             color: Theme.textSecondary
         }

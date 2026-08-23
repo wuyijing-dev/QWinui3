@@ -23,7 +23,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Set MenuFlyout.title for Accessible chrome. Items use text as Accessible.name; keyboardAcceleratorText is announced as description and shown as a chord hint.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

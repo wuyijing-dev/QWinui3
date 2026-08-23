@@ -73,7 +73,6 @@ T.Control {
     padding: 12
     leftPadding: 16
     rightPadding: 16
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     clip: false
     Accessible.role: Accessible.Button
@@ -162,7 +161,6 @@ T.Control {
 
                     Text {
                         text: root.title
-                        font.family: Theme.fontFamily
                         font.pixelSize: Theme.fontBody
                         font.weight: Theme.fontWeightSemiBold
                         color: root.enabled ? Theme.textPrimary : Theme.textDisabled
@@ -172,7 +170,6 @@ T.Control {
                     Text {
                         visible: root.subtitle.length > 0
                         text: root.subtitle
-                        font.family: Theme.fontFamily
                         font.pixelSize: Theme.fontCaption
                         color: root.enabled ? Theme.textSecondary : Theme.textDisabled
                         wrapMode: Text.Wrap

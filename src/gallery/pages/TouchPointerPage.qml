@@ -32,7 +32,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Finger-first shells stay on Theme.density \"standard\" (or bump uiScale). Compact shrinks controlHeight (~0.85×). Do not rely on hover-only UI — fingers have no hover; stylus hover is optional preview only. No ink/handwriting product in 1.57.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

@@ -154,7 +154,6 @@ T.TreeViewDelegate {
         elide: Text.ElideRight
         color: control.enabled ? Theme.textPrimary : Theme.textDisabled
         visible: !control.editing
-        font.family: Theme.fontFamily
         font.pixelSize: Theme.fontBody
         font.weight: control.highlighted ? Theme.fontWeightSemiBold : Theme.fontWeightRegular
     }

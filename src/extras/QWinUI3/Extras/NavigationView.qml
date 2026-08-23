@@ -1320,7 +1320,6 @@ Item {
 
                 Text {
                     text: root.headerText
-                    font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontBody
                     font.weight: Theme.fontWeightSemiBold
                     color: Theme.textPrimary
@@ -1389,7 +1388,6 @@ Item {
                             }
                             Text {
                                 text: topDel.title
-                                font.family: Theme.fontFamily
                                 font.pixelSize: Theme.fontCaption
                                 color: Theme.textPrimary
                                 elide: Text.ElideRight
@@ -1512,7 +1510,6 @@ Item {
                         }
                         Text {
                             text: root.footerText
-                            font.family: Theme.fontFamily
                             font.pixelSize: Theme.fontCaption
                             color: Theme.textPrimary
                         }
@@ -1640,7 +1637,6 @@ Item {
                             // Title is required whenever the rail title bar is shown
                             visible: root._paneShowsLabels
                             text: root.headerText.length ? root.headerText : qsTr("Navigation")
-                            font.family: Theme.fontFamily
                             font.pixelSize: Theme.fontBody
                             font.weight: Theme.fontWeightSemiBold
                             color: Theme.textPrimary
@@ -1947,7 +1943,6 @@ Item {
                                         anchors.verticalCenter: parent.verticalCenter
                                         anchors.leftMargin: 12
                                         text: del.title || ""
-                                        font.family: Theme.fontFamily
                                         font.pixelSize: Theme.fontCaption
                                         font.weight: Theme.fontWeightSemiBold
                                         color: Theme.textSecondary
@@ -1973,7 +1968,6 @@ Item {
                                         Text {
                                             visible: root._paneShowsLabels
                                             text: del.title || ""
-                                            font.family: Theme.fontFamily
                                             font.pixelSize: Theme.fontBody
                                             color: Theme.textPrimary
                                             elide: Text.ElideRight
@@ -2025,7 +2019,6 @@ Item {
                                         Text {
                                             width: parent.width
                                             text: del.title || ""
-                                            font.family: Theme.fontFamily
                                             font.pixelSize: Theme.fontCaption
                                             color: Theme.textPrimary
                                             horizontalAlignment: Text.AlignHCenter
@@ -2136,7 +2129,6 @@ Item {
                                                 Text {
                                                     text: (childRow.modelData && childRow.modelData.title)
                                                           ? childRow.modelData.title : ""
-                                                    font.family: Theme.fontFamily
                                                     font.pixelSize: Theme.fontBody
                                                     color: Theme.textPrimary
                                                     elide: Text.ElideRight
@@ -2353,7 +2345,6 @@ Item {
                             Text {
                                 visible: root._paneShowsLabels
                                 text: root.footerText
-                                font.family: Theme.fontFamily
                                 font.pixelSize: Theme.fontBody
                                 color: Theme.textPrimary
                                 elide: Text.ElideRight
@@ -2377,7 +2368,6 @@ Item {
                             Text {
                                 width: parent.width
                                 text: root.footerText
-                                font.family: Theme.fontFamily
                                 font.pixelSize: Theme.fontCaption
                                 color: Theme.textPrimary
                                 horizontalAlignment: Text.AlignHCenter
@@ -2578,7 +2568,6 @@ Item {
                     width: parent.width
                     visible: text.length > 0
                     text: root.groupTitle(root.flyoutGroupKey)
-                    font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontCaption
                     font.weight: Theme.fontWeightSemiBold
                     color: Theme.textSecondary
@@ -2675,7 +2664,6 @@ Item {
                                 anchors.verticalCenter: parent.verticalCenter
                                 width: parent.width - 30
                                 text: flyDel.title
-                                font.family: Theme.fontFamily
                                 font.pixelSize: Theme.fontBody
                                 color: Theme.textPrimary
                                 elide: Text.ElideRight

@@ -29,7 +29,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Prefer virtualized views (DataTable / ItemsView / ListView with reuseItems). Keep model roles lean. Cap chart points for live series. Avoid MultiEffect on first paint of heavy pages — Gallery Home defers card shadows (1.39).")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -66,7 +65,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("NavigationView keeps an LRU page cache (pageCacheLimit / clearPageCache). initialPageTransition defaults to none for a snappy first paint. Use Settings → page cache controls, or CLI --startup-log with --smoke for timing.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -101,7 +99,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Real-app checklist: lazy pageModule pages, tune pageCacheLimit, rely on same-key / same-page skips (sameKeySkipCount / samePageSkipCount), initialPageTransition none for cold start, defer heavy Loader siblings. NavigationWindow forwards cache + skip counters.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -134,7 +131,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Second collection pass: debounced filter on DataTable / ListDetailsView / TreeDataGrid; skip unchanged rebuilds; cap maxFilterResults on huge JS arrays; debounce NavigationView paneSearchTextEdited in your app. FileTree table side inherits DataTable knobs — filter treeModel app-side. docs/performance.md wave 7.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -180,7 +176,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("FrameStatsMonitor is opt-in (enabled default false). Gallery uses the dev profile — Settings toggles persist. Shipping apps call applyRetailProfile() in main before QML loads so FPS/RHI never stick from QSettings. CLI --show-diagnostics for internal QA only. Recipe: docs/developer-diagnostics.md.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -214,7 +209,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Tranche-1 perf sign-off: cap chart points (~500/series), KPI trend rings (~16 samples), one chart per ChartCard. ItemsWrapGrid debounces filter (120 ms) — low hundreds of tiles only. Pair with wave 6 shell cache + wave 7 table debounce. Animations stay.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -252,7 +246,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Named slow paths: palette/search debounce + caps; Button.loading for async save; FlipView swipe off when Theme.reducedMotion. docs/app-sluggishness-259.md")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -284,7 +277,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Ops tables: pin identity columns, groupRole section headers, persist columnOrder. Mail master: multiSelectEnabled + detailToolbar instead of a second ItemsView. TreeDataGrid freezeFirstColumn; FileTree filterText + column chooser. docs/collection-perf-264.md")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

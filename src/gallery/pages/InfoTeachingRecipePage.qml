@@ -49,7 +49,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Use InfoBar for validation/save on the page. TeachingTip for first-run coaching (closes → focus back to the target). ToastHost for non-blocking acks. ContentDialog for confirms — docs/dialogs-flyouts.md.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

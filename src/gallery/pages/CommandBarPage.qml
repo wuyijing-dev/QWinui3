@@ -48,7 +48,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Tab focuses the command bar. Space/Enter activates the focused AppBar or more button. F10 or Alt+Down opens overflow (…); Esc dismisses the overflow menu. Icon-only buttons need text or Accessible.name.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

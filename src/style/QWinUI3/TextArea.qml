@@ -65,7 +65,6 @@ T.TextArea {
     placeholderTextColor: Theme.textSecondary
     selectionColor: Theme.accent
     selectedTextColor: Theme.textOnAccent
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     wrapMode: TextEdit.Wrap
     hoverEnabled: true

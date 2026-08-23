@@ -192,7 +192,6 @@ T.Control {
                         id: tierLabel
                         anchors.centerIn: parent
                         text: modelData.label
-                        font.family: Theme.fontFamily
                         font.pixelSize: Theme.fontCaption
                         color: root.activeGroupIndex === index ? Theme.textOnAccent : Theme.textPrimary
                     }
@@ -215,7 +214,6 @@ T.Control {
             Text {
                 anchors.verticalCenter: parent.verticalCenter
                 text: root.engine ? root.engine.preedit : ""
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 font.underline: true
                 color: Theme.textSecondary
@@ -242,7 +240,6 @@ T.Control {
                         id: label
                         anchors.centerIn: parent
                         text: (index + 1) + " " + modelData
-                        font.family: Theme.fontFamily
                         font.pixelSize: Theme.fontBody
                         color: Theme.textPrimary
                     }

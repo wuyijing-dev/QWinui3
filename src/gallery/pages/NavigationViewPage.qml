@@ -22,7 +22,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Use NavigationView for app destinations (Home / Settings / groups) with pageModule + component. Prefer TabView for multiple open documents. Wire TitleBar Back to navigateBack(); pane toggle → togglePane() for overlay drawer on small windows (auto → leftMinimal below 640px). Product starter: examples/gallery-shell (NavigationWindow, 1.50). Hand-wired rail: examples/nav-settings. Touch: pane rows follow navItemHeight — docs/touch-pointer.md (1.57).")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -30,7 +29,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Accessible.name defaults to paneTitle / headerText — keep it a clear app name. Footer uses footerText.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textPrimary
             }
@@ -220,7 +218,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Use navigateToPage/openDrillWithHistory for in-page drill — openPage alone skips soft history. Breadcrumb clicks no longer push history. Bind TitleBar Back to canGoBack (not static true). isPanePinned keeps overlay/auto pane open. docs/navigation-mental-model-256.md")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -253,7 +250,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Shell trim (2.28): tune pageCacheLimit, watch sameKeySkipCount / samePageSkipCount on repeat nav. Collection trim (2.40): NavigationView does not debounce pane search — use a Timer (~80–120 ms) in paneSearchTextEdited before filtering paneSearchModel. Pair both on real app checklists — docs/performance.md.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

@@ -72,7 +72,6 @@ IconicButton {
     topPadding: _dense ? 4 : 6
     bottomPadding: topPadding
     checkable: true
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontCaption
     iconSize: _dense ? 16 : 18
 

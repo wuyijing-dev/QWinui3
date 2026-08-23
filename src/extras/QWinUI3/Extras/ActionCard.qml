@@ -56,7 +56,6 @@ T.AbstractButton {
     implicitWidth: 280
     implicitHeight: Math.max(88, contentItem.implicitHeight + topPadding + bottomPadding)
     padding: 16
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     Accessible.role: Accessible.Button
     Accessible.name: title.length ? title : qsTr("Action")

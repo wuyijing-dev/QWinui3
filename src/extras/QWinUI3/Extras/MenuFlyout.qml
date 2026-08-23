@@ -47,7 +47,6 @@ Menu {
     property bool shouldConstrainToRootBounds: true
 
     padding: 4
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
 
     // Clamp height so the styled ListView becomes interactive / scrollable.

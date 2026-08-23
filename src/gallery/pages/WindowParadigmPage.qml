@@ -85,7 +85,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Ship Solid chrome on Win and Linux. Mica/Acrylic work on Windows DWM only — Linux coerces to Solid via resolveBackdrop. Pin OpenGL when shipping frost (docs/graphics-backend.md). Gallery Main uses geometryPersistenceKey \"GalleryMain\"; restore clamps off-screen frames to availableGeometry and setScreen for mixed-DPI (docs/high-dpi.md, 1.58).")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -93,7 +92,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Prefer ShellWindow / NavigationWindow for apps; StandardWindow for Gallery-style hosts and AppWindow presenters. Title-bar slots: docs/title-bar-cookbook.md · matrix: docs/window-shells.md · failure modes: docs/window-chrome.md.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textPrimary
             }
@@ -115,7 +113,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Probe Mica / Acrylic / blur / tray / WebView / SNI at runtime and degrade honestly.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

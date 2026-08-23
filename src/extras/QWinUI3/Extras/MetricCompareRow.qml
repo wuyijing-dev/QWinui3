@@ -37,7 +37,6 @@ T.Control {
             Layout.fillWidth: true
             visible: root.periodLabel.length > 0
             text: root.periodLabel
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             color: Theme.textSecondary
             elide: Text.ElideRight

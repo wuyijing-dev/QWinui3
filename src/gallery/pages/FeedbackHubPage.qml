@@ -18,7 +18,6 @@ CatalogPage {
             Layout.fillWidth: true
             wrapMode: Text.WordWrap
             text: qsTr("InfoBar for in-page durable status (stack with InfoBarHost). ToastHost for transient queued toasts. TeachingTip for coach marks. ProgressRing / ProgressBar for determinate work — not a toast substitute. Blocking confirms → ContentDialog.")
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontBody
             color: Theme.textSecondary
         }

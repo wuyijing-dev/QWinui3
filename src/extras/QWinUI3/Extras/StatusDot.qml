@@ -127,7 +127,6 @@ T.Control {
             visible: root.showLabel
             anchors.verticalCenter: parent.verticalCenter
             text: root.label
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             color: Theme.textSecondary
         }

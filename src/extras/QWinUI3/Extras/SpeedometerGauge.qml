@@ -130,7 +130,6 @@ T.Control {
                 Text {
                     anchors.horizontalCenter: parent.horizontalCenter
                     text: String(Math.round(root.animatedValue))
-                    font.family: Theme.fontFamilyDisplay
                     font.pixelSize: Theme.fontTitle
                     font.weight: Theme.fontWeightSemiBold
                     color: Theme.textPrimary

@@ -54,7 +54,6 @@ T.AbstractButton {
     implicitWidth: tileWidth
     implicitHeight: tileHeight
     padding: 12
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     Accessible.role: Accessible.CheckBox
     Accessible.name: title.length ? title : qsTr("Tile")
@@ -119,7 +118,6 @@ T.AbstractButton {
                     id: tileBadge
                     anchors.centerIn: parent
                     text: control.badgeText
-                    font.family: Theme.fontFamily
                     font.pixelSize: 10
                     font.weight: Theme.fontWeightSemiBold
                     color: Theme.textOnAccent

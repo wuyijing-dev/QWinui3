@@ -26,7 +26,6 @@ Item {
 
         Text {
             Layout.fillWidth: true
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontBodyLarge
             font.weight: Theme.fontWeightSemiBold
             color: Theme.textPrimary
@@ -49,7 +48,6 @@ Item {
                     anchors.left: parent.left
                     anchors.right: parent.right
                     color: Theme.textSecondary
-                    font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontCaption
                     text: String(b.text || b.Accessible && b.Accessible.name || "•") + ": " + String(b.keyboardAcceleratorText)
                     elide: Text.ElideRight

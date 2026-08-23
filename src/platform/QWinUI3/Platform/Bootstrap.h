@@ -46,6 +46,7 @@ void configureEnvironment(const char *argv0 = nullptr);
 /// Call **after** `QGuiApplication` exists.
 /// - `QQuickStyle::setStyle("QWinUI3")`
 /// - Loads Fluent icon fonts (`ThemeFonts::ensureLoaded`)
+/// - Applies WinUI-aligned UI font stack (`ThemeFonts::applyApplicationFont`)
 /// - Optional `appId`: Windows AppUserModelID + Linux desktop file name (no `.desktop`)
 void configureApplication(const QString &appId = QString());
 

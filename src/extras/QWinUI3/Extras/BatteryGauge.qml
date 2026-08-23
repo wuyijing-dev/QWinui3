@@ -75,7 +75,6 @@ T.Control {
         Text {
             visible: root.title.length > 0
             text: root.title
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             color: Theme.textSecondary
         }
@@ -149,7 +148,6 @@ T.Control {
                 anchors.right: parent.right
                 anchors.verticalCenter: parent.verticalCenter
                 text: Math.round(root.animatedValue) + root.unit
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 font.weight: Theme.fontWeightSemiBold
                 color: root.fillColor

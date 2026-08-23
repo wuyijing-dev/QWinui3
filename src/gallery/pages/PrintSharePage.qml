@@ -51,7 +51,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("LoB “send this view somewhere” without a QWinUI3 print engine. PNG export is the portable path. System print / PDF via Qt PrintSupport stays in your app CMake — not a kit dependency. Win/Linux FilePicker + reveal notes: docs/print-share.md · docs/platform-linux-wayland.md.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -159,7 +158,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("QWinUI3 does not ship PrintSupport. Add it in your app if you need the system print dialog or QPrinter::PdfFormat. Grab a PNG first (above), then print the image — or paint with QPainter. Caveats: docs/print-share.md.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

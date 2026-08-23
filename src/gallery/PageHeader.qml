@@ -24,7 +24,6 @@ ColumnLayout {
         Text {
             id: titleLabel
             text: root.title
-            font.family: Theme.fontFamilyDisplay
             font.pixelSize: Theme.fontTitle
             font.weight: Theme.fontWeightSemiBold
             color: Theme.textPrimary
@@ -77,7 +76,6 @@ ColumnLayout {
     Text {
         visible: root.subtitle.length > 0
         text: root.subtitle
-        font.family: Theme.fontFamily
         font.pixelSize: Theme.fontBody
         color: Theme.textSecondary
         wrapMode: Text.Wrap

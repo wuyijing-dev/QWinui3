@@ -23,7 +23,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Release-build Gallery, then smoke_gallery.py: catalog check and example QML import lint, then qwinui3_gallery --smoke (loads critical pages). Windows coerces foreign QT_QPA_PLATFORM to windows.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -71,7 +70,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Support floor Qt 6.5+; recommended 6.8 LTS; forward 6.10+. smoke.yml stays on 6.8. Compat workflow builds Gallery Release on Linux for 6.5.3 / 6.8.3 / 6.10.0. Not a screenshot farm.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

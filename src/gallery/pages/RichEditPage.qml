@@ -29,7 +29,6 @@ CatalogPage {
             Layout.fillWidth: true
             wrapMode: Text.WordWrap
             text: qsTr("Plain TextArea cannot do bold/lists/links with Fluent chrome and IME. WebView2 editors break a11y and keyboard routing. RichEdit is an experimental Extras control for mail, templates, and long notes — not a full document engine.")
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontBody
             color: Theme.textSecondary
         }

@@ -62,7 +62,6 @@ CatalogPage {
             Layout.fillWidth: true
             wrapMode: Text.WordWrap
             text: qsTr("FileTree splits folder tree and flat file table. TreeDataGrid keeps hierarchy inside one multi-column grid — sort per sibling group, filter keeps matching branches. Experimental — not Excel-scale.")
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontBody
             color: Theme.textSecondary
         }
@@ -78,7 +77,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Branch filter walks nested children — debounce keystrokes (filterDebounceMs), cap matches (maxFilterResults), and rely on expandOnFilter only when needed. Same skip-unchanged pattern as DataTable. Not Excel-scale — prefer C++ model for large org trees. docs/performance.md wave 7.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -92,7 +90,6 @@ CatalogPage {
             Layout.fillWidth: true
             wrapMode: Text.WordWrap
             text: qsTr("TreeDataGrid sort/filter does not sanitize cell text. Validate row data before side effects — same rules as FileTree fileActivated. Cross-link: docs/tree-data.md · docs/security-trust.md wave 3.")
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontBody
             color: Theme.textSecondary
         }
@@ -177,7 +174,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Folder tree + file metadata columns: FileTree. Flat columns only: DataTable. List + reading pane: ListDetailsView.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

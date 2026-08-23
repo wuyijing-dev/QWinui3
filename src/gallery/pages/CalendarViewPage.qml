@@ -22,7 +22,6 @@ CatalogPage {
             Layout.fillWidth: true
             wrapMode: Text.WordWrap
             text: qsTr("CalendarDatePicker is a field + flyout. DatePicker uses tumblers. CalendarView is an always-visible month grid for booking, PTO, and room schedules. For raw MonthGrid styling, see Calendar page.")
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontBody
             color: Theme.textSecondary
         }

@@ -22,7 +22,6 @@ CatalogPage {
             Layout.fillWidth: true
             wrapMode: Text.WordWrap
             text: qsTr("Separate ThemePrefs category from geometryPersistenceKey. ThemeAppearanceSettings { persist: true; prefsCategory: \"MyAppTheme\" } writes the same knobs. ThemeSync on StandardWindow/ShellWindow applies followSystem* after load.")
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontBody
             color: Theme.textSecondary
         }
@@ -38,7 +37,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("StandardWindow / ShellWindow already run ThemeSync (follow system a11y / color). Drop ThemeAppearanceSettings on your Settings page. Copy the recipe into another process — same knobs, no Gallery code. Persist uses ThemePrefs (QSettings), not WindowGeometry.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

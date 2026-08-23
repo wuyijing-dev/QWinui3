@@ -61,7 +61,6 @@ T.AbstractButton {
     leftPadding: control._chrome ? Theme.paddingControlH : 2
     rightPadding: control._chrome ? Theme.paddingControlH : 2
     spacing: 6
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     hoverEnabled: true
 

@@ -159,7 +159,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("First-run TeachingTip tours (1.55) should run on the primary shell after it is visible — not on tool windows. Finish or pause the coach before openDialog(owner). Persist don’t-show-again in a dedicated Settings category, not geometryPersistenceKey. Gallery Onboarding coach demonstrates persistence.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -183,7 +182,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Use a second top-level shell for inspectors, previews, or true dialog HWNDs. Keep ContentDialog for in-window confirms. One Theme per process. Unique geometryPersistenceKey per window role. 2.14: openDialog(owner) realizes surfaces + centerOnOwner on Wayland. Runnable sample: examples/multi-window.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -248,7 +246,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("After spawning a dialog, confirm it stacks with Gallery on your compositor. Empty portal id on pure Wayland is expected without xdg-foreign — transient parent still helps. Regression: docs/security-trust.md · docs/platform-linux-wayland.md.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textTertiary
             }

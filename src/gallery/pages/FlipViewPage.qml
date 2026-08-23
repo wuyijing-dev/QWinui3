@@ -22,7 +22,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("FlipView chevron fade and embedded PipsPager pip animations honor Theme.reducedMotion. Toggle below and hover chevrons / change pages — motion should snap.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

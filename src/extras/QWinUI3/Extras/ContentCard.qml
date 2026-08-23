@@ -47,7 +47,6 @@ T.Control {
     padding: 16
     implicitWidth: 320
     implicitHeight: Math.max(80, contentItem.implicitHeight + topPadding + bottomPadding)
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     hoverEnabled: isClickable
     focusPolicy: isClickable ? Qt.StrongFocus : Qt.NoFocus
@@ -121,7 +120,6 @@ T.Control {
                 Text {
                     visible: control.title.length > 0
                     text: control.title
-                    font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontBody
                     font.weight: Theme.fontWeightSemiBold
                     color: Theme.textPrimary
@@ -131,7 +129,6 @@ T.Control {
                 Text {
                     visible: control.subtitle.length > 0
                     text: control.subtitle
-                    font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontCaption
                     color: Theme.textSecondary
                     wrapMode: Text.Wrap

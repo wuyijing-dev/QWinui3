@@ -47,7 +47,6 @@ T.Control {
             visible: root.header.length > 0
             width: parent.width
             text: root.header
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontBody
             font.weight: Theme.fontWeightSemiBold
             color: root.enabled ? Theme.textPrimary : Theme.textDisabled

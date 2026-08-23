@@ -71,7 +71,6 @@ CatalogPage {
                         color: Theme.textPrimary
                         elide: Text.ElideRight
                         verticalAlignment: Text.AlignVCenter
-                        font.family: Theme.fontFamily
                         font.pixelSize: Theme.fontBody
                     }
                 }

@@ -100,7 +100,6 @@ T.Control {
 
     implicitWidth: 180
     implicitHeight: contentItem.implicitHeight
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
 
     // Text shown to the user

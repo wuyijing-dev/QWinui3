@@ -89,7 +89,6 @@ T.Control {
     padding: 12
     leftPadding: 16
     rightPadding: 16
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     clip: false
     focusPolicy: Qt.StrongFocus
@@ -161,7 +160,6 @@ T.Control {
                     spacing: 2
                     Text {
                         text: control.title
-                        font.family: Theme.fontFamily
                         font.pixelSize: Theme.fontBody
                         font.weight: Theme.fontWeightSemiBold
                         color: Theme.textPrimary
@@ -171,7 +169,6 @@ T.Control {
                     Text {
                         visible: control.description.length > 0
                         text: control.description
-                        font.family: Theme.fontFamily
                         font.pixelSize: Theme.fontCaption
                         color: Theme.textSecondary
                         wrapMode: Text.Wrap

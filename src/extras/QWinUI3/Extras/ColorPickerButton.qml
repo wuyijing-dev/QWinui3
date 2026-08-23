@@ -68,7 +68,6 @@ T.AbstractButton {
     leftPadding: 10
     rightPadding: 10
     hoverEnabled: true
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     text: qsTr("Color")
     Accessible.role: Accessible.Button
@@ -114,7 +113,6 @@ T.AbstractButton {
         Text {
             visible: control.showHexLabel
             text: control.hexText
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             color: Theme.textSecondary
             verticalAlignment: Text.AlignVCenter

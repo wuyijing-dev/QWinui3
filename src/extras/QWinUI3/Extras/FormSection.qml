@@ -54,7 +54,6 @@ T.Pane {
             Label {
                 Layout.fillWidth: true
                 text: root.title
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 font.weight: Theme.fontWeightSemiBold
                 color: Theme.textPrimary

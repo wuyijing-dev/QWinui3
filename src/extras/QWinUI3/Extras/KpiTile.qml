@@ -277,7 +277,6 @@ T.Control {
                 Layout.fillWidth: true
                 text: root.title
                 elide: Text.ElideRight
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textSecondary
             }
@@ -292,7 +291,6 @@ T.Control {
                     id: badgeLabel
                     anchors.centerIn: parent
                     text: root.badgeText
-                    font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontCaption - 1
                     font.weight: Theme.fontWeightSemiBold
                     color: root.badgeColor
@@ -302,7 +300,6 @@ T.Control {
             Text {
                 visible: root.hasDelta
                 text: root.formattedDelta
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 font.weight: Theme.fontWeightSemiBold
                 color: root.deltaColor
@@ -314,7 +311,6 @@ T.Control {
             spacing: 8
             Text {
                 text: root.formattedValue
-                font.family: Theme.fontFamilyDisplay
                 font.pixelSize: Theme.fontTitle
                 font.weight: Theme.fontWeightSemiBold
                 color: root.valueColor
@@ -324,7 +320,6 @@ T.Control {
                 Layout.fillWidth: true
                 text: root.formattedCompare
                 elide: Text.ElideRight
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textSecondary
             }
@@ -335,7 +330,6 @@ T.Control {
             visible: root.caption.length > 0
             text: root.caption
             elide: Text.ElideRight
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             color: Theme.textSecondary
         }
@@ -356,7 +350,6 @@ T.Control {
             visible: root.footer.length > 0
             text: root.footer
             elide: Text.ElideRight
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             color: Theme.textSecondary
         }

@@ -120,7 +120,6 @@ T.Control {
                     t += (root.deltaPositive ? "  +" : "  ") + ChartUtils.formatNumber(root.delta)
                 return t
             }
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             font.weight: root.showDelta ? Theme.fontWeightSemiBold : Theme.fontWeightRegular
             color: {

@@ -158,7 +158,6 @@ T.Control {
             anchors.centerIn: parent
             visible: root.showValue && !root.indeterminate
             text: root.formattedValue
-            font.family: Theme.fontFamily
             font.pixelSize: Math.max(9, Math.min(parent.width, parent.height) * 0.28)
             font.weight: Theme.fontWeightSemiBold
             color: Theme.textPrimary

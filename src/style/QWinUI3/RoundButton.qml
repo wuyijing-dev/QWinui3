@@ -29,7 +29,6 @@ T.RoundButton {
 
     radius: Math.min(width, height) / 2
     padding: 8
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     hoverEnabled: true
 

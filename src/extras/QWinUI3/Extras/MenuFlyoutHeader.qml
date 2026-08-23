@@ -49,7 +49,6 @@ MenuItem {
         Text {
             Layout.fillWidth: true
             text: control.text
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             font.weight: Theme.fontWeightSemiBold
             color: Theme.textSecondary

@@ -72,7 +72,6 @@ Item {
             visible: root.header.length > 0
             width: parent.width
             text: root.header
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             font.weight: Theme.fontWeightSemiBold
             color: Theme.textSecondary
@@ -125,7 +124,6 @@ Item {
                                     t += "  " + legendChip.modelData.secondary
                                 return t
                             }
-                            font.family: Theme.fontFamily
                             font.pixelSize: Theme.fontCaption
                             font.weight: (root.hoverIndex === legendChip.index || root.selectedIndex === legendChip.index)
                                     ? Theme.fontWeightSemiBold : Theme.fontWeightRegular
@@ -186,7 +184,6 @@ Item {
                                     t += "  " + modelData.secondary
                                 return t
                             }
-                            font.family: Theme.fontFamily
                             font.pixelSize: Theme.fontCaption
                             font.weight: (root.hoverIndex === index || root.selectedIndex === index)
                                     ? Theme.fontWeightSemiBold : Theme.fontWeightRegular

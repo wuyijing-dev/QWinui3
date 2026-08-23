@@ -29,7 +29,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Use ToastHost for non-blocking Saved/Done. Do not toast irreversible confirms (ContentDialog) or form field errors (InfoBar / forms). OS mirror: NotificationBridge.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

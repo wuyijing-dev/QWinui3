@@ -71,7 +71,6 @@ T.Control {
             Text {
                 visible: root.title.length > 0
                 text: root.title
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textSecondary
             }
@@ -150,7 +149,6 @@ T.Control {
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.bottom: parent.bottom
                 text: Math.round(root.animatedValue) + " " + root.unit
-                font.family: Theme.fontFamilyDisplay
                 font.pixelSize: Theme.fontBody
                 font.weight: Theme.fontWeightSemiBold
                 color: root.animatedNorm >= root.redlineNorm ? root.redlineColor : Theme.textPrimary

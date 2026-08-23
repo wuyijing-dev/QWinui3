@@ -205,7 +205,6 @@ T.Control {
                 anchors.horizontalCenter: parent.horizontalCenter
                 visible: root.title.length > 0
                 text: root.title
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textSecondary
             }
@@ -221,7 +220,6 @@ T.Control {
                 anchors.horizontalCenter: parent.horizontalCenter
                 visible: root.showValue
                 text: root.formattedValue
-                font.family: Theme.fontFamilyDisplay
                 font.pixelSize: Theme.fontSubtitle
                 font.weight: Theme.fontWeightSemiBold
                 color: Theme.textPrimary
@@ -230,7 +228,6 @@ T.Control {
                 anchors.horizontalCenter: parent.horizontalCenter
                 visible: root.caption.length > 0
                 text: root.caption
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textSecondary
             }
@@ -240,13 +237,11 @@ T.Control {
                 spacing: 10
                 Text {
                     text: root.tickLabel(0)
-                    font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontCaption
                     color: Theme.textSecondary
                 }
                 Text {
                     text: root.tickLabel(1)
-                    font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontCaption
                     color: Theme.textSecondary
                 }
@@ -354,7 +349,6 @@ T.Control {
                     Text {
                         visible: root.showTickLabels
                         text: root.tickLabel(t)
-                        font.family: Theme.fontFamily
                         font.pixelSize: Theme.fontCaption - 1
                         color: Theme.textSecondary
                         x: face.cx + face.stemW / 2 + 12

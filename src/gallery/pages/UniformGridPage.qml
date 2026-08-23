@@ -29,7 +29,6 @@ CatalogPage {
                     Text {
                         anchors.centerIn: parent
                         text: qsTr("Cell %1").arg(index + 1)
-                        font.family: Theme.fontFamily
                         color: Theme.textPrimary
                     }
                 }

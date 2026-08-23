@@ -61,7 +61,6 @@ IconicButton {
     rightPadding: leftPadding
     topPadding: _dense ? 4 : 6
     bottomPadding: topPadding
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontCaption
     checkable: false
     iconSize: _dense ? 16 : 18
@@ -201,7 +200,6 @@ IconicButton {
                 id: badgeLabel
                 anchors.centerIn: parent
                 text: control._badgeLabel.length ? control._badgeLabel : ""
-                font.family: Theme.fontFamily
                 font.pixelSize: 10
                 font.weight: Theme.fontWeightSemiBold
                 color: Theme.textOnAccent

@@ -52,7 +52,6 @@ T.AbstractButton {
     implicitHeight: Theme.controlHeight
     hoverEnabled: true
     focusPolicy: Qt.StrongFocus
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     padding: 0
     spacing: 0

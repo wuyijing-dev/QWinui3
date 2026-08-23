@@ -20,7 +20,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Keep progress beside the operation. Prefer ProgressRing / ProgressButton for compact or in-button busy. Do not replace progress with a toast.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

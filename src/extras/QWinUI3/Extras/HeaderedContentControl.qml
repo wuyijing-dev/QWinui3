@@ -41,7 +41,6 @@ T.Control {
 
     padding: 12
     spacing: 8
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     Accessible.role: Accessible.Grouping
     Accessible.name: header
@@ -80,7 +79,6 @@ T.Control {
                 visible: root.description.length > 0
                 Layout.fillWidth: true
                 text: root.description
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textSecondary
                 wrapMode: Text.Wrap
@@ -120,7 +118,6 @@ T.Control {
             Text {
                 Layout.fillWidth: true
                 text: root.header
-                font.family: Theme.fontFamily
                 font.pixelSize: root._headerLeft ? Theme.fontBody : Theme.fontCaption
                 font.weight: Theme.fontWeightSemiBold
                 color: root._headerLeft ? Theme.textPrimary : Theme.textSecondary

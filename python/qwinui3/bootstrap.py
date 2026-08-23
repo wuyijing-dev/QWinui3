@@ -125,6 +125,9 @@ def configure_application(app_id: str = "") -> None:
     """Match C++ configureApplication — after QGuiApplication exists."""
     _qt.init()
     _qt.QtQuickControls2.QQuickStyle.setStyle("QWinUI3")
+    from . import fonts as _fonts
+
+    _fonts.apply_application_font()
     if not app_id:
         return
     app = _qt.QtGui.QGuiApplication.instance()

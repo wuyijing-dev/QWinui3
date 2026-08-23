@@ -39,7 +39,6 @@ T.Control {
             text: speech && speech.available
                   ? qsTr("Voice input (%1)").arg(speech.platformBackend)
                   : (speech ? speech.statusText : qsTr("Speech not available"))
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             color: Theme.textSecondary
         }
@@ -73,7 +72,6 @@ T.Control {
             visible: speech && speech.statusText.length > 0 && !speech.listening
             width: parent.width - parent.leftPadding - parent.rightPadding
             text: speech ? speech.statusText : ""
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             color: Theme.textSecondary
         }

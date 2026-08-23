@@ -93,7 +93,6 @@ T.AbstractButton {
     rightPadding: Theme.paddingControlH
     topPadding: Theme.paddingControlV
     bottomPadding: Theme.paddingControlV
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     ToolTip.visible: hovered && toolTipText.length > 0
     ToolTip.text: toolTipText
@@ -179,7 +178,6 @@ T.AbstractButton {
                 text: control._badgeLabel
                 color: Theme.textOnAccent
                 font.pixelSize: 10
-                font.family: Theme.fontFamily
                 font.weight: Theme.fontWeightSemiBold
             }
         }

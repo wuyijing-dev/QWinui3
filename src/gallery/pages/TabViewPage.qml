@@ -23,7 +23,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Use TabView for multiple open documents (add / close / reorder). Use NavigationView for app destinations and Settings footer. Tear-out (canTearOutTabs) remains experimental — keep off in production shells unless you own the tear-out window.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -31,7 +30,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Give each tab a title for accessibility. Strip header buttons need Accessible.name (Menu demo below).")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textPrimary
             }

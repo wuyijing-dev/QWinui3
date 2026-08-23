@@ -31,7 +31,6 @@ Item {
         Label {
             id: label
             anchors.centerIn: parent
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             font.weight: Theme.fontWeightSemiBold
             color: Theme.textPrimary

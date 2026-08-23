@@ -160,7 +160,6 @@ T.Control {
             Text {
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: Math.round(root.animatedValue) + root.unit
-                font.family: Theme.fontFamilyDisplay
                 font.pixelSize: Theme.fontBody
                 font.weight: Theme.fontWeightSemiBold
                 color: root.fillColor
@@ -168,7 +167,6 @@ T.Control {
             Text {
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: Math.round(root.animatedValue2) + root.unit
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: root.fillColor2
             }

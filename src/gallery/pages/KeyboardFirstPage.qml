@@ -29,7 +29,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("1) Global chord opens CommandPalette. 2) Enter activates the highlighted command. 3) ContentDialog: Enter = defaultButton, Esc = close path (onClosing can cancel). 4) Lists/DataTable: arrows, Home/End, optional Ctrl+A. Full checklist also on Accessibility.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

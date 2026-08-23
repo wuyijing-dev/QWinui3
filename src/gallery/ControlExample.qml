@@ -57,7 +57,6 @@ Rectangle {
                 anchors.leftMargin: 16
                 anchors.rightMargin: 16
                 text: root.headerText
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 font.weight: Theme.fontWeightSemiBold
                 color: Theme.textPrimary
@@ -120,7 +119,6 @@ Rectangle {
                     }
                     Text {
                         text: qsTr("Source code")
-                        font.family: Theme.fontFamily
                         font.pixelSize: Theme.fontBody
                         color: Theme.textPrimary
                         Layout.fillWidth: true

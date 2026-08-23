@@ -148,7 +148,6 @@ T.Dialog {
     leftPadding: 0
     rightPadding: 0
     spacing: 0
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     title: ""
     transformOrigin: Item.Center
@@ -315,7 +314,6 @@ T.Dialog {
                     anchors.topMargin: 20
                     text: root.title
                     visible: root.title.length > 0
-                    font.family: Theme.fontFamilyDisplay
                     font.pixelSize: Theme.fontSubtitle
                     font.weight: Theme.fontWeightSemiBold
                     color: Theme.textPrimary

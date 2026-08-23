@@ -50,7 +50,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("DropArea keys include text/uri-list + optional acceptMimeTypes (2.13). Empty acceptExtensions = all URLs — production ingest should set a non-empty suffix list and never auto-execute paths. Always offer Browse (FilePicker). docs/security-trust.md · docs/drag-drop.md.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

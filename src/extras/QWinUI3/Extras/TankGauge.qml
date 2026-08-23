@@ -211,7 +211,6 @@ T.Control {
                 anchors.horizontalCenter: parent.horizontalCenter
                 visible: root.title.length > 0
                 text: root.title
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textSecondary
             }
@@ -227,7 +226,6 @@ T.Control {
                 anchors.horizontalCenter: parent.horizontalCenter
                 visible: root.showValue
                 text: root.formattedValue
-                font.family: Theme.fontFamilyDisplay
                 font.pixelSize: Theme.fontSubtitle
                 font.weight: Theme.fontWeightSemiBold
                 color: Theme.textPrimary
@@ -236,7 +234,6 @@ T.Control {
                 anchors.horizontalCenter: parent.horizontalCenter
                 visible: root.caption.length > 0
                 text: root.caption
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textSecondary
             }
@@ -246,13 +243,11 @@ T.Control {
                 spacing: 12
                 Text {
                     text: Math.round(root.minimum)
-                    font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontCaption
                     color: Theme.textSecondary
                 }
                 Text {
                     text: Math.round(root.maximum)
-                    font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontCaption
                     color: Theme.textSecondary
                 }

@@ -83,7 +83,6 @@ T.Control {
             Text {
                 visible: root.header.length > 0
                 text: root.header
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 font.weight: Theme.fontWeightSemiBold
                 color: root.enabled ? Theme.textPrimary : Theme.textDisabled
@@ -96,7 +95,6 @@ T.Control {
                 visible: root.showTotal
                 anchors.verticalCenter: parent.verticalCenter
                 text: qsTr("%1 / %2").arg(Math.round(root.total)).arg(Math.round(root.maximum))
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textSecondary
             }
@@ -206,7 +204,6 @@ T.Control {
                             text: (legendItem.modelData.label || "")
                                   + (legendItem.modelData.label ? " · " : "")
                                   + (Number(legendItem.modelData.value) || 0)
-                            font.family: Theme.fontFamily
                             font.pixelSize: Theme.fontCaption
                             font.weight: root.hoverIndex === legendItem.index
                                          ? Theme.fontWeightSemiBold : Theme.fontWeightRegular
@@ -250,7 +247,6 @@ T.Control {
                     Text {
                         Layout.alignment: Qt.AlignVCenter
                         text: root.remainingLabel + " · " + Math.round(root.remaining)
-                        font.family: Theme.fontFamily
                         font.pixelSize: Theme.fontCaption
                         color: Theme.textSecondary
                     }

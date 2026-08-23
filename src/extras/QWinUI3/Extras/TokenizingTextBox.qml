@@ -73,7 +73,6 @@ T.Control {
     leftPadding: 8
     rightPadding: 8
     hoverEnabled: true
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     Accessible.role: Accessible.EditableText
     Accessible.name: header.length ? header : qsTr("Tokens")

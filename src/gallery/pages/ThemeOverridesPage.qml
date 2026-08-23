@@ -47,7 +47,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Built-in packs: blue · purple · green · orange. customAccent overrides pack. Persist with ThemeAppearanceSettings + ThemePrefs — docs/theme-overrides.md wave 2.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -86,7 +85,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("WCAG 2.x ratios for current Theme (guidance only — not a certification). Body AA ≥ 4.5:1. Change accent / dark below and watch the table. Recipe: docs/color-contrast.md · High contrast: Accessibility / Settings.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -174,7 +172,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Compact uses 0.85x on controlHeight / padding / spacing. Type scale (fontCaption…fontTitle) stays fixed. Narrow shells: NavigationView paneDisplayMode auto (threshold 1008) or ListDetailsView minWideWidth - docs/density.md.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -206,7 +203,6 @@ CatalogPage {
                 Label {
                     text: Theme.uiScale.toFixed(2)
                     color: Theme.textPrimary
-                    font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontCaption
                 }
             }

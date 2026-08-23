@@ -18,7 +18,6 @@ CatalogPage {
             Layout.fillWidth: true
             wrapMode: Text.WordWrap
             text: qsTr("CommandPalette for Ctrl+K global actions. CommandBar / AppBarButton for page tool strips. MenuFlyout for context menus. MenuBar for classic menus with Action.shortcut. SearchBox / AutoSuggestBox for find-as-you-type. Keyboard-first patterns: docs/keyboard.md.")
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontBody
             color: Theme.textSecondary
         }

@@ -288,7 +288,6 @@ Item {
             Layout.maximumWidth: 220
             Text {
                 text: root.title
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 font.weight: Theme.fontWeightSemiBold
                 color: Theme.textPrimary
@@ -298,7 +297,6 @@ Item {
             Text {
                 visible: root.subtitle.length > 0
                 text: root.subtitle
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textSecondary
                 elide: Text.ElideRight

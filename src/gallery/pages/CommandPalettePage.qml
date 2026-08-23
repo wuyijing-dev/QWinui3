@@ -86,7 +86,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Stress list: 480+ commands with debounced filter (80 ms) and maxResults cap (64). Type a shortcut (e.g. ctrl+c) to discover by chord — not just title/keywords. Footer shows filteredCount of commandCount while typing. Mirror MenuBar Action.shortcut strings here for discovery.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -112,7 +111,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Open with Ctrl+K (or the button). Type to filter — keystrokes debounce before rebuild (80 ms); results cap at maxResults (64). Arrow keys move highlight; Enter runs; Esc closes. Stress list: 120+ commands. docs/commands.md wave 2.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

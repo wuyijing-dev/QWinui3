@@ -62,7 +62,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Theme.devicePixelRatio tracks this Gallery window’s screen. WindowHelper.devicePixelRatio is the primary screen (diagnostics). After drag/restore across monitors, Theme should match the window screen — docs/high-dpi.md.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -111,7 +110,6 @@ CatalogPage {
             Label {
                 Layout.fillWidth: true
                 wrapMode: Text.WrapAnywhere
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textSecondary
                 text: page.screenRows()
@@ -158,7 +156,6 @@ CatalogPage {
             Label {
                 Layout.fillWidth: true
                 wrapMode: Text.WrapAnywhere
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textPrimary
                 text: page.screenRows()

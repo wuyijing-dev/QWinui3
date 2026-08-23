@@ -30,7 +30,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Press/hover/focus spot-check for Fluent chrome. Toggle Theme.reducedMotion and highContrast on Theme overrides.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -110,7 +109,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Side-by-side spot-check for the QWinUI3 Style module. Toggle light/dark, accent, and density on Theme overrides — fills should stay consistent (borderedControlFill / bgControlRest). docs/style-polish.md.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -189,7 +187,6 @@ CatalogPage {
             Label {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textSecondary
                 text: qsTr("bgControlRest: %1 · fillControlSecondary: %2 · fillControlDisabled: %3 · fillSliderThumb: %4")
@@ -201,7 +198,6 @@ CatalogPage {
             Label {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textSecondary
                 text: qsTr("borderedControlFill(rest): %1 · borderedControlFill(hover): %2")

@@ -43,7 +43,6 @@ T.Control {
             text: handwriting && handwriting.available
                   ? qsTr("Handwriting (%1) — draw a character").arg(handwriting.platformBackend)
                   : (handwriting ? handwriting.statusText : qsTr("Handwriting not configured"))
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             color: Theme.textSecondary
         }

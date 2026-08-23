@@ -175,7 +175,6 @@ T.Control {
                 Text {
                     text: root.refreshing ? root.refreshingText
                          : (root._armed ? root.refreshText : root.pullText)
-                    font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontCaption
                     color: root._armed || root.refreshing ? Theme.textPrimary : Theme.textSecondary
                     Behavior on color {

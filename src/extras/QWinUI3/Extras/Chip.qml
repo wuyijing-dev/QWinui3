@@ -58,7 +58,6 @@ T.AbstractButton {
     rightPadding: closable ? 4 : (chipSize === "small" ? 8 : 12)
     topPadding: chipSize === "small" ? 2 : 4
     bottomPadding: topPadding
-    font.family: Theme.fontFamily
     font.pixelSize: chipSize === "small" ? 11 : Theme.fontCaption
     Accessible.role: Accessible.Button
     Accessible.name: control.text
@@ -89,7 +88,6 @@ T.AbstractButton {
             Text {
                 anchors.centerIn: parent
                 text: control.avatarText.charAt(0).toUpperCase()
-                font.family: Theme.fontFamily
                 font.pixelSize: control.chipSize === "small" ? 9 : 11
                 font.weight: Theme.fontWeightSemiBold
                 color: control._selected && !control._outline ? Theme.accent : Theme.textOnAccent

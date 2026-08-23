@@ -103,7 +103,6 @@ Item {
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: root.text
                 color: root.textColor
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 font.weight: Theme.fontWeightSemiBold
                 horizontalAlignment: Text.AlignHCenter

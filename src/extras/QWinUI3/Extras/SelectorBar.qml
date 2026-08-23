@@ -44,7 +44,6 @@ T.Control {
     implicitHeight: Theme.controlHeight
     implicitWidth: row.implicitWidth + leftPadding + rightPadding
     padding: 2
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     focusPolicy: Qt.StrongFocus
     activeFocusOnTab: true
@@ -327,7 +326,6 @@ T.Control {
                                 id: titleLabel
                                 anchors.verticalCenter: parent.verticalCenter
                                 text: itemBtn._title
-                                font.family: Theme.fontFamily
                                 font.pixelSize: Theme.fontBody
                                 // Fixed weight avoids width jitter; selected state uses color/indicator.
                                 font.weight: Theme.fontWeightSemiBold

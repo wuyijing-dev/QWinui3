@@ -148,7 +148,6 @@ T.Control {
             visible: root.title.length > 0
             Layout.fillWidth: true
             text: root.title
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontBody
             font.weight: Theme.fontWeightSemiBold
             color: Theme.textPrimary
@@ -162,7 +161,6 @@ T.Control {
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             text: root.emptyText
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             color: Theme.textSecondary
         }
@@ -290,7 +288,6 @@ T.Control {
                         return root.centerText.length ? root.centerText
                                : (root.total > 0 ? Math.round(root.total) : "")
                     }
-                    font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontSubtitle
                     font.weight: Theme.fontWeightSemiBold
                     color: Theme.textPrimary
@@ -305,7 +302,6 @@ T.Control {
                         return root.centerSubText
                     }
                     visible: text.length > 0
-                    font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontCaption
                     color: Theme.textSecondary
                     elide: Text.ElideRight
@@ -359,7 +355,6 @@ T.Control {
                                 var pct = root.total > 0 ? Math.round(v / root.total * 100) : 0
                                 return label + "  " + pct + "%"
                             }
-                            font.family: Theme.fontFamily
                             font.pixelSize: Theme.fontCaption
                             font.weight: root.hoverIndex === index ? Theme.fontWeightSemiBold
                                                                    : Theme.fontWeightRegular

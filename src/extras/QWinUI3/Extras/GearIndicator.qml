@@ -53,7 +53,6 @@ T.Control {
                 Text {
                     required property var modelData
                     text: String(modelData)
-                    font.family: Theme.fontFamilyDisplay
                     font.pixelSize: String(modelData) === String(root.gear).toUpperCase() ? Theme.fontTitle : Theme.fontBody
                     font.weight: String(modelData) === String(root.gear).toUpperCase() ? Theme.fontWeightSemiBold : Theme.fontWeightRegular
                     color: String(modelData) === String(root.gear).toUpperCase() ? Theme.accent : Theme.textSecondary
@@ -62,7 +61,6 @@ T.Control {
             Text {
                 visible: root.gearNumber > 0 && (String(root.gear).toUpperCase() === "D" || String(root.gear).toUpperCase() === "S" || String(root.gear).toUpperCase() === "M")
                 text: String(root.gearNumber)
-                font.family: Theme.fontFamilyDisplay
                 font.pixelSize: Theme.fontTitle
                 font.weight: Theme.fontWeightSemiBold
                 color: Theme.textPrimary

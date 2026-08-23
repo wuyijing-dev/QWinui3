@@ -21,7 +21,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Touch cookbook: docs/touch-pointer.md. Keep primary / icon-only hits ≥ Theme.controlHeight; prefer density \"standard\" for finger-first. Related: Density page.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

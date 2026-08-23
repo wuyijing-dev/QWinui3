@@ -68,7 +68,6 @@ CatalogPage {
                     anchors.centerIn: parent
                     text: qsTr("App content area")
                     color: Theme.textSecondary
-                    font.family: Theme.fontFamily
                 }
             }
         }
@@ -86,7 +85,6 @@ CatalogPage {
         }
         rightContent: Text {
             text: Qt.formatTime(new Date(), "hh:mm")
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             color: Theme.textSecondary
             verticalAlignment: Text.AlignVCenter

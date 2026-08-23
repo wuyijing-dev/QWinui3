@@ -21,7 +21,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("MenuBar Action.shortcut chords work when the menu is closed (StandardKey.* or explicit strings). Users still need discovery — mirror high-value actions in CommandPalette with the same shortcut text so Ctrl+K finds Ctrl+C. keyboardAcceleratorText on CommandBar is visual-only. docs/commands.md wave 3.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -38,7 +37,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Styled Qt Quick Controls MenuBar. Use Action.shortcut (or StandardKey.*) so chords work outside the open menu. Mnemonics follow the platform MenuBar behavior.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

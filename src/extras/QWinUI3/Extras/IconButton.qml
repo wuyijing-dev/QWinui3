@@ -129,7 +129,6 @@ IconicButton {
                 id: badgeLabel
                 anchors.centerIn: parent
                 text: control._badgeLabel.length ? control._badgeLabel : ""
-                font.family: Theme.fontFamily
                 font.pixelSize: 10
                 font.weight: Theme.fontWeightSemiBold
                 color: Theme.textOnAccent

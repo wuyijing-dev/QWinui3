@@ -81,7 +81,6 @@ T.Control {
     implicitWidth: 180
     implicitHeight: column.implicitHeight
     hoverEnabled: true
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     Accessible.role: Accessible.SpinBox
     Accessible.name: header.length ? header : qsTr("Number")

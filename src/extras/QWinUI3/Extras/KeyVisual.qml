@@ -62,7 +62,6 @@ T.AbstractButton {
     rightPadding: _padH
     topPadding: _padV
     bottomPadding: _padV
-    font.family: Theme.fontFamily
     font.pixelSize: _fontPx
 
     scale: down && enabled && !Theme.reducedMotion ? 0.96 : 1

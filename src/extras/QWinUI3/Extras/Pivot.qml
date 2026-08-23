@@ -245,7 +245,6 @@ T.Control {
                                     Text {
                                         anchors.verticalCenter: parent.verticalCenter
                                         text: tab._title
-                                        font.family: Theme.fontFamily
                                         font.pixelSize: Theme.fontBody
                                         font.weight: tab.checked ? Theme.fontWeightSemiBold
                                                                  : Theme.fontWeightRegular

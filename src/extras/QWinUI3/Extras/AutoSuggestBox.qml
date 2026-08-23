@@ -78,7 +78,6 @@ T.Control {
 
     implicitWidth: 280
     implicitHeight: column.implicitHeight
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     Accessible.role: Accessible.ComboBox
     Accessible.name: header.length ? header : qsTr("Suggestions")

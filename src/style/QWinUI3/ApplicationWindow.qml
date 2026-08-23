@@ -19,6 +19,6 @@ T.ApplicationWindow {
     id: window
 
     color: Theme.bgLayer
-    font.family: Theme.fontFamily
-    font.pixelSize: Theme.fontBody
+    // Full UI stack via ThemeFonts (Segoe + YaHei UI …). Avoid font.family alone — clears CJK fallbacks.
+    font: ThemeFonts.uiFontFor(Theme.fontBody)
 }

@@ -37,7 +37,6 @@ CatalogPage {
                             anchors.leftMargin: 12
                             anchors.verticalCenter: parent.verticalCenter
                             text: qsTr("Row %1").arg(index + 1)
-                            font.family: Theme.fontFamily
                             color: Theme.textPrimary
                         }
                     }
@@ -65,7 +64,6 @@ CatalogPage {
                     anchors.centerIn: parent
                     text: qsTr("Scroll to see letter labels")
                     color: Theme.textSecondary
-                    font.family: Theme.fontFamily
                 }
             }
         }
@@ -117,7 +115,6 @@ CatalogPage {
                                 anchors.margins: 12
                                 text: modelData
                                 wrapMode: Text.Wrap
-                                font.family: Theme.fontFamily
                                 color: Theme.textPrimary
                                 verticalAlignment: Text.AlignVCenter
                             }
@@ -159,7 +156,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Bind imeEngine to the same KeyboardEngine as the footer dock. While composing, the scrollbar bubble shows preedit and scrollTo keeps the field visible. docs/osk-in-apps-258.md")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

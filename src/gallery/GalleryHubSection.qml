@@ -27,7 +27,6 @@ Item {
             Text {
                 Layout.fillWidth: true
                 text: root.title
-                font.family: Theme.fontFamilyDisplay
                 font.pixelSize: Theme.fontTitle
                 font.weight: Theme.fontWeightSemiBold
                 color: Theme.textPrimary
@@ -38,7 +37,6 @@ Item {
                 visible: root.description.length > 0
                 wrapMode: Text.WordWrap
                 text: root.description
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

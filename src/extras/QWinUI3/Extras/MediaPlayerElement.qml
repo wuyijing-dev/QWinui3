@@ -111,7 +111,6 @@ T.Control {
                 visible: !root.source || root.source.toString().length === 0
                 text: qsTr("No media")
                 color: "#CCFFFFFF"
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
             }
             Text {
@@ -123,7 +122,6 @@ T.Control {
                 wrapMode: Text.WordWrap
                 text: root.errorString
                 color: Theme.systemCritical
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
             }
         }
@@ -185,7 +183,6 @@ T.Control {
                         }
                         return fmt(player.position) + " / " + fmt(player.duration)
                     }
-                    font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontCaption
                     color: Theme.textSecondary
                     Accessible.ignored: true

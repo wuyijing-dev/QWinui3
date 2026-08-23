@@ -194,7 +194,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Finger targets, scroll vs drag, and pen hover notes: docs/touch-pointer.md. Prefer density \"standard\" for touch-first shells; do not put required UI only on hovered.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -210,7 +209,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("End-to-end cookbook: docs/keyboard.md. Surface details: docs/commands.md · docs/dialogs-flyouts.md · docs/data-collections.md. Complete the critical Gallery flows below without a mouse.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -443,7 +441,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Brand contrast diagnostics (textPrimary / accent on bgCard): Gallery Theme overrides — docs/color-contrast.md (1.43).")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textSecondary
             }

@@ -44,7 +44,6 @@ T.Switch {
     rightPadding: 0
     topPadding: 0
     bottomPadding: 0
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     hoverEnabled: true
 

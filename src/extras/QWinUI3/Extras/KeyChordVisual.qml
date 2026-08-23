@@ -150,7 +150,6 @@ T.Control {
                 Text {
                     visible: strokeRow.index > 0
                     text: ","
-                    font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontCaption
                     color: Theme.textSecondary
                     anchors.verticalCenter: parent.verticalCenter
@@ -169,7 +168,6 @@ T.Control {
                         Text {
                             visible: keyRow.index > 0
                             text: root.separator
-                            font.family: Theme.fontFamily
                             font.pixelSize: Theme.fontCaption
                             font.weight: Theme.fontWeightSemiBold
                             color: Theme.textSecondary

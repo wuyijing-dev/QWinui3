@@ -181,7 +181,6 @@ T.Control {
                 anchors.centerIn: parent
                 visible: root.imageSource.toString().length === 0 && root.effectiveInitials.length > 0
                 text: root.effectiveInitials
-                font.family: Theme.fontFamily
                 font.pixelSize: Math.max(10, root.size * 0.36)
                 font.weight: Theme.fontWeightSemiBold
                 color: Theme.textOnAccent

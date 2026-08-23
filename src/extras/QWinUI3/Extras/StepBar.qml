@@ -67,7 +67,6 @@ T.Control {
     implicitHeight: Math.max(Theme.controlHeight + 8,
                              contentItem.implicitHeight + topPadding + bottomPadding)
     padding: 4
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontCaption
     focusPolicy: isInteractive ? Qt.StrongFocus : Qt.NoFocus
     activeFocusOnTab: isInteractive
@@ -162,7 +161,6 @@ T.Control {
                                 }
                                 Text {
                                     text: typeof modelData === "string" ? modelData : (modelData.title || "")
-                                    font.family: Theme.fontFamily
                                     font.pixelSize: Theme.fontCaption
                                     font.weight: index === control.currentIndex ? Theme.fontWeightSemiBold : Theme.fontWeightRegular
                                     color: index <= control.currentIndex ? Theme.textPrimary : Theme.textSecondary
@@ -176,7 +174,6 @@ T.Control {
                             Text {
                                 visible: typeof modelData !== "string" && !!(modelData.description)
                                 text: typeof modelData === "string" ? "" : (modelData.description || "")
-                                font.family: Theme.fontFamily
                                 font.pixelSize: 11
                                 color: Theme.textSecondary
                                 horizontalAlignment: Text.AlignHCenter
@@ -265,7 +262,6 @@ T.Control {
                                 spacing: 2
                                 Text {
                                     text: typeof modelData === "string" ? modelData : (modelData.title || "")
-                                    font.family: Theme.fontFamily
                                     font.pixelSize: Theme.fontBody
                                     font.weight: index === control.currentIndex ? Theme.fontWeightSemiBold : Theme.fontWeightRegular
                                     color: index <= control.currentIndex ? Theme.textPrimary : Theme.textSecondary
@@ -274,7 +270,6 @@ T.Control {
                                 Text {
                                     visible: typeof modelData !== "string" && !!(modelData.description)
                                     text: typeof modelData === "string" ? "" : (modelData.description || "")
-                                    font.family: Theme.fontFamily
                                     font.pixelSize: Theme.fontCaption
                                     color: Theme.textSecondary
                                     wrapMode: Text.Wrap

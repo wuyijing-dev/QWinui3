@@ -114,9 +114,12 @@ Use Theme.duration(ms) and controlFill/accentFill helpers for states.
 | `systemSuccessBg` | `color` | Success banner background |
 | `systemCautionBg` | `color` | Caution banner background |
 | `systemCriticalBg` | `color` | Critical banner background |
-| `fontFamily` | `string` | Typography — Segoe UI Variable / WinUI type ramp |
-| `fontFamilyText` | `string` | Segoe UI Variable Text face |
+| `fontFamily` | `string` | Primary UI family (Segoe UI Variable when present) |
+| `fontFamilyText` | `string` | Segoe UI Variable Text face (primary name) |
 | `fontFamilyDisplay` | `string` | Segoe UI Variable Display face (large titles) |
+| `fontFamilies` | `list` | UI stack (Latin + CJK UI). Prefer `ThemeFonts.uiFontFor()` / app font — QML `font.families` needs Qt 6.9+ |
+| `fontFamiliesText` | `list` | Text-face stack + same CJK fallbacks |
+| `fontFamiliesDisplay` | `list` | Display-face stack + same CJK fallbacks |
 | `fontFamilyIcon` | `string` | Fluent Icons — system Segoe on Windows when present, else embedded WinSymbols3 ("Symbols") |
 | `iconFontFamily` | `string` | Alias used by a few tiles |
 | `fontFamilyMono` | `string` | Monospace — outline family from ThemeFonts (never generic "monospace" / Fixedsys) |

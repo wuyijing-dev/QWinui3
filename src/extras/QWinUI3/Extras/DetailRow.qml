@@ -71,7 +71,6 @@ T.Control {
             Layout.maximumWidth: root.labelWidth
             Layout.alignment: Qt.AlignVCenter
             text: root.label
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontBody
             font.weight: Theme.fontWeightSemiBold
             color: Theme.textSecondary
@@ -94,7 +93,6 @@ T.Control {
                 visible: trailingSlot.children.length === 0
                 horizontalAlignment: Text.AlignRight
                 text: root.value
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textPrimary
                 elide: Text.ElideRight

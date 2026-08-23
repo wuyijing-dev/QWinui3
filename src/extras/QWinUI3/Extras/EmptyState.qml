@@ -63,7 +63,6 @@ T.Control {
     implicitWidth: 320
     implicitHeight: column.implicitHeight + topPadding + bottomPadding
     padding: compact ? 16 : 24
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     Accessible.role: Accessible.Grouping
     Accessible.name: title
@@ -150,7 +149,6 @@ T.Control {
             Layout.alignment: Qt.AlignHCenter
             Layout.fillWidth: true
             text: root.title
-            font.family: Theme.fontFamilyDisplay
             font.pixelSize: root.compact ? Theme.fontBody : Theme.fontSubtitle
             font.weight: Theme.fontWeightSemiBold
             color: Theme.textPrimary

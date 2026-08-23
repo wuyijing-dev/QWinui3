@@ -196,7 +196,6 @@ Page {
                         delegate: Label {
                             required property var modelData
                             text: modelData.wave + " — " + modelData.theme + " (" + modelData.status + ")"
-                            font.family: Theme.fontFamily
                             font.pixelSize: Theme.fontCaption
                             color: Theme.textSecondary
                         }

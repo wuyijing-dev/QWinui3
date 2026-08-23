@@ -69,7 +69,6 @@ T.Control {
     implicitHeight: column.implicitHeight
     leftPadding: 0
     rightPadding: 0
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     Accessible.role: Accessible.EditableText
     Accessible.name: header.length ? header : qsTr("Password")

@@ -27,7 +27,6 @@ T.AbstractDayOfWeekRow {
     spacing: 2
     leftPadding: 8
     rightPadding: 8
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontCaption
 
     delegate: Item {

@@ -50,7 +50,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Shift+click a header to add a secondary sort. Use the checkboxes to hide columns. Resize columns — widths bind to columnWidths for Settings persistence.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -120,7 +119,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Loads 10 000 plain JS rows. Row virtualization stays on ListView + reuseItems with fixed rowHeight. Cap filter walk with maxFilterResults for interactive typing.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

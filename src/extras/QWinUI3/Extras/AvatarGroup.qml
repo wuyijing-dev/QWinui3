@@ -111,7 +111,6 @@ T.Control {
             Text {
                 anchors.centerIn: parent
                 text: "+" + root.overflowCount
-                font.family: Theme.fontFamily
                 font.pixelSize: Math.max(10, root.size * 0.32)
                 font.weight: Theme.fontWeightSemiBold
                 color: Theme.textSecondary

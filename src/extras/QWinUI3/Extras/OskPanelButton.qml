@@ -30,7 +30,6 @@ Item {
         id: capLabel
         anchors.centerIn: parent
         text: cap.label
-        font.family: Theme.fontFamily
         font.pixelSize: Theme.fontCaption
         color: cap.accent ? Theme.textOnAccent : Theme.textPrimary
     }

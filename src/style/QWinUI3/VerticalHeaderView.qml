@@ -67,7 +67,6 @@ T.VerticalHeaderView {
             text: model.display ?? ""
             elide: Text.ElideRight
             color: Theme.textSecondary
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             font.weight: Theme.fontWeightSemiBold
         }

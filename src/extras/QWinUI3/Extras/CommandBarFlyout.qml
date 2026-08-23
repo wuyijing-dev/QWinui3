@@ -183,7 +183,6 @@ T.Popup {
         default: return Item.Top
         }
     }
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
 
     implicitWidth: Math.max(200, contentItem.implicitWidth + leftPadding + rightPadding)

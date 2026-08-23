@@ -24,7 +24,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Ship Wide side-by-side above minWideWidth (default 720). Below that → SinglePane; use showPane1/showPane2 or ListDetailsView Back/Esc. NavigationView autoCompactThreshold is 1008 (rail only). Density is separate — docs/density.md. Full cheat sheet: docs/adaptive-layout.md.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

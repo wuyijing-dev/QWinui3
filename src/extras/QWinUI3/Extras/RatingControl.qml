@@ -162,7 +162,6 @@ T.Control {
         Text {
             visible: root.caption.length > 0
             text: root.caption
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             color: Theme.textSecondary
         }

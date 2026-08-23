@@ -226,7 +226,6 @@ T.Pane {
                 Text {
                     visible: root.title.length > 0
                     text: root.title
-                    font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontBody
                     font.weight: Theme.fontWeightSemiBold
                     color: Theme.textPrimary
@@ -236,7 +235,6 @@ T.Pane {
                 Text {
                     visible: root.description.length > 0
                     text: root.description
-                    font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontCaption
                     color: Theme.textSecondary
                     wrapMode: Text.Wrap

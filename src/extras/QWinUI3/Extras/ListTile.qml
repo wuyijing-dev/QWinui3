@@ -94,7 +94,6 @@ T.ItemDelegate {
     implicitWidth: 320
     implicitHeight: Math.max(control._rowMinHeight,
                              contentItem.implicitHeight + topPadding + bottomPadding)
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
 
     PointerCursor { shape: Qt.PointingHandCursor }

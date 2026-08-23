@@ -47,7 +47,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Tranche-1 sign-off: cap points per series (~500), coalesced redraws, one chart per ChartCard. docs/performance.md wave 8.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -61,7 +60,6 @@ CatalogPage {
             Layout.fillWidth: true
             wrapMode: Text.WordWrap
             text: qsTr("Before copying a deferred chart page into product code, run the decision tree — stable six only in shipping UI. Dashboard layout demo is embedded below.")
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontBody
             color: Theme.textSecondary
         }
@@ -76,7 +74,6 @@ CatalogPage {
             Layout.fillWidth: true
             wrapMode: Text.WordWrap
             text: qsTr("Production dashboards stay on the stable six. Deferred siblings below are Gallery-only comparisons — use compose recipes in docs/charts.md for shipping UI.")
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontBody
             color: Theme.textSecondary
         }
@@ -218,7 +215,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("StackedBarChart → multi-series LineChart with showArea. Same weekly mix as StackedBarChart page — stable path for composition dashboards.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textSecondary
             }
@@ -254,7 +250,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Production dashboards use the stable six only. These recipes replace deferred siblings without new stable names. Copy examples/dashboard for the full layout.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -320,7 +315,6 @@ CatalogPage {
             Layout.fillWidth: true
             wrapMode: Text.WordWrap
             text: qsTr("Stable Line/Bar/Donut charts coalesce canvas repaints (~16 ms) and skip reveal animation above ~500 points. ElevatedChrome defers MultiEffect one frame. Deferred Pie/Sparkline below load after first paint.")
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontBody
             color: Theme.textSecondary
         }
@@ -336,7 +330,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Stable six is frozen — no new chart names in 2.08. Full stable demos: LineChart, BarChart, DonutChart, RingGauge, KpiTile, ChartCard — embedded below and in Gauges hub.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -455,7 +448,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Sparkline remains a Gallery demo. Product inline trends: KpiTile.trendValues or compact LineChart (see compose recipes).")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textSecondary
             }

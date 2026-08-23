@@ -25,7 +25,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("revealThreshold — release distance to snap open (or invoke in execute mode). dragThreshold — pointer travel before horizontal drag engages. nestedScrollFriendly raises dragThreshold inside vertical lists so flick scroll wins. docs/touch-pointer.md SwipeControl deepen.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -94,7 +93,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Rows inside ScrollView use nestedScrollFriendly so vertical flick is not stolen by horizontal drag. Each row also exposes ⋯ overflow — swipe is not the only path.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -177,7 +175,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("TeachingTip coaches first swipe — not a substitute for overflow/menu. Persist dismissed state with Settings or OnboardingCoach (docs/feedback.md).")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

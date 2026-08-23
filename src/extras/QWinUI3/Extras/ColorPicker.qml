@@ -73,7 +73,6 @@ T.Control {
     implicitWidth: 312
     implicitHeight: column.implicitHeight + topPadding + bottomPadding
     padding: 12
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     Accessible.role: Accessible.Dial
     Accessible.name: qsTr("Color picker")

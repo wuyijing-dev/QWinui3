@@ -78,7 +78,6 @@ T.Control {
                 id: vLabel
                 width: parent.width
                 text: root.label
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textSecondary
                 elide: Text.ElideRight
@@ -87,7 +86,6 @@ T.Control {
                 id: vValue
                 width: parent.width
                 text: root.value
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: root.valueColor
                 wrapMode: Text.Wrap
@@ -97,7 +95,6 @@ T.Control {
                 visible: root.secondary.length > 0
                 width: parent.width
                 text: root.secondary
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textSecondary
                 wrapMode: Text.Wrap
@@ -114,14 +111,12 @@ T.Control {
             Text {
                 id: hLabel
                 text: root.label
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
             Text {
                 id: hValue
                 text: root.value
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 font.weight: Theme.fontWeightSemiBold
                 color: root.valueColor
@@ -130,7 +125,6 @@ T.Control {
                 id: hSec
                 visible: root.secondary.length > 0
                 text: root.secondary
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textSecondary
             }

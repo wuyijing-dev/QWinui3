@@ -26,7 +26,6 @@ T.SpinBox {
 
     leftPadding: Theme.paddingControlH
     rightPadding: up.indicator.width + 4
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     editable: true
     hoverEnabled: true

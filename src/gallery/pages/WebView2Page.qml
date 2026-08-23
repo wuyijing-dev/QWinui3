@@ -96,7 +96,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("WebView2Host does not enforce navigation policy. This page gates the URL field with an allowlist (Microsoft hosts only). User data: AppLocalDataLocation/WebView2Host. Patterns A–C: docs/security-trust.md.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -113,7 +112,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("WebView2Host does not intercept DownloadStarting. Policy D: this page’s host allowlist blocks most drive-by download hosts. Policy E: use explicit buttons + hostAllowed before Qt.openUrlExternally. Policy F: native handler + AppDataLocation — not in the kit.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

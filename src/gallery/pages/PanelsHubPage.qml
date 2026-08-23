@@ -18,7 +18,6 @@ CatalogPage {
             Layout.fillWidth: true
             wrapMode: Text.WordWrap
             text: qsTr("Layout primitives for stacking, wrapping, docking, and relative positioning. Each demo below is the full Gallery page.")
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontBody
             color: Theme.textSecondary
         }

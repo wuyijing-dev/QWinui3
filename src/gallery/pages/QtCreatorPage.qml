@@ -37,7 +37,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Use the root CMakeLists.txt only. Pick a Qt 6.5+ kit (6.8 recommended): MSVC 2022 x64 on Windows, gcc_64 on Linux. Configure Release. Build target qwinui3_gallery.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -93,7 +92,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Presets examples / example-nav-settings / example-master-detail / example-form-settings / example-dashboard / example-settings-cards build the copy-ready apps under examples/. See Examples templates page and docs/qt-creator.md.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -120,7 +118,6 @@ CatalogPage {
             Layout.fillWidth: true
             wrapMode: Text.WordWrap
             text: qsTr("Third-party apps: open your app CMakeLists (Path C add_subdirectory) or point QWINUI3_ROOT at a shared zip (Path A). Full recipe on Consumer packaging page / docs/packaging-consumer.md.")
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontBody
             color: Theme.textSecondary
         }

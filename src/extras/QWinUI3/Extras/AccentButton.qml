@@ -55,7 +55,6 @@ Button {
     implicitHeight: Theme.controlHeight
     leftPadding: Theme.paddingControlH
     rightPadding: Theme.paddingControlH
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     hoverEnabled: true
 

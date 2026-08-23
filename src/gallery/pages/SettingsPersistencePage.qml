@@ -39,7 +39,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Keep window geometry on geometryPersistenceKey (kit schema). Put theme, toggles, and coach flags in QtCore Settings or your QSettings. Portable = Ini beside the exe. “Roaming” = copy Ini / export JSON — not a cloud product. Example: examples/form-settings.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

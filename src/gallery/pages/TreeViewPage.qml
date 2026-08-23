@@ -25,7 +25,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Click the chevron or row to expand. Keyboard ←/→ collapses or expands. Full selection + context menu: TreeView recipe page.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textSecondary
             }

@@ -51,7 +51,6 @@ CatalogPage {
             Layout.fillWidth: true
             wrapMode: Text.WordWrap
             text: qsTr("Contacts and albums need a thumbnail grid and a letter index without duplicating selection state across two ItemsViews. SemanticZoom hosts zoomed-in / zoomed-out content with one model, selectedIndex, and selectGroup() — not generic map zoom.")
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontBody
             color: Theme.textSecondary
         }

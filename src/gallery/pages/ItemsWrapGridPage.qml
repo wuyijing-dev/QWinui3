@@ -40,7 +40,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("ItemsWrapGrid uses WrapPanel + Repeater — not virtualized. Debounce filterText (filterDebounceMs default 120). Cap tile count at low hundreds; use ItemsView or DataTable at scale. docs/performance.md wave 8 · docs/perf-signoff-2xx.md.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -127,7 +126,6 @@ CatalogPage {
                     Text {
                         anchors.centerIn: parent
                         text: modelData.label
-                        font.family: Theme.fontFamily
                         font.pixelSize: Theme.fontCaption
                         color: Theme.textPrimary
                     }

@@ -104,7 +104,6 @@ T.Control {
             Text {
                 width: parent.width - valueLabel.width - (deltaLabel.visible ? deltaLabel.width + 8 : 0)
                 text: root.label
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textSecondary
                 elide: Text.ElideRight
@@ -113,7 +112,6 @@ T.Control {
                 id: deltaLabel
                 visible: root.showTargetDelta
                 text: root.formattedDelta
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 font.weight: Theme.fontWeightSemiBold
                 color: root.targetMet ? Theme.systemSuccess : Theme.systemCritical
@@ -123,7 +121,6 @@ T.Control {
                 id: valueLabel
                 visible: root.showValueText
                 text: root.formattedValue
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 font.weight: Theme.fontWeightSemiBold
                 color: Theme.textPrimary

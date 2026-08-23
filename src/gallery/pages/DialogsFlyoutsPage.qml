@@ -21,7 +21,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("ContentDialog (+ ContentDialogQueue) for confirms and multi-step save/export chains. Flyout for short contextual UI. TeachingTip for coach marks. Drawer for edge navigation. MenuFlyout for action lists — see Commands hub.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

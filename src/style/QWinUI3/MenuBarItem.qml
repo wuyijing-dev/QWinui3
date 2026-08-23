@@ -25,7 +25,6 @@ T.MenuBarItem {
     implicitHeight: 32
 
     padding: 8
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     hoverEnabled: true
 

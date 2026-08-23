@@ -211,7 +211,6 @@ T.Control {
                 Text {
                     Layout.fillWidth: true
                     text: qsTr("Notifications")
-                    font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontTitle
                     font.weight: Theme.fontWeightSemiBold
                     color: Theme.textPrimary
@@ -271,7 +270,6 @@ T.Control {
                                 Layout.leftMargin: Theme.spacingSection
                                 Layout.rightMargin: Theme.spacingSection
                                 text: modelData.category
-                                font.family: Theme.fontFamily
                                 font.pixelSize: Theme.fontCaption
                                 font.weight: Theme.fontWeightSemiBold
                                 color: Theme.textSecondary

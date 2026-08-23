@@ -24,7 +24,6 @@ T.ToolBar {
     implicitHeight: 48
     padding: 4
     spacing: Theme.spacing
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
 
     background: Rectangle {

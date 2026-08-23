@@ -109,7 +109,6 @@ T.Control {
             visible: root.header.length > 0
             Layout.fillWidth: true
             text: root.header
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontBody
             font.weight: Theme.fontWeightSemiBold
             color: root.enabled ? Theme.textPrimary : Theme.textDisabled
@@ -119,7 +118,6 @@ T.Control {
             visible: root.description.length > 0 && !root.hasError
             Layout.fillWidth: true
             text: root.description
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             color: root.enabled ? Theme.textSecondary : Theme.textDisabled
             wrapMode: Text.Wrap
@@ -302,7 +300,6 @@ T.Control {
             visible: root.errorMessage.length > 0
             Layout.fillWidth: true
             text: root.errorMessage
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontCaption
             color: Theme.systemCritical
             wrapMode: Text.Wrap

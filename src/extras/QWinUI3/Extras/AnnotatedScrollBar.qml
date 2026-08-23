@@ -314,7 +314,6 @@ T.Control {
                 Text {
                     anchors.horizontalCenter: parent.horizontalCenter
                     text: root.currentLabel
-                    font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontCaption
                     font.weight: Theme.fontWeightSemiBold
                     color: Theme.textPrimary
@@ -323,7 +322,6 @@ T.Control {
                     visible: root._bubbleDetail.length > 0
                     anchors.horizontalCenter: parent.horizontalCenter
                     text: root._bubbleDetail
-                    font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontCaption - 1
                     color: Theme.textSecondary
                 }

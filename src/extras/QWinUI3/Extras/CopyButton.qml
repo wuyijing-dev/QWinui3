@@ -55,7 +55,6 @@ T.AbstractButton {
     padding: 6
     hoverEnabled: true
     focusPolicy: Qt.StrongFocus
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontCaption
     text: iconOnly ? "" : (copied ? qsTr("Copied") : qsTr("Copy"))
     Accessible.role: Accessible.Button

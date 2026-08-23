@@ -86,7 +86,6 @@ T.Control {
             Text {
                 Layout.fillWidth: true
                 text: root.title
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 font.weight: Theme.fontWeightSemiBold
                 color: Theme.textPrimary
@@ -101,7 +100,6 @@ T.Control {
                 Layout.fillWidth: true
                 Layout.leftMargin: 24
                 text: "• " + modelData
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textPrimary
                 wrapMode: Text.WordWrap

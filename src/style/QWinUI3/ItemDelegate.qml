@@ -36,7 +36,6 @@ T.ItemDelegate {
     topPadding: 6
     bottomPadding: 6
     spacing: 12
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     hoverEnabled: true
     icon.width: 16

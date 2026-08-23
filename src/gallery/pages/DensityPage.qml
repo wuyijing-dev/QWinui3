@@ -30,7 +30,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Density and uiScale adjust control height, spacing, and type. Change them on Theme overrides or Settings. Narrow shells: NavigationView paneDisplayMode auto / ListDetailsView at ~720px — docs/density.md · docs/adaptive-layout.md. Finger-first: docs/touch-pointer.md (prefer standard density).")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -75,7 +74,6 @@ CatalogPage {
             wrapMode: Text.WordWrap
             color: Theme.textSecondary
             text: qsTr("Use auto/compact/overlay pane modes under ~1008px. TwoPaneView + ListDetailsView switch at ~720. Keep touch targets ≥ Theme.controlHeight when scaling down — docs/touch-pointer.md (1.57).")
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontBody
         }
     }

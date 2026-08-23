@@ -58,7 +58,6 @@ ColumnLayout {
         visible: root.showMatchCount && root.dataTable
         Layout.fillWidth: true
         color: Theme.textSecondary
-        font.family: Theme.fontFamily
         font.pixelSize: Theme.fontCaption
 
         text: root.dataTable.rowCount + " " + qsTr("rows match")

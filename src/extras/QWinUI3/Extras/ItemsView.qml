@@ -536,7 +536,6 @@ T.Control {
                 anchors.rightMargin: 16
                 verticalAlignment: Text.AlignVCenter
                 text: parent.section
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 font.weight: Theme.fontWeightSemiBold
                 color: Theme.textSecondary

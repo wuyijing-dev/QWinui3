@@ -286,7 +286,6 @@ T.Control {
             Text {
                 visible: control.title.length > 0
                 text: control.title
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 font.weight: Theme.fontWeightSemiBold
                 color: Theme.textPrimary
@@ -295,7 +294,6 @@ T.Control {
             }
             Text {
                 text: control.message
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textPrimary
                 Layout.fillWidth: true

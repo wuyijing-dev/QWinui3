@@ -242,7 +242,6 @@ T.Control {
                     color: root.enabled ? Theme.textPrimary : Theme.textDisabled
                     selectionColor: Theme.accent
                     selectedTextColor: Theme.textOnAccent
-                    font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontBody
 
                     onLinkActivated: function (link) {
@@ -267,7 +266,6 @@ T.Control {
                 text: root.placeholderText
                 visible: !editor.text.length && !editor.activeFocus
                 color: Theme.textSecondary
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 wrapMode: Text.WordWrap
             }

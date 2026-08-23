@@ -65,7 +65,6 @@ T.Control {
     spacing: Theme.spacingLoose
     implicitWidth: 320
     implicitHeight: list.implicitHeight + topPadding + bottomPadding
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     focusPolicy: isInteractive ? Qt.StrongFocus : Qt.NoFocus
     activeFocusOnTab: isInteractive
@@ -171,14 +170,12 @@ T.Control {
                     Text {
                         visible: !!(modelData.time)
                         text: modelData.time || ""
-                        font.family: Theme.fontFamily
                         font.pixelSize: Theme.fontCaption
                         color: Theme.textSecondary
                     }
                     Text {
                         width: parent.width
                         text: modelData.title || ""
-                        font.family: Theme.fontFamily
                         font.pixelSize: Theme.fontBody
                         font.weight: row.isActive ? Theme.fontWeightSemiBold : Theme.fontWeightRegular
                         color: Theme.textPrimary
@@ -188,7 +185,6 @@ T.Control {
                         visible: !!(modelData.subtitle)
                         width: parent.width
                         text: modelData.subtitle || ""
-                        font.family: Theme.fontFamily
                         font.pixelSize: Theme.fontCaption
                         color: Theme.textSecondary
                         wrapMode: Text.Wrap

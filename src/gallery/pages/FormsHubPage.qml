@@ -18,7 +18,6 @@ CatalogPage {
             Layout.fillWidth: true
             wrapMode: Text.WordWrap
             text: qsTr("FormLayout for labeled fields with errorMessage / clear / collect. SettingsCard / SettingsExpander for preference rows. Pair Date/Time/Number pickers with description + hasError in forms.")
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontBody
             color: Theme.textSecondary
         }

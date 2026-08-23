@@ -39,7 +39,6 @@ T.Dial {
 
     implicitWidth: 120
     implicitHeight: title.length || showValue ? 148 : 120
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     hoverEnabled: true
     wheelEnabled: true
@@ -163,7 +162,6 @@ T.Dial {
                 anchors.horizontalCenter: parent.horizontalCenter
                 visible: control.title.length > 0
                 text: control.title
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textSecondary
             }
@@ -171,7 +169,6 @@ T.Dial {
                 anchors.horizontalCenter: parent.horizontalCenter
                 visible: control.showValue
                 text: control.formattedValue
-                font.family: Theme.fontFamilyDisplay
                 font.pixelSize: Theme.fontBody
                 font.weight: Theme.fontWeightSemiBold
                 color: Theme.textPrimary

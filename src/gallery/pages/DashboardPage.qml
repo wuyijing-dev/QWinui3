@@ -74,7 +74,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("DashboardShell exposes chartColumns / filterBreakpoint. Optional filterPane uses TwoPaneView (wide ≥ 720). See examples/dashboard.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -101,7 +100,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Friction slot 2.48: pick stable six in product — deferred siblings only in Gallery demos. Sparkline → KpiTile.trendValues; AreaChart → LineChart.showArea; PieChart → DonutChart; Tank/Thermometer → RingGauge. Full tree: docs/dashboard-compose-decision.md.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -153,7 +151,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Named FluentIcons on KPI tiles and ChartCard headers — scanability without extra assets. Recipe: docs/planning/expansion/icons-dashboard-expansion.md.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -213,7 +210,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Matches examples/dashboard: DashboardShell filter rail, MetricCompareRow, LineChart brush zoom, ChartCard export, ChartEmptyState, DonutChart legendPosition, RingGauge valueFormat.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -415,7 +411,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("TankGauge / ThermometerGauge and other sibling gauges stay experimental permanently (2.08). Product dashboards: RingGauge + stable six. Compose table: docs/charts.md.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

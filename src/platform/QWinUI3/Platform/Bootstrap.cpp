@@ -61,6 +61,7 @@ void configureApplication(const QString &appId)
 {
     QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
     ThemeFonts::ensureLoaded();
+    ThemeFonts::applyApplicationFont();
 
     if (appId.isEmpty())
         return;

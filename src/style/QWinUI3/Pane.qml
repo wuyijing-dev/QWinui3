@@ -31,7 +31,6 @@ T.Pane {
                              contentHeight + topPadding + bottomPadding)
 
     padding: Theme.spacingLoose
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
 
     // WinUI ContentPresenter stretch: give text-like children the content width

@@ -27,7 +27,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Visible Copy affordance → CopyButton. Menus / CommandPalette / code → WindowHelper.copyText. Paste actions → WindowHelper.clipboardText (TextField still handles Ctrl+V). Full recipe: docs/drag-drop.md.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

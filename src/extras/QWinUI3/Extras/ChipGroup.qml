@@ -101,7 +101,6 @@ T.Control {
 
     implicitWidth: row.implicitWidth
     implicitHeight: Math.max(Theme.controlHeight - 4, row.implicitHeight)
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontCaption
     focusPolicy: _selectable ? Qt.StrongFocus : Qt.NoFocus
     activeFocusOnTab: _selectable

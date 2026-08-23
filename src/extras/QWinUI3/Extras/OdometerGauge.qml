@@ -55,7 +55,6 @@ T.Control {
                 Layout.fillWidth: true
                 horizontalAlignment: Text.AlignRight
                 text: root.formattedTotal
-                font.family: Theme.fontFamilyDisplay
                 font.pixelSize: Theme.fontBody
                 font.weight: Theme.fontWeightSemiBold
                 color: Theme.textPrimary

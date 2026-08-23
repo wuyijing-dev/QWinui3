@@ -56,7 +56,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("TreeView + DataTable alone do not share selection, keyboard focus, or folder→file wiring. FileTree composes both for Explorer-style apps. For multi-column hierarchical rows in one grid, use TreeDataGrid (2.21).")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -64,7 +63,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Keyboard: tree ↑/↓/←/→ · Tab switches tree ↔ file table · table arrows / sort / filter per DataTable.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textPrimary
             }
@@ -134,7 +132,6 @@ CatalogPage {
             Layout.fillWidth: true
             wrapMode: Text.WordWrap
             text: qsTr("2.64: checkboxes above the file table toggle hiddenColumnRoles. Bind filterText to share the DataTable filter with app chrome. docs/collection-perf-264.md")
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontBody
             color: Theme.textSecondary
         }
@@ -147,7 +144,6 @@ CatalogPage {
             Layout.fillWidth: true
             wrapMode: Text.WordWrap
             text: qsTr("FileTree embeds DataTable for the file list — inherit debounced filter and maxFilterResults on the table side. Folder tree selection switches catalogs; do not rebuild the entire tree model on every filter keystroke. docs/performance.md wave 7 · docs/tree-data.md.")
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontBody
             color: Theme.textSecondary
         }
@@ -160,7 +156,6 @@ CatalogPage {
             Layout.fillWidth: true
             wrapMode: Text.WordWrap
             text: qsTr("FileTree displays folder labels and row objects you supply — it does not validate paths. The Downloads folder demo includes installer.exe to show risky filenames in UI; production apps must extension-filter and confirm before open/reveal/execute. See docs/security-trust.md wave 3.")
-            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontBody
             color: Theme.textSecondary
         }
@@ -176,7 +171,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Folder-only hierarchy: TreeView recipe. Flat columns without tree: DataTable. List + reading pane: ListDetailsView.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

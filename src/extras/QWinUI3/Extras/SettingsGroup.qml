@@ -74,7 +74,6 @@ T.Control {
                     Layout.fillWidth: true
                     visible: root.title.length > 0
                     text: root.title
-                    font.family: Theme.fontFamily
                     font.pixelSize: Theme.fontBodyLarge
                     font.weight: Theme.fontWeightSemiBold
                     color: Theme.textPrimary
@@ -86,7 +85,6 @@ T.Control {
                 Layout.fillWidth: true
                 visible: root.description.length > 0
                 text: root.description
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textSecondary
                 wrapMode: Text.WordWrap

@@ -29,7 +29,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Prefer examples/first-app for the first hour (2.52), then gallery-shell for Settings. Floating OSK: examples/floating-osk (1.84). Multi-window: examples/multi-window (1.56). find_package: examples/find-package-consumer (1.61). CI smoke turns examples off for speed. Qt Creator: open the repo root.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

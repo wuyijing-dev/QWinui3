@@ -63,7 +63,6 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Wire BreadcrumbBar to NavigationView.breadcrumbModelForKey(currentKey). Clicks call selectBreadcrumbIndex — group crumbs jump to the first child. Set NavigationWindow.syncSubtitleFromNavigation for ShellWindow subtitle sync.")
-                font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textSecondary
             }

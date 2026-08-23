@@ -183,12 +183,22 @@ QtObject {
     // Critical banner background
     readonly property color systemCriticalBg: dark ? "#FF442726" : "#FFFDE7E9"
 
-    // Typography — Segoe UI Variable / WinUI type ramp
-    readonly property string fontFamily: "Segoe UI Variable"
-    // Segoe UI Variable Text face
-    readonly property string fontFamilyText: "Segoe UI Variable Text"
+    // Typography — Segoe UI Variable / WinUI type ramp (+ CJK UI fallbacks via ThemeFonts)
+    readonly property string fontFamily: ThemeFonts.uiFamily
+    // Segoe UI Variable Text face (primary name; use fontFamiliesText for CJK)
+    readonly property string fontFamilyText: {
+        var list = ThemeFonts.textFamilies
+        return list.length ? list[0] : ThemeFonts.uiFamily
+    }
     // Segoe UI Variable Display face (large titles)
-    readonly property string fontFamilyDisplay: "Segoe UI Variable Display"
+    readonly property string fontFamilyDisplay: {
+        var list = ThemeFonts.displayFamilies
+        return list.length ? list[0] : ThemeFonts.uiFamily
+    }
+    // Full stacks — set font.families so Chinese uses Microsoft YaHei UI (WinUI), not SimSun
+    readonly property var fontFamilies: ThemeFonts.uiFamilies
+    readonly property var fontFamiliesText: ThemeFonts.textFamilies
+    readonly property var fontFamiliesDisplay: ThemeFonts.displayFamilies
     // Fluent Icons — system Segoe on Windows when present, else embedded WinSymbols3 ("Symbols")
     readonly property string fontFamilyIcon: ThemeFonts.iconFamily
     // Alias used by a few tiles

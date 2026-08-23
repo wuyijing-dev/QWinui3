@@ -30,7 +30,6 @@ T.Menu {
     rightPadding: 5
     bottomPadding: 5
     overlap: 4
-    font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     transformOrigin: Item.Top
 
