@@ -2,13 +2,14 @@
 
 // QWinUI3 Qt version / capability macros.
 //
-// Floor: Qt 6.5. Recommended: Qt 6.8 LTS. Forward: Qt 6.10+.
+// Floor: Qt 6.5. Recommended: Qt 6.8 LTS. Forward: Qt 6.10 / 6.11+.
 // Prefer these macros (or Compat helpers) over scattering #if QT_VERSION in app code.
 //
 // Capability table (compile-time / CMake):
-//   Core Quick / Controls2 / LabsQmlModels | 6.5 | 6.8 | 6.10+
-//   RHI Direct3D12 (QWINUI3_HAVE_RHI_D3D12)| 6.6+|  yes |  yes
-//   QtQuick.Effects (QWINUI3_HAVE_QUICK_EFFECTS) | probe | yes | yes
+//   Core Quick / Controls2 / LabsQmlModels | 6.5 | 6.8 | 6.10+ | 6.11+
+//   RHI Direct3D12 (QWINUI3_HAVE_RHI_D3D12)| 6.6+|  yes |  yes  |  yes
+//   QtQuick.Effects (QWINUI3_HAVE_QUICK_EFFECTS) | probe | yes | yes | yes
+//   High-DPI rounding (QtCompatDpi.h) | PassThrough kit default — same on all | RoundPreferCeil name→Ceil alias on 6.11+
 
 #include <QtGlobal>
 

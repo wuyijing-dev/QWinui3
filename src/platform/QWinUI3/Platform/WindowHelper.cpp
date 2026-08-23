@@ -1,6 +1,7 @@
 #include "WindowHelper.h"
 #include "LinuxPortal.h"
 
+#include <QWinUI3/Compat/QtCompatDpi.h>
 #include <QWinUI3/Compat/QtCompatEffects.h>
 #include <QWinUI3/Compat/QtCompatQml.h>
 #include <QWinUI3/Compat/QtCompatVersion.h>
@@ -340,21 +341,9 @@ qreal WindowHelper::devicePixelRatioForWindow(QObject *windowObject) const
 
 QString WindowHelper::highDpiScaleFactorRoundingPolicy() const
 {
-    switch (QGuiApplication::highDpiScaleFactorRoundingPolicy()) {
-    case Qt::HighDpiScaleFactorRoundingPolicy::PassThrough:
-        return QStringLiteral("PassThrough");
-    case Qt::HighDpiScaleFactorRoundingPolicy::Round:
-        return QStringLiteral("Round");
-    case Qt::HighDpiScaleFactorRoundingPolicy::Ceil:
-        return QStringLiteral("Ceil");
-    case Qt::HighDpiScaleFactorRoundingPolicy::Floor:
-        return QStringLiteral("Floor");
-    case Qt::HighDpiScaleFactorRoundingPolicy::RoundPreferFloor:
-        return QStringLiteral("RoundPreferFloor");
-    // RoundPreferCeil existed briefly in some 6.9/6.10 previews but is not in
-    // Qt 6.11+ HighDpiScaleFactorRoundingPolicy (Round/Ceil/Floor/RoundPreferFloor/PassThrough).
-    }
-    return QStringLiteral("Unknown");
+    // Stable names on Qt 6.5 … 6.11+ (RoundPreferCeil → Ceil alias in Compat).
+    return QWinUI3::Compat::Dpi::policyName(
+            QGuiApplication::highDpiScaleFactorRoundingPolicy());
 }
 
 void WindowHelper::notifyDisplayMetricsChanged()

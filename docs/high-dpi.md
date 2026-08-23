@@ -17,6 +17,7 @@ Gallery: **High-DPI & monitors** · **Window shells** · **System integration** 
 | `WindowHelper.devicePixelRatio` | **Primary** screen DPR | Primary DPR | Diagnostics only — prefer per-window API |
 | `devicePixelRatioForWindow(w)` | That window’s screen DPR | Same | Use after restore / drag across monitors |
 | Fractional scale | Per-monitor awareness | Wayland: Bootstrap `PassThrough` | [platform-linux-wayland.md](platform-linux-wayland.md) · **2.15** `fractionalScale` readout |
+| Scale-factor rounding policy | `PassThrough` (kit default) | Same via `Compat::Dpi::applyKitPolicyEarly` | Stable on **Qt 6.5…6.11+**. Name alias: `RoundPreferCeil` → `Ceil` (Qt 6.11 removed that enumerator). See `QtCompatDpi.h`. |
 | Geometry restore | Clamp + **setScreen** (1.58) | Clamp + setScreen | See [restore recipe](#geometry-restore-recipe) |
 | Caption hit-test | Screen-logical `mapToGlobal` × DPR | QML caption (no NC) | Re-report on `screensChanged` |
 | Mica / Acrylic after DPI change | Reapply on `WM_DPICHANGED` | Coerced → Solid | Pin OpenGL for frost — [graphics-backend.md](graphics-backend.md) |

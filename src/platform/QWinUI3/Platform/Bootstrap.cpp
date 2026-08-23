@@ -2,6 +2,7 @@
 #include "WelcomeBanner.h"
 #include "WindowHelper.h"
 
+#include <QWinUI3/Compat/QtCompatDpi.h>
 #include <QWinUI3/Compat/QtCompatRhi.h>
 
 #include <QCoreApplication>
@@ -30,13 +31,8 @@ void sanitizeWindowsQpa()
 
 void applyHighDpiPolicyEarly()
 {
-    // Must run before QGuiApplication. Prefer the API over the env var: during
-    // QGuiApplication construction instance() is already non-null, so re-applying
-    // QT_SCALE_FACTOR_ROUNDING_POLICY from the environment warns.
-    if (QCoreApplication::instance())
-        return;
-    QGuiApplication::setHighDpiScaleFactorRoundingPolicy(
-            Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
+    // Same PassThrough on Qt 6.5 … 6.11+ (see QtCompatDpi.h).
+    Compat::Dpi::applyKitPolicyEarly();
 }
 
 } // namespace
