@@ -184,22 +184,93 @@ def _cmd_init(args: argparse.Namespace) -> int:
 
 
 
-def _find_cwd_exe(build_dir: Path) -> Path | None:
+_RUN_EXE_SKIP = (
+    "cmake",
+    "cpack",
+    "ctest",
+    "moc",
+    "rcc",
+    "uic",
+    "qmlcachegen",
+    "qwinui3_gallery",
+    "qwinui3_styleplugin",
+    "qwinui3_themeplugin",
+    "qwinui3_extrasplugin",
+    "qwinui3_platformplugin",
+)
+
+
+def _cmake_app_exe_stems(cmake_lists: Path) -> list[str]:
+    """Prefer qt_add_executable / add_executable names from the consumer CMakeLists."""
+    if not cmake_lists.is_file():
+        return []
+    text = cmake_lists.read_text(encoding="utf-8", errors="replace")
+    stems: list[str] = []
+    for m in re.finditer(
+        r"(?:qt_add_executable|add_executable)\s*\(\s*([A-Za-z0-9_.-]+)",
+        text,
+    ):
+        stem = m.group(1)
+        if stem.lower() not in {s.lower() for s in stems}:
+            stems.append(stem)
+    return stems
+
+
+def _score_run_exe(path: Path, preferred: list[str]) -> tuple[int, float]:
+    """Higher score wins; break ties with newer mtime."""
+    stem = path.stem.lower()
+    name = path.name.lower()
+    score = 0
+    for i, pref in enumerate(preferred):
+        if stem == pref.lower():
+            score = 1000 - i
+            break
+        if pref.lower() in stem:
+            score = max(score, 500 - i)
+    if "gallery" in stem or "plugin" in stem:
+        score -= 200
+    if "test" in stem or "smoke" in stem:
+        score -= 100
+    # Prefer top-level / Release over nested qwinui3 build trees.
+    depth = len(path.parts)
+    score -= min(depth, 40)
+    return score, path.stat().st_mtime
+
+
+def _find_cwd_exe(build_dir: Path, *, preferred: list[str] | None = None) -> Path | None:
+    preferred = preferred or []
     names: list[Path] = []
     if sys.platform.startswith("win"):
         names = list(build_dir.glob("*.exe"))
         release = build_dir / "Release"
         if release.is_dir():
             names += list(release.glob("*.exe"))
+        # Multi-config / nested outputs without walking all of CMakeFiles.
+        for cand in build_dir.rglob("*.exe"):
+            if "CMakeFiles" in cand.parts:
+                continue
+            names.append(cand)
     elif build_dir.is_dir():
-        for cand in build_dir.iterdir():
-            if cand.is_file() and os.access(cand, os.X_OK) and not cand.suffix:
+        for cand in build_dir.rglob("*"):
+            if (
+                cand.is_file()
+                and os.access(cand, os.X_OK)
+                and not cand.suffix
+                and "CMakeFiles" not in cand.parts
+            ):
                 names.append(cand)
-    skip = ("cmake", "cpack", "ctest", "moc", "rcc", "uic", "qmlcachegen")
-    candidates = [p for p in names if p.is_file() and not any(s in p.name.lower() for s in skip)]
+    candidates = [
+        p
+        for p in names
+        if p.is_file() and not any(s in p.name.lower() for s in _RUN_EXE_SKIP)
+    ]
     if not candidates:
         return None
-    return max(candidates, key=lambda p: p.stat().st_mtime)
+    # De-dupe by resolve path
+    uniq: dict[Path, Path] = {}
+    for p in candidates:
+        uniq[p.resolve()] = p
+    return max(uniq.values(), key=lambda p: _score_run_exe(p, preferred))
 
 
 def _cmd_run(args: argparse.Namespace) -> int:
@@ -222,6 +293,7 @@ def _cmd_run(args: argparse.Namespace) -> int:
         return 1
 
     build_dir = (args.build_dir or (cwd / "build")).resolve()
+    preferred = _cmake_app_exe_stems(cmake)
     if not (build_dir / "CMakeCache.txt").is_file():
         cfg = [
             "cmake",
@@ -245,24 +317,11 @@ def _cmd_run(args: argparse.Namespace) -> int:
         print("error: build failed", file=sys.stderr)
         return rc
 
-    exe = _find_cwd_exe(build_dir)
-    if exe is None:
-        if sys.platform.startswith("win"):
-            found = list(build_dir.rglob("*.exe"))
-        else:
-            found = [
-                cand
-                for cand in build_dir.rglob("*")
-                if cand.is_file()
-                and os.access(cand, os.X_OK)
-                and not cand.suffix
-                and "CMakeFiles" not in str(cand)
-            ]
-        skip = ("cmake", "cpack", "ctest", "moc", "rcc", "uic")
-        found = [cand for cand in found if not any(s in cand.name.lower() for s in skip)]
-        exe = max(found, key=lambda p: p.stat().st_mtime) if found else None
+    exe = _find_cwd_exe(build_dir, preferred=preferred)
     if exe is None:
         print("error: no executable found after Release build", file=sys.stderr)
+        if preferred:
+            print(f"hint: looked for CMake targets {preferred}", file=sys.stderr)
         return 1
 
     env = os.environ.copy()
