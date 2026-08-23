@@ -8,6 +8,7 @@
 #include <QGuiApplication>
 #include <QQuickWindow>
 #include <QStandardPaths>
+#include <QWheelEvent>
 #include <algorithm>
 #include <cmath>
 
@@ -313,6 +314,25 @@ public:
     {
         if (controller)
             controller->MoveFocus(COREWEBVIEW2_MOVE_FOCUS_REASON_PROGRAMMATIC);
+    }
+
+    bool forwardWheel(const QWheelEvent *event) const
+    {
+        if (!childHwnd || !ready || !event)
+            return false;
+        const int delta = event->angleDelta().y();
+        if (delta == 0)
+            return false;
+        const QPoint gp = event->globalPosition().toPoint();
+        int keys = 0;
+        if (event->modifiers() & Qt::ControlModifier)
+            keys |= MK_CONTROL;
+        if (event->modifiers() & Qt::ShiftModifier)
+            keys |= MK_SHIFT;
+        const WPARAM wParam = MAKEWPARAM(keys, static_cast<short>(delta));
+        const LPARAM lParam = MAKELPARAM(gp.x(), gp.y());
+        SendMessageW(childHwnd, WM_MOUSEWHEEL, wParam, lParam);
+        return true;
     }
 
     void moveFocusOut()
@@ -702,4 +722,15 @@ void WebView2Host::focusOutEvent(QFocusEvent *event)
 {
     QQuickItem::focusOutEvent(event);
     applyBrowserFocus(false);
+}
+
+void WebView2Host::wheelEvent(QWheelEvent *event)
+{
+#if QWINUI3_WEBVIEW2_IMPL
+    if (m_impl && m_ready && m_impl->forwardWheel(event)) {
+        event->accept();
+        return;
+    }
+#endif
+    QQuickItem::wheelEvent(event);
 }

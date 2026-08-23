@@ -11,6 +11,7 @@
 #endif
 
 class QQuickWindow;
+class QWheelEvent;
 
 // WebView2Host — HWND-backed Edge WebView2 under a QQuickItem (Windows only).
 //
@@ -106,6 +107,7 @@ protected:
     void componentComplete() override;
     void focusInEvent(QFocusEvent *event) override;
     void focusOutEvent(QFocusEvent *event) override;
+    void wheelEvent(QWheelEvent *event) override;
 
 private:
     void setStatus(const QString &msg);
