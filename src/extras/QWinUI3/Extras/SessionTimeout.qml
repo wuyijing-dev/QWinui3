@@ -12,6 +12,7 @@ import QtQuick
 //
 // @notes
 //   Shell owns activity hooks — this type only times out.
+//   remainingMs updates on the tick so QML bindings stay live.
 
 QtObject {
     id: root
@@ -20,18 +21,19 @@ QtObject {
     property int idleMs: 5 * 60 * 1000
     property int warningMs: 30 * 1000
 
+    property bool _warned: false
+    property real _lastActivity: Date.now()
+    property int remainingMs: idleMs
+
     readonly property bool warningActive: _warned
-    readonly property int remainingMs: Math.max(0, idleMs - (Date.now() - _lastActivity))
 
     signal warning()
     signal timedOut()
     signal resumed()
 
-    property bool _warned: false
-    property real _lastActivity: Date.now()
-
     function poke() {
         _lastActivity = Date.now()
+        remainingMs = Math.max(0, idleMs)
         if (_warned) {
             _warned = false
             resumed()
@@ -56,13 +58,16 @@ QtObject {
             if (!root.enabled)
                 return
             var elapsed = Date.now() - root._lastActivity
-            var warnAt = Math.max(0, root.idleMs - root.warningMs)
+            root.remainingMs = Math.max(0, root.idleMs - elapsed)
+            // warningMs >= idleMs → warn immediately after idle start (still emit once).
+            var warnAt = Math.max(0, root.idleMs - Math.max(0, root.warningMs))
             if (!root._warned && elapsed >= warnAt && root.warningMs > 0) {
                 root._warned = true
                 root.warning()
             }
             if (elapsed >= root.idleMs) {
                 tick.stop()
+                root.remainingMs = 0
                 root.timedOut()
             }
         }
@@ -73,5 +78,10 @@ QtObject {
             reset()
         else
             tick.stop()
+    }
+
+    onIdleMsChanged: {
+        if (enabled)
+            remainingMs = Math.max(0, idleMs - (Date.now() - _lastActivity))
     }
 }
