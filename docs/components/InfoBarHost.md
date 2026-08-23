@@ -4,7 +4,7 @@ Stacks InfoBars in a host region.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/InfoBarHost.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/InfoBarHost.qml)
 
-**Category:** Dialogs & flyouts · **Library:** v2.80
+**Category:** Dialogs & flyouts · **Library:** v2.81
 
 [← Component index](../components.md)
 

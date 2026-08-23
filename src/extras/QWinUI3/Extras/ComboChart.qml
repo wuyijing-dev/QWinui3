@@ -192,11 +192,9 @@ T.Control {
                     var plotW = parent.width - padL - padR
                     var idx = Math.floor((mouse.x - padL) / (plotW / n))
                     root.hoverIndex = (idx >= 0 && idx < n) ? idx : -1
-                    canvas.requestPaint()
                 }
                 onExited: {
                     root.hoverIndex = -1
-                    canvas.requestPaint()
                 }
             }
         }

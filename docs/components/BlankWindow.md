@@ -4,7 +4,7 @@ Empty ShellWindow client — declare UI as children.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/BlankWindow.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/BlankWindow.qml)
 
-**Category:** Shells & windows · **Library:** v2.80
+**Category:** Shells & windows · **Library:** v2.81
 
 [← Component index](../components.md)
 

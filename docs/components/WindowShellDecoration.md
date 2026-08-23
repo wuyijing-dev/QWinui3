@@ -4,7 +4,7 @@ Linux / Wayland client shell: DWM-like shadow + rounded frame.
 
 `import QWinUI3.Platform` · [`src/platform/QWinUI3/Platform/WindowShellDecoration.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/platform/QWinUI3/Platform/WindowShellDecoration.qml)
 
-**Category:** Platform · **Library:** v2.80
+**Category:** Platform · **Library:** v2.81
 
 [← Component index](../components.md)
 

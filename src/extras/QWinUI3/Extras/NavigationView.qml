@@ -64,6 +64,23 @@ Item {
     // Qt 6.8+ Accessible.announce for selection / pane changes (2.07).
     property bool announceChanges: true
     property bool _a11yReady: false
+    property bool _pipMoveInstant: false
+
+    Timer {
+        id: pipMoveCoalesce
+        interval: 16
+        repeat: false
+        onTriggered: {
+            selectionPip.moveToCurrent(_pipMoveInstant)
+            _pipMoveInstant = false
+        }
+    }
+
+    function schedulePipMove(instant) {
+        if (instant)
+            _pipMoveInstant = true
+        pipMoveCoalesce.restart()
+    }
 
     // Navigation items: [{ type, key, title, icon|symbol, children?, badge?, badgeValue? }]
     property var model: []
@@ -424,7 +441,7 @@ Item {
             }
         }
         // Animate pip: collapsed selection moves to group header; expand returns to child
-        Qt.callLater(function () { selectionPip.moveToCurrent(false) })
+        schedulePipMove(false)
     }
 
     // Visual anchor item for the selection pip
@@ -476,7 +493,7 @@ Item {
             if (!selectionPip)
                 return
             root.ensureSelectionVisible()
-            selectionPip.moveToCurrent(true)
+            schedulePipMove(true)
         }
     }
 
@@ -844,7 +861,7 @@ Item {
             root.sameKeySkipCount++
             ensureSelectionVisible()
             Qt.callLater(function () {
-                selectionPip.moveToCurrent(false)
+                schedulePipMove(false)
             })
             return
         }
@@ -869,9 +886,6 @@ Item {
                 }
             }
         }
-        Qt.callLater(function () {
-            selectionPip.moveToCurrent(false)
-        })
         itemClicked(currentIndex)
         var navTitle = titleForKey(key)
         if (navTitle.length)
@@ -879,8 +893,7 @@ Item {
         // Child rows may still be laying out after expand + scroll.
         Qt.callLater(function () {
             ensureSelectionVisible()
-            selectionPip.moveToCurrent(false)
-            Qt.callLater(function () { selectionPip.moveToCurrent(false) })
+            schedulePipMove(false)
         })
         _dismissPaneDrawerIfNeeded()
     }
@@ -1810,12 +1823,12 @@ Item {
                         }
 
                         onCurrentIndexChanged: Qt.callLater(function () {
-                            selectionPip.moveToCurrent(false)
+                            schedulePipMove(false)
                         })
                         onContentYChanged: pipScrollTimer.restart()
                         onHeightChanged: selectionPip.syncViewport()
                         onCountChanged: Qt.callLater(function () {
-                            selectionPip.moveToCurrent(true)
+                            schedulePipMove(true)
                         })
 
                         Keys.onPressed: function (event) {
@@ -1865,15 +1878,8 @@ Item {
 
                         Connections {
                             target: root
-                            function onCurrentKeyChanged() {
-                                Qt.callLater(function () {
-                                    selectionPip.moveToCurrent(false)
-                                })
-                            }
                             function onFooterSelectedChanged() {
-                                Qt.callLater(function () {
-                                    selectionPip.moveToCurrent(true)
-                                })
+                                schedulePipMove(true)
                             }
                         }
 

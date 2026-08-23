@@ -4,7 +4,7 @@ Fluent styled ItemDelegate.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/ItemDelegate.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/ItemDelegate.qml)
 
-**Category:** Styled controls · **Library:** v2.80
+**Category:** Styled controls · **Library:** v2.81
 
 [← Component index](../components.md)
 

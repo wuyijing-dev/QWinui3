@@ -4,7 +4,7 @@ Persist recent paths in Settings + shell recent docs (2.77).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/RecentFiles.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/RecentFiles.qml)
 
-**Category:** Other · **Library:** v2.80
+**Category:** Other · **Library:** v2.81
 
 [← Component index](../components.md)
 

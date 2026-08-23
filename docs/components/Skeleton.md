@@ -4,7 +4,7 @@ Form / table loading placeholder composed of Shimmer lines (2.70 B6).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/Skeleton.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/Skeleton.qml)
 
-**Category:** Other · **Library:** v2.80
+**Category:** Other · **Library:** v2.81
 
 [← Component index](../components.md)
 
@@ -22,7 +22,7 @@ Skeleton {
 }
 
 // --- API ---
-// rows, lineHeight, spacing, active / isActive, showAvatar
+// rows, lineHeight, spacing, active / isActive, showAvatar, rowWidths
 ```
 
 ## Notes
@@ -42,6 +42,7 @@ Handoff pattern: Button.loading → ProgressRing for determinate → Skeleton/Sh
 | `avatarSize` | `real` | — |
 | `active` | `bool` | — |
 | `isActive` | `alias` | — |
+| `rowWidths` | `var` | Optional per-row width ratios (0…1); default alternates 100% / 72%. |
 
 ### Signals
 

@@ -4,7 +4,7 @@ Fluent virtualizing table with sort, filter, resize, and keyboard.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/DataTable.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/DataTable.qml)
 
-**Category:** Collections & data · **Library:** v2.80
+**Category:** Collections & data · **Library:** v2.81
 
 [← Component index](../components.md)
 
@@ -35,7 +35,8 @@ DataTable {
 // --- API ---
 // selectedRow / selectedIndex, sortColumn / sortOrder / sortSpecs, filterText, columnOrder
 // hiddenColumns, columnWidths, setColumnVisible(), toggleSort(col, append?)
-// methods: select(row), clearSelection(), refresh(), focusTable(), moveColumn(from, to),
+// methods: select(row), scrollToRow(row, mode?), ensureRowVisible(row), clearSelection(),
+//          refresh(), focusTable(), moveColumn(from, to),
 //          copySelection(), exportCsv(toClipboard?)
 // signals: rowActivated(int, var), selectionChanged(int, var), sortChanged(int, int),
 //          columnLayoutChanged()
@@ -110,6 +111,8 @@ See docs/data-collections.md for DataTable vs ItemsView vs ListDetailsView.
 | `focusTable()` | — |
 | `clearSelection()` | — |
 | `select(index)` | — |
+| `scrollToRow(rowIndex, mode)` | — |
+| `ensureRowVisible(rowIndex)` | — |
 | `copySelection()` | Copy selected row as CSV (header + one row). Returns text; also writes clipboard. |
 | `exportCsv(toClipboard)` | Export visible (filtered/sorted) rows as CSV. toClipboard true (default) copies; false returns only. |
 | `refresh()` | — |

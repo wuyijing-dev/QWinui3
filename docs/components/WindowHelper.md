@@ -4,7 +4,7 @@ Platform chrome, backdrop, DPI, and geometry helpers (singleton).
 
 `import QWinUI3.Platform` · [`src/platform/QWinUI3/Platform/WindowHelper.h`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/platform/QWinUI3/Platform/WindowHelper.h)
 
-**Category:** Platform · **Library:** v2.80 · **C++ type** · **singleton**
+**Category:** Platform · **Library:** v2.81 · **C++ type** · **singleton**
 
 [← Component index](../components.md)
 

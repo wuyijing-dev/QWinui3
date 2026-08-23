@@ -4,7 +4,7 @@ Multi-step flow host (StepBar + content + Back/Next).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/Wizard.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/Wizard.qml)
 
-**Category:** Other · **Library:** v2.80
+**Category:** Other · **Library:** v2.81
 
 [← Component index](../components.md)
 
@@ -29,7 +29,7 @@ Wizard {
 
 // --- API ---
 // currentIndex / stepCount / canGoBack / canGoNext / isLastStep
-// methods: next(), previous(), goTo(index), finish(), cancel()
+// methods: next(), previous(), goTo(index), finish(), cancel(), reset(), stepTitle(i)
 // signals: finished(), cancelled(), stepChanged(int)
 ```
 
@@ -77,6 +77,8 @@ model entries: string title, or { title, description?, content|sourceComponent }
 | `previous()` | — |
 | `finish()` | — |
 | `cancel()` | — |
+| `stepTitle(index)` | — |
+| `reset()` | — |
 
 ### Inherited from `Control`
 

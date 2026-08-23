@@ -1,13 +1,19 @@
 # QWinUI3 Roadmap
 
-**Current:** **2.80** (master; soft checkpoint-280 — capability pack 2.71…2.80)
+**Current:** **2.81** (master — control depth: internal perf + API practicality)
 **Next up:** **3.00** breaking close-out (checkpoint-300)
-**Planned through:** **3.00** (… → **2.71…2.80** → **3.00** close-out → [micro-interaction backlog last](#micro-interaction--visual-polish--deferred-last))
+**Planned through:** **3.00** (… → **2.81** → **3.00** close-out → [micro-interaction backlog last](#micro-interaction--visual-polish--deferred-last))
 **Checkpoints ahead:** **3.00** breaking close-out (checkpoint-300)
 **Qt:** 6.5+ (recommended 6.8 LTS) on master today — **2.00** raises floor to **6.8 LTS** · **3.00** to **6.10 LTS**
 **Platforms:** **Windows + Linux** — no macOS first-class line.
 
-**After 2.50**, new minors ship only for **[documented user friction](docs/planning/friction-log.md)** — not catalog completeness. Release history for **1.01…2.64** lives in git tags, [upgrade-notes.md](docs/upgrade-notes.md), and per-slice docs under `docs/`.
+**After 2.50**, new minors ship only for **[documented user friction](planning/friction-log.md)** — not catalog completeness. Release history for **1.01…2.64** lives in git tags, [upgrade-notes.md](upgrade-notes.md), and per-slice docs under `docs/`.
+
+---
+
+## Control depth tranche 7 (`2.81`) — **shipped**
+
+See root [ROADMAP.md](../ROADMAP.md). **2.81** shipped internal perf (**C2–C5**) and additive APIs (**D9–D13**) without changing default appearance or interaction.
 
 ---
 

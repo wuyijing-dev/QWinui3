@@ -4,7 +4,7 @@ InfoBar bound to WindowHelper.isOnline (2.78).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/OfflineBanner.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/OfflineBanner.qml)
 
-**Category:** Other · **Library:** v2.80
+**Category:** Other · **Library:** v2.81
 
 [← Component index](../components.md)
 

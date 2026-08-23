@@ -25,7 +25,8 @@ import QWinUI3.Platform
 //   // --- API ---
 //   // selectedRow / selectedIndex, sortColumn / sortOrder / sortSpecs, filterText, columnOrder
 //   // hiddenColumns, columnWidths, setColumnVisible(), toggleSort(col, append?)
-//   // methods: select(row), clearSelection(), refresh(), focusTable(), moveColumn(from, to),
+//   // methods: select(row), scrollToRow(row, mode?), ensureRowVisible(row), clearSelection(),
+//   //          refresh(), focusTable(), moveColumn(from, to),
 //   //          copySelection(), exportCsv(toClipboard?)
 //   // signals: rowActivated(int, var), selectionChanged(int, var), sortChanged(int, int),
 //   //          columnLayoutChanged()
@@ -99,6 +100,10 @@ T.Control {
                 return Qt.rgba(Theme.accent.r, Theme.accent.g, Theme.accent.b, 0.18)
             return Theme.fillSubtleSecondary
         }
+        return _rowFillBase(dataIndex)
+    }
+
+    function _rowFillBase(dataIndex) {
         var style = String(rowStyle || "zebra").toLowerCase()
         if (style === "plain")
             return Theme.bgCard
@@ -402,11 +407,21 @@ T.Control {
         _selectedRowRef = index >= 0 ? _viewRows[index] : null
         selectionChanged(index, selectedRow)
         _announceSelection(index)
-        if (index >= 0) {
-            var di = _listDisplayIndex(index)
-            if (di >= 0)
-                list.positionViewAtIndex(di, ListView.Contain)
-        }
+        ensureRowVisible(index)
+    }
+
+    function scrollToRow(rowIndex, mode) {
+        if (rowIndex < 0 || rowIndex >= _viewRows.length)
+            return false
+        var di = _listDisplayIndex(rowIndex)
+        if (di < 0)
+            return false
+        list.positionViewAtIndex(di, mode !== undefined ? mode : ListView.Contain)
+        return true
+    }
+
+    function ensureRowVisible(rowIndex) {
+        return scrollToRow(rowIndex, ListView.Contain)
     }
 
     function _csvEscape(v) {
@@ -1092,7 +1107,23 @@ T.Control {
                         Rectangle {
                             anchors.fill: parent
                             visible: !isGroup
-                            color: root._rowFill(dataIndex)
+                            readonly property var customRowFill: {
+                                if (typeof root.rowBackground === "function") {
+                                    var custom = root.rowBackground(root._viewRows[dataIndex], dataIndex)
+                                    if (custom !== undefined && custom !== null && custom !== "")
+                                        return custom
+                                }
+                                return null
+                            }
+                            color: customRowFill !== null ? customRowFill : root._rowFillBase(dataIndex)
+
+                            Rectangle {
+                                anchors.fill: parent
+                                visible: dataIndex === root.selectedIndex && customRowFill === null
+                                color: root.selectionAccent
+                                       ? Qt.rgba(Theme.accent.r, Theme.accent.g, Theme.accent.b, 0.18)
+                                       : Theme.fillSubtleSecondary
+                            }
 
                             Rectangle {
                                 anchors.fill: parent

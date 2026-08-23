@@ -4,7 +4,7 @@ Opt-in primary/secondary guard (2.74).
 
 `import QWinUI3.Platform` · [`src/platform/QWinUI3/Platform/SingleInstance.h`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/platform/QWinUI3/Platform/SingleInstance.h)
 
-**Category:** Platform · **Library:** v2.80 · **C++ type**
+**Category:** Platform · **Library:** v2.81 · **C++ type**
 
 [← Component index](../components.md)
 

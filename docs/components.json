@@ -1,6 +1,6 @@
 {
   "name": "QWinUI3",
-  "version": "2.80",
+  "version": "2.81",
   "generatedBy": "scripts/generate_component_docs.py",
   "publicCount": 317,
   "components": [
@@ -954,7 +954,7 @@
       "doc": "components/DataTable.md",
       "propertyCount": 31,
       "signalCount": 4,
-      "methodCount": 10
+      "methodCount": 12
     },
     {
       "name": "DataTableFilterOverlay",
@@ -1583,7 +1583,7 @@
       "doc": "components/HistogramChart.md",
       "propertyCount": 9,
       "signalCount": 0,
-      "methodCount": 0
+      "methodCount": 1
     },
     {
       "name": "HorizontalBarChart",
@@ -2246,7 +2246,7 @@
       "doc": "components/NavigationView.md",
       "propertyCount": 68,
       "signalCount": 7,
-      "methodCount": 44
+      "methodCount": 45
     },
     {
       "name": "NavigationWindow",
@@ -2295,9 +2295,9 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/NotificationCenter.md",
-      "propertyCount": 16,
+      "propertyCount": 17,
       "signalCount": 3,
-      "methodCount": 10
+      "methodCount": 15
     },
     {
       "name": "NumberBox",
@@ -3298,7 +3298,7 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/Skeleton.md",
-      "propertyCount": 7,
+      "propertyCount": 8,
       "signalCount": 0,
       "methodCount": 0
     },
@@ -3317,7 +3317,7 @@
       "doc": "components/Sparkline.md",
       "propertyCount": 16,
       "signalCount": 0,
-      "methodCount": 1
+      "methodCount": 2
     },
     {
       "name": "SpeedometerGauge",
@@ -4201,7 +4201,7 @@
       "doc": "components/Wizard.md",
       "propertyCount": 15,
       "signalCount": 3,
-      "methodCount": 5
+      "methodCount": 7
     },
     {
       "name": "WrapPanel",

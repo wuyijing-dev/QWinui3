@@ -4,7 +4,7 @@ show live overflow configuration + diagnostics.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ToolbarOverflowInspector.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ToolbarOverflowInspector.qml)
 
-**Category:** Other · **Library:** v2.80
+**Category:** Other · **Library:** v2.81
 
 [← Component index](../components.md)
 

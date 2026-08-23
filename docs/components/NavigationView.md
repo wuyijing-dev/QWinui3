@@ -4,7 +4,7 @@ WinUI NavigationView with pane modes and page stack.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/NavigationView.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/NavigationView.qml)
 
-**Category:** Navigation · **Library:** v2.80
+**Category:** Navigation · **Library:** v2.81
 
 [← Component index](../components.md)
 
@@ -159,6 +159,7 @@ Live-region announces nav selection / pane expand (2.07) when announceChanges is
 
 | Signature | Description |
 | --- | --- |
+| `schedulePipMove(instant)` | — |
 | `moveNavItem(fromIndex, toIndex)` | Reorder a top-level nav model entry (requires isReorderable) |
 | `isGroupExpanded(key)` | True when the nav group is expanded |
 | `rebuildNavModel()` | Rebuild the flattened ListModel from model |

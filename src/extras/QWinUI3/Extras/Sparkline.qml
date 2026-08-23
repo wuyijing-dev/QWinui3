@@ -82,27 +82,36 @@ T.Control {
         }
     }
 
+    Timer {
+        id: redrawCoalesce
+        interval: ChartUtils.redrawCoalesceMs
+        repeat: false
+        onTriggered: canvas.requestPaint()
+    }
+
     // Play entrance reveal animation
     function playReveal() {
         if (!root.animated || Theme.reducedMotion) {
             revealProgress = 1
-            canvas.requestPaint()
+            requestRedraw()
             return
         }
         revealProgress = 0
         revealProgress = 1
     }
 
+    // Request chart / canvas redraw
+    function requestRedraw() { redrawCoalesce.restart() }
     onValuesChanged: Qt.callLater(playReveal)
-    onStrokeColorChanged: canvas.requestPaint()
-    onFillColorChanged: canvas.requestPaint()
-    onFilledChanged: canvas.requestPaint()
-    onShowEndMarkerChanged: canvas.requestPaint()
-    onRevealProgressChanged: canvas.requestPaint()
-    onWidthChanged: canvas.requestPaint()
-    onHeightChanged: canvas.requestPaint()
-    onMinimumChanged: canvas.requestPaint()
-    onMaximumChanged: canvas.requestPaint()
+    onStrokeColorChanged: requestRedraw()
+    onFillColorChanged: requestRedraw()
+    onFilledChanged: requestRedraw()
+    onShowEndMarkerChanged: requestRedraw()
+    onRevealProgressChanged: requestRedraw()
+    onWidthChanged: requestRedraw()
+    onHeightChanged: requestRedraw()
+    onMinimumChanged: requestRedraw()
+    onMaximumChanged: requestRedraw()
     Component.onCompleted: playReveal()
 
     contentItem: Item {

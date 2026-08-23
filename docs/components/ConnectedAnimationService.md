@@ -4,7 +4,7 @@ Register shared-element keys and play list→detail morphs.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ConnectedAnimationService.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ConnectedAnimationService.qml)
 
-**Category:** Media & platform · **Library:** v2.80 · **singleton**
+**Category:** Media & platform · **Library:** v2.81 · **singleton**
 
 [← Component index](../components.md)
 

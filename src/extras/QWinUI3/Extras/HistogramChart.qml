@@ -39,6 +39,22 @@ T.Control {
     readonly property var _bins: ChartUtils.histogramBins(values, binCount)
     readonly property bool isEmpty: ChartUtils.valueCount(values) === 0
 
+    Timer {
+        id: redrawCoalesce
+        interval: ChartUtils.redrawCoalesceMs
+        repeat: false
+        onTriggered: canvas.requestPaint()
+    }
+
+    function requestRedraw() { redrawCoalesce.restart() }
+
+    onValuesChanged: requestRedraw()
+    onBinCountChanged: requestRedraw()
+    onFillColorChanged: requestRedraw()
+    onWidthChanged: requestRedraw()
+    onHeightChanged: requestRedraw()
+    onHoverIndexChanged: requestRedraw()
+
     contentItem: ColumnLayout {
         spacing: 6
         Text {
@@ -106,12 +122,8 @@ T.Control {
                     var n = root._bins.length
                     var idx = Math.floor(mouse.x / Math.max(1, width / n))
                     root.hoverIndex = (idx >= 0 && idx < n) ? idx : -1
-                    canvas.requestPaint()
                 }
-                onExited: {
-                    root.hoverIndex = -1
-                    canvas.requestPaint()
-                }
+                onExited: root.hoverIndex = -1
             }
         }
         Text {

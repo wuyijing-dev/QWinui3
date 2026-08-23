@@ -12,7 +12,7 @@ import QWinUI3.Theme
 //   }
 //
 //   // --- API ---
-//   // rows, lineHeight, spacing, active / isActive, showAvatar
+//   // rows, lineHeight, spacing, active / isActive, showAvatar, rowWidths
 //
 // @notes
 //   Handoff pattern: Button.loading → ProgressRing for determinate → Skeleton/Shimmer for lists.
@@ -27,6 +27,8 @@ T.Control {
     property real avatarSize: 40
     property bool active: true
     property alias isActive: root.active
+    // Optional per-row width ratios (0…1); default alternates 100% / 72%.
+    property var rowWidths: []
 
     implicitWidth: 240
     implicitHeight: contentItem.implicitHeight + topPadding + bottomPadding
@@ -69,9 +71,15 @@ T.Control {
         Repeater {
             model: root.rows
             Shimmer {
-                Layout.fillWidth: index % 2 === 0
+                readonly property real widthRatio: {
+                    var rw = root.rowWidths
+                    if (rw && rw.length > index && rw[index] !== undefined)
+                        return Math.max(0.05, Math.min(1, Number(rw[index])))
+                    return index % 2 === 0 ? 1.0 : 0.72
+                }
+                Layout.fillWidth: widthRatio >= 0.999
                 Layout.preferredHeight: root.lineHeight
-                Layout.preferredWidth: parent.width * (index % 2 === 0 ? 1.0 : 0.72)
+                Layout.preferredWidth: parent.width * widthRatio
                 active: root.active
             }
         }

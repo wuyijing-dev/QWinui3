@@ -4,7 +4,7 @@ In-app notification drawer with grouping (2.27 / 2.63 / 2.70).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/NotificationCenter.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/NotificationCenter.qml)
 
-**Category:** Status & feedback · **Library:** v2.80
+**Category:** Status & feedback · **Library:** v2.81
 
 [← Component index](../components.md)
 
@@ -35,9 +35,10 @@ center.addNotification({
 center.open()
 
 // --- API ---
-// properties: model, groupRole, isOpen, unreadCount, maxHistory, dedupeIdRole
-// methods: open(), close(), markRead(i), markAllRead(), clear(), clearRead(),
-//          addNotification(item), push(item)
+// properties: model, groupRole, isOpen, unreadCount, count, maxHistory, dedupeIdRole
+// methods: open(), close(), markRead(i), markUnread(i), markAllRead(), removeAt(i),
+//          indexForId(id), exportHistory(), importHistory(json),
+//          clear(), clearRead(), addNotification(item), push(item)
 // signals: notificationClicked, notificationActionClicked, cleared
 ```
 
@@ -69,6 +70,7 @@ recordInCenter (2.63). Not an OS notification center. See docs/notification-cent
 | `isOpen` | `bool` | — |
 | `unreadCount` | `int` | — |
 | `groupedModel` | `var` | — |
+| `count` | `int` | — |
 
 ### Signals
 
@@ -85,6 +87,11 @@ recordInCenter (2.63). Not an OS notification center. See docs/notification-cent
 | `open()` | — |
 | `close()` | — |
 | `markRead(index)` | — |
+| `markUnread(index)` | — |
+| `removeAt(index)` | — |
+| `indexForId(id)` | — |
+| `exportHistory()` | — |
+| `importHistory(json)` | — |
 | `markAllRead()` | — |
 | `clear()` | — |
 | `clearRead()` | — |

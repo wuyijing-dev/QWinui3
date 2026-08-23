@@ -2,7 +2,7 @@
 
 Full Gallery from Python — stage QWinUI3.Gallery QML, register Gallery helpers via @QmlElement / @QmlSingleton, and run the same smoke path as the C++ exe.
 
-Source: [`python/qwinui3_gallery/`](https://github.com/wuyijing-dev/QWinui3/tree/master/python/qwinui3_gallery) · Library **v2.80** · [← Python API index](../python-api.md)
+Source: [`python/qwinui3_gallery/`](https://github.com/wuyijing-dev/QWinui3/tree/master/python/qwinui3_gallery) · Library **v2.81** · [← Python API index](../python-api.md)
 
 Install:
 

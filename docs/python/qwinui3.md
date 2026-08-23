@@ -2,7 +2,7 @@
 
 PySide6 or PyQt6 bootstrap — locate a shared kit, configure environment, and wire QQmlApplicationEngine import paths (mirrors C++ Bootstrap).
 
-Source: [`python/qwinui3/`](https://github.com/wuyijing-dev/QWinui3/tree/master/python/qwinui3) · Library **v2.80** · [← Python API index](../python-api.md)
+Source: [`python/qwinui3/`](https://github.com/wuyijing-dev/QWinui3/tree/master/python/qwinui3) · Library **v2.81** · [← Python API index](../python-api.md)
 
 Install:
 

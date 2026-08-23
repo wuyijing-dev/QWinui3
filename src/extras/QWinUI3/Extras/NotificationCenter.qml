@@ -25,9 +25,10 @@ import QWinUI3.Theme
 //   center.open()
 //
 //   // --- API ---
-//   // properties: model, groupRole, isOpen, unreadCount, maxHistory, dedupeIdRole
-//   // methods: open(), close(), markRead(i), markAllRead(), clear(), clearRead(),
-//   //          addNotification(item), push(item)
+//   // properties: model, groupRole, isOpen, unreadCount, count, maxHistory, dedupeIdRole
+//   // methods: open(), close(), markRead(i), markUnread(i), markAllRead(), removeAt(i),
+//   //          indexForId(id), exportHistory(), importHistory(json),
+//   //          clear(), clearRead(), addNotification(item), push(item)
 //   // signals: notificationClicked, notificationActionClicked, cleared
 //
 // @notes
@@ -55,32 +56,39 @@ T.Control {
     readonly property int attention: 4
 
     readonly property bool isOpen: drawer.opened
-    readonly property int unreadCount: {
-        var n = 0
-        var m = model || []
-        for (var i = 0; i < m.length; ++i) {
-            var it = m[i]
-            if (it && !it.read)
-                ++n
-        }
-        return n
-    }
+    property int _unreadCount: 0
+    property var _groupedModel: []
+    readonly property int unreadCount: _unreadCount
+    readonly property var groupedModel: _groupedModel
+    readonly property int count: (model && model.length !== undefined) ? model.length : 0
 
-    readonly property var groupedModel: {
+    function _rebuildDerived() {
+        var m = model || []
+        var n = 0
         var order = []
         var map = ({})
-        var m = model || []
         var policy = String(groupingPolicy || "category").toLowerCase()
         if (policy === "none") {
-            return [{ category: "", items: m.map(function (it, i) {
-                return { index: i, data: it }
-            }).filter(function (row) { return !!row.data }) }]
+            for (var u = 0; u < m.length; ++u) {
+                if (m[u] && !m[u].read)
+                    ++n
+            }
+            var flat = []
+            for (var f = 0; f < m.length; ++f) {
+                if (m[f])
+                    flat.push({ index: f, data: m[f] })
+            }
+            _unreadCount = n
+            _groupedModel = [{ category: "", items: flat }]
+            return
         }
         var role = policy === "severity" ? "severity" : (groupRole || "category")
         for (var i = 0; i < m.length; ++i) {
             var it = m[i]
             if (!it)
                 continue
+            if (!it.read)
+                ++n
             var cat
             if (policy === "severity") {
                 var sev = it.severity !== undefined ? it.severity : 0
@@ -99,7 +107,15 @@ T.Control {
             var c = order[j]
             out.push({ category: c, items: map[c] })
         }
-        return out
+        _unreadCount = n
+        _groupedModel = out
+    }
+
+    Timer {
+        id: persistDebounce
+        interval: 200
+        repeat: false
+        onTriggered: notificationCenter.savePersisted()
     }
 
     signal notificationClicked(int index, var item)
@@ -112,7 +128,13 @@ T.Control {
     Accessible.ignored: true
 
     function open() { drawer.open() }
-    function close() { drawer.close() }
+    function close() {
+        if (persistDebounce.running)
+            persistDebounce.stop()
+        if (_persistEnabled())
+            savePersisted()
+        drawer.close()
+    }
 
     function markRead(index) {
         var m = (model || []).slice()
@@ -124,6 +146,57 @@ T.Control {
         copy.read = true
         m[index] = copy
         model = m
+    }
+
+    function markUnread(index) {
+        var m = (model || []).slice()
+        if (index < 0 || index >= m.length || !m[index])
+            return
+        var copy = Object.assign({}, m[index])
+        if (!copy.read)
+            return
+        copy.read = false
+        m[index] = copy
+        model = m
+    }
+
+    function removeAt(index) {
+        var m = (model || []).slice()
+        if (index < 0 || index >= m.length)
+            return
+        m.splice(index, 1)
+        model = m
+        if (!m.length)
+            cleared()
+    }
+
+    function indexForId(id) {
+        if (id === undefined || id === null)
+            return -1
+        var role = dedupeIdRole || "id"
+        var sid = String(id)
+        var m = model || []
+        for (var i = 0; i < m.length; ++i) {
+            if (m[i] && m[i][role] !== undefined && String(m[i][role]) === sid)
+                return i
+        }
+        return -1
+    }
+
+    function exportHistory() {
+        try {
+            return JSON.stringify(model || [])
+        } catch (e) {
+            return "[]"
+        }
+    }
+
+    function importHistory(json) {
+        try {
+            var parsed = JSON.parse(json || "[]")
+            if (parsed && parsed.length !== undefined)
+                model = _trimHistory(parsed)
+        } catch (e) { /* ignore */ }
     }
 
     function markAllRead() {
@@ -233,9 +306,12 @@ T.Control {
     }
 
     onModelChanged: {
+        _rebuildDerived()
         if (_persistEnabled())
-            Qt.callLater(savePersisted)
+            persistDebounce.restart()
     }
+    onGroupingPolicyChanged: _rebuildDerived()
+    onGroupRoleChanged: _rebuildDerived()
 
     Component.onCompleted: {
         if (_persistEnabled())

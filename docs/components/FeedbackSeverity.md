@@ -4,7 +4,7 @@ Shared severity palette + glyphs for InfoBar / Toast / TeachingTip (2.70 A7).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/FeedbackSeverity.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/FeedbackSeverity.qml)
 
-**Category:** Other · **Library:** v2.80 · **singleton**
+**Category:** Other · **Library:** v2.81 · **singleton**
 
 [← Component index](../components.md)
 

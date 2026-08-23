@@ -18,7 +18,7 @@ import QWinUI3.Theme
 //
 //   // --- API ---
 //   // currentIndex / stepCount / canGoBack / canGoNext / isLastStep
-//   // methods: next(), previous(), goTo(index), finish(), cancel()
+//   // methods: next(), previous(), goTo(index), finish(), cancel(), reset(), stepTitle(i)
 //   // signals: finished(), cancelled(), stepChanged(int)
 //
 // @notes
@@ -140,6 +140,21 @@ T.Control {
 
     function cancel() {
         cancelled()
+    }
+
+    function stepTitle(index) {
+        if (index < 0 || index >= stepCount)
+            return ""
+        return _titleOf(model[index])
+    }
+
+    function reset() {
+        if (currentIndex === 0) {
+            stepChanged(0)
+            return
+        }
+        currentIndex = 0
+        stepChanged(0)
     }
 
     contentItem: ColumnLayout {

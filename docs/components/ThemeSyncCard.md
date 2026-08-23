@@ -4,7 +4,7 @@ Summarize ThemeSync vs ThemePrefs vs persist:false semantics.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ThemeSyncCard.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ThemeSyncCard.qml)
 
-**Category:** Media & platform · **Library:** v2.80
+**Category:** Media & platform · **Library:** v2.81
 
 [← Component index](../components.md)
 

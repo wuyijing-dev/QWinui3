@@ -108,8 +108,15 @@ T.Control {
         revealProgress = 1
     }
 
+    Timer {
+        id: redrawCoalesce
+        interval: ChartUtils.redrawCoalesceMs
+        repeat: false
+        onTriggered: canvas.requestPaint()
+    }
+
     // Request chart / canvas redraw
-    function requestRedraw() { canvas.requestPaint() }
+    function requestRedraw() { redrawCoalesce.restart() }
     onSeriesChanged: Qt.callLater(playReveal)
     onCategoriesChanged: requestRedraw()
     onMinimumChanged: requestRedraw()

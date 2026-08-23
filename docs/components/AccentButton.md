@@ -4,7 +4,7 @@ Accent-colored CTA with optional Fluent symbol (2.66 A1 appearances).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/AccentButton.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/AccentButton.qml)
 
-**Category:** Buttons & commands · **Library:** v2.80
+**Category:** Buttons & commands · **Library:** v2.81
 
 [← Component index](../components.md)
 

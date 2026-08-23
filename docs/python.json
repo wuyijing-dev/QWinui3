@@ -1,6 +1,6 @@
 {
   "name": "QWinUI3 Python",
-  "version": "2.80",
+  "version": "2.81",
   "generatedBy": "scripts/generate_component_docs.py",
   "packages": [
     {

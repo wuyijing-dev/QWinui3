@@ -4,7 +4,7 @@ Modal dialog with primary / secondary / close actions.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ContentDialog.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ContentDialog.qml)
 
-**Category:** Input & forms · **Library:** v2.80
+**Category:** Input & forms · **Library:** v2.81
 
 [← Component index](../components.md)
 

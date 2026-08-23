@@ -4,7 +4,7 @@ Persist window geometry + nav page + table scroll/selection (2.70 D8).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/SessionRestore.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/SessionRestore.qml)
 
-**Category:** Other · **Library:** v2.80
+**Category:** Other · **Library:** v2.81
 
 [← Component index](../components.md)
 

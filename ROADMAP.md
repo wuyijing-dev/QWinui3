@@ -1,8 +1,8 @@
 # QWinUI3 Roadmap
 
-**Current:** **2.80** (master; soft checkpoint-280 — capability pack 2.71…2.80)
+**Current:** **2.81** (master — control depth: internal perf + API practicality)
 **Next up:** **3.00** breaking close-out (checkpoint-300)
-**Planned through:** **3.00** (… → **2.71…2.80** → **3.00** close-out → [micro-interaction backlog last](#micro-interaction--visual-polish--deferred-last))
+**Planned through:** **3.00** (… → **2.81** shipped → **3.00** close-out → [micro-interaction backlog last](#micro-interaction--visual-polish--deferred-last))
 **Checkpoints ahead:** **3.00** breaking close-out (checkpoint-300)
 **Qt:** 6.5+ (recommended 6.8 LTS) on master today — **2.00** raises floor to **6.8 LTS** · **3.00** to **6.10 LTS**
 **Platforms:** **Windows + Linux** — no macOS first-class line.
@@ -251,6 +251,38 @@ Consumer sketch: [upgrade-notes.md](docs/upgrade-notes.md) **Upgrade 1.90 → 2.
 | **2.78** | OfflineBanner · OperationRetry | **Shipped** |
 | **2.79** | SensitiveField · ConfirmWithReason | **Shipped** |
 | **2.80** | Soft checkpoint-280 | **Shipped** — [checkpoint-280.md](docs/checkpoint-280.md) |
+
+---
+
+## Control depth tranche 7 (`2.81`)
+
+**Gate:** Hot-path work that **does not change default appearance or interaction** — internal perf, derived-state efficiency, and small **additive** APIs apps already compose around in recipes.
+
+| Slice | Theme | Status |
+|-------|--------|--------|
+| **2.81** | Internal perf + control API depth | **Shipped** |
+
+### 2.81 — Hot-path perf + API depth (shipped)
+
+| ID | Area | Detail |
+|----|------|--------|
+| **C2** | **Charts** | Canvas redraw coalescing (`ChartUtils.redrawCoalesceMs`) on Sparkline, Area, StackedBar, Heatmap, Scatter, Radar, Waterfall, HorizontalBar, Histogram; ComboChart hover dedupe |
+| **C3** | **NotificationCenter** | Single-pass `_rebuildDerived()` (unread + grouped model); debounced Settings persist (200 ms); flush on `close()` |
+| **C4** | **DataTable** | Selection tint as overlay — keyboard `select()` no longer re-tints every visible zebra row |
+| **C5** | **NavigationView** | Selection pip `schedulePipMove()` coalesced (16 ms); drop redundant `currentKey` pip hooks |
+| **D9** | **NotificationCenter** | `markUnread(i)`, `removeAt(i)`, `indexForId(id)`, `exportHistory()` / `importHistory(json)`, `count` |
+| **D10** | **DataTable** | `scrollToRow(i, mode?)`, `ensureRowVisible(i)` — public scroll helpers beyond `select()` |
+| **D11** | **Skeleton** | Optional `rowWidths[]` (0…1 per row) for list placeholder layouts; default 100% / 72% pattern unchanged |
+| **D12** | **Wizard** | `stepTitle(i)`, `reset()` — programmatic step labels + flow restart without re-create |
+| **D13** | **SessionTimeout** | Idle clock starts on first `poke()` / `reset()`, not at instantiation |
+
+**Docs:** Regenerate [components.md](docs/components.md) + [python-api.md](docs/python-api.md) after API header updates.
+
+**Out:** New public control types · micro-interaction / pointer wave (**L1–L5**) · version bump to **3.00**.
+
+**Checkpoint:** Optional soft **checkpoint-281** when **C2–D13** green in Gallery smoke — does not block **3.00** prep.
+
+---
 
 ### 2.71 — Data + form + permission pack (shipped)
 

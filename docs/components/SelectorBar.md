@@ -4,7 +4,7 @@ Compact horizontal item selector.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/SelectorBar.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/SelectorBar.qml)
 
-**Category:** Navigation · **Library:** v2.80
+**Category:** Navigation · **Library:** v2.81
 
 [← Component index](../components.md)
 
