@@ -235,6 +235,22 @@ QtObject {
             source: "pages/PasswordBoxPage.qml"
         },
         {
+            title: qsTr("MaskedTextField"),
+            category: "text",
+            icon: FluentIcons.ContactInfo,
+            description: qsTr("Simple digit/letter input masks for phone and ID patterns (2.71)."),
+            component: "MaskedTextFieldPage",
+            source: "pages/MaskedTextFieldPage.qml"
+        },
+        {
+            title: qsTr("PermissionGate"),
+            category: "status",
+            icon: FluentIcons.Shield,
+            description: qsTr("Declarative hide/disable by role (2.71)."),
+            component: "PermissionGatePage",
+            source: "pages/PermissionGatePage.qml"
+        },
+        {
             title: qsTr("AutoSuggestBox"),
             category: "text",
             icon: FluentIcons.Search,

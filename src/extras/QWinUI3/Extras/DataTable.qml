@@ -3,6 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
+import QWinUI3.Platform
 
 // DataTable — Fluent virtualizing table with sort, filter, resize, and keyboard.
 //
@@ -24,7 +25,8 @@ import QWinUI3.Theme
 //   // --- API ---
 //   // selectedRow / selectedIndex, sortColumn / sortOrder / sortSpecs, filterText, columnOrder
 //   // hiddenColumns, columnWidths, setColumnVisible(), toggleSort(col, append?)
-//   // methods: select(row), clearSelection(), refresh(), focusTable(), moveColumn(from, to)
+//   // methods: select(row), clearSelection(), refresh(), focusTable(), moveColumn(from, to),
+//   //          copySelection(), exportCsv(toClipboard?)
 //   // signals: rowActivated(int, var), selectionChanged(int, var), sortChanged(int, int),
 //   //          columnLayoutChanged()
 //
@@ -36,6 +38,7 @@ import QWinUI3.Theme
 //   Column visibility (hiddenColumns) + width persistence (columnWidths) — 2.66 D1.
 //   Column pin + reorder (columnOrder / moveColumn) and row group headers (groupRole) — 2.64.
 //   Selection tracks the row **object** across sort/filter.
+//   copySelection / exportCsv — clipboard CSV for selection or visible rows (2.71).
 //   See docs/data-collections.md for DataTable vs ItemsView vs ListDetailsView.
 
 T.Control {
@@ -404,6 +407,60 @@ T.Control {
             if (di >= 0)
                 list.positionViewAtIndex(di, ListView.Contain)
         }
+    }
+
+    function _csvEscape(v) {
+        var s = v === undefined || v === null ? "" : String(v)
+        if (s.indexOf("\"") >= 0 || s.indexOf(",") >= 0 || s.indexOf("\n") >= 0 || s.indexOf("\r") >= 0)
+            return "\"" + s.replace(/"/g, "\"\"") + "\""
+        return s
+    }
+
+    function _visibleColumnDefs() {
+        var cols = columns || []
+        var out = []
+        for (var c = 0; c < cols.length; ++c) {
+            if (_isColumnHidden(c))
+                continue
+            out.push(cols[c])
+        }
+        return out
+    }
+
+    function _rowsToCsv(rowList) {
+        var cols = _visibleColumnDefs()
+        var lines = []
+        var header = []
+        for (var h = 0; h < cols.length; ++h)
+            header.push(_csvEscape(cols[h].title || cols[h].role || ("c" + h)))
+        lines.push(header.join(","))
+        for (var i = 0; i < rowList.length; ++i) {
+            var row = rowList[i]
+            var cells = []
+            for (var c = 0; c < cols.length; ++c) {
+                var role = cols[c].role || ("c" + c)
+                cells.push(_csvEscape(row[role]))
+            }
+            lines.push(cells.join(","))
+        }
+        return lines.join("\n")
+    }
+
+    // Copy selected row as CSV (header + one row). Returns text; also writes clipboard.
+    function copySelection() {
+        if (selectedIndex < 0 || selectedIndex >= _viewRows.length)
+            return ""
+        var text = _rowsToCsv([_viewRows[selectedIndex]])
+        WindowHelper.copyText(text)
+        return text
+    }
+
+    // Export visible (filtered/sorted) rows as CSV. toClipboard true (default) copies; false returns only.
+    function exportCsv(toClipboard) {
+        var text = _rowsToCsv(_viewRows || [])
+        if (toClipboard !== false)
+            WindowHelper.copyText(text)
+        return text
     }
 
     function _buildDisplayItems(rows) {

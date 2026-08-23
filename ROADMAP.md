@@ -1,9 +1,9 @@
 # QWinUI3 Roadmap
 
-**Current:** **2.70** (master; Feedback chrome + loading + session + checkpoint-270)
-**Next up:** **2.73** Consumer checkpoint (Python / C++ DX) — or **2.00** rescheduled when gated
-**Planned through:** **3.00** (… → **2.71…2.75** platform/Python polish → **3.00** close-out → [micro-interaction backlog last](#micro-interaction--visual-polish--deferred-last))
-**Checkpoints ahead:** **2.73** Python consumer · **3.00** breaking close-out (checkpoint-300)
+**Current:** **2.71** (master; DataTable copy/export + MaskedTextField + PermissionGate)
+**Next up:** **2.72** Window bus + session idle
+**Planned through:** **3.00** (… → **2.71…2.80** → **3.00** close-out → [micro-interaction backlog last](#micro-interaction--visual-polish--deferred-last))
+**Checkpoints ahead:** **2.73** consumer · **2.80** soft · **3.00** breaking close-out (checkpoint-300)
 **Qt:** 6.5+ (recommended 6.8 LTS) on master today — **2.00** raises floor to **6.8 LTS** · **3.00** to **6.10 LTS**
 **Platforms:** **Windows + Linux** — no macOS first-class line.
 
@@ -234,6 +234,31 @@ Consumer sketch: [upgrade-notes.md](docs/upgrade-notes.md) **Upgrade 1.90 → 2.
 **Checkpoint:** [checkpoint-270.md](docs/checkpoint-270.md) — audit **2.65…2.70**; update **3.00** prep in [upgrade-notes.md](docs/upgrade-notes.md).
 
 **Out:** Treating **2.70** as final 2.x line; shipping **3.00** in the same tag.
+
+---
+
+## Capability pack tranche 6 (`2.71` … `2.80`)
+
+| Slice | Theme | Status |
+|-------|--------|--------|
+| **2.71** | DataTable copy/export · MaskedTextField · PermissionGate | **Shipped** |
+| **2.72** | WindowMessageBus · SessionTimeout | Planned |
+| **2.73** | Consumer checkpoint DX | Planned |
+| **2.74** | Single-instance (opt-in) · `qwinui3 run` | Planned |
+| **2.75** | ErrorBoundary | Planned |
+| **2.76** | find_package + `qwinui3 upgrade` | Planned |
+| **2.77** | RecentFiles | Planned |
+| **2.78** | OfflineBanner · OperationRetry | Planned |
+| **2.79** | SensitiveField · ConfirmWithReason | Planned |
+| **2.80** | Soft checkpoint-280 | Planned |
+
+### 2.71 — Data + form + permission pack (shipped)
+
+| Item | Detail |
+|------|--------|
+| **DataTable** | `copySelection()` / `exportCsv()` CSV clipboard |
+| **MaskedTextField** | `#` digit / `A` letter / `*` alnum masks |
+| **PermissionGate** | `mode: hide\|disable` by role |
 
 ---
 

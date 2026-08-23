@@ -149,6 +149,7 @@ qt_add_qml_module(qwinui3_extras
         FlyoutKeyboardFocusTrap.qml
         MetadataControl.qml
         MetadataItem.qml
+        MaskedTextField.qml
         MeterBar.qml
         Sparkline.qml
         LineChart.qml
@@ -190,6 +191,7 @@ qt_add_qml_module(qwinui3_extras
         OnScreenKeyboard.qml
         OnScreenKeyboardWindow.qml
         PasswordBox.qml
+        PermissionGate.qml
         PersonPicture.qml
         PipsPager.qml
         PagerControl.qml

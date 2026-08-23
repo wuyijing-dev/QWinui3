@@ -95,6 +95,8 @@ qt_add_qml_module(qwinui3_gallery
         pages/FormValidationPage.qml
         pages/FormRegistrationTemplatePage.qml
         pages/FormAdminCrudTemplatePage.qml
+        pages/MaskedTextFieldPage.qml
+        pages/PermissionGatePage.qml
         pages/SettingsPreferencesTemplatePage.qml
         pages/FramePage.qml
         pages/FontIconPage.qml

@@ -223,6 +223,27 @@ CatalogPage {
             Component.onCompleted: select(3)
         }
 
+        RowLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Button {
+                text: qsTr("Copy selection")
+                onClicked: {
+                    var t = table.copySelection()
+                    selectionHint.text = t.length
+                            ? qsTr("Copied selection CSV (%1 chars)").arg(t.length)
+                            : qsTr("Nothing selected to copy")
+                }
+            }
+            Button {
+                text: qsTr("Export visible CSV")
+                onClicked: {
+                    var t = table.exportCsv(true)
+                    selectionHint.text = qsTr("Exported %1 chars to clipboard").arg(t.length)
+                }
+            }
+        }
+
         Label {
             id: selectionHint
             Layout.fillWidth: true

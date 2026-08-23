@@ -1,9 +1,9 @@
 # QWinUI3 Roadmap
 
-**Current:** **2.70** (master; Feedback chrome + loading + session + checkpoint-270)
-**Next up:** **2.73** Consumer checkpoint (Python / C++ DX) — or **2.00** rescheduled when gated
-**Planned through:** **3.00** (… → **2.71…2.75** platform/Python polish → **3.00** close-out → [micro-interaction backlog last](#micro-interaction--visual-polish--deferred-last))
-**Checkpoints ahead:** **2.73** Python consumer · **3.00** breaking close-out (checkpoint-300)
+**Current:** **2.71** (master; DataTable copy/export + MaskedTextField + PermissionGate)
+**Next up:** **2.72** Window bus + session idle
+**Planned through:** **3.00** (… → **2.71…2.80** → **3.00** close-out → [micro-interaction backlog last](#micro-interaction--visual-polish--deferred-last))
+**Checkpoints ahead:** **2.73** consumer · **2.80** soft · **3.00** breaking close-out (checkpoint-300)
 **Qt:** 6.5+ (recommended 6.8 LTS) on master today — **2.00** raises floor to **6.8 LTS** · **3.00** to **6.10 LTS**
 **Platforms:** **Windows + Linux** — no macOS first-class line.
 

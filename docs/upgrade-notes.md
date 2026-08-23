@@ -47,6 +47,25 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 2.70 → 2.71
+
+**Product version:** 2.71  
+**Date:** 2026-08-23  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | Additive | None required |
+
+### Optional / polish
+- **DataTable:** `copySelection()` / `exportCsv(toClipboard?)` for CSV clipboard export.
+- **MaskedTextField:** simple `#` / `A` / `*` masks.
+- **PermissionGate:** hide/disable children by `currentRole` / `allowedRoles`.
+
+### No action (compatible)
+- Stable Theme / shell / control APIs unchanged for this slice.
+
 ### Upgrade 2.69 → 2.70
 
 **Product version:** 2.70
