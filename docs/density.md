@@ -40,9 +40,17 @@ Theme.uiScale = 1.0   // optional fine tune
 
 ### CJK / Chinese vs English (WinUI alignment)
 
-`Segoe UI Variable` has **no** Han glyphs. WinUI keeps Latin on Segoe and falls back to **Microsoft YaHei UI** (简体) / **Microsoft JhengHei UI** (繁体) via DirectWrite. QWinUI3 mirrors that in `ThemeFonts` (`uiFamilies` / `uiFontFor`) and `configureApplication` → `applyApplicationFont()`.
+`Segoe UI Variable` has **no** Han glyphs. WinUI’s LanguageFont / Settings UI uses:
 
-**Important (Qt 6.5–6.8):** QML `font` has no `families` property (added later). Setting `font.family: "Segoe UI Variable"` **replaces** the fallback list and often merges CJK to SimSun / non-UI YaHei. Prefer inheriting the application / window font, or assign `font: ThemeFonts.uiFontFor(Theme.fontBody)`. Do not pin Latin-only family names on body text.
+| UI language | Primary UI font |
+|-------------|-----------------|
+| English | Segoe UI Variable (+ CJK fallbacks) |
+| 简体中文 | **Microsoft YaHei UI** |
+| 繁體中文 | **Microsoft JhengHei UI** |
+| 日本語 | **Yu Gothic UI** |
+| 한국어 | **Malgun Gothic** |
+
+Call `ThemeFonts.applyForUiLocale("zh_CN")` when the app language changes (Gallery does this from `GalleryLanguage`). Prefer `font: ThemeFonts.uiFontFor(Theme.fontBody + 0 * ThemeFonts.revision)` — do **not** set Latin-only `font.family` (clears the stack on Qt 6.5–6.8).
 
 ---
 

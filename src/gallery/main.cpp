@@ -10,12 +10,14 @@
 #include <QTimer>
 #include <QQuickWindow>
 #include <QDebug>
+#include <QSettings>
 #include <cstring>
 
 #include "Bootstrap.h"
 #include "GraphicsBackend.h"
 #include "GalleryLanguage.h"
 #include "FrameStatsMonitor.h"
+#include "ThemeFonts.h"
 
 QWINUI3_IMPORT_QML_PLUGINS
 
@@ -100,8 +102,18 @@ int main(int argc, char *argv[])
     // Safe now that QCoreApplication exists.
     GraphicsBackend::syncAfterApp();
 
-    if (!lang.isEmpty())
+    if (!lang.isEmpty()) {
         GalleryLanguage::setStartupLocaleOverride(lang);
+        // Apply WinUI CJK UI font before QML (zh → YaHei UI) even if GalleryLanguage loads later.
+        ThemeFonts::applyForUiLocale(lang);
+    } else {
+        // Same store as GalleryLanguage::readPersistedLocale (Settings → Display language).
+        QSettings settings;
+        settings.beginGroup(QStringLiteral("Gallery"));
+        const QString persisted = settings.value(QStringLiteral("uiLocale")).toString();
+        if (!persisted.isEmpty())
+            ThemeFonts::applyForUiLocale(persisted);
+    }
 
     const qint64 msAfterApp = startupLog ? wall.elapsed() : 0;
 

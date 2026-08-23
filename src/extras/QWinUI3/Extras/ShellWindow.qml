@@ -171,7 +171,7 @@ ApplicationWindow {
     readonly property real shellContentInset: WindowHelper.shellContentInset(root)
 
     color: WindowHelper.clientShellDecoration ? "transparent" : Theme.bgLayer
-    font: ThemeFonts.uiFontFor(Theme.fontBody)
+    font: ThemeFonts.uiFontFor(Theme.fontBody + (0 * ThemeFonts.revision))
     LayoutMirroring.enabled: Qt.application.layoutDirection === Qt.RightToLeft
     LayoutMirroring.childrenInherit: true
 

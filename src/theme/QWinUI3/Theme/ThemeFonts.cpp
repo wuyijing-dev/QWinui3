@@ -4,10 +4,14 @@
 #include <QFontDatabase>
 #include <QGuiApplication>
 #include <QQmlEngine>
+#include <QDebug>
 
+ThemeFonts *ThemeFonts::s_instance = nullptr;
 bool ThemeFonts::s_loaded = false;
 QString ThemeFonts::s_iconFamily = QStringLiteral("Segoe Fluent Icons");
 QString ThemeFonts::s_monoFamily;
+QString ThemeFonts::s_uiLocale;
+int ThemeFonts::s_revision = 0;
 QStringList ThemeFonts::s_uiFamilies;
 QStringList ThemeFonts::s_textFamilies;
 QStringList ThemeFonts::s_displayFamilies;
@@ -42,19 +46,21 @@ static QString resolveMonoFamily()
 static QFont makeMonoFont(const QString &family, int pixelSize)
 {
     QFont f;
-    f.setFamilies({
-        QStringLiteral("Cascadia Mono"),
-        QStringLiteral("Cascadia Code"),
-        QStringLiteral("Consolas"),
-        QStringLiteral("Courier New"),
-    });
+    // Only setFamilies — do not call setFamily afterward (can re-trigger GDI Fixedsys paths).
+    QStringList families;
     if (!family.isEmpty() && !isBitmapMonoFamily(family))
-        f.setFamily(family);
-    f.setStyleHint(QFont::AnyStyle);
+        families << family;
+    families << QStringLiteral("Cascadia Mono")
+             << QStringLiteral("Cascadia Code")
+             << QStringLiteral("Consolas")
+             << QStringLiteral("Courier New");
+    families.removeDuplicates();
+    f.setFamilies(families);
+    f.setStyleHint(QFont::SansSerif);
     f.setStyleStrategy(static_cast<QFont::StyleStrategy>(
         static_cast<int>(QFont::PreferOutline)
-        | static_cast<int>(QFont::NoFontMerging)
-        | static_cast<int>(QFont::PreferMatch)));
+        | static_cast<int>(QFont::PreferQuality)
+        | static_cast<int>(QFont::NoFontMerging)));
     if (pixelSize > 0)
         f.setPixelSize(pixelSize);
     return f;
@@ -68,19 +74,60 @@ static void appendIfPresent(QStringList &out, const QString &family)
         out.append(family);
 }
 
+// WinUI UI fonts — always list even if hasFamily is flaky on some TTC registrations.
+static void appendUiPreferred(QStringList &out, const QString &family)
+{
+    if (family.isEmpty() || out.contains(family))
+        return;
+    out.append(family);
+}
+
+static QString normalizeUiLocale(const QString &locale)
+{
+    const QString t = locale.trimmed().toLower().replace(QLatin1Char('-'), QLatin1Char('_'));
+    if (t.isEmpty() || t == QLatin1String("en") || t == QLatin1String("en_us")
+        || t == QLatin1String("c"))
+        return {};
+    return t;
+}
+
 void ThemeFonts::resolveUiStacks()
 {
-    if (!s_uiFamilies.isEmpty())
-        return;
-
+    QStringList primary;   // WinUI LanguageFont for the UI language
     QStringList latin;
     QStringList cjk;
 
 #if defined(Q_OS_WIN)
-    // WinUI / Windows 11: Segoe UI Variable for Latin; UI CJK companions for Han/Kana/Hangul.
-    // First family that has the glyph wins — keep Latin first so English stays Segoe.
     appendIfPresent(latin, QStringLiteral("Segoe UI Variable"));
+    appendIfPresent(latin, QStringLiteral("Segoe UI Variable Text"));
     appendIfPresent(latin, QStringLiteral("Segoe UI"));
+
+    const QString loc = s_uiLocale;
+    const bool hans = loc.startsWith(QLatin1String("zh_cn"))
+                      || loc.startsWith(QLatin1String("zh_sg"))
+                      || loc == QLatin1String("zh")
+                      || loc.startsWith(QLatin1String("zh_hans"));
+    const bool hant = loc.startsWith(QLatin1String("zh_tw"))
+                      || loc.startsWith(QLatin1String("zh_hk"))
+                      || loc.startsWith(QLatin1String("zh_mo"))
+                      || loc.startsWith(QLatin1String("zh_hant"));
+    const bool ja = loc.startsWith(QLatin1String("ja"));
+    const bool ko = loc.startsWith(QLatin1String("ko"));
+
+    // Match WinUI / Windows Settings: CJK UI language → CJK UI font is primary.
+    if (hans) {
+        appendUiPreferred(primary, QStringLiteral("Microsoft YaHei UI"));
+        appendUiPreferred(primary, QStringLiteral("Microsoft YaHei"));
+    } else if (hant) {
+        appendUiPreferred(primary, QStringLiteral("Microsoft JhengHei UI"));
+        appendUiPreferred(primary, QStringLiteral("Microsoft JhengHei"));
+    } else if (ja) {
+        appendUiPreferred(primary, QStringLiteral("Yu Gothic UI"));
+        appendUiPreferred(primary, QStringLiteral("Yu Gothic"));
+    } else if (ko) {
+        appendUiPreferred(primary, QStringLiteral("Malgun Gothic"));
+    }
+
     appendIfPresent(cjk, QStringLiteral("Microsoft YaHei UI"));
     appendIfPresent(cjk, QStringLiteral("Microsoft JhengHei UI"));
     appendIfPresent(cjk, QStringLiteral("Yu Gothic UI"));
@@ -90,6 +137,15 @@ void ThemeFonts::resolveUiStacks()
 #elif defined(Q_OS_MACOS)
     appendIfPresent(latin, QStringLiteral("SF Pro Text"));
     appendIfPresent(latin, QStringLiteral("Helvetica Neue"));
+    const QString loc = s_uiLocale;
+    if (loc.startsWith(QLatin1String("zh"))) {
+        appendUiPreferred(primary, QStringLiteral("PingFang SC"));
+        appendUiPreferred(primary, QStringLiteral("Hiragino Sans GB"));
+    } else if (loc.startsWith(QLatin1String("ja"))) {
+        appendUiPreferred(primary, QStringLiteral("Hiragino Sans"));
+    } else if (loc.startsWith(QLatin1String("ko"))) {
+        appendUiPreferred(primary, QStringLiteral("Apple SD Gothic Neo"));
+    }
     appendIfPresent(cjk, QStringLiteral("PingFang SC"));
     appendIfPresent(cjk, QStringLiteral("PingFang TC"));
     appendIfPresent(cjk, QStringLiteral("Hiragino Sans GB"));
@@ -99,6 +155,15 @@ void ThemeFonts::resolveUiStacks()
     appendIfPresent(latin, QStringLiteral("Inter"));
     appendIfPresent(latin, QStringLiteral("Noto Sans"));
     appendIfPresent(latin, QStringLiteral("DejaVu Sans"));
+    const QString loc = s_uiLocale;
+    if (loc.startsWith(QLatin1String("zh"))) {
+        appendUiPreferred(primary, QStringLiteral("Noto Sans CJK SC"));
+        appendUiPreferred(primary, QStringLiteral("Source Han Sans SC"));
+    } else if (loc.startsWith(QLatin1String("ja"))) {
+        appendUiPreferred(primary, QStringLiteral("Noto Sans CJK JP"));
+    } else if (loc.startsWith(QLatin1String("ko"))) {
+        appendUiPreferred(primary, QStringLiteral("Noto Sans CJK KR"));
+    }
     appendIfPresent(cjk, QStringLiteral("Noto Sans CJK SC"));
     appendIfPresent(cjk, QStringLiteral("Noto Sans CJK TC"));
     appendIfPresent(cjk, QStringLiteral("Noto Sans CJK JP"));
@@ -108,35 +173,57 @@ void ThemeFonts::resolveUiStacks()
     appendIfPresent(cjk, QStringLiteral("Droid Sans Fallback"));
 #endif
 
-    s_uiFamilies = latin + cjk;
-    if (s_uiFamilies.isEmpty())
-        s_uiFamilies << QStringLiteral("Sans Serif");
+    // Primary language font first (YaHei UI for zh_CN), then Segoe, then other CJK.
+    QStringList stack;
+    for (const QString &f : primary + latin + cjk) {
+        if (!stack.contains(f))
+            stack.append(f);
+    }
+    if (stack.isEmpty())
+        stack << QStringLiteral("Sans Serif");
+    s_uiFamilies = stack;
 
     QStringList textLatin;
 #if defined(Q_OS_WIN)
-    appendIfPresent(textLatin, QStringLiteral("Segoe UI Variable Text"));
-    appendIfPresent(textLatin, QStringLiteral("Segoe UI Variable"));
-    appendIfPresent(textLatin, QStringLiteral("Segoe UI"));
+    if (primary.isEmpty()) {
+        appendIfPresent(textLatin, QStringLiteral("Segoe UI Variable Text"));
+        appendIfPresent(textLatin, QStringLiteral("Segoe UI Variable"));
+        appendIfPresent(textLatin, QStringLiteral("Segoe UI"));
+    } else {
+        textLatin = primary;
+        appendIfPresent(textLatin, QStringLiteral("Segoe UI Variable Text"));
+        appendIfPresent(textLatin, QStringLiteral("Segoe UI Variable"));
+    }
 #else
-    textLatin = latin;
+    textLatin = primary.isEmpty() ? latin : primary;
 #endif
-    if (textLatin.isEmpty())
-        textLatin = latin;
-    s_textFamilies = textLatin + cjk;
+    s_textFamilies.clear();
+    for (const QString &f : textLatin + latin + cjk) {
+        if (!s_textFamilies.contains(f))
+            s_textFamilies.append(f);
+    }
     if (s_textFamilies.isEmpty())
         s_textFamilies = s_uiFamilies;
 
     QStringList displayLatin;
 #if defined(Q_OS_WIN)
-    appendIfPresent(displayLatin, QStringLiteral("Segoe UI Variable Display"));
-    appendIfPresent(displayLatin, QStringLiteral("Segoe UI Variable"));
-    appendIfPresent(displayLatin, QStringLiteral("Segoe UI"));
+    if (primary.isEmpty()) {
+        appendIfPresent(displayLatin, QStringLiteral("Segoe UI Variable Display"));
+        appendIfPresent(displayLatin, QStringLiteral("Segoe UI Variable"));
+        appendIfPresent(displayLatin, QStringLiteral("Segoe UI"));
+    } else {
+        displayLatin = primary;
+        appendIfPresent(displayLatin, QStringLiteral("Segoe UI Variable Display"));
+        appendIfPresent(displayLatin, QStringLiteral("Segoe UI Variable"));
+    }
 #else
-    displayLatin = latin;
+    displayLatin = primary.isEmpty() ? latin : primary;
 #endif
-    if (displayLatin.isEmpty())
-        displayLatin = latin;
-    s_displayFamilies = displayLatin + cjk;
+    s_displayFamilies.clear();
+    for (const QString &f : displayLatin + latin + cjk) {
+        if (!s_displayFamilies.contains(f))
+            s_displayFamilies.append(f);
+    }
     if (s_displayFamilies.isEmpty())
         s_displayFamilies = s_uiFamilies;
 }
@@ -144,12 +231,12 @@ void ThemeFonts::resolveUiStacks()
 static QFont makeUiFont(const QStringList &families, int pixelSize)
 {
     QFont f;
-    if (!families.isEmpty()) {
+    if (!families.isEmpty())
         f.setFamilies(families);
-        f.setFamily(families.first());
-    }
     f.setStyleHint(QFont::SansSerif);
-    f.setStyleStrategy(QFont::PreferOutline);
+    f.setStyleStrategy(static_cast<QFont::StyleStrategy>(
+        static_cast<int>(QFont::PreferOutline)
+        | static_cast<int>(QFont::PreferQuality)));
     if (pixelSize > 0)
         f.setPixelSize(pixelSize);
     return f;
@@ -161,9 +248,18 @@ ThemeFonts::ThemeFonts(QObject *parent)
     ensureLoaded();
 }
 
+ThemeFonts *ThemeFonts::instance()
+{
+    if (!s_instance)
+        s_instance = new ThemeFonts;
+    return s_instance;
+}
+
 ThemeFonts *ThemeFonts::create(QQmlEngine *, QJSEngine *)
 {
-    return new ThemeFonts;
+    auto *self = instance();
+    QQmlEngine::setObjectOwnership(self, QQmlEngine::CppOwnership);
+    return self;
 }
 
 void ThemeFonts::ensureLoaded()
@@ -212,6 +308,35 @@ void ThemeFonts::applyApplicationFont()
     if (!QGuiApplication::instance())
         return;
     QGuiApplication::setFont(makeUiFont(s_uiFamilies, 14));
+}
+
+void ThemeFonts::applyForUiLocale(const QString &locale)
+{
+    ensureLoaded();
+    const QString norm = normalizeUiLocale(locale);
+    if (norm == s_uiLocale && !s_uiFamilies.isEmpty()) {
+        applyApplicationFont();
+        return;
+    }
+    s_uiLocale = norm;
+    s_uiFamilies.clear();
+    s_textFamilies.clear();
+    s_displayFamilies.clear();
+    resolveUiStacks();
+    ++s_revision;
+    applyApplicationFont();
+    if (!s_uiFamilies.isEmpty()) {
+        qInfo("QWinUI3 UI font: %s (locale=%s)",
+              qPrintable(s_uiFamilies.first()),
+              qPrintable(s_uiLocale.isEmpty() ? QStringLiteral("en") : s_uiLocale));
+    }
+    emitUiFontsChanged();
+}
+
+void ThemeFonts::emitUiFontsChanged()
+{
+    if (s_instance)
+        emit s_instance->uiFontsChanged();
 }
 
 QString ThemeFonts::iconFamily() const
@@ -276,4 +401,14 @@ QFont ThemeFonts::uiFontFor(int pixelSize) const
 {
     ensureLoaded();
     return makeUiFont(s_uiFamilies, pixelSize);
+}
+
+QString ThemeFonts::uiLocale() const
+{
+    return s_uiLocale;
+}
+
+int ThemeFonts::revision() const
+{
+    return s_revision;
 }

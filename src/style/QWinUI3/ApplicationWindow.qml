@@ -19,6 +19,6 @@ T.ApplicationWindow {
     id: window
 
     color: Theme.bgLayer
-    // Full UI stack via ThemeFonts (Segoe + YaHei UI …). Avoid font.family alone — clears CJK fallbacks.
-    font: ThemeFonts.uiFontFor(Theme.fontBody)
+    // Locale-aware WinUI stack (YaHei UI when zh). revision keeps the binding live.
+    font: ThemeFonts.uiFontFor(Theme.fontBody + (0 * ThemeFonts.revision))
 }

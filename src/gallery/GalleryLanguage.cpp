@@ -1,5 +1,7 @@
 #include "GalleryLanguage.h"
 
+#include "ThemeFonts.h"
+
 #include <QCoreApplication>
 #include <QDir>
 #include <QJSEngine>
@@ -196,10 +198,14 @@ void GalleryLanguage::applyLocale(const QString &locale)
         QCoreApplication::installTranslator(&m_translator);
 
     m_installed = loaded;
-    m_currentLocale = loaded ? norm : QString();
+    // Keep the requested locale for UI font even if .qm is missing.
+    m_currentLocale = norm;
 
     if (m_engine)
         m_engine->retranslate();
+
+    // WinUI LanguageFont: zh_CN → Microsoft YaHei UI primary (independent of .qm).
+    ThemeFonts::applyForUiLocale(norm);
 
     if (s_startupOverride.isEmpty())
         persistLocale(m_currentLocale);
