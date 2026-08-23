@@ -179,8 +179,8 @@ CatalogPage {
                 AccentButton {
                     text: qsTr("Go")
                     onClicked: {
-                        if (!page.navigateSafe(urlField.text) && !hostLoader.item)
-                            Qt.openUrlExternally(urlField.text)
+                        if (!page.navigateSafe(urlField.text))
+                            page.navStatus = qsTr("Navigation blocked — allowlist only (2.36 Policy E).")
                     }
                 }
                 Button {
