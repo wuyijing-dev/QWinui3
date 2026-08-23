@@ -7,6 +7,9 @@ project(MyQWinUI3App LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Qt must be visible before qt_add_executable / qt_add_qml_module.
+find_package(Qt6 6.5 REQUIRED COMPONENTS Quick QuickControls2)
+
 # Point at your QWinUI3 checkout (sibling by default).
 if(NOT DEFINED QWINUI3_ROOT)
     set(QWINUI3_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/../QWinui3" CACHE PATH "QWinUI3 source root")
