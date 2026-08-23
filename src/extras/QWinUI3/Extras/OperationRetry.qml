@@ -14,6 +14,7 @@ import QtQuick
 //
 // @notes
 //   Pure helper — no network I/O. Apps wire their own request.
+//   fail()/retry() while a backoff is pending are coalesced (no overlapping timers).
 
 QtObject {
     id: root
@@ -24,6 +25,7 @@ QtObject {
     property int attemptCount: 0
     property bool running: false
     property string lastError: ""
+    property bool _retryPending: false
 
     signal attempt(int attemptNumber)
     signal retryScheduled(int attemptNumber, int delayMs)
@@ -33,6 +35,7 @@ QtObject {
 
     function start() {
         backoffTimer.stop()
+        _retryPending = false
         attemptCount = 0
         running = true
         lastError = ""
@@ -41,25 +44,33 @@ QtObject {
 
     function succeed() {
         backoffTimer.stop()
+        _retryPending = false
         running = false
         lastError = ""
         succeeded()
     }
 
     function fail(error) {
+        if (!running)
+            return
         lastError = String(error || qsTr("Operation failed"))
         retry()
     }
 
     function retry() {
         if (!running)
-            running = true
+            return
+        if (_retryPending)
+            return
         if (attemptCount >= maxAttempts) {
+            backoffTimer.stop()
+            _retryPending = false
             running = false
             failed(lastError.length ? lastError : qsTr("Max attempts reached"))
             return
         }
         var delay = Math.round(baseDelayMs * Math.pow(backoffFactor, Math.max(0, attemptCount - 1)))
+        _retryPending = true
         retryScheduled(attemptCount + 1, delay)
         backoffTimer.interval = Math.max(0, delay)
         backoffTimer.restart()
@@ -67,6 +78,7 @@ QtObject {
 
     function reset() {
         backoffTimer.stop()
+        _retryPending = false
         attemptCount = 0
         running = false
         lastError = ""
@@ -74,6 +86,7 @@ QtObject {
     }
 
     function _doAttempt() {
+        _retryPending = false
         attemptCount += 1
         attempt(attemptCount)
     }
