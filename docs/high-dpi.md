@@ -77,7 +77,7 @@ Also: System integration screens dump · Window shells persistence callout · Se
 
 | API | Purpose |
 |-----|---------|
-| `WindowHelper.highDpiScaleFactorRoundingPolicy()` | Read active Qt policy string (`PassThrough`, `Round`, …) |
+| `WindowHelper.highDpiScaleFactorRoundingPolicy()` | Read active Qt policy string (`Unset`, `PassThrough`, `Round`, …) |
 | `screensInfo()[].fractionalScale` | `true` when `devicePixelRatio` is not an integer (typical Wayland fractional scale) |
 
 **Bootstrap**

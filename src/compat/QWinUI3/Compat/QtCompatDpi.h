@@ -2,7 +2,7 @@
 
 // High-DPI scale-factor rounding — same kit behavior on Qt 6.5 … 6.11+.
 //
-// Public enum (all supported Qt 6.5+ docs): Round, Ceil, Floor, RoundPreferFloor, PassThrough.
+// Public enum (Qt 6.5+): Unset, Round, Ceil, Floor, RoundPreferFloor, PassThrough.
 // RoundPreferCeil was never a public enumerator in Qt 6.8 / 6.10 / 6.11 docs — string alias maps to Ceil only.
 // Do not reference RoundPreferCeil as an enumerator.
 
@@ -30,6 +30,8 @@ inline QString policyName(Qt::HighDpiScaleFactorRoundingPolicy policy)
 {
     using P = Qt::HighDpiScaleFactorRoundingPolicy;
     switch (policy) {
+    case P::Unset:
+        return QStringLiteral("Unset");
     case P::PassThrough:
         return QStringLiteral("PassThrough");
     case P::Round:
@@ -41,9 +43,8 @@ inline QString policyName(Qt::HighDpiScaleFactorRoundingPolicy policy)
     case P::RoundPreferFloor:
         return QStringLiteral("RoundPreferFloor");
     }
-    // Unknown / removed enumerator values (e.g. historic RoundPreferCeil numeric):
-    // expose as Ceil so UI/diagnostics match the “prefer round-up” alias below.
-    return QStringLiteral("Ceil");
+    // Out-of-range cast only (switch is exhaustive for public enum values).
+    return QStringLiteral("Unset");
 }
 
 /// Resolve a policy name. RoundPreferCeil → Ceil (compat alias). Unknown → kitPolicy().
@@ -56,6 +57,8 @@ inline Qt::HighDpiScaleFactorRoundingPolicy policyFromName(const QString &name, 
             *ok = true;
         return p;
     };
+    if (n.compare(QLatin1String("Unset"), Qt::CaseInsensitive) == 0)
+        return accept(P::Unset);
     if (n.compare(QLatin1String("PassThrough"), Qt::CaseInsensitive) == 0)
         return accept(P::PassThrough);
     if (n.compare(QLatin1String("Round"), Qt::CaseInsensitive) == 0)
