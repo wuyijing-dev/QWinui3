@@ -4,7 +4,7 @@ process speech-to-text for OSK (Windows + Linux). No helper processes. Windows: 
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/OskSpeechService.h`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/OskSpeechService.h)
 
-**Category:** Other · **Library:** v2.66 · **C++ type**
+**Category:** Other · **Library:** v2.67 · **C++ type**
 
 [← Component index](../components.md)
 

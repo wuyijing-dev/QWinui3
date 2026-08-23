@@ -14,6 +14,36 @@ CatalogPage {
     subtitle: qsTr("Inline severity banner. Stack via InfoBarHost — docs/feedback.md (1.34).")
 
     ControlExample {
+        headerText: qsTr("Surface variants (2.67 A4)")
+        qmlSource: "InfoBar {\n    appearance: \"outline\"\n    severity: warning\n}"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            InfoBar {
+                title: qsTr("Filled")
+                message: qsTr("Default severity fill.")
+                severity: informational
+                appearance: "filled"
+                closable: false
+            }
+            InfoBar {
+                title: qsTr("Outline")
+                message: qsTr("Transparent fill, severity stroke.")
+                severity: warning
+                appearance: "outline"
+                closable: false
+            }
+            InfoBar {
+                title: qsTr("Accent")
+                message: qsTr("Tinted severity wash.")
+                severity: success
+                appearance: "accent"
+                closable: false
+            }
+        }
+    }
+
+    ControlExample {
         headerText: qsTr("When to use (1.34)")
         qmlSource: "// InfoBar — stays on page\n// ToastHost — transient\n// docs/feedback.md"
         ColumnLayout {

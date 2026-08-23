@@ -4,7 +4,7 @@ Fluent styled CheckBox.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/CheckBox.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/CheckBox.qml)
 
-**Category:** Styled controls · **Library:** v2.66
+**Category:** Styled controls · **Library:** v2.67
 
 [← Component index](../components.md)
 

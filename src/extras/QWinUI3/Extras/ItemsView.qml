@@ -85,6 +85,10 @@ T.Control {
     property int minFilterLength: 0
     // Cap filtered rows for plain JS arrays (2.59).
     property int maxFilterResults: 256
+    // Row enter motion: none | fade | slide — 2.67 B2 (honors Theme.reducedMotion)
+    property string itemEnter: "fade"
+    // Row exit motion: none | fade | slide
+    property string itemExit: "fade"
     // Emitted when an item is activated (click / Enter)
     signal itemActivated(int index, var itemData)
     // Emitted when selection changes
@@ -368,6 +372,55 @@ T.Control {
             section.property: root.sectionRole
             section.criteria: ViewSection.FullString
             section.delegate: root.sectionRole.length ? sectionDelegate : null
+
+            add: Transition {
+                enabled: !Theme.reducedMotion && root.itemEnter !== "none"
+                NumberAnimation {
+                    property: "opacity"
+                    from: 0; to: 1
+                    duration: Theme.motion.ms("normal")
+                    easing.type: Theme.motion.easing("enter")
+                }
+                NumberAnimation {
+                    property: "x"
+                    from: root.itemEnter === "slide" ? 24 : 0
+                    to: 0
+                    duration: Theme.motion.ms("normal")
+                    easing.type: Theme.motion.easing("enter")
+                }
+            }
+            populate: Transition {
+                enabled: !Theme.reducedMotion && root.itemEnter !== "none"
+                NumberAnimation {
+                    property: "opacity"
+                    from: 0; to: 1
+                    duration: Theme.motion.ms("fast")
+                    easing.type: Theme.motion.easing("enter")
+                }
+            }
+            remove: Transition {
+                enabled: !Theme.reducedMotion && root.itemExit !== "none"
+                NumberAnimation {
+                    property: "opacity"
+                    to: 0
+                    duration: Theme.motion.ms("fast")
+                    easing.type: Theme.motion.easing("exit")
+                }
+                NumberAnimation {
+                    property: "x"
+                    to: root.itemExit === "slide" ? -24 : 0
+                    duration: Theme.motion.ms("fast")
+                    easing.type: Theme.motion.easing("exit")
+                }
+            }
+            displaced: Transition {
+                enabled: !Theme.reducedMotion && root.itemEnter !== "none"
+                NumberAnimation {
+                    properties: "x,y"
+                    duration: Theme.motion.ms("fast")
+                    easing.type: Theme.motion.easing("standard")
+                }
+            }
 
             delegate: ListTile {
                 id: tile

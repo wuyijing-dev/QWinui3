@@ -224,6 +224,19 @@ QtObject {
     readonly property int motionSlow: 250
     // Flyout / popup enter duration (ms)
     readonly property int motionFlyout: 250
+    // Nested motion token bag for Style / Extras (2.67 B1) — prefer Theme.motion.*
+    readonly property QtObject motion: QtObject {
+        readonly property int durationFast: root.motionFast
+        readonly property int durationNormal: root.motionNormal
+        readonly property int durationSlow: root.motionSlow
+        readonly property int durationFlyout: root.motionFlyout
+        readonly property int easingEnter: root.easingEnter
+        readonly property int easingExit: root.easingExit
+        readonly property int easingStandard: root.easingStandard
+        readonly property int easingEmphasized: root.easingEmphasized
+        function ms(slot) { return root.motionMs(slot) }
+        function easing(slot) { return root.motionEasing(slot) }
+    }
     // Disabled icon glyph opacity (2.66 — I2)
     readonly property real iconDisabledOpacity: 0.55
     // Enter easing curve

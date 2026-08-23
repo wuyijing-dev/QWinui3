@@ -4,7 +4,7 @@ LOD helpers for large chart series.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ChartUtils.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ChartUtils.qml)
 
-**Category:** Charts & gauges · **Library:** v2.66 · **singleton**
+**Category:** Charts & gauges · **Library:** v2.67 · **singleton**
 
 [← Component index](../components.md)
 
@@ -61,6 +61,8 @@ _No custom signals_ (use inherited signals from the base type).
 | `lodBudget(plotWidth, maxPoints, factor)` | Pixel-aware draw budget. Default keeps ~2 samples per horizontal pixel. |
 | `buildLod(values, maxPoints)` | Prefers ChartSeries.lod (C++) when available. |
 | `downsample(values, maxPoints)` | Back-compat for Sparkline / older call sites. |
+| `douglasPeucker(values, maxPoints)` | Douglas–Peucker for y-series (x = index). Returns ≤ maxPoints samples. |
+| `buildLodDouglas(values, maxPoints)` | — |
 | `densitySample(points, binsX, binsY, minX, maxX, minY, maxY)` | Density binning for scatter — collapses N points into ≤ binsX*binsY cells. |
 | `makeWave(count, seed)` | Build a large numeric series (call from a button — not from a binding). |
 | `makeCloud(count, seed)` | Build a soft cloud brush / fill path |

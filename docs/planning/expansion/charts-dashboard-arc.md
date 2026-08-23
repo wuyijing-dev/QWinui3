@@ -37,7 +37,7 @@ Product plan for **new analytics surfaces** and **deeper chart/dashboard APIs** 
 
 | Type | Slice | Gate | Verdict target |
 |------|-------|------|----------------|
-| **Sparkline** | **2.67** | FL-009 / KPI density apps | Promote to stable **or** permanent defer → `KpiTile.trendValues` only |
+| **Sparkline** | **2.67** | FL-009 / KPI density apps | **Permanent defer** → `KpiTile.trendValues` only (no stable Sparkline type) |
 | **BulletChart** | **2.69** | FL-014 | Promote as compose on **KpiTile** + **RingGauge** **or** thin stable type |
 | **HistogramChart** | **2.69** | FL-015 | **Conditional** — bin API on **BarChart** first |
 | **DashboardShell** | **2.65** | FL-009 | Layout host (grid + KPI row + filter rail) — **not** withdrawn `Hub` |
@@ -73,7 +73,7 @@ Product plan for **new analytics surfaces** and **deeper chart/dashboard APIs** 
 | **2.52** | Minimal **DashboardShell** in first-app quickstart |
 | **2.59** | Named slow dashboard flows (filter + chart refresh) |
 | **2.65** | **Wave A** + **DashboardShell** + `examples/dashboard` v2 |
-| **2.67** | **Sparkline** promote/defer verdict; experimental cleanup |
+| **2.67** | **Sparkline** permanent defer → `KpiTile.trendValues`; list/card appearance + motion |
 | **2.69** | **Wave B** conditional types + field buffer |
 | **2.70** | Audit: new types justified vs compose-only |
 | **2.73** | Python dashboard minimal example |

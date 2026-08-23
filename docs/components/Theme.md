@@ -4,7 +4,7 @@ Fluent color / type / motion token singleton.
 
 `import QWinUI3.Theme` · [`src/theme/QWinUI3/Theme/Theme.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/theme/QWinUI3/Theme/Theme.qml)
 
-**Category:** Theme · **Library:** v2.66 · **singleton**
+**Category:** Theme · **Library:** v2.67 · **singleton**
 
 [← Component index](../components.md)
 
@@ -135,6 +135,7 @@ Use Theme.duration(ms) and controlFill/accentFill helpers for states.
 | `motionNormal` | `int` | Normal motion duration (ms) |
 | `motionSlow` | `int` | Slow motion duration (ms) |
 | `motionFlyout` | `int` | Flyout / popup enter duration (ms) |
+| `motion` | `QtObject` | Nested motion token bag for Style / Extras (2.67 B1) — prefer Theme.motion.* |
 | `iconDisabledOpacity` | `real` | Disabled icon glyph opacity (2.66 — I2) |
 | `easingEnter` | `int` | Enter easing curve |
 | `easingExit` | `int` | Exit easing curve |

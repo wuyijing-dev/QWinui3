@@ -98,6 +98,7 @@ qt_add_qml_module(qwinui3_extras
         DockPanel.qml
         DropDownButton.qml
         FormLayout.qml
+        FormSection.qml
         ValidationSummary.qml
         ItemsView.qml
         ItemsViewEmptyStateHelper.qml

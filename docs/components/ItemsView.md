@@ -4,7 +4,7 @@ ListView recipe: sections, selection, context MenuFlyout, EmptyState.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ItemsView.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ItemsView.qml)
 
-**Category:** Collections & data · **Library:** v2.66
+**Category:** Collections & data · **Library:** v2.67
 
 [← Component index](../components.md)
 
@@ -71,6 +71,8 @@ See docs/data-collections.md for pairing with ListDetailsView.
 | `filterDebounceMs` | `int` | Debounce ms before rebuilding the filtered array (1.88). |
 | `minFilterLength` | `int` | Skip filter until query length >= this (2.59 — huge JS arrays). |
 | `maxFilterResults` | `int` | Cap filtered rows for plain JS arrays (2.59). |
+| `itemEnter` | `string` | Row enter motion: none \| fade \| slide — 2.67 B2 (honors Theme.reducedMotion) |
+| `itemExit` | `string` | Row exit motion: none \| fade \| slide |
 | `accessibleName` | `string` | Screen-reader name override (1.19) |
 | `count` | `int` | Resolved item count |
 | `isEmpty` | `bool` | — |

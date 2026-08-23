@@ -151,6 +151,7 @@ T.Switch {
 
                         Behavior on opacity {
                             enabled: !Theme.reducedMotion
+                                     && (control.hovered || control.down || control.checked)
                             NumberAnimation {
                                 duration: Theme.motionMs("fast")
                                 easing.type: Theme.motionEasing("standard")
@@ -158,6 +159,7 @@ T.Switch {
                         }
                         Behavior on scale {
                             enabled: !Theme.reducedMotion
+                                     && (control.hovered || control.down || control.checked)
                             NumberAnimation {
                                 duration: Theme.motionMs("normal")
                                 easing.type: Theme.motionEasing("enter")

@@ -1,6 +1,6 @@
 # QWinUI3 component API
 
-Library **v2.66**. Generated from CMake ``QML_FILES`` + C++ ``QML_ELEMENT`` types (`scripts/generate_component_docs.py`).
+Library **v2.67**. Generated from CMake ``QML_FILES`` + C++ ``QML_ELEMENT`` types (`scripts/generate_component_docs.py`).
 Each control has its own page under `docs/components/`.
 
 ```bash
@@ -8,7 +8,7 @@ python scripts/generate_component_docs.py
 python scripts/generate_component_docs.py --lint
 ```
 
-**299** public · **14** internal · **206** with Gallery demos · Hub: [docs home](index.md).
+**301** public · **14** internal · **206** with Gallery demos · Hub: [docs home](index.md).
 
 ## By module
 
@@ -88,6 +88,7 @@ python scripts/generate_component_docs.py --lint
 - [FlyoutKeyboardFocusTrap](components/FlyoutKeyboardFocusTrap.md) — restore keyboard focus after MenuFlyout closes.
 - [FontIcon](components/FontIcon.md) — FluentIcons glyph as Text. · Gallery
 - [FormLayout](components/FormLayout.md) — Vertical form stack that collects field errorMessage values.
+- [FormSection](components/FormSection.md) — Collapsible field group for FormLayout (2.67 D2).
 - [FuelGauge](components/FuelGauge.md) — Empty/full arc with E–F marks. · Gallery
 - [FunnelChart](components/FunnelChart.md) — Conversion funnel from stage values. · Gallery
 - [GearIndicator](components/GearIndicator.md) — PRNDS / manual gear readout for a cluster. · Gallery
@@ -248,6 +249,7 @@ python scripts/generate_component_docs.py --lint
 - [FrameStatsBadge](components/FrameStatsBadge.md) — compact FPS readout for StandardTitleChrome.rightHeader (PlatformTitleBar slot before caption buttons — not TitleBar.rightHeader).
 - [FrameStatsMonitor](components/FrameStatsMonitor.md) — FPS / frame-time / RHI readout for Gallery and retail diagnostics (singleton). · Gallery · C++ · singleton
 - [FrameStatsOverlay](components/FrameStatsOverlay.md) — floating FPS badge when not using the title-bar slot.
+- [PlatformCapability](components/PlatformCapability.md) — Runtime feature probe (2.67 F1). · singleton
 - [PlatformTitleBar](components/PlatformTitleBar.md) — Caption buttons + drag region + TitleBar host.
 - [StandardWindow](components/StandardWindow.md) — Platform ApplicationWindow + PlatformTitleBar host.
 - [ThemeSync](components/ThemeSync.md) — Copy OS accessibility / color scheme into Theme knobs.
@@ -469,6 +471,7 @@ python scripts/generate_component_docs.py --lint
 - [ContextMenuAtItem](components/ContextMenuAtItem.md) — `QWinUI3.Extras`
 - [FlyoutKeyboardFocusTrap](components/FlyoutKeyboardFocusTrap.md) — `QWinUI3.Extras`
 - [FormLayout](components/FormLayout.md) — `QWinUI3.Extras`
+- [FormSection](components/FormSection.md) — `QWinUI3.Extras`
 - [HeaderedComboBox](components/HeaderedComboBox.md) — `QWinUI3.Extras`
 - [HeaderedContentControl](components/HeaderedContentControl.md) — `QWinUI3.Extras`
 - [HeaderedTextBox](components/HeaderedTextBox.md) — `QWinUI3.Extras`
@@ -566,6 +569,7 @@ python scripts/generate_component_docs.py --lint
 - [FrameStatsBadge](components/FrameStatsBadge.md) — `QWinUI3.Platform`
 - [FrameStatsMonitor](components/FrameStatsMonitor.md) — `QWinUI3.Platform`
 - [FrameStatsOverlay](components/FrameStatsOverlay.md) — `QWinUI3.Platform`
+- [PlatformCapability](components/PlatformCapability.md) — `QWinUI3.Platform`
 - [PlatformTitleBar](components/PlatformTitleBar.md) — `QWinUI3.Platform`
 - [StandardWindow](components/StandardWindow.md) — `QWinUI3.Platform`
 - [ThemeSync](components/ThemeSync.md) — `QWinUI3.Platform`

@@ -47,6 +47,34 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 2.66 → 2.67
+
+**Product version:** 2.67
+**Date:** 2026-08-23
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **A3/A4 appearance:** [appearance-variants.md](appearance-variants.md) — ListTile `density` / `leadingPreset`; SettingsCard / ChartCard / InfoBar `appearance`.
+- **B1/B2 motion:** `Theme.motion.*` tokens; ItemsView / DataTable / ListDetailsView `itemEnter` / `itemExit`.
+- **C2 charts:** LineChart `autoDecimate` / `decimateMode: "bucket"|"douglas"`.
+- **C4 Style:** Slider / Switch / ComboBox idle Behaviors gated to interaction.
+- **D2 forms:** FormSection + `formFieldId` / `setFieldVisible` — [forms.md](forms.md).
+- **F1 platform:** `PlatformCapability` singleton (Mica / blur / tray / WebView / SNI).
+- **Sparkline:** permanent defer → use **KpiTile.trendValues** — [stable-api.md](stable-api.md).
+
+#### Action required (only if you adopt new APIs)
+
+| Area | Change | What to do |
+|------|--------|------------|
+| **ListTile** | Prefer `density` over `tileDensity` | `tileDensity` remains an alias |
+| **ChartCard** | Prefer `appearance: "elevated"` | `elevated: true` still works |
+| **Platform** | Gate Mica/WebView UI on `PlatformCapability.has(…)` | Show `degradationHint` when false |
+
+#### No action (compatible)
+
+- Existing SettingsCard / InfoBar / ItemsView / FormLayout call sites keep prior defaults.
+
 ### Upgrade 2.65 → 2.66
 
 **Product version:** 2.66

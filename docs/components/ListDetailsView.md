@@ -4,7 +4,7 @@ Master–detail recipe on TwoPaneView.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ListDetailsView.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ListDetailsView.qml)
 
-**Category:** Collections & data · **Library:** v2.66
+**Category:** Collections & data · **Library:** v2.67
 
 [← Component index](../components.md)
 
@@ -62,6 +62,8 @@ list in SinglePane mode. Live-region announces selection / pane changes (2.07).
 | `accessibleName` | `string` | Screen-reader name override (1.19) |
 | `listAccessibleName` | `string` | — |
 | `announceChanges` | `bool` | Qt 6.8+ Accessible.announce for selection / pane changes (2.07). |
+| `itemEnter` | `string` | Master list enter motion: none \| fade \| slide — 2.67 B2 |
+| `itemExit` | `string` | Master list exit motion: none \| fade \| slide |
 | `selectedItem` | `var` | — |
 | `singlePaneDetailsOpen` | `bool` | — |
 | `filteredCount` | `int` | — |

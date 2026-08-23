@@ -54,6 +54,11 @@ T.Control {
     property real lodFactor: 2
     // Auto-enable LOD for large series
     property bool autoLod: true
+    // Alias of autoLod — 2.67 C2 naming
+    property alias autoDecimate: root.autoLod
+    // Decimation strategy: "bucket" (min/max envelope, default). "douglas" uses
+    // ChartUtils.douglasPeucker when series length exceeds the pixel budget.
+    property string decimateMode: "bucket"
     // Stroke thickness in px
     property real strokeWidth: 2
     // Grid line color
@@ -179,6 +184,7 @@ T.Control {
     function ensureLod(budget) {
         var list = root._seriesList
         var key = String(budget) + "@" + String(root.viewStart) + ":" + String(root.viewEnd)
+                 + "#" + String(root.decimateMode)
         for (var s = 0; s < list.length; ++s)
             key += "|" + ChartUtils.valueCount(list[s].values)
         // Soft reuse when resize only nudges budget (±15%)
@@ -210,7 +216,9 @@ T.Control {
                 for (var zi = i0; zi <= i1; ++zi)
                     sliced.push(raw[zi])
             }
-            var pack = ChartUtils.buildLod(sliced, budget)
+            var pack = (String(root.decimateMode).toLowerCase() === "douglas")
+                       ? ChartUtils.buildLodDouglas(sliced, budget)
+                       : ChartUtils.buildLod(sliced, budget)
             packs.push(pack)
             drawn += pack.values.length
             src = Math.max(src, pack.sourceCount)

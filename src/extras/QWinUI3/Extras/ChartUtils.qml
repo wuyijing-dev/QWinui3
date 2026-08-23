@@ -302,6 +302,93 @@ QtObject {
         return buildLod(values, maxPoints).values
     }
 
+    // Douglas–Peucker for y-series (x = index). Returns ≤ maxPoints samples.
+    function douglasPeucker(values, maxPoints) {
+        var n = valueCount(values)
+        var budget = Math.max(2, Math.floor(maxPoints || 0))
+        if (!n)
+            return []
+        if (n <= budget) {
+            var exact = flattenValues(values)
+            return exact
+        }
+        var pts = []
+        for (var i = 0; i < n; ++i)
+            pts.push({ x: i, y: valueAt(values, i), keep: false })
+        pts[0].keep = true
+        pts[n - 1].keep = true
+
+        var stack = [[0, n - 1]]
+        while (stack.length) {
+            var seg = stack.pop()
+            var left = seg[0]
+            var right = seg[1]
+            if (right <= left + 1)
+                continue
+            var x1 = pts[left].x
+            var y1 = pts[left].y
+            var x2 = pts[right].x
+            var y2 = pts[right].y
+            var best = -1
+            var bestDist = -1
+            for (var j = left + 1; j < right; ++j) {
+                var dx = x2 - x1
+                var dy = y2 - y1
+                var denom = dx * dx + dy * dy
+                var t = denom > 0
+                        ? ((pts[j].x - x1) * dx + (pts[j].y - y1) * dy) / denom
+                        : 0
+                if (t < 0) t = 0
+                if (t > 1) t = 1
+                var px = x1 + t * dx
+                var py = y1 + t * dy
+                var ddx = pts[j].x - px
+                var ddy = pts[j].y - py
+                var dist = ddx * ddx + ddy * ddy
+                if (dist > bestDist) {
+                    bestDist = dist
+                    best = j
+                }
+            }
+            if (best < 0)
+                continue
+            pts[best].keep = true
+            stack.push([left, best])
+            stack.push([best, right])
+            var kept = 0
+            for (var k = 0; k < n; ++k)
+                if (pts[k].keep)
+                    ++kept
+            if (kept >= budget)
+                break
+        }
+
+        var out = []
+        for (var p = 0; p < n && out.length < budget; ++p) {
+            if (pts[p].keep)
+                out.push(pts[p].y)
+        }
+        if (out.length < 2) {
+            out = [pts[0].y, pts[n - 1].y]
+        }
+        return out
+    }
+
+    function buildLodDouglas(values, maxPoints) {
+        var n = valueCount(values)
+        if (!n)
+            return { values: [], min: 0, max: 1, sourceCount: 0, shared: false }
+        var simplified = douglasPeucker(values, maxPoints)
+        var ex = extents(simplified)
+        return {
+            values: simplified,
+            min: ex.min,
+            max: ex.max,
+            sourceCount: n,
+            shared: false
+        }
+    }
+
     // Density binning for scatter — collapses N points into ≤ binsX*binsY cells.
     function densitySample(points, binsX, binsY, minX, maxX, minY, maxY) {
         var n = valueCount(points)

@@ -42,10 +42,19 @@ T.Control {
     property string iconGlyph: ""
     // Play enter / reveal animation
     property bool animated: true
-    // Stronger elevation / card tint
+    // Stronger elevation / card tint (compat — prefer appearance: "elevated")
     property bool elevated: false
+    // Surface variant: elevated | filled | outline | accent | "" (follow elevated) — 2.67 A4
+    property string appearance: ""
     // Draw a border when true
     property bool bordered: true
+
+    readonly property string _surface: {
+        var a = String(appearance || "").toLowerCase()
+        if (a === "elevated" || a === "outline" || a === "accent" || a === "filled")
+            return a
+        return elevated ? "elevated" : "filled"
+    }
     // Trailing header actions slot
     property alias headerActions: actionsRow.data
     // Content slot / children host
@@ -170,12 +179,23 @@ T.Control {
     }
 
     background: ElevatedChrome {
-        color: root.elevated ? Theme.bgCardElevated : Theme.bgCard
+        color: {
+            if (root._surface === "accent")
+                return Qt.rgba(Theme.accent.r, Theme.accent.g, Theme.accent.b, 0.12)
+            if (root._surface === "outline")
+                return "transparent"
+            if (root._surface === "elevated")
+                return Theme.bgCardElevated
+            return Theme.bgCard
+        }
         radius: Theme.cornerCard
-        borderWidth: root.bordered ? 1 : 0
-        borderColor: Theme.strokeCard
-        elevation: root.elevated ? 5 : 2
+        borderWidth: root.bordered || root._surface === "outline" || root._surface === "accent" ? 1 : 0
+        borderColor: root._surface === "accent"
+                     ? Qt.rgba(Theme.accent.r, Theme.accent.g, Theme.accent.b, 0.45)
+                     : Theme.strokeCard
+        elevation: root._surface === "elevated" ? 5
+                 : (root._surface === "outline" ? 0 : 2)
         shadowOpacity: Theme.dark ? 0.22 : 0.1
-        elevated: true
+        elevated: root._surface === "elevated"
     }
 }

@@ -29,6 +29,27 @@ CatalogPage {
                 toggle: true
                 checked: true
             }
+            SettingsCard {
+                title: qsTr("Elevated surface")
+                description: qsTr("appearance: elevated (2.67 A4)")
+                symbol: FluentIcons.Brightness
+                appearance: "elevated"
+                toggle: true
+            }
+            SettingsCard {
+                title: qsTr("Outline surface")
+                description: qsTr("appearance: outline")
+                symbol: FluentIcons.Checkbox
+                appearance: "outline"
+                interactive: true
+            }
+            SettingsCard {
+                title: qsTr("Accent surface")
+                description: qsTr("appearance: accent")
+                symbol: FluentIcons.Color
+                appearance: "accent"
+                interactive: true
+            }
             SettingsToggleCard {
                 title: qsTr("Dark mode")
                 description: qsTr("SettingsToggleCard alias for SettingsCard { toggle: true }.")

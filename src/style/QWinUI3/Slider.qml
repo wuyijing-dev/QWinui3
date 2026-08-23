@@ -48,7 +48,7 @@ T.Slider {
             scale: control.pressed ? 0.96 : (control.hovered ? 1.12 : 1)
 
             Behavior on scale {
-                enabled: !Theme.reducedMotion
+                enabled: !Theme.reducedMotion && (control.hovered || control.pressed)
                 NumberAnimation {
                     duration: Theme.motionMs("fast")
                     easing.type: Theme.motionEasing("standard")
@@ -75,21 +75,21 @@ T.Slider {
                 }
 
                 Behavior on width {
-                    enabled: !Theme.reducedMotion
+                    enabled: !Theme.reducedMotion && (control.hovered || control.pressed)
                     NumberAnimation {
                         duration: Theme.duration(Theme.motionNormal)
                         easing.type: Theme.easingStandard
                     }
                 }
                 Behavior on height {
-                    enabled: !Theme.reducedMotion
+                    enabled: !Theme.reducedMotion && (control.hovered || control.pressed)
                     NumberAnimation {
                         duration: Theme.duration(Theme.motionNormal)
                         easing.type: Theme.easingStandard
                     }
                 }
                 Behavior on color {
-                    enabled: !Theme.reducedMotion
+                    enabled: !Theme.reducedMotion && (control.hovered || control.pressed)
                     ColorAnimation {
                         duration: Theme.duration(Theme.motionFast)
                         easing.type: Theme.easingStandard

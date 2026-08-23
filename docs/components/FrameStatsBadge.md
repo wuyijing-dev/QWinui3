@@ -4,7 +4,7 @@ compact FPS readout for StandardTitleChrome.rightHeader (PlatformTitleBar slot b
 
 `import QWinUI3.Platform` · [`src/platform/QWinUI3/Platform/FrameStatsBadge.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/platform/QWinUI3/Platform/FrameStatsBadge.qml)
 
-**Category:** Platform · **Library:** v2.66
+**Category:** Platform · **Library:** v2.67
 
 [← Component index](../components.md)
 

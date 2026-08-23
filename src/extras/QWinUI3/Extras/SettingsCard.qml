@@ -75,10 +75,19 @@ T.Pane {
     property string actionIconGlyph: ""
     // Card corner radius (binds ElevatedChrome)
     property real cornerRadius: Theme.cornerCard
+    // Surface variant: elevated | filled | outline | accent | "" (= filled) — 2.67 A4
+    property string appearance: "filled"
     // Emitted when clicked
     signal clicked()
     // Emitted when the built-in Switch toggles
     signal toggled(bool checked)
+
+    readonly property string _surface: {
+        var a = String(appearance || "").toLowerCase()
+        if (a === "elevated" || a === "outline" || a === "accent")
+            return a
+        return "filled"
+    }
 
     readonly property string effectiveHeaderIcon: {
         var primary = (symbol !== undefined && symbol !== null && String(symbol).length)
@@ -137,15 +146,29 @@ T.Pane {
 
     background: ElevatedChrome {
         color: {
+            if (root._surface === "accent")
+                return Qt.rgba(Theme.accent.r, Theme.accent.g, Theme.accent.b,
+                               root.interactive && root.hovered ? 0.22 : 0.14)
+            if (root._surface === "outline")
+                return root.interactive && root.hovered ? Theme.fillSubtle : "transparent"
+            if (root._surface === "elevated")
+                return Theme.bgCardElevated
             if (root.interactive && root.hovered)
                 return Theme.fillSubtle
             return Theme.bgCard
         }
         radius: root.cornerRadius
-        borderWidth: root._rowFocusable && root.activeFocus ? 2 : 1
-        borderColor: root._rowFocusable && root.activeFocus ? Theme.accent : Theme.strokeCard
-        elevation: root.interactive && root.hovered && !Theme.reducedMotion ? 3 : 2
+        borderWidth: root._surface === "outline" ? 1
+                     : (root._rowFocusable && root.activeFocus ? 2 : 1)
+        borderColor: root._rowFocusable && root.activeFocus ? Theme.accent
+                     : (root._surface === "accent"
+                        ? Qt.rgba(Theme.accent.r, Theme.accent.g, Theme.accent.b, 0.45)
+                        : Theme.strokeCard)
+        elevation: root._surface === "elevated"
+                   ? (root.interactive && root.hovered ? 6 : 4)
+                   : (root.interactive && root.hovered && !Theme.reducedMotion ? 3 : 2)
         shadowOpacity: Theme.dark ? 0.22 : 0.08
+        elevated: root._surface === "elevated"
 
         Behavior on color {
             enabled: !Theme.reducedMotion

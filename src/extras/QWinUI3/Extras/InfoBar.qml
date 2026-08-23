@@ -82,6 +82,14 @@ T.Control {
         default: return "informational"
         }
     }
+    // Surface variant: filled | elevated | outline | accent — 2.67 A4
+    property string appearance: "filled"
+    readonly property string _surface: {
+        var a = String(appearance || "").toLowerCase()
+        if (a === "elevated" || a === "outline" || a === "accent")
+            return a
+        return "filled"
+    }
     readonly property bool _contentOnly: title.length === 0 && message.length === 0
                                          && contentSlot.children.length > 0
 
@@ -246,9 +254,18 @@ T.Control {
 
     background: Rectangle {
         radius: Theme.cornerControl
-        color: root._bg
+        color: {
+            if (root._surface === "outline")
+                return "transparent"
+            if (root._surface === "accent")
+                return Qt.rgba(root._accent.r, root._accent.g, root._accent.b, 0.18)
+            if (root._surface === "elevated")
+                return Theme.bgCardElevated
+            return root._bg
+        }
         border.width: 1
-        border.color: Theme.strokeCard
+        border.color: root._surface === "outline" || root._surface === "accent"
+                      ? root._accent : Theme.strokeCard
 
         Rectangle {
             anchors.left: parent.left
@@ -258,6 +275,7 @@ T.Control {
             width: 3
             radius: 1.5
             color: root._accent
+            visible: root._surface !== "outline"
         }
     }
 

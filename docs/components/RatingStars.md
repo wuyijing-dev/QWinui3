@@ -4,7 +4,7 @@ semantic star-rating wrapper around RatingControl.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/RatingStars.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/RatingStars.qml)
 
-**Category:** Input & forms · **Library:** v2.66
+**Category:** Input & forms · **Library:** v2.67
 
 [← Component index](../components.md)
 

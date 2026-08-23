@@ -4,7 +4,7 @@ registers embedded Fluent-compatible icon fonts (qrc).
 
 `import QWinUI3.Theme` · [`src/theme/QWinUI3/Theme/ThemeFonts.h`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/theme/QWinUI3/Theme/ThemeFonts.h)
 
-**Category:** Theme · **Library:** v2.66 · **C++ type** · **singleton**
+**Category:** Theme · **Library:** v2.67 · **C++ type** · **singleton**
 
 [← Component index](../components.md)
 

@@ -8,7 +8,7 @@ import QWinUI3.Extras
 
 CatalogPage {
     title: qsTr("ListTile")
-    subtitle: qsTr("List row with symbol / leading, title, subtitle, selection indicator, and trailing.")
+    subtitle: qsTr("Density + leading presets (2.67 A3). List row with symbol / avatar / checkbox.")
 
     ControlExample {
         headerText: qsTr("Rows")
@@ -39,6 +39,36 @@ CatalogPage {
                 description: qsTr("12 GB free of 128 GB")
                 symbol: FluentIcons.Folder
                 InfoBadge { value: 3 }
+            }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Density + leading presets (2.67)")
+        qmlSource: "ListTile {\n    density: \"compact\"\n    leadingPreset: \"avatar\"\n    avatarName: \"Alex\"\n}"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: 4
+            ListTile {
+                title: qsTr("Compact icon")
+                subtitle: qsTr("density: compact")
+                symbol: FluentIcons.Mail
+                density: "compact"
+            }
+            ListTile {
+                title: qsTr("Normal avatar")
+                subtitle: qsTr("leadingPreset: avatar")
+                density: "normal"
+                leadingPreset: "avatar"
+                avatarName: qsTr("Jordan Lee")
+            }
+            ListTile {
+                title: qsTr("Spacious checkbox")
+                subtitle: qsTr("density: spacious · leadingPreset: checkbox")
+                density: "spacious"
+                leadingPreset: "checkbox"
+                checkable: true
+                checked: true
             }
         }
     }

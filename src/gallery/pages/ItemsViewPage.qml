@@ -69,6 +69,8 @@ CatalogPage {
                 model: page.showEmpty ? [] : page.sampleModel
                 sectionRole: "group"
                 selectionMode: ItemsView.SelectionMultiple
+                itemEnter: "slide"
+                itemExit: "fade"
                 emptyTitle: qsTr("No files")
                 emptyMessage: qsTr("Add documents, clear the filter, or restore the sample list.")
                 emptyActionText: qsTr("Restore")

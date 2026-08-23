@@ -19,6 +19,8 @@ Short recipe for **validation** and **settings pages**. Prefer these patterns ov
 4. Bind `ValidationSummary { errors: form.errors }`.
 5. `form.clearErrors()` clears the same tree including **`NumberBox.inputInvalid`** (**2.55**).
 6. Async server checks: **`form.beginValidate()`** … **`form.endValidate()`**; disable submit while **`form.validating`** (**2.55**).
+7. Collapsible groups: wrap fields in **`FormSection { title; expanded }`** (**2.67 D2**).
+8. Conditional fields: set **`formFieldId`** on fields/sections and call **`form.setFieldVisible(id, bool)`**, or bind `visible:` directly.
 7. After failed validate, call **`form.focusFirstError()`** (**2.55**).
 8. Set `form.accessibleName` when multiple forms share a page (1.19).
 9. **2.66:** set `form.fieldAppearance: "outline"` (or `"filled"`) and optional `form.readOnly` to push onto TextField / TextArea / ComboBox descendants — [appearance-variants.md](appearance-variants.md).

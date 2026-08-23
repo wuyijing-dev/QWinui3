@@ -38,12 +38,49 @@ T.ItemDelegate {
     property bool showChevron: false
     // Selected state
     property bool isSelected: false
-    // Row density: standard | compact (2.67 — M9 / A3)
-    property string tileDensity: ""
+    // Row density: compact | normal | spacious | "" (follow Theme.density) — 2.67 A3
+    property string density: ""
+    // Compat alias
+    property alias tileDensity: control.density
+    // Leading preset: "icon" (default) | "avatar" | "checkbox" | "none" — 2.67 A3
+    property string leadingPreset: "icon"
+    // Avatar initials / PersonPicture displayName when leadingPreset is avatar
+    property string avatarName: ""
+    // Avatar image source (optional) — aliases PersonPicture.imageSource
+    property url avatarSource: ""
+    property alias profilePicture: control.avatarSource
 
-    readonly property real _rowPadV: (tileDensity === "compact" || Theme.density === "compact") ? 8 : 12
-    readonly property real _rowMinHeight: (tileDensity === "compact" || Theme.density === "compact")
-                                        ? Theme.navItemHeight : Theme.navItemHeight + 8
+    readonly property string _densityMode: {
+        var d = String(density || "").toLowerCase()
+        if (d === "compact" || d === "spacious" || d === "normal")
+            return d
+        if (Theme.density === "compact")
+            return "compact"
+        if (Theme.density === "spacious")
+            return "spacious"
+        return "normal"
+    }
+    readonly property real _rowPadV: {
+        switch (_densityMode) {
+        case "compact": return 6
+        case "spacious": return 16
+        default: return 12
+        }
+    }
+    readonly property real _rowMinHeight: {
+        switch (_densityMode) {
+        case "compact": return Theme.navItemHeight - 4
+        case "spacious": return Theme.navItemHeight + 16
+        default: return Theme.navItemHeight + 8
+        }
+    }
+    readonly property real _leadingSize: _densityMode === "compact" ? 32 : (_densityMode === "spacious" ? 48 : 40)
+    readonly property string _leadingMode: {
+        var p = String(leadingPreset || "icon").toLowerCase()
+        if (p === "avatar" || p === "checkbox" || p === "none")
+            return p
+        return "icon"
+    }
 
     // Resolved glyph string
     readonly property string effectiveGlyph: IconSource.resolve(symbol, glyph)
@@ -91,10 +128,29 @@ T.ItemDelegate {
             implicitHeight: childrenRect.height
         }
 
+        CheckBox {
+            visible: control._leadingMode === "checkbox" && leadingSlot.children.length === 0
+            Layout.alignment: Qt.AlignVCenter
+            checked: control.checked
+            onToggled: control.checked = checked
+        }
+
+        PersonPicture {
+            visible: control._leadingMode === "avatar" && leadingSlot.children.length === 0
+            Layout.preferredWidth: control._leadingSize
+            Layout.preferredHeight: control._leadingSize
+            Layout.alignment: Qt.AlignVCenter
+            imageSource: control.avatarSource
+            displayName: control.avatarName.length ? control.avatarName : control.title
+            size: control._leadingSize
+        }
+
         Rectangle {
-            visible: control.effectiveGlyph.length > 0 && leadingSlot.children.length === 0
-            Layout.preferredWidth: 40
-            Layout.preferredHeight: 40
+            visible: control._leadingMode === "icon"
+                     && control.effectiveGlyph.length > 0
+                     && leadingSlot.children.length === 0
+            Layout.preferredWidth: control._leadingSize
+            Layout.preferredHeight: control._leadingSize
             Layout.alignment: Qt.AlignVCenter
             radius: Theme.cornerControl
             color: Theme.fillSubtle
@@ -102,7 +158,7 @@ T.ItemDelegate {
             FontIcon {
                 anchors.centerIn: parent
                 glyph: control.effectiveGlyph
-                fontSize: 16
+                fontSize: control._densityMode === "compact" ? 14 : 16
                 selected: control.isSelected || control.checked
                 iconColor: Theme.accent
                 microMotionEnabled: false

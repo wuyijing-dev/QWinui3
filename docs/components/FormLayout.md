@@ -4,7 +4,7 @@ Vertical form stack that collects field errorMessage values.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/FormLayout.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/FormLayout.qml)
 
-**Category:** Input & forms · **Library:** v2.66
+**Category:** Input & forms · **Library:** v2.67
 
 [← Component index](../components.md)
 
@@ -68,6 +68,7 @@ _No custom signals_ (use inherited signals from the base type).
 
 | Signature | Description |
 | --- | --- |
+| `setFieldVisible(fieldId, visible)` | Show/hide a descendant by formFieldId (2.67 D2) |
 | `applyDefaults()` | Push labelWidth / fieldHeaderPlacement onto formBound descendants |
 | `applyLabelWidth()` | Compat alias of applyDefaults() |
 | `collectErrors()` | Return string[] of current field errors (does not mutate fields) |

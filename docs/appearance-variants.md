@@ -1,12 +1,12 @@
-# Appearance variants (2.66)
+# Appearance variants (2.66–2.67)
 
-Cookbook for **A1** button appearances and **A2** input appearances. Theme-token driven; no parallel style forks.
+Cookbook for button / input / list / card surface variants. Theme-token driven; no parallel style forks.
 
 Related: [forms.md](forms.md) · [pointer-feedback.md](pointer-feedback.md) · [data-collections.md](data-collections.md)
 
 ---
 
-## A1 — Button family
+## A1 — Button family (2.66)
 
 | Control | Property | Values | Default |
 |---------|----------|--------|---------|
@@ -25,7 +25,7 @@ Legacy: `Button.flat` maps to **subtle** when `appearance` is empty; `highlighte
 
 ---
 
-## A2 — Inputs + FormLayout
+## A2 — Inputs + FormLayout (2.66)
 
 | Control | Property | Values | Notes |
 |---------|----------|--------|-------|
@@ -47,7 +47,67 @@ Validation still uses `errorMessage` / `hasError` + `form.validate()` — [forms
 
 ---
 
-## DataTable pro grid (C1 / D1)
+## A3 — ListTile density + leading presets (2.67)
+
+| Property | Values | Notes |
+|----------|--------|-------|
+| `density` | `compact` · `normal` · `spacious` · `""` | Empty follows `Theme.density` |
+| `tileDensity` | alias of `density` | Compat |
+| `leadingPreset` | `icon` · `avatar` · `checkbox` · `none` | Custom `leading:` wins |
+| `avatarName` / `avatarSource` | string / url | When `leadingPreset: "avatar"` |
+
+```qml
+ListTile {
+    title: qsTr("Jordan")
+    density: "compact"
+    leadingPreset: "avatar"
+    avatarName: qsTr("Jordan Lee")
+}
+ListTile {
+    title: qsTr("Select me")
+    leadingPreset: "checkbox"
+    checkable: true
+}
+```
+
+---
+
+## A4 — Card / banner surfaces (2.67)
+
+| Control | Property | Values | Notes |
+|---------|----------|--------|-------|
+| **SettingsCard** | `appearance` | `filled` · `elevated` · `outline` · `accent` | Default `filled` |
+| **ChartCard** | `appearance` | same | Empty falls back to `elevated` bool |
+| **InfoBar** | `appearance` | same | Layers on severity colors |
+
+```qml
+SettingsCard { title: qsTr("Quiet hours"); appearance: "elevated"; toggle: true }
+ChartCard { title: qsTr("Revenue"); appearance: "outline"; LineChart { … } }
+InfoBar { severity: warning; appearance: "outline"; title: qsTr("Check billing") }
+```
+
+---
+
+## Motion tokens (2.67 B1)
+
+Prefer nested tokens:
+
+```qml
+Behavior on opacity {
+    NumberAnimation {
+        duration: Theme.motion.ms("fast")
+        easing.type: Theme.motion.easing("enter")
+    }
+}
+```
+
+Aliases: `Theme.motion.durationFast/Normal/Slow`, `Theme.motionMs` / `Theme.motionEasing`.
+
+Lists: **ItemsView** / **DataTable** / **ListDetailsView** expose `itemEnter` / `itemExit` (`none` · `fade` · `slide`); honor `Theme.reducedMotion`.
+
+---
+
+## DataTable pro grid (C1 / D1 — 2.66)
 
 | API | Role |
 |-----|------|
@@ -59,4 +119,4 @@ Validation still uses `errorMessage` / `hasError` + `form.validate()` — [forms
 
 Gallery **DataTable** demos the chooser, multi-sort, and a 10k load path.
 
-**Out of 2.66:** million-row GPU grid; per-locale masked-input engine.
+**Out of 2.66/2.67:** million-row GPU grid; per-locale masked-input engine.

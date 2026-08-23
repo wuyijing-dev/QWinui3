@@ -4,7 +4,7 @@ Drop-in SettingsGroup for Theme knobs (1.69).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ThemeAppearanceSettings.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ThemeAppearanceSettings.qml)
 
-**Category:** Layout · **Library:** v2.66
+**Category:** Layout · **Library:** v2.67
 
 [← Component index](../components.md)
 

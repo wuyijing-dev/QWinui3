@@ -59,6 +59,32 @@ T.Control {
     // Default children / field slot
     default property alias contentData: body.data
 
+    // Show/hide a descendant by formFieldId (2.67 D2)
+    function setFieldVisible(fieldId, visible) {
+        if (!fieldId)
+            return false
+        return _setVisibleById(body, String(fieldId), !!visible)
+    }
+
+    function _setVisibleById(item, fieldId, visible) {
+        if (!item)
+            return false
+        if (item !== root && item.formFieldId !== undefined
+                && String(item.formFieldId) === fieldId) {
+            item.visible = visible
+            return true
+        }
+        var found = false
+        var kids = item.children || []
+        for (var i = 0; i < kids.length; ++i)
+            found = _setVisibleById(kids[i], fieldId, visible) || found
+        if (item.contentChildren) {
+            for (var j = 0; j < item.contentChildren.length; ++j)
+                found = _setVisibleById(item.contentChildren[j], fieldId, visible) || found
+        }
+        return found
+    }
+
     implicitWidth: Math.max(280, contentItem.implicitWidth + leftPadding + rightPadding)
     implicitHeight: contentItem.implicitHeight + topPadding + bottomPadding
     padding: 0
@@ -68,16 +94,16 @@ T.Control {
                             ? qsTr("%1 validation errors").arg(errors.length)
                             : ""
 
-    onLabelWidthChanged: Qt.callLater(function () { root.applyDefaults() })
-    onFieldHeaderPlacementChanged: Qt.callLater(function () { root.applyDefaults() })
-    onFieldAppearanceChanged: Qt.callLater(function () { root.applyDefaults() })
-    onReadOnlyChanged: Qt.callLater(function () { root.applyDefaults() })
+    onLabelWidthChanged: Qt.callLater(function () { if (root) root.applyDefaults() })
+    onFieldHeaderPlacementChanged: Qt.callLater(function () { if (root) root.applyDefaults() })
+    onFieldAppearanceChanged: Qt.callLater(function () { if (root) root.applyDefaults() })
+    onReadOnlyChanged: Qt.callLater(function () { if (root) root.applyDefaults() })
 
     contentItem: ColumnLayout {
         id: body
         spacing: root.fieldSpacing
         width: root.availableWidth
-        onChildrenChanged: Qt.callLater(function () { root.applyDefaults() })
+        onChildrenChanged: Qt.callLater(function () { if (root) root.applyDefaults() })
         Component.onCompleted: root.applyDefaults()
     }
 

@@ -72,6 +72,10 @@ T.Control {
     property var hiddenColumns: []
     // Persistable widths — bind to Settings; empty = use columns[].width (2.66 D1)
     property var columnWidths: []
+    // Row enter motion: none | fade | slide — 2.67 B2
+    property string itemEnter: "none"
+    // Row exit motion: none | fade | slide (prefer none at 10k+)
+    property string itemExit: "none"
 
     readonly property var selectedRow: {
         if (selectedIndex < 0 || selectedIndex >= _viewRows.length)
@@ -708,6 +712,8 @@ T.Control {
                     visible: sortRank >= 0
                     text: {
                         var specs = root._effectiveSortSpecs()
+                        if (sortRank < 0 || !specs || sortRank >= specs.length)
+                            return ""
                         var arrow = Number(specs[sortRank].order) === Qt.AscendingOrder ? "▲" : "▼"
                         if (specs.length > 1)
                             return arrow + String(sortRank + 1)
@@ -876,6 +882,41 @@ T.Control {
                     model: root._groupActive ? root._displayItems : root._viewRows
                     currentIndex: root._listCurrentIndex
                     flickableDirection: Flickable.VerticalFlick
+
+                    add: Transition {
+                        enabled: !Theme.reducedMotion && root.itemEnter !== "none"
+                        NumberAnimation {
+                            property: "opacity"
+                            from: 0; to: 1
+                            duration: Theme.motion.ms("fast")
+                            easing.type: Theme.motion.easing("enter")
+                        }
+                        NumberAnimation {
+                            property: "y"
+                            from: root.itemEnter === "slide" ? 12 : 0
+                            to: 0
+                            duration: Theme.motion.ms("fast")
+                            easing.type: Theme.motion.easing("enter")
+                        }
+                    }
+                    remove: Transition {
+                        enabled: !Theme.reducedMotion && root.itemExit !== "none"
+                        NumberAnimation {
+                            property: "opacity"
+                            to: 0
+                            duration: Theme.motion.ms("fast")
+                            easing.type: Theme.motion.easing("exit")
+                        }
+                    }
+                    displaced: Transition {
+                        enabled: !Theme.reducedMotion
+                                 && (root.itemEnter !== "none" || root.itemExit !== "none")
+                        NumberAnimation {
+                            properties: "x,y"
+                            duration: Theme.motion.ms("fast")
+                            easing.type: Theme.motion.easing("standard")
+                        }
+                    }
 
                     ScrollBar.vertical: ScrollBar {}
                     ScrollBar.horizontal: ScrollBar {

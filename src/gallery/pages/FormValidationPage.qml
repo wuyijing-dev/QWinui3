@@ -221,4 +221,38 @@ CatalogPage {
             }
         }
     }
+
+    ControlExample {
+        headerText: qsTr("Sections + field dependency (2.67 D2)")
+        qmlSource: "FormSection { title: \"Billing\" }\nform.setFieldVisible(\"addon\", show)"
+        FormLayout {
+            id: depForm
+            labelWidth: 140
+
+            HeaderedComboBox {
+                id: planPick
+                header: qsTr("Plan")
+                model: [qsTr("Free"), qsTr("Pro")]
+                currentIndex: 0
+                onCurrentIndexChanged: depForm.setFieldVisible("addon", currentIndex === 1)
+            }
+
+            FormSection {
+                title: qsTr("Pro add-ons")
+                formFieldId: "addon"
+                expanded: true
+                visible: planPick.currentIndex === 1
+                HeaderedTextBox {
+                    header: qsTr("Seat count")
+                    placeholderText: "5"
+                }
+                HeaderedTextBox {
+                    header: qsTr("Billing email")
+                    placeholderText: qsTr("billing@example.com")
+                }
+            }
+
+            Component.onCompleted: depForm.setFieldVisible("addon", planPick.currentIndex === 1)
+        }
+    }
 }

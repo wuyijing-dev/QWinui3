@@ -110,6 +110,7 @@ T.ComboBox {
 
             Behavior on color {
                 enabled: !Theme.reducedMotion
+                         && (control.hovered || control.down || control.pressed || control.popup.visible)
                 ColorAnimation {
                     duration: Theme.duration(Theme.motionFast)
                     easing.type: Theme.easingStandard
@@ -138,6 +139,8 @@ T.ComboBox {
 
                 Behavior on color {
                     enabled: !Theme.reducedMotion
+                             && (delegateRoot.hovered || delegateRoot.down
+                                 || delegateRoot.highlighted || delegateRoot.selected)
                     ColorAnimation {
                         duration: Theme.duration(Theme.motionFast)
                         easing.type: Theme.easingStandard

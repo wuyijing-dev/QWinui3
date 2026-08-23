@@ -4,7 +4,7 @@ Inline severity banner with optional action and Content slot.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/InfoBar.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/InfoBar.qml)
 
-**Category:** Dialogs & flyouts · **Library:** v2.66
+**Category:** Dialogs & flyouts · **Library:** v2.67
 
 [← Component index](../components.md)
 
@@ -65,6 +65,7 @@ AlertMessage role; Qt 6.8+ Accessible.announce on open (1.85).
 | `content` | `alias` | WinUI Content — rich body below the message (or primary row when content-only) |
 | `durationMs` | `int` | Auto-dismiss duration; 0 keeps open |
 | `severityName` | `string` | Convenience string: "informational" \| "success" \| "warning" \| "error" |
+| `appearance` | `string` | Surface variant: filled \| elevated \| outline \| accent — 2.67 A4 |
 
 ### Signals
 

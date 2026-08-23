@@ -4,7 +4,7 @@ Fluent empty / loading / error placeholder for ChartCard (2.65).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ChartEmptyState.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ChartEmptyState.qml)
 
-**Category:** Status & feedback · **Library:** v2.66
+**Category:** Status & feedback · **Library:** v2.67
 
 [← Component index](../components.md)
 

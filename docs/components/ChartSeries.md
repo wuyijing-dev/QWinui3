@@ -4,7 +4,7 @@ Dense numeric series owned in C++ for million-point charts.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ChartSeries.h`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ChartSeries.h)
 
-**Category:** Charts & gauges · **Library:** v2.66 · **C++ type**
+**Category:** Charts & gauges · **Library:** v2.67 · **C++ type**
 
 [← Component index](../components.md)
 

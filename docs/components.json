@@ -1,8 +1,8 @@
 {
   "name": "QWinUI3",
-  "version": "2.66",
+  "version": "2.67",
   "generatedBy": "scripts/generate_component_docs.py",
-  "publicCount": 299,
+  "publicCount": 301,
   "components": [
     {
       "name": "AccentButton",
@@ -442,7 +442,7 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/ChartCard.md",
-      "propertyCount": 14,
+      "propertyCount": 15,
       "signalCount": 1,
       "methodCount": 0
     },
@@ -512,7 +512,7 @@
       "doc": "components/ChartUtils.md",
       "propertyCount": 3,
       "signalCount": 0,
-      "methodCount": 26
+      "methodCount": 28
     },
     {
       "name": "Chip",
@@ -918,7 +918,7 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/DataTable.md",
-      "propertyCount": 25,
+      "propertyCount": 27,
       "signalCount": 4,
       "methodCount": 8
     },
@@ -1277,7 +1277,24 @@
       "doc": "components/FormLayout.md",
       "propertyCount": 9,
       "signalCount": 0,
-      "methodCount": 9
+      "methodCount": 10
+    },
+    {
+      "name": "FormSection",
+      "module": "QWinUI3.Extras",
+      "summary": "Collapsible field group for FormLayout (2.67 D2).",
+      "path": "src/extras/QWinUI3/Extras/FormSection.qml",
+      "baseType": "Pane",
+      "internal": false,
+      "category": "Input & forms",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "kind": "qml",
+      "singleton": false,
+      "doc": "components/FormSection.md",
+      "propertyCount": 6,
+      "signalCount": 0,
+      "methodCount": 0
     },
     {
       "name": "FuelGauge",
@@ -1615,7 +1632,7 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/InfoBar.md",
-      "propertyCount": 21,
+      "propertyCount": 22,
       "signalCount": 4,
       "methodCount": 3
     },
@@ -1683,7 +1700,7 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/ItemsView.md",
-      "propertyCount": 23,
+      "propertyCount": 25,
       "signalCount": 3,
       "methodCount": 4
     },
@@ -1836,7 +1853,7 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/LineChart.md",
-      "propertyCount": 32,
+      "propertyCount": 34,
       "signalCount": 0,
       "methodCount": 7
     },
@@ -1853,7 +1870,7 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/ListDetailsView.md",
-      "propertyCount": 24,
+      "propertyCount": 26,
       "signalCount": 2,
       "methodCount": 7
     },
@@ -1870,7 +1887,7 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/ListTile.md",
-      "propertyCount": 11,
+      "propertyCount": 15,
       "signalCount": 0,
       "methodCount": 0
     },
@@ -2907,7 +2924,7 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/SettingsCard.md",
-      "propertyCount": 21,
+      "propertyCount": 22,
       "signalCount": 2,
       "methodCount": 0
     },
@@ -4085,6 +4102,23 @@
       "methodCount": 0
     },
     {
+      "name": "PlatformCapability",
+      "module": "QWinUI3.Platform",
+      "summary": "Runtime feature probe (2.67 F1).",
+      "path": "src/platform/QWinUI3/Platform/PlatformCapability.qml",
+      "baseType": "QtObject",
+      "internal": false,
+      "category": "Platform",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "kind": "qml",
+      "singleton": true,
+      "doc": "components/PlatformCapability.md",
+      "propertyCount": 9,
+      "signalCount": 0,
+      "methodCount": 2
+    },
+    {
       "name": "PlatformTitleBar",
       "module": "QWinUI3.Platform",
       "summary": "Caption buttons + drag region + TitleBar host.",
@@ -4369,7 +4403,7 @@
       "kind": "qml",
       "singleton": true,
       "doc": "components/Theme.md",
-      "propertyCount": 111,
+      "propertyCount": 112,
       "signalCount": 0,
       "methodCount": 20
     },

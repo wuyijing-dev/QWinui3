@@ -4,7 +4,7 @@ HWND-backed Edge WebView2 under a QQuickItem (Windows only).
 
 `import QWinUI3.Platform` · [`src/platform/QWinUI3/Platform/WebView2Host.h`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/platform/QWinUI3/Platform/WebView2Host.h)
 
-**Category:** Platform · **Library:** v2.66 · **C++ type**
+**Category:** Platform · **Library:** v2.67 · **C++ type**
 
 [← Component index](../components.md)
 

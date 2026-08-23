@@ -56,6 +56,10 @@ T.Control {
     property string listAccessibleName: qsTr("Items")
     // Qt 6.8+ Accessible.announce for selection / pane changes (2.07).
     property bool announceChanges: true
+    // Master list enter motion: none | fade | slide — 2.67 B2
+    property string itemEnter: "fade"
+    // Master list exit motion: none | fade | slide
+    property string itemExit: "fade"
 
     readonly property var selectedItem: {
         var m = _listModel
@@ -463,6 +467,41 @@ T.Control {
                     currentIndex: root.selectedIndex
                     Accessible.role: Accessible.List
                     Accessible.name: root.listAccessibleName.length ? root.listAccessibleName : qsTr("Items")
+
+                    add: Transition {
+                        enabled: !Theme.reducedMotion && root.itemEnter !== "none"
+                        NumberAnimation {
+                            property: "opacity"
+                            from: 0; to: 1
+                            duration: Theme.motion.ms("normal")
+                            easing.type: Theme.motion.easing("enter")
+                        }
+                        NumberAnimation {
+                            property: "x"
+                            from: root.itemEnter === "slide" ? 20 : 0
+                            to: 0
+                            duration: Theme.motion.ms("normal")
+                            easing.type: Theme.motion.easing("enter")
+                        }
+                    }
+                    remove: Transition {
+                        enabled: !Theme.reducedMotion && root.itemExit !== "none"
+                        NumberAnimation {
+                            property: "opacity"
+                            to: 0
+                            duration: Theme.motion.ms("fast")
+                            easing.type: Theme.motion.easing("exit")
+                        }
+                    }
+                    displaced: Transition {
+                        enabled: !Theme.reducedMotion && root.itemEnter !== "none"
+                        NumberAnimation {
+                            properties: "x,y"
+                            duration: Theme.motion.ms("fast")
+                            easing.type: Theme.motion.easing("standard")
+                        }
+                    }
+
                     delegate: ItemDelegate {
                         required property var modelData
                         required property int index

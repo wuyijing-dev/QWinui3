@@ -4,7 +4,7 @@ Fluent virtualizing table with sort, filter, resize, and keyboard.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/DataTable.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/DataTable.qml)
 
-**Category:** Collections & data · **Library:** v2.66
+**Category:** Collections & data · **Library:** v2.67
 
 [← Component index](../components.md)
 
@@ -76,6 +76,8 @@ See docs/data-collections.md for DataTable vs ItemsView vs ListDetailsView.
 | `columnOrder` | `var` | Persist column order — bind to Settings; empty = natural column index order (2.64). |
 | `hiddenColumns` | `var` | Hidden column indices — omitted from header/body (2.66 D1) |
 | `columnWidths` | `var` | Persistable widths — bind to Settings; empty = use columns[].width (2.66 D1) |
+| `itemEnter` | `string` | Row enter motion: none \| fade \| slide — 2.67 B2 |
+| `itemExit` | `string` | Row exit motion: none \| fade \| slide (prefer none at 10k+) |
 | `selectedRow` | `var` | — |
 | `rowCount` | `int` | — |
 | `columnCount` | `int` | — |

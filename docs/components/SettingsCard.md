@@ -4,7 +4,7 @@ Settings row: icon, title, description, action (Toolkit ContentAlignment).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/SettingsCard.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/SettingsCard.qml)
 
-**Category:** Layout · **Library:** v2.66
+**Category:** Layout · **Library:** v2.67
 
 [← Component index](../components.md)
 
@@ -68,6 +68,7 @@ Layout.fillWidth defaults to true inside Column/Row/Grid layouts.
 | `actionIcon` | `var` | Toolkit ActionIcon — Fluent symbol for the trailing affordance |
 | `actionIconGlyph` | `string` | Action icon glyph fallback |
 | `cornerRadius` | `real` | Card corner radius (binds ElevatedChrome) |
+| `appearance` | `string` | Surface variant: elevated \| filled \| outline \| accent \| "" (= filled) — 2.67 A4 |
 | `effectiveHeaderIcon` | `string` | — |
 | `effectiveActionIcon` | `string` | — |
 

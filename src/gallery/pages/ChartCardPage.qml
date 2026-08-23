@@ -44,7 +44,7 @@ CatalogPage {
                 subtitle: qsTr("Requests / min")
                 symbol: FluentIcons.Play
                 footer: qsTr("Updated just now")
-                elevated: true
+                appearance: "elevated"
                 ColumnLayout {
                     anchors.fill: parent
                     spacing: 8
@@ -66,7 +66,8 @@ CatalogPage {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 240
                 title: qsTr("Capacity")
-                subtitle: qsTr("Live gauge")
+                subtitle: qsTr("appearance: outline (2.67 A4)")
+                appearance: "outline"
                 footer: qsTr("%1% utilized").arg(Math.round(page.gaugeValue))
                 RadialGauge {
                     anchors.centerIn: parent

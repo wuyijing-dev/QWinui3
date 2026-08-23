@@ -54,6 +54,10 @@ else()
     list(APPEND QWINUI3_PLATFORM_SOURCES WindowHelper_other.cpp)
 endif()
 
+set_source_files_properties(PlatformCapability.qml PROPERTIES
+    QT_QML_SINGLETON_TYPE TRUE
+)
+
 qt_add_qml_module(qwinui3_platform
     URI QWinUI3.Platform
     VERSION 1.0
@@ -67,6 +71,7 @@ qt_add_qml_module(qwinui3_platform
         ${QWINUI3_PLATFORM_SOURCES}
         FrameStatsMonitor.cpp
     QML_FILES
+        PlatformCapability.qml
         PlatformTitleBar.qml
         CaptionButton.qml
         WindowResizeBorder.qml

@@ -105,6 +105,41 @@ CatalogPage {
         }
     }
 
+    ControlExample {
+        headerText: qsTr("PlatformCapability (2.67 F1)")
+        qmlSource: "if (PlatformCapability.mica)\n    WindowHelper.backdrop = WindowHelper.BackdropMica"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacingTight
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Probe Mica / Acrylic / blur / tray / WebView / SNI at runtime and degrade honestly.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            Label {
+                text: qsTr("mica=%1  acrylic=%2  blur=%3  tray=%4  webView=%5  sni=%6")
+                      .arg(PlatformCapability.mica)
+                      .arg(PlatformCapability.acrylic)
+                      .arg(PlatformCapability.blur)
+                      .arg(PlatformCapability.tray)
+                      .arg(PlatformCapability.webView)
+                      .arg(PlatformCapability.sni)
+                color: Theme.textPrimary
+                font: ThemeFonts.monoFontFor(Theme.fontCaption)
+            }
+            Label {
+                visible: !PlatformCapability.mica
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: PlatformCapability.degradationHint("mica")
+                color: Theme.textSecondary
+            }
+        }
+    }
+
     Component {
         id: blankComp
         BlankWindow {

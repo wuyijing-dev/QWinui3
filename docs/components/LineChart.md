@@ -4,7 +4,7 @@ Multi-series line/area chart.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/LineChart.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/LineChart.qml)
 
-**Category:** Charts & gauges · **Library:** v2.66
+**Category:** Charts & gauges · **Library:** v2.67
 
 [← Component index](../components.md)
 
@@ -53,6 +53,8 @@ interactive / isInteractive aliases. playReveal() / clearHover() for enter + cro
 | `maxPoints` | `int` | Max points before LOD kicks in |
 | `lodFactor` | `real` | Level-of-detail downsample factor |
 | `autoLod` | `bool` | Auto-enable LOD for large series |
+| `autoDecimate` | `alias` | Alias of autoLod — 2.67 C2 naming |
+| `decimateMode` | `string` | ChartUtils.douglasPeucker when series length exceeds the pixel budget. |
 | `strokeWidth` | `real` | Stroke thickness in px |
 | `gridColor` | `color` | Grid line color |
 | `revealProgress` | `real` | 0..1 reveal animation progress |

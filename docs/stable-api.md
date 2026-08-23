@@ -49,7 +49,7 @@ Promoted this slice (Gallery + recipe soak). Status flips are **named here** —
 | `ConnectedAnimation*`, entrance / theme transition helpers | Motion APIs still settling — [animations.md](animations.md) |
 | `AnimatedIcon` | Thin glyph state swap (**1.53**); not Lottie — [icons.md](icons.md) |
 | `TabView` tear-out (`canTearOutTabs`, tear-out windows) | Niche; may change — [navigation.md](navigation.md) |
-| Niche charts / gauges (`AreaChart`, `PieChart`, `ArcGauge`, `RadarChart`, …) | Stable six frozen; **permanent defer 2.08** — compose in [charts.md](charts.md) |
+| Niche charts / gauges (`AreaChart`, `PieChart`, `ArcGauge`, `RadarChart`, `Sparkline`, …) | Stable six frozen; **permanent defer 2.08** / **Sparkline 2.67** — compose in [charts.md](charts.md); prefer **KpiTile.trendValues** |
 | WebView2 custom Environment / multi-profile | Base host stable (1.18); advanced options not |
 | Snap Layouts / battery / online / screens / recent-docs helpers | Gallery demos only — [shell-extras.md](shell-extras.md) |
 | Compact overlay / dialog-tool exotic shell variants beyond Blank/Nav/MenuStatus | Prefer `ShellWindow` / `NavigationWindow` for LoB |
@@ -149,7 +149,7 @@ Promote to stable only after a named `1.xx` slice hardens them. See also [1.37 d
 | Area | Examples | Why experimental |
 |------|----------|------------------|
 | **WebView2 advanced** | Custom Environment / multi-profile | Base `WebView2Host` is **stable (1.18)** — [webview2.md](webview2.md) |
-| **Charts & gauges (remaining)** | `AreaChart`, `PieChart`, `ArcGauge`, `RadarChart`, … | **Permanent defer 2.08** — [charts.md](charts.md) compose recipes; stable six unchanged |
+| **Charts & gauges (remaining)** | `AreaChart`, `PieChart`, `ArcGauge`, `RadarChart`, `Sparkline`, … | **Permanent defer 2.08 / Sparkline 2.67** — [charts.md](charts.md); KPI strip → **KpiTile.trendValues** |
 | **Animations** | `ConnectedAnimation*`, theme transitions, `AnimatedIcon` | Recipe [animations.md](animations.md) / [icons.md](icons.md) — deferred / experimental |
 | **Tear-out / exotic shells** | `canTearOutTabs`, compact-overlay / dialog-tool shell variants | Niche — deferred in **1.37** |
 | **Media** | `MediaPlayerElement` | Optional Qt Multimedia — **permanent defer 2.09** — [media.md](media.md); app-owned codecs/deploy |
@@ -258,6 +258,7 @@ QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
 | **1.66** | Charts & dashboard polish — defer remaining charts/gauges; [charts.md](charts.md); Gallery Charts/Dashboard |
 | **2.08** | Charts compose recipes + permanent defer table — stable six frozen; Area→LineChart showArea, Spark→KpiTile; [charts.md](charts.md) |
 | **2.09** | Media permanent defer — `MediaPlayerElement` stays experimental; [media.md](media.md) verdict; Gallery/Pitfalls/stable-api aligned |
+| **2.67** | List/card appearance + motion + FormSection + PlatformCapability; **Sparkline** permanent defer → KpiTile.trendValues |
 | **2.21** | `TreeDataGrid` experimental — hierarchical multi-column grid; [tree-data.md](tree-data.md) |
 | **2.24** | `ItemsWrapGrid` experimental — variable-size wrap grid; [items-wrap-grid.md](items-wrap-grid.md) |
 | **2.26** | Charts recipe wave — deferred sibling compose table; stable six unchanged; [charts.md](charts.md) |
