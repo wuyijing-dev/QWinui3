@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "qwinui3"
-version = "2.64.0"
+version = "2.81.0"
 description = "Fluent Qt Quick controls (WinUI-style) for PySide6 and PyQt6"
 readme = "python/README-PyPI.md"
 requires-python = ">=3.10"
