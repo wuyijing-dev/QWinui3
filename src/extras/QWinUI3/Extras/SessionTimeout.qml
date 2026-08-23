@@ -53,7 +53,8 @@ QtObject {
         id: tick
         interval: 250
         repeat: true
-        running: root.enabled
+        // Idle clock starts on poke()/reset(), not at instantiation.
+        running: false
         onTriggered: {
             if (!root.enabled)
                 return

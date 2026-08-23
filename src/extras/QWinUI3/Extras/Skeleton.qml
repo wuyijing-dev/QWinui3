@@ -69,9 +69,9 @@ T.Control {
         Repeater {
             model: root.rows
             Shimmer {
-                Layout.fillWidth: true
+                Layout.fillWidth: index % 2 === 0
                 Layout.preferredHeight: root.lineHeight
-                Layout.preferredWidth: index % 2 === 0 ? undefined : parent.width * 0.72
+                Layout.preferredWidth: parent.width * (index % 2 === 0 ? 1.0 : 0.72)
                 active: root.active
             }
         }

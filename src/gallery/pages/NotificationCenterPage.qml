@@ -160,7 +160,7 @@ CatalogPage {
                         anchors.topMargin: -2
                         visible: center.unreadCount > 0
                         value: center.unreadCount
-                        severity: InfoBadge.attention
+                        severity: center.attention
                     }
                 }
                 Label {

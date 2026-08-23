@@ -1,5 +1,6 @@
 #include "SingleInstance.h"
 
+#include <QBuffer>
 #include <QCoreApplication>
 #include <QDataStream>
 #include <QDir>
@@ -182,15 +183,20 @@ void SingleInstance::handleClient(QLocalSocket *socket)
     auto *buf = new QByteArray;
     connect(socket, &QLocalSocket::readyRead, this, [this, socket, buf]() {
         buf->append(socket->readAll());
-        QDataStream in(*buf);
-        in.setVersion(QDataStream::Qt_6_5);
-        QStringList args;
-        in.startTransaction();
-        in >> args;
-        if (!in.commitTransaction())
-            return;
-        buf->clear();
-        emit activationRequested(args);
+        while (!buf->isEmpty()) {
+            QBuffer buffer(buf);
+            buffer.open(QIODevice::ReadOnly);
+            QDataStream in(&buffer);
+            in.setVersion(QDataStream::Qt_6_5);
+            QStringList args;
+            in.startTransaction();
+            in >> args;
+            if (!in.commitTransaction())
+                return;
+            const int consumed = int(buffer.pos());
+            emit activationRequested(args);
+            buf->remove(0, consumed);
+        }
         socket->disconnectFromServer();
     });
     connect(socket, &QLocalSocket::disconnected, socket, [socket, buf]() {

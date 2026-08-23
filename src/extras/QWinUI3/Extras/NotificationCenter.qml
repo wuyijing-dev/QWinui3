@@ -52,6 +52,7 @@ T.Control {
     readonly property int success: 1
     readonly property int warning: 2
     readonly property int error: 3
+    readonly property int attention: 4
 
     readonly property bool isOpen: drawer.opened
     readonly property int unreadCount: {
@@ -253,11 +254,16 @@ T.Control {
         modal: true
         dim: true
         interactive: true
-        Accessible.role: Accessible.Pane
-        Accessible.name: qsTr("Notification center")
 
-        contentItem: ColumnLayout {
-            spacing: 0
+        contentItem: Item {
+            implicitWidth: drawer.width
+            implicitHeight: drawer.height
+            Accessible.role: Accessible.Pane
+            Accessible.name: qsTr("Notification center")
+
+            ColumnLayout {
+                anchors.fill: parent
+                spacing: 0
 
             RowLayout {
                 Layout.fillWidth: true
@@ -273,7 +279,7 @@ T.Control {
                 InfoBadge {
                     visible: notificationCenter.unreadCount > 0
                     value: notificationCenter.unreadCount
-                    severity: InfoBadge.attention
+                    severity: notificationCenter.attention
                 }
                 Button {
                     flat: true
@@ -349,7 +355,7 @@ T.Control {
                                     }
                                     leading: Rectangle {
                                         width: 4
-                                        height: parent.height * 0.6
+                                        height: Theme.dp(32)
                                         radius: 2
                                         anchors.verticalCenter: parent.verticalCenter
                                         color: notificationCenter._severityColor(row.severity !== undefined
@@ -390,6 +396,7 @@ T.Control {
                     onClicked: drawer.close()
                 }
             }
+        }
         }
     }
 

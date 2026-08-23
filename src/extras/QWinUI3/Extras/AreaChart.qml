@@ -216,21 +216,27 @@ T.Control {
             Qt.callLater(root.playReveal)
         }
     }
-    readonly property var _seriesValues0: {
-        var list = root._seriesList
-        if (!list || !list.length)
-            return null
-        var v = list[0].values
-        return (v && v.dataChanged !== undefined) ? v : null
-    }
-    Connections {
-        target: root._seriesValues0
-        function onDataChanged() {
-            root.hoverIndex = -1
-            root.hoverText = ""
-            root.hoverMarkers = []
-            root.invalidateLod()
-            Qt.callLater(root.playReveal)
+    Repeater {
+        model: {
+            var list = root._seriesList
+            return list ? list.length : 0
+        }
+        delegate: Connections {
+            required property int index
+            target: {
+                var list = root._seriesList
+                if (!list || index >= list.length)
+                    return null
+                var v = list[index].values
+                return (v && v.dataChanged !== undefined) ? v : null
+            }
+            function onDataChanged() {
+                root.hoverIndex = -1
+                root.hoverText = ""
+                root.hoverMarkers = []
+                root.invalidateLod()
+                Qt.callLater(root.playReveal)
+            }
         }
     }
 

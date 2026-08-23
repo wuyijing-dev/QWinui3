@@ -350,20 +350,26 @@ T.Control {
         }
     }
     // series: [{ values: ChartSeries }] — identity of series array may not change.
-    readonly property var _seriesValues0: {
-        var list = root._rawSeriesList
-        if (!list || !list.length)
-            return null
-        var v = list[0].values
-        return (v && v.dataChanged !== undefined) ? v : null
-    }
-    Connections {
-        target: root._seriesValues0
-        function onDataChanged() {
-            root.hoverIndex = -1
-            root.hoverText = ""
-            root.hoverMarkers = []
-            Qt.callLater(root._handleDataChange)
+    Repeater {
+        model: {
+            var list = root._rawSeriesList
+            return list ? list.length : 0
+        }
+        delegate: Connections {
+            required property int index
+            target: {
+                var list = root._rawSeriesList
+                if (!list || index >= list.length)
+                    return null
+                var v = list[index].values
+                return (v && v.dataChanged !== undefined) ? v : null
+            }
+            function onDataChanged() {
+                root.hoverIndex = -1
+                root.hoverText = ""
+                root.hoverMarkers = []
+                Qt.callLater(root._handleDataChange)
+            }
         }
     }
 

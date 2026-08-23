@@ -202,7 +202,7 @@ T.Control {
 
     background: Rectangle {
         color: Theme.bgCard
-        radius: Theme.cornerRadius
+        radius: Theme.cornerCard
         border.width: 1
         border.color: Theme.strokeCard
     }
