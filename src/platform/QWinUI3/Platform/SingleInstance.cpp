@@ -189,6 +189,7 @@ void SingleInstance::handleClient(QLocalSocket *socket)
         in >> args;
         if (!in.commitTransaction())
             return;
+        buf->clear();
         emit activationRequested(args);
         socket->disconnectFromServer();
     });
