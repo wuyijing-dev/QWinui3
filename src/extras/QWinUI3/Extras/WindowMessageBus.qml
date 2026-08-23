@@ -7,6 +7,7 @@ import QtQuick
 //
 // @notes
 //   Same QGuiApplication only — not cross-process IPC.
+//   post() snapshots the handler list so unsubscribe during delivery is safe.
 
 pragma Singleton
 
@@ -22,8 +23,10 @@ QtObject {
         var list = root._handlers[key]
         if (!list || !list.length)
             return
-        for (var i = 0; i < list.length; ++i) {
-            var fn = list[i]
+        // Copy — handlers may unsubscribe (or subscribe) while we deliver.
+        var snapshot = list.slice()
+        for (var i = 0; i < snapshot.length; ++i) {
+            var fn = snapshot[i]
             if (typeof fn === "function")
                 fn(payload)
         }
@@ -48,6 +51,8 @@ QtObject {
             if (list[i] === handler)
                 list.splice(i, 1)
         }
+        if (!list.length)
+            delete root._handlers[key]
     }
 
     function clear(channel) {

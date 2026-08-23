@@ -13,11 +13,18 @@ CatalogPage {
 
     property string lastBus: qsTr("(none)")
     property string sessionStatus: qsTr("Armed — poke to reset")
+    property var _busUnsub: null
 
     Component.onCompleted: {
-        WindowMessageBus.subscribe("gallery.demo", function (payload) {
-            page.lastBus = JSON.stringify(payload)
+        page._busUnsub = WindowMessageBus.subscribe("gallery.demo", function (payload) {
+            if (page)
+                page.lastBus = JSON.stringify(payload)
         })
+    }
+    Component.onDestruction: {
+        if (typeof page._busUnsub === "function")
+            page._busUnsub()
+        page._busUnsub = null
     }
 
     ControlExample {
@@ -80,6 +87,9 @@ CatalogPage {
             }
             Label {
                 text: page.sessionStatus
+                        + (arm.checked
+                           ? qsTr(" · remaining %1s").arg(Math.ceil(session.remainingMs / 1000))
+                           : "")
                 color: Theme.textSecondary
                 Layout.fillWidth: true
             }
