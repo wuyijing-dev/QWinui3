@@ -47,6 +47,29 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 2.65 → 2.66
+
+**Product version:** 2.66
+**Date:** 2026-08-23
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **Appearance A1/A2:** [appearance-variants.md](appearance-variants.md) — Button / AccentButton / HyperlinkButton `appearance`; TextField / TextArea / ComboBox `filled`\|`outline` + `hasError`; FormLayout `fieldAppearance` / `readOnly`.
+- **DataTable D1/C1:** `sortSpecs` (Shift+click multi-sort), `hiddenColumns` / `setColumnVisible`, `columnWidths` persistence, Gallery 10k load path — [data-collections.md](data-collections.md).
+
+#### Action required (only if you adopt new APIs)
+
+| Area | Change | What to do |
+|------|--------|------------|
+| **Buttons** | Optional `appearance` | Prefer explicit `filled`/`subtle`/`outline`/`ghost` over `flat` alone |
+| **Forms** | `FormLayout.fieldAppearance` | Push outline chrome to fields; keep `errorMessage` validation |
+| **DataTable** | `sortSpecs` / `hiddenColumns` / `columnWidths` | Bind widths to Settings; Shift+click for secondary sort |
+
+#### No action (compatible)
+
+- Existing Button / TextField / DataTable call sites — new properties default to prior visuals.
+
 ### Upgrade 2.64 → 2.65
 
 **Product version:** 2.65

@@ -4,7 +4,7 @@ Fluent virtualizing table with sort, filter, resize, and keyboard.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/DataTable.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/DataTable.qml)
 
-**Category:** Collections & data · **Library:** v2.65
+**Category:** Collections & data · **Library:** v2.66
 
 [← Component index](../components.md)
 
@@ -24,25 +24,29 @@ DataTable {
     rows: [ { name: "Alex", role: "Design", status: "Active", team: "Alpha" }, … ]
     groupRole: "team"
     filterPlaceholder: qsTr("Filter rows")
+    // 2.66 D1
+    sortSpecs: [ { column: 1, order: Qt.AscendingOrder } ]
+    hiddenColumns: [ 4 ]
+    columnWidths: [ 160, 140, 120 ]  // bind to Settings
 }
 
 // --- API ---
-// selectedRow / selectedIndex, sortColumn / sortOrder, filterText, columnOrder
+// selectedRow / selectedIndex, sortColumn / sortOrder / sortSpecs, filterText, columnOrder
+// hiddenColumns, columnWidths, setColumnVisible(), toggleSort(col, append?)
 // methods: select(row), clearSelection(), refresh(), focusTable(), moveColumn(from, to)
-// signals: rowActivated(int, var), selectionChanged(int, var), sortChanged(int, int)
+// signals: rowActivated(int, var), selectionChanged(int, var), sortChanged(int, int),
+//          columnLayoutChanged()
 ```
 
 ## Notes
 
-ListView virtualizes rows (`reuseItems`). Filter + sort rebuild `_viewRows` in JS —
-debounced on filter keystrokes (1.88); skips rebuild when query/sort/rows unchanged (2.18).
-maxFilterResults caps filter walk for huge JS arrays (2.18).
+ListView virtualizes rows (`reuseItems`) — fixed rowHeight fast path (2.66 C1).
+Filter + sort rebuild `_viewRows` in JS — debounced on filter keystrokes (1.88);
+skips rebuild when query/sort/rows unchanged (2.18). maxFilterResults caps filter walk.
+Multi-column sort via sortSpecs / Shift+click header (2.66 D1).
+Column visibility (hiddenColumns) + width persistence (columnWidths) — 2.66 D1.
 Column pin + reorder (columnOrder / moveColumn) and row group headers (groupRole) — 2.64.
-fine for hundreds of plain objects; prefer a C++ model + custom view for thousands+.
-Selection tracks the row **object** across sort/filter (clears if the row is filtered out).
-Tab into the table or press Down from the filter; arrows / Home / End / Page / Enter /
-Esc navigate. Pinned columns stay fixed; scrollable columns share a horizontal offset.
-Live-region announces on selection / sort / filter (2.07) when announceChanges is true.
+Selection tracks the row **object** across sort/filter.
 See docs/data-collections.md for DataTable vs ItemsView vs ListDetailsView.
 
 ## API
@@ -57,9 +61,11 @@ See docs/data-collections.md for DataTable vs ItemsView vs ListDetailsView.
 | `filterPlaceholder` | `string` | — |
 | `filterVisible` | `bool` | — |
 | `selectedIndex` | `int` | — |
-| `sortColumn` | `int` | — |
+| `sortColumn` | `int` | Primary sort column (compat); kept in sync with sortSpecs[0] |
 | `sortOrder` | `int` | — |
+| `sortSpecs` | `var` | Multi-column sort specs: [{ column, order }, …] — first entry is primary (2.66 D1) |
 | `rowHeight` | `real` | — |
+| `fixedRowHeight` | `bool` | Fixed row-height ListView path (always on — C1 contract) |
 | `minColumnWidth` | `real` | — |
 | `headerHeight` | `real` | — |
 | `filterDebounceMs` | `int` | Debounce filter keystrokes before rebuilding _viewRows (1.88). |
@@ -68,6 +74,8 @@ See docs/data-collections.md for DataTable vs ItemsView vs ListDetailsView.
 | `groupRole` | `string` | Row group header role — inserts sticky-style group rows (2.64). |
 | `groupHeaderHeight` | `real` | — |
 | `columnOrder` | `var` | Persist column order — bind to Settings; empty = natural column index order (2.64). |
+| `hiddenColumns` | `var` | Hidden column indices — omitted from header/body (2.66 D1) |
+| `columnWidths` | `var` | Persistable widths — bind to Settings; empty = use columns[].width (2.66 D1) |
 | `selectedRow` | `var` | — |
 | `rowCount` | `int` | — |
 | `columnCount` | `int` | — |
@@ -86,12 +94,14 @@ See docs/data-collections.md for DataTable vs ItemsView vs ListDetailsView.
 
 | Signature | Description |
 | --- | --- |
+| `setColumnVisible(column, visible)` | — |
+| `isColumnVisible(column)` | — |
 | `moveColumn(fromDisplay, toDisplay)` | — |
 | `focusTable()` | — |
 | `clearSelection()` | — |
 | `select(index)` | — |
 | `refresh()` | — |
-| `toggleSort(column)` | — |
+| `toggleSort(column, append)` | Toggle sort. append=true (Shift+click) adds/updates a secondary sort key (2.66 D1). |
 
 ### Inherited from `Control`
 

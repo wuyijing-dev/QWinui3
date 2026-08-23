@@ -1,6 +1,6 @@
 # QWinUI3 component API
 
-Library **v2.65**. Generated from CMake ``QML_FILES`` + C++ ``QML_ELEMENT`` types (`scripts/generate_component_docs.py`).
+Library **v2.66**. Generated from CMake ``QML_FILES`` + C++ ``QML_ELEMENT`` types (`scripts/generate_component_docs.py`).
 Each control has its own page under `docs/components/`.
 
 ```bash
@@ -14,7 +14,7 @@ python scripts/generate_component_docs.py --lint
 
 ### `QWinUI3.Extras`
 
-- [AccentButton](components/AccentButton.md) — Always-accent primary CTA with optional Fluent symbol. · Gallery
+- [AccentButton](components/AccentButton.md) — Accent-colored CTA with optional Fluent symbol (2.66 A1 appearances). · Gallery
 - [AcrylicSurface](components/AcrylicSurface.md) — Frosted pane; keep translucent under system Mica/Acrylic. · Gallery
 - [ActionCard](components/ActionCard.md) — Clickable card with symbol, title, description, and chevron. · Gallery
 - [AnimatedIcon](components/AnimatedIcon.md) — Thin state glyph swap (1.53). Not Lottie / WinUI AnimatedIcon parity. · Gallery

@@ -27,6 +27,8 @@ T.AbstractButton {
     property alias navigateUri: control.url
     // always | onHover | never
     property string underlineStyle: "onHover"
+    // Visual variant: ghost (default link) | subtle | outline | filled — 2.66 A1
+    property string appearance: "ghost"
     // FluentIcons symbol (preferred over iconGlyph)
     property var symbol: ""
     // Raw Fluent glyph string fallback
@@ -42,13 +44,22 @@ T.AbstractButton {
 
     // Resolved glyph string
     readonly property string effectiveIconGlyph: IconSource.resolve(symbol, iconGlyph)
+    readonly property string _mode: {
+        var a = String(appearance || "").toLowerCase()
+        if (a === "subtle" || a === "outline" || a === "filled")
+            return a
+        return "ghost"
+    }
+    readonly property bool _chrome: _mode !== "ghost"
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
                              implicitContentHeight + topPadding + bottomPadding)
 
-    padding: 2
+    padding: control._chrome ? Theme.paddingControlV : 2
+    leftPadding: control._chrome ? Theme.paddingControlH : 2
+    rightPadding: control._chrome ? Theme.paddingControlH : 2
     spacing: 6
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
@@ -61,7 +72,7 @@ T.AbstractButton {
     Accessible.description: url.toString()
 
     scale: down && !Theme.reducedMotion ? 0.98 : 1
-    opacity: down && enabled ? 0.8 : 1
+    opacity: down && enabled && !_chrome ? 0.8 : 1
     Behavior on scale {
         enabled: !Theme.reducedMotion
         NumberAnimation {
@@ -100,6 +111,8 @@ T.AbstractButton {
             font.family: control.font.family
             font.pixelSize: control.font.pixelSize
             font.underline: {
+                if (control._chrome)
+                    return false
                 switch (control.underlineStyle) {
                 case "always": return true
                 case "never": return false
@@ -109,6 +122,8 @@ T.AbstractButton {
             color: {
                 if (!control.enabled)
                     return Theme.textDisabled
+                if (control._mode === "filled")
+                    return Theme.textOnAccent
                 if (control.visited)
                     return control.down ? Theme.accentDark1 : Qt.tint(Theme.accent, Qt.rgba(0.35, 0.2, 0.55, 0.55))
                 return control.down ? Theme.accentDark1 : Theme.accent
@@ -133,11 +148,49 @@ T.AbstractButton {
     }
 
     background: Item {
-        implicitHeight: Theme.fontBody + 4
+        implicitHeight: control._chrome ? Theme.controlHeight : (Theme.fontBody + 4)
+        implicitWidth: 40
+
+        Rectangle {
+            anchors.fill: parent
+            visible: control._chrome
+            radius: Theme.cornerControl
+            border.width: control._mode === "outline" ? 1 : 0
+            border.color: control.enabled ? Theme.accent : Theme.strokeControl
+            color: {
+                if (!control._chrome || !control.enabled)
+                    return "transparent"
+                if (control._mode === "filled") {
+                    if (control.down)
+                        return Qt.tint(Theme.accent, Qt.rgba(0, 0, 0, 0.15))
+                    if (control.hovered)
+                        return Qt.tint(Theme.accent, Qt.rgba(1, 1, 1, 0.1))
+                    return Theme.accent
+                }
+                if (control._mode === "subtle") {
+                    if (control.down)
+                        return Qt.rgba(Theme.accent.r, Theme.accent.g, Theme.accent.b, 0.28)
+                    if (control.hovered)
+                        return Qt.rgba(Theme.accent.r, Theme.accent.g, Theme.accent.b, 0.18)
+                    return Qt.rgba(Theme.accent.r, Theme.accent.g, Theme.accent.b, 0.12)
+                }
+                // outline
+                if (control.down)
+                    return Theme.fillSubtleTertiary
+                if (control.hovered)
+                    return Theme.fillSubtleSecondary
+                return "transparent"
+            }
+            Behavior on color {
+                enabled: !Theme.reducedMotion
+                ColorAnimation { duration: Theme.duration(Theme.motionFast) }
+            }
+        }
+
         FocusStroke {
             anchors.fill: parent
             show: control.visualFocus
-            frameRadius: 2
+            frameRadius: control._chrome ? Theme.cornerControl : 2
         }
     }
 

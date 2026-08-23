@@ -13,6 +13,20 @@ CatalogPage {
     subtitle: qsTr("Always-accent primary CTA. Prefer symbol: FluentIcons.* for icons.")
 
     ControlExample {
+        headerText: qsTr("Appearances (2.66 A1)")
+        qmlSource: "AccentButton { appearance: \"filled\" }\nAccentButton { appearance: \"subtle\" }\nAccentButton { appearance: \"outline\" }\nAccentButton { appearance: \"ghost\" }"
+
+        Flow {
+            Layout.fillWidth: true
+            spacing: Theme.spacingLoose
+            AccentButton { text: qsTr("Filled"); appearance: "filled"; symbol: FluentIcons.Save }
+            AccentButton { text: qsTr("Subtle"); appearance: "subtle" }
+            AccentButton { text: qsTr("Outline"); appearance: "outline" }
+            AccentButton { text: qsTr("Ghost"); appearance: "ghost" }
+        }
+    }
+
+    ControlExample {
         headerText: qsTr("Accent vs standard")
         qmlSource: "AccentButton {\n    text: \"Save\"\n    symbol: FluentIcons.Save\n}"
 

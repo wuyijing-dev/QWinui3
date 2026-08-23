@@ -32,12 +32,16 @@ Example app: [`examples/master-detail`](../examples/master-detail/) (1.26) — t
 
 ---
 
-## DataTable behavior (1.07 / 2.64)
+## DataTable behavior (1.07 / 2.64 / 2.66)
 
 | Topic | Behavior |
 |-------|----------|
 | **Selection** | Tracks the selected **row object**. Sort/filter keep the same person selected when still visible; clears if filtered out. |
 | **Keyboard** | Tab into the table, or **Down** / Enter from the filter. Arrows, Home/End, PageUp/Down, Enter activate, Esc clears. |
+| **Multi-sort (2.66)** | `sortSpecs: [{ column, order }, …]` or **Shift+click** headers. Primary = first entry; `sortColumn` / `sortOrder` stay in sync. |
+| **Visibility (2.66)** | `hiddenColumns` + `setColumnVisible(i, bool)` — Gallery checkbox chooser pattern. |
+| **Widths (2.66)** | Bind `columnWidths` to Settings; resize publishes on mouse release via `columnLayoutChanged`. |
+| **10k path (2.66)** | Fixed `rowHeight` + `ListView.reuseItems`; set `maxFilterResults` when filtering huge JS arrays. |
 | **Accessible (1.19 / 2.64)** | `accessibleName`; rows announce first cell + selection; headers expose sort; pinned headers announce **", pinned"**; group rows are `StaticText`. |
 | **Filter / sort** | Rebuild `_viewRows` in JS on each change (debounced). |
 | **Pin / group (2.64)** | `columns[].pinned`; `groupRole` inserts section headers (rows sorted by group then by `sortColumn`); bind `columnOrder` / `moveColumn()` to persist layout. |

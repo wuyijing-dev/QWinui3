@@ -4,7 +4,7 @@ Link-styled button.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/HyperlinkButton.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/HyperlinkButton.qml)
 
-**Category:** Buttons & commands · **Library:** v2.65
+**Category:** Buttons & commands · **Library:** v2.66
 
 [← Component index](../components.md)
 
@@ -39,6 +39,7 @@ navigateMode auto: "#anchor" scrolls in-page; http(s) opens externally.
 | `url` | `url` | URL / source URL |
 | `navigateUri` | `alias` | Navigate to a URI |
 | `underlineStyle` | `string` | always \| onHover \| never |
+| `appearance` | `string` | Visual variant: ghost (default link) \| subtle \| outline \| filled — 2.66 A1 |
 | `symbol` | `var` | FluentIcons symbol (preferred over iconGlyph) |
 | `iconGlyph` | `string` | Raw Fluent glyph string fallback |
 | `visited` | `bool` | True when the step was visited |

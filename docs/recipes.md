@@ -91,6 +91,7 @@ LoB how-tos for shipping with QWinUI3. Prefer these over inventing a second stac
 | [Navigation & TabView](navigation.md) | Pane modes, Back, footer |
 | [Carousel / FlipView](carousel-recipes.md) | PipsPager + SwipeView hosts · reducedMotion (**2.37**) |
 | [Forms & settings](forms.md) | FormLayout validation + SettingsCard |
+| [Appearance variants](appearance-variants.md) | Button / input appearances + DataTable pro grid (**2.66**) |
 | [Settings persistence](settings-persistence.md) | QSettings / Settings · portable Ini · schemaVersion (**1.65**) |
 | [Data collections](data-collections.md) | DataTable / ItemsView / ListDetailsView |
 | [Tree & hierarchical](tree-data.md) | TreeView expand / a11y |

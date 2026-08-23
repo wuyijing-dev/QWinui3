@@ -21,11 +21,13 @@ Short recipe for **validation** and **settings pages**. Prefer these patterns ov
 6. Async server checks: **`form.beginValidate()`** … **`form.endValidate()`**; disable submit while **`form.validating`** (**2.55**).
 7. After failed validate, call **`form.focusFirstError()`** (**2.55**).
 8. Set `form.accessibleName` when multiple forms share a page (1.19).
+9. **2.66:** set `form.fieldAppearance: "outline"` (or `"filled"`) and optional `form.readOnly` to push onto TextField / TextArea / ComboBox descendants — [appearance-variants.md](appearance-variants.md).
 
 ```qml
 FormLayout {
     id: form
     accessibleName: qsTr("Account")
+    fieldAppearance: "outline"
     ValidationSummary { errors: form.errors }
     HeaderedTextBox { id: name; header: qsTr("Name") }
     HeaderedComboBox { id: plan; header: qsTr("Plan"); model: […] }

@@ -15,23 +15,27 @@ import QWinUI3.Theme
 //       rows: [ { name: "Alex", role: "Design", status: "Active", team: "Alpha" }, … ]
 //       groupRole: "team"
 //       filterPlaceholder: qsTr("Filter rows")
+//       // 2.66 D1
+//       sortSpecs: [ { column: 1, order: Qt.AscendingOrder } ]
+//       hiddenColumns: [ 4 ]
+//       columnWidths: [ 160, 140, 120 ]  // bind to Settings
 //   }
 //
 //   // --- API ---
-//   // selectedRow / selectedIndex, sortColumn / sortOrder, filterText, columnOrder
+//   // selectedRow / selectedIndex, sortColumn / sortOrder / sortSpecs, filterText, columnOrder
+//   // hiddenColumns, columnWidths, setColumnVisible(), toggleSort(col, append?)
 //   // methods: select(row), clearSelection(), refresh(), focusTable(), moveColumn(from, to)
-//   // signals: rowActivated(int, var), selectionChanged(int, var), sortChanged(int, int)
+//   // signals: rowActivated(int, var), selectionChanged(int, var), sortChanged(int, int),
+//   //          columnLayoutChanged()
 //
 // @notes
-//   ListView virtualizes rows (`reuseItems`). Filter + sort rebuild `_viewRows` in JS —
-//   debounced on filter keystrokes (1.88); skips rebuild when query/sort/rows unchanged (2.18).
-//   maxFilterResults caps filter walk for huge JS arrays (2.18).
+//   ListView virtualizes rows (`reuseItems`) — fixed rowHeight fast path (2.66 C1).
+//   Filter + sort rebuild `_viewRows` in JS — debounced on filter keystrokes (1.88);
+//   skips rebuild when query/sort/rows unchanged (2.18). maxFilterResults caps filter walk.
+//   Multi-column sort via sortSpecs / Shift+click header (2.66 D1).
+//   Column visibility (hiddenColumns) + width persistence (columnWidths) — 2.66 D1.
 //   Column pin + reorder (columnOrder / moveColumn) and row group headers (groupRole) — 2.64.
-//   fine for hundreds of plain objects; prefer a C++ model + custom view for thousands+.
-//   Selection tracks the row **object** across sort/filter (clears if the row is filtered out).
-//   Tab into the table or press Down from the filter; arrows / Home / End / Page / Enter /
-//   Esc navigate. Pinned columns stay fixed; scrollable columns share a horizontal offset.
-//   Live-region announces on selection / sort / filter (2.07) when announceChanges is true.
+//   Selection tracks the row **object** across sort/filter.
 //   See docs/data-collections.md for DataTable vs ItemsView vs ListDetailsView.
 
 T.Control {
@@ -43,9 +47,14 @@ T.Control {
     property string filterPlaceholder: qsTr("Filter")
     property bool filterVisible: true
     property int selectedIndex: -1
+    // Primary sort column (compat); kept in sync with sortSpecs[0]
     property int sortColumn: -1
     property int sortOrder: Qt.AscendingOrder
+    // Multi-column sort specs: [{ column, order }, …] — first entry is primary (2.66 D1)
+    property var sortSpecs: []
     property real rowHeight: Theme.navItemHeight
+    // Fixed row-height ListView path (always on — C1 contract)
+    readonly property bool fixedRowHeight: true
     property real minColumnWidth: 64
     property real headerHeight: Theme.navItemHeight
     // Debounce filter keystrokes before rebuilding _viewRows (1.88).
@@ -59,6 +68,10 @@ T.Control {
     property real groupHeaderHeight: Theme.navItemHeight
     // Persist column order — bind to Settings; empty = natural column index order (2.64).
     property var columnOrder: []
+    // Hidden column indices — omitted from header/body (2.66 D1)
+    property var hiddenColumns: []
+    // Persistable widths — bind to Settings; empty = use columns[].width (2.66 D1)
+    property var columnWidths: []
 
     readonly property var selectedRow: {
         if (selectedIndex < 0 || selectedIndex >= _viewRows.length)
@@ -97,6 +110,8 @@ T.Control {
     property var _lastRowsRef: null
     property string _lastAnnouncedFilterSummary: ""
     property var _selectedRowRef: null
+    property bool _syncingWidths: false
+    property bool _syncingSort: false
 
     function _announce(text) {
         if (!root.announceChanges || !text || text.length === 0)
@@ -169,24 +184,70 @@ T.Control {
         }
     }
 
+    function _isColumnHidden(index) {
+        var hidden = hiddenColumns || []
+        for (var i = 0; i < hidden.length; ++i) {
+            if (Number(hidden[i]) === index)
+                return true
+        }
+        return false
+    }
+
+    function setColumnVisible(column, visible) {
+        var cols = columns || []
+        if (column < 0 || column >= cols.length)
+            return
+        var hidden = (hiddenColumns || []).slice()
+        var idx = -1
+        for (var i = 0; i < hidden.length; ++i) {
+            if (Number(hidden[i]) === column) {
+                idx = i
+                break
+            }
+        }
+        if (visible) {
+            if (idx >= 0)
+                hidden.splice(idx, 1)
+        } else if (idx < 0) {
+            hidden.push(column)
+        }
+        hiddenColumns = hidden
+        _rebuildColumnLayout()
+    }
+
+    function isColumnVisible(column) {
+        return !_isColumnHidden(column)
+    }
+
     function _displayColumnIndices() {
         var cols = columns || []
         var order = columnOrder
+        var natural = []
         if (order && order.length === cols.length) {
             var seen = ({})
+            var ok = true
             for (var i = 0; i < order.length; ++i) {
                 var idx = order[i]
-                if (typeof idx !== "number" || idx < 0 || idx >= cols.length || seen[idx])
+                if (typeof idx !== "number" || idx < 0 || idx >= cols.length || seen[idx]) {
+                    ok = false
                     break
+                }
                 seen[idx] = true
-                if (i === order.length - 1)
-                    return order.slice()
+                natural.push(idx)
             }
+            if (!ok)
+                natural = []
         }
-        var natural = []
-        for (var j = 0; j < cols.length; ++j)
-            natural.push(j)
-        return natural
+        if (!natural.length) {
+            for (var j = 0; j < cols.length; ++j)
+                natural.push(j)
+        }
+        var visible = []
+        for (var k = 0; k < natural.length; ++k) {
+            if (!_isColumnHidden(natural[k]))
+                visible.push(natural[k])
+        }
+        return visible
     }
 
     function _rebuildColumnLayout() {
@@ -204,6 +265,60 @@ T.Control {
         _pinnedColOrder = pinned
         _scrollColOrder = scroll
         columnLayoutChanged()
+    }
+
+    function _sortKeyString() {
+        var specs = _effectiveSortSpecs()
+        var parts = []
+        for (var i = 0; i < specs.length; ++i)
+            parts.push(String(specs[i].column) + ":" + String(specs[i].order))
+        return parts.join(",")
+    }
+
+    function _effectiveSortSpecs() {
+        var specs = sortSpecs || []
+        if (specs.length)
+            return specs
+        if (sortColumn >= 0)
+            return [{ column: sortColumn, order: sortOrder }]
+        return []
+    }
+
+    function _syncPrimarySortFromSpecs() {
+        if (_syncingSort)
+            return
+        _syncingSort = true
+        var specs = sortSpecs || []
+        if (specs.length) {
+            sortColumn = Number(specs[0].column)
+            sortOrder = Number(specs[0].order)
+        }
+        _syncingSort = false
+    }
+
+    onSortSpecsChanged: {
+        _syncPrimarySortFromSpecs()
+        _scheduleRefresh(true)
+    }
+    onHiddenColumnsChanged: _rebuildColumnLayout()
+    onColumnWidthsChanged: {
+        if (_syncingWidths)
+            return
+        var incoming = columnWidths || []
+        if (!incoming.length)
+            return
+        var cols = columns || []
+        if (incoming.length !== cols.length && _columnWidths.length === cols.length)
+            return
+        var next = _columnWidths.slice()
+        while (next.length < cols.length)
+            next.push(140)
+        for (var i = 0; i < Math.min(incoming.length, cols.length); ++i) {
+            var w = Number(incoming[i])
+            if (isFinite(w) && w > 0)
+                next[i] = Math.max(minColumnWidth, w)
+        }
+        _columnWidths = next
     }
 
     function moveColumn(fromDisplay, toDisplay) {
@@ -307,8 +422,8 @@ T.Control {
         var src = rows || []
         var cols = columns || []
         var q = (filterText || "").trim().toLowerCase()
-        var refreshKey = q + "\0" + sortColumn + "\0" + sortOrder + "\0"
-                + src.length + "\0" + groupRole
+        var refreshKey = q + "\0" + _sortKeyString() + "\0"
+                + src.length + "\0" + groupRole + "\0" + String(maxFilterResults)
         if (refreshKey === _lastRefreshKey && src === _lastRowsRef)
             return
         _lastRefreshKey = refreshKey
@@ -325,6 +440,8 @@ T.Control {
             }
             var hit = false
             for (var c = 0; c < cols.length; ++c) {
+                if (_isColumnHidden(c))
+                    continue
                 var role = cols[c].role || ("c" + c)
                 var v = row[role]
                 if (v !== undefined && String(v).toLowerCase().indexOf(q) >= 0) {
@@ -337,13 +454,10 @@ T.Control {
             if (root.maxFilterResults > 0 && filtered.length >= root.maxFilterResults)
                 break
         }
-        var roleSort = ""
-        var asc = sortOrder === Qt.AscendingOrder
-        var canSort = sortColumn >= 0 && sortColumn < cols.length && cols[sortColumn].sortable !== false
-        if (canSort)
-            roleSort = cols[sortColumn].role || ("c" + sortColumn)
 
-        if (root._groupActive || canSort) {
+        var specs = _effectiveSortSpecs()
+        var canSort = specs.length > 0 || root._groupActive
+        if (canSort) {
             filtered = filtered.slice().sort(function (a, b) {
                 if (root._groupActive) {
                     var ga = a[root.groupRole]
@@ -352,9 +466,17 @@ T.Control {
                     if (gcmp !== 0)
                         return gcmp
                 }
-                if (!canSort)
-                    return 0
-                return root._compareValues(a[roleSort], b[roleSort], asc)
+                for (var s = 0; s < specs.length; ++s) {
+                    var col = Number(specs[s].column)
+                    if (col < 0 || col >= cols.length || cols[col].sortable === false)
+                        continue
+                    var roleSort = cols[col].role || ("c" + col)
+                    var asc = Number(specs[s].order) === Qt.AscendingOrder
+                    var cmp = root._compareValues(a[roleSort], b[roleSort], asc)
+                    if (cmp !== 0)
+                        return cmp
+                }
+                return 0
             })
         }
 
@@ -389,18 +511,54 @@ T.Control {
         _announceFilterResult()
     }
 
-    function toggleSort(column) {
+    // Toggle sort. append=true (Shift+click) adds/updates a secondary sort key (2.66 D1).
+    function toggleSort(column, append) {
         var cols = columns || []
         if (column < 0 || column >= cols.length)
             return
         if (cols[column].sortable === false)
             return
-        if (sortColumn === column)
-            sortOrder = sortOrder === Qt.AscendingOrder ? Qt.DescendingOrder : Qt.AscendingOrder
-        else {
-            sortColumn = column
-            sortOrder = Qt.AscendingOrder
+        var specs = (sortSpecs && sortSpecs.length) ? sortSpecs.slice()
+                  : (sortColumn >= 0 ? [{ column: sortColumn, order: sortOrder }] : [])
+        var found = -1
+        for (var i = 0; i < specs.length; ++i) {
+            if (Number(specs[i].column) === column) {
+                found = i
+                break
+            }
         }
+        if (append) {
+            if (found >= 0) {
+                var cur = Number(specs[found].order)
+                specs[found] = {
+                    column: column,
+                    order: cur === Qt.AscendingOrder ? Qt.DescendingOrder : Qt.AscendingOrder
+                }
+            } else {
+                specs.push({ column: column, order: Qt.AscendingOrder })
+            }
+        } else {
+            if (found === 0 && specs.length === 1) {
+                var only = Number(specs[0].order)
+                specs = [{
+                    column: column,
+                    order: only === Qt.AscendingOrder ? Qt.DescendingOrder : Qt.AscendingOrder
+                }]
+            } else if (found === 0) {
+                specs[0] = {
+                    column: column,
+                    order: Number(specs[0].order) === Qt.AscendingOrder
+                           ? Qt.DescendingOrder : Qt.AscendingOrder
+                }
+            } else {
+                specs = [{ column: column, order: Qt.AscendingOrder }]
+            }
+        }
+        _syncingSort = true
+        sortSpecs = specs
+        sortColumn = Number(specs[0].column)
+        sortOrder = Number(specs[0].order)
+        _syncingSort = false
         sortChanged(sortColumn, sortOrder)
         if (announceChanges) {
             var colTitle = cols[column].title || cols[column].role || ""
@@ -408,16 +566,30 @@ T.Control {
                     ? qsTr("ascending") : qsTr("descending")
             _announce(qsTr("Sorted by %1, %2").arg(colTitle).arg(order))
         }
+        _scheduleRefresh(true)
     }
 
     function _syncColumnWidths() {
         var cols = columns || []
         var widths = []
+        var persisted = columnWidths || []
         for (var i = 0; i < cols.length; ++i) {
+            var pw = persisted.length > i ? Number(persisted[i]) : NaN
+            if (isFinite(pw) && pw > 0) {
+                widths.push(Math.max(minColumnWidth, pw))
+                continue
+            }
             var w = cols[i].width
             widths.push(w === undefined ? 140 : Number(w))
         }
         _columnWidths = widths
+    }
+
+    function _publishColumnWidths() {
+        _syncingWidths = true
+        columnWidths = _columnWidths.slice()
+        _syncingWidths = false
+        columnLayoutChanged()
     }
 
     function _cellText(rowObj, column) {
@@ -487,10 +659,16 @@ T.Control {
                 var t = headerCell.colDef.title || headerCell.colDef.role || ""
                 if (headerCell.colDef.pinned === true)
                     t += qsTr(", pinned")
-                if (root.sortColumn === headerCell.columnIndex) {
-                    t += root.sortOrder === Qt.AscendingOrder
+                var specs = root._effectiveSortSpecs()
+                for (var si = 0; si < specs.length; ++si) {
+                    if (Number(specs[si].column) === headerCell.columnIndex) {
+                        t += Number(specs[si].order) === Qt.AscendingOrder
                              ? qsTr(", sorted ascending")
                              : qsTr(", sorted descending")
+                        if (specs.length > 1)
+                            t += qsTr(", sort priority %1").arg(si + 1)
+                        break
+                    }
                 }
                 return t
             }
@@ -519,8 +697,22 @@ T.Control {
                 }
 
                 Label {
-                    visible: root.sortColumn === headerCell.columnIndex
-                    text: root.sortOrder === Qt.AscendingOrder ? "▲" : "▼"
+                    readonly property int sortRank: {
+                        var specs = root._effectiveSortSpecs()
+                        for (var si = 0; si < specs.length; ++si) {
+                            if (Number(specs[si].column) === headerCell.columnIndex)
+                                return si
+                        }
+                        return -1
+                    }
+                    visible: sortRank >= 0
+                    text: {
+                        var specs = root._effectiveSortSpecs()
+                        var arrow = Number(specs[sortRank].order) === Qt.AscendingOrder ? "▲" : "▼"
+                        if (specs.length > 1)
+                            return arrow + String(sortRank + 1)
+                        return arrow
+                    }
                     color: Theme.accent
                     font.pixelSize: Theme.fontCaption
                 }
@@ -531,7 +723,9 @@ T.Control {
                 anchors.rightMargin: 6
                 cursorShape: headerCell.colDef.sortable === false
                              ? Qt.ArrowCursor : Qt.PointingHandCursor
-                onClicked: root.toggleSort(headerCell.columnIndex)
+                onClicked: function (mouse) {
+                    root.toggleSort(headerCell.columnIndex, !!(mouse.modifiers & Qt.ShiftModifier))
+                }
             }
 
             MouseArea {
@@ -555,6 +749,7 @@ T.Control {
                     widths[headerCell.columnIndex] = nw
                     root._columnWidths = widths
                 }
+                onReleased: root._publishColumnWidths()
             }
         }
     }
@@ -675,6 +870,8 @@ T.Control {
                     Layout.fillHeight: true
                     clip: true
                     reuseItems: true
+                    // Fixed row-height fast path (2.66 C1) — avoids variable-height measure
+                    cacheBuffer: root.rowHeight * 12
                     boundsBehavior: Flickable.StopAtBounds
                     model: root._groupActive ? root._displayItems : root._viewRows
                     currentIndex: root._listCurrentIndex

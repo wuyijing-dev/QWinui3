@@ -4,7 +4,7 @@ Fluent ComboBox with rotating chevron indicator.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/ComboBox.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/ComboBox.qml)
 
-**Category:** Styled controls · **Library:** v2.65
+**Category:** Styled controls · **Library:** v2.66
 
 [← Component index](../components.md)
 
@@ -33,6 +33,8 @@ Public API is the Qt Quick Controls ComboBox type; this file supplies visuals/me
 
 | Name | Type | Description |
 | --- | --- | --- |
+| `hasError` | `bool` | Form validation error (2.66 A2) |
+| `appearance` | `string` | Visual variant: filled \| outline \| "" (filled default — 2.66 A2) |
 | `lightScheme` | `bool` | True in light theme |
 
 ### Signals

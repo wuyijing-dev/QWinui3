@@ -11,6 +11,40 @@ CatalogPage {
     subtitle: qsTr("Fluent link with symbol, showExternalGlyph, visited, in-page jump, and navigateMode.")
 
     ControlExample {
+        headerText: qsTr("Appearances (2.66 A1)")
+        qmlSource: "HyperlinkButton { appearance: \"ghost\" }\nHyperlinkButton { appearance: \"subtle\" }\nHyperlinkButton { appearance: \"outline\" }\nHyperlinkButton { appearance: \"filled\" }"
+
+        Flow {
+            Layout.fillWidth: true
+            spacing: Theme.spacingLoose
+            HyperlinkButton {
+                text: qsTr("Ghost")
+                appearance: "ghost"
+                navigateMode: "signal"
+                navigateUri: "app://ghost"
+            }
+            HyperlinkButton {
+                text: qsTr("Subtle")
+                appearance: "subtle"
+                navigateMode: "signal"
+                navigateUri: "app://subtle"
+            }
+            HyperlinkButton {
+                text: qsTr("Outline")
+                appearance: "outline"
+                navigateMode: "signal"
+                navigateUri: "app://outline"
+            }
+            HyperlinkButton {
+                text: qsTr("Filled")
+                appearance: "filled"
+                navigateMode: "signal"
+                navigateUri: "app://filled"
+            }
+        }
+    }
+
+    ControlExample {
         objectName: "underlineStyles"
         headerText: qsTr("Underline styles")
         qmlSource: "HyperlinkButton {\n    navigateUri: \"#section\"\n    navigateMode: \"inPage\"\n}"

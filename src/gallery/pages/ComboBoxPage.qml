@@ -7,7 +7,33 @@ import QWinUI3.Theme
 
 CatalogPage {
     title: qsTr("ComboBox")
-    subtitle: qsTr("Fluent chevron indicator with popup-open rotation.")
+    subtitle: qsTr("Fluent chevron · appearance filled/outline · hasError (2.66 A2).")
+
+    ControlExample {
+        headerText: qsTr("Appearances (2.66 A2)")
+        qmlSource: "ComboBox { appearance: \"filled\" }\nComboBox { appearance: \"outline\" }\nComboBox { hasError: true }"
+
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacingLoose
+            ComboBox {
+                Layout.preferredWidth: 240
+                appearance: "filled"
+                model: [qsTr("Filled"), qsTr("Option B")]
+            }
+            ComboBox {
+                Layout.preferredWidth: 240
+                appearance: "outline"
+                model: [qsTr("Outline"), qsTr("Option B")]
+            }
+            ComboBox {
+                Layout.preferredWidth: 240
+                appearance: "outline"
+                hasError: true
+                model: [qsTr("Has error"), qsTr("Option B")]
+            }
+        }
+    }
 
     ControlExample {
         headerText: qsTr("A simple ComboBox")

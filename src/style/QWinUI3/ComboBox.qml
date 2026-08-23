@@ -19,9 +19,39 @@ import QWinUI3.Theme
 T.ComboBox {
     id: control
 
-
     Accessible.role: Accessible.ComboBox
     Accessible.name: control.displayText.length ? control.displayText : qsTr("Combo box")
+
+    // Form validation error (2.66 A2)
+    property bool hasError: false
+    // Visual variant: filled | outline | "" (filled default — 2.66 A2)
+    property string appearance: ""
+    property int _errorShakeSeq: 0
+    property real _shakeOffset: 0
+
+    readonly property string _effectiveAppearance: appearance.length ? appearance : "filled"
+    readonly property bool _outlineAppearance: _effectiveAppearance === "outline"
+
+    onHasErrorChanged: {
+        if (hasError)
+            _errorShakeSeq += 1
+    }
+    on_ErrorShakeSeqChanged: {
+        if (_errorShakeSeq <= 0)
+            return
+        if (Theme.reducedMotion)
+            return
+        errorShakeAnim.restart()
+    }
+
+    SequentialAnimation {
+        id: errorShakeAnim
+        NumberAnimation { target: control; property: "_shakeOffset"; to: -4; duration: 40 }
+        NumberAnimation { target: control; property: "_shakeOffset"; to: 4; duration: 50 }
+        NumberAnimation { target: control; property: "_shakeOffset"; to: -3; duration: 40 }
+        NumberAnimation { target: control; property: "_shakeOffset"; to: 0; duration: 40 }
+    }
+
     implicitWidth: Math.max(Theme.controlMinWidth,
                             implicitContentWidth + leftPadding + rightPadding)
     implicitHeight: Theme.controlHeight
@@ -34,12 +64,19 @@ T.ComboBox {
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     hoverEnabled: true
+    transform: Translate { x: control._shakeOffset }
 
     PointerCursor { shape: Qt.PointingHandCursor }
 
     // True in light theme
     readonly property bool lightScheme: !Theme.dark
-    readonly property color __fill: Theme.borderedControlFill(control.hovered, control.down, !control.enabled)
+    readonly property color __fill: {
+        if (!control.enabled)
+            return Theme.fillControlDisabled
+        if (control._outlineAppearance)
+            return "transparent"
+        return Theme.borderedControlFill(control.hovered, control.down, !control.enabled)
+    }
 
     delegate: T.ItemDelegate {
         id: delegateRoot
@@ -209,7 +246,7 @@ T.ComboBox {
             radius: Theme.cornerControl
 
             // Draw solid stroke chrome
-            readonly property bool hasSolidStroke: control.down || !control.enabled || Theme.dark
+            readonly property bool hasSolidStroke: control.hasError || control.down || !control.enabled || Theme.dark || control._outlineAppearance
             // Draw gradient stroke chrome
             readonly property bool hasGradientStroke: !hasSolidStroke && control.enabled
             // Top edge stroke width
@@ -240,8 +277,12 @@ T.ComboBox {
                 width: inset ? parent.width - 2 : parent.width
                 height: inset ? parent.height - 2 : parent.height
                 radius: inset ? Theme.cornerControl - 1 : Theme.cornerControl
-                border.width: strokeShell.hasGradientStroke ? 0 : 1
-                border.color: Theme.strokeControl
+                border.width: control.hasError ? 2
+                             : (strokeShell.hasGradientStroke ? 0
+                                : (control._outlineAppearance && control.activeFocus ? 2 : 1))
+                border.color: control.hasError ? Theme.systemCritical
+                              : (control.activeFocus && control._outlineAppearance
+                                 ? Theme.accent : Theme.strokeControl)
                 color: control.__fill
 
                 Behavior on color {
@@ -250,6 +291,23 @@ T.ComboBox {
                         duration: Theme.duration(Theme.motionNormal)
                         easing.type: Theme.easingStandard
                     }
+                }
+                Behavior on border.color {
+                    enabled: !Theme.reducedMotion
+                    ColorAnimation {
+                        duration: Theme.duration(Theme.motionFast)
+                        easing.type: Theme.easingStandard
+                    }
+                }
+
+                Rectangle {
+                    visible: !control._outlineAppearance && !control.hasError
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.bottom: parent.bottom
+                    height: control.activeFocus ? 2 : 1
+                    color: control.activeFocus ? Theme.accent : Theme.strokeControl
+                    opacity: control.activeFocus ? 1 : 0.85
                 }
             }
         }

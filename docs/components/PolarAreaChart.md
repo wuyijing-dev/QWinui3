@@ -4,7 +4,7 @@ Coxcomb / polar-area sectors (radius encodes value).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/PolarAreaChart.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/PolarAreaChart.qml)
 
-**Category:** Charts & gauges · **Library:** v2.65
+**Category:** Charts & gauges · **Library:** v2.66
 
 [← Component index](../components.md)
 

@@ -76,7 +76,7 @@ Do **not** `import` every page type into `Main.qml` — that forces compile at s
 
 | Surface | How it scrolls | Notes |
 |---------|----------------|-------|
-| [`DataTable`](components/DataTable.md) | `ListView` + `reuseItems` | Filter/sort rebuild `_viewRows` in JS — **debounced + skip unchanged (1.88)** |
+| [`DataTable`](components/DataTable.md) | `ListView` + `reuseItems` + fixed `rowHeight` | Filter/sort rebuild `_viewRows` in JS — **debounced + skip unchanged**; **multi-sort / hiddenColumns / columnWidths (2.66)** |
 | [`ItemsView`](components/ItemsView.md) | `ListView` + `reuseItems` | Optional `filterText` on JS arrays (1.88); C++ model at scale |
 | [`ListDetailsView`](components/ListDetailsView.md) | `ListView` + `reuseItems` | Optional `filterText` on master list (1.88) |
 | [`ItemsRepeater`](components/ItemsRepeater.md) | `ListView` + `reuseItems` (1.25) | Optional `filterText` on JS arrays (1.88) |
@@ -160,7 +160,7 @@ ChartCard {
 |---------|-----|
 | NavigationView page stack | Gallery opens pages **on demand** via `pageModule` + StackView — do the same in apps |
 | Defer with `Loader` | Optional Multimedia / WebView2 / huge settings trees: `active: false` until needed |
-| DataTable demo | ~200 employee rows — fine for JS; treat as the **ceiling** for casual arrays |
+| DataTable demo | Gallery ships ~200 employee rows plus a **10k load** path (**2.66**); use `maxFilterResults` when filtering huge JS arrays |
 | Charts hub | Small synthetic series; don’t paste multi-megabyte CSV into QML properties |
 | Page Component cache | Cap with `pageCacheLimit`; clear after demos that thrash the stack |
 

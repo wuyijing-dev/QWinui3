@@ -4,7 +4,7 @@ Vertical form stack that collects field errorMessage values.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/FormLayout.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/FormLayout.qml)
 
-**Category:** Input & forms · **Library:** v2.65
+**Category:** Input & forms · **Library:** v2.66
 
 [← Component index](../components.md)
 
@@ -52,6 +52,8 @@ Accessibility (1.19): Accessible.Form + accessibleName; description lists error 
 | --- | --- | --- |
 | `labelWidth` | `real` | Preferred label column width for left-header fields |
 | `fieldHeaderPlacement` | `string` | Default headerPlacement pushed to formBound fields ("left"\|"top"; empty = leave field) |
+| `fieldAppearance` | `string` | Push appearance to TextField / TextArea / ComboBox descendants (filled \| outline) — 2.66 A2 |
+| `readOnly` | `bool` | When true, push readOnly onto descendant editors that expose it — 2.66 A2 |
 | `fieldSpacing` | `real` | Vertical spacing between fields |
 | `errors` | `var` | Collected error strings after validate() / collectErrors() |
 | `validating` | `bool` | True while async validation runs (2.55 — pair with beginValidate/endValidate) |

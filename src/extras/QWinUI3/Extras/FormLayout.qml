@@ -44,6 +44,10 @@ T.Control {
     property real labelWidth: 140
     // Default headerPlacement pushed to formBound fields ("left"|"top"; empty = leave field)
     property string fieldHeaderPlacement: ""
+    // Push appearance to TextField / TextArea / ComboBox descendants (filled | outline) — 2.66 A2
+    property string fieldAppearance: ""
+    // When true, push readOnly onto descendant editors that expose it — 2.66 A2
+    property bool readOnly: false
     // Vertical spacing between fields
     property real fieldSpacing: Theme.spacingLoose
     // Collected error strings after validate() / collectErrors()
@@ -66,6 +70,8 @@ T.Control {
 
     onLabelWidthChanged: Qt.callLater(function () { root.applyDefaults() })
     onFieldHeaderPlacementChanged: Qt.callLater(function () { root.applyDefaults() })
+    onFieldAppearanceChanged: Qt.callLater(function () { root.applyDefaults() })
+    onReadOnlyChanged: Qt.callLater(function () { root.applyDefaults() })
 
     contentItem: ColumnLayout {
         id: body
@@ -94,6 +100,10 @@ T.Control {
                 item.labelWidth = root.labelWidth
             if (root.fieldHeaderPlacement.length && item.hasOwnProperty("headerPlacement"))
                 item.headerPlacement = root.fieldHeaderPlacement
+            if (root.fieldAppearance.length && item.hasOwnProperty("appearance"))
+                item.appearance = root.fieldAppearance
+            if (root.readOnly && item.hasOwnProperty("readOnly"))
+                item.readOnly = true
         }
         var kids = item.children || []
         for (var i = 0; i < kids.length; ++i)

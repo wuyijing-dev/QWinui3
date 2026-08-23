@@ -1,10 +1,10 @@
 # AccentButton
 
-Always-accent primary CTA with optional Fluent symbol.
+Accent-colored CTA with optional Fluent symbol (2.66 A1 appearances).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/AccentButton.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/AccentButton.qml)
 
-**Category:** Buttons & commands · **Library:** v2.65
+**Category:** Buttons & commands · **Library:** v2.66
 
 [← Component index](../components.md)
 
@@ -19,20 +19,15 @@ AccentButton {
     id: saveBtn
     text: qsTr("Save")
     symbol: FluentIcons.Save
-    enabled: true
+    appearance: "filled"   // filled | subtle | outline | ghost
     onClicked: save()
 }
-
-// --- API ---
-// properties: symbol, iconGlyph, iconSize, effectiveIconGlyph
-// inherits Button: text, enabled, highlighted, clicked(), pressAndHold()
-// saveBtn.clicked → onClicked; no custom methods
 ```
 
 ## Notes
 
-Always-accent primary Button; prefer symbol: FluentIcons.* over iconGlyph.
-Inherits Button: text, enabled, clicked().
+Prefer symbol: FluentIcons.* over iconGlyph. Default appearance is filled (solid accent).
+Inherits Button appearance API (2.66 A1).
 
 ## API
 

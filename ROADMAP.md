@@ -1,8 +1,8 @@
 # QWinUI3 Roadmap
 
-**Current:** **2.65** (master; Charts + Dashboard Wave A)
-**Next up:** **2.66** Appearance foundations + DataTable pro grid
-**Planned through:** **3.00** (… → **2.66…2.70** product wave → **2.71…2.75** platform/Python polish → **3.00** close-out → [micro-interaction backlog last](#micro-interaction--visual-polish--deferred-last))
+**Current:** **2.66** (master; Appearance foundations + DataTable pro grid)
+**Next up:** **2.67** List/card appearance + motion tokens
+**Planned through:** **3.00** (… → **2.67…2.70** product wave → **2.71…2.75** platform/Python polish → **3.00** close-out → [micro-interaction backlog last](#micro-interaction--visual-polish--deferred-last))
 **Checkpoints ahead:** **2.70** professional-surfaces audit · **2.73** Python consumer · **3.00** breaking close-out (checkpoint-300)
 **Qt:** 6.5+ (recommended 6.8 LTS) on master today — **2.00** raises floor to **6.8 LTS** · **3.00** to **6.10 LTS**
 **Platforms:** **Windows + Linux** — no macOS first-class line.
@@ -135,7 +135,7 @@ Consumer sketch: [upgrade-notes.md](docs/upgrade-notes.md) **Upgrade 1.90 → 2.
 | Slice | Primary theme | Bundled tracks | Status |
 |-------|---------------|----------------|--------|
 | **2.65** | Charts + Dashboard | Analytics wave A (**FL-009**) | **Shipped** |
-| **2.66** | Appearance + grid + table perf | **A1** · **A2** · **C1** · **D1** | Planned |
+| **2.66** | Appearance + grid + table perf | **A1** · **A2** · **C1** · **D1** | **Shipped** |
 | **2.67** | List/card appearance + motion tokens | **A3** · **A4** · **B1** · **B2** · **C2** · **C4** · **D2** · **F1** | Planned |
 | **2.68** | Nav/tabs + connected motion + workflow | **A5** · **B3** · **B4** · **C3** · **C4** · **D3** · **D4** · **F2** · **F3** | Planned |
 | **2.69** | Collections + dialogs + calendar/RichEdit | **A6** · **B5** · **C5** · **D5** · **D6** · **F4** · **F5** | Planned |
@@ -157,16 +157,16 @@ Consumer sketch: [upgrade-notes.md](docs/upgrade-notes.md) **Upgrade 1.90 → 2.
 
 **Out:** WebGL engine; unconditional new stable chart names without friction row.
 
-### 2.66 — Appearance foundations + DataTable pro grid (planned)
+### 2.66 — Appearance foundations + DataTable pro grid (shipped)
 
 | ID | Deliverable |
 |----|-------------|
-| **A1** | **Button 族外观体系** — `appearance: filled / subtle / outline / ghost` on **Button**, **AccentButton**, **HyperlinkButton**; Theme token driven |
-| **A2** | **输入框视觉档位** — **TextBox** / **TextArea** / **ComboBox**: `filled` vs `outline`; error / readonly / disabled tied to **FormLayout** |
-| **C1** | **DataTable 10k 行路径** — column virtualization + fixed row-height fast path; incremental filter/sort; Gallery benchmark + [performance.md](docs/performance.md) budget row |
-| **D1** | **DataTable 专业网格包** — multi-column sort, column visibility chooser, column width persistence |
+| **A1** | **Button 族外观体系** — `appearance: filled / subtle / outline / ghost` on **Button**, **AccentButton**, **HyperlinkButton** |
+| **A2** | **输入框视觉档位** — **TextField** / **TextArea** / **ComboBox**: `filled` vs `outline`; **FormLayout** `fieldAppearance` / `readOnly` |
+| **C1** | **DataTable 10k 行路径** — fixed `rowHeight` + `ListView` reuse; Gallery 10k load + `maxFilterResults` |
+| **D1** | **DataTable 专业网格包** — `sortSpecs` multi-sort, `hiddenColumns` / `setColumnVisible`, `columnWidths` persistence |
 
-**Docs:** appearance variant cookbook (new) · [forms.md](docs/forms.md) · [data-collections.md](docs/data-collections.md) · [performance.md](docs/performance.md)
+**Docs:** [appearance-variants.md](docs/appearance-variants.md) · [forms.md](docs/forms.md) · [data-collections.md](docs/data-collections.md) · [performance.md](docs/performance.md)
 
 **Out:** Million-row GPU grid; masked-input engine for every locale.
 

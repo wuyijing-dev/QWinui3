@@ -4,7 +4,7 @@ WinUI TitleBar content chrome (not caption buttons).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/TitleBar.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/TitleBar.qml)
 
-**Category:** Shells & windows · **Library:** v2.65
+**Category:** Shells & windows · **Library:** v2.66
 
 [← Component index](../components.md)
 

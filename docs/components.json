@@ -1,13 +1,13 @@
 {
   "name": "QWinUI3",
-  "version": "2.65",
+  "version": "2.66",
   "generatedBy": "scripts/generate_component_docs.py",
   "publicCount": 299,
   "components": [
     {
       "name": "AccentButton",
       "module": "QWinUI3.Extras",
-      "summary": "Always-accent primary CTA with optional Fluent symbol.",
+      "summary": "Accent-colored CTA with optional Fluent symbol (2.66 A1 appearances).",
       "path": "src/extras/QWinUI3/Extras/AccentButton.qml",
       "baseType": "Button",
       "internal": false,
@@ -918,9 +918,9 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/DataTable.md",
-      "propertyCount": 21,
+      "propertyCount": 25,
       "signalCount": 4,
-      "methodCount": 6
+      "methodCount": 8
     },
     {
       "name": "DataTableFilterOverlay",
@@ -1275,7 +1275,7 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/FormLayout.md",
-      "propertyCount": 7,
+      "propertyCount": 9,
       "signalCount": 0,
       "methodCount": 9
     },
@@ -1530,7 +1530,7 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/HyperlinkButton.md",
-      "propertyCount": 9,
+      "propertyCount": 10,
       "signalCount": 1,
       "methodCount": 0
     },
@@ -4488,7 +4488,7 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/ComboBox.md",
-      "propertyCount": 1,
+      "propertyCount": 3,
       "signalCount": 0,
       "methodCount": 0
     },
