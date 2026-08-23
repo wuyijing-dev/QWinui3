@@ -51,15 +51,19 @@ Related: [webview2.md](webview2.md) · [drag-drop.md](drag-drop.md) · [system-i
 
 On attach, the host creates Edge user data under:
 
-`QStandardPaths::AppLocalDataLocation` + `/WebView2Host`
+`QStandardPaths::AppLocalDataLocation` + `/WebView2Host/p` + `<pid>`
 
-(typically `%LOCALAPPDATA%/<org>/<app>/WebView2Host` on Windows).
+(typically `%LOCALAPPDATA%/<org>/<app>/WebView2Host/p12345` on Windows).
+
+Each process gets its own folder so **Gallery and apps built on the kit can run multiple exe instances** without Edge locking a shared profile. Override with `WebView2Host.userDataFolder` when you deliberately want one shared profile (then keep a single instance yourself).
 
 | Implication | Guidance |
 |-------------|----------|
-| Cookies / cache / local storage | Bound to **your** org/app id from `QCoreApplication` — set those before `configureApplication` |
+| Cookies / cache / local storage | Bound to **your** org/app id from `QCoreApplication`, then per-process by default |
+| Multi-instance / multi-exe | Default path is safe — no kit single-instance lock |
+| Shared profile (optional) | Set `userDataFolder` to a fixed path; do not open two processes against it |
 | Multi-user kiosk | Different app names / data roots, or wipe the folder on logout (app policy) |
-| Custom Environment / multi-profile | **Experimental / deferred** — [stable-api.md](stable-api.md) |
+| Custom Environment / multi-profile API | **Experimental / deferred** — [stable-api.md](stable-api.md) |
 
 ### Navigation allowlists (app-side)
 

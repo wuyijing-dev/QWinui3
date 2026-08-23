@@ -10,7 +10,7 @@ import QWinUI3.Platform
 CatalogPage {
     id: page
     title: qsTr("WebView2")
-    subtitle: qsTr("Stable Windows host (1.18). Field matrix + policy recipes (2.32) — docs/webview2.md · docs/security-trust.md.")
+    subtitle: qsTr("Stable Windows host (1.18). Multi-exe safe user-data (per-pid). Field matrix + policy — docs/webview2.md.")
 
     property url demoUrl: "https://www.microsoft.com/edge/webview"
     property string navStatus: ""

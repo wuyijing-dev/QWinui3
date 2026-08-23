@@ -2,6 +2,7 @@
 
 #include <QWinUI3/Compat/QtCompatVersion.h>
 
+#include <QCoreApplication>
 #include <QDir>
 #include <QFocusEvent>
 #include <QGuiApplication>
@@ -101,8 +102,10 @@ public:
 
         syncGeometry();
 
-        const QString dataRoot = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
-        const QString dataPath = dataRoot + QStringLiteral("/WebView2Host");
+        // Per-process folder by default — Edge locks user-data; shared path breaks multi-exe.
+        const QString dataPath = q->m_userDataFolder.isEmpty()
+                ? WebView2Host::defaultUserDataFolder()
+                : q->m_userDataFolder;
         QDir().mkpath(dataPath);
 
         const quint32 gen = generation;
@@ -421,6 +424,28 @@ bool WebView2Host::queryRuntimeInstalled()
 QString WebView2Host::evergreenDownloadUrl()
 {
     return QStringLiteral("https://go.microsoft.com/fwlink/p/?LinkId=2124703");
+}
+
+QString WebView2Host::defaultUserDataFolder()
+{
+    const QString root = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
+    return root + QStringLiteral("/WebView2Host/p")
+            + QString::number(QCoreApplication::applicationPid());
+}
+
+void WebView2Host::setUserDataFolder(const QString &path)
+{
+    if (m_userDataFolder == path)
+        return;
+    m_userDataFolder = path;
+    emit userDataFolderChanged();
+    // Environment is created once per host lifetime; recreate if already up.
+#if QWINUI3_WEBVIEW2_IMPL
+    if (m_impl && m_ready) {
+        destroyHost();
+        ensureHost();
+    }
+#endif
 }
 
 WebView2Host::WebView2Host(QQuickItem *parent)

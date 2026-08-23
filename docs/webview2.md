@@ -19,7 +19,7 @@ Gallery page **WebView2** matches this guide.
 | **Missing Runtime** | Pass | `runtimeInstalled` / EmptyState / `runtimeDownloadUrl`; **Retry** (`refreshRuntimeProbe`) force-recreates after install |
 | **Async teardown** | Pass (1.18) | Generation token abandons in-flight CreateEnvironment / CreateController callbacks |
 
-Remaining limitations (documented, not blockers for promote): Windows-only; single user-data folder under `AppLocalDataLocation/WebView2Host`; no multi-profile / custom Environment options API yet.
+Remaining limitations (documented, not blockers for promote): Windows-only; no full multi-profile Environment options API yet. **Multi-instance:** default user-data is `AppLocalDataLocation/WebView2Host/p<pid>` so Gallery and consumer exes can run side-by-side; set `userDataFolder` only when you intentionally share one profile (single-instance apps).
 
 ---
 
@@ -71,7 +71,7 @@ WindowHelper::configurePlatformEnvironment(argv[0]);
 
 ### Lifecycle
 
-1. Attached to a `QQuickWindow` → create child HWND + `CreateCoreWebView2Environment` (user data under `AppLocalDataLocation/WebView2Host`).
+1. Attached to a `QQuickWindow` → create child HWND + `CreateCoreWebView2Environment` (user data under `AppLocalDataLocation/WebView2Host/p<pid>` by default; override with `userDataFolder`).
 2. `ready` becomes true when the controller exists; then `source` navigates.
 3. Scene detach / destruction → `Close()` controller and destroy HWND (in-flight create callbacks are ignored).
 4. Hide / opacity / empty clip → `put_IsVisible(FALSE)` and hide HWND (no destroy).
@@ -125,7 +125,7 @@ Do **not** treat `available` alone as “can navigate” — check `runtimeInsta
 
 Stable-api: **`WebView2Host` promoted in 1.18** — see [stable-api.md](stable-api.md).
 
-**Trust boundaries (1.64):** the host does **not** cancel navigations or offer an allowlist API — gate `source` / `navigate` in the app; user data under `AppLocalDataLocation/WebView2Host` — [security-trust.md](security-trust.md).
+**Trust boundaries (1.64):** the host does **not** cancel navigations or offer an allowlist API — gate `source` / `navigate` in the app; user data under `AppLocalDataLocation/WebView2Host/p<pid>` by default — [security-trust.md](security-trust.md).
 
 ---
 

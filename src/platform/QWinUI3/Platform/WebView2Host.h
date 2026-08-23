@@ -23,6 +23,9 @@ class QQuickWindow;
 // on scene detach. Geometry follows mapToScene each frame (ScrollView / Flickable)
 // and clips to clip:true ancestors.
 //
+// User data: default AppLocalDataLocation/WebView2Host/p<pid> (multi-exe safe).
+// Override with userDataFolder for a shared single-instance profile.
+//
 // Missing Runtime: runtimeInstalled is false; statusMessage explains; Gallery shows EmptyState.
 // Focus: when the item gains activeFocus, focus moves into the browser (and back on blur).
 // Stable (1.18): Windows + Evergreen Runtime; see docs/webview2.md soak checklist.
@@ -45,6 +48,9 @@ class WebView2Host : public QQuickItem
     Q_PROPERTY(bool runtimeMissing READ runtimeMissing NOTIFY statusMessageChanged)
     Q_PROPERTY(QString statusMessage READ statusMessage NOTIFY statusMessageChanged)
     Q_PROPERTY(QString runtimeDownloadUrl READ runtimeDownloadUrl CONSTANT)
+    // Empty (default): AppLocalDataLocation/WebView2Host/p<pid> — safe for multi-instance.
+    // Set a fixed path only when the app is single-instance or you manage locking yourself.
+    Q_PROPERTY(QString userDataFolder READ userDataFolder WRITE setUserDataFolder NOTIFY userDataFolderChanged)
 
 public:
     explicit WebView2Host(QQuickItem *parent = nullptr);
@@ -53,6 +59,8 @@ public:
     static bool sdkBuilt();
     static bool queryRuntimeInstalled();
     static QString evergreenDownloadUrl();
+    // Default per-process folder under AppLocalDataLocation (multi-exe safe).
+    static QString defaultUserDataFolder();
 
     bool available() const { return sdkBuilt(); }
     bool runtimeInstalled() const { return m_runtimeInstalled; }
@@ -61,6 +69,9 @@ public:
 
     QUrl source() const { return m_source; }
     void setSource(const QUrl &url);
+
+    QString userDataFolder() const { return m_userDataFolder; }
+    void setUserDataFolder(const QString &path);
 
     QString documentTitle() const { return m_title; }
     bool canGoBack() const { return m_canGoBack; }
@@ -87,6 +98,7 @@ signals:
     void navigationCompleted(bool success);
     void runtimeInstalledChanged();
     void readyChanged();
+    void userDataFolderChanged();
 
 protected:
     void itemChange(ItemChange change, const ItemChangeData &value) override;
@@ -107,6 +119,7 @@ private:
     void applyBrowserFocus(bool wantFocus);
 
     QUrl m_source{QStringLiteral("https://www.microsoft.com/edge/webview")};
+    QString m_userDataFolder; // empty → defaultUserDataFolder() at env create
     QString m_title;
     QString m_status;
     bool m_canGoBack = false;

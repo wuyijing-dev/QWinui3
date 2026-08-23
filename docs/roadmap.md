@@ -248,11 +248,11 @@ Python / PyPI (**2.71** / **2.72** goals) **shipped at 2.64**. Platform slices *
 
 ### 2.74 — Single-instance + protocol activation (planned · **F7**)
 
-**Goal:** Second launch focuses existing instance; forwards CLI args / file-open URLs to the running process — standard tool/analytics desktop pattern.
+**Goal:** **Opt-in** second-launch focuses existing instance and forwards CLI args / file-open URLs — standard tool/analytics desktop pattern. **Default remains multi-instance** (Gallery + consumer exes may run side-by-side; WebView2 uses per-pid user data).
 
-**Deliverables:** `WindowHelper` / bootstrap single-instance guard; activation + argument pipe recipe; Gallery + [`examples/first-app`](../examples/first-app/) callout.
+**Deliverables:** `WindowHelper` / bootstrap single-instance guard (**off by default**); activation + argument pipe recipe; Gallery + [`examples/first-app`](../examples/first-app/) callout.
 
-**Out:** Multi-instance coordination SaaS; macOS-first line.
+**Out:** Forcing single-instance on all kit apps; multi-instance coordination SaaS; macOS-first line.
 
 ### 2.75 — Global error boundary (planned · **F8**)
 
