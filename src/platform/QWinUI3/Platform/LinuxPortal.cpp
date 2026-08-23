@@ -137,6 +137,9 @@ QString makeToken(const char *prefix)
 
 enum class PortalWait { Failed, TimedOut, Done };
 
+// Portal Inhibit session — cookie 1 marker; Close() on release.
+QString g_portalIdleInhibitPath;
+
 PortalWait waitForRequest(const QDBusObjectPath &requestPath, QVariantMap *resultsOut, int *responseOut)
 {
     QWinUI3PortalWaiter waiter;
@@ -616,7 +619,8 @@ bool tryInhibitIdle(const QString &appName, const QString &reason, quint32 *cook
     int response = -1;
     if (waitForRequest(path, nullptr, &response) != PortalWait::Done || response != 0)
         return false;
-    // Portal inhibit does not return a simple cookie; store 1 as a marker.
+    // Portal inhibit: keep Request path for Close() on release (cookie 1 marker).
+    g_portalIdleInhibitPath = path.path();
     if (cookieOut)
         *cookieOut = 1;
     return true;
@@ -626,8 +630,19 @@ bool tryUninhibitIdle(quint32 cookie)
 {
     if (cookie == 0)
         return false;
-    if (cookie == 1)
-        return true; // portal Inhibit marker (no ScreenSaver cookie)
+    if (cookie == 1) {
+        if (g_portalIdleInhibitPath.isEmpty())
+            return false;
+        QDBusInterface req(QStringLiteral("org.freedesktop.portal.Desktop"),
+                           g_portalIdleInhibitPath,
+                           QStringLiteral("org.freedesktop.portal.Request"),
+                           QDBusConnection::sessionBus());
+        const QDBusMessage reply = req.call(QStringLiteral("Close"));
+        const bool ok = reply.type() != QDBusMessage::ErrorMessage;
+        if (ok)
+            g_portalIdleInhibitPath.clear();
+        return ok;
+    }
     QDBusInterface ss(QStringLiteral("org.freedesktop.ScreenSaver"),
                       QStringLiteral("/org/freedesktop/ScreenSaver"),
                       QStringLiteral("org.freedesktop.ScreenSaver"),
