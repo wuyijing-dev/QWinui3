@@ -74,6 +74,47 @@ void setWindowFlagsSafe(QWindow *window, Qt::WindowFlags want)
         window->setVisible(true);
 }
 
+bool probeNetworkInformation(bool *knownOut)
+{
+    if (knownOut)
+        *knownOut = false;
+    if (!QNetworkInformation::loadDefaultBackend())
+        return true;
+    if (QNetworkInformation *info = QNetworkInformation::instance()) {
+        using R = QNetworkInformation::Reachability;
+        const R r = info->reachability();
+        if (r == R::Disconnected) {
+            if (knownOut)
+                *knownOut = true;
+            return false;
+        }
+        if (r == R::Online || r == R::Local || r == R::Site) {
+            if (knownOut)
+                *knownOut = true;
+            return true;
+        }
+    }
+    return true;
+}
+
+#if defined(Q_OS_LINUX)
+bool probeLinuxSysfsOnline()
+{
+    QDir net(QStringLiteral("/sys/class/net"));
+    const QStringList entries = net.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+    for (const QString &iface : entries) {
+        if (iface == QLatin1String("lo"))
+            continue;
+        QFile state(QStringLiteral("/sys/class/net/%1/operstate").arg(iface));
+        if (state.open(QIODevice::ReadOnly)
+            && state.readAll().trimmed() == QByteArrayLiteral("up")) {
+            return true;
+        }
+    }
+    return false;
+}
+#endif
+
 #if defined(Q_OS_WIN)
 class NoActivateFilter final : public QAbstractNativeEventFilter
 {
@@ -697,8 +738,8 @@ void WindowHelper::addToRecentDocuments(const QString &path)
 #if defined(Q_OS_WIN)
     SHAddToRecentDocs(SHARD_PATHW, path.utf16());
 #elif defined(Q_OS_LINUX)
-    // Best-effort: ask the file manager to note the item (also used for reveal).
-    LinuxPortal::tryShowItems({QUrl::fromLocalFile(QFileInfo(path).absoluteFilePath()).toString()});
+    // No portable freedesktop “recent documents” API — RecentFiles persists in Settings.
+    Q_UNUSED(path);
 #else
     Q_UNUSED(path);
 #endif
@@ -1011,32 +1052,13 @@ void WindowHelper::refreshOnlineStatus()
     DWORD flags = 0;
     online = InternetGetConnectedState(&flags, 0) == TRUE;
 #elif defined(Q_OS_LINUX)
-    online = false;
-    QDir net(QStringLiteral("/sys/class/net"));
-    const QStringList entries = net.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
-    for (const QString &iface : entries) {
-        if (iface == QLatin1String("lo"))
-            continue;
-        QFile state(QStringLiteral("/sys/class/net/%1/operstate").arg(iface));
-        if (state.open(QIODevice::ReadOnly)
-            && state.readAll().trimmed() == QByteArrayLiteral("up")) {
-            online = true;
-            break;
-        }
-    }
+    bool known = false;
+    online = probeNetworkInformation(&known);
+    if (!known)
+        online = probeLinuxSysfsOnline();
 #else
-    // macOS / other: Qt Network Information (no WinInet / sysfs).
-    if (QNetworkInformation::loadDefaultBackend()) {
-        if (QNetworkInformation *info = QNetworkInformation::instance()) {
-            using R = QNetworkInformation::Reachability;
-            const R r = info->reachability();
-            if (r == R::Disconnected)
-                online = false;
-            else if (r == R::Online || r == R::Local || r == R::Site)
-                online = true;
-            // Unknown → keep default true (avoid false offline banners).
-        }
-    }
+    bool known = false;
+    online = probeNetworkInformation(&known);
 #endif
     if (online == m_isOnline)
         return;
@@ -1685,6 +1707,7 @@ void WindowHelper::install(QObject *windowObject, bool dark, int backdrop)
 
     // UniqueConnection cannot be used with lambdas — disconnect then reconnect.
     QObject::disconnect(window, &QWindow::activeChanged, this, nullptr);
+    QObject::disconnect(window, &QObject::destroyed, this, nullptr);
     QObject::connect(window, &QWindow::activeChanged, this, [this]() {
         if (m_window)
             setWindowActive(m_window->isActive());
