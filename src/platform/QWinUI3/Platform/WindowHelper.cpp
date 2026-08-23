@@ -351,10 +351,8 @@ QString WindowHelper::highDpiScaleFactorRoundingPolicy() const
         return QStringLiteral("Floor");
     case Qt::HighDpiScaleFactorRoundingPolicy::RoundPreferFloor:
         return QStringLiteral("RoundPreferFloor");
-#if QT_VERSION >= QT_VERSION_CHECK(6, 9, 0)
-    case Qt::HighDpiScaleFactorRoundingPolicy::RoundPreferCeil:
-        return QStringLiteral("RoundPreferCeil");
-#endif
+    // RoundPreferCeil existed briefly in some 6.9/6.10 previews but is not in
+    // Qt 6.11+ HighDpiScaleFactorRoundingPolicy (Round/Ceil/Floor/RoundPreferFloor/PassThrough).
     }
     return QStringLiteral("Unknown");
 }
