@@ -54,6 +54,10 @@ T.Control {
     // Selection changed
     signal selectionChanged(int index)
 
+    // Shared underline geometry
+    property real _pivotIndX: 0
+    property real _pivotIndWidth: 0
+
     implicitWidth: 480
     implicitHeight: 200
     padding: 0
@@ -64,7 +68,32 @@ T.Control {
     Accessible.name: qsTr("Pivot")
     Accessible.description: qsTr("Tab %1 of %2").arg(currentIndex + 1).arg(model ? model.length : 0)
 
-    onCurrentIndexChanged: selectionChanged(currentIndex)
+    function _syncPivotIndicator(tabItem) {
+        if (!tabItem)
+            return
+        var margin = 8
+        var contentW = tabItem.contentItem ? tabItem.contentItem.implicitWidth : tabItem.width
+        control._pivotIndX = tabItem.x + margin
+        control._pivotIndWidth = Math.max(16, Math.min(tabItem.width - margin * 2, contentW + 8))
+    }
+
+    function _resyncPivotFromIndex() {
+        if (typeof headerRow === "undefined" || !headerRow)
+            return
+        var kids = headerRow.children
+        for (var i = 0; i < kids.length; ++i) {
+            var c = kids[i]
+            if (c && c.index === control.currentIndex) {
+                _syncPivotIndicator(c)
+                return
+            }
+        }
+    }
+
+    onCurrentIndexChanged: {
+        selectionChanged(currentIndex)
+        Qt.callLater(function () { control._resyncPivotFromIndex() })
+    }
 
     function _selectRelative(delta) {
         if (!keyboardNavigationEnabled || !model || model.length === 0)
@@ -80,7 +109,6 @@ T.Control {
     Keys.onRightPressed: _selectRelative(1)
     Keys.onUpPressed: _selectRelative(-1)
     Keys.onDownPressed: _selectRelative(1)
-    // Keys has no onHomePressed / onEndPressed — handle via onPressed
     Keys.onPressed: function (event) {
         if (!keyboardNavigationEnabled || !model || model.length === 0)
             return
@@ -93,7 +121,6 @@ T.Control {
         }
     }
 
-    // Select by index
     function selectIndex(index) {
         if (index < 0 || index >= model.length)
             return
@@ -139,94 +166,148 @@ T.Control {
                 anchors.rightMargin: rightHeaderSlot.visible ? 4 : 0
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                contentWidth: Math.max(width, headerRow.implicitWidth)
+                contentWidth: Math.max(width, headerStrip.width)
                 contentHeight: height
                 clip: true
                 flickableDirection: Flickable.HorizontalFlick
                 boundsBehavior: Flickable.StopAtBounds
 
-                Row {
-                    id: headerRow
+                Item {
+                    id: headerStrip
+                    width: Math.max(headerRow.implicitWidth, 1)
                     height: headerFlick.height
-                    spacing: 4
 
-                    Repeater {
-                        model: control.model
-                        AbstractButton {
-                            id: tab
-                            required property var modelData
-                            required property int index
-                            height: headerRow.height
-                            width: Math.max(72, headerContent.implicitWidth + 24)
-                            hoverEnabled: true
-                            checkable: true
-                            checked: index === control.currentIndex
-                            focusPolicy: Qt.NoFocus
-                            onClicked: control.selectIndex(index)
+                    Row {
+                        id: headerRow
+                        height: parent.height
+                        spacing: 4
 
-                            readonly property string _icon: {
-                                if (typeof modelData === "string" || !modelData)
-                                    return ""
-                                return IconSource.resolve(modelData.symbol || "",
-                                                          modelData.icon || modelData.glyph || "")
-                            }
-                            readonly property string _title: typeof modelData === "string"
-                                                            ? modelData : (modelData.title || "")
-
-                            contentItem: Row {
-                                id: headerContent
-                                spacing: 8
-                                anchors.centerIn: parent
-                                Text {
-                                    visible: tab._icon.length > 0
-                                    anchors.verticalCenter: parent.verticalCenter
-                                    text: tab._icon
-                                    font.family: Theme.fontFamilyIcon
-                                    font.pixelSize: 14
-                                    color: tab.checked ? Theme.accent : Theme.textSecondary
-                                    Behavior on color {
-                                        enabled: !Theme.reducedMotion
-                                        ColorAnimation { duration: Theme.duration(Theme.motionFast) }
+                        Repeater {
+                            model: control.model
+                            AbstractButton {
+                                id: tab
+                                required property var modelData
+                                required property int index
+                                height: headerRow.height
+                                width: Math.max(72, headerContent.implicitWidth + 24)
+                                hoverEnabled: true
+                                checkable: true
+                                checked: index === control.currentIndex
+                                focusPolicy: Qt.NoFocus
+                                scale: down && !Theme.reducedMotion ? 0.98 : 1
+                                Behavior on scale {
+                                    enabled: !Theme.reducedMotion
+                                    NumberAnimation {
+                                        duration: Theme.motionMs("fast")
+                                        easing.type: Theme.motionEasing("standard")
                                     }
                                 }
-                                Text {
-                                    anchors.verticalCenter: parent.verticalCenter
-                                    text: tab._title
-                                    font.family: Theme.fontFamily
-                                    font.pixelSize: Theme.fontBody
-                                    font.weight: tab.checked ? Theme.fontWeightSemiBold : Theme.fontWeightRegular
-                                    color: tab.checked ? Theme.textPrimary : Theme.textSecondary
-                                    horizontalAlignment: Text.AlignHCenter
-                                    verticalAlignment: Text.AlignVCenter
-                                    Behavior on color {
-                                        enabled: !Theme.reducedMotion
-                                        ColorAnimation { duration: Theme.duration(Theme.motionFast) }
-                                    }
+                                onClicked: control.selectIndex(index)
+                                onCheckedChanged: {
+                                    if (checked)
+                                        control._syncPivotIndicator(tab)
                                 }
-                            }
+                                Component.onCompleted: {
+                                    if (checked)
+                                        Qt.callLater(function () { control._syncPivotIndicator(tab) })
+                                }
+                                onWidthChanged: if (checked) control._syncPivotIndicator(tab)
+                                onXChanged: if (checked) control._syncPivotIndicator(tab)
 
-                            background: Item {
-                                Rectangle {
-                                    anchors.fill: parent
-                                    anchors.margins: 2
-                                    radius: Theme.cornerControl
-                                    color: tab.hovered && !tab.checked ? Theme.fillSubtle : "transparent"
+                                readonly property string _icon: {
+                                    if (typeof modelData === "string" || !modelData)
+                                        return ""
+                                    return IconSource.resolve(modelData.symbol || "",
+                                                              modelData.icon || modelData.glyph || "")
                                 }
-                                Rectangle {
-                                    anchors.horizontalCenter: parent.horizontalCenter
-                                    anchors.bottom: parent.bottom
-                                    width: tab.checked ? Math.min(parent.width - 16, headerContent.implicitWidth + 8) : 0
-                                    height: 3
-                                    radius: 1.5
-                                    color: Theme.accent
-                                    Behavior on width {
-                                        enabled: !Theme.reducedMotion
-                                        NumberAnimation {
-                                            duration: Theme.duration(Theme.motionNormal)
-                                            easing.type: Theme.easingStandard
+                                readonly property string _title: typeof modelData === "string"
+                                                                ? modelData : (modelData.title || "")
+
+                                contentItem: Row {
+                                    id: headerContent
+                                    spacing: 8
+                                    anchors.centerIn: parent
+                                    Text {
+                                        visible: tab._icon.length > 0
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        text: tab._icon
+                                        font.family: Theme.fontFamilyIcon
+                                        font.pixelSize: 14
+                                        color: tab.checked ? Theme.accent : Theme.textSecondary
+                                        Behavior on color {
+                                            enabled: !Theme.reducedMotion
+                                            ColorAnimation {
+                                                duration: Theme.motionMs("fast")
+                                                easing.type: Theme.motionEasing("standard")
+                                            }
+                                        }
+                                    }
+                                    Text {
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        text: tab._title
+                                        font.family: Theme.fontFamily
+                                        font.pixelSize: Theme.fontBody
+                                        font.weight: tab.checked ? Theme.fontWeightSemiBold
+                                                                 : Theme.fontWeightRegular
+                                        color: tab.checked ? Theme.textPrimary : Theme.textSecondary
+                                        horizontalAlignment: Text.AlignHCenter
+                                        verticalAlignment: Text.AlignVCenter
+                                        Behavior on color {
+                                            enabled: !Theme.reducedMotion
+                                            ColorAnimation {
+                                                duration: Theme.motionMs("fast")
+                                                easing.type: Theme.motionEasing("standard")
+                                            }
                                         }
                                     }
                                 }
+
+                                background: Rectangle {
+                                    anchors.fill: parent
+                                    anchors.margins: 2
+                                    anchors.bottomMargin: 4
+                                    radius: Theme.cornerControl
+                                    color: tab.hovered && !tab.checked ? Theme.fillSubtle : "transparent"
+                                    Behavior on color {
+                                        enabled: !Theme.reducedMotion
+                                        ColorAnimation {
+                                            duration: Theme.motionMs("fast")
+                                            easing.type: Theme.motionEasing("standard")
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    Rectangle {
+                        height: 3
+                        radius: 1.5
+                        color: Theme.accent
+                        y: headerStrip.height - height
+                        z: 2
+                        x: control._pivotIndX
+                        width: Math.max(0, control._pivotIndWidth)
+                        opacity: control._pivotIndWidth > 1 ? 1 : 0
+                        Behavior on x {
+                            enabled: !Theme.reducedMotion
+                            NumberAnimation {
+                                duration: Theme.motionMs("normal")
+                                easing.type: Theme.motionEasing("enter")
+                            }
+                        }
+                        Behavior on width {
+                            enabled: !Theme.reducedMotion
+                            NumberAnimation {
+                                duration: Theme.motionMs("normal")
+                                easing.type: Theme.motionEasing("enter")
+                            }
+                        }
+                        Behavior on opacity {
+                            enabled: !Theme.reducedMotion
+                            NumberAnimation {
+                                duration: Theme.motionMs("fast")
+                                easing.type: Theme.motionEasing("standard")
                             }
                         }
                     }
@@ -259,7 +340,6 @@ T.Control {
                     required property var modelData
                     required property int index
 
-                    // True when page is present / set
                     readonly property bool hasPage: typeof modelData === "object"
                                                    && modelData !== null
                                                    && modelData.page !== undefined

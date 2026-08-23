@@ -2102,6 +2102,59 @@ QtObject {
         })
     }
 
+    // Rail row to highlight when opening a (possibly rail-hidden) page from search.
+    // Hub / soft-hub hosts keep the selection pip on a visible nav item.
+    function railAnchorComponent(componentId) {
+        if (!componentId || !componentId.length)
+            return ""
+        if (isRailVisible(componentId))
+            return componentId
+        var item = findByComponent(componentId)
+        if (!item)
+            return ""
+        var cat = item.category || ""
+        if (cat === "menus")
+            return "CommandsHubPage"
+        if (cat === "dialogs")
+            return "DialogsFlyoutsPage"
+        if (cat === "status")
+            return "FeedbackHubPage"
+        if (cat === "charts") {
+            var gauges = componentId.indexOf("Gauge") >= 0
+                         || componentId.indexOf("Meter") >= 0
+                         || componentId.indexOf("Tachometer") >= 0
+                         || componentId.indexOf("Odometer") >= 0
+                         || componentId.indexOf("Telltale") >= 0
+                         || componentId.indexOf("Tpms") >= 0
+                         || componentId === "AutomotiveClusterPage"
+                         || componentId === "GearIndicatorPage"
+            return gauges ? "GaugesHubPage" : "ChartsPage"
+        }
+        if (cat === "layout") {
+            if (componentId.indexOf("Form") >= 0 || componentId.indexOf("Settings") >= 0)
+                return "SettingsHubPage"
+            if (componentId.indexOf("Panel") >= 0 || componentId === "ItemsWrapGridPage"
+                    || componentId === "SwitchPresenterPage" || componentId === "HeaderedContentControlPage"
+                    || componentId === "AcrylicSurfacePage")
+                return "PanelsHubPage"
+        }
+        if (cat === "basic") {
+            if (componentId === "AccentButtonPage" || componentId === "IconButtonPage"
+                    || componentId === "IconicButtonPage" || componentId === "HyperlinkButtonPage"
+                    || componentId === "ToggleSplitButtonPage" || componentId === "CopyButtonPage"
+                    || componentId === "ProgressButtonPage")
+                return "MiscButtonsPage"
+        }
+        var rail = controlsForRail(cat)
+        for (var i = 0; i < rail.length; ++i) {
+            var c = rail[i].component || ""
+            if (c.indexOf("Hub") >= 0 || c === "DialogsFlyoutsPage" || c === "ChartsPage"
+                    || c === "MiscButtonsPage")
+                return c
+        }
+        return rail.length ? rail[0].component : ""
+    }
+
     function findByComponent(name) {
         if (!name)
             return null

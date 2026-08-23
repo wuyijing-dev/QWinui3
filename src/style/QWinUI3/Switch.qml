@@ -48,6 +48,8 @@ T.Switch {
     font.pixelSize: Theme.fontBody
     hoverEnabled: true
 
+    PointerCursor { shape: Qt.PointingHandCursor }
+
     readonly property string _stateLabel: checked
                                          ? (onContent.length ? onContent : "")
                                          : (offContent.length ? offContent : "")
@@ -131,8 +133,35 @@ T.Switch {
                         enabled: !Theme.reducedMotion
                                  && (control.hovered || control.checked || control.down)
                         ColorAnimation {
-                            duration: Theme.duration(Theme.motionNormal)
-                            easing.type: Theme.easingStandard
+                            duration: Theme.motionMs("normal")
+                            easing.type: Theme.motionEasing("standard")
+                        }
+                    }
+
+                    // Optional check glyph on thumb when on (2.68 — I15)
+                    Text {
+                        anchors.centerIn: parent
+                        text: FluentIcons.Accept
+                        font.family: Theme.fontFamilyIcon
+                        font.pixelSize: Math.max(8, Math.round(Theme.switchThumb * 0.55))
+                        color: Theme.dark ? "#FFFFFF" : Theme.accent
+                        opacity: control.checked ? 1 : 0
+                        scale: control.checked ? 1 : 0.4
+                        visible: opacity > 0.01
+
+                        Behavior on opacity {
+                            enabled: !Theme.reducedMotion
+                            NumberAnimation {
+                                duration: Theme.motionMs("fast")
+                                easing.type: Theme.motionEasing("standard")
+                            }
+                        }
+                        Behavior on scale {
+                            enabled: !Theme.reducedMotion
+                            NumberAnimation {
+                                duration: Theme.motionMs("normal")
+                                easing.type: Theme.motionEasing("enter")
+                            }
                         }
                     }
                 }
@@ -140,22 +169,22 @@ T.Switch {
                 Behavior on scale {
                     enabled: !Theme.reducedMotion && (control.hovered || control.down)
                     NumberAnimation {
-                        duration: Theme.duration(Theme.motionNormal)
-                        easing.type: Theme.easingStandard
+                        duration: Theme.motionMs("normal")
+                        easing.type: Theme.motionEasing("standard")
                     }
                 }
                 Behavior on x {
                     enabled: !control.down && !Theme.reducedMotion
                     NumberAnimation {
-                        duration: Theme.duration(Theme.motionNormal)
-                        easing.type: Theme.easingStandard
+                        duration: Theme.motionMs("normal")
+                        easing.type: Theme.motionEasing("exit")
                     }
                 }
                 Behavior on width {
                     enabled: !Theme.reducedMotion && (control.down || control.hovered)
                     NumberAnimation {
-                        duration: Theme.duration(Theme.motionFast)
-                        easing.type: Theme.easingStandard
+                        duration: Theme.motionMs("fast")
+                        easing.type: Theme.motionEasing("standard")
                     }
                 }
             }

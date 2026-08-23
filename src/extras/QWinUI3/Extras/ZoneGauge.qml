@@ -203,13 +203,9 @@ T.Control {
     function normFromPoint(px, py) {
         var cx = face.width / 2
         var cy = face.height / 2
-        var deg = Math.atan2(py - cy, px - cx) * 180 / Math.PI
-        var a = deg
-        while (a < root.startAngle)
-            a += 360
-        while (a > root.startAngle + root.sweepTotal + 180)
-            a -= 360
-        return Math.max(0, Math.min(1, (a - root.startAngle) / Math.max(1e-6, root.sweepTotal)))
+        var span = root.maximum - root.minimum
+        var cur = span <= 0 ? 0 : (root.value - root.minimum) / span
+        return GaugeUtils.normFromAngle(px, py, cx, cy, root.startAngle, root.sweepTotal, cur)
     }
 
     Keys.onLeftPressed: if (isInteractive) {

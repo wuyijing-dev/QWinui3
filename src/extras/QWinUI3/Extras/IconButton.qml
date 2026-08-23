@@ -8,27 +8,30 @@ import QWinUI3.Theme
 //       id: btn
 //       symbol: FluentIcons.Settings
 //       accentIcon: true   // accent-colored icon (alias of highlighted; ratings, favorites)
+//       loading: true       // inline ring; defers press animation (2.67 — I5/M11)
 //       onClicked: openSettings()
 //   }
-//   // --- API ---
-//   // inherits Button: enabled, clicked()
 //
 // @notes
 //   Icon-only Button helper; set symbol / iconGlyph; inherits clicked().
-//   Glyph hover/press micro-motion via IconicButton (1.49); Theme.reducedMotion disables.
+//   Glyph hover/press micro-motion via FontIcon (1.49); Theme.reducedMotion disables.
+//   Touch floor ≥ 40×40 logical px (M11).
 
 IconicButton {
     id: control
 
     // Accent-colored icon (rating stars, favorited toolbar). Alias of highlighted.
     property alias accentIcon: control.highlighted
+    // Async action — shows ProgressRing, disables click (2.67 — I5/M11)
+    property bool loading: false
 
     // When true, the icon behaves like a toggle (uses `checked` state).
-    // Useful for rating/favorite semantics where a single click flips the state.
     property bool toggleMode: false
     checkable: toggleMode
 
-    // Icon-only: prefer toolTipText, then text; callers may still override Accessible.name.
+    hoverEnabled: enabled && !loading
+    opacity: enabled && !loading ? 1 : (enabled ? 0.72 : 1)
+
     Accessible.role: Accessible.Button
     Accessible.name: {
         if (toolTipText.length)
@@ -37,43 +40,44 @@ IconicButton {
             return control.text
         return qsTr("Icon button")
     }
+    Accessible.description: loading ? qsTr("Loading") : ""
 
-    implicitWidth: Theme.controlHeight
-    implicitHeight: Theme.controlHeight
+    implicitWidth: Math.max(Theme.dp(40), Theme.controlHeight)
+    implicitHeight: Math.max(Theme.dp(40), Theme.controlHeight)
     padding: 0
 
-    contentItem: Text {
-        text: control.effectiveIconGlyph
-        font.family: Theme.fontFamilyIcon
-        font.pixelSize: control.iconSize
-        scale: control.effectiveIconScale
-        color: {
-            if (!control.enabled)
-                return Theme.textDisabled
-            if (control.highlighted || control.checked)
-                return Theme.accent
-            return Theme.textPrimary
+    contentItem: Item {
+        implicitWidth: control.iconSize * 1.25
+        implicitHeight: control.iconSize * 1.25
+
+        FontIcon {
+            anchors.centerIn: parent
+            visible: !control.loading
+            glyph: control.effectiveIconGlyph
+            fontSize: control.iconSize
+            selected: control.highlighted || control.checked
+            iconColor: Theme.textPrimary
+            microMotionEnabled: control.microMotionEnabled && !control.loading
+            hoverScale: control.hoverScale
+            pressScale: control.pressScale
+            enabled: control.enabled
         }
-        horizontalAlignment: Text.AlignHCenter
-        verticalAlignment: Text.AlignVCenter
-        Behavior on color {
-            enabled: !Theme.reducedMotion
-            ColorAnimation {
-                duration: Theme.duration(Theme.motionFast)
-                easing.type: Theme.easingStandard
-            }
-        }
-        Behavior on scale {
-            enabled: !Theme.reducedMotion
-            NumberAnimation {
-                duration: Theme.duration(Theme.motionFast)
-                easing.type: Theme.easingStandard
-            }
+
+        ProgressRing {
+            anchors.centerIn: parent
+            visible: control.loading
+            indeterminate: true
+            isActive: control.loading
+            size: Theme.dp(16)
+            strokeWidth: 2
+            showValue: false
+            Accessible.ignored: true
         }
     }
 
     background: Rectangle {
-        radius: Theme.cornerControl
+        radius: width / 2
+        scale: control.down && !Theme.reducedMotion && !control.loading ? 0.94 : 1
         color: {
             if (control.flat && !control.hovered && !control.down && !control.checked
                     && !control.visualFocus)
@@ -88,18 +92,26 @@ IconicButton {
         }
         border.width: control.flat ? 0 : 1
         border.color: Theme.strokeControl
+
         Behavior on color {
             enabled: !Theme.reducedMotion
             ColorAnimation {
-                duration: Theme.duration(Theme.motionFast)
-                easing.type: Theme.easingStandard
+                duration: Theme.motionMs("fast")
+                easing.type: Theme.motionEasing("standard")
+            }
+        }
+        Behavior on scale {
+            enabled: !Theme.reducedMotion && !control.loading
+            NumberAnimation {
+                duration: Theme.motionMs("fast")
+                easing.type: Theme.motionEasing("standard")
             }
         }
 
         FocusStroke {
             anchors.fill: parent
             show: control.visualFocus
-            frameRadius: Theme.cornerControl
+            frameRadius: width / 2
         }
 
         Rectangle {

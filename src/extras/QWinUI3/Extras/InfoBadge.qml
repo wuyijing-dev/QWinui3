@@ -152,19 +152,44 @@ T.Control {
         }
     }
 
-    onValueChanged: bump()
+    property int _prevValue: -1
+
+    onValueChanged: {
+        // Pulse only when count increases (2.67 — I6)
+        if (_prevValue >= 0 && value > _prevValue)
+            bump()
+        _prevValue = value
+    }
     onTextChanged: bump()
     onSymbolChanged: bump()
 
-    // Nudge value by one step
+    // One-shot scale pulse when badge content grows
     function bump() {
         if (Theme.reducedMotion || !isOpen)
             return
-        scale = 0.82
-        scale = 1
+        pulseAnim.restart()
+    }
+
+    SequentialAnimation {
+        id: pulseAnim
+        NumberAnimation {
+            target: root
+            property: "scale"
+            to: 1.12
+            duration: Theme.motionMs("fast")
+            easing.type: Theme.motionEasing("enter")
+        }
+        NumberAnimation {
+            target: root
+            property: "scale"
+            to: 1
+            duration: Theme.motionMs("normal")
+            easing.type: Theme.motionEasing("exit")
+        }
     }
 
     Component.onCompleted: {
+        _prevValue = value
         if (!Theme.reducedMotion) {
             scale = 0.7
             scale = 1
@@ -172,10 +197,10 @@ T.Control {
     }
 
     Behavior on scale {
-        enabled: !Theme.reducedMotion
+        enabled: !Theme.reducedMotion && !pulseAnim.running
         NumberAnimation {
-            duration: Theme.duration(Theme.motionNormal)
-            easing.type: Theme.easingEnter
+            duration: Theme.motionMs("normal")
+            easing.type: Theme.motionEasing("enter")
         }
     }
     Behavior on opacity {

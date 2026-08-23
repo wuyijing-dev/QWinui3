@@ -113,6 +113,8 @@ Item {
 
     property real _transitScale: 1
     property string _shownGlyph: ""
+    property string _outgoingGlyph: ""
+    property bool _frontIsA: true
 
     implicitWidth: Math.ceil(fontSize * 1.25)
     implicitHeight: Math.ceil(fontSize * 1.25)
@@ -128,50 +130,70 @@ Item {
     }
     Accessible.ignored: root.accessibleName.length === 0 && root.toolTipText.length === 0
 
-    Component.onCompleted: root._shownGlyph = root.effectiveGlyph
+    Component.onCompleted: {
+        root._shownGlyph = root.effectiveGlyph
+        glyphA.text = root._shownGlyph
+        glyphA.opacity = 1
+        glyphB.opacity = 0
+    }
     onEffectiveGlyphChanged: root._applyGlyph(root.effectiveGlyph)
 
+    // Cross-fade swap (~120ms) instead of hard cut (2.67 — I8)
     function _applyGlyph(next) {
         if (!next || next === root._shownGlyph)
             return
         if (Theme.reducedMotion) {
             root._shownGlyph = next
             root._transitScale = 1
-            glyphText.opacity = 1
+            glyphA.text = next
+            glyphA.opacity = 1
+            glyphB.opacity = 0
+            root._frontIsA = true
             return
         }
-        // Quick squash → swap → restore
-        transitAnim.stop()
+        crossFadeAnim.stop()
+        root._outgoingGlyph = root._shownGlyph
+        root._shownGlyph = next
         root._transitScale = root.transitionScale
-        glyphText.opacity = 0.35
-        swapTimer.restart()
-    }
-
-    Timer {
-        id: swapTimer
-        interval: Math.max(1, Math.floor(Theme.duration(Theme.motionFast) * 0.45))
-        repeat: false
-        onTriggered: {
-            root._shownGlyph = root.effectiveGlyph
-            transitAnim.start()
+        if (root._frontIsA) {
+            glyphB.text = next
+            glyphB.opacity = 0
+            glyphA.opacity = 1
+            fadeOut.target = glyphA
+            fadeIn.target = glyphB
+        } else {
+            glyphA.text = next
+            glyphA.opacity = 0
+            glyphB.opacity = 1
+            fadeOut.target = glyphB
+            fadeIn.target = glyphA
         }
+        root._frontIsA = !root._frontIsA
+        crossFadeAnim.start()
     }
 
     ParallelAnimation {
-        id: transitAnim
+        id: crossFadeAnim
         NumberAnimation {
             target: root
             property: "_transitScale"
             to: 1
-            duration: Theme.duration(Theme.motionFast)
-            easing.type: Theme.easingStandard
+            duration: Theme.motionMs("fast")
+            easing.type: Theme.motionEasing("standard")
         }
         NumberAnimation {
-            target: glyphText
+            id: fadeOut
+            property: "opacity"
+            to: 0
+            duration: Theme.motionMs("fast")
+            easing.type: Theme.motionEasing("exit")
+        }
+        NumberAnimation {
+            id: fadeIn
             property: "opacity"
             to: 1
-            duration: Theme.duration(Theme.motionFast)
-            easing.type: Theme.easingStandard
+            duration: Theme.motionMs("fast")
+            easing.type: Theme.motionEasing("enter")
         }
     }
 
@@ -190,9 +212,8 @@ Item {
     ToolTip.delay: 400
 
     Text {
-        id: glyphText
+        id: glyphA
         anchors.centerIn: parent
-        text: root._shownGlyph.length ? root._shownGlyph : root.effectiveGlyph
         font.family: Theme.fontFamilyIcon
         font.pixelSize: root.fontSize
         font.weight: root.fontWeight
@@ -202,23 +223,55 @@ Item {
         renderType: Text.NativeRendering
         scale: root.effectiveIconScale
         transform: Scale {
-            origin.x: glyphText.width / 2
-            origin.y: glyphText.height / 2
+            origin.x: glyphA.width / 2
+            origin.y: glyphA.height / 2
             xScale: root.mirrorGlyph ? -1 : 1
         }
-
         Behavior on color {
             enabled: !Theme.reducedMotion
             ColorAnimation {
-                duration: Theme.duration(Theme.motionFast)
-                easing.type: Theme.easingStandard
+                duration: Theme.motionMs("fast")
+                easing.type: Theme.motionEasing("standard")
             }
         }
         Behavior on scale {
             enabled: !Theme.reducedMotion
             NumberAnimation {
-                duration: Theme.duration(Theme.motionFast)
-                easing.type: Theme.easingStandard
+                duration: Theme.motionMs("fast")
+                easing.type: Theme.motionEasing("standard")
+            }
+        }
+    }
+
+    Text {
+        id: glyphB
+        anchors.centerIn: parent
+        font.family: Theme.fontFamilyIcon
+        font.pixelSize: root.fontSize
+        font.weight: root.fontWeight
+        color: root.enabled ? root.iconColor : Theme.textDisabled
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        renderType: Text.NativeRendering
+        opacity: 0
+        scale: root.effectiveIconScale
+        transform: Scale {
+            origin.x: glyphB.width / 2
+            origin.y: glyphB.height / 2
+            xScale: root.mirrorGlyph ? -1 : 1
+        }
+        Behavior on color {
+            enabled: !Theme.reducedMotion
+            ColorAnimation {
+                duration: Theme.motionMs("fast")
+                easing.type: Theme.motionEasing("standard")
+            }
+        }
+        Behavior on scale {
+            enabled: !Theme.reducedMotion
+            NumberAnimation {
+                duration: Theme.motionMs("fast")
+                easing.type: Theme.motionEasing("standard")
             }
         }
     }

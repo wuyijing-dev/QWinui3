@@ -436,7 +436,28 @@ Item {
         if (root._a11yReady)
             _announce(root.paneOpen ? qsTr("Navigation pane expanded")
                                     : qsTr("Navigation pane collapsed"))
-        Qt.callLater(function () { selectionPip.moveToCurrent(true) })
+        // Keep ListView still while Layout.preferredWidth Behavior runs — touching
+        // scroll/pip mid-tween aborts the rail animation (seen as a teleport).
+        if (root.paneOpen) {
+            var slash = root.currentKey.indexOf("/")
+            if (slash > 0)
+                setGroupExpanded(root.currentKey.substring(0, slash), true)
+        }
+        paneWidthSettleTimer.interval = Theme.reducedMotion
+                ? 1 : (Theme.duration(Theme.motionSlow) + 80)
+        paneWidthSettleTimer.restart()
+    }
+
+    Timer {
+        id: paneWidthSettleTimer
+        interval: 300
+        repeat: false
+        onTriggered: {
+            if (!selectionPip)
+                return
+            root.ensureSelectionVisible()
+            selectionPip.moveToCurrent(true)
+        }
     }
 
     // Toggle the left pane / overlay drawer
@@ -570,6 +591,29 @@ Item {
                 var ikey = it.key || ("item_" + i)
                 if (ikey === key)
                     return it.component || ""
+            }
+        }
+        return ""
+    }
+
+    // First nav key whose component matches (for search / featured → rail pip).
+    function keyForComponent(componentName) {
+        if (!componentName || !componentName.length)
+            return ""
+        var m = root.model || []
+        for (var i = 0; i < m.length; ++i) {
+            var it = m[i]
+            if (!it)
+                continue
+            if (it.type === "group" && it.children) {
+                var gkey = it.key || ("group_" + i)
+                for (var j = 0; j < it.children.length; ++j) {
+                    if ((it.children[j].component || "") === componentName)
+                        return gkey + "/" + j
+                }
+            } else if (it.type !== "header" && it.type !== "group") {
+                if ((it.component || "") === componentName)
+                    return it.key || ("item_" + i)
             }
         }
         return ""
@@ -764,12 +808,19 @@ Item {
         itemClicked(index)
     }
 
-    // Select by nav key and open the page
-    function selectKey(key, mode) {
+    // Select by nav key and open the page.
+    // Optional pageName: open a different page while keeping rail selection on key
+    // (Gallery search / hub pages that are not themselves rail entries).
+    function selectKey(key, mode, pageName) {
         if (!key)
             return
+        var page = (pageName && pageName.length) ? pageName : ""
         // Same nav selection already active — no history push / no page transition
         if (!root.footerSelected && key === root.currentKey) {
+            if (page.length && !root.hostContent && page !== root._openedPageName) {
+                openPage(page, mode || root.pageTransition)
+                return
+            }
             root.sameKeySkipCount++
             ensureSelectionVisible()
             Qt.callLater(function () {
@@ -787,7 +838,7 @@ Item {
             setGroupExpanded(key.substring(0, slash), true)
         ensureSelectionVisible()
         if (!root.hostContent)
-            openPage(currentComponent, mode || root.pageTransition)
+            openPage(page.length ? page : currentComponent, mode || root.pageTransition)
         // Sync legacy currentIndex for top-level items
         for (var i = 0; i < root.model.length; ++i) {
             var it = root.model[i]
@@ -798,6 +849,9 @@ Item {
                 }
             }
         }
+        Qt.callLater(function () {
+            selectionPip.moveToCurrent(false)
+        })
         itemClicked(currentIndex)
         var navTitle = titleForKey(key)
         if (navTitle.length)

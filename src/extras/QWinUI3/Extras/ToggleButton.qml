@@ -57,6 +57,8 @@ Button {
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
 
+    PointerCursor { shape: Qt.PointingHandCursor }
+
     onCheckedChanged: {
         if (isThreeState)
             return
@@ -161,12 +163,13 @@ Button {
 
     contentItem: RowLayout {
         spacing: 8
-        Text {
+        FontIcon {
             visible: control.effectiveIconGlyph.length > 0
-            text: control.effectiveIconGlyph
-            font.family: Theme.fontFamilyIcon
-            font.pixelSize: control.iconSize
-            color: label.color
+            glyph: control.effectiveIconGlyph
+            fontSize: control.iconSize
+            selected: control.accented
+            iconColor: control.accented ? Theme.textOnAccent : Theme.textPrimary
+            microMotionEnabled: true
             Layout.alignment: Qt.AlignVCenter
         }
         Text {

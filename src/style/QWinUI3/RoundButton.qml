@@ -24,14 +24,16 @@ T.RoundButton {
     Accessible.role: Accessible.Button
     Accessible.name: control.text
     Accessible.onPressAction: if (control.enabled) control.clicked()
-    implicitWidth: Math.max(36, implicitContentWidth + leftPadding + rightPadding)
-    implicitHeight: Math.max(36, implicitContentHeight + topPadding + bottomPadding)
+    implicitWidth: Math.max(Theme.dp(40), 36, implicitContentWidth + leftPadding + rightPadding)
+    implicitHeight: Math.max(Theme.dp(40), 36, implicitContentHeight + topPadding + bottomPadding)
 
     radius: Math.min(width, height) / 2
     padding: 8
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     hoverEnabled: true
+
+    PointerCursor { shape: Qt.PointingHandCursor }
 
     contentItem: Text {
         text: control.text
@@ -52,9 +54,10 @@ T.RoundButton {
     }
 
     background: Rectangle {
-        implicitWidth: 36
-        implicitHeight: 36
+        implicitWidth: Theme.dp(40)
+        implicitHeight: Theme.dp(40)
         radius: control.radius
+        scale: control.down && !Theme.reducedMotion ? 0.94 : 1
         color: {
             if (control.highlighted) {
                 if (!control.enabled)
@@ -78,8 +81,15 @@ T.RoundButton {
         Behavior on color {
             enabled: !Theme.reducedMotion
             ColorAnimation {
-                duration: Theme.duration(Theme.motionNormal)
-                easing.type: Theme.easingStandard
+                duration: Theme.motionMs("normal")
+                easing.type: Theme.motionEasing("standard")
+            }
+        }
+        Behavior on scale {
+            enabled: !Theme.reducedMotion
+            NumberAnimation {
+                duration: Theme.motionMs("fast")
+                easing.type: Theme.motionEasing("standard")
             }
         }
         FocusStroke {

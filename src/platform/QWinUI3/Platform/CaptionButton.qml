@@ -71,7 +71,28 @@ AbstractButton {
         }
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        opacity: Theme.highContrast && !control.enabled ? 0.5 : 1
+        // Win11 title-bar glyph dip on press (2.67 — I10)
+        opacity: {
+            if (Theme.highContrast && !control.enabled)
+                return 0.5
+            if (control.visualPressed && control.enabled)
+                return 0.72
+            return 1
+        }
+        Behavior on opacity {
+            enabled: !Theme.reducedMotion
+            NumberAnimation {
+                duration: Theme.motionMs("fast")
+                easing.type: Theme.motionEasing("standard")
+            }
+        }
+        Behavior on color {
+            enabled: !Theme.reducedMotion
+            ColorAnimation {
+                duration: Theme.motionMs("fast")
+                easing.type: Theme.motionEasing("standard")
+            }
+        }
     }
 
     background: Rectangle {

@@ -41,6 +41,20 @@ CatalogPage {
     }
 
     ControlExample {
+        headerText: qsTr("Appearances (2.66 A1)")
+        qmlSource: "Button { appearance: \"filled\" }\nButton { appearance: \"subtle\" }\nButton { appearance: \"outline\" }\nButton { appearance: \"ghost\" }"
+
+        Flow {
+            Layout.fillWidth: true
+            spacing: Theme.spacingLoose
+            Button { text: qsTr("Filled"); appearance: "filled" }
+            Button { text: qsTr("Subtle"); appearance: "subtle" }
+            Button { text: qsTr("Outline"); appearance: "outline" }
+            Button { text: qsTr("Ghost"); appearance: "ghost" }
+        }
+    }
+
+    ControlExample {
         headerText: qsTr("Accent")
         qmlSource: "Button {\n    text: \"Accent\"\n    highlighted: true\n}\nButton {\n    text: \"Accent disabled\"\n    highlighted: true\n    enabled: false\n}"
 

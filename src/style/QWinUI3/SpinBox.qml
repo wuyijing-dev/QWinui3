@@ -32,6 +32,8 @@ T.SpinBox {
     hoverEnabled: true
     wheelEnabled: true
 
+    PointerCursor { shape: Qt.IBeamCursor }
+
     validator: IntValidator {
         bottom: Math.min(control.from, control.to)
         top: Math.max(control.from, control.to)
@@ -63,9 +65,17 @@ T.SpinBox {
             radius: Theme.cornerControl - 1
             color: control.up.pressed ? Theme.fillSubtleTertiary
                  : (control.up.hovered ? Theme.fillSubtle : "transparent")
+            scale: control.up.pressed && !Theme.reducedMotion ? 0.92 : 1
             Behavior on color {
                 enabled: !Theme.reducedMotion
                 ColorAnimation { duration: Theme.duration(Theme.motionFast) }
+            }
+            Behavior on scale {
+                enabled: !Theme.reducedMotion
+                NumberAnimation {
+                    duration: Theme.duration(Theme.motionFast)
+                    easing.type: Theme.easingStandard
+                }
             }
         }
         Text {
@@ -92,9 +102,17 @@ T.SpinBox {
             radius: Theme.cornerControl - 1
             color: control.down.pressed ? Theme.fillSubtleTertiary
                  : (control.down.hovered ? Theme.fillSubtle : "transparent")
+            scale: control.down.pressed && !Theme.reducedMotion ? 0.92 : 1
             Behavior on color {
                 enabled: !Theme.reducedMotion
                 ColorAnimation { duration: Theme.duration(Theme.motionFast) }
+            }
+            Behavior on scale {
+                enabled: !Theme.reducedMotion
+                NumberAnimation {
+                    duration: Theme.duration(Theme.motionFast)
+                    easing.type: Theme.easingStandard
+                }
             }
         }
         Text {

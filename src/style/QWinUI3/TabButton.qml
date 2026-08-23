@@ -29,6 +29,8 @@ T.TabButton {
     font.pixelSize: Theme.fontBody
     hoverEnabled: true
 
+    PointerCursor { shape: Qt.PointingHandCursor }
+
     contentItem: Text {
         text: control.text
         font.family: control.font.family
@@ -44,13 +46,22 @@ T.TabButton {
         Behavior on color {
             enabled: !Theme.reducedMotion
             ColorAnimation {
-                duration: Theme.duration(Theme.motionFast)
-                easing.type: Theme.easingStandard
+                duration: Theme.motionMs("fast")
+                easing.type: Theme.motionEasing("standard")
             }
         }
     }
 
     background: Item {
+        scale: control.down && !Theme.reducedMotion ? 0.98 : 1
+        Behavior on scale {
+            enabled: !Theme.reducedMotion
+            NumberAnimation {
+                duration: Theme.motionMs("fast")
+                easing.type: Theme.motionEasing("standard")
+            }
+        }
+
         Rectangle {
             anchors.fill: parent
             radius: Theme.cornerControl
@@ -59,33 +70,33 @@ T.TabButton {
             Behavior on color {
                 enabled: !Theme.reducedMotion
                 ColorAnimation {
-                    duration: Theme.duration(Theme.motionFast)
-                    easing.type: Theme.easingStandard
+                    duration: Theme.motionMs("fast")
+                    easing.type: Theme.motionEasing("standard")
                 }
             }
         }
         Rectangle {
-            anchors.left: parent.left
-            anchors.right: parent.right
+            id: underline
+            anchors.horizontalCenter: parent.horizontalCenter
             anchors.bottom: parent.bottom
+            width: control.checked ? parent.width - 8 : Math.min(parent.width * 0.4, 24)
             height: 2
             radius: 1
             color: Theme.accent
-            opacity: control.checked ? 1 : 0
-            scale: control.checked ? 1 : 0.4
-            transformOrigin: Item.Bottom
+            opacity: control.checked || control.hovered ? (control.checked ? 1 : 0.35) : 0
+
+            Behavior on width {
+                enabled: !Theme.reducedMotion
+                NumberAnimation {
+                    duration: Theme.motionMs("normal")
+                    easing.type: Theme.motionEasing("enter")
+                }
+            }
             Behavior on opacity {
                 enabled: !Theme.reducedMotion
                 NumberAnimation {
-                    duration: Theme.duration(Theme.motionNormal)
-                    easing.type: Theme.easingStandard
-                }
-            }
-            Behavior on scale {
-                enabled: !Theme.reducedMotion
-                NumberAnimation {
-                    duration: Theme.duration(Theme.motionNormal)
-                    easing.type: Theme.easingStandard
+                    duration: Theme.motionMs("normal")
+                    easing.type: Theme.motionEasing("standard")
                 }
             }
         }

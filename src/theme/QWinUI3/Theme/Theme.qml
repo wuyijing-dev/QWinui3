@@ -224,6 +224,8 @@ QtObject {
     readonly property int motionSlow: 250
     // Flyout / popup enter duration (ms)
     readonly property int motionFlyout: 250
+    // Disabled icon glyph opacity (2.66 — I2)
+    readonly property real iconDisabledOpacity: 0.55
     // Enter easing curve
     readonly property int easingEnter: Easing.OutCubic
     // Exit easing curve
@@ -299,6 +301,82 @@ QtObject {
     // Returns ms, or 1 when reducedMotion is on
     function duration(ms) {
         return reducedMotion ? 1 : ms
+    }
+
+    // Named motion slot → duration(ms) — foundation for B1 motion token consumers (2.66+).
+    function motionMs(slot) {
+        switch (String(slot || "fast")) {
+        case "slow": return duration(motionSlow)
+        case "flyout": return duration(motionFlyout)
+        case "normal": return duration(motionNormal)
+        default: return duration(motionFast)
+        }
+    }
+
+    // Named easing slot — pair with motionMs for B1 consumers (2.67+).
+    function motionEasing(slot) {
+        switch (String(slot || "standard")) {
+        case "enter": return easingEnter
+        case "exit": return easingExit
+        case "emphasized": return easingEmphasized
+        default: return easingStandard
+        }
+    }
+
+    // Optical nudge for Fluent icon font (2.66 — I1): caption 10 · chrome 14 · nav 16 · app bar 18.
+    function iconOpticalOffset(fontSize) {
+        var px = Math.round(Number(fontSize) || 16)
+        if (px <= 10)
+            return { x: 0, y: 0.5 }
+        if (px <= 14)
+            return { x: 0, y: 0.25 }
+        if (px <= 16)
+            return { x: 0, y: 0 }
+        if (px <= 18)
+            return { x: 0, y: -0.25 }
+        return { x: 0, y: 0 }
+    }
+
+    // Resolve icon color with optional selected emphasis (2.66 — I3).
+    function iconColor(baseColor, selected, hovered, enabled) {
+        if (enabled === false)
+            return textDisabled
+        var base = baseColor !== undefined && baseColor !== null ? baseColor : textPrimary
+        if (selected) {
+            // Host on accent chrome passes textOnAccent — keep contrast (ToggleButton, AccentButton).
+            if (base === textOnAccent || base === textOnAccentSecondary)
+                return base
+            return accent
+        }
+        return base
+    }
+
+    // True when a Fluent glyph should mirror under RTL (2.67 — I9).
+    // Chevrons left/right, back/forward, page arrows — not vertical chevrons or media icons.
+    function iconShouldMirror(glyphOrName) {
+        var g = String(glyphOrName || "")
+        if (!g.length)
+            return false
+        // Prefer name when callers pass FluentIcons.Back etc. (property map value is the char).
+        var names = [
+            "Back", "Forward", "ChevronLeft", "ChevronRight",
+            "PageLeft", "PageRight", "Previous", "Next",
+            "DockLeft", "DockRight", "OpenPane", "ClosePane",
+            "Mirrored", "BackToWindow"
+        ]
+        for (var i = 0; i < names.length; ++i) {
+            try {
+                if (typeof FluentIcons !== "undefined" && FluentIcons[names[i]] === g)
+                    return true
+            } catch (e) { }
+            if (g === names[i])
+                return true
+        }
+        // Codepoint fallbacks for common directional Segoe Fluent Icons
+        var code = g.length ? g.charCodeAt(0) : 0
+        // E72B Back, E72A Forward, E76B ChevronLeft, E76C ChevronRight, E892 Previous
+        return code === 0xE72B || code === 0xE72A || code === 0xE76B
+            || code === 0xE76C || code === 0xE892 || code === 0xE893
     }
 
     // Density-aware design pixels (Qt layout units are already DPI-independent).

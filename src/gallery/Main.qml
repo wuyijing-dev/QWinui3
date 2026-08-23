@@ -106,7 +106,15 @@ StandardWindow {
         if (!item)
             return
         var m = mode || "slide"
+        var transition = (m === "center") ? "center" : m
         if (item.component) {
+            // Prefer rail selection so the left pip tracks search / featured jumps.
+            var anchor = ControlCatalog.railAnchorComponent(item.component)
+            var key = nav.keyForComponent(anchor.length ? anchor : item.component)
+            if (key.length) {
+                nav.selectKey(key, transition, item.component)
+                return
+            }
             if (m === "center")
                 nav.openFromCenter(item.component)
             else
@@ -114,7 +122,7 @@ StandardWindow {
             return
         }
         if (item.title)
-            nav.navigateToTitle(item.title, m)
+            nav.navigateToTitle(item.title, transition)
     }
 
     header: StandardTitleChrome {

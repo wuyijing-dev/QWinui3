@@ -34,6 +34,8 @@ T.RadioButton {
     font.pixelSize: Theme.fontBody
     hoverEnabled: true
 
+    PointerCursor { shape: Qt.PointingHandCursor }
+
     indicator: Item {
         implicitWidth: Theme.radioSize
         implicitHeight: Theme.radioSize
@@ -63,7 +65,15 @@ T.RadioButton {
                 return Theme.bgControlRest
             }
             border.width: control.checked ? 0 : 1
-            border.color: control.enabled ? Theme.strokeControlStrong : Theme.strokeControl
+            border.color: {
+                if (control.checked)
+                    return "transparent"
+                if (!control.enabled)
+                    return Theme.strokeControl
+                if (control.hovered)
+                    return Theme.accent
+                return Theme.strokeControlStrong
+            }
             scale: control.down ? 0.9 : 1
 
             Behavior on color {

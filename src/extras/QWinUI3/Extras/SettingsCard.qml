@@ -144,14 +144,21 @@ T.Pane {
         radius: root.cornerRadius
         borderWidth: root._rowFocusable && root.activeFocus ? 2 : 1
         borderColor: root._rowFocusable && root.activeFocus ? Theme.accent : Theme.strokeCard
-        elevation: 2
+        elevation: root.interactive && root.hovered && !Theme.reducedMotion ? 3 : 2
         shadowOpacity: Theme.dark ? 0.22 : 0.08
 
         Behavior on color {
             enabled: !Theme.reducedMotion
             ColorAnimation {
-                duration: Theme.duration(Theme.motionFast)
-                easing.type: Theme.easingStandard
+                duration: Theme.motionMs("fast")
+                easing.type: Theme.motionEasing("standard")
+            }
+        }
+        Behavior on elevation {
+            enabled: !Theme.reducedMotion
+            NumberAnimation {
+                duration: Theme.motionMs("fast")
+                easing.type: Theme.motionEasing("standard")
             }
         }
         Behavior on borderColor {
@@ -168,12 +175,13 @@ T.Pane {
             spacing: Theme.spacingLoose
             visible: !root._vertical || root._showHeaderColumn || root.effectiveHeaderIcon.length > 0
 
-            Text {
+            FontIcon {
                 visible: root.effectiveHeaderIcon.length > 0 && !root._contentCenter
-                text: root.effectiveHeaderIcon
-                font.family: Theme.fontFamilyIcon
-                font.pixelSize: 20
-                color: Theme.accent
+                glyph: root.effectiveHeaderIcon
+                fontSize: 20
+                selected: true
+                iconColor: Theme.accent
+                microMotionEnabled: false
                 Layout.alignment: Qt.AlignVCenter
             }
 
@@ -242,13 +250,13 @@ T.Pane {
                 Layout.preferredHeight: visible ? Math.max(actionSlot.height, 1) : 0
             }
 
-            Text {
+            FontIcon {
                 visible: root.showChevron && !root._contentCenter
+                glyph: root.effectiveActionIcon
+                fontSize: 12
+                iconColor: Theme.textSecondary
+                microMotionEnabled: false
                 Layout.alignment: Qt.AlignVCenter
-                text: root.effectiveActionIcon
-                font.family: Theme.fontFamilyIcon
-                font.pixelSize: 12
-                color: Theme.textSecondary
             }
         }
 

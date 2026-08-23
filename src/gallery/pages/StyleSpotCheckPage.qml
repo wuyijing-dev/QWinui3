@@ -21,6 +21,86 @@ CatalogPage {
     }
 
     ControlExample {
+        headerText: qsTr("Pointer baseline (2.66 — M1–M8, I1–I4)")
+        qmlSource: "Button.appearance · TextField.hasError · FontIcon · FocusStroke"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacingLoose
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Press/hover/focus spot-check for the 2.66 micro-interaction slice. Toggle Theme.reducedMotion and highContrast on Theme overrides.")
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            GridLayout {
+                Layout.fillWidth: true
+                columns: 2
+                columnSpacing: Theme.spacingLoose
+                rowSpacing: Theme.spacing
+                Button {
+                    Layout.fillWidth: true
+                    text: qsTr("Filled")
+                    appearance: "filled"
+                }
+                Button {
+                    Layout.fillWidth: true
+                    text: qsTr("Outline")
+                    appearance: "outline"
+                }
+                Button {
+                    Layout.fillWidth: true
+                    text: qsTr("Ghost")
+                    appearance: "ghost"
+                }
+                AccentButton {
+                    Layout.fillWidth: true
+                    text: qsTr("Accent CTA")
+                    symbol: FluentIcons.Save
+                }
+                HyperlinkButton {
+                    Layout.fillWidth: true
+                    text: qsTr("Learn more")
+                }
+                TextField {
+                    id: errField
+                    Layout.fillWidth: true
+                    placeholderText: qsTr("Valid email")
+                    hasError: errField.text.length > 0 && errField.text.indexOf("@") < 0
+                }
+                SpinBox {
+                    Layout.fillWidth: true
+                    from: 0
+                    to: 10
+                    value: 3
+                }
+                FontIcon {
+                    symbol: FluentIcons.ChevronDown
+                    fontSize: 16
+                    chevronRotation: chevronDemo.checked ? 180 : 0
+                    Layout.alignment: Qt.AlignHCenter
+                }
+            }
+            RowLayout {
+                spacing: Theme.spacing
+                CheckBox {
+                    id: chevronDemo
+                    text: qsTr("Chevron expanded (I4)")
+                    checked: true
+                }
+                Button {
+                    text: qsTr("Trigger error shake")
+                    onClicked: {
+                        errField.text = qsTr("bad")
+                        errField.hasError = true
+                    }
+                }
+            }
+        }
+    }
+
+    ControlExample {
         headerText: qsTr("Stock Style controls (2.17)")
         qmlSource: "import QWinUI3.Style  // implicit via gallery\nButton · TextField · ComboBox · CheckBox"
         ColumnLayout {
@@ -137,7 +217,7 @@ CatalogPage {
         ColumnLayout {
             Layout.fillWidth: true
             spacing: Theme.spacing
-            CheckBox { text: qsTr("Button ↔ ComboBox rest/hover/press fills match (2.17)") }
+            CheckBox { text: qsTr("Button ↔ ComboBox rest/hover/press fills match") }
             CheckBox { text: qsTr("TextField / SpinBox use bgControlRest at rest") }
             CheckBox { text: qsTr("CheckBox / Radio unchecked rest matches TextField") }
             CheckBox { text: qsTr("Slider thumb uses fillSliderThumb") }

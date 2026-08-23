@@ -5,10 +5,8 @@ import QtQuick.Effects
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — Getting started.
-//
-// Custom hero wash; CatalogPage with empty title (hides PageHeader). Featured /
-// recent cards emit openControl / openSettings — Main.qml wires those signals.
+// Gallery home — WinUI 3 Gallery–style layout:
+// hero + horizontal featured strip + Recent/Favorites + visited / added grids.
 
 CatalogPage {
     id: page
@@ -19,38 +17,64 @@ CatalogPage {
     signal openSettings()
 
     property int homeTab: 0 // 0 = Recent, 1 = Favorites
-    // Defer MultiEffect shadows until after first frame (Gallery cold start — 1.39)
     property bool cardEffectsReady: false
 
     Component.onCompleted: Qt.callLater(function () { page.cardEffectsReady = true })
 
+    // Keep in sync with QWINUI3_VERSION in root CMakeLists.txt
+    readonly property string productVersion: "2.64"
+
     readonly property var featuredModel: {
         GalleryLanguage.currentLocale
         return [
-        {
-            title: qsTr("Example templates"),
-            description: qsTr("Copy-ready starters — gallery-shell first. examples/README.md."),
-            icon: FluentIcons.PageList,
-            tint: "#0F7B0F",
-            tintBg: Theme.dark ? "#393D1B" : "#DFF6DD",
-            action: "templates"
-        },
-        {
-            title: qsTr("Window shells"),
-            description: qsTr("Blank, left-nav, and menu + status application hosts."),
-            icon: FluentIcons.OpenInNewWindow,
-            tint: "#005FB8",
-            tintBg: Theme.dark ? "#272727" : "#F3F9FD",
-            action: "shells"
-        },
-        {
-            title: qsTr("Design"),
-            description: qsTr("Switch light/dark theme and motion preferences."),
-            icon: FluentIcons.Color,
-            tint: "#8764B8",
-            tintBg: Theme.dark ? "#3A2F4A" : "#F2EDF9",
-            action: "settings"
-        }
+            {
+                title: qsTr("Getting started"),
+                description: qsTr("Copy-ready starters — gallery-shell and first-app recipes."),
+                icon: FluentIcons.PageList,
+                tint: "#0F7B0F",
+                tintBg: Theme.dark ? "#393D1B" : "#DFF6DD",
+                action: "templates"
+            },
+            {
+                title: qsTr("Design"),
+                description: qsTr("Light/dark theme, accent, density, and motion preferences."),
+                icon: FluentIcons.Color,
+                tint: "#8764B8",
+                tintBg: Theme.dark ? "#3A2F4A" : "#F2EDF9",
+                action: "settings"
+            },
+            {
+                title: qsTr("App shells"),
+                description: qsTr("Blank, left-nav, and menu + status application hosts."),
+                icon: FluentIcons.OpenInNewWindow,
+                tint: "#005FB8",
+                tintBg: Theme.dark ? "#1B2A3A" : "#E8F1FA",
+                action: "shells"
+            },
+            {
+                title: qsTr("Style spot-check"),
+                description: qsTr("Button, field, and pointer baseline checklist for Fluent chrome."),
+                icon: FluentIcons.Checkbox,
+                tint: "#CA5010",
+                tintBg: Theme.dark ? "#3A2A1B" : "#FFF0E4",
+                action: "style"
+            },
+            {
+                title: qsTr("Charts & gauges"),
+                description: qsTr("Dashboard charts and interactive gauge samples."),
+                icon: FluentIcons.AreaChart,
+                tint: "#0078D4",
+                tintBg: Theme.dark ? "#1A2E3A" : "#E5F3FB",
+                action: "charts"
+            },
+            {
+                title: qsTr("Accessibility"),
+                description: qsTr("Focus, contrast, reduced motion, and screen-reader recipes."),
+                icon: FluentIcons.EaseOfAccess,
+                tint: "#038387",
+                tintBg: Theme.dark ? "#1B3333" : "#E0F5F5",
+                action: "a11y"
+            }
         ]
     }
 
@@ -65,53 +89,69 @@ CatalogPage {
                              : GalleryHistory.favoriteControls()
     }
 
+    readonly property real featuredCardWidth: 208
+    readonly property real featuredCardHeight: 168
+    readonly property real featuredGap: 12
+
     function activateFeatured(action) {
         if (action === "settings") {
             page.openSettings()
             return
         }
-        if (action === "shells") {
-            var shells = ControlCatalog.findByComponent("WindowParadigmPage")
-            if (shells)
-                page.openControl(shells)
-            return
+        var map = {
+            "shells": "WindowParadigmPage",
+            "templates": "ExamplesTemplatesPage",
+            "style": "StyleSpotCheckPage",
+            "charts": "ChartsPage",
+            "a11y": "AccessibilityPage",
+            "new": ""
         }
-        if (action === "templates") {
-            var templates = ControlCatalog.findByComponent("ExamplesTemplatesPage")
-            if (templates)
-                page.openControl(templates)
-            return
-        }
-        if (action === "new") {
+        var name = map[action] || ""
+        if (!name.length && action === "new") {
             var added = ControlCatalog.recentlyShipped(1)
             if (added.length)
                 page.openControl(added[0])
             return
         }
-        var btn = ControlCatalog.findByComponent("ButtonPage")
-        if (btn)
-            page.openControl(btn)
-    }
-
-    function cardWidth(available) {
-        if (available >= 980)
-            return (available - 24) / 3
-        if (available >= 640)
-            return (available - 12) / 2
-        return available
+        var item = ControlCatalog.findByComponent(name)
+        if (item)
+            page.openControl(item)
     }
 
     function itemCardWidth(available) {
-        if (available >= 900)
+        if (available >= 960)
+            return (available - 36) / 4
+        if (available >= 720)
             return (available - 24) / 3
-        if (available >= 560)
+        if (available >= 480)
             return (available - 12) / 2
         return available
     }
 
+    function scrollFeatured(dir) {
+        var step = page.featuredCardWidth + page.featuredGap
+        var target = Math.max(0, Math.min(featuredList.contentWidth - featuredList.width,
+                                          featuredList.contentX + dir * step * 2))
+        if (Theme.reducedMotion) {
+            featuredList.contentX = target
+            return
+        }
+        featuredScrollAnim.to = target
+        featuredScrollAnim.restart()
+    }
+
+    NumberAnimation {
+        id: featuredScrollAnim
+        target: featuredList
+        property: "contentX"
+        duration: Theme.duration(Theme.motionNormal)
+        easing.type: Theme.easingStandard
+    }
+
+    // --- Hero ---
     Item {
         Layout.fillWidth: true
-        Layout.preferredHeight: heroHeader.implicitHeight + Theme.spacingSection
+        Layout.preferredHeight: heroCol.implicitHeight + Theme.spacingSection
         clip: false
 
         Item {
@@ -119,7 +159,7 @@ CatalogPage {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: parent.top
-            height: 360
+            height: 320
             z: -1
 
             Rectangle {
@@ -127,11 +167,11 @@ CatalogPage {
                 gradient: Gradient {
                     GradientStop {
                         position: 0
-                        color: Theme.dark ? "#1B2430" : "#E8F1FA"
+                        color: Theme.dark ? "#1A2330" : "#E9F2FA"
                     }
                     GradientStop {
-                        position: 0.55
-                        color: Theme.dark ? "#222018" : "#F3F0E8"
+                        position: 0.5
+                        color: Theme.dark ? "#1E2228" : "#F4F1F8"
                     }
                     GradientStop {
                         position: 1
@@ -140,49 +180,53 @@ CatalogPage {
                 }
             }
 
+            // Soft abstract shapes (WinUI home wash)
             Rectangle {
-                width: 420
-                height: 420
-                radius: 210
-                x: parent.width * 0.55
-                y: -140
-                color: Theme.dark ? "#22406A" : "#B7D4F0"
-                opacity: Theme.dark ? 0.35 : 0.55
+                width: 380
+                height: 380
+                radius: 48
+                rotation: -18
+                x: parent.width - width * 0.42
+                y: -160
+                color: Theme.dark ? "#2A4A72" : "#A8C8EC"
+                opacity: Theme.dark ? 0.35 : 0.45
             }
             Rectangle {
-                width: 280
-                height: 280
-                radius: 140
-                x: parent.width * 0.72
-                y: 40
-                color: Theme.dark ? "#3A4A28" : "#D6E8C8"
-                opacity: Theme.dark ? 0.3 : 0.5
+                width: 260
+                height: 260
+                radius: 40
+                rotation: 22
+                x: parent.width - width * 0.55
+                y: -40
+                color: Theme.dark ? "#3D3A5C" : "#C9B8E8"
+                opacity: Theme.dark ? 0.28 : 0.4
             }
             Rectangle {
-                width: 200
-                height: 200
-                radius: 100
-                x: parent.width * 0.48
-                y: 100
-                color: Theme.dark ? "#4A3A5A" : "#E4D8F2"
-                opacity: Theme.dark ? 0.25 : 0.45
+                width: 180
+                height: 180
+                radius: 36
+                rotation: -8
+                x: parent.width - width * 0.9
+                y: 60
+                color: Theme.dark ? "#2E4A3A" : "#B8D4C8"
+                opacity: Theme.dark ? 0.22 : 0.35
             }
         }
 
         ColumnLayout {
-            id: heroHeader
+            id: heroCol
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: parent.top
             anchors.leftMargin: Theme.spacingSection
             anchors.rightMargin: Theme.spacingSection
             anchors.topMargin: Theme.spacingSection
-            spacing: 4
+            spacing: 2
 
             Text {
-                text: qsTr("Qt 6.8 · Fluent · App shells")
+                text: qsTr("QWinUI3 %1 · Qt Quick").arg(page.productVersion)
                 font.family: Theme.fontFamily
-                font.pixelSize: Theme.fontBody
+                font.pixelSize: Theme.fontCaption
                 color: Theme.textSecondary
             }
             Text {
@@ -195,22 +239,28 @@ CatalogPage {
         }
     }
 
-    // Featured cards
-    Flow {
-        id: featuredFlow
+    // --- Featured horizontal strip ---
+    Item {
         Layout.fillWidth: true
+        Layout.preferredHeight: page.featuredCardHeight + 8
         Layout.leftMargin: Theme.spacingSection
         Layout.rightMargin: Theme.spacingSection
-        spacing: Theme.spacingLoose
 
-        Repeater {
+        ListView {
+            id: featuredList
+            anchors.fill: parent
+            orientation: ListView.Horizontal
+            clip: true
+            spacing: page.featuredGap
+            boundsBehavior: Flickable.StopAtBounds
             model: page.featuredModel
+            cacheBuffer: 480
 
             delegate: Item {
                 id: featuredWrap
                 required property var modelData
-                width: page.cardWidth(featuredFlow.width)
-                height: 156
+                width: page.featuredCardWidth
+                height: page.featuredCardHeight
 
                 Rectangle {
                     id: featuredCard
@@ -219,7 +269,7 @@ CatalogPage {
                     color: Theme.bgCard
                     border.width: 1
                     border.color: Theme.strokeCard
-                    scale: featuredHover.hovered ? 1.01 : 1
+                    scale: featuredHover.hovered ? 1.015 : 1
 
                     Behavior on scale {
                         enabled: !Theme.reducedMotion
@@ -273,6 +323,7 @@ CatalogPage {
                             font.weight: Theme.fontWeightSemiBold
                             color: Theme.textPrimary
                             Layout.fillWidth: true
+                            elide: Text.ElideRight
                         }
                         Text {
                             text: modelData.description || ""
@@ -280,30 +331,58 @@ CatalogPage {
                             font.pixelSize: Theme.fontCaption
                             color: Theme.textSecondary
                             wrapMode: Text.Wrap
-                            maximumLineCount: 2
+                            maximumLineCount: 3
                             elide: Text.ElideRight
                             Layout.fillWidth: true
                             Layout.fillHeight: true
                             visible: !!(modelData.description)
                         }
 
-                        Item { Layout.fillWidth: true; Layout.preferredHeight: 1 }
-
                         Text {
                             Layout.alignment: Qt.AlignRight
                             text: FluentIcons.OpenInNewWindow
                             font.family: Theme.fontFamilyIcon
-                            font.pixelSize: 14
+                            font.pixelSize: 12
                             color: Theme.textSecondary
-                            opacity: 0.7
+                            opacity: 0.65
                         }
                     }
                 }
             }
         }
+
+        // Peek / scroll affordance (WinUI chevron)
+        RoundButton {
+            visible: featuredList.contentWidth > featuredList.width + 8
+                     && featuredList.contentX + featuredList.width < featuredList.contentWidth - 4
+            anchors.right: parent.right
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.rightMargin: 4
+            width: 36
+            height: 36
+            text: FluentIcons.ChevronRight
+            font.family: Theme.fontFamilyIcon
+            Accessible.name: qsTr("Scroll featured cards")
+            onClicked: page.scrollFeatured(1)
+        }
+        RoundButton {
+            visible: featuredList.contentWidth > featuredList.width + 8
+                     && featuredList.contentX > 4
+            anchors.left: parent.left
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.leftMargin: 4
+            width: 36
+            height: 36
+            text: FluentIcons.ChevronLeft
+            font.family: Theme.fontFamilyIcon
+            Accessible.name: qsTr("Scroll featured cards back")
+            onClicked: page.scrollFeatured(-1)
+        }
     }
 
+    // --- Recent / Favorites pills ---
     RowLayout {
+        Layout.topMargin: Theme.spacingLoose
         Layout.leftMargin: Theme.spacingSection
         Layout.rightMargin: Theme.spacingSection
         spacing: 8
@@ -385,8 +464,10 @@ CatalogPage {
         }
     }
 
+    // --- Recently visited / Favorites ---
     ColumnLayout {
         Layout.fillWidth: true
+        Layout.topMargin: Theme.spacingLoose
         Layout.leftMargin: Theme.spacingSection
         Layout.rightMargin: Theme.spacingSection
         spacing: Theme.spacingLoose
@@ -522,26 +603,20 @@ CatalogPage {
         }
     }
 
+    // --- Recently added or updated ---
     ColumnLayout {
         Layout.fillWidth: true
+        Layout.topMargin: Theme.spacingSection
         Layout.leftMargin: Theme.spacingSection
         Layout.rightMargin: Theme.spacingSection
         spacing: Theme.spacingLoose
 
         Text {
-            text: qsTr("Recently shipped")
+            text: qsTr("Recently added or updated")
             font.family: Theme.fontFamily
             font.pixelSize: Theme.fontSubtitle
             font.weight: Theme.fontWeightSemiBold
             color: Theme.textPrimary
-        }
-
-        Label {
-            Layout.fillWidth: true
-            wrapMode: Text.WordWrap
-            color: Theme.textSecondary
-            text: qsTr("Curated recipe pages from recent 1.xx slices (not catalog order). Star items under Recent / Favorites.")
-            font.pixelSize: Theme.fontCaption
         }
 
         Flow {
@@ -550,13 +625,24 @@ CatalogPage {
             spacing: Theme.spacingLoose
 
             Repeater {
-                model: ControlCatalog.recentlyShipped(9)
+                model: ControlCatalog.recentlyShipped(12)
 
                 delegate: Item {
                     id: addedWrap
                     required property var modelData
+                    required property int index
                     width: page.itemCardWidth(addedFlow.width)
                     height: 72
+
+                    readonly property var tintPalette: [
+                        Theme.accent,
+                        "#8764B8",
+                        "#038387",
+                        "#CA5010",
+                        "#0F7B0F",
+                        "#C239B3"
+                    ]
+                    readonly property color iconTint: tintPalette[index % tintPalette.length]
 
                     Rectangle {
                         anchors.fill: parent
@@ -596,7 +682,7 @@ CatalogPage {
                                 text: modelData.icon
                                 font.family: Theme.fontFamilyIcon
                                 font.pixelSize: 22
-                                color: Theme.accent
+                                color: addedWrap.iconTint
                             }
                             ColumnLayout {
                                 Layout.fillWidth: true
@@ -609,21 +695,14 @@ CatalogPage {
                                     elide: Text.ElideRight
                                     Layout.fillWidth: true
                                 }
-                                RowLayout {
+                                Text {
                                     Layout.fillWidth: true
-                                    spacing: Theme.spacingTight
-                                    ApiStabilityBadge {
-                                        stability: ControlCatalog.apiStabilityForComponent(modelData.component)
-                                    }
-                                    Text {
-                                        Layout.fillWidth: true
-                                        text: modelData.description || ""
-                                        font.pixelSize: Theme.fontCaption
-                                        color: Theme.textSecondary
-                                        elide: Text.ElideRight
-                                        maximumLineCount: 1
-                                        visible: !!(modelData.description)
-                                    }
+                                    text: modelData.description || ""
+                                    font.pixelSize: Theme.fontCaption
+                                    color: Theme.textSecondary
+                                    elide: Text.ElideRight
+                                    maximumLineCount: 1
+                                    visible: !!(modelData.description)
                                 }
                             }
                         }

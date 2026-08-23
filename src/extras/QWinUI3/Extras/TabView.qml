@@ -642,8 +642,15 @@ T.Control {
                                     text: tabBtn._icon
                                     font.family: Theme.fontFamilyIcon
                                     font.pixelSize: 14
-                                    color: tabBtn.checked ? Theme.textPrimary : Theme.textSecondary
+                                    color: tabBtn.checked ? Theme.accent : Theme.textSecondary
                                     verticalAlignment: Text.AlignVCenter
+                                    Behavior on color {
+                                        enabled: !Theme.reducedMotion
+                                        ColorAnimation {
+                                            duration: Theme.motionMs("fast")
+                                            easing.type: Theme.motionEasing("standard")
+                                        }
+                                    }
                                 }
                                 Text {
                                     id: titleLabel
@@ -680,13 +687,40 @@ T.Control {
                                     scale: down && !Theme.reducedMotion ? 0.9 : 1
                                     Behavior on scale {
                                         enabled: !Theme.reducedMotion
-                                        NumberAnimation { duration: Theme.duration(Theme.motionFast) }
+                                        NumberAnimation {
+                                            duration: Theme.motionMs("fast")
+                                            easing.type: Theme.motionEasing("standard")
+                                        }
+                                    }
+                                    // Circular hover affordance (2.68 — I14)
+                                    background: Rectangle {
+                                        implicitWidth: 22
+                                        implicitHeight: 22
+                                        radius: width / 2
+                                        anchors.centerIn: parent
+                                        color: closeBtn.down ? Theme.fillSubtleTertiary
+                                             : (closeBtn.hovered ? Theme.fillSubtle : "transparent")
+                                        Behavior on color {
+                                            enabled: !Theme.reducedMotion
+                                            ColorAnimation {
+                                                duration: Theme.motionMs("fast")
+                                                easing.type: Theme.motionEasing("standard")
+                                            }
+                                        }
                                     }
                                     onClicked: control.closeTab(tabBtn.index)
                                 }
                             }
 
                             background: Item {
+                                scale: tabBtn.down && !Theme.reducedMotion ? 0.98 : 1
+                                Behavior on scale {
+                                    enabled: !Theme.reducedMotion
+                                    NumberAnimation {
+                                        duration: Theme.motionMs("fast")
+                                        easing.type: Theme.motionEasing("standard")
+                                    }
+                                }
                                 Rectangle {
                                     anchors.fill: parent
                                     anchors.bottomMargin: tabBtn.checked ? 0 : 2
@@ -704,34 +738,32 @@ T.Control {
                                         enabled: !Theme.reducedMotion
                                                  && (tabBtn.checked || tabBtn.hovered || tabBtn.visualFocus)
                                         ColorAnimation {
-                                            duration: Theme.duration(Theme.motionFast)
+                                            duration: Theme.motionMs("fast")
+                                            easing.type: Theme.motionEasing("standard")
                                         }
                                     }
                                 }
                                 Rectangle {
-                                    anchors.left: parent.left
-                                    anchors.right: parent.right
+                                    anchors.horizontalCenter: parent.horizontalCenter
                                     anchors.bottom: parent.bottom
-                                    anchors.leftMargin: 10
-                                    anchors.rightMargin: 10
+                                    width: tabBtn.checked ? parent.width - 16
+                                         : (tabBtn.hovered ? Math.min(parent.width * 0.45, 28) : 12)
                                     height: 2
                                     radius: 1
                                     color: Theme.accent
-                                    opacity: tabBtn.checked ? 1 : 0
-                                    scale: tabBtn.checked ? 1 : 0.4
-                                    transformOrigin: Item.Bottom
-                                    Behavior on opacity {
+                                    opacity: tabBtn.checked ? 1 : (tabBtn.hovered ? 0.35 : 0)
+                                    Behavior on width {
                                         enabled: !Theme.reducedMotion
-                                                 && (tabBtn.checked || tabBtn.hovered || tabBtn.visualFocus)
                                         NumberAnimation {
-                                            duration: Theme.duration(Theme.motionNormal)
+                                            duration: Theme.motionMs("normal")
+                                            easing.type: Theme.motionEasing("enter")
                                         }
                                     }
-                                    Behavior on scale {
+                                    Behavior on opacity {
                                         enabled: !Theme.reducedMotion
-                                                 && (tabBtn.checked || tabBtn.hovered || tabBtn.visualFocus)
                                         NumberAnimation {
-                                            duration: Theme.duration(Theme.motionNormal)
+                                            duration: Theme.motionMs("normal")
+                                            easing.type: Theme.motionEasing("standard")
                                         }
                                     }
                                 }

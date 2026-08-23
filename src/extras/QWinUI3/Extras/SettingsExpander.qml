@@ -145,12 +145,13 @@ T.Control {
                 anchors.fill: parent
                 spacing: Theme.spacingLoose
 
-                Text {
+                FontIcon {
                     visible: control.effectiveHeaderIcon.length > 0
-                    text: control.effectiveHeaderIcon
-                    font.family: Theme.fontFamilyIcon
-                    font.pixelSize: 20
-                    color: Theme.accent
+                    glyph: control.effectiveHeaderIcon
+                    fontSize: 20
+                    selected: true
+                    iconColor: Theme.accent
+                    microMotionEnabled: false
                     Layout.alignment: Qt.AlignVCenter
                 }
 
@@ -192,24 +193,17 @@ T.Control {
                     onToggled: function (checked) { control.toggled(checked) }
                 }
 
-                Text {
-                    text: FluentIcons.ChevronDown
-                    font.family: Theme.fontFamilyIcon
-                    font.pixelSize: 12
-                    color: Theme.textSecondary
-                    Layout.alignment: Qt.AlignVCenter
-                    rotation: {
+                FontIcon {
+                    glyph: FluentIcons.ChevronDown
+                    fontSize: 12
+                    iconColor: Theme.textSecondary
+                    chevronRotation: {
                         if (control._expandUp)
                             return control.expanded ? 0 : 180
                         return control.expanded ? 180 : 0
                     }
-                    Behavior on rotation {
-                        enabled: !Theme.reducedMotion
-                        NumberAnimation {
-                            duration: Theme.duration(Theme.motionNormal)
-                            easing.type: Theme.easingStandard
-                        }
-                    }
+                    microMotionEnabled: false
+                    Layout.alignment: Qt.AlignVCenter
                 }
             }
 

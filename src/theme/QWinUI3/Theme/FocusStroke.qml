@@ -13,12 +13,13 @@ Item {
     property bool show: false
     // Frame corner radius
     property real frameRadius: Theme.cornerControl
-    // Outer size (thicker in high contrast)
-    property real outerSize: Theme.strokeFocusOuter
-    // Inner size
-    property real innerSize: Theme.strokeFocusInner
+    // Outer ring width (thicker in high contrast — 2px double per accessibility.md)
+    property real outerSize: Theme.highContrast ? 2 : Theme.strokeFocusOuter
+    // Inner ring width
+    property real innerSize: Theme.highContrast ? 2 : Theme.strokeFocusInner
     visible: opacity > 0.01
     opacity: show ? 1 : 0
+    scale: show ? 1 : (Theme.reducedMotion ? 1 : 0.96)
     z: 100
 
     Behavior on opacity {
@@ -26,6 +27,13 @@ Item {
         NumberAnimation {
             duration: Theme.duration(Theme.motionFast)
             easing.type: Theme.easingStandard
+        }
+    }
+    Behavior on scale {
+        enabled: !Theme.reducedMotion
+        NumberAnimation {
+            duration: Theme.duration(Theme.motionFast)
+            easing.type: Theme.easingOutCubic
         }
     }
 
@@ -46,6 +54,6 @@ Item {
         color: "transparent"
         border.width: root.innerSize
         border.color: Theme.focusInner
-        visible: !Theme.highContrast || root.innerSize > 0
+        visible: Theme.highContrast || root.innerSize > 0
     }
 }

@@ -96,17 +96,13 @@ Button {
 
     contentItem: RowLayout {
         spacing: 8
-        Text {
+        FontIcon {
             visible: control.effectiveIconGlyph.length > 0
-            text: control.effectiveIconGlyph
-            font.family: Theme.fontFamilyIcon
-            font.pixelSize: control.iconSize
-            color: control.enabled ? Theme.textOnAccent : Theme.textDisabled
+            glyph: control.effectiveIconGlyph
+            fontSize: control.iconSize
+            iconColor: Theme.textOnAccent
+            microMotionEnabled: false
             Layout.alignment: Qt.AlignVCenter
-            Behavior on color {
-                enabled: !Theme.reducedMotion
-                ColorAnimation { duration: Theme.duration(Theme.motionFast) }
-            }
         }
         Text {
             text: control.text

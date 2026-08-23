@@ -282,57 +282,101 @@ T.Control {
                 implicitWidth: 240
                 implicitHeight: 180
 
-                Canvas {
-                    id: spectrum
+                Item {
+                    id: spectrumPaintHost
                     anchors.fill: parent
-                    onWidthChanged: requestPaint()
-                    onHeightChanged: requestPaint()
-                    onPaint: {
-                        var ctx = getContext("2d")
-                        var w = width
-                        var h = height
-                        if (w < 2 || h < 2)
-                            return
-                        ctx.clearRect(0, 0, w, h)
-                        if (control._ringSpectrum) {
-                            var cx = w / 2
-                            var cy = h / 2
-                            var rMax = Math.min(w, h) / 2 - 1
-                            var step = Math.max(2, Math.floor(rMax / 32))
-                            for (var yy = 0; yy < h; yy += step) {
-                                for (var xx = 0; xx < w; xx += step) {
-                                    var dx = xx - cx + step / 2
-                                    var dy = yy - cy + step / 2
-                                    var dist = Math.sqrt(dx * dx + dy * dy)
-                                    if (dist > rMax)
-                                        continue
-                                    var ang = Math.atan2(dy, dx) * 180 / Math.PI
-                                    if (ang < 0)
-                                        ang += 360
-                                    var sat = control.clamp01(dist / Math.max(1, rMax))
-                                    var rgb = control.hsvToRgb(ang, sat, control.value)
-                                    ctx.fillStyle = Qt.rgba(rgb.r, rgb.g, rgb.b, 1)
-                                    ctx.fillRect(xx, yy, step + 1, step + 1)
+
+                    Canvas {
+                        id: spectrum
+                        anchors.fill: parent
+                        antialiasing: true
+                        renderTarget: Canvas.FramebufferObject
+                        renderStrategy: Canvas.Cooperative
+                        onWidthChanged: requestPaint()
+                        onHeightChanged: requestPaint()
+                        onPaint: {
+                            var ctx = getContext("2d")
+                            var w = width
+                            var h = height
+                            if (w < 2 || h < 2)
+                                return
+                            ctx.clearRect(0, 0, w, h)
+                            if (typeof ctx.imageSmoothingEnabled !== "undefined")
+                                ctx.imageSmoothingEnabled = true
+
+                            if (control._ringSpectrum) {
+                                var cx = w / 2
+                                var cy = h / 2
+                                var rMax = Math.min(w, h) / 2 - 2
+                                var img = ctx.createImageData(w, h)
+                                var data = img.data
+                                for (var yy = 0; yy < h; ++yy) {
+                                    for (var xx = 0; xx < w; ++xx) {
+                                        var dx = xx + 0.5 - cx
+                                        var dy = yy + 0.5 - cy
+                                        var dist = Math.sqrt(dx * dx + dy * dy)
+                                        var idx = (yy * w + xx) * 4
+                                        if (dist > rMax + 1.25) {
+                                            data[idx + 3] = 0
+                                            continue
+                                        }
+                                        var edge = 1
+                                        if (dist > rMax - 1.25)
+                                            edge = Math.max(0, (rMax + 1.25 - dist) / 2.5)
+                                        var ang = Math.atan2(dy, dx) * 180 / Math.PI
+                                        if (ang < 0)
+                                            ang += 360
+                                        var sat = control.clamp01(dist / Math.max(1, rMax))
+                                        var rgb = control.hsvToRgb(ang, sat, control.value)
+                                        data[idx] = Math.round(rgb.r * 255)
+                                        data[idx + 1] = Math.round(rgb.g * 255)
+                                        data[idx + 2] = Math.round(rgb.b * 255)
+                                        data[idx + 3] = Math.round(edge * 255)
+                                    }
+                                }
+                                ctx.putImageData(img, 0, 0)
+                                return
+                            }
+
+                            // Box spectrum: bake rounded-corner AA (no OpacityMask / Qt5Compat).
+                            var rad = Math.min(Theme.cornerControl, Math.min(w, h) / 2)
+                            var imgBox = ctx.createImageData(w, h)
+                            var boxData = imgBox.data
+                            for (var y = 0; y < h; ++y) {
+                                var satBox = 1 - (y / Math.max(1, h - 1))
+                                var py = y + 0.5
+                                for (var x = 0; x < w; ++x) {
+                                    var hu = (x / Math.max(1, w - 1)) * 360
+                                    var rgbBox = control.hsvToRgb(hu, satBox, control.value)
+                                    var bidx = (y * w + x) * 4
+                                    var px = x + 0.5
+                                    var cdx = 0
+                                    var cdy = 0
+                                    if (px < rad)
+                                        cdx = rad - px
+                                    else if (px > w - rad)
+                                        cdx = px - (w - rad)
+                                    if (py < rad)
+                                        cdy = rad - py
+                                    else if (py > h - rad)
+                                        cdy = py - (h - rad)
+                                    var cover = 1
+                                    if (cdx > 0 && cdy > 0) {
+                                        var cdist = Math.sqrt(cdx * cdx + cdy * cdy)
+                                        if (cdist >= rad + 1.25)
+                                            cover = 0
+                                        else if (cdist > rad - 1.25)
+                                            cover = Math.max(0, (rad + 1.25 - cdist) / 2.5)
+                                    }
+                                    boxData[bidx] = Math.round(rgbBox.r * 255)
+                                    boxData[bidx + 1] = Math.round(rgbBox.g * 255)
+                                    boxData[bidx + 2] = Math.round(rgbBox.b * 255)
+                                    boxData[bidx + 3] = Math.round(cover * 255)
                                 }
                             }
-                            return
-                        }
-                        var stepX = Math.max(1, Math.floor(w / 96))
-                        var stepY = Math.max(1, Math.floor(h / 72))
-                        for (var y = 0; y < h; y += stepY) {
-                            var satBox = 1 - (y / Math.max(1, h - 1))
-                            for (var x = 0; x < w; x += stepX) {
-                                var hu = (x / Math.max(1, w - 1)) * 360
-                                var rgbBox = control.hsvToRgb(hu, satBox, control.value)
-                                ctx.fillStyle = Qt.rgba(rgbBox.r, rgbBox.g, rgbBox.b, 1)
-                                ctx.fillRect(x, y, stepX + 1, stepY + 1)
-                            }
+                            ctx.putImageData(imgBox, 0, 0)
                         }
                     }
-
-                    // Rounded clip via OpacityMask alternative: overlay corners
-                    layer.enabled: true
-                    layer.smooth: true
                 }
 
                 Rectangle {
@@ -342,15 +386,18 @@ T.Control {
                     border.width: 1
                     border.color: Theme.strokeControl
                     z: 2
+                    layer.enabled: true
+                    layer.smooth: true
                 }
 
                 // Thumb
-                Rectangle {
+                Item {
                     id: spectrumThumb
                     width: 16
                     height: 16
-                    radius: 8
                     z: 3
+                    layer.enabled: true
+                    layer.smooth: true
                     x: {
                         if (control._ringSpectrum) {
                             var rMax = Math.min(spectrumHost.width, spectrumHost.height) / 2 - 1
@@ -369,17 +416,22 @@ T.Control {
                         }
                         return Math.round((1 - control.saturation) * (spectrumHost.height - 1)) - height / 2
                     }
-                    color: "transparent"
-                    border.width: 2
-                    border.color: "#FFFFFF"
 
                     Rectangle {
                         anchors.fill: parent
-                        anchors.margins: 1
                         radius: width / 2
                         color: "transparent"
-                        border.width: 1
-                        border.color: "#000000"
+                        border.width: 2
+                        border.color: "#FFFFFF"
+
+                        Rectangle {
+                            anchors.fill: parent
+                            anchors.margins: 1
+                            radius: width / 2
+                            color: "transparent"
+                            border.width: 1
+                            border.color: "#000000"
+                        }
                     }
                 }
 
@@ -492,6 +544,7 @@ T.Control {
 
         // Value (brightness) slider — black -> full color at current H/S
         Item {
+            id: valueSliderHost
             Layout.fillWidth: true
             Layout.preferredHeight: 28
             visible: control.isColorSliderVisible
@@ -502,6 +555,8 @@ T.Control {
                 anchors.right: parent.right
                 anchors.verticalCenter: parent.verticalCenter
                 height: 12
+                antialiasing: true
+                renderTarget: Canvas.FramebufferObject
                 onPaint: {
                     var ctx = getContext("2d")
                     var w = width
@@ -509,14 +564,29 @@ T.Control {
                     if (w < 2)
                         return
                     ctx.clearRect(0, 0, w, h)
-                    var step = Math.max(1, Math.floor(w / 64))
-                    for (var x = 0; x < w; x += step) {
+                    if (typeof ctx.imageSmoothingEnabled !== "undefined")
+                        ctx.imageSmoothingEnabled = true
+                    var img = ctx.createImageData(w, h)
+                    var data = img.data
+                    for (var x = 0; x < w; ++x) {
                         var vv = x / Math.max(1, w - 1)
                         var rgb = control.hsvToRgb(control.hue, control.saturation, vv)
-                        ctx.fillStyle = Qt.rgba(rgb.r, rgb.g, rgb.b, 1)
-                        ctx.fillRect(x, 0, step + 1, h)
+                        var r = Math.round(rgb.r * 255)
+                        var g = Math.round(rgb.g * 255)
+                        var b = Math.round(rgb.b * 255)
+                        for (var y = 0; y < h; ++y) {
+                            var idx = (y * w + x) * 4
+                            data[idx] = r
+                            data[idx + 1] = g
+                            data[idx + 2] = b
+                            data[idx + 3] = 255
+                        }
                     }
+                    ctx.putImageData(img, 0, 0)
                 }
+
+                layer.enabled: true
+                layer.smooth: true
 
                 Rectangle {
                     anchors.fill: parent
@@ -527,24 +597,30 @@ T.Control {
                 }
             }
 
-            Rectangle {
+            Item {
                 id: valueThumb
                 width: 20
                 height: 20
-                radius: 10
                 y: (parent.height - height) / 2
                 x: control.value * (parent.width - width)
-                color: control.selectedColor
-                border.width: 2
-                border.color: "#FFFFFF"
+                layer.enabled: true
+                layer.smooth: true
 
                 Rectangle {
                     anchors.fill: parent
-                    anchors.margins: 1
                     radius: width / 2
-                    color: "transparent"
-                    border.width: 1
-                    border.color: Theme.dark ? "#CC000000" : "#66000000"
+                    color: control.selectedColor
+                    border.width: 2
+                    border.color: "#FFFFFF"
+
+                    Rectangle {
+                        anchors.fill: parent
+                        anchors.margins: 1
+                        radius: width / 2
+                        color: "transparent"
+                        border.width: 1
+                        border.color: Theme.dark ? "#CC000000" : "#66000000"
+                    }
                 }
             }
 

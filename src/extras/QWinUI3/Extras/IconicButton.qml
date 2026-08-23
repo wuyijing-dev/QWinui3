@@ -82,6 +82,9 @@ T.AbstractButton {
 
     hoverEnabled: true
     focusPolicy: Qt.StrongFocus
+
+    PointerCursor { shape: Qt.PointingHandCursor }
+
     implicitWidth: Math.max(Theme.controlMinWidth,
                             contentItem.implicitWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(Theme.controlHeight,
@@ -108,34 +111,17 @@ T.AbstractButton {
 
     contentItem: RowLayout {
         spacing: Theme.spacing
-        Text {
+        FontIcon {
             visible: control.effectiveIconGlyph.length > 0
-            text: control.effectiveIconGlyph
-            font.family: Theme.fontFamilyIcon
-            font.pixelSize: control.iconSize
-            scale: control.effectiveIconScale
-            color: {
-                if (!control.enabled)
-                    return Theme.textDisabled
-                if (control.highlighted || control.checked)
-                    return Theme.accent
-                return Theme.textPrimary
-            }
+            glyph: control.effectiveIconGlyph
+            fontSize: control.iconSize
+            selected: control.highlighted || control.checked
+            iconColor: Theme.textPrimary
+            microMotionEnabled: control.microMotionEnabled
+            hoverScale: control.hoverScale
+            pressScale: control.pressScale
+            enabled: control.enabled
             Layout.alignment: Qt.AlignVCenter
-            Behavior on scale {
-                enabled: !Theme.reducedMotion
-                NumberAnimation {
-                    duration: Theme.duration(Theme.motionFast)
-                    easing.type: Theme.easingStandard
-                }
-            }
-            Behavior on color {
-                enabled: !Theme.reducedMotion
-                ColorAnimation {
-                    duration: Theme.duration(Theme.motionFast)
-                    easing.type: Theme.easingStandard
-                }
-            }
         }
         Text {
             visible: control.text && control.text.length > 0

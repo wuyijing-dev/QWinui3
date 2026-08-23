@@ -35,6 +35,8 @@ T.ComboBox {
     font.pixelSize: Theme.fontBody
     hoverEnabled: true
 
+    PointerCursor { shape: Qt.PointingHandCursor }
+
     // True in light theme
     readonly property bool lightScheme: !Theme.dark
     readonly property color __fill: Theme.borderedControlFill(control.hovered, control.down, !control.enabled)
@@ -105,6 +107,34 @@ T.ComboBox {
                     }
                 }
             }
+
+            Text {
+                anchors.right: parent.right
+                anchors.rightMargin: Theme.paddingControlH
+                anchors.verticalCenter: parent.verticalCenter
+                text: FluentIcons.CheckMark
+                font.family: Theme.fontFamilyIcon
+                font.pixelSize: 12
+                color: Theme.accent
+                opacity: delegateRoot.selected ? 1 : 0
+                scale: delegateRoot.selected ? 1 : 0.6
+                visible: opacity > 0.01 || delegateRoot.selected
+
+                Behavior on opacity {
+                    enabled: !Theme.reducedMotion
+                    NumberAnimation {
+                        duration: Theme.duration(Theme.motionFast)
+                        easing.type: Theme.easingStandard
+                    }
+                }
+                Behavior on scale {
+                    enabled: !Theme.reducedMotion
+                    NumberAnimation {
+                        duration: Theme.duration(Theme.motionFast)
+                        easing.type: Theme.easingStandard
+                    }
+                }
+            }
         }
     }
 
@@ -125,15 +155,15 @@ T.ComboBox {
         Behavior on y {
             enabled: !Theme.reducedMotion
             NumberAnimation {
-                duration: Theme.duration(Theme.motionNormal)
-                easing.type: Theme.easingStandard
+                duration: Theme.motionMs("normal")
+                easing.type: Theme.motionEasing("standard")
             }
         }
         Behavior on rotation {
             enabled: !Theme.reducedMotion
             NumberAnimation {
-                duration: Theme.duration(Theme.motionNormal)
-                easing.type: Theme.easingStandard
+                duration: Theme.motionMs("normal")
+                easing.type: Theme.motionEasing("standard")
             }
         }
     }

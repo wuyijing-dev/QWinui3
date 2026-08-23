@@ -53,12 +53,23 @@ T.AbstractButton {
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     hoverEnabled: true
+
+    PointerCursor { shape: Qt.PointingHandCursor }
+
     Accessible.role: Accessible.Link
     Accessible.name: control.text.length ? control.text : qsTr("Hyperlink")
     Accessible.description: url.toString()
 
     scale: down && !Theme.reducedMotion ? 0.98 : 1
+    opacity: down && enabled ? 0.8 : 1
     Behavior on scale {
+        enabled: !Theme.reducedMotion
+        NumberAnimation {
+            duration: Theme.duration(Theme.motionFast)
+            easing.type: Theme.easingStandard
+        }
+    }
+    Behavior on opacity {
         enabled: !Theme.reducedMotion
         NumberAnimation {
             duration: Theme.duration(Theme.motionFast)
@@ -92,7 +103,7 @@ T.AbstractButton {
                 switch (control.underlineStyle) {
                 case "always": return true
                 case "never": return false
-                default: return control.hovered || control.visualFocus
+                default: return control.hovered
                 }
             }
             color: {

@@ -33,6 +33,8 @@ Item {
     property color iconColor: Theme.textPrimary
     // Mirror glyph for RTL
     property bool mirrorGlyph: false
+    // When true, mirror directional glyphs under LayoutMirroring (2.67 — I9)
+    property bool autoMirror: true
     // Font weight
     property int fontWeight: Theme.fontWeightRegular
     // Tooltip text
@@ -45,8 +47,22 @@ Item {
     property real hoverScale: 1.06
     // Pressed glyph scale when microMotionEnabled
     property real pressScale: 0.92
+    // Manual optical offset (px); NaN → Theme.iconOpticalOffset(fontSize)
+    property real iconOffsetX: NaN
+    property real iconOffsetY: NaN
+    // Size band hint: caption | chrome | nav | appbar | "" (auto from fontSize)
+    property string iconContext: ""
+    // Chevron expand rotation (deg); use with FluentIcons.Chevron* (2.66 — I4)
+    property real chevronRotation: 0
+    // Selected / emphasized glyph (accent + motion — 2.66 — I3)
+    property bool selected: false
 
-    // Resolved glyph string
+    readonly property var _optical: Theme.iconOpticalOffset(fontSize)
+    readonly property real effectiveOffsetX: !isNaN(iconOffsetX) ? iconOffsetX : _optical.x
+    readonly property real effectiveOffsetY: !isNaN(iconOffsetY) ? iconOffsetY : _optical.y
+    readonly property color effectiveIconColor: Theme.iconColor(
+        iconColor, selected, hover.hovered, enabled)
+    readonly property real effectiveDisabledOpacity: enabled ? 1 : Theme.iconDisabledOpacity
     readonly property string effectiveGlyph: {
         var fromSymbol = IconSource.resolve(root.symbol, "")
         if (fromSymbol.length)
@@ -55,6 +71,17 @@ Item {
         if (fromIcon.length)
             return fromIcon
         return IconSource.resolve(root.glyph, FluentIcons.Placeholder)
+    }
+
+    readonly property bool effectiveMirror: {
+        if (mirrorGlyph)
+            return true
+        if (!autoMirror)
+            return false
+        var rtl = LayoutMirroring.enabled
+                || (typeof Qt !== "undefined" && Qt.application
+                    && Qt.application.layoutDirection === Qt.RightToLeft)
+        return rtl && Theme.iconShouldMirror(effectiveGlyph)
     }
 
     readonly property real effectiveIconScale: {
@@ -98,21 +125,32 @@ Item {
     Text {
         id: glyphText
         anchors.centerIn: parent
+        x: root.effectiveOffsetX
+        y: root.effectiveOffsetY
         text: root.effectiveGlyph
         font.family: Theme.fontFamilyIcon
         font.pixelSize: root.fontSize
         font.weight: root.fontWeight
-        color: root.enabled ? root.iconColor : Theme.textDisabled
+        color: root.effectiveIconColor
+        opacity: root.effectiveDisabledOpacity
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         renderType: Text.NativeRendering
         scale: root.effectiveIconScale
+        rotation: root.chevronRotation
         transform: Scale {
             origin.x: glyphText.width / 2
             origin.y: glyphText.height / 2
-            xScale: root.mirrorGlyph ? -1 : 1
+            xScale: root.effectiveMirror ? -1 : 1
         }
 
+        Behavior on opacity {
+            enabled: !Theme.reducedMotion
+            NumberAnimation {
+                duration: Theme.duration(Theme.motionFast)
+                easing.type: Theme.easingStandard
+            }
+        }
         Behavior on color {
             enabled: !Theme.reducedMotion
             ColorAnimation {
@@ -124,6 +162,13 @@ Item {
             enabled: !Theme.reducedMotion
             NumberAnimation {
                 duration: Theme.duration(Theme.motionFast)
+                easing.type: Theme.easingStandard
+            }
+        }
+        Behavior on rotation {
+            enabled: !Theme.reducedMotion
+            NumberAnimation {
+                duration: Theme.duration(Theme.motionNormal)
                 easing.type: Theme.easingStandard
             }
         }

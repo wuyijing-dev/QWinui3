@@ -45,13 +45,13 @@ T.Slider {
             color: Theme.fillSliderThumb
             border.width: 1
             border.color: Theme.strokeControl
-            scale: control.pressed ? 0.96 : 1
+            scale: control.pressed ? 0.96 : (control.hovered ? 1.12 : 1)
 
             Behavior on scale {
                 enabled: !Theme.reducedMotion
                 NumberAnimation {
-                    duration: Theme.duration(Theme.motionFast)
-                    easing.type: Theme.easingStandard
+                    duration: Theme.motionMs("fast")
+                    easing.type: Theme.motionEasing("standard")
                 }
             }
 

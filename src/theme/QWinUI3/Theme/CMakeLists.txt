@@ -37,6 +37,7 @@ qt_add_qml_module(qwinui3_theme
         Theme.qml
         ${QWINUI3_ELEVATED_CHROME_QML}
         FocusStroke.qml
+        PointerCursor.qml
         IconSource.qml
     RESOURCES
         fonts/WinSymbols3.ttf

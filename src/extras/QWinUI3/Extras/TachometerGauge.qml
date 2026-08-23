@@ -162,7 +162,9 @@ T.Control {
             coordSpace: face
             enabled: root.isInteractive && root.enabled
             onDragged: function (x, y) {
-                var n = GaugeUtils.normFromAngle(x, y, face.width / 2, face.pivotY, root.startAngle, root.sweepTotal)
+                var span = root.maximum - root.minimum
+                var cur = span <= 0 ? 0 : (root.value - root.minimum) / span
+                var n = GaugeUtils.normFromAngle(x, y, face.width / 2, face.pivotY, root.startAngle, root.sweepTotal, cur)
                 root.setValue(GaugeUtils.valueFromNorm(n, root.minimum, root.maximum))
                 root.valueEdited(root.value)
                 canvas.requestPaint()

@@ -252,11 +252,21 @@ T.Control {
                 spacing: 4
 
                 Text {
+                    id: sepGlyph
                     visible: index > 0
                     text: root.effectiveSeparatorGlyph
                     font.family: Theme.fontFamilyIcon
                     font.pixelSize: 10
                     color: Theme.textSecondary
+                    transform: Scale {
+                        origin.x: sepGlyph.width / 2
+                        origin.y: sepGlyph.height / 2
+                        xScale: {
+                            // Prefer app RTL — Scale cannot host LayoutMirroring
+                            var rtl = Qt.application.layoutDirection === Qt.RightToLeft
+                            return (rtl && Theme.iconShouldMirror(root.effectiveSeparatorGlyph)) ? -1 : 1
+                        }
+                    }
                 }
 
                 AbstractButton {
@@ -266,6 +276,8 @@ T.Control {
                     focusPolicy: Qt.NoFocus
                     readonly property bool _keyboardFocused: root.activeFocus
                                                          && root._focusVisibleIndex === index
+                    readonly property bool _showHoverChrome: (crumb.hovered || crumb._keyboardFocused)
+                            && (root.isClickable(modelData) || modelData.ellipsis)
 
                     Component.onCompleted: {
                         if (modelData.ellipsis)
@@ -295,13 +307,19 @@ T.Control {
                         root.itemInvoked(modelData.index)
                         root._announceCrumb(modelData.index)
                     }
-                    scale: down && !Theme.reducedMotion && root.isClickable(modelData) ? 0.96 : 1
+                    scale: down && !Theme.reducedMotion
+                           && (root.isClickable(modelData) || modelData.ellipsis) ? 0.96 : 1
                     Behavior on scale {
                         enabled: !Theme.reducedMotion
                         NumberAnimation {
-                            duration: Theme.duration(Theme.motionFast)
-                            easing.type: Theme.easingStandard
+                            duration: Theme.motionMs("fast")
+                            easing.type: Theme.motionEasing("standard")
                         }
+                    }
+
+                    PointerCursor {
+                        shape: (root.isClickable(modelData) || modelData.ellipsis)
+                               ? Qt.PointingHandCursor : Qt.ArrowCursor
                     }
 
                     contentItem: RowLayout {
@@ -316,30 +334,65 @@ T.Control {
                                    ? Theme.textPrimary : Theme.textSecondary
                             Behavior on color {
                                 enabled: !Theme.reducedMotion
-                                ColorAnimation { duration: Theme.duration(Theme.motionFast) }
+                                ColorAnimation {
+                                    duration: Theme.motionMs("fast")
+                                    easing.type: Theme.motionEasing("standard")
+                                }
                             }
                         }
-                        Text {
-                            text: {
-                                if (modelData.ellipsis)
-                                    return "…"
-                                return root.crumbTitle(modelData.data)
-                            }
-                            font.family: root.font.family
-                            font.pixelSize: root.font.pixelSize
-                            font.weight: (!modelData.ellipsis && modelData.index === root.currentIndex)
-                                         ? Theme.fontWeightSemiBold : Theme.fontWeightRegular
-                            color: {
-                                if (modelData.ellipsis)
+                        Item {
+                            Layout.fillWidth: false
+                            implicitWidth: crumbLabel.implicitWidth
+                            implicitHeight: crumbLabel.implicitHeight + 3
+
+                            Text {
+                                id: crumbLabel
+                                anchors.top: parent.top
+                                text: {
+                                    if (modelData.ellipsis)
+                                        return "…"
+                                    return root.crumbTitle(modelData.data)
+                                }
+                                font.family: root.font.family
+                                font.pixelSize: root.font.pixelSize
+                                font.weight: (!modelData.ellipsis && modelData.index === root.currentIndex)
+                                             ? Theme.fontWeightSemiBold : Theme.fontWeightRegular
+                                color: {
+                                    if (modelData.ellipsis)
+                                        return crumb.hovered ? Theme.textPrimary : Theme.textSecondary
+                                    if (modelData.index === root.currentIndex)
+                                        return Theme.textPrimary
                                     return crumb.hovered ? Theme.textPrimary : Theme.textSecondary
-                                if (modelData.index === root.currentIndex)
-                                    return Theme.textPrimary
-                                return crumb.hovered ? Theme.textPrimary : Theme.textSecondary
+                                }
+                                elide: Text.ElideRight
+                                Behavior on color {
+                                    enabled: !Theme.reducedMotion
+                                    ColorAnimation {
+                                        duration: Theme.motionMs("fast")
+                                        easing.type: Theme.motionEasing("standard")
+                                    }
+                                }
                             }
-                            elide: Text.ElideRight
-                            Behavior on color {
-                                enabled: !Theme.reducedMotion
-                                ColorAnimation { duration: Theme.duration(Theme.motionFast) }
+                            // Hover / ellipsis underline (M18)
+                            Rectangle {
+                                anchors.left: crumbLabel.left
+                                anchors.right: crumbLabel.right
+                                anchors.top: crumbLabel.bottom
+                                anchors.topMargin: 1
+                                height: 1
+                                color: Theme.accent
+                                opacity: crumb._showHoverChrome
+                                         && (modelData.ellipsis
+                                             || (!root.isCurrent(modelData.index)
+                                                 && root.isClickable(modelData)))
+                                         ? 1 : 0
+                                Behavior on opacity {
+                                    enabled: !Theme.reducedMotion
+                                    NumberAnimation {
+                                        duration: Theme.motionMs("fast")
+                                        easing.type: Theme.motionEasing("standard")
+                                    }
+                                }
                             }
                         }
                     }
@@ -362,8 +415,8 @@ T.Control {
                         Behavior on color {
                             enabled: !Theme.reducedMotion
                             ColorAnimation {
-                                duration: Theme.duration(Theme.motionFast)
-                                easing.type: Theme.easingStandard
+                                duration: Theme.motionMs("fast")
+                                easing.type: Theme.motionEasing("standard")
                             }
                         }
                     }
@@ -383,6 +436,15 @@ T.Control {
                         root.itemClicked(modelData.index)
                         root.itemInvoked(modelData.index)
                         root._announceCrumb(modelData.index)
+                    }
+                    // Overflow flyout press feedback (M18)
+                    scale: down && !Theme.reducedMotion ? 0.98 : 1
+                    Behavior on scale {
+                        enabled: !Theme.reducedMotion
+                        NumberAnimation {
+                            duration: Theme.motionMs("fast")
+                            easing.type: Theme.motionEasing("standard")
+                        }
                     }
                 }
                 onObjectAdded: function (i, obj) { overflowMenu.insertItem(i, obj) }

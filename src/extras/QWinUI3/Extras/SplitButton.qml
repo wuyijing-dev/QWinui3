@@ -50,6 +50,9 @@ T.AbstractButton {
     implicitHeight: Theme.controlHeight
     hoverEnabled: true
     focusPolicy: Qt.StrongFocus
+
+    PointerCursor { shape: Qt.PointingHandCursor }
+
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
     padding: 0
@@ -145,7 +148,16 @@ T.AbstractButton {
                 hoverEnabled: true
                 leftPadding: Theme.paddingControlH
                 rightPadding: 8
+                scale: primaryBtn.down && !Theme.reducedMotion ? 0.98 : 1
                 onClicked: control.primaryClicked()
+
+                Behavior on scale {
+                    enabled: !Theme.reducedMotion
+                    NumberAnimation {
+                        duration: Theme.motionMs("fast")
+                        easing.type: Theme.motionEasing("standard")
+                    }
+                }
 
                 contentItem: Row {
                     id: primaryRow
@@ -226,6 +238,7 @@ T.AbstractButton {
                 height: parent.height
                 hoverEnabled: true
                 focusPolicy: Qt.StrongFocus
+                scale: chevronBtn.down && !Theme.reducedMotion ? 0.96 : 1
                 Accessible.role: Accessible.Button
                 Accessible.name: qsTr("More options")
                 onClicked: popupMenu.visible ? popupMenu.close() : control.showMenu()
@@ -237,22 +250,21 @@ T.AbstractButton {
                     }
                 }
 
-                contentItem: Text {
-                    text: FluentIcons.ChevronDown
-                    font.family: Theme.fontFamilyIcon
-                    font.pixelSize: 10
-                    color: control.accented ? control.__text : Theme.textSecondary
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    rotation: popupMenu.visible ? 180 : 0
-
-                    Behavior on rotation {
-                        enabled: !Theme.reducedMotion
-                        NumberAnimation {
-                            duration: Theme.duration(Theme.motionNormal)
-                            easing.type: Theme.easingStandard
-                        }
+                Behavior on scale {
+                    enabled: !Theme.reducedMotion
+                    NumberAnimation {
+                        duration: Theme.motionMs("fast")
+                        easing.type: Theme.motionEasing("standard")
                     }
+                }
+
+                contentItem: FontIcon {
+                    anchors.centerIn: parent
+                    glyph: FluentIcons.ChevronDown
+                    fontSize: 10
+                    iconColor: control.accented ? control.__text : Theme.textSecondary
+                    chevronRotation: popupMenu.visible ? 180 : 0
+                    microMotionEnabled: false
                 }
 
                 background: Item {

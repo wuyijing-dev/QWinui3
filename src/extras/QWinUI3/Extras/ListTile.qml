@@ -38,21 +38,30 @@ T.ItemDelegate {
     property bool showChevron: false
     // Selected state
     property bool isSelected: false
+    // Row density: standard | compact (2.67 — M9 / A3)
+    property string tileDensity: ""
+
+    readonly property real _rowPadV: (tileDensity === "compact" || Theme.density === "compact") ? 8 : 12
+    readonly property real _rowMinHeight: (tileDensity === "compact" || Theme.density === "compact")
+                                        ? Theme.navItemHeight : Theme.navItemHeight + 8
 
     // Resolved glyph string
     readonly property string effectiveGlyph: IconSource.resolve(symbol, glyph)
 
     hoverEnabled: true
     focusPolicy: Qt.StrongFocus
-    padding: 12
+    padding: control._rowPadV
     leftPadding: 16
     rightPadding: 12
     spacing: Theme.spacingLoose
     implicitWidth: 320
-    implicitHeight: Math.max(Theme.navItemHeight + 8,
+    implicitHeight: Math.max(control._rowMinHeight,
                              contentItem.implicitHeight + topPadding + bottomPadding)
     font.family: Theme.fontFamily
     font.pixelSize: Theme.fontBody
+
+    PointerCursor { shape: Qt.PointingHandCursor }
+
     Accessible.role: Accessible.ListItem
     Accessible.name: title.length ? title : qsTr("List item")
     Accessible.description: subtitle
@@ -90,12 +99,14 @@ T.ItemDelegate {
             radius: Theme.cornerControl
             color: Theme.fillSubtle
 
-            Text {
+            FontIcon {
                 anchors.centerIn: parent
-                text: control.effectiveGlyph
-                font.family: Theme.fontFamilyIcon
-                font.pixelSize: 16
-                color: control.enabled ? Theme.accent : Theme.textDisabled
+                glyph: control.effectiveGlyph
+                fontSize: 16
+                selected: control.isSelected || control.checked
+                iconColor: Theme.accent
+                microMotionEnabled: false
+                enabled: control.enabled
             }
         }
 
@@ -133,13 +144,13 @@ T.ItemDelegate {
             implicitHeight: childrenRect.height
         }
 
-        Text {
+        FontIcon {
             visible: control.showChevron
             Layout.alignment: Qt.AlignVCenter
-            text: FluentIcons.ChevronRight
-            font.family: Theme.fontFamilyIcon
-            font.pixelSize: 12
-            color: Theme.textSecondary
+            glyph: FluentIcons.ChevronRight
+            fontSize: 12
+            iconColor: Theme.textSecondary
+            microMotionEnabled: false
         }
     }
 

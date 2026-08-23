@@ -36,6 +36,8 @@ T.CheckBox {
     font.pixelSize: Theme.fontBody
     hoverEnabled: true
 
+    PointerCursor { shape: Qt.PointingHandCursor }
+
     indicator: Item {
         implicitWidth: Theme.checkSize
         implicitHeight: Theme.checkSize
@@ -65,7 +67,15 @@ T.CheckBox {
                 return Theme.bgControlRest
             }
             border.width: control.checkState === Qt.Unchecked ? 1 : 0
-            border.color: control.enabled ? Theme.strokeControlStrong : Theme.strokeControl
+            border.color: {
+                if (control.checkState !== Qt.Unchecked)
+                    return "transparent"
+                if (!control.enabled)
+                    return Theme.strokeControl
+                if (control.hovered)
+                    return Theme.accent
+                return Theme.strokeControlStrong
+            }
             scale: control.down ? 0.9 : 1
 
             Behavior on color {
@@ -97,7 +107,7 @@ T.CheckBox {
             width: 12
             height: 12
             opacity: control.checkState === Qt.Checked ? 1 : 0
-            scale: control.checkState === Qt.Checked ? 1 : 0.4
+            scale: control.checkState === Qt.Checked ? 1 : 0
             antialiasing: true
             preferredRendererType: Shape.CurveRenderer
             visible: opacity > 0.01

@@ -141,17 +141,9 @@ T.Control {
 
     // Normalize a pointer position to 0..1
     function normFromPoint(px, py, cx, cy) {
-        var dx = px - cx
-        var dy = py - cy
-        var deg = Math.atan2(dy, dx) * 180 / Math.PI
-        // Normalize into [startAngle, startAngle+sweep]
-        var a = deg
-        while (a < root.startAngle)
-            a += 360
-        while (a > root.startAngle + root.sweepTotal + 180)
-            a -= 360
-        var n = (a - root.startAngle) / Math.max(1e-6, root.sweepTotal)
-        return Math.max(0, Math.min(1, n))
+        return GaugeUtils.normFromAngle(px, py, cx, cy, root.startAngle, root.sweepTotal,
+                                        (root.value - root.minimum)
+                                        / Math.max(1e-6, root.maximum - root.minimum))
     }
 
     Keys.onLeftPressed: if (isInteractive) {

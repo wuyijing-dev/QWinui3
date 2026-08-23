@@ -24,6 +24,8 @@ T.Button {
 
     // Async action in flight — disables click and shows inline ring (2.59).
     property bool loading: false
+    // Visual variant: filled | subtle | outline | ghost | "" (legacy) — 2.66 A1/M1
+    property string appearance: ""
     // Keep width stable while loading (avoids toolbar reflow).
     property bool preserveWidthWhileLoading: true
     property real _loadingWidthCache: 0
@@ -40,6 +42,18 @@ T.Button {
     opacity: enabled && !loading ? 1 : (enabled ? 0.72 : 1)
 
     Accessible.onPressAction: if (control.enabled && !loading) control.clicked()
+
+    PointerCursor {
+        shape: enabled && !loading ? Qt.PointingHandCursor : Qt.ArrowCursor
+    }
+
+    readonly property string _effectiveAppearance: {
+        if (control.appearance.length)
+            return control.appearance
+        if (control.accented)
+            return "filled"
+        return control.flat ? "subtle" : "filled"
+    }
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding,
@@ -80,6 +94,7 @@ T.Button {
     }
 
     readonly property color __fill: {
+        var mode = control._effectiveAppearance
         if (control.accented) {
             if (!control.enabled)
                 return Theme.dark ? "#28FFFFFF" : "#37000000"
@@ -93,13 +108,32 @@ T.Button {
                     : Qt.tint(Theme.accent, Qt.rgba(0, 0, 0, 0.1))
             return Theme.accent
         }
-        if (control.flat) {
+        if (mode === "ghost") {
+            if (!control.enabled)
+                return "transparent"
             if (control.down)
                 return Theme.fillSubtleTertiary
             if (control.hovered)
                 return Theme.fillSubtleSecondary
             return "transparent"
         }
+        if (mode === "outline") {
+            if (!control.enabled)
+                return "transparent"
+            if (control.down)
+                return Theme.fillSubtleTertiary
+            if (control.hovered)
+                return Theme.fillSubtleSecondary
+            return "transparent"
+        }
+        if (mode === "subtle") {
+            if (control.down)
+                return Theme.fillSubtleTertiary
+            if (control.hovered)
+                return Theme.fillSubtleSecondary
+            return "transparent"
+        }
+        // filled (default)
         if (!control.enabled)
             return Theme.fillControlDisabled
         if (control.down)
@@ -107,6 +141,19 @@ T.Button {
         if (control.hovered)
             return Theme.fillControlSecondary
         return Theme.bgControlRest
+    }
+
+    readonly property bool __showStroke: {
+        var mode = control._effectiveAppearance
+        if (control.accented)
+            return control.down || !control.enabled
+        if (mode === "outline")
+            return true
+        if (mode === "ghost")
+            return control.down || control.hovered
+        if (mode === "subtle")
+            return control.down || control.hovered
+        return !control.flat || control.down || control.hovered
     }
 
     contentItem: Row {
@@ -165,13 +212,21 @@ T.Button {
             id: strokeShell
             anchors.fill: parent
             radius: Theme.cornerControl
-            visible: !control.flat || control.down || control.hovered || control.accented
+            visible: control.accented
+                     ? true
+                     : (control._effectiveAppearance === "filled" || control.__showStroke)
 
             // Draw solid stroke chrome
-            readonly property bool hasSolidStroke: !control.flat
-                && (control.down || (!control.enabled && !control.accented) || (Theme.dark && !control.accented))
+            readonly property bool hasSolidStroke: {
+                if (control._effectiveAppearance === "outline")
+                    return control.enabled
+                return !control.flat && control._effectiveAppearance !== "ghost"
+                    && (control.down || (!control.enabled && !control.accented)
+                        || (Theme.dark && !control.accented))
+            }
             // Draw gradient stroke chrome
-            readonly property bool hasGradientStroke: !hasSolidStroke && !control.flat && control.enabled && !control.accented
+            readonly property bool hasGradientStroke: control._effectiveAppearance === "filled"
+                && !hasSolidStroke && control.enabled && !control.accented
             // WinUI ControlStrokeDefault / Secondary — keep soft, not StrongStroke
             readonly property color topStroke: Theme.dark ? "#12FFFFFF" : "#0F000000"
             // Bottom edge stroke width
@@ -201,11 +256,15 @@ T.Button {
                 height: inset ? parent.height - 2 : parent.height
                 radius: inset ? Theme.cornerControl - 1 : Theme.cornerControl
                 border.width: {
-                    if (control.flat || strokeShell.hasGradientStroke)
+                    if (control._effectiveAppearance === "outline")
+                        return 1
+                    if (control.flat && control._effectiveAppearance !== "outline")
+                        return strokeShell.hasSolidStroke ? 1 : 0
+                    if (strokeShell.hasGradientStroke)
                         return 0
                     if (control.accented)
                         return control.enabled && !control.down ? 0 : 0
-                    return 1
+                    return strokeShell.hasSolidStroke ? 1 : 0
                 }
                 border.color: Theme.strokeControl
                 color: control.__fill

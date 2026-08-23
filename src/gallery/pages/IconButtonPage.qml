@@ -60,6 +60,20 @@ CatalogPage {
                 }
                 IconButton { symbol: FluentIcons.ChromeClose; enabled: false; toolTipText: qsTr("Close") }
             }
+            RowLayout {
+                spacing: Theme.spacing
+                IconButton {
+                    id: loadBtn
+                    symbol: FluentIcons.Save
+                    toolTipText: qsTr("Save")
+                    loading: loadDemo.checked
+                    onClicked: status.text = qsTr("Save (loading demo)")
+                }
+                CheckBox {
+                    id: loadDemo
+                    text: qsTr("loading (2.67)")
+                }
+            }
             CheckBox {
                 text: qsTr("Theme.reducedMotion")
                 checked: Theme.reducedMotion
