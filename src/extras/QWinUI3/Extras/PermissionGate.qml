@@ -17,17 +17,18 @@ Item {
 
     property string currentRole: ""
     property var allowedRoles: []
-    // hide | disable
+    // hide | disable (case-insensitive)
     property string mode: "hide"
     readonly property bool allowed: _roleAllowed()
+    readonly property string _modeNorm: String(mode || "hide").toLowerCase()
 
     default property alias contentData: root.data
 
     implicitWidth: childrenRect.width
     implicitHeight: childrenRect.height
-    visible: mode === "disable" ? true : allowed
-    enabled: mode === "disable" ? allowed : true
-    opacity: (mode === "disable" && !allowed) ? 0.45 : 1
+    visible: _modeNorm === "disable" ? true : allowed
+    enabled: _modeNorm === "disable" ? allowed : true
+    opacity: (_modeNorm === "disable" && !allowed) ? 0.45 : 1
 
     function _roleAllowed() {
         var roles = allowedRoles || []
