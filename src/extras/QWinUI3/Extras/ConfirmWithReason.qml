@@ -10,13 +10,14 @@ import QWinUI3.Extras
 //       id: confirm
 //       title: qsTr("Delete project")
 //       message: qsTr("Explain why this is needed.")
-//       onAccepted: function (reason) { … }
+//       onConfirmed: function (reason) { … }
 //   }
 //   confirm.show()
 //
 // @notes
 //   Primary stays disabled until reason is non-empty (unless requireReason is false).
-//   Connect to accepted(reason) for the text; Dialog close still uses the base dialog flow.
+//   Use confirmed(reason) — do not shadow Dialog's parameterless accepted().
+
 ContentDialog {
     id: root
 
@@ -26,8 +27,8 @@ ContentDialog {
     property bool requireReason: true
     property int minimumReasonLength: 1
 
-    /// App-facing signal with the reason text (distinct from Dialog's parameterless accepted).
-    signal accepted(string reason)
+    /// Reason text when the user confirms (keeps Dialog.accepted parameterless).
+    signal confirmed(string reason)
 
     primaryButtonText: qsTr("Confirm")
     closeButtonText: qsTr("Cancel")
@@ -38,7 +39,7 @@ ContentDialog {
         var r = reason.trim()
         if (requireReason && r.length < minimumReasonLength)
             return
-        accepted(r)
+        confirmed(r)
     }
 
     onOpened: {

@@ -17,7 +17,7 @@ CatalogPage {
         id: confirm
         title: qsTr("Confirm destructive action")
         message: qsTr("Type a short reason to continue.")
-        onAccepted: function (reason) {
+        onConfirmed: function (reason) {
             page.lastReason = reason
         }
     }
@@ -35,7 +35,7 @@ CatalogPage {
 
     ControlExample {
         headerText: qsTr("ConfirmWithReason")
-        qmlSource: "ConfirmWithReason {\n    onAccepted: function (reason) { … }\n}"
+        qmlSource: "ConfirmWithReason {\n    onConfirmed: function (reason) { … }\n}"
         ColumnLayout {
             Layout.fillWidth: true
             spacing: Theme.spacing

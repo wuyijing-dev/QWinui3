@@ -64,7 +64,8 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 - **2.76:** `qwinui3 upgrade --from X.YY`; Path C primary in packaging-consumer.
 - **2.77–2.79:** `RecentFiles`, `OfflineBanner` / `OperationRetry`, `SensitiveField` / `ConfirmWithReason`.
 - **2.80:** [checkpoint-280.md](checkpoint-280.md).
-
+- **ConfirmWithReason:** connect `onConfirmed(reason)` — do not shadow Dialog `accepted`.
+- **ColorPicker:** `showAlpha` shows an alpha slider; hex round-trips `#RRGGBBAA`; V=0 keeps true black.
 ### No action (compatible)
 - Default remains multi-instance; Gallery does not force single-instance.
 
