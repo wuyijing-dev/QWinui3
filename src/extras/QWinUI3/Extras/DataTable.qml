@@ -76,6 +76,31 @@ T.Control {
     property string itemEnter: "none"
     // Row exit motion: none | fade | slide (prefer none at 10k+)
     property string itemExit: "none"
+    // Row chrome: "zebra" | "plain" | "hover" (2.69 A6) — zebra keeps alt stripes
+    property string rowStyle: "zebra"
+    // Selection uses accent wash when true (2.69 A6)
+    property bool selectionAccent: true
+    // Sticky header surface: "filled" | "elevated" | "outline" (2.69 A6)
+    property string headerStyle: "filled"
+    // Optional per-row color override: function(row, index) → color string/undefined
+    property var rowBackground: null
+
+    function _rowFill(dataIndex) {
+        if (typeof rowBackground === "function") {
+            var custom = rowBackground(_viewRows[dataIndex], dataIndex)
+            if (custom !== undefined && custom !== null && custom !== "")
+                return custom
+        }
+        if (dataIndex === selectedIndex) {
+            if (selectionAccent)
+                return Qt.rgba(Theme.accent.r, Theme.accent.g, Theme.accent.b, 0.18)
+            return Theme.fillSubtleSecondary
+        }
+        var style = String(rowStyle || "zebra").toLowerCase()
+        if (style === "plain")
+            return Theme.bgCard
+        return (dataIndex % 2 === 0) ? Theme.bgCard : Theme.fillSubtle
+    }
 
     readonly property var selectedRow: {
         if (selectedIndex < 0 || selectedIndex >= _viewRows.length)
@@ -821,9 +846,32 @@ T.Control {
                 anchors.margins: 1
                 spacing: 0
 
-                Row {
+                Item {
                     Layout.fillWidth: true
                     Layout.preferredHeight: root.headerHeight
+
+                    Rectangle {
+                        anchors.fill: parent
+                        color: {
+                            var hs = String(root.headerStyle || "filled").toLowerCase()
+                            if (hs === "elevated")
+                                return Theme.bgAcrylic
+                            if (hs === "outline")
+                                return Theme.bgCard
+                            return Theme.fillSubtle
+                        }
+                        border.width: String(root.headerStyle || "").toLowerCase() === "outline" ? 1 : 0
+                        border.color: Theme.strokeCard
+                    }
+                    Rectangle {
+                        anchors.bottom: parent.bottom
+                        width: parent.width
+                        height: String(root.headerStyle || "").toLowerCase() === "elevated" ? 2 : 1
+                        color: Theme.strokeCard
+                    }
+
+                    Row {
+                    anchors.fill: parent
                     spacing: 0
 
                     Row {
@@ -867,7 +915,8 @@ T.Control {
                             }
                         }
                     }
-                }
+                    } // header Row
+                } // header Item
 
                 ListView {
                     id: list
@@ -986,9 +1035,18 @@ T.Control {
                         Rectangle {
                             anchors.fill: parent
                             visible: !isGroup
-                            color: dataIndex === root.selectedIndex
-                                   ? Theme.fillSubtleSecondary
-                                   : (dataIndex % 2 === 0 ? Theme.bgCard : Theme.fillSubtle)
+                            color: root._rowFill(dataIndex)
+
+                            Rectangle {
+                                anchors.fill: parent
+                                visible: rowHover.hovered && dataIndex !== root.selectedIndex
+                                color: Theme.fillSubtle
+                                opacity: 0.85
+                            }
+
+                            HoverHandler {
+                                id: rowHover
+                            }
 
                             Rectangle {
                                 anchors.bottom: parent.bottom

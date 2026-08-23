@@ -118,8 +118,15 @@ void TrayIcon::setIconName(const QString &name)
 
 void TrayIcon::notifySystem(const QString &title, const QString &message, int icon)
 {
+    notifySystemWithActions(title, message, {}, icon);
+}
+
+void TrayIcon::notifySystemWithActions(const QString &title, const QString &message,
+                                       const QStringList &actions, int icon)
+{
     emit notified(title, message);
 #if defined(Q_OS_WIN)
+    Q_UNUSED(actions);
     ensureCreated();
     if (!m_created)
         return;
@@ -137,16 +144,20 @@ void TrayIcon::notifySystem(const QString &title, const QString &message, int ic
     m_nid.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
 #elif defined(Q_OS_LINUX)
     Q_UNUSED(icon);
-    if (LinuxPortal::notify(QCoreApplication::applicationName(), title, message))
+    if (LinuxPortal::notify(QCoreApplication::applicationName(), title, message, 5000, actions))
         return;
     QStringList args;
     if (!title.isEmpty())
         args << title;
     args << (message.isEmpty() ? QStringLiteral(" ") : message);
+    // notify-send action support: --action=KEY,LABEL
+    for (int i = 0; i + 1 < actions.size(); i += 2)
+        args << QStringLiteral("--action=%1,%2").arg(actions.at(i), actions.at(i + 1));
     QProcess::startDetached(QStringLiteral("notify-send"), args);
 #else
     Q_UNUSED(title);
     Q_UNUSED(message);
+    Q_UNUSED(actions);
     Q_UNUSED(icon);
 #endif
 }

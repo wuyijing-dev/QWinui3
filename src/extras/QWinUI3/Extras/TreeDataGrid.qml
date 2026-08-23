@@ -50,6 +50,10 @@ T.Control {
     property int maxFilterResults: 0
     property bool announceChanges: true
     property bool expandOnFilter: true
+    // Lazy children: loadChildren(path, row) → array when expanding (2.69 C5)
+    property var loadChildren: null
+    property bool releaseChildrenOnCollapse: true
+    property var _lazyLoaded: ({})
     // Keep name column visible during horizontal scroll (2.64).
     property bool freezeFirstColumn: false
 
@@ -82,6 +86,7 @@ T.Control {
     signal selectionChanged(int index, var row)
     signal sortChanged(int column, int order)
     signal expandedChanged(string path, bool expanded)
+    signal childrenRequested(string path, var row)
 
     property var _viewRows: []
     property var _columnWidths: []
@@ -224,11 +229,47 @@ T.Control {
         var copy = Object.assign({}, _expandedPaths)
         copy[path] = next
         _expandedPaths = copy
-        expandedChanged(path, next)
-        if (root.announceChanges) {
+
+        if (next && typeof loadChildren === "function") {
+            var rowObj = null
             for (var i = 0; i < _viewRows.length; ++i) {
                 if (_viewRows[i].path === path) {
-                    var label = _cellText(_viewRows[i].row, 0)
+                    rowObj = _viewRows[i].row
+                    break
+                }
+            }
+            if (rowObj && (!(rowObj.children && rowObj.children.length)
+                           || root._lazyLoaded[path])) {
+                childrenRequested(path, rowObj)
+                try {
+                    var kids = loadChildren(path, rowObj)
+                    if (kids && kids.length) {
+                        rowObj.children = kids
+                        var lazy = Object.assign({}, root._lazyLoaded)
+                        lazy[path] = true
+                        root._lazyLoaded = lazy
+                    }
+                } catch (e) { /* app handler */ }
+            }
+        } else if (!next && releaseChildrenOnCollapse && root._lazyLoaded[path]) {
+            for (var j = 0; j < _viewRows.length; ++j) {
+                if (_viewRows[j].path === path) {
+                    var r = _viewRows[j].row
+                    if (r)
+                        r.children = []
+                    var lazy2 = Object.assign({}, root._lazyLoaded)
+                    delete lazy2[path]
+                    root._lazyLoaded = lazy2
+                    break
+                }
+            }
+        }
+
+        expandedChanged(path, next)
+        if (root.announceChanges) {
+            for (var k = 0; k < _viewRows.length; ++k) {
+                if (_viewRows[k].path === path) {
+                    var label = _cellText(_viewRows[k].row, 0)
                     if (label.length)
                         _announce(next ? qsTr("%1 expanded").arg(label)
                                       : qsTr("%1 collapsed").arg(label))

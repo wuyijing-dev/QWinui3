@@ -19,7 +19,9 @@ QString parentWindowFrom(QObject *windowObject);
 QObject *resolveParentObject(QObject *parentWindow);
 
 // org.freedesktop.Notifications
-bool notify(const QString &appName, const QString &title, const QString &message, int timeoutMs = 5000);
+// actions: flat [id, label, id, label, …] — empty = no buttons (2.69 F4)
+bool notify(const QString &appName, const QString &title, const QString &message,
+            int timeoutMs = 5000, const QStringList &actions = {});
 
 // org.freedesktop.portal.Settings — appearance color-scheme:
 // 0 = no preference, 1 = prefer dark, 2 = prefer light. Returns false if unavailable.

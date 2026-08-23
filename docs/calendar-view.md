@@ -43,6 +43,21 @@ CalendarView {
 | **multiple** | `selectedDates` | Click toggles days on/off |
 | **range** | `rangeStart`, `rangeEnd` | First click start, second click end (auto-order) |
 
+### Blackout dates (2.69)
+
+```qml
+CalendarView {
+    blackoutDates: [ new Date(2026, 7, 23), "2026-08-24" ]
+    blackoutFilter: function (d) { return d.getDay() !== 0 && d.getDay() !== 6 }
+}
+CalendarDatePicker {
+    blackoutDates: calendar.blackoutDates
+    blackoutFilter: calendar.blackoutFilter
+}
+```
+
+Bind the same lists / predicate on **CalendarDatePicker** so the flyout month grid stays in sync.
+
 ```qml
 CalendarView {
     selectionMode: "range"

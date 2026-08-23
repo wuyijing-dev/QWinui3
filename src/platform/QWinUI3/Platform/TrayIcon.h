@@ -61,6 +61,9 @@ public:
     // Show a tray balloon (Windows) or portal/notify-send (Linux).
     // icon: 0 = info, 1 = warning, 2 = error (Win NIIF_*; Linux severity ignored).
     Q_INVOKABLE void notifySystem(const QString &title, const QString &message, int icon = 0);
+    // Linux: flat [id, label, …] action buttons for org.freedesktop.Notifications (2.69 F4)
+    Q_INVOKABLE void notifySystemWithActions(const QString &title, const QString &message,
+                                             const QStringList &actions, int icon = 0);
 
 signals:
     void trayVisibleChanged();

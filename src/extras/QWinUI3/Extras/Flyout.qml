@@ -245,6 +245,18 @@ T.Popup {
             duration: Theme.duration(Theme.motionNormal)
             easing.type: Theme.easingEnter
         }
+        NumberAnimation {
+            property: "x"
+            from: root._enterOffsetX; to: root.x
+            duration: Theme.duration(Theme.motionNormal)
+            easing.type: Theme.easingEnter
+        }
+        NumberAnimation {
+            property: "y"
+            from: root._enterOffsetY; to: root.y
+            duration: Theme.duration(Theme.motionNormal)
+            easing.type: Theme.easingEnter
+        }
     }
 
     exit: Transition {
@@ -260,5 +272,25 @@ T.Popup {
             duration: Theme.duration(Theme.motionFast)
             easing.type: Theme.easingExit
         }
+    }
+
+    // Directional slide origin for enter (2.69 B5)
+    readonly property real _enterOffsetX: {
+        if (Theme.reducedMotion)
+            return x
+        if (placement === Qt.AlignLeft || placement === Qt.AlignLeading)
+            return x + 12
+        if (placement === Qt.AlignRight || placement === Qt.AlignTrailing)
+            return x - 12
+        return x
+    }
+    readonly property real _enterOffsetY: {
+        if (Theme.reducedMotion)
+            return y
+        if (placement === Qt.AlignTop)
+            return y + 10
+        if (placement === Qt.AlignBottom)
+            return y - 10
+        return y
     }
 }

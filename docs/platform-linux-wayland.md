@@ -314,8 +314,20 @@ Manual field checklist — **not** covered by CI offscreen `--smoke`. Run on **K
 |---|------|----------------|
 | 1 | Enable tray on KDE Plasma | `persistentTrayActive === true`; icon visible |
 | 2 | `notifySystem(title, body, severity)` | OS notification (portal / notify-send) |
+| 2b | `NotificationBridge.systemActions: ["default", "Open"]` (**2.69**) | Action buttons appear on Plasma / GNOME notify (portal path) |
 | 3 | GNOME without SNI / AppIndicator | No persistent icon is **OK**; `notifySystem` still works |
 | 4 | Click tray icon | `trayActivated(reason)` — wire app menu / restore window |
+
+### Dialog / z-order wave 3 soak (2.69 F5)
+
+Manual on **pure Wayland** (KDE Plasma reference; spot-check GNOME):
+
+| # | Step | Pass criteria |
+|---|------|----------------|
+| 1 | Open `ContentDialog` from Gallery while a second `ApplicationWindow` is open | Dialog stays above owner; Esc / light-dismiss closes |
+| 2 | Nested modal: dialog → flyout / second dialog | Focus returns to previous surface (1.85); no orphaned modal layer |
+| 3 | `WindowHelper.setTransientParent(child, owner)` then show | Child stacks with owner; activate owner raises chain |
+| 4 | FilePicker portal with `Window.window` parent | Modal to app; cancel returns empty path |
 
 See [system-integration.md](system-integration.md) tray matrix.
 

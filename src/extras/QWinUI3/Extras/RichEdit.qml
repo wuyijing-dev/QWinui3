@@ -105,6 +105,22 @@ T.Control {
         wrapSelection('<a href="' + href + '">', "</a>")
     }
 
+    // Insert a simple HTML table (2.69 D6)
+    function insertTable(rows, cols) {
+        var r = Math.max(1, Math.min(20, rows | 0 || 2))
+        var c = Math.max(1, Math.min(10, cols | 0 || 2))
+        var html = "<table border=\"1\" cellpadding=\"4\" cellspacing=\"0\">"
+        for (var i = 0; i < r; ++i) {
+            html += "<tr>"
+            for (var j = 0; j < c; ++j)
+                html += i === 0 ? "<th>&nbsp;</th>" : "<td>&nbsp;</td>"
+            html += "</tr>"
+        }
+        html += "</table>"
+        editor.insertHtml(html)
+        textChanged()
+    }
+
     function _sanitizeHtml(html) {
         if (!html || !html.length)
             return html
@@ -113,6 +129,7 @@ T.Control {
         s = s.replace(/<iframe\b[^>]*>[\s\S]*?<\/iframe>/gi, "")
         s = s.replace(/\s(on\w+|style)\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi, "")
         s = s.replace(/javascript\s*:/gi, "")
+        // Allow table tags used by insertTable
         return s
     }
 

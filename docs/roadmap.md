@@ -1,8 +1,8 @@
 # QWinUI3 Roadmap
 
-**Current:** **2.68** (master; Navigation appearance + connected motion + workflow)
-**Next up:** **2.69** DataTable chrome + dialogs + calendar/RichEdit
-**Planned through:** **3.00** (… → **2.69…2.70** product wave → **2.71…2.75** platform/Python polish → **3.00** close-out → [micro-interaction backlog last](#micro-interaction--visual-polish--deferred-last))
+**Current:** **2.69** (master; DataTable chrome + dialogs + calendar/RichEdit)
+**Next up:** **2.70** Feedback chrome + loading + session + checkpoint
+**Planned through:** **3.00** (… → **2.70** product wave → **2.71…2.75** platform/Python polish → **3.00** close-out → [micro-interaction backlog last](#micro-interaction--visual-polish--deferred-last))
 **Checkpoints ahead:** **2.70** professional-surfaces audit · **2.73** Python consumer · **3.00** breaking close-out (checkpoint-300)
 **Qt:** 6.5+ (recommended 6.8 LTS) on master today — **2.00** raises floor to **6.8 LTS** · **3.00** to **6.10 LTS**
 **Platforms:** **Windows + Linux** — no macOS first-class line.
@@ -138,7 +138,7 @@ Consumer sketch: [upgrade-notes.md](docs/upgrade-notes.md) **Upgrade 1.90 → 2.
 | **2.66** | Appearance + grid + table perf | **A1** · **A2** · **C1** · **D1** | **Shipped** |
 | **2.67** | List/card appearance + motion tokens | **A3** · **A4** · **B1** · **B2** · **C2** · **C4** · **D2** · **F1** | **Shipped** |
 | **2.68** | Nav/tabs + connected motion + workflow | **A5** · **B3** · **B4** · **C3** · **C4** · **D3** · **D4** · **F2** · **F3** | **Shipped** |
-| **2.69** | Collections + dialogs + calendar/RichEdit | **A6** · **B5** · **C5** · **D5** · **D6** · **F4** · **F5** | Planned |
+| **2.69** | Collections + dialogs + calendar/RichEdit | **A6** · **B5** · **C5** · **D5** · **D6** · **F4** · **F5** | **Shipped** |
 | **2.70** | Feedback chrome + loading + session + checkpoint | **A7** · **B6** · **C6** · **D7** · **D8** · **F6** · checkpoint-270 | Planned |
 
 **Also scheduled inside tranche 3 (when bandwidth allows):** experimental promote wave 2 (**2.67** carry-over) · analytics wave B (**2.69** conditional, **FL-014** / **FL-015**) · forms industry Gallery templates (folded into **D2** / [forms.md](docs/forms.md)).
@@ -204,7 +204,7 @@ Consumer sketch: [upgrade-notes.md](docs/upgrade-notes.md) **Upgrade 1.90 → 2.
 
 **Out:** Hosted artifact store; compositor-native round-corner protocols as default requirement.
 
-### 2.69 — DataTable chrome + dialogs + calendar/RichEdit (planned)
+### 2.69 — DataTable chrome + dialogs + calendar/RichEdit (shipped)
 
 | ID | Deliverable |
 |----|-------------|

@@ -47,6 +47,34 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 2.68 → 2.69
+
+**Product version:** 2.69
+**Date:** 2026-08-23
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **A6 DataTable:** `rowStyle` (`zebra`|`plain`), `selectionAccent`, `headerStyle`, `rowBackground` hook, row hover — [data-collections.md](data-collections.md).
+- **B5 Flyout:** directional enter slide from `placement` (ContentDialog scale+fade unchanged).
+- **C5 TreeDataGrid:** `loadChildren(path, row)` + `releaseChildrenOnCollapse` — [tree-data.md](tree-data.md).
+- **D5 Calendar:** `blackoutDates` / `blackoutFilter` on **CalendarView** and **CalendarDatePicker** — [calendar-view.md](calendar-view.md).
+- **D6 RichEdit:** `insertTable(rows, cols)` + sanitized HTML paste — [rich-edit-261.md](rich-edit-261.md).
+- **F4 Linux notify:** `NotificationBridge.systemActions` + `TrayIcon.notifySystemWithActions` (portal / notify-send).
+- **F5 Wayland:** modal / z-order soak checklist in [platform-linux-wayland.md](platform-linux-wayland.md) wave 3.
+
+#### Action required (only if you adopt new APIs)
+
+| Area | Change | What to do |
+|------|--------|------------|
+| **TreeDataGrid** | Optional `loadChildren` | Return child row arrays on expand; enable `releaseChildrenOnCollapse` |
+| **Calendar** | Optional blackout | Bind the same `blackoutDates` to CalendarView and CalendarDatePicker |
+| **Linux notify** | Optional actions | Set `systemActions: ["default", qsTr("Open")]` on NotificationBridge |
+
+#### No action (compatible)
+
+- Existing DataTable / Flyout / Calendar / RichEdit / notify call sites keep prior defaults.
+
 ### Upgrade 2.67 → 2.68
 
 **Product version:** 2.68

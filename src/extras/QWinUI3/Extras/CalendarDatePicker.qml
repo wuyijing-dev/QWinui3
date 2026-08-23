@@ -54,6 +54,9 @@ T.Control {
     property date minDate
     // Maximum selectable date
     property date maxDate
+    // Dates that cannot be selected — synced with CalendarView (2.69 D5)
+    property var blackoutDates: []
+    property var blackoutFilter: null
     // True when minDate is set
     property bool hasMinDate: false
     // True when maxDate is set
@@ -97,6 +100,22 @@ T.Control {
         if (hasMaxDate) {
             var max = new Date(maxDate.getFullYear(), maxDate.getMonth(), maxDate.getDate())
             if (day > max)
+                return false
+        }
+        if (typeof blackoutFilter === "function") {
+            try {
+                if (!blackoutFilter(day))
+                    return false
+            } catch (e) { /* ignore */ }
+        }
+        var list = blackoutDates || []
+        for (var i = 0; i < list.length; ++i) {
+            var b = list[i]
+            var bd = (b instanceof Date) ? b : new Date(b)
+            if (!isNaN(bd.getTime())
+                    && day.getFullYear() === bd.getFullYear()
+                    && day.getMonth() === bd.getMonth()
+                    && day.getDate() === bd.getDate())
                 return false
         }
         return true

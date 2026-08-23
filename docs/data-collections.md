@@ -39,6 +39,7 @@ Example app: [`examples/master-detail`](../examples/master-detail/) (1.26) — t
 | **Selection** | Tracks the selected **row object**. Sort/filter keep the same person selected when still visible; clears if filtered out. |
 | **Keyboard** | Tab into the table, or **Down** / Enter from the filter. Arrows, Home/End, PageUp/Down, Enter activate, Esc clears. |
 | **Multi-sort (2.66)** | `sortSpecs: [{ column, order }, …]` or **Shift+click** headers. Primary = first entry; `sortColumn` / `sortOrder` stay in sync. |
+| **Row chrome (2.69)** | `rowStyle: "zebra"\|"plain"`; `selectionAccent`; hover wash; optional `rowBackground(row, index)`; `headerStyle: "filled"\|"elevated"\|"outline"`. |
 | **Visibility (2.66)** | `hiddenColumns` + `setColumnVisible(i, bool)` — Gallery checkbox chooser pattern. |
 | **Widths (2.66)** | Bind `columnWidths` to Settings; resize publishes on mouse release via `columnLayoutChanged`. |
 | **10k path (2.66)** | Fixed `rowHeight` + `ListView.reuseItems`; set `maxFilterResults` when filtering huge JS arrays. |

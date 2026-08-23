@@ -34,6 +34,8 @@ T.Control {
     property string defaultCategory: ""
     property bool mirrorToSystem: true
     property bool toastInApp: true
+    // Linux notification action pairs [id, label, …] (2.69 F4)
+    property var systemActions: []
     property string appName: Qt.application.displayName || Qt.application.name || "QWinUI3"
     property alias trayVisible: tray.trayVisible
     property alias tooltip: tray.tooltip
@@ -64,7 +66,11 @@ T.Control {
     }
 
     function notifySystem(title, message, icon) {
-        tray.notifySystem(title || root.appName, message || "", icon === undefined ? 0 : icon)
+        var acts = systemActions || []
+        if (acts.length)
+            tray.notifySystemWithActions(title || root.appName, message || "", acts, icon === undefined ? 0 : icon)
+        else
+            tray.notifySystem(title || root.appName, message || "", icon === undefined ? 0 : icon)
     }
 
     function _systemIcon(severity) {

@@ -89,6 +89,18 @@ Cross-links: [security-trust.md](security-trust.md) wave 3 · Gallery **Security
 
 **Experimental** — `import QWinUI3.Extras` · [`TreeDataGrid.qml`](../src/extras/QWinUI3/Extras/TreeDataGrid.qml)
 
+### Lazy expand (2.69)
+
+```qml
+TreeDataGrid {
+    loadChildren: function (path, row) {
+        return fetchChildrenFor(path)  // return [] of child row objects
+    }
+    releaseChildrenOnCollapse: true
+    onChildrenRequested: (path, row) => { /* optional async kickoff */ }
+}
+```
+
 Multi-column **hierarchical** rows in one grid. Unlike **FileTree** (tree + separate flat table), each row can have `children` and multiple column roles.
 
 ```qml

@@ -375,7 +375,8 @@ QObject *resolveParentObject(QObject *parentWindow)
     return windows.isEmpty() ? nullptr : windows.constFirst();
 }
 
-bool notify(const QString &appName, const QString &title, const QString &message, int timeoutMs)
+bool notify(const QString &appName, const QString &title, const QString &message, int timeoutMs,
+            const QStringList &actions)
 {
     QDBusInterface iface(QStringLiteral("org.freedesktop.Notifications"),
                          QStringLiteral("/org/freedesktop/Notifications"),
@@ -391,7 +392,7 @@ bool notify(const QString &appName, const QString &title, const QString &message
             QString(),
             title,
             message,
-            QStringList(),
+            actions,
             QVariantMap(),
             timeoutMs);
     return reply.type() != QDBusMessage::ErrorMessage;
@@ -654,7 +655,7 @@ QObject *resolveParentObject(QObject *parentWindow)
     return parentWindow;
 }
 
-bool notify(const QString &, const QString &, const QString &, int)
+bool notify(const QString &, const QString &, const QString &, int, const QStringList &)
 {
     return false;
 }

@@ -35,6 +35,10 @@ T.Control {
     property int firstDayOfWeek: -1
     property date minDate
     property date maxDate
+    // Dates that cannot be selected — Date[] or ISO strings (2.69 D5)
+    property var blackoutDates: []
+    // Optional predicate (date) → bool; return false to black out
+    property var blackoutFilter: null
     property bool hasMinDate: false
     property bool hasMaxDate: false
     property bool showTodayButton: true
@@ -97,6 +101,19 @@ T.Control {
         if (hasMaxDate) {
             var max = new Date(maxDate.getFullYear(), maxDate.getMonth(), maxDate.getDate())
             if (day > max)
+                return false
+        }
+        if (typeof blackoutFilter === "function") {
+            try {
+                if (!blackoutFilter(day))
+                    return false
+            } catch (e) { /* ignore */ }
+        }
+        var list = blackoutDates || []
+        for (var i = 0; i < list.length; ++i) {
+            var b = list[i]
+            var bd = (b instanceof Date) ? b : new Date(b)
+            if (!isNaN(bd.getTime()) && sameDay(day, bd))
                 return false
         }
         return true
