@@ -282,7 +282,8 @@ T.Control {
                     id: spectrumPaintHost
                     anchors.fill: parent
 
-                    // Canvas.Image + putImageData (FBO path blanks on D3D11).
+                    // putImageData blanks on D3D11 (Image + FBO). Use the same
+                    // createLinearGradient / fill path as the value slider.
                     // Repaint only when value / size / shape change — not on hue/sat drag.
                     Canvas {
                         id: spectrum
@@ -294,91 +295,82 @@ T.Control {
                         on_PaintValueChanged: spectrumPaintTimer.restart()
                         onWidthChanged: requestPaint()
                         onHeightChanged: requestPaint()
+                        Component.onCompleted: Qt.callLater(requestPaint)
                         Timer {
                             id: spectrumPaintTimer
                             interval: 16
                             onTriggered: spectrum.requestPaint()
                         }
+
+                        function rgbCss(rgb) {
+                            return "rgb("
+                                    + Math.round(rgb.r * 255) + ","
+                                    + Math.round(rgb.g * 255) + ","
+                                    + Math.round(rgb.b * 255) + ")"
+                        }
+
+                        function clipRoundedRect(ctx, w, h, rad) {
+                            ctx.beginPath()
+                            ctx.moveTo(rad, 0)
+                            ctx.arcTo(w, 0, w, h, rad)
+                            ctx.arcTo(w, h, 0, h, rad)
+                            ctx.arcTo(0, h, 0, 0, rad)
+                            ctx.arcTo(0, 0, w, 0, rad)
+                            ctx.closePath()
+                            ctx.clip()
+                        }
+
                         onPaint: {
                             var ctx = getContext("2d")
                             var w = Math.floor(width)
                             var h = Math.floor(height)
                             if (w < 2 || h < 2)
                                 return
+                            ctx.reset()
                             ctx.clearRect(0, 0, width, height)
                             if (typeof ctx.imageSmoothingEnabled !== "undefined")
                                 ctx.imageSmoothingEnabled = true
+
+                            var v = control.value
 
                             if (control._ringSpectrum) {
                                 var cx = w / 2
                                 var cy = h / 2
                                 var rMax = Math.min(w, h) / 2 - 2
-                                var img = ctx.createImageData(w, h)
-                                var data = img.data
-                                for (var yy = 0; yy < h; ++yy) {
-                                    for (var xx = 0; xx < w; ++xx) {
-                                        var dx = xx + 0.5 - cx
-                                        var dy = yy + 0.5 - cy
-                                        var dist = Math.sqrt(dx * dx + dy * dy)
-                                        var idx = (yy * w + xx) * 4
-                                        if (dist > rMax + 1.25) {
-                                            data[idx + 3] = 0
-                                            continue
-                                        }
-                                        var edge = 1
-                                        if (dist > rMax - 1.25)
-                                            edge = Math.max(0, (rMax + 1.25 - dist) / 2.5)
-                                        var ang = Math.atan2(dy, dx) * 180 / Math.PI
-                                        if (ang < 0)
-                                            ang += 360
-                                        var sat = control.clamp01(dist / Math.max(1, rMax))
-                                        var rgb = control.hsvToRgb(ang, sat, control.value)
-                                        data[idx] = Math.round(rgb.r * 255)
-                                        data[idx + 1] = Math.round(rgb.g * 255)
-                                        data[idx + 2] = Math.round(rgb.b * 255)
-                                        data[idx + 3] = Math.round(edge * 255)
-                                    }
+                                if (rMax < 2)
+                                    return
+                                var segments = Math.max(48, Math.min(120, Math.round(rMax * 2)))
+                                for (var i = 0; i < segments; ++i) {
+                                    var a0 = (i / segments) * Math.PI * 2
+                                    var a1 = ((i + 1.02) / segments) * Math.PI * 2
+                                    var ang = ((i + 0.5) / segments) * 360
+                                    var grdR = ctx.createRadialGradient(cx, cy, 0, cx, cy, rMax)
+                                    grdR.addColorStop(0, rgbCss(control.hsvToRgb(ang, 0, v)))
+                                    grdR.addColorStop(1, rgbCss(control.hsvToRgb(ang, 1, v)))
+                                    ctx.beginPath()
+                                    ctx.moveTo(cx, cy)
+                                    ctx.arc(cx, cy, rMax, a0, a1)
+                                    ctx.closePath()
+                                    ctx.fillStyle = grdR
+                                    ctx.fill()
                                 }
-                                ctx.putImageData(img, 0, 0)
                                 return
                             }
 
                             var rad = Math.min(Theme.cornerControl, Math.min(w, h) / 2)
-                            var imgBox = ctx.createImageData(w, h)
-                            var boxData = imgBox.data
-                            for (var y = 0; y < h; ++y) {
-                                var satBox = 1 - (y / Math.max(1, h - 1))
-                                var py = y + 0.5
-                                for (var x = 0; x < w; ++x) {
-                                    var hu = (x / Math.max(1, w - 1)) * 360
-                                    var rgbBox = control.hsvToRgb(hu, satBox, control.value)
-                                    var bidx = (y * w + x) * 4
-                                    var px = x + 0.5
-                                    var cdx = 0
-                                    var cdy = 0
-                                    if (px < rad)
-                                        cdx = rad - px
-                                    else if (px > w - rad)
-                                        cdx = px - (w - rad)
-                                    if (py < rad)
-                                        cdy = rad - py
-                                    else if (py > h - rad)
-                                        cdy = py - (h - rad)
-                                    var cover = 1
-                                    if (cdx > 0 && cdy > 0) {
-                                        var cdist = Math.sqrt(cdx * cdx + cdy * cdy)
-                                        if (cdist >= rad + 1.25)
-                                            cover = 0
-                                        else if (cdist > rad - 1.25)
-                                            cover = Math.max(0, (rad + 1.25 - cdist) / 2.5)
-                                    }
-                                    boxData[bidx] = Math.round(rgbBox.r * 255)
-                                    boxData[bidx + 1] = Math.round(rgbBox.g * 255)
-                                    boxData[bidx + 2] = Math.round(rgbBox.b * 255)
-                                    boxData[bidx + 3] = Math.round(cover * 255)
-                                }
+                            ctx.save()
+                            clipRoundedRect(ctx, w, h, rad)
+                            // Column gradients: X = hue, Y = saturation (top=1 → bottom=0).
+                            var step = Math.max(1, Math.floor(w / 256))
+                            for (var x = 0; x < w; x += step) {
+                                var hu = ((x + step * 0.5) / Math.max(1, w - 1)) * 360
+                                var grd = ctx.createLinearGradient(0, 0, 0, h)
+                                grd.addColorStop(0, rgbCss(control.hsvToRgb(hu, 1, v)))
+                                grd.addColorStop(1, rgbCss(control.hsvToRgb(hu, 0, v)))
+                                ctx.fillStyle = grd
+                                ctx.fillRect(x, 0, step + 1, h)
                             }
-                            ctx.putImageData(imgBox, 0, 0)
+                            ctx.restore()
                         }
                     }
                 }
