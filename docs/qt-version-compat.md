@@ -44,7 +44,8 @@ Include via the public path (linked through `qwinui3_qtcompat`):
 #include <QWinUI3/Compat/QtCompatRhi.h>
 #include <QWinUI3/Compat/QtCompatVersion.h>
 
-QWinUI3::Compat::Rhi::apply(QStringLiteral("opengl"));
+QWinUI3::Compat::Rhi::apply(QStringLiteral("opengl")); // optional frost-first pin
+// or rely on configureEnvironment() → Windows d3d11 / Linux vulkan + probe fallback
 ```
 
 ## CMake capabilities

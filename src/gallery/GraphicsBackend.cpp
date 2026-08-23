@@ -46,12 +46,8 @@ QString GraphicsBackend::normalize(const QString &name)
 
 QString GraphicsBackend::defaultBackend()
 {
-#if defined(Q_OS_WIN)
-    // OpenGL is the most reliable path for per-pixel alpha + DWM materials.
-    return QStringLiteral("opengl");
-#else
-    return QStringLiteral("opengl");
-#endif
+    // Windows d3d11 · Linux vulkan · macOS metal — with runtime probe fallback.
+    return QWinUI3::Compat::Rhi::defaultBackend();
 }
 
 QStringList GraphicsBackend::platformBackends()
@@ -176,11 +172,11 @@ bool GraphicsBackend::restartRequired() const
 QString GraphicsBackend::hint() const
 {
     if (m_active == QLatin1String("opengl"))
-        return QStringLiteral("OpenGL — recommended for DWM frost without edge artifacts.");
+        return QStringLiteral("OpenGL — best path for DWM Mica/Acrylic without edge artifacts.");
     if (m_active == QLatin1String("vulkan"))
-        return QStringLiteral("Vulkan — alpha OK on many GPUs; border workarounds are limited.");
+        return QStringLiteral("Vulkan — Linux default when an ICD is present; alpha OK on many GPUs.");
     if (m_active == QLatin1String("d3d11"))
-        return QStringLiteral("Direct3D 11 — frost works; may show a thin white edge ring.");
+        return QStringLiteral("Direct3D 11 — Windows default; frost OK, may show a thin white edge.");
     if (m_active == QLatin1String("d3d12")) {
 #if QWINUI3_HAVE_RHI_D3D12
         return QStringLiteral("Direct3D 12 — frost works; may show a thin white edge ring.");

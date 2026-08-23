@@ -16,14 +16,24 @@ QString normalize(const QString &name);
 /// Returns Unknown for unsupported / unavailable APIs (e.g. d3d12 on Qt < 6.6).
 QSGRendererInterface::GraphicsApi graphicsApiFor(const QString &backend);
 
-/// Backends available on this OS *and* this Qt build.
+/// Backends available on this OS *and* this Qt build (compile-time / OS list).
 QStringList platformBackends();
 
+/// Preferred try-order for this OS (defaults first). Filtered by platformBackends later.
+QStringList fallbackOrder();
+
+/// Platform ship default after runtime probe (Windows d3d11, Linux vulkan, …).
+QString defaultBackend();
+
+/// Lightweight runtime check (Vulkan ICD, D3D11 DLL, offscreen QPA, …).
+/// Set QWINUI3_RHI_SKIP_PROBE=1 to treat every platformBackends() entry as supported.
+bool isRuntimeSupported(const QString &backend);
+
 /// Apply QSG_RHI_BACKEND + QQuickWindow::setGraphicsApi (+ surface format tweaks).
-/// Safe no-op for Unknown APIs.
+/// Resolves via coerceAvailable (probe + fallback chain).
 void apply(const QString &backend);
 
-/// If @p backend is unavailable, fall back to a safe default for the platform.
+/// Prefer @p backend when supported; else @p fallback; else walk fallbackOrder().
 QString coerceAvailable(const QString &backend, const QString &fallback = QString());
 
 /// Map QSGRendererInterface::GraphicsApi → canonical backend key (empty if unknown).

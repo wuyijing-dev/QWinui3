@@ -28,7 +28,7 @@ _early_backend = ""
 
 
 def _default_backend() -> str:
-    return "opengl"
+    return rhi.default_backend()
 
 
 def _read_stored_preferred() -> str:
@@ -109,11 +109,11 @@ class GraphicsBackend(QObject):
     @Property(str, notify=changed)
     def hint(self) -> str:
         if self._active == "opengl":
-            return "OpenGL — recommended for DWM frost without edge artifacts."
+            return "OpenGL — best path for DWM Mica/Acrylic without edge artifacts."
         if self._active == "vulkan":
-            return "Vulkan — alpha OK on many GPUs; border workarounds are limited."
+            return "Vulkan — Linux default when an ICD is present; alpha OK on many GPUs."
         if self._active == "d3d11":
-            return "Direct3D 11 — frost works; may show a thin white edge ring."
+            return "Direct3D 11 — Windows default; frost OK, may show a thin white edge."
         if self._active == "d3d12":
             return "Direct3D 12 — frost works; may show a thin white edge ring."
         if self._active == "metal":

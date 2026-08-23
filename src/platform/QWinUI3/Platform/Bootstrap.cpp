@@ -2,6 +2,8 @@
 #include "WelcomeBanner.h"
 #include "WindowHelper.h"
 
+#include <QWinUI3/Compat/QtCompatRhi.h>
+
 #include <QCoreApplication>
 #include <QGuiApplication>
 #include <QQuickStyle>
@@ -48,6 +50,11 @@ void configureEnvironment(const char *argv0)
     // Prefer system IME over Qt Virtual Keyboard (GPL/Commercial).
     qunsetenv("QT_IM_MODULE");
     qputenv("QT_QUICK_CONTROLS_STYLE", "QWinUI3");
+
+    // Platform RHI default (Win d3d11 / Linux vulkan) + probe fallback when unset.
+    // Apps/CLI may still set QSG_RHI_BACKEND or call Compat::Rhi::apply beforehand.
+    if (qEnvironmentVariableIsEmpty("QSG_RHI_BACKEND"))
+        Compat::Rhi::apply(Compat::Rhi::defaultBackend());
 }
 
 void configureApplication(const QString &appId)

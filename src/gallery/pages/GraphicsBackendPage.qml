@@ -10,7 +10,7 @@ import QWinUI3.Platform
 CatalogPage {
     id: page
     title: qsTr("Graphics backend")
-    subtitle: qsTr("RHI ship table · OpenGL for frost — docs/graphics-backend.md. DPI: docs/high-dpi.md (1.58).")
+    subtitle: qsTr("RHI defaults · Win D3D11 / Linux Vulkan + fallback — docs/graphics-backend.md. DPI: docs/high-dpi.md.")
 
     signal openSettings()
     signal openControl(var item)
@@ -30,7 +30,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Windows default stays OpenGL for reliable frost/backdrop. Change via Settings → Graphics backend, Gallery --rhi, or QSG_RHI_BACKEND (restart required). Consumer apps can call Compat::Rhi::apply before QGuiApplication. Blurry / wrong-monitor restore is a DPI path — docs/high-dpi.md — not fixed by swapping RHI.")
+                text: qsTr("Defaults: Windows D3D11, Linux Vulkan, macOS Metal — with runtime probe fallback (Vulkan ICD / D3D11 DLL / headless QPA). Prefer OpenGL on Windows when shipping Mica/Acrylic frost. Change via Settings → Graphics backend, --rhi, or QSG_RHI_BACKEND. Kit bootstrap applies the default when the env is unset. DPI restore: docs/high-dpi.md.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary

@@ -81,6 +81,12 @@ def configure_environment(
     policy = Qt.HighDpiScaleFactorRoundingPolicy.PassThrough
     QtGui.QGuiApplication.setHighDpiScaleFactorRoundingPolicy(policy)
 
+    # Match C++ configureEnvironment — platform RHI default when unset.
+    if not os.environ.get("QSG_RHI_BACKEND"):
+        from . import rhi as _rhi
+
+        _rhi.apply(_rhi.default_backend())
+
     _expose_native_libs(resolved)
     return resolved
 

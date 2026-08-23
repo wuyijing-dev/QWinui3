@@ -260,7 +260,7 @@ Page {
 
             SettingsCard {
                 title: qsTr("Graphics backend")
-                description: qsTr("Qt Quick RHI. Ship OpenGL on Windows for Mica/Acrylic. Change needs Restart (--rhi). Active: %1. %2 — docs/graphics-backend.md")
+                description: qsTr("Qt Quick RHI. Defaults: Windows D3D11, Linux Vulkan (auto-fallback when unsupported). Change needs Restart (--rhi). Active: %1. %2 — docs/graphics-backend.md")
                              .arg(root.rhiDisplayName(GraphicsBackend.active))
                              .arg(GraphicsBackend.hint)
                 symbol: FluentIcons.HardDrive
