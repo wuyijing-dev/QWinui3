@@ -139,6 +139,11 @@ add_subdirectory(src/style/QWinUI3)
 add_subdirectory(src/extras/QWinUI3/Extras)
 add_subdirectory(src/gallery)
 
+include(CTest)
+if(BUILD_TESTING)
+    add_subdirectory(tests)
+endif()
+
 if(QWINUI3_BUILD_EXAMPLES)
     add_subdirectory(examples)
 endif()

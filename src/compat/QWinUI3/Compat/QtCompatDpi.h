@@ -30,6 +30,10 @@ inline QString policyName(Qt::HighDpiScaleFactorRoundingPolicy policy)
 {
     using P = Qt::HighDpiScaleFactorRoundingPolicy;
     switch (policy) {
+    case P::Unset:
+        // No explicit policy set — report the kit-resolved policy actually in
+        // effect (PassThrough today) instead of a fabricated rounding mode.
+        return policyName(kitPolicy());
     case P::PassThrough:
         return QStringLiteral("PassThrough");
     case P::Round:
