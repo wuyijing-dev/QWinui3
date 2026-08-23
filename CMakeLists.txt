@@ -17,7 +17,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Product version is X.YY (two-digit minor), e.g. 1.00, 1.01, 1.10.
 # Git tags / packages use v${QWINUI3_VERSION}. CMake needs major.minor.patch.
-set(QWINUI3_VERSION "2.73")
+set(QWINUI3_VERSION "2.80")
 if(NOT QWINUI3_VERSION MATCHES "^[0-9]+\\.[0-9][0-9]$")
     message(FATAL_ERROR "QWINUI3_VERSION must be X.YY (two-digit minor), got '${QWINUI3_VERSION}'")
 endif()
@@ -70,7 +70,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 
 # Floor: 6.5. Recommended: 6.8 LTS. Forward: 6.10+.
-find_package(Qt6 6.5 REQUIRED COMPONENTS Quick QuickControls2 LabsQmlModels Gui)
+find_package(Qt6 6.5 REQUIRED COMPONENTS Quick QuickControls2 LabsQmlModels Gui Network)
 find_package(Qt6 COMPONENTS Multimedia QUIET)
 # Public target is rare; many kits only ship Qt6QuickEffectsPrivate + QML plugin.
 find_package(Qt6 COMPONENTS QuickEffects QUIET)

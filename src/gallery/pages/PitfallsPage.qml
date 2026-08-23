@@ -209,4 +209,32 @@ CatalogPage {
             }
         }
     }
+
+    ControlExample {
+        headerText: qsTr("ErrorBoundary recovery pattern")
+        qmlSource: "ErrorBoundary {\n    onRetryRequested: /* reload Loader */\n    sessionRestore: session\n}"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("When a Loader or page fails, show recovery UI instead of a blank shell. Wire onRetryRequested to recreate the view; optional sessionRestore uses SessionRestore (2.70). Not a crash dumper — see Pitfalls, not a version checklist.")
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            ErrorBoundary {
+                Layout.fillWidth: true
+                title: qsTr("Demo failure")
+                message: qsTr("Simulated load error — Retry emits retryRequested.")
+                onRetryRequested: toastsHint.text = qsTr("Retry requested")
+            }
+            Label {
+                id: toastsHint
+                color: Theme.textSecondary
+                font.pixelSize: Theme.fontCaption
+                text: qsTr("Idle")
+            }
+        }
+    }
 }

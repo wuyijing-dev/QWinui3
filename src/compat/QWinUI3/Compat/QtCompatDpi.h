@@ -3,7 +3,7 @@
 // High-DPI scale-factor rounding — same kit behavior on Qt 6.5 … 6.11+.
 //
 // Public enum (all supported Qt 6.5+ docs): Round, Ceil, Floor, RoundPreferFloor, PassThrough.
-// RoundPreferCeil is not a Qt enumerator in 6.8/6.10/6.11 docs — string alias maps to Ceil only.
+// RoundPreferCeil was never a public enumerator in Qt 6.8 / 6.10 / 6.11 docs — string alias maps to Ceil only.
 // Do not reference RoundPreferCeil as an enumerator.
 
 #include <QCoreApplication>
@@ -66,7 +66,7 @@ inline Qt::HighDpiScaleFactorRoundingPolicy policyFromName(const QString &name, 
         return accept(P::Floor);
     if (n.compare(QLatin1String("RoundPreferFloor"), Qt::CaseInsensitive) == 0)
         return accept(P::RoundPreferFloor);
-    // Removed in Qt 6.11+; same directional preference as Ceil.
+    // RoundPreferCeil was never in 6.8/6.10/6.11 public docs; keep as Ceil string alias.
     if (n.compare(QLatin1String("RoundPreferCeil"), Qt::CaseInsensitive) == 0)
         return accept(P::Ceil);
     if (ok)

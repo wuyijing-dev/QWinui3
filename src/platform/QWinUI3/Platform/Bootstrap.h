@@ -49,8 +49,13 @@ void configureEnvironment(const char *argv0 = nullptr);
 /// - Applies WinUI-aligned UI font stack (`ThemeFonts::applyApplicationFont`)
 /// - Optional `appId`: Windows AppUserModelID + Linux desktop file name (no `.desktop`)
 ///
-/// The kit does **not** enforce a single-instance mutex. Gallery and consumer exes may
-/// launch multiple processes; `WebView2Host` uses a per-pid user-data folder by default.
+/// The kit does **not** enforce a single-instance mutex by default. Gallery and
+/// consumer exes may launch multiple processes; `WebView2Host` uses a per-pid
+/// user-data folder by default.
+///
+/// Opt-in single-instance (2.74): set `QWINUI3_SINGLE_INSTANCE=1` and call
+/// `WindowHelper.tryBecomeSingleInstancePrimary(appId)` (or construct
+/// `SingleInstance` and `tryBecomePrimary`) — see docs/single-instance.md.
 void configureApplication(const QString &appId = QString());
 
 } // namespace QWinUI3

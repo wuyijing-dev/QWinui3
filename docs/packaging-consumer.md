@@ -238,6 +238,8 @@ Keep `QT_QUICK_CONTROLS_STYLE=QWinUI3` so styled Controls pick up the Fluent chr
 
 ## Path C — find_package sketch (1.61)
 
+> **Primary path (2.76):** For new C++ consumers that already ship a CMake package prefix, prefer **Path C** — `find_package(QWinUI3 CONFIG)` against a shared kit from `package_release_libs.py --shared`. Walkthrough: [getting-started.md — Path C](getting-started.md#path-c--find_packageqwinui3) · runnable sketch: [`examples/find-package-consumer`](../examples/find-package-consumer/). Zip (Path B) and `add_subdirectory` (Path A) remain valid; vcpkg/Conan stay on [packaging-vcpkg-conan.md](packaging-vcpkg-conan.md).
+
 **Experimental sketch (1.61).** Same shared zip as Path A; Config files live under `lib/cmake/QWinUI3/`. **vcpkg / Conan** consumers: [packaging-vcpkg-conan.md](packaging-vcpkg-conan.md) (Path D/E).
 
 ### 1. Package (or download) a shared kit

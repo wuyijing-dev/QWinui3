@@ -1,5 +1,6 @@
 #include "WindowHelper.h"
 #include "LinuxPortal.h"
+#include "SingleInstance.h"
 
 #include <QWinUI3/Compat/QtCompatDpi.h>
 #include <QWinUI3/Compat/QtCompatEffects.h>
@@ -696,6 +697,27 @@ void WindowHelper::clearRecentDocuments()
 #if defined(Q_OS_WIN)
     SHAddToRecentDocs(SHARD_PATHW, nullptr);
 #endif
+}
+
+bool WindowHelper::tryBecomeSingleInstancePrimary(const QString &serverName)
+{
+    QString name = serverName.trimmed();
+    if (name.isEmpty()) {
+        name = QCoreApplication::applicationName();
+        if (name.isEmpty())
+            name = QStringLiteral("qwinui3_app");
+    }
+    if (!m_singleInstance) {
+        m_singleInstance = new SingleInstance(this);
+        connect(m_singleInstance, &SingleInstance::activationRequested,
+                this, &WindowHelper::singleInstanceActivationRequested);
+    }
+    return m_singleInstance->tryBecomePrimary(name);
+}
+
+bool WindowHelper::singleInstanceEnvOptIn() const
+{
+    return SingleInstance::isEnvOptIn();
 }
 
 int WindowHelper::screenCount() const

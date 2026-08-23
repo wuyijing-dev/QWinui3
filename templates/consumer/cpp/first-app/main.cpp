@@ -15,6 +15,9 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName(QStringLiteral("MyQWinUI3App"));
     QWinUI3::configureApplication(QStringLiteral("org.example.myapp"));
 
+    // Optional single-instance (2.74): QWINUI3_SINGLE_INSTANCE=1 + SingleInstance —
+    // docs/single-instance.md. Default is multi-instance.
+
     QQmlApplicationEngine engine;
     QObject::connect(
         &engine, &QQmlApplicationEngine::objectCreationFailed,

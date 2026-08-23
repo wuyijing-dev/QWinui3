@@ -113,6 +113,7 @@ qt_add_qml_module(qwinui3_extras
         ItemsWrapGrid.qml
         EmptyState.qml
         EntranceThemeTransition.qml
+        ErrorBoundary.qml
         Expander.qml
         NotificationBridge.qml
         NotificationCenter.qml
@@ -191,13 +192,16 @@ qt_add_qml_module(qwinui3_extras
         MultiSelectComboBox.qml
         NavigationView.qml
         NumberBox.qml
+        OfflineBanner.qml
         OnScreenKeyboard.qml
         OnScreenKeyboardWindow.qml
+        OperationRetry.qml
         PasswordBox.qml
         PermissionGate.qml
         PersonPicture.qml
         PipsPager.qml
         PagerControl.qml
+        ConfirmWithReason.qml
         Pivot.qml
         ProgressButton.qml
         ProgressRing.qml
@@ -237,6 +241,7 @@ qt_add_qml_module(qwinui3_extras
         RadioMenuFlyoutItem.qml
         RatingControl.qml
         RatingStars.qml
+        RecentFiles.qml
         RefreshContainer.qml
         RelativePanel.qml
         RichEdit.qml
@@ -246,6 +251,7 @@ qt_add_qml_module(qwinui3_extras
         SegmentedControl.qml
         SelectorBar.qml
         SemanticZoom.qml
+        SensitiveField.qml
         SettingsCard.qml
         SettingsExpander.qml
         SettingsGroup.qml

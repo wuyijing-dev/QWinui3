@@ -3,6 +3,7 @@
 #include <QObject>
 #include <QColor>
 #include <QRect>
+#include <QStringList>
 #include <QUrl>
 #include <QVariantList>
 #include <QtQml/qqmlregistration.h>
@@ -10,6 +11,7 @@
 class QWindow;
 class QQmlEngine;
 class QJSEngine;
+class SingleInstance;
 
 // WindowHelper — Platform chrome, backdrop, DPI, and geometry helpers (singleton).
 class WindowHelper : public QObject
@@ -268,6 +270,10 @@ public:
     Q_INVOKABLE void addToRecentDocuments(const QString &path);
     Q_INVOKABLE void clearRecentDocuments();
 
+    // Opt-in single-instance (2.74) — default OFF; see docs/single-instance.md
+    Q_INVOKABLE bool tryBecomeSingleInstancePrimary(const QString &serverName = QString());
+    Q_INVOKABLE bool singleInstanceEnvOptIn() const;
+
     // Power / network / screens
     Q_PROPERTY(int batteryLevel READ batteryLevel NOTIFY powerChanged) // 0–100, or -1 unknown
     Q_PROPERTY(bool onBattery READ onBattery NOTIFY powerChanged)
@@ -325,6 +331,8 @@ signals:
     void idleInhibitedChanged();
     void powerChanged();
     void onlineChanged();
+    /// Forwarded from the process SingleInstance primary (2.74).
+    void singleInstanceActivationRequested(const QStringList &args);
 
 private:
     void applyNative(QWindow *window, bool dark, int backdrop);
@@ -355,4 +363,5 @@ private:
     int m_batteryLevel = -1;
     bool m_onBattery = false;
     bool m_isOnline = true;
+    SingleInstance *m_singleInstance = nullptr;
 };

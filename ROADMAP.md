@@ -1,9 +1,9 @@
 # QWinUI3 Roadmap
 
-**Current:** **2.73** (master; consumer checkpoint DX — init / doctor --fix / getting-started)
-**Next up:** **2.74** Single-instance (opt-in) + `qwinui3 run`
+**Current:** **2.80** (master; soft checkpoint-280 — capability pack 2.71…2.80)
+**Next up:** **3.00** breaking close-out (checkpoint-300)
 **Planned through:** **3.00** (… → **2.71…2.80** → **3.00** close-out → [micro-interaction backlog last](#micro-interaction--visual-polish--deferred-last))
-**Checkpoints ahead:** **2.80** soft · **3.00** breaking close-out (checkpoint-300)
+**Checkpoints ahead:** **3.00** breaking close-out (checkpoint-300)
 **Qt:** 6.5+ (recommended 6.8 LTS) on master today — **2.00** raises floor to **6.8 LTS** · **3.00** to **6.10 LTS**
 **Platforms:** **Windows + Linux** — no macOS first-class line.
 
@@ -244,13 +244,13 @@ Consumer sketch: [upgrade-notes.md](docs/upgrade-notes.md) **Upgrade 1.90 → 2.
 | **2.71** | DataTable copy/export · MaskedTextField · PermissionGate | **Shipped** |
 | **2.72** | WindowMessageBus · SessionTimeout | **Shipped** |
 | **2.73** | Consumer checkpoint DX | **Shipped** |
-| **2.74** | Single-instance (opt-in) · `qwinui3 run` | Planned |
-| **2.75** | ErrorBoundary | Planned |
-| **2.76** | find_package + `qwinui3 upgrade` | Planned |
-| **2.77** | RecentFiles | Planned |
-| **2.78** | OfflineBanner · OperationRetry | Planned |
-| **2.79** | SensitiveField · ConfirmWithReason | Planned |
-| **2.80** | Soft checkpoint-280 | Planned |
+| **2.74** | Single-instance (opt-in) · `qwinui3 run` | **Shipped** |
+| **2.75** | ErrorBoundary | **Shipped** |
+| **2.76** | find_package + `qwinui3 upgrade` | **Shipped** |
+| **2.77** | RecentFiles | **Shipped** |
+| **2.78** | OfflineBanner · OperationRetry | **Shipped** |
+| **2.79** | SensitiveField · ConfirmWithReason | **Shipped** |
+| **2.80** | Soft checkpoint-280 | **Shipped** — [checkpoint-280.md](docs/checkpoint-280.md) |
 
 ### 2.71 — Data + form + permission pack (shipped)
 
@@ -268,22 +268,22 @@ Python / PyPI (**2.71** / **2.72** goals) **shipped at 2.64**. Platform slices *
 
 | Slice | Theme | Maps | Status |
 |-------|--------|------|--------|
-| **2.74** | Single-instance + protocol activation | **F7** | Planned |
-| **2.75** | Global error boundary + crash recovery | **F8** | Planned |
+| **2.74** | Single-instance + protocol activation | **F7** | **Shipped** |
+| **2.75** | Global error boundary + crash recovery | **F8** | **Shipped** |
 
-### 2.74 — Single-instance + protocol activation (planned · **F7**)
+### 2.74 — Single-instance + protocol activation (**shipped** · **F7**)
 
 **Goal:** **Opt-in** second-launch focuses existing instance and forwards CLI args / file-open URLs — standard tool/analytics desktop pattern. **Default remains multi-instance** (Gallery + consumer exes may run side-by-side; WebView2 uses per-pid user data).
 
-**Deliverables:** `WindowHelper` / bootstrap single-instance guard (**off by default**); activation + argument pipe recipe; Gallery + [`examples/first-app`](../examples/first-app/) callout.
+**Deliverables:** `SingleInstance` + `WindowHelper.tryBecomeSingleInstancePrimary` (**off by default**); activation + argument pipe recipe; Gallery + [`examples/first-app`](../examples/first-app/) callout; `qwinui3 run`.
 
 **Out:** Forcing single-instance on all kit apps; multi-instance coordination SaaS; macOS-first line.
 
-### 2.75 — Global error boundary (planned · **F8**)
+### 2.75 — Global error boundary (**shipped** · **F8**)
 
 **Goal:** Uncaught QML errors show recovery UI instead of blank shell; optional restart with **D8** session restore hook.
 
-**Deliverables:** `QQuickWindow` / root-item error handler recipe; Gallery **Pitfalls** recovery sample; pairs with **F8** + **D8**.
+**Deliverables:** `ErrorBoundary` + Gallery **Pitfalls** recovery sample; pairs with **F8** + **D8**.
 
 **Out:** Full crash telemetry SaaS; auto-submit minidumps.
 

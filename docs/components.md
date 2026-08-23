@@ -191,6 +191,10 @@ python scripts/generate_component_docs.py --lint
 - [Skeleton](components/Skeleton.md) — Form/table loading placeholder (2.70). · Gallery
 - [FeedbackSeverity](components/FeedbackSeverity.md) — Shared severity palette singleton (2.70).
 - [SessionRestore](components/SessionRestore.md) — Nav + table session package (2.70).
+- **ErrorBoundary** (2.75) — recovery InfoBar + optional `sessionRestore` / `retryRequested` (Pitfalls demo).
+- **RecentFiles** (2.77) — Settings list + `WindowHelper.addToRecentDocuments`.
+- **OfflineBanner** / **OperationRetry** (2.78) — online banner + backoff helper.
+- **SensitiveField** / **ConfirmWithReason** (2.79) — masked secret field + reason dialog.
 - [NotificationCenter](components/NotificationCenter.md) — In-app notification drawer. · Gallery
 - [Sparkline](components/Sparkline.md) — Inline mini line chart. · Gallery
 - [SpeedometerGauge](components/SpeedometerGauge.md) — Vehicle speed needle (km/h or mph). · Gallery

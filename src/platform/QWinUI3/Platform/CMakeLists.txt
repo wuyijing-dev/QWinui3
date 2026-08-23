@@ -16,6 +16,7 @@ else()
     message(STATUS "QWinUI3.Platform: WindowShellDecoration without QtQuick.Effects (simple fallback)")
 endif()
 
+find_package(Qt6 REQUIRED COMPONENTS Network)
 find_package(Qt6 COMPONENTS DBus QUIET)
 
 include(${CMAKE_SOURCE_DIR}/cmake/FindWebView2.cmake)
@@ -40,6 +41,7 @@ set(QWINUI3_PLATFORM_SOURCES
     LinuxPortal.cpp
     Bootstrap.cpp
     WelcomeBanner.cpp
+    SingleInstance.cpp
     ${QWINUI3_WEBVIEW2_SOURCES}
 )
 
@@ -68,6 +70,7 @@ qt_add_qml_module(qwinui3_platform
         TrayIcon.h
         WebView2Host.h
         Bootstrap.h
+        SingleInstance.h
         FrameStatsMonitor.h
         ${QWINUI3_PLATFORM_SOURCES}
         FrameStatsMonitor.cpp
@@ -93,6 +96,7 @@ target_link_libraries(qwinui3_platform
     PUBLIC
         Qt6::Quick
         Qt6::QuickControls2
+        Qt6::Network
         qwinui3_theme
         qwinui3_qtcompat
     PRIVATE

@@ -251,6 +251,30 @@ QtObject {
             source: "pages/PermissionGatePage.qml"
         },
         {
+            title: qsTr("RecentFiles"),
+            category: "status",
+            icon: FluentIcons.OpenFile,
+            description: qsTr("Settings-backed recent paths + shell recent docs (2.77)."),
+            component: "RecentFilesPage",
+            source: "pages/RecentFilesPage.qml"
+        },
+        {
+            title: qsTr("Offline & retry"),
+            category: "status",
+            icon: FluentIcons.Wifi,
+            description: qsTr("OfflineBanner + OperationRetry backoff helpers (2.78)."),
+            component: "OfflineRetryPage",
+            source: "pages/OfflineRetryPage.qml"
+        },
+        {
+            title: qsTr("Security UX"),
+            category: "status",
+            icon: FluentIcons.Lock,
+            description: qsTr("SensitiveField reveal + ConfirmWithReason (2.79)."),
+            component: "SecurityUxPage",
+            source: "pages/SecurityUxPage.qml"
+        },
+        {
             title: qsTr("AutoSuggestBox"),
             category: "text",
             icon: FluentIcons.Search,
@@ -2023,6 +2047,7 @@ QtObject {
         "GraphicsBackendPage", "FormsHubPage", "FormRegistrationTemplatePage", "FormAdminCrudTemplatePage",
         "SettingsPreferencesTemplatePage", "NotificationCenterPage", "KeyboardFirstPage", "PrintSharePage",
         "SecurityTrustPage", "SettingsPersistencePage", "InfoTeachingRecipePage",
+        "RecentFilesPage", "OfflineRetryPage", "SecurityUxPage",
         // Navigation — carousel / step chrome
         "PageIndicatorPage", "PipsPagerPage", "FlipViewPage", "StepBarPage", "BreadcrumbBarPage"
     ]

@@ -130,6 +130,29 @@ CatalogPage {
     }
 
     ControlExample {
+        headerText: qsTr("Single-instance (opt-in, 2.74)")
+        qmlSource: "// Default: multi-instance\n// QWINUI3_SINGLE_INSTANCE=1 + tryBecomePrimary\n// docs/single-instance.md"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Kit apps stay multi-instance by default. Opt in with env QWINUI3_SINGLE_INSTANCE=1 and SingleInstance / WindowHelper.tryBecomeSingleInstancePrimary — Gallery does not force this on. Recipe: docs/single-instance.md.")
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                color: Theme.textPrimary
+                text: qsTr("envOptIn=%1 (Gallery does not call tryBecomePrimary)")
+                    .arg(WindowHelper.singleInstanceEnvOptIn() ? qsTr("yes") : qsTr("no"))
+            }
+        }
+    }
+
+    ControlExample {
         headerText: qsTr("Platform / display server")
         qmlSource: "WindowHelper.displayServer · wayland · x11"
 

@@ -223,9 +223,35 @@
 | **Proposed slice** | **2.71** PySide6 · **2.72** PyPI · **2.73** checkpoint (requires **2.02** first) |
 | **Status** | **partial — 2.64** — [`examples/python-gallery/`](../examples/python-gallery/) + [`packaging-python.md`](../packaging-python.md); PyPI still **2.72** |
 
+### FL-019 — Second launch opens a duplicate process
+
+| Field | Value |
+|-------|--------|
+| **Severity** | P2 |
+| **Source** | Tool / analytics desktop apps · roadmap **F7** |
+| **Pain** | Product expects one primary window; second CLI launch opens another process instead of focusing / forwarding args. |
+| **Workaround today** | Hand-roll `QLockFile` / local socket, or live with multi-instance. |
+| **Proposed slice** | **2.74** opt-in SingleInstance |
+| **Status** | closed — **2.74** [single-instance.md](../single-instance.md) (default still multi-instance) |
+
+### FL-020 — Consumer DX: daily run / upgrade checklist hop
+
+| Field | Value |
+|-------|--------|
+| **Severity** | P2 |
+| **Source** | DX5 / DX7 · packaging-consumer authors |
+| **Pain** | After `init`, authors still hand-build Release and skim upgrade-notes for renames. |
+| **Workaround today** | Manual `cmake --build --config Release` + read [upgrade-notes.md](../upgrade-notes.md). |
+| **Proposed slice** | **2.74** `qwinui3 run` · **2.76** `qwinui3 upgrade` |
+| **Status** | closed — **2.74** / **2.76** `scripts/qwinui3.py run|upgrade` |
+
 ---
 
 ## Checkpoint notes
+
+### 2.80 (2026-08-23)
+
+Soft checkpoint-280 — SingleInstance · ErrorBoundary · RecentFiles · OfflineBanner / OperationRetry · SensitiveField / ConfirmWithReason · `qwinui3 run|upgrade` · Path C callout — [checkpoint-280.md](../checkpoint-280.md). **FL-019** / **FL-020** closed.
 
 ### 2.65 (2026-08-23)
 

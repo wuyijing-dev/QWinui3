@@ -97,6 +97,9 @@ qt_add_qml_module(qwinui3_gallery
         pages/FormAdminCrudTemplatePage.qml
         pages/MaskedTextFieldPage.qml
         pages/PermissionGatePage.qml
+        pages/RecentFilesPage.qml
+        pages/OfflineRetryPage.qml
+        pages/SecurityUxPage.qml
         pages/SettingsPreferencesTemplatePage.qml
         pages/FramePage.qml
         pages/FontIconPage.qml

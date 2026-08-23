@@ -47,6 +47,27 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 2.73 → 2.80
+
+**Product version:** 2.80  
+**Date:** 2026-08-23  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | Additive wave | None required |
+
+### Optional / polish
+- **2.74:** Opt-in `SingleInstance` / `QWINUI3_SINGLE_INSTANCE=1` — [single-instance.md](single-instance.md); `qwinui3 run`.
+- **2.75:** `ErrorBoundary` recovery pattern (Pitfalls demo).
+- **2.76:** `qwinui3 upgrade --from X.YY`; Path C primary in packaging-consumer.
+- **2.77–2.79:** `RecentFiles`, `OfflineBanner` / `OperationRetry`, `SensitiveField` / `ConfirmWithReason`.
+- **2.80:** [checkpoint-280.md](checkpoint-280.md).
+
+### No action (compatible)
+- Default remains multi-instance; Gallery does not force single-instance.
+
 ### Upgrade 2.72 → 2.73
 
 **Product version:** 2.73  

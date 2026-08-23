@@ -1,16 +1,20 @@
 #!/usr/bin/env python3
-"""QWinUI3 developer shortcuts — Gallery, doctor, consumer init (2.73+).
+"""QWinUI3 developer shortcuts — Gallery, doctor, consumer init, run, upgrade (2.74+).
 
   python scripts/qwinui3.py gallery [--smoke]
   python scripts/qwinui3.py python [--smoke]
   python scripts/qwinui3.py doctor [--fix]
   python scripts/qwinui3.py init --cpp|--python ...
   python scripts/qwinui3.py build gallery|kit
+  python scripts/qwinui3.py run [--build-dir DIR]
+  python scripts/qwinui3.py upgrade --from X.YY
 """
 
 from __future__ import annotations
 
 import argparse
+import os
+import re
 import shutil
 import sys
 from pathlib import Path
@@ -179,9 +183,154 @@ def _cmd_init(args: argparse.Namespace) -> int:
     return 0
 
 
+
+def _find_cwd_exe(build_dir: Path) -> Path | None:
+    names: list[Path] = []
+    if sys.platform.startswith("win"):
+        names = list(build_dir.glob("*.exe"))
+        release = build_dir / "Release"
+        if release.is_dir():
+            names += list(release.glob("*.exe"))
+    elif build_dir.is_dir():
+        for cand in build_dir.iterdir():
+            if cand.is_file() and os.access(cand, os.X_OK) and not cand.suffix:
+                names.append(cand)
+    skip = ("cmake", "cpack", "ctest", "moc", "rcc", "uic", "qmlcachegen")
+    candidates = [p for p in names if p.is_file() and not any(s in p.name.lower() for s in skip)]
+    if not candidates:
+        return None
+    return max(candidates, key=lambda p: p.stat().st_mtime)
+
+
+def _cmd_run(args: argparse.Namespace) -> int:
+    """Build+run CMake cwd, or run main.py — 2.74 DX5."""
+    cwd = Path(args.cwd or Path.cwd()).resolve()
+    main_py = cwd / "main.py"
+    cmake = cwd / "CMakeLists.txt"
+
+    if main_py.is_file() and (args.prefer_python or not cmake.is_file()):
+        print(f"Running Python {main_py.name} …", flush=True)
+        return run([sys.executable, str(main_py), *args.extra], cwd=cwd)
+
+    if not cmake.is_file():
+        if main_py.is_file():
+            return run([sys.executable, str(main_py), *args.extra], cwd=cwd)
+        print(
+            "error: no CMakeLists.txt or main.py in cwd — cd to a consumer app or pass --cwd",
+            file=sys.stderr,
+        )
+        return 1
+
+    build_dir = (args.build_dir or (cwd / "build")).resolve()
+    if not (build_dir / "CMakeCache.txt").is_file():
+        cfg = [
+            "cmake",
+            "-S",
+            str(cwd),
+            "-B",
+            str(build_dir),
+            "-DCMAKE_BUILD_TYPE=Release",
+        ]
+        if os.environ.get("CMAKE_PREFIX_PATH"):
+            cfg.append(f"-DCMAKE_PREFIX_PATH={os.environ['CMAKE_PREFIX_PATH']}")
+        elif os.environ.get("QTDIR"):
+            cfg.append(f"-DCMAKE_PREFIX_PATH={os.environ['QTDIR']}")
+        rc = run(cfg, cwd=cwd)
+        if rc != 0:
+            print("error: cmake configure failed", file=sys.stderr)
+            return rc
+
+    rc = run(["cmake", "--build", str(build_dir), "--config", "Release"], cwd=cwd)
+    if rc != 0:
+        print("error: build failed", file=sys.stderr)
+        return rc
+
+    exe = _find_cwd_exe(build_dir)
+    if exe is None:
+        if sys.platform.startswith("win"):
+            found = list(build_dir.rglob("*.exe"))
+        else:
+            found = [
+                cand
+                for cand in build_dir.rglob("*")
+                if cand.is_file()
+                and os.access(cand, os.X_OK)
+                and not cand.suffix
+                and "CMakeFiles" not in str(cand)
+            ]
+        skip = ("cmake", "cpack", "ctest", "moc", "rcc", "uic")
+        found = [cand for cand in found if not any(s in cand.name.lower() for s in skip)]
+        exe = max(found, key=lambda p: p.stat().st_mtime) if found else None
+    if exe is None:
+        print("error: no executable found after Release build", file=sys.stderr)
+        return 1
+
+    env = os.environ.copy()
+    env.setdefault("QT_QUICK_CONTROLS_STYLE", "QWinUI3")
+    print(f"Running {exe} …", flush=True)
+    return run([str(exe), *args.extra], cwd=exe.parent, env=env)
+
+
+def _parse_version(token: str) -> tuple[int, int] | None:
+    m = re.fullmatch(r"(\d+)\.(\d{2})", token.strip())
+    if not m:
+        return None
+    return int(m.group(1)), int(m.group(2))
+
+
+def _cmd_upgrade(args: argparse.Namespace) -> int:
+    """Print upgrade checklist headings from docs/upgrade-notes.md (2.76)."""
+    notes = ROOT / "docs" / "upgrade-notes.md"
+    if not notes.is_file():
+        print(f"error: missing {notes}", file=sys.stderr)
+        return 1
+    from_ver = _parse_version(args.from_ver)
+    if from_ver is None:
+        print("error: --from must be X.YY (e.g. 2.73)", file=sys.stderr)
+        return 2
+
+    text = notes.read_text(encoding="utf-8")
+    heading_re = re.compile(
+        r"^(#{2,3})\s+Upgrade\s+(\d+\.\d{2})\s*(?:→|->)\s*(\d+\.\d{2})\s*$",
+        re.MULTILINE,
+    )
+    matches = list(heading_re.finditer(text))
+    if not matches:
+        loose = re.compile(r"^(#{2,3})\s+.*Upgrade.*(\d+\.\d{2}).*$", re.MULTILINE)
+        print(f"Upgrade checklist from {args.from_ver} (headings mentioning Upgrade):\n", flush=True)
+        printed = 0
+        for m in loose.finditer(text):
+            line = m.group(0).lstrip("#").strip()
+            vers = re.findall(r"\d+\.\d{2}", line)
+            if not vers:
+                continue
+            last = _parse_version(vers[-1])
+            if last and last > from_ver:
+                print(f"- {line}")
+                printed += 1
+        if printed == 0:
+            print("(no matching headings — see docs/upgrade-notes.md)")
+        return 0
+
+    print(f"Upgrade checklist from {args.from_ver}:\n", flush=True)
+    printed = 0
+    for m in matches:
+        dst = _parse_version(m.group(3))
+        if dst is None:
+            continue
+        if dst > from_ver:
+            print(f"- Upgrade {m.group(2)} → {m.group(3)}")
+            printed += 1
+    if printed == 0:
+        print("(no upgrade rows after that version — already current or see docs/upgrade-notes.md)")
+    else:
+        print(f"\nFull notes: {notes}")
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        description="QWinUI3 — Gallery, doctor, and consumer init",
+        description="QWinUI3 — Gallery, doctor, consumer init, run, upgrade",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=__doc__,
     )
@@ -223,6 +372,17 @@ def main(argv: list[str] | None = None) -> int:
     p_init.add_argument("--list-shells", action="store_true")
     p_init.add_argument("--list-packaging", action="store_true")
     p_init.set_defaults(func=_cmd_init)
+
+    p_run = sub.add_parser("run", help="Build Release + run cwd CMake app, or run main.py (2.74)")
+    p_run.add_argument("--cwd", type=Path, default=None, help="App directory (default: cwd)")
+    p_run.add_argument("--build-dir", type=Path, default=None, help="CMake build dir (default: cwd/build)")
+    p_run.add_argument("--prefer-python", action="store_true", help="Prefer main.py when both exist")
+    p_run.add_argument("extra", nargs=argparse.REMAINDER, help="Args passed to the app")
+    p_run.set_defaults(func=_cmd_run)
+
+    p_up = sub.add_parser("upgrade", help="Print upgrade checklist from docs/upgrade-notes.md (2.76)")
+    p_up.add_argument("--from", dest="from_ver", required=True, help="Starting version X.YY")
+    p_up.set_defaults(func=_cmd_upgrade)
 
     args = parser.parse_args(argv)
     if getattr(args, "extra", None) and args.extra and args.extra[0] == "--":
