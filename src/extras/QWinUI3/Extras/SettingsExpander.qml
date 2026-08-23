@@ -190,7 +190,8 @@ T.Control {
                     id: toggleSwitch
                     parent: control.toggle ? actionSlot : null
                     visible: control.toggle
-                    onToggled: function (checked) { control.toggled(checked) }
+                    // AbstractButton.toggled() has no bool arg — forward checked.
+                    onToggled: control.toggled(toggleSwitch.checked)
                 }
 
                 FontIcon {

@@ -337,7 +337,8 @@ T.Pane {
         focusPolicy: Qt.NoFocus
         activeFocusOnTab: false
         Accessible.ignored: true
-        onToggled: function (checked) { root.toggled(checked) }
+        // AbstractButton.toggled() has no bool arg — always forward the checked property.
+        onToggled: root.toggled(toggleSwitch.checked)
     }
 
     TapHandler {

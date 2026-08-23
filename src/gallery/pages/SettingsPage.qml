@@ -140,7 +140,7 @@ Page {
                 toggle: true
                 toggleText: qsTr("Show FPS")
                 checked: FrameStatsMonitor.enabled
-                onToggled: function (on) { FrameStatsMonitor.enabled = on }
+                onToggled: FrameStatsMonitor.enabled = checked
             }
 
             SettingsCard {
@@ -151,7 +151,7 @@ Page {
                 toggleText: qsTr("Show RHI")
                 enabled: FrameStatsMonitor.enabled
                 checked: FrameStatsMonitor.showRhi
-                onToggled: function (on) { FrameStatsMonitor.showRhi = on }
+                onToggled: FrameStatsMonitor.showRhi = checked
             }
 
             SettingsCard {
