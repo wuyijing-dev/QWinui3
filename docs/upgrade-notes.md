@@ -47,6 +47,24 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 2.72 → 2.73
+
+**Product version:** 2.73  
+**Date:** 2026-08-23  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | Additive DX | None required |
+
+### Optional / polish
+- Start at [getting-started.md](getting-started.md); `python scripts/qwinui3.py init` / `doctor --fix`.
+- Checkpoint: [checkpoint-273.md](checkpoint-273.md).
+
+### No action (compatible)
+- Stable Theme / shell / control APIs unchanged for this slice.
+
 ### Upgrade 2.71 → 2.72
 
 **Product version:** 2.72  

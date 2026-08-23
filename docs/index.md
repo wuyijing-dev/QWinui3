@@ -8,6 +8,7 @@ This site is generated from QML source comments and shipped via GitHub Pages.
 
 | | |
 |--|--|
+| **[Getting started](getting-started.md)** | Paths A–E · `qwinui3 init` / `doctor --fix` (**2.73**) |
 | **[Recipes hub](recipes.md)** | All LoB how-tos — also Gallery **Recipes** category |
 | [Docs IA v2](docs-ia-v2.md) | **2.xx** MkDocs regroup + hub mirror (**2.46**) |
 | [Developer diagnostics](developer-diagnostics.md) | FrameStats dev vs retail (**2.44**) |

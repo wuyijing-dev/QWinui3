@@ -1,18 +1,17 @@
 #!/usr/bin/env python3
-"""QWinUI3 developer shortcuts — one entry for C++ and Python Gallery.
+"""QWinUI3 developer shortcuts — Gallery, doctor, consumer init (2.73+).
 
-  python scripts/qwinui3.py gallery           # build C++ Gallery if needed, then run
-  python scripts/qwinui3.py gallery --smoke   # CI-style smoke
-  python scripts/qwinui3.py python            # package Python kit if needed, then run
-  python scripts/qwinui3.py python --smoke
-  python scripts/qwinui3.py doctor            # check Qt / kit / bindings
-
-Root launchers (Windows): gallery.cmd · python-gallery.cmd
+  python scripts/qwinui3.py gallery [--smoke]
+  python scripts/qwinui3.py python [--smoke]
+  python scripts/qwinui3.py doctor [--fix]
+  python scripts/qwinui3.py init --cpp|--python ...
+  python scripts/qwinui3.py build gallery|kit
 """
 
 from __future__ import annotations
 
 import argparse
+import shutil
 import sys
 from pathlib import Path
 
@@ -29,6 +28,15 @@ from _dev_util import (  # noqa: E402
     run,
 )
 
+SHELLS = {
+    "first-app": "templates/consumer/cpp/first-app",
+    "blank": "templates/consumer/python/blank",
+    "gallery-shell": "examples/gallery-shell",
+    "dashboard": "examples/dashboard",
+}
+
+PACKAGING = ("subtree", "zip", "cmake-config", "vcpkg", "conan", "pip")
+
 
 def _cmd_gallery(args: argparse.Namespace) -> int:
     try:
@@ -41,6 +49,8 @@ def _cmd_gallery(args: argparse.Namespace) -> int:
     if args.smoke:
         env["QT_QPA_PLATFORM"] = "windows" if sys.platform.startswith("win") else "offscreen"
         env["QWINUI3_KEEP_QPA_PLATFORM"] = "1"
+        env["QWINUI3_NO_BANNER"] = "1"
+        env["QT_FORCE_STDERR_LOGGING"] = "1"
 
     cmd = [str(binary), *args.extra]
     if args.smoke and "--smoke" not in args.extra:
@@ -95,9 +105,83 @@ def _cmd_build(args: argparse.Namespace) -> int:
     return 2
 
 
+def _cmd_doctor(args: argparse.Namespace) -> int:
+    return doctor_report(
+        prefer_binding=args.binding,
+        explicit_kit=args.kit,
+        report_runtime=args.report,
+        fix=args.fix,
+    )
+
+
+def _cmd_init(args: argparse.Namespace) -> int:
+    if args.list_shells:
+        for name, rel in SHELLS.items():
+            print(f"{name:16} {rel}")
+        return 0
+    if args.list_packaging:
+        for p in PACKAGING:
+            print(p)
+        return 0
+
+    lang = "python" if args.python else "cpp"
+    if args.cpp:
+        lang = "cpp"
+    packaging = args.packaging or ("pip" if lang == "python" else "subtree")
+    shell = args.shell or ("blank" if lang == "python" else "first-app")
+
+    if packaging not in PACKAGING:
+        print(f"error: unknown packaging {packaging!r}", file=sys.stderr)
+        return 2
+    if shell not in SHELLS:
+        print(f"error: unknown shell {shell!r}", file=sys.stderr)
+        return 2
+
+    src = ROOT / SHELLS[shell]
+    if lang == "python" and shell != "blank":
+        src = ROOT / SHELLS["blank"]
+        print(f"note: Python init uses blank template (requested shell={shell})", flush=True)
+    if lang == "cpp" and shell == "blank":
+        src = ROOT / SHELLS["first-app"]
+        print("note: C++ init uses first-app template", flush=True)
+
+    if not src.is_dir():
+        print(f"error: template missing: {src}", file=sys.stderr)
+        return 1
+
+    out = Path(args.out).resolve()
+    if out.exists() and any(out.iterdir()):
+        print(f"error: output not empty: {out}", file=sys.stderr)
+        return 1
+    out.mkdir(parents=True, exist_ok=True)
+    for item in src.iterdir():
+        dest = out / item.name
+        if item.is_dir():
+            shutil.copytree(item, dest)
+        else:
+            shutil.copy2(item, dest)
+
+    readme = out / "README.md"
+    extra = (
+        f"\n\n## Init metadata\n\n"
+        f"- language: `{lang}`\n"
+        f"- packaging: `{packaging}`\n"
+        f"- shell: `{shell}`\n"
+        f"- docs: `docs/getting-started.md`\n"
+    )
+    if readme.is_file():
+        readme.write_text(readme.read_text(encoding="utf-8") + extra, encoding="utf-8")
+    else:
+        readme.write_text("# Generated app\n" + extra, encoding="utf-8")
+
+    print(f"Created {out}", flush=True)
+    print("Next: read README.md · python scripts/qwinui3.py doctor --fix", flush=True)
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        description="QWinUI3 — build and run Gallery (C++ or Python)",
+        description="QWinUI3 — Gallery, doctor, and consumer init",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=__doc__,
     )
@@ -127,13 +211,18 @@ def main(argv: list[str] | None = None) -> int:
     p_doc.add_argument("--binding", choices=("pyside6", "pyqt6"), default=None)
     p_doc.add_argument("--kit", type=Path, default=None, help="Shared kit root for runtime report")
     p_doc.add_argument("--report", action="store_true", help="Also print Python runtime_report() details")
-    p_doc.set_defaults(
-        func=lambda a: doctor_report(
-            prefer_binding=a.binding,
-            explicit_kit=a.kit,
-            report_runtime=a.report,
-        )
-    )
+    p_doc.add_argument("--fix", action="store_true", help="Print actionable fix lines (2.73)")
+    p_doc.set_defaults(func=_cmd_doctor)
+
+    p_init = sub.add_parser("init", help="Scaffold a consumer app (2.73)")
+    p_init.add_argument("--cpp", action="store_true", help="C++ project")
+    p_init.add_argument("--python", action="store_true", help="Python project")
+    p_init.add_argument("--packaging", choices=PACKAGING, default=None)
+    p_init.add_argument("--shell", choices=sorted(SHELLS.keys()), default=None)
+    p_init.add_argument("--out", type=Path, default=Path("my-qwinui3-app"))
+    p_init.add_argument("--list-shells", action="store_true")
+    p_init.add_argument("--list-packaging", action="store_true")
+    p_init.set_defaults(func=_cmd_init)
 
     args = parser.parse_args(argv)
     if getattr(args, "extra", None) and args.extra and args.extra[0] == "--":

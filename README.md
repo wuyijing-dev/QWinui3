@@ -8,7 +8,7 @@ Fluent / [WinUI 3](https://learn.microsoft.com/windows/apps/winui/winui3/)-inspi
 
 **Distribution:** source-only — build Gallery and libraries from this repository. Pre-built binaries are not published.
 
-[Documentation](https://wuyijing-dev.github.io/QWinui3/) · [Recipes](docs/recipes.md) · [Stable API](docs/stable-api.md) · [Component index](docs/components.md) · [Roadmap](ROADMAP.md)
+[Documentation](https://wuyijing-dev.github.io/QWinui3/) · [Getting started](docs/getting-started.md) · [Recipes](docs/recipes.md) · [Stable API](docs/stable-api.md) · [Component index](docs/components.md) · [Roadmap](ROADMAP.md)
 
 ---
 

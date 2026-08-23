@@ -193,9 +193,11 @@ def doctor_report(
     prefer_binding: str | None = None,
     explicit_kit: str | Path | None = None,
     report_runtime: bool = False,
+    fix: bool = False,
 ) -> int:
     print("QWinUI3 environment check\n")
     issues = 0
+    fixes: list[str] = []
 
     # Qt for C++
     build_dir = BUILD_DIR
@@ -203,12 +205,21 @@ def doctor_report(
         prefix = qt_prefix_from_cache(build_dir)
         print(f"  CMake build:     {build_dir} (configured)")
         print(f"  Qt prefix:       {prefix or '(not in cache — set CMAKE_PREFIX_PATH)'}")
+        if prefix is None:
+            issues += 1
+            fixes.append(
+                "Set CMAKE_PREFIX_PATH to your Qt kit (copy CMakeUserPresets.json.example → CMakeUserPresets.json)."
+            )
     else:
         print(f"  CMake build:     {build_dir} (not configured — run: python scripts/qwinui3.py gallery)")
         issues += 1
+        fixes.append("Configure Release: cmake --preset release  (or python scripts/qwinui3.py gallery)")
 
     binary = find_gallery(build_dir)
     print(f"  C++ Gallery:     {binary or 'not built'}")
+    if binary is None:
+        issues += 1
+        fixes.append("Build Gallery: python scripts/qwinui3.py build gallery")
 
     discovered_kit = Path(explicit_kit).resolve() if explicit_kit is not None else _kit_in_dist()
     if discovered_kit is None:
@@ -238,11 +249,20 @@ def doctor_report(
     except ImportError:
         print("  Python binding:  not installed (pip install PySide6)")
         issues += 1
+        fixes.append("pip install PySide6   # or: pip install PyQt6")
     except FileNotFoundError as exc:
         print(f"  Python runtime:  invalid ({exc})")
         issues += 1
+        fixes.append("python scripts/qwinui3.py python   # package shared kit under dist/")
 
     print("\nQuick run:")
     print("  python scripts/qwinui3.py gallery    # C++ Gallery")
     print("  python scripts/qwinui3.py python     # Python Gallery")
+    print("  python scripts/qwinui3.py init --help")
+    if fix:
+        print("\nFix (actionable):")
+        if not fixes:
+            print("  (no issues detected)")
+        for line in fixes:
+            print(f"  → {line}")
     return 1 if issues else 0
