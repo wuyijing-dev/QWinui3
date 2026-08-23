@@ -15,7 +15,7 @@ import QWinUI3.Theme
 //   // --- API ---
 //   // selectedIndex / selectedItem, select(index), showList(), showDetails()
 //   // listHeader / detailToolbar / details slots; multiSelectEnabled + selectedItems (2.64)
-//   // connectedAnimationEnabled (+ key)
+//   // connectedAnimationEnabled (+ key) — list→detail and reverse on showList() (2.68 B3)
 //
 // @notes
 //   ListView master + details host. Collapses via TwoPaneView on narrow widths.
@@ -357,9 +357,25 @@ T.Control {
     }
 
     function showList() {
-        panes.showPane1()
-        forceActiveFocus()
-        _announce(qsTr("Returned to list"))
+        function _commit() {
+            panes.showPane1()
+            forceActiveFocus()
+            _announce(qsTr("Returned to list"))
+        }
+        var detailsVisible = detailsSlot && detailsSlot.width > 0
+                             && (panes.mode !== TwoPaneView.SinglePane || root.singlePaneDetailsOpen)
+        if (connectedAnimationEnabled && detailsVisible) {
+            var toItem = null
+            if (selectedIndex >= 0 && list.itemAtIndex)
+                toItem = list.itemAtIndex(selectedIndex)
+            if (!toItem)
+                toItem = list
+            ConnectedAnimationService.register(connectedAnimationKey, detailsSlot)
+            ConnectedAnimationService.register(connectedAnimationKey, toItem)
+            ConnectedAnimationService.playBetween(detailsSlot, toItem, _commit)
+        } else {
+            _commit()
+        }
     }
 
     function showDetails() {

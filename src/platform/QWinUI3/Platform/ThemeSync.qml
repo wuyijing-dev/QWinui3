@@ -14,6 +14,7 @@ import QWinUI3.Theme
 // @notes
 //   Item (not QtObject) so Connections can be children. Zero size / not visible.
 //   Not a Gallery privilege — any StandardWindow / ShellWindow does this.
+//   2.68 F3: followSystemAccent + live QStyleHints colorSchemeChanged via WindowHelper.
 
 Item {
     id: root
@@ -34,7 +35,8 @@ Item {
             return
         var a11y = Theme.followSystemAccessibility
         var color = Theme.followSystemColorScheme
-        if (!a11y && !color)
+        var accent = Theme.followSystemAccent
+        if (!a11y && !color && !accent)
             return
         if (a11y) {
             WindowHelper.refreshAccessibility()
@@ -44,6 +46,10 @@ Item {
         if (color) {
             WindowHelper.refreshColorScheme()
             Theme.dark = WindowHelper.systemPrefersDark
+        }
+        if (accent) {
+            WindowHelper.refreshSystemAccent()
+            Theme.systemAccent = WindowHelper.systemAccent
         }
     }
 
@@ -57,6 +63,7 @@ Item {
         enabled: root.enabled
         function onFollowSystemAccessibilityChanged() { root.applyFromSystem() }
         function onFollowSystemColorSchemeChanged() { root.applyFromSystem() }
+        function onFollowSystemAccentChanged() { root.applyFromSystem() }
     }
 
     Connections {
@@ -64,6 +71,7 @@ Item {
         enabled: root.enabled
         function onAccessibilityChanged() { root.applyFromSystem() }
         function onColorSchemeChanged() { root.applyFromSystem() }
+        function onSystemAccentChanged() { root.applyFromSystem() }
     }
 
     Connections {

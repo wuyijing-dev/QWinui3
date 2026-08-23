@@ -49,10 +49,17 @@ T.Control {
     property alias isInteractive: root.interactive
     // Play enter / reveal animation
     property bool animated: true
+    // Lerp slice values on updates (2.68 B4)
+    property bool animateDataUpdates: true
     // Arc start angle in degrees
     property real startAngle: -Math.PI / 2
     // 0..1 reveal animation progress
     property real revealProgress: 1
+    property real dataProgress: 1
+    property var _displayValues: []
+    property var _tweenFrom: []
+    property var _tweenTo: []
+    property bool _everRevealed: false
     // Hovered item index
     property int hoverIndex: -1
     // Selected index alias
@@ -97,7 +104,7 @@ T.Control {
         var s = 0
         var list = _slices
         for (var i = 0; i < list.length; ++i)
-            s += Math.max(0, ChartUtils.asNumber(list[i].value))
+            s += root._sliceValue(i)
         return s
     }
 
@@ -111,11 +118,68 @@ T.Control {
         }
     }
 
+    Behavior on dataProgress {
+        enabled: ChartUtils.shouldAnimateDataUpdate(_sliceCount, root.animateDataUpdates)
+        NumberAnimation {
+            duration: Theme.duration(Theme.motionNormal)
+            easing.type: Theme.easingStandard
+        }
+    }
+
     Timer {
         id: redrawCoalesce
         interval: ChartUtils.redrawCoalesceMs
         repeat: false
         onTriggered: canvas.requestPaint()
+    }
+
+    function _targetFlatValues() {
+        var list = root._slices
+        var out = []
+        for (var i = 0; i < list.length; ++i)
+            out.push(Math.max(0, ChartUtils.asNumber(list[i].value)))
+        return out
+    }
+
+    function _syncDisplayFromProgress() {
+        var to = root._tweenTo || []
+        if (!to.length) {
+            root._displayValues = root._targetFlatValues()
+            return
+        }
+        root._displayValues = ChartUtils.lerpValues(root._tweenFrom, to, root.dataProgress)
+    }
+
+    function _sliceValue(i) {
+        if (root._displayValues && i >= 0 && i < root._displayValues.length)
+            return Math.max(0, ChartUtils.asNumber(root._displayValues[i]))
+        if (i >= 0 && i < root._slices.length)
+            return Math.max(0, ChartUtils.asNumber(root._slices[i].value))
+        return 0
+    }
+
+    function _handleDataChange() {
+        hoverIndex = -1
+        var target = root._targetFlatValues()
+        if (!root._everRevealed) {
+            root._displayValues = target
+            root._tweenTo = target
+            root._everRevealed = true
+            playReveal()
+            return
+        }
+        if (ChartUtils.shouldAnimateDataUpdate(target.length, root.animateDataUpdates)
+                && root._displayValues && root._displayValues.length) {
+            root._tweenFrom = root._displayValues.slice()
+            root._tweenTo = target
+            root.dataProgress = 0
+            root.dataProgress = 1
+        } else {
+            root._displayValues = target
+            root._tweenTo = target
+            root.dataProgress = 1
+            requestRedraw()
+        }
     }
 
     // Play entrance reveal animation
@@ -131,15 +195,16 @@ T.Control {
 
     // Request chart / canvas redraw
     function requestRedraw() { redrawCoalesce.restart() }
-    onSlicesChanged: { hoverIndex = -1; Qt.callLater(playReveal) }
-    onValuesChanged: { hoverIndex = -1; Qt.callLater(playReveal) }
+    onSlicesChanged: Qt.callLater(_handleDataChange)
+    onValuesChanged: Qt.callLater(_handleDataChange)
     onThicknessChanged: requestRedraw()
     onRevealProgressChanged: requestRedraw()
+    onDataProgressChanged: { _syncDisplayFromProgress(); requestRedraw() }
     onHoverIndexChanged: requestRedraw()
     onWidthChanged: requestRedraw()
     onHeightChanged: requestRedraw()
     onStartAngleChanged: requestRedraw()
-    Component.onCompleted: playReveal()
+    Component.onCompleted: _handleDataChange()
 
     contentItem: ColumnLayout {
         spacing: 8
@@ -222,7 +287,7 @@ T.Control {
                     ctx.stroke()
 
                     for (var i = 0; i < list.length; ++i) {
-                        var v = Math.max(0, ChartUtils.asNumber(list[i].value))
+                        var v = root._sliceValue(i)
                         var fullSweep = (v / sum) * Math.PI * 2
                         var sweep = fullSweep * reveal
                         var start = angle

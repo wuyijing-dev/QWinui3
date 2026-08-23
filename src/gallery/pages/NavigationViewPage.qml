@@ -52,6 +52,14 @@ CatalogPage {
                     Layout.preferredWidth: 160
                     Accessible.name: qsTr("Pane display mode")
                 }
+                Label { text: qsTr("Appearance"); color: Theme.textSecondary }
+                ComboBox {
+                    id: paneAppearanceBox
+                    model: ["standard", "minimal", "branded"]
+                    currentIndex: 0
+                    Layout.preferredWidth: 140
+                    Accessible.name: qsTr("Pane appearance")
+                }
                 CheckBox {
                     id: backVis
                     text: qsTr("Back (top mode)")
@@ -156,6 +164,8 @@ CatalogPage {
                 currentKey: "home"
                 pageTransition: "slide"
                 paneDisplayMode: paneMode.currentText
+                paneAppearance: paneAppearanceBox.currentText
+                brandedTitle: paneAppearanceBox.currentText === "branded" ? qsTr("Contoso") : ""
                 autoMinimalThreshold: autoMin.value
                 isBackButtonVisible: backVis.checked && paneMode.currentText === "top"
                 isBackEnabled: backEn.checked

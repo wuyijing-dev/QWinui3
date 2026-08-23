@@ -523,6 +523,14 @@ QtObject {
             source: "pages/StepBarPage.qml"
         },
         {
+            title: qsTr("Wizard"),
+            category: "navigation",
+            icon: FluentIcons.List,
+            description: qsTr("Multi-step host with validation gates and Back/Next (2.68)."),
+            component: "WizardPage",
+            source: "pages/WizardPage.qml"
+        },
+        {
             title: qsTr("Pane"),
             category: "layout",
             icon: FluentIcons.Document,

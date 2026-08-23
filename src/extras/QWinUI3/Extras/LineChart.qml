@@ -48,6 +48,8 @@ T.Control {
     property alias isInteractive: root.interactive
     // Play enter / reveal animation
     property bool animated: true
+    // Lerp displayed values on series updates (2.68 B4)
+    property bool animateDataUpdates: true
     // Max points before LOD kicks in
     property int maxPoints: 0
     // Level-of-detail downsample factor
@@ -66,6 +68,12 @@ T.Control {
 
     // 0..1 reveal animation progress
     property real revealProgress: 1
+    // 0..1 data-update tween progress
+    property real dataProgress: 1
+    property var _displayValues: []
+    property var _tweenFrom: []
+    property var _tweenTo: []
+    property bool _everRevealed: false
     // Hovered item index
     property int hoverIndex: -1
     // Pointer X while hovered
@@ -127,12 +135,29 @@ T.Control {
     readonly property bool isEmpty: _seriesList.length === 0
             || ChartUtils.valueCount(_seriesList[0] ? _seriesList[0].values : []) === 0
 
-    readonly property var _seriesList: {
+    readonly property var _rawSeriesList: {
         if (series && series.length)
             return series
         if (ChartUtils.valueCount(values) > 0)
             return [{ name: qsTr("Series"), values: values, color: Theme.accent, filled: root.showArea }]
         return []
+    }
+
+    readonly property var _seriesList: {
+        var base = root._rawSeriesList
+        if (!root._displayValues || !root._displayValues.length || !base.length)
+            return base
+        var out = []
+        for (var i = 0; i < base.length; ++i) {
+            var src = base[i]
+            out.push({
+                name: src.name,
+                values: (i === 0) ? root._displayValues : src.values,
+                color: src.color,
+                filled: src.filled
+            })
+        }
+        return out
     }
 
     Behavior on revealProgress {
@@ -143,11 +168,60 @@ T.Control {
         }
     }
 
+    Behavior on dataProgress {
+        enabled: ChartUtils.shouldAnimateDataUpdate(root.sourcePointCountEstimate(), root.animateDataUpdates)
+        NumberAnimation {
+            duration: Theme.duration(Theme.motionNormal)
+            easing.type: Theme.easingStandard
+        }
+    }
+
     Timer {
         id: redrawCoalesce
         interval: ChartUtils.redrawCoalesceMs
         repeat: false
         onTriggered: canvas.requestPaint()
+    }
+
+    function _targetFlatValues() {
+        var list = root._rawSeriesList
+        if (!list.length)
+            return []
+        return ChartUtils.flattenValues(list[0].values)
+    }
+
+    function _syncDisplayFromProgress() {
+        var to = root._tweenTo || []
+        if (!to.length) {
+            root._displayValues = root._targetFlatValues()
+            return
+        }
+        root._displayValues = ChartUtils.lerpValues(root._tweenFrom, to, root.dataProgress)
+    }
+
+    function _handleDataChange() {
+        hoverIndex = -1
+        invalidateLod()
+        var target = root._targetFlatValues()
+        if (!root._everRevealed) {
+            root._displayValues = target
+            root._tweenTo = target
+            root._everRevealed = true
+            playReveal()
+            return
+        }
+        if (ChartUtils.shouldAnimateDataUpdate(target.length, root.animateDataUpdates)
+                && root._displayValues && root._displayValues.length) {
+            root._tweenFrom = root._displayValues.slice()
+            root._tweenTo = target
+            root.dataProgress = 0
+            root.dataProgress = 1
+        } else {
+            root._displayValues = target
+            root._tweenTo = target
+            root.dataProgress = 1
+            requestRedraw()
+        }
     }
 
     // Play entrance reveal animation
@@ -167,7 +241,7 @@ T.Control {
 
     // Estimated source point count before LOD
     function sourcePointCountEstimate() {
-        var list = root._seriesList
+        var list = root._rawSeriesList
         var n = 0
         for (var i = 0; i < list.length; ++i)
             n = Math.max(n, ChartUtils.valueCount(list[i].values))
@@ -243,8 +317,8 @@ T.Control {
     // Request chart / canvas redraw (coalesced per frame — 1.89)
     function requestRedraw() { redrawCoalesce.restart() }
 
-    onSeriesChanged: { hoverIndex = -1; invalidateLod(); Qt.callLater(playReveal) }
-    onValuesChanged: { hoverIndex = -1; invalidateLod(); Qt.callLater(playReveal) }
+    onSeriesChanged: { Qt.callLater(_handleDataChange) }
+    onValuesChanged: { Qt.callLater(_handleDataChange) }
     onMaxPointsChanged: { invalidateLod(); requestRedraw() }
     onLodFactorChanged: { invalidateLod(); requestRedraw() }
     onMinimumChanged: requestRedraw()
@@ -261,9 +335,10 @@ T.Control {
         requestRedraw()
     }
     onRevealProgressChanged: requestRedraw()
+    onDataProgressChanged: { _syncDisplayFromProgress(); invalidateLod(); requestRedraw() }
     onWidthChanged: requestRedraw()
     onHeightChanged: requestRedraw()
-    Component.onCompleted: playReveal()
+    Component.onCompleted: _handleDataChange()
 
     Connections {
         target: root.values && root.values.dataChanged !== undefined ? root.values : null
@@ -271,8 +346,7 @@ T.Control {
             root.hoverIndex = -1
             root.hoverText = ""
             root.hoverMarkers = []
-            root.invalidateLod()
-            Qt.callLater(root.playReveal)
+            Qt.callLater(root._handleDataChange)
         }
     }
 

@@ -15,6 +15,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QGuiApplication>
+#include <QHash>
 #include <QJSEngine>
 #include <QProcess>
 #include <QQmlEngine>
@@ -36,6 +37,7 @@
 #    define NOMINMAX
 #  endif
 #  include <Windows.h>
+#  include <dwmapi.h>
 #  include <shlobj.h>
 #  include <shobjidl.h>
 #  include <wininet.h>
@@ -224,6 +226,13 @@ WindowHelper::WindowHelper(QObject *parent)
 #if defined(Q_OS_LINUX)
     LinuxPortal::watchColorSchemeChanges(this, SLOT(refreshColorScheme()));
 #endif
+    if (auto *hints = QGuiApplication::styleHints()) {
+        QObject::connect(hints, &QStyleHints::colorSchemeChanged, this, [this](Qt::ColorScheme) {
+            refreshColorScheme();
+            refreshSystemAccent();
+        });
+    }
+    refreshSystemAccent();
 }
 
 QString WindowHelper::platformName() const
@@ -1080,8 +1089,21 @@ qreal WindowHelper::shellCornerRadius() const
     case CornerDefault:
     case CornerRound:
     default:
-        return 8.0;
+        break;
     }
+    // Per-compositor radius presets when drawing client CSD (2.68 F2)
+    if (clientShellDecoration()) {
+        const QString profile = shellCompositorProfile();
+        if (profile == QLatin1String("gnome"))
+            return 12.0;
+        if (profile == QLatin1String("hyprland"))
+            return 10.0;
+        if (profile == QLatin1String("sway"))
+            return 0.0;
+        if (profile == QLatin1String("kde"))
+            return 8.0;
+    }
+    return 8.0;
 }
 
 int WindowHelper::shellShadowMargin() const
@@ -1351,6 +1373,71 @@ void WindowHelper::refreshColorScheme()
         return;
     m_systemPrefersDark = prefersDark;
     emit colorSchemeChanged();
+}
+
+void WindowHelper::refreshSystemAccent()
+{
+    QColor accent = Qt::transparent;
+#if defined(Q_OS_WIN)
+    DWORD colorization = 0;
+    BOOL opaque = FALSE;
+    if (DwmGetColorizationColor(&colorization, &opaque) == S_OK) {
+        // COLORREF-like 0xAARRGGBB from DWM
+        const int a = int((colorization >> 24) & 0xff);
+        const int r = int((colorization >> 16) & 0xff);
+        const int g = int((colorization >> 8) & 0xff);
+        const int b = int(colorization & 0xff);
+        accent = QColor(r, g, b, a > 0 ? a : 255);
+    }
+    if (!accent.isValid() || accent.alpha() == 0) {
+        HKEY key = nullptr;
+        if (RegOpenKeyExW(HKEY_CURRENT_USER,
+                          L"Software\\Microsoft\\Windows\\DWM",
+                          0, KEY_READ, &key) == ERROR_SUCCESS) {
+            DWORD value = 0;
+            DWORD size = sizeof(value);
+            if (RegQueryValueExW(key, L"AccentColor", nullptr, nullptr,
+                                 reinterpret_cast<LPBYTE>(&value), &size) == ERROR_SUCCESS) {
+                // AccentColor is 0xAABBGGRR
+                const int r = int(value & 0xff);
+                const int g = int((value >> 8) & 0xff);
+                const int b = int((value >> 16) & 0xff);
+                const int a = int((value >> 24) & 0xff);
+                accent = QColor(r, g, b, a > 0 ? a : 255);
+            }
+            RegCloseKey(key);
+        }
+    }
+#elif defined(Q_OS_LINUX)
+    // GNOME accent (Ubuntu 22.04+); ignore failures silently.
+    QProcess gsettings;
+    gsettings.start(QStringLiteral("gsettings"),
+                    {QStringLiteral("get"),
+                     QStringLiteral("org.gnome.desktop.interface"),
+                     QStringLiteral("accent-color")});
+    if (gsettings.waitForFinished(400)) {
+        QString out = QString::fromUtf8(gsettings.readAllStandardOutput()).trimmed();
+        if (out.startsWith(QLatin1Char('\'')) && out.endsWith(QLatin1Char('\'')) && out.size() >= 2)
+            out = out.mid(1, out.size() - 2);
+        // Named accents → approximate Fluent hex; leave transparent for "default"
+        static const QHash<QString, QColor> kGnomeAccents = {
+            {QStringLiteral("blue"), QColor(QStringLiteral("#3584e4"))},
+            {QStringLiteral("teal"), QColor(QStringLiteral("#2190a4"))},
+            {QStringLiteral("green"), QColor(QStringLiteral("#3a944a"))},
+            {QStringLiteral("yellow"), QColor(QStringLiteral("#c88800"))},
+            {QStringLiteral("orange"), QColor(QStringLiteral("#ed5b00"))},
+            {QStringLiteral("red"), QColor(QStringLiteral("#e62d42"))},
+            {QStringLiteral("pink"), QColor(QStringLiteral("#d56199"))},
+            {QStringLiteral("purple"), QColor(QStringLiteral("#9141ac"))},
+            {QStringLiteral("slate"), QColor(QStringLiteral("#6f8396"))},
+        };
+        accent = kGnomeAccents.value(out.toLower(), QColor(Qt::transparent));
+    }
+#endif
+    if (accent == m_systemAccent)
+        return;
+    m_systemAccent = accent;
+    emit systemAccentChanged();
 }
 
 void WindowHelper::refreshAccessibility()

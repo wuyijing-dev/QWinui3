@@ -55,6 +55,10 @@ QtObject {
     property bool followSystemAccessibility: true
     // When true, ThemeSync mirrors WindowHelper.systemPrefersDark into Theme.dark.
     property bool followSystemColorScheme: false
+    // When true, ThemeSync mirrors WindowHelper.systemAccent into Theme.systemAccent (2.68 F3).
+    property bool followSystemAccent: false
+    // Last OS accent copied by ThemeSync (alpha 0 = unused).
+    property color systemAccent: "#00000000"
     // Control density: "standard" | "compact"
     property string density: "standard"
     // Extra UI scale on top of system DPR (1.0 = follow OS only). Qt layout is already in DIPs.
@@ -66,10 +70,12 @@ QtObject {
     // When alpha > 0, overrides accentPack colors
     property color customAccent: "#00000000"
 
-    // Fluent / WinUI 3 system accent (pack or customAccent)
+    // Fluent / WinUI 3 system accent (customAccent → OS accent → pack)
     readonly property color accent: {
         if (customAccent.a > 0.001)
             return customAccent
+        if (followSystemAccent && systemAccent.a > 0.001)
+            return systemAccent
         switch (accentPack) {
         case "purple":
             return dark ? "#D2A6FF" : "#744DA9"

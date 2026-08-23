@@ -32,6 +32,8 @@ Popup {
     id: root
 
     property var commands: []
+    // Optional CommandRegistry — auto-discovered scopes merge ahead of commands (2.68 D4)
+    property var registry: null
     property string placeholderText: qsTr("Type a command")
     property int maxVisible: 8
     property real paletteWidth: Math.min(560, (parent ? parent.width : 560) - 48)
@@ -43,8 +45,41 @@ Popup {
     property int maxRecentCommands: 5
     property string recentKeyRole: "id"
 
-    readonly property int commandCount: (commands || []).length
+    readonly property var _mergedCommands: {
+        var out = []
+        var seen = {}
+        function push(cmd) {
+            if (!cmd)
+                return
+            var k = root._commandKey(cmd)
+            if (k.length && seen[k])
+                return
+            if (k.length)
+                seen[k] = true
+            out.push(cmd)
+        }
+        if (registry && typeof registry.commandsForPalette === "function") {
+            var discovered = registry.commandsForPalette() || []
+            for (var d = 0; d < discovered.length; ++d)
+                push(discovered[d])
+        }
+        var manual = commands || []
+        for (var m = 0; m < manual.length; ++m)
+            push(manual[m])
+        return out
+    }
+
+    readonly property int commandCount: (_mergedCommands || []).length
     readonly property int filteredCount: _filtered.length
+
+    Connections {
+        target: root.registry
+        enabled: root.registry !== null
+        function onCommandsChanged() {
+            root._lastFilterKey = ""
+            root._rebuild(queryField.text)
+        }
+    }
 
     signal commandTriggered(var command)
     // closed() inherited from Popup
@@ -120,7 +155,7 @@ Popup {
     }
 
     function _findCommand(key) {
-        var src = commands || []
+        var src = _mergedCommands || []
         for (var i = 0; i < src.length; ++i) {
             if (_commandKey(src[i]) === key)
                 return src[i]
@@ -147,7 +182,7 @@ Popup {
         if (q === root._lastFilterKey)
             return
         root._lastFilterKey = q
-        var src = commands || []
+        var src = _mergedCommands || []
         var out = []
         var seen = {}
 

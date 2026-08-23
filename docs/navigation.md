@@ -36,9 +36,22 @@ Tear-out (`canTearOutTabs`) stays **experimental** (may change; see TabView note
 | `top` | Horizontal top nav; optional in-pane Back |
 | `auto` | `left` when width ≥ `autoCompactThreshold` (default **1008**); `leftCompact` when ≥ `autoMinimalThreshold` (default **640**); else **`leftMinimal`** overlay drawer (Calculator-like). TitleBar hamburger → `togglePane()`. |
 
+### Pane appearance (2.68)
+
+| `paneAppearance` | Behavior |
+|------------------|----------|
+| `standard` | Default chrome + selection pip |
+| `minimal` | Quieter divider / thinner selection indicator |
+| `branded` | Logo band (`paneLogo`) + optional `brandedTitle` + stronger footer separator |
+
+Pinned page Component cache: `pinnedPageCache` + `pageCacheMemoryAware` (weighted LRU).
+
 ```qml
 NavigationView {
     paneDisplayMode: "auto"
+    paneAppearance: "branded"
+    brandedTitle: qsTr("Contoso")
+    pinnedPageCache: ["HomePage", "SettingsPage"]
     autoCompactThreshold: 1008
     autoMinimalThreshold: 640   // below → overlay drawer (Windows Calculator-like)
     openPaneLength: Theme.navPaneWidth

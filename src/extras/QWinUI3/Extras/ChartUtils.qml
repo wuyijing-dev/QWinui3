@@ -30,6 +30,28 @@ QtObject {
                && (pointCount | 0) <= revealAnimationPointBudget
     }
 
+    // True when series value tweens should run on data updates (2.68 B4)
+    function shouldAnimateDataUpdate(pointCount, animateUpdates) {
+        return !!animateUpdates && !Theme.reducedMotion
+               && (pointCount | 0) > 0
+               && (pointCount | 0) <= largeSeriesThreshold
+    }
+
+    // Lerp two flat number arrays toward `to` at progress t (0..1)
+    function lerpValues(fromArr, toArr, t) {
+        var a = fromArr || []
+        var b = toArr || []
+        var n = Math.max(a.length, b.length)
+        var out = new Array(n)
+        var p = Math.max(0, Math.min(1, t))
+        for (var i = 0; i < n; ++i) {
+            var fv = i < a.length ? asNumber(a[i]) : 0
+            var tv = i < b.length ? asNumber(b[i]) : 0
+            out[i] = fv + (tv - fv) * p
+        }
+        return out
+    }
+
     // Coerce input to number with fallback
     function asNumber(v, fallback) {
         var n = Number(v)

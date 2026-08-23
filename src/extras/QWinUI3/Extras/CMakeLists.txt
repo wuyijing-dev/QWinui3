@@ -84,6 +84,7 @@ qt_add_qml_module(qwinui3_extras
         AppBarPreset.qml
         CommandBarFlyout.qml
         CommandPalette.qml
+        CommandRegistry.qml
         ContentCard.qml
         ContentDialog.qml
         ContentDialogQueue.qml
@@ -255,6 +256,7 @@ qt_add_qml_module(qwinui3_extras
         StackPanel.qml
         StatusDot.qml
         StepBar.qml
+        Wizard.qml
         SwipeControl.qml
         SwitchCase.qml
         SwitchPresenter.qml

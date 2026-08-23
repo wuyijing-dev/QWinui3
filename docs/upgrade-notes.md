@@ -47,6 +47,35 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 2.67 → 2.68
+
+**Product version:** 2.68
+**Date:** 2026-08-23
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **A5 nav appearance:** NavigationView `paneAppearance: standard|minimal|branded` + `paneLogo` / `brandedTitle` — [navigation.md](navigation.md).
+- **B3 connected:** ListDetailsView reverse morph on `showList()` when `connectedAnimationEnabled`.
+- **B4 charts:** LineChart / BarChart / DonutChart `animateDataUpdates` series tween — [charts.md](charts.md).
+- **C3 cache:** `pinnedPageCache` + `pageCacheMemoryAware` / `pageCacheMemoryBudgetMb` — [performance.md](performance.md).
+- **D3 Wizard:** new **Wizard** host (StepBar + validation + Back/Next) — Gallery **Wizard**.
+- **D4 commands:** **CommandRegistry** + CommandPalette `registry` auto-discovery — [commands.md](commands.md).
+- **F2 compositor:** profile radius presets (GNOME 12 / Hyprland 10 / Sway 0 / KDE 8) — [platform-linux-wayland.md](platform-linux-wayland.md).
+- **F3 ThemeSync:** `followSystemAccent` + live `QStyleHints::colorSchemeChanged` / `systemAccent`.
+
+#### Action required (only if you adopt new APIs)
+
+| Area | Change | What to do |
+|------|--------|------------|
+| **NavigationView** | Optional `paneAppearance` | Use `branded` + `paneLogo` for product shells |
+| **CommandPalette** | Optional `registry` | Register scoped commands via **CommandRegistry** |
+| **Theme** | Optional `followSystemAccent` | ThemeSync copies `WindowHelper.systemAccent` |
+
+#### No action (compatible)
+
+- Existing NavigationView / charts / CommandPalette / ThemeSync call sites keep prior defaults.
+
 ### Upgrade 2.66 → 2.67
 
 **Product version:** 2.67

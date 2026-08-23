@@ -7,6 +7,7 @@ Keyboard / focus recipes for **command launchers**, **command bars**, and **menu
 | Surface | Use when | Gallery |
 |---------|----------|---------|
 | [`CommandPalette`](components/CommandPalette.md) | Global “type to run” (Ctrl+K) | CommandPalette |
+| [`CommandRegistry`](components/CommandRegistry.md) | Scoped command store; bind as `CommandPalette.registry` (2.68) | CommandPalette |
 | [`CommandBar`](components/CommandBar.md) + [`AppBarButton`](components/AppBarButton.md) | Page / context tool strip | CommandBar |
 | [`CommandBarFlyout`](components/CommandBarFlyout.md) | Contextual AppBar in a flyout | CommandBarFlyout |
 | [`MenuFlyout`](components/MenuFlyout.md) + [`MenuFlyoutItem`](components/MenuFlyoutItem.md) | Context / overflow menu | MenuFlyout |
@@ -22,6 +23,8 @@ Shell helper: `ShellWindow.commandPaletteEnabled` + `commandPaletteCommands` wir
 CommandPalette {
     id: palette
     parent: Overlay.overlay
+    // Optional auto-discovery (2.68):
+    registry: commandRegistry
     commands: [
         {
             title: qsTr("Settings"),
@@ -36,6 +39,7 @@ CommandPalette {
 Shortcut { sequences: ["Ctrl+K"]; onActivated: palette.open() }
 ```
 
+**CommandRegistry** scopes (`global` → `window` → `page` → `focused`) merge into the palette ahead of `commands`. Call `register({ id, title, scope, action })` and `setPageScope` / `setFocusedScope` as navigation changes.
 | Key | Behavior |
 |-----|----------|
 | **Ctrl+K** / **Meta+K** | Open / toggle (ShellWindow or your `Shortcut`) |

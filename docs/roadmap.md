@@ -1,8 +1,8 @@
 # QWinUI3 Roadmap
 
-**Current:** **2.66** (master; Appearance foundations + DataTable pro grid)
-**Next up:** **2.67** List/card appearance + motion tokens
-**Planned through:** **3.00** (… → **2.67…2.70** product wave → **2.71…2.75** platform/Python polish → **3.00** close-out → [micro-interaction backlog last](#micro-interaction--visual-polish--deferred-last))
+**Current:** **2.68** (master; Navigation appearance + connected motion + workflow)
+**Next up:** **2.69** DataTable chrome + dialogs + calendar/RichEdit
+**Planned through:** **3.00** (… → **2.69…2.70** product wave → **2.71…2.75** platform/Python polish → **3.00** close-out → [micro-interaction backlog last](#micro-interaction--visual-polish--deferred-last))
 **Checkpoints ahead:** **2.70** professional-surfaces audit · **2.73** Python consumer · **3.00** breaking close-out (checkpoint-300)
 **Qt:** 6.5+ (recommended 6.8 LTS) on master today — **2.00** raises floor to **6.8 LTS** · **3.00** to **6.10 LTS**
 **Platforms:** **Windows + Linux** — no macOS first-class line.
@@ -136,8 +136,8 @@ Consumer sketch: [upgrade-notes.md](docs/upgrade-notes.md) **Upgrade 1.90 → 2.
 |-------|---------------|----------------|--------|
 | **2.65** | Charts + Dashboard | Analytics wave A (**FL-009**) | **Shipped** |
 | **2.66** | Appearance + grid + table perf | **A1** · **A2** · **C1** · **D1** | **Shipped** |
-| **2.67** | List/card appearance + motion tokens | **A3** · **A4** · **B1** · **B2** · **C2** · **C4** · **D2** · **F1** | Planned |
-| **2.68** | Nav/tabs + connected motion + workflow | **A5** · **B3** · **B4** · **C3** · **C4** · **D3** · **D4** · **F2** · **F3** | Planned |
+| **2.67** | List/card appearance + motion tokens | **A3** · **A4** · **B1** · **B2** · **C2** · **C4** · **D2** · **F1** | **Shipped** |
+| **2.68** | Nav/tabs + connected motion + workflow | **A5** · **B3** · **B4** · **C3** · **C4** · **D3** · **D4** · **F2** · **F3** | **Shipped** |
 | **2.69** | Collections + dialogs + calendar/RichEdit | **A6** · **B5** · **C5** · **D5** · **D6** · **F4** · **F5** | Planned |
 | **2.70** | Feedback chrome + loading + session + checkpoint | **A7** · **B6** · **C6** · **D7** · **D8** · **F6** · checkpoint-270 | Planned |
 
@@ -170,7 +170,7 @@ Consumer sketch: [upgrade-notes.md](docs/upgrade-notes.md) **Upgrade 1.90 → 2.
 
 **Out:** Million-row GPU grid; masked-input engine for every locale.
 
-### 2.67 — List/card appearance + motion system (planned)
+### 2.67 — List/card appearance + motion system (shipped)
 
 | ID | Deliverable |
 |----|-------------|
@@ -178,16 +178,16 @@ Consumer sketch: [upgrade-notes.md](docs/upgrade-notes.md) **Upgrade 1.90 → 2.
 | **A4** | **Card 表面变体** — **SettingsCard** / **ChartCard** / **InfoBar**: `elevated / filled / outline / accent` |
 | **B1** | **Motion token 体系** — `Theme.motion.durationFast/Normal/Slow` + easing; Style / Extras consume tokens |
 | **B2** | **列表入场/退场** — **ItemsView** / **DataTable** / **ListDetailsView**: `itemEnter` / `itemExit` presets; honors `Theme.reducedMotion` |
-| **C2** | **Chart 降采样** — 10k+ points auto decimation (bucket / Douglas-Peucker); crosshair stays responsive |
-| **C4** | **Style binding 瘦身 wave 10** — **Slider** / **Switch** / **ComboBox** idle bindings; interaction motion unchanged |
-| **D2** | **Form 工作流包** — async field validation, field dependency visibility, collapsible form sections |
+| **C2** | **Chart 降采样** — 10k+ points auto decimation (`autoDecimate` / `decimateMode: bucket\|douglas`); crosshair stays responsive |
+| **C4** | **Style binding 瘦身 wave 10** — **Slider** / **Switch** / **ComboBox** idle bindings gated; interaction motion unchanged |
+| **D2** | **Form 工作流包** — async `beginValidate`/`endValidate`, `FormSection`, `formFieldId` / `setFieldVisible` |
 | **F1** | **PlatformCapability API** — runtime query Mica / Acrylic / tray / WebView / blur / SNI; UI degrades honestly |
 
-**Also:** experimental promote wave 2 — [stable-api.md](docs/stable-api.md) + **Sparkline** promote/defer verdict ([charts-dashboard-arc.md](docs/planning/expansion/charts-dashboard-arc.md)).
+**Also:** experimental promote wave 2 — **Sparkline** permanent defer → **`KpiTile.trendValues`** ([stable-api.md](docs/stable-api.md) · [charts-dashboard-arc.md](docs/planning/expansion/charts-dashboard-arc.md)).
 
 **Out:** Full site visual redesign; promoting every experimental type without soak.
 
-### 2.68 — Navigation appearance + connected motion + workflow (planned)
+### 2.68 — Navigation appearance + connected motion + workflow (shipped)
 
 | ID | Deliverable |
 |----|-------------|

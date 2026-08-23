@@ -70,9 +70,49 @@ CatalogPage {
         parent: Overlay.overlay
         filterDebounceMs: 80
         maxResults: 64
+        registry: demoRegistry
         commands: page.stressCommands()
         onCommandTriggered: function (cmd) {
             result.text = qsTr("Ran: %1").arg(cmd.title)
+        }
+    }
+
+    CommandRegistry {
+        id: demoRegistry
+        Component.onCompleted: {
+            register({
+                id: "registry-hello",
+                title: qsTr("Registry: Hello (global)"),
+                subtitle: qsTr("Discovered via CommandRegistry (2.68)"),
+                scope: "global",
+                symbol: FluentIcons.Emoji,
+                action: function () { result.text = qsTr("Registry global") }
+            })
+            register({
+                id: "registry-page",
+                title: qsTr("Registry: Page scope"),
+                scope: "page",
+                scopeId: "commands",
+                symbol: FluentIcons.Page,
+                action: function () { result.text = qsTr("Registry page") }
+            })
+            setPageScope("commands")
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("CommandRegistry auto-discovery (2.68)")
+        qmlSource: "CommandPalette { registry: CommandRegistry { … } }"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Bind CommandPalette.registry to merge scoped commands (focused → page → window → global) ahead of the manual commands list.")
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
         }
     }
 

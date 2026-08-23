@@ -197,6 +197,9 @@ python scripts/generate_component_docs.py --lint
 - [StatusBar](components/StatusBar.md) — Window status strip with progress and slots. · Gallery
 - [StatusDot](components/StatusDot.md) — Colored status indicator dot. · Gallery
 - [StepBar](components/StepBar.md) — Horizontal step / wizard progress. · Gallery
+- [Wizard](components/Wizard.md) — Multi-step host with validation gates (2.68). · Gallery
+- [CommandPalette](components/CommandPalette.md) — Ctrl+K command launcher. · Gallery
+- [CommandRegistry](components/CommandRegistry.md) — Scoped command store for palette discovery (2.68).
 - [SunburstChart](components/SunburstChart.md) — Two-level nested rings. · Gallery
 - [SwipeAction](components/SwipeAction.md) — Action revealed by SwipeControl.
 - [SwipeControl](components/SwipeControl.md) — Swipe-to-reveal actions on content. · Gallery

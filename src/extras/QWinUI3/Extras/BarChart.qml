@@ -48,8 +48,17 @@ T.Control {
     property alias isInteractive: root.interactive
     // Play enter / reveal animation
     property bool animated: true
+    // Lerp displayed values on series updates (2.68 B4); first paint still uses playReveal
+    property bool animateDataUpdates: true
     // 0..1 reveal animation progress
     property real revealProgress: 1
+    // 0..1 data-update tween progress
+    property real dataProgress: 1
+    // Displayed numeric samples (lerped)
+    property var _displayValues: []
+    property var _tweenFrom: []
+    property var _tweenTo: []
+    property bool _everRevealed: false
     // Hovered item index
     property int hoverIndex: -1
     // Selected index alias
@@ -108,11 +117,65 @@ T.Control {
         }
     }
 
+    Behavior on dataProgress {
+        enabled: ChartUtils.shouldAnimateDataUpdate(_pointCount, root.animateDataUpdates)
+        NumberAnimation {
+            duration: Theme.duration(Theme.motionNormal)
+            easing.type: Theme.easingStandard
+        }
+    }
+
     Timer {
         id: redrawCoalesce
         interval: ChartUtils.redrawCoalesceMs
         repeat: false
         onTriggered: canvas.requestPaint()
+    }
+
+    function _targetFlatValues() {
+        if (root._hasSeries) {
+            var out = []
+            for (var i = 0; i < root._categoryCount; ++i)
+                out.push(root._categoryValue(i))
+            return out
+        }
+        var list = root._bars
+        var vals = []
+        for (var j = 0; j < list.length; ++j)
+            vals.push(ChartUtils.asNumber(list[j].value))
+        return vals
+    }
+
+    function _syncDisplayFromProgress() {
+        var to = root._tweenTo || []
+        if (!to.length) {
+            root._displayValues = root._targetFlatValues()
+            return
+        }
+        root._displayValues = ChartUtils.lerpValues(root._tweenFrom, to, root.dataProgress)
+    }
+
+    function _handleDataChange() {
+        var target = root._targetFlatValues()
+        if (!root._everRevealed) {
+            root._displayValues = target
+            root._tweenTo = target
+            root._everRevealed = true
+            playReveal()
+            return
+        }
+        if (ChartUtils.shouldAnimateDataUpdate(target.length, root.animateDataUpdates)
+                && root._displayValues && root._displayValues.length) {
+            root._tweenFrom = root._displayValues.slice()
+            root._tweenTo = target
+            root.dataProgress = 0
+            root.dataProgress = 1
+        } else {
+            root._displayValues = target
+            root._tweenTo = target
+            root.dataProgress = 1
+            requestRedraw()
+        }
     }
 
     // Play entrance reveal animation
@@ -141,20 +204,27 @@ T.Control {
         return ChartUtils.asNumber(root._bars[index].value)
     }
 
-    onValuesChanged: Qt.callLater(playReveal)
-    onBarsChanged: Qt.callLater(playReveal)
-    onSeriesChanged: Qt.callLater(playReveal)
+    function _displayAt(index) {
+        if (root._displayValues && index >= 0 && index < root._displayValues.length)
+            return ChartUtils.asNumber(root._displayValues[index])
+        return root._categoryValue(index)
+    }
+
+    onValuesChanged: Qt.callLater(_handleDataChange)
+    onBarsChanged: Qt.callLater(_handleDataChange)
+    onSeriesChanged: Qt.callLater(_handleDataChange)
     onStackedChanged: requestRedraw()
     onHorizontalChanged: requestRedraw()
     onLabelsChanged: requestRedraw()
     onMinimumChanged: requestRedraw()
     onMaximumChanged: requestRedraw()
     onRevealProgressChanged: requestRedraw()
+    onDataProgressChanged: { _syncDisplayFromProgress(); requestRedraw() }
     onHoverIndexChanged: requestRedraw()
     onShowValueLabelsChanged: requestRedraw()
     onWidthChanged: requestRedraw()
     onHeightChanged: requestRedraw()
-    Component.onCompleted: playReveal()
+    Component.onCompleted: _handleDataChange()
 
     contentItem: ColumnLayout {
         spacing: 6
@@ -221,7 +291,11 @@ T.Control {
                 var hi = isFinite(root.maximum) ? root.maximum : NaN
 
                 function seriesVal(s, i) {
-                    return ChartUtils.valueAt(root.series[s].values, i, 0)
+                    var raw = ChartUtils.valueAt(root.series[s].values, i, 0)
+                    var targetSum = root._categoryValue(i)
+                    var dispSum = root._displayAt(i)
+                    var ratio = Math.abs(targetSum) > 1e-9 ? (dispSum / targetSum) : 1
+                    return raw * ratio
                 }
 
                 if (hasSeries) {
@@ -243,7 +317,7 @@ T.Control {
                 } else {
                     var vals = []
                     for (var i = 0; i < n; ++i)
-                        vals.push(ChartUtils.asNumber(root._bars[i].value))
+                        vals.push(root._displayAt(i))
                     var ext = ChartUtils.extents(vals)
                     if (!isFinite(root.minimum))
                         lo = Math.min(0, ext.min)

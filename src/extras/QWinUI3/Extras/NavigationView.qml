@@ -10,9 +10,11 @@ import QWinUI3.Theme
 //       id: nav
 //       anchors.fill: parent
 //       paneDisplayMode: "auto"
+//       paneAppearance: "standard"   // standard | minimal | branded
 //       model: navModel
 //       isPaneSearchEnabled: true
 //       pageModule: "MyApp"
+//       pinnedPageCache: ["HomePage", "SettingsPage"]
 //       onItemClicked: (index) => { /* … */ }
 //       onPageOpened: (name) => { /* … */ }
 //       onBackRequested: { /* … */ }
@@ -38,6 +40,8 @@ import QWinUI3.Theme
 //   model entries: type "item"|"group"|"header"; groups use children[].
 //   pageModule + component names load StackView pages (unless hostContent).
 //   Pages compile on first open — not at shell startup; pageCacheLimit LRU (1.39).
+//   paneAppearance: standard | minimal | branded (logo band + footer chrome — 2.68).
+//   pinnedPageCache + pageCacheMemoryAware weighted LRU (2.68 C3).
 //   initialPageTransition defaults to "none" for a snappy first paint.
 //   paneDisplayMode auto: left → leftCompact → leftMinimal (drawer) by width.
 //   leftMinimal / compact drawer overlay content with a light-dismiss scrim (Calculator-like).
@@ -83,6 +87,12 @@ Item {
     property alias compactPaneLength: root.paneCompactWidth
     // Compact rail: "iconOnly" (WinUI) or "labeled" (Store icon-above-caption)
     property string compactPaneStyle: "iconOnly"
+    // Pane chrome: "standard" | "minimal" | "branded" (2.68 A5)
+    property string paneAppearance: "standard"
+    // Logo slot for branded pane (Image / Item children)
+    property alias paneLogo: paneLogoHost.data
+    // Optional brand title shown next to the logo band
+    property string brandedTitle: ""
     // Minimum page width reserved when the left pane is expanded
     property real minContentWidth: 320
     // Pane header title text (WinUI PaneTitle)
@@ -193,10 +203,20 @@ Item {
     property string _openedPageName: ""
     // Max cached page Components from pageModule (0 = unlimited). LRU eviction (1.39).
     property int pageCacheLimit: 24
+    // Page names never evicted by LRU (2.68 C3)
+    property var pinnedPageCache: []
+    // Weight pinned pages as 2; prefer evicting unpinned oldest first (2.68 C3)
+    property bool pageCacheMemoryAware: true
+    // Weight budget (0 = derive from pageCacheLimit). Rough MB≈weight units.
+    property int pageCacheMemoryBudgetMb: 0
     // Cached Component hits (diagnostics — 2.18).
     property int pageCacheHits: 0
     // Number of entries in the page Component cache
     property int pageCacheCount: 0
+    // True when paneAppearance is branded
+    readonly property bool _paneBranded: paneAppearance === "branded"
+    // True when paneAppearance is minimal (quieter chrome)
+    readonly property bool _paneMinimal: paneAppearance === "minimal"
     // selectKey skipped — same nav key already active (diagnostics — 2.28).
     property int sameKeySkipCount: 0
     // openPage skipped — same page component already showing (diagnostics — 2.28).
@@ -925,6 +945,25 @@ Item {
     // LRU order of cached page names (oldest first)
     property var _compCacheOrder: []
 
+    function _isPinnedPage(name) {
+        var pinned = root.pinnedPageCache || []
+        return !!name && pinned.indexOf(name) >= 0
+    }
+
+    function _pageCacheWeight(name) {
+        if (!root.pageCacheMemoryAware)
+            return 1
+        return root._isPinnedPage(name) ? 2 : 1
+    }
+
+    function _pageCacheBudget() {
+        if (root.pageCacheLimit <= 0 && root.pageCacheMemoryBudgetMb <= 0)
+            return -1
+        if (root.pageCacheMemoryAware && root.pageCacheMemoryBudgetMb > 0)
+            return Math.max(1, root.pageCacheMemoryBudgetMb)
+        return root.pageCacheLimit
+    }
+
     function _touchPageCache(name) {
         var order = root._compCacheOrder.slice()
         var idx = order.indexOf(name)
@@ -937,17 +976,39 @@ Item {
     }
 
     function _evictPageCache() {
-        if (root.pageCacheLimit <= 0)
+        var budget = root._pageCacheBudget()
+        if (budget < 0)
             return
         var order = root._compCacheOrder.slice()
         var cache = Object.assign({}, root._compCache)
-        while (order.length > root.pageCacheLimit) {
+
+        function totalWeight() {
+            var w = 0
+            for (var i = 0; i < order.length; ++i)
+                w += root._pageCacheWeight(order[i])
+            return root.pageCacheMemoryAware ? w : order.length
+        }
+
+        while (totalWeight() > budget) {
             var drop = ""
+            // Prefer unpinned oldest (skip current page)
             for (var i = 0; i < order.length; ++i) {
-                if (order[i] !== root._openedPageName) {
-                    drop = order[i]
-                    order.splice(i, 1)
-                    break
+                if (order[i] === root._openedPageName)
+                    continue
+                if (root._isPinnedPage(order[i]))
+                    continue
+                drop = order[i]
+                order.splice(i, 1)
+                break
+            }
+            if (!drop) {
+                // Fall back: oldest non-current (may include pinned if over budget)
+                for (var j = 0; j < order.length; ++j) {
+                    if (order[j] !== root._openedPageName) {
+                        drop = order[j]
+                        order.splice(j, 1)
+                        break
+                    }
                 }
             }
             if (!drop)
@@ -1591,14 +1652,52 @@ Item {
                 anchors.right: parent.right
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                width: 1
+                width: root._paneMinimal ? 0 : 1
+                visible: !root._paneMinimal
                 color: Theme.strokeDivider
             }
 
             ColumnLayout {
                 anchors.fill: parent
-                anchors.margins: 4
-                spacing: 2
+                anchors.margins: root._paneMinimal ? 2 : 4
+                spacing: root._paneMinimal ? 1 : 2
+
+                // Branded logo band above pane header (2.68 A5)
+                ColumnLayout {
+                    id: brandedBand
+                    visible: root._paneBranded && root.paneOpen
+                             && (paneLogoHost.children.length > 0 || root.brandedTitle.length > 0)
+                    Layout.fillWidth: true
+                    spacing: 4
+
+                    Item {
+                        id: paneLogoHost
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: children.length > 0
+                                                ? Math.max(32, childrenRect.height) : 0
+                        visible: children.length > 0
+                        clip: true
+                    }
+                    Text {
+                        id: brandTitleRow
+                        visible: root.brandedTitle.length > 0
+                        Layout.fillWidth: true
+                        Layout.leftMargin: 8
+                        Layout.rightMargin: 8
+                        text: root.brandedTitle
+                        font.pixelSize: Theme.fontBody
+                        font.weight: Theme.fontWeightSemiBold
+                        color: Theme.textPrimary
+                        elide: Text.ElideRight
+                    }
+                    Rectangle {
+                        Layout.fillWidth: true
+                        Layout.leftMargin: 8
+                        Layout.rightMargin: 8
+                        height: 1
+                        color: Theme.strokeDivider
+                    }
+                }
 
                 // Pane title bar: hamburger + paneTitle only (Back lives on TitleBar / top mode)
                 ItemDelegate {
@@ -2147,10 +2246,10 @@ Item {
                     // do not drive opacity from itemAtIndex (that made the pip vanish while scrolling).
                     Rectangle {
                         id: selectionPip
-                        width: 3
-                        radius: 1.5
+                        width: root._paneMinimal ? 2 : 3
+                        radius: root._paneMinimal ? 1 : 1.5
                         color: Theme.accent
-                        x: 4
+                        x: root._paneMinimal ? 2 : 4
                         z: 2
                         visible: opacity > 0.01
                         opacity: {
@@ -2160,7 +2259,7 @@ Item {
                         }
 
                         // Selection pip rest height
-                        property real baseHeight: 16
+                        property real baseHeight: root._paneMinimal ? 12 : 16
                         // Pip animation start contentY
                         property real contentFromY: 0
                         // Pip animation end contentY
@@ -2310,11 +2409,13 @@ Item {
                 Rectangle {
                     visible: root.isSettingsVisible
                              && (root.footerComponent.length > 0 || root.footerText.length > 0)
+                             && !root._paneMinimal
                     Layout.fillWidth: true
-                    Layout.leftMargin: 8
-                    Layout.rightMargin: 8
-                    height: visible ? 1 : 0
-                    color: Theme.strokeDivider
+                    Layout.leftMargin: root._paneBranded ? 4 : 8
+                    Layout.rightMargin: root._paneBranded ? 4 : 8
+                    height: visible ? (root._paneBranded ? 2 : 1) : 0
+                    color: root._paneBranded ? Theme.strokeCard : Theme.strokeDivider
+                    opacity: root._paneBranded ? 1 : 1
                 }
 
                 ItemDelegate {

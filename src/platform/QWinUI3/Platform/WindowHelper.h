@@ -59,6 +59,7 @@ class WindowHelper : public QObject
     Q_PROPERTY(QString desktopEnvironment READ desktopEnvironment CONSTANT)
     Q_PROPERTY(QString waylandDisplay READ waylandDisplay CONSTANT)
     Q_PROPERTY(bool systemPrefersDark READ systemPrefersDark NOTIFY colorSchemeChanged)
+    Q_PROPERTY(QColor systemAccent READ systemAccent NOTIFY systemAccentChanged)
     Q_PROPERTY(bool portalAvailable READ portalAvailable CONSTANT)
     Q_PROPERTY(qreal devicePixelRatio READ devicePixelRatio NOTIFY screensChanged)
     // Win11 Snap Layouts: report HTMAXBUTTON for the maximize caption rect
@@ -160,6 +161,7 @@ public:
     QString desktopEnvironment() const;
     QString waylandDisplay() const;
     bool systemPrefersDark() const { return m_systemPrefersDark; }
+    QColor systemAccent() const { return m_systemAccent; }
     bool portalAvailable() const;
     qreal devicePixelRatio() const;
     // Per-window / per-monitor DPR (falls back to primary screen).
@@ -195,6 +197,7 @@ public:
     // Open http(s)/file URLs via xdg-desktop-portal OpenURI when available
     Q_INVOKABLE bool openExternalUrl(const QString &url);
     Q_INVOKABLE void refreshColorScheme(); // poll OS light/dark preference
+    Q_INVOKABLE void refreshSystemAccent(); // poll OS accent (2.68 F3)
 
     void setBackdropMode(int backdrop);
     void setCornerPreference(int corner);
@@ -316,6 +319,7 @@ signals:
     void wallpaperChanged();
     void accessibilityChanged();
     void colorSchemeChanged();
+    void systemAccentChanged();
     void snapLayoutsEnabledChanged();
     void screensChanged();
     void idleInhibitedChanged();
@@ -344,6 +348,7 @@ private:
     bool m_systemReducedMotion = false;
     bool m_systemHighContrast = false;
     bool m_systemPrefersDark = false;
+    QColor m_systemAccent = Qt::transparent;
     bool m_snapLayoutsEnabled = true;
     bool m_idleInhibited = false;
     quint32 m_idleCookie = 0;
