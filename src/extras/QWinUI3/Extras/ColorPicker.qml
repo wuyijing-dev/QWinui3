@@ -174,8 +174,7 @@ T.Control {
         control._updating = true
         selectedColor = hsvToColor(hue, saturation, value, showAlpha ? alpha : 1)
         control._updating = false
-        spectrum.requestPaint()
-        valueTrack.requestPaint()
+        // Spectrum Canvas only repaints on value/size/shape — not every hue/sat drag.
         if (emitSignal !== false)
             colorChosen(selectedColor)
         syncInputsFromColor()
@@ -194,8 +193,6 @@ T.Control {
             alpha = c.a
         selectedColor = Qt.rgba(c.r, c.g, c.b, showAlpha ? alpha : 1)
         control._updating = false
-        spectrum.requestPaint()
-        valueTrack.requestPaint()
         if (emitSignal)
             colorChosen(selectedColor)
         syncInputsFromColor()
@@ -285,21 +282,30 @@ T.Control {
                     id: spectrumPaintHost
                     anchors.fill: parent
 
+                    // Canvas.Image + putImageData (FBO path blanks on D3D11).
+                    // Repaint only when value / size / shape change — not on hue/sat drag.
                     Canvas {
                         id: spectrum
                         anchors.fill: parent
                         antialiasing: true
-                        renderTarget: Canvas.FramebufferObject
+                        renderTarget: Canvas.Image
                         renderStrategy: Canvas.Cooperative
+                        property real _paintValue: control.value
+                        on_PaintValueChanged: spectrumPaintTimer.restart()
                         onWidthChanged: requestPaint()
                         onHeightChanged: requestPaint()
+                        Timer {
+                            id: spectrumPaintTimer
+                            interval: 16
+                            onTriggered: spectrum.requestPaint()
+                        }
                         onPaint: {
                             var ctx = getContext("2d")
-                            var w = width
-                            var h = height
+                            var w = Math.floor(width)
+                            var h = Math.floor(height)
                             if (w < 2 || h < 2)
                                 return
-                            ctx.clearRect(0, 0, w, h)
+                            ctx.clearRect(0, 0, width, height)
                             if (typeof ctx.imageSmoothingEnabled !== "undefined")
                                 ctx.imageSmoothingEnabled = true
 
@@ -337,7 +343,6 @@ T.Control {
                                 return
                             }
 
-                            // Box spectrum: bake rounded-corner AA (no OpacityMask / Qt5Compat).
                             var rad = Math.min(Theme.cornerControl, Math.min(w, h) / 2)
                             var imgBox = ctx.createImageData(w, h)
                             var boxData = imgBox.data
@@ -385,8 +390,6 @@ T.Control {
                     border.width: 1
                     border.color: Theme.strokeControl
                     z: 2
-                    layer.enabled: true
-                    layer.smooth: true
                 }
 
                 // Thumb
@@ -555,37 +558,41 @@ T.Control {
                 anchors.verticalCenter: parent.verticalCenter
                 height: 12
                 antialiasing: true
-                renderTarget: Canvas.FramebufferObject
+                renderTarget: Canvas.Image
+                renderStrategy: Canvas.Cooperative
+                property real _paintHue: control.hue
+                property real _paintSat: control.saturation
+                on_PaintHueChanged: requestPaint()
+                on_PaintSatChanged: requestPaint()
+                onWidthChanged: requestPaint()
+                onHeightChanged: requestPaint()
                 onPaint: {
                     var ctx = getContext("2d")
                     var w = width
                     var h = height
-                    if (w < 2)
+                    if (w < 2 || h < 2)
                         return
                     ctx.clearRect(0, 0, w, h)
                     if (typeof ctx.imageSmoothingEnabled !== "undefined")
                         ctx.imageSmoothingEnabled = true
-                    var img = ctx.createImageData(w, h)
-                    var data = img.data
-                    for (var x = 0; x < w; ++x) {
-                        var vv = x / Math.max(1, w - 1)
-                        var rgb = control.hsvToRgb(control.hue, control.saturation, vv)
-                        var r = Math.round(rgb.r * 255)
-                        var g = Math.round(rgb.g * 255)
-                        var b = Math.round(rgb.b * 255)
-                        for (var y = 0; y < h; ++y) {
-                            var idx = (y * w + x) * 4
-                            data[idx] = r
-                            data[idx + 1] = g
-                            data[idx + 2] = b
-                            data[idx + 3] = 255
-                        }
-                    }
-                    ctx.putImageData(img, 0, 0)
+                    var rad = h / 2
+                    ctx.beginPath()
+                    ctx.moveTo(rad, 0)
+                    ctx.arcTo(w, 0, w, h, rad)
+                    ctx.arcTo(w, h, 0, h, rad)
+                    ctx.arcTo(0, h, 0, 0, rad)
+                    ctx.arcTo(0, 0, w, 0, rad)
+                    ctx.closePath()
+                    var rgb = control.hsvToRgb(control.hue, control.saturation, 1)
+                    var grd = ctx.createLinearGradient(0, 0, w, 0)
+                    grd.addColorStop(0, "#000000")
+                    grd.addColorStop(1, "rgb("
+                            + Math.round(rgb.r * 255) + ","
+                            + Math.round(rgb.g * 255) + ","
+                            + Math.round(rgb.b * 255) + ")")
+                    ctx.fillStyle = grd
+                    ctx.fill()
                 }
-
-                layer.enabled: true
-                layer.smooth: true
 
                 Rectangle {
                     anchors.fill: parent
@@ -602,8 +609,6 @@ T.Control {
                 height: 20
                 y: (parent.height - height) / 2
                 x: control.value * (parent.width - width)
-                layer.enabled: true
-                layer.smooth: true
 
                 Rectangle {
                     anchors.fill: parent
