@@ -226,6 +226,22 @@ T.Control {
     onHeightChanged: requestRedraw()
     Component.onCompleted: _handleDataChange()
 
+    // ChartSeries (and similar) mutate in place — series identity may not change.
+    readonly property var _seriesValues0: {
+        if (!_hasSeries || !series || !series.length)
+            return null
+        var v = series[0].values
+        return (v && v.dataChanged !== undefined) ? v : null
+    }
+    Connections {
+        target: root.values && root.values.dataChanged !== undefined ? root.values : null
+        function onDataChanged() { Qt.callLater(root._handleDataChange) }
+    }
+    Connections {
+        target: root._seriesValues0
+        function onDataChanged() { Qt.callLater(root._handleDataChange) }
+    }
+
     contentItem: ColumnLayout {
         spacing: 6
 

@@ -349,6 +349,23 @@ T.Control {
             Qt.callLater(root._handleDataChange)
         }
     }
+    // series: [{ values: ChartSeries }] — identity of series array may not change.
+    readonly property var _seriesValues0: {
+        var list = root._rawSeriesList
+        if (!list || !list.length)
+            return null
+        var v = list[0].values
+        return (v && v.dataChanged !== undefined) ? v : null
+    }
+    Connections {
+        target: root._seriesValues0
+        function onDataChanged() {
+            root.hoverIndex = -1
+            root.hoverText = ""
+            root.hoverMarkers = []
+            Qt.callLater(root._handleDataChange)
+        }
+    }
 
     // Clear hovered item state
     function clearHover() {
