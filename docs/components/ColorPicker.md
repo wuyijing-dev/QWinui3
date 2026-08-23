@@ -32,8 +32,9 @@ ColorPicker {
 ## Notes
 
 Edits selectedColor via spectrum + RGB/HSV/hex fields.
-copyHex() writes #RRGGBB to the clipboard.
+copyHex() writes #RRGGBB (or #RRGGBBAA when `showAlpha`).
 Bind selectedColor; channel props (hue/saturation/value/alpha) stay in sync.
+`value` may be 0 (true black). Alpha slider appears when `showAlpha` / `isAlphaEnabled`.
 previousColor + isPreviousColorVisible show a restore swatch (WinUI PreviousColor).
 colorSpectrumShape: box | ring; isAlphaEnabled aliases showAlpha.
 

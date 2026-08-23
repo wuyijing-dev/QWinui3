@@ -140,7 +140,7 @@ T.Control {
         return Qt.rgba(rgb.r, rgb.g, rgb.b, a === undefined ? 1 : a)
     }
 
-    // Format color as #RRGGBB[AA]
+    // Format color as #RRGGBB or #RRGGBBAA when showAlpha
     function hexString(c) {
         // Format a 0..255 channel as two hex digits
         function byteHex(n) {
@@ -148,10 +148,13 @@ T.Control {
             var s = v.toString(16).toUpperCase()
             return s.length < 2 ? "0" + s : s
         }
-        return "#" + byteHex(c.r) + byteHex(c.g) + byteHex(c.b)
+        var s = "#" + byteHex(c.r) + byteHex(c.g) + byteHex(c.b)
+        if (showAlpha)
+            s += byteHex(c.a)
+        return s
     }
 
-    // Parse a hex color string
+    // Parse a hex color string (#RGB, #RRGGBB, #RRGGBBAA)
     function parseHex(text) {
         var t = (text || "").trim()
         if (t.charAt(0) === "#")
@@ -159,14 +162,22 @@ T.Control {
         if (t.length === 3) {
             t = t.charAt(0) + t.charAt(0) + t.charAt(1) + t.charAt(1) + t.charAt(2) + t.charAt(2)
         }
-        if (t.length !== 6)
+        if (t.length !== 6 && t.length !== 8)
             return null
-        var n = parseInt(t, 16)
+        var n = parseInt(t.slice(0, 6), 16)
         if (isNaN(n))
             return null
+        var a = control.alpha
+        if (t.length === 8) {
+            var aa = parseInt(t.slice(6, 8), 16)
+            if (isNaN(aa))
+                return null
+            a = aa / 255
+        }
         return Qt.rgba(((n >> 16) & 255) / 255,
                        ((n >> 8) & 255) / 255,
-                       (n & 255) / 255, control.alpha)
+                       (n & 255) / 255,
+                       showAlpha ? a : 1)
     }
 
     // Apply HSV channels to selectedColor
@@ -188,7 +199,7 @@ T.Control {
         control._updating = true
         hue = hsv.h
         saturation = hsv.s
-        value = Math.max(0.001, hsv.v)
+        value = clamp01(hsv.v)
         if (showAlpha)
             alpha = c.a
         selectedColor = Qt.rgba(c.r, c.g, c.b, showAlpha ? alpha : 1)
@@ -649,6 +660,70 @@ T.Control {
             }
         }
 
+        // Alpha slider (WinUI IsAlphaEnabled)
+        Item {
+            id: alphaSliderHost
+            Layout.fillWidth: true
+            Layout.preferredHeight: 28
+            visible: control.showAlpha && control.isColorSliderVisible
+
+            Rectangle {
+                id: alphaTrack
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+                height: 12
+                radius: height / 2
+                border.width: 1
+                border.color: Theme.strokeControl
+                gradient: Gradient {
+                    orientation: Gradient.Horizontal
+                    GradientStop {
+                        position: 0.0
+                        color: Qt.rgba(control.selectedColor.r, control.selectedColor.g,
+                                       control.selectedColor.b, 0)
+                    }
+                    GradientStop {
+                        position: 1.0
+                        color: Qt.rgba(control.selectedColor.r, control.selectedColor.g,
+                                       control.selectedColor.b, 1)
+                    }
+                }
+            }
+
+            Item {
+                id: alphaThumb
+                width: 20
+                height: 20
+                y: (parent.height - height) / 2
+                x: control.alpha * (parent.width - width)
+
+                Rectangle {
+                    anchors.fill: parent
+                    radius: width / 2
+                    color: Qt.rgba(control.selectedColor.r, control.selectedColor.g,
+                                   control.selectedColor.b, control.alpha)
+                    border.width: 2
+                    border.color: "#FFFFFF"
+                }
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                cursorShape: Qt.PointingHandCursor
+                preventStealing: true
+                function pick(mx) {
+                    control.alpha = control.clamp01(mx / Math.max(1, width))
+                    control.applyHsv(true)
+                }
+                onPressed: function (mouse) { pick(mouse.x) }
+                onPositionChanged: function (mouse) {
+                    if (pressed)
+                        pick(mouse.x)
+                }
+            }
+        }
+
         // Model + Hex
         RowLayout {
             Layout.fillWidth: true
@@ -671,7 +746,9 @@ T.Control {
                 text: "#005FB8"
                 selectByMouse: true
                 validator: RegularExpressionValidator {
-                    regularExpression: /#?[0-9A-Fa-f]{0,6}/
+                    regularExpression: control.showAlpha
+                                       ? /#?[0-9A-Fa-f]{0,8}/
+                                       : /#?[0-9A-Fa-f]{0,6}/
                 }
                 onEditingFinished: {
                     var c = control.parseHex(text)
