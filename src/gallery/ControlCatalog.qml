@@ -547,6 +547,14 @@ QtObject {
             source: "pages/WizardPage.qml"
         },
         {
+            title: qsTr("Window bus & session"),
+            category: "status",
+            icon: FluentIcons.Message,
+            description: qsTr("WindowMessageBus + SessionTimeout (2.72)."),
+            component: "WindowBusSessionPage",
+            source: "pages/WindowBusSessionPage.qml"
+        },
+        {
             title: qsTr("Pane"),
             category: "layout",
             icon: FluentIcons.Document,

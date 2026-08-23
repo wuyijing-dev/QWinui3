@@ -47,6 +47,24 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 2.71 → 2.72
+
+**Product version:** 2.72  
+**Date:** 2026-08-23  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | Additive | None required |
+
+### Optional / polish
+- **WindowMessageBus** singleton: `post` / `subscribe` / `unsubscribe` (same process).
+- **SessionTimeout:** idle + warning signals; call `poke()` from shell activity.
+
+### No action (compatible)
+- Stable Theme / shell / control APIs unchanged for this slice.
+
 ### Upgrade 2.70 → 2.71
 
 **Product version:** 2.71  

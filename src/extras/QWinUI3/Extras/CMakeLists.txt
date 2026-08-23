@@ -19,6 +19,9 @@ set_source_files_properties(ContentDialogQueue.qml PROPERTIES
 set_source_files_properties(ConnectedAnimationService.qml PROPERTIES
     QT_QML_SINGLETON_TYPE TRUE
 )
+set_source_files_properties(WindowMessageBus.qml PROPERTIES
+    QT_QML_SINGLETON_TYPE TRUE
+)
 set_source_files_properties(TabViewDropHub.qml PROPERTIES
     QT_QML_SINGLETON_TYPE TRUE
 )
@@ -264,7 +267,9 @@ qt_add_qml_module(qwinui3_extras
         StatusDot.qml
         StepBar.qml
         SessionRestore.qml
+        SessionTimeout.qml
         Wizard.qml
+        WindowMessageBus.qml
         SwipeControl.qml
         SwitchCase.qml
         SwitchPresenter.qml

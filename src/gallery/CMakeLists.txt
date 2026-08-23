@@ -255,6 +255,7 @@ qt_add_qml_module(qwinui3_gallery
         pages/StatusDotPage.qml
         pages/StepBarPage.qml
         pages/WizardPage.qml
+        pages/WindowBusSessionPage.qml
         pages/SwitchPage.qml
         pages/SwitchPresenterPage.qml
         pages/SwipeControlPage.qml
