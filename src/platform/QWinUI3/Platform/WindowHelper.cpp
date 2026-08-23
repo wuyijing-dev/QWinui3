@@ -19,6 +19,7 @@
 #include <QGuiApplication>
 #include <QHash>
 #include <QJSEngine>
+#include <QNetworkInformation>
 #include <QProcess>
 #include <QQmlEngine>
 #include <QQuickWindow>
@@ -204,6 +205,16 @@ WindowHelper::WindowHelper(QObject *parent)
     refreshPowerStatus();
     refreshOnlineStatus();
 
+    // Reachability for macOS / fallback when OS-specific probes are unavailable.
+    if (QNetworkInformation::loadDefaultBackend()) {
+        if (QNetworkInformation *info = QNetworkInformation::instance()) {
+            QObject::connect(info, &QNetworkInformation::reachabilityChanged, this,
+                             [this](QNetworkInformation::Reachability) {
+                                 refreshOnlineStatus();
+                             });
+        }
+    }
+
     if (qGuiApp) {
         auto bindScreen = [this](QScreen *screen) {
             if (!screen)
@@ -355,8 +366,8 @@ void WindowHelper::notifyDisplayMetricsChanged()
 void WindowHelper::configurePlatformEnvironment(const char *argv0)
 {
 #if defined(Q_OS_LINUX)
-    // Stale Windows-style qt.conf next to the binary forces Plugins=./plugins
-    // (empty) and breaks every QPA plugin. Strip it before QGuiApplication.
+    // Only strip a qt.conf that points Plugins at a missing local plugins tree.
+    // Relocatable kits routinely use "Prefix = ." — that alone must NOT be deleted.
     if (argv0 && argv0[0] != '\0') {
         const QString appDir = QFileInfo(QString::fromLocal8Bit(argv0)).absolutePath();
         const QString confPath = appDir + QStringLiteral("/qt.conf");
@@ -365,13 +376,14 @@ void WindowHelper::configurePlatformEnvironment(const char *argv0)
             if (conf.open(QIODevice::ReadOnly)) {
                 const QByteArray body = conf.readAll();
                 conf.close();
-                const bool broken = body.contains("Prefix = .")
-                        || body.contains("Prefix=.")
-                        || body.contains("Plugins = plugins")
+                const bool mentionsPlugins = body.contains("Plugins = plugins")
                         || body.contains("Plugins=plugins");
-                if (broken) {
+                const bool pluginsMissing =
+                        !QDir(appDir + QStringLiteral("/plugins")).exists()
+                        && !QDir(appDir + QStringLiteral("/platforms")).exists();
+                if (mentionsPlugins && pluginsMissing) {
                     QFile::remove(confPath);
-                    qWarning("QWinUI3: removed broken %s (it blocked Qt platform plugins)",
+                    qWarning("QWinUI3: removed broken %s (Plugins=plugins but no plugin dirs)",
                              qPrintable(confPath));
                 }
             }
@@ -1010,6 +1022,19 @@ void WindowHelper::refreshOnlineStatus()
             && state.readAll().trimmed() == QByteArrayLiteral("up")) {
             online = true;
             break;
+        }
+    }
+#else
+    // macOS / other: Qt Network Information (no WinInet / sysfs).
+    if (QNetworkInformation::loadDefaultBackend()) {
+        if (QNetworkInformation *info = QNetworkInformation::instance()) {
+            using R = QNetworkInformation::Reachability;
+            const R r = info->reachability();
+            if (r == R::Disconnected)
+                online = false;
+            else if (r == R::Online || r == R::Local || r == R::Site)
+                online = true;
+            // Unknown → keep default true (avoid false offline banners).
         }
     }
 #endif
