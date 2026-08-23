@@ -230,6 +230,11 @@ def doctor_report(
         except ImportError:
             discovered_kit = None
     print(f"  Python kit:      {discovered_kit or 'not packaged (run: python scripts/qwinui3.py python)'}")
+    if discovered_kit is None:
+        issues += 1
+        fixes.append(
+            "Package a shared kit: python scripts/qwinui3.py python   # or: python scripts/qwinui3.py build kit"
+        )
 
     sys.path.insert(0, str(ROOT / "python"))
     try:
@@ -240,12 +245,25 @@ def doctor_report(
         if discovered_kit is not None:
             print("  Tip: kit Qt major.minor should match binding Qt (see qVersion above).")
         if report_runtime:
-            resolved_kit = configure_environment(kit=explicit_kit or discovered_kit, binding=prefer_binding)
-            validate_runtime(resolved_kit)
-            report = runtime_report(resolved_kit)
-            print("\n  Python runtime report:")
-            for key in ("binding", "qt_version", "kit", "qml_root", "has_qml_root", "style", "qpa_platform"):
-                print(f"    {key}: {report.get(key, '')}")
+            if discovered_kit is None and explicit_kit is None:
+                print("  Python runtime:  skipped (no kit — package first)")
+            else:
+                resolved_kit = configure_environment(
+                    kit=explicit_kit or discovered_kit, binding=prefer_binding
+                )
+                validate_runtime(resolved_kit)
+                report = runtime_report(resolved_kit)
+                print("\n  Python runtime report:")
+                for key in (
+                    "binding",
+                    "qt_version",
+                    "kit",
+                    "qml_root",
+                    "has_qml_root",
+                    "style",
+                    "qpa_platform",
+                ):
+                    print(f"    {key}: {report.get(key, '')}")
     except ImportError:
         print("  Python binding:  not installed (pip install PySide6)")
         issues += 1
