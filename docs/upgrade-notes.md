@@ -47,6 +47,34 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 2.69 → 2.70
+
+**Product version:** 2.70
+**Date:** 2026-08-23
+**Qt:** unchanged (6.5+ / recommended 6.8)
+
+#### Optional / polish
+
+- **A7 FeedbackSeverity:** singleton palette + TeachingTip `severity` — [feedback.md](feedback.md).
+- **B6 Skeleton:** form/table placeholder handoff with Button.loading / ProgressRing / Shimmer.
+- **C6 cold start wave 11:** [performance.md](performance.md) budgets + `--startup-log`.
+- **D7 NotificationCenter:** `groupingPolicy` + `persistCategory` for read history.
+- **D8 SessionRestore:** nav key + DataTable scroll/selection beside geometryPersistenceKey.
+- **F6 fractional DPI:** ThemeFonts PreferVerticalHinting on non-integer DPR — [high-dpi.md](high-dpi.md).
+- **Checkpoint:** [checkpoint-270.md](checkpoint-270.md).
+
+#### Action required (only if you adopt new APIs)
+
+| Area | Change | What to do |
+|------|--------|------------|
+| **TeachingTip** | Optional `severity` | Use FeedbackSeverity ints; `-1` keeps neutral coach tips |
+| **NotificationCenter** | Optional `persistCategory` | Persist history across restarts |
+| **Session** | Optional **SessionRestore** | Call `restore()` on startup / `save()` on exit |
+
+#### No action (compatible)
+
+- Existing InfoBar / Toast / Shimmer / NotificationCenter / geometryPersistenceKey call sites keep prior defaults.
+
 ### Upgrade 2.68 → 2.69
 
 **Product version:** 2.69

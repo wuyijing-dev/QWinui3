@@ -39,6 +39,16 @@ CatalogPage {
         }
     }
     ControlExample {
+        headerText: qsTr("Skeleton host (2.70)")
+        qmlSource: "Skeleton { rows: 4; showAvatar: true; active: true }"
+        Skeleton {
+            Layout.fillWidth: true
+            rows: 4
+            showAvatar: true
+            active: true
+        }
+    }
+    ControlExample {
         headerText: qsTr("Paused")
         qmlSource: "Shimmer { isActive: false }"
         Shimmer {

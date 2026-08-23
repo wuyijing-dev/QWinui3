@@ -2,14 +2,17 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Templates as T
+import QtCore
 import QWinUI3.Theme
 
-// NotificationCenter — In-app notification drawer with grouping (2.27 / 2.63).
+// NotificationCenter — In-app notification drawer with grouping (2.27 / 2.63 / 2.70).
 //
 //   NotificationCenter {
 //       id: center
 //       model: notifications
 //       maxHistory: 100
+//       persistCategory: "MyAppNotify"
+//       groupingPolicy: "category"  // category | severity | none
 //       onNotificationClicked: (index, item) => { … }
 //   }
 //   center.addNotification({
@@ -38,6 +41,10 @@ T.Control {
     property string groupRole: "category"
     property string dedupeIdRole: "id"
     property int maxHistory: 100
+    // Grouping: "category" (default) | "severity" | "none" (2.70 D7)
+    property string groupingPolicy: "category"
+    // Persist model + read flags under this Settings category (empty = memory only)
+    property string persistCategory: ""
     property alias edge: drawer.edge
     property alias drawerWidth: drawer.width
 
@@ -62,12 +69,24 @@ T.Control {
         var order = []
         var map = ({})
         var m = model || []
-        var role = groupRole || "category"
+        var policy = String(groupingPolicy || "category").toLowerCase()
+        if (policy === "none") {
+            return [{ category: "", items: m.map(function (it, i) {
+                return { index: i, data: it }
+            }).filter(function (row) { return !!row.data }) }]
+        }
+        var role = policy === "severity" ? "severity" : (groupRole || "category")
         for (var i = 0; i < m.length; ++i) {
             var it = m[i]
             if (!it)
                 continue
-            var cat = it[role] ? String(it[role]) : qsTr("General")
+            var cat
+            if (policy === "severity") {
+                var sev = it.severity !== undefined ? it.severity : 0
+                cat = FeedbackSeverity.nameFor(sev)
+            } else {
+                cat = it[role] ? String(it[role]) : qsTr("General")
+            }
             if (!map[cat]) {
                 map[cat] = []
                 order.push(cat)
@@ -176,18 +195,54 @@ T.Control {
         return m.slice(0, cap)
     }
 
-    function push(item) {
-        addNotification(item)
+    function _severityColor(sev) {
+        return FeedbackSeverity.colorFor(sev)
     }
 
-    function _severityColor(sev) {
-        if (sev === success)
-            return Theme.systemSuccess
-        if (sev === warning)
-            return Theme.systemCaution
-        if (sev === error)
-            return Theme.systemCritical
-        return Theme.accent
+    Settings {
+        id: persistStore
+        category: notificationCenter.persistCategory.length
+                  ? notificationCenter.persistCategory : "NotificationCenterUnused"
+        property string historyJson: "[]"
+    }
+
+    function _persistEnabled() {
+        return persistCategory && persistCategory.length > 0
+    }
+
+    function savePersisted() {
+        if (!_persistEnabled())
+            return
+        try {
+            persistStore.historyJson = JSON.stringify(model || [])
+        } catch (e) { /* ignore */ }
+    }
+
+    function loadPersisted() {
+        if (!_persistEnabled())
+            return
+        try {
+            var raw = persistStore.historyJson || "[]"
+            var parsed = JSON.parse(raw)
+            if (parsed && parsed.length !== undefined)
+                model = _trimHistory(parsed)
+        } catch (e) {
+            model = []
+        }
+    }
+
+    onModelChanged: {
+        if (_persistEnabled())
+            Qt.callLater(savePersisted)
+    }
+
+    Component.onCompleted: {
+        if (_persistEnabled())
+            loadPersisted()
+    }
+
+    function push(item) {
+        addNotification(item)
     }
 
     Drawer {

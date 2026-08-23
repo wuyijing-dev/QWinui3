@@ -65,6 +65,9 @@ QtObject {
     property real uiScale: 1.0
     // Last synced window/screen devicePixelRatio (ShellWindow / StandardWindow update this).
     property real devicePixelRatio: 1.0
+    // Prefer vertical hinting on fractional DPR (125%/150% Wayland) — 2.70 F6
+    property bool fractionalTextSharpening: true
+    readonly property bool fractionalScale: Math.abs(devicePixelRatio - Math.round(devicePixelRatio)) > 0.02
     // Named accent pack: "blue" | "purple" | "green" | "orange"
     property string accentPack: "blue"
     // When alpha > 0, overrides accentPack colors

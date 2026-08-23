@@ -7,6 +7,9 @@ qt_add_library(qwinui3_extras ${QWINUI3_LIB_TYPE})
 set_source_files_properties(ChartUtils.qml PROPERTIES
     QT_QML_SINGLETON_TYPE TRUE
 )
+set_source_files_properties(FeedbackSeverity.qml PROPERTIES
+    QT_QML_SINGLETON_TYPE TRUE
+)
 set_source_files_properties(GaugeUtils.qml PROPERTIES
     QT_QML_SINGLETON_TYPE TRUE
 )
@@ -179,6 +182,7 @@ qt_add_qml_module(qwinui3_extras
         ChartEmptyState.qml
         ChartLegend.qml
         ChartUtils.qml
+        FeedbackSeverity.qml
         MetricCompareRow.qml
         MultiSelectComboBox.qml
         NavigationView.qml
@@ -252,10 +256,12 @@ qt_add_qml_module(qwinui3_extras
         DetailRow.qml
         SwipeAction.qml
         Shimmer.qml
+        Skeleton.qml
         SplitButton.qml
         StackPanel.qml
         StatusDot.qml
         StepBar.qml
+        SessionRestore.qml
         Wizard.qml
         SwipeControl.qml
         SwitchCase.qml

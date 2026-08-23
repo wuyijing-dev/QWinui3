@@ -237,6 +237,13 @@ static QFont makeUiFont(const QStringList &families, int pixelSize)
     f.setStyleStrategy(static_cast<QFont::StyleStrategy>(
         static_cast<int>(QFont::PreferOutline)
         | static_cast<int>(QFont::PreferQuality)));
+    // Fractional DPR (125%/150% Wayland): PreferVerticalHinting keeps glyphs crisp (2.70 F6)
+    qreal dpr = 1.0;
+    if (qGuiApp && qGuiApp->devicePixelRatio() > 0)
+        dpr = qGuiApp->devicePixelRatio();
+    const bool fractional = qAbs(dpr - qRound(dpr)) > 0.02;
+    f.setHintingPreference(fractional ? QFont::PreferVerticalHinting
+                                      : QFont::PreferDefaultHinting);
     if (pixelSize > 0)
         f.setPixelSize(pixelSize);
     return f;

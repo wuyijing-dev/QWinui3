@@ -91,6 +91,10 @@ Also: System integration screens dump · Window shells persistence callout · Se
 4. On fractional-scale Wayland, expect non-integer DPR and `fractionalScale: true`.
 5. Clear `GalleryMain` geometry, move/resize on each monitor, restart — restore clamps and `setScreen` still bind the correct monitor.
 
+### Wave 4 — fractional text sharpening (2.70 F6)
+
+At **125% / 150%** (and other non-integer DPR), `ThemeFonts` applies `QFont::PreferVerticalHinting` so UI glyphs stay crisp on Wayland and Windows fractional scales. Theme exposes `fractionalScale` / `fractionalTextSharpening` for app diagnostics. Prefer `ThemeFonts.uiFontFor` / application font from Bootstrap rather than raw `Font.PreferFullHinting` + bitmap mono families.
+
 
 ## Failure modes (P0 paths)
 

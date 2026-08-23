@@ -24,14 +24,22 @@ Do **not** use Toast or TeachingTip for irreversible confirms. Do **not** spam T
 
 ## Severity
 
-Shared severity ints on InfoBar / Toast (and host helpers):
+Shared severity ints on InfoBar / Toast / TeachingTip (and host helpers) — **FeedbackSeverity** singleton (2.70):
 
-| Value | Name | Typical use |
-|------:|------|-------------|
-| 0 | `informational` | Neutral notice / update available |
-| 1 | `success` | Saved / completed |
-| 2 | `warning` | Review before continuing |
-| 3 | `error` | Failed / blocked |
+| Value | Constant | Token |
+|-------|----------|-------|
+| 0 | informational | `systemAttention` |
+| 1 | success | `systemSuccess` |
+| 2 | warning | `systemCaution` |
+| 3 | error | `systemCritical` |
+
+TeachingTip: set `severity:` to tint chrome + default glyph; leave `-1` for neutral coach tips.
+
+Helpers: `host.info` / `success` / `warning` / `error` (InfoBarHost & ToastHost; ToastHost also has `*Toast` aliases). Prefer helpers over hand-setting severity ints.
+
+### Loading handoff (2.70 B6)
+
+`Button.loading` → inline busy ring · **ProgressRing** for determinate work · **Skeleton** / **Shimmer** for list/form placeholders while data loads.
 
 Helpers: `host.info` / `success` / `warning` / `error` (InfoBarHost & ToastHost; ToastHost also has `*Toast` aliases). Prefer helpers over hand-setting severity ints.
 

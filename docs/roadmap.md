@@ -1,9 +1,9 @@
 # QWinUI3 Roadmap
 
-**Current:** **2.69** (master; DataTable chrome + dialogs + calendar/RichEdit)
-**Next up:** **2.70** Feedback chrome + loading + session + checkpoint
-**Planned through:** **3.00** (… → **2.70** product wave → **2.71…2.75** platform/Python polish → **3.00** close-out → [micro-interaction backlog last](#micro-interaction--visual-polish--deferred-last))
-**Checkpoints ahead:** **2.70** professional-surfaces audit · **2.73** Python consumer · **3.00** breaking close-out (checkpoint-300)
+**Current:** **2.70** (master; Feedback chrome + loading + session + checkpoint-270)
+**Next up:** **2.73** Consumer checkpoint (Python / C++ DX) — or **2.00** rescheduled when gated
+**Planned through:** **3.00** (… → **2.71…2.75** platform/Python polish → **3.00** close-out → [micro-interaction backlog last](#micro-interaction--visual-polish--deferred-last))
+**Checkpoints ahead:** **2.73** Python consumer · **3.00** breaking close-out (checkpoint-300)
 **Qt:** 6.5+ (recommended 6.8 LTS) on master today — **2.00** raises floor to **6.8 LTS** · **3.00** to **6.10 LTS**
 **Platforms:** **Windows + Linux** — no macOS first-class line.
 
@@ -139,7 +139,7 @@ Consumer sketch: [upgrade-notes.md](docs/upgrade-notes.md) **Upgrade 1.90 → 2.
 | **2.67** | List/card appearance + motion tokens | **A3** · **A4** · **B1** · **B2** · **C2** · **C4** · **D2** · **F1** | **Shipped** |
 | **2.68** | Nav/tabs + connected motion + workflow | **A5** · **B3** · **B4** · **C3** · **C4** · **D3** · **D4** · **F2** · **F3** | **Shipped** |
 | **2.69** | Collections + dialogs + calendar/RichEdit | **A6** · **B5** · **C5** · **D5** · **D6** · **F4** · **F5** | **Shipped** |
-| **2.70** | Feedback chrome + loading + session + checkpoint | **A7** · **B6** · **C6** · **D7** · **D8** · **F6** · checkpoint-270 | Planned |
+| **2.70** | Feedback chrome + loading + session + checkpoint | **A7** · **B6** · **C6** · **D7** · **D8** · **F6** · checkpoint-270 | **Shipped** |
 
 **Also scheduled inside tranche 3 (when bandwidth allows):** experimental promote wave 2 (**2.67** carry-over) · analytics wave B (**2.69** conditional, **FL-014** / **FL-015**) · forms industry Gallery templates (folded into **D2** / [forms.md](docs/forms.md)).
 
@@ -220,7 +220,7 @@ Consumer sketch: [upgrade-notes.md](docs/upgrade-notes.md) **Upgrade 1.90 → 2.
 
 **Out:** OS toast replacement; field buffer without open P0/P1 rows.
 
-### 2.70 — Feedback chrome + loading motion + session + checkpoint (planned)
+### 2.70 — Feedback chrome + loading motion + session + checkpoint (shipped)
 
 | ID | Deliverable |
 |----|-------------|
@@ -231,7 +231,7 @@ Consumer sketch: [upgrade-notes.md](docs/upgrade-notes.md) **Upgrade 1.90 → 2.
 | **D8** | **Session restore 包** — window geometry + navigation page + table scroll/selection restore |
 | **F6** | **Fractional DPI 文本锐化** — 125%/150% Wayland text/icon crispness; [high-dpi.md](docs/high-dpi.md) wave 4 |
 
-**Checkpoint:** checkpoint-270 — audit **2.65…2.70**; update **3.00** prep in [upgrade-notes.md](docs/upgrade-notes.md).
+**Checkpoint:** [checkpoint-270.md](docs/checkpoint-270.md) — audit **2.65…2.70**; update **3.00** prep in [upgrade-notes.md](docs/upgrade-notes.md).
 
 **Out:** Treating **2.70** as final 2.x line; shipping **3.00** in the same tag.
 

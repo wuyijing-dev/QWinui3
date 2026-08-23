@@ -188,6 +188,10 @@ python scripts/generate_component_docs.py --lint
 - [SettingsView](components/SettingsView.md) — Scrollable settings host (title + padded column).
 - [ShellWindow](components/ShellWindow.md) — Independent ApplicationWindow + WindowChrome host.
 - [Shimmer](components/Shimmer.md) — Skeleton shimmer placeholder. · Gallery
+- [Skeleton](components/Skeleton.md) — Form/table loading placeholder (2.70). · Gallery
+- [FeedbackSeverity](components/FeedbackSeverity.md) — Shared severity palette singleton (2.70).
+- [SessionRestore](components/SessionRestore.md) — Nav + table session package (2.70).
+- [NotificationCenter](components/NotificationCenter.md) — In-app notification drawer. · Gallery
 - [Sparkline](components/Sparkline.md) — Inline mini line chart. · Gallery
 - [SpeedometerGauge](components/SpeedometerGauge.md) — Vehicle speed needle (km/h or mph). · Gallery
 - [SplitButton](components/SplitButton.md) — Primary action + chevron menu. · Gallery

@@ -48,6 +48,12 @@ T.Popup {
     property var symbol: ""
     // Raw Fluent glyph string fallback
     property string iconGlyph: ""
+    // Severity palette aligned with InfoBar / Toast (2.70 A7); -1 = none
+    property int severity: -1
+    readonly property int informational: FeedbackSeverity.informational
+    readonly property int success: FeedbackSeverity.success
+    readonly property int warning: FeedbackSeverity.warning
+    readonly property int error: FeedbackSeverity.error
     // Open / visible state
     property bool isOpen: false
     // Close on outside click / Esc
@@ -76,7 +82,18 @@ T.Popup {
     signal closeButtonClicked()
 
     // Resolved glyph string
-    readonly property string effectiveIconGlyph: IconSource.resolve(symbol, iconGlyph)
+    readonly property string effectiveIconGlyph: {
+        var custom = IconSource.resolve(symbol, iconGlyph)
+        if (custom.length)
+            return custom
+        if (severity >= 0)
+            return FeedbackSeverity.glyphFor(severity)
+        return ""
+    }
+    readonly property color _severityAccent: severity >= 0
+            ? FeedbackSeverity.colorFor(severity) : Theme.accent
+    readonly property color _severityBg: severity >= 0
+            ? FeedbackSeverity.backgroundFor(severity) : Theme.bgCard
 
     padding: 12
     modal: false
@@ -317,7 +334,7 @@ T.Popup {
             id: tipPanel
             anchors.fill: parent
             radius: Theme.cornerOverlay
-            color: Theme.bgCard
+            color: root.severity >= 0 ? root._severityBg : Theme.bgCard
             borderColor: Theme.strokeCard
             borderWidth: 1
             elevation: 6
@@ -341,7 +358,7 @@ T.Popup {
             width: 10
             height: 10
             rotation: 45
-            color: Theme.bgCard
+            color: root.severity >= 0 ? root._severityBg : Theme.bgCard
             border.width: 1
             border.color: Theme.strokeCard
             z: -1

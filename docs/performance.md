@@ -22,7 +22,15 @@ Related: [data-collections.md](data-collections.md) · [charts.md](charts.md) ·
 
 ---
 
-## Gallery cold start (1.39)
+## Gallery cold start (1.39 / wave 11 — 2.70)
+
+| Topic | Guidance |
+|-------|----------|
+| Critical first frame | Keep Home / shell QML lean; defer heavy catalog pages |
+| `--startup-log` | Print wall timings for configure → first frame |
+| Icon / atlas warm-up | Optional: touch `FluentIcons` / ThemeFonts once after first frame |
+| Page cache | `pageCacheLimit` + `pinnedPageCache` (2.68); avoid compiling all pages at startup |
+| Target budget | Aim for interactive shell < 2s on mid-range Win/Linux Release builds (machine-relative) |
 
 Expected budget on a Release build (desktop, not a guarantee):
 
@@ -36,7 +44,7 @@ Measure locally:
 
 ```bat
 qwinui3_gallery.exe --startup-log
-qwinui3_gallery.exe --smoke
+qwinui3_gallery.exe --smoke --startup-log
 ```
 
 `--smoke` prints `main=…ms, pages=…ms, total=…ms` after creating the **critical** set only — it does **not** open every control page.
