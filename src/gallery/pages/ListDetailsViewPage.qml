@@ -139,30 +139,7 @@ CatalogPage {
         }
     }
 
-    ControlExample {
-        headerText: qsTr("Perf checklist (2.40)")
-        qmlSource: "docs/performance.md wave 7 · filterDebounceMs · maxFilterResults · filteredCount"
-        ColumnLayout {
-            Layout.fillWidth: true
-            spacing: Theme.spacing
-            CheckBox { text: qsTr("Filter keystrokes debounce before master rebuild") }
-            CheckBox { text: qsTr("Selection survives filter when same object still visible") }
-            CheckBox { text: qsTr("Use filteredCount readout — cap maxFilterResults on huge arrays") }
-            CheckBox { text: qsTr("ListView reuseItems — no Column+Repeater for long lists") }
-        }
-    }
 
-    ControlExample {
-        headerText: qsTr("Perf checklist (2.18)")
-        qmlSource: "docs/performance.md · filterDebounceMs · maxFilterResults"
-        ColumnLayout {
-            Layout.fillWidth: true
-            spacing: Theme.spacing
-            CheckBox { text: qsTr("Filter keystrokes debounce before master rebuild") }
-            CheckBox { text: qsTr("Selection survives filter when same object still visible") }
-            CheckBox { text: qsTr("ListView reuseItems — no Column+Repeater for long lists") }
-        }
-    }
 
     ControlExample {
         headerText: qsTr("Narrow (SinglePane + Back)")

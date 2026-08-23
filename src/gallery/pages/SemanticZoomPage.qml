@@ -141,16 +141,4 @@ CatalogPage {
         }
     }
 
-    ControlExample {
-        headerText: qsTr("Keyboard + checklist")
-        qmlSource: "Ctrl+- zoom out · Ctrl++ zoom in"
-        ColumnLayout {
-            Layout.fillWidth: true
-            spacing: Theme.spacing
-            CheckBox { text: qsTr("Ctrl+- / Ctrl++ toggles zoom when SemanticZoom has focus") }
-            CheckBox { text: qsTr("selectGroup(letter) zooms in and jumps to first matching row") }
-            CheckBox { text: qsTr("Do not hand-sync two ItemsViews — use one SemanticZoom host") }
-            CheckBox { text: qsTr("Experimental — not on stable-api until promote gate") }
-        }
-    }
 }

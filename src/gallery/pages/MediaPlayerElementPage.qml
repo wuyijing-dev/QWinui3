@@ -75,10 +75,6 @@ CatalogPage {
                 color: Theme.textSecondary
                 text: qsTr("2.09 closes the 1.67 promote loop: keep shipping as experimental, do not promote. Codecs, GPU backends, and Multimedia plugin deploy differ by OS and are app-owned — not a kit contract. Product shells on stable-api should not require this type.")
             }
-            CheckBox { text: qsTr("Treat MediaPlayerElement as experimental (permanent defer 2.09)") }
-            CheckBox { text: qsTr("Gate UI on available === false → EmptyState") }
-            CheckBox { text: qsTr("windeployqt / installer ships Multimedia plugins (not in kit zip)") }
-            CheckBox { text: qsTr("Pause when the host is not visible") }
         }
     }
 

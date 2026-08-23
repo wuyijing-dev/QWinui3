@@ -33,11 +33,6 @@ CatalogPage {
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
-            CheckBox { text: qsTr("Open CommandPalette with Ctrl+K (or Gallery binding)") }
-            CheckBox { text: qsTr("Dismiss palette with Esc") }
-            CheckBox { text: qsTr("ContentDialog Enter / Esc without mouse") }
-            CheckBox { text: qsTr("Navigate a list / DataTable with arrows") }
-            CheckBox { text: qsTr("Settings / InfoBar Close reachable by keyboard") }
             RowLayout {
                 Button {
                     text: qsTr("CommandPalette")

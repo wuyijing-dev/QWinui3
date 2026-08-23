@@ -91,18 +91,6 @@ CatalogPage {
         }
     }
 
-    ControlExample {
-        headerText: qsTr("Paste + a11y checklist")
-        qmlSource: "RichEdit { sanitizePaste: true }"
-        ColumnLayout {
-            Layout.fillWidth: true
-            spacing: Theme.spacing
-            CheckBox { text: qsTr("sanitizePaste strips script/iframe/on* attributes on paste") }
-            CheckBox { text: qsTr("Tab into toolbar buttons then editor — FocusStroke on field") }
-            CheckBox { text: qsTr("IME composition works in TextEdit — unlike WebView2 embed") }
-            CheckBox { text: qsTr("Experimental — not on stable-api until promote gate") }
-        }
-    }
 
     function _refreshPreview() {
         var toCount = toField.tokenCount

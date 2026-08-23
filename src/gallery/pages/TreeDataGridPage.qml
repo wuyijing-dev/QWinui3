@@ -82,8 +82,6 @@ CatalogPage {
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
-            CheckBox { text: qsTr("Identical filter/sort/rows ref skips refresh") }
-            CheckBox { text: qsTr("Selection tracks row object across sort/filter") }
         }
     }
 

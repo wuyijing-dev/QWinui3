@@ -134,8 +134,6 @@ CatalogPage {
                 text: qsTr("Open Multi-window")
                 onClicked: page.openComp("MultiWindowPage")
             }
-            CheckBox { text: qsTr("Settings category OnboardingCoach — not WindowGeometry/*") }
-            CheckBox { text: qsTr("Pause tour before openDialog(owner)") }
         }
     }
 
@@ -256,20 +254,6 @@ CatalogPage {
                     }
                 }
             }
-        }
-    }
-
-    ControlExample {
-        headerText: qsTr("Checklist")
-        qmlSource: "docs/feedback.md · docs/keyboard.md"
-        ColumnLayout {
-            Layout.fillWidth: true
-            spacing: Theme.spacing
-            CheckBox { text: qsTr("One tip open at a time (no stack)") }
-            CheckBox { text: qsTr("Next closes then opens the next target") }
-            CheckBox { text: qsTr("Dismiss returns focus to the current target") }
-            CheckBox { text: qsTr("Don’t show again survives Gallery restart") }
-            CheckBox { text: qsTr("Not used for Save confirms or validation errors") }
         }
     }
 

@@ -25,9 +25,6 @@ CatalogPage {
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
-            CheckBox { text: qsTr("Edit menu uses StandardKey.Cut / Copy / Paste") }
-            CheckBox { text: qsTr("Same chords documented in CommandPalette for Ctrl+K search") }
-            CheckBox { text: qsTr("No OS-global shortcut hooks — app-scoped Action.shortcut only") }
         }
     }
 

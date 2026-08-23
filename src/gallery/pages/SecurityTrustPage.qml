@@ -38,36 +38,7 @@ CatalogPage {
         }
     }
 
-    ControlExample {
-        headerText: qsTr("Wave 3 checklist (2.36)")
-        qmlSource: "onFileActivated · rowActivated · download policy D/E/F"
-        ColumnLayout {
-            Layout.fillWidth: true
-            spacing: Theme.spacing
-            CheckBox { text: qsTr("FileTree / TreeDataGrid: validate paths before open/reveal/execute") }
-            CheckBox { text: qsTr("Treat row.name / catalog keys as display text — not security fences") }
-            CheckBox { text: qsTr("WebView2: Policy D allowlist prevents most drive-by downloads") }
-            CheckBox { text: qsTr("External downloads: Policy E — explicit button + hostAllowed") }
-            CheckBox { text: qsTr("No silent saves to user Downloads until native DownloadStarting handler (Policy F)") }
-        }
-    }
 
-    ControlExample {
-        headerText: qsTr("App checklist (2.13 / 2.36)")
-        qmlSource: "navigateSafe · acceptMimeTypes · portal parent_window"
-        ColumnLayout {
-            Layout.fillWidth: true
-            spacing: Theme.spacing
-            CheckBox { text: qsTr("WebView2: Pattern A/B/C — not a raw production URL bar") }
-            CheckBox { text: qsTr("Set org/app name before WebView2 user-data folder is created") }
-            CheckBox { text: qsTr("Non-empty FileDropZone acceptExtensions for production ingest") }
-            CheckBox { text: qsTr("Optional acceptMimeTypes when OS reports MIME (2.13)") }
-            CheckBox { text: qsTr("Never auto-execute dropped paths") }
-            CheckBox { text: qsTr("Always pass Window.window to FilePicker; handle cancel as empty") }
-            CheckBox { text: qsTr("Wayland: re-smoke portal parent_window after shell changes") }
-            CheckBox { text: qsTr("Treat clipboard copies as visible to other apps") }
-        }
-    }
 
     ControlExample {
         headerText: qsTr("Navigation policy snippet (Pattern C)")

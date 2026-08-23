@@ -166,19 +166,5 @@ CatalogPage {
         }
     }
 
-    ControlExample {
-        headerText: qsTr("Checklist")
-        qmlSource: "docs/high-dpi.md · docs/window-chrome.md"
-        ColumnLayout {
-            Layout.fillWidth: true
-            spacing: Theme.spacing
-            CheckBox { text: qsTr("125% ↔ 150%: caption clicks still work (reportHitTest)") }
-            CheckBox { text: qsTr("Drag window to other monitor: Theme DPR updates") }
-            CheckBox { text: qsTr("Undock laptop: restore stays on-screen (clamp)") }
-            CheckBox { text: qsTr("Clear + restart: no stale off-screen frame") }
-            CheckBox { text: qsTr("Frost apps: OpenGL RHI — not a DPI substitute") }
-            CheckBox { text: qsTr("Wayland fractional scale: PassThrough + fractionalScale flag (2.15)") }
-            CheckBox { text: qsTr("Per-monitor soak: geometry/avail rows match each monitor (2.15)") }
-        }
-    }
 }
+

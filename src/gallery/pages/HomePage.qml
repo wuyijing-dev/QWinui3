@@ -21,9 +21,6 @@ CatalogPage {
 
     Component.onCompleted: Qt.callLater(function () { page.cardEffectsReady = true })
 
-    // Keep in sync with QWINUI3_VERSION in root CMakeLists.txt
-    readonly property string productVersion: "2.64"
-
     readonly property var featuredModel: {
         GalleryLanguage.currentLocale
         return [
@@ -53,7 +50,7 @@ CatalogPage {
             },
             {
                 title: qsTr("Style spot-check"),
-                description: qsTr("Button, field, and pointer baseline checklist for Fluent chrome."),
+                description: qsTr("Button, field, and pointer baseline for Fluent chrome."),
                 icon: FluentIcons.Checkbox,
                 tint: "#CA5010",
                 tintBg: Theme.dark ? "#3A2A1B" : "#FFF0E4",
@@ -103,16 +100,9 @@ CatalogPage {
             "templates": "ExamplesTemplatesPage",
             "style": "StyleSpotCheckPage",
             "charts": "ChartsPage",
-            "a11y": "AccessibilityPage",
-            "new": ""
+            "a11y": "AccessibilityPage"
         }
         var name = map[action] || ""
-        if (!name.length && action === "new") {
-            var added = ControlCatalog.recentlyShipped(1)
-            if (added.length)
-                page.openControl(added[0])
-            return
-        }
         var item = ControlCatalog.findByComponent(name)
         if (item)
             page.openControl(item)
@@ -224,7 +214,7 @@ CatalogPage {
             spacing: 2
 
             Text {
-                text: qsTr("QWinUI3 %1 · Qt Quick").arg(page.productVersion)
+                text: qsTr("Qt Quick · Fluent controls")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textSecondary
@@ -594,115 +584,6 @@ CatalogPage {
                                 background: Rectangle {
                                     radius: 4
                                     color: starBtn.hovered ? Theme.fillSubtle : "transparent"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    // --- Recently added or updated ---
-    ColumnLayout {
-        Layout.fillWidth: true
-        Layout.topMargin: Theme.spacingSection
-        Layout.leftMargin: Theme.spacingSection
-        Layout.rightMargin: Theme.spacingSection
-        spacing: Theme.spacingLoose
-
-        Text {
-            text: qsTr("Recently added or updated")
-            font.family: Theme.fontFamily
-            font.pixelSize: Theme.fontSubtitle
-            font.weight: Theme.fontWeightSemiBold
-            color: Theme.textPrimary
-        }
-
-        Flow {
-            id: addedFlow
-            Layout.fillWidth: true
-            spacing: Theme.spacingLoose
-
-            Repeater {
-                model: ControlCatalog.recentlyShipped(12)
-
-                delegate: Item {
-                    id: addedWrap
-                    required property var modelData
-                    required property int index
-                    width: page.itemCardWidth(addedFlow.width)
-                    height: 72
-
-                    readonly property var tintPalette: [
-                        Theme.accent,
-                        "#8764B8",
-                        "#038387",
-                        "#CA5010",
-                        "#0F7B0F",
-                        "#C239B3"
-                    ]
-                    readonly property color iconTint: tintPalette[index % tintPalette.length]
-
-                    Rectangle {
-                        anchors.fill: parent
-                        radius: Theme.cornerCard
-                        color: addedHover.hovered ? Theme.bgCardElevated : Theme.bgCard
-                        border.width: 1
-                        border.color: Theme.strokeCard
-
-                        Behavior on color {
-                            enabled: !Theme.reducedMotion
-                            ColorAnimation {
-                                duration: Theme.duration(Theme.motionFast)
-                            }
-                        }
-
-                        layer.enabled: page.cardEffectsReady && !Theme.reducedMotion && !page.viewMoving
-                        layer.effect: MultiEffect {
-                            shadowEnabled: true
-                            shadowOpacity: Theme.dark ? 0.16 : 0.07
-                            shadowColor: "#000000"
-                            shadowVerticalOffset: 2
-                            blurMax: 12
-                            autoPaddingEnabled: true
-                        }
-
-                        HoverHandler { id: addedHover }
-                        TapHandler {
-                            onTapped: page.openControl(modelData)
-                        }
-
-                        RowLayout {
-                            anchors.fill: parent
-                            anchors.margins: 14
-                            spacing: 12
-
-                            Text {
-                                text: modelData.icon
-                                font.family: Theme.fontFamilyIcon
-                                font.pixelSize: 22
-                                color: addedWrap.iconTint
-                            }
-                            ColumnLayout {
-                                Layout.fillWidth: true
-                                spacing: 2
-                                Text {
-                                    text: modelData.title
-                                    font.pixelSize: Theme.fontBody
-                                    font.weight: Theme.fontWeightSemiBold
-                                    color: Theme.textPrimary
-                                    elide: Text.ElideRight
-                                    Layout.fillWidth: true
-                                }
-                                Text {
-                                    Layout.fillWidth: true
-                                    text: modelData.description || ""
-                                    font.pixelSize: Theme.fontCaption
-                                    color: Theme.textSecondary
-                                    elide: Text.ElideRight
-                                    maximumLineCount: 1
-                                    visible: !!(modelData.description)
                                 }
                             }
                         }

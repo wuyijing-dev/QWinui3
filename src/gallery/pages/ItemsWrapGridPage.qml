@@ -44,8 +44,6 @@ CatalogPage {
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
-            CheckBox { text: qsTr("filterDebounceMs before filter walk") }
-            CheckBox { text: qsTr("≤ low hundreds of tiles in product") }
         }
     }
 

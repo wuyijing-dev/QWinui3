@@ -79,7 +79,7 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 color: Theme.textSecondary
-                text: qsTr("Home recentlyShipped + favorites are Gallery UX (1.20) — not a substitute for smoke.")
+                text: qsTr("Home Recent/Favorites are Gallery UX — not a substitute for smoke.")
             }
         }
     }

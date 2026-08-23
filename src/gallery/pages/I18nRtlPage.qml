@@ -83,7 +83,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("RTL regression checklist (1.45)")
+        headerText: qsTr("RTL smoke after chrome changes")
         qmlSource: "Settings → Right-to-left layout"
         ColumnLayout {
             Layout.fillWidth: true
@@ -96,11 +96,6 @@ CatalogPage {
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
-            CheckBox { text: qsTr("Gallery Home featured cards / nav rail") }
-            CheckBox { text: qsTr("This page FormLayout left headers + SettingsCard rows") }
-            CheckBox { text: qsTr("ContentDialog / CommandPalette overlay centering") }
-            CheckBox { text: qsTr("ListDetailsView / TwoPaneView (master on start edge)") }
-            CheckBox { text: qsTr("examples/nav-settings Settings RTL toggle") }
         }
     }
 

@@ -9,7 +9,7 @@ import QWinUI3.Extras
 
 CatalogPage {
     title: qsTr("Accessibility")
-    subtitle: qsTr("A11y checklist + keyboard + touch pointers — docs/accessibility.md. Wave 4 (2.07) + wave 10 (2.64) collection pin/group.")
+    subtitle: qsTr("Focus, contrast, reduced motion, and screen-reader recipes — docs/accessibility.md.")
 
     readonly property var a11yTableRows: [
         { name: "Alex Chen", role: "Design", status: "Active" },
@@ -241,7 +241,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("1.02 high-traffic checklist")
+        headerText: qsTr("High-traffic surfaces")
         qmlSource: "// SettingsCard { toggle: true }\n// NavigationView items + Esc on InfoBar/Toast"
 
         ColumnLayout {
@@ -266,7 +266,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Wave 2 checklist (1.19)")
+        headerText: qsTr("Collection & form surfaces")
         qmlSource: "// DataTable / ItemsView / ListDetailsView / FormLayout\n// CommandPalette / ContentDialog — docs/accessibility.md"
 
         ColumnLayout {

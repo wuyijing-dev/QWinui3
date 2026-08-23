@@ -10,7 +10,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("Style spot-check")
-    subtitle: qsTr("WinUI 3 chrome consistency — docs/style-polish.md (2.17).")
+    subtitle: qsTr("WinUI 3 chrome consistency — docs/style-polish.md")
 
     signal openControl(var item)
 
@@ -21,7 +21,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Pointer baseline (2.66 — M1–M8, I1–I4)")
+        headerText: qsTr("Pointer baseline")
         qmlSource: "Button.appearance · TextField.hasError · FontIcon · FocusStroke"
         ColumnLayout {
             Layout.fillWidth: true
@@ -29,7 +29,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Press/hover/focus spot-check for the 2.66 micro-interaction slice. Toggle Theme.reducedMotion and highContrast on Theme overrides.")
+                text: qsTr("Press/hover/focus spot-check for Fluent chrome. Toggle Theme.reducedMotion and highContrast on Theme overrides.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
@@ -101,7 +101,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Stock Style controls (2.17)")
+        headerText: qsTr("Stock Style controls")
         qmlSource: "import QWinUI3.Style  // implicit via gallery\nButton · TextField · ComboBox · CheckBox"
         ColumnLayout {
             Layout.fillWidth: true
@@ -208,21 +208,6 @@ CatalogPage {
                     .arg(Theme.borderedControlFill(false, false, false))
                     .arg(Theme.borderedControlFill(true, false, false))
             }
-        }
-    }
-
-    ControlExample {
-        headerText: qsTr("Checklist")
-        qmlSource: "docs/style-polish.md · docs/theme-overrides.md"
-        ColumnLayout {
-            Layout.fillWidth: true
-            spacing: Theme.spacing
-            CheckBox { text: qsTr("Button ↔ ComboBox rest/hover/press fills match") }
-            CheckBox { text: qsTr("TextField / SpinBox use bgControlRest at rest") }
-            CheckBox { text: qsTr("CheckBox / Radio unchecked rest matches TextField") }
-            CheckBox { text: qsTr("Slider thumb uses fillSliderThumb") }
-            CheckBox { text: qsTr("Theme overrides: accent + dark retoken all controls") }
-            CheckBox { text: qsTr("Tab focus: FocusStroke visible on TextField / Button") }
         }
     }
 }

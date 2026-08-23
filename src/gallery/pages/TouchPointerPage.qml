@@ -148,19 +148,4 @@ CatalogPage {
         }
     }
 
-    ControlExample {
-        headerText: qsTr("Finger checklist")
-        qmlSource: "docs/touch-pointer.md"
-        ColumnLayout {
-            Layout.fillWidth: true
-            spacing: Theme.spacing
-            CheckBox { text: qsTr("density standard (or uiScale bump) for finger-first") }
-            CheckBox { text: qsTr("Primary / icon-only hits ≥ Theme.controlHeight") }
-            CheckBox { text: qsTr("No required UI only on hovered") }
-            CheckBox { text: qsTr("FileDropZone Browse works without drag") }
-            CheckBox { text: qsTr("Swipe reveal has a non-swipe alternative") }
-            CheckBox { text: qsTr("Nav / list / settings rows easy to tap") }
-            CheckBox { text: qsTr("Keyboard chords still work on touch PCs (docs/keyboard.md)") }
-        }
-    }
 }

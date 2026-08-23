@@ -271,9 +271,6 @@ CatalogPage {
                     onClicked: page.openComp("FlipViewPage")
                 }
             }
-            CheckBox { text: qsTr("CommandPalette: maxRecentCommands pins hot commands when query empty") }
-            CheckBox { text: qsTr("ItemsView / AutoSuggest: minFilterLength 2 on 1000+ JS rows") }
-            CheckBox { text: qsTr("Button.loading + enabled: !busy blocks double-submit") }
         }
     }
 
@@ -306,9 +303,6 @@ CatalogPage {
                     onClicked: page.openComp("FileTreePage")
                 }
             }
-            CheckBox { text: qsTr("Pin name/id; groupRole clusters consecutive teams after group sort") }
-            CheckBox { text: qsTr("maxFilterResults still required for huge JS arrays") }
-            CheckBox { text: qsTr("Million-row GPU grid remains out of scope") }
         }
     }
 }

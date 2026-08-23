@@ -170,9 +170,6 @@ CatalogPage {
                     onClicked: root.openComp("OnboardingCoachPage")
                 }
             }
-            CheckBox { text: qsTr("Coach deferred until main window visible") }
-            CheckBox { text: qsTr("No tool/dialog spawn during active coach step") }
-            CheckBox { text: qsTr("Onboarding Settings separate from WindowGeometry/*") }
         }
     }
 
@@ -258,18 +255,4 @@ CatalogPage {
         }
     }
 
-    ControlExample {
-        headerText: qsTr("Win + Linux checklist")
-        qmlSource: "docs/window-shells.md · docs/platform-linux-wayland.md"
-        ColumnLayout {
-            Layout.fillWidth: true
-            spacing: Theme.spacing
-            CheckBox { text: qsTr("BackdropSolid on every secondary shell") }
-            CheckBox { text: qsTr("Distinct geometryPersistenceKey (Main vs Tool vs Dialog)") }
-            CheckBox { text: qsTr("DialogShellWindow.openDialog(owner) — not raw visible=true") }
-            CheckBox { text: qsTr("centerOnOwner lands dialog on owner monitor (2.14)") }
-            CheckBox { text: qsTr("Theme toggles apply to all windows in-process") }
-            CheckBox { text: qsTr("Wayland: Bootstrap configureEnvironment; portal readout above") }
-        }
-    }
 }
