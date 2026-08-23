@@ -288,7 +288,7 @@ T.Control {
                 var i1 = Math.ceil(ve * (nRaw - 1))
                 sliced = []
                 for (var zi = i0; zi <= i1; ++zi)
-                    sliced.push(raw[zi])
+                    sliced.push(ChartUtils.valueAt(raw, zi))
             }
             var pack = (String(root.decimateMode).toLowerCase() === "douglas")
                        ? ChartUtils.buildLodDouglas(sliced, budget)
