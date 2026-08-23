@@ -39,6 +39,7 @@ set(QWINUI3_PLATFORM_SOURCES
     TrayIcon.cpp
     LinuxPortal.cpp
     Bootstrap.cpp
+    WelcomeBanner.cpp
     ${QWINUI3_WEBVIEW2_SOURCES}
 )
 
@@ -126,4 +127,9 @@ endif()
 target_include_directories(qwinui3_platform
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+target_compile_definitions(qwinui3_platform
+    PRIVATE
+        "QWINUI3_VERSION_STRING=\"${QWINUI3_VERSION}\""
 )

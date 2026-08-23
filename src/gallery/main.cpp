@@ -83,6 +83,7 @@ int main(int argc, char *argv[])
             qputenv("QT_QPA_PLATFORM", "offscreen");
 #endif
         qputenv("QWINUI3_KEEP_QPA_PLATFORM", "1");
+        qputenv("QWINUI3_NO_BANNER", "1");
     }
 
     // One-call kit setup (style + Wayland/DPI + IME) — before QGuiApplication.

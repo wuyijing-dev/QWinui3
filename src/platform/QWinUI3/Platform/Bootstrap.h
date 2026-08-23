@@ -36,6 +36,7 @@
 namespace QWinUI3 {
 
 /// Call **before** constructing `QGuiApplication`.
+/// - Prints a one-shot welcome ASCII banner (set `QWINUI3_NO_BANNER=1` to skip)
 /// - Windows: sanitize foreign `QT_QPA_PLATFORM` (unless `QWINUI3_ALLOW_FOREIGN_QPA`)
 /// - Platform env (Wayland-first / DPI) via `WindowHelper::configurePlatformEnvironment`
 /// - Prefer system IME (`QT_IM_MODULE` cleared)

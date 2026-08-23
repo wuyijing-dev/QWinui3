@@ -12,6 +12,7 @@ from pathlib import Path
 
 from . import _qt
 from ._paths import bundled_kit_dir, dist_kit_dirs
+from .welcome import print_welcome_banner
 
 
 def find_kit(explicit: str | os.PathLike[str] | None = None) -> Path:
@@ -57,6 +58,14 @@ def configure_environment(
     _qt.init(binding)
     resolved = find_kit(kit)
     os.environ["QWINUI3_ROOT"] = str(resolved)
+
+    # Product version from kit folder name when present (qwinui3-2.67-…).
+    version = "dev"
+    for part in resolved.name.split("-"):
+        if len(part) >= 3 and part[0].isdigit() and "." in part:
+            version = part
+            break
+    print_welcome_banner(version=version, qt=qt_version(), support="Qt 6.5+")
 
     if sys.platform == "win32" and not os.environ.get("QWINUI3_ALLOW_FOREIGN_QPA"):
         p = os.environ.get("QT_QPA_PLATFORM", "").strip().lower()

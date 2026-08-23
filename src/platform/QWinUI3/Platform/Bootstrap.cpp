@@ -1,4 +1,5 @@
 #include "Bootstrap.h"
+#include "WelcomeBanner.h"
 #include "WindowHelper.h"
 
 #include <QCoreApplication>
@@ -42,6 +43,7 @@ void configureEnvironment(const char *argv0)
 {
     sanitizeWindowsQpa();
     applyHighDpiPolicyEarly();
+    printWelcomeBanner();
     WindowHelper::configurePlatformEnvironment(argv0);
     // Prefer system IME over Qt Virtual Keyboard (GPL/Commercial).
     qunsetenv("QT_IM_MODULE");
