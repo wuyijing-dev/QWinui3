@@ -1,116 +1,13 @@
 # QWinUI3 Roadmap
 
 **Current:** **2.64** (master; collection perf + a11y sign-off; PyPI **2.64.0** published)
-**Next up:** **2.65** Charts + Dashboard · **2.66+** [micro-interaction detail wave](#micro-interaction--visual-polish--detail-roadmap-priority) (**I1–I18**, **M1–M28**)
-**Planned through:** **3.00** (… → **2.65** dashboard → **2.66…2.70** appearance / motion / perf / capabilities / platform → **2.71…2.73** platform polish + Python checkpoint → **3.00** close-out)
+**Next up:** **2.65** Charts + Dashboard (product versions first)
+**Planned through:** **3.00** (… → **2.65…2.70** product wave → **2.71…2.75** platform/Python polish → **3.00** close-out → [micro-interaction backlog last](#micro-interaction--visual-polish--deferred-last))
 **Checkpoints ahead:** **2.70** professional-surfaces audit · **2.73** Python consumer · **3.00** breaking close-out (checkpoint-300)
 **Qt:** 6.5+ (recommended 6.8 LTS) on master today — **2.00** raises floor to **6.8 LTS** · **3.00** to **6.10 LTS**
 **Platforms:** **Windows + Linux** — no macOS first-class line.
 
 **After 2.50**, new minors ship only for **[documented user friction](docs/planning/friction-log.md)** — not catalog completeness. Release history for **1.01…2.64** lives in git tags, [upgrade-notes.md](docs/upgrade-notes.md), and per-slice docs under `docs/`.
-
----
-
-## Micro-interaction & visual polish — detail roadmap (priority)
-
-**Goal:** WinUI-grade **feel** — every clickable surface has predictable hover / press / focus / disabled feedback; icons align and animate at pixel level. Builds on **1.49** glyph micro-motion and **2.17** Style tokens; ships across **2.66…2.70** (with [product wave index](#product-wave-index-af) **A** / **B** tracks).
-
-**Principles**
-
-| Rule | Detail |
-|------|--------|
-| **Motion tokens** | All new durations/easing use **B1** `Theme.motion.*` — no one-off `Behavior` ms values |
-| **Reduced motion** | `Theme.reducedMotion` → instant state change, no scale/ripple/slide |
-| **Pointer parity** | Mouse hover + touch press share the same visual state machine; touch floors from [touch-pointer.md](docs/touch-pointer.md) |
-| **No gimmicks** | Subtle depth (scale ≤1.06, opacity, 1px stroke) — not Material ripples unless opt-in |
-| **Gallery proof** | Each row gets a **Style spot-check** or control page toggle to compare on/off |
-
-**Docs target:** [icons.md](docs/icons.md) micro-motion v2 · new [pointer-feedback.md](docs/pointer-feedback.md) · [animations.md](docs/animations.md) cross-links.
-
-### Slice map (detail wave)
-
-| Slice | Detail theme | IDs |
-|-------|--------------|-----|
-| **2.66** | Primitives + inputs pointer baseline | **M1–M8**, **I1–I4** |
-| **2.67** | Icons v2 + lists/cards + motion tokens | **I5–I12**, **M9–M12**, **B1** |
-| **2.68** | Navigation + tabs + sliders/toggles tune | **M13–M18**, **I13–I15** |
-| **2.69** | Collections + dialogs/flyouts press | **M19–M24**, **I16** |
-| **2.70** | Feedback surfaces + loading + sign-off | **M25–M28**, **I17–I18** |
-
----
-
-### I — Icon micro-details (`FontIcon` · `IconicButton` · chrome glyphs)
-
-**Baseline shipped:** **1.49** `microMotionEnabled` / `hoverScale` / `pressScale` on **FontIcon** + **IconButton** family.
-
-| ID | Detail | Target | Deliverable |
-|----|--------|--------|-------------|
-| **I1** | **Optical centering per size band** | **2.66** | `iconOffsetX/Y` presets for 10 / 14 / 16 / 18 px contexts (caption vs nav vs app bar) |
-| **I2** | **Disabled glyph fade curve** | **2.66** | Unified opacity + `Theme.textDisabled` on all icon hosts; not per-control hex |
-| **I3** | **Accent / selected icon color transition** | **2.66** | Nav item + Tab + ToggleButton: `iconColor` `Behavior` gated on selected/hover (**B1** duration) |
-| **I4** | **Chevron rotation on expand** | **2.66** | TreeView / SettingsExpander / NavigationView flyout chevron 0°→90° with reducedMotion snap |
-| **I5** | **Loading spinner on icon button** | **2.67** | **IconButton** / **AppBarButton**: optional `loading` swaps glyph → **ProgressRing** 16px inset |
-| **I6** | **Badge pulse (subtle)** | **2.67** | **InfoBadge** on bell / nav footer: one-shot scale when count increases; off when reducedMotion |
-| **I7** | **Dashboard / KPI symbol presets** | **2.67** | **ChartCard.symbol** + **KpiTile** leading icon size/color tokens ([icons-dashboard-expansion.md](docs/planning/expansion/icons-dashboard-expansion.md)) |
-| **I8** | **AnimatedIcon cross-fade** | **2.67** | **AnimatedIcon** glyph swap opacity 120ms instead of hard swap; honors reducedMotion |
-| **I9** | **RTL mirror rules** | **2.67** | Back / forward / chevron / sort arrows mirror under `LayoutMirroring`; document exceptions |
-| **I10** | **Symbol weight on pressed chrome** | **2.67** | Caption **Chrome*** buttons: glyph `opacity` dip on press (match Win11 title bar) |
-| **I11** | **ComboBox / TextField leading icon slot** | **2.67** | Leading **FontIcon** vertical align to cap height; clear-button icon hit pad 32×32 |
-| **I12** | **Multi-color icon forbidden lint** | **2.67** | Gallery **Iconography** callout: one foreground token per glyph unless severity palette |
-| **I13** | **NavigationView icon pill** | **2.68** | Selected nav item: icon sits in rounded pill background animate in (**A5** preset) |
-| **I14** | **TabView icon + close button** | **2.68** | Tab close **FontIcon** hover bg circle; pinned tab icon lock glyph |
-| **I15** | **Slider / Switch thumb icons** | **2.68** | Optional tick glyph on **Slider** steps; **Switch** check glyph fade on check |
-| **I16** | **DataTable header sort glyph** | **2.69** | Sort arrow direction rotate + active column accent (**A6** row/header style) |
-| **I17** | **Toast / InfoBar severity icons** | **2.70** | Fixed 16px severity set + **A7** palette; dismiss **FontIcon** hover |
-| **I18** | **Icon micro sign-off** | **2.70** | Gallery **Iconography** page: matrix all sizes × states × reducedMotion |
-
----
-
-### M — Pointer, press & click feedback (Style + Extras)
-
-| ID | Control / surface | Detail | Target |
-|----|-------------------|--------|--------|
-| **M1** | **Button** family | **A1** appearances + unified press depth: `scale` 0.98 + fill darken step; **AccentButton** separate pressed accent ramp | **2.66** |
-| **M2** | **HyperlinkButton** | Underline on hover only; pressed opacity 0.8; focus rect outside glyph bounds | **2.66** |
-| **M3** | **TextField** / **TextArea** | **A2** filled/outline; focus ring animate width; error shake 4px once on commit fail (reducedMotion: border flash only) | **2.66** |
-| **M4** | **ComboBox** | Popup open: chevron flip; item hover `Theme.bgControlHover`; selected tick fade-in | **2.66** |
-| **M5** | **CheckBox** / **RadioButton** | Check/dot scale-in 0→1 on check; hover box border accent preview | **2.66** |
-| **M6** | **SpinBox** | Repeat buttons independent hover/press; hold-to-repeat accel curve documented | **2.66** |
-| **M7** | **FocusStroke** | Focus ring inset/outset per control type; HC mode 2px double ([accessibility.md](docs/accessibility.md)) | **2.66** |
-| **M8** | **Cursor shapes** | Hand on clickable labels; I-beam on editable; resize cursors on splitters — Gallery matrix | **2.66** |
-| **M9** | **ListTile** | **A3** density; whole-row press highlight + leading checkbox ripple bounds; swipe hint at rest | **2.67** |
-| **M10** | **SettingsCard** / **ChartCard** | **A4** surfaces; card hover elevate 1dp (`MultiEffect` deferred); header click expands SettingsCard | **2.67** |
-| **M11** | **IconButton** / **RoundButton** | Circular press mask; min 40×40 touch target; **`loading`** defers press animation | **2.67** |
-| **M12** | **SplitButton** | Primary half vs chevron half **independent** pressed states; menu chevron rotate on open | **2.67** |
-| **M13** | **NavigationView** items | **A5** presets; compact pane press feedback; footer item separate hover band | **2.68** |
-| **M14** | **TabView** | Tab strip reorder ghost opacity; active indicator slide (**B1** easing) | **2.68** |
-| **M15** | **Pivot** | Header underline slide between tabs; keyboard focus pill | **2.68** |
-| **M16** | **Slider** / **RangeSlider** | Thumb scale 1→1.12 on hover/press; track fill animate on value change (coalesced) | **2.68** |
-| **M17** | **ToggleSwitch** | Thumb travel ease-out; off/on track color cross-fade; drag beyond bounds snap | **2.68** |
-| **M18** | **BreadcrumbBar** | Overflow flyout item press; ellipses hover underline | **2.68** |
-| **M19** | **DataTable** | **A6** zebra/hover/selection; cell press for inline edit mode (**D1**); column header hover sort affordance | **2.69** |
-| **M20** | **TreeView** / **TreeDataGrid** | Expand triangle hit pad; row hover sync with **ListTile** recipe | **2.69** |
-| **M21** | **ContentDialog** | **B5** scale+fade; default button pulse on open (once); Enter on default triggers pressed visual | **2.69** |
-| **M22** | **Flyout** / **MenuFlyout** | Directional slide 8px; menu item checkmark slide-in; submenu delay 300ms | **2.69** |
-| **M23** | **TeachingTip** | Target ring pulse 2× on show; light dismiss tap outside fade | **2.69** |
-| **M24** | **SwipeControl** | Threshold crossed haptic-like snap (visual only); reveal action icon slide | **2.69** |
-| **M25** | **InfoBar** / **Toast** | **A7** severity chrome; action button press; Toast slide-in from edge (**B6** queue) | **2.70** |
-| **M26** | **ProgressBar** / **ProgressRing** | Indeterminate sweep smoothness; determinate bump on completion flash | **2.70** |
-| **M27** | **Skeleton** / **Shimmer** | **B6** handoff from loading buttons; shimmer angle + duration tokens | **2.70** |
-| **M28** | **Pointer feedback sign-off** | Gallery **Style spot-check** + **Touch & pointer** page: all **M1–M27** checklist green | **2.70** |
-
----
-
-### Cross-cutting (ties to existing tracks)
-
-| Track | Detail rows | Notes |
-|-------|-------------|-------|
-| **Appearance A1–A7** | **M1–M4**, **M9–M10**, **M13**, **M19**, **M25** | Visual variant + press recipe ship together |
-| **Motion B1–B6** | All **I3**, **I8**, **M14–M17**, **M21–M22**, **M25–M27** | Single token source |
-| **Performance C4** | **M16**, **M19** | Idle `Behavior` gated — motion unchanged when interacting |
-| **Accessibility** | **M7**, **M8**, **I9**, **I18**, **M28** | Focus visible ≥ WCAG; reducedMotion honored everywhere |
-
-**Out:** Sound/haptic APIs · Lottie icons · full WinUI **AnimatedIcon** visual tree clone · per-app custom ripple shaders.
 
 ---
 
@@ -238,11 +135,11 @@ Consumer sketch: [upgrade-notes.md](docs/upgrade-notes.md) **Upgrade 1.90 → 2.
 | Slice | Primary theme | Bundled tracks | Status |
 |-------|---------------|----------------|--------|
 | **2.65** | Charts + Dashboard | Analytics wave A (**FL-009**) | **Next** |
-| **2.66** | Appearance + grid + table perf + **pointer baseline** | **A1** · **A2** · **C1** · **D1** · **M1–M8** · **I1–I4** | Planned |
-| **2.67** | List/card appearance + **icons v2** + motion | **A3** · **A4** · **B1** · **B2** · **C2** · **C4** · **D2** · **F1** · **M9–M12** · **I5–I12** | Planned |
-| **2.68** | Nav/tabs + sliders + connected motion | **A5** · **B3** · **B4** · **C3** · **C4** · **D3** · **D4** · **F2** · **F3** · **M13–M18** · **I13–I15** | Planned |
-| **2.69** | Collections + dialogs press feedback | **A6** · **B5** · **C5** · **D5** · **D6** · **F4** · **F5** · **M19–M24** · **I16** | Planned |
-| **2.70** | Feedback chrome + loading + **detail sign-off** | **A7** · **B6** · **C6** · **D7** · **D8** · **F6** · **M25–M28** · **I17–I18** · checkpoint-270 | Planned |
+| **2.66** | Appearance + grid + table perf | **A1** · **A2** · **C1** · **D1** | Planned |
+| **2.67** | List/card appearance + motion tokens | **A3** · **A4** · **B1** · **B2** · **C2** · **C4** · **D2** · **F1** | Planned |
+| **2.68** | Nav/tabs + connected motion + workflow | **A5** · **B3** · **B4** · **C3** · **C4** · **D3** · **D4** · **F2** · **F3** | Planned |
+| **2.69** | Collections + dialogs + calendar/RichEdit | **A6** · **B5** · **C5** · **D5** · **D6** · **F4** · **F5** | Planned |
+| **2.70** | Feedback chrome + loading + session + checkpoint | **A7** · **B6** · **C6** · **D7** · **D8** · **F6** · checkpoint-270 | Planned |
 
 **Also scheduled inside tranche 3 (when bandwidth allows):** experimental promote wave 2 (**2.67** carry-over) · analytics wave B (**2.69** conditional, **FL-014** / **FL-015**) · forms industry Gallery templates (folded into **D2** / [forms.md](docs/forms.md)).
 
@@ -458,20 +355,20 @@ flowchart TB
 
 ## Product wave index (A–F · I · M)
 
-Master map of committed deliverables. **Micro-interaction detail IDs** (**I1–I18**, **M1–M28**) are specified at the [top of this file](#micro-interaction--visual-polish--detail-roadmap-priority). Summary tracks below; tranche detail under [tranche 3](#professional-product-wave--tranche-3-265--270) and [tranche 5](#platform-polish-tranche-5-274--275).
+Master map of committed deliverables. **Micro-interaction detail IDs** (**I1–I18**, **M1–M28**) are deferred — see [end of this file](#micro-interaction--visual-polish--deferred-last). Summary tracks below; tranche detail under [tranche 3](#professional-product-wave--tranche-3-265--270) and [tranche 5](#platform-polish-tranche-5-274--275).
 
 | ID | Slice | Theme | Track |
 |----|-------|-------|-------|
-| **I1–I4** | **2.66** | Icon optical align · disabled · selected color · chevron rotate | Icon micro |
-| **I5–I12** | **2.67** | Loading icon · badge pulse · KPI presets · AnimatedIcon · RTL | Icon micro |
-| **I13–I15** | **2.68** | Nav pill · tab close · slider/switch glyphs | Icon micro |
-| **I16** | **2.69** | DataTable sort glyph | Icon micro |
-| **I17–I18** | **2.70** | Toast/InfoBar icons · icon sign-off | Icon micro |
-| **M1–M8** | **2.66** | Button/input/checkbox/focus/cursor press baseline | Pointer |
-| **M9–M12** | **2.67** | ListTile · cards · icon buttons · SplitButton | Pointer |
-| **M13–M18** | **2.68** | Nav · tabs · sliders · breadcrumbs | Pointer |
-| **M19–M24** | **2.69** | DataTable/tree · dialogs · flyouts · swipe | Pointer |
-| **M25–M28** | **2.70** | InfoBar/Toast · progress · skeleton · sign-off | Pointer |
+| **I1–I4** | **L1 (deferred)** | Icon optical align · disabled · selected color · chevron rotate | Icon micro |
+| **I5–I12** | **L2 (deferred)** | Loading icon · badge pulse · KPI presets · AnimatedIcon · RTL | Icon micro |
+| **I13–I15** | **L3 (deferred)** | Nav pill · tab close · slider/switch glyphs | Icon micro |
+| **I16** | **L4 (deferred)** | DataTable sort glyph | Icon micro |
+| **I17–I18** | **L5 (deferred)** | Toast/InfoBar icons · icon sign-off | Icon micro |
+| **M1–M8** | **L1 (deferred)** | Button/input/checkbox/focus/cursor press baseline | Pointer |
+| **M9–M12** | **L2 (deferred)** | ListTile · cards · icon buttons · SplitButton | Pointer |
+| **M13–M18** | **L3 (deferred)** | Nav · tabs · sliders · breadcrumbs | Pointer |
+| **M19–M24** | **L4 (deferred)** | DataTable/tree · dialogs · flyouts · swipe | Pointer |
+| **M25–M28** | **L5 (deferred)** | InfoBar/Toast · progress · skeleton · sign-off | Pointer |
 | **A1** | **2.66** | Button 族外观体系 | Appearance |
 | **A2** | **2.66** | 输入框视觉档位 | Appearance |
 | **A3** | **2.67** | ListTile 密度 + 布局变体 | Appearance |
@@ -707,6 +604,113 @@ Unscheduled; pick up only inside a named minor (or never).
 - Custom ink / handwriting canvas · dictation / cloud IME lexicon
 
 **Conditional new controls** need a [friction-log.md](docs/planning/friction-log.md) row before ship.
+
+---
+
+## Micro-interaction & visual polish — deferred (last)
+
+> **Priority:** **last** — after **2.65…2.70** product slices and platform/Python polish. Do **not** start this wave while Dashboard / appearance / capability minors are open. Partial Style/Extras pointer work already on master is fine to keep; new motion polish waits.
+
+**Goal:** WinUI-grade **feel** — every clickable surface has predictable hover / press / focus / disabled feedback; icons align and animate at pixel level. Builds on **1.49** glyph micro-motion and **2.17** Style tokens.
+
+**Principles**
+
+| Rule | Detail |
+|------|--------|
+| **Motion tokens** | All new durations/easing use **B1** `Theme.motion.*` — no one-off `Behavior` ms values |
+| **Reduced motion** | `Theme.reducedMotion` → instant state change, no scale/ripple/slide |
+| **Pointer parity** | Mouse hover + touch press share the same visual state machine; touch floors from [touch-pointer.md](docs/touch-pointer.md) |
+| **No gimmicks** | Subtle depth (scale ≤1.06, opacity, 1px stroke) — not Material ripples unless opt-in |
+| **Gallery proof** | Each row gets a **Style spot-check** or control page toggle to compare on/off |
+
+**Docs target:** [icons.md](docs/icons.md) micro-motion v2 · new [pointer-feedback.md](docs/pointer-feedback.md) · [animations.md](docs/animations.md) cross-links.
+
+### Suggested schedule (only after product wave)
+
+| Wave | Detail theme | IDs | Was tentatively |
+|------|--------------|-----|-----------------|
+| **L1** | Primitives + inputs pointer baseline | **M1–M8**, **I1–I4** | was 2.66 |
+| **L2** | Icons v2 + lists/cards + motion tokens | **I5–I12**, **M9–M12** | was 2.67 |
+| **L3** | Navigation + tabs + sliders/toggles tune | **M13–M18**, **I13–I15** | was 2.68 |
+| **L4** | Collections + dialogs/flyouts press | **M19–M24**, **I16** | was 2.69 |
+| **L5** | Feedback surfaces + loading + sign-off | **M25–M28**, **I17–I18** | was 2.70 |
+
+---
+
+### I — Icon micro-details (`FontIcon` · `IconicButton` · chrome glyphs)
+
+**Baseline shipped:** **1.49** `microMotionEnabled` / `hoverScale` / `pressScale` on **FontIcon** + **IconButton** family.
+
+| ID | Detail | Target | Deliverable |
+|----|--------|--------|-------------|
+| **I1** | **Optical centering per size band** | **L1** | `iconOffsetX/Y` presets for 10 / 14 / 16 / 18 px contexts (caption vs nav vs app bar) |
+| **I2** | **Disabled glyph fade curve** | **L1** | Unified opacity + `Theme.textDisabled` on all icon hosts; not per-control hex |
+| **I3** | **Accent / selected icon color transition** | **L1** | Nav item + Tab + ToggleButton: `iconColor` `Behavior` gated on selected/hover (**B1** duration) |
+| **I4** | **Chevron rotation on expand** | **L1** | TreeView / SettingsExpander / NavigationView flyout chevron 0°→90° with reducedMotion snap |
+| **I5** | **Loading spinner on icon button** | **L2** | **IconButton** / **AppBarButton**: optional `loading` swaps glyph → **ProgressRing** 16px inset |
+| **I6** | **Badge pulse (subtle)** | **L2** | **InfoBadge** on bell / nav footer: one-shot scale when count increases; off when reducedMotion |
+| **I7** | **Dashboard / KPI symbol presets** | **L2** | **ChartCard.symbol** + **KpiTile** leading icon size/color tokens ([icons-dashboard-expansion.md](docs/planning/expansion/icons-dashboard-expansion.md)) |
+| **I8** | **AnimatedIcon cross-fade** | **L2** | **AnimatedIcon** glyph swap opacity 120ms instead of hard swap; honors reducedMotion |
+| **I9** | **RTL mirror rules** | **L2** | Back / forward / chevron / sort arrows mirror under `LayoutMirroring`; document exceptions |
+| **I10** | **Symbol weight on pressed chrome** | **L2** | Caption **Chrome*** buttons: glyph `opacity` dip on press (match Win11 title bar) |
+| **I11** | **ComboBox / TextField leading icon slot** | **L2** | Leading **FontIcon** vertical align to cap height; clear-button icon hit pad 32×32 |
+| **I12** | **Multi-color icon forbidden lint** | **L2** | Gallery **Iconography** callout: one foreground token per glyph unless severity palette |
+| **I13** | **NavigationView icon pill** | **L3** | Selected nav item: icon sits in rounded pill background animate in (**A5** preset) |
+| **I14** | **TabView icon + close button** | **L3** | Tab close **FontIcon** hover bg circle; pinned tab icon lock glyph |
+| **I15** | **Slider / Switch thumb icons** | **L3** | Optional tick glyph on **Slider** steps; **Switch** check glyph fade on check |
+| **I16** | **DataTable header sort glyph** | **L4** | Sort arrow direction rotate + active column accent (**A6** row/header style) |
+| **I17** | **Toast / InfoBar severity icons** | **L5** | Fixed 16px severity set + **A7** palette; dismiss **FontIcon** hover |
+| **I18** | **Icon micro sign-off** | **L5** | Gallery **Iconography** page: matrix all sizes × states × reducedMotion |
+
+---
+
+### M — Pointer, press & click feedback (Style + Extras)
+
+| ID | Control / surface | Detail | Target |
+|----|-------------------|--------|--------|
+| **M1** | **Button** family | **A1** appearances + unified press depth: `scale` 0.98 + fill darken step; **AccentButton** separate pressed accent ramp | **L1** |
+| **M2** | **HyperlinkButton** | Underline on hover only; pressed opacity 0.8; focus rect outside glyph bounds | **L1** |
+| **M3** | **TextField** / **TextArea** | **A2** filled/outline; focus ring animate width; error shake 4px once on commit fail (reducedMotion: border flash only) | **L1** |
+| **M4** | **ComboBox** | Popup open: chevron flip; item hover `Theme.bgControlHover`; selected tick fade-in | **L1** |
+| **M5** | **CheckBox** / **RadioButton** | Check/dot scale-in 0→1 on check; hover box border accent preview | **L1** |
+| **M6** | **SpinBox** | Repeat buttons independent hover/press; hold-to-repeat accel curve documented | **L1** |
+| **M7** | **FocusStroke** | Focus ring inset/outset per control type; HC mode 2px double ([accessibility.md](docs/accessibility.md)) | **L1** |
+| **M8** | **Cursor shapes** | Hand on clickable labels; I-beam on editable; resize cursors on splitters — Gallery matrix | **L1** |
+| **M9** | **ListTile** | **A3** density; whole-row press highlight + leading checkbox ripple bounds; swipe hint at rest | **L2** |
+| **M10** | **SettingsCard** / **ChartCard** | **A4** surfaces; card hover elevate 1dp (`MultiEffect` deferred); header click expands SettingsCard | **L2** |
+| **M11** | **IconButton** / **RoundButton** | Circular press mask; min 40×40 touch target; **`loading`** defers press animation | **L2** |
+| **M12** | **SplitButton** | Primary half vs chevron half **independent** pressed states; menu chevron rotate on open | **L2** |
+| **M13** | **NavigationView** items | **A5** presets; compact pane press feedback; footer item separate hover band | **L3** |
+| **M14** | **TabView** | Tab strip reorder ghost opacity; active indicator slide (**B1** easing) | **L3** |
+| **M15** | **Pivot** | Header underline slide between tabs; keyboard focus pill | **L3** |
+| **M16** | **Slider** / **RangeSlider** | Thumb scale 1→1.12 on hover/press; track fill animate on value change (coalesced) | **L3** |
+| **M17** | **ToggleSwitch** | Thumb travel ease-out; off/on track color cross-fade; drag beyond bounds snap | **L3** |
+| **M18** | **BreadcrumbBar** | Overflow flyout item press; ellipses hover underline | **L3** |
+| **M19** | **DataTable** | **A6** zebra/hover/selection; cell press for inline edit mode (**D1**); column header hover sort affordance | **L4** |
+| **M20** | **TreeView** / **TreeDataGrid** | Expand triangle hit pad; row hover sync with **ListTile** recipe | **L4** |
+| **M21** | **ContentDialog** | **B5** scale+fade; default button pulse on open (once); Enter on default triggers pressed visual | **L4** |
+| **M22** | **Flyout** / **MenuFlyout** | Directional slide 8px; menu item checkmark slide-in; submenu delay 300ms | **L4** |
+| **M23** | **TeachingTip** | Target ring pulse 2× on show; light dismiss tap outside fade | **L4** |
+| **M24** | **SwipeControl** | Threshold crossed haptic-like snap (visual only); reveal action icon slide | **L4** |
+| **M25** | **InfoBar** / **Toast** | **A7** severity chrome; action button press; Toast slide-in from edge (**B6** queue) | **L5** |
+| **M26** | **ProgressBar** / **ProgressRing** | Indeterminate sweep smoothness; determinate bump on completion flash | **L5** |
+| **M27** | **Skeleton** / **Shimmer** | **B6** handoff from loading buttons; shimmer angle + duration tokens | **L5** |
+| **M28** | **Pointer feedback sign-off** | Gallery **Style spot-check** + **Touch & pointer** page: all **M1–M27** checklist green | **L5** |
+
+---
+
+### Cross-cutting (ties to existing tracks)
+
+| Track | Detail rows | Notes |
+|-------|-------------|-------|
+| **Appearance A1–A7** | **M1–M4**, **M9–M10**, **M13**, **M19**, **M25** | Visual variant + press recipe ship together |
+| **Motion B1–B6** | All **I3**, **I8**, **M14–M17**, **M21–M22**, **M25–M27** | Single token source |
+| **Performance C4** | **M16**, **M19** | Idle `Behavior` gated — motion unchanged when interacting |
+| **Accessibility** | **M7**, **M8**, **I9**, **I18**, **M28** | Focus visible ≥ WCAG; reducedMotion honored everywhere |
+
+**Out:** Sound/haptic APIs · Lottie icons · full WinUI **AnimatedIcon** visual tree clone · per-app custom ripple shaders.
+
+---
 
 ---
 
