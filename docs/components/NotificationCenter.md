@@ -1,14 +1,16 @@
 # NotificationCenter
 
-In-app notification drawer with grouping (2.27 / 2.63).
+In-app notification drawer with grouping (2.27 / 2.63 / 2.70).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/NotificationCenter.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/NotificationCenter.qml)
 
-**Category:** Status & feedback · **Library:** v2.67
+**Category:** Status & feedback · **Library:** v2.80
 
 [← Component index](../components.md)
 
 **Gallery:** `Notification center` — [`src/gallery/pages/NotificationCenterPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/NotificationCenterPage.qml)
+
+**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
 
 **Extends** `Control`.
 
@@ -19,6 +21,8 @@ NotificationCenter {
     id: center
     model: notifications
     maxHistory: 100
+    persistCategory: "MyAppNotify"
+    groupingPolicy: "category"  // category | severity | none
     onNotificationClicked: (index, item) => { … }
 }
 center.addNotification({
@@ -53,12 +57,15 @@ recordInCenter (2.63). Not an OS notification center. See docs/notification-cent
 | `groupRole` | `string` | — |
 | `dedupeIdRole` | `string` | — |
 | `maxHistory` | `int` | — |
+| `groupingPolicy` | `string` | Grouping: "category" (default) \| "severity" \| "none" (2.70 D7) |
+| `persistCategory` | `string` | Persist model + read flags under this Settings category (empty = memory only) |
 | `edge` | `alias` | — |
 | `drawerWidth` | `alias` | — |
 | `informational` | `int` | — |
 | `success` | `int` | — |
 | `warning` | `int` | — |
 | `error` | `int` | — |
+| `attention` | `int` | — |
 | `isOpen` | `bool` | — |
 | `unreadCount` | `int` | — |
 | `groupedModel` | `var` | — |
@@ -82,6 +89,8 @@ recordInCenter (2.63). Not an OS notification center. See docs/notification-cent
 | `clear()` | — |
 | `clearRead()` | — |
 | `addNotification(item)` | — |
+| `savePersisted()` | — |
+| `loadPersisted()` | — |
 | `push(item)` | — |
 
 ### Inherited from `Control`

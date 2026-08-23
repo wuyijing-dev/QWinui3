@@ -4,11 +4,13 @@ Anchored tip with title, subtitle, content, and actions.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/TeachingTip.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/TeachingTip.qml)
 
-**Category:** Dialogs & flyouts · **Library:** v2.67
+**Category:** Dialogs & flyouts · **Library:** v2.80
 
 [← Component index](../components.md)
 
 **Gallery:** `TeachingTip` — [`src/gallery/pages/TeachingTipPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/TeachingTipPage.qml)
+
+**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
 
 **Extends** `Popup`.
 
@@ -54,6 +56,11 @@ On close, focus returns to target when focusable (docs/feedback.md, 1.34).
 | `closeButtonContent` | `string` | WinUI CloseButtonContent — empty uses ChromeClose glyph |
 | `symbol` | `var` | FluentIcons symbol (preferred over iconGlyph) |
 | `iconGlyph` | `string` | Raw Fluent glyph string fallback |
+| `severity` | `int` | Severity palette aligned with InfoBar / Toast (2.70 A7); -1 = none |
+| `informational` | `int` | — |
+| `success` | `int` | — |
+| `warning` | `int` | — |
+| `error` | `int` | — |
 | `isOpen` | `bool` | Open / visible state |
 | `isLightDismissEnabled` | `bool` | Close on outside click / Esc |
 | `isCloseButtonVisible` | `bool` | Show the close affordance |

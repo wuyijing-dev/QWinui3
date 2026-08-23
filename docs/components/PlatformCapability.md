@@ -4,9 +4,11 @@ Runtime feature probe (2.67 F1).
 
 `import QWinUI3.Platform` · [`src/platform/QWinUI3/Platform/PlatformCapability.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/platform/QWinUI3/Platform/PlatformCapability.qml)
 
-**Category:** Platform · **Library:** v2.67 · **singleton**
+**Category:** Platform · **Library:** v2.80 · **singleton**
 
 [← Component index](../components.md)
+
+**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
 
 **Extends** `QtObject`.
 

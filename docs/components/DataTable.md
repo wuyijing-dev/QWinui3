@@ -4,11 +4,13 @@ Fluent virtualizing table with sort, filter, resize, and keyboard.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/DataTable.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/DataTable.qml)
 
-**Category:** Collections & data · **Library:** v2.67
+**Category:** Collections & data · **Library:** v2.80
 
 [← Component index](../components.md)
 
 **Gallery:** `DataTable` — [`src/gallery/pages/DataTablePage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/DataTablePage.qml)
+
+**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
 
 **Extends** `Control`.
 
@@ -33,7 +35,8 @@ DataTable {
 // --- API ---
 // selectedRow / selectedIndex, sortColumn / sortOrder / sortSpecs, filterText, columnOrder
 // hiddenColumns, columnWidths, setColumnVisible(), toggleSort(col, append?)
-// methods: select(row), clearSelection(), refresh(), focusTable(), moveColumn(from, to)
+// methods: select(row), clearSelection(), refresh(), focusTable(), moveColumn(from, to),
+//          copySelection(), exportCsv(toClipboard?)
 // signals: rowActivated(int, var), selectionChanged(int, var), sortChanged(int, int),
 //          columnLayoutChanged()
 ```
@@ -47,6 +50,7 @@ Multi-column sort via sortSpecs / Shift+click header (2.66 D1).
 Column visibility (hiddenColumns) + width persistence (columnWidths) — 2.66 D1.
 Column pin + reorder (columnOrder / moveColumn) and row group headers (groupRole) — 2.64.
 Selection tracks the row **object** across sort/filter.
+copySelection / exportCsv — clipboard CSV for selection or visible rows (2.71).
 See docs/data-collections.md for DataTable vs ItemsView vs ListDetailsView.
 
 ## API
@@ -78,6 +82,10 @@ See docs/data-collections.md for DataTable vs ItemsView vs ListDetailsView.
 | `columnWidths` | `var` | Persistable widths — bind to Settings; empty = use columns[].width (2.66 D1) |
 | `itemEnter` | `string` | Row enter motion: none \| fade \| slide — 2.67 B2 |
 | `itemExit` | `string` | Row exit motion: none \| fade \| slide (prefer none at 10k+) |
+| `rowStyle` | `string` | Row chrome: "zebra" \| "plain" \| "hover" (2.69 A6) — zebra keeps alt stripes |
+| `selectionAccent` | `bool` | Selection uses accent wash when true (2.69 A6) |
+| `headerStyle` | `string` | Sticky header surface: "filled" \| "elevated" \| "outline" (2.69 A6) |
+| `rowBackground` | `var` | Optional per-row color override: function(row, index) → color string/undefined |
 | `selectedRow` | `var` | — |
 | `rowCount` | `int` | — |
 | `columnCount` | `int` | — |
@@ -102,6 +110,8 @@ See docs/data-collections.md for DataTable vs ItemsView vs ListDetailsView.
 | `focusTable()` | — |
 | `clearSelection()` | — |
 | `select(index)` | — |
+| `copySelection()` | Copy selected row as CSV (header + one row). Returns text; also writes clipboard. |
+| `exportCsv(toClipboard)` | Export visible (filtered/sorted) rows as CSV. toClipboard true (default) copies; false returns only. |
 | `refresh()` | — |
 | `toggleSort(column, append)` | Toggle sort. append=true (Shift+click) adds/updates a secondary sort key (2.66 D1). |
 

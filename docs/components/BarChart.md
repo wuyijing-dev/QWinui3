@@ -4,11 +4,13 @@ Vertical bar chart with reveal animation.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/BarChart.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/BarChart.qml)
 
-**Category:** Charts & gauges · **Library:** v2.67
+**Category:** Charts & gauges · **Library:** v2.80
 
 [← Component index](../components.md)
 
 **Gallery:** `BarChart` — [`src/gallery/pages/BarChartPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/BarChartPage.qml)
+
+**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
 
 **Extends** `Control`.
 
@@ -49,7 +51,9 @@ unit aliases valueUnit. interactive / isInteractive aliases. playReveal() for en
 | `interactive` | `bool` | Enable hover / click interaction |
 | `isInteractive` | `alias` | Alias of interactive (gauge / KPI naming parity) |
 | `animated` | `bool` | Play enter / reveal animation |
+| `animateDataUpdates` | `bool` | Lerp displayed values on series updates (2.68 B4); first paint still uses playReveal |
 | `revealProgress` | `real` | 0..1 reveal animation progress |
+| `dataProgress` | `real` | 0..1 data-update tween progress |
 | `hoverIndex` | `int` | Hovered item index |
 | `selectedIndex` | `alias` | Selected index alias |
 | `title` | `string` | Primary title text |

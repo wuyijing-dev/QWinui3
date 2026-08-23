@@ -4,11 +4,13 @@ Date field with calendar flyout.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/CalendarDatePicker.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/CalendarDatePicker.qml)
 
-**Category:** Date & time · **Library:** v2.67
+**Category:** Date & time · **Library:** v2.80
 
 [← Component index](../components.md)
 
 **Gallery:** `CalendarDatePicker` — [`src/gallery/pages/CalendarDatePickerPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/CalendarDatePickerPage.qml)
+
+**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
 
 **Extends** `Control`.
 
@@ -53,6 +55,8 @@ Form: header / description / errorMessage / hasError (1.28) — FormLayout.valid
 | `placeholderText` | `string` | Placeholder when empty |
 | `minDate` | `date` | Minimum selectable date |
 | `maxDate` | `date` | Maximum selectable date |
+| `blackoutDates` | `var` | Dates that cannot be selected — synced with CalendarView (2.69 D5) |
+| `blackoutFilter` | `var` | — |
 | `hasMinDate` | `bool` | True when minDate is set |
 | `hasMaxDate` | `bool` | True when maxDate is set |
 | `firstDayOfWeek` | `int` | WinUI FirstDayOfWeek — Qt.Sunday..Qt.Saturday, or -1 for system default |

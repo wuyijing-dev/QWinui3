@@ -4,11 +4,13 @@ Spectrum + RGB/Hex color editor.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ColorPicker.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ColorPicker.qml)
 
-**Category:** Input & forms · **Library:** v2.67
+**Category:** Input & forms · **Library:** v2.80
 
 [← Component index](../components.md)
 
 **Gallery:** `ColorPicker` — [`src/gallery/pages/ColorPickerPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/ColorPickerPage.qml)
+
+**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
 
 **Extends** `Control`.
 
@@ -32,9 +34,8 @@ ColorPicker {
 ## Notes
 
 Edits selectedColor via spectrum + RGB/HSV/hex fields.
-copyHex() writes #RRGGBB (or #RRGGBBAA when `showAlpha`).
+copyHex() writes #RRGGBB to the clipboard.
 Bind selectedColor; channel props (hue/saturation/value/alpha) stay in sync.
-`value` may be 0 (true black). Alpha slider appears when `showAlpha` / `isAlphaEnabled`.
 previousColor + isPreviousColorVisible show a restore swatch (WinUI PreviousColor).
 colorSpectrumShape: box | ring; isAlphaEnabled aliases showAlpha.
 
@@ -76,8 +77,8 @@ colorSpectrumShape: box | ring; isAlphaEnabled aliases showAlpha.
 | `hsvToRgb(h, s, v)` | Convert HSV to RGB components |
 | `rgbToHsv(r, g, b)` | Convert RGB to HSV components |
 | `hsvToColor(h, s, v, a)` | Convert HSV to a QColor |
-| `hexString(c)` | Format color as #RRGGBB[AA] |
-| `parseHex(text)` | Parse a hex color string |
+| `hexString(c)` | Format color as #RRGGBB or #RRGGBBAA when showAlpha |
+| `parseHex(text)` | Parse a hex color string (#RGB, #RRGGBB, #RRGGBBAA) |
 | `applyHsv(emitSignal)` | Apply HSV channels to selectedColor |
 | `syncFromColor(c, emitSignal)` | Sync From color |
 | `syncInputsFromColor()` | Sync Inputs From color |

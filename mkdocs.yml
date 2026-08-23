@@ -75,6 +75,7 @@ nav:
       - Qt Creator: qt-creator.md
       - Consumer packaging: packaging-consumer.md
       - Python (PySide6 / PyQt6): packaging-python.md
+      - Python API reference: python-api.md
       - Qt version compat: qt-version-compat.md
       - Conventions: conventions.md
       - Licensing: licensing.md
@@ -150,6 +151,7 @@ nav:
       - Multi-window onboarding: multi-window-onboarding.md
   - Stable API: stable-api.md
   - Component API: components.md
+  - Python API: python-api.md
   - Roadmap: roadmap.md
   - Legacy redirects:
     - WebView2 (old link): webview2-future.md

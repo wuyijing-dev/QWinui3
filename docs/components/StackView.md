@@ -4,11 +4,13 @@ Fluent styled StackView.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/StackView.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/StackView.qml)
 
-**Category:** Styled controls · **Library:** v2.67
+**Category:** Styled controls · **Library:** v2.80
 
 [← Component index](../components.md)
 
 **Gallery:** `StackView` — [`src/gallery/pages/StackViewPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/StackViewPage.qml)
+
+**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
 
 ## Example
 

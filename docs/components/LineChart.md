@@ -4,11 +4,13 @@ Multi-series line/area chart.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/LineChart.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/LineChart.qml)
 
-**Category:** Charts & gauges · **Library:** v2.67
+**Category:** Charts & gauges · **Library:** v2.80
 
 [← Component index](../components.md)
 
 **Gallery:** `LineChart` — [`src/gallery/pages/LineChartPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/LineChartPage.qml)
+
+**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
 
 **Extends** `Control`.
 
@@ -50,6 +52,7 @@ interactive / isInteractive aliases. playReveal() / clearHover() for enter + cro
 | `interactive` | `bool` | Enable hover / click interaction |
 | `isInteractive` | `alias` | Alias of interactive (gauge / KPI naming parity) |
 | `animated` | `bool` | Play enter / reveal animation |
+| `animateDataUpdates` | `bool` | Lerp displayed values on series updates (2.68 B4) |
 | `maxPoints` | `int` | Max points before LOD kicks in |
 | `lodFactor` | `real` | Level-of-detail downsample factor |
 | `autoLod` | `bool` | Auto-enable LOD for large series |
@@ -58,6 +61,7 @@ interactive / isInteractive aliases. playReveal() / clearHover() for enter + cro
 | `strokeWidth` | `real` | Stroke thickness in px |
 | `gridColor` | `color` | Grid line color |
 | `revealProgress` | `real` | 0..1 reveal animation progress |
+| `dataProgress` | `real` | 0..1 data-update tween progress |
 | `hoverIndex` | `int` | Hovered item index |
 | `hoverX` | `real` | Pointer X while hovered |
 | `hoverY` | `real` | Pointer Y while hovered |

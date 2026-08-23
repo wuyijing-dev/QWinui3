@@ -4,11 +4,13 @@ Mirror in-app ToastHost to OS notifications (Win balloon / Linux portal).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/NotificationBridge.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/NotificationBridge.qml)
 
-**Category:** Status & feedback · **Library:** v2.67
+**Category:** Status & feedback · **Library:** v2.80
 
 [← Component index](../components.md)
 
 **Gallery:** `NotificationBridge` — [`src/gallery/pages/NotificationBridgePage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/NotificationBridgePage.qml)
+
+**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
 
 **Extends** `Control`.
 
@@ -50,6 +52,7 @@ Prefer bridge.info/success/warning/error for LoB apps. See docs/notification-cen
 | `defaultCategory` | `string` | — |
 | `mirrorToSystem` | `bool` | — |
 | `toastInApp` | `bool` | — |
+| `systemActions` | `var` | Linux notification action pairs [id, label, …] (2.69 F4) |
 | `appName` | `string` | — |
 | `trayVisible` | `alias` | — |
 | `tooltip` | `alias` | — |

@@ -4,11 +4,13 @@ Shared-selection dual view (grid ↔ index) for contacts / albums (2.62).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/SemanticZoom.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/SemanticZoom.qml)
 
-**Category:** Other · **Library:** v2.67
+**Category:** Other · **Library:** v2.80
 
 [← Component index](../components.md)
 
 **Gallery:** `SemanticZoom` — [`src/gallery/pages/SemanticZoomPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/SemanticZoomPage.qml)
+
+**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
 
 **Extends** `Control`.
 

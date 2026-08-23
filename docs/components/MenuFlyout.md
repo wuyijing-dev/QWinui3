@@ -4,11 +4,13 @@ Elevated Menu with showAt / isOpen helpers.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/MenuFlyout.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/MenuFlyout.qml)
 
-**Category:** Dialogs & flyouts · **Library:** v2.67
+**Category:** Dialogs & flyouts · **Library:** v2.80
 
 [← Component index](../components.md)
 
 **Gallery:** `MenuFlyout` — [`src/gallery/pages/MenuFlyoutPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/MenuFlyoutPage.qml)
+
+**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
 
 **Extends** `Menu`.
 

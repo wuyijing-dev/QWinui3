@@ -4,11 +4,13 @@ Fluent rich-text editor for mail / template / long notes (2.61).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/RichEdit.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/RichEdit.qml)
 
-**Category:** Other · **Library:** v2.67
+**Category:** Other · **Library:** v2.80
 
 [← Component index](../components.md)
 
 **Gallery:** `RichEdit` — [`src/gallery/pages/RichEditPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/RichEditPage.qml)
+
+**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
 
 **Extends** `Control`.
 
@@ -65,6 +67,7 @@ The editor pane is a fixed viewport (ScrollView); it does not grow with contentH
 | `toggleItalic()` | — |
 | `insertUnorderedList()` | — |
 | `insertLink(url)` | — |
+| `insertTable(rows, cols)` | Insert a simple HTML table (2.69 D6) |
 
 ### Inherited from `Control`
 

@@ -25,6 +25,7 @@ This site is generated from QML source comments and shipped via GitHub Pages.
 | [i18n / RTL](i18n-rtl.md) | qsTr + zh_CN seed + LayoutMirroring (**1.45**) |
 | [Consumer packaging](packaging-consumer.md) | Shared vs static / windeploy / strip (**1.46**) |
 | **[Python / PySide6 / PyQt6](packaging-python.md)** | Full Gallery from Python + shared kit (**2.64**) |
+| **[Python API](python-api.md)** | `qwinui3` / `qwinui3_gallery` package reference (generated) |
 | [Shell extras](shell-extras.md) | Snap Layouts · taskbar · attention (**1.47**) |
 | [Dialogs & flyouts](dialogs-flyouts.md) | ContentDialogQueue FIFO · Esc (**1.48**) |
 | [Component API](components.md) | Full public + internal control index |
@@ -57,7 +58,7 @@ python scripts/generate_component_docs.py
 python scripts/generate_component_docs.py --lint
 ```
 
-Machine-readable catalog: [`components.json`](components.json).
+Machine-readable catalogs: [`components.json`](components.json) · [`python.json`](python.json).
 
 ## License
 

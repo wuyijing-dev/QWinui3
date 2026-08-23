@@ -4,9 +4,11 @@ Warn when ThemeAppearanceSettings.persist=false may surprise users.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/GeometryAndPrefsGuard.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/GeometryAndPrefsGuard.qml)
 
-**Category:** Other · **Library:** v2.67
+**Category:** Other · **Library:** v2.80
 
 [← Component index](../components.md)
+
+**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
 
 **Extends** `SettingsCard`.
 

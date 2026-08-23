@@ -4,9 +4,11 @@ Hover cursor affordance for styled controls (2.66 M8).
 
 `import QWinUI3.Theme` · [`src/theme/QWinUI3/Theme/PointerCursor.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/theme/QWinUI3/Theme/PointerCursor.qml)
 
-**Category:** Theme · **Library:** v2.67
+**Category:** Theme · **Library:** v2.80
 
 [← Component index](../components.md)
+
+**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
 
 **Extends** `HoverHandler`.
 

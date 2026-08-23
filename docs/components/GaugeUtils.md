@@ -4,7 +4,7 @@ Shared pointer → value helpers for interactive gauges.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/GaugeUtils.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/GaugeUtils.qml)
 
-**Category:** Charts & gauges · **Library:** v2.67 · **singleton**
+**Category:** Charts & gauges · **Library:** v2.80 · **singleton**
 
 [← Component index](../components.md)
 

@@ -4,11 +4,13 @@ Checkable AppBarButton for CommandBar.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/AppBarToggleButton.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/AppBarToggleButton.qml)
 
-**Category:** Buttons & commands · **Library:** v2.67
+**Category:** Buttons & commands · **Library:** v2.80
 
 [← Component index](../components.md)
 
 **Gallery:** `AppBarToggleButton` — [`src/gallery/pages/AppBarToggleButtonPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/AppBarToggleButtonPage.qml)
+
+**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
 
 **Extends** `IconicButton`.
 

@@ -4,11 +4,13 @@ Master–detail recipe on TwoPaneView.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ListDetailsView.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ListDetailsView.qml)
 
-**Category:** Collections & data · **Library:** v2.67
+**Category:** Collections & data · **Library:** v2.80
 
 [← Component index](../components.md)
 
 **Gallery:** `ListDetailsView` — [`src/gallery/pages/ListDetailsViewPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/ListDetailsViewPage.qml)
+
+**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
 
 **Extends** `Control`.
 
@@ -24,7 +26,7 @@ ListDetailsView {
 // --- API ---
 // selectedIndex / selectedItem, select(index), showList(), showDetails()
 // listHeader / detailToolbar / details slots; multiSelectEnabled + selectedItems (2.64)
-// connectedAnimationEnabled (+ key)
+// connectedAnimationEnabled (+ key) — list→detail and reverse on showList() (2.68 B3)
 ```
 
 ## Notes

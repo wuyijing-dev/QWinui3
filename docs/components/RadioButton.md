@@ -4,11 +4,13 @@ Fluent styled RadioButton.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/RadioButton.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/RadioButton.qml)
 
-**Category:** Styled controls · **Library:** v2.67
+**Category:** Styled controls · **Library:** v2.80
 
 [← Component index](../components.md)
 
 **Gallery:** `RadioButton` — [`src/gallery/pages/RadioButtonPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/RadioButtonPage.qml)
+
+**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
 
 ## Example
 

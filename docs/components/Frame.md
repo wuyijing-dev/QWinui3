@@ -4,11 +4,13 @@ Fluent styled Frame.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/Frame.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/Frame.qml)
 
-**Category:** Styled controls · **Library:** v2.67
+**Category:** Styled controls · **Library:** v2.80
 
 [← Component index](../components.md)
 
 **Gallery:** `Frame` — [`src/gallery/pages/FramePage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/FramePage.qml)
+
+**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
 
 ## Example
 

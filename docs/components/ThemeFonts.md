@@ -1,10 +1,10 @@
 # ThemeFonts
 
-registers embedded Fluent-compatible icon fonts (qrc).
+icon/mono registration + WinUI LanguageFont-style UI stacks.
 
 `import QWinUI3.Theme` · [`src/theme/QWinUI3/Theme/ThemeFonts.h`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/theme/QWinUI3/Theme/ThemeFonts.h)
 
-**Category:** Theme · **Library:** v2.67 · **C++ type** · **singleton**
+**Category:** Theme · **Library:** v2.80 · **C++ type** · **singleton**
 
 [← Component index](../components.md)
 
@@ -22,16 +22,26 @@ registers embedded Fluent-compatible icon fonts (qrc).
 | `monoFamily` | `QString` | — |
 | `monoFont` | `QFont` | — |
 | `iconFontLoaded` | `bool` | — |
+| `uiFamily` | `QString` | — |
+| `uiFamilies` | `QStringList` | — |
+| `textFamilies` | `QStringList` | — |
+| `displayFamilies` | `QStringList` | — |
+| `uiFont` | `QFont` | — |
+| `uiLocale` | `QString` | — |
+| `revision` | `int` | — |
 
 ### Signals
 
-_No custom signals_ (use inherited signals from the base type).
+| Signature | Description |
+| --- | --- |
+| `uiFontsChanged()` | — |
 
 ### Methods
 
 | Signature | Description |
 | --- | --- |
 | `monoFontFor(int pixelSize) const)` | — |
+| `uiFontFor(int pixelSize) const)` | — |
 
 ---
 *Generated from module sources by `scripts/generate_component_docs.py` — do not edit by hand.*

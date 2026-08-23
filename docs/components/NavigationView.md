@@ -4,11 +4,13 @@ WinUI NavigationView with pane modes and page stack.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/NavigationView.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/NavigationView.qml)
 
-**Category:** Navigation · **Library:** v2.67
+**Category:** Navigation · **Library:** v2.80
 
 [← Component index](../components.md)
 
 **Gallery:** `NavigationView` — [`src/gallery/pages/NavigationViewPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/NavigationViewPage.qml)
+
+**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
 
 **Extends** `Item`.
 
@@ -19,9 +21,11 @@ NavigationView {
     id: nav
     anchors.fill: parent
     paneDisplayMode: "auto"
+    paneAppearance: "standard"   // standard | minimal | branded
     model: navModel
     isPaneSearchEnabled: true
     pageModule: "MyApp"
+    pinnedPageCache: ["HomePage", "SettingsPage"]
     onItemClicked: (index) => { /* … */ }
     onPageOpened: (name) => { /* … */ }
     onBackRequested: { /* … */ }
@@ -49,6 +53,8 @@ NavigationView {
 model entries: type "item"|"group"|"header"; groups use children[].
 pageModule + component names load StackView pages (unless hostContent).
 Pages compile on first open — not at shell startup; pageCacheLimit LRU (1.39).
+paneAppearance: standard | minimal | branded (logo band + footer chrome — 2.68).
+pinnedPageCache + pageCacheMemoryAware weighted LRU (2.68 C3).
 initialPageTransition defaults to "none" for a snappy first paint.
 paneDisplayMode auto: left → leftCompact → leftMinimal (drawer) by width.
 leftMinimal / compact drawer overlay content with a light-dismiss scrim (Calculator-like).
@@ -81,6 +87,9 @@ Live-region announces nav selection / pane expand (2.07) when announceChanges is
 | `paneCompactWidth` | `real` | Compact pane width (WinUI CompactPaneLength) |
 | `compactPaneLength` | `alias` | — |
 | `compactPaneStyle` | `string` | Compact rail: "iconOnly" (WinUI) or "labeled" (Store icon-above-caption) |
+| `paneAppearance` | `string` | Pane chrome: "standard" \| "minimal" \| "branded" (2.68 A5) |
+| `paneLogo` | `alias` | Logo slot for branded pane (Image / Item children) |
+| `brandedTitle` | `string` | Optional brand title shown next to the logo band |
 | `minContentWidth` | `real` | Minimum page width reserved when the left pane is expanded |
 | `headerText` | `string` | Pane header title text (WinUI PaneTitle) |
 | `paneTitle` | `alias` | — |
@@ -119,6 +128,9 @@ Live-region announces nav selection / pane expand (2.07) when announceChanges is
 | `initialPageTransition` | `string` | First openPage from Component.onCompleted (Gallery cold start — 1.39) |
 | `pendingMode` | `string` | Last / pending page transition mode |
 | `pageCacheLimit` | `int` | Max cached page Components from pageModule (0 = unlimited). LRU eviction (1.39). |
+| `pinnedPageCache` | `var` | Page names never evicted by LRU (2.68 C3) |
+| `pageCacheMemoryAware` | `bool` | Weight pinned pages as 2; prefer evicting unpinned oldest first (2.68 C3) |
+| `pageCacheMemoryBudgetMb` | `int` | Weight budget (0 = derive from pageCacheLimit). Rough MB≈weight units. |
 | `pageCacheHits` | `int` | Cached Component hits (diagnostics — 2.18). |
 | `pageCacheCount` | `int` | Number of entries in the page Component cache |
 | `sameKeySkipCount` | `int` | selectKey skipped — same nav key already active (diagnostics — 2.28). |

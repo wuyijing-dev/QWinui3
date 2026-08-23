@@ -12,6 +12,7 @@ plus C++ types marked ``QML_ELEMENT`` / ``QML_NAMED_ELEMENT`` in the same trees.
 Also:
   - Cross-links Gallery pages from ControlCatalog.qml
   - Writes docs/components.json for the docs site search index
+  - Generates Python package API docs (``qwinui3``, ``qwinui3_gallery``)
   - Prunes stale pages, reports version from CMakeLists.txt
   - Optional --lint for missing public headers
 
@@ -19,11 +20,14 @@ Usage:
   python scripts/generate_component_docs.py
   python scripts/generate_component_docs.py --lint
   python scripts/generate_component_docs.py --json docs/components.json
+  python scripts/generate_component_docs.py --skip-qml
+  python scripts/generate_component_docs.py --skip-python
 """
 
 from __future__ import annotations
 
 import argparse
+import ast
 import json
 import re
 import sys
@@ -31,6 +35,48 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+
+PYTHON_ROOT = ROOT / "python"
+
+# Pip packages shipped / documented for PySide6 · PyQt6 consumers.
+PYTHON_PACKAGES: list[dict[str, object]] = [
+    {
+        "name": "qwinui3",
+        "title": "qwinui3",
+        "summary": (
+            "PySide6 or PyQt6 bootstrap — locate a shared kit, configure environment, "
+            "and wire QQmlApplicationEngine import paths (mirrors C++ Bootstrap)."
+        ),
+        "path": PYTHON_ROOT / "qwinui3",
+        "modules": [
+            "__init__",
+            "bootstrap",
+            "rhi",
+            "fonts",
+        ],
+        "internal_modules": ["_qt", "_paths", "welcome"],
+    },
+    {
+        "name": "qwinui3_gallery",
+        "title": "qwinui3_gallery",
+        "summary": (
+            "Full Gallery from Python — stage QWinUI3.Gallery QML, register Gallery helpers "
+            "via @QmlElement / @QmlSingleton, and run the same smoke path as the C++ exe."
+        ),
+        "path": PYTHON_ROOT / "qwinui3_gallery",
+        "modules": [
+            "__init__",
+            "main",
+            "qml_module",
+            "types",
+            "graphics_backend",
+            "gallery_language",
+            "demo_tree_model",
+            "rhi",
+        ],
+        "internal_modules": [],
+    },
+]
 
 CATALOG_PATH = ROOT / "src" / "gallery" / "ControlCatalog.qml"
 CMAKE_PATH = ROOT / "CMakeLists.txt"
@@ -806,6 +852,12 @@ def render_component_page(c: Component, version: str) -> str:
             f"[`src/gallery/{c.gallery_page}`]({g_url})"
         )
         out.append("")
+    if not c.internal and c.kind == "qml":
+        out.append(
+            "**Python:** same QML type after `qwinui3.setup_engine()` — "
+            "[Python API](../python-api.md)."
+        )
+        out.append("")
     if c.internal:
         out.append("> Internal / support type — not part of the public Gallery surface.")
         out.append("")
@@ -923,6 +975,7 @@ def render_index(comps: list[Component], outdir: Path, version: str) -> str:
         "```bash",
         "python scripts/generate_component_docs.py",
         "python scripts/generate_component_docs.py --lint",
+        "python scripts/generate_component_docs.py --skip-python",
         "```",
         "",
         f"**{len(public)}** public · **{len(internal)}** internal · "
@@ -1018,6 +1071,418 @@ def write_docs(
         write_json_catalog(comps, json_path, version)
 
 
+# --- Python package API (PySide6 / PyQt6) ------------------------------------
+
+
+@dataclass
+class PyFunction:
+    name: str
+    signature: str
+    summary: str
+    module: str
+    package: str
+
+
+@dataclass
+class PyClass:
+    name: str
+    summary: str
+    module: str
+    package: str
+    methods: list[tuple[str, str, str]] = field(default_factory=list)
+    qml_import: str = ""
+    qml_singleton: bool = False
+    qml_element: bool = False
+
+    @property
+    def is_qml_type(self) -> bool:
+        return self.qml_element or self.qml_singleton
+
+
+@dataclass
+class PyModule:
+    name: str
+    package: str
+    path: Path
+    summary: str
+    functions: list[PyFunction] = field(default_factory=list)
+    classes: list[PyClass] = field(default_factory=list)
+    constants: list[tuple[str, str]] = field(default_factory=list)
+
+    @property
+    def rel_path(self) -> str:
+        return self.path.relative_to(ROOT).as_posix()
+
+
+@dataclass
+class PyPackage:
+    name: str
+    title: str
+    summary: str
+    path: Path
+    modules: list[PyModule] = field(default_factory=list)
+    internal_modules: list[str] = field(default_factory=list)
+
+
+def _decorator_name(node: ast.expr) -> str:
+    if isinstance(node, ast.Name):
+        return node.id
+    if isinstance(node, ast.Attribute):
+        return node.attr
+    if isinstance(node, ast.Call):
+        return _decorator_name(node.func)
+    return ""
+
+
+def _func_signature(node: ast.FunctionDef | ast.AsyncFunctionDef) -> str:
+    args = node.args
+    parts: list[str] = []
+    pos_only = args.posonlyargs
+    defaults = [None] * (len(args.args) - len(args.defaults)) + list(args.defaults)
+    for i, arg in enumerate(args.args):
+        if arg.arg in ("self", "cls"):
+            continue
+        part = arg.arg
+        if defaults[i] is not None:
+            part += "=…"
+        parts.append(part)
+    if args.vararg:
+        parts.append(f"*{args.vararg.arg}")
+    for arg in args.kwonlyargs:
+        parts.append(arg.arg)
+    if args.kwarg:
+        parts.append(f"**{args.kwarg.arg}")
+    return f"{node.name}({', '.join(parts)})"
+
+
+def _first_line(doc: str | None) -> str:
+    if not doc:
+        return ""
+    for line in doc.strip().splitlines():
+        s = line.strip()
+        if s:
+            return s
+    return ""
+
+
+def _qml_import_from_source(text: str) -> str:
+    m = re.search(r'QML_IMPORT_NAME\s*=\s*"([^"]+)"', text)
+    if not m:
+        return ""
+    major = re.search(r"QML_IMPORT_MAJOR_VERSION\s*=\s*(\d+)", text)
+    minor = re.search(r"QML_IMPORT_MINOR_VERSION\s*=\s*(\d+)", text)
+    ver = ""
+    if major:
+        ver = major.group(1)
+        if minor:
+            ver += f".{minor.group(1)}"
+    return f"{m.group(1)} {ver}".strip()
+
+
+def parse_python_file(path: Path, package: str) -> PyModule:
+    text = path.read_text(encoding="utf-8")
+    tree = ast.parse(text)
+    mod_name = path.stem
+    summary = _first_line(ast.get_docstring(tree))
+    qml_import = _qml_import_from_source(text)
+    mod = PyModule(name=mod_name, package=package, path=path, summary=summary)
+
+    for node in tree.body:
+        if isinstance(node, ast.Assign):
+            for target in node.targets:
+                if isinstance(target, ast.Name) and target.id.isupper():
+                    mod.constants.append((target.id, "constant"))
+            continue
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            if node.name.startswith("_"):
+                continue
+            mod.functions.append(
+                PyFunction(
+                    name=node.name,
+                    signature=_func_signature(node),
+                    summary=_first_line(ast.get_docstring(node)),
+                    module=mod_name,
+                    package=package,
+                )
+            )
+            continue
+        if isinstance(node, ast.ClassDef):
+            decos = {_decorator_name(d) for d in node.decorator_list}
+            qml_element = "QmlElement" in decos
+            qml_singleton = "QmlSingleton" in decos
+            methods: list[tuple[str, str, str]] = []
+            for item in node.body:
+                if isinstance(item, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                    if item.name.startswith("_") and item.name not in ("create",):
+                        continue
+                    methods.append(
+                        (
+                            _func_signature(item),
+                            _first_line(ast.get_docstring(item)),
+                            "slot" if "Slot" in {_decorator_name(d) for d in item.decorator_list} else "method",
+                        )
+                    )
+                elif isinstance(item, ast.Assign):
+                    for target in item.targets:
+                        if isinstance(target, ast.Name) and isinstance(item.value, ast.Call):
+                            fn = _decorator_name(item.value.func)
+                            if fn == "Property":
+                                prop_name = target.id
+                                methods.append((f"property {prop_name}", "", "property"))
+            mod.classes.append(
+                PyClass(
+                    name=node.name,
+                    summary=_first_line(ast.get_docstring(node)),
+                    module=mod_name,
+                    package=package,
+                    methods=methods,
+                    qml_import=qml_import,
+                    qml_singleton=qml_singleton,
+                    qml_element=qml_element,
+                )
+            )
+    return mod
+
+
+def collect_python_packages() -> list[PyPackage]:
+    out: list[PyPackage] = []
+    for spec in PYTHON_PACKAGES:
+        pkg_dir = Path(str(spec["path"]))
+        pkg_name = str(spec["name"])
+        pkg = PyPackage(
+            name=pkg_name,
+            title=str(spec["title"]),
+            summary=str(spec["summary"]),
+            path=pkg_dir,
+            internal_modules=[str(x) for x in spec.get("internal_modules", [])],
+        )
+        for mod_stem in spec["modules"]:  # type: ignore[index]
+            mod_path = pkg_dir / ("__init__.py" if mod_stem == "__init__" else f"{mod_stem}.py")
+            if mod_path.is_file():
+                pkg.modules.append(parse_python_file(mod_path, pkg_name))
+        out.append(pkg)
+    return out
+
+
+def render_python_package_page(pkg: PyPackage, version: str) -> str:
+    rel = pkg.path.relative_to(ROOT).as_posix()
+    lines = [
+        f"# `{pkg.title}`",
+        "",
+        pkg.summary,
+        "",
+        f"Source: [`{rel}/`](https://github.com/wuyijing-dev/QWinui3/tree/master/{rel}) · "
+        f"Library **v{version}** · "
+        "[← Python API index](../python-api.md)",
+        "",
+        "Install:",
+        "",
+        "```bash",
+        "pip install qwinui3[pyside6]   # or PyQt6 + QWINUI3_QT_BINDING=pyqt6",
+        "```",
+        "",
+    ]
+    if pkg.name == "qwinui3":
+        lines += [
+            "## Quick start",
+            "",
+            "```python",
+            "from qwinui3 import (",
+            "    configure_environment, configure_application, setup_engine,",
+            "    QtGui, QtQml,",
+            ")",
+            "",
+            "configure_environment()  # before QGuiApplication",
+            "app = QtGui.QGuiApplication([])",
+            "configure_application(\"org.example.app\")",
+            "engine = QtQml.QQmlApplicationEngine()",
+            "setup_engine(engine)",
+            "engine.load(\"Main.qml\")",
+            "app.exec()",
+            "```",
+            "",
+            "QML controls (`QWinUI3.Theme`, `QWinUI3.Extras`, …) load from the shared kit "
+            "after `setup_engine()`. See [Component API](../components.md) for every control.",
+            "",
+        ]
+    elif pkg.name == "qwinui3_gallery":
+        lines += [
+            "## Gallery entry",
+            "",
+            "```bash",
+            "qwinui3-gallery",
+            "python -m qwinui3_gallery --smoke",
+            "```",
+            "",
+            "Stages `src/gallery` into a filesystem `QWinUI3.Gallery` module and registers "
+            "Python `@QmlElement` types (`GraphicsBackend`, `GalleryLanguage`, `DemoTreeModel`).",
+            "",
+        ]
+
+    for mod in pkg.modules:
+        src_url = f"https://github.com/wuyijing-dev/QWinui3/blob/master/{mod.rel_path}"
+        lines += [f"## `{mod.name}`", "", f"[`{mod.rel_path}`]({src_url})", ""]
+        if mod.summary:
+            lines += [mod.summary, ""]
+        if mod.functions:
+            lines += ["### Functions", ""]
+            rows = [[f"`{f.signature}`", f.summary.replace("|", "\\|") or "—"] for f in mod.functions]
+            lines.extend(_md_table(["Signature", "Description"], rows))
+            lines.append("")
+        if mod.classes:
+            lines += ["### Types", ""]
+            for cls in mod.classes:
+                badge = ""
+                if cls.is_qml_type:
+                    kind = "singleton" if cls.qml_singleton else "type"
+                    badge = f" · QML {kind} · `{cls.qml_import}`" if cls.qml_import else f" · QML {kind}"
+                lines += [f"#### `{cls.name}`{badge}", ""]
+                if cls.summary:
+                    lines += [cls.summary, ""]
+                if cls.methods:
+                    rows = [
+                        [f"`{sig}`", kind, doc.replace("|", "\\|") if doc else "—"]
+                        for sig, doc, kind in cls.methods
+                    ]
+                    lines.extend(_md_table(["Member", "Kind", "Description"], rows))
+                    lines.append("")
+
+    if pkg.internal_modules:
+        lines += ["## Internal modules", ""]
+        lines.append(
+            "Not part of the stable consumer surface: "
+            + ", ".join(f"`{m}`" for m in pkg.internal_modules)
+            + "."
+        )
+        lines.append("")
+
+    lines += [
+        "---",
+        "*Generated from `python/` sources by `scripts/generate_component_docs.py` — do not edit by hand.*",
+        "",
+    ]
+    return "\n".join(lines)
+
+
+def render_python_index(packages: list[PyPackage], version: str) -> str:
+    fn_count = sum(len(m.functions) for p in packages for m in p.modules)
+    cls_count = sum(len(m.classes) for p in packages for m in p.modules)
+    qml_types = [
+        c.name
+        for p in packages
+        for m in p.modules
+        for c in m.classes
+        if c.is_qml_type
+    ]
+
+    lines = [
+        "# Python API (PySide6 / PyQt6)",
+        "",
+        f"Library **v{version}**. Python packages that load the **same QML controls** as C++ "
+        "apps — shared kit (`qml/` + native plugins) + bootstrap helpers.",
+        "",
+        "Related: [packaging-python.md](packaging-python.md) · "
+        "[Component API](components.md) · "
+        "[Getting started](getting-started.md).",
+        "",
+        "```bash",
+        "python scripts/generate_component_docs.py",
+        "```",
+        "",
+        f"**{len(packages)}** packages · **{fn_count}** functions · "
+        f"**{cls_count}** classes · **{len(qml_types)}** QML-registered types.",
+        "",
+        "## Packages",
+        "",
+    ]
+    for pkg in packages:
+        slug = pkg.name.replace("_", "-")
+        lines += [
+            f"### [`{pkg.title}`](python/{slug}.md)",
+            "",
+            pkg.summary,
+            "",
+            f"Modules: {', '.join(f'`{m.name}`' for m in pkg.modules)}.",
+            "",
+        ]
+
+    if qml_types:
+        lines += ["## QML types registered from Python", ""]
+        lines.append(
+            "Gallery helpers — import in QML as `QWinUI3.Gallery 1.0` after "
+            "`qwinui3_gallery.types.register_types(engine)`:"
+        )
+        lines.append("")
+        for name in qml_types:
+            lines.append(f"- `{name}`")
+        lines.append("")
+
+    lines += [
+        "## QML controls from Python",
+        "",
+        "All public controls documented under [components.md](components.md) work unchanged "
+        "from Python: call `setup_engine(engine)` then `import QWinUI3.Extras` (etc.) in your `.qml`.",
+        "",
+        "---",
+        "*Generated by `scripts/generate_component_docs.py` — do not edit by hand.*",
+        "",
+    ]
+    return "\n".join(lines)
+
+
+def write_python_docs(
+    packages: list[PyPackage],
+    index_path: Path,
+    outdir: Path,
+    json_path: Path | None,
+    version: str,
+) -> None:
+    outdir.mkdir(parents=True, exist_ok=True)
+    wanted: set[str] = set()
+    for pkg in packages:
+        slug = f"{pkg.name.replace('_', '-')}.md"
+        wanted.add(slug)
+        (outdir / slug).write_text(
+            render_python_package_page(pkg, version),
+            encoding="utf-8",
+            newline="\n",
+        )
+    for old in outdir.glob("*.md"):
+        if old.name not in wanted:
+            old.unlink()
+    index_path.parent.mkdir(parents=True, exist_ok=True)
+    index_path.write_text(
+        render_python_index(packages, version), encoding="utf-8", newline="\n"
+    )
+    if json_path:
+        payload = {
+            "name": "QWinUI3 Python",
+            "version": version,
+            "generatedBy": "scripts/generate_component_docs.py",
+            "packages": [
+                {
+                    "name": p.name,
+                    "summary": p.summary,
+                    "doc": f"python/{p.name.replace('_', '-')}.md",
+                    "modules": [m.name for m in p.modules],
+                    "qmlTypes": [
+                        c.name
+                        for m in p.modules
+                        for c in m.classes
+                        if c.is_qml_type
+                    ],
+                }
+                for p in packages
+            ],
+        }
+        json_path.parent.mkdir(parents=True, exist_ok=True)
+        json_path.write_text(
+            json.dumps(payload, indent=2, ensure_ascii=False) + "\n",
+            encoding="utf-8",
+            newline="\n",
+        )
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument(
@@ -1044,30 +1509,72 @@ def main() -> int:
         action="store_true",
         help="Exit non-zero if any public component lacks a proper comment header",
     )
+    ap.add_argument(
+        "--skip-qml",
+        action="store_true",
+        help="Skip QML/C++ component pages (Python docs only)",
+    )
+    ap.add_argument(
+        "--skip-python",
+        action="store_true",
+        help="Skip Python package API pages",
+    )
+    ap.add_argument(
+        "--python-index",
+        type=Path,
+        default=ROOT / "docs" / "python-api.md",
+        help="Python API index markdown path",
+    )
+    ap.add_argument(
+        "--python-outdir",
+        type=Path,
+        default=ROOT / "docs" / "python",
+        help="Directory for per-package Python markdown files",
+    )
+    ap.add_argument(
+        "--python-json",
+        type=Path,
+        default=ROOT / "docs" / "python.json",
+        help="Python API JSON catalog (empty string to skip)",
+    )
     args = ap.parse_args()
 
     version = project_version()
-    comps = collect()
-    json_path = None if str(args.json) in ("", "-", "none") else args.json
-    write_docs(comps, args.output, args.outdir, json_path, version)
+    exit_code = 0
 
-    public = sum(1 for c in comps if not c.internal)
-    print(
-        f"QWinUI3 v{version}: wrote {args.output.relative_to(ROOT)} + "
-        f"{len(comps)} pages ({public} public) under {args.outdir.relative_to(ROOT)}"
-        + (f" + {json_path.relative_to(ROOT)}" if json_path else "")
-    )
+    if not args.skip_qml:
+        comps = collect()
+        json_path = None if str(args.json) in ("", "-", "none") else args.json
+        write_docs(comps, args.output, args.outdir, json_path, version)
+        public = sum(1 for c in comps if not c.internal)
+        print(
+            f"QWinUI3 v{version}: wrote {args.output.relative_to(ROOT)} + "
+            f"{len(comps)} pages ({public} public) under {args.outdir.relative_to(ROOT)}"
+            + (f" + {json_path.relative_to(ROOT)}" if json_path else "")
+        )
+        if args.lint:
+            bad = [c for c in comps if not c.internal and c.lint_errors]
+            for c in bad:
+                for e in c.lint_errors:
+                    print(f"LINT {c.path.relative_to(ROOT)}: {e}", file=sys.stderr)
+            if bad:
+                print(f"{len(bad)} component(s) need comment fixes", file=sys.stderr)
+                exit_code = 1
+            else:
+                print("Lint OK")
 
-    if args.lint:
-        bad = [c for c in comps if not c.internal and c.lint_errors]
-        for c in bad:
-            for e in c.lint_errors:
-                print(f"LINT {c.path.relative_to(ROOT)}: {e}", file=sys.stderr)
-        if bad:
-            print(f"{len(bad)} component(s) need comment fixes", file=sys.stderr)
-            return 1
-        print("Lint OK")
-    return 0
+    if not args.skip_python:
+        py_pkgs = collect_python_packages()
+        py_json = None if str(args.python_json) in ("", "-", "none") else args.python_json
+        write_python_docs(py_pkgs, args.python_index, args.python_outdir, py_json, version)
+        mod_n = sum(len(p.modules) for p in py_pkgs)
+        print(
+            f"Python API v{version}: wrote {args.python_index.relative_to(ROOT)} + "
+            f"{mod_n} modules under {args.python_outdir.relative_to(ROOT)}"
+            + (f" + {py_json.relative_to(ROOT)}" if py_json else "")
+        )
+
+    return exit_code
 
 
 if __name__ == "__main__":

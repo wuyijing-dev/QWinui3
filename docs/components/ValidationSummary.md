@@ -4,9 +4,11 @@ Lists form-level validation errors (pairs with FormLayout).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ValidationSummary.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ValidationSummary.qml)
 
-**Category:** Input & forms · **Library:** v2.67
+**Category:** Input & forms · **Library:** v2.80
 
 [← Component index](../components.md)
+
+**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
 
 **Extends** `Control`.
 

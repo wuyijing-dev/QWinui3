@@ -1,14 +1,16 @@
 # Wizard
 
-Multi-step flow host with StepBar, content stack, and Back/Next/Finish.
+Multi-step flow host (StepBar + content + Back/Next).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/Wizard.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/Wizard.qml)
 
-**Category:** Navigation · **Library:** v2.68
+**Category:** Other · **Library:** v2.80
 
 [← Component index](../components.md)
 
 **Gallery:** `Wizard` — [`src/gallery/pages/WizardPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/WizardPage.qml)
+
+**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
 
 **Extends** `Control`.
 
@@ -21,17 +23,20 @@ Wizard {
         { title: qsTr("Account"), content: accountStep },
         { title: qsTr("Review"), content: reviewStep }
     ]
-    stepValidators: [
-        function () { return emailField.acceptableInput },
-        null
-    ]
+    stepValidators: [function () { return emailField.acceptableInput }, null]
     onFinished: { /* … */ }
 }
+
+// --- API ---
+// currentIndex / stepCount / canGoBack / canGoNext / isLastStep
+// methods: next(), previous(), goTo(index), finish(), cancel()
+// signals: finished(), cancelled(), stepChanged(int)
 ```
 
 ## Notes
 
-Per-step validation via `stepValidators[i]()` → bool (2.68 D3). Model entries may be a title string or `{ title, content|sourceComponent }`.
+Per-step validation via stepValidators[i]() → bool (2.68 D3).
+model entries: string title, or { title, description?, content|sourceComponent }.
 
 ## API
 
@@ -39,28 +44,47 @@ Per-step validation via `stepValidators[i]()` → bool (2.68 D3). Model entries 
 
 | Name | Type | Description |
 | --- | --- | --- |
-| `model` | `var` | Step titles or `{ title, content }` objects |
-| `currentIndex` | `int` | Active step |
-| `stepValidators` | `var` | Per-step functions returning bool |
-| `showStepBar` | `bool` | Show StepBar chrome |
-| `cancelVisible` | `bool` | Show Cancel |
-| `canGoNext` | `bool` (readonly) | Current step passes validation |
-| `isLastStep` | `bool` (readonly) | On final step |
+| `model` | `var` | — |
+| `currentIndex` | `int` | — |
+| `selectedIndex` | `alias` | — |
+| `stepValidators` | `var` | Array of functions returning bool; missing/null = always valid |
+| `showStepBar` | `bool` | — |
+| `cancelVisible` | `bool` | — |
+| `nextText` | `string` | — |
+| `backText` | `string` | — |
+| `finishText` | `string` | — |
+| `cancelText` | `string` | — |
+| `defaultStepContent` | `Component` | Default content when a step has no content / sourceComponent |
+| `stepCount` | `int` | — |
+| `canGoBack` | `bool` | — |
+| `isLastStep` | `bool` | — |
+| `canGoNext` | `bool` | — |
 
 ### Signals
 
 | Signature | Description |
 | --- | --- |
-| `finished()` | Finish pressed on a valid last step |
-| `cancelled()` | Cancel pressed |
-| `stepChanged(int index)` | Active step changed |
+| `finished()` | — |
+| `cancelled()` | — |
+| `stepChanged(int index)` | — |
 
 ### Methods
 
 | Signature | Description |
 | --- | --- |
-| `next()` | Advance or finish |
-| `previous()` | Go back |
-| `goTo(index)` | Jump when intermediate validators pass |
-| `finish()` | Emit finished when valid |
-| `cancel()` | Emit cancelled |
+| `goTo(index)` | — |
+| `next()` | — |
+| `previous()` | — |
+| `finish()` | — |
+| `cancel()` | — |
+
+### Inherited from `Control`
+
+Also available (base type / Qt Quick Controls):
+
+- `padding`
+- `font`
+- `background` / `contentItem`
+
+---
+*Generated from module sources by `scripts/generate_component_docs.py` — do not edit by hand.*

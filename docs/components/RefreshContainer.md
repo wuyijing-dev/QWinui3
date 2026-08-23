@@ -4,11 +4,13 @@ Pull-to-refresh host for flickable content.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/RefreshContainer.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/RefreshContainer.qml)
 
-**Category:** Other · **Library:** v2.67
+**Category:** Other · **Library:** v2.80
 
 [← Component index](../components.md)
 
 **Gallery:** `RefreshContainer` — [`src/gallery/pages/RefreshContainerPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/RefreshContainerPage.qml)
+
+**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
 
 **Extends** `Control`.
 

@@ -1,8 +1,8 @@
 {
   "name": "QWinUI3",
-  "version": "2.67",
+  "version": "2.80",
   "generatedBy": "scripts/generate_component_docs.py",
-  "publicCount": 301,
+  "publicCount": 317,
   "components": [
     {
       "name": "AccentButton",
@@ -272,7 +272,7 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/BarChart.md",
-      "propertyCount": 23,
+      "propertyCount": 25,
       "signalCount": 1,
       "methodCount": 2
     },
@@ -391,7 +391,7 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/CalendarDatePicker.md",
-      "propertyCount": 19,
+      "propertyCount": 21,
       "signalCount": 1,
       "methodCount": 1
     },
@@ -408,7 +408,7 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/CalendarView.md",
-      "propertyCount": 17,
+      "propertyCount": 19,
       "signalCount": 2,
       "methodCount": 5
     },
@@ -512,7 +512,7 @@
       "doc": "components/ChartUtils.md",
       "propertyCount": 3,
       "signalCount": 0,
-      "methodCount": 28
+      "methodCount": 30
     },
     {
       "name": "Chip",
@@ -680,9 +680,26 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/CommandPalette.md",
-      "propertyCount": 10,
+      "propertyCount": 11,
       "signalCount": 1,
       "methodCount": 2
+    },
+    {
+      "name": "CommandRegistry",
+      "module": "QWinUI3.Extras",
+      "summary": "Scoped command store for CommandPalette auto-discovery.",
+      "path": "src/extras/QWinUI3/Extras/CommandRegistry.qml",
+      "baseType": "QtObject",
+      "internal": false,
+      "category": "Other",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "kind": "qml",
+      "singleton": false,
+      "doc": "components/CommandRegistry.md",
+      "propertyCount": 3,
+      "signalCount": 2,
+      "methodCount": 9
     },
     {
       "name": "CompactOverlayShellWindow",
@@ -717,6 +734,23 @@
       "propertyCount": 9,
       "signalCount": 1,
       "methodCount": 1
+    },
+    {
+      "name": "ConfirmWithReason",
+      "module": "QWinUI3.Extras",
+      "summary": "ContentDialog with a required reason field (2.79).",
+      "path": "src/extras/QWinUI3/Extras/ConfirmWithReason.qml",
+      "baseType": "ContentDialog",
+      "internal": false,
+      "category": "Other",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "kind": "qml",
+      "singleton": false,
+      "doc": "components/ConfirmWithReason.md",
+      "propertyCount": 5,
+      "signalCount": 1,
+      "methodCount": 0
     },
     {
       "name": "ConnectedAnimation",
@@ -918,9 +952,9 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/DataTable.md",
-      "propertyCount": 27,
+      "propertyCount": 31,
       "signalCount": 4,
-      "methodCount": 8
+      "methodCount": 10
     },
     {
       "name": "DataTableFilterOverlay",
@@ -1037,7 +1071,7 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/DonutChart.md",
-      "propertyCount": 19,
+      "propertyCount": 21,
       "signalCount": 1,
       "methodCount": 2
     },
@@ -1144,6 +1178,23 @@
       "methodCount": 0
     },
     {
+      "name": "ErrorBoundary",
+      "module": "QWinUI3.Extras",
+      "summary": "Recovery UI for failed page / session loads (2.75).",
+      "path": "src/extras/QWinUI3/Extras/ErrorBoundary.qml",
+      "baseType": "Item",
+      "internal": false,
+      "category": "Other",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "kind": "qml",
+      "singleton": false,
+      "doc": "components/ErrorBoundary.md",
+      "propertyCount": 5,
+      "signalCount": 2,
+      "methodCount": 4
+    },
+    {
       "name": "Expander",
       "module": "QWinUI3.Extras",
       "summary": "Collapsible header with expandable content.",
@@ -1159,6 +1210,23 @@
       "propertyCount": 11,
       "signalCount": 2,
       "methodCount": 0
+    },
+    {
+      "name": "FeedbackSeverity",
+      "module": "QWinUI3.Extras",
+      "summary": "Shared severity palette + glyphs for InfoBar / Toast / TeachingTip (2.70 A7).",
+      "path": "src/extras/QWinUI3/Extras/FeedbackSeverity.qml",
+      "baseType": "QtObject",
+      "internal": false,
+      "category": "Other",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "kind": "qml",
+      "singleton": true,
+      "doc": "components/FeedbackSeverity.md",
+      "propertyCount": 4,
+      "signalCount": 0,
+      "methodCount": 5
     },
     {
       "name": "FileDropZone",
@@ -1853,7 +1921,7 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/LineChart.md",
-      "propertyCount": 34,
+      "propertyCount": 36,
       "signalCount": 0,
       "methodCount": 7
     },
@@ -1887,7 +1955,7 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/ListTile.md",
-      "propertyCount": 15,
+      "propertyCount": 16,
       "signalCount": 0,
       "methodCount": 0
     },
@@ -1905,6 +1973,23 @@
       "singleton": false,
       "doc": "components/LollipopChart.md",
       "propertyCount": 10,
+      "signalCount": 0,
+      "methodCount": 0
+    },
+    {
+      "name": "MaskedTextField",
+      "module": "QWinUI3.Extras",
+      "summary": "Simple input mask for phone / ID-style patterns (2.71).",
+      "path": "src/extras/QWinUI3/Extras/MaskedTextField.qml",
+      "baseType": "TextField",
+      "internal": false,
+      "category": "Input & forms",
+      "galleryPage": "pages/MaskedTextFieldPage.qml",
+      "galleryTitle": "MaskedTextField",
+      "kind": "qml",
+      "singleton": false,
+      "doc": "components/MaskedTextField.md",
+      "propertyCount": 3,
       "signalCount": 0,
       "methodCount": 0
     },
@@ -2159,7 +2244,7 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/NavigationView.md",
-      "propertyCount": 62,
+      "propertyCount": 68,
       "signalCount": 7,
       "methodCount": 44
     },
@@ -2193,14 +2278,14 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/NotificationBridge.md",
-      "propertyCount": 15,
+      "propertyCount": 16,
       "signalCount": 3,
       "methodCount": 7
     },
     {
       "name": "NotificationCenter",
       "module": "QWinUI3.Extras",
-      "summary": "In-app notification drawer with grouping (2.27 / 2.63).",
+      "summary": "In-app notification drawer with grouping (2.27 / 2.63 / 2.70).",
       "path": "src/extras/QWinUI3/Extras/NotificationCenter.qml",
       "baseType": "Control",
       "internal": false,
@@ -2210,9 +2295,9 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/NotificationCenter.md",
-      "propertyCount": 13,
+      "propertyCount": 16,
       "signalCount": 3,
-      "methodCount": 8
+      "methodCount": 10
     },
     {
       "name": "NumberBox",
@@ -2249,6 +2334,23 @@
       "methodCount": 3
     },
     {
+      "name": "OfflineBanner",
+      "module": "QWinUI3.Extras",
+      "summary": "InfoBar bound to WindowHelper.isOnline (2.78).",
+      "path": "src/extras/QWinUI3/Extras/OfflineBanner.qml",
+      "baseType": "Item",
+      "internal": false,
+      "category": "Other",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "kind": "qml",
+      "singleton": false,
+      "doc": "components/OfflineBanner.md",
+      "propertyCount": 7,
+      "signalCount": 2,
+      "methodCount": 1
+    },
+    {
       "name": "OnScreenKeyboard",
       "module": "QWinUI3.Extras",
       "summary": "Windows 11 touch keyboard parity (1.82).",
@@ -2281,6 +2383,23 @@
       "propertyCount": 5,
       "signalCount": 0,
       "methodCount": 3
+    },
+    {
+      "name": "OperationRetry",
+      "module": "QWinUI3.Extras",
+      "summary": "Attempt / retry helpers with exponential backoff (2.78).",
+      "path": "src/extras/QWinUI3/Extras/OperationRetry.qml",
+      "baseType": "QtObject",
+      "internal": false,
+      "category": "Other",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "kind": "qml",
+      "singleton": false,
+      "doc": "components/OperationRetry.md",
+      "propertyCount": 6,
+      "signalCount": 5,
+      "methodCount": 5
     },
     {
       "name": "OskHandwritingPad",
@@ -2434,6 +2553,23 @@
       "propertyCount": 17,
       "signalCount": 2,
       "methodCount": 2
+    },
+    {
+      "name": "PermissionGate",
+      "module": "QWinUI3.Extras",
+      "summary": "Show/enable children by role (2.71).",
+      "path": "src/extras/QWinUI3/Extras/PermissionGate.qml",
+      "baseType": "Item",
+      "internal": false,
+      "category": "Other",
+      "galleryPage": "pages/PermissionGatePage.qml",
+      "galleryTitle": "PermissionGate",
+      "kind": "qml",
+      "singleton": false,
+      "doc": "components/PermissionGate.md",
+      "propertyCount": 5,
+      "signalCount": 0,
+      "methodCount": 0
     },
     {
       "name": "PersonPicture",
@@ -2691,6 +2827,23 @@
       "methodCount": 0
     },
     {
+      "name": "RecentFiles",
+      "module": "QWinUI3.Extras",
+      "summary": "Persist recent paths in Settings + shell recent docs (2.77).",
+      "path": "src/extras/QWinUI3/Extras/RecentFiles.qml",
+      "baseType": "QtObject",
+      "internal": false,
+      "category": "Other",
+      "galleryPage": "pages/RecentFilesPage.qml",
+      "galleryTitle": "RecentFiles",
+      "kind": "qml",
+      "singleton": false,
+      "doc": "components/RecentFiles.md",
+      "propertyCount": 3,
+      "signalCount": 1,
+      "methodCount": 4
+    },
+    {
       "name": "RefreshContainer",
       "module": "QWinUI3.Extras",
       "summary": "Pull-to-refresh host for flickable content.",
@@ -2756,7 +2909,7 @@
       "doc": "components/RichEdit.md",
       "propertyCount": 9,
       "signalCount": 3,
-      "methodCount": 7
+      "methodCount": 8
     },
     {
       "name": "RightClickAnchorHelper",
@@ -2910,6 +3063,57 @@
       "propertyCount": 14,
       "signalCount": 3,
       "methodCount": 7
+    },
+    {
+      "name": "SensitiveField",
+      "module": "QWinUI3.Extras",
+      "summary": "Masked field with reveal toggle for tokens / secrets (2.79).",
+      "path": "src/extras/QWinUI3/Extras/SensitiveField.qml",
+      "baseType": "PasswordBox",
+      "internal": false,
+      "category": "Other",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "kind": "qml",
+      "singleton": false,
+      "doc": "components/SensitiveField.md",
+      "propertyCount": 0,
+      "signalCount": 0,
+      "methodCount": 0
+    },
+    {
+      "name": "SessionRestore",
+      "module": "QWinUI3.Extras",
+      "summary": "Persist window geometry + nav page + table scroll/selection (2.70 D8).",
+      "path": "src/extras/QWinUI3/Extras/SessionRestore.qml",
+      "baseType": "QtObject",
+      "internal": false,
+      "category": "Other",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "kind": "qml",
+      "singleton": false,
+      "doc": "components/SessionRestore.md",
+      "propertyCount": 5,
+      "signalCount": 0,
+      "methodCount": 3
+    },
+    {
+      "name": "SessionTimeout",
+      "module": "QWinUI3.Extras",
+      "summary": "Idle timer with warning + timeout signals (2.72).",
+      "path": "src/extras/QWinUI3/Extras/SessionTimeout.qml",
+      "baseType": "QtObject",
+      "internal": false,
+      "category": "Date & time",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "kind": "qml",
+      "singleton": false,
+      "doc": "components/SessionTimeout.md",
+      "propertyCount": 5,
+      "signalCount": 3,
+      "methodCount": 2
     },
     {
       "name": "SettingsCard",
@@ -3078,6 +3282,23 @@
       "singleton": false,
       "doc": "components/Shimmer.md",
       "propertyCount": 8,
+      "signalCount": 0,
+      "methodCount": 0
+    },
+    {
+      "name": "Skeleton",
+      "module": "QWinUI3.Extras",
+      "summary": "Form / table loading placeholder composed of Shimmer lines (2.70 B6).",
+      "path": "src/extras/QWinUI3/Extras/Skeleton.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Other",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "kind": "qml",
+      "singleton": false,
+      "doc": "components/Skeleton.md",
+      "propertyCount": 7,
       "signalCount": 0,
       "methodCount": 0
     },
@@ -3417,7 +3638,7 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/TeachingTip.md",
-      "propertyCount": 19,
+      "propertyCount": 24,
       "signalCount": 3,
       "methodCount": 1
     },
@@ -3757,8 +3978,8 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/TreeDataGrid.md",
-      "propertyCount": 21,
-      "signalCount": 4,
+      "propertyCount": 23,
+      "signalCount": 5,
       "methodCount": 8
     },
     {
@@ -3949,6 +4170,40 @@
       "methodCount": 0
     },
     {
+      "name": "WindowMessageBus",
+      "module": "QWinUI3.Extras",
+      "summary": "Process-local typed channels between windows (2.72).",
+      "path": "src/extras/QWinUI3/Extras/WindowMessageBus.qml",
+      "baseType": "QtObject",
+      "internal": false,
+      "category": "Shells & windows",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "kind": "qml",
+      "singleton": true,
+      "doc": "components/WindowMessageBus.md",
+      "propertyCount": 0,
+      "signalCount": 0,
+      "methodCount": 4
+    },
+    {
+      "name": "Wizard",
+      "module": "QWinUI3.Extras",
+      "summary": "Multi-step flow host (StepBar + content + Back/Next).",
+      "path": "src/extras/QWinUI3/Extras/Wizard.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Other",
+      "galleryPage": "pages/WizardPage.qml",
+      "galleryTitle": "Wizard",
+      "kind": "qml",
+      "singleton": false,
+      "doc": "components/Wizard.md",
+      "propertyCount": 15,
+      "signalCount": 3,
+      "methodCount": 5
+    },
+    {
       "name": "WrapPanel",
       "module": "QWinUI3.Extras",
       "summary": "Flow / wrap layout.",
@@ -4136,6 +4391,23 @@
       "methodCount": 1
     },
     {
+      "name": "SingleInstance",
+      "module": "QWinUI3.Platform",
+      "summary": "Opt-in primary/secondary guard (2.74).",
+      "path": "src/platform/QWinUI3/Platform/SingleInstance.h",
+      "baseType": "QObject",
+      "internal": false,
+      "category": "Platform",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "kind": "cpp",
+      "singleton": false,
+      "doc": "components/SingleInstance.md",
+      "propertyCount": 2,
+      "signalCount": 3,
+      "methodCount": 3
+    },
+    {
       "name": "StandardWindow",
       "module": "QWinUI3.Platform",
       "summary": "Platform ApplicationWindow + PlatformTitleBar host.",
@@ -4201,7 +4473,7 @@
       "doc": "components/TrayIcon.md",
       "propertyCount": 7,
       "signalCount": 7,
-      "methodCount": 1
+      "methodCount": 2
     },
     {
       "name": "WebView2Host",
@@ -4216,8 +4488,8 @@
       "kind": "cpp",
       "singleton": false,
       "doc": "components/WebView2Host.md",
-      "propertyCount": 11,
-      "signalCount": 8,
+      "propertyCount": 12,
+      "signalCount": 9,
       "methodCount": 8
     },
     {
@@ -4233,9 +4505,9 @@
       "kind": "cpp",
       "singleton": true,
       "doc": "components/WindowHelper.md",
-      "propertyCount": 41,
-      "signalCount": 16,
-      "methodCount": 62
+      "propertyCount": 42,
+      "signalCount": 18,
+      "methodCount": 65
     },
     {
       "name": "WindowResizeBorder",
@@ -4403,14 +4675,14 @@
       "kind": "qml",
       "singleton": true,
       "doc": "components/Theme.md",
-      "propertyCount": 112,
+      "propertyCount": 119,
       "signalCount": 0,
       "methodCount": 20
     },
     {
       "name": "ThemeFonts",
       "module": "QWinUI3.Theme",
-      "summary": "registers embedded Fluent-compatible icon fonts (qrc).",
+      "summary": "icon/mono registration + WinUI LanguageFont-style UI stacks.",
       "path": "src/theme/QWinUI3/Theme/ThemeFonts.h",
       "baseType": "QObject",
       "internal": false,
@@ -4420,9 +4692,9 @@
       "kind": "cpp",
       "singleton": true,
       "doc": "components/ThemeFonts.md",
-      "propertyCount": 4,
-      "signalCount": 0,
-      "methodCount": 1
+      "propertyCount": 11,
+      "signalCount": 1,
+      "methodCount": 2
     },
     {
       "name": "ApplicationWindow",

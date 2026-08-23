@@ -4,11 +4,13 @@ Thin state glyph swap (1.53). Not Lottie / WinUI AnimatedIcon parity.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/AnimatedIcon.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/AnimatedIcon.qml)
 
-**Category:** Other · **Library:** v2.67
+**Category:** Other · **Library:** v2.80
 
 [← Component index](../components.md)
 
 **Gallery:** `AnimatedIcon` — [`src/gallery/pages/AnimatedIconPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/AnimatedIconPage.qml)
+
+**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
 
 **Extends** `Item`.
 

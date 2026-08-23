@@ -4,11 +4,13 @@ TextBox with header and description.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/HeaderedTextBox.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/HeaderedTextBox.qml)
 
-**Category:** Input & forms · **Library:** v2.67
+**Category:** Input & forms · **Library:** v2.80
 
 [← Component index](../components.md)
 
 **Gallery:** `HeaderedTextBox` — [`src/gallery/pages/HeaderedTextBoxPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/HeaderedTextBoxPage.qml)
+
+**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
 
 **Extends** `Control`.
 

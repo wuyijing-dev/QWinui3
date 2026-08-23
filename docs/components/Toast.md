@@ -4,11 +4,13 @@ Transient toast item.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/Toast.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/Toast.qml)
 
-**Category:** Dialogs & flyouts · **Library:** v2.67
+**Category:** Dialogs & flyouts · **Library:** v2.80
 
 [← Component index](../components.md)
 
 **Gallery:** `Toast` — [`src/gallery/pages/ToastPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/ToastPage.qml)
+
+**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
 
 **Extends** `Control`.
 

@@ -4,7 +4,7 @@ LOD helpers for large chart series.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ChartUtils.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ChartUtils.qml)
 
-**Category:** Charts & gauges · **Library:** v2.67 · **singleton**
+**Category:** Charts & gauges · **Library:** v2.80 · **singleton**
 
 [← Component index](../components.md)
 
@@ -48,6 +48,8 @@ _No custom signals_ (use inherited signals from the base type).
 | Signature | Description |
 | --- | --- |
 | `shouldAnimateReveal(pointCount, animated)` | True when entrance reveal should animate (not snap) |
+| `shouldAnimateDataUpdate(pointCount, animateUpdates)` | True when series value tweens should run on data updates (2.68 B4) |
+| `lerpValues(fromArr, toArr, t)` | Lerp two flat number arrays toward `to` at progress t (0..1) |
 | `asNumber(v, fallback)` | Coerce input to number with fallback |
 | `valueCount(input)` | Number of values in the series input |
 | `valueAt(input, index, fallback)` | Read one numeric sample without allocating a flattened copy. |

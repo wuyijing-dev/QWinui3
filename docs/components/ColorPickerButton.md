@@ -4,11 +4,13 @@ Color swatch button that opens ColorPicker.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ColorPickerButton.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ColorPickerButton.qml)
 
-**Category:** Buttons & commands · **Library:** v2.67
+**Category:** Buttons & commands · **Library:** v2.80
 
 [← Component index](../components.md)
 
 **Gallery:** `ColorPickerButton` — [`src/gallery/pages/ColorPickerButtonPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/ColorPickerButtonPage.qml)
+
+**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
 
 **Extends** `AbstractButton`.
 

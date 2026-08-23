@@ -4,9 +4,11 @@ Convenience alias for SettingsCard { toggle: true }.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/SettingsToggleCard.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/SettingsToggleCard.qml)
 
-**Category:** Layout · **Library:** v2.67
+**Category:** Layout · **Library:** v2.80
 
 [← Component index](../components.md)
+
+**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
 
 **Extends** `SettingsCard`.
 

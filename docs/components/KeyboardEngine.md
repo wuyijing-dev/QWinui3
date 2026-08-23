@@ -4,7 +4,7 @@ Keyman layouts + in-app IME + optional Windows system-wide inject (1.82). Not Qt
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/KeyboardEngine.h`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/KeyboardEngine.h)
 
-**Category:** Input & forms · **Library:** v2.67 · **C++ type**
+**Category:** Input & forms · **Library:** v2.80 · **C++ type**
 
 [← Component index](../components.md)
 

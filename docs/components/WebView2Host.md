@@ -4,7 +4,7 @@ HWND-backed Edge WebView2 under a QQuickItem (Windows only).
 
 `import QWinUI3.Platform` · [`src/platform/QWinUI3/Platform/WebView2Host.h`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/platform/QWinUI3/Platform/WebView2Host.h)
 
-**Category:** Platform · **Library:** v2.67 · **C++ type**
+**Category:** Platform · **Library:** v2.80 · **C++ type**
 
 [← Component index](../components.md)
 
@@ -23,6 +23,9 @@ WebView2Host {
 Lifecycle: creates a child HWND + controller when attached to a window; destroys
 on scene detach. Geometry follows mapToScene each frame (ScrollView / Flickable)
 and clips to clip:true ancestors.
+
+User data: default AppLocalDataLocation/WebView2Host/p<pid> (multi-exe safe).
+Override with userDataFolder for a shared single-instance profile.
 
 Missing Runtime: runtimeInstalled is false; statusMessage explains; Gallery shows EmptyState.
 Focus: when the item gains activeFocus, focus moves into the browser (and back on blur).
@@ -46,6 +49,7 @@ Stable (1.18): Windows + Evergreen Runtime; see docs/webview2.md soak checklist.
 | `runtimeMissing` | `bool` | — |
 | `statusMessage` | `QString` | — |
 | `runtimeDownloadUrl` | `QString` | — |
+| `userDataFolder` | `QString` | — |
 
 ### Signals
 
@@ -59,6 +63,7 @@ Stable (1.18): Windows + Evergreen Runtime; see docs/webview2.md soak checklist.
 | `navigationCompleted(bool success)` | — |
 | `runtimeInstalledChanged()` | — |
 | `readyChanged()` | — |
+| `userDataFolderChanged()` | — |
 
 ### Methods
 

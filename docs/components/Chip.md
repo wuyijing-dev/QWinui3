@@ -4,11 +4,13 @@ Compact selectable tag; optional close affordance.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/Chip.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/Chip.qml)
 
-**Category:** Collections & data · **Library:** v2.67
+**Category:** Collections & data · **Library:** v2.80
 
 [← Component index](../components.md)
 
 **Gallery:** `Chip` — [`src/gallery/pages/ChipPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/ChipPage.qml)
+
+**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
 
 **Extends** `AbstractButton`.
 

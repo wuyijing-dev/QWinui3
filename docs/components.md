@@ -1,14 +1,15 @@
 # QWinUI3 component API
 
-Library **v2.67**. Generated from CMake ``QML_FILES`` + C++ ``QML_ELEMENT`` types (`scripts/generate_component_docs.py`).
+Library **v2.80**. Generated from CMake ``QML_FILES`` + C++ ``QML_ELEMENT`` types (`scripts/generate_component_docs.py`).
 Each control has its own page under `docs/components/`.
 
 ```bash
 python scripts/generate_component_docs.py
 python scripts/generate_component_docs.py --lint
+python scripts/generate_component_docs.py --skip-python
 ```
 
-**301** public · **14** internal · **206** with Gallery demos · Hub: [docs home](index.md).
+**317** public · **14** internal · **210** with Gallery demos · Hub: [docs home](index.md).
 
 ## By module
 
@@ -53,8 +54,10 @@ python scripts/generate_component_docs.py --lint
 - [CommandBarKeyHints](components/CommandBarKeyHints.md) — show keyboardAcceleratorText hints from AppBarButton children.
 - [CommandBarPreset](components/CommandBarPreset.md) — product default preset to avoid “looks broken” combos.
 - [CommandPalette](components/CommandPalette.md) — Ctrl+K style command launcher (fuzzy filter + keyboard). · Gallery
+- [CommandRegistry](components/CommandRegistry.md) — Scoped command store for CommandPalette auto-discovery.
 - [CompactOverlayShellWindow](components/CompactOverlayShellWindow.md) — Always-on-top compact overlay shell.
 - [CompassGauge](components/CompassGauge.md) — Heading / bearing compass (0–360°, wraparound). · Gallery
+- [ConfirmWithReason](components/ConfirmWithReason.md) — ContentDialog with a required reason field (2.79).
 - [ConnectedAnimation](components/ConnectedAnimation.md) — Shared-element style morph between two items (same window). · Gallery
 - [ConnectedAnimationService](components/ConnectedAnimationService.md) — Register shared-element keys and play list→detail morphs. · singleton
 - [ContentCard](components/ContentCard.md) — Surface card with title, subtitle, symbol, and body slot. · Gallery
@@ -80,7 +83,9 @@ python scripts/generate_component_docs.py --lint
 - [EmptyState](components/EmptyState.md) — Placeholder illustration + title + optional action. · Gallery
 - [EntranceThemeTransition](components/EntranceThemeTransition.md) — WinUI-style page / section entrance (fade + rise + scale). · Gallery
 - [ErrorBarChart](components/ErrorBarChart.md) — Mean (or value) with ± error whiskers. · Gallery
+- [ErrorBoundary](components/ErrorBoundary.md) — Recovery UI for failed page / session loads (2.75).
 - [Expander](components/Expander.md) — Collapsible header with expandable content. · Gallery
+- [FeedbackSeverity](components/FeedbackSeverity.md) — Shared severity palette + glyphs for InfoBar / Toast / TeachingTip (2.70 A7). · singleton
 - [FileDropZone](components/FileDropZone.md) — Drag-and-drop target with Fluent empty chrome. · Gallery
 - [FileTree](components/FileTree.md) — Explorer-style folder tree + file metadata table (2.06). · Gallery
 - [FlipView](components/FlipView.md) — Page carousel with optional navigation buttons. · Gallery
@@ -122,6 +127,7 @@ python scripts/generate_component_docs.py --lint
 - [ListDetailsView](components/ListDetailsView.md) — Master–detail recipe on TwoPaneView. · Gallery
 - [ListTile](components/ListTile.md) — List row: leading, title, subtitle, trailing. · Gallery
 - [LollipopChart](components/LollipopChart.md) — Stem-and-marker chart (compact bar alternative). · Gallery
+- [MaskedTextField](components/MaskedTextField.md) — Simple input mask for phone / ID-style patterns (2.71). · Gallery
 - [MediaPlayerElement](components/MediaPlayerElement.md) — Fluent shell around Qt Multimedia MediaPlayer / VideoOutput. · Gallery
 - [MenuFlyout](components/MenuFlyout.md) — Elevated Menu with showAt / isOpen helpers. · Gallery
 - [MenuFlyoutAutoMaxHeight](components/MenuFlyoutAutoMaxHeight.md) — menu max-height computed from host overlay size.
@@ -139,11 +145,13 @@ python scripts/generate_component_docs.py --lint
 - [NavigationView](components/NavigationView.md) — WinUI NavigationView with pane modes and page stack. · Gallery
 - [NavigationWindow](components/NavigationWindow.md) — ShellWindow hosting NavigationView + content.
 - [NotificationBridge](components/NotificationBridge.md) — Mirror in-app ToastHost to OS notifications (Win balloon / Linux portal). · Gallery
-- [NotificationCenter](components/NotificationCenter.md) — In-app notification drawer with grouping (2.27 / 2.63). · Gallery
+- [NotificationCenter](components/NotificationCenter.md) — In-app notification drawer with grouping (2.27 / 2.63 / 2.70). · Gallery
 - [NumberBox](components/NumberBox.md) — Numeric spin/edit with validation (WinUI AcceptsExpression / IsWrapEnabled). · Gallery
 - [OdometerGauge](components/OdometerGauge.md) — Total and trip distance. · Gallery
+- [OfflineBanner](components/OfflineBanner.md) — InfoBar bound to WindowHelper.isOnline (2.78).
 - [OnScreenKeyboard](components/OnScreenKeyboard.md) — Windows 11 touch keyboard parity (1.82). · Gallery
 - [OnScreenKeyboardWindow](components/OnScreenKeyboardWindow.md) — floating Win11-style OSK (1.83).
+- [OperationRetry](components/OperationRetry.md) — Attempt / retry helpers with exponential backoff (2.78).
 - [OskHandwritingPad](components/OskHandwritingPad.md) — Zinnia CLI handwriting panel (Windows + Linux).
 - [OskPanelButton](components/OskPanelButton.md) — compact action chip for OSK auxiliary panels.
 - [OskSettingsFlyout](components/OskSettingsFlyout.md) — Win11-style keyboard settings (size, voice/handwriting, user lexicon).
@@ -151,6 +159,7 @@ python scripts/generate_component_docs.py --lint
 - [PagerControl](components/PagerControl.md) — Numbered page navigation (prev / numbers / next). · Gallery
 - [ParetoChart](components/ParetoChart.md) — Ranked bars plus cumulative percent line. · Gallery
 - [PasswordBox](components/PasswordBox.md) — Password field with reveal toggle. · Gallery
+- [PermissionGate](components/PermissionGate.md) — Show/enable children by role (2.71). · Gallery
 - [PersonPicture](components/PersonPicture.md) — Avatar from image or initials (WinUI IsGroup / BadgeImageSource). · Gallery
 - [PieChart](components/PieChart.md) — Pie chart with legend. · Gallery
 - [PipsPager](components/PipsPager.md) — Dot pager for carousels. · Gallery
@@ -166,6 +175,7 @@ python scripts/generate_component_docs.py --lint
 - [RadioMenuFlyoutItem](components/RadioMenuFlyoutItem.md) — Exclusive radio MenuFlyout item.
 - [RatingControl](components/RatingControl.md) — Star rating; stepSize supports halves (WinUI InitialSetValue / ItemInfo). · Gallery
 - [RatingStars](components/RatingStars.md) — semantic star-rating wrapper around RatingControl.
+- [RecentFiles](components/RecentFiles.md) — Persist recent paths in Settings + shell recent docs (2.77). · Gallery
 - [RefreshContainer](components/RefreshContainer.md) — Pull-to-refresh host for flickable content. · Gallery
 - [RelativePanel](components/RelativePanel.md) — Constraint-based relative layout. · Gallery
 - [RepositionThemeTransition](components/RepositionThemeTransition.md) — Animate this item when its layout x/y change.
@@ -179,6 +189,9 @@ python scripts/generate_component_docs.py --lint
 - [SegmentedGauge](components/SegmentedGauge.md) — Segmented progress / capacity gauge. · Gallery
 - [SelectorBar](components/SelectorBar.md) — Compact horizontal item selector. · Gallery
 - [SemanticZoom](components/SemanticZoom.md) — Shared-selection dual view (grid ↔ index) for contacts / albums (2.62). · Gallery
+- [SensitiveField](components/SensitiveField.md) — Masked field with reveal toggle for tokens / secrets (2.79).
+- [SessionRestore](components/SessionRestore.md) — Persist window geometry + nav page + table scroll/selection (2.70 D8).
+- [SessionTimeout](components/SessionTimeout.md) — Idle timer with warning + timeout signals (2.72).
 - [SettingsCard](components/SettingsCard.md) — Settings row: icon, title, description, action (Toolkit ContentAlignment). · Gallery
 - [SettingsComboCard](components/SettingsComboCard.md) — SettingsCard with a built-in ComboBox action.
 - [SettingsExpander](components/SettingsExpander.md) — Expandable settings group. · Gallery
@@ -188,14 +201,7 @@ python scripts/generate_component_docs.py --lint
 - [SettingsView](components/SettingsView.md) — Scrollable settings host (title + padded column).
 - [ShellWindow](components/ShellWindow.md) — Independent ApplicationWindow + WindowChrome host.
 - [Shimmer](components/Shimmer.md) — Skeleton shimmer placeholder. · Gallery
-- [Skeleton](components/Skeleton.md) — Form/table loading placeholder (2.70). · Gallery
-- [FeedbackSeverity](components/FeedbackSeverity.md) — Shared severity palette singleton (2.70).
-- [SessionRestore](components/SessionRestore.md) — Nav + table session package (2.70).
-- **ErrorBoundary** (2.75) — recovery InfoBar + optional `sessionRestore` / `retryRequested` (Pitfalls demo).
-- **RecentFiles** (2.77) — Settings list + `WindowHelper.addToRecentDocuments`.
-- **OfflineBanner** / **OperationRetry** (2.78) — online banner + backoff helper.
-- **SensitiveField** / **ConfirmWithReason** (2.79) — masked secret field + reason dialog.
-- [NotificationCenter](components/NotificationCenter.md) — In-app notification drawer. · Gallery
+- [Skeleton](components/Skeleton.md) — Form / table loading placeholder composed of Shimmer lines (2.70 B6).
 - [Sparkline](components/Sparkline.md) — Inline mini line chart. · Gallery
 - [SpeedometerGauge](components/SpeedometerGauge.md) — Vehicle speed needle (km/h or mph). · Gallery
 - [SplitButton](components/SplitButton.md) — Primary action + chevron menu. · Gallery
@@ -205,9 +211,6 @@ python scripts/generate_component_docs.py --lint
 - [StatusBar](components/StatusBar.md) — Window status strip with progress and slots. · Gallery
 - [StatusDot](components/StatusDot.md) — Colored status indicator dot. · Gallery
 - [StepBar](components/StepBar.md) — Horizontal step / wizard progress. · Gallery
-- [Wizard](components/Wizard.md) — Multi-step host with validation gates (2.68). · Gallery
-- [CommandPalette](components/CommandPalette.md) — Ctrl+K command launcher. · Gallery
-- [CommandRegistry](components/CommandRegistry.md) — Scoped command store for palette discovery (2.68).
 - [SunburstChart](components/SunburstChart.md) — Two-level nested rings. · Gallery
 - [SwipeAction](components/SwipeAction.md) — Action revealed by SwipeControl.
 - [SwipeControl](components/SwipeControl.md) — Swipe-to-reveal actions on content. · Gallery
@@ -249,6 +252,8 @@ python scripts/generate_component_docs.py --lint
 - [VuMeter](components/VuMeter.md) — Linear LED / peak-hold meter (audio, signal, load). · Gallery
 - [WaffleChart](components/WaffleChart.md) — 10×10 part-to-whole grid. · Gallery
 - [WaterfallChart](components/WaterfallChart.md) — Waterfall chart. · Gallery
+- [WindowMessageBus](components/WindowMessageBus.md) — Process-local typed channels between windows (2.72). · singleton
+- [Wizard](components/Wizard.md) — Multi-step flow host (StepBar + content + Back/Next). · Gallery
 - [WrapPanel](components/WrapPanel.md) — Flow / wrap layout. · Gallery
 - [ZoneGauge](components/ZoneGauge.md) — Gauge with colored zones. · Gallery
 
@@ -262,6 +267,7 @@ python scripts/generate_component_docs.py --lint
 - [FrameStatsOverlay](components/FrameStatsOverlay.md) — floating FPS badge when not using the title-bar slot.
 - [PlatformCapability](components/PlatformCapability.md) — Runtime feature probe (2.67 F1). · singleton
 - [PlatformTitleBar](components/PlatformTitleBar.md) — Caption buttons + drag region + TitleBar host.
+- [SingleInstance](components/SingleInstance.md) — Opt-in primary/secondary guard (2.74). · C++
 - [StandardWindow](components/StandardWindow.md) — Platform ApplicationWindow + PlatformTitleBar host.
 - [ThemeSync](components/ThemeSync.md) — Copy OS accessibility / color scheme into Theme knobs.
 - [ToolWindow](components/ToolWindow.md) — StandardWindow tool paradigm.
@@ -277,7 +283,7 @@ python scripts/generate_component_docs.py --lint
 - [FluentIconsCatalog](components/FluentIconsCatalog.md) — Iconography catalog — separate QML singleton (not on QQmlPropertyMap). · Gallery · C++ · singleton
 - [PointerCursor](components/PointerCursor.md) — Hover cursor affordance for styled controls (2.66 M8).
 - [Theme](components/Theme.md) — Fluent color / type / motion token singleton. · singleton
-- [ThemeFonts](components/ThemeFonts.md) — registers embedded Fluent-compatible icon fonts (qrc). · Gallery · C++ · singleton
+- [ThemeFonts](components/ThemeFonts.md) — icon/mono registration + WinUI LanguageFont-style UI stacks. · Gallery · C++ · singleton
 
 ### `QtQuick.Controls.QWinUI3`
 
@@ -452,6 +458,7 @@ python scripts/generate_component_docs.py --lint
 - [CalendarView](components/CalendarView.md) — `QWinUI3.Extras`
 - [DatePicker](components/DatePicker.md) — `QWinUI3.Extras`
 - [ImeCandidateBar](components/ImeCandidateBar.md) — `QWinUI3.Extras`
+- [SessionTimeout](components/SessionTimeout.md) — `QWinUI3.Extras`
 - [TimePicker](components/TimePicker.md) — `QWinUI3.Extras`
 
 ### Dialogs & flyouts
@@ -486,6 +493,7 @@ python scripts/generate_component_docs.py --lint
 - [HeaderedComboBox](components/HeaderedComboBox.md) — `QWinUI3.Extras`
 - [HeaderedContentControl](components/HeaderedContentControl.md) — `QWinUI3.Extras`
 - [HeaderedTextBox](components/HeaderedTextBox.md) — `QWinUI3.Extras`
+- [MaskedTextField](components/MaskedTextField.md) — `QWinUI3.Extras`
 - [MultiSelectComboBox](components/MultiSelectComboBox.md) — `QWinUI3.Extras`
 - [NumberBox](components/NumberBox.md) — `QWinUI3.Extras`
 - [OnScreenKeyboard](components/OnScreenKeyboard.md) — `QWinUI3.Extras`
@@ -552,7 +560,11 @@ python scripts/generate_component_docs.py --lint
 
 - [AnimatedIcon](components/AnimatedIcon.md) — `QWinUI3.Extras`
 - [AnnotatedScrollBar](components/AnnotatedScrollBar.md) — `QWinUI3.Extras`
+- [CommandRegistry](components/CommandRegistry.md) — `QWinUI3.Extras`
+- [ConfirmWithReason](components/ConfirmWithReason.md) — `QWinUI3.Extras`
+- [ErrorBoundary](components/ErrorBoundary.md) — `QWinUI3.Extras`
 - [Expander](components/Expander.md) — `QWinUI3.Extras`
+- [FeedbackSeverity](components/FeedbackSeverity.md) — `QWinUI3.Extras`
 - [FlipView](components/FlipView.md) — `QWinUI3.Extras`
 - [GeometryAndPrefsGuard](components/GeometryAndPrefsGuard.md) — `QWinUI3.Extras`
 - [KeyChordVisual](components/KeyChordVisual.md) — `QWinUI3.Extras`
@@ -560,17 +572,25 @@ python scripts/generate_component_docs.py --lint
 - [MetadataControl](components/MetadataControl.md) — `QWinUI3.Extras`
 - [MetadataItem](components/MetadataItem.md) — `QWinUI3.Extras`
 - [MetricCompareRow](components/MetricCompareRow.md) — `QWinUI3.Extras`
+- [OfflineBanner](components/OfflineBanner.md) — `QWinUI3.Extras`
+- [OperationRetry](components/OperationRetry.md) — `QWinUI3.Extras`
 - [OskHandwritingPad](components/OskHandwritingPad.md) — `QWinUI3.Extras`
 - [OskVoiceBar](components/OskVoiceBar.md) — `QWinUI3.Extras`
+- [PermissionGate](components/PermissionGate.md) — `QWinUI3.Extras`
+- [RecentFiles](components/RecentFiles.md) — `QWinUI3.Extras`
 - [RefreshContainer](components/RefreshContainer.md) — `QWinUI3.Extras`
 - [RichEdit](components/RichEdit.md) — `QWinUI3.Extras`
 - [RightClickAnchorHelper](components/RightClickAnchorHelper.md) — `QWinUI3.Extras`
 - [SegmentedControl](components/SegmentedControl.md) — `QWinUI3.Extras`
 - [SemanticZoom](components/SemanticZoom.md) — `QWinUI3.Extras`
+- [SensitiveField](components/SensitiveField.md) — `QWinUI3.Extras`
+- [SessionRestore](components/SessionRestore.md) — `QWinUI3.Extras`
+- [Skeleton](components/Skeleton.md) — `QWinUI3.Extras`
 - [StandardTitleChrome](components/StandardTitleChrome.md) — `QWinUI3.Extras`
 - [SwipeAction](components/SwipeAction.md) — `QWinUI3.Extras`
 - [SwipeControl](components/SwipeControl.md) — `QWinUI3.Extras`
 - [ToolbarOverflowInspector](components/ToolbarOverflowInspector.md) — `QWinUI3.Extras`
+- [Wizard](components/Wizard.md) — `QWinUI3.Extras`
 
 ### Platform
 
@@ -582,6 +602,7 @@ python scripts/generate_component_docs.py --lint
 - [FrameStatsOverlay](components/FrameStatsOverlay.md) — `QWinUI3.Platform`
 - [PlatformCapability](components/PlatformCapability.md) — `QWinUI3.Platform`
 - [PlatformTitleBar](components/PlatformTitleBar.md) — `QWinUI3.Platform`
+- [SingleInstance](components/SingleInstance.md) — `QWinUI3.Platform`
 - [StandardWindow](components/StandardWindow.md) — `QWinUI3.Platform`
 - [ThemeSync](components/ThemeSync.md) — `QWinUI3.Platform`
 - [ToolWindow](components/ToolWindow.md) — `QWinUI3.Platform`
@@ -604,6 +625,7 @@ python scripts/generate_component_docs.py --lint
 - [TabViewTearOutWindow](components/TabViewTearOutWindow.md) — `QWinUI3.Extras`
 - [TitleBar](components/TitleBar.md) — `QWinUI3.Extras`
 - [ToolShellWindow](components/ToolShellWindow.md) — `QWinUI3.Extras`
+- [WindowMessageBus](components/WindowMessageBus.md) — `QWinUI3.Extras`
 
 ### Status & feedback
 

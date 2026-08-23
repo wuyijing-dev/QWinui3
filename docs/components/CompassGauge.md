@@ -4,11 +4,13 @@ Heading / bearing compass (0–360°, wraparound).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/CompassGauge.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/CompassGauge.qml)
 
-**Category:** Charts & gauges · **Library:** v2.67
+**Category:** Charts & gauges · **Library:** v2.80
 
 [← Component index](../components.md)
 
 **Gallery:** `CompassGauge` — [`src/gallery/pages/CompassGaugePage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/CompassGaugePage.qml)
+
+**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
 
 **Extends** `Control`.
 

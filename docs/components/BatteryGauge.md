@@ -4,11 +4,13 @@ Battery silhouette with charge fill and optional charging bolt.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/BatteryGauge.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/BatteryGauge.qml)
 
-**Category:** Charts & gauges · **Library:** v2.67
+**Category:** Charts & gauges · **Library:** v2.80
 
 [← Component index](../components.md)
 
 **Gallery:** `BatteryGauge` — [`src/gallery/pages/BatteryGaugePage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/BatteryGaugePage.qml)
+
+**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
 
 **Extends** `Control`.
 

@@ -4,9 +4,11 @@ Copy OS accessibility / color scheme into Theme knobs.
 
 `import QWinUI3.Platform` · [`src/platform/QWinUI3/Platform/ThemeSync.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/platform/QWinUI3/Platform/ThemeSync.qml)
 
-**Category:** Platform · **Library:** v2.67
+**Category:** Platform · **Library:** v2.80
 
 [← Component index](../components.md)
+
+**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
 
 **Extends** `Item`.
 
@@ -26,6 +28,7 @@ ThemeSync {
 
 Item (not QtObject) so Connections can be children. Zero size / not visible.
 Not a Gallery privilege — any StandardWindow / ShellWindow does this.
+2.68 F3: followSystemAccent + live QStyleHints colorSchemeChanged via WindowHelper.
 
 ## API
 

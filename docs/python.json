@@ -1,0 +1,39 @@
+{
+  "name": "QWinUI3 Python",
+  "version": "2.80",
+  "generatedBy": "scripts/generate_component_docs.py",
+  "packages": [
+    {
+      "name": "qwinui3",
+      "summary": "PySide6 or PyQt6 bootstrap — locate a shared kit, configure environment, and wire QQmlApplicationEngine import paths (mirrors C++ Bootstrap).",
+      "doc": "python/qwinui3.md",
+      "modules": [
+        "__init__",
+        "bootstrap",
+        "rhi",
+        "fonts"
+      ],
+      "qmlTypes": []
+    },
+    {
+      "name": "qwinui3_gallery",
+      "summary": "Full Gallery from Python — stage QWinUI3.Gallery QML, register Gallery helpers via @QmlElement / @QmlSingleton, and run the same smoke path as the C++ exe.",
+      "doc": "python/qwinui3-gallery.md",
+      "modules": [
+        "__init__",
+        "main",
+        "qml_module",
+        "types",
+        "graphics_backend",
+        "gallery_language",
+        "demo_tree_model",
+        "rhi"
+      ],
+      "qmlTypes": [
+        "GraphicsBackend",
+        "GalleryLanguage",
+        "DemoTreeModel"
+      ]
+    }
+  ]
+}

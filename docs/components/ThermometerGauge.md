@@ -4,11 +4,13 @@ Classic bulb + stem temperature / level gauge.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ThermometerGauge.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ThermometerGauge.qml)
 
-**Category:** Charts & gauges · **Library:** v2.67
+**Category:** Charts & gauges · **Library:** v2.80
 
 [← Component index](../components.md)
 
 **Gallery:** `ThermometerGauge` — [`src/gallery/pages/ThermometerGaugePage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/ThermometerGaugePage.qml)
+
+**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
 
 **Extends** `Control`.
 

@@ -4,9 +4,13 @@ Scoped command store for CommandPalette auto-discovery.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/CommandRegistry.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/CommandRegistry.qml)
 
-**Category:** Commands · **Library:** v2.68
+**Category:** Other · **Library:** v2.80
 
 [← Component index](../components.md)
+
+**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
+
+**Extends** `QtObject`.
 
 ## Example
 
@@ -14,23 +18,23 @@ Scoped command store for CommandPalette auto-discovery.
 CommandRegistry {
     id: registry
     Component.onCompleted: {
-        register({
-            id: "settings",
-            title: qsTr("Settings"),
-            scope: "global",
-            action: openSettings
-        })
+        register({ id: "settings", title: qsTr("Settings"),
+                   scope: "global", action: openSettings })
     }
 }
-CommandPalette {
-    registry: registry
-    commands: [ /* manual extras */ ]
-}
+CommandPalette { registry: registry }
+
+// --- API ---
+// scopes: global | window | page | focused
+// methods: register(cmd), unregister(id), clearScope(scope),
+//          commandsForPalette(), dispatch(id), setFocusedScope(id)
+// signals: commandsChanged(), commandDispatched(var)
 ```
 
 ## Notes
 
-Scopes: `global` | `window` | `page` | `focused`. Palette merge order: focused → page → window → global, then the manual `commands` list (2.68 D4).
+Dispatch order for palette merge: focused → page → window → global (2.68 D4).
+Later register() with the same id replaces the prior entry.
 
 ## API
 
@@ -38,24 +42,30 @@ Scopes: `global` | `window` | `page` | `focused`. Palette merge order: focused �
 
 | Name | Type | Description |
 | --- | --- | --- |
-| `focusedScopeId` | `string` | Active focused scope filter |
-| `pageScopeId` | `string` | Active page scope filter |
-| `windowScopeId` | `string` | Active window scope filter |
+| `focusedScopeId` | `string` | — |
+| `pageScopeId` | `string` | — |
+| `windowScopeId` | `string` | — |
 
 ### Signals
 
 | Signature | Description |
 | --- | --- |
-| `commandsChanged()` | Registry contents changed |
-| `commandDispatched(var command)` | After a successful `dispatch` |
+| `commandsChanged()` | — |
+| `commandDispatched(var command)` | — |
 
 ### Methods
 
 | Signature | Description |
 | --- | --- |
-| `register(cmd)` | Add or replace by `id` |
-| `unregister(id)` | Remove by id |
-| `clearScope(scope)` | Drop all commands in a scope |
-| `commandsForPalette()` | Active commands for palette merge |
-| `dispatch(id)` | Run action for id |
-| `setFocusedScope(id)` / `setPageScope(id)` / `setWindowScope(id)` | Scope filters |
+| `register(cmd)` | — |
+| `unregister(id)` | — |
+| `clearScope(scope)` | — |
+| `setFocusedScope(id)` | — |
+| `setPageScope(id)` | — |
+| `setWindowScope(id)` | — |
+| `commandsForPalette()` | Commands visible to CommandPalette (highest-priority scope first) |
+| `dispatch(id)` | — |
+| `commandCount()` | — |
+
+---
+*Generated from module sources by `scripts/generate_component_docs.py` — do not edit by hand.*

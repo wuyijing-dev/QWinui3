@@ -4,11 +4,13 @@ Fluent styled TextArea.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/TextArea.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/TextArea.qml)
 
-**Category:** Styled controls · **Library:** v2.67
+**Category:** Styled controls · **Library:** v2.80
 
 [← Component index](../components.md)
 
 **Gallery:** `TextArea` — [`src/gallery/pages/TextAreaPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/TextAreaPage.qml)
+
+**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
 
 ## Example
 

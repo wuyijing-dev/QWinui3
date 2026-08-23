@@ -4,11 +4,13 @@ Donut chart with hover and legend.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/DonutChart.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/DonutChart.qml)
 
-**Category:** Charts & gauges · **Library:** v2.67
+**Category:** Charts & gauges · **Library:** v2.80
 
 [← Component index](../components.md)
 
 **Gallery:** `DonutChart` — [`src/gallery/pages/DonutChartPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/DonutChartPage.qml)
+
+**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
 
 **Extends** `Control`.
 
@@ -50,8 +52,10 @@ interactive / isInteractive aliases.
 | `interactive` | `bool` | Enable hover / click interaction |
 | `isInteractive` | `alias` | Alias of interactive (gauge / KPI naming parity) |
 | `animated` | `bool` | Play enter / reveal animation |
+| `animateDataUpdates` | `bool` | Lerp slice values on updates (2.68 B4) |
 | `startAngle` | `real` | Arc start angle in degrees |
 | `revealProgress` | `real` | 0..1 reveal animation progress |
+| `dataProgress` | `real` | — |
 | `hoverIndex` | `int` | Hovered item index |
 | `selectedIndex` | `alias` | Selected index alias |
 | `title` | `string` | Primary title text |

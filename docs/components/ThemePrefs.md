@@ -4,11 +4,13 @@ Persist Theme knobs via QtCore Settings (1.69).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ThemePrefs.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ThemePrefs.qml)
 
-**Category:** Media & platform · **Library:** v2.67
+**Category:** Media & platform · **Library:** v2.80
 
 [← Component index](../components.md)
 
 **Gallery:** `Theme prefs` — [`src/gallery/pages/ThemePrefsPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/ThemePrefsPage.qml)
+
+**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
 
 **Extends** `Item`.
 

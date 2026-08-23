@@ -4,9 +4,11 @@ Fluent color / type / motion token singleton.
 
 `import QWinUI3.Theme` · [`src/theme/QWinUI3/Theme/Theme.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/theme/QWinUI3/Theme/Theme.qml)
 
-**Category:** Theme · **Library:** v2.67 · **singleton**
+**Category:** Theme · **Library:** v2.80 · **singleton**
 
 [← Component index](../components.md)
+
+**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
 
 **Extends** `QtObject`.
 
@@ -65,12 +67,16 @@ Use Theme.duration(ms) and controlFill/accentFill helpers for states.
 | `highContrast` | `bool` | When true, strengthen borders/focus for high-contrast / accessibility themes. |
 | `followSystemAccessibility` | `bool` | When true, ThemeSync copies WindowHelper system a11y into reducedMotion / highContrast. |
 | `followSystemColorScheme` | `bool` | When true, ThemeSync mirrors WindowHelper.systemPrefersDark into Theme.dark. |
+| `followSystemAccent` | `bool` | When true, ThemeSync mirrors WindowHelper.systemAccent into Theme.systemAccent (2.68 F3). |
+| `systemAccent` | `color` | Last OS accent copied by ThemeSync (alpha 0 = unused). |
 | `density` | `string` | Control density: "standard" \| "compact" |
 | `uiScale` | `real` | Extra UI scale on top of system DPR (1.0 = follow OS only). Qt layout is already in DIPs. |
 | `devicePixelRatio` | `real` | Last synced window/screen devicePixelRatio (ShellWindow / StandardWindow update this). |
+| `fractionalTextSharpening` | `bool` | Prefer vertical hinting on fractional DPR (125%/150% Wayland) — 2.70 F6 |
+| `fractionalScale` | `bool` | — |
 | `accentPack` | `string` | Named accent pack: "blue" \| "purple" \| "green" \| "orange" |
 | `customAccent` | `color` | When alpha > 0, overrides accentPack colors |
-| `accent` | `color` | Fluent / WinUI 3 system accent (pack or customAccent) |
+| `accent` | `color` | Fluent / WinUI 3 system accent (customAccent → OS accent → pack) |
 | `accentLight1` | `color` | Lighter accent step |
 | `accentDark1` | `color` | Darker accent step |
 | `textPrimary` | `color` | Primary text brush |
@@ -114,12 +120,12 @@ Use Theme.duration(ms) and controlFill/accentFill helpers for states.
 | `systemSuccessBg` | `color` | Success banner background |
 | `systemCautionBg` | `color` | Caution banner background |
 | `systemCriticalBg` | `color` | Critical banner background |
-| `fontFamily` | `string` | Primary UI family (Segoe UI Variable when present) |
-| `fontFamilyText` | `string` | Segoe UI Variable Text face (primary name) |
+| `fontFamily` | `string` | Typography — Segoe UI Variable / WinUI type ramp (+ CJK UI fallbacks via ThemeFonts) |
+| `fontFamilyText` | `string` | Segoe UI Variable Text face (primary name; use fontFamiliesText for CJK) |
 | `fontFamilyDisplay` | `string` | Segoe UI Variable Display face (large titles) |
-| `fontFamilies` | `list` | UI stack (Latin + CJK UI). Prefer `ThemeFonts.uiFontFor()` / app font — QML `font.families` needs Qt 6.9+ |
-| `fontFamiliesText` | `list` | Text-face stack + same CJK fallbacks |
-| `fontFamiliesDisplay` | `list` | Display-face stack + same CJK fallbacks |
+| `fontFamilies` | `var` | Full stacks — set font.families so Chinese uses Microsoft YaHei UI (WinUI), not SimSun |
+| `fontFamiliesText` | `var` | — |
+| `fontFamiliesDisplay` | `var` | — |
 | `fontFamilyIcon` | `string` | Fluent Icons — system Segoe on Windows when present, else embedded WinSymbols3 ("Symbols") |
 | `iconFontFamily` | `string` | Alias used by a few tiles |
 | `fontFamilyMono` | `string` | Monospace — outline family from ThemeFonts (never generic "monospace" / Fixedsys) |

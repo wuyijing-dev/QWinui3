@@ -4,9 +4,11 @@ Fluent TreeView row with chevron expand / indent.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/TreeViewDelegate.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/TreeViewDelegate.qml)
 
-**Category:** Styled controls · **Library:** v2.67
+**Category:** Styled controls · **Library:** v2.80
 
 [← Component index](../components.md)
+
+**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
 
 ## Example
 

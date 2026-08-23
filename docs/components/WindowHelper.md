@@ -4,7 +4,7 @@ Platform chrome, backdrop, DPI, and geometry helpers (singleton).
 
 `import QWinUI3.Platform` · [`src/platform/QWinUI3/Platform/WindowHelper.h`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/platform/QWinUI3/Platform/WindowHelper.h)
 
-**Category:** Platform · **Library:** v2.67 · **C++ type** · **singleton**
+**Category:** Platform · **Library:** v2.80 · **C++ type** · **singleton**
 
 [← Component index](../components.md)
 
@@ -51,6 +51,7 @@ Platform chrome, backdrop, DPI, and geometry helpers (singleton).
 | `desktopEnvironment` | `QString` | — |
 | `waylandDisplay` | `QString` | — |
 | `systemPrefersDark` | `bool` | — |
+| `systemAccent` | `QColor` | — |
 | `portalAvailable` | `bool` | — |
 | `devicePixelRatio` | `qreal` | — |
 | `snapLayoutsEnabled` | `bool` | — |
@@ -75,11 +76,13 @@ Platform chrome, backdrop, DPI, and geometry helpers (singleton).
 | `wallpaperChanged()` | — |
 | `accessibilityChanged()` | — |
 | `colorSchemeChanged()` | — |
+| `systemAccentChanged()` | — |
 | `snapLayoutsEnabledChanged()` | — |
 | `screensChanged()` | — |
 | `idleInhibitedChanged()` | — |
 | `powerChanged()` | — |
 | `onlineChanged()` | — |
+| `singleInstanceActivationRequested(const QStringList &args)` | — |
 
 ### Methods
 
@@ -96,6 +99,7 @@ Platform chrome, backdrop, DPI, and geometry helpers (singleton).
 | `portalParentWindow(QObject *windowObject) const)` | — |
 | `openExternalUrl(const QString &url)` | — |
 | `refreshColorScheme()` | — |
+| `refreshSystemAccent()` | — |
 | `install(QObject *windowObject, bool dark = false, int backdrop = BackdropSolid)` | — |
 | `installParadigm(QObject *windowObject, int paradigm,
                                      bool dark = false, int backdrop = BackdropSolid)` | — |
@@ -142,6 +146,8 @@ Platform chrome, backdrop, DPI, and geometry helpers (singleton).
 | `releaseIdleInhibit()` | — |
 | `addToRecentDocuments(const QString &path)` | — |
 | `clearRecentDocuments()` | — |
+| `tryBecomeSingleInstancePrimary(const QString &serverName = QString())` | — |
+| `singleInstanceEnvOptIn() const)` | — |
 | `refreshPowerStatus()` | — |
 | `refreshOnlineStatus()` | — |
 | `screensInfo() const)` | — |
