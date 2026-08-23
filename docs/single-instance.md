@@ -53,6 +53,8 @@ Connections {
 ## Notes
 
 - Uses `QLockFile` + `QLocalServer` / `QLocalSocket` (Qt Network).
+- Stale locks: `staleLockTime` is 30s so a crash/kill does not permanently lock out relaunch.
+- Secondary retries the socket briefly (primary may hold the lock before `listen()` finishes).
 - Secondary sends `QCoreApplication::arguments()` then returns `false` — **caller must exit**.
 - Primary emits `activationRequested(args)` / `WindowHelper.singleInstanceActivationRequested`.
 - Not forced on Gallery; see System integration Gallery callout.
