@@ -6,6 +6,9 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 import QWinUI3.Platform
 
+// Shell import set (3.36): Theme + Extras + Platform. Chart / OSK / WebView2
+// pages import QWinUI3.Extras.Charts, QWinUI3.Extras.Osk, QWinUI3.Platform.WebView2.
+
 StandardWindow {
     id: window
     width: 1280

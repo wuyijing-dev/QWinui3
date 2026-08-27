@@ -312,27 +312,9 @@ target_link_libraries(qwinui3_gallery
         Qt6::QuickControls2
         Qt6::LabsQmlModels
         qwinui3_qtcompat
-        qwinui3_theme
-        qwinui3_style
-        qwinui3_extras
-        qwinui3_extras_charts
-        qwinui3_extras_osk
-        qwinui3_platform
-        qwinui3_platform_webview2
 )
-
-if(NOT QWINUI3_BUILD_SHARED)
-    target_link_libraries(qwinui3_gallery
-        PRIVATE
-            qwinui3_themeplugin
-            qwinui3_styleplugin
-            qwinui3_extrasplugin
-            qwinui3_extras_chartsplugin
-            qwinui3_extras_oskplugin
-            qwinui3_platformplugin
-            qwinui3_platform_webview2plugin
-    )
-endif()
+# Catalog binary: gallery import set (shell + Charts + Osk + WebView2). Main.qml stays shell.
+qwinui3_link_qml_import_set(qwinui3_gallery gallery)
 
 # Drop GPL/Commercial Qt add-ons (e.g. Virtual Keyboard) if windeployqt copied them.
 include(${CMAKE_SOURCE_DIR}/cmake/StripRestrictedQtModules.cmake)

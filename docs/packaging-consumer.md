@@ -48,6 +48,20 @@ Use this table before copying the Gallery monorepo tree. Full `find_package` pro
 
 **CMake dependency note (1.46):** `qwinui3_style` and `qwinui3_extras` **PUBLIC**-link `qwinui3_platform`. Packaging presets `core` / `style` / `extras` therefore also collect the platform DLL/.so and `QWinUI3/Platform` QML (same runtime set as `shell` for style-based apps). Theme-only (`--modules theme`) stays the smallest shared kit.
 
+### QML import sets (**3.36** S13)
+
+Default apps use the **shell** set. Charts / OSK / WebView2 are optional modules (see **3.35**).
+
+| Set | QML `import` | CMake | When |
+|-----|----------------|-------|------|
+| **shell** (default) | `QWinUI3.Theme` + `QWinUI3.Extras` + `QWinUI3.Platform` | `qwinui3_link_qml_import_set(app shell)` | Nav, settings, first-app, gallery-shell |
+| **charts** | shell + `QWinUI3.Extras.Charts` | `… charts` + `QWINUI3_IMPORT_QML_PLUGINS_CHARTS` | `LineChart` / `BarChart` / `DonutChart` / `ChartSeries` |
+| **osk** | shell + `QWinUI3.Extras.Osk` | `… osk` + `QWINUI3_IMPORT_QML_PLUGINS_OSK` | `OnScreenKeyboard` / `KeyboardEngine` |
+| **webview2** | shell + `QWinUI3.Platform.WebView2` | `… webview2` + `QWINUI3_IMPORT_QML_PLUGINS_WEBVIEW2` | `WebView2Host` |
+| **gallery** | catalog binary only | `… gallery` | Gallery.exe — **Main.qml stays shell**; pages import extras on demand |
+
+`KpiTile`, `ChartCard`, `RingGauge`, `Sparkline`, and `DashboardShell` stay on `QWinUI3.Extras` (shell). Helper: [`cmake/QWinUI3QmlImportSets.cmake`](../cmake/QWinUI3QmlImportSets.cmake). Lint: `python scripts/lint_qml_imports.py`.
+
 Module presets (deps auto-included): `all` / `full` · `core` (theme+style, **+platform**) · `shell` · **`dashboard`** (**2.86 K1** — stable six + `DashboardShell` / `KpiTile`; Extras QML trimmed) · **`charts-lite`** (**2.86 K2** — Line/Bar/Donut + `ChartCard` / `KpiTile` only) · `extras` (theme+extras, **+platform**) · per-module names.  
 List: `python scripts/package_release_libs.py --list-modules`.
 

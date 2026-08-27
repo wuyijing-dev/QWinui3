@@ -17,7 +17,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Product version is X.YY (two-digit minor), e.g. 1.00, 1.01, 1.10.
 # Git tags / packages use v${QWINUI3_VERSION}. CMake needs major.minor.patch.
-set(QWINUI3_VERSION "3.35")
+set(QWINUI3_VERSION "3.36")
 if(NOT QWINUI3_VERSION MATCHES "^[0-9]+\\.[0-9][0-9]$")
     message(FATAL_ERROR "QWINUI3_VERSION must be X.YY (two-digit minor), got '${QWINUI3_VERSION}'")
 endif()
@@ -137,6 +137,7 @@ add_subdirectory(src/theme/QWinUI3/Theme)
 add_subdirectory(src/platform/QWinUI3/Platform)
 add_subdirectory(src/style/QWinUI3)
 add_subdirectory(src/extras/QWinUI3/Extras)
+include("${CMAKE_SOURCE_DIR}/cmake/QWinUI3QmlImportSets.cmake")
 add_subdirectory(src/gallery)
 
 if(QWINUI3_BUILD_EXAMPLES)

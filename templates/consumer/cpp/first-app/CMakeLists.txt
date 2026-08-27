@@ -11,6 +11,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(Qt6 6.5 REQUIRED COMPONENTS Quick QuickControls2)
 
 # Point at your QWinUI3 checkout (sibling by default).
+# Shell import set (3.36): Theme + Extras + Platform. Add extras_charts / extras_osk only if needed.
 if(NOT DEFINED QWINUI3_ROOT)
     set(QWINUI3_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/../QWinui3" CACHE PATH "QWinUI3 source root")
 endif()

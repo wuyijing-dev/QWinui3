@@ -20,6 +20,8 @@
 #include "ThemeFonts.h"
 
 QWINUI3_IMPORT_QML_PLUGINS
+// Catalog pages still need deferred plugins at process start (static Q_IMPORT).
+// Main.qml itself is the shell import set (3.36 S13).
 QWINUI3_IMPORT_QML_PLUGINS_CHARTS
 QWINUI3_IMPORT_QML_PLUGINS_OSK
 QWINUI3_IMPORT_QML_PLUGINS_WEBVIEW2

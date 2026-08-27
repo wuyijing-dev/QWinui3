@@ -20,6 +20,8 @@ Small apps you can copy as a starting point. **CMake only** (no `.pro`). Open th
 
 Standalone (not in monorepo CMake tree): [`find-package-consumer/`](find-package-consumer/) — `find_package(QWinUI3 CONFIG)` sketch (**1.61**). Build with `python scripts/verify_find_package.py` or see that folder’s README.
 
+**Import sets (3.36):** default examples use **shell** (`Theme` + `Extras` + `Platform`). [`dashboard/`](dashboard/) adds **`QWinUI3.Extras.Charts`**. [`floating-osk/`](floating-osk/) and [`osk-dock/`](osk-dock/) add **`QWinUI3.Extras.Osk`**. Helper: `qwinui3_link_qml_import_set` in [`cmake/QWinUI3QmlImportSets.cmake`](../cmake/QWinUI3QmlImportSets.cmake).
+
 **Python Gallery** (not in CMake tree): [`python-gallery/`](python-gallery/) — same catalog as `src/gallery` via PySide6 / PyQt6 + shared kit — [docs/packaging-python.md](../docs/packaging-python.md) (**2.64**).
 
 ## Build

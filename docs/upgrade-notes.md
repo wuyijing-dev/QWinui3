@@ -47,6 +47,26 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.35 → 3.36
+
+**Product version:** 3.36  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | Import-set documentation + example CMake helper | None unless you want `qwinui3_link_qml_import_set` |
+
+### Optional / polish
+- Default examples use the **shell** import set (`Theme` + `Extras` + `Platform`)
+- `QWinUI3.Extras.Charts` is opt-in (`examples/dashboard`, Gallery chart pages)
+- Helper: `cmake/QWinUI3QmlImportSets.cmake` — `shell` / `charts` / `osk` / `webview2` / `gallery`
+- `scripts/lint_qml_imports.py` forbids deferred URIs on shell examples and Gallery `Main.qml`
+
+### No action (compatible)
+- Same URIs as **3.35**; this slice is graph/docs + CMake helper
+
 ### Upgrade 3.34 → 3.35
 
 **Product version:** 3.35  

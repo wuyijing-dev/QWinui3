@@ -30,6 +30,7 @@ Related: [data-collections.md](data-collections.md) · [charts.md](charts.md) ·
 | `--startup-log` | Print wall timings for configure → first frame |
 | Bootstrap RHI | Soft default only — no Vulkan/D3D probe unless `QWINUI3_RHI_PROBE=1` (**3.34** S10) |
 | Deferred QML modules | Charts / OSK / WebView2 are separate URIs — not registered by default Bootstrap (**3.35** S12) |
+| Import graph | Gallery `Main.qml` + default examples use **shell** set; `Extras.Charts` is optional (**3.36** S13) |
 | Icon catalog | Named `FluentIcons.*` glyphs load on first use; full Iconography rows deferred (**3.34** S11) |
 | Icon / atlas warm-up | Optional: touch `FluentIcons` / ThemeFonts once after first frame |
 | Page cache | `pageCacheLimit` + `pinnedPageCache` (2.68); avoid compiling all pages at startup |

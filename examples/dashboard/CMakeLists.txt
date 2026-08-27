@@ -18,23 +18,8 @@ target_link_libraries(qwinui3_example_dashboard
     PRIVATE
         Qt6::Quick
         Qt6::QuickControls2
-        qwinui3_theme
-        qwinui3_style
-        qwinui3_extras
-        qwinui3_extras_charts
-        qwinui3_platform
 )
-
-if(NOT QWINUI3_BUILD_SHARED)
-    target_link_libraries(qwinui3_example_dashboard
-        PRIVATE
-            qwinui3_themeplugin
-            qwinui3_styleplugin
-            qwinui3_extrasplugin
-            qwinui3_extras_chartsplugin
-            qwinui3_platformplugin
-    )
-endif()
+qwinui3_link_qml_import_set(qwinui3_example_dashboard charts)
 
 include(${CMAKE_SOURCE_DIR}/cmake/StripRestrictedQtModules.cmake)
 qwinui3_strip_restricted_qt_modules(qwinui3_example_dashboard)
