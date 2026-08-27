@@ -47,6 +47,25 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.14 → 3.15
+
+**Product version:** 3.15  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | ProgressBar header / value label | None required |
+
+### Optional / polish
+- **ProgressBar:** `header`, `showValue`, `valueLabel`, `trackThickness` — Fluent chrome above the track
+- **ProgressBar:** Gallery demos for Running / Paused / Error and Slider-driven determinate value
+- Existing `showError` / `showPaused` unchanged
+
+### No action (compatible)
+- Stable APIs unchanged; new properties default off
+
 ### Upgrade 3.13 → 3.14
 
 **Product version:** 3.14  
