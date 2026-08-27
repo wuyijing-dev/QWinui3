@@ -267,7 +267,7 @@ T.RangeSlider {
             color: Theme.dark ? "#15FFFFFF" : "#0F000000"
         }
 
-        // Active fill between thumbs
+        // Active fill between thumbs (visualPosition space — vertical 0=top)
         Rectangle {
             id: activeFill
             x: control._horizontal
@@ -284,24 +284,6 @@ T.RangeSlider {
                     : Math.max(0, trackHost.trackH * (trackHost.hi - trackHost.lo))
             radius: control._horizontal ? height / 2 : width / 2
             color: control.enabled ? Theme.accent : Theme.textDisabled
-
-            // No horizontal Behavior — keeps fill locked to thumbs
-            Behavior on height {
-                enabled: !control._horizontal && !control.first.pressed && !control.second.pressed
-                         && !Theme.reducedMotion
-                NumberAnimation {
-                    duration: Theme.duration(Theme.motionFast)
-                    easing.type: Theme.easingStandard
-                }
-            }
-            Behavior on y {
-                enabled: !control._horizontal && !control.first.pressed && !control.second.pressed
-                         && !Theme.reducedMotion
-                NumberAnimation {
-                    duration: Theme.duration(Theme.motionFast)
-                    easing.type: Theme.easingStandard
-                }
-            }
         }
 
         // --- Tick marks ---

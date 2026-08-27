@@ -205,35 +205,22 @@ T.Slider {
             color: Theme.dark ? "#15FFFFFF" : "#0F000000"
         }
 
-        // Active fill — ends at thumb center (visualPosition)
+        // Active fill — horizontal: to thumb center; vertical: bottom → thumb
+        // (Qt vertical visualPosition is 0 at top / 1 at bottom — opposite of logical position.)
         Rectangle {
             id: activeFill
             x: trackHost.trackX + (control._horizontal ? 0 : (trackHost.trackW - width) / 2)
-            y: trackHost.trackY + (control._horizontal ? 0 : trackHost.trackH * (1 - control.visualPosition))
+            y: control._horizontal
+               ? trackHost.trackY
+               : trackHost.trackY + trackHost.trackH * control.visualPosition
             width: control._horizontal
                    ? Math.max(0, trackHost.trackW * control.visualPosition)
                    : control.verticalFillThickness
             height: control._horizontal
                     ? trackHost.trackH
-                    : Math.max(0, trackHost.trackH * control.visualPosition)
+                    : Math.max(0, trackHost.trackH * (1 - control.visualPosition))
             radius: control._horizontal ? height / 2 : width / 2
             color: control.enabled ? Theme.accent : Theme.textDisabled
-
-            // No width Behavior — keeps fill locked to the thumb (avoids lag / gap)
-            Behavior on height {
-                enabled: !control._horizontal && !control.pressed && !Theme.reducedMotion
-                NumberAnimation {
-                    duration: Theme.duration(Theme.motionFast)
-                    easing.type: Theme.easingStandard
-                }
-            }
-            Behavior on y {
-                enabled: !control._horizontal && !control.pressed && !Theme.reducedMotion
-                NumberAnimation {
-                    duration: Theme.duration(Theme.motionFast)
-                    easing.type: Theme.easingStandard
-                }
-            }
         }
 
         // --- Tick marks (WinUI: both sides of track) ---

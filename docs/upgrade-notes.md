@@ -47,6 +47,23 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.21 → 3.22
+
+**Product version:** 3.22  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | Vertical Slider fill mapping | None required |
+
+### Optional / polish
+- **Slider:** vertical active fill now grows from the thumb down to the bottom (Qt `visualPosition` is 0 at top)
+
+### No action (compatible)
+- APIs unchanged
+
 ### Upgrade 3.20 → 3.21
 
 **Product version:** 3.21  
