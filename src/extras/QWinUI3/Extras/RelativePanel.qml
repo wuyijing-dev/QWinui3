@@ -43,12 +43,18 @@ Item {
     readonly property real _innerW: Math.max(0, _x1 - _x0)
     readonly property real _innerH: Math.max(0, _y1 - _y0)
 
-    onChildrenChanged: Qt.callLater(relayout)
+    onChildrenChanged: Qt.callLater(function () {
+        if (root)
+            root.relayout()
+    })
     onWidthChanged: relayout()
     onHeightChanged: relayout()
     onPanelSpacingChanged: relayout()
     onPaddingEdgesChanged: relayout()
-    Component.onCompleted: Qt.callLater(relayout)
+    Component.onCompleted: Qt.callLater(function () {
+        if (root)
+            root.relayout()
+    })
 
     // True when rendered as a panel
     function isPanel(ref) {

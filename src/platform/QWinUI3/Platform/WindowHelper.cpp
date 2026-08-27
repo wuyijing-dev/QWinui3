@@ -1788,6 +1788,7 @@ void WindowHelper::install(QObject *windowObject, bool dark, int backdrop)
     if (!window)
         return;
 
+    QWindow *previous = m_window;
     m_window = window;
     m_dark = dark;
     if (backdrop < BackdropAuto || backdrop > BackdropSolid)
@@ -1817,6 +1818,12 @@ void WindowHelper::install(QObject *windowObject, bool dark, int backdrop)
     syncQuickHostColor(window);
 
     // UniqueConnection cannot be used with lambdas — disconnect then reconnect.
+    // Drop handlers on the previous window when install() switches targets, otherwise
+    // stale activeChanged/destroyed slots keep firing against a new m_window.
+    if (previous && previous != window) {
+        QObject::disconnect(previous, &QWindow::activeChanged, this, nullptr);
+        QObject::disconnect(previous, &QObject::destroyed, this, nullptr);
+    }
     QObject::disconnect(window, &QWindow::activeChanged, this, nullptr);
     QObject::disconnect(window, &QObject::destroyed, this, nullptr);
     QObject::connect(window, &QWindow::activeChanged, this, [this]() {

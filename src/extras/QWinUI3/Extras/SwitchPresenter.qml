@@ -57,11 +57,17 @@ T.Control {
             return h
         }
         onWidthChanged: syncWidths()
-        onChildrenChanged: Qt.callLater(root.applyValue)
+        onChildrenChanged: Qt.callLater(function () {
+            if (root)
+                root.applyValue()
+        })
     }
 
     onValueChanged: applyValue()
-    Component.onCompleted: Qt.callLater(applyValue)
+    Component.onCompleted: Qt.callLater(function () {
+        if (root)
+            root.applyValue()
+    })
 
     // True when two values compare equal
     function valuesEqual(a, b) {

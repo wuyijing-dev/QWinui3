@@ -56,14 +56,23 @@ T.Control {
 
     contentItem: Item {
         id: host
-        onChildrenChanged: Qt.callLater(root.relayout)
+        onChildrenChanged: Qt.callLater(function () {
+            if (root)
+                root.relayout()
+        })
         onWidthChanged: root.relayout()
         onHeightChanged: root.relayout()
     }
 
     onSpacingChanged: relayout()
-    onLastChildFillChanged: Qt.callLater(relayout)
-    onPaddingEdgesChanged: Qt.callLater(relayout)
+    onLastChildFillChanged: Qt.callLater(function () {
+        if (root)
+            root.relayout()
+    })
+    onPaddingEdgesChanged: Qt.callLater(function () {
+        if (root)
+            root.relayout()
+    })
     onWidthChanged: relayout()
     onHeightChanged: relayout()
 
@@ -142,6 +151,9 @@ T.Control {
         }
     }
 
-    Component.onCompleted: Qt.callLater(relayout)
+    Component.onCompleted: Qt.callLater(function () {
+        if (root)
+            root.relayout()
+    })
     background: Item {}
 }

@@ -306,7 +306,10 @@ T.Control {
                         on_PaintValueChanged: spectrumPaintTimer.restart()
                         onWidthChanged: requestPaint()
                         onHeightChanged: requestPaint()
-                        Component.onCompleted: Qt.callLater(requestPaint)
+                        Component.onCompleted: Qt.callLater(function () {
+                            if (spectrum)
+                                spectrum.requestPaint()
+                        })
                         Timer {
                             id: spectrumPaintTimer
                             interval: 16

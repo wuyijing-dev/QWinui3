@@ -56,17 +56,44 @@ T.Control {
 
     contentItem: Item {
         id: host
-        onChildrenChanged: Qt.callLater(root.relayout)
-        onWidthChanged: Qt.callLater(root.relayout)
-        onHeightChanged: Qt.callLater(root.relayout)
+        onChildrenChanged: Qt.callLater(function () {
+            if (root)
+                root.relayout()
+        })
+        onWidthChanged: Qt.callLater(function () {
+            if (root)
+                root.relayout()
+        })
+        onHeightChanged: Qt.callLater(function () {
+            if (root)
+                root.relayout()
+        })
     }
 
-    onOrientationChanged: Qt.callLater(relayout)
-    onSpacingChanged: Qt.callLater(relayout)
-    onAlignmentChanged: Qt.callLater(relayout)
-    onLayoutDirectionChanged: Qt.callLater(relayout)
-    onStretchChildrenChanged: Qt.callLater(relayout)
-    Component.onCompleted: Qt.callLater(relayout)
+    onOrientationChanged: Qt.callLater(function () {
+        if (root)
+            root.relayout()
+    })
+    onSpacingChanged: Qt.callLater(function () {
+        if (root)
+            root.relayout()
+    })
+    onAlignmentChanged: Qt.callLater(function () {
+        if (root)
+            root.relayout()
+    })
+    onLayoutDirectionChanged: Qt.callLater(function () {
+        if (root)
+            root.relayout()
+    })
+    onStretchChildrenChanged: Qt.callLater(function () {
+        if (root)
+            root.relayout()
+    })
+    Component.onCompleted: Qt.callLater(function () {
+        if (root)
+            root.relayout()
+    })
 
     // Child item width
     function childWidth(c) {

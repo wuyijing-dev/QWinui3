@@ -71,8 +71,14 @@ T.Control {
     contentItem: Item {
         id: host
         // Control assigns width/height from available* — do not bind implicit* to them.
-        onChildrenChanged: Qt.callLater(root.relayout)
-        onWidthChanged: Qt.callLater(root.relayout)
+        onChildrenChanged: Qt.callLater(function () {
+            if (root)
+                root.relayout()
+        })
+        onWidthChanged: Qt.callLater(function () {
+            if (root)
+                root.relayout()
+        })
     }
 
     function _visibleKids() {
@@ -197,15 +203,42 @@ T.Control {
         root._laidOutHeight = Math.max(0, maxH)
     }
 
-    onItemWidthChanged: Qt.callLater(relayout)
-    onItemHeightChanged: Qt.callLater(relayout)
-    onSpacingChanged: Qt.callLater(relayout)
-    onHorizontalSpacingChanged: Qt.callLater(relayout)
-    onVerticalSpacingChanged: Qt.callLater(relayout)
-    onOrientationChanged: Qt.callLater(relayout)
-    onLayoutDirectionChanged: Qt.callLater(relayout)
-    onWidthChanged: Qt.callLater(relayout)
-    Component.onCompleted: Qt.callLater(relayout)
+    onItemWidthChanged: Qt.callLater(function () {
+        if (root)
+            root.relayout()
+    })
+    onItemHeightChanged: Qt.callLater(function () {
+        if (root)
+            root.relayout()
+    })
+    onSpacingChanged: Qt.callLater(function () {
+        if (root)
+            root.relayout()
+    })
+    onHorizontalSpacingChanged: Qt.callLater(function () {
+        if (root)
+            root.relayout()
+    })
+    onVerticalSpacingChanged: Qt.callLater(function () {
+        if (root)
+            root.relayout()
+    })
+    onOrientationChanged: Qt.callLater(function () {
+        if (root)
+            root.relayout()
+    })
+    onLayoutDirectionChanged: Qt.callLater(function () {
+        if (root)
+            root.relayout()
+    })
+    onWidthChanged: Qt.callLater(function () {
+        if (root)
+            root.relayout()
+    })
+    Component.onCompleted: Qt.callLater(function () {
+        if (root)
+            root.relayout()
+    })
 
     background: Item {}
 }

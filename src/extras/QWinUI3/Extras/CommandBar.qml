@@ -200,13 +200,25 @@ T.Control {
         _overflowedPrimaries = overflowed
     }
 
-    onIsDynamicOverflowEnabledChanged: Qt.callLater(_relayoutDynamicOverflow)
-    onWidthChanged: Qt.callLater(_relayoutDynamicOverflow)
+    onIsDynamicOverflowEnabledChanged: Qt.callLater(function () {
+        if (root)
+            root._relayoutDynamicOverflow()
+    })
+    onWidthChanged: Qt.callLater(function () {
+        if (root)
+            root._relayoutDynamicOverflow()
+    })
     onEffectiveLabelPositionChanged: Qt.callLater(function () { root._syncBarChrome() })
     onCompactChanged: Qt.callLater(function () { root._syncBarChrome() })
-    onCommandAlignmentChanged: Qt.callLater(_relayoutDynamicOverflow)
+    onCommandAlignmentChanged: Qt.callLater(function () {
+        if (root)
+            root._relayoutDynamicOverflow()
+    })
     Component.onCompleted: {
-        Qt.callLater(_relayoutDynamicOverflow)
+        Qt.callLater(function () {
+            if (root)
+                root._relayoutDynamicOverflow()
+        })
         Qt.callLater(function () { root._syncBarChrome() })
     }
 
@@ -342,7 +354,10 @@ T.Control {
                         easing.type: Theme.easingStandard
                     }
                 }
-                onWidthChanged: Qt.callLater(root._relayoutDynamicOverflow)
+                onWidthChanged: Qt.callLater(function () {
+                    if (root)
+                        root._relayoutDynamicOverflow()
+                })
                 onChildrenChanged: Qt.callLater(function () {
                     root._syncBarChrome()
                     root._relayoutDynamicOverflow()

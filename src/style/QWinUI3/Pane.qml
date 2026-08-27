@@ -65,9 +65,18 @@ T.Pane {
             }
         }
 
-        onWidthChanged: Qt.callLater(fitContentWidth)
-        onChildrenChanged: Qt.callLater(fitContentWidth)
-        Component.onCompleted: Qt.callLater(fitContentWidth)
+        onWidthChanged: Qt.callLater(function () {
+            if (control)
+                fitContentWidth()
+        })
+        onChildrenChanged: Qt.callLater(function () {
+            if (control)
+                fitContentWidth()
+        })
+        Component.onCompleted: Qt.callLater(function () {
+            if (control)
+                fitContentWidth()
+        })
     }
 
     background: ElevatedChrome {

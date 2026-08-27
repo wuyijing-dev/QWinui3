@@ -41,7 +41,10 @@ Window {
         if (!visible)
             show()
         applyNoActivate()
-        Qt.callLater(applyNoActivate)
+        Qt.callLater(function () {
+            if (root)
+                root.applyNoActivate()
+        })
     }
 
     function closeFloating() {

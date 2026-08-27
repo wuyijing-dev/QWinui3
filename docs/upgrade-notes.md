@@ -47,6 +47,24 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.30 → 3.31
+
+**Product version:** 3.31  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | Internal hardening only | None |
+
+### Optional / polish
+- Guarded bare `Qt.callLater(method)` across CommandBar, MenuFlyout, TwoPaneView, layout panels, Gallery Main title-bar refresh, transitions, OSK, etc.
+- `WindowHelper::install` disconnects activeChanged/destroyed from the previous window before switching targets
+
+### No action (compatible)
+- Public QML / C++ APIs unchanged
+
 ### Upgrade 3.29 → 3.30
 
 **Product version:** 3.30  

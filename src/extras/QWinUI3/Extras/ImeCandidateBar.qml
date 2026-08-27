@@ -119,7 +119,10 @@ T.Control {
             activeGroupIndex = 0
             groupPage = 0
         } else {
-            Qt.callLater(_announceCompose)
+            Qt.callLater(function () {
+                if (root)
+                    root._announceCompose()
+            })
         }
         if (placement === "floating")
             _syncFloatingParent()

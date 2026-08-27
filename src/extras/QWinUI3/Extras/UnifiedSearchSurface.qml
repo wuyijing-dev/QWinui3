@@ -139,8 +139,14 @@ Item {
         }
     }
 
-    onModeChanged: Qt.callLater(_syncHost)
-    Component.onCompleted: Qt.callLater(_syncHost)
+    onModeChanged: Qt.callLater(function () {
+        if (root)
+            root._syncHost()
+    })
+    Component.onCompleted: Qt.callLater(function () {
+        if (root)
+            root._syncHost()
+    })
 
     // Keep placeholders/model in sync while staying in the same mode.
     onSearchModelChanged: {

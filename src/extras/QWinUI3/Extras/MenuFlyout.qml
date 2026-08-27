@@ -116,7 +116,10 @@ Menu {
         popup(targetItem, px, py)
         isOpen = true
         if (shouldConstrainToRootBounds)
-            Qt.callLater(root._constrainToRootBounds)
+            Qt.callLater(function () {
+                if (root)
+                    root._constrainToRootBounds()
+            })
     }
 
     // Show at global screen coordinates (e.g. grid / photo context menu).
@@ -130,7 +133,10 @@ Menu {
         popup(overlay, pos.x, pos.y)
         isOpen = true
         if (shouldConstrainToRootBounds)
-            Qt.callLater(root._constrainToRootBounds)
+            Qt.callLater(function () {
+                if (root)
+                    root._constrainToRootBounds()
+            })
     }
 
     function _constrainToRootBounds() {
@@ -145,7 +151,10 @@ Menu {
         var h = root.height
         // Popup/Menu is not an Item — map from parent using popup x/y.
         if (w < 1 || h < 1) {
-            Qt.callLater(root._constrainToRootBounds)
+            Qt.callLater(function () {
+                if (root)
+                    root._constrainToRootBounds()
+            })
             return
         }
         var p = root.parent.mapToItem(host, root.x, root.y)

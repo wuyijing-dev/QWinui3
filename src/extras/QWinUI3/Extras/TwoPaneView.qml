@@ -108,7 +108,10 @@ T.Control {
     Component.onCompleted: _syncPanePriority()
     onPanePriorityChanged: {
         _syncPanePriority()
-        Qt.callLater(host.layoutPanes)
+        Qt.callLater(function () {
+            if (host)
+                host.layoutPanes()
+        })
     }
 
     contentItem: Item {
@@ -182,14 +185,38 @@ T.Control {
         Component.onCompleted: reparentPanes()
     }
 
-    onPane1Changed: Qt.callLater(host.reparentPanes)
-    onPane2Changed: Qt.callLater(host.reparentPanes)
-    onModeChanged: Qt.callLater(host.layoutPanes)
-    onSinglePaneIndexChanged: Qt.callLater(host.layoutPanes)
-    onSpacingChanged: Qt.callLater(host.layoutPanes)
-    onPanePriorityWidthChanged: Qt.callLater(host.layoutPanes)
-    onWideModeConfigurationChanged: Qt.callLater(host.layoutPanes)
-    onTallModeConfigurationChanged: Qt.callLater(host.layoutPanes)
+    onPane1Changed: Qt.callLater(function () {
+        if (host)
+            host.reparentPanes()
+    })
+    onPane2Changed: Qt.callLater(function () {
+        if (host)
+            host.reparentPanes()
+    })
+    onModeChanged: Qt.callLater(function () {
+        if (host)
+            host.layoutPanes()
+    })
+    onSinglePaneIndexChanged: Qt.callLater(function () {
+        if (host)
+            host.layoutPanes()
+    })
+    onSpacingChanged: Qt.callLater(function () {
+        if (host)
+            host.layoutPanes()
+    })
+    onPanePriorityWidthChanged: Qt.callLater(function () {
+        if (host)
+            host.layoutPanes()
+    })
+    onWideModeConfigurationChanged: Qt.callLater(function () {
+        if (host)
+            host.layoutPanes()
+    })
+    onTallModeConfigurationChanged: Qt.callLater(function () {
+        if (host)
+            host.layoutPanes()
+    })
 
     background: Rectangle {
         color: Theme.bgLayer

@@ -59,15 +59,27 @@ T.Control {
             width: root.availableWidth > 0 ? root.availableWidth : implicitWidth
             spacing: root.itemSpacing
             flow: Flow.LeftToRight
-            onChildrenChanged: Qt.callLater(root.syncChildren)
-            onWidthChanged: Qt.callLater(root.syncChildren)
+            onChildrenChanged: Qt.callLater(function () {
+                if (root)
+                    root.syncChildren()
+            })
+            onWidthChanged: Qt.callLater(function () {
+                if (root)
+                    root.syncChildren()
+            })
         }
     }
 
     background: Item {}
 
-    onOrientationChanged: Qt.callLater(syncChildren)
-    Component.onCompleted: Qt.callLater(syncChildren)
+    onOrientationChanged: Qt.callLater(function () {
+        if (root)
+            root.syncChildren()
+    })
+    Component.onCompleted: Qt.callLater(function () {
+        if (root)
+            root.syncChildren()
+    })
 
     // Synchronize child item state
     function syncChildren() {

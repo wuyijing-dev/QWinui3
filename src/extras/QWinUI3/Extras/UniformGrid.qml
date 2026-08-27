@@ -64,7 +64,10 @@ T.Control {
 
     contentItem: Item {
         id: grid
-        onChildrenChanged: Qt.callLater(root.relayout)
+        onChildrenChanged: Qt.callLater(function () {
+            if (root)
+                root.relayout()
+        })
         onWidthChanged: root.relayout()
         onHeightChanged: root.relayout()
     }
@@ -123,6 +126,9 @@ T.Control {
         }
     }
 
-    Component.onCompleted: Qt.callLater(relayout)
+    Component.onCompleted: Qt.callLater(function () {
+        if (root)
+            root.relayout()
+    })
     background: Item {}
 }

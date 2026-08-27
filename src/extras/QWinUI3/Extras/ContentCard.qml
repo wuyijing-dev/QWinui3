@@ -150,8 +150,14 @@ T.Control {
             Layout.fillWidth: true
             spacing: 0
 
-            onChildrenChanged: Qt.callLater(fitChildren)
-            Component.onCompleted: Qt.callLater(fitChildren)
+            onChildrenChanged: Qt.callLater(function () {
+                if (control)
+                    fitChildren()
+            })
+            Component.onCompleted: Qt.callLater(function () {
+                if (control)
+                    fitChildren()
+            })
 
             function fitChildren() {
                 for (var i = 0; i < children.length; ++i) {
@@ -175,8 +181,14 @@ T.Control {
             Layout.fillWidth: true
             spacing: 0
 
-            onChildrenChanged: Qt.callLater(fitFooter)
-            Component.onCompleted: Qt.callLater(fitFooter)
+            onChildrenChanged: Qt.callLater(function () {
+                if (control)
+                    fitFooter()
+            })
+            Component.onCompleted: Qt.callLater(function () {
+                if (control)
+                    fitFooter()
+            })
 
             function fitFooter() {
                 for (var i = 0; i < children.length; ++i) {

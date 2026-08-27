@@ -160,7 +160,10 @@ StandardWindow {
             nav.openPage("SettingsPage")
         else
             nav.selectFooter()
-        Qt.callLater(window.refreshTitleBarHitTest)
+        Qt.callLater(function () {
+            if (window)
+                window.refreshTitleBarHitTest()
+        })
     }
 
     header: StandardTitleChrome {
@@ -250,8 +253,14 @@ StandardWindow {
                 ToolTip.visible: hovered
                 onClicked: window.openSettingsPage()
             }
-            onWidthChanged: Qt.callLater(window.refreshTitleBarHitTest)
-            onChildrenChanged: Qt.callLater(window.refreshTitleBarHitTest)
+            onWidthChanged: Qt.callLater(function () {
+                if (window)
+                    window.refreshTitleBarHitTest()
+            })
+            onChildrenChanged: Qt.callLater(function () {
+                if (window)
+                    window.refreshTitleBarHitTest()
+            })
         }
     }
 
@@ -261,7 +270,10 @@ StandardWindow {
 
     Component.onCompleted: {
         FrameStatsMonitor.attachWindow(window)
-        Qt.callLater(window.refreshTitleBarHitTest)
+        Qt.callLater(function () {
+            if (window)
+                window.refreshTitleBarHitTest()
+        })
     }
 
     Connections {

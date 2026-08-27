@@ -39,10 +39,16 @@ QtObject {
         function onIsOpenChanged() {
             if (!root.flyout || root.flyout.isOpen)
                 return
-            Qt.callLater(_restore)
+            Qt.callLater(function () {
+                if (root)
+                    root._restore()
+            })
         }
         function onClosed() {
-            Qt.callLater(_restore)
+            Qt.callLater(function () {
+                if (root)
+                    root._restore()
+            })
         }
     }
 }

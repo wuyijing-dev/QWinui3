@@ -37,12 +37,18 @@ Item {
 
     onContentKeyChanged: {
         if (autoPlay)
-            Qt.callLater(play)
+            Qt.callLater(function () {
+                if (root)
+                    root.play()
+            })
     }
 
     Component.onCompleted: {
         if (autoPlay)
-            Qt.callLater(play)
+            Qt.callLater(function () {
+                if (root)
+                    root.play()
+            })
     }
 
     function play() {
