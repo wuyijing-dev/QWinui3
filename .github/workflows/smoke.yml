@@ -1,8 +1,9 @@
 name: Smoke
 
-# Lightweight regression gate (1.06 / 1.20): Release configure + Gallery build +
-# catalog integrity + --smoke (Main + critical page creates).
+# Lightweight regression gate (1.06 / 1.20 / 3.39): Release configure + Gallery build +
+# catalog integrity + --smoke (Main + critical page creates) + startup budget (S16).
 # Multi-Qt matrix lives in qt-compat.yml (1.14).
+# CI sets GITHUB_ACTIONS — smoke_gallery.py enables --check-startup-budget by default.
 
 on:
   push:
@@ -55,11 +56,11 @@ jobs:
       - name: Build Gallery
         run: cmake --build build --config Release --target qwinui3_gallery --parallel
 
-      - name: Smoke (offscreen --smoke)
+      - name: Smoke (offscreen --smoke + startup budget)
         env:
           QT_QPA_PLATFORM: offscreen
           QWINUI3_KEEP_QPA_PLATFORM: "1"
-        run: python scripts/smoke_gallery.py --build-dir build
+        run: python scripts/smoke_gallery.py --build-dir build --check-startup-budget
 
   windows:
     runs-on: windows-2022
@@ -96,8 +97,9 @@ jobs:
         shell: bash
         run: cmake --build build --config Release --target qwinui3_gallery --parallel
 
-      - name: Smoke (--smoke)
+      - name: Smoke (--smoke + startup budget)
         shell: bash
         # Do not set QT_QPA_PLATFORM=offscreen on Windows — only qwindows is present.
         # Gallery --smoke forces windows; script also ignores inherited offscreen.
-        run: python scripts/smoke_gallery.py --build-dir build --platform windows
+        # 3.39 S16 — absolute main=/app= budgets (docs/performance.md).
+        run: python scripts/smoke_gallery.py --build-dir build --platform windows --check-startup-budget

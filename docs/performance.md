@@ -37,6 +37,17 @@ Related: [data-collections.md](data-collections.md) · [charts.md](charts.md) ·
 | Page cache | `pageCacheLimit` + `pinnedPageCache` (2.68); avoid compiling all pages at startup |
 | Target budget | Aim for interactive shell **&lt; 1.5 s** on CI Win Release (machine-relative); local desktop **&lt; 2 s** |
 
+### CI absolute budgets (**3.39 S16**)
+
+`python scripts/smoke_gallery.py` parses Gallery `--smoke` `app=` / `main=` lines and **fails CI** when over the table below. Local runs soft-warn only unless `--check-startup-budget` (or `QWINUI3_CHECK_STARTUP_BUDGET=1`).
+
+| Metric | Meaning | CI Win Release max | CI Linux (offscreen) max |
+|--------|---------|--------------------|--------------------------|
+| **`app`** | Through `QGuiApplication` + kit configure | **800 ms** | **1000 ms** |
+| **`main`** | Through `Main.qml` (interactive shell) | **1500 ms** | **2000 ms** |
+
+**Gate:** `main` is the interactive-shell budget (roadmap S16). `pages=` / `total=` stay advisory (critical-page compile cost — not cold start).
+
 Expected budget on a Release build (desktop, not a guarantee):
 
 | Phase | What loads | Target |
@@ -321,7 +332,7 @@ Deepens **1.39** / **2.18** on **NavigationView** / **NavigationWindow** — **a
 
 ### Advisory smoke timings
 
-Gallery `--smoke` prints wall-clock splits (machine-dependent — **do not CI-gate on absolute ms**):
+Gallery `--smoke` prints wall-clock splits. **`main` / `app` are CI-gated** on Release runners (**3.39 S16**); `pages` / `total` remain advisory:
 
 ```
 QWinUI3 Gallery startup: app=…ms main=…ms (pages still on-demand)
@@ -330,14 +341,20 @@ QWinUI3 Gallery smoke OK (… main=…ms, pages=…ms, total=…ms)
 
 | Field | Meaning | Use |
 |-------|---------|-----|
-| `app` | Through `QGuiApplication` + engine setup | Baseline Qt / import cost |
-| `main` | Through `Main.qml` root load | Shell + module graph |
+| `app` | Through `QGuiApplication` + engine setup | CI soft ceiling (table above) |
+| `main` | Through `Main.qml` root load | **CI hard gate** — interactive shell |
 | `pages` | Critical page `QQmlComponent` instantiate loop | On-demand compile cost proxy |
 | `total` | Wall clock to exit | Local regression hint after perf edits |
 
-Run locally: `qwinui3_gallery --smoke --startup-log` (Release build, same machine). Compare **relative** deltas — see `python scripts/smoke_gallery.py` (**2.28**). Smoke validates **instantiate**, not navigation frame time.
+```bat
+python scripts/smoke_gallery.py
+python scripts/smoke_gallery.py --check-startup-budget
+qwinui3_gallery.exe --smoke --startup-log
+```
 
-**S5 budget (2.89):** On CI Win Release, aim for **`main` &lt; 1500 ms** wall to first interactive shell (Home + nav). Compare **relative** deltas vs the prior tag on the **same runner** — not an absolute ms fail gate until **2.90** audit.
+Smoke validates **instantiate**, not navigation frame time. Absolute limits live in `scripts/smoke_gallery.py` (`STARTUP_BUDGET_*`) and the table above — bump both together if a runner class needs headroom.
+
+**S5 / S16:** CI Win Release **`main` &lt; 1500 ms**; Linux offscreen **`main` &lt; 2000 ms**. Local machines: compare relative deltas vs the prior tag on the same box.
 
 ---
 

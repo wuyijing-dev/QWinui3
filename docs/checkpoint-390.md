@@ -24,7 +24,7 @@
 
 | Wave | Slices | IDs | Status |
 |------|--------|-----|--------|
-| Cold start | **3.34…3.40** | **S10–S17** | **3.34–3.38** shipped · rest Planned |
+| Cold start | **3.34…3.40** | **S10–S17** | **3.34–3.39** shipped · rest Planned |
 | Memory | **3.41…3.48** | **H10–H17** | Planned |
 | Silent runtime | **3.49…3.55** | **C20–C26** | Planned |
 | Control depth | **3.56…3.72** | **D30–D54** | Planned |

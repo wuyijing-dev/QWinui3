@@ -47,6 +47,24 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.38 → 3.39
+
+**Product version:** 3.39  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| CI consumers | Gallery smoke now fails if `main=` / `app=` exceed absolute budgets | Keep Release Gallery under [performance.md](performance.md) CI table; local: `python scripts/smoke_gallery.py --check-startup-budget` |
+
+### Optional / polish
+- Absolute budgets: Win `main` &lt; 1500 ms / `app` &lt; 800 ms; Linux offscreen `main` &lt; 2000 ms / `app` &lt; 1000 ms
+- Auto-enabled under `CI` / `GITHUB_ACTIONS`; opt-in locally via flag or `QWINUI3_CHECK_STARTUP_BUDGET=1`
+
+### No action (compatible)
+- Kit QML APIs unchanged
+
 ### Upgrade 3.37 → 3.38
 
 **Product version:** 3.38  
