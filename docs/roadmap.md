@@ -1,13 +1,13 @@
 # QWinUI3 Roadmap
 
 **Current:** **3.33** (master — Gallery version-label cleanup)
-**Next up:** **3.00** close-out ([checkpoint-300](checkpoint-300.md)) · **3.11+** friction-only
-**Planned through:** tranche 9 complete · **3.00** still open · [micro-interaction backlog last](#micro-interaction--visual-polish--deferred-last)
-**Checkpoints ahead:** **checkpoint-300** (3.00) · **checkpoint-310** (3.10) green
-**Qt:** 6.5+ (recommended 6.8 LTS) on master today — **2.00** raises floor to **6.8 LTS** · **3.00** to **6.10 LTS**
+**Next up:** **3.34** efficiency wave (startup) · **3.00** close-out still open ([checkpoint-300](checkpoint-300.md)) · [tranche 10 → 4.00](../ROADMAP.md#efficiency--control-depth-tranche-10-334--400)
+**Planned through:** tranche 9 complete · **3.34–3.90** efficiency + control depth · **4.00** close-out · [micro-interaction backlog last](#micro-interaction--visual-polish--deferred-last)
+**Checkpoints ahead:** **checkpoint-300** (3.00) · **checkpoint-390** (3.90) · **checkpoint-400** (4.00) · **checkpoint-310** (3.10) green
+**Qt:** 6.5+ (recommended 6.8 LTS) on master today — **2.00** raises floor to **6.8 LTS** · **3.00** to **6.10 LTS** · **4.00** to **6.12 LTS** (planned)
 **Platforms:** **Windows + Linux** — no macOS first-class line.
 
-**After 2.50**, new minors ship only for **[documented user friction](planning/friction-log.md)** — not catalog completeness. Release history for **1.01…2.64** lives in git tags, [upgrade-notes.md](upgrade-notes.md), and per-slice docs under `docs/`.
+**After 2.50**, new minors ship only for **[documented user friction](planning/friction-log.md)** or a **committed tranche ID** — not catalog completeness. Release history for **1.01…2.64** lives in git tags, [upgrade-notes.md](upgrade-notes.md), and per-slice docs under `docs/`.
 
 ---
 
@@ -34,7 +34,7 @@ See root [ROADMAP.md](../ROADMAP.md). **2.81** shipped internal perf (**C2–C5*
 
 ---
 
-## Application platform tranche 9 (`3.01` … `3.10`) — **in progress**
+## Application platform tranche 9 (`3.01` … `3.10`) — **shipped**
 
 **Gate:** Shippable desktop application platform — shell, command, workspace, navigation, dashboard, vertical kits. Full detail: root [ROADMAP.md](../ROADMAP.md#application-platform-tranche-9-301--310) · [app-platform-3xx.md](app-platform-3xx.md).
 
@@ -52,6 +52,29 @@ See root [ROADMAP.md](../ROADMAP.md). **2.81** shipped internal perf (**C2–C5*
 | **3.10** | checkpoint-310 | App platform sign-off — [checkpoint-310.md](checkpoint-310.md) | **Shipped** |
 
 **Prerequisite:** **3.00** breaking close-out ([checkpoint-300](checkpoint-300.md)).
+
+---
+
+## Efficiency & control depth tranche 10 (`3.34` … `4.00`) — **planned**
+
+**Gate:** Faster kit cold start · lower memory · silent runtime wins · **more opt-in features on existing controls** — **without** changing default UX or **page/nav switch latency**.
+
+Full detail: root [ROADMAP.md](../ROADMAP.md#efficiency--control-depth-tranche-10-334--400) · [checkpoint-390](checkpoint-390.md) · [checkpoint-400](checkpoint-400.md)
+
+| Band | Slices | Theme | IDs |
+|------|--------|--------|-----|
+| Cold start | **3.34–3.40** | Bootstrap · QML register · Gallery lazy · host defer · CI budget | **S10–S17** |
+| Memory | **3.41–3.48** | Icons · Theme · delegates · tables · charts · Gallery unload · caches | **H10–H17** |
+| Silent runtime | **3.49–3.55** | Paint coalesce · bindings · lists · tables · nav · charts (switch p50 frozen) | **C20–C26** |
+| Control depth | **3.56–3.72** | Nav · DataTable · Form · Dialog · Command · Charts · a11y · RTL … | **D30–D54** |
+| Platform + package | **3.73–3.82** | WebView2/WindowHelper/portal lazy · CMake `core`/`shell` · PyPI slim | **P10–P12 · K10–K16** |
+| Checkpoint | **3.90** | Efficiency sign-off | [checkpoint-390](checkpoint-390.md) |
+| Buffer | **3.91–3.99** | Friction + **4.00** prep | — |
+| Close-out | **4.00** | Qt **6.12** · alias cleanup · **4.xx** freeze | [checkpoint-400](checkpoint-400.md) |
+
+**Hard rules:** no default appearance/motion change · switch p50 ≤ **3.33** baseline · additive APIs only · no new public types without friction proof.
+
+**Out:** Shortening transitions to “feel faster” · micro-interaction **L1–L5** (still last) · macOS first-class.
 
 ---
 

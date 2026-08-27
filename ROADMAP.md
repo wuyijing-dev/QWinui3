@@ -1,13 +1,13 @@
 # QWinUI3 Roadmap
 
 **Current:** **3.33** (master — Gallery version-label cleanup)
-**Next up:** **3.00** breaking close-out (prep [checkpoint-300](docs/checkpoint-300.md)) · **3.34+** friction-only · [micro-interaction backlog](#micro-interaction--visual-polish--deferred-last)
-**Planned through:** **3.10** complete · **3.11–3.12** polish · **3.13–3.33** WinUI basics · **3.00** still open · then friction / micro-interaction
-**Checkpoints ahead:** **checkpoint-300** (3.00) · **checkpoint-310** (3.10) green on master
-**Qt:** 6.5+ (recommended 6.8 LTS) on master today — **2.00** raises floor to **6.8 LTS** · **3.00** to **6.10 LTS**
+**Next up:** **3.34** efficiency wave (startup) · **3.00** breaking close-out still open ([checkpoint-300](docs/checkpoint-300.md)) · [tranche 10 → 4.00](#efficiency--control-depth-tranche-10-334--400)
+**Planned through:** **3.10** complete · **3.13–3.33** WinUI / polish · **3.34–3.90** efficiency + control depth · **3.91–3.99** buffer · **4.00** close-out · [micro-interaction backlog last](#micro-interaction--visual-polish--deferred-last)
+**Checkpoints ahead:** **checkpoint-300** (3.00) · **checkpoint-390** (3.90) · **checkpoint-400** (4.00) · **checkpoint-310** (3.10) already green
+**Qt:** 6.5+ (recommended 6.8 LTS) on master today — **2.00** raises floor to **6.8 LTS** · **3.00** to **6.10 LTS** · **4.00** to **6.12 LTS** (planned)
 **Platforms:** **Windows + Linux** — no macOS first-class line.
 
-**After 2.50**, new minors ship only for **[documented user friction](docs/planning/friction-log.md)** — not catalog completeness. Release history for **1.01…2.64** lives in git tags, [upgrade-notes.md](docs/upgrade-notes.md), and per-slice docs under `docs/`.
+**After 2.50**, new minors ship only for **[documented user friction](docs/planning/friction-log.md)** or a **committed tranche ID** below — not catalog completeness. Release history for **1.01…2.64** lives in git tags, [upgrade-notes.md](docs/upgrade-notes.md), and per-slice docs under `docs/`.
 
 ---
 
@@ -493,8 +493,10 @@ flowchart TB
 | **8 — product hardening** | **2.82 → 2.90** | Capabilities · runtime perf · startup · package size · **W1** | checkpoint-290 |
 | **6 — 2.x close-out** | **3.00** | **checkpoint-290** + checkpoint-300 green | checkpoint-300 |
 | **9 — application platform** | **3.01 → 3.10** | Shippable desktop app shell · command · workspace · vertical kits | checkpoint-310 |
+| **10 — efficiency + depth** | **3.34 → 3.90** | Kit cold start · memory · silent runtime · control depth · package slim | checkpoint-390 |
+| **11 — 3.x close-out** | **4.00** | Qt floor · alias cleanup · **4.xx** freeze | checkpoint-400 |
 
-**After 3.00:** minors **`3.01+`** follow the same **[friction-log](docs/planning/friction-log.md)** gate as **2.51+** — prefer **deepen + recipe + compose** over new public types.
+**After 3.00:** minors **`3.01+`** follow the same **[friction-log](docs/planning/friction-log.md)** gate as **2.51+**, or a committed ID in [tranche 10](#efficiency--control-depth-tranche-10-334--400) — prefer **deepen + recipe + compose** over new public types.
 
 **Expansion docs:** [roadmap-strategy.md](docs/planning/roadmap-strategy.md) · [charts-dashboard-arc.md](docs/planning/expansion/charts-dashboard-arc.md) · [component-capabilities-expansion.md](docs/planning/expansion/component-capabilities-expansion.md) · [icons-dashboard-expansion.md](docs/planning/expansion/icons-dashboard-expansion.md)
 
@@ -673,13 +675,221 @@ One audit tag after **3.01–3.09**. **Does not** include **L1–L5** micro-inte
 
 **Exit criteria:** see [checkpoint-310.md](docs/checkpoint-310.md) (green **2026-08-27**).
 
-**Out of tranche 9:** **L1–L5** pointer/icon polish · full **dockable panel** framework · **undo/redo** framework · schema-driven forms · audit log UI · **3.11+** unless friction-log row.
+**Out of tranche 9:** **L1–L5** pointer/icon polish · full **dockable panel** framework · **undo/redo** framework · schema-driven forms · audit log UI.
 
-**Then:** **3.11+** friction-only slices, or **[micro-interaction backlog](#micro-interaction--visual-polish--deferred-last)**. Formal **3.00** breaking close-out remains scheduled ([checkpoint-300](docs/checkpoint-300.md)).
+**Then:** [Efficiency & control depth tranche 10](#efficiency--control-depth-tranche-10-334--400) (**3.34…4.00**). Formal **3.00** breaking close-out remains scheduled ([checkpoint-300](docs/checkpoint-300.md)) and may interleave before or after early **3.34+** slices as long as budgets stay green. **[Micro-interaction backlog](#micro-interaction--visual-polish--deferred-last)** stays **last**.
 
 ---
 
-## Product wave index (A–F · I · M · R · W · G · V · N)
+## Efficiency & control depth tranche 10 (`3.34` … `4.00`)
+
+**Goal:** Make the **existing** kit start faster, use less memory, and expose **more opt-in capability** on hot controls — **without** changing default look, feel, or **page/nav switch timing**.
+
+### Hard rules (every slice)
+
+| Rule | Meaning |
+|------|---------|
+| **No default UX change** | Appearance, interaction, and motion **durations** stay as today unless a slice is explicitly opt-in |
+| **Switch latency frozen** | NavigationView / page stack / Gallery page switch **p50 ≤ baseline** on the same Release machine (may improve; **must not regress**) |
+| **Additive APIs only** | New properties/methods default off or match today’s behavior |
+| **No new public types by default** | New types only when friction proves compose failure (document failed recipe first) |
+| **Measure** | Each tag records startup ms, working-set / RSS delta, and switch budget in [performance.md](docs/performance.md) / release note |
+
+**Strategy:** cold start → memory → silent runtime → control depth → platform/package → checkpoint → buffer → **4.00**.
+
+**ID note:** Memory-track IDs are **H10–H17** (heap/RSS) so they do not collide with Command **R1–R3** or deferred pointer recipes **R10–R17** / **M1–M28**.
+
+**Docs:** [performance.md](docs/performance.md) · [component-capabilities-expansion.md](docs/planning/expansion/component-capabilities-expansion.md) · [packaging-consumer.md](docs/packaging-consumer.md) · [checkpoint-390.md](docs/checkpoint-390.md) · [checkpoint-400.md](docs/checkpoint-400.md)
+
+| Slice | Theme | IDs | Status |
+|-------|--------|-----|--------|
+| **3.34** | Cold start — Bootstrap / env | **S10–S11** | Planned |
+| **3.35** | Cold start — QML type registration | **S12** | Planned |
+| **3.36** | Cold start — module / import graph | **S13** | Planned |
+| **3.37** | Cold start — Gallery catalog lazy | **S14** | Planned |
+| **3.38** | Cold start — optional hosts deferred | **S15** | Planned |
+| **3.39** | Cold start — smoke + budget CI | **S16** | Planned |
+| **3.40** | Cold start wave sign-off | **S17** | Planned |
+| **3.41** | Memory — FluentIcons / glyph atlas | **H10** | Planned |
+| **3.42** | Memory — Theme / singleton trim | **H11** | Planned |
+| **3.43** | Memory — List/Tree delegate reuse | **H12** | Planned |
+| **3.44** | Memory — DataTable / model roles | **H13** | Planned |
+| **3.45** | Memory — Chart series buffers | **H14** | Planned |
+| **3.46** | Memory — Gallery page unload | **H15** | Planned |
+| **3.47** | Memory — image / acrylic caches | **H16** | Planned |
+| **3.48** | Memory wave sign-off | **H17** | Planned |
+| **3.49** | Silent runtime — paint coalesce | **C20** | Planned |
+| **3.50** | Silent runtime — binding churn | **C21** | Planned |
+| **3.51** | Silent runtime — ListView / ItemsView | **C22** | Planned |
+| **3.52** | Silent runtime — DataTable virtualize | **C23** | Planned |
+| **3.53** | Silent runtime — NavigationView pane | **C24** | Planned |
+| **3.54** | Silent runtime — chart redraw | **C25** | Planned |
+| **3.55** | Silent runtime wave sign-off | **C26** | Planned |
+| **3.56** | Depth — NavigationView | **D30–D32** | Planned |
+| **3.57** | Depth — DataTable / TreeDataGrid | **D33–D35** | Planned |
+| **3.58** | Depth — Form / Settings cards | **D36–D37** | Planned |
+| **3.59** | Depth — Dialogs / flyouts | **D38–D39** | Planned |
+| **3.60** | Depth — CommandBar / palette | **D40–D41** | Planned |
+| **3.61** | Depth — TabView / Pivot | **D42** | Planned |
+| **3.62** | Depth — Charts stable six | **D43–D44** | Planned |
+| **3.63** | Depth — InfoBar / Toast / TeachingTip | **D45** | Planned |
+| **3.64** | Depth — NumberBox / DateTime pickers | **D46** | Planned |
+| **3.65** | Depth — AutoSuggest / Search | **D47** | Planned |
+| **3.66** | Depth — SplitWorkspace / TwoPane | **D48** | Planned |
+| **3.67** | Depth — FileTree / FilePicker | **D49** | Planned |
+| **3.68** | Depth — Media / WebView2 host | **D50** | Planned |
+| **3.69** | Depth — Window / TitleBar chrome | **D51** | Planned |
+| **3.70** | Depth — Accessibility hooks | **D52** | Planned |
+| **3.71** | Depth — RTL / i18n edge cases | **D53** | Planned |
+| **3.72** | Depth wave sign-off | **D54** | Planned |
+| **3.73** | Platform — WebView2 lazy probe | **P10** | Planned |
+| **3.74** | Platform — WindowHelper defer | **P11** | Planned |
+| **3.75** | Platform — Linux portal lazy | **P12** | Planned |
+| **3.76** | Package — `core` / `shell` presets | **K10** | Planned |
+| **3.77** | Package — charts optional link | **K11** | Planned |
+| **3.78** | Package — Gallery vs kit split | **K12** | Planned |
+| **3.79** | Package — PyPI wheel slim | **K13** | Planned |
+| **3.80** | Package — size budget table | **K14** | Planned |
+| **3.81** | Docs — efficiency recipes | **K15** | Planned |
+| **3.82** | Platform + package sign-off | **K16** | Planned |
+| **3.83–3.89** | Reserved — friction closes on S/M/C/D/K | — | Buffer |
+| **3.90** | **checkpoint-390** efficiency sign-off | Audit | Planned |
+| **3.91–3.99** | Friction buffer + **4.00** prep | — | Buffer |
+| **4.00** | **checkpoint-400** — 3.x close-out | Breaking | Planned |
+
+### Cold start (`3.34` … `3.40`) — **S10–S17**
+
+| ID | Slice | Deliverable |
+|----|-------|-------------|
+| **S10** | **3.34** | **Bootstrap** — document + enforce minimal `configureEnvironment` / `configureApplication` path; no optional host probes before first frame |
+| **S11** | **3.34** | Defer Style plugin side work that is not needed for first window paint |
+| **S12** | **3.35** | QML type registration: register hot modules first; defer charts / OSK / WebView2 types until first import |
+| **S13** | **3.36** | Import graph: Gallery / examples default to `shell` import set; document `QWinUI3.Extras.Charts` optional |
+| **S14** | **3.37** | Gallery **ControlCatalog** fully lazy (no full model build on Main load) |
+| **S15** | **3.38** | Optional hosts (WebView2 runtime probe, Keyman/OSK engine, FrameStats) start **on demand** |
+| **S16** | **3.39** | `--startup-log` budgets in CI Release: interactive shell **&lt; baseline − 15%** or absolute table in performance.md |
+| **S17** | **3.40** | Cold-start wave sign-off — fill [checkpoint-390](docs/checkpoint-390.md) startup section |
+
+**Out:** Changing first-frame visual chrome · forcing all consumers onto a new Bootstrap API without dual path.
+
+### Memory (`3.41` … `3.48`) — **M10–M17**
+
+| ID | Slice | Deliverable |
+|----|-------|-------------|
+| **H10** | **3.41** | FluentIcons / glyph path — shared font instance + PreferNoHinting; avoid per-control font copies |
+| **H11** | **3.42** | Theme singleton — trim unused token tables from default load; density packs on demand |
+| **H12** | **3.43** | ListView / TreeView / NavigationView pane — `reuseItems` / cacheBuffer recipes + defaults that cut RSS without slower scroll |
+| **H13** | **3.44** | DataTable — lean roles, skip unused column caches until shown |
+| **H14** | **3.45** | Charts — ring-buffer caps documented + opt-in downsampling (defaults unchanged visually) |
+| **H15** | **3.46** | Gallery — unload off-screen page trees; keep switch time ≤ baseline |
+| **H16** | **3.47** | Acrylic / image / shadow caches — size limits + eviction |
+| **H17** | **3.48** | Memory wave sign-off — working-set table in checkpoint-390 |
+
+**Out:** Lowering visual quality of default acrylic · removing shadows globally.
+
+### Silent runtime (`3.49` … `3.55`) — **C20–C26**
+
+Same class as **2.81 / 2.82–2.90** runtime work: **faster or equal**, never slower switches.
+
+| ID | Slice | Deliverable |
+|----|-------|-------------|
+| **C20** | **3.49** | Remaining paint coalesce on heavy Extras (tables, charts, nav) |
+| **C21** | **3.50** | Binding churn audit — replace hot `Qt.binding` / full-model rebuilds with incremental updates |
+| **C22** | **3.51** | ItemsView / ListDetailsView — virtualization + filter debounce defaults tuned |
+| **C23** | **3.52** | DataTable / TreeDataGrid — row height cache + skip unchanged rebuild |
+| **C24** | **3.53** | NavigationView — incremental `navModel` / pip schedule already hardened; finish remaining pane rebuild costs |
+| **C25** | **3.54** | Chart redraw coalesce inventory complete for stable six |
+| **C26** | **3.55** | Runtime wave sign-off — **switch p50 non-regression** mandatory |
+
+**Out:** Shortening page transition animations to “feel faster” · removing transitions.
+
+### Control depth (`3.56` … `3.72`) — **D30–D54**
+
+Deepen **existing** controls. Each slice: additive API + Gallery recipe + component doc; **default path identical**.
+
+| ID | Slice | Focus (examples) |
+|----|-------|------------------|
+| **D30–D32** | **3.56** | NavigationView — pane search highlight persist, pin API polish, a11y live region hooks |
+| **D33–D35** | **3.57** | DataTable / TreeDataGrid — group persist, column layout API, filter skip |
+| **D36–D37** | **3.58** | FormLayout / SettingsCard — scrollToError, validation batching |
+| **D38–D39** | **3.59** | ContentDialog / MenuFlyout — queue / focus restore polish |
+| **D40–D41** | **3.60** | CommandBar / CommandPalette — overflow + recents caps |
+| **D42** | **3.61** | TabView / Pivot — tear-out guards, selection API |
+| **D43–D44** | **3.62** | Stable charts — tooltips, export hooks, bin helpers (no new chart type) |
+| **D45** | **3.63** | InfoBar / Toast / TeachingTip — priority / dedupe / focus return |
+| **D46** | **3.64** | NumberBox / DatePicker / TimePicker — validation + FormLayout parity |
+| **D47** | **3.65** | AutoSuggestBox / SearchBox — debounce / minLength recipes |
+| **D48** | **3.66** | SplitWorkspace / TwoPaneView — preset persistence polish |
+| **D49** | **3.67** | FileTree / FilePicker — filter + trust hooks |
+| **D50** | **3.68** | MediaPlayerElement / WebView2Host — lazy activate, nav state |
+| **D51** | **3.69** | StandardWindow / TitleBar — hit-test / command slot polish |
+| **D52** | **3.70** | Accessibility — live regions / focus return on remaining high-traffic controls |
+| **D53** | **3.71** | RTL / mirrored padding audit close-out on Style leftovers |
+| **D54** | **3.72** | Depth wave sign-off — capability matrix in checkpoint-390 |
+
+**Out:** New stable chart engine · schema-form designer · dock framework.
+
+### Platform & package (`3.73` … `3.82`) — **P10–P12 · K10–K16**
+
+| ID | Slice | Deliverable |
+|----|-------|-------------|
+| **P10** | **3.73** | WebView2 — no Runtime probe until first `WebView2Host` |
+| **P11** | **3.74** | WindowHelper — defer DWM / backdrop probes until `install()` |
+| **P12** | **3.75** | Linux — portal / SNI init on first use |
+| **K10** | **3.76** | CMake presets `core` / `shell` (no charts / no WebView2) |
+| **K11** | **3.77** | Charts as optional link target |
+| **K12** | **3.78** | Gallery artifact vs kit zip split documented |
+| **K13** | **3.79** | PyPI default wheel slim; extras for charts/webview |
+| **K14** | **3.80** | Size budget table (kit zip / wheel) in packaging docs |
+| **K15** | **3.81** | Consumer recipe: “fastest first window” checklist |
+| **K16** | **3.82** | Platform + package sign-off |
+
+### 3.83 … 3.89 — Friction buffer
+
+Only **friction-log** rows that close gaps in **S / M / C / D / K** without violating hard rules. No catalog shopping.
+
+### 3.90 — Efficiency checkpoint
+
+**Tag:** `v3.90` · **Doc:** [checkpoint-390.md](docs/checkpoint-390.md)
+
+| Gate | Pass |
+|------|------|
+| Startup | Interactive shell budget met on CI Win Release |
+| Memory | Working-set / RSS table filled; Gallery idle RSS ↓ vs **3.33** baseline |
+| Switch | Navigation / page switch p50 **≤** baseline |
+| Depth | **D30–D54** shipped or deferred with friction link |
+| Package | **K10–K14** presets + size table published |
+| UX | No default appearance/motion change without upgrade-notes row |
+
+**Out of 3.90:** **4.00** breaking changes · **L1–L5** micro-interaction wave.
+
+### 3.91 … 3.99 — Buffer + 4.00 prep
+
+- Close remaining friction rows from checkpoint-390
+- Draft [upgrade-notes.md](docs/upgrade-notes.md) **Upgrade 3.90 → 4.00**
+- Freeze experimental inventory for removal/namespace
+- Fill [checkpoint-400.md](docs/checkpoint-400.md) checklist
+
+### 4.00 — 3.x line close-out (breaking major)
+
+**Status:** **Planned** — after **checkpoint-390** green. **Not** a feature dump.
+
+| Area | 4.00 deliverable |
+|------|------------------|
+| **Qt** | Floor **6.12 LTS** (drop pre-6.12 shims required after **3.00**’s 6.10 floor) |
+| **Modules** | Remove aliases deferred through **3.xx**; optional modules stay opt-in |
+| **Experimental** | Permanent-defer types removed from default imports or moved behind `QWinUI3.Experimental` |
+| **Stable contract** | [compatibility-4xx.md](docs/compatibility-4xx.md) — **4.xx** “will not break” freeze |
+| **CMake / PyPI** | Semver **4.00**; document `core`/`shell`/`full` presets as the supported install shapes |
+| **Docs** | Upgrade **3.90 → 4.00**; efficiency budgets remain the default consumer guidance |
+
+**Out:** macOS first-class · Fluent 2 fork · WebGL charts · changing default page-transition timings.
+
+**Then:** **4.01+** friction-only (same gate as **2.51+**), or **[micro-interaction backlog](#micro-interaction--visual-polish--deferred-last)** if still deferred.
+
+---
+
+## Product wave index (A–F · I · M · R · W · G · V · N · S · H · C · D · K · P)
 
 Master map of committed deliverables. **Micro-interaction detail IDs** (**I1–I18**, **M1–M28**) are deferred — see [end of this file](#micro-interaction--visual-polish--deferred-last). Tranche detail: [tranche 3](#professional-product-wave--tranche-3-265--270) · [tranche 8](#product-hardening-tranche-8-282--290) · [tranche 9](#application-platform-tranche-9-301--310).
 
@@ -1015,14 +1225,14 @@ Unscheduled; pick up only inside a named minor (or never).
 | **M7** | **FocusStroke** | Focus ring inset/outset per control type; HC mode 2px double ([accessibility.md](docs/accessibility.md)) | **L1** |
 | **M8** | **Cursor shapes** | Hand on clickable labels; I-beam on editable; resize cursors on splitters — Gallery matrix | **L1** |
 | **M9** | **ListTile** | **A3** density; whole-row press highlight + leading checkbox ripple bounds; swipe hint at rest | **L2** |
-| **M10** | **SettingsCard** / **ChartCard** | **A4** surfaces; card hover elevate 1dp (`MultiEffect` deferred); header click expands SettingsCard | **L2** |
-| **M11** | **IconButton** / **RoundButton** | Circular press mask; min 40×40 touch target; **`loading`** defers press animation | **L2** |
-| **M12** | **SplitButton** | Primary half vs chevron half **independent** pressed states; menu chevron rotate on open | **L2** |
-| **M13** | **NavigationView** items | **A5** presets; compact pane press feedback; footer item separate hover band | **L3** |
-| **M14** | **TabView** | Tab strip reorder ghost opacity; active indicator slide (**B1** easing) | **L3** |
-| **M15** | **Pivot** | Header underline slide between tabs; keyboard focus pill | **L3** |
-| **M16** | **Slider** / **RangeSlider** | Thumb scale 1→1.12 on hover/press; track fill animate on value change (coalesced) | **L3** |
-| **M17** | **ToggleSwitch** | Thumb travel ease-out; off/on track color cross-fade; drag beyond bounds snap | **L3** |
+| **R10** | **SettingsCard** / **ChartCard** | **A4** surfaces; card hover elevate 1dp (`MultiEffect` deferred); header click expands SettingsCard | **L2** |
+| **R11** | **IconButton** / **RoundButton** | Circular press mask; min 40×40 touch target; **`loading`** defers press animation | **L2** |
+| **R12** | **SplitButton** | Primary half vs chevron half **independent** pressed states; menu chevron rotate on open | **L2** |
+| **R13** | **NavigationView** items | **A5** presets; compact pane press feedback; footer item separate hover band | **L3** |
+| **R14** | **TabView** | Tab strip reorder ghost opacity; active indicator slide (**B1** easing) | **L3** |
+| **R15** | **Pivot** | Header underline slide between tabs; keyboard focus pill | **L3** |
+| **R16** | **Slider** / **RangeSlider** | Thumb scale 1→1.12 on hover/press; track fill animate on value change (coalesced) | **L3** |
+| **R17** | **ToggleSwitch** | Thumb travel ease-out; off/on track color cross-fade; drag beyond bounds snap | **L3** |
 | **M18** | **BreadcrumbBar** | Overflow flyout item press; ellipses hover underline | **L3** |
 | **M19** | **DataTable** | **A6** zebra/hover/selection; cell press for inline edit mode (**D1**); column header hover sort affordance | **L4** |
 | **M20** | **TreeView** / **TreeDataGrid** | Expand triangle hit pad; row hover sync with **ListTile** recipe | **L4** |
@@ -1041,9 +1251,9 @@ Unscheduled; pick up only inside a named minor (or never).
 
 | Track | Detail rows | Notes |
 |-------|-------------|-------|
-| **Appearance A1–A7** | **M1–M4**, **M9–M10**, **M13**, **M19**, **M25** | Visual variant + press recipe ship together |
+| **Appearance A1–A7** | **M1–M4**, **M9–M10**, **R13**, **M19**, **M25** | Visual variant + press recipe ship together |
 | **Motion B1–B6** | All **I3**, **I8**, **M14–M17**, **M21–M22**, **M25–M27** | Single token source |
-| **Performance C4** | **M16**, **M19** | Idle `Behavior` gated — motion unchanged when interacting |
+| **Performance C4** | **R16**, **M19** | Idle `Behavior` gated — motion unchanged when interacting |
 | **Accessibility** | **M7**, **M8**, **I9**, **I18**, **M28** | Focus visible ≥ WCAG; reducedMotion honored everywhere |
 
 **Out:** Sound/haptic APIs · Lottie icons · full WinUI **AnimatedIcon** visual tree clone · per-app custom ripple shaders.
