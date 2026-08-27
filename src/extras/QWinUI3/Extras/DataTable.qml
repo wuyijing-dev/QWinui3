@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Templates as T
+import QtCore
 import QWinUI3.Theme
 import QWinUI3.Platform
 
@@ -26,7 +27,8 @@ import QWinUI3.Platform
 //   // selectedRow / selectedIndex, sortColumn / sortOrder / sortSpecs, filterText, columnOrder
 //   // hiddenColumns, columnWidths, setColumnVisible(), toggleSort(col, append?)
 //   // methods: select(row), scrollToRow(row, mode?), ensureRowVisible(row), clearSelection(),
-//   //          refresh(), focusTable(), moveColumn(from, to),
+//   //          refresh(), focusTable(), moveColumn(from, to), pinColumn(i), unpinColumn(i),
+//   //          exportColumnLayout(), importColumnLayout(obj), loadColumnLayout(), saveColumnLayout(),
 //   //          copySelection(), exportCsv(toClipboard?)
 //   // signals: rowActivated(int, var), selectionChanged(int, var), sortChanged(int, int),
 //   //          columnLayoutChanged()
@@ -34,10 +36,12 @@ import QWinUI3.Platform
 // @notes
 //   ListView virtualizes rows (`reuseItems`) — fixed rowHeight fast path (2.66 C1).
 //   Filter + sort rebuild `_viewRows` in JS — debounced on filter keystrokes (1.88);
-//   skips rebuild when query/sort/rows unchanged (2.18). maxFilterResults caps filter walk.
+//   skips rebuild when query/sort/rows unchanged (2.18). Sort keys cached per refresh (2.84 C8).
+//   rows assignment coalesced via Qt.callLater (2.84 C8).
 //   Multi-column sort via sortSpecs / Shift+click header (2.66 D1).
 //   Column visibility (hiddenColumns) + width persistence (columnWidths) — 2.66 D1.
 //   Column pin + reorder (columnOrder / moveColumn) and row group headers (groupRole) — 2.64.
+//   columnLayoutKey Settings persist + export/import layout — 2.82 D14.
 //   Selection tracks the row **object** across sort/filter.
 //   copySelection / exportCsv — clipboard CSV for selection or visible rows (2.71).
 //   See docs/data-collections.md for DataTable vs ItemsView vs ListDetailsView.
@@ -69,9 +73,13 @@ T.Control {
     property bool announceChanges: true
     // Row group header role — inserts sticky-style group rows (2.64).
     property string groupRole: ""
+    // Optional function(groupValue) → label string for group header rows (2.82 D14).
+    property var groupLabel: null
     property real groupHeaderHeight: Theme.navItemHeight
     // Persist column order — bind to Settings; empty = natural column index order (2.64).
     property var columnOrder: []
+    // Settings category — auto load/save layout when set (2.82 D14).
+    property string columnLayoutKey: ""
     // Hidden column indices — omitted from header/body (2.66 D1)
     property var hiddenColumns: []
     // Persistable widths — bind to Settings; empty = use columns[].width (2.66 D1)
@@ -118,6 +126,7 @@ T.Control {
     readonly property int rowCount: _viewRows.length
     readonly property int columnCount: columns ? columns.length : 0
     readonly property bool _groupActive: groupRole.length > 0
+    readonly property var pinnedColumnIndices: _pinnedColOrder.slice()
     readonly property real _pinnedWidth: {
         var w = 0
         for (var i = 0; i < _pinnedColOrder.length; ++i)
@@ -149,6 +158,124 @@ T.Control {
     property var _selectedRowRef: null
     property bool _syncingWidths: false
     property bool _syncingSort: false
+    property bool _syncingLayoutImport: false
+    property bool _rowsRefreshScheduled: false
+
+    Settings {
+        id: layoutStore
+        category: root.columnLayoutKey.length ? root.columnLayoutKey : "DataTableLayoutUnused"
+        property string layoutJson: ""
+    }
+
+    Timer {
+        id: layoutPersistDebounce
+        interval: 200
+        repeat: false
+        onTriggered: root.saveColumnLayout()
+    }
+
+    function _layoutPersistEnabled() {
+        return columnLayoutKey && columnLayoutKey.length > 0
+    }
+
+    function _scheduleLayoutPersist() {
+        if (!_layoutPersistEnabled() || _syncingLayoutImport)
+            return
+        layoutPersistDebounce.restart()
+    }
+
+    function exportColumnLayout() {
+        var cols = columns || []
+        var pinned = []
+        for (var i = 0; i < cols.length; ++i) {
+            if (cols[i] && cols[i].pinned === true)
+                pinned.push(i)
+        }
+        return {
+            columnOrder: (columnOrder || []).slice(),
+            columnWidths: (_columnWidths || []).slice(),
+            hiddenColumns: (hiddenColumns || []).slice(),
+            pinnedColumns: pinned
+        }
+    }
+
+    function importColumnLayout(obj) {
+        if (!obj)
+            return false
+        _syncingLayoutImport = true
+        try {
+            if (obj.columnOrder && obj.columnOrder.length)
+                columnOrder = obj.columnOrder.slice()
+            if (obj.columnWidths && obj.columnWidths.length)
+                columnWidths = obj.columnWidths.slice()
+            if (obj.hiddenColumns)
+                hiddenColumns = obj.hiddenColumns.slice()
+            if (obj.pinnedColumns) {
+                var pinSet = ({})
+                for (var p = 0; p < obj.pinnedColumns.length; ++p)
+                    pinSet[obj.pinnedColumns[p]] = true
+                var cols = columns || []
+                var nextCols = []
+                for (var i = 0; i < cols.length; ++i)
+                    nextCols.push(Object.assign({}, cols[i], { pinned: !!pinSet[i] }))
+                columns = nextCols
+            }
+            _rebuildColumnLayout()
+            _scheduleRefresh(true)
+            return true
+        } finally {
+            _syncingLayoutImport = false
+        }
+    }
+
+    function saveColumnLayout() {
+        if (!_layoutPersistEnabled())
+            return
+        try {
+            layoutStore.layoutJson = JSON.stringify(exportColumnLayout())
+        } catch (e) { /* ignore */ }
+    }
+
+    function loadColumnLayout() {
+        if (!_layoutPersistEnabled())
+            return
+        try {
+            var raw = layoutStore.layoutJson || ""
+            if (!raw.length)
+                return
+            importColumnLayout(JSON.parse(raw))
+        } catch (e) { /* ignore */ }
+    }
+
+    function _setColumnPinned(colIndex, pinned) {
+        var cols = columns || []
+        if (colIndex < 0 || colIndex >= cols.length)
+            return false
+        if (!!cols[colIndex].pinned === !!pinned)
+            return false
+        var nextCols = []
+        for (var i = 0; i < cols.length; ++i)
+            nextCols.push(Object.assign({}, cols[i], { pinned: i === colIndex ? !!pinned : !!cols[i].pinned }))
+        columns = nextCols
+        _rebuildColumnLayout()
+        _scheduleLayoutPersist()
+        return true
+    }
+
+    function pinColumn(colIndex) {
+        return _setColumnPinned(colIndex, true)
+    }
+
+    function unpinColumn(colIndex) {
+        return _setColumnPinned(colIndex, false)
+    }
+
+    function togglePinColumn(colIndex) {
+        var cols = columns || []
+        if (colIndex < 0 || colIndex >= cols.length)
+            return false
+        return _setColumnPinned(colIndex, !cols[colIndex].pinned)
+    }
 
     function _announce(text) {
         if (!root.announceChanges || !text || text.length === 0)
@@ -200,8 +327,11 @@ T.Control {
         _rebuildColumnLayout()
         _scheduleRefresh(true)
     }
-    onColumnOrderChanged: _rebuildColumnLayout()
-    onRowsChanged: _scheduleRefresh(true)
+    onColumnOrderChanged: {
+        _rebuildColumnLayout()
+        _scheduleLayoutPersist()
+    }
+    onRowsChanged: _scheduleRowsRefresh()
     onFilterTextChanged: _scheduleRefresh(false)
     onSortColumnChanged: _scheduleRefresh(true)
     onSortOrderChanged: _scheduleRefresh(true)
@@ -209,6 +339,8 @@ T.Control {
     Component.onCompleted: {
         _syncColumnWidths()
         _rebuildColumnLayout()
+        if (_layoutPersistEnabled())
+            loadColumnLayout()
         refresh()
     }
 
@@ -219,6 +351,17 @@ T.Control {
         } else {
             filterDebounce.restart()
         }
+    }
+
+    function _scheduleRowsRefresh() {
+        if (_rowsRefreshScheduled)
+            return
+        _rowsRefreshScheduled = true
+        Qt.callLater(function () {
+            _rowsRefreshScheduled = false
+            filterDebounce.stop()
+            refresh()
+        })
     }
 
     function _isColumnHidden(index) {
@@ -250,6 +393,7 @@ T.Control {
         }
         hiddenColumns = hidden
         _rebuildColumnLayout()
+        _scheduleLayoutPersist()
     }
 
     function isColumnVisible(column) {
@@ -356,6 +500,7 @@ T.Control {
                 next[i] = Math.max(minColumnWidth, w)
         }
         _columnWidths = next
+        _scheduleLayoutPersist()
     }
 
     function moveColumn(fromDisplay, toDisplay) {
@@ -368,6 +513,7 @@ T.Control {
         order.splice(toDisplay, 0, item)
         columnOrder = order
         _rebuildColumnLayout()
+        _scheduleLayoutPersist()
     }
 
     function focusTable() {
@@ -490,9 +636,17 @@ T.Control {
             var g = row[groupRole]
             var gStr = g === undefined || g === null ? "" : String(g)
             if (gStr !== lastGroup) {
+                var label = gStr.length ? gStr : qsTr("Ungrouped")
+                if (typeof groupLabel === "function") {
+                    try {
+                        var custom = groupLabel(gStr.length ? g : null)
+                        if (custom !== undefined && custom !== null && String(custom).length)
+                            label = String(custom)
+                    } catch (e) { /* ignore */ }
+                }
                 items.push({
                     kind: "group",
-                    label: gStr.length ? gStr : qsTr("Ungrouped")
+                    label: label
                 })
                 lastGroup = gStr
             }
@@ -517,6 +671,76 @@ T.Control {
         if (as > bs)
             return asc ? 1 : -1
         return 0
+    }
+
+    function _sortKeyForValue(v) {
+        if (v === undefined || v === null)
+            return { kind: 0, n: 0, s: "" }
+        if (typeof v === "number" && isFinite(v))
+            return { kind: 1, n: v, s: "" }
+        return { kind: 2, n: 0, s: String(v).toLowerCase() }
+    }
+
+    function _compareSortKeys(ka, kb, asc) {
+        if (ka.kind !== kb.kind) {
+            var r = ka.kind - kb.kind
+            return asc ? r : -r
+        }
+        if (ka.kind === 1) {
+            if (ka.n === kb.n)
+                return 0
+            return asc ? (ka.n - kb.n) : (kb.n - ka.n)
+        }
+        if (ka.s === kb.s)
+            return 0
+        return asc ? (ka.s < kb.s ? -1 : 1) : (ka.s < kb.s ? 1 : -1)
+    }
+
+    function _buildSortCaches(rows, specs, cols) {
+        var caches = []
+        for (var s = 0; s < specs.length; ++s) {
+            var col = Number(specs[s].column)
+            if (col < 0 || col >= cols.length || cols[col].sortable === false)
+                continue
+            var role = cols[col].role || ("c" + col)
+            var asc = Number(specs[s].order) === Qt.AscendingOrder
+            var keys = new Array(rows.length)
+            for (var i = 0; i < rows.length; ++i)
+                keys[i] = _sortKeyForValue(rows[i][role])
+            caches.push({ col: col, asc: asc, keys: keys })
+        }
+        return caches
+    }
+
+    function _sortFilteredRows(filtered, specs, cols) {
+        if (!specs.length && !root._groupActive)
+            return filtered
+        var indices = new Array(filtered.length)
+        for (var i = 0; i < filtered.length; ++i)
+            indices[i] = i
+        var sortCaches = _buildSortCaches(filtered, specs, cols)
+        var groupRole = root.groupRole
+        var groupActive = root._groupActive
+        indices.sort(function (ia, ib) {
+            var a = filtered[ia]
+            var b = filtered[ib]
+            if (groupActive) {
+                var gcmp = root._compareValues(a[groupRole], b[groupRole], true)
+                if (gcmp !== 0)
+                    return gcmp
+            }
+            for (var s = 0; s < sortCaches.length; ++s) {
+                var cache = sortCaches[s]
+                var cmp = root._compareSortKeys(cache.keys[ia], cache.keys[ib], cache.asc)
+                if (cmp !== 0)
+                    return cmp
+            }
+            return 0
+        })
+        var out = new Array(indices.length)
+        for (var j = 0; j < indices.length; ++j)
+            out[j] = filtered[indices[j]]
+        return out
     }
 
     function refresh() {
@@ -557,29 +781,8 @@ T.Control {
         }
 
         var specs = _effectiveSortSpecs()
-        var canSort = specs.length > 0 || root._groupActive
-        if (canSort) {
-            filtered = filtered.slice().sort(function (a, b) {
-                if (root._groupActive) {
-                    var ga = a[root.groupRole]
-                    var gb = b[root.groupRole]
-                    var gcmp = root._compareValues(ga, gb, true)
-                    if (gcmp !== 0)
-                        return gcmp
-                }
-                for (var s = 0; s < specs.length; ++s) {
-                    var col = Number(specs[s].column)
-                    if (col < 0 || col >= cols.length || cols[col].sortable === false)
-                        continue
-                    var roleSort = cols[col].role || ("c" + col)
-                    var asc = Number(specs[s].order) === Qt.AscendingOrder
-                    var cmp = root._compareValues(a[roleSort], b[roleSort], asc)
-                    if (cmp !== 0)
-                        return cmp
-                }
-                return 0
-            })
-        }
+        if (specs.length > 0 || root._groupActive)
+            filtered = _sortFilteredRows(filtered, specs, cols)
 
         var prev = _selectedRowRef
         _viewRows = filtered
@@ -1105,6 +1308,7 @@ T.Control {
                         }
 
                         Rectangle {
+                            id: rowFillRect
                             anchors.fill: parent
                             visible: !isGroup
                             readonly property var customRowFill: {
@@ -1115,11 +1319,14 @@ T.Control {
                                 }
                                 return null
                             }
-                            color: customRowFill !== null ? customRowFill : root._rowFillBase(dataIndex)
+                            color: rowFillRect.customRowFill !== null
+                                   ? rowFillRect.customRowFill
+                                   : root._rowFillBase(dataIndex)
 
                             Rectangle {
                                 anchors.fill: parent
-                                visible: dataIndex === root.selectedIndex && customRowFill === null
+                                visible: dataIndex === root.selectedIndex
+                                         && rowFillRect.customRowFill === null
                                 color: root.selectionAccent
                                        ? Qt.rgba(Theme.accent.r, Theme.accent.g, Theme.accent.b, 0.18)
                                        : Theme.fillSubtleSecondary

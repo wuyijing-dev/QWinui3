@@ -51,13 +51,13 @@ T.Control {
 
     onCurrentIndexChanged: {
         selectionChanged(currentIndex)
-        Qt.callLater(function () { moveIndicator(false) })
+        Qt.callLater(function () { control.moveIndicator(false) })
     }
     onModelChanged: {
         _indicatorReady = false
-        Qt.callLater(function () { moveIndicator(true) })
+        Qt.callLater(function () { control.moveIndicator(true) })
     }
-    Component.onCompleted: Qt.callLater(function () { moveIndicator(true) })
+    Component.onCompleted: Qt.callLater(function () { control.moveIndicator(true) })
 
     // Select item by index
     function select(index) {

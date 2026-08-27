@@ -10,14 +10,22 @@ import QWinUI3.Theme
 //       values: [4, 2, 7, 3]
 //   }
 //
+//   // Histogram from raw samples (3.06 G3 — prefer over HistogramChart):
+//   BarChart {
+//       samples: [1.2, 3.4, 2.1, …]
+//       binCount: 12
+//       binLabelPrecision: 1
+//   }
+//
 //   // --- API ---
 //   // signals: onBarClicked
-//   // methods: playReveal(), requestRedraw()
+//   // methods: playReveal(), requestRedraw(), setBinsFromSamples(), applyBins(), clearBins()
 //   // barChart.playReveal()
 //   // barChart.requestRedraw()
 //
 // @notes
 //   Prefer values: number[] or bars: [{ value, label?, color? }].
+//   samples + binCount (>0) bins via ChartUtils.histogramBins into columns + range labels.
 //   unit aliases valueUnit. interactive / isInteractive aliases. playReveal() for enter.
 
 T.Control {
@@ -30,6 +38,12 @@ T.Control {
     property var values: []
     // Bar descriptors
     property var bars: []
+    // Raw samples for histogram binning (3.06 G3). Used when binCount > 0.
+    property var samples: []
+    // Number of bins; 0 disables sample binning
+    property int binCount: 0
+    // Digits for auto range labels (from–to)
+    property int binLabelPrecision: 0
     // Minimum value
     property real minimum: 0
     // Maximum value
@@ -77,7 +91,7 @@ T.Control {
     property bool stacked: false
     // Multi-series [{ name, values, color? }] — grouped when stacked is false
     property var series: []
-    // Category labels (used with series)
+    // Category labels (used with series / plain bars; overridden when binning)
     property var labels: []
 
     // Emitted when a bar is clicked
@@ -86,6 +100,17 @@ T.Control {
     implicitWidth: 320
     implicitHeight: title.length ? 200 : 180
     padding: 8
+
+    // Computed histogram bins [{ from, to, count, value }] when samples + binCount
+    readonly property var bins: {
+        if (binCount <= 0)
+            return []
+        var src = samples
+        if (!src || ChartUtils.valueCount(src) === 0)
+            return []
+        return ChartUtils.histogramBins(src, binCount)
+    }
+    readonly property bool binningActive: bins && bins.length > 0
 
     // True when there is no data
     readonly property bool isEmpty: _hasSeries ? _categoryCount === 0 : _bars.length === 0
@@ -97,7 +122,39 @@ T.Control {
         return ChartUtils.valueCount(series[0].values)
     }
 
+    function _formatBinLabel(bin) {
+        if (!bin)
+            return ""
+        if (bin.label !== undefined && bin.label !== null && String(bin.label).length)
+            return String(bin.label)
+        var p = Math.max(0, root.binLabelPrecision)
+        return Number(bin.from).toFixed(p) + "–" + Number(bin.to).toFixed(p)
+    }
+
+    readonly property var _effectiveLabels: {
+        if (root.binningActive) {
+            var labs = []
+            var b = root.bins
+            for (var i = 0; i < b.length; ++i)
+                labs.push(root._formatBinLabel(b[i]))
+            return labs
+        }
+        return root.labels || []
+    }
+
     readonly property var _bars: {
+        if (root.binningActive) {
+            var bout = []
+            var bb = root.bins
+            for (var bi = 0; bi < bb.length; ++bi) {
+                bout.push({
+                    value: ChartUtils.asNumber(bb[bi].count),
+                    color: ChartUtils.palette(Theme, bi),
+                    label: root._formatBinLabel(bb[bi])
+                })
+            }
+            return bout
+        }
         if (bars && bars.length)
             return bars
         var vals = ChartUtils.flattenValues(values)
@@ -210,9 +267,41 @@ T.Control {
         return root._categoryValue(index)
     }
 
+    // Bind samples + binCount (histogram mode)
+    function setBinsFromSamples(sampleValues, count) {
+        samples = sampleValues || []
+        binCount = Math.max(1, Number(count) || 10)
+    }
+
+    // Drop histogram mode (keeps existing values/bars)
+    function clearBins() {
+        samples = []
+        binCount = 0
+    }
+
+    // Apply precomputed bins [{ from, to, count|value, label? }] as plain values + labels
+    function applyBins(binList) {
+        var list = binList || []
+        var vals = []
+        var labs = []
+        for (var i = 0; i < list.length; ++i) {
+            var b = list[i] || {}
+            var c = b.count !== undefined ? b.count : b.value
+            vals.push(ChartUtils.asNumber(c))
+            labs.push(root._formatBinLabel(b))
+        }
+        samples = []
+        binCount = 0
+        values = vals
+        labels = labs
+    }
+
     onValuesChanged: Qt.callLater(_handleDataChange)
     onBarsChanged: Qt.callLater(_handleDataChange)
     onSeriesChanged: Qt.callLater(_handleDataChange)
+    onSamplesChanged: Qt.callLater(_handleDataChange)
+    onBinCountChanged: Qt.callLater(_handleDataChange)
+    onBinLabelPrecisionChanged: requestRedraw()
     onStackedChanged: requestRedraw()
     onHorizontalChanged: requestRedraw()
     onLabelsChanged: requestRedraw()
@@ -233,16 +322,20 @@ T.Control {
     }
     Repeater {
         model: root._hasSeries ? root.series.length : 0
-        delegate: Connections {
+        delegate: Item {
             required property int index
-            target: {
-                var s = root.series[index]
-                if (!s)
-                    return null
-                var v = s.values
-                return (v && v.dataChanged !== undefined) ? v : null
+            width: 0
+            height: 0
+            Connections {
+                target: {
+                    var s = root.series[index]
+                    if (!s)
+                        return null
+                    var v = s.values
+                    return (v && v.dataChanged !== undefined) ? v : null
+                }
+                function onDataChanged() { Qt.callLater(root._handleDataChange) }
             }
-            function onDataChanged() { Qt.callLater(root._handleDataChange) }
         }
     }
 
@@ -301,7 +394,7 @@ T.Control {
                 var horiz = root.horizontal && !hasSeries
                 canvas.horiz = horiz
                 var padT = 10
-                var padB = (root.labels && root.labels.length && !horiz) ? 16 : 4
+                var padB = (root._effectiveLabels && root._effectiveLabels.length && !horiz) ? 16 : 4
                 var padL = horiz ? 8 : 2
                 var padR = 2
                 var plotH = h - padT - padB
@@ -466,13 +559,13 @@ T.Control {
                     }
                 }
 
-                if (root.labels && root.labels.length && !horiz) {
+                if (root._effectiveLabels && root._effectiveLabels.length && !horiz) {
                     ctx.fillStyle = Theme.textSecondary
                     ctx.textAlign = "center"
                     ctx.textBaseline = "top"
                     var stride = Math.max(1, Math.ceil(n / 8))
                     for (i = 0; i < n; i += stride) {
-                        var lab = root.labels[i]
+                        var lab = root._effectiveLabels[i]
                         if (lab === undefined)
                             continue
                         ctx.fillText(String(lab), padL + i * slot + slot * 0.5, padT + plotH + 2)

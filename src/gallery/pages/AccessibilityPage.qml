@@ -8,6 +8,7 @@ import QWinUI3.Extras
 // Recipe: docs/accessibility.md · docs/keyboard.md
 
 CatalogPage {
+    id: page
     title: qsTr("Accessibility")
     subtitle: qsTr("Focus, contrast, reduced motion, and screen-reader recipes — docs/accessibility.md.")
 
@@ -112,6 +113,7 @@ CatalogPage {
                 rows: page.a11yTableRows
             }
             ListDetailsView {
+                id: listDetails
                 Layout.fillWidth: true
                 Layout.preferredHeight: 180
                 accessibleName: qsTr("Team details sample")

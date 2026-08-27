@@ -65,14 +65,14 @@ T.Drawer {
         property: "height"
         when: (control.edge === Qt.LeftEdge || control.edge === Qt.RightEdge)
               && control._windowOverlay && control._windowOverlay.height > 0
-        value: control._windowOverlay.height
+        value: control._windowOverlay ? control._windowOverlay.height : 0
     }
     Binding {
         target: control
         property: "width"
         when: (control.edge === Qt.TopEdge || control.edge === Qt.BottomEdge)
               && control._windowOverlay && control._windowOverlay.width > 0
-        value: control._windowOverlay.width
+        value: control._windowOverlay ? control._windowOverlay.width : 0
     }
 
     // Keep parent on the window Overlay if a host slot (CatalogPage.overlay) reparents us.

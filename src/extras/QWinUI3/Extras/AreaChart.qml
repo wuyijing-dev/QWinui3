@@ -228,21 +228,25 @@ T.Control {
             var list = root._seriesList
             return list ? list.length : 0
         }
-        delegate: Connections {
+        delegate: Item {
             required property int index
-            target: {
-                var list = root._seriesList
-                if (!list || index >= list.length)
-                    return null
-                var v = list[index].values
-                return (v && v.dataChanged !== undefined) ? v : null
-            }
-            function onDataChanged() {
-                root.hoverIndex = -1
-                root.hoverText = ""
-                root.hoverMarkers = []
-                root.invalidateLod()
-                Qt.callLater(root.playReveal)
+            width: 0
+            height: 0
+            Connections {
+                target: {
+                    var list = root._seriesList
+                    if (!list || index >= list.length)
+                        return null
+                    var v = list[index].values
+                    return (v && v.dataChanged !== undefined) ? v : null
+                }
+                function onDataChanged() {
+                    root.hoverIndex = -1
+                    root.hoverText = ""
+                    root.hoverMarkers = []
+                    root.invalidateLod()
+                    Qt.callLater(root.playReveal)
+                }
             }
         }
     }
