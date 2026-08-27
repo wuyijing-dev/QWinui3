@@ -31,7 +31,7 @@
 | Cold start | **3.34…3.40** | **S10–S17** | **Shipped** — see [Cold start sign-off](#cold-start-sign-off-s10s17--340) |
 | Memory | **3.41…3.48** | **H10–H17** | **Shipped** — see [Memory sign-off](#memory-sign-off-h10h17--348) |
 | Silent runtime | **3.49…3.55** | **C20–C26** | **Shipped** — see [Silent runtime sign-off](#silent-runtime-sign-off-c20c26--355) |
-| Control depth | **3.56…3.72** | **D30–D54** | Planned |
+| Control depth | **3.56…3.72** | **D30–D54** | **3.56** D30–D32 shipped · rest Planned |
 | Platform + package | **3.73…3.82** | **P10–P12 · K10–K16** | Planned |
 | Friction buffer | **3.83…3.89** | friction-log only | Planned |
 

@@ -4,7 +4,7 @@ ShellWindow hosting NavigationView + content.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/NavigationWindow.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/NavigationWindow.qml)
 
-**Category:** Shells & windows · **Library:** v2.81
+**Category:** Shells & windows · **Library:** v3.10
 
 [← Component index](../components.md)
 
@@ -36,7 +36,10 @@ NavigationWindow {
 // signals: onNavActivated, onFooterClicked, onPaneSearchActivated, onPaneSearchTextEdited
 // search: searchPlaceholder (title bar), paneSearchPlaceholder, onSearchTextEdited (title)
 // chrome.titleBarContent: replace built-in search with domain SearchBox (see docs/search.md)
-// methods: clearNav(), addNavItem(item), addNavGroup(group), selectNavKey(key), navigateBack()
+// chrome.captionRightHeader: controls before min/max/close (FPS badge, account menu)
+// methods: clearNav(), addNavItem(item), addNavGroup(group), selectNavKey(key),
+//           patchNavItem(key, patch), selectFooter(mode), navigateBack()
+//           pinNavKey / toggleNavPin / openJumpList / pushDrilldown (3.04)
 // inherits ShellWindow (+ Qt Quick Controls base API)
 ```
 
@@ -84,6 +87,15 @@ set hostContent: false + pageModule for StackView pages (Gallery / examples/gall
 | `canGoBack` | `alias` | TitleBar / pane can go back |
 | `effectiveBackVisible` | `alias` | Bind TitleBar isBackButtonVisible to these — not a static true (2.56) |
 | `effectiveBackEnabled` | `alias` | — |
+| `pinnedNavKeys` | `alias` | — |
+| `maxPinnedNavKeys` | `alias` | — |
+| `pinnedNavSettingsCategory` | `alias` | — |
+| `paneSearchSettingsCategory` | `alias` | Persist pane search text (3.56 D30). |
+| `announcePinChanges` | `alias` | Opt-in pin announces (3.56 D32). |
+| `announcePaneSearchChanges` | `alias` | Opt-in pane-search announces (3.56 D32). |
+| `jumpListEnabled` | `alias` | — |
+| `drilldownDepth` | `alias` | — |
+| `breadcrumbTrail` | `alias` | — |
 | `syncSubtitleFromNavigation` | `bool` | Mirror last breadcrumb segment into ShellWindow.subtitle (2.23) |
 
 ### Signals
@@ -99,9 +111,24 @@ set hostContent: false + pageModule for StackView pages (Gallery / examples/gall
 
 | Signature | Description |
 | --- | --- |
+| `selectFooter(mode)` | Select the footer row and open footerComponent |
 | `clearNav()` | Clear navigation model |
 | `addNavItem(item)` | Append a navigation item |
 | `addNavGroup(group)` | Append a navigation group |
+| `patchNavItem(key, patch)` | Patch title / badge / icon on one nav entry without replacing navModel — 2.88 C9. |
+| `pinNavKey(key)` | — |
+| `unpinNavKey(key)` | — |
+| `toggleNavPin(key)` | — |
+| `clearPinnedNavKeys()` | Clear all pins (3.56 D31). |
+| `movePinnedNavKey(fromIndex, toIndex)` | Reorder pins (3.56 D31). |
+| `clearPaneSearch()` | Clear pane search text (3.56 D30). |
+| `announce(text)` | Live-region announce (3.56 D32). |
+| `openJumpList()` | — |
+| `isNavPinned(key)` | — |
+| `closeJumpList()` | — |
+| `pushDrilldown(title, component, mode)` | — |
+| `popDrilldown(mode)` | — |
+| `clearDrilldown()` | — |
 | `selectNavKey(key)` | Forward selection to the hosted NavigationView |
 | `navigateBack(mode)` | Restore previous page (TitleBar Back) |
 | `navigateToPage(name, mode)` | In-page drill with soft history (2.56) |

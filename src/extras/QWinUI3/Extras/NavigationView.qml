@@ -32,7 +32,9 @@ import QWinUI3.Theme
 //   //           nav.pushDrilldown(title, component) / popDrilldown()  // 3.04 N3
 //   //           nav.clearPageCache()  // drop cached page Components (keep current)
 //   // groups:   nav.toggleGroup(key), nav.setGroupExpanded(key, true)
-//   // pins:     nav.pinNavKey(key), nav.toggleNavPin(key)  // 3.04 N1
+//   // pins:     nav.pinNavKey(key), nav.toggleNavPin(key), nav.clearPinnedNavKeys()  // 3.04 N1 / 3.56 D31
+//   // search:   paneSearchSettingsCategory persists highlight text (3.56 D30)
+//   // a11y:     nav.announce(text); announcePinChanges / announcePaneSearchChanges (3.56 D32)
 //   // jump:     jumpListEnabled + nav.openJumpList()  // 3.04 N2
 //   // pane:     nav.togglePane()  // TitleBar hamburger; no-op when too narrow
 //   //           compactPaneStyle "iconOnly" | "labeled"
@@ -61,6 +63,7 @@ import QWinUI3.Theme
 //   when the window is too narrow; leftMinimal opens the overlay drawer.
 //   Prefer selectKey / openPage over mutating currentIndex alone.
 //   Live-region announces nav selection / pane expand (2.07) when announceChanges is true.
+//   Depth: pane search persist · pin clear/reorder · public announce() (3.56 D30–D32).
 //   Pane rebuild: structure-first incremental sync, flatIndex cache, stable group children (3.53 C24).
 
 Item {
@@ -71,8 +74,13 @@ Item {
     Accessible.description: qsTr("Navigation pane and content")
     // Qt 6.8+ Accessible.announce for selection / pane changes (2.07).
     property bool announceChanges: true
+    // Opt-in live strings for pin / pane-search (3.56 D32) — default off keeps prior quiet path.
+    property bool announcePinChanges: false
+    property bool announcePaneSearchChanges: false
     property bool _a11yReady: false
     property bool _pipMoveInstant: false
+    property string _lastAnnouncedPaneSearch: ""
+    property bool _paneSearchHydrated: false
     // 3.53 C24 — cached flat index for ListView.currentIndex (invalidate on rebuild).
     property string _flatIndexCacheKey: ""
     property int _flatIndexCacheValue: -1
@@ -194,6 +202,8 @@ Item {
     // Non-empty when pane search should highlight matching nav titles (2.82 D16).
     readonly property string paneSearchHighlightQuery: (isPaneSearchEnabled && paneSearchText.trim().length)
             ? paneSearchText.trim() : ""
+    // Non-empty → persist paneSearchText in Settings (3.56 D30).
+    property string paneSearchSettingsCategory: ""
     // User-pinnable destinations shown above the pane list (3.04 N1). Keys match model keys.
     property var pinnedNavKeys: []
     property int maxPinnedNavKeys: 8
@@ -604,10 +614,27 @@ Item {
         return root.pinnedNavSettingsCategory || "NavigationViewPins"
     }
 
+    function _paneSearchStoreCategory() {
+        return root.paneSearchSettingsCategory || "NavigationViewPaneSearch"
+    }
+
     Settings {
         id: pinnedStore
         category: root._pinnedStoreCategory()
         property string keysJson: "[]"
+    }
+
+    Settings {
+        id: paneSearchStore
+        category: root._paneSearchStoreCategory()
+        property string queryText: ""
+    }
+
+    Timer {
+        id: paneSearchPersistDebounce
+        interval: 280
+        repeat: false
+        onTriggered: root._savePaneSearchText()
     }
 
     function _loadPinnedNavKeys() {
@@ -627,6 +654,48 @@ Item {
         pinnedStore.keysJson = JSON.stringify(root.pinnedNavKeys || [])
     }
 
+    function _loadPaneSearchText() {
+        if (!root.paneSearchSettingsCategory.length)
+            return
+        root._paneSearchHydrated = false
+        root.paneSearchText = paneSearchStore.queryText || ""
+        root._paneSearchHydrated = true
+        root._lastAnnouncedPaneSearch = root.paneSearchHighlightQuery
+    }
+
+    function _savePaneSearchText() {
+        if (!root.paneSearchSettingsCategory.length)
+            return
+        paneSearchStore.queryText = root.paneSearchText || ""
+    }
+
+    function clearPaneSearch() {
+        if (!(root.paneSearchText || "").length)
+            return
+        root.paneSearchText = ""
+        _savePaneSearchText()
+    }
+
+    onPaneSearchTextChanged: {
+        if (root.paneSearchSettingsCategory.length && root._paneSearchHydrated)
+            paneSearchPersistDebounce.restart()
+        if (root.announcePaneSearchChanges) {
+            var q = root.paneSearchHighlightQuery
+            if (q !== root._lastAnnouncedPaneSearch) {
+                root._lastAnnouncedPaneSearch = q
+                if (q.length)
+                    _announce(qsTr("Pane search %1").arg(q))
+                else
+                    _announce(qsTr("Pane search cleared"))
+            }
+        }
+    }
+
+    onPaneSearchSettingsCategoryChanged: {
+        if (root.paneSearchSettingsCategory.length)
+            _loadPaneSearchText()
+    }
+
     function isNavPinned(key) {
         var k = String(key || "")
         if (!k.length)
@@ -644,6 +713,8 @@ Item {
             next = next.slice(next.length - root.maxPinnedNavKeys)
         root.pinnedNavKeys = next
         _savePinnedNavKeys()
+        if (root.announcePinChanges)
+            _announce(qsTr("Pinned %1").arg(k))
         return true
     }
 
@@ -653,6 +724,8 @@ Item {
             return false
         root.pinnedNavKeys = (root.pinnedNavKeys || []).filter(function (x) { return x !== k })
         _savePinnedNavKeys()
+        if (root.announcePinChanges)
+            _announce(qsTr("Unpinned %1").arg(k))
         return true
     }
 
@@ -660,6 +733,28 @@ Item {
         if (isNavPinned(key))
             return unpinNavKey(key)
         return pinNavKey(key)
+    }
+
+    function clearPinnedNavKeys() {
+        if (!(root.pinnedNavKeys || []).length)
+            return false
+        root.pinnedNavKeys = []
+        _savePinnedNavKeys()
+        if (root.announcePinChanges)
+            _announce(qsTr("Pinned pages cleared"))
+        return true
+    }
+
+    function movePinnedNavKey(fromIndex, toIndex) {
+        var keys = (root.pinnedNavKeys || []).slice()
+        if (fromIndex < 0 || toIndex < 0 || fromIndex >= keys.length || toIndex >= keys.length
+                || fromIndex === toIndex)
+            return false
+        var item = keys.splice(fromIndex, 1)[0]
+        keys.splice(toIndex, 0, item)
+        root.pinnedNavKeys = keys
+        _savePinnedNavKeys()
+        return true
     }
 
     function pinnedNavEntries() {
@@ -1208,6 +1303,11 @@ Item {
             Accessible.announce(text)
     }
 
+    // Public live-region hook — same gate as internal nav announces (3.56 D32).
+    function announce(text) {
+        _announce(text)
+    }
+
     // Flat list index for a nav key
     function flatIndexForKey(key) {
         if (key === _flatIndexCacheKey)
@@ -1752,6 +1852,9 @@ Item {
 
     Component.onCompleted: {
         _loadPinnedNavKeys()
+        _paneSearchHydrated = false
+        _loadPaneSearchText()
+        _paneSearchHydrated = true
         rebuildNavModel()
         if (!root.hostContent)
             openPage(root.currentComponent, root.initialPageTransition || "none")

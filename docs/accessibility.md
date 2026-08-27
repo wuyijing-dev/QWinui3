@@ -63,7 +63,7 @@ Gallery **Accessibility** page has a live dialog / flyout / InfoBar sample. IME 
 |---------|--------|----------|
 | `DataTable` | **Done** | `announceChanges` (default true): `Accessible.announce` on row selection, column sort, debounced filter row count (Qt 6.8+); **2.64** group headers **StaticText**; pinned headers announce **", pinned"** |
 | `ListDetailsView` | **Done** | Announces selected item / **Details for …** in SinglePane; **Returned to list** on Back / Esc; **2.64** multi-select checkbox names |
-| `NavigationView` | **Done** | Announces **Navigated to …** on `selectKey` / footer; pane expand/collapse announce |
+| `NavigationView` | **Done** | Announces **Navigated to …** on `selectKey` / footer; pane expand/collapse announce; public `announce(text)`; opt-in `announcePinChanges` / `announcePaneSearchChanges` (**3.56** D32) |
 | Shell `PlatformTitleBar` | **Done** | `Accessible.description` = window `title`; caption Min/Max/Restore/Close named |
 
 Set `announceChanges: false` on collection controls when a page already announces the same state (rare).

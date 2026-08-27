@@ -47,6 +47,25 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.55 → 3.56
+
+**Product version:** 3.56  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | NavigationView depth APIs (D30–D32) | None required — defaults unchanged |
+
+### Optional / polish
+- `paneSearchSettingsCategory` to persist pane search highlight
+- `clearPinnedNavKeys` / `movePinnedNavKey` / `clearPaneSearch` / `announce()`
+- Opt-in `announcePinChanges` / `announcePaneSearchChanges`
+
+### No action (compatible)
+- Pin Settings, highlight query, and default live-region path unchanged when new props stay default
+
 ### Upgrade 3.54 → 3.55
 
 **Product version:** 3.55  

@@ -234,3 +234,77 @@ NavigationView {
 **BreadcrumbBar** (unchanged control): overflow `…` flyout when `maxItems` is set; keyboard ←/→, Home/End, Enter/Space on focused bar.
 
 Gallery **BreadcrumbBar** page demonstrates standalone path trimming and live **NavigationView** sync — see also [components/BreadcrumbBar.md](components/BreadcrumbBar.md).
+
+## Pinned pages, jump list, drilldown (3.04)
+
+Product shells often need favorites, a fast index for large `navModel`, and summary → detail stacks without inventing a second navigator.
+
+### Pinned / favorite keys (**N1** / **3.56** D31)
+
+```qml
+NavigationView {
+    pinnedNavKeys: ["home", "inbox"]
+    maxPinnedNavKeys: 8
+    // Persist pins across sessions (omit to keep in-memory only)
+    pinnedNavSettingsCategory: "MyApp/NavPins"
+}
+nav.pinNavKey("home")
+nav.unpinNavKey("home")
+nav.toggleNavPin("inbox")
+nav.isNavPinned("home")
+nav.clearPinnedNavKeys()
+nav.movePinnedNavKey(0, 1)
+```
+
+Chips appear above the pane list when `paneOpen`. Right-click a chip to unpin. `NavigationWindow` aliases the same properties and methods.
+
+### Pane search highlight persist (**3.56** D30)
+
+```qml
+NavigationView {
+    isPaneSearchEnabled: true
+    paneSearchSettingsCategory: "MyApp/NavPaneSearch"
+}
+nav.clearPaneSearch()
+```
+
+Restores `paneSearchText` (and therefore `paneSearchHighlightQuery`) across sessions. Empty category = in-memory only.
+
+### Live region hooks (**3.56** D32)
+
+```qml
+nav.announce(qsTr("Custom status"))
+nav.announcePinChanges = true
+nav.announcePaneSearchChanges = true
+```
+
+Default nav/pane announces unchanged (`announceChanges: true`).
+
+### Jump list (**N2**)
+
+```qml
+NavigationView {
+    jumpListEnabled: true
+}
+nav.openJumpList()
+nav.closeJumpList()
+```
+
+Opens a modal flyout (`collectJumpListEntries()` — group then title sort). Prefer this when the rail is long and pane search alone is not enough.
+
+### Drilldown stack (**N3**)
+
+```qml
+nav.pushDrilldown(qsTr("Invoice 1042"), "InvoiceDetailPage")
+nav.popDrilldown()
+nav.clearDrilldown()
+// canGoBack includes drilldownDepth; navigateBack() pops drill first
+BreadcrumbBar {
+    model: nav.breadcrumbTrail   // refreshes when drilldownDepth changes
+    onItemInvoked: (index) => nav.selectBreadcrumbIndex(index)
+}
+```
+
+Selecting a different nav key (or footer) clears the drill stack. Breadcrumb segments use `__drill__/N` keys so `selectBreadcrumbIndex` can trim the stack. Prefer `pushDrilldown` over bare `openPage` when the TitleBar Back affordance should unwind the trail.
+
+Gallery **NavigationView** page demos pins, pane-search persist, jump list, drilldown, and `announce()`.

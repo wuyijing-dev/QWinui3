@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **3.55** (master — silent-runtime wave sign-off)
-**Next up:** **3.56** control depth (NavigationView) · **3.00** breaking close-out still open ([checkpoint-300](docs/checkpoint-300.md)) · [tranche 10 → 4.00](#efficiency--control-depth-tranche-10-334--400)
+**Current:** **3.56** (master — NavigationView control depth)
+**Next up:** **3.57** depth (DataTable / TreeDataGrid) · **3.00** breaking close-out still open ([checkpoint-300](docs/checkpoint-300.md)) · [tranche 10 → 4.00](#efficiency--control-depth-tranche-10-334--400)
 **Planned through:** **3.10** complete · **3.13–3.33** WinUI / polish · **3.34–3.90** efficiency + control depth · **3.91–3.99** buffer · **4.00** close-out · [micro-interaction backlog last](#micro-interaction--visual-polish--deferred-last)
 **Checkpoints ahead:** **checkpoint-300** (3.00) · **checkpoint-390** (3.90) · **checkpoint-400** (4.00) · **checkpoint-310** (3.10) already green
 **Qt:** 6.5+ (recommended 6.8 LTS) on master today — **2.00** raises floor to **6.8 LTS** · **3.00** to **6.10 LTS** · **4.00** to **6.12 LTS** (planned)
@@ -725,7 +725,7 @@ One audit tag after **3.01–3.09**. **Does not** include **L1–L5** micro-inte
 | **3.53** | Silent runtime — NavigationView pane | **C24** | Shipped |
 | **3.54** | Silent runtime — chart redraw | **C25** | Shipped |
 | **3.55** | Silent runtime wave sign-off | **C26** | Shipped |
-| **3.56** | Depth — NavigationView | **D30–D32** | Planned |
+| **3.56** | Depth — NavigationView | **D30–D32** | Shipped |
 | **3.57** | Depth — DataTable / TreeDataGrid | **D33–D35** | Planned |
 | **3.58** | Depth — Form / Settings cards | **D36–D37** | Planned |
 | **3.59** | Depth — Dialogs / flyouts | **D38–D39** | Planned |
@@ -809,7 +809,7 @@ Deepen **existing** controls. Each slice: additive API + Gallery recipe + compon
 
 | ID | Slice | Focus (examples) |
 |----|-------|------------------|
-| **D30–D32** | **3.56** | NavigationView — pane search highlight persist, pin API polish, a11y live region hooks |
+| **D30–D32** | **3.56** | NavigationView — pane search highlight persist, pin API polish, a11y live region hooks | Shipped |
 | **D33–D35** | **3.57** | DataTable / TreeDataGrid — group persist, column layout API, filter skip |
 | **D36–D37** | **3.58** | FormLayout / SettingsCard — scrollToError, validation batching |
 | **D38–D39** | **3.59** | ContentDialog / MenuFlyout — queue / focus restore polish |

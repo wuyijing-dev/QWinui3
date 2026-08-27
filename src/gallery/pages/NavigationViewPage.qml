@@ -192,6 +192,8 @@ CatalogPage {
                 isPaneSearchEnabled: paneSearchEn.checked
                 jumpListEnabled: jumpListEn.checked
                 pinnedNavSettingsCategory: "QWinUI3Gallery/NavDemoPins"
+                paneSearchSettingsCategory: "QWinUI3Gallery/NavDemoPaneSearch"
+                onPinnedNavKeysChanged: navStatus.text = qsTr("Pins → %1").arg((demoNav.pinnedNavKeys || []).join(", ") || qsTr("(none)"))
                 footerBadgeValue: footerBadgeEn.checked ? 3 : -1
                 onBackRequested: navStatus.text = qsTr("Back requested · canGoBack=%1").arg(demoNav.canGoBack)
                 onFooterClicked: navStatus.text = qsTr("Footer (Settings) clicked")
@@ -238,14 +240,14 @@ CatalogPage {
 
     ControlExample {
         headerText: qsTr("Pinned pages, jump list, drilldown")
-        qmlSource: "nav.pinNavKey(\"home\")\nnav.openJumpList()\nnav.pushDrilldown(\"Detail\", \"ButtonPage\")"
+        qmlSource: "nav.pinNavKey(\"home\")\nnav.clearPinnedNavKeys()\nnav.clearPaneSearch()\nnav.announce(\"…\")"
         ColumnLayout {
             Layout.fillWidth: true
             spacing: Theme.spacing
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Pin destinations into the pane chips (persisted when pinnedNavSettingsCategory is set). Jump list opens an A–Z / group index. pushDrilldown stacks pages on the current key; TitleBar Back pops the stack first, then history. Bind BreadcrumbBar to breadcrumbTrail.")
+                text: qsTr("Pin destinations into the pane chips (persisted when pinnedNavSettingsCategory is set). paneSearchSettingsCategory restores highlight text across sessions. clearPinnedNavKeys / clearPaneSearch / announce are additive (3.56). Jump list opens an A–Z / group index. pushDrilldown stacks pages on the current key; TitleBar Back pops the stack first, then history. Bind BreadcrumbBar to breadcrumbTrail.")
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -270,6 +272,27 @@ CatalogPage {
                     onClicked: {
                         demoNav.unpinNavKey("home")
                         navStatus.text = qsTr("Unpinned Home")
+                    }
+                }
+                Button {
+                    text: qsTr("Clear pins")
+                    onClicked: {
+                        demoNav.clearPinnedNavKeys()
+                        navStatus.text = qsTr("Pins cleared")
+                    }
+                }
+                Button {
+                    text: qsTr("Clear pane search")
+                    onClicked: {
+                        demoNav.clearPaneSearch()
+                        navStatus.text = qsTr("Pane search cleared")
+                    }
+                }
+                Button {
+                    text: qsTr("Announce sample")
+                    onClicked: {
+                        demoNav.announce(qsTr("NavigationView live region sample"))
+                        navStatus.text = qsTr("announce() called")
                     }
                 }
                 Button {

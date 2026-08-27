@@ -44,7 +44,9 @@ NavigationView {
 //           nav.pushDrilldown(title, component) / popDrilldown()  // 3.04 N3
 //           nav.clearPageCache()  // drop cached page Components (keep current)
 // groups:   nav.toggleGroup(key), nav.setGroupExpanded(key, true)
-// pins:     nav.pinNavKey(key), nav.toggleNavPin(key)  // 3.04 N1
+// pins:     nav.pinNavKey(key), nav.toggleNavPin(key), nav.clearPinnedNavKeys()  // 3.04 N1 / 3.56 D31
+// search:   paneSearchSettingsCategory persists highlight text (3.56 D30)
+// a11y:     nav.announce(text); announcePinChanges / announcePaneSearchChanges (3.56 D32)
 // jump:     jumpListEnabled + nav.openJumpList()  // 3.04 N2
 // pane:     nav.togglePane()  // TitleBar hamburger; no-op when too narrow
 //           compactPaneStyle "iconOnly" | "labeled"
@@ -76,6 +78,7 @@ togglePane() — TitleBar hamburger; leftCompact expands inline or opens a drawe
 when the window is too narrow; leftMinimal opens the overlay drawer.
 Prefer selectKey / openPage over mutating currentIndex alone.
 Live-region announces nav selection / pane expand (2.07) when announceChanges is true.
+paneSearchSettingsCategory restores pane search highlight (3.56 D30); clearPinnedNavKeys / movePinnedNavKey (D31); announce() + opt-in pin/search announces (D32).
 
 ## API
 
@@ -84,6 +87,8 @@ Live-region announces nav selection / pane expand (2.07) when announceChanges is
 | Name | Type | Description |
 | --- | --- | --- |
 | `announceChanges` | `bool` | Qt 6.8+ Accessible.announce for selection / pane changes (2.07). |
+| `announcePinChanges` | `bool` | Opt-in live strings on pin/unpin/clear (3.56 D32; default false). |
+| `announcePaneSearchChanges` | `bool` | Opt-in live strings when highlight query appears/clears (3.56 D32; default false). |
 | `model` | `var` | Navigation items: [{ type, key, title, icon\|symbol, children?, badge?, badgeValue? }] |
 | `currentIndex` | `int` | Selected index |
 | `paneOpen` | `bool` | Expanded pane when true (left / leftMinimal); compact modes force false |
@@ -119,6 +124,7 @@ Live-region announces nav selection / pane expand (2.07) when announceChanges is
 | `isBackEnabled` | `bool` | Enable back button |
 | `isPaneSearchEnabled` | `bool` | Shows SearchBox at the top of the pane when open |
 | `paneSearchText` | `string` | Pane SearchBox text |
+| `paneSearchSettingsCategory` | `string` | Non-empty → persist `paneSearchText` in Settings (3.56 D30). |
 | `paneSearchModel` | `var` | Suggestion model for pane SearchBox: [{ title, key?, component? }] |
 | `paneSearchPlaceholder` | `string` | Placeholder for pane SearchBox (product apps: qsTr("Search photos")) |
 | `paneSearchHighlightQuery` | `string` | Non-empty when pane search should highlight matching nav titles (2.82 D16). |
@@ -187,6 +193,10 @@ Live-region announces nav selection / pane expand (2.07) when announceChanges is
 | `pinNavKey(key)` | — |
 | `unpinNavKey(key)` | — |
 | `toggleNavPin(key)` | — |
+| `clearPinnedNavKeys()` | Clear all pins + Settings when category set (3.56 D31). |
+| `movePinnedNavKey(fromIndex, toIndex)` | Reorder pin chips (3.56 D31). |
+| `clearPaneSearch()` | Clears `paneSearchText` + persisted query (3.56 D30). |
+| `announce(text)` | Public live-region hook; respects `announceChanges` (3.56 D32). |
 | `pinnedNavEntries()` | — |
 | `collectJumpListEntries()` | — |
 | `openJumpList()` | — |

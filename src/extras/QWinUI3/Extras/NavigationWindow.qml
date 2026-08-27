@@ -26,7 +26,10 @@ import QWinUI3.Platform
 //   // signals: onNavActivated, onFooterClicked, onPaneSearchActivated, onPaneSearchTextEdited
 //   // search: searchPlaceholder (title bar), paneSearchPlaceholder, onSearchTextEdited (title)
 //   // chrome.titleBarContent: replace built-in search with domain SearchBox (see docs/search.md)
-//   // methods: clearNav(), addNavItem(item), addNavGroup(group), selectNavKey(key), navigateBack()
+//   // chrome.captionRightHeader: controls before min/max/close (FPS badge, account menu)
+//   // methods: clearNav(), addNavItem(item), addNavGroup(group), selectNavKey(key),
+//   //           patchNavItem(key, patch), selectFooter(mode), navigateBack()
+//   //           pinNavKey / clearPinnedNavKeys / clearPaneSearch / announce (3.04 / 3.56)
 //   // inherits ShellWindow (+ Qt Quick Controls base API)
 //
 // @notes
@@ -102,6 +105,16 @@ ShellWindow {
     // Bind TitleBar isBackButtonVisible to these — not a static true (2.56)
     readonly property alias effectiveBackVisible: nav.effectiveBackVisible
     readonly property alias effectiveBackEnabled: nav.effectiveBackEnabled
+    property alias pinnedNavKeys: nav.pinnedNavKeys
+    property alias maxPinnedNavKeys: nav.maxPinnedNavKeys
+    property alias pinnedNavSettingsCategory: nav.pinnedNavSettingsCategory
+    property alias paneSearchSettingsCategory: nav.paneSearchSettingsCategory
+    property alias announceChanges: nav.announceChanges
+    property alias announcePinChanges: nav.announcePinChanges
+    property alias announcePaneSearchChanges: nav.announcePaneSearchChanges
+    property alias jumpListEnabled: nav.jumpListEnabled
+    readonly property alias drilldownDepth: nav.drilldownDepth
+    readonly property alias breadcrumbTrail: nav.breadcrumbTrail
     // Mirror last breadcrumb segment into ShellWindow.subtitle (2.23)
     property bool syncSubtitleFromNavigation: false
 
@@ -148,6 +161,11 @@ ShellWindow {
 
     function _syncPaneToggle() {
         showPaneToggle = paneDisplayMode !== "top"
+    }
+
+    // Select the footer row and open footerComponent
+    function selectFooter(mode) {
+        nav.selectFooter(mode)
     }
 
     // Clear navigation model
@@ -208,6 +226,27 @@ ShellWindow {
         navModel = next
         return entry.key
     }
+
+    // Patch title / badge / icon on one nav entry without replacing navModel — 2.88 C9.
+    function patchNavItem(key, patch) {
+        return nav.patchNavItem(key, patch)
+    }
+
+    function pinNavKey(key) { return nav.pinNavKey(key) }
+    function unpinNavKey(key) { return nav.unpinNavKey(key) }
+    function toggleNavPin(key) { return nav.toggleNavPin(key) }
+    function isNavPinned(key) { return nav.isNavPinned(key) }
+    function clearPinnedNavKeys() { return nav.clearPinnedNavKeys() }
+    function movePinnedNavKey(fromIndex, toIndex) { return nav.movePinnedNavKey(fromIndex, toIndex) }
+    function clearPaneSearch() { nav.clearPaneSearch() }
+    function announce(text) { nav.announce(text) }
+    function openJumpList() { nav.openJumpList() }
+    function closeJumpList() { nav.closeJumpList() }
+    function pushDrilldown(title, component, mode) {
+        return nav.pushDrilldown(title, component, mode)
+    }
+    function popDrilldown(mode) { return nav.popDrilldown(mode) }
+    function clearDrilldown() { nav.clearDrilldown() }
 
     // Forward selection to the hosted NavigationView
     function selectNavKey(key) {
