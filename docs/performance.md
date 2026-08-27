@@ -42,6 +42,7 @@ Related: [data-collections.md](data-collections.md) · [charts.md](charts.md) ·
 | Image / shadow caches | `QPixmapCache` kit cap **16 MB** (`QWINUI3_PIXMAP_CACHE_KB`); ElevatedChrome frees MultiEffect FBO when hidden; `iconFontFor` LRU **96** (**3.47** H16) — acrylic/shadow **look** unchanged |
 | Memory wave sign-off | Idle WorkingSet table filled at **3.48** H17 — [checkpoint-390](checkpoint-390.md#memory-sign-off-h10h17--348) (~**136 MB** WS avg, n=5 Win Release) |
 | Paint coalesce | Remaining experimental charts use `requestRedraw()` / `ChartUtils.redrawCoalesceMs` (**3.49** C20) |
+| Binding churn | Almost no hot `Qt.binding`; Gallery nav assign uses incremental sync; DataTable column layout skips unchanged (**3.50** C21) |
 | Icon / atlas warm-up | Optional: touch `FluentIcons` / ThemeFonts once after first frame |
 | Page cache | `pageCacheLimit` + `pinnedPageCache` (2.68); Gallery tightened in **3.46** — avoid compiling all pages at startup |
 | Target budget | Aim for interactive shell **&lt; 1.5 s** on CI Win Release; local desktop **&lt; 2 s** — wave **S10–S17** signed off at **3.40** ([checkpoint-390](checkpoint-390.md#cold-start-sign-off-s10s17--340)) |
@@ -474,6 +475,19 @@ Measure with `--startup-log` or `--smoke --startup-log` — same fields as the C
 | Sankey | N/A | No public type in kit |
 
 Gallery `--smoke` includes `ChartsPage` — compile/instantiate gate only.
+
+---
+
+## Binding churn audit (**3.50** C21)
+
+Hot path is **full model rebuilds**, not nested `Qt.binding` (kit has essentially one intentional `Qt.binding` in `MenuStatusWindow` after reparent).
+
+| Surface | Prefer | Avoid |
+|---------|--------|-------|
+| NavigationView | Assign `model` → `onModelChanged` incremental patch (**2.88** C9) when keys/order unchanged | Forcing `rebuildNavModel()` after every label-only replace (Gallery fixed in **3.50**) |
+| DataTable | `_lastRefreshKey` skip; column layout fingerprint skip (**3.50**) | Rebuilding pinned/scroll orders when hide/pin did not move columns |
+| ItemsView / ListDetails / filters | `_lastFilterKey` + model ref skip | Rebuilding filtered arrays on identical query |
+| Theme | `Theme.apply()` / `tokensRevision` once | Binding every token knob independently on hot surfaces |
 
 ---
 

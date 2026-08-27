@@ -46,6 +46,7 @@ import QWinUI3.Platform
 //   columnLayoutKey Settings persist + export/import layout — 2.82 D14.
 //   Selection tracks the row **object** across sort/filter.
 //   copySelection / exportCsv — clipboard CSV for selection or visible rows (2.71).
+//   Column layout rebuild skips unchanged pinned/scroll order (3.50 C21).
 //   See docs/data-collections.md for DataTable vs ItemsView vs ListDetailsView.
 
 T.Control {
@@ -156,6 +157,7 @@ T.Control {
     property real _scrollX: 0
     property string _lastRefreshKey: ""
     property var _lastRowsRef: null
+    property string _lastColumnLayoutKey: ""
     property string _lastAnnouncedFilterSummary: ""
     property var _selectedRowRef: null
     property bool _syncingWidths: false
@@ -436,6 +438,7 @@ T.Control {
     }
 
     function _rebuildColumnLayout() {
+        // 3.50 C21 — skip emit when pinned/scroll order unchanged.
         var order = _displayColumnIndices()
         var pinned = []
         var scroll = []
@@ -447,6 +450,29 @@ T.Control {
             else
                 scroll.push(ci)
         }
+        var key = pinned.join(",") + "|" + scroll.join(",")
+        if (key === _lastColumnLayoutKey
+                && _pinnedColOrder.length === pinned.length
+                && _scrollColOrder.length === scroll.length) {
+            var same = true
+            for (var p = 0; p < pinned.length; ++p) {
+                if (_pinnedColOrder[p] !== pinned[p]) {
+                    same = false
+                    break
+                }
+            }
+            if (same) {
+                for (var s = 0; s < scroll.length; ++s) {
+                    if (_scrollColOrder[s] !== scroll[s]) {
+                        same = false
+                        break
+                    }
+                }
+            }
+            if (same)
+                return
+        }
+        _lastColumnLayoutKey = key
         _pinnedColOrder = pinned
         _scrollColOrder = scroll
         columnLayoutChanged()

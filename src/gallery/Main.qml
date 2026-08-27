@@ -45,8 +45,7 @@ StandardWindow {
         _fullNavReady = true
         navModel = buildNavModel()
         paneSearchModel = buildPaneSearchModel()
-        // Explicit rebuild — model assignment alone can miss a rail refresh on some timings.
-        nav.rebuildNavModel()
+        // 3.50 C21 — do not force rebuildNavModel(); onModelChanged patches or rebuilds.
     }
 
     function refreshNavForLocale() {
@@ -54,7 +53,7 @@ StandardWindow {
         if (_fullNavReady) {
             navModel = buildNavModel()
             paneSearchModel = buildPaneSearchModel()
-            nav.rebuildNavModel()
+            // Locale title/icon changes: NavigationView incremental sync (2.88 C9).
         } else {
             navModel = buildMinimalNavModel()
             paneSearchModel = buildPaneSearchModel()

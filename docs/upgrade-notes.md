@@ -47,6 +47,24 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.49 → 3.50
+
+**Product version:** 3.50  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | Binding churn / incremental nav sync (C21) | None — visuals unchanged |
+
+### Optional / polish
+- After replacing NavigationView `model` with same keys, do **not** call `rebuildNavModel()` — let `onModelChanged` patch
+- See [performance.md](performance.md#binding-churn-audit-350-c21)
+
+### No action (compatible)
+- Explicit `rebuildNavModel()` still available when structure changes
+
 ### Upgrade 3.48 → 3.49
 
 **Product version:** 3.49  

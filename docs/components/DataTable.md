@@ -56,6 +56,7 @@ Multi-column sort via sortSpecs / Shift+click header (2.66 D1).
 Column visibility (hiddenColumns) + width persistence (columnWidths) — 2.66 D1.
 Column pin + reorder (columnOrder / moveColumn) and row group headers (groupRole) — 2.64.
 columnLayoutKey Settings persist + export/import layout — 2.82 D14.
+Pinned/scroll column layout skips `columnLayoutChanged` when order unchanged (3.50 C21).
 Selection tracks the row **object** across sort/filter.
 copySelection / exportCsv — clipboard CSV for selection or visible rows (2.71).
 See docs/data-collections.md for DataTable vs ItemsView vs ListDetailsView.
