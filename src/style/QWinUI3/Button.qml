@@ -183,8 +183,7 @@ T.Button {
             visible: control._showLeading
             anchors.verticalCenter: parent.verticalCenter
             text: control._leadingGlyph
-            font.family: Theme.fontFamilyIcon
-            font.pixelSize: 14
+            font: Theme.iconFontFor(14)
             color: control.__buttonText
             Accessible.ignored: true
         }

@@ -1738,8 +1738,7 @@ Item {
                     ToolTip.text: qsTr("Back")
                     contentItem: Text {
                         text: FluentIcons.Back
-                        font.family: Theme.fontFamilyIcon
-                        font.pixelSize: 16
+                        font: Theme.iconFontFor(16)
                         color: Theme.textPrimary
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
@@ -1815,8 +1814,7 @@ Item {
                             spacing: 8
                             Text {
                                 text: topDel.glyph
-                                font.family: Theme.fontFamilyIcon
-                                font.pixelSize: 14
+                                font: Theme.iconFontFor(14)
                                 color: topDel.highlighted ? Theme.accent : Theme.textPrimary
                             }
                             Text {
@@ -1866,8 +1864,7 @@ Item {
                     ToolTip.visible: hovered
                     contentItem: Text {
                         text: FluentIcons.More
-                        font.family: Theme.fontFamilyIcon
-                        font.pixelSize: 16
+                        font: Theme.iconFontFor(16)
                         color: Theme.textPrimary
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
@@ -1946,8 +1943,7 @@ Item {
                         spacing: 8
                         Text {
                             text: root.effectiveFooterIcon
-                            font.family: Theme.fontFamilyIcon
-                            font.pixelSize: 14
+                            font: Theme.iconFontFor(14)
                             color: Theme.textPrimary
                         }
                         Text {
@@ -2106,8 +2102,7 @@ Item {
                         spacing: 12
                         Text {
                             text: FluentIcons.GlobalNavButton
-                            font.family: Theme.fontFamilyIcon
-                            font.pixelSize: 16
+                            font: Theme.iconFontFor(16)
                             color: Theme.textPrimary
                             Layout.preferredWidth: 20
                             horizontalAlignment: Text.AlignHCenter
@@ -2483,8 +2478,7 @@ Item {
 
                                         Text {
                                             text: del.glyph || FluentIcons.Placeholder
-                                            font.family: Theme.fontFamilyIcon
-                                            font.pixelSize: 16
+                                            font: Theme.iconFontFor(16)
                                             color: topRow.highlighted ? Theme.textPrimary : Theme.textSecondary
                                             Layout.preferredWidth: 20
                                             horizontalAlignment: Text.AlignHCenter
@@ -2517,8 +2511,7 @@ Item {
                                         Text {
                                             visible: root._paneShowsLabels && del.kind === "group"
                                             text: FluentIcons.ChevronDown
-                                            font.family: Theme.fontFamilyIcon
-                                            font.pixelSize: 10
+                                            font: Theme.iconFontFor(10)
                                             color: Theme.textSecondary
                                             rotation: del.expanded ? 180 : 0
                                             Behavior on rotation {
@@ -2544,8 +2537,7 @@ Item {
                                         Text {
                                             width: parent.width
                                             text: del.glyph || FluentIcons.Placeholder
-                                            font.family: Theme.fontFamilyIcon
-                                            font.pixelSize: 16
+                                            font: Theme.iconFontFor(16)
                                             color: topRow.highlighted ? Theme.textPrimary : Theme.textSecondary
                                             horizontalAlignment: Text.AlignHCenter
                                         }
@@ -2665,8 +2657,7 @@ Item {
                                                               (childRow.modelData && childRow.modelData.symbol) || "",
                                                               (childRow.modelData && childRow.modelData.icon)
                                                               || FluentIcons.Placeholder)
-                                                    font.family: Theme.fontFamilyIcon
-                                                    font.pixelSize: 16
+                                                    font: Theme.iconFontFor(16)
                                                     color: childRow.highlighted ? Theme.textPrimary
                                                                                 : Theme.textSecondary
                                                     Layout.preferredWidth: 20
@@ -2899,8 +2890,7 @@ Item {
                             spacing: 12
                             Text {
                                 text: root.effectiveFooterIcon
-                                font.family: Theme.fontFamilyIcon
-                                font.pixelSize: 16
+                                font: Theme.iconFontFor(16)
                                 color: root.footerSelected ? Theme.textPrimary : Theme.textSecondary
                                 Layout.preferredWidth: 20
                                 horizontalAlignment: Text.AlignHCenter
@@ -2941,8 +2931,7 @@ Item {
                             Text {
                                 width: parent.width
                                 text: root.effectiveFooterIcon
-                                font.family: Theme.fontFamilyIcon
-                                font.pixelSize: 16
+                                font: Theme.iconFontFor(16)
                                 color: root.footerSelected ? Theme.textPrimary : Theme.textSecondary
                                 horizontalAlignment: Text.AlignHCenter
                             }
@@ -3249,8 +3238,7 @@ Item {
                                 anchors.verticalCenter: parent.verticalCenter
                                 width: 20
                                 text: flyDel.glyph || FluentIcons.Placeholder
-                                font.family: Theme.fontFamilyIcon
-                                font.pixelSize: 14
+                                font: Theme.iconFontFor(14)
                                 color: flyDel.highlighted ? Theme.textPrimary : Theme.textSecondary
                                 horizontalAlignment: Text.AlignHCenter
                             }

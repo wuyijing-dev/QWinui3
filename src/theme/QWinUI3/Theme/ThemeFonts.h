@@ -18,6 +18,7 @@ class ThemeFonts : public QObject
     Q_PROPERTY(QString iconFamily READ iconFamily CONSTANT)
     Q_PROPERTY(QString monoFamily READ monoFamily CONSTANT)
     Q_PROPERTY(QFont monoFont READ monoFont CONSTANT)
+    Q_PROPERTY(QFont iconFont READ iconFont CONSTANT)
     Q_PROPERTY(bool iconFontLoaded READ iconFontLoaded CONSTANT)
     Q_PROPERTY(QString uiFamily READ uiFamily NOTIFY uiFontsChanged)
     Q_PROPERTY(QStringList uiFamilies READ uiFamilies NOTIFY uiFontsChanged)
@@ -44,6 +45,8 @@ public:
     QString monoFamily() const;
     QFont monoFont() const;
     Q_INVOKABLE QFont monoFontFor(int pixelSize) const;
+    QFont iconFont() const;
+    Q_INVOKABLE QFont iconFontFor(int pixelSize) const;
     bool iconFontLoaded() const;
 
     QString uiFamily() const;

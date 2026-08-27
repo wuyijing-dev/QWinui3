@@ -47,6 +47,25 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.27 → 3.28
+
+**Product version:** 3.28  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| Icons | Prefer `Theme.iconFontFor(px)` over `font.family: Theme.fontFamilyIcon` | Update custom icon `Text` if you still see Fixedsys DirectWrite warnings |
+
+### Optional / polish
+- **ThemeFonts.iconFontFor:** outline + PreferNoHinting (stops GDI Fixedsys fallback from icon PUA + inherited UI hinting)
+- **FontIcon / CaptionButton / NavigationView / Button leading / HomePage:** use iconFontFor
+- **Label / TextBlock / Drawer title:** bind `font.families` stacks
+
+### No action (compatible)
+- `Theme.fontFamilyIcon` string still works; iconFontFor is preferred
+
 ### Upgrade 3.26 → 3.27
 
 **Product version:** 3.27  

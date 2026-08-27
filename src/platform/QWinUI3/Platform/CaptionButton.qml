@@ -60,8 +60,7 @@ AbstractButton {
 
     contentItem: Text {
         text: control.glyph
-        font.family: Theme.fontFamilyIcon
-        font.pixelSize: 10
+        font: Theme.iconFontFor(10)
         color: {
             if (!control.enabled)
                 return Theme.textDisabled

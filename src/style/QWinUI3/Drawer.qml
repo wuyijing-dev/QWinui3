@@ -125,8 +125,11 @@ T.Drawer {
         Text {
             visible: control.title.length > 0
             text: control.title
-            font.pixelSize: Theme.fontSubtitle
-            font.weight: Theme.fontWeightSemiBold
+            font: {
+                var f = Theme.uiFontFor(Theme.fontSubtitle)
+                f.weight = Theme.fontWeightSemiBold
+                return f
+            }
             color: Theme.textPrimary
             elide: Text.ElideRight
             x: Theme.spacingSection

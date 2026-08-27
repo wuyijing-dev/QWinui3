@@ -84,13 +84,27 @@ Item {
         return rtl && Theme.iconShouldMirror(effectiveGlyph)
     }
 
+    readonly property bool _compactChrome: root.fontSize <= 18
+                || root.iconContext === "chrome"
+                || root.iconContext === "caption"
+
     readonly property real effectiveIconScale: {
-        if (!root.microMotionEnabled || Theme.reducedMotion || !root.enabled)
+        if (!root.microMotionEnabled || Theme.reducedMotion || !root.enabled || _compactChrome)
             return 1
         if (press.pressed)
             return root.pressScale
         if (hover.hovered)
             return root.hoverScale
+        return 1
+    }
+
+    readonly property real _motionOpacity: {
+        if (!_compactChrome || !root.microMotionEnabled || Theme.reducedMotion || !root.enabled)
+            return 1
+        if (press.pressed)
+            return 0.72
+        if (hover.hovered)
+            return 0.88
         return 1
     }
 
@@ -128,11 +142,13 @@ Item {
         x: root.effectiveOffsetX
         y: root.effectiveOffsetY
         text: root.effectiveGlyph
-        font.family: Theme.fontFamilyIcon
-        font.pixelSize: root.fontSize
-        font.weight: root.fontWeight
+        font: {
+            var f = Theme.iconFontFor(Math.round(root.fontSize))
+            f.weight = root.fontWeight
+            return f
+        }
         color: root.effectiveIconColor
-        opacity: root.effectiveDisabledOpacity
+        opacity: root.effectiveDisabledOpacity * root._motionOpacity
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         renderType: Text.NativeRendering

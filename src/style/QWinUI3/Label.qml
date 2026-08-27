@@ -20,6 +20,6 @@ T.Label {
     Accessible.name: control.text
     color: control.enabled ? Theme.textPrimary : Theme.textDisabled
     linkColor: Theme.accent
-    font.pixelSize: Theme.fontBody
+    font: Theme.uiFontFor(Theme.fontBody)
     opacity: control.enabled ? 1 : 0.6
 }

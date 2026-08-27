@@ -18,8 +18,39 @@ CatalogPage {
 
     property int homeTab: 0 // 0 = Recent, 1 = Favorites
     property bool cardEffectsReady: false
+    property bool historyReady: false
+    property var listModel: []
 
-    Component.onCompleted: Qt.callLater(function () { page.cardEffectsReady = true })
+    readonly property int _historyTick: GalleryHistory.recentIds.length
+                                        + GalleryHistory.favoriteIds.length
+                                        + homeTab
+
+    function refreshListModel() {
+        if (!historyReady)
+            return
+        GalleryLanguage.currentLocale
+        listModel = homeTab === 0 ? GalleryHistory.recentControls()
+                                  : GalleryHistory.favoriteControls()
+    }
+
+    Timer {
+        interval: 1
+        running: true
+        repeat: false
+        onTriggered: {
+            page.historyReady = true
+            page.cardEffectsReady = true
+            page.refreshListModel()
+        }
+    }
+
+    onHomeTabChanged: refreshListModel()
+    on_HistoryTickChanged: refreshListModel()
+
+    Connections {
+        target: GalleryLanguage
+        function onCurrentLocaleChanged() { page.refreshListModel() }
+    }
 
     readonly property var featuredModel: {
         GalleryLanguage.currentLocale
@@ -73,17 +104,6 @@ CatalogPage {
                 action: "a11y"
             }
         ]
-    }
-
-    readonly property int _historyTick: GalleryHistory.recentIds.length
-                                        + GalleryHistory.favoriteIds.length
-                                        + homeTab
-
-    readonly property var listModel: {
-        var _ = _historyTick
-        GalleryLanguage.currentLocale
-        return homeTab === 0 ? GalleryHistory.recentControls()
-                             : GalleryHistory.favoriteControls()
     }
 
     readonly property real featuredCardWidth: 208
@@ -298,8 +318,7 @@ CatalogPage {
                             Text {
                                 anchors.centerIn: parent
                                 text: modelData.icon
-                                font.family: Theme.fontFamilyIcon
-                                font.pixelSize: 20
+                                font: Theme.iconFontFor(20)
                                 color: modelData.tint
                             }
                         }

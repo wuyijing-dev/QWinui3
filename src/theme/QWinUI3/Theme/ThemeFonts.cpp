@@ -394,6 +394,39 @@ QFont ThemeFonts::monoFontFor(int pixelSize) const
     return makeMonoFont(s_monoFamily, pixelSize);
 }
 
+QFont ThemeFonts::iconFont() const
+{
+    return iconFontFor(16);
+}
+
+QFont ThemeFonts::iconFontFor(int pixelSize) const
+{
+    ensureLoaded();
+    QFont f;
+    QStringList families;
+    if (!s_iconFamily.isEmpty() && !isBitmapMonoFamily(s_iconFamily))
+        families << s_iconFamily;
+    families << QStringLiteral("Segoe Fluent Icons")
+             << QStringLiteral("Segoe MDL2 Assets")
+             << QStringLiteral("Segoe UI Symbol");
+    families.removeDuplicates();
+    for (int i = families.size() - 1; i >= 0; --i) {
+        if (isBitmapMonoFamily(families.at(i)))
+            families.removeAt(i);
+    }
+    f.setFamilies(families);
+    // Icon PUA glyphs must stay on outline DirectWrite paths — PreferVerticalHinting
+    // inherited from the app UI font previously fell through to GDI Fixedsys (smoke noise).
+    f.setStyleHint(QFont::SansSerif);
+    f.setStyleStrategy(static_cast<QFont::StyleStrategy>(
+        static_cast<int>(QFont::PreferOutline)
+        | static_cast<int>(QFont::PreferQuality)));
+    f.setHintingPreference(QFont::PreferNoHinting);
+    if (pixelSize > 0)
+        f.setPixelSize(pixelSize);
+    return f;
+}
+
 bool ThemeFonts::iconFontLoaded() const
 {
     ensureLoaded();

@@ -29,6 +29,7 @@ import QtQuick
 //   Theme.accentFill(hovered, pressed, disabled)
 //   Theme.setAccentPack(name)
 //   Theme.snapshot() / Theme.apply(obj) / Theme.recipeText()  // 1.69
+//   Theme.tokensRevision / onTokensChanged  // 2.88 C10 — coalesced after apply()
 //   Theme.relativeLuminance(c) / Theme.contrastRatio(fg, bg) / Theme.contrastPassesAA(…)  // 1.43
 //
 // @notes
@@ -63,6 +64,11 @@ QtObject {
     property string density: "standard"
     // Extra UI scale on top of system DPR (1.0 = follow OS only). Qt layout is already in DIPs.
     property real uiScale: 1.0
+
+    // Bumped once per Theme.apply() batch — bind heavy trees here (2.88 C10).
+    property int tokensRevision: 0
+
+    signal tokensChanged()
     // Last synced window/screen devicePixelRatio (ShellWindow / StandardWindow update this).
     property real devicePixelRatio: 1.0
     // Prefer vertical hinting on fractional DPR (125%/150% Wayland) — 2.70 F6
@@ -212,10 +218,15 @@ QtObject {
     readonly property string fontFamilyIcon: ThemeFonts.iconFamily
     // Alias used by a few tiles
     readonly property string iconFontFamily: fontFamilyIcon
+    // Prefer ThemeFonts.iconFontFor(px) / fontIcon — avoids Fixedsys GDI fallback
+    readonly property font fontIcon: ThemeFonts.iconFont
+    function iconFontFor(pixelSize) { return ThemeFonts.iconFontFor(pixelSize) }
     // Monospace — outline family from ThemeFonts (never generic "monospace" / Fixedsys)
     readonly property string fontFamilyMono: ThemeFonts.monoFamily
     readonly property font fontMonoCode: ThemeFonts.monoFont
     readonly property var fontFamiliesMono: ["Cascadia Mono", "Cascadia Code", "Consolas", "Courier New"]
+    function monoFontFor(pixelSize) { return ThemeFonts.monoFontFor(pixelSize) }
+    function uiFontFor(pixelSize) { return ThemeFonts.uiFontFor(pixelSize) }
     // Caption font size (12)
     readonly property int fontCaption: 12
     readonly property int fontSizeCaption: fontCaption
@@ -474,6 +485,8 @@ QtObject {
             reducedMotion = !!obj.reducedMotion
         if (obj.highContrast !== undefined)
             highContrast = !!obj.highContrast
+        tokensRevision++
+        tokensChanged()
     }
 
     // QML snippet for Component.onCompleted — Gallery Copy is a convenience, not a privilege.

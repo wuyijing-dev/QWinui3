@@ -83,32 +83,23 @@ T.Control {
         }
     }
 
-    font.family: {
+    font: {
+        var px = Theme.fontBody
         switch (style) {
-        case display:
-        case titleLarge:
-        case title:
-            return Theme.fontFamilyDisplay
-        default:
-            return Theme.fontFamily
+        case caption: px = Theme.fontCaption; break
+        case subtitle: px = Theme.fontSubtitle; break
+        case title: px = Theme.fontTitle; break
+        case titleLarge: px = Theme.fontTitleLarge; break
+        case display: px = Theme.fontTitleLarge + 12; break
+        default: break
         }
+        var f = Theme.uiFontFor(px)
+        f.weight = (style === bodyStrong || style === subtitle || style === title
+                    || style === titleLarge || style === display)
+                   ? Theme.fontWeightSemiBold
+                   : Theme.fontWeightRegular
+        return f
     }
-    font.pixelSize: {
-        switch (style) {
-        case caption: return Theme.fontCaption
-        case subtitle: return Theme.fontSubtitle
-        case title: return Theme.fontTitle
-        case titleLarge: return Theme.fontTitleLarge
-        case display: return Theme.fontTitleLarge + 12
-        case bodyStrong:
-        case body:
-        default: return Theme.fontBody
-        }
-    }
-    font.weight: (style === bodyStrong || style === subtitle || style === title
-                  || style === titleLarge || style === display)
-                 ? Theme.fontWeightSemiBold
-                 : Theme.fontWeightRegular
 
     readonly property bool _trim: {
         var t = String(textTrimming).toLowerCase()
