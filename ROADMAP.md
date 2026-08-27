@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **3.39** (master — cold-start smoke budget CI)
-**Next up:** **3.40** cold start wave sign-off · **3.00** breaking close-out still open ([checkpoint-300](docs/checkpoint-300.md)) · [tranche 10 → 4.00](#efficiency--control-depth-tranche-10-334--400)
+**Current:** **3.40** (master — cold-start wave sign-off)
+**Next up:** **3.41** memory (FluentIcons / glyph atlas) · **3.00** breaking close-out still open ([checkpoint-300](docs/checkpoint-300.md)) · [tranche 10 → 4.00](#efficiency--control-depth-tranche-10-334--400)
 **Planned through:** **3.10** complete · **3.13–3.33** WinUI / polish · **3.34–3.90** efficiency + control depth · **3.91–3.99** buffer · **4.00** close-out · [micro-interaction backlog last](#micro-interaction--visual-polish--deferred-last)
 **Checkpoints ahead:** **checkpoint-300** (3.00) · **checkpoint-390** (3.90) · **checkpoint-400** (4.00) · **checkpoint-310** (3.10) already green
 **Qt:** 6.5+ (recommended 6.8 LTS) on master today — **2.00** raises floor to **6.8 LTS** · **3.00** to **6.10 LTS** · **4.00** to **6.12 LTS** (planned)
@@ -709,7 +709,7 @@ One audit tag after **3.01–3.09**. **Does not** include **L1–L5** micro-inte
 | **3.37** | Cold start — Gallery catalog lazy | **S14** | Shipped |
 | **3.38** | Cold start — optional hosts deferred | **S15** | Shipped |
 | **3.39** | Cold start — smoke + budget CI | **S16** | Shipped |
-| **3.40** | Cold start wave sign-off | **S17** | Planned |
+| **3.40** | Cold start wave sign-off | **S17** | Shipped |
 | **3.41** | Memory — FluentIcons / glyph atlas | **H10** | Planned |
 | **3.42** | Memory — Theme / singleton trim | **H11** | Planned |
 | **3.43** | Memory — List/Tree delegate reuse | **H12** | Planned |
@@ -768,7 +768,7 @@ One audit tag after **3.01–3.09**. **Does not** include **L1–L5** micro-inte
 | **S14** | **3.37** | Gallery **ControlCatalog** fully lazy (no full model build on Main load) | Shipped |
 | **S15** | **3.38** | Optional hosts (WebView2 runtime probe, Keyman/OSK engine, FrameStats) start **on demand** | Shipped |
 | **S16** | **3.39** | `--startup-log` budgets in CI Release: interactive shell **&lt; baseline − 15%** or absolute table in performance.md | Shipped |
-| **S17** | **3.40** | Cold-start wave sign-off — fill [checkpoint-390](docs/checkpoint-390.md) startup section |
+| **S17** | **3.40** | Cold-start wave sign-off — fill [checkpoint-390](docs/checkpoint-390.md) startup section | Shipped |
 
 **Out:** Changing first-frame visual chrome · forcing all consumers onto a new Bootstrap API without dual path.
 

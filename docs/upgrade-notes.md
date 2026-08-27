@@ -47,6 +47,23 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.39 → 3.40
+
+**Product version:** 3.40  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | Cold-start wave (**S10–S17**) sign-off | None — docs / checkpoint only |
+
+### Optional / polish
+- [checkpoint-390.md](checkpoint-390.md) cold-start section filled; interactive shell ~335 ms local Win Release vs 1500 ms CI gate
+
+### No action (compatible)
+- Kit QML APIs unchanged
+
 ### Upgrade 3.38 → 3.39
 
 **Product version:** 3.39  

@@ -35,7 +35,7 @@ Related: [data-collections.md](data-collections.md) · [charts.md](charts.md) ·
 | Icon catalog | Named `FluentIcons.*` glyphs load on first use; full Iconography rows deferred (**3.34** S11) |
 | Icon / atlas warm-up | Optional: touch `FluentIcons` / ThemeFonts once after first frame |
 | Page cache | `pageCacheLimit` + `pinnedPageCache` (2.68); avoid compiling all pages at startup |
-| Target budget | Aim for interactive shell **&lt; 1.5 s** on CI Win Release (machine-relative); local desktop **&lt; 2 s** |
+| Target budget | Aim for interactive shell **&lt; 1.5 s** on CI Win Release; local desktop **&lt; 2 s** — wave **S10–S17** signed off at **3.40** ([checkpoint-390](checkpoint-390.md#cold-start-sign-off-s10s17--340)) |
 
 ### CI absolute budgets (**3.39 S16**)
 
