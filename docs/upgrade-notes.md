@@ -47,6 +47,23 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.54 → 3.55
+
+**Product version:** 3.55  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | Silent-runtime wave sign-off (C26) | None — docs / checkpoint only |
+
+### Optional / polish
+- Switch p50 baseline recorded in [checkpoint-390](checkpoint-390.md#silent-runtime-sign-off-c20c26--355)
+
+### No action (compatible)
+- No kit API or default UX / transition changes in this slice
+
 ### Upgrade 3.53 → 3.54
 
 **Product version:** 3.54  

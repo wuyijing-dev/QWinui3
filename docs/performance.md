@@ -42,6 +42,7 @@ Related: [data-collections.md](data-collections.md) · [charts.md](charts.md) ·
 | Image / shadow caches | `QPixmapCache` kit cap **16 MB** (`QWINUI3_PIXMAP_CACHE_KB`); ElevatedChrome frees MultiEffect FBO when hidden; `iconFontFor` LRU **96** (**3.47** H16) — acrylic/shadow **look** unchanged |
 | Memory wave sign-off | Idle WorkingSet table filled at **3.48** H17 — [checkpoint-390](checkpoint-390.md#memory-sign-off-h10h17--348) (~**136 MB** WS avg, n=5 Win Release) |
 | Paint coalesce | Experimental charts (**3.49** C20); stable six inventory closed (**3.54** C25) — [inventory](#chart-coalesce-inventory-284-c6--290-audit--349-c20--354-c25) |
+| Silent runtime sign-off | Warm Gallery switch **p50 ≈ 146 ms** (mode `none`, n=24) at **3.55** C26 — [checkpoint-390](checkpoint-390.md#silent-runtime-sign-off-c20c26--355) |
 | ItemsView / ListDetailsView | Debounced filter + skip fingerprint; `cacheBufferPx` (**3.51** C22) |
 | DataTable / TreeDataGrid | Fixed `rowHeight`; lean-model reuse; Tree `callLater` + fingerprint caps (**3.52** C23) |
 | NavigationView pane | Structure-first sync; stable group children; flatIndex cache; expand pip coalesce (**3.53** C24) |

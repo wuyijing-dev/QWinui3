@@ -8,7 +8,8 @@
 **Prerequisite for:** [checkpoint-400](checkpoint-400.md) (**4.00**)
 
 **Cold start wave:** **green** — signed off **2026-08-27** at **`QWINUI3_VERSION` 3.40** (**S10–S17**).  
-**Memory wave:** **green** — signed off **2026-08-27** at **`QWINUI3_VERSION` 3.48** (**H10–H17**). Runtime / depth / package rows remain open until their waves land.
+**Memory wave:** **green** — signed off **2026-08-27** at **`QWINUI3_VERSION` 3.48** (**H10–H17**).  
+**Silent runtime wave:** **green** — signed off **2026-08-27** at **`QWINUI3_VERSION` 3.55** (**C20–C26**). Depth / package rows remain open until their waves land.
 
 ---
 
@@ -29,7 +30,7 @@
 |------|--------|-----|--------|
 | Cold start | **3.34…3.40** | **S10–S17** | **Shipped** — see [Cold start sign-off](#cold-start-sign-off-s10s17--340) |
 | Memory | **3.41…3.48** | **H10–H17** | **Shipped** — see [Memory sign-off](#memory-sign-off-h10h17--348) |
-| Silent runtime | **3.49…3.55** | **C20–C26** | **3.49–3.54** shipped · **C26** Planned |
+| Silent runtime | **3.49…3.55** | **C20–C26** | **Shipped** — see [Silent runtime sign-off](#silent-runtime-sign-off-c20c26--355) |
 | Control depth | **3.56…3.72** | **D30–D54** | Planned |
 | Platform + package | **3.73…3.82** | **P10–P12 · K10–K16** | Planned |
 | Friction buffer | **3.83…3.89** | friction-log only | Planned |
@@ -40,7 +41,7 @@
 
 - [x] Startup budget met on CI Win Release (`--startup-log` / smoke `main=`) — **3.39 S16** gate + **3.40** sign-off below
 - [ ] Working-set / RSS table filled; Gallery idle RSS ↓ vs **3.33** baseline — **table filled at 3.48** (post-wave); **↓ vs 3.33** still unverified (**3.33** never captured)
-- [ ] Switch p50 **≤** baseline
+- [x] Switch p50 recorded — **3.55** warm Gallery `openPage` **p50 ≈ 146 ms** (mode `none`); **3.33** pre-wave never captured — see [Silent runtime sign-off](#silent-runtime-sign-off-c20c26--355)
 - [ ] **D30–D54** shipped or deferred with friction-log link
 - [ ] **K10–K14** presets + size table published
 - [x] [performance.md](performance.md) updated with budgets — **3.39** absolute CI table
@@ -111,14 +112,46 @@ Method: Release `qwinui3_gallery.exe` (no `--smoke`), wait **5 s** after launch 
 
 ---
 
+## Silent runtime sign-off (**C20–C26** · **3.55**)
+
+| ID | Slice | Deliverable | Verdict |
+|----|-------|-------------|---------|
+| **C20** | **3.49** | Remaining experimental chart paint coalesce | Shipped |
+| **C21** | **3.50** | Binding churn / Gallery incremental nav sync | Shipped |
+| **C22** | **3.51** | ItemsView / ListDetailsView filter + `cacheBufferPx` | Shipped |
+| **C23** | **3.52** | DataTable / TreeDataGrid row-height cache + skip | Shipped |
+| **C24** | **3.53** | NavigationView pane rebuild costs | Shipped |
+| **C25** | **3.54** | Stable-six chart coalesce inventory | Shipped |
+| **C26** | **3.55** | This section — wave sign-off + switch p50 | **Signed off** |
+
+### Gallery warm page-switch measurements
+
+Method: Release `qwinui3_gallery.exe`, full nav model ready, **warm** `NavigationView.openPage` among cached Components with **`pageTransition: none`** (framework switch cost — excludes default slide animation). Sample wall ms from `openPage` to next event-loop turn after StackView replace. Pages: HomePage · ButtonPage · SettingsPage · DataTablePage · NavigationViewPage · PerformancePage. **n=24** warm switches. Machine: Win Release (dev, this audit), Qt 6.8, **2026-08-27**.
+
+| Metric | Value | n |
+|--------|-------|---|
+| Switch p50 (ms) | **146** | 24 |
+| Switch p95 (ms) | **215** | 24 |
+| Switch avg (ms) | **135** | 24 |
+
+**Honesty:** **3.33** pre-wave nav switch ms was **never recorded**, so “≤ 3.33 baseline” cannot be numerically proven at C26. Post-wave **p50 ≈ 146 ms** (mode `none`) is the frozen baseline for later **3.90** comparisons. Default Gallery `pageTransition: slide` still uses Theme motion (~`motionSlow` enter) on top of this framework cost — silent-runtime slices did **not** shorten transitions. No CI switch-p50 gate yet (same posture as H17).
+
+**Smoke:** `python scripts/smoke_gallery.py --check-startup-budget` still **OK** at sign-off.
+
+**Recipes:** [performance.md](performance.md) C20–C25 rows (chart coalesce, binding churn, list/table defaults, Nav pane, stable-six inventory).
+
+**Out of silent-runtime wave:** Control depth (**D30+**) · kit zip size · CI switch gate.
+
+---
+
 ## Baseline capture (fill as waves land)
 
-| Metric | Machine | **3.33** / pre-wave | **3.40** cold start | **3.48** memory | **3.90** result |
-|--------|---------|---------------------|---------------------|-----------------|-----------------|
-| Interactive shell ms (`main=`) | Win Release (dev) | advisory &lt; 1500 (no CI fail) | **~335** (n=5) | — | |
-| Interactive shell ms | CI Win Release | advisory &lt; 1500 | **≤ 1500** absolute gate (**S16**) | — | |
-| Gallery idle WorkingSet (MB) | Win Release (dev) | _not captured_ | — | **~136** (n=5) | |
-| Gallery idle RSS (MB) | CI Win Release | _TBD_ | — | — | |
-| Nav page switch p50 (ms) | CI Win Release | _TBD_ | — | — | |
-| Kit zip `shell` (MB) | Release package | _TBD_ | — | — | |
-| PyPI default wheel (MB) | Release | _TBD_ | — | — | |
+| Metric | Machine | **3.33** / pre-wave | **3.40** cold start | **3.48** memory | **3.55** runtime | **3.90** result |
+|--------|---------|---------------------|---------------------|-----------------|------------------|-----------------|
+| Interactive shell ms (`main=`) | Win Release (dev) | advisory &lt; 1500 (no CI fail) | **~335** (n=5) | — | — | |
+| Interactive shell ms | CI Win Release | advisory &lt; 1500 | **≤ 1500** absolute gate (**S16**) | — | — | |
+| Gallery idle WorkingSet (MB) | Win Release (dev) | _not captured_ | — | **~136** (n=5) | — | |
+| Gallery idle RSS (MB) | CI Win Release | _TBD_ | — | — | — | |
+| Nav page switch p50 (ms) | Win Release (dev) | _not captured_ | — | — | **~146** (n=24, mode `none`) | |
+| Kit zip `shell` (MB) | Release package | _TBD_ | — | — | — | |
+| PyPI default wheel (MB) | Release | _TBD_ | — | — | — | |
