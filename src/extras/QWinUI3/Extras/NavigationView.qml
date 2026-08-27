@@ -932,6 +932,17 @@ Item {
         }
         // Animate pip: collapsed selection moves to group header; expand returns to child
         schedulePipMove(false)
+        // Collapse of many children must reflow subsequent rows immediately (and again
+        // after the height Behavior finishes — see expandLayoutSettleTimer).
+        Qt.callLater(function () {
+            if (navList)
+                navList.forceLayout()
+        })
+        if (expandLayoutSettleTimer) {
+            expandLayoutSettleTimer.interval = Theme.duration(Theme.motionNormal
+                + Math.min(280, 14 * 12)) + 32
+            expandLayoutSettleTimer.restart()
+        }
     }
 
     // Visual anchor item for the selection pip
@@ -2410,10 +2421,11 @@ Item {
                         highlightFollowsCurrentItem: false
                         keyNavigationEnabled: true
                         focus: true
-                        // 3.43 H12 — pool delegates; buffer keeps SelectionPip anchors alive.
-                        reuseItems: true
-                        // Keep selected rows instantiated longer so the pip can
-                        // re-sync after expand/collapse without waiting on recycle.
+                        // Variable-height group rows (Charts etc.) + collapse height tween do not
+                        // mix with delegate pooling — reuseItems left phantom blank gaps in the
+                        // pane after collapsing a large group. Gallery nav is small; keep all
+                        // rows instantiated so SelectionPip anchors stay valid (was 3.43 H12).
+                        reuseItems: false
                         cacheBuffer: Math.max(240, Math.round(height * 1.5))
                         ScrollBar.vertical: ScrollBar {
                             policy: navList.contentHeight > navList.height
@@ -2426,6 +2438,27 @@ Item {
                             interval: 16
                             repeat: false
                             onTriggered: selectionPip.syncViewport()
+                        }
+                        // Coalesce ListView.forceLayout while group expandPane height tweens.
+                        Timer {
+                            id: expandLayoutTimer
+                            interval: 16
+                            repeat: false
+                            onTriggered: {
+                                if (navList)
+                                    navList.forceLayout()
+                            }
+                        }
+                        // One more layout pass after the collapse/expand Behavior finishes.
+                        Timer {
+                            id: expandLayoutSettleTimer
+                            interval: 400
+                            repeat: false
+                            onTriggered: {
+                                if (navList)
+                                    navList.forceLayout()
+                                selectionPip.syncToCurrent()
+                            }
                         }
 
                         onCurrentIndexChanged: Qt.callLater(function () {
@@ -2513,6 +2546,9 @@ Item {
 
                             width: ListView.view.width
                             spacing: 0
+                            // Explicit height so ListView reflows when group children collapse
+                            // (Column alone + height Behavior left blank gaps with many kids).
+                            height: topRow.height + (expandPane.visible ? expandPane.height : 0)
 
                             // 3.53 C24 — keep Repeater model identity when children fingerprint matches.
                             property var childItems: []
@@ -2824,7 +2860,12 @@ Item {
                                     repeat: false
                                     onTriggered: selectionPip.syncToCurrent()
                                 }
-                                onHeightChanged: expandPipCoalesce.restart()
+                                onHeightChanged: {
+                                    expandPipCoalesce.restart()
+                                    // Keep sibling rows packed while the collapse tween runs.
+                                    if (expandLayoutTimer)
+                                        expandLayoutTimer.restart()
+                                }
 
                                 Column {
                                     id: childrenCol

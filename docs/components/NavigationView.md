@@ -2,7 +2,7 @@
 
 WinUI NavigationView with pane modes and page stack.
 
-Left pane `ListView` uses `reuseItems` and a mild `cacheBuffer` (keeps SelectionPip anchors alive) — [performance.md](../performance.md#cachebuffer-recipes-343-h12).
+Left pane `ListView` keeps rows instantiated (variable-height group collapse + `reuseItems` left blank gaps) with a mild `cacheBuffer` for SelectionPip — [performance.md](../performance.md#cachebuffer-recipes-343-h12).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/NavigationView.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/NavigationView.qml)
 

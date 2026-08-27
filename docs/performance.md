@@ -148,7 +148,7 @@ Do **not** `import` every page type into `Main.qml` — that forces compile at s
 | [`ItemsView`](components/ItemsView.md) | `ListView` + `reuseItems` | `cacheBufferPx` (<0 → `max(240, height * 1.5)`, **3.51**); `filterDebounceMs` **120**; `maxFilterResults` **256**; optional `minFilterLength` |
 | [`ListDetailsView`](components/ListDetailsView.md) | `ListView` + `reuseItems` | Same `cacheBufferPx` / filter defaults as ItemsView (**3.51**); master JS-array filter |
 | [`ItemsRepeater`](components/ItemsRepeater.md) | `ListView` + `reuseItems` (1.25) | `cacheBuffer: Theme.navItemHeight * 8`; optional `filterText` on JS arrays (1.88) |
-| [`NavigationView`](components/NavigationView.md) pane | `ListView` + `reuseItems` (**3.43**) | `cacheBuffer: max(240, height * 1.5)` — keeps SelectionPip anchors alive |
+| [`NavigationView`](components/NavigationView.md) pane | `ListView` (no `reuseItems`) | Variable-height groups: pooling left blank gaps on collapse; mild `cacheBuffer` still helps SelectionPip |
 | [`FileTree`](components/FileTree.md) / raw `TreeView` | `TreeView` (`TableView`) + `reuseItems` | FileTree sets the same mild buffer (**3.43**); raw trees should too |
 | [`TreeDataGrid`](components/TreeDataGrid.md) | `ListView` + `reuseItems` + fixed `rowHeight` | `_treeCache` flatten (**2.84**); `cacheBufferPx` / `rowHeight * 12` + rows `callLater` (**3.52**); `_lastRefreshKey` skip |
 | [`ItemsWrapGrid`](components/ItemsWrapGrid.md) | `WrapPanel` + `Repeater` (2.24) | Not virtualized — low hundreds; optional `filterText` |

@@ -88,7 +88,7 @@
 |----|-------|-------------|---------|
 | **H10** | **3.41** | FluentIcons / glyph path — shared PreferNoHinting `QFont` cache | Shipped |
 | **H11** | **3.42** | Theme singleton — lazy Text/Display stacks; density formula-only | Shipped |
-| **H12** | **3.43** | List/Tree / NavigationView pane — `reuseItems` + mild `cacheBuffer` | Shipped |
+| **H12** | **3.43** | List/Tree `reuseItems` + mild `cacheBuffer`; NavigationView pane later drops pooling (variable-height groups) | Shipped |
 | **H13** | **3.44** | DataTable lean ListView roles + hidden-column filter discipline | Shipped |
 | **H14** | **3.45** | Chart series ring caps documented + opt-in `capacity` / `trimRing` | Shipped |
 | **H15** | **3.46** | Gallery page Component unload (`pageCacheLimit: 8` + pins) | Shipped |
