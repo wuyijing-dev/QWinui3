@@ -44,6 +44,17 @@ T.ItemDelegate {
                 ? (Theme.dark ? Qt.rgba(1, 1, 1, 0.7725) : Qt.rgba(0, 0, 0, 0.62))
                 : Theme.textPrimary
 
+    PointerCursor { shape: Qt.PointingHandCursor }
+
+    scale: down && !Theme.reducedMotion ? 0.995 : 1
+    Behavior on scale {
+        enabled: !Theme.reducedMotion && (control.down || control.hovered)
+        NumberAnimation {
+            duration: Theme.duration(Theme.motionFast)
+            easing.type: Theme.easingStandard
+        }
+    }
+
     contentItem: IconLabel {
         spacing: control.spacing
         mirrored: control.mirrored
@@ -81,6 +92,8 @@ T.ItemDelegate {
 
             Behavior on color {
                 enabled: !Theme.reducedMotion
+                         && (control.hovered || control.down || control.highlighted
+                             || control.checked)
                 ColorAnimation {
                     duration: Theme.duration(Theme.motionFast)
                     easing.type: Theme.easingStandard
@@ -111,6 +124,8 @@ T.ItemDelegate {
 
             Behavior on height {
                 enabled: !Theme.reducedMotion
+                         && (control.highlighted || control.checked
+                             || control.visualFocus || control.hovered || control.down)
                 NumberAnimation {
                     duration: Theme.duration(Theme.motionNormal)
                     easing.type: Theme.easingStandard

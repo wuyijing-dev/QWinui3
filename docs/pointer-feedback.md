@@ -1,6 +1,6 @@
-# Pointer feedback (2.66 baseline)
+# Pointer feedback (2.66 baseline · 3.11 Style deepen)
 
-Micro-interaction recipes for press, hover, focus, and cursor affordances on Style + Extras controls. Roadmap IDs **M1–M8** (pointer) and **I1–I4** (icon micro) ship in **2.66**.
+Micro-interaction recipes for press, hover, focus, and cursor affordances on Style + Extras controls. Roadmap IDs **M1–M8** (pointer) and **I1–I4** (icon micro) baseline shipped in **2.66**; **3.11** deepens stock **Style** primitives (`ToolButton`, `RoundButton`, `Slider`, `ProgressBar`, `ItemDelegate`) and gates idle `Behavior` bindings for performance.
 
 See also: [animations.md](animations.md) · [icons.md](icons.md) · [accessibility.md](accessibility.md)
 
@@ -24,6 +24,7 @@ All `Behavior` animations must gate on `!Theme.reducedMotion` (or use `Theme.dur
 | ID | Control | Feedback |
 |----|---------|----------|
 | **M1** | `Button` | `appearance`: filled / subtle / outline / ghost; press `scale` 0.98; `Qt.PointingHandCursor` |
+| **M1** | `ToolButton` / `RoundButton` | `appearance` variants; circular press scale; `RoundButton.loading` inline busy (3.11) |
 | **M2** | `HyperlinkButton` | Underline on hover; pressed opacity 0.8 |
 | **M3** | `TextField` / `TextArea` | `appearance: filled \| outline`; `hasError` shake |
 | **M4** | `ComboBox` | Chevron flip on open; selected tick fade-in (Style uses Text glyph; Extras use FontIcon) |
@@ -31,8 +32,9 @@ All `Behavior` animations must gate on `!Theme.reducedMotion` (or use `Theme.dur
 | **M10** | `SettingsCard` | Interactive hover fill + elevation bump |
 | **M11** | `IconButton` / `RoundButton` | Circular press; min 40×40; `loading` + **ProgressRing** |
 | **M12** | `SplitButton` | Independent primary/chevron press scale; chevron **FontIcon** |
-| **M16** | `Slider` | Thumb scale 1→1.12 on hover |
+| **M16** | `Slider` | Thumb scale 1→1.12 on hover; optional `tickMarksVisible` + `stepSize` ticks (3.11) |
 | **M15** | `Pivot` / `TabButton` | Shared underline slides on `x`/`width`; tab press scale |
+| **M26** | `ProgressBar` | Determinate completion opacity flash; indeterminate sweep honors `showPaused` / reducedMotion (3.11) |
 | **M17** | `Switch` | Thumb travel ease-out; check glyph fade on (I15) |
 | **M13** | `NavigationView` | Pane width tweens compact/0→expanded through intermediates; labels fade with progress |
 | **M14** | `TabView` | Shared underline width/opacity slide; close circular hover (I14); selected tab icon accent |

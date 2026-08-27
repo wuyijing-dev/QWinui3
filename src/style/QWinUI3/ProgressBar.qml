@@ -49,19 +49,35 @@ T.ProgressBar {
         return Theme.accent
     }
 
+    property bool _wasComplete: false
+
+    onPositionChanged: {
+        if (control.indeterminate)
+            return
+        if (control.position >= 1 && !_wasComplete) {
+            _wasComplete = true
+            if (!Theme.reducedMotion)
+                completeFlash.restart()
+        } else if (control.position < 0.995) {
+            _wasComplete = false
+        }
+    }
+
     contentItem: Item {
         implicitWidth: 200
         implicitHeight: Theme.sliderThickness
 
         Rectangle {
+            id: determinateFill
             visible: !control.indeterminate
             width: Math.max(0, control.position * parent.width)
             height: parent.height
             radius: height / 2
             color: control._fillColor
+            opacity: 1
 
             Behavior on width {
-                enabled: !Theme.reducedMotion
+                enabled: !Theme.reducedMotion && control.visible
                 NumberAnimation {
                     duration: Theme.duration(Theme.motionNormal)
                     easing.type: Theme.easingStandard
@@ -72,6 +88,31 @@ T.ProgressBar {
                 ColorAnimation {
                     duration: Theme.duration(Theme.motionFast)
                     easing.type: Theme.easingStandard
+                }
+            }
+            Behavior on opacity {
+                enabled: !Theme.reducedMotion && !completeFlash.running
+                NumberAnimation {
+                    duration: Theme.duration(Theme.motionFast)
+                    easing.type: Theme.easingStandard
+                }
+            }
+
+            SequentialAnimation {
+                id: completeFlash
+                NumberAnimation {
+                    target: determinateFill
+                    property: "opacity"
+                    to: 0.55
+                    duration: Theme.duration(Theme.motionFast)
+                    easing.type: Theme.easingStandard
+                }
+                NumberAnimation {
+                    target: determinateFill
+                    property: "opacity"
+                    to: 1
+                    duration: Theme.duration(Theme.motionNormal)
+                    easing.type: Theme.easingEnter
                 }
             }
 

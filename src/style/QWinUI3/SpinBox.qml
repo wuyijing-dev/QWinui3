@@ -9,6 +9,8 @@ import QWinUI3.Theme
 //       from: 0; to: 10; value: 3
 //   }
 //
+//   Hold-to-repeat: Qt SpinBox repeats while pressed; up/down halves have independent hover/press (M6).
+//
 // @notes
 //   Style-only Fluent chrome for Qt Quick Controls SpinBox.
 //   Public API is the Qt Quick Controls SpinBox type; this file supplies visuals/metrics only.

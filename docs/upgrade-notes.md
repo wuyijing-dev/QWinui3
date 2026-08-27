@@ -47,6 +47,26 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.10 → 3.11
+
+**Product version:** 3.11  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | Style pointer / appearance polish | None required |
+
+### Optional / polish
+- **ToolButton** / **RoundButton:** `appearance` variants; **RoundButton.loading** for async actions — [pointer-feedback.md](pointer-feedback.md)
+- **Slider:** `tickMarksVisible: true` with `stepSize` for stepped tracks
+- **ProgressBar:** completion flash at 100% (honors `Theme.reducedMotion`)
+- Gallery **Style spot-check** — press/hover/focus matrix
+
+### No action (compatible)
+- Stable APIs unchanged; existing controls keep prior defaults
+
 ### Upgrade 3.06 → 3.10
 
 **Product version:** 3.10  

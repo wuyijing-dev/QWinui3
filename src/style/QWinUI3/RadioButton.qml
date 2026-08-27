@@ -77,13 +77,14 @@ T.RadioButton {
 
             Behavior on color {
                 enabled: !Theme.reducedMotion
+                         && (control.hovered || control.down || control.checked)
                 ColorAnimation {
                     duration: Theme.duration(Theme.motionNormal)
                     easing.type: Theme.easingStandard
                 }
             }
             Behavior on scale {
-                enabled: !Theme.reducedMotion
+                enabled: !Theme.reducedMotion && (control.hovered || control.down)
                 NumberAnimation {
                     duration: Theme.duration(Theme.motionFast)
                     easing.type: Theme.easingStandard
@@ -91,6 +92,7 @@ T.RadioButton {
             }
             Behavior on border.width {
                 enabled: !Theme.reducedMotion
+                         && (control.hovered || control.down || control.checked)
                 NumberAnimation {
                     duration: Theme.duration(Theme.motionFast)
                     easing.type: Theme.easingStandard
@@ -136,6 +138,7 @@ T.RadioButton {
 
             Behavior on scale {
                 enabled: !Theme.reducedMotion
+                         && (control.hovered || control.down || control.checked)
                 NumberAnimation {
                     duration: Theme.duration(Theme.motionNormal)
                     easing.type: Theme.easingStandard
@@ -143,6 +146,7 @@ T.RadioButton {
             }
             Behavior on opacity {
                 enabled: !Theme.reducedMotion
+                         && (control.hovered || control.down || control.checked)
                 NumberAnimation {
                     duration: Theme.duration(Theme.motionNormal)
                     easing.type: Theme.easingStandard

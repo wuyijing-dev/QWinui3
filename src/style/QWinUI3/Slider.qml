@@ -5,29 +5,41 @@ import QWinUI3.Theme
 // Slider — Fluent styled Slider.
 //
 //   Slider {
-//       id: slider
-//       from: 0; to: 100; value: 40
-//       onMoved: apply(slider.value)
+//       from: 0; to: 100; value: 40; stepSize: 10
+//       tickMarksVisible: true
 //   }
 //
 // @notes
-//   Style-only Fluent chrome for Qt Quick Controls Slider.
-//   Public API is the Qt Quick Controls Slider type; this file supplies visuals/metrics only.
+//   Style chrome. tickMarksVisible draws step ticks under the track (3.11).
 
 T.Slider {
     id: control
 
+    // Show step ticks along the track (uses stepSize; 3.11)
+    property bool tickMarksVisible: false
 
     Accessible.role: Accessible.Slider
     Accessible.name: qsTr("Slider")
     Accessible.description: qsTr("%1 of %2").arg(control.value).arg(control.to)
+
     implicitWidth: Math.max(200, implicitHandleWidth + leftPadding + rightPadding)
-    implicitHeight: Math.max(Theme.sliderThumb, implicitHandleHeight + topPadding + bottomPadding)
+    implicitHeight: Math.max(Theme.sliderThumb + (tickMarksVisible ? 10 : 0),
+                             implicitHandleHeight + topPadding + bottomPadding)
 
     padding: 8
     hoverEnabled: true
     live: true
     wheelEnabled: true
+
+    readonly property int _tickCount: {
+        if (!tickMarksVisible || stepSize <= 0)
+            return 0
+        var span = Math.abs(to - from)
+        if (span <= 0)
+            return 0
+        var n = Math.floor(span / stepSize + 0.001) + 1
+        return Math.min(n, 64)
+    }
 
     handle: Item {
         x: control.leftPadding + (control.horizontal
@@ -35,6 +47,7 @@ T.Slider {
            : (control.availableWidth - width) / 2)
         y: control.topPadding + (control.horizontal
            ? (control.availableHeight - height) / 2
+               - (control.tickMarksVisible ? 4 : 0)
            : control.visualPosition * (control.availableHeight - height))
         implicitWidth: Theme.sliderThumb
         implicitHeight: Theme.sliderThumb
@@ -57,7 +70,6 @@ T.Slider {
 
             Rectangle {
                 anchors.centerIn: parent
-                // Diameter in px
                 readonly property real diameter: !control.enabled ? 10
                     : control.pressed ? 8
                     : control.hovered ? 14 : 10
@@ -108,7 +120,7 @@ T.Slider {
     background: Item {
         x: control.leftPadding + (control.horizontal ? Theme.sliderThumb / 2 : (control.availableWidth - width) / 2)
         y: control.topPadding + (control.horizontal
-           ? (control.availableHeight - height) / 2
+           ? (control.availableHeight - height) / 2 - (control.tickMarksVisible ? 4 : 0)
            : Theme.sliderThumb / 2)
         width: control.horizontal ? control.availableWidth - Theme.sliderThumb : Theme.sliderThickness
         height: control.horizontal ? Theme.sliderThickness : control.availableHeight - Theme.sliderThumb
@@ -142,6 +154,22 @@ T.Slider {
                     duration: Theme.duration(Theme.motionFast)
                     easing.type: Theme.easingStandard
                 }
+            }
+        }
+
+        // Step ticks (3.11) — horizontal only
+        Repeater {
+            model: control.horizontal ? control._tickCount : 0
+            delegate: Rectangle {
+                required property int index
+                width: 2
+                height: 6
+                radius: 1
+                color: Theme.strokeControl
+                opacity: 0.55
+                x: control._tickCount <= 1 ? parent.width / 2
+                   : index * (parent.width / Math.max(1, control._tickCount - 1)) - width / 2
+                y: parent.height + 3
             }
         }
     }

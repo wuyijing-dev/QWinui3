@@ -79,13 +79,15 @@ T.CheckBox {
 
             Behavior on color {
                 enabled: !Theme.reducedMotion
+                         && (control.hovered || control.down
+                             || control.checkState !== Qt.Unchecked)
                 ColorAnimation {
                     duration: Theme.duration(Theme.motionNormal)
                     easing.type: Theme.easingStandard
                 }
             }
             Behavior on scale {
-                enabled: !Theme.reducedMotion
+                enabled: !Theme.reducedMotion && (control.hovered || control.down)
                 NumberAnimation {
                     duration: Theme.duration(Theme.motionFast)
                     easing.type: Theme.easingStandard
@@ -93,6 +95,8 @@ T.CheckBox {
             }
             Behavior on border.width {
                 enabled: !Theme.reducedMotion
+                         && (control.hovered || control.down
+                             || control.checkState !== Qt.Unchecked)
                 NumberAnimation {
                     duration: Theme.duration(Theme.motionFast)
                     easing.type: Theme.easingStandard
@@ -113,6 +117,8 @@ T.CheckBox {
 
             Behavior on opacity {
                 enabled: !Theme.reducedMotion
+                         && (control.hovered || control.down
+                             || control.checkState === Qt.Checked)
                 NumberAnimation {
                     duration: Theme.duration(Theme.motionNormal)
                     easing.type: Theme.easingStandard
@@ -120,6 +126,8 @@ T.CheckBox {
             }
             Behavior on scale {
                 enabled: !Theme.reducedMotion
+                         && (control.hovered || control.down
+                             || control.checkState === Qt.Checked)
                 NumberAnimation {
                     duration: Theme.duration(Theme.motionNormal)
                     easing.type: Theme.easingStandard
@@ -156,6 +164,8 @@ T.CheckBox {
 
             Behavior on opacity {
                 enabled: !Theme.reducedMotion
+                         && (control.hovered || control.down
+                             || control.checkState === Qt.PartiallyChecked)
                 NumberAnimation {
                     duration: Theme.duration(Theme.motionNormal)
                     easing.type: Theme.easingStandard
@@ -163,6 +173,8 @@ T.CheckBox {
             }
             Behavior on scale {
                 enabled: !Theme.reducedMotion
+                         && (control.hovered || control.down
+                             || control.checkState === Qt.PartiallyChecked)
                 NumberAnimation {
                     duration: Theme.duration(Theme.motionNormal)
                     easing.type: Theme.easingStandard

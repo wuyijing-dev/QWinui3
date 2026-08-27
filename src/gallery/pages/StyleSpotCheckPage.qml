@@ -74,6 +74,22 @@ CatalogPage {
                     to: 10
                     value: 3
                 }
+                ToolButton {
+                    Layout.fillWidth: true
+                    text: qsTr("Tool subtle")
+                    appearance: "subtle"
+                }
+                RoundButton {
+                    text: "+"
+                    loading: roundBusy.checked
+                }
+                ProgressBar {
+                    id: progDemo
+                    Layout.fillWidth: true
+                    from: 0
+                    to: 1
+                    value: 0.35
+                }
                 FontIcon {
                     symbol: FluentIcons.ChevronDown
                     fontSize: 16
@@ -88,12 +104,20 @@ CatalogPage {
                     text: qsTr("Chevron expanded (I4)")
                     checked: true
                 }
+                CheckBox {
+                    id: roundBusy
+                    text: qsTr("RoundButton loading")
+                }
                 Button {
                     text: qsTr("Trigger error shake")
                     onClicked: {
                         errField.text = qsTr("bad")
                         errField.hasError = true
                     }
+                }
+                Button {
+                    text: qsTr("Progress complete")
+                    onClicked: progDemo.value = 1
                 }
             }
         }
@@ -157,6 +181,14 @@ CatalogPage {
                     from: 0
                     to: 100
                     value: 40
+                }
+                Slider {
+                    Layout.fillWidth: true
+                    from: 0
+                    to: 100
+                    stepSize: 25
+                    tickMarksVisible: true
+                    value: 50
                 }
             }
             RowLayout {

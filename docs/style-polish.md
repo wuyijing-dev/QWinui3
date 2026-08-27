@@ -47,6 +47,11 @@ Stroke: `Theme.strokeControl` / `strokeControlStrong`. Focus: `FocusStroke` + `T
 | **CheckBox** / **RadioButton** | Unchecked rest → `bgControlRest` |
 | **Slider** / **RangeSlider** | Thumb → `fillSliderThumb` |
 | **RoundButton** / **DelayButton** | Rest → `bgControlRest` |
+| **ToolButton** | `appearance`: subtle / outline / ghost; press scale (3.11) |
+| **RoundButton** | `appearance` + `loading` busy ring (3.11) |
+| **Slider** | `tickMarksVisible` + `stepSize` step ticks (3.11) |
+| **ProgressBar** | Completion opacity flash at 100% (3.11) |
+| **ItemDelegate** | Row press scale + `PointerCursor` (3.11) |
 
 **Still intentional hex** — accent tint via `Qt.tint(Theme.accent, …)`, disabled accent wash (`#28FFFFFF` / `#37000000`), check/radio glyph on accent (`Theme.textOnAccent`).
 
