@@ -47,6 +47,23 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.20 → 3.21
+
+**Product version:** 3.21  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | ComboBox click-to-open fix | None required |
+
+### Optional / polish
+- **ComboBox:** non-editable field no longer eats mouse presses — click anywhere on the control opens the popup (`editable: true` still focuses the TextInput)
+
+### No action (compatible)
+- APIs unchanged
+
 ### Upgrade 3.19 → 3.20
 
 **Product version:** 3.20  

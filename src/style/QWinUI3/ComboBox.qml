@@ -296,7 +296,8 @@ T.ComboBox {
         }
     }
 
-    // Editable: TextInput; closed list: read-only display of currentText
+    // Editable: live TextInput. Closed list: disable input so presses open the popup
+    // (a read-only TextInput still steals clicks in the middle of the field).
     contentItem: TextInput {
         clip: true
         font: control.font
@@ -311,10 +312,14 @@ T.ComboBox {
         autoScroll: control.editable
         readOnly: !control.editable
         selectByMouse: control.editable
-        enabled: control.enabled
+        activeFocusOnPress: control.editable
+        // When not editable, stay disabled so mouse events reach ComboBox → open popup
+        enabled: control.enabled && control.editable
         inputMethodHints: control.inputMethodHints
         validator: control.validator
         text: control.editable ? control.editText : control.displayText
+        // Keep label fully opaque even though this item is disabled when !editable
+        opacity: 1
 
         onTextEdited: {
             if (control.editable)

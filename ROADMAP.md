@@ -1,8 +1,8 @@
 # QWinUI3 Roadmap
 
-**Current:** **3.20** (master — Slider thumb/track align + tick contrast)
-**Next up:** **3.00** breaking close-out (prep [checkpoint-300](docs/checkpoint-300.md)) · **3.21+** friction-only · [micro-interaction backlog](#micro-interaction--visual-polish--deferred-last)
-**Planned through:** **3.10** complete · **3.11–3.12** polish · **3.13–3.20** WinUI basics · **3.00** still open · then friction / micro-interaction
+**Current:** **3.21** (master — ComboBox middle-click opens popup)
+**Next up:** **3.00** breaking close-out (prep [checkpoint-300](docs/checkpoint-300.md)) · **3.22+** friction-only · [micro-interaction backlog](#micro-interaction--visual-polish--deferred-last)
+**Planned through:** **3.10** complete · **3.11–3.12** polish · **3.13–3.21** WinUI basics · **3.00** still open · then friction / micro-interaction
 **Checkpoints ahead:** **checkpoint-300** (3.00) · **checkpoint-310** (3.10) green on master
 **Qt:** 6.5+ (recommended 6.8 LTS) on master today — **2.00** raises floor to **6.8 LTS** · **3.00** to **6.10 LTS**
 **Platforms:** **Windows + Linux** — no macOS first-class line.
