@@ -130,11 +130,20 @@ T.Popup {
         if (place !== undefined && place !== null)
             root.placement = place
         root.isOpen = true
-        Qt.callLater(root.reposition)
+        Qt.callLater(function () {
+            if (root)
+                root.reposition()
+        })
     }
 
     // Show the control
-    function show() { isOpen = true; Qt.callLater(reposition) }
+    function show() {
+        isOpen = true
+        Qt.callLater(function () {
+            if (root)
+                root.reposition()
+        })
+    }
     // Hide the control
     function hide() { isOpen = false }
 

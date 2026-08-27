@@ -15,6 +15,7 @@ import QtQuick
 // @notes
 //   Singleton queue for ContentDialog.show() (1.48 deepen).
 //   FIFO: first show() opens immediately; further show() calls wait in order.
+//   queuePriority on ContentDialog — higher values open before lower (2.82 D19).
 //   cancel drops a pending dialog only (no-op if already open).
 //   clearQueue drops pending without dismissing the active dialog.
 //   replaceCurrent closes the active dialog without pumping the queue, then opens
@@ -33,23 +34,62 @@ QtObject {
     // True while a dialog is open via the queue
     readonly property bool busy: _active !== null
 
-    // Enqueue a dialog (FIFO). Opens immediately if the queue is idle.
+    // Destroyed QML objects become null; also skip entries without open().
+    function _alive(dialog) {
+        return !!(dialog && typeof dialog.open === "function")
+    }
+
+    function _pruneQueue() {
+        var next = []
+        for (var i = 0; i < _queue.length; ++i) {
+            if (_alive(_queue[i]))
+                next.push(_queue[i])
+        }
+        if (next.length !== _queue.length)
+            _queue = next
+    }
+
+    function _priorityOf(dialog) {
+        if (!_alive(dialog) || dialog.queuePriority === undefined)
+            return 0
+        var p = Number(dialog.queuePriority)
+        return isFinite(p) ? p : 0
+    }
+
+    function _insertQueued(dialog) {
+        var pri = _priorityOf(dialog)
+        var insertAt = _queue.length
+        for (var i = 0; i < _queue.length; ++i) {
+            if (_priorityOf(_queue[i]) < pri) {
+                insertAt = i
+                break
+            }
+        }
+        var next = _queue.slice()
+        next.splice(insertAt, 0, dialog)
+        _queue = next
+    }
+
+    // Enqueue a dialog (FIFO among equal queuePriority). Opens immediately if idle.
     function enqueue(dialog) {
-        if (!dialog)
+        if (!_alive(dialog))
             return
         if (_active === dialog)
             return
+        _pruneQueue()
         for (var i = 0; i < _queue.length; ++i) {
             if (_queue[i] === dialog)
                 return
         }
+        if (!_alive(_active))
+            _active = null
         if (!_active) {
             _active = dialog
             _wire(dialog)
             dialog.open()
             return
         }
-        _queue = _queue.concat([dialog])
+        _insertQueued(dialog)
     }
 
     // Alias for enqueue
@@ -59,11 +99,13 @@ QtObject {
 
     // Prepend to pending queue — opens next after the active dialog (2.55 priority)
     function enqueueFront(dialog) {
-        if (!dialog)
+        if (!_alive(dialog))
             return
         if (_active === dialog)
             return
         cancel(dialog)
+        if (!_alive(_active))
+            _active = null
         if (!_active) {
             _active = dialog
             _wire(dialog)
@@ -84,7 +126,7 @@ QtObject {
             return
         var next = []
         for (var i = 0; i < _queue.length; ++i) {
-            if (_queue[i] !== dialog)
+            if (_queue[i] !== dialog && _alive(_queue[i]))
                 next.push(_queue[i])
         }
         _queue = next
@@ -99,10 +141,10 @@ QtObject {
     // Does not pump the pending queue while replacing; FIFO resumes after
     // `dialog` closes. Pending entries are preserved (and `dialog` is de-duped).
     function replaceCurrent(dialog) {
-        if (!dialog)
+        if (!_alive(dialog))
             return
         cancel(dialog)
-        if (_active && _active !== dialog) {
+        if (_alive(_active) && _active !== dialog) {
             var prev = _active
             _suppressPump = true
             _active = null
@@ -116,7 +158,7 @@ QtObject {
     }
 
     function _wire(dialog) {
-        if (!dialog || dialog.__queueWired)
+        if (!_alive(dialog) || dialog.__queueWired)
             return
         dialog.__queueWired = true
         dialog.closed.connect(function () {
@@ -127,14 +169,19 @@ QtObject {
     }
 
     function _pump() {
-        if (_suppressPump || _active || !_queue.length)
+        if (_suppressPump || _alive(_active))
             return
-        var next = _queue[0]
-        _queue = _queue.slice(1)
-        if (!next)
+        _active = null
+        _pruneQueue()
+        while (_queue.length) {
+            var next = _queue[0]
+            _queue = _queue.slice(1)
+            if (!_alive(next))
+                continue
+            _active = next
+            _wire(next)
+            next.open()
             return
-        _active = next
-        _wire(next)
-        next.open()
+        }
     }
 }

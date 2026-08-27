@@ -55,12 +55,17 @@ static QFont makeMonoFont(const QString &family, int pixelSize)
              << QStringLiteral("Consolas")
              << QStringLiteral("Courier New");
     families.removeDuplicates();
+    // Drop GDI bitmap monospace that DirectWrite rejects with noisy warnings.
+    for (int i = families.size() - 1; i >= 0; --i) {
+        if (isBitmapMonoFamily(families.at(i)))
+            families.removeAt(i);
+    }
     f.setFamilies(families);
-    f.setStyleHint(QFont::SansSerif);
+    f.setStyleHint(QFont::TypeWriter);
     f.setStyleStrategy(static_cast<QFont::StyleStrategy>(
         static_cast<int>(QFont::PreferOutline)
-        | static_cast<int>(QFont::PreferQuality)
-        | static_cast<int>(QFont::NoFontMerging)));
+        | static_cast<int>(QFont::PreferQuality)));
+    f.setHintingPreference(QFont::PreferNoHinting);
     if (pixelSize > 0)
         f.setPixelSize(pixelSize);
     return f;
@@ -231,8 +236,28 @@ void ThemeFonts::resolveUiStacks()
 static QFont makeUiFont(const QStringList &families, int pixelSize)
 {
     QFont f;
-    if (!families.isEmpty())
-        f.setFamilies(families);
+    QStringList stack = families;
+    // Last-resort outline faces so an empty stack never falls through to GDI Fixedsys.
+    static const char *const kSafe[] = {
+        "Segoe UI Variable",
+        "Segoe UI",
+        "Microsoft YaHei UI",
+        "Arial",
+        nullptr,
+    };
+    for (const char *name : kSafe) {
+        const QString family = QString::fromUtf8(name);
+        if (isBitmapMonoFamily(family))
+            continue;
+        if (!stack.contains(family))
+            stack.append(family);
+    }
+    for (int i = stack.size() - 1; i >= 0; --i) {
+        if (isBitmapMonoFamily(stack.at(i)))
+            stack.removeAt(i);
+    }
+    if (!stack.isEmpty())
+        f.setFamilies(stack);
     f.setStyleHint(QFont::SansSerif);
     f.setStyleStrategy(static_cast<QFont::StyleStrategy>(
         static_cast<int>(QFont::PreferOutline)

@@ -157,8 +157,10 @@ public:
                                 EventRegistrationToken token = {};
                                 controller->add_GotFocus(
                                     Callback<ICoreWebView2FocusChangedEventHandler>(
-                                        [this](ICoreWebView2Controller *, IUnknown *) -> HRESULT {
-                                            if (q && !q->hasActiveFocus())
+                                        [this, gen](ICoreWebView2Controller *, IUnknown *) -> HRESULT {
+                                            if (gen != generation || !q)
+                                                return S_OK;
+                                            if (!q->hasActiveFocus())
                                                 q->forceActiveFocus(Qt::OtherFocusReason);
                                             return S_OK;
                                         })
@@ -166,7 +168,8 @@ public:
                                     &token);
                                 controller->add_LostFocus(
                                     Callback<ICoreWebView2FocusChangedEventHandler>(
-                                        [this](ICoreWebView2Controller *, IUnknown *) -> HRESULT {
+                                        [this, gen](ICoreWebView2Controller *, IUnknown *) -> HRESULT {
+                                            Q_UNUSED(gen);
                                             return S_OK;
                                         })
                                         .Get(),
@@ -179,7 +182,9 @@ public:
 
                                 webView->add_NavigationStarting(
                                     Callback<ICoreWebView2NavigationStartingEventHandler>(
-                                        [this](ICoreWebView2 *, ICoreWebView2NavigationStartingEventArgs *) -> HRESULT {
+                                        [this, gen](ICoreWebView2 *, ICoreWebView2NavigationStartingEventArgs *) -> HRESULT {
+                                            if (gen != generation || !q)
+                                                return S_OK;
                                             q->m_loading = true;
                                             emit q->loadingChanged();
                                             return S_OK;
@@ -188,7 +193,9 @@ public:
                                     &token);
                                 webView->add_NavigationCompleted(
                                     Callback<ICoreWebView2NavigationCompletedEventHandler>(
-                                        [this](ICoreWebView2 *, ICoreWebView2NavigationCompletedEventArgs *args) -> HRESULT {
+                                        [this, gen](ICoreWebView2 *, ICoreWebView2NavigationCompletedEventArgs *args) -> HRESULT {
+                                            if (gen != generation || !q)
+                                                return S_OK;
                                             BOOL ok = TRUE;
                                             if (args)
                                                 args->get_IsSuccess(&ok);
@@ -202,8 +209,8 @@ public:
                                     &token);
                                 webView->add_DocumentTitleChanged(
                                     Callback<ICoreWebView2DocumentTitleChangedEventHandler>(
-                                        [this](ICoreWebView2 *sender, IUnknown *) -> HRESULT {
-                                            if (!sender)
+                                        [this, gen](ICoreWebView2 *sender, IUnknown *) -> HRESULT {
+                                            if (gen != generation || !q || !sender)
                                                 return S_OK;
                                             LPWSTR title = nullptr;
                                             sender->get_DocumentTitle(&title);
@@ -375,6 +382,8 @@ public:
 
     void refreshNavState()
     {
+        if (!q)
+            return;
         BOOL back = FALSE;
         BOOL forward = FALSE;
         if (webView) {
@@ -477,11 +486,6 @@ WebView2Host::WebView2Host(QQuickItem *parent)
     setFocus(false);
 #if QWINUI3_WEBVIEW2_IMPL
     m_impl = new Impl(this);
-    m_runtimeInstalled = queryRuntimeInstalled();
-    if (m_runtimeInstalled)
-        setStatus(tr("Initializing WebView2…"));
-    else
-        setStatus(tr("Edge WebView2 Runtime is not installed."));
 #else
     setStatus(tr("WebView2 is Windows-only (build with QWINUI3_BUILD_WEBVIEW2=ON)."));
 #endif
@@ -552,9 +556,34 @@ void WebView2Host::navigate(const QUrl &url)
     setSource(url);
 }
 
+void WebView2Host::probeRuntimeIfNeeded()
+{
+#if QWINUI3_WEBVIEW2_IMPL
+    if (m_runtimeProbed)
+        return;
+    m_runtimeProbed = true;
+    const bool was = m_runtimeInstalled;
+    m_runtimeInstalled = queryRuntimeInstalled();
+    if (was != m_runtimeInstalled)
+        emit runtimeInstalledChanged();
+    if (m_runtimeInstalled)
+        setStatus(tr("Initializing WebView2…"));
+    else
+        setStatus(tr("Edge WebView2 Runtime is not installed."));
+#endif
+}
+
+bool WebView2Host::shouldActivateHost() const
+{
+    return isVisible() && width() > 0 && height() > 0;
+}
+
 void WebView2Host::refreshRuntimeProbe()
 {
     const bool was = m_runtimeInstalled;
+#if QWINUI3_WEBVIEW2_IMPL
+    m_runtimeProbed = true;
+#endif
     m_runtimeInstalled = queryRuntimeInstalled();
     if (was != m_runtimeInstalled)
         emit runtimeInstalledChanged();
@@ -685,8 +714,11 @@ void WebView2Host::componentComplete()
     QQuickItem::componentComplete();
     m_completed = true;
     bindWindow(window());
-    ensureHost();
-    syncChildGeometry();
+    if (shouldActivateHost()) {
+        probeRuntimeIfNeeded();
+        ensureHost();
+        syncChildGeometry();
+    }
 }
 
 void WebView2Host::itemChange(ItemChange change, const ItemChangeData &value)
@@ -694,12 +726,24 @@ void WebView2Host::itemChange(ItemChange change, const ItemChangeData &value)
     QQuickItem::itemChange(change, value);
     if (change == ItemSceneChange) {
         bindWindow(window());
-        if (window())
+        if (window() && shouldActivateHost()) {
+            probeRuntimeIfNeeded();
             ensureHost();
-        else
+        } else {
             destroyHost();
+        }
         syncChildGeometry();
-    } else if (change == ItemVisibleHasChanged || change == ItemOpacityHasChanged) {
+    } else if (change == ItemVisibleHasChanged) {
+        if (m_completed) {
+            if (shouldActivateHost()) {
+                probeRuntimeIfNeeded();
+                ensureHost();
+            } else {
+                destroyHost();
+            }
+        }
+        syncChildGeometry();
+    } else if (change == ItemOpacityHasChanged) {
         syncChildGeometry();
     } else if (change == ItemActiveFocusHasChanged) {
         applyBrowserFocus(hasActiveFocus());

@@ -47,6 +47,25 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.26 → 3.27
+
+**Product version:** 3.27  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | ContentDialogQueue / ThemeFonts | None required |
+
+### Optional / polish
+- **ContentDialogQueue:** skip destroyed dialogs when pumping the queue
+- **ThemeFonts:** never fall through to GDI Fixedsys; mono uses TypeWriter + PreferNoHinting
+- **Flyout / CommandBarFlyout:** null-safe reposition after `callLater`
+
+### No action (compatible)
+- APIs unchanged
+
 ### Upgrade 3.25 → 3.26
 
 **Product version:** 3.26  

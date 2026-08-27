@@ -94,13 +94,19 @@ T.Popup {
         }
         root.isOpen = true
         // Layout (and real width/height) exists only after open — reposition then.
-        Qt.callLater(root.reposition)
+        Qt.callLater(function () {
+            if (root)
+                root.reposition()
+        })
     }
 
     // Show the control
     function show() {
         isOpen = true
-        Qt.callLater(reposition)
+        Qt.callLater(function () {
+            if (root)
+                root.reposition()
+        })
     }
     // Hide the control
     function hide() { isOpen = false }
@@ -162,7 +168,10 @@ T.Popup {
     onOpened: {
         isOpen = true
         reposition()
-        Qt.callLater(reposition)
+        Qt.callLater(function () {
+            if (root)
+                root.reposition()
+        })
     }
     onClosed: {
         isOpen = false
