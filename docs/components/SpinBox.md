@@ -4,7 +4,7 @@ Fluent styled SpinBox.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/SpinBox.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/SpinBox.qml)
 
-**Category:** Styled controls · **Library:** v2.81
+**Category:** Styled controls · **Library:** v3.56
 
 [← Component index](../components.md)
 
@@ -19,6 +19,8 @@ SpinBox {
     id: spin
     from: 0; to: 10; value: 3
 }
+
+Hold-to-repeat: Qt SpinBox repeats while pressed; up/down halves have independent hover/press (M6).
 ```
 
 ## Notes

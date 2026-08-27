@@ -4,7 +4,7 @@ Segoe Fluent Icons character class — FluentIcons.Save, FluentIcons.Copy, … F
 
 `import QWinUI3.Theme` · [`src/theme/QWinUI3/Theme/FluentIcons.h`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/theme/QWinUI3/Theme/FluentIcons.h)
 
-**Category:** Theme · **Library:** v2.81 · **C++ type** · **singleton**
+**Category:** Theme · **Library:** v3.56 · **C++ type** · **singleton**
 
 [← Component index](../components.md)
 

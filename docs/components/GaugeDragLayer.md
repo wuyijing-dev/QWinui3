@@ -4,7 +4,7 @@ Maps drags anywhere on the gauge control into coordSpace (face / canvas / track)
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/GaugeDragLayer.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/GaugeDragLayer.qml)
 
-**Category:** Charts & gauges · **Library:** v2.81
+**Category:** Charts & gauges · **Library:** v3.56
 
 [← Component index](../components.md)
 

@@ -4,7 +4,7 @@ Independent ApplicationWindow + WindowChrome host.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ShellWindow.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ShellWindow.qml)
 
-**Category:** Shells & windows · **Library:** v2.81
+**Category:** Shells & windows · **Library:** v3.56
 
 [← Component index](../components.md)
 
@@ -35,7 +35,8 @@ ShellWindow {
 ApplicationWindow + WindowChrome; does not subclass StandardWindow.
 Use BlankWindow / NavigationWindow / MenuStatusWindow / DialogShellWindow /
 ToolShellWindow / CompactOverlayShellWindow for common layouts.
-Title-bar slots: leftHeader, titleBarContent, rightHeader, menusInTitleBar.
+Title-bar slots: leftHeader, titleBarContent, rightHeader, captionRightHeader, menusInTitleBar.
+captionRightHeader → PlatformTitleBar (before min/max/close); rightHeader → TitleBar trailing band.
 Domain search: searchPlaceholder, or searchEnabled: false + titleBarContent: SearchBox { … }
 Window roles (作用): paradigm + presenter + always-on-top via WindowHelper.
 Backdrop / paradigm via WindowHelper (see docs/window-helper.md).
@@ -56,7 +57,8 @@ Backdrop / paradigm via WindowHelper (see docs/window-helper.md).
 | `isBackButtonEnabled` | `alias` | Enable back button |
 | `leftHeader` | `alias` | WinUI LeftHeader slot |
 | `titleBarContent` | `alias` | Extra title-bar middle content (e.g. MenuBar when menusInTitleBar) |
-| `rightHeader` | `alias` | WinUI RightHeader slot |
+| `rightHeader` | `alias` | WinUI RightHeader slot (inside TitleBar drag band) |
+| `captionRightHeader` | `alias` | WinUI RightHeader before caption buttons (FPS badge, account menu, …) |
 | `searchText` | `alias` | Title-bar search field text |
 | `searchModel` | `alias` | Title-bar search suggestions |
 | `searchPlaceholder` | `alias` | Built-in title-bar search placeholder (default qsTr("Search"); Gallery uses "Search controls") |
@@ -89,6 +91,8 @@ Backdrop / paradigm via WindowHelper (see docs/window-helper.md).
 | `windowSubtitle` | `alias` | Window subtitle alias |
 | `windowSymbol` | `alias` | Window symbol alias |
 | `windowRoleSummary` | `string` | Human-readable role summary for Gallery / diagnostics |
+| `isWindowMaximized` | `bool` | — |
+| `titleBarHeight` | `real` | — |
 | `shellPadding` | `int` | — |
 | `shellContentInset` | `real` | — |
 
@@ -114,6 +118,14 @@ Backdrop / paradigm via WindowHelper (see docs/window-helper.md).
 | `saveGeometry()` | — |
 | `restoreGeometry()` | — |
 | `clearSavedGeometry()` | — |
+| `refreshTitleBarHitTest()` | — |
+| `toggleMaximize()` | — |
+| `minimizeWindow()` | — |
+| `setTaskbarProgress(value)` | — |
+| `clearTaskbarProgress()` | — |
+| `setTaskbarOverlayText(text)` | — |
+| `clearTaskbarOverlay()` | — |
+| `requestUserAttention(continuous)` | — |
 
 ### Inherited from `ApplicationWindow`
 

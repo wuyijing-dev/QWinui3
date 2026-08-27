@@ -4,7 +4,7 @@ System tray icon + balloon / notify-send bridge.
 
 `import QWinUI3.Platform` · [`src/platform/QWinUI3/Platform/TrayIcon.h`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/platform/QWinUI3/Platform/TrayIcon.h)
 
-**Category:** Platform · **Library:** v2.81 · **C++ type**
+**Category:** Platform · **Library:** v3.56 · **C++ type**
 
 [← Component index](../components.md)
 

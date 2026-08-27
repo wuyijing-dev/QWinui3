@@ -4,7 +4,7 @@ WinUI TitleBar content chrome (not caption buttons).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/TitleBar.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/TitleBar.qml)
 
-**Category:** Shells & windows · **Library:** v2.81
+**Category:** Shells & windows · **Library:** v3.56
 
 [← Component index](../components.md)
 
@@ -59,6 +59,7 @@ Cookbook: docs/title-bar-cookbook.md. Slot layout changes auto-refresh Windows N
 | `useSystemMove` | `bool` | Use Window.startSystemMove for caption drag |
 | `trailingReserve` | `real` | Extra right inset when caption buttons are drawn outside this item |
 | `dragWindow` | `var` | Window used for system move |
+| `useNativeChrome` | `bool` | When true, caption drag is handled by native NC hit-test — disable QML drag MouseArea. |
 | `preferredHeight` | `real` | WinUI TitleBarHeightOption — Standard 32 / Tall 48 (from PlatformTitleBar). |
 | `effectiveIconGlyph` | `string` | Resolved glyph string |
 | `hasContentChildren` | `bool` | Content slot has children |

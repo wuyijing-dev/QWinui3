@@ -4,7 +4,7 @@ Multi-series line/area chart.
 
 `import QWinUI3.Extras.Charts` · [`src/extras/QWinUI3/Extras/LineChart.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/LineChart.qml)
 
-**Category:** Charts & gauges · **Library:** v3.10
+**Category:** Charts & gauges · **Library:** v3.56
 
 [← Component index](../components.md)
 

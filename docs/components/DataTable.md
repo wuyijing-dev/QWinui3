@@ -4,7 +4,7 @@ Fluent virtualizing table with sort, filter, resize, and keyboard.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/DataTable.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/DataTable.qml)
 
-**Category:** Collections & data · **Library:** v3.10
+**Category:** Collections & data · **Library:** v3.56
 
 [← Component index](../components.md)
 
@@ -46,20 +46,19 @@ DataTable {
 ## Notes
 
 ListView virtualizes rows (`reuseItems`) — fixed rowHeight fast path (2.66 C1).
-ListView model uses lean `{kind,rowIndex}` / group `{kind,label}` wrappers — not raw
-row objects — so Qt does not expose every business key as a role (**3.44** H13).
+ListView model uses lean {kind,rowIndex|label} wrappers — not raw row objects (3.44 H13).
 Filter + sort rebuild `_viewRows` in JS — debounced on filter keystrokes (1.88);
 skips rebuild when query/sort/rows/hidden unchanged (2.18 / 3.44). Sort keys cached
-only for active sortSpecs columns (2.84 C8); filter skips hidden columns until shown.
+only for active sortSpecs columns (2.84 C8); hidden columns stay out of filter scans.
 rows assignment coalesced via Qt.callLater (2.84 C8).
 Multi-column sort via sortSpecs / Shift+click header (2.66 D1).
 Column visibility (hiddenColumns) + width persistence (columnWidths) — 2.66 D1.
 Column pin + reorder (columnOrder / moveColumn) and row group headers (groupRole) — 2.64.
 columnLayoutKey Settings persist + export/import layout — 2.82 D14.
-Pinned/scroll column layout skips `columnLayoutChanged` when order unchanged (3.50 C21).
-`cacheBufferPx` + non-grouped lean-model reuse — 3.52 C23.
 Selection tracks the row **object** across sort/filter.
 copySelection / exportCsv — clipboard CSV for selection or visible rows (2.71).
+Column layout rebuild skips unchanged pinned/scroll order (3.50 C21).
+cacheBufferPx + lean-model reuse + column invalidate — 3.52 C23.
 See docs/data-collections.md for DataTable vs ItemsView vs ListDetailsView.
 
 ## API
@@ -79,7 +78,7 @@ See docs/data-collections.md for DataTable vs ItemsView vs ListDetailsView.
 | `sortSpecs` | `var` | Multi-column sort specs: [{ column, order }, …] — first entry is primary (2.66 D1) |
 | `rowHeight` | `real` | — |
 | `fixedRowHeight` | `bool` | Fixed row-height ListView path (always on — C1 / 3.52) |
-| `cacheBufferPx` | `int` | ListView overscan; `< 0` uses `rowHeight * 12` (3.52 C23). |
+| `cacheBufferPx` | `int` | ListView overscan; < 0 uses rowHeight * 12 (3.52 C23). |
 | `minColumnWidth` | `real` | — |
 | `headerHeight` | `real` | — |
 | `filterDebounceMs` | `int` | Debounce filter keystrokes before rebuilding _viewRows (1.88). |

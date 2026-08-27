@@ -4,7 +4,7 @@ Runtime feature probe (2.67 F1).
 
 `import QWinUI3.Platform` · [`src/platform/QWinUI3/Platform/PlatformCapability.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/platform/QWinUI3/Platform/PlatformCapability.qml)
 
-**Category:** Platform · **Library:** v2.81 · **singleton**
+**Category:** Platform · **Library:** v3.56 · **singleton**
 
 [← Component index](../components.md)
 

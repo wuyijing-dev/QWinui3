@@ -1,6 +1,6 @@
 # QWinUI3 component API
 
-Library **v3.10**. Generated from CMake ``QML_FILES`` + C++ ``QML_ELEMENT`` types (`scripts/generate_component_docs.py`).
+Library **v3.56**. Generated from CMake ``QML_FILES`` + C++ ``QML_ELEMENT`` types (`scripts/generate_component_docs.py`).
 Each control has its own page under `docs/components/`.
 
 ```bash
@@ -9,7 +9,7 @@ python scripts/generate_component_docs.py --lint
 python scripts/generate_component_docs.py --skip-python
 ```
 
-**325** public · **14** internal · **211** with Gallery demos · Hub: [docs home](index.md).
+**325** public · **14** internal · **216** with Gallery demos · Hub: [docs home](index.md).
 
 ## By module
 
@@ -25,36 +25,26 @@ python scripts/generate_component_docs.py --skip-python
 - [AppBarSeparator](components/AppBarSeparator.md) — Thin separator for CommandBar / AppBar rows. · Gallery
 - [AppBarToggleButton](components/AppBarToggleButton.md) — Checkable AppBarButton for CommandBar. · Gallery
 - [ArcGauge](components/ArcGauge.md) — Open-arc dashboard gauge with center value and thresholds. · Gallery
-- [AreaChart](components/AreaChart.md) — Filled area chart with legend and hover crosshair. · Gallery
 - [AutomotiveCluster](components/AutomotiveCluster.md) — Composed vehicle instrument cluster. · Gallery
 - [AutoSuggestBox](components/AutoSuggestBox.md) — Text field with filtered suggestion popup. · Gallery
 - [AvatarGroup](components/AvatarGroup.md) — Overlapping PersonPicture stack with overflow count. · Gallery
-- [BandChart](components/BandChart.md) — High/low envelope with an optional mid line. · Gallery
-- [BarChart](components/BarChart.md) — Vertical bar chart with reveal animation. · Gallery
 - [BatteryGauge](components/BatteryGauge.md) — Battery silhouette with charge fill and optional charging bolt. · Gallery
 - [BlankWindow](components/BlankWindow.md) — Empty ShellWindow client — declare UI as children.
 - [BoostGauge](components/BoostGauge.md) — Turbo vacuum / boost with zero at center-left of the scale. · Gallery
-- [BoxPlotChart](components/BoxPlotChart.md) — Tukey box-and-whisker groups. · Gallery
 - [BreadcrumbBar](components/BreadcrumbBar.md) — Path trail; model items raise itemClicked. · Gallery
-- [BulletChart](components/BulletChart.md) — Compact KPI bullet (ranges + performance + target). · Gallery
 - [CalendarDatePicker](components/CalendarDatePicker.md) — Date field with calendar flyout. · Gallery
 - [CalendarView](components/CalendarView.md) — month grid for scheduling / booking surfaces (2.31). · Gallery
-- [CandlestickChart](components/CandlestickChart.md) — OHLC candlesticks for professional price series. · Gallery
 - [ChartCard](components/ChartCard.md) — Title/subtitle chrome around a chart child. · Gallery
-- [ChartEmptyState](components/ChartEmptyState.md) — Fluent empty / loading / error placeholder for ChartCard (2.65).
-- [ChartLegend](components/ChartLegend.md) — Fluent legend for series/slices.
-- [ChartSeries](components/ChartSeries.md) — Dense numeric series owned in C++ for million-point charts. · Gallery · C++
 - [Chip](components/Chip.md) — Compact selectable tag; optional close affordance. · Gallery
 - [ChipGroup](components/ChipGroup.md) — Horizontal chip group for filters / single select. · Gallery
 - [ColorPicker](components/ColorPicker.md) — Spectrum + RGB/Hex color editor. · Gallery
 - [ColorPickerButton](components/ColorPickerButton.md) — Color swatch button that opens ColorPicker. · Gallery
-- [ComboChart](components/ComboChart.md) — Bars plus an overlay line (volume vs price). · Gallery
 - [CommandBar](components/CommandBar.md) — Primary/secondary command row (AppBar host). · Gallery
 - [CommandBarFlyout](components/CommandBarFlyout.md) — Popup CommandBar with primary + secondary commands. · Gallery
 - [CommandBarKeyHints](components/CommandBarKeyHints.md) — show keyboardAcceleratorText hints from AppBarButton children.
 - [CommandBarPreset](components/CommandBarPreset.md) — product default preset to avoid “looks broken” combos.
 - [CommandPalette](components/CommandPalette.md) — Ctrl+K style command launcher (fuzzy filter + keyboard). · Gallery
-- [CommandPaletteHost](components/CommandPaletteHost.md) — Ctrl+K / Meta+K wiring for StandardWindow and custom hosts (3.01 W3).
+- [CommandPaletteHost](components/CommandPaletteHost.md) — Ctrl+K / Meta+K wiring for StandardWindow and custom hosts (3.01 W3). · Gallery
 - [CommandRegistry](components/CommandRegistry.md) — Scoped command store for CommandPalette auto-discovery (2.68 · 3.02 R1–R3).
 - [CompactOverlayShellWindow](components/CompactOverlayShellWindow.md) — Always-on-top compact overlay shell.
 - [CompassGauge](components/CompassGauge.md) — Heading / bearing compass (0–360°, wraparound). · Gallery
@@ -77,13 +67,10 @@ python scripts/generate_component_docs.py --skip-python
 - [DialogShellWindow](components/DialogShellWindow.md) — ShellWindow with dialog paradigm flags.
 - [DigitGauge](components/DigitGauge.md) — Seven-segment numeric readout. · Gallery
 - [DockPanel](components/DockPanel.md) — Dock children Top/Bottom/Left/Right/Fill. · Gallery
-- [DonutChart](components/DonutChart.md) — Donut chart with hover and legend. · Gallery
 - [DropDownButton](components/DropDownButton.md) — Button that opens a MenuFlyout of actions. · Gallery
 - [DualRingGauge](components/DualRingGauge.md) — Two independent concentric KPI rings. · Gallery
-- [DumbbellChart](components/DumbbellChart.md) — Before/after pairs on a shared category axis. · Gallery
 - [EmptyState](components/EmptyState.md) — Placeholder illustration + title + optional action. · Gallery
 - [EntranceThemeTransition](components/EntranceThemeTransition.md) — WinUI-style page / section entrance (fade + rise + scale). · Gallery
-- [ErrorBarChart](components/ErrorBarChart.md) — Mean (or value) with ± error whiskers. · Gallery
 - [ErrorBoundary](components/ErrorBoundary.md) — Recovery UI for failed page / session loads (2.75).
 - [Expander](components/Expander.md) — Collapsible header with expandable content. · Gallery
 - [FeedbackSeverity](components/FeedbackSeverity.md) — Shared severity palette + glyphs for InfoBar / Toast / TeachingTip (2.70 A7). · singleton
@@ -96,7 +83,6 @@ python scripts/generate_component_docs.py --skip-python
 - [FormLayout](components/FormLayout.md) — Vertical form stack that collects field errorMessage values.
 - [FormSection](components/FormSection.md) — Collapsible field group for FormLayout (2.67 D2).
 - [FuelGauge](components/FuelGauge.md) — Empty/full arc with E–F marks. · Gallery
-- [FunnelChart](components/FunnelChart.md) — Conversion funnel from stage values. · Gallery
 - [GearIndicator](components/GearIndicator.md) — PRNDS / manual gear readout for a cluster. · Gallery
 - [GeometryAndPrefsGuard](components/GeometryAndPrefsGuard.md) — Warn when ThemeAppearanceSettings.persist=false may surprise users.
 - [GMeterGauge](components/GMeterGauge.md) — Lateral / longitudinal G-force plot. · Gallery
@@ -104,13 +90,9 @@ python scripts/generate_component_docs.py --skip-python
 - [HeaderedComboBox](components/HeaderedComboBox.md) — ComboBox with header, description, and FormLayout binding. · Gallery
 - [HeaderedContentControl](components/HeaderedContentControl.md) — Labeled content host. · Gallery
 - [HeaderedTextBox](components/HeaderedTextBox.md) — TextBox with header and description. · Gallery
-- [HeatmapChart](components/HeatmapChart.md) — Heatmap matrix chart. · Gallery
-- [HistogramChart](components/HistogramChart.md) — Frequency bins from a numeric series. · Gallery
-- [HorizontalBarChart](components/HorizontalBarChart.md) — Horizontal bar chart. · Gallery
 - [HyperlinkButton](components/HyperlinkButton.md) — Link-styled button. · Gallery
 - [IconButton](components/IconButton.md) — Icon-only button helper. · Gallery
 - [IconicButton](components/IconicButton.md) — Base icon + label button used by AppBar* / IconButton. · Gallery
-- [ImeCandidateBar](components/ImeCandidateBar.md) — Win11-style in-app IME candidate strip (1.74).
 - [InfoBadge](components/InfoBadge.md) — Count / status / glyph badge. · Gallery
 - [InfoBar](components/InfoBar.md) — Inline severity banner with optional action and Content slot. · Gallery
 - [InfoBarHost](components/InfoBarHost.md) — Stacks InfoBars in a host region. · Gallery
@@ -122,16 +104,14 @@ python scripts/generate_component_docs.py --skip-python
 - [KeyChordVisual](components/KeyChordVisual.md) — Renders Ctrl+K style shortcuts as KeyVisuals.
 - [KeyVisual](components/KeyVisual.md) — Single keyboard key chrome. · Gallery
 - [KpiTile](components/KpiTile.md) — Compact dashboard KPI tile with optional delta and spark trend. · Gallery
-- [LayoutPreset](components/LayoutPreset.md) — Named SplitWorkspace layouts persisted in QSettings (3.03 W6).
+- [LayoutPreset](components/LayoutPreset.md) — Named SplitWorkspace layouts persisted in QSettings (3.03 W6). · Gallery
 - [LedRingGauge](components/LedRingGauge.md) — Circular LED / peak-hold ring. · Gallery
 - [LinearGauge](components/LinearGauge.md) — Horizontal/vertical track gauge with thresholds. · Gallery
-- [LineChart](components/LineChart.md) — Multi-series line/area chart. · Gallery
 - [ListDetailsView](components/ListDetailsView.md) — Master–detail recipe on TwoPaneView. · Gallery
 - [ListTile](components/ListTile.md) — List row: leading, title, subtitle, trailing. · Gallery
 - [LiveMetricStrip](components/LiveMetricStrip.md) — Throttled live KPI row with ring buffers + compare-period (3.05 G1).
-- [LollipopChart](components/LollipopChart.md) — Stem-and-marker chart (compact bar alternative). · Gallery
 - [MaskedTextField](components/MaskedTextField.md) — Simple input mask for phone / ID-style patterns (2.71). · Gallery
-- [MatchHighlightText](components/MatchHighlightText.md) — substring accent highlight for search/filter labels.
+- [MatchHighlightText](components/MatchHighlightText.md) — substring accent highlight for search/filter labels. · Gallery
 - [MediaPlayerElement](components/MediaPlayerElement.md) — Fluent shell around Qt Multimedia MediaPlayer / VideoOutput. · Gallery
 - [MenuFlyout](components/MenuFlyout.md) — Elevated Menu with showAt / isOpen helpers. · Gallery
 - [MenuFlyoutAutoMaxHeight](components/MenuFlyoutAutoMaxHeight.md) — menu max-height computed from host overlay size.
@@ -153,28 +133,18 @@ python scripts/generate_component_docs.py --skip-python
 - [NumberBox](components/NumberBox.md) — Numeric spin/edit with validation (WinUI AcceptsExpression / IsWrapEnabled). · Gallery
 - [OdometerGauge](components/OdometerGauge.md) — Total and trip distance. · Gallery
 - [OfflineBanner](components/OfflineBanner.md) — InfoBar bound to WindowHelper.isOnline (2.78).
-- [OnScreenKeyboard](components/OnScreenKeyboard.md) — Windows 11 touch keyboard parity (1.82). · Gallery
-- [OnScreenKeyboardWindow](components/OnScreenKeyboardWindow.md) — floating Win11-style OSK (1.83).
 - [OperationRetry](components/OperationRetry.md) — Attempt / retry helpers with exponential backoff (2.78).
-- [OskHandwritingPad](components/OskHandwritingPad.md) — Zinnia CLI handwriting panel (Windows + Linux).
-- [OskPanelButton](components/OskPanelButton.md) — compact action chip for OSK auxiliary panels.
-- [OskSettingsFlyout](components/OskSettingsFlyout.md) — Win11-style keyboard settings (size, voice/handwriting, user lexicon).
-- [OskVoiceBar](components/OskVoiceBar.md) — cross-platform speech-to-text strip (Windows System.Speech / Linux whisper|vosk).
 - [PagerControl](components/PagerControl.md) — Numbered page navigation (prev / numbers / next). · Gallery
 - [PanelFloatHost](components/PanelFloatHost.md) — Detach a pane into ToolShellWindow and dock it back (3.08 W8).
-- [ParetoChart](components/ParetoChart.md) — Ranked bars plus cumulative percent line. · Gallery
 - [PasswordBox](components/PasswordBox.md) — Password field with reveal toggle. · Gallery
 - [PermissionGate](components/PermissionGate.md) — Show/enable children by role (2.71). · Gallery
 - [PersonPicture](components/PersonPicture.md) — Avatar from image or initials (WinUI IsGroup / BadgeImageSource). · Gallery
-- [PieChart](components/PieChart.md) — Pie chart with legend. · Gallery
 - [PipsPager](components/PipsPager.md) — Dot pager for carousels. · Gallery
 - [Pivot](components/Pivot.md) — Header tabs with sliding underline and pages. · Gallery
-- [PolarAreaChart](components/PolarAreaChart.md) — Coxcomb / polar-area sectors (radius encodes value). · Gallery
 - [PressureGauge](components/PressureGauge.md) — Industrial needle with green / caution / red zones. · Gallery
 - [ProgressButton](components/ProgressButton.md) — Button with inline determinate/indeterminate fill. · Gallery
 - [ProgressRing](components/ProgressRing.md) — Circular progress / busy ring (WinUI Minimum / Maximum / IsActive). · Gallery
 - [QuarterGauge](components/QuarterGauge.md) — 90° dashboard quadrant meter. · Gallery
-- [RadarChart](components/RadarChart.md) — Radar / spider chart. · Gallery
 - [RadialGauge](components/RadialGauge.md) — Toolkit-style circular needle gauge (CommunityToolkit.WinUI.Controls.RadialGauge). · Gallery
 - [RadioButtons](components/RadioButtons.md) — Grouped radio options from a model (WinUI RadioButtons). · Gallery
 - [RadioMenuFlyoutItem](components/RadioMenuFlyoutItem.md) — Exclusive radio MenuFlyout item.
@@ -187,7 +157,6 @@ python scripts/generate_component_docs.py --skip-python
 - [RichEdit](components/RichEdit.md) — Fluent rich-text editor for mail / template / long notes (2.61). · Gallery
 - [RightClickAnchorHelper](components/RightClickAnchorHelper.md) — compute global anchor point for right-click menus.
 - [RingGauge](components/RingGauge.md) — Closed-ring dashboard gauge with center value and thresholds. · Gallery
-- [ScatterChart](components/ScatterChart.md) — Scatter / bubble chart. · Gallery
 - [SearchBox](components/SearchBox.md) — Search field with suggestion list. · Gallery
 - [SearchBoxRecipe](components/SearchBoxRecipe.md) — standard SearchBox preset for product apps.
 - [SegmentedControl](components/SegmentedControl.md) — Mutually exclusive segment buttons. · Gallery
@@ -211,13 +180,11 @@ python scripts/generate_component_docs.py --skip-python
 - [SpeedometerGauge](components/SpeedometerGauge.md) — Vehicle speed needle (km/h or mph). · Gallery
 - [SplitButton](components/SplitButton.md) — Primary action + chevron menu. · Gallery
 - [SplitWorkspace](components/SplitWorkspace.md) — 2–3 resizable panes for IDE/ops layouts (3.03 W5). · Gallery
-- [StackedBarChart](components/StackedBarChart.md) — Stacked bar chart. · Gallery
 - [StackPanel](components/StackPanel.md) — Simple stack layout (orientation + spacing). · Gallery
 - [StandardTitleChrome](components/StandardTitleChrome.md) — PlatformTitleBar + TitleBar with WinUI header slots.
 - [StatusBar](components/StatusBar.md) — Window status strip with progress and slots. · Gallery
 - [StatusDot](components/StatusDot.md) — Colored status indicator dot. · Gallery
 - [StepBar](components/StepBar.md) — Horizontal step / wizard progress. · Gallery
-- [SunburstChart](components/SunburstChart.md) — Two-level nested rings. · Gallery
 - [SwipeAction](components/SwipeAction.md) — Action revealed by SwipeControl.
 - [SwipeControl](components/SwipeControl.md) — Swipe-to-reveal actions on content. · Gallery
 - [SwitchCase](components/SwitchCase.md) — Case child for SwitchPresenter.
@@ -238,8 +205,8 @@ python scripts/generate_component_docs.py --skip-python
 - [Timeline](components/Timeline.md) — Vertical event timeline. · Gallery
 - [TimePicker](components/TimePicker.md) — Hour / minute (and period) selectors. · Gallery
 - [TitleBar](components/TitleBar.md) — WinUI TitleBar content chrome (not caption buttons). · Gallery
-- [TitleBarCommandBar](components/TitleBarCommandBar.md) — declarative title-bar commands for leftHeader / captionRightHeader (3.01 W2).
-- [TitleBarToolbar](components/TitleBarToolbar.md) — horizontal action row for titleBarContent / leftHeader slots.
+- [TitleBarCommandBar](components/TitleBarCommandBar.md) — declarative title-bar commands for leftHeader / captionRightHeader (3.01 W2). · Gallery
+- [TitleBarToolbar](components/TitleBarToolbar.md) — horizontal action row for titleBarContent / leftHeader slots. · Gallery
 - [Toast](components/Toast.md) — Transient toast item. · Gallery
 - [ToastHost](components/ToastHost.md) — Hosts stacked Toasts with WinUI-style corner placement. · Gallery
 - [ToggleButton](components/ToggleButton.md) — Checkable button with Fluent chrome. · Gallery
@@ -250,20 +217,59 @@ python scripts/generate_component_docs.py --skip-python
 - [ToolShellWindow](components/ToolShellWindow.md) — ShellWindow with tool paradigm.
 - [TpmsGauge](components/TpmsGauge.md) — Four-corner tire pressure. · Gallery
 - [TreeDataGrid](components/TreeDataGrid.md) — hierarchical multi-column grid with sort + filter (2.21). · Gallery
-- [TreemapChart](components/TreemapChart.md) — Nested slice-and-dice treemap. · Gallery
 - [TwoPaneView](components/TwoPaneView.md) — Responsive dual-pane layout. · Gallery
 - [UnifiedSearchSurface](components/UnifiedSearchSurface.md) — unify TitleBar search + Navigation pane search + custom middle search
 - [UniformGrid](components/UniformGrid.md) — Even cell grid. · Gallery
 - [ValidationSummary](components/ValidationSummary.md) — Lists form-level validation errors (pairs with FormLayout).
-- [ViolinChart](components/ViolinChart.md) — Density violin from sample groups. · Gallery
 - [VoltageGauge](components/VoltageGauge.md) — 12 V vehicle electrical system. · Gallery
 - [VuMeter](components/VuMeter.md) — Linear LED / peak-hold meter (audio, signal, load). · Gallery
-- [WaffleChart](components/WaffleChart.md) — 10×10 part-to-whole grid. · Gallery
-- [WaterfallChart](components/WaterfallChart.md) — Waterfall chart. · Gallery
 - [WindowMessageBus](components/WindowMessageBus.md) — Process-local typed channels between windows (2.72). · singleton
 - [Wizard](components/Wizard.md) — Multi-step flow host (StepBar + content + Back/Next). · Gallery
 - [WrapPanel](components/WrapPanel.md) — Flow / wrap layout. · Gallery
 - [ZoneGauge](components/ZoneGauge.md) — Gauge with colored zones. · Gallery
+
+### `QWinUI3.Extras.Charts`
+
+- [AreaChart](components/AreaChart.md) — Filled area chart with legend and hover crosshair. · Gallery
+- [BandChart](components/BandChart.md) — High/low envelope with an optional mid line. · Gallery
+- [BarChart](components/BarChart.md) — Vertical bar chart with reveal animation. · Gallery
+- [BoxPlotChart](components/BoxPlotChart.md) — Tukey box-and-whisker groups. · Gallery
+- [BulletChart](components/BulletChart.md) — Compact KPI bullet (ranges + performance + target). · Gallery
+- [CandlestickChart](components/CandlestickChart.md) — OHLC candlesticks for professional price series. · Gallery
+- [ChartEmptyState](components/ChartEmptyState.md) — Fluent empty / loading / error placeholder for ChartCard (2.65).
+- [ChartLegend](components/ChartLegend.md) — Fluent legend for series/slices.
+- [ChartSeries](components/ChartSeries.md) — Dense numeric series owned in C++ for million-point charts. · Gallery · C++
+- [ComboChart](components/ComboChart.md) — Bars plus an overlay line (volume vs price). · Gallery
+- [DonutChart](components/DonutChart.md) — Donut chart with hover and legend. · Gallery
+- [DumbbellChart](components/DumbbellChart.md) — Before/after pairs on a shared category axis. · Gallery
+- [ErrorBarChart](components/ErrorBarChart.md) — Mean (or value) with ± error whiskers. · Gallery
+- [FunnelChart](components/FunnelChart.md) — Conversion funnel from stage values. · Gallery
+- [HeatmapChart](components/HeatmapChart.md) — Heatmap matrix chart. · Gallery
+- [HistogramChart](components/HistogramChart.md) — Frequency bins from a numeric series. · Gallery
+- [HorizontalBarChart](components/HorizontalBarChart.md) — Horizontal bar chart. · Gallery
+- [LineChart](components/LineChart.md) — Multi-series line/area chart. · Gallery
+- [LollipopChart](components/LollipopChart.md) — Stem-and-marker chart (compact bar alternative). · Gallery
+- [ParetoChart](components/ParetoChart.md) — Ranked bars plus cumulative percent line. · Gallery
+- [PieChart](components/PieChart.md) — Pie chart with legend. · Gallery
+- [PolarAreaChart](components/PolarAreaChart.md) — Coxcomb / polar-area sectors (radius encodes value). · Gallery
+- [RadarChart](components/RadarChart.md) — Radar / spider chart. · Gallery
+- [ScatterChart](components/ScatterChart.md) — Scatter / bubble chart. · Gallery
+- [StackedBarChart](components/StackedBarChart.md) — Stacked bar chart. · Gallery
+- [SunburstChart](components/SunburstChart.md) — Two-level nested rings. · Gallery
+- [TreemapChart](components/TreemapChart.md) — Nested slice-and-dice treemap. · Gallery
+- [ViolinChart](components/ViolinChart.md) — Density violin from sample groups. · Gallery
+- [WaffleChart](components/WaffleChart.md) — 10×10 part-to-whole grid. · Gallery
+- [WaterfallChart](components/WaterfallChart.md) — Waterfall chart. · Gallery
+
+### `QWinUI3.Extras.Osk`
+
+- [ImeCandidateBar](components/ImeCandidateBar.md) — Win11-style in-app IME candidate strip (1.74).
+- [OnScreenKeyboard](components/OnScreenKeyboard.md) — Windows 11 touch keyboard parity (1.82). · Gallery
+- [OnScreenKeyboardWindow](components/OnScreenKeyboardWindow.md) — floating Win11-style OSK (1.83).
+- [OskHandwritingPad](components/OskHandwritingPad.md) — Zinnia CLI handwriting panel (Windows + Linux).
+- [OskPanelButton](components/OskPanelButton.md) — compact action chip for OSK auxiliary panels.
+- [OskSettingsFlyout](components/OskSettingsFlyout.md) — Win11-style keyboard settings (size, voice/handwriting, user lexicon).
+- [OskVoiceBar](components/OskVoiceBar.md) — cross-platform speech-to-text strip (Windows System.Speech / Linux whisper|vosk).
 
 ### `QWinUI3.Platform`
 
@@ -280,10 +286,13 @@ python scripts/generate_component_docs.py --skip-python
 - [ThemeSync](components/ThemeSync.md) — Copy OS accessibility / color scheme into Theme knobs.
 - [ToolWindow](components/ToolWindow.md) — StandardWindow tool paradigm.
 - [TrayIcon](components/TrayIcon.md) — System tray icon + balloon / notify-send bridge. · Gallery · C++
-- [WebView2Host](components/WebView2Host.md) — HWND-backed Edge WebView2 under a QQuickItem (Windows only). · Gallery · C++
 - [WindowHelper](components/WindowHelper.md) — Platform chrome, backdrop, DPI, and geometry helpers (singleton). · Gallery · C++ · singleton
 - [WindowShellContentClip](components/WindowShellContentClip.md) — inset / clip helper for Linux client-shell bottom corners.
 - [WindowShellDecoration](components/WindowShellDecoration.md) — Linux / Wayland client shell: DWM-like shadow + rounded frame.
+
+### `QWinUI3.Platform.WebView2`
+
+- [WebView2Host](components/WebView2Host.md) — Registers WebView2Host on QWinUI3.Platform.WebView2 (3.35 S12). Import that URI before instantiating WebView2Host — not part of Platform cold path. · Gallery · C++
 
 ### `QWinUI3.Theme`
 
@@ -297,10 +306,10 @@ python scripts/generate_component_docs.py --skip-python
 
 - [ApplicationWindow](components/ApplicationWindow.md) — Fluent ApplicationWindow chrome defaults.
 - [BusyIndicator](components/BusyIndicator.md) — Fluent styled BusyIndicator. · Gallery
-- [Button](components/Button.md) — Fluent Button with WinUI stroke / fill / focus chrome. · Gallery
-- [CheckBox](components/CheckBox.md) — Fluent styled CheckBox. · Gallery
+- [Button](components/Button.md) — Fluent / WinUI 3 Button (appearances, icon, loading). · Gallery
+- [CheckBox](components/CheckBox.md) — Fluent / WinUI 3 CheckBox (description, three-state). · Gallery
 - [CheckDelegate](components/CheckDelegate.md) — Fluent styled CheckDelegate.
-- [ComboBox](components/ComboBox.md) — Fluent ComboBox with rotating chevron indicator. · Gallery
+- [ComboBox](components/ComboBox.md) — Fluent / WinUI 3 ComboBox (Header, editable, ShowError chrome). · Gallery
 - [DayOfWeekRow](components/DayOfWeekRow.md) — Fluent styled DayOfWeekRow.
 - [DelayButton](components/DelayButton.md) — Fluent styled DelayButton.
 - [Dial](components/Dial.md) — Fluent Dial with WinUI arc track and accent thumb. · Gallery
@@ -322,15 +331,15 @@ python scripts/generate_component_docs.py --skip-python
 - [PageIndicator](components/PageIndicator.md) — Fluent styled PageIndicator. · Gallery
 - [Pane](components/Pane.md) — Fluent styled Pane. · Gallery
 - [Popup](components/Popup.md) — Fluent styled Popup chrome.
-- [ProgressBar](components/ProgressBar.md) — Fluent styled ProgressBar (WinUI ShowError / ShowPaused). · Gallery
-- [RadioButton](components/RadioButton.md) — Fluent styled RadioButton. · Gallery
+- [ProgressBar](components/ProgressBar.md) — Fluent / WinUI 3 ProgressBar (Header, value label, ShowError / ShowPaused). · Gallery
+- [RadioButton](components/RadioButton.md) — Fluent / WinUI 3 RadioButton (description caption). · Gallery
 - [RadioDelegate](components/RadioDelegate.md) — Fluent styled RadioDelegate.
-- [RangeSlider](components/RangeSlider.md) — Fluent styled RangeSlider. · Gallery
+- [RangeSlider](components/RangeSlider.md) — Fluent / WinUI 3 styled dual-thumb Slider. · Gallery
 - [RoundButton](components/RoundButton.md) — Fluent styled RoundButton.
 - [ScrollBar](components/ScrollBar.md) — Fluent styled ScrollBar. · Gallery
 - [ScrollIndicator](components/ScrollIndicator.md) — Fluent styled ScrollIndicator.
 - [ScrollView](components/ScrollView.md) — Fluent styled ScrollView.
-- [Slider](components/Slider.md) — Fluent styled Slider. · Gallery
+- [Slider](components/Slider.md) — Fluent / WinUI 3 styled Slider. · Gallery
 - [SpinBox](components/SpinBox.md) — Fluent styled SpinBox. · Gallery
 - [SplitView](components/SplitView.md) — Fluent styled SplitView. · Gallery
 - [StackView](components/StackView.md) — Fluent styled StackView. · Gallery
@@ -341,7 +350,7 @@ python scripts/generate_component_docs.py --skip-python
 - [TabBar](components/TabBar.md) — Fluent styled TabBar. · Gallery
 - [TabButton](components/TabButton.md) — Fluent styled TabButton.
 - [TextArea](components/TextArea.md) — Fluent styled TextArea. · Gallery
-- [TextField](components/TextField.md) — Fluent styled TextField. · Gallery
+- [TextField](components/TextField.md) — Fluent / WinUI 3 TextBox-style TextField. · Gallery
 - [ToolBar](components/ToolBar.md) — Fluent styled ToolBar. · Gallery
 - [ToolButton](components/ToolButton.md) — Fluent styled ToolButton.
 - [ToolSeparator](components/ToolSeparator.md) — Fluent styled ToolSeparator.
@@ -372,7 +381,6 @@ python scripts/generate_component_docs.py --skip-python
 - [IconButton](components/IconButton.md) — `QWinUI3.Extras`
 - [IconicButton](components/IconicButton.md) — `QWinUI3.Extras`
 - [InfoButton](components/InfoButton.md) — `QWinUI3.Extras`
-- [OskPanelButton](components/OskPanelButton.md) — `QWinUI3.Extras`
 - [ProgressButton](components/ProgressButton.md) — `QWinUI3.Extras`
 - [RadioButtons](components/RadioButtons.md) — `QWinUI3.Extras`
 - [SplitButton](components/SplitButton.md) — `QWinUI3.Extras`
@@ -382,62 +390,65 @@ python scripts/generate_component_docs.py --skip-python
 ### Charts & gauges
 
 - [ArcGauge](components/ArcGauge.md) — `QWinUI3.Extras`
-- [AreaChart](components/AreaChart.md) — `QWinUI3.Extras`
+- [AreaChart](components/AreaChart.md) — `QWinUI3.Extras.Charts`
 - [AutomotiveCluster](components/AutomotiveCluster.md) — `QWinUI3.Extras`
-- [BandChart](components/BandChart.md) — `QWinUI3.Extras`
-- [BarChart](components/BarChart.md) — `QWinUI3.Extras`
+- [BandChart](components/BandChart.md) — `QWinUI3.Extras.Charts`
+- [BarChart](components/BarChart.md) — `QWinUI3.Extras.Charts`
 - [BatteryGauge](components/BatteryGauge.md) — `QWinUI3.Extras`
 - [BoostGauge](components/BoostGauge.md) — `QWinUI3.Extras`
-- [BoxPlotChart](components/BoxPlotChart.md) — `QWinUI3.Extras`
-- [BulletChart](components/BulletChart.md) — `QWinUI3.Extras`
-- [CandlestickChart](components/CandlestickChart.md) — `QWinUI3.Extras`
+- [BoxPlotChart](components/BoxPlotChart.md) — `QWinUI3.Extras.Charts`
+- [BulletChart](components/BulletChart.md) — `QWinUI3.Extras.Charts`
+- [CandlestickChart](components/CandlestickChart.md) — `QWinUI3.Extras.Charts`
 - [ChartCard](components/ChartCard.md) — `QWinUI3.Extras`
-- [ChartLegend](components/ChartLegend.md) — `QWinUI3.Extras`
-- [ChartSeries](components/ChartSeries.md) — `QWinUI3.Extras`
+- [ChartEmptyState](components/ChartEmptyState.md) — `QWinUI3.Extras.Charts`
+- [ChartLegend](components/ChartLegend.md) — `QWinUI3.Extras.Charts`
+- [ChartSeries](components/ChartSeries.md) — `QWinUI3.Extras.Charts`
+- [ComboChart](components/ComboChart.md) — `QWinUI3.Extras.Charts`
 - [CompassGauge](components/CompassGauge.md) — `QWinUI3.Extras`
 - [CoolantGauge](components/CoolantGauge.md) — `QWinUI3.Extras`
 - [CylinderGauge](components/CylinderGauge.md) — `QWinUI3.Extras`
 - [DigitGauge](components/DigitGauge.md) — `QWinUI3.Extras`
-- [DonutChart](components/DonutChart.md) — `QWinUI3.Extras`
+- [DonutChart](components/DonutChart.md) — `QWinUI3.Extras.Charts`
 - [DualRingGauge](components/DualRingGauge.md) — `QWinUI3.Extras`
-- [DumbbellChart](components/DumbbellChart.md) — `QWinUI3.Extras`
-- [ErrorBarChart](components/ErrorBarChart.md) — `QWinUI3.Extras`
+- [DumbbellChart](components/DumbbellChart.md) — `QWinUI3.Extras.Charts`
+- [ErrorBarChart](components/ErrorBarChart.md) — `QWinUI3.Extras.Charts`
 - [FuelGauge](components/FuelGauge.md) — `QWinUI3.Extras`
-- [FunnelChart](components/FunnelChart.md) — `QWinUI3.Extras`
+- [FunnelChart](components/FunnelChart.md) — `QWinUI3.Extras.Charts`
 - [GMeterGauge](components/GMeterGauge.md) — `QWinUI3.Extras`
 - [GearIndicator](components/GearIndicator.md) — `QWinUI3.Extras`
-- [HeatmapChart](components/HeatmapChart.md) — `QWinUI3.Extras`
-- [HistogramChart](components/HistogramChart.md) — `QWinUI3.Extras`
-- [HorizontalBarChart](components/HorizontalBarChart.md) — `QWinUI3.Extras`
+- [HeatmapChart](components/HeatmapChart.md) — `QWinUI3.Extras.Charts`
+- [HistogramChart](components/HistogramChart.md) — `QWinUI3.Extras.Charts`
+- [HorizontalBarChart](components/HorizontalBarChart.md) — `QWinUI3.Extras.Charts`
 - [KpiTile](components/KpiTile.md) — `QWinUI3.Extras`
 - [LedRingGauge](components/LedRingGauge.md) — `QWinUI3.Extras`
-- [LineChart](components/LineChart.md) — `QWinUI3.Extras`
+- [LineChart](components/LineChart.md) — `QWinUI3.Extras.Charts`
 - [LinearGauge](components/LinearGauge.md) — `QWinUI3.Extras`
-- [LollipopChart](components/LollipopChart.md) — `QWinUI3.Extras`
+- [LollipopChart](components/LollipopChart.md) — `QWinUI3.Extras.Charts`
 - [OdometerGauge](components/OdometerGauge.md) — `QWinUI3.Extras`
-- [ParetoChart](components/ParetoChart.md) — `QWinUI3.Extras`
-- [PieChart](components/PieChart.md) — `QWinUI3.Extras`
-- [PolarAreaChart](components/PolarAreaChart.md) — `QWinUI3.Extras`
+- [ParetoChart](components/ParetoChart.md) — `QWinUI3.Extras.Charts`
+- [PieChart](components/PieChart.md) — `QWinUI3.Extras.Charts`
+- [PolarAreaChart](components/PolarAreaChart.md) — `QWinUI3.Extras.Charts`
 - [PressureGauge](components/PressureGauge.md) — `QWinUI3.Extras`
 - [QuarterGauge](components/QuarterGauge.md) — `QWinUI3.Extras`
-- [RadarChart](components/RadarChart.md) — `QWinUI3.Extras`
+- [RadarChart](components/RadarChart.md) — `QWinUI3.Extras.Charts`
 - [RingGauge](components/RingGauge.md) — `QWinUI3.Extras`
-- [ScatterChart](components/ScatterChart.md) — `QWinUI3.Extras`
+- [ScatterChart](components/ScatterChart.md) — `QWinUI3.Extras.Charts`
 - [SegmentedGauge](components/SegmentedGauge.md) — `QWinUI3.Extras`
 - [Sparkline](components/Sparkline.md) — `QWinUI3.Extras`
 - [SpeedometerGauge](components/SpeedometerGauge.md) — `QWinUI3.Extras`
-- [StackedBarChart](components/StackedBarChart.md) — `QWinUI3.Extras`
-- [SunburstChart](components/SunburstChart.md) — `QWinUI3.Extras`
+- [StackedBarChart](components/StackedBarChart.md) — `QWinUI3.Extras.Charts`
+- [SunburstChart](components/SunburstChart.md) — `QWinUI3.Extras.Charts`
 - [TachometerGauge](components/TachometerGauge.md) — `QWinUI3.Extras`
 - [TankGauge](components/TankGauge.md) — `QWinUI3.Extras`
 - [TelltaleBar](components/TelltaleBar.md) — `QWinUI3.Extras`
 - [ThermometerGauge](components/ThermometerGauge.md) — `QWinUI3.Extras`
 - [TpmsGauge](components/TpmsGauge.md) — `QWinUI3.Extras`
-- [ViolinChart](components/ViolinChart.md) — `QWinUI3.Extras`
+- [TreemapChart](components/TreemapChart.md) — `QWinUI3.Extras.Charts`
+- [ViolinChart](components/ViolinChart.md) — `QWinUI3.Extras.Charts`
 - [VoltageGauge](components/VoltageGauge.md) — `QWinUI3.Extras`
 - [VuMeter](components/VuMeter.md) — `QWinUI3.Extras`
-- [WaffleChart](components/WaffleChart.md) — `QWinUI3.Extras`
-- [WaterfallChart](components/WaterfallChart.md) — `QWinUI3.Extras`
+- [WaffleChart](components/WaffleChart.md) — `QWinUI3.Extras.Charts`
+- [WaterfallChart](components/WaterfallChart.md) — `QWinUI3.Extras.Charts`
 - [ZoneGauge](components/ZoneGauge.md) — `QWinUI3.Extras`
 
 ### Collections & data
@@ -457,18 +468,13 @@ python scripts/generate_component_docs.py --skip-python
 - [ListDetailsView](components/ListDetailsView.md) — `QWinUI3.Extras`
 - [ListTile](components/ListTile.md) — `QWinUI3.Extras`
 - [PersonPicture](components/PersonPicture.md) — `QWinUI3.Extras`
-- [Timeline](components/Timeline.md) — `QWinUI3.Extras`
 - [TreeDataGrid](components/TreeDataGrid.md) — `QWinUI3.Extras`
-- [TreemapChart](components/TreemapChart.md) — `QWinUI3.Extras`
 
 ### Date & time
 
 - [CalendarDatePicker](components/CalendarDatePicker.md) — `QWinUI3.Extras`
 - [CalendarView](components/CalendarView.md) — `QWinUI3.Extras`
 - [DatePicker](components/DatePicker.md) — `QWinUI3.Extras`
-- [ImeCandidateBar](components/ImeCandidateBar.md) — `QWinUI3.Extras`
-- [SessionTimeout](components/SessionTimeout.md) — `QWinUI3.Extras`
-- [TimePicker](components/TimePicker.md) — `QWinUI3.Extras`
 
 ### Dialogs & flyouts
 
@@ -482,7 +488,6 @@ python scripts/generate_component_docs.py --skip-python
 - [MenuFlyoutPresenter](components/MenuFlyoutPresenter.md) — `QWinUI3.Extras`
 - [MenuFlyoutSeparator](components/MenuFlyoutSeparator.md) — `QWinUI3.Extras`
 - [MenuFlyoutSnapshotModel](components/MenuFlyoutSnapshotModel.md) — `QWinUI3.Extras`
-- [OskSettingsFlyout](components/OskSettingsFlyout.md) — `QWinUI3.Extras`
 - [TeachingTip](components/TeachingTip.md) — `QWinUI3.Extras`
 - [Toast](components/Toast.md) — `QWinUI3.Extras`
 - [ToastHost](components/ToastHost.md) — `QWinUI3.Extras`
@@ -492,7 +497,6 @@ python scripts/generate_component_docs.py --skip-python
 
 - [AutoSuggestBox](components/AutoSuggestBox.md) — `QWinUI3.Extras`
 - [ColorPicker](components/ColorPicker.md) — `QWinUI3.Extras`
-- [ComboChart](components/ComboChart.md) — `QWinUI3.Extras`
 - [ContentDialog](components/ContentDialog.md) — `QWinUI3.Extras`
 - [ContentDialogQueue](components/ContentDialogQueue.md) — `QWinUI3.Extras`
 - [ContextMenuAtItem](components/ContextMenuAtItem.md) — `QWinUI3.Extras`
@@ -502,11 +506,16 @@ python scripts/generate_component_docs.py --skip-python
 - [HeaderedComboBox](components/HeaderedComboBox.md) — `QWinUI3.Extras`
 - [HeaderedContentControl](components/HeaderedContentControl.md) — `QWinUI3.Extras`
 - [HeaderedTextBox](components/HeaderedTextBox.md) — `QWinUI3.Extras`
+- [ImeCandidateBar](components/ImeCandidateBar.md) — `QWinUI3.Extras.Osk`
 - [MaskedTextField](components/MaskedTextField.md) — `QWinUI3.Extras`
-- [MatchHighlightText](components/MatchHighlightText.md) — `QWinUI3.Extras`
 - [MultiSelectComboBox](components/MultiSelectComboBox.md) — `QWinUI3.Extras`
 - [NumberBox](components/NumberBox.md) — `QWinUI3.Extras`
-- [OnScreenKeyboard](components/OnScreenKeyboard.md) — `QWinUI3.Extras`
+- [OnScreenKeyboard](components/OnScreenKeyboard.md) — `QWinUI3.Extras.Osk`
+- [OnScreenKeyboardWindow](components/OnScreenKeyboardWindow.md) — `QWinUI3.Extras.Osk`
+- [OskHandwritingPad](components/OskHandwritingPad.md) — `QWinUI3.Extras.Osk`
+- [OskPanelButton](components/OskPanelButton.md) — `QWinUI3.Extras.Osk`
+- [OskSettingsFlyout](components/OskSettingsFlyout.md) — `QWinUI3.Extras.Osk`
+- [OskVoiceBar](components/OskVoiceBar.md) — `QWinUI3.Extras.Osk`
 - [PasswordBox](components/PasswordBox.md) — `QWinUI3.Extras`
 - [RadialGauge](components/RadialGauge.md) — `QWinUI3.Extras`
 - [RadioMenuFlyoutItem](components/RadioMenuFlyoutItem.md) — `QWinUI3.Extras`
@@ -514,11 +523,14 @@ python scripts/generate_component_docs.py --skip-python
 - [RatingStars](components/RatingStars.md) — `QWinUI3.Extras`
 - [SearchBox](components/SearchBox.md) — `QWinUI3.Extras`
 - [SearchBoxRecipe](components/SearchBoxRecipe.md) — `QWinUI3.Extras`
+- [SessionTimeout](components/SessionTimeout.md) — `QWinUI3.Extras`
 - [SettingsComboCard](components/SettingsComboCard.md) — `QWinUI3.Extras`
 - [SettingsSliderCard](components/SettingsSliderCard.md) — `QWinUI3.Extras`
 - [SwitchCase](components/SwitchCase.md) — `QWinUI3.Extras`
 - [SwitchPresenter](components/SwitchPresenter.md) — `QWinUI3.Extras`
 - [TextBlock](components/TextBlock.md) — `QWinUI3.Extras`
+- [TimePicker](components/TimePicker.md) — `QWinUI3.Extras`
+- [Timeline](components/Timeline.md) — `QWinUI3.Extras`
 - [TokenizingTextBox](components/TokenizingTextBox.md) — `QWinUI3.Extras`
 - [UnifiedSearchSurface](components/UnifiedSearchSurface.md) — `QWinUI3.Extras`
 - [UniformGrid](components/UniformGrid.md) — `QWinUI3.Extras`
@@ -530,6 +542,7 @@ python scripts/generate_component_docs.py --skip-python
 - [ActionCard](components/ActionCard.md) — `QWinUI3.Extras`
 - [ContentCard](components/ContentCard.md) — `QWinUI3.Extras`
 - [DockPanel](components/DockPanel.md) — `QWinUI3.Extras`
+- [LayoutPreset](components/LayoutPreset.md) — `QWinUI3.Extras`
 - [PanelFloatHost](components/PanelFloatHost.md) — `QWinUI3.Extras`
 - [RelativePanel](components/RelativePanel.md) — `QWinUI3.Extras`
 - [SettingsCard](components/SettingsCard.md) — `QWinUI3.Extras`
@@ -537,6 +550,7 @@ python scripts/generate_component_docs.py --skip-python
 - [SettingsGroup](components/SettingsGroup.md) — `QWinUI3.Extras`
 - [SettingsToggleCard](components/SettingsToggleCard.md) — `QWinUI3.Extras`
 - [SettingsView](components/SettingsView.md) — `QWinUI3.Extras`
+- [SplitWorkspace](components/SplitWorkspace.md) — `QWinUI3.Extras`
 - [StackPanel](components/StackPanel.md) — `QWinUI3.Extras`
 - [ThemeAppearanceSettings](components/ThemeAppearanceSettings.md) — `QWinUI3.Extras`
 - [TwoPaneView](components/TwoPaneView.md) — `QWinUI3.Extras`
@@ -559,6 +573,7 @@ python scripts/generate_component_docs.py --skip-python
 ### Navigation
 
 - [BreadcrumbBar](components/BreadcrumbBar.md) — `QWinUI3.Extras`
+- [MatchHighlightText](components/MatchHighlightText.md) — `QWinUI3.Extras`
 - [NavigationView](components/NavigationView.md) — `QWinUI3.Extras`
 - [PagerControl](components/PagerControl.md) — `QWinUI3.Extras`
 - [PipsPager](components/PipsPager.md) — `QWinUI3.Extras`
@@ -580,15 +595,11 @@ python scripts/generate_component_docs.py --skip-python
 - [GeometryAndPrefsGuard](components/GeometryAndPrefsGuard.md) — `QWinUI3.Extras`
 - [KeyChordVisual](components/KeyChordVisual.md) — `QWinUI3.Extras`
 - [KeyVisual](components/KeyVisual.md) — `QWinUI3.Extras`
-- [LayoutPreset](components/LayoutPreset.md) — `QWinUI3.Extras`
-- [LiveMetricStrip](components/LiveMetricStrip.md) — `QWinUI3.Extras`
 - [MetadataControl](components/MetadataControl.md) — `QWinUI3.Extras`
 - [MetadataItem](components/MetadataItem.md) — `QWinUI3.Extras`
 - [MetricCompareRow](components/MetricCompareRow.md) — `QWinUI3.Extras`
 - [OfflineBanner](components/OfflineBanner.md) — `QWinUI3.Extras`
 - [OperationRetry](components/OperationRetry.md) — `QWinUI3.Extras`
-- [OskHandwritingPad](components/OskHandwritingPad.md) — `QWinUI3.Extras`
-- [OskVoiceBar](components/OskVoiceBar.md) — `QWinUI3.Extras`
 - [PermissionGate](components/PermissionGate.md) — `QWinUI3.Extras`
 - [RecentFiles](components/RecentFiles.md) — `QWinUI3.Extras`
 - [RefreshContainer](components/RefreshContainer.md) — `QWinUI3.Extras`
@@ -599,7 +610,6 @@ python scripts/generate_component_docs.py --skip-python
 - [SensitiveField](components/SensitiveField.md) — `QWinUI3.Extras`
 - [SessionRestore](components/SessionRestore.md) — `QWinUI3.Extras`
 - [Skeleton](components/Skeleton.md) — `QWinUI3.Extras`
-- [SplitWorkspace](components/SplitWorkspace.md) — `QWinUI3.Extras`
 - [StandardTitleChrome](components/StandardTitleChrome.md) — `QWinUI3.Extras`
 - [SwipeAction](components/SwipeAction.md) — `QWinUI3.Extras`
 - [SwipeControl](components/SwipeControl.md) — `QWinUI3.Extras`
@@ -621,7 +631,7 @@ python scripts/generate_component_docs.py --skip-python
 - [ThemeSync](components/ThemeSync.md) — `QWinUI3.Platform`
 - [ToolWindow](components/ToolWindow.md) — `QWinUI3.Platform`
 - [TrayIcon](components/TrayIcon.md) — `QWinUI3.Platform`
-- [WebView2Host](components/WebView2Host.md) — `QWinUI3.Platform`
+- [WebView2Host](components/WebView2Host.md) — `QWinUI3.Platform.WebView2`
 - [WindowHelper](components/WindowHelper.md) — `QWinUI3.Platform`
 - [WindowShellContentClip](components/WindowShellContentClip.md) — `QWinUI3.Platform`
 - [WindowShellDecoration](components/WindowShellDecoration.md) — `QWinUI3.Platform`
@@ -634,7 +644,6 @@ python scripts/generate_component_docs.py --skip-python
 - [DialogShellWindow](components/DialogShellWindow.md) — `QWinUI3.Extras`
 - [MenuStatusWindow](components/MenuStatusWindow.md) — `QWinUI3.Extras`
 - [NavigationWindow](components/NavigationWindow.md) — `QWinUI3.Extras`
-- [OnScreenKeyboardWindow](components/OnScreenKeyboardWindow.md) — `QWinUI3.Extras`
 - [ShellWindow](components/ShellWindow.md) — `QWinUI3.Extras`
 - [TabViewTearOutWindow](components/TabViewTearOutWindow.md) — `QWinUI3.Extras`
 - [TitleBar](components/TitleBar.md) — `QWinUI3.Extras`
@@ -645,9 +654,9 @@ python scripts/generate_component_docs.py --skip-python
 
 ### Status & feedback
 
-- [ChartEmptyState](components/ChartEmptyState.md) — `QWinUI3.Extras`
 - [EmptyState](components/EmptyState.md) — `QWinUI3.Extras`
 - [InfoBadge](components/InfoBadge.md) — `QWinUI3.Extras`
+- [LiveMetricStrip](components/LiveMetricStrip.md) — `QWinUI3.Extras`
 - [MeterBar](components/MeterBar.md) — `QWinUI3.Extras`
 - [NotificationBridge](components/NotificationBridge.md) — `QWinUI3.Extras`
 - [NotificationCenter](components/NotificationCenter.md) — `QWinUI3.Extras`
@@ -727,11 +736,11 @@ python scripts/generate_component_docs.py --skip-python
 - [ChartUtils](components/ChartUtils.md) (`QWinUI3.Extras`) — LOD helpers for large chart series.
 - [GaugeDragLayer](components/GaugeDragLayer.md) (`QWinUI3.Extras`) — Maps drags anywhere on the gauge control into coordSpace (face / canvas / track).
 - [GaugeUtils](components/GaugeUtils.md) (`QWinUI3.Extras`) — Shared pointer → value helpers for interactive gauges.
-- [KeyboardEngine](components/KeyboardEngine.md) (`QWinUI3.Extras`) — Keyman layouts + in-app IME + optional Windows system-wide inject (1.82). Not Qt Virtual Keyboard. CJK is not Keyman IMX. Japanese stays romaji→kana (no MIT kanji lexicon; JMDict is CC-BY-SA). systemWide (opt-in, Windows SendInput) injects into the focused desktop app.
-- [OskHandwritingService](components/OskHandwritingService.md) (`QWinUI3.Extras`) — process handwriting for OSK (Windows + Linux). No helper processes. Windows: Ink recognizer COM. Both: Zinnia shared library when a model is present.
-- [OskSpeechService](components/OskSpeechService.md) (`QWinUI3.Extras`) — process speech-to-text for OSK (Windows + Linux). No helper processes. Windows: SAPI in-proc recognizer. Optional Vosk shared library on both OSes.
 - [ShellWindowSupport](components/ShellWindowSupport.md) (`QWinUI3.Extras`) — Shared install/presenter glue for ShellWindow.
 - [WindowChrome](components/WindowChrome.md) (`QWinUI3.Extras`) — PlatformTitleBar + TitleBar bundle for shells.
+- [KeyboardEngine](components/KeyboardEngine.md) (`QWinUI3.Extras.Osk`) — Keyman layouts + in-app IME + optional Windows system-wide inject (1.82). Not Qt Virtual Keyboard. CJK is not Keyman IMX. Japanese stays romaji→kana (no MIT kanji lexicon; JMDict is CC-BY-SA). systemWide (opt-in, Windows SendInput) injects into the focused desktop app.
+- [OskHandwritingService](components/OskHandwritingService.md) (`QWinUI3.Extras.Osk`) — process handwriting for OSK (Windows + Linux). No helper processes. Windows: Ink recognizer COM. Both: Zinnia shared library when a model is present.
+- [OskSpeechService](components/OskSpeechService.md) (`QWinUI3.Extras.Osk`) — process speech-to-text for OSK (Windows + Linux). No helper processes. Windows: SAPI in-proc recognizer. Optional Vosk shared library on both OSes.
 - [CaptionButton](components/CaptionButton.md) (`QWinUI3.Platform`) — Native-chrome caption min/max/close button.
 - [WindowResizeBorder](components/WindowResizeBorder.md) (`QWinUI3.Platform`) — Non-native resize hit edges.
 - [ElevatedChrome](components/ElevatedChrome.md) (`QWinUI3.Theme`) — Shared elevated shadow/border chrome (WinUI-style soft shadow).

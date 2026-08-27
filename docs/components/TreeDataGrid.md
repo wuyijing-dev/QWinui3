@@ -4,7 +4,7 @@ hierarchical multi-column grid with sort + filter (2.21).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/TreeDataGrid.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/TreeDataGrid.qml)
 
-**Category:** Collections & data · **Library:** v3.10
+**Category:** Collections & data · **Library:** v3.56
 
 [← Component index](../components.md)
 
@@ -44,7 +44,7 @@ group; filter keeps matching branches (ancestors auto-expanded). Not Excel-scale
 prefer C++ model + custom view for huge trees. Filter debounce + maxFilterResults
 match DataTable (2.18 / 2.40). Column resize + freezeFirstColumn (2.64).
 columnLayoutKey Settings persist — 2.82 D17 · cached tree flatten — 2.84 C7.
-Fixed `rowHeight` + `cacheBufferPx` / rows `callLater` — 3.52 C23.
+Fixed rowHeight + rowHeight*12 overscan + rows callLater — 3.52 C23.
 See docs/tree-data.md · docs/collection-perf-264.md.
 
 ## API
@@ -62,8 +62,8 @@ See docs/tree-data.md · docs/collection-perf-264.md.
 | `sortColumn` | `int` | — |
 | `sortOrder` | `int` | — |
 | `rowHeight` | `real` | — |
-| `fixedRowHeight` | `bool` | Fixed row-height ListView path (always on — 3.52 C23). |
-| `cacheBufferPx` | `int` | ListView overscan; `< 0` uses `rowHeight * 12` (3.52 C23). |
+| `fixedRowHeight` | `bool` | Fixed row-height ListView path (always on — 3.52 C23 / C1 family). |
+| `cacheBufferPx` | `int` | ListView overscan; < 0 uses rowHeight * 12 (3.52 C23). |
 | `minColumnWidth` | `real` | — |
 | `headerHeight` | `real` | — |
 | `indentWidth` | `real` | — |

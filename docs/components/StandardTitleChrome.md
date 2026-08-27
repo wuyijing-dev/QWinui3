@@ -4,7 +4,7 @@ PlatformTitleBar + TitleBar with WinUI header slots.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/StandardTitleChrome.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/StandardTitleChrome.qml)
 
-**Category:** Other · **Library:** v2.81
+**Category:** Other · **Library:** v3.56
 
 [← Component index](../components.md)
 
@@ -24,7 +24,7 @@ StandardWindow {
     }
 }
 
-Same slot model as ShellWindow (leftHeader / titleBarContent / rightHeader).
+Same slot model as ShellWindow (leftHeader / titleBarContent / rightHeader / captionRightHeader).
 ```
 
 ## API
@@ -39,7 +39,7 @@ Same slot model as ShellWindow (leftHeader / titleBarContent / rightHeader).
 | `symbol` | `var` | FluentIcons symbol |
 | `leftHeader` | `alias` | WinUI LeftHeader slot |
 | `titleBarContent` | `alias` | Title-bar middle content (menus, toolbar, …) |
-| `searchEnabled` | `alias` | Built-in title-bar search |
+| `searchEnabled` | `alias` | rightHeader / captionRightHeader — inherited from PlatformTitleBar (before caption buttons). |
 | `searchText` | `alias` | — |
 | `searchModel` | `alias` | — |
 | `searchPlaceholder` | `alias` | — |

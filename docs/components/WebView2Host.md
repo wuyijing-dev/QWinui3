@@ -1,36 +1,16 @@
 # WebView2Host
 
-HWND-backed Edge WebView2 under a QQuickItem (Windows only).
+Registers WebView2Host on QWinUI3.Platform.WebView2 (3.35 S12). Import that URI before instantiating WebView2Host — not part of Platform cold path.
 
-`import QWinUI3.Platform.WebView2` · [`src/platform/QWinUI3/Platform/WebView2Host.h`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/platform/QWinUI3/Platform/WebView2Host.h)
+`import QWinUI3.Platform.WebView2` · [`src/platform/QWinUI3/Platform/WebView2Host_qml.h`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/platform/QWinUI3/Platform/WebView2Host_qml.h)
 
-**Category:** Platform · **Library:** v3.10 · **C++ type**
+**Category:** Platform · **Library:** v3.56 · **C++ type**
 
 [← Component index](../components.md)
 
 **Gallery:** `WebView2` — [`src/gallery/pages/WebView2Page.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/WebView2Page.qml)
 
 **Extends** `QQuickItem`.
-
-## Example
-
-```qml
-WebView2Host {
-    source: "https://example.com"
-    anchors.fill: parent
-}
-
-Lifecycle: creates a child HWND + controller when attached to a window; destroys
-on scene detach. Geometry follows mapToScene each frame (ScrollView / Flickable)
-and clips to clip:true ancestors.
-
-User data: default AppLocalDataLocation/WebView2Host/p<pid> (multi-exe safe).
-Override with userDataFolder for a shared single-instance profile.
-
-Missing Runtime: runtimeInstalled is false; statusMessage explains; Gallery shows EmptyState.
-Focus: when the item gains activeFocus, focus moves into the browser (and back on blur).
-Stable (1.18): Windows + Evergreen Runtime; see docs/webview2.md soak checklist.
-```
 
 ## API
 

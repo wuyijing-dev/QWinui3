@@ -1,53 +1,59 @@
 # TextField
 
-Fluent / WinUI 3 TextBox-style single-line input with header, description, validation, and character limit.
+Fluent / WinUI 3 TextBox-style TextField.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/TextField.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/TextField.qml)
 
-**Category:** Styled controls · **Library:** v3.16
+**Category:** Styled controls · **Library:** v3.56
 
 [← Component index](../components.md)
 
 **Gallery:** `TextField` — [`src/gallery/pages/TextFieldPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/TextFieldPage.qml)
 
+**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
+
 ## Example
 
 ```qml
 TextField {
-    header: qsTr("Email")
-    description: qsTr("We'll never share this.")
-    placeholderText: qsTr("name@example.com")
-    leadingSymbol: FluentIcons.Mail
+    header: qsTr("Name")
+    description: qsTr("Displayed on your profile.")
+    placeholderText: qsTr("Enter a name")
     clearButtonVisible: true
-    characterLimit: 64
-    errorMessage: looksInvalid ? qsTr("Enter a valid email.") : ""
 }
 ```
 
-## QWinUI3 properties
-
-| Property | Type | Default | Description |
-|----------|------|---------|-------------|
-| `header` | `string` | `""` | Label above the field (WinUI Header) |
-| `description` | `string` | `""` | Caption under the header (hidden while `errorMessage` is set) |
-| `errorMessage` | `string` | `""` | Critical caption + error chrome |
-| `characterLimit` | `int` | `0` | Soft counter (`n / limit`); over-limit is critical |
-| `hasError` | `bool` | `false` | Force error chrome without a message |
-| `appearance` | `string` | `""` → `filled` | `filled` · `outline` |
-| `leadingSymbol` / `leadingGlyph` | `var` / `string` | | Leading Fluent icon |
-| `clearButtonVisible` | `bool` | `true` | Clear affordance when editable and non-empty |
-| `isReadOnly` | alias | | Alias of Qt `readOnly` |
-
-Readonly helpers: `characterCount`, `overLimit`, `_error` (internal).
-
-## Inherited from Qt `TextField`
-
-- `text` · `placeholderText` · `echoMode` · `readOnly` · `maximumLength` · `validator`
-- `accepted()` · `editingFinished()` · `textEdited()`
-
 ## Notes
 
-For **FormLayout** left-aligned labels (`headerPlacement: "left"`), use **HeaderedTextBox**. Prefer **PasswordBox** when you need a reveal toggle. Honors `Theme.reducedMotion` on focus underline and error shake.
+Header / description / errorMessage / characterLimit chrome around the field.
+appearance: filled | outline. Leading icon + clear. For FormLayout left headers use HeaderedTextBox.
+
+## API
+
+### Properties
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `header` | `string` | WinUI Header — label above the field |
+| `description` | `string` | Supporting caption under the header (hidden while errorMessage is set) |
+| `errorMessage` | `string` | Validation message — critical caption; also paints error chrome |
+| `characterLimit` | `int` | Soft character counter (0 = hidden). Over-limit paints critical. |
+| `hasError` | `bool` | Form validation error flag (also treated as error when errorMessage is set) |
+| `appearance` | `string` | Visual variant: filled \| outline \| "" (filled default) |
+| `leadingSymbol` | `var` | Leading FluentIcons symbol (preferred) or raw glyph |
+| `leadingGlyph` | `string` | — |
+| `clearButtonVisible` | `bool` | Show clear (×) when non-empty and editable |
+| `isReadOnly` | `alias` | WinUI IsReadOnly alias |
+| `characterCount` | `int` | — |
+| `overLimit` | `bool` | — |
+
+### Signals
+
+_No custom signals_ (use inherited signals from the base type).
+
+### Methods
+
+_No custom methods_ (use inherited methods from the base type).
 
 ---
-*Updated for 3.16 header / description / errorMessage / characterLimit.*
+*Generated from module sources by `scripts/generate_component_docs.py` — do not edit by hand.*

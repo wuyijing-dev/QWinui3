@@ -4,7 +4,7 @@ Dock children Top/Bottom/Left/Right/Fill.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/DockPanel.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/DockPanel.qml)
 
-**Category:** Layout · **Library:** v2.81
+**Category:** Layout · **Library:** v3.56
 
 [← Component index](../components.md)
 

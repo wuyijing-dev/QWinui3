@@ -2,9 +2,9 @@
 
 process speech-to-text for OSK (Windows + Linux). No helper processes. Windows: SAPI in-proc recognizer. Optional Vosk shared library on both OSes.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/OskSpeechService.h`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/OskSpeechService.h)
+`import QWinUI3.Extras.Osk` · [`src/extras/QWinUI3/Extras/OskSpeechService.h`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/OskSpeechService.h)
 
-**Category:** Other · **Library:** v2.81 · **C++ type**
+**Category:** Input & forms · **Library:** v3.56 · **C++ type**
 
 [← Component index](../components.md)
 

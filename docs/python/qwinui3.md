@@ -2,7 +2,7 @@
 
 PySide6 or PyQt6 bootstrap — locate a shared kit, configure environment, and wire QQmlApplicationEngine import paths (mirrors C++ Bootstrap).
 
-Source: [`python/qwinui3/`](https://github.com/wuyijing-dev/QWinui3/tree/master/python/qwinui3) · Library **v2.81** · [← Python API index](../python-api.md)
+Source: [`python/qwinui3/`](https://github.com/wuyijing-dev/QWinui3/tree/master/python/qwinui3) · Library **v3.56** · [← Python API index](../python-api.md)
 
 Install:
 
@@ -71,7 +71,9 @@ Python port of QWinUI3::Compat::Rhi (QtCompatRhi.cpp).
 | `is_runtime_supported(backend)` | — |
 | `coerce_available(backend, fallback=…)` | — |
 | `default_backend()` | — |
+| `preferred_platform_backend()` | Soft OS default with no runtime probe (Bootstrap cold path). |
 | `graphics_api_for(backend)` | — |
+| `apply_direct(backend)` | Apply without coerce/probe — match C++ Compat::Rhi::applyDirect. |
 | `apply(backend)` | — |
 
 ## `fonts`

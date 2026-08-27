@@ -4,7 +4,7 @@ Idle timer with warning + timeout signals (2.72).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/SessionTimeout.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/SessionTimeout.qml)
 
-**Category:** Date & time · **Library:** v2.81
+**Category:** Input & forms · **Library:** v3.56
 
 [← Component index](../components.md)
 

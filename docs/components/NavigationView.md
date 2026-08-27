@@ -2,11 +2,9 @@
 
 WinUI NavigationView with pane modes and page stack.
 
-Left pane `ListView` keeps rows instantiated (variable-height group collapse + `reuseItems` left blank gaps) with a mild `cacheBuffer` for SelectionPip — [performance.md](../performance.md#cachebuffer-recipes-343-h12).
-
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/NavigationView.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/NavigationView.qml)
 
-**Category:** Navigation · **Library:** v3.10
+**Category:** Navigation · **Library:** v3.56
 
 [← Component index](../components.md)
 
@@ -63,7 +61,6 @@ NavigationView {
 model entries: type "item"|"group"|"header"; groups use children[].
 pageModule + component names load StackView pages (unless hostContent).
 Pages compile on first open — not at shell startup; pageCacheLimit LRU (1.39).
-Kit default limit **24**; Gallery uses **8** + pins Home/Settings (**3.46** H15).
 paneAppearance: standard | minimal | branded (logo band + footer chrome — 2.68).
 pinnedPageCache + pageCacheMemoryAware weighted LRU (2.68 C3).
 initialPageTransition defaults to "none" for a snappy first paint.
@@ -78,7 +75,8 @@ togglePane() — TitleBar hamburger; leftCompact expands inline or opens a drawe
 when the window is too narrow; leftMinimal opens the overlay drawer.
 Prefer selectKey / openPage over mutating currentIndex alone.
 Live-region announces nav selection / pane expand (2.07) when announceChanges is true.
-paneSearchSettingsCategory restores pane search highlight (3.56 D30); clearPinnedNavKeys / movePinnedNavKey (D31); announce() + opt-in pin/search announces (D32).
+Depth: pane search persist · pin clear/reorder · public announce() (3.56 D30–D32).
+Pane rebuild: structure-first incremental sync, flatIndex cache, stable group children (3.53 C24).
 
 ## API
 
@@ -87,8 +85,9 @@ paneSearchSettingsCategory restores pane search highlight (3.56 D30); clearPinne
 | Name | Type | Description |
 | --- | --- | --- |
 | `announceChanges` | `bool` | Qt 6.8+ Accessible.announce for selection / pane changes (2.07). |
-| `announcePinChanges` | `bool` | Opt-in live strings on pin/unpin/clear (3.56 D32; default false). |
-| `announcePaneSearchChanges` | `bool` | Opt-in live strings when highlight query appears/clears (3.56 D32; default false). |
+| `announcePinChanges` | `bool` | Opt-in live strings for pin / pane-search (3.56 D32) — default off keeps prior quiet path. |
+| `announcePaneSearchChanges` | `bool` | — |
+| `navListCurrentIndex` | `int` | — |
 | `model` | `var` | Navigation items: [{ type, key, title, icon\|symbol, children?, badge?, badgeValue? }] |
 | `currentIndex` | `int` | Selected index |
 | `paneOpen` | `bool` | Expanded pane when true (left / leftMinimal); compact modes force false |
@@ -124,10 +123,10 @@ paneSearchSettingsCategory restores pane search highlight (3.56 D30); clearPinne
 | `isBackEnabled` | `bool` | Enable back button |
 | `isPaneSearchEnabled` | `bool` | Shows SearchBox at the top of the pane when open |
 | `paneSearchText` | `string` | Pane SearchBox text |
-| `paneSearchSettingsCategory` | `string` | Non-empty → persist `paneSearchText` in Settings (3.56 D30). |
 | `paneSearchModel` | `var` | Suggestion model for pane SearchBox: [{ title, key?, component? }] |
 | `paneSearchPlaceholder` | `string` | Placeholder for pane SearchBox (product apps: qsTr("Search photos")) |
 | `paneSearchHighlightQuery` | `string` | Non-empty when pane search should highlight matching nav titles (2.82 D16). |
+| `paneSearchSettingsCategory` | `string` | Non-empty → persist paneSearchText in Settings (3.56 D30). |
 | `pinnedNavKeys` | `var` | User-pinnable destinations shown above the pane list (3.04 N1). Keys match model keys. |
 | `maxPinnedNavKeys` | `int` | — |
 | `pinnedNavSettingsCategory` | `string` | Non-empty → persist pinnedNavKeys in Settings (JSON array). |
@@ -187,16 +186,15 @@ paneSearchSettingsCategory restores pane search highlight (3.56 D30); clearPinne
 | `schedulePipMove(instant)` | — |
 | `moveNavItem(fromIndex, toIndex)` | Reorder a top-level nav model entry (requires isReorderable) |
 | `isGroupExpanded(key)` | True when the nav group is expanded |
-| `rebuildNavModel()` | Full rail rebuild — prefer model assign + incremental sync, or `patchNavItem` (2.88 / 3.50 / 3.53) |
+| `rebuildNavModel()` | — |
 | `patchNavItem(key, patch)` | Patch a single nav entry (title / badge / icon) without replacing model — 2.88 C9. |
+| `clearPaneSearch()` | — |
 | `isNavPinned(key)` | — |
 | `pinNavKey(key)` | — |
 | `unpinNavKey(key)` | — |
 | `toggleNavPin(key)` | — |
-| `clearPinnedNavKeys()` | Clear all pins + Settings when category set (3.56 D31). |
-| `movePinnedNavKey(fromIndex, toIndex)` | Reorder pin chips (3.56 D31). |
-| `clearPaneSearch()` | Clears `paneSearchText` + persisted query (3.56 D30). |
-| `announce(text)` | Public live-region hook; respects `announceChanges` (3.56 D32). |
+| `clearPinnedNavKeys()` | — |
+| `movePinnedNavKey(fromIndex, toIndex)` | — |
 | `pinnedNavEntries()` | — |
 | `collectJumpListEntries()` | — |
 | `openJumpList()` | — |
@@ -220,6 +218,7 @@ paneSearchSettingsCategory restores pane search highlight (3.56 D30); clearPinne
 | `breadcrumbModelForKey(key)` | Plain BreadcrumbBar model derived from breadcrumbPathForKey (2.23) |
 | `navKeyForBreadcrumbIndex(key, index)` | navKey at breadcrumb index for the given selection key |
 | `selectBreadcrumbIndex(index, mode)` | Select nav destination for a breadcrumb index (2.23) — no history push (2.56) |
+| `announce(text)` | Public live-region hook — same gate as internal nav announces (3.56 D32). |
 | `flatIndexForKey(key)` | Flat list index for a nav key |
 | `ensureSelectionVisible()` | Scroll so the current selection is on-screen |
 | `selectIndex(index)` | Select a top-level model index (legacy) |

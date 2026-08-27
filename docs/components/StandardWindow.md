@@ -4,7 +4,7 @@ Platform ApplicationWindow + PlatformTitleBar host.
 
 `import QWinUI3.Platform` · [`src/platform/QWinUI3/Platform/StandardWindow.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/platform/QWinUI3/Platform/StandardWindow.qml)
 
-**Category:** Platform · **Library:** v2.81
+**Category:** Platform · **Library:** v3.56
 
 [← Component index](../components.md)
 
@@ -26,6 +26,7 @@ StandardWindow {
 //          saveGeometry(), restoreGeometry(), clearSavedGeometry()
 // standardWindow.applyChrome()
 // standardWindow.setPresenterKind(kind)
+// Command palette: attach Extras CommandPaletteHost (3.01 W3)
 // inherits ApplicationWindow (+ Qt Quick Controls base API)
 ```
 
@@ -58,6 +59,8 @@ See docs/window-appwindow.md and docs/window-helper.md.
 | `extendsContentIntoTitleBar` | `bool` | Documents frameless / custom chrome (WinUI ExtendsContentIntoTitleBar). |
 | `chrome` | `alias` | WindowChrome / PlatformTitleBar host |
 | `effectiveBackdrop` | `int` | Platform-safe backdrop (Linux coerces Mica/Acrylic → Solid so the window is not hollow). |
+| `isWindowMaximized` | `bool` | — |
+| `titleBarHeight` | `real` | — |
 | `geometryPersistenceKey` | `string` | Non-empty → save/restore frame geometry via WindowHelper (QSettings WindowGeometry/<key>). |
 | `geometryPersistenceEnabled` | `bool` | — |
 | `syncThemeFromSystem` | `bool` | Copy OS a11y / color scheme into Theme (1.69). Same as ShellWindow — not Gallery-only. |
@@ -78,6 +81,14 @@ _No custom signals_ (use inherited signals from the base type).
 | `saveGeometry()` | — |
 | `restoreGeometry()` | — |
 | `clearSavedGeometry()` | — |
+| `refreshTitleBarHitTest()` | — |
+| `toggleMaximize()` | — |
+| `minimizeWindow()` | — |
+| `setTaskbarProgress(value)` | — |
+| `clearTaskbarProgress()` | — |
+| `setTaskbarOverlayText(text)` | — |
+| `clearTaskbarOverlay()` | — |
+| `requestUserAttention(continuous)` | — |
 
 ### Inherited from `ApplicationWindow`
 

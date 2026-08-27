@@ -2,9 +2,9 @@
 
 Win11-style in-app IME candidate strip (1.74).
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ImeCandidateBar.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ImeCandidateBar.qml)
+`import QWinUI3.Extras.Osk` · [`src/extras/QWinUI3/Extras/ImeCandidateBar.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ImeCandidateBar.qml)
 
-**Category:** Date & time · **Library:** v2.81
+**Category:** Input & forms · **Library:** v3.56
 
 [← Component index](../components.md)
 

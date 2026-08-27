@@ -4,7 +4,7 @@ Title/subtitle chrome around a chart child.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ChartCard.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ChartCard.qml)
 
-**Category:** Charts & gauges · **Library:** v2.81
+**Category:** Charts & gauges · **Library:** v3.56
 
 [← Component index](../components.md)
 
@@ -47,6 +47,7 @@ for an empty card — charts own their empty states / units / click callbacks.
 | `elevated` | `bool` | Stronger elevation / card tint (compat — prefer appearance: "elevated") |
 | `appearance` | `string` | Surface variant: elevated \| filled \| outline \| accent \| "" (follow elevated) — 2.67 A4 |
 | `bordered` | `bool` | Draw a border when true |
+| `interactive` | `bool` | Hover / click card chrome (3.12 — M10) |
 | `headerActions` | `alias` | Trailing header actions slot |
 | `content` | `alias` | Content slot / children host |
 | `effectiveIconGlyph` | `string` | Resolved glyph string |
@@ -56,6 +57,7 @@ for an empty card — charts own their empty states / units / click callbacks.
 | Signature | Description |
 | --- | --- |
 | `exportRequested()` | Emitted when the built-in Export action is clicked |
+| `clicked()` | Emitted when interactive and activated |
 
 ### Methods
 

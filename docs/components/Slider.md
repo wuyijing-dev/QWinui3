@@ -1,61 +1,56 @@
 # Slider
 
-Fluent / WinUI 3 styled Slider with optional step tick marks and vertical fill rail.
+Fluent / WinUI 3 styled Slider.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/Slider.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/Slider.qml)
 
-**Category:** Styled controls · **Library:** v3.13
+**Category:** Styled controls · **Library:** v3.56
 
 [← Component index](../components.md)
 
 **Gallery:** `Slider` — [`src/gallery/pages/SliderPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/SliderPage.qml)
 
+**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
+
 ## Example
 
 ```qml
-// Horizontal — ticks above and below (WinUI)
 Slider {
-    from: 0
-    to: 100
-    stepSize: 25
-    value: 50
+    from: 0; to: 100; value: 50; stepSize: 25
     tickMarksVisible: true
-    tickPlacement: "both"
-    snapMode: Slider.SnapAlways
+    tickPlacement: "both"   // horizontal: top | bottom | both
 }
 
-// Vertical — thick accent fill below thumb, ticks left/right
 Slider {
     orientation: Qt.Vertical
     height: 220
-    from: 0
-    to: 100
-    stepSize: 25
-    value: 33
+    from: 0; to: 100; value: 33; stepSize: 25
     tickMarksVisible: true
-    tickPlacement: "both"
+    tickPlacement: "both"   // vertical: left | right | both
 }
 ```
 
-## QWinUI3 properties
-
-| Property | Type | Default | Description |
-|----------|------|---------|-------------|
-| `tickMarksVisible` | `bool` | `false` | Draw step ticks along the track |
-| `tickPlacement` | `string` | `""` → `"both"` | Horizontal: `top` · `bottom` · `both`. Vertical: `left` · `right` · `both` |
-| `verticalFillThickness` | `real` | `8` | Active rail width when `orientation: Qt.Vertical` |
-
-Ticks use `stepSize` when &gt; 0; otherwise ~10 steps across `from..to`.
-
-## Inherited from Qt `Slider`
-
-- `from` / `to` / `value` / `stepSize` / `orientation`
-- `snapMode` · `live` · `wheelEnabled`
-- `moved()` · `pressed` · `visualPosition`
-
 ## Notes
 
-Ring thumb with accent dot; inactive rail is thin grey; vertical active fill is thicker accent bar from the bottom. Honors `Theme.reducedMotion` on thumb/track motion.
+WinUI-style track fill, ring thumb, and step tick marks on both sides of the track.
+
+## API
+
+### Properties
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `tickMarksVisible` | `bool` | Draw step ticks (requires stepSize > 0, or auto 10 steps across from..to) |
+| `tickPlacement` | `string` | Tick side(s): horizontal top\|bottom\|both · vertical left\|right\|both · "" → both |
+| `verticalFillThickness` | `real` | Vertical filled track width (WinUI thick active rail) |
+
+### Signals
+
+_No custom signals_ (use inherited signals from the base type).
+
+### Methods
+
+_No custom methods_ (use inherited methods from the base type).
 
 ---
-*Updated for 3.13 tick marks + vertical rail.*
+*Generated from module sources by `scripts/generate_component_docs.py` — do not edit by hand.*

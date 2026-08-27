@@ -4,7 +4,7 @@ Side-by-side KpiTile row with a shared period caption (2.65).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/MetricCompareRow.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/MetricCompareRow.qml)
 
-**Category:** Other · **Library:** v2.81
+**Category:** Other · **Library:** v3.56
 
 [← Component index](../components.md)
 

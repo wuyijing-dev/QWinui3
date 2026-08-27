@@ -2,9 +2,9 @@
 
 Conversion funnel from stage values.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/FunnelChart.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/FunnelChart.qml)
+`import QWinUI3.Extras.Charts` · [`src/extras/QWinUI3/Extras/FunnelChart.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/FunnelChart.qml)
 
-**Category:** Charts & gauges · **Library:** v2.81
+**Category:** Charts & gauges · **Library:** v3.56
 
 [← Component index](../components.md)
 
@@ -55,7 +55,9 @@ Experimental Canvas funnel. Prefer DonutChart for part-to-whole without stages.
 
 ### Methods
 
-_No custom methods_ (use inherited methods from the base type).
+| Signature | Description |
+| --- | --- |
+| `requestRedraw()` | — |
 
 ### Inherited from `Control`
 

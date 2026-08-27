@@ -4,7 +4,7 @@ Recovery UI for failed page / session loads (2.75).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ErrorBoundary.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ErrorBoundary.qml)
 
-**Category:** Other · **Library:** v2.81
+**Category:** Other · **Library:** v3.56
 
 [← Component index](../components.md)
 

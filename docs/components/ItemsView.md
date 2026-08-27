@@ -4,7 +4,7 @@ ListView recipe: sections, selection, context MenuFlyout, EmptyState.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ItemsView.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ItemsView.qml)
 
-**Category:** Collections & data · **Library:** v3.10
+**Category:** Collections & data · **Library:** v3.56
 
 [← Component index](../components.md)
 
@@ -38,14 +38,14 @@ ItemsView {
 
 ## Notes
 
-Fluent list recipe over QQC ListView (`reuseItems` + mild `cacheBuffer`; not a separate virtualization engine).
+Fluent list recipe over QQC ListView (`reuseItems`; not a separate virtualization engine).
 selectionMode: selectionNone | selectionSingle | selectionMultiple.
 Keyboard: arrows / Home / End / Page / Enter; Space toggles multi-select; Ctrl+A; Esc clears.
 Right-click / long-press opens contextMenu.
 Empty list shows EmptyState via emptyTitle / emptyMessage / emptyActionText.
 Large models: prefer QAbstractListModel. Optional filterText filters plain JS
 arrays (debounced, 1.88) — C++ models: filter app-side.
-`cacheBufferPx` (< 0 = auto mild overscan) and filter caps tuned in **3.51**.
+cacheBufferPx < 0 → mild overscan (3.43 / 3.51); filterDebounceMs 120, maxFilterResults 256.
 See docs/data-collections.md for pairing with ListDetailsView.
 
 ## API
@@ -73,8 +73,8 @@ See docs/data-collections.md for pairing with ListDetailsView.
 | `filterRoles` | `var` | Roles searched when filterText is set (defaults to title + subtitle + section + symbol). |
 | `filterDebounceMs` | `int` | Debounce ms before rebuilding the filtered array (1.88 / 3.51). |
 | `minFilterLength` | `int` | Skip filter until query length >= this (2.59 — huge JS arrays). |
-| `maxFilterResults` | `int` | Cap filtered rows for plain JS arrays (default **256**, 2.59 / 3.51). |
-| `cacheBufferPx` | `int` | ListView overscan; `< 0` uses `max(240, height * 1.5)` (3.51 C22). |
+| `maxFilterResults` | `int` | Cap filtered rows for plain JS arrays (2.59 / 3.51). |
+| `cacheBufferPx` | `int` | ListView overscan in px; < 0 uses Math.max(240, height * 1.5) (3.51 C22). |
 | `itemEnter` | `string` | Row enter motion: none \| fade \| slide — 2.67 B2 (honors Theme.reducedMotion) |
 | `itemExit` | `string` | Row exit motion: none \| fade \| slide |
 | `accessibleName` | `string` | Screen-reader name override (1.19) |

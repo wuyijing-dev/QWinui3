@@ -4,7 +4,7 @@ Freeze dynamic menu label values at open time.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/MenuFlyoutSnapshotModel.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/MenuFlyoutSnapshotModel.qml)
 
-**Category:** Dialogs & flyouts · **Library:** v2.81
+**Category:** Dialogs & flyouts · **Library:** v3.56
 
 [← Component index](../components.md)
 

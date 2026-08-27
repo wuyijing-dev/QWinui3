@@ -4,7 +4,7 @@ ShellWindow hosting NavigationView + content.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/NavigationWindow.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/NavigationWindow.qml)
 
-**Category:** Shells & windows · **Library:** v3.10
+**Category:** Shells & windows · **Library:** v3.56
 
 [← Component index](../components.md)
 
@@ -39,7 +39,7 @@ NavigationWindow {
 // chrome.captionRightHeader: controls before min/max/close (FPS badge, account menu)
 // methods: clearNav(), addNavItem(item), addNavGroup(group), selectNavKey(key),
 //           patchNavItem(key, patch), selectFooter(mode), navigateBack()
-//           pinNavKey / toggleNavPin / openJumpList / pushDrilldown (3.04)
+//           pinNavKey / clearPinnedNavKeys / clearPaneSearch / announce (3.04 / 3.56)
 // inherits ShellWindow (+ Qt Quick Controls base API)
 ```
 
@@ -90,9 +90,10 @@ set hostContent: false + pageModule for StackView pages (Gallery / examples/gall
 | `pinnedNavKeys` | `alias` | — |
 | `maxPinnedNavKeys` | `alias` | — |
 | `pinnedNavSettingsCategory` | `alias` | — |
-| `paneSearchSettingsCategory` | `alias` | Persist pane search text (3.56 D30). |
-| `announcePinChanges` | `alias` | Opt-in pin announces (3.56 D32). |
-| `announcePaneSearchChanges` | `alias` | Opt-in pane-search announces (3.56 D32). |
+| `paneSearchSettingsCategory` | `alias` | — |
+| `announceChanges` | `alias` | — |
+| `announcePinChanges` | `alias` | — |
+| `announcePaneSearchChanges` | `alias` | — |
 | `jumpListEnabled` | `alias` | — |
 | `drilldownDepth` | `alias` | — |
 | `breadcrumbTrail` | `alias` | — |
@@ -119,12 +120,12 @@ set hostContent: false + pageModule for StackView pages (Gallery / examples/gall
 | `pinNavKey(key)` | — |
 | `unpinNavKey(key)` | — |
 | `toggleNavPin(key)` | — |
-| `clearPinnedNavKeys()` | Clear all pins (3.56 D31). |
-| `movePinnedNavKey(fromIndex, toIndex)` | Reorder pins (3.56 D31). |
-| `clearPaneSearch()` | Clear pane search text (3.56 D30). |
-| `announce(text)` | Live-region announce (3.56 D32). |
-| `openJumpList()` | — |
 | `isNavPinned(key)` | — |
+| `clearPinnedNavKeys()` | — |
+| `movePinnedNavKey(fromIndex, toIndex)` | — |
+| `clearPaneSearch()` | — |
+| `announce(text)` | — |
+| `openJumpList()` | — |
 | `closeJumpList()` | — |
 | `pushDrilldown(title, component, mode)` | — |
 | `popDrilldown(mode)` | — |

@@ -4,7 +4,7 @@ Scroll area with a value label on the vertical scrollbar.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/AnnotatedScrollBar.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/AnnotatedScrollBar.qml)
 
-**Category:** Other · **Library:** v2.81
+**Category:** Other · **Library:** v3.56
 
 [← Component index](../components.md)
 
@@ -68,7 +68,7 @@ labels: string[] (even sample) or AnnotatedScrollBarLabel-like
 | `flickable` | `alias` | Inner Flickable (bounds, contentItem, ScrollBar.vertical, …) |
 | `labels` | `var` | string[] or [{ content\|text, scrollOffset }] |
 | `labelFormat` | `string` | Percent format when labels is empty (Qt arg: "%1%") |
-| `imeEngine` | `KeyboardEngine` | When set, scroll keeps the IME target visible and shows preedit in the bubble (2.58) |
+| `imeEngine` | `var` | Typed as var — KeyboardEngine lives in the Osk submodule, not QWinUI3.Extras. |
 | `imeScrollHint` | `string` | — |
 | `detailLabel` | `string` | Optional secondary line under currentLabel (e.g. chapter detail) |
 | `alwaysShowLabel` | `bool` | Keep the floating scrollbar label visible even when idle |

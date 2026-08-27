@@ -1,6 +1,6 @@
 # Python API (PySide6 / PyQt6)
 
-Library **v3.10**. Python packages that load the **same QML controls** as C++ apps — shared kit (`qml/` + native plugins) + bootstrap helpers.
+Library **v3.56**. Python packages that load the **same QML controls** as C++ apps — shared kit (`qml/` + native plugins) + bootstrap helpers.
 
 Related: [packaging-python.md](packaging-python.md) · [Component API](components.md) · [Getting started](getting-started.md).
 
@@ -8,7 +8,7 @@ Related: [packaging-python.md](packaging-python.md) · [Component API](component
 python scripts/generate_component_docs.py
 ```
 
-**2** packages · **33** functions · **3** classes · **3** QML-registered types.
+**2** packages · **35** functions · **3** classes · **3** QML-registered types.
 
 ## Packages
 

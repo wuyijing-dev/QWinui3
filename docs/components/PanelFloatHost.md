@@ -4,7 +4,7 @@ Detach a pane into ToolShellWindow and dock it back (3.08 W8).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/PanelFloatHost.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/PanelFloatHost.qml)
 
-**Category:** Layout · **Library:** v3.10
+**Category:** Layout · **Library:** v3.56
 
 [← Component index](../components.md)
 

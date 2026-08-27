@@ -2,7 +2,7 @@
 
 Full Gallery from Python — stage QWinUI3.Gallery QML, register Gallery helpers via @QmlElement / @QmlSingleton, and run the same smoke path as the C++ exe.
 
-Source: [`python/qwinui3_gallery/`](https://github.com/wuyijing-dev/QWinui3/tree/master/python/qwinui3_gallery) · Library **v2.81** · [← Python API index](../python-api.md)
+Source: [`python/qwinui3_gallery/`](https://github.com/wuyijing-dev/QWinui3/tree/master/python/qwinui3_gallery) · Library **v3.56** · [← Python API index](../python-api.md)
 
 Install:
 
@@ -63,7 +63,7 @@ Import Gallery Python types so @QmlElement / @QmlSingleton register on QWinUI3.G
 
 | Signature | Description |
 | --- | --- |
-| `register_types(_engine)` | Ensure decorated Gallery types are imported before QML load. |
+| `register_types(_engine)` | Ensure decorated Gallery types are imported before QML load (2.89 S4 — lazy). |
 
 ## `graphics_backend`
 

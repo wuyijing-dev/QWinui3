@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """Generate QWinUI3 component API docs from registered module sources.
 
-Source of truth is each module's CMake ``QML_FILES`` (not a directory glob),
-plus C++ types marked ``QML_ELEMENT`` / ``QML_NAMED_ELEMENT`` in the same trees.
+Source of truth is each ``qt_add_qml_module()`` in module CMakeLists (URI +
+``QML_FILES`` + ``SOURCES``) — not a directory glob. One CMakeLists may declare
+several modules (e.g. Extras + Extras.Charts + Extras.Osk; Platform + WebView2).
 
-  src/extras/QWinUI3/Extras     → QWinUI3.Extras
+  src/extras/QWinUI3/Extras     → QWinUI3.Extras / .Charts / .Osk
   src/style/QWinUI3             → QtQuick.Controls.QWinUI3  (style id; CMake URI is QWinUI3)
-  src/platform/QWinUI3/Platform → QWinUI3.Platform
+  src/platform/QWinUI3/Platform → QWinUI3.Platform / .WebView2
   src/theme/QWinUI3/Theme       → QWinUI3.Theme
 
 Also:
@@ -81,28 +82,30 @@ PYTHON_PACKAGES: list[dict[str, object]] = [
 CATALOG_PATH = ROOT / "src" / "gallery" / "ControlCatalog.qml"
 CMAKE_PATH = ROOT / "CMakeLists.txt"
 
-# (CMakeLists.txt, QML dir, documented import, CMake URI)
-CMAKE_MODULES: list[tuple[Path, Path, str]] = [
+# CMakeLists that declare one or more qt_add_qml_module() targets.
+# Documented import for URI "QWinUI3" (style plugin) is QtQuick.Controls.QWinUI3.
+CMAKE_MODULE_ROOTS: list[tuple[Path, Path]] = [
     (
         ROOT / "src" / "extras" / "QWinUI3" / "Extras" / "CMakeLists.txt",
         ROOT / "src" / "extras" / "QWinUI3" / "Extras",
-        "QWinUI3.Extras",
     ),
     (
         ROOT / "src" / "style" / "QWinUI3" / "CMakeLists.txt",
         ROOT / "src" / "style" / "QWinUI3",
-        "QtQuick.Controls.QWinUI3",
     ),
     (
         ROOT / "src" / "platform" / "QWinUI3" / "Platform" / "CMakeLists.txt",
         ROOT / "src" / "platform" / "QWinUI3" / "Platform",
-        "QWinUI3.Platform",
     ),
     (
         ROOT / "src" / "theme" / "QWinUI3" / "Theme" / "CMakeLists.txt",
         ROOT / "src" / "theme" / "QWinUI3" / "Theme",
-        "QWinUI3.Theme",
     ),
+]
+
+# Back-compat alias used by older call sites / tests.
+CMAKE_MODULES: list[tuple[Path, Path, str]] = [
+    (cmake, directory, "") for cmake, directory in CMAKE_MODULE_ROOTS
 ]
 
 QML_FILES_END = {
@@ -152,6 +155,12 @@ GALLERY_ALIASES = {
     "WindowHelper": "WindowParadigm",
     "FrameStatsMonitor": "GraphicsBackend",
     "ChartSeries": "LineChart",
+    "MatchHighlightText": "NavigationView",
+    "TitleBarCommandBar": "TitleBar",
+    "TitleBarToolbar": "TitleBar",
+    "CommandPaletteHost": "CommandPalette",
+    "LayoutPreset": "SplitWorkspace",
+    "LiveMetricStrip": "FrameStatsOverlay",
 }
 
 # Heuristic Gallery / docs categories (Extras-heavy types).
@@ -162,7 +171,7 @@ CATEGORY_RULES: list[tuple[str, tuple[str, ...]]] = [
     )),
     ("Navigation", (
         "Navigation", "TabView", "Pivot", "Breadcrumb", "SelectorBar",
-        "Pager", "PipsPager", "Frame",
+        "Pager", "PipsPager", "Frame", "MatchHighlight",
     )),
     ("Buttons & commands", (
         "Button", "AppBar", "CommandBar", "CommandPalette", "Hyperlink",
@@ -173,7 +182,7 @@ CATEGORY_RULES: list[tuple[str, tuple[str, ...]]] = [
         "Text", "NumberBox", "Password", "Combo", "Spin", "Slider", "Dial",
         "Check", "Radio", "Switch", "Rating", "Tokeniz", "AutoSuggest",
         "Search", "Headered", "Form", "Validation", "ColorPicker",
-        "Keyboard", "OnScreen",
+        "Keyboard", "OnScreen", "Osk", "Ime", "Masked",
     )),
     ("Collections & data", (
         "List", "Tree", "Table", "DataTable", "Items", "GridTile", "ListTile",
@@ -185,7 +194,7 @@ CATEGORY_RULES: list[tuple[str, tuple[str, ...]]] = [
     )),
     ("Status & feedback", (
         "InfoBadge", "InfoButton", "Busy", "Progress", "Shimmer", "EmptyState",
-        "Status", "Notification", "MeterBar", "StepBar",
+        "Status", "Notification", "MeterBar", "StepBar", "LiveMetric",
     )),
     ("Charts & gauges", (
         "Chart", "Gauge", "Sparkline", "Heatmap", "Kpi",
@@ -202,6 +211,7 @@ CATEGORY_RULES: list[tuple[str, tuple[str, ...]]] = [
     ("Layout", (
         "Panel", "Stack", "Uniform", "TwoPane", "Relative", "Dock", "Wrap",
         "Settings", "ContentCard", "ActionCard", "ChartCard", "Acrylic",
+        "SplitWorkspace", "LayoutPreset",
     )),
     ("Media & platform", (
         "Media", "WebView", "FileDrop", "FilePicker", "Tray", "ConnectedAnimation",
@@ -338,32 +348,112 @@ def gallery_for(name: str, gallery: dict[str, tuple[str, str]]) -> tuple[str, st
     return ("", "")
 
 
-def cmake_qml_tokens(cmake_path: Path) -> list[str]:
-    """Collect QML_FILES entries from qt_add_qml_module()."""
-    if not cmake_path.is_file():
-        return []
+def document_import_for_uri(uri: str) -> str:
+    """Map CMake URI to the import string shown in docs."""
+    if uri == "QWinUI3":
+        return "QtQuick.Controls.QWinUI3"
+    return uri
+
+
+def _extract_cmake_block_args(text: str, start: int) -> tuple[str, int] | None:
+    """Return (inner args text, end index) for a `(...)` block starting at ``start``."""
+    if start >= len(text) or text[start] != "(":
+        return None
+    depth = 0
+    i = start
+    while i < len(text):
+        ch = text[i]
+        if ch == "(":
+            depth += 1
+        elif ch == ")":
+            depth -= 1
+            if depth == 0:
+                return text[start + 1 : i], i + 1
+        i += 1
+    return None
+
+
+def _section_tokens(args: str, section: str) -> list[str]:
+    """Collect whitespace-separated tokens under a CMake keyword until the next keyword/`(`."""
+    lines = args.splitlines()
     tokens: list[str] = []
-    in_qml = False
-    for raw in cmake_path.read_text(encoding="utf-8").splitlines():
+    in_section = False
+    for raw in lines:
         line = raw.strip()
-        if not in_qml:
-            if line == "QML_FILES" or line.startswith("QML_FILES "):
-                in_qml = True
-                rest = line[len("QML_FILES") :].strip()
+        if not in_section:
+            if line == section or line.startswith(section + " "):
+                in_section = True
+                rest = line[len(section) :].strip()
                 if rest:
                     tokens.extend(rest.split())
             continue
         if not line or line.startswith("#"):
             continue
         key = line.split()[0].rstrip(")")
-        if key in QML_FILES_END:
-            break
-        if line == ")":
-            break
+        # Next top-level keyword ends this section (SOURCES / QML_FILES / URI / …).
+        if key.isupper() and key.replace("_", "").isalnum() and not line.endswith(".qml") and not line.endswith(".h") and not line.endswith(".cpp") and not line.endswith(".hpp"):
+            # Allow continuation of multi-token lines; stop on new SECTION keywords.
+            if key in {
+                "URI", "VERSION", "OUTPUT_DIRECTORY", "SOURCES", "QML_FILES", "IMPORTS",
+                "RESOURCES", "DEPENDENCIES", "NO_CACHEGEN", "NO_LINT", "NO_PLUGIN",
+                "NO_GENERATE_PLUGIN_SOURCE", "CLASSNAME", "PLUGIN_TARGET", "OPTIONAL",
+            } and not line.startswith(section):
+                break
         cleaned = line.replace(")", " ")
         for tok in cleaned.split():
-            if tok.endswith(".qml") or tok.startswith("${"):
-                tokens.append(tok)
+            tokens.append(tok)
+    return tokens
+
+
+@dataclass
+class CMakeQmlModuleDecl:
+    uri: str
+    qml_tokens: list[str] = field(default_factory=list)
+    source_headers: list[str] = field(default_factory=list)
+
+
+def parse_qt_add_qml_modules(cmake_path: Path) -> list[CMakeQmlModuleDecl]:
+    """Parse every ``qt_add_qml_module(...)`` in a CMakeLists (Charts / Osk / WebView2, …)."""
+    if not cmake_path.is_file():
+        return []
+    text = cmake_path.read_text(encoding="utf-8")
+    out: list[CMakeQmlModuleDecl] = []
+    needle = "qt_add_qml_module"
+    pos = 0
+    while True:
+        idx = text.find(needle, pos)
+        if idx < 0:
+            break
+        paren = text.find("(", idx + len(needle))
+        if paren < 0:
+            break
+        extracted = _extract_cmake_block_args(text, paren)
+        if not extracted:
+            break
+        args, end = extracted
+        pos = end
+        uri_m = re.search(r"\bURI\s+(\S+)", args)
+        if not uri_m:
+            continue
+        uri = uri_m.group(1).strip().strip('"')
+        qml_tokens = [
+            t for t in _section_tokens(args, "QML_FILES")
+            if t.endswith(".qml") or t.startswith("${")
+        ]
+        headers = [
+            Path(t).name
+            for t in _section_tokens(args, "SOURCES")
+            if t.endswith((".h", ".hpp"))
+        ]
+        out.append(CMakeQmlModuleDecl(uri=uri, qml_tokens=qml_tokens, source_headers=headers))
+    return out
+
+
+def cmake_qml_tokens(cmake_path: Path) -> list[str]:
+    """Collect QML_FILES entries from all qt_add_qml_module() blocks (compat helper)."""
+    tokens: list[str] = []
+    for decl in parse_qt_add_qml_modules(cmake_path):
+        tokens.extend(decl.qml_tokens)
     return tokens
 
 
@@ -408,19 +498,33 @@ def resolve_qml_token(token: str, directory: Path) -> tuple[Path, str] | None:
 
 
 def cpp_qml_names(text: str) -> tuple[str, str] | None:
-    """Return (public type name, C++ class name) for a QML-registered header."""
+    """Return (public type name, C++ class name) for a QML-registered header.
+
+    Supports ``QML_ELEMENT`` / ``QML_NAMED_ELEMENT`` on ``class`` or ``struct``,
+    and ``QML_FOREIGN(Impl)`` registration wrappers (e.g. WebView2Host_qml.h).
+    """
     named = re.search(r"QML_NAMED_ELEMENT\s*\(\s*(\w+)\s*\)", text)
     elem = re.search(r"\bQML_ELEMENT\b", text)
-    if not named and not elem:
+    foreign = re.search(r"QML_FOREIGN\s*\(\s*(\w+)\s*\)", text)
+    if not named and not elem and not foreign:
         return None
+    if foreign and named:
+        return named.group(1), foreign.group(1)
+    if foreign and not named and not elem:
+        return foreign.group(1), foreign.group(1)
     pos = named.start() if named else elem.start()
-    classes = list(
-        re.finditer(r"^class\s+(\w+)\b(?!\s*;)", text[:pos], re.M)
+    types = list(
+        re.finditer(r"^(?:class|struct)\s+(\w+)\b(?!\s*;)", text[:pos], re.M)
     )
-    if not classes:
+    if not types:
+        # Foreign-only fallback already handled; named without enclosing type.
+        if named:
+            return named.group(1), named.group(1)
         return None
-    class_name = classes[-1].group(1)
+    class_name = types[-1].group(1)
     public = named.group(1) if named else class_name
+    if foreign:
+        class_name = foreign.group(1)
     return public, class_name
 
 
@@ -428,9 +532,15 @@ def parse_cpp_comments_before_class(text: str, class_name: str) -> str:
     lines = text.splitlines()
     idx = None
     for i, line in enumerate(lines):
-        if re.match(rf"^class\s+{re.escape(class_name)}\b", line):
+        if re.match(rf"^(?:class|struct)\s+{re.escape(class_name)}\b", line):
             idx = i
             break
+    if idx is None:
+        # Registration wrapper: prefer comments above the first class/struct.
+        for i, line in enumerate(lines):
+            if re.match(r"^(?:class|struct)\s+\w+\b", line):
+                idx = i
+                break
     if idx is None:
         return ""
     block: list[str] = []
@@ -506,6 +616,8 @@ def parse_cpp_component(path: Path, module: str, gallery: dict[str, tuple[str, s
         return None
     name, class_name = names
     comment = parse_cpp_comments_before_class(text, class_name)
+    if not comment:
+        comment = parse_cpp_comments_before_class(text, name)
     lint: list[str] = []
     summary, usage, notes = "", "", ""
     if comment:
@@ -523,12 +635,24 @@ def parse_cpp_component(path: Path, module: str, gallery: dict[str, tuple[str, s
         summary = f"C++ QML type in `{module}`."
         if not comment:
             lint = []
-    props, signals, funcs = extract_cpp_api(text)
+
+    # QML_FOREIGN wrappers: pull Q_PROPERTY / signals from the implementation header.
+    api_text = text
+    foreign_impl = re.search(r"QML_FOREIGN\s*\(\s*(\w+)\s*\)", text)
+    if foreign_impl:
+        impl = path.parent / f"{foreign_impl.group(1)}.h"
+        if impl.is_file():
+            api_text = impl.read_text(encoding="utf-8")
+            class_name = foreign_impl.group(1)
+    elif class_name != path.stem and (path.parent / f"{class_name}.h").is_file():
+        api_text = (path.parent / f"{class_name}.h").read_text(encoding="utf-8")
+
+    props, signals, funcs = extract_cpp_api(api_text)
     gtitle, gsrc = gallery_for(name, gallery)
     base = "QObject"
-    if "QQuickItem" in text:
+    if "QQuickItem" in api_text:
         base = "QQuickItem"
-    elif "QQmlPropertyMap" in text:
+    elif "QQmlPropertyMap" in api_text:
         base = "QQmlPropertyMap"
     return Component(
         name=name,
@@ -547,17 +671,21 @@ def parse_cpp_component(path: Path, module: str, gallery: dict[str, tuple[str, s
         gallery_title=gtitle,
         category=categorize(name, module),
         kind="cpp",
-        singleton="QML_SINGLETON" in text,
+        singleton="QML_SINGLETON" in text or "QML_SINGLETON" in api_text,
     )
 
 
 def categorize(name: str, module: str) -> str:
     if module == "QtQuick.Controls.QWinUI3":
         return "Styled controls"
-    if module == "QWinUI3.Platform":
+    if module.startswith("QWinUI3.Platform"):
         return "Platform"
     if module == "QWinUI3.Theme":
         return "Theme"
+    if module.endswith(".Charts"):
+        return "Charts & gauges"
+    if ".Osk" in module:
+        return "Input & forms"
     for label, keys in CATEGORY_RULES:
         for key in keys:
             if key.lower() in name.lower():
@@ -790,19 +918,27 @@ def collect() -> list[Component]:
     comps: list[Component] = []
     seen: set[str] = set()
 
-    for cmake_path, directory, module in CMAKE_MODULES:
-        for token in cmake_qml_tokens(cmake_path):
-            resolved = resolve_qml_token(token, directory)
-            if not resolved:
-                continue
-            path, name = resolved
-            key = f"{module}:{name}"
-            if key in seen:
-                continue
-            seen.add(key)
-            comps.append(parse_component(path, gallery, name=name, module=module))
-        if directory.is_dir():
-            for header in sorted(directory.glob("*.h")):
+    for cmake_path, directory in CMAKE_MODULE_ROOTS:
+        decls = parse_qt_add_qml_modules(cmake_path)
+        if not decls:
+            # Fallback: treat as a single undocumented module using directory name.
+            continue
+        for decl in decls:
+            module = document_import_for_uri(decl.uri)
+            for token in decl.qml_tokens:
+                resolved = resolve_qml_token(token, directory)
+                if not resolved:
+                    continue
+                path, name = resolved
+                key = f"{module}:{name}"
+                if key in seen:
+                    continue
+                seen.add(key)
+                comps.append(parse_component(path, gallery, name=name, module=module))
+            for header_name in decl.source_headers:
+                header = directory / header_name
+                if not header.is_file():
+                    continue
                 cpp = parse_cpp_component(header, module, gallery)
                 if cpp is None:
                     continue

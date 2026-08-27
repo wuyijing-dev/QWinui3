@@ -4,7 +4,7 @@ PlatformTitleBar + TitleBar bundle for shells.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/WindowChrome.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/WindowChrome.qml)
 
-**Category:** Shells & windows · **Library:** v2.81
+**Category:** Shells & windows · **Library:** v3.56
 
 [← Component index](../components.md)
 
@@ -41,7 +41,8 @@ Internal title-bar chrome for ShellWindow (caption + header slots).
 | `isBackButtonEnabled` | `alias` | Enable back button |
 | `leftHeader` | `alias` | WinUI LeftHeader slot |
 | `titleBarContent` | `alias` | Title-bar middle content slot |
-| `rightHeader` | `alias` | WinUI RightHeader slot |
+| `rightHeader` | `alias` | WinUI RightHeader inside TitleBar (Share, Settings beside title) |
+| `captionRightHeader` | `alias` | WinUI RightHeader before caption buttons — alias of PlatformTitleBar.rightHeader |
 | `searchText` | `alias` | Title-bar search field text |
 | `searchModel` | `alias` | Title-bar search suggestions |
 | `searchPlaceholder` | `alias` | Built-in title-bar search placeholder |

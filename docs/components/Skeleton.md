@@ -4,7 +4,7 @@ Form / table loading placeholder composed of Shimmer lines (2.70 B6).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/Skeleton.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/Skeleton.qml)
 
-**Category:** Other · **Library:** v2.81
+**Category:** Other · **Library:** v3.56
 
 [← Component index](../components.md)
 

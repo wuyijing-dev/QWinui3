@@ -4,7 +4,7 @@ LOD helpers for large chart series.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ChartUtils.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ChartUtils.qml)
 
-**Category:** Charts & gauges · **Library:** v3.10 · **singleton**
+**Category:** Charts & gauges · **Library:** v3.56 · **singleton**
 
 [← Component index](../components.md)
 
@@ -16,18 +16,16 @@ LOD helpers for large chart series.
 
 ```qml
 ChartUtils.downsample(values, maxPoints)
+ChartUtils.trimRing(values, maxPoints)   // 3.45 H14 — JS array ring
 
 // --- API ---
-// methods: asNumber(v, fallback), valueCount(input), valueAt(input, index, fallback), pointX(input, index), pointY(input, index), pointColor(input, index), flattenValues(input), extents(values), extentsXY(points), lodBudget(plotWidth, maxPoints, factor), boxPlotStats(values), paretoRows(values), treemapRects(slices, x, y, w, h), violinWidths(values, binCount)
-// chartUtils.asNumber(v, fallback)
-// chartUtils.valueCount(input)
-// chartUtils.valueAt(input, index, fallback)
-// chartUtils.pointX(input, index)
+// methods: asNumber(v, fallback), valueCount(input), valueAt(input, index, fallback), pointX(input, index), pointY(input, index), pointColor(input, index), flattenValues(input), extents(values), extentsXY(points), lodBudget(plotWidth, maxPoints, factor), trimRing(values, maxPoints), boxPlotStats(values), paretoRows(values), treemapRects(slices, x, y, w, h), violinWidths(values, binCount)
 ```
 
 ## Notes
 
 Internal helpers: downsample, extents, palette, formatNumber (used by chart controls).
+Source ring caps (LiveMetricStrip / KpiTile / ChartSeries.capacity) vs draw LOD — docs/performance.md (3.45 H14).
 
 ## API
 
@@ -37,7 +35,7 @@ Internal helpers: downsample, extents, palette, formatNumber (used by chart cont
 | --- | --- | --- |
 | `largeSeriesThreshold` | `int` | Point count that triggers LOD |
 | `revealAnimationPointBudget` | `int` | Reveal animation runs only up to this many points (1.25 / 1.89) |
-| `redrawCoalesceMs` | `int` | Coalesce canvas repaints during reveal / hover (ms). Stable six inventory: [performance.md](../performance.md#chart-coalesce-inventory-284-c6--290-audit--349-c20--354-c25) (**3.54**). |
+| `redrawCoalesceMs` | `int` | Coalesce canvas repaints during reveal / hover (ms) |
 
 ### Signals
 
@@ -61,7 +59,7 @@ _No custom signals_ (use inherited signals from the base type).
 | `histogramBins(values, binCount)` | Histogram bins from a numeric series. Returns [{ from, to, count, value }]. |
 | `extentsXY(points)` | X/Y extents of a point series |
 | `lodBudget(plotWidth, maxPoints, factor)` | Pixel-aware draw budget. Default keeps ~2 samples per horizontal pixel. |
-| `trimRing(values, maxPoints)` | Keep newest `maxPoints` samples (3.45 H14); `maxPoints ≤ 0` returns a full copy |
+| `trimRing(values, maxPoints)` | Returns a new array; does not mutate input. maxPoints <= 0 returns a shallow copy. |
 | `buildLod(values, maxPoints)` | Prefers ChartSeries.lod (C++) when available. |
 | `downsample(values, maxPoints)` | Back-compat for Sparkline / older call sites. |
 | `douglasPeucker(values, maxPoints)` | Douglas–Peucker for y-series (x = index). Returns ≤ maxPoints samples. |

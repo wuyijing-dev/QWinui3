@@ -4,7 +4,7 @@ Fluent styled Label.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/Label.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/Label.qml)
 
-**Category:** Styled controls · **Library:** v2.81
+**Category:** Styled controls · **Library:** v3.56
 
 [← Component index](../components.md)
 

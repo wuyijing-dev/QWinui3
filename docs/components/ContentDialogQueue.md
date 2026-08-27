@@ -4,7 +4,7 @@ Singleton queue so ContentDialogs open one at a time.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ContentDialogQueue.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ContentDialogQueue.qml)
 
-**Category:** Input & forms · **Library:** v2.81 · **singleton**
+**Category:** Input & forms · **Library:** v3.56 · **singleton**
 
 [← Component index](../components.md)
 
@@ -29,6 +29,7 @@ ContentDialogQueue.clearQueue()
 
 Singleton queue for ContentDialog.show() (1.48 deepen).
 FIFO: first show() opens immediately; further show() calls wait in order.
+queuePriority on ContentDialog — higher values open before lower (2.82 D19).
 cancel drops a pending dialog only (no-op if already open).
 clearQueue drops pending without dismissing the active dialog.
 replaceCurrent closes the active dialog without pumping the queue, then opens
@@ -53,7 +54,7 @@ _No custom signals_ (use inherited signals from the base type).
 
 | Signature | Description |
 | --- | --- |
-| `enqueue(dialog)` | Enqueue a dialog (FIFO). Opens immediately if the queue is idle. |
+| `enqueue(dialog)` | Enqueue a dialog (FIFO among equal queuePriority). Opens immediately if idle. |
 | `show(dialog)` | Alias for enqueue |
 | `enqueueFront(dialog)` | Prepend to pending queue — opens next after the active dialog (2.55 priority) |
 | `showFront(dialog)` | Alias for enqueueFront |

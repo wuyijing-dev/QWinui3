@@ -4,7 +4,7 @@ semantic alias of CommandBarPreset for product shells.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/AppBarPreset.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/AppBarPreset.qml)
 
-**Category:** Buttons & commands · **Library:** v2.81
+**Category:** Buttons & commands · **Library:** v3.56
 
 [← Component index](../components.md)
 

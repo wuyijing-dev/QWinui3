@@ -4,7 +4,7 @@ Persist window geometry + nav page + table scroll/selection (2.70 D8).
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/SessionRestore.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/SessionRestore.qml)
 
-**Category:** Other · **Library:** v2.81
+**Category:** Other · **Library:** v3.56
 
 [← Component index](../components.md)
 
@@ -15,25 +15,17 @@ Persist window geometry + nav page + table scroll/selection (2.70 D8).
 ## Example
 
 ```qml
-SessionRestore {
-    id: session
-    category: "MyAppSession"
-    window: mainWindow
-    navigationView: nav
-    dataTable: table
+Item {
+    width: 0; height: 0; visible: false
+    SessionRestore {
+        category: mainWindow.geometryPersistenceKey + "/Session"
+        window: mainWindow
+        navigationView: nav
+    }
 }
-Component.onCompleted: session.restore()
-Component.onDestruction: session.save()
 
-// --- API ---
-// methods: save(), restore(), clear()
-// properties: category, window, navigationView, dataTable, enabled
+// Nav persistence (3.01 W4): currentKey, paneOpen, footerSelected
 ```
-
-## Notes
-
-Geometry still uses WindowHelper when window.geometryPersistenceKey is set;
-this type stores nav currentKey + DataTable selectedIndex / contentY.
 
 ## API
 

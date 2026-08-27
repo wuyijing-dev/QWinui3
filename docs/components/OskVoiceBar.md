@@ -2,9 +2,9 @@
 
 cross-platform speech-to-text strip (Windows System.Speech / Linux whisper|vosk).
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/OskVoiceBar.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/OskVoiceBar.qml)
+`import QWinUI3.Extras.Osk` · [`src/extras/QWinUI3/Extras/OskVoiceBar.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/OskVoiceBar.qml)
 
-**Category:** Other · **Library:** v2.81
+**Category:** Input & forms · **Library:** v3.56
 
 [← Component index](../components.md)
 

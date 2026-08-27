@@ -4,7 +4,7 @@ Fluent color / type / motion token singleton.
 
 `import QWinUI3.Theme` · [`src/theme/QWinUI3/Theme/Theme.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/theme/QWinUI3/Theme/Theme.qml)
 
-**Category:** Theme · **Library:** v2.81 · **singleton**
+**Category:** Theme · **Library:** v3.56 · **singleton**
 
 [← Component index](../components.md)
 
@@ -41,6 +41,7 @@ Theme.controlFill(hovered, pressed, disabled)
 Theme.accentFill(hovered, pressed, disabled)
 Theme.setAccentPack(name)
 Theme.snapshot() / Theme.apply(obj) / Theme.recipeText()  // 1.69
+Theme.tokensRevision / onTokensChanged  // 2.88 C10 — coalesced after apply()
 Theme.relativeLuminance(c) / Theme.contrastRatio(fg, bg) / Theme.contrastPassesAA(…)  // 1.43
 ```
 
@@ -71,6 +72,7 @@ Use Theme.duration(ms) and controlFill/accentFill helpers for states.
 | `systemAccent` | `color` | Last OS accent copied by ThemeSync (alpha 0 = unused). |
 | `density` | `string` | Control density: "standard" \| "compact" |
 | `uiScale` | `real` | Extra UI scale on top of system DPR (1.0 = follow OS only). Qt layout is already in DIPs. |
+| `tokensRevision` | `int` | Bumped once per Theme.apply() batch — bind heavy trees here (2.88 C10). |
 | `devicePixelRatio` | `real` | Last synced window/screen devicePixelRatio (ShellWindow / StandardWindow update this). |
 | `fractionalTextSharpening` | `bool` | Prefer vertical hinting on fractional DPR (125%/150% Wayland) — 2.70 F6 |
 | `fractionalScale` | `bool` | — |
@@ -128,6 +130,7 @@ Use Theme.duration(ms) and controlFill/accentFill helpers for states.
 | `fontFamiliesDisplay` | `var` | — |
 | `fontFamilyIcon` | `string` | Fluent Icons — system Segoe on Windows when present, else embedded WinSymbols3 ("Symbols") |
 | `iconFontFamily` | `string` | Alias used by a few tiles |
+| `fontIcon` | `font` | Prefer Theme.iconFontFor(px[, weight]) / fontIcon — shared PreferNoHinting QFont (3.41) |
 | `fontFamilyMono` | `string` | Monospace — outline family from ThemeFonts (never generic "monospace" / Fixedsys) |
 | `fontMonoCode` | `font` | — |
 | `fontFamiliesMono` | `var` | — |
@@ -184,12 +187,17 @@ Use Theme.duration(ms) and controlFill/accentFill helpers for states.
 
 ### Signals
 
-_No custom signals_ (use inherited signals from the base type).
+| Signature | Description |
+| --- | --- |
+| `tokensChanged()` | — |
 
 ### Methods
 
 | Signature | Description |
 | --- | --- |
+| `iconFontFor(pixelSize, weight)` | — |
+| `monoFontFor(pixelSize)` | — |
+| `uiFontFor(pixelSize)` | — |
 | `duration(ms)` | Returns ms, or 1 when reducedMotion is on |
 | `motionMs(slot)` | Named motion slot → duration(ms) — foundation for B1 motion token consumers (2.66+). |
 | `motionEasing(slot)` | Named easing slot — pair with motionMs for B1 consumers (2.67+). |
@@ -199,7 +207,7 @@ _No custom signals_ (use inherited signals from the base type).
 | `dp(value)` | Density-aware design pixels (Qt layout units are already DPI-independent). |
 | `hairline(dpr)` | 1 physical pixel in logical units for the given DPR (defaults to Theme.devicePixelRatio). |
 | `setAccentPack(name)` | Apply a named accent pack and clear customAccent |
-| `applyDensityPreset(name)` | Apply standard \| compact density preset (2.59). |
+| `applyDensityPreset(name)` | ListTile may use local spacious; Theme.density stays standard\|compact. |
 | `snapshot()` | Writable knobs only (1.69) — paste into another process via recipeText(), or apply() in-process. |
 | `apply(obj)` | — |
 | `recipeText()` | QML snippet for Component.onCompleted — Gallery Copy is a convenience, not a privilege. |

@@ -2,9 +2,9 @@
 
 Ranked bars plus cumulative percent line.
 
-`import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ParetoChart.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ParetoChart.qml)
+`import QWinUI3.Extras.Charts` · [`src/extras/QWinUI3/Extras/ParetoChart.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ParetoChart.qml)
 
-**Category:** Charts & gauges · **Library:** v2.81
+**Category:** Charts & gauges · **Library:** v3.56
 
 [← Component index](../components.md)
 
@@ -51,7 +51,9 @@ _No custom signals_ (use inherited signals from the base type).
 
 ### Methods
 
-_No custom methods_ (use inherited methods from the base type).
+| Signature | Description |
+| --- | --- |
+| `requestRedraw()` | — |
 
 ### Inherited from `Control`
 

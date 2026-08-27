@@ -4,7 +4,7 @@ Convenience alias for SettingsCard { toggle: true }.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/SettingsToggleCard.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/SettingsToggleCard.qml)
 
-**Category:** Layout · **Library:** v2.81
+**Category:** Layout · **Library:** v3.56
 
 [← Component index](../components.md)
 
@@ -18,7 +18,7 @@ Convenience alias for SettingsCard { toggle: true }.
 SettingsToggleCard {
     title: qsTr("Dark mode")
     checked: Theme.dark
-    onToggled: Theme.dark = checked
+    onToggled: function (checked) { Theme.dark = checked }
 }
 
 Prefer SettingsCard { toggle: true } in new code.

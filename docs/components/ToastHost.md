@@ -4,7 +4,7 @@ Hosts stacked Toasts with WinUI-style corner placement.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ToastHost.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ToastHost.qml)
 
-**Category:** Dialogs & flyouts · **Library:** v2.81
+**Category:** Dialogs & flyouts · **Library:** v3.56
 
 [← Component index](../components.md)
 
@@ -32,7 +32,8 @@ toasts.success(qsTr("Done"))
 ## Notes
 
 Reparents to the window Overlay so placement is full-window (not page-local).
-Visible stack up to maxVisible; extras wait in a pending queue and drain as slots free.
+Visible stack up to maxVisible; extras wait in a priority-sorted pending queue.
+dedupeId replaces an in-flight toast with the same id (2.87 D22); optional priority on show().
 Placement uses x/y (not anchors) so Overlay reparenting cannot leave a stacked gap.
 
 ## API
@@ -66,7 +67,7 @@ Placement uses x/y (not anchors) so Overlay reparenting cannot leave a stacked g
 | Signature | Description |
 | --- | --- |
 | `setPlacementName(name)` | — |
-| `show(message, severity, title, actionText, dedupeId)` | Optional dedupeId skips enqueue when the same id is already visible or pending. |
+| `show(message, severity, title, actionText, dedupeId, priority)` | dedupeId replaces visible/pending toast with the same id (2.87 D22). |
 | `info(message, title, actionText)` | — |
 | `successToast(message, title, actionText)` | — |
 | `success(message, title, actionText)` | — |

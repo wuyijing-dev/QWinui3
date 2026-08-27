@@ -4,7 +4,7 @@ Non-native resize hit edges.
 
 `import QWinUI3.Platform` · [`src/platform/QWinUI3/Platform/WindowResizeBorder.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/platform/QWinUI3/Platform/WindowResizeBorder.qml)
 
-**Category:** Platform · **Library:** v2.81
+**Category:** Platform · **Library:** v3.56
 
 [← Component index](../components.md)
 

@@ -4,7 +4,7 @@ icon/mono registration + WinUI LanguageFont-style UI stacks.
 
 `import QWinUI3.Theme` · [`src/theme/QWinUI3/Theme/ThemeFonts.h`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/theme/QWinUI3/Theme/ThemeFonts.h)
 
-**Category:** Theme · **Library:** v2.81 · **C++ type** · **singleton**
+**Category:** Theme · **Library:** v3.56 · **C++ type** · **singleton**
 
 [← Component index](../components.md)
 
@@ -21,6 +21,7 @@ icon/mono registration + WinUI LanguageFont-style UI stacks.
 | `iconFamily` | `QString` | — |
 | `monoFamily` | `QString` | — |
 | `monoFont` | `QFont` | — |
+| `iconFont` | `QFont` | — |
 | `iconFontLoaded` | `bool` | — |
 | `uiFamily` | `QString` | — |
 | `uiFamilies` | `QStringList` | — |
@@ -41,6 +42,7 @@ icon/mono registration + WinUI LanguageFont-style UI stacks.
 | Signature | Description |
 | --- | --- |
 | `monoFontFor(int pixelSize) const)` | — |
+| `iconFontFor(int pixelSize) const)` | — |
 | `uiFontFor(int pixelSize) const)` | — |
 
 ---

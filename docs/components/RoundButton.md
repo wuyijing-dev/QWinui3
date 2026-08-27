@@ -4,7 +4,7 @@ Fluent styled RoundButton.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/RoundButton.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/RoundButton.qml)
 
-**Category:** Styled controls · **Library:** v2.81
+**Category:** Styled controls · **Library:** v3.56
 
 [← Component index](../components.md)
 
@@ -14,28 +14,34 @@ Fluent styled RoundButton.
 
 ```qml
 RoundButton {
-    id: round
     text: "+"
-    enabled: true
+    appearance: "filled"   // filled | subtle | outline | ghost | "" (standard)
+    loading: false
     onClicked: add()
 }
-// --- API ---
-// inherits AbstractButton: text, enabled, clicked()
 ```
 
 ## Notes
 
-Style-only Fluent chrome for Qt Quick Controls RoundButton.
-Public API is the Qt Quick Controls RoundButton type; this file supplies visuals/metrics only.
+Style chrome. Empty appearance keeps bordered rest chrome; highlighted → accent.
+loading shows BusyIndicator and blocks click (3.11 / M11).
 
 ## API
 
-Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `RoundButton` API (this file only supplies Fluent visuals / metrics).
+### Properties
 
-### Inherited from `RoundButton`
+| Name | Type | Description |
+| --- | --- | --- |
+| `appearance` | `string` | Visual variant: filled \| subtle \| outline \| ghost \| "" (standard bordered) — 3.11 |
+| `loading` | `bool` | Async action — inline busy ring, disables click (3.11) |
 
-- `text`
-- `clicked()`
+### Signals
+
+_No custom signals_ (use inherited signals from the base type).
+
+### Methods
+
+_No custom methods_ (use inherited methods from the base type).
 
 ---
 *Generated from module sources by `scripts/generate_component_docs.py` — do not edit by hand.*
