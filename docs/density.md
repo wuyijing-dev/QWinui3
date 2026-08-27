@@ -24,6 +24,8 @@ Theme.uiScale = 1.0   // optional fine tune
 
 `CommandBar.compact` defaults to `Theme.density === "compact"`.
 
+**3.42 H11:** Theme does **not** ship dual standard/compact metric dictionaries — compact is **`_densityScale = 0.85 × uiScale`**. ListTile may use a local spacious mode; `Theme.applyDensityPreset("standard"|"compact")` only flips the formula knob.
+
 ---
 
 ## What scales vs what does not

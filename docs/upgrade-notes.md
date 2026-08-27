@@ -47,6 +47,25 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.41 → 3.42
+
+**Product version:** 3.42  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | ThemeFonts Text/Display stacks lazy (H11) | None — first `textFamilies` / `displayFamilies` still returns the same lists |
+
+### Optional / polish
+- Density remains formula-only (`standard` / `compact`); no Theme metric pack tables
+- `FluentIconsCatalog` defers catalog row build until `names()` / `entries()`
+- `Theme.iconShouldMirror` checks codepoints before named FluentIcons map
+
+### No action (compatible)
+- Color / spacing / UI font defaults unchanged
+
 ### Upgrade 3.40 → 3.41
 
 **Product version:** 3.41  

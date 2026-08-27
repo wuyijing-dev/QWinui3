@@ -4,7 +4,7 @@
 FluentIconsCatalog::FluentIconsCatalog(QObject *parent)
     : QObject(parent)
 {
-    FluentIcons::ensureCatalogData();
+    // 3.42 H11 — catalog rows / named lists load on first names()/entries() (via FluentIcons).
 }
 
 FluentIconsCatalog *FluentIconsCatalog::create(QQmlEngine *, QJSEngine *)

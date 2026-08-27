@@ -404,7 +404,13 @@ QtObject {
         var g = String(glyphOrName || "")
         if (!g.length)
             return false
-        // Prefer name when callers pass FluentIcons.Back etc. (property map value is the char).
+        // 3.42 H11 — codepoints first so RTL chrome does not force FluentIcons PropertyMap.
+        var code = g.length === 1 ? g.charCodeAt(0) : 0
+        // E72B Back, E72A Forward, E76B ChevronLeft, E76C ChevronRight, E892 Previous, E893 Next
+        if (code === 0xE72B || code === 0xE72A || code === 0xE76B
+                || code === 0xE76C || code === 0xE892 || code === 0xE893)
+            return true
+        // Named keys (callers pass "Back" / FluentIcons.Back char already handled above)
         var names = [
             "Back", "Forward", "ChevronLeft", "ChevronRight",
             "PageLeft", "PageRight", "Previous", "Next",
@@ -412,18 +418,10 @@ QtObject {
             "Mirrored", "BackToWindow"
         ]
         for (var i = 0; i < names.length; ++i) {
-            try {
-                if (typeof FluentIcons !== "undefined" && FluentIcons[names[i]] === g)
-                    return true
-            } catch (e) { }
             if (g === names[i])
                 return true
         }
-        // Codepoint fallbacks for common directional Segoe Fluent Icons
-        var code = g.length ? g.charCodeAt(0) : 0
-        // E72B Back, E72A Forward, E76B ChevronLeft, E76C ChevronRight, E892 Previous
-        return code === 0xE72B || code === 0xE72A || code === 0xE76B
-            || code === 0xE76C || code === 0xE892 || code === 0xE893
+        return false
     }
 
     // Density-aware design pixels (Qt layout units are already DPI-independent).
@@ -443,7 +441,8 @@ QtObject {
         accentPack = String(name || "blue")
     }
 
-    // Apply standard | compact density preset (2.59).
+    // Apply standard | compact density preset (2.59). Formula scale only — no metric pack tables (3.42 H11).
+    // ListTile may use local spacious; Theme.density stays standard|compact.
     function applyDensityPreset(name) {
         var n = String(name || "standard")
         if (n === "compact" || n === "standard")
