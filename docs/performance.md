@@ -41,7 +41,7 @@ Related: [data-collections.md](data-collections.md) · [charts.md](charts.md) ·
 | Gallery page unload | StackView.replace destroys off-screen trees; Gallery `pageCacheLimit: **8**` + `pinnedPageCache: Home/Settings` (**3.46** H15) — kit default stays **24** |
 | Image / shadow caches | `QPixmapCache` kit cap **16 MB** (`QWINUI3_PIXMAP_CACHE_KB`); ElevatedChrome frees MultiEffect FBO when hidden; `iconFontFor` LRU **96** (**3.47** H16) — acrylic/shadow **look** unchanged |
 | Memory wave sign-off | Idle WorkingSet table filled at **3.48** H17 — [checkpoint-390](checkpoint-390.md#memory-sign-off-h10h17--348) (~**136 MB** WS avg, n=5 Win Release) |
-| Paint coalesce | Remaining experimental charts use `requestRedraw()` / `ChartUtils.redrawCoalesceMs` (**3.49** C20) |
+| Paint coalesce | Experimental charts (**3.49** C20); stable six inventory closed (**3.54** C25) — [inventory](#chart-coalesce-inventory-284-c6--290-audit--349-c20--354-c25) |
 | ItemsView / ListDetailsView | Debounced filter + skip fingerprint; `cacheBufferPx` (**3.51** C22) |
 | DataTable / TreeDataGrid | Fixed `rowHeight`; lean-model reuse; Tree `callLater` + fingerprint caps (**3.52** C23) |
 | NavigationView pane | Structure-first sync; stable group children; flatIndex cache; expand pip coalesce (**3.53** C24) |
@@ -464,21 +464,36 @@ Measure with `--startup-log` or `--smoke --startup-log` — same fields as the C
 
 ---
 
-## Chart coalesce inventory (2.84 C6 / 2.90 audit / **3.49 C20**)
+## Chart coalesce inventory (2.84 C6 / 2.90 audit / **3.49 C20** / **3.54 C25**)
 
-`ChartUtils.redrawCoalesceMs` (~**16 ms**) batches Canvas repaints. **2.84 C6** extended coalesce beyond the stable six. **3.49 C20** closed the remaining experimental Canvas charts (Band / Dumbbell / ErrorBar / Pareto / PolarArea / Sunburst / Violin / Waffle). DataTable row refresh (`Qt.callLater`) and NavigationView pip Timer were already coalesced.
+`ChartUtils.redrawCoalesceMs` (~**16 ms**) batches Canvas repaints. **2.84 C6** extended coalesce beyond the stable six. **3.49 C20** closed the remaining experimental Canvas charts (Band / Dumbbell / ErrorBar / Pareto / PolarArea / Sunburst / Violin / Waffle). **3.54 C25** closes the **stable six** inventory (no API change). DataTable row refresh (`Qt.callLater`) and NavigationView pip Timer were already coalesced.
+
+### Stable six (**3.54** C25)
+
+| Type | Coalesce | Mechanism |
+|------|----------|-----------|
+| [`LineChart`](components/LineChart.md) | Yes | `requestRedraw()` → `ChartUtils.redrawCoalesceMs` |
+| [`BarChart`](components/BarChart.md) | Yes | same |
+| [`DonutChart`](components/DonutChart.md) | Yes | same |
+| [`RingGauge`](components/RingGauge.md) | N/A | `QtQuick.Shapes` + value Behavior — not Canvas paint |
+| [`KpiTile`](components/KpiTile.md) | Yes (indirect) | Trend Canvas via embedded [`Sparkline`](components/Sparkline.md) `requestRedraw()` |
+| [`ChartCard`](components/ChartCard.md) | N/A | Chrome host — child chart owns paint |
+
+### Full catalog
 
 | Chart type | Coalesce | Notes |
 |------------|----------|-------|
-| LineChart, BarChart, DonutChart | Yes | Stable six baseline (**C2**) |
+| LineChart, BarChart, DonutChart | Yes | Stable six Canvas baseline (**C2** / **C25**) |
 | LollipopChart, FunnelChart, TreemapChart | Yes | **C6** |
 | BoxPlotChart, CandlestickChart | Yes | **C6** |
 | Area, Scatter, Heatmap, HorizontalBar, StackedBar, Combo, Histogram, … | Yes | Same `requestRedraw()` pattern |
 | Band, Dumbbell, ErrorBar, Pareto, PolarArea, Sunburst, Violin, Waffle | Yes | **3.49 C20** |
-| Gauge family (`*Gauge.qml`) | Partial | Value-driven repaint; not unified `ChartUtils` timer |
+| Gauge family (`*Gauge.qml`) | Partial | Value-driven Shape/repaint; not unified `ChartUtils` timer (RingGauge inventoried above) |
 | Sankey | N/A | No public type in kit |
 
 Gallery `--smoke` includes `ChartsPage` — compile/instantiate gate only.
+
+**App note:** after mutating series in place, call `requestRedraw()` (or replace `values` / `series`) — coalesce batches multiple edits in the same ~16 ms window.
 
 ---
 

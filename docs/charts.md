@@ -40,6 +40,8 @@ Use these in production LoB dashboards when you need the “no silent renames”
 
 `LineChart` · `BarChart` · `DonutChart` · `RingGauge` · `KpiTile` · `ChartCard`
 
+**Redraw coalesce (**3.54** C25):** Canvas members (`LineChart` / `BarChart` / `DonutChart`) and `KpiTile` trends (via `Sparkline`) use `ChartUtils.redrawCoalesceMs`. `RingGauge` / `ChartCard` are non-Canvas — see [performance.md](performance.md#chart-coalesce-inventory-284-c6--290-audit--349-c20--354-c25).
+
 Do **not** expand this list without a later named soak. Compose paths below replace deferred siblings without adding stable names.
 
 ---

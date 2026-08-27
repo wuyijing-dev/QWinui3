@@ -37,7 +37,7 @@ Internal helpers: downsample, extents, palette, formatNumber (used by chart cont
 | --- | --- | --- |
 | `largeSeriesThreshold` | `int` | Point count that triggers LOD |
 | `revealAnimationPointBudget` | `int` | Reveal animation runs only up to this many points (1.25 / 1.89) |
-| `redrawCoalesceMs` | `int` | Coalesce canvas repaints during reveal / hover (ms) |
+| `redrawCoalesceMs` | `int` | Coalesce canvas repaints during reveal / hover (ms). Stable six inventory: [performance.md](../performance.md#chart-coalesce-inventory-284-c6--290-audit--349-c20--354-c25) (**3.54**). |
 
 ### Signals
 

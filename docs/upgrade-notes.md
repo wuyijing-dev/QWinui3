@@ -47,6 +47,24 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.53 → 3.54
+
+**Product version:** 3.54  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | Stable-six chart coalesce inventory (C25) | None — visuals / APIs unchanged |
+
+### Optional / polish
+- See [performance.md](performance.md#chart-coalesce-inventory-284-c6--290-audit--349-c20--354-c25) stable-six table
+- After in-place series edits, call `requestRedraw()` on Line / Bar / Donut
+
+### No action (compatible)
+- RingGauge / ChartCard remain non-Canvas hosts; KpiTile trend still uses Sparkline coalesce
+
 ### Upgrade 3.52 → 3.53
 
 **Product version:** 3.53  

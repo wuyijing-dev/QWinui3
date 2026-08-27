@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **3.53** (master — NavigationView pane rebuild costs)
-**Next up:** **3.54** silent runtime (chart coalesce inventory) · **3.00** breaking close-out still open ([checkpoint-300](docs/checkpoint-300.md)) · [tranche 10 → 4.00](#efficiency--control-depth-tranche-10-334--400)
+**Current:** **3.54** (master — stable-six chart redraw coalesce inventory)
+**Next up:** **3.55** silent runtime sign-off · **3.00** breaking close-out still open ([checkpoint-300](docs/checkpoint-300.md)) · [tranche 10 → 4.00](#efficiency--control-depth-tranche-10-334--400)
 **Planned through:** **3.10** complete · **3.13–3.33** WinUI / polish · **3.34–3.90** efficiency + control depth · **3.91–3.99** buffer · **4.00** close-out · [micro-interaction backlog last](#micro-interaction--visual-polish--deferred-last)
 **Checkpoints ahead:** **checkpoint-300** (3.00) · **checkpoint-390** (3.90) · **checkpoint-400** (4.00) · **checkpoint-310** (3.10) already green
 **Qt:** 6.5+ (recommended 6.8 LTS) on master today — **2.00** raises floor to **6.8 LTS** · **3.00** to **6.10 LTS** · **4.00** to **6.12 LTS** (planned)
@@ -723,7 +723,7 @@ One audit tag after **3.01–3.09**. **Does not** include **L1–L5** micro-inte
 | **3.51** | Silent runtime — ListView / ItemsView | **C22** | Shipped |
 | **3.52** | Silent runtime — DataTable virtualize | **C23** | Shipped |
 | **3.53** | Silent runtime — NavigationView pane | **C24** | Shipped |
-| **3.54** | Silent runtime — chart redraw | **C25** | Planned |
+| **3.54** | Silent runtime — chart redraw | **C25** | Shipped |
 | **3.55** | Silent runtime wave sign-off | **C26** | Planned |
 | **3.56** | Depth — NavigationView | **D30–D32** | Planned |
 | **3.57** | Depth — DataTable / TreeDataGrid | **D33–D35** | Planned |
@@ -798,7 +798,7 @@ Same class as **2.81 / 2.82–2.90** runtime work: **faster or equal**, never sl
 | **C22** | **3.51** | ItemsView / ListDetailsView — virtualization + filter debounce defaults tuned | Shipped |
 | **C23** | **3.52** | DataTable / TreeDataGrid — row height cache + skip unchanged rebuild | Shipped |
 | **C24** | **3.53** | NavigationView — incremental `navModel` / pip schedule already hardened; finish remaining pane rebuild costs | Shipped |
-| **C25** | **3.54** | Chart redraw coalesce inventory complete for stable six |
+| **C25** | **3.54** | Chart redraw coalesce inventory complete for stable six | Shipped |
 | **C26** | **3.55** | Runtime wave sign-off — **switch p50 non-regression** mandatory |
 
 **Out:** Shortening page transition animations to “feel faster” · removing transitions.
