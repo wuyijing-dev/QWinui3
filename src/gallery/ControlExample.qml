@@ -20,7 +20,14 @@ Rectangle {
     clip: false
     implicitHeight: mainCol.implicitHeight
 
-    layer.enabled: bordered
+    // 3.47 H16 — defer MultiEffect like ElevatedChrome; skip when reduced motion / hidden.
+    property bool _shadowReady: false
+    Component.onCompleted: Qt.callLater(function () {
+        if (root)
+            root._shadowReady = true
+    })
+
+    layer.enabled: bordered && _shadowReady && visible && !Theme.reducedMotion
     layer.effect: MultiEffect {
         shadowEnabled: true
         shadowOpacity: Theme.dark ? 0.14 : 0.06

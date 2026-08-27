@@ -15,6 +15,7 @@
 //       QWinUI3::configureEnvironment(argv[0]); // BEFORE QGuiApplication
 //       QGuiApplication app(argc, argv);
 //       QWinUI3::configureApplication(QStringLiteral("org.example.myapp"));
+//       // Also applies QPixmapCache kit limit (3.47); override with QWINUI3_PIXMAP_CACHE_KB
 //       QQmlApplicationEngine engine;
 //       engine.loadFromModule("MyApp", "Main");
 //       return app.exec();

@@ -7,6 +7,7 @@
 
 #include <QCoreApplication>
 #include <QGuiApplication>
+#include <QPixmapCache>
 #include <QQuickStyle>
 
 #include "ThemeFonts.h"
@@ -35,6 +36,25 @@ void applyHighDpiPolicyEarly()
     Compat::Dpi::applyKitPolicyEarly();
 }
 
+// 3.47 H16 — bound decoded Image / pixmap RSS; quality unchanged.
+// Default 16384 KB. QWINUI3_PIXMAP_CACHE_KB>0 overrides; =0 leaves Qt's default alone.
+void applyPixmapCacheLimit()
+{
+    constexpr int kDefaultKb = 16384;
+    const QByteArray raw = qgetenv("QWINUI3_PIXMAP_CACHE_KB");
+    if (raw.isEmpty()) {
+        QPixmapCache::setCacheLimit(kDefaultKb);
+        return;
+    }
+    bool ok = false;
+    const int kb = raw.toInt(&ok);
+    if (!ok || kb < 0)
+        return;
+    if (kb == 0)
+        return; // leave Qt default
+    QPixmapCache::setCacheLimit(kb);
+}
+
 } // namespace
 
 void configureEnvironment(const char *argv0)
@@ -61,6 +81,7 @@ void configureEnvironment(const char *argv0)
 void configureApplication(const QString &appId)
 {
     QQuickStyle::setStyle(QStringLiteral("QWinUI3"));
+    applyPixmapCacheLimit();
     ThemeFonts::ensureLoaded();
     ThemeFonts::applyApplicationFont();
 

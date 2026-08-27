@@ -238,6 +238,9 @@ T.Control {
                 source: root.badgeImageSource
                 fillMode: Image.PreserveAspectCrop
                 asynchronous: true
+                // 3.47 H16 — decode at badge size, not full source pixels.
+                sourceSize.width: Math.ceil(badge.width)
+                sourceSize.height: Math.ceil(badge.height)
                 clip: true
             }
         }

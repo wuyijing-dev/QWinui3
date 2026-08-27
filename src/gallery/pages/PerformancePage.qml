@@ -64,7 +64,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("NavigationView keeps an LRU of compiled page Components (Gallery: pageCacheLimit 8 + Home/Settings pinned — 3.46). StackView.replace already destroys off-screen page trees. Use Settings → Clear cache, or CLI --startup-log with --smoke for timing.")
+                text: qsTr("NavigationView keeps an LRU of compiled page Components (Gallery: pageCacheLimit 8 + Home/Settings pinned — 3.46). StackView.replace already destroys off-screen page trees. Bootstrap caps QPixmapCache (16 MB, QWINUI3_PIXMAP_CACHE_KB); ElevatedChrome frees shadow layers when hidden (3.47). Use Settings → Clear cache, or CLI --startup-log with --smoke for timing.")
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

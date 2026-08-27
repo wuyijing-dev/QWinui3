@@ -47,6 +47,24 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.46 → 3.47
+
+**Product version:** 3.47  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | Pixmap / shadow cache caps (H16) | None — acrylic frost and default shadow blur/opacity unchanged |
+
+### Optional / polish
+- Override pixmap budget: `QWINUI3_PIXMAP_CACHE_KB` (KB; omit = **16384**; `0` = leave Qt default)
+- Prefer `Image.sourceSize` for avatars / badges; see [performance.md](performance.md#image--shadow--acrylic-caches-347-h16)
+
+### No action (compatible)
+- `ElevatedChrome` / AcrylicSurface visuals when shown match prior defaults
+
 ### Upgrade 3.45 → 3.46
 
 **Product version:** 3.46  

@@ -4,6 +4,7 @@
 #include <QFontDatabase>
 #include <QGuiApplication>
 #include <QHash>
+#include <QList>
 #include <QQmlEngine>
 #include <QDebug>
 
@@ -448,11 +449,20 @@ QFont ThemeFonts::iconFontFor(int pixelSize, int weight) const
     const int px = pixelSize > 0 ? pixelSize : 0;
     const int w = weight > 0 ? weight : int(QFont::Normal);
     // 3.41 H10 — one QFont per (size, weight); PreferNoHinting already on this path.
+    // 3.47 H16 — soft LRU cap so exotic sizes do not grow the hash without bound.
     const qint64 key = (qint64(px) << 32) | quint32(w);
     static QHash<qint64, QFont> cache;
+    static QList<qint64> order;
+    constexpr int kMaxCached = 96;
     const auto it = cache.constFind(key);
-    if (it != cache.cend())
+    if (it != cache.cend()) {
+        const int idx = order.indexOf(key);
+        if (idx >= 0) {
+            order.removeAt(idx);
+            order.append(key);
+        }
         return it.value();
+    }
 
     QFont f;
     QStringList families;
@@ -479,7 +489,12 @@ QFont ThemeFonts::iconFontFor(int pixelSize, int weight) const
     f.setWeight(QFont::Weight(w));
     if (px > 0)
         f.setPixelSize(px);
+    while (order.size() >= kMaxCached) {
+        const qint64 drop = order.takeFirst();
+        cache.remove(drop);
+    }
     cache.insert(key, f);
+    order.append(key);
     return f;
 }
 

@@ -39,6 +39,7 @@ Related: [data-collections.md](data-collections.md) · [charts.md](charts.md) ·
 | DataTable ListView roles | Rows use lean `{kind,rowIndex}` wrappers — not fat business objects as model items (**3.44** H13); sort key arrays only for active `sortSpecs` |
 | Chart series buffers | Source ring caps + draw LOD documented; opt-in `ChartSeries.capacity` / `ChartUtils.trimRing` (**3.45** H14) — LOD defaults unchanged |
 | Gallery page unload | StackView.replace destroys off-screen trees; Gallery `pageCacheLimit: **8**` + `pinnedPageCache: Home/Settings` (**3.46** H15) — kit default stays **24** |
+| Image / shadow caches | `QPixmapCache` kit cap **16 MB** (`QWINUI3_PIXMAP_CACHE_KB`); ElevatedChrome frees MultiEffect FBO when hidden; `iconFontFor` LRU **96** (**3.47** H16) — acrylic/shadow **look** unchanged |
 | Icon / atlas warm-up | Optional: touch `FluentIcons` / ThemeFonts once after first frame |
 | Page cache | `pageCacheLimit` + `pinnedPageCache` (2.68); Gallery tightened in **3.46** — avoid compiling all pages at startup |
 | Target budget | Aim for interactive shell **&lt; 1.5 s** on CI Win Release; local desktop **&lt; 2 s** — wave **S10–S17** signed off at **3.40** ([checkpoint-390](checkpoint-390.md#cold-start-sign-off-s10s17--340)) |
@@ -317,12 +318,25 @@ Virtualized tables and lists — **no visual change**, less work per keystroke.
 
 | Area | Change | Visual impact |
 |------|--------|----------------|
-| `ElevatedChrome` | `MultiEffect` enabled after first frame; off when `Theme.reducedMotion` | Shadow on open; flat when reduced motion |
+| `ElevatedChrome` | `MultiEffect` enabled after first frame; off when `Theme.reducedMotion` or chrome/window not shown (**3.47**) | Shadow on open; flat when reduced motion; FBO freed when hidden |
+| AcrylicSurface | Tint/`ElevatedChrome` over OS Mica/Acrylic — **no** kit blur bitmap cache | Do not expect a QML acrylic texture pool to evict |
 | Style `Button` / `TextField` / `Switch` | `Behavior` only when hovered / focused / pressed / toggled | Same motion on interaction |
 | `ListTile` | Color/scale `Behavior` when hovered / selected / pressed | Same row feedback |
 | Line / Bar / Donut charts | `revealAnimationPointBudget` (**500**); `requestRedraw` coalesced ~**16 ms** | Reveal skips only on huge series |
 | Gallery FontIcon | Filter debounced **120 ms** | Same grid, fewer full-catalog walks |
 | Gallery Charts / WebView2 | Deferred `Loader` for heavy/deferred demos | Stable charts paint first |
+
+### Image / shadow / acrylic caches (**3.47** H16)
+
+| Cache | Cap / eviction | Notes |
+|-------|----------------|-------|
+| `QPixmapCache` | Kit default **16384** KB via Bootstrap; `QWINUI3_PIXMAP_CACHE_KB` overrides (`0` = leave Qt default) | Bound decoded `Image` RSS without changing decode quality |
+| `ElevatedChrome` MultiEffect | Layer off when chrome or window not shown; still deferred 1 frame; reducedMotion flat | Same `shadowBlur` / `blurMax` / opacity when visible |
+| AcrylicSurface | No kit blur texture pool | OS Mica/Acrylic is compositor-owned; chrome is ElevatedChrome |
+| `ThemeFonts.iconFontFor` | LRU **96** (size, weight) entries | Hot icon sizes stay resident |
+| PersonPicture badge `Image` | `sourceSize` = badge box | Avoid full-res decode into tiny badges |
+
+Wave **Out:** do not lower default acrylic frost or remove shadows globally — this slice only caps / frees idle memory.
 
 ---
 
