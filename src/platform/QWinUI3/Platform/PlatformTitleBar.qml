@@ -49,6 +49,8 @@ Item {
     default property alias titleContent: contentHost.data
     // WinUI RightHeader — before caption buttons (FrameStatsBadge, actions, …)
     property alias rightHeader: rightHeaderSlot.data
+    // Same slot — clearer name on ShellWindow / StandardTitleChrome.
+    property alias captionRightHeader: rightHeaderSlot.data
 
     // Caption button row height
     property real captionHeight: resolvedCaptionHeight
@@ -84,6 +86,8 @@ Item {
             return
         root._hitTestPending = true
         Qt.callLater(function () {
+            if (!root)
+                return
             root._hitTestPending = false
             root._reportHitTestNow()
         })
@@ -115,8 +119,18 @@ Item {
             clients.push(Qt.rect(Math.floor(g.x) - 2, Math.floor(g.y) - 2,
                                  Math.ceil(item.width) + 4, Math.ceil(item.height) + 4))
         }
+        function pushClientTree(item) {
+            if (!item || !item.visible)
+                return
+            if (item.width > 0 && item.height > 0)
+                pushClientItem(item)
+            if (!item.children)
+                return
+            for (var ci = 0; ci < item.children.length; ++ci)
+                pushClientTree(item.children[ci])
+        }
         for (var ri = 0; ri < rightHeaderSlot.children.length; ++ri)
-            pushClientItem(rightHeaderSlot.children[ri])
+            pushClientTree(rightHeaderSlot.children[ri])
 
         WindowHelper.updateHitTestLayout(
                     root.targetWindow,

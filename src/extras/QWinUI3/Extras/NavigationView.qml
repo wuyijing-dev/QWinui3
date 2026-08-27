@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Effects
+import QtCore
 import QWinUI3.Theme
 
 // NavigationView — WinUI NavigationView with pane modes and page stack.
@@ -28,13 +29,19 @@ import QWinUI3.Theme
 //   //           nav.openFade("HomePage"), nav.openDrill("HomePage")
 //   //           nav.navigateToTitle("Home"), nav.reloadPage()
 //   //           nav.navigateToPage("DetailPage", "drill")  // in-page drill + history (2.56)
+//   //           nav.pushDrilldown(title, component) / popDrilldown()  // 3.04 N3
 //   //           nav.clearPageCache()  // drop cached page Components (keep current)
 //   // groups:   nav.toggleGroup(key), nav.setGroupExpanded(key, true)
+//   // pins:     nav.pinNavKey(key), nav.toggleNavPin(key)  // 3.04 N1
+//   // jump:     jumpListEnabled + nav.openJumpList()  // 3.04 N2
 //   // pane:     nav.togglePane()  // TitleBar hamburger; no-op when too narrow
 //   //           compactPaneStyle "iconOnly" | "labeled"
 //   // reorder:  nav.moveNavItem(from, to)   // requires isReorderable
+//   // patch:     nav.patchNavItem("home", { badge: "3", title: "Home" })  // incremental — 2.88 C9
 //   // signals:  onItemClicked, onPageOpened, onFooterClicked, onBackRequested,
 //   //           onPaneSearchActivated, onPaneSearchTextEdited, onModelReordered
+//   // footer:    footerBadge / footerBadgeValue on settings row
+//   // search:    paneSearchHighlightQuery highlights matching nav titles while typing
 //
 // @notes
 //   model entries: type "item"|"group"|"header"; groups use children[].
@@ -121,6 +128,9 @@ Item {
     property var footerSymbol: FluentIcons.Settings
     // Footer glyph string fallback
     property string footerIcon: ""
+    // Footer InfoBadge text / numeric count (2.82 D16).
+    property string footerBadge: ""
+    property real footerBadgeValue: -1
     // Page component name loaded for the footer row (e.g. "SettingsPage")
     property string footerComponent: ""
     // QML import URI used to resolve page components
@@ -149,6 +159,26 @@ Item {
     property var paneSearchModel: []
     // Placeholder for pane SearchBox (product apps: qsTr("Search photos"))
     property string paneSearchPlaceholder: qsTr("Search")
+    // Non-empty when pane search should highlight matching nav titles (2.82 D16).
+    readonly property string paneSearchHighlightQuery: (isPaneSearchEnabled && paneSearchText.trim().length)
+            ? paneSearchText.trim() : ""
+    // User-pinnable destinations shown above the pane list (3.04 N1). Keys match model keys.
+    property var pinnedNavKeys: []
+    property int maxPinnedNavKeys: 8
+    // Non-empty → persist pinnedNavKeys in Settings (JSON array).
+    property string pinnedNavSettingsCategory: ""
+    // Alphabetical / group jump-list flyout (3.04 N2).
+    property bool jumpListEnabled: false
+    // In-page drill trail beyond the selected nav key (3.04 N3).
+    property var drilldownStack: []
+    readonly property int drilldownDepth: (drilldownStack && drilldownStack.length) ? drilldownStack.length : 0
+    // Bind BreadcrumbBar.model to this so drilldown crumbs refresh (3.04 N3).
+    readonly property var breadcrumbTrail: {
+        var _d = drilldownDepth
+        var _k = currentKey
+        var _f = footerSelected
+        return breadcrumbModelForKey(_k)
+    }
     // Custom pane header slot
     property alias paneHeader: paneHeaderHost.data
     // Custom pane footer slot
@@ -162,7 +192,7 @@ Item {
     // Soft navigation history for TitleBar / pane back (replace stack still applies)
     property var pageHistory: []
     property bool _suppressHistory: false
-    readonly property bool canGoBack: pageHistory.length > 0
+    readonly property bool canGoBack: pageHistory.length > 0 || drilldownDepth > 0
     // TitleBar / ShellWindow: bind isBackButtonVisible to this (not a static true)
     readonly property bool effectiveBackVisible: isBackButtonVisible || canGoBack
     readonly property bool effectiveBackEnabled: isBackEnabled && canGoBack
@@ -381,8 +411,319 @@ Item {
     }
 
     // Rebuild the flattened ListModel from model
+    function _navRowFromSource(it, index) {
+        if (!it)
+            return null
+        if (it.type === "group") {
+            var gkey = it.key || ("group_" + index)
+            return {
+                kind: "group",
+                key: gkey,
+                modelIndex: index,
+                title: it.title || "",
+                glyph: IconSource.resolve(it.symbol || "", it.icon || FluentIcons.Library),
+                expanded: root.isGroupExpanded(gkey),
+                badge: it.badge !== undefined ? it.badge : "",
+                badgeValue: it.badgeValue !== undefined ? Number(it.badgeValue) : -1
+            }
+        }
+        if (it.type === "header") {
+            return {
+                kind: "header",
+                key: it.key || ("header_" + index),
+                modelIndex: index,
+                title: it.title || "",
+                glyph: "",
+                expanded: false,
+                badge: "",
+                badgeValue: -1
+            }
+        }
+        return {
+            kind: "item",
+            key: it.key || ("item_" + index),
+            modelIndex: index,
+            title: it.title || "",
+            glyph: IconSource.resolve(it.symbol || "", it.icon || FluentIcons.Placeholder),
+            expanded: false,
+            badge: it.badge !== undefined ? it.badge : "",
+            badgeValue: it.badgeValue !== undefined ? Number(it.badgeValue) : -1
+        }
+    }
+
+    function _collectNavRows(m) {
+        var rows = []
+        m = m || []
+        for (var i = 0; i < m.length; ++i) {
+            var row = _navRowFromSource(m[i], i)
+            if (row)
+                rows.push(row)
+        }
+        return rows
+    }
+
+    function _applyNavRowPatch(listIndex, row) {
+        var cur = navModel.get(listIndex)
+        if (cur.title !== row.title)
+            navModel.setProperty(listIndex, "title", row.title)
+        if (cur.glyph !== row.glyph)
+            navModel.setProperty(listIndex, "glyph", row.glyph)
+        if (cur.badge !== row.badge)
+            navModel.setProperty(listIndex, "badge", row.badge)
+        if (cur.badgeValue !== row.badgeValue)
+            navModel.setProperty(listIndex, "badgeValue", row.badgeValue)
+        if (cur.kind === "group" && cur.expanded !== row.expanded)
+            navModel.setProperty(listIndex, "expanded", row.expanded)
+    }
+
+    // Incremental ListModel sync when structure (keys/kinds/order) is unchanged — 2.88 C9.
+    function _syncNavModelIncremental() {
+        var rows = _collectNavRows(root.model)
+        if (rows.length !== navModel.count)
+            return false
+        for (var i = 0; i < rows.length; ++i) {
+            var row = rows[i]
+            var cur = navModel.get(i)
+            if (cur.kind !== row.kind || cur.key !== row.key || cur.modelIndex !== row.modelIndex)
+                return false
+        }
+        for (var j = 0; j < rows.length; ++j)
+            _applyNavRowPatch(j, rows[j])
+        return true
+    }
+
     function rebuildNavModel() {
         navModel.clear()
+        var rows = _collectNavRows(root.model)
+        for (var i = 0; i < rows.length; ++i)
+            navModel.append(rows[i])
+    }
+
+    // Patch a single nav entry (title / badge / icon) without replacing model — 2.88 C9.
+    function patchNavItem(key, patch) {
+        if (!key || !patch)
+            return false
+        var ent = _findSourceEntry(key)
+        if (!ent)
+            return false
+        var it = ent.item
+        if (patch.title !== undefined)
+            it.title = patch.title
+        if (patch.symbol !== undefined)
+            it.symbol = patch.symbol
+        if (patch.icon !== undefined)
+            it.icon = patch.icon
+        if (patch.badge !== undefined)
+            it.badge = patch.badge
+        if (patch.badgeValue !== undefined)
+            it.badgeValue = patch.badgeValue
+        var row = _navRowFromSource(it, ent.modelIndex)
+        if (!row)
+            return false
+        for (var i = 0; i < navModel.count; ++i) {
+            if (navModel.get(i).key !== key)
+                continue
+            _applyNavRowPatch(i, row)
+            return true
+        }
+        return false
+    }
+
+    function _pinnedStoreCategory() {
+        return root.pinnedNavSettingsCategory || "NavigationViewPins"
+    }
+
+    Settings {
+        id: pinnedStore
+        category: root._pinnedStoreCategory()
+        property string keysJson: "[]"
+    }
+
+    function _loadPinnedNavKeys() {
+        if (!root.pinnedNavSettingsCategory.length)
+            return
+        try {
+            var v = JSON.parse(pinnedStore.keysJson || "[]")
+            if (Array.isArray(v))
+                root.pinnedNavKeys = v
+        } catch (e) {
+        }
+    }
+
+    function _savePinnedNavKeys() {
+        if (!root.pinnedNavSettingsCategory.length)
+            return
+        pinnedStore.keysJson = JSON.stringify(root.pinnedNavKeys || [])
+    }
+
+    function isNavPinned(key) {
+        var k = String(key || "")
+        if (!k.length)
+            return false
+        return (root.pinnedNavKeys || []).indexOf(k) >= 0
+    }
+
+    function pinNavKey(key) {
+        var k = String(key || "")
+        if (!k.length || isNavPinned(k))
+            return false
+        var next = (root.pinnedNavKeys || []).slice()
+        next.push(k)
+        if (root.maxPinnedNavKeys > 0 && next.length > root.maxPinnedNavKeys)
+            next = next.slice(next.length - root.maxPinnedNavKeys)
+        root.pinnedNavKeys = next
+        _savePinnedNavKeys()
+        return true
+    }
+
+    function unpinNavKey(key) {
+        var k = String(key || "")
+        if (!isNavPinned(k))
+            return false
+        root.pinnedNavKeys = (root.pinnedNavKeys || []).filter(function (x) { return x !== k })
+        _savePinnedNavKeys()
+        return true
+    }
+
+    function toggleNavPin(key) {
+        if (isNavPinned(key))
+            return unpinNavKey(key)
+        return pinNavKey(key)
+    }
+
+    function pinnedNavEntries() {
+        var keys = root.pinnedNavKeys || []
+        var out = []
+        for (var i = 0; i < keys.length; ++i) {
+            var rec = _navRecordForKey(keys[i])
+            if (rec)
+                out.push(rec)
+        }
+        return out
+    }
+
+    function _navRecordForKey(key) {
+        var m = root.model || []
+        for (var i = 0; i < m.length; ++i) {
+            var it = m[i]
+            if (!it)
+                continue
+            if (it.type === "group" && it.children) {
+                var gkey = it.key || ("group_" + i)
+                for (var j = 0; j < it.children.length; ++j) {
+                    var ck = gkey + "/" + j
+                    if (ck === key) {
+                        var ch = it.children[j]
+                        return {
+                            key: ck,
+                            title: ch.title || "",
+                            glyph: IconSource.resolve(ch.symbol || "", ch.icon || FluentIcons.Placeholder),
+                            group: it.title || ""
+                        }
+                    }
+                }
+            } else if (it.type !== "header" && it.type !== "group") {
+                var ikey = it.key || ("item_" + i)
+                if (ikey === key) {
+                    return {
+                        key: ikey,
+                        title: it.title || "",
+                        glyph: IconSource.resolve(it.symbol || "", it.icon || FluentIcons.Placeholder),
+                        group: ""
+                    }
+                }
+            }
+        }
+        return null
+    }
+
+    function collectJumpListEntries() {
+        var out = []
+        var m = root.model || []
+        for (var i = 0; i < m.length; ++i) {
+            var it = m[i]
+            if (!it)
+                continue
+            if (it.type === "group" && it.children) {
+                var gkey = it.key || ("group_" + i)
+                var gtitle = it.title || qsTr("Group")
+                for (var j = 0; j < it.children.length; ++j) {
+                    var ch = it.children[j]
+                    if (!ch)
+                        continue
+                    out.push({
+                        key: gkey + "/" + j,
+                        title: ch.title || "",
+                        group: gtitle,
+                        letter: String(ch.title || "?").charAt(0).toUpperCase()
+                    })
+                }
+            } else if (it.type !== "header" && it.type !== "group") {
+                var title = it.title || ""
+                out.push({
+                    key: it.key || ("item_" + i),
+                    title: title,
+                    group: qsTr("Pages"),
+                    letter: String(title || "?").charAt(0).toUpperCase()
+                })
+            }
+        }
+        out.sort(function (a, b) {
+            var ga = String(a.group || "")
+            var gb = String(b.group || "")
+            if (ga !== gb)
+                return ga < gb ? -1 : 1
+            var ta = String(a.title || "").toLowerCase()
+            var tb = String(b.title || "").toLowerCase()
+            return ta < tb ? -1 : (ta > tb ? 1 : 0)
+        })
+        return out
+    }
+
+    function openJumpList() {
+        if (!root.jumpListEnabled)
+            return
+        jumpListPopup.open()
+    }
+
+    function closeJumpList() {
+        jumpListPopup.close()
+    }
+
+    function clearDrilldown() {
+        if (!drilldownDepth)
+            return
+        root.drilldownStack = []
+    }
+
+    function pushDrilldown(title, component, mode) {
+        if (!component)
+            return false
+        var stack = (root.drilldownStack || []).slice()
+        stack.push({ title: title || component, component: component })
+        root.drilldownStack = stack
+        if (!root.hostContent)
+            openPage(component, mode || "drill")
+        return true
+    }
+
+    function popDrilldown(mode) {
+        if (!drilldownDepth)
+            return false
+        var stack = (root.drilldownStack || []).slice()
+        stack.pop()
+        root.drilldownStack = stack
+        var backMode = mode || "slideRight"
+        if (!root.hostContent) {
+            if (stack.length)
+                openPage(stack[stack.length - 1].component, backMode)
+            else
+                openPage(root.currentComponent, backMode)
+        }
+        return true
+    }
+
+    function _findSourceEntry(key) {
         var m = root.model || []
         for (var i = 0; i < m.length; ++i) {
             var it = m[i]
@@ -390,40 +731,23 @@ Item {
                 continue
             if (it.type === "group") {
                 var gkey = it.key || ("group_" + i)
-                navModel.append({
-                    kind: "group",
-                    key: gkey,
-                    modelIndex: i,
-                    title: it.title || "",
-                    glyph: IconSource.resolve(it.symbol || "", it.icon || FluentIcons.Library),
-                    expanded: root.isGroupExpanded(gkey),
-                    badge: it.badge !== undefined ? it.badge : "",
-                    badgeValue: it.badgeValue !== undefined ? Number(it.badgeValue) : -1
-                })
+                if (gkey === key)
+                    return { item: it, modelIndex: i }
+                if (it.children) {
+                    for (var j = 0; j < it.children.length; ++j) {
+                        if ((gkey + "/" + j) === key)
+                            return { item: it.children[j], modelIndex: i }
+                    }
+                }
             } else if (it.type === "header") {
-                navModel.append({
-                    kind: "header",
-                    key: "header_" + i,
-                    modelIndex: i,
-                    title: it.title || "",
-                    glyph: "",
-                    expanded: false,
-                    badge: "",
-                    badgeValue: -1
-                })
+                if ((it.key || ("header_" + i)) === key)
+                    return { item: it, modelIndex: i }
             } else {
-                navModel.append({
-                    kind: "item",
-                    key: it.key || ("item_" + i),
-                    modelIndex: i,
-                    title: it.title || "",
-                    glyph: IconSource.resolve(it.symbol || "", it.icon || FluentIcons.Placeholder),
-                    expanded: false,
-                    badge: it.badge !== undefined ? it.badge : "",
-                    badgeValue: it.badgeValue !== undefined ? Number(it.badgeValue) : -1
-                })
+                if ((it.key || ("item_" + i)) === key)
+                    return { item: it, modelIndex: i }
             }
         }
+        return null
     }
 
     // Expand or collapse a nav group by key
@@ -463,7 +787,8 @@ Item {
     }
 
     onModelChanged: {
-        rebuildNavModel()
+        if (!_syncNavModelIncremental())
+            rebuildNavModel()
         // If the first openPage() ran against an empty model, load now.
         if (!root.hostContent && pageStack.depth === 0 && root.currentComponent)
             openPage(root.currentComponent, root.pendingMode || "slide")
@@ -727,7 +1052,7 @@ Item {
                             navKey: ck,
                             symbol: child.symbol || child.icon || ""
                         })
-                        return out
+                        return _appendDrilldownCrumbs(out)
                     }
                 }
             } else if (it.type !== "header" && it.type !== "group") {
@@ -738,13 +1063,24 @@ Item {
                         navKey: key,
                         symbol: it.symbol || it.icon || ""
                     })
-                    return out
+                    return _appendDrilldownCrumbs(out)
                 }
             }
         }
         var t = titleForKey(key)
         if (t.length)
             out.push({ title: t, navKey: key })
+        return _appendDrilldownCrumbs(out)
+    }
+
+    function _appendDrilldownCrumbs(out) {
+        var stack = root.drilldownStack || []
+        for (var d = 0; d < stack.length; ++d) {
+            out.push({
+                title: stack[d].title || stack[d].component || "",
+                navKey: "__drill__/" + d
+            })
+        }
         return out
     }
 
@@ -774,10 +1110,21 @@ Item {
             return
         var nk = path[index].navKey
         root._suppressHistory = true
-        if (nk === "__footer__")
+        if (nk === "__footer__") {
+            clearDrilldown()
             selectFooter(mode)
-        else if (nk && nk.length)
+        } else if (nk && nk.indexOf("__drill__/") === 0) {
+            var keep = Number(nk.substring(10)) + 1
+            var stack = (root.drilldownStack || []).slice()
+            while (stack.length > keep)
+                stack.pop()
+            root.drilldownStack = stack
+            if (!root.hostContent && stack.length)
+                openPage(stack[stack.length - 1].component, mode || "slideRight")
+        } else if (nk && nk.length) {
+            clearDrilldown()
             selectKey(nk, mode)
+        }
         root._suppressHistory = false
     }
 
@@ -854,6 +1201,12 @@ Item {
         var page = (pageName && pageName.length) ? pageName : ""
         // Same nav selection already active — no history push / no page transition
         if (!root.footerSelected && key === root.currentKey) {
+            if (root.drilldownDepth) {
+                clearDrilldown()
+                if (!root.hostContent)
+                    openPage(page.length ? page : currentComponent, mode || root.pageTransition)
+                return
+            }
             if (page.length && !root.hostContent && page !== root._openedPageName) {
                 openPage(page, mode || root.pageTransition)
                 return
@@ -867,6 +1220,8 @@ Item {
         }
         if (!_suppressHistory)
             pushHistorySnapshot()
+        if (!_suppressHistory)
+            clearDrilldown()
         footerSelected = false
         currentKey = key
         // Expand parent group if nested
@@ -905,6 +1260,7 @@ Item {
             return
         if (!_suppressHistory)
             pushHistorySnapshot()
+        clearDrilldown()
         footerSelected = true
         footerClicked()
         _announce(qsTr("Navigated to %1").arg(
@@ -936,7 +1292,9 @@ Item {
 
     // Restore previous nav selection (slideRight by default)
     function navigateBack(mode) {
-        if (!canGoBack)
+        if (drilldownDepth)
+            return popDrilldown(mode)
+        if (!pageHistory.length)
             return false
         var hist = pageHistory.slice()
         var prev = hist.pop()
@@ -1306,6 +1664,7 @@ Item {
     }
 
     Component.onCompleted: {
+        _loadPinnedNavKeys()
         rebuildNavModel()
         if (!root.hostContent)
             openPage(root.currentComponent, root.initialPageTransition || "none")
@@ -1465,6 +1824,15 @@ Item {
                                 font.pixelSize: Theme.fontCaption
                                 color: Theme.textPrimary
                                 elide: Text.ElideRight
+                                visible: !root.paneSearchHighlightQuery.length
+                            }
+                            MatchHighlightText {
+                                visible: root.paneSearchHighlightQuery.length > 0
+                                sourceText: topDel.title
+                                query: root.paneSearchHighlightQuery
+                                font.pixelSize: Theme.fontCaption
+                                normalColor: Theme.textPrimary
+                                elide: Text.ElideRight
                             }
                         }
                         background: Rectangle {
@@ -1586,6 +1954,13 @@ Item {
                             text: root.footerText
                             font.pixelSize: Theme.fontCaption
                             color: Theme.textPrimary
+                        }
+                        InfoBadge {
+                            visible: root.footerBadge.length > 0 || root.footerBadgeValue >= 0
+                            text: root.footerBadge
+                            value: root.footerBadgeValue >= 0 ? root.footerBadgeValue : 0
+                            severity: informational
+                            hideWhenEmpty: false
                         }
                     }
                     background: Rectangle {
@@ -1787,6 +2162,50 @@ Item {
                         else if (item && item.title)
                             root.navigateToTitle(item.title, root.pageTransition)
                         root.paneSearchActivated(paneSearch.displayTextFor(item))
+                    }
+                }
+
+                RowLayout {
+                    visible: root.paneOpen && root.jumpListEnabled
+                    Layout.fillWidth: true
+                    Layout.leftMargin: 4
+                    Layout.rightMargin: 4
+                    Layout.preferredHeight: visible ? Theme.navItemHeight : 0
+                    spacing: Theme.spacingTight
+                    Button {
+                        flat: true
+                        text: qsTr("Jump list")
+                        Accessible.name: qsTr("Jump list")
+                        Layout.fillWidth: true
+                        onClicked: root.openJumpList()
+                    }
+                }
+
+                Flow {
+                    id: pinnedFlow
+                    visible: root.paneOpen && (root.pinnedNavKeys || []).length > 0
+                    Layout.fillWidth: true
+                    Layout.leftMargin: 4
+                    Layout.rightMargin: 4
+                    Layout.preferredHeight: visible ? implicitHeight : 0
+                    spacing: 4
+                    Repeater {
+                        model: root.pinnedNavKeys || []
+                        delegate: Button {
+                            required property var modelData
+                            readonly property var pinRec: root._navRecordForKey(modelData)
+                            flat: true
+                            text: pinRec ? (pinRec.title || modelData) : modelData
+                            Accessible.name: qsTr("Pinned %1").arg(text)
+                            ToolTip.visible: hovered
+                            ToolTip.text: qsTr("Click to open · right-click to unpin")
+                            onClicked: root.selectKey(modelData, root.pageTransition)
+                            MouseArea {
+                                anchors.fill: parent
+                                acceptedButtons: Qt.RightButton
+                                onClicked: root.unpinNavKey(modelData)
+                            }
+                        }
                     }
                 }
 
@@ -2071,10 +2490,19 @@ Item {
                                             horizontalAlignment: Text.AlignHCenter
                                         }
                                         Text {
-                                            visible: root._paneShowsLabels
+                                            visible: root._paneShowsLabels && !root.paneSearchHighlightQuery.length
                                             text: del.title || ""
                                             font.pixelSize: Theme.fontBody
                                             color: Theme.textPrimary
+                                            elide: Text.ElideRight
+                                            Layout.fillWidth: true
+                                        }
+                                        MatchHighlightText {
+                                            visible: root._paneShowsLabels && root.paneSearchHighlightQuery.length > 0
+                                            sourceText: del.title || ""
+                                            query: root.paneSearchHighlightQuery
+                                            font.pixelSize: Theme.fontBody
+                                            normalColor: Theme.textPrimary
                                             elide: Text.ElideRight
                                             Layout.fillWidth: true
                                         }
@@ -2122,10 +2550,23 @@ Item {
                                             horizontalAlignment: Text.AlignHCenter
                                         }
                                         Text {
+                                            visible: !root.paneSearchHighlightQuery.length
                                             width: parent.width
                                             text: del.title || ""
                                             font.pixelSize: Theme.fontCaption
                                             color: Theme.textPrimary
+                                            horizontalAlignment: Text.AlignHCenter
+                                            wrapMode: Text.Wrap
+                                            maximumLineCount: 2
+                                            elide: Text.ElideRight
+                                        }
+                                        MatchHighlightText {
+                                            visible: root.paneSearchHighlightQuery.length > 0
+                                            width: parent.width
+                                            sourceText: del.title || ""
+                                            query: root.paneSearchHighlightQuery
+                                            font.pixelSize: Theme.fontCaption
+                                            normalColor: Theme.textPrimary
                                             horizontalAlignment: Text.AlignHCenter
                                             wrapMode: Text.Wrap
                                             maximumLineCount: 2
@@ -2232,10 +2673,21 @@ Item {
                                                     horizontalAlignment: Text.AlignHCenter
                                                 }
                                                 Text {
+                                                    visible: !root.paneSearchHighlightQuery.length
                                                     text: (childRow.modelData && childRow.modelData.title)
                                                           ? childRow.modelData.title : ""
                                                     font.pixelSize: Theme.fontBody
                                                     color: Theme.textPrimary
+                                                    elide: Text.ElideRight
+                                                    Layout.fillWidth: true
+                                                }
+                                                MatchHighlightText {
+                                                    visible: root.paneSearchHighlightQuery.length > 0
+                                                    sourceText: (childRow.modelData && childRow.modelData.title)
+                                                                 ? childRow.modelData.title : ""
+                                                    query: root.paneSearchHighlightQuery
+                                                    font.pixelSize: Theme.fontBody
+                                                    normalColor: Theme.textPrimary
                                                     elide: Text.ElideRight
                                                     Layout.fillWidth: true
                                                 }
@@ -2374,7 +2826,10 @@ Item {
                             var target = contentYForSelection()
                             if (target < 0) {
                                 if (moveRetries++ < 12)
-                                    Qt.callLater(function () { moveToCurrent(instant) })
+                                    Qt.callLater(function () {
+                                        if (selectionPip)
+                                            selectionPip.moveToCurrent(instant)
+                                    })
                                 else
                                     moveRetries = 0
                                 return
@@ -2399,7 +2854,8 @@ Item {
                         }
 
                         Component.onCompleted: Qt.callLater(function () {
-                            moveToCurrent(true)
+                            if (selectionPip)
+                                selectionPip.moveToCurrent(true)
                         })
                     }
                 }
@@ -2450,12 +2906,30 @@ Item {
                                 horizontalAlignment: Text.AlignHCenter
                             }
                             Text {
-                                visible: root._paneShowsLabels
+                                visible: root._paneShowsLabels && !root.paneSearchHighlightQuery.length
                                 text: root.footerText
                                 font.pixelSize: Theme.fontBody
                                 color: Theme.textPrimary
                                 elide: Text.ElideRight
                                 Layout.fillWidth: true
+                            }
+                            MatchHighlightText {
+                                visible: root._paneShowsLabels && root.paneSearchHighlightQuery.length > 0
+                                sourceText: root.footerText
+                                query: root.paneSearchHighlightQuery
+                                font.pixelSize: Theme.fontBody
+                                normalColor: Theme.textPrimary
+                                elide: Text.ElideRight
+                                Layout.fillWidth: true
+                            }
+                            InfoBadge {
+                                visible: root._paneShowsLabels
+                                         && (root.footerBadge.length > 0 || root.footerBadgeValue >= 0)
+                                Layout.alignment: Qt.AlignVCenter
+                                text: root.footerBadge
+                                value: root.footerBadgeValue >= 0 ? root.footerBadgeValue : 0
+                                severity: informational
+                                hideWhenEmpty: false
                             }
                         }
                         Column {
@@ -2473,10 +2947,23 @@ Item {
                                 horizontalAlignment: Text.AlignHCenter
                             }
                             Text {
+                                visible: !root.paneSearchHighlightQuery.length
                                 width: parent.width
                                 text: root.footerText
                                 font.pixelSize: Theme.fontCaption
                                 color: Theme.textPrimary
+                                horizontalAlignment: Text.AlignHCenter
+                                wrapMode: Text.Wrap
+                                maximumLineCount: 2
+                                elide: Text.ElideRight
+                            }
+                            MatchHighlightText {
+                                visible: root.paneSearchHighlightQuery.length > 0
+                                width: parent.width
+                                sourceText: root.footerText
+                                query: root.paneSearchHighlightQuery
+                                font.pixelSize: Theme.fontCaption
+                                normalColor: Theme.textPrimary
                                 horizontalAlignment: Text.AlignHCenter
                                 wrapMode: Text.Wrap
                                 maximumLineCount: 2
@@ -2770,9 +3257,20 @@ Item {
                             Text {
                                 anchors.verticalCenter: parent.verticalCenter
                                 width: parent.width - 30
+                                visible: !root.paneSearchHighlightQuery.length
                                 text: flyDel.title
                                 font.pixelSize: Theme.fontBody
                                 color: Theme.textPrimary
+                                elide: Text.ElideRight
+                            }
+                            MatchHighlightText {
+                                anchors.verticalCenter: parent.verticalCenter
+                                width: parent.width - 30
+                                visible: root.paneSearchHighlightQuery.length > 0
+                                sourceText: flyDel.title
+                                query: root.paneSearchHighlightQuery
+                                font.pixelSize: Theme.fontBody
+                                normalColor: Theme.textPrimary
                                 elide: Text.ElideRight
                             }
                         }
@@ -2807,6 +3305,82 @@ Item {
                                         duration: Theme.duration(Theme.motionNormal)
                                         easing.type: Theme.easingStandard
                                     }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    Popup {
+        id: jumpListPopup
+        parent: Overlay.overlay
+        modal: true
+        focus: true
+        property var entries: []
+        width: Math.min(320, root.width - 24)
+        height: Math.min(420, jumpListCol.implicitHeight + 24)
+        x: parent ? Math.round((parent.width - width) / 2) : 40
+        y: parent ? Math.round(parent.height * 0.12) : 80
+        padding: Theme.spacing
+        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+        onAboutToShow: entries = root.collectJumpListEntries()
+        background: ElevatedChrome {
+            radius: Theme.cornerOverlay
+        }
+        contentItem: ColumnLayout {
+            id: jumpListCol
+            spacing: Theme.spacingTight
+            width: jumpListPopup.availableWidth
+            Text {
+                text: qsTr("Jump to page")
+                font.pixelSize: Theme.fontBody
+                font.weight: Theme.fontWeightSemiBold
+                color: Theme.textPrimary
+            }
+            Flickable {
+                Layout.fillWidth: true
+                Layout.preferredHeight: Math.min(360, jumpListInner.implicitHeight)
+                contentHeight: jumpListInner.implicitHeight
+                clip: true
+                boundsBehavior: Flickable.StopAtBounds
+                ColumnLayout {
+                    id: jumpListInner
+                    width: parent.width
+                    spacing: 2
+                    Repeater {
+                        model: jumpListPopup.entries
+                        delegate: ItemDelegate {
+                            required property var modelData
+                            required property int index
+                            Layout.fillWidth: true
+                            height: Theme.navItemHeight
+                            Accessible.name: modelData.title
+                            onClicked: {
+                                root.selectKey(modelData.key, root.pageTransition)
+                                jumpListPopup.close()
+                            }
+                            contentItem: ColumnLayout {
+                                spacing: 0
+                                Text {
+                                    visible: {
+                                        if (index === 0)
+                                            return true
+                                        var prev = jumpListPopup.entries[index - 1]
+                                        return !prev || prev.group !== modelData.group
+                                    }
+                                    text: modelData.group || qsTr("Pages")
+                                    font.pixelSize: Theme.fontCaption
+                                    color: Theme.textSecondary
+                                }
+                                Text {
+                                    text: modelData.title
+                                    font.pixelSize: Theme.fontBody
+                                    color: Theme.textPrimary
+                                    elide: Text.ElideRight
+                                    Layout.fillWidth: true
                                 }
                             }
                         }

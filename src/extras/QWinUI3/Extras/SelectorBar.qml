@@ -73,13 +73,25 @@ T.Control {
         selected(index, model[index])
     }
 
-    onCurrentIndexChanged: Qt.callLater(function () { moveIndicator(false) })
-    onSelectionStyleChanged: Qt.callLater(function () { moveIndicator(true) })
+    onCurrentIndexChanged: Qt.callLater(function () {
+        if (control)
+            control.moveIndicator(false)
+    })
+    onSelectionStyleChanged: Qt.callLater(function () {
+        if (control)
+            control.moveIndicator(true)
+    })
     onModelChanged: {
         _indicatorReady = false
-        Qt.callLater(function () { moveIndicator(true) })
+        Qt.callLater(function () {
+            if (control)
+                control.moveIndicator(true)
+        })
     }
-    Component.onCompleted: Qt.callLater(function () { moveIndicator(true) })
+    Component.onCompleted: Qt.callLater(function () {
+        if (control)
+            control.moveIndicator(true)
+    })
 
     // Item at the given index
     function itemAt(index) {

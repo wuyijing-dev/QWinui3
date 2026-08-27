@@ -102,7 +102,10 @@ ShellWindow {
             menus.anchors.right = menuStripHost.right
             menus.anchors.top = menuStripHost.top
         }
-        Qt.callLater(function () { root.chrome.reportHitTest() })
+        Qt.callLater(function () {
+            if (root && root.chrome && typeof root.chrome.reportHitTest === "function")
+                root.chrome.reportHitTest()
+        })
     }
 
     onMenusInTitleBarChanged: _placeMenuBar()
@@ -112,13 +115,16 @@ ShellWindow {
         target: menus
         // React to implicitWidth changes
         function onImplicitWidthChanged() {
-            if (root.menusInTitleBar)
+            if (root.menusInTitleBar && root.chrome)
                 root.chrome.reportHitTest()
         }
         // React to count changes
         function onCountChanged() {
             if (root.menusInTitleBar)
-                Qt.callLater(function () { root.chrome.reportHitTest() })
+                Qt.callLater(function () {
+                    if (root && root.chrome && typeof root.chrome.reportHitTest === "function")
+                        root.chrome.reportHitTest()
+                })
         }
     }
 

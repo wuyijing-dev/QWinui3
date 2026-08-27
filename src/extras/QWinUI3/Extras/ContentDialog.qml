@@ -28,6 +28,8 @@ import QWinUI3.Theme
 //   Prefer show() -> ContentDialogQueue so dialogs open one-at-a-time.
 //   Empty primary/secondary/closeButtonText hides that button.
 //   defaultButton: primary | secondary | close | none (or isPrimaryDefault).
+//   activateDefaultOnEnter: false skips Enter → default when a single-line field is focused.
+//   queuePriority: higher pending dialogs open before lower (ContentDialogQueue).
 //   fullSizeDesired expands toward the overlay (WinUI FullSizeDesired).
 //   dialogResult: none | primary | secondary | close (WinUI ContentDialogResult).
 //   primaryButton / secondaryButton / closeButton slots override text buttons.
@@ -44,6 +46,10 @@ T.Dialog {
     property string closeButtonText: qsTr("Cancel")
     property bool isPrimaryDefault: true
     property string defaultButton: ""
+    // When false, Enter/Return does not activate the default button (2.82 D19)
+    property bool activateDefaultOnEnter: true
+    // Higher values dequeue before lower when using ContentDialogQueue (2.82 D19)
+    property int queuePriority: 0
     property bool isPrimaryButtonEnabled: true
     property bool isSecondaryButtonEnabled: true
     property bool isCloseButtonEnabled: true
@@ -125,7 +131,10 @@ T.Dialog {
         syncBody()
         _captureFocusReturn()
     }
-    onOpened: Qt.callLater(function () { chrome.forceActiveFocus() })
+    onOpened: Qt.callLater(function () {
+        if (chrome)
+            chrome.forceActiveFocus()
+    })
     onClosed: _restoreFocusReturn()
     onAccepted: {
         if (root.dialogResult === "none")
@@ -201,7 +210,8 @@ T.Dialog {
 
     Shortcut {
         sequences: ["Return", "Enter"]
-        enabled: root.visible && root._defaultButton !== "none" && !root._focusIsMultiline()
+        enabled: root.visible && root.activateDefaultOnEnter
+                 && root._defaultButton !== "none" && !root._focusIsMultiline()
         context: Qt.WindowShortcut
         onActivated: root.activateDefault()
     }

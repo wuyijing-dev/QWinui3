@@ -47,6 +47,23 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.25 → 3.26
+
+**Product version:** 3.26  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | callLater teardown guards | None required |
+
+### Optional / polish
+- **SelectorBar / NavigationView / ContentDialog / PlatformTitleBar / MenuStatusWindow:** null-safe `Qt.callLater` after unload
+
+### No action (compatible)
+- APIs unchanged
+
 ### Upgrade 3.24 → 3.25
 
 **Product version:** 3.25  
