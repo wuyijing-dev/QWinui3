@@ -47,6 +47,23 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.47 → 3.48
+
+**Product version:** 3.48  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | Memory wave sign-off (H17) | None — docs / checkpoint only |
+
+### Optional / polish
+- See [checkpoint-390](checkpoint-390.md#memory-sign-off-h10h17--348) for Gallery idle WorkingSet baseline (~136 MB WS)
+
+### No action (compatible)
+- No runtime API or visual changes in this minor
+
 ### Upgrade 3.46 → 3.47
 
 **Product version:** 3.47  

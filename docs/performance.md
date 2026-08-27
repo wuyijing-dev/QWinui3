@@ -40,6 +40,7 @@ Related: [data-collections.md](data-collections.md) · [charts.md](charts.md) ·
 | Chart series buffers | Source ring caps + draw LOD documented; opt-in `ChartSeries.capacity` / `ChartUtils.trimRing` (**3.45** H14) — LOD defaults unchanged |
 | Gallery page unload | StackView.replace destroys off-screen trees; Gallery `pageCacheLimit: **8**` + `pinnedPageCache: Home/Settings` (**3.46** H15) — kit default stays **24** |
 | Image / shadow caches | `QPixmapCache` kit cap **16 MB** (`QWINUI3_PIXMAP_CACHE_KB`); ElevatedChrome frees MultiEffect FBO when hidden; `iconFontFor` LRU **96** (**3.47** H16) — acrylic/shadow **look** unchanged |
+| Memory wave sign-off | Idle WorkingSet table filled at **3.48** H17 — [checkpoint-390](checkpoint-390.md#memory-sign-off-h10h17--348) (~**136 MB** WS avg, n=5 Win Release) |
 | Icon / atlas warm-up | Optional: touch `FluentIcons` / ThemeFonts once after first frame |
 | Page cache | `pageCacheLimit` + `pinnedPageCache` (2.68); Gallery tightened in **3.46** — avoid compiling all pages at startup |
 | Target budget | Aim for interactive shell **&lt; 1.5 s** on CI Win Release; local desktop **&lt; 2 s** — wave **S10–S17** signed off at **3.40** ([checkpoint-390](checkpoint-390.md#cold-start-sign-off-s10s17--340)) |

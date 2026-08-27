@@ -7,7 +7,8 @@
 
 **Prerequisite for:** [checkpoint-400](checkpoint-400.md) (**4.00**)
 
-**Cold start wave:** **green** — signed off **2026-08-27** at **`QWINUI3_VERSION` 3.40** (**S10–S17**). Memory / runtime / depth / package rows remain open until their waves land.
+**Cold start wave:** **green** — signed off **2026-08-27** at **`QWINUI3_VERSION` 3.40** (**S10–S17**).  
+**Memory wave:** **green** — signed off **2026-08-27** at **`QWINUI3_VERSION` 3.48** (**H10–H17**). Runtime / depth / package rows remain open until their waves land.
 
 ---
 
@@ -27,7 +28,7 @@
 | Wave | Slices | IDs | Status |
 |------|--------|-----|--------|
 | Cold start | **3.34…3.40** | **S10–S17** | **Shipped** — see [Cold start sign-off](#cold-start-sign-off-s10s17--340) |
-| Memory | **3.41…3.48** | **H10–H17** | **3.41–3.47** shipped · **H17** Planned |
+| Memory | **3.41…3.48** | **H10–H17** | **Shipped** — see [Memory sign-off](#memory-sign-off-h10h17--348) |
 | Silent runtime | **3.49…3.55** | **C20–C26** | Planned |
 | Control depth | **3.56…3.72** | **D30–D54** | Planned |
 | Platform + package | **3.73…3.82** | **P10–P12 · K10–K16** | Planned |
@@ -38,7 +39,7 @@
 ## Exit criteria (tag `v3.90`)
 
 - [x] Startup budget met on CI Win Release (`--startup-log` / smoke `main=`) — **3.39 S16** gate + **3.40** sign-off below
-- [ ] Working-set / RSS table filled; Gallery idle RSS ↓ vs **3.33** baseline
+- [ ] Working-set / RSS table filled; Gallery idle RSS ↓ vs **3.33** baseline — **table filled at 3.48** (post-wave); **↓ vs 3.33** still unverified (**3.33** never captured)
 - [ ] Switch p50 **≤** baseline
 - [ ] **D30–D54** shipped or deferred with friction-log link
 - [ ] **K10–K14** presets + size table published
@@ -80,13 +81,44 @@
 
 ---
 
+## Memory sign-off (**H10–H17** · **3.48**)
+
+| ID | Slice | Deliverable | Verdict |
+|----|-------|-------------|---------|
+| **H10** | **3.41** | FluentIcons / glyph path — shared PreferNoHinting `QFont` cache | Shipped |
+| **H11** | **3.42** | Theme singleton — lazy Text/Display stacks; density formula-only | Shipped |
+| **H12** | **3.43** | List/Tree / NavigationView pane — `reuseItems` + mild `cacheBuffer` | Shipped |
+| **H13** | **3.44** | DataTable lean ListView roles + hidden-column filter discipline | Shipped |
+| **H14** | **3.45** | Chart series ring caps documented + opt-in `capacity` / `trimRing` | Shipped |
+| **H15** | **3.46** | Gallery page Component unload (`pageCacheLimit: 8` + pins) | Shipped |
+| **H16** | **3.47** | Pixmap / shadow cache caps; ElevatedChrome FBO hygiene | Shipped |
+| **H17** | **3.48** | This section — wave sign-off + working-set table | **Signed off** |
+
+### Gallery idle working-set measurements
+
+Method: Release `qwinui3_gallery.exe` (no `--smoke`), wait **5 s** after launch (Home settled), sample process **WorkingSet64** / **PrivateMemorySize64**, then quit. Repeat cold starts **n=5**. Machine: Win Release (dev, this audit), Qt 6.8, **2026-08-27**.
+
+| Metric | Avg | Min | Max | n |
+|--------|-----|-----|-----|---|
+| WorkingSet (MB) | **136.2** | 133.8 | 138.5 | 5 |
+| Private bytes (MB) | **162.7** | 159.4 | 165.6 | 5 |
+
+**Honesty:** **3.33** pre-wave idle RSS was **never recorded**, so “↓ vs 3.33” cannot be claimed at H17. Post-wave idle WS is the baseline for later **3.90** / CI comparisons. No CI RSS gate yet (same posture as S17 documenting startup before inventing new infra).
+
+**Recipes:** [performance.md](performance.md) H10–H16 rows (icon fonts, Theme trim, list overscan, DataTable lean roles, chart rings, Gallery page cache, pixmap/shadow caps).
+
+**Out of memory wave:** Nav switch p50 · kit zip size · silent-runtime paint coalesce (**C20+**).
+
+---
+
 ## Baseline capture (fill as waves land)
 
-| Metric | Machine | **3.33** / pre-wave | **3.40** cold start | **3.90** result |
-|--------|---------|---------------------|---------------------|-----------------|
-| Interactive shell ms (`main=`) | Win Release (dev) | advisory &lt; 1500 (no CI fail) | **~335** (n=5) | |
-| Interactive shell ms | CI Win Release | advisory &lt; 1500 | **≤ 1500** absolute gate (**S16**) | |
-| Gallery idle RSS (MB) | CI Win Release | _TBD_ | — | |
-| Nav page switch p50 (ms) | CI Win Release | _TBD_ | — | |
-| Kit zip `shell` (MB) | Release package | _TBD_ | — | |
-| PyPI default wheel (MB) | Release | _TBD_ | — | |
+| Metric | Machine | **3.33** / pre-wave | **3.40** cold start | **3.48** memory | **3.90** result |
+|--------|---------|---------------------|---------------------|-----------------|-----------------|
+| Interactive shell ms (`main=`) | Win Release (dev) | advisory &lt; 1500 (no CI fail) | **~335** (n=5) | — | |
+| Interactive shell ms | CI Win Release | advisory &lt; 1500 | **≤ 1500** absolute gate (**S16**) | — | |
+| Gallery idle WorkingSet (MB) | Win Release (dev) | _not captured_ | — | **~136** (n=5) | |
+| Gallery idle RSS (MB) | CI Win Release | _TBD_ | — | — | |
+| Nav page switch p50 (ms) | CI Win Release | _TBD_ | — | — | |
+| Kit zip `shell` (MB) | Release package | _TBD_ | — | — | |
+| PyPI default wheel (MB) | Release | _TBD_ | — | — | |
