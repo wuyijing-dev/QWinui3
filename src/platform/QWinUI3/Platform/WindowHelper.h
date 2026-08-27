@@ -260,6 +260,10 @@ public:
     Q_INVOKABLE void copyText(const QString &text);
     Q_INVOKABLE QString clipboardText() const;
     Q_INVOKABLE void systemBeep();
+    // App layout direction (Qt.application.layoutDirection is read-only in Qt 6 QML)
+    Q_PROPERTY(int layoutDirection READ layoutDirection WRITE setLayoutDirection NOTIFY layoutDirectionChanged)
+    int layoutDirection() const;
+    Q_INVOKABLE void setLayoutDirection(int direction);
     // Idle inhibit (Windows SetThreadExecutionState / Linux ScreenSaver+portal)
     Q_INVOKABLE bool inhibitIdle(const QString &reason = QString());
     Q_INVOKABLE void releaseIdleInhibit();
@@ -269,6 +273,13 @@ public:
     // Shell recent documents (Windows SHAddToRecentDocs; Linux best-effort)
     Q_INVOKABLE void addToRecentDocuments(const QString &path);
     Q_INVOKABLE void clearRecentDocuments();
+    // Opt-in file association (3.09 P3) — HKCU on Windows; ~/.local share on Linux
+    Q_INVOKABLE bool registerFileAssociation(const QString &extension,
+                                             const QString &progId,
+                                             const QString &friendlyName,
+                                             const QString &openCommand = QString());
+    Q_INVOKABLE bool unregisterFileAssociation(const QString &extension,
+                                               const QString &progId);
 
     // Opt-in single-instance (2.74) — default OFF; see docs/single-instance.md
     Q_INVOKABLE bool tryBecomeSingleInstancePrimary(const QString &serverName = QString());
@@ -329,6 +340,7 @@ signals:
     void snapLayoutsEnabledChanged();
     void screensChanged();
     void idleInhibitedChanged();
+    void layoutDirectionChanged();
     void powerChanged();
     void onlineChanged();
     /// Forwarded from the process SingleInstance primary (2.74).

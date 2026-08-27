@@ -1,45 +1,22 @@
-# Multi-window example (1.56 · harden 2.14)
+# Multi-window example
 
-Main `ShellWindow` + secondary `ToolShellWindow` + owned `DialogShellWindow`. Shared Theme, distinct `geometryPersistenceKey`s, dialog transient parent + **centerOnOwner**.
+Main `ShellWindow` + secondary `ToolShellWindow` + owned `DialogShellWindow`, plus **3.08**:
 
-| Related | Role |
-|---------|------|
-| [`gallery-shell/`](../gallery-shell/) | Single-window app chrome (start here for nav shells) |
-| [docs/window-shells.md](../../docs/window-shells.md) | Multi-window recipe + **2.14** Wayland harden |
-| [docs/window-helper.md](../../docs/window-helper.md) | `setTransientParent` / `centerOnOwner` / geometry API |
-| [docs/window-chrome.md](../../docs/window-chrome.md) | Dialog-behind / off-screen failure modes |
-| [docs/security-trust.md](../../docs/security-trust.md) | Wayland portal `parent_window` regression |
+- **W7** — `WindowMessageBus` channel `appearance` (theme / accent / layoutDirection)
+- **W8** — `PanelFloatHost` detaches a filter pane into a `ToolShellWindow`
 
-## Build / run
+Shared Theme (same process). Distinct `geometryPersistenceKey`s. Dialog transient parent + **centerOnOwner**.
+
+Recipes: [`docs/window-shells.md`](../../docs/window-shells.md) · [`docs/app-platform-3xx.md`](../../docs/app-platform-3xx.md)
 
 ```bat
 cmake --build build --config Release --target qwinui3_example_multi_window
 build\qwinui3_example_multi_window.exe
 ```
 
-```bash
-cmake --build build --target qwinui3_example_multi_window
-./build/qwinui3_example_multi_window
-```
-
-Preset: `cmake --build --preset example-multi-window`.
-
-## What this demonstrates
-
-| Surface | Key / ownership |
-|---------|-----------------|
-| Main `ShellWindow` | `MultiWindowExampleMain` |
+| Shell | Persistence key |
+|-------|-----------------|
+| Main | `MultiWindowExampleMain` |
 | `ToolShellWindow` | `MultiWindowExampleTool` (independent top-level) |
-| `DialogShellWindow` | `MultiWindowExampleDialog` + `openDialog(main)` → transient parent + **centerOnOwner** |
-| Theme | One process — toggle Dark on the tool; main follows |
-| Portal readout | Status line shows `WindowHelper.portalParentWindow(main)` after opening dialog |
-
-## Win + Linux notes
-
-- Prefer **`BackdropSolid`** on every shell (Linux coerces Mica/Acrylic anyway).
-- **2.14:** `setTransientParent` realizes child + parent surfaces before parenting (Wayland).
-- Use **`openDialog(owner)`** — centers on the **owner monitor**, not always primary.
-- Do **not** reuse one geometry key for main and tool.
-- In-page confirms stay as **`ContentDialog`**; only use a second HWND when you need a real tool/dialog window.
-
-Gallery: **Multi-window** page · **Window shells** spawn demos.
+| Filter float | `MultiWindowExampleFilterFloat` |
+| Dialog | `MultiWindowExampleDialog` |

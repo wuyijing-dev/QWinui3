@@ -4,7 +4,7 @@ Platform chrome, backdrop, DPI, and geometry helpers (singleton).
 
 `import QWinUI3.Platform` · [`src/platform/QWinUI3/Platform/WindowHelper.h`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/platform/QWinUI3/Platform/WindowHelper.h)
 
-**Category:** Platform · **Library:** v2.81 · **C++ type** · **singleton**
+**Category:** Platform · **Library:** v3.10 · **C++ type** · **singleton**
 
 [← Component index](../components.md)
 
@@ -55,6 +55,7 @@ Platform chrome, backdrop, DPI, and geometry helpers (singleton).
 | `portalAvailable` | `bool` | — |
 | `devicePixelRatio` | `qreal` | — |
 | `snapLayoutsEnabled` | `bool` | — |
+| `layoutDirection` | `int` | — |
 | `idleInhibited` | `bool` | — |
 | `batteryLevel` | `int` | — |
 | `onBattery` | `bool` | — |
@@ -80,6 +81,7 @@ Platform chrome, backdrop, DPI, and geometry helpers (singleton).
 | `snapLayoutsEnabledChanged()` | — |
 | `screensChanged()` | — |
 | `idleInhibitedChanged()` | — |
+| `layoutDirectionChanged()` | — |
 | `powerChanged()` | — |
 | `onlineChanged()` | — |
 | `singleInstanceActivationRequested(const QStringList &args)` | — |
@@ -142,10 +144,17 @@ Platform chrome, backdrop, DPI, and geometry helpers (singleton).
 | `copyText(const QString &text)` | — |
 | `clipboardText() const)` | — |
 | `systemBeep()` | — |
+| `setLayoutDirection(int direction)` | — |
 | `inhibitIdle(const QString &reason = QString())` | — |
 | `releaseIdleInhibit()` | — |
 | `addToRecentDocuments(const QString &path)` | — |
 | `clearRecentDocuments()` | — |
+| `registerFileAssociation(const QString &extension,
+                                             const QString &progId,
+                                             const QString &friendlyName,
+                                             const QString &openCommand = QString())` | — |
+| `unregisterFileAssociation(const QString &extension,
+                                               const QString &progId)` | — |
 | `tryBecomeSingleInstancePrimary(const QString &serverName = QString())` | — |
 | `singleInstanceEnvOptIn() const)` | — |
 | `refreshPowerStatus()` | — |

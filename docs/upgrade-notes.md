@@ -47,6 +47,82 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.06 → 3.10
+
+**Product version:** 3.10  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | Additive app-platform APIs + examples | None required |
+
+### Optional / polish
+- **V1–V3:** copy [`admin-settings`](../examples/admin-settings/), [`master-detail-crm`](../examples/master-detail-crm/), [`ops-console`](../examples/ops-console/)
+- **W7–W8:** `WindowMessageBus` `appearance` + **PanelFloatHost** — [`examples/multi-window`](../examples/multi-window/)
+- **P3:** `WindowHelper.registerFileAssociation` — [file-association.md](file-association.md)
+- Sign-off: [checkpoint-310.md](checkpoint-310.md)
+
+### No action (compatible)
+- Existing shells / commands / charts APIs unchanged
+
+### Upgrade 3.05 → 3.06
+
+**Product version:** 3.06  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | Additive BarChart bin API | None required |
+
+### Optional / polish
+- Prefer **BarChart** `{ samples; binCount }` for distributions — [charts.md](charts.md)
+- Keep **HistogramChart** for Gallery / experimental only (**FL-015** closed)
+
+### No action (compatible)
+- Existing `values` / `bars` / `series` paths unchanged
+
+### Upgrade 3.04 → 3.05
+
+**Product version:** 3.05  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | Additive dashboard APIs | None required |
+
+### Optional / polish
+- **G1:** Prefer **LiveMetricStrip** for live KPI rows — [charts.md](charts.md) · [components/LiveMetricStrip.md](components/LiveMetricStrip.md)
+- **G2:** Gallery **Ops console** + [`examples/dashboard`](../examples/dashboard/) live tick
+- **FL-014** closed
+
+### No action (compatible)
+- Existing **MetricCompareRow** / **KpiTile** / **DashboardShell** unchanged
+
+### Upgrade 3.03 → 3.04
+
+**Product version:** 3.04  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | Additive navigation APIs | None required |
+
+### Optional / polish
+- **N1:** `pinNavKey` / `pinnedNavSettingsCategory` for pane favorites — [navigation.md](navigation.md)
+- **N2:** `jumpListEnabled` + `openJumpList()` for large `navModel`
+- **N3:** `pushDrilldown` + bind **BreadcrumbBar** to `breadcrumbTrail`; TitleBar Back via `navigateBack()`
+
+### No action (compatible)
+- Existing `navigateToPage` / breadcrumb helpers unchanged; drilldown is opt-in.
+
 ### Upgrade 2.73 → 2.80
 
 **Product version:** 2.80  

@@ -1,8 +1,8 @@
 {
   "name": "QWinUI3",
-  "version": "2.81",
+  "version": "3.10",
   "generatedBy": "scripts/generate_component_docs.py",
-  "publicCount": 317,
+  "publicCount": 325,
   "components": [
     {
       "name": "AccentButton",
@@ -221,9 +221,9 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/AutoSuggestBox.md",
-      "propertyCount": 18,
+      "propertyCount": 19,
       "signalCount": 4,
-      "methodCount": 4
+      "methodCount": 5
     },
     {
       "name": "AvatarGroup",
@@ -272,9 +272,9 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/BarChart.md",
-      "propertyCount": 25,
+      "propertyCount": 30,
       "signalCount": 1,
-      "methodCount": 2
+      "methodCount": 5
     },
     {
       "name": "BatteryGauge",
@@ -342,7 +342,7 @@
       "doc": "components/BoxPlotChart.md",
       "propertyCount": 7,
       "signalCount": 0,
-      "methodCount": 0
+      "methodCount": 1
     },
     {
       "name": "BreadcrumbBar",
@@ -427,7 +427,7 @@
       "doc": "components/CandlestickChart.md",
       "propertyCount": 10,
       "signalCount": 0,
-      "methodCount": 0
+      "methodCount": 1
     },
     {
       "name": "ChartCard",
@@ -680,14 +680,31 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/CommandPalette.md",
-      "propertyCount": 11,
+      "propertyCount": 14,
       "signalCount": 1,
-      "methodCount": 2
+      "methodCount": 3
+    },
+    {
+      "name": "CommandPaletteHost",
+      "module": "QWinUI3.Extras",
+      "summary": "Ctrl+K / Meta+K wiring for StandardWindow and custom hosts (3.01 W3).",
+      "path": "src/extras/QWinUI3/Extras/CommandPaletteHost.qml",
+      "baseType": "Item",
+      "internal": false,
+      "category": "Buttons & commands",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "kind": "qml",
+      "singleton": false,
+      "doc": "components/CommandPaletteHost.md",
+      "propertyCount": 3,
+      "signalCount": 1,
+      "methodCount": 0
     },
     {
       "name": "CommandRegistry",
       "module": "QWinUI3.Extras",
-      "summary": "Scoped command store for CommandPalette auto-discovery.",
+      "summary": "Scoped command store for CommandPalette auto-discovery (2.68 · 3.02 R1–R3).",
       "path": "src/extras/QWinUI3/Extras/CommandRegistry.qml",
       "baseType": "QtObject",
       "internal": false,
@@ -697,9 +714,9 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/CommandRegistry.md",
-      "propertyCount": 3,
-      "signalCount": 2,
-      "methodCount": 9
+      "propertyCount": 5,
+      "signalCount": 3,
+      "methodCount": 13
     },
     {
       "name": "CompactOverlayShellWindow",
@@ -816,7 +833,7 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/ContentDialog.md",
-      "propertyCount": 14,
+      "propertyCount": 16,
       "signalCount": 5,
       "methodCount": 7
     },
@@ -952,9 +969,9 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/DataTable.md",
-      "propertyCount": 31,
+      "propertyCount": 34,
       "signalCount": 4,
-      "methodCount": 12
+      "methodCount": 19
     },
     {
       "name": "DataTableFilterOverlay",
@@ -1343,9 +1360,9 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/FormLayout.md",
-      "propertyCount": 9,
+      "propertyCount": 10,
       "signalCount": 0,
-      "methodCount": 10
+      "methodCount": 11
     },
     {
       "name": "FormSection",
@@ -1396,7 +1413,7 @@
       "doc": "components/FunnelChart.md",
       "propertyCount": 10,
       "signalCount": 1,
-      "methodCount": 0
+      "methodCount": 1
     },
     {
       "name": "GaugeDragLayer",
@@ -1875,6 +1892,23 @@
       "methodCount": 4
     },
     {
+      "name": "LayoutPreset",
+      "module": "QWinUI3.Extras",
+      "summary": "Named SplitWorkspace layouts persisted in QSettings (3.03 W6).",
+      "path": "src/extras/QWinUI3/Extras/LayoutPreset.qml",
+      "baseType": "QtObject",
+      "internal": false,
+      "category": "Other",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "kind": "qml",
+      "singleton": false,
+      "doc": "components/LayoutPreset.md",
+      "propertyCount": 5,
+      "signalCount": 0,
+      "methodCount": 8
+    },
+    {
       "name": "LedRingGauge",
       "module": "QWinUI3.Extras",
       "summary": "Circular LED / peak-hold ring.",
@@ -1938,7 +1972,7 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/ListDetailsView.md",
-      "propertyCount": 26,
+      "propertyCount": 28,
       "signalCount": 2,
       "methodCount": 7
     },
@@ -1960,6 +1994,23 @@
       "methodCount": 0
     },
     {
+      "name": "LiveMetricStrip",
+      "module": "QWinUI3.Extras",
+      "summary": "Throttled live KPI row with ring buffers + compare-period (3.05 G1).",
+      "path": "src/extras/QWinUI3/Extras/LiveMetricStrip.qml",
+      "baseType": "Control",
+      "internal": false,
+      "category": "Other",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "kind": "qml",
+      "singleton": false,
+      "doc": "components/LiveMetricStrip.md",
+      "propertyCount": 14,
+      "signalCount": 2,
+      "methodCount": 7
+    },
+    {
       "name": "LollipopChart",
       "module": "QWinUI3.Extras",
       "summary": "Stem-and-marker chart (compact bar alternative).",
@@ -1974,7 +2025,7 @@
       "doc": "components/LollipopChart.md",
       "propertyCount": 10,
       "signalCount": 0,
-      "methodCount": 0
+      "methodCount": 1
     },
     {
       "name": "MaskedTextField",
@@ -1990,6 +2041,23 @@
       "singleton": false,
       "doc": "components/MaskedTextField.md",
       "propertyCount": 3,
+      "signalCount": 0,
+      "methodCount": 0
+    },
+    {
+      "name": "MatchHighlightText",
+      "module": "QWinUI3.Extras",
+      "summary": "substring accent highlight for search/filter labels.",
+      "path": "src/extras/QWinUI3/Extras/MatchHighlightText.qml",
+      "baseType": "Text",
+      "internal": false,
+      "category": "Input & forms",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "kind": "qml",
+      "singleton": false,
+      "doc": "components/MatchHighlightText.md",
+      "propertyCount": 4,
       "signalCount": 0,
       "methodCount": 0
     },
@@ -2244,9 +2312,9 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/NavigationView.md",
-      "propertyCount": 68,
+      "propertyCount": 78,
       "signalCount": 7,
-      "methodCount": 45
+      "methodCount": 57
     },
     {
       "name": "NavigationWindow",
@@ -2261,9 +2329,9 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/NavigationWindow.md",
-      "propertyCount": 34,
+      "propertyCount": 40,
       "signalCount": 4,
-      "methodCount": 10
+      "methodCount": 21
     },
     {
       "name": "NotificationBridge",
@@ -2519,6 +2587,23 @@
       "propertyCount": 5,
       "signalCount": 2,
       "methodCount": 3
+    },
+    {
+      "name": "PanelFloatHost",
+      "module": "QWinUI3.Extras",
+      "summary": "Detach a pane into ToolShellWindow and dock it back (3.08 W8).",
+      "path": "src/extras/QWinUI3/Extras/PanelFloatHost.qml",
+      "baseType": "Item",
+      "internal": false,
+      "category": "Layout",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "kind": "qml",
+      "singleton": false,
+      "doc": "components/PanelFloatHost.md",
+      "propertyCount": 7,
+      "signalCount": 2,
+      "methodCount": 2
     },
     {
       "name": "ParetoChart",
@@ -3247,9 +3332,9 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/ShellWindow.md",
-      "propertyCount": 45,
+      "propertyCount": 48,
       "signalCount": 5,
-      "methodCount": 8
+      "methodCount": 16
     },
     {
       "name": "ShellWindowSupport",
@@ -3352,6 +3437,23 @@
       "propertyCount": 13,
       "signalCount": 1,
       "methodCount": 2
+    },
+    {
+      "name": "SplitWorkspace",
+      "module": "QWinUI3.Extras",
+      "summary": "2–3 resizable panes for IDE/ops layouts (3.03 W5).",
+      "path": "src/extras/QWinUI3/Extras/SplitWorkspace.qml",
+      "baseType": "Item",
+      "internal": false,
+      "category": "Other",
+      "galleryPage": "pages/SplitWorkspacePage.qml",
+      "galleryTitle": "SplitWorkspace",
+      "kind": "qml",
+      "singleton": false,
+      "doc": "components/SplitWorkspace.md",
+      "propertyCount": 9,
+      "signalCount": 0,
+      "methodCount": 6
     },
     {
       "name": "StackedBarChart",
@@ -3808,9 +3910,43 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/TitleBar.md",
-      "propertyCount": 24,
+      "propertyCount": 25,
       "signalCount": 4,
       "methodCount": 2
+    },
+    {
+      "name": "TitleBarCommandBar",
+      "module": "QWinUI3.Extras",
+      "summary": "declarative title-bar commands for leftHeader / captionRightHeader (3.01 W2).",
+      "path": "src/extras/QWinUI3/Extras/TitleBarCommandBar.qml",
+      "baseType": "Row",
+      "internal": false,
+      "category": "Shells & windows",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "kind": "qml",
+      "singleton": false,
+      "doc": "components/TitleBarCommandBar.md",
+      "propertyCount": 1,
+      "signalCount": 0,
+      "methodCount": 0
+    },
+    {
+      "name": "TitleBarToolbar",
+      "module": "QWinUI3.Extras",
+      "summary": "horizontal action row for titleBarContent / leftHeader slots.",
+      "path": "src/extras/QWinUI3/Extras/TitleBarToolbar.qml",
+      "baseType": "RowLayout",
+      "internal": false,
+      "category": "Shells & windows",
+      "galleryPage": "",
+      "galleryTitle": "",
+      "kind": "qml",
+      "singleton": false,
+      "doc": "components/TitleBarToolbar.md",
+      "propertyCount": 0,
+      "signalCount": 0,
+      "methodCount": 0
     },
     {
       "name": "Toast",
@@ -3978,9 +4114,9 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/TreeDataGrid.md",
-      "propertyCount": 23,
-      "signalCount": 5,
-      "methodCount": 8
+      "propertyCount": 25,
+      "signalCount": 6,
+      "methodCount": 12
     },
     {
       "name": "TreemapChart",
@@ -3997,7 +4133,7 @@
       "doc": "components/TreemapChart.md",
       "propertyCount": 8,
       "signalCount": 1,
-      "methodCount": 0
+      "methodCount": 1
     },
     {
       "name": "TwoPaneView",
@@ -4165,7 +4301,7 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/WindowChrome.md",
-      "propertyCount": 21,
+      "propertyCount": 22,
       "signalCount": 4,
       "methodCount": 0
     },
@@ -4386,7 +4522,7 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/PlatformTitleBar.md",
-      "propertyCount": 19,
+      "propertyCount": 20,
       "signalCount": 0,
       "methodCount": 1
     },
@@ -4420,9 +4556,9 @@
       "kind": "qml",
       "singleton": false,
       "doc": "components/StandardWindow.md",
-      "propertyCount": 19,
+      "propertyCount": 21,
       "signalCount": 0,
-      "methodCount": 5
+      "methodCount": 13
     },
     {
       "name": "ThemeSync",
@@ -4490,7 +4626,7 @@
       "doc": "components/WebView2Host.md",
       "propertyCount": 12,
       "signalCount": 9,
-      "methodCount": 8
+      "methodCount": 9
     },
     {
       "name": "WindowHelper",
@@ -4505,9 +4641,9 @@
       "kind": "cpp",
       "singleton": true,
       "doc": "components/WindowHelper.md",
-      "propertyCount": 42,
-      "signalCount": 18,
-      "methodCount": 65
+      "propertyCount": 43,
+      "signalCount": 19,
+      "methodCount": 68
     },
     {
       "name": "WindowResizeBorder",
@@ -4675,8 +4811,8 @@
       "kind": "qml",
       "singleton": true,
       "doc": "components/Theme.md",
-      "propertyCount": 119,
-      "signalCount": 0,
+      "propertyCount": 120,
+      "signalCount": 1,
       "methodCount": 20
     },
     {

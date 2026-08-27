@@ -172,7 +172,16 @@ titleBarBackground: Theme.bgAcrylic
 | `MenuStatusWindow` | `menusInTitleBar`, multi-segment `StatusBar` |
 | `DialogShellWindow` | Dialog paradigm (`WindowHelper.ParadigmDialog`) |
 | `ToolShellWindow` | Tool / palette paradigm |
+| `PanelFloatHost` | **3.08** — detach a pane into `ToolShellWindow` ([app-platform-3xx.md](app-platform-3xx.md)) |
 | `CompactOverlayShellWindow` | Compact overlay presenter |
+
+### MenuStatusWindow (3.09 · P1)
+
+Prefer `menusInTitleBar: true` with `Menu { }` children and `statusText` / `StatusBar` segments. Gallery **Window shells** opens a live sample. On Linux Wayland: use `BackdropSolid`, verify menu open/close and caption drag still work after `reportHitTest()` — same chrome recipe as other Extras shells.
+
+### Multi-window bus + float (3.08)
+
+[`examples/multi-window`](../examples/multi-window/) posts `WindowMessageBus` channel `appearance` and hosts **PanelFloatHost**. Same-process only — not IPC.
 
 ### Dialog / Tool / Overlay snippets
 

@@ -3,8 +3,9 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
+import QWinUI3.Platform
 
-// Gallery — RecentFiles (2.77).
+// Gallery — RecentFiles (2.77) + file association opt-in (3.09).
 
 CatalogPage {
     id: page
@@ -49,6 +50,49 @@ CatalogPage {
                 wrapMode: Text.WrapAnywhere
                 color: Theme.textPrimary
                 font.pixelSize: Theme.fontCaption
+            }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("File association (opt-in)")
+        qmlSource: "WindowHelper.registerFileAssociation(\".qwinuidemo\", \"QWinUI3.GalleryDemo\", …)"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.Wrap
+                color: Theme.textSecondary
+                text: qsTr("HKCU / ~/.local only — see docs/file-association.md. Unregister when done testing.")
+            }
+            RowLayout {
+                Button {
+                    text: qsTr("Register .qwinuidemo")
+                    onClicked: {
+                        var ok = WindowHelper.registerFileAssociation(
+                                    ".qwinuidemo",
+                                    "QWinUI3.GalleryDemo",
+                                    qsTr("QWinUI3 Gallery demo"),
+                                    "")
+                        assocHint.text = ok ? qsTr("Registered (user scope).")
+                                            : qsTr("Registration failed on this platform.")
+                    }
+                }
+                Button {
+                    text: qsTr("Unregister")
+                    onClicked: {
+                        var ok = WindowHelper.unregisterFileAssociation(".qwinuidemo", "QWinUI3.GalleryDemo")
+                        assocHint.text = ok ? qsTr("Unregistered.")
+                                            : qsTr("Unregister failed or nothing to remove.")
+                    }
+                }
+            }
+            Label {
+                id: assocHint
+                Layout.fillWidth: true
+                color: Theme.textSecondary
+                wrapMode: Text.Wrap
             }
         }
     }

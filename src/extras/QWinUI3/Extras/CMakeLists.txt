@@ -90,6 +90,7 @@ qt_add_qml_module(qwinui3_extras
         AppBarPreset.qml
         CommandBarFlyout.qml
         CommandPalette.qml
+        CommandPaletteHost.qml
         CommandRegistry.qml
         ContentCard.qml
         ContentDialog.qml
@@ -130,6 +131,7 @@ qt_add_qml_module(qwinui3_extras
         ImeCandidateBar.qml
         OskHandwritingPad.qml
         OskPanelButton.qml
+        PanelFloatHost.qml
         OskSettingsFlyout.qml
         OskVoiceBar.qml
         IconicButton.qml
@@ -154,6 +156,7 @@ qt_add_qml_module(qwinui3_extras
         MetadataControl.qml
         MetadataItem.qml
         MaskedTextField.qml
+        MatchHighlightText.qml
         MeterBar.qml
         Sparkline.qml
         LineChart.qml
@@ -189,6 +192,7 @@ qt_add_qml_module(qwinui3_extras
         ChartUtils.qml
         FeedbackSeverity.qml
         MetricCompareRow.qml
+        LiveMetricStrip.qml
         MultiSelectComboBox.qml
         NavigationView.qml
         NumberBox.qml
@@ -273,6 +277,8 @@ qt_add_qml_module(qwinui3_extras
         StatusDot.qml
         StepBar.qml
         SessionRestore.qml
+        SplitWorkspace.qml
+        LayoutPreset.qml
         SessionTimeout.qml
         Wizard.qml
         WindowMessageBus.qml
@@ -287,6 +293,8 @@ qt_add_qml_module(qwinui3_extras
         Timeline.qml
         TimePicker.qml
         TitleBar.qml
+        TitleBarToolbar.qml
+        TitleBarCommandBar.qml
         Toast.qml
         ToastHost.qml
         ToolbarOverflowInspector.qml

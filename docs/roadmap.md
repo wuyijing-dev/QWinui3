@@ -1,9 +1,9 @@
 # QWinUI3 Roadmap
 
-**Current:** **2.81** (master — control depth: internal perf + API practicality)
-**Next up:** **3.00** breaking close-out (checkpoint-300)
-**Planned through:** **3.00** (… → **2.81** → **3.00** close-out → [micro-interaction backlog last](#micro-interaction--visual-polish--deferred-last))
-**Checkpoints ahead:** **3.00** breaking close-out (checkpoint-300)
+**Current:** **3.10** (master — application platform checkpoint)
+**Next up:** **3.00** close-out ([checkpoint-300](checkpoint-300.md)) · **3.11+** friction-only
+**Planned through:** tranche 9 complete · **3.00** still open · [micro-interaction backlog last](#micro-interaction--visual-polish--deferred-last)
+**Checkpoints ahead:** **checkpoint-300** (3.00) · **checkpoint-310** (3.10) green
 **Qt:** 6.5+ (recommended 6.8 LTS) on master today — **2.00** raises floor to **6.8 LTS** · **3.00** to **6.10 LTS**
 **Platforms:** **Windows + Linux** — no macOS first-class line.
 
@@ -14,6 +14,44 @@
 ## Control depth tranche 7 (`2.81`) — **shipped**
 
 See root [ROADMAP.md](../ROADMAP.md). **2.81** shipped internal perf (**C2–C5**) and additive APIs (**D9–D13**) without changing default appearance or interaction.
+
+---
+
+## Product hardening tranche 8 (`2.82` … `2.90`) — **shipped**
+
+**Gate:** Capability depth, runtime perf, cold start, and artifact size — see root [ROADMAP.md](../ROADMAP.md#product-hardening-tranche-8-282--290).
+
+**Sign-off:** [checkpoint-290.md](checkpoint-290.md) — green **2026-08-27**.
+
+| Track | IDs | Examples |
+|-------|-----|----------|
+| **Controls** | **D14–D22** | DataTable group persist, NavView search highlight, FormLayout `scrollToFirstError`, CommandPalette recents |
+| **Runtime perf** | **C6–C11** | Remaining chart coalesce, TreeDataGrid height cache, NavigationView incremental navModel |
+| **Startup** | **S1–S5** | Lazy Gallery catalog, deferred WebView2 probe, `--startup-log` CI budget |
+| **Package size** | **K1–K6** | `dashboard` / `charts-lite` presets, PyPI wheel slim, size budget table |
+
+**Checkpoint:** [checkpoint-290.md](checkpoint-290.md) at tag **2.90** — then **3.00** close-out.
+
+---
+
+## Application platform tranche 9 (`3.01` … `3.10`) — **in progress**
+
+**Gate:** Shippable desktop application platform — shell, command, workspace, navigation, dashboard, vertical kits. Full detail: root [ROADMAP.md](../ROADMAP.md#application-platform-tranche-9-301--310) · [app-platform-3xx.md](app-platform-3xx.md).
+
+| Slice | Theme | IDs |
+|-------|--------|-----|
+| **3.01** | Shell 2.0 | **W2–W4** — TitleBarCommandBar, CommandPalette parity, SessionRestore | **Shipped** |
+| **3.02** | Command system | **R1–R3** — CommandRegistry dispatch, shortcutConflicts, canExecute | **Shipped** |
+| **3.03** | Workspace layout | **W5–W6** — SplitWorkspace, LayoutPreset | **Shipped** |
+| **3.04** | Navigation pro | **N1–N3** — Pinned pages, Jump list, Drilldown stack | **Shipped** |
+| **3.05** | Dashboard live | **G1–G2** — LiveMetricStrip, ops example (**FL-014**) | **Shipped** |
+| **3.06** | Charts wave B | **G3** — BarChart bins (HistogramChart stays experimental) | **Shipped** |
+| **3.07** | Vertical app kits | **V1–V3** — admin-settings, master-detail-crm, ops-console | **Shipped** |
+| **3.08** | Multi-window | **W7–W8** — WindowMessageBus sync, PanelFloatHost | **Shipped** |
+| **3.09** | Platform extras | **P1–P3** — MenuStatusWindow, RecentFiles, file association | **Shipped** |
+| **3.10** | checkpoint-310 | App platform sign-off — [checkpoint-310.md](checkpoint-310.md) | **Shipped** |
+
+**Prerequisite:** **3.00** breaking close-out ([checkpoint-300](checkpoint-300.md)).
 
 ---
 

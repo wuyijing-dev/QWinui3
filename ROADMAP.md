@@ -1,9 +1,9 @@
 # QWinUI3 Roadmap
 
-**Current:** **2.81** (master — control depth: internal perf + API practicality)
-**Next up:** **3.00** breaking close-out (checkpoint-300)
-**Planned through:** **3.00** (… → **2.81** shipped → **3.00** close-out → [micro-interaction backlog last](#micro-interaction--visual-polish--deferred-last))
-**Checkpoints ahead:** **3.00** breaking close-out (checkpoint-300)
+**Current:** **3.10** (master — application platform checkpoint)
+**Next up:** **3.00** breaking close-out (prep [checkpoint-300](docs/checkpoint-300.md)) · **3.11+** friction-only · [micro-interaction backlog](#micro-interaction--visual-polish--deferred-last)
+**Planned through:** **3.10** complete · **3.00** still open · then friction / micro-interaction
+**Checkpoints ahead:** **checkpoint-300** (3.00) · **checkpoint-310** (3.10) green on master
 **Qt:** 6.5+ (recommended 6.8 LTS) on master today — **2.00** raises floor to **6.8 LTS** · **3.00** to **6.10 LTS**
 **Platforms:** **Windows + Linux** — no macOS first-class line.
 
@@ -284,6 +284,114 @@ Consumer sketch: [upgrade-notes.md](docs/upgrade-notes.md) **Upgrade 1.90 → 2.
 
 ---
 
+## Product hardening tranche 8 (`2.82` … `2.90`)
+
+**Gate:** Ship **measurable** wins on control **capability depth**, **runtime performance**, **cold start**, and **artifact size** — same **no default appearance/motion change** rule as **2.81** for perf-only work. Each slice still needs a **[friction-log](docs/planning/friction-log.md)** row or a committed ID below.
+
+**Strategy doc:** [component-capabilities-expansion.md](docs/planning/expansion/component-capabilities-expansion.md) (remaining matrix rows) · [performance.md](docs/performance.md) (startup + chart budgets) · [packaging-consumer.md](docs/packaging-consumer.md) (presets).
+
+| Slice | Theme | Status |
+|-------|--------|--------|
+| **2.82** | Collections & navigation APIs (**D14–D16**) | Shipped |
+| **2.83** | Forms, dialogs, feedback APIs (**D17–D19**) | Shipped |
+| **2.84** | Chart + grid runtime perf (**C6–C8**) | Shipped |
+| **2.85** | Shell startup & deferred compile (**S1–S3**) | Shipped |
+| **2.86** | Shared zip presets & size budgets (**K1–K4**) | Shipped |
+| **2.87** | Search, commands, platform APIs (**D20–D22**) | Shipped |
+| **2.88** | Shell title bar + nav/theme perf (**W1**, **C9–C10**) | Shipped |
+| **2.89** | Python cold start + PyPI wheel slim (**S4–S5**, **K5–K6**) | Shipped |
+| **2.90** | **checkpoint-290** — sign-off matrix | Shipped — [checkpoint-290.md](docs/checkpoint-290.md) |
+
+### 2.90 — Product hardening checkpoint (shipped)
+
+One focused **audit tag** after incremental **2.82–2.89** land. **Does not** include **3.00** breaking changes (Qt floor, experimental cleanup, alias removal).
+
+**Sign-off:** [checkpoint-290.md](docs/checkpoint-290.md) — green **2026-08-27**.
+
+#### Control capability depth (**D14–D22**)
+
+Additive APIs and compose-friendly behaviors on **existing** types — no new public controls unless friction proves compose failure.
+
+| ID | Control / area | Deliverable |
+|----|----------------|-------------|
+| **D14** | **DataTable** | Column pin / reorder persist (`Settings` key); optional row **group header** row model hook |
+| **D15** | **ListDetailsView** | Master **multi-select**; detail-pane **toolbar** slot (leading actions) |
+| **D16** | **NavigationView** | Pane **search match highlight**; **footer badge count** on nav items |
+| **D17** | **TreeDataGrid** | Column **resize** + `freezeFirstColumn` persist across sessions |
+| **D18** | **FormLayout** | Async validation state surface; **`scrollToFirstError()`** on submit |
+| **D19** | **ContentDialog** | **Queue priority**; **Enter → default button** when safe |
+| **D20** | **CommandPalette** | **Recent commands** ring (`Settings` persist, capped N) |
+| **D21** | **AutoSuggestBox** | Configurable **`debounceMs`**; **match highlight range** in suggestion text |
+| **D22** | **ToastHost** | **Priority queue** + **dedupe by id** (same toast id replaces in-flight) |
+
+**Docs:** Regenerate [components.md](docs/components.md) + [python-api.md](docs/python-api.md) after header/API changes; Gallery recipe per control (not a version checklist).
+
+#### Runtime performance (**C6–C11**)
+
+Internal hot paths only — default pixels and interaction unchanged.
+
+| ID | Area | Deliverable |
+|----|------|-------------|
+| **C6** | **Charts (remaining)** | Extend `ChartUtils` redraw coalesce to Donut, Lollipop, Gauge, Funnel, Sankey, Treemap, BoxPlot, Candlestick — same ~**16 ms** coalesce as **C2** |
+| **C7** | **TreeDataGrid** | Virtualized **row height cache**; defer column measure until visible |
+| **C8** | **DataTable** | Sort comparator cache per refresh; **batch** `model` reset coalesce (single layout pass) |
+| **C9** | **NavigationView** | **Incremental** `navModel` patch for single-item title/badge/icon changes vs full rebuild |
+| **C10** | **Theme / density** | Single-pass token push coalesce when `ThemeOverrides` + density change in same frame |
+| **C11** | **ItemsView / ItemsRepeater** | Section sticky header without full relayout on scroll tick |
+
+#### Shell title bar & window chrome (**W1** — **2.88**)
+
+Additive shell APIs on **existing** hosts — no new top-level window type unless compose fails.
+
+| ID | Area | Deliverable |
+|----|------|-------------|
+| **W1** | **ShellWindow / StandardTitleChrome** | **`captionRightHeader`** on shells (Platform slot before captions); **`TitleBarToolbar`** helper; **`refreshTitleBarHitTest()`** / window helpers on **ShellWindow** + **StandardWindow**; NC hit-test tree walk for title-bar children; [title-bar-cookbook.md](docs/title-bar-cookbook.md) |
+
+**Proof:** Gallery `--smoke` green; optional `--show-fps` spot-check on NavigationView + DataTable demo pages (advisory, not CI gate).
+
+#### Startup speed (**S1–S5**)
+
+Reduce work before first interactive frame — shell, Gallery, and Python entry.
+
+| ID | Area | Deliverable |
+|----|------|-------------|
+| **S1** | **Gallery shell** | Defer **ControlCatalog** full parse until first nav open; lazy **`pageModule`** registry (no compile-all at `Main.qml` load) |
+| **S2** | **QML compile** | Document + optional CI **qmlcachegen** for `shell` / `dashboard` presets where toolchain allows |
+| **S3** | **Platform bootstrap** | Defer non-critical probes (**WebView2**, media backends) until first control use |
+| **S4** | **Python `qwinui3 run`** | Lazy-import heavy platform submodules until window create |
+| **S5** | **Budget & CI** | `--startup-log` reference budget: **interactive shell &lt; 1.5 s** on CI Win Release (machine-relative); document regression compare in [performance.md](docs/performance.md) |
+
+**Out:** Blocking **3.00** on sub-second startup everywhere; macOS cold-start line.
+
+#### Packaging size (**K1–K6**)
+
+Smaller **default** artifacts for apps that do not need full Extras + Gallery.
+
+| ID | Area | Deliverable |
+|----|------|-------------|
+| **K1** | **`package_release_libs.py`** | New preset **`dashboard`**: theme + style + platform + stable six chart types + KPI/StatCard subset (no full Extras) |
+| **K2** | **Presets** | New preset **`charts-lite`**: minimal chart QML subset for embed dashboards |
+| **K3** | **PyPI wheel** | Audit payload: strip debug symbols from bundled native libs; exclude Gallery QML from library wheel where safe |
+| **K4** | **Docs / CI note** | Size **budget table** in [packaging-consumer.md](docs/packaging-consumer.md) — zip MB per preset, wheel MB Win/Linux (relative targets, not hard fail until **2.90**) |
+| **K5** | **PyPI extras (optional)** | Evaluate `qwinui3[full]` vs default slim install — ship only if friction row justifies split |
+| **K6** | **Release artifacts** | Document **`libs` vs `gallery` zip** size targets; CI artifact README line per preset |
+
+**Baseline (measure at 2.90 audit):** record `all` / `shell` / `core` / `dashboard` zip sizes and PyPI wheel sizes in [checkpoint-290.md](docs/checkpoint-290.md).
+
+#### checkpoint-290 exit criteria
+
+- [x] **D14–D22** shipped or explicitly deferred with friction-log link + target slice
+- [x] **C6–C10** green in Gallery smoke; no **S5** startup regression vs **2.81** baseline on CI Win Release
+- [x] **K1–K4** presets documented; size table filled in checkpoint doc
+- [x] [performance.md](docs/performance.md) updated (startup budgets + chart coalesce inventory)
+- [x] No **3.00** breaking changes bundled into **2.90**
+
+**Out of tranche 8:** **L1–L5** micro-interaction / pointer wave · new public control types · **3.00** Qt floor / experimental cleanup · Gallery version completion checklists.
+
+**Then:** **3.00** close-out per [checkpoint-300](#300--2x-line-close-out-breaking-major) — requires **checkpoint-290** + prior consumer/platform checkpoints.
+
+---
+
 ### 2.71 — Data + form + permission pack (shipped)
 
 | Item | Detail |
@@ -362,12 +470,17 @@ flowchart TB
     P66["2.66–2.70 appearance/motion/perf"]
     PY["2.73 Python checkpoint"]
     PL["2.74–2.75 platform polish"]
+    T81["2.81 control depth"]
+    P90["2.82–2.90 hardening"]
   end
   subgraph t5["3.00"]
     M3["3.00 break\nQt 6.10 · experimental cleanup"]
   end
+  subgraph t9["3.01–3.10"]
+    AP["Application platform\nShell · Command · Workspace · Dashboard"]
+  end
   done --> R
-  R --> P65 --> P66 --> PY --> PL --> M3
+  R --> P65 --> P66 --> PY --> PL --> T81 --> P90 --> M3 --> AP
 ```
 
 | Tranche | Versions | Gate | Checkpoint |
@@ -376,9 +489,12 @@ flowchart TB
 | **3 — product wave** | **2.65 → 2.70** | Appearance · motion · perf · capabilities · platform | checkpoint-270 |
 | **4 — consumer DX + Python** | **2.71 → 2.73** (PyPI **shipped** **2.64**) | Fast integration **C++ A–D + Python E** | checkpoint-273 |
 | **5 — platform polish** | **2.74 → 2.75** | Single-instance + error boundary | — |
-| **6 — 2.x close-out** | **3.00** | **2.75** + checkpoint-300 green | checkpoint-300 |
+| **7 — control depth** | **2.81** | Hot-path perf + additive APIs (no default UX change) | checkpoint-281 (optional) |
+| **8 — product hardening** | **2.82 → 2.90** | Capabilities · runtime perf · startup · package size · **W1** | checkpoint-290 |
+| **6 — 2.x close-out** | **3.00** | **checkpoint-290** + checkpoint-300 green | checkpoint-300 |
+| **9 — application platform** | **3.01 → 3.10** | Shippable desktop app shell · command · workspace · vertical kits | checkpoint-310 |
 
-**After 3.00:** minors **`3.01+`** follow the same friction gate as **2.51+**.
+**After 3.00:** minors **`3.01+`** follow the same **[friction-log](docs/planning/friction-log.md)** gate as **2.51+** — prefer **deepen + recipe + compose** over new public types.
 
 **Expansion docs:** [roadmap-strategy.md](docs/planning/roadmap-strategy.md) · [charts-dashboard-arc.md](docs/planning/expansion/charts-dashboard-arc.md) · [component-capabilities-expansion.md](docs/planning/expansion/component-capabilities-expansion.md) · [icons-dashboard-expansion.md](docs/planning/expansion/icons-dashboard-expansion.md)
 
@@ -388,7 +504,7 @@ flowchart TB
 
 **Status:** **Planned** — ships **after** **2.73** and checkpoint-300. **Not** a feature dump — closes the **2.x** compatibility story.
 
-**Prerequisites:** checkpoint-270 · checkpoint-273 · experimental sweep **2.45** / **2.67** · consumer packaging **2.02** green · **2.74** / **2.75** platform polish.
+**Prerequisites:** checkpoint-270 · checkpoint-273 · **checkpoint-290** · experimental sweep **2.45** / **2.67** · consumer packaging **2.02** green · **2.74** / **2.75** platform polish · **2.81** control depth.
 
 | Area | 3.00 deliverable |
 |------|------------------|
@@ -401,18 +517,171 @@ flowchart TB
 
 **Out:** macOS first-class · Fluent 2 fork · **`Hub` / `HubSection`** (withdrawn) · WebGL chart engines · Qt Virtual Keyboard.
 
-### 3.01+ posture
-
-1. **No friction-log row → no tag.**
-2. Prefer **fix + recipe + deepen APIs** over new public types.
-3. **Charts / dashboard Wave C** — friction-only **3.01…3.10**.
-4. **Component deepen** continues on **3.xx** stable surface.
+**Then:** [Application platform tranche 9](#application-platform-tranche-9-301--310) (**3.01…3.10**) — requires **checkpoint-300** green.
 
 ---
 
-## Product wave index (A–F · I · M)
+## Application platform tranche 9 (`3.01` … `3.10`)
 
-Master map of committed deliverables. **Micro-interaction detail IDs** (**I1–I18**, **M1–M28**) are deferred — see [end of this file](#micro-interaction--visual-polish--deferred-last). Summary tracks below; tranche detail under [tranche 3](#professional-product-wave--tranche-3-265--270) and [tranche 5](#platform-polish-tranche-5-274--275).
+**Gate:** Shift from **control kit** to **shippable desktop application platform** — one focused **product capability** per minor, demonstrable in Gallery or an `examples/` vertical app. Same friction gate as **2.51+**; new public types only when compose on existing shells fails.
+
+**Strategy:** Shell & window → command & shortcuts → workspace layout → navigation pro → dashboard live → vertical templates → multi-window → platform extras → checkpoint.
+
+**Docs target:** [window-shells.md](docs/window-shells.md) · [title-bar-cookbook.md](docs/title-bar-cookbook.md) · [commands.md](docs/commands.md) · [charts-dashboard-arc.md](docs/planning/expansion/charts-dashboard-arc.md) · new **`docs/app-platform-3xx.md`** (recipes index, landing **3.01**).
+
+| Slice | Theme | IDs | Status |
+|-------|--------|-----|--------|
+| **3.01** | **Shell 2.0** | **W2–W4** | Shipped |
+| **3.02** | **Command system** | **R1–R3** | Shipped |
+| **3.03** | **Workspace layout** | **W5–W6** | Shipped |
+| **3.04** | **Navigation pro** | **N1–N3** | Shipped |
+| **3.05** | **Dashboard live** | **G1–G2** | Shipped |
+| **3.06** | **Charts wave B** | **G3** | Shipped |
+| **3.07** | **Vertical app kits** | **V1–V3** | Shipped |
+| **3.08** | **Multi-window & panels** | **W7–W8** | Shipped |
+| **3.09** | **Platform desktop extras** | **P1–P3** | Shipped |
+| **3.10** | **checkpoint-310** — app platform sign-off | Audit matrix | Shipped — [checkpoint-310.md](docs/checkpoint-310.md) |
+
+### 3.01 — Shell 2.0 (shipped)
+
+**Goal:** Declarative title-bar commands and session continuity on stable **3.xx** surface — builds on **2.88 W1**.
+
+| ID | Deliverable |
+|----|-------------|
+| **W2** | **`TitleBarCommand`** model (id, icon, label, shortcut, enabled, visible) + bind to **`leftHeader` / `captionRightHeader`** slots |
+| **W3** | **`StandardWindow`** + **`NavigationWindow`** share **CommandPalette** wiring (Ctrl+K / Meta+K) |
+| **W4** | **`SessionRestore`** — persist + restore window geometry, **NavigationView** key/footer, pane open; QSettings key per `geometryPersistenceKey` |
+
+**Gallery:** Main uses command model for title-bar actions; Settings documents dev vs retail diagnostics.
+
+**Out:** Full VS Code–style custom title bar replacement; system menu takeover.
+
+### 3.02 — Command system (shipped)
+
+**Goal:** One registry drives palette, shortcuts, title bar, and context menus.
+
+| ID | Deliverable |
+|----|-------------|
+| **R1** | **`CommandRegistry`** — scoped dispatch **global → window → page → focused item** |
+| **R2** | **Shortcut conflict detection** + Settings readout when two commands bind the same chord |
+| **R3** | **Context enable/disable** — commands auto-disable from selection / page / `canExecute` |
+
+**Maps:** Professional backlog **Command routing** · **Command registry** · **Shortcut conflict** · **Context-aware enable**.
+
+**Out:** User-editable shortcut rebinding (**3.11+** unless friction row); undo stack.
+
+### 3.03 — Workspace layout (shipped)
+
+**Goal:** IDE/ops-style split content without full docking framework.
+
+| ID | Deliverable |
+|----|-------------|
+| **W5** | **`SplitWorkspace`** — 2–3 resizable panes + min width + keyboard focus order |
+| **W6** | **`LayoutPreset`** — named layouts (e.g. “Editor”, “Monitor”) persisted in QSettings |
+
+**Maps:** **Workspace layout save & restore** (lightweight subset of **3.xx** dock backlog).
+
+**Out:** Tabbed dock host · cross-monitor layout sync (**3.08** partial only).
+
+### 3.04 — Navigation pro (shipped)
+
+**Goal:** Product-grade navigation beyond control demos.
+
+| ID | Deliverable |
+|----|-------------|
+| **N1** | **Pinned / favorite pages** in **NavigationView** pane (user-pinnable keys) |
+| **N2** | **Jump list** — alphabetical / categorical index flyout for large `navModel` |
+| **N3** | **Drilldown stack** — summary → detail → sub-detail with **BreadcrumbBar** + **Back** integration |
+
+**Maps:** Backlog **Pinned pages** · **Jump list** · **Data drilldown navigation** · defers **Page preloading** unless friction.
+
+**Out:** Infinite nav tree virtualization (stay on **NavigationView** perf path).
+
+See [navigation.md](docs/navigation.md) · [app-platform-3xx.md](docs/app-platform-3xx.md).
+
+### 3.05 — Dashboard live (shipped)
+
+**Goal:** Real-time KPI / ops dashboards without ad-hoc timers in every app.
+
+| ID | Deliverable |
+|----|-------------|
+| **G1** | **`LiveMetricStrip`** — throttled ring buffer, compare-period semantics (**FL-014**) |
+| **G2** | Gallery **Ops console** page + [`examples/dashboard`](../examples/dashboard/) v2 (live tick) |
+
+**Maps:** [charts-dashboard-arc.md](docs/planning/expansion/charts-dashboard-arc.md) Wave C entry · **FL-014** closed.
+
+**Out:** GPU chart engine · sub-second tick for hundreds of series.
+
+See [charts.md](docs/charts.md) · [app-platform-3xx.md](docs/app-platform-3xx.md) · [components/LiveMetricStrip.md](docs/components/LiveMetricStrip.md).
+
+### 3.06 — Charts wave B (shipped)
+
+**Goal:** Distribution / histogram apps without hand-rolled bin models.
+
+| ID | Deliverable |
+|----|-------------|
+| **G3** | **BarChart** `samples` + `binCount` (+ `setBinsFromSamples` / `applyBins`) — **HistogramChart** stays experimental (**FL-015**) |
+
+**Maps:** [charts-dashboard-arc.md](docs/planning/expansion/charts-dashboard-arc.md) Wave B · **FL-015** closed via compose (no new stable chart type).
+
+**Out:** Unconditional new stable chart type without friction row.
+
+See [charts.md](docs/charts.md) · [components/BarChart.md](docs/components/BarChart.md).
+
+### 3.07 — Vertical app kits (shipped)
+
+**Goal:** Copy-ready **applications**, not only control pages.
+
+| ID | Deliverable |
+|----|-------------|
+| **V1** | **`examples/admin-settings`** — SettingsCard + FormLayout + validation recipe |
+| **V2** | **`examples/master-detail-crm`** — **ListDetailsView** + **DataTable** + command bar |
+| **V3** | **`examples/ops-console`** — **SplitWorkspace** + **LiveMetricStrip** + filterable grid |
+
+**DX:** Manual copy path in [`examples/README.md`](examples/README.md); `qwinui3 init --template` remains optional.
+
+**Out:** Industry-specific control types; Gallery version checklists.
+
+### 3.08 — Multi-window & panels (shipped)
+
+**Goal:** Coordinated secondary windows and first step toward dock backlog.
+
+| ID | Deliverable |
+|----|-------------|
+| **W7** | **WindowMessageBus** `appearance` channel — theme, accent, layoutDirection sync ([`examples/multi-window`](examples/multi-window/)) |
+| **W8** | **PanelFloatHost** — detach a pane to owned **ToolShellWindow**; restore into host |
+
+**Maps:** **Inter-window communication** · **Panel float** (minimal) · defers **Dockable panels** full framework.
+
+**Out:** Multi-instance shared state SaaS; Excel-scale grid in float panel.
+
+### 3.09 — Platform desktop extras (shipped)
+
+**Goal:** Native desktop affordances on the stable **3.xx** contract.
+
+| ID | Deliverable |
+|----|-------------|
+| **P1** | **MenuStatusWindow** / title-bar **MenuBar** documented + Linux soak notes ([window-shells.md](docs/window-shells.md)) |
+| **P2** | **RecentFiles** + `WindowHelper.addToRecentDocuments` (Jump List where OS allows) |
+| **P3** | **`WindowHelper.registerFileAssociation`** / `unregisterFileAssociation` ([file-association.md](docs/file-association.md)) |
+
+**Out:** Auto-update SaaS · macOS menu bar.
+
+### 3.10 — Application platform checkpoint (shipped)
+
+One audit tag after **3.01–3.09**. **Does not** include **L1–L5** micro-interaction wave.
+
+**Exit criteria:** see [checkpoint-310.md](docs/checkpoint-310.md) (green **2026-08-27**).
+
+**Out of tranche 9:** **L1–L5** pointer/icon polish · full **dockable panel** framework · **undo/redo** framework · schema-driven forms · audit log UI · **3.11+** unless friction-log row.
+
+**Then:** **3.11+** friction-only slices, or **[micro-interaction backlog](#micro-interaction--visual-polish--deferred-last)**. Formal **3.00** breaking close-out remains scheduled ([checkpoint-300](docs/checkpoint-300.md)).
+
+---
+
+## Product wave index (A–F · I · M · R · W · G · V · N)
+
+Master map of committed deliverables. **Micro-interaction detail IDs** (**I1–I18**, **M1–M28**) are deferred — see [end of this file](#micro-interaction--visual-polish--deferred-last). Tranche detail: [tranche 3](#professional-product-wave--tranche-3-265--270) · [tranche 8](#product-hardening-tranche-8-282--290) · [tranche 9](#application-platform-tranche-9-301--310).
 
 | ID | Slice | Theme | Track |
 |----|-------|-------|-------|
@@ -461,6 +730,16 @@ Master map of committed deliverables. **Micro-interaction detail IDs** (**I1–I
 | **F6** | **2.70** | Fractional DPI 文本锐化 | Platform |
 | **F7** | **2.74** | Single-instance + 协议激活 | Platform |
 | **F8** | **2.75** | Global error boundary | Platform |
+| **W1** | **2.88** | Title-bar slots + NC hit-test | Shell |
+| **W2–W4** | **3.01** | TitleBarCommand · CommandPalette parity · SessionRestore | Shell |
+| **R1–R3** | **3.02** | CommandRegistry · shortcut conflict · context enable | Command |
+| **W5–W6** | **3.03** | SplitWorkspace · LayoutPreset | Workspace |
+| **N1–N3** | **3.04** | Pinned nav · Jump list · Drilldown stack | Navigation |
+| **G1–G2** | **3.05** | LiveMetricStrip · ops dashboard example | Dashboard |
+| **G3** | **3.06** | BarChart bins / HistogramChart conditional | Charts |
+| **V1–V3** | **3.07** | Vertical app kits (admin · CRM · ops) | Vertical |
+| **W7–W8** | **3.08** | WindowMessageBus sync · Panel float | Multi-window |
+| **P1–P3** | **3.09** | Native menu · recent files · file association | Platform |
 
 ---
 
@@ -488,8 +767,10 @@ Framework-level capabilities aligned with slices above. Version slots match [pro
 | **Paged loading** | Server-side pagination with page controls | **2.69** |
 | **Incremental loading / infinite scroll** | Append pages on scroll-to-bottom | **2.69** |
 | **Unified state switching** | Empty / loading / error / offline state host | **2.66** |
-| **Data import preview + field mapping** | CSV/JSON import with column mapping UI | **3.xx** |
-| **Data conflict detection & merge** | Concurrent edit detection + merge resolution | **3.xx** |
+| **Data import preview + field mapping** | CSV/JSON import with column mapping UI | **3.11+** |
+| **Data conflict detection & merge** | Concurrent edit detection + merge resolution | **3.11+** |
+| **LiveMetricStrip / rolling KPI** | LoB dashboards — live compare-period rows | **3.05** · **FL-014** |
+| **Histogram / bin API** | Distribution views — bin semantics on BarChart or HistogramChart | **3.06** · **FL-015** conditional |
 
 ### Form capabilities
 
@@ -515,25 +796,25 @@ Framework-level capabilities aligned with slices above. Version slots match [pro
 | **Multi-step wizard flow** | Step-by-step flow with validation gates | **2.68** |
 | **Navigation history panel** | Browsable back-stack with jump-to-any-page | **2.69** |
 | **Recent items tracking** | Auto-track recently visited pages / records | **2.69** |
-| **Pinned / favorite pages** | User-pinnable pages in navigation pane | **2.70** |
-| **Jump list** | Quick alphabetical / categorical jump index | **2.70** |
+| **Pinned / favorite pages** | User-pinnable pages in navigation pane | **3.04** |
+| **Jump list** | Quick alphabetical / categorical jump index | **3.04** |
 | **Page cache strategy configuration** | Per-page cache policy beyond global `pageCacheLimit` | **2.68** |
-| **Data drilldown navigation** | Summary → detail → sub-detail with breadcrumb trail | **2.71** |
-| **Approval flow visualization** | Visual pipeline of approval stages | **3.xx** |
-| **Page preloading** | Prefetch adjacent / likely-next pages | **3.xx** |
+| **Data drilldown navigation** | Summary → detail → sub-detail with breadcrumb trail | **3.04** |
+| **Approval flow visualization** | Visual pipeline of approval stages | **3.11+** |
+| **Page preloading** | Prefetch adjacent / likely-next pages | **3.11+** |
 
 ### Window & workspace capabilities
 
 | Capability | Description | Target |
 |------------|-------------|--------|
 | **Single-instance guard + activation** | Prevent duplicate launch; focus existing instance | **2.68** |
-| **Session restore** | Reopen previous windows / pages / scroll positions | **2.71** |
-| **Inter-window data communication** | Typed message bus between ShellWindow instances | **2.72** |
-| **Dockable panels** | Drag panels to dock positions (left/right/bottom/float) | **3.xx** |
-| **Panel float / minimize / restore** | Detach panel to floating window | **3.xx** |
-| **Workspace layout save & restore** | Persist panel arrangement + sizes; named layouts | **3.xx** |
-| **Multi-window layout sync** | Coordinate window positions across monitors | **3.xx** |
-| **Multi-instance coordination** | Multiple instances share state / avoid conflicts | **3.xx** |
+| **Session restore** | Reopen previous windows / pages / scroll positions | **3.01** |
+| **Inter-window data communication** | Typed message bus between ShellWindow instances | **2.72** · **3.08** broadcast |
+| **Dockable panels** | Drag panels to dock positions (left/right/bottom/float) | **3.11+** |
+| **Panel float / minimize / restore** | Detach panel to floating window | **3.08** |
+| **Workspace layout save & restore** | Persist panel arrangement + sizes; named layouts | **3.03** |
+| **Multi-window layout sync** | Coordinate window positions across monitors | **3.11+** |
+| **Multi-instance coordination** | Multiple instances share state / avoid conflicts | **3.11+** |
 
 ### Async & state management capabilities
 
@@ -554,12 +835,12 @@ Framework-level capabilities aligned with slices above. Version slots match [pro
 
 | Capability | Description | Target |
 |------------|-------------|--------|
-| **Command routing system** | Scoped dispatch: global → window → page → focused component | **2.69** |
-| **Command registry + discoverability** | Central registry; CommandPalette auto-discovers | **2.69** |
-| **Shortcut conflict detection** | Warn when two commands bind same key chord | **2.70** |
-| **Context-aware command enable/disable** | Auto-enable/disable based on selection / page / state | **2.70** |
-| **Custom shortcut binding** | User-configurable key bindings with persist | **2.71** |
-| **Undo / redo framework** | Pluggable command-based undo stack | **3.xx** |
+| **Command routing system** | Scoped dispatch: global → window → page → focused component | **3.02** |
+| **Command registry + discoverability** | Central registry; CommandPalette auto-discovers | **3.02** |
+| **Shortcut conflict detection** | Warn when two commands bind same key chord | **3.02** |
+| **Context-aware command enable/disable** | Auto-enable/disable based on selection / page / state | **3.02** |
+| **Custom shortcut binding** | User-configurable key bindings with persist | **2.71** · **3.11+** deepen |
+| **Undo / redo framework** | Pluggable command-based undo stack | **3.11+** |
 
 ### Security & permission capabilities
 
@@ -581,11 +862,11 @@ Framework-level capabilities aligned with slices above. Version slots match [pro
 | **Platform capability probe** | Runtime query: Mica / tray / notification / WebView / blur | **2.67** |
 | **Cross-platform visual degradation strategy** | Automatic fallback chain per platform | **2.67** |
 | **System theme change listener** | React to OS dark/light/accent/contrast in real time | **2.68** |
-| **Recent files manager** | Track and surface recently opened files | **2.70** |
+| **Recent files manager** | Track and surface recently opened files | **3.09** |
 | **Global error boundary / crash recovery** | Catch unhandled QML errors; recovery UI | **2.72** |
-| **Update checker + version migration prompt** | Check for new version; run migration on upgrade | **3.xx** |
-| **File association helper** | Register app as handler for file types | **3.xx** |
-| **Native menu bridge** | Surface Qt menu model as native system menu | **3.xx** |
+| **Update checker + version migration prompt** | Check for new version; run migration on upgrade | **3.11+** |
+| **File association helper** | Register app as handler for file types | **3.09** |
+| **Native menu bridge** | Surface Qt menu model as native system menu | **3.09** |
 
 ### Theme & design system capabilities
 
@@ -785,3 +1066,4 @@ Unscheduled; pick up only inside a named minor (or never).
 | [packaging-consumer.md](docs/packaging-consumer.md) | Consumer zip / CMake paths |
 | [upgrade-notes.md](docs/upgrade-notes.md) | Consumer upgrades |
 | [docs/roadmap.md](docs/roadmap.md) | Site copy of this plan |
+| [checkpoint-310.md](docs/checkpoint-310.md) | App platform audit (**3.10**) |

@@ -18,6 +18,7 @@
 #include <QFileInfo>
 #include <QGuiApplication>
 #include <QHash>
+#include <QIODevice>
 #include <QJSEngine>
 #include <QNetworkInformation>
 #include <QProcess>
@@ -276,6 +277,8 @@ WindowHelper::WindowHelper(QObject *parent)
                          });
         QObject::connect(qGuiApp, &QGuiApplication::screenRemoved, this, &WindowHelper::screensChanged);
         QObject::connect(qGuiApp, &QGuiApplication::primaryScreenChanged, this, &WindowHelper::screensChanged);
+        QObject::connect(qGuiApp, &QGuiApplication::layoutDirectionChanged, this,
+                         &WindowHelper::layoutDirectionChanged);
     }
 #if defined(Q_OS_LINUX)
     LinuxPortal::watchColorSchemeChanges(this, SLOT(refreshColorScheme()));
@@ -677,6 +680,21 @@ void WindowHelper::systemBeep()
 #endif
 }
 
+int WindowHelper::layoutDirection() const
+{
+    return int(QGuiApplication::layoutDirection());
+}
+
+void WindowHelper::setLayoutDirection(int direction)
+{
+    const auto dir = static_cast<Qt::LayoutDirection>(direction);
+    if (dir != Qt::LeftToRight && dir != Qt::RightToLeft && dir != Qt::LayoutDirectionAuto)
+        return;
+    if (QGuiApplication::layoutDirection() == dir)
+        return;
+    QGuiApplication::setLayoutDirection(dir);
+}
+
 bool WindowHelper::inhibitIdle(const QString &reason)
 {
     if (m_idleInhibited)
@@ -749,6 +767,99 @@ void WindowHelper::clearRecentDocuments()
 {
 #if defined(Q_OS_WIN)
     SHAddToRecentDocs(SHARD_PATHW, nullptr);
+#endif
+}
+
+bool WindowHelper::registerFileAssociation(const QString &extension,
+                                           const QString &progId,
+                                           const QString &friendlyName,
+                                           const QString &openCommand)
+{
+    const QString extRaw = extension.trimmed();
+    const QString id = progId.trimmed();
+    if (extRaw.isEmpty() || id.isEmpty())
+        return false;
+
+    QString ext = extRaw;
+    if (!ext.startsWith(QLatin1Char('.')))
+        ext.prepend(QLatin1Char('.'));
+
+    QString cmd = openCommand.trimmed();
+    if (cmd.isEmpty()) {
+        const QString exe = QDir::toNativeSeparators(QCoreApplication::applicationFilePath());
+        cmd = QStringLiteral("\"%1\" \"%2\"").arg(exe, QStringLiteral("%1"));
+    }
+
+    const QString name = friendlyName.trimmed().isEmpty() ? id : friendlyName.trimmed();
+
+#if defined(Q_OS_WIN)
+    QSettings classes(QStringLiteral("HKEY_CURRENT_USER\\Software\\Classes"), QSettings::NativeFormat);
+    classes.setValue(ext, id);
+    classes.setValue(id + QStringLiteral("/."), name);
+    classes.setValue(id + QStringLiteral("/shell/open/command/."), cmd);
+    return true;
+#elif defined(Q_OS_LINUX)
+    const QString appsDir = QDir::homePath() + QStringLiteral("/.local/share/applications");
+    if (!QDir().mkpath(appsDir))
+        return false;
+    const QString desktopPath = appsDir + QLatin1Char('/') + id + QStringLiteral(".desktop");
+    const QString mime = QStringLiteral("application/x-extension-%1")
+                                 .arg(ext.mid(1).toLower());
+    const QString exe = QFileInfo(QCoreApplication::applicationFilePath()).absoluteFilePath();
+    const QString body = QStringLiteral(
+                             "[Desktop Entry]\n"
+                             "Type=Application\n"
+                             "Name=%1\n"
+                             "Exec=\"%2\" %u\n"
+                             "MimeType=%3;\n"
+                             "NoDisplay=false\n"
+                             "StartupNotify=true\n")
+                             .arg(name, exe, mime);
+    QFile f(desktopPath);
+    if (!f.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text))
+        return false;
+    f.write(body.toUtf8());
+    f.close();
+
+    // Best-effort: map extension → mime and set default handler when tools exist.
+    QProcess::execute(QStringLiteral("xdg-mime"),
+                      { QStringLiteral("default"),
+                        id + QStringLiteral(".desktop"),
+                        mime });
+    Q_UNUSED(cmd);
+    return true;
+#else
+    Q_UNUSED(cmd);
+    Q_UNUSED(name);
+    return false;
+#endif
+}
+
+bool WindowHelper::unregisterFileAssociation(const QString &extension, const QString &progId)
+{
+    const QString extRaw = extension.trimmed();
+    const QString id = progId.trimmed();
+    if (extRaw.isEmpty() || id.isEmpty())
+        return false;
+
+    QString ext = extRaw;
+    if (!ext.startsWith(QLatin1Char('.')))
+        ext.prepend(QLatin1Char('.'));
+
+#if defined(Q_OS_WIN)
+    QSettings classes(QStringLiteral("HKEY_CURRENT_USER\\Software\\Classes"), QSettings::NativeFormat);
+    if (classes.value(ext).toString() == id)
+        classes.remove(ext);
+    classes.remove(id);
+    return true;
+#elif defined(Q_OS_LINUX)
+    const QString desktopPath = QDir::homePath()
+            + QStringLiteral("/.local/share/applications/")
+            + id + QStringLiteral(".desktop");
+    return !QFile::exists(desktopPath) || QFile::remove(desktopPath);
+#else
+    Q_UNUSED(ext);
+    return false;
 #endif
 }
 

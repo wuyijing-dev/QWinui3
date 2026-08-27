@@ -5,26 +5,58 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 import QWinUI3.Platform
 
-// Main + tool + owned dialog (1.56). Shared Theme (same process). Distinct geometry keys.
-// Recipe: docs/window-shells.md · docs/window-helper.md · docs/window-chrome.md
+// Main + tool + owned dialog + WindowMessageBus + PanelFloatHost (3.08).
+// Recipe: docs/window-shells.md · docs/app-platform-3xx.md
 
 ShellWindow {
     id: mainWindow
-    width: 920
-    height: 640
+    width: 960
+    height: 680
     visible: true
     title: qsTr("Multi-window example")
-    subtitle: qsTr("examples/multi-window · 1.56")
+    subtitle: qsTr("examples/multi-window · 3.08 W7–W8")
     symbol: FluentIcons.OpenInNewWindow
     backdrop: WindowHelper.BackdropSolid
     geometryPersistenceKey: "MultiWindowExampleMain"
 
-    property string statusText: qsTr("Open a tool window or an owned dialog. Theme is shared automatically.")
+    property string statusText: qsTr("Open a tool window, float the filter pane, or broadcast appearance.")
+    property var _busUnsub: null
     readonly property string portalReadout: {
         var id = WindowHelper.portalParentWindow(mainWindow)
         return id.length
             ? qsTr("portal parent_window=%1").arg(id)
             : qsTr("portal parent_window=(empty on this session — still call openDialog(owner))")
+    }
+
+    function broadcastAppearance() {
+        WindowMessageBus.post("appearance", {
+            dark: Theme.dark,
+            accentPack: Theme.accentPack,
+            layoutDirection: WindowHelper.layoutDirection
+        })
+        mainWindow.statusText = qsTr("Posted appearance on WindowMessageBus (theme / accent / layoutDirection).")
+    }
+
+    function applyAppearance(payload) {
+        if (!payload)
+            return
+        if (payload.dark !== undefined)
+            Theme.dark = !!payload.dark
+        if (payload.accentPack !== undefined && String(payload.accentPack).length)
+            Theme.accentPack = String(payload.accentPack)
+        if (payload.layoutDirection !== undefined)
+            WindowHelper.setLayoutDirection(payload.layoutDirection)
+    }
+
+    Component.onCompleted: {
+        mainWindow._busUnsub = WindowMessageBus.subscribe("appearance", function (p) {
+            mainWindow.applyAppearance(p)
+            mainWindow.statusText = qsTr("Received appearance bus message.")
+        })
+    }
+    Component.onDestruction: {
+        if (typeof mainWindow._busUnsub === "function")
+            mainWindow._busUnsub()
     }
 
     Pane {
@@ -39,7 +71,7 @@ ShellWindow {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Main shell uses geometryPersistenceKey \"MultiWindowExampleMain\". Tool window uses a separate key. Dialog uses setTransientParent + centerOnOwner via openDialog() (2.14).")
+                text: qsTr("W7: WindowMessageBus channel \"appearance\" syncs Theme / accent / layoutDirection across shells. W8: PanelFloatHost detaches a pane into ToolShellWindow.")
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
@@ -53,15 +85,19 @@ ShellWindow {
                         toolWindow.visible = true
                         toolWindow.raise()
                         toolWindow.requestActivate()
-                        mainWindow.statusText = qsTr("Tool visible — move/resize it; geometry saves under MultiWindowExampleTool.")
+                        mainWindow.statusText = qsTr("Tool visible — MultiWindowExampleTool geometry key.")
                     }
                 }
                 Button {
                     text: qsTr("Open owned dialog")
                     onClicked: {
                         aboutDialog.openDialog(mainWindow)
-                        mainWindow.statusText = qsTr("Dialog opened — transient parent + centerOnOwner (2.14). %1").arg(mainWindow.portalReadout)
+                        mainWindow.statusText = qsTr("Dialog opened — %1").arg(mainWindow.portalReadout)
                     }
+                }
+                Button {
+                    text: qsTr("Broadcast appearance")
+                    onClicked: mainWindow.broadcastAppearance()
                 }
                 Button {
                     text: qsTr("Clear saved layouts")
@@ -74,6 +110,40 @@ ShellWindow {
                 }
             }
 
+            SettingsToggleCard {
+                Layout.fillWidth: true
+                title: qsTr("Dark mode")
+                description: qsTr("Toggles Theme then posts WindowMessageBus \"appearance\".")
+                checked: Theme.dark
+                onToggled: {
+                    Theme.dark = checked
+                    mainWindow.broadcastAppearance()
+                }
+            }
+
+            PanelFloatHost {
+                id: filterFloat
+                Layout.fillWidth: true
+                Layout.preferredHeight: 200
+                title: qsTr("Filters")
+                subtitle: qsTr("Floated filter pane")
+                geometryPersistenceKey: "MultiWindowExampleFilterFloat"
+                content: ColumnLayout {
+                    spacing: Theme.spacing
+                    CheckBox { text: qsTr("Live metrics"); checked: true }
+                    CheckBox { text: qsTr("Sev1 only") }
+                    Label {
+                        Layout.fillWidth: true
+                        wrapMode: Text.Wrap
+                        color: Theme.textSecondary
+                        font.pixelSize: Theme.fontCaption
+                        text: qsTr("Float moves this body into a ToolShellWindow; Dock restores it here.")
+                    }
+                }
+                onFloated: mainWindow.statusText = qsTr("Filter pane floated.")
+                onDocked: mainWindow.statusText = qsTr("Filter pane docked.")
+            }
+
             Label {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
@@ -84,7 +154,7 @@ ShellWindow {
             Label {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Win + Linux: prefer BackdropSolid. Distinct persistence keys per top-level role. Do not share one key across main and tool. ContentDialog stays in-window — use DialogShellWindow only for a real second HWND.")
+                text: qsTr("Win + Linux: BackdropSolid. Distinct persistence keys per top-level role. Bus is same-process only.")
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textTertiary
             }
@@ -104,6 +174,18 @@ ShellWindow {
         backdrop: WindowHelper.BackdropSolid
         geometryPersistenceKey: "MultiWindowExampleTool"
 
+        property var _busUnsub: null
+
+        Component.onCompleted: {
+            toolWindow._busUnsub = WindowMessageBus.subscribe("appearance", function (p) {
+                mainWindow.applyAppearance(p)
+            })
+        }
+        Component.onDestruction: {
+            if (typeof toolWindow._busUnsub === "function")
+                toolWindow._busUnsub()
+        }
+
         Pane {
             anchors.fill: parent
             padding: Theme.spacingSection
@@ -116,7 +198,7 @@ ShellWindow {
                 Text {
                     Layout.fillWidth: true
                     wrapMode: Text.WordWrap
-                    text: qsTr("Same Theme.dark / accent as the main window — one QGuiApplication, no second Theme singleton.")
+                    text: qsTr("Subscribes to WindowMessageBus \"appearance\". Accent pack changes from here also broadcast.")
                     color: Theme.textSecondary
                     font.pixelSize: Theme.fontBody
                 }
@@ -124,9 +206,30 @@ ShellWindow {
                 SettingsToggleCard {
                     Layout.fillWidth: true
                     title: qsTr("Dark mode")
-                    description: qsTr("Toggles Theme for every window in this process.")
                     checked: Theme.dark
-                    onToggled: Theme.dark = checked
+                    onToggled: {
+                        Theme.dark = checked
+                        mainWindow.broadcastAppearance()
+                    }
+                }
+
+                SettingsComboCard {
+                    Layout.fillWidth: true
+                    title: qsTr("Accent")
+                    model: [qsTr("Blue"), qsTr("Purple"), qsTr("Green"), qsTr("Orange")]
+                    currentIndex: {
+                        switch (Theme.accentPack) {
+                        case "purple": return 1
+                        case "green": return 2
+                        case "orange": return 3
+                        default: return 0
+                        }
+                    }
+                    onActivated: function (index) {
+                        var packs = ["blue", "purple", "green", "orange"]
+                        Theme.accentPack = packs[index]
+                        mainWindow.broadcastAppearance()
+                    }
                 }
 
                 Item { Layout.fillHeight: true }
@@ -164,7 +267,7 @@ ShellWindow {
                 Text {
                     Layout.fillWidth: true
                     wrapMode: Text.WordWrap
-                    text: qsTr("openDialog(owner) calls ensureWindowCreated + setTransientParent + centerOnOwner. Prefer this over a second ContentDialog host.")
+                    text: qsTr("openDialog(owner) calls ensureWindowCreated + setTransientParent + centerOnOwner.")
                     color: Theme.textSecondary
                 }
 

@@ -39,6 +39,9 @@ Examples are **targets in the same root CMake project** (`QWINUI3_BUILD_EXAMPLES
 | `qwinui3_example_dashboard` | `examples/dashboard/` | Charts / KPI |
 | `qwinui3_example_master_detail` | `examples/master-detail/` | [data-collections.md](data-collections.md) |
 | `qwinui3_example_form` | `examples/form-settings/` | [forms.md](forms.md) |
+| `qwinui3_example_admin_settings` | `examples/admin-settings/` | [app-platform-3xx.md](app-platform-3xx.md) (**3.07**) |
+| `qwinui3_example_master_detail_crm` | `examples/master-detail-crm/` | CRM kit (**3.07**) |
+| `qwinui3_example_ops_console` | `examples/ops-console/` | Ops kit (**3.07**) |
 | `qwinui3_example_floating_osk` | `examples/floating-osk/` | [on-screen-keyboard.md](on-screen-keyboard.md) (**1.84**) |
 
 3. Select that target as the **Run** configuration → Run.

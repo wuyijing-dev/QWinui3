@@ -64,6 +64,7 @@ Promoted this slice (Gallery + recipe soak). Status flips are **named here** —
 |------|--------|--------|
 | `StandardWindow` | Platform | Primary app window for examples |
 | `ShellWindow` / `BlankWindow` / `MenuStatusWindow` | Extras | Product shells — [window-shells.md](window-shells.md) (**1.37**) |
+| `PanelFloatHost` | Extras | Pane float to ToolShellWindow — [app-platform-3xx.md](app-platform-3xx.md) (**3.08**) |
 | `NavigationView` | Extras | Pane + page stack; used by `examples/nav-settings` — [navigation.md](navigation.md) (1.27) |
 | `NavigationWindow` | Extras | Shell + NavigationView host; `pageModule` shell — [examples/gallery-shell](../examples/gallery-shell/) (**1.50**) |
 | `TabView` | Extras | Document tabs (tear-out remains experimental) — [navigation.md](navigation.md) (**1.37**) |
@@ -194,6 +195,9 @@ python scripts/lint_qml_imports.py
 | [`examples/dashboard`](../examples/dashboard/) | Shell + **all six stable** KPI/charts (`LineChart`, `BarChart`, `DonutChart`, `RingGauge`, `KpiTile`, `ChartCard`) — [charts.md](charts.md) (**1.66**) |
 | [`examples/master-detail`](../examples/master-detail/) | `ListDetailsView` LoB shell — [data-collections.md](data-collections.md) (1.26) |
 | [`examples/form-settings`](../examples/form-settings/) | `FormLayout` + `ValidationSummary` + SettingsCard prefs — [forms.md](forms.md) (1.26) |
+| [`examples/admin-settings`](../examples/admin-settings/) | Admin kit — SettingsView + FormLayout (**3.07**) |
+| [`examples/master-detail-crm`](../examples/master-detail-crm/) | CRM kit — ListDetailsView + DataTable + CommandBar (**3.07**) |
+| [`examples/ops-console`](../examples/ops-console/) | Ops kit — SplitWorkspace + LiveMetricStrip (**3.07**) |
 
 Always set:
 

@@ -81,6 +81,8 @@ nav:
       - Licensing: licensing.md
     - App shells:
       - Window shells: window-shells.md
+      - File association: file-association.md
+      - App platform (3.xx): app-platform-3xx.md
       - Product integration: product-integration.md
       - Window chrome: window-chrome.md
       - High-DPI & multi-monitor: high-dpi.md

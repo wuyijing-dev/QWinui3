@@ -119,7 +119,10 @@
         "qwinui3_example_dashboard",
         "qwinui3_example_master_detail",
         "qwinui3_example_form",
-        "qwinui3_example_floating_osk"
+        "qwinui3_example_floating_osk",
+        "qwinui3_example_admin_settings",
+        "qwinui3_example_master_detail_crm",
+        "qwinui3_example_ops_console"
       ]
     },
     {
@@ -175,6 +178,24 @@
       "configurePreset": "release",
       "configuration": "Release",
       "targets": ["qwinui3_example_floating_osk"]
+    },
+    {
+      "name": "example-admin-settings",
+      "configurePreset": "release",
+      "configuration": "Release",
+      "targets": ["qwinui3_example_admin_settings"]
+    },
+    {
+      "name": "example-master-detail-crm",
+      "configurePreset": "release",
+      "configuration": "Release",
+      "targets": ["qwinui3_example_master_detail_crm"]
+    },
+    {
+      "name": "example-ops-console",
+      "configurePreset": "release",
+      "configuration": "Release",
+      "targets": ["qwinui3_example_ops_console"]
     }
   ],
   "vendor": {
