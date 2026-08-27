@@ -47,6 +47,24 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.45 → 3.46
+
+**Product version:** 3.46  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | Gallery page Component unload (H15) | None for apps — kit `pageCacheLimit` default stays **24** |
+
+### Optional / polish
+- Long-browse demo shells can mirror Gallery: `pageCacheLimit: 8` + `pinnedPageCache: ["HomePage", "SettingsPage"]`
+- See [performance.md](performance.md) Gallery cold-start / page cache notes
+
+### No action (compatible)
+- StackView.replace already destroyed off-screen page trees; only Component LRU retention changed in Gallery
+
 ### Upgrade 3.44 → 3.45
 
 **Product version:** 3.45  

@@ -303,7 +303,9 @@ StandardWindow {
         currentKey: "home"
         paneDisplayMode: "auto"
         compactPaneStyle: "labeled"
-        pageCacheLimit: 24
+        // 3.46 H15 — tighter Component LRU; StackView.replace already destroys off-screen trees.
+        pageCacheLimit: 8
+        pinnedPageCache: ["HomePage", "SettingsPage"]
         initialPageTransition: "none"
         isPaneSearchEnabled: true
         paneSearchPlaceholder: qsTr("Search controls")

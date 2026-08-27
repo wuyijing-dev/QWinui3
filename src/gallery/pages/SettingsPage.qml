@@ -204,9 +204,9 @@ Page {
 
             SettingsCard {
                 title: qsTr("Page Component cache")
-                description: qsTr("NavigationView caches compiled pages (limit %1). Count: %2. First open is instant (initialPageTransition=none). docs/performance.md")
+                description: qsTr("Gallery keeps ≤%1 compiled pages (Home/Settings pinned). Live count: %2. StackView.replace unloads off-screen trees. docs/performance.md")
                              .arg(Window.window && Window.window.navigationView
-                                  ? Window.window.navigationView.pageCacheLimit : 24)
+                                  ? Window.window.navigationView.pageCacheLimit : 8)
                              .arg(Window.window && Window.window.navigationView
                                   ? Window.window.navigationView.pageCacheCount : 0)
                 symbol: FluentIcons.DeveloperTools

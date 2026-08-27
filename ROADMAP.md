@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **3.45** (master — Chart series ring caps + opt-in downsample)
-**Next up:** **3.46** memory (Gallery page unload) · **3.00** breaking close-out still open ([checkpoint-300](docs/checkpoint-300.md)) · [tranche 10 → 4.00](#efficiency--control-depth-tranche-10-334--400)
+**Current:** **3.46** (master — Gallery page Component unload)
+**Next up:** **3.47** memory (image / acrylic caches) · **3.00** breaking close-out still open ([checkpoint-300](docs/checkpoint-300.md)) · [tranche 10 → 4.00](#efficiency--control-depth-tranche-10-334--400)
 **Planned through:** **3.10** complete · **3.13–3.33** WinUI / polish · **3.34–3.90** efficiency + control depth · **3.91–3.99** buffer · **4.00** close-out · [micro-interaction backlog last](#micro-interaction--visual-polish--deferred-last)
 **Checkpoints ahead:** **checkpoint-300** (3.00) · **checkpoint-390** (3.90) · **checkpoint-400** (4.00) · **checkpoint-310** (3.10) already green
 **Qt:** 6.5+ (recommended 6.8 LTS) on master today — **2.00** raises floor to **6.8 LTS** · **3.00** to **6.10 LTS** · **4.00** to **6.12 LTS** (planned)
@@ -715,7 +715,7 @@ One audit tag after **3.01–3.09**. **Does not** include **L1–L5** micro-inte
 | **3.43** | Memory — List/Tree delegate reuse | **H12** | Shipped |
 | **3.44** | Memory — DataTable / model roles | **H13** | Shipped |
 | **3.45** | Memory — Chart series buffers | **H14** | Shipped |
-| **3.46** | Memory — Gallery page unload | **H15** | Planned |
+| **3.46** | Memory — Gallery page unload | **H15** | Shipped |
 | **3.47** | Memory — image / acrylic caches | **H16** | Planned |
 | **3.48** | Memory wave sign-off | **H17** | Planned |
 | **3.49** | Silent runtime — paint coalesce | **C20** | Planned |
@@ -781,7 +781,7 @@ One audit tag after **3.01–3.09**. **Does not** include **L1–L5** micro-inte
 | **H12** | **3.43** | ListView / TreeView / NavigationView pane — `reuseItems` / cacheBuffer recipes + defaults that cut RSS without slower scroll | Shipped |
 | **H13** | **3.44** | DataTable — lean roles, skip unused column caches until shown | Shipped |
 | **H14** | **3.45** | Charts — ring-buffer caps documented + opt-in downsampling (defaults unchanged visually) | Shipped |
-| **H15** | **3.46** | Gallery — unload off-screen page trees; keep switch time ≤ baseline |
+| **H15** | **3.46** | Gallery — unload off-screen page trees; keep switch time ≤ baseline | Shipped |
 | **H16** | **3.47** | Acrylic / image / shadow caches — size limits + eviction |
 | **H17** | **3.48** | Memory wave sign-off — working-set table in checkpoint-390 |
 

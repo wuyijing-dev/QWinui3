@@ -38,8 +38,9 @@ Related: [data-collections.md](data-collections.md) · [charts.md](charts.md) ·
 | List / Tree overscan | Kit lists set `reuseItems` + mild `cacheBuffer` (**3.43** H12) — see [Virtualization](#virtualization) |
 | DataTable ListView roles | Rows use lean `{kind,rowIndex}` wrappers — not fat business objects as model items (**3.44** H13); sort key arrays only for active `sortSpecs` |
 | Chart series buffers | Source ring caps + draw LOD documented; opt-in `ChartSeries.capacity` / `ChartUtils.trimRing` (**3.45** H14) — LOD defaults unchanged |
+| Gallery page unload | StackView.replace destroys off-screen trees; Gallery `pageCacheLimit: **8**` + `pinnedPageCache: Home/Settings` (**3.46** H15) — kit default stays **24** |
 | Icon / atlas warm-up | Optional: touch `FluentIcons` / ThemeFonts once after first frame |
-| Page cache | `pageCacheLimit` + `pinnedPageCache` (2.68); avoid compiling all pages at startup |
+| Page cache | `pageCacheLimit` + `pinnedPageCache` (2.68); Gallery tightened in **3.46** — avoid compiling all pages at startup |
 | Target budget | Aim for interactive shell **&lt; 1.5 s** on CI Win Release; local desktop **&lt; 2 s** — wave **S10–S17** signed off at **3.40** ([checkpoint-390](checkpoint-390.md#cold-start-sign-off-s10s17--340)) |
 
 ### CI absolute budgets (**3.39 S16**)
@@ -76,7 +77,7 @@ qwinui3_gallery.exe --smoke --startup-log
 |-----------|--------|
 | On-demand pages | `NavigationView` + `pageModule` → `Qt.createComponent` per page name |
 | First paint | `initialPageTransition: "none"` (no enter animation on Home) |
-| Component LRU | `pageCacheLimit: 24` (default); `clearPageCache()` from Settings |
+| Component LRU | Kit default `pageCacheLimit: 24`; **Gallery** uses **8** + pins Home/Settings (**3.46** H15); `clearPageCache()` from Settings |
 | Home shadows | `MultiEffect` deferred one frame; off when `Theme.reducedMotion` |
 | Optional hosts | WebView2 / MediaPlayer pages use `Loader` until activated; WebView2 Runtime probe on **Check Runtime / Go / Retry** (not page Timer) (**3.38 S15**); Keyman Core loads on first OSK key / layout use; FrameStats `frameSwapped` only when FPS/RHI enabled |
 | Control catalog | `ControlCatalog.ensureControls()` lazy cache; Home **hot index** so Main load does not parse the full list; left rail fills after first frame (**3.37** S14 / **2.85 S1**) |
@@ -115,7 +116,8 @@ qmlcachegen -i build/examples/dashboard/qwinui3_example_dashboard/qmldir ^
 ```qml
 NavigationView {
     pageModule: "MyApp"
-    pageCacheLimit: 24          // 0 = unlimited
+    pageCacheLimit: 24          // kit default; Gallery uses 8 (3.46)
+    pinnedPageCache: ["HomePage", "SettingsPage"]  // keep hot shells warm
     initialPageTransition: "none"
     pageTransition: "slide"     // after first page
     // …
@@ -123,6 +125,8 @@ NavigationView {
 // After a long session:
 nav.clearPageCache(true)        // keep current page Component
 ```
+
+**Instance vs Component (**3.46** H15):** `StackView.replace` already destroys the previous page **tree**. `pageCacheLimit` only retains compiled `Component`s for faster re-open — lower it on long-browse demos (Gallery) so RSS stays down; pin Home/Settings so switch time stays ≤ baseline.
 
 Do **not** `import` every page type into `Main.qml` — that forces compile at startup.
 
@@ -253,7 +257,7 @@ ChartCard {
 | Defer with `Loader` | Optional Multimedia / WebView2 / huge settings trees: `active: false` until needed |
 | DataTable demo | Gallery ships ~200 employee rows plus a **10k load** path (**2.66**); use `maxFilterResults` when filtering huge JS arrays |
 | Charts hub | Small synthetic series; don’t paste multi-megabyte CSV into QML properties |
-| Page Component cache | Cap with `pageCacheLimit`; clear after demos that thrash the stack |
+| Page Component cache | Cap with `pageCacheLimit`; Gallery defaults to **8** + pinned Home/Settings (**3.46**); clear after demos that thrash the stack |
 
 When a page feels slow: check **delegate cost** and **model rebuilds** first, then chart point counts, then motion (`Theme.reducedMotion`).
 
@@ -286,7 +290,7 @@ Gallery navigation and `TabView` shells — **motion unchanged**, less per-frame
 | `TabView` strip | Width/opacity `Behavior` during **reorder** only; color/indicator `Behavior` when tab checked/hovered/focused | Tab select + drag reorder still animate |
 | Gallery Settings | **Performance arc (1.86–1.89)** tracker card | — |
 
-**pageCacheLimit:** default **24**; first page uses `initialPageTransition: "none"`. See [NavigationView.md](components/NavigationView.md).
+**pageCacheLimit:** kit default **24**; Gallery **8** + `pinnedPageCache` Home/Settings (**3.46** H15). First page uses `initialPageTransition: "none"`. See [NavigationView.md](components/NavigationView.md).
 
 ---
 
@@ -359,7 +363,7 @@ Deepens **1.39** / **2.18** on **NavigationView** / **NavigationWindow** — **a
 | # | Check | API / pattern | Why |
 |---|--------|---------------|-----|
 | 1 | Lazy pages | `NavigationWindow` + `pageModule` + `hostContent: false` | Page QML compiles on first open — not at shell startup |
-| 2 | Tune cache | `pageCacheLimit` (default **24**); `clearPageCache()` after major locale/theme swaps | LRU evicts cold `Component`s; Settings card exposes live count |
+| 2 | Tune cache | `pageCacheLimit` (kit **24**; Gallery **8** + pins — **3.46**); `clearPageCache()` after major locale/theme swaps | LRU evicts cold `Component`s; Settings card exposes live count |
 | 3 | Same destination | `selectKey` when `key === currentKey` | Skips history push + `openPage` — see `sameKeySkipCount` |
 | 4 | Same component | `openPage` when `_openedPageName` matches | Skips StackView replace + enter/exit — see `samePageSkipCount` |
 | 5 | First paint | `initialPageTransition: "none"` | Gallery default; pair with `pageTransition` for later nav |
@@ -607,7 +611,7 @@ Already applied / recommended in-tree:
 3. **Defer** optional surfaces (`MediaPlayerElement` / WebView2 Gallery pages use `Loader`).
 4. Drive animations with `Theme.duration(...)` so reduced motion collapses work.
 5. Wide DataTables: use the horizontal scrollbar; don’t nest a second flickable that fights the row `ListView`.
-6. **`pageCacheLimit` + `initialPageTransition: "none"`** on Gallery NavigationView (1.39).
+6. **`pageCacheLimit` + `initialPageTransition: "none"`** on Gallery NavigationView (1.39); Gallery tightened to **8** + pins in **3.46**.
 7. **Defer Home card shadows** one frame; honor reduced motion (1.39).
 
 ---
