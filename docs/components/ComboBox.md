@@ -1,51 +1,52 @@
 # ComboBox
 
-Fluent ComboBox with rotating chevron indicator.
+Fluent / WinUI 3 ComboBox with optional header, description, validation, and editable text.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/ComboBox.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/ComboBox.qml)
 
-**Category:** Styled controls · **Library:** v2.81
+**Category:** Styled controls · **Library:** v3.17
 
 [← Component index](../components.md)
 
 **Gallery:** `ComboBox` — [`src/gallery/pages/ComboBoxPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/ComboBoxPage.qml)
 
-**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
-
 ## Example
 
 ```qml
 ComboBox {
-    id: combo
-    model: ["Red", "Green", "Blue"]
+    header: qsTr("Favorite color")
+    description: qsTr("Used on your profile.")
+    model: [qsTr("Red"), qsTr("Green"), qsTr("Blue")]
     onActivated: (index) => apply(index)
 }
-// --- API ---
-// combo.model / currentIndex / currentText / activated() / accepted()
+
+ComboBox {
+    header: qsTr("Font family")
+    editable: true
+    model: ["Segoe UI", "Consolas", "Cascadia Code"]
+}
 ```
+
+## QWinUI3 properties
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `header` | `string` | `""` | Label above the field (WinUI Header) |
+| `description` | `string` | `""` | Caption under the header (hidden while `errorMessage` is set) |
+| `errorMessage` | `string` | `""` | Critical caption + error chrome |
+| `hasError` | `bool` | `false` | Force error chrome without a message |
+| `appearance` | `string` | `""` → `filled` | `filled` · `outline` |
+| `lightScheme` | `bool` | | Readonly — `!Theme.dark` (legacy) |
+
+## Inherited from Qt `ComboBox`
+
+- `model` · `currentIndex` · `currentText` · `displayText` · `textRole` / `valueRole`
+- `editable` · `editText` · `validator` · `inputMethodHints`
+- `activated(index)` · `accepted()`
 
 ## Notes
 
-Style-only Fluent chrome for Qt Quick Controls ComboBox.
-Public API is the Qt Quick Controls ComboBox type; this file supplies visuals/metrics only.
-
-## API
-
-### Properties
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `hasError` | `bool` | Form validation error (2.66 A2) |
-| `appearance` | `string` | Visual variant: filled \| outline \| "" (filled default — 2.66 A2) |
-| `lightScheme` | `bool` | True in light theme |
-
-### Signals
-
-_No custom signals_ (use inherited signals from the base type).
-
-### Methods
-
-_No custom methods_ (use inherited methods from the base type).
+Popup opens under the field chrome (not under the error footer). Checkmark pip marks the selected item. For **FormLayout** left-aligned labels use **HeaderedComboBox**. Honors `Theme.reducedMotion` on chevron, popup, and error shake.
 
 ---
-*Generated from module sources by `scripts/generate_component_docs.py` — do not edit by hand.*
+*Updated for 3.17 header / editable / errorMessage.*

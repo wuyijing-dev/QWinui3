@@ -47,6 +47,26 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.16 → 3.17
+
+**Product version:** 3.17  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | ComboBox header / editable contentItem | None required |
+
+### Optional / polish
+- **ComboBox:** `header`, `description`, `errorMessage` — same vocabulary as TextField (3.16)
+- **ComboBox:** `editable: true` uses an inline TextInput (WinUI editable ComboBox)
+- Gallery **ComboBox** page — header, editable, required validation demos
+- FormLayout left headers still use **HeaderedComboBox**
+
+### No action (compatible)
+- Stable APIs unchanged; new properties default off / empty
+
 ### Upgrade 3.15 → 3.16
 
 **Product version:** 3.16  

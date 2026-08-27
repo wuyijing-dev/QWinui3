@@ -1,6 +1,6 @@
 # QWinUI3 Roadmap
 
-**Current:** **3.16** (master — TextField header / validation / character limit)
+**Current:** **3.17** (master — ComboBox header / editable / validation)
 **Next up:** **3.00** close-out ([checkpoint-300](checkpoint-300.md)) · **3.11+** friction-only
 **Planned through:** tranche 9 complete · **3.00** still open · [micro-interaction backlog last](#micro-interaction--visual-polish--deferred-last)
 **Checkpoints ahead:** **checkpoint-300** (3.00) · **checkpoint-310** (3.10) green

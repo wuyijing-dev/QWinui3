@@ -1,8 +1,8 @@
 # QWinUI3 Roadmap
 
-**Current:** **3.16** (master — TextField header / validation / character limit)
-**Next up:** **3.00** breaking close-out (prep [checkpoint-300](docs/checkpoint-300.md)) · **3.17+** friction-only · [micro-interaction backlog](#micro-interaction--visual-polish--deferred-last)
-**Planned through:** **3.10** complete · **3.11–3.12** polish · **3.13** Slider · **3.14** RangeSlider · **3.15** ProgressBar · **3.16** TextField · **3.00** still open · then friction / micro-interaction
+**Current:** **3.17** (master — ComboBox header / editable / validation)
+**Next up:** **3.00** breaking close-out (prep [checkpoint-300](docs/checkpoint-300.md)) · **3.18+** friction-only · [micro-interaction backlog](#micro-interaction--visual-polish--deferred-last)
+**Planned through:** **3.10** complete · **3.11–3.12** polish · **3.13–3.17** WinUI basics (Slider…ComboBox) · **3.00** still open · then friction / micro-interaction
 **Checkpoints ahead:** **checkpoint-300** (3.00) · **checkpoint-310** (3.10) green on master
 **Qt:** 6.5+ (recommended 6.8 LTS) on master today — **2.00** raises floor to **6.8 LTS** · **3.00** to **6.10 LTS**
 **Platforms:** **Windows + Linux** — no macOS first-class line.

@@ -2,72 +2,48 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// ComboBox — Fluent ComboBox with rotating chevron indicator.
+// ComboBox — Fluent / WinUI 3 ComboBox (Header, editable, ShowError chrome).
 //
 //   ComboBox {
-//       id: combo
+//       header: qsTr("Color")
 //       model: ["Red", "Green", "Blue"]
 //       onActivated: (index) => apply(index)
 //   }
-//   // --- API ---
-//   // combo.model / currentIndex / currentText / activated() / accepted()
 //
 // @notes
-//   Style-only Fluent chrome for Qt Quick Controls ComboBox.
-//   Public API is the Qt Quick Controls ComboBox type; this file supplies visuals/metrics only.
+//   Header / description / errorMessage around the field; filled | outline appearance.
+//   editable uses an inline TextInput. FormLayout left headers: HeaderedComboBox.
 
 T.ComboBox {
     id: control
 
-    Accessible.role: Accessible.ComboBox
-    Accessible.name: control.displayText.length ? control.displayText : qsTr("Combo box")
-
-    // Form validation error (2.66 A2)
+    // WinUI Header — label above the field
+    property string header: ""
+    // Supporting caption under the header (hidden while errorMessage is set)
+    property string description: ""
+    // Validation message — critical caption; also paints error chrome
+    property string errorMessage: ""
+    // Form validation error flag (also treated as error when errorMessage is set)
     property bool hasError: false
-    // Visual variant: filled | outline | "" (filled default — 2.66 A2)
+    // Visual variant: filled | outline | "" (filled default)
     property string appearance: ""
+
     property int _errorShakeSeq: 0
     property real _shakeOffset: 0
 
     readonly property string _effectiveAppearance: appearance.length ? appearance : "filled"
     readonly property bool _outlineAppearance: _effectiveAppearance === "outline"
+    readonly property bool _error: hasError || errorMessage.length > 0
+    readonly property bool _critical: _error
 
-    onHasErrorChanged: {
-        if (hasError)
-            _errorShakeSeq += 1
-    }
-    on_ErrorShakeSeqChanged: {
-        if (_errorShakeSeq <= 0)
-            return
-        if (Theme.reducedMotion)
-            return
-        errorShakeAnim.restart()
-    }
+    readonly property real _fieldH: Theme.controlHeight
+    readonly property bool _hasHeader: header.length > 0
+                                    || (description.length > 0 && !_error)
+    readonly property bool _hasFooter: errorMessage.length > 0
+    readonly property real _headerH: _hasHeader ? headerCol.implicitHeight + 4 : 0
+    readonly property real _footerH: _hasFooter ? footerRow.implicitHeight + 4 : 0
 
-    SequentialAnimation {
-        id: errorShakeAnim
-        NumberAnimation { target: control; property: "_shakeOffset"; to: -4; duration: 40 }
-        NumberAnimation { target: control; property: "_shakeOffset"; to: 4; duration: 50 }
-        NumberAnimation { target: control; property: "_shakeOffset"; to: -3; duration: 40 }
-        NumberAnimation { target: control; property: "_shakeOffset"; to: 0; duration: 40 }
-    }
-
-    implicitWidth: Math.max(Theme.controlMinWidth,
-                            implicitContentWidth + leftPadding + rightPadding)
-    implicitHeight: Theme.controlHeight
-
-    leftPadding: Theme.paddingControlH
-    rightPadding: 32
-    topPadding: Theme.paddingControlV
-    bottomPadding: Theme.paddingControlV
-    spacing: Theme.spacing
-    font.pixelSize: Theme.fontBody
-    hoverEnabled: true
-    transform: Translate { x: control._shakeOffset }
-
-    PointerCursor { shape: Qt.PointingHandCursor }
-
-    // True in light theme
+    // True in light theme (legacy)
     readonly property bool lightScheme: !Theme.dark
     readonly property color __fill: {
         if (!control.enabled)
@@ -75,6 +51,120 @@ T.ComboBox {
         if (control._outlineAppearance)
             return "transparent"
         return Theme.borderedControlFill(control.hovered, control.down, !control.enabled)
+    }
+
+    on_ErrorChanged: {
+        if (_error)
+            _errorShakeSeq += 1
+    }
+    on_ErrorShakeSeqChanged: {
+        if (_errorShakeSeq <= 0)
+            return
+        if (Theme.reducedMotion) {
+            _shakeOffset = 0
+            return
+        }
+        errorShakeAnim.restart()
+    }
+
+    SequentialAnimation {
+        id: errorShakeAnim
+        NumberAnimation { target: control; property: "_shakeOffset"; to: -4; duration: Theme.duration(40); easing.type: Theme.easingStandard }
+        NumberAnimation { target: control; property: "_shakeOffset"; to: 4; duration: Theme.duration(40); easing.type: Theme.easingStandard }
+        NumberAnimation { target: control; property: "_shakeOffset"; to: -2; duration: Theme.duration(40); easing.type: Theme.easingStandard }
+        NumberAnimation { target: control; property: "_shakeOffset"; to: 0; duration: Theme.duration(40); easing.type: Theme.easingStandard }
+    }
+
+    Accessible.role: Accessible.ComboBox
+    Accessible.name: {
+        if (control.header.length)
+            return control.header
+        if (control.displayText.length)
+            return control.displayText
+        return qsTr("Combo box")
+    }
+    Accessible.description: {
+        if (control.errorMessage.length)
+            return control.errorMessage
+        return control.description
+    }
+
+    implicitWidth: Math.max(Theme.controlMinWidth,
+                            implicitContentWidth + leftPadding + rightPadding)
+    implicitHeight: _fieldH + _headerH + _footerH
+
+    leftPadding: Theme.paddingControlH
+    rightPadding: 32
+    topPadding: Theme.paddingControlV + _headerH
+    bottomPadding: Theme.paddingControlV + _footerH
+    spacing: Theme.spacing
+    font.pixelSize: Theme.fontBody
+    hoverEnabled: true
+
+    PointerCursor { shape: control.editable ? Qt.IBeamCursor : Qt.PointingHandCursor }
+
+    // Header above the field
+    Column {
+        id: headerCol
+        z: 1
+        x: 0
+        y: 0
+        width: control.width
+        spacing: 2
+        visible: control._hasHeader
+
+        Text {
+            width: parent.width
+            visible: control.header.length > 0
+            text: control.header
+            font.pixelSize: Theme.fontBody
+            font.weight: Theme.fontWeightSemiBold
+            color: control.enabled ? Theme.textPrimary : Theme.textDisabled
+            elide: Text.ElideRight
+        }
+        Text {
+            width: parent.width
+            visible: control.description.length > 0 && !control._error
+            text: control.description
+            font.pixelSize: Theme.fontCaption
+            color: control.enabled ? Theme.textSecondary : Theme.textDisabled
+            wrapMode: Text.WordWrap
+        }
+    }
+
+    // Footer: error message
+    Item {
+        id: footerRow
+        z: 1
+        visible: control._hasFooter
+        x: 0
+        y: control.height - height
+        width: control.width
+        height: errorBlock.implicitHeight
+
+        Row {
+            id: errorBlock
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.verticalCenter: parent.verticalCenter
+            spacing: 4
+            visible: control.errorMessage.length > 0
+
+            Text {
+                anchors.verticalCenter: parent.verticalCenter
+                text: FluentIcons.Error
+                font.family: Theme.fontFamilyIcon
+                font.pixelSize: 12
+                color: Theme.systemCritical
+            }
+            Text {
+                width: Math.max(0, errorBlock.width - 16)
+                text: control.errorMessage
+                font.pixelSize: Theme.fontCaption
+                color: Theme.systemCritical
+                wrapMode: Text.WordWrap
+            }
+        }
     }
 
     delegate: T.ItemDelegate {
@@ -92,7 +182,6 @@ T.ComboBox {
         }
         hoverEnabled: true
 
-        // Selected state
         readonly property bool selected: index === control.currentIndex
 
         contentItem: Text {
@@ -117,7 +206,6 @@ T.ComboBox {
             }
         }
 
-        // Hover / keyboard highlight only — accent pip is shared & tracks selection
         background: Item {
             Rectangle {
                 anchors.fill: parent
@@ -183,6 +271,7 @@ T.ComboBox {
              + (control.pressed ? 1 : 0)
         width: implicitWidth
         height: implicitHeight
+        z: 2
         text: FluentIcons.ChevronDown
         font.family: Theme.fontFamilyIcon
         font.pixelSize: 10
@@ -207,18 +296,30 @@ T.ComboBox {
         }
     }
 
-    contentItem: Text {
-        text: control.displayText
+    // Editable: TextInput; closed list: read-only display of currentText
+    contentItem: TextInput {
+        clip: true
         font: control.font
         color: {
             if (!control.enabled)
                 return Theme.textDisabled
-            if (control.down)
+            if (control.down && !control.editable)
                 return Theme.dark ? Qt.rgba(1, 1, 1, 0.7725) : Qt.rgba(0, 0, 0, 0.62)
             return Theme.textPrimary
         }
         verticalAlignment: Text.AlignVCenter
-        elide: Text.ElideRight
+        autoScroll: control.editable
+        readOnly: !control.editable
+        selectByMouse: control.editable
+        enabled: control.enabled
+        inputMethodHints: control.inputMethodHints
+        validator: control.validator
+        text: control.editable ? control.editText : control.displayText
+
+        onTextEdited: {
+            if (control.editable)
+                control.editText = text
+        }
 
         Behavior on color {
             enabled: !Theme.reducedMotion
@@ -231,99 +332,113 @@ T.ComboBox {
 
     background: Item {
         implicitWidth: Theme.controlMinWidth
-        implicitHeight: Theme.controlHeight
-        scale: control.pressed && !Theme.reducedMotion ? 0.98 : 1
+        implicitHeight: control._fieldH
 
-        Behavior on scale {
-            enabled: !Theme.reducedMotion
-            NumberAnimation {
-                duration: Theme.duration(Theme.motionFast)
-                easing.type: Theme.easingStandard
-            }
-        }
+        Item {
+            id: fieldHost
+            x: control._shakeOffset
+            y: control._headerH
+            width: parent.width
+            height: control._fieldH
+            scale: control.pressed && !Theme.reducedMotion ? 0.98 : 1
 
-        Rectangle {
-            id: strokeShell
-            anchors.fill: parent
-            radius: Theme.cornerControl
-
-            // Draw solid stroke chrome
-            readonly property bool hasSolidStroke: control.hasError || control.down || !control.enabled || Theme.dark || control._outlineAppearance
-            // Draw gradient stroke chrome
-            readonly property bool hasGradientStroke: !hasSolidStroke && control.enabled
-            // Top edge stroke width
-            readonly property color topStroke: Theme.dark ? "#12FFFFFF" : "#0F000000"
-            // Bottom edge stroke width
-            readonly property color bottomStroke: Theme.dark ? "#18FFFFFF" : "#29000000"
-
-            gradient: Gradient {
-                GradientStop {
-                    position: 0
-                    color: strokeShell.hasGradientStroke ? strokeShell.topStroke : "transparent"
-                }
-                GradientStop {
-                    position: 0.91
-                    color: strokeShell.hasGradientStroke ? strokeShell.topStroke : "transparent"
-                }
-                GradientStop {
-                    position: 1.0
-                    color: strokeShell.hasGradientStroke ? strokeShell.bottomStroke : "transparent"
+            Behavior on scale {
+                enabled: !Theme.reducedMotion
+                NumberAnimation {
+                    duration: Theme.duration(Theme.motionFast)
+                    easing.type: Theme.easingStandard
                 }
             }
 
             Rectangle {
-                // Content inset
-                readonly property bool inset: strokeShell.hasGradientStroke
-                x: inset ? 1 : 0
-                y: inset ? 1 : 0
-                width: inset ? parent.width - 2 : parent.width
-                height: inset ? parent.height - 2 : parent.height
-                radius: inset ? Theme.cornerControl - 1 : Theme.cornerControl
-                border.width: control.hasError ? 2
-                             : (strokeShell.hasGradientStroke ? 0
-                                : (control._outlineAppearance && control.activeFocus ? 2 : 1))
-                border.color: control.hasError ? Theme.systemCritical
-                              : (control.activeFocus && control._outlineAppearance
-                                 ? Theme.accent : Theme.strokeControl)
-                color: control.__fill
+                id: strokeShell
+                anchors.fill: parent
+                radius: Theme.cornerControl
 
-                Behavior on color {
-                    enabled: !Theme.reducedMotion
-                    ColorAnimation {
-                        duration: Theme.duration(Theme.motionNormal)
-                        easing.type: Theme.easingStandard
+                readonly property bool hasSolidStroke: control._critical || control.down
+                                                   || !control.enabled || Theme.dark
+                                                   || control._outlineAppearance
+                readonly property bool hasGradientStroke: !hasSolidStroke && control.enabled
+                readonly property color topStroke: Theme.dark ? "#12FFFFFF" : "#0F000000"
+                readonly property color bottomStroke: Theme.dark ? "#18FFFFFF" : "#29000000"
+
+                gradient: Gradient {
+                    GradientStop {
+                        position: 0
+                        color: strokeShell.hasGradientStroke ? strokeShell.topStroke : "transparent"
                     }
-                }
-                Behavior on border.color {
-                    enabled: !Theme.reducedMotion
-                    ColorAnimation {
-                        duration: Theme.duration(Theme.motionFast)
-                        easing.type: Theme.easingStandard
+                    GradientStop {
+                        position: 0.91
+                        color: strokeShell.hasGradientStroke ? strokeShell.topStroke : "transparent"
+                    }
+                    GradientStop {
+                        position: 1.0
+                        color: strokeShell.hasGradientStroke ? strokeShell.bottomStroke : "transparent"
                     }
                 }
 
                 Rectangle {
-                    visible: !control._outlineAppearance && !control.hasError
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    anchors.bottom: parent.bottom
-                    height: control.activeFocus ? 2 : 1
-                    color: control.activeFocus ? Theme.accent : Theme.strokeControl
-                    opacity: control.activeFocus ? 1 : 0.85
+                    readonly property bool inset: strokeShell.hasGradientStroke
+                    x: inset ? 1 : 0
+                    y: inset ? 1 : 0
+                    width: inset ? parent.width - 2 : parent.width
+                    height: inset ? parent.height - 2 : parent.height
+                    radius: inset ? Theme.cornerControl - 1 : Theme.cornerControl
+                    border.width: control._critical ? 2
+                                 : (strokeShell.hasGradientStroke ? 0
+                                    : (control._outlineAppearance && control.activeFocus ? 2 : 1))
+                    border.color: control._critical ? Theme.systemCritical
+                                  : (control.activeFocus && control._outlineAppearance
+                                     ? Theme.accent : Theme.strokeControl)
+                    color: control.__fill
+
+                    Behavior on color {
+                        enabled: !Theme.reducedMotion
+                        ColorAnimation {
+                            duration: Theme.duration(Theme.motionNormal)
+                            easing.type: Theme.easingStandard
+                        }
+                    }
+                    Behavior on border.color {
+                        enabled: !Theme.reducedMotion
+                        ColorAnimation {
+                            duration: Theme.duration(Theme.motionFast)
+                            easing.type: Theme.easingStandard
+                        }
+                    }
+
+                    Rectangle {
+                        visible: !control._outlineAppearance && !control._critical
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.bottom: parent.bottom
+                        height: control.activeFocus ? 2 : 1
+                        color: control.activeFocus ? Theme.accent : Theme.strokeControl
+                        opacity: control.activeFocus ? 1 : 0.85
+                    }
+                    Rectangle {
+                        visible: control._critical
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.bottom: parent.bottom
+                        height: 2
+                        color: Theme.systemCritical
+                    }
                 }
             }
-        }
 
-        FocusStroke {
-            anchors.fill: parent
-            show: control.visualFocus
-            frameRadius: Theme.cornerControl
+            FocusStroke {
+                anchors.fill: parent
+                show: control.visualFocus
+                frameRadius: Theme.cornerControl
+            }
         }
     }
 
     popup: T.Popup {
         id: comboPopup
-        y: control.height + 2
+        // Open under the field chrome (not under error footer)
+        y: control._headerH + control._fieldH + 2
         width: control.width
         implicitHeight: Math.min(contentItem.implicitHeight + topPadding + bottomPadding, 280)
         padding: 5
@@ -331,7 +446,6 @@ T.ComboBox {
         bottomMargin: 8
         transformOrigin: Item.Top
 
-        // Open on the currently selected item
         onAboutToShow: {
             popupList.positionViewAtIndex(Math.max(0, control.currentIndex), ListView.Contain)
             selectionPip.snapTo(control.currentIndex)
@@ -350,7 +464,6 @@ T.ComboBox {
                 clip: true
                 implicitHeight: contentHeight
                 model: control.delegateModel
-                // Follow pointer/keyboard while open; falls back to selection
                 currentIndex: control.highlightedIndex >= 0 ? control.highlightedIndex
                                                             : control.currentIndex
                 highlightMoveDuration: 0
@@ -361,7 +474,6 @@ T.ComboBox {
             SelectionPip {
                 id: selectionPip
                 listView: popupList
-                // Indicator stays on the committed selection; open scrolls to it
                 targetIndex: control.currentIndex
             }
         }
