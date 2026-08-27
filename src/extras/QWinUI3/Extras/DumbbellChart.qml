@@ -37,6 +37,19 @@ T.Control {
     padding: 8
     readonly property bool isEmpty: !(pairs && pairs.length)
 
+    // 3.49 C20 — coalesce Canvas paints (~16 ms).
+    Timer {
+        id: redrawCoalesce
+        interval: ChartUtils.redrawCoalesceMs
+        repeat: false
+        onTriggered: canvas.requestPaint()
+    }
+    function requestRedraw() { redrawCoalesce.restart() }
+    onPairsChanged: requestRedraw()
+    onHoverIndexChanged: requestRedraw()
+    onWidthChanged: requestRedraw()
+    onHeightChanged: requestRedraw()
+
     contentItem: ColumnLayout {
         spacing: 6
         Text {
@@ -117,9 +130,9 @@ T.Control {
                     var n = root.pairs.length
                     var idx = Math.floor(mouse.y / Math.max(1, height / n))
                     root.hoverIndex = (idx >= 0 && idx < n) ? idx : -1
-                    canvas.requestPaint()
+                    root.requestRedraw()
                 }
-                onExited: { root.hoverIndex = -1; canvas.requestPaint() }
+                onExited: { root.hoverIndex = -1; root.requestRedraw() }
             }
         }
         Row {

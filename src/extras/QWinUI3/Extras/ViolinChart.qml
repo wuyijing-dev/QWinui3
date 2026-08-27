@@ -47,6 +47,20 @@ T.Control {
         return out
     }
 
+    // 3.49 C20 — coalesce Canvas paints (~16 ms).
+    Timer {
+        id: redrawCoalesce
+        interval: ChartUtils.redrawCoalesceMs
+        repeat: false
+        onTriggered: canvas.requestPaint()
+    }
+    function requestRedraw() { redrawCoalesce.restart() }
+    onGroupsChanged: requestRedraw()
+    onBinCountChanged: requestRedraw()
+    onHoverIndexChanged: requestRedraw()
+    onWidthChanged: requestRedraw()
+    onHeightChanged: requestRedraw()
+
     contentItem: ColumnLayout {
         spacing: 6
         Text {
@@ -143,9 +157,9 @@ T.Control {
                     var n = root._profiles.length
                     var idx = Math.floor(mouse.x / Math.max(1, width / n))
                     root.hoverIndex = (idx >= 0 && idx < n) ? idx : -1
-                    canvas.requestPaint()
+                    root.requestRedraw()
                 }
-                onExited: { root.hoverIndex = -1; canvas.requestPaint() }
+                onExited: { root.hoverIndex = -1; root.requestRedraw() }
             }
         }
     }

@@ -41,6 +41,7 @@ Related: [data-collections.md](data-collections.md) · [charts.md](charts.md) ·
 | Gallery page unload | StackView.replace destroys off-screen trees; Gallery `pageCacheLimit: **8**` + `pinnedPageCache: Home/Settings` (**3.46** H15) — kit default stays **24** |
 | Image / shadow caches | `QPixmapCache` kit cap **16 MB** (`QWINUI3_PIXMAP_CACHE_KB`); ElevatedChrome frees MultiEffect FBO when hidden; `iconFontFor` LRU **96** (**3.47** H16) — acrylic/shadow **look** unchanged |
 | Memory wave sign-off | Idle WorkingSet table filled at **3.48** H17 — [checkpoint-390](checkpoint-390.md#memory-sign-off-h10h17--348) (~**136 MB** WS avg, n=5 Win Release) |
+| Paint coalesce | Remaining experimental charts use `requestRedraw()` / `ChartUtils.redrawCoalesceMs` (**3.49** C20) |
 | Icon / atlas warm-up | Optional: touch `FluentIcons` / ThemeFonts once after first frame |
 | Page cache | `pageCacheLimit` + `pinnedPageCache` (2.68); Gallery tightened in **3.46** — avoid compiling all pages at startup |
 | Target budget | Aim for interactive shell **&lt; 1.5 s** on CI Win Release; local desktop **&lt; 2 s** — wave **S10–S17** signed off at **3.40** ([checkpoint-390](checkpoint-390.md#cold-start-sign-off-s10s17--340)) |
@@ -458,9 +459,9 @@ Measure with `--startup-log` or `--smoke --startup-log` — same fields as the C
 
 ---
 
-## Chart coalesce inventory (2.84 C6 / 2.90 audit)
+## Chart coalesce inventory (2.84 C6 / 2.90 audit / **3.49 C20**)
 
-`ChartUtils.redrawCoalesceMs` (~**16 ms**) batches Canvas repaints. **2.84 C6** extended coalesce beyond the stable six.
+`ChartUtils.redrawCoalesceMs` (~**16 ms**) batches Canvas repaints. **2.84 C6** extended coalesce beyond the stable six. **3.49 C20** closed the remaining experimental Canvas charts (Band / Dumbbell / ErrorBar / Pareto / PolarArea / Sunburst / Violin / Waffle). DataTable row refresh (`Qt.callLater`) and NavigationView pip Timer were already coalesced.
 
 | Chart type | Coalesce | Notes |
 |------------|----------|-------|
@@ -468,6 +469,7 @@ Measure with `--startup-log` or `--smoke --startup-log` — same fields as the C
 | LollipopChart, FunnelChart, TreemapChart | Yes | **C6** |
 | BoxPlotChart, CandlestickChart | Yes | **C6** |
 | Area, Scatter, Heatmap, HorizontalBar, StackedBar, Combo, Histogram, … | Yes | Same `requestRedraw()` pattern |
+| Band, Dumbbell, ErrorBar, Pareto, PolarArea, Sunburst, Violin, Waffle | Yes | **3.49 C20** |
 | Gauge family (`*Gauge.qml`) | Partial | Value-driven repaint; not unified `ChartUtils` timer |
 | Sankey | N/A | No public type in kit |
 

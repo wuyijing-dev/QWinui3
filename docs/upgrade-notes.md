@@ -47,6 +47,24 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.48 → 3.49
+
+**Product version:** 3.49  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | Remaining chart paint coalesce (C20) | None — visuals unchanged; hover/data still redraw |
+
+### Optional / polish
+- Prefer `requestRedraw()` over bare `canvas.requestPaint()` in custom Canvas charts
+- See [performance.md](performance.md#chart-coalesce-inventory-284-c6--290-audit--349-c20)
+
+### No action (compatible)
+- Stable charts / DataTable / NavigationView coalesce paths unchanged
+
 ### Upgrade 3.47 → 3.48
 
 **Product version:** 3.48  

@@ -40,6 +40,21 @@ T.Control {
     readonly property int _count: Math.max(ChartUtils.valueCount(high), ChartUtils.valueCount(low), ChartUtils.valueCount(mid))
     readonly property bool isEmpty: _count === 0
 
+    // 3.49 C20 — coalesce Canvas paints (~16 ms).
+    Timer {
+        id: redrawCoalesce
+        interval: ChartUtils.redrawCoalesceMs
+        repeat: false
+        onTriggered: canvas.requestPaint()
+    }
+    function requestRedraw() { redrawCoalesce.restart() }
+    onHighChanged: requestRedraw()
+    onLowChanged: requestRedraw()
+    onMidChanged: requestRedraw()
+    onHoverIndexChanged: requestRedraw()
+    onWidthChanged: requestRedraw()
+    onHeightChanged: requestRedraw()
+
     contentItem: ColumnLayout {
         spacing: 6
         Text {
@@ -177,11 +192,11 @@ T.Control {
                     var t = (mouse.x - canvas.plotL) / Math.max(1, canvas.plotW)
                     var idx = Math.round(Math.max(0, Math.min(1, t)) * (n - 1))
                     root.hoverIndex = idx
-                    canvas.requestPaint()
+                    root.requestRedraw()
                 }
                 onExited: {
                     root.hoverIndex = -1
-                    canvas.requestPaint()
+                    root.requestRedraw()
                 }
             }
         }

@@ -45,6 +45,20 @@ T.Control {
     }
     readonly property bool isEmpty: _slices.length === 0
 
+    // 3.49 C20 — coalesce Canvas paints (~16 ms).
+    Timer {
+        id: redrawCoalesce
+        interval: ChartUtils.redrawCoalesceMs
+        repeat: false
+        onTriggered: canvas.requestPaint()
+    }
+    function requestRedraw() { redrawCoalesce.restart() }
+    onSlicesChanged: requestRedraw()
+    onValuesChanged: requestRedraw()
+    onHoverIndexChanged: requestRedraw()
+    onWidthChanged: requestRedraw()
+    onHeightChanged: requestRedraw()
+
     contentItem: ColumnLayout {
         spacing: 6
         Text {
@@ -110,7 +124,7 @@ T.Control {
                 anchors.fill: parent
                 visible: !root.isEmpty
                 hoverEnabled: root.interactive
-                onExited: { root.hoverIndex = -1; canvas.requestPaint() }
+                onExited: { root.hoverIndex = -1; root.requestRedraw() }
             }
         }
         Flow {
@@ -144,8 +158,8 @@ T.Control {
                     MouseArea {
                         anchors.fill: parent
                         hoverEnabled: true
-                        onEntered: { root.hoverIndex = chip.index; canvas.requestPaint() }
-                        onExited: { if (root.hoverIndex === chip.index) { root.hoverIndex = -1; canvas.requestPaint() } }
+                        onEntered: { root.hoverIndex = chip.index; root.requestRedraw() }
+                        onExited: { if (root.hoverIndex === chip.index) { root.hoverIndex = -1; root.requestRedraw() } }
                     }
                 }
             }

@@ -38,6 +38,20 @@ T.Control {
     readonly property var _rows: ChartUtils.paretoRows(values)
     readonly property bool isEmpty: _rows.length === 0
 
+    // 3.49 C20 — coalesce Canvas paints (~16 ms).
+    Timer {
+        id: redrawCoalesce
+        interval: ChartUtils.redrawCoalesceMs
+        repeat: false
+        onTriggered: canvas.requestPaint()
+    }
+    function requestRedraw() { redrawCoalesce.restart() }
+    onValuesChanged: requestRedraw()
+    onLabelsChanged: requestRedraw()
+    onHoverIndexChanged: requestRedraw()
+    onWidthChanged: requestRedraw()
+    onHeightChanged: requestRedraw()
+
     contentItem: ColumnLayout {
         spacing: 6
         Text {
@@ -141,11 +155,11 @@ T.Control {
                     var plotW = width - padL - padR
                     var idx = Math.floor((mouse.x - padL) / Math.max(1, plotW / n))
                     root.hoverIndex = (idx >= 0 && idx < n) ? idx : -1
-                    canvas.requestPaint()
+                    root.requestRedraw()
                 }
                 onExited: {
                     root.hoverIndex = -1
-                    canvas.requestPaint()
+                    root.requestRedraw()
                 }
             }
         }
