@@ -234,32 +234,28 @@ T.RangeSlider {
     background: Item {
         id: trackHost
 
+        x: control.leftPadding
+        y: control.topPadding
+        width: control.availableWidth
+        height: control.availableHeight
+        implicitWidth: control._horizontal ? 200 : Theme.sliderThumb + control._sideGutter * 2
+        implicitHeight: control._horizontal ? Theme.sliderThumb + control._tickBand * 2 : 160
+
         readonly property real trackW: control._horizontal
-            ? control.availableWidth - Theme.sliderThumb
+            ? Math.max(0, width - Theme.sliderThumb)
             : Theme.sliderThickness
         readonly property real trackH: control._horizontal
             ? Theme.sliderThickness
-            : control.availableHeight - Theme.sliderThumb
+            : Math.max(0, height - Theme.sliderThumb)
         readonly property real trackX: control._horizontal
             ? Theme.sliderThumb / 2
-            : (control._sideGutter + (parent.width - control._sideGutter * 2 - trackW) / 2)
+            : (control._sideGutter + (width - control._sideGutter * 2 - trackW) / 2)
         readonly property real trackY: control._horizontal
-            ? control._tickBand + (parent.height - control._tickBand * 2 - trackH) / 2
+            ? (height - trackH) / 2
             : Theme.sliderThumb / 2
 
         readonly property real lo: Math.min(control.first.visualPosition, control.second.visualPosition)
         readonly property real hi: Math.max(control.first.visualPosition, control.second.visualPosition)
-
-        x: control.leftPadding
-        y: control.topPadding
-        width: control._horizontal
-               ? control.availableWidth
-               : Math.max(trackW + control._sideGutter * 2, Theme.sliderThumb)
-        height: control._horizontal
-                ? Math.max(trackH + control._tickBand * 2, Theme.sliderThickness)
-                : control.availableHeight
-        implicitWidth: control._horizontal ? 200 : width
-        implicitHeight: control._horizontal ? height : 160
 
         // Inactive rail (full span — thin)
         Rectangle {
@@ -289,24 +285,9 @@ T.RangeSlider {
             radius: control._horizontal ? height / 2 : width / 2
             color: control.enabled ? Theme.accent : Theme.textDisabled
 
-            Behavior on width {
-                enabled: control._horizontal && !control.first.pressed && !control.second.pressed
-                         && !Theme.reducedMotion
-                NumberAnimation {
-                    duration: Theme.duration(Theme.motionFast)
-                    easing.type: Theme.easingStandard
-                }
-            }
+            // No horizontal Behavior — keeps fill locked to thumbs
             Behavior on height {
                 enabled: !control._horizontal && !control.first.pressed && !control.second.pressed
-                         && !Theme.reducedMotion
-                NumberAnimation {
-                    duration: Theme.duration(Theme.motionFast)
-                    easing.type: Theme.easingStandard
-                }
-            }
-            Behavior on x {
-                enabled: control._horizontal && !control.first.pressed && !control.second.pressed
                          && !Theme.reducedMotion
                 NumberAnimation {
                     duration: Theme.duration(Theme.motionFast)
@@ -331,12 +312,12 @@ T.RangeSlider {
             delegate: Rectangle {
                 required property int index
                 width: 2
-                height: 6
+                height: 7
                 radius: 1
-                color: Theme.strokeControl
-                opacity: 0.6
+                color: Theme.strokeControlStrong
+                opacity: 1
                 x: trackHost.trackX + trackHost.trackW * control._tickFraction(index) - width / 2
-                y: trackHost.trackY - height - 3
+                y: trackHost.trackY - height - 2
             }
         }
         Repeater {
@@ -346,12 +327,12 @@ T.RangeSlider {
             delegate: Rectangle {
                 required property int index
                 width: 2
-                height: 6
+                height: 7
                 radius: 1
-                color: Theme.strokeControl
-                opacity: 0.6
+                color: Theme.strokeControlStrong
+                opacity: 1
                 x: trackHost.trackX + trackHost.trackW * control._tickFraction(index) - width / 2
-                y: trackHost.trackY + trackHost.trackH + 3
+                y: trackHost.trackY + trackHost.trackH + 2
             }
         }
         Repeater {
@@ -360,12 +341,12 @@ T.RangeSlider {
                    ? control._tickCount : 0
             delegate: Rectangle {
                 required property int index
-                width: 6
+                width: 7
                 height: 2
                 radius: 1
-                color: Theme.strokeControl
-                opacity: 0.6
-                x: trackHost.trackX - width - 4
+                color: Theme.strokeControlStrong
+                opacity: 1
+                x: trackHost.trackX - width - 3
                 y: trackHost.trackY + trackHost.trackH * (1 - control._tickFraction(index)) - height / 2
             }
         }
@@ -375,12 +356,12 @@ T.RangeSlider {
                    ? control._tickCount : 0
             delegate: Rectangle {
                 required property int index
-                width: 6
+                width: 7
                 height: 2
                 radius: 1
-                color: Theme.strokeControl
-                opacity: 0.6
-                x: trackHost.trackX + trackHost.trackW + 4
+                color: Theme.strokeControlStrong
+                opacity: 1
+                x: trackHost.trackX + trackHost.trackW + 3
                 y: trackHost.trackY + trackHost.trackH * (1 - control._tickFraction(index)) - height / 2
             }
         }

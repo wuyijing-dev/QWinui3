@@ -47,6 +47,24 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.19 → 3.20
+
+**Product version:** 3.20  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | Slider / RangeSlider visual fix | None required |
+
+### Optional / polish
+- **Slider / RangeSlider:** track vertically centered with thumb; fill locked to `visualPosition` (no laggy width Behavior)
+- Tick marks use `Theme.strokeControlStrong` at full opacity for readable contrast
+
+### No action (compatible)
+- APIs unchanged
+
 ### Upgrade 3.18 → 3.19
 
 **Product version:** 3.19  

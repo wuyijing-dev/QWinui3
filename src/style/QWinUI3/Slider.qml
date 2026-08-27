@@ -109,6 +109,7 @@ T.Slider {
             color: Theme.fillSliderThumb
             border.width: 1
             border.color: Theme.strokeControl
+            transformOrigin: Item.Center
             scale: control.pressed ? 0.96 : (control.hovered ? 1.12 : 1)
 
             Behavior on scale {
@@ -171,62 +172,54 @@ T.Slider {
     background: Item {
         id: trackHost
 
+        // Match handle's coordinate space so the rail centers on the thumb
+        x: control.leftPadding
+        y: control.topPadding
+        width: control.availableWidth
+        height: control.availableHeight
+        implicitWidth: control._horizontal ? 200 : Theme.sliderThumb + control._sideGutter * 2
+        implicitHeight: control._horizontal ? Theme.sliderThumb + control._tickBand * 2 : 160
+
         readonly property real trackW: control._horizontal
-            ? control.availableWidth - Theme.sliderThumb
+            ? Math.max(0, width - Theme.sliderThumb)
             : Theme.sliderThickness
         readonly property real trackH: control._horizontal
             ? Theme.sliderThickness
-            : control.availableHeight - Theme.sliderThumb
+            : Math.max(0, height - Theme.sliderThumb)
         readonly property real trackX: control._horizontal
             ? Theme.sliderThumb / 2
-            : (control._sideGutter + (parent.width - control._sideGutter * 2 - trackW) / 2)
+            : (control._sideGutter + (width - control._sideGutter * 2 - trackW) / 2)
+        // Same vertical centering as the handle: (availableHeight - size) / 2
         readonly property real trackY: control._horizontal
-            ? control._tickBand + (parent.height - control._tickBand * 2 - trackH) / 2
+            ? (height - trackH) / 2
             : Theme.sliderThumb / 2
-
-        x: control.leftPadding
-        y: control.topPadding
-        width: control._horizontal
-               ? control.availableWidth
-               : Math.max(trackW + control._sideGutter * 2, Theme.sliderThumb)
-        height: control._horizontal
-                ? Math.max(trackH + control._tickBand * 2, Theme.sliderThickness)
-                : control.availableHeight
-        implicitWidth: control._horizontal ? 200 : width
-        implicitHeight: control._horizontal ? height : 160
 
         // Inactive rail (full span — thin)
         Rectangle {
             id: inactiveRail
             x: trackHost.trackX
             y: trackHost.trackY
-            width: control._horizontal ? trackHost.trackW : trackHost.trackW
-            height: control._horizontal ? trackHost.trackH : trackHost.trackH
+            width: trackHost.trackW
+            height: trackHost.trackH
             radius: control._horizontal ? height / 2 : width / 2
             color: Theme.dark ? "#15FFFFFF" : "#0F000000"
         }
 
-        // Active fill
+        // Active fill — ends at thumb center (visualPosition)
         Rectangle {
             id: activeFill
             x: trackHost.trackX + (control._horizontal ? 0 : (trackHost.trackW - width) / 2)
-            y: trackHost.trackY + (control._horizontal ? 0 : trackHost.trackH * (1 - control.position))
+            y: trackHost.trackY + (control._horizontal ? 0 : trackHost.trackH * (1 - control.visualPosition))
             width: control._horizontal
-                   ? Math.max(0, trackHost.trackW * control.position)
+                   ? Math.max(0, trackHost.trackW * control.visualPosition)
                    : control.verticalFillThickness
             height: control._horizontal
                     ? trackHost.trackH
-                    : Math.max(0, trackHost.trackH * control.position)
+                    : Math.max(0, trackHost.trackH * control.visualPosition)
             radius: control._horizontal ? height / 2 : width / 2
             color: control.enabled ? Theme.accent : Theme.textDisabled
 
-            Behavior on width {
-                enabled: control._horizontal && !control.pressed && !Theme.reducedMotion
-                NumberAnimation {
-                    duration: Theme.duration(Theme.motionFast)
-                    easing.type: Theme.easingStandard
-                }
-            }
+            // No width Behavior — keeps fill locked to the thumb (avoids lag / gap)
             Behavior on height {
                 enabled: !control._horizontal && !control.pressed && !Theme.reducedMotion
                 NumberAnimation {
@@ -251,12 +244,12 @@ T.Slider {
             delegate: Rectangle {
                 required property int index
                 width: 2
-                height: 6
+                height: 7
                 radius: 1
-                color: Theme.strokeControl
-                opacity: 0.6
+                color: Theme.strokeControlStrong
+                opacity: 1
                 x: trackHost.trackX + trackHost.trackW * control._tickFraction(index) - width / 2
-                y: trackHost.trackY - height - 3
+                y: trackHost.trackY - height - 2
             }
         }
         Repeater {
@@ -266,12 +259,12 @@ T.Slider {
             delegate: Rectangle {
                 required property int index
                 width: 2
-                height: 6
+                height: 7
                 radius: 1
-                color: Theme.strokeControl
-                opacity: 0.6
+                color: Theme.strokeControlStrong
+                opacity: 1
                 x: trackHost.trackX + trackHost.trackW * control._tickFraction(index) - width / 2
-                y: trackHost.trackY + trackHost.trackH + 3
+                y: trackHost.trackY + trackHost.trackH + 2
             }
         }
         Repeater {
@@ -280,12 +273,12 @@ T.Slider {
                    ? control._tickCount : 0
             delegate: Rectangle {
                 required property int index
-                width: 6
+                width: 7
                 height: 2
                 radius: 1
-                color: Theme.strokeControl
-                opacity: 0.6
-                x: trackHost.trackX - width - 4
+                color: Theme.strokeControlStrong
+                opacity: 1
+                x: trackHost.trackX - width - 3
                 y: trackHost.trackY + trackHost.trackH * (1 - control._tickFraction(index)) - height / 2
             }
         }
@@ -295,12 +288,12 @@ T.Slider {
                    ? control._tickCount : 0
             delegate: Rectangle {
                 required property int index
-                width: 6
+                width: 7
                 height: 2
                 radius: 1
-                color: Theme.strokeControl
-                opacity: 0.6
-                x: trackHost.trackX + trackHost.trackW + 4
+                color: Theme.strokeControlStrong
+                opacity: 1
+                x: trackHost.trackX + trackHost.trackW + 3
                 y: trackHost.trackY + trackHost.trackH * (1 - control._tickFraction(index)) - height / 2
             }
         }
