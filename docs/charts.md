@@ -305,10 +305,11 @@ ChartCard {
 
 ## Performance
 
-- Line / Area: large `values` use **LOD** (`autoLod`, `maxPoints`, `lodFactor`). Prefer mutating data then `invalidateLod()` / `requestRedraw()` over rebuilding the whole control.
+- **Source vs draw (**3.45** H14):** cap live history at the source (`LiveMetricStrip.maxPoints`, `KpiTile.pushTrend`, `ChartSeries.capacity`, `ChartUtils.trimRing`); Canvas still uses **LOD** (`autoLod`, `maxPoints`, `lodFactor`) — defaults unchanged.
+- Line / Area: large `values` use **LOD**. Prefer mutating data then `invalidateLod()` / `requestRedraw()` over rebuilding the whole control.
 - Avoid binding `ChartUtils.makeWave(…)` in property bindings — call from a button or timer once.
 - Prefer `ChartCard` around one chart; do not nest many full-size canvases in a single view without scroll virtualization.
-- Point budgets, live buffers, and Gallery tips: **[performance.md](performance.md) (1.25)**.
+- Point budgets, ring tables, and Gallery tips: **[performance.md](performance.md#source-ring-caps-vs-draw-lod-345-h14)**.
 
 ---
 

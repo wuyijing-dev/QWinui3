@@ -47,6 +47,24 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.44 → 3.45
+
+**Product version:** 3.45  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | Chart ring caps + opt-in downsample (H14) | None — `autoLod` / chart visuals unchanged; `ChartSeries.capacity` defaults to **0** (unlimited) |
+
+### Optional / polish
+- Live series: set `ChartSeries.capacity` or use `ChartUtils.trimRing` / `LiveMetricStrip`
+- See [performance.md](performance.md#source-ring-caps-vs-draw-lod-345-h14)
+
+### No action (compatible)
+- Existing Line/Area/Scatter LOD defaults and KpiTile / LiveMetricStrip caps unchanged
+
 ### Upgrade 3.43 → 3.44
 
 **Product version:** 3.44  

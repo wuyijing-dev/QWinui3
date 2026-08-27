@@ -37,6 +37,7 @@ Related: [data-collections.md](data-collections.md) · [charts.md](charts.md) ·
 | Theme font stacks | Default load builds **UI** stack only; Text / Display face lists resolve on first `textFamilies` / `displayFamilies` (**3.42** H11); density stays formula (no metric pack tables) |
 | List / Tree overscan | Kit lists set `reuseItems` + mild `cacheBuffer` (**3.43** H12) — see [Virtualization](#virtualization) |
 | DataTable ListView roles | Rows use lean `{kind,rowIndex}` wrappers — not fat business objects as model items (**3.44** H13); sort key arrays only for active `sortSpecs` |
+| Chart series buffers | Source ring caps + draw LOD documented; opt-in `ChartSeries.capacity` / `ChartUtils.trimRing` (**3.45** H14) — LOD defaults unchanged |
 | Icon / atlas warm-up | Optional: touch `FluentIcons` / ThemeFonts once after first frame |
 | Page cache | `pageCacheLimit` + `pinnedPageCache` (2.68); avoid compiling all pages at startup |
 | Target budget | Aim for interactive shell **&lt; 1.5 s** on CI Win Release; local desktop **&lt; 2 s** — wave **S10–S17** signed off at **3.40** ([checkpoint-390](checkpoint-390.md#cold-start-sign-off-s10s17--340)) |
@@ -203,20 +204,41 @@ columns: [
 
 Canvas charts redraw when data or size changes. Keep series short and surfaces few.
 
+### Source ring caps vs draw LOD (**3.45** H14)
+
+| Layer | Surface | Default | Notes |
+|-------|---------|---------|-------|
+| Source ring | [`LiveMetricStrip`](components/LiveMetricStrip.md) | `maxPoints: **16**` | `pushSample` drops oldest |
+| Source ring | [`KpiTile`](components/KpiTile.md) `pushTrend` | cap **36** when omitted | Pass an explicit max for denser sparks |
+| Source ring | [`ChartSeries`](components/ChartSeries.md) | `capacity: **0**` (unlimited) | Opt-in: set `capacity` + `append` / `appendXY` |
+| Source ring | JS `values` arrays | — | `ChartUtils.trimRing(values, n)` or slice yourself |
+| Draw LOD | Line / Area | `autoLod: **true**`, `maxPoints: **0**`, `lodFactor: **2**` | Budget ≈ `max(64, plotW × lodFactor)`; `decimateMode: "bucket"` |
+| Draw LOD | Scatter | `autoLod: **true**`, `lodFactor: **1**` | Density bins when over budget |
+| Draw LOD | Sparkline | paint `max(32, width)` | Always downsamples for paint |
+
+**Recipe:** live tick → capped ring (`capacity` / `trimRing` / strip) → assign `values` or bind `ChartSeries` → `invalidateLod()` / `requestRedraw()`. Draw LOD stays on by default so visuals do not change when you only document caps.
+
 | Guidance | Detail |
 |----------|--------|
-| Point budget | Prefer **≤ ~200–500** points per series for interactive Line/Area; downsample history for dashboards |
+| Point budget | Prefer **≤ ~200–500** stored points for interactive Line/Area; let LOD thin further for Canvas |
 | Cards | One chart inside [`ChartCard`](components/ChartCard.md); scroll the page rather than tiling many full canvases |
-| Live updates | Append/trim a capped ring buffer; don’t rebuild a 10k-point array every tick |
+| Live updates | Append/trim a capped ring; don’t rebuild a 10k-point array every tick |
 | Hover | `interactive: true` adds hit-testing cost — turn off on dense static sparkline walls |
 | Stable subset | Production: Line / Bar / Donut / RingGauge / KpiTile / ChartCard — remaining deferred **1.66** — [charts.md](charts.md) |
 
 ```qml
+ChartSeries {
+    id: cpuSeries
+    capacity: 120          // 3.45 — opt-in ring; 0 = unlimited
+}
+Timer {
+    interval: 1000; running: true; repeat: true
+    onTriggered: cpuSeries.append(measuredCpu)
+}
 ChartCard {
     title: qsTr("CPU")
     LineChart {
-        // Keep cpuHistory.length capped (e.g. 120 samples)
-        series: [{ name: qsTr("CPU"), values: cpuHistory }]
+        series: [{ name: qsTr("CPU"), values: cpuSeries }]
     }
 }
 ```

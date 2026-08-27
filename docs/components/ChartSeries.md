@@ -12,6 +12,12 @@ Dense numeric series owned in C++ for million-point charts.
 
 **Extends** `QObject`.
 
+## Notes
+
+Opt-in ring buffer (**3.45** H14): `capacity` **0** = unlimited (default). When `capacity > 0`,
+`append` / `appendXY` / `generateWave` / `generateCloud` drop oldest samples. Draw-time LOD
+(`lod` / chart `autoLod`) is separate — [performance.md](../performance.md#source-ring-caps-vs-draw-lod-345-h14).
+
 ## API
 
 ### Properties
@@ -21,6 +27,7 @@ Dense numeric series owned in C++ for million-point charts.
 | `count` | `int` | — |
 | `length` | `int` | — |
 | `empty` | `bool` | — |
+| `capacity` | `int` | Max retained samples; **0** = unlimited (3.45) |
 | `label` | `QString` | — |
 
 ### Signals
@@ -28,6 +35,7 @@ Dense numeric series owned in C++ for million-point charts.
 | Signature | Description |
 | --- | --- |
 | `dataChanged()` | — |
+| `capacityChanged()` | — |
 | `labelChanged()` | — |
 
 ### Methods
@@ -37,6 +45,8 @@ Dense numeric series owned in C++ for million-point charts.
 | `clear()` | — |
 | `generateWave(int count, qreal seed = 1.7)` | — |
 | `generateCloud(int count, qreal seed = 0.37)` | — |
+| `append(qreal y)` | Append Y; trim to `capacity` when set (3.45) |
+| `appendXY(qreal x, qreal y)` | Append X/Y pair; trim to `capacity` when set (3.45) |
 | `lod(int maxPoints) const)` | — |
 | `densityLod(int binsX, int binsY) const)` | — |
 | `valueAt(int index) const)` | — |
@@ -44,4 +54,4 @@ Dense numeric series owned in C++ for million-point charts.
 | `yAt(int index) const)` | — |
 
 ---
-*Generated from module sources by `scripts/generate_component_docs.py` — do not edit by hand.*
+*Synced with ChartSeries.h for **3.45** H14 — regenerate with `scripts/generate_component_docs.py` when convenient.*

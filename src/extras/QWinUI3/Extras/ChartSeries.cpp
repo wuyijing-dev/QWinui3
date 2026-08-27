@@ -17,6 +17,35 @@ void ChartSeries::setLabel(const QString &label)
     emit labelChanged();
 }
 
+void ChartSeries::setCapacity(int capacity)
+{
+    const int next = qMax(0, capacity);
+    if (m_capacity == next)
+        return;
+    m_capacity = next;
+    emit capacityChanged();
+    if (m_capacity > 0 && m_y.size() > m_capacity) {
+        trimToCapacity();
+        emit dataChanged();
+    }
+}
+
+void ChartSeries::trimToCapacity()
+{
+    if (m_capacity <= 0 || m_y.size() <= m_capacity)
+        return;
+    const int drop = m_y.size() - m_capacity;
+    m_y.remove(0, drop);
+    if (!m_x.isEmpty()) {
+        if (m_x.size() > drop)
+            m_x.remove(0, drop);
+        else
+            m_x.clear();
+        if (m_x.size() != m_y.size())
+            m_x.clear();
+    }
+}
+
 void ChartSeries::clear()
 {
     if (m_x.isEmpty() && m_y.isEmpty())
@@ -25,6 +54,29 @@ void ChartSeries::clear()
     m_y.clear();
     m_x.squeeze();
     m_y.squeeze();
+    emit dataChanged();
+}
+
+void ChartSeries::append(qreal y)
+{
+    if (!m_x.isEmpty())
+        m_x.clear();
+    m_y.append(y);
+    trimToCapacity();
+    emit dataChanged();
+}
+
+void ChartSeries::appendXY(qreal x, qreal y)
+{
+    if (m_x.isEmpty() && !m_y.isEmpty()) {
+        // Promote index-based series to explicit X by filling 0..n-1.
+        m_x.resize(m_y.size());
+        for (int i = 0; i < m_y.size(); ++i)
+            m_x[i] = i;
+    }
+    m_x.append(x);
+    m_y.append(y);
+    trimToCapacity();
     emit dataChanged();
 }
 
@@ -41,6 +93,7 @@ void ChartSeries::generateWave(int count, qreal seed)
                + qCos(t * 0.17) * 8.0
                + ((i * 17) % 23) * 0.15;
     }
+    trimToCapacity();
     emit dataChanged();
 }
 
@@ -56,6 +109,7 @@ void ChartSeries::generateCloud(int count, qreal seed)
         m_y[i] = qCos(i * 0.29) * 30.0 + qSin(i * 0.17) * 18.0 + 40.0
                + ((i * 13) % 11) * 0.4;
     }
+    trimToCapacity();
     emit dataChanged();
 }
 

@@ -4,7 +4,7 @@ LOD helpers for large chart series.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ChartUtils.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ChartUtils.qml)
 
-**Category:** Charts & gauges · **Library:** v2.81 · **singleton**
+**Category:** Charts & gauges · **Library:** v3.10 · **singleton**
 
 [← Component index](../components.md)
 
@@ -61,6 +61,7 @@ _No custom signals_ (use inherited signals from the base type).
 | `histogramBins(values, binCount)` | Histogram bins from a numeric series. Returns [{ from, to, count, value }]. |
 | `extentsXY(points)` | X/Y extents of a point series |
 | `lodBudget(plotWidth, maxPoints, factor)` | Pixel-aware draw budget. Default keeps ~2 samples per horizontal pixel. |
+| `trimRing(values, maxPoints)` | Keep newest `maxPoints` samples (3.45 H14); `maxPoints ≤ 0` returns a full copy |
 | `buildLod(values, maxPoints)` | Prefers ChartSeries.lod (C++) when available. |
 | `downsample(values, maxPoints)` | Back-compat for Sparkline / older call sites. |
 | `douglasPeucker(values, maxPoints)` | Douglas–Peucker for y-series (x = index). Returns ≤ maxPoints samples. |

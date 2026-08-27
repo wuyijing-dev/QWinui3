@@ -5,16 +5,14 @@ import QWinUI3.Theme
 // ChartUtils — LOD helpers for large chart series.
 //
 //   ChartUtils.downsample(values, maxPoints)
+//   ChartUtils.trimRing(values, maxPoints)   // 3.45 H14 — JS array ring
 //
 //   // --- API ---
-//   // methods: asNumber(v, fallback), valueCount(input), valueAt(input, index, fallback), pointX(input, index), pointY(input, index), pointColor(input, index), flattenValues(input), extents(values), extentsXY(points), lodBudget(plotWidth, maxPoints, factor), boxPlotStats(values), paretoRows(values), treemapRects(slices, x, y, w, h), violinWidths(values, binCount)
-//   // chartUtils.asNumber(v, fallback)
-//   // chartUtils.valueCount(input)
-//   // chartUtils.valueAt(input, index, fallback)
-//   // chartUtils.pointX(input, index)
+//   // methods: asNumber(v, fallback), valueCount(input), valueAt(input, index, fallback), pointX(input, index), pointY(input, index), pointColor(input, index), flattenValues(input), extents(values), extentsXY(points), lodBudget(plotWidth, maxPoints, factor), trimRing(values, maxPoints), boxPlotStats(values), paretoRows(values), treemapRects(slices, x, y, w, h), violinWidths(values, binCount)
 //
 // @notes
 //   Internal helpers: downsample, extents, palette, formatNumber (used by chart controls).
+//   Source ring caps (LiveMetricStrip / KpiTile / ChartSeries.capacity) vs draw LOD — docs/performance.md (3.45 H14).
 
 QtObject {
     // Point count that triggers LOD
@@ -223,6 +221,20 @@ QtObject {
             return Math.max(2, Math.floor(maxPoints))
         var f = factor > 0 ? factor : 2
         return Math.max(64, Math.floor(Math.max(1, plotWidth) * f))
+    }
+
+    // 3.45 H14 — opt-in JS ring: keep the newest maxPoints samples (mirrors KpiTile.pushTrend).
+    // Returns a new array; does not mutate input. maxPoints <= 0 returns a shallow copy.
+    function trimRing(values, maxPoints) {
+        var n = valueCount(values)
+        var out = []
+        if (!n)
+            return out
+        var cap = Math.floor(Number(maxPoints) || 0)
+        var start = (cap > 0 && n > cap) ? (n - cap) : 0
+        for (var i = start; i < n; ++i)
+            out.push(valueAt(values, i, 0))
+        return out
     }
 
     // Min/max bucket LOD — one O(n) scan, O(budget) allocation, keeps envelope peaks.
