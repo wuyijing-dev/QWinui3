@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
+import QWinUI3.Extras
 
 // WaffleChart — 10×10 part-to-whole grid.
 //

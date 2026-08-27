@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import QWinUI3.Theme
+import QWinUI3.Extras
 
 // ChartLegend — Fluent legend for series/slices.
 //

@@ -2,7 +2,6 @@
 
 #include <QQuickItem>
 #include <QUrl>
-#include <QtQml/qqmlregistration.h>
 
 #if defined(Q_OS_WIN) && defined(QWINUI3_HAS_WEBVIEW2)
 #  define QWINUI3_WEBVIEW2_IMPL 1
@@ -34,7 +33,6 @@ class QWheelEvent;
 class WebView2Host : public QQuickItem
 {
     Q_OBJECT
-    QML_NAMED_ELEMENT(WebView2Host)
     Q_PROPERTY(QUrl source READ source WRITE setSource NOTIFY sourceChanged)
     Q_PROPERTY(QString documentTitle READ documentTitle NOTIFY documentTitleChanged)
     Q_PROPERTY(bool canGoBack READ canGoBack NOTIFY navigationChanged)
@@ -60,6 +58,8 @@ public:
     static bool sdkBuilt();
     static bool queryRuntimeInstalled();
     static QString evergreenDownloadUrl();
+    // QML-callable runtime probe (no HWND; defers COM until first use — 2.85 S3).
+    Q_INVOKABLE bool checkRuntimeInstalled() const { return queryRuntimeInstalled(); }
     // Default per-process folder under AppLocalDataLocation (multi-exe safe).
     static QString defaultUserDataFolder();
 
@@ -119,6 +119,8 @@ private:
     void bindWindow(QQuickWindow *win);
     void unbindWindow();
     void applyBrowserFocus(bool wantFocus);
+    void probeRuntimeIfNeeded();
+    bool shouldActivateHost() const;
 
     QUrl m_source{QStringLiteral("https://www.microsoft.com/edge/webview")};
     QString m_userDataFolder; // empty → defaultUserDataFolder() at env create
@@ -128,6 +130,7 @@ private:
     bool m_canGoForward = false;
     bool m_loading = false;
     bool m_completed = false;
+    bool m_runtimeProbed = false;
     bool m_runtimeInstalled = false;
     bool m_ready = false;
     QMetaObject::Connection m_frameConn;

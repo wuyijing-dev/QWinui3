@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
+import QWinUI3.Extras
 
 // HistogramChart — Frequency bins from a numeric series.
 //
@@ -12,7 +13,7 @@ import QWinUI3.Theme
 //
 // @notes
 //   Experimental. Uses ChartUtils.histogramBins then draws as columns.
-//   Prefer BarChart when bins are already computed.
+//   Prefer BarChart { samples; binCount } (3.06) for product apps — same bins, stable chrome.
 
 T.Control {
     id: root

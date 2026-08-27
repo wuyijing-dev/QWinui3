@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
+import QWinUI3.Extras
 
 // TreemapChart — Nested slice-and-dice treemap.
 //
@@ -46,6 +47,21 @@ T.Control {
     }
     readonly property bool isEmpty: _slices.length === 0
     property var _rects: []
+
+    Timer {
+        id: redrawCoalesce
+        interval: ChartUtils.redrawCoalesceMs
+        repeat: false
+        onTriggered: canvas.requestPaint()
+    }
+
+    function requestRedraw() { redrawCoalesce.restart() }
+
+    onSlicesChanged: requestRedraw()
+    onValuesChanged: requestRedraw()
+    onHoverIndexChanged: requestRedraw()
+    onWidthChanged: requestRedraw()
+    onHeightChanged: requestRedraw()
 
     contentItem: ColumnLayout {
         spacing: 6
@@ -113,11 +129,11 @@ T.Control {
                 }
                 onPositionChanged: function (mouse) {
                     root.hoverIndex = hit(mouse.x, mouse.y)
-                    canvas.requestPaint()
+                    root.requestRedraw()
                 }
                 onExited: {
                     root.hoverIndex = -1
-                    canvas.requestPaint()
+                    root.requestRedraw()
                 }
                 onClicked: function (mouse) {
                     var idx = hit(mouse.x, mouse.y)

@@ -2,9 +2,9 @@
 
 HWND-backed Edge WebView2 under a QQuickItem (Windows only).
 
-`import QWinUI3.Platform` · [`src/platform/QWinUI3/Platform/WebView2Host.h`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/platform/QWinUI3/Platform/WebView2Host.h)
+`import QWinUI3.Platform.WebView2` · [`src/platform/QWinUI3/Platform/WebView2Host.h`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/platform/QWinUI3/Platform/WebView2Host.h)
 
-**Category:** Platform · **Library:** v2.81 · **C++ type**
+**Category:** Platform · **Library:** v3.10 · **C++ type**
 
 [← Component index](../components.md)
 
@@ -69,6 +69,7 @@ Stable (1.18): Windows + Evergreen Runtime; see docs/webview2.md soak checklist.
 
 | Signature | Description |
 | --- | --- |
+| `checkRuntimeInstalled() const)` | — |
 | `reload()` | — |
 | `stop()` | — |
 | `goBack()` | — |

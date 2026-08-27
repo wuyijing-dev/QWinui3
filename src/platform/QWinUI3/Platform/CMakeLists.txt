@@ -68,7 +68,6 @@ qt_add_qml_module(qwinui3_platform
         WindowHelper.h
         FilePicker.h
         TrayIcon.h
-        WebView2Host.h
         Bootstrap.h
         SingleInstance.h
         FrameStatsMonitor.h
@@ -136,4 +135,27 @@ target_include_directories(qwinui3_platform
 target_compile_definitions(qwinui3_platform
     PRIVATE
         "QWINUI3_VERSION_STRING=\"${QWINUI3_VERSION}\""
+)
+
+# --- QWinUI3.Platform.WebView2 (3.35 S12) — not imported by StandardWindow ---
+qt_add_library(qwinui3_platform_webview2 ${QWINUI3_LIB_TYPE})
+get_target_property(_qwinui3_platform_qml_out qwinui3_platform QT_QML_MODULE_OUTPUT_DIRECTORY)
+if(NOT _qwinui3_platform_qml_out)
+    set(_qwinui3_platform_qml_out "${CMAKE_CURRENT_BINARY_DIR}")
+endif()
+
+qt_add_qml_module(qwinui3_platform_webview2
+    URI QWinUI3.Platform.WebView2
+    VERSION 1.0
+    OUTPUT_DIRECTORY "${_qwinui3_platform_qml_out}/WebView2"
+    SOURCES
+        WebView2Host_qml.h
+    IMPORTS
+        TARGET qwinui3_platform
+)
+
+target_link_libraries(qwinui3_platform_webview2
+    PUBLIC
+        Qt6::Quick
+        qwinui3_platform
 )

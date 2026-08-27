@@ -4,6 +4,7 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 import QWinUI3.Platform
+import QWinUI3.Platform.WebView2
 
 // Gallery — WebView2Host. Recipe: docs/webview2.md
 

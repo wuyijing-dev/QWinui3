@@ -3,6 +3,7 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
+import QWinUI3.Extras.Osk
 import QWinUI3.Platform
 
 // Copy-ready embedded OSK dock host (2.58). Recipe: docs/osk-in-apps-258.md

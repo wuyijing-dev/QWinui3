@@ -47,6 +47,27 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.34 → 3.35
+
+**Product version:** 3.35  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| Charts | `LineChart` / `BarChart` / `ChartSeries` / … moved to `QWinUI3.Extras.Charts` | Add `import QWinUI3.Extras.Charts`. Static apps also `QWINUI3_IMPORT_QML_PLUGINS_CHARTS` + link `qwinui3_extras_chartsplugin` |
+| OSK | `OnScreenKeyboard` / `KeyboardEngine` moved to `QWinUI3.Extras.Osk` | Add `import QWinUI3.Extras.Osk`. Static: `QWINUI3_IMPORT_QML_PLUGINS_OSK` + `qwinui3_extras_oskplugin` |
+| WebView2 | `WebView2Host` moved to `QWinUI3.Platform.WebView2` | Add `import QWinUI3.Platform.WebView2`. Static: `QWINUI3_IMPORT_QML_PLUGINS_WEBVIEW2` + `qwinui3_platform_webview2plugin` |
+
+`QWINUI3_IMPORT_QML_PLUGINS` still loads style + theme + extras + platform only (nav/shell cold path). Sparkline, ChartCard, KpiTile, ChartUtils, and gauges stay on `QWinUI3.Extras`.
+
+### Optional / polish
+- Default Bootstrap no longer registers chart, OSK, or WebView2 C++ types before first import of those modules
+
+### No action (compatible)
+- Apps that never instantiate charts / OSK / WebView2 — no import or plugin changes
+
 ### Upgrade 3.33 → 3.34
 
 **Product version:** 3.34  

@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
+import QWinUI3.Extras
 
 // LollipopChart — Stem-and-marker chart (compact bar alternative).
 //
@@ -33,6 +34,23 @@ T.Control {
     padding: 8
     readonly property var _vals: ChartUtils.flattenValues(values)
     readonly property bool isEmpty: _vals.length === 0
+
+    Timer {
+        id: redrawCoalesce
+        interval: ChartUtils.redrawCoalesceMs
+        repeat: false
+        onTriggered: canvas.requestPaint()
+    }
+
+    function requestRedraw() { redrawCoalesce.restart() }
+
+    onValuesChanged: requestRedraw()
+    onLabelsChanged: requestRedraw()
+    onHorizontalChanged: requestRedraw()
+    onFillColorChanged: requestRedraw()
+    onHoverIndexChanged: requestRedraw()
+    onWidthChanged: requestRedraw()
+    onHeightChanged: requestRedraw()
 
     contentItem: ColumnLayout {
         spacing: 6
@@ -138,9 +156,9 @@ T.Control {
                               ? Math.floor(mouse.y / Math.max(1, height / n))
                               : Math.floor(mouse.x / Math.max(1, width / n))
                     root.hoverIndex = (idx >= 0 && idx < n) ? idx : -1
-                    canvas.requestPaint()
+                    root.requestRedraw()
                 }
-                onExited: { root.hoverIndex = -1; canvas.requestPaint() }
+                onExited: { root.hoverIndex = -1; root.requestRedraw() }
             }
         }
     }

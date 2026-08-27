@@ -3,6 +3,7 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
+import QWinUI3.Extras.Charts
 
 // Gallery — HistogramChart.
 

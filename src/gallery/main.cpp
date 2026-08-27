@@ -20,6 +20,9 @@
 #include "ThemeFonts.h"
 
 QWINUI3_IMPORT_QML_PLUGINS
+QWINUI3_IMPORT_QML_PLUGINS_CHARTS
+QWINUI3_IMPORT_QML_PLUGINS_OSK
+QWINUI3_IMPORT_QML_PLUGINS_WEBVIEW2
 
 static bool hasArg(int argc, char *argv[], const char *flag)
 {

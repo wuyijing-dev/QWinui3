@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
+import QWinUI3.Extras
 
 // CandlestickChart — OHLC candlesticks for professional price series.
 //
@@ -39,6 +40,23 @@ T.Control {
     padding: 8
 
     readonly property bool isEmpty: !(candles && candles.length)
+
+    Timer {
+        id: redrawCoalesce
+        interval: ChartUtils.redrawCoalesceMs
+        repeat: false
+        onTriggered: canvas.requestPaint()
+    }
+
+    function requestRedraw() { redrawCoalesce.restart() }
+
+    onCandlesChanged: requestRedraw()
+    onUpColorChanged: requestRedraw()
+    onDownColorChanged: requestRedraw()
+    onShowVolumeChanged: requestRedraw()
+    onHoverIndexChanged: requestRedraw()
+    onWidthChanged: requestRedraw()
+    onHeightChanged: requestRedraw()
 
     contentItem: ColumnLayout {
         spacing: 6
@@ -158,11 +176,11 @@ T.Control {
                     var plotW = width - padL - padR
                     var idx = Math.floor((mouse.x - padL) / (plotW / n))
                     root.hoverIndex = (idx >= 0 && idx < n) ? idx : -1
-                    canvas.requestPaint()
+                    root.requestRedraw()
                 }
                 onExited: {
                     root.hoverIndex = -1
-                    canvas.requestPaint()
+                    root.requestRedraw()
                 }
             }
         }

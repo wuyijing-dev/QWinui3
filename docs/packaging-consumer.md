@@ -158,6 +158,7 @@ Prefer the **one-call bootstrap** from `qwinui3_platform` (`Bootstrap.h`):
 #include "Bootstrap.h"
 
 QWINUI3_IMPORT_QML_PLUGINS
+// Charts / OSK / WebView2: QWINUI3_IMPORT_QML_PLUGINS_CHARTS / _OSK / _WEBVIEW2 (3.35)
 
 int main(int argc, char *argv[])
 {

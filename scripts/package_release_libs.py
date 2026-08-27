@@ -11,6 +11,8 @@ Select modules on demand with --modules / --preset (dependencies are pulled in):
   python scripts/package_release_libs.py --shared --modules theme,style
   python scripts/package_release_libs.py --shared --preset core --archive
   python scripts/package_release_libs.py --shared --preset shell --webview2 off
+  python scripts/package_release_libs.py --shared --preset dashboard --archive
+  python scripts/package_release_libs.py --shared --preset charts-lite --archive
 
 Requires: cmake, a Qt 6.8+ kit on CMAKE_PREFIX_PATH / Qt6_DIR / PATH.
 """
@@ -51,13 +53,13 @@ MODULES: dict[str, dict] = {
         "target": "qwinui3_platform",
         "qml": ("QWinUI3/Platform",),
         "depends": ("theme",),
-        "lib_stems": ("qwinui3_platform",),
+        "lib_stems": ("qwinui3_platform", "qwinui3_platform_webview2"),
     },
     "extras": {
         "target": "qwinui3_extras",
         "qml": ("QWinUI3/Extras",),
         "depends": ("theme", "platform"),
-        "lib_stems": ("qwinui3_extras",),
+        "lib_stems": ("qwinui3_extras", "qwinui3_extras_charts", "qwinui3_extras_osk"),
     },
 }
 
@@ -70,9 +72,55 @@ PRESETS: dict[str, tuple[str, ...]] = {
     "core": ("theme", "style"),
     "shell": ("theme", "style", "platform"),
     "extras": ("theme", "extras"),  # + platform via extras CMake deps
+    # 2.86 K1 — dashboard recipe: stable six + hosts (Extras QML trimmed post-copy).
+    "dashboard": ("theme", "style", "platform", "extras"),
+    # 2.86 K2 — embed dashboards: charts + KPI shell only.
+    "charts-lite": ("theme", "style", "platform", "extras"),
     "theme": ("theme",),
     "style": ("theme", "style"),
     "platform": ("theme", "platform"),
+}
+
+# Preset → Extras QML allowlist (None = ship full Extras tree).
+PRESET_EXTRAS_SUBSET: dict[str, str | None] = {
+    "dashboard": "dashboard",
+    "charts-lite": "charts-lite",
+}
+
+# QML basenames kept under QWinUI3/Extras for subset presets (2.86).
+EXTRAS_QML_SUBSETS: dict[str, frozenset[str]] = {
+    "dashboard": frozenset({
+        "DashboardShell.qml",
+        "MetricCompareRow.qml",
+        "LiveMetricStrip.qml",
+        "RingGauge.qml",
+        "ChartUtils.qml",
+        "KpiTile.qml",
+        "ChartCard.qml",
+        "Sparkline.qml",  # KpiTile inline trend
+        "TwoPaneView.qml",  # DashboardShell filter rail
+    }),
+    "charts-lite": frozenset({
+        "ChartCard.qml",
+        "KpiTile.qml",
+        "Sparkline.qml",
+        "ChartUtils.qml",
+    }),
+}
+
+# Nested QWinUI3.Extras.Charts QML kept for subset presets (3.35).
+CHARTS_QML_SUBSETS: dict[str, frozenset[str]] = {
+    "dashboard": frozenset({
+        "LineChart.qml",
+        "BarChart.qml",
+        "DonutChart.qml",
+        "ChartEmptyState.qml",
+    }),
+    "charts-lite": frozenset({
+        "LineChart.qml",
+        "BarChart.qml",
+        "DonutChart.qml",
+    }),
 }
 
 
@@ -221,7 +269,63 @@ def _strip_qrc_prefer_from_qmldir(module_root: Path) -> None:
         qmldir.write_text(updated, encoding="utf-8", newline="\n")
 
 
-def _collect_files(build_dir: Path, out_dir: Path, modules: list[str]) -> list[Path]:
+def _filter_extras_qml_subset(extras_root: Path, subset_key: str) -> None:
+    """Drop Extras QML not in the preset allowlist; trim qmldir type lines (2.86)."""
+    allowed = EXTRAS_QML_SUBSETS.get(subset_key)
+    if not allowed:
+        return
+    removed = 0
+    for path in list(extras_root.glob("*.qml")):
+        if path.name not in allowed:
+            path.unlink(missing_ok=True)
+            removed += 1
+    qmldir = extras_root / "qmldir"
+    if qmldir.is_file():
+        kept: list[str] = []
+        for line in qmldir.read_text(encoding="utf-8").splitlines():
+            parts = line.split()
+            if len(parts) >= 3 and parts[-1].endswith(".qml"):
+                if parts[-1] in allowed:
+                    kept.append(line)
+            else:
+                kept.append(line)
+        qmldir.write_text("\n".join(kept).rstrip() + "\n", encoding="utf-8", newline="\n")
+    print(
+        f"Extras subset {subset_key!r}: kept {len(allowed)} QML types, removed {removed} files",
+        flush=True,
+    )
+    charts_root = extras_root / "Charts"
+    charts_allowed = CHARTS_QML_SUBSETS.get(subset_key)
+    if charts_root.is_dir() and charts_allowed:
+        cremoved = 0
+        for path in list(charts_root.glob("*.qml")):
+            if path.name not in charts_allowed:
+                path.unlink(missing_ok=True)
+                cremoved += 1
+        cqmldir = charts_root / "qmldir"
+        if cqmldir.is_file():
+            kept_c: list[str] = []
+            for line in cqmldir.read_text(encoding="utf-8").splitlines():
+                parts = line.split()
+                if len(parts) >= 3 and parts[-1].endswith(".qml"):
+                    if parts[-1] in charts_allowed:
+                        kept_c.append(line)
+                else:
+                    kept_c.append(line)
+            cqmldir.write_text("\n".join(kept_c).rstrip() + "\n", encoding="utf-8", newline="\n")
+        print(
+            f"Extras.Charts subset {subset_key!r}: kept {len(charts_allowed)} types, removed {cremoved} files",
+            flush=True,
+        )
+    osk_root = extras_root / "Osk"
+    if osk_root.is_dir() and subset_key in ("dashboard", "charts-lite"):
+        shutil.rmtree(osk_root, ignore_errors=True)
+        print(f"Extras subset {subset_key!r}: dropped Osk tree", flush=True)
+
+
+def _collect_files(
+    build_dir: Path, out_dir: Path, modules: list[str], *, preset: str | None = None
+) -> list[Path]:
     lib_dir = out_dir / "lib"
     qml_dir = out_dir / "qml"
     bin_dir = out_dir / "bin"
@@ -353,6 +457,10 @@ def _collect_files(build_dir: Path, out_dir: Path, modules: list[str]) -> list[P
                     else:
                         child.unlink(missing_ok=True)
         _strip_qrc_prefer_from_qmldir(dest_root)
+        if module_rel == "QWinUI3/Extras" and preset:
+            subset = PRESET_EXTRAS_SUBSET.get(preset.strip().lower())
+            if subset:
+                _filter_extras_qml_subset(dest_root, subset)
         copied.append(dest_root)
 
     return copied
@@ -584,7 +692,9 @@ def main() -> int:
             print(f"  {name:10} target={info['target']}  depends={deps}")
         print("\nPresets:")
         for name, mods in sorted(PRESETS.items()):
-            print(f"  {name:10} -> {', '.join(mods)}")
+            subset = PRESET_EXTRAS_SUBSET.get(name)
+            extra = f"  extras-subset={subset}" if subset else ""
+            print(f"  {name:12} -> {', '.join(mods)}{extra}")
 
         return 0
 
@@ -629,7 +739,7 @@ def main() -> int:
         shutil.rmtree(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    copied = _collect_files(build_dir, out_dir, modules)
+    copied = _collect_files(build_dir, out_dir, modules, preset=args.preset)
     copied.extend(_write_public_headers(out_dir, modules))
     copied.extend(_write_cmake_package(out_dir, version))
     _write_readme(

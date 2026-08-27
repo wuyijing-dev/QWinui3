@@ -10,6 +10,7 @@ qt_add_qml_module(qwinui3_example_osk_dock
     IMPORTS
         TARGET qwinui3_theme
         TARGET qwinui3_extras
+        TARGET qwinui3_extras_osk
         TARGET qwinui3_platform
 )
 
@@ -20,6 +21,7 @@ target_link_libraries(qwinui3_example_osk_dock
         qwinui3_theme
         qwinui3_style
         qwinui3_extras
+        qwinui3_extras_osk
         qwinui3_platform
 )
 
@@ -29,6 +31,7 @@ if(NOT QWINUI3_BUILD_SHARED)
             qwinui3_themeplugin
             qwinui3_styleplugin
             qwinui3_extrasplugin
+            qwinui3_extras_oskplugin
             qwinui3_platformplugin
     )
 endif()

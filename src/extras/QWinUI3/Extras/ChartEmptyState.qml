@@ -3,6 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
+import QWinUI3.Extras
 
 // ChartEmptyState — Fluent empty / loading / error placeholder for ChartCard (2.65).
 //

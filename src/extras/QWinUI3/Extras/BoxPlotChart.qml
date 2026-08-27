@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Templates as T
 import QWinUI3.Theme
+import QWinUI3.Extras
 
 // BoxPlotChart — Tukey box-and-whisker groups.
 //
@@ -56,6 +57,20 @@ T.Control {
         return out
     }
     readonly property bool isEmpty: _stats.length === 0
+
+    Timer {
+        id: redrawCoalesce
+        interval: ChartUtils.redrawCoalesceMs
+        repeat: false
+        onTriggered: canvas.requestPaint()
+    }
+
+    function requestRedraw() { redrawCoalesce.restart() }
+
+    onGroupsChanged: requestRedraw()
+    onHoverIndexChanged: requestRedraw()
+    onWidthChanged: requestRedraw()
+    onHeightChanged: requestRedraw()
 
     contentItem: ColumnLayout {
         spacing: 6
@@ -163,11 +178,11 @@ T.Control {
                     var n = root._stats.length
                     var idx = Math.floor(mouse.x / Math.max(1, width / n))
                     root.hoverIndex = (idx >= 0 && idx < n) ? idx : -1
-                    canvas.requestPaint()
+                    root.requestRedraw()
                 }
                 onExited: {
                     root.hoverIndex = -1
-                    canvas.requestPaint()
+                    root.requestRedraw()
                 }
             }
         }

@@ -51,23 +51,6 @@ set(QWINUI3_HAS_MEDIA ${QWINUI3_HAS_MEDIA} PARENT_SCOPE)
 qt_add_qml_module(qwinui3_extras
     URI QWinUI3.Extras
     VERSION 1.0
-    SOURCES
-        ChartSeries.h
-        ChartSeries.cpp
-        KeyboardEngine.h
-        KeyboardEngine.cpp
-        PinyinLexicon.h
-        PinyinLexicon.cpp
-        OskUserLexicon.h
-        OskUserLexicon.cpp
-        OskSpeechService.h
-        OskSpeechService.cpp
-        OskHandwritingService.h
-        OskHandwritingService.cpp
-        HangulComposer.h
-        HangulComposer.cpp
-        RomajiKana.h
-        RomajiKana.cpp
     QML_FILES
         AccentButton.qml
         AcrylicSurface.qml
@@ -128,12 +111,7 @@ qt_add_qml_module(qwinui3_extras
         HeaderedComboBox.qml
         HyperlinkButton.qml
         IconButton.qml
-        ImeCandidateBar.qml
-        OskHandwritingPad.qml
-        OskPanelButton.qml
         PanelFloatHost.qml
-        OskSettingsFlyout.qml
-        OskVoiceBar.qml
         IconicButton.qml
         InfoBadge.qml
         InfoBar.qml
@@ -159,36 +137,7 @@ qt_add_qml_module(qwinui3_extras
         MatchHighlightText.qml
         MeterBar.qml
         Sparkline.qml
-        LineChart.qml
-        AreaChart.qml
-        BarChart.qml
-        HorizontalBarChart.qml
-        StackedBarChart.qml
-        DonutChart.qml
-        PieChart.qml
-        ScatterChart.qml
-        HeatmapChart.qml
-        RadarChart.qml
-        WaterfallChart.qml
-        BulletChart.qml
-        ComboChart.qml
-        FunnelChart.qml
-        CandlestickChart.qml
-        HistogramChart.qml
-        BoxPlotChart.qml
-        ParetoChart.qml
-        BandChart.qml
-        TreemapChart.qml
-        PolarAreaChart.qml
-        ViolinChart.qml
-        ErrorBarChart.qml
-        WaffleChart.qml
-        LollipopChart.qml
-        DumbbellChart.qml
-        SunburstChart.qml
         ChartCard.qml
-        ChartEmptyState.qml
-        ChartLegend.qml
         ChartUtils.qml
         FeedbackSeverity.qml
         MetricCompareRow.qml
@@ -197,8 +146,6 @@ qt_add_qml_module(qwinui3_extras
         NavigationView.qml
         NumberBox.qml
         OfflineBanner.qml
-        OnScreenKeyboard.qml
-        OnScreenKeyboardWindow.qml
         OperationRetry.qml
         PasswordBox.qml
         PermissionGate.qml
@@ -339,7 +286,117 @@ target_link_libraries(qwinui3_extras
         qwinui3_qtcompat
 )
 
-qt_add_resources(qwinui3_extras "qwinui3_pinyin_lexicon"
+if(QWINUI3_HAS_MEDIA)
+    target_link_libraries(qwinui3_extras PUBLIC Qt6::Multimedia)
+    if(TARGET Qt6::MultimediaQuick)
+        target_link_libraries(qwinui3_extras PUBLIC Qt6::MultimediaQuick)
+    endif()
+endif()
+
+# --- QWinUI3.Extras.Charts (3.35 S12) — imported only when charts are used ---
+qt_add_library(qwinui3_extras_charts ${QWINUI3_LIB_TYPE})
+get_target_property(_qwinui3_extras_qml_out qwinui3_extras QT_QML_MODULE_OUTPUT_DIRECTORY)
+if(NOT _qwinui3_extras_qml_out)
+    set(_qwinui3_extras_qml_out "${CMAKE_CURRENT_BINARY_DIR}")
+endif()
+
+qt_add_qml_module(qwinui3_extras_charts
+    URI QWinUI3.Extras.Charts
+    VERSION 1.0
+    OUTPUT_DIRECTORY "${_qwinui3_extras_qml_out}/Charts"
+    SOURCES
+        ChartSeries.h
+        ChartSeries.cpp
+    QML_FILES
+        LineChart.qml
+        AreaChart.qml
+        BarChart.qml
+        HorizontalBarChart.qml
+        StackedBarChart.qml
+        DonutChart.qml
+        PieChart.qml
+        ScatterChart.qml
+        HeatmapChart.qml
+        RadarChart.qml
+        WaterfallChart.qml
+        BulletChart.qml
+        ComboChart.qml
+        FunnelChart.qml
+        CandlestickChart.qml
+        HistogramChart.qml
+        BoxPlotChart.qml
+        ParetoChart.qml
+        BandChart.qml
+        TreemapChart.qml
+        PolarAreaChart.qml
+        ViolinChart.qml
+        ErrorBarChart.qml
+        WaffleChart.qml
+        LollipopChart.qml
+        DumbbellChart.qml
+        SunburstChart.qml
+        ChartEmptyState.qml
+        ChartLegend.qml
+    IMPORTS
+        TARGET qwinui3_theme
+        TARGET qwinui3_extras
+)
+
+target_link_libraries(qwinui3_extras_charts
+    PUBLIC
+        Qt6::Quick
+        qwinui3_extras
+        qwinui3_theme
+        qwinui3_qtcompat
+)
+
+# --- QWinUI3.Extras.Osk (3.35 S12) — Keyman / IME / floating keyboard ---
+qt_add_library(qwinui3_extras_osk ${QWINUI3_LIB_TYPE})
+
+qt_add_qml_module(qwinui3_extras_osk
+    URI QWinUI3.Extras.Osk
+    VERSION 1.0
+    OUTPUT_DIRECTORY "${_qwinui3_extras_qml_out}/Osk"
+    SOURCES
+        KeyboardEngine.h
+        KeyboardEngine.cpp
+        PinyinLexicon.h
+        PinyinLexicon.cpp
+        OskUserLexicon.h
+        OskUserLexicon.cpp
+        OskSpeechService.h
+        OskSpeechService.cpp
+        OskHandwritingService.h
+        OskHandwritingService.cpp
+        HangulComposer.h
+        HangulComposer.cpp
+        RomajiKana.h
+        RomajiKana.cpp
+    QML_FILES
+        ImeCandidateBar.qml
+        OskHandwritingPad.qml
+        OskPanelButton.qml
+        OskSettingsFlyout.qml
+        OskVoiceBar.qml
+        OnScreenKeyboard.qml
+        OnScreenKeyboardWindow.qml
+    IMPORTS
+        TARGET qwinui3_theme
+        TARGET qwinui3_extras
+        TARGET qwinui3_platform
+)
+
+target_link_libraries(qwinui3_extras_osk
+    PUBLIC
+        Qt6::Quick
+        Qt6::QuickControls2
+        qwinui3_extras
+        qwinui3_theme
+        qwinui3_platform
+        qwinui3_qtcompat
+)
+
+qt_add_resources(qwinui3_extras_osk "qwinui3_pinyin_lexicon"
     PREFIX "/QWinUI3"
     FILES
         keyboards/pinyin_lexicon.tsv
@@ -347,21 +404,21 @@ qt_add_resources(qwinui3_extras "qwinui3_pinyin_lexicon"
 )
 
 if(WIN32)
-    target_link_libraries(qwinui3_extras PRIVATE user32 ole32 oleaut32 uuid sapi)
+    target_link_libraries(qwinui3_extras_osk PRIVATE user32 ole32 oleaut32 uuid sapi)
 endif()
 
 if(QWINUI3_HAS_MEDIA)
-    target_link_libraries(qwinui3_extras PUBLIC Qt6::Multimedia)
-    target_compile_definitions(qwinui3_extras PRIVATE QWINUI3_OSK_MULTIMEDIA=1)
+    target_link_libraries(qwinui3_extras_osk PUBLIC Qt6::Multimedia)
+    target_compile_definitions(qwinui3_extras_osk PRIVATE QWINUI3_OSK_MULTIMEDIA=1)
     if(TARGET Qt6::MultimediaQuick)
-        target_link_libraries(qwinui3_extras PUBLIC Qt6::MultimediaQuick)
+        target_link_libraries(qwinui3_extras_osk PUBLIC Qt6::MultimediaQuick)
     endif()
 endif()
 
 if(QWINUI3_HAVE_KEYMAN)
-    target_link_libraries(qwinui3_extras PUBLIC qwinui3_keymancore)
-    target_compile_definitions(qwinui3_extras PUBLIC QWINUI3_HAVE_KEYMAN=1)
-    qt_add_resources(qwinui3_extras "qwinui3_keyman_keyboards"
+    target_link_libraries(qwinui3_extras_osk PUBLIC qwinui3_keymancore)
+    target_compile_definitions(qwinui3_extras_osk PUBLIC QWINUI3_HAVE_KEYMAN=1)
+    qt_add_resources(qwinui3_extras_osk "qwinui3_keyman_keyboards"
         PREFIX "/QWinUI3"
         FILES
             keyboards/basic_kbdus.kmx

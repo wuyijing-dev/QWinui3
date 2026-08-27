@@ -24,13 +24,27 @@
 
 #include <QtQml/QQmlExtensionPlugin>
 
-/// Static-link / plugin import for all QWinUI3 QML modules (style + theme + extras + platform).
+/// Static-link / plugin import for the **shell** QML modules (style + theme + extras + platform).
+/// Charts, OSK, and WebView2 are **not** included — import those plugins only when the app
+/// uses `QWinUI3.Extras.Charts`, `QWinUI3.Extras.Osk`, or `QWinUI3.Platform.WebView2` (3.35 S12).
 #ifndef QWINUI3_IMPORT_QML_PLUGINS
 #  define QWINUI3_IMPORT_QML_PLUGINS \
       Q_IMPORT_QML_PLUGIN(QWinUI3Plugin) \
       Q_IMPORT_QML_PLUGIN(QWinUI3_ThemePlugin) \
       Q_IMPORT_QML_PLUGIN(QWinUI3_ExtrasPlugin) \
       Q_IMPORT_QML_PLUGIN(QWinUI3_PlatformPlugin)
+#endif
+#ifndef QWINUI3_IMPORT_QML_PLUGINS_CHARTS
+#  define QWINUI3_IMPORT_QML_PLUGINS_CHARTS \
+      Q_IMPORT_QML_PLUGIN(QWinUI3_Extras_ChartsPlugin)
+#endif
+#ifndef QWINUI3_IMPORT_QML_PLUGINS_OSK
+#  define QWINUI3_IMPORT_QML_PLUGINS_OSK \
+      Q_IMPORT_QML_PLUGIN(QWinUI3_Extras_OskPlugin)
+#endif
+#ifndef QWINUI3_IMPORT_QML_PLUGINS_WEBVIEW2
+#  define QWINUI3_IMPORT_QML_PLUGINS_WEBVIEW2 \
+      Q_IMPORT_QML_PLUGIN(QWinUI3_Platform_WebView2Plugin)
 #endif
 
 namespace QWinUI3 {

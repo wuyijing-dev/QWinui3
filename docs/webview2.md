@@ -44,6 +44,7 @@ Non-Windows builds always expose a stub `WebView2Host` with `available === false
 
 ```qml
 import QWinUI3.Platform
+import QWinUI3.Platform.WebView2
 
 Item {
     clip: true   // required so ScrollView / overlapping panes don't leak HWND pixels

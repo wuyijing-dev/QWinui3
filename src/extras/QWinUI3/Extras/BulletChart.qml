@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
+import QWinUI3.Extras
 
 // BulletChart — Compact KPI bullet (ranges + performance + target).
 //

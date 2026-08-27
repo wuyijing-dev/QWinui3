@@ -6,6 +6,7 @@
 #include "Bootstrap.h"
 
 QWINUI3_IMPORT_QML_PLUGINS
+QWINUI3_IMPORT_QML_PLUGINS_OSK
 
 int main(int argc, char *argv[])
 {

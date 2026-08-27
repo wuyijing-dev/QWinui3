@@ -315,7 +315,10 @@ target_link_libraries(qwinui3_gallery
         qwinui3_theme
         qwinui3_style
         qwinui3_extras
+        qwinui3_extras_charts
+        qwinui3_extras_osk
         qwinui3_platform
+        qwinui3_platform_webview2
 )
 
 if(NOT QWINUI3_BUILD_SHARED)
@@ -324,7 +327,10 @@ if(NOT QWINUI3_BUILD_SHARED)
             qwinui3_themeplugin
             qwinui3_styleplugin
             qwinui3_extrasplugin
+            qwinui3_extras_chartsplugin
+            qwinui3_extras_oskplugin
             qwinui3_platformplugin
+            qwinui3_platform_webview2plugin
     )
 endif()
 

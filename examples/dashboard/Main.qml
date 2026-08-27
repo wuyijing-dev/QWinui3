@@ -3,10 +3,11 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
+import QWinUI3.Extras.Charts
 import QWinUI3.Platform
 
-// Dashboard example — DashboardShell + stable six (2.65).
-// Recipe: docs/charts.md
+// Dashboard example — DashboardShell + LiveMetricStrip (3.05) + stable six.
+// Recipe: docs/charts.md · docs/app-platform-3xx.md
 
 StandardWindow {
     id: window
@@ -19,9 +20,6 @@ StandardWindow {
     property real cpu: 64
     property real mem: 71
     property real latency: 42
-    property var cpuTrend: [52, 55, 58, 54, 60, 62, 59, 61, 64]
-    property var memTrend: [68, 69, 70, 71, 70, 72, 71, 73, 71]
-    property var latTrend: [48, 44, 46, 42, 40, 43, 41, 39, 42]
     property var utilSeries: [
         { name: qsTr("CPU"), color: Theme.accent, values: [40, 48, 52, 55, 60, 58, 62, 64] },
         { name: qsTr("Mem"), color: Theme.systemCaution, values: [60, 62, 65, 68, 70, 69, 71, 71] }
@@ -37,20 +35,6 @@ StandardWindow {
     }
 
     Timer {
-        interval: 1400
-        running: true
-        repeat: true
-        onTriggered: {
-            window.cpu = 40 + Math.round(Math.random() * 45)
-            window.mem = 55 + Math.round(Math.random() * 30)
-            window.latency = 28 + Math.round(Math.random() * 30)
-            kpiCpu.pushTrend(window.cpu, 16)
-            kpiMem.pushTrend(window.mem, 16)
-            kpiLat.pushTrend(window.latency, 16)
-        }
-    }
-
-    Timer {
         interval: 1200
         running: window.emptyDemoState === "loading"
         repeat: false
@@ -62,7 +46,7 @@ StandardWindow {
         anchors.fill: parent
         anchors.margins: Theme.spacingSection
         title: qsTr("Ops dashboard")
-        subtitle: qsTr("DashboardShell · MetricCompareRow · LineChart zoom · ChartEmptyState — docs/charts.md")
+        subtitle: qsTr("LiveMetricStrip · DashboardShell · LineChart zoom — docs/charts.md (3.05)")
         filterBreakpoint: 720
         chartBreakpoint: 900
 
@@ -83,6 +67,7 @@ StandardWindow {
                 currentIndex: 1
             }
             CheckBox {
+                id: liveRefresh
                 text: qsTr("Live refresh")
                 checked: true
             }
@@ -97,56 +82,53 @@ StandardWindow {
             }
         }
 
-        kpiRow: MetricCompareRow {
+        kpiRow: LiveMetricStrip {
+            id: liveKpis
             Layout.fillWidth: true
-            periodLabel: qsTr("vs last period")
-            KpiTile {
-                id: kpiCpu
-                Layout.fillWidth: true
-                title: qsTr("CPU")
-                value: window.cpu
-                unit: "%"
-                compareValue: 58
-                delta: 1.6
-                cautionThreshold: 75
-                criticalThreshold: 90
-                badgeText: qsTr("LIVE")
-                trendValues: window.cpuTrend
-                sparklineHeight: 32
-                symbol: FluentIcons.Sync
-                elevated: true
+            intervalMs: 1400
+            running: liveRefresh.checked
+            maxPoints: 16
+            compareLag: 8
+            periodLabel: qsTr("vs prior window")
+            metrics: [
+                {
+                    key: "cpu",
+                    title: qsTr("CPU"),
+                    unit: "%",
+                    cautionThreshold: 75,
+                    criticalThreshold: 90,
+                    sparklineHeight: 32,
+                    symbol: FluentIcons.Sync
+                },
+                {
+                    key: "mem",
+                    title: qsTr("Memory"),
+                    unit: "%",
+                    invertDeltaColors: true,
+                    cautionThreshold: 80,
+                    criticalThreshold: 92,
+                    symbol: FluentIcons.Save
+                },
+                {
+                    key: "lat",
+                    title: qsTr("Latency p95"),
+                    unit: " ms",
+                    invertDeltaColors: true,
+                    invertThresholds: true,
+                    cautionThreshold: 50,
+                    criticalThreshold: 70,
+                    badgeText: qsTr("p95"),
+                    symbol: FluentIcons.Clock
+                }
+            ]
+            onTick: {
+                window.cpu = 40 + Math.round(Math.random() * 45)
+                window.mem = 55 + Math.round(Math.random() * 30)
+                window.latency = 28 + Math.round(Math.random() * 30)
+                pushSamples({ cpu: window.cpu, mem: window.mem, lat: window.latency })
             }
-            KpiTile {
-                id: kpiMem
-                Layout.fillWidth: true
-                title: qsTr("Memory")
-                value: window.mem
-                unit: "%"
-                compareValue: 69
-                delta: -0.8
-                invertDeltaColors: true
-                cautionThreshold: 80
-                criticalThreshold: 92
-                trendValues: window.memTrend
-                symbol: FluentIcons.Save
-                elevated: true
-            }
-            KpiTile {
-                id: kpiLat
-                Layout.fillWidth: true
-                title: qsTr("Latency p95")
-                value: window.latency
-                unit: " ms"
-                compareValue: 45
-                delta: -2.4
-                invertDeltaColors: true
-                invertThresholds: true
-                cautionThreshold: 50
-                criticalThreshold: 70
-                badgeText: qsTr("p95")
-                trendValues: window.latTrend
-                symbol: FluentIcons.Clock
-                elevated: true
+            Component.onCompleted: {
+                pushSamples({ cpu: window.cpu, mem: window.mem, lat: window.latency })
             }
         }
 
@@ -155,10 +137,11 @@ StandardWindow {
             wrapMode: Text.Wrap
             font.pixelSize: Theme.fontCaption
             color: Theme.textSecondary
-            text: qsTr("Layout: %1 px · chart columns: %2 (≥%3 → 2)")
+            text: qsTr("Layout: %1 px · chart columns: %2 (≥%3 → 2) · samples %4")
                     .arg(Math.round(shell.width))
                     .arg(shell.chartColumns)
                     .arg(shell.chartBreakpoint)
+                    .arg(liveKpis.sampleCount)
         }
 
         GridLayout {

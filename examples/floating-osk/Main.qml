@@ -3,6 +3,7 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
+import QWinUI3.Extras.Osk
 import QWinUI3.Platform
 
 // Copy-ready floating OSK host (1.84). Recipe: docs/on-screen-keyboard.md
