@@ -62,7 +62,7 @@ qwinui3_gallery.exe --smoke --startup-log
 | First paint | `initialPageTransition: "none"` (no enter animation on Home) |
 | Component LRU | `pageCacheLimit: 24` (default); `clearPageCache()` from Settings |
 | Home shadows | `MultiEffect` deferred one frame; off when `Theme.reducedMotion` |
-| Optional hosts | WebView2 / MediaPlayer pages use `Loader` until activated; WebView2 Runtime probe deferred until page open (**2.85 S3**) |
+| Optional hosts | WebView2 / MediaPlayer pages use `Loader` until activated; WebView2 Runtime probe on **Check Runtime / Go / Retry** (not page Timer) (**3.38 S15**); Keyman Core loads on first OSK key / layout use; FrameStats `frameSwapped` only when FPS/RHI enabled |
 | Control catalog | `ControlCatalog.ensureControls()` lazy cache; Home **hot index** so Main load does not parse the full list; left rail fills after first frame (**3.37** S14 / **2.85 S1**) |
 | Nav model patch | `NavigationView.patchNavItem(key, patch)` — incremental title/badge/icon when structure unchanged (**2.88 C9**) |
 | Theme batch apply | `Theme.apply({…})` bumps `tokensRevision` once — bind heavy trees to revision, not every knob (**2.88 C10**) |

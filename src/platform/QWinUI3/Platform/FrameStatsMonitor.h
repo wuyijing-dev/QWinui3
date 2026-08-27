@@ -64,6 +64,8 @@ private:
     void bindWindow(QQuickWindow *window);
     void onFrameSwapped();
     void refreshRhi();
+    void updateFrameConnection();
+    bool wantsSampling() const;
     void loadSettings();
     void saveSettings();
 

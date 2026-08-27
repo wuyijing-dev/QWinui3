@@ -70,6 +70,7 @@ CatalogPage {
     readonly property bool runtimeInstalled: _runtimeInstalled
     readonly property bool showHost: cap.available && _runtimeInstalled
     readonly property bool showMissingRuntime: cap.available && _runtimeProbed && !_runtimeInstalled
+    readonly property bool showNeedProbe: cap.available && !_runtimeProbed
     property bool hostLoaderReady: false
 
     function probeRuntime() {
@@ -88,16 +89,7 @@ CatalogPage {
             hostLoaderReady = true
     }
 
-    Timer {
-        interval: 1
-        running: true
-        repeat: false
-        onTriggered: {
-            page.probeRuntime()
-            if (page.showHost)
-                page.hostLoaderReady = true
-        }
-    }
+    // 3.38 S15 — no auto Timer probe on page open; Check Runtime / Retry / Go.
 
     ControlExample {
         headerText: qsTr("Field matrix")
@@ -202,11 +194,15 @@ CatalogPage {
                     id: urlField
                     Layout.fillWidth: true
                     text: page.demoUrl
-                    onAccepted: page.navigateSafe(text)
+                    onAccepted: {
+                        page.probeRuntime()
+                        page.navigateSafe(text)
+                    }
                 }
                 AccentButton {
                     text: qsTr("Go")
                     onClicked: {
+                        page.probeRuntime()
                         if (!page.navigateSafe(urlField.text))
                             page.navStatus = qsTr("Navigation blocked — allowlist only (Policy E).")
                     }
@@ -242,6 +238,8 @@ CatalogPage {
                 text: {
                     if (page.showNotBuilt)
                         return qsTr("WebView2Host not built. On Windows run scripts/fetch_webview2.ps1 and configure -DQWINUI3_BUILD_WEBVIEW2=ON.")
+                    if (page.showNeedProbe)
+                        return qsTr("Runtime not checked yet — Check Runtime below, or press Go.")
                     if (page.showMissingRuntime)
                         return qsTr("Runtime missing — install Evergreen WebView2, then Retry.")
                     if (hostLoader.item)
@@ -283,6 +281,16 @@ CatalogPage {
                     message: qsTr("Requires Windows + NuGet SDK (scripts/fetch_webview2.ps1) and QWINUI3_BUILD_WEBVIEW2=ON.")
                     actionText: qsTr("Open in browser")
                     onActionClicked: Qt.openUrlExternally(page.demoUrl)
+                }
+
+                EmptyState {
+                    anchors.centerIn: parent
+                    width: parent.width - 48
+                    visible: page.showNeedProbe
+                    title: qsTr("Check WebView2 Runtime")
+                    message: qsTr("Runtime probe is on demand (3.38). Apps should call checkRuntimeInstalled() before creating a visible host.")
+                    actionText: qsTr("Check Runtime")
+                    onActionClicked: page.probeRuntime()
                 }
 
                 EmptyState {

@@ -79,7 +79,10 @@ void FrameStatsMonitor::setEnabled(bool on)
         m_haveLastFrame = false;
         m_frameCount = 0;
         m_accumMs = 0.0;
+    } else if (m_showRhi || m_rhiBackend.isEmpty()) {
+        refreshRhi();
     }
+    updateFrameConnection();
     saveSettings();
     emit changed();
 }
@@ -108,6 +111,9 @@ void FrameStatsMonitor::setShowRhi(bool on)
     if (m_showRhi == on)
         return;
     m_showRhi = on;
+    if (m_showRhi)
+        refreshRhi();
+    updateFrameConnection();
     saveSettings();
     emit changed();
 }
@@ -233,6 +239,25 @@ void FrameStatsMonitor::refreshRhi()
         emit changed();
 }
 
+bool FrameStatsMonitor::wantsSampling() const
+{
+    // 3.38 S15 — connect frameSwapped only when FPS or RHI readout is active.
+    return m_enabled || m_showRhi;
+}
+
+void FrameStatsMonitor::updateFrameConnection()
+{
+    if (m_frameConn)
+        QObject::disconnect(m_frameConn);
+    m_frameConn = {};
+    if (!m_window || !wantsSampling())
+        return;
+
+    m_frameConn = connect(m_window, &QQuickWindow::frameSwapped, this, [this]() {
+        onFrameSwapped();
+    });
+}
+
 void FrameStatsMonitor::bindWindow(QQuickWindow *window)
 {
     if (m_window == window)
@@ -246,19 +271,18 @@ void FrameStatsMonitor::bindWindow(QQuickWindow *window)
     m_frameCount = 0;
     m_accumMs = 0.0;
 
-    refreshRhi();
+    if (wantsSampling())
+        refreshRhi();
 
-    if (!m_window)
-        return;
-
-    m_frameConn = connect(m_window, &QQuickWindow::frameSwapped, this, [this]() {
-        onFrameSwapped();
-    });
+    updateFrameConnection();
 }
 
 void FrameStatsMonitor::onFrameSwapped()
 {
-    if (m_rhiBackend.isEmpty())
+    if (!wantsSampling())
+        return;
+
+    if (m_showRhi && m_rhiBackend.isEmpty())
         refreshRhi();
 
     if (!m_enabled)

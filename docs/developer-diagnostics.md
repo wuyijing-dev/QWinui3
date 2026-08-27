@@ -12,7 +12,7 @@ Gallery: **Performance** · **Settings** (Show FPS) · **Graphics backend** · P
 
 | Piece | Module | Role |
 |-------|--------|------|
-| **`FrameStatsMonitor`** | Platform singleton | Samples `QQuickWindow::frameSwapped`; QSettings + CLI |
+| **`FrameStatsMonitor`** | Platform singleton | Samples `QQuickWindow::frameSwapped` **only when** `enabled` or `showRhi` (**3.38 S15**); QSettings + CLI |
 | **`FrameStatsBadge`** | Platform | Title-bar **rightHeader** / **leftHeader** slot |
 | **`FrameStatsOverlay`** | Platform | Floating badge when `inTitleBar` is false |
 
@@ -29,7 +29,8 @@ int main(int argc, char *argv[])
 {
     // … QGuiApplication …
     FrameStatsMonitor::applyCli(argc, argv);
-    // attach after root QQuickWindow exists:
+    // attach after root QQuickWindow exists (or when enabling FPS in Settings):
+    // FrameStatsMonitor connects frameSwapped only while enabled/showRhi (3.38).
     FrameStatsMonitor::instance()->attachWindow(win);
 }
 ```

@@ -142,10 +142,8 @@ int main(int argc, char *argv[])
         return -1;
     }
 
-    if (QObject *root = engine.rootObjects().constFirst()) {
-        if (auto *win = qobject_cast<QQuickWindow *>(root))
-            FrameStatsMonitor::instance()->attachWindow(win);
-    }
+    // 3.38 S15 — FrameStats attaches from Main.qml only when FPS/RHI is enabled
+    // (or after Settings / CLI); do not force singleton + frameSwapped on cold start.
 
     const qint64 msAfterMain = startupLog ? wall.elapsed() : 0;
     if (startupLog) {

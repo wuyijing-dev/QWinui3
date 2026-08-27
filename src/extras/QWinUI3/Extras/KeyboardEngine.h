@@ -96,7 +96,7 @@ public:
     Q_INVOKABLE void commitText(const QString &text);
     Q_INVOKABLE void processVk(int vk, bool shift);
     Q_INVOKABLE void processVk(int vk, bool shift, bool altGr);
-    Q_INVOKABLE QString previewVk(int vk, bool shift) const;
+    Q_INVOKABLE QString previewVk(int vk, bool shift);
     Q_INVOKABLE void backspace();
     Q_INVOKABLE void enterKey();
     Q_INVOKABLE void tabKey();
@@ -147,6 +147,7 @@ private:
     static int qtKeyToVk(int key);
     bool capsLockOn() const;
 #ifdef QWINUI3_HAVE_KEYMAN
+    bool ensureCore();
     bool loadLayout(const QString &id);
     void disposeCore();
     void syncContext();

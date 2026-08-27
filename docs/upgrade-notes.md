@@ -47,6 +47,25 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.37 → 3.38
+
+**Product version:** 3.38  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | Optional-host cold path (S15) | None for product apps that already probe/attach on demand |
+
+### Optional / polish
+- `FrameStatsMonitor` connects `frameSwapped` only when `enabled` or `showRhi`; Gallery attaches after enable / CLI
+- `KeyboardEngine` defers Keyman Core `loadLayout` until first `processVk` / `previewVk` / `setLayoutId`
+- Gallery WebView2 page: no auto Runtime Timer — **Check Runtime**, **Go**, or **Retry**
+
+### No action (compatible)
+- Kit QML APIs unchanged; WebView2Host still probes on first visible activate
+
 ### Upgrade 3.36 → 3.37
 
 **Product version:** 3.37  

@@ -113,9 +113,8 @@ KeyboardEngine::KeyboardEngine(QObject *parent)
 {
     if (QCoreApplication::instance())
         QCoreApplication::instance()->installEventFilter(this);
-#ifdef QWINUI3_HAVE_KEYMAN
-    loadLayout(m_layoutId);
-#endif
+    // 3.38 S15 — Keyman Core load deferred until ensureCore() (first processVk /
+    // previewVk / setLayoutId). Ctor must stay cheap for OSK page open.
 }
 
 KeyboardEngine::~KeyboardEngine()
@@ -204,6 +203,7 @@ void KeyboardEngine::setLayoutId(const QString &id)
         cancelCompose();
     m_layoutId = id;
 #ifdef QWINUI3_HAVE_KEYMAN
+    // Layout change: load immediately so keycaps / processVk see the new pack.
     loadLayout(m_layoutId);
 #endif
     emit layoutIdChanged();
@@ -500,7 +500,7 @@ void KeyboardEngine::processVk(int vk, bool shift, bool altGr)
         return;
     }
 #ifdef QWINUI3_HAVE_KEYMAN
-    if (m_state) {
+    if (ensureCore() && m_state) {
         processKeymanVk(vk, shift, altGr);
         return;
     }
@@ -509,7 +509,7 @@ void KeyboardEngine::processVk(int vk, bool shift, bool altGr)
     commitText(builtinGlyph(vk, shift));
 }
 
-QString KeyboardEngine::previewVk(int vk, bool shift) const
+QString KeyboardEngine::previewVk(int vk, bool shift)
 {
     if (pinyin() || japanese())
         return builtinGlyph(vk, false);
@@ -519,9 +519,11 @@ QString KeyboardEngine::previewVk(int vk, bool shift) const
             return QString(jamo);
     }
 #ifdef QWINUI3_HAVE_KEYMAN
-    const QString probed = probeVk(vk, shift);
-    if (!probed.isEmpty())
-        return probed;
+    if (ensureCore()) {
+        const QString probed = probeVk(vk, shift);
+        if (!probed.isEmpty())
+            return probed;
+    }
 #endif
     return builtinGlyph(vk, shift);
 }
@@ -1132,7 +1134,7 @@ bool KeyboardEngine::handleHardwareKey(QKeyEvent *ke)
         if (ime() || korean())
             return false;
 #ifdef QWINUI3_HAVE_KEYMAN
-        if (m_state) {
+        if (ensureCore() && m_state) {
             processKeymanVk(vk, shift, altGr);
             return true;
         }
@@ -1178,6 +1180,15 @@ bool KeyboardEngine::eventFilter(QObject *watched, QEvent *event)
 }
 
 #ifdef QWINUI3_HAVE_KEYMAN
+
+bool KeyboardEngine::ensureCore()
+{
+    if (pinyin() || japanese() || korean())
+        return false;
+    if (m_state)
+        return true;
+    return loadLayout(m_layoutId);
+}
 
 void KeyboardEngine::processKeymanVk(int vk, bool shift, bool altGr)
 {

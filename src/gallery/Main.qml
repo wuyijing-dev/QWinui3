@@ -273,7 +273,9 @@ StandardWindow {
     }
 
     Component.onCompleted: {
-        FrameStatsMonitor.attachWindow(window)
+        // 3.38 S15 — attach only when diagnostics are on (CLI / persisted Settings).
+        if (FrameStatsMonitor.enabled || FrameStatsMonitor.showRhi)
+            FrameStatsMonitor.attachWindow(window)
         Qt.callLater(function () {
             if (window)
                 window.refreshTitleBarHitTest()
@@ -282,7 +284,11 @@ StandardWindow {
 
     Connections {
         target: FrameStatsMonitor
-        function onChanged() { window.refreshTitleBarHitTest() }
+        function onChanged() {
+            if ((FrameStatsMonitor.enabled || FrameStatsMonitor.showRhi) && window)
+                FrameStatsMonitor.attachWindow(window)
+            window.refreshTitleBarHitTest()
+        }
     }
 
     NavigationView {
