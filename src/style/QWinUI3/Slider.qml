@@ -2,53 +2,104 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Slider — Fluent styled Slider.
+// Slider — Fluent / WinUI 3 styled Slider.
 //
 //   Slider {
-//       from: 0; to: 100; value: 40; stepSize: 10
+//       from: 0; to: 100; value: 50; stepSize: 25
 //       tickMarksVisible: true
+//       tickPlacement: "both"   // horizontal: top | bottom | both
+//   }
+//
+//   Slider {
+//       orientation: Qt.Vertical
+//       height: 220
+//       from: 0; to: 100; value: 33; stepSize: 25
+//       tickMarksVisible: true
+//       tickPlacement: "both"   // vertical: left | right | both
 //   }
 //
 // @notes
-//   Style chrome. tickMarksVisible draws step ticks under the track (3.11).
+//   WinUI-style track fill, ring thumb, and step tick marks on both sides of the track.
 
 T.Slider {
     id: control
 
-    // Show step ticks along the track (uses stepSize; 3.11)
+    // Draw step ticks (requires stepSize > 0, or auto 10 steps across from..to)
     property bool tickMarksVisible: false
+    // Tick side(s): horizontal top|bottom|both · vertical left|right|both · "" → both
+    property string tickPlacement: ""
+    // Vertical filled track width (WinUI thick active rail)
+    property real verticalFillThickness: 8
+
+    readonly property bool _horizontal: orientation === Qt.Horizontal || orientation === undefined
+    readonly property real _tickBand: tickMarksVisible ? 10 : 0
+    readonly property real _sideGutter: (!_horizontal && tickMarksVisible) ? 14 : 0
+
+    readonly property string _tickPlacement: {
+        if (!tickMarksVisible)
+            return "none"
+        var p = String(tickPlacement || "").toLowerCase()
+        if (_horizontal) {
+            if (p === "top" || p === "bottom" || p === "both")
+                return p
+            return "both"
+        }
+        if (p === "left" || p === "right" || p === "both")
+            return p
+        return "both"
+    }
+
+    readonly property real _step: {
+        if (stepSize > 0)
+            return stepSize
+        if (!tickMarksVisible)
+            return 0
+        var span = Math.abs(to - from)
+        return span > 0 ? span / 10 : 0
+    }
+
+    readonly property int _tickCount: {
+        if (!tickMarksVisible || _step <= 0)
+            return 0
+        var span = Math.abs(to - from)
+        if (span <= 0)
+            return 0
+        var n = Math.floor(span / _step + 0.001) + 1
+        return Math.min(n, 64)
+    }
+
+    function _tickFraction(index) {
+        if (_tickCount <= 1)
+            return 0.5
+        return index / (_tickCount - 1)
+    }
 
     Accessible.role: Accessible.Slider
     Accessible.name: qsTr("Slider")
     Accessible.description: qsTr("%1 of %2").arg(control.value).arg(control.to)
 
-    implicitWidth: Math.max(200, implicitHandleWidth + leftPadding + rightPadding)
-    implicitHeight: Math.max(Theme.sliderThumb + (tickMarksVisible ? 10 : 0),
-                             implicitHandleHeight + topPadding + bottomPadding)
+    implicitWidth: _horizontal
+                   ? Math.max(200, implicitHandleWidth + leftPadding + rightPadding)
+                   : Math.max(Theme.sliderThumb + _sideGutter * 2 + 8,
+                               implicitHandleWidth + leftPadding + rightPadding)
+    implicitHeight: _horizontal
+                    ? Math.max(Theme.sliderThumb + _tickBand * 2,
+                               implicitHandleHeight + topPadding + bottomPadding)
+                    : Math.max(160, implicitHandleHeight + topPadding + bottomPadding)
 
     padding: 8
     hoverEnabled: true
     live: true
     wheelEnabled: true
 
-    readonly property int _tickCount: {
-        if (!tickMarksVisible || stepSize <= 0)
-            return 0
-        var span = Math.abs(to - from)
-        if (span <= 0)
-            return 0
-        var n = Math.floor(span / stepSize + 0.001) + 1
-        return Math.min(n, 64)
-    }
-
     handle: Item {
-        x: control.leftPadding + (control.horizontal
+        x: control.leftPadding + (control._horizontal
            ? control.visualPosition * (control.availableWidth - width)
            : (control.availableWidth - width) / 2)
-        y: control.topPadding + (control.horizontal
+        y: control.topPadding + (control._horizontal
            ? (control.availableHeight - height) / 2
-               - (control.tickMarksVisible ? 4 : 0)
            : control.visualPosition * (control.availableHeight - height))
+
         implicitWidth: Theme.sliderThumb
         implicitHeight: Theme.sliderThumb
 
@@ -118,38 +169,73 @@ T.Slider {
     }
 
     background: Item {
-        x: control.leftPadding + (control.horizontal ? Theme.sliderThumb / 2 : (control.availableWidth - width) / 2)
-        y: control.topPadding + (control.horizontal
-           ? (control.availableHeight - height) / 2 - (control.tickMarksVisible ? 4 : 0)
-           : Theme.sliderThumb / 2)
-        width: control.horizontal ? control.availableWidth - Theme.sliderThumb : Theme.sliderThickness
-        height: control.horizontal ? Theme.sliderThickness : control.availableHeight - Theme.sliderThumb
-        implicitWidth: 200
-        implicitHeight: Theme.sliderThickness
+        id: trackHost
 
+        readonly property real trackW: control._horizontal
+            ? control.availableWidth - Theme.sliderThumb
+            : Theme.sliderThickness
+        readonly property real trackH: control._horizontal
+            ? Theme.sliderThickness
+            : control.availableHeight - Theme.sliderThumb
+        readonly property real trackX: control._horizontal
+            ? Theme.sliderThumb / 2
+            : (control._sideGutter + (parent.width - control._sideGutter * 2 - trackW) / 2)
+        readonly property real trackY: control._horizontal
+            ? control._tickBand + (parent.height - control._tickBand * 2 - trackH) / 2
+            : Theme.sliderThumb / 2
+
+        x: control.leftPadding
+        y: control.topPadding
+        width: control._horizontal
+               ? control.availableWidth
+               : Math.max(trackW + control._sideGutter * 2, Theme.sliderThumb)
+        height: control._horizontal
+                ? Math.max(trackH + control._tickBand * 2, Theme.sliderThickness)
+                : control.availableHeight
+        implicitWidth: control._horizontal ? 200 : width
+        implicitHeight: control._horizontal ? height : 160
+
+        // Inactive rail (full span — thin)
         Rectangle {
-            anchors.fill: parent
-            radius: height / 2
+            id: inactiveRail
+            x: trackHost.trackX
+            y: trackHost.trackY
+            width: control._horizontal ? trackHost.trackW : trackHost.trackW
+            height: control._horizontal ? trackHost.trackH : trackHost.trackH
+            radius: control._horizontal ? height / 2 : width / 2
             color: Theme.dark ? "#15FFFFFF" : "#0F000000"
         }
 
+        // Active fill
         Rectangle {
-            width: control.horizontal ? parent.width * control.position : parent.width
-            height: control.horizontal ? parent.height : parent.height * control.position
-            anchors.left: control.horizontal ? parent.left : undefined
-            anchors.bottom: control.horizontal ? undefined : parent.bottom
-            radius: height / 2
+            id: activeFill
+            x: trackHost.trackX + (control._horizontal ? 0 : (trackHost.trackW - width) / 2)
+            y: trackHost.trackY + (control._horizontal ? 0 : trackHost.trackH * (1 - control.position))
+            width: control._horizontal
+                   ? Math.max(0, trackHost.trackW * control.position)
+                   : control.verticalFillThickness
+            height: control._horizontal
+                    ? trackHost.trackH
+                    : Math.max(0, trackHost.trackH * control.position)
+            radius: control._horizontal ? height / 2 : width / 2
             color: control.enabled ? Theme.accent : Theme.textDisabled
 
             Behavior on width {
-                enabled: control.horizontal && !control.pressed && !Theme.reducedMotion
+                enabled: control._horizontal && !control.pressed && !Theme.reducedMotion
                 NumberAnimation {
                     duration: Theme.duration(Theme.motionFast)
                     easing.type: Theme.easingStandard
                 }
             }
             Behavior on height {
-                enabled: !control.horizontal && !control.pressed && !Theme.reducedMotion
+                enabled: !control._horizontal && !control.pressed && !Theme.reducedMotion
+                NumberAnimation {
+                    duration: Theme.duration(Theme.motionFast)
+                    easing.type: Theme.easingStandard
+                }
+            }
+            Behavior on y {
+                enabled: !control._horizontal && !control.pressed && !Theme.reducedMotion
                 NumberAnimation {
                     duration: Theme.duration(Theme.motionFast)
                     easing.type: Theme.easingStandard
@@ -157,19 +243,65 @@ T.Slider {
             }
         }
 
-        // Step ticks (3.11) — horizontal only
+        // --- Tick marks (WinUI: both sides of track) ---
         Repeater {
-            model: control.horizontal ? control._tickCount : 0
+            model: control._horizontal && control._tickCount > 0
+                   && (control._tickPlacement === "both" || control._tickPlacement === "top")
+                   ? control._tickCount : 0
             delegate: Rectangle {
                 required property int index
                 width: 2
                 height: 6
                 radius: 1
                 color: Theme.strokeControl
-                opacity: 0.55
-                x: control._tickCount <= 1 ? parent.width / 2
-                   : index * (parent.width / Math.max(1, control._tickCount - 1)) - width / 2
-                y: parent.height + 3
+                opacity: 0.6
+                x: trackHost.trackX + trackHost.trackW * control._tickFraction(index) - width / 2
+                y: trackHost.trackY - height - 3
+            }
+        }
+        Repeater {
+            model: control._horizontal && control._tickCount > 0
+                   && (control._tickPlacement === "both" || control._tickPlacement === "bottom")
+                   ? control._tickCount : 0
+            delegate: Rectangle {
+                required property int index
+                width: 2
+                height: 6
+                radius: 1
+                color: Theme.strokeControl
+                opacity: 0.6
+                x: trackHost.trackX + trackHost.trackW * control._tickFraction(index) - width / 2
+                y: trackHost.trackY + trackHost.trackH + 3
+            }
+        }
+        Repeater {
+            model: !control._horizontal && control._tickCount > 0
+                   && (control._tickPlacement === "both" || control._tickPlacement === "left")
+                   ? control._tickCount : 0
+            delegate: Rectangle {
+                required property int index
+                width: 6
+                height: 2
+                radius: 1
+                color: Theme.strokeControl
+                opacity: 0.6
+                x: trackHost.trackX - width - 4
+                y: trackHost.trackY + trackHost.trackH * (1 - control._tickFraction(index)) - height / 2
+            }
+        }
+        Repeater {
+            model: !control._horizontal && control._tickCount > 0
+                   && (control._tickPlacement === "both" || control._tickPlacement === "right")
+                   ? control._tickCount : 0
+            delegate: Rectangle {
+                required property int index
+                width: 6
+                height: 2
+                radius: 1
+                color: Theme.strokeControl
+                opacity: 0.6
+                x: trackHost.trackX + trackHost.trackW + 4
+                y: trackHost.trackY + trackHost.trackH * (1 - control._tickFraction(index)) - height / 2
             }
         }
     }

@@ -47,6 +47,25 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.12 → 3.13
+
+**Product version:** 3.13  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | Slider tick marks + vertical rail | None required |
+
+### Optional / polish
+- **Slider:** `tickMarksVisible: true` with `tickPlacement` (`top` · `bottom` · `both` horizontal; `left` · `right` · `both` vertical)
+- **Slider:** vertical orientation uses thick accent fill below thumb (`verticalFillThickness`, default 8)
+- Gallery **Slider** page — WinUI-style tick + vertical range demos
+
+### No action (compatible)
+- Stable APIs unchanged; new properties default off
+
 ### Upgrade 3.11 → 3.12
 
 **Product version:** 3.12  

@@ -180,12 +180,6 @@ CatalogPage {
                     Layout.fillWidth: true
                     from: 0
                     to: 100
-                    value: 40
-                }
-                Slider {
-                    Layout.fillWidth: true
-                    from: 0
-                    to: 100
                     stepSize: 25
                     tickMarksVisible: true
                     value: 50
