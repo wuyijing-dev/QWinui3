@@ -37,7 +37,10 @@ T.MenuItem {
     hoverEnabled: true
 
     contentItem: Text {
-        leftPadding: control.checkable ? control.indicator.width + control.spacing : 0
+        leftPadding: control.checkable && !control.mirrored
+                     ? control.indicator.width + control.spacing : 0
+        rightPadding: control.checkable && control.mirrored
+                      ? control.indicator.width + control.spacing : 0
         text: control.text
         font: control.font
         color: {
@@ -49,6 +52,7 @@ T.MenuItem {
         }
         elide: Text.ElideRight
         verticalAlignment: Text.AlignVCenter
+        horizontalAlignment: control.mirrored ? Text.AlignRight : Text.AlignLeft
 
         Behavior on color {
             enabled: !Theme.reducedMotion
@@ -62,7 +66,8 @@ T.MenuItem {
     indicator: Item {
         width: 16
         height: 16
-        x: control.leftPadding
+        x: control.mirrored ? control.width - width - control.rightPadding
+                            : control.leftPadding
         y: (control.height - height) / 2
         visible: control.checkable
         opacity: control.checked ? 1 : 0

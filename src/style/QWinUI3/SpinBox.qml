@@ -26,8 +26,9 @@ T.SpinBox {
                             + up.implicitIndicatorWidth + down.implicitIndicatorWidth)
     implicitHeight: Theme.controlHeight
 
-    leftPadding: Theme.paddingControlH
-    rightPadding: up.indicator.width + 4
+    // Reserve indicator column on the trailing side (swap under RTL / mirrored)
+    leftPadding: control.mirrored ? (up.indicator.width + 4) : Theme.paddingControlH
+    rightPadding: control.mirrored ? Theme.paddingControlH : (up.indicator.width + 4)
     font.pixelSize: Theme.fontBody
     editable: true
     hoverEnabled: true

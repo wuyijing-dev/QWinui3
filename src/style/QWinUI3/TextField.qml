@@ -108,8 +108,12 @@ T.TextField {
     implicitWidth: Math.max(200, contentWidth + leftPadding + rightPadding)
     implicitHeight: _fieldH + _headerH + _footerH
 
-    leftPadding: Theme.paddingControlH + (_showLeading ? 22 : 0)
-    rightPadding: Theme.paddingControlH + (_showClear ? 28 : 0)
+    leftPadding: Theme.paddingControlH
+                 + (control.mirrored ? (control._showClear ? 28 : 0)
+                                     : (control._showLeading ? 22 : 0))
+    rightPadding: Theme.paddingControlH
+                  + (control.mirrored ? (control._showLeading ? 22 : 0)
+                                      : (control._showClear ? 28 : 0))
     topPadding: Theme.paddingControlV + _headerH
     bottomPadding: Theme.paddingControlV + _footerH
 
@@ -290,8 +294,10 @@ T.TextField {
 
             Text {
                 visible: control._showLeading
-                anchors.left: parent.left
-                anchors.leftMargin: Theme.paddingControlH - 2
+                anchors.left: control.mirrored ? undefined : parent.left
+                anchors.right: control.mirrored ? parent.right : undefined
+                anchors.leftMargin: control.mirrored ? 0 : Theme.paddingControlH - 2
+                anchors.rightMargin: control.mirrored ? Theme.paddingControlH - 2 : 0
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.verticalCenterOffset: Theme.iconOpticalOffset(14).y
                 text: control._leadingGlyph
@@ -304,7 +310,8 @@ T.TextField {
             Item {
                 id: clearHit
                 visible: control._showClear
-                anchors.right: parent.right
+                anchors.right: control.mirrored ? undefined : parent.right
+                anchors.left: control.mirrored ? parent.left : undefined
                 anchors.verticalCenter: parent.verticalCenter
                 width: 32
                 height: 32

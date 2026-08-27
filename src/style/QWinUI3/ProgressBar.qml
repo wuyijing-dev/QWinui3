@@ -35,6 +35,7 @@ T.ProgressBar {
     // Track thickness in px (default Theme.sliderThickness)
     property real trackThickness: Theme.sliderThickness
 
+    readonly property bool _horizontal: orientation === Qt.Horizontal || orientation === undefined
     readonly property bool _hasChrome: header.length > 0 || showValue
     readonly property string formattedValue: {
         if (valueLabel.length)
@@ -58,8 +59,9 @@ T.ProgressBar {
         return qsTr("%1 percent").arg(Math.round(control.position * 100))
     }
 
-    implicitWidth: 200
-    implicitHeight: trackThickness + (_hasChrome ? chrome.height + Theme.spacing : 0)
+    implicitWidth: _horizontal ? 200 : trackThickness
+    implicitHeight: (_horizontal ? trackThickness : 200)
+                    + (_hasChrome ? chrome.height + Theme.spacing : 0)
     padding: 0
     topPadding: _hasChrome ? chrome.height + Theme.spacing : 0
     leftPadding: 0
@@ -131,20 +133,42 @@ T.ProgressBar {
     }
 
     contentItem: Item {
-        implicitWidth: 200
-        implicitHeight: control.trackThickness
+        implicitWidth: control._horizontal ? 200 : control.trackThickness
+        implicitHeight: control._horizontal ? control.trackThickness : 200
 
         Rectangle {
             id: determinateFill
             visible: !control.indeterminate
-            width: Math.max(0, control.position * parent.width)
-            height: parent.height
-            radius: height / 2
+            // Vertical: grow from bottom (matches Qt / WinUI thick-rail expectation)
+            x: 0
+            y: control._horizontal ? 0
+               : Math.max(0, parent.height * (1 - control.position))
+            width: control._horizontal
+                   ? Math.max(0, control.position * parent.width)
+                   : parent.width
+            height: control._horizontal
+                    ? parent.height
+                    : Math.max(0, control.position * parent.height)
+            radius: Math.min(width, height) / 2
             color: control._fillColor
             opacity: 1
 
             Behavior on width {
-                enabled: !Theme.reducedMotion && control.visible
+                enabled: control._horizontal && !Theme.reducedMotion && control.visible
+                NumberAnimation {
+                    duration: Theme.duration(Theme.motionNormal)
+                    easing.type: Theme.easingStandard
+                }
+            }
+            Behavior on height {
+                enabled: !control._horizontal && !Theme.reducedMotion && control.visible
+                NumberAnimation {
+                    duration: Theme.duration(Theme.motionNormal)
+                    easing.type: Theme.easingStandard
+                }
+            }
+            Behavior on y {
+                enabled: !control._horizontal && !Theme.reducedMotion && control.visible
                 NumberAnimation {
                     duration: Theme.duration(Theme.motionNormal)
                     easing.type: Theme.easingStandard
@@ -184,14 +208,17 @@ T.ProgressBar {
             }
 
             Rectangle {
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.right: parent.right
-                width: Math.min(parent.width, 24)
-                height: parent.height
-                radius: height / 2
-                visible: parent.width > 8 && !control.showError
+                anchors.verticalCenter: control._horizontal ? parent.verticalCenter : undefined
+                anchors.horizontalCenter: control._horizontal ? undefined : parent.horizontalCenter
+                anchors.right: control._horizontal ? parent.right : undefined
+                anchors.top: control._horizontal ? undefined : parent.top
+                width: control._horizontal ? Math.min(parent.width, 24) : parent.width
+                height: control._horizontal ? parent.height : Math.min(parent.height, 24)
+                radius: Math.min(width, height) / 2
+                visible: (control._horizontal ? parent.width > 8 : parent.height > 8)
+                         && !control.showError
                 gradient: Gradient {
-                    orientation: Gradient.Horizontal
+                    orientation: control._horizontal ? Gradient.Horizontal : Gradient.Vertical
                     GradientStop { position: 0; color: "transparent" }
                     GradientStop {
                         position: 1
@@ -204,27 +231,38 @@ T.ProgressBar {
         Rectangle {
             id: indeterminateBar
             visible: control.indeterminate
-            width: Math.max(48, parent.width * 0.32)
-            height: parent.height
-            radius: height / 2
+            width: control._horizontal ? Math.max(48, parent.width * 0.32) : parent.width
+            height: control._horizontal ? parent.height : Math.max(48, parent.height * 0.32)
+            radius: Math.min(width, height) / 2
             color: control._fillColor
             opacity: Theme.reducedMotion || control.showPaused || control.showError ? 0.85 : 1
+            x: control._horizontal ? indeterminateBar._travel : 0
+            y: control._horizontal ? 0 : indeterminateBar._travel
 
-            // Stay inside the pill track — no clip:true (would square the ends).
-            SequentialAnimation on x {
+            property real _travel: 0
+
+            SequentialAnimation on _travel {
                 loops: Animation.Infinite
                 running: control.indeterminate && control.visible
                          && !Theme.reducedMotion && !control.showPaused && !control.showError
                 NumberAnimation {
                     from: 0
-                    to: Math.max(0, parent.width - indeterminateBar.width)
-                    duration: Math.max(900, parent.width * 8)
+                    to: control._horizontal
+                        ? Math.max(0, indeterminateBar.parent.width - indeterminateBar.width)
+                        : Math.max(0, indeterminateBar.parent.height - indeterminateBar.height)
+                    duration: Math.max(900, (control._horizontal
+                              ? indeterminateBar.parent.width
+                              : indeterminateBar.parent.height) * 8)
                     easing.type: Easing.InOutCubic
                 }
                 NumberAnimation {
-                    from: Math.max(0, parent.width - indeterminateBar.width)
+                    from: control._horizontal
+                          ? Math.max(0, indeterminateBar.parent.width - indeterminateBar.width)
+                          : Math.max(0, indeterminateBar.parent.height - indeterminateBar.height)
                     to: 0
-                    duration: Math.max(600, parent.width * 5)
+                    duration: Math.max(600, (control._horizontal
+                              ? indeterminateBar.parent.width
+                              : indeterminateBar.parent.height) * 5)
                     easing.type: Easing.InOutCubic
                 }
             }
@@ -233,16 +271,18 @@ T.ProgressBar {
                 when: (Theme.reducedMotion || control.showPaused || control.showError)
                       && control.indeterminate
                 target: indeterminateBar
-                property: "x"
-                value: Math.max(0, (parent.width - indeterminateBar.width) / 2)
+                property: "_travel"
+                value: control._horizontal
+                       ? Math.max(0, (indeterminateBar.parent.width - indeterminateBar.width) / 2)
+                       : Math.max(0, (indeterminateBar.parent.height - indeterminateBar.height) / 2)
             }
         }
     }
 
     background: Rectangle {
-        implicitWidth: 200
-        implicitHeight: control.trackThickness
-        radius: height / 2
+        implicitWidth: control._horizontal ? 200 : control.trackThickness
+        implicitHeight: control._horizontal ? control.trackThickness : 200
+        radius: Math.min(width, height) / 2
         color: Theme.dark ? "#15FFFFFF" : "#0F000000"
     }
 }

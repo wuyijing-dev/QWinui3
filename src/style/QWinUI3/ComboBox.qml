@@ -93,8 +93,9 @@ T.ComboBox {
                             implicitContentWidth + leftPadding + rightPadding)
     implicitHeight: _fieldH + _headerH + _footerH
 
-    leftPadding: Theme.paddingControlH
-    rightPadding: 32
+    // Chevron sits on the trailing edge — swap padding under RTL / mirrored
+    leftPadding: control.mirrored ? 32 : Theme.paddingControlH
+    rightPadding: control.mirrored ? Theme.paddingControlH : 32
     topPadding: Theme.paddingControlV + _headerH
     bottomPadding: Theme.paddingControlV + _footerH
     spacing: Theme.spacing
@@ -266,7 +267,7 @@ T.ComboBox {
     }
 
     indicator: Text {
-        x: control.mirrored ? control.leftPadding : control.width - width - 10
+        x: control.mirrored ? 10 : control.width - width - 10
         y: control.topPadding + (control.availableHeight - height) / 2
              + (control.pressed ? 1 : 0)
         width: implicitWidth

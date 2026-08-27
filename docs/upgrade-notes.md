@@ -47,6 +47,24 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.22 → 3.23
+
+**Product version:** 3.23  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | RTL padding / indicator placement | None required |
+
+### Optional / polish
+- **SpinBox / ComboBox / TextField / CheckBox / RadioButton / MenuItem:** mirrored (RTL) chrome no longer overlaps text
+- **ProgressBar:** vertical `orientation` fill and indeterminate motion
+
+### No action (compatible)
+- APIs unchanged
+
 ### Upgrade 3.21 → 3.22
 
 **Product version:** 3.22  

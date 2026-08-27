@@ -52,7 +52,8 @@ T.CheckBox {
     indicator: Item {
         implicitWidth: Theme.checkSize
         implicitHeight: Theme.checkSize
-        x: control.leftPadding
+        x: control.mirrored ? control.width - width - control.rightPadding
+                            : control.leftPadding
         y: control.topPadding
            + Math.max(0, (Theme.fontBody + 4 - height) / 2)
 
@@ -203,13 +204,15 @@ T.CheckBox {
     }
 
     contentItem: Item {
-        implicitWidth: labelCol.implicitWidth + (control.indicator ? control.indicator.width + control.spacing : 0)
+        readonly property real _indGap: control.indicator
+                                        ? control.indicator.width + control.spacing : 0
+        implicitWidth: labelCol.implicitWidth + _indGap
         implicitHeight: Math.max(Theme.checkSize, labelCol.implicitHeight)
 
         Column {
             id: labelCol
-            x: control.indicator ? control.indicator.width + control.spacing : 0
-            width: Math.max(0, parent.width - x)
+            x: control.mirrored ? 0 : parent._indGap
+            width: Math.max(0, parent.width - parent._indGap)
             spacing: 2
 
             Text {
