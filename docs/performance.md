@@ -42,6 +42,7 @@ Related: [data-collections.md](data-collections.md) · [charts.md](charts.md) ·
 | Image / shadow caches | `QPixmapCache` kit cap **16 MB** (`QWINUI3_PIXMAP_CACHE_KB`); ElevatedChrome frees MultiEffect FBO when hidden; `iconFontFor` LRU **96** (**3.47** H16) — acrylic/shadow **look** unchanged |
 | Memory wave sign-off | Idle WorkingSet table filled at **3.48** H17 — [checkpoint-390](checkpoint-390.md#memory-sign-off-h10h17--348) (~**136 MB** WS avg, n=5 Win Release) |
 | Paint coalesce | Remaining experimental charts use `requestRedraw()` / `ChartUtils.redrawCoalesceMs` (**3.49** C20) |
+| ItemsView / ListDetailsView | Debounced filter + skip fingerprint; `cacheBufferPx` (**3.51** C22) |
 | Binding churn | Almost no hot `Qt.binding`; Gallery nav assign uses incremental sync; DataTable column layout skips unchanged (**3.50** C21) |
 | Icon / atlas warm-up | Optional: touch `FluentIcons` / ThemeFonts once after first frame |
 | Page cache | `pageCacheLimit` + `pinnedPageCache` (2.68); Gallery tightened in **3.46** — avoid compiling all pages at startup |
@@ -141,8 +142,8 @@ Do **not** `import` every page type into `Main.qml` — that forces compile at s
 | Surface | How it scrolls | Notes |
 |---------|----------------|-------|
 | [`DataTable`](components/DataTable.md) | `ListView` + `reuseItems` + fixed `rowHeight` | Lean `{kind,rowIndex}` model wrappers (**3.44**); `cacheBuffer: rowHeight * 12`; filter/sort rebuild `_viewRows` in JS — **debounced + skip unchanged**; **multi-sort / hiddenColumns / columnWidths (2.66)** |
-| [`ItemsView`](components/ItemsView.md) | `ListView` + `reuseItems` | `cacheBuffer: max(240, height * 1.5)` (**3.43**); optional `filterText` on JS arrays (1.88); C++ model at scale |
-| [`ListDetailsView`](components/ListDetailsView.md) | `ListView` + `reuseItems` | Same mild `cacheBuffer` as ItemsView (**3.43**); optional `filterText` on master list (1.88) |
+| [`ItemsView`](components/ItemsView.md) | `ListView` + `reuseItems` | `cacheBufferPx` (<0 → `max(240, height * 1.5)`, **3.51**); `filterDebounceMs` **120**; `maxFilterResults` **256**; optional `minFilterLength` |
+| [`ListDetailsView`](components/ListDetailsView.md) | `ListView` + `reuseItems` | Same `cacheBufferPx` / filter defaults as ItemsView (**3.51**); master JS-array filter |
 | [`ItemsRepeater`](components/ItemsRepeater.md) | `ListView` + `reuseItems` (1.25) | `cacheBuffer: Theme.navItemHeight * 8`; optional `filterText` on JS arrays (1.88) |
 | [`NavigationView`](components/NavigationView.md) pane | `ListView` + `reuseItems` (**3.43**) | `cacheBuffer: max(240, height * 1.5)` — keeps SelectionPip anchors alive |
 | [`FileTree`](components/FileTree.md) / raw `TreeView` | `TreeView` (`TableView`) + `reuseItems` | FileTree sets the same mild buffer (**3.43**); raw trees should too |
@@ -153,7 +154,7 @@ Do **not** `import` every page type into `Main.qml` — that forces compile at s
 
 | Pattern | Typical value | Trade-off |
 |---------|---------------|-----------|
-| Navigation / ItemsView / FileTree | `Math.max(240, Math.round(height * 1.5))` | Cuts RSS vs huge buffers; still enough for fast fling |
+| Navigation / ItemsView / FileTree / ListDetailsView | `Math.max(240, Math.round(height * 1.5))` via `cacheBufferPx: -1` (**3.51**) | Cuts RSS vs huge buffers; still enough for fast fling |
 | ItemsRepeater | `Theme.navItemHeight * 8` | Stable tile height |
 | DataTable | `rowHeight * 12` | Dense rows need a few screens of overscan |
 | Too large | e.g. `height * 10` | RSS ↑ with little scroll gain |
@@ -305,8 +306,8 @@ Virtualized tables and lists — **no visual change**, less work per keystroke.
 | Control | Change | App note |
 |---------|--------|----------|
 | `DataTable` | `filterDebounceMs` (default **120**) before `_viewRows` rebuild; skip when filter query + sort + `rows` ref unchanged | Sort still immediate; call `refresh()` after in-place row edits |
-| `ItemsView` | Optional `filterText` + `filterRoles` for **plain JS arrays** only | C++ / `ListModel`: filter app-side (unchanged) |
-| `ListDetailsView` | Optional `filterText` on master list (JS arrays) | Selection index is into the filtered list |
+| `ItemsView` | Optional `filterText` + `filterRoles` for **plain JS arrays** only; `filterDebounceMs` **120**, `maxFilterResults` **256** (**3.51**) | C++ / `ListModel`: filter app-side (unchanged) |
+| `ListDetailsView` | Same filter defaults as ItemsView (**3.51**); `minFilterLength` + fingerprint skip | Selection index is into the filtered list |
 | `ItemsRepeater` | Optional `filterText` (JS arrays) | Delegate: bind to `modelData` roles once per row |
 
 **Delegate pooling:** cache role strings in `readonly property` on the delegate root — avoids repeated `_roleValue` / `_cellText` walks when `reuseItems` recycles tiles.
@@ -364,7 +365,7 @@ Deepens **1.88** list/table perf on the **2.x** floor — **animations stay**.
 |---------|--------|----------|
 | `DataTable` | `maxFilterResults` (default **0** = unlimited) caps JS filter walk | Pair with `filterDebounceMs`; selection still tracks row **object** |
 | `ListDetailsView` | `_selectedItemRef` — selection survives filter rebuild when item still visible | `filteredCount` readout; same object-identity model as DataTable |
-| `ListDetailsView` | `maxFilterResults` cap on master filter | C++ / `ListModel`: filter app-side |
+| `ListDetailsView` | `maxFilterResults` (default **256**, **3.51**; `0` = unlimited) + `minFilterLength` | C++ / `ListModel`: filter app-side |
 | `NavigationView` | `pageCacheHits` diagnostics; `ensureComponent` LRU unchanged | Same-key nav still skips StackView replace; set `pageCacheLimit` |
 
 **Virtualization:** all three use `ListView` + `reuseItems` — no second engine. For thousands of rows, filter/sort in C++ and bind a model.
@@ -486,7 +487,7 @@ Hot path is **full model rebuilds**, not nested `Qt.binding` (kit has essentiall
 |---------|--------|-------|
 | NavigationView | Assign `model` → `onModelChanged` incremental patch (**2.88** C9) when keys/order unchanged | Forcing `rebuildNavModel()` after every label-only replace (Gallery fixed in **3.50**) |
 | DataTable | `_lastRefreshKey` skip; column layout fingerprint skip (**3.50**) | Rebuilding pinned/scroll orders when hide/pin did not move columns |
-| ItemsView / ListDetails / filters | `_lastFilterKey` + model ref skip | Rebuilding filtered arrays on identical query |
+| ItemsView / ListDetailsView | `_lastFilterKey` + caps in fingerprint; `cacheBufferPx` (**3.51** C22) | Rebuilding filtered arrays on identical query |
 | Theme | `Theme.apply()` / `tokensRevision` once | Binding every token knob independently on hot surfaces |
 
 ---

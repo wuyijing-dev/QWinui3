@@ -21,8 +21,9 @@ import QWinUI3.Theme
 // @notes
 //   ListView master + details host. Collapses via TwoPaneView on narrow widths.
 //   model items may be strings or objects (titleRole / subtitleRole).
-//   Optional filterText filters plain JS arrays (debounced, 1.88).
-//   Selection tracks item **object** across filter rebuilds (2.18).
+//   Optional filterText filters plain JS arrays (debounced, 1.88 / 3.51).
+//   Defaults align ItemsView: filterDebounceMs 120, maxFilterResults 256, minFilterLength 0.
+//   cacheBufferPx < 0 → mild overscan (3.43 / 3.51). Selection tracks item **object** (2.18).
 //   multiSelectEnabled adds checkboxes + detailToolbar for bulk actions (2.64).
 //   Keyboard: arrows / Home / End / Enter on the list; Esc (or Back) returns to the
 //   list in SinglePane mode. Live-region announces selection / pane changes (2.07).
@@ -39,8 +40,12 @@ T.Control {
     property string filterText: ""
     property var filterRoles: []
     property int filterDebounceMs: 120
-    // Cap filtered master rows (0 = unlimited) — 2.18.
-    property int maxFilterResults: 0
+    // Skip filter until query length >= this (3.51 — parity with ItemsView).
+    property int minFilterLength: 0
+    // Cap filtered master rows (0 = unlimited). Default 256 matches ItemsView (3.51 C22).
+    property int maxFilterResults: 256
+    // ListView overscan in px; < 0 uses Math.max(240, height * 1.5) (3.51 C22).
+    property int cacheBufferPx: -1
     property int selectedIndex: -1
     property real listPaneWidth: 280
     property real minWideWidth: 720
@@ -124,6 +129,8 @@ T.Control {
     onFilterTextChanged: _scheduleFilter(false)
     onModelChanged: _scheduleFilter(true)
     onFilterRolesChanged: _scheduleFilter(true)
+    onMinFilterLengthChanged: _scheduleFilter(true)
+    onMaxFilterResultsChanged: _scheduleFilter(true)
     Component.onCompleted: _rebuildFilter()
 
     function _scheduleFilter(immediate) {
@@ -156,7 +163,20 @@ T.Control {
         }
         var m = model
         var q = (filterText || "").trim().toLowerCase()
-        var key = q + "\0" + m.length
+        if (minFilterLength > 0 && q.length < minFilterLength) {
+            _filteredModel = []
+            _lastFilterKey = ""
+            _lastModelRef = m
+            if (selectedIndex >= 0) {
+                selectedIndex = -1
+                _selectedItemRef = null
+                selectionChanged(-1, null)
+            }
+            _pruneMultiRefs([])
+            return
+        }
+        // 3.51 C22 — fingerprint includes caps so retuning does not reuse stale arrays.
+        var key = q + "\0" + m.length + "\0" + minFilterLength + "\0" + maxFilterResults
         if (key === _lastFilterKey && m === _lastModelRef)
             return
         _lastFilterKey = key
@@ -494,8 +514,10 @@ T.Control {
                     Layout.fillHeight: true
                     clip: true
                     reuseItems: true
-                    // 3.43 H12 — mild overscan; same family as NavigationView / ItemsView.
-                    cacheBuffer: Math.max(240, Math.round(height * 1.5))
+                    // 3.43 H12 / 3.51 C22 — mild overscan; override via cacheBufferPx.
+                    cacheBuffer: root.cacheBufferPx >= 0
+                                 ? root.cacheBufferPx
+                                 : Math.max(240, Math.round(height * 1.5))
                     model: root._listModel
                     currentIndex: root.selectedIndex
                     Accessible.role: Accessible.List

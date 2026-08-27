@@ -45,6 +45,7 @@ Right-click / long-press opens contextMenu.
 Empty list shows EmptyState via emptyTitle / emptyMessage / emptyActionText.
 Large models: prefer QAbstractListModel. Optional filterText filters plain JS
 arrays (debounced, 1.88) — C++ models: filter app-side.
+`cacheBufferPx` (< 0 = auto mild overscan) and filter caps tuned in **3.51**.
 See docs/data-collections.md for pairing with ListDetailsView.
 
 ## API
@@ -70,9 +71,10 @@ See docs/data-collections.md for pairing with ListDetailsView.
 | `emptyActionText` | `string` | EmptyState action label |
 | `filterText` | `string` | Filter plain JS array models (debounced). Leave empty for C++ / ListModel — filter app-side. |
 | `filterRoles` | `var` | Roles searched when filterText is set (defaults to title + subtitle + section + symbol). |
-| `filterDebounceMs` | `int` | Debounce ms before rebuilding the filtered array (1.88). |
+| `filterDebounceMs` | `int` | Debounce ms before rebuilding the filtered array (1.88 / 3.51). |
 | `minFilterLength` | `int` | Skip filter until query length >= this (2.59 — huge JS arrays). |
-| `maxFilterResults` | `int` | Cap filtered rows for plain JS arrays (2.59). |
+| `maxFilterResults` | `int` | Cap filtered rows for plain JS arrays (default **256**, 2.59 / 3.51). |
+| `cacheBufferPx` | `int` | ListView overscan; `< 0` uses `max(240, height * 1.5)` (3.51 C22). |
 | `itemEnter` | `string` | Row enter motion: none \| fade \| slide — 2.67 B2 (honors Theme.reducedMotion) |
 | `itemExit` | `string` | Row exit motion: none \| fade \| slide |
 | `accessibleName` | `string` | Screen-reader name override (1.19) |

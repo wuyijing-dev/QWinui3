@@ -32,6 +32,7 @@ import QWinUI3.Theme
 //   Empty list shows EmptyState via emptyTitle / emptyMessage / emptyActionText.
 //   Large models: prefer QAbstractListModel. Optional filterText filters plain JS
 //   arrays (debounced, 1.88) — C++ models: filter app-side.
+//   cacheBufferPx < 0 → mild overscan (3.43 / 3.51); filterDebounceMs 120, maxFilterResults 256.
 //   See docs/data-collections.md for pairing with ListDetailsView.
 
 T.Control {
@@ -79,12 +80,14 @@ T.Control {
     property string filterText: ""
     // Roles searched when filterText is set (defaults to title + subtitle + section + symbol).
     property var filterRoles: []
-    // Debounce ms before rebuilding the filtered array (1.88).
+    // Debounce ms before rebuilding the filtered array (1.88 / 3.51).
     property int filterDebounceMs: 120
     // Skip filter until query length >= this (2.59 — huge JS arrays).
     property int minFilterLength: 0
-    // Cap filtered rows for plain JS arrays (2.59).
+    // Cap filtered rows for plain JS arrays (2.59 / 3.51).
     property int maxFilterResults: 256
+    // ListView overscan in px; < 0 uses Math.max(240, height * 1.5) (3.51 C22).
+    property int cacheBufferPx: -1
     // Row enter motion: none | fade | slide — 2.67 B2 (honors Theme.reducedMotion)
     property string itemEnter: "fade"
     // Row exit motion: none | fade | slide
@@ -118,6 +121,8 @@ T.Control {
     onFilterTextChanged: _scheduleFilter(false)
     onModelChanged: _scheduleFilter(true)
     onFilterRolesChanged: _scheduleFilter(true)
+    onMinFilterLengthChanged: _scheduleFilter(true)
+    onMaxFilterResultsChanged: _scheduleFilter(true)
     Component.onCompleted: _rebuildFilter()
 
     function _canFilterModel(m) {
@@ -363,8 +368,10 @@ T.Control {
             anchors.fill: parent
             clip: true
             reuseItems: true
-            // 3.43 H12 — mild overscan; same family as NavigationView / TreeDataGrid.
-            cacheBuffer: Math.max(240, Math.round(height * 1.5))
+            // 3.43 H12 / 3.51 C22 — mild overscan; override via cacheBufferPx.
+            cacheBuffer: root.cacheBufferPx >= 0
+                         ? root.cacheBufferPx
+                         : Math.max(240, Math.round(height * 1.5))
             model: root._filterActive ? root._filteredModel : root.model
             currentIndex: -1
             visible: !root.isEmpty

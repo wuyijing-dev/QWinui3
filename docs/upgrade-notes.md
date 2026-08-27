@@ -47,6 +47,24 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.50 → 3.51
+
+**Product version:** 3.51  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| ListDetailsView | `maxFilterResults` default **0 → 256** (C22) | Need every match on huge JS arrays? Set `maxFilterResults: 0` |
+
+### Optional / polish
+- `minFilterLength` on ListDetailsView (parity with ItemsView)
+- `cacheBufferPx` on ItemsView / ListDetailsView (`< 0` = mild auto overscan)
+
+### No action (compatible)
+- Visual / selection path unchanged for typical master lists (< 256 filter hits)
+
 ### Upgrade 3.49 → 3.50
 
 **Product version:** 3.50  
