@@ -47,6 +47,26 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.33 → 3.34
+
+**Product version:** 3.34  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | Cold-start Bootstrap / Theme deferrals | None (defaults unchanged visually) |
+
+### Optional / polish
+- `configureEnvironment` pins a **soft** RHI default (`preferredPlatformBackend` / `applyDirect`) — no Vulkan/D3D host probe before first frame
+- Opt in to legacy probe + fallback: `QWINUI3_RHI_PROBE=1`
+- `FluentIcons` builds the Iconography catalog rows lazily; named glyphs still load on first `FluentIcons` use
+- Mono font family resolution deferred until `ThemeFonts.monoFont*` / `monoFamily`
+
+### No action (compatible)
+- Public APIs additive (`preferredPlatformBackend`, `applyDirect`); default chrome/fonts unchanged
+
 ### Upgrade 3.32 → 3.33
 
 **Product version:** 3.33  

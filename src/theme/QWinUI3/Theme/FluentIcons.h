@@ -19,7 +19,7 @@ public:
 
     static FluentIcons *create(QQmlEngine *engine, QJSEngine *scriptEngine);
 
-    // Ensure named map + font entries are ready (also used by FluentIconsCatalog).
+    // Ensure named glyph map is ready. Full Iconography rows stay lazy (catalogEntries).
     static void ensureCatalogData();
     static QStringList catalogNames();
     static QVariantList catalogEntries();

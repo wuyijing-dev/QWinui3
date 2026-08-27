@@ -48,8 +48,41 @@ Use this table before copying the Gallery monorepo tree. Full `find_package` pro
 
 **CMake dependency note (1.46):** `qwinui3_style` and `qwinui3_extras` **PUBLIC**-link `qwinui3_platform`. Packaging presets `core` / `style` / `extras` therefore also collect the platform DLL/.so and `QWinUI3/Platform` QML (same runtime set as `shell` for style-based apps). Theme-only (`--modules theme`) stays the smallest shared kit.
 
-Module presets (deps auto-included): `all` / `full` · `core` (theme+style, **+platform**) · `shell` · `extras` (theme+extras, **+platform**) · per-module names.  
+Module presets (deps auto-included): `all` / `full` · `core` (theme+style, **+platform**) · `shell` · **`dashboard`** (**2.86 K1** — stable six + `DashboardShell` / `KpiTile`; Extras QML trimmed) · **`charts-lite`** (**2.86 K2** — Line/Bar/Donut + `ChartCard` / `KpiTile` only) · `extras` (theme+extras, **+platform**) · per-module names.  
 List: `python scripts/package_release_libs.py --list-modules`.
+
+### Size budgets (**2.86 K4**)
+
+Advisory targets on the **same Release machine** — compare relative deltas at **2.90** audit; not CI fail gates until checkpoint sign-off.
+
+| Preset | Typical use | Relative to `all` |
+|--------|-------------|-------------------|
+| `core` | Theme + Fluent style chrome | Smallest app shell without Extras |
+| `shell` | `StandardWindow` + Platform | Default third-party zip |
+| `dashboard` | [`examples/dashboard/`](../examples/dashboard/) ops layout | Much smaller Extras QML tree |
+| `charts-lite` | Embedded analytics only | Smallest chart/KPI subset |
+| `all` / `full` | Gallery-scale kit | Baseline |
+
+Fill measured MB in [checkpoint-290.md](checkpoint-290.md) at the **2.90** audit.
+
+### Release artifact targets (**2.89 K6**)
+
+Advisory relative targets on the **same Release machine** — fill absolute MB at **2.90** audit.
+
+| Artifact | Variant | Role | Relative target |
+|----------|---------|------|-----------------|
+| Shared zip | `libs` / `--preset shell` | Third-party app kit (QML + platform) | Default shipping zip |
+| Shared zip | `--preset dashboard` / `charts-lite` | Trimmed Extras subsets | **Much smaller** than `all` |
+| Shared zip | `--preset all` | Full kit + Gallery-scale Extras | Baseline |
+| PyPI wheel | `qwinui3[pyside6]` | Library + bundled platform kit | Smaller than zip `all` (no Gallery QML in wheel) |
+| PyPI extra | `qwinui3[gallery]` | Adds `qwinui3-gallery` CLI + staged QML | Optional; not required for app embed |
+
+CI artifact README lines should name preset + platform (Win/Linux) when publishing zips.
+
+```bat
+python scripts/package_release_libs.py --shared --preset dashboard --archive --no-build
+python scripts/package_release_libs.py --shared --preset charts-lite --archive --no-build
+```
 
 Shared builds set `CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS` so C++ helpers such as `ThemeFonts::ensureLoaded` (used from `Bootstrap`) cross DLL boundaries on MSVC.
 
@@ -128,7 +161,7 @@ QWINUI3_IMPORT_QML_PLUGINS
 
 int main(int argc, char *argv[])
 {
-    QWinUI3::configureEnvironment(argv[0]); // style env + platform QPA/DPI
+    QWinUI3::configureEnvironment(argv[0]); // style env + soft RHI + platform QPA/DPI (3.34)
     QGuiApplication app(argc, argv);
     QWinUI3::configureApplication(QStringLiteral("org.example.myapp"));
 

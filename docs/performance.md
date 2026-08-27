@@ -1,4 +1,4 @@
-# Performance handbook (1.25 / 1.39 / 1.86–1.89 / 2.18 / 2.28 / 2.40 / 2.49 / 2.59)
+# Performance handbook (1.25 / 1.39 / 1.86–1.89 / 2.18 / 2.28 / 2.40 / 2.49 / 2.59 / 3.34)
 
 Practical guidance for **large lists**, **DataTable**, **Canvas charts**, and **Gallery cold start**. QWinUI3 virtualizes through Qt Quick Controls `ListView` — there is no separate engine. Prefer these patterns before blaming the kit.
 
@@ -22,21 +22,23 @@ Related: [data-collections.md](data-collections.md) · [charts.md](charts.md) ·
 
 ---
 
-## Gallery cold start (1.39 / wave 11 — 2.70)
+## Gallery cold start (1.39 / wave 11 — 2.70 / **3.34** S10–S11)
 
 | Topic | Guidance |
 |-------|----------|
 | Critical first frame | Keep Home / shell QML lean; defer heavy catalog pages |
 | `--startup-log` | Print wall timings for configure → first frame |
+| Bootstrap RHI | Soft default only — no Vulkan/D3D probe unless `QWINUI3_RHI_PROBE=1` (**3.34** S10) |
+| Icon catalog | Named `FluentIcons.*` glyphs load on first use; full Iconography rows deferred (**3.34** S11) |
 | Icon / atlas warm-up | Optional: touch `FluentIcons` / ThemeFonts once after first frame |
 | Page cache | `pageCacheLimit` + `pinnedPageCache` (2.68); avoid compiling all pages at startup |
-| Target budget | Aim for interactive shell < 2s on mid-range Win/Linux Release builds (machine-relative) |
+| Target budget | Aim for interactive shell **&lt; 1.5 s** on CI Win Release (machine-relative); local desktop **&lt; 2 s** |
 
 Expected budget on a Release build (desktop, not a guarantee):
 
 | Phase | What loads | Target |
 |-------|------------|--------|
-| App + Bootstrap + RHI | `configureEnvironment`, `GraphicsBackend` | Usually **&lt; 200–400 ms** |
+| App + Bootstrap + RHI | `configureEnvironment` (soft RHI), `GraphicsBackend` | Usually **&lt; 200–400 ms** (no host probe by default) |
 | `Main` shell | `StandardWindow` + `NavigationView` + `ControlCatalog` singleton + **Home only** | Usually **&lt; 1–2 s** wall to first paint |
 | Other catalog pages | Compiled on **first** `openPage` / smoke create | Not part of cold start |
 
@@ -57,10 +59,37 @@ qwinui3_gallery.exe --smoke --startup-log
 | First paint | `initialPageTransition: "none"` (no enter animation on Home) |
 | Component LRU | `pageCacheLimit: 24` (default); `clearPageCache()` from Settings |
 | Home shadows | `MultiEffect` deferred one frame; off when `Theme.reducedMotion` |
-| Optional hosts | WebView2 / MediaPlayer pages use `Loader` until activated |
+| Optional hosts | WebView2 / MediaPlayer pages use `Loader` until activated; WebView2 Runtime probe deferred until page open (**2.85 S3**) |
+| Control catalog | `ControlCatalog.ensureControls()` lazy cache; Gallery shell starts with Home-only nav (**2.85 S1**) |
+| Nav model patch | `NavigationView.patchNavItem(key, patch)` — incremental title/badge/icon when structure unchanged (**2.88 C9**) |
+| Theme batch apply | `Theme.apply({…})` bumps `tokensRevision` once — bind heavy trees to revision, not every knob (**2.88 C10**) |
+| Python Gallery | `qwinui3-gallery` lazy-imports Qt + Gallery types after `configure_environment()` (**2.89 S4**) |
 | Smoke scope | Critical list only — `python scripts/smoke_gallery.py` |
 
 Heavy pages (prefer not to touch on Home): `ControlCatalog.heavyComponents()` — DataTable, Charts, FontIcon, WebView2, Media, dense chart samples.
+
+### QML bytecode cache (**2.85 S2**)
+
+`qt_add_qml_module` already compiles QML at build time. For **shipping apps** that want ahead-of-time bytecode on disk (where the toolchain supports it), run **`qmlcachegen`** on the app module after configure:
+
+| Preset / example | URI | Typical entry QML |
+|------------------|-----|-------------------|
+| **gallery-shell** | `QWinUI3.Examples.GalleryShell` | `Main.qml` |
+| **dashboard** | `QWinUI3.Examples.Dashboard` | `Main.qml` |
+
+```bat
+REM After Release configure (paths vary by Qt install / build tree):
+qmlcachegen -i build/examples/gallery-shell/qwinui3_example_gallery_shell/qmldir ^
+    examples/gallery-shell/Main.qml
+qmlcachegen -i build/examples/dashboard/qwinui3_example_dashboard/qmldir ^
+    examples/dashboard/Main.qml
+```
+
+**Notes**
+
+- Optional — not required for Gallery or library consumers; measure with `--startup-log` before adopting.
+- CI may run `qmlcachegen` when `qmlcachegen` is on `PATH` (same guard as `scripts/qwinui3.py` tool probe); skip cleanly when absent.
+- Do **not** cachegen the full Gallery catalog — page QML stays on-demand via `NavigationView.pageModule`.
 
 ### App recipe
 
@@ -304,6 +333,66 @@ QWinUI3 Gallery smoke OK (… main=…ms, pages=…ms, total=…ms)
 | `total` | Wall clock to exit | Local regression hint after perf edits |
 
 Run locally: `qwinui3_gallery --smoke --startup-log` (Release build, same machine). Compare **relative** deltas — see `python scripts/smoke_gallery.py` (**2.28**). Smoke validates **instantiate**, not navigation frame time.
+
+**S5 budget (2.89):** On CI Win Release, aim for **`main` &lt; 1500 ms** wall to first interactive shell (Home + nav). Compare **relative** deltas vs the prior tag on the **same runner** — not an absolute ms fail gate until **2.90** audit.
+
+---
+
+## NavigationView incremental navModel (**2.88 C9**)
+
+When `model` changes but **keys, kinds, and order** stay the same, `NavigationView` patches the flattened `ListModel` in place instead of `clear()` + rebuild.
+
+| API | Use |
+|-----|-----|
+| `patchNavItem(key, { title, badge, badgeValue, symbol, icon })` | Single-entry live updates (locale, notification counts) |
+| `onModelChanged` | Auto-incremental when structure unchanged; falls back to `rebuildNavModel()` |
+
+**NavigationWindow** forwards `patchNavItem`. Prefer patching over reassigning `navModel` when only labels/badges change.
+
+---
+
+## Theme token coalesce (**2.88 C10**)
+
+`Theme.apply(obj)` applies density, accent, motion, and contrast knobs in one call, then bumps **`tokensRevision`** once and emits **`tokensChanged`**.
+
+```qml
+Connections {
+    target: Theme
+    function onTokensChanged() { /* refresh derived palette once */ }
+}
+// Or bind: property int _themeGen: Theme.tokensRevision
+```
+
+Avoid binding large subtrees to every individual `Theme.*` property when a settings panel applies multiple knobs in one frame.
+
+---
+
+## Python Gallery cold start (**2.89 S4**)
+
+`qwinui3-gallery` / `python -m qwinui3_gallery`:
+
+1. `configure_environment()` — kit + binding only
+2. Lazy-import `QtCore` / `QtGui` / `QtQml` and Gallery `@QmlElement` modules
+3. `register_types(engine)` immediately before `engine.load`
+
+Measure with `--startup-log` or `--smoke --startup-log` — same fields as the C++ Gallery.
+
+---
+
+## Chart coalesce inventory (2.84 C6 / 2.90 audit)
+
+`ChartUtils.redrawCoalesceMs` (~**16 ms**) batches Canvas repaints. **2.84 C6** extended coalesce beyond the stable six.
+
+| Chart type | Coalesce | Notes |
+|------------|----------|-------|
+| LineChart, BarChart, DonutChart | Yes | Stable six baseline (**C2**) |
+| LollipopChart, FunnelChart, TreemapChart | Yes | **C6** |
+| BoxPlotChart, CandlestickChart | Yes | **C6** |
+| Area, Scatter, Heatmap, HorizontalBar, StackedBar, Combo, Histogram, … | Yes | Same `requestRedraw()` pattern |
+| Gauge family (`*Gauge.qml`) | Partial | Value-driven repaint; not unified `ChartUtils` timer |
+| Sankey | N/A | No public type in kit |
+
+Gallery `--smoke` includes `ChartsPage` — compile/instantiate gate only.
 
 ---
 

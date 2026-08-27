@@ -281,6 +281,18 @@ QString defaultBackend()
     return coerceAvailable(QString(), QString());
 }
 
+QString preferredPlatformBackend()
+{
+    const QStringList available = platformBackends();
+    for (const QString &b : fallbackOrder()) {
+        if (available.contains(b))
+            return b;
+    }
+    if (available.contains(QStringLiteral("opengl")))
+        return QStringLiteral("opengl");
+    return available.isEmpty() ? QStringLiteral("opengl") : available.first();
+}
+
 QString backendForGraphicsApi(QSGRendererInterface::GraphicsApi api)
 {
     switch (api) {
@@ -314,9 +326,12 @@ QString displayName(const QString &backend)
     return backend;
 }
 
-void apply(const QString &backend)
+void applyDirect(const QString &backend)
 {
-    const QString chosen = coerceAvailable(backend);
+    QString chosen = normalize(backend);
+    if (chosen.isEmpty() || !platformBackends().contains(chosen))
+        chosen = preferredPlatformBackend();
+
     qputenv("QSG_RHI_BACKEND", chosen.toUtf8());
 
     const auto api = graphicsApiFor(chosen);
@@ -333,6 +348,11 @@ void apply(const QString &backend)
         format.setRenderableType(QSurfaceFormat::OpenGL);
     QSurfaceFormat::setDefaultFormat(format);
     QQuickWindow::setDefaultAlphaBuffer(false);
+}
+
+void apply(const QString &backend)
+{
+    applyDirect(coerceAvailable(backend));
 }
 
 } // namespace QWinUI3::Compat::Rhi

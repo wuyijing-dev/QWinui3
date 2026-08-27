@@ -47,10 +47,15 @@ void configureEnvironment(const char *argv0)
     qunsetenv("QT_IM_MODULE");
     qputenv("QT_QUICK_CONTROLS_STYLE", "QWinUI3");
 
-    // Platform RHI default (Win d3d11 / Linux vulkan) + probe fallback when unset.
+    // Soft platform RHI default when unset (no Vulkan/D3D host probe — 3.34 S10).
+    // Opt in to the old probe+fallback chain with QWINUI3_RHI_PROBE=1.
     // Apps/CLI may still set QSG_RHI_BACKEND or call Compat::Rhi::apply beforehand.
-    if (qEnvironmentVariableIsEmpty("QSG_RHI_BACKEND"))
-        Compat::Rhi::apply(Compat::Rhi::defaultBackend());
+    if (qEnvironmentVariableIsEmpty("QSG_RHI_BACKEND")) {
+        if (qEnvironmentVariableIntValue("QWINUI3_RHI_PROBE") != 0)
+            Compat::Rhi::apply(Compat::Rhi::defaultBackend());
+        else
+            Compat::Rhi::applyDirect(Compat::Rhi::preferredPlatformBackend());
+    }
 }
 
 void configureApplication(const QString &appId)

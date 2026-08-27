@@ -36,11 +36,14 @@
 namespace QWinUI3 {
 
 /// Call **before** constructing `QGuiApplication`.
+/// Minimal cold path (3.34 S10) — no optional host probes before first frame:
 /// - Prints a one-shot welcome ASCII banner (set `QWINUI3_NO_BANNER=1` to skip)
 /// - Windows: sanitize foreign `QT_QPA_PLATFORM` (unless `QWINUI3_ALLOW_FOREIGN_QPA`)
 /// - Platform env (Wayland-first / DPI) via `WindowHelper::configurePlatformEnvironment`
 /// - Prefer system IME (`QT_IM_MODULE` cleared)
 /// - Sets `QT_QUICK_CONTROLS_STYLE=QWinUI3`
+/// - Soft RHI default when `QSG_RHI_BACKEND` empty (`preferredPlatformBackend`, no probe).
+///   Set `QWINUI3_RHI_PROBE=1` for the legacy probe + fallback chain.
 void configureEnvironment(const char *argv0 = nullptr);
 
 /// Call **after** `QGuiApplication` exists.

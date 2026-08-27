@@ -25,6 +25,10 @@ QStringList fallbackOrder();
 /// Platform ship default after runtime probe (Windows d3d11, Linux vulkan, …).
 QString defaultBackend();
 
+/// Soft OS default with **no** runtime probe (first of fallbackOrder ∩ platformBackends).
+/// Used by Bootstrap cold start (3.34 S10). Prefer defaultBackend() when probing.
+QString preferredPlatformBackend();
+
 /// Lightweight runtime check (Vulkan ICD, D3D11 DLL, offscreen QPA, …).
 /// Set QWINUI3_RHI_SKIP_PROBE=1 to treat every platformBackends() entry as supported.
 bool isRuntimeSupported(const QString &backend);
@@ -32,6 +36,10 @@ bool isRuntimeSupported(const QString &backend);
 /// Apply QSG_RHI_BACKEND + QQuickWindow::setGraphicsApi (+ surface format tweaks).
 /// Resolves via coerceAvailable (probe + fallback chain).
 void apply(const QString &backend);
+
+/// Apply @p backend without coerce/probe (normalize + env + graphics API only).
+/// Empty/unknown @p falls back to preferredPlatformBackend(). Bootstrap cold path.
+void applyDirect(const QString &backend);
 
 /// Prefer @p backend when supported; else @p fallback; else walk fallbackOrder().
 QString coerceAvailable(const QString &backend, const QString &fallback = QString());

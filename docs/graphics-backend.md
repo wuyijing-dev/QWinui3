@@ -16,7 +16,7 @@ DPI / multi-monitor restore is **not** fixed by swapping RHI — see [high-dpi.m
 | **Linux** | **`vulkan`** | `vulkan` → `opengl` |
 | **macOS** | **`metal`** (when listed) | `metal` → `opengl` → `vulkan` |
 
-`QWinUI3::configureEnvironment` / Python `configure_environment` apply this default when `QSG_RHI_BACKEND` is unset (probe + coerce). Gallery `--rhi` / Settings still override.
+`QWinUI3::configureEnvironment` / Python `configure_environment` apply this default when `QSG_RHI_BACKEND` is unset via a **soft** pin (`preferredPlatformBackend` + `applyDirect` — **no** host probe; **3.34**). Set **`QWINUI3_RHI_PROBE=1`** for the legacy probe + coerce chain. Gallery `--rhi` still coerces; Settings still override.
 
 **Frost / Mica / Acrylic on Windows:** prefer **`opengl`** explicitly if you need the cleanest DWM edge (D3D may show a thin white ring). Defaults favor native APIs; pin OpenGL when shipping frosted shells.
 
@@ -32,7 +32,9 @@ DPI / multi-monitor restore is **not** fixed by swapping RHI — see [high-dpi.m
 | D3D11 / D3D12 | Soft probe: `d3d11.dll` / `d3d12.dll` + create export present. |
 | OpenGL / Metal | Assumed available when listed in `platformBackends()`. |
 
-Set **`QWINUI3_RHI_SKIP_PROBE=1`** to skip probes and use the compile-time platform list only (CI / forced path).
+Set **`QWINUI3_RHI_SKIP_PROBE=1`** to skip probes inside `isRuntimeSupported` / `coerceAvailable` and use the compile-time platform list only (CI / forced path).
+
+Bootstrap cold path already skips probes unless **`QWINUI3_RHI_PROBE=1`**.
 
 ---
 
@@ -69,7 +71,7 @@ Restart relaunches with `--rhi=<preferred>`.
 
 1. `--rhi` / `-rhi` / `--rhi=`
 2. `QSG_RHI_BACKEND` (also set by kit `configureEnvironment` when previously empty)
-3. Platform default + probe (`d3d11` / `vulkan` / …)
+3. Soft platform default (`preferredPlatformBackend`) unless `QWINUI3_RHI_PROBE=1` (then probe + coerce)
 
 ```text
 qwinui3_gallery --rhi opengl
@@ -96,7 +98,7 @@ int main(int argc, char *argv[])
 }
 ```
 
-Helpers: `normalize`, `platformBackends`, `fallbackOrder`, `defaultBackend`, `isRuntimeSupported`, `coerceAvailable`, `apply` — [qt-version-compat.md](qt-version-compat.md).
+Helpers: `normalize`, `platformBackends`, `fallbackOrder`, `preferredPlatformBackend`, `defaultBackend`, `isRuntimeSupported`, `coerceAvailable`, `applyDirect`, `apply` — [qt-version-compat.md](qt-version-compat.md).
 
 ---
 

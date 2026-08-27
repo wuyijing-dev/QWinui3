@@ -13,7 +13,8 @@
 namespace {
 
 QMutex g_mutex;
-bool g_ready = false;
+bool g_glyphsReady = false;
+bool g_entriesReady = false;
 QStringList g_names;
 QVariantList g_entries;
 QHash<ushort, QString> g_primaryNameByCode;
@@ -35,16 +36,16 @@ void putShared(const char *key, char32_t cp)
         g_primaryNameByCode.insert(code, name);
 }
 
-void buildSharedCatalog_unlocked()
+// Named glyph map only — enough for FluentIcons.Save / chrome icons (3.34 S11).
+void buildNamedGlyphs_unlocked()
 {
-    if (g_ready)
+    if (g_glyphsReady)
         return;
 
     ThemeFonts::ensureLoaded();
     g_names.clear();
     g_glyphByName.clear();
     g_primaryNameByCode.clear();
-    g_entries.clear();
 
     // Chrome / navigation
     putShared("ChromeClose", 0xE711);
@@ -286,6 +287,17 @@ void buildSharedCatalog_unlocked()
     putShared("DockRight", 0xE90D);
 
     std::sort(g_names.begin(), g_names.end());
+    g_glyphsReady = true;
+}
+
+// Full Iconography catalog rows — deferred until FluentIconsCatalog (3.34 S11).
+void buildCatalogEntries_unlocked()
+{
+    buildNamedGlyphs_unlocked();
+    if (g_entriesReady)
+        return;
+
+    g_entries.clear();
 
     QHash<ushort, QStringList> namesByCode;
     for (auto it = g_glyphByName.constBegin(); it != g_glyphByName.constEnd(); ++it) {
@@ -327,7 +339,7 @@ void buildSharedCatalog_unlocked()
         g_entries.append(row);
     }
 
-    g_ready = true;
+    g_entriesReady = true;
 }
 
 } // namespace
@@ -335,7 +347,7 @@ void buildSharedCatalog_unlocked()
 void FluentIcons::ensureCatalogData()
 {
     QMutexLocker lock(&g_mutex);
-    buildSharedCatalog_unlocked();
+    buildNamedGlyphs_unlocked();
 }
 
 QStringList FluentIcons::catalogNames()
@@ -347,8 +359,8 @@ QStringList FluentIcons::catalogNames()
 
 QVariantList FluentIcons::catalogEntries()
 {
-    ensureCatalogData();
     QMutexLocker lock(&g_mutex);
+    buildCatalogEntries_unlocked();
     return g_entries;
 }
 

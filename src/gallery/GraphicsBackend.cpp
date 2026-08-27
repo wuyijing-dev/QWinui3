@@ -101,18 +101,28 @@ QString GraphicsBackend::applyEarly(int &argc, char **argv)
     const QString cli = parseCli(argc, argv);
     const QString env = normalize(QString::fromUtf8(qgetenv("QSG_RHI_BACKEND")));
     // Intentionally skip QSettings / instance() here — both need QCoreApplication.
+    const bool probe = qEnvironmentVariableIntValue("QWINUI3_RHI_PROBE") != 0;
 
     QString backend;
-    if (!cli.isEmpty())
-        backend = cli;
-    else if (!env.isEmpty())
-        backend = env;
-    else
+    if (!cli.isEmpty()) {
+        // Explicit CLI — always coerce (probe + fallback) so a bad --rhi still starts.
+        backend = QWinUI3::Compat::Rhi::coerceAvailable(cli, defaultBackend());
+        QWinUI3::Compat::Rhi::applyDirect(backend);
+    } else if (!env.isEmpty()) {
+        // Kit Bootstrap / user env already chose — do not re-probe on cold start (3.34).
+        if (probe)
+            backend = QWinUI3::Compat::Rhi::coerceAvailable(env, defaultBackend());
+        else
+            backend = env;
+        QWinUI3::Compat::Rhi::applyDirect(backend);
+    } else if (probe) {
         backend = defaultBackend();
+        QWinUI3::Compat::Rhi::applyDirect(backend);
+    } else {
+        backend = QWinUI3::Compat::Rhi::preferredPlatformBackend();
+        QWinUI3::Compat::Rhi::applyDirect(backend);
+    }
 
-    backend = QWinUI3::Compat::Rhi::coerceAvailable(backend, defaultBackend());
-
-    apply(backend);
     g_earlyBackend = backend;
 
     qInfo().noquote() << QStringLiteral(

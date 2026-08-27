@@ -299,7 +299,7 @@ void ThemeFonts::ensureLoaded()
     if (s_loaded)
         return;
     s_loaded = true;
-    s_monoFamily = resolveMonoFamily();
+    // Mono family resolved lazily in monoFontFor — not needed for first chrome paint (3.34 S11).
     resolveUiStacks();
 
 #if defined(Q_OS_WIN)
@@ -380,6 +380,8 @@ QString ThemeFonts::iconFamily() const
 QString ThemeFonts::monoFamily() const
 {
     ensureLoaded();
+    if (s_monoFamily.isEmpty())
+        s_monoFamily = resolveMonoFamily();
     return s_monoFamily;
 }
 
@@ -391,6 +393,8 @@ QFont ThemeFonts::monoFont() const
 QFont ThemeFonts::monoFontFor(int pixelSize) const
 {
     ensureLoaded();
+    if (s_monoFamily.isEmpty())
+        s_monoFamily = resolveMonoFamily();
     return makeMonoFont(s_monoFamily, pixelSize);
 }
 

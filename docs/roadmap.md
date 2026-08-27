@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **3.33** (master — Gallery version-label cleanup)
-**Next up:** **3.34** efficiency wave (startup) · **3.00** close-out still open ([checkpoint-300](checkpoint-300.md)) · [tranche 10 → 4.00](../ROADMAP.md#efficiency--control-depth-tranche-10-334--400)
+**Current:** **3.34** (master — Bootstrap cold path / deferred icon catalog)
+**Next up:** **3.35** cold start (QML registration) · **3.00** close-out still open ([checkpoint-300](checkpoint-300.md)) · [tranche 10 → 4.00](../ROADMAP.md#efficiency--control-depth-tranche-10-334--400)
 **Planned through:** tranche 9 complete · **3.34–3.90** efficiency + control depth · **4.00** close-out · [micro-interaction backlog last](#micro-interaction--visual-polish--deferred-last)
 **Checkpoints ahead:** **checkpoint-300** (3.00) · **checkpoint-390** (3.90) · **checkpoint-400** (4.00) · **checkpoint-310** (3.10) green
 **Qt:** 6.5+ (recommended 6.8 LTS) on master today — **2.00** raises floor to **6.8 LTS** · **3.00** to **6.10 LTS** · **4.00** to **6.12 LTS** (planned)

@@ -147,6 +147,17 @@ def default_backend() -> str:
     return coerce_available("", "")
 
 
+def preferred_platform_backend() -> str:
+    """Soft OS default with no runtime probe (Bootstrap cold path)."""
+    available = platform_backends()
+    for b in fallback_order():
+        if b in available:
+            return b
+    if "opengl" in available:
+        return "opengl"
+    return available[0] if available else _DEFAULT
+
+
 def graphics_api_for(backend: str):
     api = _qt.QtQuick.QSGRendererInterface.GraphicsApi
     return {
@@ -158,8 +169,11 @@ def graphics_api_for(backend: str):
     }.get(backend)
 
 
-def apply(backend: str) -> str:
-    chosen = coerce_available(backend)
+def apply_direct(backend: str) -> str:
+    """Apply without coerce/probe — match C++ Compat::Rhi::applyDirect."""
+    chosen = normalize(backend)
+    if not chosen or chosen not in platform_backends():
+        chosen = preferred_platform_backend()
     os.environ["QSG_RHI_BACKEND"] = chosen
     api = graphics_api_for(chosen)
     if api is not None:
@@ -174,3 +188,7 @@ def apply(backend: str) -> str:
     _qt.QtGui.QSurfaceFormat.setDefaultFormat(fmt)
     _qt.QtQuick.QQuickWindow.setDefaultAlphaBuffer(False)
     return chosen
+
+
+def apply(backend: str) -> str:
+    return apply_direct(coerce_available(backend))
