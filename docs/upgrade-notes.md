@@ -47,6 +47,24 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.31 → 3.32
+
+**Product version:** 3.32  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | NavigationView pip animation fix | None |
+
+### Optional / polish
+- Selection pip no longer snaps before the stretch animation (syncViewport/syncToCurrent respect pending moves)
+- `schedulePipMove` last-writer-wins; `currentKey` drives pip for nested siblings
+
+### No action (compatible)
+- Public API unchanged
+
 ### Upgrade 3.30 → 3.31
 
 **Product version:** 3.31  

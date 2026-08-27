@@ -84,8 +84,10 @@ Item {
     }
 
     function schedulePipMove(instant) {
-        if (instant)
-            _pipMoveInstant = true
+        // Last writer wins within the coalesce window. Sticky OR-true used to
+        // let onCountChanged/footer snaps cancel a following animated move
+        // (selection pip teleported with zero travel).
+        _pipMoveInstant = !!instant
         pipMoveCoalesce.restart()
     }
 
@@ -1224,6 +1226,9 @@ Item {
             clearDrilldown()
         footerSelected = false
         currentKey = key
+        // Arm the pip move before ensureSelectionVisible/scroll so syncViewport
+        // cannot snap contentFromY/ToY to the new row and zero out travel.
+        schedulePipMove(false)
         // Expand parent group if nested
         var slash = key.indexOf("/")
         if (slash > 0)
@@ -1247,6 +1252,8 @@ Item {
             _announce(qsTr("Navigated to %1").arg(navTitle))
         // Child rows may still be laying out after expand + scroll.
         Qt.callLater(function () {
+            if (!root)
+                return
             ensureSelectionVisible()
             schedulePipMove(false)
         })
@@ -2237,12 +2244,14 @@ Item {
                         }
 
                         onCurrentIndexChanged: Qt.callLater(function () {
-                            schedulePipMove(false)
+                            if (root)
+                                schedulePipMove(false)
                         })
                         onContentYChanged: pipScrollTimer.restart()
                         onHeightChanged: selectionPip.syncViewport()
                         onCountChanged: Qt.callLater(function () {
-                            schedulePipMove(true)
+                            if (root)
+                                schedulePipMove(true)
                         })
 
                         Keys.onPressed: function (event) {
@@ -2292,6 +2301,14 @@ Item {
 
                         Connections {
                             target: root
+                            // Nested siblings share one ListView index (the group row);
+                            // currentIndex may not change — drive the pip from currentKey.
+                            function onCurrentKeyChanged() {
+                                Qt.callLater(function () {
+                                    if (root)
+                                        schedulePipMove(false)
+                                })
+                            }
                             function onFooterSelectedChanged() {
                                 schedulePipMove(true)
                             }
@@ -2780,7 +2797,9 @@ Item {
                             // (expand/collapse / recycle can shift rows without a selection change).
                             if (root.footerSelected || navList.currentIndex < 0 || !ready)
                                 return
-                            if (pipAnim.running)
+                            // Pending / running move owns contentFromY→contentToY; snapping
+                            // here zeroes travel and kills the WinUI stretch animation.
+                            if (pipAnim.running || pipMoveCoalesce.running)
                                 return
                             var target = contentYForSelection()
                             if (target < 0)
@@ -2795,6 +2814,8 @@ Item {
                         // restarting the stretch animation.
                         function syncToCurrent() {
                             if (root.footerSelected || navList.currentIndex < 0)
+                                return
+                            if (pipMoveCoalesce.running)
                                 return
                             var target = contentYForSelection()
                             if (target < 0)
@@ -2840,7 +2861,9 @@ Item {
                             contentFromY = currentContentY()
                             contentToY = target
                             progress = 0
-                            pipAnim.start()
+                            pipAnim.from = 0
+                            pipAnim.to = 1
+                            pipAnim.restart()
                             ready = true
                         }
 
