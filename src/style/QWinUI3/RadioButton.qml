@@ -2,24 +2,28 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// RadioButton — Fluent styled RadioButton.
+// RadioButton — Fluent / WinUI 3 RadioButton (description caption).
 //
 //   RadioButton {
-//       id: radio
 //       text: qsTr("Option A")
+//       description: qsTr("Recommended for most users.")
 //       checked: true
 //   }
 //
 // @notes
-//   Style-only Fluent chrome for Qt Quick Controls RadioButton.
-//   Public API is the Qt Quick Controls RadioButton type; this file supplies visuals/metrics only.
+//   Fluent chrome with optional description. Group with ButtonGroup or RadioButtons.
 
 T.RadioButton {
     id: control
 
+    // Supporting caption under the label (Fluent settings pattern)
+    property string description: ""
+    // WinUI Header alias of text
+    property alias header: control.text
 
     Accessible.role: Accessible.RadioButton
-    Accessible.name: control.text
+    Accessible.name: control.text.length ? control.text : qsTr("Radio button")
+    Accessible.description: control.description
     Accessible.checkable: true
     Accessible.checked: control.checked
     Accessible.onToggleAction: if (control.enabled) control.click()
@@ -39,7 +43,8 @@ T.RadioButton {
         implicitWidth: Theme.radioSize
         implicitHeight: Theme.radioSize
         x: control.leftPadding
-        y: parent.height / 2 - height / 2
+        y: control.topPadding
+           + Math.max(0, (Theme.fontBody + 4 - height) / 2)
 
         Rectangle {
             id: outer
@@ -161,11 +166,32 @@ T.RadioButton {
         }
     }
 
-    contentItem: Text {
-        leftPadding: control.indicator.width + control.spacing
-        text: control.text
-        font: control.font
-        color: control.enabled ? Theme.textPrimary : Theme.textDisabled
-        verticalAlignment: Text.AlignVCenter
+    contentItem: Item {
+        implicitWidth: labelCol.implicitWidth + (control.indicator ? control.indicator.width + control.spacing : 0)
+        implicitHeight: Math.max(Theme.radioSize, labelCol.implicitHeight)
+
+        Column {
+            id: labelCol
+            x: control.indicator ? control.indicator.width + control.spacing : 0
+            width: Math.max(0, parent.width - x)
+            spacing: 2
+
+            Text {
+                width: parent.width
+                visible: control.text.length > 0
+                text: control.text
+                font: control.font
+                color: control.enabled ? Theme.textPrimary : Theme.textDisabled
+                wrapMode: Text.WordWrap
+            }
+            Text {
+                width: parent.width
+                visible: control.description.length > 0
+                text: control.description
+                font.pixelSize: Theme.fontCaption
+                color: control.enabled ? Theme.textSecondary : Theme.textDisabled
+                wrapMode: Text.WordWrap
+            }
+        }
     }
 }

@@ -3,24 +3,36 @@ import QtQuick.Templates as T
 import QtQuick.Shapes
 import QWinUI3.Theme
 
-// CheckBox — Fluent styled CheckBox.
+// CheckBox — Fluent / WinUI 3 CheckBox (description, three-state).
 //
 //   CheckBox {
-//       id: box
 //       text: qsTr("Remember me")
+//       description: qsTr("Stay signed in on this device.")
 //       checked: true
-//       onToggled: save()
+//   }
+//
+//   CheckBox {
+//       text: qsTr("Select all")
+//       tristate: true   // or isThreeState: true
+//       checkState: Qt.PartiallyChecked
 //   }
 //
 // @notes
-//   Style-only Fluent chrome for Qt Quick Controls CheckBox.
-//   Public API is the Qt Quick Controls CheckBox type; this file supplies visuals/metrics only.
+//   Fluent chrome with optional description caption. isThreeState aliases Qt tristate.
 
 T.CheckBox {
     id: control
 
+    // Supporting caption under the label (Fluent settings pattern)
+    property string description: ""
+    // WinUI Header alias of text
+    property alias header: control.text
+    // WinUI IsThreeState alias of tristate
+    property alias isThreeState: control.tristate
+
     Accessible.role: Accessible.CheckBox
-    Accessible.name: control.text
+    Accessible.name: control.text.length ? control.text : qsTr("Check box")
+    Accessible.description: control.description
     Accessible.checkable: true
     Accessible.checked: control.checkState === Qt.Checked
     Accessible.onToggleAction: if (control.enabled) control.toggle()
@@ -41,7 +53,8 @@ T.CheckBox {
         implicitWidth: Theme.checkSize
         implicitHeight: Theme.checkSize
         x: control.leftPadding
-        y: parent.height / 2 - height / 2
+        y: control.topPadding
+           + Math.max(0, (Theme.fontBody + 4 - height) / 2)
 
         Rectangle {
             id: box
@@ -189,11 +202,32 @@ T.CheckBox {
         }
     }
 
-    contentItem: Text {
-        leftPadding: control.indicator.width + control.spacing
-        text: control.text
-        font: control.font
-        color: control.enabled ? Theme.textPrimary : Theme.textDisabled
-        verticalAlignment: Text.AlignVCenter
+    contentItem: Item {
+        implicitWidth: labelCol.implicitWidth + (control.indicator ? control.indicator.width + control.spacing : 0)
+        implicitHeight: Math.max(Theme.checkSize, labelCol.implicitHeight)
+
+        Column {
+            id: labelCol
+            x: control.indicator ? control.indicator.width + control.spacing : 0
+            width: Math.max(0, parent.width - x)
+            spacing: 2
+
+            Text {
+                width: parent.width
+                visible: control.text.length > 0
+                text: control.text
+                font: control.font
+                color: control.enabled ? Theme.textPrimary : Theme.textDisabled
+                wrapMode: Text.WordWrap
+            }
+            Text {
+                width: parent.width
+                visible: control.description.length > 0
+                text: control.description
+                font.pixelSize: Theme.fontCaption
+                color: control.enabled ? Theme.textSecondary : Theme.textDisabled
+                wrapMode: Text.WordWrap
+            }
+        }
     }
 }

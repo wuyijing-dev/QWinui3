@@ -1,41 +1,42 @@
 # RadioButton
 
-Fluent styled RadioButton.
+Fluent / WinUI 3 RadioButton with optional description caption.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/RadioButton.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/RadioButton.qml)
 
-**Category:** Styled controls · **Library:** v2.81
+**Category:** Styled controls · **Library:** v3.18
 
 [← Component index](../components.md)
 
 **Gallery:** `RadioButton` — [`src/gallery/pages/RadioButtonPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/RadioButtonPage.qml)
 
-**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
-
 ## Example
 
 ```qml
+ButtonGroup { id: powerGroup }
 RadioButton {
-    id: radio
-    text: qsTr("Option A")
+    text: qsTr("Balanced")
+    description: qsTr("Good default for most PCs.")
     checked: true
+    ButtonGroup.group: powerGroup
 }
 ```
 
+## QWinUI3 properties
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `description` | `string` | `""` | Caption under the label |
+| `header` | alias | | Alias of Qt `text` |
+
+## Inherited from Qt `RadioButton`
+
+- `text` · `checked` · `ButtonGroup.group`
+- `toggled()` · `clicked()`
+
 ## Notes
 
-Style-only Fluent chrome for Qt Quick Controls RadioButton.
-Public API is the Qt Quick Controls RadioButton type; this file supplies visuals/metrics only.
-
-## API
-
-Style-only control: no extra QWinUI3 properties. Use the Qt Quick Controls `RadioButton` API (this file only supplies Fluent visuals / metrics).
-
-### Inherited from `RadioButton`
-
-- `text`
-- `checked`
-- `toggled()`
+Group exclusive selection with **ButtonGroup**, or use model-driven **RadioButtons** (`header` / `model` / `selectedIndex`) for WinUI-style option lists. Indicator aligns to the first text line when a description is present.
 
 ---
-*Generated from module sources by `scripts/generate_component_docs.py` — do not edit by hand.*
+*Updated for 3.18 description.*

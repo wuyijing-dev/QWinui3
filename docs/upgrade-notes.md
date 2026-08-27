@@ -47,6 +47,25 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.17 → 3.18
+
+**Product version:** 3.18  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | CheckBox / RadioButton description | None required |
+
+### Optional / polish
+- **CheckBox:** `description`, `header` (text alias), `isThreeState` (tristate alias)
+- **RadioButton:** `description`, `header` (text alias)
+- Gallery **CheckBox** — interactive three-state select-all; **RadioButton** — description groups
+
+### No action (compatible)
+- Stable APIs unchanged; new properties default empty
+
 ### Upgrade 3.16 → 3.17
 
 **Product version:** 3.17  
