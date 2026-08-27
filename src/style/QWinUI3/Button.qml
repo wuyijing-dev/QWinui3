@@ -3,32 +3,45 @@ import QtQuick.Controls
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// Button — Fluent Button with WinUI stroke / fill / focus chrome.
+// Button — Fluent / WinUI 3 Button (appearances, icon, loading).
 //
 //   Button {
-//       id: btn
-//       text: qsTr("OK")
-//       onClicked: accept()
+//       text: qsTr("Save")
+//       leadingSymbol: FluentIcons.Save
+//       appearance: "filled"   // filled | subtle | outline | ghost
+//       onClicked: save()
 //   }
-//   // --- API ---
-//   // style-only Fluent chrome; API is Qt Quick Controls Button
-//   // loading: true — inline busy ring, disables click (2.59)
-//   // btn.text / enabled / highlighted / clicked()
+//
+//   Button {
+//       text: qsTr("Submit")
+//       loading: true
+//   }
 //
 // @notes
-//   Style-only Fluent chrome for Qt Quick Controls Button.
-//   Public API is the Qt Quick Controls Button type; this file supplies visuals/metrics only.
+//   Appearances + optional leading Fluent icon. loading shows BusyIndicator and blocks click.
+//   Accent chrome: highlighted: true (or AccentButton).
 
 T.Button {
     id: control
 
-    // Async action in flight — disables click and shows inline ring (2.59).
+    // Async action in flight — disables click and shows inline ring
     property bool loading: false
-    // Visual variant: filled | subtle | outline | ghost | "" (legacy) — 2.66 A1/M1
+    // Visual variant: filled | subtle | outline | ghost | "" (legacy)
     property string appearance: ""
-    // Keep width stable while loading (avoids toolbar reflow).
+    // Leading FluentIcons symbol (preferred) or raw glyph
+    property var leadingSymbol: ""
+    property string leadingGlyph: ""
+    // Keep width stable while loading (avoids toolbar reflow)
     property bool preserveWidthWhileLoading: true
     property real _loadingWidthCache: 0
+
+    readonly property string _leadingGlyph: {
+        var fromSym = IconSource.resolve(leadingSymbol, "")
+        if (fromSym.length)
+            return fromSym
+        return IconSource.resolve(leadingGlyph, "")
+    }
+    readonly property bool _showLeading: _leadingGlyph.length > 0 && !loading
 
     onLoadingChanged: {
         if (loading && preserveWidthWhileLoading)
@@ -36,7 +49,7 @@ T.Button {
     }
 
     Accessible.role: Accessible.Button
-    Accessible.name: control.text
+    Accessible.name: control.text.length ? control.text : qsTr("Button")
     Accessible.description: loading ? qsTr("Loading") : ""
     hoverEnabled: enabled && !loading
     opacity: enabled && !loading ? 1 : (enabled ? 0.72 : 1)
@@ -158,11 +171,21 @@ T.Button {
     contentItem: Row {
         spacing: Theme.spacing
         anchors.centerIn: parent
+
         BusyIndicator {
             visible: control.loading
             running: control.loading
             width: Theme.dp(16)
             height: Theme.dp(16)
+            Accessible.ignored: true
+        }
+        Text {
+            visible: control._showLeading
+            anchors.verticalCenter: parent.verticalCenter
+            text: control._leadingGlyph
+            font.family: Theme.fontFamilyIcon
+            font.pixelSize: 14
+            color: control.__buttonText
             Accessible.ignored: true
         }
         Text {

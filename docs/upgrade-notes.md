@@ -47,6 +47,25 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.18 → 3.19
+
+**Product version:** 3.19  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | Button leadingSymbol | None required |
+
+### Optional / polish
+- **Button:** `leadingSymbol` / `leadingGlyph` — Fluent icon before the label
+- Gallery **Button** — appearances, accent + icon, interactive loading demo
+- Existing `appearance` / `loading` / `highlighted` unchanged
+
+### No action (compatible)
+- Stable APIs unchanged; new properties default empty
+
 ### Upgrade 3.17 → 3.18
 
 **Product version:** 3.18  
