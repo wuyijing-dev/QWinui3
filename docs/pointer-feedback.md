@@ -1,6 +1,6 @@
-# Pointer feedback (2.66 baseline · 3.11 Style deepen)
+# Pointer feedback (2.66 baseline · 3.11 Style deepen · 3.12 lists/cards)
 
-Micro-interaction recipes for press, hover, focus, and cursor affordances on Style + Extras controls. Roadmap IDs **M1–M8** (pointer) and **I1–I4** (icon micro) baseline shipped in **2.66**; **3.11** deepens stock **Style** primitives (`ToolButton`, `RoundButton`, `Slider`, `ProgressBar`, `ItemDelegate`) and gates idle `Behavior` bindings for performance.
+Micro-interaction recipes for press, hover, focus, and cursor affordances on Style + Extras controls. Roadmap IDs **M1–M8** (pointer) and **I1–I4** (icon micro) baseline shipped in **2.66**; **3.11** deepens stock **Style** primitives; **3.12** adds **IconicButton/AppBarButton.loading**, **SettingsCard/ChartCard** interactive hover, **ListTile.swipeHintVisible**, and **KpiTile/ChartCard** dashboard icon presets.
 
 See also: [animations.md](animations.md) · [icons.md](icons.md) · [accessibility.md](accessibility.md)
 

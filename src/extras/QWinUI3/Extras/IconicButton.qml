@@ -43,14 +43,16 @@ T.AbstractButton {
     property bool flat: true
     // WinUI-style glyph hover/press micro-motion (1.49); off when Theme.reducedMotion
     property bool microMotionEnabled: true
+    // Async action — ProgressRing, disables click (3.12 — I5/M11)
+    property bool loading: false
     // Hover glyph scale when microMotionEnabled
     property real hoverScale: 1.06
     // Pressed glyph scale when microMotionEnabled
     property real pressScale: 0.92
 
-    // Resolved glyph scale (1 when reduced motion / disabled)
+    // Resolved glyph scale (1 when reduced motion / disabled / loading)
     readonly property real effectiveIconScale: {
-        if (!control.microMotionEnabled || Theme.reducedMotion || !control.enabled)
+        if (!control.microMotionEnabled || Theme.reducedMotion || !control.enabled || control.loading)
             return 1
         if (control.down)
             return control.pressScale
@@ -80,10 +82,15 @@ T.AbstractButton {
         return String(badgeValue)
     }
 
-    hoverEnabled: true
+    hoverEnabled: enabled && !loading
+    opacity: enabled && !loading ? 1 : (enabled ? 0.72 : 1)
     focusPolicy: Qt.StrongFocus
 
-    PointerCursor { shape: Qt.PointingHandCursor }
+    PointerCursor {
+        shape: enabled && !loading ? Qt.PointingHandCursor : Qt.ArrowCursor
+    }
+
+    Accessible.description: loading ? qsTr("Loading") : ""
 
     implicitWidth: Math.max(Theme.controlMinWidth,
                             contentItem.implicitWidth + leftPadding + rightPadding)
@@ -106,21 +113,38 @@ T.AbstractButton {
     }
     Accessible.checkable: checkable
     Accessible.checked: checked
-    Accessible.onPressAction: if (enabled) clicked()
+    Accessible.onPressAction: if (enabled && !loading) clicked()
 
     contentItem: RowLayout {
         spacing: Theme.spacing
-        FontIcon {
-            visible: control.effectiveIconGlyph.length > 0
-            glyph: control.effectiveIconGlyph
-            fontSize: control.iconSize
-            selected: control.highlighted || control.checked
-            iconColor: Theme.textPrimary
-            microMotionEnabled: control.microMotionEnabled
-            hoverScale: control.hoverScale
-            pressScale: control.pressScale
-            enabled: control.enabled
+        Item {
+            visible: control.effectiveIconGlyph.length > 0 || control.loading
+            Layout.preferredWidth: control.iconSize * 1.25
+            Layout.preferredHeight: control.iconSize * 1.25
             Layout.alignment: Qt.AlignVCenter
+
+            FontIcon {
+                anchors.centerIn: parent
+                visible: !control.loading
+                glyph: control.effectiveIconGlyph
+                fontSize: control.iconSize
+                selected: control.highlighted || control.checked
+                iconColor: Theme.textPrimary
+                microMotionEnabled: control.microMotionEnabled && !control.loading
+                hoverScale: control.hoverScale
+                pressScale: control.pressScale
+                enabled: control.enabled
+            }
+            ProgressRing {
+                anchors.centerIn: parent
+                visible: control.loading
+                indeterminate: true
+                isActive: control.loading
+                size: Theme.dp(16)
+                strokeWidth: 2
+                showValue: false
+                Accessible.ignored: true
+            }
         }
         Text {
             visible: control.text && control.text.length > 0
@@ -134,6 +158,7 @@ T.AbstractButton {
 
     background: Rectangle {
         radius: Theme.cornerControl
+        scale: control.down && !Theme.reducedMotion && !control.loading ? 0.96 : 1
         color: {
             if (control.flat && !control.hovered && !control.down && !control.checked
                     && !control.visualFocus)
@@ -150,7 +175,15 @@ T.AbstractButton {
         border.color: Theme.strokeControl
         Behavior on color {
             enabled: !Theme.reducedMotion
+                     && (control.hovered || control.down || control.checked) && !control.loading
             ColorAnimation {
+                duration: Theme.duration(Theme.motionFast)
+                easing.type: Theme.easingStandard
+            }
+        }
+        Behavior on scale {
+            enabled: !Theme.reducedMotion && (control.down || control.hovered) && !control.loading
+            NumberAnimation {
                 duration: Theme.duration(Theme.motionFast)
                 easing.type: Theme.easingStandard
             }
@@ -180,6 +213,13 @@ T.AbstractButton {
                 font.pixelSize: 10
                 font.weight: Theme.fontWeightSemiBold
             }
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            enabled: control.loading
+            z: 20
+            onClicked: function (mouse) { mouse.accepted = true }
         }
     }
 }

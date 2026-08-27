@@ -265,12 +265,14 @@ T.Control {
             Layout.fillWidth: true
             spacing: 8
 
-            Text {
+            FontIcon {
                 visible: root.effectiveIconGlyph.length > 0
-                text: root.effectiveIconGlyph
-                font.family: Theme.iconFontFamily
-                font.pixelSize: Theme.fontBody
-                color: root.accentColor
+                Layout.alignment: Qt.AlignVCenter
+                glyph: root.effectiveIconGlyph
+                fontSize: 16
+                iconContext: "nav"
+                iconColor: root.valueColor
+                microMotionEnabled: false
             }
 
             Text {

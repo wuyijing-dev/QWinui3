@@ -48,6 +48,10 @@ T.Control {
     property string appearance: ""
     // Draw a border when true
     property bool bordered: true
+    // Hover / click card chrome (3.12 — M10)
+    property bool interactive: false
+    // Emitted when interactive and activated
+    signal clicked()
 
     readonly property string _surface: {
         var a = String(appearance || "").toLowerCase()
@@ -66,15 +70,19 @@ T.Control {
     implicitWidth: 320
     implicitHeight: 240
     padding: 12
+    hoverEnabled: root.interactive
+    focusPolicy: root.interactive ? Qt.StrongFocus : Qt.NoFocus
+    property real _revealScale: animated && !Theme.reducedMotion ? 0.97 : 1
+    scale: _revealScale * (root.interactive && cardTap.pressed && !Theme.reducedMotion ? 0.995 : 1)
     opacity: animated && !Theme.reducedMotion ? 0 : 1
-    scale: animated && !Theme.reducedMotion ? 0.97 : 1
-    Accessible.role: Accessible.Grouping
-    Accessible.name: title
+    Accessible.role: root.interactive ? Accessible.Button : Accessible.Grouping
+    Accessible.name: title.length ? title : qsTr("Chart card")
     Accessible.description: subtitle
+    Accessible.onPressAction: if (root.interactive) root.clicked()
 
     Component.onCompleted: {
         opacity = 1
-        scale = 1
+        _revealScale = 1
     }
 
     Behavior on opacity {
@@ -85,7 +93,7 @@ T.Control {
         }
     }
     Behavior on scale {
-        enabled: root.animated && !Theme.reducedMotion
+        enabled: !Theme.reducedMotion && (root.animated || root.interactive)
         NumberAnimation {
             duration: Theme.duration(Theme.motionNormal)
             easing.type: Theme.easingEnter
@@ -106,6 +114,7 @@ T.Control {
                 Layout.alignment: Qt.AlignTop
                 glyph: root.effectiveIconGlyph
                 fontSize: 18
+                iconContext: "appbar"
                 iconColor: Theme.accent
             }
 
@@ -180,9 +189,11 @@ T.Control {
             if (root._surface === "accent")
                 return Qt.rgba(Theme.accent.r, Theme.accent.g, Theme.accent.b, 0.12)
             if (root._surface === "outline")
-                return "transparent"
+                return root.interactive && root.hovered ? Theme.fillSubtle : "transparent"
             if (root._surface === "elevated")
                 return Theme.bgCardElevated
+            if (root.interactive && root.hovered)
+                return Theme.fillSubtleSecondary
             return Theme.bgCard
         }
         radius: Theme.cornerCard
@@ -190,9 +201,33 @@ T.Control {
         borderColor: root._surface === "accent"
                      ? Qt.rgba(Theme.accent.r, Theme.accent.g, Theme.accent.b, 0.45)
                      : Theme.strokeCard
-        elevation: root._surface === "elevated" ? 5
-                 : (root._surface === "outline" ? 0 : 2)
+        elevation: root._surface === "elevated"
+                 ? (root.interactive && (root.hovered || cardTap.pressed) ? 6 : 5)
+                 : (root.interactive && (root.hovered || cardTap.pressed) && !Theme.reducedMotion ? 3 : 2)
         shadowOpacity: Theme.dark ? 0.22 : 0.1
         elevated: root._surface === "elevated"
+
+        Behavior on color {
+            enabled: !Theme.reducedMotion && root.interactive
+                     && (root.hovered || cardTap.pressed)
+            ColorAnimation {
+                duration: Theme.motionMs("fast")
+                easing.type: Theme.motionEasing("standard")
+            }
+        }
+        Behavior on elevation {
+            enabled: !Theme.reducedMotion && root.interactive
+                     && (root.hovered || cardTap.pressed)
+            NumberAnimation {
+                duration: Theme.motionMs("fast")
+                easing.type: Theme.motionEasing("standard")
+            }
+        }
+    }
+
+    TapHandler {
+        id: cardTap
+        enabled: root.interactive
+        onTapped: root.clicked()
     }
 }

@@ -47,6 +47,27 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.11 → 3.12
+
+**Product version:** 3.12  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | Extras pointer / icon polish | None required |
+
+### Optional / polish
+- **AppBarButton** / **IconicButton:** `loading: true` → inline **ProgressRing** (I5)
+- **SettingsCard** / **ChartCard:** `interactive: true` for hover elevation + press scale (M10)
+- **ListTile:** `swipeHintVisible: true` for swipe-row affordance (M9)
+- **KpiTile** / **ChartCard:** leading symbols use `FontIcon` + `iconContext` presets (I7)
+- Gallery **Style spot-check** · **Iconography** — loading + card demos
+
+### No action (compatible)
+- Stable APIs unchanged; new properties default off
+
 ### Upgrade 3.10 → 3.11
 
 **Product version:** 3.11  

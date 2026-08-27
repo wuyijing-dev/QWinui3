@@ -126,7 +126,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Prefer FluentIcons.Name + FontIcon / control symbol:. Sizes: caption 10, chrome 14, body 16, AppBar 18. Colors: Theme.textPrimary / textSecondary / accent. Icon-only: toolTipText or accessibleName — never the raw glyph. Full recipe: docs/icons.md.")
+                text: qsTr("Prefer FluentIcons.Name + FontIcon / control symbol:. Sizes: caption 10, chrome 14, body 16, AppBar 18. Colors: Theme.textPrimary / textSecondary / accent. Icon-only: toolTipText or accessibleName — never the raw glyph. One foreground token per glyph unless severity palette (I12). Full recipe: docs/icons.md.")
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -180,6 +180,16 @@ CatalogPage {
                             symbol: FluentIcons.Add
                             toolTipText: qsTr("Add")
                         }
+                        AppBarButton {
+                            text: qsTr("Save")
+                            symbol: FluentIcons.Save
+                            loading: appBarBusy.checked
+                            toolTipText: qsTr("Save")
+                        }
+                    }
+                    CheckBox {
+                        id: appBarBusy
+                        text: qsTr("AppBarButton loading")
                     }
                     CheckBox {
                         text: qsTr("Theme.reducedMotion")

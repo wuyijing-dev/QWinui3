@@ -11,7 +11,7 @@ import QWinUI3.Theme
 //       description: qsTr("Use a dark appearance.")
 //       toggle: true
 //       checked: Theme.dark
-//       onToggled: Theme.dark = checked
+//       onToggled: function (checked) { Theme.dark = checked }
 //   }
 //
 //   SettingsCard {
@@ -111,6 +111,14 @@ T.Pane {
     implicitWidth: 420
     implicitHeight: Math.max(64, contentItem.implicitHeight + topPadding + bottomPadding)
     hoverEnabled: interactive
+    scale: interactive && rowTap.pressed && !Theme.reducedMotion ? 0.995 : 1
+    Behavior on scale {
+        enabled: !Theme.reducedMotion && interactive
+        NumberAnimation {
+            duration: Theme.motionMs("fast")
+            easing.type: Theme.motionEasing("standard")
+        }
+    }
     // Toggle rows are one focusable CheckBox; Switch itself is ignored for AT / Tab.
     readonly property bool _rowFocusable: interactive || toggle
     focusPolicy: _rowFocusable ? Qt.StrongFocus : Qt.NoFocus
@@ -165,20 +173,22 @@ T.Pane {
                         ? Qt.rgba(Theme.accent.r, Theme.accent.g, Theme.accent.b, 0.45)
                         : Theme.strokeCard)
         elevation: root._surface === "elevated"
-                   ? (root.interactive && root.hovered ? 6 : 4)
-                   : (root.interactive && root.hovered && !Theme.reducedMotion ? 3 : 2)
+                   ? (root.interactive && (root.hovered || rowTap.pressed) ? 6 : 4)
+                   : (root.interactive && (root.hovered || rowTap.pressed) && !Theme.reducedMotion ? 3 : 2)
         shadowOpacity: Theme.dark ? 0.22 : 0.08
         elevated: root._surface === "elevated"
 
         Behavior on color {
             enabled: !Theme.reducedMotion
+                     && (root.interactive && (root.hovered || rowTap.pressed))
             ColorAnimation {
                 duration: Theme.motionMs("fast")
                 easing.type: Theme.motionEasing("standard")
             }
         }
         Behavior on elevation {
-            enabled: !Theme.reducedMotion
+            enabled: !Theme.reducedMotion && root.interactive
+                     && (root.hovered || rowTap.pressed)
             NumberAnimation {
                 duration: Theme.motionMs("fast")
                 easing.type: Theme.motionEasing("standard")
@@ -202,6 +212,7 @@ T.Pane {
                 visible: root.effectiveHeaderIcon.length > 0 && !root._contentCenter
                 glyph: root.effectiveHeaderIcon
                 fontSize: 20
+                iconContext: "nav"
                 selected: true
                 iconColor: Theme.accent
                 microMotionEnabled: false
@@ -340,6 +351,7 @@ T.Pane {
     }
 
     TapHandler {
+        id: rowTap
         enabled: root.interactive
         onTapped: root.clicked()
     }

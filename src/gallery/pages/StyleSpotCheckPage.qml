@@ -211,6 +211,47 @@ CatalogPage {
     }
 
     ControlExample {
+        headerText: qsTr("Lists & cards")
+        qmlSource: "SettingsCard.interactive · ChartCard.interactive · ListTile.swipeHintVisible"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacingLoose
+            SettingsCard {
+                Layout.fillWidth: true
+                title: qsTr("Interactive settings row")
+                description: qsTr("Hover / press elevation — appearance elevated")
+                appearance: "elevated"
+                interactive: true
+                showChevron: true
+                onClicked: cardHint.text = qsTr("SettingsCard clicked")
+            }
+            ChartCard {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 120
+                title: qsTr("Interactive chart card")
+                subtitle: qsTr("Hover to lift")
+                appearance: "elevated"
+                interactive: true
+                onClicked: cardHint.text = qsTr("ChartCard clicked")
+            }
+            ListTile {
+                Layout.fillWidth: true
+                title: qsTr("Swipe-ready row")
+                subtitle: qsTr("Trailing accent edge at rest")
+                symbol: FluentIcons.Mail
+                swipeHintVisible: true
+            }
+            Label {
+                id: cardHint
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Press interactive cards above.")
+                color: Theme.textSecondary
+            }
+        }
+    }
+
+    ControlExample {
         headerText: qsTr("Token readout")
         qmlSource: "Theme.borderedControlFill\nTheme.bgControlRest · Theme.fillSliderThumb"
         ColumnLayout {

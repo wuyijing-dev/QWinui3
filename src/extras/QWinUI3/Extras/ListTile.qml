@@ -36,6 +36,8 @@ T.ItemDelegate {
     default property alias trailing: trailingSlot.data
     // Show trailing chevron
     property bool showChevron: false
+    // Subtle trailing edge hint for swipe rows (3.12 — M9)
+    property bool swipeHintVisible: false
     // Selected state
     property bool isSelected: false
     // Row density: compact | normal | spacious | "" (follow Theme.density) — 2.67 A3
@@ -251,6 +253,30 @@ T.ItemDelegate {
             height: Math.min(parent.height - 16, 24)
             radius: 1.5
             color: Theme.accent
+        }
+        Rectangle {
+            visible: control.swipeHintVisible && control.enabled
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            width: 3
+            radius: 1.5
+            opacity: control.hovered ? 0.55 : 0.28
+            gradient: Gradient {
+                orientation: Gradient.Horizontal
+                GradientStop { position: 0; color: "transparent" }
+                GradientStop {
+                    position: 1
+                    color: Qt.rgba(Theme.accent.r, Theme.accent.g, Theme.accent.b, 0.65)
+                }
+            }
+            Behavior on opacity {
+                enabled: !Theme.reducedMotion && control.swipeHintVisible
+                NumberAnimation {
+                    duration: Theme.duration(Theme.motionFast)
+                    easing.type: Theme.easingStandard
+                }
+            }
         }
     }
 }

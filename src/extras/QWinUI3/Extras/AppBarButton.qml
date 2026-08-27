@@ -8,12 +8,12 @@ import QWinUI3.Theme
 //   AppBarButton {
 //       text: qsTr("Add")
 //       symbol: FluentIcons.Add
+//       loading: true
 //   }
 //
 // @notes
 //   CommandBar icon+label button; symbol / labelPosition for layout.
-//   isCompact collapses the label (WinUI IsCompact); keyboardAcceleratorText shows a shortcut hint.
-//   barCompact (from CommandBar.compact) shrinks icon-only hit target toward ~40px (Edge-like).
+//   loading swaps glyph → ProgressRing 16px (3.12 — I5).
 
 IconicButton {
     id: control
@@ -72,7 +72,7 @@ IconicButton {
             return text
         return qsTr("App bar button")
     }
-    Accessible.description: keyboardAcceleratorText
+    Accessible.description: loading ? qsTr("Loading") : keyboardAcceleratorText
 
     contentItem: GridLayout {
         columns: control._labelRight ? 2 : 1
@@ -83,41 +83,39 @@ IconicButton {
 
         Item {
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-            Layout.preferredWidth: control.iconSize
-            Layout.preferredHeight: control.iconSize
+            Layout.preferredWidth: control.iconSize * 1.25
+            Layout.preferredHeight: control.iconSize * 1.25
             Layout.row: 0
             Layout.column: 0
 
-            Text {
+            FontIcon {
                 anchors.centerIn: parent
-                width: control.iconSize
-                height: control.iconSize
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-                text: control.effectiveIconGlyph
-                font.family: Theme.fontFamilyIcon
-                font.pixelSize: control.iconSize
-                color: {
+                visible: !control.loading
+                glyph: control.effectiveIconGlyph
+                fontSize: control.iconSize
+                iconContext: "appbar"
+                selected: control.highlighted || control.checked
+                iconColor: {
                     if (!control.enabled)
                         return Theme.textDisabled
                     if (control.highlighted || control.checked)
                         return Theme.accent
                     return Theme.textPrimary
                 }
-                scale: control.effectiveIconScale
-                Behavior on color {
-                    enabled: !Theme.reducedMotion
-                    ColorAnimation {
-                        duration: Theme.duration(Theme.motionFast)
-                    }
-                }
-                Behavior on scale {
-                    enabled: !Theme.reducedMotion
-                    NumberAnimation {
-                        duration: Theme.duration(Theme.motionFast)
-                        easing.type: Theme.easingStandard
-                    }
-                }
+                microMotionEnabled: control.microMotionEnabled && !control.loading
+                hoverScale: control.hoverScale
+                pressScale: control.pressScale
+                enabled: control.enabled
+            }
+            ProgressRing {
+                anchors.centerIn: parent
+                visible: control.loading
+                indeterminate: true
+                isActive: control.loading
+                size: Theme.dp(16)
+                strokeWidth: 2
+                showValue: false
+                Accessible.ignored: true
             }
         }
         ColumnLayout {
@@ -140,6 +138,7 @@ IconicButton {
                 elide: Text.ElideRight
                 horizontalAlignment: control._labelRight ? Text.AlignLeft : Text.AlignHCenter
                 maximumLineCount: 1
+                opacity: control.loading ? 0.72 : 1
             }
             Text {
                 Layout.alignment: control._labelRight ? (Qt.AlignLeft | Qt.AlignVCenter)
@@ -158,6 +157,7 @@ IconicButton {
 
     background: Rectangle {
         radius: Theme.cornerControl
+        scale: control.down && !Theme.reducedMotion && !control.loading ? 0.96 : 1
         color: {
             if (control.flat && !control.hovered && !control.down && !control.checked
                     && !control.visualFocus)
@@ -174,7 +174,15 @@ IconicButton {
         border.color: Theme.strokeControl
         Behavior on color {
             enabled: !Theme.reducedMotion
+                     && (control.hovered || control.down || control.checked) && !control.loading
             ColorAnimation {
+                duration: Theme.duration(Theme.motionFast)
+                easing.type: Theme.easingStandard
+            }
+        }
+        Behavior on scale {
+            enabled: !Theme.reducedMotion && (control.down || control.hovered) && !control.loading
+            NumberAnimation {
                 duration: Theme.duration(Theme.motionFast)
                 easing.type: Theme.easingStandard
             }
@@ -205,6 +213,13 @@ IconicButton {
                 color: Theme.textOnAccent
                 visible: text.length > 0
             }
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            enabled: control.loading
+            z: 20
+            onClicked: function (mouse) { mouse.accepted = true }
         }
     }
 }
