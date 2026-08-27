@@ -31,6 +31,7 @@ Related: [data-collections.md](data-collections.md) · [charts.md](charts.md) ·
 | Bootstrap RHI | Soft default only — no Vulkan/D3D probe unless `QWINUI3_RHI_PROBE=1` (**3.34** S10) |
 | Deferred QML modules | Charts / OSK / WebView2 are separate URIs — not registered by default Bootstrap (**3.35** S12) |
 | Import graph | Gallery `Main.qml` + default examples use **shell** set; `Extras.Charts` is optional (**3.36** S13) |
+| Gallery catalog | Home uses a **hot index** (`findByComponent` / default recents); full `_buildControls` waits until after first `frameSwapped` (**3.37** S14) |
 | Icon catalog | Named `FluentIcons.*` glyphs load on first use; full Iconography rows deferred (**3.34** S11) |
 | Icon / atlas warm-up | Optional: touch `FluentIcons` / ThemeFonts once after first frame |
 | Page cache | `pageCacheLimit` + `pinnedPageCache` (2.68); avoid compiling all pages at startup |
@@ -62,7 +63,7 @@ qwinui3_gallery.exe --smoke --startup-log
 | Component LRU | `pageCacheLimit: 24` (default); `clearPageCache()` from Settings |
 | Home shadows | `MultiEffect` deferred one frame; off when `Theme.reducedMotion` |
 | Optional hosts | WebView2 / MediaPlayer pages use `Loader` until activated; WebView2 Runtime probe deferred until page open (**2.85 S3**) |
-| Control catalog | `ControlCatalog.ensureControls()` lazy cache; Gallery shell starts with Home-only nav (**2.85 S1**) |
+| Control catalog | `ControlCatalog.ensureControls()` lazy cache; Home **hot index** so Main load does not parse the full list; left rail fills after first frame (**3.37** S14 / **2.85 S1**) |
 | Nav model patch | `NavigationView.patchNavItem(key, patch)` — incremental title/badge/icon when structure unchanged (**2.88 C9**) |
 | Theme batch apply | `Theme.apply({…})` bumps `tokensRevision` once — bind heavy trees to revision, not every knob (**2.88 C10**) |
 | Python Gallery | `qwinui3-gallery` lazy-imports Qt + Gallery types after `configure_environment()` (**2.89 S4**) |

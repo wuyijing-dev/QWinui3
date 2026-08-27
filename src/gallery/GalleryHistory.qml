@@ -79,10 +79,7 @@ Item {
         var list = resolveControls(recentIds)
         if (list.length)
             return list
-        return ControlCatalog.ensureControls().filter(function (c) {
-            return ["ButtonPage", "ToggleButtonPage", "NavigationViewPage",
-                    "InfoBarPage", "TabViewPage", "AcrylicSurfacePage"].indexOf(c.component) >= 0
-        })
+        return resolveControls(ControlCatalog.defaultRecentComponents())
     }
 
     function favoriteControls() {

@@ -26,6 +26,7 @@ StandardWindow {
     property var searchResults: []
     property var paneSearchModel: buildPaneSearchModel()
     property bool _fullNavReady: false
+    property bool _firstFrameSeen: false
 
     function buildMinimalNavModel() {
         return [{
@@ -334,38 +335,43 @@ StandardWindow {
         commands: []
     }
 
-    // Defer catalog parse one frame (S1); then always populate the left rail.
-    Timer {
-        interval: 0
-        running: true
-        repeat: false
-        onTriggered: {
-            ensureFullNavModel()
-            galleryPaletteHost.commands = [
-                {
-                    id: "home",
-                    title: qsTr("Go to Home"),
-                    symbol: FluentIcons.Home,
-                    action: function () { nav.selectKey("home") }
-                },
-                {
-                    id: "settings",
-                    title: qsTr("Open Settings"),
-                    shortcut: "Ctrl+,",
-                    symbol: FluentIcons.Settings,
-                    action: function () { window.openSettingsPage() }
-                },
-                {
-                    id: "commands-help",
-                    title: qsTr("Command palette help"),
-                    symbol: FluentIcons.Library,
-                    action: function () {
-                        var item = ControlCatalog.findByComponent("CommandPalettePage")
-                        if (item)
-                            window.navigateToControl(item, "slide")
+    // Full catalog after first present (3.37 S14) — Home + hot index only on Main load.
+    Connections {
+        target: window
+        function onFrameSwapped() {
+            if (window._firstFrameSeen)
+                return
+            window._firstFrameSeen = true
+            Qt.callLater(function () {
+                if (!window)
+                    return
+                window.ensureFullNavModel()
+                galleryPaletteHost.commands = [
+                    {
+                        id: "home",
+                        title: qsTr("Go to Home"),
+                        symbol: FluentIcons.Home,
+                        action: function () { nav.selectKey("home") }
+                    },
+                    {
+                        id: "settings",
+                        title: qsTr("Open Settings"),
+                        shortcut: "Ctrl+,",
+                        symbol: FluentIcons.Settings,
+                        action: function () { window.openSettingsPage() }
+                    },
+                    {
+                        id: "commands-help",
+                        title: qsTr("Command palette help"),
+                        symbol: FluentIcons.Library,
+                        action: function () {
+                            var item = ControlCatalog.findByComponent("CommandPalettePage")
+                            if (item)
+                                window.navigateToControl(item, "slide")
+                        }
                     }
-                }
-            ]
+                ]
+            })
         }
     }
 

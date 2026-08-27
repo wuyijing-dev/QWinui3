@@ -47,6 +47,24 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.36 → 3.37
+
+**Product version:** 3.37  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | Gallery-only catalog lazy path | None for product apps |
+
+### Optional / polish
+- Gallery Home featured / default recents resolve via a small hot index
+- Full `ControlCatalog` model builds after the first presented frame (search / pane / navigate still force it)
+
+### No action (compatible)
+- Kit QML APIs unchanged
+
 ### Upgrade 3.35 → 3.36
 
 **Product version:** 3.36  

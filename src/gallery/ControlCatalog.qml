@@ -24,16 +24,142 @@ QtObject {
     }
 
     property var _controlsCache: null
+    property var _byComponent: null
+    property var _hotByComponent: null
 
     function ensureControls() {
         if (_controlsCache !== null)
             return _controlsCache
+        GalleryLanguage.currentLocale
         _controlsCache = _buildControls()
+        var map = {}
+        for (var i = 0; i < _controlsCache.length; ++i)
+            map[_controlsCache[i].component] = _controlsCache[i]
+        _byComponent = map
         return _controlsCache
     }
 
     function invalidateControls() {
         _controlsCache = null
+        _byComponent = null
+        _hotByComponent = null
+    }
+
+    // Home / featured / default recents — do not parse the full catalog (3.37 S14).
+    function ensureHotControls() {
+        if (_hotByComponent !== null)
+            return _hotByComponent
+        GalleryLanguage.currentLocale
+        var list = [
+            {
+                title: qsTr("Button"),
+                category: "basic",
+                icon: FluentIcons.OpenInNewWindow,
+                description: qsTr("A control that responds to user input and raises a Click event."),
+                component: "ButtonPage",
+                source: "pages/ButtonPage.qml"
+            },
+            {
+                title: qsTr("ToggleButton"),
+                category: "basic",
+                icon: FluentIcons.OpenInNewWindow,
+                description: qsTr("A button that toggles between on and off states."),
+                component: "ToggleButtonPage",
+                source: "pages/ToggleButtonPage.qml"
+            },
+            {
+                title: qsTr("NavigationView"),
+                category: "navigation",
+                icon: FluentIcons.GlobalNavButton,
+                description: qsTr("Pane modes, page cache LRU, initialPageTransition — docs/performance.md."),
+                component: "NavigationViewPage",
+                source: "pages/NavigationViewPage.qml"
+            },
+            {
+                title: qsTr("Window shells"),
+                category: "navigation",
+                icon: FluentIcons.OpenInNewWindow,
+                description: qsTr("ShellWindow / Blank / Nav / MenuStatus — docs/window-shells.md."),
+                component: "WindowParadigmPage",
+                source: "pages/WindowParadigmPage.qml"
+            },
+            {
+                title: qsTr("TabView"),
+                category: "collections",
+                icon: FluentIcons.Comment,
+                description: qsTr("Document tabs. Tear-out remains experimental — docs/navigation.md."),
+                component: "TabViewPage",
+                source: "pages/TabViewPage.qml"
+            },
+            {
+                title: qsTr("CommandPalette"),
+                category: "menus",
+                icon: FluentIcons.Search,
+                description: qsTr("Ctrl+K launcher — docs/keyboard.md · docs/commands.md."),
+                component: "CommandPalettePage",
+                source: "pages/CommandPalettePage.qml"
+            },
+            {
+                title: qsTr("InfoBar"),
+                category: "status",
+                icon: FluentIcons.Info,
+                description: qsTr("Inline severity banner — docs/feedback.md."),
+                component: "InfoBarPage",
+                source: "pages/InfoBarPage.qml"
+            },
+            {
+                title: qsTr("Charts"),
+                category: "charts",
+                icon: FluentIcons.AreaChart,
+                description: qsTr("Stable six + deferred compose chooser — docs/charts.md."),
+                component: "ChartsPage",
+                source: "pages/ChartsPage.qml"
+            },
+            {
+                title: qsTr("Style spot-check"),
+                category: "layout",
+                icon: FluentIcons.Edit,
+                description: qsTr("WinUI 3 Style chrome audit — docs/style-polish.md."),
+                component: "StyleSpotCheckPage",
+                source: "pages/StyleSpotCheckPage.qml"
+            },
+            {
+                title: qsTr("AcrylicSurface"),
+                category: "layout",
+                icon: FluentIcons.Color,
+                description: qsTr("Layered acrylic-like surface for grouping content."),
+                component: "AcrylicSurfacePage",
+                source: "pages/AcrylicSurfacePage.qml"
+            },
+            {
+                title: qsTr("Accessibility"),
+                category: "status",
+                icon: FluentIcons.EaseOfAccess,
+                description: qsTr("A11y + keyboard + focus return / live regions — docs/accessibility.md."),
+                component: "AccessibilityPage",
+                source: "pages/AccessibilityPage.qml"
+            },
+            {
+                title: qsTr("Example templates"),
+                category: "navigation",
+                icon: FluentIcons.PageList,
+                description: qsTr("Copy-ready starters — gallery-shell first. examples/README.md."),
+                component: "ExamplesTemplatesPage",
+                source: "pages/ExamplesTemplatesPage.qml"
+            }
+        ]
+        var m = {}
+        for (var j = 0; j < list.length; ++j)
+            m[list[j].component] = list[j]
+        _hotByComponent = m
+        return m
+    }
+
+    function defaultRecentComponents() {
+        return [
+            "ButtonPage", "ToggleButtonPage", "NavigationViewPage",
+            "InfoBarPage", "TabViewPage", "AcrylicSurfacePage"
+        ]
     }
 
     function _buildControls() {
@@ -2245,12 +2371,13 @@ QtObject {
     function findByComponent(name) {
         if (!name)
             return null
-        var list = ensureControls()
-        for (var i = 0; i < list.length; ++i) {
-            if (list[i].component === name)
-                return list[i]
-        }
-        return null
+        if (_byComponent && _byComponent[name])
+            return _byComponent[name]
+        var hot = ensureHotControls()
+        if (hot[name])
+            return hot[name]
+        ensureControls()
+        return (_byComponent && _byComponent[name]) ? _byComponent[name] : null
     }
 
     // Critical pages for Gallery smoke page-load (keep in sync with python scripts/smoke_gallery.py).

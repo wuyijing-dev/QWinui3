@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **3.33** (master — Gallery version-label cleanup)
-**Next up:** **3.37** cold start (Gallery catalog lazy) · **3.00** breaking close-out still open ([checkpoint-300](docs/checkpoint-300.md)) · [tranche 10 → 4.00](#efficiency--control-depth-tranche-10-334--400)
+**Current:** **3.37** (master — Gallery ControlCatalog lazy)
+**Next up:** **3.38** cold start (optional hosts deferred) · **3.00** breaking close-out still open ([checkpoint-300](docs/checkpoint-300.md)) · [tranche 10 → 4.00](#efficiency--control-depth-tranche-10-334--400)
 **Planned through:** **3.10** complete · **3.13–3.33** WinUI / polish · **3.34–3.90** efficiency + control depth · **3.91–3.99** buffer · **4.00** close-out · [micro-interaction backlog last](#micro-interaction--visual-polish--deferred-last)
 **Checkpoints ahead:** **checkpoint-300** (3.00) · **checkpoint-390** (3.90) · **checkpoint-400** (4.00) · **checkpoint-310** (3.10) already green
 **Qt:** 6.5+ (recommended 6.8 LTS) on master today — **2.00** raises floor to **6.8 LTS** · **3.00** to **6.10 LTS** · **4.00** to **6.12 LTS** (planned)
@@ -706,7 +706,7 @@ One audit tag after **3.01–3.09**. **Does not** include **L1–L5** micro-inte
 | **3.34** | Cold start — Bootstrap / env | **S10–S11** | Shipped |
 | **3.35** | Cold start — QML type registration | **S12** | Shipped |
 | **3.36** | Cold start — module / import graph | **S13** | Shipped |
-| **3.37** | Cold start — Gallery catalog lazy | **S14** | Planned |
+| **3.37** | Cold start — Gallery catalog lazy | **S14** | Shipped |
 | **3.38** | Cold start — optional hosts deferred | **S15** | Planned |
 | **3.39** | Cold start — smoke + budget CI | **S16** | Planned |
 | **3.40** | Cold start wave sign-off | **S17** | Planned |
@@ -765,7 +765,7 @@ One audit tag after **3.01–3.09**. **Does not** include **L1–L5** micro-inte
 | **S11** | **3.34** | Defer Style / Theme side work that is not needed for first window paint (icon catalog rows, mono font resolve) | Shipped |
 | **S12** | **3.35** | QML type registration: register hot modules first; defer charts / OSK / WebView2 types until first import | Shipped |
 | **S13** | **3.36** | Import graph: Gallery / examples default to `shell` import set; document `QWinUI3.Extras.Charts` optional | Shipped |
-| **S14** | **3.37** | Gallery **ControlCatalog** fully lazy (no full model build on Main load) |
+| **S14** | **3.37** | Gallery **ControlCatalog** fully lazy (no full model build on Main load) | Shipped |
 | **S15** | **3.38** | Optional hosts (WebView2 runtime probe, Keyman/OSK engine, FrameStats) start **on demand** |
 | **S16** | **3.39** | `--startup-log` budgets in CI Release: interactive shell **&lt; baseline − 15%** or absolute table in performance.md |
 | **S17** | **3.40** | Cold-start wave sign-off — fill [checkpoint-390](docs/checkpoint-390.md) startup section |
