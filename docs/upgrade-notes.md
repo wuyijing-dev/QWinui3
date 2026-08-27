@@ -47,6 +47,23 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.24 → 3.25
+
+**Product version:** 3.25  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | SegmentedControl teardown | None required |
+
+### Optional / polish
+- **SegmentedControl:** null-guard `moveIndicator` after `Qt.callLater` (page unload)
+
+### No action (compatible)
+- APIs unchanged
+
 ### Upgrade 3.23 → 3.24
 
 **Product version:** 3.24  
