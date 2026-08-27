@@ -4,7 +4,7 @@ Master–detail recipe on TwoPaneView.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ListDetailsView.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ListDetailsView.qml)
 
-**Category:** Collections & data · **Library:** v2.81
+**Category:** Collections & data · **Library:** v3.10
 
 [← Component index](../components.md)
 
@@ -26,12 +26,13 @@ ListDetailsView {
 // --- API ---
 // selectedIndex / selectedItem, select(index), showList(), showDetails()
 // listHeader / detailToolbar / details slots; multiSelectEnabled + selectedItems (2.64)
+// detailToolbarMode: always | whenSelected | never (2.82 D15)
 // connectedAnimationEnabled (+ key) — list→detail and reverse on showList() (2.68 B3)
 ```
 
 ## Notes
 
-ListView master + details host. Collapses via TwoPaneView on narrow widths.
+ListView master + details host (`reuseItems` + mild `cacheBuffer`). Collapses via TwoPaneView on narrow widths.
 model items may be strings or objects (titleRole / subtitleRole).
 Optional filterText filters plain JS arrays (debounced, 1.88).
 Selection tracks item **object** across filter rebuilds (2.18).
@@ -58,6 +59,7 @@ list in SinglePane mode. Live-region announces selection / pane changes (2.07).
 | `details` | `alias` | — |
 | `listHeader` | `alias` | — |
 | `detailToolbar` | `alias` | — |
+| `detailToolbarMode` | `string` | Detail toolbar visibility: always \| whenSelected \| never (2.82 D15). |
 | `multiSelectEnabled` | `bool` | Master multi-select + bulk toolbar slot (2.64). |
 | `connectedAnimationEnabled` | `bool` | Morph list row → details pane via ConnectedAnimationService |
 | `connectedAnimationKey` | `string` | — |
@@ -71,6 +73,7 @@ list in SinglePane mode. Live-region announces selection / pane changes (2.07).
 | `filteredCount` | `int` | — |
 | `selectedItems` | `var` | — |
 | `selectionCount` | `int` | — |
+| `detailToolbarVisible` | `bool` | — |
 
 ### Signals
 

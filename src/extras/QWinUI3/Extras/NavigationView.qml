@@ -2227,6 +2227,8 @@ Item {
                         highlightFollowsCurrentItem: false
                         keyNavigationEnabled: true
                         focus: true
+                        // 3.43 H12 — pool delegates; buffer keeps SelectionPip anchors alive.
+                        reuseItems: true
                         // Keep selected rows instantiated longer so the pip can
                         // re-sync after expand/collapse without waiting on recycle.
                         cacheBuffer: Math.max(240, Math.round(height * 1.5))

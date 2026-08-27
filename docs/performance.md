@@ -35,6 +35,7 @@ Related: [data-collections.md](data-collections.md) · [charts.md](charts.md) ·
 | Icon catalog | Named `FluentIcons.*` glyphs load on first use; full Iconography rows deferred (**3.34** S11) |
 | Icon QFont | `Theme.iconFontFor(px[, weight])` returns a **cached** PreferNoHinting `QFont` per size/weight (**3.41** H10) — prefer over `font.family: Theme.fontFamilyIcon` |
 | Theme font stacks | Default load builds **UI** stack only; Text / Display face lists resolve on first `textFamilies` / `displayFamilies` (**3.42** H11); density stays formula (no metric pack tables) |
+| List / Tree overscan | Kit lists set `reuseItems` + mild `cacheBuffer` (**3.43** H12) — see [Virtualization](#virtualization) |
 | Icon / atlas warm-up | Optional: touch `FluentIcons` / ThemeFonts once after first frame |
 | Page cache | `pageCacheLimit` + `pinnedPageCache` (2.68); avoid compiling all pages at startup |
 | Target budget | Aim for interactive shell **&lt; 1.5 s** on CI Win Release; local desktop **&lt; 2 s** — wave **S10–S17** signed off at **3.40** ([checkpoint-390](checkpoint-390.md#cold-start-sign-off-s10s17--340)) |
@@ -129,12 +130,24 @@ Do **not** `import` every page type into `Main.qml` — that forces compile at s
 
 | Surface | How it scrolls | Notes |
 |---------|----------------|-------|
-| [`DataTable`](components/DataTable.md) | `ListView` + `reuseItems` + fixed `rowHeight` | Filter/sort rebuild `_viewRows` in JS — **debounced + skip unchanged**; **multi-sort / hiddenColumns / columnWidths (2.66)** |
-| [`ItemsView`](components/ItemsView.md) | `ListView` + `reuseItems` | Optional `filterText` on JS arrays (1.88); C++ model at scale |
-| [`ListDetailsView`](components/ListDetailsView.md) | `ListView` + `reuseItems` | Optional `filterText` on master list (1.88) |
-| [`ItemsRepeater`](components/ItemsRepeater.md) | `ListView` + `reuseItems` (1.25) | Optional `filterText` on JS arrays (1.88) |
+| [`DataTable`](components/DataTable.md) | `ListView` + `reuseItems` + fixed `rowHeight` | `cacheBuffer: rowHeight * 12`; filter/sort rebuild `_viewRows` in JS — **debounced + skip unchanged**; **multi-sort / hiddenColumns / columnWidths (2.66)** |
+| [`ItemsView`](components/ItemsView.md) | `ListView` + `reuseItems` | `cacheBuffer: max(240, height * 1.5)` (**3.43**); optional `filterText` on JS arrays (1.88); C++ model at scale |
+| [`ListDetailsView`](components/ListDetailsView.md) | `ListView` + `reuseItems` | Same mild `cacheBuffer` as ItemsView (**3.43**); optional `filterText` on master list (1.88) |
+| [`ItemsRepeater`](components/ItemsRepeater.md) | `ListView` + `reuseItems` (1.25) | `cacheBuffer: Theme.navItemHeight * 8`; optional `filterText` on JS arrays (1.88) |
+| [`NavigationView`](components/NavigationView.md) pane | `ListView` + `reuseItems` (**3.43**) | `cacheBuffer: max(240, height * 1.5)` — keeps SelectionPip anchors alive |
+| [`FileTree`](components/FileTree.md) / raw `TreeView` | `TreeView` (`TableView`) + `reuseItems` | FileTree sets the same mild buffer (**3.43**); raw trees should too |
 | [`ItemsWrapGrid`](components/ItemsWrapGrid.md) | `WrapPanel` + `Repeater` (2.24) | Not virtualized — low hundreds; optional `filterText` |
-| Raw QQC `ListView` | Set `reuseItems: true` yourself | Required for delegate pooling |
+| Raw QQC `ListView` | Set `reuseItems: true` yourself | Pair with a mild `cacheBuffer` (see table below) |
+
+### `cacheBuffer` recipes (**3.43** H12)
+
+| Pattern | Typical value | Trade-off |
+|---------|---------------|-----------|
+| Navigation / ItemsView / FileTree | `Math.max(240, Math.round(height * 1.5))` | Cuts RSS vs huge buffers; still enough for fast fling |
+| ItemsRepeater | `Theme.navItemHeight * 8` | Stable tile height |
+| DataTable | `rowHeight * 12` | Dense rows need a few screens of overscan |
+| Too large | e.g. `height * 10` | RSS ↑ with little scroll gain |
+| Too small / `0` | — | Fast fling shows empty bands; SelectionPip / expand can glitch |
 
 **Rule of thumb**
 

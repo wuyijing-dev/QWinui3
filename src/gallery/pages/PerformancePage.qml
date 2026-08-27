@@ -28,7 +28,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Prefer virtualized views (DataTable / ItemsView / ListView with reuseItems). Keep model roles lean. Cap chart points for live series. Avoid MultiEffect on first paint of heavy pages — Gallery Home defers card shadows.")
+                text: qsTr("Prefer virtualized views (DataTable / ItemsView / ListView with reuseItems). Pair with a mild cacheBuffer — see docs/performance.md. Keep model roles lean. Cap chart points for live series. Avoid MultiEffect on first paint of heavy pages — Gallery Home defers card shadows.")
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -36,7 +36,7 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 color: Theme.textPrimary
-                text: qsTr("ItemsRepeater enables ListView.reuseItems by default. Heavy demos: DataTable, Charts hub.")
+                text: qsTr("ItemsRepeater / ItemsView / NavigationView pane enable reuseItems + cacheBuffer by default. Heavy demos: DataTable, Charts hub.")
             }
             RowLayout {
                 Button {

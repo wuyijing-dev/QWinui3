@@ -4,7 +4,7 @@ ListView recipe: sections, selection, context MenuFlyout, EmptyState.
 
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/ItemsView.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/ItemsView.qml)
 
-**Category:** Collections & data · **Library:** v2.81
+**Category:** Collections & data · **Library:** v3.10
 
 [← Component index](../components.md)
 
@@ -38,7 +38,7 @@ ItemsView {
 
 ## Notes
 
-Fluent list recipe over QQC ListView (`reuseItems`; not a separate virtualization engine).
+Fluent list recipe over QQC ListView (`reuseItems` + mild `cacheBuffer`; not a separate virtualization engine).
 selectionMode: selectionNone | selectionSingle | selectionMultiple.
 Keyboard: arrows / Home / End / Page / Enter; Space toggles multi-select; Ctrl+A; Esc clears.
 Right-click / long-press opens contextMenu.

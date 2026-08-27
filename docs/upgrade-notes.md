@@ -47,6 +47,24 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.42 → 3.43
+
+**Product version:** 3.43  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | List/Tree `reuseItems` + `cacheBuffer` defaults (H12) | None — visuals unchanged; raw `ListView`/`TreeView` should still set reuse yourself |
+
+### Optional / polish
+- Prefer kit recipes (`ItemsView`, `ListDetailsView`, `NavigationView`, `FileTree`) over hand-rolled lists
+- See [performance.md](performance.md#cachebuffer-recipes-343-h12) for overscan guidance
+
+### No action (compatible)
+- Existing explicit `cacheBuffer` / `reuseItems` on app lists still win
+
 ### Upgrade 3.41 → 3.42
 
 **Product version:** 3.42  

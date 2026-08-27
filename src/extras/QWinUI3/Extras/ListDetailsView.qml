@@ -15,6 +15,7 @@ import QWinUI3.Theme
 //   // --- API ---
 //   // selectedIndex / selectedItem, select(index), showList(), showDetails()
 //   // listHeader / detailToolbar / details slots; multiSelectEnabled + selectedItems (2.64)
+//   // detailToolbarMode: always | whenSelected | never (2.82 D15)
 //   // connectedAnimationEnabled (+ key) — list→detail and reverse on showList() (2.68 B3)
 //
 // @notes
@@ -46,6 +47,8 @@ T.Control {
     property alias details: detailsSlot.data
     property alias listHeader: listHeaderSlot.data
     property alias detailToolbar: detailToolbarSlot.data
+    // Detail toolbar visibility: always | whenSelected | never (2.82 D15).
+    property string detailToolbarMode: "whenSelected"
     // Master multi-select + bulk toolbar slot (2.64).
     property bool multiSelectEnabled: false
     // Morph list row → details pane via ConnectedAnimationService
@@ -96,6 +99,18 @@ T.Control {
         return out
     }
     readonly property int selectionCount: selectedItems.length
+    readonly property bool detailToolbarVisible: {
+        var mode = String(detailToolbarMode || "whenSelected").toLowerCase()
+        if (mode === "never")
+            return false
+        if (!detailToolbarSlot.children.length)
+            return false
+        if (mode === "always")
+            return true
+        if (multiSelectEnabled)
+            return selectionCount > 0
+        return selectedIndex >= 0
+    }
 
     property var _multiRefs: []
     property int _multiAnchorIndex: -1
@@ -479,6 +494,8 @@ T.Control {
                     Layout.fillHeight: true
                     clip: true
                     reuseItems: true
+                    // 3.43 H12 — mild overscan; same family as NavigationView / ItemsView.
+                    cacheBuffer: Math.max(240, Math.round(height * 1.5))
                     model: root._listModel
                     currentIndex: root.selectedIndex
                     Accessible.role: Accessible.List
@@ -623,8 +640,8 @@ T.Control {
                 Item {
                     id: detailToolbarSlot
                     Layout.fillWidth: true
-                    Layout.preferredHeight: children.length ? childrenRect.height : 0
-                    visible: children.length > 0
+                    Layout.preferredHeight: root.detailToolbarVisible ? childrenRect.height : 0
+                    visible: root.detailToolbarVisible
                 }
 
                 Item {

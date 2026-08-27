@@ -110,6 +110,8 @@ CatalogPage {
                 Layout.preferredHeight: 280
                 clip: true
                 boundsBehavior: Flickable.StopAtBounds
+                reuseItems: true
+                cacheBuffer: Math.max(240, Math.round(height * 1.5))
                 Accessible.name: qsTr("Folder tree")
                 Accessible.description: qsTr("Use Left and Right arrows to collapse or expand branches.")
                 model: DemoTreeModel {}

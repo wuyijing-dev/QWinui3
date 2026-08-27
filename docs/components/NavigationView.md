@@ -2,9 +2,11 @@
 
 WinUI NavigationView with pane modes and page stack.
 
+Left pane `ListView` uses `reuseItems` and a mild `cacheBuffer` (keeps SelectionPip anchors alive) — [performance.md](../performance.md#cachebuffer-recipes-343-h12).
+
 `import QWinUI3.Extras` · [`src/extras/QWinUI3/Extras/NavigationView.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/extras/QWinUI3/Extras/NavigationView.qml)
 
-**Category:** Navigation · **Library:** v2.81
+**Category:** Navigation · **Library:** v3.10
 
 [← Component index](../components.md)
 
@@ -39,13 +41,19 @@ NavigationView {
 //           nav.openFade("HomePage"), nav.openDrill("HomePage")
 //           nav.navigateToTitle("Home"), nav.reloadPage()
 //           nav.navigateToPage("DetailPage", "drill")  // in-page drill + history (2.56)
+//           nav.pushDrilldown(title, component) / popDrilldown()  // 3.04 N3
 //           nav.clearPageCache()  // drop cached page Components (keep current)
 // groups:   nav.toggleGroup(key), nav.setGroupExpanded(key, true)
+// pins:     nav.pinNavKey(key), nav.toggleNavPin(key)  // 3.04 N1
+// jump:     jumpListEnabled + nav.openJumpList()  // 3.04 N2
 // pane:     nav.togglePane()  // TitleBar hamburger; no-op when too narrow
 //           compactPaneStyle "iconOnly" | "labeled"
 // reorder:  nav.moveNavItem(from, to)   // requires isReorderable
+// patch:     nav.patchNavItem("home", { badge: "3", title: "Home" })  // incremental — 2.88 C9
 // signals:  onItemClicked, onPageOpened, onFooterClicked, onBackRequested,
 //           onPaneSearchActivated, onPaneSearchTextEdited, onModelReordered
+// footer:    footerBadge / footerBadgeValue on settings row
+// search:    paneSearchHighlightQuery highlights matching nav titles while typing
 ```
 
 ## Notes
@@ -96,6 +104,8 @@ Live-region announces nav selection / pane expand (2.07) when announceChanges is
 | `footerText` | `string` | Footer row label |
 | `footerSymbol` | `var` | Footer FluentIcons symbol |
 | `footerIcon` | `string` | Footer glyph string fallback |
+| `footerBadge` | `string` | Footer InfoBadge text / numeric count (2.82 D16). |
+| `footerBadgeValue` | `real` | — |
 | `footerComponent` | `string` | Page component name loaded for the footer row (e.g. "SettingsPage") |
 | `pageModule` | `string` | QML import URI used to resolve page components |
 | `footerSelected` | `bool` | True when footer row is selected |
@@ -110,6 +120,14 @@ Live-region announces nav selection / pane expand (2.07) when announceChanges is
 | `paneSearchText` | `string` | Pane SearchBox text |
 | `paneSearchModel` | `var` | Suggestion model for pane SearchBox: [{ title, key?, component? }] |
 | `paneSearchPlaceholder` | `string` | Placeholder for pane SearchBox (product apps: qsTr("Search photos")) |
+| `paneSearchHighlightQuery` | `string` | Non-empty when pane search should highlight matching nav titles (2.82 D16). |
+| `pinnedNavKeys` | `var` | User-pinnable destinations shown above the pane list (3.04 N1). Keys match model keys. |
+| `maxPinnedNavKeys` | `int` | — |
+| `pinnedNavSettingsCategory` | `string` | Non-empty → persist pinnedNavKeys in Settings (JSON array). |
+| `jumpListEnabled` | `bool` | Alphabetical / group jump-list flyout (3.04 N2). |
+| `drilldownStack` | `var` | In-page drill trail beyond the selected nav key (3.04 N3). |
+| `drilldownDepth` | `int` | — |
+| `breadcrumbTrail` | `var` | Bind BreadcrumbBar.model to this so drilldown crumbs refresh (3.04 N3). |
 | `paneHeader` | `alias` | Custom pane header slot |
 | `paneFooter` | `alias` | Custom pane footer slot |
 | `isReorderable` | `bool` | Drag rows to reorder top-level model entries |
@@ -162,7 +180,19 @@ Live-region announces nav selection / pane expand (2.07) when announceChanges is
 | `schedulePipMove(instant)` | — |
 | `moveNavItem(fromIndex, toIndex)` | Reorder a top-level nav model entry (requires isReorderable) |
 | `isGroupExpanded(key)` | True when the nav group is expanded |
-| `rebuildNavModel()` | Rebuild the flattened ListModel from model |
+| `rebuildNavModel()` | — |
+| `patchNavItem(key, patch)` | Patch a single nav entry (title / badge / icon) without replacing model — 2.88 C9. |
+| `isNavPinned(key)` | — |
+| `pinNavKey(key)` | — |
+| `unpinNavKey(key)` | — |
+| `toggleNavPin(key)` | — |
+| `pinnedNavEntries()` | — |
+| `collectJumpListEntries()` | — |
+| `openJumpList()` | — |
+| `closeJumpList()` | — |
+| `clearDrilldown()` | — |
+| `pushDrilldown(title, component, mode)` | — |
+| `popDrilldown(mode)` | — |
 | `setGroupExpanded(key, expanded)` | Expand or collapse a nav group by key |
 | `selectionAnchorItem()` | Visual anchor item for the selection pip |
 | `toggleGroup(key)` | Toggle a nav group expanded state |

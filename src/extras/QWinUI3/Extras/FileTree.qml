@@ -195,6 +195,9 @@ T.Control {
                 anchors.fill: parent
                 anchors.margins: 1
                 clip: true
+                // 3.43 H12 — TableView-backed; pool rows + mild overscan.
+                reuseItems: true
+                cacheBuffer: Math.max(240, Math.round(height * 1.5))
                 boundsBehavior: Flickable.StopAtBounds
                 focusPolicy: Qt.StrongFocus
                 model: root.treeModel

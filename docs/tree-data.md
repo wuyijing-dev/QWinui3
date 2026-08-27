@@ -150,6 +150,8 @@ TreeView {
     id: tree
     clip: true
     boundsBehavior: Flickable.StopAtBounds
+    reuseItems: true                                      // 3.43 H12
+    cacheBuffer: Math.max(240, Math.round(height * 1.5))  // mild overscan
     Accessible.name: qsTr("Folder tree")
     model: DemoTreeModel {}          // QStandardItemModel / QAbstractItemModel
     selectionModel: ItemSelectionModel { model: tree.model }
@@ -167,8 +169,9 @@ Product tips:
 1. Use a C++ `QAbstractItemModel` (or `QStandardItemModel`) — JS trees do not scale.
 2. Wire `selectionModel` for current row / LoB commands.
 3. Context actions: `MenuFlyout` on right-click (Gallery recipe).
-4. Bulk chrome: `expandRecursively(-1)` / `collapseRecursively(-1)`.
-5. Paint with Fluent `TreeViewDelegate` (style) — do not restyle from scratch.
+4. Always set `reuseItems` on raw `TreeView` (FileTree already does) — [performance.md](performance.md#cachebuffer-recipes-343-h12).
+5. Bulk chrome: `expandRecursively(-1)` / `collapseRecursively(-1)`.
+6. Paint with Fluent `TreeViewDelegate` (style) — do not restyle from scratch.
 
 ---
 

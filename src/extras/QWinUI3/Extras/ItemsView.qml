@@ -363,6 +363,8 @@ T.Control {
             anchors.fill: parent
             clip: true
             reuseItems: true
+            // 3.43 H12 — mild overscan; same family as NavigationView / TreeDataGrid.
+            cacheBuffer: Math.max(240, Math.round(height * 1.5))
             model: root._filterActive ? root._filteredModel : root.model
             currentIndex: -1
             visible: !root.isEmpty
