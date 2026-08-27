@@ -120,7 +120,7 @@ CatalogPage {
                         if (form.validate()) {
                             toasts.successToast(qsTr("All fields passed validation."), qsTr("Looks good"))
                         } else {
-                            form.focusFirstError()
+                            form.scrollToFirstError()
                         }
                     }
                 }
@@ -135,7 +135,7 @@ CatalogPage {
 
     ControlExample {
         headerText: qsTr("Async validation (2.55)")
-        qmlSource: "form.beginValidate()\n// … await server …\nform.endValidate()"
+        qmlSource: "form.beginValidate()\n// … await server …\nform.endValidate(); form.scrollToFirstError()"
 
         FormLayout {
             id: asyncForm
@@ -178,7 +178,7 @@ CatalogPage {
                     if (asyncForm.endValidate())
                         toasts.successToast(qsTr("Email available."), qsTr("Async OK"))
                     else
-                        asyncForm.focusFirstError()
+                        asyncForm.scrollToFirstError()
                 }
             }
         }

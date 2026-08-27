@@ -523,8 +523,7 @@ T.Control {
                 anchors.top: parent.top
                 anchors.topMargin: 6
                 text: FluentIcons.Add
-                font.family: Theme.fontFamilyIcon
-                font.pixelSize: 12
+                font: Theme.iconFontFor(12)
                 Accessible.name: qsTr("Add tab")
                 scale: down && !Theme.reducedMotion ? 0.92 : 1
                 Behavior on scale {
@@ -640,8 +639,7 @@ T.Control {
                                     visible: tabBtn._icon.length > 0
                                     Layout.leftMargin: 8
                                     text: tabBtn._icon
-                                    font.family: Theme.fontFamilyIcon
-                                    font.pixelSize: 14
+                                    font: Theme.iconFontFor(14)
                                     color: tabBtn.checked ? Theme.accent : Theme.textSecondary
                                     verticalAlignment: Text.AlignVCenter
                                     Behavior on color {
@@ -680,8 +678,7 @@ T.Control {
                                     Layout.preferredHeight: 28
                                     Layout.rightMargin: 4
                                     text: FluentIcons.ChromeClose
-                                    font.family: Theme.fontFamilyIcon
-                                    font.pixelSize: 10
+                                    font: Theme.iconFontFor(10)
                                     Accessible.name: qsTr("Close tab")
                                     scale: down && !Theme.reducedMotion ? 0.9 : 1
                                     Behavior on scale {

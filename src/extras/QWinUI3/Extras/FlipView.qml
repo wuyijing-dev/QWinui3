@@ -181,7 +181,7 @@ T.Control {
             }
             enabled: control.wrap || swipe.currentIndex > 0
             text: control._vertical ? FluentIcons.ChevronUp : FluentIcons.ChevronLeft
-            font.family: Theme.fontFamilyIcon
+            font: Theme.iconFontFor(14)
             Accessible.name: qsTr("Previous")
             focusPolicy: Qt.NoFocus
             onClicked: control.goPrevious()
@@ -211,7 +211,7 @@ T.Control {
             }
             enabled: control.wrap || swipe.currentIndex < swipe.count - 1
             text: control._vertical ? FluentIcons.ChevronDown : FluentIcons.ChevronRight
-            font.family: Theme.fontFamilyIcon
+            font: Theme.iconFontFor(14)
             Accessible.name: qsTr("Next")
             focusPolicy: Qt.NoFocus
             onClicked: control.goNext()

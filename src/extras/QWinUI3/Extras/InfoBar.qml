@@ -287,8 +287,7 @@ T.Control {
             visible: root.showIcon
             Layout.alignment: Qt.AlignVCenter
             text: root._severityGlyph
-            font.family: Theme.fontFamilyIcon
-            font.pixelSize: 16
+            font: Theme.iconFontFor(16)
             color: root._accent
         }
 
@@ -382,8 +381,7 @@ T.Control {
 
             contentItem: Text {
                 text: FluentIcons.ChromeClose
-                font.family: Theme.fontFamilyIcon
-                font.pixelSize: 10
+                font: Theme.iconFontFor(10)
                 color: Theme.textSecondary
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter

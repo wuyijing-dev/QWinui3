@@ -52,8 +52,7 @@ ColumnLayout {
             contentItem: Text {
                 anchors.centerIn: parent
                 text: favBtn.favorited ? FluentIcons.FavoriteStarFill : FluentIcons.Favorite
-                font.family: Theme.fontFamilyIcon
-                font.pixelSize: 18
+                font: Theme.iconFontFor(18)
                 color: favBtn.favorited ? Theme.systemCaution : Theme.textSecondary
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter

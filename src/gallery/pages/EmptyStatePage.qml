@@ -47,8 +47,7 @@ CatalogPage {
                 Text {
                     anchors.centerIn: parent
                     text: FluentIcons.Mail
-                    font.family: Theme.fontFamilyIcon
-                    font.pixelSize: 22
+                    font: Theme.iconFontFor(22)
                     color: Theme.systemSuccess
                 }
             }

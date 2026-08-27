@@ -23,7 +23,20 @@ QtObject {
         ]
     }
 
-    readonly property var controls: {
+    property var _controlsCache: null
+
+    function ensureControls() {
+        if (_controlsCache !== null)
+            return _controlsCache
+        _controlsCache = _buildControls()
+        return _controlsCache
+    }
+
+    function invalidateControls() {
+        _controlsCache = null
+    }
+
+    function _buildControls() {
         GalleryLanguage.currentLocale
         return [
         {
@@ -1179,6 +1192,14 @@ QtObject {
             source: "pages/DashboardPage.qml"
         },
         {
+            title: qsTr("Ops console"),
+            category: "charts",
+            icon: FluentIcons.SpeedHigh,
+            description: qsTr("LiveMetricStrip — throttled KPI ring + compare-period (3.05)."),
+            component: "OpsConsolePage",
+            source: "pages/OpsConsolePage.qml"
+        },
+        {
             title: qsTr("BusyIndicator"),
             category: "status",
             icon: FluentIcons.Sync,
@@ -1601,6 +1622,14 @@ QtObject {
             description: qsTr("Wide / Tall / SinglePane breakpoints — docs/adaptive-layout.md (1.42)."),
             component: "TwoPaneViewPage",
             source: "pages/TwoPaneViewPage.qml"
+        },
+        {
+            title: qsTr("SplitWorkspace"),
+            category: "layout",
+            icon: FluentIcons.DockLeft,
+            description: qsTr("2–3 resizable panes + LayoutPreset — docs/app-platform-3xx.md (3.03)."),
+            component: "SplitWorkspacePage",
+            source: "pages/SplitWorkspacePage.qml"
         },
         {
             title: qsTr("Pivot"),
@@ -2105,7 +2134,7 @@ QtObject {
     }
 
     function controlsInCategory(key) {
-        return controls.filter(function (c) { return c.category === key })
+        return ensureControls().filter(function (c) { return c.category === key })
     }
 
     function isRailVisible(componentId) {
@@ -2120,6 +2149,7 @@ QtObject {
         if (cat === "charts") {
             return componentId === "ChartsPage"
                 || componentId === "DashboardPage"
+                || componentId === "OpsConsolePage"
                 || componentId === "GaugesHubPage"
                 || componentId === "LineChartPage"
                 || componentId === "BarChartPage"
@@ -2154,7 +2184,7 @@ QtObject {
     }
 
     function controlsForRail(key) {
-        return controls.filter(function (c) {
+        return ensureControls().filter(function (c) {
             return c.category === key && isRailVisible(c.component)
         })
     }
@@ -2215,9 +2245,10 @@ QtObject {
     function findByComponent(name) {
         if (!name)
             return null
-        for (var i = 0; i < controls.length; ++i) {
-            if (controls[i].component === name)
-                return controls[i]
+        var list = ensureControls()
+        for (var i = 0; i < list.length; ++i) {
+            if (list[i].component === name)
+                return list[i]
         }
         return null
     }
@@ -2269,8 +2300,9 @@ QtObject {
         // Cap results for title-bar popup responsiveness.
         var limit = 24
         var out = []
-        for (var i = 0; i < controls.length; ++i) {
-            var c = controls[i]
+        var list = ensureControls()
+        for (var i = 0; i < list.length; ++i) {
+            var c = list[i]
             var title = (c.title || "").toLowerCase()
             var comp = (c.component || "").toLowerCase()
             var compShort = comp.replace(/page$/, "")

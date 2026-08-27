@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Templates as T
+import QtCore
 import QWinUI3.Theme
 
 // TreeDataGrid — hierarchical multi-column grid with sort + filter (2.21).
@@ -21,7 +22,8 @@ import QWinUI3.Theme
 //   // --- API ---
 //   // selectedRow / selectedIndex, sortColumn / sortOrder, filterText
 //   // methods: select(index), clearSelection(), refresh(), focusGrid(),
-//   //          expandAll(), collapseAll(), toggleExpanded(path)
+//   //          expandAll(), collapseAll(), toggleExpanded(path),
+//   //          exportColumnLayout(), importColumnLayout(), loadColumnLayout(), saveColumnLayout()
 //   // signals: rowActivated(int, var), selectionChanged(int, var), sortChanged(int, int)
 //
 // @notes
@@ -29,6 +31,7 @@ import QWinUI3.Theme
 //   group; filter keeps matching branches (ancestors auto-expanded). Not Excel-scale;
 //   prefer C++ model + custom view for huge trees. Filter debounce + maxFilterResults
 //   match DataTable (2.18 / 2.40). Column resize + freezeFirstColumn (2.64).
+//   columnLayoutKey Settings persist — 2.82 D17 · cached tree flatten — 2.84 C7.
 //   See docs/tree-data.md · docs/collection-perf-264.md.
 
 T.Control {
@@ -56,6 +59,10 @@ T.Control {
     property var _lazyLoaded: ({})
     // Keep name column visible during horizontal scroll (2.64).
     property bool freezeFirstColumn: false
+    // Persistable widths — bind to Settings; empty = use columns[].width (2.82 D17)
+    property var columnWidths: []
+    // Settings category — auto load/save layout when set (2.82 D17)
+    property string columnLayoutKey: ""
 
     readonly property var selectedRow: {
         if (selectedIndex < 0 || selectedIndex >= _viewRows.length)
@@ -87,14 +94,84 @@ T.Control {
     signal sortChanged(int column, int order)
     signal expandedChanged(string path, bool expanded)
     signal childrenRequested(string path, var row)
+    signal columnLayoutChanged()
 
     property var _viewRows: []
     property var _columnWidths: []
     property var _expandedPaths: ({})
+    property var _treeCache: []
+    property string _lastFilterQ: ""
     property string _lastRefreshKey: ""
     property var _lastRowsRef: null
     property var _selectedRowRef: null
     property string _lastAnnouncedFilterSummary: ""
+    property bool _syncingWidths: false
+    property bool _syncingLayoutImport: false
+
+    Settings {
+        id: layoutStore
+        category: root.columnLayoutKey.length ? root.columnLayoutKey : "TreeDataGridLayoutUnused"
+        property string layoutJson: ""
+    }
+
+    Timer {
+        id: layoutPersistDebounce
+        interval: 200
+        repeat: false
+        onTriggered: root.saveColumnLayout()
+    }
+
+    function _layoutPersistEnabled() {
+        return columnLayoutKey && columnLayoutKey.length > 0
+    }
+
+    function _scheduleLayoutPersist() {
+        if (!_layoutPersistEnabled() || _syncingLayoutImport)
+            return
+        layoutPersistDebounce.restart()
+    }
+
+    function exportColumnLayout() {
+        return {
+            columnWidths: (_columnWidths || []).slice(),
+            freezeFirstColumn: !!freezeFirstColumn
+        }
+    }
+
+    function importColumnLayout(obj) {
+        if (!obj)
+            return false
+        _syncingLayoutImport = true
+        try {
+            if (obj.columnWidths && obj.columnWidths.length)
+                columnWidths = obj.columnWidths.slice()
+            if (obj.freezeFirstColumn !== undefined)
+                freezeFirstColumn = !!obj.freezeFirstColumn
+            _syncColumnWidths()
+            return true
+        } finally {
+            _syncingLayoutImport = false
+        }
+    }
+
+    function saveColumnLayout() {
+        if (!_layoutPersistEnabled())
+            return
+        try {
+            layoutStore.layoutJson = JSON.stringify(exportColumnLayout())
+        } catch (e) { /* ignore */ }
+    }
+
+    function loadColumnLayout() {
+        if (!_layoutPersistEnabled())
+            return
+        try {
+            var raw = layoutStore.layoutJson || ""
+            if (!raw.length)
+                return
+            importColumnLayout(JSON.parse(raw))
+        } catch (e) { /* ignore */ }
+    }
 
     function _announce(text) {
         if (!root.announceChanges || !text || text.length === 0)
@@ -197,6 +274,67 @@ T.Control {
         return sorted
     }
 
+    function _expandedKey() {
+        var map = _expandedPaths || {}
+        var keys = Object.keys(map)
+        keys.sort()
+        var out = []
+        for (var i = 0; i < keys.length; ++i) {
+            if (map[keys[i]] === false)
+                out.push(keys[i])
+        }
+        return out.join(",")
+    }
+
+    function _computeRefreshKey(src, q) {
+        return q + "\0" + sortColumn + "\0" + sortOrder + "\0"
+                + (src ? src.length : 0) + "\0" + _expandedKey()
+    }
+
+    function _applyFlatRows(flat) {
+        var prev = _selectedRowRef
+        _viewRows = flat
+
+        if (prev !== null && prev !== undefined) {
+            var found = -1
+            for (var j = 0; j < _viewRows.length; ++j) {
+                if (_viewRows[j].row === prev) {
+                    found = j
+                    break
+                }
+            }
+            if (found >= 0) {
+                if (selectedIndex !== found)
+                    selectedIndex = found
+                list.positionViewAtIndex(found, ListView.Contain)
+            } else {
+                selectedIndex = -1
+                _selectedRowRef = null
+            }
+        } else if (selectedIndex >= _viewRows.length) {
+            select(_viewRows.length ? _viewRows.length - 1 : -1)
+        }
+
+        var summary = _lastFilterQ.length
+                ? qsTr("%1 rows match filter").arg(_viewRows.length)
+                : qsTr("%1 rows").arg(_viewRows.length)
+        if (summary !== _lastAnnouncedFilterSummary) {
+            _lastAnnouncedFilterSummary = summary
+            _announce(summary)
+        }
+    }
+
+    function _rebuildFlatFromCache() {
+        if (!_treeCache || !_treeCache.length) {
+            refresh()
+            return
+        }
+        var flat = []
+        _flatten(_treeCache, 0, "", flat, _lastFilterQ || "")
+        _lastRefreshKey = _computeRefreshKey(_lastRowsRef, _lastFilterQ || "")
+        _applyFlatRows(flat)
+    }
+
     function _isExpanded(path) {
         if (!path || path.length === 0)
             return true
@@ -277,7 +415,7 @@ T.Control {
                 }
             }
         }
-        refresh()
+        _rebuildFlatFromCache()
     }
 
     function expandAll() {
@@ -288,12 +426,12 @@ T.Control {
                 copy[e.path] = true
         }
         _expandedPaths = copy
-        refresh()
+        _rebuildFlatFromCache()
     }
 
     function collapseAll() {
         _expandedPaths = {}
-        refresh()
+        _rebuildFlatFromCache()
     }
 
     function focusGrid() {
@@ -351,12 +489,34 @@ T.Control {
         _syncColumnWidths()
         _scheduleRefresh(true)
     }
+    onColumnWidthsChanged: {
+        if (_syncingWidths)
+            return
+        var incoming = columnWidths || []
+        if (!incoming.length)
+            return
+        var cols = columns || []
+        if (incoming.length !== cols.length && _columnWidths.length === cols.length)
+            return
+        var next = _columnWidths.slice()
+        while (next.length < cols.length)
+            next.push(140)
+        for (var i = 0; i < Math.min(incoming.length, cols.length); ++i) {
+            var w = Number(incoming[i])
+            if (isFinite(w) && w > 0)
+                next[i] = Math.max(minColumnWidth, w)
+        }
+        _columnWidths = next
+    }
+    onFreezeFirstColumnChanged: _scheduleLayoutPersist()
     onRowsChanged: _scheduleRefresh(true)
     onFilterTextChanged: _scheduleRefresh(false)
     onSortColumnChanged: _scheduleRefresh(true)
     onSortOrderChanged: _scheduleRefresh(true)
     Component.onCompleted: {
         _syncColumnWidths()
+        if (_layoutPersistEnabled())
+            loadColumnLayout()
         refresh()
     }
 
@@ -372,11 +532,25 @@ T.Control {
     function _syncColumnWidths() {
         var cols = columns || []
         var widths = []
+        var persisted = columnWidths || []
         for (var i = 0; i < cols.length; ++i) {
+            var pw = persisted.length > i ? Number(persisted[i]) : NaN
+            if (isFinite(pw) && pw > 0) {
+                widths.push(Math.max(minColumnWidth, pw))
+                continue
+            }
             var w = cols[i].width
             widths.push(w === undefined ? 140 : Number(w))
         }
         _columnWidths = widths
+    }
+
+    function _publishColumnWidths() {
+        _syncingWidths = true
+        columnWidths = _columnWidths.slice()
+        _syncingWidths = false
+        columnLayoutChanged()
+        _scheduleLayoutPersist()
     }
 
     function toggleSort(column) {
@@ -402,14 +576,16 @@ T.Control {
     function refresh() {
         var src = rows || []
         var q = (filterText || "").trim().toLowerCase()
-        var refreshKey = q + "\0" + sortColumn + "\0" + sortOrder + "\0" + src.length
+        var refreshKey = _computeRefreshKey(src, q)
         if (refreshKey === _lastRefreshKey && src === _lastRowsRef)
             return
         _lastRefreshKey = refreshKey
         _lastRowsRef = src
+        _lastFilterQ = q
 
         var tree = _filterTree(src, q)
         tree = _sortSiblings(tree)
+        _treeCache = tree
 
         if (q.length && expandOnFilter) {
             var expandCopy = Object.assign({}, _expandedPaths)
@@ -430,36 +606,7 @@ T.Control {
 
         var flat = []
         _flatten(tree, 0, "", flat, q)
-        var prev = _selectedRowRef
-        _viewRows = flat
-
-        if (prev !== null && prev !== undefined) {
-            var found = -1
-            for (var j = 0; j < _viewRows.length; ++j) {
-                if (_viewRows[j].row === prev) {
-                    found = j
-                    break
-                }
-            }
-            if (found >= 0) {
-                if (selectedIndex !== found)
-                    selectedIndex = found
-                list.positionViewAtIndex(found, ListView.Contain)
-            } else {
-                selectedIndex = -1
-                _selectedRowRef = null
-            }
-        } else if (selectedIndex >= _viewRows.length) {
-            select(_viewRows.length ? _viewRows.length - 1 : -1)
-        }
-
-        var summary = q.length
-                ? qsTr("%1 rows match filter").arg(_viewRows.length)
-                : qsTr("%1 rows").arg(_viewRows.length)
-        if (summary !== _lastAnnouncedFilterSummary) {
-            _lastAnnouncedFilterSummary = summary
-            _announce(summary)
-        }
+        _applyFlatRows(flat)
     }
 
     function _moveSelection(delta) {
@@ -611,6 +758,7 @@ T.Control {
                                                 widths[frozenHeaderCell.columnIndex] = nw
                                                 root._columnWidths = widths
                                             }
+                                            onReleased: root._publishColumnWidths()
                                         }
                                     }
                                 }
@@ -720,6 +868,7 @@ T.Control {
                                                 widths[headerCell.columnIndex] = nw
                                                 root._columnWidths = widths
                                             }
+                                            onReleased: root._publishColumnWidths()
                                         }
                                     }
                                 }
@@ -734,6 +883,7 @@ T.Control {
                     Layout.fillHeight: true
                     clip: true
                     reuseItems: true
+                    cacheBuffer: Math.max(240, Math.round(height * 1.5))
                     boundsBehavior: Flickable.StopAtBounds
                     model: root._viewRows
                     currentIndex: root.selectedIndex
@@ -809,8 +959,7 @@ T.Control {
                                                         Text {
                                                             anchors.centerIn: parent
                                                             text: FluentIcons.ChevronRight
-                                                            font.family: Theme.fontFamilyIcon
-                                                            font.pixelSize: 10
+                                                            font: Theme.iconFontFor(10)
                                                             color: Theme.textSecondary
                                                             rotation: root._isExpanded(rowItem.modelData.path) ? 90 : 0
                                                         }
@@ -868,8 +1017,7 @@ T.Control {
                                                         Text {
                                                             anchors.centerIn: parent
                                                             text: FluentIcons.ChevronRight
-                                                            font.family: Theme.fontFamilyIcon
-                                                            font.pixelSize: 10
+                                                            font: Theme.iconFontFor(10)
                                                             color: Theme.textSecondary
                                                             rotation: root._isExpanded(rowItem.modelData.path) ? 90 : 0
                                                         }

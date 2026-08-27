@@ -254,8 +254,7 @@ T.Control {
                     id: sepGlyph
                     visible: index > 0
                     text: root.effectiveSeparatorGlyph
-                    font.family: Theme.fontFamilyIcon
-                    font.pixelSize: 10
+                    font: Theme.iconFontFor(10)
                     color: Theme.textSecondary
                     transform: Scale {
                         origin.x: sepGlyph.width / 2
@@ -327,8 +326,7 @@ T.Control {
                             readonly property string _glyph: root.crumbIcon(modelData.data)
                             visible: _glyph.length > 0
                             text: _glyph
-                            font.family: Theme.fontFamilyIcon
-                            font.pixelSize: 12
+                            font: Theme.iconFontFor(12)
                             color: (!modelData.ellipsis && modelData.index === root.currentIndex)
                                    ? Theme.textPrimary : Theme.textSecondary
                             Behavior on color {

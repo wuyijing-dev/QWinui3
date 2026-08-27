@@ -364,8 +364,7 @@ T.Control {
                 Layout.preferredWidth: root._moreWidth
                 Layout.preferredHeight: root._chromeHeight
                 text: FluentIcons.More
-                font.family: Theme.fontFamilyIcon
-                font.pixelSize: root.compact ? 12 : 14
+                font: Theme.iconFontFor(root.compact ? 12 : 14)
                 focusPolicy: Qt.StrongFocus
                 Accessible.role: Accessible.Button
                 Accessible.name: root.isOpen ? qsTr("See more") : qsTr("Open command bar")
@@ -416,8 +415,7 @@ T.Control {
                 Layout.preferredWidth: root._moreWidth
                 Layout.preferredHeight: root._chromeHeight
                 text: root.isOpen ? FluentIcons.ChevronUp : FluentIcons.ChevronDown
-                font.family: Theme.fontFamilyIcon
-                font.pixelSize: 12
+                font: Theme.iconFontFor(12)
                 focusPolicy: Qt.StrongFocus
                 Accessible.role: Accessible.Button
                 Accessible.name: root.isOpen ? qsTr("Collapse") : qsTr("Expand")

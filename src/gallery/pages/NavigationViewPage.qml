@@ -93,6 +93,21 @@ CatalogPage {
                     checked: false
                 }
                 CheckBox {
+                    id: paneSearchEn
+                    text: qsTr("Pane search (2.82)")
+                    checked: true
+                }
+                CheckBox {
+                    id: footerBadgeEn
+                    text: qsTr("Footer badge")
+                    checked: true
+                }
+                CheckBox {
+                    id: jumpListEn
+                    text: qsTr("Jump list")
+                    checked: true
+                }
+                CheckBox {
                     id: panePin
                     text: qsTr("Pane pinned (2.56)")
                     checked: false
@@ -174,6 +189,10 @@ CatalogPage {
                 isPaneVisible: paneVis.checked
                 alwaysShowHeader: alwaysHeader.checked
                 isPanePinned: panePin.checked
+                isPaneSearchEnabled: paneSearchEn.checked
+                jumpListEnabled: jumpListEn.checked
+                pinnedNavSettingsCategory: "QWinUI3Gallery/NavDemoPins"
+                footerBadgeValue: footerBadgeEn.checked ? 3 : -1
                 onBackRequested: navStatus.text = qsTr("Back requested · canGoBack=%1").arg(demoNav.canGoBack)
                 onFooterClicked: navStatus.text = qsTr("Footer (Settings) clicked")
                 onPageOpened: function (name) {
@@ -213,6 +232,113 @@ CatalogPage {
                         ]
                     }
                 ]
+            }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Pinned pages, jump list, drilldown")
+        qmlSource: "nav.pinNavKey(\"home\")\nnav.openJumpList()\nnav.pushDrilldown(\"Detail\", \"ButtonPage\")"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Pin destinations into the pane chips (persisted when pinnedNavSettingsCategory is set). Jump list opens an A–Z / group index. pushDrilldown stacks pages on the current key; TitleBar Back pops the stack first, then history. Bind BreadcrumbBar to breadcrumbTrail.")
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            BreadcrumbBar {
+                Layout.fillWidth: true
+                model: demoNav.breadcrumbTrail
+                currentIndex: Math.max(0, model.length - 1)
+                onItemInvoked: function (index) { demoNav.selectBreadcrumbIndex(index) }
+            }
+            Flow {
+                Layout.fillWidth: true
+                spacing: Theme.spacing
+                Button {
+                    text: qsTr("Pin Home")
+                    onClicked: {
+                        demoNav.pinNavKey("home")
+                        navStatus.text = qsTr("Pinned Home")
+                    }
+                }
+                Button {
+                    text: qsTr("Unpin Home")
+                    onClicked: {
+                        demoNav.unpinNavKey("home")
+                        navStatus.text = qsTr("Unpinned Home")
+                    }
+                }
+                Button {
+                    text: qsTr("Open jump list")
+                    enabled: demoNav.jumpListEnabled
+                    onClicked: demoNav.openJumpList()
+                }
+                Button {
+                    text: qsTr("Drill → Button")
+                    highlighted: true
+                    onClicked: {
+                        demoNav.pushDrilldown(qsTr("Button"), "ButtonPage")
+                        navStatus.text = qsTr("Drilldown depth %1").arg(demoNav.drilldownDepth)
+                    }
+                }
+                Button {
+                    text: qsTr("Drill → Slider")
+                    onClicked: {
+                        demoNav.pushDrilldown(qsTr("Slider"), "SliderPage")
+                        navStatus.text = qsTr("Drilldown depth %1").arg(demoNav.drilldownDepth)
+                    }
+                }
+                Button {
+                    text: qsTr("Pop drilldown")
+                    enabled: demoNav.drilldownDepth > 0
+                    onClicked: {
+                        demoNav.popDrilldown()
+                        navStatus.text = qsTr("Drilldown depth %1").arg(demoNav.drilldownDepth)
+                    }
+                }
+            }
+        }
+    }
+
+    ControlExample {
+        headerText: qsTr("Incremental navModel patch (2.88 C9)")
+        qmlSource: "demoNav.patchNavItem(\"home\", { badge: \"3\", title: \"Home (live)\" })"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("patchNavItem updates title, badge, badgeValue, symbol, or icon on one entry when nav structure is unchanged — avoids full ListModel rebuild on locale or live-data ticks.")
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            RowLayout {
+                Button {
+                    text: qsTr("Badge Home → 3")
+                    onClicked: {
+                        demoNav.patchNavItem("home", { badge: "3", badgeValue: 3 })
+                        navStatus.text = qsTr("patchNavItem home badge=3")
+                    }
+                }
+                Button {
+                    text: qsTr("Clear Home badge")
+                    onClicked: {
+                        demoNav.patchNavItem("home", { badge: "", badgeValue: -1 })
+                        navStatus.text = qsTr("patchNavItem home badge cleared")
+                    }
+                }
+                Button {
+                    text: qsTr("Rename Home title")
+                    onClicked: {
+                        demoNav.patchNavItem("home", { title: qsTr("Home (patched)") })
+                        navStatus.text = qsTr("patchNavItem home title")
+                    }
+                }
             }
         }
     }

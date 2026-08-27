@@ -142,7 +142,7 @@ T.Control {
 
                 ToolButton {
                     text: root.playing ? FluentIcons.Pause : FluentIcons.Play
-                    font.family: Theme.fontFamilyIcon
+                    font: Theme.iconFontFor(14)
                     onClicked: root.togglePlayPause()
                     Accessible.name: root.playing ? qsTr("Pause") : qsTr("Play")
                     ToolTip.visible: hovered
@@ -150,7 +150,7 @@ T.Control {
                 }
                 ToolButton {
                     text: FluentIcons.Stop
-                    font.family: Theme.fontFamilyIcon
+                    font: Theme.iconFontFor(14)
                     onClicked: root.stop()
                     Accessible.name: qsTr("Stop")
                     ToolTip.visible: hovered
@@ -158,7 +158,7 @@ T.Control {
                 }
                 ToolButton {
                     text: audio.muted ? FluentIcons.Mute : FluentIcons.Volume
-                    font.family: Theme.fontFamilyIcon
+                    font: Theme.iconFontFor(14)
                     onClicked: audio.muted = !audio.muted
                     Accessible.name: audio.muted ? qsTr("Unmute") : qsTr("Mute")
                     ToolTip.visible: hovered

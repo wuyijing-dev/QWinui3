@@ -69,8 +69,7 @@ T.Control {
     padding: 0
     focusPolicy: Qt.StrongFocus
     activeFocusOnTab: !readOnly && enabled
-    font.family: Theme.fontFamilyIcon
-    font.pixelSize: 18
+    font: Theme.iconFontFor(18)
     Accessible.role: Accessible.Slider
     Accessible.name: caption.length ? caption : qsTr("Rating")
     Accessible.description: qsTr("%1 of %2").arg(Math.round(value * 10) / 10).arg(maxRating)
@@ -211,8 +210,7 @@ T.Control {
                         Text {
                             anchors.centerIn: parent
                             text: root.enabled ? root._emptyGlyph : root._disabledGlyph
-                            font.family: Theme.fontFamilyIcon
-                            font.pixelSize: root.font.pixelSize
+                            font: Theme.iconFontFor(root.font.pixelSize)
                             color: Theme.textSecondary
                             opacity: root.enabled ? (star.isPlaceholder ? 0.4 : 0.85) : 0.55
                         }
@@ -231,8 +229,7 @@ T.Control {
                                 verticalAlignment: Text.AlignVCenter
                                 text: !root.enabled ? root._disabledGlyph
                                       : (star.isPlaceholder ? root._placeholderGlyph : root._filledGlyph)
-                                font.family: Theme.fontFamilyIcon
-                                font.pixelSize: root.font.pixelSize
+                                font: Theme.iconFontFor(root.font.pixelSize)
                                 color: star.isPlaceholder || !root.enabled ? Theme.textSecondary : Theme.systemCaution
                                 opacity: root.enabled ? 1 : 0.55
                             }

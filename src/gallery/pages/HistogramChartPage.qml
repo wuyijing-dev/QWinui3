@@ -9,7 +9,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("HistogramChart")
-    subtitle: qsTr("Experimental bins via ChartUtils.histogramBins. Prefer BarChart when bins are precomputed.")
+    subtitle: qsTr("Experimental. Product apps: BarChart { samples; binCount } (3.06) — docs/charts.md.")
 
     readonly property var samples: {
         var a = []

@@ -140,6 +140,7 @@ CatalogPage {
                     rows: page.orgRows
                     filterPlaceholder: qsTr("Filter org chart")
                     freezeFirstColumn: true
+                    columnLayoutKey: "Gallery/TreeDataGrid"
                     onSelectionChanged: function (index, row) {
                         if (!row)
                             page.detailText = qsTr("Selection cleared")

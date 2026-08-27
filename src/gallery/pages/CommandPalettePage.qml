@@ -79,6 +79,7 @@ CatalogPage {
 
     CommandRegistry {
         id: demoRegistry
+        property bool hasSelection: false
         Component.onCompleted: {
             register({
                 id: "registry-hello",
@@ -96,28 +97,123 @@ CatalogPage {
                 symbol: FluentIcons.Page,
                 action: function () { result.text = qsTr("Registry page") }
             })
+            register({
+                id: "cut",
+                title: qsTr("Cut selection"),
+                subtitle: qsTr("canExecute — enabled when selection is on (3.02 R3)"),
+                scope: "focused",
+                scopeId: "editor",
+                shortcut: "Ctrl+X",
+                symbol: FluentIcons.Cut,
+                canExecute: function () { return demoRegistry.hasSelection },
+                action: function () { result.text = qsTr("Cut") }
+            })
+            register({
+                id: "save",
+                title: qsTr("Save document"),
+                scope: "window",
+                shortcut: "Ctrl+S",
+                symbol: FluentIcons.Save,
+                action: function () { result.text = qsTr("Save") }
+            })
+            register({
+                id: "save-as-conflict",
+                title: qsTr("Save as… (conflict demo)"),
+                subtitle: qsTr("Same Ctrl+S chord — shows in conflicts readout"),
+                scope: "window",
+                shortcut: "Ctrl+S",
+                symbol: FluentIcons.SaveAs,
+                action: function () { result.text = qsTr("Save as") }
+            })
             setPageScope("commands")
+            setFocusedScope("editor")
+            setWindowScope("gallery")
         }
     }
 
     ControlExample {
-        headerText: qsTr("CommandRegistry auto-discovery (2.68)")
-        qmlSource: "CommandPalette { registry: CommandRegistry { … } }"
+        headerText: qsTr("CommandRegistry auto-discovery (2.68 / 3.02)")
+        qmlSource: "CommandPalette { registry: CommandRegistry { … } }\nregistry.shortcutConflicts()\nregistry.refreshContext()"
         ColumnLayout {
             Layout.fillWidth: true
             spacing: Theme.spacing
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Bind CommandPalette.registry to merge scoped commands (focused → page → window → global) ahead of the manual commands list.")
+                text: qsTr("Bind CommandPalette.registry to merge scoped commands (focused → page → window → global). dispatch() and palette rows honor canExecute / enabled. Call refreshContext() when selection changes.")
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
+            }
+            CheckBox {
+                text: qsTr("Has selection (enables Cut)")
+                checked: demoRegistry.hasSelection
+                onCheckedChanged: {
+                    demoRegistry.hasSelection = checked
+                    demoRegistry.refreshContext()
+                }
+            }
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.Wrap
+                color: Theme.textPrimary
+                text: {
+                    var c = demoRegistry.conflicts
+                    if (!c || !c.length)
+                        return qsTr("Shortcut conflicts: none")
+                    var parts = []
+                    for (var i = 0; i < c.length; ++i)
+                        parts.push(c[i].shortcut + " → " + c[i].titles.join(" · "))
+                    return qsTr("Shortcut conflicts: %1").arg(parts.join("; "))
+                }
+            }
+            RowLayout {
+                Button {
+                    text: qsTr("Dispatch Cut")
+                    onClicked: {
+                        var ok = demoRegistry.dispatch("cut")
+                        result.text = ok ? qsTr("Cut dispatched") : qsTr("Cut blocked (no selection)")
+                    }
+                }
+                Button {
+                    text: qsTr("Dispatch Save")
+                    onClicked: {
+                        demoRegistry.dispatch("save")
+                        result.text = qsTr("Save dispatched")
+                    }
+                }
             }
         }
     }
 
     ControlExample {
-        headerText: qsTr("Wave 3 — large list + shortcuts (2.41)")
+        headerText: qsTr("Recent commands (2.87 D20)")
+        qmlSource: "CommandPalette {\n    persistRecents: true\n    maxRecentCommands: 5\n    recentsSettingsCategory: \"MyApp\"\n}"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Run a few commands, close the palette, and reopen — recent keys persist in Settings (capped ring). Empty query pins recents at the top.")
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.Wrap
+                color: Theme.textPrimary
+                text: palette.recentCommandKeys.length
+                      ? qsTr("Recent keys: %1").arg(palette.recentCommandKeys.join(", "))
+                      : qsTr("No recent commands yet — run one from the palette.")
+            }
+            Button {
+                text: qsTr("Clear recents")
+                onClicked: palette.clearRecentCommands()
+            }
+        }
+    }
+
+    ControlExample {
         qmlSource: "// 480+ commands · filter matches shortcut\n// commandCount · filteredCount · docs/commands.md wave 3"
         ColumnLayout {
             Layout.fillWidth: true

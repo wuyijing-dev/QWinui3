@@ -152,8 +152,7 @@ T.Control {
         focusPolicy: Qt.NoFocus
         contentItem: Text {
             text: nav.glyph
-            font.family: Theme.fontFamilyIcon
-            font.pixelSize: 10
+            font: Theme.iconFontFor(10)
             color: nav.enabled ? (nav.hovered ? Theme.textPrimary : Theme.textSecondary)
                                : Theme.textDisabled
             horizontalAlignment: Text.AlignHCenter

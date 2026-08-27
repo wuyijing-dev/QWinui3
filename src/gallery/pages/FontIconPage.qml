@@ -336,8 +336,7 @@ CatalogPage {
                                     Text {
                                         anchors.horizontalCenter: parent.horizontalCenter
                                         text: cell.modelData.glyph
-                                        font.family: Theme.fontFamilyIcon
-                                        font.pixelSize: 28
+                                        font: Theme.iconFontFor(28)
                                         color: Theme.textPrimary
                                     }
                                     Label {
@@ -395,8 +394,7 @@ CatalogPage {
                                     anchors.centerIn: parent
                                     visible: page.selectedGlyph.length > 0
                                     text: page.selectedGlyph
-                                    font.family: Theme.fontFamilyIcon
-                                    font.pixelSize: 56
+                                    font: Theme.iconFontFor(56)
                                     color: Theme.textPrimary
                                 }
                             }

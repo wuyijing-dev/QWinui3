@@ -90,8 +90,7 @@ T.AbstractButton {
                 Text {
                     anchors.centerIn: parent
                     text: control.effectiveGlyph
-                    font.family: Theme.fontFamilyIcon
-                    font.pixelSize: 22
+                    font: Theme.iconFontFor(22)
                     color: control.enabled ? control.glyphColor : Theme.textDisabled
                 }
             }
@@ -138,8 +137,7 @@ T.AbstractButton {
             visible: control.showChevron
             Layout.alignment: Qt.AlignVCenter
             text: FluentIcons.ChevronRight
-            font.family: Theme.fontFamilyIcon
-            font.pixelSize: 12
+            font: Theme.iconFontFor(12)
             color: Theme.textSecondary
             opacity: control.enabled ? (control._hovering ? 1 : 0.85) : 0.4
             // Avoid translating during press — reduces perceived flicker with color change

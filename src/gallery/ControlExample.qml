@@ -105,8 +105,7 @@ Rectangle {
                     spacing: Theme.spacing
                     Text {
                         text: FluentIcons.ChevronDown
-                        font.family: Theme.fontFamilyIcon
-                        font.pixelSize: 12
+                        font: Theme.iconFontFor(12)
                         color: Theme.textSecondary
                         rotation: expander.checked ? 180 : 0
                         Behavior on rotation {

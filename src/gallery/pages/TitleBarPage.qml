@@ -23,6 +23,47 @@ CatalogPage {
     }
 
     ControlExample {
+        headerText: qsTr("TitleBarCommandBar (3.01)")
+        qmlSource: "TitleBarCommandBar { commands: [ { label: qsTr(\"Save\"), symbol: FluentIcons.Save, action: save } ] }"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Rectangle {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 48
+                color: Theme.bgAcrylic
+                border.width: 1
+                border.color: Theme.strokeDivider
+                radius: Theme.cornerControl
+                TitleBarCommandBar {
+                    anchors.left: parent.left
+                    anchors.leftMargin: Theme.spacing
+                    anchors.verticalCenter: parent.verticalCenter
+                    commands: [
+                        {
+                            label: qsTr("Home"),
+                            symbol: FluentIcons.Home,
+                            shortcut: "Ctrl+H",
+                            action: function () { cmdStatus.text = qsTr("Home") }
+                        },
+                        {
+                            label: qsTr("Share"),
+                            symbol: FluentIcons.Share,
+                            action: function () { cmdStatus.text = qsTr("Share") }
+                        }
+                    ]
+                }
+            }
+            Label {
+                id: cmdStatus
+                Layout.fillWidth: true
+                color: Theme.textSecondary
+                text: qsTr("Click a command — declarative objects for leftHeader / captionRightHeader.")
+            }
+        }
+    }
+
+    ControlExample {
         headerText: qsTr("LeftHeader & Content slots")
         qmlSource: "TitleBar {\n    leftHeader: ComboBox { model: [\"A\", \"B\"] }\n    content: Row { Button { … } }\n    rightHeader: Button { text: \"Share\" }\n}"
 
@@ -126,7 +167,56 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("StandardTitleChrome extraContent (before captions)")
+        headerText: qsTr("ShellWindow captionRightHeader (before captions)")
+        qmlSource: "NavigationWindow {\n    titleBarContent: TitleBarToolbar { Button { … } }\n    rightHeader: Button { text: \"Share\" }\n    captionRightHeader: FrameStatsBadge { }\n}"
+
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Rectangle {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 56
+                color: Theme.bgAcrylic
+                border.width: 1
+                border.color: Theme.strokeDivider
+                radius: Theme.cornerControl
+                clip: true
+                WindowChrome {
+                    anchors.fill: parent
+                    showCaptionButtons: false
+                    title: qsTr("Shell host")
+                    subtitle: qsTr("captionRightHeader vs rightHeader")
+                    symbol: FluentIcons.People
+                    searchEnabled: false
+                    titleBarContent: TitleBarToolbar {
+                        Button { text: qsTr("Undo"); flat: true }
+                        Button { text: qsTr("Redo"); flat: true }
+                    }
+                    rightHeader: Button {
+                        text: qsTr("Share")
+                        flat: true
+                    }
+                    captionRightHeader: Row {
+                        spacing: 4
+                        FrameStatsBadge { }
+                        Button {
+                            text: qsTr("Account")
+                            flat: true
+                        }
+                    }
+                }
+            }
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                color: Theme.textSecondary
+                font.pixelSize: Theme.fontCaption
+                text: qsTr("ShellWindow / NavigationWindow now expose captionRightHeader (Platform slot, before min/max/close). rightHeader stays inside the title band. Use TitleBarToolbar in titleBarContent for toolbars.")
+            }
+        }
+    }
+
+    ControlExample {
         qmlSource: "StandardTitleChrome {\n    titleBarContent: Button { text: \"Filter\" }\n    Button { text: \"Share\" }  // extraContent / rightHeader\n}"
 
         ColumnLayout {

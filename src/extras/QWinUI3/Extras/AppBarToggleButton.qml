@@ -96,8 +96,7 @@ IconicButton {
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 text: control.effectiveIconGlyph
-                font.family: Theme.fontFamilyIcon
-                font.pixelSize: control.iconSize
+                font: Theme.iconFontFor(control.iconSize)
                 color: {
                     if (!control.enabled)
                         return Theme.textDisabled

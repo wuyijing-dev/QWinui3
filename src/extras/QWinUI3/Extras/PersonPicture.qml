@@ -190,8 +190,7 @@ T.Control {
                 anchors.centerIn: parent
                 visible: root.imageSource.toString().length === 0 && root.effectiveInitials.length === 0
                 text: root._emptyGlyph
-                font.family: Theme.fontFamilyIcon
-                font.pixelSize: Math.max(12, root.size * 0.42)
+                font: Theme.iconFontFor(Math.max(12, root.size * 0.42))
                 color: Theme.textOnAccent
                 opacity: 0.92
             }

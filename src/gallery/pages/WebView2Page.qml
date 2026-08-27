@@ -54,22 +54,49 @@ CatalogPage {
         return true
     }
 
+    property bool _runtimeProbed: false
+    property bool _runtimeInstalled: false
+
+    // Capability-only host (0×0, invisible) — no runtime COM probe in ctor (2.85 S3).
     WebView2Host {
-        id: probe
+        id: cap
         width: 0
         height: 0
         visible: false
     }
 
-    readonly property bool showHost: probe.available && probe.runtimeInstalled
-    readonly property bool showMissingRuntime: probe.available && !probe.runtimeInstalled
-    readonly property bool showNotBuilt: !probe.available
+    readonly property bool showNotBuilt: !cap.available
+    readonly property bool runtimeInstalled: _runtimeInstalled
+    readonly property bool showHost: cap.available && _runtimeInstalled
+    readonly property bool showMissingRuntime: cap.available && _runtimeProbed && !_runtimeInstalled
     property bool hostLoaderReady: false
 
-    Component.onCompleted: Qt.callLater(function () {
-        if (page && page.showHost)
-            page.hostLoaderReady = true
-    })
+    function probeRuntime() {
+        if (_runtimeProbed)
+            return
+        _runtimeProbed = true
+        _runtimeInstalled = cap.checkRuntimeInstalled()
+        if (showHost)
+            hostLoaderReady = true
+    }
+
+    function refreshRuntimeProbe() {
+        _runtimeInstalled = cap.checkRuntimeInstalled()
+        _runtimeProbed = true
+        if (showHost)
+            hostLoaderReady = true
+    }
+
+    Timer {
+        interval: 1
+        running: true
+        repeat: false
+        onTriggered: {
+            page.probeRuntime()
+            if (page.showHost)
+                page.hostLoaderReady = true
+        }
+    }
 
     ControlExample {
         headerText: qsTr("Field matrix (2.32)")
@@ -265,8 +292,8 @@ CatalogPage {
                     message: qsTr("Install the Evergreen Runtime, then click Retry. Apps should mirror this EmptyState when runtimeInstalled is false.")
                     actionText: qsTr("Get Runtime")
                     secondaryActionText: qsTr("Retry")
-                    onActionClicked: Qt.openUrlExternally(probe.runtimeDownloadUrl)
-                    onSecondaryActionClicked: probe.refreshRuntimeProbe()
+                    onActionClicked: Qt.openUrlExternally(cap.runtimeDownloadUrl)
+                    onSecondaryActionClicked: page.refreshRuntimeProbe()
                 }
             }
         }

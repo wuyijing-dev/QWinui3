@@ -91,7 +91,7 @@ CatalogPage {
                 ]
                 tabStripHeader: ToolButton {
                     text: FluentIcons.GlobalNavButton
-                    font.family: Theme.fontFamilyIcon
+                    font: Theme.iconFontFor(14)
                     Accessible.name: qsTr("Menu")
                 }
                 tabStripFooter: Label {

@@ -141,8 +141,7 @@ T.Control {
                 visible: root.hasError
                 Text {
                     text: FluentIcons.Error
-                    font.family: Theme.fontFamilyIcon
-                    font.pixelSize: 12
+                    font: Theme.iconFontFor(12)
                     color: Theme.systemCritical
                 }
                 Text {

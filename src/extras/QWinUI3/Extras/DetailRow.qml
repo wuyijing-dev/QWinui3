@@ -60,8 +60,7 @@ T.Control {
         Text {
             visible: root.effectiveSymbol.length > 0
             text: root.effectiveSymbol
-            font.family: Theme.fontFamilyIcon
-            font.pixelSize: 14
+            font: Theme.iconFontFor(14)
             color: Theme.accent
             Layout.alignment: Qt.AlignVCenter
         }

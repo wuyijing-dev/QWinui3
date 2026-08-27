@@ -125,8 +125,7 @@ CatalogPage {
                     Text {
                         Layout.alignment: Qt.AlignHCenter
                         text: FluentIcons.Photo
-                        font.family: Theme.fontFamilyIcon
-                        font.pixelSize: 40
+                        font: Theme.iconFontFor(40)
                         color: Theme.accent
                     }
                     Label {

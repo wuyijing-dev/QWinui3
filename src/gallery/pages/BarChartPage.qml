@@ -84,6 +84,66 @@ CatalogPage {
     }
 
     ControlExample {
+        headerText: qsTr("Histogram from samples (3.06)")
+        qmlSource: "BarChart {\n    samples: […]  // raw values\n    binCount: 10\n}"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("samples + binCount bins via ChartUtils — prefer this over experimental HistogramChart. Range labels use binLabelPrecision. applyBins() accepts precomputed [{ from, to, count }].")
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            RowLayout {
+                Label { text: qsTr("Bins"); color: Theme.textSecondary }
+                SpinBox {
+                    id: histBins
+                    from: 4
+                    to: 24
+                    value: 10
+                    editable: true
+                    Layout.preferredWidth: 100
+                    Accessible.name: qsTr("Bin count")
+                    onValueModified: histChart.binCount = value
+                }
+                Button {
+                    text: qsTr("Resample")
+                    onClicked: {
+                        var next = []
+                        for (var i = 0; i < 80; ++i)
+                            next.push(10 + Math.random() * 40 + (Math.random() > 0.7 ? Math.random() * 20 : 0))
+                        histChart.setBinsFromSamples(next, histBins.value)
+                    }
+                }
+                Label {
+                    Layout.fillWidth: true
+                    text: qsTr("%1 samples · %2 bins")
+                            .arg(histChart.samples ? histChart.samples.length : 0)
+                            .arg(histChart.binCount)
+                    color: Theme.textSecondary
+                    elide: Text.ElideRight
+                }
+            }
+            BarChart {
+                id: histChart
+                Layout.fillWidth: true
+                Layout.preferredHeight: 220
+                title: qsTr("Latency distribution")
+                valueUnit: ""
+                showValueLabels: true
+                binLabelPrecision: 0
+                samples: [12, 14, 15, 18, 19, 20, 21, 22, 24, 25, 26, 28, 30, 31, 33, 35, 38, 42, 45, 48, 52, 18, 19, 20, 22, 23, 24, 27, 29, 32]
+                binCount: 10
+                onBarClicked: (index, value) => {
+                    page.lastClick = qsTr("Bin %1 → count %2").arg(index + 1).arg(value)
+                }
+            }
+        }
+    }
+
+    ControlExample {
         headerText: qsTr("Horizontal")
         qmlSource: "BarChart { horizontal: true }"
         BarChart {

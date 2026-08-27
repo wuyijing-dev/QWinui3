@@ -170,8 +170,7 @@ T.AbstractButton {
                         width: visible ? 16 : 0
                         height: parent.height
                         text: control.effectiveIconGlyph
-                        font.family: Theme.fontFamilyIcon
-                        font.pixelSize: 14
+                        font: Theme.iconFontFor(14)
                         color: control.__text
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter

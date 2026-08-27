@@ -47,6 +47,24 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.28 → 3.29
+
+**Product version:** 3.29  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| Icons | Prefer `Theme.iconFontFor(px)` | Replace remaining `font.family: Theme.fontFamilyIcon` in app code |
+
+### Optional / polish
+- Migrated Style/Extras/Gallery icon `Text`/`ToolButton` glyphs to `Theme.iconFontFor`
+- `iconFontFor` uses PreferNoHinting + NoFontMerging (avoids Fixedsys GDI merge)
+
+### No action (compatible)
+- `Theme.fontFamilyIcon` string remains for rare cases
+
 ### Upgrade 3.27 → 3.28
 
 **Product version:** 3.28  

@@ -93,8 +93,7 @@ T.AbstractButton {
         Text {
             visible: control.effectiveIconGlyph.length > 0
             text: control.effectiveIconGlyph
-            font.family: Theme.fontFamilyIcon
-            font.pixelSize: 14
+            font: Theme.iconFontFor(14)
             color: label.color
             Layout.alignment: Qt.AlignVCenter
             Behavior on color {
@@ -138,8 +137,7 @@ T.AbstractButton {
         Text {
             visible: control.showExternalGlyph && control.url.toString().length > 0
             text: FluentIcons.OpenInNewWindow
-            font.family: Theme.fontFamilyIcon
-            font.pixelSize: 12
+            font: Theme.iconFontFor(12)
             color: label.color
             opacity: 0.85
             Layout.alignment: Qt.AlignVCenter

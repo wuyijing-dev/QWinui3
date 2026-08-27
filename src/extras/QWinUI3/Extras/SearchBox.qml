@@ -255,8 +255,7 @@ T.Control {
                 anchors.leftMargin: 10
                 anchors.verticalCenter: parent.verticalCenter
                 text: control.effectiveQueryIcon
-                font.family: Theme.fontFamilyIcon
-                font.pixelSize: 14
+                font: Theme.iconFontFor(14)
                 color: field.activeFocus ? Theme.accent : Theme.textSecondary
                 z: 1
                 Behavior on color {
@@ -282,8 +281,7 @@ T.Control {
                 onClicked: control.clear()
                 contentItem: Text {
                     text: FluentIcons.ChromeClose
-                    font.family: Theme.fontFamilyIcon
-                    font.pixelSize: 10
+                    font: Theme.iconFontFor(10)
                     color: Theme.textSecondary
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter

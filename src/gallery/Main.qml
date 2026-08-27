@@ -19,13 +19,42 @@ StandardWindow {
     LayoutMirroring.enabled: Qt.application.layoutDirection === Qt.RightToLeft
     LayoutMirroring.childrenInherit: true
 
-    property var navModel: buildNavModel()
+    property var navModel: buildMinimalNavModel()
     property var searchResults: []
     property var paneSearchModel: buildPaneSearchModel()
+    property bool _fullNavReady: false
 
-    function refreshNavForLocale() {
+    function buildMinimalNavModel() {
+        return [{
+            type: "item",
+            key: "home",
+            title: qsTr("Home"),
+            icon: FluentIcons.Home,
+            component: "HomePage",
+            description: qsTr("Gallery home")
+        }]
+    }
+
+    function ensureFullNavModel() {
+        if (_fullNavReady)
+            return
+        _fullNavReady = true
         navModel = buildNavModel()
         paneSearchModel = buildPaneSearchModel()
+        // Explicit rebuild — model assignment alone can miss a rail refresh on some timings.
+        nav.rebuildNavModel()
+    }
+
+    function refreshNavForLocale() {
+        ControlCatalog.invalidateControls()
+        if (_fullNavReady) {
+            navModel = buildNavModel()
+            paneSearchModel = buildPaneSearchModel()
+            nav.rebuildNavModel()
+        } else {
+            navModel = buildMinimalNavModel()
+            paneSearchModel = buildPaneSearchModel()
+        }
     }
 
     Connections {
@@ -105,6 +134,7 @@ StandardWindow {
     function navigateToControl(item, mode) {
         if (!item)
             return
+        ensureFullNavModel()
         var m = mode || "slide"
         var transition = (m === "center") ? "center" : m
         if (item.component) {
@@ -125,6 +155,14 @@ StandardWindow {
             nav.navigateToTitle(item.title, transition)
     }
 
+    function openSettingsPage() {
+        if (nav.footerSelected)
+            nav.openPage("SettingsPage")
+        else
+            nav.selectFooter()
+        Qt.callLater(window.refreshTitleBarHitTest)
+    }
+
     header: StandardTitleChrome {
         id: platformTitle
         targetWindow: window
@@ -142,16 +180,79 @@ StandardWindow {
         isBackButtonEnabled: nav.canGoBack
         searchModel: window.searchResults
         searchPlaceholder: qsTr("Search controls")
-        onPaneToggleRequested: nav.togglePane()
+        onPaneToggleRequested: {
+            window.ensureFullNavModel()
+            nav.togglePane()
+        }
         onBackRequested: nav.navigateBack()
         onSearchTextEdited: function (text) {
+            if (text && text.length)
+                window.ensureFullNavModel()
             window.searchResults = ControlCatalog.search(text)
         }
         onSearchActivated: function (item) {
             window.navigateToControl(item, "center")
         }
 
-        rightHeader: FrameStatsBadge { }
+        leftHeader: TitleBarToolbar {
+            IconButton {
+                flat: true
+                microMotionEnabled: false
+                iconSize: 14
+                symbol: FluentIcons.Home
+                Accessible.name: qsTr("Home")
+                ToolTip.text: qsTr("Home")
+                ToolTip.visible: hovered
+                onClicked: {
+                    if (nav.footerSelected || nav.currentKey !== "home")
+                        nav.selectKey("home")
+                    else
+                        nav.openPage("HomePage")
+                }
+            }
+            IconButton {
+                flat: true
+                microMotionEnabled: false
+                iconSize: 14
+                symbol: FluentIcons.OpenInNewWindow
+                Accessible.name: qsTr("Window shells")
+                ToolTip.text: qsTr("Window shells")
+                ToolTip.visible: hovered
+                onClicked: {
+                    window.ensureFullNavModel()
+                    var item = ControlCatalog.findByComponent("WindowParadigmPage")
+                    if (item)
+                        window.navigateToControl(item, "slide")
+                }
+            }
+            IconButton {
+                flat: true
+                microMotionEnabled: false
+                iconSize: 14
+                symbol: FluentIcons.Color
+                Accessible.name: qsTr("Design")
+                ToolTip.text: qsTr("Theme & design")
+                ToolTip.visible: hovered
+                onClicked: window.openSettingsPage()
+            }
+        }
+
+        captionRightHeader: Row {
+            spacing: 4
+            FrameStatsBadge { }
+            IconButton {
+                flat: true
+                microMotionEnabled: false
+                iconSize: 14
+                symbol: FluentIcons.Settings
+                Accessible.name: qsTr("Settings")
+                ToolTip.text: qsTr("Settings")
+                ToolTip.visible: hovered
+                onClicked: window.openSettingsPage()
+            }
+            onWidthChanged: Qt.callLater(window.refreshTitleBarHitTest)
+            onChildrenChanged: Qt.callLater(window.refreshTitleBarHitTest)
+        }
     }
 
     FrameStatsOverlay {
@@ -160,7 +261,12 @@ StandardWindow {
 
     Component.onCompleted: {
         FrameStatsMonitor.attachWindow(window)
-        Qt.callLater(function () { platformTitle.reportHitTest() })
+        Qt.callLater(window.refreshTitleBarHitTest)
+    }
+
+    Connections {
+        target: FrameStatsMonitor
+        function onChanged() { window.refreshTitleBarHitTest() }
     }
 
     NavigationView {
@@ -191,11 +297,60 @@ StandardWindow {
             if (text)
                 platformTitle.searchText = text
         }
+        onPaneSearchTextEdited: function (text) {
+            if (text && text.length)
+                window.ensureFullNavModel()
+        }
+        onPaneOpenChanged: {
+            if (paneOpen)
+                window.ensureFullNavModel()
+        }
         onPageOpened: function (name) {
             GalleryHistory.recordVisit(name)
             var p = nav.pageItem
             if (p && p.componentId !== undefined)
                 p.componentId = name
+        }
+    }
+
+    CommandPaletteHost {
+        id: galleryPaletteHost
+        enabled: true
+        commands: []
+    }
+
+    // Defer catalog parse one frame (S1); then always populate the left rail.
+    Timer {
+        interval: 0
+        running: true
+        repeat: false
+        onTriggered: {
+            ensureFullNavModel()
+            galleryPaletteHost.commands = [
+                {
+                    id: "home",
+                    title: qsTr("Go to Home"),
+                    symbol: FluentIcons.Home,
+                    action: function () { nav.selectKey("home") }
+                },
+                {
+                    id: "settings",
+                    title: qsTr("Open Settings"),
+                    shortcut: "Ctrl+,",
+                    symbol: FluentIcons.Settings,
+                    action: function () { window.openSettingsPage() }
+                },
+                {
+                    id: "commands-help",
+                    title: qsTr("Command palette help"),
+                    symbol: FluentIcons.Library,
+                    action: function () {
+                        var item = ControlCatalog.findByComponent("CommandPalettePage")
+                        if (item)
+                            window.navigateToControl(item, "slide")
+                    }
+                }
+            ]
         }
     }
 

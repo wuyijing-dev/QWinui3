@@ -417,10 +417,12 @@ QFont ThemeFonts::iconFontFor(int pixelSize) const
     f.setFamilies(families);
     // Icon PUA glyphs must stay on outline DirectWrite paths — PreferVerticalHinting
     // inherited from the app UI font previously fell through to GDI Fixedsys (smoke noise).
+    // NoFontMerging: do not merge missing PUA codepoints into GDI Fixedsys.
     f.setStyleHint(QFont::SansSerif);
     f.setStyleStrategy(static_cast<QFont::StyleStrategy>(
         static_cast<int>(QFont::PreferOutline)
-        | static_cast<int>(QFont::PreferQuality)));
+        | static_cast<int>(QFont::PreferQuality)
+        | static_cast<int>(QFont::NoFontMerging)));
     f.setHintingPreference(QFont::PreferNoHinting);
     if (pixelSize > 0)
         f.setPixelSize(pixelSize);

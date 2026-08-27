@@ -231,8 +231,7 @@ T.Control {
                                         visible: tab._icon.length > 0
                                         anchors.verticalCenter: parent.verticalCenter
                                         text: tab._icon
-                                        font.family: Theme.fontFamilyIcon
-                                        font.pixelSize: 14
+                                        font: Theme.iconFontFor(14)
                                         color: tab.checked ? Theme.accent : Theme.textSecondary
                                         Behavior on color {
                                             enabled: !Theme.reducedMotion

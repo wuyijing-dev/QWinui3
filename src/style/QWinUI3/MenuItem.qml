@@ -91,8 +91,7 @@ T.MenuItem {
         Text {
             anchors.centerIn: parent
             text: FluentIcons.Accept
-            font.family: Theme.fontFamilyIcon
-            font.pixelSize: 12
+            font: Theme.iconFontFor(12)
             color: Theme.accent
         }
     }
@@ -102,8 +101,7 @@ T.MenuItem {
         y: control.topPadding + (control.availableHeight - height) / 2
         visible: control.subMenu
         text: control.mirrored ? FluentIcons.ChevronLeft : FluentIcons.ChevronRight
-        font.family: Theme.fontFamilyIcon
-        font.pixelSize: 10
+        font: Theme.iconFontFor(10)
         color: Theme.textSecondary
     }
 

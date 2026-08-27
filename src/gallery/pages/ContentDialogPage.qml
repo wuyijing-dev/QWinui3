@@ -139,6 +139,7 @@ CatalogPage {
             primaryButtonText: qsTr("Export")
             closeButtonText: qsTr("Later")
             defaultButton: "close"
+            queuePriority: 10
             Label {
                 text: qsTr("Second in FIFO. Cancel while A is open to drop this pending entry.")
                 wrapMode: Text.Wrap
@@ -199,7 +200,7 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 color: Theme.textSecondary
-                text: qsTr("Parent dialogs on Overlay.overlay. Enqueue A→B→C, dismiss in order. Esc uses the close path on the active dialog only; onClosing can cancel. Recipe: docs/dialogs-flyouts.md.")
+                text: qsTr("Parent dialogs on Overlay.overlay. Enqueue A→B→C — B has queuePriority 10 so it runs before C after A. Esc uses the close path on the active dialog only; onClosing can cancel. Recipe: docs/dialogs-flyouts.md.")
             }
             Label {
                 Layout.fillWidth: true

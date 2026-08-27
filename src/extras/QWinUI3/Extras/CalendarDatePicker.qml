@@ -174,8 +174,7 @@ T.Control {
                 anchors.rightMargin: 10
                 anchors.verticalCenter: parent.verticalCenter
                 text: FluentIcons.Calendar
-                font.family: Theme.fontFamilyIcon
-                font.pixelSize: 14
+                font: Theme.iconFontFor(14)
                 color: root.calendarOpen ? Theme.accent : Theme.textSecondary
                 scale: field.hovered || root.calendarOpen ? 1.05 : 1
                 Behavior on color {
@@ -237,7 +236,7 @@ T.Control {
                         Layout.fillWidth: true
                         ToolButton {
                             text: FluentIcons.ChevronLeft
-                            font.family: Theme.fontFamilyIcon
+                            font: Theme.iconFontFor(14)
                             Accessible.name: qsTr("Previous month")
                             onClicked: {
                                 var d = new Date(grid.year, grid.month - 1, 1)
@@ -254,7 +253,7 @@ T.Control {
                         }
                         ToolButton {
                             text: FluentIcons.ChevronRight
-                            font.family: Theme.fontFamilyIcon
+                            font: Theme.iconFontFor(14)
                             Accessible.name: qsTr("Next month")
                             onClicked: {
                                 var d = new Date(grid.year, grid.month + 1, 1)

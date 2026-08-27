@@ -471,8 +471,7 @@ T.Control {
                         Text {
                             anchors.centerIn: parent
                             text: tileSymbol
-                            font.family: Theme.fontFamilyIcon
-                            font.pixelSize: 14
+                            font: Theme.iconFontFor(14)
                             color: Theme.accent
                         }
                     }

@@ -87,8 +87,7 @@ CatalogPage {
                         Text {
                             anchors.centerIn: parent
                             text: FluentIcons.Share
-                            font.family: Theme.symbolFontFamily
-                            font.pixelSize: 28
+                            font: Theme.iconFontFor(28)
                             color: Theme.textOnAccent
                         }
                     }

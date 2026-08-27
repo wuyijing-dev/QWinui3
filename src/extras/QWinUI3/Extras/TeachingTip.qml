@@ -219,8 +219,7 @@ T.Popup {
             Text {
                 visible: root.effectiveIconGlyph.length > 0
                 text: root.effectiveIconGlyph
-                font.family: Theme.fontFamilyIcon
-                font.pixelSize: 18
+                font: Theme.iconFontFor(18)
                 color: Theme.accent
                 Layout.alignment: Qt.AlignTop
             }

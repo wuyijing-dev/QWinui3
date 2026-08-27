@@ -83,8 +83,7 @@ T.AbstractButton {
             Text {
                 visible: root.effectiveIconGlyph.length > 0
                 text: root.effectiveIconGlyph
-                font.family: Theme.fontFamilyIcon
-                font.pixelSize: root._iconPx
+                font: Theme.iconFontFor(root._iconPx)
                 color: label.color
                 verticalAlignment: Text.AlignVCenter
             }

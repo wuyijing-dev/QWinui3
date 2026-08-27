@@ -166,13 +166,17 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Ops table — pin + group (2.64)")
-        qmlSource: "DataTable {\n    groupRole: \"team\"\n    columns: [ { pinned: true, … } ]\n}"
+        headerText: qsTr("Ops table — pin + group (2.64 / 2.82)")
+        qmlSource: "DataTable {\n    groupRole: \"team\"\n    columnLayoutKey: \"Gallery/OpsTable\"\n    groupLabel: (v) => qsTr(\"Team %1\").arg(v)\n}"
         DataTable {
             id: opsTable
             Layout.fillWidth: true
             Layout.preferredHeight: 360
             groupRole: "team"
+            columnLayoutKey: "Gallery/OpsTable"
+            groupLabel: function (team) {
+                return team ? qsTr("Team %1").arg(team) : qsTr("Ungrouped")
+            }
             filterPlaceholder: qsTr("Filter · Name column pinned · grouped by team")
             columns: [
                 { title: qsTr("Name"), role: "name", width: 150, sortable: true, pinned: true },
@@ -188,7 +192,7 @@ CatalogPage {
         Label {
             Layout.fillWidth: true
             color: Theme.textSecondary
-            text: qsTr("2.64: pinned name column · groupRole inserts team headers · scroll wide columns horizontally.")
+            text: qsTr("2.64: pinned name column · groupRole inserts team headers. 2.82: columnLayoutKey persists layout; groupLabel formats headers.")
         }
     }
 

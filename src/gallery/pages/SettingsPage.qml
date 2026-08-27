@@ -123,13 +123,13 @@ Page {
 
             SettingsCard {
                 title: qsTr("Right-to-left layout")
-                description: qsTr("Sets Qt.application.layoutDirection and mirrors the Gallery shell. Session only — docs/i18n-rtl.md.")
+                description: qsTr("Sets layout direction via WindowHelper and mirrors the Gallery shell. Session only — docs/i18n-rtl.md.")
                 symbol: FluentIcons.Globe
                 toggle: true
                 toggleText: qsTr("RTL")
-                checked: Qt.application.layoutDirection === Qt.RightToLeft
-                onToggled: {
-                    Qt.application.layoutDirection = checked ? Qt.RightToLeft : Qt.LeftToRight
+                checked: WindowHelper.layoutDirection === Qt.RightToLeft
+                onToggled: function (checked) {
+                    WindowHelper.setLayoutDirection(checked ? Qt.RightToLeft : Qt.LeftToRight)
                 }
             }
 
@@ -140,7 +140,7 @@ Page {
                 toggle: true
                 toggleText: qsTr("Show FPS")
                 checked: FrameStatsMonitor.enabled
-                onToggled: FrameStatsMonitor.enabled = checked
+                onToggled: function (checked) { FrameStatsMonitor.enabled = checked }
             }
 
             SettingsCard {
@@ -151,7 +151,7 @@ Page {
                 toggleText: qsTr("Show RHI")
                 enabled: FrameStatsMonitor.enabled
                 checked: FrameStatsMonitor.showRhi
-                onToggled: FrameStatsMonitor.showRhi = checked
+                onToggled: function (checked) { FrameStatsMonitor.showRhi = checked }
             }
 
             SettingsCard {

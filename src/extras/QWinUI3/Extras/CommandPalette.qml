@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Templates as T
+import QtCore
 import QWinUI3.Theme
 
 // CommandPalette — Ctrl+K style command launcher (fuzzy filter + keyboard).
@@ -25,7 +26,8 @@ import QWinUI3.Theme
 //   Keyboard: type to filter; ↑↓ move highlight; Enter runs; Esc closes.
 //   Each row exposes Accessible.name from title (+ shortcut in description).
 //   Large lists (2.16): filterDebounceMs + maxResults + _lastFilterKey skip.
-//   Recent commands (2.59): maxRecentCommands + optional command id for recentKeyRole.
+//   Recent commands (2.59 / 2.87 D20): maxRecentCommands + optional command id for recentKeyRole;
+//   persistRecents stores capped ring in Settings (recentsSettingsCategory).
 //   Accelerator discovery (2.41): filter matches shortcut string; commandCount / filteredCount.
 
 Popup {
@@ -44,6 +46,9 @@ Popup {
     // Pin recently run commands when query is empty (2.59).
     property int maxRecentCommands: 5
     property string recentKeyRole: "id"
+    // Persist recent command keys in Settings (2.87 D20).
+    property bool persistRecents: true
+    property string recentsSettingsCategory: "CommandPalette"
 
     readonly property var _mergedCommands: {
         var out = []
@@ -100,6 +105,40 @@ Popup {
     property string _lastFilterKey: ""
     property var _recentKeys: []
 
+    Settings {
+        id: recentStore
+        category: root.recentsSettingsCategory
+        property string recentKeysJson: "[]"
+    }
+
+    Component.onCompleted: root._loadRecentKeys()
+
+    function _loadRecentKeys() {
+        if (!persistRecents)
+            return
+        try {
+            var v = JSON.parse(recentStore.recentKeysJson || "[]")
+            _recentKeys = Array.isArray(v) ? v : []
+        } catch (e) {
+            _recentKeys = []
+        }
+    }
+
+    function _persistRecentKeys() {
+        if (!persistRecents)
+            return
+        recentStore.recentKeysJson = JSON.stringify(_recentKeys)
+    }
+
+    function clearRecentCommands() {
+        _recentKeys = []
+        _persistRecentKeys()
+        if (!queryField.text.trim().length)
+            _rebuild("")
+    }
+
+    readonly property var recentCommandKeys: _recentKeys.slice()
+
     Timer {
         id: filterDebounce
         interval: root.filterDebounceMs
@@ -152,6 +191,7 @@ Popup {
         if (maxRecentCommands > 0 && next.length > maxRecentCommands)
             next = next.slice(0, maxRecentCommands)
         _recentKeys = next
+        _persistRecentKeys()
     }
 
     function _findCommand(key) {
@@ -232,10 +272,27 @@ Popup {
             root._highlight = 0
     }
 
+    function _commandEnabled(cmd) {
+        if (!cmd)
+            return false
+        if (cmd.enabled === false)
+            return false
+        if (typeof cmd.canExecute === "function") {
+            try {
+                return !!cmd.canExecute()
+            } catch (e) {
+                return false
+            }
+        }
+        return true
+    }
+
     function _run(index) {
         if (index < 0 || index >= _filtered.length)
             return
         var cmd = _filtered[index]
+        if (!_commandEnabled(cmd))
+            return
         _rememberRecent(cmd)
         close()
         commandTriggered(cmd)
@@ -284,8 +341,7 @@ Popup {
 
                 Label {
                     text: IconSource.resolve(FluentIcons.Search, "")
-                    font.family: Theme.fontFamilyIcon
-                    font.pixelSize: Theme.fontBody
+                    font: Theme.iconFontFor(Theme.fontBody)
                     color: Theme.textSecondary
                 }
 
@@ -344,6 +400,8 @@ Popup {
                     width: ListView.view.width
                     height: Theme.navItemHeight
                     highlighted: index === root._highlight
+                    enabled: root._commandEnabled(modelData)
+                    opacity: enabled ? 1 : 0.45
                     onClicked: root._run(index)
                     onHoveredChanged: if (hovered) root._highlight = index
                     Accessible.role: Accessible.ListItem
@@ -367,8 +425,7 @@ Popup {
                         Label {
                             visible: IconSource.resolve(del.modelData.symbol, del.modelData.iconGlyph || "").length > 0
                             text: IconSource.resolve(del.modelData.symbol, del.modelData.iconGlyph || "")
-                            font.family: Theme.fontFamilyIcon
-                            font.pixelSize: Theme.fontBody
+                            font: Theme.iconFontFor(Theme.fontBody)
                             color: Theme.textSecondary
                         }
                         ColumnLayout {

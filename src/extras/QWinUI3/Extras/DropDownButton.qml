@@ -145,8 +145,7 @@ T.AbstractButton {
         Text {
             visible: control.effectiveIconGlyph.length > 0
             text: control.effectiveIconGlyph
-            font.family: Theme.fontFamilyIcon
-            font.pixelSize: 14
+            font: Theme.iconFontFor(14)
             color: {
                 if (!control.enabled)
                     return Theme.textDisabled
@@ -183,8 +182,7 @@ T.AbstractButton {
         Text {
             id: chevron
             text: FluentIcons.ChevronDown
-            font.family: Theme.fontFamilyIcon
-            font.pixelSize: 10
+            font: Theme.iconFontFor(10)
             color: control.highlighted
                    ? (control.enabled ? Theme.textOnAccent : Theme.textDisabled)
                    : Theme.textSecondary

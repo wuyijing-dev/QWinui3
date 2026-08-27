@@ -95,8 +95,7 @@ Item {
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: root.effectiveGlyph
                 color: root.textColor
-                font.family: Theme.fontFamilyIcon
-                font.pixelSize: 16
+                font: Theme.iconFontFor(16)
             }
             Text {
                 id: label

@@ -149,8 +149,7 @@ T.Control {
                         anchors.centerIn: parent
                         visible: row._glyph.length > 0
                         text: row._glyph
-                        font.family: Theme.fontFamilyIcon
-                        font.pixelSize: Math.max(8, row._node * 0.45)
+                        font: Theme.iconFontFor(Math.max(8, row._node * 0.45))
                         color: row.isActive ? Theme.textOnAccent : Theme.textSecondary
                     }
                 }

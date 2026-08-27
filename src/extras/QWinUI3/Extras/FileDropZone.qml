@@ -165,8 +165,7 @@ T.Control {
             Text {
                 Layout.alignment: Qt.AlignHCenter
                 text: IconSource.resolve(root.symbol, "")
-                font.family: Theme.fontFamilyIcon
-                font.pixelSize: 28
+                font: Theme.iconFontFor(28)
                 color: root.isActive ? Theme.accent : Theme.textSecondary
             }
             Text {

@@ -139,8 +139,7 @@ T.Control {
             Text {
                 anchors.centerIn: parent
                 text: root.effectiveGlyph
-                font.family: Theme.fontFamilyIcon
-                font.pixelSize: root.compact ? 18 : 24
+                font: Theme.iconFontFor(root.compact ? 18 : 24)
                 color: root.glyphColor
             }
         }

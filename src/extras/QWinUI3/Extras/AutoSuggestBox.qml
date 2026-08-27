@@ -25,6 +25,7 @@ import QWinUI3.Theme
 //   Text field + filtered suggestion popup (model / text / suggestionChosen).
 //   Call focusField() / clear(); refreshSuggestions() after model changes.
 //   header / description (WinUI Description); maxSuggestionListHeight caps the popup.
+//   filterDebounceMs (2.87 D21) debounces filter; highlightMatches + MatchHighlightText in popup rows.
 
 T.Control {
     id: control
@@ -57,12 +58,14 @@ T.Control {
     property real maxSuggestionListHeight: 240
     // WinUI ChooseSuggestionOnEnter — Enter picks highlighted row when list is open
     property bool chooseSuggestionOnEnter: true
-    // Debounce suggestion filter keystrokes (2.16).
+    // Debounce suggestion filter keystrokes (2.16 / 2.87 D21).
     property int filterDebounceMs: 120
     // Cap filtered suggestion rows (2.16).
     property int maxSuggestionResults: 32
     // Skip filter until query length >= this (2.59).
     property int minFilterLength: 0
+    // Accent-highlight matching substring in suggestion rows (2.87 D21).
+    property bool highlightMatches: true
 
     // Resolved search glyph
     readonly property string effectiveQueryIcon: IconSource.resolve(symbol, queryIcon)
@@ -103,6 +106,18 @@ T.Control {
         if (control.textMemberPath && item[control.textMemberPath] !== undefined)
             return String(item[control.textMemberPath])
         return String(item.title || item.text || "")
+    }
+
+    // Match range for highlightMatches / external consumers (2.87 D21).
+    function matchHighlightRange(text, query) {
+        var q = String(query !== undefined ? query : (field.text || "")).trim().toLowerCase()
+        var t = String(text || "")
+        if (!q.length || !t.length)
+            return { start: -1, length: 0 }
+        var idx = t.toLowerCase().indexOf(q)
+        if (idx < 0)
+            return { start: -1, length: 0 }
+        return { start: idx, length: q.length }
     }
 
     // Rebuild suggestion list from text (immediate — used after model changes).
@@ -253,8 +268,7 @@ T.Control {
                 anchors.leftMargin: 10
                 anchors.verticalCenter: parent.verticalCenter
                 text: control.effectiveQueryIcon
-                font.family: Theme.fontFamilyIcon
-                font.pixelSize: 14
+                font: Theme.iconFontFor(14)
                 color: field.activeFocus ? Theme.accent : Theme.textSecondary
                 z: 1
                 scale: field.activeFocus && !Theme.reducedMotion ? 1.05 : 1
@@ -288,8 +302,7 @@ T.Control {
                 onClicked: control.clear()
                 contentItem: Text {
                     text: FluentIcons.ChromeClose
-                    font.family: Theme.fontFamilyIcon
-                    font.pixelSize: 10
+                    font: Theme.iconFontFor(10)
                     color: Theme.textSecondary
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
@@ -375,11 +388,10 @@ T.Control {
                         required property int index
                         width: ListView.view.width
                         height: Theme.navItemHeight
-                        text: control.displayTextFor(modelData)
                         highlighted: ListView.isCurrentItem
                         onClicked: {
                             if (control.updateTextOnSelect)
-                                field.text = text
+                                field.text = control.displayTextFor(modelData)
                             control.suggestionChosen(modelData)
                             popup.close()
                             field.forceActiveFocus()
@@ -396,6 +408,12 @@ T.Control {
                             }
                         }
                         onHoveredChanged: if (hovered) ListView.view.currentIndex = index
+                        contentItem: MatchHighlightText {
+                            sourceText: control.displayTextFor(modelData)
+                            query: control.highlightMatches ? field.text : ""
+                            font.weight: parent.highlighted ? Theme.fontWeightSemiBold : Theme.fontWeightNormal
+                            normalColor: parent.highlighted ? Theme.textPrimary : Theme.textSecondary
+                        }
                     }
                 }
             }

@@ -69,8 +69,7 @@ CatalogPage {
                         Text {
                             text: page.panelIndex === 0 ? FluentIcons.Home
                                 : (page.panelIndex === 1 ? FluentIcons.Settings : FluentIcons.Mail)
-                            font.family: Theme.fontFamilyIcon
-                            font.pixelSize: 28
+                            font: Theme.iconFontFor(28)
                             color: Theme.accent
                             Layout.alignment: Qt.AlignHCenter
                         }

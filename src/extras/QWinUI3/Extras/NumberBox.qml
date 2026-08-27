@@ -411,8 +411,7 @@ T.Control {
                         Layout.fillWidth: true
                         Layout.fillHeight: true
                         text: FluentIcons.ChevronUp
-                        font.family: Theme.fontFamilyIcon
-                        font.pixelSize: 8
+                        font: Theme.iconFontFor(8)
                         Accessible.name: qsTr("Increase")
                         onClicked: root.bump(root.stepSize)
                     }
@@ -425,8 +424,7 @@ T.Control {
                         Layout.fillWidth: true
                         Layout.fillHeight: true
                         text: FluentIcons.ChevronDown
-                        font.family: Theme.fontFamilyIcon
-                        font.pixelSize: 8
+                        font: Theme.iconFontFor(8)
                         Accessible.name: qsTr("Decrease")
                         onClicked: root.bump(-root.stepSize)
                     }

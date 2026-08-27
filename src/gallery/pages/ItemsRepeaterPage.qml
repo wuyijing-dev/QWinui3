@@ -73,8 +73,7 @@ CatalogPage {
                     spacing: 8
                     Text {
                         text: FluentIcons.Document
-                        font.family: Theme.fontFamilyIcon
-                        font.pixelSize: 40
+                        font: Theme.iconFontFor(40)
                         color: Theme.accent
                         Layout.alignment: Qt.AlignHCenter
                     }

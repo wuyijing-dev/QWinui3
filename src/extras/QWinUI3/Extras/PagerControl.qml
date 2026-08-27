@@ -112,7 +112,7 @@ T.Control {
 
         ToolButton {
             text: FluentIcons.ChevronLeft
-            font.family: Theme.fontFamilyIcon
+            font: Theme.iconFontFor(14)
             enabled: root.wrap || root.selectedIndex > 0
             focusPolicy: Qt.NoFocus
             activeFocusOnTab: false
@@ -144,7 +144,7 @@ T.Control {
 
         ToolButton {
             text: FluentIcons.ChevronRight
-            font.family: Theme.fontFamilyIcon
+            font: Theme.iconFontFor(14)
             enabled: root.wrap || root.selectedIndex < root.numberOfPages - 1
             focusPolicy: Qt.NoFocus
             activeFocusOnTab: false

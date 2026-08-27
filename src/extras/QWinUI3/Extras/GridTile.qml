@@ -98,8 +98,7 @@ T.AbstractButton {
                     anchors.centerIn: parent
                     visible: control.source.toString().length === 0
                     text: control.effectiveGlyph
-                    font.family: Theme.fontFamilyIcon
-                    font.pixelSize: 28
+                    font: Theme.iconFontFor(28)
                     color: control.enabled ? Theme.accent : Theme.textDisabled
                 }
             }
@@ -145,8 +144,7 @@ T.AbstractButton {
                 Text {
                     anchors.centerIn: parent
                     text: FluentIcons.Accept
-                    font.family: Theme.fontFamilyIcon
-                    font.pixelSize: 12
+                    font: Theme.iconFontFor(12)
                     color: Theme.textOnAccent
                 }
             }

@@ -178,8 +178,7 @@ T.TextField {
             Text {
                 anchors.verticalCenter: parent.verticalCenter
                 text: FluentIcons.Error
-                font.family: Theme.fontFamilyIcon
-                font.pixelSize: 12
+                font: Theme.iconFontFor(12)
                 color: Theme.systemCritical
             }
             Text {
@@ -301,8 +300,7 @@ T.TextField {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.verticalCenterOffset: Theme.iconOpticalOffset(14).y
                 text: control._leadingGlyph
-                font.family: Theme.fontFamilyIcon
-                font.pixelSize: 14
+                font: Theme.iconFontFor(14)
                 color: control.enabled ? Theme.textSecondary : Theme.textDisabled
                 Accessible.ignored: true
             }
@@ -334,8 +332,7 @@ T.TextField {
                     Text {
                         anchors.centerIn: parent
                         text: FluentIcons.ChromeClose
-                        font.family: Theme.fontFamilyIcon
-                        font.pixelSize: 10
+                        font: Theme.iconFontFor(10)
                         color: control.enabled ? Theme.textSecondary : Theme.textDisabled
                     }
                 }

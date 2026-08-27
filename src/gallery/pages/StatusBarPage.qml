@@ -78,8 +78,7 @@ CatalogPage {
         text: qsTr("Ready")
         leftContent: Text {
             text: FluentIcons.Sync
-            font.family: Theme.fontFamilyIcon
-            font.pixelSize: 12
+            font: Theme.iconFontFor(12)
             color: Theme.textSecondary
             verticalAlignment: Text.AlignVCenter
         }

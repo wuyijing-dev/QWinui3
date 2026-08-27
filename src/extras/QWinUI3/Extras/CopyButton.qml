@@ -109,8 +109,7 @@ T.AbstractButton {
         Text {
             anchors.verticalCenter: parent.verticalCenter
             text: control.copied ? control._doneGlyph : control._idleGlyph
-            font.family: Theme.fontFamilyIcon
-            font.pixelSize: 14
+            font: Theme.iconFontFor(14)
             color: control.copied ? Theme.systemSuccess
                  : (control.enabled ? Theme.textPrimary : Theme.textDisabled)
             Behavior on color {

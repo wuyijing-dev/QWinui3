@@ -66,8 +66,7 @@ T.Control {
                 Text {
                     visible: root.effectiveSymbol.length > 0
                     text: root.effectiveSymbol
-                    font.family: Theme.fontFamilyIcon
-                    font.pixelSize: 16
+                    font: Theme.iconFontFor(16)
                     color: Theme.accent
                 }
                 Text {

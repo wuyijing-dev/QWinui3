@@ -261,8 +261,7 @@ T.Control {
                         Text {
                             visible: parent._glyph.length > 0
                             text: parent._glyph
-                            font.family: Theme.fontFamilyIcon
-                            font.pixelSize: 14
+                            font: Theme.iconFontFor(14)
                             color: seg.checked ? Theme.textPrimary : Theme.textSecondary
                             Layout.leftMargin: 8
                             Behavior on color {

@@ -154,8 +154,7 @@ T.ComboBox {
             Text {
                 anchors.verticalCenter: parent.verticalCenter
                 text: FluentIcons.Error
-                font.family: Theme.fontFamilyIcon
-                font.pixelSize: 12
+                font: Theme.iconFontFor(12)
                 color: Theme.systemCritical
             }
             Text {
@@ -241,8 +240,7 @@ T.ComboBox {
                 anchors.rightMargin: Theme.paddingControlH
                 anchors.verticalCenter: parent.verticalCenter
                 text: FluentIcons.CheckMark
-                font.family: Theme.fontFamilyIcon
-                font.pixelSize: 12
+                font: Theme.iconFontFor(12)
                 color: Theme.accent
                 opacity: delegateRoot.selected ? 1 : 0
                 scale: delegateRoot.selected ? 1 : 0.6
@@ -274,8 +272,7 @@ T.ComboBox {
         height: implicitHeight
         z: 2
         text: FluentIcons.ChevronDown
-        font.family: Theme.fontFamilyIcon
-        font.pixelSize: 10
+        font: Theme.iconFontFor(10)
         color: control.enabled ? Theme.textSecondary : Theme.textDisabled
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter

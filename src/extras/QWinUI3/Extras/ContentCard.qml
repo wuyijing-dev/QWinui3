@@ -109,8 +109,7 @@ T.Control {
             Text {
                 visible: control.effectiveHeaderIcon.length > 0
                 text: control.effectiveHeaderIcon
-                font.family: Theme.fontFamilyIcon
-                font.pixelSize: 20
+                font: Theme.iconFontFor(20)
                 color: Theme.accent
             }
 

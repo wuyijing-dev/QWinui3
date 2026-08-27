@@ -131,8 +131,7 @@ T.Control {
                 Text {
                     visible: root.effectiveHeaderIcon.length > 0
                     text: root.effectiveHeaderIcon
-                    font.family: Theme.fontFamilyIcon
-                    font.pixelSize: 16
+                    font: Theme.iconFontFor(16)
                     color: root.enabled ? Theme.accent : Theme.textDisabled
                     Layout.alignment: Qt.AlignVCenter
                 }
@@ -181,8 +180,7 @@ T.Control {
 
                 Text {
                     text: FluentIcons.ChevronDown
-                    font.family: Theme.fontFamilyIcon
-                    font.pixelSize: 10
+                    font: Theme.iconFontFor(10)
                     color: root.enabled ? Theme.textSecondary : Theme.textDisabled
                     rotation: {
                         if (root._expandUp)

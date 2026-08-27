@@ -200,8 +200,7 @@ CatalogPage {
 
             property string bodyText: qsTr("Select an item, or use Back / Footer / pane mode.")
 
-            rightHeader: Row {
-                spacing: 8
+            titleBarContent: TitleBarToolbar {
                 ComboBox {
                     id: modeBox
                     implicitWidth: 140
@@ -221,6 +220,22 @@ CatalogPage {
                     }
                 }
             }
+
+            rightHeader: Button {
+                text: qsTr("Share")
+                flat: true
+            }
+
+            captionRightHeader: Row {
+                spacing: 4
+                FrameStatsBadge { }
+                IconButton {
+                    symbol: FluentIcons.Contact
+                    ToolTip.text: qsTr("Account")
+                }
+            }
+
+            Component.onCompleted: FrameStatsMonitor.attachWindow(win)
 
             content: Item {
                 anchors.fill: parent
@@ -663,8 +678,7 @@ CatalogPage {
                     spacing: 12
                     Text {
                         text: IconSource.resolve(card.symbol, "")
-                        font.family: Theme.fontFamilyIcon
-                        font.pixelSize: 22
+                        font: Theme.iconFontFor(22)
                         color: Theme.accent
                         Layout.alignment: Qt.AlignTop
                     }

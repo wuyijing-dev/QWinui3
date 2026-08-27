@@ -83,8 +83,7 @@ T.SpinBox {
         Text {
             anchors.centerIn: parent
             text: FluentIcons.ChevronUp
-            font.family: Theme.fontFamilyIcon
-            font.pixelSize: 8
+            font: Theme.iconFontFor(8)
             color: control.up.pressed ? Theme.accent
                  : (control.enabled ? Theme.textSecondary : Theme.textDisabled)
         }
@@ -120,8 +119,7 @@ T.SpinBox {
         Text {
             anchors.centerIn: parent
             text: FluentIcons.ChevronDown
-            font.family: Theme.fontFamilyIcon
-            font.pixelSize: 8
+            font: Theme.iconFontFor(8)
             color: control.down.pressed ? Theme.accent
                  : (control.enabled ? Theme.textSecondary : Theme.textDisabled)
         }

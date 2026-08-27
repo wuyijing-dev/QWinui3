@@ -321,8 +321,7 @@ T.Control {
                                 visible: itemBtn._icon.length > 0
                                 width: visible ? implicitWidth : 0
                                 text: itemBtn._icon
-                                font.family: Theme.fontFamilyIcon
-                                font.pixelSize: 14
+                                font: Theme.iconFontFor(14)
                                 color: {
                                     if (control.selectionStyle === "underline")
                                         return itemBtn.checked ? Theme.accent : Theme.textSecondary

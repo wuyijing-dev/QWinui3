@@ -178,8 +178,7 @@ T.AbstractButton {
                 anchors.verticalCenter: parent.verticalCenter
                 visible: control.progressState === "completed" || control.progressState === "error"
                 text: control.progressState === "completed" ? FluentIcons.Accept : FluentIcons.Error
-                font.family: Theme.fontFamilyIcon
-                font.pixelSize: 14
+                font: Theme.iconFontFor(14)
                 color: control.progressState === "completed" ? Theme.systemSuccess : Theme.systemCritical
                 scale: visible && !Theme.reducedMotion ? 1 : 0.7
                 Behavior on scale {

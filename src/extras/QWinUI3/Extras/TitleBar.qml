@@ -63,6 +63,8 @@ Item {
     property real trailingReserve: 0
     // Window used for system move
     property var dragWindow: null
+    // When true, caption drag is handled by native NC hit-test — disable QML drag MouseArea.
+    property bool useNativeChrome: false
     // WinUI TitleBarHeightOption — Standard 32 / Tall 48 (from PlatformTitleBar).
     property real preferredHeight: 48
 
@@ -117,24 +119,27 @@ Item {
             var g = item.mapToGlobal(0, 0)
             pushRect(g.x, g.y, item.width, item.height)
         }
-        // Push content into the host
-        function pushHostContent(host) {
-            if (!host || !host.visible || host.children.length === 0)
+        // Push content into the host (each descendant — not only childrenRect union).
+        function pushHostTree(host) {
+            if (!host || !host.visible)
                 return
-            var cr = host.childrenRect
-            if (cr.width <= 0 || cr.height <= 0)
-                return
-            var g = host.mapToGlobal(cr.x, cr.y)
-            pushRect(g.x, g.y, cr.width, Math.max(cr.height, host.height * 0.5))
+            for (var i = 0; i < host.children.length; ++i) {
+                var ch = host.children[i]
+                if (!ch || !ch.visible)
+                    continue
+                if (ch.children && ch.children.length > 0)
+                    pushHostTree(ch)
+                pushItem(ch)
+            }
         }
         pushItem(backBtn)
         pushItem(paneBtn)
-        pushHostContent(leftHeaderSlot)
+        pushHostTree(leftHeaderSlot)
         if (root.hasContentChildren)
-            pushHostContent(customContentHost)
+            pushHostTree(customContentHost)
         if (root.showBuiltInSearch && searchField.visible)
             pushItem(searchField)
-        pushHostContent(trailingRow)
+        pushHostTree(trailingRow)
         return list
     }
 
@@ -163,7 +168,7 @@ Item {
         anchors.fill: parent
         anchors.rightMargin: root.trailingReserve
         z: -1
-        enabled: root.embedded && root.dragWindow
+        enabled: root.embedded && root.dragWindow && !root.useNativeChrome
         acceptedButtons: Qt.LeftButton
         onPressed: {
             if (root.dragWindow && root.dragWindow.startSystemMove)
@@ -198,8 +203,7 @@ Item {
         }
         contentItem: Text {
             text: tbtn.glyph
-            font.family: Theme.fontFamilyIcon
-            font.pixelSize: 14
+            font: Theme.iconFontFor(14)
             color: tbtn.enabled
                    ? (tbtn.down ? Theme.textPrimary : Theme.textSecondary)
                    : Theme.textDisabled
@@ -266,8 +270,7 @@ Item {
                 anchors.centerIn: parent
                 visible: root.effectiveIconGlyph.length > 0
                 text: root.effectiveIconGlyph
-                font.family: Theme.fontFamilyIcon
-                font.pixelSize: 16
+                font: Theme.iconFontFor(16)
                 color: Theme.accent
             }
             Image {
@@ -381,8 +384,7 @@ Item {
                     anchors.leftMargin: 10
                     anchors.verticalCenter: parent.verticalCenter
                     text: FluentIcons.Search
-                    font.family: Theme.fontFamilyIcon
-                    font.pixelSize: 14
+                    font: Theme.iconFontFor(14)
                     color: searchField.activeFocus ? Theme.accent : Theme.textSecondary
                     z: 1
                     Behavior on color {
@@ -407,8 +409,7 @@ Item {
                     }
                     contentItem: Text {
                         text: FluentIcons.ChromeClose
-                        font.family: Theme.fontFamilyIcon
-                        font.pixelSize: 10
+                        font: Theme.iconFontFor(10)
                         color: clearBtn.hovered ? Theme.textPrimary : Theme.textSecondary
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
@@ -486,8 +487,7 @@ Item {
                                 Text {
                                     text: IconSource.resolve(modelData.symbol || "", modelData.icon || "")
                                           || FluentIcons.Document
-                                    font.family: Theme.fontFamilyIcon
-                                    font.pixelSize: 16
+                                    font: Theme.iconFontFor(16)
                                     color: Theme.textSecondary
                                 }
                                 ColumnLayout {

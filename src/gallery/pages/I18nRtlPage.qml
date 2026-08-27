@@ -97,7 +97,7 @@ CatalogPage {
 
     ControlExample {
         headerText: qsTr("Session RTL toggle")
-        qmlSource: "Qt.application.layoutDirection = Qt.RightToLeft\nLayoutMirroring.enabled: …"
+        qmlSource: "WindowHelper.setLayoutDirection(Qt.RightToLeft)\nLayoutMirroring.enabled: …"
 
         ColumnLayout {
             Layout.fillWidth: true
@@ -114,16 +114,16 @@ CatalogPage {
                 title: qsTr("Right-to-left layout")
                 description: qsTr("Mirrors NavigationView, FormLayout left headers, and settings rows for this session.")
                 symbol: FluentIcons.Globe
-                checked: Qt.application.layoutDirection === Qt.RightToLeft
-                onToggled: {
-                    Qt.application.layoutDirection = checked ? Qt.RightToLeft : Qt.LeftToRight
+                checked: WindowHelper.layoutDirection === Qt.RightToLeft
+                onToggled: function (checked) {
+                    WindowHelper.setLayoutDirection(checked ? Qt.RightToLeft : Qt.LeftToRight)
                 }
             }
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 text: qsTr("Direction now: %1").arg(
-                          Qt.application.layoutDirection === Qt.RightToLeft
+                          WindowHelper.layoutDirection === Qt.RightToLeft
                           ? qsTr("Right to left") : qsTr("Left to right"))
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textPrimary

@@ -346,8 +346,7 @@ CatalogPage {
                         Text {
                             Layout.alignment: Qt.AlignRight
                             text: FluentIcons.OpenInNewWindow
-                            font.family: Theme.fontFamilyIcon
-                            font.pixelSize: 12
+                            font: Theme.iconFontFor(12)
                             color: Theme.textSecondary
                             opacity: 0.65
                         }
@@ -366,7 +365,7 @@ CatalogPage {
             width: 36
             height: 36
             text: FluentIcons.ChevronRight
-            font.family: Theme.fontFamilyIcon
+            font: Theme.iconFontFor(14)
             Accessible.name: qsTr("Scroll featured cards")
             onClicked: page.scrollFeatured(1)
         }
@@ -379,7 +378,7 @@ CatalogPage {
             width: 36
             height: 36
             text: FluentIcons.ChevronLeft
-            font.family: Theme.fontFamilyIcon
+            font: Theme.iconFontFor(14)
             Accessible.name: qsTr("Scroll featured cards back")
             onClicked: page.scrollFeatured(-1)
         }
@@ -405,8 +404,7 @@ CatalogPage {
                 spacing: 8
                 Text {
                     text: FluentIcons.Clock
-                    font.family: Theme.fontFamilyIcon
-                    font.pixelSize: 14
+                    font: Theme.iconFontFor(14)
                     color: recentPill.checked ? Theme.textOnAccent : Theme.textPrimary
                 }
                 Text {
@@ -442,8 +440,7 @@ CatalogPage {
                 spacing: 8
                 Text {
                     text: FluentIcons.Favorite
-                    font.family: Theme.fontFamilyIcon
-                    font.pixelSize: 14
+                    font: Theme.iconFontFor(14)
                     color: favPill.checked ? Theme.textOnAccent : Theme.textPrimary
                 }
                 Text {
@@ -546,8 +543,7 @@ CatalogPage {
 
                             Text {
                                 text: modelData.icon
-                                font.family: Theme.fontFamilyIcon
-                                font.pixelSize: 22
+                                font: Theme.iconFontFor(22)
                                 color: Theme.accent
                                 Layout.alignment: Qt.AlignVCenter
                             }
@@ -586,8 +582,7 @@ CatalogPage {
                                 contentItem: Text {
                                     anchors.centerIn: parent
                                     text: starBtn.favorited ? FluentIcons.FavoriteStarFill : FluentIcons.Favorite
-                                    font.family: Theme.fontFamilyIcon
-                                    font.pixelSize: 14
+                                    font: Theme.iconFontFor(14)
                                     color: starBtn.favorited ? Theme.systemCaution
                                                              : Theme.textSecondary
                                     horizontalAlignment: Text.AlignHCenter

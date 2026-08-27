@@ -42,6 +42,56 @@ CatalogPage {
     }
 
     ControlExample {
+        headerText: qsTr("Debounce + highlight (2.87 D21)")
+        qmlSource: "AutoSuggestBox {\n    filterDebounceMs: 200\n    highlightMatches: true\n    matchHighlightRange(text)\n}"
+        ColumnLayout {
+            Layout.fillWidth: true
+            Layout.maximumWidth: 360
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("filterDebounceMs delays filter rebuilds; suggestion rows accent the matching substring. matchHighlightRange() returns { start, length } for custom delegates.")
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            SpinBox {
+                id: debounceSpin
+                from: 0
+                to: 600
+                stepSize: 20
+                value: 120
+                textFromValue: function (v) { return v + " ms" }
+            }
+            CheckBox {
+                id: highlightToggle
+                text: qsTr("Highlight matches")
+                checked: true
+            }
+            AutoSuggestBox {
+                id: debouncedBox
+                Layout.fillWidth: true
+                placeholderText: qsTr("Type \"ap\"…")
+                filterDebounceMs: debounceSpin.value
+                highlightMatches: highlightToggle.checked
+                model: ["Apple", "Apricot", "Banana", "Grape", "Pineapple"]
+                onSuggestionChosen: function (item) {
+                    var r = debouncedBox.matchHighlightRange(debouncedBox.displayTextFor(item))
+                    rangeLabel.text = qsTr("matchHighlightRange: start=%1 length=%2")
+                            .arg(r.start).arg(r.length)
+                }
+            }
+            Label {
+                id: rangeLabel
+                Layout.fillWidth: true
+                wrapMode: Text.Wrap
+                color: Theme.textSecondary
+                text: qsTr("Pick a suggestion to see matchHighlightRange output.")
+            }
+        }
+    }
+
+    ControlExample {
         headerText: qsTr("Suggestions")
         qmlSource: "AutoSuggestBox {\n    symbol: FluentIcons.Search\n}"
         ColumnLayout {

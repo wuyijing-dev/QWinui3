@@ -227,7 +227,7 @@ T.Control {
             Layout.fillWidth: true
             ToolButton {
                 text: FluentIcons.ChevronLeft
-                font.family: Theme.fontFamilyIcon
+                font: Theme.iconFontFor(14)
                 Accessible.name: qsTr("Previous month")
                 onClicked: {
                     var d = new Date(root.year, root.month - 1, 1)
@@ -245,7 +245,7 @@ T.Control {
             }
             ToolButton {
                 text: FluentIcons.ChevronRight
-                font.family: Theme.fontFamilyIcon
+                font: Theme.iconFontFor(14)
                 Accessible.name: qsTr("Next month")
                 onClicked: {
                     var d = new Date(root.year, root.month + 1, 1)

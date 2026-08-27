@@ -76,8 +76,7 @@ T.Control {
                 anchors.centerIn: parent
                 visible: root.state !== "loading"
                 text: root._glyph
-                font.family: Theme.fontFamilyIcon
-                font.pixelSize: 28
+                font: Theme.iconFontFor(28)
                 color: root.state === "error" ? Theme.systemCritical : Theme.textSecondary
             }
         }

@@ -271,8 +271,7 @@ T.Control {
                     }
                     Text {
                         text: FluentIcons.ChevronDown
-                        font.family: Theme.fontFamilyIcon
-                        font.pixelSize: 10
+                        font: Theme.iconFontFor(10)
                         color: Theme.textSecondary
                         rotation: root.menuOpen ? 180 : 0
                     }
@@ -314,8 +313,7 @@ T.Control {
                 visible: root.hasError
                 Text {
                     text: FluentIcons.Error
-                    font.family: Theme.fontFamilyIcon
-                    font.pixelSize: 12
+                    font: Theme.iconFontFor(12)
                     color: Theme.systemCritical
                 }
                 Text {
@@ -452,8 +450,7 @@ T.Control {
                         Text {
                             anchors.centerIn: parent
                             text: FluentIcons.Accept
-                            font.family: Theme.fontFamilyIcon
-                            font.pixelSize: 11
+                            font: Theme.iconFontFor(11)
                             color: Theme.textOnAccent
                             opacity: row.itemChecked ? 1 : 0
                         }

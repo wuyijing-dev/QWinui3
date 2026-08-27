@@ -231,6 +231,7 @@ qt_add_qml_module(qwinui3_gallery
         pages/AutomotiveClusterPage.qml
         pages/KpiTilePage.qml
         pages/DashboardPage.qml
+        pages/OpsConsolePage.qml
         pages/RadioButtonPage.qml
         pages/RadioButtonsPage.qml
         pages/RangeSliderPage.qml
@@ -295,6 +296,7 @@ qt_add_qml_module(qwinui3_gallery
         pages/TreeViewRecipePage.qml
         pages/TumblerPage.qml
         pages/TwoPaneViewPage.qml
+        pages/SplitWorkspacePage.qml
         pages/UniformGridPage.qml
         pages/WrapPanelPage.qml
         ${QWINUI3_GALLERY_MEDIA_QML}

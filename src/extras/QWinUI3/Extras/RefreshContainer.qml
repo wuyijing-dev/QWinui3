@@ -154,8 +154,7 @@ T.Control {
                     Text {
                         anchors.centerIn: parent
                         text: FluentIcons.Refresh
-                        font.family: Theme.fontFamilyIcon
-                        font.pixelSize: 16
+                        font: Theme.iconFontFor(16)
                         color: root._armed || root.refreshing ? Theme.accent : Theme.textSecondary
                         rotation: root.refreshing ? parent.spinAngle : (root._pullProgress * 180)
                         Behavior on color {

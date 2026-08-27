@@ -151,8 +151,7 @@ T.AbstractButton {
             onClicked: control.closeClicked()
             contentItem: Text {
                 text: FluentIcons.ChromeClose
-                font.family: Theme.fontFamilyIcon
-                font.pixelSize: 9
+                font: Theme.iconFontFor(9)
                 color: {
                     if (!control.enabled)
                         return Theme.textDisabled

@@ -119,8 +119,7 @@ T.AbstractButton {
         }
         Text {
             text: FluentIcons.ChevronDown
-            font.family: Theme.fontFamilyIcon
-            font.pixelSize: 10
+            font: Theme.iconFontFor(10)
             color: Theme.textSecondary
             rotation: control.pickerOpen ? 180 : 0
             Behavior on rotation {

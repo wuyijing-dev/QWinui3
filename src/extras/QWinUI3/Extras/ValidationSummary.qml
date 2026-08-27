@@ -79,8 +79,7 @@ T.Control {
             spacing: Theme.spacing
             Text {
                 text: FluentIcons.Error
-                font.family: Theme.fontFamilyIcon
-                font.pixelSize: 16
+                font: Theme.iconFontFor(16)
                 color: Theme.systemCritical
             }
             Text {

@@ -70,6 +70,45 @@ CatalogPage {
     }
 
     ControlExample {
+        headerText: qsTr("Priority + dedupe (2.87 D22)")
+        qmlSource: "host.show(msg, sev, title, action, \"sync-id\", priority)\n// same dedupeId replaces in-flight toast"
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Theme.spacing
+            Text {
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+                text: qsTr("Fill maxVisible, then enqueue with priority — higher values drain first from pending. Re-show with the same dedupeId updates the visible toast instead of stacking duplicates.")
+                font.pixelSize: Theme.fontBody
+                color: Theme.textSecondary
+            }
+            RowLayout {
+                Layout.fillWidth: true
+                spacing: Theme.spacing
+                Button {
+                    text: qsTr("Priority burst")
+                    onClicked: {
+                        for (var i = 0; i < 4; ++i)
+                            host.show(qsTr("Low %1").arg(i), host.severityInformational,
+                                      qsTr("Queue"), "", "", 0)
+                        host.show(qsTr("High priority"), host.severityWarning,
+                                  qsTr("Queue"), "", "", 10)
+                    }
+                }
+                Button {
+                    text: qsTr("Dedupe sync")
+                    onClicked: {
+                        host.show(qsTr("Syncing…"), host.severityInformational,
+                                  qsTr("Upload"), "", "upload", 0)
+                        host.show(qsTr("Sync complete"), host.severitySuccess,
+                                  qsTr("Upload"), "", "upload", 0)
+                    }
+                }
+            }
+        }
+    }
+
+    ControlExample {
         headerText: qsTr("Enqueue")
         qmlSource: "ToastHost { id: host }\nhost.show(\"Saved\", host.success, \"Done\")"
         Flow {

@@ -63,14 +63,14 @@ CatalogPage {
                 leftHeader: Button {
                     flat: true
                     text: FluentIcons.Back
-                    font.family: Theme.fontFamilyIcon
+                    font: Theme.iconFontFor(14)
                     Accessible.name: qsTr("Back")
                     onClicked: status.text = qsTr("LeftHeader: Back")
                 }
                 rightHeader: Button {
                     flat: true
                     text: FluentIcons.More
-                    font.family: Theme.fontFamilyIcon
+                    font: Theme.iconFontFor(14)
                     Accessible.name: qsTr("More")
                     onClicked: status.text = qsTr("RightHeader: More")
                 }

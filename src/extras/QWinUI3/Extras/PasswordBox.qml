@@ -195,8 +195,7 @@ T.Control {
                 }
                 contentItem: Text {
                     text: FluentIcons.ChromeClose
-                    font.family: Theme.fontFamilyIcon
-                    font.pixelSize: 10
+                    font: Theme.iconFontFor(10)
                     color: clearBtn.hovered ? Theme.textPrimary : Theme.textSecondary
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
@@ -254,8 +253,7 @@ T.Control {
 
                 contentItem: Text {
                     text: root.revealPassword ? FluentIcons.Hide : FluentIcons.View
-                    font.family: Theme.fontFamilyIcon
-                    font.pixelSize: 14
+                    font: Theme.iconFontFor(14)
                     color: revealBtn.hovered || root.revealPassword ? Theme.accent : Theme.textSecondary
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
@@ -293,8 +291,7 @@ T.Control {
             visible: root.hasError
             Text {
                 text: FluentIcons.Error
-                font.family: Theme.fontFamilyIcon
-                font.pixelSize: 12
+                font: Theme.iconFontFor(12)
                 color: Theme.systemCritical
             }
             Text {

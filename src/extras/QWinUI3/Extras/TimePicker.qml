@@ -229,8 +229,7 @@ T.Control {
             anchors.rightMargin: 10
             anchors.verticalCenter: parent.verticalCenter
             text: FluentIcons.Clock
-            font.family: Theme.fontFamilyIcon
-            font.pixelSize: 14
+            font: Theme.iconFontFor(14)
             color: control.pickerOpen ? Theme.accent : Theme.textSecondary
             scale: field.hovered || control.pickerOpen ? 1.05 : 1
             Behavior on color {

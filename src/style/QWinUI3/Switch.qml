@@ -141,8 +141,7 @@ T.Switch {
                     Text {
                         anchors.centerIn: parent
                         text: FluentIcons.Accept
-                        font.family: Theme.fontFamilyIcon
-                        font.pixelSize: Math.max(8, Math.round(Theme.switchThumb * 0.55))
+                        font: Theme.iconFontFor(Math.max(8, Math.round(Theme.switchThumb * 0.55)))
                         color: Theme.dark ? "#FFFFFF" : Theme.accent
                         opacity: control.checked ? 1 : 0
                         scale: control.checked ? 1 : 0.4

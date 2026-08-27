@@ -275,8 +275,7 @@ T.Control {
             Layout.alignment: Qt.AlignTop
             Layout.topMargin: 2
             text: control._glyph
-            font.family: Theme.fontFamilyIcon
-            font.pixelSize: 16
+            font: Theme.iconFontFor(16)
             color: control._accent
         }
 
@@ -322,8 +321,7 @@ T.Control {
             Keys.onSpacePressed: toastClose.clicked()
             contentItem: Text {
                 text: FluentIcons.ChromeClose
-                font.family: Theme.fontFamilyIcon
-                font.pixelSize: 10
+                font: Theme.iconFontFor(10)
                 color: toastClose.hovered ? Theme.textPrimary : Theme.textSecondary
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
