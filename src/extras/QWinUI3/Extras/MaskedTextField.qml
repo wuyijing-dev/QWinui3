@@ -39,7 +39,7 @@ T.TextField {
         implicitWidth: 200
         implicitHeight: 32
         radius: Theme.cornerControl
-        color: Theme.bgControl
+        color: control.enabled ? Theme.bgControlRest : Theme.fillControlDisabled
         border.width: control.activeFocus ? 2 : 1
         border.color: control.activeFocus ? Theme.accent : Theme.strokeControl
     }

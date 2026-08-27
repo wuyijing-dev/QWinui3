@@ -72,7 +72,8 @@ CatalogPage {
                     required property int index
                     required property var modelData
                     text: modelData.title
-                    implicitHeight: Math.max(implicitHeight, tagGrid.minItemSize)
+                    // Do not self-reference implicitHeight (binding loop).
+                    implicitHeight: Math.max(Theme.controlHeight, tagGrid.minItemSize)
                     onClicked: tagGrid.itemActivated(index, modelData)
                 }
                 onItemActivated: function (index, item) {

@@ -125,8 +125,13 @@ T.ItemDelegate {
             id: leadingSlot
             visible: children.length > 0
             Layout.alignment: Qt.AlignVCenter
-            implicitWidth: childrenRect.width
-            implicitHeight: childrenRect.height
+            // Prefer first-child implicits — childrenRect ↔ Layout sizing loops.
+            implicitWidth: children.length > 0
+                           ? Math.max(children[0].implicitWidth, children[0].width) : 0
+            implicitHeight: children.length > 0
+                            ? Math.max(children[0].implicitHeight, children[0].height) : 0
+            width: implicitWidth
+            height: implicitHeight
         }
 
         CheckBox {
@@ -197,8 +202,12 @@ T.ItemDelegate {
         Item {
             id: trailingSlot
             Layout.alignment: Qt.AlignVCenter
-            implicitWidth: childrenRect.width
-            implicitHeight: childrenRect.height
+            implicitWidth: children.length > 0
+                           ? Math.max(children[0].implicitWidth, children[0].width) : 0
+            implicitHeight: children.length > 0
+                            ? Math.max(children[0].implicitHeight, children[0].height) : 0
+            width: implicitWidth
+            height: implicitHeight
         }
 
         FontIcon {

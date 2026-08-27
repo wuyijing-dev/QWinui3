@@ -70,8 +70,9 @@ T.Control {
     property var labels: []
     // Percent format when labels is empty (Qt arg: "%1%")
     property string labelFormat: "%1%"
-    // When set, scroll keeps the IME target visible and shows preedit in the bubble (2.58)
-    property KeyboardEngine imeEngine: null
+    // When set (QWinUI3.Extras.Osk KeyboardEngine), keep IME target visible + preedit bubble (2.58).
+    // Typed as var — KeyboardEngine lives in the Osk submodule, not QWinUI3.Extras.
+    property var imeEngine: null
 
     readonly property string imeScrollHint: {
         if (!imeEngine || !imeEngine.composing)

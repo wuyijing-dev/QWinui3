@@ -10,7 +10,14 @@ import QWinUI3.Extras
 // Recipe: docs/forms.md · docs/settings-persistence.md
 
 Page {
+    id: page
+    // Hub embeds pass hubEmbed (CatalogPage parity) — fixed viewport + inner SettingsView scroll.
+    property bool hubEmbed: false
     padding: 0
+    height: hubEmbed ? 720 : (parent ? parent.height : 0)
+    implicitHeight: hubEmbed ? 720 : 0
+    Layout.preferredHeight: hubEmbed ? 720 : -1
+    Layout.fillWidth: true
 
     SettingsView {
         anchors.fill: parent

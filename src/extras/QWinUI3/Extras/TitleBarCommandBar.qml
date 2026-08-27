@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Controls
 import QWinUI3.Theme
 
 // TitleBarCommandBar — declarative title-bar commands for leftHeader / captionRightHeader (3.01 W2).

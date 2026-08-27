@@ -165,7 +165,7 @@ CatalogPage {
                 }
                 Label {
                     text: qsTr("%1 unread · %2 total")
-                        .arg(center.unreadCount).arg(center.model.length)
+                        .arg(center.unreadCount).arg(center.count)
                     color: Theme.textSecondary
                 }
                 Button {

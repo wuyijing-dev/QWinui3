@@ -8,7 +8,14 @@ import QWinUI3.Extras
 // Intentionally SettingsView-hosted (not CatalogPage) — demonstrates settings page chrome.
 
 Page {
+    id: page
+    // Hub embeds pass hubEmbed (CatalogPage parity) — fixed viewport + inner SettingsView scroll.
+    property bool hubEmbed: false
     padding: 0
+    height: hubEmbed ? 640 : (parent ? parent.height : 0)
+    implicitHeight: hubEmbed ? 640 : 0
+    Layout.preferredHeight: hubEmbed ? 640 : -1
+    Layout.fillWidth: true
 
     SettingsView {
         anchors.fill: parent
