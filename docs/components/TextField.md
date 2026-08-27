@@ -1,51 +1,53 @@
 # TextField
 
-Fluent styled TextField.
+Fluent / WinUI 3 TextBox-style single-line input with header, description, validation, and character limit.
 
 `import QtQuick.Controls.QWinUI3` · [`src/style/QWinUI3/TextField.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/style/QWinUI3/TextField.qml)
 
-**Category:** Styled controls · **Library:** v2.81
+**Category:** Styled controls · **Library:** v3.16
 
 [← Component index](../components.md)
 
 **Gallery:** `TextField` — [`src/gallery/pages/TextFieldPage.qml`](https://github.com/wuyijing-dev/QWinui3/blob/master/src/gallery/pages/TextFieldPage.qml)
 
-**Python:** same QML type after `qwinui3.setup_engine()` — [Python API](../python-api.md).
-
 ## Example
 
 ```qml
 TextField {
-    id: field
-    placeholderText: qsTr("Name")
-    onAccepted: submit(field.text)
+    header: qsTr("Email")
+    description: qsTr("We'll never share this.")
+    placeholderText: qsTr("name@example.com")
+    leadingSymbol: FluentIcons.Mail
+    clearButtonVisible: true
+    characterLimit: 64
+    errorMessage: looksInvalid ? qsTr("Enter a valid email.") : ""
 }
 ```
 
+## QWinUI3 properties
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `header` | `string` | `""` | Label above the field (WinUI Header) |
+| `description` | `string` | `""` | Caption under the header (hidden while `errorMessage` is set) |
+| `errorMessage` | `string` | `""` | Critical caption + error chrome |
+| `characterLimit` | `int` | `0` | Soft counter (`n / limit`); over-limit is critical |
+| `hasError` | `bool` | `false` | Force error chrome without a message |
+| `appearance` | `string` | `""` → `filled` | `filled` · `outline` |
+| `leadingSymbol` / `leadingGlyph` | `var` / `string` | | Leading Fluent icon |
+| `clearButtonVisible` | `bool` | `true` | Clear affordance when editable and non-empty |
+| `isReadOnly` | alias | | Alias of Qt `readOnly` |
+
+Readonly helpers: `characterCount`, `overLimit`, `_error` (internal).
+
+## Inherited from Qt `TextField`
+
+- `text` · `placeholderText` · `echoMode` · `readOnly` · `maximumLength` · `validator`
+- `accepted()` · `editingFinished()` · `textEdited()`
+
 ## Notes
 
-Style-only Fluent chrome for Qt Quick Controls TextField.
-Public API is the Qt Quick Controls TextField type; this file supplies visuals/metrics only.
-
-## API
-
-### Properties
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `hasError` | `bool` | Form validation error (2.66 M3) |
-| `appearance` | `string` | Visual variant: filled \| outline \| "" (filled default — 2.66 A2/M3) |
-| `leadingSymbol` | `var` | Leading FluentIcons symbol (preferred) or raw glyph (2.67 — I11) |
-| `leadingGlyph` | `string` | — |
-| `clearButtonVisible` | `bool` | Show clear (×) when non-empty and editable |
-
-### Signals
-
-_No custom signals_ (use inherited signals from the base type).
-
-### Methods
-
-_No custom methods_ (use inherited methods from the base type).
+For **FormLayout** left-aligned labels (`headerPlacement: "left"`), use **HeaderedTextBox**. Prefer **PasswordBox** when you need a reveal toggle. Honors `Theme.reducedMotion` on focus underline and error shake.
 
 ---
-*Generated from module sources by `scripts/generate_component_docs.py` — do not edit by hand.*
+*Updated for 3.16 header / description / errorMessage / characterLimit.*

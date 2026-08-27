@@ -47,6 +47,25 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.15 → 3.16
+
+**Product version:** 3.16  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | TextField header / validation chrome | None required |
+
+### Optional / polish
+- **TextField:** `header`, `description`, `errorMessage`, `characterLimit`, `isReadOnly`
+- Gallery **TextField** page — WinUI TextBox demos (header, read-only, live validation, password echoMode)
+- FormLayout left headers still use **HeaderedTextBox**
+
+### No action (compatible)
+- Stable APIs unchanged; new properties default off / empty
+
 ### Upgrade 3.14 → 3.15
 
 **Product version:** 3.15  
