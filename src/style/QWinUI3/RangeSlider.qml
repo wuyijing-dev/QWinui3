@@ -2,38 +2,110 @@ import QtQuick
 import QtQuick.Templates as T
 import QWinUI3.Theme
 
-// RangeSlider — Fluent styled RangeSlider.
+// RangeSlider — Fluent / WinUI 3 styled dual-thumb Slider.
 //
 //   RangeSlider {
-//       id: range
 //       from: 0; to: 100
-//       first.value: 20
-//       second.value: 80
+//       first.value: 20; second.value: 80
+//       stepSize: 10
+//       tickMarksVisible: true
+//       tickPlacement: "both"
+//   }
+//
+//   RangeSlider {
+//       orientation: Qt.Vertical
+//       height: 220
+//       from: 0; to: 100
+//       first.value: 25; second.value: 75
+//       tickMarksVisible: true
 //   }
 //
 // @notes
-//   Style-only Fluent chrome for Qt Quick Controls RangeSlider.
-//   Public API is the Qt Quick Controls RangeSlider type; this file supplies visuals/metrics only.
+//   WinUI-style ring thumbs, accent range fill, and step ticks on both sides of the track.
 
 T.RangeSlider {
     id: control
 
+    // Draw step ticks (requires stepSize > 0, or auto 10 steps across from..to)
+    property bool tickMarksVisible: false
+    // Tick side(s): horizontal top|bottom|both · vertical left|right|both · "" → both
+    property string tickPlacement: ""
+    // Vertical filled track width (WinUI thick active rail between thumbs)
+    property real verticalFillThickness: 8
+
+    readonly property bool _horizontal: orientation === Qt.Horizontal || orientation === undefined
+    readonly property real _tickBand: tickMarksVisible ? 10 : 0
+    readonly property real _sideGutter: (!_horizontal && tickMarksVisible) ? 14 : 0
+
+    readonly property string _tickPlacement: {
+        if (!tickMarksVisible)
+            return "none"
+        var p = String(tickPlacement || "").toLowerCase()
+        if (_horizontal) {
+            if (p === "top" || p === "bottom" || p === "both")
+                return p
+            return "both"
+        }
+        if (p === "left" || p === "right" || p === "both")
+            return p
+        return "both"
+    }
+
+    readonly property real _step: {
+        if (stepSize > 0)
+            return stepSize
+        if (!tickMarksVisible)
+            return 0
+        var span = Math.abs(to - from)
+        return span > 0 ? span / 10 : 0
+    }
+
+    readonly property int _tickCount: {
+        if (!tickMarksVisible || _step <= 0)
+            return 0
+        var span = Math.abs(to - from)
+        if (span <= 0)
+            return 0
+        var n = Math.floor(span / _step + 0.001) + 1
+        return Math.min(n, 64)
+    }
+
+    function _tickFraction(index) {
+        if (_tickCount <= 1)
+            return 0.5
+        return index / (_tickCount - 1)
+    }
 
     Accessible.role: Accessible.Slider
     Accessible.name: qsTr("Range slider")
     Accessible.description: qsTr("From %1 to %2").arg(control.first.value).arg(control.second.value)
-    implicitWidth: Math.max(200, first.handle.implicitWidth + second.handle.implicitWidth + leftPadding + rightPadding)
-    implicitHeight: Math.max(Theme.sliderThumb, first.handle.implicitHeight + topPadding + bottomPadding)
+
+    implicitWidth: _horizontal
+                   ? Math.max(200, first.handle.implicitWidth + second.handle.implicitWidth
+                              + leftPadding + rightPadding)
+                   : Math.max(Theme.sliderThumb + _sideGutter * 2 + 8,
+                              first.handle.implicitWidth + leftPadding + rightPadding)
+    implicitHeight: _horizontal
+                    ? Math.max(Theme.sliderThumb + _tickBand * 2,
+                               first.handle.implicitHeight + topPadding + bottomPadding)
+                    : Math.max(160, first.handle.implicitHeight + topPadding + bottomPadding)
 
     padding: 8
     hoverEnabled: true
     wheelEnabled: true
+    live: true
 
     first.handle: Item {
-        x: control.leftPadding + control.first.visualPosition * (control.availableWidth - width)
-        y: control.topPadding + (control.availableHeight - height) / 2
+        id: firstThumb
+        x: control.leftPadding + (control._horizontal
+           ? control.first.visualPosition * (control.availableWidth - width)
+           : (control.availableWidth - width) / 2)
+        y: control.topPadding + (control._horizontal
+           ? (control.availableHeight - height) / 2
+           : control.first.visualPosition * (control.availableHeight - height))
         implicitWidth: Theme.sliderThumb
         implicitHeight: Theme.sliderThumb
+        z: control.first.pressed || control.first.hovered ? 2 : 0
 
         Rectangle {
             anchors.fill: parent
@@ -41,34 +113,41 @@ T.RangeSlider {
             color: Theme.fillSliderThumb
             border.width: 1
             border.color: Theme.strokeControl
-            scale: control.first.pressed ? 0.96 : 1
+            scale: control.first.pressed ? 0.96 : (control.first.hovered ? 1.12 : 1)
             Behavior on scale {
-                enabled: !Theme.reducedMotion
+                enabled: !Theme.reducedMotion && (control.first.hovered || control.first.pressed)
                 NumberAnimation {
-                    duration: Theme.duration(Theme.motionFast)
-                    easing.type: Theme.easingStandard
+                    duration: Theme.motionMs("fast")
+                    easing.type: Theme.motionEasing("standard")
                 }
             }
 
             Rectangle {
                 anchors.centerIn: parent
-                // Diameter in px
                 readonly property real diameter: !control.enabled ? 10
                     : control.first.pressed ? 8
                     : control.first.hovered ? 14 : 10
                 width: diameter
                 height: diameter
                 radius: diameter / 2
-                color: control.enabled ? Theme.accent : Theme.textDisabled
+                color: {
+                    if (!control.enabled)
+                        return Theme.textDisabled
+                    if (control.first.hovered && !control.first.pressed)
+                        return Qt.rgba(Theme.accent.r, Theme.accent.g, Theme.accent.b, 0.902)
+                    if (control.first.pressed)
+                        return Qt.rgba(Theme.accent.r, Theme.accent.g, Theme.accent.b, 0.8)
+                    return Theme.accent
+                }
                 Behavior on width {
-                    enabled: !Theme.reducedMotion
+                    enabled: !Theme.reducedMotion && (control.first.hovered || control.first.pressed)
                     NumberAnimation {
                         duration: Theme.duration(Theme.motionNormal)
                         easing.type: Theme.easingStandard
                     }
                 }
                 Behavior on height {
-                    enabled: !Theme.reducedMotion
+                    enabled: !Theme.reducedMotion && (control.first.hovered || control.first.pressed)
                     NumberAnimation {
                         duration: Theme.duration(Theme.motionNormal)
                         easing.type: Theme.easingStandard
@@ -85,10 +164,16 @@ T.RangeSlider {
     }
 
     second.handle: Item {
-        x: control.leftPadding + control.second.visualPosition * (control.availableWidth - width)
-        y: control.topPadding + (control.availableHeight - height) / 2
+        id: secondThumb
+        x: control.leftPadding + (control._horizontal
+           ? control.second.visualPosition * (control.availableWidth - width)
+           : (control.availableWidth - width) / 2)
+        y: control.topPadding + (control._horizontal
+           ? (control.availableHeight - height) / 2
+           : control.second.visualPosition * (control.availableHeight - height))
         implicitWidth: Theme.sliderThumb
         implicitHeight: Theme.sliderThumb
+        z: control.second.pressed || control.second.hovered ? 2 : 1
 
         Rectangle {
             anchors.fill: parent
@@ -96,34 +181,41 @@ T.RangeSlider {
             color: Theme.fillSliderThumb
             border.width: 1
             border.color: Theme.strokeControl
-            scale: control.second.pressed ? 0.96 : 1
+            scale: control.second.pressed ? 0.96 : (control.second.hovered ? 1.12 : 1)
             Behavior on scale {
-                enabled: !Theme.reducedMotion
+                enabled: !Theme.reducedMotion && (control.second.hovered || control.second.pressed)
                 NumberAnimation {
-                    duration: Theme.duration(Theme.motionFast)
-                    easing.type: Theme.easingStandard
+                    duration: Theme.motionMs("fast")
+                    easing.type: Theme.motionEasing("standard")
                 }
             }
 
             Rectangle {
                 anchors.centerIn: parent
-                // Diameter in px
                 readonly property real diameter: !control.enabled ? 10
                     : control.second.pressed ? 8
                     : control.second.hovered ? 14 : 10
                 width: diameter
                 height: diameter
                 radius: diameter / 2
-                color: control.enabled ? Theme.accent : Theme.textDisabled
+                color: {
+                    if (!control.enabled)
+                        return Theme.textDisabled
+                    if (control.second.hovered && !control.second.pressed)
+                        return Qt.rgba(Theme.accent.r, Theme.accent.g, Theme.accent.b, 0.902)
+                    if (control.second.pressed)
+                        return Qt.rgba(Theme.accent.r, Theme.accent.g, Theme.accent.b, 0.8)
+                    return Theme.accent
+                }
                 Behavior on width {
-                    enabled: !Theme.reducedMotion
+                    enabled: !Theme.reducedMotion && (control.second.hovered || control.second.pressed)
                     NumberAnimation {
                         duration: Theme.duration(Theme.motionNormal)
                         easing.type: Theme.easingStandard
                     }
                 }
                 Behavior on height {
-                    enabled: !Theme.reducedMotion
+                    enabled: !Theme.reducedMotion && (control.second.hovered || control.second.pressed)
                     NumberAnimation {
                         duration: Theme.duration(Theme.motionNormal)
                         easing.type: Theme.easingStandard
@@ -140,22 +232,157 @@ T.RangeSlider {
     }
 
     background: Item {
-        x: control.leftPadding + Theme.sliderThumb / 2
-        y: control.topPadding + (control.availableHeight - height) / 2
-        width: control.availableWidth - Theme.sliderThumb
-        height: Theme.sliderThickness
+        id: trackHost
 
+        readonly property real trackW: control._horizontal
+            ? control.availableWidth - Theme.sliderThumb
+            : Theme.sliderThickness
+        readonly property real trackH: control._horizontal
+            ? Theme.sliderThickness
+            : control.availableHeight - Theme.sliderThumb
+        readonly property real trackX: control._horizontal
+            ? Theme.sliderThumb / 2
+            : (control._sideGutter + (parent.width - control._sideGutter * 2 - trackW) / 2)
+        readonly property real trackY: control._horizontal
+            ? control._tickBand + (parent.height - control._tickBand * 2 - trackH) / 2
+            : Theme.sliderThumb / 2
+
+        readonly property real lo: Math.min(control.first.visualPosition, control.second.visualPosition)
+        readonly property real hi: Math.max(control.first.visualPosition, control.second.visualPosition)
+
+        x: control.leftPadding
+        y: control.topPadding
+        width: control._horizontal
+               ? control.availableWidth
+               : Math.max(trackW + control._sideGutter * 2, Theme.sliderThumb)
+        height: control._horizontal
+                ? Math.max(trackH + control._tickBand * 2, Theme.sliderThickness)
+                : control.availableHeight
+        implicitWidth: control._horizontal ? 200 : width
+        implicitHeight: control._horizontal ? height : 160
+
+        // Inactive rail (full span — thin)
         Rectangle {
-            anchors.fill: parent
-            radius: height / 2
+            x: trackHost.trackX
+            y: trackHost.trackY
+            width: trackHost.trackW
+            height: trackHost.trackH
+            radius: control._horizontal ? height / 2 : width / 2
             color: Theme.dark ? "#15FFFFFF" : "#0F000000"
         }
+
+        // Active fill between thumbs
         Rectangle {
-            x: control.first.visualPosition * parent.width
-            width: Math.max(0, (control.second.visualPosition - control.first.visualPosition) * parent.width)
-            height: parent.height
-            radius: height / 2
+            id: activeFill
+            x: control._horizontal
+               ? trackHost.trackX + trackHost.trackW * trackHost.lo
+               : trackHost.trackX + (trackHost.trackW - width) / 2
+            y: control._horizontal
+               ? trackHost.trackY
+               : trackHost.trackY + trackHost.trackH * trackHost.lo
+            width: control._horizontal
+                   ? Math.max(0, trackHost.trackW * (trackHost.hi - trackHost.lo))
+                   : control.verticalFillThickness
+            height: control._horizontal
+                    ? trackHost.trackH
+                    : Math.max(0, trackHost.trackH * (trackHost.hi - trackHost.lo))
+            radius: control._horizontal ? height / 2 : width / 2
             color: control.enabled ? Theme.accent : Theme.textDisabled
+
+            Behavior on width {
+                enabled: control._horizontal && !control.first.pressed && !control.second.pressed
+                         && !Theme.reducedMotion
+                NumberAnimation {
+                    duration: Theme.duration(Theme.motionFast)
+                    easing.type: Theme.easingStandard
+                }
+            }
+            Behavior on height {
+                enabled: !control._horizontal && !control.first.pressed && !control.second.pressed
+                         && !Theme.reducedMotion
+                NumberAnimation {
+                    duration: Theme.duration(Theme.motionFast)
+                    easing.type: Theme.easingStandard
+                }
+            }
+            Behavior on x {
+                enabled: control._horizontal && !control.first.pressed && !control.second.pressed
+                         && !Theme.reducedMotion
+                NumberAnimation {
+                    duration: Theme.duration(Theme.motionFast)
+                    easing.type: Theme.easingStandard
+                }
+            }
+            Behavior on y {
+                enabled: !control._horizontal && !control.first.pressed && !control.second.pressed
+                         && !Theme.reducedMotion
+                NumberAnimation {
+                    duration: Theme.duration(Theme.motionFast)
+                    easing.type: Theme.easingStandard
+                }
+            }
+        }
+
+        // --- Tick marks ---
+        Repeater {
+            model: control._horizontal && control._tickCount > 0
+                   && (control._tickPlacement === "both" || control._tickPlacement === "top")
+                   ? control._tickCount : 0
+            delegate: Rectangle {
+                required property int index
+                width: 2
+                height: 6
+                radius: 1
+                color: Theme.strokeControl
+                opacity: 0.6
+                x: trackHost.trackX + trackHost.trackW * control._tickFraction(index) - width / 2
+                y: trackHost.trackY - height - 3
+            }
+        }
+        Repeater {
+            model: control._horizontal && control._tickCount > 0
+                   && (control._tickPlacement === "both" || control._tickPlacement === "bottom")
+                   ? control._tickCount : 0
+            delegate: Rectangle {
+                required property int index
+                width: 2
+                height: 6
+                radius: 1
+                color: Theme.strokeControl
+                opacity: 0.6
+                x: trackHost.trackX + trackHost.trackW * control._tickFraction(index) - width / 2
+                y: trackHost.trackY + trackHost.trackH + 3
+            }
+        }
+        Repeater {
+            model: !control._horizontal && control._tickCount > 0
+                   && (control._tickPlacement === "both" || control._tickPlacement === "left")
+                   ? control._tickCount : 0
+            delegate: Rectangle {
+                required property int index
+                width: 6
+                height: 2
+                radius: 1
+                color: Theme.strokeControl
+                opacity: 0.6
+                x: trackHost.trackX - width - 4
+                y: trackHost.trackY + trackHost.trackH * (1 - control._tickFraction(index)) - height / 2
+            }
+        }
+        Repeater {
+            model: !control._horizontal && control._tickCount > 0
+                   && (control._tickPlacement === "both" || control._tickPlacement === "right")
+                   ? control._tickCount : 0
+            delegate: Rectangle {
+                required property int index
+                width: 6
+                height: 2
+                radius: 1
+                color: Theme.strokeControl
+                opacity: 0.6
+                x: trackHost.trackX + trackHost.trackW + 4
+                y: trackHost.trackY + trackHost.trackH * (1 - control._tickFraction(index)) - height / 2
+            }
         }
     }
 }

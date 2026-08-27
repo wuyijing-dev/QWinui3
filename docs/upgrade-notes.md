@@ -47,6 +47,24 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.13 → 3.14
+
+**Product version:** 3.14  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | RangeSlider tick marks + vertical rail | None required |
+
+### Optional / polish
+- **RangeSlider:** `tickMarksVisible`, `tickPlacement`, `verticalFillThickness` — same vocabulary as **Slider** (3.13)
+- Gallery **RangeSlider** page — horizontal ticks, vertical range demos
+
+### No action (compatible)
+- Stable APIs unchanged; new properties default off
+
 ### Upgrade 3.12 → 3.13
 
 **Product version:** 3.13  
