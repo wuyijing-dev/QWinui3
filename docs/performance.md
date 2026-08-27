@@ -43,6 +43,7 @@ Related: [data-collections.md](data-collections.md) · [charts.md](charts.md) ·
 | Memory wave sign-off | Idle WorkingSet table filled at **3.48** H17 — [checkpoint-390](checkpoint-390.md#memory-sign-off-h10h17--348) (~**136 MB** WS avg, n=5 Win Release) |
 | Paint coalesce | Remaining experimental charts use `requestRedraw()` / `ChartUtils.redrawCoalesceMs` (**3.49** C20) |
 | ItemsView / ListDetailsView | Debounced filter + skip fingerprint; `cacheBufferPx` (**3.51** C22) |
+| DataTable / TreeDataGrid | Fixed `rowHeight`; lean-model reuse; Tree `callLater` + fingerprint caps (**3.52** C23) |
 | Binding churn | Almost no hot `Qt.binding`; Gallery nav assign uses incremental sync; DataTable column layout skips unchanged (**3.50** C21) |
 | Icon / atlas warm-up | Optional: touch `FluentIcons` / ThemeFonts once after first frame |
 | Page cache | `pageCacheLimit` + `pinnedPageCache` (2.68); Gallery tightened in **3.46** — avoid compiling all pages at startup |
@@ -141,12 +142,13 @@ Do **not** `import` every page type into `Main.qml` — that forces compile at s
 
 | Surface | How it scrolls | Notes |
 |---------|----------------|-------|
-| [`DataTable`](components/DataTable.md) | `ListView` + `reuseItems` + fixed `rowHeight` | Lean `{kind,rowIndex}` model wrappers (**3.44**); `cacheBuffer: rowHeight * 12`; filter/sort rebuild `_viewRows` in JS — **debounced + skip unchanged**; **multi-sort / hiddenColumns / columnWidths (2.66)** |
+| [`DataTable`](components/DataTable.md) | `ListView` + `reuseItems` + fixed `rowHeight` | Lean `{kind,rowIndex}` model wrappers (**3.44**); reuse when length unchanged (**3.52**); `cacheBufferPx` / `rowHeight * 12`; filter/sort **debounced + skip unchanged**; **multi-sort / hiddenColumns / columnWidths (2.66)** |
 | [`ItemsView`](components/ItemsView.md) | `ListView` + `reuseItems` | `cacheBufferPx` (<0 → `max(240, height * 1.5)`, **3.51**); `filterDebounceMs` **120**; `maxFilterResults` **256**; optional `minFilterLength` |
 | [`ListDetailsView`](components/ListDetailsView.md) | `ListView` + `reuseItems` | Same `cacheBufferPx` / filter defaults as ItemsView (**3.51**); master JS-array filter |
 | [`ItemsRepeater`](components/ItemsRepeater.md) | `ListView` + `reuseItems` (1.25) | `cacheBuffer: Theme.navItemHeight * 8`; optional `filterText` on JS arrays (1.88) |
 | [`NavigationView`](components/NavigationView.md) pane | `ListView` + `reuseItems` (**3.43**) | `cacheBuffer: max(240, height * 1.5)` — keeps SelectionPip anchors alive |
 | [`FileTree`](components/FileTree.md) / raw `TreeView` | `TreeView` (`TableView`) + `reuseItems` | FileTree sets the same mild buffer (**3.43**); raw trees should too |
+| [`TreeDataGrid`](components/TreeDataGrid.md) | `ListView` + `reuseItems` + fixed `rowHeight` | `_treeCache` flatten (**2.84**); `cacheBufferPx` / `rowHeight * 12` + rows `callLater` (**3.52**); `_lastRefreshKey` skip |
 | [`ItemsWrapGrid`](components/ItemsWrapGrid.md) | `WrapPanel` + `Repeater` (2.24) | Not virtualized — low hundreds; optional `filterText` |
 | Raw QQC `ListView` | Set `reuseItems: true` yourself | Pair with a mild `cacheBuffer` (see table below) |
 
@@ -156,7 +158,7 @@ Do **not** `import` every page type into `Main.qml` — that forces compile at s
 |---------|---------------|-----------|
 | Navigation / ItemsView / FileTree / ListDetailsView | `Math.max(240, Math.round(height * 1.5))` via `cacheBufferPx: -1` (**3.51**) | Cuts RSS vs huge buffers; still enough for fast fling |
 | ItemsRepeater | `Theme.navItemHeight * 8` | Stable tile height |
-| DataTable | `rowHeight * 12` | Dense rows need a few screens of overscan |
+| DataTable / TreeDataGrid | `rowHeight * 12` via `cacheBufferPx: -1` (**3.52**) | Dense fixed-height rows |
 | Too large | e.g. `height * 10` | RSS ↑ with little scroll gain |
 | Too small / `0` | — | Fast fling shows empty bands; SelectionPip / expand can glitch |
 
@@ -486,8 +488,9 @@ Hot path is **full model rebuilds**, not nested `Qt.binding` (kit has essentiall
 | Surface | Prefer | Avoid |
 |---------|--------|-------|
 | NavigationView | Assign `model` → `onModelChanged` incremental patch (**2.88** C9) when keys/order unchanged | Forcing `rebuildNavModel()` after every label-only replace (Gallery fixed in **3.50**) |
-| DataTable | `_lastRefreshKey` skip; column layout fingerprint skip (**3.50**) | Rebuilding pinned/scroll orders when hide/pin did not move columns |
+| DataTable | `_lastRefreshKey` skip; column layout fingerprint; lean display reuse (**3.50** / **3.52**) | Rebuilding pinned/scroll orders or lean wrappers when unchanged |
 | ItemsView / ListDetailsView | `_lastFilterKey` + caps in fingerprint; `cacheBufferPx` (**3.51** C22) | Rebuilding filtered arrays on identical query |
+| TreeDataGrid | `_lastRefreshKey` + caps; rows `callLater`; `_treeCache` flatten (**3.52**) | Full filter/sort on every expand (use `_rebuildFlatFromCache`) |
 | Theme | `Theme.apply()` / `tokensRevision` once | Binding every token knob independently on hot surfaces |
 
 ---

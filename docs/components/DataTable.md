@@ -57,6 +57,7 @@ Column visibility (hiddenColumns) + width persistence (columnWidths) — 2.66 D1
 Column pin + reorder (columnOrder / moveColumn) and row group headers (groupRole) — 2.64.
 columnLayoutKey Settings persist + export/import layout — 2.82 D14.
 Pinned/scroll column layout skips `columnLayoutChanged` when order unchanged (3.50 C21).
+`cacheBufferPx` + non-grouped lean-model reuse — 3.52 C23.
 Selection tracks the row **object** across sort/filter.
 copySelection / exportCsv — clipboard CSV for selection or visible rows (2.71).
 See docs/data-collections.md for DataTable vs ItemsView vs ListDetailsView.
@@ -77,7 +78,8 @@ See docs/data-collections.md for DataTable vs ItemsView vs ListDetailsView.
 | `sortOrder` | `int` | — |
 | `sortSpecs` | `var` | Multi-column sort specs: [{ column, order }, …] — first entry is primary (2.66 D1) |
 | `rowHeight` | `real` | — |
-| `fixedRowHeight` | `bool` | Fixed row-height ListView path (always on — C1 contract) |
+| `fixedRowHeight` | `bool` | Fixed row-height ListView path (always on — C1 / 3.52) |
+| `cacheBufferPx` | `int` | ListView overscan; `< 0` uses `rowHeight * 12` (3.52 C23). |
 | `minColumnWidth` | `real` | — |
 | `headerHeight` | `real` | — |
 | `filterDebounceMs` | `int` | Debounce filter keystrokes before rebuilding _viewRows (1.88). |

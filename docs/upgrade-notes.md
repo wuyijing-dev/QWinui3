@@ -47,6 +47,24 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.51 → 3.52
+
+**Product version:** 3.52  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | DataTable / TreeDataGrid row-height cache + skip (C23) | None — visuals unchanged |
+
+### Optional / polish
+- `cacheBufferPx` on DataTable / TreeDataGrid (`< 0` = `rowHeight * 12`)
+- TreeDataGrid `rows=` replaces are coalesced via `Qt.callLater` (same as DataTable)
+
+### No action (compatible)
+- `fixedRowHeight` remains always true; variable-height virtualization still out of scope
+
 ### Upgrade 3.50 → 3.51
 
 **Product version:** 3.51  

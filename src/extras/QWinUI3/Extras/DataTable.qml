@@ -47,6 +47,7 @@ import QWinUI3.Platform
 //   Selection tracks the row **object** across sort/filter.
 //   copySelection / exportCsv — clipboard CSV for selection or visible rows (2.71).
 //   Column layout rebuild skips unchanged pinned/scroll order (3.50 C21).
+//   cacheBufferPx + lean-model reuse + column invalidate — 3.52 C23.
 //   See docs/data-collections.md for DataTable vs ItemsView vs ListDetailsView.
 
 T.Control {
@@ -64,8 +65,10 @@ T.Control {
     // Multi-column sort specs: [{ column, order }, …] — first entry is primary (2.66 D1)
     property var sortSpecs: []
     property real rowHeight: Theme.navItemHeight
-    // Fixed row-height ListView path (always on — C1 contract)
+    // Fixed row-height ListView path (always on — C1 / 3.52)
     readonly property bool fixedRowHeight: true
+    // ListView overscan; < 0 uses rowHeight * 12 (3.52 C23).
+    property int cacheBufferPx: -1
     property real minColumnWidth: 64
     property real headerHeight: Theme.navItemHeight
     // Debounce filter keystrokes before rebuilding _viewRows (1.88).
@@ -327,6 +330,8 @@ T.Control {
     Accessible.description: qsTr("%1 rows, %2 columns").arg(rowCount).arg(columnCount)
 
     onColumnsChanged: {
+        // 3.52 C23 — column def changes must not reuse a stale skip key.
+        _lastRefreshKey = ""
         _syncColumnWidths()
         _rebuildColumnLayout()
         _scheduleRefresh(true)
@@ -659,13 +664,17 @@ T.Control {
     function _buildDisplayItems(rows) {
         // 3.44 H13 — always feed ListView lean wrappers so Qt does not expose every
         // business-object key as a model role (wide tables + many rows).
-        var items = []
+        // 3.52 C23 — reuse wrappers when non-grouped length is unchanged (indices stable).
         if (!_groupActive) {
+            if (_displayItems.length === rows.length)
+                return
+            var plain = []
             for (var i = 0; i < rows.length; ++i)
-                items.push({ kind: "row", rowIndex: i })
-            _displayItems = items
+                plain.push({ kind: "row", rowIndex: i })
+            _displayItems = plain
             return
         }
+        var items = []
         var lastGroup = null
         for (var j = 0; j < rows.length; ++j) {
             var row = rows[j]
@@ -789,7 +798,7 @@ T.Control {
         var hiddenKey = (hiddenColumns || []).join(",")
         var refreshKey = q + "\0" + _sortKeyString() + "\0"
                 + src.length + "\0" + groupRole + "\0" + String(maxFilterResults)
-                + "\0" + hiddenKey
+                + "\0" + hiddenKey + "\0" + String((columns || []).length)
         if (refreshKey === _lastRefreshKey && src === _lastRowsRef)
             return
         _lastRefreshKey = refreshKey
@@ -1240,8 +1249,10 @@ T.Control {
                     Layout.fillHeight: true
                     clip: true
                     reuseItems: true
-                    // Fixed row-height fast path (2.66 C1) — avoids variable-height measure
-                    cacheBuffer: root.rowHeight * 12
+                    // Fixed row-height fast path (2.66 C1 / 3.52 C23) — cacheBufferPx override.
+                    cacheBuffer: root.cacheBufferPx >= 0
+                                 ? root.cacheBufferPx
+                                 : Math.round(root.rowHeight * 12)
                     boundsBehavior: Flickable.StopAtBounds
                     model: root._displayItems
                     currentIndex: root._listCurrentIndex

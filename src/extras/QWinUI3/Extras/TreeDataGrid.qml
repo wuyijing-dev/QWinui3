@@ -32,6 +32,7 @@ import QWinUI3.Theme
 //   prefer C++ model + custom view for huge trees. Filter debounce + maxFilterResults
 //   match DataTable (2.18 / 2.40). Column resize + freezeFirstColumn (2.64).
 //   columnLayoutKey Settings persist — 2.82 D17 · cached tree flatten — 2.84 C7.
+//   Fixed rowHeight + rowHeight*12 overscan + rows callLater — 3.52 C23.
 //   See docs/tree-data.md · docs/collection-perf-264.md.
 
 T.Control {
@@ -46,6 +47,10 @@ T.Control {
     property int sortColumn: -1
     property int sortOrder: Qt.AscendingOrder
     property real rowHeight: Theme.navItemHeight
+    // Fixed row-height ListView path (always on — 3.52 C23 / C1 family).
+    readonly property bool fixedRowHeight: true
+    // ListView overscan; < 0 uses rowHeight * 12 (3.52 C23).
+    property int cacheBufferPx: -1
     property real minColumnWidth: 64
     property real headerHeight: Theme.navItemHeight
     property real indentWidth: 16
@@ -107,6 +112,7 @@ T.Control {
     property string _lastAnnouncedFilterSummary: ""
     property bool _syncingWidths: false
     property bool _syncingLayoutImport: false
+    property bool _rowsRefreshScheduled: false
 
     Settings {
         id: layoutStore
@@ -287,8 +293,12 @@ T.Control {
     }
 
     function _computeRefreshKey(src, q) {
+        // 3.52 C23 — include filter caps + column count so retunes invalidate skip.
         return q + "\0" + sortColumn + "\0" + sortOrder + "\0"
                 + (src ? src.length : 0) + "\0" + _expandedKey()
+                + "\0" + String(maxFilterResults)
+                + "\0" + (expandOnFilter ? "1" : "0")
+                + "\0" + String((columns || []).length)
     }
 
     function _applyFlatRows(flat) {
@@ -486,6 +496,8 @@ T.Control {
     Accessible.description: qsTr("%1 rows, %2 columns").arg(rowCount).arg(columnCount)
 
     onColumnsChanged: {
+        // 3.52 C23 — column def changes must not reuse a stale skip key.
+        _lastRefreshKey = ""
         _syncColumnWidths()
         _scheduleRefresh(true)
     }
@@ -509,10 +521,12 @@ T.Control {
         _columnWidths = next
     }
     onFreezeFirstColumnChanged: _scheduleLayoutPersist()
-    onRowsChanged: _scheduleRefresh(true)
+    onRowsChanged: _scheduleRowsRefresh()
     onFilterTextChanged: _scheduleRefresh(false)
     onSortColumnChanged: _scheduleRefresh(true)
     onSortOrderChanged: _scheduleRefresh(true)
+    onMaxFilterResultsChanged: _scheduleRefresh(true)
+    onExpandOnFilterChanged: _scheduleRefresh(true)
     Component.onCompleted: {
         _syncColumnWidths()
         if (_layoutPersistEnabled())
@@ -527,6 +541,20 @@ T.Control {
         } else {
             filterDebounce.restart()
         }
+    }
+
+    function _scheduleRowsRefresh() {
+        // 3.52 C23 — match DataTable C8 coalesce on rapid rows= replaces.
+        if (_rowsRefreshScheduled)
+            return
+        _rowsRefreshScheduled = true
+        Qt.callLater(function () {
+            if (!root)
+                return
+            _rowsRefreshScheduled = false
+            filterDebounce.stop()
+            refresh()
+        })
     }
 
     function _syncColumnWidths() {
@@ -883,7 +911,10 @@ T.Control {
                     Layout.fillHeight: true
                     clip: true
                     reuseItems: true
-                    cacheBuffer: Math.max(240, Math.round(height * 1.5))
+                    // 3.52 C23 — rowHeight*12 overscan (DataTable parity); cacheBufferPx override.
+                    cacheBuffer: root.cacheBufferPx >= 0
+                                 ? root.cacheBufferPx
+                                 : Math.round(root.rowHeight * 12)
                     boundsBehavior: Flickable.StopAtBounds
                     model: root._viewRows
                     currentIndex: root.selectedIndex
