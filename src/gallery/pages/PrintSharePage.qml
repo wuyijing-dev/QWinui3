@@ -5,13 +5,13 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 import QWinUI3.Platform
 
-// Gallery — Print / share / export recipes (1.63).
+// Gallery — Print / share / export recipes.
 // Recipe: docs/print-share.md · docs/system-integration.md · docs/drag-drop.md
 
 CatalogPage {
     id: page
     title: qsTr("Print / share / export")
-    subtitle: qsTr("grabToImage → FilePicker.saveFile → reveal — docs/print-share.md (1.63).")
+    subtitle: qsTr("grabToImage → FilePicker.saveFile → reveal — docs/print-share.md.")
 
     property string statusText: qsTr("Export the sample card as PNG, then reveal in the file manager.")
     property string lastPath: ""
@@ -42,7 +42,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("When to use (1.63)")
+        headerText: qsTr("When to use")
         qmlSource: "grabToImage → FilePicker.saveFile → revealFileInFolder\n// docs/print-share.md"
         ColumnLayout {
             Layout.fillWidth: true

@@ -123,7 +123,7 @@ QtObject {
             title: qsTr("NumberBox"),
             category: "basic",
             icon: FluentIcons.Calculator,
-            description: qsTr("Numeric spin + FormLayout (stable 1.37) — docs/pickers.md."),
+            description: qsTr("Numeric spin + FormLayout — docs/pickers.md."),
             component: "NumberBoxPage",
             source: "pages/NumberBoxPage.qml"
         },
@@ -211,7 +211,7 @@ QtObject {
             title: qsTr("IconButton"),
             category: "basic",
             icon: FluentIcons.OpenInNewWindow,
-            description: qsTr("Icon-only button with glyph micro-motion (1.49) — docs/icons.md."),
+            description: qsTr("Icon-only button with glyph micro-motion — docs/icons.md."),
             component: "IconButtonPage",
             source: "pages/IconButtonPage.qml"
         },
@@ -251,7 +251,7 @@ QtObject {
             title: qsTr("MaskedTextField"),
             category: "text",
             icon: FluentIcons.ContactInfo,
-            description: qsTr("Simple digit/letter input masks for phone and ID patterns (2.71)."),
+            description: qsTr("Simple digit/letter input masks for phone and ID patterns."),
             component: "MaskedTextFieldPage",
             source: "pages/MaskedTextFieldPage.qml"
         },
@@ -259,7 +259,7 @@ QtObject {
             title: qsTr("PermissionGate"),
             category: "status",
             icon: FluentIcons.Shield,
-            description: qsTr("Declarative hide/disable by role (2.71)."),
+            description: qsTr("Declarative hide/disable by role."),
             component: "PermissionGatePage",
             source: "pages/PermissionGatePage.qml"
         },
@@ -267,7 +267,7 @@ QtObject {
             title: qsTr("RecentFiles"),
             category: "status",
             icon: FluentIcons.OpenFile,
-            description: qsTr("Settings-backed recent paths + shell recent docs (2.77)."),
+            description: qsTr("Settings-backed recent paths + shell recent docs."),
             component: "RecentFilesPage",
             source: "pages/RecentFilesPage.qml"
         },
@@ -275,7 +275,7 @@ QtObject {
             title: qsTr("Offline & retry"),
             category: "status",
             icon: FluentIcons.Wifi,
-            description: qsTr("OfflineBanner + OperationRetry backoff helpers (2.78)."),
+            description: qsTr("OfflineBanner + OperationRetry backoff helpers."),
             component: "OfflineRetryPage",
             source: "pages/OfflineRetryPage.qml"
         },
@@ -283,7 +283,7 @@ QtObject {
             title: qsTr("Security UX"),
             category: "status",
             icon: FluentIcons.Lock,
-            description: qsTr("SensitiveField reveal + ConfirmWithReason (2.79)."),
+            description: qsTr("SensitiveField reveal + ConfirmWithReason."),
             component: "SecurityUxPage",
             source: "pages/SecurityUxPage.qml"
         },
@@ -291,7 +291,7 @@ QtObject {
             title: qsTr("AutoSuggestBox"),
             category: "text",
             icon: FluentIcons.Search,
-            description: qsTr("Suggest-as-you-type — docs/search.md (1.59)."),
+            description: qsTr("Suggest-as-you-type — docs/search.md."),
             component: "AutoSuggestBoxPage",
             source: "pages/AutoSuggestBoxPage.qml"
         },
@@ -299,7 +299,7 @@ QtObject {
             title: qsTr("SearchBox"),
             category: "text",
             icon: FluentIcons.Search,
-            description: qsTr("Search field + suggestions — docs/search.md (1.59)."),
+            description: qsTr("Search field + suggestions — docs/search.md."),
             component: "SearchBoxPage",
             source: "pages/SearchBoxPage.qml"
         },
@@ -307,7 +307,7 @@ QtObject {
             title: qsTr("RichEdit"),
             category: "text",
             icon: FluentIcons.Edit,
-            description: qsTr("Rich text for mail and templates — experimental, docs/rich-edit-261.md (2.61)."),
+            description: qsTr("Rich text for mail and templates — experimental, docs/rich-edit-261.md."),
             component: "RichEditPage",
             source: "pages/RichEditPage.qml"
         },
@@ -323,7 +323,7 @@ QtObject {
             title: qsTr("On-screen keyboard"),
             category: "text",
             icon: FluentIcons.Font,
-            description: qsTr("Win11 floating OSK + Windows system-wide — docs/on-screen-keyboard.md (1.84). Still experimental."),
+            description: qsTr("Win11 floating OSK + Windows system-wide — docs/on-screen-keyboard.md. Still experimental."),
             component: "OnScreenKeyboardPage",
             source: "pages/OnScreenKeyboardPage.qml"
         },
@@ -419,7 +419,7 @@ QtObject {
             title: qsTr("TreeView"),
             category: "collections",
             icon: FluentIcons.PageList,
-            description: qsTr("Fluent TreeViewDelegate basics — docs/tree-data.md (1.33)."),
+            description: qsTr("Fluent TreeViewDelegate basics — docs/tree-data.md."),
             component: "TreeViewPage",
             source: "pages/TreeViewPage.qml"
         },
@@ -427,7 +427,7 @@ QtObject {
             title: qsTr("FileTree"),
             category: "collections",
             icon: FluentIcons.FolderOpen,
-            description: qsTr("Explorer tree + file metadata table — docs/tree-data.md (2.06, experimental)."),
+            description: qsTr("Explorer tree + file metadata table — docs/tree-data.md."),
             component: "FileTreePage",
             source: "pages/FileTreePage.qml"
         },
@@ -435,7 +435,7 @@ QtObject {
             title: qsTr("TreeDataGrid"),
             category: "collections",
             icon: FluentIcons.PageList,
-            description: qsTr("Hierarchical multi-column grid — sort/filter per branch — docs/tree-data.md (2.21, experimental)."),
+            description: qsTr("Hierarchical multi-column grid — sort/filter per branch — docs/tree-data.md."),
             component: "TreeDataGridPage",
             source: "pages/TreeDataGridPage.qml"
         },
@@ -443,7 +443,7 @@ QtObject {
             title: qsTr("TreeView recipe"),
             category: "collections",
             icon: FluentIcons.PageList,
-            description: qsTr("Hierarchy LoB: selection, ←/→, MenuFlyout, ItemsView sections (1.33)."),
+            description: qsTr("Hierarchy LoB: selection, ←/→, MenuFlyout, ItemsView sections."),
             component: "TreeViewRecipePage",
             source: "pages/TreeViewRecipePage.qml"
         },
@@ -459,7 +459,7 @@ QtObject {
             title: qsTr("ItemsRepeater"),
             category: "collections",
             icon: FluentIcons.List,
-            description: qsTr("Virtualizing ListView wrapper (stable 1.37) — docs/performance.md."),
+            description: qsTr("Virtualizing ListView wrapper — docs/performance.md."),
             component: "ItemsRepeaterPage",
             source: "pages/ItemsRepeaterPage.qml"
         },
@@ -467,7 +467,7 @@ QtObject {
             title: qsTr("ListDetailsView"),
             category: "collections",
             icon: FluentIcons.ViewAll,
-            description: qsTr("Master–detail on TwoPaneView — docs/adaptive-layout.md (1.42)."),
+            description: qsTr("Master–detail on TwoPaneView — docs/adaptive-layout.md."),
             component: "ListDetailsViewPage",
             source: "pages/ListDetailsViewPage.qml"
         },
@@ -483,7 +483,7 @@ QtObject {
             title: qsTr("NavigationView"),
             category: "navigation",
             icon: FluentIcons.GlobalNavButton,
-            description: qsTr("Pane modes, page cache LRU, initialPageTransition — docs/performance.md (1.39)."),
+            description: qsTr("Pane modes, page cache LRU, initialPageTransition — docs/performance.md."),
             component: "NavigationViewPage",
             source: "pages/NavigationViewPage.qml"
         },
@@ -499,7 +499,7 @@ QtObject {
             title: qsTr("Window shells"),
             category: "navigation",
             icon: FluentIcons.OpenInNewWindow,
-            description: qsTr("ShellWindow / Blank / Nav / MenuStatus (stable 1.37) — docs/window-shells.md."),
+            description: qsTr("ShellWindow / Blank / Nav / MenuStatus — docs/window-shells.md."),
             component: "WindowParadigmPage",
             source: "pages/WindowParadigmPage.qml"
         },
@@ -507,7 +507,7 @@ QtObject {
             title: qsTr("High-DPI & monitors"),
             category: "navigation",
             icon: FluentIcons.FullScreen,
-            description: qsTr("DPR readout · geometry clamp — docs/high-dpi.md (1.58)."),
+            description: qsTr("DPR readout · geometry clamp — docs/high-dpi.md."),
             component: "HighDpiPage",
             source: "pages/HighDpiPage.qml"
         },
@@ -515,7 +515,7 @@ QtObject {
             title: qsTr("Multi-window"),
             category: "navigation",
             icon: FluentIcons.OpenInNewWindow,
-            description: qsTr("Main + tool + owned dialog — docs/window-shells.md (1.56)."),
+            description: qsTr("Main + tool + owned dialog — docs/window-shells.md."),
             component: "MultiWindowPage",
             source: "pages/MultiWindowPage.qml"
         },
@@ -531,7 +531,7 @@ QtObject {
             title: qsTr("DataTable"),
             category: "collections",
             icon: FluentIcons.ViewAll,
-            description: qsTr("Fluent table with sort, filter, resize, keyboard, virtualization — docs/performance.md (1.25)."),
+            description: qsTr("Fluent table with sort, filter, resize, keyboard, virtualization — docs/performance.md."),
             component: "DataTablePage",
             source: "pages/DataTablePage.qml"
         },
@@ -539,7 +539,7 @@ QtObject {
             title: qsTr("TabView"),
             category: "collections",
             icon: FluentIcons.Comment,
-            description: qsTr("Document tabs (stable 1.37). Tear-out remains experimental — docs/navigation.md."),
+            description: qsTr("Document tabs. Tear-out remains experimental — docs/navigation.md."),
             component: "TabViewPage",
             source: "pages/TabViewPage.qml"
         },
@@ -579,7 +579,7 @@ QtObject {
             title: qsTr("Wizard"),
             category: "navigation",
             icon: FluentIcons.List,
-            description: qsTr("Multi-step host with validation gates and Back/Next (2.68)."),
+            description: qsTr("Multi-step host with validation gates and Back/Next."),
             component: "WizardPage",
             source: "pages/WizardPage.qml"
         },
@@ -587,7 +587,7 @@ QtObject {
             title: qsTr("Window bus & session"),
             category: "status",
             icon: FluentIcons.Message,
-            description: qsTr("WindowMessageBus + SessionTimeout (2.72)."),
+            description: qsTr("WindowMessageBus + SessionTimeout."),
             component: "WindowBusSessionPage",
             source: "pages/WindowBusSessionPage.qml"
         },
@@ -611,7 +611,7 @@ QtObject {
             title: qsTr("Drawer"),
             category: "layout",
             icon: FluentIcons.GlobalNavButton,
-            description: qsTr("Edge panel (stable 1.37) — docs/dialogs-flyouts.md."),
+            description: qsTr("Edge panel — docs/dialogs-flyouts.md."),
             component: "DrawerPage",
             source: "pages/DrawerPage.qml"
         },
@@ -627,7 +627,7 @@ QtObject {
             title: qsTr("CommandBar"),
             category: "menus",
             icon: FluentIcons.More,
-            description: qsTr("Page tool strip (stable 1.37) — docs/commands.md."),
+            description: qsTr("Page tool strip — docs/commands.md."),
             component: "CommandBarPage",
             source: "pages/CommandBarPage.qml"
         },
@@ -643,7 +643,7 @@ QtObject {
             title: qsTr("CommandPalette"),
             category: "menus",
             icon: FluentIcons.Search,
-            description: qsTr("Ctrl+K launcher — docs/keyboard.md (1.44) · docs/commands.md."),
+            description: qsTr("Ctrl+K launcher — docs/keyboard.md · docs/commands.md."),
             component: "CommandPalettePage",
             source: "pages/CommandPalettePage.qml"
         },
@@ -667,7 +667,7 @@ QtObject {
             title: qsTr("MenuBar"),
             category: "menus",
             icon: FluentIcons.GlobalNavButton,
-            description: qsTr("Classic window menu bar (stable 1.37) — docs/commands.md."),
+            description: qsTr("Classic window menu bar — docs/commands.md."),
             component: "MenuBarPage",
             source: "pages/MenuBarPage.qml"
         },
@@ -739,7 +739,7 @@ QtObject {
             title: qsTr("SemanticZoom"),
             category: "collections",
             icon: FluentIcons.People,
-            description: qsTr("Grid ↔ index with shared selection — experimental, docs/semantic-zoom-262.md (2.62)."),
+            description: qsTr("Grid ↔ index with shared selection — experimental, docs/semantic-zoom-262.md."),
             component: "SemanticZoomPage",
             source: "pages/SemanticZoomPage.qml"
         },
@@ -811,7 +811,7 @@ QtObject {
             title: qsTr("CalendarDatePicker"),
             category: "date",
             icon: FluentIcons.Calendar,
-            description: qsTr("Calendar flyout + FormLayout errorMessage - docs/pickers.md (1.28)."),
+            description: qsTr("Calendar flyout + FormLayout errorMessage - docs/pickers.md."),
             component: "CalendarDatePickerPage",
             source: "pages/CalendarDatePickerPage.qml"
         },
@@ -819,7 +819,7 @@ QtObject {
             title: qsTr("CalendarView"),
             category: "date",
             icon: FluentIcons.Calendar,
-            description: qsTr("Month grid — single / multiple / range selection. Experimental — docs/calendar-view.md (2.31)."),
+            description: qsTr("Month grid — single / multiple / range selection. Experimental — docs/calendar-view.md."),
             component: "CalendarViewPage",
             source: "pages/CalendarViewPage.qml"
         },
@@ -827,7 +827,7 @@ QtObject {
             title: qsTr("DatePicker"),
             category: "date",
             icon: FluentIcons.Calendar,
-            description: qsTr("Date tumblers + FormLayout errorMessage - docs/pickers.md (1.28)."),
+            description: qsTr("Date tumblers + FormLayout errorMessage - docs/pickers.md."),
             component: "DatePickerPage",
             source: "pages/DatePickerPage.qml"
         },
@@ -843,7 +843,7 @@ QtObject {
             title: qsTr("TimePicker"),
             category: "date",
             icon: FluentIcons.Clock,
-            description: qsTr("Time tumblers + FormLayout errorMessage - docs/pickers.md (1.28)."),
+            description: qsTr("Time tumblers + FormLayout errorMessage - docs/pickers.md."),
             component: "TimePickerPage",
             source: "pages/TimePickerPage.qml"
         },
@@ -859,7 +859,7 @@ QtObject {
             title: qsTr("ContentDialog"),
             category: "dialogs",
             icon: FluentIcons.Comment,
-            description: qsTr("Modal queue A→B→C · Esc/Closing — docs/dialogs-flyouts.md (1.48)."),
+            description: qsTr("Modal queue A→B→C · Esc/Closing — docs/dialogs-flyouts.md."),
             component: "ContentDialogPage",
             source: "pages/ContentDialogPage.qml"
         },
@@ -867,7 +867,7 @@ QtObject {
             title: qsTr("Dialogs & flyouts"),
             category: "dialogs",
             icon: FluentIcons.Comment,
-            description: qsTr("Chooser + queue recipe pointer — docs/dialogs-flyouts.md (1.48)."),
+            description: qsTr("Chooser + queue recipe pointer — docs/dialogs-flyouts.md."),
             component: "DialogsFlyoutsPage",
             source: "pages/DialogsFlyoutsPage.qml"
         },
@@ -875,7 +875,7 @@ QtObject {
             title: qsTr("Flyout"),
             category: "dialogs",
             icon: FluentIcons.Lightbulb,
-            description: qsTr("Light-dismiss popup (stable 1.37) — docs/dialogs-flyouts.md."),
+            description: qsTr("Light-dismiss popup — docs/dialogs-flyouts.md."),
             component: "FlyoutPage",
             source: "pages/FlyoutPage.qml"
         },
@@ -883,7 +883,7 @@ QtObject {
             title: qsTr("TeachingTip"),
             category: "dialogs",
             icon: FluentIcons.Info,
-            description: qsTr("Coach mark; focus returns to target — docs/feedback.md (1.34)."),
+            description: qsTr("Coach mark; focus returns to target — docs/feedback.md."),
             component: "TeachingTipPage",
             source: "pages/TeachingTipPage.qml"
         },
@@ -891,7 +891,7 @@ QtObject {
             title: qsTr("Onboarding coach"),
             category: "dialogs",
             icon: FluentIcons.Lightbulb,
-            description: qsTr("Sequenced TeachingTips + don’t-show-again — docs/feedback.md (1.55)."),
+            description: qsTr("Sequenced TeachingTips + don’t-show-again — docs/feedback.md."),
             component: "OnboardingCoachPage",
             source: "pages/OnboardingCoachPage.qml"
         },
@@ -931,7 +931,7 @@ QtObject {
             title: qsTr("ProgressBar"),
             category: "status",
             icon: FluentIcons.PieSingle,
-            description: qsTr("In-place progress — docs/feedback.md (1.34)."),
+            description: qsTr("In-place progress — docs/feedback.md."),
             component: "ProgressBarPage",
             source: "pages/ProgressBarPage.qml"
         },
@@ -939,7 +939,7 @@ QtObject {
             title: qsTr("ProgressRing"),
             category: "status",
             icon: FluentIcons.Sync,
-            description: qsTr("In-place progress ring (stable 1.37) — docs/feedback.md."),
+            description: qsTr("In-place progress ring — docs/feedback.md."),
             component: "ProgressRingPage",
             source: "pages/ProgressRingPage.qml"
         },
@@ -947,7 +947,7 @@ QtObject {
             title: qsTr("RadialGauge"),
             category: "charts",
             icon: FluentIcons.Slider,
-            description: qsTr("Toolkit-style radial needle gauge (experimental — deferred 1.66)."),
+            description: qsTr("Toolkit-style radial needle gauge (experimental, deferred)."),
             component: "RadialGaugePage",
             source: "pages/RadialGaugePage.qml"
         },
@@ -955,7 +955,7 @@ QtObject {
             title: qsTr("LinearGauge"),
             category: "charts",
             icon: FluentIcons.PieSingle,
-            description: qsTr("Horizontal or vertical linear gauge (experimental — deferred 1.66)."),
+            description: qsTr("Horizontal or vertical linear gauge (experimental, deferred)."),
             component: "LinearGaugePage",
             source: "pages/LinearGaugePage.qml"
         },
@@ -963,7 +963,7 @@ QtObject {
             title: qsTr("ArcGauge"),
             category: "charts",
             icon: FluentIcons.Slider,
-            description: qsTr("Semicircle dashboard gauge (experimental — deferred 1.66)."),
+            description: qsTr("Semicircle dashboard gauge (experimental, deferred)."),
             component: "ArcGaugePage",
             source: "pages/ArcGaugePage.qml"
         },
@@ -971,7 +971,7 @@ QtObject {
             title: qsTr("SegmentedGauge"),
             category: "charts",
             icon: FluentIcons.Sync,
-            description: qsTr("Segmented ring gauge (experimental — deferred 1.66)."),
+            description: qsTr("Segmented ring gauge (experimental, deferred)."),
             component: "SegmentedGaugePage",
             source: "pages/SegmentedGaugePage.qml"
         },
@@ -979,7 +979,7 @@ QtObject {
             title: qsTr("ZoneGauge"),
             category: "charts",
             icon: FluentIcons.Slider,
-            description: qsTr("Needle gauge with zone bands (experimental — deferred 1.66)."),
+            description: qsTr("Needle gauge with zone bands (experimental, deferred)."),
             component: "ZoneGaugePage",
             source: "pages/ZoneGaugePage.qml"
         },
@@ -987,7 +987,7 @@ QtObject {
             title: qsTr("RingGauge"),
             category: "charts",
             icon: FluentIcons.Slider,
-            description: qsTr("Closed-ring KPI gauge (stable 1.23) — docs/charts.md."),
+            description: qsTr("Closed-ring KPI gauge — docs/charts.md."),
             component: "RingGaugePage",
             source: "pages/RingGaugePage.qml"
         },
@@ -995,7 +995,7 @@ QtObject {
             title: qsTr("TankGauge"),
             category: "charts",
             icon: FluentIcons.PieSingle,
-            description: qsTr("Vertical tank / reservoir gauge (experimental — deferred 1.66)."),
+            description: qsTr("Vertical tank / reservoir gauge (experimental, deferred)."),
             component: "TankGaugePage",
             source: "pages/TankGaugePage.qml"
         },
@@ -1003,7 +1003,7 @@ QtObject {
             title: qsTr("ThermometerGauge"),
             category: "charts",
             icon: FluentIcons.AreaChart,
-            description: qsTr("Stem-and-bulb thermometer (experimental — deferred 1.66)."),
+            description: qsTr("Stem-and-bulb thermometer (experimental, deferred)."),
             component: "ThermometerGaugePage",
             source: "pages/ThermometerGaugePage.qml"
         },
@@ -1179,7 +1179,7 @@ QtObject {
             title: qsTr("KpiTile"),
             category: "charts",
             icon: FluentIcons.AreaChart,
-            description: qsTr("KPI tile with delta / sparkline (stable 1.23) — docs/charts.md."),
+            description: qsTr("KPI tile with delta / sparkline — docs/charts.md."),
             component: "KpiTilePage",
             source: "pages/KpiTilePage.qml"
         },
@@ -1187,7 +1187,7 @@ QtObject {
             title: qsTr("Dashboard"),
             category: "charts",
             icon: FluentIcons.Home,
-            description: qsTr("Stable KPI/chart layout (1.66); extra gauges deferred — docs/charts.md."),
+            description: qsTr("Stable KPI/chart layout; extra gauges deferred — docs/charts.md."),
             component: "DashboardPage",
             source: "pages/DashboardPage.qml"
         },
@@ -1195,7 +1195,7 @@ QtObject {
             title: qsTr("Ops console"),
             category: "charts",
             icon: FluentIcons.SpeedHigh,
-            description: qsTr("LiveMetricStrip — throttled KPI ring + compare-period (3.05)."),
+            description: qsTr("LiveMetricStrip — throttled KPI ring + compare-period."),
             component: "OpsConsolePage",
             source: "pages/OpsConsolePage.qml"
         },
@@ -1211,7 +1211,7 @@ QtObject {
             title: qsTr("InfoBar"),
             category: "status",
             icon: FluentIcons.Info,
-            description: qsTr("Inline severity banner — docs/feedback.md (1.34)."),
+            description: qsTr("Inline severity banner — docs/feedback.md."),
             component: "InfoBarPage",
             source: "pages/InfoBarPage.qml"
         },
@@ -1219,7 +1219,7 @@ QtObject {
             title: qsTr("InfoBadge"),
             category: "status",
             icon: FluentIcons.ProgressRingCommon,
-            description: qsTr("Counts / status dots (stable 1.37)."),
+            description: qsTr("Counts / status dots."),
             component: "InfoBadgePage",
             source: "pages/InfoBadgePage.qml"
         },
@@ -1235,7 +1235,7 @@ QtObject {
             title: qsTr("System integration"),
             category: "navigation",
             icon: FluentIcons.Folder,
-            description: qsTr("FilePicker · tray · Snap / reveal — Linux portal harden 1.68."),
+            description: qsTr("FilePicker · tray · Snap / reveal — Linux portal harden."),
             component: "SystemIntegrationPage",
             source: "pages/SystemIntegrationPage.qml"
         },
@@ -1243,7 +1243,7 @@ QtObject {
             title: qsTr("MediaPlayerElement"),
             category: "dialogs",
             icon: FluentIcons.Video,
-            description: qsTr("Optional Qt Multimedia — permanent defer 2.09. docs/media.md."),
+            description: qsTr("Optional Qt Multimedia — permanent defer. docs/media.md."),
             component: "MediaPlayerElementPage",
             source: "pages/MediaPlayerElementPage.qml"
         },
@@ -1275,7 +1275,7 @@ QtObject {
             title: qsTr("Charts"),
             category: "charts",
             icon: FluentIcons.AreaChart,
-            description: qsTr("Stable six + deferred compose chooser (2.26) — docs/charts.md."),
+            description: qsTr("Stable six + deferred compose chooser — docs/charts.md."),
             component: "ChartsPage",
             source: "pages/ChartsPage.qml"
         },
@@ -1291,7 +1291,7 @@ QtObject {
             title: qsTr("Sparkline"),
             category: "charts",
             icon: FluentIcons.PieSingle,
-            description: qsTr("Compact inline trend (experimental — deferred 1.66). Prefer KpiTile.trendValues."),
+            description: qsTr("Compact inline trend (experimental, deferred). Prefer KpiTile.trendValues."),
             component: "SparklinePage",
             source: "pages/SparklinePage.qml"
         },
@@ -1299,7 +1299,7 @@ QtObject {
             title: qsTr("LineChart"),
             category: "charts",
             icon: FluentIcons.AreaChart,
-            description: qsTr("Multi-series line/area chart (stable 1.23) — docs/charts.md."),
+            description: qsTr("Multi-series line/area chart — docs/charts.md."),
             component: "LineChartPage",
             source: "pages/LineChartPage.qml"
         },
@@ -1307,7 +1307,7 @@ QtObject {
             title: qsTr("AreaChart"),
             category: "charts",
             icon: FluentIcons.AreaChart,
-            description: qsTr("Filled area chart (experimental — deferred 1.66). Prefer LineChart showArea."),
+            description: qsTr("Filled area chart (experimental, deferred). Prefer LineChart showArea."),
             component: "AreaChartPage",
             source: "pages/AreaChartPage.qml"
         },
@@ -1315,7 +1315,7 @@ QtObject {
             title: qsTr("BarChart"),
             category: "charts",
             icon: FluentIcons.PieSingle,
-            description: qsTr("Vertical column chart (stable 1.23) — docs/charts.md."),
+            description: qsTr("Vertical column chart — docs/charts.md."),
             component: "BarChartPage",
             source: "pages/BarChartPage.qml"
         },
@@ -1323,7 +1323,7 @@ QtObject {
             title: qsTr("HorizontalBarChart"),
             category: "charts",
             icon: FluentIcons.Dial6,
-            description: qsTr("Horizontal bars (experimental — deferred 1.66). Prefer BarChart."),
+            description: qsTr("Horizontal bars (experimental, deferred). Prefer BarChart."),
             component: "HorizontalBarChartPage",
             source: "pages/HorizontalBarChartPage.qml"
         },
@@ -1331,7 +1331,7 @@ QtObject {
             title: qsTr("StackedBarChart"),
             category: "charts",
             icon: FluentIcons.DialShape3,
-            description: qsTr("Stacked columns (experimental — deferred 1.66)."),
+            description: qsTr("Stacked columns (experimental, deferred)."),
             component: "StackedBarChartPage",
             source: "pages/StackedBarChartPage.qml"
         },
@@ -1339,7 +1339,7 @@ QtObject {
             title: qsTr("DonutChart"),
             category: "charts",
             icon: FluentIcons.ProgressRingCommon,
-            description: qsTr("Part-to-whole donut (stable 1.23) — docs/charts.md."),
+            description: qsTr("Part-to-whole donut — docs/charts.md."),
             component: "DonutChartPage",
             source: "pages/DonutChartPage.qml"
         },
@@ -1347,7 +1347,7 @@ QtObject {
             title: qsTr("PieChart"),
             category: "charts",
             icon: FluentIcons.DonutChart,
-            description: qsTr("Solid pie (experimental — deferred 1.66). Prefer DonutChart."),
+            description: qsTr("Solid pie (experimental, deferred). Prefer DonutChart."),
             component: "PieChartPage",
             source: "pages/PieChartPage.qml"
         },
@@ -1355,7 +1355,7 @@ QtObject {
             title: qsTr("ScatterChart"),
             category: "charts",
             icon: FluentIcons.BarChartVertical,
-            description: qsTr("Scatter plot (experimental — deferred 1.66)."),
+            description: qsTr("Scatter plot (experimental, deferred)."),
             component: "ScatterChartPage",
             source: "pages/ScatterChartPage.qml"
         },
@@ -1363,7 +1363,7 @@ QtObject {
             title: qsTr("WaterfallChart"),
             category: "charts",
             icon: FluentIcons.PieSingle,
-            description: qsTr("Bridge / step chart (experimental — deferred 1.66)."),
+            description: qsTr("Bridge / step chart (experimental, deferred)."),
             component: "WaterfallChartPage",
             source: "pages/WaterfallChartPage.qml"
         },
@@ -1371,7 +1371,7 @@ QtObject {
             title: qsTr("HeatmapChart"),
             category: "charts",
             icon: FluentIcons.AreaChartMirrored,
-            description: qsTr("Density heatmap (experimental — deferred 1.66)."),
+            description: qsTr("Density heatmap (experimental, deferred)."),
             component: "HeatmapChartPage",
             source: "pages/HeatmapChartPage.qml"
         },
@@ -1379,7 +1379,7 @@ QtObject {
             title: qsTr("RadarChart"),
             category: "charts",
             icon: FluentIcons.ConstructionCone,
-            description: qsTr("Spider / radar chart (experimental — deferred 1.66)."),
+            description: qsTr("Spider / radar chart (experimental, deferred)."),
             component: "RadarChartPage",
             source: "pages/RadarChartPage.qml"
         },
@@ -1387,7 +1387,7 @@ QtObject {
             title: qsTr("ChartCard"),
             category: "charts",
             icon: FluentIcons.Document,
-            description: qsTr("Dashboard card chrome (stable 1.23) — docs/charts.md."),
+            description: qsTr("Dashboard card chrome — docs/charts.md."),
             component: "ChartCardPage",
             source: "pages/ChartCardPage.qml"
         },
@@ -1395,7 +1395,7 @@ QtObject {
             title: qsTr("BulletChart"),
             category: "charts",
             icon: FluentIcons.PieSingle,
-            description: qsTr("KPI bullet (experimental — deferred 1.66). Prefer KpiTile."),
+            description: qsTr("KPI bullet (experimental, deferred). Prefer KpiTile."),
             component: "BulletChartPage",
             source: "pages/BulletChartPage.qml"
         },
@@ -1539,7 +1539,7 @@ QtObject {
             title: qsTr("Animations"),
             category: "layout",
             icon: FluentIcons.Sync,
-            description: qsTr("Motion recipe hub (1.22) — ConnectedAnimation, entrance, theme transitions."),
+            description: qsTr("Motion recipe hub — ConnectedAnimation, entrance, theme transitions."),
             component: "AnimationsPage",
             source: "pages/AnimationsPage.qml"
         },
@@ -1547,7 +1547,7 @@ QtObject {
             title: qsTr("EntranceThemeTransition"),
             category: "layout",
             icon: FluentIcons.Completed,
-            description: qsTr("Fade + rise + scale entrance — docs/animations.md (1.22)."),
+            description: qsTr("Fade + rise + scale entrance — docs/animations.md."),
             component: "EntranceThemeTransitionPage",
             source: "pages/EntranceThemeTransitionPage.qml"
         },
@@ -1555,7 +1555,7 @@ QtObject {
             title: qsTr("Theme transitions"),
             category: "layout",
             icon: FluentIcons.Sync,
-            description: qsTr("ContentThemeTransition + RepositionThemeTransition — docs/animations.md (1.22)."),
+            description: qsTr("ContentThemeTransition + RepositionThemeTransition — docs/animations.md."),
             component: "ThemeTransitionsPage",
             source: "pages/ThemeTransitionsPage.qml"
         },
@@ -1563,7 +1563,7 @@ QtObject {
             title: qsTr("Style spot-check"),
             category: "layout",
             icon: FluentIcons.Edit,
-            description: qsTr("WinUI 3 Style chrome audit — docs/style-polish.md (2.17)."),
+            description: qsTr("WinUI 3 Style chrome audit — docs/style-polish.md."),
             component: "StyleSpotCheckPage",
             source: "pages/StyleSpotCheckPage.qml"
         },
@@ -1571,7 +1571,7 @@ QtObject {
             title: qsTr("Theme overrides"),
             category: "layout",
             icon: FluentIcons.Color,
-            description: qsTr("Brand + contrast AA table — docs/color-contrast.md (1.43)."),
+            description: qsTr("Brand + contrast AA table — docs/color-contrast.md."),
             component: "ThemeOverridesPage",
             source: "pages/ThemeOverridesPage.qml"
         },
@@ -1579,7 +1579,7 @@ QtObject {
             title: qsTr("Theme prefs"),
             category: "layout",
             icon: FluentIcons.Color,
-            description: qsTr("ThemeAppearanceSettings + copy recipe — kit, not Gallery-only (1.69)."),
+            description: qsTr("ThemeAppearanceSettings + copy recipe — kit, not Gallery-only."),
             component: "ThemePrefsPage",
             source: "pages/ThemePrefsPage.qml"
         },
@@ -1587,7 +1587,7 @@ QtObject {
             title: qsTr("ConnectedAnimation"),
             category: "layout",
             icon: FluentIcons.Sync,
-            description: qsTr("Shared-element list→detail — docs/animations.md (1.22)."),
+            description: qsTr("Shared-element list→detail — docs/animations.md."),
             component: "ConnectedAnimationPage",
             source: "pages/ConnectedAnimationPage.qml"
         },
@@ -1595,7 +1595,7 @@ QtObject {
             title: qsTr("CopyButton"),
             category: "basic",
             icon: FluentIcons.Copy,
-            description: qsTr("Copies text to the clipboard with success feedback — docs/drag-drop.md (1.41)."),
+            description: qsTr("Copies text to the clipboard with success feedback — docs/drag-drop.md."),
             component: "CopyButtonPage",
             source: "pages/CopyButtonPage.qml"
         },
@@ -1611,7 +1611,7 @@ QtObject {
             title: qsTr("ProgressButton"),
             category: "basic",
             icon: FluentIcons.AreaChartMirrored,
-            description: qsTr("Button with embedded progress (stable 1.37) — docs/feedback.md."),
+            description: qsTr("Button with embedded progress — docs/feedback.md."),
             component: "ProgressButtonPage",
             source: "pages/ProgressButtonPage.qml"
         },
@@ -1619,7 +1619,7 @@ QtObject {
             title: qsTr("TwoPaneView"),
             category: "layout",
             icon: FluentIcons.ViewAll,
-            description: qsTr("Wide / Tall / SinglePane breakpoints — docs/adaptive-layout.md (1.42)."),
+            description: qsTr("Wide / Tall / SinglePane breakpoints — docs/adaptive-layout.md."),
             component: "TwoPaneViewPage",
             source: "pages/TwoPaneViewPage.qml"
         },
@@ -1627,7 +1627,7 @@ QtObject {
             title: qsTr("SplitWorkspace"),
             category: "layout",
             icon: FluentIcons.DockLeft,
-            description: qsTr("2–3 resizable panes + LayoutPreset — docs/app-platform-3xx.md (3.03)."),
+            description: qsTr("2–3 resizable panes + LayoutPreset — docs/app-platform-3xx.md."),
             component: "SplitWorkspacePage",
             source: "pages/SplitWorkspacePage.qml"
         },
@@ -1707,7 +1707,7 @@ QtObject {
             title: qsTr("Pitfalls"),
             category: "status",
             icon: FluentIcons.Warning,
-            description: qsTr("Anti-patterns + 1.xx maturity checkpoint (1.51) — docs/maturity-1xx.md."),
+            description: qsTr("Anti-patterns + 1.xx maturity checkpoint — docs/maturity-1xx.md."),
             component: "PitfallsPage",
             source: "pages/PitfallsPage.qml"
         },
@@ -1715,7 +1715,7 @@ QtObject {
             title: qsTr("Accessibility"),
             category: "status",
             icon: FluentIcons.EaseOfAccess,
-            description: qsTr("A11y + keyboard + wave 3 focus return / live regions — docs/accessibility.md (1.85)."),
+            description: qsTr("A11y + keyboard + focus return / live regions — docs/accessibility.md."),
             component: "AccessibilityPage",
             source: "pages/AccessibilityPage.qml"
         },
@@ -1731,7 +1731,7 @@ QtObject {
             title: qsTr("Consumer packaging"),
             category: "navigation",
             icon: FluentIcons.Publish,
-            description: qsTr("Shared vs static / windeploy / strip — docs/packaging-consumer.md (1.12 / 1.46)."),
+            description: qsTr("Shared vs static / windeploy / strip — docs/packaging-consumer.md."),
             component: "PackagingConsumerPage",
             source: "pages/PackagingConsumerPage.qml"
         },
@@ -1739,7 +1739,7 @@ QtObject {
             title: qsTr("Qt Creator"),
             category: "navigation",
             icon: FluentIcons.Repair,
-            description: qsTr("Open Gallery / examples with CMake kits — docs/qt-creator.md (1.35)."),
+            description: qsTr("Open Gallery / examples with CMake kits — docs/qt-creator.md."),
             component: "QtCreatorPage",
             source: "pages/QtCreatorPage.qml"
         },
@@ -1755,7 +1755,7 @@ QtObject {
             title: qsTr("Example templates"),
             category: "navigation",
             icon: FluentIcons.PageList,
-            description: qsTr("Copy-ready starters — gallery-shell (1.50) first. examples/README.md."),
+            description: qsTr("Copy-ready starters — gallery-shell first. examples/README.md."),
             component: "ExamplesTemplatesPage",
             source: "pages/ExamplesTemplatesPage.qml"
         },
@@ -1763,7 +1763,7 @@ QtObject {
             title: qsTr("Performance"),
             category: "status",
             icon: FluentIcons.ViewAll,
-            description: qsTr("Lists / charts / cold start — docs/performance.md (1.25 / 1.39)."),
+            description: qsTr("Lists / charts / cold start — docs/performance.md."),
             component: "PerformancePage",
             source: "pages/PerformancePage.qml"
         },
@@ -1771,7 +1771,7 @@ QtObject {
             title: qsTr("Density"),
             category: "layout",
             icon: FluentIcons.Slider,
-            description: qsTr("uiScale / density tokens · narrow shells — docs/density.md (1.30)."),
+            description: qsTr("uiScale / density tokens · narrow shells — docs/density.md."),
             component: "DensityPage",
             source: "pages/DensityPage.qml"
         },
@@ -1779,7 +1779,7 @@ QtObject {
             title: qsTr("Touch & pointer"),
             category: "basic",
             icon: FluentIcons.Tablet,
-            description: qsTr("Targets · scroll vs drag · pen notes — docs/touch-pointer.md (1.57)."),
+            description: qsTr("Targets · scroll vs drag · pen notes — docs/touch-pointer.md."),
             component: "TouchPointerPage",
             source: "pages/TouchPointerPage.qml"
         },
@@ -1787,7 +1787,7 @@ QtObject {
             title: qsTr("Graphics backend"),
             category: "navigation",
             icon: FluentIcons.Color,
-            description: qsTr("RHI ship table · --rhi — docs/graphics-backend.md (1.31)."),
+            description: qsTr("RHI ship table · --rhi — docs/graphics-backend.md."),
             component: "GraphicsBackendPage",
             source: "pages/GraphicsBackendPage.qml"
         },
@@ -1795,7 +1795,7 @@ QtObject {
             title: qsTr("Forms & settings"),
             category: "layout",
             icon: FluentIcons.Settings,
-            description: qsTr("FormLayout + LoB templates — docs/forms.md (2.25)."),
+            description: qsTr("FormLayout + LoB templates — docs/forms.md."),
             component: "FormsHubPage",
             source: "pages/FormsHubPage.qml"
         },
@@ -1803,7 +1803,7 @@ QtObject {
             title: qsTr("Registration template"),
             category: "layout",
             icon: FluentIcons.Contact,
-            description: qsTr("LoB sign-up — FormLayout, tokens, multi-select (2.25)."),
+            description: qsTr("LoB sign-up — FormLayout, tokens, multi-select."),
             component: "FormRegistrationTemplatePage",
             source: "pages/FormRegistrationTemplatePage.qml"
         },
@@ -1811,7 +1811,7 @@ QtObject {
             title: qsTr("Admin CRUD template"),
             category: "layout",
             icon: FluentIcons.Edit,
-            description: qsTr("DataTable + FormLayout admin editor (2.25)."),
+            description: qsTr("DataTable + FormLayout admin editor."),
             component: "FormAdminCrudTemplatePage",
             source: "pages/FormAdminCrudTemplatePage.qml"
         },
@@ -1819,7 +1819,7 @@ QtObject {
             title: qsTr("Preferences template"),
             category: "layout",
             icon: FluentIcons.Settings,
-            description: qsTr("SettingsView cards + expander + tokens (2.25)."),
+            description: qsTr("SettingsView cards + expander + tokens."),
             component: "SettingsPreferencesTemplatePage",
             source: "pages/SettingsPreferencesTemplatePage.qml"
         },
@@ -1827,7 +1827,7 @@ QtObject {
             title: qsTr("Commands & menus"),
             category: "menus",
             icon: FluentIcons.More,
-            description: qsTr("CommandPalette / CommandBar / MenuFlyout — docs/commands.md (1.15)."),
+            description: qsTr("CommandPalette / CommandBar / MenuFlyout — docs/commands.md."),
             component: "CommandsHubPage",
             source: "pages/CommandsHubPage.qml"
         },
@@ -1835,7 +1835,7 @@ QtObject {
             title: qsTr("Feedback surfaces"),
             category: "status",
             icon: FluentIcons.Info,
-            description: qsTr("InfoBar / Toast / TeachingTip / onboarding — docs/feedback.md (1.55)."),
+            description: qsTr("InfoBar / Toast / TeachingTip / onboarding — docs/feedback.md."),
             component: "FeedbackHubPage",
             source: "pages/FeedbackHubPage.qml"
         },
@@ -1843,7 +1843,7 @@ QtObject {
             title: qsTr("Notification center"),
             category: "status",
             icon: FluentIcons.Ringer,
-            description: qsTr("Grouped in-app history + InfoBadge bell — docs/feedback.md (2.27)."),
+            description: qsTr("Grouped in-app history + InfoBadge bell — docs/feedback.md."),
             component: "NotificationCenterPage",
             source: "pages/NotificationCenterPage.qml"
         },
@@ -1851,7 +1851,7 @@ QtObject {
             title: qsTr("Keyboard-first"),
             category: "menus",
             icon: FluentIcons.Search,
-            description: qsTr("Chords → palette → dialogs → lists — docs/keyboard.md (1.44)."),
+            description: qsTr("Chords → palette → dialogs → lists — docs/keyboard.md."),
             component: "KeyboardFirstPage",
             source: "pages/KeyboardFirstPage.qml"
         },
@@ -1859,7 +1859,7 @@ QtObject {
             title: qsTr("Print / share / export"),
             category: "dialogs",
             icon: FluentIcons.Share,
-            description: qsTr("grabToImage · save · reveal — docs/print-share.md (1.63)."),
+            description: qsTr("grabToImage · save · reveal — docs/print-share.md."),
             component: "PrintSharePage",
             source: "pages/PrintSharePage.qml"
         },
@@ -1867,7 +1867,7 @@ QtObject {
             title: qsTr("Security & trust"),
             category: "dialogs",
             icon: FluentIcons.Shield,
-            description: qsTr("WebView2 / drop / picker boundaries — docs/security-trust.md (1.64)."),
+            description: qsTr("WebView2 / drop / picker boundaries — docs/security-trust.md."),
             component: "SecurityTrustPage",
             source: "pages/SecurityTrustPage.qml"
         },
@@ -1875,7 +1875,7 @@ QtObject {
             title: qsTr("Settings persistence"),
             category: "layout",
             icon: FluentIcons.Save,
-            description: qsTr("QSettings / Settings · schemaVersion — docs/settings-persistence.md (1.65)."),
+            description: qsTr("QSettings / Settings · schemaVersion — docs/settings-persistence.md."),
             component: "SettingsPersistencePage",
             source: "pages/SettingsPersistencePage.qml"
         },
@@ -1907,7 +1907,7 @@ QtObject {
             title: qsTr("Form validation"),
             category: "text",
             icon: FluentIcons.Accept,
-            description: qsTr("FormLayout + ValidationSummary + date pickers - docs/pickers.md (1.28)."),
+            description: qsTr("FormLayout + ValidationSummary + date pickers - docs/pickers.md."),
             component: "FormValidationPage",
             source: "pages/FormValidationPage.qml"
         },
@@ -1915,7 +1915,7 @@ QtObject {
             title: qsTr("FileDropZone"),
             category: "layout",
             icon: FluentIcons.OpenFile,
-            description: qsTr("Drop + Browse + clipboard — docs/drag-drop.md (1.41)."),
+            description: qsTr("Drop + Browse + clipboard — docs/drag-drop.md."),
             component: "FileDropZonePage",
             source: "pages/FileDropZonePage.qml"
         },
@@ -1923,7 +1923,7 @@ QtObject {
             title: qsTr("MenuFlyout"),
             category: "menus",
             icon: FluentIcons.GlobalNavButton,
-            description: qsTr("Context / overflow menu (stable 1.37) — docs/commands.md."),
+            description: qsTr("Context / overflow menu — docs/commands.md."),
             component: "MenuFlyoutPage",
             source: "pages/MenuFlyoutPage.qml"
         },
@@ -1955,7 +1955,7 @@ QtObject {
             title: qsTr("InfoBarHost"),
             category: "status",
             icon: FluentIcons.Info,
-            description: qsTr("maxVisible InfoBar stack — docs/feedback.md (1.34)."),
+            description: qsTr("maxVisible InfoBar stack — docs/feedback.md."),
             component: "InfoBarHostPage",
             source: "pages/InfoBarHostPage.qml"
         },
@@ -1963,7 +1963,7 @@ QtObject {
             title: qsTr("InfoBar + TeachingTip recipe"),
             category: "status",
             icon: FluentIcons.Lightbulb,
-            description: qsTr("Form save + coach tip end-to-end — docs/feedback.md (1.34)."),
+            description: qsTr("Form save + coach tip end-to-end — docs/feedback.md."),
             component: "InfoTeachingRecipePage",
             source: "pages/InfoTeachingRecipePage.qml"
         },
@@ -1971,7 +1971,7 @@ QtObject {
             title: qsTr("WebView2"),
             category: "dialogs",
             icon: FluentIcons.Globe,
-            description: qsTr("Stable Edge WebView2 host (1.18) — trust: docs/security-trust.md (1.64)."),
+            description: qsTr("Stable Edge WebView2 host — trust: docs/security-trust.md."),
             component: "WebView2Page",
             source: "pages/WebView2Page.qml"
         },
@@ -1979,7 +1979,7 @@ QtObject {
             title: qsTr("ToastHost"),
             category: "status",
             icon: FluentIcons.Info,
-            description: qsTr("Pending toast queue — docs/feedback.md (1.34)."),
+            description: qsTr("Pending toast queue — docs/feedback.md."),
             component: "ToastHostPage",
             source: "pages/ToastHostPage.qml"
         },
@@ -2011,7 +2011,7 @@ QtObject {
             title: qsTr("AnimatedIcon"),
             category: "basic",
             icon: FluentIcons.Play,
-            description: qsTr("Thin state glyph swap (1.53) — not Lottie. docs/icons.md."),
+            description: qsTr("Thin state glyph swap — not Lottie. docs/icons.md."),
             component: "AnimatedIconPage",
             source: "pages/AnimatedIconPage.qml"
         },
@@ -2019,7 +2019,7 @@ QtObject {
             title: qsTr("Iconography"),
             category: "basic",
             icon: FluentIcons.OpenInNewWindow,
-            description: qsTr("FluentIcons + FontIcon micro-motion (1.49) — docs/icons.md."),
+            description: qsTr("FluentIcons + FontIcon micro-motion — docs/icons.md."),
             component: "FontIconPage",
             source: "pages/FontIconPage.qml"
         },
@@ -2058,7 +2058,7 @@ QtObject {
         ]
     }
 
-    // Gallery API stability badges (2.45) — see docs/experimental-sweep.md
+    // Gallery API stability badges — see docs/experimental-sweep.md
     readonly property var _railHiddenBeyondDefer: [
         // Basic — button variants (Misc Buttons hub)
         "AccentButtonPage", "IconButtonPage", "IconicButtonPage", "HyperlinkButtonPage",
@@ -2280,7 +2280,7 @@ QtObject {
         ]
     }
 
-    // Heavy Gallery pages — defer until opened; prefer Loader inside the page (1.39).
+    // Heavy Gallery pages — defer until opened; prefer Loader inside the page.
     function heavyComponents() {
         return [
             "DataTablePage",

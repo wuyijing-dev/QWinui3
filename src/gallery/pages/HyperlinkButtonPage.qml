@@ -11,7 +11,7 @@ CatalogPage {
     subtitle: qsTr("Fluent link with symbol, showExternalGlyph, visited, in-page jump, and navigateMode.")
 
     ControlExample {
-        headerText: qsTr("Appearances (2.66 A1)")
+        headerText: qsTr("Appearances")
         qmlSource: "HyperlinkButton { appearance: \"ghost\" }\nHyperlinkButton { appearance: \"subtle\" }\nHyperlinkButton { appearance: \"outline\" }\nHyperlinkButton { appearance: \"filled\" }"
 
         Flow {

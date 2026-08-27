@@ -11,7 +11,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("StackedBarChart")
-    subtitle: qsTr("Experimental (deferred 1.66). Composition columns with legend.")
+    subtitle: qsTr("Experimental (deferred). Composition columns with legend.")
 
     property string status: qsTr("Hover a column or legend item")
 

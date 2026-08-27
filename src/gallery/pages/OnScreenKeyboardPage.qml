@@ -4,14 +4,14 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — OnScreenKeyboard (1.83). Recipe: docs/on-screen-keyboard.md
+// Gallery — OnScreenKeyboard. Recipe: docs/on-screen-keyboard.md
 //
 // Floating Win11 OSK window + optional Windows system-wide SendInput.
 
 CatalogPage {
     id: page
     title: qsTr("On-screen keyboard")
-    subtitle: qsTr("Floating window · dock · shared engine (2.58). Voice/handwriting: docs/on-screen-keyboard-voice-handwriting.md")
+    subtitle: qsTr("Floating window · dock · shared engine. Voice/handwriting: docs/on-screen-keyboard-voice-handwriting.md")
 
     OnScreenKeyboardWindow {
         id: floatOsk
@@ -21,7 +21,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Floating window + system-wide (1.83)")
+        headerText: qsTr("Floating window + system-wide")
         qmlSource: "OnScreenKeyboardWindow {\n    systemWide: true\n}\n// WS_EX_NOACTIVATE · SendInput (Windows)"
 
         ColumnLayout {
@@ -30,7 +30,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Use Open floating keyboard (not the dock). On Windows, System-wide is on by default: click Notepad / Chrome first, then tap the floating keys. Dock stays in-app. 1.83: taps / settings / candidate bar / long-press flyout must not steal focus (WS_EX_NOACTIVATE + MA_NOACTIVATE). Elevated / UIPI / UWP / some games may ignore SendInput. Linux floating stays in-app.")
+                text: qsTr("Use Open floating keyboard (not the dock). On Windows, System-wide is on by default: click Notepad / Chrome first, then tap the floating keys. Dock stays in-app. taps / settings / candidate bar / long-press flyout must not steal focus (WS_EX_NOACTIVATE + MA_NOACTIVATE). Elevated / UIPI / UWP / some games may ignore SendInput. Linux floating stays in-app.")
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -142,7 +142,7 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 color: Theme.textSecondary
-                text: qsTr("Consumer copy: examples/osk-dock (2.58 embedded) · examples/floating-osk (1.84 floating) — not this Gallery page.")
+                text: qsTr("Consumer copy: examples/osk-dock · examples/floating-osk — not this Gallery page.")
             }
             RowLayout {
                 Layout.fillWidth: true

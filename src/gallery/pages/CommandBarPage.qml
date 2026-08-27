@@ -7,7 +7,7 @@ import QWinUI3.Extras
 // Gallery — CommandBar.
 //
 // Fluent More/Chevron, toggle(), secondaryCommands, and open/close signals.
-// Keyboard recipe: docs/commands.md (1.15).
+// Keyboard recipe: docs/commands.md.
 
 CatalogPage {
     title: qsTr("CommandBar")
@@ -39,7 +39,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Keyboard model (1.15)")
+        headerText: qsTr("Keyboard model")
         qmlSource: "// Tab into bar · Space/Enter activate\n// F10 or Alt+Down → overflow · Esc closes Menu"
         ColumnLayout {
             Layout.fillWidth: true

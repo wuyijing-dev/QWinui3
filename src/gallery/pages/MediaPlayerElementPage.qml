@@ -5,14 +5,14 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 import QWinUI3.Platform
 
-// Gallery — MediaPlayerElement (1.21 / permanent defer 2.09). Recipe: docs/media.md
+// Gallery — MediaPlayerElement. Recipe: docs/media.md
 // Soft-loads the Extras type so missing Multimedia never crashes the page.
 
 CatalogPage {
     id: page
 
     title: qsTr("MediaPlayerElement")
-    subtitle: qsTr("Optional Qt Multimedia — permanently deferred (2.09). Field matrix (2.32): docs/media.md")
+    subtitle: qsTr("Optional Qt Multimedia — permanently deferred. Field matrix: docs/media.md")
 
     property url mediaSource: ""
     property bool mediaReady: playerLoader.status === Loader.Ready
@@ -48,8 +48,8 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Field matrix (2.32)")
-        qmlSource: "// docs/media.md — Field matrix (2.32)\n// windeployqt Multimedia plugins · available === false"
+        headerText: qsTr("Field matrix")
+        qmlSource: "// docs/media.md — Field matrix\n// windeployqt Multimedia plugins · available === false"
         ColumnLayout {
             Layout.fillWidth: true
             spacing: Theme.spacing
@@ -63,7 +63,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Verdict — permanent defer (2.09)")
+        headerText: qsTr("Verdict — permanent defer")
         qmlSource: "// Not stable-api — docs/media.md\n// Stub when Qt Multimedia is missing"
 
         ColumnLayout {
@@ -73,7 +73,7 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 color: Theme.textSecondary
-                text: qsTr("2.09 closes the 1.67 promote loop: keep shipping as experimental, do not promote. Codecs, GPU backends, and Multimedia plugin deploy differ by OS and are app-owned — not a kit contract. Product shells on stable-api should not require this type.")
+                text: qsTr("Keep shipping as experimental; do not promote. Codecs, GPU backends, and Multimedia plugin deploy differ by OS and are app-owned — not a kit contract. Product shells on stable-api should not require this type.")
             }
         }
     }

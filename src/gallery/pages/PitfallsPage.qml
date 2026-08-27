@@ -219,7 +219,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("When a Loader or page fails, show recovery UI instead of a blank shell. Wire onRetryRequested to recreate the view; optional sessionRestore uses SessionRestore (2.70). Not a crash dumper — see Pitfalls, not a version checklist.")
+                text: qsTr("When a Loader or page fails, show recovery UI instead of a blank shell. Wire onRetryRequested to recreate the view; optional sessionRestore uses SessionRestore. Not a crash dumper — see Pitfalls, not a version checklist.")
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

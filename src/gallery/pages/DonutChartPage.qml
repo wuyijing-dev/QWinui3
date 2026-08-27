@@ -11,7 +11,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("DonutChart")
-    subtitle: qsTr("Stable (1.23). Reveal, hover, legend — docs/charts.md.")
+    subtitle: qsTr("Stable. Reveal, hover, legend — docs/charts.md.")
 
     property var slices: [
         { value: 42, label: qsTr("Apps"), color: Theme.accent },

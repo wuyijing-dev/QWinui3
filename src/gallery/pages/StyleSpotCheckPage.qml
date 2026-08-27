@@ -4,7 +4,7 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — Style module spot-check (2.17).
+// Gallery — Style module spot-check.
 // Recipe: docs/style-polish.md · docs/theme-overrides.md
 
 CatalogPage {

@@ -10,10 +10,10 @@ import QWinUI3.Extras
 
 CatalogPage {
     title: qsTr("PipsPager")
-    subtitle: qsTr("Page indicators — FlipView / SwipeView hosts, maxVisiblePips — docs/carousel-recipes.md (2.37).")
+    subtitle: qsTr("Page indicators — FlipView / SwipeView hosts, maxVisiblePips — docs/carousel-recipes.md.")
 
     ControlExample {
-        headerText: qsTr("SwipeView host (2.37)")
+        headerText: qsTr("SwipeView host")
         qmlSource: "SwipeView + PipsPager two-way sync — docs/carousel-recipes.md Recipe B"
         ColumnLayout {
             Layout.fillWidth: true
@@ -46,7 +46,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Reduced motion (2.37)")
+        headerText: qsTr("Reduced motion")
         qmlSource: "Theme.reducedMotion — pip size/color Behaviors"
         SettingsToggleCard {
             Layout.fillWidth: true

@@ -6,14 +6,14 @@ import QWinUI3.Extras
 
 // Gallery — CommandPalette.
 //
-// Ctrl+K launcher (also available on ShellWindow). Stable 1.37 · perf 2.16.
-// Recipe: docs/commands.md · docs/keyboard.md (1.44)
+// Ctrl+K launcher (also available on ShellWindow). Stable · perf.
+// Recipe: docs/commands.md · docs/keyboard.md
 
 CatalogPage {
     id: page
 
     title: qsTr("CommandPalette")
-    subtitle: qsTr("Ctrl+K hub — recents + debounce (2.59) · docs/commands.md")
+    subtitle: qsTr("Ctrl+K hub — recents + debounce · docs/commands.md")
 
     function stressCommands() {
         var out = [
@@ -55,7 +55,7 @@ CatalogPage {
         for (var i = 1; i <= 480; ++i) {
             out.push({
                 title: qsTr("Stress command %1").arg(i),
-                subtitle: qsTr("Large list filter demo (2.41)"),
+                subtitle: qsTr("Large list filter demo"),
                 keywords: "stress perf debounce",
                 action: (function (n) {
                     return function () { result.text = qsTr("Stress %1").arg(n) }
@@ -84,7 +84,7 @@ CatalogPage {
             register({
                 id: "registry-hello",
                 title: qsTr("Registry: Hello (global)"),
-                subtitle: qsTr("Discovered via CommandRegistry (2.68)"),
+                subtitle: qsTr("Discovered via CommandRegistry"),
                 scope: "global",
                 symbol: FluentIcons.Emoji,
                 action: function () { result.text = qsTr("Registry global") }
@@ -100,7 +100,7 @@ CatalogPage {
             register({
                 id: "cut",
                 title: qsTr("Cut selection"),
-                subtitle: qsTr("canExecute — enabled when selection is on (3.02 R3)"),
+                subtitle: qsTr("canExecute — enabled when selection is on"),
                 scope: "focused",
                 scopeId: "editor",
                 shortcut: "Ctrl+X",
@@ -132,7 +132,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("CommandRegistry auto-discovery (2.68 / 3.02)")
+        headerText: qsTr("CommandRegistry auto-discovery")
         qmlSource: "CommandPalette { registry: CommandRegistry { … } }\nregistry.shortcutConflicts()\nregistry.refreshContext()"
         ColumnLayout {
             Layout.fillWidth: true
@@ -186,7 +186,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Recent commands (2.87 D20)")
+        headerText: qsTr("Recent commands")
         qmlSource: "CommandPalette {\n    persistRecents: true\n    maxRecentCommands: 5\n    recentsSettingsCategory: \"MyApp\"\n}"
         ColumnLayout {
             Layout.fillWidth: true
@@ -214,7 +214,7 @@ CatalogPage {
     }
 
     ControlExample {
-        qmlSource: "// 480+ commands · filter matches shortcut\n// commandCount · filteredCount · docs/commands.md wave 3"
+        qmlSource: "// 480+ commands · filter matches shortcut\n// commandCount · filteredCount · docs/commands."
         ColumnLayout {
             Layout.fillWidth: true
             spacing: Theme.spacing
@@ -238,7 +238,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Keyboard model (2.16)")
+        headerText: qsTr("Keyboard model")
         qmlSource: "// Ctrl+K · debounced filter · maxResults\n// ↑↓ · Enter · Esc — docs/commands.md"
         ColumnLayout {
             Layout.fillWidth: true
@@ -246,7 +246,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Open with Ctrl+K (or the button). Type to filter — keystrokes debounce before rebuild (80 ms); results cap at maxResults (64). Arrow keys move highlight; Enter runs; Esc closes. Stress list: 120+ commands. docs/commands.md wave 2.")
+                text: qsTr("Open with Ctrl+K (or the button). Type to filter — keystrokes debounce before rebuild (80 ms); results cap at maxResults (64). Arrow keys move highlight; Enter runs; Esc closes. Stress list: 120+ commands. docs/commands..")
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

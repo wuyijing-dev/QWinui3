@@ -5,7 +5,7 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 import QWinUI3.Platform
 
-// Gallery — RecentFiles (2.77) + file association opt-in (3.09).
+// Gallery — RecentFiles + file association opt-in.
 
 CatalogPage {
     id: page

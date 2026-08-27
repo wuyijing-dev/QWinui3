@@ -6,14 +6,14 @@ import QWinUI3.Extras
 
 // Gallery — ListDetailsView.
 //
-// Recipe: docs/adaptive-layout.md (1.42) · docs/data-collections.md
+// Recipe: docs/adaptive-layout.md · docs/data-collections.md
 
 CatalogPage {
     title: qsTr("ListDetailsView")
-    subtitle: qsTr("Master–detail · filter + multi-select toolbar (2.64) — docs/collection-perf-264.md.")
+    subtitle: qsTr("Master–detail · filter + multi-select toolbar — docs/collection-perf-264.md.")
 
     ControlExample {
-        headerText: qsTr("Bulk mail actions (2.64)")
+        headerText: qsTr("Bulk mail actions")
         qmlSource: "ListDetailsView {\n    multiSelectEnabled: true\n    detailToolbar: RowLayout { … }\n}"
         ListDetailsView {
             id: bulkMail
@@ -70,7 +70,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Adaptive breakpoints (1.42)")
+        headerText: qsTr("Adaptive breakpoints")
         qmlSource: "ListDetailsView { minWideWidth: 720 }\n// Nav autoCompactThreshold: 1008"
         ColumnLayout {
             Layout.fillWidth: true
@@ -90,7 +90,7 @@ CatalogPage {
         qmlSource: "ListDetailsView {\n    model: […]\n    filterText: …\n    details: Label { … }\n}"
         TextField {
             Layout.fillWidth: true
-            placeholderText: qsTr("Filter list (debounced · selection by object — 2.18)")
+            placeholderText: qsTr("Filter list (debounced · selection by object)")
             text: listDetails.filterText
             onTextChanged: listDetails.filterText = text
         }

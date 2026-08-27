@@ -15,7 +15,7 @@ StandardWindow {
     backdrop: WindowHelper.BackdropSolid
     geometryPersistenceKey: "GalleryMain"
 
-    // 1.13 — mirror high-traffic chrome when app layoutDirection is RTL
+    // mirror high-traffic chrome when app layoutDirection is RTL
     LayoutMirroring.enabled: Qt.application.layoutDirection === Qt.RightToLeft
     LayoutMirroring.childrenInherit: true
 

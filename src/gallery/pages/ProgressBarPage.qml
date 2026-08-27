@@ -11,7 +11,7 @@ CatalogPage {
 
     ControlExample {
         headerText: qsTr("A determinate ProgressBar")
-        qmlSource: "ProgressBar {\n    header: \"Downloading update\"\n    showValue: true\n    value: 0.45\n}"
+        qmlSource: "ProgressBar {\n header: \"Downloading update\"\n showValue: true\n value: 0.45\n}"
         ColumnLayout {
             Layout.fillWidth: true
             spacing: Theme.spacingLoose

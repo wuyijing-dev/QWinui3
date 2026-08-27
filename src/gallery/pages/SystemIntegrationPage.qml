@@ -7,14 +7,14 @@ import QWinUI3.Platform
 
 // Gallery — FilePicker, TrayIcon, display server, Snap Layouts, shell extras.
 //
-// Linux Wayland edge cases: docs/platform-linux-wayland.md (1.38 / 1.68 / 1.79).
-// Shell extras / Snap: docs/shell-extras.md (1.47). System integration: docs/system-integration.md
+// Linux Wayland edge cases: docs/platform-linux-wayland.md.
+// Shell extras / Snap: docs/shell-extras.md. System integration: docs/system-integration.md
 
 CatalogPage {
     id: page
 
     title: qsTr("System integration")
-    subtitle: qsTr("FilePicker · tray · Snap · reveal. Linux files (2.57): docs/files-linux-257.md")
+    subtitle: qsTr("FilePicker · tray · Snap · reveal. Linux files: docs/files-linux-257.md")
 
     property string lastPath: qsTr("(none)")
     property string lastSelectionSummary: ""
@@ -41,7 +41,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Linux top-3 parity (2.53)")
+        headerText: qsTr("Linux top-3 parity")
         qmlSource: "// NavigationWindow + WindowShellContentClip\\n// docs/linux-top3-253.md"
         visible: WindowHelper.linux
         ColumnLayout {
@@ -50,7 +50,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("2.57: FilePicker uses focus-window parent fallback when Window.window omitted; revealFileInFolder(path, Window.window). 2.53: NavigationWindow clip + sway profile. docs/files-linux-257.md")
+                text: qsTr("FilePicker uses focus-window parent fallback when Window.window omitted; revealFileInFolder(path, Window.window). NavigationWindow clip + sway profile. docs/files-linux-257.md")
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -67,8 +67,8 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Linux regression suite (2.33)")
-        qmlSource: "// docs/platform-linux-wayland.md — Portal & tray wave 3\n// FilePicker · SNI tray · idle inhibit"
+        headerText: qsTr("Linux regression suite")
+        qmlSource: "// docs/platform-linux-wayland.md — Portal & \n// FilePicker · SNI tray · idle inhibit"
         visible: WindowHelper.linux
         ColumnLayout {
             Layout.fillWidth: true
@@ -92,7 +92,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Linux / Wayland (1.79)")
+        headerText: qsTr("Linux / Wayland")
         qmlSource: "// docs/platform-linux-wayland.md\n// SSD off · Solid · portal FilePicker · SNI tray"
         visible: WindowHelper.linux
         ColumnLayout {
@@ -101,7 +101,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("1.79: portal parent_window uses Qt xdg-foreign export when available; window is realized before export; Bootstrap honors WAYLAND_SOCKET. Still pass Window.window. Double title bar → QT_WAYLAND_DISABLE_WINDOWDECORATION=1; Mica hollow → BackdropSolid; portal timeout must not open zenity (1.68). GNOME tray needs SNI/AppIndicator. CI Linux --smoke is offscreen — not a compositor soak.")
+                text: qsTr("portal parent_window uses Qt xdg-foreign export when available; window is realized before export; Bootstrap honors WAYLAND_SOCKET. Still pass Window.window. Double title bar → QT_WAYLAND_DISABLE_WINDOWDECORATION=1; Mica hollow → BackdropSolid; portal timeout must not open zenity. GNOME tray needs SNI/AppIndicator. CI Linux --smoke is offscreen — not a compositor soak.")
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -123,14 +123,14 @@ CatalogPage {
                 text: {
                     var p = WindowHelper.portalParentWindow(page.Window.window)
                     return qsTr("portal parent_window=%1")
-                        .arg(p && p.length ? p : qsTr("(empty — X11 uses x11:0x…; Wayland 1.79 export is best-effort)"))
+                        .arg(p && p.length ? p : qsTr("(empty — X11 uses x11:0x…; Wayland export is best-effort)"))
                 }
             }
         }
     }
 
     ControlExample {
-        headerText: qsTr("Single-instance (opt-in, 2.74)")
+        headerText: qsTr("Single-instance (opt-in)")
         qmlSource: "// Default: multi-instance\n// QWINUI3_SINGLE_INSTANCE=1 + tryBecomePrimary\n// docs/single-instance.md"
         ColumnLayout {
             Layout.fillWidth: true
@@ -210,13 +210,13 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 color: Theme.textSecondary
-                text: qsTr("Bootstrap configureEnvironment before QGuiApplication. FilePicker: portal → zenity/kdialog (1.68: no double dialog after portal timeout; 1.79: stronger Wayland parent_window). Full matrix: docs/platform-linux-wayland.md.")
+                text: qsTr("Bootstrap configureEnvironment before QGuiApplication. FilePicker: portal → zenity/kdialog (no double dialog after portal timeout; stronger Wayland parent_window). Full matrix: docs/platform-linux-wayland.md.")
             }
         }
     }
 
     ControlExample {
-        headerText: qsTr("Snap Layouts (1.47)")
+        headerText: qsTr("Snap Layouts")
         qmlSource: "WindowHelper.snapLayoutsEnabled = true\n// Hover Win11 maximize caption — docs/shell-extras.md"
 
         ColumnLayout {
@@ -281,7 +281,7 @@ CatalogPage {
                 color: Theme.textSecondary
                 text: page.lastSelectionSummary.length
                       ? page.lastSelectionSummary
-                      : qsTr("Cancel → empty path. Always pass Window.window (2.57 parent fallback when omitted). Multi-select summary below.")
+                      : qsTr("Cancel → empty path. Always pass Window.window (parent fallback when omitted). Multi-select summary below.")
             }
             RowLayout {
                 Button {
@@ -338,7 +338,7 @@ CatalogPage {
                 color: Theme.textSecondary
                 text: WindowHelper.windows
                       ? qsTr("Windows: Shell_NotifyIcon balloon + persistent tray.")
-                      : qsTr("Linux: StatusNotifierItem when a tray watcher is present (KDE Plasma reference; GNOME needs SNI/AppIndicator). notifySystem → portal / notify-send. supportsPersistentTray=%1, persistentTrayActive=%2 — docs/platform-linux-wayland.md (1.38).")
+                      : qsTr("Linux: StatusNotifierItem when a tray watcher is present (KDE Plasma reference; GNOME needs SNI/AppIndicator). notifySystem → portal / notify-send. supportsPersistentTray=%1, persistentTrayActive=%2 — docs/platform-linux-wayland.md.")
                             .arg(tray.supportsPersistentTray).arg(tray.persistentTrayActive)
             }
             Button {
@@ -360,7 +360,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Taskbar progress (1.47 recipe)")
+        headerText: qsTr("Taskbar progress")
         qmlSource: "setTaskbarProgress · TaskbarPaused / Error\n// docs/shell-extras.md"
 
         ColumnLayout {
@@ -371,7 +371,7 @@ CatalogPage {
                 wrapMode: Text.WordWrap
                 color: Theme.textSecondary
                 text: WindowHelper.windows
-                      ? qsTr("Stable ITaskbarList3 API. Typical loop: Normal + progress → Paused/Error → clear. Optional overlay badge for queued work. Full recipe: docs/shell-extras.md (1.47).")
+                      ? qsTr("Stable ITaskbarList3 API. Typical loop: Normal + progress → Paused/Error → clear. Optional overlay badge for queued work. Full recipe: docs/shell-extras.md.")
                       : qsTr("Windows only — n/a on Linux (no-op). Gate UI with WindowHelper.windows. See docs/shell-extras.md.")
             }
             Slider {
@@ -432,7 +432,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Attention / reveal / idle (1.47)")
+        headerText: qsTr("Attention / reveal / idle")
         qmlSource: "requestUserAttention · revealFileInFolder · inhibitIdle\n// docs/shell-extras.md"
 
         ColumnLayout {
@@ -491,14 +491,14 @@ CatalogPage {
                 color: Theme.textSecondary
                 text: WindowHelper.windows
                       ? qsTr("Windows: FlashWindowEx, Explorer /select, SetThreadExecutionState — docs/shell-extras.md.")
-                      : qsTr("Linux: raise/alert (may ignore flash on Wayland), FileManager1 ShowItems → OpenURI folder → QDesktopServices (1.68), ScreenSaver/portal Inhibit — docs/shell-extras.md.")
+                      : qsTr("Linux: raise/alert (may ignore flash on Wayland), FileManager1 ShowItems → OpenURI folder → QDesktopServices, ScreenSaver/portal Inhibit — docs/shell-extras.md.")
             }
         }
     }
 
     ControlExample {
         headerText: qsTr("Power / network / screens / recent (experimental)")
-        qmlSource: "batteryLevel · isOnline · screensInfo() · addToRecentDocuments\n// DPI polish: HighDpiPage · docs/high-dpi.md (1.58)"
+        qmlSource: "batteryLevel · isOnline · screensInfo() · addToRecentDocuments\n// DPI polish: HighDpiPage · docs/high-dpi.md"
 
         ColumnLayout {
             Layout.fillWidth: true

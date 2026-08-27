@@ -7,18 +7,18 @@ import QWinUI3.Platform
 
 // Gallery — CopyButton.
 //
-// Recipe: docs/drag-drop.md (1.41) — CopyButton vs WindowHelper clipboard.
+// Recipe: docs/drag-drop.md — CopyButton vs WindowHelper clipboard.
 
 CatalogPage {
     id: page
 
     title: qsTr("CopyButton")
-    subtitle: qsTr("Copy + paste helpers — docs/drag-drop.md (1.41).")
+    subtitle: qsTr("Copy + paste helpers — docs/drag-drop.md.")
 
     property string statusText: qsTr("Ready")
 
     ControlExample {
-        headerText: qsTr("When to use which (1.41)")
+        headerText: qsTr("When to use which")
         qmlSource: "CopyButton { textToCopy: … }\nWindowHelper.copyText(…)\nWindowHelper.clipboardText()"
         ColumnLayout {
             Layout.fillWidth: true

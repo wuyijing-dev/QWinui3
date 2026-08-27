@@ -4,12 +4,12 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — Keyboard-first cookbook (1.44). docs/keyboard.md
+// Gallery — Keyboard-first cookbook. docs/keyboard.md
 
 CatalogPage {
     id: page
     title: qsTr("Keyboard-first")
-    subtitle: qsTr("Chords → palette → dialogs → lists — docs/keyboard.md (1.44).")
+    subtitle: qsTr("Chords → palette → dialogs → lists — docs/keyboard.md.")
 
     signal openControl(var item)
 

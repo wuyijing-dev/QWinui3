@@ -6,16 +6,16 @@ import QWinUI3.Extras
 
 // Gallery — TwoPaneView.
 //
-// Recipe: docs/adaptive-layout.md (1.42) — breakpoints, SinglePane, ListDetailsView.
+// Recipe: docs/adaptive-layout.md — breakpoints, SinglePane, ListDetailsView.
 
 CatalogPage {
     id: page
 
     title: qsTr("TwoPaneView")
-    subtitle: qsTr("Wide / Tall / SinglePane — docs/adaptive-layout.md (1.42).")
+    subtitle: qsTr("Wide / Tall / SinglePane — docs/adaptive-layout.md.")
 
     ControlExample {
-        headerText: qsTr("Adaptive recipe (1.42)")
+        headerText: qsTr("Adaptive recipe")
         qmlSource: "TwoPaneView {\n    preferredMode: TwoPaneView.Wide\n    minWideWidth: 720\n}"
         ColumnLayout {
             Layout.fillWidth: true

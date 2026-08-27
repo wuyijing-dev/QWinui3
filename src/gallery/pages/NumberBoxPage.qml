@@ -8,7 +8,7 @@ import QWinUI3.Extras
 
 CatalogPage {
     title: qsTr("NumberBox")
-    subtitle: qsTr("Spin / wheel / validationMode. FormLayout: docs/pickers.md (1.28).")
+    subtitle: qsTr("Spin / wheel / validationMode. FormLayout: docs/pickers.md.")
 
     ControlExample {
         headerText: qsTr("Header + wheel")

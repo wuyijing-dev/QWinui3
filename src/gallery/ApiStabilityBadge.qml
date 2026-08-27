@@ -2,7 +2,7 @@ import QtQuick
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — API stability pill (2.45). Maps ControlCatalog.apiStabilityForComponent.
+// Gallery — API stability pill. Maps ControlCatalog.apiStabilityForComponent.
 
 InfoBadge {
     id: root

@@ -10,10 +10,10 @@ import QWinUI3.Extras
 
 CatalogPage {
     title: qsTr("FlipView")
-    subtitle: qsTr("Swipeable pages with Fluent chevrons, PipsPager, and Accessible page index — docs/carousel-recipes.md (2.37).")
+    subtitle: qsTr("Swipeable pages with Fluent chevrons, PipsPager, and Accessible page index — docs/carousel-recipes.md.")
 
     ControlExample {
-        headerText: qsTr("Reduced motion (2.37)")
+        headerText: qsTr("Reduced motion")
         qmlSource: "Theme.reducedMotion — pip/chevron Behaviors snap off"
         ColumnLayout {
             Layout.fillWidth: true

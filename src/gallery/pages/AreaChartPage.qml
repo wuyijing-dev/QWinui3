@@ -11,7 +11,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("AreaChart")
-    subtitle: qsTr("Experimental (deferred 1.66). Prefer LineChart { showArea: true }.")
+    subtitle: qsTr("Experimental (deferred). Prefer LineChart { showArea: true }.")
 
     readonly property var areaA: {
         var a = []

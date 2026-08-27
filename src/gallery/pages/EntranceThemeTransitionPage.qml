@@ -6,7 +6,7 @@ import QWinUI3.Extras
 
 // Gallery — EntranceThemeTransition.
 //
-// Recipe: docs/animations.md (1.22)
+// Recipe: docs/animations.md
 
 CatalogPage {
     title: qsTr("EntranceThemeTransition")

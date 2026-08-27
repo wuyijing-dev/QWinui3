@@ -10,7 +10,7 @@ import QWinUI3.Extras
 
 CatalogPage {
     title: qsTr("AppBarButton")
-    subtitle: qsTr("Icon-and-label command button with badge, tool tip, and glyph micro-motion (1.49).")
+    subtitle: qsTr("Icon-and-label command button with badge, tool tip, and glyph micro-motion.")
 
     ControlExample {
         headerText: qsTr("Commands")

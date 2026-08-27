@@ -5,7 +5,7 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 import QWinUI3.Platform
 
-// Gallery — Graphics / RHI backend (1.31). docs/graphics-backend.md
+// Gallery — Graphics / RHI backend. docs/graphics-backend.md
 
 CatalogPage {
     id: page
@@ -37,7 +37,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Live RHI readout: enable Settings → Show FPS + Show RHI (2.04) or run with --show-diagnostics. Title-bar badge shows FPS · ms · backend without opening Settings. Retail apps: docs/developer-diagnostics.md (2.44).")
+                text: qsTr("Live RHI readout: enable Settings → Show FPS + Show RHI or run with --show-diagnostics. Title-bar badge shows FPS · ms · backend without opening Settings. Retail apps: docs/developer-diagnostics.md.")
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

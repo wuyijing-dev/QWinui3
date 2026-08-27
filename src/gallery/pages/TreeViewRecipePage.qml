@@ -5,7 +5,7 @@ import QtQml.Models
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — TreeView recipe (1.33 end-to-end).
+// Gallery — TreeView recipe.
 //
 // Selection, expand/collapse keyboard, context MenuFlyout, Accessible names.
 // Recipe: docs/tree-data.md
@@ -14,7 +14,7 @@ CatalogPage {
     id: page
 
     title: qsTr("TreeView recipe")
-    subtitle: qsTr("Hierarchy LoB: selection, ←/→ expand, MenuFlyout. Recipe: docs/tree-data.md (1.33).")
+    subtitle: qsTr("Hierarchy LoB: selection, ←/→ expand, MenuFlyout. Recipe: docs/tree-data.md.")
 
     property int contextRow: -1
     property string selectedLabel: qsTr("(none)")
@@ -55,7 +55,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("When to use (1.33)")
+        headerText: qsTr("When to use")
         qmlSource: "// TreeView — parent/child expand\n// ItemsView + sectionRole — flat groups\n// docs/tree-data.md"
         ColumnLayout {
             Layout.fillWidth: true
@@ -63,7 +63,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Use TreeView for real folders/outlines. Explorer folder + file columns: FileTree (2.06). Prefer ItemsView with sectionRole for Settings-style groups without expand state. DataTable stays flat (columns).")
+                text: qsTr("Use TreeView for real folders/outlines. Explorer folder + file columns: FileTree. Prefer ItemsView with sectionRole for Settings-style groups without expand state. DataTable stays flat (columns).")
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

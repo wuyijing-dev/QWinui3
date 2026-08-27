@@ -8,12 +8,12 @@ import QWinUI3.Extras
 //
 // Fluent virtualizing table: sort, filter, column resize, keyboard.
 // Selection tracks the same row object across sort/filter.
-// Performance: docs/performance.md (1.25).
+// Performance: docs/performance.md.
 
 CatalogPage {
     id: page
     title: qsTr("DataTable")
-    subtitle: qsTr("2.66 pro grid — multi-sort, column visibility, width persistence, 10k path. docs/data-collections.md")
+    subtitle: qsTr("pro grid — multi-sort, column visibility, width persistence, 10k path. docs/data-collections.md")
 
     property var benchWidths: []
     property string benchNote: qsTr("Idle")
@@ -39,7 +39,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Pro grid — multi-sort · visibility · widths (2.66 D1)")
+        headerText: qsTr("Pro grid — multi-sort · visibility · widths")
         qmlSource: "DataTable {\n    sortSpecs: [ { column: 1, order: Qt.AscendingOrder } ]\n    hiddenColumns: [ 4 ]\n    columnWidths: persisted\n    // Shift+click header = secondary sort\n}"
 
         ColumnLayout {
@@ -108,7 +108,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("10k row path (2.66 C1)")
+        headerText: qsTr("10k row path")
         qmlSource: "DataTable {\n    maxFilterResults: 500\n    // ListView reuseItems + fixed rowHeight\n}"
 
         ColumnLayout {
@@ -166,7 +166,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Ops table — pin + group (2.64 / 2.82)")
+        headerText: qsTr("Ops table — pin + group")
         qmlSource: "DataTable {\n    groupRole: \"team\"\n    columnLayoutKey: \"Gallery/OpsTable\"\n    groupLabel: (v) => qsTr(\"Team %1\").arg(v)\n}"
         DataTable {
             id: opsTable
@@ -192,7 +192,7 @@ CatalogPage {
         Label {
             Layout.fillWidth: true
             color: Theme.textSecondary
-            text: qsTr("2.64: pinned name column · groupRole inserts team headers. 2.82: columnLayoutKey persists layout; groupLabel formats headers.")
+            text: qsTr("pinned name column · groupRole inserts team headers. columnLayoutKey persists layout; groupLabel formats headers.")
         }
     }
 

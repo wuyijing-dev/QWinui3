@@ -4,14 +4,14 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — Dashboard (1.66 / 2.22).
+// Gallery — Dashboard.
 // Stable layout + responsive breakpoints; matches examples/dashboard.
 // Recipe: docs/charts.md
 
 CatalogPage {
     id: page
     title: qsTr("Dashboard")
-    subtitle: qsTr("2.65 Wave A — DashboardShell, MetricCompareRow, zoom / empty / export — docs/charts.md")
+    subtitle: qsTr("DashboardShell, MetricCompareRow, zoom / empty / export — docs/charts.md")
 
     signal openControl(var item)
 
@@ -63,7 +63,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Responsive breakpoints (2.65)")
+        headerText: qsTr("Responsive breakpoints")
         qmlSource: "DashboardShell {\n    chartBreakpoint: 900\n    filterBreakpoint: 720\n    // chartColumns hint for GridLayout\n}"
 
         ColumnLayout {
@@ -91,7 +91,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Compose vs stable (2.48 / FL-009)")
+        headerText: qsTr("Compose vs stable")
         qmlSource: "// docs/dashboard-compose-decision.md\n// Sparkline → KpiTile.trendValues\n// AreaChart → LineChart.showArea"
         ColumnLayout {
             Layout.fillWidth: true
@@ -99,7 +99,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Friction slot 2.48: pick stable six in product — deferred siblings only in Gallery demos. Sparkline → KpiTile.trendValues; AreaChart → LineChart.showArea; PieChart → DonutChart; Tank/Thermometer → RingGauge. Full tree: docs/dashboard-compose-decision.md.")
+                text: qsTr("Friction slot: pick stable six in product — deferred siblings only in Gallery demos. Sparkline → KpiTile.trendValues; AreaChart → LineChart.showArea; PieChart → DonutChart; Tank/Thermometer → RingGauge. Full tree: docs/dashboard-compose-decision.md.")
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -199,7 +199,7 @@ CatalogPage {
 
     ControlExample {
         id: shellDemo
-        headerText: qsTr("DashboardShell ops overview (2.65)")
+        headerText: qsTr("DashboardShell ops overview")
         qmlSource: "DashboardShell {\n    filterPane: …\n    kpiRow: MetricCompareRow { KpiTile { compareValue } }\n    ChartCard { LineChart { zoomEnabled } }\n}"
 
         ColumnLayout {
@@ -400,7 +400,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Deferred gauges (permanent defer 2.08)")
+        headerText: qsTr("Deferred gauges (permanent defer)")
         qmlSource: "TankGauge { … }       // Gallery only\nThermometerGauge { … } // prefer RingGauge"
 
         ColumnLayout {
@@ -410,7 +410,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("TankGauge / ThermometerGauge and other sibling gauges stay experimental permanently (2.08). Product dashboards: RingGauge + stable six. Compose table: docs/charts.md.")
+                text: qsTr("TankGauge / ThermometerGauge and other sibling gauges stay experimental permanently. Product dashboards: RingGauge + stable six. Compose table: docs/charts.md.")
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

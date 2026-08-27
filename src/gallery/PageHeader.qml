@@ -9,7 +9,7 @@ ColumnLayout {
 
     property string title: ""
     property string subtitle: ""
-    // When set (Gallery CatalogPage), show favorite toggle (1.20).
+    // When set (Gallery CatalogPage), show favorite toggle.
     property string componentId: ""
 
     readonly property string apiStability: ControlCatalog.apiStabilityForComponent(root.componentId)

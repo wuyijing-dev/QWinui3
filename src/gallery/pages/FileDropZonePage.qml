@@ -7,13 +7,13 @@ import QWinUI3.Platform
 
 // Gallery — FileDropZone.
 //
-// Recipe: docs/drag-drop.md (1.41) — drop + FilePicker browse + clipboard path copy.
+// Recipe: docs/drag-drop.md — drop + FilePicker browse + clipboard path copy.
 
 CatalogPage {
     id: page
 
     title: qsTr("FileDropZone")
-    subtitle: qsTr("Drop + Browse + MIME filter — docs/files-linux-257.md (2.57).")
+    subtitle: qsTr("Drop + Browse + MIME filter — docs/files-linux-257.md.")
 
     property var lastUrls: []
     property string lastStatus: qsTr("Waiting for drop or Browse…")
@@ -41,7 +41,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Recipe (1.41)")
+        headerText: qsTr("Recipe")
         qmlSource: "FileDropZone { acceptExtensions: [\".png\", \".jpg\"] }\nFilePicker.openFiles(…)\nWindowHelper.copyText(path)"
         ColumnLayout {
             Layout.fillWidth: true
@@ -49,7 +49,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("DropArea keys include text/uri-list + optional acceptMimeTypes (2.13). Empty acceptExtensions = all URLs — production ingest should set a non-empty suffix list and never auto-execute paths. Always offer Browse (FilePicker). docs/security-trust.md · docs/drag-drop.md.")
+                text: qsTr("DropArea keys include text/uri-list + optional acceptMimeTypes. Empty acceptExtensions = all URLs — production ingest should set a non-empty suffix list and never auto-execute paths. Always offer Browse (FilePicker). docs/security-trust.md · docs/drag-drop.md.")
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

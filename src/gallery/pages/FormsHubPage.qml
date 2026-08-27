@@ -9,7 +9,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("Forms & settings")
-    subtitle: qsTr("FormLayout validation + LoB templates — docs/forms.md (2.25).")
+    subtitle: qsTr("FormLayout validation + LoB templates — docs/forms.md.")
 
     ControlExample {
         headerText: qsTr("When to use which")

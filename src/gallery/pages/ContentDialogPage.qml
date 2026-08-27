@@ -4,14 +4,14 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — Confirm action + ContentDialogQueue stress (1.48).
+// Gallery — Confirm action + ContentDialogQueue stress.
 //
 // Modal dialog with isOpen, enter/exit motion, and primary / secondary / close actions.
 // Queue recipe: docs/dialogs-flyouts.md · API: docs/components/ContentDialog.md
 
 CatalogPage {
     title: qsTr("ContentDialog")
-    subtitle: qsTr("Modal queue (1.48): FIFO · showFront priority (2.55). docs/dialogs-flyouts.md")
+    subtitle: qsTr("Modal queue: FIFO · showFront priority. docs/dialogs-flyouts.md")
 
     overlay: [
         ContentDialog {
@@ -190,7 +190,7 @@ CatalogPage {
     ]
 
     ControlExample {
-        headerText: qsTr("Queue stress (1.48)")
+        headerText: qsTr("Queue stress")
         qmlSource: "a.show(); b.show(); c.show()\n// pendingCount / busy — docs/dialogs-flyouts.md"
 
         ColumnLayout {
@@ -241,7 +241,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Enter in TextField (2.55)")
+        headerText: qsTr("Enter in TextField")
         qmlSource: "defaultButton: \"primary\"\n// Enter activates default even when a TextField is focused"
 
         ColumnLayout {
@@ -263,7 +263,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Keyboard / Esc (1.16 / 1.48)")
+        headerText: qsTr("Keyboard / Esc")
         qmlSource: "// Enter → activateDefault()\n// Esc → close path (onClosing can cancel)\n// docs/dialogs-flyouts.md"
         ColumnLayout {
             Layout.fillWidth: true

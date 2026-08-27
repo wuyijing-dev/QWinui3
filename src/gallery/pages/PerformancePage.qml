@@ -4,7 +4,7 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — Performance handbook (1.25) + cold start (1.39). docs/performance.md
+// Gallery — Performance handbook + cold start. docs/performance.md
 
 CatalogPage {
     id: page
@@ -20,7 +20,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Handbook (1.25)")
+        headerText: qsTr("Handbook")
         qmlSource: "// Virtualize lists · lean roles · chart point budgets\n// docs/performance.md"
         ColumnLayout {
             Layout.fillWidth: true
@@ -28,7 +28,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Prefer virtualized views (DataTable / ItemsView / ListView with reuseItems). Keep model roles lean. Cap chart points for live series. Avoid MultiEffect on first paint of heavy pages — Gallery Home defers card shadows (1.39).")
+                text: qsTr("Prefer virtualized views (DataTable / ItemsView / ListView with reuseItems). Keep model roles lean. Cap chart points for live series. Avoid MultiEffect on first paint of heavy pages — Gallery Home defers card shadows.")
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -56,7 +56,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Gallery cold start (1.39)")
+        headerText: qsTr("Gallery cold start")
         qmlSource: "NavigationView.pageCacheLimit\n--startup-log · Settings page-cache card"
         ColumnLayout {
             Layout.fillWidth: true
@@ -90,7 +90,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Shell & navigation wave 6 (2.28)")
+        headerText: qsTr("Shell &")
         qmlSource: "NavigationView.sameKeySkipCount\nNavigationWindow.pageCacheLimit"
         ColumnLayout {
             Layout.fillWidth: true
@@ -122,7 +122,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Collection controls wave 7 (2.40)")
+        headerText: qsTr("Collection")
         qmlSource: "DataTable.filterDebounceMs · ListDetailsView.filteredCount\nTreeDataGrid.maxFilterResults · NavigationView paneSearch debounce"
         ColumnLayout {
             Layout.fillWidth: true
@@ -130,7 +130,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Second collection pass: debounced filter on DataTable / ListDetailsView / TreeDataGrid; skip unchanged rebuilds; cap maxFilterResults on huge JS arrays; debounce NavigationView paneSearchTextEdited in your app. FileTree table side inherits DataTable knobs — filter treeModel app-side. docs/performance.md wave 7.")
+                text: qsTr("Second collection pass: debounced filter on DataTable / ListDetailsView / TreeDataGrid; skip unchanged rebuilds; cap maxFilterResults on huge JS arrays; debounce NavigationView paneSearchTextEdited in your app. FileTree table side inherits DataTable knobs — filter treeModel app-side. docs/performance..")
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -161,13 +161,13 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 color: Theme.textPrimary
-                text: qsTr("Pair with wave 6 shell trim (page cache + skip counters) on real app checklists — not micro-benchmarks.")
+                text: qsTr("Pair shell trim (page cache + skip counters) on real app checklists — not micro-benchmarks.")
             }
         }
     }
 
     ControlExample {
-        headerText: qsTr("Developer diagnostics — dev vs retail (2.44)")
+        headerText: qsTr("Developer diagnostics — dev vs retail")
         qmlSource: "FrameStatsMonitor.applyRetailProfile()\nFrameStatsBadge { } // dev builds only"
         ColumnLayout {
             Layout.fillWidth: true
@@ -200,7 +200,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Charts & dashboard wave 8 (2.49)")
+        headerText: qsTr("Charts &")
         qmlSource: "KpiTile.trendValues capped\nItemsWrapGrid.filterDebounceMs\n// docs/perf-signoff-2xx.md"
         ColumnLayout {
             Layout.fillWidth: true
@@ -208,7 +208,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Tranche-1 perf sign-off: cap chart points (~500/series), KPI trend rings (~16 samples), one chart per ChartCard. ItemsWrapGrid debounces filter (120 ms) — low hundreds of tiles only. Pair with wave 6 shell cache + wave 7 table debounce. Animations stay.")
+                text: qsTr("Tranche-1 perf sign-off: cap chart points (~500/series), KPI trend rings (~16 samples), one chart per ChartCard. ItemsWrapGrid debounces filter (120 ms) — low hundreds of tiles only. Pair shell cache + table debounce. Animations stay.")
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -231,13 +231,13 @@ CatalogPage {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
                 color: Theme.textPrimary
-                text: qsTr("Full sign-off: docs/perf-signoff-2xx.md · FL-008 closed at 2.64 documented paths — docs/collection-perf-264.md.")
+                text: qsTr("Full sign-off: docs/perf-signoff-2xx.md · FL-008 closed documented paths — docs/collection-perf-264.md.")
             }
         }
     }
 
     ControlExample {
-        headerText: qsTr("App-level flows wave 9 (2.59)")
+        headerText: qsTr("App-level")
         qmlSource: "CommandPalette.maxRecentCommands\nAutoSuggestBox.minFilterLength\nButton.loading"
         ColumnLayout {
             Layout.fillWidth: true
@@ -268,7 +268,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Collection wave 10 (2.64)")
+        headerText: qsTr("")
         qmlSource: "DataTable { groupRole; columns: [{ pinned: true }] }\nListDetailsView { multiSelectEnabled; detailToolbar }"
         ColumnLayout {
             Layout.fillWidth: true

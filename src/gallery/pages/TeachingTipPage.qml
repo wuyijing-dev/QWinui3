@@ -7,11 +7,11 @@ import QWinUI3.Extras
 // Gallery — TeachingTip.
 //
 // Contextual tip with symbol, ElevatedChrome, and AccentButton action.
-// Recipe: docs/feedback.md (1.34) · dialogs: docs/dialogs-flyouts.md
+// Recipe: docs/feedback.md · dialogs: docs/dialogs-flyouts.md
 
 CatalogPage {
     title: qsTr("TeachingTip")
-    subtitle: qsTr("Coach mark; focus returns to target on close. Recipe: docs/feedback.md (1.55).")
+    subtitle: qsTr("Coach mark; focus returns to target on close. Recipe: docs/feedback.md.")
 
     signal openControl(var item)
 
@@ -22,7 +22,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("When to use (1.34 / 1.55)")
+        headerText: qsTr("When to use")
         qmlSource: "// TeachingTip — coach mark\n// OnboardingCoachPage — sequence\n// docs/feedback.md"
         ColumnLayout {
             Layout.fillWidth: true

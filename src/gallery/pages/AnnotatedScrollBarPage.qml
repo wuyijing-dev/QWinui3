@@ -10,7 +10,7 @@ import QWinUI3.Extras
 
 CatalogPage {
     title: qsTr("AnnotatedScrollBar")
-    subtitle: qsTr("Percentage, chapter labels, and IME composition scroll hint (2.58).")
+    subtitle: qsTr("Percentage, chapter labels, and IME composition scroll hint.")
 
     ControlExample {
         headerText: qsTr("Percentage labels")
@@ -147,7 +147,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("IME composition scroll hint (2.58)")
+        headerText: qsTr("IME composition scroll hint")
         qmlSource: "AnnotatedScrollBar { imeEngine: engine }\\n// ensureImeVisible on compose"
         ColumnLayout {
             Layout.fillWidth: true

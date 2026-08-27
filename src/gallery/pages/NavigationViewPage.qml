@@ -6,14 +6,14 @@ import QWinUI3.Extras
 
 // Gallery — NavigationView.
 //
-// Pane modes, footer, Back via TitleBar / top mode. Recipe: docs/navigation.md (1.27).
+// Pane modes, footer, Back via TitleBar / top mode. Recipe: docs/navigation.md.
 
 CatalogPage {
     title: qsTr("NavigationView")
-    subtitle: qsTr("Back vs pane vs stack — docs/navigation-mental-model-256.md (2.56).")
+    subtitle: qsTr("Back vs pane vs stack — docs/navigation-mental-model-256.md.")
 
     ControlExample {
-        headerText: qsTr("When to use (1.27)")
+        headerText: qsTr("When to use")
         qmlSource: "// NavigationView — app destinations\n// TabView — documents\n// docs/navigation.md"
         ColumnLayout {
             Layout.fillWidth: true
@@ -21,7 +21,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Use NavigationView for app destinations (Home / Settings / groups) with pageModule + component. Prefer TabView for multiple open documents. Wire TitleBar Back to navigateBack(); pane toggle → togglePane() for overlay drawer on small windows (auto → leftMinimal below 640px). Product starter: examples/gallery-shell (NavigationWindow, 1.50). Hand-wired rail: examples/nav-settings. Touch: pane rows follow navItemHeight — docs/touch-pointer.md (1.57).")
+                text: qsTr("Use NavigationView for app destinations (Home / Settings / groups) with pageModule + component. Prefer TabView for multiple open documents. Wire TitleBar Back to navigateBack(); pane toggle → togglePane() for overlay drawer on small windows (auto → leftMinimal below 640px). Product starter: examples/gallery-shell (NavigationWindow). Hand-wired rail: examples/nav-settings. Touch: pane rows follow navItemHeight — docs/touch-pointer.md.")
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -94,7 +94,7 @@ CatalogPage {
                 }
                 CheckBox {
                     id: paneSearchEn
-                    text: qsTr("Pane search (2.82)")
+                    text: qsTr("Pane search")
                     checked: true
                 }
                 CheckBox {
@@ -109,7 +109,7 @@ CatalogPage {
                 }
                 CheckBox {
                     id: panePin
-                    text: qsTr("Pane pinned (2.56)")
+                    text: qsTr("Pane pinned")
                     checked: false
                 }
                 Label { text: qsTr("Open length"); color: Theme.textSecondary }
@@ -305,7 +305,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Incremental navModel patch (2.88 C9)")
+        headerText: qsTr("Incremental navModel patch")
         qmlSource: "demoNav.patchNavItem(\"home\", { badge: \"3\", title: \"Home (live)\" })"
         ColumnLayout {
             Layout.fillWidth: true
@@ -344,7 +344,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Navigation mental model (2.56)")
+        headerText: qsTr("Navigation mental model")
         qmlSource: "nav.navigateToPage(\"DetailPage\", \"drill\")\nTitleBar: isBackButtonVisible: nav.canGoBack"
 
         ColumnLayout {
@@ -377,15 +377,15 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Collection + shell perf (2.28 / 2.40)")
-        qmlSource: "// Wave 6: pageCacheHits · sameKeySkipCount\n// Wave 7: debounce paneSearchTextEdited before rebuilding paneSearchModel"
+        headerText: qsTr("Collection + shell perf")
+        qmlSource: "//: pageCacheHits · sameKeySkipCount\n//: debounce paneSearchTextEdited before rebuilding paneSearchModel"
         ColumnLayout {
             Layout.fillWidth: true
             spacing: Theme.spacing
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Shell trim (2.28): tune pageCacheLimit, watch sameKeySkipCount / samePageSkipCount on repeat nav. Collection trim (2.40): NavigationView does not debounce pane search — use a Timer (~80–120 ms) in paneSearchTextEdited before filtering paneSearchModel. Pair both on real app checklists — docs/performance.md.")
+                text: qsTr("Shell trim: tune pageCacheLimit, watch sameKeySkipCount / samePageSkipCount on repeat nav. Collection trim: NavigationView does not debounce pane search — use a Timer (~80–120 ms) in paneSearchTextEdited before filtering paneSearchModel. Pair both on real app checklists — docs/performance.md.")
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

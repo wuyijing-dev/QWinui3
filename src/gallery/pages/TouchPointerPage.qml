@@ -4,13 +4,13 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — Touch, pen & pointer cookbook (1.57).
+// Gallery — Touch, pen & pointer cookbook.
 // Recipe: docs/touch-pointer.md · docs/density.md · docs/accessibility.md
 
 CatalogPage {
     id: page
     title: qsTr("Touch & pointer")
-    subtitle: qsTr("Targets · scroll vs drag · SwipeControl deepen — docs/touch-pointer.md (1.57 / 2.42).")
+    subtitle: qsTr("Targets · scroll vs drag · SwipeControl deepen — docs/touch-pointer.md.")
 
     signal openControl(var item)
 
@@ -23,7 +23,7 @@ CatalogPage {
     readonly property real minTarget: Theme.controlHeight
 
     ControlExample {
-        headerText: qsTr("When to use (1.57)")
+        headerText: qsTr("When to use")
         qmlSource: "Theme.density / Theme.controlHeight\ndocs/touch-pointer.md"
         ColumnLayout {
             Layout.fillWidth: true
@@ -31,7 +31,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Finger-first shells stay on Theme.density \"standard\" (or bump uiScale). Compact shrinks controlHeight (~0.85×). Do not rely on hover-only UI — fingers have no hover; stylus hover is optional preview only. No ink/handwriting product in 1.57.")
+                text: qsTr("Finger-first shells stay on Theme.density \"standard\" (or bump uiScale). Compact shrinks controlHeight (~0.85×). Do not rely on hover-only UI — fingers have no hover; stylus hover is optional preview only. No ink/handwriting product in.")
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -118,7 +118,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Keep flick scrolling on the scrollable. FileDropZone must keep Browse (touch often has no OS file drag). SwipeControl should also expose a menu/button path — set nestedScrollFriendly inside lists (2.42). Avoid hover-only discovery.")
+                text: qsTr("Keep flick scrolling on the scrollable. FileDropZone must keep Browse (touch often has no OS file drag). SwipeControl should also expose a menu/button path — set nestedScrollFriendly inside lists. Avoid hover-only discovery.")
                 color: Theme.textSecondary
                 font.pixelSize: Theme.fontBody
             }

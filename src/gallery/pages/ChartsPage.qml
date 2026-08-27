@@ -4,13 +4,13 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — Charts hub (1.23 stable six / 2.08 compose / 2.26 recipe wave).
+// Gallery — Charts hub.
 // Recipe: docs/charts.md · examples/dashboard
 
 CatalogPage {
     id: page
     title: qsTr("Charts")
-    subtitle: qsTr("Stable six frozen. Compose decision 2.48 + deferred chooser (2.26). docs/charts.md")
+    subtitle: qsTr("Stable six frozen. Compose decision + deferred chooser. docs/charts.md")
     property bool deferredChartsReady: false
 
     readonly property var sparkData: {
@@ -38,7 +38,7 @@ CatalogPage {
     })
 
     ControlExample {
-        headerText: qsTr("Chart perf budgets (2.49 / wave 8)")
+        headerText: qsTr("Chart perf budgets")
         qmlSource: "// revealAnimationPointBudget: 500\n// docs/perf-signoff-2xx.md"
         ColumnLayout {
             Layout.fillWidth: true
@@ -46,7 +46,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Tranche-1 sign-off: cap points per series (~500), coalesced redraws, one chart per ChartCard. docs/performance.md wave 8.")
+                text: qsTr("Tranche-1 sign-off: cap points per series (~500), coalesced redraws, one chart per ChartCard. docs/performance..")
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -54,7 +54,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Compose decision (2.48 / FL-009)")
+        headerText: qsTr("Compose decision")
         qmlSource: "docs/dashboard-compose-decision.md"
         Text {
             Layout.fillWidth: true
@@ -68,7 +68,7 @@ CatalogPage {
     DashboardPage { hubEmbed: true; width: parent.width }
 
     ControlExample {
-        headerText: qsTr("Deferred chart demos (2.26)")
+        headerText: qsTr("Deferred chart demos")
         qmlSource: "// Each deferred type — scroll for live demos\n// docs/charts.md"
         Text {
             Layout.fillWidth: true
@@ -206,7 +206,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Stacked columns compose (2.26)")
+        headerText: qsTr("Stacked columns compose")
         qmlSource: "LineChart { showArea: true; series: [Apps, Media] }  // not StackedBarChart"
         ColumnLayout {
             Layout.fillWidth: true
@@ -240,7 +240,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Compose recipes (2.08)")
+        headerText: qsTr("Compose recipes")
         qmlSource: "// AreaChart → LineChart { showArea: true }\n// Sparkline → KpiTile.trendValues\n// docs/charts.md"
 
         ColumnLayout {
@@ -309,7 +309,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Performance (1.89)")
+        headerText: qsTr("Performance")
         qmlSource: "// revealAnimationPointBudget: 500\n// redrawCoalesceMs: 16\n// docs/performance.md"
         Text {
             Layout.fillWidth: true
@@ -321,7 +321,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Stable vs deferred (permanent defer 2.08)")
+        headerText: qsTr("Stable vs deferred (permanent defer)")
         qmlSource: "// Stable: LineChart, BarChart, DonutChart,\n//          RingGauge, KpiTile, ChartCard\n// Deferred: Gallery demos only\n// docs/charts.md"
         ColumnLayout {
             Layout.fillWidth: true
@@ -329,7 +329,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Stable six is frozen — no new chart names in 2.08. Full stable demos: LineChart, BarChart, DonutChart, RingGauge, KpiTile, ChartCard — embedded below and in Gauges hub.")
+                text: qsTr("Stable six is frozen — no new chart names in. Full stable demos: LineChart, BarChart, DonutChart, RingGauge, KpiTile, ChartCard — embedded below and in Gauges hub.")
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

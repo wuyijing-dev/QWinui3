@@ -4,7 +4,7 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — FileTree (2.06).
+// Gallery — FileTree.
 //
 // Explorer LoB: folder TreeView + file DataTable. Recipe: docs/tree-data.md
 
@@ -12,7 +12,7 @@ CatalogPage {
     id: page
 
     title: qsTr("FileTree")
-    subtitle: qsTr("Explorer layout: folder tree + metadata table. Column chooser + filterText — docs/tree-data.md (2.64).")
+    subtitle: qsTr("Explorer layout: folder tree + metadata table. Column chooser + filterText — docs/tree-data.md.")
 
     readonly property var demoCatalog: ({
         "Documents": [
@@ -47,7 +47,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Why FileTree (2.06)")
+        headerText: qsTr("Why FileTree")
         qmlSource: "FileTree {\n    treeModel: DemoTreeModel {}\n    fileCatalog: { \"Documents\": [ … ] }\n}"
         ColumnLayout {
             Layout.fillWidth: true
@@ -55,7 +55,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("TreeView + DataTable alone do not share selection, keyboard focus, or folder→file wiring. FileTree composes both for Explorer-style apps. For multi-column hierarchical rows in one grid, use TreeDataGrid (2.21).")
+                text: qsTr("TreeView + DataTable alone do not share selection, keyboard focus, or folder→file wiring. FileTree composes both for Explorer-style apps. For multi-column hierarchical rows in one grid, use TreeDataGrid.")
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -126,36 +126,36 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Column chooser + filterText (2.64)")
+        headerText: qsTr("Column chooser + filterText")
         qmlSource: "FileTree {\n    filterText: query\n    hiddenColumnRoles: [ \"modified\" ]\n}"
         Text {
             Layout.fillWidth: true
             wrapMode: Text.WordWrap
-            text: qsTr("2.64: checkboxes above the file table toggle hiddenColumnRoles. Bind filterText to share the DataTable filter with app chrome. docs/collection-perf-264.md")
+            text: qsTr("checkboxes above the file table toggle hiddenColumnRoles. Bind filterText to share the DataTable filter with app chrome. docs/collection-perf-264.md")
             font.pixelSize: Theme.fontBody
             color: Theme.textSecondary
         }
     }
 
     ControlExample {
-        headerText: qsTr("Filter perf (2.40)")
+        headerText: qsTr("Filter perf")
         qmlSource: "// Table: DataTable filterDebounceMs / maxFilterResults\n// Tree: filter treeModel app-side — no whole-tree rebuild per key"
         Text {
             Layout.fillWidth: true
             wrapMode: Text.WordWrap
-            text: qsTr("FileTree embeds DataTable for the file list — inherit debounced filter and maxFilterResults on the table side. Folder tree selection switches catalogs; do not rebuild the entire tree model on every filter keystroke. docs/performance.md wave 7 · docs/tree-data.md.")
+            text: qsTr("FileTree embeds DataTable for the file list — inherit debounced filter and maxFilterResults on the table side. Folder tree selection switches catalogs; do not rebuild the entire tree model on every filter keystroke. docs/performance. · docs/tree-data.md.")
             font.pixelSize: Theme.fontBody
             color: Theme.textSecondary
         }
     }
 
     ControlExample {
-        headerText: qsTr("Path trust (2.36)")
+        headerText: qsTr("Path trust")
         qmlSource: "onFileActivated: validate path before open — docs/security-trust.md"
         Text {
             Layout.fillWidth: true
             wrapMode: Text.WordWrap
-            text: qsTr("FileTree displays folder labels and row objects you supply — it does not validate paths. The Downloads folder demo includes installer.exe to show risky filenames in UI; production apps must extension-filter and confirm before open/reveal/execute. See docs/security-trust.md wave 3.")
+            text: qsTr("FileTree displays folder labels and row objects you supply — it does not validate paths. The Downloads folder demo includes installer.exe to show risky filenames in UI; production apps must extension-filter and confirm before open/reveal/execute. See docs/security-trust..")
             font.pixelSize: Theme.fontBody
             color: Theme.textSecondary
         }

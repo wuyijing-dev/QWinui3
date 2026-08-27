@@ -47,6 +47,24 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.32 → 3.33
+
+**Product version:** 3.33  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | Gallery-only copy cleanup | None |
+
+### Optional / polish
+- Removed roadmap slice labels like `(2.06)` / `wave 6` from Gallery page titles, subtitles, and recipe copy
+- Removed Settings performance-arc wave checklist card
+
+### No action (compatible)
+- Control APIs unchanged; docs/ROADMAP still track slice history
+
 ### Upgrade 3.31 → 3.32
 
 **Product version:** 3.32  

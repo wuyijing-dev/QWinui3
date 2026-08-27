@@ -9,7 +9,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("ItemsRepeater")
-    subtitle: qsTr("Virtualizing ListView wrapper for large models; optional filterText (1.88); ConnectedAnimation morph demo.")
+    subtitle: qsTr("Virtualizing ListView wrapper for large models; optional filterText; ConnectedAnimation morph demo.")
 
     property int selected: 0
     readonly property var sampleModel: {

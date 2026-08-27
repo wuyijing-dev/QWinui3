@@ -4,7 +4,7 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — Preferences template (2.25).
+// Gallery — Preferences template.
 //
 // SettingsView + SettingsCard / Expander + TokenizingTextBox + MultiSelectComboBox.
 // Recipe: docs/forms.md · docs/settings-persistence.md
@@ -15,7 +15,7 @@ Page {
     SettingsView {
         anchors.fill: parent
         title: qsTr("Preferences template")
-        subtitle: qsTr("Settings cards + expander + token / multi-select rows (2.25).")
+        subtitle: qsTr("Settings cards + expander + token / multi-select rows.")
 
         SettingsGroup {
             title: qsTr("Appearance")

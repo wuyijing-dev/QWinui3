@@ -6,12 +6,12 @@ import QWinUI3.Extras
 
 // Gallery — Form validation.
 //
-// FormLayout + ValidationSummary; pickers: docs/pickers.md (1.28).
+// FormLayout + ValidationSummary; pickers: docs/pickers.md.
 
 CatalogPage {
     id: page
     title: qsTr("Form validation")
-    subtitle: qsTr("errorMessage → validate(). Async + focusFirstError (2.55). docs/forms-unlike-winui-255.md")
+    subtitle: qsTr("errorMessage → validate(). Async + focusFirstError. docs/forms-unlike-winui-255.md")
 
     overlay: ToastHost {
         id: toasts
@@ -134,7 +134,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Async validation (2.55)")
+        headerText: qsTr("Async validation")
         qmlSource: "form.beginValidate()\n// … await server …\nform.endValidate(); form.scrollToFirstError()"
 
         FormLayout {
@@ -223,7 +223,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Sections + field dependency (2.67 D2)")
+        headerText: qsTr("Sections + field dependency")
         qmlSource: "FormSection { title: \"Billing\" }\nform.setFieldVisible(\"addon\", show)"
         FormLayout {
             id: depForm

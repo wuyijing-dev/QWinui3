@@ -5,13 +5,13 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 import QWinUI3.Platform
 
-// Gallery — Security & trust boundaries (1.64 · wave 2 **2.13** · wave 3 **2.36**).
+// Gallery — Security & trust boundaries.
 // Recipe: docs/security-trust.md · docs/webview2.md · docs/drag-drop.md
 
 CatalogPage {
     id: page
     title: qsTr("Security & trust")
-    subtitle: qsTr("Trust boundaries wave 3 — docs/security-trust.md (2.36).")
+    subtitle: qsTr("Trust boundaries docs/security-trust.md.")
 
     signal openControl(var item)
 
@@ -30,7 +30,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("QWinUI3 embeds WebView2, filters drops by suffix + optional MIME, and owns FilePicker dialogs — it does not cancel unsafe navigations, intercept downloads, or scan file contents. Wave 3 (2.36): FileTree / TreeDataGrid path trust + WebView2 download policy D/E/F.")
+                text: qsTr("QWinUI3 embeds WebView2, filters drops by suffix + optional MIME, and owns FilePicker dialogs — it does not cancel unsafe navigations, intercept downloads, or scan file contents.: FileTree / TreeDataGrid path trust + WebView2 download policy D/E/F.")
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }

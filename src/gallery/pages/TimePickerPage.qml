@@ -6,11 +6,11 @@ import QWinUI3.Extras
 
 // Gallery — TimePicker.
 //
-// Tumbler time + header / errorMessage (1.28). Recipe: docs/pickers.md
+// Tumbler time + header / errorMessage. Recipe: docs/pickers.md
 
 CatalogPage {
     title: qsTr("TimePicker")
-    subtitle: qsTr("Clock tumblers + FormLayout errorMessage — docs/pickers.md (1.28).")
+    subtitle: qsTr("Clock tumblers + FormLayout errorMessage — docs/pickers.md.")
 
     ControlExample {
         headerText: qsTr("12-hour")

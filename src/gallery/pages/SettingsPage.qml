@@ -91,7 +91,7 @@ Page {
     SettingsView {
         anchors.fill: parent
         title: qsTr("Settings")
-        subtitle: qsTr("Theme knobs are kit-wide (ThemeAppearanceSettings). Branding wave 2 (2.38): accent packs + ThemePrefs persist — docs/theme-overrides.md.")
+        subtitle: qsTr("Theme knobs are kit-wide (ThemeAppearanceSettings). accent packs + ThemePrefs persist — docs/theme-overrides.md.")
 
         ThemeAppearanceSettings {
             persist: false
@@ -135,7 +135,7 @@ Page {
 
             SettingsCard {
                 title: qsTr("Real-time FPS")
-                description: qsTr("FrameStatsMonitor — title-bar badge or floating overlay. Toggle persists in QSettings (Gallery dev profile). Retail apps: applyRetailProfile() — docs/developer-diagnostics.md (2.44). CLI: --show-fps, --fps-overlay, --show-rhi, --show-diagnostics, --retail-diagnostics.")
+                description: qsTr("FrameStatsMonitor — title-bar badge or floating overlay. Toggle persists in QSettings (Gallery dev profile). Retail apps: applyRetailProfile() — docs/developer-diagnostics.md. CLI: --show-fps, --fps-overlay, --show-rhi, --show-diagnostics, --retail-diagnostics.")
                 symbol: FluentIcons.SpeedHigh
                 toggle: true
                 toggleText: qsTr("Show FPS")
@@ -181,31 +181,8 @@ Page {
             }
 
             SettingsCard {
-                title: qsTr("Performance arc (1.86–1.89)")
-                description: qsTr("Four-wave perf plan — animations stay; trim no-op work only. Arc signed off at 1.90 close-out. docs/performance.md")
-                symbol: FluentIcons.SpeedHigh
-                action: ColumnLayout {
-                    spacing: 2
-                    Repeater {
-                        model: [
-                            { wave: "1.86", theme: qsTr("Shell & window runtime"), status: qsTr("Shipped") },
-                            { wave: "1.87", theme: qsTr("Navigation & page stack"), status: qsTr("Shipped") },
-                            { wave: "1.88", theme: qsTr("Lists & data collections"), status: qsTr("Shipped") },
-                            { wave: "1.89", theme: qsTr("Style, charts & heavy pages"), status: qsTr("Shipped") }
-                        ]
-                        delegate: Label {
-                            required property var modelData
-                            text: modelData.wave + " — " + modelData.theme + " (" + modelData.status + ")"
-                            font.pixelSize: Theme.fontCaption
-                            color: Theme.textSecondary
-                        }
-                    }
-                }
-            }
-
-            SettingsCard {
                 title: qsTr("Page transition")
-                description: qsTr("NavigationView pageTransition for pane clicks: slide, fade, drill, cover, … Each mode animates only its axes (1.87).")
+                description: qsTr("NavigationView pageTransition for pane clicks: slide, fade, drill, cover, … Each mode animates only its axes.")
                 symbol: FluentIcons.EaseOfAccess
                 action: ComboBox {
                     id: transitionBox
@@ -227,7 +204,7 @@ Page {
 
             SettingsCard {
                 title: qsTr("Page Component cache")
-                description: qsTr("NavigationView caches compiled pages (limit %1). Count: %2. First open is instant (initialPageTransition=none). docs/performance.md (1.39)")
+                description: qsTr("NavigationView caches compiled pages (limit %1). Count: %2. First open is instant (initialPageTransition=none). docs/performance.md")
                              .arg(Window.window && Window.window.navigationView
                                   ? Window.window.navigationView.pageCacheLimit : 24)
                              .arg(Window.window && Window.window.navigationView

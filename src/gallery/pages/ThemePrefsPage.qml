@@ -5,18 +5,18 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 import QWinUI3.Platform
 
-// Gallery — Theme prefs belong to the kit (1.69).
+// Gallery — Theme prefs belong to the kit.
 // Recipe: docs/theme-overrides.md · docs/settings-persistence.md
 
 CatalogPage {
     id: page
     title: qsTr("Theme prefs")
-    subtitle: qsTr("ThemeAppearanceSettings + ThemePrefs persist recipe — docs/theme-overrides.md (2.38).")
+    subtitle: qsTr("ThemeAppearanceSettings + ThemePrefs persist recipe — docs/theme-overrides.md.")
 
     signal openSettings()
 
     ControlExample {
-        headerText: qsTr("ThemePrefs for 2.x apps (2.38)")
+        headerText: qsTr("ThemePrefs for 2.x apps")
         qmlSource: "ThemePrefs { category: \"MyAppTheme\"; autoLoad: true; autoSave: true }"
         Text {
             Layout.fillWidth: true
@@ -28,7 +28,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Drop-in for any app (1.69)")
+        headerText: qsTr("Drop-in for any app")
         qmlSource: "ThemeAppearanceSettings {\n    persist: true\n    prefsCategory: \"MyAppTheme\"\n}\n// Copy Theme.recipeText() into onCompleted"
         ColumnLayout {
             Layout.fillWidth: true

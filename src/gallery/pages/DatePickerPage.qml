@@ -6,11 +6,11 @@ import QWinUI3.Extras
 
 // Gallery — DatePicker.
 //
-// Tumbler date + header / errorMessage (1.28). Recipe: docs/pickers.md
+// Tumbler date + header / errorMessage. Recipe: docs/pickers.md
 
 CatalogPage {
     title: qsTr("DatePicker")
-    subtitle: qsTr("Tumblers + header / errorMessage for FormLayout — docs/pickers.md (1.28).")
+    subtitle: qsTr("Tumblers + header / errorMessage for FormLayout — docs/pickers.md.")
 
     ControlExample {
         headerText: qsTr("Default")

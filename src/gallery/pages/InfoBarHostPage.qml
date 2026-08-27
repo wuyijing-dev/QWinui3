@@ -7,11 +7,11 @@ import QWinUI3.Extras
 // Gallery — InfoBarHost.
 //
 // Stacks InfoBars with maxVisible, openAll()/clearAll(), and openCount.
-// Recipe: docs/feedback.md (1.34) · API: docs/components/InfoBarHost.md
+// Recipe: docs/feedback.md · API: docs/components/InfoBarHost.md
 
 CatalogPage {
     title: qsTr("InfoBarHost")
-    subtitle: qsTr("maxVisible stack (not a pending queue). Recipe: docs/feedback.md (1.34).")
+    subtitle: qsTr("maxVisible stack (not a pending queue). Recipe: docs/feedback.md.")
 
     ControlExample {
         headerText: qsTr("Stacked bars")

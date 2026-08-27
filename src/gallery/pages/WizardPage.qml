@@ -6,13 +6,13 @@ import QWinUI3.Extras
 
 // Gallery — Wizard.
 //
-// Multi-step host with StepBar, validation gates, Back/Next/Finish (2.68 D3).
+// Multi-step host with StepBar, validation gates, Back/Next/Finish.
 
 CatalogPage {
     id: page
 
     title: qsTr("Wizard")
-    subtitle: qsTr("Step host + per-step validation — docs/components/Wizard.md (2.68).")
+    subtitle: qsTr("Step host + per-step validation — docs/components/Wizard.md.")
 
     property string nameDraft: ""
     property string emailDraft: ""

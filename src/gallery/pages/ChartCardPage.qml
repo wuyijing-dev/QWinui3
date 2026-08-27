@@ -11,7 +11,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("ChartCard")
-    subtitle: qsTr("Stable (1.23). Dashboard chrome with ElevatedChrome and entrance motion.")
+    subtitle: qsTr("Stable. Dashboard chrome with ElevatedChrome and entrance motion.")
 
     property real gaugeValue: 64
     property var spark: {
@@ -66,7 +66,7 @@ CatalogPage {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 240
                 title: qsTr("Capacity")
-                subtitle: qsTr("appearance: outline (2.67 A4)")
+                subtitle: qsTr("appearance: outline")
                 appearance: "outline"
                 footer: qsTr("%1% utilized").arg(Math.round(page.gaugeValue))
                 RadialGauge {

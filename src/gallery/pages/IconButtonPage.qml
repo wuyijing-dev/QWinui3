@@ -8,7 +8,7 @@ import QWinUI3.Extras
 
 CatalogPage {
     title: qsTr("IconButton")
-    subtitle: qsTr("Icon-only button with Fluent symbol, badge, hover/press micro-motion (1.49), and Accessible name from toolTip.")
+    subtitle: qsTr("Icon-only button with Fluent symbol, badge, hover/press micro-motion, and Accessible name from toolTip.")
 
     ControlExample {
         headerText: qsTr("Icons")
@@ -18,7 +18,7 @@ CatalogPage {
             Label {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Hover lifts the glyph; press squashes it. Opt out with microMotionEnabled: false. Honors Theme.reducedMotion — docs/icons.md (1.49).")
+                text: qsTr("Hover lifts the glyph; press squashes it. Opt out with microMotionEnabled: false. Honors Theme.reducedMotion — docs/icons.md.")
                 color: Theme.textSecondary
                 font.pixelSize: Theme.fontCaption
             }
@@ -71,7 +71,7 @@ CatalogPage {
                 }
                 CheckBox {
                     id: loadDemo
-                    text: qsTr("loading (2.67)")
+                    text: qsTr("loading")
                 }
             }
             CheckBox {

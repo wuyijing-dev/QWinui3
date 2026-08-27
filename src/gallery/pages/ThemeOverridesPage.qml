@@ -4,7 +4,7 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — Theme overrides / branding (1.09) + density (1.30) + contrast (1.43).
+// Gallery — Theme overrides / branding + density + contrast.
 //
 // Writable knobs only — no Style fork. Restores Theme when leaving the page.
 // Density: docs/density.md · Contrast: docs/color-contrast.md
@@ -12,7 +12,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("Theme overrides")
-    subtitle: qsTr("Brand + density + contrast AA — docs/theme-overrides.md (2.38).")
+    subtitle: qsTr("Brand + density + contrast AA — docs/theme-overrides.md.")
 
     property var _saved: null
 
@@ -38,7 +38,7 @@ CatalogPage {
     Component.onDestruction: Theme.apply(_saved)
 
     ControlExample {
-        headerText: qsTr("Branding wave 2 — accent packs (2.38)")
+        headerText: qsTr("Branding accent packs")
         qmlSource: "Theme.setAccentPack(\"purple\")\nTheme.customAccent = \"#0F766E\""
         ColumnLayout {
             Layout.fillWidth: true
@@ -46,7 +46,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Built-in packs: blue · purple · green · orange. customAccent overrides pack. Persist with ThemeAppearanceSettings + ThemePrefs — docs/theme-overrides.md wave 2.")
+                text: qsTr("Built-in packs: blue · purple · green · orange. customAccent overrides pack. Persist with ThemeAppearanceSettings + ThemePrefs — docs/theme-overrides..")
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -76,7 +76,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Contrast diagnostics (1.43)")
+        headerText: qsTr("Contrast diagnostics")
         qmlSource: "Theme.contrastRatio(fg, bg)\nTheme.contrastPassesAA(fg, bg)"
         ColumnLayout {
             Layout.fillWidth: true
@@ -163,7 +163,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Density metrics (1.30)")
+        headerText: qsTr("Density metrics")
         qmlSource: "Theme.density = \"compact\"\nTheme.uiScale = 1.0\n// fonts do not scale"
         ColumnLayout {
             Layout.fillWidth: true

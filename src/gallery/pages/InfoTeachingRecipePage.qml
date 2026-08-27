@@ -6,12 +6,12 @@ import QWinUI3.Extras
 
 // Gallery — InfoBar + TeachingTip scenario recipe (form save / tip coach mark).
 //
-// Feedback patterns: docs/feedback.md (1.34).
+// Feedback patterns: docs/feedback.md.
 
 CatalogPage {
     id: page
     title: qsTr("InfoBar + TeachingTip recipe")
-    subtitle: qsTr("Form InfoBars + coach tip; focus returns to field. Recipe: docs/feedback.md (1.34).")
+    subtitle: qsTr("Form InfoBars + coach tip; focus returns to field. Recipe: docs/feedback.md.")
 
     property bool tipShown: false
 
@@ -40,7 +40,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("When to use (1.34)")
+        headerText: qsTr("When to use")
         qmlSource: "// InfoBar — page status\n// ToastHost — transient ack\n// TeachingTip — coach mark\n// docs/feedback.md"
         ColumnLayout {
             Layout.fillWidth: true

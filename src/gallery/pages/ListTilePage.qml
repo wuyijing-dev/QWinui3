@@ -8,7 +8,7 @@ import QWinUI3.Extras
 
 CatalogPage {
     title: qsTr("ListTile")
-    subtitle: qsTr("Density + leading presets (2.67 A3). List row with symbol / avatar / checkbox.")
+    subtitle: qsTr("Density + leading presets. List row with symbol / avatar / checkbox.")
 
     ControlExample {
         headerText: qsTr("Rows")
@@ -44,7 +44,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Density + leading presets (2.67)")
+        headerText: qsTr("Density + leading presets")
         qmlSource: "ListTile {\n    density: \"compact\"\n    leadingPreset: \"avatar\"\n    avatarName: \"Alex\"\n}"
         ColumnLayout {
             Layout.fillWidth: true

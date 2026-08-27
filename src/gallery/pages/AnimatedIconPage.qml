@@ -4,12 +4,12 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — AnimatedIcon (1.53). Thin state glyph swap — not Lottie.
+// Gallery — AnimatedIcon. Thin state glyph swap — not Lottie.
 // Cookbook: docs/icons.md · docs/animations.md
 
 CatalogPage {
     title: qsTr("AnimatedIcon")
-    subtitle: qsTr("Thin state glyph swap (1.53). Not Lottie / WinUI AnimatedIcon parity — docs/icons.md.")
+    subtitle: qsTr("Thin state glyph swap. Not Lottie / WinUI AnimatedIcon parity — docs/icons.md.")
 
     ControlExample {
         headerText: qsTr("Play / pause")

@@ -4,14 +4,14 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — NotificationCenter + feedback product stack (2.27 / 2.63).
+// Gallery — NotificationCenter + feedback product stack.
 //
 // In-app history + grouping; NotificationBridge wiring; InfoBadge bell. docs/notification-center-263.md
 
 CatalogPage {
     id: page
     title: qsTr("Notification center")
-    subtitle: qsTr("Toast + history + bridge — experimental, docs/notification-center-263.md (2.63).")
+    subtitle: qsTr("Toast + history + bridge — experimental, docs/notification-center-263.md.")
 
     property int saveProgress: 0
     property bool saving: false
@@ -99,7 +99,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("NotificationBridge product stack (2.63)")
+        headerText: qsTr("NotificationBridge product stack")
         qmlSource: "NotificationBridge {\n    toastHost: toasts\n    notificationCenter: center\n    recordInCenter: true\n}"
         ColumnLayout {
             Layout.fillWidth: true
@@ -107,7 +107,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("2.63: one bridge.success() → ToastHost ack + NotificationCenter history. Pass dedupe id to collapse repeats. maxHistory caps stored rows. docs/notification-center-263.md")
+                text: qsTr("one bridge.success() → ToastHost ack + NotificationCenter history. Pass dedupe id to collapse repeats. maxHistory caps stored rows. docs/notification-center-263.md")
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -134,7 +134,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Bell + InfoBadge (2.27)")
+        headerText: qsTr("Bell + InfoBadge")
         qmlSource: "NotificationCenter { model: […] }\nInfoBadge { value: unreadCount }"
         ColumnLayout {
             Layout.fillWidth: true
@@ -203,7 +203,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("ProgressRing + InfoBar save path (2.27)")
+        headerText: qsTr("ProgressRing + InfoBar save path")
         qmlSource: "ProgressRing { isActive: saving }\nInfoBar { … }\nToastHost.success(...)"
         RowLayout {
             Layout.fillWidth: true

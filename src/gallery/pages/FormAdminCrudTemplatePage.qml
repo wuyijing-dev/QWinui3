@@ -4,13 +4,13 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — Admin CRUD template (2.25).
+// Gallery — Admin CRUD template.
 //
 // DataTable master + FormLayout editor. Recipe: docs/forms.md · docs/data-collections.md
 
 CatalogPage {
     title: qsTr("Admin CRUD template")
-    subtitle: qsTr("DataTable selection + FormLayout edit — LoB admin pattern (2.25).")
+    subtitle: qsTr("DataTable selection + FormLayout edit — LoB admin pattern.")
 
     readonly property var userRows: [
         { id: 1, name: qsTr("Alex Chen"), role: qsTr("Admin"), status: qsTr("Active"), email: "alex@contoso.com" },
@@ -26,7 +26,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Users admin (2.25)")
+        headerText: qsTr("Users admin")
         qmlSource: "DataTable { onSelectionChanged: loadRow }\nFormLayout { … Save / New }"
         ColumnLayout {
             Layout.fillWidth: true

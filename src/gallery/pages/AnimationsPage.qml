@@ -4,7 +4,7 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — Animations & transitions chooser (1.22).
+// Gallery — Animations & transitions chooser.
 //
 // Recipe: docs/animations.md
 
@@ -13,7 +13,7 @@ CatalogPage {
     subtitle: qsTr("Connected morph, page enter, content swap. Recipe: docs/animations.md — honors Theme.reducedMotion.")
 
     ControlExample {
-        headerText: qsTr("When to use which (1.22)")
+        headerText: qsTr("When to use which")
         qmlSource: "// ConnectedAnimation — list→detail\n// EntranceThemeTransition — section enter\n// ContentThemeTransition — panel swap\n// docs/animations.md"
         ColumnLayout {
             Layout.fillWidth: true

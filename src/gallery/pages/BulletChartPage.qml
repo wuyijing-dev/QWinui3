@@ -11,7 +11,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("BulletChart")
-    subtitle: qsTr("Experimental (deferred 1.66). Prefer KpiTile for KPI bullets.")
+    subtitle: qsTr("Experimental (deferred). Prefer KpiTile for KPI bullets.")
 
     property real revenue: 72
     property real satisfaction: 88

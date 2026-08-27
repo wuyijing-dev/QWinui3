@@ -7,14 +7,14 @@ import QWinUI3.Extras
 // Gallery — InfoBar.
 //
 // Severity alerts with Fluent ChromeClose, open()/close(), and Accessible.
-// Recipe: docs/feedback.md (1.34) · API: docs/components/InfoBar.md
+// Recipe: docs/feedback.md · API: docs/components/InfoBar.md
 
 CatalogPage {
     title: qsTr("InfoBar")
-    subtitle: qsTr("Inline severity banner. Stack via InfoBarHost — docs/feedback.md (1.34).")
+    subtitle: qsTr("Inline severity banner. Stack via InfoBarHost — docs/feedback.md.")
 
     ControlExample {
-        headerText: qsTr("Surface variants (2.67 A4)")
+        headerText: qsTr("Surface variants")
         qmlSource: "InfoBar {\n    appearance: \"outline\"\n    severity: warning\n}"
         ColumnLayout {
             Layout.fillWidth: true
@@ -44,7 +44,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("When to use (1.34)")
+        headerText: qsTr("When to use")
         qmlSource: "// InfoBar — stays on page\n// ToastHost — transient\n// docs/feedback.md"
         ColumnLayout {
             Layout.fillWidth: true

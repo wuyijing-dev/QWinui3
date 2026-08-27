@@ -4,14 +4,14 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — Registration template (2.25).
+// Gallery — Registration template.
 //
 // LoB sign-up: FormLayout + TokenizingTextBox + MultiSelectComboBox + PasswordBox.
 // Recipe: docs/forms.md · docs/items-wrap-grid.md
 
 CatalogPage {
     title: qsTr("Registration template")
-    subtitle: qsTr("LoB sign-up — FormLayout, tokens, multi-select, password parity (2.25).")
+    subtitle: qsTr("LoB sign-up — FormLayout, tokens, multi-select, password parity.")
 
     overlay: ToastHost {
         id: toasts
@@ -20,7 +20,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Create account (2.25)")
+        headerText: qsTr("Create account")
         qmlSource: "FormLayout {\n    TokenizingTextBox { … }\n    MultiSelectComboBox { errorMessage }\n}"
         ColumnLayout {
             Layout.fillWidth: true

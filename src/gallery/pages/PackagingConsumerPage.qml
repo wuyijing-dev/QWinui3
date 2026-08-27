@@ -5,7 +5,7 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 import QWinUI3.Platform
 
-// Gallery — Consumer packaging & shared redistribute (1.46).
+// Gallery — Consumer packaging & shared redistribute.
 //
 // Surfaces docs/packaging-consumer.md: shared vs static, windeploy/linuxdeploy,
 // strip-restricted modules.
@@ -13,7 +13,7 @@ import QWinUI3.Platform
 CatalogPage {
     id: page
     title: qsTr("Consumer packaging")
-    subtitle: qsTr("Shared zip · CMake · windeploy / strip — docs/packaging-consumer.md (1.46).")
+    subtitle: qsTr("Shared zip · CMake · windeploy / strip — docs/packaging-consumer.md.")
 
     property string statusText: qsTr("Copy a command, then run it from a Release Qt shell.")
 
@@ -33,7 +33,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Shared vs static (1.46)")
+        headerText: qsTr("Shared vs static")
         qmlSource: "QWINUI3_BUILD_SHARED=ON\npython scripts/package_release_libs.py --shared"
         ColumnLayout {
             Layout.fillWidth: true

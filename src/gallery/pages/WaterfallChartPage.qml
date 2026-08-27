@@ -11,7 +11,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("WaterfallChart")
-    subtitle: qsTr("Experimental (deferred 1.66). Cumulative bridge with valueUnit.")
+    subtitle: qsTr("Experimental (deferred). Cumulative bridge with valueUnit.")
 
     property string status: qsTr("Hover a step")
 

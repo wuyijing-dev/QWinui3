@@ -11,7 +11,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("BarChart")
-    subtitle: qsTr("Stable (1.23). Gradient columns, valueUnit, empty state — docs/charts.md.")
+    subtitle: qsTr("Stable. Gradient columns, valueUnit, empty state — docs/charts.md.")
 
     property string lastClick: qsTr("Click a bar")
 
@@ -84,7 +84,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Histogram from samples (3.06)")
+        headerText: qsTr("Histogram from samples")
         qmlSource: "BarChart {\n    samples: […]  // raw values\n    binCount: 10\n}"
         ColumnLayout {
             Layout.fillWidth: true

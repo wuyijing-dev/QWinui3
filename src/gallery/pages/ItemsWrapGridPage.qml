@@ -4,13 +4,13 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — ItemsWrapGrid (2.24).
+// Gallery — ItemsWrapGrid.
 //
 // Variable-size wrap + filter + touch floor. Recipe: docs/items-wrap-grid.md
 
 CatalogPage {
     title: qsTr("ItemsWrapGrid")
-    subtitle: qsTr("Model-driven wrap with variable item sizes — experimental, docs/items-wrap-grid.md (2.24 / 2.29 a11y).")
+    subtitle: qsTr("Model-driven wrap with variable item sizes — experimental, docs/items-wrap-grid.md.")
 
     readonly property var tagModel: [
         { title: qsTr("Design"), wide: false },
@@ -31,7 +31,7 @@ CatalogPage {
     ]
 
     ControlExample {
-        headerText: qsTr("Filter perf (2.49 / wave 8)")
+        headerText: qsTr("Filter perf")
         qmlSource: "ItemsWrapGrid { filterDebounceMs: 120 }  // low hundreds max"
         ColumnLayout {
             Layout.fillWidth: true
@@ -39,7 +39,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("ItemsWrapGrid uses WrapPanel + Repeater — not virtualized. Debounce filterText (filterDebounceMs default 120). Cap tile count at low hundreds; use ItemsView or DataTable at scale. docs/performance.md wave 8 · docs/perf-signoff-2xx.md.")
+                text: qsTr("ItemsWrapGrid uses WrapPanel + Repeater — not virtualized. Debounce filterText (filterDebounceMs default 120). Cap tile count at low hundreds; use ItemsView or DataTable at scale. docs/performance. · docs/perf-signoff-2xx.md.")
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -47,7 +47,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Tag cloud (2.24)")
+        headerText: qsTr("Tag cloud")
         qmlSource: "ItemsWrapGrid {\n    model: tags\n    delegate: Chip { text: modelData.title }\n}"
         ColumnLayout {
             Layout.fillWidth: true

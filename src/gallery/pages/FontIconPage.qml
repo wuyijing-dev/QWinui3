@@ -6,12 +6,12 @@ import QWinUI3.Extras
 
 // Gallery — Iconography (full WinSymbols / FluentIcons catalog).
 //
-// Cookbook: docs/icons.md (1.29). Prefer FluentIcons.Name — not raw \uE… escapes.
+// Cookbook: docs/icons.md. Prefer FluentIcons.Name — not raw \uE… escapes.
 
 CatalogPage {
     id: page
     title: qsTr("Iconography")
-    subtitle: qsTr("FluentIcons browser + hover/press micro-motion (1.49). Filter debounced (1.89). Size / color / a11y: docs/icons.md.")
+    subtitle: qsTr("FluentIcons browser + hover/press micro-motion. Filter debounced. Size / color / a11y: docs/icons.md.")
 
     property int selectedIndex: 0
     property string _filterDebounced: ""
@@ -133,7 +133,7 @@ CatalogPage {
 
             ControlExample {
                 Layout.fillWidth: true
-                headerText: qsTr("Micro-motion (1.49)")
+                headerText: qsTr("Micro-motion")
                 qmlSource: "FontIcon {\n    symbol: FluentIcons.Home\n    fontSize: 28\n    toolTipText: qsTr(\"Home\")\n}\nIconButton {\n    symbol: FluentIcons.Settings\n    toolTipText: qsTr(\"Settings\")\n}"
                 ColumnLayout {
                     spacing: Theme.spacing

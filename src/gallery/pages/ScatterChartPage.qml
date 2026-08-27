@@ -11,7 +11,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("ScatterChart")
-    subtitle: qsTr("Experimental (deferred 1.66). Density LOD, trend line, tooltips.")
+    subtitle: qsTr("Experimental (deferred). Density LOD, trend line, tooltips.")
 
     property string status: qsTr("Hover a point")
     property string megaStatus: qsTr("Idle — load 1M points (C++ ChartSeries)")

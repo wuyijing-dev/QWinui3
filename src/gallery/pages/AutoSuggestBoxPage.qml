@@ -5,12 +5,12 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 
 // Gallery — AutoSuggestBox.
-// Recipe: docs/search.md (1.59)
+// Recipe: docs/search.md
 
 CatalogPage {
     id: page
     title: qsTr("AutoSuggestBox")
-    subtitle: qsTr("Suggest-as-you-type · field-first ↑↓ (2.16) — docs/search.md.")
+    subtitle: qsTr("Suggest-as-you-type · field-first ↑↓ — docs/search.md.")
 
     signal openControl(var item)
 
@@ -21,7 +21,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("When to use (1.59)")
+        headerText: qsTr("When to use")
         qmlSource: "// AutoSuggestBox — pick from list\n// SearchBox — search chrome\n// CommandPalette — Ctrl+K commands\n// docs/search.md"
         ColumnLayout {
             Layout.fillWidth: true
@@ -42,7 +42,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Debounce + highlight (2.87 D21)")
+        headerText: qsTr("Debounce + highlight")
         qmlSource: "AutoSuggestBox {\n    filterDebounceMs: 200\n    highlightMatches: true\n    matchHighlightRange(text)\n}"
         ColumnLayout {
             Layout.fillWidth: true

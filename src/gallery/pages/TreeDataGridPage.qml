@@ -4,7 +4,7 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — TreeDataGrid (2.21).
+// Gallery — TreeDataGrid.
 //
 // Hierarchical multi-column grid + master-detail readout. Recipe: docs/tree-data.md
 
@@ -12,7 +12,7 @@ CatalogPage {
     id: page
 
     title: qsTr("TreeDataGrid")
-    subtitle: qsTr("Hierarchical columns with sort, resize, freeze — experimental, docs/tree-data.md (2.64).")
+    subtitle: qsTr("Hierarchical columns with sort, resize, freeze — experimental, docs/tree-data.md.")
 
     readonly property var orgRows: [
         {
@@ -56,7 +56,7 @@ CatalogPage {
     property string detailText: qsTr("Select a row")
 
     ControlExample {
-        headerText: qsTr("Why TreeDataGrid (2.21)")
+        headerText: qsTr("Why TreeDataGrid")
         qmlSource: "TreeDataGrid {\n    columns: [ … ]\n    rows: [ { name; children: [ … ] } ]\n}"
         Text {
             Layout.fillWidth: true
@@ -68,7 +68,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Filter perf (2.40)")
+        headerText: qsTr("Filter perf")
         qmlSource: "TreeDataGrid { filterDebounceMs; maxFilterResults; expandOnFilter }"
         ColumnLayout {
             Layout.fillWidth: true
@@ -76,7 +76,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Branch filter walks nested children — debounce keystrokes (filterDebounceMs), cap matches (maxFilterResults), and rely on expandOnFilter only when needed. Same skip-unchanged pattern as DataTable. Not Excel-scale — prefer C++ model for large org trees. docs/performance.md wave 7.")
+                text: qsTr("Branch filter walks nested children — debounce keystrokes (filterDebounceMs), cap matches (maxFilterResults), and rely on expandOnFilter only when needed. Same skip-unchanged pattern as DataTable. Not Excel-scale — prefer C++ model for large org trees. docs/performance..")
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -84,12 +84,12 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Path trust (2.36)")
+        headerText: qsTr("Path trust")
         qmlSource: "onRowActivated: treat row fields as untrusted display — docs/security-trust.md"
         Text {
             Layout.fillWidth: true
             wrapMode: Text.WordWrap
-            text: qsTr("TreeDataGrid sort/filter does not sanitize cell text. Validate row data before side effects — same rules as FileTree fileActivated. Cross-link: docs/tree-data.md · docs/security-trust.md wave 3.")
+            text: qsTr("TreeDataGrid sort/filter does not sanitize cell text. Validate row data before side effects — same rules as FileTree fileActivated. Cross-link: docs/tree-data.md · docs/security-trust..")
             font.pixelSize: Theme.fontBody
             color: Theme.textSecondary
         }
@@ -167,7 +167,7 @@ CatalogPage {
 
     ControlExample {
         headerText: qsTr("Related")
-        qmlSource: "// Explorer tree + flat table — FileTree (2.06)"
+        qmlSource: "// Explorer tree + flat table — FileTree"
         ColumnLayout {
             Layout.fillWidth: true
             spacing: Theme.spacing

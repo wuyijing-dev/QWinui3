@@ -5,16 +5,16 @@ import QtCore
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — sequenced TeachingTip onboarding coach (1.55).
+// Gallery — sequenced TeachingTip onboarding coach.
 //
 // One tip at a time → Next advances → Done / Esc ends.
 // “Don’t show again” persists via QtCore Settings (Gallery org).
-// Recipe: docs/feedback.md · docs/multi-window-onboarding.md (2.43) · keyboard: docs/keyboard.md
+// Recipe: docs/feedback.md · docs/multi-window-onboarding.md · keyboard: docs/keyboard.md
 
 CatalogPage {
     id: page
     title: qsTr("Onboarding coach")
-    subtitle: qsTr("Sequenced TeachingTips + don’t-show-again — docs/feedback.md (1.55 / 2.43).")
+    subtitle: qsTr("Sequenced TeachingTips + don’t-show-again — docs/feedback.md.")
 
     signal openControl(var item)
 
@@ -28,7 +28,7 @@ CatalogPage {
         id: coachStore
         category: "OnboardingCoach"
         property bool dismissed: false
-        // 2.43 — separate from WindowGeometry/* (multi-window apps)
+        // separate from WindowGeometry/* (multi-window apps)
         property bool mainTourDismissed: dismissed
     }
 
@@ -117,7 +117,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Multi-window apps (2.43)")
+        headerText: qsTr("Multi-window apps")
         qmlSource: "// Defer tour until main ShellWindow visible\n// docs/multi-window-onboarding.md"
         ColumnLayout {
             Layout.fillWidth: true
@@ -137,7 +137,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("When to use (1.55)")
+        headerText: qsTr("When to use")
         qmlSource: "// sequenced TeachingTip\n// Settings { dismissed }\n// docs/feedback.md"
         ColumnLayout {
             Layout.fillWidth: true

@@ -10,7 +10,7 @@ import QWinUI3.Extras
 
 CatalogPage {
     title: qsTr("LinearGauge")
-    subtitle: qsTr("Experimental (deferred 1.66). Prefer RingGauge. Drag when interactive.")
+    subtitle: qsTr("Experimental (deferred). Prefer RingGauge. Drag when interactive.")
 
     ControlExample {
         headerText: qsTr("Interactive")

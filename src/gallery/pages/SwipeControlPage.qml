@@ -7,16 +7,16 @@ import QWinUI3.Extras
 // Gallery — SwipeControl.
 //
 // Reveal actions with ElevatedChrome panel, keyboard arrows / Esc, and isOpen.
-// Deepen 2.42: thresholds, nested scroll, TeachingTip. docs/touch-pointer.md
+// Deepen: thresholds, nested scroll, TeachingTip. docs/touch-pointer.md
 
 CatalogPage {
     id: page
 
     title: qsTr("SwipeControl")
-    subtitle: qsTr("Thresholds · nested scroll · teaching — docs/touch-pointer.md (2.42).")
+    subtitle: qsTr("Thresholds · nested scroll · teaching — docs/touch-pointer.md.")
 
     ControlExample {
-        headerText: qsTr("Thresholds (2.42)")
+        headerText: qsTr("Thresholds")
         qmlSource: "SwipeControl {\n    revealThreshold: 36\n    dragThreshold: 12\n    nestedScrollFriendly: false\n}"
         ColumnLayout {
             Layout.fillWidth: true
@@ -84,7 +84,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Nested scroll list (2.42)")
+        headerText: qsTr("Nested scroll list")
         qmlSource: "ScrollView {\n    Column { SwipeControl { nestedScrollFriendly: true } }\n}"
         ColumnLayout {
             Layout.fillWidth: true
@@ -166,7 +166,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Teaching tip (2.42)")
+        headerText: qsTr("Teaching tip")
         qmlSource: "TeachingTip { target: swipeRow }\n// First-run only — also expose ⋯ menu"
         ColumnLayout {
             Layout.fillWidth: true

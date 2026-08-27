@@ -4,19 +4,19 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — CalendarView (2.31).
+// Gallery — CalendarView.
 //
 // Month grid with single / multiple / range selection. Recipe: docs/calendar-view.md
 
 CatalogPage {
     id: page
     title: qsTr("CalendarView")
-    subtitle: qsTr("Month grid for scheduling — single, multiple, range. Experimental — docs/calendar-view.md (2.31).")
+    subtitle: qsTr("Month grid for scheduling — single, multiple, range. Experimental — docs/calendar-view.md.")
 
     property string statusText: qsTr("Pick a mode and click days")
 
     ControlExample {
-        headerText: qsTr("Why CalendarView (2.31)")
+        headerText: qsTr("Why CalendarView")
         qmlSource: "CalendarView { selectionMode: \"range\" }"
         Text {
             Layout.fillWidth: true

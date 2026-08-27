@@ -5,7 +5,7 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 import QWinUI3.Platform
 
-// Gallery — OfflineBanner + OperationRetry (2.78).
+// Gallery — OfflineBanner + OperationRetry.
 
 CatalogPage {
     id: page

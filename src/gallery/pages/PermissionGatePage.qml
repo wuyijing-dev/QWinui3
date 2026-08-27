@@ -4,7 +4,7 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — PermissionGate (2.71).
+// Gallery — PermissionGate.
 
 CatalogPage {
     id: page

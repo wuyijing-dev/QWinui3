@@ -7,11 +7,11 @@ import QWinUI3.Extras
 
 // Gallery — TreeView.
 //
-// Basics. End-to-end LoB: TreeView recipe + docs/tree-data.md (1.33).
+// Basics. End-to-end LoB: TreeView recipe + docs/tree-data.md.
 
 CatalogPage {
     title: qsTr("TreeView")
-    subtitle: qsTr("Fluent TreeViewDelegate — expand / collapse. Recipe: docs/tree-data.md (1.33).")
+    subtitle: qsTr("Fluent TreeViewDelegate — expand / collapse. Recipe: docs/tree-data.md.")
 
     ControlExample {
         headerText: qsTr("Folders")

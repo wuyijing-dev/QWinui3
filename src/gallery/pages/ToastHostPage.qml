@@ -7,11 +7,11 @@ import QWinUI3.Extras
 // Gallery — ToastHost.
 //
 // Queues toasts; info()/successToast()/errorToast() helpers, newestOnTop, clear().
-// Recipe: docs/feedback.md (1.34) · API: docs/components/ToastHost.md
+// Recipe: docs/feedback.md · API: docs/components/ToastHost.md
 
 CatalogPage {
     title: qsTr("ToastHost")
-    subtitle: qsTr("Pending queue when maxVisible is full. Recipe: docs/feedback.md (1.34).")
+    subtitle: qsTr("Pending queue when maxVisible is full. Recipe: docs/feedback.md.")
 
     overlay: ToastHost {
         id: host
@@ -21,7 +21,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("When to use (1.34)")
+        headerText: qsTr("When to use")
         qmlSource: "// ToastHost — transient ack\n// InfoBar — stays on page\n// docs/feedback.md"
         ColumnLayout {
             Layout.fillWidth: true
@@ -70,7 +70,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Priority + dedupe (2.87 D22)")
+        headerText: qsTr("Priority + dedupe")
         qmlSource: "host.show(msg, sev, title, action, \"sync-id\", priority)\n// same dedupeId replaces in-flight toast"
         ColumnLayout {
             Layout.fillWidth: true

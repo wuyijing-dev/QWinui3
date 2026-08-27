@@ -5,7 +5,7 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 import QWinUI3.Platform
 
-// Gallery — Multi-window & secondary shells (1.56).
+// Gallery — Multi-window & secondary shells.
 //
 // Main + tool + owned dialog recipes. Runnable sample: examples/multi-window.
 // docs/window-shells.md · docs/window-helper.md · docs/window-chrome.md
@@ -13,7 +13,7 @@ import QWinUI3.Platform
 CatalogPage {
     id: root
     title: qsTr("Multi-window")
-    subtitle: qsTr("Secondary shells + transient parent — docs/window-shells.md (2.14 / 2.43).")
+    subtitle: qsTr("Secondary shells + transient parent — docs/window-shells.md.")
 
     readonly property string portalParentReadout: {
         var host = root.Window ? root.Window.window : null
@@ -136,7 +136,7 @@ CatalogPage {
                 Text {
                     Layout.fillWidth: true
                     wrapMode: Text.WordWrap
-                    text: qsTr("openDialog(owner) sets transient parent (2.14: realize surfaces) and centers on the owner screen.")
+                    text: qsTr("openDialog(owner) sets transient parent (realize surfaces) and centers on the owner screen.")
                     color: Theme.textSecondary
                 }
                 Item { Layout.fillHeight: true }
@@ -150,7 +150,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Onboarding + z-order (2.43)")
+        headerText: qsTr("Onboarding + z-order")
         qmlSource: "// Coach on main shell only\n// Settings category != WindowGeometry\n// docs/multi-window-onboarding.md"
         ColumnLayout {
             Layout.fillWidth: true
@@ -158,7 +158,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("First-run TeachingTip tours (1.55) should run on the primary shell after it is visible — not on tool windows. Finish or pause the coach before openDialog(owner). Persist don’t-show-again in a dedicated Settings category, not geometryPersistenceKey. Gallery Onboarding coach demonstrates persistence.")
+                text: qsTr("First-run TeachingTip tours should run on the primary shell after it is visible — not on tool windows. Finish or pause the coach before openDialog(owner). Persist don’t-show-again in a dedicated Settings category, not geometryPersistenceKey. Gallery Onboarding coach demonstrates persistence.")
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -173,7 +173,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("When to use (1.56)")
+        headerText: qsTr("When to use")
         qmlSource: "ToolShellWindow { geometryPersistenceKey }\nDialogShellWindow { openDialog(owner) }"
         ColumnLayout {
             Layout.fillWidth: true
@@ -181,7 +181,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Use a second top-level shell for inspectors, previews, or true dialog HWNDs. Keep ContentDialog for in-window confirms. One Theme per process. Unique geometryPersistenceKey per window role. 2.14: openDialog(owner) realizes surfaces + centerOnOwner on Wayland. Runnable sample: examples/multi-window.")
+                text: qsTr("Use a second top-level shell for inspectors, previews, or true dialog HWNDs. Keep ContentDialog for in-window confirms. One Theme per process. Unique geometryPersistenceKey per window role. openDialog(owner) realizes surfaces + centerOnOwner on Wayland. Runnable sample: examples/multi-window.")
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -231,7 +231,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Wayland modal stack (2.14)")
+        headerText: qsTr("Wayland modal stack")
         qmlSource: "openDialog(owner) · centerOnOwner · portalParentWindow"
         ColumnLayout {
             Layout.fillWidth: true

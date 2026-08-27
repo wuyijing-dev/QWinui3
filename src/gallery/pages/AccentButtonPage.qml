@@ -13,7 +13,7 @@ CatalogPage {
     subtitle: qsTr("Always-accent primary CTA. Prefer symbol: FluentIcons.* for icons.")
 
     ControlExample {
-        headerText: qsTr("Appearances (2.66 A1)")
+        headerText: qsTr("Appearances")
         qmlSource: "AccentButton { appearance: \"filled\" }\nAccentButton { appearance: \"subtle\" }\nAccentButton { appearance: \"outline\" }\nAccentButton { appearance: \"ghost\" }"
 
         Flow {

@@ -4,12 +4,12 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — Example app templates (1.26). examples/README.md
+// Gallery — Example app templates. examples/README.md
 
 CatalogPage {
     id: page
     title: qsTr("Example templates")
-    subtitle: qsTr("Copy-ready apps under examples/ — start from first-app (2.52) or gallery-shell (1.50). examples/README.md.")
+    subtitle: qsTr("Copy-ready apps under examples/ — start from first-app or gallery-shell. examples/README.md.")
 
     signal openControl(var item)
 
@@ -28,7 +28,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Prefer examples/first-app for the first hour (2.52), then gallery-shell for Settings. Floating OSK: examples/floating-osk (1.84). Multi-window: examples/multi-window (1.56). find_package: examples/find-package-consumer (1.61). CI smoke turns examples off for speed. Qt Creator: open the repo root.")
+                text: qsTr("Prefer examples/first-app for the first hour, then gallery-shell for Settings. Floating OSK: examples/floating-osk. Multi-window: examples/multi-window. find_package: examples/find-package-consumer. CI smoke turns examples off for speed. Qt Creator: open the repo root.")
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -55,17 +55,17 @@ CatalogPage {
             spacing: Theme.spacing
             Repeater {
                 model: [
-                    { name: "first-app", recipe: qsTr("Smallest NavigationWindow + DashboardShell (2.52) — start here"), page: "ExamplesTemplatesPage" },
-                    { name: "gallery-shell", recipe: qsTr("NavigationWindow app shell (1.50) — Settings prefs + geometry (1.65)"), page: "SettingsPersistencePage" },
-                    { name: "multi-window", recipe: qsTr("Main + tool + owned dialog (1.56)"), page: "MultiWindowPage" },
+                    { name: "first-app", recipe: qsTr("Smallest NavigationWindow + DashboardShell — start here"), page: "ExamplesTemplatesPage" },
+                    { name: "gallery-shell", recipe: qsTr("NavigationWindow app shell — Settings prefs + geometry"), page: "SettingsPersistencePage" },
+                    { name: "multi-window", recipe: qsTr("Main + tool + owned dialog"), page: "MultiWindowPage" },
                     { name: "nav-settings", recipe: qsTr("StandardWindow + NavigationView hand-wire"), page: "NavigationViewPage" },
                     { name: "master-detail", recipe: qsTr("ListDetailsView LoB tickets"), page: "ListDetailsViewPage" },
-                    { name: "form-settings", recipe: qsTr("FormLayout + Settings persistence (1.65)"), page: "SettingsPersistencePage" },
-                    { name: "floating-osk", recipe: qsTr("OnScreenKeyboardWindow host (1.84)"), page: "OnScreenKeyboardPage" },
+                    { name: "form-settings", recipe: qsTr("FormLayout + Settings persistence"), page: "SettingsPersistencePage" },
+                    { name: "floating-osk", recipe: qsTr("OnScreenKeyboardWindow host"), page: "OnScreenKeyboardPage" },
                     { name: "settings-cards", recipe: qsTr("SettingsCard patterns"), page: "SettingsCardPage" },
-                    { name: "dashboard", recipe: qsTr("Stable six KPI/charts (1.66)"), page: "DashboardPage" },
-                    { name: "find-package-consumer", recipe: qsTr("find_package(QWinUI3) sketch (1.61) — standalone"), page: "ExamplesTemplatesPage" },
-                    { name: "python-gallery", recipe: qsTr("Full Gallery from PySide6 / PyQt6 (2.64) — packaging-python.md"), page: "ExamplesTemplatesPage" }
+                    { name: "dashboard", recipe: qsTr("Stable six KPI/charts"), page: "DashboardPage" },
+                    { name: "find-package-consumer", recipe: qsTr("find_package(QWinUI3) sketch — standalone"), page: "ExamplesTemplatesPage" },
+                    { name: "python-gallery", recipe: qsTr("Full Gallery from PySide6 / PyQt6 — packaging-python.md"), page: "ExamplesTemplatesPage" }
                 ]
                 delegate: RowLayout {
                     required property var modelData

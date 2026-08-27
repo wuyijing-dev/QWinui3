@@ -11,7 +11,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("LineChart")
-    subtitle: qsTr("Stable (1.23). Pixel LOD, hover crosshair, empty state — docs/charts.md.")
+    subtitle: qsTr("Stable. Pixel LOD, hover crosshair, empty state — docs/charts.md.")
 
     property var liveA: []
     property var liveB: []
@@ -113,7 +113,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Brush zoom (2.65)")
+        headerText: qsTr("Brush zoom")
         qmlSource: "LineChart {\n    zoomEnabled: true\n    // drag on plot · resetZoom()\n}"
         ColumnLayout {
             Layout.fillWidth: true

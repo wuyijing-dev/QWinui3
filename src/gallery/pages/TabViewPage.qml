@@ -6,15 +6,15 @@ import QWinUI3.Extras
 
 // Gallery — TabView.
 //
-// Documents frame vs NavigationView destinations. Stable 1.37 (tear-out still experimental).
+// Documents frame vs NavigationView destinations. Stable (tear-out still experimental).
 // Recipe: docs/navigation.md · docs/stable-api.md
 
 CatalogPage {
     title: qsTr("TabView")
-    subtitle: qsTr("Stable (1.37). Documents vs NavigationView destinations — docs/navigation.md. Tear-out experimental.")
+    subtitle: qsTr("Stable. Documents vs NavigationView destinations — docs/navigation.md. Tear-out experimental.")
 
     ControlExample {
-        headerText: qsTr("When to use (1.27)")
+        headerText: qsTr("When to use")
         qmlSource: "// TabView — documents\n// NavigationView — destinations\n// docs/navigation.md"
         ColumnLayout {
             Layout.fillWidth: true

@@ -4,7 +4,7 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — RichEdit mail-editor recipe (2.61 / FL-005).
+// Gallery — RichEdit mail-editor recipe.
 //
 // Experimental rich text for templates and mail compose — not WebView2.
 
@@ -12,7 +12,7 @@ CatalogPage {
     id: page
 
     title: qsTr("RichEdit")
-    subtitle: qsTr("Mail / template editor — experimental, docs/rich-edit-261.md (2.61).")
+    subtitle: qsTr("Mail / template editor — experimental, docs/rich-edit-261.md.")
 
     property string statusText: qsTr("Compose a message with the toolbar or paste from Word.")
 
@@ -23,7 +23,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Why RichEdit (2.61 / FL-005)")
+        headerText: qsTr("Why RichEdit")
         qmlSource: "RichEdit { placeholderText: qsTr(\"Body\") }"
         Text {
             Layout.fillWidth: true

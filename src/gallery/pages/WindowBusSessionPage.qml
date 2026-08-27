@@ -4,12 +4,12 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — WindowMessageBus + SessionTimeout (2.72).
+// Gallery — WindowMessageBus + SessionTimeout.
 
 CatalogPage {
     id: page
     title: qsTr("Window bus & session")
-    subtitle: qsTr("Process-local WindowMessageBus + SessionTimeout idle signals (2.72).")
+    subtitle: qsTr("Process-local WindowMessageBus + SessionTimeout idle signals.")
 
     property string lastBus: qsTr("(none)")
     property string sessionStatus: qsTr("Armed — poke to reset")

@@ -6,13 +6,13 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 import QWinUI3.Platform
 
-// Gallery — High-DPI & multi-monitor (1.58 · 2.15 wave 3).
+// Gallery — High-DPI & multi-monitor.
 // Recipe: docs/high-dpi.md · docs/window-chrome.md · docs/graphics-backend.md
 
 CatalogPage {
     id: page
     title: qsTr("High-DPI & monitors")
-    subtitle: qsTr("DPR readout · fractional scale · per-monitor soak — docs/high-dpi.md (2.15).")
+    subtitle: qsTr("DPR readout · fractional scale · per-monitor soak — docs/high-dpi.md.")
 
     signal openControl(var item)
 
@@ -53,7 +53,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Live DPR (2.15)")
+        headerText: qsTr("Live DPR")
         qmlSource: "Theme.devicePixelRatio\nWindowHelper.devicePixelRatioForWindow(window)\nWindowHelper.highDpiScaleFactorRoundingPolicy()"
         ColumnLayout {
             Layout.fillWidth: true
@@ -126,7 +126,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Gallery Main uses key \"GalleryMain\". Restore clamps to availableGeometry and (1.58) binds setScreen so mixed-DPI DPR updates. Clear below, resize/move, restart Gallery to verify.")
+                text: qsTr("Gallery Main uses key \"GalleryMain\". Restore clamps to availableGeometry and binds setScreen so mixed-DPI DPR updates. Clear below, resize/move, restart Gallery to verify.")
                 color: Theme.textSecondary
                 font.pixelSize: Theme.fontBody
             }
@@ -141,7 +141,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Per-monitor geometry soak (2.15)")
+        headerText: qsTr("Per-monitor geometry soak")
         qmlSource: "WindowHelper.screensInfo() // drag window across monitors"
         ColumnLayout {
             Layout.fillWidth: true

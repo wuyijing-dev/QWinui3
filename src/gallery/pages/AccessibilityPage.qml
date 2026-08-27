@@ -4,7 +4,7 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — Accessibility checklist (1.02 / 1.19 / 1.85) + keyboard tour (1.44).
+// Gallery — Accessibility checklist + keyboard tour.
 // Recipe: docs/accessibility.md · docs/keyboard.md
 
 CatalogPage {
@@ -45,7 +45,7 @@ CatalogPage {
     ]
 
     ControlExample {
-        headerText: qsTr("Wave 5 — tree + breadcrumb (2.29)")
+        headerText: qsTr("tree + breadcrumb")
         qmlSource: "TreeDataGrid.announceChanges · FileTree.announceChanges\nBreadcrumbBar.announceChanges · ItemsWrapGrid.accessibleName"
 
         ColumnLayout {
@@ -89,7 +89,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Wave 4 — collection live regions (2.07)")
+        headerText: qsTr("collection live regions")
         qmlSource: "DataTable.announceChanges · ListDetailsView.announceChanges\nNavigationView.announceChanges"
 
         ColumnLayout {
@@ -136,7 +136,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Wave 10 — pin / group / bulk (2.64)")
+        headerText: qsTr("pin / group / bulk")
         qmlSource: "DataTable { groupRole; columns: [{ pinned: true }] }\nListDetailsView { multiSelectEnabled }"
         Label {
             Layout.fillWidth: true
@@ -147,7 +147,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Wave 3 — focus return + live region (1.85)")
+        headerText: qsTr("focus return + live region")
         qmlSource: "ContentDialog / Flyout close → opener\nInfoBar AlertMessage + announce"
 
         ColumnLayout {
@@ -188,7 +188,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Touch & pointer (1.57)")
+        headerText: qsTr("Touch & pointer")
         qmlSource: "docs/touch-pointer.md · Theme.controlHeight"
         ColumnLayout {
             spacing: Theme.spacing
@@ -203,7 +203,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Keyboard-first tour (1.44)")
+        headerText: qsTr("Keyboard-first tour")
         qmlSource: "// Ctrl+K → CommandPalette\n// Esc/Enter dialogs · arrows lists\n// docs/keyboard.md"
         ColumnLayout {
             spacing: Theme.spacing
@@ -219,7 +219,7 @@ CatalogPage {
                 wrapMode: Text.WordWrap
                 color: Theme.textPrimary
                 text: qsTr("• Ctrl+K → CommandPalette (type, ↑↓, Enter, Esc).\n"
-                           + "• ContentDialog: Esc closes; Enter activates default; focus returns to the opener (1.85).\n"
+                           + "• ContentDialog: Esc closes; Enter activates default; focus returns to the opener.\n"
                            + "• DataTable / ListDetailsView: arrows · Enter · Esc/Back as documented.\n"
                            + "• Settings toggle cards: Tab + Space/Enter.\n"
                            + "• Icon-only buttons: toolTipText / Accessible.name.\n"
@@ -339,7 +339,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Wave 2 sample — form + list names")
+        headerText: qsTr("Form + list names")
         qmlSource: "FormLayout { accessibleName: qsTr(\"Account\") }\nItemsView { accessibleName: qsTr(\"People\") }"
 
         ColumnLayout {
@@ -431,7 +431,7 @@ CatalogPage {
                 title: qsTr("High contrast")
                 description: Theme.followSystemAccessibility
                              ? qsTr("Following system — turn off Follow system accessibility in Settings to override.")
-                             : qsTr("Strengthens borders and focus cues (Theme.highContrast). Accent AA checks: Theme overrides / docs/color-contrast.md (1.43).")
+                             : qsTr("Strengthens borders and focus cues (Theme.highContrast). Accent AA checks: Theme overrides / docs/color-contrast.md.")
                 checked: Theme.highContrast
                 toggleEnabled: !Theme.followSystemAccessibility
                 onToggled: {
@@ -442,7 +442,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Brand contrast diagnostics (textPrimary / accent on bgCard): Gallery Theme overrides — docs/color-contrast.md (1.43).")
+                text: qsTr("Brand contrast diagnostics (textPrimary / accent on bgCard): Gallery Theme overrides — docs/color-contrast.md.")
                 font.pixelSize: Theme.fontCaption
                 color: Theme.textSecondary
             }

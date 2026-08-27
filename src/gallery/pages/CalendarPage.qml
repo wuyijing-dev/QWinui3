@@ -7,7 +7,7 @@ import QWinUI3.Theme
 
 CatalogPage {
     title: qsTr("Calendar")
-    subtitle: qsTr("MonthGrid building blocks — for product month grid use CalendarView (2.31).")
+    subtitle: qsTr("MonthGrid building blocks — for product month grid use CalendarView.")
 
     ControlExample {
         headerText: qsTr("Month view")

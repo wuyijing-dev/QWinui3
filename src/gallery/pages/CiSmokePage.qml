@@ -5,7 +5,7 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 import QWinUI3.Platform
 
-// Gallery — CI smoke + Qt version compat (1.06 / 1.14 / 1.20).
+// Gallery — CI smoke + Qt version compat.
 // python scripts/smoke_gallery.py · docs/qt-version-compat.md
 
 CatalogPage {
@@ -61,7 +61,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Qt version matrix (1.14)")
+        headerText: qsTr("Qt version matrix")
         qmlSource: "qt-compat.yml · 6.5 / 6.8 / 6.10\ndocs/qt-version-compat.md"
         ColumnLayout {
             Layout.fillWidth: true

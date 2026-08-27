@@ -42,7 +42,7 @@ CatalogPage {
 
     ControlExample {
         headerText: qsTr("Cluster")
-        qmlSource: "AutomotiveCluster {\n    speed: 86; rpm: 3200; fuel: 0.42; gear: \"D\"\n}"
+        qmlSource: "AutomotiveCluster {\n speed: 86; rpm: 3200; fuel: 0.42; gear: \"D\"\n}"
         ColumnLayout {
             spacing: Theme.spacing
             AutomotiveCluster {

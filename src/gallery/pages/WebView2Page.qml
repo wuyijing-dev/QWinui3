@@ -5,12 +5,12 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 import QWinUI3.Platform
 
-// Gallery — WebView2Host (stable 1.18). Recipe: docs/webview2.md
+// Gallery — WebView2Host. Recipe: docs/webview2.md
 
 CatalogPage {
     id: page
     title: qsTr("WebView2")
-    subtitle: qsTr("Stable Windows host (1.18). Multi-exe safe user-data (per-pid). Field matrix + policy — docs/webview2.md.")
+    subtitle: qsTr("Stable Windows host. Multi-exe safe user-data (per-pid). Field matrix + policy — docs/webview2.md.")
 
     property url demoUrl: "https://www.microsoft.com/edge/webview"
     property string navStatus: ""
@@ -57,7 +57,7 @@ CatalogPage {
     property bool _runtimeProbed: false
     property bool _runtimeInstalled: false
 
-    // Capability-only host (0×0, invisible) — no runtime COM probe in ctor (2.85 S3).
+    // Capability-only host (0×0, invisible) — no runtime COM probe in ctor.
     WebView2Host {
         id: cap
         width: 0
@@ -99,7 +99,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Field matrix (2.32)")
+        headerText: qsTr("Field matrix")
         qmlSource: "// docs/webview2.md — SDK / Runtime / clip / DPI\n// Smoke compiles page; no HWND in CI"
         ColumnLayout {
             Layout.fillWidth: true
@@ -114,7 +114,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Trust boundary (2.13 / 2.32)")
+        headerText: qsTr("Trust boundary")
         qmlSource: "// Pattern C host allowlist — docs/security-trust.md\\nfunction navigateSafe(url) { … }"
         ColumnLayout {
             Layout.fillWidth: true
@@ -130,7 +130,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Download policy (2.36)")
+        headerText: qsTr("Download policy")
         qmlSource: "// Policy D — tight allowlist\\n// Policy E — Qt.openUrlExternally after hostAllowed\\n// docs/security-trust.md"
         ColumnLayout {
             Layout.fillWidth: true
@@ -153,7 +153,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Integration recipe (1.18 stable)")
+        headerText: qsTr("Integration recipe")
         qmlSource: "WebView2Host {\n    source: \"https://…\"\n    // clip ancestors for ScrollView\n    // docs/webview2.md\n}"
 
         ColumnLayout {
@@ -207,7 +207,7 @@ CatalogPage {
                     text: qsTr("Go")
                     onClicked: {
                         if (!page.navigateSafe(urlField.text))
-                            page.navStatus = qsTr("Navigation blocked — allowlist only (2.36 Policy E).")
+                            page.navStatus = qsTr("Navigation blocked — allowlist only (Policy E).")
                     }
                 }
                 Button {
@@ -221,7 +221,7 @@ CatalogPage {
                         if (page.hostAllowed(urlField.text))
                             Qt.openUrlExternally(urlField.text)
                         else
-                            page.navStatus = qsTr("Blocked external open — allowlist only (2.36 Policy E).")
+                            page.navStatus = qsTr("Blocked external open — allowlist only (Policy E).")
                     }
                 }
             }

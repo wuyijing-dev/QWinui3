@@ -7,14 +7,14 @@ import QWinUI3.Extras
 // Gallery — MenuFlyout.
 //
 // Elevated menu with title, isOpen, preferredPlacement, and motion.
-// Keyboard recipe: docs/commands.md (1.15).
+// Keyboard recipe: docs/commands.md.
 
 CatalogPage {
     title: qsTr("MenuFlyout")
     subtitle: qsTr("Context menu with Esc / arrows / Enter. Recipe: docs/commands.md.")
 
     ControlExample {
-        headerText: qsTr("Keyboard model (1.15)")
+        headerText: qsTr("Keyboard model")
         qmlSource: "// showAt(anchor) · Esc / outside dismiss\n// Arrows · Enter/Space · keyboardAcceleratorText"
         ColumnLayout {
             Layout.fillWidth: true

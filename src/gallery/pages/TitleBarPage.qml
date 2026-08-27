@@ -23,7 +23,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("TitleBarCommandBar (3.01)")
+        headerText: qsTr("TitleBarCommandBar")
         qmlSource: "TitleBarCommandBar { commands: [ { label: qsTr(\"Save\"), symbol: FluentIcons.Save, action: save } ] }"
         ColumnLayout {
             Layout.fillWidth: true

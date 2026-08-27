@@ -5,12 +5,12 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 
 // Gallery — SearchBox.
-// Recipe: docs/search.md (1.59)
+// Recipe: docs/search.md
 
 CatalogPage {
     id: page
     title: qsTr("SearchBox")
-    subtitle: qsTr("Search field + suggestions — docs/search.md (1.59).")
+    subtitle: qsTr("Search field + suggestions — docs/search.md.")
 
     signal openControl(var item)
 
@@ -21,7 +21,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("When to use (1.59)")
+        headerText: qsTr("When to use")
         qmlSource: "// SearchBox — query + clear\n// AutoSuggestBox — form suggest\n// docs/search.md"
         ColumnLayout {
             Layout.fillWidth: true

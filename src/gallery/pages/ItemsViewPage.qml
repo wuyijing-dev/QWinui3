@@ -9,7 +9,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("ItemsView")
-    subtitle: qsTr("List recipe: sections, multi-select, keyboard, built-in filterText (1.88) — docs/search.md (1.59).")
+    subtitle: qsTr("List recipe: sections, multi-select, keyboard, built-in filterText — docs/search.md.")
 
     property var sampleModel: [
         { title: qsTr("Design doc"), subtitle: qsTr("Updated yesterday"), group: qsTr("Documents"), symbol: FluentIcons.Document },
@@ -36,7 +36,7 @@ CatalogPage {
 
             TextField {
                 Layout.fillWidth: true
-                placeholderText: qsTr("Filter titles (ItemsView.filterText — debounced 1.88)")
+                placeholderText: qsTr("Filter titles (ItemsView.filterText — debounced)")
                 text: items.filterText
                 onTextChanged: items.filterText = text
             }

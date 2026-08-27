@@ -9,10 +9,10 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("Dialogs & flyouts")
-    subtitle: qsTr("ContentDialog queue · Flyout · TeachingTip · Drawer. docs/dialogs-flyouts.md (1.48).")
+    subtitle: qsTr("ContentDialog queue · Flyout · TeachingTip · Drawer. docs/dialogs-flyouts.md.")
 
     ControlExample {
-        headerText: qsTr("When to use which (1.16 / 1.37 / 1.48)")
+        headerText: qsTr("When to use which")
         qmlSource: "ContentDialog · Flyout · TeachingTip · Drawer"
         ColumnLayout {
             Layout.fillWidth: true

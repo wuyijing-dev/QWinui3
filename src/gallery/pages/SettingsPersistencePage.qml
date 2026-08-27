@@ -5,13 +5,13 @@ import QtCore
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — Settings persistence & roaming recipes (1.65).
+// Gallery — Settings persistence & roaming recipes.
 // Recipe: docs/settings-persistence.md · docs/forms.md · docs/window-helper.md
 
 CatalogPage {
     id: page
     title: qsTr("Settings persistence")
-    subtitle: qsTr("QSettings / Settings · schemaVersion · portable Ini — docs/settings-persistence.md (1.65).")
+    subtitle: qsTr("QSettings / Settings · schemaVersion · portable Ini — docs/settings-persistence.md.")
 
     signal openControl(var item)
 
@@ -30,7 +30,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("When to use (1.65)")
+        headerText: qsTr("When to use")
         qmlSource: "Settings { category: \"Prefs\" }\ngeometryPersistenceKey: \"MyAppMain\"\n// docs/settings-persistence.md"
         ColumnLayout {
             Layout.fillWidth: true

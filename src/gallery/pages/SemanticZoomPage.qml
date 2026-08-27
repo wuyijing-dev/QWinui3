@@ -4,13 +4,13 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — SemanticZoom contacts recipe (2.62 / FL-006).
+// Gallery — SemanticZoom contacts recipe.
 
 CatalogPage {
     id: page
 
     title: qsTr("SemanticZoom")
-    subtitle: qsTr("Contacts grid ↔ letter index — experimental, docs/semantic-zoom-262.md (2.62).")
+    subtitle: qsTr("Contacts grid ↔ letter index — experimental, docs/semantic-zoom-262.md.")
 
     property string statusText: qsTr("Pick a contact or zoom out to the letter index.")
 
@@ -45,7 +45,7 @@ CatalogPage {
     ]
 
     ControlExample {
-        headerText: qsTr("Why SemanticZoom (2.62 / FL-006)")
+        headerText: qsTr("Why SemanticZoom")
         qmlSource: "SemanticZoom { model: contacts; groupRole: \"letter\" }"
         Text {
             Layout.fillWidth: true

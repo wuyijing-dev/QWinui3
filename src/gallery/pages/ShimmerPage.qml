@@ -39,7 +39,7 @@ CatalogPage {
         }
     }
     ControlExample {
-        headerText: qsTr("Skeleton host (2.70)")
+        headerText: qsTr("Skeleton host")
         qmlSource: "Skeleton { rows: 4; showAvatar: true; active: true }"
         Skeleton {
             Layout.fillWidth: true

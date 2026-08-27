@@ -39,7 +39,7 @@ CatalogPage {
                 }
                 MetadataItem {
                     label: qsTr("Size")
-                    value: "1.24 MB"
+                    value: "MB"
                     secondary: qsTr("Compressed")
                     symbol: FluentIcons.Document
                     valueColor: Theme.accent

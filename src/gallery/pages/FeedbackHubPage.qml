@@ -9,7 +9,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("Feedback surfaces")
-    subtitle: qsTr("InfoBar / Toast / TeachingTip / progress — docs/feedback.md (2.27).")
+    subtitle: qsTr("InfoBar / Toast / TeachingTip / progress — docs/feedback.md.")
 
     ControlExample {
         headerText: qsTr("When to use which")

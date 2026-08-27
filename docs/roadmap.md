@@ -1,6 +1,6 @@
 # QWinUI3 Roadmap
 
-**Current:** **3.32** (master — NavigationView selection pip animation)
+**Current:** **3.33** (master — Gallery version-label cleanup)
 **Next up:** **3.00** close-out ([checkpoint-300](checkpoint-300.md)) · **3.11+** friction-only
 **Planned through:** tranche 9 complete · **3.00** still open · [micro-interaction backlog last](#micro-interaction--visual-polish--deferred-last)
 **Checkpoints ahead:** **checkpoint-300** (3.00) · **checkpoint-310** (3.10) green

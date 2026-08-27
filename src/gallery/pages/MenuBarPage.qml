@@ -5,14 +5,14 @@ import QWinUI3.Theme
 
 // Gallery — MenuBar.
 //
-// Keyboard recipe: docs/commands.md (1.15).
+// Keyboard recipe: docs/commands.md.
 
 CatalogPage {
     title: qsTr("MenuBar")
-    subtitle: qsTr("Cascading window menus + StandardKey accelerators (2.41) — docs/commands.md.")
+    subtitle: qsTr("Cascading window menus + StandardKey accelerators — docs/commands.md.")
 
     ControlExample {
-        headerText: qsTr("Accelerator discovery (2.41)")
+        headerText: qsTr("Accelerator discovery")
         qmlSource: "// Action.shortcut = real chord\n// Mirror same string in CommandPalette.commands[].shortcut"
         ColumnLayout {
             Layout.fillWidth: true
@@ -20,7 +20,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("MenuBar Action.shortcut chords work when the menu is closed (StandardKey.* or explicit strings). Users still need discovery — mirror high-value actions in CommandPalette with the same shortcut text so Ctrl+K finds Ctrl+C. keyboardAcceleratorText on CommandBar is visual-only. docs/commands.md wave 3.")
+                text: qsTr("MenuBar Action.shortcut chords work when the menu is closed (StandardKey.* or explicit strings). Users still need discovery — mirror high-value actions in CommandPalette with the same shortcut text so Ctrl+K finds Ctrl+C. keyboardAcceleratorText on CommandBar is visual-only. docs/commands..")
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -28,7 +28,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Keyboard model (1.15)")
+        headerText: qsTr("Keyboard model")
         qmlSource: "// Alt/F10 focuses MenuBar (Qt)\n// Action { shortcut: StandardKey.Copy }"
         ColumnLayout {
             Layout.fillWidth: true

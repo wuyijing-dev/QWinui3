@@ -31,7 +31,7 @@ CatalogPage {
             }
             SettingsCard {
                 title: qsTr("Elevated surface")
-                description: qsTr("appearance: elevated (2.67 A4)")
+                description: qsTr("appearance: elevated")
                 symbol: FluentIcons.Brightness
                 appearance: "elevated"
                 toggle: true

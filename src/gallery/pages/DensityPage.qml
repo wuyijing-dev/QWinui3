@@ -4,12 +4,12 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — Density & responsive shells (1.30). docs/density.md
+// Gallery — Density & responsive shells. docs/density.md
 
 CatalogPage {
     id: page
     title: qsTr("Density")
-    subtitle: qsTr("uiScale / density tokens · touch targets — docs/density.md · docs/touch-pointer.md (1.57).")
+    subtitle: qsTr("uiScale / density tokens · touch targets — docs/density.md · docs/touch-pointer.md.")
 
     signal openControl(var item)
     signal openSettings()
@@ -73,7 +73,7 @@ CatalogPage {
             Layout.fillWidth: true
             wrapMode: Text.WordWrap
             color: Theme.textSecondary
-            text: qsTr("Use auto/compact/overlay pane modes under ~1008px. TwoPaneView + ListDetailsView switch at ~720. Keep touch targets ≥ Theme.controlHeight when scaling down — docs/touch-pointer.md (1.57).")
+            text: qsTr("Use auto/compact/overlay pane modes under ~1008px. TwoPaneView + ListDetailsView switch at ~720. Keep touch targets ≥ Theme.controlHeight when scaling down — docs/touch-pointer.md.")
             font.pixelSize: Theme.fontBody
         }
     }

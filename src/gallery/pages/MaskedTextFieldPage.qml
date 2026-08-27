@@ -4,7 +4,7 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — MaskedTextField (2.71).
+// Gallery — MaskedTextField.
 
 CatalogPage {
     id: page

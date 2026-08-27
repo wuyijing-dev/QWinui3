@@ -9,13 +9,13 @@ import QWinUI3.Platform
 // Gallery — Window shells & roles.
 //
 // Window paradigms / presenters / always-on-top plus Blank/Navigation/MenuStatus shells.
-// Recipe: docs/window-shells.md · docs/window-chrome.md (1.32).
+// Recipe: docs/window-shells.md · docs/window-chrome.md.
 
 CatalogPage {
     id: root
 
     title: qsTr("Window shells")
-    subtitle: qsTr("Solid default · ShellWindow family · DPI clamp (1.58). Recipe: docs/window-shells.md · Title-bar slots: docs/title-bar-cookbook.md · Gallery TitleBar page.")
+    subtitle: qsTr("Solid default · ShellWindow family · DPI clamp. Recipe: docs/window-shells.md · Title-bar slots: docs/title-bar-cookbook.md · Gallery TitleBar page.")
 
     signal openControl(var item)
 
@@ -76,7 +76,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("Supported recipe (1.32)")
+        headerText: qsTr("Supported recipe")
         qmlSource: "StandardWindow {\n    backdrop: WindowHelper.BackdropSolid\n    geometryPersistenceKey: \"MainWindow\"\n}"
         ColumnLayout {
             Layout.fillWidth: true
@@ -84,7 +84,7 @@ CatalogPage {
             Text {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
-                text: qsTr("Ship Solid chrome on Win and Linux. Mica/Acrylic work on Windows DWM only — Linux coerces to Solid via resolveBackdrop. Pin OpenGL when shipping frost (docs/graphics-backend.md). Gallery Main uses geometryPersistenceKey \"GalleryMain\"; restore clamps off-screen frames to availableGeometry and setScreen for mixed-DPI (docs/high-dpi.md, 1.58).")
+                text: qsTr("Ship Solid chrome on Win and Linux. Mica/Acrylic work on Windows DWM only — Linux coerces to Solid via resolveBackdrop. Pin OpenGL when shipping frost (docs/graphics-backend.md). Gallery Main uses geometryPersistenceKey \"GalleryMain\"; restore clamps off-screen frames to availableGeometry and setScreen for mixed-DPI (docs/high-dpi.md).")
                 font.pixelSize: Theme.fontBody
                 color: Theme.textSecondary
             }
@@ -104,7 +104,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("PlatformCapability (2.67 F1)")
+        headerText: qsTr("PlatformCapability")
         qmlSource: "if (PlatformCapability.mica)\n    WindowHelper.backdrop = WindowHelper.BackdropMica"
         ColumnLayout {
             Layout.fillWidth: true

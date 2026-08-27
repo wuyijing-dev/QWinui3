@@ -4,7 +4,7 @@ import QtQuick.Controls
 import QWinUI3.Theme
 import QWinUI3.Extras
 
-// Gallery — SensitiveField + ConfirmWithReason (2.79).
+// Gallery — SensitiveField + ConfirmWithReason.
 
 CatalogPage {
     id: page

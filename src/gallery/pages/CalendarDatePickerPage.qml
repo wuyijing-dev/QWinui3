@@ -6,11 +6,11 @@ import QWinUI3.Extras
 
 // Gallery — CalendarDatePicker.
 //
-// Calendar flyout + header / errorMessage (1.28). Recipe: docs/pickers.md
+// Calendar flyout + header / errorMessage. Recipe: docs/pickers.md
 
 CatalogPage {
     title: qsTr("CalendarDatePicker")
-    subtitle: qsTr("MonthGrid flyout + FormLayout errorMessage — docs/pickers.md (1.28).")
+    subtitle: qsTr("MonthGrid flyout + FormLayout errorMessage — docs/pickers.md.")
 
     ControlExample {
         headerText: qsTr("Select a date")

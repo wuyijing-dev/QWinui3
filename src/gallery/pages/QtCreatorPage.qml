@@ -5,12 +5,12 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 import QWinUI3.Platform
 
-// Gallery — Qt Creator kit polish (1.35). Recipe: docs/qt-creator.md
+// Gallery — Qt Creator kit polish. Recipe: docs/qt-creator.md
 
 CatalogPage {
     id: page
     title: qsTr("Qt Creator")
-    subtitle: qsTr("Open Gallery / examples with CMake kits — docs/qt-creator.md (1.35).")
+    subtitle: qsTr("Open Gallery / examples with CMake kits — docs/qt-creator.md.")
 
     property string statusText: qsTr("Copy a path or preset, then open in Qt Creator.")
 

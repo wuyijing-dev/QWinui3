@@ -6,12 +6,12 @@ import QWinUI3.Extras
 
 // Gallery — BreadcrumbBar.
 //
-// Fluent separators, symbol crumbs, overflow ellipsis, NavigationView sync (2.23).
+// Fluent separators, symbol crumbs, overflow ellipsis, NavigationView sync.
 // API: docs/components/BreadcrumbBar.md · docs/navigation.md
 
 CatalogPage {
     title: qsTr("BreadcrumbBar")
-    subtitle: qsTr("Fluent separators, symbol crumbs, overflow ellipsis, NavigationView sync (2.23), a11y (2.29).")
+    subtitle: qsTr("Fluent separators, symbol crumbs, overflow ellipsis, NavigationView sync, a11y.")
 
     ControlExample {
         headerText: qsTr("Path")
@@ -54,7 +54,7 @@ CatalogPage {
     }
 
     ControlExample {
-        headerText: qsTr("NavigationView sync (2.23)")
+        headerText: qsTr("NavigationView sync")
         qmlSource: "NavigationView {\n    breadcrumbModelForKey(currentKey)\n    onItemInvoked: selectBreadcrumbIndex(index)\n}"
         ColumnLayout {
             Layout.fillWidth: true

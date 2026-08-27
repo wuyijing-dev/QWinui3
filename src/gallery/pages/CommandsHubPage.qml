@@ -9,7 +9,7 @@ import QWinUI3.Extras
 CatalogPage {
     id: page
     title: qsTr("Commands & menus")
-    subtitle: qsTr("CommandPalette / CommandBar / MenuFlyout — docs/commands.md (1.15).")
+    subtitle: qsTr("CommandPalette / CommandBar / MenuFlyout — docs/commands.md.")
 
     ControlExample {
         headerText: qsTr("When to use which")

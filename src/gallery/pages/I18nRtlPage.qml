@@ -5,20 +5,20 @@ import QWinUI3.Theme
 import QWinUI3.Extras
 import QWinUI3.Platform
 
-// Gallery — i18n / RTL (1.13) + full locale switch (runtime GalleryLanguage).
+// Gallery — i18n / RTL + full locale switch (runtime GalleryLanguage).
 
 CatalogPage {
     id: page
     title: qsTr("i18n / RTL")
-    subtitle: qsTr("Live language switch + full Gallery catalogs — docs/i18n-rtl.md (2.35: de_DE seed).")
+    subtitle: qsTr("Live language switch + full Gallery catalogs — docs/i18n-rtl.md (de_DE seed).")
 
     ControlExample {
-        headerText: qsTr("Localization wave 4 (2.35)")
+        headerText: qsTr("")
         qmlSource: "GalleryLanguage.applyLocale(\"de_DE\")"
         Text {
             Layout.fillWidth: true
             wrapMode: Text.WordWrap
-            text: qsTr("Fourth seed locale: Deutsch (de_DE). Control pages from 2.21…2.34 should keep qsTr titles.")
+            text: qsTr("Fourth seed locale: Deutsch (de_DE). Control pages should keep qsTr titles.")
             font.pixelSize: Theme.fontBody
             color: Theme.textSecondary
         }
