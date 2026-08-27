@@ -358,6 +358,8 @@ T.Control {
             return
         _rowsRefreshScheduled = true
         Qt.callLater(function () {
+            if (!root)
+                return
             _rowsRefreshScheduled = false
             filterDebounce.stop()
             refresh()

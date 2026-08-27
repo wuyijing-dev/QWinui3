@@ -357,7 +357,10 @@ T.Dialog {
                 }
 
                 onWidthChanged: root._fitBodyChildren()
-                onChildrenChanged: Qt.callLater(root._fitBodyChildren)
+                onChildrenChanged: Qt.callLater(function () {
+                    if (root)
+                        root._fitBodyChildren()
+                })
             }
 
             Rectangle {
@@ -453,7 +456,10 @@ T.Dialog {
         }
     }
 
-    Component.onCompleted: Qt.callLater(syncBody)
+    Component.onCompleted: Qt.callLater(function () {
+        if (root)
+            syncBody()
+    })
 
     function syncBody() {
         var move = []

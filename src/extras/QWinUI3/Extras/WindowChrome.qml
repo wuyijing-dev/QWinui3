@@ -40,8 +40,10 @@ PlatformTitleBar {
     property alias leftHeader: titleBar.leftHeader
     // Title-bar middle content slot
     property alias titleBarContent: titleBar.content
-    // WinUI RightHeader slot
+    // WinUI RightHeader inside TitleBar (Share, Settings beside title)
     property alias rightHeader: titleBar.rightHeader
+    // WinUI RightHeader before caption buttons — alias of PlatformTitleBar.rightHeader
+    property alias captionRightHeader: root.captionRightHeader
     // Title-bar search field text
     property alias searchText: titleBar.searchText
     // Title-bar search suggestions
@@ -92,6 +94,7 @@ PlatformTitleBar {
         anchors.fill: parent
         embedded: true
         dragWindow: root.targetWindow
+        useNativeChrome: root.useNativeChrome
         useSystemMove: true
         preferredHeight: root.resolvedCaptionHeight
         searchEnabled: root.searchEnabled
@@ -108,7 +111,10 @@ PlatformTitleBar {
         onHeightChanged: root.reportHitTest()
     }
 
-    Component.onCompleted: Qt.callLater(function () { root.reportHitTest() })
+    Component.onCompleted: Qt.callLater(function () {
+        if (root)
+            root.reportHitTest()
+    })
 
     Connections {
         target: WindowHelper

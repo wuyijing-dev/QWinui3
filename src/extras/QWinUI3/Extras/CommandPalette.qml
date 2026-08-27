@@ -150,7 +150,10 @@ Popup {
         _lastFilterKey = ""
         _rebuild("")
         visible = true
-        Qt.callLater(function () { queryField.forceActiveFocus() })
+        Qt.callLater(function () {
+            if (root && root.visible && queryField)
+                queryField.forceActiveFocus()
+        })
     }
 
     function toggle() {

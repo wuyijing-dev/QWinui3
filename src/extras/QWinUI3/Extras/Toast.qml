@@ -134,6 +134,8 @@ T.Control {
             severity = sev
         isOpen = true
         Qt.callLater(function () {
+            if (!control || !control.isOpen || !progressFill || !background)
+                return
             progressFill.width = Math.max(1, background.width)
             progressAnim.from = progressFill.width
             progressAnim.duration = control.durationMs

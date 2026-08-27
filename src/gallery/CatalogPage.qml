@@ -108,12 +108,18 @@ Item {
 
     onHubEmbedChanged: {
         if (hubEmbed)
-            Qt.callLater(_liftOverlays)
+            Qt.callLater(function () {
+                if (root)
+                    root._liftOverlays()
+            })
     }
 
     Component.onCompleted: {
         if (hubEmbed)
-            Qt.callLater(_liftOverlays)
+            Qt.callLater(function () {
+                if (root)
+                    root._liftOverlays()
+            })
     }
 
     ColumnLayout {
@@ -192,7 +198,10 @@ Item {
 
         onChildrenChanged: {
             if (root.hubEmbed)
-                Qt.callLater(root._liftOverlays)
+                Qt.callLater(function () {
+                    if (root)
+                        root._liftOverlays()
+                })
         }
     }
 }

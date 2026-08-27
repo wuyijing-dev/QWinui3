@@ -47,6 +47,24 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.29 → 3.30
+
+**Product version:** 3.30  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | Internal hardening only | None |
+
+### Optional / polish
+- Guarded remaining bare `Qt.callLater(method)` paths (SegmentedControl, SelectorBar, DropDownButton, TabView, ContentDialog, CatalogPage, Toast, title chrome)
+- WebView2Host nulls `Impl::q` in destructor so COM callbacks cannot UAF after teardown
+
+### No action (compatible)
+- Public QML / C++ APIs unchanged
+
 ### Upgrade 3.28 → 3.29
 
 **Product version:** 3.29  

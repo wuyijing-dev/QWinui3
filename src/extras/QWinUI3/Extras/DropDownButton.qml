@@ -107,7 +107,10 @@ T.AbstractButton {
         var w = popupMenu.width > 0 ? popupMenu.width : popupMenu.implicitWidth
         var h = popupMenu.height > 0 ? popupMenu.height : popupMenu.implicitHeight
         if (w < 1 || h < 1) {
-            Qt.callLater(control._constrainMenu)
+            Qt.callLater(function () {
+                if (control)
+                    control._constrainMenu()
+            })
             return
         }
         // Menu is not an Item — map from its parent using menu x/y (MenuFlyout recipe).
@@ -137,7 +140,10 @@ T.AbstractButton {
         }
         popupMenu.popup(control, ox, oy)
         if (shouldConstrainToRootBounds)
-            Qt.callLater(control._constrainMenu)
+            Qt.callLater(function () {
+                if (control)
+                    control._constrainMenu()
+            })
     }
 
     contentItem: RowLayout {

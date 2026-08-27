@@ -54,7 +54,8 @@ public:
         ready = false;
         lastX = lastY = lastW = lastH = -1;
         hadRegion = false;
-        q->setReady(false);
+        if (q)
+            q->setReady(false);
     }
 
     void ensureChild(HWND parent)
@@ -495,6 +496,11 @@ WebView2Host::~WebView2Host()
 {
     unbindWindow();
 #if QWINUI3_WEBVIEW2_IMPL
+    // Drop the QML/C++ host pointer before Close() so in-flight COM callbacks
+    // that check `!q` do not touch a destroyed WebView2Host (generation alone
+    // is not enough if the Impl outlives a brief Close async window).
+    if (m_impl)
+        m_impl->q = nullptr;
     destroyHost();
     delete m_impl;
     m_impl = nullptr;

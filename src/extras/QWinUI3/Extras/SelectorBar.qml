@@ -254,8 +254,14 @@ T.Control {
             z: 1
             spacing: 2
             height: parent.height
-            onWidthChanged: Qt.callLater(control.syncIndicatorIfIdle)
-            onHeightChanged: Qt.callLater(control.syncIndicatorIfIdle)
+            onWidthChanged: Qt.callLater(function () {
+                if (control)
+                    control.syncIndicatorIfIdle()
+            })
+            onHeightChanged: Qt.callLater(function () {
+                if (control)
+                    control.syncIndicatorIfIdle()
+            })
 
             Repeater {
                 model: control.model
@@ -374,7 +380,10 @@ T.Control {
                         }
                     }
 
-                    onWidthChanged: Qt.callLater(control.syncIndicatorIfIdle)
+                    onWidthChanged: Qt.callLater(function () {
+                        if (control)
+                            control.syncIndicatorIfIdle()
+                    })
                 }
             }
         }

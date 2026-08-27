@@ -14,7 +14,7 @@ import QWinUI3.Platform
 //       }
 //   }
 //
-// Same slot model as ShellWindow (leftHeader / titleBarContent / rightHeader).
+// Same slot model as ShellWindow (leftHeader / titleBarContent / rightHeader / captionRightHeader).
 
 PlatformTitleBar {
     id: root
@@ -33,9 +33,7 @@ PlatformTitleBar {
     property alias leftHeader: titleBar.leftHeader
     // Title-bar middle content (menus, toolbar, …)
     property alias titleBarContent: titleBar.content
-    // WinUI RightHeader slot (PlatformTitleBar — before caption buttons)
-    // TitleBar.rightHeader remains for standalone TitleBar / WindowChrome.
-    // Built-in title-bar search
+    // rightHeader / captionRightHeader — inherited from PlatformTitleBar (before caption buttons).
     property alias searchEnabled: titleBar.searchEnabled
     property alias searchText: titleBar.searchText
     property alias searchModel: titleBar.searchModel
@@ -54,6 +52,7 @@ PlatformTitleBar {
         anchors.fill: parent
         embedded: true
         dragWindow: root.targetWindow
+        useNativeChrome: root.useNativeChrome
         useSystemMove: true
         preferredHeight: root.resolvedCaptionHeight
         title: root.title
@@ -67,7 +66,13 @@ PlatformTitleBar {
         onHeightChanged: root.reportHitTest()
     }
 
-    Component.onCompleted: Qt.callLater(function () { root.reportHitTest() })
+    Component.onCompleted: Qt.callLater(function () {
+        if (!root)
+            return
+        root.reportHitTest()
+        if (titleBar && titleBar.notifyChromeHitTest)
+            titleBar.notifyChromeHitTest()
+    })
 
     Connections {
         target: WindowHelper

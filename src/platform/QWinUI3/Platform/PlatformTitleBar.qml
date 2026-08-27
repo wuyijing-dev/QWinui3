@@ -310,7 +310,10 @@ Item {
     onPreferredHeightOptionChanged: if (_ready) reportHitTest()
     Component.onCompleted: {
         _ready = true
-        Qt.callLater(reportHitTest)
+        Qt.callLater(function () {
+            if (root)
+                root.reportHitTest()
+        })
     }
 
     Connections {

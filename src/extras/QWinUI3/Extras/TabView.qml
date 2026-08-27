@@ -129,7 +129,10 @@ T.Control {
 
     onCurrentIndexChanged: {
         selectionChanged(currentIndex)
-        Qt.callLater(control._ensureCurrentTabVisible)
+        Qt.callLater(function () {
+            if (control)
+                control._ensureCurrentTabVisible()
+        })
     }
 
     Keys.onLeftPressed: function (event) {

@@ -3178,7 +3178,10 @@ Item {
                         policy: flyoutList.contentHeight > flyoutList.height
                                 ? ScrollBar.AsNeeded : ScrollBar.AlwaysOff
                     }
-                    Component.onCompleted: Qt.callLater(function () { flyoutList.forceActiveFocus() })
+                    Component.onCompleted: Qt.callLater(function () {
+                        if (flyoutList)
+                            flyoutList.forceActiveFocus()
+                    })
                     Keys.onPressed: function (event) {
                         if (event.key === Qt.Key_Escape) {
                             compactFlyout.close()
