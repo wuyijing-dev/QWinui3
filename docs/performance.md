@@ -44,6 +44,7 @@ Related: [data-collections.md](data-collections.md) · [charts.md](charts.md) ·
 | Paint coalesce | Remaining experimental charts use `requestRedraw()` / `ChartUtils.redrawCoalesceMs` (**3.49** C20) |
 | ItemsView / ListDetailsView | Debounced filter + skip fingerprint; `cacheBufferPx` (**3.51** C22) |
 | DataTable / TreeDataGrid | Fixed `rowHeight`; lean-model reuse; Tree `callLater` + fingerprint caps (**3.52** C23) |
+| NavigationView pane | Structure-first sync; stable group children; flatIndex cache; expand pip coalesce (**3.53** C24) |
 | Binding churn | Almost no hot `Qt.binding`; Gallery nav assign uses incremental sync; DataTable column layout skips unchanged (**3.50** C21) |
 | Icon / atlas warm-up | Optional: touch `FluentIcons` / ThemeFonts once after first frame |
 | Page cache | `pageCacheLimit` + `pinnedPageCache` (2.68); Gallery tightened in **3.46** — avoid compiling all pages at startup |
@@ -487,7 +488,7 @@ Hot path is **full model rebuilds**, not nested `Qt.binding` (kit has essentiall
 
 | Surface | Prefer | Avoid |
 |---------|--------|-------|
-| NavigationView | Assign `model` → `onModelChanged` incremental patch (**2.88** C9) when keys/order unchanged | Forcing `rebuildNavModel()` after every label-only replace (Gallery fixed in **3.50**) |
+| NavigationView | Assign `model` → structure probe then patch (**2.88** / **3.53**); stable nested children | Forcing `rebuildNavModel()` after every label-only replace; nested Repeater reset on identical children |
 | DataTable | `_lastRefreshKey` skip; column layout fingerprint; lean display reuse (**3.50** / **3.52**) | Rebuilding pinned/scroll orders or lean wrappers when unchanged |
 | ItemsView / ListDetailsView | `_lastFilterKey` + caps in fingerprint; `cacheBufferPx` (**3.51** C22) | Rebuilding filtered arrays on identical query |
 | TreeDataGrid | `_lastRefreshKey` + caps; rows `callLater`; `_treeCache` flatten (**3.52**) | Full filter/sort on every expand (use `_rebuildFlatFromCache`) |

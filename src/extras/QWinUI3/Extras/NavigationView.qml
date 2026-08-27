@@ -61,6 +61,7 @@ import QWinUI3.Theme
 //   when the window is too narrow; leftMinimal opens the overlay drawer.
 //   Prefer selectKey / openPage over mutating currentIndex alone.
 //   Live-region announces nav selection / pane expand (2.07) when announceChanges is true.
+//   Pane rebuild: structure-first incremental sync, flatIndex cache, stable group children (3.53 C24).
 
 Item {
     id: root
@@ -72,6 +73,10 @@ Item {
     property bool announceChanges: true
     property bool _a11yReady: false
     property bool _pipMoveInstant: false
+    // 3.53 C24 — cached flat index for ListView.currentIndex (invalidate on rebuild).
+    property string _flatIndexCacheKey: ""
+    property int _flatIndexCacheValue: -1
+    property int navListCurrentIndex: -1
 
     Timer {
         id: pipMoveCoalesce
@@ -89,6 +94,31 @@ Item {
         // (selection pip teleported with zero travel).
         _pipMoveInstant = !!instant
         pipMoveCoalesce.restart()
+    }
+
+    function _invalidateFlatIndexCache() {
+        _flatIndexCacheKey = ""
+        _flatIndexCacheValue = -1
+    }
+
+    function _refreshNavListCurrentIndex() {
+        navListCurrentIndex = footerSelected ? -1 : flatIndexForKey(currentKey)
+    }
+
+    // Fingerprint group children so Repeater keeps delegates across model reassign (3.53 C24).
+    function _childItemsFingerprint(children) {
+        var ch = children || []
+        var parts = []
+        for (var i = 0; i < ch.length; ++i) {
+            var c = ch[i] || {}
+            parts.push(String(c.key !== undefined ? c.key : i)
+                       + "\0" + String(c.title || "")
+                       + "\0" + String(c.symbol || "")
+                       + "\0" + String(c.icon || "")
+                       + "\0" + String(c.badge !== undefined ? c.badge : "")
+                       + "\0" + String(c.badgeValue !== undefined ? c.badgeValue : ""))
+        }
+        return parts.join("\n")
     }
 
     // Navigation items: [{ type, key, title, icon|symbol, children?, badge?, badgeValue? }]
@@ -464,6 +494,37 @@ Item {
         return rows
     }
 
+    // Structure probe without IconSource.resolve — 3.53 C24.
+    function _probeNavStructure(m) {
+        var out = []
+        m = m || []
+        for (var i = 0; i < m.length; ++i) {
+            var it = m[i]
+            if (!it)
+                continue
+            if (it.type === "group") {
+                out.push({
+                    kind: "group",
+                    key: it.key || ("group_" + i),
+                    modelIndex: i
+                })
+            } else if (it.type === "header") {
+                out.push({
+                    kind: "header",
+                    key: it.key || ("header_" + i),
+                    modelIndex: i
+                })
+            } else {
+                out.push({
+                    kind: "item",
+                    key: it.key || ("item_" + i),
+                    modelIndex: i
+                })
+            }
+        }
+        return out
+    }
+
     function _applyNavRowPatch(listIndex, row) {
         var cur = navModel.get(listIndex)
         if (cur.title !== row.title)
@@ -478,27 +539,35 @@ Item {
             navModel.setProperty(listIndex, "expanded", row.expanded)
     }
 
-    // Incremental ListModel sync when structure (keys/kinds/order) is unchanged — 2.88 C9.
+    // Incremental ListModel sync when structure (keys/kinds/order) is unchanged — 2.88 C9 / 3.53 C24.
     function _syncNavModelIncremental() {
-        var rows = _collectNavRows(root.model)
-        if (rows.length !== navModel.count)
+        var struct = _probeNavStructure(root.model)
+        if (struct.length !== navModel.count)
             return false
-        for (var i = 0; i < rows.length; ++i) {
-            var row = rows[i]
+        for (var i = 0; i < struct.length; ++i) {
             var cur = navModel.get(i)
-            if (cur.kind !== row.kind || cur.key !== row.key || cur.modelIndex !== row.modelIndex)
+            if (cur.kind !== struct[i].kind
+                    || cur.key !== struct[i].key
+                    || cur.modelIndex !== struct[i].modelIndex)
                 return false
         }
-        for (var j = 0; j < rows.length; ++j)
-            _applyNavRowPatch(j, rows[j])
+        var m = root.model || []
+        for (var j = 0; j < struct.length; ++j) {
+            var row = _navRowFromSource(m[struct[j].modelIndex], struct[j].modelIndex)
+            if (row)
+                _applyNavRowPatch(j, row)
+        }
+        _refreshNavListCurrentIndex()
         return true
     }
 
     function rebuildNavModel() {
+        _invalidateFlatIndexCache()
         navModel.clear()
         var rows = _collectNavRows(root.model)
         for (var i = 0; i < rows.length; ++i)
             navModel.append(rows[i])
+        _refreshNavListCurrentIndex()
     }
 
     // Patch a single nav entry (title / badge / icon) without replacing model — 2.88 C9.
@@ -795,6 +864,8 @@ Item {
         if (!root.hostContent && pageStack.depth === 0 && root.currentComponent)
             openPage(root.currentComponent, root.pendingMode || "slide")
     }
+    onCurrentKeyChanged: _refreshNavListCurrentIndex()
+    onFooterSelectedChanged: _refreshNavListCurrentIndex()
     onPaneOpenChanged: {
         compactFlyout.close()
         if (root._a11yReady)
@@ -1139,14 +1210,23 @@ Item {
 
     // Flat list index for a nav key
     function flatIndexForKey(key) {
+        if (key === _flatIndexCacheKey)
+            return _flatIndexCacheValue
+        var found = -1
         for (var i = 0; i < navModel.count; ++i) {
             var row = navModel.get(i)
-            if (row.kind === "item" && row.key === key)
-                return i
-            if (row.kind === "group" && key.indexOf(row.key + "/") === 0)
-                return i
+            if (row.kind === "item" && row.key === key) {
+                found = i
+                break
+            }
+            if (row.kind === "group" && key.indexOf(row.key + "/") === 0) {
+                found = i
+                break
+            }
         }
-        return -1
+        _flatIndexCacheKey = key
+        _flatIndexCacheValue = found
+        return found
     }
 
     // Scroll so the current selection is on-screen
@@ -1773,7 +1853,7 @@ Item {
                     clip: true
                     spacing: 2
                     model: navModel
-                    currentIndex: root.footerSelected ? -1 : root.flatIndexForKey(root.currentKey)
+                    currentIndex: root.navListCurrentIndex
                     boundsBehavior: Flickable.StopAtBounds
                     ScrollBar.horizontal: ScrollBar { policy: ScrollBar.AlwaysOff }
 
@@ -2222,7 +2302,7 @@ Item {
                         clip: true
                         spacing: 2
                         model: navModel
-                        currentIndex: root.footerSelected ? -1 : root.flatIndexForKey(root.currentKey)
+                        currentIndex: root.navListCurrentIndex
                         boundsBehavior: Flickable.StopAtBounds
                         highlightFollowsCurrentItem: false
                         keyNavigationEnabled: true
@@ -2237,7 +2317,7 @@ Item {
                                     ? ScrollBar.AsNeeded : ScrollBar.AlwaysOff
                         }
 
-                        // Throttle pip updates while flicking for stability.
+                        // Throttle pip updates while flicking / expand height tween (3.53 C24).
                         Timer {
                             id: pipScrollTimer
                             interval: 16
@@ -2331,11 +2411,34 @@ Item {
                             width: ListView.view.width
                             spacing: 0
 
-                            // Expanded child rows for a nav group
-                            readonly property var childItems: {
+                            // 3.53 C24 — keep Repeater model identity when children fingerprint matches.
+                            property var childItems: []
+                            property string _childItemsFp: ""
+
+                            function _refreshChildItems() {
+                                if (del.kind !== "group") {
+                                    if (childItems.length || _childItemsFp.length) {
+                                        childItems = []
+                                        _childItemsFp = ""
+                                    }
+                                    return
+                                }
                                 var m = root.model || []
                                 var it = m[del.modelIndex]
-                                return (it && it.children) ? it.children : []
+                                var kids = (it && it.children) ? it.children : []
+                                var fp = root._childItemsFingerprint(kids)
+                                if (fp === _childItemsFp)
+                                    return
+                                _childItemsFp = fp
+                                childItems = kids
+                            }
+
+                            Component.onCompleted: _refreshChildItems()
+                            onKindChanged: _refreshChildItems()
+                            onModelIndexChanged: _refreshChildItems()
+                            Connections {
+                                target: root
+                                function onModelChanged() { del._refreshChildItems() }
                             }
 
                             // Anchor used by the selection pip (child row when nested)
@@ -2611,7 +2714,14 @@ Item {
                                     }
                                 }
 
-                                onHeightChanged: selectionPip.syncToCurrent()
+                                // 3.53 C24 — coalesce expand height ticks (was every animation frame).
+                                Timer {
+                                    id: expandPipCoalesce
+                                    interval: 16
+                                    repeat: false
+                                    onTriggered: selectionPip.syncToCurrent()
+                                }
+                                onHeightChanged: expandPipCoalesce.restart()
 
                                 Column {
                                     id: childrenCol
@@ -2626,6 +2736,10 @@ Item {
                                             id: childRow
                                             required property int index
                                             required property var modelData
+                                            // Resolve once per modelData identity (3.53 C24).
+                                            readonly property string glyph: IconSource.resolve(
+                                                (modelData && modelData.symbol) || "",
+                                                (modelData && modelData.icon) || FluentIcons.Placeholder)
 
                                             width: childrenCol.width
                                             height: Theme.navItemHeight
@@ -2672,10 +2786,7 @@ Item {
                                                 spacing: 12
 
                                                 Text {
-                                                    text: IconSource.resolve(
-                                                              (childRow.modelData && childRow.modelData.symbol) || "",
-                                                              (childRow.modelData && childRow.modelData.icon)
-                                                              || FluentIcons.Placeholder)
+                                                    text: childRow.glyph
                                                     font: Theme.iconFontFor(16)
                                                     color: childRow.highlighted ? Theme.textPrimary
                                                                                 : Theme.textSecondary

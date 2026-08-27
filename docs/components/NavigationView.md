@@ -181,7 +181,7 @@ Live-region announces nav selection / pane expand (2.07) when announceChanges is
 | `schedulePipMove(instant)` | — |
 | `moveNavItem(fromIndex, toIndex)` | Reorder a top-level nav model entry (requires isReorderable) |
 | `isGroupExpanded(key)` | True when the nav group is expanded |
-| `rebuildNavModel()` | Full rail rebuild — prefer model assign + incremental sync, or `patchNavItem` (2.88 / 3.50) |
+| `rebuildNavModel()` | Full rail rebuild — prefer model assign + incremental sync, or `patchNavItem` (2.88 / 3.50 / 3.53) |
 | `patchNavItem(key, patch)` | Patch a single nav entry (title / badge / icon) without replacing model — 2.88 C9. |
 | `isNavPinned(key)` | — |
 | `pinNavKey(key)` | — |

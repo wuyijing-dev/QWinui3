@@ -47,6 +47,24 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.52 → 3.53
+
+**Product version:** 3.53  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | NavigationView pane rebuild costs (C24) | None — visuals unchanged |
+
+### Optional / polish
+- Prefer `model` assign / `patchNavItem` over `rebuildNavModel()` when keys/order unchanged
+- Nested group children keep Repeater identity when title/icon fingerprint matches
+
+### No action (compatible)
+- Pip schedule, expand animation, and page transitions unchanged
+
 ### Upgrade 3.51 → 3.52
 
 **Product version:** 3.52  
