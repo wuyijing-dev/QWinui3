@@ -219,9 +219,15 @@ T.Control {
                 anchors.centerIn: parent
                 visible: root._effectiveBadgeHasContent && !root._hasBadgeImage
                 text: root._effectiveBadgeGlyph
-                font.family: root._badgeLabel.length > 0 ? Theme.fontFamily : Theme.fontFamilyIcon
-                font.pixelSize: Math.max(8, parent.height * 0.55)
-                font.weight: Theme.fontWeightSemiBold
+                font: {
+                    if (root._badgeLabel.length > 0) {
+                        var f = Theme.uiFontFor(Math.max(8, Math.round(parent.height * 0.55)))
+                        f.weight = Theme.fontWeightSemiBold
+                        return f
+                    }
+                    return Theme.iconFontFor(Math.max(8, Math.round(parent.height * 0.55)),
+                                             Theme.fontWeightSemiBold)
+                }
                 color: Theme.textOnAccent
             }
 

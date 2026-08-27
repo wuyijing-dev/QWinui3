@@ -214,11 +214,7 @@ Item {
     Text {
         id: glyphA
         anchors.centerIn: parent
-        font: {
-            var f = Theme.iconFontFor(root.fontSize)
-            f.weight = root.fontWeight
-            return f
-        }
+        font: Theme.iconFontFor(root.fontSize, root.fontWeight)
         color: root.enabled ? root.iconColor : Theme.textDisabled
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
@@ -248,11 +244,7 @@ Item {
     Text {
         id: glyphB
         anchors.centerIn: parent
-        font: {
-            var f = Theme.iconFontFor(root.fontSize)
-            f.weight = root.fontWeight
-            return f
-        }
+        font: Theme.iconFontFor(root.fontSize, root.fontWeight)
         color: root.enabled ? root.iconColor : Theme.textDisabled
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter

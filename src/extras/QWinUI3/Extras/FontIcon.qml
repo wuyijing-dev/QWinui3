@@ -142,11 +142,7 @@ Item {
         x: root.effectiveOffsetX
         y: root.effectiveOffsetY
         text: root.effectiveGlyph
-        font: {
-            var f = Theme.iconFontFor(Math.round(root.fontSize))
-            f.weight = root.fontWeight
-            return f
-        }
+        font: Theme.iconFontFor(Math.round(root.fontSize), root.fontWeight)
         color: root.effectiveIconColor
         opacity: root.effectiveDisabledOpacity * root._motionOpacity
         horizontalAlignment: Text.AlignHCenter

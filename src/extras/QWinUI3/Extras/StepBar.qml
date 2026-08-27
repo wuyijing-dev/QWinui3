@@ -153,9 +153,13 @@ T.Control {
                                     Text {
                                         anchors.centerIn: parent
                                         text: index < control.currentIndex ? FluentIcons.Accept : String(index + 1)
-                                        font.family: index < control.currentIndex ? Theme.fontFamilyIcon : Theme.fontFamily
-                                        font.pixelSize: index < control.currentIndex ? 10 : Theme.fontCaption
-                                        font.weight: Theme.fontWeightSemiBold
+                                        font: {
+                                            if (index < control.currentIndex)
+                                                return Theme.iconFontFor(10, Theme.fontWeightSemiBold)
+                                            var f = Theme.uiFontFor(Theme.fontCaption)
+                                            f.weight = Theme.fontWeightSemiBold
+                                            return f
+                                        }
                                         color: index <= control.currentIndex ? Theme.textOnAccent : Theme.textSecondary
                                     }
                                 }
@@ -251,9 +255,13 @@ T.Control {
                                 Text {
                                     anchors.centerIn: parent
                                     text: index < control.currentIndex ? FluentIcons.Accept : String(index + 1)
-                                    font.family: index < control.currentIndex ? Theme.fontFamilyIcon : Theme.fontFamily
-                                    font.pixelSize: index < control.currentIndex ? 10 : Theme.fontCaption
-                                    font.weight: Theme.fontWeightSemiBold
+                                    font: {
+                                        if (index < control.currentIndex)
+                                            return Theme.iconFontFor(10, Theme.fontWeightSemiBold)
+                                        var f = Theme.uiFontFor(Theme.fontCaption)
+                                        f.weight = Theme.fontWeightSemiBold
+                                        return f
+                                    }
                                     color: index <= control.currentIndex ? Theme.textOnAccent : Theme.textSecondary
                                 }
                             }

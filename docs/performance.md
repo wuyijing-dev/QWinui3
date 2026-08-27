@@ -33,6 +33,7 @@ Related: [data-collections.md](data-collections.md) · [charts.md](charts.md) ·
 | Import graph | Gallery `Main.qml` + default examples use **shell** set; `Extras.Charts` is optional (**3.36** S13) |
 | Gallery catalog | Home uses a **hot index** (`findByComponent` / default recents); full `_buildControls` waits until after first `frameSwapped` (**3.37** S14) |
 | Icon catalog | Named `FluentIcons.*` glyphs load on first use; full Iconography rows deferred (**3.34** S11) |
+| Icon QFont | `Theme.iconFontFor(px[, weight])` returns a **cached** PreferNoHinting `QFont` per size/weight (**3.41** H10) — prefer over `font.family: Theme.fontFamilyIcon` |
 | Icon / atlas warm-up | Optional: touch `FluentIcons` / ThemeFonts once after first frame |
 | Page cache | `pageCacheLimit` + `pinnedPageCache` (2.68); avoid compiling all pages at startup |
 | Target budget | Aim for interactive shell **&lt; 1.5 s** on CI Win Release; local desktop **&lt; 2 s** — wave **S10–S17** signed off at **3.40** ([checkpoint-390](checkpoint-390.md#cold-start-sign-off-s10s17--340)) |

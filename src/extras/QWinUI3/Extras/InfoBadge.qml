@@ -145,9 +145,13 @@ T.Control {
             anchors.centerIn: parent
             visible: !root.dot
             text: root.effectiveIconGlyph.length > 0 ? root.effectiveIconGlyph : root.displayText
-            font.family: root.effectiveIconGlyph.length > 0 ? Theme.fontFamilyIcon : Theme.fontFamily
-            font.pixelSize: 10
-            font.weight: Theme.fontWeightSemiBold
+            font: {
+                if (root.effectiveIconGlyph.length > 0)
+                    return Theme.iconFontFor(10, Theme.fontWeightSemiBold)
+                var f = Theme.uiFontFor(10)
+                f.weight = Theme.fontWeightSemiBold
+                return f
+            }
             color: root.textColor
         }
     }

@@ -1,7 +1,7 @@
 # QWinUI3 Roadmap
 
-**Current:** **3.40** (master — cold-start wave sign-off)
-**Next up:** **3.41** memory (FluentIcons / glyph atlas) · **3.00** breaking close-out still open ([checkpoint-300](docs/checkpoint-300.md)) · [tranche 10 → 4.00](#efficiency--control-depth-tranche-10-334--400)
+**Current:** **3.41** (master — FluentIcons shared QFont cache)
+**Next up:** **3.42** memory (Theme / singleton trim) · **3.00** breaking close-out still open ([checkpoint-300](docs/checkpoint-300.md)) · [tranche 10 → 4.00](#efficiency--control-depth-tranche-10-334--400)
 **Planned through:** **3.10** complete · **3.13–3.33** WinUI / polish · **3.34–3.90** efficiency + control depth · **3.91–3.99** buffer · **4.00** close-out · [micro-interaction backlog last](#micro-interaction--visual-polish--deferred-last)
 **Checkpoints ahead:** **checkpoint-300** (3.00) · **checkpoint-390** (3.90) · **checkpoint-400** (4.00) · **checkpoint-310** (3.10) already green
 **Qt:** 6.5+ (recommended 6.8 LTS) on master today — **2.00** raises floor to **6.8 LTS** · **3.00** to **6.10 LTS** · **4.00** to **6.12 LTS** (planned)
@@ -710,7 +710,7 @@ One audit tag after **3.01–3.09**. **Does not** include **L1–L5** micro-inte
 | **3.38** | Cold start — optional hosts deferred | **S15** | Shipped |
 | **3.39** | Cold start — smoke + budget CI | **S16** | Shipped |
 | **3.40** | Cold start wave sign-off | **S17** | Shipped |
-| **3.41** | Memory — FluentIcons / glyph atlas | **H10** | Planned |
+| **3.41** | Memory — FluentIcons / glyph atlas | **H10** | Shipped |
 | **3.42** | Memory — Theme / singleton trim | **H11** | Planned |
 | **3.43** | Memory — List/Tree delegate reuse | **H12** | Planned |
 | **3.44** | Memory — DataTable / model roles | **H13** | Planned |
@@ -776,7 +776,7 @@ One audit tag after **3.01–3.09**. **Does not** include **L1–L5** micro-inte
 
 | ID | Slice | Deliverable |
 |----|-------|-------------|
-| **H10** | **3.41** | FluentIcons / glyph path — shared font instance + PreferNoHinting; avoid per-control font copies |
+| **H10** | **3.41** | FluentIcons / glyph path — shared font instance + PreferNoHinting; avoid per-control font copies | Shipped |
 | **H11** | **3.42** | Theme singleton — trim unused token tables from default load; density packs on demand |
 | **H12** | **3.43** | ListView / TreeView / NavigationView pane — `reuseItems` / cacheBuffer recipes + defaults that cut RSS without slower scroll |
 | **H13** | **3.44** | DataTable — lean roles, skip unused column caches until shown |

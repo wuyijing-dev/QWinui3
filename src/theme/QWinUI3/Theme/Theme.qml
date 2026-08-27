@@ -218,9 +218,13 @@ QtObject {
     readonly property string fontFamilyIcon: ThemeFonts.iconFamily
     // Alias used by a few tiles
     readonly property string iconFontFamily: fontFamilyIcon
-    // Prefer ThemeFonts.iconFontFor(px) / fontIcon — avoids Fixedsys GDI fallback
+    // Prefer Theme.iconFontFor(px[, weight]) / fontIcon — shared PreferNoHinting QFont (3.41)
     readonly property font fontIcon: ThemeFonts.iconFont
-    function iconFontFor(pixelSize) { return ThemeFonts.iconFontFor(pixelSize) }
+    function iconFontFor(pixelSize, weight) {
+        if (weight === undefined || weight === null)
+            return ThemeFonts.iconFontFor(pixelSize)
+        return ThemeFonts.iconFontFor(pixelSize, weight)
+    }
     // Monospace — outline family from ThemeFonts (never generic "monospace" / Fixedsys)
     readonly property string fontFamilyMono: ThemeFonts.monoFamily
     readonly property font fontMonoCode: ThemeFonts.monoFont

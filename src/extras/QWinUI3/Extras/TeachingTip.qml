@@ -261,9 +261,9 @@ T.Popup {
                 contentItem: Text {
                     text: root.closeButtonContent.length ? root.closeButtonContent
                                                          : FluentIcons.ChromeClose
-                    font.family: root.closeButtonContent.length ? Theme.fontFamily
-                                                                : Theme.fontFamilyIcon
-                    font.pixelSize: root.closeButtonContent.length ? Theme.fontCaption : 10
+                    font: root.closeButtonContent.length
+                          ? Theme.uiFontFor(Theme.fontCaption)
+                          : Theme.iconFontFor(10)
                     color: closeBtn.down ? Theme.textPrimary : Theme.textSecondary
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter

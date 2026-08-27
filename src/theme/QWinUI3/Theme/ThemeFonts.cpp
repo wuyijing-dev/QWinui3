@@ -3,6 +3,7 @@
 #include <QFont>
 #include <QFontDatabase>
 #include <QGuiApplication>
+#include <QHash>
 #include <QQmlEngine>
 #include <QDebug>
 
@@ -405,7 +406,21 @@ QFont ThemeFonts::iconFont() const
 
 QFont ThemeFonts::iconFontFor(int pixelSize) const
 {
+    return iconFontFor(pixelSize, int(QFont::Normal));
+}
+
+QFont ThemeFonts::iconFontFor(int pixelSize, int weight) const
+{
     ensureLoaded();
+    const int px = pixelSize > 0 ? pixelSize : 0;
+    const int w = weight > 0 ? weight : int(QFont::Normal);
+    // 3.41 H10 — one QFont per (size, weight); PreferNoHinting already on this path.
+    const qint64 key = (qint64(px) << 32) | quint32(w);
+    static QHash<qint64, QFont> cache;
+    const auto it = cache.constFind(key);
+    if (it != cache.cend())
+        return it.value();
+
     QFont f;
     QStringList families;
     if (!s_iconFamily.isEmpty() && !isBitmapMonoFamily(s_iconFamily))
@@ -428,8 +443,10 @@ QFont ThemeFonts::iconFontFor(int pixelSize) const
         | static_cast<int>(QFont::PreferQuality)
         | static_cast<int>(QFont::NoFontMerging)));
     f.setHintingPreference(QFont::PreferNoHinting);
-    if (pixelSize > 0)
-        f.setPixelSize(pixelSize);
+    f.setWeight(QFont::Weight(w));
+    if (px > 0)
+        f.setPixelSize(px);
+    cache.insert(key, f);
     return f;
 }
 

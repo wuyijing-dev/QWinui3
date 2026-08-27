@@ -47,6 +47,24 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.40 → 3.41
+
+**Product version:** 3.41  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | Shared icon `QFont` cache (H10) | None — defaults unchanged |
+
+### Optional / polish
+- Prefer `Theme.iconFontFor(px)` or `Theme.iconFontFor(px, weight)` over setting `font.family` to `Theme.fontFamilyIcon` alone
+- `FontIcon` / `AnimatedIcon` use the weight overload (no per-bind `QFont` mutate)
+
+### No action (compatible)
+- Existing `iconFontFor(px)` call sites keep PreferNoHinting visuals
+
 ### Upgrade 3.39 → 3.40
 
 **Product version:** 3.40  

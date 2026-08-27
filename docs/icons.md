@@ -31,7 +31,7 @@ IconButton {
 | Do | Avoid |
 |----|--------|
 | `FluentIcons.Save` / `symbol: FluentIcons.X` | Hard-coded `\uE74E` when a named key exists |
-| `Theme.fontFamilyIcon` | Assuming Segoe is always installed |
+| `Theme.iconFontFor(px)` / `Theme.iconFontFor(px, weight)` (**3.41** shared PreferNoHinting cache) | Raw `font.family: Theme.fontFamilyIcon` without the cached recipe |
 | `toolTipText` / `accessibleName` on icon-only UI | Glyph alone as `Accessible.name` |
 | Theme color tokens | One-off hex for icons |
 

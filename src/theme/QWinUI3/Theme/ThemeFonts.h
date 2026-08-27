@@ -47,6 +47,8 @@ public:
     Q_INVOKABLE QFont monoFontFor(int pixelSize) const;
     QFont iconFont() const;
     Q_INVOKABLE QFont iconFontFor(int pixelSize) const;
+    // Shared cached QFont (3.41 H10) — PreferNoHinting; weight defaults to Normal.
+    Q_INVOKABLE QFont iconFontFor(int pixelSize, int weight) const;
     bool iconFontLoaded() const;
 
     QString uiFamily() const;
