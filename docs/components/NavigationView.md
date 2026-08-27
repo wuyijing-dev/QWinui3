@@ -61,6 +61,7 @@ NavigationView {
 model entries: type "item"|"group"|"header"; groups use children[].
 pageModule + component names load StackView pages (unless hostContent).
 Pages compile on first open — not at shell startup; pageCacheLimit LRU (1.39).
+Kit default limit **24**; Gallery uses **8** + pins Home/Settings (**3.46** H15).
 paneAppearance: standard | minimal | branded (logo band + footer chrome — 2.68).
 pinnedPageCache + pageCacheMemoryAware weighted LRU (2.68 C3).
 initialPageTransition defaults to "none" for a snappy first paint.
