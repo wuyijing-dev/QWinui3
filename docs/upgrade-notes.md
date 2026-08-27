@@ -47,6 +47,24 @@ Maintainers: append a filled section below when a slice has consumer-visible bre
 
 ## Recent minors (filled)
 
+### Upgrade 3.43 → 3.44
+
+**Product version:** 3.44  
+**Date:** 2026-08-27  
+**Qt:** still 6.5+ / recommended 6.8
+
+### Action required
+| Area | Change | What to do |
+|------|--------|------------|
+| — | DataTable lean ListView roles (H13) | None — cells / selection / CSV still use original row objects |
+
+### Optional / polish
+- Wide tables: prefer `hiddenColumns` so filter does not scan unused fields
+- See [performance.md](performance.md#model-roles) for ListView role guidance
+
+### No action (compatible)
+- Public `rows` / `columns` / `selectedRow` APIs unchanged
+
 ### Upgrade 3.42 → 3.43
 
 **Product version:** 3.43  

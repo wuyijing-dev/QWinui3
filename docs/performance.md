@@ -36,6 +36,7 @@ Related: [data-collections.md](data-collections.md) · [charts.md](charts.md) ·
 | Icon QFont | `Theme.iconFontFor(px[, weight])` returns a **cached** PreferNoHinting `QFont` per size/weight (**3.41** H10) — prefer over `font.family: Theme.fontFamilyIcon` |
 | Theme font stacks | Default load builds **UI** stack only; Text / Display face lists resolve on first `textFamilies` / `displayFamilies` (**3.42** H11); density stays formula (no metric pack tables) |
 | List / Tree overscan | Kit lists set `reuseItems` + mild `cacheBuffer` (**3.43** H12) — see [Virtualization](#virtualization) |
+| DataTable ListView roles | Rows use lean `{kind,rowIndex}` wrappers — not fat business objects as model items (**3.44** H13); sort key arrays only for active `sortSpecs` |
 | Icon / atlas warm-up | Optional: touch `FluentIcons` / ThemeFonts once after first frame |
 | Page cache | `pageCacheLimit` + `pinnedPageCache` (2.68); avoid compiling all pages at startup |
 | Target budget | Aim for interactive shell **&lt; 1.5 s** on CI Win Release; local desktop **&lt; 2 s** — wave **S10–S17** signed off at **3.40** ([checkpoint-390](checkpoint-390.md#cold-start-sign-off-s10s17--340)) |
@@ -130,7 +131,7 @@ Do **not** `import` every page type into `Main.qml` — that forces compile at s
 
 | Surface | How it scrolls | Notes |
 |---------|----------------|-------|
-| [`DataTable`](components/DataTable.md) | `ListView` + `reuseItems` + fixed `rowHeight` | `cacheBuffer: rowHeight * 12`; filter/sort rebuild `_viewRows` in JS — **debounced + skip unchanged**; **multi-sort / hiddenColumns / columnWidths (2.66)** |
+| [`DataTable`](components/DataTable.md) | `ListView` + `reuseItems` + fixed `rowHeight` | Lean `{kind,rowIndex}` model wrappers (**3.44**); `cacheBuffer: rowHeight * 12`; filter/sort rebuild `_viewRows` in JS — **debounced + skip unchanged**; **multi-sort / hiddenColumns / columnWidths (2.66)** |
 | [`ItemsView`](components/ItemsView.md) | `ListView` + `reuseItems` | `cacheBuffer: max(240, height * 1.5)` (**3.43**); optional `filterText` on JS arrays (1.88); C++ model at scale |
 | [`ListDetailsView`](components/ListDetailsView.md) | `ListView` + `reuseItems` | Same mild `cacheBuffer` as ItemsView (**3.43**); optional `filterText` on master list (1.88) |
 | [`ItemsRepeater`](components/ItemsRepeater.md) | `ListView` + `reuseItems` (1.25) | `cacheBuffer: Theme.navItemHeight * 8`; optional `filterText` on JS arrays (1.88) |
@@ -191,6 +192,8 @@ columns: [
 |-----|--------|
 | Stable identity | Selection in DataTable tracks the **row object** — keep object identity when resorting |
 | Don’t copy rows | Mutate in place or replace the model; avoid cloning the whole table to change one cell |
+| DataTable ListView | Do **not** bind fat row objects as the ListView model — kit uses lean index wrappers (**3.44** H13); cells read `_viewRows[i]` |
+| Sort key caches | Only active `sortSpecs` columns allocate per-row sort keys; hidden columns stay out of filter scans until shown |
 | Section lists | `ItemsView.sectionRole` — sectioning still walks visible data; keep section cardinality reasonable |
 | Images in rows | Prefer fixed-size icons / async `Image` with `asynchronous: true`; avoid huge decoded bitmaps in every delegate |
 

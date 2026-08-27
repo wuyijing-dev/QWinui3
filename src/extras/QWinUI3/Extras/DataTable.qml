@@ -35,8 +35,10 @@ import QWinUI3.Platform
 //
 // @notes
 //   ListView virtualizes rows (`reuseItems`) — fixed rowHeight fast path (2.66 C1).
+//   ListView model uses lean {kind,rowIndex|label} wrappers — not raw row objects (3.44 H13).
 //   Filter + sort rebuild `_viewRows` in JS — debounced on filter keystrokes (1.88);
-//   skips rebuild when query/sort/rows unchanged (2.18). Sort keys cached per refresh (2.84 C8).
+//   skips rebuild when query/sort/rows/hidden unchanged (2.18 / 3.44). Sort keys cached
+//   only for active sortSpecs columns (2.84 C8); hidden columns stay out of filter scans.
 //   rows assignment coalesced via Qt.callLater (2.84 C8).
 //   Multi-column sort via sortSpecs / Shift+click header (2.66 D1).
 //   Column visibility (hiddenColumns) + width persistence (columnWidths) — 2.66 D1.
@@ -483,7 +485,10 @@ T.Control {
         _syncPrimarySortFromSpecs()
         _scheduleRefresh(true)
     }
-    onHiddenColumnsChanged: _rebuildColumnLayout()
+    onHiddenColumnsChanged: {
+        _rebuildColumnLayout()
+        _scheduleRefresh(true)
+    }
     onColumnWidthsChanged: {
         if (_syncingWidths)
             return
@@ -529,8 +534,9 @@ T.Control {
     function _listDisplayIndex(dataIndex) {
         if (dataIndex < 0)
             return -1
+        // Non-grouped lean model is 1:1 with _viewRows (3.44 H13).
         if (!_groupActive)
-            return dataIndex
+            return dataIndex < _displayItems.length ? dataIndex : -1
         for (var i = 0; i < _displayItems.length; ++i) {
             var it = _displayItems[i]
             if (it.kind === "row" && it.rowIndex === dataIndex)
@@ -540,8 +546,6 @@ T.Control {
     }
 
     function _dataIndexFromDisplay(displayIndex) {
-        if (!_groupActive)
-            return displayIndex
         if (displayIndex < 0 || displayIndex >= _displayItems.length)
             return -1
         var it = _displayItems[displayIndex]
@@ -627,14 +631,18 @@ T.Control {
     }
 
     function _buildDisplayItems(rows) {
+        // 3.44 H13 — always feed ListView lean wrappers so Qt does not expose every
+        // business-object key as a model role (wide tables + many rows).
+        var items = []
         if (!_groupActive) {
-            _displayItems = []
+            for (var i = 0; i < rows.length; ++i)
+                items.push({ kind: "row", rowIndex: i })
+            _displayItems = items
             return
         }
-        var items = []
         var lastGroup = null
-        for (var i = 0; i < rows.length; ++i) {
-            var row = rows[i]
+        for (var j = 0; j < rows.length; ++j) {
+            var row = rows[j]
             var g = row[groupRole]
             var gStr = g === undefined || g === null ? "" : String(g)
             if (gStr !== lastGroup) {
@@ -652,7 +660,7 @@ T.Control {
                 })
                 lastGroup = gStr
             }
-            items.push({ kind: "row", rowIndex: i, row: row })
+            items.push({ kind: "row", rowIndex: j })
         }
         _displayItems = items
     }
@@ -699,6 +707,9 @@ T.Control {
     }
 
     function _buildSortCaches(rows, specs, cols) {
+        // 3.44 H13 — only allocate key arrays for active sortSpecs columns (never every
+        // column). Hidden columns still cache when they remain an active sort key so
+        // order does not silently change; filter already skips hidden cells.
         var caches = []
         for (var s = 0; s < specs.length; ++s) {
             var col = Number(specs[s].column)
@@ -749,8 +760,10 @@ T.Control {
         var src = rows || []
         var cols = columns || []
         var q = (filterText || "").trim().toLowerCase()
+        var hiddenKey = (hiddenColumns || []).join(",")
         var refreshKey = q + "\0" + _sortKeyString() + "\0"
                 + src.length + "\0" + groupRole + "\0" + String(maxFilterResults)
+                + "\0" + hiddenKey
         if (refreshKey === _lastRefreshKey && src === _lastRowsRef)
             return
         _lastRefreshKey = refreshKey
@@ -1204,7 +1217,7 @@ T.Control {
                     // Fixed row-height fast path (2.66 C1) — avoids variable-height measure
                     cacheBuffer: root.rowHeight * 12
                     boundsBehavior: Flickable.StopAtBounds
-                    model: root._groupActive ? root._displayItems : root._viewRows
+                    model: root._displayItems
                     currentIndex: root._listCurrentIndex
                     flickableDirection: Flickable.VerticalFlick
 
@@ -1259,13 +1272,9 @@ T.Control {
                         id: rowItem
                         required property var modelData
                         required property int index
-                        readonly property bool isGroup: root._groupActive && modelData.kind === "group"
-                        readonly property int dataIndex: root._groupActive
-                                ? (isGroup ? -1 : modelData.rowIndex)
-                                : index
-                        readonly property var rowObj: root._groupActive
-                                ? (isGroup ? null : modelData.row)
-                                : modelData
+                        readonly property bool isGroup: modelData.kind === "group"
+                        readonly property int dataIndex: isGroup ? -1 : modelData.rowIndex
+                        readonly property var rowObj: isGroup ? null : root._viewRows[dataIndex]
                         width: list.width
                         height: isGroup ? root.groupHeaderHeight : root.rowHeight
 
